@@ -70,8 +70,17 @@ def effect_fixture():
             loc(2), target.EFFECT_NAME.decode(), [], [], params, body])
         tree = [declaration, definition]
         passed = target._effect_definition_gate(case, tree, ast)
-        assert not passed["admitted"] and passed.get("signature_admitted") is True
-        assert "NOT_SYNTHETIC_VALIDATED" in passed["reason"]
+        assert not passed["admitted"]
+        assert passed["reason"] == ("effect definition AST gate failed: "
+                                    "effect declaration/definition location differs from checked source name span")
+        # Matching the source name span alone must still reject the arbitrary
+        # emp/emp body: the gate requires exact CURRENT payload resources.
+        exact_loc = ast.Node("loc", [f"verified/lib.rs(2,6-{6 + len(target.EFFECT_NAME)})"])
+        for node in tree:
+            node.args[0] = exact_loc
+        rejected_body = target._effect_definition_gate(case, tree, ast)
+        assert not rejected_body["admitted"]
+        assert "not exactly the len1/source-quarter/destination-singleton/current-owner assertion" in rejected_body["reason"]
 
         wrong_binder = copy.deepcopy(tree)
         wrong_binder[1].args[4][2] = (wrong_binder[1].args[4][2][0], "other")
@@ -161,7 +170,8 @@ def test_stage_classifiers():
     assert not target._qualification_failure_matched(
         row, source, execution, stages, [diagnostic, diagnostic], diagnostic)
     assert not target._no_effect_refusal_matched(
-        "canonical_no_effect", {}, "error: arbitrary failure after leak", ["error"])
+        Path("/nonexistent-synthetic-case"), {"case": "canonical_no_effect"},
+        {}, {}, ["error"], "error: arbitrary failure after leak", {}, {}, {})
     assert target._all_cases_matched(target.EXPECTED_CLASSIFICATIONS.copy())
     incomplete = target.EXPECTED_CLASSIFICATIONS.copy()
     incomplete.pop("canonical_no_effect")

@@ -20,9 +20,12 @@ ROOT = HERE.parents[3]
 SOURCE = ROOT / "library/core/src/slice/sort/shared/smallsort.rs"
 CASES = ("direct_positive", "canonical_no_effect", "canonical_positive",
          "body_entry_false", "body_post_false", "canonical_entry_false",
-         "canonical_call_post_false", "duplicate_effect_close",
+         "canonical_call_post_false", "duplicate_effect_simultaneous",
          "missing_source_quarter", "missing_destination_gap",
          "wrong_effect_signature", "missing_effect_definition")
+# Retained for saved-receipt replay of the prior bad oracle. It is deliberately
+# not regenerated or included in the fresh campaign's expected-case map.
+HISTORICAL_CASES = ("duplicate_effect_close",)
 EXPECTED_CLASSIFICATIONS = {
     "direct_positive": "DIRECT_STRONG_PRE_BODY_PASS_CONDITIONAL",
     "canonical_no_effect": "EXPECTED_NO_EFFECT_PAYLOAD_LEAK_REFUSAL",
@@ -31,7 +34,7 @@ EXPECTED_CLASSIFICATIONS = {
     "body_post_false": "EXPECTED_REJECTION",
     "canonical_entry_false": "EXPECTED_REJECTION",
     "canonical_call_post_false": "EXPECTED_REJECTION",
-    "duplicate_effect_close": "EXPECTED_REJECTION",
+    "duplicate_effect_simultaneous": "EXPECTED_REJECTION",
     "missing_source_quarter": "EXPECTED_REJECTION",
     "missing_destination_gap": "EXPECTED_REJECTION",
     "wrong_effect_signature": "EXPECTED_EFFECT_QUALIFICATION_REJECTION",
@@ -192,6 +195,10 @@ EFFECT_DECL = (b"pred CopyOnDrop_drop_effect(t: thread_id_t, src: *const u64, "
 EFFECT_CLOSE = b"    close CopyOnDrop_drop_effect(_t, guard_src, guard_dst, guard_len);\n"
 EFFECT_DUPLICATE = (b"    close CopyOnDrop_drop_effect(_t, guard_src, guard_dst, guard_len); "
                     b"// TARGET: duplicate onecell effect resources\n")
+EFFECT_DOUBLE_ASSERT = (
+    b"    assert CopyOnDrop_drop_effect(_t, guard_src, guard_dst, guard_len) &*& "
+    b"CopyOnDrop_drop_effect(_t, guard_src, guard_dst, guard_len); "
+    b"// TARGET: require two simultaneous full onecell effects\n")
 EFFECT_WRONG_DEF = (b"pred CopyOnDrop_drop_effect(t: thread_id_t, src: *const u64, "
                     b"dst: *mut u64, len: u32;) =\n"
                     b"    len == 1 &*& type_interp::<u64>() &*&\n"
@@ -468,8 +475,8 @@ def _prepare(evidence: Path) -> dict:
                 bridge += CANONICAL_FALSE
             if use_effect:
                 bridge += EFFECT_CLOSE
-                if name == "duplicate_effect_close":
-                    bridge += EFFECT_DUPLICATE
+                if name == "duplicate_effect_simultaneous":
+                    bridge += EFFECT_DOUBLE_ASSERT
             case_contract = _replace_once(
                 case_contract, proof_open, proof_open + bridge,
                 "canonical proof bridge")
@@ -549,8 +556,8 @@ def _prepare(evidence: Path) -> dict:
             "source_copy_line": _line(verified, copy_call),
             "call_line": _line(verified, CALL) if canonical else None,
             "effect_close_line": (_line(verified, EFFECT_CLOSE) if use_effect else None),
-            "duplicate_effect_line": (_line(verified, EFFECT_DUPLICATE)
-                                       if name == "duplicate_effect_close" else None),
+            "duplicate_effect_line": (_line(verified, EFFECT_DOUBLE_ASSERT)
+                                       if name == "duplicate_effect_simultaneous" else None),
             "false_line": _line(verified, false_token) if false_token else None,
             "body_false_line": (_line(verified, BODY_FALSE if name == "body_entry_false"
                                        else POST_FALSE) if name in
@@ -604,10 +611,16 @@ def _source_gate(case: Path, row: dict) -> dict:
                            verified.count(EFFECT_WRONG_DEF) == 1 and EFFECT_DECL not in verified) or
                           (row.get("effect_fixture_kind") == "missing_definition" and
                            verified.count(EFFECT_DECL) == 1 and EFFECT_DEF not in verified)))
-    effect_close_ok = (verified.count(EFFECT_CLOSE) == 1 if row.get("uses_effect")
-                       else EFFECT_NAME not in verified)
+    historical_duplicate = row.get("case") in HISTORICAL_CASES
+    effect_close_ok = (verified.count(EFFECT_CLOSE) == 1 and
+                       (not historical_duplicate or
+                        verified.count(EFFECT_DUPLICATE) == 1)
+                       if row.get("uses_effect") else EFFECT_NAME not in verified)
+    duplicate_assert_ok = (verified.count(EFFECT_DOUBLE_ASSERT) == 1
+                           if row.get("case") == "duplicate_effect_simultaneous"
+                           else EFFECT_DOUBLE_ASSERT not in verified)
     integrity = (exact and runtime and accepted_shape and no_escape and
-                 effect_fixture_ok and effect_close_ok)
+                 effect_fixture_ok and effect_close_ok and duplicate_assert_ok)
     return {"admitted": integrity,
             "runtime_equal_after_ghost_strip": exact,
             "runtime_copy_keeps_dynamic_self_len": runtime,
@@ -616,7 +629,8 @@ def _source_gate(case: Path, row: dict) -> dict:
             "no_assume_leak_or_freeze": no_escape,
             "effect_fixture_integrity": effect_fixture_ok,
             "effect_definition_exact_current_tie": row.get("effect_fixture_kind") == "exact",
-            "effect_call_count_matches_fixture": effect_close_ok}
+            "effect_call_count_matches_fixture": effect_close_ok,
+            "simultaneous_full_effect_assertion_integrity": duplicate_assert_ok}
 
 
 def _mir_gate(case: Path, row: dict, proof_base, drop_module) -> dict:
@@ -718,6 +732,81 @@ def _mir_gate(case: Path, row: dict, proof_base, drop_module) -> dict:
                                           if origin is not None]}
     except Exception as error:
         return {"admitted": False, "reason": f"structured one-cell MIR admission: {error}"}
+
+
+def _simultaneous_effect_assertion_gate(proof, row: dict, ast) -> bool:
+    """Require the marked assertion to demand two equal, full effect chunks."""
+    if row.get("case") != "duplicate_effect_simultaneous":
+        return False
+    target_line = row.get("duplicate_effect_line")
+    if target_line is None:
+        return False
+
+    def without_locations(value):
+        if isinstance(value, ast.Node):
+            if value.name == "loc":
+                return None
+            return (value.name, tuple(without_locations(arg) for arg in value.args))
+        if isinstance(value, (list, tuple)):
+            return tuple(without_locations(item) for item in value)
+        return value
+
+    def pat_name(value):
+        try:
+            literal = ast.narg(value, "LitPat", 1)[0]
+            return ast.var(literal)
+        except (ValueError, TypeError, ast.AdmissionError):
+            return None
+
+    def effect_args(value):
+        if not isinstance(value, ast.Node):
+            return None
+        if value.name == "PredAsn" and len(value.args) == 6:
+            loc, name, types, indices, pats, _binding = value.args
+            if name != EFFECT_NAME.decode() or types or indices:
+                return None
+        elif value.name == "WPredAsn" and len(value.args) == 6:
+            _loc, reference, _global, types, indices, pats = value.args
+            if types or indices or not (
+                    isinstance(reference, ast.Node) and reference.name == "Call" and
+                    len(reference.args) == 4 and reference.args[0] == "predref" and
+                    isinstance(reference.args[1], ast.Node) and
+                    reference.args[1].name == "PredFam" and
+                    reference.args[1].args == [EFFECT_NAME.decode()] and
+                    reference.args[2] == [] and reference.args[3] == ast.Sym("None")):
+                return None
+        elif value.name == "CallExpr" and len(value.args) == 6:
+            _loc, name, types, indices, pats, _binding = value.args
+            if name != EFFECT_NAME.decode() or types or indices:
+                return None
+        elif value.name == "ExprCallExpr" and len(value.args) == 3:
+            _loc, callee, pats = value.args
+            if not (isinstance(callee, ast.Node) and callee.name == "Var" and
+                    len(callee.args) == 2 and callee.args[1] == EFFECT_NAME.decode()):
+                return None
+        else:
+            return None
+        if not isinstance(pats, list) or len(pats) != 4:
+            return None
+        names = [pat_name(pat) for pat in pats]
+        return names if names == ["_t", "guard_src", "guard_dst", "guard_len"] else None
+
+    target_assertions = []
+    for assertion in ast.nodes(proof, "Assert"):
+        if len(assertion.args) == 2 and ast.location_line(assertion.args[0]) == target_line:
+            target_assertions.append(assertion)
+    if len(target_assertions) != 1:
+        return False
+    assertion = target_assertions[0]
+    body = assertion.args[1]
+    if (not isinstance(body, ast.Node) or body.name != "Sep" or len(body.args) != 3 or
+            any(node.name == "CoefAsn" for node in ast.walk(body))):
+        return False
+    left, right = body.args[1], body.args[2]
+    left_args, right_args = effect_args(left), effect_args(right)
+    return (left_args is not None and right_args is not None and
+            left_args == right_args and
+            without_locations(left) == without_locations(right))
 
 
 def _effect_ast_gate(case: Path, row: dict, proof_base, drop_module) -> dict:
@@ -833,6 +922,9 @@ def _effect_ast_gate(case: Path, row: dict, proof_base, drop_module) -> dict:
                  isinstance(prototype.args[0], tuple) else [])
         opens = [node.args[2] for node in ast.nodes(proof, "Open") if len(node.args) >= 3]
         closes = [node.args[2] for node in ast.nodes(proof, "Close") if len(node.args) >= 3]
+        duplicate_assertion_ast_ok = _simultaneous_effect_assertion_gate(
+            proof, row, ast)
+        expected_closes = (2 if row["case"] in HISTORICAL_CASES else 1)
         effect_post = (
             normal.get("binders") == ["result"] and unwind.get("binders") == [] and
             normal.get("fields") == unwind.get("fields") == ["src", "dst", "len"] and
@@ -845,7 +937,9 @@ def _effect_ast_gate(case: Path, row: dict, proof_base, drop_module) -> dict:
             set(unwind_counts) == expected_common and
             generated_call_names.count("CopyOnDrop_full_borrow_content") == 1 and
             not any(token in repr(generated) for token in
-                    ("src_values", "old_gap", "completed_payload")))
+                    ("src_values", "old_gap", "completed_payload")) and
+            (row["case"] != "duplicate_effect_simultaneous" or
+             duplicate_assertion_ast_ok))
         body_linkage = (
             base.get("runtime_dynamic_copy_count") == 1 and
             base.get("runtime_copy_field_origins") == [0, 1, 2] and
@@ -854,8 +948,7 @@ def _effect_ast_gate(case: Path, row: dict, proof_base, drop_module) -> dict:
             base.get("prototype_opens") ==
                 ["CopyOnDrop_full_borrow_content", "CopyOnDrop_own"] and
             "call" in base.get("prototype_calls", []) and
-            closes.count("CopyOnDrop_drop_effect") ==
-                (2 if row["case"] == "duplicate_effect_close" else 1) and
+            closes.count("CopyOnDrop_drop_effect") == expected_closes and
             not ast.nodes(proof, "Assume") and not ast.nodes(proof, "Leak"))
         return {"admitted": definition.get("admitted") is True and effect_post and body_linkage,
                 "effect_definition_gate": definition,
@@ -868,6 +961,7 @@ def _effect_ast_gate(case: Path, row: dict, proof_base, drop_module) -> dict:
                 "generated_outcome_calls": {tag: arm["calls"] for tag, arm in arms.items()},
                 "generated_call_names": generated_call_names,
                 "body_linkage": body_linkage, "base_body_gate": base,
+                "simultaneous_full_effect_assertion_ast": duplicate_assertion_ast_ok,
                 "prototype_closes": closes}
     except Exception as error:
         return {"admitted": False, "reason": f"structured one-cell effect AST admission: {error}"}
@@ -1171,11 +1265,19 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
             call_line and predicate and re.search(
                 rf"verified/lib\.rs\({call_line},\d+.*\): error: "
                 rf"No matching heap chunks?: (?:\[[^\]]+\])?{predicate}<u64>\(", error))
-    if admission and name == "duplicate_effect_close" and \
+    if admission and name in (*HISTORICAL_CASES, "duplicate_effect_simultaneous") and \
             stages.get("verifast") == 1 and len(errors) == 1:
         line = row.get("duplicate_effect_line")
-        matched_target = bool(line and re.search(
-            rf"verified/lib\.rs\({line},\d+.*\): error:", errors[0]))
+        if name == "duplicate_effect_simultaneous":
+            args = r"_t,\s*guard_src,\s*guard_dst,\s*guard_len"
+            diagnostic = re.search(
+                rf"No matching heap chunks?:\s*{EFFECT_NAME.decode()}\({args}\)",
+                errors[0])
+            matched_target = bool(line and diagnostic and re.search(
+                rf"verified/lib\.rs\({line},\d+.*\): error:", errors[0]))
+        else:
+            matched_target = bool(line and re.search(
+                rf"verified/lib\.rs\({line},\d+.*\): error:", errors[0]))
     if (admission and name in ("missing_source_quarter", "missing_destination_gap") and
             stages.get("verifast") == 1 and len(errors) == 1):
         contract_lines = (case / "verified/lib.rs").read_text(errors="replace").splitlines()
@@ -1206,10 +1308,10 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
                          _no_effect_refusal_matched(
                              case, row, execution, stages, errors, log,
                              source, mir, ast))
-    unexpected_acceptance = (name == "duplicate_effect_close" and admission and
-                             stages.get("verifast") == 0 and not errors and
-                             bool(segment) and copy_seen and return_seen and leak_seen)
-    classification = ("UNEXPECTED_ACCEPTANCE" if unexpected_acceptance else
+    historical_unexpected_acceptance = (
+        name in HISTORICAL_CASES and admission and stages.get("verifast") == 0 and
+        not errors and bool(segment) and copy_seen and return_seen and leak_seen)
+    classification = ("UNEXPECTED_ACCEPTANCE" if historical_unexpected_acceptance else
                       "EXPECTED_EFFECT_QUALIFICATION_REJECTION" if qualification_rejection else
                       "EXPECTED_NO_EFFECT_PAYLOAD_LEAK_REFUSAL" if no_effect_refusal else
                       "EXPECTED_REJECTION" if matched_target else

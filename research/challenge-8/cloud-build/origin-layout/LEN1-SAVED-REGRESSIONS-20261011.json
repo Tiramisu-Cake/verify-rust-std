@@ -1,0 +1,2392 @@
+{
+  "schema": "onecell-saved-replay-v2",
+  "build_id": "c6e247a9-20b0-477d-8d5c-b8e9da795542",
+  "proof_sha": "20548c2798115ba6f1ac0d7632aeddc11ea0e8a3",
+  "classifier_sha256": "df11b275134f761e91a115a26de4522a28ec0c5043a5d14976de044eef3fb805",
+  "archive_sha256": "ed26546a6d4efbdd4f850b6ed5cb9fa6de18f34d8d27424853d9887d7466c5c3",
+  "fresh_proof": false,
+  "cases": {
+    "body_entry_false": {
+      "case": "body_entry_false",
+      "classification": "EXPECTED_REJECTION",
+      "accepted": false,
+      "source_gate": {
+        "admitted": true,
+        "runtime_equal_after_ghost_strip": true,
+        "runtime_copy_keeps_dynamic_self_len": true,
+        "onecell_payload_contract_shape": true,
+        "root_interval_premises_absent": true,
+        "no_assume_leak_or_freeze": true,
+        "effect_fixture_integrity": true,
+        "effect_definition_exact_current_tie": true,
+        "effect_call_count_matches_fixture": true,
+        "simultaneous_full_effect_assertion_integrity": true
+      },
+      "mir_gate": {
+        "admitted": true,
+        "layout_gate": {
+          "admitted": true,
+          "source_def_path": "CopyOnDrop",
+          "source_def_path_hash": "DefPathHash(Fingerprint(12908149020305531562, 2587542365494602866))",
+          "def_span": [
+            4,
+            0,
+            8,
+            1
+          ],
+          "target_triple": "x86_64-unknown-linux-gnu",
+          "pointer_width": 64,
+          "size_bytes": 24,
+          "align_bytes": 8,
+          "field_offsets": [
+            "0",
+            "8",
+            "16"
+          ],
+          "field_sizes": [
+            "8",
+            "8",
+            "8"
+          ]
+        },
+        "field_names": [
+          "src",
+          "dst",
+          "len"
+        ],
+        "runtime_copy_count": 1,
+        "targeted_body_ghost_count": 1,
+        "targeted_body_ghost_order_valid": true,
+        "operand_field_origins": [
+          0,
+          1,
+          2
+        ]
+      },
+      "ast_gate": {
+        "admitted": true,
+        "effect_definition_gate": {
+          "admitted": true,
+          "signature_admitted": true,
+          "body_admitted": true,
+          "declaration_count": 1,
+          "definition_count": 1,
+          "input_names": [
+            "t",
+            "src",
+            "dst",
+            "len"
+          ],
+          "source_line": 42,
+          "body_leaf_count": 5,
+          "source_quarter_current": "current",
+          "destination_singleton_current": "current",
+          "owner_current": "current"
+        },
+        "generated_normal_only_effect": true,
+        "generated_unwind_unchanged_effect_absent": true,
+        "effect_argument_count_and_uniqueness": true,
+        "effect_argument_names": [
+          "_t",
+          "src",
+          "dst",
+          "len"
+        ],
+        "generated_field_variables": {
+          "src": "src",
+          "dst": "dst",
+          "len": "len"
+        },
+        "generated_outcome_fields": {
+          "returning": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "unwinding": [
+            "src",
+            "dst",
+            "len"
+          ]
+        },
+        "generated_outcome_calls": {
+          "returning": [
+            "thread_token",
+            "struct_CopyOnDrop_padding",
+            "CopyOnDrop_drop_effect"
+          ],
+          "unwinding": [
+            "thread_token",
+            "struct_CopyOnDrop_padding"
+          ]
+        },
+        "generated_call_names": [
+          "ref_origin",
+          "thread_token",
+          "CopyOnDrop_full_borrow_content",
+          "thread_token",
+          "struct_CopyOnDrop_padding",
+          "CopyOnDrop_drop_effect",
+          "thread_token",
+          "struct_CopyOnDrop_padding"
+        ],
+        "body_linkage": true,
+        "base_body_gate": {
+          "admitted": false,
+          "fbc_fields": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "custom_own_count": 1,
+          "prototype_opens": [
+            "CopyOnDrop_full_borrow_content",
+            "CopyOnDrop_own"
+          ],
+          "prototype_closes": [
+            "array",
+            "array",
+            "array_",
+            "array_",
+            "CopyOnDrop_drop_effect"
+          ],
+          "probe_ast": true,
+          "prototype_calls": [
+            "initialized_storage_alignment",
+            "points_to_limits",
+            "object_pointer_within_limits",
+            "uninitialized_storage_alignment",
+            "points_to__limits",
+            "object_pointer_within_limits",
+            "points_to_limits",
+            "pointer_within_limits",
+            "cons",
+            "points_to__limits",
+            "pointer_within_limits",
+            "cons",
+            "call"
+          ],
+          "runtime_dynamic_copy_count": 1,
+          "runtime_copy_field_origins": [
+            0,
+            1,
+            2
+          ],
+          "generated_contract_structural_gate": false,
+          "generated_outcome_tags": [
+            "returning",
+            "unwinding"
+          ],
+          "generated_outcome_fields": {
+            "returning": [
+              "src",
+              "dst",
+              "len"
+            ],
+            "unwinding": [
+              "src",
+              "dst",
+              "len"
+            ]
+          },
+          "generated_outcome_calls": {
+            "returning": [
+              "thread_token",
+              "struct_CopyOnDrop_padding",
+              "CopyOnDrop_drop_effect"
+            ],
+            "unwinding": [
+              "thread_token",
+              "struct_CopyOnDrop_padding"
+            ]
+          }
+        },
+        "simultaneous_full_effect_assertion_ast": false,
+        "prototype_closes": [
+          "array",
+          "array",
+          "array_",
+          "array_",
+          "CopyOnDrop_drop_effect"
+        ]
+      },
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "targeted_negative_matched": true,
+      "first_frontier": "unclassified",
+      "copy_seen": false,
+      "return_seen": false,
+      "leak_seen": false,
+      "verifier_errors": [
+        "verified/lib.rs(108,20-25): error: Assertion might not hold. (Cannot prove false.)"
+      ],
+      "dead_code_records": [],
+      "generated_prototype_payload_effect": "explicit normal-only effect admitted by AST gate; unwind unchanged; no glue/caller credit",
+      "qualification_diagnostic": null,
+      "no_effect_refusal_debt": null,
+      "effect_scope": "normal generated post only; unwind unchanged; no compiler glue/caller construction credit",
+      "caller_construction": "NOT_TESTED; explicit caller resource construction is a separate obligation",
+      "direct_positive_scope": null
+    },
+    "body_post_false": {
+      "case": "body_post_false",
+      "classification": "EXPECTED_REJECTION",
+      "accepted": false,
+      "source_gate": {
+        "admitted": true,
+        "runtime_equal_after_ghost_strip": true,
+        "runtime_copy_keeps_dynamic_self_len": true,
+        "onecell_payload_contract_shape": true,
+        "root_interval_premises_absent": true,
+        "no_assume_leak_or_freeze": true,
+        "effect_fixture_integrity": true,
+        "effect_definition_exact_current_tie": true,
+        "effect_call_count_matches_fixture": true,
+        "simultaneous_full_effect_assertion_integrity": true
+      },
+      "mir_gate": {
+        "admitted": true,
+        "layout_gate": {
+          "admitted": true,
+          "source_def_path": "CopyOnDrop",
+          "source_def_path_hash": "DefPathHash(Fingerprint(12908149020305531562, 2587542365494602866))",
+          "def_span": [
+            4,
+            0,
+            8,
+            1
+          ],
+          "target_triple": "x86_64-unknown-linux-gnu",
+          "pointer_width": 64,
+          "size_bytes": 24,
+          "align_bytes": 8,
+          "field_offsets": [
+            "0",
+            "8",
+            "16"
+          ],
+          "field_sizes": [
+            "8",
+            "8",
+            "8"
+          ]
+        },
+        "field_names": [
+          "src",
+          "dst",
+          "len"
+        ],
+        "runtime_copy_count": 1,
+        "targeted_body_ghost_count": 1,
+        "targeted_body_ghost_order_valid": true,
+        "operand_field_origins": [
+          0,
+          1,
+          2
+        ]
+      },
+      "ast_gate": {
+        "admitted": true,
+        "effect_definition_gate": {
+          "admitted": true,
+          "signature_admitted": true,
+          "body_admitted": true,
+          "declaration_count": 1,
+          "definition_count": 1,
+          "input_names": [
+            "t",
+            "src",
+            "dst",
+            "len"
+          ],
+          "source_line": 42,
+          "body_leaf_count": 5,
+          "source_quarter_current": "current",
+          "destination_singleton_current": "current",
+          "owner_current": "current"
+        },
+        "generated_normal_only_effect": true,
+        "generated_unwind_unchanged_effect_absent": true,
+        "effect_argument_count_and_uniqueness": true,
+        "effect_argument_names": [
+          "_t",
+          "src",
+          "dst",
+          "len"
+        ],
+        "generated_field_variables": {
+          "src": "src",
+          "dst": "dst",
+          "len": "len"
+        },
+        "generated_outcome_fields": {
+          "returning": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "unwinding": [
+            "src",
+            "dst",
+            "len"
+          ]
+        },
+        "generated_outcome_calls": {
+          "returning": [
+            "thread_token",
+            "struct_CopyOnDrop_padding",
+            "CopyOnDrop_drop_effect"
+          ],
+          "unwinding": [
+            "thread_token",
+            "struct_CopyOnDrop_padding"
+          ]
+        },
+        "generated_call_names": [
+          "ref_origin",
+          "thread_token",
+          "CopyOnDrop_full_borrow_content",
+          "thread_token",
+          "struct_CopyOnDrop_padding",
+          "CopyOnDrop_drop_effect",
+          "thread_token",
+          "struct_CopyOnDrop_padding"
+        ],
+        "body_linkage": true,
+        "base_body_gate": {
+          "admitted": false,
+          "fbc_fields": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "custom_own_count": 1,
+          "prototype_opens": [
+            "CopyOnDrop_full_borrow_content",
+            "CopyOnDrop_own"
+          ],
+          "prototype_closes": [
+            "array",
+            "array",
+            "array_",
+            "array_",
+            "CopyOnDrop_drop_effect"
+          ],
+          "probe_ast": true,
+          "prototype_calls": [
+            "initialized_storage_alignment",
+            "points_to_limits",
+            "object_pointer_within_limits",
+            "uninitialized_storage_alignment",
+            "points_to__limits",
+            "object_pointer_within_limits",
+            "points_to_limits",
+            "pointer_within_limits",
+            "cons",
+            "points_to__limits",
+            "pointer_within_limits",
+            "cons",
+            "call"
+          ],
+          "runtime_dynamic_copy_count": 1,
+          "runtime_copy_field_origins": [
+            0,
+            1,
+            2
+          ],
+          "generated_contract_structural_gate": false,
+          "generated_outcome_tags": [
+            "returning",
+            "unwinding"
+          ],
+          "generated_outcome_fields": {
+            "returning": [
+              "src",
+              "dst",
+              "len"
+            ],
+            "unwinding": [
+              "src",
+              "dst",
+              "len"
+            ]
+          },
+          "generated_outcome_calls": {
+            "returning": [
+              "thread_token",
+              "struct_CopyOnDrop_padding",
+              "CopyOnDrop_drop_effect"
+            ],
+            "unwinding": [
+              "thread_token",
+              "struct_CopyOnDrop_padding"
+            ]
+          }
+        },
+        "simultaneous_full_effect_assertion_ast": false,
+        "prototype_closes": [
+          "array",
+          "array",
+          "array_",
+          "array_",
+          "CopyOnDrop_drop_effect"
+        ]
+      },
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "targeted_negative_matched": true,
+      "first_frontier": "unclassified",
+      "copy_seen": true,
+      "return_seen": false,
+      "leak_seen": false,
+      "verifier_errors": [
+        "verified/lib.rs(112,20-25): error: Assertion might not hold. (Cannot prove false.)"
+      ],
+      "dead_code_records": [],
+      "generated_prototype_payload_effect": "explicit normal-only effect admitted by AST gate; unwind unchanged; no glue/caller credit",
+      "qualification_diagnostic": null,
+      "no_effect_refusal_debt": null,
+      "effect_scope": "normal generated post only; unwind unchanged; no compiler glue/caller construction credit",
+      "caller_construction": "NOT_TESTED; explicit caller resource construction is a separate obligation",
+      "direct_positive_scope": null
+    },
+    "canonical_call_post_false": {
+      "case": "canonical_call_post_false",
+      "classification": "EXPECTED_REJECTION",
+      "accepted": false,
+      "source_gate": {
+        "admitted": true,
+        "runtime_equal_after_ghost_strip": true,
+        "runtime_copy_keeps_dynamic_self_len": true,
+        "onecell_payload_contract_shape": true,
+        "root_interval_premises_absent": true,
+        "no_assume_leak_or_freeze": true,
+        "effect_fixture_integrity": true,
+        "effect_definition_exact_current_tie": true,
+        "effect_call_count_matches_fixture": true,
+        "simultaneous_full_effect_assertion_integrity": true
+      },
+      "mir_gate": {
+        "admitted": true,
+        "layout_gate": {
+          "admitted": true,
+          "source_def_path": "CopyOnDrop",
+          "source_def_path_hash": "DefPathHash(Fingerprint(12908149020305531562, 2587542365494602866))",
+          "def_span": [
+            4,
+            0,
+            8,
+            1
+          ],
+          "target_triple": "x86_64-unknown-linux-gnu",
+          "pointer_width": 64,
+          "size_bytes": 24,
+          "align_bytes": 8,
+          "field_offsets": [
+            "0",
+            "8",
+            "16"
+          ],
+          "field_sizes": [
+            "8",
+            "8",
+            "8"
+          ]
+        },
+        "field_names": [
+          "src",
+          "dst",
+          "len"
+        ],
+        "runtime_copy_count": 1,
+        "targeted_body_ghost_count": 0,
+        "targeted_body_ghost_order_valid": true,
+        "operand_field_origins": [
+          0,
+          1,
+          2
+        ]
+      },
+      "ast_gate": {
+        "admitted": true,
+        "effect_definition_gate": {
+          "admitted": true,
+          "signature_admitted": true,
+          "body_admitted": true,
+          "declaration_count": 1,
+          "definition_count": 1,
+          "input_names": [
+            "t",
+            "src",
+            "dst",
+            "len"
+          ],
+          "source_line": 42,
+          "body_leaf_count": 5,
+          "source_quarter_current": "current",
+          "destination_singleton_current": "current",
+          "owner_current": "current"
+        },
+        "generated_normal_only_effect": true,
+        "generated_unwind_unchanged_effect_absent": true,
+        "effect_argument_count_and_uniqueness": true,
+        "effect_argument_names": [
+          "_t",
+          "src",
+          "dst",
+          "len"
+        ],
+        "generated_field_variables": {
+          "src": "src",
+          "dst": "dst",
+          "len": "len"
+        },
+        "generated_outcome_fields": {
+          "returning": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "unwinding": [
+            "src",
+            "dst",
+            "len"
+          ]
+        },
+        "generated_outcome_calls": {
+          "returning": [
+            "thread_token",
+            "struct_CopyOnDrop_padding",
+            "CopyOnDrop_drop_effect"
+          ],
+          "unwinding": [
+            "thread_token",
+            "struct_CopyOnDrop_padding"
+          ]
+        },
+        "generated_call_names": [
+          "ref_origin",
+          "thread_token",
+          "CopyOnDrop_full_borrow_content",
+          "thread_token",
+          "struct_CopyOnDrop_padding",
+          "CopyOnDrop_drop_effect",
+          "thread_token",
+          "struct_CopyOnDrop_padding"
+        ],
+        "body_linkage": true,
+        "base_body_gate": {
+          "admitted": false,
+          "fbc_fields": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "custom_own_count": 1,
+          "prototype_opens": [
+            "CopyOnDrop_full_borrow_content",
+            "CopyOnDrop_own"
+          ],
+          "prototype_closes": [
+            "array",
+            "array",
+            "array_",
+            "array_",
+            "CopyOnDrop_drop_effect"
+          ],
+          "probe_ast": true,
+          "prototype_calls": [
+            "initialized_storage_alignment",
+            "points_to_limits",
+            "object_pointer_within_limits",
+            "uninitialized_storage_alignment",
+            "points_to__limits",
+            "object_pointer_within_limits",
+            "points_to_limits",
+            "pointer_within_limits",
+            "cons",
+            "points_to__limits",
+            "pointer_within_limits",
+            "cons",
+            "call"
+          ],
+          "runtime_dynamic_copy_count": 1,
+          "runtime_copy_field_origins": [
+            0,
+            1,
+            2
+          ],
+          "generated_contract_structural_gate": false,
+          "generated_outcome_tags": [
+            "returning",
+            "unwinding"
+          ],
+          "generated_outcome_fields": {
+            "returning": [
+              "src",
+              "dst",
+              "len"
+            ],
+            "unwinding": [
+              "src",
+              "dst",
+              "len"
+            ]
+          },
+          "generated_outcome_calls": {
+            "returning": [
+              "thread_token",
+              "struct_CopyOnDrop_padding",
+              "CopyOnDrop_drop_effect"
+            ],
+            "unwinding": [
+              "thread_token",
+              "struct_CopyOnDrop_padding"
+            ]
+          }
+        },
+        "simultaneous_full_effect_assertion_ast": false,
+        "prototype_closes": [
+          "array",
+          "array",
+          "array_",
+          "array_",
+          "CopyOnDrop_drop_effect"
+        ]
+      },
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "targeted_negative_matched": true,
+      "first_frontier": "unclassified",
+      "copy_seen": false,
+      "return_seen": false,
+      "leak_seen": false,
+      "verifier_errors": [
+        "verified/lib.rs(105,12-17): error: Assertion might not hold. (Cannot prove false.)"
+      ],
+      "dead_code_records": [],
+      "generated_prototype_payload_effect": "explicit normal-only effect admitted by AST gate; unwind unchanged; no glue/caller credit",
+      "qualification_diagnostic": null,
+      "no_effect_refusal_debt": null,
+      "effect_scope": "normal generated post only; unwind unchanged; no compiler glue/caller construction credit",
+      "caller_construction": "NOT_TESTED; explicit caller resource construction is a separate obligation",
+      "direct_positive_scope": null
+    },
+    "canonical_entry_false": {
+      "case": "canonical_entry_false",
+      "classification": "EXPECTED_REJECTION",
+      "accepted": false,
+      "source_gate": {
+        "admitted": true,
+        "runtime_equal_after_ghost_strip": true,
+        "runtime_copy_keeps_dynamic_self_len": true,
+        "onecell_payload_contract_shape": true,
+        "root_interval_premises_absent": true,
+        "no_assume_leak_or_freeze": true,
+        "effect_fixture_integrity": true,
+        "effect_definition_exact_current_tie": true,
+        "effect_call_count_matches_fixture": true,
+        "simultaneous_full_effect_assertion_integrity": true
+      },
+      "mir_gate": {
+        "admitted": true,
+        "layout_gate": {
+          "admitted": true,
+          "source_def_path": "CopyOnDrop",
+          "source_def_path_hash": "DefPathHash(Fingerprint(12908149020305531562, 2587542365494602866))",
+          "def_span": [
+            4,
+            0,
+            8,
+            1
+          ],
+          "target_triple": "x86_64-unknown-linux-gnu",
+          "pointer_width": 64,
+          "size_bytes": 24,
+          "align_bytes": 8,
+          "field_offsets": [
+            "0",
+            "8",
+            "16"
+          ],
+          "field_sizes": [
+            "8",
+            "8",
+            "8"
+          ]
+        },
+        "field_names": [
+          "src",
+          "dst",
+          "len"
+        ],
+        "runtime_copy_count": 1,
+        "targeted_body_ghost_count": 0,
+        "targeted_body_ghost_order_valid": true,
+        "operand_field_origins": [
+          0,
+          1,
+          2
+        ]
+      },
+      "ast_gate": {
+        "admitted": true,
+        "effect_definition_gate": {
+          "admitted": true,
+          "signature_admitted": true,
+          "body_admitted": true,
+          "declaration_count": 1,
+          "definition_count": 1,
+          "input_names": [
+            "t",
+            "src",
+            "dst",
+            "len"
+          ],
+          "source_line": 42,
+          "body_leaf_count": 5,
+          "source_quarter_current": "current",
+          "destination_singleton_current": "current",
+          "owner_current": "current"
+        },
+        "generated_normal_only_effect": true,
+        "generated_unwind_unchanged_effect_absent": true,
+        "effect_argument_count_and_uniqueness": true,
+        "effect_argument_names": [
+          "_t",
+          "src",
+          "dst",
+          "len"
+        ],
+        "generated_field_variables": {
+          "src": "src",
+          "dst": "dst",
+          "len": "len"
+        },
+        "generated_outcome_fields": {
+          "returning": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "unwinding": [
+            "src",
+            "dst",
+            "len"
+          ]
+        },
+        "generated_outcome_calls": {
+          "returning": [
+            "thread_token",
+            "struct_CopyOnDrop_padding",
+            "CopyOnDrop_drop_effect"
+          ],
+          "unwinding": [
+            "thread_token",
+            "struct_CopyOnDrop_padding"
+          ]
+        },
+        "generated_call_names": [
+          "ref_origin",
+          "thread_token",
+          "CopyOnDrop_full_borrow_content",
+          "thread_token",
+          "struct_CopyOnDrop_padding",
+          "CopyOnDrop_drop_effect",
+          "thread_token",
+          "struct_CopyOnDrop_padding"
+        ],
+        "body_linkage": true,
+        "base_body_gate": {
+          "admitted": false,
+          "fbc_fields": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "custom_own_count": 1,
+          "prototype_opens": [
+            "CopyOnDrop_full_borrow_content",
+            "CopyOnDrop_own"
+          ],
+          "prototype_closes": [
+            "array",
+            "array",
+            "array_",
+            "array_",
+            "CopyOnDrop_drop_effect"
+          ],
+          "probe_ast": true,
+          "prototype_calls": [
+            "initialized_storage_alignment",
+            "points_to_limits",
+            "object_pointer_within_limits",
+            "uninitialized_storage_alignment",
+            "points_to__limits",
+            "object_pointer_within_limits",
+            "points_to_limits",
+            "pointer_within_limits",
+            "cons",
+            "points_to__limits",
+            "pointer_within_limits",
+            "cons",
+            "call"
+          ],
+          "runtime_dynamic_copy_count": 1,
+          "runtime_copy_field_origins": [
+            0,
+            1,
+            2
+          ],
+          "generated_contract_structural_gate": false,
+          "generated_outcome_tags": [
+            "returning",
+            "unwinding"
+          ],
+          "generated_outcome_fields": {
+            "returning": [
+              "src",
+              "dst",
+              "len"
+            ],
+            "unwinding": [
+              "src",
+              "dst",
+              "len"
+            ]
+          },
+          "generated_outcome_calls": {
+            "returning": [
+              "thread_token",
+              "struct_CopyOnDrop_padding",
+              "CopyOnDrop_drop_effect"
+            ],
+            "unwinding": [
+              "thread_token",
+              "struct_CopyOnDrop_padding"
+            ]
+          }
+        },
+        "simultaneous_full_effect_assertion_ast": false,
+        "prototype_closes": [
+          "array",
+          "array",
+          "array_",
+          "array_",
+          "CopyOnDrop_drop_effect"
+        ]
+      },
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "targeted_negative_matched": true,
+      "first_frontier": "unclassified",
+      "copy_seen": false,
+      "return_seen": false,
+      "leak_seen": false,
+      "verifier_errors": [
+        "verified/lib.rs(77,12-17): error: Assertion might not hold. (Cannot prove false.)"
+      ],
+      "dead_code_records": [],
+      "generated_prototype_payload_effect": "explicit normal-only effect admitted by AST gate; unwind unchanged; no glue/caller credit",
+      "qualification_diagnostic": null,
+      "no_effect_refusal_debt": null,
+      "effect_scope": "normal generated post only; unwind unchanged; no compiler glue/caller construction credit",
+      "caller_construction": "NOT_TESTED; explicit caller resource construction is a separate obligation",
+      "direct_positive_scope": null
+    },
+    "canonical_no_effect": {
+      "case": "canonical_no_effect",
+      "classification": "EXPECTED_NO_EFFECT_PAYLOAD_LEAK_REFUSAL",
+      "accepted": false,
+      "source_gate": {
+        "admitted": true,
+        "runtime_equal_after_ghost_strip": true,
+        "runtime_copy_keeps_dynamic_self_len": true,
+        "onecell_payload_contract_shape": true,
+        "root_interval_premises_absent": true,
+        "no_assume_leak_or_freeze": true,
+        "effect_fixture_integrity": true,
+        "effect_definition_exact_current_tie": false,
+        "effect_call_count_matches_fixture": true,
+        "simultaneous_full_effect_assertion_integrity": true
+      },
+      "mir_gate": {
+        "admitted": true,
+        "layout_gate": {
+          "admitted": true,
+          "source_def_path": "CopyOnDrop",
+          "source_def_path_hash": "DefPathHash(Fingerprint(12908149020305531562, 2587542365494602866))",
+          "def_span": [
+            4,
+            0,
+            8,
+            1
+          ],
+          "target_triple": "x86_64-unknown-linux-gnu",
+          "pointer_width": 64,
+          "size_bytes": 24,
+          "align_bytes": 8,
+          "field_offsets": [
+            "0",
+            "8",
+            "16"
+          ],
+          "field_sizes": [
+            "8",
+            "8",
+            "8"
+          ]
+        },
+        "field_names": [
+          "src",
+          "dst",
+          "len"
+        ],
+        "runtime_copy_count": 1,
+        "targeted_body_ghost_count": 0,
+        "targeted_body_ghost_order_valid": true,
+        "operand_field_origins": [
+          0,
+          1,
+          2
+        ]
+      },
+      "ast_gate": {
+        "admitted": true,
+        "fbc_fields": [
+          "src",
+          "dst",
+          "len"
+        ],
+        "custom_own_count": 1,
+        "prototype_opens": [
+          "CopyOnDrop_full_borrow_content",
+          "CopyOnDrop_own"
+        ],
+        "prototype_closes": [
+          "array",
+          "array",
+          "array_",
+          "array_"
+        ],
+        "probe_ast": true,
+        "prototype_calls": [
+          "initialized_storage_alignment",
+          "points_to_limits",
+          "object_pointer_within_limits",
+          "uninitialized_storage_alignment",
+          "points_to__limits",
+          "object_pointer_within_limits",
+          "points_to_limits",
+          "pointer_within_limits",
+          "cons",
+          "points_to__limits",
+          "pointer_within_limits",
+          "cons",
+          "call"
+        ],
+        "runtime_dynamic_copy_count": 1,
+        "runtime_copy_field_origins": [
+          0,
+          1,
+          2
+        ],
+        "generated_contract_structural_gate": true,
+        "generated_outcome_tags": [
+          "returning",
+          "unwinding"
+        ],
+        "generated_outcome_fields": {
+          "returning": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "unwinding": [
+            "src",
+            "dst",
+            "len"
+          ]
+        },
+        "generated_outcome_calls": {
+          "returning": [
+            "thread_token",
+            "struct_CopyOnDrop_padding"
+          ],
+          "unwinding": [
+            "thread_token",
+            "struct_CopyOnDrop_padding"
+          ]
+        }
+      },
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "targeted_negative_matched": false,
+      "first_frontier": "unclassified",
+      "copy_seen": false,
+      "return_seen": false,
+      "leak_seen": false,
+      "verifier_errors": [
+        "verified/lib.rs(42,5-105,6): error: Function prototype implementation check: Implementation leaks heap chunks: type_interp<u64>(), [1/4]array<u64>(src, 1, cons(current0, nil)), array<u64>(dst, 1, cons(current0, nil))"
+      ],
+      "dead_code_records": [],
+      "generated_prototype_payload_effect": "generated fields/padding post omits payload; retained no-effect refusal control",
+      "qualification_diagnostic": null,
+      "no_effect_refusal_debt": "exact sole residual payload/leak diagnostic is not yet pinned from saved evidence",
+      "effect_scope": "no explicit effect; canonical no-effect is a retained refusal control",
+      "caller_construction": "NOT_TESTED; explicit caller resource construction is a separate obligation",
+      "direct_positive_scope": null
+    },
+    "canonical_positive": {
+      "case": "canonical_positive",
+      "classification": "CANONICAL_ONECELL_EFFECT_INTERFACE_PASS_FRAGMENT_ONLY",
+      "accepted": false,
+      "source_gate": {
+        "admitted": true,
+        "runtime_equal_after_ghost_strip": true,
+        "runtime_copy_keeps_dynamic_self_len": true,
+        "onecell_payload_contract_shape": true,
+        "root_interval_premises_absent": true,
+        "no_assume_leak_or_freeze": true,
+        "effect_fixture_integrity": true,
+        "effect_definition_exact_current_tie": true,
+        "effect_call_count_matches_fixture": true,
+        "simultaneous_full_effect_assertion_integrity": true
+      },
+      "mir_gate": {
+        "admitted": true,
+        "layout_gate": {
+          "admitted": true,
+          "source_def_path": "CopyOnDrop",
+          "source_def_path_hash": "DefPathHash(Fingerprint(12908149020305531562, 2587542365494602866))",
+          "def_span": [
+            4,
+            0,
+            8,
+            1
+          ],
+          "target_triple": "x86_64-unknown-linux-gnu",
+          "pointer_width": 64,
+          "size_bytes": 24,
+          "align_bytes": 8,
+          "field_offsets": [
+            "0",
+            "8",
+            "16"
+          ],
+          "field_sizes": [
+            "8",
+            "8",
+            "8"
+          ]
+        },
+        "field_names": [
+          "src",
+          "dst",
+          "len"
+        ],
+        "runtime_copy_count": 1,
+        "targeted_body_ghost_count": 0,
+        "targeted_body_ghost_order_valid": true,
+        "operand_field_origins": [
+          0,
+          1,
+          2
+        ]
+      },
+      "ast_gate": {
+        "admitted": true,
+        "effect_definition_gate": {
+          "admitted": true,
+          "signature_admitted": true,
+          "body_admitted": true,
+          "declaration_count": 1,
+          "definition_count": 1,
+          "input_names": [
+            "t",
+            "src",
+            "dst",
+            "len"
+          ],
+          "source_line": 42,
+          "body_leaf_count": 5,
+          "source_quarter_current": "current",
+          "destination_singleton_current": "current",
+          "owner_current": "current"
+        },
+        "generated_normal_only_effect": true,
+        "generated_unwind_unchanged_effect_absent": true,
+        "effect_argument_count_and_uniqueness": true,
+        "effect_argument_names": [
+          "_t",
+          "src",
+          "dst",
+          "len"
+        ],
+        "generated_field_variables": {
+          "src": "src",
+          "dst": "dst",
+          "len": "len"
+        },
+        "generated_outcome_fields": {
+          "returning": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "unwinding": [
+            "src",
+            "dst",
+            "len"
+          ]
+        },
+        "generated_outcome_calls": {
+          "returning": [
+            "thread_token",
+            "struct_CopyOnDrop_padding",
+            "CopyOnDrop_drop_effect"
+          ],
+          "unwinding": [
+            "thread_token",
+            "struct_CopyOnDrop_padding"
+          ]
+        },
+        "generated_call_names": [
+          "ref_origin",
+          "thread_token",
+          "CopyOnDrop_full_borrow_content",
+          "thread_token",
+          "struct_CopyOnDrop_padding",
+          "CopyOnDrop_drop_effect",
+          "thread_token",
+          "struct_CopyOnDrop_padding"
+        ],
+        "body_linkage": true,
+        "base_body_gate": {
+          "admitted": false,
+          "fbc_fields": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "custom_own_count": 1,
+          "prototype_opens": [
+            "CopyOnDrop_full_borrow_content",
+            "CopyOnDrop_own"
+          ],
+          "prototype_closes": [
+            "array",
+            "array",
+            "array_",
+            "array_",
+            "CopyOnDrop_drop_effect"
+          ],
+          "probe_ast": true,
+          "prototype_calls": [
+            "initialized_storage_alignment",
+            "points_to_limits",
+            "object_pointer_within_limits",
+            "uninitialized_storage_alignment",
+            "points_to__limits",
+            "object_pointer_within_limits",
+            "points_to_limits",
+            "pointer_within_limits",
+            "cons",
+            "points_to__limits",
+            "pointer_within_limits",
+            "cons",
+            "call"
+          ],
+          "runtime_dynamic_copy_count": 1,
+          "runtime_copy_field_origins": [
+            0,
+            1,
+            2
+          ],
+          "generated_contract_structural_gate": false,
+          "generated_outcome_tags": [
+            "returning",
+            "unwinding"
+          ],
+          "generated_outcome_fields": {
+            "returning": [
+              "src",
+              "dst",
+              "len"
+            ],
+            "unwinding": [
+              "src",
+              "dst",
+              "len"
+            ]
+          },
+          "generated_outcome_calls": {
+            "returning": [
+              "thread_token",
+              "struct_CopyOnDrop_padding",
+              "CopyOnDrop_drop_effect"
+            ],
+            "unwinding": [
+              "thread_token",
+              "struct_CopyOnDrop_padding"
+            ]
+          }
+        },
+        "simultaneous_full_effect_assertion_ast": false,
+        "prototype_closes": [
+          "array",
+          "array",
+          "array_",
+          "array_",
+          "CopyOnDrop_drop_effect"
+        ]
+      },
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 0
+      },
+      "targeted_negative_matched": false,
+      "first_frontier": "none_observed",
+      "copy_seen": true,
+      "return_seen": true,
+      "leak_seen": true,
+      "verifier_errors": [],
+      "dead_code_records": [],
+      "generated_prototype_payload_effect": "explicit normal-only effect admitted by AST gate; unwind unchanged; no glue/caller credit",
+      "qualification_diagnostic": null,
+      "no_effect_refusal_debt": null,
+      "effect_scope": "normal generated post only; unwind unchanged; no compiler glue/caller construction credit",
+      "caller_construction": "NOT_TESTED; explicit caller resource construction is a separate obligation",
+      "direct_positive_scope": null
+    },
+    "direct_positive": {
+      "case": "direct_positive",
+      "classification": "DIRECT_STRONG_PRE_BODY_PASS_CONDITIONAL",
+      "accepted": false,
+      "source_gate": {
+        "admitted": true,
+        "runtime_equal_after_ghost_strip": true,
+        "runtime_copy_keeps_dynamic_self_len": true,
+        "onecell_payload_contract_shape": true,
+        "root_interval_premises_absent": true,
+        "no_assume_leak_or_freeze": true,
+        "effect_fixture_integrity": true,
+        "effect_definition_exact_current_tie": false,
+        "effect_call_count_matches_fixture": true,
+        "simultaneous_full_effect_assertion_integrity": true
+      },
+      "mir_gate": {
+        "admitted": true,
+        "layout_gate": {
+          "admitted": true,
+          "source_def_path": "CopyOnDrop",
+          "source_def_path_hash": "DefPathHash(Fingerprint(12908149020305531562, 2587542365494602866))",
+          "def_span": [
+            4,
+            0,
+            8,
+            1
+          ],
+          "target_triple": "x86_64-unknown-linux-gnu",
+          "pointer_width": 64,
+          "size_bytes": 24,
+          "align_bytes": 8,
+          "field_offsets": [
+            "0",
+            "8",
+            "16"
+          ],
+          "field_sizes": [
+            "8",
+            "8",
+            "8"
+          ]
+        },
+        "field_names": [
+          "src",
+          "dst",
+          "len"
+        ],
+        "runtime_copy_count": 1,
+        "targeted_body_ghost_count": 0,
+        "targeted_body_ghost_order_valid": true,
+        "operand_field_origins": [
+          0,
+          1,
+          2
+        ]
+      },
+      "ast_gate": {
+        "admitted": true,
+        "fbc_fields": [
+          "src",
+          "dst",
+          "len"
+        ],
+        "custom_own_count": 1,
+        "prototype_opens": [
+          "CopyOnDrop_full_borrow_content",
+          "CopyOnDrop_own"
+        ],
+        "prototype_closes": [],
+        "probe_ast": true,
+        "prototype_calls": [
+          "call"
+        ],
+        "runtime_dynamic_copy_count": 1,
+        "runtime_copy_field_origins": [
+          0,
+          1,
+          2
+        ],
+        "generated_contract_structural_gate": true,
+        "generated_outcome_tags": [
+          "returning",
+          "unwinding"
+        ],
+        "generated_outcome_fields": {
+          "returning": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "unwinding": [
+            "src",
+            "dst",
+            "len"
+          ]
+        },
+        "generated_outcome_calls": {
+          "returning": [
+            "thread_token",
+            "struct_CopyOnDrop_padding"
+          ],
+          "unwinding": [
+            "thread_token",
+            "struct_CopyOnDrop_padding"
+          ]
+        }
+      },
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 0
+      },
+      "targeted_negative_matched": false,
+      "first_frontier": "none_observed",
+      "copy_seen": true,
+      "return_seen": true,
+      "leak_seen": true,
+      "verifier_errors": [],
+      "dead_code_records": [],
+      "generated_prototype_payload_effect": "generated fields/padding post omits payload; retained no-effect refusal control",
+      "qualification_diagnostic": null,
+      "no_effect_refusal_debt": null,
+      "effect_scope": null,
+      "caller_construction": "NOT_TESTED; explicit caller resource construction is a separate obligation",
+      "direct_positive_scope": "conditional strong-pre body only; default generated own is not canonical applicability"
+    },
+    "duplicate_effect_close": {
+      "case": "duplicate_effect_close",
+      "classification": "UNEXPECTED_ACCEPTANCE",
+      "accepted": false,
+      "source_gate": {
+        "admitted": true,
+        "runtime_equal_after_ghost_strip": true,
+        "runtime_copy_keeps_dynamic_self_len": true,
+        "onecell_payload_contract_shape": true,
+        "root_interval_premises_absent": true,
+        "no_assume_leak_or_freeze": true,
+        "effect_fixture_integrity": true,
+        "effect_definition_exact_current_tie": true,
+        "effect_call_count_matches_fixture": true,
+        "simultaneous_full_effect_assertion_integrity": true
+      },
+      "mir_gate": {
+        "admitted": true,
+        "layout_gate": {
+          "admitted": true,
+          "source_def_path": "CopyOnDrop",
+          "source_def_path_hash": "DefPathHash(Fingerprint(12908149020305531562, 2587542365494602866))",
+          "def_span": [
+            4,
+            0,
+            8,
+            1
+          ],
+          "target_triple": "x86_64-unknown-linux-gnu",
+          "pointer_width": 64,
+          "size_bytes": 24,
+          "align_bytes": 8,
+          "field_offsets": [
+            "0",
+            "8",
+            "16"
+          ],
+          "field_sizes": [
+            "8",
+            "8",
+            "8"
+          ]
+        },
+        "field_names": [
+          "src",
+          "dst",
+          "len"
+        ],
+        "runtime_copy_count": 1,
+        "targeted_body_ghost_count": 0,
+        "targeted_body_ghost_order_valid": true,
+        "operand_field_origins": [
+          0,
+          1,
+          2
+        ]
+      },
+      "ast_gate": {
+        "admitted": true,
+        "effect_definition_gate": {
+          "admitted": true,
+          "signature_admitted": true,
+          "body_admitted": true,
+          "declaration_count": 1,
+          "definition_count": 1,
+          "input_names": [
+            "t",
+            "src",
+            "dst",
+            "len"
+          ],
+          "source_line": 42,
+          "body_leaf_count": 5,
+          "source_quarter_current": "current",
+          "destination_singleton_current": "current",
+          "owner_current": "current"
+        },
+        "generated_normal_only_effect": true,
+        "generated_unwind_unchanged_effect_absent": true,
+        "effect_argument_count_and_uniqueness": true,
+        "effect_argument_names": [
+          "_t",
+          "src",
+          "dst",
+          "len"
+        ],
+        "generated_field_variables": {
+          "src": "src",
+          "dst": "dst",
+          "len": "len"
+        },
+        "generated_outcome_fields": {
+          "returning": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "unwinding": [
+            "src",
+            "dst",
+            "len"
+          ]
+        },
+        "generated_outcome_calls": {
+          "returning": [
+            "thread_token",
+            "struct_CopyOnDrop_padding",
+            "CopyOnDrop_drop_effect"
+          ],
+          "unwinding": [
+            "thread_token",
+            "struct_CopyOnDrop_padding"
+          ]
+        },
+        "generated_call_names": [
+          "ref_origin",
+          "thread_token",
+          "CopyOnDrop_full_borrow_content",
+          "thread_token",
+          "struct_CopyOnDrop_padding",
+          "CopyOnDrop_drop_effect",
+          "thread_token",
+          "struct_CopyOnDrop_padding"
+        ],
+        "body_linkage": true,
+        "base_body_gate": {
+          "admitted": false,
+          "fbc_fields": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "custom_own_count": 1,
+          "prototype_opens": [
+            "CopyOnDrop_full_borrow_content",
+            "CopyOnDrop_own"
+          ],
+          "prototype_closes": [
+            "array",
+            "array",
+            "array_",
+            "array_",
+            "CopyOnDrop_drop_effect",
+            "CopyOnDrop_drop_effect"
+          ],
+          "probe_ast": true,
+          "prototype_calls": [
+            "initialized_storage_alignment",
+            "points_to_limits",
+            "object_pointer_within_limits",
+            "uninitialized_storage_alignment",
+            "points_to__limits",
+            "object_pointer_within_limits",
+            "points_to_limits",
+            "pointer_within_limits",
+            "cons",
+            "points_to__limits",
+            "pointer_within_limits",
+            "cons",
+            "call"
+          ],
+          "runtime_dynamic_copy_count": 1,
+          "runtime_copy_field_origins": [
+            0,
+            1,
+            2
+          ],
+          "generated_contract_structural_gate": false,
+          "generated_outcome_tags": [
+            "returning",
+            "unwinding"
+          ],
+          "generated_outcome_fields": {
+            "returning": [
+              "src",
+              "dst",
+              "len"
+            ],
+            "unwinding": [
+              "src",
+              "dst",
+              "len"
+            ]
+          },
+          "generated_outcome_calls": {
+            "returning": [
+              "thread_token",
+              "struct_CopyOnDrop_padding",
+              "CopyOnDrop_drop_effect"
+            ],
+            "unwinding": [
+              "thread_token",
+              "struct_CopyOnDrop_padding"
+            ]
+          }
+        },
+        "simultaneous_full_effect_assertion_ast": false,
+        "prototype_closes": [
+          "array",
+          "array",
+          "array_",
+          "array_",
+          "CopyOnDrop_drop_effect",
+          "CopyOnDrop_drop_effect"
+        ]
+      },
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 0
+      },
+      "targeted_negative_matched": false,
+      "first_frontier": "none_observed",
+      "copy_seen": true,
+      "return_seen": true,
+      "leak_seen": true,
+      "verifier_errors": [],
+      "dead_code_records": [],
+      "generated_prototype_payload_effect": "explicit normal-only effect admitted by AST gate; unwind unchanged; no glue/caller credit",
+      "qualification_diagnostic": null,
+      "no_effect_refusal_debt": null,
+      "effect_scope": "normal generated post only; unwind unchanged; no compiler glue/caller construction credit",
+      "caller_construction": "NOT_TESTED; explicit caller resource construction is a separate obligation",
+      "direct_positive_scope": null
+    },
+    "missing_destination_gap": {
+      "case": "missing_destination_gap",
+      "classification": "EXPECTED_REJECTION",
+      "accepted": false,
+      "source_gate": {
+        "admitted": true,
+        "runtime_equal_after_ghost_strip": true,
+        "runtime_copy_keeps_dynamic_self_len": true,
+        "onecell_payload_contract_shape": true,
+        "root_interval_premises_absent": true,
+        "no_assume_leak_or_freeze": true,
+        "effect_fixture_integrity": true,
+        "effect_definition_exact_current_tie": true,
+        "effect_call_count_matches_fixture": true,
+        "simultaneous_full_effect_assertion_integrity": true
+      },
+      "mir_gate": {
+        "admitted": true,
+        "layout_gate": {
+          "admitted": true,
+          "source_def_path": "CopyOnDrop",
+          "source_def_path_hash": "DefPathHash(Fingerprint(12908149020305531562, 2587542365494602866))",
+          "def_span": [
+            4,
+            0,
+            8,
+            1
+          ],
+          "target_triple": "x86_64-unknown-linux-gnu",
+          "pointer_width": 64,
+          "size_bytes": 24,
+          "align_bytes": 8,
+          "field_offsets": [
+            "0",
+            "8",
+            "16"
+          ],
+          "field_sizes": [
+            "8",
+            "8",
+            "8"
+          ]
+        },
+        "field_names": [
+          "src",
+          "dst",
+          "len"
+        ],
+        "runtime_copy_count": 1,
+        "targeted_body_ghost_count": 0,
+        "targeted_body_ghost_order_valid": true,
+        "operand_field_origins": [
+          0,
+          1,
+          2
+        ]
+      },
+      "ast_gate": {
+        "admitted": true,
+        "effect_definition_gate": {
+          "admitted": true,
+          "signature_admitted": true,
+          "body_admitted": true,
+          "declaration_count": 1,
+          "definition_count": 1,
+          "input_names": [
+            "t",
+            "src",
+            "dst",
+            "len"
+          ],
+          "source_line": 42,
+          "body_leaf_count": 5,
+          "source_quarter_current": "current",
+          "destination_singleton_current": "current",
+          "owner_current": "current"
+        },
+        "generated_normal_only_effect": true,
+        "generated_unwind_unchanged_effect_absent": true,
+        "effect_argument_count_and_uniqueness": true,
+        "effect_argument_names": [
+          "_t",
+          "src",
+          "dst",
+          "len"
+        ],
+        "generated_field_variables": {
+          "src": "src",
+          "dst": "dst",
+          "len": "len"
+        },
+        "generated_outcome_fields": {
+          "returning": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "unwinding": [
+            "src",
+            "dst",
+            "len"
+          ]
+        },
+        "generated_outcome_calls": {
+          "returning": [
+            "thread_token",
+            "struct_CopyOnDrop_padding",
+            "CopyOnDrop_drop_effect"
+          ],
+          "unwinding": [
+            "thread_token",
+            "struct_CopyOnDrop_padding"
+          ]
+        },
+        "generated_call_names": [
+          "ref_origin",
+          "thread_token",
+          "CopyOnDrop_full_borrow_content",
+          "thread_token",
+          "struct_CopyOnDrop_padding",
+          "CopyOnDrop_drop_effect",
+          "thread_token",
+          "struct_CopyOnDrop_padding"
+        ],
+        "body_linkage": true,
+        "base_body_gate": {
+          "admitted": false,
+          "fbc_fields": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "custom_own_count": 1,
+          "prototype_opens": [
+            "CopyOnDrop_full_borrow_content",
+            "CopyOnDrop_own"
+          ],
+          "prototype_closes": [
+            "array",
+            "array",
+            "CopyOnDrop_drop_effect"
+          ],
+          "probe_ast": true,
+          "prototype_calls": [
+            "initialized_storage_alignment",
+            "points_to_limits",
+            "object_pointer_within_limits",
+            "points_to_limits",
+            "pointer_within_limits",
+            "cons",
+            "call"
+          ],
+          "runtime_dynamic_copy_count": 1,
+          "runtime_copy_field_origins": [
+            0,
+            1,
+            2
+          ],
+          "generated_contract_structural_gate": false,
+          "generated_outcome_tags": [
+            "returning",
+            "unwinding"
+          ],
+          "generated_outcome_fields": {
+            "returning": [
+              "src",
+              "dst",
+              "len"
+            ],
+            "unwinding": [
+              "src",
+              "dst",
+              "len"
+            ]
+          },
+          "generated_outcome_calls": {
+            "returning": [
+              "thread_token",
+              "struct_CopyOnDrop_padding",
+              "CopyOnDrop_drop_effect"
+            ],
+            "unwinding": [
+              "thread_token",
+              "struct_CopyOnDrop_padding"
+            ]
+          }
+        },
+        "simultaneous_full_effect_assertion_ast": false,
+        "prototype_closes": [
+          "array",
+          "array",
+          "CopyOnDrop_drop_effect"
+        ]
+      },
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "targeted_negative_matched": true,
+      "first_frontier": "unclassified",
+      "copy_seen": false,
+      "return_seen": false,
+      "leak_seen": false,
+      "verifier_errors": [
+        "verified/lib.rs(53,56-59): error: No matching heap chunks: array_<u64>(dst, 1, _)"
+      ],
+      "dead_code_records": [],
+      "generated_prototype_payload_effect": "explicit normal-only effect admitted by AST gate; unwind unchanged; no glue/caller credit",
+      "qualification_diagnostic": null,
+      "no_effect_refusal_debt": null,
+      "effect_scope": "normal generated post only; unwind unchanged; no compiler glue/caller construction credit",
+      "caller_construction": "NOT_TESTED; explicit caller resource construction is a separate obligation",
+      "direct_positive_scope": null
+    },
+    "missing_effect_definition": {
+      "case": "missing_effect_definition",
+      "classification": "EXPECTED_EFFECT_QUALIFICATION_REJECTION",
+      "accepted": false,
+      "source_gate": {
+        "admitted": true,
+        "runtime_equal_after_ghost_strip": true,
+        "runtime_copy_keeps_dynamic_self_len": true,
+        "onecell_payload_contract_shape": true,
+        "root_interval_premises_absent": true,
+        "no_assume_leak_or_freeze": true,
+        "effect_fixture_integrity": true,
+        "effect_definition_exact_current_tie": false,
+        "effect_call_count_matches_fixture": true,
+        "simultaneous_full_effect_assertion_integrity": true
+      },
+      "mir_gate": {
+        "admitted": false,
+        "reason": "proof AST absent for layout binding"
+      },
+      "ast_gate": {
+        "admitted": false,
+        "reason": "proof AST absent"
+      },
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "targeted_negative_matched": false,
+      "first_frontier": "unclassified",
+      "copy_seen": false,
+      "return_seen": false,
+      "leak_seen": false,
+      "verifier_errors": [
+        "verified/lib.rs(42,6-28): error: Malformed CopyOnDrop_drop_effect opt-in predicate"
+      ],
+      "dead_code_records": [],
+      "generated_prototype_payload_effect": "explicit normal-only effect admitted by AST gate; unwind unchanged; no glue/caller credit",
+      "qualification_diagnostic": "Malformed CopyOnDrop_drop_effect opt-in predicate",
+      "no_effect_refusal_debt": null,
+      "effect_scope": "normal generated post only; unwind unchanged; no compiler glue/caller construction credit",
+      "caller_construction": "NOT_TESTED; explicit caller resource construction is a separate obligation",
+      "direct_positive_scope": null
+    },
+    "missing_source_quarter": {
+      "case": "missing_source_quarter",
+      "classification": "EXPECTED_REJECTION",
+      "accepted": false,
+      "source_gate": {
+        "admitted": true,
+        "runtime_equal_after_ghost_strip": true,
+        "runtime_copy_keeps_dynamic_self_len": true,
+        "onecell_payload_contract_shape": true,
+        "root_interval_premises_absent": true,
+        "no_assume_leak_or_freeze": true,
+        "effect_fixture_integrity": true,
+        "effect_definition_exact_current_tie": true,
+        "effect_call_count_matches_fixture": true,
+        "simultaneous_full_effect_assertion_integrity": true
+      },
+      "mir_gate": {
+        "admitted": true,
+        "layout_gate": {
+          "admitted": true,
+          "source_def_path": "CopyOnDrop",
+          "source_def_path_hash": "DefPathHash(Fingerprint(12908149020305531562, 2587542365494602866))",
+          "def_span": [
+            4,
+            0,
+            8,
+            1
+          ],
+          "target_triple": "x86_64-unknown-linux-gnu",
+          "pointer_width": 64,
+          "size_bytes": 24,
+          "align_bytes": 8,
+          "field_offsets": [
+            "0",
+            "8",
+            "16"
+          ],
+          "field_sizes": [
+            "8",
+            "8",
+            "8"
+          ]
+        },
+        "field_names": [
+          "src",
+          "dst",
+          "len"
+        ],
+        "runtime_copy_count": 1,
+        "targeted_body_ghost_count": 0,
+        "targeted_body_ghost_order_valid": true,
+        "operand_field_origins": [
+          0,
+          1,
+          2
+        ]
+      },
+      "ast_gate": {
+        "admitted": true,
+        "effect_definition_gate": {
+          "admitted": true,
+          "signature_admitted": true,
+          "body_admitted": true,
+          "declaration_count": 1,
+          "definition_count": 1,
+          "input_names": [
+            "t",
+            "src",
+            "dst",
+            "len"
+          ],
+          "source_line": 41,
+          "body_leaf_count": 5,
+          "source_quarter_current": "current",
+          "destination_singleton_current": "current",
+          "owner_current": "current"
+        },
+        "generated_normal_only_effect": true,
+        "generated_unwind_unchanged_effect_absent": true,
+        "effect_argument_count_and_uniqueness": true,
+        "effect_argument_names": [
+          "_t",
+          "src",
+          "dst",
+          "len"
+        ],
+        "generated_field_variables": {
+          "src": "src",
+          "dst": "dst",
+          "len": "len"
+        },
+        "generated_outcome_fields": {
+          "returning": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "unwinding": [
+            "src",
+            "dst",
+            "len"
+          ]
+        },
+        "generated_outcome_calls": {
+          "returning": [
+            "thread_token",
+            "struct_CopyOnDrop_padding",
+            "CopyOnDrop_drop_effect"
+          ],
+          "unwinding": [
+            "thread_token",
+            "struct_CopyOnDrop_padding"
+          ]
+        },
+        "generated_call_names": [
+          "ref_origin",
+          "thread_token",
+          "CopyOnDrop_full_borrow_content",
+          "thread_token",
+          "struct_CopyOnDrop_padding",
+          "CopyOnDrop_drop_effect",
+          "thread_token",
+          "struct_CopyOnDrop_padding"
+        ],
+        "body_linkage": true,
+        "base_body_gate": {
+          "admitted": false,
+          "fbc_fields": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "custom_own_count": 1,
+          "prototype_opens": [
+            "CopyOnDrop_full_borrow_content",
+            "CopyOnDrop_own"
+          ],
+          "prototype_closes": [
+            "array_",
+            "array_",
+            "CopyOnDrop_drop_effect"
+          ],
+          "probe_ast": true,
+          "prototype_calls": [
+            "uninitialized_storage_alignment",
+            "points_to__limits",
+            "object_pointer_within_limits",
+            "points_to__limits",
+            "pointer_within_limits",
+            "cons",
+            "call"
+          ],
+          "runtime_dynamic_copy_count": 1,
+          "runtime_copy_field_origins": [
+            0,
+            1,
+            2
+          ],
+          "generated_contract_structural_gate": false,
+          "generated_outcome_tags": [
+            "returning",
+            "unwinding"
+          ],
+          "generated_outcome_fields": {
+            "returning": [
+              "src",
+              "dst",
+              "len"
+            ],
+            "unwinding": [
+              "src",
+              "dst",
+              "len"
+            ]
+          },
+          "generated_outcome_calls": {
+            "returning": [
+              "thread_token",
+              "struct_CopyOnDrop_padding",
+              "CopyOnDrop_drop_effect"
+            ],
+            "unwinding": [
+              "thread_token",
+              "struct_CopyOnDrop_padding"
+            ]
+          }
+        },
+        "simultaneous_full_effect_assertion_ast": false,
+        "prototype_closes": [
+          "array_",
+          "array_",
+          "CopyOnDrop_drop_effect"
+        ]
+      },
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "targeted_negative_matched": true,
+      "first_frontier": "unclassified",
+      "copy_seen": false,
+      "return_seen": false,
+      "leak_seen": false,
+      "verifier_errors": [
+        "verified/lib.rs(52,5-6): error: No matching heap chunks: [1/4]array<u64>(src, 1, cons(_, nil))"
+      ],
+      "dead_code_records": [],
+      "generated_prototype_payload_effect": "explicit normal-only effect admitted by AST gate; unwind unchanged; no glue/caller credit",
+      "qualification_diagnostic": null,
+      "no_effect_refusal_debt": null,
+      "effect_scope": "normal generated post only; unwind unchanged; no compiler glue/caller construction credit",
+      "caller_construction": "NOT_TESTED; explicit caller resource construction is a separate obligation",
+      "direct_positive_scope": null
+    },
+    "wrong_effect_signature": {
+      "case": "wrong_effect_signature",
+      "classification": "EXPECTED_EFFECT_QUALIFICATION_REJECTION",
+      "accepted": false,
+      "source_gate": {
+        "admitted": true,
+        "runtime_equal_after_ghost_strip": true,
+        "runtime_copy_keeps_dynamic_self_len": true,
+        "onecell_payload_contract_shape": true,
+        "root_interval_premises_absent": true,
+        "no_assume_leak_or_freeze": true,
+        "effect_fixture_integrity": true,
+        "effect_definition_exact_current_tie": false,
+        "effect_call_count_matches_fixture": true,
+        "simultaneous_full_effect_assertion_integrity": true
+      },
+      "mir_gate": {
+        "admitted": false,
+        "reason": "proof AST absent for layout binding"
+      },
+      "ast_gate": {
+        "admitted": false,
+        "reason": "proof AST absent"
+      },
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "targeted_negative_matched": false,
+      "first_frontier": "unclassified",
+      "copy_seen": false,
+      "return_seen": false,
+      "leak_seen": false,
+      "verifier_errors": [
+        "verified/lib.rs(42,6-28): error: Malformed CopyOnDrop_drop_effect opt-in predicate"
+      ],
+      "dead_code_records": [],
+      "generated_prototype_payload_effect": "explicit normal-only effect admitted by AST gate; unwind unchanged; no glue/caller credit",
+      "qualification_diagnostic": "Malformed CopyOnDrop_drop_effect opt-in predicate",
+      "no_effect_refusal_debt": null,
+      "effect_scope": "normal generated post only; unwind unchanged; no compiler glue/caller construction credit",
+      "caller_construction": "NOT_TESTED; explicit caller resource construction is a separate obligation",
+      "direct_positive_scope": null
+    }
+  },
+  "historical_cloud_verdict": "INCONCLUSIVE unchanged",
+  "prior_missing_source_quarter": "INCONCLUSIVE, selector corrected but NOT_REPLAYED",
+  "service_test": "PASS_SERVICE_ONLY; unsupported emp body/location/binder/duplicate/missing definition rejected",
+  "service_test_sha256": "a6dd7a54183e58b5dbe4174ac0d285a218d47f63fe5783ad2b76b6e730493fb7",
+  "effective_profile": {
+    "schema": "merge-effective-source-replay-v1",
+    "base_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+    "component_commit": "df6b3fbfcf4192d6b442d13e35dafe8477a3fe6f",
+    "profile_sha256": "0b8cf55b0e7b5a1d0e0595b1483726459cb1d2f40264311e2014d3580ad189b8",
+    "ordered_patches": [
+      {
+        "path": "research/challenge-8/merge/overnight/wrapping.patch",
+        "sha256": "c7c776ff5aef2b8668aa2ed3d59b47109fce1d67a9dc2f2043fc2744dc0ed31e"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/callback.patch",
+        "sha256": "0a006df94f04d6425d70280967d6652bdd33ccb88ead4a44f02a2e36775aaa5e"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/copy.patch",
+        "sha256": "da167ee095e9fb5f425e2d604dd46a973a8c1e3a5121b2c87cc3546b0ec8e9a5"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/cleanup.patch",
+        "sha256": "94fe2cd69edc9da6907553961ca32f0557c338266d9e9472e577860a95887604"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/usize-multiple.patch",
+        "sha256": "ecdd1fd6fcc8d811f02fa308ddc533386e0031193d527ea6950a099f8ccccaa1"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/stack-address.patch",
+        "sha256": "f1444866322bf06b40e078a381a69acea7ccd92b613f7dc903d289044d8cba64"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/tracked-md.patch",
+        "sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/allocation-span.patch",
+        "sha256": "603ab250705fa9d83c94631f7570bd3e1cc7fc06187c35e6ae8465fcb5efca1b"
+      },
+      {
+        "path": "research/challenge-8/cloud-build/origin-layout/unit-layout.patch",
+        "sha256": "00c7f9310ca30e3403daabdfe8e7d4c8c13aa84e78434acade309c98faadc68a"
+      },
+      {
+        "path": "research/challenge-8/cloud-build/origin-layout/guard-layout.patch",
+        "sha256": "16476ac7e615831bfd49cec3efdcefd1d76eab1a57f2df47b97f43fb8d6a1d74"
+      }
+    ],
+    "source_sha256": {
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "5167ad14a4edc6bc0559855b51e216df7721b37d575013759c5d35ccd80ddfd4",
+      "src/frontend/ocaml_expr_of_ast.ml": "3f94401e1430fc413e1a68ad8bae13ad718b63f83707e3804d579d6f7e4371ef",
+      "src/verifast.ml": "f6395a07ce443a4c1a64e88965ae9321ff1c6648fe094f75da279914117e194f",
+      "src/verifast1.ml": "c64e4d60631f42aacdf64b4529c992a856f60e2a37066d3209545cb384b10d3c",
+      "src/frontend/ast.ml": "380a0bd63476849138268eaf7f7c2f8563af4231dbd1ab61e86a00fd13688afe",
+      "src/SExpressionEmitter.ml": "4e99d9702ca691e498601ffeeccc930f465841404cde2a28e00eb196880352a7",
+      "src/verify_expr.ml": "8883a76d802cca15bb362f251de683d2c8216c058c3aed98d6bec8aa471c6dd5",
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs": "f80da46a4e5dd7dc89888d0392a29ff5fee1f096c85845c1f33517f46c93526b",
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "bac5f307bb74f0e98efeebfe67649639666ec4a9e38c3cb8bcb60a3259fe31f9",
+      "src/rust_frontend/vf_mir_translator/rust_parser.ml": "8ed673086183323058aac5e0e21399e4532d1e74b97c5d41105827e8643107bd",
+      "bin/rust/prelude_core.rsspec": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+      "bin/rust/std/lib.rsspec": "d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227"
+    },
+    "mismatches": {},
+    "compiler_attempted": false,
+    "proof_attempted": false,
+    "accepted": false,
+    "classification": "PASS_TEXT_REPLAY_ONLY"
+  },
+  "command": "python3 -B /tmp/merge-len1-replay-20261011.py",
+  "input_files_sha256": {
+    "extraction.json": "fcb99773ca493a1527c03d30ac6c5c8794cd3f4b5ed2b27f0d0079dd48ba655e",
+    "cases/body_entry_false/decode-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/body_entry_false/decode-stage.json": "a893b479c8521a14d383312daad7a6502ccd92dfbe2cf84c0c40a27cce1f7cfa",
+    "cases/body_entry_false/decode.out": "fac80a0f2bebf3ced2a23046378fe2ef83437cb72f270d0de3824d92b3d95b14",
+    "cases/body_entry_false/exporter-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/body_entry_false/exporter-stage.json": "e914f0c044c42c584f101565865ea3ada49690a8ab0123af47e43c93ade68657",
+    "cases/body_entry_false/proof-ast.ml": "7526a1d8645ed116485333837e8634e0b857def20fdc10ff0beee23faacbd5f8",
+    "cases/body_entry_false/refinement-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/body_entry_false/refinement-stage.json": "8979e199de4480aa787c1904ae0331c2261b6f2b4ce9417da0828a06d6f10085",
+    "cases/body_entry_false/verifast-exit-code.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "cases/body_entry_false/verifast-stage.json": "d0014c91ab8927890b722f7aebb3547ce27a59498b52e46c13b705fc9a7118ff",
+    "cases/body_entry_false/verifast.log": "862365cf0718447a5baa0990e456b7f6b8e9aa0317d88e5c02ede0b65457cd01",
+    "cases/body_post_false/decode-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/body_post_false/decode-stage.json": "549544fab008d1688e79390718424ad6a5200991ba0e156ae572764260adb82d",
+    "cases/body_post_false/decode.out": "b7a91de68f9f939ba3ca44e84a87d8ea8564d8780ccc263acc55092304606aca",
+    "cases/body_post_false/exporter-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/body_post_false/exporter-stage.json": "74e6f57d3398676076061cfe00d81e014d1c44b3f0b24ffedca9fe50292052ea",
+    "cases/body_post_false/proof-ast.ml": "229931655254923dae2b4da2347b596ffac9a19064f01c8029dc63331d8c40cf",
+    "cases/body_post_false/refinement-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/body_post_false/refinement-stage.json": "d32a4825902524ae1e08a53a41166b8bc6129efe6487e90f2e349a87df83b64d",
+    "cases/body_post_false/verifast-exit-code.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "cases/body_post_false/verifast-stage.json": "6a17347d724f06da3b659d3bed93b7bf66bba0b121dc1dd27f100e2605254457",
+    "cases/body_post_false/verifast.log": "46eed270c514b5046594a73442c609f168a2182db97c1d10c78122ca6a2558bd",
+    "cases/canonical_call_post_false/decode-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/canonical_call_post_false/decode-stage.json": "62b8de2166209e52a5c98dc0bb9259110bb427d7c7af2bf5140e116d2a083ff5",
+    "cases/canonical_call_post_false/decode.out": "cb1af6d4a6e1b9d22533f1cc25c51ef9643d66930178cef4257345e592f25b0d",
+    "cases/canonical_call_post_false/exporter-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/canonical_call_post_false/exporter-stage.json": "927bdc5c77bc93df6320533764d214e5a1f75a7f531b1bca932d7894a153372a",
+    "cases/canonical_call_post_false/proof-ast.ml": "fd8cb1df40d60bcd4d49dd20bbe63e3a5b17152f53020e501054d4032a8647c1",
+    "cases/canonical_call_post_false/refinement-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/canonical_call_post_false/refinement-stage.json": "901bbf7357b1563688f946787ca7d1afe81f567310eefd94a2b874d33add6409",
+    "cases/canonical_call_post_false/verifast-exit-code.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "cases/canonical_call_post_false/verifast-stage.json": "ccd8a6259e785877d23ab49d4132bdc0fc1266b6708071ab9b2726f281d9aabe",
+    "cases/canonical_call_post_false/verifast.log": "ba496c1940a00652b23c98d558e6e58aa93ad189741d8601699ad0e60ad15264",
+    "cases/canonical_entry_false/decode-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/canonical_entry_false/decode-stage.json": "20ea3a74731e05be127096a677dafe652b2b4bb0e0582b6376ff9fe82401fa54",
+    "cases/canonical_entry_false/decode.out": "6b23143a4d72bdefdd4cd7e13a6f087e7be826417348f8e20933ffdf980e3e9b",
+    "cases/canonical_entry_false/exporter-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/canonical_entry_false/exporter-stage.json": "e3d0bc1aaca7c6941ec14f52cba061ad90f224d8e65e7f75d768ee66db65d987",
+    "cases/canonical_entry_false/proof-ast.ml": "e3a2e3687f94472459ef803943ab4313b6bc5895b44b72cb676b450775f27bd1",
+    "cases/canonical_entry_false/refinement-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/canonical_entry_false/refinement-stage.json": "c3f13d31feb9aa3c0c14f8abb7a9e8d001b17f64da1b092fb72714425f561eea",
+    "cases/canonical_entry_false/verifast-exit-code.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "cases/canonical_entry_false/verifast-stage.json": "d91ed2a76b0802669f5df03741789393a3cdfb95ae3550ff6f41552272979668",
+    "cases/canonical_entry_false/verifast.log": "778bbdd70cd07345ccae507e2074cb3b3426124ab4772869277e4dd195d34d5c",
+    "cases/canonical_no_effect/decode-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/canonical_no_effect/decode-stage.json": "e46e9748adbd72a62548ebe8fa4ec08ff0d7d9934c22a8864a9f3de2108cd061",
+    "cases/canonical_no_effect/decode.out": "f0db5cc504a9467f97e1423ee49d45795d3a41b81b01119f68f261c1f8c986d6",
+    "cases/canonical_no_effect/exporter-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/canonical_no_effect/exporter-stage.json": "b679875f20a23e7af3ffbc395b48dc6c34a3e36769edcc1c3af42faeef85eed8",
+    "cases/canonical_no_effect/proof-ast.ml": "13cc90a10b7680212eb3f3de4959f2c6fa0600d879fdc969b142ab6f4481ee9d",
+    "cases/canonical_no_effect/refinement-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/canonical_no_effect/refinement-stage.json": "cbbee61b3bc2135afb66c833f3d8069219f880bab308202897ef69d39affaaae",
+    "cases/canonical_no_effect/verifast-exit-code.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "cases/canonical_no_effect/verifast-stage.json": "05b233d8499e998fbd18d4761cd3036bac3275313f9eb87e19afe07d1adebbcd",
+    "cases/canonical_no_effect/verifast.log": "42450b795d296dd641649ad9c81e3ea33dea10967788a4ddcb728cb4d77b6766",
+    "cases/canonical_positive/decode-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/canonical_positive/decode-stage.json": "a7aca02b92d51f130b1e321981de1b17f6f373d43c5e7c67bf1074f2e3ec61d0",
+    "cases/canonical_positive/decode.out": "573a318e10cd3bb4b888358fab2398b54a7f0728ce779ff19913b42d6e522abf",
+    "cases/canonical_positive/exporter-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/canonical_positive/exporter-stage.json": "65734b1cb1986f1a3debf6cd702ad28ba9b8cf688db6cdf37f59d8cba28154e4",
+    "cases/canonical_positive/proof-ast.ml": "49e0c0635328421f209558324f90947db3c065aafd54447308a3185c13909f4d",
+    "cases/canonical_positive/refinement-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/canonical_positive/refinement-stage.json": "e4d53d13c10697846383242c3f6fe80eabb6fe54b7e9e7eb9372446176a963fc",
+    "cases/canonical_positive/verifast-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/canonical_positive/verifast-stage.json": "b3c8002fb13179224108dd15478578fa935069a7985f2c0355e7b86bb2437479",
+    "cases/canonical_positive/verifast.log": "ed80519f6d89be7d624796b2dea798875ee716bb3f2d2cadab2b7b1683e7cbec",
+    "cases/direct_positive/decode-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/direct_positive/decode-stage.json": "aa1aa670ef4009aba9e09a5b251c199baa32721605364d9202bfa2909f9846ac",
+    "cases/direct_positive/decode.out": "ab15d7a81ee070a940dbddb87da7033da5fbbf629d3ab7f584289cc659ba1967",
+    "cases/direct_positive/exporter-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/direct_positive/exporter-stage.json": "3f9c5f2be6559e6bd87e88c78812962ca7a9fe1f434b083d375b41280c46ad15",
+    "cases/direct_positive/proof-ast.ml": "24cbf16ad21706c82a36e83e6fadc82d42a9ca7ec89b7269db6719f43706efc5",
+    "cases/direct_positive/refinement-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/direct_positive/refinement-stage.json": "c97495bef03b1a797a865d4517c2303f8a9a954a448c26f257af1f9cd3238bc1",
+    "cases/direct_positive/verifast-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/direct_positive/verifast-stage.json": "7814bb8a8ea92a0ca5603f1da5bf2e5b2ced3ab04d788a6a1352e5a8e98ddb5a",
+    "cases/direct_positive/verifast.log": "8007cf49fbce15aaac031ef83b9de1f802b9702b453cec6d02d308552bc46720",
+    "cases/duplicate_effect_close/decode-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/duplicate_effect_close/decode-stage.json": "89f94e26cfb1d4e34031712b61e3b9795800459953b9e78e99e2eb52fe273eee",
+    "cases/duplicate_effect_close/decode.out": "4bbfb982436dd962eda79f61cd05dd16a242429a13e16e2db3cac0661a19b583",
+    "cases/duplicate_effect_close/exporter-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/duplicate_effect_close/exporter-stage.json": "50b798259362c503471c8bcd4dbf6b5f73ccee2cd93f17c9f376253dd0a8f445",
+    "cases/duplicate_effect_close/proof-ast.ml": "166ae4fa23333970094950b86be927493ab182fa60d9ee1846b81f9cbe3aacde",
+    "cases/duplicate_effect_close/refinement-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/duplicate_effect_close/refinement-stage.json": "cbf9c6b452ab94d71ebcc9457c52a691438f4e6cad5ae26bd709ff825ac5c1ed",
+    "cases/duplicate_effect_close/verifast-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/duplicate_effect_close/verifast-stage.json": "465f3b8261a6b19d667ef9ee0be55d4318fcab122c74a90bb690c0b9b73b6701",
+    "cases/duplicate_effect_close/verifast.log": "1adaf51794472cf649e59158f00552f16854866f6efee68418c3e50aaa24a453",
+    "cases/missing_destination_gap/decode-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/missing_destination_gap/decode-stage.json": "a7336d127e3ce6e094a17846da973c1f38cf170b9a6b2014538f0f5045d5bc18",
+    "cases/missing_destination_gap/decode.out": "4ad444c087cefa13050cfbb2d9e7da7c51c8e56ca26a85dfe872936791003e5c",
+    "cases/missing_destination_gap/exporter-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/missing_destination_gap/exporter-stage.json": "cbeaa25fd201558360deb19d74ef85653fe86029358075101188be74bd5ed110",
+    "cases/missing_destination_gap/proof-ast.ml": "7af28722179499408ef0afc20d2cae3833e31a43996440147679b2091c798b67",
+    "cases/missing_destination_gap/refinement-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/missing_destination_gap/refinement-stage.json": "bfbcd1c5b3ff61c5ac9ca74537eee28e3aba7615cc430b03a90404b49dcbd649",
+    "cases/missing_destination_gap/verifast-exit-code.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "cases/missing_destination_gap/verifast-stage.json": "a0ed491cdd6c9f104e00c9d3ffacfa06dbc91a93c066c7f081c5f7bb7057c69c",
+    "cases/missing_destination_gap/verifast.log": "b40a6833e07168eeef970e4d107d56d57c1673b377e28f2635f8836ad60ae8c3",
+    "cases/missing_effect_definition/decode-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/missing_effect_definition/decode-stage.json": "8767b8b80bbee8326a20c28dfeeba298d95a36a6f61a0f27cba9913eb39ce369",
+    "cases/missing_effect_definition/decode.out": "ba09e34be6d17ed02c153cf28980b9ec1917d41eafa7028921b1fd58a53aa1a8",
+    "cases/missing_effect_definition/exporter-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/missing_effect_definition/exporter-stage.json": "ea82ca82965f538ddc87331cf1a2f88beb95f8a43f62c03528f6629c403d1182",
+    "cases/missing_effect_definition/refinement-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/missing_effect_definition/refinement-stage.json": "917ab50b7a04ea3daab24b05f7303ee3e69f118ef64bfc85058c0dadf4b7980e",
+    "cases/missing_effect_definition/verifast-exit-code.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "cases/missing_effect_definition/verifast-stage.json": "c76cf14ed68eaa628186ce04e0375f15e9275c631f832c00f4b622b6b543d347",
+    "cases/missing_effect_definition/verifast.log": "89e3ec6f263a7d931c5e1049b44aac623a49f6bec5f5a60b2fb4b8751c08960c",
+    "cases/missing_source_quarter/decode-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/missing_source_quarter/decode-stage.json": "f73c69de33715840c797ec13d756a600c627613da1b23cf5b6185bc2cd43732f",
+    "cases/missing_source_quarter/decode.out": "9fb9e4d78d14719bdffa8e1c29df9a9a1b274113a412e8a7b14b4372553ecad8",
+    "cases/missing_source_quarter/exporter-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/missing_source_quarter/exporter-stage.json": "bc50577a0acddd59d4b66b365b6ee46957f7db24dfb5cf4c618807fba31bc0f0",
+    "cases/missing_source_quarter/proof-ast.ml": "4579556a81b2e7d4d29b0652246d9e0c097bd6b2b46889f6661fc95f057850a3",
+    "cases/missing_source_quarter/refinement-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/missing_source_quarter/refinement-stage.json": "b372728b08fa1eb1dc7da0a591f9822716755ecc7c1b866bb70b189e610d1304",
+    "cases/missing_source_quarter/verifast-exit-code.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "cases/missing_source_quarter/verifast-stage.json": "8b0c6f85d70725d64e59c36170e84afde8f57161f6cad5a321e78f98e268afb0",
+    "cases/missing_source_quarter/verifast.log": "af66211077c4a190ed1acd9c41e252e23043d5afe2993d1927bbd56b9d7b1266",
+    "cases/wrong_effect_signature/decode-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/wrong_effect_signature/decode-stage.json": "6e67c995d41cc364886a09dfb62502e7398f8f1bef9c93a247af8fc95d3b5c8c",
+    "cases/wrong_effect_signature/decode.out": "fa1bbd99037baedcb4d4cb2e8a0345ba7163fb501a671d895ac117fa49da8b8e",
+    "cases/wrong_effect_signature/exporter-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/wrong_effect_signature/exporter-stage.json": "731e96627b9695586adc4f6eaf019fd8eaeb3ea0a8263f72a230535b6cda4437",
+    "cases/wrong_effect_signature/refinement-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "cases/wrong_effect_signature/refinement-stage.json": "722f0889b5f57a7ebb42daa92f6be3247ee83d9fd69252b7da4a6bb3709bb039",
+    "cases/wrong_effect_signature/verifast-exit-code.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "cases/wrong_effect_signature/verifast-stage.json": "9ceecd6e59220c2dc055372d9cdb745d9dd020e4fef61733597652f6e2afda3c",
+    "cases/wrong_effect_signature/verifast.log": "3ce82d8b7e766ed2424e337dd56e1d130cd67e4b6df78c3ed14b224b07e7f92f",
+    "cases/body_entry_false/original/lib.rs": "fb984eafaf7709edee92a02b8b9976c5385f24d7e14f64c9bcd4ffb478a5a2e1",
+    "cases/body_entry_false/verified/lib.rs": "b41f94d62c1dd68d1f8647fb9a594eda3768b7977b85e710495ef894b1ef2107",
+    "cases/body_post_false/original/lib.rs": "fb984eafaf7709edee92a02b8b9976c5385f24d7e14f64c9bcd4ffb478a5a2e1",
+    "cases/body_post_false/verified/lib.rs": "0d4f59158d1876159af7fbb918d41e164c3839cde95e931cd3a3fe8f73ad7663",
+    "cases/canonical_call_post_false/original/lib.rs": "fb984eafaf7709edee92a02b8b9976c5385f24d7e14f64c9bcd4ffb478a5a2e1",
+    "cases/canonical_call_post_false/verified/lib.rs": "7f54d9ceac7e95c9761ad2757357cf713c13334d4e97bec94501edee82604cc0",
+    "cases/canonical_entry_false/original/lib.rs": "fb984eafaf7709edee92a02b8b9976c5385f24d7e14f64c9bcd4ffb478a5a2e1",
+    "cases/canonical_entry_false/verified/lib.rs": "9f4de22718cd594db5a968dff476005f8f5ca8b7d8d5f58662c4bc167c95c13f",
+    "cases/canonical_no_effect/original/lib.rs": "fb984eafaf7709edee92a02b8b9976c5385f24d7e14f64c9bcd4ffb478a5a2e1",
+    "cases/canonical_no_effect/verified/lib.rs": "61e3f74026cedf8e0c17d8644378da873b846048493218940b2532a6a92c59a4",
+    "cases/canonical_positive/original/lib.rs": "fb984eafaf7709edee92a02b8b9976c5385f24d7e14f64c9bcd4ffb478a5a2e1",
+    "cases/canonical_positive/verified/lib.rs": "0982339994e5893601ab00511d62b9428438e54d5803c685a6ec87408e3235dc",
+    "cases/direct_positive/original/lib.rs": "fb984eafaf7709edee92a02b8b9976c5385f24d7e14f64c9bcd4ffb478a5a2e1",
+    "cases/direct_positive/verified/lib.rs": "3a9a8557673e815242796ca6708dd8afd7ed628ba094007d051a8b486f4de6dc",
+    "cases/duplicate_effect_close/original/lib.rs": "fb984eafaf7709edee92a02b8b9976c5385f24d7e14f64c9bcd4ffb478a5a2e1",
+    "cases/duplicate_effect_close/verified/lib.rs": "f260e497facd1d753580f1ad9a82318f4febf5ac1eef03d3830e23ca2afdc580",
+    "cases/missing_destination_gap/original/lib.rs": "fb984eafaf7709edee92a02b8b9976c5385f24d7e14f64c9bcd4ffb478a5a2e1",
+    "cases/missing_destination_gap/verified/lib.rs": "09e5302b3e09c8cd0ba818b57c465250da11364af5ffd37b148e75763c1e7805",
+    "cases/missing_effect_definition/original/lib.rs": "fb984eafaf7709edee92a02b8b9976c5385f24d7e14f64c9bcd4ffb478a5a2e1",
+    "cases/missing_effect_definition/verified/lib.rs": "b1589dbe131de37bc91d9eb169dc3f8740b784b1b252fcbfb91c2820543c09b3",
+    "cases/missing_source_quarter/original/lib.rs": "fb984eafaf7709edee92a02b8b9976c5385f24d7e14f64c9bcd4ffb478a5a2e1",
+    "cases/missing_source_quarter/verified/lib.rs": "dfb5674f88c7f0ae56e756ee937714fe041a8074e0de15d5e36b2ee15013a408",
+    "cases/wrong_effect_signature/original/lib.rs": "fb984eafaf7709edee92a02b8b9976c5385f24d7e14f64c9bcd4ffb478a5a2e1",
+    "cases/wrong_effect_signature/verified/lib.rs": "b2bc2a4f14f5aaa3e5cdf278a0db8326077f724c9da35a7c4dd2be9a46d6a752"
+  }
+}
