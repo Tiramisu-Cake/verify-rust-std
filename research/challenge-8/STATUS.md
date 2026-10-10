@@ -1,8 +1,6 @@
 # MERGE guard qualification / len1 — ACTIVE
 
-New session19:26:15Z; main21:26:15Z/absolute21:56:15Z; budget455/3600Clouds, remaining3145. FirstBuild2caa4a93 exact34513835 failed at guard extent76 after successful preparation/export/decode/refinement. Cause proven: exporter compared full guard to header tcx.def_span. Same-DefId HIR Item.span repair independently reviewed, tool df6b3fbf/profile0b8cf55b pinned; text replayPASS, fresh newpin compile/proof NOT_RUN pending nextCloud. Runtime/domain/contracts unchanged.
-
-Fixture preparation **FRESH_PASS** exact fragments/runtime. Olde163 fresh fullcompile/bothsmokes/6span/boundedCURRENTrecovery PASS retained. Fourno-layout negatives intendedrejections andconstructivefullmutableFBCentryfalse FRESH_PASS; guardalignment/separation/overlap/zero/no-storage targets NOT_REACHED. Len1body/interface/caller NOT_RUN; actualglueNOT_IMPLEMENTED/paniccleanup outofscope. ProfileNOT_ACCEPTED/integrationNOT_FOR_INTEGRATION. Ownermerge/v2max2/oneownactive, thirdagentexcluded.
+Session19:26:15Z; main21:26:15Z/absolute21:56:15Z. Budget906/3600Clouds,2694remaining. Tooldf6b3fbf/profile0b8cf55b freshfullcompile PASS c766f676. Qualifiedextent/layoutalignment/actualstoragealignment proved; separation81 pending explicitunfold ofreturnedphysicalaggregate. No-storage semanticnegative/fourno-layoutnegatives freshmatched; overlap/zero notyetreached. Annotation-onlyrepair exactpreparationreplayPASS, freshproofpending. Len1/interface/callerNOT_RUN, actualglue/panicoutofscope. Smokes/6span/boundedCURRENTrecovery/fullnormalpostsreturnleakfreshPASS; profileNOT_ACCEPTED/integrationNOT_FOR_INTEGRATION.
 
 # MERGE guard bridge — session CLOSED
 

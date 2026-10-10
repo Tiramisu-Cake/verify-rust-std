@@ -28,6 +28,7 @@ lem guard_storage_alignment(p: *CopyOnDrop)
 FACTS = b'''        //@ assert std::mem::size_of::<CopyOnDrop>() > 0; // GUARD: extent
         //@ assert std::mem::align_of::<CopyOnDrop>() > 0; // GUARD: layout alignment
         //@ guard_storage_alignment(&gap_guard as *mut CopyOnDrop);
+        //@ open_points_to(&gap_guard as *mut CopyOnDrop); // GUARD: restore exact initialized fields
         //@ assert (&gap_guard as *mut CopyOnDrop) as usize % std::mem::align_of::<CopyOnDrop>() == 0; // GUARD: actual storage alignment
         //@ assert ((&gap_guard as *mut CopyOnDrop) as usize + std::mem::size_of::<CopyOnDrop>() <= gap_guard.src as usize || gap_guard.src as usize + std::mem::size_of::<u64>() <= (&gap_guard as *mut CopyOnDrop) as usize); // GUARD: allocation separation
 '''
@@ -292,8 +293,8 @@ def prepare_qualified(name, original, baseline, manifest, extra=b''):
     receipt = _check_prepared(name, original, verified, fragments)
     lines = {label: verified[:verified.index(token)].count(b'\n')+1
              for label, token in [('extent', FACTS.splitlines(keepends=True)[0]),
-                 ('storage_alignment', FACTS.splitlines(keepends=True)[3]),
-                 ('separation', FACTS.splitlines(keepends=True)[4]), ('post_fbc', POST)]}
+                 ('storage_alignment', FACTS.splitlines(keepends=True)[4]),
+                 ('separation', FACTS.splitlines(keepends=True)[5]), ('post_fbc', POST)]}
     if extra:
         _once(verified, extra, 'negative target')
         lines['target'] = verified[:verified.index(extra)].count(b'\n')+1
