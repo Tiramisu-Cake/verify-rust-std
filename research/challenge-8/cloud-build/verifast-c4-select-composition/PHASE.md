@@ -1,0 +1,11 @@
+# Maintainer C4 + actual pointer selector composition — session B
+
+Direct owner scope2026-10-10. Start19:36:41UTC, main21:36:41, finish-only22:06:41. New3600Cloud seconds create→finish, ownerverifast, separate BUDGET.json. v2 coordinator max2, oneowner. Policyc7ca8c467aecf10a4b53039372ee97714f854ee3 reread; oldclosedledger unchanged. Worktreebase4b699fd6; preservetool423d5e3c and prior upstream MDnew packet.
+
+First diagnostic hypothesis: corrected cfc90d46 runner without GUARD/GUARD_TEMPLATE/A1_LINK admits exact nine-body selector on unchanged combined tool423d, then actual first select `(c3,c,a)` composes with original C4 normal/unwind posts and CURRENT resources. Source/MIR/preAST pins unchanged; all helper/nested definitions must precede consumer on same kernel. Source-level raw_ptr_own remains value-only. Default strict C4 kernel37ed2550 unchanged. Setup/admission refusal is not semantic negative. Positive selector alone does not closecomposition.
+
+First diagnostic uses existing reviewed code, no new semantic changes. C4/strict/MDnew/pointer baseline matrices already reviewed in af4e44a3; new modes may reuse only exact meaningful inputs and raw-evidence provenance. AST transport hash/relocation review remains open; first run is diagnostic, not READY. Further narrow typed composition/admission changes require before-code rationale, independent review and affected gates. FRAME/original-pointer/thread/resource, cleanup reachable-unwind and source/contract/type/Move/edge mutations, outer-type escape must be actually executed with intended classification.
+
+InheritedexperimentalA1/transmute/prelude/memory assumptions and bounded supplied entry premises remain explicit; no nativecaller/fullsort4/genericZST summary, no owner profile acceptance. All compiler/extraction/proofCloud; localOCamlpreflight unavailable(no compatible compiler/deps, insufficientresources). No framework/upstream/fork/merge/forcepush.
+
+First Build intentionally runs fresh selector/C4 positive/real composition and affected composition controls only. Unchanged baseline matrices remain old af4e44a3 evidence; they are not reclassified or upgraded. Pending selector cleanup and new gates are deferred, leave diagnostic_complete=false. This changes experiment scheduling only, no proof semantics or posts.

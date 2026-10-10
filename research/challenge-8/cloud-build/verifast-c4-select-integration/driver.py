@@ -551,10 +551,17 @@ def run(a):
                 row["export_sha256"] = sha(exported_ast)
                 composition["controls"][control] = row
     stages["composition"] = composition
-    regressions = module(a.cloud_dir / "verifast-c4-select-integration/regressions.py", "integration_regressions")
-    stages["regressions"] = regressions.run(a, a.tool_home, selector_case, c4case,
-        selector_env(a), c4_env(), stage, proof, composition.get("controls", {}))
-    if c4_ok:
+    parents_only = os.environ.get("SORT4_C4_SELECT_DIAGNOSTIC_STAGE") == "parents-and-composition"
+    if parents_only:
+        stages["regressions"] = {"classification": "DEFERRED_AFFECTED_GATES",
+            "unchanged_baseline_evidence": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+            "completion_gates": {"ready": False, "blockers": [
+                "affected_regression_gates_pending_separate_run_and_review"]}}
+    else:
+        regressions = module(a.cloud_dir / "verifast-c4-select-integration/regressions.py", "integration_regressions")
+        stages["regressions"] = regressions.run(a, a.tool_home, selector_case, c4case,
+            selector_env(a), c4_env(), stage, proof, composition.get("controls", {}))
+    if c4_ok and not parents_only:
         for control in CONTROLS:
             case = a.evidence / ("control-" + control)
             shutil.copytree(c4case, case, symlinks=True)
