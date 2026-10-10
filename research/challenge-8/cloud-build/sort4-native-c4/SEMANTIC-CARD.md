@@ -60,9 +60,11 @@ positive size does not follow. Runtime len+16 overflow obligations are retained.
 5. Isolated MU one-cell forward/rewrap-inner preservation versus exact oldvalue
 roundtrip. Use existing open/close_MaybeUninit only; exact oldvalue post failure
 is a model limitation diagnostic, not an axiom. No using failed helper summary.
-6. Append harmless runtimebody to unchanged C4 fixture: sourceSHA admission
-refusal before target expected, not semanticnegative. Frozen subsequent
-exact-one-body guard documented statically, not dynamically claimed if unreached.
+6. Append harmless runtimebody to unchanged C4 fixture: the original hypothesis
+expected sourceSHA admission refusal. Fresh d5a0f8da instead observes the global
+exact-one-body refusal first, before target. Lexical patch order was not execution
+order. Both are admission gates, not semanticnegatives. The independent comment-
+only mutation in the follow-up keeps one body to test sourceSHA admission itself.
 
 PASS for separate resource/guard/MU components permits only their exact claims.
 Failed native alias/callable-admission rule → save minimal source/command/version,

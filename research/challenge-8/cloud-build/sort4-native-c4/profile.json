@@ -4,7 +4,7 @@
   "cloud_enabled": true,
   "profile_accepted": false,
   "dispatch_authorized": true,
-  "run_mode": "FROZEN_C4_COMPATIBILITY_AND_RESOURCE_PREPARATION",
+  "run_mode": "FROZEN_C4_INDEPENDENT_FOLLOWUP",
   "tool_head": "f76012fb518703b1d98e243ac4f487f16877cfcb",
   "frozen_translator_sha256": "1eab6eb54fe5c23d53ca72a6d9dfcbbff09c09ffaf26c48a4f450f5068a8d313",
   "frozen_kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
@@ -28,5 +28,19 @@
   "actual_caller_to_sort4": "NOT_PROVED",
   "proof_scope": "Frozen C4 compatibility and independently derived native resources; no assumed bounded callable summary",
   "translator_sha256": "1eab6eb54fe5c23d53ca72a6d9dfcbbff09c09ffaf26c48a4f450f5068a8d313",
-  "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c"
+  "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+  "case_file": "followup-cases.rs",
+  "prior_fresh_c4_build": "d5a0f8da-a2ed-416c-9eac-a9ffff926c87",
+  "prior_fresh_c4_proof_infra": "e12df71d57923d346ba0640b9bd0ea23d2835365",
+  "followup_cases": [
+    "mu-roundtrip-current-owner",
+    "native-slice-cast-expression",
+    "native-guard-prefix",
+    "selected-guard-lemma"
+  ],
+  "c4_controls_run": "NOT_RUN_UNCHANGED_PRIOR_FRESH_PASS",
+  "admission_cases": [
+    "extra-runtime-body",
+    "comment-only-source-mutation"
+  ]
 }

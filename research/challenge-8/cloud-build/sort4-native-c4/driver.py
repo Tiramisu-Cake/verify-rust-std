@@ -462,7 +462,10 @@ def native_cases(a, tool: Path, env: dict[str, str]) -> dict:
 
 def supplied_cases(a, tool: Path, env: dict[str, str]) -> dict:
     """Run complete, isolated user supplied source units; preserve every failure."""
-    source_file = a.proof_root / HERE / "cases.rs"
+    profile = json.loads((a.proof_root / HERE / "profile.json").read_text())
+    case_file = profile.get("case_file", "cases.rs")
+    need(case_file in ("cases.rs", "followup-cases.rs"), "case file is not an exact phase input")
+    source_file = a.proof_root / HERE / case_file
     if not source_file.is_file():
         return {"classification": "NOT_SUPPLIED", "cases": {}}
     text = source_file.read_text()
@@ -472,6 +475,26 @@ def supplied_cases(a, tool: Path, env: dict[str, str]) -> dict:
     need(blocks and len(blocks) == text.count("// CASE_BEGIN") ==
          text.count("// CASE_END") and len({name for name, _ in blocks}) == len(blocks),
          "ambiguous supplied case boundaries")
+    if profile.get("run_mode") == "FROZEN_C4_INDEPENDENT_FOLLOWUP":
+        need([name for name, _ in blocks] == profile.get("followup_cases"),
+             "follow-up cases differ from exact profile")
+        excerpt_file = a.proof_root / HERE / "SLICE-EXPRESSION-SOURCE.json"
+        excerpt = json.loads(excerpt_file.read_text())
+        need(excerpt.get("source_path") == "library/core/src/slice/mod.rs" and
+             excerpt.get("source_git_blob") == "16b5766ba08362bbf6ab13e127d71c7d920eccf7" and
+             excerpt.get("source_excerpt_sha256") == "1cdcbe5e0573f8b70e8d9a7d861d1e86533710fb3e18b9a4fde8303c07e2922b" and
+             excerpt.get("source_excerpt") == "pub const fn as_mut_ptr(&mut self) -> *mut T {\n        self as *mut [T] as *mut T\n    }",
+             "reviewed primitive expression excerpt differs")
+        tree_entry = subprocess.check_output(
+            ["git", "-C", str(a.proof_root), "ls-tree", "HEAD", excerpt["source_path"]],
+            env=env, text=True).split()
+        need(tree_entry[:3] == ["100644", "blob", excerpt["source_git_blob"]],
+             "proof tree primitive implementation blob differs")
+        save(a.evidence / "slice-expression-source-correspondence.json", {
+            "metadata_sha256": sha(excerpt_file), "source_tree_blob_checked": True,
+            "full_source_blob_transported": False, "correspondence": excerpt,
+            "method_call_binding_proved": False, "actual_callee_summary_admitted": False,
+            "scope": "Reviewed implementation-expression component only"})
     ghost = load(a.cloud_dir / "sort4-native-entry-c1/c2_discovery.py",
                  "native_c4_ghost_strip")
     active = env.copy()
@@ -517,16 +540,28 @@ def supplied_cases(a, tool: Path, env: dict[str, str]) -> dict:
             "proof_credit": False}
 
 
-def refusal(a, tool: Path, fixture: Path, env: dict[str, str]) -> dict:
+def admission_classification(raw: str, verifier_exit: int | None) -> str:
+    """Pure saved-data classifier; these are pre-target admission refusals only."""
+    if verifier_exit not in (1, 2) or "Verifying function 'sort4_stable'" in raw:
+        return "ADMISSION_REFUSAL_INCONCLUSIVE"
+    if 'Failure("SORT4-C4-BOUND: isolated exact-one body, unwind/full checks required")' in raw:
+        return "EXTRA_RUNTIME_BODY_EXACT_ONE_BODY_ADMISSION_REFUSAL"
+    if 'Failure("SORT4-C4-BOUND: verified source SHA256 differs")' in raw:
+        return "SOURCE_HASH_ADMISSION_REFUSAL"
+    return "ADMISSION_REFUSAL_INCONCLUSIVE"
+
+
+def refusal(a, tool: Path, fixture: Path, env: dict[str, str], *, comment_only: bool = False) -> dict:
     patch = a.proof_root / ROOT / "sort4-c4-bound-prefix/verifast-c4-bound-prefix-TEST.patch"
     patch_text = patch.read_text()
     hash_gate = 'failwith "SORT4-C4-BOUND: verified source SHA256 differs"'
     body_gate = 'failwith "SORT4-C4-BOUND: isolated exact-one body, unwind/full checks required"'
-    need(0 <= patch_text.find(hash_gate) < patch_text.find(body_gate),
-         "frozen C4 source/body admission gate order differs")
-    root = a.evidence / "admission-extra-runtime-body"
+    need(hash_gate in patch_text and body_gate in patch_text,
+         "frozen C4 source/body admission guards absent")
+    root = a.evidence / ("admission-comment-only" if comment_only else "admission-extra-runtime-body")
     shutil.copytree(fixture, root, symlinks=True)
-    addition = b"\nfn __vf_unrelated_runtime_body() {}\n"
+    addition = (b"\n// frozen source fingerprint mutation diagnostic\n" if comment_only else
+                b"\nfn __vf_unrelated_runtime_body() {}\n")
     for name in ("verified/lib.rs", "original/lib.rs"):
         path = root / name
         path.write_bytes(path.read_bytes() + addition)
@@ -539,16 +574,14 @@ def refusal(a, tool: Path, fixture: Path, env: dict[str, str]) -> dict:
                   SORT4_C4_BOUND_CONTROL="none")
     result = verify_case(a, tool, root, root, active, target="sort4_stable", ast=False)
     raw = (root / "verification.log").read_text(errors="replace")
-    result.update(classification=("EXTRA_RUNTIME_BODY_SOURCE_HASH_ADMISSION_REFUSAL"
-                                  if result["verifier_exit"] in (1, 2) and
-                                  "SORT4-C4-BOUND: verified source SHA256 differs" in raw and
-                                  "Verifying function 'sort4_stable'" not in raw else
-                                  "ADMISSION_REFUSAL_INCONCLUSIVE"),
-                  added_runtime_body="__vf_unrelated_runtime_body",
-                  exact_one_runtime_body_guard_reached=False,
+    classification = admission_classification(raw, result["verifier_exit"])
+    result.update(classification=classification,
+                  mutation="comment-only" if comment_only else "extra-runtime-body",
+                  added_runtime_body=None if comment_only else "__vf_unrelated_runtime_body",
+                  exact_one_runtime_body_guard_reached=classification == "EXTRA_RUNTIME_BODY_EXACT_ONE_BODY_ADMISSION_REFUSAL",
                   exact_one_runtime_body_guard_static=True,
                   c4_bound_patch_sha256=sha(patch),
-                  guard_order="source SHA256 gate precedes exact-one-body gate",
+                  guard_order="Observed first refusal only; lexical patch order does not determine execution order",
                   semantic_negative=False, proof_credit=False)
     save(root / "case-result.json", result)
     return result
@@ -568,7 +601,7 @@ def run(a) -> None:
     need(profile.get("cloud_enabled") is True and
          profile.get("profile_accepted") is False and
          profile.get("dispatch_authorized") is True and
-         profile.get("run_mode") == "FROZEN_C4_COMPATIBILITY_AND_RESOURCE_PREPARATION" and
+         profile.get("run_mode") in ("FROZEN_C4_COMPATIBILITY_AND_RESOURCE_PREPARATION", "FROZEN_C4_INDEPENDENT_FOLLOWUP") and
          profile.get("tool_head") == "f76012fb518703b1d98e243ac4f487f16877cfcb",
          "native-C4 experimental profile is not Cloud-enabled")
     need(profile.get("phase_id") == PHASE and
@@ -588,11 +621,28 @@ def run(a) -> None:
         save(a.evidence / "production-before.json", production_before)
         active = clean_env(a, tool)
         fixture = prepare_c4(a, historical, active)
-        c4 = c4_cases(a, tool, fixture, active)
-        native = native_cases(a, tool, active)
+        followup = profile["run_mode"] == "FROZEN_C4_INDEPENDENT_FOLLOWUP"
+        if followup:
+            need(profile.get("prior_fresh_c4_build") == "d5a0f8da-a2ed-416c-9eac-a9ffff926c87" and
+                 profile.get("prior_fresh_c4_proof_infra") == "e12df71d57923d346ba0640b9bd0ea23d2835365",
+                 "follow-up prior fresh C4 provenance differs")
+            c4 = {"classification": "NOT_RUN_UNCHANGED_PRIOR_FRESH_PASS", "proof_credit": False,
+                  "prior_build": profile["prior_fresh_c4_build"]}
+            native = {"classification": "NOT_RUN_UNCHANGED_PRIOR_ALIAS_BLOCKER", "proof_credit": False}
+        else:
+            c4 = c4_cases(a, tool, fixture, active)
+            native = native_cases(a, tool, active)
         supplied = supplied_cases(a, tool, active)
         admission = refusal(a, tool, fixture, active)
-        complete = (
+        comment_admission = refusal(a, tool, fixture, active, comment_only=True) if followup else None
+        components_complete = (
+            bool(supplied.get("cases")) and
+            all("verification" in value.get("stages", {}) and
+                value.get("source_pair_immutable") is True
+                for value in supplied.get("cases", {}).values()) and
+            admission.get("classification") == "EXTRA_RUNTIME_BODY_EXACT_ONE_BODY_ADMISSION_REFUSAL")
+        complete = (components_complete and comment_admission.get("classification") ==
+                    "SOURCE_HASH_ADMISSION_REFUSAL") if followup else (
             c4["positive"].get("verifier_exit") == 0 and
             c4["positive"].get("reused_fresh_support") is True and
             len(c4["controls"]) == len(CONTROLS) and
@@ -601,12 +651,7 @@ def run(a) -> None:
             all("verification" in value.get("stages", {}) and
                 value.get("source_pair_immutable") is True
                 for value in native.values()) and
-            bool(supplied.get("cases")) and
-            all("verification" in value.get("stages", {}) and
-                value.get("source_pair_immutable") is True
-                for value in supplied.get("cases", {}).values()) and
-            admission.get("classification") ==
-                "EXTRA_RUNTIME_BODY_SOURCE_HASH_ADMISSION_REFUSAL")
+            components_complete)
         result = {"classification": "NATIVE_ON_FROZEN_C4_DIAGNOSTICS_RECORDED",
                   "diagnostic_complete": complete,
                   "verification_accepted": False,
@@ -616,6 +661,8 @@ def run(a) -> None:
                   "frozen_kernel_sha256": FINAL_KERNEL,
                   "c4": c4, "native": native, "supplied": supplied,
                   "admission": admission,
+                  "comment_admission": comment_admission,
+                  "run_mode": profile["run_mode"],
                   "collector_pass_is_proof": False}
         save(a.evidence / "diagnostic-audit.json", result)
         need(historical.snapshot(a, tool)["critical"][str(TRANSLATOR)] == FINAL_TRANSLATOR and
@@ -623,7 +670,7 @@ def run(a) -> None:
              historical.snapshot(a, a.production_source) == production_before,
              "tool identities changed after diagnostics")
         print(json.dumps({"classification": result["classification"],
-                          "native_first_stage": {key: value["first_causal_stage"]
+                          "native_first_stage": native if followup else {key: value["first_causal_stage"]
                                                  for key, value in native.items()},
                           "admission": admission["classification"]}), flush=True)
     except Exception as exc:

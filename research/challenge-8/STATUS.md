@@ -19,4 +19,17 @@ fresh native preparation on frozenC4, isolated required code/guard/MU diagnostic
 Known static gaps: native as_mut_ptr alias absent from C4chain; bounded C4
 hard-source/exact-one-body admission explicitly not callable summary. MU inverse
 not presumed necessary before destination writes. No selector/strictdraft/new
-trusted semantics. OwnnewBuildNOT_RUN, account0/3600,active=null.
+trusted semantics. Build07e046f8/53866283 is a fresh setup refusal before every
+target (missing shell-required transport document), all proof cases NOT_RUN;
+verified evidence retained, charged342/3600seconds. Exact closure correction
+published e12df71d; Buildd5a0f8da terminal FAILURE from wrong admission-marker
+classification, runexit0/evidence complete, charged441sec; account783/3600,
+active=null. Fresh C4 VF0/370+five intended controls preserved; native-before-
+pointer VF0/78+two producer controls and MU storage forward/inner VF0/51/52.
+Native real as_mut_ptr refuses; guard cases parser-refuse C-style ternary;
+exact MU inverse refuses; extra-body gate first is exact-one-body. Full review:
+[FRESH-D5-REVIEW](cloud-build/sort4-native-c4/FRESH-D5-REVIEW.md).
+Native→C1/native→C4/actualcaller still NOT_PROVED. Same-profile follow-up draft
+repairs equivalent guard syntax, tests CURRENT MU owner/cast expression and
+separate admission gates, preserving prior fresh C4 with no matrix repetition.
+[Resource boundary review](cloud-build/sort4-native-c4/RESOURCE-BOUNDARY-REVIEW.md).

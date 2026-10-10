@@ -1,0 +1,11 @@
+{
+  "source_path": "library/core/src/slice/mod.rs",
+  "source_sha256": "e3a45814fc07497d6e85d182d6b30782711e4b77752fa817988ec6da12e2cb6f",
+  "source_git_blob": "16b5766ba08362bbf6ab13e127d71c7d920eccf7",
+  "source_start_line": 778,
+  "source_excerpt_sha256": "1cdcbe5e0573f8b70e8d9a7d861d1e86533710fb3e18b9a4fde8303c07e2922b",
+  "source_excerpt": "pub const fn as_mut_ptr(&mut self) -> *mut T {\n        self as *mut [T] as *mut T\n    }",
+  "correspondence": "The fixture checks the exact implementation expression with receiver renamed v and MaybeUninit instantiation scratch; no external method symbol binding or summary credit.",
+  "new_trusted_rule": false,
+  "status": "DRAFT_NOT_RUN"
+}

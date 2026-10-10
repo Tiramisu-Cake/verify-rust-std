@@ -73,7 +73,7 @@ lem selected_sort4_guard(len: usize, element_size: usize, scratch_len: usize)
     req len >= 8 &*& !(element_size <= 16 && len >= 16) &*&
         scratch_len >= len + 16;
     ens len >= 4 &*& scratch_len >= 4 &*&
-        (len >= 16 ? element_size > 16 : true);
+        (len < 16 || element_size > 16);
 {}
 @*/
 fn small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
@@ -93,7 +93,7 @@ fn small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
         //@ selected_sort4_guard(len, std::mem::size_of::<T>(), ptr_len(scratch));
         //@ assert len >= 4;
         //@ assert ptr_len(scratch) >= 4;
-        //@ assert len >= 16 ? std::mem::size_of::<T>() > 16 : true;
+        //@ assert len < 16 || std::mem::size_of::<T>() > 16;
     } else {
         //@ assert len < 8;
     }
@@ -107,7 +107,7 @@ lem selected_sort4_guard(len: usize, element_size: usize, scratch_len: usize)
     req len >= 8 &*& !(element_size <= 16 && len >= 16) &*&
         scratch_len >= len + 16;
     ens len >= 4 &*& scratch_len >= 4 &*&
-        (len >= 16 ? element_size > 16 : true);
+        (len < 16 || element_size > 16);
 {}
 lem selected_zst_route_witness()
     req true;

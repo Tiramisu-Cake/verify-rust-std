@@ -6858,3 +6858,17 @@ Card cloud-build/sort4-native-c4/SEMANTIC-CARD.md records exactprofile/resource
 gap and isolated native/guard/MU/admission diagnostics. No earlyreservation,
 no selector,strictdraft or newtrustedsemantic implementation. OldC4/nativePASS
 remain original profile results, newcomposition NOT_RUN.
+
+2026-10-10 14:00 UTC first-hour update: native/C4 effective translator/kernel
+mismatch and non-callable exact-file binding documented before proof. First
+Build07e046f8-3d43-4016-8f83-f6429a5bd9a2, proof=infra538662831180e6b21549c12b3d1275872fc56c28,
+create13:41:51.066290394 finish13:47:32.773023Z, FAILURE342seconds. It refused
+shell preflight at missing CLOUD-RELOCATE-IDS-TEST-CARD.md, before strict
+relocation/C4/native target; no semantic negative, all intended cases NOT_RUN.
+Archivecddf07221a4ad383e158b31935bb431ce7832ca859c9a6b56804c46975def050,
+complete payload/inventory/index integrity verified by canonical download.
+Transport closure corrected without bypassing the guard; exact required
+document and three typed-native .gh files restored. Static required-path,
+Python syntax/diff checks only. Buildd5a0f8da-a2ed-416c-9eac-a9ffff926c87
+submitted proof=infrae12df71d57923d346ba0640b9bd0ea23d2835365, create13:59:41.174458427Z,
+WORKING/no target verdict yet; account342/3600, one own active, v2/max2.
