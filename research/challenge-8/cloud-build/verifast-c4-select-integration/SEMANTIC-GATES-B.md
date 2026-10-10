@@ -168,3 +168,11 @@ Domain remains only pinned negative_outer_bound_escape source/strict/HRTB
 target and unused absolute output; required helper bodies allowed. This changes
 no emitted statement/type/contract/kernel/post or default-off production path.
 Independent targeted review required before edit; fresh Cloud compile/proof gate.
+
+Final delivery repair, UNRUN: full30 original canonical module pack restored.
+Only two hardcoded large tracked files (tool-c4.patch, source-modules.json) are
+XZ-compressed in recipe transport. Cloud preflight must bound decompression to
+manifest raw_size, reject extra stream bytes, and compare compressed SHA256,
+raw SHA256, exact proof HEAD tree Git blob and mode100644 before materialization
+and existing preflight. All original source/patch/module bytes stay unchanged.
+No coordinator/protocol limit or semantic rule change, no new Cloud dispatch.

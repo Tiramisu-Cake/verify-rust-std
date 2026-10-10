@@ -7,6 +7,7 @@ import base64
 import hashlib
 import importlib.util
 import json
+import lzma
 import os
 from pathlib import Path
 import re
@@ -179,7 +180,44 @@ def restore_modules(a, data):
         "modules": rows, "content_changed": False, "proof_credit": False})
 
 
+def materialize_delivered_inputs(a):
+    need(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build", "Cloud-only input materialization")
+    data = json.loads(a.manifest.read_text())
+    allowed = {"tool-c4.patch": "tool_c4_patch_sha256",
+               "source-modules.json": "source_modules_pack_sha256"}
+    rows = data["compressed_delivery"]
+    need(len(rows) == 2 and {r["raw_path"] for r in rows} == set(allowed), "exact two delivery inputs required")
+    observed = []
+    for row in rows:
+        name = row["raw_path"]
+        need(row["path"] == name + ".xz", "delivery compressed path differs")
+        compressed = a.proof_root / HERE / row["path"]
+        target = a.proof_root / HERE / name
+        need(not target.exists() and not target.is_symlink() and
+             all(not p.is_symlink() for p in target.parents), "delivery target is not unused/safe")
+        need(sha(compressed) == row["compressed_sha256"], "compressed input SHA256 differs")
+        size = row["raw_size"]
+        need(type(size) is int and 0 < size <= 1048576, "delivery raw size outside exact lane bound")
+        decoder = lzma.LZMADecompressor(format=lzma.FORMAT_XZ)
+        raw = decoder.decompress(compressed.read_bytes(), max_length=size + 1)
+        need(decoder.eof and not decoder.unused_data and len(raw) == size, "delivery stream/length differs")
+        need(hashlib.sha256(raw).hexdigest() == row["raw_sha256"] == data[allowed[name]], "delivery raw SHA256 differs")
+        relative = str(HERE / name)
+        expected = subprocess.check_output(["git", "-C", str(a.proof_root), "rev-parse", "HEAD:" + relative], text=True).strip()
+        mode = subprocess.check_output(["git", "-C", str(a.proof_root), "ls-tree", "HEAD", "--", relative], text=True).split()[0]
+        need(mode == "100644", "delivery raw mode differs")
+        actual = hashlib.sha1(("blob " + str(len(raw)) + "\0").encode() + raw).hexdigest()
+        need(actual == expected, "delivery raw Git blob differs")
+        target.write_bytes(raw)
+        target.chmod(0o644)
+        written = subprocess.check_output(["git", "-C", str(a.proof_root), "hash-object", "-w", str(target)], text=True).strip()
+        need(written == expected and sha(target) == row["raw_sha256"], "materialized input identity differs")
+        observed.append({**row, "git_blob": expected, "mode": mode})
+    record(a.evidence / "compressed-delivery.json", {"rows": observed, "proof_credit": False})
+
+
 def preflight(a):
+    materialize_delivered_inputs(a)
     data = manifest(a)
     restore_modules(a, data)
     recipe = module(a.cloud_dir / "o26-recipe.py", "integration_provider_overlay")

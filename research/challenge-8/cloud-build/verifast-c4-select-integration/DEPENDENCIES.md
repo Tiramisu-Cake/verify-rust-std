@@ -96,3 +96,10 @@ as PASS (663.71 s, zero failed processes), while the external Cloud status
 remained FAILURE from the obsolete collector. The exact publication packet is
 still `READY_FOR_USER_APPROVAL`; no upstream publication or user approval is
 recorded. No claim about candidate acceptance follows here.
+
+Session B delivery pack is scoped to this exact integration lane:23 original
+module rows plus12 original Git tree records, provenance3338d1d1 retained.
+All five provider-overlay paths remain present. Seven dormant checker-chain
+modules are omitted only from transport; no source module byte, function,
+proof annotation, patch, effective tool input or kernel is weakened. This is
+not a reusable general dependency closure. Pack SHA992dc135…b87a25.

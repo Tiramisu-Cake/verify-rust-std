@@ -30,3 +30,8 @@ actual existing transport uses3990-byte source parts (cap191), not3500; the
 585352-byte payload excess is about14KiB. Narrow canonical pack pruning of
 unused loader dependencies permits restoring all three inline pinned patches.
 Retained modules preserve exact original bytes/blob/mode/provenance and trees.
+
+835f6cb9 first submit preparation refused at local atomic config write with
+ENOSPC, before reservation/API; no Build/charge. Reversible sparse checkout of
+own current worktree freed69MiB; identical835f6cb9 submit retried21:33UTC
+before main cutoff. Last already-started Cloud experiment only; no new session.
