@@ -26,7 +26,8 @@ POST_FBC_LADDER = (
     b"        //@ assert gap_guard.src == held_ref; // LADDER: FBC pointer identity\n"
     b"        //@ assert gap_guard.dst == tail; // LADDER: FBC destination identity\n"
     b"        //@ assert gap_guard.len == 1; // LADDER: FBC literal-one length\n"
-    b"        //@ assert [1/4](*gap_guard.src |-> ?fbc_current); // LADDER: source quarter\n"
+    b"        //@ let fbc_src = gap_guard.src;\n"
+    b"        //@ assert [1/4](*fbc_src |-> ?fbc_current); // LADDER: source quarter\n"
     b"        //@ assert [1/4](*held_ref |-> fbc_current); // LADDER: held reference quarter\n"
 )
 FBC_FIELD_FRAME = (
@@ -703,8 +704,8 @@ def run(evidence: Path, args, env: dict, execute_case,
             "fbc_identity": _line(verified, POST_FBC_LADDER.splitlines(keepends=True)[0]),
             "fbc_dst_identity": _line(verified, POST_FBC_LADDER.splitlines(keepends=True)[1]),
             "fbc_length": _line(verified, POST_FBC_LADDER.splitlines(keepends=True)[2]),
-            "fbc_src_quarter": _line(verified, POST_FBC_LADDER.splitlines(keepends=True)[3]),
-            "fbc_held_quarter": _line(verified, POST_FBC_LADDER.splitlines(keepends=True)[4]),
+            "fbc_src_quarter": _line(verified, POST_FBC_LADDER.splitlines(keepends=True)[4]),
+            "fbc_held_quarter": _line(verified, POST_FBC_LADDER.splitlines(keepends=True)[5]),
             "copy_identity": _line(verified, POST_COPY_LADDER.splitlines(keepends=True)[0]),
             "copy_held_quarter": _line(verified, POST_COPY_LADDER.splitlines(keepends=True)[1]),
         }
