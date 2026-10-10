@@ -89,3 +89,15 @@ assertions/posts/cut removed. Direct pinned rustc --emit=mir overflow-checks=on
 panic=unwind added solely for checked-overflow diagnosis, no acceptance credit.
 Same frozen general tool source/spec semantics; saved pure classifier replay
 passes on retained d5 log (exact original hash). Static closure unchanged.
+
+Thirdbatch preflight20:34UTC: new separate exact-native capture-only translator
+delta86952a6a on1eab6eb5, kernel37ed unchanged; newbinaryusedonlylistedcapture
+and default-off cases. Basefrozenbinary retained separately. Independent
+addressreview confirmed sourceSHA/MIRcall210:21–92/markers194,212; oldC4gates
+unchanged, fullcapturealwaysrefusesbeforeproof. Capturemayfailserializer ornew
+shapegates; noacceptanceupgrade. Preparednativecomponent retainsrealresources,
+alllinear debt/owners/thread/MU/type obligations; sharecleanup/strict/leak must
+beprovedfresh. A preparedfalseArgs control is intended onlyafterpreparedtuple
+assertion. ExistingpointerVF0/90 repeatedonceon newdelta opt-in0 as targeted
+default-off regression; oldfullC4/native/MUmatrices not repeated. Allcurrent
+source/MIR/header/posts/return/leak checks remain enabled.

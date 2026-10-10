@@ -91,3 +91,13 @@ Next capture adds ONLY a diagnostic direct invocation of the same pinned
 rustc with --emit=mir, overflow-checks=on, panic=unwind, opt-level0/mir-opt-level0.
 Record checked tuple/Assert/success/unwind edges versus exported unchecked
 capture. It supplies no new compiler/verifier rule or proof credit.
+
+Freshd776/86e38e3a: fixed pointer implementation-expression VF0/90 fullnative
+normalposts/return/leak; no externalmethod binding. ActualC1 candidate parser
+now passes, reaches source4 split/start lifetime, then strictentry refuses
+unresolved outertype inference172:1–30 beforecallback. New exact capture-only
+card/profile preservesoldgates, produces no proof. Preparedresource component
+will test entry/borrow/undo separately, without removing assertions/debt/cut.
+Minimal checkedrustc capture confirms AddWithOverflow+Assert(successbb1,
+unwindcontinue); standard exporter overflowoff removesboth, so current ordinary
+Add refusal is a tool modeling gap, not runtimeunsafety. Rawreview FRESH-D776-REVIEW.md.

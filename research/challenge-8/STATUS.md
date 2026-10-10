@@ -1,27 +1,38 @@
-# Native entry → actual C1–C4 — session closed
+# Native resources → actual C1–C4 with opaque scratch — active session
 
-2026-10-10 start13:00:22UTC, main ended15:00:22, finish-only absolute15:30:22.
-Owner select-sort4, worktree /root/verify-rust-std-select-night, own branch
-research/night-select-sort4-cloud-2026-10-09; policyc7ca8c46/adoptionACK retained.
-[Exact checkpoint](cloud-build/sort4-native-c4/END-CHECKPOINT-2026-10-10.md).
+2026-10-10 factual start19:27:14UTC, main deadline21:27:14, finish-only
+absolute21:57:14. Owner select-sort4, worktree /root/verify-rust-std-select-night,
+branch research/night-select-sort4-cloud-2026-10-09; initial checkpoint e5f3f1a,
+policy c7ca8c467aecf10a4b53039372ee97714f854ee3 and adoption/ACK retained.
+Separate3600Cloudsec, no carry; v2/max2, one own active Build.
+[Resource/boundary card](cloud-build/sort4-native-opaque/SEMANTIC-CARD.md).
 
-Fresh d5a0f8da/e12df71d: conditional actual C1→C4 VF0/370, normal/all four
-CURRENT direct-unwind/full original prefix posts/return/leak preserved, five
-intended false controls. First native-before-pointer on SAME tool VF0/78 + two
-producer controls; one-cell MU storage forward/inner VF0/51/52. Fresh3584fb04/
-285220a3 pure selected-guard/ZST witness VF0/53. Separate component proofs only.
-Native→C1/native→C4/actualcaller→sort4 NOT_PROVED. Raw C4 entry/types/positive
-Tsize/optionalTdst remain supplied; native resources derived separately but not
-transferred through real preparation/callback edge. C5/select/copy excluded.
+Fresh 1ba7fdb3/9b86096e: opaque-MU split/CURRENT rejoin interface VF0/73,
+helper bodies proved before native consumer, automatic native normal posts,
+unit return/free/leak; intended false-CURRENT-rejoin-post refusal at43:74–79.
+Actual len<2 early-return resource component VF0/81. Scratch storage and MU
+owners stay opaque; neither inverse nor optional-T adapter is needed here.
+No callback/direct-unwind transition credit from these separate components.
+[Raw review](cloud-build/sort4-native-opaque/FRESH-1BA7-REVIEW.md).
 
-Blockers: actual guard len+16 overflow proof requirement; read-only native
-as_mut_ptr unsupported; connected C4 consumer exact-one-body/source SHA refusal;
-MU exact-old inverse and CURRENT wrapper ownership restore fail separately.
-No new trusted semantics, strict-cut draft or selector profile accepted/applied.
-[Reproducer package](cloud-build/sort4-native-c4/VERIFAST-BLOCKERS.md).
-Final started cast/earlyreturn/overflow draft disabled, Cloud NOT_RUN.
+Second Build d77612a5-5620-47a7-819d-3fa499cd15c0, proof=infra
+86e38e3a74cca49b2be8e12aa101bdd797d4a917, token
+dispatch-d899abe2e00c4ba4b64ac576dd5c5211: corrected ghost syntax for pointer
+expression/C1 candidate plus same pinned rustc checked-overflow MIR capture.
+Outcome pending. First failures in the two earlier cases were parser setup,
+not semantic negatives. Source/MIR/AST callback/lifetime binding remains open.
 
-3 own Builds terminal/accounted/evidence-integrity verified;1165/3600seconds,
-2435unused closed/no carry,active=null,reservations closed,ready request withdrawn.
-No new Build after main end and no automatic session restart. Exact tool/profiles,
-source/MIR/AST/log hashes, saved classifier replay and commands in checkpoint.
+The frozen exporter appends overflow_checks=off (lib.rs:69); standard fresh
+minimal len+16 export contains ordinary add and no overflow Assert, followed
+by VF arithmetic-overflow refusal. Checked/panic route capture is pending;
+no runtime-unsafety claim or arbitrary len bound. General exporter/arithmetic,
+alias and MU changes remain VeriFast-agent dependencies, unchanged here.
+
+Prior d5a0f8da/e12df71d actual C1→C4 VF0/370, normal/all four CURRENT direct
+unwinds/full original prefix posts/return/leak remains a separate conditional
+result. Native→actualC1, native→actualC4 and actual caller→sort4 NOT_PROVED.
+Actual external as_mut_ptr binding, full guards/call edge and ZST remain open;
+positive T size is not implied by selected sort4 (len8,size0 counterexample).
+No strict-cut draft, selector/C5/copy or peer profile changes applied.
+Current accounting415/3600seconds; Build1 terminal/accounted/evidence verified,
+Build2 own active, no automatic next session authorized.

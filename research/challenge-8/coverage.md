@@ -852,3 +852,16 @@ fresh, nosemantic-negative orcallable-summary credit. Native→C1/native→C4/
 actualcaller→sort4 stillabsent; C4d5 freshPASS preserved. Total1165/3600closed,
 no activeownBuild/readyrequest andnoautomaticrestart. Finalcheckpoint:
 cloud-build/sort4-native-c4/END-CHECKPOINT-2026-10-10.md.
+
+2026-10-10 opaque-native session fresh1ba7fdb3/9b86096e: split/CURRENT
+four-cell rejoin with full opaque MU scratch/F/thread/type frame VF0/73;
+helper bodies verified before automatic-native-contract consumer, normal
+return/free/leak. Intended false CURRENT-rejoin helperpost refused at43:74–79.
+Native len<2 earlyreturn resource component VF0/81. These cases have no callback
+or direct-unwind proof credit. Pointer/C1 parser setup refusals leave target
+NOT_RUN; corrected86e38e3a follow-up pending. Optional-T destination and MU
+inverse are unnecessary for this prefix interface, not proved for later copy.
+Existing conditional C1→C4/native components remain separate; native→actualC1,
+native→actualC4 and actualcaller→sort4 absent. Frozen exporter overflow-off
+versus checked-rustc MIR is an explicitly pending tool dependency diagnostic.
+See cloud-build/sort4-native-opaque/SEMANTIC-CARD.md and FRESH-1BA7-REVIEW.md.

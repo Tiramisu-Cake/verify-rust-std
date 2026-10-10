@@ -2,9 +2,11 @@
 
 This is a reviewable **internal diagnostic**, not a theorem about the actual
 `small_sort_general_with_scratch` caller or the complete `sort4_stable`. The
-candidate is [native-c1-candidate.rs](native-c1-candidate.rs). It has not been
-compiled, extracted, or verified. No Cloud Build, verifier patch, profile
-change, or callable callee summary is part of this change. WORK-POLICY revision
+source template is [native-c1-candidate.rs](native-c1-candidate.rs). Its isolated
+case unit received fresh paired capture/refinement in d77612a5/86e38e3a after
+ghost syntax repair, but refuses at strict entry172:1–30 before callback. The
+case sourceSHA7ebcf7cd and ghost-stripSHA7c35a7e0 pin that experiment; the
+template itself is not a callable proved summary. See FRESH-D776-REVIEW.md. WORK-POLICY revision
 read: `6726a08d30b37d6d0f4ae65c3d8c2861615d249a` (the adopted policy from
 `c7ca8c467aecf10a4b53039372ee97714f854ee3`).
 

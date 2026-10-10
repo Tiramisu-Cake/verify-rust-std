@@ -6875,3 +6875,48 @@ WORKING/no target verdict yet; account342/3600, one own active, v2/max2.
 
 2026-10-10 finish-only closure: fresh independent3584fb04/285220a3 SUCCESS
 (diagnostic collector only),382create→finish seconds, archive84208867c4ed920d3ab41012e56ab4a887396ae1da1d387dae317efcf6fab633 integrity verified. Pure guard/ZST witnessVF0/53; native guard firstlen+16 overflow obligation; CURRENT MU owner missing afterrewrap; castexpression ghostparserrefusal. Both exact-one-body and comment-only sourceSHA admission gates freshly refuse beforetarget. No connectednative/C4 orcaller proof. Startedparenthesis/earlyreturn/minimaloverflow draft saveddisabled, NOT_RUN; no fourthBuild or newexperimentafter15:00:22. Canonicalown readyrequestwithdrawn, noreservation,3terminalverifiedbuilds1165/3600sec,2435unusedclosed/nocarry. Newcontrol secondmain-deadlineguard is staticreviewedfinish-onlydraft, notnewCloudinfraPASS. Exactfinalcheckpoint cloud-build/sort4-native-c4/END-CHECKPOINT-2026-10-10.md;noautomaticnextsession.
+
+2026-10-10 19:27:14UTC new opaque-native session from e5f3f1a, correct own
+worktree/branch/separate git-dir/index clean. Main21:27:14, finish-only21:57:14,
+new3600Cloudsec; old1165seconds closed/no carry. Policyc7ca8c46/adoption preserved.
+New exact phase SORT4-NATIVE-OPAQUE-CLOUD-2026-10-10, canonical C1 lane, owner
+select-sort4 v2/max2. Resource card identifies actual external pointer/checkedadd
+rules by19:35UTC and permits separate internal non-ZST helper boundary; no
+nativecaller/composition credit, no competing general VF implementation.
+
+Fresh Build1ba7fdb3-c2ba-470a-84e5-e6b4077ffda4 proof=infra9b86096ec897577d11cd8efa4302aaccbf15b8ef,
+create19:39:25.109943465 finish19:46:19.816185Z, SUCCESS diagnosticcollector,
+415sec; archivec4104f376f209613f5a80c9386eaf8e64ddd150ca136a99b7213db190c2c371b
+canonical payload/config/inventory/index/upload integrity verified. Independent
+raw review: opaque interface VF0/73, all4helper bodies precede native consumer,
+CURRENT rejoin preserves source/F/thread/types plus untouched full MU frame;
+full automatic normal post/free/leak. False helperpost intended at43:74–79.
+Actualearlyreturn VF0/81, no callback path. Pointer/C1 refused parser at second
+statement of bare multi-statement ghost annotation; intended binding/proof
+NOT_RUN. Saved admission classifier replay PASS; static recipe closure PASS.
+
+Follow-up86e38e3a fixes only harness ghost syntax, preserving posts/marker/cut.
+Exporter unconditionally appends overflow_checks=off at lib.rs:69; fresh minimal
+len+16 standard MIR has add/no Assert, VF arithmetic refusal3:17–25. Follow-up
+adds diagnostic pinned-rustc --emit=mir overflow-checks=on/panic=unwind capture,
+no proof or general toolrule change. Buildd77612a5-5620-47a7-819d-3fa499cd15c0
+submitted config1c1f752d16b9f5ac55acf0a9be92a9278e6121af262723b38ee404d3dc0ff9f6,
+input74c29c394aba6900d78b341390438ca26d1107b4d5756f520507d5d09158dec1,
+token dispatch-d899abe2e00c4ba4b64ac576dd5c5211, outcome pending.
+
+2026-10-10 first-hour progress20:27UTC: opaque73/early81/pointer90 component
+PASS, native actualC1/C4 absent. Freshd776/86e38e3a terminalSUCCESS344sec,
+total759/3600; archivee467a5f23dcc9718b010eb16d78d1a4112c94f1ddffd2649244d2b8b0096e9d3
+canonical integrity verified. Nativecandidate reaches split/lifetime then refuses
+strictentry unresolved outertype172:1–30. Fullpackage ASTdump TODO beforecapture;
+no comparator/currentunwind/completeposts theorem. Minimal checkedrustc MIR
+AddWithOverflow+Assert(successbb1,unwindcontinue) capturedfresh; frozenexporter
+appends overflowoff, normalMIR ordinaryadd/noAssert, VFoverflowrefusal3:17–25.
+No runtimeunsafety or bound claimed. See FRESH-D776-REVIEW.md /artifactindex.
+
+Thirdbatch prepared source transfer/borrow/undo candidate + intended Argsfalse
+control; reviewed exactnative preASTcapture-only delta from1eab→86952a6a,
+patch4a549366, kernel37ed unchanged, independentreview GO fordiagnosticonly.
+Exactsource7eb/sourcecall210:21–92/markers194,212; newmodealwaysrefusesbeforeproof.
+Default-off pointer recheck justified solely bynewtranslator opt-in0 surface.
+OldC4normal/all4unwind/fullposts remain priorPASS, notcompositioncredit.

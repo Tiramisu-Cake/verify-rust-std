@@ -33,18 +33,32 @@
   "prior_fresh_c4_build": "d5a0f8da-a2ed-416c-9eac-a9ffff926c87",
   "prior_fresh_c4_proof_infra": "e12df71d57923d346ba0640b9bd0ea23d2835365",
   "followup_cases": [
-    "native-slice-cast-expression",
-    "checked-add-overflow-reproducer",
-    "native-c1-unbound-capture"
+    "native-c1-prepared-positive",
+    "native-c1-prepared-false-args",
+    "native-c1-capture-preast",
+    "native-c1-capture-sourcehash-refusal",
+    "native-c1-capture-extra-body-refusal",
+    "native-pointer-capture-default-off"
   ],
   "c4_controls_run": "NOT_RUN_UNCHANGED_PRIOR_FRESH_PASS",
   "admission_cases": [],
   "prior_fresh_admission_build": "3584fb04-e237-4d66-9c85-60de4df059c4",
   "prior_fresh_admission_proof_infra": "285220a384d050e046d1e8709b79a52bd602e675",
   "admission_controls_run": "NOT_RUN_PRIOR_FRESH_PASS",
-  "session_status": "AUTHORIZED_NOT_RUN",
+  "session_status": "ACTIVE_PREPARATION_AND_CAPTURE_NOT_PROOF",
   "draft_cloud_status": "NOT_RUN",
   "prior_fresh_opaque_frame_build": "1ba7fdb3-c2ba-470a-84e5-e6b4077ffda4",
   "prior_fresh_opaque_frame_proof_infra": "9b86096ec897577d11cd8efa4302aaccbf15b8ef",
-  "opaque_frame_rerun": "NOT_RUN_UNCHANGED_PRIOR_FRESH_PASS"
+  "opaque_frame_rerun": "NOT_RUN_UNCHANGED_PRIOR_FRESH_PASS",
+  "native_c1_capture_cases": [
+    "native-c1-capture-preast",
+    "native-c1-capture-sourcehash-refusal",
+    "native-c1-capture-extra-body-refusal"
+  ],
+  "native_c1_capture_profile": "NATIVE-C1-CAPTURE-PROFILE.json",
+  "native_c1_capture_default_off_cases": [
+    "native-c1-prepared-positive",
+    "native-c1-prepared-false-args",
+    "native-pointer-capture-default-off"
+  ]
 }

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Cloud-only native diagnostics on the exact frozen C4 translator and kernel.
+"""Cloud-only native diagnostics with separately pinned capture-only extension.
 
 Every case retains its raw source, paired MIR, refinement and full verifier log.
-Collector completion is never a proof verdict. No verifier source is edited here.
+Collector completion is never a proof verdict. Only reviewed pinned deltas apply.
 """
 from __future__ import annotations
 
@@ -205,11 +205,59 @@ def build_frozen_c4(a, historical, env: dict[str, str]) -> tuple[Path, dict]:
         "expected_snapshot_sha256": sha(frozen_file),
         "expected_console_sha256": expected["binaries"]["bin/verifast"],
         "fresh_console_sha256": after["binaries"]["bin/verifast"],
-        "fresh_console_used_for_all_cases": True,
+        "fresh_console_used_for_all_cases": not bool(json.loads(
+            (a.proof_root / HERE / "profile.json").read_text()).get("native_c1_capture_cases")),
+        "fresh_console_used_for_frozen_profile_cases": True,
         "frozen_source_and_non_console_binaries_match": True,
         "accepted": False})
     save(a.evidence / "frozen-tool-snapshot.json", after)
     return tool, before
+
+
+def build_native_capture_tool(a, historical, base: Path, env: dict[str, str]) -> Path:
+    """Separate source-pinned capture-only profile; never replace frozen C4."""
+    profile_path = a.proof_root / HERE / "NATIVE-C1-CAPTURE-PROFILE.json"
+    profile = json.loads(profile_path.read_text())
+    need(OPAQUE_SESSION and profile.get("mode") == "CAPTURE_ONLY_ALWAYS_REFUSE" and
+         profile.get("profile_accepted") is False and
+         profile.get("base_translator_sha256") == FINAL_TRANSLATOR and
+         profile.get("kernel_sha256") == FINAL_KERNEL,
+         "native C1 capture profile differs")
+    patch = a.proof_root / HERE / "native-c1-capture-only.patch"
+    need(sha(patch) == profile["patch_sha256"] and
+         [line for line in patch.read_text().splitlines()
+          if line.startswith(("--- ", "+++ "))] ==
+         [f"--- a/{TRANSLATOR}", f"+++ b/{TRANSLATOR}"],
+         "native capture patch is not the pinned translator-only delta")
+    before = historical.snapshot(a, base)
+    tool = a.work_root / "sort4-native-opaque-c1-capture-source"
+    need(not tool.exists(), "native capture isolated tool already exists")
+    shutil.copytree(base, tool, symlinks=True)
+    need(historical.snapshot(a, tool) == before, "native capture copy differs")
+    root = a.evidence / "native-c1-capture-tool"
+    for operation, argv in (("check", ["apply", "--check"]), ("apply", ["apply"])):
+        row = stage(a, root, f"patch-{operation}",
+                    ["git", "-C", str(tool), *argv, str(patch)], env, 60, cwd=tool)
+        need(row.get("exit") == 0, f"native capture patch {operation} failed")
+    need(sha(tool / TRANSLATOR) == profile["translator_sha256"] and
+         sha(tool / KERNEL) == FINAL_KERNEL, "native capture source pin differs")
+    (tool / "bin/verifast").unlink(missing_ok=True)
+    row = stage(a, root, "console-build",
+                ["make", "-C", str(tool / "src"), "../bin/verifast",
+                 "WITHOUT_LABLGTK=yes", "VERBOSE=yes"], clean_env(a, tool), 600, cwd=tool)
+    need(row.get("exit") == 0, "native capture console build failed")
+    after = historical.snapshot(a, tool)
+    need(after["head"] == before["head"] and
+         after["critical"][str(TRANSLATOR)] == profile["translator_sha256"] and
+         all(after["critical"][key] == value for key, value in before["critical"].items()
+             if key != str(TRANSLATOR)) and
+         all(after[key] == before[key] for key in ("effective_rsspec", "proof_std", "modified_names")) and
+         all(after["binaries"][key] == value for key, value in before["binaries"].items()
+             if key != "bin/verifast"), "native capture changed other frozen inputs")
+    save(root / "effective-profile.json", {"profile": profile,
+         "profile_sha256": sha(profile_path), "snapshot": after,
+         "proof_credit": False, "mode": "CAPTURE_ONLY_ALWAYS_REFUSE"})
+    return tool
 
 
 def prepare_c4(a, historical, env: dict[str, str]) -> Path:
@@ -463,7 +511,7 @@ def native_cases(a, tool: Path, env: dict[str, str]) -> dict:
     return results
 
 
-def supplied_cases(a, tool: Path, env: dict[str, str]) -> dict:
+def supplied_cases(a, tool: Path, env: dict[str, str], capture_tool: Path | None = None) -> dict:
     """Run complete, isolated user supplied source units; preserve every failure."""
     profile = json.loads((a.proof_root / HERE / "profile.json").read_text())
     case_file = profile.get("case_file", "cases.rs")
@@ -508,6 +556,18 @@ def supplied_cases(a, tool: Path, env: dict[str, str]) -> dict:
                   SORT4_C4_BOUND_CONTROL="none")
     results = {}
     for name, unit in blocks:
+        case_tool = tool
+        case_env = active.copy()
+        capture_case = name in profile.get("native_c1_capture_cases", [])
+        default_off_case = name in profile.get("native_c1_capture_default_off_cases", [])
+        if capture_case or default_off_case:
+            need(OPAQUE_SESSION and capture_tool is not None,
+                 "exact native C1 capture tool is missing")
+            case_tool = capture_tool
+            case_env = {**active, **clean_env(a, case_tool)}
+            case_env.update({key: value for key, value in active.items()
+                             if key.startswith("SORT4_")})
+            case_env["SORT4_NATIVE_OPAQUE_C1_CAPTURE"] = "1" if capture_case else "0"
         root = a.evidence / "supplied" / name
         fixture = root / "fixture"
         (fixture / "verified").mkdir(parents=True)
@@ -552,7 +612,8 @@ def supplied_cases(a, tool: Path, env: dict[str, str]) -> dict:
                 "exporter_default_overflow_checks": "off_unconditionally_appended"}
             save(root / "checked-mir-capture.json", checked_capture)
         try:
-            result = verify_case(a, tool, fixture, root, active, target=target)
+            result = verify_case(a, case_tool, fixture, root, case_env,
+                                 target=target, ast=not capture_case)
         except Exception as exc:
             result = {"classification": "SUPPLIED_CASE_SETUP_OR_COLLECTOR_ERROR",
                       "first_causal_stage": "COLLECTOR", "reason": str(exc),
@@ -561,10 +622,39 @@ def supplied_cases(a, tool: Path, env: dict[str, str]) -> dict:
         if checked_capture is not None:
             result["checked_mir_diagnostic"] = checked_capture
             save(root / "case-result.json", result)
+        result["effective_tool"] = {"translator_sha256": sha(case_tool / TRANSLATOR),
+            "kernel_sha256": sha(case_tool / KERNEL),
+            "console_sha256": sha(case_tool / "bin/verifast"),
+            "native_c1_capture_only": capture_case,
+            "native_c1_capture_default_off": default_off_case}
+        if capture_case:
+            captured = fixture / "native-c1-capture-pre-ast.ml"
+            if captured.is_file():
+                shutil.copy2(captured, root / captured.name)
+            log = root / "verification.log"
+            raw = log.read_text(errors="replace") if log.is_file() else ""
+            result["native_capture_classification"] = native_capture_classification(
+                raw, result.get("verifier_exit"), captured.is_file())
+            result["native_pre_ast_sha256"] = sha(captured) if captured.is_file() else None
+            result["accepted"] = False
+            result["callable_summary"] = False
+        save(root / "case-result.json", result)
         results[name] = result
         save(a.evidence / "supplied-results.json", results)
     return {"classification": "SUPPLIED_CASES_RECORDED", "cases": results,
             "proof_credit": False}
+
+
+def native_capture_classification(raw: str, verifier_exit: int | None, artifact: bool) -> str:
+    if verifier_exit not in (1, 2) or "Verifying function 'small_sort_general_with_scratch'" in raw:
+        return "NATIVE_CAPTURE_INCONCLUSIVE_NOT_PROOF"
+    if "NATIVE-OPAQUE-C1-CAPTURE: FULL_ORIGINAL_AST_CAPTURED_NOT_PROOF" in raw and artifact:
+        return "FULL_ORIGINAL_AST_CAPTURED_NOT_PROOF"
+    if "NATIVE-OPAQUE-C1-CAPTURE: verified source SHA256 differs" in raw and not artifact:
+        return "SOURCE_HASH_ADMISSION_REFUSAL_NOT_SEMANTIC_NEGATIVE"
+    if "NATIVE-OPAQUE-C1-CAPTURE: isolated exact-one body, unwind and full checks required" in raw and not artifact:
+        return "EXACT_ONE_BODY_ADMISSION_REFUSAL_NOT_SEMANTIC_NEGATIVE"
+    return "NATIVE_CAPTURE_INCONCLUSIVE_NOT_PROOF"
 
 
 def admission_classification(raw: str, verifier_exit: int | None) -> str:
@@ -662,7 +752,10 @@ def run(a) -> None:
         else:
             c4 = c4_cases(a, tool, fixture, active)
             native = native_cases(a, tool, active)
-        supplied = supplied_cases(a, tool, active)
+        capture_tool = None
+        if OPAQUE_SESSION and profile.get("native_c1_capture_cases"):
+            capture_tool = build_native_capture_tool(a, historical, tool, active)
+        supplied = supplied_cases(a, tool, active, capture_tool)
         reuse_admission = followup and profile.get("prior_fresh_admission_build") is not None
         if reuse_admission:
             need(profile.get("prior_fresh_admission_build") == "3584fb04-e237-4d66-9c85-60de4df059c4" and
@@ -681,6 +774,14 @@ def run(a) -> None:
                 value.get("source_pair_immutable") is True
                 for value in supplied.get("cases", {}).values()) and
             (reuse_admission or admission.get("classification") == "EXTRA_RUNTIME_BODY_EXACT_ONE_BODY_ADMISSION_REFUSAL"))
+        if capture_tool is not None:
+            expected_capture = {
+                "native-c1-capture-preast": "FULL_ORIGINAL_AST_CAPTURED_NOT_PROOF",
+                "native-c1-capture-sourcehash-refusal": "SOURCE_HASH_ADMISSION_REFUSAL_NOT_SEMANTIC_NEGATIVE",
+                "native-c1-capture-extra-body-refusal": "EXACT_ONE_BODY_ADMISSION_REFUSAL_NOT_SEMANTIC_NEGATIVE"}
+            components_complete = components_complete and all(
+                supplied["cases"].get(name, {}).get("native_capture_classification") == wanted
+                for name, wanted in expected_capture.items())
         complete = (components_complete and (reuse_admission or comment_admission.get("classification") ==
                     "SOURCE_HASH_ADMISSION_REFUSAL")) if followup else (
             c4["positive"].get("verifier_exit") == 0 and

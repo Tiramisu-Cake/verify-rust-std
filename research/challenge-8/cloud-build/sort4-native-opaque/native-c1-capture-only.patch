@@ -1,0 +1,191 @@
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -6471,8 +6471,50 @@
+               [],
+               Static )))
+ 
++  (* Capture-only native C1 diagnosis.  The exact source and body inventory are
++     checked before translation below; this never enables a proof rewrite. *)
++  let native_opaque_c1_capture_requested () =
++    let requested =
++      match Sys.getenv_opt "SORT4_NATIVE_OPAQUE_C1_CAPTURE" with
++      | None | Some "0" -> false
++      | Some "1" -> true
++      | _ -> failwith "NATIVE-OPAQUE-C1-CAPTURE: malformed opt-in" in
++    if requested then begin
++      let off name =
++        match Sys.getenv_opt name with
++        | None | Some "0" -> true
++        | _ -> false in
++      let no_control name =
++        match Sys.getenv_opt name with
++        | None | Some "none" -> true
++        | _ -> false in
++      if Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "0" ||
++         Sys.getenv_opt "SORT4_STRICT_LFT_CUT" <> Some "1" ||
++         not (List.for_all off
++           ["SORT4_ACTUAL_C1_PREFIX_TEST";
++            "SORT4_ACTUAL_C2_DISCOVERY_TEST";
++            "SORT4_ACTUAL_C2_BOUND_PREFIX_TEST";
++            "SORT4_ACTUAL_C3_CAPTURE_TEST";
++            "SORT4_ACTUAL_C3_BOUND_PREFIX_TEST";
++            "SORT4_ACTUAL_C4_CAPTURE_TEST";
++            "SORT4_ACTUAL_C4_BOUND_PREFIX_TEST";
++            "SORT4_C1_OUTPUT_EQ";
++            "SORT4_HRTB_OUTPUT";
++            "SORT4_STRICT_LFT_RELOCATE"]) ||
++         Sys.getenv_opt "SORT4_HRTB_OUTPUT_TARGETS" <> None ||
++         not (List.for_all no_control
++           ["SORT4_C1_PREFIX_CONTROL"; "SORT4_C2_BOUND_CONTROL";
++            "SORT4_C3_BOUND_CONTROL"; "SORT4_C4_BOUND_CONTROL";
++            "SORT4_C1_DEBT_CONTROL"])
++      then failwith
++        "NATIVE-OPAQUE-C1-CAPTURE: exact isolated capture environment required"
++    end;
++    requested
++
+   let translate_body (body_tr_defs_ctx : body_tr_defs_ctx) (body_cpn : BodyRd.t)
+       =
++    let native_c1_capture_requested =
++      native_opaque_c1_capture_requested () in
+     let prefix_requested =
+       match Sys.getenv_opt "SORT4_ACTUAL_C1_PREFIX_TEST" with
+       | None | Some "0" -> false
+@@ -6730,7 +6772,25 @@
+       | _ -> None
+     in
+     let markers, ghost_stmts =
+-      if Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" = Some "1" &&
++      if native_c1_capture_requested && body_name =
++           "small_sort_general_with_scratch" then begin
++        (* Like the original sort4 capture, retain the source's regular
++           end_lft_binding command.  Do not translate it into a strict cut,
++           execute it here, or replace it with Noop. *)
++        let cuts = List.filter
++          (fun stmt -> match marker_call stmt with Some _ -> true | None -> false)
++          ghost_stmts in
++        (match cuts with
++         | [stmt] ->
++             let file, line, _ = fst (Ast.lexed_loc (Ast.stmt_loc stmt)) in
++             (match marker_call stmt with
++              | Some ([Ast.IdentTypeExpr (_, None, "'cmp")], [])
++                when file = "verified/lib.rs" && line = 212 -> ()
++              | _ -> failwith
++                  "NATIVE-OPAQUE-C1-CAPTURE: sole cmp cut differs")
++         | _ -> failwith "NATIVE-OPAQUE-C1-CAPTURE: exact-one cmp cut required");
++        ([], ghost_stmts)
++      end else if Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" = Some "1" &&
+          TrName.translate_def_path (def_path_get body_cpn) = "sort4_stable" then begin
+         (* Only this separately admitted actual AST test handles the cut.
+            Leave d557's translator and kernel unchanged for all other bodies. *)
+@@ -6897,6 +6957,20 @@
+        (not callback_fixture && parsed_callback_markers <> 0) then
+       State.fail_callback_unwind
+         "exact callback fixture requires one marker; other bodies forbid it";
++    if native_c1_capture_requested then begin
++      let native_first_markers = ref 0 in
++      List.iter
++        (Ast.stmt_iter (function
++           | Ast.ExprStmt
++               (Ast.CallExpr
++                 (_, "__vf_sort4_first_unwind", [], [], [], Ast.Static)) ->
++               incr native_first_markers
++           | _ -> ()))
++        ghost_stmts;
++      if !native_first_markers <> 1 then
++        failwith
++          "NATIVE-OPAQUE-C1-CAPTURE: exact-one parsed first unwind marker required"
++    end;
+     let vdis_cpn = var_debug_info_get_list body_cpn in
+     (* Since var id translation map is empty var debug info contains the plain Mir ids *)
+     let* vdis =
+@@ -7348,7 +7422,40 @@
+                let original_decl =
+                  mk_fn_decl contract
+                    (Some (original_body, closing_cbrace_loc)) in
+-               if c4_capture_requested then begin
++               if native_c1_capture_requested then begin
++                 let reject why = failwith
++                   ("NATIVE-OPAQUE-C1-CAPTURE: " ^ why) in
++                 if State.body_name <> "small_sort_general_with_scratch" then
++                   reject "wrong target body";
++                 let calls = ref [] in
++                 List.iter
++                   (Ast.stmt_iter (function
++                      | Ast.SwitchStmt
++                          (loc, Ast.CallExpr
++                            (_, "std::ops::FnMut::call_mut", _, _, _, Ast.Static),
++                           _) -> calls := loc :: !calls
++                      | _ -> ()))
++                   original_body;
++                 (match !calls with
++                  | [loc] ->
++                      let file, line, _ = fst (Ast.lexed_loc loc) in
++                      if file <> "verified/lib.rs" || line <> 210 then
++                        reject "first FnMut call source location"
++                  | _ -> reject "exact-one original FnMut call required");
++                 let output = "native-c1-capture-pre-ast.ml" in
++                 if Sys.file_exists output then reject "preexisting AST output";
++                 let before = Marshal.to_string original_decl
++                   [Marshal.No_sharing] in
++                 Ocaml_expr_formatter.print_ocaml_expr_to_file false output
++                   (Ocaml_expr_of_ast.of_decl original_decl);
++                 if Marshal.to_string original_decl [Marshal.No_sharing] <>
++                    before then reject "original AST mutated by capture";
++                 Printf.eprintf
++                   "NATIVE-OPAQUE-C1-CAPTURE original_md5=%s artifact=%s\n%!"
++                   (Digest.to_hex (Digest.string before)) output;
++                 failwith
++                   "NATIVE-OPAQUE-C1-CAPTURE: FULL_ORIGINAL_AST_CAPTURED_NOT_PROOF"
++               end else if c4_capture_requested then begin
+                  if State.body_name <> "sort4_stable" then
+                    failwith "SORT4-C4-CAPTURE: wrong target body";
+                  Ocaml_expr_formatter.print_ocaml_expr_to_file false
+@@ -16202,6 +16309,46 @@
+            TrName.translate_def_path (BodyRd.def_path_get body) =
+              Sort4PointerDrop.local_name) bodies_cpn) then
+         Sort4PointerDrop.reject "checked method omitted from verification";
++      if native_opaque_c1_capture_requested () then begin
++        let reject why = failwith
++          ("NATIVE-OPAQUE-C1-CAPTURE: " ^ why) in
++        if Args.ignore_unwind_paths || Args.skip_specless_fns ||
++           List.length bodies_cpn <> 1 ||
++           TrName.translate_def_path (BodyRd.def_path_get
++             (List.hd bodies_cpn)) <> "small_sort_general_with_scratch" then
++          reject "isolated exact-one body, unwind and full checks required";
++        let path = "verified/lib.rs" in
++        let ic = Unix.open_process_in
++          "/usr/bin/sha256sum -- verified/lib.rs" in
++        let row = input_line ic in
++        let status = Unix.close_process_in ic in
++        if status <> Unix.WEXITED 0 || row <>
++           "7ebcf7cd435c31b3f4669ac6f31a62fd45fcb2c7fa03500bdfbc44ccaca01742  verified/lib.rs"
++        then reject "verified source SHA256 differs";
++        let ic = open_in_bin path in
++        let source = Fun.protect ~finally:(fun () -> close_in ic)
++          (fun () -> really_input_string ic (in_channel_length ic)) in
++        let exact_line needle expected =
++          let n = String.length needle in
++          let rec scan i found =
++            if i + n > String.length source then found
++            else if String.sub source i n = needle then
++              scan (i + n) (i :: found)
++            else scan (i + 1) found in
++          match scan 0 [] with
++          | [at] ->
++              let line = ref 1 in
++              for i = 0 to at - 1 do
++                if source.[i] = '\n' then incr line
++              done;
++              if !line <> expected then reject "source call/marker line"
++          | _ -> reject "source call/marker inventory" in
++        exact_line "__vf_sort4_first_unwind();" 194;
++        exact_line
++          "let c1 = is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(&*v_base.add(1), &*v_base);"
++          210;
++        exact_line "end_lft_binding::<'cmp>();" 212
++      end;
+       if Sys.getenv_opt "SORT4_ACTUAL_C1_PREFIX_TEST" = Some "1" then begin
+         if Args.ignore_unwind_paths || Args.skip_specless_fns ||
+            List.length bodies_cpn <> 1 ||
