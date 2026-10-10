@@ -1,6 +1,8 @@
 # MERGE guard qualification / len1 — ACTIVE
 
-Session19:26:15Z; main21:26:15Z/absolute21:56:15Z. Budget906/3600Clouds,2694remaining. Tooldf6b3fbf/profile0b8cf55b freshfullcompile PASS c766f676. Qualifiedextent/layoutalignment/actualstoragealignment proved; separation81 pending explicitunfold ofreturnedphysicalaggregate. No-storage semanticnegative/fourno-layoutnegatives freshmatched; overlap/zero notyetreached. Annotation-onlyrepair exactpreparationreplayPASS, freshproofpending. Len1/interface/callerNOT_RUN, actualglue/panicoutofscope. Smokes/6span/boundedCURRENTrecovery/fullnormalpostsreturnleakfreshPASS; profileNOT_ACCEPTED/integrationNOT_FOR_INTEGRATION.
+Session19:26:15Z; main21:26:15Z/absolute21:56:15Z. Budget1382/3600Clouds,2218remaining. Tooldf6b3fbf/profile0b8cf55b fullcompile and guardbridge FRESH_PASS b1da6f8e/exact7995fccf: extent76, actualalignment80, allocationseparation81 andpostFBC100; fullnormalposts/CURRENTreturnleak. All21controls matched, intendedoverlap/zero/no-storage/fourno-layout rejections; ILP32frontendtargetrefusal separate. Bothmandatorysmokes/6span/boundedCURRENTrecoveryfreshPASS. Componentonly/profileNOT_ACCEPTED/integrationNOT_FOR_INTEGRATION.
+
+Next bounded len1-minimal12-case samepin campaign prepared; exactruntime/ghoststrip12/12PASS_PREPARATION_ONLY. Nonvacuouscanonicalbody interface proofNOT_RUN; actualcallerNOT_RUN, actualglueNOT_IMPLEMENTED/panicoutofscope. EffectASTbody gate andexactnoeffectleakcontrol currentlyfailclosed, mustbindfreshrawAST/diagnostic beforecredit. Ownmerge/v2max2 only, third-agentselectorpatchesexcluded.
 
 # MERGE guard bridge — session CLOSED
 

@@ -12,8 +12,8 @@ set -euo pipefail
   exit 2
 }
 run_mode=${1:-}
-[[ "$run_mode" == merge_geometry || "$run_mode" == merge_compile_only || "$run_mode" == merge_bridge_minimal ]] || {
-  echo 'expected merge_geometry, merge_compile_only or merge_bridge_minimal run mode' >&2
+[[ "$run_mode" == merge_geometry || "$run_mode" == merge_compile_only || "$run_mode" == merge_bridge_minimal || "$run_mode" == merge_len1_minimal ]] || {
+  echo 'expected merge_geometry, merge_compile_only, merge_bridge_minimal or merge_len1_minimal run mode' >&2
   exit 2
 }
 job_started=$SECONDS
@@ -302,7 +302,7 @@ suite() {
 experimental_home="$task_temp/source"
 bash research/challenge-8/merge/overnight/build.sh "$tool_home" "$evidence/build" "$experimental_home"
 
-if [[ "$run_mode" == merge_compile_only || "$run_mode" == merge_bridge_minimal ]]; then
+if [[ "$run_mode" == merge_compile_only || "$run_mode" == merge_bridge_minimal || "$run_mode" == merge_len1_minimal ]]; then
   onecell_component="$repo/research/challenge-8/merge/overnight/guard-ownership/insertion-onecell"
   candidate_home="$task_temp/verifast-tracked-md-source"
   preparation_evidence="$evidence/tracked-md-build-preparation"
@@ -330,7 +330,7 @@ if [[ "$run_mode" == merge_compile_only || "$run_mode" == merge_bridge_minimal ]
   printf '%s\n' "$compile_status" > "$evidence/tracked-md-compile-exit-code.txt"
   cat "$evidence/tracked-md-compile.log"
   (( compile_status == 0 )) || exit "$compile_status"
-  [[ "$run_mode" == merge_bridge_minimal ]] || exit 0
+  [[ "$run_mode" != merge_compile_only ]] || exit 0
 
   # Same required retained-six ordinary normal/unwind smoke on its own binary.
   # This is a six-patch profile, not six new consumer cases.
@@ -346,12 +346,14 @@ import json,sys
 x=json.load(open(sys.argv[1]))
 assert x['cases']=={'ordinary_call_normal_unwind':'PASS'} and x['classifier_controls_passed'] is True
 RETAINEDSMOKE
+  proof_campaign=bridge-minimal-v1
+  [[ "$run_mode" != merge_len1_minimal ]] || proof_campaign=len1-minimal-v1
   python3 "$onecell_component/prove.py" \
     --profile experimental-merge-qualified-guard-onecell-v1 \
     --profile-evidence "$compile_evidence" --tool-home "$candidate_home" \
     --compiler-sysroot "$compiler_sysroot" \
     --schema "$candidate_home/src/rust_frontend/vf_mir/vf_mir.capnp" \
-    --evidence "$evidence/checked-minimal-bridge" --campaign bridge-minimal-v1 \
+    --evidence "$evidence/checked-minimal-bridge" --campaign "$proof_campaign" \
     > "$evidence/minimal-bridge.log" 2>&1
   exit 0
 fi

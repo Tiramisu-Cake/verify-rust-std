@@ -27,11 +27,7 @@ def load(name: str, path: Path):
 
 
 md_classifier = load("md_control_classifier", HERE / "md_classifier.py")
-layout_controls = load("unit_layout_controls", HERE.parents[3] / "cloud-build/origin-layout/layout-controls.py")
 concrete_consumer = load("concrete_u64_consumer", HERE.parents[3] / "cloud-build/origin-layout/concrete-consumer.py")
-guard_storage_controls = load("guard_storage_controls", HERE.parents[3] / "cloud-build/origin-layout/guard-storage-controls.py")
-origin_controls = load("incoming_origin_controls", HERE.parents[3] / "cloud-build/incoming-origin/controls/run.py")
-span_controls = load("allocation_span_controls", HERE.parents[3] / "cloud-build/incoming-span-lifetime/controls/run.py")
 prep = load("onecell_prepare", HERE / "prepare.py")
 base = load("onecell_stages", HERE.parents[1] / "copy-on-drop-prove.py")
 ast = base.ast_helper
@@ -451,7 +447,7 @@ def main() -> int:
     parser.add_argument("--compiler-sysroot", type=Path, required=True)
     parser.add_argument("--schema", type=Path, required=True)
     parser.add_argument("--evidence", type=Path, required=True)
-    parser.add_argument("--campaign", choices=(CAMPAIGN, "legacy-full-controls-v1", "bridge-minimal-v1"),
+    parser.add_argument("--campaign", choices=(CAMPAIGN, "legacy-full-controls-v1", "bridge-minimal-v1", "len1-minimal-v1"),
                         default=CAMPAIGN)
     parser.add_argument("--stage-seconds", type=int, default=35)
     parser.add_argument("--verifier-seconds", type=int, default=50)
@@ -572,7 +568,28 @@ def main() -> int:
             {"ordinary_call_normal_unwind": "PASS"} or
             combined_smoke.get("classifier_controls_passed") is not True):
         raise RuntimeError("combined candidate mandatory smoke did not pass; retain artifacts")
+    if args.campaign == "len1-minimal-v1":
+        interface = load("onecell_drop_interface", HERE.parents[3] / "cloud-build/origin-layout/onecell-drop-interface.py")
+        summary = interface.run(args.evidence / "onecell-drop-interface", args, env, execute_case, environment)
+        exact = set(summary.get("cases", {})) == set(interface.CASES) and len(interface.CASES) == 12
+        matched = (exact and summary.get("all_matched") is True and summary.get("accepted") is False and
+                   summary.get("schema") == "source-linked-u64-onecell-drop-effect-v1" and
+                   summary.get("cases") == interface.EXPECTED_CLASSIFICATIONS)
+        aggregate = {"schema": "merge-minimal-len1-interface-v1", "profile": PROFILE,
+            "campaign": "len1-minimal-v1", "accepted": False,
+            "diagnostic_complete": matched, "all_matched": matched,
+            "exact_case_sets": exact, "required_case_count": 12,
+            "classification": "PASS_COMPONENT_DIAGNOSTIC" if matched else "INCONCLUSIVE",
+            "environment": environment, "combined_profile_smoke": combined_smoke,
+            "onecell_drop_interface": summary, "cases": summary.get("cases", {}),
+            "actual_caller": "NOT_RUN", "actual_drop_glue": "NOT_IMPLEMENTED",
+            "panic_unwind": "NOT_RUN", "combined_profile_acceptance": False}
+        (args.evidence / "aggregate.json").write_text(json.dumps(aggregate, indent=2)+"\n")
+        return 0 if matched else 1
+
+    span_controls = load("allocation_span_controls", HERE.parents[3] / "cloud-build/incoming-span-lifetime/controls/run.py")
     if args.campaign == "bridge-minimal-v1":
+        guard_storage_controls = load("guard_storage_controls", HERE.parents[3] / "cloud-build/origin-layout/guard-storage-controls.py")
         # Retain the full checked profile/provider/source admission above and
         # exact combined smoke; omit unrelated historical campaigns.
         span_summary = span_controls.run(args.evidence, args, env, execute_case)
@@ -616,6 +633,11 @@ def main() -> int:
     # Legacy Drop modules are not dependencies of the bounded bridge campaign.
     concrete_drop_body = load("concrete_drop_body", HERE.parents[3] / "cloud-build/origin-layout/concrete-drop-body.py")
     onecell_drop_interface = load("onecell_drop_interface", HERE.parents[3] / "cloud-build/origin-layout/onecell-drop-interface.py")
+
+    layout_controls = load("unit_layout_controls", HERE.parents[3] / "cloud-build/origin-layout/layout-controls.py")
+    origin_controls = load("incoming_origin_controls", HERE.parents[3] / "cloud-build/incoming-origin/controls/run.py")
+
+    guard_storage_controls = load("guard_storage_controls", HERE.parents[3] / "cloud-build/origin-layout/guard-storage-controls.py")
 
     # Execute isolated address-span controls before any actual one-cell cases.
     mechanism_summary = span_controls.run(args.evidence, args, env, execute_case)

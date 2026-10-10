@@ -23,6 +23,20 @@ CASES = ("direct_positive", "canonical_no_effect", "canonical_positive",
          "canonical_call_post_false", "duplicate_effect_close",
          "missing_source_quarter", "missing_destination_gap",
          "wrong_effect_signature", "missing_effect_definition")
+EXPECTED_CLASSIFICATIONS = {
+    "direct_positive": "DIRECT_STRONG_PRE_BODY_PASS_CONDITIONAL",
+    "canonical_no_effect": "EXPECTED_NO_EFFECT_PAYLOAD_LEAK_REFUSAL",
+    "canonical_positive": "CANONICAL_ONECELL_EFFECT_INTERFACE_PASS_FRAGMENT_ONLY",
+    "body_entry_false": "EXPECTED_REJECTION",
+    "body_post_false": "EXPECTED_REJECTION",
+    "canonical_entry_false": "EXPECTED_REJECTION",
+    "canonical_call_post_false": "EXPECTED_REJECTION",
+    "duplicate_effect_close": "EXPECTED_REJECTION",
+    "missing_source_quarter": "EXPECTED_REJECTION",
+    "missing_destination_gap": "EXPECTED_REJECTION",
+    "wrong_effect_signature": "EXPECTED_EFFECT_QUALIFICATION_REJECTION",
+    "missing_effect_definition": "EXPECTED_EFFECT_QUALIFICATION_REJECTION",
+}
 
 
 def _load(name: str, path: Path):
@@ -195,6 +209,160 @@ def _replace_once(data: bytes, before: bytes, after: bytes, label: str) -> bytes
     return data.replace(before, after, 1)
 
 
+def _layout_span(mir, span, source: bytes) -> tuple[int, int, int, int, bytes]:
+    regular = mir.path(span, "regular")
+    lo, hi = mir.path(regular, "lo"), mir.path(regular, "hi")
+    for endpoint in (lo, hi):
+        if mir.path(endpoint, "file", "name", "real", "localPath") != "verified/lib.rs":
+            raise ValueError("Drop ADT span is outside checked source")
+    lines = source.splitlines(keepends=True)
+    first, last = mir.path(lo, "line"), mir.path(hi, "line")
+    start, end = mir.path(lo, "col", "pos"), mir.path(hi, "col", "pos")
+    if not (isinstance(first, int) and isinstance(last, int) and
+            1 <= first <= last <= len(lines) and isinstance(start, int) and
+            isinstance(end, int) and 0 <= start <= len(lines[first - 1]) and
+            0 <= end <= len(lines[last - 1])):
+        raise ValueError("Drop ADT source span is malformed")
+    first_byte = sum(map(len, lines[:first - 1])) + start
+    last_byte = sum(map(len, lines[:last - 1])) + end
+    if first_byte >= last_byte:
+        raise ValueError("Drop ADT source span is empty or reversed")
+    return first, start, last, end, source[first_byte:last_byte]
+
+
+def _ast_type(ast, value, pointer: bool) -> bool:
+    if pointer:
+        if not isinstance(value, ast.Node) or value.name != "PtrTypeExpr" or len(value.args) != 2:
+            return False
+        value = value.args[1]
+    if not isinstance(value, ast.Node) or value.name != "ManifestTypeExpr" or len(value.args) != 2:
+        return False
+    integer = value.args[1]
+    if not isinstance(integer, ast.Node) or integer.name != "Int" or len(integer.args) != 2:
+        return False
+    return (integer.args[0] == ast.Sym("Unsigned") and
+            integer.args[1] == (ast.Node("FixedWidthRank", [3]) if pointer
+                                else ast.Sym("PtrRank")))
+
+
+def _guard_layout_gate(mir, tree, ast, ast_tree, source: bytes) -> dict:
+    """Tie concrete Drop MIR layout to the exact source Struct and AST attr."""
+    try:
+        if (mir.path(tree, "targetTriple") != "x86_64-unknown-linux-gnu" or
+                mir.path(tree, "pointerWidth") != 64):
+            raise ValueError("compiler target/pointer width is not x86_64/64")
+        adts = []
+        cursor = mir.path(tree, "adtDefs")
+        while isinstance(cursor, dict) and "cons" in cursor:
+            adts.append(mir.path(cursor, "cons", "h"))
+            cursor = mir.path(cursor, "cons", "t")
+        guards = [item for item in adts if
+                  re.search(r"(?:^|::)CopyOnDrop$", str(mir.path(item, "id", "name")))]
+        if len(guards) != 1:
+            raise ValueError("expected one concrete CopyOnDrop ADT")
+        guard = guards[0]
+        path = mir.path(guard, "id", "name")
+        if (mir.path(guard, "hasConcreteGuardLayout") is not True or
+                mir.path(guard, "concreteGuardDefPath") != path or
+                mir.path(guard, "isLocal") is not True or
+                mir.path(guard, "kind") != {"structKind": None} or
+                mir.path(guard, "isReprC") is not False or
+                mir.path(guard, "implementsDrop") is not True):
+            raise ValueError("compiler CopyOnDrop identity/layout qualification differs")
+        path_hash = mir.path(guard, "concreteGuardDefPathHash")
+        if not isinstance(path_hash, str) or not path_hash.strip():
+            raise ValueError("compiler DefPathHash is absent")
+        source_line, start_col, end_line, end_col, snippet = _layout_span(
+            mir, mir.path(guard, "defSpan"), source)
+        source_struct = b"struct CopyOnDrop {\n    src: *const u64,\n    dst: *mut u64,\n    len: usize,\n}"
+        if snippet not in (source_struct, source_struct + b"\n"):
+            raise ValueError("MIR DefSpan does not bind the exact specialized source struct")
+        variants = mir.path(guard, "variants")
+        if len(variants) != 1:
+            raise ValueError("CopyOnDrop is not one plain struct variant")
+        fields = mir.path(variants[0], "fields")
+        names = [mir.path(field, "name", "name") for field in fields]
+        def field_type(field, pointer, mutability=None):
+            ty = mir.path(field, "ty", "kind")
+            if not pointer:
+                return ty == {"uInt": {"uSize": None}}
+            raw = mir.path(ty, "rawPtr")
+            return (mir.path(raw, "mutability") == {mutability: None} and
+                    mir.path(raw, "ty", "kind") == {"uInt": {"u64": None}})
+        if (names != ["src", "dst", "len"] or
+                not field_type(fields[0], True, "not") or
+                not field_type(fields[1], True, "mut") or
+                not field_type(fields[2], False)):
+            raise ValueError("compiler field names/types/mutability differ")
+        size, align = (mir.path(guard, "concreteGuardSizeBytes"),
+                       mir.path(guard, "concreteGuardAlignBytes"))
+        offsets = mir.path(guard, "concreteGuardFieldOffsets")
+        sizes = mir.path(guard, "concreteGuardFieldSizes")
+        if not (isinstance(size, int) and isinstance(align, int) and
+                0 < size <= (1 << 64) - 1 and 0 < align <= (1 << 64) - 1 and
+                isinstance(offsets, list) and isinstance(sizes, list) and
+                len(offsets) == len(sizes) == 3):
+            raise ValueError("compiler layout dimensions are malformed")
+        numeric = []
+        for offset, width in zip(offsets, sizes):
+            if (not isinstance(offset, str) or not re.fullmatch(r"0|[1-9][0-9]*", offset) or
+                    not isinstance(width, str) or not re.fullmatch(r"[1-9][0-9]*", width)):
+                raise ValueError("compiler layout integers are noncanonical")
+            pair = (int(offset), int(width))
+            if pair[0] + pair[1] > size:
+                raise ValueError("compiler field exceeds CopyOnDrop extent")
+            numeric.append(pair)
+        if any(a + aw > b and b + bw > a
+               for i, (a, aw) in enumerate(numeric)
+               for b, bw in numeric[i + 1:]):
+            raise ValueError("compiler field intervals overlap")
+        structs = [node for node in ast.nodes(ast_tree, "Struct")
+                   if len(node.args) == 5 and node.args[1] == path]
+        if len(structs) != 1:
+            raise ValueError("AST has no unique same-path CopyOnDrop Struct")
+        struct = structs[0]
+        ast_span = ast.loc(struct.args[0])
+        ast_match = re.fullmatch(
+            r"verified/lib\.rs\(([1-9][0-9]*),([1-9][0-9]*)-"
+            r"([1-9][0-9]*),([1-9][0-9]*)\)", ast_span)
+        if (ast_match is None or
+                tuple(map(int, ast_match.groups())) !=
+                (source_line, start_col + 1, end_line, end_col + 1) or
+                struct.args[2] != []):
+            raise ValueError("AST struct source span/type parameters differ")
+        body = struct.args[3]
+        if not (isinstance(body, ast.Node) and body.name == "Left" and
+                len(body.args) == 4 and body.args[0] == [] and body.args[2] == []):
+            raise ValueError("AST CopyOnDrop is not a plain struct")
+        ast_fields = body.args[1]
+        if (not isinstance(ast_fields, list) or len(ast_fields) != 3 or
+                [field.args[3] for field in ast_fields if isinstance(field, ast.Node) and
+                 field.name == "Field" and len(field.args) == 8] != names or
+                not _ast_type(ast, ast_fields[0].args[2], True) or
+                not _ast_type(ast, ast_fields[1].args[2], True) or
+                not _ast_type(ast, ast_fields[2].args[2], False)):
+            raise ValueError("AST fields do not match compiler/source shape")
+        attrs = struct.args[4]
+        if (not isinstance(attrs, list) or len(attrs) != 1 or
+                not isinstance(attrs[0], ast.Node) or attrs[0].name != "RustConcreteGuardLayout" or
+                len(attrs[0].args) != 1):
+            raise ValueError("AST compiler layout metadata is absent or duplicated")
+        helper = attrs[0].args[0]
+        if (not isinstance(helper, ast.Node) or
+                helper.name != "make_rust_concrete_guard_layout" or len(helper.args) != 8 or
+                helper.args != [path, path_hash, "x86_64-unknown-linux-gnu", 64,
+                                str(size), str(align), offsets, sizes]):
+            raise ValueError("AST layout metadata differs from compiler MIR")
+        return {"admitted": True, "source_def_path": path,
+                "source_def_path_hash": path_hash,
+                "def_span": [source_line, start_col, end_line, end_col],
+                "target_triple": "x86_64-unknown-linux-gnu", "pointer_width": 64,
+                "size_bytes": size, "align_bytes": align,
+                "field_offsets": offsets, "field_sizes": sizes}
+    except Exception as error:
+        return {"admitted": False, "reason": f"concrete Drop layout/source/AST gate failed: {error}"}
+
+
 def _prepare(evidence: Path) -> dict:
     source, one, original, signature, copy_call, own, alignment_lemmas = _source_inputs()
     if evidence.exists():
@@ -287,7 +455,9 @@ def _prepare(evidence: Path) -> dict:
             bridge = FIELD_BIND + LEN_ONE + destination_geometry + DEST_ARRAY
         elif name == "missing_destination_gap":
             case_own = _replace_once(
-                case_own, b"*v.dst |-?-> ?old_gap &*& ", b"",
+                case_own,
+                b" &*& *v.dst |-?-> ?old_gap &*&\n",
+                b" &*&\n",
                 "missing destination gap")
             ghosts[0] = case_own
             bridge = (FIELD_BIND + LEN_ONE + source_alignment + source_limits +
@@ -462,6 +632,16 @@ def _mir_gate(case: Path, row: dict, proof_base, drop_module) -> dict:
             return {"admitted": False,
                     "reason": "concrete ADT must have exactly one empty variance list"}
         tree = mir.CapnpText(decoded).parse()
+        ast_path = case / "proof-ast.ml"
+        if not ast_path.is_file():
+            return {"admitted": False, "reason": "proof AST absent for layout binding"}
+        ast_tree = proof_base.ast_helper.OcamlAstText(
+            ast_path.read_text(errors="replace")).parse()
+        layout = _guard_layout_gate(mir, tree, proof_base.ast_helper,
+                                    ast_tree, (case / "verified/lib.rs").read_bytes())
+        if not layout.get("admitted"):
+            return {"admitted": False, "reason": layout.get("reason"),
+                    "layout_gate": layout}
         adt = mir.path(tree, "adtDefs", "cons", "h")
         fields = mir.path(adt, "variants")[0]["fields"]
         bodies = [body for body in mir.path(tree, "bodies") if
@@ -525,11 +705,11 @@ def _mir_gate(case: Path, row: dict, proof_base, drop_module) -> dict:
                     not mir.path(place, "projection") else None)
             origins.append(mir.field_origin(name, writes, "_1", len(statements))
                            if name is not None else None)
-        admitted = (order_ok and not projected_self_writes and
+        admitted = (layout.get("admitted") is True and order_ok and not projected_self_writes and
                     mir.call_name(call) == proof_base.MIR_COPY_CALLEE and
                     len(origins) == 3 and all(origin is not None for origin in origins) and
                     [origin[0] for origin in origins] == [0, 1, 2])
-        return {"admitted": admitted, "field_names": [
+        return {"admitted": admitted, "layout_gate": layout, "field_names": [
                     mir.path(field, "name", "name") for field in fields],
                 "runtime_copy_count": len(runtime_calls),
                 "targeted_body_ghost_count": len(ghost_calls),
@@ -548,6 +728,10 @@ def _effect_ast_gate(case: Path, row: dict, proof_base, drop_module) -> dict:
     try:
         ast = proof_base.ast_helper
         tree = ast.OcamlAstText(path.read_text(errors="replace")).parse()
+        definition = _effect_definition_gate(case, tree, ast)
+        if not definition.get("admitted"):
+            return {"admitted": False, "effect_definition_gate": definition,
+                    "reason": "qualified effect definition AST failed closed"}
         base = drop_module._ast_gate(case, row, proof_base)
         funcs = [node for node in ast.nodes(tree, "Func") if
                  len(node.args) == 13 and node.args[4] in
@@ -673,7 +857,8 @@ def _effect_ast_gate(case: Path, row: dict, proof_base, drop_module) -> dict:
             closes.count("CopyOnDrop_drop_effect") ==
                 (2 if row["case"] == "duplicate_effect_close" else 1) and
             not ast.nodes(proof, "Assume") and not ast.nodes(proof, "Leak"))
-        return {"admitted": effect_post and body_linkage,
+        return {"admitted": definition.get("admitted") is True and effect_post and body_linkage,
+                "effect_definition_gate": definition,
                 "generated_normal_only_effect": effect_post,
                 "generated_unwind_unchanged_effect_absent": not unwind_effects,
                 "effect_argument_count_and_uniqueness": effect_args_ok,
@@ -686,6 +871,112 @@ def _effect_ast_gate(case: Path, row: dict, proof_base, drop_module) -> dict:
                 "prototype_closes": closes}
     except Exception as error:
         return {"admitted": False, "reason": f"structured one-cell effect AST admission: {error}"}
+
+
+def _effect_definition_gate(case: Path, tree, ast) -> dict:
+    """Check exact declaration/signature and fail closed on an ungrounded body.
+
+    This deliberately requires the defining predicate to stay on the exact
+    source line and exact source template. The AST checks bind the family
+    declaration and binders. Body resources remain unadmitted until saved
+    parsed effect AST grounds constructor shapes for coefficient, slice, list,
+    and owner resources.
+    """
+    try:
+        declarations = [node for node in ast.nodes(tree, "PredFamilyDecl")
+                        if len(node.args) > 1 and node.args[1] == EFFECT_NAME.decode()]
+        definitions = [node for node in ast.nodes(tree, "PredFamilyInstanceDecl")
+                       if len(node.args) > 1 and node.args[1] == EFFECT_NAME.decode()]
+        if len(declarations) != 1 or len(definitions) != 1:
+            raise ValueError("expected exactly one effect family declaration and definition")
+        decl, definition = declarations[0], definitions[0]
+        if len(decl.args) != 7:
+            raise ValueError("effect family declaration has the wrong constructor arity")
+        declared_count = (ast.narg(decl.args[5], "Some", 1)[0]
+                          if isinstance(decl.args[5], ast.Node) else None)
+        if (decl.args[2] != [] or decl.args[3] != 0 or
+                declared_count != 4 or decl.args[6] != ast.Sym("Inductiveness_Inductive")):
+            raise ValueError("effect family declaration shape/index/input count differs")
+
+        def is_u64_pointer(ty):
+            return _ast_type(ast, ty, True)
+
+        def is_usize(ty):
+            return _ast_type(ast, ty, False)
+
+        def is_thread_id(ty):
+            return (isinstance(ty, ast.Node) and ty.name == "IdentTypeExpr" and
+                    len(ty.args) == 3 and ty.args[1] == ast.Sym("None") and
+                    ty.args[2] == "thread_id_t")
+
+        expected_types = [is_thread_id, is_u64_pointer, is_u64_pointer, is_usize]
+        declared = decl.args[4]
+        if (not isinstance(declared, list) or len(declared) != 4 or
+                not all(check(ty) for check, ty in zip(expected_types, declared))):
+            raise ValueError("effect declaration types differ from t/src/dst/len ABI")
+        if (len(definition.args) != 6 or definition.args[2] != [] or
+                definition.args[3] != [] or not isinstance(definition.args[4], list) or
+                len(definition.args[4]) != 4):
+            raise ValueError("effect definition has type/index params or wrong binder count")
+        params = definition.args[4]
+        param_types, param_names = [], []
+        for pair in params:
+            if not isinstance(pair, tuple) or len(pair) != 2:
+                raise ValueError("effect definition binder is not a type/name pair")
+            param_types.append(pair[0])
+            param_names.append(pair[1])
+        if (param_names != ["t", "src", "dst", "len"] or
+                not all(check(ty) for check, ty in zip(expected_types, param_types))):
+            raise ValueError("effect definition binder names/types differ")
+        body = definition.args[5]
+        if not isinstance(body, ast.Node) or body.name == "EmpAsn":
+            raise ValueError("effect body is empty or not an assertion AST")
+        if ast.nodes(body, "Assume") or ast.nodes(body, "Leak") or ast.nodes(body, "False"):
+            raise ValueError("effect body contains assumption, leak, or false")
+        source = (case / "verified/lib.rs").read_bytes()
+        if source.count(EFFECT_DEF) != 1:
+            raise ValueError("effect definition source template is not unique")
+        expected_line = _line(source, EFFECT_DEF)
+        for node in (decl, definition):
+            loc_text = ast.loc(node.args[0])
+            if not re.fullmatch(rf"verified/lib\.rs\({expected_line},[1-9][0-9]*\)", loc_text):
+                raise ValueError("effect definition AST location differs from checked source")
+        # The current saved c766 AST contains the guard layout but no effect
+        # definition.  Do not invent an AST body prototype from the source
+        # spelling: require a saved parser instance before admitting resource
+        # leaves, fractions, array lengths, and shared CURRENT.
+        return {"admitted": False,
+                "signature_admitted": True,
+                "declaration_count": 1,
+                "definition_count": 1,
+                "input_names": param_names,
+                "source_line": expected_line,
+                "reason": "NOT_SYNTHETIC_VALIDATED: no saved parsed effect-body AST to bind exact leaves/resources"}
+    except Exception as error:
+        return {"admitted": False, "reason": f"effect definition AST gate failed: {error}"}
+
+
+def _qualification_failure_matched(row: dict, source: dict, execution: dict,
+                                   stages: dict, errors: list[str], log: str) -> bool:
+    diagnostic = "Malformed CopyOnDrop_drop_effect opt-in predicate"
+    return (bool(row.get("expected_qualification_failure")) and
+            source.get("admitted") is True and
+            execution.get("source_files_unchanged") is True and
+            all(stages.get(stage) == 0 for stage in ("exporter", "decode", "refinement")) and
+            stages.get("verifast") == 1 and len(errors) == 1 and
+            log.count(diagnostic) == 1 and
+            re.search(r"\berror:\s*Malformed CopyOnDrop_drop_effect opt-in predicate(?:\s|$)",
+                      errors[0]) is not None)
+
+
+def _no_effect_refusal_matched(*_args, **_kwargs) -> bool:
+    """Fail closed until the exact sole leak diagnostic is pinned from saved logs."""
+    return False
+
+
+def _all_cases_matched(results: dict[str, str]) -> bool:
+    return (set(results) == set(CASES) == set(EXPECTED_CLASSIFICATIONS) and
+            results == EXPECTED_CLASSIFICATIONS)
 
 
 def _classify(name: str, case: Path, row: dict, execution: dict,
@@ -743,21 +1034,15 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
     positive = (setup and stages.get("verifast") == 0 and not errors and
                 bool(segment) and copy_seen and return_seen and leak_seen and
                 "0 errors found" in log)
-    qualification_diagnostics = "\n".join(
-        (case / f"{stage}.log").read_text(errors="replace")
-        for stage in ("exporter", "decode")
-        if (case / f"{stage}.log").is_file())
-    qualification_rejection = (
-        bool(row.get("expected_qualification_failure")) and
-        source.get("admitted") is True and
-        execution.get("source_files_unchanged") is True and
-        any(stages.get(stage) == 1 for stage in ("exporter", "decode")) and
-        "Malformed CopyOnDrop_drop_effect opt-in predicate" in qualification_diagnostics)
-    no_effect_refusal = (
-        name == "canonical_no_effect" and admission and
-        stages.get("verifast") == 1 and copy_seen and return_seen and leak_seen and
-        bool(errors) and ast.get("generated_contract_structural_gate") is True and
-        not ast.get("generated_outcome_calls", {}).get("returning", []).count("CopyOnDrop_drop_effect"))
+    qualification_diagnostics = log
+    qualification_rejection = _qualification_failure_matched(
+        row, source, execution, stages, errors, qualification_diagnostics)
+    # Until a saved verifier diagnostic is reviewed and pinned, this retained
+    # no-effect control is deliberately unresolved.  A copy/return/leak trace
+    # plus an arbitrary error is not proof that the intended payload leak was
+    # the sole first refusal.
+    no_effect_refusal = (name == "canonical_no_effect" and
+                         _no_effect_refusal_matched(name, execution, log, errors))
     classification = ("EXPECTED_EFFECT_QUALIFICATION_REJECTION" if qualification_rejection else
                       "EXPECTED_NO_EFFECT_PAYLOAD_LEAK_REFUSAL" if no_effect_refusal else
                       "EXPECTED_REJECTION" if matched_target else
@@ -787,6 +1072,8 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
                 "generated fields/padding post omits payload; retained no-effect refusal control"),
             "qualification_diagnostic": ("Malformed CopyOnDrop_drop_effect opt-in predicate"
                                          if qualification_rejection else None),
+            "no_effect_refusal_debt": ("exact sole residual payload/leak diagnostic is not yet pinned from saved evidence"
+                                       if name == "canonical_no_effect" else None),
             "effect_scope": ("normal generated post only; unwind unchanged; no compiler glue/caller construction credit"
                              if row.get("uses_effect") else "no explicit effect; canonical no-effect is a retained refusal control"
                              if name == "canonical_no_effect" else None),
@@ -825,23 +1112,27 @@ def run(evidence: Path, args, env: dict, execute_case,
         (case / "classification.json").write_text(json.dumps(
             classified, indent=2, sort_keys=True) + "\n")
         results[name] = classified["classification"]
+    all_matched = _all_cases_matched(results)
     aggregate = {"schema": "source-linked-u64-onecell-drop-effect-v1",
                  "profile": extraction["profile"], "tool_profile": args.profile,
                  "accepted": False, "actual_callee_or_glue_credit": False,
+                 "all_matched": all_matched,
+                 "expected_classifications": EXPECTED_CLASSIFICATIONS,
                  "receipt_sha256": identity["receipt_sha256"], "cases": results,
                  "stage_contract": {
                      "ordinary_cases": {"exporter": 0, "decode": 0, "refinement": 0,
                                         "source_unchanged_at_every_stage": True},
                      "qualification_negative_cases": {
                          "cases": ["wrong_effect_signature", "missing_effect_definition"],
-                         "expected": {"early_stage": ["exporter", "decode"],
+                         "expected": {"stage_exit": {"exporter": 0, "decode": 0,
+                                                      "refinement": 0, "verifast": 1},
                                       "diagnostic": "Malformed CopyOnDrop_drop_effect opt-in predicate"}},
                      "positive": {"case": "canonical_positive", "verifast": 0,
                                   "required": ["source-linked body copy", "normal return", "leak check"],
                                   "required_effect": "normal generated post includes exact same-file effect; unwind remains unchanged",
                                   "credit": "canonical one-cell body interface only; caller/glue construction not tested"},
                      "no_effect_control": {"case": "canonical_no_effect", "verifast": 1,
-                                           "expected": "retained generated-post payload leak/refusal"},
+                                           "expected": "exact sole residual payload/leak diagnostic; unresolved until saved diagnostic is pinned"},
                      "direct_conditional": {"case": "direct_positive", "verifast": 0,
                                             "credit": "strong-pre body only; default-own compatibility is vacuous"},
                      "targeted_negative_verifast": 1,
