@@ -98,6 +98,29 @@ if subprocess.check_output(["git", "-C", str(proof), "rev-parse", "HEAD"], text=
     raise SystemExit("proof HEAD changed after source restore")
 INPUTS
 
+build_mode_file="$proof_root/research/challenge-8/cloud-build/origin-layout/BUILD-MODE.json"
+build_mode=proof
+if [[ -f "$build_mode_file" ]]; then
+  build_mode=$(python3 - "$build_mode_file" "$evidence_root/source-input-certificate.json" <<'BUILDMODE'
+import hashlib, json, pathlib, sys
+path, certificate_path = map(pathlib.Path, sys.argv[1:])
+record = json.loads(certificate_path.read_text())
+mode_rel = "research/challenge-8/cloud-build/origin-layout/BUILD-MODE.json"
+restored = {item.get("path"): item for item in record.get("proof", {}).get("restored_paths", [])}
+item = restored.get(mode_rel)
+if item is None or hashlib.sha256(path.read_bytes()).hexdigest() != item.get("sha256"):
+    raise SystemExit("BUILD-MODE.json is not bound by the source-input certificate")
+data = json.loads(path.read_text())
+if set(data) != {"schema", "mode"} or data.get("schema") != "merge-bridge-build-mode-v1":
+    raise SystemExit("invalid BUILD-MODE.json schema or fields")
+mode = data.get("mode")
+if mode not in {"compile-only", "proof"}:
+    raise SystemExit("BUILD-MODE.json mode must be compile-only or proof")
+print(mode)
+BUILDMODE
+  )
+fi
+
 selection_file="$proof_root/research/challenge-8/merge/cloud-build/selection.json"
 selection_tool="$proof_root/research/challenge-8/merge/cloud-build/selection.py"
 audit_tool="$proof_root/research/challenge-8/merge/cloud-build/merge-audit.py"
@@ -268,10 +291,11 @@ print("JSON OK MIR-OR-JOIN manifest; admission state remains enforced by pinned 
 ORJOINJSON
   bash -n "$proof_root/research/challenge-8/merge/overnight/run.sh"
   bash -n "$proof_root/research/challenge-8/merge/overnight/build.sh"
+  bash -n "$proof_root/research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/build-profile.sh"
+  bash -n "$proof_root/research/challenge-8/cloud-build/origin-layout/compile-preflight.sh"
   bash -n "$proof_root/research/challenge-8/merge/overnight/or-join-liveness/run-seven.sh"
   bash -n "$proof_root/research/challenge-8/merge/overnight/or-join-liveness/build-seven.sh"
-  bash -n "$proof_root/research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/build-profile.sh"
-  printf 'bash -n OK retained and MIR-OR-JOIN build/run scripts\n'
+  printf 'bash -n OK retained, candidate compile-preflight and MIR-OR-JOIN build/run scripts\n'
 } > "$evidence_root/cloud-static-preflight.log" 2>&1
 
 export PROOF_ROOT="$proof_root" INFRA_ROOT="$infra_root" INFRA_CLOUD_DIR="$cloud_dir"
@@ -374,6 +398,101 @@ matrix_remaining=$((lane_work_budget_seconds - (SECONDS - lane_started) - 140))
 printf 'lane_work_budget_seconds=%s\nselected_drop_groups=%s\nor_join_selected=%s\nretained_matrix_timeout_seconds=%s\n' \
   "$lane_work_budget_seconds" "$drop_groups_selected" "$or_join_selected" "$matrix_timeout" \
   > "$evidence_root/lane-work-budget.txt"
+
+if [[ "$build_mode" == compile-only ]]; then
+  CURRENT_STAGE=compile-only-preflight
+  compile_remaining=$((lane_work_budget_seconds - (SECONDS - lane_started) - 140))
+  compile_status=0
+  if (( compile_remaining > 0 )); then
+    /usr/bin/time -v -o "$evidence_root/compile-only-resources.txt" \
+      timeout --signal=TERM --kill-after=10s "${compile_remaining}s" \
+      bash "$proof_root/research/challenge-8/merge/overnight/run.sh" merge_compile_only \
+      > "$evidence_root/compile-only.log" 2>&1 || compile_status=$?
+  else
+    compile_status=124
+    printf 'NOT_RUN: lane budget exhausted before compile-only mode\n' \
+      > "$evidence_root/compile-only.log"
+  fi
+  # run.sh owns creation of allprooflogs and refuses pre-existing evidence.
+  # Keep dispatcher output outside it until the runner has returned.
+  mkdir -p "$allprooflogs"
+  mv "$evidence_root/compile-only.log" "$allprooflogs/compile-only.log"
+  [[ ! -f "$evidence_root/compile-only-resources.txt" ]] || \
+    mv "$evidence_root/compile-only-resources.txt" "$allprooflogs/compile-only-resources.txt"
+  printf '%s\n' "$compile_status" > "$allprooflogs/compile-only-exit-code.txt"
+  python3 - "$evidence_root/proof-audit.json" "$compile_status" \
+    "$evidence_root/allprooflogs/build" \
+    "$evidence_root/allprooflogs/tracked-md-build-preparation" \
+    "$evidence_root/allprooflogs/tracked-md-build" <<'COMPILEAUDIT'
+import json, pathlib, sys
+output, dispatcher_status, base_dir, preparation_dir, compile_dir = sys.argv[1:]
+dispatcher_status = int(dispatcher_status)
+base_dir, preparation_dir, compile_dir = map(pathlib.Path, (base_dir, preparation_dir, compile_dir))
+base_status = base_dir / "source-build-exit-code.txt"
+prepared_path = preparation_dir / "source-prepared.json"
+compile_path = compile_dir / "compile-preflight.json"
+try:
+    prepared = json.loads(prepared_path.read_text())
+except Exception:
+    prepared = {}
+try:
+    compile_report = json.loads(compile_path.read_text())
+except Exception:
+    compile_report = {}
+required = ("exporter-build", "decoder-build", "translator-build", "console-build")
+stages = compile_report.get("stages", {}) if isinstance(compile_report, dict) else {}
+stage_codes = {name: stages.get(name, {}).get("exit_code") for name in required}
+post_hash = compile_dir / "postbuild-source-hash-check-exit-code.txt"
+all_compile_pass = (
+    dispatcher_status == 0 and base_status.is_file() and base_status.read_text().strip() == "0" and
+    prepared.get("classification") == "PREPARED_ONLY_NO_COMPILE_OR_PROOF_CREDIT" and
+    prepared.get("compiler_attempted") is False and prepared.get("proof_attempted") is False and
+    compile_report.get("classification") == "COMPILE_ONLY_NO_PROOF_CREDIT" and
+    compile_report.get("accepted") is False and compile_report.get("proof_attempted") is False and
+    all(code == 0 for code in stage_codes.values()) and
+    post_hash.is_file() and post_hash.read_text().strip() == "0"
+)
+audit = {
+    "schema": "smallsort-merge-cloud-diagnostic-v1",
+    "lane": "merge",
+    "build_mode": "compile-only",
+    "accepted": False,
+    "diagnostic_complete": bool(all_compile_pass),
+    "classification": "COMPILE_ONLY_NO_PROOF_CREDIT" if all_compile_pass else "INCONCLUSIVE",
+    "proof_attempted": False,
+    "exit_status": dispatcher_status if dispatcher_status != 0 else (0 if all_compile_pass else 1),
+    "compiler": {
+        "classification": "PASS" if all_compile_pass else "FAIL_OR_INCOMPLETE",
+        "base_build_exit_code": int(base_status.read_text().strip()) if base_status.is_file() else None,
+        "candidate_stages": stage_codes,
+        "postbuild_source_hash_exit_code": int(post_hash.read_text().strip()) if post_hash.is_file() else None,
+        "candidate_report": "allprooflogs/tracked-md-build/compile-preflight.json",
+    },
+}
+pathlib.Path(output).write_text(json.dumps(audit, indent=2, sort_keys=True) + "\n")
+case_dir = compile_dir.parent / "cases" / "compile-only"
+case_dir.mkdir(parents=True, exist_ok=True)
+case_report = dict(compile_report) if isinstance(compile_report, dict) else {}
+case_report.update({
+    "case": "compile-only",
+    "classification": "COMPILE_ONLY_NO_PROOF_CREDIT",
+    "accepted": False,
+    "proof_attempted": False,
+    "diagnostic_complete": bool(all_compile_pass),
+    "compiler_classification": "PASS" if all_compile_pass else "FAIL_OR_INCOMPLETE",
+})
+(case_dir / "aggregate.json").write_text(json.dumps(case_report, indent=2, sort_keys=True) + "\n")
+COMPILEAUDIT
+  (( compile_status == 0 )) || exit "$compile_status"
+  python3 - "$evidence_root/proof-audit.json" <<'CHECKCOMPILEAUDIT'
+import json, pathlib, sys
+audit = json.loads(pathlib.Path(sys.argv[1]).read_text())
+if audit.get("diagnostic_complete") is not True or audit.get("compiler", {}).get("classification") != "PASS":
+    raise SystemExit("compile-only diagnostics did not complete successfully")
+CHECKCOMPILEAUDIT
+  exit 0
+fi
+
 timeout --signal=TERM --kill-after=10s "${matrix_timeout}s" \
   bash research/challenge-8/merge/overnight/run.sh merge_geometry || status=$?
 printf '%s\n' "$status" > "$evidence_root/matrix-exit.txt"

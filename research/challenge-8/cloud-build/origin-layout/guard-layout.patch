@@ -23,7 +23,7 @@ index 5613e637..8258146a 100644
  let sexpr_of_field (Field (loc, ghostness, type_expr, name, binding, visibility, final, expr)) : sexpression =
    build_list
 diff --git a/src/frontend/ast.ml b/src/frontend/ast.ml
-index b6f712ea..44aea3b6 100644
+index b6f712ea..8ba55716 100644
 --- a/src/frontend/ast.ml
 +++ b/src/frontend/ast.ml
 @@ -1123,6 +1123,19 @@ and
@@ -60,15 +60,26 @@ index b6f712ea..44aea3b6 100644
  let tparams_with_bounds_expr bounds tparams =
    List.map (fun tpname -> (tpname, bounds)) tparams
  
+@@ -1529,3 +1549,10 @@ let rec make_addr_of (loc: loc) (expr: expr): expr =
+     CxxDerivedToBase (d_l, addr_of_e, PtrTypeExpr (d_l, d_t))
+   | _ ->
+     AddressOf (loc, expr)
++
++(* Reconstruct the record payload when emitting replayable OCaml AST dumps. *)
++let make_rust_concrete_guard_layout (source_def_path, source_def_path_hash, target_triple,
++    pointer_width, size_bytes, align_bytes, field_offsets, field_sizes)
++    : rust_concrete_guard_layout =
++  { source_def_path; source_def_path_hash; target_triple; pointer_width;
++    size_bytes; align_bytes; field_offsets; field_sizes }
 diff --git a/src/frontend/ocaml_expr_of_ast.ml b/src/frontend/ocaml_expr_of_ast.ml
-index 884128c6..d3f88200 100644
+index 884128c6..f9649a9a 100644
 --- a/src/frontend/ocaml_expr_of_ast.ml
 +++ b/src/frontend/ocaml_expr_of_ast.ml
 @@ -1172,6 +1172,16 @@ and of_ctor = function
  and of_struct_attr = function
    Packed -> c "Packed"
  | ReprC -> c "ReprC"
-+| RustConcreteGuardLayout layout -> C ("RustConcreteGuardLayout", [
++| RustConcreteGuardLayout layout -> C ("RustConcreteGuardLayout", [C ("make_rust_concrete_guard_layout", [
 +    S layout.source_def_path;
 +    S layout.source_def_path_hash;
 +    S layout.target_triple;
@@ -77,7 +88,7 @@ index 884128c6..d3f88200 100644
 +    S layout.align_bytes;
 +    of_list s layout.field_offsets;
 +    of_list s layout.field_sizes
-+  ])
++  ])])
  and of_constant_value = function
    IntConst n -> C ("IntConst", [BigInt n])
  | BoolConst b -> C ("BoolConst", [B b])
@@ -658,7 +669,7 @@ index 03fe22f2..5a25421f 100644
            econt
        end $. fun h' tenv''' env' ->
 diff --git a/src/verifast1.ml b/src/verifast1.ml
-index 3e831b81..5ec573ee 100644
+index 3e831b81..7209b858 100644
 --- a/src/verifast1.ml
 +++ b/src/verifast1.ml
 @@ -6496,6 +6496,8 @@ module VerifyProgram1(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
@@ -680,8 +691,8 @@ index 3e831b81..5ec573ee 100644
 +      let invalid () = static_error l "Invalid compiler-qualified concrete Rust guard layout metadata." None in
 +      let parse_nonnegative s =
 +        try
-+          let value = Z.of_string s in
-+          if Z.sign value < 0 || Z.to_string value <> s then invalid ();
++          let value = big_int_of_string s in
++          if sign_big_int value < 0 || string_of_big_int value <> s then invalid ();
 +          value
 +        with _ -> invalid ()
 +      in
@@ -695,9 +706,9 @@ index 3e831b81..5ec573ee 100644
 +      let align_z = parse_nonnegative layout.align_bytes in
 +      let offsets_z = List.map parse_nonnegative layout.field_offsets in
 +      let field_sizes_z = List.map parse_nonnegative layout.field_sizes in
-+      if Z.equal size_z Z.zero || Z.equal align_z Z.zero
++      if eq_big_int size_z zero_big_int || eq_big_int align_z zero_big_int
 +          || List.length offsets_z <> 3 || List.length field_sizes_z <> 3
-+          || List.exists (fun field_size -> Z.equal field_size Z.zero) field_sizes_z
++          || List.exists (fun field_size -> eq_big_int field_size zero_big_int) field_sizes_z
 +      then invalid ();
 +      let fields = match body_opt with Some ([], fields, _) -> fields | _ -> invalid () in
 +      let is_u64 = function Int (Unsigned, FixedWidthRank 3) -> true | _ -> false in
@@ -712,19 +723,19 @@ index 3e831b81..5ec573ee 100644
 +      let fields_with_offsets = List.combine fields (List.combine offsets_z field_sizes_z) in
 +      let ranges = List.map (fun ((_, (_, _, field_ty, Some offset_func, _)), (offset, field_size)) ->
 +        let modeled_size = sizeof_core l [] field_ty in
-+        let offset_s = Z.to_string offset in
-+        let field_size_s = Z.to_string field_size in
++        let offset_s = string_of_big_int offset in
++        let field_size_s = string_of_big_int field_size in
 +        ctxt#assert_term (ctxt#mk_eq modeled_size (ctxt#mk_intlit_of_string field_size_s));
 +        let offset_term = ctxt#mk_app offset_func [] in
 +        ctxt#assert_term (ctxt#mk_eq offset_term (ctxt#mk_intlit_of_string offset_s));
-+        if Z.compare (Z.add offset field_size) size_z > 0 then invalid ();
-+        offset, Z.add offset field_size
++        if compare_big_int (add_big_int offset field_size) size_z > 0 then invalid ();
++        offset, add_big_int offset field_size
 +      ) fields_with_offsets in
 +      let rec check_disjoint = function
 +        | [] -> ()
 +        | (start, finish)::rest ->
 +            if List.exists (fun (other_start, other_finish) ->
-+              Z.compare start other_finish < 0 && Z.compare other_start finish < 0) rest
++              compare_big_int start other_finish < 0 && compare_big_int other_start finish < 0) rest
 +            then invalid ();
 +            check_disjoint rest
 +      in

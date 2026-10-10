@@ -11,8 +11,9 @@ set -euo pipefail
   echo 'stock-26.10 harness only accepts overnight/merge-26.10' >&2
   exit 2
 }
-[[ "${1:-}" == merge_geometry ]] || {
-  echo 'expected workflow proof selection merge_geometry' >&2
+run_mode=${1:-}
+[[ "$run_mode" == merge_geometry || "$run_mode" == merge_compile_only ]] || {
+  echo 'expected merge_geometry or merge_compile_only run mode' >&2
   exit 2
 }
 job_started=$SECONDS
@@ -47,7 +48,7 @@ export VFVERSION="$vf_version" VFPLATFORM=linux RUSTUP_TOOLCHAIN=nightly-2026-09
 
 {
   printf 'Source SHA: '; git rev-parse HEAD
-  printf 'Actions SHA: %s\nBranch: overnight/merge-26.10\nSelection: merge_geometry; suite=W1 wrapping; experimental Rust regression\n' "$GITHUB_SHA"
+  printf 'Actions SHA: %s\nBranch: overnight/merge-26.10\nSelection: %s\n' "$GITHUB_SHA" "$run_mode"
   printf 'Actual source git commit: cd371e035c7e573760c43bf934d53e8118ee3e7d\nFull source SHA-256: 85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1\n'
   printf 'Profile: official-stock-VeriFast-%s (%s)\nRust toolchain: %s (minimal + rustc-dev + rust-src)\n' "$vf_version" "$vf_source_commit" "$RUSTUP_TOOLCHAIN"
   printf 'Runner: %s/%s\nDistinct W1 + M2a + copy + strict cleanup + zero-safe usize primitive + hidden stack-address patches; explicit pinned strict kernel extension; stock exporter/refiner/schema unchanged\n' "$RUNNER_ENVIRONMENT" "$RUNNER_OS"
@@ -300,6 +301,37 @@ suite() {
 
 experimental_home="$task_temp/source"
 bash research/challenge-8/merge/overnight/build.sh "$tool_home" "$evidence/build" "$experimental_home"
+
+if [[ "$run_mode" == merge_compile_only ]]; then
+  onecell_component="$repo/research/challenge-8/merge/overnight/guard-ownership/insertion-onecell"
+  candidate_home="$task_temp/verifast-tracked-md-source"
+  preparation_evidence="$evidence/tracked-md-build-preparation"
+  compile_evidence="$evidence/tracked-md-build"
+  set +e
+  /usr/bin/time -v -o "$evidence/tracked-md-preparation-resources.txt" \
+    timeout --signal=TERM --kill-after=5s 120s \
+    bash "$onecell_component/build-profile.sh" \
+      "$experimental_home" "$candidate_home" "$preparation_evidence" "$evidence/build" prepare-only \
+      > "$evidence/tracked-md-preparation.log" 2>&1
+  preparation_status=$?
+  set -e
+  printf '%s\n' "$preparation_status" > "$evidence/tracked-md-preparation-exit-code.txt"
+  cat "$evidence/tracked-md-preparation.log"
+  (( preparation_status == 0 )) || exit "$preparation_status"
+
+  set +e
+  /usr/bin/time -v -o "$evidence/tracked-md-compile-resources.txt" \
+    timeout --signal=TERM --kill-after=10s 1200s \
+    bash "$repo/research/challenge-8/cloud-build/origin-layout/compile-preflight.sh" \
+      "$candidate_home" "$compile_evidence" \
+      > "$evidence/tracked-md-compile.log" 2>&1
+  compile_status=$?
+  set -e
+  printf '%s\n' "$compile_status" > "$evidence/tracked-md-compile-exit-code.txt"
+  cat "$evidence/tracked-md-compile.log"
+  exit "$compile_status"
+fi
+
 export LD_LIBRARY_PATH="$compiler_sysroot/lib:$experimental_home/bin:/tmp/vfdeps-adf88dc/lib:${LD_LIBRARY_PATH:-}"
 
 export evidence task_temp tool_home experimental_home compiler_sysroot schema suite_status
