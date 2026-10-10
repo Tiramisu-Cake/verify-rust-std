@@ -53,8 +53,6 @@ stage provider env CLOUD_BUILD_ID="${CLOUD_BUILD_ID:?}" \
   CLOUD_BUILD_REGION="${CLOUD_BUILD_REGION:?}" \
   python3 "$cloud_dir/provider.py"
 cp "$stage_ev/provider.log" "$stage_ev/provider.json"
-stage pinned-tool-patches python3 "$runner" fetch-patches --proof-root "$proof_root" \
-  --manifest "$manifest" --evidence "$ev"
 stage input-preflight python3 "$runner" preflight --proof-root "$proof_root" \
   --manifest "$manifest" --evidence "$ev" --cloud-dir "$cloud_dir"
 stage package-index apt-get update

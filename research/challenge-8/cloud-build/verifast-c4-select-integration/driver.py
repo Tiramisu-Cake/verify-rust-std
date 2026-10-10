@@ -179,30 +179,6 @@ def restore_modules(a, data):
         "modules": rows, "content_changed": False, "proof_credit": False})
 
 
-def fetch_patches(a):
-    need(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build", "Cloud-only patch delivery")
-    data = json.loads(a.manifest.read_text())
-    revision = os.environ["PROOF_SHA"]
-    need(re.fullmatch(r"[a-f0-9]{40}", revision), "exact proof SHA required")
-    need(subprocess.check_output(["git", "-C", str(a.proof_root), "rev-parse", "HEAD"], text=True).strip() == revision, "patch proof HEAD differs")
-    rows = []
-    for label in ("tool_c4", "selector_integration", "composition"):
-        relative = HERE / (label.replace("_", "-") + ".patch")
-        target = a.proof_root / relative
-        need(not target.exists() and not target.is_symlink(), "patch delivery target already exists")
-        url = "https://raw.githubusercontent.com/Tiramisu-Cake/verify-rust-std/" + revision + "/" + str(relative)
-        subprocess.run(["curl", "-fL", "--retry", "2", "--max-time", "60", "-o", str(target), url], check=True)
-        need(sha(target) == data[label + "_patch_sha256"], "downloaded patch SHA256 differs")
-        expected = subprocess.check_output(["git", "-C", str(a.proof_root), "rev-parse", "HEAD:" + str(relative)], text=True).strip()
-        actual = subprocess.check_output(["git", "-C", str(a.proof_root), "hash-object", "-w", str(target)], text=True).strip()
-        need(actual == expected, "downloaded patch Git blob differs")
-        mode = subprocess.check_output(["git", "-C", str(a.proof_root), "ls-tree", "HEAD", "--", str(relative)], text=True).split()[0]
-        need(mode == "100644", "patch Git mode differs")
-        target.chmod(0o644)
-        rows.append({"path": str(relative), "sha256": sha(target), "git_blob": actual, "proof_sha": revision, "mode": mode})
-    record(a.evidence / "patch-delivery.json", {"provider": "exact-GitHub-commit-and-blob", "rows": rows, "proof_credit": False})
-
-
 def preflight(a):
     data = manifest(a)
     restore_modules(a, data)
@@ -785,7 +761,7 @@ def run(a):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="mode", required=True)
-    for mode in ("fetch-patches", "preflight", "apply", "pin", "run"):
+    for mode in ("preflight", "apply", "pin", "run"):
         command = sub.add_parser(mode)
         command.add_argument("--proof-root", type=Path, required=True)
         command.add_argument("--manifest", type=Path, required=True)
@@ -814,9 +790,7 @@ def main():
         a.cloud_dir = a.cloud_dir.resolve()
     need(all(str(value).startswith("/workspace/") for value in
         (a.proof_root, a.manifest, a.evidence)), "Cloud workspace paths required")
-    if a.mode == "fetch-patches":
-        fetch_patches(a)
-    elif a.mode == "preflight":
+    if a.mode == "preflight":
         preflight(a)
     elif a.mode == "apply":
         apply(a)

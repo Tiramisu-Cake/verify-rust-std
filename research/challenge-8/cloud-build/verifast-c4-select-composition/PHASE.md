@@ -16,3 +16,17 @@ unsorted. No Cloud Build or Cloud seconds; sorted recipe fixed before retry.
 Initial session attempt also hit local ENOSPC before reservation: no Cloud
 Build/charge. Only own clean checkouts or duplicate extracted evidence were
 removed after preserving commits/bundles/verified immutable archives.
+
+993fe51f preparation submit refused before reservation/API: pinned source payload
+585352 bytes (196 actual 3990-byte parts; an initial diagnostic incorrectly used 3500) exceeded the existing 191-part cap. No Cloud Build or
+charge. dfd7013e narrows recipe delivery only: fetch the three tracked tool
+patches in Cloud at exact proof SHA; compare manifest SHA256, tree blob OID
+and mode100644 before preflight/apply. Independent targeted GO plus dependency
+review; unchanged coordinator/transport cap/patches/effective tool hashes.
+
+Delivery correction: raw GitHub exact commit fetch returned404 before tool/proof
+in Build f694b867. Fetch route withdrawn; no semantic negative credit. The
+actual existing transport uses3990-byte source parts (cap191), not3500; the
+585352-byte payload excess is about14KiB. Narrow canonical pack pruning of
+unused loader dependencies permits restoring all three inline pinned patches.
+Retained modules preserve exact original bytes/blob/mode/provenance and trees.
