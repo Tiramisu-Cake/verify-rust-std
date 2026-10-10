@@ -167,7 +167,7 @@ CALL = b"    call();\n"
 CANONICAL_ENTRY_FALSE = b"    assert false; // TARGET: canonical onecell proof entry\n"
 CANONICAL_FALSE = b"    assert false; // TARGET: canonical onecell call post\n"
 BODY_FALSE = b"        //@ assert false; // TARGET: onecell Drop body entry\n"
-POST_FALSE = b"        //@ assert false; // TARGET: onecell Drop normal post\n"
+POST_FALSE = b"        //@ assert false; // TARGET: onecell Drop normal post"
 
 
 def _replace_once(data: bytes, before: bytes, after: bytes, label: str) -> bytes:
@@ -306,8 +306,10 @@ def _prepare(evidence: Path) -> dict:
             if name == "body_entry_false":
                 verified = verified[:newline] + marker + verified[newline:]
             else:
+                post_fragment = b"\n" + marker
                 verified = _replace_once(verified, copy_call,
-                                         copy_call + marker, "post negative")
+                                         copy_call + post_fragment, "post negative")
+                marker = post_fragment
             ghosts.append(marker)
         false_token = ({"body_entry_false": BODY_FALSE,
                         "body_post_false": POST_FALSE,
@@ -378,13 +380,13 @@ def _source_gate(case: Path, row: dict) -> dict:
             "no_assume_leak_or_freeze": no_escape}
 
 
-def _mir_gate(case: Path, row: dict, base) -> dict:
+def _mir_gate(case: Path, row: dict, proof_base, drop_module) -> dict:
     """Bind the checked body copy and targeted body ghost to exact MIR spans."""
     path = case / "decode.out"
     if not path.is_file():
         return {"admitted": False, "reason": "decoded MIR absent"}
     try:
-        mir = base.mir_helper
+        mir = proof_base.mir_helper
         decoded = path.read_text(errors="replace")
         if (len(re.findall(r"\bvariances\s*=", decoded)) != 1 or
                 not re.search(r"\bvariances\s*=\s*\[\s*\]", decoded)):
@@ -394,7 +396,7 @@ def _mir_gate(case: Path, row: dict, base) -> dict:
         adt = mir.path(tree, "adtDefs", "cons", "h")
         fields = mir.path(adt, "variants")[0]["fields"]
         bodies = [body for body in mir.path(tree, "bodies") if
-                  mir.path(body, "defPath") in base._target_names(base)]
+                  mir.path(body, "defPath") in drop_module._target_names(proof_base)]
         if (mir.path(adt, "id", "name") != "CopyOnDrop" or
                 mir.path(adt, "kind") != {"structKind": None} or
                 mir.path(adt, "variances") != [] or
@@ -411,7 +413,7 @@ def _mir_gate(case: Path, row: dict, base) -> dict:
         for item in calls:
             callee = mir.call_name(item[2])
             span_line = mir.path(item[2], "callSpan", "regular", "lo", "line")
-            if callee == base.MIR_COPY_CALLEE and span_line == row["source_copy_line"]:
+            if callee == proof_base.MIR_COPY_CALLEE and span_line == row["source_copy_line"]:
                 runtime_calls.append(item)
             elif (callee == "VeriFast_ghost_command" and
                   row.get("body_false_line") is not None and
@@ -455,7 +457,7 @@ def _mir_gate(case: Path, row: dict, base) -> dict:
             origins.append(mir.field_origin(name, writes, "_1", len(statements))
                            if name is not None else None)
         admitted = (order_ok and not projected_self_writes and
-                    mir.call_name(call) == base.MIR_COPY_CALLEE and
+                    mir.call_name(call) == proof_base.MIR_COPY_CALLEE and
                     len(origins) == 3 and all(origin is not None for origin in origins) and
                     [origin[0] for origin in origins] == [0, 1, 2])
         return {"admitted": admitted, "field_names": [
@@ -470,16 +472,18 @@ def _mir_gate(case: Path, row: dict, base) -> dict:
 
 
 def _classify(name: str, case: Path, row: dict, execution: dict,
-              base, consumer) -> dict:
+              drop_module, proof_base, consumer) -> dict:
     stages = execution.get("stages", {})
     source = _source_gate(case, row)
-    mir = _mir_gate(case, row, base) if stages.get("decode") == 0 else {"admitted": False}
-    ast = base._ast_gate(case, row, base) if stages.get("decode") == 0 else {"admitted": False}
+    mir = (_mir_gate(case, row, proof_base, drop_module)
+           if stages.get("decode") == 0 else {"admitted": False})
+    ast = (drop_module._ast_gate(case, row, proof_base)
+           if stages.get("decode") == 0 else {"admitted": False})
     log_path = case / "verifast.log"
     log = log_path.read_text(errors="replace") if log_path.is_file() else ""
     errors = [line for line in log.splitlines() if re.search(r"\berror:", line, re.I)]
     dead = [line for line in log.splitlines() if re.search(r"dead code", line, re.I)]
-    segment = base._body_segment(log, base, row)
+    segment = drop_module._body_segment(log, proof_base, row)
     copy_seen = bool(re.search(
         rf"verified/lib\.rs\({row['source_copy_line']},\d+.*\): "
         r"(?:note: )?Executing statement", segment))
@@ -540,10 +544,10 @@ def run(evidence: Path, args, env: dict, execute_case,
     if not callable(execute_case):
         raise TypeError("execute_case callback required")
     consumer = _load("onecell_drop_receipt_gate", HERE / "concrete-consumer.py")
-    base = _load("onecell_drop_existing_admission", HERE / "concrete-drop-body.py")
-    proof = _load("onecell_drop_hosted_runner_gate", ROOT /
+    drop_module = _load("onecell_drop_existing_admission", HERE / "concrete-drop-body.py")
+    proof_base = _load("onecell_drop_hosted_runner_gate", ROOT /
                   "research/challenge-8/merge/overnight/copy-on-drop-prove.py")
-    provider, proof_sha = proof.require_hosted_cloud()
+    provider, proof_sha = proof_base.require_hosted_cloud()
     identity = consumer._validate_receipt(args, validated_receipt, provider, proof_sha)
     extraction = _prepare(evidence)
     (evidence / "receipt.json").write_text(json.dumps(identity, indent=2,
@@ -558,7 +562,8 @@ def run(evidence: Path, args, env: dict, execute_case,
         receipts = consumer._stage_receipts(case, execution.get("stages", {}), before)
         execution["source_unchanged_at_every_stage"] = before == after and receipts["admitted"]
         execution["stage_receipt_gate"] = receipts
-        classified = _classify(name, case, row, execution, base, consumer)
+        classified = _classify(name, case, row, execution,
+                               drop_module, proof_base, consumer)
         (case / "classification.json").write_text(json.dumps(
             classified, indent=2, sort_keys=True) + "\n")
         results[name] = classified["classification"]
