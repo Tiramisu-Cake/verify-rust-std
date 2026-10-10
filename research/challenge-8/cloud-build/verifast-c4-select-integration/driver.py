@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import importlib.util
 import json
@@ -125,8 +126,54 @@ def stage(a, name, command, cwd, env=None, cap=180, stdin=None, stdout=None):
     return result, log.read_text(errors="replace")
 
 
+def restore_modules(a, data):
+    pack_path = a.proof_root / HERE / "source-modules.json"
+    need(sha(pack_path) == data["source_modules_pack_sha256"], "source module pack pin differs")
+    pack = json.loads(pack_path.read_text())
+    need(pack["schema"] == "canonical-source-modules-v1" and
+         pack["source_commit"] == data["source_modules_provenance_commit"] and
+         len(pack["files"]) == data["source_modules_count"], "source pack provenance differs")
+    def restore_object(kind, oid, blob):
+        expected = hashlib.sha1((kind + " " + str(len(blob)) + "\0").encode() + blob).hexdigest()
+        need(expected == oid, "canonical " + kind + " object identity differs")
+        actual = subprocess.check_output(["git", "-C", str(a.proof_root),
+            "hash-object", "-w", "-t", kind, "--stdin"], input=blob).decode().strip()
+        need(actual == oid, "restored object identity differs")
+    for oid, encoded in pack["trees"].items():
+        restore_object("tree", oid, base64.b64decode(encoded, validate=True))
+    rows = []
+    seen = set()
+    for row in pack["files"]:
+        rel = Path(row["path"])
+        need(not rel.is_absolute() and ".." not in rel.parts and
+             rel.as_posix().startswith("research/challenge-8/") and
+             rel.suffix == ".py" and row["path"] not in seen, "invalid source module path")
+        seen.add(row["path"])
+        blob = row["text"].encode()
+        need(hashlib.sha256(blob).hexdigest() == row["sha256"], "canonical module SHA256 differs")
+        restore_object("blob", row["oid"], blob)
+        committed = subprocess.check_output(["git", "-C", str(a.proof_root),
+            "rev-parse", "HEAD:" + row["path"]], text=True).strip()
+        need(committed == row["oid"], "module differs from pinned proof commit")
+        mode = subprocess.check_output(["git", "-C", str(a.proof_root),
+            "ls-tree", "HEAD", "--", row["path"]], text=True).split()[0]
+        need(mode == row["mode"] and mode in ("100644", "100755"), "module mode differs")
+        target = a.proof_root / rel
+        need(not target.is_symlink() and all(not parent.is_symlink() for parent in target.parents),
+             "source module path traverses symlink")
+        need(not target.exists() or target.read_bytes() == blob, "existing canonical module differs")
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(blob)
+        target.chmod(0o755 if mode == "100755" else 0o644)
+        need(sha(target) == row["sha256"], "materialized module bytes differ")
+        rows.append({key: row[key] for key in ("path", "oid", "sha256")})
+    record(a.evidence / "restored-source-modules.json", {"pack_sha256": sha(pack_path),
+        "modules": rows, "content_changed": False, "proof_credit": False})
+
+
 def preflight(a):
     data = manifest(a)
+    restore_modules(a, data)
     recipe = module(a.cloud_dir / "o26-recipe.py", "integration_provider_overlay")
     recipe.overlay(a.proof_root, a.cloud_dir / "provider.py",
                    a.evidence / "provider-overlay.json")

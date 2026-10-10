@@ -60,3 +60,5 @@ READY_FOR_INTEGRATION_REVIEW requires composition and necessary gates; owner
 acceptance remains separate. No whole-sort4/general T/ZST proof claimed.
 
 Baseline dispatch4bcbfd40: bounded pinned-object transport refusal before reservation/API submission; 0Cloudseconds. Remove unused historical patch/review files from recipe; frozen effective tool/source pins unchanged.
+
+Canonical Python source pack: original UTF8 module bytes and ancestor Git trees from3338d1d, restored before provider overlay. SHA256, original blob/tree object IDs, pinned HEAD path ancestry, modes and symlink refusal are checked. This changes transport grouping only, preserving every source module. Independent review by worker_composition gives conditional GO with these constraints. Existing v2 transport and coordinator stay unchanged.
