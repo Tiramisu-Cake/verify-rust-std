@@ -365,6 +365,7 @@ def run(a):
          not os.environ.get("GITHUB_ACTIONS"), "Cloud integration lane required")
     data = manifest(a)
     pin(a)
+    os.environ["VERIFAST_MDNEW_FIXTURE_DIR"] = str(a.proof_root / HERE / "mdnew-fixtures")
     c4case, selector_case, source = prepare(a)
     selector_names = source.get("source_order")
     need(isinstance(selector_names, list) and len(selector_names) == 9,
@@ -507,6 +508,24 @@ def run(a):
             "location_occurrences": original_blob.count(b"verified/lib.rs"),
             "location_only_audit": "PENDING_STRUCTURAL_REVIEW",
             "original_posts_preserved": True, "raw_ptr_own_pointee_rights": False}
+        composition["controls"] = {}
+        if composition_ok:
+            for control in ("wrong-selected-original", "normal-false-post",
+                            "c4-normal-omit-join", "c4-unwind-missing-close"):
+                ctrlcase = a.evidence / ("composition-control-" + control)
+                shutil.copytree(consumer, ctrlcase, symlinks=True)
+                ctrlenv = env.copy()
+                if control == "wrong-selected-original":
+                    ctrlenv["SORT4_C4_FIRST_SELECT_CONTROL"] = control
+                else:
+                    ctrlenv["SORT4_C4_BOUND_CONTROL"] = control
+                row, log = proof(a, "composition-control-" + control, ctrlcase, ctrlenv)
+                target = log.find("Verifying function 'sort4_stable'")
+                first_error = log.find(row["errors"][0]) if row["errors"] else -1
+                row["target_before_first_error"] = target >= 0 and first_error > target
+                row["intended_negative"] = "PENDING_RAW_VC_REVIEW"
+                row["export_sha256"] = sha(exported_ast)
+                composition["controls"][control] = row
     stages["composition"] = composition
     regressions = module(a.cloud_dir / "verifast-c4-select-integration/regressions.py", "integration_regressions")
     stages["regressions"] = regressions.run(a, a.tool_home, selector_case, c4case,

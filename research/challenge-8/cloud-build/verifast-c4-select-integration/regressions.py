@@ -191,6 +191,29 @@ def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof):
     report["targets"]["strict_lifetime"] = _run_lifetime(
         a, selector_case, c4_env, proof, lifetime_capture)
 
+    pointer_rows = {}
+    for name in ("positive", "no-pointee-rights"):
+        source = a.proof_root / HERE / "pointer-value-fixtures" / (name + ".rs")
+        case = evidence / ("pointer-value-" + name)
+        (case / "verified").mkdir(parents=True, exist_ok=False)
+        (case / "original").mkdir()
+        verified = source.read_bytes()
+        (case / "verified/lib.rs").write_bytes(verified)
+        (case / "original/lib.rs").write_bytes(lifetime_capture.strip_ghost(verified))
+        env = dict(c4_env)
+        env["SORT4_ACTUAL_AST_SCOPE_TEST"] = "0"
+        env["SORT4_ACTUAL_C4_BOUND_PREFIX_TEST"] = "0"
+        row, log = proof(a, "regression-pointer-value-" + name, case, env, 180)
+        target = "pointer_value_identity" if name == "positive" else "pointer_value_cannot_own_pointee"
+        entry = log.find("Verifying function '" + target + "'")
+        first = log.find(row["errors"][0]) if row["errors"] else -1
+        intended = (row["exit"] == 0 and row["zero_errors"] and not row["errors"]
+                    if name == "positive" else row["exit"] in (1,2) and entry >= 0 and
+                    first > entry and "No matching heap chunks" in row["errors"][0])
+        pointer_rows[name] = {"stage": row, "intended_site_observed": intended,
+                              "raw_vc_review": "PENDING", "proof_credit": False}
+    report["targets"]["pointer_value_pointee_rights"] = pointer_rows
+
     # Recipe may stage the separately reviewed candidate's source fixtures.
     # Verify every byte against its manifest before invoking the patched tool.
     mdnew_dir = os.environ.get("VERIFAST_MDNEW_FIXTURE_DIR")
@@ -205,7 +228,7 @@ def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof):
             case = target / name.removesuffix(".rs")
             case.mkdir(parents=True, exist_ok=False)
             shutil.copyfile(source, case / name)
-            args = [str(tool / "bin/verifast")]
+            args = [str(tool / "bin/verifast"), "-verbose", "2"]
             if expected == "fail":
                 args.append("-allow_should_fail")
             args.append(name)

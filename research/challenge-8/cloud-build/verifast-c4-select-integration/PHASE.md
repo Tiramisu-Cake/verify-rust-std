@@ -62,3 +62,7 @@ acceptance remains separate. No whole-sort4/general T/ZST proof claimed.
 Baseline dispatch4bcbfd40: bounded pinned-object transport refusal before reservation/API submission; 0Cloudseconds. Remove unused historical patch/review files from recipe; frozen effective tool/source pins unchanged.
 
 Canonical Python source pack: original UTF8 module bytes and ancestor Git trees from3338d1d, restored before provider overlay. SHA256, original blob/tree object IDs, pinned HEAD path ancestry, modes and symlink refusal are checked. This changes transport grouping only, preserving every source module. Independent review by worker_composition gives conditional GO with these constraints. Existing v2 transport and coordinator stay unchanged.
+
+Pointer value regression obligation: standalone identity returns p with thread/type/pointer-value ownership. Positive preserves these resources. Negative additionally claims *result |-> _; expected normal-post heap-chunk VC at the added claim, because raw_ptr_own is definitionally true and grants no pointee rights. No admitted summary, no weakened posts. Both run in Cloud on the same binary.
+
+Build3e8a51d5 (481d4e69): canonical module restore/provider overlay passed; Cloud console compilation reached new first-select clause pattern and failed because list alias lacked parentheses. Charge294seconds. This is setup failure, no semantic negative or proof. Correction parenthesizes clause-list alias, preserving its contents.

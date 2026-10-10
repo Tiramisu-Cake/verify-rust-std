@@ -1,0 +1,32 @@
+{
+  "candidate": "bf63b7dff2e053eea8541996d856fac4be11f6f1",
+  "bundle_sha256": "4e8a81f48b146ca281636d8ae5f3dc14d1e327662c7219eae3a80cc4afccbd00",
+  "fixtures": {
+    "tests/rust/purely_unsafe/manuallydrop_new_cfg/dead_code_pre.rs": {
+      "bytes": 216,
+      "git_blob": "a54649df69fde7cdfb6d523a128aed296e61dbba",
+      "sha256": "b1317808274abeca09fc9b5b4e9079c7426822347205970217123993e0af70c2"
+    },
+    "tests/rust/purely_unsafe/manuallydrop_new_cfg/false_normal_post.rs": {
+      "bytes": 204,
+      "git_blob": "0ede897d6f2b76e785dd5245d82c4ac808bf636f",
+      "sha256": "23a1360b673fe6ece1f8903e69aae104f9e8dadfc34061d09062a993f6071f0d"
+    },
+    "tests/rust/purely_unsafe/manuallydrop_new_cfg/forget.rs": {
+      "bytes": 183,
+      "git_blob": "0cb379e42fe6bd821d5e0d6dd750097b682565d9",
+      "sha256": "2a6f0d16bd29cc9ea6c10e3b63e6b94000249d72e94d64f99d45cefb277ce1f7"
+    },
+    "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_cleanup.rs": {
+      "bytes": 956,
+      "git_blob": "45c97e151bb09a8ec737acfd412777b1cca3e402",
+      "sha256": "e3f91c8a2e0dfa9a1c281350b59318b5553847b1940add46d44061662d456d33"
+    },
+    "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_false_unwind.rs": {
+      "bytes": 568,
+      "git_blob": "221c061f2ea3290d4424376b03f26b401890a636",
+      "sha256": "24c003dcb4f99c8bec2240dc3a61d5747f8c96b27b518686a0dbe32aef1158db"
+    }
+  },
+  "existing_fix": "Already present once in C4 main20. Fixture adoption only; no duplicate semantic patch."
+}

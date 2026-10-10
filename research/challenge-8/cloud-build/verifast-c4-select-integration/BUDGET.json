@@ -7,11 +7,34 @@
   "main_deadline_utc": "2026-10-10T14:59:11Z",
   "deadline_utc": "2026-10-10T15:29:11Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 0,
-  "remaining_build_seconds": 3600,
+  "used_build_seconds": 294,
+  "remaining_build_seconds": 3306,
   "allowed_lanes": [
     "verifast-c4-select-integration"
   ],
   "active_build": null,
-  "builds": []
+  "builds": [
+    {
+      "dispatch_token": "dispatch-c6d5ab49d8764c94abcd79e09754b682",
+      "owner": "verifast",
+      "phase_id": "VERIFAST-C4-SELECT-INTEGRATION-CLOUD-2026-10-10",
+      "infra_sha": "481d4e695aea517bb72d8c4da454983d689c9e5a",
+      "proof_sha": "481d4e695aea517bb72d8c4da454983d689c9e5a",
+      "lane": "verifast-c4-select-integration",
+      "submitted_config_sha256": "89011903e1b22f521cdc39ce8ae1598357a36b219d76e86b8f5e2ff769a14fd1",
+      "reserved_seconds": 1110,
+      "timeout_seconds": 1050,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "2075b26736246ecd6fe36f0dea5114026881f12805ee0e475c139ad2cb47ee9b",
+      "build_id": "3e8a51d5-9718-4b1d-87cf-9fcc684f09be",
+      "start_time": "2026-10-10T14:01:37.734721854Z",
+      "finish_time": "2026-10-10T14:06:30.205641Z",
+      "create_time": "2026-10-10T14:01:36.967407844Z",
+      "build_seconds": 294,
+      "accounted": true,
+      "execution_seconds": 293
+    }
+  ]
 }

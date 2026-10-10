@@ -6,7 +6,7 @@
   "tool_c4_patch_sha256": "b33e19deec896aefad1232f982e4499dfcdef6026e09c12b9c914852d9f6beaa",
   "selector_integration_patch_sha256": "2c384f14b596c9f2713c39592ce0f414e4bdb9d994dbab7895eaa7a92eedfff0",
   "effective_hashes": {
-    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "d503ca5b33f6dfb240e253e6251e22d876a6c63055f9970789b27e536fe84743",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "b430e3006f88c58cb41a3bcb7a01ed008778b2efd053ae54cff63552d4d7223a",
     "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
     "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
     "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
@@ -31,10 +31,18 @@
     "selector": "parent opt-ins only;strict_lft_cut=0"
   },
   "dependencies_file": "DEPENDENCIES.md",
-  "composition_patch_sha256": "9737e9269863c115b3b56db77af09410f5fac2612d9671f21fca48a53ebb720c",
+  "composition_patch_sha256": "2e65d605cb0c76bb4f9b7505e245f473c4163174566b2c712cdb9de41279d1a0",
   "composition_export_format": "same-tool-final-AST-Marshal-No_sharing",
   "composition_location_only_review": "PENDING_STRUCTURAL_AUDIT",
   "source_modules_pack_sha256": "21516461a662781aabbf296bf5cb4016f10051c019205204a7740ecec0fe44f6",
   "source_modules_provenance_commit": "3338d1d17be0cef3d7787a42e8d76113386fd8fd",
-  "source_modules_count": 30
+  "source_modules_count": 30,
+  "tool_candidate_commit": "bc62a5e12bfefe1d34a9175aee479b968baea70a",
+  "profile_id": "verifast-c4-select-integration-20261010-r2",
+  "review_files": [
+    "PREIMPLEMENTATION-REVIEW.md",
+    "PORT-REVIEW.md",
+    "COMPOSITION-DESIGN-REVIEW.md",
+    "COMPOSITION-PORT-REVIEW.md"
+  ]
 }

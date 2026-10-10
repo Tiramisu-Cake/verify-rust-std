@@ -1,6 +1,6 @@
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-@@ -6784,17 +6784,26 @@
+@@ -6784,17 +6784,32 @@
        | None | Some "0" -> false
        | Some "1" -> true
        | _ -> failwith "SORT4-C4-CAPTURE: malformed opt-in" in
@@ -9,6 +9,12 @@
 +      | None | Some "0" -> false
 +      | Some "1" -> true
 +      | _ -> failwith "SORT4-C4-FIRST-SELECT: malformed opt-in" in
++    let c4_first_select_control =
++      match Sys.getenv_opt "SORT4_C4_FIRST_SELECT_CONTROL" with
++      | None | Some "none" -> "none"
++      | Some "wrong-selected-original" when c4_first_select_requested ->
++          "wrong-selected-original"
++      | _ -> failwith "SORT4-C4-FIRST-SELECT: control requires exact first-select mode" in
      let c4_bound_requested =
        match Sys.getenv_opt "SORT4_ACTUAL_C4_BOUND_PREFIX_TEST" with
        | None | Some "0" -> false
@@ -27,7 +33,7 @@
           (match Sys.getenv_opt "SORT4_C1_PREFIX_CONTROL" with
            | None | Some "none" -> false | _ -> true) ||
           (match Sys.getenv_opt "SORT4_C2_BOUND_CONTROL" with
-@@ -8231,15 +8240,33 @@
+@@ -8231,15 +8246,33 @@
                   List.iter2 check_local c4_local_names c4_locals;
                   check_local "c4" (root 156);
                   let future_indexes =
@@ -63,7 +69,7 @@
                   let kept_decls =
                     List.filteri (fun i _ ->
                       i < 220 && not (24 <= i && i <= 31) &&
-@@ -8247,7 +8274,8 @@
+@@ -8247,7 +8280,8 @@
                       not (121 <= i && i <= 126) &&
                       not (157 <= i && i <= 162) &&
                       not (List.mem i future_indexes)) original_body in
@@ -73,7 +79,7 @@
                     reject "outer local declaration inventory";
                   let block_loc, cmp_decl, old_stmts, old_close =
                     match root 224 with
-@@ -8565,6 +8593,78 @@
+@@ -8565,6 +8599,81 @@
                     if control = "c4-normal-omit-join" then
                       Ast.NoopStmt (Ast.stmt_loc (block (c4_cut_index + 2)))
                     else block (c4_cut_index + 2) in
@@ -103,7 +109,7 @@
 +                                Ast.LitPat (Ast.Var (_, "$_172"));
 +                                Ast.LitPat (Ast.Var (_, "$_173"))],
 +                               Ast.Static),
-+                            [Ast.SwitchStmtClause
++                            ([Ast.SwitchStmtClause
 +                               (_, Ast.CallExpr
 +                                  (_, "returning", [], [],
 +                                   [Ast.LitPat (Ast.Var (_, "__result"))],
@@ -118,7 +124,7 @@
 +                                [Ast.ReturnStmt
 +                                  (_, Some (Ast.CallExpr
 +                                    (_, "unwinding", [], [], [],
-+                                     Ast.Static)))])] as clauses)
++                                     Ast.Static)))])] as clauses))
 +                         when source_line original = 487 &&
 +                           (match Ast.lexed_loc call_loc with
 +                            | ((file, 487, 19), (file2, 487, 55)) ->
@@ -146,13 +152,16 @@
 +                             [Ast.Var (loc, "min");
 +                              Ast.IfExpr
 +                                (loc, Ast.Var (loc, "c3"),
-+                                 Ast.Var (loc, "c"), Ast.Var (loc, "a"))])) in
++                                 Ast.Var (loc, if c4_first_select_control =
++                                  "wrong-selected-original" then "a" else "c"),
++                                 Ast.Var (loc, if c4_first_select_control =
++                                  "wrong-selected-original" then "c" else "a"))])) in
 +                     [block 171; block 172; block 173; transformed; result_assertion]
 +                   end in
                   let outer = Ast.BlockStmt
                     (block_loc, [],
                      [c1_child; Ast.NoopStmt cut1; block 35; block 36;
-@@ -8574,7 +8674,7 @@
+@@ -8574,7 +8683,7 @@
                      [c3_child; Ast.NoopStmt cut3;
                       block (c3_cut_index + 1); c3_normal_join;
                       block 134; c4_child; Ast.NoopStmt cut4;
@@ -161,7 +170,7 @@
                      old_close, ref []) in
                   let normal_wrapper = Ast.BlockStmt
                     (Ast.stmt_loc (root 220), [],
-@@ -8677,8 +8777,11 @@
+@@ -8677,8 +8786,11 @@
                     "actual-c4-bound-post-ast.ml"
                     (Ocaml_expr_of_ast.of_decl changed_decl);
                   Printf.eprintf
@@ -175,7 +184,7 @@
                     (List.length gotos) control;
                   changed_decl
                 end else if c2_discovery_requested then begin
-@@ -17148,12 +17251,208 @@
+@@ -17148,12 +17260,208 @@
              (modularize_fn_decl module_imports_map)
              (body_sigs @ proof_body_decls)
        in
