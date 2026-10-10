@@ -6849,3 +6849,8 @@ Main ended12:20:59; no new Builds/experiments afterward. Six own Builds fully
 accounted/download_verified,2675/3600sec,925unused closed/no carry; active=null,
 terminal reservations reconciled, own ready request withdrawn. Final checkpoint
 cloud-build/sort4-c3-bound-prefix/END-CHECKPOINT-2026-10-10.md. No automatic restart.
+
+
+## 2026-10-10 maintainer C4 + selector integration
+
+New authorized session; [preimplementation semantic card](cloud-build/verifast-c4-select-integration/PHASE.md). Policy c7ca8c4, owner verifast, new3600Cloudseconds. Historical MDnew fullmake and selector/C4 proofs retained under their own inputs; no automatic transfer.

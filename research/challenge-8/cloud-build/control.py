@@ -58,6 +58,10 @@ C3_PREFIX_START='2026-10-10T10:20:59Z'
 C3_PREFIX_MAIN_DEADLINE='2026-10-10T12:20:59Z'
 C3_PREFIX_DEADLINE='2026-10-10T12:50:59Z'
 C3_PREFIX_LANES=frozenset(('o26-sort4-c1-current-recovery','o26-compatible-strict-cut-test'))
+INTEGRATION_PHASE='VERIFAST-C4-SELECT-INTEGRATION-CLOUD-2026-10-10'
+INTEGRATION_START='2026-10-10T12:59:11Z'
+INTEGRATION_MAIN='2026-10-10T14:59:11Z'
+INTEGRATION_END='2026-10-10T15:29:11Z'
 LANE_PATTERN=re.compile(r'[a-z][a-z0-9-]{0,63}\Z')
 PHASE_PATTERN=re.compile(r'[A-Z][A-Z0-9-]{0,100}\Z')
 OWNER_PATTERN=re.compile(r'[A-Za-z0-9._-]{1,80}\Z')
@@ -265,6 +269,11 @@ def reconcile_reservation(record,caller_owner,caller_ledger):
 
 
 def authorized_phase(a,ledger):
+ if a.phase_id==INTEGRATION_PHASE:
+  if (a.owner!='verifast' or ledger.get('owner')!='verifast' or ledger.get('ceiling_build_seconds')!=3600 or ledger.get('start_utc')!=INTEGRATION_START or ledger.get('main_deadline_utc')!=INTEGRATION_MAIN or ledger.get('deadline_utc')!=INTEGRATION_END or ledger.get('allowed_lanes')!=['verifast-c4-select-integration']):raise SystemExit('Maintainer integration requires exact owner/account/window/lanes')
+  deadline=datetime.datetime.fromisoformat(INTEGRATION_END.replace('Z','+00:00'))
+  if datetime.datetime.now(datetime.timezone.utc)>=deadline:raise SystemExit('Phase deadline has passed')
+  return deadline
  if not a.phase_id or not PHASE_PATTERN.fullmatch(a.phase_id) or ledger.get('phase')!=a.phase_id:raise SystemExit('Explicit phase ID must match the selected account')
  if a.phase_id=='CLOUD-BUILD-MIGRATION' or ledger.get('status')!='AUTHORIZED' or not isinstance(ledger.get('authorization'),str) or not ledger['authorization'].strip():raise SystemExit('Phase account is closed or has no explicit authorization')
  if not a.owner or not OWNER_PATTERN.fullmatch(a.owner):raise SystemExit('Explicit valid --owner is required')
@@ -360,6 +369,7 @@ def run_command(a,state,ledger,ledger_path):
   if not LANE_PATTERN.fullmatch(a.lane):raise SystemExit('Invalid lane name')
   if a.source_mode!='pinned-objects':raise SystemExit('New phase requires pinned Git objects')
   now=datetime.datetime.now(datetime.timezone.utc)
+  if a.phase_id==INTEGRATION_PHASE and now>=datetime.datetime.fromisoformat(INTEGRATION_MAIN.replace('Z','+00:00')):raise SystemExit('Maintainer main window ended; no new experiment')
   if a.phase_id==COMPOSE_PHASE and now>=datetime.datetime.fromisoformat(COMPOSE_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('Composition main window ended; no new experiment')
   if a.phase_id==C3_PREFIX_PHASE and now>=datetime.datetime.fromisoformat(C3_PREFIX_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('C3 prefix main window ended; no new experiment')
   if a.phase_id==MISSION_PHASE and now>=datetime.datetime.fromisoformat(MISSION_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('Mission main window ended; no new experiment')

@@ -1,0 +1,34 @@
+{
+  "classification": "EXPERIMENTAL_C4_SELECT_INTEGRATION",
+  "accepted": false,
+  "profile_accepted": false,
+  "tool_base_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "tool_c4_patch_sha256": "b33e19deec896aefad1232f982e4499dfcdef6026e09c12b9c914852d9f6beaa",
+  "selector_integration_patch_sha256": "2c384f14b596c9f2713c39592ce0f414e4bdb9d994dbab7895eaa7a92eedfff0",
+  "effective_hashes": {
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "c24b54e62cef198dda894587dc37c01a17ffeac3fd6fe234c0ef38e31d67d905",
+    "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf"
+  },
+  "selector_source_sha256": "7ec86f52b362f7f8b2ed26e3fa108212eb3d6288820bab9c6db3fa37bf8cabe0",
+  "c4_source_sha256": "ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f",
+  "policy_commit": "c7ca8c467aecf10a4b53039372ee97714f854ee3",
+  "parent_checkpoints": [
+    "9240f9d4a770680e531d008097a21216fc16eb3f",
+    "e2b249674cbe505f2d073e0df8da023a6e6406ce"
+  ],
+  "mdnew_candidate": "bf63b7dff2e053eea8541996d856fac4be11f6f1",
+  "kernel_unchanged_from_c4": true,
+  "assumptions": "Inherited experimental O26 A1 transmute/memory/prelude, bounded supplied entry premises; no profile acceptance or whole sort4 summary",
+  "compiler": "nightly-2026-09-25",
+  "settings": {
+    "unwind": "enabled",
+    "deadcode": "enabled",
+    "leak": "enabled",
+    "C4": "strict_lft_cut=1",
+    "selector": "parent opt-ins only;strict_lft_cut=0"
+  },
+  "dependencies_file": "DEPENDENCIES.md"
+}
