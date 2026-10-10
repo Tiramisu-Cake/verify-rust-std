@@ -52,3 +52,10 @@ actual existing transport uses3990-byte source parts (cap191), not3500; the
 585352-byte payload excess is about14KiB. Narrow canonical pack pruning of
 unused loader dependencies permits restoring all three inline pinned patches.
 Retained modules preserve exact original bytes/blob/mode/provenance and trees.
+
+Delivery-pack review caught a preflight overlay dependency in the initial
+22-entry pruning: capture.py was restored unchanged. 8ee1abc1 submit was
+terminated before reservation/API (active_build=null), no Build/charge.
+Final pack has23 retained entries, all byte/blob/mode-equal to the original
+30-entry pack, with original provenance and12 tree records unchanged.
+Only7 unused delivery entries are omitted; this is no semantic rule change.
