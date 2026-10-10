@@ -1,0 +1,155 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -6505,8 +6505,37 @@
+       | None | Some "0" -> false
+       | Some "1" -> true
+       | _ -> failwith "SORT4-C3-BOUND: malformed opt-in" in
++    let c4_capture_requested =
++      match Sys.getenv_opt "SORT4_ACTUAL_C4_CAPTURE_TEST" with
++      | None | Some "0" -> false
++      | Some "1" -> true
++      | _ -> failwith "SORT4-C4-CAPTURE: malformed opt-in" in
++    if c4_capture_requested then begin
++      if c3_bound_requested || c3_capture_requested || c2_bound_requested ||
++         c2_discovery_requested || prefix_requested ||
++         Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "1" ||
++         Sys.getenv_opt "SORT4_C1_OUTPUT_EQ" <> Some "0" ||
++         Sys.getenv_opt "SORT4_STRICT_LFT_CUT" <> Some "1" ||
++         (match Sys.getenv_opt "SORT4_C1_PREFIX_CONTROL" with
++          | None | Some "none" -> false | _ -> true) ||
++         (match Sys.getenv_opt "SORT4_C2_BOUND_CONTROL" with
++          | None | Some "none" -> false | _ -> true) ||
++         (match Sys.getenv_opt "SORT4_C3_BOUND_CONTROL" with
++          | None | Some "none" -> false | _ -> true) then
++        failwith "SORT4-C4-CAPTURE: exact isolated capture environment required";
++      let expected = match Sys.getenv_opt "SORT4_C4_CAPTURE_SOURCE_SHA256" with
++        | Some sha when String.length sha = 64 &&
++            String.for_all (function '0'..'9' | 'a'..'f' -> true | _ -> false) sha -> sha
++        | _ -> failwith "SORT4-C4-CAPTURE: exact source SHA256 required" in
++      let ic = Unix.open_process_in "/usr/bin/sha256sum -- verified/lib.rs" in
++      let row = input_line ic in
++      let status = Unix.close_process_in ic in
++      if status <> Unix.WEXITED 0 ||
++         row <> expected ^ "  verified/lib.rs" then
++        failwith "SORT4-C4-CAPTURE: verified source SHA256 differs"
++    end;
+     if c3_bound_requested then begin
+-      if c3_capture_requested || c2_bound_requested ||
++      if c4_capture_requested || c3_capture_requested || c2_bound_requested ||
+          c2_discovery_requested || prefix_requested ||
+          Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "1" ||
+          Sys.getenv_opt "SORT4_C1_OUTPUT_EQ" <> Some "0" ||
+@@ -6524,7 +6553,7 @@
+         failwith "SORT4-C3-BOUND: verified source SHA256 differs"
+     end;
+     if c3_capture_requested then begin
+-      if c2_bound_requested || c2_discovery_requested || prefix_requested ||
++      if c4_capture_requested || c2_bound_requested || c2_discovery_requested || prefix_requested ||
+          Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "1" ||
+          Sys.getenv_opt "SORT4_C1_OUTPUT_EQ" <> Some "0" ||
+          Sys.getenv_opt "SORT4_STRICT_LFT_CUT" <> Some "1" ||
+@@ -6601,27 +6630,34 @@
+       else exported_ghost_stmts in
+     let c2_unbound_decl_count = ref 0 in
+     let c3_unbound_decl_count = ref 0 in
++    let c4_unbound_decl_count = ref 0 in
+     let translate_c2_scaffold_stmt gs_cpn =
+       let raw = AnnotationRd.raw_get gs_cpn in
+       if ((c2_discovery_requested || c2_bound_requested || c3_capture_requested ||
+-           c3_bound_requested) &&
++           c3_bound_requested || c4_capture_requested) &&
+           raw = "/*@ let_lft 'cmp2 = cmp2_k; @*/") ||
+-         ((c3_capture_requested || c3_bound_requested) &&
+-          raw = "/*@ let_lft 'cmp3 = cmp3_k; @*/")
++         ((c3_capture_requested || c3_bound_requested || c4_capture_requested) &&
++          raw = "/*@ let_lft 'cmp3 = cmp3_k; @*/") ||
++         (c4_capture_requested &&
++          raw = "/*@ let_lft 'cmp4 = cmp4_k; @*/")
+       then begin
+         let* annot = translate_annotation gs_cpn in
+         let (file, line, _), _ = Ast.lexed_loc annot.span in
+         if body_name <> "sort4_stable" || Filename.basename file <> "lib.rs" ||
+-           (not (c3_capture_requested || c3_bound_requested) && line <> 196) then
++           (not (c3_capture_requested || c3_bound_requested || c4_capture_requested) && line <> 196) then
+           failwith "SORT4-C2-DISCOVERY: unbound declaration location differs";
+         let lifetime, witness, placeholder, count =
+           if raw = "/*@ let_lft 'cmp2 = cmp2_k; @*/" then
+             ("'cmp2", "cmp2_k",
+              "__vf_sort4_C2_UNBOUND_LIFETIME_DECL_PLACEHOLDER",
+              c2_unbound_decl_count)
+-          else ("'cmp3", "cmp3_k",
+-                "__vf_sort4_C3_UNBOUND_LIFETIME_DECL_PLACEHOLDER",
+-                c3_unbound_decl_count) in
++          else if raw = "/*@ let_lft 'cmp3 = cmp3_k; @*/" then
++            ("'cmp3", "cmp3_k",
++             "__vf_sort4_C3_UNBOUND_LIFETIME_DECL_PLACEHOLDER",
++             c3_unbound_decl_count)
++          else ("'cmp4", "cmp4_k",
++                "__vf_sort4_C4_UNBOUND_LIFETIME_DECL_PLACEHOLDER",
++                c4_unbound_decl_count) in
+         let decls = VfMirAnnotParser.parse_ghost_decl_batch
+           (translate_annot_to_vf_parser_inp annot) in
+         (match decls with
+@@ -6639,12 +6675,14 @@
+       end else translate_ghost_stmt gs_cpn in
+     let* ghost_stmts = ListAux.try_map translate_c2_scaffold_stmt ghost_stmts_cpn in
+     if (c2_discovery_requested || c2_bound_requested || c3_capture_requested ||
+-        c3_bound_requested) &&
++        c3_bound_requested || c4_capture_requested) &&
+        !c2_unbound_decl_count <> 1 then
+       failwith "SORT4-C2-DISCOVERY: exact-one unbound declaration required";
+-    if (c3_capture_requested || c3_bound_requested) &&
++    if (c3_capture_requested || c3_bound_requested || c4_capture_requested) &&
+        !c3_unbound_decl_count <> 1 then
+       failwith "SORT4-C3-CAPTURE: exact-one cmp3 declaration required";
++    if c4_capture_requested && !c4_unbound_decl_count <> 1 then
++      failwith "SORT4-C4-CAPTURE: exact-one cmp4 declaration required";
+     let* ghost_stmts =
+       ListAux.try_sort LocAux.compare_err_desc
+         (fun s1 s2 ->
+@@ -6674,7 +6712,14 @@
+         let cuts = List.filter
+           (fun stmt -> match marker_call stmt with Some _ -> true | None -> false)
+           ghost_stmts in
+-        if c3_capture_requested || c3_bound_requested then begin
++        if c4_capture_requested then begin
++          let cut_sites = List.map (fun stmt ->
++            match marker_call stmt with
++            | Some ([Ast.IdentTypeExpr (_, None, name)], []) -> name
++            | _ -> failwith "SORT4-C4-CAPTURE: cut shape differs") cuts in
++          if cut_sites <> ["'cmp"; "'cmp2"; "'cmp3"; "'cmp4"] then
++            failwith "SORT4-C4-CAPTURE: exact ordered cut names differ"
++        end else if c3_capture_requested || c3_bound_requested then begin
+           let cut_sites = List.map (fun stmt ->
+             match marker_call stmt with
+             | Some ([Ast.IdentTypeExpr (_, None, name)], []) -> name
+@@ -7278,7 +7323,14 @@
+                let original_decl =
+                  mk_fn_decl contract
+                    (Some (original_body, closing_cbrace_loc)) in
+-               if c3_capture_requested then begin
++               if c4_capture_requested then begin
++                 if State.body_name <> "sort4_stable" then
++                   failwith "SORT4-C4-CAPTURE: wrong target body";
++                 Ocaml_expr_formatter.print_ocaml_expr_to_file false
++                   "actual-c4-capture-pre-ast.ml"
++                   (Ocaml_expr_of_ast.of_decl original_decl);
++                 failwith "SORT4-C4-CAPTURE: FULL_ORIGINAL_AST_CAPTURED_NOT_PROOF"
++               end else if c3_capture_requested then begin
+                  if State.body_name <> "sort4_stable" then
+                    failwith "SORT4-C3-CAPTURE: wrong target body";
+                  Ocaml_expr_formatter.print_ocaml_expr_to_file false
+@@ -15655,6 +15707,13 @@
+              "sort4_stable" then
+           failwith "SORT4-C3-BOUND: isolated exact-one body, unwind/full checks required"
+       end;
++      if Sys.getenv_opt "SORT4_ACTUAL_C4_CAPTURE_TEST" = Some "1" then begin
++        if Args.ignore_unwind_paths || Args.skip_specless_fns ||
++           List.length bodies_cpn <> 1 ||
++           TrName.translate_def_path (BodyRd.def_path_get (List.hd bodies_cpn)) <>
++             "sort4_stable" then
++          failwith "SORT4-C4-CAPTURE: isolated exact-one body, unwind/full capture required"
++      end;
+       let expected_redirects =
+         if !Sort4MaybeUninit.active then
+           expected_sort4_redirects bodies_cpn

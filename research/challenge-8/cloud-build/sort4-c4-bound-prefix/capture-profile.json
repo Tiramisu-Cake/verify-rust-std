@@ -1,0 +1,41 @@
+{
+  "classification": "C4_CAPTURE_ONLY_FULL_ORIGINAL_AST_NOT_PROOF",
+  "profile_accepted": false,
+  "cloud_enabled": true,
+  "dispatch_authorized": true,
+  "dispatch_gate": "complete exact C3 bound verdict and independent C4 capture review",
+  "default_off_c3_unchanged": true,
+  "actual_sort4_callable_summary": false,
+  "base_translator_sha256": "d2f132148d409eb9a9e27afd24603d992405ec1984849817da9e427ab070db6e",
+  "patched_translator_sha256": "7361f1c26af1db68d3f172e9124d3a74c2d5ea8415a7edcc4164d43ffdcfc5b8",
+  "incremental_patch_sha256": "364b52d9291b06c9dbc8daa8ff5770bd08eb8171cc2c2d4ab28e8e5ac10adc60",
+  "source_sha256": "supplied by Cloud driver as SORT4_C4_CAPTURE_SOURCE_SHA256",
+  "pre_ast": "actual-c4-capture-pre-ast.ml",
+  "expected_refusal": "SORT4-C4-CAPTURE: FULL_ORIGINAL_AST_CAPTURED_NOT_PROOF",
+  "capture_env": {
+    "SORT4_ACTUAL_C4_CAPTURE_TEST": "1",
+    "SORT4_ACTUAL_AST_SCOPE_TEST": "1",
+    "SORT4_ACTUAL_C1_PREFIX_TEST": "0",
+    "SORT4_ACTUAL_C2_DISCOVERY_TEST": "0",
+    "SORT4_ACTUAL_C2_BOUND_PREFIX_TEST": "0",
+    "SORT4_ACTUAL_C3_CAPTURE_TEST": "0",
+    "SORT4_ACTUAL_C3_BOUND_PREFIX_TEST": "0",
+    "SORT4_C1_OUTPUT_EQ": "0",
+    "SORT4_STRICT_LFT_CUT": "1"
+  },
+  "named_declarations": [
+    "'cmp2 = cmp2_k",
+    "'cmp3 = cmp3_k",
+    "'cmp4 = cmp4_k"
+  ],
+  "ordered_cuts": [
+    "'cmp",
+    "'cmp2",
+    "'cmp3",
+    "'cmp4"
+  ],
+  "c3_full_verdict": "INDEPENDENT_RAW_REVIEW_PASS",
+  "c3_review_build_id": "a956b0b2-4e05-4c19-90b4-408f381ba1fc",
+  "c3_review_file": "FRESH-A956B0B2-REVIEW.md",
+  "c3_review_sha256": "d528bfa5806376d41e36496bee390b5b1502d3e2f2d3b74b8f54524267c2ede2"
+}

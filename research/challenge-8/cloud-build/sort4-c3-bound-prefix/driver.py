@@ -183,4 +183,14 @@ def run(a, tool, env, c2_result, snapshot_fn):
             'record': staticmethod(record), 'stage': staticmethod(stage)})
         result['bound'] = bound.run(a, tool, active, result, snapshot_fn, service)
         record(a.evidence / 'c3-result.json', result)
+    c4_profile_path = a.proof_root / 'research/challenge-8/cloud-build/sort4-c4-bound-prefix/capture-profile.json'
+    if c4_profile_path.is_file():
+        c4_profile = json.loads(c4_profile_path.read_text())
+        if c4_profile.get('cloud_enabled') is True and c4_profile.get('dispatch_authorized') is True:
+            need(result.get('bound', {}).get('positive_ok') is True and
+                 result['bound'].get('positive_exit') == 0,
+                 'C4 capture requires fresh completed C3 target')
+            c4 = module(a.cloud_dir / 'sort4-c4-bound-prefix/driver.py', 'c4_capture')
+            result['c4'] = c4.run(a, tool, active, result, snapshot_fn)
+            record(a.evidence / 'c3-result.json', result)
     return result

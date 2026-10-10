@@ -51,15 +51,18 @@ tool metadata fallback are preserved and explained in the evidence note.
 
 ## Current step
 
-[New C3 semantic card](cloud-build/sort4-c3-bound-prefix/SEMANTIC-CARD.md).
-Selected `(c,a)` and complementary `(b,d)` CURRENT ownership candidate helpers
-cover all four c1/c2 combinations. New default-off translator capture profile
-preserves C1/C2 and unbound refusal; fresh source/normal+readonly MIR/preAST
-capture precedes exact C3 bound admission and independent addressed review.
-Fresh C3 capture bdef4a7c (449 seconds) deliberately refused before proof;
-source087123b1/preAST7dbc4ed8/normal112 blocks194 locals pin the exact bound
-profile. Independent correspondence/delta review permits first diagnostic.
-C3 target and later actual operations remain NOT_RUN; account862/3600.
-Continue C4 then C5/select/copy
-only after completed preceding prefix with its own paths/CURRENT rationale.
-No native-composition repeat on incompatible kernel. All profiles experimental.
+Fresh unified actual C1→C2→C3 VF0,335 statements, Build a956b0b2, proof=infra
+aa6e5a725f71506602903f95b1832a32fa849e50. Same-version selected limits/
+split/inverse join precede target. Full original CURRENT normal and C1/C2/C3
+direct-unwind posts/unit return/leak; all four c1/c2 ownership cases preserved.
+[Independent raw/allocation/control review](cloud-build/sort4-c3-bound-prefix/FRESH-A956B0B2-REVIEW.md)
+PASS for exact projection; all eight controls reached intended first VC, source
+mutant refused before target. [Fresh evidence](cloud-build/sort4-c3-bound-prefix/FRESH-A956B0B2-EVIDENCE.md).
+No whole-sort4/native→C1/caller applicability proof; experimental profiles remain
+unaccepted and raw entry resources supplied. C4/select/C5/copy NOT_RUN.
+
+Continue C4 normal/all direct unwind before first select using its independent
+[card/review](cloud-build/sort4-c4-bound-prefix/CAPTURE-REVIEW.md), exact C3 review
+pin and new fresh source/MIR/preAST. Next select needs actual callee qualification
+on the same source/tool, not reuse of a different historical helper profile.
+Account1323/3600, remaining2277; no own unresolved Build.

@@ -6754,3 +6754,20 @@ unchanged. Fresh callback locals `_124.._129`, c3 bool`_123`; former `_98..103`
 are ghost units and are not moved under this profile. Exact bound delta and
 independent addressed review precede next Cloud target. Total862/3600,
 remaining2738; both own Builds terminal/accounted/download-verified.
+
+C3 Build3 `a956b0b2-4e05-4c19-90b4-408f381ba1fc`, proof=infra
+`aa6e5a725f71506602903f95b1832a32fa849e50`: SUCCESS,461 charged seconds,
+full archive c62db4d3 verified. Unified actual C1→C2→C3 VF0 candidate,335
+statements; same-version selected helpers precede target, full CURRENT posts/
+unit return/leak/dead-code gates. Eight target-first negative candidates and
+source-hash refusal before target retained; independent raw/allocation/control
+review pending. PostAST9ca21fdc. Total1323/3600, remaining2277, own slot free.
+C4 preparation remains conditional on complete C3 review; no C4 experiment yet.
+
+Independent C3 a956b0b2 raw/correspondence/allocation/control review PASS for
+this exact bounded projection (review SHA d528bfa5...). Root155+child8/10/6,
+futurecallback12 absent, bool c3 outer; frozen block allocation/free rules plus
+observed normal/direct-unwind frees justify scope conservation. Per-local
+chunks not printed; no count-only soundness claim. All8 intended firstVCs
+confirmed. Conditional proof boundary now C1→C2→C3; global profile remains
+unaccepted. C4 capture profile pins review and is enabled for next exact run.
