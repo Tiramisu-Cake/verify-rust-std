@@ -1,0 +1,95 @@
+{
+  "schema": "saved-cloud-onecell-outer-binding-replay-v1",
+  "replay_status": "REPLAY_NOT_FRESH_PROOF",
+  "saved_build": {
+    "build_id": "fa5a4fd4-3b96-4876-9e36-03b1ca46089d",
+    "provider": "cloud-build",
+    "proof_sha": "ba37cbfee25aa0e1e1270f95421391f02f358cfd",
+    "infra_sha": "ba37cbfee25aa0e1e1270f95421391f02f358cfd",
+    "profile": "experimental-merge-origin-layout-concrete-u64-v1",
+    "profile_schema": "smallsort-tracked-md-profile-v1",
+    "profile_json_sha256": "187863b2c5e21c339656a1cc7f5c3b1e26d43da6eebabbc04e865bf79ab7374c",
+    "tool_profile": {
+      "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+      "rust_toolchain": "nightly-2026-09-25",
+      "std_base_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+      "verifast_source_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+    },
+    "archive": {
+      "source_directory": "/tmp/c8-merge-origin-layout-unpacked-fa5a4fd4",
+      "manifest_sha256": "f05d4885c0fa2d52e801ccaa3ee44d6ed6679ae3d89ca32921f958f1d4dc96a5",
+      "files_inventory_sha256": "f8e9386dbff51b06bf2c4cf0c35c7b641fb872ead8e3b0da4a9962eee0ddcac9",
+      "text_logs_index_sha256": "902e43112c841753e61acf31c7cd9c41b729b21a64c3640ff26972aa6c577fd9",
+      "submitted_config_sha256": "f25c607b19a967c141fc78168f8de84a3b2f91dac8751017449f7e9e48771a05",
+      "environment_sha256": "bde3440776c91f2affb75d3e5b15a27256b851991d2e6341127d56fddbb357f6",
+      "archive_sha256": "05b3be833db21c9ee7525352d5cf553acc9b89883d64f43e85c923a1907be5da"
+    }
+  },
+  "replay_inputs": {
+    "selection_sha256": "379989a90b87cf0b6b60217ba6038f906914d70a41030c240e89d725a4780c09",
+    "origin_controls_manifest_sha256": "a4c6c03d37581acf473502a4b2a7ef65316ed98a5ff88299751c1e6cbb1ae4eb",
+    "origin_controls_source_sha256": "62d9f12bd04e5780b3728429ce0080d85f01ec09976b5abd95073a9c3a4dba5b",
+    "profile_build_sha256": "6a90ba71f3fe1f1a2e6e2a18a203422bce2a8f91a2070fd577d7445f1a2bea93",
+    "profile_input_sha256": "187863b2c5e21c339656a1cc7f5c3b1e26d43da6eebabbc04e865bf79ab7374c",
+    "onecell_environment_sha256": "793c6b50fb97361c14b4ae3ccc133f20223fd42c55d2fd638c7f9a52e535e06a",
+    "onecell_extraction_sha256": "ba10676f6a91cd8454d6db758d0f538c14816e04f9bc8ea04f7eb2d403e4581c",
+    "onecell_origin_results_sha256": "bba822792f1386e2e8cace83643cd51aaa2416917da74a56c91e7648b4ca253a",
+    "onecell_span_results_sha256": "388945db04250935e53c7d2cd3bfb93de1ecbd5b878c7d427ef3dfb1d084c5a8",
+    "actual_smallsort_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "replay_code": {
+    "source_infra_commit": "ba37cbfee25aa0e1e1270f95421391f02f358cfd",
+    "source_tree": "/tmp/c8-current-binding-replay/infra-ba37",
+    "saved_auditor_sha256": "f339639728c15768e8be90855c1a40633e47661ff1283997ae989f58acca57e8",
+    "replay_auditor_sha256": "8ea102db0a4fe15de8ac6d1f7dc9b809a6e86155a0813692b2bec07eecf3a745",
+    "replay_script": "/tmp/c8-current-binding-replay/replay.sh",
+    "replay_script_sha256": "80f8619fb796bfd987b78400830242b2143f10c21ade284f3db49f410b204558",
+    "command": "bash /tmp/c8-current-binding-replay/replay.sh",
+    "output": "/tmp/c8-current-binding-replay/proof-audit.json",
+    "method": "Pure saved-artifact audit; uses archived ba37 source helpers and saved fa5a evidence. Disposable replay copies original/verified lib.rs and origin-control.rsspec files, then JSON-normalizes live classifier output before exact row comparison. Profile evidence path must equal the original Cloud path or the replay-root-derived tracked-md-build path; receipt, provider/build/proof identity and tool hashes remain checked.",
+    "replay_script_content": "#!/usr/bin/env bash\nset -euo pipefail\npython3 /tmp/c8-current-binding-replay/infra-ba37/research/challenge-8/merge/cloud-build/merge-audit.py \\\n  /tmp/c8-current-binding-replay \\\n  /tmp/c8-current-binding-replay/infra-ba37/research/challenge-8/merge/cloud-build/selection.json \\\n  1 ba37cbfee25aa0e1e1270f95421391f02f358cfd fa5a4fd4-3b96-4876-9e36-03b1ca46089d\n"
+  },
+  "outer_onecell_binding": {
+    "before": {
+      "artifact_bindings_valid": false,
+      "failing_subcheck": "origin_controls",
+      "origin_controls_all_saved_classifications_matched": true,
+      "reason": "Live classifier ast_mir_linear_regions uses integer dictionary keys; saved JSON rows contain the same keys as strings, so direct Python dictionary equality failed."
+    },
+    "after": {
+      "artifact_bindings_valid": true,
+      "mandatory_artifacts": true,
+      "profile_build": true,
+      "source_extraction": true,
+      "environment_receipt": true,
+      "case_rows": true,
+      "span_controls": true,
+      "origin_controls": true,
+      "nested_receipts": true,
+      "md_dependency": true,
+      "expected_md_regressions_matched": false,
+      "saved_md_regressions_matched": false,
+      "expected_fragment_pass": false,
+      "saved_fragment_pass": false
+    },
+    "fixes": [
+      "Copy all source and origin-control.rsspec inputs into the disposable classifier replay.",
+      "Compare replay output after JSON normalization, preserving exact field/value equality while accounting for JSON object-key stringification."
+    ],
+    "accepted": false
+  },
+  "mandatory_rust_profile_smoke": {
+    "status": "NOT_RUN",
+    "reason": "The saved retained matrix timed out at 126 seconds before recording the mandatory smoke group.",
+    "still_required": true,
+    "selection_contains_group": true,
+    "selection_sha256": "379989a90b87cf0b6b60217ba6038f906914d70a41030c240e89d725a4780c09",
+    "fresh_proof_or_compiler_execution": false
+  },
+  "replay_result": {
+    "accepted": false,
+    "classification": "INCONCLUSIVE",
+    "diagnostic_complete": false,
+    "reason": "The full combined audit remains incomplete because rust-profile-smoke is NOT_RUN; only the saved onecell outer artifact binding was repaired and replayed."
+  }
+}

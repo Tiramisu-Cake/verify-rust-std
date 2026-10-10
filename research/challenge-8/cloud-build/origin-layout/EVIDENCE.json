@@ -313,5 +313,85 @@
     "protocol": "v2/max2 unchanged",
     "checked_utc": "2026-10-10T00:04:48Z"
   },
-  "next_derived_control": "Without supplied premises: after FBC/own open assert src==held_ref and exact quarter points_to at src and held_ref; after copy assert recovery_src==held_ref and exact quarter points_to(held_ref,copied), then end_ref. Distinguish pointer/alias, copy preservation and ref token failures. Fresh Cloud and a newly authorized session/budget required; NOT_RUN."
+  "next_derived_control": "Without supplied premises: after FBC/own open assert src==held_ref and exact quarter points_to at src and held_ref; after copy assert recovery_src==held_ref and exact quarter points_to(held_ref,copied), then end_ref. Distinguish pointer/alias, copy preservation and ref token failures. Fresh Cloud and a newly authorized session/budget required; NOT_RUN.",
+  "current_session": {
+    "phase": "MERGE-CURRENT-RECOVERY-CLOUD-2026-10-10",
+    "start_utc": "2026-10-10T00:34:48Z",
+    "main_deadline_utc": "2026-10-10T02:34:48Z",
+    "deadline_utc": "2026-10-10T03:04:48Z",
+    "status": "ACTIVE",
+    "tool_candidate": "8cb0121b03a5164495bf0d7c6c236ea9504d5ce4",
+    "integration": "NOT_FOR_INTEGRATION",
+    "builds": [
+      {
+        "dispatch_token": "dispatch-7efcfd125d684a5da93715c5ae2c54d2",
+        "owner": "merge",
+        "phase_id": "MERGE-CURRENT-RECOVERY-CLOUD-2026-10-10",
+        "infra_sha": "4639c615f489f33c1cb0b527cba999f0dbc00345",
+        "proof_sha": "4639c615f489f33c1cb0b527cba999f0dbc00345",
+        "lane": "merge",
+        "submitted_config_sha256": "4b4e54d945c72d3efc38fc2a867bdc452fb20cd94f8d172eb4fa2c37220f5bc4",
+        "reserved_seconds": 1560,
+        "timeout_seconds": 1500,
+        "status": "FAILURE",
+        "publish_text_logs": true,
+        "source_mode": "pinned-objects",
+        "source_input_sha256": "1444b937f4cf8cf402c3e1a5bdc891e55707a25fb5e63a925f4b3605725d07d6",
+        "build_id": "a86c1c7c-4393-4553-92df-9bafb665b733",
+        "start_time": "2026-10-10T00:42:27.516398289Z",
+        "finish_time": "2026-10-10T00:43:54.934074Z",
+        "create_time": "2026-10-10T00:42:26.634583387Z",
+        "build_seconds": 89,
+        "accounted": true,
+        "execution_seconds": 88,
+        "download_verified": true,
+        "archive_sha256": "e54bca55d36ce43e144acc6e326906a5ba688b661782fc83e111ad3694884641"
+      },
+      {
+        "dispatch_token": "dispatch-ae1b49b0012a47c6b39f1fec36c3c261",
+        "owner": "merge",
+        "phase_id": "MERGE-CURRENT-RECOVERY-CLOUD-2026-10-10",
+        "infra_sha": "f76536a6890b8be85d8aa5f502abde76d48d0829",
+        "proof_sha": "f76536a6890b8be85d8aa5f502abde76d48d0829",
+        "lane": "merge",
+        "submitted_config_sha256": "5810ae08b25872d35e3315aeebb6f44a71338a0065c68ff474c105f2542498f3",
+        "reserved_seconds": 1560,
+        "timeout_seconds": 1500,
+        "status": "FAILURE",
+        "publish_text_logs": true,
+        "source_mode": "pinned-objects",
+        "source_input_sha256": "7b6aaa9fafd443e48e60e03a9c71de984fd3664fd4de575835e16e56b26b3e4b",
+        "build_id": "6fb5bd55-4c71-4764-8bc0-0d5d1c97ac6e",
+        "start_time": "2026-10-10T00:50:52.854132149Z",
+        "finish_time": "2026-10-10T00:57:29.807948Z",
+        "create_time": "2026-10-10T00:50:52.126115214Z",
+        "build_seconds": 398,
+        "accounted": true,
+        "execution_seconds": 397,
+        "download_verified": true,
+        "archive_sha256": "2740d4965126b98aaa71b54fcd3b9c29c5843a6c510496dd1bc50432d0727964"
+      }
+    ],
+    "first_causal_recovery_refusal": {
+      "build_id": "6fb5bd55-4c71-4764-8bc0-0d5d1c97ac6e",
+      "proof_sha": "f76536a6890b8be85d8aa5f502abde76d48d0829",
+      "line": 74,
+      "predicate": "src == held_ref",
+      "stage": "after full canonical FBC/own open, before literal-one copy",
+      "classification": "DERIVED_IDENTITY_NOT_ESTABLISHED",
+      "lifecycle_semantic_defect": "NOT_ESTABLISHED"
+    },
+    "mandatory_smoke": {
+      "build_id": "6fb5bd55-4c71-4764-8bc0-0d5d1c97ac6e",
+      "group_exit": 0,
+      "case": "ordinary_call_normal_unwind",
+      "classification": "PASS",
+      "full_positive_gate": true,
+      "profile": "experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1",
+      "scope": "retained six profile, separate from combined candidate"
+    },
+    "outer_binding_replay": "REPLAY-CURRENT-BINDINGS.json",
+    "combined_profile": "NOT_ACCEPTED",
+    "next_experiment": "annotation-only half canonical FBC with precise retained field frame; full resources/posts conserved"
+  }
 }

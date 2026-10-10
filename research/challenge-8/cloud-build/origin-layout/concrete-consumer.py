@@ -24,8 +24,20 @@ CASES = ("positive", "after_fbc_false", "after_recovery_false",
          "missing_held_owner", "double_physical_fbc")
 POST_FBC_LADDER = (
     b"        //@ assert gap_guard.src == held_ref; // LADDER: FBC pointer identity\n"
+    b"        //@ assert gap_guard.dst == tail; // LADDER: FBC destination identity\n"
+    b"        //@ assert gap_guard.len == 1; // LADDER: FBC literal-one length\n"
     b"        //@ assert [1/4](*gap_guard.src |-> ?fbc_current); // LADDER: source quarter\n"
     b"        //@ assert [1/4](*held_ref |-> fbc_current); // LADDER: held reference quarter\n"
+)
+FBC_FIELD_FRAME = (
+    b"        //@ merge_fractions gap_guard.src |-> _;\n"
+    b"        //@ merge_fractions gap_guard.dst |-> _;\n"
+    b"        //@ merge_fractions gap_guard.len |-> _;\n"
+    b"        //@ open [1/2]<CopyOnDrop>.own(t, gap_guard);\n"
+    b"        //@ open [1/2]<CopyOnDrop>.own(t, gap_guard);\n"
+    b"        //@ merge_fractions points_to::<u64>(gap_guard.src as *mut u64, _);\n"
+    b"        //@ merge_fractions points_to_::<u64>(gap_guard.dst, _);\n"
+    b"        //@ merge_fractions type_interp::<u64>();\n"
 )
 POST_COPY_LADDER = (
     b"        //@ assert recovery_src == held_ref; // LADDER: copy pointer identity\n"
@@ -84,6 +96,12 @@ def _rewrite_types(raw: bytes) -> bytes:
     # Remaining stand-alone T tokens are the pointer/size/alignment parameters
     # of the now-concrete function, predicates and helper lemmas.
     result = re.sub(rb"\bT\b", b"u64", result)
+    # A full canonical FBC hides existential field witnesses. Retain half of
+    # the precise fields as a frame, conserving all original permissions.
+    # The separately labelled duplicate-full-FBC negative is kept full.
+    for verb in (b"close", b"open"):
+        token = verb + b" CopyOnDrop_full_borrow_content(t, &gap_guard)();\n"
+        result = result.replace(token, verb + b" [1/2]CopyOnDrop_full_borrow_content(t, &gap_guard)();\n")
     # This source-linked scalar protocol borrows half of an existing const
     # half-share. Preserve its exact quarter when packing the nonprecise own.
     # Folding still consumes that physical share; no resource is introduced.
@@ -116,7 +134,8 @@ def _adapt_concrete_recovery(verified: bytes, prep) -> bytes:
     opened = _rewrite_types(prep.FBC_OPEN + prep.OWN_OPEN)
     if verified.count(opened) != 1:
         raise ValueError("FBC entailment ladder anchor is not unique")
-    verified = verified.replace(opened, opened + POST_FBC_LADDER, 1)
+    verified = verified.replace(opened, _rewrite_types(prep.FBC_OPEN) +
+                                FBC_FIELD_FRAME + POST_FBC_LADDER, 1)
     end_ref = b"        //@ end_ref_readonly(held_ref);\n"
     adapted_recovery = adapted_recovery.replace(end_ref, POST_COPY_LADDER + end_ref, 1)
     return verified.replace(recovery, adapted_recovery, 1)
@@ -682,8 +701,10 @@ def run(evidence: Path, args, env: dict, execute_case,
                                  for item in prep.GEOMETRY]
         row["derived_ladder_lines"] = {
             "fbc_identity": _line(verified, POST_FBC_LADDER.splitlines(keepends=True)[0]),
-            "fbc_src_quarter": _line(verified, POST_FBC_LADDER.splitlines(keepends=True)[1]),
-            "fbc_held_quarter": _line(verified, POST_FBC_LADDER.splitlines(keepends=True)[2]),
+            "fbc_dst_identity": _line(verified, POST_FBC_LADDER.splitlines(keepends=True)[1]),
+            "fbc_length": _line(verified, POST_FBC_LADDER.splitlines(keepends=True)[2]),
+            "fbc_src_quarter": _line(verified, POST_FBC_LADDER.splitlines(keepends=True)[3]),
+            "fbc_held_quarter": _line(verified, POST_FBC_LADDER.splitlines(keepends=True)[4]),
             "copy_identity": _line(verified, POST_COPY_LADDER.splitlines(keepends=True)[0]),
             "copy_held_quarter": _line(verified, POST_COPY_LADDER.splitlines(keepends=True)[1]),
         }
@@ -780,7 +801,7 @@ def _ghost_fragments(prep, name: str) -> tuple[bytes, ...]:
     middle = prep.SOURCE_IDENTITY + prep.CONSTRUCTOR_GEOMETRY + close + prep.FBC_CLOSE
     if name == "double_physical_fbc":
         middle += prep.DOUBLE_FBC_CLOSE
-    middle += prep.FBC_OPEN + prep.OWN_OPEN + POST_FBC_LADDER
+    middle += prep.FBC_OPEN + FBC_FIELD_FRAME + POST_FBC_LADDER
     if name == "after_fbc_false":
         middle += prep.FBC_FALSE
     middle += prep.ALIGNMENT + prep.SOURCE_LIMITS + b"".join(prep.GEOMETRY) + prep.DESTINATION_GEOMETRY

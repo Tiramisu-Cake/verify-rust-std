@@ -304,13 +304,24 @@ def audit_origin_controls(base: Path, aggregate: dict, profile: str) -> tuple[bo
                 stage_data = json.loads((case / (stage + "-stage.json")).read_text())
                 valid = valid and stage_data.get("exit_code") == code == int((case / (stage + "-exit-code.txt")).read_text())
             replay = Path(temporary) / "controls" / name
+            for filename in ("original/lib.rs", "verified/lib.rs",
+                             "origin-control.rsspec", "original/origin-control.rsspec",
+                             "verified/origin-control.rsspec"):
+                source = case / filename
+                if source.is_file():
+                    destination = replay / filename
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    destination.write_bytes(source.read_bytes())
             for filename in ("verifast.log", "decode.out", "proof-ast.ml",
                              "verifast-stage.json"):
                 source = case / filename
                 if source.is_file():
                     (replay / filename).write_bytes(source.read_bytes())
             classified = runner.classify(name, replay, meta, row)
-            valid = valid and classified == row and summary["controls"][name] == row.get("classification")
+            # JSON object keys are strings on disk; the live classifier can
+            # return integer CFG-region keys. Compare the exact persisted shape.
+            replay_row = json.loads(json.dumps(classified))
+            valid = valid and replay_row == row and summary["controls"][name] == row.get("classification")
     return bool(valid), summary
 
 
@@ -1762,8 +1773,10 @@ def audit(root: Path, selection_path: Path, run_status: int,
                     pins.get("exporter_sha256") and
                 environment.get("tool_sha256", {}).get("refinement-checker") ==
                     pins.get("refiner_sha256") and
-                Path(environment.get("profile_evidence", "")).resolve() ==
-                    (evidence / "tracked-md-build").resolve())
+                (Path(environment.get("profile_evidence", "")).resolve() ==
+                    Path("/workspace/evidence/allprooflogs/tracked-md-build") or
+                 Path(environment.get("profile_evidence", "")).resolve() ==
+                    (evidence / "tracked-md-build").resolve()))
             rows_valid = (isinstance(results, dict) and set(results) == names and
                           set(case_classes) == names and aggregate.get("profile") == ONECELL_PROFILE and
                           aggregate.get("accepted") is False and
@@ -1864,6 +1877,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
                                           predicate in log_errors[0])
                     if not rows_valid:
                         break
+            rows_valid_before_controls = rows_valid
             spans_valid, spans_matched = audit_span_controls(base, aggregate, ONECELL_PROFILE)
             origin_valid, origin_summary = audit_origin_controls(base, aggregate, ONECELL_PROFILE)
             nested_controls = audit_onecell_nested_controls(
@@ -1882,11 +1896,27 @@ def audit(root: Path, selection_path: Path, run_status: int,
                     for name in ONECELL_CASES if name != "positive")))) if rows_valid else False
             rows_valid = (rows_valid and aggregate.get("md_regressions_matched") is expected_md and
                           aggregate.get("fragment_pass") is expected_fragment)
-            valid = bool(artifact_status.get(ONECELL_GROUP, False) and build_identity and
+            mandatory_artifacts_valid = bool(artifact_status.get(ONECELL_GROUP, False))
+            valid = bool(mandatory_artifacts_valid and build_identity and
                          extraction_identity and environment_identity and rows_valid)
             artifact_status[ONECELL_GROUP] = valid
             onecell_report = {"classification": "EVIDENCE_COMPLETE_DIAGNOSTIC" if valid else "INCONCLUSIVE",
                               "accepted": False, "artifact_bindings_valid": valid,
+                              "binding_checks": {"mandatory_artifacts": mandatory_artifacts_valid,
+                                                 "profile_build": bool(build_identity),
+                                                 "source_extraction": extraction_identity,
+                                                 "environment_receipt": environment_identity,
+                                                 "case_rows": rows_valid,
+                                                 "case_rows_before_controls": rows_valid_before_controls,
+                                                 "span_controls": spans_valid,
+                                                 "origin_controls": origin_valid,
+                                                 "nested_receipts": nested_controls.get("artifact_bindings_valid") is True,
+                                                 "campaign_mode": campaign_mode,
+                                                 "md_dependency": dependency_valid,
+                                                 "expected_md": expected_md,
+                                                 "expected_fragment": expected_fragment,
+                                                 "aggregate_md": aggregate.get("md_regressions_matched"),
+                                                 "aggregate_fragment": aggregate.get("fragment_pass")},
                               "fragment_pass": aggregate.get("fragment_pass") is True if valid else False,
                               "campaign": aggregate.get("campaign"),
                               "md_dependency_basis": dependency if valid else None,
