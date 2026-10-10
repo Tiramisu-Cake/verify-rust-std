@@ -6934,3 +6934,20 @@ explains fullpackageTODO; native-only dump may avoid it, pending fresh evidence.
 Own terminal raw review duplicates and dispatch transport flags removed only
 after archive byte/hash matches and canonical accounted/downloadverified state;
 canonical archives/config/input/inventories remain preserved. No foreigndata changed.
+
+2026-10-10 close main21:27:14UTC. Fresh081275a9/7fc22c04 SUCCESS416sec
+(create20:58:01.833350812 finish21:04:57.129708), total1175/3600. Earlier
+commentary396/1155 was arithmetic error, corrected from canonical account.
+Canonical archive449ed1367c076dfa9429e7df3b7028ab4a837ab867135dd0159138d1bc5a365c
+integrity verified after own ENOSPC retry. CapturepreAST18973de5 diagnosticonly,
+mandatoryexactsource/extrabodyrefusals, pointerdefaultoffVF0/90. Preparedboth
+parserfail198/199 beforeentry/intendedfalsecontrol. FreshAST independentreview:
+76outerdecls,7decls/8inferredlifetimes including_5lenborrow; one actualFnMut,
+normal/directunwind, four recoveryblocks includingnativeMU/F/thread/tail/posts.
+No allocation/free or lifetimebinding theorem fromcapture. Stockshared_ref_own
+identitynotestablished, no inverseassumed. Syntaxonlyownconstructorvariant and
+exacttwo-case recipe published1e2d53c522a4f3a92fadc3dd3bee58da18940f16;
+controllerdeadlineguard definitive refusal before Build/reservation, zerocharge.
+No newexperimentaftermain; remainingtime evidence/account/checkpointonly.
+Opaqueinterface/earlyreturn/pointer remain fresh independentPASS; native→actual
+C1/C4 and caller absent; prior C1→C4fullnormal/all4unwind/posts unchangedPASS.

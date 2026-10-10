@@ -865,3 +865,18 @@ Existing conditional C1→C4/native components remain separate; native→actualC
 native→actualC4 and actualcaller→sort4 absent. Frozen exporter overflow-off
 versus checked-rustc MIR is an explicitly pending tool dependency diagnostic.
 See cloud-build/sort4-native-opaque/SEMANTIC-CARD.md and FRESH-1BA7-REVIEW.md.
+
+2026-10-10 opaque session freshd776/86e38e3a pointer-expression VF0/90,
+full automatic native normal posts/unit/free/leak with opaque MU frame. Actual
+external as_mut_ptr edge absent. Native C1 candidate reaches split but strict
+entry refuses unresolved outer type at172 before callback; no composition.
+Checked rustc len+16 MIR has AddWithOverflow+Assert/unwind; frozen exporter
+forces overflowoff, ordinary add refuses VF, not runtime-unsafety.
+Fresh081275a9/7fc22c04 single-native preAST18973de5 captured fail-closed, source
+and extra-body admission controls pass; defaultoff pointer again VF0/90.
+Prepared target/falseargs parser refuses reference-own open, so intendednegative
+and entry/post checks NOT_RUN. No general-rule requirement inferred from this
+setup refusal. Source-specific native C1 binding is DRAFT/NOT_IMPLEMENTED;
+prior C1→C4 normal/all4unwind/CURRENT/fullposts unchanged priorPASS.
+See cloud-build/sort4-native-opaque/FRESH-081275A9-REVIEW.md and
+VERIFAST-DEPENDENCIES.md. Native→actualC1/C4 and actualcaller remain unproved.

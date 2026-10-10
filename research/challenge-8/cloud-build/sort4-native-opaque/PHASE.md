@@ -87,3 +87,5 @@ Published7fc22c0452ee1fb89677da13de52a9433a383906 pins this batch. The preceding
 or API dispatch: zero Cloud seconds, no Build ID.7fc removes only unused C4
 fixture preparation and recipe inputs; its deterministic pack is188 parts
 within the unchanged191-part ceiling. Prior C4 proofs remain prior evidence.
+
+Closed 2026-10-10T21:34:15.144981Z. Main guard refused last draft before Build/reservation. Three terminal verified Builds total1175sec; unused2425 closes without carry. No active own reservation/request or automatic next session. Full outcome and exact future permitted obligation are in END-CHECKPOINT-2026-10-10.md.

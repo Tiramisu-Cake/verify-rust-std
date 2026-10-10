@@ -1,41 +1,45 @@
-# Native opaque prefix — session in progress
+# Native opaque prefix — session closed to new experiments
 
-Start2026-10-10 19:27:14UTC; main deadline21:27:14, finish-only21:57:14.
-Owner select-sort4; own worktree /root/verify-rust-std-select-night,
-branch research/night-select-sort4-cloud-2026-10-09; initial checkpointe5f3f1a.
-Policyc7ca8c467aecf10a4b53039372ee97714f854ee3; existing adoption/ACK retained.
-New3600Cloudsec, no carry; v2/max2, one own active Build at most.
+2026-10-10 start19:27:14UTC; main ended21:27:14, finish-only limit21:57:14.
+Owner select-sort4, /root/verify-rust-std-select-night, branch
+research/night-select-sort4-cloud-2026-10-09; initial e5f3f1a.
+Policyc7ca8c467aecf10a4b53039372ee97714f854ee3; adoption/ACK retained.
+New3600Cloudsec, no carry; v2/max2/one own Build respected.
+[Checkpoint](cloud-build/sort4-native-opaque/END-CHECKPOINT-2026-10-10.md).
 
-Fresh1ba7fdb3/9b86096e: opaque MU frame/source4 CURRENT rejoin VF0/73,
-actual len<2 early-return resource component VF0/81, full native normal posts,
-unit return/free/leak. No callback or direct-unwind edge. Intended false
-CURRENT-rejoin helperpost refused at43:74–79.
+Fresh1ba7/9b86096e: opaque MU/source4 CURRENT rejoin VF0/73 and actual len<2
+resource return VF0/81, full native normal posts/unit/free/leak; no callback.
+Freshd776/86e38e3a pointer implementation-expression VF0/90; source permissions
+and owners derived from native references, opaque scratch preserved. External
+as_mut_ptr method edge absent. Native C1 candidate strict-entry refusal172
+before callback: unresolved inference in outer type, not a semantic negative.
 
-Freshd77612a5/86e38e3a: source-linked pointer implementation-expression VF0/90,
-full native normal posts with source/F/thread/type resources and opaque scratch.
-Actual external as_mut_ptr method-call binding remains absent. Native C1
-candidate reaches resource split, then strict lifetime entry refuses at172:
-unresolved inference in entry outer type, before callback/unwind/posts.
-No native→actualC1/C4 proof credit. [Fresh review](cloud-build/sort4-native-opaque/FRESH-D776-REVIEW.md).
+Fresh081275a9/7fc22c04 capture-only pre-AST18973de5 obtained, exact-source and
+extra-body admission controls succeed; pointer default-off again VF0/90.
+Prepared positive/falseargs parse-refuse reference-own opening198/199, so
+argument boundary, strict entry and intended false control NOT_RUN. Syntax
+follow-up1e2d53c522a4f3a92fadc3dd3bee58da18940f16 is DRAFT/NOT_RUN: deadline
+refused submission before Build/reservation. No reference inverse assumed.
+[Raw review](cloud-build/sort4-native-opaque/FRESH-081275A9-REVIEW.md).
 
-Minimal usize-add checked rustc MIR has AddWithOverflow and Assert with unwind
-continue. Frozen exporter forces overflow checks off and instead produces
-ordinary add/no Assert; VF arithmetic refusal does not prove runtime unsafety.
-[Exact dependencies](cloud-build/sort4-native-opaque/VERIFAST-DEPENDENCIES.md).
-No arbitrary len bound, ignored panic or general VeriFast changes added here.
+Fresh checked rustc minimal len+16 MIR contains AddWithOverflow and Assert/
+unwind. Frozen exporter forces overflowoff, exports ordinary add/no Assert,
+then VF refuses arithmetic. This is a model gap, not runtime-unsafety.
+[Dependencies](cloud-build/sort4-native-opaque/VERIFAST-DEPENDENCIES.md).
 
-Third diagnostic batch pinned7fc22c0452ee1fb89677da13de52a9433a383906 is being
-submitted: callback-free resource preparation, separately named fail-closed
-single-native-declaration capture, mandatory source/exact-one refusals, and
-pointer default-off regression. Fresh proof/capture outcomes pending. Earlier
-846 payload refusal created no Build/reservation and charged zero seconds.
+Native→actualC1, native→actualC4 and actual caller→sort4 NOT_PROVED.
+Prior C1→C4d5/a518 VF0/370 normal/all4direct unwinds/CURRENT/fullprefixposts/
+unit/leak remains separate prior PASS with supplied raw entry/source4/F/thread/
+types/positive size/optional Tdst. Native components do not discharge it.
+Positive size is not selected-branch consequence (len8,size0). Opaque prefix
+needs no MU inverse/optional-T adapter. Full guards/call edge, external pointer
+binding and layout/ZST remain open. No C5/select/copy, strict draft or peer
+semantic/profile changes included. New native binding card is DRAFT/NOT_RUN.
 
-Prior actual C1→C4d5/a518 VF0/370, normal/all four direct unwinds with CURRENT
-recovery/full original prefix posts/unit/leak remains separate prior PASS.
-Native→actualC1, native→actualC4, actual caller→sort4 NOT_PROVED.
-Positive T size is not implied by selected sort4 branch (len8,size0).
-Scratch MU inverse/optional-T adapter unnecessary for this prefix interface;
-later copy, guards, external call edge, ZST and C5/select remain outside scope.
-General lifetime/alias/arithmetic/MU changes peer-owned; strict draft excluded.
-Accounting759/3600seconds for two terminal, accounted, evidence-verified Builds.
-No automatic next session. Hour progress delivered20:27UTC.
+Accounting1175/3600 create→finish seconds for three terminal/accounted,
+evidence-verified Builds;2425 unused closes without carry. No own active Build.
+Ready request/account closure recorded in BUDGET.json; no automatic next
+session. First-hour progress delivered20:27UTC. Next authorized-window step:
+run exact two-case prepared syntax diagnostic and review outer lifetime/type
+resolution, then source-bound native C1 lifetime/Output=bool normal/direct-unwind
+proof before any C4 extension. General rule work remains VeriFast-agent-owned.
