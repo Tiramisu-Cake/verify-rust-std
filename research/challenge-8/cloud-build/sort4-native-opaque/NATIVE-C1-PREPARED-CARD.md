@@ -5,7 +5,7 @@ The proposed component stops immediately before an actual `FnMut` call. It is
 not a callback theorem or an actual caller-to-sort4 edge. No compiler,
 verifier, proof runner, extractor, Cloud Build, or patched tool is run here.
 
-Build 081 reached the prepared component but the verifier parser rejected
+Build 081 reached the verifier frontend; its parser rejected
 `open <&'cmp T>.own(t, ref)` before entry proof. The revised diagnostic attempts
 to open the same reference-own type predicate through `open own::<&'cmp T>(t)(ref)`,
 the stock `own::<T>(t)(value)` syntax already used by the checked cell-split
