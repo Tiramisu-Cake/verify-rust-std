@@ -6789,3 +6789,11 @@ Fresh C4 source ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f
 ghost strip original3602050 unchanged; refinement0. C3 default-off335 statements
 and mandatory unbound refusal retained. Capture refusal2 before target: NOT proof.
 Exact C4 bound projection and independent fresh correspondence review in progress.
+
+2026-10-10 11:58:43 UTC: C1→C4 bound Build a5180cd7-3ad7-4199-9b1f-56c31876cc4d
+created on proof=infra203b59258b00ccc8bc2ecc030726fafde3a57d05,
+token dispatch-bab7b0f048514dd8948af5eb2ae790ee, config61186e354ea278c50c8cb8fe7da5ff01bd675cfb9fe6caa318cb800e8aa924c4.
+Independent fresh C4 correspondence/delta review gave conditional exact GO
+before dispatch; parent expressly exercised user-authorized diagnostic dispatch.
+Later automatic review hash gate added for future source commits, not retroactively
+claimed for this pinned run. New gate/docs do not change its pinned inputs.

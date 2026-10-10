@@ -43,3 +43,10 @@ The first new Cloud run uses capture-only1 for all strict-ON cases. Compilation,
 paired MIR/refinement and fresh AST/refusal are diagnostic evidence. Every
 strict-ON helper/escape proof remains NOT_RUN pending fresh addressed review;
 ordinary default-OFF and marker-OFF control retain their separate classifications.
+
+Transport final review conditions resolved before enablement: exact production
+patch/source closure is sorted, includes marker/slice/shared sources and alias
+patch; prior tracked hashes are conserved outside the two-file delta; marker-OFF
+requires first error. Driver explicitly requires dispatch_authorized and
+CAPTURE_ONLY_NO_STRICT_ON_PROOF and forces capture-only1 on every strict-ON case.
+Profile enablement is solely for that diagnostic, not admission/proof.

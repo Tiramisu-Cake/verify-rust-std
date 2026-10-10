@@ -1,6 +1,6 @@
 {
   "classification": "EXPERIMENTAL_PRODUCTION_COMPATIBLE_STRICT_CUT",
-  "cloud_enabled": false,
+  "cloud_enabled": true,
   "profile_accepted": false,
   "production_tool_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
   "tool_patch_path": "research/challenge-8/cloud-build/sort4-compatible-strict-cut/verifast-compatible-strict-cut-TEST.patch",
@@ -20,5 +20,7 @@
   "marker_bearing_strict_off_refusal": "Strict lifetime binding requires explicit overnight opt-in",
   "proof_status": "NOT_RUN",
   "capture_only_opt_in": "SORT4_COMPAT_STRICT_CUT_AST_CAPTURE_ONLY=1",
-  "capture_only_refusal": "FULL_ORIGINAL_AST_CAPTURED_NOT_PROOF"
+  "capture_only_refusal": "FULL_ORIGINAL_AST_CAPTURED_NOT_PROOF",
+  "dispatch_authorized": true,
+  "diagnostic_mode": "CAPTURE_ONLY_NO_STRICT_ON_PROOF"
 }

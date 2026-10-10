@@ -25,6 +25,12 @@ def run(a, tool, active, capture, snapshot_fn, service):
     need(profile['classification'] == 'EXPERIMENTAL_C1_C2_C3_C4_BOUND_PREFIX' and
          profile['profile_accepted'] is False and profile['cloud_enabled'] is True,
          'C4 bound profile identity/enablement differs')
+    review_name = profile.get('independent_review_file', '')
+    need(profile.get('dispatch_authorized') is True and
+         profile.get('independent_review_build_id') == 'eb66efc6-a85f-4ffd-b20a-9382f22c5538' and
+         review_name == 'FRESH-EB66EFC6-CORRESPONDENCE.md', 'C4 independent review/dispatch identity missing')
+    need(sha(a.proof_root / HERE / review_name) == profile.get('independent_review_sha256'),
+         'C4 independent review hash differs')
     fixture = a.evidence / 'c4-fixture'
     need(capture['classification'] == 'FRESH_C4_SOURCE_MIR_PREAST_CAPTURED_REFUSED_NOT_PROOF' and
          sha(fixture / 'verified/lib.rs') == profile['source_sha256'] and

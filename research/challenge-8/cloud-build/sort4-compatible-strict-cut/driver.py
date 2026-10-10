@@ -343,7 +343,9 @@ def run(a: argparse.Namespace) -> dict:
     profile_path = a.proof_root / HERE / 'profile.json'
     profile = json.loads(profile_path.read_text())
     need(profile.get('classification') == 'EXPERIMENTAL_PRODUCTION_COMPATIBLE_STRICT_CUT' and
-         profile.get('profile_accepted') is False and profile.get('cloud_enabled') is True,
+         profile.get('profile_accepted') is False and profile.get('cloud_enabled') is True and
+         profile.get('dispatch_authorized') is True and
+         profile.get('diagnostic_mode') == 'CAPTURE_ONLY_NO_STRICT_ON_PROOF',
          'strict-cut profile is not explicitly enabled as an unaccepted experiment')
     need(profile.get('base_translator_sha256') == EXPECTED_TRANSLATOR and
          profile.get('base_kernel_sha256') == EXPECTED_KERNEL,
