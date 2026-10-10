@@ -200,8 +200,9 @@ def run_case(a: argparse.Namespace, tool: Path, profile: dict, template: bytes,
     env = env_base.copy()
     env.pop('SORT4_STRICT_LFT_CUT', None)
     env['SORT4_ACTUAL_AST_SCOPE_TEST'] = '0'
-    env['SORT4_HRTB_OUTPUT'] = '0'
-    env['SORT4_HRTB_OUTPUT_TARGETS'] = ''
+    # The frozen translator accepts absent or explicit 1, not a zero opt-in.
+    env.pop('SORT4_HRTB_OUTPUT', None)
+    env.pop('SORT4_HRTB_OUTPUT_TARGETS', None)
     env['SORT4_STRICT_LFT_TRACE'] = '0'
     env['SORT4_STRICT_LFT_RELOCATE'] = '0'
     env['SORT4_COMPAT_STRICT_CUT_AST_CAPTURE'] = '0'

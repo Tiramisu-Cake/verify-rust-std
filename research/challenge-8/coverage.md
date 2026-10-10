@@ -822,3 +822,11 @@ supplied. Native lemma separate; native→C1 and actualcaller→sort4 absent.
 C5/select/copy stillNOT_RUN; firstselect needs fresh actualcallee qualification
 on same tool, historical FRAME/cleanup summary cannot transfer.
 [Fresh C4 evidence](cloud-build/sort4-c4-bound-prefix/FRESH-A5180CD7-EVIDENCE.md).
+
+Separate compatible strict-cut candidate fresh31f58a87/f7ff82a2: exact
+two-file production-base delta Cloud-compiles;11 paired MIR/refinement cases
+pass. Runner HRTB zero/empty config blocks AST/target stages; marker refusals
+are admission only. Zero strict/helper/native proof entries, full trust matrix
+NOT_RUN, profile disabled/unaccepted. Environment correction is draft Cloud
+NOT_RUN. No change to conditional C1→C4 result or caller/native applicability.
+Session closed2675/3600sec,925unused no carry; no active/request/reservation.

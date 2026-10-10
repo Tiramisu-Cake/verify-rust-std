@@ -6832,3 +6832,20 @@ producer/free rules plus normal/directunwind frees at484 androot502 establish
 allocation correspondence; individual object creation not printed/count-only
 claim not made. Nine intendednegative firstVCs confirmed; sourcehashrefusal
 notsemanticnegative. Globalprofile/collectoracceptancependingfields untouched.
+
+2026-10-10 session closure at 2026-10-10T12:30:48Z: strict capture-only Build
+31f58a87-9dc0-4f74-ad3a-ac4888f6ffbd terminal FAILURE,348 seconds,
+proof=infra f7ff82a29b914c04181ecab4070d64555a61a58f. Archive
+0442704490f86bc585e1fd2681054a4715efbd2c200ea13a8b1162044422d65a
+and inventory/index integrity verified. Exact two-file patch check/apply and
+Cloud compile exit0; new binary253f9f0f283f67eb36cb986c35b40d96869a51b9cbf7e66e29443207f177f122.
+All11 executed fixtures paired MIR export/decode/refinement0. Three marker
+admission refusals; eight config failures at HRTB_OUTPUT zero/empty guard.
+No AST captures/target entries/leak/return proof traces. Outer-type/bound
+fixtures NOT_RUN. Independent raw review confirms no semantic-negative or
+strict/native proof credit. Finish-only runner correction removes both HRTB
+variables, static parse/guard review only, DRAFT Cloud NOT_RUN; profile disabled.
+Main ended12:20:59; no new Builds/experiments afterward. Six own Builds fully
+accounted/download_verified,2675/3600sec,925unused closed/no carry; active=null,
+terminal reservations reconciled, own ready request withdrawn. Final checkpoint
+cloud-build/sort4-c3-bound-prefix/END-CHECKPOINT-2026-10-10.md. No automatic restart.

@@ -1,4 +1,7 @@
-# C3 prefix Cloud session
+# C3 prefix Cloud session — CLOSED
+
+Final state: account/window closed; no active Build or ready request.
+[End checkpoint](END-CHECKPOINT-2026-10-10.md) is the final evidence boundary.
 
 Owner `select-sort4`; assigned worktree `/root/verify-rust-std-select-night`.
 This session continues the actual sort4 mission within the bounded C3 step
