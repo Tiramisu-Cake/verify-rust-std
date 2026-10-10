@@ -302,6 +302,35 @@ def prepare(a):
     return c4case, selector_case, shadow_record
 
 
+def source_prepare(a):
+    need(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
+         os.environ.get("LANE") == "verifast-c4-select-integration" and
+         not os.environ.get("GITHUB_ACTIONS"), "Cloud integration lane required")
+    data = manifest(a)
+    c4case, selector_case, source = prepare(a)
+    admitted_source(selector_case / "verified/lib.rs", data["selector_source_sha256"])
+    admitted_source(c4case / "verified/lib.rs", data["c4_source_sha256"])
+    admission = source_admission_mutants(a, c4case, data["c4_source_sha256"])
+    regression_mod = module(a.cloud_dir / "verifast-c4-select-integration/regressions.py",
+                            "integration_source_prepare_regressions")
+    fixture_report = regression_mod.prepare_source_fixtures(
+        a, a.evidence / "regression-fixtures")
+    # Materialize the source half of composition now. The exported selector AST
+    # is deliberately left for the later verified producer stage.
+    composition = a.evidence / "composition-fixture"
+    shutil.copytree(c4case, composition, symlinks=True)
+    (composition / "selector").mkdir()
+    shutil.copyfile(selector_case / "verified/lib.rs", composition / "selector/lib.rs")
+    record(a.evidence / "source-preparation.json", {
+        "classification": "CLOUD_SOURCE_PREPARATION_ONLY", "proof_credit": False,
+        "selector_source_sha256": sha(selector_case / "verified/lib.rs"),
+        "c4_source_sha256": sha(c4case / "verified/lib.rs"),
+        "admission_mutants": admission,
+        "regression_fixtures": fixture_report,
+        "composition_source_ready": True,
+        "composition_ast": "NOT_PREPARABLE_BEFORE_VERIFIED_SELECTOR_RUN"})
+
+
 def capture(a, case: Path, label: str, names=None):
     stages = {}
     inventories = {}
@@ -542,10 +571,17 @@ def run(a):
     nested = "<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop"
     main = "select_unpredictable"
     header = selector["headers"]
+    selector_verification_order = [*selector_names[:7], nested, main]
+    selector_name_set = set(selector_verification_order)
+    selector_header_order = [name for name in header if name in selector_name_set]
+    selector_headers_exact = (
+        len(selector_names) == 9 and set(selector_names[7:]) == {nested, main} and
+        all(header.count(name) == 1 for name in selector_verification_order) and
+        selector_header_order == selector_verification_order)
     selector_ok = (selector["exit"] == 0 and not selector["errors"] and
         not selector["dead_code"] and selector["zero_errors"] and
         selector["return_seen"] and selector["leak_check_seen"] and
-        all(name in header for name in selector_names) and
+        selector_headers_exact and
         header.index(nested) < header.index(main) and
         frame_audit["prefix7_ordered"] and frame_audit["nested_before_outer"] and
         frame_audit["helper_full_normal_unwind_observed"] and
@@ -564,6 +600,8 @@ def run(a):
             "proof_log_sha256": hashlib.sha256(selector_log.encode()).hexdigest(),
             "receipt_created_only_after_full_nine_body_proof": True})
     stages["selector"] = {"positive": selector, "full_nine_body": selector_ok,
+                          "exact_nine_header_sequence": selector_headers_exact,
+                          "filtered_header_sequence": selector_header_order,
                           "proof_audit": frame_audit}
     if selector_ok:
         reachable_env = selector_env(a)
@@ -630,18 +668,28 @@ def run(a):
             "SORT4_C4_SELECT_SELECTOR_SOURCE_SHA256": actual_sources["selector"]})
         result, raw = proof(a, "composition-positive", consumer, env)
         target = raw.find("Verifying function 'sort4_stable'")
+        composition_header_order = [name for name in result["headers"]
+                                    if name in selector_name_set]
+        composition_headers_exact = (
+            all(result["headers"].count(name) == 1
+                for name in selector_verification_order) and
+            composition_header_order == selector_verification_order)
         composition_ok = (result["exit"] == 0 and not result["errors"] and
             not result["dead_code"] and result["zero_errors"] and
             result["return_seen"] and result["leak_check_seen"] and
             "SORT4-C4-SELECT-AST: importing nine definitions" in raw and
             ("typed location-only certificate paths=" + str(original_blob.count(b"verified/lib.rs")) +
              " ordinary_strings=0 ref_sharing=none unsupported=none") in raw and
-            target >= 0 and all(raw.find("Verifying function '" + name + "'") >= 0 and
-                raw.find("Verifying function '" + name + "'") < target
-                for name in selector_names) and
+            target >= 0 and composition_headers_exact and
+            all(raw.find("Verifying function '" + name + "'") < target
+                for name in selector_verification_order) and
             result["headers"].index(nested) < result["headers"].index(main))
         composition = {"state": "PASS_PENDING_REVIEW" if composition_ok else "FAIL",
-            "positive": result, "same_kernel_reverified_nine_bodies": composition_ok,
+            "positive": result,
+            "same_kernel_reverified_nine_bodies": composition_ok and composition_headers_exact,
+            "exact_nine_header_sequence": composition_headers_exact,
+            "filtered_header_sequence": composition_header_order,
+            "required_verification_order": selector_verification_order,
             "export_sha256": sha(exported_ast),
             "relocated_sha256": hashlib.sha256(relocated_blob).hexdigest(),
             "location_occurrences": original_blob.count(b"verified/lib.rs"),
@@ -799,14 +847,14 @@ def run(a):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="mode", required=True)
-    for mode in ("preflight", "apply", "pin", "run"):
+    for mode in ("preflight", "source-prepare", "apply", "pin", "run"):
         command = sub.add_parser(mode)
         command.add_argument("--proof-root", type=Path, required=True)
         command.add_argument("--manifest", type=Path, required=True)
         command.add_argument("--evidence", type=Path, required=True)
         if mode in ("apply", "pin", "run"):
             command.add_argument("--tool-home", type=Path, required=True)
-        if mode in ("preflight", "run"):
+        if mode in ("preflight", "source-prepare", "run"):
             command.add_argument("--cloud-dir", type=Path, required=True)
         if mode == "run":
             command.add_argument("--compiler-sysroot", type=Path, required=True)
@@ -830,6 +878,8 @@ def main():
         (a.proof_root, a.manifest, a.evidence)), "Cloud workspace paths required")
     if a.mode == "preflight":
         preflight(a)
+    elif a.mode == "source-prepare":
+        source_prepare(a)
     elif a.mode == "apply":
         apply(a)
     elif a.mode == "pin":

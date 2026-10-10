@@ -280,6 +280,95 @@ def _cloud_guard() -> None:
           not os.environ.get("GITHUB_ACTIONS"), "Cloud integration lane required")
 
 
+def prepare_source_fixtures(a, root: Path) -> dict:
+    """Materialize every source-only regression fixture; never invokes the tool."""
+    _cloud_guard()
+    _need(not root.exists() and not root.is_symlink(),
+          "source-preparation fixture root must be unused")
+    root.mkdir(parents=True)
+    capture = _module(a.proof_root / REQUIRED_FILES[1])
+    _module(a.cloud_dir / "o26-r3-frame-test.py")
+    template = (a.proof_root / REQUIRED_FILES[0]).read_bytes()
+    strict_root = root / "strict-lifetime"
+    strict_root.mkdir()
+    strict_cases = (
+        "positive_basic", "negative_typed_chunk_survives_cut",
+        "negative_unclosed_fractional_access",
+        "negative_reserved_half_after_lifetime_end")
+    strict_rows = {}
+    for name in strict_cases:
+        verified = capture.select_case(template, name)
+        original = capture.strip_ghost(verified)
+        case = strict_root / name
+        (case / "verified").mkdir(parents=True)
+        (case / "original").mkdir()
+        (case / "verified/lib.rs").write_bytes(verified)
+        (case / "original/lib.rs").write_bytes(original)
+        _record(case / "source-certificate.json", {
+            "case": name, "verified_sha256": hashlib.sha256(verified).hexdigest(),
+            "original_sha256": hashlib.sha256(original).hexdigest(),
+            "runtime_source_unchanged": original == capture.strip_ghost(verified),
+            "proof_credit": False})
+        strict_rows[name] = {"verified_sha256": hashlib.sha256(verified).hexdigest(),
+                             "original_sha256": hashlib.sha256(original).hexdigest()}
+
+    outer_source = a.proof_root / REQUIRED_FILES[3]
+    outer_verified = outer_source.read_bytes()
+    accepted = capture.select_case(template, "positive_f_bound")
+    expected = accepted.replace(
+        b"pub unsafe fn callback_positive<T, F: FnMut(&T, &T) -> bool>",
+        b"pub unsafe fn negative_outer_bound_escape<T, F: FnMut(&T, &T) -> bool>", 1)
+    _need(outer_verified == expected,
+          "outer-bound fixture must differ only by the target function name")
+    outer = root / "negative_outer_bound_escape"
+    (outer / "verified").mkdir(parents=True)
+    (outer / "original").mkdir()
+    (outer / "verified/lib.rs").write_bytes(outer_verified)
+    outer_original = capture.strip_ghost(outer_verified)
+    (outer / "original/lib.rs").write_bytes(outer_original)
+    _record(outer / "source-certificate.json", {
+        "candidate_source": "overnight-lifetime/cases.rs#positive_f_bound",
+        "candidate_sha256": hashlib.sha256(accepted).hexdigest(),
+        "fixture_sha256": hashlib.sha256(outer_verified).hexdigest(),
+        "target_name_only_change": True,
+        "ghost_strip_runtime_identity": outer_original == capture.strip_ghost(outer_verified),
+        "proof_credit": False})
+
+    pointer_rows = {}
+    for name in ("positive", "no-pointee-rights"):
+        source = a.proof_root / HERE / "pointer-value-fixtures" / (name + ".rs")
+        verified = source.read_bytes()
+        case = root / ("pointer-value-" + name)
+        (case / "verified").mkdir(parents=True)
+        (case / "original").mkdir()
+        original = capture.strip_ghost(verified)
+        (case / "verified/lib.rs").write_bytes(verified)
+        (case / "original/lib.rs").write_bytes(original)
+        pointer_rows[name] = {"verified_sha256": hashlib.sha256(verified).hexdigest(),
+                              "original_sha256": hashlib.sha256(original).hexdigest()}
+
+    mdnew_dir = Path(os.environ.get("VERIFAST_MDNEW_FIXTURE_DIR",
+                                    str(a.proof_root / HERE / "mdnew-fixtures")))
+    mdnew_rows = {}
+    mdnew_root = root / "mdnew-retained-fix"
+    mdnew_root.mkdir()
+    for name, (digest, expected_kind) in MDNEW_FIXTURES.items():
+        source = mdnew_dir / name
+        _need(source.is_file() and _sha(source) == digest,
+              "MDnew fixture missing or differs from reviewed candidate: " + name)
+        target = mdnew_root / name
+        shutil.copyfile(source, target)
+        mdnew_rows[name] = {"sha256": digest, "expected": expected_kind}
+    report = {"classification": "SOURCE_FIXTURES_PREPARED_ONLY",
+        "proof_credit": False, "strict_lifetime": strict_rows,
+        "outer_bound_escape": {"verified_sha256": hashlib.sha256(outer_verified).hexdigest(),
+                               "original_sha256": hashlib.sha256(outer_original).hexdigest()},
+        "pointer_value": pointer_rows, "mdnew_retained_fix": mdnew_rows,
+        "compiler_or_extractor_started": False, "verifier_started": False}
+    _record(root / "fixture-inventory.json", report)
+    return report
+
+
 def _run_lifetime(a, selector_case, c4_env, proof, capture, inherited=None) -> dict:
     """Run the saved isolated strict-cut cases through the parent's proof callback."""
     template_path = a.proof_root / REQUIRED_FILES[0]
@@ -541,11 +630,24 @@ def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof,
         preflight_only = (category not in ("source", "contract") or
             isinstance(supplied, dict) and supplied.get("preflight_only") is True and
             stage_result.get("compiler_or_extractor_started") is False)
+        mutation_exact = bool(supplied.get("mutation_fingerprints")) if isinstance(supplied, dict) else False
+        if category in ("source", "contract"):
+            fingerprints = supplied.get("mutation_fingerprints", {}) if isinstance(supplied, dict) else {}
+            expected_source = json.loads(a.manifest.read_text())["c4_source_sha256"]
+            mutation_exact = (isinstance(fingerprints, dict) and
+                fingerprints.get("expected") == expected_source and
+                all(isinstance(fingerprints.get(key), str) and
+                    re.fullmatch(r"[a-f0-9]{64}", fingerprints[key])
+                    for key in ("expected", "mutated", "runtime_before", "runtime_after")) and
+                fingerprints["expected"] != fingerprints["mutated"] and
+                ((fingerprints["runtime_before"] == fingerprints["runtime_after"]) ==
+                 (category == "contract")) and
+                supplied.get("raw_log_sha256") == hashlib.sha256((logs + "\n").encode()).hexdigest())
         exact = (isinstance(supplied, dict) and
             supplied.get("intended_refusal") == "EXACT_TARGET_REFUSAL" and
             marker_matches and preflight_only and
             not headers and stage_result.get("exit") in (1, 2) and
-            bool(supplied.get("mutation_fingerprints")))
+            mutation_exact)
         admission_rows[category] = {
             **(supplied if isinstance(supplied, dict) else {}),
             "state": "EXACT_TARGET_REFUSAL" if exact else "NOT_RUN_OR_UNCONFIRMED",
@@ -553,6 +655,7 @@ def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof,
             "refusal_marker_observed_in_log": bool(marker_matches),
             "preflight_only": preflight_only,
             "no_verifier_headers": not headers,
+            "category_mutation_fingerprints_exact": mutation_exact,
             "proof_credit": False,
         }
     report["targets"]["composition_admission_mutants"] = admission_rows

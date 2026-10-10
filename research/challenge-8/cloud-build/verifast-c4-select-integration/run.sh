@@ -55,6 +55,10 @@ stage provider env CLOUD_BUILD_ID="${CLOUD_BUILD_ID:?}" \
 cp "$stage_ev/provider.log" "$stage_ev/provider.json"
 stage input-preflight python3 "$runner" preflight --proof-root "$proof_root" \
   --manifest "$manifest" --evidence "$ev" --cloud-dir "$cloud_dir"
+source_prepare_ev="$stage_ev/source-preparation"
+[[ ! -e "$source_prepare_ev" && ! -L "$source_prepare_ev" ]] || exit 2
+stage source-prepare python3 "$runner" source-prepare --proof-root "$proof_root" \
+  --manifest "$manifest" --evidence "$source_prepare_ev" --cloud-dir "$cloud_dir"
 stage package-index apt-get update
 stage packages-install apt-get install --yes --no-install-recommends \
   build-essential m4 patch unzip capnproto ripgrep time libgmp10 libmpfr6 \
