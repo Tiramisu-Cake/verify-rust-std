@@ -7,6 +7,8 @@ base_home=${1:?six-profile source home}
 new_home=${2:?fresh tracked-MD source home}
 evidence=${3:?fresh evidence directory}
 base_evidence=${4:?six-profile build evidence}
+build_mode=${5:-full}
+[[ "$build_mode" == full || "$build_mode" == prepare-only ]] || exit 2
 for target in "$base_home" "$new_home" "$evidence" "$base_evidence"; do
   [[ "$target" == /workspace/* ]] || exit 2
 done
@@ -110,6 +112,20 @@ GUARDPIN
 git -C "$new_home" -c core.whitespace=cr-at-eol apply --check "$guard_patch"
 git -C "$new_home" -c core.whitespace=cr-at-eol apply --whitespace=error "$guard_patch"
 cp "$guard_patch" "$evidence/guard-layout.patch"
+# Prepare-only mode preserves the exact existing patch/dependency preparation,
+# then stops before Cargo, Dune, native controls or any proof execution.
+if [[ "$build_mode" == prepare-only ]]; then
+  python3 - "$here" "$new_home" "$evidence" <<'PREPARED'
+import hashlib,json,pathlib,sys
+here,home,evidence=map(pathlib.Path,sys.argv[1:])
+profile=here/'PROFILE.json'
+record={'schema':'onecell-source-preparation-v1','classification':'PREPARED_ONLY_NO_COMPILE_OR_PROOF_CREDIT',
+        'accepted':False,'compiler_attempted':False,'proof_attempted':False,
+        'source_home':str(home),'profile_sha256':hashlib.sha256(profile.read_bytes()).hexdigest()}
+(evidence/'source-prepared.json').write_text(json.dumps(record,indent=2)+'\n')
+PREPARED
+  exit 0
+fi
 export PATH="/tmp/vfdeps-adf88dc/bin:$PATH"
 export CAPNP_INC_DIR=/tmp/vfdeps-adf88dc/include
 export LD_LIBRARY_PATH="$new_home/bin:/tmp/vfdeps-adf88dc/lib:${LD_LIBRARY_PATH:-}"
