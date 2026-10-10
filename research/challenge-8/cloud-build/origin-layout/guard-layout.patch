@@ -207,10 +207,246 @@ index 9621ba91..654b9343 100644
  
          fn encode_adt_kind(adt_kind: ty::AdtKind, mut adt_kind_cpn: adt_kind_cpn::Builder<'_>) {
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index e19b25bc..eb72ac97 100644
+index e19b25bc..5917c625 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-@@ -6178,7 +6178,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -1928,6 +1928,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+ 
+   type body_tr_defs_ctx = {
+     adt_defs : Mir.adt_def_tr list;
++    ghost_decl_map : (string * Ast.decl) list;
+     directives : Mir.annot list;
+     fn_specializer : string -> D.generic_arg list -> string * D.generic_arg list;
+   }
+@@ -4408,7 +4409,108 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       ( pre_asn,
+         Rust_parser.mk_outcome_post contract_loc post_asn unwind_post_asn )
+ 
+-  let gen_drop_contract adt_defs self_ty self_ty_targs self_lft_args limpl =
++  let drop_effect_name self_ty =
++    let suffix = "CopyOnDrop" in
++    if not (String.ends_with ~suffix self_ty) then None
++    else
++      let prefix_len = String.length self_ty - String.length suffix in
++      if prefix_len = 0 then Some "CopyOnDrop_drop_effect"
++      else if prefix_len >= 2
++          && String.sub self_ty (prefix_len - 2) 2 = "::"
++      then Some (String.sub self_ty 0 prefix_len ^ "CopyOnDrop_drop_effect")
++      else None
++
++  let loc_source_file =
++    let rec aux = function
++      | Ast.Lexed ((path, _, _), _) -> Some path
++      | Ast.MacroExpansion (_, body_loc) -> aux body_loc
++      | Ast.MacroParamExpansion (param_loc, _) -> aux param_loc
++      | Ast.DummyLoc -> None
++    in
++    aux
++
++  let concrete_drop_effect_decl ghost_decl_map adt_defs self_ty self_ty_targs
++      self_lft_args =
++    let open Ast in
++    match drop_effect_name self_ty with
++    | None -> None
++    | Some effect_name ->
++      let candidates = List.filter (fun (name, _) -> name = effect_name) ghost_decl_map in
++      begin match candidates with
++      | [] -> None
++      | _ ->
++        let invalid () =
++          let loc = match candidates with
++            | (_, decl)::_ ->
++              begin match AstAux.decl_loc_name_and_name_setter decl with
++              | Some (loc, _, _) -> loc
++              | None -> Ast.dummy_loc
++              end
++            | [] -> Ast.dummy_loc
++          in
++          static_error loc
++            "Malformed CopyOnDrop_drop_effect opt-in predicate" None
++        in
++        let guard = List.find_opt (fun (adt_def : Mir.adt_def_tr) -> adt_def.name = self_ty) adt_defs in
++        let guard_is_qualified = match guard with
++          | Some ({ loc = guard_loc; tparams = []; lft_params = []; fds_no_zst; def = Struct (_, _, [], Left (_, _, _, _), attrs); _ } : Mir.adt_def_tr) ->
++              let layout_is_exact = match rust_concrete_guard_layout attrs with
++                | Some layout -> layout.source_def_path = self_ty
++                    && layout.target_triple = "x86_64-unknown-linux-gnu"
++                    && layout.pointer_width = 64
++                | None -> false
++              in
++              let fields_are_exact = match fds_no_zst with
++                | [ { name = "src"; ty = { vf_ty = PtrTypeExpr (_, ManifestTypeExpr (_, Int (Unsigned, FixedWidthRank 3))); _ }; _ };
++                    { name = "dst"; ty = { vf_ty = PtrTypeExpr (_, ManifestTypeExpr (_, Int (Unsigned, FixedWidthRank 3))); _ }; _ };
++                    { name = "len"; ty = { vf_ty = ManifestTypeExpr (_, Int (Unsigned, PtrRank)); _ }; _ } ] -> true
++                | _ -> false
++              in
++              layout_is_exact && fields_are_exact
++                && self_ty_targs = [] && self_lft_args = []
++                && tparams = [] && lft_params = []
++                && loc_source_file guard_loc <> None
++          | _ -> false
++        in
++        if not guard_is_qualified then invalid ();
++        (* The Rust ghost parser intentionally normalizes `*const T` and
++           `*mut T` to the same PtrTypeExpr. Keep the declaration's exact
++           ordered source/destination names and u64 pointee types here; the
++           compiler-qualified guard metadata independently retains the
++           concrete field mutabilities. *)
++        let signature_types_match = function
++          | [ IdentTypeExpr (_, None, "thread_id_t");
++              PtrTypeExpr (_, ManifestTypeExpr (_, Int (Unsigned, FixedWidthRank 3)));
++              PtrTypeExpr (_, ManifestTypeExpr (_, Int (Unsigned, FixedWidthRank 3)));
++              ManifestTypeExpr (_, Int (Unsigned, PtrRank)) ] -> true
++          | _ -> false
++        in
++        let declarations, definitions = List.partition_map (fun (_, decl) ->
++          match decl with
++          | PredFamilyDecl (loc, _, [], 0, types, Some 4, Inductiveness_Inductive) ->
++              Left (loc, types)
++          | PredFamilyInstanceDecl (loc, _, [], [], params, body) ->
++              Right (loc, params, body)
++          | _ -> invalid ()) candidates
++        in
++        begin match declarations, definitions with
++        | [ (decl_loc, declared_types) ], [ (def_loc, params, body) ]
++            when List.length candidates = 2
++                && signature_types_match declared_types
++                && signature_types_match (List.map fst params)
++                && List.map snd params = [ "t"; "src"; "dst"; "len" ] ->
++            let guard_file = match guard with Some adt_def -> loc_source_file adt_def.loc | None -> None in
++            let body_is_nonempty = match body with EmpAsn _ -> false | _ -> true in
++            if not body_is_nonempty || guard_file = None
++                || loc_source_file decl_loc <> guard_file
++                || loc_source_file def_loc <> guard_file
++            then invalid ();
++            Some effect_name
++        | _ -> invalid ()
++        end
++      end
++
++  let gen_drop_contract adt_defs self_ty self_ty_targs self_lft_args drop_effect_opt limpl =
+     let outlives_clauses = [] in
+     let open Ast in
+     let ({ loc = ls; tparams; lft_params; fds_no_zst } : Mir.adt_def_tr) =
+@@ -4534,45 +4636,68 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+               not identical to its lifetime parameters is not yet supported",
+              None ));
+     let tid = Ast.Var (limpl, "_t") in
++    let mk_fields_and_padding_post effect_opt =
++      let padding_post =
++        Ast.CallExpr
++          ( limpl,
++            padding_pred_name self_ty,
++            self_ty_targs,
++            [],
++            [ LitPat (Var (limpl, "self")) ],
++            Static )
++      in
++      let post_tail =
++        match effect_opt with
++        | None -> padding_post
++        | Some effect_name ->
++          Ast.Sep
++            ( limpl,
++              padding_post,
++              Ast.CallExpr
++                ( limpl,
++                  effect_name,
++                  [],
++                  [],
++                  List.map (fun name -> LitPat (Var (limpl, name)))
++                    [ "_t"; "src"; "dst"; "len" ],
++                  PredFamCall ) )
++      in
++      List.fold_right
++        (fun ({ name; ty; loc } : Mir.field_def_tr) asn ->
++          match
++            let ty_interp = ty.interp in
++            let* points_to_asn =
++              ty_interp.points_to tid
++                (Read (loc, Var (loc, "self"), name))
++                (Some name)
++            in
++            let* own_asn = ty_interp.own tid (Var (loc, name)) in
++            Ok
++              (Ast.Sep
++                 (loc, Ast.Sep (loc, points_to_asn, own_asn), asn))
++          with
++          | Ok asn -> asn
++          | Error _ ->
++            raise
++              (Ast.StaticError
++                 ( loc,
++                   "Could not generate drop postcondition conjuncts for this field",
++                   None )))
++        fds_no_zst post_tail
++    in
++    let normal_post_tail = mk_fields_and_padding_post drop_effect_opt in
++    let unwind_post_tail = mk_fields_and_padding_post None in
+     let (Some post) =
+       AstAux.list_to_sep_conj
+         (List.map (fun e -> (limpl, e)) post_lft_tks)
+-        (Some
+-           (Ast.Sep
+-              ( ls,
+-                post_na_token,
+-                List.fold_right
+-                  (fun ({ name; ty; loc } : Mir.field_def_tr) asn ->
+-                    match
+-                      let ty_interp = ty.interp in
+-                      let* points_to_asn =
+-                        ty_interp.points_to tid
+-                          (Read (loc, Var (loc, "self"), name))
+-                          (Some name)
+-                      in
+-                      let* own_asn = ty_interp.own tid (Var (loc, name)) in
+-                      Ok
+-                        (Ast.Sep
+-                           (loc, Ast.Sep (loc, points_to_asn, own_asn), asn))
+-                    with
+-                    | Ok asn -> asn
+-                    | Error msg ->
+-                        raise
+-                          (Ast.StaticError
+-                             ( loc,
+-                               "Could not generate drop postcondition \
+-                                conjuncts for this field",
+-                               None )))
+-                  fds_no_zst
+-                  (Ast.CallExpr
+-                     ( limpl,
+-                       padding_pred_name self_ty,
+-                       self_ty_targs,
+-                       [],
+-                       [ LitPat (Var (limpl, "self")) ],
+-                       Static )) )))
++        (Some (Ast.Sep (ls, post_na_token, normal_post_tail)))
++    in
++    let (Some unwind_post) =
++      AstAux.list_to_sep_conj
++        (List.map (fun e -> (limpl, e)) post_lft_tks)
++        (Some (Ast.Sep (ls, post_na_token, unwind_post_tail)))
+     in
+-    Ok (pre, Rust_parser.mk_outcome_post limpl post post)
++    Ok (pre, Rust_parser.mk_outcome_post limpl post unwind_post)
+ 
+   (** makes the mappings used for substituting the MIR level local declaration ids with names closer to variables surface name *)
+   let make_var_id_name_maps (loc : Ast.loc) (vdis : Mir.var_debug_info list) =
+@@ -5139,8 +5264,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+                       | _ -> [])
+                     self_gen_args
+                 in
++                let drop_effect_opt =
++                  concrete_drop_effect_decl body_tr_defs_ctx.ghost_decl_map
++                    body_tr_defs_ctx.adt_defs self_ty self_ty_targs self_lft_args
++                in
+                 gen_drop_contract body_tr_defs_ctx.adt_defs self_ty
+-                  self_ty_targs self_lft_args fn_sig_loc
++                  self_ty_targs self_lft_args drop_effect_opt fn_sig_loc
+               else
+                 gen_contract body_tr_defs_ctx.adt_defs fn_sig_loc
+                   lft_param_names outlives_clauses send_tparams sync_tparams
+@@ -6178,7 +6307,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      in
      sep loc field_share_asns
  
@@ -220,7 +456,7 @@ index e19b25bc..eb72ac97 100644
        (ghost_decls : Ast.decl list) (trait_impls : trait_impl list)
        (adt_def_cpn : AdtDefRd.t) =
      let open AdtDefRd in
-@@ -6270,6 +6271,48 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6270,6 +6400,48 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              let [ variant_def_no_zst ] = variants_no_zst in
              let fds_no_zst = variant_def_no_zst.fields in
              let field_defs_no_zst = List.map translate_to_vf_field_def fds_no_zst in
@@ -240,9 +476,9 @@ index e19b25bc..eb72ac97 100644
 +                  |> List.map IntAux.Uint64.to_string
 +                in
 +                let exact_field_shape = match fds with
-+                  | [ { Mir.name = "src"; ty = { vf_ty = Ast.PtrType (Ast.Int (Unsigned, FixedWidthRank 3)); _ }; _ };
-+                      { Mir.name = "dst"; ty = { vf_ty = Ast.PtrType (Ast.Int (Unsigned, FixedWidthRank 3)); _ }; _ };
-+                      { Mir.name = "len"; ty = { vf_ty = Ast.Int (Unsigned, PtrRank); _ }; _ } ] -> true
++                  | [ { Mir.name = "src"; ty = { vf_ty = Ast.PtrTypeExpr (_, Ast.ManifestTypeExpr (_, Ast.Int (Unsigned, FixedWidthRank 3))); _ }; _ };
++                      { Mir.name = "dst"; ty = { vf_ty = Ast.PtrTypeExpr (_, Ast.ManifestTypeExpr (_, Ast.Int (Unsigned, FixedWidthRank 3))); _ }; _ };
++                      { Mir.name = "len"; ty = { vf_ty = Ast.ManifestTypeExpr (_, Ast.Int (Unsigned, PtrRank)); _ }; _ } ] -> true
 +                  | _ -> false
 +                in
 +                if concrete_guard_def_path <> def_path
@@ -269,7 +505,7 @@ index e19b25bc..eb72ac97 100644
              let struct_decl =
                Ast.Struct
                  ( def_loc,
-@@ -6281,7 +6324,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6281,7 +6453,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                        (*instance_pred_decl list*) [],
                        (*is polymorphic*) false ),
                    (*struct_attr list*)
@@ -278,7 +514,7 @@ index e19b25bc..eb72ac97 100644
              in
              let struct_typedef_aux =
                Ast.TypedefDecl
-@@ -8045,11 +8088,13 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -8045,11 +8217,13 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          in
          iter (Hashtbl.find_all fn_specialisations_table trait_fn)
        in
@@ -293,6 +529,15 @@ index e19b25bc..eb72ac97 100644
            adt_defs_cpn
        in
        let adt_defs = List.filter_map Fun.id adt_defs in
+@@ -8110,7 +8284,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+         else bodies_cpn
+       in
+       let body_tr_defs_ctx =
+-        { adt_defs; directives = vf_mir_translator_directives; fn_specializer }
++        { adt_defs; ghost_decl_map; directives = vf_mir_translator_directives; fn_specializer }
+       in
+       let* bodies_tr_res =
+         Rocq_writer.rocq_print Args.rocq_writer "Definition bodies := ";
 diff --git a/src/verifast.ml b/src/verifast.ml
 index 03fe22f2..5a25421f 100644
 --- a/src/verifast.ml

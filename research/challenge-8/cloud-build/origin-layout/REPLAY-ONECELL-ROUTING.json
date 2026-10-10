@@ -1,0 +1,18 @@
+{
+  "classification_route": "DIRECT_STRONG_PRE_BODY_PASS_CONDITIONAL",
+  "classify_routes": {
+    "ast": "proof_base",
+    "body_segment": "proof_base",
+    "mir": "proof_base + drop_module"
+  },
+  "mir_route": "proof_base.mir_helper/MIR_COPY_CALLEE; drop_module._target_names(proof_base)",
+  "post_false_newline_strip_roundtrip": true,
+  "prepare_or_extraction_invoked": false,
+  "schema": "onecell-classifier-synthetic-service-replay-v1",
+  "synthetic_mir": {
+    "admitted": false,
+    "reason": "empty synthetic operand origins intentionally reject admission",
+    "runtime_copy_count": 1
+  },
+  "toolchain_invoked": false
+}

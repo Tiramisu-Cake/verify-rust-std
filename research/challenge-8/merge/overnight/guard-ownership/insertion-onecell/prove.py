@@ -281,6 +281,11 @@ def execute_case(case: Path, args, env: dict) -> dict:
     vf_arguments = [str(args.tool_home / "bin/verifast"),
         "-rustc_args", "--edition 2021", "-verbose", "1", "-dump_ast_with_locs",
         "proof-ast.ml"]
+    qualification_target = getattr(args, "qualification_target", None)
+    if qualification_target is not None:
+        if qualification_target != "ILP32":
+            raise ValueError("Only the reviewed mismatched-model control is supported")
+        vf_arguments.extend(["-target", qualification_target])
     extern_spec = case / "origin-control.rsspec"
     extern_spec_binding = None
     if extern_spec.is_file() and extern_spec.read_bytes():

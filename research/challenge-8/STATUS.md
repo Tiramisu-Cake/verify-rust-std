@@ -1,4 +1,12 @@
-# MERGE actual insert_tail / CURRENT — session CLOSED
+# MERGE actual insert_tail / one-cell Drop / CURRENT — session ACTIVE
+
+New scoped authorization lifts the previous STOP. UTC start2026-10-10 10:21:50; main deadline12:21:50; finishing-only limit12:51:50. NEW separate3600 Cloud seconds; previous2501 account and1099 unused closed, no carryover. Policyc7ca8c46/adoption1b9e3df/ACKaec832ab retained. Assigned worktrees/branch/git-dir/index verified, newer own changes preserved. Ownermerge coordinatorv2/max2, one own unresolved. No local compiler/extraction/proof, Actions or upstream/maintainer integration.
+
+Frozen audit confirms the need for a qualified concrete layout/live-allocation bridge. [Reviewed card](cloud-build/origin-layout/GUARD-BRIDGE-CARD.md); experimental toolcandidate7379453dd8cd57c3225a65c35f1ee5c89e69f994. Build2105d916/dbd2b4b1 failed exporter API compilation (353s/full evidence verified), newcasesNOT_RUN. Corrected proof=infra9bc78de7848f28b11d408790f054acf1116a66b4, Build970fa776-c573-4d1e-bf7e-792d526dc4a5 WORKING. [Ledger](cloud-build/origin-layout/BUDGET.json) is authoritative for live accounting.
+
+Separate len1 Drop body contract keeps self.len and full normal posts/return/leak while omitting legacy root clauses only for this new helper. [Canonical effect card](cloud-build/origin-layout/DROP-EFFECT-CARD.md) reviewed before implementation; explicit resource effect in qualified generated NORMAL post, unchanged unwind post. Strong body/new canonical/caller construction/glue/panic cleanup remain pending, no acceptance. Historical bounded half-FBC CURRENT theorem remains retained below; quarter recovery is not reinvestigated.
+
+## Previous CLOSED session — retained evidence
 
 UTC start2026-10-10 00:34:48; main deadline02:34:48; finishing-only limit03:04:48. No experiments/Builds after main deadline; no automatic new session. New account CLOSED2501/3600 Cloud seconds,1099 unused closed. All7Builds terminal/accounted and full archives/textlogs verified; own reservations empty, ready request withdrawn. Coordinatorv2/max2 and peer accounts unchanged. Policyc7ca8c46/adoption1b9e3df/ACKaec832ab verified.
 

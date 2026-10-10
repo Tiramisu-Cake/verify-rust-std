@@ -8,6 +8,7 @@ from pathlib import Path
 import hashlib
 import json
 import re
+import copy
 
 ALIGN = b'''/*@
 lem guard_storage_alignment(p: *CopyOnDrop)
@@ -82,12 +83,47 @@ def run(root, args, env, execute_case, concrete_root):
         if expected == 'PASS':
             matched = admitted and stages['verifast'] == 0 and not errors and all(reached.values()) and 'Executing return statement' in log and 'Leak check.' in log and '0 errors found' in log
         else:
-            matched = admitted and stages['verifast'] == 1 and len(errors) == 1 and reached.get('target') and re.search(rf'verified/lib\.rs\({lines["target"]},\d+.*\): error: Cannot prove',errors[0]) is not None
+            matched = admitted and stages['verifast'] == 1 and len(errors) == 1 and reached.get('target') and re.search(rf'verified/lib\.rs\({lines["target"]},\d+.*\): error: (?:Assertion might not hold\. \()?Cannot prove',errors[0]) is not None
         row = {'classification': ('PASS_CONTROL' if expected == 'PASS' else 'EXPECTED_REJECTION') if matched else 'INCONCLUSIVE',
                'expectation':expected,'accepted':False,'original_sha256':sha(original),'verified_sha256':sha(verified),
                'runtime_exact_after_ghost_strip': stripped == original,'source_baseline_sha256':sha(baseline),
                'lines':lines,'reached':reached,'errors':errors,**execution}
         (case/'classification.json').write_text(json.dumps(row,indent=2)+'\n'); rows[name]=row
+    # Construct full mutable canonical FBC from the actual constructor resources.
+    # This targeted negative ends at entry, before the old readonly half-frame
+    # opening; it gives no mutable callee/post or CURRENT recovery credit.
+    half_close=b'        //@ close [1/2]CopyOnDrop_full_borrow_content(t, &gap_guard)();\n'
+    full_close=half_close.replace(b'[1/2]',b'')
+    entry_false=b'        //@ assert false; // TARGET: full mutable canonical FBC entry\n'
+    assert baseline.count(half_close)==1
+    verified=baseline.replace(half_close,full_close+entry_false,1)
+    ghosts=[item.encode().replace(half_close,full_close) for item in manifest['ghost_fragments']]+[entry_false]
+    stripped=verified
+    for ghost in ghosts:
+        assert stripped.count(ghost)==1
+        stripped=stripped.replace(ghost,b'',1)
+    assert stripped==original
+    name='full_mutable_canonical_fbc_entry_false';case=evidence/name
+    for tree,data in [('original',original),('verified',verified)]:
+        (case/tree).mkdir(parents=True);(case/tree/'lib.rs').write_bytes(data)
+    close_line=verified[:verified.index(full_close)].count(b'\n')+1
+    target_line=verified[:verified.index(entry_false)].count(b'\n')+1
+    execution=execute_case(case,args,env)
+    log=(case/'verifast.log').read_text(errors='replace')
+    errors=re.findall(r'^.*\berror:.*$',log,re.M|re.I)
+    reached=lambda line:bool(re.search(rf'verified/lib\.rs\({line},\d+.*\): (?:note: )?Executing statement',log))
+    matched=(execution.get('source_unchanged_at_every_stage') is True and
+             all(execution['stages'].get(k)==0 for k in ('exporter','decode','refinement')) and
+             execution['stages'].get('verifast')==1 and len(errors)==1 and
+             reached(close_line) and reached(target_line) and
+             re.search(rf'verified/lib\.rs\({target_line},\d+.*\): error: Assertion might not hold\. \(Cannot prove false\.\)',errors[0]) is not None)
+    rows[name]={'classification':'EXPECTED_REJECTION' if matched else 'INCONCLUSIVE',
+                'expectation':'EXPECTED_REJECTION','accepted':False,
+                'runtime_exact_after_ghost_strip':stripped==original,
+                'full_physical_fbc_constructed':matched,'canonical_ref_origin_not_claimed':True,
+                'callee_call_or_mutable_post_credit':False,'close_line':close_line,'target_line':target_line,
+                'original_sha256':sha(original),'verified_sha256':sha(verified),'errors':errors,**execution}
+    (case/'classification.json').write_text(json.dumps(rows[name],indent=2)+'\n')
     # Source/type qualification is refused before any layout equality is added.
     for name, declaration, ty, params in [
             ('wrong_constness_unqualified', 'struct CopyOnDrop {\n    src: *mut u64,\n    dst: *mut u64,\n    len: usize,\n}\n', 'CopyOnDrop', ''),
@@ -109,14 +145,46 @@ def run(root, args, env, execute_case, concrete_root):
                    all(execution['stages'].get(k)==0 for k in ('exporter','decode','refinement')) and
                    execution['stages'].get('verifast')==1 and qualified_absent and len(errors)==1 and
                    re.search(at+'(?:note: )?Executing statement',log) is not None and
-                   re.search(at+'error: Cannot prove',errors[0]) is not None and 'dead code' not in log.lower())
+                   re.search(at+r'error: (?:Assertion might not hold\. \()?Cannot prove',errors[0]) is not None and 'dead code' not in log.lower())
         rows[name]={'classification':'EXPECTED_REJECTION' if matched else 'INCONCLUSIVE',
                     'expectation':'EXPECTED_REJECTION','accepted':False,'qualified_layout_absent':qualified_absent,
                     'source_sha256':sha(data),'target_line':target,'errors':errors,**execution}
         (case/'classification.json').write_text(json.dumps(rows[name],indent=2)+'\n')
+    # The exporter still supplies its actual x86_64 layout.  A verifier using
+    # a 32-bit pointer model must refuse it before any layout fact/body step.
+    name = 'mismatched_verifier_pointer_model'
+    data = b'''#![no_std]
+struct CopyOnDrop {
+    src: *const u64,
+    dst: *mut u64,
+    len: usize,
+}
+pub unsafe fn target_control()
+/*@ req true; @*/ /*@ ens true; @*/ {
+    //@ assert std::mem::size_of::<CopyOnDrop>() > 0; // UNREACHED
+}
+'''
+    case=evidence/name
+    for tree in ('original','verified'):
+        (case/tree).mkdir(parents=True);(case/tree/'lib.rs').write_bytes(data)
+    control_args=copy.copy(args);control_args.qualification_target='ILP32'
+    execution=execute_case(case,control_args,env)
+    log=(case/'verifast.log').read_text(errors='replace')
+    decoded=(case/'decode.out').read_text(errors='replace')
+    errors=re.findall(r'^.*\berror:.*$',log,re.M|re.I)
+    matched=(execution.get('source_unchanged_at_every_stage') is True and
+             all(execution['stages'].get(k)==0 for k in ('exporter','decode','refinement')) and
+             execution['stages'].get('verifast')==1 and
+             'hasConcreteGuardLayout = true' in decoded and len(errors)==1 and
+             'Invalid compiler-qualified concrete Rust guard layout metadata.' in errors[0])
+    rows[name]={'classification':'EXPECTED_QUALIFICATION_REJECTION' if matched else 'INCONCLUSIVE',
+                'expectation':'EXPECTED_QUALIFICATION_REJECTION','accepted':False,
+                'exporter_target':'x86_64-unknown-linux-gnu','verifier_target':'ILP32',
+                'source_sha256':sha(data),'errors':errors,**execution}
+    (case/'classification.json').write_text(json.dumps(rows[name],indent=2)+'\n')
     summary={'schema':'qualified-guard-storage-controls-v1','cases':rows,'accepted':False,
              'domain':'source-linked concrete-u64 actual tmp/guard constructor and half-FBC precise frame',
-             'all_matched':all(row['classification'] in {'PASS_CONTROL','EXPECTED_REJECTION'} for row in rows.values()),
+             'all_matched':all(row['classification'] in {'PASS_CONTROL','EXPECTED_REJECTION','EXPECTED_QUALIFICATION_REJECTION'} for row in rows.values()),
              'actual_glue_credit':False}
     (evidence/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
     return summary

@@ -116,8 +116,13 @@ export LD_LIBRARY_PATH="$new_home/bin:/tmp/vfdeps-adf88dc/lib:${LD_LIBRARY_PATH:
 # Same pinned compiler builds the reviewed exporter from source; helpers/refiner
 # and retained-six source remain frozen. No binary is adopted by a prior pin.
 # capnproto-rust is a pinned regular Git tree at the source baseline.
+exporter_sysroot=$(rustc --print sysroot)
+printf '%s\n' "$exporter_sysroot" > "$evidence/exporter-compiler-sysroot.txt"
+# rustc-dev links LLVM from the same pinned toolchain's top-level lib directory;
+# Cargo's default native search covers rustlib/target/lib but not this directory.
 set +e
 /usr/bin/time -v -o "$evidence/exporter-build-resources.txt" \
+  env RUSTFLAGS="-L native=$exporter_sysroot/lib" \
   bash -c 'cd "$1/src/rust_frontend/vf_mir_exporter"; cargo build --locked' bash "$new_home" \
   > "$evidence/exporter-build.log" 2>&1
 exporter_build_status=$?

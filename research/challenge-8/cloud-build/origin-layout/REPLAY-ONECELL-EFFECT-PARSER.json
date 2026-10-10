@@ -1,0 +1,25 @@
+{
+  "effect_ast": {
+    "effect_in_unwind_rejected": true,
+    "positive": true,
+    "wrong_argument_binding_rejected": true
+  },
+  "effect_source_variants": [
+    "single_defining_exact_with_input_semicolon",
+    "single_defining_wrong_signature_with_input_semicolon",
+    "declaration_only_missing_definition_with_input_semicolon",
+    "absent"
+  ],
+  "missing_source_mutation_removes_source_quarter_and_tied_u64_owner_retains_type_len_separation_dst_gap": true,
+  "post_negative_ghost_strip_after_newline_fix": true,
+  "prepare_or_extraction_invoked": false,
+  "qualification_cases": {
+    "missing_effect_definition": "EXPECTED_EFFECT_QUALIFICATION_REJECTION",
+    "wrong_effect_signature": "EXPECTED_EFFECT_QUALIFICATION_REJECTION"
+  },
+  "schema": "onecell-effect-synthetic-parser-replay-v4",
+  "scope": "synthetic source-strip/parser-shape and targeted mutation checks only; no proof evidence",
+  "static_python_parse": true,
+  "toolchain_invoked": false,
+  "u64_own_omission_negative": "NOT_APPLICABLE"
+}
