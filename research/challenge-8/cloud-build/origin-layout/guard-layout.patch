@@ -209,7 +209,7 @@ index 9621ba91..a3e415e6 100644
  
          fn encode_adt_kind(adt_kind: ty::AdtKind, mut adt_kind_cpn: adt_kind_cpn::Builder<'_>) {
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index e19b25bc..2c80ac90 100644
+index e19b25bc..2b391fca 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -1928,6 +1928,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -220,7 +220,7 @@ index e19b25bc..2c80ac90 100644
      directives : Mir.annot list;
      fn_specializer : string -> D.generic_arg list -> string * D.generic_arg list;
    }
-@@ -4408,7 +4409,108 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4408,7 +4409,107 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        ( pre_asn,
          Rust_parser.mk_outcome_post contract_loc post_asn unwind_post_asn )
  
@@ -284,7 +284,6 @@ index e19b25bc..2c80ac90 100644
 +              in
 +              layout_is_exact && fields_are_exact
 +                && self_ty_targs = [] && self_lft_args = []
-+                && tparams = [] && lft_params = []
 +                && loc_source_file guard_loc <> None
 +          | _ -> false
 +        in
@@ -330,7 +329,7 @@ index e19b25bc..2c80ac90 100644
      let outlives_clauses = [] in
      let open Ast in
      let ({ loc = ls; tparams; lft_params; fds_no_zst } : Mir.adt_def_tr) =
-@@ -4534,45 +4636,68 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4534,45 +4635,68 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                not identical to its lifetime parameters is not yet supported",
               None ));
      let tid = Ast.Var (limpl, "_t") in
@@ -434,7 +433,7 @@ index e19b25bc..2c80ac90 100644
  
    (** makes the mappings used for substituting the MIR level local declaration ids with names closer to variables surface name *)
    let make_var_id_name_maps (loc : Ast.loc) (vdis : Mir.var_debug_info list) =
-@@ -5139,8 +5264,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5139,8 +5263,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                        | _ -> [])
                      self_gen_args
                  in
@@ -448,7 +447,7 @@ index e19b25bc..2c80ac90 100644
                else
                  gen_contract body_tr_defs_ctx.adt_defs fn_sig_loc
                    lft_param_names outlives_clauses send_tparams sync_tparams
-@@ -6178,7 +6307,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6178,7 +6306,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      in
      sep loc field_share_asns
  
@@ -458,7 +457,7 @@ index e19b25bc..2c80ac90 100644
        (ghost_decls : Ast.decl list) (trait_impls : trait_impl list)
        (adt_def_cpn : AdtDefRd.t) =
      let open AdtDefRd in
-@@ -6270,6 +6400,46 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6270,6 +6399,46 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              let [ variant_def_no_zst ] = variants_no_zst in
              let fds_no_zst = variant_def_no_zst.fields in
              let field_defs_no_zst = List.map translate_to_vf_field_def fds_no_zst in
@@ -505,7 +504,7 @@ index e19b25bc..2c80ac90 100644
              let struct_decl =
                Ast.Struct
                  ( def_loc,
-@@ -6281,7 +6451,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6281,7 +6450,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                        (*instance_pred_decl list*) [],
                        (*is polymorphic*) false ),
                    (*struct_attr list*)
@@ -514,7 +513,7 @@ index e19b25bc..2c80ac90 100644
              in
              let struct_typedef_aux =
                Ast.TypedefDecl
-@@ -8045,11 +8215,13 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -8045,11 +8214,13 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          in
          iter (Hashtbl.find_all fn_specialisations_table trait_fn)
        in
@@ -529,7 +528,7 @@ index e19b25bc..2c80ac90 100644
            adt_defs_cpn
        in
        let adt_defs = List.filter_map Fun.id adt_defs in
-@@ -8110,7 +8282,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -8110,7 +8281,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          else bodies_cpn
        in
        let body_tr_defs_ctx =
