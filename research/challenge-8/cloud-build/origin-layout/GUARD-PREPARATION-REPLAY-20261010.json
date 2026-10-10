@@ -1,0 +1,69 @@
+{
+  "schema": "guard-preparation-saved-replay-v1",
+  "classification": "PASS_PREPARATION_ONLY",
+  "source_build_id": "282324ae-a918-4bc6-b73b-e2861f2596e5",
+  "source_proof_sha": "a287a0f2d1b12e3a209b8d69cb66516acdd53f50",
+  "source_archive_sha256": "c05f8fe9f1df66f5a276884e5121bf318071968d5a1f761d3c7e7e8847cbbc54",
+  "legacy_first_refusal": {
+    "index": 4,
+    "count": 0,
+    "bytes": 2867,
+    "sha256": "f5f0d175f1a138929c2725572b6d00b3db3c3a73630cf42e7bec21d4f996bf86"
+  },
+  "prepared_cases": {
+    "qualified_live_guard": {
+      "original_sha256": "5ab17cf643056c2165ba5dc2534bbe5b8824f99c9ca13f7b612d04c79fbda128",
+      "verified_sha256": "4dd489b2cf24fbebda3c35aef2859e8d8bc50280144f039cdb627ced6d5e579e",
+      "lines": {
+        "extent": 76,
+        "storage_alignment": 79,
+        "separation": 80,
+        "post_fbc": 99
+      },
+      "runtime_exact_after_ghost_strip": true
+    },
+    "guard_source_overlap_false": {
+      "original_sha256": "5ab17cf643056c2165ba5dc2534bbe5b8824f99c9ca13f7b612d04c79fbda128",
+      "verified_sha256": "7dcb4f0d25416bdb7c976a21f9187158c475ba25233febc7eeaec5a0baaff54c",
+      "lines": {
+        "extent": 76,
+        "storage_alignment": 79,
+        "separation": 80,
+        "post_fbc": 100,
+        "target": 81
+      },
+      "runtime_exact_after_ghost_strip": true
+    },
+    "guard_zero_extent_false": {
+      "original_sha256": "5ab17cf643056c2165ba5dc2534bbe5b8824f99c9ca13f7b612d04c79fbda128",
+      "verified_sha256": "b4c10e4b959c180e0e6520576e447493602de81ab4ddc4b67ae546cf8e956546",
+      "lines": {
+        "extent": 76,
+        "storage_alignment": 79,
+        "separation": 80,
+        "post_fbc": 100,
+        "target": 81
+      },
+      "runtime_exact_after_ghost_strip": true
+    },
+    "full_mutable_canonical_fbc_entry_false": {
+      "original_sha256": "5ab17cf643056c2165ba5dc2534bbe5b8824f99c9ca13f7b612d04c79fbda128",
+      "verified_sha256": "91e46931f346ee6e6379d8c88a261d1e286e6cf9a40edeaaf8f7283ca5eb9ed6",
+      "lines": {
+        "close": 71,
+        "target": 72
+      },
+      "runtime_exact_after_ghost_strip": true
+    }
+  },
+  "rejected_mutations": {
+    "missing_post": true,
+    "duplicate_facts": true,
+    "runtime_changed": true,
+    "missing_manifest_carrier": true
+  },
+  "helper_sha256": "db6933f7a5a9f4401828b5e83fd7fdd903070b0c01e77412951d9111a64c0f15",
+  "compiler_attempted": false,
+  "proof_attempted": false,
+  "accepted": false
+}

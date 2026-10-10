@@ -28,3 +28,6 @@ explicit diagnostics. Replay all applicable fixture preparations against saved
 source, then run fresh exact-SHA Cloud bridge-minimal. No supplied extent or
 separation, semantic guard change, contract weakening, or proof credit follows
 from this repair. No repair/Build was performed after the main deadline.
+
+
+New authorized session repair: exact expected manifest carrier includes the inserted POST; saved byte replay PASS_PREPARATION_ONLY with four final fixtures/four mutation rejections. See GUARD-PREPARATION-REPLAY-20261010.json. This does not upgrade the historical refusal or provide proof credit.

@@ -1,3 +1,9 @@
+# MERGE guard qualification / len1 — ACTIVE
+
+New session2026-10-10T19:26:15Z, main21:26:15Z/absolute21:56:15Z, budget3600Cloud seconds (used0). Owner merge, v2/max2/one own active. Policyc7ca8c46/adoption1b9e3df/ACKaec832ab retained. Initial ownHEAD0f770c22/tool e16352c4/profile1bc74b60 preserved; foreign selector work excluded.
+
+Fixture saved replay **PASS_PREPARATION_ONLY**: exact manifest carrier repaired, runtime original conserved, four prepared fixtures/four mutation rejections. Source/MIR/AST classifier service positive+12 negatives pass. Fresh guard extent/alignment/separation proof and semantic negatives **NOT_RUN** pending exact-SHA Cloud. Previous compile/smokes/span/CURRENT recovery PASS retained; no fresh proof credit from replay. Len1 body/interface/caller NOT_RUN; actual glue NOT_IMPLEMENTED and panic cleanup out of scope. Tool/profile unchanged, profile NOT_ACCEPTED.
+
 # MERGE guard bridge — session CLOSED
 
 Session2026-10-10T12:58:04Z; main14:58:04Z/absolute15:28:04Z, hourupdate delivered.

@@ -18,6 +18,8 @@ GUARD_SOURCE = (b"struct CopyOnDrop {\n    src: *const u64,\n"
                 b"    dst: *mut u64,\n    len: usize,\n}")
 TMP_SOURCE = b"        let tmp = ManuallyDrop::new(tail.read());\n"
 GUARD_INIT = b"        let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };\n"
+SEPARATION_FACT = b"// GUARD: allocation separation"
+POST_FBC_FACT = b"// GUARD: post FBC separation"
 
 
 def _load(name: str, path: Path):
@@ -123,27 +125,125 @@ def _normal_successors(mir, block) -> list[int]:
     return [mir.path(target, "index") for target in targets]
 
 
-def _concurrent_live_path(mir, blocks, tmp_event, guard_event, tmp_id) -> bool:
+def _concurrent_live_path(mir, blocks, tmp_event, guard_event,
+                          constructor_event, tmp_id, guard_id) -> bool:
     by_id = {mir.path(block, "id", "index"): block for block in blocks}
     _need(len(by_id) == len(blocks), "duplicate MIR block identity")
-    todo = [(tmp_event[0], tmp_event[1] + 1)]
+    todo = [(tmp_event[0], tmp_event[1] + 1, False)]
     visited = set()
     while todo:
-        block_id, start = todo.pop()
-        if (block_id, start) in visited:
+        block_id, start, guard_live = todo.pop()
+        if (block_id, start, guard_live) in visited:
             continue
-        visited.add((block_id, start))
+        visited.add((block_id, start, guard_live))
         block = by_id.get(block_id)
         _need(block is not None, "MIR normal edge points to absent block")
         statements = mir.path(block, "statements")
         for index in range(start, len(statements)):
             if (block_id, index) == guard_event[:2]:
+                guard_live = True
+            if (block_id, index) == constructor_event[:2] and guard_live:
                 return True
-            if mir.path(statements[index], "kind") == {"storageDead": {"name": tmp_id}}:
+            kind = mir.path(statements[index], "kind")
+            if kind in ({"storageDead": {"name": tmp_id}},
+                        {"storageDead": {"name": guard_id}} if guard_live else {}):
                 break
         else:
-            todo.extend((next_id, 0) for next_id in _normal_successors(mir, block))
+            todo.extend((next_id, 0, guard_live)
+                        for next_id in _normal_successors(mir, block))
     return False
+
+
+def _guard_field_write(ast, statement, guard_line: int) -> str | None:
+    """Recognize one translated constructor write to the actual guard local."""
+    if not isinstance(statement, ast.Node) or statement.name != "ExprStmt" or len(statement.args) != 1:
+        return None
+    assignment = statement.args[0]
+    if not isinstance(assignment, ast.Node) or assignment.name != "AssignExpr" or len(assignment.args) != 4:
+        return None
+    target = assignment.args[1]
+    if not isinstance(target, ast.Node) or target.name != "Select" or len(target.args) != 3:
+        return None
+    owner = target.args[1]
+    if not isinstance(owner, ast.Node) or owner.name != "Var" or len(owner.args) != 2:
+        return None
+    if owner.args[1] != "gap_guard" or ast.location_line(assignment.args[0]) != guard_line:
+        return None
+    return target.args[2] if target.args[2] in ("src", "dst", "len") else None
+
+
+def _ast_live_constructor_path(ast, runtime, tmp_marker, guard_marker,
+                               tmp_id: str, guard_id: str, guard_line: int,
+                               separation_lines: tuple[int, int]) -> dict:
+    """Require the saved translator's flat normal sequence, not tree preorder."""
+    _need(isinstance(runtime, ast.Node) and runtime.name == "Some" and len(runtime.args) == 1,
+          "translated function body is not a concrete normal sequence")
+    body = runtime.args[0]
+    _need(isinstance(body, tuple) and len(body) == 2 and isinstance(body[0], list),
+          "translated function body has no flat statement sequence")
+    statements = body[0]
+    positions = []
+    for marker in (tmp_marker, guard_marker):
+        found = [i for i, statement in enumerate(statements) if statement is marker]
+        positions.append(_one(found, "top-level live marker on the same normal path"))
+    tmp_at, guard_at = positions
+    _need(tmp_at < guard_at, "translated tmp/guard live markers are reversed")
+    safe_prefix = {"RustStorageLiveStmt", "RustStorageDeadStmt", "ExprStmt", "PureStmt"}
+    for statement in statements[tmp_at + 1:guard_at]:
+        _need(isinstance(statement, ast.Node) and statement.name in safe_prefix,
+              "branch or unsupported statement between tmp and guard StorageLive")
+        _need(not any(node.name in {"IfStmt", "SwitchStmt", "WhileStmt", "LoopStmt",
+                                        "ReturnStmt", "GotoStmt", "LabeledStmt"}
+                      for node in ast.walk(statement)),
+              "nested control transfer between tmp and guard StorageLive")
+        _need(not (statement.name == "RustStorageDeadStmt" and len(statement.args) == 4 and
+                   statement.args[2] == tmp_id),
+              "tmp storage retired before guard StorageLive")
+    constructor_fields = []
+    first_fact = None
+    for index in range(guard_at + 1, len(statements)):
+        statement = statements[index]
+        _need(isinstance(statement, ast.Node), "nonstatement on guard constructor path")
+        if statement.name == "PureStmt":
+            _need(ast.location_line(statement.args[0]) == guard_line + 1,
+                  "first guard assertion is not immediately after constructor")
+            first_fact = index
+            break
+        _need(statement.name in {"RustStorageLiveStmt", "RustStorageDeadStmt", "ExprStmt"},
+              "branch or unsupported statement before guard assertions")
+        _need(not (statement.name == "RustStorageDeadStmt" and len(statement.args) == 4 and
+                   statement.args[2] in (tmp_id, guard_id)),
+              "tmp or guard storage retired before guard assertion")
+        field = _guard_field_write(ast, statement, guard_line)
+        if field is not None:
+            constructor_fields.append(field)
+    _need(first_fact is not None and constructor_fields == ["src", "dst", "len"],
+          "actual guard constructor fields are not completed before assertion")
+    facts_seen = set()
+    for statement in statements[first_fact:]:
+        _need(isinstance(statement, ast.Node) and statement.name in safe_prefix,
+              "branch or unsupported statement before post-FBC separation")
+        _need(not any(node.name in {"IfStmt", "SwitchStmt", "WhileStmt", "LoopStmt",
+                                        "ReturnStmt", "GotoStmt", "LabeledStmt"}
+                      for node in ast.walk(statement)),
+              "nested control transfer before post-FBC separation")
+        if statement.name == "RustStorageDeadStmt" and len(statement.args) == 4:
+            _need(statement.args[2] not in (tmp_id, guard_id),
+                  "tmp or guard storage retired before post-FBC separation")
+        if statement.name == "PureStmt":
+            line = ast.location_line(statement.args[0])
+            if line in separation_lines:
+                _need(bool(ast.nodes(statement, "Assert")),
+                      "separation source line is not an AST assertion")
+                facts_seen.add(line)
+        if facts_seen == set(separation_lines):
+            break
+    _need(facts_seen == set(separation_lines),
+          "physical and post-FBC separation assertions are not on the live AST path")
+    return {"tmp_live_index": tmp_at, "guard_live_index": guard_at,
+            "first_assertion_index": first_fact,
+            "constructor_fields": constructor_fields,
+            "separation_assertion_lines": sorted(facts_seen)}
 
 
 def admit(case: Path) -> dict:
@@ -160,6 +260,10 @@ def admit(case: Path) -> dict:
         guard_line = _source_line(source, GUARD_SOURCE)
         tmp_line = _source_line(source, TMP_SOURCE)
         init_line = _source_line(source, GUARD_INIT)
+        separation_lines = (_source_line(source, SEPARATION_FACT),
+                            _source_line(source, POST_FBC_FACT))
+        _need(init_line < separation_lines[0] < separation_lines[1],
+              "guard separation assertions are out of source order")
         _need(guard_line < tmp_line < init_line, "source guard/locals are out of order")
         mir = _load("guard_layout_strict_mir", OLD / "stack-address-admission.py")
         ast = _load("guard_layout_strict_ast", OLD / "stack-proof-ast-admission.py")
@@ -275,9 +379,36 @@ def admit(case: Path) -> dict:
         _need(tmp_live[2] == tmp_line and guard_live[2] == init_line and
               tmp_live[2] < guard_live[2],
               "MIR tmp/guard liveness does not match source anchors")
-        _need(_concurrent_live_path(mir, blocks, tmp_live, guard_live,
-                                    local_ids["tmp"]),
-              "MIR does not connect tmp StorageLive to guard StorageLive while tmp is live")
+        aggregates = []
+        for block in blocks:
+            block_id = mir.path(block, "id", "index")
+            for position, statement in enumerate(mir.path(block, "statements")):
+                assignment = mir.assignment(statement)
+                if assignment is None:
+                    continue
+                rhs = mir.path(assignment, "rhsRvalue")
+                if not isinstance(rhs, dict) or "aggregate" not in rhs:
+                    continue
+                aggregate = rhs["aggregate"]
+                kind = mir.path(aggregate, "aggregateKind")
+                if not isinstance(kind, dict) or "adt" not in kind:
+                    continue
+                adt = kind["adt"]
+                if mir.path(adt, "adtId", "name") != path:
+                    continue
+                lhs = mir.path(assignment, "lhsPlace")
+                line, _, _ = _span(mir, mir.path(statement, "sourceInfo", "span"),
+                                   source, allow_empty=True)
+                _need(mir.path(lhs, "local", "name") == local_ids["gap_guard"] and
+                      mir.path(lhs, "projection") == [] and line == init_line and
+                      [mir.path(field, "name") for field in mir.path(adt, "fields")] == names and
+                      len(mir.path(aggregate, "operands")) == 3,
+                      "MIR guard constructor does not initialize the actual local")
+                aggregates.append((block_id, position, line))
+        constructor = _one(aggregates, "source-bound MIR guard constructor")
+        _need(_concurrent_live_path(mir, blocks, tmp_live, guard_live, constructor,
+                                    local_ids["tmp"], local_ids["gap_guard"]),
+              "MIR does not connect both live allocations to actual guard constructor")
         functions = [node for node in ast.nodes(ast_tree, "Func")
                      if len(node.args) == 13 and node.args[4] == "insertion_onecell"]
         function = _one(functions, "translated insertion_onecell function")
@@ -294,9 +425,13 @@ def admit(case: Path) -> dict:
             index, marker = _one(found, f"{name} translated StorageLive")
             _need(ast.location_line(marker.args[1]) == source_line,
                   f"{name} AST marker differs from MIR span")
-            markers[name] = index
-        _need(markers["tmp"] < markers["gap_guard"],
+            markers[name] = (index, marker)
+        _need(markers["tmp"][0] < markers["gap_guard"][0],
               "translated tmp/guard StorageLive order differs")
+        ast_path = _ast_live_constructor_path(
+            ast, runtime, markers["tmp"][1], markers["gap_guard"][1],
+            local_ids["tmp"], local_ids["gap_guard"], init_line,
+            separation_lines)
         return {"admitted": True, "source_guard_line": guard_line,
                 "layout": {"def_path": path, "def_path_hash": path_hash,
                            "target_triple": "x86_64-unknown-linux-gnu",
@@ -305,6 +440,8 @@ def admit(case: Path) -> dict:
                            "field_sizes": sizes},
                 "locals": {"tmp": local_ids["tmp"], "gap_guard": local_ids["gap_guard"]},
                 "storage_live_lines": {"tmp": tmp_live[2], "gap_guard": guard_live[2]},
+                "constructor_line": constructor[2],
+                "ast_normal_constructor_path": ast_path,
                 "decode_sha256": hashlib.sha256(decoded).hexdigest(),
                 "proof_ast_sha256": hashlib.sha256(ast_bytes).hexdigest(),
                 "verified_source_sha256": hashlib.sha256(source).hexdigest()}

@@ -467,7 +467,7 @@ proof_attempted = ((compile_dir.parent / "retained-six-smoke.log").is_file() or
                    (compile_dir.parent / "minimal-bridge.log").is_file())
 bridge_pass = (bridge.get("all_matched") is True and bridge.get("accepted") is False and
     bridge.get("schema") == "merge-minimal-guard-bridge-v1" and
-    bridge.get("exact_case_sets") is True and len(bridge.get("cases",{})) == 20 and
+    bridge.get("exact_case_sets") is True and len(bridge.get("cases",{})) == 21 and
     bridge.get("campaign") == "bridge-minimal-v1" and
     retained.get("cases") == {"ordinary_call_normal_unwind": "PASS"} and
     retained.get("classifier_controls_passed") is True)

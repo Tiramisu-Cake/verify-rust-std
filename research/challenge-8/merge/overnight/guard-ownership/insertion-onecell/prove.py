@@ -591,7 +591,7 @@ def main() -> int:
         guard_names = {"qualified_live_guard", "guard_source_overlap_false", "guard_zero_extent_false",
                        "full_mutable_canonical_fbc_entry_false", "wrong_constness_unqualified",
                        "renamed_guard_unqualified", "generic_guard_unqualified", "zst_guard_unqualified",
-                       "mismatched_verifier_pointer_model"}
+                       "mismatched_verifier_pointer_model", "qualified_layout_without_storage_resources"}
         exact_case_sets = (set(span_summary.get("controls",{})) == span_names and
                            set(guard_summary.get("cases",{})) == guard_names)
         all_matched = (exact_case_sets and span_summary.get("all_matched") is True and
@@ -599,7 +599,7 @@ def main() -> int:
         aggregate = {"schema": "merge-minimal-guard-bridge-v1", "profile": PROFILE,
             "campaign": "bridge-minimal-v1", "accepted": False,
             "diagnostic_complete": all_matched, "all_matched": all_matched,
-            "exact_case_sets": exact_case_sets, "required_case_count": 20,
+            "exact_case_sets": exact_case_sets, "required_case_count": 21,
             "classification": "PASS_COMPONENT_DIAGNOSTIC" if all_matched else "INCONCLUSIVE",
             "environment": environment, "combined_profile_smoke": combined_smoke,
             "allocation_span_controls": span_summary,

@@ -13,7 +13,9 @@ admission = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(admission)
 
 source = (admission.GUARD_SOURCE + b"\npub unsafe fn insertion_onecell() {\n" +
-          admission.TMP_SOURCE + admission.GUARD_INIT + b"}\n")
+          admission.TMP_SOURCE + admission.GUARD_INIT +
+          b"        //@ assert true; // GUARD: allocation separation\n" +
+          b"        //@ assert true; // GUARD: post FBC separation\n}\n")
 line = lambda token: source[:source.index(token)].count(b"\n") + 1
 tmp_line, guard_line = line(admission.TMP_SOURCE), line(admission.GUARD_INIT)
 
@@ -60,12 +62,25 @@ def live(name, ident, source_line):
             "sourceInfo": {"span": span(source_line)}}
 
 
+constructor = {
+    "kind": {"assign": {
+        "lhsPlace": {"local": local("_2"), "projection": []},
+        "rhsRvalue": {"aggregate": {
+            "aggregateKind": {"adt": {"adtId": {"name": "CopyOnDrop"},
+                                      "fields": [{"name": name} for name in
+                                                 ("src", "dst", "len")]}},
+            "operands": [1, 2, 3]}}}},
+    "sourceInfo": {"span": span(guard_line)},
+}
+
+
 body = {"defPath": "insertion_onecell",
         "varDebugInfo": [debug("tmp", "_1"), debug("gap_guard", "_2")],
         "localDecls": [{"id": local("_1")}, {"id": local("_2")}],
         "basicBlocks": [{"id": {"index": 0},
                          "statements": [live("storageLive", "_1", tmp_line),
-                                        live("storageLive", "_2", guard_line)],
+                                        live("storageLive", "_2", guard_line),
+                                        constructor],
                          "terminator": {"kind": {"return": None}}}]}
 mir = {"targetTriple": "x86_64-unknown-linux-gnu", "pointerWidth": 64,
        "adtDefs": {"cons": {"h": adt, "t": {"nil": None}}}, "bodies": [body]}
@@ -98,17 +113,39 @@ ast_fields = ";".join(
 attr = ('RustConcreteGuardLayout(make_rust_concrete_guard_layout('
         '"CopyOnDrop","DefPathHash(abc)","x86_64-unknown-linux-gnu",'
         '64,"24","8",["0";"8";"16"],["8";"8";"8"]))')
-markers = ";".join(
-    f'RustStorageLiveStmt(loc "verified/lib.rs({number},1)",'
-    f'loc "verified/lib.rs({number},1)","{ident}","{name}")'
-    for number, ident, name in ((tmp_line, "_1", "tmp"),
-                                (guard_line, "_2", "gap_guard")))
+def marker(kind, number, ident, name):
+    return (f'{kind}(loc "verified/lib.rs({number},1)",'
+            f'loc "verified/lib.rs({number},1)","{ident}","{name}")')
+
+
+tmp_marker = marker("RustStorageLiveStmt", tmp_line, "_1", "tmp")
+guard_marker = marker("RustStorageLiveStmt", guard_line, "_2", "gap_guard")
+loc = f'loc "verified/lib.rs({guard_line},1)"'
+writes = [f'ExprStmt(AssignExpr({loc},Select({loc},Var({loc},"gap_guard"),'
+          f'"{field}"),Mutation,Var({loc},"value")))'
+          for field in ("src", "dst", "len")]
+def assertion(line):
+    return (f'PureStmt(loc "verified/lib.rs({line},1)",'
+            f'Assert(loc "verified/lib.rs({line},1)",true))')
+
+
+fact = assertion(guard_line + 1)
+post_fact = assertion(guard_line + 2)
+statements = [tmp_marker, guard_marker, *writes, fact, post_fact]
 fn_args = ["None"] * 13
 fn_args[4] = '"insertion_onecell"'
-fn_args[10] = 'BlockStmt([' + markers + '])'
-ast_text = ('[Struct(loc "verified/lib.rs(1,1-5,2)","CopyOnDrop",[],Left([],[' +
+
+
+def ast_text_for(items):
+    args = fn_args.copy()
+    args[10] = ('Some(([' + ';'.join(items) + '],'
+                f'loc "verified/lib.rs({guard_line + 3},1)"))')
+    return ('[Struct(loc "verified/lib.rs(1,1-5,2)","CopyOnDrop",[],Left([],[' +
             ast_fields + '],[],false),[' + attr + ']);Func(' +
-            ','.join(fn_args) + ')]')
+            ','.join(args) + ')]')
+
+
+ast_text = ast_text_for(statements)
 
 with tempfile.TemporaryDirectory() as temp:
     case = Path(temp)
@@ -130,4 +167,39 @@ with tempfile.TemporaryDirectory() as temp:
     (case / "decode.out").write_text(encode(bad_mir))
     (case / "proof-ast.ml").write_text(ast_text)
     assert admission.admit(case)["admitted"] is False
-print("guard layout saved-data parser: positive and three mutations passed")
+    (case / "decode.out").write_text(encode(mir))
+    dead = marker("RustStorageDeadStmt", tmp_line, "_1", "tmp")
+    (case / "proof-ast.ml").write_text(
+        ast_text_for([tmp_marker, dead, guard_marker, *writes, fact, post_fact]))
+    assert admission.admit(case)["admitted"] is False
+    branch = f'IfStmt({loc},true,SkipStmt({loc}),SkipStmt({loc}))'
+    (case / "proof-ast.ml").write_text(
+        ast_text_for([tmp_marker, branch, guard_marker, *writes, fact, post_fact]))
+    assert admission.admit(case)["admitted"] is False
+    (case / "proof-ast.ml").write_text(
+        ast_text_for([tmp_marker, branch.replace("IfStmt", "SwitchStmt"),
+                      guard_marker, *writes, fact, post_fact]))
+    assert admission.admit(case)["admitted"] is False
+    nested_guard = f'IfStmt({loc},true,{guard_marker},SkipStmt({loc}))'
+    (case / "proof-ast.ml").write_text(
+        ast_text_for([tmp_marker, nested_guard, *writes, fact, post_fact]))
+    assert admission.admit(case)["admitted"] is False
+    (case / "proof-ast.ml").write_text(
+        ast_text_for([tmp_marker, guard_marker, dead, *writes, fact, post_fact]))
+    assert admission.admit(case)["admitted"] is False
+    (case / "proof-ast.ml").write_text(
+        ast_text_for([tmp_marker, guard_marker, *writes[:-1], fact, post_fact]))
+    assert admission.admit(case)["admitted"] is False
+    (case / "proof-ast.ml").write_text(
+        ast_text_for([tmp_marker, guard_marker, *writes, fact, dead, post_fact]))
+    assert admission.admit(case)["admitted"] is False
+    (case / "proof-ast.ml").write_text(
+        ast_text_for([tmp_marker, guard_marker, *writes, fact]))
+    assert admission.admit(case)["admitted"] is False
+    (case / "proof-ast.ml").write_text(ast_text)
+    bad_mir = copy.deepcopy(mir)
+    bad_mir["bodies"][0]["basicBlocks"][0]["statements"].insert(
+        2, live("storageDead", "_1", guard_line))
+    (case / "decode.out").write_text(encode(bad_mir))
+    assert admission.admit(case)["admitted"] is False
+print("guard layout saved-data parser: positive and twelve mutations passed")
