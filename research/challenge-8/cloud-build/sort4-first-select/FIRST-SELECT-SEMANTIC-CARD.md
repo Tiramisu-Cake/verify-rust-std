@@ -1,6 +1,6 @@
 # First actual selector after the C4 prefix: conditional design card
 
-This is a read-only next-step design, contingent on an accepted exact C4 bound
+This is a read-only next-step design, contingent on a proved and independently reviewed exact C4 bound
 verdict. It does not admit a selector summary, verifier profile, proof or Cloud
 dispatch. The actual source is `sort4_stable` from std blob
 `40939f922bcb6fdc7ee0d30427fa861827043827`; the first selector is
