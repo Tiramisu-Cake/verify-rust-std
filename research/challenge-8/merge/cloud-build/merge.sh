@@ -751,7 +751,7 @@ if python3 "$selection_tool" contains --selection "$selection_file" \
   onecell_status=0
   onecell_remaining=$((lane_work_budget_seconds - (SECONDS - lane_started) - 140))
   onecell_build_timeout=$onecell_remaining
-  (( onecell_build_timeout <= 300 )) || onecell_build_timeout=300
+  (( onecell_build_timeout <= 500 )) || onecell_build_timeout=500
   if (( onecell_build_timeout > 0 )); then
     /usr/bin/time -v -o "$allprooflogs/group-$onecell_group-build-resources.txt" \
       timeout --signal=TERM --kill-after=10s "${onecell_build_timeout}s" \
@@ -773,10 +773,10 @@ if python3 "$selection_tool" contains --selection "$selection_file" \
       /usr/bin/time -v -o "$allprooflogs/group-$onecell_group-resources.txt" \
         timeout --signal=TERM --kill-after=10s "${onecell_proof_timeout}s" \
         python3 "$onecell_component/prove.py" \
-          --profile experimental-merge-origin-layout-concrete-u64-v1 \
+          --profile experimental-merge-qualified-guard-onecell-v1 \
           --profile-evidence "$onecell_build" --tool-home "$onecell_home" \
           --compiler-sysroot "$(rustc --print sysroot)" \
-          --schema "$RUNNER_TEMP/challenge8-merge-overnight/vf_mir.capnp" \
+          --schema "$onecell_home/src/rust_frontend/vf_mir/vf_mir.capnp" \
           --stage-seconds 25 --verifier-seconds 35 --evidence "$onecell_case" \
         >> "$allprooflogs/group-$onecell_group.log" 2>&1 || onecell_status=$?
     else

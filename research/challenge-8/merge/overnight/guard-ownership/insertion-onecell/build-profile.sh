@@ -24,7 +24,7 @@ pins=json.loads((here/'PROFILE.json').read_text())
 # helpers sourced from the same pinned 26.10 release archive used by run.sh;
 # fill only omissions, and never replace a present but mismatched dependency.
 release=base.parent/'verifast-26.10'
-deps={'bin/vf-rust-mir-exporter':'exporter_sha256',
+deps={'bin/vf-rust-mir-exporter':'baseline_exporter_sha256',
       'bin/refinement-checker':'refiner_sha256'}
 report={'schema':'onecell-frozen-dependency-bootstrap-v1',
         'release_home':str(release),'dependencies':{}}
@@ -75,7 +75,7 @@ import hashlib,json,pathlib,sys
 here,home,evidence=map(pathlib.Path,sys.argv[1:])
 pins=json.loads((here/'PROFILE.json').read_text())
 assert pins['schema']=='smallsort-tracked-md-profile-v1' and not pins['accepted']
-paths={'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml':'baseline_translator_sha256','src/verifast.ml':'baseline_kernel_sha256','src/verifast1.ml':'model_baseline_sha256','src/rust_frontend/vf_mir_translator/rust_parser.ml':'parser_sha256','bin/rust/prelude_core.rsspec':'prelude_sha256','bin/rust/std/lib.rsspec':'stdlib_sha256','bin/vf-rust-mir-exporter':'exporter_sha256','bin/refinement-checker':'refiner_sha256','bin/libz3.so':'z3_sha256','src/frontend/ocaml_expr_of_ast.ml':'baseline_emitter_sha256'}
+paths={'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml':'baseline_translator_sha256','src/verifast.ml':'baseline_kernel_sha256','src/verifast1.ml':'model_baseline_sha256','src/rust_frontend/vf_mir_translator/rust_parser.ml':'parser_sha256','bin/rust/prelude_core.rsspec':'prelude_sha256','bin/rust/std/lib.rsspec':'stdlib_sha256','bin/vf-rust-mir-exporter':'baseline_exporter_sha256','bin/refinement-checker':'refiner_sha256','bin/libz3.so':'z3_sha256','src/frontend/ocaml_expr_of_ast.ml':'baseline_emitter_sha256'}
 for path,key in paths.items():
  assert hashlib.sha256((home/path).read_bytes()).hexdigest()==pins[key],(path,key)
 assert hashlib.sha256((here/'tracked-md.patch').read_bytes()).hexdigest()==pins['patch_sha256']
@@ -101,9 +101,31 @@ LAYOUTPIN
 git -C "$new_home" -c core.whitespace=cr-at-eol apply --check "$layout_patch"
 git -C "$new_home" -c core.whitespace=cr-at-eol apply --whitespace=error "$layout_patch"
 cp "$layout_patch" "$evidence/unit-layout.patch"
+guard_patch="$here/../../../../cloud-build/origin-layout/guard-layout.patch"
+python3 - "$here" "$guard_patch" <<'GUARDPIN'
+import hashlib,json,pathlib,sys
+h,p=map(pathlib.Path,sys.argv[1:]);pins=json.loads((h/'PROFILE.json').read_text())
+assert hashlib.sha256(p.read_bytes()).hexdigest()==pins['guard_layout_patch_sha256']
+GUARDPIN
+git -C "$new_home" -c core.whitespace=cr-at-eol apply --check "$guard_patch"
+git -C "$new_home" -c core.whitespace=cr-at-eol apply --whitespace=error "$guard_patch"
+cp "$guard_patch" "$evidence/guard-layout.patch"
 export PATH="/tmp/vfdeps-adf88dc/bin:$PATH"
 export CAPNP_INC_DIR=/tmp/vfdeps-adf88dc/include
 export LD_LIBRARY_PATH="$new_home/bin:/tmp/vfdeps-adf88dc/lib:${LD_LIBRARY_PATH:-}"
+# Same pinned compiler builds the reviewed exporter from source; helpers/refiner
+# and retained-six source remain frozen. No binary is adopted by a prior pin.
+git -C "$new_home" submodule update --init src/rust_frontend/vf_mir_exporter/capnproto-rust
+set +e
+/usr/bin/time -v -o "$evidence/exporter-build-resources.txt" \
+  bash -c 'cd "$1/src/rust_frontend/vf_mir_exporter"; cargo build --locked' bash "$new_home" \
+  > "$evidence/exporter-build.log" 2>&1
+exporter_build_status=$?
+set -e
+printf '%s\n' "$exporter_build_status" > "$evidence/exporter-build-exit-code.txt"
+cat "$evidence/exporter-build.log"
+(( exporter_build_status == 0 )) || exit "$exporter_build_status"
+cp "$new_home/src/rust_frontend/vf_mir_exporter/target/debug/vf_mir_exporter" "$new_home/bin/vf-rust-mir-exporter"
 set +e
 /usr/bin/time -v -o "$evidence/console-build-resources.txt" \
   make -C "$new_home/src" ../bin/verifast WITHOUT_LABLGTK=yes VERBOSE=yes \
@@ -118,9 +140,9 @@ import hashlib,json,os,pathlib,runpy,sys
 here,home,evidence,base_evidence=map(pathlib.Path,sys.argv[1:])
 pins=json.loads((here/'PROFILE.json').read_text())
 h=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
-paths={'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml':'translator_sha256','src/verifast.ml':'kernel_sha256','src/verifast1.ml':'model_sha256','src/rust_frontend/vf_mir_translator/rust_parser.ml':'parser_sha256','bin/rust/prelude_core.rsspec':'prelude_sha256','bin/rust/std/lib.rsspec':'stdlib_sha256','bin/vf-rust-mir-exporter':'exporter_sha256','bin/refinement-checker':'refiner_sha256','bin/libz3.so':'z3_sha256','src/frontend/ocaml_expr_of_ast.ml':'emitter_sha256','src/frontend/ast.ml':'ast_sha256','src/SExpressionEmitter.ml':'sexpression_sha256','src/verify_expr.ml':'verify_expr_sha256'}
+paths={'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml':'translator_sha256','src/verifast.ml':'kernel_sha256','src/verifast1.ml':'model_sha256','src/rust_frontend/vf_mir_translator/rust_parser.ml':'parser_sha256','bin/rust/prelude_core.rsspec':'prelude_sha256','bin/rust/std/lib.rsspec':'stdlib_sha256','src/rust_frontend/vf_mir_exporter/src/lib.rs':'exporter_source_sha256','src/rust_frontend/vf_mir/vf_mir.capnp':'schema_sha256','bin/refinement-checker':'refiner_sha256','bin/libz3.so':'z3_sha256','src/frontend/ocaml_expr_of_ast.ml':'emitter_sha256','src/frontend/ast.ml':'ast_sha256','src/SExpressionEmitter.ml':'sexpression_sha256','src/verify_expr.ml':'verify_expr_sha256'}
 for path,key in paths.items(): assert h(home/path)==pins[key],(path,key)
-pins.update(console_sha256=h(home/'bin/verifast'),proof_sha=os.environ['PROOF_SHA'],baseline_build_manifest_sha256=h(base_evidence/'console-cache-profile.txt'),provider=runpy.run_path(os.environ['SMALLSORT_PROVIDER_FILE'])['require_supported_provider'](),build_exit=0)
+pins.update(exporter_sha256=h(home/'bin/vf-rust-mir-exporter'),exporter_build_exit=0,console_sha256=h(home/'bin/verifast'),proof_sha=os.environ['PROOF_SHA'],baseline_build_manifest_sha256=h(base_evidence/'console-cache-profile.txt'),provider=runpy.run_path(os.environ['SMALLSORT_PROVIDER_FILE'])['require_supported_provider'](),build_exit=0)
 (evidence/'profile-build.json').write_text(json.dumps(pins,indent=2)+'\n')
 (evidence/'translator.patched.ml').write_bytes((home/'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml').read_bytes())
 (evidence/'emitter.patched.ml').write_bytes((home/'src/frontend/ocaml_expr_of_ast.ml').read_bytes())

@@ -1,0 +1,501 @@
+diff --git a/src/SExpressionEmitter.ml b/src/SExpressionEmitter.ml
+index 5613e637..8258146a 100644
+--- a/src/SExpressionEmitter.ml
++++ b/src/SExpressionEmitter.ml
+@@ -170,6 +170,19 @@ let sexpr_of_type_expr_option : type_expr option -> sexpression = function
+ 
+ let sexpr_of_attr : struct_attr -> sexpression = function
+   | Packed -> Symbol "packed"
++  | ReprC -> Symbol "repr-c"
++  | RustConcreteGuardLayout layout ->
++      let quoted s = Symbol (Printf.sprintf "%S" s) in
++      let number s = Number (Big_int.big_int_of_string s) in
++      build_list [Symbol "rust-concrete-guard-layout"]
++        [ "source-def-path", quoted layout.source_def_path
++        ; "source-def-path-hash", quoted layout.source_def_path_hash
++        ; "target-triple", quoted layout.target_triple
++        ; "pointer-width", sexpr_of_int layout.pointer_width
++        ; "size-bytes", number layout.size_bytes
++        ; "align-bytes", number layout.align_bytes
++        ; "field-offsets", List (List.map number layout.field_offsets)
++        ; "field-sizes", List (List.map number layout.field_sizes) ]
+ 
+ let sexpr_of_field (Field (loc, ghostness, type_expr, name, binding, visibility, final, expr)) : sexpression =
+   build_list
+diff --git a/src/frontend/ast.ml b/src/frontend/ast.ml
+index b6f712ea..44aea3b6 100644
+--- a/src/frontend/ast.ml
++++ b/src/frontend/ast.ml
+@@ -1123,6 +1123,19 @@ and
+   struct_attr =
+   | Packed
+   | ReprC
++  | RustConcreteGuardLayout of rust_concrete_guard_layout
++
++and rust_concrete_guard_layout = {
++  source_def_path: string;
++  source_def_path_hash: string;
++  target_triple: string;
++  pointer_width: int;
++  size_bytes: string;
++  align_bytes: string;
++  field_offsets: string list;
++  field_sizes: string list;
++}
++
+ and constant_value = (* ?constant_value *)
+   IntConst of big_int
+ | BoolConst of bool
+@@ -1130,6 +1143,13 @@ and constant_value = (* ?constant_value *)
+ | NullConst
+ | GhostConst of expr
+ 
++let rust_concrete_guard_layout attrs =
++  match List.filter_map (function
++    | RustConcreteGuardLayout layout -> Some layout
++    | Packed | ReprC -> None) attrs with
++  | [layout] -> Some layout
++  | _ -> None
++
+ let tparams_with_bounds_expr bounds tparams =
+   List.map (fun tpname -> (tpname, bounds)) tparams
+ 
+diff --git a/src/frontend/ocaml_expr_of_ast.ml b/src/frontend/ocaml_expr_of_ast.ml
+index 884128c6..d3f88200 100644
+--- a/src/frontend/ocaml_expr_of_ast.ml
++++ b/src/frontend/ocaml_expr_of_ast.ml
+@@ -1172,6 +1172,16 @@ and of_ctor = function
+ and of_struct_attr = function
+   Packed -> c "Packed"
+ | ReprC -> c "ReprC"
++| RustConcreteGuardLayout layout -> C ("RustConcreteGuardLayout", [
++    S layout.source_def_path;
++    S layout.source_def_path_hash;
++    S layout.target_triple;
++    I layout.pointer_width;
++    S layout.size_bytes;
++    S layout.align_bytes;
++    of_list s layout.field_offsets;
++    of_list s layout.field_sizes
++  ])
+ and of_constant_value = function
+   IntConst n -> C ("IntConst", [BigInt n])
+ | BoolConst b -> C ("BoolConst", [B b])
+diff --git a/src/rust_frontend/vf_mir/vf_mir.capnp b/src/rust_frontend/vf_mir/vf_mir.capnp
+index 9e81d091..dcfc7396 100644
+--- a/src/rust_frontend/vf_mir/vf_mir.capnp
++++ b/src/rust_frontend/vf_mir/vf_mir.capnp
+@@ -279,6 +279,15 @@ struct AdtDef {
+     clauses @7: List(Clause);
+     implementsDrop @8: Bool;
+     isReprC @11: Bool;
++    # Present only for the narrowly supported fully concrete SmallSort guard
++    # shape. Values come from rustc's target-specific Layout query.
++    hasConcreteGuardLayout @12: Bool;
++    concreteGuardDefPathHash @13: Text;
++    concreteGuardSizeBytes @14: UInt64;
++    concreteGuardAlignBytes @15: UInt64;
++    concreteGuardFieldOffsets @16: List(UInt64);
++    concreteGuardFieldSizes @17: List(UInt64);
++    concreteGuardDefPath @18: Text;
+ }
+ 
+ enum AliasTyKind {
+diff --git a/src/rust_frontend/vf_mir_exporter/src/lib.rs b/src/rust_frontend/vf_mir_exporter/src/lib.rs
+index 9621ba91..d88f187c 100644
+--- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
++++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
+@@ -1098,6 +1098,94 @@ use rustc_span::RemapPathScopeComponents;
+             });
+             adt_def_cpn.set_implements_drop(adt_def.has_dtor(tcx));
+             adt_def_cpn.set_is_repr_c(adt_def.repr().c());
++            if let Some((def_path, size, align, offsets, field_sizes)) = Self::concrete_guard_layout(tcx, adt_def) {
++                adt_def_cpn.set_has_concrete_guard_layout(true);
++                adt_def_cpn.set_concrete_guard_def_path(&def_path);
++                adt_def_cpn.set_concrete_guard_def_path_hash(
++                    format!("{:?}", tcx.def_path_hash(adt_def.did())),
++                );
++                adt_def_cpn.set_concrete_guard_size_bytes(size);
++                adt_def_cpn.set_concrete_guard_align_bytes(align);
++                adt_def_cpn.fill_concrete_guard_field_offsets(&offsets, |field_offset_cpn, offset| {
++                    field_offset_cpn.set(*offset);
++                });
++                adt_def_cpn.fill_concrete_guard_field_sizes(&field_sizes, |field_size_cpn, field_size| {
++                    field_size_cpn.set(*field_size);
++                });
++            }
++        }
++
++        // Export a compiler layout only for the exact concrete guard shape used
++        // by the source-linked u64 Drop diagnostic. In particular, do not turn
++        // a generic ADT definition into a guessed or universally positive size.
++        fn concrete_guard_layout(
++            tcx: TyCtxt<'tcx>,
++            adt_def: &ty::AdtDef<'tcx>,
++        ) -> Option<(String, u64, u64, Vec<u64>, Vec<u64>)> {
++            let did = adt_def.did();
++            const CONCRETE_GUARD_SOURCE: &str = "struct CopyOnDrop {\n    src: *const u64,\n    dst: *mut u64,\n    len: usize,\n}";
++            let source = tcx.sess.source_map().span_to_snippet(tcx.def_span(did)).ok()?;
++            if !did.is_local()
++                || !(source == CONCRETE_GUARD_SOURCE || source == format!("{}\n", CONCRETE_GUARD_SOURCE))
++                || tcx.sess.target.llvm_target != "x86_64-unknown-linux-gnu"
++                || tcx.sess.target.pointer_width != 64
++                || !adt_def.is_struct()
++                || !tcx.generics_of(did).params.is_empty()
++                || adt_def.variants().len() != 1
++                || adt_def.repr().packed()
++                || adt_def.repr().c()
++                || adt_def.repr().transparent()
++                || adt_def.repr().simd()
++                || adt_def.repr().align.is_some()
++            {
++                return None;
++            }
++
++            let fields = &adt_def.non_enum_variant().fields;
++            if fields.len() != 3
++                || fields[0].name.as_str() != "src"
++                || fields[1].name.as_str() != "dst"
++                || fields[2].name.as_str() != "len"
++            {
++                return None;
++            }
++
++            let field_ty = |index: usize| {
++                tcx.type_of(fields[index].did)
++                    .instantiate_identity()
++                    .skip_normalization()
++            };
++            let is_u64 = |ty: ty::Ty<'tcx>| matches!(ty.kind(), ty::TyKind::Uint(ty::UintTy::U64));
++            let is_usize = |ty: ty::Ty<'tcx>| matches!(ty.kind(), ty::TyKind::Uint(ty::UintTy::Usize));
++            if !matches!(field_ty(0).kind(), ty::TyKind::RawPtr(pointee, mir::Mutability::Not) if is_u64(*pointee))
++                || !matches!(field_ty(1).kind(), ty::TyKind::RawPtr(pointee, mir::Mutability::Mut) if is_u64(*pointee))
++                || !is_usize(field_ty(2))
++            {
++                return None;
++            }
++
++            let guard_ty = tcx.type_of(adt_def.did()).instantiate_identity();
++            let typing_env = ty::TypingEnv::new(ty::ParamEnv::empty(), ty::TypingMode::PostAnalysis);
++            let layout = tcx.layout_of(typing_env.as_query_input(guard_ty)).ok()?;
++            let size = layout.size.bytes();
++            let align = layout.align.abi.bytes();
++            if size == 0 || align == 0 {
++                return None;
++            }
++            let offsets = (0..fields.len())
++                .map(|index| layout.fields.offset(index).bytes())
++                .collect::<Vec<_>>();
++            let mut field_sizes = Vec::with_capacity(fields.len());
++            for (index, offset) in offsets.iter().copied().enumerate() {
++                let member_layout = tcx.layout_of(typing_env.as_query_input(field_ty(index))).ok()?;
++                let field_size = member_layout.size.bytes();
++                let end = offset.checked_add(field_size)?;
++                if end > size {
++                    return None;
++                }
++                field_sizes.push(field_size);
++            }
++            Some((tcx.def_path_str(did), size, align, offsets, field_sizes))
+         }
+ 
+         fn encode_adt_kind(adt_kind: ty::AdtKind, mut adt_kind_cpn: adt_kind_cpn::Builder<'_>) {
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+index e19b25bc..eb72ac97 100644
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -6178,7 +6178,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+     in
+     sep loc field_share_asns
+ 
+-  let translate_adt_def (ghost_decl_map : (string * Ast.decl) list)
++  let translate_adt_def target_triple pointer_width
++      (ghost_decl_map : (string * Ast.decl) list)
+       (ghost_decls : Ast.decl list) (trait_impls : trait_impl list)
+       (adt_def_cpn : AdtDefRd.t) =
+     let open AdtDefRd in
+@@ -6270,6 +6271,48 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+             let [ variant_def_no_zst ] = variants_no_zst in
+             let fds_no_zst = variant_def_no_zst.fields in
+             let field_defs_no_zst = List.map translate_to_vf_field_def fds_no_zst in
++            let concrete_guard_attrs =
++              if not (has_concrete_guard_layout_get adt_def_cpn) then []
++              else begin
++                let concrete_guard_def_path = concrete_guard_def_path_get adt_def_cpn in
++                let source_def_path_hash = concrete_guard_def_path_hash_get adt_def_cpn in
++                let size_bytes = IntAux.Uint64.to_string (concrete_guard_size_bytes_get adt_def_cpn) in
++                let align_bytes = IntAux.Uint64.to_string (concrete_guard_align_bytes_get adt_def_cpn) in
++                let field_offsets =
++                  concrete_guard_field_offsets_get_list adt_def_cpn
++                  |> List.map IntAux.Uint64.to_string
++                in
++                let field_sizes =
++                  concrete_guard_field_sizes_get_list adt_def_cpn
++                  |> List.map IntAux.Uint64.to_string
++                in
++                let exact_field_shape = match fds with
++                  | [ { Mir.name = "src"; ty = { vf_ty = Ast.PtrType (Ast.Int (Unsigned, FixedWidthRank 3)); _ }; _ };
++                      { Mir.name = "dst"; ty = { vf_ty = Ast.PtrType (Ast.Int (Unsigned, FixedWidthRank 3)); _ }; _ };
++                      { Mir.name = "len"; ty = { vf_ty = Ast.Int (Unsigned, PtrRank); _ }; _ } ] -> true
++                  | _ -> false
++                in
++                if concrete_guard_def_path <> def_path
++                    || target_triple <> "x86_64-unknown-linux-gnu" || pointer_width <> 64
++                    || vf_tparams <> [] || not exact_field_shape
++                    || List.length field_offsets <> 3 || List.length field_sizes <> 3
++                    || String.length source_def_path_hash = 0
++                then
++                  Ast.static_error def_loc
++                    "Compiler concrete guard layout does not match the qualified u64 guard shape"
++                    None;
++                [Ast.RustConcreteGuardLayout {
++                  source_def_path = concrete_guard_def_path;
++                  source_def_path_hash;
++                  target_triple;
++                  pointer_width;
++                  size_bytes;
++                  align_bytes;
++                  field_offsets;
++                  field_sizes;
++                }]
++              end
++            in
+             let struct_decl =
+               Ast.Struct
+                 ( def_loc,
+@@ -6281,7 +6324,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+                       (*instance_pred_decl list*) [],
+                       (*is polymorphic*) false ),
+                   (*struct_attr list*)
+-                  if is_repr_c_get adt_def_cpn then [ ReprC ] else [] )
++                  (if is_repr_c_get adt_def_cpn then [ ReprC ] else []) @ concrete_guard_attrs )
+             in
+             let struct_typedef_aux =
+               Ast.TypedefDecl
+@@ -8045,11 +8088,13 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+         in
+         iter (Hashtbl.find_all fn_specialisations_table trait_fn)
+       in
++      let target_triple = VfMirRd.VfMir.target_triple_get vf_mir_cpn in
++      let pointer_width = VfMirRd.VfMir.pointer_width_get vf_mir_cpn |> IntAux.Uint8.to_int in
+       let adt_defs_cpn = VfMirRd.VfMir.adt_defs_get vf_mir_cpn in
+       let* adt_defs_cpn = CapnpAux.ind_list_get_list adt_defs_cpn in
+       let* adt_defs =
+         ListAux.try_map
+-          (translate_adt_def ghost_decl_map ghost_decls trait_impls)
++          (translate_adt_def target_triple pointer_width ghost_decl_map ghost_decls trait_impls)
+           adt_defs_cpn
+       in
+       let adt_defs = List.filter_map Fun.id adt_defs in
+diff --git a/src/verifast.ml b/src/verifast.ml
+index 03fe22f2..5a25421f 100644
+--- a/src/verifast.ml
++++ b/src/verifast.ml
+@@ -183,9 +183,13 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+     let break_label () = if pure then "#ghostBreak" else "#break" in
+     let continue_label () = if pure then "#ghostContinue" else "#continue" in
+     let free_locals closeBraceLoc h tenv env locals cont =
++      (* Any cleanup route retires the allocation receipt, including block and
++         loop cleanup that is not preceded by an explicit MIR StorageDead. *)
++      let released_env = List.fold_left (fun env (x, _) ->
++        List.remove_assoc ("$rust_storage_live$" ^ x) env) env locals in
+       let rec free_locals_core h locals =
+         match locals with
+-          [] -> cont h env
++          [] -> cont h released_env
+         | (x, isConstVar)::locals ->
+           match try_assoc x env with
+             None ->
+@@ -995,6 +999,10 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+       if dialect <> Some Rust || pure then
+         static_error l "MIR storage markers require a real Rust execution context." None;
+       let incoming, deferred, consts = !rust_storage_context in
++      (* Parser-inexpressible, path-local allocation-origin binding.  A RefType
++         entry in env alone may denote a reference; this receipt is created only
++         by the checked MIR StorageLive allocation below and retired at Dead. *)
++      let live_key x = "$rust_storage_live$" ^ x in
+       begin match try_assoc x tenv with
+         Some (RefType t) | Some (StaticArrayType _ as t) ->
+         let is_const = match try_assoc x consts with Some b -> b | None ->
+@@ -1003,18 +1011,34 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+           if not (List.mem_assoc x env) then
+             static_error l "StorageDead requires a currently live local." None;
+           free_locals l h tenv env [x, is_const] $. fun h env ->
+-          cont h (List.remove_assoc x env)
++          cont h (List.remove_assoc (live_key x) (List.remove_assoc x env))
+         end else begin
+           if List.mem_assoc x env then
+             static_error l "StorageLive requires a currently dead local." None;
+           if not (List.mem x deferred) then
+             static_error l "StorageLive local was not deferred." None;
+           let addr = get_unique_var_symb_non_ghost (x ^ "_addr") (PtrType t) in
+-          (* No abstract generic/layout-dependent types: sizeof specialization
+-             does not yet qualify concrete Rust ZSTs in the existing model. *)
++          (* Abstract generic and unrelated fielded layouts stay excluded.
++             Guard extent is admitted only by same-MIR qualified layout facts. *)
+           let extent_supported tp = match unfold_inferred_type tp with
+             Bool | Int _ | RustChar | Float | Double | PtrType _ | RustRefType _ -> true
+-          | _ -> false in
++          | tp -> rust_guard_layout_supported tp in
++          let exclude_allocation p tp k =
++            let a = mk_ptr_address addr in let b = mk_ptr_address p in
++            let n = sizeof_core l env t in let m = sizeof_core l env tp in
++            let apart = ctxt#mk_or (ctxt#mk_le (ctxt#mk_add a n) b)
++              (ctxt#mk_le (ctxt#mk_add b m) a) in
++            assume (ctxt#mk_or (ctxt#mk_le n int_zero_term)
++              (ctxt#mk_or (ctxt#mk_le m int_zero_term) apart)) k in
++          let rec exclude_live locals k = match locals with
++            [] -> k ()
++          | y :: rest ->
++            begin match try_assoc y tenv, try_assoc y env, try_assoc (live_key y) env with
++              Some (RefType tp), Some p, Some receipt
++              when y <> x && p == receipt && extent_supported t && extent_supported tp ->
++              exclude_allocation p tp $. fun () -> exclude_live rest k
++            | _ -> exclude_live rest k
++            end in
+           let rec exclude_incoming chunks k = match chunks with
+             [] -> k ()
+           | (Chunk ((g, true), [tp], coef, [p; _], _) as chunk) :: rest
+@@ -1022,18 +1046,13 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+               List.exists (fun entry -> entry == chunk) incoming &&
+               (g == generic_points_to_symb () || g == generic_points_to__symb ()) &&
+               not (is_dummy_frac_term coef) && ctxt#query (ctxt#mk_real_lt real_zero coef) ->
+-            let a = mk_ptr_address addr in let b = mk_ptr_address p in
+-            let n = sizeof_core l env t in let m = sizeof_core l env tp in
+-            let apart = ctxt#mk_or (ctxt#mk_le (ctxt#mk_add a n) b)
+-              (ctxt#mk_le (ctxt#mk_add b m) a) in
+-            assume (ctxt#mk_or (ctxt#mk_le n int_zero_term)
+-              (ctxt#mk_or (ctxt#mk_le m int_zero_term) apart)) $. fun () ->
+-            exclude_incoming rest k
++            exclude_allocation p tp $. fun () -> exclude_incoming rest k
+           | _ :: rest -> exclude_incoming rest k in
+           exclude_incoming h $. fun () ->
++          exclude_live deferred $. fun () ->
+           let verify_ctor_call = verify_ctor_call (pn, ilist) leminfo funcmap predinstmap sizemap tenv ghostenv h env addr (Some x) in
+           produce_cxx_object l (if is_const then real_half else real_unit) addr t eval_h verify_ctor_call Uninitialized true true h env $. fun h env ->
+-          cont h ((x, addr) :: env)
++          cont h ((live_key x, addr) :: (x, addr) :: env)
+         end
+       | Some _ -> cont h (if is_dead then List.remove_assoc x env else env)
+       | None -> static_error l "MIR storage marker names an unknown local." None
+@@ -1117,7 +1136,9 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+             let Some block = !blockPtr in
+             if not (List.mem_assoc x !block) then block := (x, is_const_var) :: !block;
+             let env_tp = match t with StaticArrayType _ -> t | _ -> RefType t in
+-            iter h ((x, env_tp) :: tenv) ghostenv env xs
++            (* Receipt has exactly the owning local's lexical scope, so normal
++               block filtering preserves it only while x remains in scope. *)
++            iter h (("$rust_storage_live$" ^ x, PtrType t) :: (x, env_tp) :: tenv) ghostenv env xs
+           | StaticArrayType (elemTp, elemCount) ->
+             produce_object t
+           | StructType (sn, targs) when
+@@ -2193,7 +2214,7 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+         produce_asn env [] h ghostenv env post real_unit None None $. fun h ghostenv env ->
+         cont tenv''' ghostenv h env
+       in
+-      let lblenv = List.map (fun (lbl, cont) -> (lbl, fun blocks_done sizemap ttenv _ h' env' -> free_locals endBodyLoc h' ttenv env' !locals_to_free (fun h' _ -> exit_loop h' env' (cont blocks_done sizemap)))) lblenv in
++      let lblenv = List.map (fun (lbl, cont) -> (lbl, fun blocks_done sizemap ttenv _ h' env' -> free_locals endBodyLoc h' ttenv env' !locals_to_free (fun h' released_env -> exit_loop h' released_env (cont blocks_done sizemap)))) lblenv in
+       let return_cont h' tenv env retval = assert_false h' [] l "Returning out of a requires-ensures loop is not yet supported." None in
+       with_context (Executing (h', env', l, "Evaluating loop condition")) $. fun () ->
+       eval_h_nonpure h' env' e $. fun h' env' v ->
+@@ -2215,7 +2236,7 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+       end $. fun h' tenv''' env' ->
+       begin fun continue ->
+         verify_block (pn,ilist) blocks_done lblenv tparams boxes pure leminfo funcmap predinstmap sizemap tenv''' ghostenv' h' env' final_ss
+-          (fun _ tenv''' _ h' env' -> free_locals endBodyLoc h' tenv''' env' !locals_to_free (fun h' _ -> continue h' tenv''' env'))
++          (fun _ tenv''' _ h' env' -> free_locals endBodyLoc h' tenv''' env' !locals_to_free (fun h' released_env -> continue h' tenv''' released_env))
+           return_cont
+           econt
+       end $. fun h' tenv''' env' ->
+diff --git a/src/verifast1.ml b/src/verifast1.ml
+index 3e831b81..5ec573ee 100644
+--- a/src/verifast1.ml
++++ b/src/verifast1.ml
+@@ -6496,6 +6496,8 @@ module VerifyProgram1(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+ 
+   let alignof_core l env t = mk_alignof (typeid_of_core l env t)
+ 
++  let rust_guard_layout_type_names = ref []
++
+   let () = List.combine structmap1 structdeclmap |> List.iter begin fun ((sn, (l, tparams, body_opt, padding_predsym_opt, type_info_func)), (_, (_, _, _, attrs))) ->
+     let assume_axiom axiom =
+       if tparams = [] then
+@@ -6533,6 +6535,66 @@ module VerifyProgram1(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+       let type_info = ctxt#mk_app type_info_func [] in
+       ctxt#assert_term (ctxt#mk_eq (mk_alignof type_info) (ctxt#mk_intlit 1))
+     end;
++    begin match Ast.rust_concrete_guard_layout attrs with
++    | None -> ()
++    | Some layout ->
++      let invalid () = static_error l "Invalid compiler-qualified concrete Rust guard layout metadata." None in
++      let parse_nonnegative s =
++        try
++          let value = Z.of_string s in
++          if Z.sign value < 0 || Z.to_string value <> s then invalid ();
++          value
++        with _ -> invalid ()
++      in
++      if dialect <> Some Rust || tparams <> [] || layout.source_def_path <> sn
++          || layout.target_triple <> "x86_64-unknown-linux-gnu"
++          || layout.pointer_width <> 64 || ptr_width <> LitWidth 3
++          || String.length layout.source_def_path_hash = 0
++          || List.mem Packed attrs || List.mem ReprC attrs
++      then invalid ();
++      let size_z = parse_nonnegative layout.size_bytes in
++      let align_z = parse_nonnegative layout.align_bytes in
++      let offsets_z = List.map parse_nonnegative layout.field_offsets in
++      let field_sizes_z = List.map parse_nonnegative layout.field_sizes in
++      if Z.equal size_z Z.zero || Z.equal align_z Z.zero
++          || List.length offsets_z <> 3 || List.length field_sizes_z <> 3
++          || List.exists (fun field_size -> Z.equal field_size Z.zero) field_sizes_z
++      then invalid ();
++      let fields = match body_opt with Some ([], fields, _) -> fields | _ -> invalid () in
++      let is_u64 = function Int (Unsigned, FixedWidthRank 3) -> true | _ -> false in
++      let exact_field_shape = match fields with
++        | [ ("src", (_, Real, PtrType t_src, Some _, _));
++            ("dst", (_, Real, PtrType t_dst, Some _, _));
++            ("len", (_, Real, Int (Unsigned, PtrRank), Some _, _)) ] ->
++            is_u64 t_src && is_u64 t_dst
++        | _ -> false
++      in
++      if not exact_field_shape then invalid ();
++      let fields_with_offsets = List.combine fields (List.combine offsets_z field_sizes_z) in
++      let ranges = List.map (fun ((_, (_, _, field_ty, Some offset_func, _)), (offset, field_size)) ->
++        let modeled_size = sizeof_core l [] field_ty in
++        let offset_s = Z.to_string offset in
++        let field_size_s = Z.to_string field_size in
++        ctxt#assert_term (ctxt#mk_eq modeled_size (ctxt#mk_intlit_of_string field_size_s));
++        let offset_term = ctxt#mk_app offset_func [] in
++        ctxt#assert_term (ctxt#mk_eq offset_term (ctxt#mk_intlit_of_string offset_s));
++        if Z.compare (Z.add offset field_size) size_z > 0 then invalid ();
++        offset, Z.add offset field_size
++      ) fields_with_offsets in
++      let rec check_disjoint = function
++        | [] -> ()
++        | (start, finish)::rest ->
++            if List.exists (fun (other_start, other_finish) ->
++              Z.compare start other_finish < 0 && Z.compare other_start finish < 0) rest
++            then invalid ();
++            check_disjoint rest
++      in
++      check_disjoint ranges;
++      let type_info = ctxt#mk_app type_info_func [] in
++      ctxt#assert_term (ctxt#mk_eq (mk_sizeof type_info) (ctxt#mk_intlit_of_string layout.size_bytes));
++      ctxt#assert_term (ctxt#mk_eq (mk_alignof type_info) (ctxt#mk_intlit_of_string layout.align_bytes));
++      rust_guard_layout_type_names := sn :: !rust_guard_layout_type_names
++    end;
+     match body_opt with
+     | Some (_, fmap, _) ->
+       let rec offset_iter fields current is_first =
+@@ -6552,6 +6614,11 @@ module VerifyProgram1(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+     | None -> if packed then static_error l "A struct declaration cannot be packed." None
+   end
+ 
++  let rust_guard_layout_supported tp =
++    match unfold_inferred_type tp with
++    | StructType (sn, []) -> List.mem sn !rust_guard_layout_type_names
++    | _ -> false
++
+   let pointer_ctor_symb = lazy_purefuncsymb "pointer_ctor"
+   let strip_pointer_metadata_symb = lazy_purefuncsymb "strip_pointer_metadata"
+   let ptr_len_symb = lazy_purefuncsymb "ptr_len"

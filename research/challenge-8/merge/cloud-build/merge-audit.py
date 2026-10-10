@@ -137,7 +137,7 @@ GUARD_GEOMETRY_GROUPS = {
 }
 GUARD_GEOMETRY_CASES = ("positive", "prototype_false", "first_body_false")
 ONECELL_GROUP = "insertion-onecell-guard-diagnostic"
-ONECELL_PROFILE = "experimental-merge-origin-layout-concrete-u64-v1"
+ONECELL_PROFILE = "experimental-merge-qualified-guard-onecell-v1"
 ONECELL_DIAGNOSTIC = "insert-tail-onecell-mutable-fbc-held-recovery-v1"
 ONECELL_CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
                  "double_physical_fbc")
@@ -2072,11 +2072,11 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 environment.get("cloud_build_id") == build_id and
                 environment.get("provider", {}).get("build_id") == build_id and
                 environment.get("schema_sha256") ==
-                    "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469" and
+                    pins.get("schema_sha256") and
                 environment.get("source_sha256") == DROP_SOURCE_SHA256 and
                 environment.get("tool_sha256", {}).get("verifast") == build.get("console_sha256") and
                 environment.get("tool_sha256", {}).get("vf-rust-mir-exporter") ==
-                    pins.get("exporter_sha256") and
+                    build.get("exporter_sha256") and
                 environment.get("tool_sha256", {}).get("refinement-checker") ==
                     pins.get("refiner_sha256") and
                 (Path(environment.get("profile_evidence", "")).resolve() ==

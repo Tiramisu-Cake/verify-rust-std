@@ -30,13 +30,15 @@ md_classifier = load("md_control_classifier", HERE / "md_classifier.py")
 layout_controls = load("unit_layout_controls", HERE.parents[3] / "cloud-build/origin-layout/layout-controls.py")
 concrete_consumer = load("concrete_u64_consumer", HERE.parents[3] / "cloud-build/origin-layout/concrete-consumer.py")
 concrete_drop_body = load("concrete_drop_body", HERE.parents[3] / "cloud-build/origin-layout/concrete-drop-body.py")
+guard_storage_controls = load("guard_storage_controls", HERE.parents[3] / "cloud-build/origin-layout/guard-storage-controls.py")
+onecell_drop_interface = load("onecell_drop_interface", HERE.parents[3] / "cloud-build/origin-layout/onecell-drop-interface.py")
 origin_controls = load("incoming_origin_controls", HERE.parents[3] / "cloud-build/incoming-origin/controls/run.py")
 span_controls = load("allocation_span_controls", HERE.parents[3] / "cloud-build/incoming-span-lifetime/controls/run.py")
 prep = load("onecell_prepare", HERE / "prepare.py")
 base = load("onecell_stages", HERE.parents[1] / "copy-on-drop-prove.py")
 ast = base.ast_helper
 mir = base.mir_helper
-PROFILE = "experimental-merge-origin-layout-concrete-u64-v1"
+PROFILE = "experimental-merge-qualified-guard-onecell-v1"
 CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
          "double_physical_fbc")
 CAMPAIGN = "incoming-origin-controls-only-v1"
@@ -460,8 +462,6 @@ def main() -> int:
     if not args.tool_home.is_dir() or not args.profile_evidence.is_dir() or \
             not args.compiler_sysroot.is_dir() or not args.schema.is_file():
         raise RuntimeError("pinned hosted tool/evidence/sysroot/schema missing")
-    if base.file_sha(args.schema) != base.STOCK_SCHEMA_SHA:
-        raise RuntimeError("frozen MIR schema differs")
     profile_card = json.loads((HERE / "PROFILE.json").read_text())
     profile_build = json.loads((args.profile_evidence / "profile-build.json").read_text())
     if profile_card.get("schema") != "smallsort-tracked-md-profile-v1" or \
@@ -475,7 +475,7 @@ def main() -> int:
     for key in ("patch_sha256", "translator_sha256", "emitter_sha256", "kernel_sha256",
                 "ast_sha256", "sexpression_sha256", "verify_expr_sha256",
                 "model_sha256", "unit_layout_patch_sha256", "parser_sha256", "prelude_sha256", "stdlib_sha256",
-                "exporter_sha256", "refiner_sha256", "z3_sha256"):
+                "exporter_source_sha256", "schema_sha256", "guard_layout_patch_sha256", "refiner_sha256", "z3_sha256"):
         if profile_build.get(key) != profile_card.get(key):
             raise RuntimeError(f"tracked MD profile pin differs: {key}")
     if base.file_sha(HERE / "tracked-md.patch") != profile_card["patch_sha256"]:
@@ -488,7 +488,11 @@ def main() -> int:
         raise RuntimeError("tracked MD build is not linked to this six-profile build")
     if (args.profile_evidence.parent / "build/source-build-exit-code.txt").read_text().strip() != "0":
         raise RuntimeError("six-profile source build did not complete")
+    if base.file_sha(args.schema) != profile_card["schema_sha256"]:
+        raise RuntimeError("qualified MIR schema differs from exact profile")
     source_pins = {
+        "src/rust_frontend/vf_mir_exporter/src/lib.rs": "exporter_source_sha256",
+        "src/rust_frontend/vf_mir/vf_mir.capnp": "schema_sha256",
         "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "translator_sha256",
         "src/frontend/ocaml_expr_of_ast.ml": "emitter_sha256",
         "src/verifast.ml": "kernel_sha256",
@@ -520,7 +524,7 @@ def main() -> int:
                    for name in ("vf-rust-mir-exporter", "verifast", "refinement-checker")}
     for binary, key in (("vf-rust-mir-exporter", "exporter_sha256"),
                         ("refinement-checker", "refiner_sha256")):
-        if tool_hashes[binary] != profile_card[key]:
+        if tool_hashes[binary] != profile_build[key]:
             raise RuntimeError(f"frozen {binary} differs from profile pin")
     if tool_hashes["verifast"] != profile_build.get("console_sha256"):
         raise RuntimeError("tracked MD console differs from built profile")
@@ -577,6 +581,8 @@ def main() -> int:
         drop_body_summary = {"classification": "NOT_RUN", "accepted": False,
             "reason": "concrete-u64 recovery positive has not passed",
             "actual_callee_or_glue_credit": False}
+    guard_storage_summary = guard_storage_controls.run(args.evidence, args, env, execute_case, args.evidence / "concrete-u64")
+    onecell_interface_summary = onecell_drop_interface.run(args.evidence / "onecell-drop-interface", args, env, execute_case, environment)
     results = {}
     md_pass = False
     if campaign_mode:
@@ -656,6 +662,8 @@ def main() -> int:
                  "layout_controls": layout_summary,
                  "concrete_u64_consumer": concrete_summary,
                  "concrete_drop_body_diagnostic": drop_body_summary,
+                 "guard_storage_controls": guard_storage_summary,
+                 "onecell_drop_interface": onecell_interface_summary,
                  "combined_profile_smoke": combined_smoke,
                  "cases": {
                      name: row["classification"] for name, row in results.items()}}

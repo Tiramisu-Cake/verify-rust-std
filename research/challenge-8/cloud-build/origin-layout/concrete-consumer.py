@@ -19,7 +19,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
 OLD = ROOT / "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell"
 SOURCE = ROOT / "library/core/src/slice/sort/shared/smallsort.rs"
-PROFILE = "experimental-merge-origin-layout-concrete-u64-v1"
+PROFILE = "experimental-merge-qualified-guard-onecell-v1"
 CASES = ("positive", "after_fbc_false", "after_recovery_false",
          "missing_held_owner", "double_physical_fbc")
 POST_FBC_LADDER = (
