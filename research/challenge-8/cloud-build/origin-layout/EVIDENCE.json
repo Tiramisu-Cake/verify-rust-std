@@ -541,7 +541,12 @@
       "preparation": "insertion-onecell/build-profile.sh optional prepare-only mode",
       "transport": "script included in pinned merge recipe proof_paths",
       "dispatcher_hook": "NOT_INTEGRATED; commands must be placed after baseline source/dependencies build and before retained proof matrix in next authorized exact infra",
-      "execution": "NOT_RUN; no dispatch after main deadline"
+      "execution": "NOT_RUN; no dispatch after main deadline",
+      "review_commit": "e547e07775c364bbcc7fa0f81757fc1382a777be",
+      "static_review": "GO_COMPILE_ONLY_NO_PROOF_CREDIT",
+      "shell_syntax": "PASS; script not executed",
+      "script_sha256": "e2bd059f28c095e05e7bd152ea228aeee9d625ea847d9510d95b610efe285f8d",
+      "recipe_sha256": "3d02437f0604f2ad60a46a4f0ff99b73ac6247a5a966312930761c32aab599f3"
     },
     "static_pin_binding_check": {
       "classification": "STATIC_PASS_NO_COMPILE_OR_PROOF_CREDIT",
