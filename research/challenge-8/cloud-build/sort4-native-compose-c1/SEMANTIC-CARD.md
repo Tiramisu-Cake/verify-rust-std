@@ -118,3 +118,100 @@ summary is required, stop and return the material decision to the owner.
 Compilation, extraction, refinement and proof run only in the assigned
 Cloud Build lane with exact proof/infra/tool identities. No Actions dispatch,
 local toolchain execution, std runtime edit, or external publication.
+
+## Build4 frozen input and first semantic proposal (rejected)
+
+Cloud Build `0904f144-a6dd-4ebe-b57c-79c2e2dc3433` captured the **original,
+unmodified** helper `Func` before any semantic overlay. The complete exact
+serializer output is `cases/positive/fixture/c1-original-func-ast.ml` in the
+hash-verified archive at `/tmp/native-compose-0904f144-read/allprooflogs/cases/sort4-native-compose-c1`.
+Its SHA256 is `64c01593d890907756c2e707e09adb9da80c6a1d0967a6720d2200defacf8b06`;
+the original immutable `Marshal.No_sharing` MD5 is
+`f9e8dd5ea212287b36fa0beddd896528`. The verified source SHA256 remains
+`28716b042293c4b5211d5696464696fa7da073ca15301a6002b62f3813d3497e`.
+Normal and readonly complete helper MIR SHA256 values remain respectively
+`0dc4d60b62343cb816326b4cf229581081f4e7ff906559cdc2448f14853be3b0`
+and `362db0d6d413be96c526407fb6781498cdde8ff8a68b8d064eb3ec4a1a0cc720`;
+native complete MIR SHA256 values remain `1163da55264497d8b57186aa3974a1ab2087e1439177e0aecc875b9c3479d674`
+and `c87004838fcef0d3b575c57bb1758ca06a585df725733d584322e0de49e7d666`.
+The saved paired-MIR structural classifier passed, including one source-line-199
+FnMut F/(&T,&T), ordered element 1 then 0, direct Continue, no cleanup/Drop,
+and all eight callback locals' declaration/live/init/dead/address inventories.
+The readonly MIR has exactly two runtime call terminators before exit:
+`std::ptr::const_ptr::<impl *const T>::add` for source `v_base.add(1)` at
+line 199, then `FnMut::call_mut`. Both MIR terminators say `Continue`; the
+stock translator represents the pointer `add` as a pure AST `Operation Add`
+with no outcome switch, so the proposed patch does not erase or alter its
+edge. This existing intrinsic lowering and the complete pre-callback AST
+must be pinned and reviewed. The positive verification must prove the
+pointer operation's existing safety obligations before reaching FnMut.
+The AST diagnostic still exits 2 only in the unrelated whole-module
+`MergeFractionsStmt` serializer; full VF with capture disabled still first
+refuses at the source marker line 189. Capture is not proof credit.
+
+The rejected **experimental, default-off, helper-only** overlay would act on the
+complete translator-created `Ast.Func`, not on its contract or source. It
+requires opt-in `SORT4_NATIVE_C1_COMPOSE=1`, exact source SHA, signature line
+135/path, existing strict/HRTB opt-ins and target, the pre-overlay immutable
+AST MD5 above, and the four full MIR hashes supplied as admission pins by the
+runner. (The translator checks the source/AST, while the Cloud runner checks
+MIR.) It refuses duplicates or a changed body. All non-target bodies pass
+unchanged. The captured target AST shows exactly one callback at line 199 with
+`returning` and `unwinding` clauses; the latter has a direct
+`ReturnStmt(unwinding())`. The callback marker at lines 188–198 is a pure
+source-written block with exactly four inner blocks: debt close line 190,
+`recover_pair` line 191, `join_four_owned_cells` line 192, and full CURRENT
+`assert`/`array_join`/`foreach_append`/T/F leaks lines 193–197. The normal
+tail already has the corresponding source steps at lines 200, 204–210.
+
+That proposal would remove only the **callback marker command** (which is intentionally
+undefined), move the eight exact callback temporary declarations in their
+original order from the function-top declaration list to the beginning of the
+unique `'cmp` block, and split the four existing source-written blocks: debt
+close goes into the callback `unwinding` clause, followed by a goto to a new
+epilogue label outside `'cmp`; the three recovery blocks run at that label,
+then the original `ReturnStmt(unwinding())` runs. It will retain the original
+normal callback clause and the complete normal tail byte-for-byte at AST
+statement level. The production translator has **no active strict-cut
+handler**; its `SORT4_STRICT_LFT_CUT` environment option is presently only a
+gate in the capture hook. The first proposal's cut at line 202 therefore
+cannot borrow an existing semantic implementation. The narrower revised
+proposal retains the original lexical `'cmp` `BlockStmt` close at line 203 and
+its original `GotoStmt("31")` inside the block. The exact source
+`end_lft_binding::<'cmp>()` command at line 202 is consumed as a guarded
+Noop: there is no resource or runtime operation between that command and the
+lexical block close, only the existing goto. Normal recovery begins at the
+original label 31 at line 204 outside the block; the new unwind epilogue is
+likewise outside. Independent review **rejected** this Noop treatment: the
+source marker has no definition in the frozen profile, and Noop would delete
+its lifetime-end obligation. This design is retained only to record the
+failed approach and must not be implemented. The old isolated strict-cut
+profile uses both a translator marker and a `src/verifast.ml` escape check;
+neither is present in the current production profile. Its transfer would be
+a new trust change outside the authorized translator-only overlay. Any later
+approved design must show that both callback outcomes leave `'cmp` under a
+checked strict scope before recovery and full CURRENT normal/unwind posts.
+Every reachable helper path must traverse the moved declarations exactly
+once before their only uses, preserving their relative declaration order and
+the original Rust MIR StorageLive/init/dead sequence; each AST declaration is
+uninitialized, non-address-taken, and occurs once after transformation. The
+eight exact normal MIR locals are `_33`–`_40`, readonly `_7`–`_14`; the AST
+names are `$_33`–`$_40`. The remaining function-top declarations, source
+steps, all other callbacks, and native function remain unchanged.
+
+Any later separately authorized overlay must inspect structural AST types and exact locations before
+rewriting, count each moved declaration, marker, callback, cut and original
+return once, and refuse any extra callback or unknown control/cleanup branch.
+It must log original/rewritten immutable fingerprints, before/after inventory
+counts, exact source/MIR pins and normal/unwind recovery order. No assumption,
+new ghost resource, skipped branch, disabled leak/unwind/deadcode is allowed.
+The current frontend-only profile permits no kernel/parser/spec change. A
+future strict-cut profile would require its own authorization and review
+before these tests. First falsifiable Cloud positive: all
+setup/refinement support stages zero, helper VF0 with both full CURRENT posts,
+then native VF0 with its original complete generated normal/unwind posts and
+opaque scratch frame. A first refusal elsewhere is diagnostic only and will
+be classified before any further edit. A second reviewed overlay would be
+required for a new source shape or expanded domain. The captured AST and this
+exact proposal were independently reviewed; implementation is on hold at the
+strict-lifetime dependency, and Build4 grants no proof credit.

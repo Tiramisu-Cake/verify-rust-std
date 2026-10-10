@@ -7,8 +7,8 @@
   "main_deadline_utc": "2026-10-10T02:34:15Z",
   "deadline_utc": "2026-10-10T03:04:15Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 1008,
-  "remaining_build_seconds": 2592,
+  "used_build_seconds": 1330,
+  "remaining_build_seconds": 2270,
   "maximum_build_timeout_seconds": 1740,
   "allowed_lanes": [
     "o26-sort4-caller-entry",
@@ -87,6 +87,30 @@
       "execution_seconds": 304,
       "download_verified": true,
       "archive_sha256": "6dfe29f4b82224719408cb87bffb39e60731a59af87e207d13d82d6fdaa5050a"
+    },
+    {
+      "dispatch_token": "dispatch-9ed30c5dfa6b4344bc0d188cc240cba8",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-NATIVE-COMPOSE-C1-CLOUD-2026-10-10",
+      "infra_sha": "fa4c46d3955c59f4af6ce01e719864dd9894f083",
+      "proof_sha": "fa4c46d3955c59f4af6ce01e719864dd9894f083",
+      "lane": "o26-sort4-caller-entry",
+      "submitted_config_sha256": "a0e6f851bdb85c93fc82faf05ca1a2567aa4bb3debe25c6249558c79844cf18b",
+      "reserved_seconds": 660,
+      "timeout_seconds": 600,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "d53871703ecdefb5e542c0aa524025e1489d0604e4d565778f7c53d6e3fdcc74",
+      "build_id": "0904f144-a6dd-4ebe-b57c-79c2e2dc3433",
+      "start_time": "2026-10-10T01:30:10.492310664Z",
+      "finish_time": "2026-10-10T01:35:31.530865Z",
+      "create_time": "2026-10-10T01:30:09.677556459Z",
+      "build_seconds": 322,
+      "accounted": true,
+      "execution_seconds": 322,
+      "download_verified": true,
+      "archive_sha256": "49695c2eff9305fcb8d670546facb5e3bbc486f48eb2431808b7957911932923"
     }
   ]
 }

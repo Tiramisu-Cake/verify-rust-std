@@ -26,7 +26,7 @@ keep its unbound refusal. No new proof result claimed before full fresh gates.
 
 ## Current fresh evidence and next permitted step
 
-Three terminal own Builds,1008/3600 seconds. `fc01881e` compiler E0255 duplicate
+Four terminal own Builds,1330/3600 seconds. `fc01881e` compiler E0255 duplicate
 Freeze preparation failure; corrected without changing frozen tool. `e71803aa`
 normal/readonly export, complete MIR and refinement pass; AST/full verifier
 parse refusal source226 before either target proof entry. No new completed
@@ -40,11 +40,22 @@ both MIR and refinement remain required; strict/HRTB proof options unchanged.
 Full verifier capture-off must retain the same marker refusal. Target AST and
 raw exact-source/hash review required before semantic splice; no proof credit
 from capture. No new semantic overlay yet.
+`0904f144` capture now completed: exact immutable helperFunc64c01593,
+freshsupportall0, capture-offVF retains source189 marker refusal; native
+notentered. [Exact evidence](cloud-build/sort4-native-compose-c1/CAPTURE-0904F144.md).
+Fresh independent frontend review now BLOCKS helper binding: native kerneladbf
+has no operative strict lifetime cut, while the established C1 kernel37ed does.
+The enabled env flag was inert in the native chain. Noop would delete an
+obligation; rejected before implementation. [Exact missing rule](cloud-build/sort4-native-compose-c1/FRONTEND-FRESH-REVIEW.md).
+Combined kernel-adjacent chain needs separate admission/new preAST; preserve
+current frozen native profile. No new composition premises credited.
 
 C2 sibling-scope package has independent pre-Cloud diagnostic review. It binds
 parsed cmp2 after CURRENT c1 normal join, preserves C1 direct-unwind exit and
 mandatory unbound refusal, pins full ECD83/MIR/A5DE preAST, excludes exactly18
 future declarations in bounded output. Textual StorageLive audit is not CFG
 reachability proof: allocation placement and causal VC review remain PENDING;
-fresh C2 proof NOT_RUN. Run after useful composition or precise dependency
-blocker. No profile acceptance, no actual caller CFG/caller→sort4 claimed.
+fresh C2 proof NOT_RUN. The precise composition dependency is now recorded;
+next run C2 using the existing strict C1 profile/kernel37ed unchanged and only
+the independently reviewed C2 translator delta. No profile acceptance, no
+actual caller CFG/caller→sort4 claimed.

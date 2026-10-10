@@ -6632,3 +6632,26 @@ fails capture and cannot authorize splice. New own tool reproduces Cloud4d3
 base from verified candidatepatch4113; old8e467chain/worktree preserved. No
 composition proof credit. Saved-MIR service replay passes ordered1/0, native
 args,8callback locals and synthetic mutation refusals; replay is not proof.
+
+### Fresh immutable helper capture 0904f144
+
+Proof=infrafa4c46d3;322sec/session1330. Archive49695c2e and all text chunks
+verified. Supportall0, source/full pairedMIR unchangedfreshpins; exact helper
+Func64c01593 emitted unchanged under capture-only4dc5 translator. Wholemodule
+dump stillFailureTODO; ordinarycapture-offVF stillmarkerrefusal189, native
+notentered. [Capture/tool identities](cloud-build/sort4-native-compose-c1/CAPTURE-0904F144.md).
+No proofcredit; independent rawAST/designreview precedes helper-only binding.
+Hourreport delivered01:34:15, continues without ownerresponse.
+
+### Native composition dependency reassessment, switch to C2
+
+Independent rawAST review finds native4dc5/kerneladbf lacks operative strict
+end_lft_binding/heap/type-escape mechanism; SORT4_STRICT_LFT_CUT env was inert
+except captureguard. Established C1/C2 profile has kernel37ed2550; importing
+its combined kernel-adjacent dependency is a new admission boundary, not a
+translator-only helper repair. Proposed Noop explicitly NO-GO; no semantic
+implementation performed. [Review](cloud-build/sort4-native-compose-c1/FRONTEND-FRESH-REVIEW.md).
+Per direct assignment step4, switch without ownerwait to bounded C2 under
+existing frozen strict profile/kernel37ed and own translator-only4851 delta.
+Native/C1 separate proofs unchanged; completed composition stillabsent, no
+premises inferred from assertions insidefailedhelper. No unchanged failure rerun.
