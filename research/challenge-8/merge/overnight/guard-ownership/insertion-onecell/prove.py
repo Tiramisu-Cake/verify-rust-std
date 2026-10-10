@@ -447,7 +447,7 @@ def main() -> int:
     parser.add_argument("--compiler-sysroot", type=Path, required=True)
     parser.add_argument("--schema", type=Path, required=True)
     parser.add_argument("--evidence", type=Path, required=True)
-    parser.add_argument("--campaign", choices=(CAMPAIGN, "legacy-full-controls-v1", "bridge-minimal-v1", "len1-minimal-v1"),
+    parser.add_argument("--campaign", choices=(CAMPAIGN, "legacy-full-controls-v1", "bridge-minimal-v1", "len1-minimal-v1", "caller-composition-minimal-v1"),
                         default=CAMPAIGN)
     parser.add_argument("--stage-seconds", type=int, default=35)
     parser.add_argument("--verifier-seconds", type=int, default=50)
@@ -568,6 +568,27 @@ def main() -> int:
             {"ordinary_call_normal_unwind": "PASS"} or
             combined_smoke.get("classifier_controls_passed") is not True):
         raise RuntimeError("combined candidate mandatory smoke did not pass; retain artifacts")
+    if args.campaign == "caller-composition-minimal-v1":
+        composition = load("onecell_caller_composition", HERE.parents[3] / "cloud-build/origin-layout/onecell-caller-composition.py")
+        summary = composition.run(args.evidence / "onecell-caller-composition", args, env, execute_case, environment)
+        expected = {"positive": "BOUNDED_NORMAL_COMPOSITION_PASS_FRAGMENT_ONLY",
+                    "after_call_current_false": "EXPECTED_AFTER_CALL_CURRENT_REJECTION",
+                    "caller_entry_false": "EXPECTED_CALLER_ENTRY_REJECTION"}
+        exact = set(summary.get("cases", {})) == set(composition.CASES) == set(expected)
+        matched = (exact and summary.get("qualified_fragment") is True and
+                   summary.get("accepted") is False and summary.get("cases") == expected)
+        aggregate = {"schema": "merge-minimal-caller-composition-v1", "profile": PROFILE,
+            "campaign": "caller-composition-minimal-v1", "accepted": False,
+            "diagnostic_complete": matched, "all_matched": matched,
+            "exact_case_sets": exact, "required_case_count": 3,
+            "classification": "PASS_COMPONENT_DIAGNOSTIC" if matched else "INCONCLUSIVE",
+            "environment": environment, "combined_profile_smoke": combined_smoke,
+            "caller_composition": summary, "cases": summary.get("cases", {}),
+            "actual_drop_glue": "NOT_IMPLEMENTED", "panic_unwind": "NOT_RUN",
+            "combined_profile_acceptance": False}
+        (args.evidence / "aggregate.json").write_text(json.dumps(aggregate, indent=2)+"\n")
+        return 0 if matched else 1
+
     if args.campaign == "len1-minimal-v1":
         interface = load("onecell_drop_interface", HERE.parents[3] / "cloud-build/origin-layout/onecell-drop-interface.py")
         summary = interface.run(args.evidence / "onecell-drop-interface", args, env, execute_case, environment)

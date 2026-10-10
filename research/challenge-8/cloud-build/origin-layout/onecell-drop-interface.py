@@ -1269,12 +1269,24 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
             stages.get("verifast") == 1 and len(errors) == 1:
         line = row.get("duplicate_effect_line")
         if name == "duplicate_effect_simultaneous":
-            args = r"_t,\s*guard_src,\s*guard_dst,\s*guard_len"
-            diagnostic = re.search(
-                rf"No matching heap chunks?:\s*{EFFECT_NAME.decode()}\({args}\)",
-                errors[0])
-            matched_target = bool(line and diagnostic and re.search(
-                rf"verified/lib\.rs\({line},\d+.*\): error:", errors[0]))
+            # The verified aliases guard_src/dst/len carry generated prototype
+            # symbols src/dst/len. Pin the second predicate's exact source name
+            # span, not merely any error on the assertion's line.
+            fields = ast.get("generated_field_variables", {})
+            actual_names = [fields.get(field) for field in ("src", "dst", "len")]
+            if actual_names == ["src", "dst", "len"]:
+                marker = EFFECT_DOUBLE_ASSERT.decode().rstrip("\n")
+                second_col = marker.index(EFFECT_NAME.decode(),
+                                          marker.index(EFFECT_NAME.decode()) + 1) + 1
+                end_col = second_col + len(EFFECT_NAME)
+                diagnostic = (
+                    rf"verified/lib\.rs\({line},{second_col}-{end_col}\): error: "
+                    r"No matching heap chunks: CopyOnDrop_drop_effect\(_t, src, dst, len\)")
+                close_line = row.get("effect_close_line")
+                close_trace = bool(close_line and re.search(
+                    rf"verified/lib\.rs\({close_line},\d+-\d+\): Producing predicate chunk", log))
+                matched_target = bool(line and close_trace and
+                                      re.fullmatch(diagnostic, errors[0]))
         else:
             matched_target = bool(line and re.search(
                 rf"verified/lib\.rs\({line},\d+.*\): error:", errors[0]))

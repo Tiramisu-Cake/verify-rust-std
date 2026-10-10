@@ -51,4 +51,28 @@ with tempfile.TemporaryDirectory(prefix='merge-len1-audit-service-') as temporar
         assert result['accepted'] is False
         if label=='positive': assert result['classification']=='MINIMAL_LEN1_INTERFACE_COMPONENT_DIAGNOSTIC'
         outcomes[label]=result['diagnostic_complete']
-print(json.dumps({'classification':'PASS_SERVICE_ONLY','mutations_rejected':len(outcomes)-1,'proof_attempted':False,'accepted':False}))
+    caller_summary = dict(summary, schema='merge-minimal-caller-composition-v1',
+                          campaign='caller-composition-minimal-v1',
+                          cases={str(i):'synthetic' for i in range(3)})
+    caller_outcomes = {}
+    for label in ('positive', 'missing_case', 'wrong_schema', 'not_matched'):
+        row = copy.deepcopy(caller_summary)
+        if label == 'missing_case': row['cases'].pop('0')
+        if label == 'wrong_schema': row['schema'] = 'merge-minimal-len1-interface-v1'
+        if label == 'not_matched': row['all_matched'] = False
+        (candidate/'postbuild-source-hash-check-exit-code.txt').write_text('0\n')
+        (root/'checked-profile-smoke/aggregate.json').write_text(json.dumps(retained))
+        (root/'checked-minimal-bridge/aggregate.json').write_text(json.dumps(row))
+        old_argv = sys.argv
+        try:
+            sys.argv = ['isolated-audit',str(root/'audit.json'),'0',str(base),str(prep),str(candidate),'caller-composition-minimal']
+            exec(code, {'__builtins__':__builtins__})
+        finally:
+            sys.argv = old_argv
+        result = json.loads((root/'audit.json').read_text())
+        assert result['diagnostic_complete'] is (label == 'positive'), label
+        assert result['accepted'] is False
+        if label == 'positive': assert result['classification'] == 'MINIMAL_CALLER_COMPOSITION_COMPONENT_DIAGNOSTIC'
+        caller_outcomes[label] = result['diagnostic_complete']
+print(json.dumps({'classification':'PASS_SERVICE_ONLY','mutations_rejected':len(outcomes)-1,
+                  'caller_mutations_rejected':len(caller_outcomes)-1,'proof_attempted':False,'accepted':False}))
