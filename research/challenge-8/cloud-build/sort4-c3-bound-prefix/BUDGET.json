@@ -7,14 +7,14 @@
   "main_deadline_utc": "2026-10-10T12:20:59Z",
   "deadline_utc": "2026-10-10T12:50:59Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 1840,
-  "remaining_build_seconds": 1760,
+  "used_build_seconds": 2327,
+  "remaining_build_seconds": 1273,
   "maximum_build_timeout_seconds": 1740,
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery",
     "o26-compatible-strict-cut-test"
   ],
-  "active_build": "a5180cd7-3ad7-4199-9b1f-56c31876cc4d",
+  "active_build": "31f58a87-9dc0-4f74-ad3a-ac4888f6ffbd",
   "builds": [
     {
       "dispatch_token": "dispatch-b7fc43fc2500469da61abf49ec0ad5a6",
@@ -122,11 +122,35 @@
       "submitted_config_sha256": "61186e354ea278c50c8cb8fe7da5ff01bd675cfb9fe6caa318cb800e8aa924c4",
       "reserved_seconds": 1060,
       "timeout_seconds": 1000,
-      "status": "QUEUED",
+      "status": "SUCCESS",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "b22ad44040a839ecb00df17c1c956b6012584fd45137d31338248126a5658481",
-      "build_id": "a5180cd7-3ad7-4199-9b1f-56c31876cc4d"
+      "build_id": "a5180cd7-3ad7-4199-9b1f-56c31876cc4d",
+      "start_time": "2026-10-10T11:58:44.391075411Z",
+      "finish_time": "2026-10-10T12:06:50.324749Z",
+      "create_time": "2026-10-10T11:58:43.597642741Z",
+      "build_seconds": 487,
+      "accounted": true,
+      "execution_seconds": 486,
+      "download_verified": true,
+      "archive_sha256": "226c41f6e7c484880c1ce74811b0f06b922c37e3ab4f4af28a40ff64dc91bad4"
+    },
+    {
+      "dispatch_token": "dispatch-7751e0569e6340b6afec4f8a60928ff1",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-C3-PREFIX-CLOUD-2026-10-10",
+      "infra_sha": "f7ff82a29b914c04181ecab4070d64555a61a58f",
+      "proof_sha": "f7ff82a29b914c04181ecab4070d64555a61a58f",
+      "lane": "o26-compatible-strict-cut-test",
+      "submitted_config_sha256": "f59aa28de60495a14281a90762eded3d10c73e4b7006de019ab4451e72897714",
+      "reserved_seconds": 1060,
+      "timeout_seconds": 1000,
+      "status": "QUEUED",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "e6937a228e4baeb8585181674280a10280e96a1f9161a3a6129b9b71d6e0ba7c",
+      "build_id": "31f58a87-9dc0-4f74-ad3a-ac4888f6ffbd"
     }
   ]
 }

@@ -808,3 +808,17 @@ Noop rejected; immutable helper capture is diagnostic only. Actual caller CFG,
 caller→sort4, optional-dst/MU applicability, ZST and fullsort4 remain OPEN.
 All profiles experimental/unaccepted; saved classifier/MIR/AST replay is not proof.
 [Fresh evidence/review](cloud-build/sort4-c2-bound-prefix/FRESH-F4ABE251-EVIDENCE.md).
+
+Fresh2026-10-10 conditional actual C1→C2→C3 and C1→C2→C3→C4 prefixes:
+Builda956b0b2/proofaa6e5a72 VF0(335), then Builda5180cd7/proof203b5925
+VF0(370). Same-version selected limits/split/inverse join helpers precede target.
+C3(c,a) and C4(d,b) derive permissions for allfourc1/c2 cases from CURRENT
+C2/C3 recovery; complementary CURRENT frames remain separate. Full original
+normal and each C1–C4 direct-unwind resource post/unitreturn/leak preserved;
+earlier unwinds skip later calls. Nine C4 target-first controls and source
+mutant admission refusal; independent raw allocation/control review PASS for exact projection. Experimental
+profiles unaccepted; raw source4/F/thread/types/positiveTsize/optional-dst
+supplied. Native lemma separate; native→C1 and actualcaller→sort4 absent.
+C5/select/copy stillNOT_RUN; firstselect needs fresh actualcallee qualification
+on same tool, historical FRAME/cleanup summary cannot transfer.
+[Fresh C4 evidence](cloud-build/sort4-c4-bound-prefix/FRESH-A5180CD7-EVIDENCE.md).

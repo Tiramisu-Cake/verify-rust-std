@@ -51,19 +51,23 @@ tool metadata fallback are preserved and explained in the evidence note.
 
 ## Current step
 
-Fresh unified actual C1→C2→C3 VF0,335 statements, Build a956b0b2, proof=infra
-aa6e5a725f71506602903f95b1832a32fa849e50. Same-version selected limits/
-split/inverse join precede target. Full original CURRENT normal and C1/C2/C3
-direct-unwind posts/unit return/leak; all four c1/c2 ownership cases preserved.
-[Independent raw/allocation/control review](cloud-build/sort4-c3-bound-prefix/FRESH-A956B0B2-REVIEW.md)
-PASS for exact projection; all eight controls reached intended first VC, source
-mutant refused before target. [Fresh evidence](cloud-build/sort4-c3-bound-prefix/FRESH-A956B0B2-EVIDENCE.md).
-No whole-sort4/native→C1/caller applicability proof; experimental profiles remain
-unaccepted and raw entry resources supplied. C4 proof/select/C5/copy NOT_RUN. C4 fresh capture eb66efc6 SUCCESS;
-source/MIR/refinement/preAST captured and deliberately refused before target.
+Fresh unified actual C1→C2→C3→C4 VF0,370 statements, Build
+`a5180cd7-3ad7-4199-9b1f-56c31876cc4d`, proof=infra
+`203b59258b00ccc8bc2ecc030726fafde3a57d05`. Five same-version recovery/selected
+limits/split/inverse-join helpers precede target. Full original CURRENT normal
+and C1/C2/C3/C4 direct-unwind posts/unit return/leak; allfour ownership cases.
+Nine controls target-first at intended VC; source mutant admission refusal.
+[Independent raw/allocation/control review](cloud-build/sort4-c4-bound-prefix/FRESH-A5180CD7-REVIEW.md)
+PASS for exact conditional bounded projection; [fresh evidence](cloud-build/sort4-c4-bound-prefix/FRESH-A5180CD7-EVIDENCE.md).
+Preceding C3 Builda956b0b2/proofaa6e5a72 VF0(335) independently reviewed PASS.
+No whole-sort4/native→C1/caller proof; profiles experimental and raw entry supplied.
+C5/select/copy NOT_RUN. [First selector blocker/next gate](cloud-build/sort4-first-select/NEXT-STEP.md)
+is actual callee qualification on this same tool, no historical summary transfer.
 
-Continue C4 normal/all direct unwind before first select using its independent
-[card/review](cloud-build/sort4-c4-bound-prefix/CAPTURE-REVIEW.md), exact C3 review
-pin and new fresh source/MIR/preAST. Next select needs actual callee qualification
-on the same source/tool, not reuse of a different historical helper profile.
-Account1840/3600, remaining1760; no own unresolved Build.
+Separate minimal production-base translator+kernel compatible strict-cut delta
+`01f52d92` statically reviewed; profile unaccepted. Only fresh capture-only
+Cloud diagnostic enabled, strict-ON proofs/helper/native composition NOT_RUN.
+Own phase adds explicit lane under same budget/window; no foreign changes.
+Account2327/3600, remaining1273. Strict capture-only Build `31f58a87-9dc0-4f74-ad3a-ac4888f6ffbd`
+on proof=infra `f7ff82a29b914c04181ecab4070d64555a61a58f` queued/running;
+one own unresolved Build maximum. Main deadline12:20:59 still applies.

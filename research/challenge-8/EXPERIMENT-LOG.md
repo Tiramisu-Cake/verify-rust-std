@@ -6805,3 +6805,30 @@ No live evidence/coordinator mutation, proof/build/import of driver involved.
 Strict profile is enabled solely for reviewed CAPTURE_ONLY_NO_STRICT_ON_PROOF;
 exact two-file candidate01f52d92 and independent/design/parent reviews committed.
 Full trust matrix and native helper/composition remain NOT_RUN.
+
+2026-10-10 12:10 UTC: a5180cd7 SUCCESS,487charged; cumulative2327/3600,
+remaining1273. Archive/inventory/index verified. C4bound VF0(370), fullposts,
+5sameversionhelpers,9intendedfirstVC candidates, source mutant admissionrefusal.
+Independentraw allocationreview pending. Firstselect qualification blocker
+saved; conditional historicalFRAME/cleanup chain is not currentprofileproof.
+Secondarystrictcapture-only submit onf7ff82a29b914c04181ecab4070d64555a61a58f
+under separate explicitlane/sameownerbudget. No strictONproofcredit.
+
+Strict capture-only Build31f58a87-9dc0-4f74-ad3a-ac4888f6ffbd created
+on proof=infra f7ff82a29b914c04181ecab4070d64555a61a58f; token
+dispatch-7751e0569e6340b6afec4f8a60928ff1, config
+f59aa28de60495a14281a90762eded3d10c73e4b7006de019ab4451e72897714, input
+e6937a228e4baeb8585181674280a10280e96a1f9161a3a6129b9b71d6e0ba7c.
+Two-file experimental patch01f52d929a3678aed81bef8659f4e0ad6926487da1667139e7a66d6664526154;
+new resulttranslator753166a81e886bb4e3139614706f9a9b4fb9840f546153f27db7a0a073975704
+andkernel7870f3eb6b2978577de54fb23bf8e8bc4daf21a4d7cad18055ee008bbfaf4608.
+Fresh compile/sourceMIR/refinement/preAST diagnostics only; strictONtargetproof
+NOT_RUN and all trust/admission/native-composition obligations remain open.
+
+2026-10-10 12:15 UTC: independent a5180cd7 raw review PASS for exact
+conditional bounded C1→C4 projection. Actual postAST184outer+8/10/6/6children
+=214declarations; C4tuple$_161child, c4+recoveryunitsouter. Frozenkernel37ed
+producer/free rules plus normal/directunwind frees at484 androot502 establish
+allocation correspondence; individual object creation not printed/count-only
+claim not made. Nine intendednegative firstVCs confirmed; sourcehashrefusal
+notsemanticnegative. Globalprofile/collectoracceptancependingfields untouched.
