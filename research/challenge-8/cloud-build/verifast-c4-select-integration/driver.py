@@ -461,7 +461,7 @@ def run(a):
             "location_only_audit": "PENDING_STRUCTURAL_REVIEW",
             "original_posts_preserved": True, "raw_ptr_own_pointee_rights": False}
     stages["composition"] = composition
-    regressions = module(a.proof_root / HERE / "regressions.py", "integration_regressions")
+    regressions = module(a.cloud_dir / "verifast-c4-select-integration/regressions.py", "integration_regressions")
     stages["regressions"] = regressions.run(a, a.tool_home, selector_case, c4case,
         selector_env(a), c4_env(), stage, proof)
     if c4_ok:
