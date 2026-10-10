@@ -9,3 +9,10 @@ First diagnostic uses existing reviewed code, no new semantic changes. C4/strict
 InheritedexperimentalA1/transmute/prelude/memory assumptions and bounded supplied entry premises remain explicit; no nativecaller/fullsort4/genericZST summary, no owner profile acceptance. All compiler/extraction/proofCloud; localOCamlpreflight unavailable(no compatible compiler/deps, insufficientresources). No framework/upstream/fork/merge/forcepush.
 
 First Build intentionally runs fresh selector/C4 positive/real composition and affected composition controls only. Unchanged baseline matrices remain old af4e44a3 evidence; they are not reclassified or upgraded. Pending selector cleanup and new gates are deferred, leave diagnostic_complete=false. This changes experiment scheduling only, no proof semantics or posts.
+
+Preparation attempt at 20:38 UTC on proof/infra 3ac68320 refused before
+reservation/Cloud API because newly staged outer fixture made proof_paths
+unsorted. No Cloud Build or Cloud seconds; sorted recipe fixed before retry.
+Initial session attempt also hit local ENOSPC before reservation: no Cloud
+Build/charge. Only own clean checkouts or duplicate extracted evidence were
+removed after preserving commits/bundles/verified immutable archives.
