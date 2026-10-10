@@ -1,0 +1,127 @@
+{
+  "all_matched": false,
+  "archive_sha256": "ed26546a6d4efbdd4f850b6ed5cb9fa6de18f34d8d27424853d9887d7466c5c3",
+  "build_id": "c6e247a9-20b0-477d-8d5c-b8e9da795542",
+  "case_replay_detail": "All 12 classification calls completed. missing_source_quarter remained INCONCLUSIVE in that replay; its source-anchor selector was corrected afterward to begin at fn drop, but no replay of that case with the corrected branch was completed. No positive or rejection credit is inferred for that case.",
+  "cases": {
+    "body_entry_false": {
+      "ast": true,
+      "classification": "EXPECTED_REJECTION",
+      "mir": true,
+      "reason": null,
+      "source": true,
+      "target": true
+    },
+    "body_post_false": {
+      "ast": true,
+      "classification": "EXPECTED_REJECTION",
+      "mir": true,
+      "reason": null,
+      "source": true,
+      "target": true
+    },
+    "canonical_call_post_false": {
+      "ast": true,
+      "classification": "EXPECTED_REJECTION",
+      "mir": true,
+      "reason": null,
+      "source": true,
+      "target": true
+    },
+    "canonical_entry_false": {
+      "ast": true,
+      "classification": "EXPECTED_REJECTION",
+      "mir": true,
+      "reason": null,
+      "source": true,
+      "target": true
+    },
+    "canonical_no_effect": {
+      "ast": true,
+      "classification": "EXPECTED_NO_EFFECT_PAYLOAD_LEAK_REFUSAL",
+      "mir": true,
+      "reason": null,
+      "source": true,
+      "target": false
+    },
+    "canonical_positive": {
+      "ast": true,
+      "classification": "CANONICAL_ONECELL_EFFECT_INTERFACE_PASS_FRAGMENT_ONLY",
+      "mir": true,
+      "reason": null,
+      "source": true,
+      "target": false
+    },
+    "direct_positive": {
+      "ast": true,
+      "classification": "DIRECT_STRONG_PRE_BODY_PASS_CONDITIONAL",
+      "mir": true,
+      "reason": null,
+      "source": true,
+      "target": false
+    },
+    "duplicate_effect_close": {
+      "ast": true,
+      "classification": "UNEXPECTED_ACCEPTANCE",
+      "mir": true,
+      "reason": null,
+      "source": true,
+      "target": false
+    },
+    "missing_destination_gap": {
+      "ast": true,
+      "classification": "EXPECTED_REJECTION",
+      "mir": true,
+      "reason": null,
+      "source": true,
+      "target": true
+    },
+    "missing_effect_definition": {
+      "ast": false,
+      "classification": "EXPECTED_EFFECT_QUALIFICATION_REJECTION",
+      "mir": false,
+      "reason": "proof AST absent for layout binding",
+      "source": true,
+      "target": false
+    },
+    "missing_source_quarter": {
+      "ast": true,
+      "classification": "INCONCLUSIVE",
+      "mir": true,
+      "reason": null,
+      "source": true,
+      "target": false
+    },
+    "wrong_effect_signature": {
+      "ast": false,
+      "classification": "EXPECTED_EFFECT_QUALIFICATION_REJECTION",
+      "mir": false,
+      "reason": "proof AST absent for layout binding",
+      "source": true,
+      "target": false
+    }
+  },
+  "classifier_file": "origin-layout/onecell-drop-interface.py",
+  "classifier_sha256_at_receipt": "20865862b38d33373c331a59c5b6ec4af678eb123d3ad8f7a291bb088b1020f0",
+  "cloud_credit": "none; classifications refer only to already completed Build c6e247a9-20b0-477d-8d5c-b8e9da795542 / proof SHA 20548c2798115ba6f1ac0d7632aeddc11ea0e8a3",
+  "duplicate_effect_close": "UNEXPECTED_ACCEPTANCE; verifier exit 0, deliberately not counted as expected negative",
+  "expected_classifications_matched": false,
+  "new_source_fixtures": "NOT_RUN",
+  "proof_sha": "20548c2798115ba6f1ac0d7632aeddc11ea0e8a3",
+  "replay_command": "Python import-only replay of onecell_drop_interface._classify for all 12 saved cases using extraction.json and verified stage receipts; see /tmp/onecell-c6e247a9-classifier-replay.json",
+  "saved_classifier_replay": true,
+  "schema": "onecell-saved-admission-replay-v1",
+  "service_test": "NOT_PASS: existing synthetic test still asserts effect body gate must refuse; after exact saved-AST gate implementation it fails at that obsolete assertion. No service mutations or synthetic-positive acceptance claimed.",
+  "toolchain_or_proof_invoked": false,
+  "tools_invoked": {
+    "cloud": false,
+    "compiler": false,
+    "extractor": false,
+    "proof": false,
+    "verifier": false
+  },
+  "unmatched_cases": [
+    "duplicate_effect_close",
+    "missing_source_quarter"
+  ]
+}

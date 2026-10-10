@@ -692,18 +692,18 @@ def _mir_gate(case: Path, row: dict, proof_base, drop_module) -> dict:
             if assign is None:
                 continue
             lhs = mir.path(assign, "lhsPlace")
-            if mir.local_name(lhs) == "_1" and mir.path(lhs, "projection"):
+            if proof_base.local_name(lhs) == "_1" and mir.path(lhs, "projection"):
                 projected_self_writes.append(position)
             if not mir.path(lhs, "projection"):
-                writes.setdefault(mir.local_name(lhs), []).append((position, assign))
+                writes.setdefault(proof_base.local_name(lhs), []).append((position, assign))
         origins = []
         for operand in mir.path(call, "args"):
             place = next(iter(operand.values())) if (
                 isinstance(operand, dict) and len(operand) == 1 and
                 next(iter(operand)) in ("copy", "move")) else None
-            name = (mir.local_name(place) if place is not None and
+            name = (proof_base.local_name(place) if place is not None and
                     not mir.path(place, "projection") else None)
-            origins.append(mir.field_origin(name, writes, "_1", len(statements))
+            origins.append(proof_base.field_origin(name, writes, "_1", len(statements))
                            if name is not None else None)
         admitted = (layout.get("admitted") is True and order_ok and not projected_self_writes and
                     mir.call_name(call) == proof_base.MIR_COPY_CALLEE and
@@ -874,14 +874,7 @@ def _effect_ast_gate(case: Path, row: dict, proof_base, drop_module) -> dict:
 
 
 def _effect_definition_gate(case: Path, tree, ast) -> dict:
-    """Check exact declaration/signature and fail closed on an ungrounded body.
-
-    This deliberately requires the defining predicate to stay on the exact
-    source line and exact source template. The AST checks bind the family
-    declaration and binders. Body resources remain unadmitted until saved
-    parsed effect AST grounds constructor shapes for coefficient, slice, list,
-    and owner resources.
-    """
+    """Check the exact parsed one-cell resource body and its source binding."""
     try:
         declarations = [node for node in ast.nodes(tree, "PredFamilyDecl")
                         if len(node.args) > 1 and node.args[1] == EFFECT_NAME.decode()]
@@ -937,21 +930,144 @@ def _effect_definition_gate(case: Path, tree, ast) -> dict:
         if source.count(EFFECT_DEF) != 1:
             raise ValueError("effect definition source template is not unique")
         expected_line = _line(source, EFFECT_DEF)
+        expected_loc = f"verified/lib.rs({expected_line},6-{6 + len(EFFECT_NAME)})"
         for node in (decl, definition):
-            loc_text = ast.loc(node.args[0])
-            if not re.fullmatch(rf"verified/lib\.rs\({expected_line},[1-9][0-9]*\)", loc_text):
-                raise ValueError("effect definition AST location differs from checked source")
-        # The current saved c766 AST contains the guard layout but no effect
-        # definition.  Do not invent an AST body prototype from the source
-        # spelling: require a saved parser instance before admitting resource
-        # leaves, fractions, array lengths, and shared CURRENT.
-        return {"admitted": False,
+            if ast.loc(node.args[0]) != expected_loc:
+                raise ValueError("effect declaration/definition location differs from checked source name span")
+
+        def int_lit(value, expected: str) -> bool:
+            return (isinstance(value, ast.Node) and value.name == "IntLit" and
+                    len(value.args) == 5 and
+                    value.args[1] == ast.Node("big_int_of_string", [expected]) and
+                    value.args[2:] == [ast.Sym("true"), ast.Sym("false"),
+                                       ast.Sym("NoLSuffix")])
+
+        def var(value, name: str) -> bool:
+            return (isinstance(value, ast.Node) and value.name == "Var" and
+                    len(value.args) == 2 and value.args[1] == name)
+
+        def pat_var(value, name: str) -> bool:
+            return (isinstance(value, ast.Node) and value.name == "LitPat" and
+                    len(value.args) == 1 and var(value.args[0], name))
+
+        def current_array(points, base: str, current: str, source: bool) -> bool:
+            if not (isinstance(points, ast.Node) and points.name == "PointsTo" and
+                    len(points.args) == 4 and points.args[2] == "RegularPointsTo"):
+                return False
+            read = points.args[1]
+            if not (isinstance(read, ast.Node) and read.name == "ReadArray" and
+                    len(read.args) == 3 and var(read.args[1], base)):
+                return False
+            slice_expr = read.args[2]
+            if not (isinstance(slice_expr, ast.Node) and slice_expr.name == "SliceExpr" and
+                    len(slice_expr.args) == 3 and
+                    slice_expr.args[1] == ast.Sym("None") and
+                    isinstance(slice_expr.args[2], ast.Node) and
+                    slice_expr.args[2].name == "Some" and
+                    len(slice_expr.args[2].args) == 1 and
+                    isinstance(slice_expr.args[2].args[0], ast.Node) and
+                    slice_expr.args[2].args[0].name == "LitPat" and
+                    len(slice_expr.args[2].args[0].args) == 1 and
+                    int_lit(slice_expr.args[2].args[0].args[0], "1")):
+                return False
+            contents = points.args[3]
+            if source:
+                return (isinstance(contents, ast.Node) and contents.name == "CtorPat" and
+                        len(contents.args) == 3 and contents.args[1] == "cons" and
+                        isinstance(contents.args[2], list) and len(contents.args[2]) == 2 and
+                        isinstance(contents.args[2][0], ast.Node) and
+                        contents.args[2][0].name == "VarPat" and
+                        len(contents.args[2][0].args) == 2 and
+                        contents.args[2][0].args[1] == current and
+                        pat_var(contents.args[2][1], "nil"))
+            return (isinstance(contents, ast.Node) and contents.name == "LitPat" and
+                    len(contents.args) == 1 and
+                    isinstance(contents.args[0], ast.Node) and
+                    contents.args[0].name == "CallExpr" and
+                    len(contents.args[0].args) == 6 and
+                    contents.args[0].args[1] == "cons" and
+                    contents.args[0].args[2] == [] and
+                    contents.args[0].args[3] == [] and
+                    isinstance(contents.args[0].args[4], list) and
+                    len(contents.args[0].args[4]) == 2 and
+                    pat_var(contents.args[0].args[4][0], current) and
+                    pat_var(contents.args[0].args[4][1], "nil") and
+                    contents.args[0].args[5] == ast.Sym("Static"))
+
+        def source_quarter(value) -> bool:
+            if not (isinstance(value, ast.Node) and value.name == "CoefAsn" and
+                    len(value.args) == 3):
+                return False
+            coef = value.args[1]
+            if not (isinstance(coef, ast.Node) and coef.name == "LitPat" and
+                    len(coef.args) == 1 and isinstance(coef.args[0], ast.Node) and
+                    coef.args[0].name == "Operation" and len(coef.args[0].args) == 3 and
+                    coef.args[0].args[1] == ast.Sym("Div") and
+                    isinstance(coef.args[0].args[2], list) and
+                    len(coef.args[0].args[2]) == 2 and
+                    int_lit(coef.args[0].args[2][0], "1") and
+                    int_lit(coef.args[0].args[2][1], "4")):
+                return False
+            return current_array(value.args[2], "src", "current", True)
+
+        def len_one(value) -> bool:
+            return (isinstance(value, ast.Node) and value.name == "Operation" and
+                    len(value.args) == 3 and value.args[1] == ast.Sym("Eq") and
+                    isinstance(value.args[2], list) and len(value.args[2]) == 2 and
+                    var(value.args[2][0], "len") and int_lit(value.args[2][1], "1"))
+
+        def is_u64_type(value) -> bool:
+            return (isinstance(value, ast.Node) and value.name == "ManifestTypeExpr" and
+                    len(value.args) == 2 and isinstance(value.args[1], ast.Node) and
+                    value.args[1].name == "Int" and len(value.args[1].args) == 2 and
+                    value.args[1].args[0] == ast.Sym("Unsigned") and
+                    value.args[1].args[1] == ast.Node("FixedWidthRank", [3]))
+
+        def type_interp(value) -> bool:
+            return (isinstance(value, ast.Node) and value.name == "CallExpr" and
+                    len(value.args) == 6 and value.args[1] == "type_interp" and
+                    isinstance(value.args[2], list) and len(value.args[2]) == 1 and
+                    is_u64_type(value.args[2][0]) and value.args[3] == [] and
+                    value.args[4] == [] and value.args[5] == ast.Sym("Static"))
+
+        def owner(value) -> bool:
+            return (isinstance(value, ast.Node) and value.name == "ExprCallExpr" and
+                    len(value.args) == 3 and
+                    isinstance(value.args[1], ast.Node) and
+                    value.args[1].name == "TypePredExpr" and
+                    len(value.args[1].args) == 3 and
+                    is_u64_type(value.args[1].args[1]) and
+                    value.args[1].args[2] == "own" and
+                    isinstance(value.args[2], list) and len(value.args[2]) == 2 and
+                    pat_var(value.args[2][0], "t") and
+                    pat_var(value.args[2][1], "current"))
+
+        leaves = []
+        def flatten(value):
+            if isinstance(value, ast.Node) and value.name == "Sep" and len(value.args) == 3:
+                flatten(value.args[1])
+                flatten(value.args[2])
+            else:
+                leaves.append(value)
+        flatten(body)
+        # Exact leaves exclude additional resources/axioms and require every
+        # payload resource to share the same singleton CURRENT.
+        if (len(leaves) != 5 or not len_one(leaves[0]) or
+                not type_interp(leaves[1]) or not source_quarter(leaves[2]) or
+                not current_array(leaves[3], "dst", "current", False) or
+                not owner(leaves[4])):
+            raise ValueError("effect body is not exactly the len1/source-quarter/destination-singleton/current-owner assertion")
+        return {"admitted": True,
                 "signature_admitted": True,
+                "body_admitted": True,
                 "declaration_count": 1,
                 "definition_count": 1,
                 "input_names": param_names,
                 "source_line": expected_line,
-                "reason": "NOT_SYNTHETIC_VALIDATED: no saved parsed effect-body AST to bind exact leaves/resources"}
+                "body_leaf_count": len(leaves),
+                "source_quarter_current": "current",
+                "destination_singleton_current": "current",
+                "owner_current": "current"}
     except Exception as error:
         return {"admitted": False, "reason": f"effect definition AST gate failed: {error}"}
 
@@ -969,9 +1085,38 @@ def _qualification_failure_matched(row: dict, source: dict, execution: dict,
                       errors[0]) is not None)
 
 
-def _no_effect_refusal_matched(*_args, **_kwargs) -> bool:
-    """Fail closed until the exact sole leak diagnostic is pinned from saved logs."""
-    return False
+def _no_effect_refusal_matched(case: Path, row: dict, execution: dict,
+                               stages: dict, errors: list[str], log: str,
+                               source: dict, mir: dict, ast: dict) -> bool:
+    """Match only the pinned prototype refusal and its exact leaked payload."""
+    if (row.get("case") != "canonical_no_effect" or source.get("admitted") is not True or
+            mir.get("admitted") is not True or ast.get("admitted") is not True or
+            execution.get("source_unchanged_at_every_stage") is not True or
+            not all(stages.get(stage) == 0 for stage in ("exporter", "decode", "refinement")) or
+            stages.get("verifast") != 1 or len(errors) != 1 or
+            "generated_normal_only_effect" in ast or
+            ast.get("generated_contract_structural_gate") is not True):
+        return False
+    try:
+        source_lines = (case / "verified/lib.rs").read_bytes()
+        drop_line = _line(source_lines, b"fn drop(&mut self)")
+    except (OSError, ValueError):
+        return False
+    diagnostic = re.compile(
+        rf"verified/lib\.rs\({drop_line},5-[1-9][0-9]*,6\): error: "
+        r"Function prototype implementation check: Implementation leaks heap chunks: "
+        r"type_interp<u64>\(\), \[1/4\]array<u64>\(src, 1, cons\(([A-Za-z_][A-Za-z0-9_]*), nil\)\), "
+        r"array<u64>\(dst, 1, cons\(\1, nil\)\)")
+    call_line = row.get("call_line")
+    call_trace = (bool(call_line) and re.search(
+        rf"verified/lib\.rs\({call_line},\d+-\d+\): Verifying call", log) is not None)
+    prototype_leak = re.search(
+        rf"verified/lib\.rs\({drop_line},5-[1-9][0-9]*,6\): Leak check\.", log)
+    return (call_trace and prototype_leak is not None and
+            diagnostic.fullmatch(errors[0]) is not None and
+            log.count(errors[0]) == 1 and
+            "verified/lib.rs(" + str(drop_line) + ",5-" in errors[0] and
+            "0 errors found" not in log)
 
 
 def _all_cases_matched(results: dict[str, str]) -> bool:
@@ -1031,6 +1176,22 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
         line = row.get("duplicate_effect_line")
         matched_target = bool(line and re.search(
             rf"verified/lib\.rs\({line},\d+.*\): error:", errors[0]))
+    if (admission and name in ("missing_source_quarter", "missing_destination_gap") and
+            stages.get("verifast") == 1 and len(errors) == 1):
+        contract_lines = (case / "verified/lib.rs").read_text(errors="replace").splitlines()
+        drop_start = _line((case / "verified/lib.rs").read_bytes(), b"fn drop(&mut self)")
+        resource = ("[1/4]src[..1] |-> cons(?current, nil)" if
+                    row["expected_missing"] == "source_singleton" else
+                    "dst[..1] |-> _")
+        contract_line = next((i for i, line in enumerate(contract_lines, 1)
+                              if i >= drop_start and
+                              resource in line), None)
+        expected_predicate = (r"\[1/4\]array<u64>\(src, 1, cons\(_, nil\)\)" if
+                              row["expected_missing"] == "source_singleton" else
+                              r"array_<u64>\(dst, 1, _\)")
+        matched_target = bool(contract_line and re.search(
+            rf"verified/lib\.rs\({contract_line},\d+-\d+\): error: "
+            rf"No matching heap chunks: {expected_predicate}$", errors[0]))
     positive = (setup and stages.get("verifast") == 0 and not errors and
                 bool(segment) and copy_seen and return_seen and leak_seen and
                 "0 errors found" in log)
@@ -1042,8 +1203,14 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
     # plus an arbitrary error is not proof that the intended payload leak was
     # the sole first refusal.
     no_effect_refusal = (name == "canonical_no_effect" and
-                         _no_effect_refusal_matched(name, execution, log, errors))
-    classification = ("EXPECTED_EFFECT_QUALIFICATION_REJECTION" if qualification_rejection else
+                         _no_effect_refusal_matched(
+                             case, row, execution, stages, errors, log,
+                             source, mir, ast))
+    unexpected_acceptance = (name == "duplicate_effect_close" and admission and
+                             stages.get("verifast") == 0 and not errors and
+                             bool(segment) and copy_seen and return_seen and leak_seen)
+    classification = ("UNEXPECTED_ACCEPTANCE" if unexpected_acceptance else
+                      "EXPECTED_EFFECT_QUALIFICATION_REJECTION" if qualification_rejection else
                       "EXPECTED_NO_EFFECT_PAYLOAD_LEAK_REFUSAL" if no_effect_refusal else
                       "EXPECTED_REJECTION" if matched_target else
                       "DIRECT_STRONG_PRE_BODY_PASS_CONDITIONAL" if

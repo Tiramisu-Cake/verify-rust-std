@@ -1,0 +1,107 @@
+# Merge bridge — compiling candidate, partial fresh diagnostics
+
+Closed new session12:58:04UTC, main14:58:04/absolute15:28:04. Full candidate
+compiler FRESH_PASS (ba7ca276, repeated282324ae), component e16352c4 and
+profile1bc74b60, effective f760+10 ordered patches. Fresh minimal proof
+282324ae/a287a0f2: retained-six/exact-combined smokes,6span controls and bounded
+CURRENT recovery pass; new9guard controls NOT_RUN because fixture ghost-strip
+preparation splits manifest fragment4. No bridge/canonical/caller/glue upgrade.
+All4Builds terminal/accounted/evidenceverified, CLOSED1595/3600s.
+
+The portable patch, exact source/profile receipts, semantic cards, pinned real
+build commands, saved refusal and separate verdicts are in
+[FINAL-CHECKPOINT.md](FINAL-CHECKPOINT.md), [EFFECTIVE-SOURCE.json](EFFECTIVE-SOURCE.json),
+[GUARD-PREPARATION-FAILURE.md](GUARD-PREPARATION-FAILURE.md) and
+[LEN1-INTERFACE-REVIEW-20261010.md](LEN1-INTERFACE-REVIEW-20261010.md).
+NOT_FOR_INTEGRATION; profile NOT_ACCEPTED. Next step is strict saved preparation
+repair/replay, then newly authorized fresh minimal Cloud proof. No maintainer
+integration or automatic session.
+
+## Previous packet — historical, not current execution status
+
+# Qualified guard / canonical effect — compile-blocked internal review packet
+
+Closed session10:21:50UTC; main12:21:50/absolute12:51:50. Exact final Cloud proof=infra60c07f9d381b44c35e43f4cc97e1641b65dd2b1d, tool ee54a8a2406f1eb39cd277d39afe4e656f5c9300, Build2200d07f FAILURE. Corrected own tool e8a77a29666fce5b9401d81deede3ec40f3b54bc is NOT_FRESHLY_COMPILED; portable guard-layout.patch SHA256661abc823cc9ecb81fa1ffaabe3ed2d6b61f7416204bfa3cfcd020f48b8058d8. Full pins in PROFILE/LAYOUT-PINS. No upstream tool push or maintainer integration.
+
+Reviewable cards: GUARD-BRIDGE-CARD, DROP-EFFECT-CARD and unimplemented NATURAL-DROP-CARD. Independent semantic reviews preceded implementation; full six-file OCaml static review and pinned API correction preserved. Local compile BLOCKED by absent OCaml dependencies, exhausted swap/disk and active swapping. Explicit owner exception is session-only. No semantic guards or contracts changed for compilation.
+
+Seven compiler/preparation failures preserve reproducing logs; all new target proofs, changed-profile regressions and smoke NOT_RUN. Historical bounded CURRENT and conditional strong Drop proofs retained only on their previous profile. New strong len1 body, nonvacuous canonical applicability, actual glue, normal caller and panic cleanup earn no credit. Inert natural caller draft remains disconnected. Combined profile NOT_ACCEPTED / NOT_FOR_INTEGRATION.
+
+Account closed2662/3600s,938 unused closed, all archives/text chunks verified, own reservations/request empty. [FINAL-CHECKPOINT](FINAL-CHECKPOINT.md) gives exact builds, domain, supplied obligations, compile failures and next command; [COMPILE-PREFLIGHT-RECIPE](COMPILE-PREFLIGHT-RECIPE.md) prepares candidate-first compilation for a separately authorized future window. No dispatch in finishing.
+
+## Historical review packet
+
+# Current internal review packet — bounded recovery closed, Drop open
+
+Session UTC start2026-10-10 00:34:48, main deadline02:34:48, finishing limit03:04:48. All seven Builds were submitted before main deadline; account CLOSED2501/3600 Cloud seconds,1099 unused closed. Old2136s account/1464s retired remainder are separate. Policy/adoption/ACK identities, absolute worktrees and all source/run/tool receipts are in [EVIDENCE.json](EVIDENCE.json); no automatic next session.
+
+## Reviewable transfer
+
+Own project branch `merge/incoming-origin-20261009` contains derived consumer annotations, mandatory smoke time allocation, exact artifact binding repair, parser/classifier fixes and source-linked Drop interface diagnostics. Tool branch `merge/incoming-span-lifetime-20261009` remains at **8cb0121b03a5164495bf0d7c6c236ea9504d5ce4**, without new semantic changes. Existing unit-only patch/card/pins and origin controls remain separately reviewable. No maintainer integration, foreign pins, tool/upstream push or Actions dispatch. Runtime std and final consumer contracts were unchanged; generated source/logs/build artifacts were not committed.
+
+## Established bounded proof and exact identities
+
+The original full-FBC refusal at6fb5bd55/f76536a6 is `src == held_ref` immediately after FBC/own, before copy. Canonical FBC abstracts existential field values. The narrow annotation repair frames precise half field chunks across half FBC, then recombines the existing shares. It adds no premises, pointee permissions, restored authority or snapshots. Fresh61eb1905 at exact proof/infra `a98404d718dedf183eaa7431ac05060d9e45010e` closes concrete-u64 literal-one copy, CURRENT recovery, full normal posts, return/leak and intended after-recovery false; later builds repeat this result. Fraction-only sufficient repair is falsified. Ref-token lifecycle/alias/provenance defect is not established in this bounded domain. Missing emptyu64own is N/A, not an ownership negative. Actual caller panic unwind is NOT_EXERCISED.
+
+Latest fresh proof=infra **739b261ffc3ca688f6ebc3306bff0766be0feaf6**, Build **1f2f9442-25e8-466b-ba77-ea508795e9b0**, verified archive **01bd254c68e8e94a945309c0f6797929ec3d06d3d41e163dcf6917256d8c114a**. Profile **experimental-merge-origin-layout-concrete-u64-v1**, exact tool8cb0121b; baseline f76012fb518703b1d98e243ac4f487f16877cfcb plus checked frozen patches. Full profile-build/compiler/schema/source/file/binary identities are bound in EVIDENCE.current_session.final_profile_receipt. Actual SmallSort SHA25685c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1; block SHA256caff1edbfa3a8d9fd29459e49c43abd0f8f987f9061c75e7bf6ecedbbba26a6a.
+
+## Drop interface result and limitations
+
+The source-linked mechanically specialized u64 method body passes its explicit strong req → full normal posts/return/leak, with a first-body false intended negative. It is not compiler-generated monomorphic MIR. Generated default guard own=false makes safe-prototype compatibility vacuous, while the explicit body req is nonvacuous; therefore no canonical actual-callee/glue applicability follows. A separate canonical prototype false is an intended negative. Canonical first-body false remains blocked earlier and is INCONCLUSIVE.
+
+Derived typed-storage roundtrip preserves root fraction/value/fields/padding and proves alignment. Derived destination limits/endpoint/option capture/zero-tail/singleton `array_` and unchanged DST_PRE all pass. DummyPat destination slices denote maybe-uninitialized array_; earlier initialization explanations were inaccurate. Remaining exact refusals are root_source_disjoint atlib102 and reached `call()` at100 refusing its req positive Guard extent at28. The archived JSON label for the latter is coarse; full logs identify a strong call-precondition positive-size refusal. No receipt was rewritten and no separation/size premise or guessed layout was introduced. [Card](DROP-BODY-CARD.md), [independent review](INDEPENDENT-REVIEW.md), [saved replay](DROP-BODY-REPLAY.md) and [remaining debt](DROP-BRIDGE-DEBT.md) record the conservation and admissibility boundaries.
+
+## Separate acceptance states
+
+Origin/resource/span and unit/scalar component controls match in their explicit domains, including14 layout controls and native C/C++ return/leak/compiler receipt. Mandatory retainedsix rust-profile-smoke **PASS**; separate exactcombined8cb normal/unwind smoke **PASS**. Outer bindings are **valid**, including strict all-eight-case receipt reconstruction and independent saved replay. Component evidence is complete for internal review only. Combined profile **PARTIAL_DIAGNOSTIC / NOT_ACCEPTED**; integration **NOT_FOR_INTEGRATION**. Whole insert_tail, actual Drop/glue, panic unwind, generic/ZST/caller/comparator/user-Drop remain OPEN; unchanged generic reproducer NOT_RUN.
+
+Saved-data replay repairs outer binding on unchanged fa5 evidence and validates new receipts; it is not fresh proof. Fresh Cloud stages retain exact source, MIR, AST, source-at-every-stage and tool receipts. Initial89s preparation failure is charged and earns no proof credit. All costs/IDs/full proof SHAs/archives are in [BUDGET.json](BUDGET.json) and [FINAL-CHECKPOINT.md](FINAL-CHECKPOINT.md). All seven terminal archives and text chunks are verified; own reservations empty and ready request withdrawn, coordinatorv2/max2 unchanged. Codex/subagent usage data unavailable from routine tools; Cloud seconds are separate.
+
+First next step: audit existing frozen actual tmp/guard live-local/reference-origin/provenance rules for qualified positive extent and distinct allocation intervals. Current AST proves live sequencing/lineage, not those intervals. If no existing derivation exists, preserve minimal refusals and review a source-qualified caller/interface relation before implementation. No new session is started automatically. Final documentation HEAD is not a proof run.
+
+---
+
+## Historical closed session packet retained
+
+# MERGE origin / canonical unit / concrete recovery review packet
+
+Policy c7ca8c467aecf10a4b53039372ee97714f854ee3; addressed adoption 1b9e3df3182d13e5adf7d2e5d04afcfbc1851f14, ACK aec832ab. Branch-local history preserved. Assignment resumed only this session, start 2026-10-09 21:53:00 UTC, main deadline 23:53:00 UTC; finishing-only until 2026-10-10 00:23:00 UTC. No automatic next session.
+
+## Transfer scope and component boundaries
+
+Project branch merge/incoming-origin-20261009 contains preparation/receipt/classifier repairs, native layout controls and concrete source-linked adapter. Tool branch merge/incoming-span-lifetime-20261009 has candidate 8cb0121b03a5164495bf0d7c6c236ea9504d5ce4. Its portable unit-only patch is [unit-layout.patch](unit-layout.patch), SHA256 00c7f9310ca30e3403daabdfe8e7d4c8c13aa84e78434acade309c98faadc68a, over the prior experimental 6cb7b6736c4ef7978d2f3a80737952ac7148cccb. Neither candidate is accepted for integration. No maintainer/upstream tool worktree or foreign proof/infra pin was edited. Tool upstream remote was not pushed.
+
+The canonical Rust unit rule binds the shared physical sizeof(typeid) to zero and alignment to one, after validating the canonical empty declaration. Rust struct extents become nonnegative; C/C++ positivity stays unchanged. Runtime size_of, typed-byte storage conversion and pointer geometry use that same shared term, not a second coincidentally equal literal. ManuallyDrop erasure preserves only qualified inner layouts. Concrete unit/u64 compiler observations independently check size/alignment [0,1]/[8,8] and array strides 0/8 at nightly-2026-09-25, x86_64-unknown-linux-gnu LP64. Compiler observations are diagnostics, not proofs of arbitrary generic layout. Unsupported fielded/generic/array geometry stays unsupported. ZST address coincidence is allowed.
+
+[Semantic card](SEMANTIC-CARD.md) preceded the model change; [independent review](INDEPENDENT-REVIEW.md) records domain, conservation and gate review. Frozen profile pins and full trusted file hashes are in [PROFILE.json](../../merge/overnight/guard-ownership/insertion-onecell/PROFILE.json) and [LAYOUT-PINS.json](LAYOUT-PINS.json). Cloud source baseline f76012fb518703b1d98e243ac4f487f16877cfcb plus the listed frozen patch chain is checked against the candidate source hashes. Source actual SmallSort SHA256 85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1, git blob 40939f922bcb6fdc7ee0d30427fa861827043827. Actual CopyOnDrop block SHA256 caff1edbfa3a8d9fd29459e49c43abd0f8f987f9061c75e7bf6ecedbbba26a6a.
+
+## Established fresh evidence before final probe
+
+Build e3acf381-ca82-48b6-a72a-133b0d557a4a, exact proof/infra cc28407f2ce60e286491e4de736cbe62e67ee03e, verified archive 30e91b5ff77f46fb22add9505d24c0d304b96421138cbc4c146e56b2970ea3f4:
+
+- Origin: all applicable controls matched. Ordinary source/extern calls, reserved-looking names and three Rust divergers retain ordinary call semantics; divergers have no normal continuation. Exact extern argv/path/hash binding; missing extern resource is rejected at the required points_to predicate with exact call-site note. Internal event origin/local binding and ordered labelled CFG regions checked, beyond sorted event equality; no full graph equivalence theorem.
+- Resource controls: full normal/unwind post/return/leak positives pass. Missing unwind points_to and StorageDead after resource loss are intended negatives. Six incoming-span retirement/reuse/overlap/arbitrary-pointer/lost-authority/abstract-zero controls retain their intended classifications. Lost authority is not restored, retained chunks are not used to prove overlapping runtime lifetimes.
+- Layout: 14 controls matched, including unit physical-local, runtime/ghost/wrapper sizes and false size/address tests; native C and C++ complete return/leak smokes pass. Compiler fact receipt binds compiler binary, target, provider/run/proof and source. Exact rustc commit f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f; rustc binary SHA256 7033431126d84f3dfbedf1c28518cd043887aefaac0db2dec211ef331a95471b.
+- Actual bounded consumer: concrete u64 specialization preserves source read/ManuallyDrop/guard constructor anchors, establishes src/dst separation before and after canonical FBC, executes literal-one copy and checks CURRENT source/destination assertions. First recovery failure is aliasing.rsspec50 missing [(1/2*1/2)]points_to<u64>(held_ref,_). The existential-fraction interface is a hypothesis, not yet an established cause. Full recovery/posts/return/leak are not credited by this build.
+
+Build f483198c-e350-49cf-b3da-52ce4242e056, exact proof/infra 0e1bf30fb88b304c5099ac9f23e03a5c713ed842, verified archive ca27ff229e79019462c539c65a48eadedf2bb2c226f6ec5ae1cdea37481f3aae: preparation failure before cases (missing frozen C++ exporter); quarter-share recovery probe NOT_RUN. Fixed only missing dependency restoration from the same already-pinned release, retaining mismatch rejection. Isolated synthetic bootstrap service checks 3/3; no compiler/proof locally.
+
+Final fresh probe fa5a4fd4-3b96-4876-9e36-03b1ca46089d at exact proof/infra ba37cbfee25aa0e1e1270f95421391f02f358cfd was submitted before the main deadline. Its terminal evidence is appended below during finishing-only time.
+
+## Open obligations and non-claims
+
+The direct-copy witness has no actual Drop implementation/glue execution and no comparator callback. Its unwind contract is retained but unwind is not exercised by this quiescent runtime fragment. u64 own is empty/autoproducible; missing_held_owner is NOT_APPLICABLE and earns no ownership-negative credit. Full generic actual reproducer remains NOT_RUN on the new profile; origin repair alone does not fix generic extent.
+
+[DROP-BRIDGE-DEBT.md](DROP-BRIDGE-DEBT.md) identifies the nearest actual obligations: qualified guard physical extent/alignment/bounds, same-source-version callee proof and a justified Drop/glue effect interface. Frozen generic drop_in_place exposes no CopyOnDrop payload-copy/CURRENT effect. No supplied separation, assumed summary, guessed guard size or snapshot replacement is introduced. Generic/ZST/caller/comparator/user-Drop debts remain OPEN. Whole insert_tail / Challenge8 NOT_PROVEN.
+
+Saved-data classifier replay [CONCRETE-CLASSIFIER-REPLAY-0BEE.json](CONCRETE-CLASSIFIER-REPLAY-0BEE.json) is REPLAY_NOT_FRESH_PROOF. Saved/synthetic parser/classifier/receipt/bootstrap checks are service evidence only. Collector success cannot upgrade theorem, component soundness, combined profile or integration status. All cloud costs, including failed preparation, are in [BUDGET.json](BUDGET.json); exact terminal evidence/accounting is recorded in EVIDENCE.json.
+
+## Final fresh result and checkpoint — 2026-10-10T00:04:48Z
+
+Final Build fa5a4fd4-3b96-4876-9e36-03b1ca46089d at ba37cbfee25aa0e1e1270f95421391f02f358cfd/tool8cb0121b, create23:51:26.581644670→finish23:57:34.917690 UTC,369s FAILURE. Verified archive05b3be833db21c9ee7525352d5cf553acc9b89883d64f43e85c923a1907be5da. Origin/span controls all match; layout14/14, native C/C++ full return/leak and exact compiler receipt pass again. Nested saved-artifact classifier replay/bindings valid; these audit replays consume this fresh build's artifacts and are distinct from executing the proof stages, which ran fresh in Cloud.
+
+The exact-quarter own folds/opens and copy/CURRENT assertions pass, but the first missing [(1/2*1/2)]points_to<u64>(held_ref,_) at aliasing.rsspec50/call92 persists. Fraction-only sufficient-repair hypothesis falsified; pointer/value identity loss remains a hypothesis, lifecycle semantic defect not established. Recovery, normal full posts/return/leak and after-recovery-negative target NOT_REACHED; actual unwind NOT_EXERCISED. Independent read review and next derived control are recorded in INDEPENDENT-REVIEW.md; that next control is NOT_RUN.
+
+Separate statuses: origin/resource and unit/scalar component controls matched; concrete consumer INCONCLUSIVE after copy; combined experimental profile INCONCLUSIVE/NOT_ACCEPTED; tool candidates NOT_FOR_INTEGRATION. Retained matrix timed out at126s during cold console build (exit124), so mandatory rust-profile-smoke has no group record and is NOT_RUN. Outer onecell artifact-binding flag is false despite valid nested origin/layout/concrete receipt audit; no collector-based acceptance. Broad accepted profile and foreign pins unchanged.
+
+Six terminal builds, all costs including preparation failures charged:2136/3600s; unused1464s closed. Own active/unresolved/reservations empty; ready request withdrawn through existing client, coordinator v2/max2 unchanged. No new Builds after23:53; no automatic continuation. See FINAL-CHECKPOINT.md and exact EVIDENCE.json. Final documentation commit differs from fresh proof/infra SHA; documentation changes do not constitute proof execution.

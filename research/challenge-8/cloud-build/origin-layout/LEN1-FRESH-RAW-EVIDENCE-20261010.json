@@ -1,0 +1,495 @@
+{
+  "schema": "len1-fresh-raw-evidence-v1",
+  "build_id": "c6e247a9-20b0-477d-8d5c-b8e9da795542",
+  "proof_infra_sha": "20548c2798115ba6f1ac0d7632aeddc11ea0e8a3",
+  "archive_sha256": "ed26546a6d4efbdd4f850b6ed5cb9fa6de18f34d8d27424853d9887d7466c5c3",
+  "cloud_aggregate": "INCONCLUSIVE",
+  "accepted": false,
+  "cases": {
+    "body_entry_false": {
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "classification": "INCONCLUSIVE",
+      "mir_gate": {
+        "admitted": false,
+        "reason": "structured one-cell MIR admission: module 'drop_capnp_admission' has no attribute 'local_name'"
+      },
+      "ast_gate": {
+        "admitted": false,
+        "effect_definition_gate": {
+          "admitted": false,
+          "reason": "effect definition AST gate failed: effect definition AST location differs from checked source"
+        },
+        "reason": "qualified effect definition AST failed closed"
+      },
+      "errors": [
+        "verified/lib.rs(108,20-25): error: Assertion might not hold. (Cannot prove false.)"
+      ],
+      "copy_seen": false,
+      "return_seen": false,
+      "leak_seen": false,
+      "hashes": {
+        "verified/lib.rs": "b41f94d62c1dd68d1f8647fb9a594eda3768b7977b85e710495ef894b1ef2107",
+        "decode.out": "fac80a0f2bebf3ced2a23046378fe2ef83437cb72f270d0de3824d92b3d95b14",
+        "proof-ast.ml": "7526a1d8645ed116485333837e8634e0b857def20fdc10ff0beee23faacbd5f8",
+        "verifast.log": "862365cf0718447a5baa0990e456b7f6b8e9aa0317d88e5c02ede0b65457cd01"
+      }
+    },
+    "body_post_false": {
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "classification": "INCONCLUSIVE",
+      "mir_gate": {
+        "admitted": false,
+        "reason": "structured one-cell MIR admission: module 'drop_capnp_admission' has no attribute 'local_name'"
+      },
+      "ast_gate": {
+        "admitted": false,
+        "effect_definition_gate": {
+          "admitted": false,
+          "reason": "effect definition AST gate failed: effect definition AST location differs from checked source"
+        },
+        "reason": "qualified effect definition AST failed closed"
+      },
+      "errors": [
+        "verified/lib.rs(112,20-25): error: Assertion might not hold. (Cannot prove false.)"
+      ],
+      "copy_seen": true,
+      "return_seen": false,
+      "leak_seen": false,
+      "hashes": {
+        "verified/lib.rs": "0d4f59158d1876159af7fbb918d41e164c3839cde95e931cd3a3fe8f73ad7663",
+        "decode.out": "b7a91de68f9f939ba3ca44e84a87d8ea8564d8780ccc263acc55092304606aca",
+        "proof-ast.ml": "229931655254923dae2b4da2347b596ffac9a19064f01c8029dc63331d8c40cf",
+        "verifast.log": "46eed270c514b5046594a73442c609f168a2182db97c1d10c78122ca6a2558bd"
+      }
+    },
+    "canonical_call_post_false": {
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "classification": "INCONCLUSIVE",
+      "mir_gate": {
+        "admitted": false,
+        "reason": "structured one-cell MIR admission: module 'drop_capnp_admission' has no attribute 'local_name'"
+      },
+      "ast_gate": {
+        "admitted": false,
+        "effect_definition_gate": {
+          "admitted": false,
+          "reason": "effect definition AST gate failed: effect definition AST location differs from checked source"
+        },
+        "reason": "qualified effect definition AST failed closed"
+      },
+      "errors": [
+        "verified/lib.rs(105,12-17): error: Assertion might not hold. (Cannot prove false.)"
+      ],
+      "copy_seen": false,
+      "return_seen": false,
+      "leak_seen": false,
+      "hashes": {
+        "verified/lib.rs": "7f54d9ceac7e95c9761ad2757357cf713c13334d4e97bec94501edee82604cc0",
+        "decode.out": "cb1af6d4a6e1b9d22533f1cc25c51ef9643d66930178cef4257345e592f25b0d",
+        "proof-ast.ml": "fd8cb1df40d60bcd4d49dd20bbe63e3a5b17152f53020e501054d4032a8647c1",
+        "verifast.log": "ba496c1940a00652b23c98d558e6e58aa93ad189741d8601699ad0e60ad15264"
+      }
+    },
+    "canonical_entry_false": {
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "classification": "INCONCLUSIVE",
+      "mir_gate": {
+        "admitted": false,
+        "reason": "structured one-cell MIR admission: module 'drop_capnp_admission' has no attribute 'local_name'"
+      },
+      "ast_gate": {
+        "admitted": false,
+        "effect_definition_gate": {
+          "admitted": false,
+          "reason": "effect definition AST gate failed: effect definition AST location differs from checked source"
+        },
+        "reason": "qualified effect definition AST failed closed"
+      },
+      "errors": [
+        "verified/lib.rs(77,12-17): error: Assertion might not hold. (Cannot prove false.)"
+      ],
+      "copy_seen": false,
+      "return_seen": false,
+      "leak_seen": false,
+      "hashes": {
+        "verified/lib.rs": "9f4de22718cd594db5a968dff476005f8f5ca8b7d8d5f58662c4bc167c95c13f",
+        "decode.out": "6b23143a4d72bdefdd4cd7e13a6f087e7be826417348f8e20933ffdf980e3e9b",
+        "proof-ast.ml": "e3a2e3687f94472459ef803943ab4313b6bc5895b44b72cb676b450775f27bd1",
+        "verifast.log": "778bbdd70cd07345ccae507e2074cb3b3426124ab4772869277e4dd195d34d5c"
+      }
+    },
+    "canonical_no_effect": {
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "classification": "INCONCLUSIVE",
+      "mir_gate": {
+        "admitted": false,
+        "reason": "structured one-cell MIR admission: module 'drop_capnp_admission' has no attribute 'local_name'"
+      },
+      "ast_gate": {
+        "admitted": true,
+        "custom_own_count": 1,
+        "fbc_fields": [
+          "src",
+          "dst",
+          "len"
+        ],
+        "generated_contract_structural_gate": true,
+        "generated_outcome_calls": {
+          "returning": [
+            "thread_token",
+            "struct_CopyOnDrop_padding"
+          ],
+          "unwinding": [
+            "thread_token",
+            "struct_CopyOnDrop_padding"
+          ]
+        },
+        "generated_outcome_fields": {
+          "returning": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "unwinding": [
+            "src",
+            "dst",
+            "len"
+          ]
+        },
+        "generated_outcome_tags": [
+          "returning",
+          "unwinding"
+        ],
+        "probe_ast": true,
+        "prototype_calls": [
+          "initialized_storage_alignment",
+          "points_to_limits",
+          "object_pointer_within_limits",
+          "uninitialized_storage_alignment",
+          "points_to__limits",
+          "object_pointer_within_limits",
+          "points_to_limits",
+          "pointer_within_limits",
+          "cons",
+          "points_to__limits",
+          "pointer_within_limits",
+          "cons",
+          "call"
+        ],
+        "prototype_closes": [
+          "array",
+          "array",
+          "array_",
+          "array_"
+        ],
+        "prototype_opens": [
+          "CopyOnDrop_full_borrow_content",
+          "CopyOnDrop_own"
+        ],
+        "runtime_copy_field_origins": [
+          0,
+          1,
+          2
+        ],
+        "runtime_dynamic_copy_count": 1
+      },
+      "errors": [
+        "verified/lib.rs(42,5-105,6): error: Function prototype implementation check: Implementation leaks heap chunks: type_interp<u64>(), [1/4]array<u64>(src, 1, cons(current0, nil)), array<u64>(dst, 1, cons(current0, nil))"
+      ],
+      "copy_seen": false,
+      "return_seen": false,
+      "leak_seen": false,
+      "hashes": {
+        "verified/lib.rs": "61e3f74026cedf8e0c17d8644378da873b846048493218940b2532a6a92c59a4",
+        "decode.out": "f0db5cc504a9467f97e1423ee49d45795d3a41b81b01119f68f261c1f8c986d6",
+        "proof-ast.ml": "13cc90a10b7680212eb3f3de4959f2c6fa0600d879fdc969b142ab6f4481ee9d",
+        "verifast.log": "42450b795d296dd641649ad9c81e3ea33dea10967788a4ddcb728cb4d77b6766"
+      }
+    },
+    "canonical_positive": {
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 0
+      },
+      "classification": "INCONCLUSIVE",
+      "mir_gate": {
+        "admitted": false,
+        "reason": "structured one-cell MIR admission: module 'drop_capnp_admission' has no attribute 'local_name'"
+      },
+      "ast_gate": {
+        "admitted": false,
+        "effect_definition_gate": {
+          "admitted": false,
+          "reason": "effect definition AST gate failed: effect definition AST location differs from checked source"
+        },
+        "reason": "qualified effect definition AST failed closed"
+      },
+      "errors": [],
+      "copy_seen": true,
+      "return_seen": true,
+      "leak_seen": true,
+      "hashes": {
+        "verified/lib.rs": "0982339994e5893601ab00511d62b9428438e54d5803c685a6ec87408e3235dc",
+        "decode.out": "573a318e10cd3bb4b888358fab2398b54a7f0728ce779ff19913b42d6e522abf",
+        "proof-ast.ml": "49e0c0635328421f209558324f90947db3c065aafd54447308a3185c13909f4d",
+        "verifast.log": "ed80519f6d89be7d624796b2dea798875ee716bb3f2d2cadab2b7b1683e7cbec"
+      }
+    },
+    "direct_positive": {
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 0
+      },
+      "classification": "INCONCLUSIVE",
+      "mir_gate": {
+        "admitted": false,
+        "reason": "structured one-cell MIR admission: module 'drop_capnp_admission' has no attribute 'local_name'"
+      },
+      "ast_gate": {
+        "admitted": true,
+        "custom_own_count": 1,
+        "fbc_fields": [
+          "src",
+          "dst",
+          "len"
+        ],
+        "generated_contract_structural_gate": true,
+        "generated_outcome_calls": {
+          "returning": [
+            "thread_token",
+            "struct_CopyOnDrop_padding"
+          ],
+          "unwinding": [
+            "thread_token",
+            "struct_CopyOnDrop_padding"
+          ]
+        },
+        "generated_outcome_fields": {
+          "returning": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "unwinding": [
+            "src",
+            "dst",
+            "len"
+          ]
+        },
+        "generated_outcome_tags": [
+          "returning",
+          "unwinding"
+        ],
+        "probe_ast": true,
+        "prototype_calls": [
+          "call"
+        ],
+        "prototype_closes": [],
+        "prototype_opens": [
+          "CopyOnDrop_full_borrow_content",
+          "CopyOnDrop_own"
+        ],
+        "runtime_copy_field_origins": [
+          0,
+          1,
+          2
+        ],
+        "runtime_dynamic_copy_count": 1
+      },
+      "errors": [],
+      "copy_seen": true,
+      "return_seen": true,
+      "leak_seen": true,
+      "hashes": {
+        "verified/lib.rs": "3a9a8557673e815242796ca6708dd8afd7ed628ba094007d051a8b486f4de6dc",
+        "decode.out": "ab15d7a81ee070a940dbddb87da7033da5fbbf629d3ab7f584289cc659ba1967",
+        "proof-ast.ml": "24cbf16ad21706c82a36e83e6fadc82d42a9ca7ec89b7269db6719f43706efc5",
+        "verifast.log": "8007cf49fbce15aaac031ef83b9de1f802b9702b453cec6d02d308552bc46720"
+      }
+    },
+    "duplicate_effect_close": {
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 0
+      },
+      "classification": "INCONCLUSIVE",
+      "mir_gate": {
+        "admitted": false,
+        "reason": "structured one-cell MIR admission: module 'drop_capnp_admission' has no attribute 'local_name'"
+      },
+      "ast_gate": {
+        "admitted": false,
+        "effect_definition_gate": {
+          "admitted": false,
+          "reason": "effect definition AST gate failed: effect definition AST location differs from checked source"
+        },
+        "reason": "qualified effect definition AST failed closed"
+      },
+      "errors": [],
+      "copy_seen": true,
+      "return_seen": true,
+      "leak_seen": true,
+      "hashes": {
+        "verified/lib.rs": "f260e497facd1d753580f1ad9a82318f4febf5ac1eef03d3830e23ca2afdc580",
+        "decode.out": "4bbfb982436dd962eda79f61cd05dd16a242429a13e16e2db3cac0661a19b583",
+        "proof-ast.ml": "166ae4fa23333970094950b86be927493ab182fa60d9ee1846b81f9cbe3aacde",
+        "verifast.log": "1adaf51794472cf649e59158f00552f16854866f6efee68418c3e50aaa24a453"
+      }
+    },
+    "missing_destination_gap": {
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "classification": "INCONCLUSIVE",
+      "mir_gate": {
+        "admitted": false,
+        "reason": "structured one-cell MIR admission: module 'drop_capnp_admission' has no attribute 'local_name'"
+      },
+      "ast_gate": {
+        "admitted": false,
+        "effect_definition_gate": {
+          "admitted": false,
+          "reason": "effect definition AST gate failed: effect definition AST location differs from checked source"
+        },
+        "reason": "qualified effect definition AST failed closed"
+      },
+      "errors": [
+        "verified/lib.rs(53,56-59): error: No matching heap chunks: array_<u64>(dst, 1, _)"
+      ],
+      "copy_seen": false,
+      "return_seen": false,
+      "leak_seen": false,
+      "hashes": {
+        "verified/lib.rs": "09e5302b3e09c8cd0ba818b57c465250da11364af5ffd37b148e75763c1e7805",
+        "decode.out": "4ad444c087cefa13050cfbb2d9e7da7c51c8e56ca26a85dfe872936791003e5c",
+        "proof-ast.ml": "7af28722179499408ef0afc20d2cae3833e31a43996440147679b2091c798b67",
+        "verifast.log": "b40a6833e07168eeef970e4d107d56d57c1673b377e28f2635f8836ad60ae8c3"
+      }
+    },
+    "missing_effect_definition": {
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "classification": "EXPECTED_EFFECT_QUALIFICATION_REJECTION",
+      "mir_gate": {
+        "admitted": false,
+        "reason": "proof AST absent for layout binding"
+      },
+      "ast_gate": {
+        "admitted": false,
+        "reason": "proof AST absent"
+      },
+      "errors": [
+        "verified/lib.rs(42,6-28): error: Malformed CopyOnDrop_drop_effect opt-in predicate"
+      ],
+      "copy_seen": false,
+      "return_seen": false,
+      "leak_seen": false,
+      "hashes": {
+        "verified/lib.rs": "b1589dbe131de37bc91d9eb169dc3f8740b784b1b252fcbfb91c2820543c09b3",
+        "decode.out": "ba09e34be6d17ed02c153cf28980b9ec1917d41eafa7028921b1fd58a53aa1a8",
+        "proof-ast.ml": null,
+        "verifast.log": "89e3ec6f263a7d931c5e1049b44aac623a49f6bec5f5a60b2fb4b8751c08960c"
+      }
+    },
+    "missing_source_quarter": {
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "classification": "INCONCLUSIVE",
+      "mir_gate": {
+        "admitted": false,
+        "reason": "structured one-cell MIR admission: module 'drop_capnp_admission' has no attribute 'local_name'"
+      },
+      "ast_gate": {
+        "admitted": false,
+        "effect_definition_gate": {
+          "admitted": false,
+          "reason": "effect definition AST gate failed: effect definition AST location differs from checked source"
+        },
+        "reason": "qualified effect definition AST failed closed"
+      },
+      "errors": [
+        "verified/lib.rs(52,5-6): error: No matching heap chunks: [1/4]array<u64>(src, 1, cons(_, nil))"
+      ],
+      "copy_seen": false,
+      "return_seen": false,
+      "leak_seen": false,
+      "hashes": {
+        "verified/lib.rs": "dfb5674f88c7f0ae56e756ee937714fe041a8074e0de15d5e36b2ee15013a408",
+        "decode.out": "9fb9e4d78d14719bdffa8e1c29df9a9a1b274113a412e8a7b14b4372553ecad8",
+        "proof-ast.ml": "4579556a81b2e7d4d29b0652246d9e0c097bd6b2b46889f6661fc95f057850a3",
+        "verifast.log": "af66211077c4a190ed1acd9c41e252e23043d5afe2993d1927bbd56b9d7b1266"
+      }
+    },
+    "wrong_effect_signature": {
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "classification": "EXPECTED_EFFECT_QUALIFICATION_REJECTION",
+      "mir_gate": {
+        "admitted": false,
+        "reason": "proof AST absent for layout binding"
+      },
+      "ast_gate": {
+        "admitted": false,
+        "reason": "proof AST absent"
+      },
+      "errors": [
+        "verified/lib.rs(42,6-28): error: Malformed CopyOnDrop_drop_effect opt-in predicate"
+      ],
+      "copy_seen": false,
+      "return_seen": false,
+      "leak_seen": false,
+      "hashes": {
+        "verified/lib.rs": "b2bc2a4f14f5aaa3e5cdf278a0db8326077f724c9da35a7c4dd2be9a46d6a752",
+        "decode.out": "fa1bbd99037baedcb4d4cb2e8a0345ba7163fb501a671d895ac117fa49da8b8e",
+        "proof-ast.ml": null,
+        "verifast.log": "3ce82d8b7e766ed2424e337dd56e1d130cd67e4b6df78c3ed14b224b07e7f92f"
+      }
+    }
+  }
+}
