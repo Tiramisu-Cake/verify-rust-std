@@ -184,7 +184,7 @@
                     (List.length gotos) control;
                   changed_decl
                 end else if c2_discovery_requested then begin
-@@ -17148,12 +17260,208 @@
+@@ -17148,12 +17260,211 @@
              (modularize_fn_decl module_imports_map)
              (body_sigs @ proof_body_decls)
        in
@@ -223,6 +223,9 @@
 +            Sys.getenv_opt "SORT4_ACTUAL_C4_FIRST_SELECT_TEST" <> Some "0" ||
 +            Filename.is_relative path || Sys.file_exists path then
 +           failwith "SORT4-C4-SELECT-AST: exact admitted nine-body export required";
++         Ocaml_expr_formatter.print_ocaml_expr_to_file false
++           (path ^ ".decls.ml")
++           (Ocaml_expr_of_ast.of_list Ocaml_expr_of_ast.of_package flattened);
 +         let bytes = Marshal.to_string (headers, flattened)
 +           [Marshal.No_sharing] in
 +         let oc = open_out_bin path in
@@ -298,9 +301,6 @@
 +              if prefix = "" then name else prefix ^ "::" ^ name in
 +            let rec named package_name = function
 +              | [] -> []
-+              | Ast.PackageDecl (_, nested_name, _, nested) :: rest ->
-+                  named (qualify package_name nested_name) nested @
-+                  named package_name rest
 +              | Ast.ModuleDecl (_, nested_name, _, nested) :: rest ->
 +                  named (qualify package_name nested_name) nested @
 +                  named package_name rest
@@ -316,6 +316,9 @@
 +                  named package_name decls
 +              | _ -> reject "flattened AST contains non-package declaration")
 +              packages in
++          Ocaml_expr_formatter.print_ocaml_expr_to_file false
++            "imported-selector-decls.ml"
++            (Ocaml_expr_of_ast.of_list Ocaml_expr_of_ast.of_package imported_decls);
 +          let imported_map = package_inventory imported_decls in
 +          let current_map = package_inventory flattened in
 +          let runtime_bodies = List.filter_map (fun (name, decl) ->

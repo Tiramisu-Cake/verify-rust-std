@@ -164,7 +164,9 @@ def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof):
     partial_result, partial_log = proof(a, "selector-cleanup-partial-optin-refusal",
                                         selector_case, partial, 120)
     partial_refused = (partial_result["exit"] in (1, 2) and
-                       not partial_result["headers"] and bool(partial_result["errors"]))
+                       not partial_result["headers"] and
+                       "SORT4-R3-CLEANUP-PROJECTION-TEST" in partial_log and
+                       "exact root/test opt-in pair" in partial_log)
     report["targets"]["cleanup_partial_optin"] = {
         "stage": partial_result, "refused_before_function": partial_refused,
         "raw_log_sha256": hashlib.sha256(partial_log.encode()).hexdigest(),
@@ -245,7 +247,7 @@ def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof):
                 entry = log.find("Verifying function '" + target_name + "'")
                 error = log.find("error:", entry) if entry >= 0 else -1
                 intended = row["exit"] == 0 and entry >= 0 and error > entry
-            mdnew_rows[name] = {"expected": expected, "stage": row,
+            mdnew_rows[name] = {"expected": expected, "stage": row, "raw_vc_review": "PENDING",
                 "intended_diagnostic": intended, "proof_credit": False,
                 "raw_log_sha256": hashlib.sha256(log.encode()).hexdigest()}
         report["targets"]["mdnew_retained_fix"] = {

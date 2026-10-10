@@ -79,7 +79,12 @@ def module(path: Path, name: str):
     need(spec is not None and spec.loader is not None, f"missing module {path}")
     value = importlib.util.module_from_spec(spec)
     sys.modules[name] = value
-    spec.loader.exec_module(value)
+    parent = str(path.parent)
+    sys.path.insert(0, parent)
+    try:
+        spec.loader.exec_module(value)
+    finally:
+        sys.path.remove(parent)
     return value
 
 
@@ -237,9 +242,9 @@ def prepare(a):
     first_record = first.prepare(a.proof_root, c1case)
     c2case = a.evidence / "c2-discovery-fixture"
     shutil.copytree(c1case, c2case, symlinks=True)
-    pin_path = a.cloud_dir / "sort4-native-entry-c1/C2-SOURCE-PIN.json"
+    pin_path = a.proof_root / "research/challenge-8/cloud-build/sort4-native-entry-c1/C2-SOURCE-PIN.json"
     pin_data = json.loads(pin_path.read_text())
-    draft_path = a.cloud_dir / "sort4-native-entry-c1/C2-ANNOTATION-DRAFT.rs"
+    draft_path = a.proof_root / "research/challenge-8/cloud-build/sort4-native-entry-c1/C2-ANNOTATION-DRAFT.rs"
     verified = c2case / "verified/lib.rs"
     original = c2case / "original/lib.rs"
     annotated, c2_record = c2.prepare_c2_bytes(verified.read_bytes(), original.read_bytes(),
@@ -548,9 +553,9 @@ def run(a):
         row["exit"] in (1, 2) and row["target_entry_before_first_error"]
         for row in stages["c4"]["controls"].values())
     classification = ("INTEGRATION_POSITIVES_AND_CONTROL_TARGETS_REACHED"
-                      if selector_ok and control_reached else "INTEGRATION_DIAGNOSTIC_INCOMPLETE")
+                      if selector_ok and control_reached and composition_ok else "INTEGRATION_DIAGNOSTIC_INCOMPLETE")
     finish(a, {"classification": classification,
-        "diagnostic_complete": selector_ok and control_reached,
+        "diagnostic_complete": selector_ok and control_reached and composition_ok,
         "source_hashes": actual_sources, "stages": stages,
         "selector_full_nine_body": selector_ok, "c4_positive": c4_ok,
         "c4_controls_reached_target": control_reached,
@@ -560,7 +565,7 @@ def run(a):
         "target_contract_proved": False, "actual_source_accepted": False,
         "verification_accepted": False, "accepted": False})
     pin(a)
-    need(selector_ok and control_reached, classification)
+    need(selector_ok and control_reached and composition_ok, classification)
 
 
 def main():
