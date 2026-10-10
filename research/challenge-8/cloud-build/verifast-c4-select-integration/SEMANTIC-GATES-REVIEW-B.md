@@ -26,3 +26,13 @@ implementation: exact full-pre-AST retains min root167, first temps168–170
 184 declarations retained. GO for these exact positions/type/uniqueness gates,
 with original AST/source/hash/order/posts unchanged. Implemented 2f355ba7;
 leak-control location corrected to source487 in e5c3c457 without formula edits.
+
+Outer-bound classifier final static GO: exact-one marker/node/matching count;
+full F→FnOnce(tuple2(shared Ref<'cmp,T>, shared Ref<'cmp,T>)).Output=Bool
+constructor; adjacent real call with semicolon; translator and execution
+cross-checks. Raw review remains mandatory. Two exact-one predicates were
+corrected after dispatch of 3ac68320; that Build retains its pinned inputs.
+The saved-AST classifier check initially expected four matching lifetimes;
+only the exact 'cmp fixture domain should match (other C4 sites are cmp2–4).
+Corrected expectation-one and wrong-F/wrong-tuple parser controls passed.
+This is classifier-only validation on archived data, not fresh proof.

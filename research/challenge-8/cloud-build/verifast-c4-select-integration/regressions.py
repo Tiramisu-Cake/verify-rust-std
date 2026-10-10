@@ -406,6 +406,8 @@ def _run_lifetime(a, selector_case, c4_env, proof, capture, inherited=None) -> d
         ast_marker[0][1] == ast_hash and int(ast_marker[0][2]) == ast_export.stat().st_size and
         Path(ast_marker[0][3]) == ast_export and
         ast_projection["matching_node_count"] == 1 and
+        ast_projection["registration_marker_count"] == 1 and
+        ast_projection["registration_node_count"] == 1 and
         ast_projection["matching_nodes"][0]["immediately_before_call"])
     projection_location = (ast_projection["matching_nodes"][0]["call_location"]
         if ast_projection["matching_node_count"] == 1 else None)
