@@ -6655,3 +6655,19 @@ Per direct assignment step4, switch without ownerwait to bounded C2 under
 existing frozen strict profile/kernel37ed and own translator-only4851 delta.
 Native/C1 separate proofs unchanged; completed composition stillabsent, no
 premises inferred from assertions insidefailedhelper. No unchanged failure rerun.
+
+### C2 preparation interface refusal ae8ac387
+
+Fresh proof=infra `c011988a43ff6c3a09b4aec6341975a98d81bc70`; Build
+`ae8ac387-fa50-46ca-93b2-c715057f4ad3`, create01:45:41.249497390,
+finish01:52:06.891261 UTC, FAILURE386sec. Session1716/3600,1884 remaining.
+Archive `b3c136474a10e7f92b491afa85542c6301419ef397dcdc42074b4b3ba9f979e8`
+and full text index/chunks verified. Fresh existing bounded C1 VF0 including
+normal/direct-unwind CURRENT posts/return/leak and causal controls. Fresh C2
+normal/readonly export/decode/full-MIR/refinement all0, exact A5DE pins retained;
+unbound scaffold obligatorily refused before target; default-off C1 VF0 and
+source-hash refusal retained. Collector stops at runtime-inventory interface
+gate before C2 bound patch/console build/positive/controls: those are NOT_RUN.
+Saved inventory has5/8/4 and exact source223 FnMut. Localized worker repair must
+first replay saved/live row shapes and causal mutants; no profile/classifier
+acceptance change and no new proof credit from this preparation failure.

@@ -81,6 +81,20 @@ def target_entries(log: str, name: str) -> list[int]:
     return [m.start() for m in pattern.finditer(log)]
 
 
+def complete_input_inventory(inv: dict[str, Any]) -> bool:
+    """Accept the live classifier's tuple row and its saved JSON list row."""
+    runtime = inv.get("runtime_inventory", {})
+    rows = runtime.get("c2_fnmut_at_expected_source_line")
+    return (inv.get("status") ==
+            "CONFIRMED_C2_UNBOUND_SCAFFOLD_RUNTIME_INVENTORY" and
+            runtime.get("status") == "C2_RUNTIME_INVENTORY_PRESERVED" and
+            [runtime.get("fnmut_count"), runtime.get("selector_count"),
+             runtime.get("copy_count")] == [5, 8, 4] and
+            isinstance(rows, list) and len(rows) == 1 and
+            isinstance(rows[0], (tuple, list)) and
+            list(rows[0]) == [223, "std::ops::FnMut::call_mut"])
+
+
 def audit_future_storage(full_mir: Path, expected: dict[int, int],
                          mode: str, absent: tuple[int, ...] = ()) -> dict[str, Any]:
     """Inspect pinned saved MIR text; never invoke a compiler or extractor."""
@@ -196,14 +210,7 @@ def run_bound(a, fixture: Path, c2_tool: Path, env: dict[str, str],
              "C2_PATCH_DEFAULT_OFF_C1_PREFIX_REPLAY_PASSED",
          "fresh C2 discovery/refusal prerequisite is absent")
     inv = c2_result.get("diagnostic", {}).get("ast_inventory", {})
-    runtime = inv.get("runtime_inventory", {})
-    need(inv.get("status") ==
-             "CONFIRMED_C2_UNBOUND_SCAFFOLD_RUNTIME_INVENTORY" and
-         runtime.get("status") == "C2_RUNTIME_INVENTORY_PRESERVED" and
-         [runtime.get("fnmut_count"), runtime.get("selector_count"),
-          runtime.get("copy_count")] == [5, 8, 4] and
-         runtime.get("c2_fnmut_at_expected_source_line") ==
-             [[223, "std::ops::FnMut::call_mut"]],
+    need(complete_input_inventory(inv),
          "complete five-call/eight-selector/four-copy input certificate absent")
 
     profile_path = a.proof_root / HERE / "profile.json"

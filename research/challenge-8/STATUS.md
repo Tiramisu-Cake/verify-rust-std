@@ -59,3 +59,14 @@ fresh C2 proof NOT_RUN. The precise composition dependency is now recorded;
 next run C2 using the existing strict C1 profile/kernel37ed unchanged and only
 the independently reviewed C2 translator delta. No profile acceptance, no
 actual caller CFG/caller→sort4 claimed.
+
+`ae8ac387` fresh proof/infra `c011988a43ff6c3a09b4aec6341975a98d81bc70`
+finished FAILURE,386 seconds: fresh bounded C1 full VF0 and causal controls,
+C2 source/MIR/refinement and mandatory unbound refusal passed. Bound C2 driver
+then refused its runtime-inventory data interface before applying the C2 patch;
+bound positive/controls NOT_RUN. Saved JSON has expected inventory5/8/4 and
+source223 call. Producer rows are live tuples versus serialized JSON lists;
+the consumer now accepts those exact two representations with unchanged
+status/count/location checks. Saved/live parser-only replay and mutants pass.
+Next permitted action: fresh C2 Cloud run at a new published SHA.
+Account1716/3600,1884 remaining; no active Build. No C2 theorem credited.
