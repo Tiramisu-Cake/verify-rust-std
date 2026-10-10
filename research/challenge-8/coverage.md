@@ -657,3 +657,16 @@ No actual insert_tail/Drop/glue/comparator/first-shift/ZST obligation closed;
 profile NOT_ACCEPTED. [Current result](merge/overnight/guard-ownership/insertion-onecell/RESULT.md)
 records supplied CURRENT owner/geometry, readonly comparator limitation and
 1327/3600seconds; unspent closed, allownterminal/reservationnone.
+
+
+MERGE CURRENT 2026-10-10, Build61eb1905/a98404d718dedf183eaa7431ac05060d9e45010e,
+profile experimental-merge-origin-layout-concrete-u64-v1/tool8cb0121b:
+source-linked concrete-u64 read550/guard551 direct literal-one copy witness
+PASS_FRAGMENT_ONLY with CURRENT recovery, full normal posts, return/leak and
+intended after-FBC/recovery/duplicate-field negatives. Canonical full-FBC field
+identity abstraction isolated by earlier6fb5bd55; half-FBC precise field frame
+repairs this bounded readonly witness without new resources or tool semantics.
+Retainedsix mandatory smoke and fresh outer bindings pass; exactcombined smoke
+pending nextnecessaryrun. Half frame does not establish full mutable Drop/glue,
+qualified guard layout, actual panic unwind, generic/ZST/caller/comparator/user-Drop,
+whole insert_tail or combined-profile acceptance. Candidate NOT_FOR_INTEGRATION.

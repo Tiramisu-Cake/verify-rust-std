@@ -361,6 +361,290 @@ def _audit_four_stage_case(case: Path, row: dict) -> bool:
     return True
 
 
+def audit_combined_candidate_gates(base: Path, aggregate: dict,
+                                  environment: dict, proof_sha: str,
+                                  build_id: str, tracked_build: Path) -> dict:
+    """Bind and replay the gates added to the combined one-cell candidate.
+
+    Old artifacts have neither field and remain on the legacy path. Presence
+    opts into strict validation; an absent conditional body run is represented
+    as NOT_RUN and never as a pass.
+    """
+    result = {"applicable": False, "combined_profile_smoke": "NOT_RUN",
+              "concrete_drop_body": "NOT_RUN", "artifact_bindings_valid": True}
+    smoke_path = base / "combined-profile-smoke.json"
+    drop_summary = aggregate.get("concrete_drop_body_diagnostic")
+    drop_root = base / "concrete-drop-body"
+    has_drop = drop_root.exists() or drop_summary is not None
+    if not smoke_path.exists() and not has_drop:
+        return result
+    result["applicable"] = True
+    valid = True
+    if smoke_path.exists() and drop_summary is None:
+        valid = False
+        result["concrete_drop_body"] = "INCONCLUSIVE"
+        result["concrete_drop_body_error"] = "new combined-candidate artifacts omit conditional Drop status"
+    try:
+        if not smoke_path.is_file():
+            raise ValueError("combined-candidate smoke receipt missing")
+        receipt = json.loads(smoke_path.read_text())
+        smoke_root = base / "combined-profile-smoke"
+        combined = json.loads((smoke_root / "aggregate.json").read_text())
+        results = json.loads((smoke_root / "results.json").read_text())
+        admission_path = smoke_root / "full-small-sort-source-admission.json"
+        admission = json.loads(admission_path.read_text())
+        fixture = json.loads((smoke_root / "fixture-manifest.json").read_text())
+        expected_profile = environment.get("profile")
+        expected_results_profile = (
+            expected_profile + "; base26.10-f76012fb518703b1d98e243ac4f487f16877cfcb; "
+            "compiler-nightly-2026-09-25")
+        valid = (receipt.get("profile") == expected_profile and
+                 receipt.get("proof_sha") == proof_sha == environment.get("proof_sha") and
+                 receipt.get("provider") == environment.get("provider") and
+                 receipt.get("provider", {}).get("build_id") == build_id and
+                 receipt.get("tool_sha256") == environment.get("tool_sha256") and
+                 receipt.get("schema_sha256") == environment.get("schema_sha256") and
+                 receipt.get("rustc_version") == environment.get("rustc_version") and
+                 receipt.get("rustc_toolchain") == environment.get("rustc_toolchain") and
+                 receipt.get("accepted") is False and receipt.get("exit_code") == 0 and
+                 results.get("profile") == expected_results_profile and
+                 results.get("source_admission_sha256") == sha256_file(admission_path) and
+                 admission.get("source_git_commit") == "cd371e035c7e573760c43bf934d53e8118ee3e7d" and
+                 admission.get("full_source_sha256") == DROP_SOURCE_SHA256 and
+                 combined.get("evidence_collection_completed") is True and
+                 combined.get("classifier_controls_passed") is True and
+                 combined.get("cases") == {"ordinary_call_normal_unwind": "PASS"} and
+                 fixture.get("cases", {}).get("ordinary_call_normal_unwind") is not None and
+                 results.get("cases", {}).get("ordinary_call_normal_unwind", {}).get("classification") == "PASS")
+        case_name = "ordinary_call_normal_unwind"
+        case_root = smoke_root / "cases" / case_name
+        metadata = json.loads((case_root / "metadata.json").read_text())
+        row = json.loads((case_root / "classification.json").read_text())
+        stored = results["cases"][case_name]
+        pointer_path = Path(__file__).resolve().parents[1] / "overnight/pointer-prove.py"
+        spec = importlib.util.spec_from_file_location("combined_candidate_pointer_classifier", pointer_path)
+        pointer = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = pointer
+        spec.loader.exec_module(pointer)
+        source_before = row.get("source_before", {})
+        source_after = row.get("source_after", {})
+        unchanged = (row.get("source_unchanged_at_every_stage") is True and
+                     source_before == source_after and
+                     source_before.get("original/lib.rs") == sha256_file(case_root / "original/lib.rs") == metadata.get("original_sha256") and
+                     source_before.get("verified/lib.rs") == sha256_file(case_root / "verified/lib.rs") == metadata.get("verified_sha256"))
+        stages = row.get("stages", {})
+        valid = valid and row == stored and metadata.get("case") == case_name and unchanged
+        valid = (valid and fixture.get("case_order") == [case_name] and
+                 fixture.get("cases", {}).get(case_name) == metadata and
+                 fixture.get("fixture_sha256") == pointer.sha(
+                     (Path(__file__).resolve().parents[1] / "overnight/baseline-cases.rs").read_bytes()) and
+                 json.loads((case_root / "source-before-sha256.json").read_text()) == source_before and
+                 json.loads((case_root / "source-after-sha256.json").read_text()) == source_after)
+        if set(stages) != {"exporter", "decode", "verifast", "refinement"}:
+            valid = False
+        for stage, code in stages.items():
+            stage_receipt = json.loads((case_root / f"source-integrity-{stage}.json").read_text())
+            valid = (valid and int((case_root / f"{stage}-exit-code.txt").read_text()) == code and
+                     stage_receipt.get("stage") == stage and
+                     stage_receipt.get("exit_code") == code and
+                     stage_receipt.get("source_before") == source_before and
+                     stage_receipt.get("source_after") == source_after and
+                     stage_receipt.get("unchanged") is True)
+        log = (case_root / "verifast.log").read_text(errors="replace")
+        replay = pointer.classify(case_name, metadata, stages, log, unchanged)
+        derived = ("classification", "stages", "expected_bodies", "visited_bodies",
+                   "body_execution_records", "per_body_records", "return_records",
+                   "leak_check_records", "error_lines", "dead_code_records",
+                   "full_positive_gate", "classifier_fail_closed_mutations")
+        valid = (valid and all(replay.get(key) == row.get(key) for key in derived) and
+                 all(replay.get("classifier_fail_closed_mutations", {}).values()))
+        result["combined_profile_smoke"] = "REPLAYED_PASS" if valid else "INCONCLUSIVE"
+    except (OSError, ValueError, KeyError, TypeError, AttributeError, ImportError) as error:
+        valid = False
+        result["combined_profile_smoke"] = "INCONCLUSIVE"
+        result["combined_profile_smoke_error"] = str(error)
+
+    if has_drop:
+        try:
+            if not isinstance(drop_summary, dict):
+                raise ValueError("conditional concrete Drop summary missing")
+            if drop_summary.get("classification") == "NOT_RUN":
+                drop_valid = (not drop_root.exists() and
+                              drop_summary.get("accepted") is False and
+                              drop_summary.get("actual_callee_or_glue_credit") is False)
+                result["concrete_drop_body"] = "NOT_RUN" if drop_valid else "INCONCLUSIVE"
+            else:
+                # The nested classifier consumes only the retained sources,
+                # decoded MIR, AST and verifier logs; it does not extract or
+                # invoke any toolchain.
+                module_path = Path(__file__).resolve().parents[2] / "cloud-build/origin-layout/concrete-drop-body.py"
+                spec = importlib.util.spec_from_file_location("outer_concrete_drop_body_audit", module_path)
+                body = importlib.util.module_from_spec(spec)
+                sys.modules[spec.name] = body
+                spec.loader.exec_module(body)
+                prep_path = Path(__file__).resolve().parents[1] / "overnight/copy-on-drop-prepare.py"
+                prep_spec = importlib.util.spec_from_file_location("outer_drop_source_pins", prep_path)
+                source_pin = importlib.util.module_from_spec(prep_spec)
+                sys.modules[prep_spec.name] = source_pin
+                prep_spec.loader.exec_module(source_pin)
+                own_module_path = Path(__file__).resolve().parents[1] / "overnight/guard-ownership/insertion-onecell/prepare.py"
+                own_module_spec = importlib.util.spec_from_file_location("outer_drop_own_pins", own_module_path)
+                own_module = importlib.util.module_from_spec(own_module_spec)
+                sys.modules[own_module_spec.name] = own_module
+                own_module_spec.loader.exec_module(own_module)
+                extraction = json.loads((drop_root / "extraction.json").read_text())
+                generic_block = extraction.get("generic_source_block", "").encode("ascii")
+                if (len(generic_block) != source_pin.BLOCK_BYTES or
+                        body._sha(generic_block) != source_pin.BLOCK_SHA256 or
+                        generic_block.count(source_pin.DROP_SIGNATURE) != 1 or
+                        generic_block.count(source_pin.COPY_CALL) != 1 or
+                        extraction.get("source_sha256") != source_pin.SOURCE_SHA256):
+                    raise ValueError("retained generic source block does not match pinned source identity")
+                original_source = body._specialize(source_pin.CRATE_PREFIX + generic_block)
+                contract = body._specialize(source_pin.CONTRACT)
+                own = body._specialize(own_module.OWN).replace(
+                    b"[?f](*v.src |-> ?current)", b"[1/4](*v.src |-> ?current)")
+                receipt = json.loads((drop_root / "receipt.json").read_text())
+                consumer_path = module_path.with_name("concrete-consumer.py")
+                consumer_spec = importlib.util.spec_from_file_location(
+                    "outer_concrete_drop_consumer_audit", consumer_path)
+                consumer = importlib.util.module_from_spec(consumer_spec)
+                sys.modules[consumer_spec.name] = consumer
+                consumer_spec.loader.exec_module(consumer)
+                proof_path = Path(__file__).resolve().parents[1] / "overnight/copy-on-drop-prove.py"
+                proof_spec = importlib.util.spec_from_file_location("outer_concrete_drop_proof_audit", proof_path)
+                proof = importlib.util.module_from_spec(proof_spec)
+                sys.modules[proof_spec.name] = proof
+                proof_spec.loader.exec_module(proof)
+                profile_build = json.loads((tracked_build / "profile-build.json").read_text())
+                body_aggregate = json.loads((drop_root / "aggregate.json").read_text())
+                expected_tools = {"receipt": environment,
+                                  "receipt_sha256": consumer._sha(json.dumps(
+                                      environment, sort_keys=True, separators=(",", ":")).encode()),
+                                  "profile_evidence": environment.get("profile_evidence"),
+                                  "actual_tool_sha256": environment.get("tool_sha256"),
+                                  "schema_sha256": environment.get("schema_sha256"),
+                                  "profile_build_sha256": sha256_file(
+                                      tracked_build / "profile-build.json")}
+                drop_valid = (drop_summary.get("accepted") is False and
+                              drop_summary.get("actual_callee_or_glue_credit") is False and
+                              drop_summary.get("profile") == "SOURCE_LINKED_U64_BODY_DIAGNOSTIC" and
+                              drop_summary == body_aggregate and
+                              drop_summary.get("tool_profile") == environment.get("profile") and
+                              set(drop_summary.get("cases", {})) == set(body.CASES) and
+                              drop_summary.get("receipt_sha256") == receipt.get("receipt_sha256") and
+                              receipt.get("receipt") == environment and
+                              receipt.get("receipt_sha256") == expected_tools["receipt_sha256"] and
+                              drop_summary.get("cases") == aggregate.get("concrete_drop_body_diagnostic", {}).get("cases") and
+                              extraction.get("accepted") is False and
+                              extraction.get("profile") == "SOURCE_LINKED_U64_BODY_DIAGNOSTIC" and
+                              set(extraction.get("cases", {})) == set(body.CASES) and
+                              extraction.get("source_sha256") == source_pin.SOURCE_SHA256 and
+                              extraction.get("source_block_sha256") == source_pin.BLOCK_SHA256 and
+                              extraction.get("generic_contract_sha256") == body._sha(source_pin.CONTRACT) and
+                              extraction.get("concrete_contract_sha256") == body._sha(contract) and
+                              extraction.get("concrete_original_sha256") == body._sha(original_source) and
+                              profile_build.get("proof_sha") == proof_sha and
+                              profile_build.get("provider", {}).get("build_id") == build_id and
+                              profile_build.get("provider") == environment.get("provider") and
+                              profile_build.get("profile") == environment.get("profile") and
+                              profile_build.get("build_exit") == 0 and
+                              profile_build.get("schema_sha256") in
+                                  (None, environment.get("schema_sha256")) and
+                              profile_build.get("accepted") is False and
+                              receipt.get("profile_build_sha256") == expected_tools["profile_build_sha256"] and
+                              receipt.get("actual_tool_sha256") == expected_tools["actual_tool_sha256"] and
+                              receipt.get("schema_sha256") == expected_tools["schema_sha256"] and
+                              receipt.get("rustc_version") == environment.get("rustc_version") and
+                              receipt.get("rustc_toolchain") == environment.get("rustc_toolchain"))
+                contract_header = contract.split(b"safety_proof {\n", 1)[0]
+                proof_open = body._specialize(
+                    b"    open CopyOnDrop_full_borrow_content::<T>(_t, self)();\n"
+                    b"    open <CopyOnDrop<T>>.own(_t, *self);\n")
+                source_copy = body._specialize(source_pin.COPY_CALL)
+                for name in body.CASES:
+                    case = drop_root / "cases" / name
+                    meta = extraction.get("cases", {}).get(name)
+                    row = json.loads((case / "classification.json").read_text())
+                    original = case / "original/lib.rs"
+                    verified = case / "verified/lib.rs"
+                    execution = row.get("parent_execution", {})
+                    before = consumer._hashes(case)
+                    stage_gate = consumer._stage_receipts(case, execution.get("stages", {}), before)
+                    recorded_stage_gate = execution.get("stage_receipt_gate")
+                    unchanged = (execution.get("source_unchanged_at_every_stage") is True and
+                                 row.get("source_gate", {}).get("runtime_equal_after_ghost_strip") is True)
+                    drop_valid = drop_valid and recorded_stage_gate == stage_gate and unchanged
+                    execution["stage_receipt_gate"] = stage_gate
+                    canonical = name not in {"direct_positive", "direct_first_body_false"}
+                    case_contract = contract
+                    expected_ghost = []
+                    if canonical:
+                        inserted = (body.PROTOTYPE_FALSE if name == "prototype_false" else b"")
+                        if name == "canonical_dst_pre":
+                            inserted += body.FIELD_BIND + body.LEN_ONE + body.DST_PRE + body.CALL
+                        else:
+                            inserted += body.ROOT_LIMITS + body.FIELD_BIND + b"".join(body._geometry()) + \
+                                body.LEN_ONE + body.DST_PRE + body.CALL
+                        case_contract = contract.replace(proof_open, proof_open + inserted, 1)
+                        expected_ghost.extend([own, case_contract])
+                    else:
+                        case_contract = contract.replace(proof_open, proof_open + body.CALL, 1)
+                        expected_ghost.append(case_contract)
+                    if name in {"first_body_false", "direct_first_body_false"}:
+                        expected_ghost.append(body.BODY_FALSE)
+                    verified_bytes = verified.read_bytes()
+                    expected_lines = {
+                        "source_copy_line": body._line(verified_bytes, source_copy),
+                        "fbc_open_line": body._line(verified_bytes, body._specialize(
+                            b"    open CopyOnDrop_full_borrow_content::<T>(_t, self)();\n")),
+                        "own_open_line": body._line(verified_bytes, body._specialize(
+                            b"    open <CopyOnDrop<T>>.own(_t, *self);\n")),
+                        "call_line": body._line(verified_bytes, body.CALL),
+                        "body_false_line": body._line(verified_bytes, body.BODY_FALSE)
+                            if name in {"first_body_false", "direct_first_body_false"} else None,
+                        "prototype_false_line": body._line(verified_bytes, body.PROTOTYPE_FALSE)
+                            if name == "prototype_false" else None,
+                    }
+                    if canonical:
+                        expected_lines.update({
+                            "field_bind_line": body._line(verified_bytes, body.FIELD_BIND),
+                            "layout_lines": ({label: body._line(verified_bytes, item)
+                                              for label, item in zip(body.GEOMETRY_LABELS,
+                                                                     body._geometry())}
+                                             if name != "canonical_dst_pre" else {}),
+                            "dst_pre_line": body._line(verified_bytes, body.DST_PRE),
+                        })
+                    else:
+                        expected_lines.update({"field_bind_line": None,
+                                               "layout_lines": {}, "dst_pre_line": None})
+                    replay = body._classify(name, case, meta, execution,
+                                             contract_header, proof, consumer)
+                    drop_valid = (drop_valid and meta is not None and
+                                  meta.get("case") == name and
+                                  meta.get("canonical") is canonical and
+                                  meta.get("ghost_fragments") == [part.decode("ascii")
+                                                                   for part in expected_ghost] and
+                                  meta.get("original_sha256") == body._sha(original_source) and
+                                  all(meta.get(field) == value
+                                      for field, value in expected_lines.items()) and
+                                  meta.get("contract_header_sha256") == body._sha(contract_header) and
+                                  meta.get("contract_sha256") == body._sha(
+                                      meta["ghost_fragments"][1 if meta["canonical"] else 0].encode()) and
+                                  before.get("original/lib.rs") == meta.get("original_sha256") == sha256_file(original) and
+                                  before.get("verified/lib.rs") == meta.get("verified_sha256") == sha256_file(verified) and
+                                  body._source_gate(case, meta, contract_header).get("admitted") is True and
+                                  replay == row)
+                result["concrete_drop_body"] = "REPLAYED_DIAGNOSTIC" if drop_valid else "INCONCLUSIVE"
+                valid = valid and drop_valid
+        except (OSError, ValueError, KeyError, TypeError, AttributeError, ImportError, IndexError) as error:
+            valid = False
+            result["concrete_drop_body"] = "INCONCLUSIVE"
+            result["concrete_drop_body_error"] = str(error)
+    result["artifact_bindings_valid"] = valid
+    return result
+
+
 def audit_onecell_nested_controls(base: Path, aggregate: dict,
                                   tracked_build: Path) -> dict:
     """Replay unit-layout and concrete-u64 classifiers from retained artifacts.
@@ -1882,8 +2166,13 @@ def audit(root: Path, selection_path: Path, run_status: int,
             origin_valid, origin_summary = audit_origin_controls(base, aggregate, ONECELL_PROFILE)
             nested_controls = audit_onecell_nested_controls(
                 base, aggregate, evidence / "tracked-md-build")
+            candidate_gates = audit_combined_candidate_gates(
+                base, aggregate, environment, proof_sha, build_id,
+                evidence / "tracked-md-build")
             rows_valid = (rows_valid and spans_valid and origin_valid and
                           nested_controls.get("artifact_bindings_valid") is True)
+            if candidate_gates.get("applicable"):
+                rows_valid = rows_valid and candidate_gates.get("artifact_bindings_valid") is True
             expected_md = (False if campaign_mode else
                 all(results[name].get("classification") == "REGRESSION_MATCHED"
                     for name in ONECELL_MD_CASES)) if rows_valid else False
@@ -1911,6 +2200,9 @@ def audit(root: Path, selection_path: Path, run_status: int,
                                                  "span_controls": spans_valid,
                                                  "origin_controls": origin_valid,
                                                  "nested_receipts": nested_controls.get("artifact_bindings_valid") is True,
+                                                 "combined_candidate_gates": (
+                                                     candidate_gates.get("artifact_bindings_valid") is True
+                                                     if candidate_gates.get("applicable") else "NOT_RUN"),
                                                  "campaign_mode": campaign_mode,
                                                  "md_dependency": dependency_valid,
                                                  "expected_md": expected_md,
@@ -1924,6 +2216,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
                               "allocation_span_controls": aggregate.get("allocation_span_controls"),
                               "origin_controls": origin_summary,
                               "nested_controls": nested_controls,
+                              "combined_candidate_gates": candidate_gates,
                               "native_origin_exit": int((evidence / "tracked-md-build/native-origin-exit-code.txt").read_text()),
                               "actual_drop_glue": "OPEN"}
         except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:

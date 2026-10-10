@@ -29,6 +29,7 @@ def load(name: str, path: Path):
 md_classifier = load("md_control_classifier", HERE / "md_classifier.py")
 layout_controls = load("unit_layout_controls", HERE.parents[3] / "cloud-build/origin-layout/layout-controls.py")
 concrete_consumer = load("concrete_u64_consumer", HERE.parents[3] / "cloud-build/origin-layout/concrete-consumer.py")
+concrete_drop_body = load("concrete_drop_body", HERE.parents[3] / "cloud-build/origin-layout/concrete-drop-body.py")
 origin_controls = load("incoming_origin_controls", HERE.parents[3] / "cloud-build/incoming-origin/controls/run.py")
 span_controls = load("allocation_span_controls", HERE.parents[3] / "cloud-build/incoming-span-lifetime/controls/run.py")
 prep = load("onecell_prepare", HERE / "prepare.py")
@@ -537,11 +538,45 @@ def main() -> int:
                    "source_sha256": base.file_sha(prep.SOURCE),
                    "rustc_version": version, "rustc_toolchain": os.environ["RUSTUP_TOOLCHAIN"], "accepted": False}
     (args.evidence / "environment.json").write_text(json.dumps(environment, indent=2) + "\n")
+    # The retained lane smoke uses the six-patch binary. Run its same complete
+    # ordinary normal/unwind gate on this exact combined candidate as well.
+    smoke_root = args.evidence / "combined-profile-smoke"
+    smoke_command = [sys.executable, str(HERE.parents[1] / "pointer-prove.py"),
+        "--profile", PROFILE, "--scope", "exact combined-candidate ordinary normal/unwind smoke",
+        "--tool-home", str(args.tool_home), "--compiler-sysroot", str(args.compiler_sysroot),
+        "--schema", str(args.schema), "--fixture", str(HERE.parents[1] / "baseline-cases.rs"),
+        "--cases", "ordinary_call_normal_unwind", "--evidence", str(smoke_root)]
+    with (args.evidence / "combined-profile-smoke.log").open("w") as smoke_log:
+        smoke_exit = subprocess.run(smoke_command, env=env, stdout=smoke_log,
+            stderr=subprocess.STDOUT, timeout=300, check=False).returncode
+    combined_smoke = json.loads((smoke_root / "aggregate.json").read_text())
+    combined_smoke["exit_code"] = smoke_exit
+    combined_smoke["profile"] = PROFILE
+    combined_smoke["tool_sha256"] = tool_hashes
+    combined_smoke["schema_sha256"] = environment["schema_sha256"]
+    combined_smoke["rustc_version"] = version
+    combined_smoke["rustc_toolchain"] = environment["rustc_toolchain"]
+    combined_smoke["provider"] = provider
+    combined_smoke["proof_sha"] = proof_sha
+    combined_smoke["accepted"] = False
+    (args.evidence / "combined-profile-smoke.json").write_text(
+        json.dumps(combined_smoke, indent=2) + "\n")
+    if (smoke_exit != 0 or combined_smoke.get("cases") !=
+            {"ordinary_call_normal_unwind": "PASS"} or
+            combined_smoke.get("classifier_controls_passed") is not True):
+        raise RuntimeError("combined candidate mandatory smoke did not pass; retain artifacts")
     # Execute isolated address-span controls before any actual one-cell cases.
     mechanism_summary = span_controls.run(args.evidence, args, env, execute_case)
     origin_summary = origin_controls.run(args.evidence, args, env, execute_case)
     layout_summary = layout_controls.run(args.evidence, args, env, execute_case)
     concrete_summary = concrete_consumer.run(args.evidence / "concrete-u64", args, env, execute_case, environment)
+    if concrete_summary.get("cases", {}).get("positive") == "PASS_FRAGMENT_ONLY":
+        drop_body_summary = concrete_drop_body.run(
+            args.evidence / "concrete-drop-body", args, env, execute_case, environment)
+    else:
+        drop_body_summary = {"classification": "NOT_RUN", "accepted": False,
+            "reason": "concrete-u64 recovery positive has not passed",
+            "actual_callee_or_glue_credit": False}
     results = {}
     md_pass = False
     if campaign_mode:
@@ -620,6 +655,8 @@ def main() -> int:
                  "origin_controls": origin_summary,
                  "layout_controls": layout_summary,
                  "concrete_u64_consumer": concrete_summary,
+                 "concrete_drop_body_diagnostic": drop_body_summary,
+                 "combined_profile_smoke": combined_smoke,
                  "cases": {
                      name: row["classification"] for name, row in results.items()}}
     (args.evidence / "aggregate.json").write_text(json.dumps(aggregate, indent=2) + "\n")

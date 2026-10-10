@@ -394,6 +394,30 @@
         "execution_seconds": 392,
         "download_verified": true,
         "archive_sha256": "8f88f236869bec379d3dcd44bcba547a7690444bf59818ba29f7db2a1ffd4df8"
+      },
+      {
+        "dispatch_token": "dispatch-23d87406cc554657bc32971967576614",
+        "owner": "merge",
+        "phase_id": "MERGE-CURRENT-RECOVERY-CLOUD-2026-10-10",
+        "infra_sha": "a98404d718dedf183eaa7431ac05060d9e45010e",
+        "proof_sha": "a98404d718dedf183eaa7431ac05060d9e45010e",
+        "lane": "merge",
+        "submitted_config_sha256": "9169c87a37c0917f97a3e7b4cc772ba8a005910c5970b7ed79c63636a01afd35",
+        "reserved_seconds": 1560,
+        "timeout_seconds": 1500,
+        "status": "SUCCESS",
+        "publish_text_logs": true,
+        "source_mode": "pinned-objects",
+        "source_input_sha256": "b05fd906131577351527f270ba36df9b835968b2835c4ad329172185ca576e5f",
+        "build_id": "61eb1905-3d30-4a6e-b4f4-43dfcb50995d",
+        "start_time": "2026-10-10T01:26:07.887408797Z",
+        "finish_time": "2026-10-10T01:32:32.903400Z",
+        "create_time": "2026-10-10T01:26:07.125069048Z",
+        "build_seconds": 386,
+        "accounted": true,
+        "execution_seconds": 386,
+        "download_verified": true,
+        "archive_sha256": "3b0100f689a3c9120e0212fd31e77602d8dc1677af03574eee973749a05bd41a"
       }
     ],
     "first_causal_recovery_refusal": {
@@ -416,12 +440,32 @@
     },
     "outer_binding_replay": "REPLAY-CURRENT-BINDINGS.json",
     "combined_profile": "NOT_ACCEPTED",
-    "next_experiment": "annotation-only half canonical FBC with precise retained field frame; full resources/posts conserved",
+    "next_experiment": "source-linked concrete Drop body/interface diagnostic with exact combined-candidate smoke; no actual callee/glue credit",
     "budget": {
       "ceiling_build_seconds": 3600,
-      "used_build_seconds": 880,
-      "remaining_build_seconds": 2720
+      "used_build_seconds": 1266,
+      "remaining_build_seconds": 2334
     },
-    "latest_observation": "d642e649 fresh PARTIAL_DIAGNOSTIC: half-FBC identities pass; source-quarter assertion frontend Cannot use field dereference at lib84; copy/recovery NOT_REACHED. Mandatory smoke PASS and outer bindings complete, not proof acceptance."
+    "latest_observation": "bounded recovery and complete normal posts/return/leak PASS; canonical Drop/glue and actual panic unwind OPEN",
+    "recovery_result": {
+      "build_id": "61eb1905-3d30-4a6e-b4f4-43dfcb50995d",
+      "proof_sha": "a98404d718dedf183eaa7431ac05060d9e45010e",
+      "infra_sha": "a98404d718dedf183eaa7431ac05060d9e45010e",
+      "archive_sha256": "3b0100f689a3c9120e0212fd31e77602d8dc1677af03574eee973749a05bd41a",
+      "classification": "PASS_FRAGMENT_ONLY",
+      "derived_ladder_all_pass": true,
+      "copy": true,
+      "recovery": true,
+      "normal_posts_return_leak": true,
+      "actual_drop": false,
+      "actual_unwind": "NOT_EXERCISED",
+      "negative_controls": {
+        "after_fbc_false": "EXPECTED_REJECTION",
+        "after_recovery_false": "EXPECTED_REJECTION",
+        "double_physical_fbc": "EXPECTED_REJECTION",
+        "missing_held_owner": "NOT_APPLICABLE_CONCRETE_EMPTY_OWN"
+      },
+      "repair": "annotation-only halfFBC precise field frame + ghost pointer grammar; no new resource or tool semantic change"
+    }
   }
 }
