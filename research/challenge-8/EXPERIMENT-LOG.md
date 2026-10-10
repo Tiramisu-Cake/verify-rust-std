@@ -6920,3 +6920,17 @@ patch4a549366, kernel37ed unchanged, independentreview GO fordiagnosticonly.
 Exactsource7eb/sourcecall210:21–92/markers194,212; newmodealwaysrefusesbeforeproof.
 Default-off pointer recheck justified solely bynewtranslator opt-in0 surface.
 OldC4normal/all4unwind/fullposts remain priorPASS, notcompositioncredit.
+
+2026-10-10 20:58UTC freshbatch3 Build081275a9-032a-4053-a088-c173f12f05c9,
+proof=infra7fc22c0452ee1fb89677da13de52a9433a383906; token
+dispatch-8e3ce5fb68d34f2c8a1f302fce5a5dfc, config
+8e255f39eea042dcbd3e42ed5bb7856e93d62cf1d0f3da68f574047956524166,
+inpute732b18123dc7945d7f8222c707381ca03728480a6b2223a6b4bfb6b54cc56bf.
+Earlier846 transport preflight refused before reservation/API, noBuild orcharge;
+7fc omits only unused C4 preparation inputs, pack188<=191. No globalgate removed.
+New single-native capture alwaysrefuses, defaultoff uses checked old semantics.
+Independent serializer review: global recover_pair MergeFractionsStmt likely
+explains fullpackageTODO; native-only dump may avoid it, pending fresh evidence.
+Own terminal raw review duplicates and dispatch transport flags removed only
+after archive byte/hash matches and canonical accounted/downloadverified state;
+canonical archives/config/input/inventories remain preserved. No foreigndata changed.

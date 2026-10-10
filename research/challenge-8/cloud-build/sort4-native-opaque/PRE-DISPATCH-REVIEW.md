@@ -111,3 +111,5 @@ used by that skipped preparation. All frozen tool manifests/patches/production
 preflight/strictrelocation inputs remain present. C2ghost-strip module and normal
 MIRcapture module retained. This is transport closure repair, no source gate
 or proof assertion/post removed. Newpublished infraSHA requiredbeforeretry.
+
+21:22UTC syntax-only prepared follow-up: two reference-own open commands use existing own generic constructor syntax. No stock inverse/alias identity assumed; false-args remains before undo. All resources/posts/debt/cut unchanged. New batch has only prepared positive/false on frozen1eab tool, capture/default-off matrix retained as fresh081 evidence. Saved081 capture classifier replay, recipe path closure/static parse and diff review PASS. No new tool/profile semantics. New Cloud dispatch must pass main-deadline guard.

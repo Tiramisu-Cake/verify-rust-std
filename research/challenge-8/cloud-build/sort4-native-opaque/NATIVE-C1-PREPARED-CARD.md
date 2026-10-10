@@ -5,6 +5,17 @@ The proposed component stops immediately before an actual `FnMut` call. It is
 not a callback theorem or an actual caller-to-sort4 edge. No compiler,
 verifier, proof runner, extractor, Cloud Build, or patched tool is run here.
 
+Build 081 reached the prepared component but the verifier parser rejected
+`open <&'cmp T>.own(t, ref)` before entry proof. The revised diagnostic attempts
+to open the same reference-own type predicate through `open own::<&'cmp T>(t)(ref)`,
+the stock `own::<T>(t)(value)` syntax already used by the checked cell-split
+helper. This changes only syntax at the two reference openings in each prepared
+case; it neither substitutes `shared_ref_own` without a demonstrated type-predicate
+identity nor assumes a reverse lemma. The pinned `f76012fb` Rust-Belt spec has
+`close_ref_own` and `shared_ref_own` but no `open_ref_own`. Whether the
+reference-own definition is transparent to this open remains a verifier
+obligation, so the revised cases remain DRAFT / NOT_RUN.
+
 ## Source and contract
 
 Use the safe signature of `small_sort_general_with_scratch` at pinned

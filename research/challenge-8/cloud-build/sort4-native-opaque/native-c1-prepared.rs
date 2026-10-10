@@ -195,8 +195,8 @@ fn small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
             // No call consumes Args.own in this component: open only the
             // packaging just closed, preserving all real borrow debt.
             //@ open <(&'cmp T, &'cmp T)>.own(t, std_tuple_2_::<&'cmp T, &'cmp T> { 0: left_ref, 1: right_ref });
-            //@ open <&'cmp T>.own(t, left_ref);
-            //@ open <&'cmp T>.own(t, right_ref);
+            //@ open own::<&'cmp T>(t)(left_ref);
+            //@ open own::<&'cmp T>(t)(right_ref);
             //@ open_frac_borrow(cmp_k, ref_initialized_(left_ref), 1/4);
             //@ open [?left_fraction]ref_initialized_::<T>(left_ref)();
             //@ open_frac_borrow(cmp_k, ref_initialized_(right_ref), 1/4);

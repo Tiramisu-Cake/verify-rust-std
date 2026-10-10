@@ -1,38 +1,41 @@
-# Native resources → actual C1–C4 with opaque scratch — active session
+# Native opaque prefix — session in progress
 
-2026-10-10 factual start19:27:14UTC, main deadline21:27:14, finish-only
-absolute21:57:14. Owner select-sort4, worktree /root/verify-rust-std-select-night,
-branch research/night-select-sort4-cloud-2026-10-09; initial checkpoint e5f3f1a,
-policy c7ca8c467aecf10a4b53039372ee97714f854ee3 and adoption/ACK retained.
-Separate3600Cloudsec, no carry; v2/max2, one own active Build.
-[Resource/boundary card](cloud-build/sort4-native-opaque/SEMANTIC-CARD.md).
+Start2026-10-10 19:27:14UTC; main deadline21:27:14, finish-only21:57:14.
+Owner select-sort4; own worktree /root/verify-rust-std-select-night,
+branch research/night-select-sort4-cloud-2026-10-09; initial checkpointe5f3f1a.
+Policyc7ca8c467aecf10a4b53039372ee97714f854ee3; existing adoption/ACK retained.
+New3600Cloudsec, no carry; v2/max2, one own active Build at most.
 
-Fresh 1ba7fdb3/9b86096e: opaque-MU split/CURRENT rejoin interface VF0/73,
-helper bodies proved before native consumer, automatic native normal posts,
-unit return/free/leak; intended false-CURRENT-rejoin-post refusal at43:74–79.
-Actual len<2 early-return resource component VF0/81. Scratch storage and MU
-owners stay opaque; neither inverse nor optional-T adapter is needed here.
-No callback/direct-unwind transition credit from these separate components.
-[Raw review](cloud-build/sort4-native-opaque/FRESH-1BA7-REVIEW.md).
+Fresh1ba7fdb3/9b86096e: opaque MU frame/source4 CURRENT rejoin VF0/73,
+actual len<2 early-return resource component VF0/81, full native normal posts,
+unit return/free/leak. No callback or direct-unwind edge. Intended false
+CURRENT-rejoin helperpost refused at43:74–79.
 
-Second Build d77612a5-5620-47a7-819d-3fa499cd15c0, proof=infra
-86e38e3a74cca49b2be8e12aa101bdd797d4a917, token
-dispatch-d899abe2e00c4ba4b64ac576dd5c5211: corrected ghost syntax for pointer
-expression/C1 candidate plus same pinned rustc checked-overflow MIR capture.
-Outcome pending. First failures in the two earlier cases were parser setup,
-not semantic negatives. Source/MIR/AST callback/lifetime binding remains open.
+Freshd77612a5/86e38e3a: source-linked pointer implementation-expression VF0/90,
+full native normal posts with source/F/thread/type resources and opaque scratch.
+Actual external as_mut_ptr method-call binding remains absent. Native C1
+candidate reaches resource split, then strict lifetime entry refuses at172:
+unresolved inference in entry outer type, before callback/unwind/posts.
+No native→actualC1/C4 proof credit. [Fresh review](cloud-build/sort4-native-opaque/FRESH-D776-REVIEW.md).
 
-The frozen exporter appends overflow_checks=off (lib.rs:69); standard fresh
-minimal len+16 export contains ordinary add and no overflow Assert, followed
-by VF arithmetic-overflow refusal. Checked/panic route capture is pending;
-no runtime-unsafety claim or arbitrary len bound. General exporter/arithmetic,
-alias and MU changes remain VeriFast-agent dependencies, unchanged here.
+Minimal usize-add checked rustc MIR has AddWithOverflow and Assert with unwind
+continue. Frozen exporter forces overflow checks off and instead produces
+ordinary add/no Assert; VF arithmetic refusal does not prove runtime unsafety.
+[Exact dependencies](cloud-build/sort4-native-opaque/VERIFAST-DEPENDENCIES.md).
+No arbitrary len bound, ignored panic or general VeriFast changes added here.
 
-Prior d5a0f8da/e12df71d actual C1→C4 VF0/370, normal/all four CURRENT direct
-unwinds/full original prefix posts/return/leak remains a separate conditional
-result. Native→actualC1, native→actualC4 and actual caller→sort4 NOT_PROVED.
-Actual external as_mut_ptr binding, full guards/call edge and ZST remain open;
-positive T size is not implied by selected sort4 (len8,size0 counterexample).
-No strict-cut draft, selector/C5/copy or peer profile changes applied.
-Current accounting415/3600seconds; Build1 terminal/accounted/evidence verified,
-Build2 own active, no automatic next session authorized.
+Third diagnostic batch pinned7fc22c0452ee1fb89677da13de52a9433a383906 is being
+submitted: callback-free resource preparation, separately named fail-closed
+single-native-declaration capture, mandatory source/exact-one refusals, and
+pointer default-off regression. Fresh proof/capture outcomes pending. Earlier
+846 payload refusal created no Build/reservation and charged zero seconds.
+
+Prior actual C1→C4d5/a518 VF0/370, normal/all four direct unwinds with CURRENT
+recovery/full original prefix posts/unit/leak remains separate prior PASS.
+Native→actualC1, native→actualC4, actual caller→sort4 NOT_PROVED.
+Positive T size is not implied by selected sort4 branch (len8,size0).
+Scratch MU inverse/optional-T adapter unnecessary for this prefix interface;
+later copy, guards, external call edge, ZST and C5/select remain outside scope.
+General lifetime/alias/arithmetic/MU changes peer-owned; strict draft excluded.
+Accounting759/3600seconds for two terminal, accounted, evidence-verified Builds.
+No automatic next session. Hour progress delivered20:27UTC.

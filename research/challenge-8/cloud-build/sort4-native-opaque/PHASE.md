@@ -69,3 +69,21 @@ component permits only the next already agreed within-phase step; a semantic
 gap or new trusted rule requires an owner decision. At the main deadline no
 new experiment begins. The extra 30 minutes finish the current step, evidence,
 accounting and checkpoint only.
+
+## Narrow capture follow-up (separate experimental effective profile)
+
+The third batch uses only the explicitly named native-C1 capture profile in
+NATIVE-C1-CAPTURE-PROFILE.json. Semantic card20:24UTC preceded implementation;
+independent source/MIR and infrastructure reviews are in CAPTURE-PATCH-REVIEW.md
+and PRE-DISPATCH-REVIEW.md. Kernel, alias, arithmetic and ownership rules remain
+frozen. Capture opt-in serializes the untouched single native declaration and
+always refuses before proof; default-off keeps the prior proof path. It is not
+a binding or an accepted tool profile. Callback-free prepared-resource and
+pointer default-off cases are separate proof diagnostics on this exact tool.
+Mandatory exact-source and exact-one-body controls remain enabled.
+
+Published7fc22c0452ee1fb89677da13de52a9433a383906 pins this batch. The preceding
+84616990 submission stopped at local payload-limit validation before reserve
+or API dispatch: zero Cloud seconds, no Build ID.7fc removes only unused C4
+fixture preparation and recipe inputs; its deterministic pack is188 parts
+within the unchanged191-part ceiling. Prior C4 proofs remain prior evidence.
