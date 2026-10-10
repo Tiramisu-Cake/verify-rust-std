@@ -321,7 +321,10 @@ def selector_env(a):
     for root, flag in PARENT_PAIRS:
         env[root] = str(a.proof_root)
         env[flag] = "1"
-    for key in BASE_GATES:
+    # The actual nine-body selector has its own nested/A1-nine admission.
+    # Generic-guard/template and A1-link certificates describe different units;
+    # retain them in the process sanitizer but do not opt this unit into them.
+    for key in BASE_GATES[:3]:
         env[key] = str(a.proof_root)
     env["SORT4_SELECT_PROFILE"] = "experimental-s6-26.10-v1"
     env.update({"SORT4_ACTUAL_OWNER_REPO_ROOT": str(a.proof_root),
@@ -528,13 +531,29 @@ def run(a):
                 target = log.find("Verifying function 'sort4_stable'")
                 first_error = log.find(row["errors"][0]) if row["errors"] else -1
                 row["target_before_first_error"] = target >= 0 and first_error > target
-                row["intended_negative"] = "PENDING_RAW_VC_REVIEW"
+                if control == "wrong-selected-original":
+                    selector_headers_before_c4 = all(
+                        row["headers"].count(name) == 1 and
+                        log.find("Verifying function '" + name + "'") < target
+                        for name in selector_names)
+                    exact_error = (len(row["errors"]) == 1 and
+                        re.search(r"verified/lib\.rs\(487,\d+(?:-\d+(?:,\d+)?)?\): error: Cannot prove condition",
+                                  row["errors"][0]) is not None)
+                    row["intended_negative"] = (
+                        "EXACT_TARGET_VC_OBSERVED" if row["exit"] in (1, 2) and
+                        row["target_before_first_error"] and
+                        "SORT4-C4-SELECT-AST: importing nine definitions" in log and
+                        selector_headers_before_c4 and exact_error
+                        else "PENDING_RAW_VC_REVIEW")
+                    row["raw_vc_review"] = "PENDING_INDEPENDENT_REVIEW"
+                else:
+                    row["intended_negative"] = "PENDING_RAW_VC_REVIEW"
                 row["export_sha256"] = sha(exported_ast)
                 composition["controls"][control] = row
     stages["composition"] = composition
     regressions = module(a.cloud_dir / "verifast-c4-select-integration/regressions.py", "integration_regressions")
     stages["regressions"] = regressions.run(a, a.tool_home, selector_case, c4case,
-        selector_env(a), c4_env(), stage, proof)
+        selector_env(a), c4_env(), stage, proof, composition.get("controls", {}))
     if c4_ok:
         for control in CONTROLS:
             case = a.evidence / ("control-" + control)
@@ -554,8 +573,50 @@ def run(a):
         for row in stages["c4"]["controls"].values())
     classification = ("INTEGRATION_POSITIVES_AND_CONTROL_TARGETS_REACHED"
                       if selector_ok and control_reached and composition_ok else "INTEGRATION_DIAGNOSTIC_INCOMPLETE")
+    regression_gates = stages["regressions"].get("completion_gates", {})
+    composition_controls_complete = (
+        len(composition.get("controls", {})) == 4 and all(
+            row.get("intended_negative") == "EXACT_TARGET_VC_OBSERVED" and
+            row.get("raw_vc_review") == "REVIEWED" for row in
+            composition.get("controls", {}).values()))
+    c4_controls_reviewed = (len(stages["c4"]["controls"]) == len(CONTROLS) and all(
+        row.get("intended_negative") == "EXACT_TARGET_VC_OBSERVED" and
+        row.get("raw_vc_review") == "REVIEWED"
+        for row in stages["c4"]["controls"].values()))
+    completion_blockers = []
+    if not selector_ok:
+        completion_blockers.append("selector_positive_gate_failed")
+    if not c4_ok:
+        completion_blockers.append("c4_positive_gate_failed")
+    if not composition_ok:
+        completion_blockers.append("composition_positive_gate_failed_or_not_run")
+    if not control_reached:
+        completion_blockers.append("c4_control_targets_not_all_reached")
+    if not regression_gates.get("ready", False):
+        completion_blockers.extend(regression_gates.get("blockers", [
+            "regression_completion_gates_unavailable"]))
+    if not composition_controls_complete:
+        for name, row in composition.get("controls", {}).items():
+            if row.get("intended_negative") != "EXACT_TARGET_VC_OBSERVED":
+                completion_blockers.append("composition_control_not_exact:" + name)
+            elif row.get("raw_vc_review") != "REVIEWED":
+                completion_blockers.append("composition_control_raw_review_pending:" + name)
+        if len(composition.get("controls", {})) != 4:
+            completion_blockers.append("composition_control_set_incomplete")
+    if not c4_controls_reviewed:
+        for name, row in stages["c4"]["controls"].items():
+            if row.get("intended_negative") != "EXACT_TARGET_VC_OBSERVED":
+                completion_blockers.append("c4_control_raw_vc_not_confirmed:" + name)
+            elif row.get("raw_vc_review") != "REVIEWED":
+                completion_blockers.append("c4_control_raw_review_pending:" + name)
+        if len(stages["c4"]["controls"]) != len(CONTROLS):
+            completion_blockers.append("c4_control_set_incomplete")
+    diagnostic_complete = not completion_blockers
+    if not diagnostic_complete:
+        classification = "INTEGRATION_DIAGNOSTIC_INCOMPLETE"
     finish(a, {"classification": classification,
-        "diagnostic_complete": selector_ok and control_reached and composition_ok,
+        "diagnostic_complete": diagnostic_complete,
+        "completion_blockers": completion_blockers,
         "source_hashes": actual_sources, "stages": stages,
         "selector_full_nine_body": selector_ok, "c4_positive": c4_ok,
         "c4_controls_reached_target": control_reached,
@@ -565,7 +626,7 @@ def run(a):
         "target_contract_proved": False, "actual_source_accepted": False,
         "verification_accepted": False, "accepted": False})
     pin(a)
-    need(selector_ok and control_reached and composition_ok, classification)
+    need(diagnostic_complete, classification)
 
 
 def main():

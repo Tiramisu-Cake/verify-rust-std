@@ -12,6 +12,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import sys
 
@@ -43,6 +44,19 @@ MDNEW_FIXTURES = {
 ADMISSION_CATEGORIES = (
     "source", "contract", "type", "Move", "edge", "reachable_unwind",
 )
+EXPECTED_CLEANUP_OFF = [
+    "verified/lib.rs(135,1-239,2): dead code",
+    "verified/lib.rs(238,5-6): dead code",
+    "verified/lib.rs(238,5-6): dead code",
+]
+EXPECTED_MDNEW_DEAD = [
+    "dead_code_pre.rs(1,1-7,2): dead code",
+    "dead_code_pre.rs(6,13-43): dead code",
+    "dead_code_pre.rs(6,41-42): dead code",
+    "dead_code_pre.rs(7,2): dead code",
+]
+STAGE_ERROR = re.compile(r"(?m)^.*: error: .*|^Error:.*$|^Fatal error:.*$")
+STAGE_DEAD = re.compile(r"(?m)^.*: dead code$")
 
 
 def _need(ok: bool, message: str) -> None:
@@ -52,6 +66,17 @@ def _need(ok: bool, message: str) -> None:
 
 def _sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _stage_diagnostics(log: str) -> dict:
+    return {
+        "errors": STAGE_ERROR.findall(log),
+        "dead_code": STAGE_DEAD.findall(log),
+        "headers": re.findall(r"Verifying function '([^']+)'", log),
+        "zero_errors": "0 errors found (" in log,
+        "return_seen": "Executing return statement" in log,
+        "leak_check_seen": "Leak check." in log,
+    }
 
 
 def _record(path: Path, value: dict) -> None:
@@ -133,7 +158,8 @@ def _run_lifetime(a, selector_case, c4_env, proof, capture) -> dict:
     return results
 
 
-def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof):
+def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof,
+        composition_controls=None):
     """Execute only narrow, callback-mediated regressions and record NOT_RUN gaps."""
     _cloud_guard()
     evidence = a.evidence / "regressions"
@@ -148,11 +174,24 @@ def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof):
     off_env.pop("SORT4_R3_CLEANUP_PROJECTION_TEST_REPO_ROOT", None)
     off, off_log = proof(a, "selector-cleanup-off", selector_case, off_env, 300)
     dead = off.get("dead_code", [])
+    frame_log = _module(a.cloud_dir / "o26-r3-frame-test.py")
+    off_frame = frame_log.log_proof_evidence(off_log, {"exit": off["exit"]})
+    cleanup_off_exact = (
+        off["exit"] == 1 and dead == EXPECTED_CLEANUP_OFF and
+        not off["errors"] and off_frame["first_error"] is None and
+        off_frame["prefix7_ordered"] and off_frame["nested_before_outer"] and
+        off_frame["helper_full_normal_unwind_observed"] and
+        off_frame["nested_full_normal_unwind_observed"] and
+        len(off_frame["outer_counts"]) == 4 and
+        all(value == 2 for value in off_frame["outer_counts"].values())
+    )
     report["targets"]["selector_cleanup_off"] = {
         "stage": off, "dead_code_spans": dead,
-        "exact_three_deadcode_spans": len(dead) == 3,
+        "expected_dead_code_spans": EXPECTED_CLEANUP_OFF,
+        "exact_three_deadcode_spans": cleanup_off_exact,
+        "frame_log_audit": off_frame,
         "proof_credit": False,
-        "classification": "DIAGNOSTIC_ONLY" if len(dead) == 3 else "INCONCLUSIVE",
+        "classification": "DIAGNOSTIC_ONLY" if cleanup_off_exact else "INCONCLUSIVE",
         "raw_log_sha256": hashlib.sha256(off_log.encode()).hexdigest(),
     }
 
@@ -182,11 +221,21 @@ def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof):
                    "proof_credit": False}
         for category in ADMISSION_CATEGORIES
     }
+    relation = (composition_controls or {}).get("wrong-selected-original")
+    relation_exact = (isinstance(relation, dict) and
+                      relation.get("intended_negative") == "EXACT_TARGET_VC_OBSERVED")
     report["targets"]["theorem_controls"] = {
-        name: {"state": "NOT_RUN", "classification": "SEMANTIC_CONTROL_NOT_EXERCISED",
-               "reason": "no verified same-source AST composition control hook exposed",
-               "proof_credit": False}
-        for name in ("wrong_selected_original_relation", "frame", "thread_resources")
+        "wrong_selected_original_relation": {
+            "state": "EXACT_TARGET_VC_OBSERVED" if relation_exact else "NOT_RUN_OR_UNCONFIRMED",
+            "classification": "SEMANTIC_CONTROL_RAW_REVIEW_PENDING",
+            "result": relation, "proof_credit": False,
+        },
+        **{
+            name: {"state": "NOT_RUN", "classification": "SEMANTIC_CONTROL_NOT_EXERCISED",
+                   "reason": "no isolated same-source frame/thread mutant hook exposed",
+                   "proof_credit": False}
+            for name in ("frame", "thread_resources")
+        },
     }
 
     lifetime_capture = _module(a.proof_root / REQUIRED_FILES[1])
@@ -211,7 +260,9 @@ def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof):
         first = log.find(row["errors"][0]) if row["errors"] else -1
         intended = (row["exit"] == 0 and row["zero_errors"] and not row["errors"]
                     if name == "positive" else row["exit"] in (1,2) and entry >= 0 and
-                    first > entry and "No matching heap chunks" in row["errors"][0])
+                    first > entry and "No matching heap chunks" in row["errors"][0] and
+                    re.search(r"\(3,\d+(?:-\d+(?:,\d+)?)?\): error:",
+                        row["errors"][0]) is not None)
         pointer_rows[name] = {"stage": row, "intended_site_observed": intended,
                               "raw_vc_review": "PENDING", "proof_credit": False}
     report["targets"]["pointer_value_pointee_rights"] = pointer_rows
@@ -236,19 +287,49 @@ def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof):
             args.append(name)
             row, log = stage(a, "regression-mdnew-" + name.removesuffix(".rs"),
                              args, case, {}, 180)
+            diagnostics = _stage_diagnostics(log)
             if expected == "pass":
-                intended = row["exit"] == 0 and not row.get("errors")
+                required_headers = (("forget",) if name == "forget.rs" else
+                    ("new", "ordinary_caller", "shared_cleanup", "normal_first_cleanup"))
+                intended = (row["exit"] == 0 and diagnostics["zero_errors"] and
+                    not diagnostics["errors"] and not diagnostics["dead_code"] and
+                    all(diagnostics["headers"].count(header) == 1
+                        for header in required_headers) and
+                    diagnostics["return_seen"] and diagnostics["leak_check_seen"])
             elif expected == "dead":
-                intended = (row["exit"] == 1 and "dead code" in log and
-                            "forget_from_dead_precondition" in log)
+                intended = (row["exit"] == 1 and
+                    diagnostics["dead_code"] == EXPECTED_MDNEW_DEAD and
+                    not diagnostics["errors"] and
+                    "forget_from_dead_precondition" in diagnostics["headers"])
             else:
                 target_name = ("forget_false_normal_post" if name == "false_normal_post.rs"
                                else "shared_cleanup_false_unwind_post")
-                entry = log.find("Verifying function '" + target_name + "'")
-                error = log.find("error:", entry) if entry >= 0 else -1
-                intended = row["exit"] == 0 and entry >= 0 and error > entry
+                expected_line = 3 if name == "false_normal_post.rs" else 14
+                source_text = source.read_text()
+                marked_lines = [number for number, text in enumerate(
+                    source_text.splitlines(), 1) if "//~should_fail" in text]
+                event = rf"{re.escape(name)}\({expected_line},\d+-\d+\): Consuming (?:assertion|expression)"
+                intended = (
+                    row["exit"] == 0 and diagnostics["zero_errors"] and
+                    not diagnostics["errors"] and not diagnostics["dead_code"] and
+                    diagnostics["headers"].count(target_name) == 1 and
+                    diagnostics["return_seen"] and diagnostics["leak_check_seen"] and
+                    marked_lines == [expected_line] and
+                    len(re.findall(event, log)) == 2 and
+                    len(re.findall(rf"{re.escape(name)}\({expected_line},\d+-\d+\): Consuming assertion", log)) == 1 and
+                    len(re.findall(rf"{re.escape(name)}\({expected_line},\d+-\d+\): Consuming expression", log)) == 1
+                )
             mdnew_rows[name] = {"expected": expected, "stage": row, "raw_vc_review": "PENDING",
-                "intended_diagnostic": intended, "proof_credit": False,
+                "diagnostics": diagnostics, "expected_source_line":
+                    (7 if expected == "dead" else
+                     3 if name == "false_normal_post.rs" else
+                     14 if name == "shared_false_unwind.rs" else None),
+                "intended_diagnostic": intended,
+                "expected_failure_harness": expected == "fail",
+                "expected_failure_interpretation": (
+                    "-allow_should_fail succeeded after consuming the annotated false contract; this is not a printed verifier error"
+                    if expected == "fail" else None),
+                "proof_credit": False,
                 "raw_log_sha256": hashlib.sha256(log.encode()).hexdigest()}
         report["targets"]["mdnew_retained_fix"] = {
             "state": "RUN", "classification": "DIAGNOSTIC_ONLY",
@@ -262,5 +343,31 @@ def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof):
             "reason": "recipe must stage the pinned candidate fixtures and set VERIFAST_MDNEW_FIXTURE_DIR",
             "proof_credit": False,
         }
+    blockers = []
+    if not cleanup_off_exact:
+        blockers.append("selector_cleanup_off_exact_spans_and_full_diagnostic_not_observed")
+    if not partial_refused:
+        blockers.append("cleanup_partial_optin_refusal_not_observed")
+    if any(not row["intended_site_observed"] for row in pointer_rows.values()):
+        blockers.append("pointer_value_expected_site_not_observed")
+    if not all(row.get("intended_site_observed", False)
+               for row in report["targets"]["strict_lifetime"].values()
+               if isinstance(row, dict) and "intended_site_observed" in row):
+        blockers.append("strict_lifetime_expected_site_not_observed")
+    mdnew = report["targets"]["mdnew_retained_fix"]
+    if mdnew.get("state") != "RUN" or not mdnew.get("all_intended"):
+        blockers.append("mdnew_retained_fix_exact_diagnostics_not_observed")
+    # These are explicit phase gates. The current callbacks cannot construct
+    # the required same-source AST/CFG mutants or isolated frame/thread controls.
+    blockers.extend("not_run:" + category for category in ADMISSION_CATEGORIES)
+    if not relation_exact:
+        blockers.append("wrong_selected_original_relation_exact_control_not_observed")
+    blockers.extend(("not_run:strict_lifetime_outer_type_escape",
+                     "not_run:composition_frame_control",
+                     "not_run:composition_thread_resource_control"))
+    report["completion_gates"] = {
+        "ready": not blockers, "blockers": blockers,
+        "proof_credit": False,
+    }
     _record(evidence / "result.json", report)
     return report
