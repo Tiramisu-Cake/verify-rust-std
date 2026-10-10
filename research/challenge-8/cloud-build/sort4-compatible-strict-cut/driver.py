@@ -33,7 +33,7 @@ EXECUTABLES = ('bin/verifast', 'bin/vf-rust-mir-exporter',
 POSITIVE = frozenset(('ordinary_default_off', 'positive_basic',
                       'positive_early_return', 'positive_direct_unwind',
                       'positive_outgoing_goto'))
-NEGATIVE = frozenset(('negative_heap_escape', 'negative_outer_type_escape',
+NEGATIVE = frozenset(('negative_heap_escape',
                       'negative_typed_chunk_survives_cut',
                       'negative_type_after_cut'))
 INCONCLUSIVE_SOURCE_FORMS = frozenset((

@@ -6797,3 +6797,11 @@ Independent fresh C4 correspondence/delta review gave conditional exact GO
 before dispatch; parent expressly exercised user-authorized diagnostic dispatch.
 Later automatic review hash gate added for future source commits, not retroactively
 claimed for this pinned run. New gate/docs do not change its pinned inputs.
+
+2026-10-10 12:04 UTC: isolated non-toolchain classifier configuration replay
+via ast.parse/literal_eval confirms unsupported outer-type/bound fixtures stay
+in NOT_RUN source forms and are excluded from runnable negative candidates.
+No live evidence/coordinator mutation, proof/build/import of driver involved.
+Strict profile is enabled solely for reviewed CAPTURE_ONLY_NO_STRICT_ON_PROOF;
+exact two-file candidate01f52d92 and independent/design/parent reviews committed.
+Full trust matrix and native helper/composition remain NOT_RUN.
