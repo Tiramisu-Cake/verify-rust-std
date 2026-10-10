@@ -58,3 +58,5 @@ and escape/debt/owner/token controls affected by any kernel interface.
 Setup failures give PARTIAL and routine scoped repair, not proof credit.
 READY_FOR_INTEGRATION_REVIEW requires composition and necessary gates; owner
 acceptance remains separate. No whole-sort4/general T/ZST proof claimed.
+
+Baseline dispatch4bcbfd40: bounded pinned-object transport refusal before reservation/API submission; 0Cloudseconds. Remove unused historical patch/review files from recipe; frozen effective tool/source pins unchanged.
