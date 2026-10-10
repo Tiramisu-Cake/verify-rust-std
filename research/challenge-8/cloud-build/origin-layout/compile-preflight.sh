@@ -88,10 +88,9 @@ export CAPNP_INC_DIR=/tmp/vfdeps-adf88dc/include
 export LD_LIBRARY_PATH="$candidate/bin:/tmp/vfdeps-adf88dc/lib:${LD_LIBRARY_PATH:-}"
 export CARGO_BUILD_JOBS=1
 
-# Mirror the environment the pinned GNUmakefile creates for its console
-# target. GNUmakefile exports the source directory on OCAMLPATH and resolves
-# Z3_DLL_DIR from the same findlib package queries.
-export OCAMLPATH="$candidate/src${OCAMLPATH:+:$OCAMLPATH}"
+# Mirror the GNUmakefile's findlib-based Z3 DLL directory resolution. The
+# pinned profile uses WITHOUT_LABLGTK=yes, so it does not export OCAMLPATH or
+# OCAMLOPT_CCLIB_FLAGS; leave both ambient values untouched here as well.
 z3_ocaml=$(ocamlfind query -qe Z3 2>/dev/null || true)
 if [[ -n "$z3_ocaml" ]]; then
   z3_dll_dir=$(realpath -e "$z3_ocaml/../..")
@@ -100,8 +99,6 @@ else
   z3_dll_dir=$(realpath -e "$z3_ocaml")
 fi
 export Z3_DLL_DIR="$z3_dll_dir"
-export OCAMLOPT_CCLIB_FLAGS='-Wl,-rpath=$ORIGIN'
-printf '%s\n' "$OCAMLPATH" >"$evidence/ocamlpath.txt"
 printf '%s\n' "$Z3_DLL_DIR" >"$evidence/z3-dll-dir.txt"
 
 run_step() {

@@ -31,9 +31,10 @@ source hashes, and patch hashes against `insertion-onecell/PROFILE.json` before
 building. It uses one Cargo job and explicit `dune build -j 1` stages for the
 decoder, translator, and `vfconsole/vfconsole.exe`; the console executable is
 copied to the candidate's `bin/verifast`, matching the Make target's artifact
-path. The direct Dune console build receives the GNUmakefile's actual
-`OCAMLPATH`, findlib-derived `Z3_DLL_DIR`, and Linux
-`OCAMLOPT_CCLIB_FLAGS` environment. Each build stage has a separate log,
+path. The direct Dune console build receives the GNUmakefile's findlib-derived
+`Z3_DLL_DIR`; it preserves the ambient `OCAMLPATH` and
+`OCAMLOPT_CCLIB_FLAGS`, matching the pinned `WITHOUT_LABLGTK=yes` profile,
+which skips those GNUmakefile exports. Each build stage has a separate log,
 time-v report, exit-code file, and a 900-second timeout. An EXIT trap writes a
 failure `compile-preflight.json` naming the failed stage; after successful
 compilation, the script rechecks pinned source hashes and writes the detailed
