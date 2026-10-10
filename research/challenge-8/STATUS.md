@@ -1,10 +1,27 @@
-# MERGE guard bridge — compile stabilization session ACTIVE
+# MERGE guard bridge — session CLOSED
 
-Start2026-10-10T12:58:04Z; main14:58:04, absolute15:28:04; hourupdate13:58:04. Newseparate3600Cloudseconds, ownermerge/v2max2/oneownactive. Previous2662accountclosedand938retired; no carryover. Policyc7ca8c46/adoption1b9e3df/ACKaec832ab retained. OwnHEAD45fdb1f3/toole8a77a29 at cleanassignedworktrees. Third-agentselectorworkexcluded. NoVPSbuild/install/swapchange, noActions/upstreamintegration.
+Session2026-10-10T12:58:04Z; main14:58:04Z/absolute15:28:04Z, hourupdate delivered.
+Full candidate compiler **FRESH_PASS** ba7ca276/7d29c93d and repeated282324ae/a287a0f2;
+toolcomponent e16352c4f015059ea4158be7d3205275080ce880, effective f760+10patches,
+profile1bc74b60185b2f0c335a2467f0dd9bc53238851f2348f53f1f31737720931a9e.
+New minimal campaign **INCONCLUSIVE preparation**: strict ghost-strip fragment
+accounting refuses before firstguard exporter. Newguardpositive/negatives,
+len1/interface/caller NOT_RUN; actualglue NOT_IMPLEMENTED, panicNOT_EXERCISED.
+Fresh retained-six/exactcombined smoke,6span controls and boundedu64CURRENT
+copy/recovery normalposts/return/leak andaddressedrecoverynegatives passed.
+ProfileNOT_ACCEPTED/integrationNOT_FOR_INTEGRATION. Runtime std/finalguarantees
+preserved; third-agentselectorworkexcluded. No newBuild/experimentaftermain.
 
-Current compile-only Build ba7ca276-e559-461c-a3f6-3cf8d3373e04 FRESH_PASS (fourcompilerstages andposthash0; verifiedarchive78682b93), exact proof/infra7d29c93df60dbbb6e2a3bf82c761807e40f707ab; toolcomponent e16352c4f015059ea4158be7d3205275080ce880, effective f760+10-patch chain in EFFECTIVE-SOURCE.json. Two prior compile-only failures are accounted757s; mandatory reassessment completed beforeBuild3 (sourcecompositionpins, bothCapnpincludeenvs). Exporter/decoder/translator passed Build2, fullconsoleconfirmedfresh. Newbridge/len1/interface/caller NOT_RUN; actualglue/unwind/domainexpansion frozen. Modebridge-minimal prepared aftercompilePASS; freshproof required forminimalbridge6span+5concrete+9guard andretained-six/exactcombinedsmokes. HistoricalboundedCURRENT/conditionalstrongDrop retainedinoldprofiles; combinedNOT_ACCEPTED/integrationNOT_FOR_INTEGRATION.
+**CLOSED1595/3600Clouds**,2005unusedretired;4terminalaccountedverifiedBuilds,
+ownreservations/active/unresolvedempty, readyrequestwithdrawn. Policyc7ca8c46,
+adoption1b9e3df/ACKaec832ab retained. NoVPScompilation/install/swap/foreignchange,
+noActions/upstreampublication/maintainerintegration. No automaticnewsession.
 
-[Sessioncard](cloud-build/origin-layout/SESSION.md), [ledger](cloud-build/origin-layout/BUDGET.json), [previouscheckpoint](cloud-build/origin-layout/FINAL-CHECKPOINT.md).
+Next step: repair inserted/baseline ghost-fragment removal order with strict
+saved replay/original-byte equality, then fresh exact-SHA minimal Cloud proof
+in a newly authorized session. [Checkpoint](cloud-build/origin-layout/FINAL-CHECKPOINT.md),
+[failure](cloud-build/origin-layout/GUARD-PREPARATION-FAILURE.md),
+[review](cloud-build/origin-layout/REVIEW-PACKET.md), [ledger](cloud-build/origin-layout/BUDGET.json).
 
 ## Previous CLOSED session — retained evidence
 

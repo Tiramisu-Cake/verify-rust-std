@@ -7,11 +7,11 @@
   "start_utc": "2026-10-10T12:58:04Z",
   "main_deadline_utc": "2026-10-10T14:58:04Z",
   "deadline_utc": "2026-10-10T15:28:04Z",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "authorization": "User new 120-minute merge session and 30-minute finishing window, new separate 3600 Cloud create-to-finish seconds. Stabilize current layout/allocation bridge build before new concrete-u64/x86_64 minimal proof, then nonvacuous len1/interface/caller if time. Freeze glue/unwind/domain extensions; real pinned dependencies, no stubs/disabled code. Mandatory reassessment after two new failed compile-only Builds before third. Owner merge v2/max2 one own active; own worktrees only, third-agent selector work excluded. Cloud compiler/extraction/proof only; no local toolchain install/heavy build, no swap/foreign data changes. Commit/push own branch authorized; no automatic next session. Previous938unusedretired, no carryover.",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 1153,
-  "remaining_build_seconds": 2447,
+  "used_build_seconds": 1595,
+  "remaining_build_seconds": 2005,
   "allowed_lanes": [
     "merge"
   ],
@@ -87,7 +87,34 @@
       "execution_seconds": 395,
       "download_verified": true,
       "archive_sha256": "78682b936231af806d95def85bc71d9cef5051a14e67a283ec7f278e302f8cac"
+    },
+    {
+      "dispatch_token": "dispatch-30dea357c4234cc9814e7f5672ad474f",
+      "owner": "merge",
+      "phase_id": "MERGE-BRIDGE-COMPILE-CLOUD-2026-10-10",
+      "infra_sha": "a287a0f2d1b12e3a209b8d69cb66516acdd53f50",
+      "proof_sha": "a287a0f2d1b12e3a209b8d69cb66516acdd53f50",
+      "lane": "merge",
+      "submitted_config_sha256": "96da9c914812cc164160e21dbd4c0cf9cabad4c7d30a886030561b3cfaed305a",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "0d2d512e22ec084b840d5bf0c40a2da0e420698452f86235312277ba65e472e6",
+      "build_id": "282324ae-a918-4bc6-b73b-e2861f2596e5",
+      "start_time": "2026-10-10T14:40:28.350971435Z",
+      "finish_time": "2026-10-10T14:47:49.223026Z",
+      "create_time": "2026-10-10T14:40:27.561693173Z",
+      "build_seconds": 442,
+      "accounted": true,
+      "execution_seconds": 441,
+      "download_verified": true,
+      "archive_sha256": "c05f8fe9f1df66f5a276884e5121bf318071968d5a1f761d3c7e7e8847cbbc54"
     }
   ],
-  "active_build": null
+  "active_build": null,
+  "closed_utc": "2026-10-10T15:21:53.431512Z",
+  "unused_seconds_retired": 2005,
+  "closure": "All four own Builds terminal/accounted and archive/text logs verified; own reservation empty and ready request withdrawn. No automatic next session."
 }

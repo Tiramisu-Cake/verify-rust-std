@@ -319,22 +319,29 @@
     "start_utc": "2026-10-10T12:58:04Z",
     "main_deadline_utc": "2026-10-10T14:58:04Z",
     "deadline_utc": "2026-10-10T15:28:04Z",
-    "status": "ACTIVE",
+    "status": "CLOSED",
     "initial_project_head": "45fdb1f33dd2838e0edfb5e18ca4a7425ffef5f4",
     "initial_tool_head": "e8a77a29666fce5b9401d81deede3ec40f3b54bc",
     "tool_candidate": "e16352c4f015059ea4158be7d3205275080ce880",
     "profile": "experimental-merge-qualified-guard-onecell-v1",
     "build_mode": "bridge-minimal",
     "compile_status": "FRESH_PASS",
-    "bridge_proof": "NOT_RUN",
-    "negative_controls": "NOT_RUN",
+    "bridge_proof": "NOT_RUN_PREPARATION_FAILURE",
+    "negative_controls": "NEW_GUARD_NOT_RUN",
     "len1_interface_caller": "NOT_RUN",
     "actual_glue_unwind": "NOT_RUN_OUT_OF_CURRENT_EXPANSION_SCOPE",
-    "regressions": "NOT_RUN",
+    "regressions": {
+      "retained_six_smoke": "FRESH_PASS",
+      "exact_combined_smoke": "FRESH_PASS",
+      "span": "FRESH_MATCHED_6_OF_6",
+      "bounded_current": "FRESH_PASS_FRAGMENT_ONLY",
+      "recovery_negatives": "FRESH_EXPECTED_REJECTION",
+      "empty_u64_own": "NOT_APPLICABLE"
+    },
     "budget": {
       "ceiling": 3600,
-      "used": 1153,
-      "remaining": 2447
+      "used": 1595,
+      "remaining_retired": 2005
     },
     "builds": [
       {
@@ -408,6 +415,30 @@
         "execution_seconds": 395,
         "download_verified": true,
         "archive_sha256": "78682b936231af806d95def85bc71d9cef5051a14e67a283ec7f278e302f8cac"
+      },
+      {
+        "dispatch_token": "dispatch-30dea357c4234cc9814e7f5672ad474f",
+        "owner": "merge",
+        "phase_id": "MERGE-BRIDGE-COMPILE-CLOUD-2026-10-10",
+        "infra_sha": "a287a0f2d1b12e3a209b8d69cb66516acdd53f50",
+        "proof_sha": "a287a0f2d1b12e3a209b8d69cb66516acdd53f50",
+        "lane": "merge",
+        "submitted_config_sha256": "96da9c914812cc164160e21dbd4c0cf9cabad4c7d30a886030561b3cfaed305a",
+        "reserved_seconds": 1260,
+        "timeout_seconds": 1200,
+        "status": "FAILURE",
+        "publish_text_logs": true,
+        "source_mode": "pinned-objects",
+        "source_input_sha256": "0d2d512e22ec084b840d5bf0c40a2da0e420698452f86235312277ba65e472e6",
+        "build_id": "282324ae-a918-4bc6-b73b-e2861f2596e5",
+        "start_time": "2026-10-10T14:40:28.350971435Z",
+        "finish_time": "2026-10-10T14:47:49.223026Z",
+        "create_time": "2026-10-10T14:40:27.561693173Z",
+        "build_seconds": 442,
+        "accounted": true,
+        "execution_seconds": 441,
+        "download_verified": true,
+        "archive_sha256": "c05f8fe9f1df66f5a276884e5121bf318071968d5a1f761d3c7e7e8847cbbc54"
       }
     ],
     "policy_revision": "c7ca8c467aecf10a4b53039372ee97714f854ee3",
@@ -489,7 +520,20 @@
       "console_sha256": "89494bde13a63cc547afce3c51a12b9ee724c1e8b50d2cfd2bd15d91c050e8ad",
       "exporter_sha256": "a1742ea48b402d22f4718e1d3d9ebf0d44c7cf3e079def718d84320f1fbb93a0",
       "proof_attempted": false
-    }
+    },
+    "closed_utc": "2026-10-10T15:21:53.431512Z",
+    "minimal_proof": {
+      "build_id": "282324ae-a918-4bc6-b73b-e2861f2596e5",
+      "status": "INCONCLUSIVE_PREPARATION",
+      "proof_sha": "a287a0f2d1b12e3a209b8d69cb66516acdd53f50",
+      "archive_sha256": "c05f8fe9f1df66f5a276884e5121bf318071968d5a1f761d3c7e7e8847cbbc54",
+      "guard_cases_executed": 0,
+      "first_blocker": "GUARD-PREPARATION-FAILURE.md"
+    },
+    "reservations": "NONE_OWN",
+    "ready_request": "WITHDRAWN",
+    "unresolved": null,
+    "checkpoint": "FINAL-CHECKPOINT.md"
   },
   "evidence_scope_note": "Historical top-level records retained; current_session is authoritative for the new guard/glue session. Documentation SHA is not a proof run.",
   "previous_current_recovery_session": {

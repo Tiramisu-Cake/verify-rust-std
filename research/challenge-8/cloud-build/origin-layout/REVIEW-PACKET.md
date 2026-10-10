@@ -1,3 +1,24 @@
+# Merge bridge — compiling candidate, partial fresh diagnostics
+
+Closed new session12:58:04UTC, main14:58:04/absolute15:28:04. Full candidate
+compiler FRESH_PASS (ba7ca276, repeated282324ae), component e16352c4 and
+profile1bc74b60, effective f760+10 ordered patches. Fresh minimal proof
+282324ae/a287a0f2: retained-six/exact-combined smokes,6span controls and bounded
+CURRENT recovery pass; new9guard controls NOT_RUN because fixture ghost-strip
+preparation splits manifest fragment4. No bridge/canonical/caller/glue upgrade.
+All4Builds terminal/accounted/evidenceverified, CLOSED1595/3600s.
+
+The portable patch, exact source/profile receipts, semantic cards, pinned real
+build commands, saved refusal and separate verdicts are in
+[FINAL-CHECKPOINT.md](FINAL-CHECKPOINT.md), [EFFECTIVE-SOURCE.json](EFFECTIVE-SOURCE.json),
+[GUARD-PREPARATION-FAILURE.md](GUARD-PREPARATION-FAILURE.md) and
+[LEN1-INTERFACE-REVIEW-20261010.md](LEN1-INTERFACE-REVIEW-20261010.md).
+NOT_FOR_INTEGRATION; profile NOT_ACCEPTED. Next step is strict saved preparation
+repair/replay, then newly authorized fresh minimal Cloud proof. No maintainer
+integration or automatic session.
+
+## Previous packet — historical, not current execution status
+
 # Qualified guard / canonical effect — compile-blocked internal review packet
 
 Closed session10:21:50UTC; main12:21:50/absolute12:51:50. Exact final Cloud proof=infra60c07f9d381b44c35e43f4cc97e1641b65dd2b1d, tool ee54a8a2406f1eb39cd277d39afe4e656f5c9300, Build2200d07f FAILURE. Corrected own tool e8a77a29666fce5b9401d81deede3ec40f3b54bc is NOT_FRESHLY_COMPILED; portable guard-layout.patch SHA256661abc823cc9ecb81fa1ffaabe3ed2d6b61f7416204bfa3cfcd020f48b8058d8. Full pins in PROFILE/LAYOUT-PINS. No upstream tool push or maintainer integration.
