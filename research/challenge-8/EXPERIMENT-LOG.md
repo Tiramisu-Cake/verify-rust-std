@@ -6569,3 +6569,18 @@ UNBOUND_C2_LIFETIME_NOT_PROOF refusal AFTER fresh scaffold emission, beforekerne
 Source-operand mutation must refuse before AST. DefaultoffC1mustremain VF0.
 Success only unlocks separately reviewed sibling-scope projection; parse/shape
 failure remains a localized frontend preparation blocker, noC2proof.
+
+### 2026-10-10 00:02 UTC — A5DE terminal, close session
+
+Builda5de0e51-3663-4c7d-9844-ff6b122436ee proof=infra
+f925546602be4c606c0ce60416f1f12047412c6a SUCCESS transport,406sec.
+See cloud-build/sort4-native-entry-c1/C2-FRESH-A5DE-EVIDENCE.md. Exactunbound
+scaffold captured, all5/8/4calls, mandatory refusal before proof; no C2 theorem.
+Full normal/readonly MIR/refinement pass, source mutant refusesbeforeAST/body,
+fresh default-off C1VF0 unchangedpre/postpins/all6causalcontrols. Independent
+Sol code+artifact review complete. No newexperiment/build after23:52:33.
+
+Account closed2891/3600,709unused/no carry;8terminal/verifieddownload, own
+reservation/request/unresolved empty, v2/max2 unchanged. Native subset and
+bounded conditionalC1 remain separate; fullcaller/sort4 andprofileacceptance OPEN.
+Checkpoint END-CHECKPOINT-2026-10-10.md; no automaticnextsession.

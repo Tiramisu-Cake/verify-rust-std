@@ -42,3 +42,7 @@ Worker wrote only assigned own-worktree classifier/activation/recipe/review file
 Main checked diff boundaries. Synthetic classifier controls and saved-byte splice
 match ECD83; no local compiler/proof execution. Fresh Cloud compile/default-off C1
 regression/MIR/scaffold/negative admission outcomes remain NOT_RUN until artifact.
+
+Fresh A5DE independent Sol artifact review confirms exact scaffold/mandatory
+refusal before proof, full MIR support, unchanged default-off C1VF0 and source
+mutation gate. See C2-FRESH-A5DE-EVIDENCE.md. No C2 theorem or binding proved.

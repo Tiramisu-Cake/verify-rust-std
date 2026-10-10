@@ -1,14 +1,14 @@
 {
   "phase": "SORT4-NATIVE-ENTRY-C1-CLOUD-2026-10-10",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "authorization": "Direct user new autonomous 120-minute actual sort4/caller applicability session; native completed entry subset then actual c1 CURRENT recovery and c2; narrow annotations/extraction/frontend/projection with rationale, independent review and gates. Policy c7ca8c467aecf10a4b53039372ee97714f854ee3. New separate 3600 seconds, no carry.",
   "owner": "select-sort4",
   "start_utc": "2026-10-09T21:52:33Z",
   "main_deadline_utc": "2026-10-09T23:52:33Z",
   "deadline_utc": "2026-10-10T00:22:33Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 2485,
-  "remaining_build_seconds": 1115,
+  "used_build_seconds": 2891,
+  "remaining_build_seconds": 709,
   "maximum_build_timeout_seconds": 1740,
   "allowed_lanes": [
     "o26-sort4-caller-entry",
@@ -183,6 +183,34 @@
       "execution_seconds": 368,
       "download_verified": true,
       "archive_sha256": "535cb3e3594b263303d5725abbcc13c07a6fec0542e2c81e0da89d4dc7f3f47c"
+    },
+    {
+      "dispatch_token": "dispatch-9de256f94bf64b80961bcd7a7910cc7c",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-NATIVE-ENTRY-C1-CLOUD-2026-10-10",
+      "infra_sha": "f925546602be4c606c0ce60416f1f12047412c6a",
+      "proof_sha": "f925546602be4c606c0ce60416f1f12047412c6a",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "a27be314be1f97e76144bf13a8904cdb540d921bdc63049c365ab528f99ed994",
+      "reserved_seconds": 660,
+      "timeout_seconds": 600,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "a8713edccae36f40e908051b4554b5ab5f821c5f2f341247edca9ac5a73519ca",
+      "build_id": "a5de0e51-3663-4c7d-9844-ff6b122436ee",
+      "start_time": "2026-10-09T23:50:16.060290359Z",
+      "finish_time": "2026-10-09T23:57:00.918360Z",
+      "create_time": "2026-10-09T23:50:15.317556208Z",
+      "build_seconds": 406,
+      "accounted": true,
+      "execution_seconds": 405,
+      "download_verified": true,
+      "archive_sha256": "f87c9703fce601db67cb5e702e8c7481313d2ebea9c40e15f158b3882e833a99"
     }
-  ]
+  ],
+  "closed_utc": "2026-10-10T00:02:06Z",
+  "unused_seconds_closed": 709,
+  "carry_forward_seconds": 0,
+  "close_reason": "Main window ended23:52:33; last existing Build/evidence/accounting completed; no automatic next session."
 }

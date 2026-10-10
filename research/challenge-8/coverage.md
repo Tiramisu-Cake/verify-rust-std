@@ -779,3 +779,17 @@ strict checks retained. Exact source/fullMIR/preAST and one firstFnMut, no c2/se
 copy, no callable/fullsort4 summary. Raw supplied positive-size/type/dst/resource
 precondition remains; nativeentry subset independently derives source/F/thread,
 caller applicability and scratchMUbridge remain open. Classifier savedreplay only.
+
+Fresh46bb/ff5d4b85 extends the independently completed native entry subset with
+stock logical produce_type_interp<T/F>, checked typed identity helper, exact native
+frame/restored posts/return/leak: rawVF0/82 statements. Missing-producer controls
+fail exactly at helper16/caller43, independently reviewed; stock type_interp is
+NOT derived from native heap. Allnative lengths/ZST admitted, len>=8 ghost branch,
+no actual caller CFG/callback/unwind composition. Actualc1 still conditional on its
+supplied entry/positive size/optional dst, even though entry resource availability
+has separate completed evidence. No fullsort4/wholecaller/profileacceptance upgrade.
+
+FreshA5DE/f925 C2 preparatory unbound scaffold preserves all runtimecallinventory
+and full MIR; mandatory refusal before proof, independentartifactreview. Fresh
+default-off boundedC1VF0 withunchangedpins/all6causalcontrols. No C2binding/proof,
+wholecaller/sort4/profileacceptance upgrade. Closedaccount2891/3600sec,709unused.

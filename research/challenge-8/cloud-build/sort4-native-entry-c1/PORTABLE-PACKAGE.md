@@ -27,18 +27,23 @@ of historical overlays remain separately stated. New profile is not accepted.
 Cloud proof and causal controls, not static application, determine proof evidence.
 
 
-[C2 diagnostic delta](verifast-actual-c2-discovery-TEST.patch),
-[C2 profile](C2-DISCOVERY-PROFILE.json), [preimplementation rationale](C2-DISCOVERY-CARD.md)
-and [independent review](C2-DISCOVERY-IMPLEMENTATION-REVIEW.md) extend only the own
-translator, after the exact C1 profile. Full source ECD83, two cut bindings, original
-complete AST capture and intentional refusal; never a C2 proof. This package is
-internal and portable, pending Cloud compile/capture and later maintainer review.
+[C2 diagnostic delta](verifast-actual-c2-discovery-TEST.patch) applies after the
+exact C1 translator590483; [profile](C2-DISCOVERY-PROFILE.json),
+[rationale](C2-UNBOUND-SCAFFOLD-CARD.md),
+[independent review](C2-DISCOVERY-IMPLEMENTATION-REVIEW.md),
+[fresh outcome](C2-FRESH-A5DE-EVIDENCE.md).
 
-Current C2 package supersedes the original-AST diagnostic with an explicitly
-unbound declaration scaffold. See C2-UNBOUND-SCAFFOLD-CARD.md (independent design
-and implementation review). Exact second source196 let_lft is parsed by the stock
-declaration parser into a closed local declaration/placeholder block, and the
-translator always refuses before proof/summary. No lifetime escapes into C2.
-Patch2a1ffa0bb1b472869a7697eb93bc9c45d671870de930791b13e725baf67d9cc8
-from590483 yields8e467ca535bfcead8555a717897ec0355261ee8ccb011f98441e2dba80b5984f.
-Historical original diagnostic remains at dfe8a19/ff5d4b85; no proof upgraded.
+Current package is an explicitly unbound declaration scaffold. The exact second
+source196 let_lft is parsed by the stock declaration parser into a closed local
+declaration/placeholder block; no later annotation acquires its lifetime. The
+translator always refuses before proof/summary. All runtime paths remain.
+Patch SHA2562a1ffa0bb1b472869a7697eb93bc9c45d671870de930791b13e725baf67d9cc8
+yields translator8e467ca535bfcead8555a717897ec0355261ee8ccb011f98441e2dba80b5984f.
+Historical original diagnostic remains at dfe8a19/ff5d4b85.
+
+Fresh A5DE compiled, retained all5FnMut/8select/4copy and both declaration records,
+then intentionally refused before proof. Full MIR/refinement and source mutation
+admission controls pass. Default-off bounded C1 remains VF0 under unchanged pins.
+**C2 binding/theorem NOT_RUN; profile unaccepted**. This internal portable package
+was committed/pushed only to the assigned fork branch; no upstream publication
+or consumer pin update. Proper two-sibling scope projection is future work.

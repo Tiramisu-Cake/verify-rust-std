@@ -8,7 +8,9 @@ Stock produce_type_interp in frozen verifast.ml783–803 permits a checked pure 
 in a real Rust function (ordinary lemma contexts restricted). Saved bridge reaches
 T/F producers46–47 and asserts95–96. This provides logical type interpretation,
 not own/storage/heap resources; no new producer or trusted axiom was added. Whole
-bridge still fails and these observations alone are not completed bridge proof.
+bridge still fails. Fresh46bb/ff5d separately completes the typed source-only
+identity/frame lemma with both stock producers and explicit type-chunk leaks;
+that theorem does not establish actual guards or optional destination ownership.
 
 The raw C1 pre additionally needs positive T size and array_<T>(dst,4,options).
 Native scratch remains array/foreach MaybeUninit ownership. Existing opening
