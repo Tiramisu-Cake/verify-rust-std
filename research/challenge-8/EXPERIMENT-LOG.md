@@ -6849,3 +6849,12 @@ Main ended12:20:59; no new Builds/experiments afterward. Six own Builds fully
 accounted/download_verified,2675/3600sec,925unused closed/no carry; active=null,
 terminal reservations reconciled, own ready request withdrawn. Final checkpoint
 cloud-build/sort4-c3-bound-prefix/END-CHECKPOINT-2026-10-10.md. No automatic restart.
+
+2026-10-10 13:00:22 UTC: new native→actualC1–C4 session, main15:00:22,
+absolute15:30:22 finishing-only; fresh3600Cloudsec no carry. InitialHEAD9240f9d4
+clean,separategitdir/index,originforkfetch,policyc7ca8c46 read/adoptionretained.
+NewownphaseSORT4-NATIVE-C4-CLOUD-2026-10-10, canonicalc1lane, stableowner/v2max2.
+Card cloud-build/sort4-native-c4/SEMANTIC-CARD.md records exactprofile/resource
+gap and isolated native/guard/MU/admission diagnostics. No earlyreservation,
+no selector,strictdraft or newtrustedsemantic implementation. OldC4/nativePASS
+remain original profile results, newcomposition NOT_RUN.

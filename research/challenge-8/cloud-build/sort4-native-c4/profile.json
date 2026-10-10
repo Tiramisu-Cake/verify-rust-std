@@ -1,0 +1,32 @@
+{
+  "classification": "EXPERIMENTAL_NATIVE_PREPARATION_ON_FROZEN_C4",
+  "phase_id": "SORT4-NATIVE-C4-CLOUD-2026-10-10",
+  "cloud_enabled": true,
+  "profile_accepted": false,
+  "dispatch_authorized": true,
+  "run_mode": "FROZEN_C4_COMPATIBILITY_AND_RESOURCE_PREPARATION",
+  "tool_head": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "frozen_translator_sha256": "1eab6eb54fe5c23d53ca72a6d9dfcbbff09c09ffaf26c48a4f450f5068a8d313",
+  "frozen_kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+  "frozen_snapshot_file": "FROZEN-C4-SNAPSHOT.json",
+  "native_slice_alias_overlay": false,
+  "strict_cut_draft": false,
+  "native_cases": [
+    "source-typed-frame-positive",
+    "source-typed-missing-T-negative",
+    "source-typed-missing-F-negative"
+  ],
+  "c4_controls": [
+    "normal-false-post",
+    "c1-unwind-false-assert",
+    "c2-unwind-false-assert",
+    "c3-unwind-false-assert",
+    "c4-unwind-false-assert"
+  ],
+  "native_to_c1": "NOT_RUN",
+  "native_to_c4": "NOT_RUN",
+  "actual_caller_to_sort4": "NOT_PROVED",
+  "proof_scope": "Frozen C4 compatibility and independently derived native resources; no assumed bounded callable summary",
+  "translator_sha256": "1eab6eb54fe5c23d53ca72a6d9dfcbbff09c09ffaf26c48a4f450f5068a8d313",
+  "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c"
+}

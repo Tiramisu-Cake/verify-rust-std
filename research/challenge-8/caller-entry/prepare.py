@@ -249,7 +249,10 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
     _need(case in CASES, f"unknown case {case!r}; expected one of {CASES}")
     _need(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
           "GITHUB_ACTIONS" not in os.environ and
-          os.environ.get("LANE") == "o26-sort4-caller-entry",
+          (os.environ.get("LANE") == "o26-sort4-caller-entry" or
+           (os.environ.get("LANE") == "o26-sort4-c1-current-recovery" and
+            os.environ.get("SORT4_NATIVE_C4_PHASE") == "1" and
+            os.environ.get("SORT4_NATIVE_C4_PHASE_ID") == "SORT4-NATIVE-C4-CLOUD-2026-10-10")),
           "caller-entry preparation is restricted to the designated cloud-build lane")
     repo = repo.resolve()
     out = out.resolve()

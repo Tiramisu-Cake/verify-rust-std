@@ -58,6 +58,11 @@ C3_PREFIX_START='2026-10-10T10:20:59Z'
 C3_PREFIX_MAIN_DEADLINE='2026-10-10T12:20:59Z'
 C3_PREFIX_DEADLINE='2026-10-10T12:50:59Z'
 C3_PREFIX_LANES=frozenset(('o26-sort4-c1-current-recovery','o26-compatible-strict-cut-test'))
+NATIVE_C4_PHASE='SORT4-NATIVE-C4-CLOUD-2026-10-10'
+NATIVE_C4_START='2026-10-10T13:00:22Z'
+NATIVE_C4_MAIN_DEADLINE='2026-10-10T15:00:22Z'
+NATIVE_C4_DEADLINE='2026-10-10T15:30:22Z'
+NATIVE_C4_LANES=frozenset(('o26-sort4-c1-current-recovery',))
 LANE_PATTERN=re.compile(r'[a-z][a-z0-9-]{0,63}\Z')
 PHASE_PATTERN=re.compile(r'[A-Z][A-Z0-9-]{0,100}\Z')
 OWNER_PATTERN=re.compile(r'[A-Za-z0-9._-]{1,80}\Z')
@@ -71,9 +76,9 @@ def invoke(args):
  if p.returncode:raise RuntimeError(p.stderr.strip())
  return json.loads(p.stdout) if p.stdout.strip() else None
 
-def envs(infra,proof,lane):return [f'INFRA_SHA={infra}',f'PROOF_SHA={proof}',f'LANE={lane}',f'PROOF_IMAGE={UBUNTU}','CLOUD_BUILD_ID=${BUILD_ID}','CLOUD_BUILD_PROJECT_ID=${PROJECT_ID}','CLOUD_BUILD_REGION=global','SMALLSORT_EXECUTION_PROVIDER=cloud-build','SUBMITTED_CONFIG_SHA=${_CONFIG_SHA}',] + [f'CONFIG_PART_{i}=${{_CONFIG_{i}}}' for i in range(8)]
+def envs(infra,proof,lane,phase_id=None):return [f'INFRA_SHA={infra}',f'PROOF_SHA={proof}',f'LANE={lane}',f'PROOF_IMAGE={UBUNTU}','CLOUD_BUILD_ID=${BUILD_ID}','CLOUD_BUILD_PROJECT_ID=${PROJECT_ID}','CLOUD_BUILD_REGION=global','SMALLSORT_EXECUTION_PROVIDER=cloud-build','SUBMITTED_CONFIG_SHA=${_CONFIG_SHA}',] + [f'CONFIG_PART_{i}=${{_CONFIG_{i}}}' for i in range(8)] + (['SORT4_NATIVE_C4_PHASE=1','SORT4_NATIVE_C4_PHASE_ID='+NATIVE_C4_PHASE] if phase_id==NATIVE_C4_PHASE else [])
 
-def config(infra,proof,lane,seconds,token,source_payload=None):
+def config(infra,proof,lane,seconds,token,source_payload=None,phase_id=None):
  work_seconds=seconds-70
  work='''set -euo pipefail
  export DEBIAN_FRONTEND=noninteractive
@@ -164,7 +169,7 @@ try:
 except Exception as e:
  print('INCOMPLETE_EVIDENCE',type(e).__name__,str(e));sys.exit(2)
 '''
- return {'steps':[{'id':'execute','name':UBUNTU,'entrypoint':'bash','args':['-ceu',body],'env':envs(infra,proof,lane)+source_env,'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane)+['PACKAGER_BYTES='+package],'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':SDK_PYTHON,'args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':{'machineType':'E2_STANDARD_2','logging':'CLOUD_LOGGING_ONLY'},'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder',**{f'_CONFIG_{i}':'placeholder' for i in range(8)},**{f'_SOURCE_{i}':part for i,part in enumerate(source_parts)}}}
+ return {'steps':[{'id':'execute','name':UBUNTU,'entrypoint':'bash','args':['-ceu',body],'env':envs(infra,proof,lane,phase_id)+source_env,'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane,phase_id)+['PACKAGER_BYTES='+package],'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':SDK_PYTHON,'args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':{'machineType':'E2_STANDARD_2','logging':'CLOUD_LOGGING_ONLY'},'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder',**{f'_CONFIG_{i}':'placeholder' for i in range(8)},**{f'_SOURCE_{i}':part for i,part in enumerate(source_parts)}}}
 
 def reconcile(state,ledger,ledger_path):
  for item in ledger['builds']:
@@ -271,6 +276,7 @@ def authorized_phase(a,ledger):
  if not isinstance(ledger.get('ceiling_build_seconds'),int) or ledger['ceiling_build_seconds']<=0:raise SystemExit('Invalid phase ceiling')
  if a.phase_id==MISSION_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger.get('allowed_lanes',[]))!=MISSION_LANES or ledger.get('start_utc')!=MISSION_START or ledger.get('main_deadline_utc')!=MISSION_MAIN_DEADLINE or ledger.get('deadline_utc')!=MISSION_DEADLINE):raise SystemExit('Mission phase requires its exact separate account, owner, window and lanes')
  if a.phase_id==COMPOSE_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger.get('allowed_lanes',[]))!=COMPOSE_LANES or ledger.get('start_utc')!=COMPOSE_START or ledger.get('main_deadline_utc')!=COMPOSE_MAIN_DEADLINE or ledger.get('deadline_utc')!=COMPOSE_DEADLINE):raise SystemExit('Composition phase requires its exact separate account, owner, window and lanes')
+ if a.phase_id==NATIVE_C4_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger.get('allowed_lanes',[]))!=NATIVE_C4_LANES or ledger.get('start_utc')!=NATIVE_C4_START or ledger.get('main_deadline_utc')!=NATIVE_C4_MAIN_DEADLINE or ledger.get('deadline_utc')!=NATIVE_C4_DEADLINE):raise SystemExit('Native C4 phase requires exact separate account, owner, window and lane')
  if a.phase_id==C3_PREFIX_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger.get('allowed_lanes',[]))!=C3_PREFIX_LANES or ledger.get('start_utc')!=C3_PREFIX_START or ledger.get('main_deadline_utc')!=C3_PREFIX_MAIN_DEADLINE or ledger.get('deadline_utc')!=C3_PREFIX_DEADLINE):raise SystemExit('C3 prefix phase requires its exact separate account, owner, window and lane')
  if a.phase_id==NIGHT_PHASE and ledger['ceiling_build_seconds']!=10800:raise SystemExit('Select phase requires its separate 10800-second ceiling')
  if a.phase_id==DAY_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4'):raise SystemExit('Day select phase requires its separate 3600-second account and owner')
@@ -283,11 +289,12 @@ def authorized_phase(a,ledger):
  if a.phase_id==NEXT_SELECT_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or not set(ledger['allowed_lanes'])<=NEXT_SELECT_LANES or ledger.get('start_utc')!=NEXT_SELECT_START or ledger.get('main_deadline_utc')!=NEXT_SELECT_MAIN_DEADLINE):raise SystemExit('Next select phase requires its exact separate account, owner, window and lanes')
  try:deadline=datetime.datetime.fromisoformat(ledger['deadline_utc'].replace('Z','+00:00'))
  except (KeyError,AttributeError,ValueError) as error:raise SystemExit('Invalid phase deadline') from error
- cutoff=datetime.datetime.fromisoformat((C3_PREFIX_DEADLINE if a.phase_id==C3_PREFIX_PHASE else COMPOSE_DEADLINE if a.phase_id==COMPOSE_PHASE else MISSION_DEADLINE if a.phase_id==MISSION_PHASE else C1_BRIDGE_DEADLINE if a.phase_id==C1_BRIDGE_PHASE else C1_CALLER_ENTRY_DEADLINE if a.phase_id==C1_CALLER_ENTRY_PHASE else C1_ACTUAL_DEADLINE if a.phase_id==C1_ACTUAL_PHASE else C1_DEADLINE if a.phase_id==C1_PHASE else NEXT_SELECT_DEADLINE if a.phase_id==NEXT_SELECT_PHASE else AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
+ cutoff=datetime.datetime.fromisoformat((NATIVE_C4_DEADLINE if a.phase_id==NATIVE_C4_PHASE else C3_PREFIX_DEADLINE if a.phase_id==C3_PREFIX_PHASE else COMPOSE_DEADLINE if a.phase_id==COMPOSE_PHASE else MISSION_DEADLINE if a.phase_id==MISSION_PHASE else C1_BRIDGE_DEADLINE if a.phase_id==C1_BRIDGE_PHASE else C1_CALLER_ENTRY_DEADLINE if a.phase_id==C1_CALLER_ENTRY_PHASE else C1_ACTUAL_DEADLINE if a.phase_id==C1_ACTUAL_PHASE else C1_DEADLINE if a.phase_id==C1_PHASE else NEXT_SELECT_DEADLINE if a.phase_id==NEXT_SELECT_PHASE else AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
  if deadline.tzinfo is None or deadline>cutoff:raise SystemExit('Phase deadline exceeds its authorized cutoff')
  if a.phase_id==DAY_PHASE and deadline!=cutoff:raise SystemExit('Day select phase requires its exact absolute deadline')
  if a.phase_id==AFTERNOON_PHASE and deadline!=cutoff:raise SystemExit('Afternoon select phase requires its exact absolute deadline')
  if a.phase_id==NEXT_SELECT_PHASE and deadline!=cutoff:raise SystemExit('Next select phase requires its exact absolute deadline')
+ if a.phase_id==NATIVE_C4_PHASE and deadline!=cutoff:raise SystemExit('Native C4 phase requires exact absolute deadline')
  if a.phase_id==C3_PREFIX_PHASE and deadline!=cutoff:raise SystemExit('C3 prefix phase requires its exact absolute deadline')
  if a.phase_id==C1_BRIDGE_PHASE and deadline!=cutoff:raise SystemExit('C1 caller-bridge phase requires exact absolute deadline')
  if a.phase_id==C1_CALLER_ENTRY_PHASE and deadline!=cutoff:raise SystemExit('C1 caller-entry phase requires its exact absolute deadline')
@@ -361,6 +368,7 @@ def run_command(a,state,ledger,ledger_path):
   if a.source_mode!='pinned-objects':raise SystemExit('New phase requires pinned Git objects')
   now=datetime.datetime.now(datetime.timezone.utc)
   if a.phase_id==COMPOSE_PHASE and now>=datetime.datetime.fromisoformat(COMPOSE_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('Composition main window ended; no new experiment')
+  if a.phase_id==NATIVE_C4_PHASE and now>=datetime.datetime.fromisoformat(NATIVE_C4_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('Native C4 main window ended; no new experiment')
   if a.phase_id==C3_PREFIX_PHASE and now>=datetime.datetime.fromisoformat(C3_PREFIX_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('C3 prefix main window ended; no new experiment')
   if a.phase_id==MISSION_PHASE and now>=datetime.datetime.fromisoformat(MISSION_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('Mission main window ended; no new experiment')
   if a.phase_id==C1_ACTUAL_PHASE and now>=datetime.datetime.fromisoformat(C1_ACTUAL_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('Actual C1 main window ended; no new experiment')
@@ -388,7 +396,7 @@ def run_command(a,state,ledger,ledger_path):
    spec=importlib.util.spec_from_file_location('source_input',DIR/'source-input.py')
    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
    source_payload=module.make_payload(ROOT,a.infra_sha,a.proof_sha,a.lane)
-  cfg=config(a.infra_sha,a.proof_sha,a.lane,a.timeout,token,source_payload)
+  cfg=config(a.infra_sha,a.proof_sha,a.lane,a.timeout,token,source_payload,a.phase_id)
   if any(len(arg.encode())>10000 for step in cfg['steps'] for arg in step.get('args',[])):raise SystemExit('Config argument exceeds Cloud Build 10000-byte limit; no dispatch')
   source_values={k:v for k,v in cfg['substitutions'].items() if k.startswith('_SOURCE_')}
   for key in source_values:cfg['substitutions'][key]='placeholder'
