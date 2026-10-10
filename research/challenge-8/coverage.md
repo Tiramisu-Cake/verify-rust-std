@@ -830,3 +830,7 @@ are admission only. Zero strict/helper/native proof entries, full trust matrix
 NOT_RUN, profile disabled/unaccepted. Environment correction is draft Cloud
 NOT_RUN. No change to conditional C1→C4 result or caller/native applicability.
 Session closed2675/3600sec,925unused no carry; no active/request/reservation.
+
+## Maintainer integration 2026-10-10 — PARTIAL
+
+Fresh bounded C1→C4 PASS with strict C4 kernel and nine intended VC negatives in af4e44a3/tool423d5e3. Selector source/MIR/AST fingerprints exact but actual proof refused unrelated generic-guard setup; C4+first actual select composition not executed. Runner correction UNRUN, FRAME/cleanup/source-admission interaction gates remain open. No whole-sort4/caller summary or profile acceptance. See cloud-build/verifast-c4-select-integration/END-CHECKPOINT-2026-10-10.md.

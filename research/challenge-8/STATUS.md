@@ -1,14 +1,7 @@
-# VeriFast maintainer: C4 + pointer selector integration — IN PROGRESS
+# VeriFast maintainer C4 + selector — PARTIAL; session CLOSED
 
-Session 12:59:11–14:59:11 UTC, finish-only until15:29:11; owner verifast,
-new3600Cloudseconds. [Scope/semantic card](cloud-build/verifast-c4-select-integration/PHASE.md),
-[ledger](cloud-build/verifast-c4-select-integration/BUDGET.json).
+[Checkpoint](cloud-build/verifast-c4-select-integration/END-CHECKPOINT-2026-10-10.md), [manifest](cloud-build/verifast-c4-select-integration/manifest.json), [ledger](cloud-build/verifast-c4-select-integration/BUDGET.json). Policy ACK c7ca8c467aecf10a4b53039372ee97714f854ee3.
 
-Exact C4 inherited bounded proof and historical FRAME-shadow selector PASS
-are on different profiles. Task: minimal reviewed translator transfer, same
-C4 strict kernel, fresh selector/C4 and real first-select composition.
-No whole-sort4 summary, no new caller/native-entry theorem or profile acceptance.
-Previous maintainer MDnew fullmake/package remains unchanged; branch old select
-STATUS preserved in [entry history](cloud-build/verifast-c4-select-integration/STATUS-ENTRY-HISTORICAL.md).
+Combined tool423d5e3c / tested infra d90a1a8e compiled in af4e44a3. Fresh C4 PASS and nine intended negatives; strict lifetime, pointer-value and MDnew controls recorded. Selector refused an unrelated generic-guard admission before proof; composition NOT_RUN_PARENT_FAILED. Corrected runner setup and tighter gates saved but UNRUN. READY_FOR_INTEGRATION_REVIEW not reached.
 
-Current step: dependency closure and independent preimplementation review.
+891/3600 Cloud seconds charged;2709 expired. Own ledger CLOSED, no active/unresolved own build, request withdrawn; foreign reservations preserved. Window ended; no automatic new session. Historical select STATUS archived at phase STATUS-ENTRY-HISTORICAL.md. Previous upstream MDnew package untouched.

@@ -6854,3 +6854,7 @@ cloud-build/sort4-c3-bound-prefix/END-CHECKPOINT-2026-10-10.md. No automatic res
 ## 2026-10-10 maintainer C4 + selector integration
 
 New authorized session; [preimplementation semantic card](cloud-build/verifast-c4-select-integration/PHASE.md). Policy c7ca8c4, owner verifast, new3600Cloudseconds. Historical MDnew fullmake and selector/C4 proofs retained under their own inputs; no automatic transfer.
+
+2026-10-10 maintainer C4+selector session: Build3e8a51d5 on481d4e69 failedCloudconsolebuild at SwitchStmt pattern alias;292.5s execution/294s charge, integrity-verified archive980f32a6c452ebbec75cc70ac01cb2567f69471175b477850f2dc815ad6db5a5. Buildca2155c8 on564f8816 failedCloudcompile due PackageDecl/ModuleDecl varianttype confusion;292scharge. Neither run reached proof; neither is semantic negative. Fixed typedinventory, source-module searchpaths and sparse fixture paths. Thirdcandidate d90a1a8e with423d5e3tool submitted; profile notaccepted.
+
+2026-10-10 maintainer closure: af4e44a3 on d90a1a8e/tool423d5e3 compiled; meaningful source/MIR/selector AST pins exact; C4 positive and nine target VC negatives, strict lifetime/pointer/MDnew fixture evidence. Selector blocked by wrongly activated unrelated generic-guard admission before proof, composition NOT_RUN_PARENT_FAILED. Setup correction and gate tightening UNRUN. Archive24a016d... integrity verified,305s, total891/3600. PARTIAL/session CLOSED; own reservation none, unused2709 expired. See maintainer phase checkpoint/manifest/raw review.
