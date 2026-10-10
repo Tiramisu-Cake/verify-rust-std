@@ -1,14 +1,14 @@
 {
   "phase": "SORT4-NATIVE-COMPOSE-C1-CLOUD-2026-10-10",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "authorization": "Direct owner autonomous actual sort4/caller mission resumes STOP within this assignment: native entry -> actual c1 CURRENT composition, then c2; narrow internal helpers/frontend/projection/MU interfaces with rationale independent review and gates. Policy c7ca8c467aecf10a4b53039372ee97714f854ee3. New separate 3600 seconds no carry.",
   "owner": "select-sort4",
   "start_utc": "2026-10-10T00:34:15Z",
   "main_deadline_utc": "2026-10-10T02:34:15Z",
   "deadline_utc": "2026-10-10T03:04:15Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 1716,
-  "remaining_build_seconds": 1884,
+  "used_build_seconds": 2131,
+  "remaining_build_seconds": 1469,
   "maximum_build_timeout_seconds": 1740,
   "allowed_lanes": [
     "o26-sort4-caller-entry",
@@ -135,6 +135,34 @@
       "execution_seconds": 385,
       "download_verified": true,
       "archive_sha256": "b3c136474a10e7f92b491afa85542c6301419ef397dcdc42074b4b3ba9f979e8"
+    },
+    {
+      "dispatch_token": "dispatch-9b74bfc559bf475e8abcc6daf6b1c7db",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-NATIVE-COMPOSE-C1-CLOUD-2026-10-10",
+      "infra_sha": "7c8e34610a52bebc7212c6e611d1afa2e70c085b",
+      "proof_sha": "7c8e34610a52bebc7212c6e611d1afa2e70c085b",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "619dfe350798dc85d6f0d8cb2e816ddf4e4f689d7ff5b4b6333a69535f9fd4fe",
+      "reserved_seconds": 1060,
+      "timeout_seconds": 1000,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "94b4b97b7a6ebe720a181da44ad54de4a24ab41741101c8e5baa798a8bc156bf",
+      "build_id": "f4abe251-23f9-459e-a418-6372b6553057",
+      "start_time": "2026-10-10T02:00:54.247662961Z",
+      "finish_time": "2026-10-10T02:07:47.784247Z",
+      "create_time": "2026-10-10T02:00:53.445494900Z",
+      "build_seconds": 415,
+      "accounted": true,
+      "execution_seconds": 414,
+      "download_verified": true,
+      "archive_sha256": "e2c500fdce968124c177dfbce638e5f812ce598c4834c87e643bc6da2c1adad4"
     }
-  ]
+  ],
+  "closed_utc": "2026-10-10T02:17:57Z",
+  "unused_seconds_closed": 1469,
+  "carry_forward_seconds": 0,
+  "close_reason": "Authorized bounded C1+C2 milestone completed with independent raw/kernel review after native composition dependency checkpoint; own terminal evidence/account closed. Full sort4/native/caller mission remains open. No automatic next session."
 }

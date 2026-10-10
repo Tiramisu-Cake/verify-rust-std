@@ -6671,3 +6671,37 @@ gate before C2 bound patch/console build/positive/controls: those are NOT_RUN.
 Saved inventory has5/8/4 and exact source223 FnMut. Localized worker repair must
 first replay saved/live row shapes and causal mutants; no profile/classifier
 acceptance change and no new proof credit from this preparation failure.
+
+### Fresh bounded C1+C2 full verdict f4abe251
+
+Proof=infra `7c8e34610a52bebc7212c6e611d1afa2e70c085b`, Build
+`f4abe251-23f9-459e-a418-6372b6553057`, create02:00:53.445494900,
+finish02:07:47.784247 UTC, SUCCESS diagnostic415sec. Session2131/3600.
+Archive `e2c500fdce968124c177dfbce638e5f812ce598c4834c87e643bc6da2c1adad4`
+and all text chunks/index verified. **Fresh positive VF0,184 statements**;
+actual source-linked first and second FnMut, separate sibling cmp/cmp2 bindings
+and compiler Output=bool registrations. Full original CURRENT source/F/thread/
+optional-dst normal, C1-direct-unwind, C2-direct-unwind posts/return/leak;
+same-version recover_pair/join verified before target. Strict dead-code retained.
+C2 entry CURRENT resources follow C1 normal recovery/join within this one proof;
+C1 unwind exits before C2. Raw entry source/F/thread/types/sizeT>0/dst remain
+supplied; native→c1/actual caller CFG/caller→sort4 absent. Normal boundary227
+before c3/select/copy; not a whole-sort4 callable summary.
+
+All7 controls reached their intended first VC; source operand mutant refused
+before target. Default-off C1 VF0 and mandatory unbound scaffold refusal remain.
+Saved service replays are not proof. Independent review directly verified pins,
+postAST96b7declaration143=125+8+10/future18absent, sibling bindings and raw
+outcomes/control attribution. Per-local chunk identity is not printed at verbose2;
+allocation admission is justified separately by deterministic frozen DeclStmt
+block registration/fresh producer and free_locals on each observed scope/root
+exit, not inferred from a green count. [Exact fresh evidence](cloud-build/sort4-c2-bound-prefix/FRESH-F4ABE251-EVIDENCE.md)
+and [independent raw/kernel review](cloud-build/sort4-c2-bound-prefix/FRESH-F4ABE251-REVIEW.md).
+Experimental proof/projection assessment does not accept a tool profile or
+rewrite the original collector's pending fields. No new run solely for verbosity.
+
+Own session account closed2026-10-10T02:17:57Z:2131 charged,1469 unused closed,
+carry0. All6 terminal/downloadverified; own reservation/request absent, v2/max2
+preserved. Read-only C3 design identifies dynamic cross-half CURRENT ownership
+and third lifetime/Output binding as next fullsort4 gate; no C3 experiment.
+Final checkpoint/evidence/coverage changes are documentation only, no proof upgrade.

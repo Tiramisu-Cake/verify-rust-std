@@ -793,3 +793,18 @@ FreshA5DE/f925 C2 preparatory unbound scaffold preserves all runtimecallinventor
 and full MIR; mandatory refusal before proof, independentartifactreview. Fresh
 default-off boundedC1VF0 withunchangedpins/all6causalcontrols. No C2binding/proof,
 wholecaller/sort4/profileacceptance upgrade. Closedaccount2891/3600sec,709unused.
+
+Fresh2026-10-10 f4abe251/7c8e3461 extends bounded actual C1 through C2:
+VF0,184 statements; exact first/second FnMut and distinct sibling cmp/cmp2,
+compiler-derived Output=bool twice, CURRENT source/F/thread resources pass from
+C1 normal recovery to C2, complete original normal/C1-unwind/C2-unwind resource
+posts/return/leak. Raw entry source/F/thread/types/sizeT>0/optional-dst remain
+supplied. Independent raw/kernel review PASS for exact bounded projection and
+allocation placement (143=125+8+10, future18 omitted after boundary; deterministic
+block producer/free rules plus all observed exit frees), all7first-VC controls,
+source-hash refusal; default-off C1 VF0/unbound scaffold refusal retained.
+Native→C1 composition still absent: native chain lacks operative strict cut,
+Noop rejected; immutable helper capture is diagnostic only. Actual caller CFG,
+caller→sort4, optional-dst/MU applicability, ZST and fullsort4 remain OPEN.
+All profiles experimental/unaccepted; saved classifier/MIR/AST replay is not proof.
+[Fresh evidence/review](cloud-build/sort4-c2-bound-prefix/FRESH-F4ABE251-EVIDENCE.md).
