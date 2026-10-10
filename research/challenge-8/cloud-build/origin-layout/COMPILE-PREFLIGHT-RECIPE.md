@@ -83,7 +83,7 @@ Compile-only source transport closure: the current merge recipe omits
 `concrete-drop-body.py` and `onecell-drop-interface.py`. Both remain tracked
 in the repository and are outside the compile-only dependency path; startup
 static preflight parses the driver without importing these modules, and the
-early compile-only exit never invokes it. Before bridge-minimal, either restore
-these inputs within the fixed payload bound or make unused legacy imports lazy
-without changing cases/contracts. The fixed source transport/coordinator is
+early compile-only exit never invokes it. The driver loads these legacy-only modules after
+the bridge-minimal early return; all legacy invocations and case contracts
+remain intact. Before selecting a legacy campaign, restore both recipe inputs. The fixed source transport/coordinator is
 unchanged. This exclusion supplies no proof credit.

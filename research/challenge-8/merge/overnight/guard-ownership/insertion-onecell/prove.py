@@ -29,9 +29,7 @@ def load(name: str, path: Path):
 md_classifier = load("md_control_classifier", HERE / "md_classifier.py")
 layout_controls = load("unit_layout_controls", HERE.parents[3] / "cloud-build/origin-layout/layout-controls.py")
 concrete_consumer = load("concrete_u64_consumer", HERE.parents[3] / "cloud-build/origin-layout/concrete-consumer.py")
-concrete_drop_body = load("concrete_drop_body", HERE.parents[3] / "cloud-build/origin-layout/concrete-drop-body.py")
 guard_storage_controls = load("guard_storage_controls", HERE.parents[3] / "cloud-build/origin-layout/guard-storage-controls.py")
-onecell_drop_interface = load("onecell_drop_interface", HERE.parents[3] / "cloud-build/origin-layout/onecell-drop-interface.py")
 origin_controls = load("incoming_origin_controls", HERE.parents[3] / "cloud-build/incoming-origin/controls/run.py")
 span_controls = load("allocation_span_controls", HERE.parents[3] / "cloud-build/incoming-span-lifetime/controls/run.py")
 prep = load("onecell_prepare", HERE / "prepare.py")
@@ -614,6 +612,10 @@ def main() -> int:
             "combined_profile_acceptance": False}
         (args.evidence / "aggregate.json").write_text(json.dumps(aggregate, indent=2)+"\n")
         return 0 if all_matched else 1
+
+    # Legacy Drop modules are not dependencies of the bounded bridge campaign.
+    concrete_drop_body = load("concrete_drop_body", HERE.parents[3] / "cloud-build/origin-layout/concrete-drop-body.py")
+    onecell_drop_interface = load("onecell_drop_interface", HERE.parents[3] / "cloud-build/origin-layout/onecell-drop-interface.py")
 
     # Execute isolated address-span controls before any actual one-cell cases.
     mechanism_summary = span_controls.run(args.evidence, args, env, execute_case)
