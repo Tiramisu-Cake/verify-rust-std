@@ -184,7 +184,7 @@ report = {
  'accepted':False,
  'proof_attempted':False,
  'candidate_head':__import__('subprocess').check_output(['git','-C',str(home),'rev-parse','HEAD'],text=True).strip(),
- 'profile':'experimental-merge-qualified-guard-onecell-v1',
+ 'profile':p['profile'],
  'profile_sha256':sha(profile_path),
  'stages':{},
  'artifacts':{},

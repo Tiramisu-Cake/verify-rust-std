@@ -194,7 +194,7 @@ def _prepare(evidence: Path) -> dict:
                 b"guard_dst[..1] |-> _ &*& <u64>.own(t, ready_current);\n" +
                 CALLER_READY_FALSE)
             caller_proof += caller_ready_false
-        adapted_recovery = prep.RECOVER.replace(b"gap_guard.src", b"recovery_src").replace(
+        adapted_recovery = body._specialize(prep.RECOVER).replace(b"gap_guard.src", b"recovery_src").replace(
             b"gap_guard.dst", b"recovery_dst")
         adapted_recovery = adapted_recovery.replace(
             b"        //@ end_ref_readonly(held_ref);\n",
@@ -222,9 +222,13 @@ def _prepare(evidence: Path) -> dict:
                                  prep.GUARD + caller_proof,
                                  "caller pre-Drop resources")
         scope_end = b"        }\n    }\n}\n"
-        verified = _replace_once(verified, scope_end,
-                                 b"        }\n" + recovery + b"    }\n}\n",
-                                 "caller post-Drop recovery")
+        if verified.count(CALLER_SIGNATURE) != 1:
+            raise ValueError("selected caller source binding not unique")
+        prefix, caller = verified.split(CALLER_SIGNATURE, 1)
+        caller = _replace_once(caller, scope_end,
+                               b"        }\n" + recovery + b"    }\n}\n",
+                               "caller post-Drop recovery")
+        verified = prefix + CALLER_SIGNATURE + caller
         ghosts = [case_own, alignment, effect, case_contract, annotations,
                   caller_proof, recovery_bindings, recovery]
         stripped = verified
