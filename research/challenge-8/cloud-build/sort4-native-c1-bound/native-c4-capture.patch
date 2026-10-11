@@ -1,0 +1,215 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -6559,12 +6559,55 @@
+     end;
+     requested
+ 
++  (* Diagnostic for one exact native four-call source.  This mode emits the
++     original AST and refuses before verification; it adds no proof rewrite. *)
++  let native_c4_capture_requested () =
++    let requested =
++      match Sys.getenv_opt "SORT4_NATIVE_C4_CAPTURE" with
++      | None | Some "0" -> false
++      | Some "1" -> true
++      | _ -> failwith "NATIVE-C4-CAPTURE: malformed opt-in" in
++    if requested then begin
++      let off name =
++        match Sys.getenv_opt name with
++        | None | Some "0" -> true
++        | _ -> false in
++      let no_control name =
++        match Sys.getenv_opt name with
++        | None | Some "none" -> true
++        | _ -> false in
++      if Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "0" ||
++         Sys.getenv_opt "SORT4_STRICT_LFT_CUT" <> Some "1" ||
++         not (List.for_all off
++           ["SORT4_NATIVE_OPAQUE_C1_CAPTURE";
++            "SORT4_NATIVE_OPAQUE_C1_BOUND";
++            "SORT4_ACTUAL_C1_PREFIX_TEST";
++            "SORT4_ACTUAL_C2_DISCOVERY_TEST";
++            "SORT4_ACTUAL_C2_BOUND_PREFIX_TEST";
++            "SORT4_ACTUAL_C3_CAPTURE_TEST";
++            "SORT4_ACTUAL_C3_BOUND_PREFIX_TEST";
++            "SORT4_ACTUAL_C4_CAPTURE_TEST";
++            "SORT4_ACTUAL_C4_BOUND_PREFIX_TEST";
++            "SORT4_C1_OUTPUT_EQ";
++            "SORT4_HRTB_OUTPUT";
++            "SORT4_STRICT_LFT_RELOCATE"]) ||
++         Sys.getenv_opt "SORT4_HRTB_OUTPUT_TARGETS" <> None ||
++         not (List.for_all no_control
++           ["SORT4_NATIVE_OPAQUE_C1_BOUND_CONTROL";
++            "SORT4_C1_PREFIX_CONTROL"; "SORT4_C2_BOUND_CONTROL";
++            "SORT4_C3_BOUND_CONTROL"; "SORT4_C4_BOUND_CONTROL";
++            "SORT4_C1_DEBT_CONTROL"])
++      then failwith "NATIVE-C4-CAPTURE: isolated capture environment required"
++    end;
++    requested
++
+   let translate_body (body_tr_defs_ctx : body_tr_defs_ctx) (body_cpn : BodyRd.t)
+       =
+     let native_c1_capture_requested =
+       native_opaque_c1_capture_requested () in
+     let native_c1_bound_requested =
+       native_opaque_c1_bound_requested () in
++    let native_c4_capture_requested = native_c4_capture_requested () in
+     let prefix_requested =
+       match Sys.getenv_opt "SORT4_ACTUAL_C1_PREFIX_TEST" with
+       | None | Some "0" -> false
+@@ -6751,17 +6794,23 @@
+     let translate_c2_scaffold_stmt gs_cpn =
+       let raw = AnnotationRd.raw_get gs_cpn in
+       if ((c2_discovery_requested || c2_bound_requested || c3_capture_requested ||
+-           c3_bound_requested || c4_capture_requested || c4_bound_requested) &&
++           c3_bound_requested || c4_capture_requested || c4_bound_requested ||
++           native_c4_capture_requested) &&
+           raw = "/*@ let_lft 'cmp2 = cmp2_k; @*/") ||
+-         ((c3_capture_requested || c3_bound_requested || c4_capture_requested || c4_bound_requested) &&
++         ((c3_capture_requested || c3_bound_requested || c4_capture_requested ||
++           c4_bound_requested || native_c4_capture_requested) &&
+           raw = "/*@ let_lft 'cmp3 = cmp3_k; @*/") ||
+-         ((c4_capture_requested || c4_bound_requested) &&
++         ((c4_capture_requested || c4_bound_requested || native_c4_capture_requested) &&
+           raw = "/*@ let_lft 'cmp4 = cmp4_k; @*/")
+       then begin
+         let* annot = translate_annotation gs_cpn in
+         let (file, line, _), _ = Ast.lexed_loc annot.span in
+-        if body_name <> "sort4_stable" || Filename.basename file <> "lib.rs" ||
+-           (not (c3_capture_requested || c3_bound_requested || c4_capture_requested || c4_bound_requested) && line <> 196) then
++        if (if native_c4_capture_requested then
++              body_name <> "small_sort_general_with_scratch"
++            else body_name <> "sort4_stable") ||
++           Filename.basename file <> "lib.rs" ||
++           (not (c3_capture_requested || c3_bound_requested || c4_capture_requested ||
++                 c4_bound_requested || native_c4_capture_requested) && line <> 196) then
+           failwith "SORT4-C2-DISCOVERY: unbound declaration location differs";
+         let lifetime, witness, placeholder, count =
+           if raw = "/*@ let_lft 'cmp2 = cmp2_k; @*/" then
+@@ -6792,13 +6841,16 @@
+       end else translate_ghost_stmt gs_cpn in
+     let* ghost_stmts = ListAux.try_map translate_c2_scaffold_stmt ghost_stmts_cpn in
+     if (c2_discovery_requested || c2_bound_requested || c3_capture_requested ||
+-        c3_bound_requested || c4_capture_requested || c4_bound_requested) &&
++        c3_bound_requested || c4_capture_requested || c4_bound_requested ||
++        native_c4_capture_requested) &&
+        !c2_unbound_decl_count <> 1 then
+       failwith "SORT4-C2-DISCOVERY: exact-one unbound declaration required";
+-    if (c3_capture_requested || c3_bound_requested || c4_capture_requested || c4_bound_requested) &&
++    if (c3_capture_requested || c3_bound_requested || c4_capture_requested ||
++        c4_bound_requested || native_c4_capture_requested) &&
+        !c3_unbound_decl_count <> 1 then
+       failwith "SORT4-C3-CAPTURE: exact-one cmp3 declaration required";
+-    if (c4_capture_requested || c4_bound_requested) && !c4_unbound_decl_count <> 1 then
++    if (c4_capture_requested || c4_bound_requested || native_c4_capture_requested) &&
++       !c4_unbound_decl_count <> 1 then
+       failwith "SORT4-C4-CAPTURE: exact-one cmp4 declaration required";
+     let* ghost_stmts =
+       ListAux.try_sort LocAux.compare_err_desc
+@@ -6822,7 +6874,8 @@
+       | _ -> None
+     in
+     let markers, ghost_stmts =
+-      if (native_c1_capture_requested || native_c1_bound_requested) &&
++      if (native_c1_capture_requested || native_c1_bound_requested ||
++          native_c4_capture_requested) &&
+          body_name =
+            "small_sort_general_with_scratch" then begin
+         (* Retain the exact source cut through original AST capture.  The
+@@ -6831,7 +6884,14 @@
+         let cuts = List.filter
+           (fun stmt -> match marker_call stmt with Some _ -> true | None -> false)
+           ghost_stmts in
+-        (match cuts with
++        (if native_c4_capture_requested then begin
++           let names = List.map (fun stmt ->
++             match marker_call stmt with
++             | Some ([Ast.IdentTypeExpr (_, None, name)], []) -> name
++             | _ -> failwith "NATIVE-C4-CAPTURE: cut shape") cuts in
++           if names <> ["'cmp"; "'cmp2"; "'cmp3"; "'cmp4"] then
++             failwith "NATIVE-C4-CAPTURE: exact four ordered cuts required"
++         end else match cuts with
+          | [stmt] ->
+              let file, line, _ = fst (Ast.lexed_loc (Ast.stmt_loc stmt)) in
+              (match marker_call stmt with
+@@ -7473,7 +7533,34 @@
+                let original_decl =
+                  mk_fn_decl contract
+                    (Some (original_body, closing_cbrace_loc)) in
+-               if native_c1_capture_requested then begin
++               if native_c4_capture_requested then begin
++                 let reject why = failwith ("NATIVE-C4-CAPTURE: " ^ why) in
++                 if State.body_name <> "small_sort_general_with_scratch" then
++                   reject "wrong target body";
++                 let calls = ref [] in
++                 List.iter
++                   (Ast.stmt_iter (function
++                      | Ast.SwitchStmt
++                          (loc, Ast.CallExpr
++                            (_, "std::ops::FnMut::call_mut", _, _, _, Ast.Static),
++                           _) -> calls := loc :: !calls
++                      | _ -> ())) original_body;
++                 if List.length !calls <> 4 then
++                   reject "exact four compiler FnMut calls required";
++                 let output = "native-c4-capture-pre-ast.ml" in
++                 if Sys.file_exists output then reject "preexisting AST output";
++                 let before = Marshal.to_string original_decl
++                   [Marshal.No_sharing] in
++                 Ocaml_expr_formatter.print_ocaml_expr_to_file false output
++                   (Ocaml_expr_of_ast.of_decl original_decl);
++                 if Marshal.to_string original_decl [Marshal.No_sharing] <>
++                    before then reject "original AST mutated by capture";
++                 Printf.eprintf
++                   "NATIVE-C4-CAPTURE original_md5=%s artifact=%s\n%!"
++                   (Digest.to_hex (Digest.string before)) output;
++                 failwith
++                   "NATIVE-C4-CAPTURE: FULL_ORIGINAL_AST_CAPTURED_NOT_PROOF"
++               end else if native_c1_capture_requested then begin
+                  let reject why = failwith
+                    ("NATIVE-OPAQUE-C1-CAPTURE: " ^ why) in
+                  if State.body_name <> "small_sort_general_with_scratch" then
+@@ -16588,6 +16675,45 @@
+            TrName.translate_def_path (BodyRd.def_path_get body) =
+              Sort4PointerDrop.local_name) bodies_cpn) then
+         Sort4PointerDrop.reject "checked method omitted from verification";
++      if native_c4_capture_requested () then begin
++        let reject why = failwith ("NATIVE-C4-CAPTURE: " ^ why) in
++        if Args.ignore_unwind_paths || Args.skip_specless_fns ||
++           List.length bodies_cpn <> 1 ||
++           TrName.translate_def_path (BodyRd.def_path_get
++             (List.hd bodies_cpn)) <> "small_sort_general_with_scratch" then
++          reject "isolated exact-one body, unwind/full checks required";
++        let expected = match Sys.getenv_opt
++          "SORT4_NATIVE_C4_CAPTURE_SOURCE_SHA256" with
++          | Some s when String.length s = 64 &&
++              String.for_all (function '0'..'9' | 'a'..'f' -> true | _ -> false) s -> s
++          | _ -> reject "missing exact source SHA256" in
++        let ic = Unix.open_process_in "/usr/bin/sha256sum -- verified/lib.rs" in
++        let row = input_line ic in
++        let status = Unix.close_process_in ic in
++        if status <> Unix.WEXITED 0 ||
++           row <> expected ^ "  verified/lib.rs" then
++          reject "verified source SHA256 differs";
++        let ic = open_in_bin "verified/lib.rs" in
++        let source = Fun.protect ~finally:(fun () -> close_in ic)
++          (fun () -> really_input_string ic (in_channel_length ic)) in
++        let exact_once needle =
++          let n = String.length needle in
++          let rec scan i count =
++            if i + n > String.length source then count
++            else if String.sub source i n = needle then scan (i + n) (count + 1)
++            else scan (i + 1) count in
++          if scan 0 0 <> 1 then reject ("source inventory: " ^ needle) in
++        List.iter exact_once
++          ["if size_of::<T>() == 0 {"; "if len >= 8 {";
++           "__vf_sort4_first_unwind();";
++           "__vf_sort4_second_unwind();";
++           "__vf_sort4_third_unwind();";
++           "__vf_sort4_fourth_unwind();";
++           "let c1 = is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(&*v_base.add(1), &*v_base);";
++           "let c2 = is_less/*@::<F, (&'cmp2 T, &'cmp2 T), 'cmp2>@*/(&*v_base.add(3), &*v_base.add(2));";
++           "let c3 = is_less/*@::<F, (&'cmp3 T, &'cmp3 T), 'cmp3>@*/(&*c, &*a);";
++           "let c4 = is_less/*@::<F, (&'cmp4 T, &'cmp4 T), 'cmp4>@*/(&*d, &*b);"]
++      end;
+       if native_opaque_c1_bound_requested () then begin
+         let reject why = failwith
+           ("NATIVE-OPAQUE-C1-BOUND: " ^ why) in

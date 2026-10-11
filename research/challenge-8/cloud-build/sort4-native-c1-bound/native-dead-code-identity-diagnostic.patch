@@ -1,0 +1,85 @@
+--- a/src/vfconsole/vfconsole.ml
++++ b/src/vfconsole/vfconsole.ml
+@@ -269,13 +269,36 @@
+           (fun _ -> ()), (fun _ -> ()), (fun _ -> ())
+         else
+           let stmtLocs = LocHashtbl.create 10000 in
+-          let reportStmt l = if l != dummy_loc0 then LocHashtbl.replace stmtLocs l () in
+-          let reportStmtExec l = LocHashtbl.remove stmtLocs l in
++          let diagnosticLocIds = LocHashtbl.create 10000 in
++          let nextDiagnosticLocId = ref 0 in
++          let diagnosticLocId l =
++            try LocHashtbl.find diagnosticLocIds l with Not_found ->
++              let id = !nextDiagnosticLocId in
++              incr nextDiagnosticLocId;
++              LocHashtbl.add diagnosticLocIds l id;
++              id
++          in
++          let reportStmt l =
++            if l != dummy_loc0 then begin
++              let id = diagnosticLocId l in
++              Printf.printf "REGISTER %d %s\n" id (string_of_loc0 l);
++              LocHashtbl.replace stmtLocs l ()
++            end
++          in
++          let reportStmtExec l =
++            if l != dummy_loc0 then
++              Printf.printf "EXEC %d %s\n" (diagnosticLocId l) (string_of_loc0 l);
++            LocHashtbl.remove stmtLocs l
++          in
+           let reportDeadCode () =
+             stmtLocs |> LocHashtbl.filter_map_inplace begin fun ((path, line, _), _) () ->
+               if LineHashtbl.mem allowDeadCodeLines (path, line) then None else Some ()
+             end;
+             if LocHashtbl.length stmtLocs > 0 then begin
++              LocHashtbl.fold (fun l () acc -> (diagnosticLocId l, l)::acc) stmtLocs []
++              |> List.sort (fun (id1, _) (id2, _) -> compare id1 id2)
++              |> List.iter (fun (id, l) ->
++                   Printf.printf "DEAD %d %s\n" id (string_of_loc0 l));
+               stmtLocs |> LocHashtbl.iter begin fun l () ->
+                 Printf.printf "%s: dead code\n" (string_of_loc0 l)
+               end;
+--- a/src/verify_expr.ml
++++ b/src/verify_expr.ml
+@@ -464,7 +464,40 @@
+     | PureStmt _ | NonpureStmt _ | BlockStmt _ -> true
+     | _ -> false
+ 
+-  let reportStmts ss = List.iter (stmt_iter (fun s -> if not (is_transparent_stmt s) then reportStmt (stmt_loc s))) ss
++  let reportStmts ss =
++    let listOrdinal = ref 0 in
++    let previousLabel = ref "<none>" in
++    List.iteri (fun listIndex stmt ->
++      stmt_iter (fun s ->
++        let ordinal = !listOrdinal in
++        incr listOrdinal;
++        let kind = match s with
++          | GotoStmt (_, label) -> "Goto:" ^ label
++          | ReturnStmt _ -> "Return"
++          | LabelStmt _ -> "Label"
++          | IfStmt _ -> "If"
++          | SwitchStmt _ -> "Switch"
++          | WhileStmt _ -> "While"
++          | ExprStmt _ -> "Expr"
++          | DeclStmt _ -> "Decl"
++          | Assert _ -> "Assert"
++          | Throw _ -> "Throw"
++          | _ -> "Other"
++        in
++        let predecessor = !previousLabel in
++        let loc = stmt_loc s in
++        let callerLoc = root_caller_token loc in
++        let report = not (is_transparent_stmt s) in
++        if report && callerLoc != dummy_loc0 then
++          Printf.printf "AST_STMT list=%d ordinal=%d kind=%s predecessor_label=%s loc=%s\n"
++            listIndex ordinal kind predecessor (string_of_loc0 callerLoc);
++        begin match s with
++          | LabelStmt (_, name) -> previousLabel := name
++          | _ -> ()
++        end;
++        if report then reportStmt loc
++      ) stmt
++    ) ss
+ 
+   let check_cxx_spec_overrides fenv (meth_name, meth_info) get_meth_info =
+     let FuncInfo ([], fterm, l, k, tparams, rt, xmap, ng_callers_only, pre, pre_tenv, post, terminates, _, _, is_virtual, overrides) = meth_info in

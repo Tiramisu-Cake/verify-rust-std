@@ -196,7 +196,9 @@ def _inherited_regressions(a, tool, capture) -> dict:
         "prelude_sha256": _sha(tool / "bin/rust/std/lib.rsspec"),
         "strict_case_template_sha256": _sha(a.proof_root / REQUIRED_FILES[0]),
     }
-    input_pins_exact = bool(inputs) and all(
+    # The native/ZST lane changes verifast1.ml; historical C3 rows cannot be
+    # inherited even when their narrower old input list still matches.
+    input_pins_exact = os.environ.get("LANE") != "verifast-native-zst-integration" and bool(inputs) and all(
         inputs.get(name) == digest for name, digest in actual_inputs.items())
     strict_expected = {
         "positive_basic": ("positive", None),
@@ -276,7 +278,8 @@ def _module(path: Path):
 
 def _cloud_guard() -> None:
     _need(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
-          os.environ.get("LANE") == "verifast-c4-select-integration" and
+          os.environ.get("LANE") in ("verifast-c4-select-integration",
+                                      "verifast-native-zst-integration") and
           not os.environ.get("GITHUB_ACTIONS"), "Cloud integration lane required")
 
 

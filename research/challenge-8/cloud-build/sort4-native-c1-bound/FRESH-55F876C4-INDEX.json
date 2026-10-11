@@ -1,0 +1,66 @@
+{
+  "build_id": "55f876c4-c3a7-4a4f-87b4-9242a3ad660b",
+  "proof_infra": "0c1bd9d70635776d587489163384b8c4f25b9d1b",
+  "archive_sha256": "3bcce0c62e717e3756ed13e37bd08b9c4937a0bb988419aba70fc1f75998daf9",
+  "conservative_cloud_seconds": 428,
+  "capture_result": {
+    "actual_caller_proved": false,
+    "capture_exit": 2,
+    "classification": "NATIVE_C4_SOURCE_MIR_PREAST_CAPTURED_REFUSED_NOT_PROOF",
+    "pre_ast_sha256": "65b9ddf282ab3b8d123bba3725600528936ff09e236c4261841d61f66cb5ae18",
+    "profile_accepted": false,
+    "source": {
+      "c1_case_sha256": "f09013c2bd4384d7c1876982a22225bfb7c9b419a68e988795fb0deb5710b4b6",
+      "external_caller": "NOT_PROVED",
+      "native_c1_to_c4": "NOT_RUN",
+      "original_sha256": "9628df15e3a42643d671bd1e9f5684e0bdd81162e26ab8233ce704a9657942df",
+      "proof_credit": false,
+      "runtime_ghost_strip_identical": true,
+      "selected_helper_sha256": "e996129d90300774254999019568174592d1e648d8dbd76f09f3cab92199667f",
+      "std_source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+      "verified_sha256": "0f92a609c898df5271cbafd04cea688bf7b46c8b4786f8313b8ff99db995e9c4"
+    },
+    "support": {
+      "full_mir": {
+        "normal": {
+          "bytes": 1270206,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "b0da712d2b16c76d1baac91ae69c591ddeab308a2242e196fe876fd27e35e24d"
+        },
+        "readonly": {
+          "bytes": 427578,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "79c16a30be7b2921ccdaa35c66aac496f236d900130fff72a36b81524e50ef86"
+        }
+      },
+      "paired_support_passed": true,
+      "proof_credit": false,
+      "source_pair_sha256": {
+        "original/lib.rs": "9628df15e3a42643d671bd1e9f5684e0bdd81162e26ab8233ce704a9657942df",
+        "verified/lib.rs": "0f92a609c898df5271cbafd04cea688bf7b46c8b4786f8313b8ff99db995e9c4"
+      },
+      "target": "small_sort_general_with_scratch"
+    },
+    "target_proof": "NOT_RUN",
+    "tool": {
+      "console": "92bc557d093e2cbce5fbd80455bd0b74ed5a21a986147e2931f44fb671c333fc",
+      "head": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+      "kernel": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+      "translator": "b1faa4cd7fa1ca09b3368247e19ae525898e2c006aa7d11a9479eba67029f051",
+      "verifast1": "bfbfb518fb9783afeeba9384e1431b6cd280c7da7713b9fdbfd15a8395b00207"
+    }
+  },
+  "native_c1_matrix": {
+    "admission_controls_exact": true,
+    "callable_summary": false,
+    "candidate_internal_binding": true,
+    "default_off_raw_review_required": true,
+    "external_small_sort_caller_bound": false,
+    "false_controls_ready_for_raw_review": true,
+    "profile_accepted": false,
+    "proof_credit": false
+  },
+  "model_gates_passed": true,
+  "inventory_hashes_independently_checked": 968,
+  "target_proof": "NOT_RUN"
+}

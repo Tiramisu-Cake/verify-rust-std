@@ -75,6 +75,11 @@ INTEGRATION_D_PHASE='VERIFAST-C4-SELECT-OUTER-CLOUD-2026-10-11-D'
 INTEGRATION_D_START='2026-10-11T08:36:36Z'
 INTEGRATION_D_MAIN='2026-10-11T10:36:36Z'
 INTEGRATION_D_END='2026-10-11T11:06:36Z'
+NATIVE_ZST_PHASE='VERIFAST-NATIVE-ZST-INTEGRATION-CLOUD-2026-10-11-H'
+NATIVE_ZST_START='2026-10-11T14:03:19Z'
+NATIVE_ZST_MAIN='2026-10-11T16:03:19Z'
+NATIVE_ZST_END='2026-10-11T16:33:19Z'
+NATIVE_ZST_LANES=['verifast-native-zst-integration']
 
 PHASE_PATTERN=re.compile(r'[A-Z][A-Z0-9-]{0,100}\Z')
 OWNER_PATTERN=re.compile(r'[A-Za-z0-9._-]{1,80}\Z')
@@ -282,6 +287,17 @@ def reconcile_reservation(record,caller_owner,caller_ledger):
 
 
 def authorized_phase(a,ledger):
+ if a.phase_id==NATIVE_ZST_PHASE:
+  if (a.owner!='verifast' or ledger.get('owner')!='verifast' or
+      ledger.get('phase')!=NATIVE_ZST_PHASE or ledger.get('status')!='AUTHORIZED' or
+      ledger.get('ceiling_build_seconds')!=3600 or
+      ledger.get('start_utc')!=NATIVE_ZST_START or
+      ledger.get('main_deadline_utc')!=NATIVE_ZST_MAIN or
+      ledger.get('deadline_utc')!=NATIVE_ZST_END or
+      ledger.get('allowed_lanes')!=NATIVE_ZST_LANES):raise SystemExit('Maintainer native/ZST session requires exact owner/account/window/lane')
+  deadline=datetime.datetime.fromisoformat(NATIVE_ZST_END.replace('Z','+00:00'))
+  if datetime.datetime.now(datetime.timezone.utc)>=deadline:raise SystemExit('Phase deadline has passed')
+  return deadline
  if a.phase_id==INTEGRATION_D_PHASE:
   if (a.owner!='verifast' or ledger.get('owner')!='verifast' or ledger.get('phase')!=INTEGRATION_D_PHASE or ledger.get('status')!='AUTHORIZED' or ledger.get('ceiling_build_seconds')!=3600 or ledger.get('start_utc')!=INTEGRATION_D_START or ledger.get('main_deadline_utc')!=INTEGRATION_D_MAIN or ledger.get('deadline_utc')!=INTEGRATION_D_END or ledger.get('allowed_lanes')!=['verifast-c4-select-integration']):raise SystemExit('Maintainer outer session D requires exact owner/account/window/lanes')
   deadline=datetime.datetime.fromisoformat(INTEGRATION_D_END.replace('Z','+00:00'))
@@ -397,6 +413,7 @@ def run_command(a,state,ledger,ledger_path):
   if not LANE_PATTERN.fullmatch(a.lane):raise SystemExit('Invalid lane name')
   if a.source_mode!='pinned-objects':raise SystemExit('New phase requires pinned Git objects')
   now=datetime.datetime.now(datetime.timezone.utc)
+  if a.phase_id==NATIVE_ZST_PHASE and now>=datetime.datetime.fromisoformat(NATIVE_ZST_MAIN.replace('Z','+00:00')):raise SystemExit('Maintainer native/ZST main window ended; no new experiment')
   if a.phase_id==INTEGRATION_D_PHASE and now>=datetime.datetime.fromisoformat(INTEGRATION_D_MAIN.replace('Z','+00:00')):raise SystemExit('Maintainer session D main window ended; no new experiment')
   if a.phase_id==INTEGRATION_C_PHASE and now>=datetime.datetime.fromisoformat(INTEGRATION_C_MAIN.replace('Z','+00:00')):raise SystemExit('Maintainer session C main window ended; no new experiment')
   if a.phase_id==INTEGRATION_B_PHASE and now>=datetime.datetime.fromisoformat(INTEGRATION_B_MAIN.replace('Z','+00:00')):raise SystemExit('Maintainer session B main window ended; no new experiment')
