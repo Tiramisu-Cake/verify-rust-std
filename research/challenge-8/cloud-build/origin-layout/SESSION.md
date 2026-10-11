@@ -223,3 +223,7 @@ Session CLOSED after main. All5Cloud Builds terminal/accounted/downloadverified:
 Next within-scope action after explicitnewsession/budget: thread exporter-owned body view through full encoder callchain (or exact immutable EncCtx view), statically trace each argument's scope before Cloudcompile under separatelypinned newobserverprofile; require resolvedcallee==adt.destructor and exact captured sourcebody before taggedactualglue implementation. Then body-v1 officialrefiner/strictCFG and receiver/end gates, then sourcebound latepaniccleanup. No generalkernel/memory/alias/genericT/ZST expansion.
 
 Final metadata audit corrected only staticreceipt saved_build_binding:057dfa45 selectedconsumerNOT_RUN, freshv2componentbelongs854d9fb5. Originalv4staticreceipt1ca6da8a preserved unchanged; derivativeadds explicit854binding/no newproofcredit. Exactdispatchsource/profile remain unchanged.
+
+## Binding repair session — 2026-10-11T16:15:22Z
+
+Continuation checkpoint76143240. Exact adopted policy c7ca8c467aecf10a4b53039372ee97714f854ee3; after fetch identical bytes to origin/main, last file commit5bf53668a4afa51c302e599be91a2dbc4b24042d, SHA256479c0eeb5bcb7f5dec3b5ccd526de0087a2101a1e018090389676a4dcccc0521. Main18:15:22Z/finish18:45:22Z/hour17:15:22Z. Fresh3600Cloud seconds; prior1410retired/account archived. Ownmerge lane/clientv2, no peer mutation. Captured slice chain traced by read-only explorer; all three helper declarations and calls now carry exact immutable body view. No method query after steal.

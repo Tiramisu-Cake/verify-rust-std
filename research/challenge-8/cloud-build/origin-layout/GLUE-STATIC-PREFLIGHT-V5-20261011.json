@@ -1,0 +1,26 @@
+{
+  "classification": "PASS_STATIC_ONLY",
+  "profile": "experimental-merge-actual-glue-observation-v5",
+  "profile_sha256": "719ba2298e5e99ddbe0e4505a54f5a5896b99f0287fd16c0219f61299b3ca5e8",
+  "tool": "3c9d56980accd335586ca23ba6c1378a29c1819a",
+  "patches": 12,
+  "trusted_source_pins": 12,
+  "provider_transforms": 18,
+  "recipe_closure": 96,
+  "rust_compilation": "NOT_RUN",
+  "toolchain_executed": false,
+  "proof_executed": false,
+  "source_replay": "/tmp/merge-glue-v5-full-text-replay",
+  "scope": "threaded immutable owned bodies; expected Item destructor Instance; raw diagnostics checkpointed; captured phase separate from substitutions",
+  "initial_partial_text_replay": "failed: allocation-span patch also needs testsuite.mysh; full archive replay then succeeds",
+  "runner_hashes": {
+    "research/challenge-8/cloud-build/origin-layout/compile-preflight.sh": "085ef017df70f218c911ed90aab0cb9de9d0a6f113392099849c3e66a38ff27d",
+    "research/challenge-8/cloud-build/origin-layout/concrete-consumer.py": "3faf7809f0748451ef1fe2eb2adb0fdcbcd4a0ff2e4e62d181742d17d9257ad6",
+    "research/challenge-8/cloud-build/origin-layout/onecell-caller-composition.py": "1355308c08495fc00500bdfc53a130ed68fdbf86f5ceb3e50616f8ffd27f5492",
+    "research/challenge-8/cloud-build/origin-layout/onecell-selected-drop.py": "6eabf32b456542bf1ee66dbbfc60ca9a6f3262875e368f451bcec1e785820b0b",
+    "research/challenge-8/merge/overnight/run.sh": "9b8eece9a1eca043f41395fdaa75201410c7e386a832de191f4575dd97991d56",
+    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/build-profile.sh": "0fef89d01a1f1b96e7ad6835aba1d12655f40dafa52c6a461e81865f31977acf",
+    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "f3047c01f932b1b0416cc284e3d5e5a476743aad7f755d851d5c769b12872470"
+  },
+  "read_only_review": "explorer: complete chain/no selectedmethod requery/consistent runners; optional signature/types restored after durable checkpoints"
+}

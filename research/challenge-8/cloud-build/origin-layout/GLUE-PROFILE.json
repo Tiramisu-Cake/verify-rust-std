@@ -1,6 +1,6 @@
 {
   "schema": "smallsort-tracked-md-profile-v1",
-  "profile": "experimental-merge-actual-glue-observation-v4",
+  "profile": "experimental-merge-actual-glue-observation-v5",
   "verifast_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
   "baseline_translator_sha256": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
   "translator_sha256": "381d6ed8ad8d99f0f4fd08c5e59246933f30e9c5a480b2d14622dfeab18b9642",
@@ -31,7 +31,7 @@
   "baseline_exporter_sha256": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
   "guard_layout_patch_sha256": "16476ac7e615831bfd49cec3efdcefd1d76eab1a57f2df47b97f43fb8d6a1d74",
   "guard_layout_tool_commit": "df6b3fbfcf4192d6b442d13e35dafe8477a3fe6f",
-  "exporter_source_sha256": "171baa00aeedb9e5258c8bf4c162c5ff9fc62ddc71824e506cb4376647fc3077",
+  "exporter_source_sha256": "311e8ed490b34bd69ddbe4dbd7b05a0e5fafc09daf5f791bf03337c7cd60b261",
   "schema_sha256": "bdc86568487604b68eb4c4fb2d676fc510cec55344fc1ce0b1d7abcdb4b7c85d",
   "selected_drop_patch_sha256": "57bab179dc11366369689c0980209c2e76acf82339a346b02e1cc99fdfbb610a",
   "selected_drop_tool_commit": "8a3f63eabf18cc76cc9048c086dda95fbec84d03",
@@ -84,15 +84,15 @@
     },
     {
       "path": "research/challenge-8/cloud-build/origin-layout/glue-observation.patch",
-      "sha256": "d0d17314d31c3b2ff481e43d28dbf604cc60382152fc63fddbd05970727e988b"
+      "sha256": "82fff6af2b5e98d2a1a8b0dafd0d9951bbb103408967a95d22e3461b367421ea"
     }
   ],
   "previous_selected_profile_sha256": "7e4f6088574056a0846aad2887895836b5e03edf06bb5a493d29daf44151cfff",
-  "glue_observation_tool_commit": "54407e62230ad8b2b5e211d1551f26ae4378b179",
-  "glue_observation_patch_sha256": "d0d17314d31c3b2ff481e43d28dbf604cc60382152fc63fddbd05970727e988b",
+  "glue_observation_tool_commit": "3c9d56980accd335586ca23ba6c1378a29c1819a",
+  "glue_observation_patch_sha256": "82fff6af2b5e98d2a1a8b0dafd0d9951bbb103408967a95d22e3461b367421ea",
   "preserved_selected_profile_sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
   "glue_credit": "OBSERVATION_ONLY_NOT_PROOF",
-  "semantic_delta": "Opt-in actual DropGlue raw MIR/resolved trait-callee Instance observation only. Selected method body read from exporter-owned exact DefId source MIR, explicitly labeled mir_drops_elaborated_and_const_checked; no re-query of stolen MIR. Unchanged Capnp/lowering and selected method route.",
-  "effective_tool_commit": "54407e62230ad8b2b5e211d1551f26ae4378b179",
-  "previous_glue_observation_profile_sha256": "dde4b505d46e62adbda0631b043f7b221cf19c2ada0594189467b361e936b623"
+  "semantic_delta": "Observation-only full immutable captured-body threading, exact destructor Item Instance comparison and checkpoint diagnostics before optional queries. Captured owner phase distinct from concrete substitutions; no method MIR requery or proof lowering change.",
+  "effective_tool_commit": "3c9d56980accd335586ca23ba6c1378a29c1819a",
+  "previous_glue_observation_profile_sha256": "ede5bd5e338703a6c1f99e6ee0dfe422115241fef9a7a9fadc4a9f9e71f63e1b"
 }
