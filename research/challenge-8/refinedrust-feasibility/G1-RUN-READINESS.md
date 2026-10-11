@@ -37,7 +37,7 @@ RR_CONFIG=/workspace/evidence/g1/RefinedRust.toml cargo refinedrust -- \
 
 Runner вызывает sibling binary `cargo-refinedrust -- ...`, эквивалент штатного
 Cargo subcommand из прежнего pinned audit; его command routing/config/export
-contract нужно сверить по полученным upstream bytes **до freeze**.
+contract подтверждён pinned frontend audit; binary/path freeze остаётся обязательным.
 Source restore — GitHub exact commit + backtrace Gitlink, полный byte verification
 library. Std source не заменяется sysroot или переписанным isolated helper.
 Crate-wide unrelated error не считается отказом insert_tail.
@@ -56,24 +56,17 @@ spec/proof skeleton/rrlib/linking output сохраняются; cache и HOME �
 `first-blocker.json` и первый error line дают **UNREVIEWED hint**, не угадывают
 target attribution. Reviewer фиксирует причинный stage/symbol/span по raw log.
 
-## Inputs и source transfer
+## Inputs и source transfer — актуализация 2026-10-12
 
-| Подтверждено чтением Git/сохранённых receipts | Отсутствует перед freeze |
-| --- | --- |
-| Source c7ca8c467aecf10a4b53039372ee97714f854ee3, SmallSort blob e555fce440872898e47fd5114f32eb15401d07df; hashes/trees/callees в [inputs.json](g1-minimal/inputs.json) | Cloud restoration/compilation этого source ещё NOT_RUN |
-| RR 332d945fafa14bf55c0c8390cb35ec4b0c012cff, tree b33bcccbbbd6168ac73e0c7238a1edddbe34057c; frontend lock/component hashes из прежнего pinned audit | Сам RR source bundle и fresh independent byte/workflow audit |
-| nightly-2026-08-28, rustc e457a7b0d326d67b4322ef0d11bd715cfaeda48f, x86_64 Linux; official distribution archive hashes сохранены | Installed binary hashes, runtime -Vv и compiler compatibility |
-| Candidate scripts/recipe closure/static anchors/ghost allowlist проверены | Image digest, Cargo vendor/config closure, exact export paths; все null в [freeze.json](g1-minimal/freeze.json) блокируют |
-
-GitLab: одна bounded connectivity probe, connect timeout 3 s (max 5 s), отказ
-соединения; повторных длительных fetch нет. Source-transfer blocker точно:
-**нет независимо проверенного self-contained bundle с этим commit/tree и внешним
-SHA256/immutable object generation**. [source-transfer.json](g1-minimal/source-transfer.json)
-задаёт producer procedure; [restore-rr-bundle.sh](g1-minimal/restore-rr-bundle.sh)
-в Cloud проверяет внешний SHA256, bundle, commit/tree/clean checkout. Ни producer
-bundle, ни restore не выполнялись здесь. Обход pin или непроверенный tarball не нужен.
-Warm runner получает clean RR из image; bundle нужен для подготовки этого image,
-а не для сетевого GitLab fetch внутри оплаченного warm шага.
+Exact RR source recovery и независимый source/workflow/export audit завершены:
+[G1-SOURCE-RECOVERY](G1-SOURCE-RECOVERY.md),
+[G1-PINNED-FRONTEND-AUDIT](G1-PINNED-FRONTEND-AUDIT.md).
+Local source доступен вне /tmp, commit/tree/byte receipts подтверждены;
+повторный GitLab fetch и external recovery не нужны. Cloud source/image delivery,
+binary/config/vendor hashes и compiler compatibility в реальном run ещё NOT_RUN.
+Source transfer manifests/cold null audit fields сохранены как historical candidate,
+не как утверждение об отсутствии local source. Current three gates и точный запрос:
+[G1-FIRST-RUN-REQUEST](G1-FIRST-RUN-REQUEST.md); v4 отменён, только v3/max3.
 
 Registry read-only inventory отказал: `artifactregistry.locations.list` denied
 для smallsort-dispatcher@smallsort-ci.iam.gserviceaccount.com. **Image availability
@@ -114,7 +107,7 @@ capacity audit**. Трёх-owner ACK/migration уже состоялись; reru
 и записать fresh exact-byte ACK до первой RR reservation: старый client отвергнет
 неизвестного owner. Не менять peers сейчас и не увеличивать max_active.
 
-Следующее отдельное разрешение должно закрыть source/image audit, owner adoption
+Source/workflow audit закрыт. Следующее отдельное разрешение должно закрыть image freeze, owner adoption
 и candidate integration review; затем freeze published proof/infra SHAs, phase,
 start/main/absolute window, собственные ledger/state и permissions существующего
 submit/read/log/evidence-upload. Null G1_FREEZE в patch намеренно fail-closed.

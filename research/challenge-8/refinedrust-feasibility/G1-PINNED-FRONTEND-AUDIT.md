@@ -1,5 +1,9 @@
 # Exact RefinedRust frontend audit — G1 diagnostic
 
+**Текущий checkpoint:** [First-run request](G1-FIRST-RUN-REQUEST.md). V4 отменён
+владельцем; только v3/max3 с согласованным owner adoption. Раздел V4 ниже —
+история предыдущего поручения, не действующий путь запуска.
+
 2026-10-12; project baseline `2fb4ec507b35e04a0953bb2176a9c6434bf506c5`.
 Policy/Cloud rules прочитаны на origin/main
 `6e1a8e59c56669abe5e6ec2013478e45ed2cc267`. **Cloud budget/charge 0/0**.

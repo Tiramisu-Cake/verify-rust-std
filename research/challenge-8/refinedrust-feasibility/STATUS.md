@@ -1,3 +1,30 @@
+# RefinedRust feasibility — FIRST REAL G1 REQUEST / EXECUTION BLOCKED
+
+2026-10-12; baseline `7e9851318f6eca5c356a439af7728e899cc6b5f1`.
+[Точный execution request и checkpoint](G1-FIRST-RUN-REQUEST.md).
+V4 **CANCELLED / NOT ADOPTED / NOT MIGRATED** по последнему поручению владельца;
+действует v3/max3. Historical v4 package не является следующим действием.
+Exact RR source332d/treeb33 read-only clean, pinned frontend audit завершён;
+source recovery закрыт. Candidate/runtime/tool/compiler pins не менялись.
+
+Три оставшихся gate: frozen compatible image/binaries/offline dependencies;
+reviewed own dispatcher + coordinated v3 owner extension ACK всех clients;
+отдельные phase/lane/window/ledger/Cloud budget authorization. Existing owner
+proposal NOT_APPLIED снова выбран для v3/max3; изолированные synthetic checks
+PASS, включая fourth refusal/duplicate owner+ledger/untracked/old fail-closed/
+peer preservation. Production state/clients, peer builds и v4 branch не менялись.
+Первый будущий опыт — один stock cargo refinedrust на exact core/actual insert_tail,
+raw diagnostics/MIR/Radium/obligations; own Radium parser не gate. Generation
+не safety PASS. Native target/frontend/verification **NOT_RUN**.
+
+Policy origin/main `6e1a8e59c56669abe5e6ec2013478e45ed2cc267` прочитана.
+Cloud budget/charge **0/0**, собственных Build/token/ledger NONE. Proposed warm
+1260/cold separately1800 только запрос, не выделенный бюджет. Следующий шаг —
+решение по трём gates, без дальнейшего развития parser/CI/v4. После публикации STOP.
+Cleanup: persistent removed paths NONE / freed **0 bytes**; mission test temp
+автоматически убран; df after free1.8G/97%, inode25%. Неясные /tmp artifacts
+сохранены, точные имена/причина в checkpoint. Ниже historical checkpoints.
+
 # RefinedRust feasibility — PINNED AUDIT COMPLETE / V4 READY_FOR_ADOPTION
 
 2026-10-12; baseline 2fb4ec507b35e04a0953bb2176a9c6434bf506c5.
