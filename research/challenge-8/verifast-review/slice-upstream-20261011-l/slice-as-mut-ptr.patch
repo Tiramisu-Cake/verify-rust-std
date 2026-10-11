@@ -1,0 +1,75 @@
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+index 4e237a61..8e97efbb 100644
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -2613,7 +2613,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+                 Ok
+                   ( tmp_rvalue_binders,
+                     FnCallResult (CastExpr (fn_loc, PtrTypeExpr (fn_loc, ManifestTypeExpr (fn_loc, Int (Unsigned, FixedWidthRank 0))), arg)) )
+-            | "std::slice::<impl [T]>::as_ptr" ->
++            | "std::slice::<impl [T]>::as_ptr" | "std::slice::<impl [T]>::as_mut_ptr" ->
+                 let [ Mir.GenArgType gen_arg_ty_info; _ ] = substs in
+                 let [ arg ] = args in
+                 Ok
+diff --git a/tests/rust/safe_abstraction/slice_as_mut_ptr.rs b/tests/rust/safe_abstraction/slice_as_mut_ptr.rs
+new file mode 100644
+index 00000000..d2871bb1
+--- /dev/null
++++ b/tests/rust/safe_abstraction/slice_as_mut_ptr.rs
+@@ -0,0 +1,27 @@
++// `slice::as_mut_ptr` returns the data pointer without consuming the elements
++// or their ownership. The generated in-out contract requires both on return.
++fn read_first(s: &mut [u8]) -> u8 {
++    let p = s.as_mut_ptr();
++    //@ assert p == s as *mut [u8] as *mut u8;
++    if s.len() == 0 {
++        return 0;
++    }
++    //@ open array(p, ?n, ?bs);
++    let b = unsafe { *p };
++    //@ close array(p, n, bs);
++    b
++}
++
++// The data pointer is returned even when there is no element to dereference.
++fn empty(s: &mut [u8]) {
++    if s.len() == 0 {
++        let p = s.as_mut_ptr();
++        //@ assert p == s as *mut [u8] as *mut u8;
++    }
++}
++
++// The pointer retains the MaybeUninit element type and the in-out resources.
++fn maybe_uninit(s: &mut [std::mem::MaybeUninit<u8>]) {
++    let p = s.as_mut_ptr();
++    //@ assert p == s as *mut [std::mem::MaybeUninit<u8>] as *mut std::mem::MaybeUninit<u8>;
++}
+diff --git a/tests/rust/safe_abstraction/slice_as_mut_ptr_no_init.rs b/tests/rust/safe_abstraction/slice_as_mut_ptr_no_init.rs
+new file mode 100644
+index 00000000..fd3b6ab8
+--- /dev/null
++++ b/tests/rust/safe_abstraction/slice_as_mut_ptr_no_init.rs
+@@ -0,0 +1,10 @@
++// A slice of MaybeUninit<u8> does not grant permission to read an initialized u8.
++// The expected failure is at the dereference, after `as_mut_ptr` has succeeded.
++fn read_uninitialized(s: &mut [std::mem::MaybeUninit<u8>]) {
++    if s.len() > 0 {
++        let mu = s.as_mut_ptr();
++        //@ open array(mu, ?n, ?values);
++        let p = mu as *mut u8;
++        let _b = unsafe { *p }; // Requires initialized-u8 ownership.
++    }
++}
+diff --git a/tests/rust/testsuite.mysh b/tests/rust/testsuite.mysh
+index 3c5ed1da..64b8c408 100644
+--- a/tests/rust/testsuite.mysh
++++ b/tests/rust/testsuite.mysh
+@@ -121,6 +121,8 @@ cd safe_abstraction
+   verifast test_const_generics.rs
+   verifast test_const_generics_structs.rs
+   verifast slice_ref.rs
++  verifast slice_as_mut_ptr.rs
++  case "$(verifast slice_as_mut_ptr_no_init.rs 2>&1; case_exit=$?; echo EXIT:$case_exit)" in *'slice_as_mut_ptr_no_init.rs(8,'*'): error: No matching heap chunks:'*'EXIT:1') ;; *) exit 1;; esac
+   verifast -allow_should_fail -allow_dead_code str_mut_ref.rs
+   verifast -allow_should_fail -allow_dead_code slice_mut_inout.rs
+   begin_sequential

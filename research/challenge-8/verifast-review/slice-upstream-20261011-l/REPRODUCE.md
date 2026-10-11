@@ -1,6 +1,6 @@
 # Reproduce standalone candidate L
 
-Base `0a83dba42db7ce0b445034ece5298afe980e57dc`; candidate `1ef8474610274bbf9d0652613ac2cabbb1fc476b`, tree `f21bda99968f8dc7fee4de3303768b0ecb4ddf55`. Tool compiler/spec/exporter/refiner are from that clean base+one binding+tests; no C3/native/ZST/FRAME patches. Rust nightly-2026-09-25, expected compiler commit f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f. Exact dependency URLs/digests/environment are in the runner and Cloud receipt.
+Base `0a83dba42db7ce0b445034ece5298afe980e57dc`; candidate `095ef553e92deaae063b3684ea3172128e666785`, tree `54e80209593942d1381283f71fa916c02fa4ac57`. Tool compiler/spec/exporter/refiner are from that clean base+one binding+tests; no C3/native/ZST/FRAME patches. Rust nightly-2026-09-25, expected compiler commit f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f. Exact dependency URLs/digests/environment are in the runner and Cloud receipt.
 
 Executed Cloud command from own proof worktree:
 
@@ -10,8 +10,8 @@ python3 research/challenge-8/cloud-build/control.py \
   --phase-id VERIFAST-SLICE-UPSTREAM-CLOUD-2026-10-11-L \
   --ledger research/challenge-8/cloud-build/verifast-slice-upstream-l/BUDGET.json \
   --owner verifast submit \
-  --infra-sha 5ce6304c919cc3aa3f522926b15c4506872926cc \
-  --proof-sha 5ce6304c919cc3aa3f522926b15c4506872926cc \
+  --infra-sha 6c663c1d44bc679e0c43635ef5868cf41370141d \
+  --proof-sha 6c663c1d44bc679e0c43635ef5868cf41370141d \
   --lane verifast-slice-upstream --timeout 1740
 ```
 
@@ -21,7 +21,6 @@ Focused commands in the prepared Cloud candidate, from tests/rust/safe_abstracti
 
 ```sh
 ../../../bin/verifast -dump_ast_with_locs positive.ast slice_as_mut_ptr.rs
-../../../bin/verifast -allow_should_fail slice_as_mut_ptr_no_init.rs
 ../../../bin/verifast slice_as_mut_ptr_no_init.rs  # diagnostic: expected exit1/read VC line8
 ```
 
@@ -32,6 +31,6 @@ cd src
 make test NUMCPU=4
 ```
 
-Baseline control rebuilds exactly the base translator with unchanged candidate test bytes, invokes the positive, retains error and binary digest, restores the exact candidate translator and checks tracked diff empty before candidate build. Baseline diagnostic credit requires the raw missing method error. Negative marked test credit requires the raw diagnostic at the intended dereference; exit1 alone is insufficient.
+Baseline control rebuilds exactly the base translator with unchanged candidate test bytes, invokes the positive, retains error and binary digest, restores the exact candidate translator and checks tracked diff empty before candidate build. Baseline diagnostic credit requires the raw missing method error. Negative credit requires the raw initialized-read heap-chunk diagnostic at line8; exit1 alone is insufficient. The POSIX case registration enforces that expectation without allow_should_fail or allow_dead_code.
 
-No Challenge8 proof suite is executed or pins changed. No PR/public fork/upstream publication performed. Other platforms and optional Rocq/Java-server/private assignment suites remain subject to the explicit receipts.
+No Challenge8 proof suite is executed or pins changed. No upstream PR/public fork/upstream publication performed. Separately authorized infrastructure PR8 was merged only in the proof fork. Other platforms and optional Rocq/Java-server/private assignment suites remain subject to the explicit receipts.

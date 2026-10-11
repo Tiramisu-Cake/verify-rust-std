@@ -1,0 +1,45 @@
+{
+  "schema": "standalone-slice-upstream-l-v1",
+  "base": "0a83dba42db7ce0b445034ece5298afe980e57dc",
+  "head": "095ef553e92deaae063b3684ea3172128e666785",
+  "tree": "54e80209593942d1381283f71fa916c02fa4ac57",
+  "runner_auditor_commit": "6c663c1d44bc679e0c43635ef5868cf41370141d",
+  "auditor_version": "slice-upstream-audit-v2",
+  "rust_toolchain": "nightly-2026-09-25",
+  "rustc_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+  "installed_std_slice_sha256": "efe182d20200e0ef6206a1eeea492fdfcf419f2f14011a5e9ff56ae2f4cd6a2c",
+  "build": "34c10f8c-c6f9-49b4-a75b-124755f5d219",
+  "archive_sha256": "6d49c3cccbdf7d8ca49d7a70a6df1eb9e43e83d55e0d7d60e53e37ca6fe69249",
+  "source_input_sha256": "9bd65477c64f65155583d8a0c5e20aa5948a920f7149bc97370d1a0f1d208498",
+  "config_sha256": "3c13075e9241da7a10ee829f41fe4fd04235d35ce06bbb5fa6d966b7e9dbd778",
+  "cloud_status": "SUCCESS",
+  "first_build_status": "FAILURE",
+  "first_build": "424fd00e-ca19-4d49-892d-9c7449fea010",
+  "account": {
+    "owner": "verifast",
+    "cloud_seconds": 1456,
+    "ceiling": 3600,
+    "closed": true
+  },
+  "binary_sha256": {
+    "verifast": "905f897b0faf1aecc8313fa575338b06de1e2f0e4c16701c64d33290a25d8f7d",
+    "vf-rust-mir-exporter": "e8b35903873829cc24cfcf5e27355775378bda9b3b637cb151a34d9bc7a6f19b",
+    "refinement-checker": "d3727b32e78b3c3b8bfdc9ae930298a919fb9754e58ad64ccd52672c37d2781a",
+    "vf-cxx-ast-exporter": "7960bc7474ea54a0d808ca35339fa048dcab18b0f542efc4f17385fb4b5750fd"
+  },
+  "trusted_boundary": "Existing exact-name/typed-cast lowering; compiler well-typed MIR supplies receiver and substitutions. No new memory permissions or full method-body admission guard.",
+  "coordinator": {
+    "portable": "ed6b2b6a5e6850d3c7b85f94a0c22af457fdb83c",
+    "infra_pr": "https://github.com/Tiramisu-Cake/verify-rust-std/pull/8",
+    "merge": "6e1a8e59c56669abe5e6ec2013478e45ed2cc267",
+    "schema": 3,
+    "max_active": 3,
+    "live_three_build_overlap": "NOT_OBSERVED",
+    "maintainer_instruction_commit": "f8d0cc07"
+  },
+  "unresolved": [
+    "Challenge8 inherited/O23 reservations remain unchanged outside standalone scope",
+    "Other platforms and optional suites NOT_RUN",
+    "Upstream acceptance/publication requires user approval; not performed"
+  ]
+}

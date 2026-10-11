@@ -1,3 +1,11 @@
+# VeriFast maintainer — standalone upstream slice as_mut_ptr L
+
+**READY_FOR_USER_REVIEW**. Clean base0a83, head095ef553/tree54e80209; one binding+two fixtures+test registration only. Fresh Build34c10f8c SUCCESS: base missing-binding, positive62, intended MU initialized-read negative line8, Linux suite0 failed/741 PASS. Independent review GO; runner/auditor6c663c1d/v2. [Checkpoint](verifast-review/slice-upstream-20261011-l/END-CHECKPOINT.md), [matrix](verifast-review/slice-upstream-20261011-l/GATE-MATRIX.md). Ledger CLOSED1456/3600s; other platforms/optional skips recorded; no upstream PR/publication or Challenge8 profile change.
+
+Owner-authorized coordinator v3 live max3; all three clients adopted exacted6 source and fresh ACKs; infrastructure PR8 merged6e1a8e59. Existing reservation values preserved. Real three-Build overlap NOT_OBSERVED. No budget/deadline/tool/proof scope expansion.
+
+## Preserved previous checkpoint
+
 # VeriFast maintainer — actual Drop glue body-v3 review K
 
 Incominge267f948/tool853fd1e2 body-v3: semantic design scoped **GO**, package

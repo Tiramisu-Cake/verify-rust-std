@@ -1,14 +1,14 @@
 {
   "phase": "VERIFAST-SLICE-UPSTREAM-CLOUD-2026-10-11-L",
   "owner": "verifast",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "authorization": "Direct user task: standalone exact slice as_mut_ptr upstream candidate, focused baseline/candidate checks and normal Rust suite, Cloud only; new ceiling3600s. No upstream publication.",
   "start_utc": "2026-10-11T20:10:16Z",
   "main_deadline_utc": "2026-10-11T22:10:16Z",
   "deadline_utc": "2026-10-11T22:40:16Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 532,
-  "remaining_build_seconds": 3068,
+  "used_build_seconds": 1456,
+  "remaining_build_seconds": 2144,
   "allowed_lanes": [
     "verifast-slice-upstream"
   ],
@@ -37,6 +37,32 @@
       "execution_seconds": 532,
       "download_verified": true,
       "archive_sha256": "1149404282f3f15bfcc249a4b3e84b0d9a41ffad0c18c5525c0543c1d971952d"
+    },
+    {
+      "dispatch_token": "dispatch-482cc1d5429b4f4492ef1ea9d134de1e",
+      "owner": "verifast",
+      "phase_id": "VERIFAST-SLICE-UPSTREAM-CLOUD-2026-10-11-L",
+      "infra_sha": "6c663c1d44bc679e0c43635ef5868cf41370141d",
+      "proof_sha": "6c663c1d44bc679e0c43635ef5868cf41370141d",
+      "lane": "verifast-slice-upstream",
+      "submitted_config_sha256": "3c13075e9241da7a10ee829f41fe4fd04235d35ce06bbb5fa6d966b7e9dbd778",
+      "reserved_seconds": 1800,
+      "timeout_seconds": 1740,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "9bd65477c64f65155583d8a0c5e20aa5948a920f7149bc97370d1a0f1d208498",
+      "build_id": "34c10f8c-c6f9-49b4-a75b-124755f5d219",
+      "start_time": "2026-10-11T20:50:02.098093146Z",
+      "finish_time": "2026-10-11T21:05:25.037518Z",
+      "create_time": "2026-10-11T20:50:01.316423281Z",
+      "build_seconds": 924,
+      "accounted": true,
+      "execution_seconds": 923,
+      "download_verified": true,
+      "archive_sha256": "6d49c3cccbdf7d8ca49d7a70a6df1eb9e43e83d55e0d7d60e53e37ca6fe69249"
     }
-  ]
+  ],
+  "closed_utc": "2026-10-11T21:18:47.140682+00:00",
+  "closure": "Two terminal Builds accounted; own reservation absent. No further phase/Build authorized by this completion. Unused2144s not transferred."
 }
