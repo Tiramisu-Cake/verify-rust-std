@@ -849,3 +849,7 @@ admission mutants, outer-F escape VC and fresh transport certificate remain
 open. Old unchanged-input controls retain their original raw evidence; no
 summary, unrestricted-T/ZST, whole-sort4 or profile acceptance is established.
 [Closed session B checkpoint](cloud-build/verifast-c4-select-composition/END-CHECKPOINT-2026-10-10-B.md).
+
+## Maintainer composition session C — fresh narrow composition PASS, PARTIAL
+
+FreshBuild063d90bc/tool4a34010/profileC3 proves actual9body pointer selector, boundedC1→C4 and their first-real-select composition with unchanged posts/CURRENT. Typedlocation/aliascertificate andproducer48seal/raw6VCcontrols reviewed. Cleanup/admission observations reviewed and old unchanged strict/pointer/MDnew/C4diagnostics reuseeligible with originalpins. OuterFcut106VC NOT_RUN because manifestpathsetupfailure after fullcaptures; runnerca5f5460 fixespath/classifier butCloudUNRUN. Kernelunchanged, noassumedsummary/unrestrictedT/ZST/nativecaller/fullsort4/adoption. LedgerCLOSED7Builds1952sec/1648expire noownreservation/automaticrestart. [Checkpoint](cloud-build/verifast-c4-select-composition-c/END-CHECKPOINT-2026-10-11-C.md).

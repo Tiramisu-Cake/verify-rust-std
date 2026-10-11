@@ -6881,3 +6881,7 @@ before API, then already-started retry21:33:56Z created final Build21:38:01Z.
 These produce no proof/negative credit and no additional Cloud charge.
 Repair4c2e2447 local non-proof exact-delivery precheck529391 bytes/177parts,
 payloadSHAb24cc5cdfa7a48ed378d0fb0912b56f890b497f5227e41c497b1b7f90d74d78c.
+
+## Maintainer composition session C — closed, PARTIAL
+
+FreshBuild063d90bc/tool4a34010/profileC3 proves actual9body pointer selector, boundedC1→C4 and their first-real-select composition with unchanged posts/CURRENT. Typedlocation/aliascertificate andproducer48seal/raw6VCcontrols reviewed. Cleanup/admission observations reviewed and old unchanged strict/pointer/MDnew/C4diagnostics reuseeligible with originalpins. OuterFcut106VC NOT_RUN because manifestpathsetupfailure after fullcaptures; runnerca5f5460 fixespath/classifier butCloudUNRUN. Kernelunchanged, noassumedsummary/unrestrictedT/ZST/nativecaller/fullsort4/adoption. LedgerCLOSED7Builds1952sec/1648expire noownreservation/automaticrestart. [Checkpoint](cloud-build/verifast-c4-select-composition-c/END-CHECKPOINT-2026-10-11-C.md).

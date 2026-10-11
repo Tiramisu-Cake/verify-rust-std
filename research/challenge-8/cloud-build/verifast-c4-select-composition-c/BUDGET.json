@@ -1,14 +1,14 @@
 {
   "phase": "VERIFAST-C4-SELECT-COMPOSITION-CLOUD-2026-10-11-C",
   "owner": "verifast",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "authorization": "Direct user session C: finish prepared B2 actual nine-body selector and same-tool bounded C4 first-select composition plus agreed gates, full dependency pack, Cloud import preparation before compiler. 120min+30min finish-only; Cloud3600 createTime to finishTime including failures.",
   "start_utc": "2026-10-10T22:41:46Z",
   "main_deadline_utc": "2026-10-11T00:41:46Z",
   "deadline_utc": "2026-10-11T01:11:46Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 1588,
-  "remaining_build_seconds": 2012,
+  "used_build_seconds": 1952,
+  "remaining_build_seconds": 1648,
   "allowed_lanes": [
     "verifast-c4-select-integration"
   ],
@@ -157,6 +157,35 @@
       "execution_seconds": 161,
       "download_verified": true,
       "archive_sha256": "fd7deccc56b4c6adea1b40fa8e1e5b6c770b43bc023f53639617ed02be1c9719"
+    },
+    {
+      "dispatch_token": "dispatch-44d398ca5c584396a845660a40b6ba57",
+      "owner": "verifast",
+      "phase_id": "VERIFAST-C4-SELECT-COMPOSITION-CLOUD-2026-10-11-C",
+      "infra_sha": "9ffa34d2c35032cb3bd5c4172b40c95989eb3fa9",
+      "proof_sha": "9ffa34d2c35032cb3bd5c4172b40c95989eb3fa9",
+      "lane": "verifast-c4-select-integration",
+      "submitted_config_sha256": "bbdc396837b7d33b05468e8027e1bb494877aed984cfa70eb29c1982870c1b72",
+      "reserved_seconds": 1110,
+      "timeout_seconds": 1050,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "7737246fda4e47efb58a56fe5930116f201c05bcd3e806fe3959115a30ada1e6",
+      "build_id": "063d90bc-572a-4182-bc04-9528b3a9eea3",
+      "start_time": "2026-10-11T00:39:07.904123956Z",
+      "finish_time": "2026-10-11T00:45:10.783866Z",
+      "create_time": "2026-10-11T00:39:07.116269834Z",
+      "build_seconds": 364,
+      "accounted": true,
+      "execution_seconds": 363,
+      "download_verified": true,
+      "archive_sha256": "8d543f47d80e535f876dfd63387d588d8278c6eed10ee6af32657e85a6458934"
     }
-  ]
+  ],
+  "closed_utc": "2026-10-11T00:49:34.562665+00:00",
+  "unused_seconds_expired": 1648,
+  "unused_carry_allowed": false,
+  "own_unresolved_cloud_reservations": [],
+  "closing_reason": "Main window ended. Final begun Build collected/accounted and integrity-verified. No new experiment or automatic session. Proof reservations remain in final manifest/checkpoint."
 }

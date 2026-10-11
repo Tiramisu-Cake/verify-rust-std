@@ -197,3 +197,10 @@ manifest to the exact candidate runner commit and execution status. Until
 those identities agree, hold Cloud submission; the source/tool portion of
 this review is GO, but the submitted runner package is not yet identified by
 the manifest.
+
+The runner provenance was subsequently corrected: the manifest now pins
+`candidate_runner_commit=fec0744073852fb4a2d1bc71ba90af6f77a1d312`, matching
+the new capture/runner commit in the delivery chain; the profile remains
+experimental and `C3_SEALED_FINAL_UNRUN`. With this provenance correction, the
+final preflight review is **GO to submit** the exact candidate for fresh Cloud
+verification. Proof credit remains entirely dependent on the new Cloud result.
