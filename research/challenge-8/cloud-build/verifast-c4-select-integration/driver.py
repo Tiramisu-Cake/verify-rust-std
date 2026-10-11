@@ -588,6 +588,26 @@ def run(a):
         frame_audit["nested_full_normal_unwind_observed"] and
         frame_audit["outer_full_normal_unwind_observed"])
     if selector_ok:
+        if data.get("producer_seal_discovery") is True:
+            need(exported_ast.is_file() and
+                 "producer_location_alias_partition=preserved" in selector_log,
+                 "sharing discovery producer artifact/certificate missing")
+            outer_case = a.evidence.parents[1] / "source-preparation/regression-fixtures/negative_outer_bound_escape"
+            outer_mir = capture(a, outer_case, "outer-discovery",
+                                ["recover_pair", "negative_outer_bound_escape"])
+            finish(a, {"classification": "PRODUCER_SEAL_DISCOVERY_ONLY",
+                "diagnostic_complete": False, "composition_positive": False,
+                "selector_full_nine_body": True,
+                "producer_discovery": {"producer_ast_sha256": sha(exported_ast),
+                    "manifest_sha256": sha(a.manifest), "profile_id": data["profile_id"],
+                    "proof_sha": os.environ.get("PROOF_SHA"),
+                    "build_id": os.environ.get("CLOUD_BUILD_ID"),
+                    "effective_tool": json.loads((a.evidence / "effective-hashes.json").read_text())["actual"],
+                    "selector_mir": selector_mir, "pre_ast_fingerprints": fresh_fingerprints,
+                    "nine_body_audit": frame_audit, "proof_log_sha256": selector["log_sha256"],
+                    "receipt_created_only_after_full_nine_body_proof": True},
+                "outer_mir": outer_mir, "consumer_admission": "NOT_RUN_UNSEALED_DISCOVERY"})
+            return
         need(exported_ast.is_file() and sha(exported_ast) == data["producer_final_ast_sha256"],
              "fresh successful producer final AST differs from reviewed fixed pin")
         record(a.evidence / "producer-receipt.json", {
@@ -680,8 +700,9 @@ def run(a):
             not result["dead_code"] and result["zero_errors"] and
             result["return_seen"] and result["leak_check_seen"] and
             "SORT4-C4-SELECT-AST: importing nine definitions" in raw and
-            ("typed location-only certificate paths=" + str(original_blob.count(b"verified/lib.rs")) +
-             " ordinary_strings=0 ref_sharing=none unsupported=none") in raw and
+            ("typed location-only certificate paths=" + str(data["producer_typed_location_endpoints"]) +
+             " ordinary_strings=0 ref_sharing=none unsupported=none location_alias_partition=preserved") in raw and
+            "producer_location_alias_partition=preserved" in selector_log and
             target >= 0 and composition_headers_exact and
             all(raw.find("Verifying function '" + name + "'") < target
                 for name in selector_verification_order) and
@@ -695,6 +716,7 @@ def run(a):
             "export_sha256": sha(exported_ast),
             "relocated_sha256": hashlib.sha256(relocated_blob).hexdigest(),
             "location_occurrences": original_blob.count(b"verified/lib.rs"),
+            "typed_location_endpoints": data["producer_typed_location_endpoints"],
             "location_only_audit": "TYPED_CERTIFICATE_OBSERVED_REVIEW_PENDING" if composition_ok else "NOT_CONFIRMED",
             "original_posts_preserved": True, "raw_ptr_own_pointee_rights": False}
         composition["controls"] = {}

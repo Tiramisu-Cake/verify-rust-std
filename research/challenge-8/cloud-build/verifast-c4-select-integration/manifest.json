@@ -6,7 +6,7 @@
   "tool_c4_patch_sha256": "b33e19deec896aefad1232f982e4499dfcdef6026e09c12b9c914852d9f6beaa",
   "selector_integration_patch_sha256": "2c384f14b596c9f2713c39592ce0f414e4bdb9d994dbab7895eaa7a92eedfff0",
   "effective_hashes": {
-    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "9c07b41474faed7ca2f03bdd9432506b3b3f5a4bbf61a46d378effbc730bb409",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "bc00d59110bf1c235f866ec141726965bca8f12378f1dc42c39458a3f624e8de",
     "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
     "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
     "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
@@ -37,14 +37,14 @@
     ]
   },
   "dependencies_file": "DEPENDENCIES.md",
-  "composition_patch_sha256": "01a7ee3b8c122e9e19e0b39c60f12d14fb9c0201dd8b61dfad83b68c9319dec6",
-  "composition_export_format": "same-tool-final-AST-Marshal-No_sharing",
+  "composition_patch_sha256": "b21aee08c608d87dd0b808b7367f6d7e2488972feed415715d2608f83ab31efb",
+  "composition_export_format": "same-tool-final-AST-Marshal-sharing-preserved",
   "composition_location_only_review": "STATIC_GO_TYPED_LOC_FIELDS_ONLY; FRESH_B2_AST_TRANSPORT_NOT_RUN",
   "source_modules_pack_sha256": "21516461a662781aabbf296bf5cb4016f10051c019205204a7740ecec0fe44f6",
   "source_modules_provenance_commit": "3338d1d17be0cef3d7787a42e8d76113386fd8fd",
   "source_modules_count": 30,
-  "tool_candidate_commit": "2e95eec0c0a08c071f896fd9d00a606f572d5352",
-  "profile_id": "verifast-c4-select-composition-20261011-c2",
+  "tool_candidate_commit": "87b79a844d7ec9b05d9768bdb3e6e249efde8120",
+  "profile_id": "verifast-c4-select-composition-20261011-c3-discovery",
   "review_files": [
     "PREIMPLEMENTATION-REVIEW.md",
     "PORT-REVIEW.md",
@@ -65,11 +65,11 @@
   "verdict": "PARTIAL",
   "tested_infra_proof_commit": "835f6cb980f2e504e4456b7f559857a19c9b0627",
   "candidate_runner_commit": "4c2e244767547ac6c4b81bc61135d2f38d0ecadd",
-  "candidate_runner_execution": "C2_CUT_EXPORT_REPAIR_CLOUD_UNRUN",
+  "candidate_runner_execution": "C3_SHARING_DISCOVERY_UNRUN",
   "observed_console_sha256": "a6d920ac4d635bfe7774a96a76bd309491d3f2e67546cad18925cffcc17bdb3e",
   "observed_console_build": "f7da71e8-de68-4542-ae0a-aadf4936c233",
-  "bundle_path": "research/verifast-input/2e95eec0c0a08c071f896fd9d00a606f572d5352/bundle",
-  "bundle_sha256": "bdf15486b9b4b991ff3069d9dbb0ef25f4bccde76d56e3664dcd21988413b9fa",
+  "bundle_path": "research/verifast-input/87b79a844d7ec9b05d9768bdb3e6e249efde8120/bundle",
+  "bundle_sha256": "9d34a31974a9db5d5cef3072c4831e0a6bdd86fe029f0625f419637277e8cfa8",
   "bundle_required_base": "f76012fb518703b1d98e243ac4f487f16877cfcb",
   "reproduce_tested_command": "python3 research/challenge-8/cloud-build/control.py --state-dir /root/verify-rust-std-verifast-compose2/.verifast-c4-composition-state --phase-id VERIFAST-C4-SELECT-COMPOSITION-CLOUD-2026-10-10-B --ledger research/challenge-8/cloud-build/verifast-c4-select-composition/BUDGET.json --owner verifast submit --infra-sha 835f6cb980f2e504e4456b7f559857a19c9b0627 --proof-sha 835f6cb980f2e504e4456b7f559857a19c9b0627 --lane verifast-c4-select-integration --timeout 1050",
   "candidate_command": "python3 research/challenge-8/cloud-build/control.py --state-dir /root/verify-rust-std-verifast-compose2/.verifast-c4-composition-state --phase-id VERIFAST-C4-SELECT-COMPOSITION-CLOUD-2026-10-10-B --ledger research/challenge-8/cloud-build/verifast-c4-select-composition/BUDGET.json --owner verifast submit --infra-sha 4c2e244767547ac6c4b81bc61135d2f38d0ecadd --proof-sha 4c2e244767547ac6c4b81bc61135d2f38d0ecadd --lane verifast-c4-select-integration --timeout 1050",
@@ -619,5 +619,7 @@
   "repair_reviews_c2": [
     "../verifast-c4-select-composition-c/POINTER-CUT-REPAIR-REVIEW.md",
     "../verifast-c4-select-composition-c/OUTER-EXPORT-REPAIR-REVIEW.md"
-  ]
+  ],
+  "producer_seal_discovery": true,
+  "producer_typed_location_endpoints": 3442
 }

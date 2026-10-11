@@ -22,7 +22,7 @@ index 959ce64b..12609da7 100644
  | GotoStmt (l, lbl) -> C ("GotoStmt", [of_loc l; S lbl])
  | NoopStmt l -> C ("NoopStmt", [of_loc l])
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index d189d58a..72e3f0b8 100644
+index d189d58a..3b0753e6 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -6784,17 +6784,47 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -509,7 +509,7 @@ index d189d58a..72e3f0b8 100644
      if cleanup_edges <> (if input_relation then (if Sort4R3FrameTest.enabled then 18 else 23) else if rebase then 18 else if nine then 10 else 9) then
        reject "owner shared cleanup predecessor inventory";
      (match (if input_relation then
-@@ -17148,12 +17518,407 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -17148,12 +17518,430 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              (modularize_fn_decl module_imports_map)
              (body_sigs @ proof_body_decls)
        in
@@ -674,6 +674,22 @@ index d189d58a..72e3f0b8 100644
 +        | Ocaml_expr.Loc old_loc, Ocaml_expr.Loc new_loc ->
 +            transport_loc_relation old_loc new_loc |> ignore
 +        | _ -> transport_reject "non-location typed AST structure changed" in
++      let location_alias_partition view =
++        let seen = ref [] in
++        let identities = ref [] in
++        let add loc0 =
++          let rec find index = function
++            | [] -> seen := !seen @ [loc0]; index
++            | old :: rest -> if old == loc0 then index else find (index + 1) rest in
++          identities := find 0 !seen :: !identities in
++        let rec walk = function
++          | Ocaml_expr.Loc loc ->
++              add (Ast.root_caller_token loc); add (Ast.lexed_loc loc)
++          | Ocaml_expr.C (_, xs) | Ocaml_expr.Call (_, xs)
++          | Ocaml_expr.L xs | Ocaml_expr.T xs -> List.iter walk xs
++          | Ocaml_expr.Ref r -> walk r#contents
++          | _ -> () in
++        walk view; List.rev !identities in
 +      let certify_transport_pair original relocated raw_replace_count =
 +        let original_view = typed_transport_view original in
 +        let relocated_view = typed_transport_view relocated in
@@ -682,13 +698,16 @@ index d189d58a..72e3f0b8 100644
 +        let relocated_old_count, relocated_new_count =
 +          inspect_transport_view relocated_view in
 +        if original_old_count = 0 || original_new_count <> 0 ||
-+           original_old_count <> raw_replace_count || relocated_old_count <> 0 ||
-+           relocated_new_count <> raw_replace_count then
-+          transport_reject "typed location count differs from raw Marshal replacement count";
++           raw_replace_count <= 0 || relocated_old_count <> 0 ||
++           relocated_new_count <> original_old_count then
++          transport_reject "typed location endpoint inventory differs";
 +        compare_transport_expr original_view relocated_view;
++        if location_alias_partition original_view <>
++           location_alias_partition relocated_view then
++          transport_reject "physical location alias partition changed";
 +        Printf.printf
-+          "SORT4-C4-SELECT-AST: typed location-only certificate paths=%d ordinary_strings=0 ref_sharing=none unsupported=none\n%!"
-+          original_old_count in
++          "SORT4-C4-SELECT-AST: typed location-only certificate paths=%d ordinary_strings=0 ref_sharing=none unsupported=none location_alias_partition=preserved raw_replacements=%d\n%!"
++          original_old_count raw_replace_count in
 +      (match current_bound_ast_export with
 +       | None -> ()
 +       | Some path ->
@@ -735,13 +754,17 @@ index d189d58a..72e3f0b8 100644
 +           (Ocaml_expr_of_ast.of_list Ocaml_expr_of_ast.of_package flattened);
 +         let _ = inspect_transport_view
 +           (typed_transport_view (headers, flattened)) in
-+         let bytes = Marshal.to_string (headers, flattened)
-+           [Marshal.No_sharing] in
++         let live_view = typed_transport_view (headers, flattened) in
++         let bytes = Marshal.to_string (headers, flattened) [] in
++         let decoded = Marshal.from_string bytes 0 in
++         if location_alias_partition live_view <>
++            location_alias_partition (typed_transport_view decoded) then
++           transport_reject "producer export physical location alias partition changed";
 +         let oc = open_out_bin path in
 +         Fun.protect ~finally:(fun () -> close_out oc)
 +           (fun () -> output_string oc bytes);
 +         Printf.printf
-+           "SORT4-C4-SELECT-AST: exported final nine-body AST sha256=%s bytes=%d bodies=9\n%!"
++           "SORT4-C4-SELECT-AST: exported final nine-body AST sha256=%s bytes=%d bodies=9 producer_location_alias_partition=preserved\n%!"
 +           (sort4_actual_owner_sha256 bytes) (String.length bytes));
 +      let headers, flattened = match import_path with
 +        | None -> headers, flattened
