@@ -1,0 +1,11 @@
+# VeriFast C4 + actual selector — session D blocked integration candidate
+
+Checkpoint `84cb28bed4d9b28e0a6be1da3897ef6562029acb`; tool `4a34010cc3930eec46fc4e72c1b793ad734fa730`; corrected runner source `ca5f54607bf9e36ecbb9a24085cc6cc9e18db98c`; tested delivery `84f21b3bf244eb352cb91584fc84a73d6703b117`; profile `verifast-c4-select-composition-20261011-c3`.
+
+**BLOCKED; not READY_FOR_INTEGRATION_REVIEW.** Fresh nine-body selector, bounded C4 and same-invocation first-real-select composition PASS; six target VCs, typed producer/import correspondence and cleanup/admission observations independently reviewed. Mandatory exact outer-F negative reaches callback103/cut106 and unexpectedly PASSes, with no required escape VC. Independent source/AST/trace review finds no honest exact-path repair without changing the semantic obligation. Kernel/tool/posts/CURRENT are unchanged.
+
+Read `research/challenge-8/cloud-build/verifast-c4-select-outer-d/END-CHECKPOINT-2026-10-11-D.md`, `REPRODUCE-D.md`, the two independent RAW reviews and closed BUDGET. The single integration manifest preserves C evidence/pins, adds fresh D evidence, explicit reservations and reviewed overlay, while the full original D archive and rejected summaries remain immutable under outer-d/raw. Build9397d5cd cost374/3600sec;3226expire. No automatic replay/new session or owner profile adoption. Broader O23/assumptions remain unresolved; no whole-sort4/native caller claim.
+
+`proof.bundle` requires checkpoint `c6520d4cc436f276810234804e5f1f7cdc2f29e6` and contains the exact tested phase registration and final checkpoint. `tool.bundle` requires official base `f76012fb518703b1d98e243ac4f487f16877cfcb`; it preserves the local tool candidate without a fork. The full30module/twoXZ dependency pack is retained. Exact submitted command uses the CLOSED D account and documents inputs only; a future replay needs separately authorized registration/account.
+
+This append-only internal review/verifast packet preserves prior packets and the separate upstream candidate. No force-push, baseline merge, fork or upstream publication. Instruction snapshots are archival originals; direct current user scope takes precedence. Complete packet file SHA256 inventory is `files-sha256.json`.

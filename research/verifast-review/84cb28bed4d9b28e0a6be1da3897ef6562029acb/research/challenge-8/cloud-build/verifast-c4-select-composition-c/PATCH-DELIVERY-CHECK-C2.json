@@ -1,0 +1,30 @@
+{
+  "classification": "PURE_GIT_ORDERED_PATCH_DELIVERY_ONLY",
+  "tool_commit": "2e95eec0c0a08c071f896fd9d00a606f572d5352",
+  "official_base": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "composition_base": "57bdb9ed2fc45a420fb3b3f98ee004f01d709846",
+  "patches": [
+    {
+      "path": "research/challenge-8/cloud-build/verifast-c4-select-integration/tool-c4.patch",
+      "sha256": "b33e19deec896aefad1232f982e4499dfcdef6026e09c12b9c914852d9f6beaa"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/verifast-c4-select-integration/selector-integration.patch",
+      "sha256": "2c384f14b596c9f2713c39592ce0f414e4bdb9d994dbab7895eaa7a92eedfff0"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/verifast-c4-select-integration/composition.patch",
+      "sha256": "01a7ee3b8c122e9e19e0b39c60f12d14fb9c0201dd8b61dfad83b68c9319dec6"
+    }
+  ],
+  "effective_sources": {
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "9c07b41474faed7ca2f03bdd9432506b3b3f5a4bbf61a46d378effbc730bb409",
+    "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "src/frontend/ocaml_expr_of_ast.ml": "cd90799926cfc73d86e3c9b137ed84e977b1a918d1ba8723f3f26125cbb7aafe"
+  },
+  "all_match": true,
+  "compile_extraction_proof_executed": false
+}
