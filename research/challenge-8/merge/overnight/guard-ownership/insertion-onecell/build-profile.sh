@@ -117,12 +117,22 @@ if [[ -n "${SMALLSORT_MERGE_PROFILE:-}" ]]; then
   python3 - "$SMALLSORT_MERGE_PROFILE" "$selected_patch" <<'SELECTEDPIN'
 import hashlib,json,pathlib,sys
 profile,patch=map(pathlib.Path,sys.argv[1:]);p=json.loads(profile.read_text())
-assert p['profile']=='experimental-merge-selected-drop-receiver-v4' and p['accepted'] is False
+assert p['profile']=='experimental-merge-actual-glue-observation-v1' and p['accepted'] is False
 assert hashlib.sha256(patch.read_bytes()).hexdigest()==p['selected_drop_patch_sha256']
 SELECTEDPIN
   git -C "$new_home" apply --check "$selected_patch"
   git -C "$new_home" apply --whitespace=error "$selected_patch"
   cp "$selected_patch" "$evidence/selected-drop.patch"
+  glue_patch="$here/../../../../cloud-build/origin-layout/glue-observation.patch"
+  python3 - "$SMALLSORT_MERGE_PROFILE" "$glue_patch" <<'GLUEPIN'
+import hashlib,json,pathlib,sys
+p=json.loads(pathlib.Path(sys.argv[1]).read_text());patch=pathlib.Path(sys.argv[2])
+assert p['profile']=='experimental-merge-actual-glue-observation-v1' and p['accepted'] is False
+assert hashlib.sha256(patch.read_bytes()).hexdigest()==p['glue_observation_patch_sha256']
+GLUEPIN
+  git -C "$new_home" apply --check "$glue_patch"
+  git -C "$new_home" apply --whitespace=error "$glue_patch"
+  cp "$glue_patch" "$evidence/glue-observation.patch"
 fi
 # Prepare-only mode preserves the exact existing patch/dependency preparation,
 # then stops before Cargo, Dune, native controls or any proof execution.

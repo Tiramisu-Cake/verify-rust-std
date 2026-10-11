@@ -305,7 +305,7 @@ bash research/challenge-8/merge/overnight/build.sh "$tool_home" "$evidence/build
 if [[ "$run_mode" == merge_compile_only || "$run_mode" == merge_bridge_minimal || "$run_mode" == merge_len1_minimal || "$run_mode" == merge_caller_composition_minimal || "$run_mode" == merge_selected_drop_minimal ]]; then
   onecell_component="$repo/research/challenge-8/merge/overnight/guard-ownership/insertion-onecell"
   if [[ "$run_mode" == merge_compile_only || "$run_mode" == merge_selected_drop_minimal ]]; then
-    export SMALLSORT_MERGE_PROFILE="$repo/research/challenge-8/cloud-build/origin-layout/SELECTED-PROFILE.json"
+    export SMALLSORT_MERGE_PROFILE="$repo/research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json"
   fi
   candidate_home="$task_temp/verifast-tracked-md-source"
   preparation_evidence="$evidence/tracked-md-build-preparation"
@@ -349,8 +349,9 @@ import json,sys
 x=json.load(open(sys.argv[1]))
 assert x['cases']=={'ordinary_call_normal_unwind':'PASS'} and x['classifier_controls_passed'] is True
 RETAINEDSMOKE
+  export SMALLSORT_GLUE_OBSERVATION_DIR="$evidence/compiler-glue-observation"
   profile_name=experimental-merge-qualified-guard-onecell-v1
-  [[ -z "${SMALLSORT_MERGE_PROFILE:-}" ]] || profile_name=experimental-merge-selected-drop-receiver-v4
+  [[ -z "${SMALLSORT_MERGE_PROFILE:-}" ]] || profile_name=experimental-merge-actual-glue-observation-v1
   proof_campaign=bridge-minimal-v1
   [[ "$run_mode" != merge_len1_minimal ]] || proof_campaign=len1-minimal-v1
   [[ "$run_mode" != merge_caller_composition_minimal ]] || proof_campaign=caller-composition-minimal-v1

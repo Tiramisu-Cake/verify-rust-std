@@ -1,0 +1,93 @@
+{
+  "classification": "METADATA_RECLASSIFICATION_ONLY_NO_PROOF_CREDIT",
+  "classifier_sha256": "9a567bee8089725a9069c23d6ed0ee9d4219e6be0c6a1708fa1e71b776cbd469",
+  "incomplete_or_contradictory_profile_metadata": "record unknown/inconsistent in manifest; continue packaging the original evidence",
+  "original_manifest_and_archive_modified": false,
+  "original_manifest_sha256": "9872b7766aae018adaae6015cec532c5370cf81ee2fcb171ff2c970e7b9cf888",
+  "previous_tool_profile": {
+    "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+    "patches_in_application_order": [],
+    "rust_toolchain": "nightly-2026-09-25",
+    "scope": "no proof tools executed",
+    "std_base_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+    "verifast_source_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+  },
+  "raw_archive_sha256": "527ac69d4b97aeea4ada26330ab63186edc1796d45fe298307771f503728702c",
+  "reclassified_tool_profile": {
+    "baseline": {
+      "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+      "patches_in_application_order": [],
+      "rust_toolchain": "nightly-2026-09-25",
+      "scope": "stock baseline reference; not an execution claim",
+      "std_base_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+      "verifast_source_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+    },
+    "executed": {
+      "accepted": false,
+      "case_receipt_sha256": "d6dd9a285ba88c5f47b34e01521c4a9a0610e3625ecab4a289d26fa92985268a",
+      "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+      "integration_status": "NOT_FOR_INTEGRATION",
+      "patches_in_application_order": [
+        {
+          "path": "research/challenge-8/merge/overnight/wrapping.patch",
+          "sha256": "c7c776ff5aef2b8668aa2ed3d59b47109fce1d67a9dc2f2043fc2744dc0ed31e"
+        },
+        {
+          "path": "research/challenge-8/merge/overnight/callback.patch",
+          "sha256": "0a006df94f04d6425d70280967d6652bdd33ccb88ead4a44f02a2e36775aaa5e"
+        },
+        {
+          "path": "research/challenge-8/merge/overnight/copy.patch",
+          "sha256": "da167ee095e9fb5f425e2d604dd46a973a8c1e3a5121b2c87cc3546b0ec8e9a5"
+        },
+        {
+          "path": "research/challenge-8/merge/overnight/cleanup.patch",
+          "sha256": "94fe2cd69edc9da6907553961ca32f0557c338266d9e9472e577860a95887604"
+        },
+        {
+          "path": "research/challenge-8/merge/overnight/usize-multiple.patch",
+          "sha256": "ecdd1fd6fcc8d811f02fa308ddc533386e0031193d527ea6950a099f8ccccaa1"
+        },
+        {
+          "path": "research/challenge-8/merge/overnight/stack-address.patch",
+          "sha256": "f1444866322bf06b40e078a381a69acea7ccd92b613f7dc903d289044d8cba64"
+        },
+        {
+          "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/tracked-md.patch",
+          "sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6"
+        },
+        {
+          "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/allocation-span.patch",
+          "sha256": "603ab250705fa9d83c94631f7570bd3e1cc7fc06187c35e6ae8465fcb5efca1b"
+        },
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/unit-layout.patch",
+          "sha256": "00c7f9310ca30e3403daabdfe8e7d4c8c13aa84e78434acade309c98faadc68a"
+        },
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/guard-layout.patch",
+          "sha256": "16476ac7e615831bfd49cec3efdcefd1d76eab1a57f2df47b97f43fb8d6a1d74"
+        },
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/selected-drop.patch",
+          "sha256": "57bab179dc11366369689c0980209c2e76acf82339a346b02e1cc99fdfbb610a"
+        }
+      ],
+      "profile": "experimental-merge-selected-drop-receiver-v4",
+      "profile_build_sha256": "72b7337f9abff81b319c08105bcc62d8322b03cff49a0431fc76ac619353fbc1",
+      "profile_sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
+      "rust_toolchain": "nightly-2026-09-25",
+      "scope": "candidate tool identity only; no proof credit",
+      "status": "receipt-bound-candidate-profile",
+      "std_base_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+      "tool_commit": "8a3f63eabf18cc76cc9048c086dda95fbec84d03",
+      "tool_hashes": {
+        "refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+        "verifast": "8a4138a1ce830dd7f595b408ada8c9169a6cc94a5e0ccae2848946ed020a8c93",
+        "vf-rust-mir-exporter": "4c0ab3095731e5c6b14a72a2de85b21723669f25e971c13ca2b07b7556ecb04f"
+      },
+      "verifast_source_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+    }
+  },
+  "schema": "package-evidence-tool-profile-replay-v1"
+}

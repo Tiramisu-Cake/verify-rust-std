@@ -132,6 +132,124 @@ def cloud_config_matches(config, lane: str, infra_sha: str, proof_sha: str,
     return (values.get("LANE") == lane and values.get("INFRA_SHA") == infra_sha and
             values.get("PROOF_SHA") == proof_sha and
             (not proof_image or step.get("name") == proof_image))
+
+
+def manifest_tool_profile(lane: str, payload: dict[str, bytes], proof_sha: str,
+                          build_id: str) -> dict[str, object]:
+    """Keep the stock reference separate from the toolchain actually run.
+
+    Merge candidate identity is bound by its profile-build, compile-preflight,
+    and selected case receipt. Missing or contradictory metadata is represented
+    as unknown/inconsistent while raw evidence packaging continues unchanged.
+    """
+    baseline = {
+        "verifast_source_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+        "std_base_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+        "rust_toolchain": "nightly-2026-09-25",
+        "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+        "patches_in_application_order": [],
+        "scope": "stock baseline reference; not an execution claim",
+    }
+    names = ("allprooflogs/tracked-md-build/profile-build.json",
+             "allprooflogs/tracked-md-build/compile-preflight.json",
+             "allprooflogs/checked-minimal-bridge/onecell-selected-drop/receipt.json")
+    present = [name in payload for name in names]
+    if lane == "constructor":
+        executed = {
+            **baseline,
+            "status": "lane-derived-historical-component",
+            "patches_in_application_order": [
+                {"path": "overnight-s6/verifast-s6-26.10-candidate.patch",
+                 "sha256": "20f7d07ac9bdaca7c46f737b89925dfac3f4cef66c3f5d48aa9634ac949dbc1c"},
+                {"path": "verifast-manuallydrop-new-cfg-2610.patch",
+                 "sha256": "593d09405379974ffbc475c2e0b65d648d8a6913f55b765dd0c3bebdc0922781"},
+            ],
+            "scope": "constructor-only historical component",
+        }
+    elif lane == "stock":
+        executed = {**baseline, "status": "lane-derived-stock", "scope": "stock baseline execution"}
+    elif lane != "merge":
+        executed = {**baseline, "status": "lane-derived", "scope":
+                    "no candidate profile metadata expected for this lane"}
+    elif not any(present):
+        executed = {"status": "unknown", "scope":
+                    "candidate profile not established by archived evidence"}
+    else:
+        if not all(present):
+            missing = [name for name, found in zip(names, present) if not found]
+            executed = {"status": "inconsistent", "reason": "incomplete candidate metadata; missing " + ", ".join(missing),
+                        "scope": "candidate profile not established; raw evidence retained"}
+            return {"baseline": baseline, "executed": executed}
+        profile_raw, preflight_raw, receipt_raw = (payload[name] for name in names)
+        profile = parse_json_or_none(profile_raw)
+        preflight = parse_json_or_none(preflight_raw)
+        receipt = parse_json_or_none(receipt_raw)
+        if not all(isinstance(obj, dict) for obj in (profile, preflight, receipt)):
+            executed = {"status": "inconsistent", "reason": "candidate metadata is not valid JSON objects",
+                        "scope": "candidate profile not established; raw evidence retained"}
+            return {"baseline": baseline, "executed": executed}
+        nested = receipt.get("receipt")
+        chain = profile.get("ordered_patch_chain")
+        profile_sha = preflight.get("profile_sha256")
+        actual_tools = receipt.get("actual_tool_sha256")
+        provider = nested.get("provider") if isinstance(nested, dict) else None
+        compiler_version = nested.get("rustc_version") if isinstance(nested, dict) else None
+        compiler_match = (re.search(r"(?m)^commit-hash:\s*([0-9a-f]{40})\s*$", compiler_version)
+                          if isinstance(compiler_version, str) else None)
+        compiler_commit = compiler_match.group(1) if compiler_match else None
+        effective_tool_commit = profile.get("effective_tool_commit", profile.get("selected_drop_tool_commit"))
+        if (profile.get("schema") != "smallsort-tracked-md-profile-v1" or
+                not isinstance(profile.get("profile"), str) or not profile["profile"] or
+                profile.get("proof_sha") != proof_sha or
+                not isinstance(profile.get("verifast_commit"), str) or
+                not SHA_RE.fullmatch(profile["verifast_commit"]) or
+                not isinstance(effective_tool_commit, str) or
+                not SHA_RE.fullmatch(effective_tool_commit) or
+                not all(isinstance(profile.get(key), str) and re.fullmatch(r"[0-9a-f]{64}", profile[key])
+                        for key in ("exporter_sha256", "console_sha256")) or
+                not isinstance(profile_sha, str) or not re.fullmatch(r"[0-9a-f]{64}", profile_sha) or
+                preflight.get("profile") != profile.get("profile") or
+                preflight.get("proof_attempted") is not False or
+                not isinstance(chain, list) or not chain or
+                any(not isinstance(item, dict) or not isinstance(item.get("path"), str) or
+                    not isinstance(item.get("sha256"), str) or
+                    not re.fullmatch(r"[0-9a-f]{64}", item["sha256"]) for item in chain) or
+                not isinstance(nested, dict) or nested.get("proof_sha") != proof_sha or
+                nested.get("profile") != profile.get("profile") or
+                not build_id or nested.get("cloud_build_id") != build_id or
+                not isinstance(provider, dict) or provider.get("build_id") != build_id or
+                not isinstance(nested.get("rustc_toolchain"), str) or not nested["rustc_toolchain"] or
+                compiler_commit is None or
+                (profile.get("compiler_commit") is not None and profile.get("compiler_commit") != compiler_commit) or
+                receipt.get("profile_build_sha256") != digest(profile_raw) or
+                receipt.get("profile_evidence") != "/workspace/evidence/allprooflogs/tracked-md-build" or
+                not isinstance(actual_tools, dict) or
+                actual_tools.get("vf-rust-mir-exporter") != profile.get("exporter_sha256") or
+                actual_tools.get("verifast") != profile.get("console_sha256")):
+            executed = {"status": "inconsistent", "reason":
+                        "candidate profile, preflight, and execution receipt disagree or lack pinned compiler identity",
+                        "scope": "candidate profile not established; raw evidence retained"}
+            return {"baseline": baseline, "executed": executed}
+        executed = {
+            "status": "receipt-bound-candidate-profile",
+            "profile": profile["profile"],
+            "profile_sha256": profile_sha,
+            "verifast_source_sha": profile.get("verifast_commit"),
+            "std_base_sha": baseline["std_base_sha"],
+            "rust_toolchain": nested.get("rustc_toolchain"),
+            "compiler_commit": compiler_commit,
+            "tool_commit": effective_tool_commit,
+            "tool_hashes": receipt.get("actual_tool_sha256"),
+            "patches_in_application_order": chain,
+            "profile_build_sha256": digest(profile_raw),
+            "case_receipt_sha256": receipt.get("receipt_sha256"),
+            "accepted": False,
+            "integration_status": profile.get("integration_status", "unknown"),
+            "scope": "candidate tool identity only; no proof credit",
+        }
+    return {"baseline": baseline, "executed": executed}
+
+
 def fail(message: str) -> None:
     raise ValueError(message)
 
@@ -342,17 +460,7 @@ def main() -> int:
             "infra_sha": infra_sha, "proof_sha": proof_sha,
             "historical_comparison": parse_json_or_none(payload.get("comparison-manifest.json")),
             "source_delivery": {"mode": source_mode, "valid": source_valid, "certificate": source_certificate},
-            "tool_profile": {
-                "verifast_source_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb",
-                "std_base_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
-                "rust_toolchain": "nightly-2026-09-25",
-                "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
-                "patches_in_application_order": ([
-                    {"path": "overnight-s6/verifast-s6-26.10-candidate.patch", "sha256": "20f7d07ac9bdaca7c46f737b89925dfac3f4cef66c3f5d48aa9634ac949dbc1c"},
-                    {"path": "verifast-manuallydrop-new-cfg-2610.patch", "sha256": "593d09405379974ffbc475c2e0b65d648d8a6913f55b765dd0c3bebdc0922781"},
-                ] if lane == "constructor" else []),
-                "scope": "constructor-only historical component" if lane == "constructor" else "stock baseline" if lane == "stock" else "no proof tools executed",
-            },
+            "tool_profile": manifest_tool_profile(lane, payload, proof_sha, build_id),
             "pins": {"infra_sha": infra_sha, "proof_sha": proof_sha,
                      "submitted_config_sha256": config_sha,
                      "proof_image": proof_image},
