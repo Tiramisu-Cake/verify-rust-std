@@ -6,7 +6,7 @@ set -euo pipefail
    -z "${GITHUB_ACTIONS:-}" ]] || exit 2
 cloud_dir=${INFRA_CLOUD_DIR:-/workspace/infra/research/challenge-8/cloud-build}
 if [[ "${SORT4_NATIVE_C1_BOUND_PHASE:-}" == 1 ]]; then
-  [[ "${SORT4_NATIVE_C1_BOUND_PHASE_ID:-}" == SORT4-NATIVE-C1-BOUND-CLOUD-2026-10-10 &&
+  [[ "${SORT4_NATIVE_C1_BOUND_PHASE_ID:-}" == SORT4-NATIVE-C1-ZST-DIAG-CLOUD-2026-10-11 &&
      -z "${SORT4_NATIVE_C4_PHASE:-}" &&
      -z "${SORT4_NATIVE_OPAQUE_PHASE:-}" ]] || exit 2
   exec python3 "$cloud_dir/sort4-native-c4/driver.py" "$@"
