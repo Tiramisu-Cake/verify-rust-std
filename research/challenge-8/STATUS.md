@@ -25,3 +25,7 @@ Main6e1a8e59/ACKea155143 и upstream as_mut_ptr/ManuallyDrop::new/tool I/PASS с
 foreign worktrees/coordinator не тронуты; merge/upstream PR/profile adoption отсутствуют.
 [Publication receipt](verifast-review/drop-glue-v6-20261012/f1/PUBLICATION.json),
 [cleanup receipt](verifast-review/drop-glue-v6-20261012/f1/CLEANUP.json).
+
+Сессия CLOSED в пределах 60 минут. Tested head35145044; publication/tree/manifest
+проверены перед cleanup. Удалены только свои redundant /tmp copies/helper:
+2 768 896 allocated bytes (≈2.64 MiB); active worktrees и merge-owned raw evidence сохранены.

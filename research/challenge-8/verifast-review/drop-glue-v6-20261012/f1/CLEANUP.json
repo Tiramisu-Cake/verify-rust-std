@@ -1,0 +1,44 @@
+{
+  "kind": "OWN_UNUSED_TEMP_CLEANUP",
+  "time_utc": "2026-10-11T22:49:25.520431+00:00",
+  "deleted": [
+    {
+      "path": "/tmp/review-v6-pinned",
+      "regular_files": 170,
+      "logical_file_bytes": 2252278,
+      "allocated_bytes": 2662400,
+      "purpose": "Regenerable pinned tracked-source copy"
+    },
+    {
+      "path": "/tmp/review-v6-auditor420",
+      "regular_files": 2,
+      "logical_file_bytes": 99176,
+      "allocated_bytes": 102400,
+      "purpose": "Regenerable pinned tracked-source copy"
+    },
+    {
+      "path": "/tmp/review-v6-hashes.py",
+      "regular_files": 1,
+      "logical_file_bytes": 3351,
+      "allocated_bytes": 4096,
+      "purpose": "Obsolete own hash-check helper; results retained in published INPUTS.json"
+    }
+  ],
+  "freed_allocated_bytes": 2768896,
+  "freed_logical_file_bytes": 2354805,
+  "active_processes_checked": 311,
+  "active_references": [],
+  "durable_package_commit": "351450444b2d538e88b15612783a9541478fc868",
+  "durable_tree_verified": "58966591324a1c4c62ccf6aa5e961ae6b89208aa",
+  "github_api_manifest_sha256_verified": "e243189e5f4b80bcd572259fbb6308bded3b95222fdad9c16234cf40ec6b9c54",
+  "published_manifest_all_files_hashes_checked": true,
+  "deleted_source_bytes_verified_against_exact_git_pins": true,
+  "temporary_test_and_patch_fixtures": "TemporaryDirectory contexts already removed their own new fixtures; no wildcard deletion",
+  "retained": [
+    "Active own /root/verify-rust-std-review-v6 worktree and published evidence/checks",
+    "/tmp/merge-glue-body-v6-evidence-34485da0 and /tmp/merge-glue-body-v6-unpacked-34485da0 (merge-owned raw evidence)",
+    "/tmp/merge-glue-body-cloud-session2-20261011 (merge-owned saved Cloud record)",
+    "All foreign artifacts, worktrees, coordinator and active merge files"
+  ],
+  "accounting": "Sum of allocated blocks of deleted allowlisted entries; no global df delta claim during concurrent work"
+}
