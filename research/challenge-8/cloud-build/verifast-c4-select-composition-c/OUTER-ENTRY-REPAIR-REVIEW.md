@@ -51,3 +51,42 @@ to other bodies or suppress unresolved inference.
 
 Until that candidate passes those gates and the real callback call reaches
 `end_lft_binding`, this run provides no outer-bound-negative evidence.
+
+## Reuse of the existing six-local relocation
+
+The reviewed translator already has a TEST-only relocation implementation at
+`vf_mir_translator.ml:7644–7748` and the single insertion point at
+`5777–5790`. It selects only `_27`–`_32`, requires one local declaration and
+one recorded MIR type per ID, checks exact erased-reference/tuple type shapes,
+checks address-taken is false, removes six declarations from the outer list,
+and inserts the same translated declarations exactly once after the strict
+scope marker and before the block head label. Its current admission is
+deliberately limited to `callback_positive`, source line 52, source MD5
+`7b206fedf030cc663d77378b75e0d141`, and cut line 106. Reusing this mechanism
+avoids a new relocation framework.
+
+For the negative target, the only admissible extension is a separate exact
+branch for `negative_outer_bound_escape`: require strict lifetime and HRTB
+output flags, the exact singleton target, absolute unused current-bound AST
+export path, exact source SHA-256
+`bca43d1a7b92cac4faf11362f55b35d115306e920fb0999139a57836dbd94cf5` and
+MD5 `533c766ca85f97db615a700882dc0e89`, source file `verified/lib.rs`, function
+line 52, and the unique `'cmp` cut at line 106. Retain the existing exact six
+local type/id/count/address-taken checks and one-insertion assertion. Keep the
+existing callback-positive branch byte-for-byte and preserve the normal
+outer-fixture export and registration gates. Do not activate relocation by
+name or environment flag alone.
+
+This static review does **not** clear relocation: the Build200ed04f archive
+contains the exported AST but no complete NORMAL/readonly MIR event capture.
+Before any semantic edit, capture both modes for the exact target and
+`recover_pair`. Require source/body hashes and actual Reader records mapping
+the normal six roles and readonly six roles. Review all normal CFG routes:
+each selected local becomes live only inside the strict prefix, has no alias
+or address escape beyond its recognized reference/tuple uses, reaches
+`StorageDead` before the cut, and has no later use or Drop. Separately review
+the direct callback `Continue` unwind: no cleanup, later use, or Drop; block
+exit frees each relocated AST declaration exactly once while original
+unwind posts remain in force. Any missing event, new path, type/role mismatch,
+or retained alias means HOLD and no relocation. Existing exact admission
+mutants must continue to refuse before proof.

@@ -594,7 +594,7 @@ def run(a):
                  "sharing discovery producer artifact/certificate missing")
             outer_case = a.evidence.parents[1] / "source-preparation/regression-fixtures/negative_outer_bound_escape"
             outer_mir = capture(a, outer_case, "outer-discovery",
-                                ["recover_pair", "negative_outer_bound_escape"])
+                                ["negative_outer_bound_escape"])
             finish(a, {"classification": "PRODUCER_SEAL_DISCOVERY_ONLY",
                 "diagnostic_complete": False, "composition_positive": False,
                 "selector_full_nine_body": True,
@@ -868,19 +868,35 @@ def run(a):
     need(diagnostic_complete, classification)
 
 
+def outer_capture(a):
+    need(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
+         os.environ.get("LANE") == "verifast-c4-select-integration",
+         "Cloud-only outer MIR capture required")
+    need(manifest(a).get("outer_capture_only") is True, "exact outer capture mode required")
+    data = manifest(a)
+    for name, expected in data["stock_effective_hashes"].items():
+        need(sha(a.tool_home / name) == expected, "outer capture exporter/refiner pin differs")
+    need(sha(a.tool_home / SCHEMA) == data["effective_hashes"][SCHEMA],
+         "outer capture schema pin differs")
+    case = a.evidence.parents[1] / "source-preparation/regression-fixtures/negative_outer_bound_escape"
+    pins = capture(a, case, "outer-discovery", ["negative_outer_bound_escape"])
+    finish(a, {"classification": "OUTER_MIR_CAPTURE_ONLY", "outer_mir": pins,
+               "diagnostic_complete": False, "consumer_admission": "NOT_RUN_CAPTURE_ONLY"})
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="mode", required=True)
-    for mode in ("preflight", "source-prepare", "apply", "pin", "run"):
+    for mode in ("preflight", "source-prepare", "apply", "pin", "run", "outer-capture"):
         command = sub.add_parser(mode)
         command.add_argument("--proof-root", type=Path, required=True)
         command.add_argument("--manifest", type=Path, required=True)
         command.add_argument("--evidence", type=Path, required=True)
-        if mode in ("apply", "pin", "run"):
+        if mode in ("apply", "pin", "run", "outer-capture"):
             command.add_argument("--tool-home", type=Path, required=True)
-        if mode in ("preflight", "source-prepare", "run"):
+        if mode in ("preflight", "source-prepare", "run", "outer-capture"):
             command.add_argument("--cloud-dir", type=Path, required=True)
-        if mode == "run":
+        if mode in ("run", "outer-capture"):
             command.add_argument("--compiler-sysroot", type=Path, required=True)
             command.add_argument("--deadline-epoch", type=int, required=True)
     failure = sub.add_parser("failure")
@@ -904,6 +920,8 @@ def main():
         preflight(a)
     elif a.mode == "source-prepare":
         source_prepare(a)
+    elif a.mode == "outer-capture":
+        outer_capture(a)
     elif a.mode == "apply":
         apply(a)
     elif a.mode == "pin":

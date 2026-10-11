@@ -83,6 +83,16 @@ stage compiler rustup toolchain install "$RUSTUP_TOOLCHAIN" --profile minimal \
 compiler_sysroot=$(rustc --print sysroot)
 rustc --version --verbose > "$ev/compiler-version.txt"
 rg -q '^commit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f$' "$ev/compiler-version.txt"
+if python3 -c 'import json,sys; sys.exit(0 if json.load(open(sys.argv[1])).get("outer_capture_only") is True else 1)' "$manifest"; then
+  mkdir -p "$source_home/bin"
+  cp "$stock_home/bin/vf-rust-mir-exporter" "$stock_home/bin/refinement-checker" "$source_home/bin/"
+  export LD_LIBRARY_PATH="$compiler_sysroot/lib:$stock_home/bin:${LD_LIBRARY_PATH:-}"
+  current_stage=outer-capture
+  python3 "$runner" outer-capture --proof-root "$proof_root" --cloud-dir "$cloud_dir" \
+    --manifest "$manifest" --evidence "$ev" --tool-home "$source_home" \
+    --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
+  exit 0
+fi
 stage deps-download curl -fL --retry 2 -o "$work_root/vfdeps-adf88dc-linux.txz" \
   https://github.com/verifast/vfdeps/releases/download/25.01/vfdeps-adf88dc-linux.txz
 printf '%s  %s\n' 8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580 \
