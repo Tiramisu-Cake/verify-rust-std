@@ -166,8 +166,8 @@
 +        let clauses = BodyRd.impl_block_clauses_get_list body |> List.map D.decode_clause in
 +        if not (selected_impl_clauses clauses) then reject "selected impl exact Freeze clause list";
 +        let path = BodyRd.def_path_get body |> TrName.translate_def_path in
-+        if String.ends_with ~suffix="small_sort_threshold" path then selected_threshold
-+        else if String.ends_with ~suffix="small_sort" path then selected_small_sort
++        if String.ends_with ~suffix:"small_sort_threshold" path then selected_threshold
++        else if String.ends_with ~suffix:"small_sort" path then selected_small_sort
 +        else reject "selected impl body path"
 +      end else name
 +    let add_len_bound loc (pre, post) =
