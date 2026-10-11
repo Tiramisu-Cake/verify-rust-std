@@ -1,0 +1,71 @@
+--- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
++++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
+@@ -2600,6 +2600,68 @@
+             fn_span: &rustc_span::Span,
+             mut fn_call_data_cpn: fn_call_data_cpn::Builder<'_>,
+         ) {
++            // Evidence-only, Cloud-phase-scoped compiler binding probe. It does not
++            // affect encoded MIR or any translation/admission decision.
++            if std::env::var("SMALLSORT_EXECUTION_PROVIDER").as_deref() == Ok("cloud-build")
++                && std::env::var("SORT4_ACTUAL_CALLER_ENTRY_PHASE_ID").as_deref()
++                    == Ok("SORT4-CALLER-DERIVED-BOUND-CLOUD-2026-10-11")
++                && std::env::var("SORT4_SELECTED_INSTANCE_EVIDENCE").as_deref()
++                    == Ok("SORT4-CALLER-DERIVED-BOUND-CLOUD-2026-10-11")
++            {
++                let body = enc_ctx.body();
++                let caller_def_id = body.source.def_id();
++                let caller_path = tcx.def_path_str(caller_def_id);
++                let caller_is_whitelisted_fixture = caller_path == "selected_freeze_basecase"
++                    || caller_path == "selected_freeze_basecase_false_31"
++                    || caller_path == "selected_freeze_basecase_missing_source_array";
++                if caller_is_whitelisted_fixture {
++                    if let ty::FnDef(callee_def_id, callee_args) = func.ty(body, tcx).kind() {
++                        let callee_path = tcx.def_path_str(*callee_def_id);
++                        let exact_small_sort_trait_method =
++                            callee_path == "StableSmallSortTypeImpl::small_sort_threshold"
++                                || callee_path == "StableSmallSortTypeImpl::small_sort";
++                        if exact_small_sort_trait_method {
++                            let typing_env = body.typing_env(tcx);
++                            match ty::Instance::try_resolve(
++                                tcx,
++                                typing_env,
++                                *callee_def_id,
++                                *callee_args,
++                            ) {
++                                Ok(Some(instance)) => info!(
++                                    target: "selected_instance_evidence",
++                                    "caller={} typing_env={:?} callee={} resolved_instance={} resolved_def_id={:?} resolved_source_span={:?} call_source_span={:?}",
++                                    caller_path,
++                                    typing_env,
++                                    callee_path,
++                                    tcx.def_path_str(instance.def_id()),
++                                    instance.def_id(),
++                                    tcx.def_span(instance.def_id()).data(),
++                                    fn_span.data(),
++                                ),
++                                Ok(None) => info!(
++                                    target: "selected_instance_evidence",
++                                    "caller={} typing_env={:?} callee={} resolved_instance=<none> call_source_span={:?}",
++                                    caller_path,
++                                    typing_env,
++                                    callee_path,
++                                    fn_span.data(),
++                                ),
++                                Err(error) => info!(
++                                    target: "selected_instance_evidence",
++                                    "caller={} typing_env={:?} callee={} resolution_error={:?} call_source_span={:?}",
++                                    caller_path,
++                                    typing_env,
++                                    callee_path,
++                                    error,
++                                    fn_span.data(),
++                                ),
++                            }
++                        }
++                    }
++                }
++            }
++
+             let func_cpn = fn_call_data_cpn.reborrow().init_func();
+             let func_span_opt = Self::encode_operand(tcx, enc_ctx, func, func_cpn);
+ 

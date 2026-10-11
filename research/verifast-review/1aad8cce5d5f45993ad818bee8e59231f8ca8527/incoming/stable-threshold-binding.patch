@@ -1,0 +1,124 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -344,6 +344,52 @@
+   module VfMirRd = VfMirCapnpAlias.VfMirRd
+   open VfMirCapnpAlias
+ 
++  (* Narrow selected stable threshold binding; experimental/default off. *)
++  module Sort4StableCaller = struct
++    let enabled () = match Sys.getenv_opt "SORT4_STABLE_METHOD_BINDING" with
++      | None | Some "0" -> false
++      | Some "1" ->
++          if Sys.getenv_opt "SMALLSORT_EXECUTION_PROVIDER" <> Some "cloud-build" ||
++             Sys.getenv_opt "SORT4_ACTUAL_CALLER_ENTRY_PHASE_ID" <>
++               Some "SORT4-CALLER-DERIVED-BOUND-CLOUD-2026-10-11" then
++            failwith "SORT4-STABLE-METHOD: exact Cloud phase required";
++          true
++      | _ -> failwith "SORT4-STABLE-METHOD: malformed mode"
++    let reject why = failwith ("SORT4-STABLE-METHOD: " ^ why)
++    let check_source () =
++      let actual = Digest.to_hex (Digest.file "verified/lib.rs") in
++      if not (List.mem actual ["bbfbf41587fcaa6b36a0bdb81b365fd6";"132b33a4bd17535ea126fe660d98cd02";"8c4b257dec7dbe039a69d7db8e09c811";"67c5e68cdea6fac410ca6cbd37b56700"]) then reject "verified fixture source identity"
++    let has_freeze clauses = clauses = [
++      D.Trait {def_id="std::marker::Sized"; args=[{kind=D.Type {kind=D.Param "T"}}]; bound_regions=[]};
++      D.Trait {def_id="FreezeMarker"; args=[{kind=D.Type {kind=D.Param "T"}}]; bound_regions=[]}]
++    let selected = "sort4_selected_stable_threshold"
++    let fallback = "sort4_default_stable_threshold"
++    let bind body (clauses : D.clause list) name (substs : D.generic_arg list) =
++      let target = match body, substs with
++        | "selected_freeze_threshold", [{D.kind=D.Type {kind=D.Param "T"}}] ->
++            if not (has_freeze clauses) then
++              reject "caller missing compiler FreezeMarker<T> clause";
++            selected
++        | "default_threshold", [{D.kind=D.Type {kind=D.Adt
++            {id={name="std::cell::Cell"};substs=[{kind=D.Type {kind=D.UInt D.U8}}]}}}] -> fallback
++        | _ -> reject "caller/type substitution outside exact selected theorem/control" in
++      Printf.printf "SORT4-STABLE-METHOD: source-bound call %s -> %s in %s\n%!"
++        name target body;
++      target, substs
++    let rename body =
++      let name = TrName.translate_def_path (BodyRd.def_path_get body) in
++      if name <> "<T as StableSmallSortTypeImpl>::small_sort_threshold" then name
++      else begin
++        let clauses = BodyRd.impl_block_clauses_get_list body |> List.map D.decode_clause in
++        let sized = D.Trait {def_id="std::marker::Sized";
++          args=[{kind=D.Type {kind=D.Param "T"}}];bound_regions=[]} in
++        if clauses=[sized] then fallback
++        else if clauses=[sized;D.Trait {def_id="FreezeMarker";
++          args=[{kind=D.Type {kind=D.Param "T"}}];bound_regions=[]}] then selected
++        else reject "threshold impl compiler clause identity"
++      end
++  end
++
+   (* Experimental, fail-closed pointer-only source-equivalence profile.  The
+      source/body check below enables this gate only for the exact hosted unit;
+      no ordinary Rust translation changes when the repository locator is unset. *)
+@@ -2696,6 +2742,7 @@
+     val ghost_stmts : Ast.stmt list
+     val body_imp_loc : Ast.loc
+     val body_name : string
++    val source_clauses : D.clause list
+     val body_tr_defs_ctx : body_tr_defs_ctx
+     val strict_lft_scope_ends : (Ast.loc * string) list
+     val strict_relocated_decls : (Ast.loc * Ast.stmt list) option ref
+@@ -3228,7 +3275,11 @@
+                   { kind = Lifetime { id = "'erased" } })
+           in
+           let fn_name, substs_cpn =
+-            Args.body_tr_defs_ctx.fn_specializer fn_name substs_cpn
++            if Sort4StableCaller.enabled () &&
++               fn_name = "StableSmallSortTypeImpl::small_sort_threshold" then begin
++              if args_cpn <> [] then Sort4StableCaller.reject "threshold call operand arity";
++              Sort4StableCaller.bind State.body_name Args.source_clauses fn_name substs_cpn
++            end else Args.body_tr_defs_ctx.fn_specializer fn_name substs_cpn
+           in
+           let* substs =
+             ListAux.try_map
+@@ -6638,6 +6689,7 @@
+ 
+   let translate_body (body_tr_defs_ctx : body_tr_defs_ctx) (body_cpn : BodyRd.t)
+       =
++    if Sort4StableCaller.enabled () then Sort4StableCaller.check_source ();
+     let native_c1_capture_requested =
+       native_opaque_c1_capture_requested () in
+     let native_c1_bound_requested =
+@@ -7072,6 +7124,8 @@
+       let ghost_stmts = ghost_stmts
+       let body_imp_loc = imp_loc
+       let body_name = TrName.translate_def_path (def_path_get body_cpn)
++      let source_clauses = List.map D.decode_clause
++        (BodyRd.impl_block_clauses_get_list body_cpn @ BodyRd.clauses_get_list body_cpn)
+       let body_tr_defs_ctx = body_tr_defs_ctx
+       let strict_lft_scope_ends =
+         List.map (fun (_, new_close, name) -> (new_close, name)) strict_lft_scope_ends
+@@ -7134,7 +7188,8 @@
+     match def_kind with
+     | DefKind.Fn ->
+         let def_path = def_path_get body_cpn in
+-        let name = TrName.translate_def_path def_path in
++        let name = if Sort4StableCaller.enabled () then Sort4StableCaller.rename body_cpn
++          else TrName.translate_def_path def_path in
+         Rocq_writer.rocq_print_tuple Args.rocq_writer @@ fun () ->
+         Rocq_writer.rocq_print_tuple_element Args.rocq_writer begin fun () ->
+           Rocq_writer.rocq_print_string_literal Args.rocq_writer name
+@@ -16941,6 +16996,20 @@
+       in
+       let traits_decls = List.flatten traits_decls in
+       let bodies_cpn = VfMirRd.VfMir.bodies_get_list vf_mir_cpn in
++      if Sort4StableCaller.enabled () then begin
++        Sort4StableCaller.check_source ();
++        let names = List.map (fun body ->
++          TrName.translate_def_path (BodyRd.def_path_get body)) bodies_cpn in
++        if Args.ignore_unwind_paths || Args.skip_specless_fns ||
++           List.length bodies_cpn <> 3 ||
++           List.length (List.filter ((=) "<T as StableSmallSortTypeImpl>::small_sort_threshold") names) <> 2 ||
++           not (List.exists (fun name -> name="selected_freeze_threshold" || name="default_threshold") names) then
++          Sort4StableCaller.reject "closed threshold body inventory/full checks";
++        let renamed = List.map Sort4StableCaller.rename bodies_cpn in
++        if List.length (List.filter ((=) Sort4StableCaller.selected) renamed) <> 1 ||
++           List.length (List.filter ((=) Sort4StableCaller.fallback) renamed) <> 1 then
++          Sort4StableCaller.reject "selected/default body clause inventory"
++      end;
+       let bodies_cpn =
+         bodies_cpn
+         |> List.filter (fun body_cpn ->
