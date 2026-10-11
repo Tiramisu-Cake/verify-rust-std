@@ -1,110 +1,39 @@
-# Active selected Drop session
+# Merge selected Drop — CLOSED session / QUALIFIED bounded normal fragment
 
-Owner разработки — merge; прежняя передача ownership отменена. Start09:24:22Z, main11:24:22Z, finish11:54:22Z; budget3600 newCloudseconds/no carryover. Policyc7ca8c46 read. Actual selected destructor/receiver candidate in progress, all previous proof statuses retained below.
+Owner разработки **merge**. Worktree `/root/verify-rust-std-merge-origin`, branch `merge/incoming-origin-20261009`; continuation from335e0a6967d54a8a9a347c3673a70187bf9eb25f. Policy revisionc7ca8c467aecf10a4b53039372ee97714f854ee3 read. Start2026-10-11T09:24:22Z, main11:24:22Z, finishing11:54:22Z; hour report delivered10:24. Only current already-started run/evidence/accounting/checkpoint after main deadline. Mission actual insert_tail remains OPEN; no automatic new session.
 
-# Merge receiver localization — CLOSED / BLOCKED
+## Exact fresh result
 
-Сессия от checkpoint `ce2bc9d67ce83b2439fb17177487b462267c36e1`.
-Собственный worktree `/root/verify-rust-std-merge-origin`, branch
-`merge/incoming-origin-20261009`, owner `merge`. Start2026-10-11T08:17:34Z,
-main09:17:34Z, finishing09:47:34Z (11:17:34/12:17:34/12:47:34 МСК).
-Закрыта раньше main deadline после точного receiver blocker; новая сессия
-автоматически не начинается. Policy revision c7ca8c467aecf10a4b53039372ee97714f854ee3
-прочитана; local adoption1b9e3df3182d13e5adf7d2e5d04afcfbc1851f14, docs совпадают
-с origin/main. Старый checkpoint и ledger сохранены в archive.
+Build404e1a0c-0d7b-4c57-8cd3-7653cec7a2f4, proof=infra6f586bb11036ed6b0a0b71284d9f328d3ddffa22; archive527ac69d4b97aeea4ada26330ab63186edc1796d45fe298307771f503728702c. Actual std source85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1, blob40939f922bcb6fdc7ee0d30427fa861827043827, exact Drop blockcaff1edbfa3a8d9fd29459e49c43abd0f8f987f9061c75e7bf6ecedbbba26a6a. Concrete-u64/x86_64, constructor len==1. No generic safety/full insert_tail claim.
 
-## Первое точное обязательство
+Experimental profile **experimental-merge-selected-drop-receiver-v4**, SHA256803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307. Tool8a3f63eabf18cc76cc9048c086dda95fbec84d03 in isolated `/root/verifast-merge-selected-drop`, branch `merge/selected-drop-receiver-20261011`; basef76012fb plus preserved ten patches + selected-drop.patch57bab179dc11366369689c0980209c2e76acf82339a346b02e1cc99fdfbb610a. Kernel/model/verify_expr/parser/prelude/stdlib/aliasing/lifetime rules unchanged. Profile **NOT_ACCEPTED / NOT_FOR_INTEGRATION**. Ordered chain, source pins, executable hashes/compiler version and stage artifacts in [qualification](SELECTED-DROP-QUALIFICATION-20261011.json).
 
-Fresh Build `846517a9-5a8b-4a18-827c-3f74fa148903`, proof=infra
-`c8962f4b8e10a8a1b457826272d101631fd23d97`, archive
-`d5a86538d2ace52897d8974697eab0c3af6ad99627143874d35d30ed836e9527`.
-После actual tail.read/constructor и полного physical field/padding frame158,
-source/MIR/AST/refinement PASS, assertion159:42–44 отказывает:
-`Cannot prove ref_origin(gap_guard_addr) = gap_guard_addr.`
-Helper-call160 в этом case НЕ достигнут. Это полученный proof refusal direct-address
-receiver route, не setup/binding error и не тест недостижимого кода.
-
-Raw Cloud **FAILURE / INCONCLUSIVE** сохранён: classifier ожидал общий текст
-Cannot prove equality. Узкая правка matcher читает те же неизменные логи,
-проверяет точный symbol/expression/span, frame execution и все admission gates;
-saved replay классифицирует4/4. Это **не новая сборка и не новый proof**.
-Wrong alias/RHS/start/end column, missing frame и AST mutations отказаны в
-изолированных service tests. Полный archive/inventory/config/inputs и text-log
-index/chunks проверены;12 fresh effective trusted hashes совпадают с профилем.
-
-## Receiver resource ledger
-
-Полный abstract borrow package не принципиально отсутствует: close FBC,
-begin_lifetime и borrow(k,P) могут его построить из constructor state.
-reborrow_ref_mut возвращает r с FBC(t,r) и ref_origin(r)==r, но не r==physical g;
-regular function нельзя просто вызвать как ghost lemma. Actual mutable Ref
-в frozen lowering даёт AddressOf(g), без создания token/reborrow result.
-create_ref_mut/end_ref_mut дают только physical ownership/end-token возврат,
-не origin fixedpoint. ref_origin(g) сохраняет адрес/геометрию, но не переносит
-permissions/FBC на другой provenance. Existing byte/points_to rules сохраняют
-pointer index. Подстановка отсутствующего token/receiver premise не выполнена.
-
-Rust explicit destructor call не является допустимым runtime edge (E0040).
-Actual Drop terminator ведёт через generic drop_in_place; его post не возвращает
-CopyOnDrop CURRENT effect. Source-bound receiver/body dispatch остаётся отдельным
-неполученным interface obligation, не заменённым raw-pointer helper.
-[Ledger](RECEIVER-RESOURCE-LEDGER-20261011.md),
-[bindings](RECEIVER-RULE-BINDINGS-20261011.json),
-[точный qualification receipt](RECEIVER-QUALIFICATION-20261011.json).
-
-## Статусы и supplied premises
-
-Общий frozen profile: experimental-merge-qualified-guard-onecell-v1,
-SHA256 `0b8cf55b0e7b5a1d0e0595b1483726459cb1d2f40264311e2014d3580ad189b8`,
-**NOT_ACCEPTED / NOT_FOR_INTEGRATION**. Effective base f76012fb + ordered10 patches,
-component df6b3fbf,12 trusted hashes и зависимости — EFFECTIVE-SOURCE.json,
-LEN1-QUALIFICATION-20261011.json; tool/std/trusted semantics не менялись.
-Concrete-u64/x86_64, len==1; не whole insert_tail.
-
-| Обязательство | Результат / binding |
+| Obligation | Status / freshness / binding |
 | --- | --- |
-| Receiver bridge | BLOCKED: fresh846517a9/c8962f4b origin refusal159:42–44; abstract full-borrow construction только static audit |
-| Actual Drop body | SAVED len1 QUALIFIED_LEN1_COMPONENT_FRESH_PROOF_PLUS_SAVED_ADMISSION,1396ff47/d491b937; conditional strong-pre bounded body, не свежий method body этой сессии |
-| Actual method call | NOT_RUN / NOT_PROVED; actual Drop DefId call не реализован |
-| CURRENT recovery/full normal posts | FRESH_PASS только helper-positive846517a9/c8962f4b: call159/effect162/post170; actual method path NOT_REACHED |
-| Return/free/leak | FRESH_PASS только helper-positive: helper78/caller172; actual method path NOT_REACHED |
-| Compiler-generated glue | NOT_RUN / NOT_PROVED; предотвращение второго destructor call тоже NOT_RUN |
-| Panic/unwind cleanup | NOT_RUN / NOT_PROVED; обычные unwind smoke не доказательство cleanup caller |
+| Receiver bridge | FRESH_POSITIVE_PROOF_PASS on404e1a0c/6f586bb1/v4; constructor full fields/padding -> typed physical storage -> existing create_ref_mut receiver + exact linear end token. Strong implementation interface only; canonical FBC/origin applicability NOT_PROVED |
+| Actual Drop body | FRESH_PASS bounded strong body and independent canonical safety_proof compatibility; dynamic self.len copy executes, return/leak passes in same checked unit |
+| Actual method call | FRESH_PASS legal source lexical-scope Drop terminator -> exact compiler-selected DefPath/DefPathHash -> one checked implementation AST call; no explicit runtime Drop::drop and no replacement raw helper |
+| CURRENT/full normal posts | FRESH_PASS; returned source quarter/destination CURRENT/owner, restored full original tail post; caller normal/unwind contract bytes unchanged. Panic path not exercised |
+| Return/free/leak | FRESH_PASS method and caller; exact receiver end token consumed, physical guard reopened before StorageDead; retained readonly end/lifetime resources recovered, no leaks/dead code in positive |
+| Compiler-generated glue | NOT_RUN / NOT_PROVED: actual compiler instance glue MIR body not exported/checked; selected terminator lowering is a separate result |
+| Panic/unwind cleanup | NOT_RUN / NOT_PROVED; ordinary unwind smoke and no-unwind normal method proof do not close actual caller cleanup |
 
-Len1 прежний статус не повышен; caller прежний
-FRESH_PASS_BOUNDED_NORMAL_COMPOSITION_FRAGMENT_ONLY сохранён.
-Три исходные original/verified source-пары побайтно совпадают с bc08afa0;
-helper-positive и его before/after-effect false controls свежие в846517a9.
-Actual-method nonvacuity, missing receiver/FBC, missing-source и simultaneous-two-effect
-controls **NOT_RUN**: prerequisite receiver bridge заблокирован. Saved len1
-source-quarter и simultaneous-effect controls — только component evidence1396ff47;
-исторический close;close BAD_NEGATIVE_ORACLE и raw failures не удалены.
+All first five rows bind to this exact experimental profile/build/proof, not the old frozen profile. Positive exporter/decode/refinement/verifast all0; source/MIR/AST/effect gates all admitted, source unchanged at every stage,0errors/no dead code. Genuine compiler Drop is block58 ->59; guard StorageDead at59; no path from59 through a second guard Drop. Cleanup Drop71 is separate, not a second normal call. AST has one create_ref_mut, one selected method call, one end_ref_mut per outcome; original cleanup72/Resume edge retained. Synthetic Resume statement receives DummyLoc only for direct empty qualified cleanup; its MIR span/unwinding expression remain, and real source dead-code control rejects.
 
-Supplied caller premises неизменны: valid initialized tail storage/held u64 owner,
-thread token/currentThread/type_interp, positive size/isize bounds, alignment,
-object limits/no-overflow. Receiver origin/full borrow/summary не добавлялись
-как новые caller premises. CURRENT и поля/padding сохраняются в helper fragment.
+## Controls and raw refusal preservation
 
-Оба mandatory ordinary normal/unwind smoke groups **FRESH_PASS**846517a9/c8962f4b.
-Guard21/span6 **REUSED / NOT_RERUN**, Buildb1da6f8e-7569-4070-b86d-857bce812c13,
-proof7995fccfee6c0e29621c2cffcca94161c7e05729,
-archivea47f1958ffa4a08b9d7147059fab95e21a65aebc35c3802cc3009ef8d7f2e1dc,
-тот же profile0b8cf55b. Ни smoke, ни повторная классификация не повышают theorem.
+Fresh helper4 control matched, including old positive/current/entry/origin tests. Selected fresh positive PASS and before/after false, missing full receiver len, simultaneous second full effect and real source dead-code controls match. Missing-source fresh verifier refusal reached the actual strong source precondition: prelude_core.rsspec264:12–15 auto-closes source array; missing `[1/4]points_to<u64>(get_CopyOnDrop_src(mk_CopyOnDrop(fn_outcome_result(outcome0), tail0, 1)), _)`; consuming assertionverified/lib.rs55:5–6, actual method call197:9–10. Hidden source array/borrow and receiver creation pass; no usable alternate quarter was obtained.
 
-## Учёт и следующий шаг
+Raw Cloud **FAILURE / INCONCLUSIVE** remains unchanged: original matcher expected `array`. Finishing-only strict classifier repair checks coefficient/source getter/constructor symbolic values, exact prelude span, successful withholding, both receiver-create/method calls, strong-pre and actual-call notes, and no post-call continuation. Seven saved/synthetic wrong coefficient/field/alias/span/note/borrow controls reject. Saved replay7/7 is **admission analysis, not a new proof or new green Build**; positive raw PASS is unchanged. Original archives/classifications/logs preserved. Qualification: **FRESH_POSITIVE_PROOF_PLUS_SAVED_NEGATIVE_ADMISSION**.
 
-Новый счёт CLOSED: **458/3600** Cloud seconds create→finish, **3142 retired**,
-без переноса старого/нового остатка. Build created08:30:08.312774449Z,
-start08:30:09.640510921Z, finish08:37:45.571307Z; main deadline соблюдён.
-BUDGET.json — authoritative. Own active/reservations/unresolved NONE,
-request WITHDRAWN; peer reservation сохранена. Нет own ID/token для recovery.
-Measured compile/case stages — qualification JSON; queue/setup/package/upload
-отдельно не измерены, create→finish не выдаётся за время proof.
+Both mandatory ordinary normal/unwind smoke groups freshPASS on v4; unchanged full return/leak gates retained. Guard21/span6 are **REUSED / NOT_RERUN on v4**, old profile0b8cf55b, Buildb1da6f8e-7569-4070-b86d-857bce812c13/proof7995fccfee6c0e29621c2cffcca94161c7e05729/archivea47f1958ffa4a08b9d7147059fab95e21a65aebc35c3802cc3009ef8d7f2e1dc. New delta affects selected receiver dispatch and synthetic cleanup provenance, not layout/alias/kernel semantics; required affected gates repeated as above. Profile acceptance still needs independent review.
 
-Минимальный следующий шаг: review существующего source-bound receiver creation
-и actual-method dispatch rule владельцем VeriFast. Подготовлен локальный
-[запрос с воспроизводимым case и controls](VERIFAST-RECEIVER-REQUEST-20261011.md),
-внешне не отправлен. Патч trusted semantics самостоятельно не внедрялся;
-повторного Build без новой гипотезы нет. Для исполнения нового bridge потребуется
-review/решение о scope и новая сессия; эта завершена. Только собственная ветка
-закоммичена/отправлена, upstream/baseline/foreign worktrees не менялись.
+Supplied caller premises remain existing full initialized tail/u64 owner, thread/currentThread/type_interp, positive size/isize bounds, alignment/object limits/no overflow. Receiver ownership/origin/FBC/end tokens are **not supplied caller premises**. No numeric address equality supplies permission; no invented tokens, assume/leak shortcuts or generic drop_in_place summary strengthening. Full resource accounting: [receiver ledger](SELECTED-RECEIVER-LEDGER-20261011.md), [unchanged rule bindings](SELECTED-RECEIVER-RULE-BINDINGS-20261011.json).
+
+## History, account and next step
+
+Eight terminal rawFAILURE builds3286/3600Cloudseconds; **314 retired**, no carryover. BUDGET.json authoritative, all accounted/download-verified; own active/reservations/unresolved NONE, own request WITHDRAWN; peer state preserved. Last run created11:22:02.450124013Z/start11:22:03.300205301Z/finish11:29:02.808013Z,421seconds. No experiments after main deadline. Archives/source-input/config/text-log indices/chunks integrity checked; saved derivative receipts are not new runs.
+
+Failures preserved:2a462d72 profile proof closure;8ba8161e ambiguous scope anchor;2991985a v1 synthetic Resume dead code and bad source withholding;81c3173d stale v1 profile admission;7a2f2f2b nested DropData namespace;ff7fb62b scoped Args context;fab8b1f5 stale run.sh profile;404e1a0c source-negative classifier mismatch.21db6fcb transport limit NOT_CREATED/0seconds, no reservation. Exact identifiers/archives/seconds in qualification and experiment card. Original frozen profile0b8cf55b unchanged; v1/v2/v3 profiles preserved. Old len1 remains QUALIFIED_LEN1_COMPONENT_FRESH_PROOF_PLUS_SAVED_ADMISSION; old caller remains FRESH_PASS_BOUNDED_NORMAL_COMPOSITION_FRAGMENT_ONLY. Old direct-address origin refusal remains historical, not made true by assumption. [Previous closed receiver checkpoint](FINAL-CHECKPOINT-RECEIVER-CLOSED-20261011.md).
+
+Development owner remains **merge**; old [VERIFAST request](VERIFAST-RECEIVER-REQUEST-20261011.md) is historical diagnostic material, ownership transfer cancelled. Concrete [maintainer review package](SELECTED-DROP-MAINTAINER-PACKAGE-20261011.md) prepared, not externally sent. First remaining obligation is actual compiler-generated glue body/receiver-borrow-end binding, not constructor normal resource composition. [Minimal next experiment](GLUE-NEXT-EXPERIMENT-20261011.md) is exact pinned compiler instance MIR observation, then merge-owned narrow implementation if shape/resources support it. Canonical full-borrow applicability and reachable panic cleanup remain separate. New session/budget must be explicitly opened; none starts automatically. No merge/upstream publication/foreign worktree changes.

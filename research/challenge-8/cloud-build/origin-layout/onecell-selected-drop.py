@@ -377,6 +377,34 @@ def _caller_ast_evidence(case: Path, ast) -> dict:
                 "reason": f"caller AST evidence collection failed: {error}"}
 
 
+def _source_permission_target(log: str, verified: bytes, row: dict, call_loc: str) -> bool:
+    """Match the source-array precondition's exact auto-close refusal, not setup."""
+    source_req = b"    [1/4]src[..1] |-> cons(?current, nil) &*& dst[..1] |-> _ &*&"
+    if verified.count(source_req) != 1:
+        return False
+    source_line = _line(verified, source_req)
+    # This bounded fixture's constructor and readonly producer bind these
+    # symbolic values; a dst/alias/coefficient change is not the source oracle.
+    exact_chunk = ("[1/4]points_to<u64>(get_CopyOnDrop_src(mk_CopyOnDrop("
+                   "fn_outcome_result(outcome0), tail0, 1)), _)")
+    errors = [line for line in log.splitlines() if re.search(r"\berror:", line, re.I)]
+    if len(errors) != 1 or not re.fullmatch(
+            r"[^\n]*/bin/rust/prelude_core\.rsspec\(264,12-15\): error: "
+            r"No matching heap chunks: " + re.escape(exact_chunk), errors[0]):
+        return False
+    executing = lambda line: re.search(
+        rf"verified/lib\.rs\({line},\d+.*\): (?:note: )?Executing statement", log) is not None
+    return (executing(row["natural_scope_end_line"] - 1) and
+            executing(row["natural_scope_end_line"] - 2) and
+            f"verified/lib.rs({row['natural_scope_end_line'] - 3},13-18): Producing predicate chunk" in log and
+            f"verified/lib.rs({row['natural_scope_end_line'] - 2},13-19): Verifying call" in log and
+            log.count(call_loc + ": Verifying call") == 2 and
+            call_loc + ": note: Verifying call" in log and
+            f"verified/lib.rs({source_line},5-6): note: Consuming assertion" in log and
+            "prelude_core.rsspec(259,6-11): Auto-closing predicate with coefficient 1/4" in log and
+            not executing(row["natural_scope_end_line"]))
+
+
 def _classify(name: str, case: Path, row: dict, execution: dict,
               prep, body, drop_module, proof_base) -> dict:
     stages = execution.get("stages", {})
@@ -446,8 +474,9 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
         location_match = errors[0].startswith(call_loc + ": error:")
         predicate = ("CopyOnDrop_len" if row["expected_missing"] == "receiver_frame" else "array")
         if row["expected_missing"] == "source_permission":
-            location_match = executed(row.get("natural_scope_end_line") - 1) and "array" in errors[0]
-        targeted = location_match and predicate in errors[0] and "No matching heap chunks" in errors[0]
+            targeted = _source_permission_target(log, (case / "verified/lib.rs").read_bytes(), row, call_loc)
+        else:
+            targeted = location_match and predicate in errors[0] and "No matching heap chunks" in errors[0]
     if setup and name == "duplicate_effect_simultaneous" and stages.get("verifast") == 1 and len(errors) == 1:
         targeted = (executed(row.get("natural_scope_end_line")) and
                     re.search(rf"verified/lib\.rs\({row['double_effect_line']},\d+.*\): error:", errors[0]) is not None and

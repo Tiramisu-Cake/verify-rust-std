@@ -1,3 +1,7 @@
+## 2026-10-11 selected Drop bounded normal qualification
+
+Fresh404e1a0c/6f586bb1, experimentalv4/profile803abaa5/tool8a3f63ea: constructor-derived receiver via existing create_ref_mut/end_ref_mut, checked actual dynamic Drop body/selected method call, CURRENT/full original normal posts and return/free/leak PASS in concrete-u64/x86_64,len1 adapter. No receiver/origin/FBC supplied premises; canonical prototype application separate/not proved. Raw CloudFAILURE/INCONCLUSIVE retained for source-negative matcher; fresh refusal reaches strong source quarterprecondition and saved strict admission replay7/7, not newproof/greenbuild. Mandatory normal/unwind smokes/helper4 and affected receiver/nonvacuity/linear effect/deadcode controls fresh; guard21/span6 reused0b8cf55b, NOT_RERUN on v4. Generatedglue/paniccleanup/generic/fullinsert_tail NOT_RUN/OPEN. Profile NOT_ACCEPTED/NOT_FOR_INTEGRATION. See origin-layout/SELECTED-DROP-QUALIFICATION-20261011.json and FINAL-CHECKPOINT.md.
+
 ## Latest origin / unit / concrete-u64 fragment — fa5a4fd4 / ba37cbfe
 
 Experimental tool 8cb0121b remains NOT_FOR_INTEGRATION. Fresh applicable Rust origin, full normal/unwind resource and six span controls match; fourteen layout controls and C/C++ full return/leak smokes pass. Compiler receipts independently observe unit/wrapper size/alignment 0/1, u64/wrapper 8/8 and strides 0/8 at the pinned nightly/LP64 target. The shared physical sizeof correction is canonical-unit only; it does not supply arbitrary generic extent or ZST separation.

@@ -1,0 +1,640 @@
+{
+  "schema": "merge-selected-drop-normal-qualification-v1",
+  "classification": "QUALIFIED_BOUNDED_NORMAL_SELECTED_DROP_FRESH_POSITIVE_PROOF_PLUS_SAVED_NEGATIVE_ADMISSION",
+  "accepted": false,
+  "integration_status": "NOT_FOR_INTEGRATION",
+  "development_owner": "merge",
+  "mission_actual_insert_tail": "OPEN",
+  "scope": "concrete-u64/x86_64, constructor len==1, bounded normal source-derived adapter only",
+  "session": {
+    "start_utc": "2026-10-11T09:24:22Z",
+    "main_deadline_utc": "2026-10-11T11:24:22Z",
+    "deadline_utc": "2026-10-11T11:54:22Z",
+    "policy_revision": "c7ca8c467aecf10a4b53039372ee97714f854ee3",
+    "used_build_seconds": 3286,
+    "remaining_build_seconds": 314
+  },
+  "raw_cloud_status": "FAILURE",
+  "raw_aggregate_classification": "INCONCLUSIVE",
+  "raw_aggregate_all_matched": false,
+  "classifier_replay_is_new_proof": false,
+  "bindings": {
+    "build_id": "404e1a0c-0d7b-4c57-8cd3-7653cec7a2f4",
+    "infra_sha": "6f586bb11036ed6b0a0b71284d9f328d3ddffa22",
+    "proof_sha": "6f586bb11036ed6b0a0b71284d9f328d3ddffa22",
+    "archive_sha256": "527ac69d4b97aeea4ada26330ab63186edc1796d45fe298307771f503728702c",
+    "profile": "experimental-merge-selected-drop-receiver-v4",
+    "profile_sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
+    "tool_commit": "8a3f63eabf18cc76cc9048c086dda95fbec84d03",
+    "ordered_patch_chain": [
+      {
+        "path": "research/challenge-8/merge/overnight/wrapping.patch",
+        "sha256": "c7c776ff5aef2b8668aa2ed3d59b47109fce1d67a9dc2f2043fc2744dc0ed31e"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/callback.patch",
+        "sha256": "0a006df94f04d6425d70280967d6652bdd33ccb88ead4a44f02a2e36775aaa5e"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/copy.patch",
+        "sha256": "da167ee095e9fb5f425e2d604dd46a973a8c1e3a5121b2c87cc3546b0ec8e9a5"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/cleanup.patch",
+        "sha256": "94fe2cd69edc9da6907553961ca32f0557c338266d9e9472e577860a95887604"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/usize-multiple.patch",
+        "sha256": "ecdd1fd6fcc8d811f02fa308ddc533386e0031193d527ea6950a099f8ccccaa1"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/stack-address.patch",
+        "sha256": "f1444866322bf06b40e078a381a69acea7ccd92b613f7dc903d289044d8cba64"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/tracked-md.patch",
+        "sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/allocation-span.patch",
+        "sha256": "603ab250705fa9d83c94631f7570bd3e1cc7fc06187c35e6ae8465fcb5efca1b"
+      },
+      {
+        "path": "research/challenge-8/cloud-build/origin-layout/unit-layout.patch",
+        "sha256": "00c7f9310ca30e3403daabdfe8e7d4c8c13aa84e78434acade309c98faadc68a"
+      },
+      {
+        "path": "research/challenge-8/cloud-build/origin-layout/guard-layout.patch",
+        "sha256": "16476ac7e615831bfd49cec3efdcefd1d76eab1a57f2df47b97f43fb8d6a1d74"
+      },
+      {
+        "path": "research/challenge-8/cloud-build/origin-layout/selected-drop.patch",
+        "sha256": "57bab179dc11366369689c0980209c2e76acf82339a346b02e1cc99fdfbb610a"
+      }
+    ],
+    "environment": {
+      "profile": "experimental-merge-selected-drop-receiver-v4",
+      "proof_sha": "6f586bb11036ed6b0a0b71284d9f328d3ddffa22",
+      "provider": {
+        "provider": "cloud-build",
+        "build_id": "404e1a0c-0d7b-4c57-8cd3-7653cec7a2f4",
+        "project": "smallsort-ci",
+        "region": "global",
+        "os": "ubuntu-22.04",
+        "arch": "x86_64"
+      },
+      "cloud_build_id": "404e1a0c-0d7b-4c57-8cd3-7653cec7a2f4",
+      "tool_sha256": {
+        "vf-rust-mir-exporter": "4c0ab3095731e5c6b14a72a2de85b21723669f25e971c13ca2b07b7556ecb04f",
+        "verifast": "8a4138a1ce830dd7f595b408ada8c9169a6cc94a5e0ccae2848946ed020a8c93",
+        "refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28"
+      },
+      "profile_evidence": "/workspace/evidence/allprooflogs/tracked-md-build",
+      "schema_sha256": "bdc86568487604b68eb4c4fb2d676fc510cec55344fc1ce0b1d7abcdb4b7c85d",
+      "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+      "rustc_version": "rustc 1.100.0-nightly (f7575a9da 2026-09-24)\nbinary: rustc\ncommit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f\ncommit-date: 2026-09-24\nhost: x86_64-unknown-linux-gnu\nrelease: 1.100.0-nightly\nLLVM version: 23.1.1\n",
+      "rustc_toolchain": "nightly-2026-09-25",
+      "accepted": false
+    },
+    "positive_artifact_sha256": {
+      "original/lib.rs": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+      "verified/lib.rs": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f",
+      "compiler-mir.bin": "f2509666c008763f5b404af094a56046a0bd518719eacde753ae51d5c9c89ac6",
+      "decode.out": "867174cf7f9b5dc60db6259a85d1117e8c22e20b29812526cc8ce4f8d5b6c48a",
+      "proof-ast.ml": "c8acb48ab9b9a9a75645ea2099771a15364f9464d66d88abc59ffe9f3d2b8767",
+      "verifast.log": "431b961dad62f8fadf9f616a2c04b397b13adedc9c4e75474415b7bd259f9d5d"
+    },
+    "caller_contract_sha256": "687b7cca1d50b4e98eeb9485dad47a41ea8086288e088ae8e5d2df817b04727b",
+    "caller_full_normal_unwind_contract_unchanged": true,
+    "selected_destructor": {
+      "selected_path": "<CopyOnDrop as core::ops::Drop>::drop",
+      "selected_hash": "DefPathHash(Fingerprint(12908149020305531562, 11549365108250137374))",
+      "guard_path": "CopyOnDrop",
+      "bare_local": true,
+      "replace": false,
+      "span": {
+        "regular": {
+          "lo": {
+            "file": {
+              "name": {
+                "real": {
+                  "localPath": "verified/lib.rs"
+                }
+              }
+            },
+            "line": 194,
+            "col": {
+              "pos": 8
+            }
+          },
+          "hi": {
+            "file": {
+              "name": {
+                "real": {
+                  "localPath": "verified/lib.rs"
+                }
+              }
+            },
+            "line": 194,
+            "col": {
+              "pos": 9
+            }
+          }
+        }
+      },
+      "block": 58,
+      "is_cleanup": false,
+      "local": {
+        "name": "_12"
+      },
+      "local_name": "_12",
+      "target": 59,
+      "unwind": {
+        "cleanup": {
+          "index": 72
+        }
+      }
+    },
+    "same_unit_checked_body_count": 1,
+    "postbuild_hash_check_exit": 0,
+    "compile_preflight": {
+      "schema": "smallsort-compile-preflight-v1",
+      "classification": "COMPILE_ONLY_NO_PROOF_CREDIT",
+      "accepted": false,
+      "proof_attempted": false,
+      "candidate_head": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+      "profile": "experimental-merge-selected-drop-receiver-v4",
+      "profile_sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
+      "stages": {
+        "exporter-build": {
+          "exit_code": 0,
+          "log": "exporter-build.log"
+        },
+        "decoder-build": {
+          "exit_code": 0,
+          "log": "decoder-build.log"
+        },
+        "translator-build": {
+          "exit_code": 0,
+          "log": "translator-build.log"
+        },
+        "console-build": {
+          "exit_code": 0,
+          "log": "console-build.log"
+        }
+      },
+      "artifacts": {
+        "src/rust_frontend/vf_mir_exporter/src/lib.rs": {
+          "profile_sha256": "2a0abe114f9780cb18687a603595b4b93e3783a3516926af7f58d489854e9e25",
+          "sha256": "2a0abe114f9780cb18687a603595b4b93e3783a3516926af7f58d489854e9e25"
+        },
+        "src/rust_frontend/vf_mir/vf_mir.capnp": {
+          "profile_sha256": "bdc86568487604b68eb4c4fb2d676fc510cec55344fc1ce0b1d7abcdb4b7c85d",
+          "sha256": "bdc86568487604b68eb4c4fb2d676fc510cec55344fc1ce0b1d7abcdb4b7c85d"
+        },
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": {
+          "profile_sha256": "381d6ed8ad8d99f0f4fd08c5e59246933f30e9c5a480b2d14622dfeab18b9642",
+          "sha256": "381d6ed8ad8d99f0f4fd08c5e59246933f30e9c5a480b2d14622dfeab18b9642"
+        },
+        "src/rust_frontend/vf_mir_exporter/target/debug/vf_mir_exporter": {
+          "sha256": "4c0ab3095731e5c6b14a72a2de85b21723669f25e971c13ca2b07b7556ecb04f",
+          "executable": true
+        },
+        "bin/vf-rust-mir-exporter": {
+          "sha256": "4c0ab3095731e5c6b14a72a2de85b21723669f25e971c13ca2b07b7556ecb04f",
+          "executable": true
+        },
+        "bin/verifast": {
+          "sha256": "8a4138a1ce830dd7f595b408ada8c9169a6cc94a5e0ccae2848946ed020a8c93",
+          "executable": true
+        }
+      }
+    }
+  },
+  "statuses": {
+    "receiver_bridge": {
+      "status": "PASS_STRONG_IMPLEMENTATION_RECEIVER_ONLY",
+      "evidence_kind": "FRESH_PROOF",
+      "build_id": "404e1a0c-0d7b-4c57-8cd3-7653cec7a2f4",
+      "proof_sha": "6f586bb11036ed6b0a0b71284d9f328d3ddffa22",
+      "profile_sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
+      "supplied_receiver_premises": []
+    },
+    "actual_drop_body": {
+      "status": "PASS_CHECKED_BOUNDED_STRONG_BODY",
+      "evidence_kind": "FRESH_PROOF",
+      "build_id": "404e1a0c-0d7b-4c57-8cd3-7653cec7a2f4",
+      "proof_sha": "6f586bb11036ed6b0a0b71284d9f328d3ddffa22",
+      "profile_sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
+      "supplied_receiver_premises": []
+    },
+    "actual_method_call": {
+      "status": "PASS_LEGAL_SELECTED_DROP_TERMINATOR_CALL",
+      "evidence_kind": "FRESH_PROOF",
+      "build_id": "404e1a0c-0d7b-4c57-8cd3-7653cec7a2f4",
+      "proof_sha": "6f586bb11036ed6b0a0b71284d9f328d3ddffa22",
+      "profile_sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
+      "supplied_receiver_premises": []
+    },
+    "current_and_full_normal_posts": {
+      "status": "PASS",
+      "evidence_kind": "FRESH_PROOF",
+      "build_id": "404e1a0c-0d7b-4c57-8cd3-7653cec7a2f4",
+      "proof_sha": "6f586bb11036ed6b0a0b71284d9f328d3ddffa22",
+      "profile_sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
+      "supplied_receiver_premises": []
+    },
+    "return_free_leak": {
+      "status": "PASS",
+      "evidence_kind": "FRESH_PROOF",
+      "build_id": "404e1a0c-0d7b-4c57-8cd3-7653cec7a2f4",
+      "proof_sha": "6f586bb11036ed6b0a0b71284d9f328d3ddffa22",
+      "profile_sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
+      "supplied_receiver_premises": []
+    },
+    "compiler_generated_glue": {
+      "status": "NOT_RUN_NOT_PROVED",
+      "evidence_kind": "NOT_RUN",
+      "remaining_obligation": "Actual compiler instance glue body and all reachable cleanup paths must be checked independently."
+    },
+    "panic_unwind_cleanup": {
+      "status": "NOT_RUN_NOT_PROVED",
+      "evidence_kind": "NOT_RUN",
+      "remaining_obligation": "Actual compiler instance glue body and all reachable cleanup paths must be checked independently."
+    }
+  },
+  "positive_proof_flags": {
+    "stages": {
+      "decode": 0,
+      "exporter": 0,
+      "refinement": 0,
+      "verifast": 0
+    },
+    "body_copy_executed": true,
+    "body_return_executed": true,
+    "leak_check": true,
+    "caller_return": true,
+    "caller_leak_check": true,
+    "errors": [],
+    "dead_code_lines": []
+  },
+  "receiver_ast_protocol": {
+    "present": true,
+    "admitted": true,
+    "selected_outcome_switches": [
+      {
+        "callee": "<CopyOnDrop as core::ops::Drop>::drop",
+        "arms": [
+          {
+            "tag": "returning",
+            "calls": [
+              "close_points_to",
+              "end_ref_mut",
+              "open_points_to"
+            ],
+            "return_calls": [],
+            "gotos": []
+          },
+          {
+            "tag": "unwinding",
+            "calls": [
+              "close_points_to",
+              "end_ref_mut",
+              "open_points_to"
+            ],
+            "return_calls": [],
+            "gotos": [
+              "72"
+            ]
+          }
+        ]
+      }
+    ],
+    "caller_func_count": 1,
+    "caller_body_count": 1,
+    "selected_call_binding": true,
+    "selected_method_call_count": 1,
+    "receiver_create_count": 1,
+    "borrow_end_count": 2
+  },
+  "normal_cfg_admission": {
+    "kind": "FRESH_MIR_STATIC_ADMISSION_NOT_GENERATED_GLUE_PROOF",
+    "normal_drop_block": 58,
+    "normal_successor": 59,
+    "cleanup_drop_blocks": [
+      71
+    ],
+    "reachable_after_normal_drop": [
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70
+    ],
+    "no_repeat_guard_drop": true,
+    "guard_storage_dead_immediately_after_normal_drop": true
+  },
+  "cases": {
+    "after_natural_drop_false": {
+      "raw_classification": "EXPECTED_REJECTION",
+      "saved_replay_classification": "EXPECTED_REJECTION",
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "source_mir_ast_admitted": true,
+      "source_unchanged_at_every_stage": true,
+      "errors": [
+        "verified/lib.rs(196,20-25): error: Assertion might not hold. (Cannot prove false.)"
+      ],
+      "dead_code_lines": []
+    },
+    "caller_dead_code": {
+      "raw_classification": "EXPECTED_REJECTION",
+      "saved_replay_classification": "EXPECTED_REJECTION",
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "source_mir_ast_admitted": true,
+      "source_unchanged_at_every_stage": true,
+      "errors": [],
+      "dead_code_lines": [
+        "verified/lib.rs(206,26-32): dead code"
+      ]
+    },
+    "caller_ready_entry_false": {
+      "raw_classification": "CALLER_READY_ENTRY_EXPECTED_REJECTION",
+      "saved_replay_classification": "CALLER_READY_ENTRY_EXPECTED_REJECTION",
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "source_mir_ast_admitted": true,
+      "source_unchanged_at_every_stage": true,
+      "errors": [
+        "verified/lib.rs(195,20-25): error: Assertion might not hold. (Cannot prove false.)"
+      ],
+      "dead_code_lines": []
+    },
+    "duplicate_effect_simultaneous": {
+      "raw_classification": "EXPECTED_REJECTION",
+      "saved_replay_classification": "EXPECTED_REJECTION",
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "source_mir_ast_admitted": true,
+      "source_unchanged_at_every_stage": true,
+      "errors": [
+        "verified/lib.rs(197,81-103): error: No matching heap chunks: CopyOnDrop_drop_effect(t, held_ref, tail0, 1)"
+      ],
+      "dead_code_lines": []
+    },
+    "missing_receiver_frame": {
+      "raw_classification": "EXPECTED_REJECTION",
+      "saved_replay_classification": "EXPECTED_REJECTION",
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "source_mir_ast_admitted": true,
+      "source_unchanged_at_every_stage": true,
+      "errors": [
+        "verified/lib.rs(197,9-10): error: No matching heap chunks: CopyOnDrop_len(gap_guard_addr, _)"
+      ],
+      "dead_code_lines": []
+    },
+    "missing_source_permission": {
+      "raw_classification": "INCONCLUSIVE",
+      "saved_replay_classification": "EXPECTED_REJECTION",
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "source_mir_ast_admitted": true,
+      "source_unchanged_at_every_stage": true,
+      "errors": [
+        "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/prelude_core.rsspec(264,12-15): error: No matching heap chunks: [1/4]points_to<u64>(get_CopyOnDrop_src(mk_CopyOnDrop(fn_outcome_result(outcome0), tail0, 1)), _)"
+      ],
+      "dead_code_lines": []
+    },
+    "positive": {
+      "raw_classification": "NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY",
+      "saved_replay_classification": "NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY",
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 0
+      },
+      "source_mir_ast_admitted": true,
+      "source_unchanged_at_every_stage": true,
+      "errors": [],
+      "dead_code_lines": []
+    }
+  },
+  "source_negative_saved_admission": {
+    "kind": "SAVED_CLASSIFIER_ADMISSION_NOT_NEW_PROOF",
+    "build_id": "404e1a0c-0d7b-4c57-8cd3-7653cec7a2f4",
+    "proof_sha": "6f586bb11036ed6b0a0b71284d9f328d3ddffa22",
+    "input_log_sha256": "a2c6e0abc8cc83f53d9fd7ddc362e6e920cfced1eca5867f7ea7b5fbdaac9cd4",
+    "classifier_sha256": "bb57409310356344e0be58f9e967fe88c0cca7b15a8673971a362edc816f24eb",
+    "positive_saved_target": "EXPECTED_SOURCE_PERMISSION_REJECTION",
+    "synthetic_controls": {
+      "wrong_coefficient": "EXPECTED_REJECTION",
+      "wrong_field": "EXPECTED_REJECTION",
+      "wrong_alias": "EXPECTED_REJECTION",
+      "wrong_prelude_span": "EXPECTED_REJECTION",
+      "missing_call_note": "EXPECTED_REJECTION",
+      "wrong_precondition_note": "EXPECTED_REJECTION",
+      "missing_borrow_call": "EXPECTED_REJECTION"
+    },
+    "proof_toolchain_or_preparation_invoked": false
+  },
+  "mandatory_smokes": {
+    "retained_ordinary_normal_unwind": {
+      "evidence_collection_completed": true,
+      "classifier_controls_passed": true,
+      "cases": {
+        "ordinary_call_normal_unwind": "PASS"
+      },
+      "scope": "mandatory retained-six ordinary normal/unwind smoke before minimal bridge"
+    },
+    "combined_profile": {
+      "evidence_collection_completed": true,
+      "classifier_controls_passed": true,
+      "cases": {
+        "ordinary_call_normal_unwind": "PASS"
+      },
+      "scope": "exact combined-candidate ordinary normal/unwind smoke",
+      "exit_code": 0,
+      "profile": "experimental-merge-selected-drop-receiver-v4",
+      "tool_sha256": {
+        "vf-rust-mir-exporter": "4c0ab3095731e5c6b14a72a2de85b21723669f25e971c13ca2b07b7556ecb04f",
+        "verifast": "8a4138a1ce830dd7f595b408ada8c9169a6cc94a5e0ccae2848946ed020a8c93",
+        "refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28"
+      },
+      "schema_sha256": "bdc86568487604b68eb4c4fb2d676fc510cec55344fc1ce0b1d7abcdb4b7c85d",
+      "rustc_version": "rustc 1.100.0-nightly (f7575a9da 2026-09-24)\nbinary: rustc\ncommit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f\ncommit-date: 2026-09-24\nhost: x86_64-unknown-linux-gnu\nrelease: 1.100.0-nightly\nLLVM version: 23.1.1\n",
+      "rustc_toolchain": "nightly-2026-09-25",
+      "provider": {
+        "provider": "cloud-build",
+        "build_id": "404e1a0c-0d7b-4c57-8cd3-7653cec7a2f4",
+        "project": "smallsort-ci",
+        "region": "global",
+        "os": "ubuntu-22.04",
+        "arch": "x86_64"
+      },
+      "proof_sha": "6f586bb11036ed6b0a0b71284d9f328d3ddffa22",
+      "accepted": false
+    }
+  },
+  "helper_control": {
+    "schema": "source-derived-u64-onecell-normal-composition-v1",
+    "accepted": false,
+    "qualified_fragment": true,
+    "profile": "experimental-merge-selected-drop-receiver-v4",
+    "receipt_sha256": "d6dd9a285ba88c5f47b34e01521c4a9a0610e3625ecab4a289d26fa92985268a",
+    "cases": {
+      "positive": "BOUNDED_NORMAL_COMPOSITION_PASS_FRAGMENT_ONLY",
+      "after_call_current_false": "EXPECTED_AFTER_CALL_CURRENT_REJECTION",
+      "caller_entry_false": "EXPECTED_CALLER_ENTRY_REJECTION",
+      "receiver_origin_probe": "EXPECTED_RECEIVER_ORIGIN_REJECTION"
+    },
+    "actual_drop_glue_credit": false,
+    "receiver_origin_probe_is_method_proof": false,
+    "whole_insert_tail_credit": false,
+    "scope": "bounded u64 normal composition; no generic insert_tail, comparator, panic, compiler Drop glue, or actual method receiver-origin credit"
+  },
+  "old_guard_span_gates": {
+    "status": "REUSED_NOT_RERUN_ON_NEW_PROFILE",
+    "profile_sha256": "0b8cf55b0e7b5a1d0e0595b1483726459cb1d2f40264311e2014d3580ad189b8",
+    "build_id": "b1da6f8e-7569-4070-b86d-857bce812c13",
+    "proof_sha": "7995fccfee6c0e29621c2cffcca94161c7e05729",
+    "archive_sha256": "a47f1958ffa4a08b9d7147059fab95e21a65aebc35c3802cc3009ef8d7f2e1dc",
+    "guard_count": 21,
+    "span_count": 6
+  },
+  "supplied_caller_premises": [
+    "thread_token(t), t==currentThread, type_interp<u64>",
+    "valid initialized full tail storage and held u64 owner",
+    "positive size/isize bounds, alignment, object bounds and no overflow from existing caller contract"
+  ],
+  "derived_not_supplied": [
+    "actual tail.read temporary and destination gap",
+    "constructor full fields/padding, src/dst identities and len==1",
+    "readonly source quarter and retained readonly lifetime/end resources",
+    "receiver typed storage and exact ref_mut_end_token through create_ref_mut",
+    "physical guard frame through exact end_ref_mut",
+    "CURRENT destination/owner and original full normal tail post"
+  ],
+  "canonical_trait_receiver_applicability": "NOT_PROVED; strong checked implementation route used, no ref_origin fixedpoint asserted",
+  "old_statuses_unchanged": {
+    "len1": "QUALIFIED_LEN1_COMPONENT_FRESH_PROOF_PLUS_SAVED_ADMISSION",
+    "caller": "FRESH_PASS_BOUNDED_NORMAL_COMPOSITION_FRAGMENT_ONLY",
+    "frozen_profile_sha256": "0b8cf55b0e7b5a1d0e0595b1483726459cb1d2f40264311e2014d3580ad189b8"
+  },
+  "build_history": [
+    {
+      "infra_sha": "1481988bcc46f266a6c749251b8eeb957f58481e",
+      "proof_sha": "1481988bcc46f266a6c749251b8eeb957f58481e",
+      "status": "FAILURE",
+      "build_id": "2a462d72-0d60-4911-9268-88702c02cf83",
+      "build_seconds": 343,
+      "accounted": true,
+      "download_verified": true,
+      "archive_sha256": "1e8bf34a20c03a04aca5fc4358ebf48dff004202bdbe809555e562379699682d"
+    },
+    {
+      "infra_sha": "051bd4242db13e006882169553e63a4bcb4359c8",
+      "proof_sha": "051bd4242db13e006882169553e63a4bcb4359c8",
+      "status": "FAILURE",
+      "build_id": "8ba8161e-9b04-4599-b695-a4eb54cd127d",
+      "build_seconds": 484,
+      "accounted": true,
+      "download_verified": true,
+      "archive_sha256": "298b203d9ba302749a52d2aef96187fe56195a9d63dab51a7f2764561f1dd2df"
+    },
+    {
+      "infra_sha": "de44376a397dd8338b996a9f4c677891ca9dfcbb",
+      "proof_sha": "de44376a397dd8338b996a9f4c677891ca9dfcbb",
+      "status": "FAILURE",
+      "build_id": "2991985a-861a-484c-8162-de021c1086b6",
+      "build_seconds": 430,
+      "accounted": true,
+      "download_verified": true,
+      "archive_sha256": "d6e8f3c23bbefc9a94f601e217eb9428ad228218fc57bdf025827de0d3a5f66b"
+    },
+    {
+      "infra_sha": "82df91277bfa5407aab3e012c0485164b001c613",
+      "proof_sha": "82df91277bfa5407aab3e012c0485164b001c613",
+      "status": "FAILURE",
+      "build_id": "81c3173d-7418-4a77-8d41-7c9595c519ae",
+      "build_seconds": 361,
+      "accounted": true,
+      "download_verified": true,
+      "archive_sha256": "4a2bdfeccb6834e271f6268ef3d8313cea082f162a5ac80ca895128aec58bb8b"
+    },
+    {
+      "infra_sha": "a0ab0d31d8e0dfd6f8d68e6d3a586772003a335d",
+      "proof_sha": "a0ab0d31d8e0dfd6f8d68e6d3a586772003a335d",
+      "status": "FAILURE",
+      "build_id": "7a2f2f2b-6dcf-4baf-b3c6-5c23050bdb0b",
+      "build_seconds": 423,
+      "accounted": true,
+      "download_verified": true,
+      "archive_sha256": "df2af6bd09d1b8928933f3e3987a1dda37a429ec81056766227a130208001521"
+    },
+    {
+      "infra_sha": "16750582853fc58b6d8445aab9dcdde3d726306a",
+      "proof_sha": "16750582853fc58b6d8445aab9dcdde3d726306a",
+      "status": "FAILURE",
+      "build_id": "ff7fb62b-a440-4f01-9305-1424cb642a38",
+      "build_seconds": 381,
+      "accounted": true,
+      "download_verified": true,
+      "archive_sha256": "dbe8f9ec2e28910a37aa362028b18ed3daf790d0c4309a3396c750c8fcba4063"
+    },
+    {
+      "infra_sha": "65b1679a265ae0d24283564116c0d6400374a417",
+      "proof_sha": "65b1679a265ae0d24283564116c0d6400374a417",
+      "status": "FAILURE",
+      "build_id": "fab8b1f5-52a3-4c8d-b829-09ab2482ce5f",
+      "build_seconds": 443,
+      "accounted": true,
+      "download_verified": true,
+      "archive_sha256": "6ab653828e4009dc01501c32a6f1670e69df33e2b47bd033561c52e04360c2cc"
+    },
+    {
+      "infra_sha": "6f586bb11036ed6b0a0b71284d9f328d3ddffa22",
+      "proof_sha": "6f586bb11036ed6b0a0b71284d9f328d3ddffa22",
+      "status": "FAILURE",
+      "build_id": "404e1a0c-0d7b-4c57-8cd3-7653cec7a2f4",
+      "build_seconds": 421,
+      "accounted": true,
+      "download_verified": true,
+      "archive_sha256": "527ac69d4b97aeea4ada26330ab63186edc1796d45fe298307771f503728702c"
+    }
+  ],
+  "next_experiment": "GLUE-NEXT-EXPERIMENT-20261011.md (merge-owned, NOT_RUN; no automatic new session)"
+}
