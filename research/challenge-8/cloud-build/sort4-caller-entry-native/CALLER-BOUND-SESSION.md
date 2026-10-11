@@ -2,7 +2,8 @@
 
 Owner select-sort4; checkpoint 64922e1e5978b7204a6664e33a9f202aa6eea920.
 Policy read c7ca8c467aecf10a4b53039372ee97714f854ee3 (origin/main fetched).
-Start 16:25:01 UTC; main 18:25:01; finish-only 18:55:01.
+Start 16:25:01 UTC; main originally18:25:01/finish18:55:01. Owner added30min afterlongpause;
+main now18:55:01/finish-only19:25:01, budget unchanged.
 Separate phase SORT4-CALLER-DERIVED-BOUND-CLOUD-2026-10-11 and ledger
 BUDGET-CALLER-BOUND-2026-10-11.json; new3600 conservative seconds/no carry.
 Existing lane and v2 coordinator/max2/one per owner-ledger unchanged.

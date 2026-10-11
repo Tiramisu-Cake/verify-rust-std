@@ -1,0 +1,41 @@
+{
+  "candidate": "SORT4-CALLER-DERIVED-BOUND-CLOUD-2026-10-11",
+  "status": "evidence-only candidate; uncompiled and not proof evidence",
+  "source_repository": "/root/verifast-maintainer-slice-i",
+  "source_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "source_file": "src/rust_frontend/vf_mir_exporter/src/lib.rs",
+  "source_file_sha256": "11f1e10bb8e52a4950611f874b1123c11e2c87cbb1378c3f5060992f74425f00",
+  "patched_file_sha256": "cbd138d3351c28eee24b3d0709c73d902793b540d10b21bd41c7db60da95ce6b",
+  "patch_file": "compiler-selected-instance-evidence.patch",
+  "patch_sha256": "e96988dc37c92f4e774ddc8d3042f4279a2adb37c744aeda0613fb03107d30f7",
+  "rustc_toolchain": "nightly-1.100.0",
+  "rustc_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+  "opt_in": "SORT4_SELECTED_INSTANCE_EVIDENCE=SORT4-CALLER-DERIVED-BOUND-CLOUD-2026-10-11",
+  "query": "rustc_middle::ty::Instance::try_resolve(tcx, body.typing_env(tcx), callee_def_id, callee_args)",
+  "evidence_fields": [
+    "exact fixture caller DefPath (whitelist above)",
+    "MIR body TypingEnv",
+    "exact callee DefPath",
+    "resolved instance DefPath and DefId, or explicit none/error",
+    "resolved implementation source span on success",
+    "call source span"
+  ],
+  "schema_or_translation_change": false,
+  "compiler_or_proof_executed": false,
+  "proof_credit": false,
+  "cloud_gates": {
+    "SMALLSORT_EXECUTION_PROVIDER": "cloud-build",
+    "SORT4_ACTUAL_CALLER_ENTRY_PHASE_ID": "SORT4-CALLER-DERIVED-BOUND-CLOUD-2026-10-11",
+    "SORT4_SELECTED_INSTANCE_EVIDENCE": "SORT4-CALLER-DERIVED-BOUND-CLOUD-2026-10-11"
+  },
+  "filtered_callee_def_paths": [
+    "StableSmallSortTypeImpl::small_sort_threshold",
+    "StableSmallSortTypeImpl::small_sort"
+  ],
+  "whitelisted_fixture_caller_def_paths": [
+    "selected_freeze_basecase",
+    "selected_freeze_basecase_false_31",
+    "selected_freeze_basecase_missing_source_array"
+  ],
+  "execution_admission": "Before any compiler execution, the runner must attest the extracted source MD5 and proof manifest against the phase pins; this candidate does not replace or bypass runner attestation."
+}

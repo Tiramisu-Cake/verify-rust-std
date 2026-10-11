@@ -1,3 +1,4 @@
+<!-- 2026-10-11 caller-bound: actualthresholdconst32/body/fullnativeposts anddefault16 verified on source/clauses experiment5dde9c2f; compilerselectedtarget andactualguardedboundtransferOPEN. PublicghostlookupFIXED but IS_ZST opaqueconstant preventsnonzero. Helperoverflow/abort/pointerfirstcall/C4 remainOPEN. 4terminalbuilds1449sec, unused2151retired. SeeSTATUS andCALLER-BOUND checkpoint; nowholefunctioncredit. -->
 <!-- 2026-10-10 select nativeentry bef9/d4b2d6f2: separate native source4/CURRENT owners/F/thread/frame and opaque scratch frame fullVF0; no size/type/dst premises supplied in this subset. ActualcallerCFG/call absent. MUbridge inverse105 remainsVF1. Actualc1 boundedprefix candidate NOT_RUN/profileunaccepted; 287/3600 Cloudsec. -->
 ## CLOUD-BUILD-MIGRATION — A/B/C accepted
 

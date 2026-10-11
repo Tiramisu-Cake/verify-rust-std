@@ -1,14 +1,14 @@
 {
   "phase": "SORT4-CALLER-DERIVED-BOUND-CLOUD-2026-10-11",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "authorization": "Direct owner continuation from64922e1e: public guard qualification on exact profile; actual stable quicksort base-case selected Freeze threshold/small_sort caller-derived bound, helper prefix then C4 within scope. Narrow source-bound bindings only; no new ownership/alias/MU inverse/general specialization/size/arithmetic/callback/solver/kernel.120min+30minfinish-only,new3600sec no carry.",
   "owner": "select-sort4",
   "start_utc": "2026-10-11T16:25:01Z",
-  "main_deadline_utc": "2026-10-11T18:25:01Z",
-  "deadline_utc": "2026-10-11T18:55:01Z",
+  "main_deadline_utc": "2026-10-11T18:55:01Z",
+  "deadline_utc": "2026-10-11T19:25:01Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 1102,
-  "remaining_build_seconds": 2498,
+  "used_build_seconds": 1449,
+  "remaining_build_seconds": 0,
   "maximum_build_timeout_seconds": 1740,
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
@@ -86,8 +86,37 @@
       "execution_seconds": 357,
       "download_verified": true,
       "archive_sha256": "91ee1f7563df3a16da07ef3266439713aadbeb6116dab62cfa47c3437446b7b9"
+    },
+    {
+      "dispatch_token": "dispatch-ecfae47c6219425ab03e9a59d0f62ad4",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-CALLER-DERIVED-BOUND-CLOUD-2026-10-11",
+      "infra_sha": "a4d1789b7d652dab7c783f1288b913e8882bdf5b",
+      "proof_sha": "a4d1789b7d652dab7c783f1288b913e8882bdf5b",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "a8e35d22ec9b3c5c570abaf2bceb3b01bf2619149392cdbf0842a9b8d7809ebe",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "1d90ab0a9acdb39bfe3e2bcfe27e927ba502307294182a1a20e01b9aa2ce71c2",
+      "build_id": "8fa3210b-1dd2-4578-b0d1-49819cc07a84",
+      "start_time": "2026-10-11T17:30:31.785174418Z",
+      "finish_time": "2026-10-11T17:36:17.078289Z",
+      "create_time": "2026-10-11T17:30:30.993930801Z",
+      "build_seconds": 347,
+      "accounted": true,
+      "execution_seconds": 346,
+      "download_verified": true,
+      "archive_sha256": "550129fa1993b0d03f25f99b32d62d49be954127683057bc23222a3cfa947862"
     }
   ],
   "policy_revision_read": "c7ca8c467aecf10a4b53039372ee97714f854ee3",
-  "initial_checkpoint": "64922e1e5978b7204a6664e33a9f202aa6eea920"
+  "initial_checkpoint": "64922e1e5978b7204a6664e33a9f202aa6eea920",
+  "extension_authorization": "Owner: long pause, add thirty minutes; existing3600sec ceiling unchanged.",
+  "closed_utc": "2026-10-11T18:52:52.118090Z",
+  "retired_build_seconds": 2151,
+  "own_reservations": 0,
+  "own_ready_request": false
 }

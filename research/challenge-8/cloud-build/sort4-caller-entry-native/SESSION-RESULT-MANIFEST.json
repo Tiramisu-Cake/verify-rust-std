@@ -1,0 +1,67 @@
+{
+  "phase": "SORT4-CALLER-DERIVED-BOUND-CLOUD-2026-10-11",
+  "initial_checkpoint": "64922e1e5978b7204a6664e33a9f202aa6eea920",
+  "policy_revision_read": "c7ca8c467aecf10a4b53039372ee97714f854ee3",
+  "main_deadline_utc": "2026-10-11T18:55:01Z",
+  "deadline_utc": "2026-10-11T19:25:01Z",
+  "builds": [
+    {
+      "build_id": "0b7b3e53-4c43-4ee4-a6c5-4d53f8872204",
+      "proof_sha": "984d8007c0b2250b8a7a2c3b9bd37e6f32aaa249",
+      "infra_sha": "984d8007c0b2250b8a7a2c3b9bd37e6f32aaa249",
+      "config_sha256": "327a5b9197aea2d6bc0677dc1b769ed0a2d8a4d16dbe86b1e770bdbfdfab34c1",
+      "source_input_sha256": "6a0dacb219f23f80c2097ba155cc22dbf3204a5c1a4fd0625af946cb4618a84b",
+      "archive_sha256": "7947b1b806ce234724749a28cc3e2c4f308ef1e0dff2b7a220c90bfc7995861f",
+      "conservative_seconds": 346,
+      "terminal_status": "SUCCESS",
+      "download_verified": true
+    },
+    {
+      "build_id": "379098e8-1827-476e-8919-1e344e545a37",
+      "proof_sha": "caa42f2abe2a1fef098bdef9803fe079e0dd5dde",
+      "infra_sha": "caa42f2abe2a1fef098bdef9803fe079e0dd5dde",
+      "config_sha256": "d96f5537e99d472c3bad7f53faca8991aca0a5cc91d9a1f20e6ff58f49457731",
+      "source_input_sha256": "91a5e3545e94ca6bf66f3839eb6c4e487783554f19a66278d55854aa5ec604a5",
+      "archive_sha256": "bb247b242fbea77fa1061939a2583a0a7791bdd5dfea8768da054f3f25e3b8cc",
+      "conservative_seconds": 398,
+      "terminal_status": "SUCCESS",
+      "download_verified": true
+    },
+    {
+      "build_id": "5a60dd5f-2564-4c40-b09f-7781e4cb206d",
+      "proof_sha": "4087c67ed5d2d0b95a8ef6bd35c82d9729d1337b",
+      "infra_sha": "4087c67ed5d2d0b95a8ef6bd35c82d9729d1337b",
+      "config_sha256": "59c986c1f3cd0cbe72ecc5b175340bf7e1e96d9ef5dc39f837ef5854c123a400",
+      "source_input_sha256": "5a340e8f72093cd87f1265e6369f28c499a3315478c94845cad7c33e92fd50cc",
+      "archive_sha256": "91ee1f7563df3a16da07ef3266439713aadbeb6116dab62cfa47c3437446b7b9",
+      "conservative_seconds": 358,
+      "terminal_status": "FAILURE",
+      "download_verified": true
+    },
+    {
+      "build_id": "8fa3210b-1dd2-4578-b0d1-49819cc07a84",
+      "proof_sha": "a4d1789b7d652dab7c783f1288b913e8882bdf5b",
+      "infra_sha": "a4d1789b7d652dab7c783f1288b913e8882bdf5b",
+      "config_sha256": "a8e35d22ec9b3c5c570abaf2bceb3b01bf2619149392cdbf0842a9b8d7809ebe",
+      "source_input_sha256": "1d90ab0a9acdb39bfe3e2bcfe27e927ba502307294182a1a20e01b9aa2ce71c2",
+      "archive_sha256": "550129fa1993b0d03f25f99b32d62d49be954127683057bc23222a3cfa947862",
+      "conservative_seconds": 347,
+      "terminal_status": "FAILURE",
+      "download_verified": true
+    }
+  ],
+  "used_conservative_seconds": 1449,
+  "retired_seconds": 2151,
+  "model_verdict": "FROZEN_EXPERIMENTAL_UNACCEPTED",
+  "tool_verdict": "THRESHOLD_ONLY_COMPILED_SOURCE_CLAUSE_BINDING_UNACCEPTED",
+  "proof_verdict": "LOCAL_THRESHOLD_POINTER_ONLY_NO_ACTUAL_CALLER",
+  "public_nonzero_proved": false,
+  "compiler_selected_impl_proved": false,
+  "caller_bound_transfer_proved": false,
+  "helper_overflow_closed": false,
+  "abort_handled": false,
+  "helper_pointer_calls_reached": false,
+  "first_callsite_resources_proved": false,
+  "caller_c4_proved": false,
+  "profile_accepted": false
+}
