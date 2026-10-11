@@ -91,6 +91,12 @@ fn main() {
     //@ assert std::mem::size_of::<[(); 0]>() == 0;
     //@ assert std::mem::size_of::<[(); 3]>() == 0;
     //@ assert std::mem::size_of::<[u8; 0]>() == 0;
+    //@ std::alloc::is_valid_layout_size_of_align_of::<()>();
+    //@ std::alloc::is_valid_layout_size_of_align_of::<EmptyC>();
+    //@ std::alloc::is_valid_layout_size_of_align_of::<u8>();
+    //@ size_align::<()>();
+    //@ size_align::<EmptyC>();
+    //@ size_align::<u8>();
     //@ assert std::mem::align_of::<()>() > 0;
     //@ assert std::mem::align_of::<EmptyC>() > 0;
     //@ assert std::mem::align_of::<u8>() > 0;

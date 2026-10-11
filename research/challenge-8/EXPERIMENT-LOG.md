@@ -7043,3 +7043,15 @@ and END-CHECKPOINT-2026-10-11-ZST.md recordscope/pins/commands/exactnode/cause.
 SessionCLOSED1430/3600, unused2170 retired/no carry; all4buildsterminal/accounted/
 downloadverified, active/reservations/requestempty, v2preserved, profileclosed.
 Hourprogress01:21UTC thencheckpoint/pushcontinued; noautoresume.
+
+
+## 2026-10-11 Rust ZST size repair session, first gates
+
+Policy c7ca8c467aecf10a4b53039372ee97714f854ee3; owner select-sort4, new account
+3600seconds/start08:33:37/main10:33:37/finish11:03:37UTC, checkpoint69e8ffe.
+Buildb1babb85/proof=infra95f181fb: semantic repair permits native MU ZST entry;
+sameguard genericpair and postnonzero positivesVF0, entry positivity negatives
+assertion-fail, reachableZSTfalse and missingpermission intended refusals; C/C++VF0.
+Matrix size assertionspass, missing existing unit alignment lemma call fails14.
+C1skipped/C4notrun;339seconds accounted.
+[Full review](cloud-build/sort4-native-c1-bound/FRESH-B1BABB85-REVIEW.md).
