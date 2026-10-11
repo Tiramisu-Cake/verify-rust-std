@@ -1,0 +1,279 @@
+{
+  "kind": "SAVED_NEGATIVE_GATE_REPLAY_NO_FRESH_PROOF",
+  "build_id": "34485da0-911b-4c1e-9d8d-32922f154f82",
+  "auditor_commit": "420188dd1732d53f3f515690ed2ff6f53a9026ab",
+  "auditor_source_sha256": "3e3e1b917a7cc301fee16074a80f7470a98ebcc4d4eb04b61781e54cbcc28a51",
+  "cases": {
+    "after_natural_drop_false": {
+      "old_verdict": "INCONCLUSIVE",
+      "replay_verdict": "EXPECTED_REJECTION",
+      "negative_gate": {
+        "matched": true,
+        "admitted": true,
+        "setup_admitted": true,
+        "case": "after_natural_drop_false",
+        "caller_generated_glue_loc": "verified/lib.rs(194,9-10)",
+        "caller_receiver_create_loc": "verified/lib.rs(194,9-10)",
+        "generated_glue_proof_admitted": true,
+        "reason": null
+      },
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "source_unchanged_at_every_stage": true,
+      "sha256": {
+        "classification.json": "9ccf2606b9e3d834332cb270bcbdc2dc5f4ab926cf13feafbc9206d33c72b0ea",
+        "proof-ast.ml": "7ad93fb0280aea6aac43ad8d7d6bb44c1f42351c0565e82cb52152f84e1cce0b",
+        "decode.out": "dfda15e9f981badc764f05c75085cc8a007364d25ac205df53f436b152a95b85",
+        "original-decode.out": "d99a124b8c1f0d27053ec65a9fd3dab4ebad07f439128964e195c2eb70d383a3",
+        "verifast.log": "4d5bf83d1b0f3a8b71edba02b4097027605b1f95a44bdee6d439e1777b7afdbd",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3",
+        "original/lib.rs": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+        "verified/lib.rs": "418fdd9ef95e9b656ecc85527f013ae753b3268adcf71e2e01005919014e92ee",
+        "exporter-stage.json": "ed8fbc3e9d40b5e8e96decdfc6ab4c4d5ade4ea9fbd7205aa4e1401fcfe3924d",
+        "decode-stage.json": "9563769331e59b9be86ecbeb065c3b45076d4ca36a8735c4d03b194cb4c47cd8",
+        "refinement-stage.json": "19abeb888c9f22595e111bf5fc19da5382062a9aee5dc087ca83f340781789f6",
+        "verifast-stage.json": "d99b359e9f845c6161e44b02ab9089224153db36de5e55a6d4fc7b0524c05d29"
+      },
+      "errors": [
+        "verified/lib.rs(196,20-25): error: Assertion might not hold. (Cannot prove false.)"
+      ],
+      "dead": []
+    },
+    "caller_dead_code": {
+      "old_verdict": "INCONCLUSIVE",
+      "replay_verdict": "EXPECTED_REJECTION",
+      "negative_gate": {
+        "matched": true,
+        "admitted": true,
+        "setup_admitted": true,
+        "case": "caller_dead_code",
+        "caller_generated_glue_loc": "verified/lib.rs(194,9-10)",
+        "caller_receiver_create_loc": "verified/lib.rs(194,9-10)",
+        "generated_glue_proof_admitted": true,
+        "reason": null
+      },
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "source_unchanged_at_every_stage": true,
+      "sha256": {
+        "classification.json": "68d1643b23e0f8dc459cc62be79ea39790019b1c78b8066ce1fc48d5645345e8",
+        "proof-ast.ml": "12582201298e827755cb1a558e0b83353c26395b0fa23e050670352bc362a365",
+        "decode.out": "b89e0ac447b6cd35078349efab43e68d6c7d830d4de4d86ba52060eda38166e0",
+        "original-decode.out": "d99a124b8c1f0d27053ec65a9fd3dab4ebad07f439128964e195c2eb70d383a3",
+        "verifast.log": "300139eeb4056aefefc9b4276935e6405154cd0df8fbecb09be101413f4b8f5d",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3",
+        "original/lib.rs": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+        "verified/lib.rs": "f001b84ced66bf419f28db7323112bc20d1df5d879b73b065f08206c3282466d",
+        "exporter-stage.json": "3e118a2598ea59c5d1bdc9beca940f20078616ece28f4ce6771f13210ab7315b",
+        "decode-stage.json": "1c2984e00e391d58b1eecafb7f90445a26488effc88ac9fd646a6edae50db9a1",
+        "refinement-stage.json": "c117aabb9fd884653ce044362aceabe622b54650a4eeac2ecdc8ebfcf33f8205",
+        "verifast-stage.json": "ca292351187257a01e1d184e205666bf8562eb078b8bcc289eeb272f10f505f1"
+      },
+      "errors": [],
+      "dead": [
+        "verified/lib.rs(206,26-32): dead code"
+      ]
+    },
+    "caller_ready_entry_false": {
+      "old_verdict": "INCONCLUSIVE",
+      "replay_verdict": "CALLER_READY_ENTRY_EXPECTED_REJECTION",
+      "negative_gate": {
+        "matched": true,
+        "admitted": true,
+        "setup_admitted": true,
+        "case": "caller_ready_entry_false",
+        "caller_generated_glue_loc": "verified/lib.rs(196,9-10)",
+        "caller_receiver_create_loc": "verified/lib.rs(196,9-10)",
+        "generated_glue_proof_admitted": true,
+        "reason": null
+      },
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "source_unchanged_at_every_stage": true,
+      "sha256": {
+        "classification.json": "6b4c02ca5cd53ae9aba371d705d486c2c3888a7d193d7d8a449a62661eb3c1ab",
+        "proof-ast.ml": "dc6e472cc6e0dcf17c3727887ad4fe6f14217fcd5647bfcbbd77e031a56cc1fa",
+        "decode.out": "6987f9c2bee9119d1780867e9ee443a058b8750be32cc730b4eb06fc8dacf362",
+        "original-decode.out": "d99a124b8c1f0d27053ec65a9fd3dab4ebad07f439128964e195c2eb70d383a3",
+        "verifast.log": "a46b3ee66f53283879aa477468c5ddacccd55640b0662758fe43e602291e3922",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3",
+        "original/lib.rs": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+        "verified/lib.rs": "fe577e65751a017e868fd0c7b09eb5196272470c58cf71870cdd64f61936d7a8",
+        "exporter-stage.json": "0046a14f55cd692b693a0169c0f9297bd2ed1c43db0893da3d9fb5a206a6d4e2",
+        "decode-stage.json": "73e910694a01f806e46668eba06f8aa8e37fcf63815fcc56b914ca88db0fa032",
+        "refinement-stage.json": "a0230ebe4e00570ee56cd889fb0ecf38310dcc2f8c7fce52864aea31e79a628d",
+        "verifast-stage.json": "7d2abf7ba7ed9d78f43efa8e9d8f47d92345d09b1315f5d30d5202e13929c1e0"
+      },
+      "errors": [
+        "verified/lib.rs(195,20-25): error: Assertion might not hold. (Cannot prove false.)"
+      ],
+      "dead": []
+    },
+    "duplicate_effect_simultaneous": {
+      "old_verdict": "INCONCLUSIVE",
+      "replay_verdict": "EXPECTED_REJECTION",
+      "negative_gate": {
+        "matched": true,
+        "admitted": true,
+        "setup_admitted": true,
+        "case": "duplicate_effect_simultaneous",
+        "caller_generated_glue_loc": "verified/lib.rs(194,9-10)",
+        "caller_receiver_create_loc": "verified/lib.rs(194,9-10)",
+        "generated_glue_proof_admitted": true,
+        "reason": null
+      },
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "source_unchanged_at_every_stage": true,
+      "sha256": {
+        "classification.json": "7409c0dd2f75e5d9031c79d115ba8f0987129e17b3f6ff23506810c453d27375",
+        "proof-ast.ml": "097295cc6a5df7049b2073281ae34b6428601ce234091f55d5fbdc268a142529",
+        "decode.out": "086385e2d71688189f4306393c35e9447dc3591ac399d700a07e14613b2f0f50",
+        "original-decode.out": "d99a124b8c1f0d27053ec65a9fd3dab4ebad07f439128964e195c2eb70d383a3",
+        "verifast.log": "9db0c3be84013207835522515c3c306b7d5e3b6f03acd6077448d720a371d18d",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3",
+        "original/lib.rs": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+        "verified/lib.rs": "19be19b80ab4359d633d11bd94c090945dc8e4900bc8a6f70de6be10e1e166ea",
+        "exporter-stage.json": "b14fcca500335580c3c32224f76fa3244e1a5f2124229cdc1f8cad3905c4ec04",
+        "decode-stage.json": "8f548b4e288bac942f84235444ad17a19f97b0c31dc75b4c76e68daf2ef9dd6a",
+        "refinement-stage.json": "75408c423d3f00c0318ab889660c4ef2f1d9745f5f65b7e0053b23b08a0d17ce",
+        "verifast-stage.json": "61ec1acb044029ad35836bfd1243189198cadd72f0c28d949928bb80317f9541"
+      },
+      "errors": [
+        "verified/lib.rs(197,81-103): error: No matching heap chunks: CopyOnDrop_drop_effect(t, held_ref, tail0, 1)"
+      ],
+      "dead": []
+    },
+    "missing_receiver_frame": {
+      "old_verdict": "INCONCLUSIVE",
+      "replay_verdict": "EXPECTED_REJECTION",
+      "negative_gate": {
+        "matched": true,
+        "admitted": true,
+        "setup_admitted": true,
+        "case": "missing_receiver_frame",
+        "caller_generated_glue_loc": "verified/lib.rs(197,9-10)",
+        "caller_receiver_create_loc": "verified/lib.rs(197,9-10)",
+        "generated_glue_proof_admitted": true,
+        "reason": null
+      },
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "source_unchanged_at_every_stage": true,
+      "sha256": {
+        "classification.json": "34f93823485041a815677292805e22f2b38def67bfab058cba56626e08df3afc",
+        "proof-ast.ml": "4e86f430a4d0c20dc24449d4a43f6ddbd152e87c2649668bb25b72c44a8b5eb4",
+        "decode.out": "0b8275b344a4b5ff78f54bbe5714f7b72b523288761a527d69574a87c62fedcc",
+        "original-decode.out": "d99a124b8c1f0d27053ec65a9fd3dab4ebad07f439128964e195c2eb70d383a3",
+        "verifast.log": "b7a5388f026be0dd464bed3302a8828a4d87a89a8fa0202b03686fe1afffe897",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3",
+        "original/lib.rs": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+        "verified/lib.rs": "2dea113dc4761e26010e22834e0ee83801dbee0145eddc6ba3581d276f79794d",
+        "exporter-stage.json": "668b779a73555bf04ebe3eda20e1aea049cb15c960338fbdcc8ad66354b22c21",
+        "decode-stage.json": "bab4842adf37c30af48cf9f4888c658632e2c5cd38ebc1f9660d7e32e16f558c",
+        "refinement-stage.json": "1fdee8b34b34d27766a0204a86afbb2c493137cdbb0027f537c4967468da7b53",
+        "verifast-stage.json": "4fee2c731c291cc1c11a94b162518067df84b3a836d76c1b8261a7207c5d9e93"
+      },
+      "errors": [
+        "verified/lib.rs(197,9-10): error: No matching heap chunks: CopyOnDrop_len(gap_guard_addr, _)"
+      ],
+      "dead": []
+    },
+    "missing_source_permission": {
+      "old_verdict": "INCONCLUSIVE",
+      "replay_verdict": "EXPECTED_REJECTION",
+      "negative_gate": {
+        "matched": true,
+        "admitted": true,
+        "setup_admitted": true,
+        "case": "missing_source_permission",
+        "caller_generated_glue_loc": "verified/lib.rs(197,9-10)",
+        "caller_receiver_create_loc": "verified/lib.rs(197,9-10)",
+        "generated_glue_proof_admitted": true,
+        "reason": null
+      },
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "source_unchanged_at_every_stage": true,
+      "sha256": {
+        "classification.json": "d94eae0b0d0180f495d79876361caff59a6e723b3bcfd54e6e256dc92e53606e",
+        "proof-ast.ml": "710fd8d6fb79eeef36a2ecb6b94ae20598da823d90faf9597c0e663954f74af7",
+        "decode.out": "c45e7f2118ca24c27ac88990fa4b4cca82f5309d30ee839ab28d5db273ec06bd",
+        "original-decode.out": "d99a124b8c1f0d27053ec65a9fd3dab4ebad07f439128964e195c2eb70d383a3",
+        "verifast.log": "3d2999b94bd4db36d8dc1532bc4634a4fe89eb13718277b61bf2ee507e340c6d",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3",
+        "original/lib.rs": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+        "verified/lib.rs": "cf429c75256d8902a4ca7b66050cc00ae961b123ff46a878967128d6ac55e1ff",
+        "exporter-stage.json": "01f2066f03d633ab7eea8dba1c617b1d4091bae78217fb6c182f537f7916cf86",
+        "decode-stage.json": "593f8c2e1a379de7c76688e1fd3d4fa583dc653bffc01f23c3ebbfba8a136379",
+        "refinement-stage.json": "89fca300a8c9540d43d41777030ea7fc5267b0e5da6c5f9eac013c0768532b25",
+        "verifast-stage.json": "a50c5301e9eb99b77fa27da93d1ec699a51db23a6eabe9b854da46e831965102"
+      },
+      "errors": [
+        "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/prelude_core.rsspec(264,12-15): error: No matching heap chunks: [1/4]points_to<u64>(get_CopyOnDrop_src(mk_CopyOnDrop(fn_outcome_result(outcome0), tail0, 1)), _)"
+      ],
+      "dead": []
+    },
+    "positive": {
+      "old_verdict": "NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY",
+      "replay_verdict": "NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY",
+      "negative_gate": {
+        "matched": false,
+        "admitted": false,
+        "setup_admitted": true,
+        "case": "positive",
+        "caller_generated_glue_loc": "verified/lib.rs(194,9-10)",
+        "caller_receiver_create_loc": "verified/lib.rs(194,9-10)",
+        "generated_glue_proof_admitted": true,
+        "reason": "negative did not match its exact generated-glue-route obligation"
+      },
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 0
+      },
+      "source_unchanged_at_every_stage": true,
+      "sha256": {
+        "classification.json": "b4f0d40fde65a6a801850439d2331182113882444847c3f86edddb87e5bb2781",
+        "proof-ast.ml": "ffd79636616da2f94588c3acd7192731214f1c568226f6294aa8e68fb997a2da",
+        "decode.out": "653b68bbaa4cf81a27783d5e8eee37b2418fe5778fcbf23bb8e0ab3b8d3887c5",
+        "original-decode.out": "d99a124b8c1f0d27053ec65a9fd3dab4ebad07f439128964e195c2eb70d383a3",
+        "verifast.log": "4de41f15ff3ca497fda1c2491d181951c06399f855e774799de6695584d0032b",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3",
+        "original/lib.rs": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+        "verified/lib.rs": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f",
+        "exporter-stage.json": "04ffed0a0b47a78881edcd33a6c8ffd13b89961ca583d2f8319fe79b57bf39c7",
+        "decode-stage.json": "6d7ea334e3442eee38914dc10326a921f560e574d08d7f2dd75ad872f99a8b3d",
+        "refinement-stage.json": "3dc61467050e8233c5074c8b5cfb13b6da6f0200ef8b73695180fc73ee6b7801",
+        "verifast-stage.json": "9da4812119c5038aeeaaa7ff22449cc4d9ace4d67e5bc3286d0bdbdb19af0522"
+      },
+      "errors": [],
+      "dead": []
+    }
+  }
+}

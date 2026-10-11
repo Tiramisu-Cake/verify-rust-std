@@ -1,0 +1,641 @@
+{
+  "base_checkpoint": "d1dfd450036a10dd41719fcc399cf519a2ec5350",
+  "policy_commit": "6e1a8e59c56669abe5e6ec2013478e45ed2cc267",
+  "merge_checkpoint": "420188dd1732d53f3f515690ed2ff6f53a9026ab",
+  "proof_infra_sha": "f8c7cb7ed80fed845c0ad11155835da4a5803340",
+  "effective_tool_sha": "e0a94e3eab17fcd69f7fad785f7a0fb316d27258",
+  "build_id": "34485da0-911b-4c1e-9d8d-32922f154f82",
+  "profile_sha256": "e97cce6325ad7f2874fccc963d43d1e9e1c0c795f813cc1bddc46a1ce9fa0081",
+  "archive_sha256": "9d6294260e96ce7d3480010a0b2ab16adfa35830a72972c2e8ccbab96d2c0bc3",
+  "source_input_sha256": "c91270ce318578ef8ca935d38d9e8e5c13286d8a73e652ec8033b19c8f216850",
+  "compiler": "rustc 1.100.0-nightly (f7575a9da 2026-09-24)\nbinary: rustc\ncommit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f\ncommit-date: 2026-09-24\nhost: x86_64-unknown-linux-gnu\nrelease: 1.100.0-nightly\nLLVM version: 23.1.1\n",
+  "target": "x86_64-unknown-linux-gnu",
+  "actual_binary_hash_receipts": {
+    "refinement-checker": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+    "verifast": "cefd3314017876ffe0accacea9d81aee0cb6596165afd31103a5cacda3719b0a",
+    "vf-rust-mir-exporter": "6d47354ab0bff88e966ce5bc3a4820ec9e988313d8e6b47ac607854e70dfd3c2"
+  },
+  "binary_validation_limit": "Compared immutable compile-preflight/profile-build/case receipts; executable binary bytes are not in downloaded proof evidence, no binary executed/rebuilt/rehashed here.",
+  "checked_tool_sources": {
+    "src/rust_frontend/vf_mir_exporter/src/lib.rs": "d8bca867798fd93ececcb5fd8db330d6d23d2f7b815009437bf4961b9fcd2f51",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "b6c63644e8926a207b4393b80bf27696838aa22fe9db33acecc9fefa68550750",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "f17691b857225785d79aee6c958c92143549e8ac61750c7295af38ec476b8cac",
+    "src/refinement_checker/main.ml": "9aba12084bbe17971dd12af35417385bde79afad28af80e7e254103f3a782b3c",
+    "src/refinement_checker/refinement_checker.ml": "e232312e5f24ca98e25fe32fe0be5300eca4deda69438af2ebf90985061b3dc8"
+  },
+  "checked_ordered_patches": [
+    {
+      "path": "research/challenge-8/merge/overnight/wrapping.patch",
+      "sha256": "c7c776ff5aef2b8668aa2ed3d59b47109fce1d67a9dc2f2043fc2744dc0ed31e"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/callback.patch",
+      "sha256": "0a006df94f04d6425d70280967d6652bdd33ccb88ead4a44f02a2e36775aaa5e"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/copy.patch",
+      "sha256": "da167ee095e9fb5f425e2d604dd46a973a8c1e3a5121b2c87cc3546b0ec8e9a5"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/cleanup.patch",
+      "sha256": "94fe2cd69edc9da6907553961ca32f0557c338266d9e9472e577860a95887604"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/usize-multiple.patch",
+      "sha256": "ecdd1fd6fcc8d811f02fa308ddc533386e0031193d527ea6950a099f8ccccaa1"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/stack-address.patch",
+      "sha256": "f1444866322bf06b40e078a381a69acea7ccd92b613f7dc903d289044d8cba64"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/tracked-md.patch",
+      "sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/allocation-span.patch",
+      "sha256": "603ab250705fa9d83c94631f7570bd3e1cc7fc06187c35e6ae8465fcb5efca1b"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/unit-layout.patch",
+      "sha256": "00c7f9310ca30e3403daabdfe8e7d4c8c13aa84e78434acade309c98faadc68a"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/guard-layout.patch",
+      "sha256": "16476ac7e615831bfd49cec3efdcefd1d76eab1a57f2df47b97f43fb8d6a1d74"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/selected-drop.patch",
+      "sha256": "57bab179dc11366369689c0980209c2e76acf82339a346b02e1cc99fdfbb610a"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/glue-observation.patch",
+      "sha256": "82fff6af2b5e98d2a1a8b0dafd0d9951bbb103408967a95d22e3461b367421ea"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/glue-body.patch",
+      "sha256": "5152e55f32008374331ebc754690369147d3850def35421eb746f244e097410d"
+    }
+  ],
+  "checked_input_paths": [
+    {
+      "scope": "proof",
+      "path": "library/core/src/slice/sort/shared/mod.rs",
+      "sha256": "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8"
+    },
+    {
+      "scope": "proof",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/cloud-build/origin-layout/BUILD-MODE.json",
+      "sha256": "e58b65567aa2fe6b1828faaf92bdbe13c2f89173bdb652fda4804faef672d6a5"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json",
+      "sha256": "e97cce6325ad7f2874fccc963d43d1e9e1c0c795f813cc1bddc46a1ce9fa0081"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/cloud-build/origin-layout/LAYOUT-PINS.json",
+      "sha256": "80b96dc336463472445c695626a4cc93bb7780a681134b6031f07bb21b079e70"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/cloud-build/origin-layout/SELECTED-PROFILE.json",
+      "sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/cloud-build/origin-layout/compile-preflight.sh",
+      "sha256": "0edfe6c5f274e7425005e5628500010106a005880ed23a5f66ab690844037806"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/cloud-build/origin-layout/compiler-layout.rs",
+      "sha256": "9c93e94f7b5a49488313d0964221de40f58b70962f771d2f82c4f2344071a086"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/cloud-build/origin-layout/concrete-consumer.py",
+      "sha256": "4ce782aba60711ce0c52e60a9ce7eda8e7160dbcac516c31caca9317e7fa2a77"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/cloud-build/origin-layout/concrete-drop-body.py",
+      "sha256": "fdab4b5ffe93a0e19fd65ca1ed03dd23894340cebb5d735d67a8a45c1cdecbe8"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/cloud-build/origin-layout/glue-body.patch",
+      "sha256": "5152e55f32008374331ebc754690369147d3850def35421eb746f244e097410d"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/cloud-build/origin-layout/glue-observation.patch",
+      "sha256": "82fff6af2b5e98d2a1a8b0dafd0d9951bbb103408967a95d22e3461b367421ea"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/cloud-build/origin-layout/guard-layout-admission.py",
+      "sha256": "56c52f07195d7248ee3eae6de2ee578e6f4181b203db4031cda2b460a00d1ee0"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/cloud-build/origin-layout/guard-layout.patch",
+      "sha256": "16476ac7e615831bfd49cec3efdcefd1d76eab1a57f2df47b97f43fb8d6a1d74"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/cloud-build/origin-layout/onecell-caller-composition.py",
+      "sha256": "742c0eb3f5aafdce695b8aa2e92f4cce5074b44adea8910f11ac97c513bdfc68"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/cloud-build/origin-layout/onecell-drop-interface.py",
+      "sha256": "a8a8c6cb80304f6b4079b9c6be5ac2c4e3ecab993752ce3b592bd19e09ddc170"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/cloud-build/origin-layout/onecell-selected-drop.py",
+      "sha256": "b444af3a49fe428c171ecf844bda17bdfe9dae628cc86b8b49461c261c676e7d"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/cloud-build/origin-layout/selected-drop.patch",
+      "sha256": "57bab179dc11366369689c0980209c2e76acf82339a346b02e1cc99fdfbb610a"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/cloud-build/origin-layout/unit-layout.patch",
+      "sha256": "00c7f9310ca30e3403daabdfe8e7d4c8c13aa84e78434acade309c98faadc68a"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/cloud-build/origin-layout/unit-name.c",
+      "sha256": "7801d14e98a51cf3287eb07277f4787597221a10c76878f75f1aeecc7028b859"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/cloud-build/origin-layout/unit-name.cpp",
+      "sha256": "a55870423300b30247663915384f30717151c987858a4e0d9d5a625a731d77b9"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/cloud-build/callback-destination-frame.py",
+      "sha256": "fb958b7753f890b834263fdb520da3e22e7b0857ba0b26a0453d0fe714bbb48e"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/cloud-build/guard-geometry-audit.py",
+      "sha256": "488923c804e722c450b250e7a4c53d873e84eb7a6e667f31a97a2c95c809c429"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/cloud-build/merge-audit.py",
+      "sha256": "cc05557994be4db8491884287cd53a6c931b945dbef4f9f81d4b6d8567e567ce"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/cloud-build/merge.sh",
+      "sha256": "474bd042ceef1d5d58913099982d8497a9c008aad31c88eb2b6d95fad9df1bf3"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/cloud-build/provider-overlays.py",
+      "sha256": "49a8b3577977da3cfe055839a495111a095c8bcb7a4856ab711aeab7ce8f084c"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/cloud-build/selection.json",
+      "sha256": "379989a90b87cf0b6b60217ba6038f906914d70a41030c240e89d725a4780c09"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/cloud-build/selection.py",
+      "sha256": "f3bd119a5f3c96c0380993156569e3a50e736a5a8b4ff0450ed24dd390d15456"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/actual-prepare.py",
+      "sha256": "8f96ea92e43651c0952102236c76348dca8079ea96a8bab1bb24de4851e07ca5"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/baseline-cases.rs",
+      "sha256": "adfcfd5904eb037b8cb9669f232ee34b8cb95e1f60187536d3ab4d7dddecd493"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/baseline.c",
+      "sha256": "fa811714340bdde8528f51959be57e711f6761e4ce1277a20abdee1b91acf48b"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/baseline.cpp",
+      "sha256": "92d58697303fd80a2cb75c5ece41bc9d17d3fbe23d9fa1aa0e95c7f300ac4612"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/bidirectional-prepare.py",
+      "sha256": "62881e2a1745432bd6a6941efde8f8b169c345878d92906c065dbbb4ad1037d6"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/bidirectional-small-prepare.py",
+      "sha256": "d3ff063f4c02cebc71f60e493198872eda06093bafcde9a7e4a6c9711dddaa4c"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/build.sh",
+      "sha256": "dc6e30a5fb3aa24ff7f014910f3c54925fdde3e40f40ea8c1fcfcdafb89ae096"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/callback.patch",
+      "sha256": "0a006df94f04d6425d70280967d6652bdd33ccb88ead4a44f02a2e36775aaa5e"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/cleanup.patch",
+      "sha256": "94fe2cd69edc9da6907553961ca32f0557c338266d9e9472e577860a95887604"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/console-cache.py",
+      "sha256": "f35e20509c4b9aca881a3d39efb5b299040ccd89bfd0164eeb8bc791405b5689"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/copy-on-drop-prepare.py",
+      "sha256": "619ce52cfefb71c810be9a746893edf48952f8df32bd1dfa69bdc4f29b4bb7a6"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/copy-on-drop-prove.py",
+      "sha256": "e2c01f0b0c70e05bc74e2bfc5d09db18fc146c3f825697a077a43a1583742113"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/copy.patch",
+      "sha256": "da167ee095e9fb5f425e2d604dd46a973a8c1e3a5121b2c87cc3546b0ec8e9a5"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/guard-ownership/construction/fbc-v4/prepare.py",
+      "sha256": "c2069b3d237d6ea3934f62e735bb49f23ea19139089644a8a76e2a4c035ed0b7"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/guard-ownership/construction/nonprecise-v3/prepare.py",
+      "sha256": "03cf23f434a8113656c150ea861e132291d3f11b43bc2be356907e2bea167706"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/guard-ownership/construction/prepare.py",
+      "sha256": "2df5e05e4df05d9ed91bdc43a72a28dc9fdec39f466f77cdb26daa445ad91909"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/guard-ownership/construction/prove.py",
+      "sha256": "435f95c13dee099031ce0d6d9f83a38c13be1fa2349f01367d51be75d4cbeb04"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/guard-ownership/drop-geometry/prepare.py",
+      "sha256": "e7368f5065e43d6f948f566a906f469b63f83fde9cd1148a064fae358609ba5b"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/guard-ownership/drop-geometry/prove.py",
+      "sha256": "eab5e6b8cf15e7e21f7dcbc66ce95ae7c40f8eea0d03aca1b3e54a9f52f08d7b"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/PROFILE.json",
+      "sha256": "0b8cf55b0e7b5a1d0e0595b1483726459cb1d2f40264311e2014d3580ad189b8"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/allocation-span.patch",
+      "sha256": "603ab250705fa9d83c94631f7570bd3e1cc7fc06187c35e6ae8465fcb5efca1b"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/build-profile.sh",
+      "sha256": "c651237592d896ee95588545201990b245fc59119a98bcaf5167980c7a8e61d4"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/md_classifier.py",
+      "sha256": "b884b1f4166087449e8bd641bb5dee806bf8aa9c6e9a80d74878f17b756230e0"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prepare.py",
+      "sha256": "eabf1bab391763238873e4cc52c435c708781144dfbdc6c946e34e4dfef006d1"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py",
+      "sha256": "31fdeb1cc799331bafd7716f773177258248d96d1b5f61cce8ec181398bc0f62"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/span-controls.py",
+      "sha256": "1c68614864f83659eff2212d4ab9daca30d4a38c7f3fb5b1f622a8be91e90f7f"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/span-controls.rs",
+      "sha256": "a91d67c954ea99b129c3f7e8b24b0454b079dbcf7cbda250dabc1a7756fc3406"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/tracked-md.patch",
+      "sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/guard-ownership/prepare.py",
+      "sha256": "ece76fff5b27bb7c5a14badec864956ae034da6c247733250a0c14d38e56c488"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/guard-ownership/prove.py",
+      "sha256": "eef08e19e4d0b032539f3431e4fd49dfee13ee9e37add3ea0d5df15a9b0289fa"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/hrtb-admission-certificate.py",
+      "sha256": "42c9ff5e878d0eb8ba2b6183f439fe2e56765a086a88255176a041c51bd55c2a"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/m2-admission-prove.py",
+      "sha256": "f6b657a01086f463c0c063b168c054f57b7161dd2f2b042d5ef6e5a2cc9b7065"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/native-prove.py",
+      "sha256": "9a2524ab90af1176d77c09cbf0a9fbedb7b4f0939218dde6713ad10aa6fc2da1"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/or-join-liveness/PINNED-INPUTS.json",
+      "sha256": "05905c66fb3f30741dbbafa689e8d151199595e36a56814bb685260ccf14bb61"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/or-join-liveness/admit-source.py",
+      "sha256": "4e7056144a24c478ab662bbbf9dd0aeeaa9149625adea85080eb9b7d44506b0c"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/or-join-liveness/audit-seven.py",
+      "sha256": "a37470216c2b8cb0711f1fa4b15a2bde95a08c8d2a8d7b00016a888e428b41cb"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/or-join-liveness/build-seven.sh",
+      "sha256": "1c5c9247fc8f11806785e6dc7c36e377b848505a32062657149cec24b6f38f21"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/or-join-liveness/control-driver.py",
+      "sha256": "eb7fea491516e71fdc4328eabcfc713fa4e0af383dd81b6e39fefeb4594d5430"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/or-join-liveness/control-exporter.py",
+      "sha256": "a01a5e14e191238d56219b16b86f3ed18a2d4ec75016071a8ae46edfcf5abb95"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/or-join-liveness/or-join-liveness.patch",
+      "sha256": "d799950e2037c0b1b6b1a94f2b9c5e44da3261e3d0658dd1ab772a2c15269949"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/or-join-liveness/preflight-source.py",
+      "sha256": "d3b65cbbb7b0620c637e3cddda8ecb54e002550435a75e1904f56ad578857b55"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/or-join-liveness/run-seven.sh",
+      "sha256": "a7347b3b22f1d818a0c936060c1847b3fedb1368f76d597433f24538383774c6"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/panic-macro-admission.py",
+      "sha256": "a805e9235f327edc808ee007735e755d37cb7041a2b242eb83061f24bba76caf"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/pointer-prove.py",
+      "sha256": "cb6d43c972d1c19f60b1cd355529f71fb6e68a9fa9242e4176814acbed8f8b96"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/run.sh",
+      "sha256": "b413e5ac41e2383b462528684a9b096b824b4a00b06c5af9e0e1e1bc3cb88196"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/stack-address-admission.py",
+      "sha256": "9ecce61ca3886f2b9e21bb03d35ce6312da5eb405ff35a0bb37211eb2c49e974"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/stack-address-controls-prepare.py",
+      "sha256": "483f7e980c1a5e02eb491e4c5ab6353ab5a73d9a5abdaa192848ca4bc5452d3b"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/stack-address.patch",
+      "sha256": "f1444866322bf06b40e078a381a69acea7ccd92b613f7dc903d289044d8cba64"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/stack-proof-ast-admission.py",
+      "sha256": "a5f28d5feb9c3e07d2bb5ee6b19a29dc45ea782d5f51a1630f993124f20bd995"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/usize-multiple-admission.py",
+      "sha256": "119c0054ae43487ae4adb9de1787edd89ce6014f1e9b70dc2cf973a0258d3050"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/usize-multiple.patch",
+      "sha256": "ecdd1fd6fcc8d811f02fa308ddc533386e0031193d527ea6950a099f8ccccaa1"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/overnight/wrapping.patch",
+      "sha256": "c7c776ff5aef2b8668aa2ed3d59b47109fce1d67a9dc2f2043fc2744dc0ed31e"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/stock-26.10/functional-ids.c",
+      "sha256": "20a7d91564bbf49e8f2e8bb0436a7ccc7eec2e7928f6267486a6ab0f291ab814"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/stock-26.10/functional-order.c",
+      "sha256": "58d18c5bbcb301f8ee3d9b05660fbee69ca2c38a40708637ebd634bcdd729154"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/stock-26.10/functional-prove.py",
+      "sha256": "f513f2acd81ca21980acf56cfa47a41599cec4e3a4d6b1034ec8fadadcb00dd5"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/stock-26.10/functional-swo.c",
+      "sha256": "d049fd4ba51fe7e022f4d9250c8c51bdf6a7b0d68837bb23e88b642e431fa768"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/stock-26.10/geometry.c",
+      "sha256": "4594f159400bcfeeea87e3086e5765472d121dced7385bd2ef216a83bf24dea8"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/stock-26.10/order-prove.py",
+      "sha256": "9f685baa0c7b0893486f5838d7d89c664a747b3a8e3670692ec928da7f95db14"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/stock-26.10/pointer-cases.rs",
+      "sha256": "6730c86cf69e9c2aee339471932dd3f7ce5d83fd0d8347dfc4304de8858625e2"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/stock-26.10/pointer-prove.py",
+      "sha256": "9f53e3e8060fe7e3b39223fef153ac5740f4b6538b76cc2825087ee89abac216"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/stock-26.10/prove.py",
+      "sha256": "6af798229e57187cc003de40a97f6a3626567440b4a8558a11f1412dd1763b0c"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/stock-26.10/run.sh",
+      "sha256": "449fc91c1610164d39b230c3b5cfdf41f8548de757cf33137407a95e759c5214"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/stock-26.10/swo-rank.c",
+      "sha256": "e5c3f29d4e5f84284afdf0cd4936054a23ca261f092e77d355895cf359f62051"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/stock-26.10/vf-profile-source.json",
+      "sha256": "8c72795b0cd452580372e963cf9620e8d32e891eae389f6f0b11034373a94c79"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/stock-26.10/vf-stock-specs.json",
+      "sha256": "4a0911303bbb087f1f50ce85524197edbb541f31c72e8133dfbcc9cf528e03a0"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/merge/stock-26.10/vf-stock-specs.sha256",
+      "sha256": "2adb5f85e2077a96e2db6b97da9af17d9324ad3c586187292854970e63078da4"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/networks/prove.py",
+      "sha256": "994afa65a24c1deb73fd120ac88c96fa5d86eb971f58adba678c850a1153d0c4"
+    },
+    {
+      "scope": "proof",
+      "path": "research/challenge-8/verifast-tracked-manually-drop-regressions.rs",
+      "sha256": "047d5f3245c0e81fe718899e11b611b1da9d7aa21b3c6e18347a5b95c923197e"
+    },
+    {
+      "scope": "infra",
+      "path": "research/challenge-8/cloud-build/control.py",
+      "sha256": "e4b2c1fa29a34b7d6f3915842bcbb927e988dca9bfb31f8aaa2491dda798cb56"
+    },
+    {
+      "scope": "infra",
+      "path": "research/challenge-8/cloud-build/coordination-regression.py",
+      "sha256": "891818357a4e191ab511e6b93c832ebd0bf7ecb62b9f10b6cb38e862db56a2d1"
+    },
+    {
+      "scope": "infra",
+      "path": "research/challenge-8/cloud-build/coordination.py",
+      "sha256": "4d3f2af4490fdac6d25d6d5077bf5a7b54aeab82c090af6c81f37661cd256c07"
+    },
+    {
+      "scope": "infra",
+      "path": "research/challenge-8/cloud-build/overlays/check-maybeuninit-new-pointer.py",
+      "sha256": "2d4c7f3ee027ae55cb016321d26f59d5ece28cddcc780c10efedb39ed19c3ded"
+    },
+    {
+      "scope": "infra",
+      "path": "research/challenge-8/cloud-build/overlays/check-stock-2610.py",
+      "sha256": "88e6275d6231d5913257d82f32e576e4bcd45b7654992fc040bf499245cdcbc5"
+    },
+    {
+      "scope": "infra",
+      "path": "research/challenge-8/cloud-build/package-evidence.py",
+      "sha256": "9a567bee8089725a9069c23d6ed0ee9d4219e6be0c6a1708fa1e71b776cbd469"
+    },
+    {
+      "scope": "infra",
+      "path": "research/challenge-8/cloud-build/proof-audit.py",
+      "sha256": "5e0e0a0b9294cd1499afed9801963905441baf822dc708b9dc62f6fb58d998b6"
+    },
+    {
+      "scope": "infra",
+      "path": "research/challenge-8/cloud-build/provider.py",
+      "sha256": "771970340f4fa928063cfa25db451535eb60ee1b246ef63c3cda4689842be616"
+    },
+    {
+      "scope": "infra",
+      "path": "research/challenge-8/cloud-build/recipes/merge.json",
+      "sha256": "11424d227b4ec5677ed1884ac77064950e5671068b3d38f537b6282e5832bfb3"
+    },
+    {
+      "scope": "infra",
+      "path": "research/challenge-8/cloud-build/run-merge.sh",
+      "sha256": "a2a436543991dfa078174b90a37478ea0a247f6781b79189f3fafaf1f76a3127"
+    },
+    {
+      "scope": "infra",
+      "path": "research/challenge-8/cloud-build/run-proof.sh",
+      "sha256": "61811c553fd5929993d61a08b55d00cf59ea081cd833696fe893f4ace8dfa7d3"
+    },
+    {
+      "scope": "infra",
+      "path": "research/challenge-8/cloud-build/source-input.py",
+      "sha256": "777217d2b5a047df58b0516aeeae988b453fe00aa92fde8a29afecc5c7f7ef91"
+    },
+    {
+      "scope": "infra",
+      "path": "research/challenge-8/cloud-build/verify-evidence.py",
+      "sha256": "05aefd7140f1cc2efa2c49de8c05d4ed79b65c4be239cb0184796d6e559a76ed"
+    }
+  ],
+  "raw_metadata_sha256": {
+    "manifest.json": "688831931ba20be9a7f940c7c3fc828d2e56e1680a8591b666589cd002dfc4ec",
+    "summary.json": "a751a79729920a5ece6421a6fcec7f35a2bcd0992f10b9d072280c79ac5adea0",
+    "source-input-certificate.json": "eb04773d36b0be0e067b1cca897a8ab360496665caca61507e0232c76bbe87b1",
+    "files-sha256.json": "230493b692e5b490ffc54c40fe7a3c16a4c12878dd6e0144536b7671da2ce1d6",
+    "submitted-config.json": "fda57137c6757268133c9de6003e7bd395aff71170acc9596a5ac46ebb7af0c6",
+    "text-logs-index.json": "8f1d3e2472ad7f858bceac083afd4152770cd5b0fe1fc2cb38692a753d94ef6d",
+    "proof-audit.json": "a22cb937f31852312e48977a912e8555039272cb8f9205bbdc3141fe623eaeb7"
+  },
+  "profile_build_sha256": "33725da212c084d4cffbbbd06b74cb5913d8bd893688c6fcf7c9e26100c93263",
+  "compile_preflight_sha256": "d4948a7ce522a9c99d92d94ead24d98383cf84516a7e3493943368da66d04dc7",
+  "case_receipt_sha256": "69444cc1068d274c113efd1d234944651fad42c70e985ad6765104da7dbadc09",
+  "raw_cloud_failure_preserved": true,
+  "new_proof": false
+}

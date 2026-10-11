@@ -1,0 +1,22 @@
+{
+  "kind": "SERVICE_ONLY_NO_NEW_PROOF",
+  "literal": {
+    "valid": true,
+    "symbol": false,
+    "empty": false,
+    "extra_argument": false,
+    "non_location": false,
+    "foreign_location": false,
+    "true": false,
+    "wrapper": false
+  },
+  "whole_post": {
+    "valid_saved": true,
+    "missing_glue_contract": false,
+    "missing_unwind_arm": false,
+    "malformed_unwind_post": false,
+    "missing_normal_arm": false,
+    "duplicate_unwind_arm": true
+  },
+  "finding": "Duplicate identical unwind arms accepted by dict collapse; saved real AST has exactly two arms. Classifier hardening gate, no invalidation of authentic bounded proof."
+}
