@@ -1,0 +1,22 @@
+{
+  "tool_commit": "4a34010cc3930eec46fc4e72c1b793ad734fa730",
+  "runner_source_commit": "fec0744073852fb4a2d1bc71ba90af6f77a1d312",
+  "delivery_commit": "9ffa34d2c35032cb3bd5c4172b40c95989eb3fa9",
+  "profile": "verifast-c4-select-composition-20261011-c3",
+  "patch_base_commit": "57bdb9ed2fc45a420fb3b3f98ee004f01d709846",
+  "ordered_patches": [
+    "tool-c4.patch",
+    "selector-integration.patch",
+    "composition.patch"
+  ],
+  "all_six_applied_files_equal_tool_and_pins": true,
+  "effective_hashes": {
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "4450157b3137a58d46c4be52fd454695c1dcb2a123947df8b3d2ccfcc1e8f26f",
+    "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "src/frontend/ocaml_expr_of_ast.ml": "cd90799926cfc73d86e3c9b137ed84e977b1a918d1ba8723f3f26125cbb7aafe"
+  },
+  "validation": "Isolated Git index: read-tree official base, git apply --cached ordered patches, sha256 and byte equality against current candidate; no compiler/proof run locally. Python AST syntax and bash-n checked. Full semantic fixture setup reexecuted in Cloud."
+}

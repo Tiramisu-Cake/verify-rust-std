@@ -1,0 +1,7 @@
+# Independent unchanged candidate preflight
+
+Independent outer reviewer returned conditional GO before dispatch for exact tool4a34010cc3930eec46fc4e72c1b793ad734fa730 and runnerca5f54607bf9e36ecbb9a24085cc6cc9e18db98c, retaining priorCsource/capturepins. The exacttarget/strict/HRTB/singleton-target/absolute-unused-export/SHA/MD5/line52/cut106 guards and sixlocaltype/id/count/addressTaken/oneinsertion checks remain unchanged. Prior independently reviewed normal/readonly MIR establishes exact role mapping, storage liveness/death beforecut, directContinueunwind and no lateruse/Drop/temp-addressescape. No semantic source edits are made for D.
+
+Conditional experiment GO is not proof credit. Fresh raw review must confirm exactly one final-AST outerF FnOnce registration with Output bool and tuple(&cmpT,&cmpT), realFnMut callback103 adjacent to registration, expectedcurrentouterboundescapeVC as firsterror oncut106, and six inner local declarations removed fromouter/insertedexactlyonce. Sourceposts/kernel/CURRENT and strictentry/exit/unwind/return/leak/deadcode checks must remain intact. Earliererror/setupfailure/unexpectednegativePASS do not closegate. Existingrow classifiers staypendingindependentreview.
+
+Registration/control changes only create exact ownerverifast Dledger with new120min+30minfinish/Cloud3600 authorization; coordinatorprotocol andforeignreservations areunchanged. Fullpack/twoXZsixeffectivehashes validated, classifier reviewed on immutableoldsource487log withoutverifier.

@@ -1,0 +1,57 @@
+{
+  "schema": "verifast-c4-selector-producer-seal-independent-review-v1",
+  "review": "GO_TO_FREEZE_EXACT_CANDIDATE_PIN_ONLY",
+  "reviewed_static": true,
+  "proof_credit": false,
+  "composition_accepted": false,
+  "consumer_run": "NOT_RUN",
+  "build_id": "2a5e48b0-3be1-4f01-8026-2d358329667d",
+  "proof_infra_sha": "d718d56dae82dd2a12393f970bcae085ec8a1aa4",
+  "profile_id": "verifast-c4-select-composition-20261011-c3-discovery",
+  "manifest_sha256": "f8df48257788f227954df17571076e7f57fb3dc8eff34c37e9e411253e81bbf0",
+  "tool_candidate_sha": "87b79a844d7ec9b05d9768bdb3e6e249efde8120",
+  "effective_hashes_exact": true,
+  "translator_sha256": "bc00d59110bf1c235f866ec141726965bca8f12378f1dc42c39458a3f624e8de",
+  "producer_artifact": {
+    "sha256": "48bbedb711fade25fde0622af0b56c6c17aab318ce0a94f1e517f9c153a81af9",
+    "bytes": 531290,
+    "body_count": 9,
+    "producer_location_alias_partition_preserved": true,
+    "proof_log_sha256": "fdb3a07fa5f3bde3bd04eaf1c449f5af46555ee888a71145ab26504b8180ea83"
+  },
+  "producer_proof": {
+    "exit": 0,
+    "zero_errors": true,
+    "errors": [],
+    "dead_code": [],
+    "return_seen": true,
+    "leak_check_seen": true,
+    "nine_required_bodies_verified": true,
+    "pre_ast_fingerprints_exact": true,
+    "selector_verified_source_sha256": "7ec86f52b362f7f8b2ed26e3fa108212eb3d6288820bab9c6db3fa37bf8cabe0"
+  },
+  "source_correspondence": {
+    "selector_full_mir_exact": true,
+    "selector_normal_mir_sha256": "bb50b114bcda7905c84f890500f4a8991009c4a554ddcbe8d5eb5f6a87229e83",
+    "selector_readonly_mir_sha256": "c0d287337dd3f1b2c6cd84a96274a7f4861550d664d16fb493ffef8a57a546a9",
+    "c4_full_mir_exact": true,
+    "c4_normal_function_mir_sha256": "af8dcfda4212ec1e1bd8fcafcb763fe0107fbeb63b6c1a65bc830e2c81bf9f80",
+    "c4_readonly_function_mir_sha256": "aebd7d6219106ba8f6b2fd730bb0a9b0876bea141eb2f06ab7c6e3804abc23ea",
+    "c4_verified_source_sha256": "ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f"
+  },
+  "discovery_run": {
+    "classification": "SETUP_OR_EXECUTION_FAILURE",
+    "diagnostic_complete": false,
+    "producer_receipt_created": false,
+    "outer_capture_error": "outer-discovery nine-body decoded MIR order differs",
+    "outer_runtime_capture_normal_export_decode_completed": true,
+    "outer_readonly_capture_completed": false,
+    "error_is_proof_negative": false
+  },
+  "remaining_gates": [
+    "Complete corrected outer normal/readonly capture in authorized Cloud capture-only run.",
+    "Run a second fresh sealed producer and consumer profile pinned to this exact artifact SHA256.",
+    "Reverify all nine imported bodies and pass typed endpoint and alias certificates.",
+    "Clear consumer dead-code diagnostics and pass original posts, return, leak, lifetime, and required controls."
+  ]
+}

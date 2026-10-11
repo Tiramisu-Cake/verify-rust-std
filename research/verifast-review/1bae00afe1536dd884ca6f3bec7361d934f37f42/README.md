@@ -1,0 +1,11 @@
+# VeriFast exact outer-F — session E reconfirmation
+
+Checkpoint `1bae00afe1536dd884ca6f3bec7361d934f37f42`; tool `4a34010cc3930eec46fc4e72c1b793ad734fa730`; runner source `ca5f54607bf9e36ecbb9a24085cc6cc9e18db98c`; tested delivery `84f21b3bf244eb352cb91584fc84a73d6703b117`; profile `verifast-c4-select-composition-20261011-c3`.
+
+**BLOCKED, not READY_FOR_INTEGRATION_REVIEW.** The repeated C-based request's runner-UNRUN label was historical: Build9397d5cd already executed it. Saved selector/C4/composition PASS, six reviewed target VCs, typed AST transport and cleanup/admission observations keep their original D pins. Mandatory exact outer-F negative reaches registration/callback103/cut106 and unexpectedly PASSes; required escape VC is absent. Independent review found no honest exact-path repair under unchanged-kernel/no-new-rule scope.
+
+Session E performed static unchanged-input reconfirmation only: six effective hashes, runner bytes, two compressed/uncompressed XZ inputs, 27 meaningful manifest fields and saved archive/AST/log agree. No fresh proof or new Build: E ledger CLOSED0/3600,3600expired, no own Cloud reservation. D charged374sec remains separately accounted in its unchanged CLOSED ledger. Read outer-e/END-CHECKPOINT-2026-10-11-E.md and INPUT-RECONFIRMATION.json; D raw evidence and independent reviews are retained here. The integration manifest preserves original results and pins; no classification upgrade closes the gate.
+
+The exact tested command is research/challenge-8/cloud-build/verifast-c4-select-outer-d/REPRODUCE-D.md and describes a CLOSED account, not authority to replay. proof.bundle requires checkpoint c6520d4cc436f276810234804e5f1f7cdc2f29e6 and includes D delivery/checkpoint and E reconfirmation. tool.bundle requires official base f76012fb518703b1d98e243ac4f487f16877cfcb; full30module/twoXZ dependency pack stays intact.
+
+Append-only internal review/verifast packet preserves previous packets and separate upstream candidate. No force-push, baseline merge, fork or upstream publication. Broader O23/inherited assumptions/profile adoption remain open; no fullsort4/native caller claim or automatic next session. Archival instructions defer to explicit user scope. files-sha256.json inventories all packet content.

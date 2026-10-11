@@ -1,0 +1,20 @@
+# Raw evidence review: Build 4a6d0bc4
+
+Reviewed the preserved read directory `/tmp/verifast-c-4a6d0bc4-read` and direct same-SHA tar `/tmp/verifast-c-4a6d0bc4-direct.tar.gz` without extracting either archive or running build/proof tools. Both archive copies have SHA256 `fdb2bdd1984217a4230800d0f16f0148fba60e14557a5d30f2ce9d90bb7eb943`, matching the recorded archive hash. Streaming the tar members against `files-sha256.json` found 167 members, 165 inventoried payload files, no missing or extra payload entries, and no hash mismatches. The summary marks evidence and text logs complete, but `run_exit_code=1`, `diagnostic_complete=false`, `verification_accepted=false`, and `smoke_success=false`.
+
+The run was pinned to infra/proof SHA `1455fd5818cea7f060a1b837e0098b8846c93984`; the source-input certificate records that same exact head on both sides. Compressed delivery records match their raw Git blobs and SHA pins for `tool-c4.patch` and `source-modules.json`; the restored-source record reports `content_changed=false`. The separate exact-infra transport controls exercise refusals for missing/extra inputs, nonregular input, changed bytes, and missing Git objects. That control certificate explicitly has `reviewed_transitive_dependency_set=false` and `accepted=false`, so it demonstrates refusal behavior, not acceptance of a closed dependency set.
+
+The actual Cloud source-preparation stage exited 0 and recorded `CLOUD_SOURCE_PREPARATION_ONLY`, with `proof_credit=false`. It prepared selector and C4 source fixtures (hashes `7ec86f52…` and `ba9e6ad3…`), the composition source fixture, and the available regression source fixtures: four strict-lifetime cases, outer-bound escape, two pointer-value cases, and five `MDnew` retained-fix cases. Admission mutations were refused by the exact verified-source SHA check before any compiler or extractor started. The record also says the composition AST cannot be prepared before a verified selector run, and that the verifier was not started. These are source-preparation results only.
+
+The two numeric-transport stages both exited 0. The saved compile command builds only `numeric-transport-check.ml` with `ocamlfind ocamlc -package num -linkpkg`; the run log reports equal/different large integer and rational checks passing. This validates that small transport helper and its numeric comparisons, not the VeriFast tool or any proof fixture. Rust toolchain installation also completed and recorded Rust `1.100.0-nightly`; that compiler stage log is a `rustup toolchain install` command, not a VeriFast or Rust fixture compile.
+
+The failure is specifically the third, composition patch's **check** operation in tool apply. The stock checkout guard in the pinned driver requires tool HEAD `f76012fb518703b1d98e243ac4f487f16877cfcb`; the saved logs show the `tool_c4` and `selector_integration` check/apply steps completed, then `composition-check.log` reports:
+
+```text
+error: patch failed: src/rust_frontend/vf_mir_translator/vf_mir_translator.ml:6791
+error: src/rust_frontend/vf_mir_translator/vf_mir_translator.ml: patch does not apply
+```
+
+The failing patch identifies translator preimage blob `6ba37393` and its first hunk expects the string-valued `c4_first_select_control` cases at that location before replacing them with variant constructors and adding the admission-mutant cases. That preimage/context is not present in the cumulative tool tree produced by the earlier patches. The tool-apply wrapper consequently raises `RuntimeError: composition check failed`; `applied-tool.json` is absent. This is a patch-base/context mismatch at the composition integration point. No composition patch was applied, and no selector/C4/composition proof diagnostics or verification acceptance can be credited from this build. The evidence summary's `SETUP_OR_EXECUTION_FAILURE` classification is consistent with the raw logs.
+
+This review is a saved-evidence assessment only. It does not repair the patch or turn any earlier evidence into a new proof result.
