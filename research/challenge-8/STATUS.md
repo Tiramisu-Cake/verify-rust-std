@@ -14,6 +14,10 @@ Initial own active Build/reservation none; peer reservation preserved.
 First experiment: evidence-only compiler query with BOTH original stable impls,
 real Freeze caller T/F/FnMut clauses/operands, fallback and unconstrained controls.
 Query uses original DefId/args and body.typing_env; no invented context.
+Both-impl compiler observations obtained in3aa3 (exporter/MIR PASS): selected Freeze
+pair, blanket Cell pair, unqualified generic None pair. Numeric lifetime DefIds
+differ across invocations; exact DefPath/binder classifier replay PASS, raw audit
+retained INCONCLUSIVE. Charge697/3600; remaining2903.
 Binding interface remains default-off / NOT_PROVED until exact evidence admission.
 Next: inspect query, complete clauses/substitution/callgraph gates, prove native
 caller bound and helper original prefix; no renewed unchanged public guard test.

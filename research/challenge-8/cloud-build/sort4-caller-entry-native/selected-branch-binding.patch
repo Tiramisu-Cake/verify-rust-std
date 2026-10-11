@@ -1,6 +1,6 @@
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-@@ -390,6 +390,94 @@
+@@ -390,6 +390,205 @@
        end
    end
  
@@ -13,14 +13,14 @@
 +      | Some "1" ->
 +          if Sys.getenv_opt "SMALLSORT_EXECUTION_PROVIDER" <> Some "cloud-build" ||
 +             Sys.getenv_opt "SORT4_ACTUAL_CALLER_ENTRY_PHASE_ID" <>
-+               Some "SORT4-CALLER-DERIVED-BOUND-CLOUD-2026-10-11" ||
++               Some "SORT4-COMPILER-BINDING-PREFIX-CLOUD-2026-10-11" ||
 +             Sys.getenv_opt "SORT4_SELECTED_COMPILER_BINDING_VERIFIED" <> Some "1" ||
 +             Sort4StableCaller.enabled () then
 +            failwith "SORT4-SELECTED-BRANCH: exact exclusive Cloud phase required";
 +          true
 +      | _ -> failwith "SORT4-SELECTED-BRANCH: malformed mode"
 +    let reject why = failwith ("SORT4-SELECTED-BRANCH: " ^ why)
-+    let source_md5s = ["93db50686ecf217190fd8c8f7b8f974f";"e1fa5567ec5d8217bf43c7f73e86952e";"eb3fa0fec6c089db5c197855331aa270"]
++    let source_md5s = ["0e4a1459be31e3d48083e0e90e71a6e9";"52dc359aa5c64a4a96170bfc1dbc263f";"59d4a31eb99993ed665d01e982100a72"]
 +    let check_source () =
 +      let actual = Digest.to_hex (Digest.file "verified/lib.rs") in
 +      if not (List.mem actual source_md5s) then reject "verified fixture exact source digest"
@@ -30,31 +30,129 @@
 +    let threshold_calls = ref 0
 +    let small_sort_calls = ref 0
 +    let helper_calls = ref 0
-+    let freeze_clauses (clauses : D.clause list) = clauses = [
++    let threshold_owners = ref []
++    let small_sort_owners = ref []
++    let helper_owners = ref []
++    let interface_owners = ref []
++    let abort_calls = ref 0
++    let reset () =
++      threshold_calls := 0;
++      small_sort_calls := 0;
++      helper_calls := 0;
++      threshold_owners := [];
++      small_sort_owners := [];
++      helper_owners := [];
++      interface_owners := [];
++      abort_calls := 0
++    let record counter owners owner =
++      incr counter;
++      owners := owner :: !owners
++    let expected_caller () =
++      match Digest.to_hex (Digest.file "verified/lib.rs") with
++      | "0e4a1459be31e3d48083e0e90e71a6e9" -> "selected_freeze_basecase"
++      | "52dc359aa5c64a4a96170bfc1dbc263f" ->
++          "selected_freeze_basecase_false_31"
++      | "59d4a31eb99993ed665d01e982100a72" ->
++          "selected_freeze_basecase_missing_source_array"
++      | _ -> reject "unknown fixture for selected call graph"
++    (* The fresh paired MIR records a reborrow temp for every selected-call
++       operand.  Require those exact generated local IDs after translation;
++       do not accept arbitrary temps or guessed source names. *)
++    let exact_var_args expected args =
++      let names = List.map (function
++        | Ast.Var (_, name) -> name
++        | _ -> "<non-variable>") args in
++      if names <> expected then
++        reject "selected call operands/order differ from observed MIR reborrow locals"
++    let check_call_graph () =
++      let caller = expected_caller () in
++      if !threshold_calls <> 1 || !threshold_owners <> [caller] ||
++         !small_sort_calls <> 1 || !small_sort_owners <> [caller] ||
++         !helper_calls <> 1 ||
++         !helper_owners <> ["<T as StableSmallSortTypeImpl>::small_sort"] ||
++         List.sort String.compare !interface_owners <>
++           List.sort String.compare [selected_small_sort; selected_helper] ||
++         !abort_calls <> 1 then
++        reject "exact selected call/interface/abort cardinality and owners"
++    let selected_impl_clauses (clauses : D.clause list) = clauses = [
 +      D.Trait {def_id="std::marker::Sized"; args=[{kind=D.Type {kind=D.Param "T"}}]; bound_regions=[]};
 +      D.Trait {def_id="FreezeMarker"; args=[{kind=D.Type {kind=D.Param "T"}}]; bound_regions=[]}]
-+    let two_params (substs : D.generic_arg list) = match substs with
-+      | [{kind=D.Type {kind=D.Param "T"}}; {kind=D.Type {kind=D.Param "F"}}] -> true
++    let is_param (name : string) (arg : D.generic_arg) = match arg with
++      | {kind=D.Type {kind=D.Param actual}} -> actual = name
++      | _ -> false
++    let fnmut_args (f : string) (t : string) (r1 : string) (r2 : string)
++        (args : D.generic_arg list) =
++      match args with
++      | [f_arg; {kind=D.Type {kind=D.Tuple [
++          {kind=D.Ref {region={id=arg_r1}; ty={kind=D.Param t1};
++            mutability=D.Not}};
++          {kind=D.Ref {region={id=arg_r2}; ty={kind=D.Param t2};
++            mutability=D.Not}}]}}]
++        -> is_param f f_arg && t1 = t && t2 = t &&
++           arg_r1 = r1 && arg_r2 = r2
++      | _ -> false
++    let full_freeze_clauses (clauses : D.clause list) =
++      let sized_t = D.Trait {def_id="std::marker::Sized";
++        args=[{kind=D.Type {kind=D.Param "T"}}];bound_regions=[]} in
++      let sized_f = D.Trait {def_id="std::marker::Sized";
++        args=[{kind=D.Type {kind=D.Param "F"}}];bound_regions=[]} in
++      let freeze_t = D.Trait {def_id="FreezeMarker";
++        args=[{kind=D.Type {kind=D.Param "T"}}];bound_regions=[]} in
++      let fnmut = function
++        | D.Trait {def_id="std::ops::FnMut";args;bound_regions=[r1;r2]} ->
++            r1 <> r2 && fnmut_args "F" "T" r1 r2 args
++        | _ -> false in
++      let output_projection = function
++        | D.Projection {projection_term={def_id="std::ops::FnOnce::Output";
++            args};term=D.Ty {kind=D.Bool};bound_regions=[r1;r2]} ->
++            r1 <> r2 && fnmut_args "F" "T" r1 r2 args
++        | _ -> false in
++      let full clauses = match clauses with
++        | [sized_t'; sized_f'; freeze_t'; fnmut'; output'] ->
++            sized_t' = sized_t && sized_f' = sized_f && freeze_t' = freeze_t &&
++            fnmut fnmut' && output_projection output'
++        | _ -> false in
++      let impl_order clauses = match clauses with
++        | [sized_t'; freeze_t'; sized_f'; fnmut'; output'] ->
++            sized_t' = sized_t && freeze_t' = freeze_t && sized_f' = sized_f &&
++            fnmut fnmut' && output_projection output'
++        | _ -> false in
++      full clauses || impl_order clauses
++    let two_types_three_erased_lifetimes (substs : D.generic_arg list) = match substs with
++      | [{kind=D.Type {kind=D.Param "T"}};
++         {kind=D.Type {kind=D.Param "F"}};
++         {kind=D.Lifetime {id="'erased"}};
++         {kind=D.Lifetime {id="'erased"}};
++         {kind=D.Lifetime {id="'erased"}}] -> true
 +      | _ -> false
 +    let bind body (clauses : D.clause list) name (substs : D.generic_arg list)
-+        (arity : int) =
++        (args : Ast.expr list) =
 +      if not (List.mem body ["selected_freeze_basecase";
 +          "selected_freeze_basecase_false_31";
 +          "selected_freeze_basecase_missing_source_array"]) ||
-+         not (freeze_clauses clauses) then
-+        reject "call outside exact Freeze-qualified base wrapper";
-+      match name, substs, arity with
++         not (full_freeze_clauses clauses) then
++        reject "call outside exact T/F/Freeze/FnMut/Output caller clauses";
++      match name, substs, List.length args with
 +      | "StableSmallSortTypeImpl::small_sort_threshold",
-+        [{kind=D.Type {kind=D.Param "T"}}], 0 -> incr threshold_calls; selected_threshold, substs
-+      | "StableSmallSortTypeImpl::small_sort", args, 3
-+        when two_params args -> incr small_sort_calls; selected_small_sort, substs
++        [{kind=D.Type {kind=D.Param "T"}}], 0 ->
++          record threshold_calls threshold_owners body;
++          selected_threshold, substs
++      | "StableSmallSortTypeImpl::small_sort", type_args, 3
++        when two_types_three_erased_lifetimes type_args ->
++          exact_var_args ["$_16"; "$_17"; "$_18"] args;
++          record small_sort_calls small_sort_owners body;
++          selected_small_sort, substs
 +      | _ -> reject "trait method call name, compiler clauses, or generic/operand arity"
-+    let bind_helper body name (substs : D.generic_arg list) (arity : int) =
++    let bind_helper body (clauses : D.clause list) name
++        (substs : D.generic_arg list) (args : Ast.expr list) =
 +      if body <> "<T as StableSmallSortTypeImpl>::small_sort" ||
 +         name <> "small_sort_general_with_scratch" ||
-+         not (two_params substs) || arity <> 3 then
++         not (two_types_three_erased_lifetimes substs) || List.length args <> 3 then
 +        reject "selected helper forwarding call identity/arity";
-+      incr helper_calls;
++      if not (full_freeze_clauses clauses) then
++        reject "helper forwarding lacks exact T/F/Freeze/FnMut/Output clauses";
++      exact_var_args ["$_5"; "$_6"; "$_7"] args;
++      record helper_calls helper_owners body;
 +      selected_helper, substs
 +    let rename body =
 +      let name = TrName.translate_def_path (BodyRd.def_path_get body) in
@@ -66,7 +164,7 @@
 +      else if name = "<T as StableSmallSortTypeImpl>::small_sort_threshold" ||
 +              name = "<T as StableSmallSortTypeImpl>::small_sort" then begin
 +        let clauses = BodyRd.impl_block_clauses_get_list body |> List.map D.decode_clause in
-+        if not (freeze_clauses clauses) then reject "selected impl exact Freeze clause list";
++        if not (selected_impl_clauses clauses) then reject "selected impl exact Freeze clause list";
 +        let path = BodyRd.def_path_get body |> TrName.translate_def_path in
 +        if String.ends_with ~suffix="small_sort_threshold" path then selected_threshold
 +        else if String.ends_with ~suffix="small_sort" path then selected_small_sort
@@ -77,9 +175,18 @@
 +      let bound = Ast.Operation (loc, Ast.Le, [len; Ast.IntLit
 +        (loc, Big_int.big_int_of_int 32, true, false, Ast.LLSuffix)]) in
 +      Ast.Sep (loc, bound, pre), post
-+    let interface_contract body loc pre_post =
-+      if body = selected_small_sort || body = selected_helper then
++    let interface_contract body loc param_decls pre_post =
++      if body = selected_small_sort || body = selected_helper then begin
++        let ids = List.map (fun (_, id, _) -> id) param_decls in
++        let first_type = match param_decls with
++          | [(_, "v", {Mir.vf_ty=Ast.RustRefTypeExpr (_, _, Ast.Mutable,
++                Ast.SliceTypeExpr (_, Ast.IdentTypeExpr (_, _, "T"))); _}); _; _] -> true
++          | _ -> false in
++        if ids <> ["v"; "scratch"; "is_less"] || not first_type then
++          reject "selected interface signature/length parameter identity";
++        interface_owners := body :: !interface_owners;
 +        add_len_bound loc pre_post
++      end
 +      else pre_post
 +    let selected_abort fn_call_data =
 +      let open FnCallDataRd in
@@ -90,12 +197,16 @@
 +          substs=[]; late_bound_generic_param_count=0}}}}, [], OptionRd.Nothing,
 +        UnwindActionRd.Unreachable -> true
 +      | _ -> false
++    let is_abort fn_call_data =
++      match D.decode_operand (FnCallDataRd.func_get fn_call_data) with
++      | Constant {const=Val {ty={kind=FnDef {id={name="std::intrinsics::abort"}}}}} -> true
++      | _ -> false
 +  end
 +
    (* Experimental, fail-closed pointer-only source-equivalence profile.  The
       source/body check below enables this gate only for the exact hosted unit;
       no ordinary Rust translation changes when the repository locator is unset. *)
-@@ -3275,8 +3363,22 @@
+@@ -3275,8 +3474,22 @@
                    { kind = Lifetime { id = "'erased" } })
            in
            let fn_name, substs_cpn =
@@ -105,11 +216,11 @@
 +              if fn_name = "StableSmallSortTypeImpl::small_sort_threshold" ||
 +                 fn_name = "StableSmallSortTypeImpl::small_sort" then
 +                Sort4SelectedBranch.bind State.body_name Args.source_clauses fn_name
-+                  substs_cpn (List.length args_cpn)
++                  substs_cpn args
 +              else if State.body_name = "<T as StableSmallSortTypeImpl>::small_sort" &&
 +                      fn_name = "small_sort_general_with_scratch" then
-+                Sort4SelectedBranch.bind_helper State.body_name fn_name substs_cpn
-+                  (List.length args_cpn)
++                Sort4SelectedBranch.bind_helper State.body_name Args.source_clauses
++                  fn_name substs_cpn args
 +              else if Sort4StableCaller.enabled () &&
 +                      fn_name = "StableSmallSortTypeImpl::small_sort_threshold" then begin
 +                if args_cpn <> [] then Sort4StableCaller.reject "threshold call operand arity";
@@ -120,24 +231,30 @@
                if args_cpn <> [] then Sort4StableCaller.reject "threshold call operand arity";
                Sort4StableCaller.bind State.body_name Args.source_clauses fn_name substs_cpn
              end else Args.body_tr_defs_ctx.fn_specializer fn_name substs_cpn
-@@ -3990,7 +4092,15 @@
+@@ -3990,7 +4203,21 @@
                "typed SAFE forget call/outcome/shared cleanup"
        in
        let fn_call_rexpr =
 -        if checked_g1_no_unwind || checked_owner_no_unwind then
 +        if Sort4SelectedBranch.enabled () &&
 +           State.body_name = "small_sort_general_with_scratch" then begin
-+          if Sort4SelectedBranch.selected_abort fn_call_data_cpn then
++          if Sort4SelectedBranch.is_abort fn_call_data_cpn then begin
++            if not (Sort4SelectedBranch.selected_abort fn_call_data_cpn) then
++              Sort4SelectedBranch.reject "helper abort call shape/location";
++            incr Sort4SelectedBranch.abort_calls;
++            if !(Sort4SelectedBranch.abort_calls) <> 1 then
++              Sort4SelectedBranch.reject "duplicate helper abort call";
 +            match fn_call_rexpr with
 +            | FnCallOutcome (Ast.CallExpr (call_loc, "std::intrinsics::abort", [], [], [], Ast.Static)) ->
 +                FnCallOutcome (Ast.CallExpr (call_loc, "std::process::abort", [], [], [], Ast.Static))
 +            | _ -> Sort4SelectedBranch.reject "exact abort call did not translate as expected"
++          end
 +          else fn_call_rexpr
 +        end else if checked_g1_no_unwind || checked_owner_no_unwind then
            match fn_call_rexpr with
            | FnCallOutcome call -> FnCallResult (result_of_outcome fn_loc call)
            | _ -> assert false
-@@ -6690,6 +6800,7 @@
+@@ -6690,6 +6917,7 @@
    let translate_body (body_tr_defs_ctx : body_tr_defs_ctx) (body_cpn : BodyRd.t)
        =
      if Sort4StableCaller.enabled () then Sort4StableCaller.check_source ();
@@ -145,7 +262,7 @@
      let native_c1_capture_requested =
        native_opaque_c1_capture_requested () in
      let native_c1_bound_requested =
-@@ -7188,7 +7299,8 @@
+@@ -7188,7 +7416,8 @@
      match def_kind with
      | DefKind.Fn ->
          let def_path = def_path_get body_cpn in
@@ -155,19 +272,20 @@
            else TrName.translate_def_path def_path in
          Rocq_writer.rocq_print_tuple Args.rocq_writer @@ fun () ->
          Rocq_writer.rocq_print_tuple_element Args.rocq_writer begin fun () ->
-@@ -7431,6 +7543,11 @@
+@@ -7431,6 +7660,12 @@
                    param_decls
                    (ret_place_loc, ret_ty_info)
              in
 +            let pre_post_template =
 +              if Sort4SelectedBranch.enabled () then
-+                Sort4SelectedBranch.interface_contract name fn_sig_loc pre_post_template
++                Sort4SelectedBranch.interface_contract name fn_sig_loc param_decls
++                  pre_post_template
 +              else pre_post_template
 +            in
              let contract_template =
                (false, (None, None), Some pre_post_template, false)
              in
-@@ -17010,6 +17127,19 @@
+@@ -17010,6 +17245,19 @@
             List.length (List.filter ((=) Sort4StableCaller.fallback) renamed) <> 1 then
            Sort4StableCaller.reject "selected/default body clause inventory"
        end;
@@ -187,3 +305,20 @@
        let bodies_cpn =
          bodies_cpn
          |> List.filter (fun body_cpn ->
+@@ -17379,6 +17627,7 @@
+       let body_tr_defs_ctx =
+         { adt_defs; directives = vf_mir_translator_directives; fn_specializer }
+       in
++      if Sort4SelectedBranch.enabled () then Sort4SelectedBranch.reset ();
+       let* bodies_tr_res =
+         Rocq_writer.rocq_print Args.rocq_writer "Definition bodies := ";
+         Rocq_writer.rocq_print_big_list Args.rocq_writer @@ fun () ->
+@@ -17390,6 +17639,8 @@
+       let body_sig_opts, body_decls, debug_infos =
+         ListAux.split3 bodies_tr_res
+       in
++      if Sort4SelectedBranch.enabled () then
++        Sort4SelectedBranch.check_call_graph ();
+       let body_sigs = List.filter_map Fun.id body_sig_opts in
+       if !Sort4A1Link.active then (
+         if !Sort4A1Link.redirect_count <> 1 then

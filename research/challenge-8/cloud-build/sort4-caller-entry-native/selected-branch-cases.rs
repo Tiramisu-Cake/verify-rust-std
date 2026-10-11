@@ -2,7 +2,7 @@
 // Each case is independently extracted and keeps the selected branch only.
 
 // CASE_BEGIN selected-branch-positive
-trait StableSmallSortTypeImpl: Sized {
+pub(crate) trait StableSmallSortTypeImpl: Sized {
     fn small_sort_threshold() -> usize;
 
     fn small_sort<F: FnMut(&Self, &Self) -> bool>(
@@ -109,7 +109,7 @@ fn small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
 // CASE_END selected-branch-positive
 
 // CASE_BEGIN selected-branch-false-bound-31
-trait StableSmallSortTypeImpl: Sized {
+pub(crate) trait StableSmallSortTypeImpl: Sized {
     fn small_sort_threshold() -> usize;
 
     fn small_sort<F: FnMut(&Self, &Self) -> bool>(
@@ -203,7 +203,7 @@ fn small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
 // CASE_END selected-branch-false-bound-31
 
 // CASE_BEGIN selected-branch-missing-source-array
-trait StableSmallSortTypeImpl: Sized {
+pub(crate) trait StableSmallSortTypeImpl: Sized {
     fn small_sort_threshold() -> usize;
 
     fn small_sort<F: FnMut(&Self, &Self) -> bool>(

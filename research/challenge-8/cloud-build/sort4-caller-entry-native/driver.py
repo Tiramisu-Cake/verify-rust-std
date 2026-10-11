@@ -534,14 +534,25 @@ def run(a) -> None:
         save(a.evidence / "actual-source-certificate.json", cert)
         source_controls = source_admission_controls(a, manifest)
         phase_control = phase_admission_control(a, manifest)
-        if manifest.get("session_mode") == "COMPILER_QUERY_ONLY":
+        if manifest.get("session_mode") in ("COMPILER_QUERY_ONLY", "COMPILER_QUERY_AND_SELECTED_PREFIX"):
             query_pins_path = a.proof_root / HERE / "COMPILER-SELECTED-INSTANCE-PINS.json"
             pinned_file(query_pins_path, manifest["compiler_query_pins_sha256"], "compiler query pins")
             query_pins = json.loads(query_pins_path.read_text())
             query_path = a.cloud_dir / "sort4-caller-entry-native/compiler-query.py"
             pinned_file(query_path, query_pins["query_module_sha256"], "compiler query module")
             query = load(query_path, "compiler_query")
-            query.run(a, c4, audit, manifest, ghost)
+            query_result = query.run(a, c4, audit, manifest, ghost)
+            if manifest["session_mode"] == "COMPILER_QUERY_AND_SELECTED_PREFIX":
+                selected_path = a.cloud_dir / "sort4-caller-entry-native/selected-proof.py"
+                pinned_file(selected_path, manifest["selected_proof_module_sha256"], "selected proof module")
+                selected_pins_path = a.proof_root / HERE / "SELECTED-BRANCH-BINDING-PINS.json"
+                pinned_file(selected_pins_path, manifest["selected_binding_pins_sha256"], "selected binding pins")
+                selected = load(selected_path, "selected_prefix_proof")
+                import sys
+                result = selected.run(a, c4, audit, manifest, ghost, sys.modules[__name__], query_result)
+                save(a.evidence / "compiler-query-audit.json", query_result)
+                save(a.evidence / "diagnostic-audit.json", result)
+                save(a.evidence.parent.parent / "proof-audit.json", result)
             return
         tool, expected, production = reconstruct(a, c4, audit, manifest, os.environ.copy())
         env = c4.clean_env(a, tool)

@@ -10,6 +10,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 
@@ -107,6 +108,13 @@ def source_certificate(a, manifest: dict, pins: dict) -> tuple[bytes, dict]:
         "method_lines": method_lines,
         "proof_credit": False}
     return fixture.read_bytes(), certificate
+
+
+def normalize_compiler_debug(value: object) -> object:
+    """Keep full DefPath/binder structure; numeric DefIds belong to one invocation."""
+    if not isinstance(value, str):
+        return value
+    return re.sub(r"DefId\(\d+:\d+ ~ ([^)]+)\)", r"DefId(\1)", value)
 
 
 def parse_records(log: str, certificate: dict) -> tuple[list[dict], dict]:
@@ -277,7 +285,7 @@ def run(a, c4, audit, manifest: dict, ghost) -> dict:
         readonly = query_results["readonly"][0]
         def indexed(rows: list[dict]) -> dict:
             return {(row["caller"], row["callee"]):
-                    {key: row[key] for key in compare} for row in rows}
+                    {key: normalize_compiler_debug(row[key]) for key in compare} for row in rows}
         require(indexed(normal) == indexed(readonly),
                 "normal/readonly compiler identities and clauses differ")
         records, finding, log_path = query_results["normal"]

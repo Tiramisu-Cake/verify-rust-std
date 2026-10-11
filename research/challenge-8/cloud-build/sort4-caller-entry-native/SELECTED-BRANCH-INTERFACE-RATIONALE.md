@@ -106,7 +106,8 @@ translator patch. The base is the threshold candidate pinned by
 `STABLE-THRESHOLD-BINDING-PINS.json`; the selected-branch patch is a distinct,
 default-off candidate. It is enabled only in the named Cloud phase with the
 separate `SORT4_SELECTED_BRANCH_INTERFACE=1` opt-in, and rejects overlapping
-threshold-binding mode. It also requires the runner-owned
+threshold-binding mode. It is scoped to
+`SORT4-COMPILER-BINDING-PREFIX-CLOUD-2026-10-11`. It also requires the runner-owned
 `SORT4_SELECTED_COMPILER_BINDING_VERIFIED=1` gate. The runner may set that flag
 only after exporter evidence validates the actual Freeze-qualified caller
 TypingEnv and selected impl DefIds; no handcrafted TypingEnv qualifies. Its
@@ -147,22 +148,51 @@ false normal and unwind posts preserve divergence. The source's allocation-failu
 and saved call edge motivate this exact mapping. Every other call and every
 other `Unreachable` edge retains existing lowering.
 
+The localized call/interface update resets its counters before every
+four-body translation and checks them after every body translates
+successfully. Per fixture it requires one threshold edge and one small-sort
+edge owned by the matching caller, one helper edge owned by the selected impl
+method, one length-bound interface for each of the selected method and helper,
+and one exact helper abort edge. The selected call operands must translate in
+source order to the exact locals established by current MIR. The interface gate checks that
+the length-bearing argument is the first mutable slice parameter named `v`
+and that the three parameter names are exactly `v`, `scratch`, and `is_less`.
+It requires exactly those two interface edits, so the caller and threshold
+body receive no new precondition. Missing selected edges fail the final
+cardinality check; they cannot receive credit from the generic specializer.
+
+The translator candidate now structurally matches the complete expected caller/helper clause shape: `Sized<T>`, `Sized<F>`, `FreezeMarker<T>`, `FnMut<F, (&r1 T, &r2 T)>`, and `FnOnce::Output<F, (&r1 T, &r2 T)> == bool`, with distinct higher-ranked input regions shared by the call and output clauses. It accepts only the two explicit clause orderings needed for free caller/helper bodies and selected impl bodies, rejects extra/unknown clauses, and requires exactly `T`, `F`, and three erased lifetime substitutions. The fresh paired normal/readonly exporter MIR now confirms the five-clause caller/helper vectors and exact erased-lifetime substitutions. These observations validate the structural matcher but do not compile or exercise the translator patch.
+
+The same paired MIR confirms the reborrow chain: caller locals `_16`, `_17`, `_18` are reborrows from formal locals `_1`, `_2`, `_5` (`v`, `scratch`, `is_less`); selected impl locals `_5`, `_6`, `_7` reborrow formal locals `_1`, `_2`, `_3`. The translator now requires only the corresponding literal `$`-prefixed generated AST names for those two call edges. It refuses any other local IDs, so a changed MIR layout remains closed pending review. The AST names themselves remain unobserved until a translation using this patch succeeds. The three fixture digests were refreshed after making each fixture trait `pub(crate)`; those static hashes alone do not establish source/MIR identity.
+
 The falsifiable gates are exact extracted source digest; exact four-body and
 full unwind inventory; selected impl clause identity; exact caller call
-clauses/arity with no generic ignored-clause fallback; preserved normal and
-unwind post AST; positive proof of helper entry `ptr_len(v) <= 32`; rejection
-of the in-guard `len <= 31` assertion; and rejection of the source-array
-leak at the selected method's native source precondition. Until Cloud source
-identity, method binding, and all native proof stages are verified, the patch
-is unaccepted diagnostic infrastructure only.
+clauses/substitutions/operands with no generic ignored-clause fallback; two
+exact selected interfaces with all original resources and generated
+normal/unwind posts preserved; positive proof of helper entry
+`ptr_len(v) <= 32`; rejection of the in-guard `len <= 31` assertion; and
+rejection of the source-array leak at the selected method's native
+source-array precondition. The helper abort binding must occur exactly once
+with the pinned intrinsic, zero substitutions/operands, no destination, and
+`Unreachable` unwind. Until Cloud source identity, compiler method binding,
+and all native proof stages are verified, the patch is unaccepted diagnostic
+infrastructure only.
 
 ## Final static review — unfinished admission gates
 
-The final text has call counters but lacks the final after-translation cardinality
-check. This gate remains incomplete; no counter success is claimed. The exact
-full caller clauses for T,F/FnMut and erased lifetime substitutions must also be
-observed before widening the present strict admission shape. Compilation, full
-MIR/AST identities, bound/pointer/unwind/resource controls and runner-oracle
-integration are all pending. The candidate is deliberately absent from the
-runnable driver/recipe. It cannot receive actual caller or conditional helper
-proof credit in its current state.
+The candidate now specifies call counters with a final after-translation
+cardinality check. These guards have not been compiled or exercised. The exact
+the strict full caller clauses, substitutions, and reborrow locals are now observed in paired fresh MIR; the exact generated AST argument names remain to be confirmed after translation. The patch has not been compiled or exercised. AST edge identities, resource/post controls, and runner integration remain pending. The candidate remains absent from the runnable driver/recipe and
+receives no actual caller or conditional helper proof credit.
+
+
+## Post-translation call-graph audit
+
+The runner's selected proof-AST audit also checks the emitted call graph by
+owner and cardinality: the canonical root has exactly one selected threshold
+call and one selected `small_sort` call; the selected method has exactly one
+helper call; threshold and helper have no further edges to these selected
+functions. The threshold has no operands. The root's selected method call must use the exact AST locals `$_16`, `$_17`, `$_18`; the selected method's helper call must use `$_5`, `$_6`, `$_7`. Fresh paired MIR maps those specific reborrow locals to formal `v`, `scratch`, and `is_less` in source order. The AST checker rejects any different temporary IDs or unresolved original callees. Synthetic missing-edge, duplicate,
+wrong-owner, wrong-operand, and unrenamed generic-fallback records exercise the same matcher. These are
+static admission checks only: they do not establish MIR provenance, preserve
+postconditions by themselves, or grant proof credit.

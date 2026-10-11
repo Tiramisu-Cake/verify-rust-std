@@ -67,3 +67,7 @@ Any missing pair, duplicate, mismatched callee, unknown `InstanceKind`,
 unexpected impl/source span, or API/build failure is `INCONCLUSIVE`/setup,
 with no proof credit. A resolved selected diagnostic is still not transfer to
 unrestricted quicksort or acceptance of the experimental translator rule.
+
+## Paired compiler invocation identity rule (3aa raw evidence)
+
+Normal and readonly are separate compiler invocations. The observed higher-ranked input lifetime DefIds have different numeric indices but identical complete source DefPaths, binder positions, clauses and PostAnalysis TypingEnv. Cross-invocation equality must retain full DefPaths and binder structure while ignoring only numeric crate/item indices inside Debug DefId tokens. Raw records remain unchanged; within each invocation callee/impl DefIds are still checked against its own source impl/callsite map. This is classifier-only normalization, not compiler selection, clause erasure or a new lifetime model. Replay both saved logs; wrong source/impl/callsite still refuses.

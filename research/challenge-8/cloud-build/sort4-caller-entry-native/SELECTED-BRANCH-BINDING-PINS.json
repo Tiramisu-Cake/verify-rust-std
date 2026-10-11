@@ -1,11 +1,11 @@
 {
   "base_translator_sha256": "5dde9c2f9c9bb75144da78d0f242c3ca6807baa5731d736ced0cc438e0bc8f47",
-  "result_translator_sha256": "920f4c9eb55b5d568f4c4ba37c0060ee77690a5ef1ceae9bc10d3fdfa42a8d91",
-  "patch_sha256": "77048f86f0633740d53e909ed9f8db74b358f5629bb56c91085f2277e3ba21ed",
+  "result_translator_sha256": "94c330afd5dbe6f80d0f188d7cdc3187fd08cbe741d2a0d58530a4cb76a1d7e6",
+  "patch_sha256": "18041de31214f764cc4f46a3560821251fc94fba7bab54c1e971a70c0ae0eb2c",
   "case_verified_lib_md5": {
-    "selected-branch-positive": "93db50686ecf217190fd8c8f7b8f974f",
-    "selected-branch-false-bound-31": "e1fa5567ec5d8217bf43c7f73e86952e",
-    "selected-branch-missing-source-array": "eb3fa0fec6c089db5c197855331aa270"
+    "selected-branch-positive": "0e4a1459be31e3d48083e0e90e71a6e9",
+    "selected-branch-false-bound-31": "52dc359aa5c64a4a96170bfc1dbc263f",
+    "selected-branch-missing-source-array": "59d4a31eb99993ed665d01e982100a72"
   },
   "closed_body_inventory": [
     "selected_freeze_basecase",
@@ -13,15 +13,65 @@
     "selected StableSmallSortTypeImpl::small_sort impl",
     "small_sort_general_with_scratch"
   ],
-  "call_binding": "conditional source clauses + generic/operand arity; MIR has no resolved implementation DefId; no actual generic quicksort dispatch credit",
+  "call_binding": "strict exact full T/F/Sized/Freeze/FnMut/HRTB/Output<bool> clause vectors; exact T,F,three appended erased lifetimes; paired fresh MIR maps caller _16/_17/_18 reborrow operands to v/scratch/is_less and selected impl _5/_6/_7 to v/scratch/is_less; translator accepts only corresponding $-prefixed AST local IDs",
   "generic_clause_ignoring_specializer": "must not be used for selected threshold/small_sort/helper calls; otherwise hard gate",
-  "call_graph_gate": "PENDING: counters increment during translation but final post-translation cardinality validation is absent; candidate not runnable/admissible",
+  "phase_id": "SORT4-COMPILER-BINDING-PREFIX-CLOUD-2026-10-11",
+  "call_graph_gate": "IMPLEMENTED BUT UNCOMPILED: reset per full translation; final after-translation exact owner/cardinality checks for threshold, small_sort, helper, interfaces, abort; selected method/helper operands require exact observed MIR reborrow temp IDs",
   "compiler_binding_gate": "SORT4_SELECTED_COMPILER_BINDING_VERIFIED=1 required; only runner may set after exporter evidence validates the actual Freeze-qualified caller TypingEnv selected DefIds",
-  "precondition_delta": "pure ptr_len(v)<=32 conjunct only on selected small_sort and helper generated pre; generated normal/unwind post AST unchanged",
-  "abort_binding": "helper-only std::intrinsics::abort, zero substs/operands, no destination, Unreachable -> existing std::process::abort spec",
+  "precondition_delta": "pure ptr_len(v)<=32 conjunct only on selected small_sort and helper generated pre; exact three-parameter signature and v mutable slice shape guarded; generated normal/unwind post AST unchanged by construction",
+  "abort_binding": "helper-only std::intrinsics::abort, unique counted exact zero substs/operands, no destination, Unreachable -> existing std::process::abort spec",
   "profile_accepted": false,
   "cloud_source_pair_verified": false,
   "compiler_binding_verified": false,
   "call_graph_admission_complete": false,
-  "caller_full_clause_inventory_verified": false
+  "call_graph_implementation_compiled": false,
+  "interface_signature_gate_compiled": false,
+  "caller_call_operand_inventory_verified": true,
+  "caller_full_clause_inventory_verified": true,
+  "observed_reborrow_operands": {
+    "caller_small_sort": {
+      "mir_locals": [
+        "_16",
+        "_17",
+        "_18"
+      ],
+      "translated_ast_vars": [
+        "$_16",
+        "$_17",
+        "$_18"
+      ],
+      "source_params": [
+        "v",
+        "scratch",
+        "is_less"
+      ],
+      "source_mir_locals": [
+        "_1",
+        "_2",
+        "_5"
+      ]
+    },
+    "selected_impl_helper": {
+      "mir_locals": [
+        "_5",
+        "_6",
+        "_7"
+      ],
+      "translated_ast_vars": [
+        "$_5",
+        "$_6",
+        "$_7"
+      ],
+      "source_params": [
+        "v",
+        "scratch",
+        "is_less"
+      ],
+      "source_mir_locals": [
+        "_1",
+        "_2",
+        "_3"
+      ]
+    }
+  }
 }
