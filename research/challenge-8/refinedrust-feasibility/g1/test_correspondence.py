@@ -8,7 +8,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from correspondence import inspect_outputs, _radium_definition, _radium_inventory, _radium_call, _cleanup_outcomes
+from correspondence import inspect_outputs, _radium_definition, _radium_inventory, _radium_calls, _radium_call, _cleanup_outcomes
 
 
 SOURCE = Path(__file__).resolve().parents[4] / "library/core/src/slice/sort/shared/smallsort.rs"
@@ -250,6 +250,61 @@ class CorrespondenceTests(unittest.TestCase):
         self.assertEqual(6, len(calls))
         self.assertFalse(_radium_call('(* CallS fake [] *) "CallS fake"', 'fake'))
 
+    def test_qualified_callee_is_never_a_partial_binding(self):
+        for callee in ('Module.FnMut_loc', 'Module.Sub.FnMut_loc',
+                       'Module . FnMut_loc', 'Module(* nested (* comment *) *).FnMut_loc'):
+            with self.subTest(callee=callee):
+                block = f'CallS {callee} []'
+                calls, error = _radium_calls(block)
+                self.assertEqual([], calls)
+                self.assertEqual('unsupported qualified CallS callee syntax', error)
+                for binding in ('Module', 'FnMut_loc', callee):
+                    self.assertFalse(_radium_call(block, binding))
+
+    def test_qualified_event_and_inventory_reject_even_reviewed_map(self):
+        self.mapped_insert_tail()
+        text = RADIUM.replace('(FnMut_loc: loc)', '(Module: loc) (FnMut_loc: loc)')
+        text = text.replace('CallS FnMut_loc', 'CallS Module.FnMut_loc', 1)
+        self.replace_radium(text)
+        calls, error = _radium_inventory(_radium_definition(text, 'insert_tail_def'))
+        self.assertEqual([], calls)
+        self.assertEqual('bb0: unsupported qualified CallS callee syntax', error)
+        targets = self.root / 'output/unrelated.v'
+        targets.write_text('Definition unrelated := True.\n')
+        self.receipt['reviewed_map_schema'] = 'g1-reviewed-correspondence-v1'
+        # A supplied location parameter and hash-bound definition must not hide
+        # a parser failure, including the formerly misidentified Module binding.
+        for binding in ('Module', 'FnMut_loc', 'Module.FnMut_loc'):
+            with self.subTest(binding=binding):
+                self.receipt['correspondence']['first_fnmut']['radium_callee_binding'] = binding
+                self.receipt['callee_inventory'] = [
+                    {'caller': 'insert_tail', 'binding': name, 'resolution': 'translated_body',
+                     'resolved_file': 'output/unrelated.v', 'resolved_sha256': digest(targets.read_bytes()),
+                     'resolved_definition': 'unrelated'}
+                    for name in (binding, 'FnMut_loc', 'read_loc', 'copy_loc', 'CopyOnDrop_DropGlue_loc')]
+                result = inspect_outputs(self.root, self.receipt)
+                self.assertEqual('INCONCLUSIVE', self.check_status(result, 'event:first_fnmut'))
+                gate = next(c for c in result['checks'] if c['id'] == 'callees:insert_tail')
+                self.assertEqual('INCONCLUSIVE', gate['status'])
+                self.assertEqual(error, gate['detail'])
+                if binding != 'Module.FnMut_loc':
+                    event = next(c for c in result['checks'] if c['id'] == 'event:first_fnmut')
+                    self.assertEqual(error, event['detail'])
+                self.assertEqual('UNKNOWN', self.check_status(result, 'radium_output_contract'))
+                self.assertFalse(result['admission_complete'])
+                self.assertNotEqual('PASS', result['verdict'])
+
+    def test_nested_multiple_and_unknown_calls_fail_closed(self):
+        for block in ('CallS FnMut_loc [CallS nested []]',
+                      'CallS FnMut_loc [] CallS read_loc []',
+                      'CallSNew FnMut_loc []', 'CallS FnMut_loc [',
+                      '(* unterminated', '"unterminated'):
+            with self.subTest(block=block):
+                calls, error = _radium_calls(block)
+                self.assertEqual([], calls)
+                self.assertTrue(error)
+                self.assertFalse(_radium_call(block, 'FnMut_loc'))
+
     def test_unknown_call_and_unbalanced_arguments_fail_closed(self):
         for replacement in ('CallS (Var FnMut_loc)', 'CallSNew FnMut_loc',
                             'CallS FnMut_loc [', 'CallS FnMut_loc'):
@@ -279,6 +334,10 @@ class CorrespondenceTests(unittest.TestCase):
         self.receipt['callee_inventory'] = edges[:-1]
         result = inspect_outputs(self.root, self.receipt)
         self.assertEqual('INCONCLUSIVE', self.check_status(result, 'callees:insert_tail'))
+        self.receipt['callee_inventory'] = edges + [dict(edges[0], binding='extra_loc')]
+        result = inspect_outputs(self.root, self.receipt)
+        self.assertEqual('INCONCLUSIVE', self.check_status(result, 'callees:insert_tail'))
+        self.assertNotEqual('PASS', result['verdict'])
 
     def test_continuation_claims_cannot_qualify_unknown_writer(self):
         mutations = {

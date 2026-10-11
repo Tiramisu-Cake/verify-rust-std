@@ -274,7 +274,8 @@ def _radium_calls(block: str) -> tuple[list[dict[str, Any]], str]:
 
     The old fixture has a bare location parameter and balanced argument terms.
     Counting those terms is useful service evidence, not qualification of the
-    pinned generator. Complex callees/unknown CallS spellings fail closed. The
+    pinned generator. Qualified/complex callees and unknown CallS spellings
+    fail closed until the exact pinned grammar is confirmed. The
     identical inventory is used for event detection and selected-body closure.
     """
     try:
@@ -294,6 +295,11 @@ def _radium_calls(block: str) -> tuple[list[dict[str, Any]], str]:
             if pos + 1 >= len(tokens) or not re.fullmatch(r'[A-Za-z_][A-Za-z_0-9]*', tokens[pos + 1]):
                 raise ValueError('unknown CallS callee form')
             end = pos + 2
+            # The lexer splits Coq qualified identifiers at dots. Reject before
+            # parsing arguments so Module.FnMut_loc cannot become binding Module
+            # with the rest of its name silently consumed as argument terms.
+            if end < len(tokens) and tokens[end] == '.':
+                raise ValueError('unsupported qualified CallS callee syntax')
             arguments: list[list[str]] = []
             while end < len(tokens):
                 term, end = _coq_term(tokens, end)
@@ -401,6 +407,7 @@ def _event_call(block: str, callee: str) -> bool:
 
 
 def _radium_call(block: str, binding: str) -> bool:
+    """Match only an error-free shared inventory; never use a partial callee."""
     if not isinstance(binding, str) or not re.fullmatch(r"[A-Za-z_][A-Za-z_0-9]*", binding):
         return False
     calls, error = _radium_calls(block)
@@ -580,6 +587,10 @@ def inspect_outputs(out_dir: str | Path, source_receipt: dict[str, Any]) -> dict
             _check(checks, f"event:{label}", "NOT_OBSERVED", "selected source line does not contain required operation", line=line)
             continue
         callee, binding = entry.get("mir_callee"), entry.get("radium_callee_binding")
+        _, call_error = _radium_calls(rblocks[rbb])
+        if call_error:
+            _check(checks, f"event:{label}", "INCONCLUSIVE", f"bb{rbb}: {call_error}", mir_bb=mbb, radium_bb=rbb)
+            continue
         if label.endswith("guard_drop"):
             local = source_receipt.get("locals", {}).get("gap_guard") if isinstance(source_receipt.get("locals"), dict) else None
             mir_match = isinstance(local, str) and bool(re.search(r"(?m)^\s*drop\s*\(\s*" + re.escape(local) + r"\s*\)\s*->", mblocks[mbb]))

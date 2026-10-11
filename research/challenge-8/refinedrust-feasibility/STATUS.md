@@ -1,15 +1,40 @@
-# RefinedRust feasibility — G1 REVIEW REMEDIATION PHASE 1 CLOSED
+# RefinedRust feasibility — G1 FINAL R1 FIX CLOSED
 
-2026-10-11, Europe/Moscow. **READY FOR REPEAT INDEPENDENT REVIEW AS CANDIDATE / R2/R9 UNKNOWN / NOT DISPATCH READY.** Cloud budget/charge **0/0**; Build/token **NONE**, lane/ledger/phase не зарегистрированы. Авторизация только own harness/parser/collector/service tests; после публикации STOP.
+2026-10-12, Europe/Moscow. **R1 LOCAL FIX READY FOR FINAL INDEPENDENT REVIEW /
+R2/R9/LINKAGE UNKNOWN / CLOUD G1 NOT DISPATCH READY.** Cloud budget/charge **0/0**;
+own Build/token **NONE**. Только local scanner/static/service work; после
+собственного commit/push STOP.
 
-- Worktree `/root/verify-rust-std-refinedrust-feasibility-20261011`, branch `research/refinedrust-feasibility-20261011`, origin `Tiramisu-Cake/verify-rust-std`; чистый вход на baseline `619cd100eed3ef5806f1c37ced79995358bc6ceb`, отдельный index. Review `07f0180d146ed1e1ce1d89ddba7102d5f4bb882d` прочитан полностью; review-ветка не изменена.
-- Read policy revision `5bf53668a4afa51c302e599be91a2dbc4b24042d`, редакция 2026-10-10; AGENTS/WORK-POLICY/AGENT-RUNBOOK/Cloud runbooks и own STATUS прочитаны. Source `c7ca8c467aecf10a4b53039372ee97714f854ee3`, SmallSort blob `e555fce440872898e47fd5114f32eb15401d07df`, RR `332d945fafa14bf55c0c8390cb35ec4b0c012cff`, compiler `e457a7b0d326d67b4322ef0d11bd715cfaeda48f` не изменены.
-- R1: shared CallS inventory/event scanner видит 6 calls / 4 bindings; missing/unknown calls и unrelated definitions не разрешают PASS. Actual callee linkage остаётся UNKNOWN.
-- R2: ложный Radium unwind gate удалён. Positive normal/unwind role parser **NOT_IMPLEMENTED**: exact pinned writer недоступен. Output-contract gate UNKNOWN нельзя повысить map-файлом. MIR all-exit cleanup и payload-projection Drop controls усилены.
-- R3/R10: interrupted controls/stages не засчитываются; bounded process-group termination исправлен статически. Stage-dependent command/log/config/environment/image/source/N2 checks; local inventory, diagnostic и external completeness раздельны. `evidence_complete=false`, `verification_accepted=false`, proof NOT_RUN.
+- Worktree `/root/verify-rust-std-refinedrust-feasibility-20261011`, branch
+  `research/refinedrust-feasibility-20261011`, origin `Tiramisu-Cake/verify-rust-std`.
+  Чистый вход на `217c939a54c3623b5e65c5359a35263982d451f8`; independent review
+  `0df72f7bd42755cdc4649a59d73fb243b0be0895` прочитан; review branch не изменена.
+- Policy revision `5bf53668a4afa51c302e599be91a2dbc4b24042d` и current origin/main
+  update `ba69d1047caeb1e53e288c32654dbdc5cf718a99` прочитаны с AGENTS/runbooks.
+  Cloud/coordinator migration не выполнялась; текущая авторизация даёт 0 Cloud.
+- R1: `CallS Module.FnMut_loc []` возвращает **явный unsupported syntax error и
+  пустой inventory**, никогда binding `Module`. Event и inventory gates
+  согласованно INCONCLUSIVE; supplied reviewed map не обходит parser failure.
+  Исходная fixture сохраняет **6 calls / 4 distinct bindings**; missing/extra
+  binding, comments/strings, nested/unknown calls остаются fail-closed.
+- R2/R9 и actual callee linkage остаются **UNKNOWN**; positive continuation
+  parser NOT_IMPLEMENTED. Exact pinned RR source локально не найден, pin не
+  заменён. Native core/RR export/actual cleanup/watchdog/image/proof **NOT_RUN**.
+  `evidence_complete=false`, `verification_accepted=false` сохраняются.
 
-[Remediation table, tests и остаточные риски](G1-REVIEW-REMEDIATION.md). Прежний STATUS 619cd100 сохранён там целиком. Integration validation: **30/30 service/parser tests PASS** (34.589 s); Python AST (3.10 grammar), JSON parsing, `bash -n` и `git diff --check` PASS. Injector/native core/RR export/actual cleanup/process-tree/image/Cloud всё **NOT_RUN**; synthetic tests не повышают proof status.
+Validation: **33/33 service/parser tests PASS** (34.669 s), targeted 20/20 PASS;
+AST grammar 3.10 (10 files), JSON (9 files), shell syntax и diff checks PASS.
+Только изолированные synthetic данные; compiler/RR/extraction/Docker/Cloud не
+запускались. [Точный результат и сохранённые checkpoints](G1-REVIEW-REMEDIATION.md).
 
-Первый blocker: точные RR generator/parser/config/wrapper bytes недоступны; R2/R9 и positive callee linkage не закрыты. R4–R8/image/OCI/dispatcher/provider/transport/packaging вне текущей авторизации и не изменены. Operational infra SHA/image digest по-прежнему UNASSIGNED/UNCONFIRMED.
+Source `c7ca8c467aecf10a4b53039372ee97714f854ee3`, SmallSort blob
+`e555fce440872898e47fd5114f32eb15401d07df`, RR
+`332d945fafa14bf55c0c8390cb35ec4b0c012cff`, compiler
+`e457a7b0d326d67b4322ef0d11bd715cfaeda48f` и unpatched profile не изменены.
+R4–R8/Cloud integration вне scope, не реализованы; infra SHA/image digest
+UNASSIGNED/UNCONFIRMED. Trusted assumptions не расширены.
 
-Следующее разрешённое действие: повторный independent review Phase 1 candidate с явными UNKNOWN, затем решение владельца о закрытии остатка и отдельно о Cloud-интеграции. **STOP после собственного commit/push.** Никаких PR, Tool Application, Cloud или promise of continuation. Harness identity — полный опубликованный commit этой ветки; freeze требуется до любой будущей authorization.
+После публикации **STOP**. Следующий шаг — окончательный independent review
+ограниченной Phase 1; Cloud требует отдельного закрытия contracts/linkage,
+integration review/freeze и авторизации/бюджета. Harness identity — полный
+опубликованный commit этой ветки; docs/service PASS не повышают proof status.

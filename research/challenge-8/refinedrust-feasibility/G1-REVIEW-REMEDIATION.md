@@ -1,3 +1,102 @@
+# G1 review remediation — Final R1 scanner fix
+
+2026-10-12, Europe/Moscow. Implementation baseline:
+`217c939a54c3623b5e65c5359a35263982d451f8`.
+Независимый review:
+[0df72f7bd42755cdc4649a59d73fb243b0be0895](https://github.com/Tiramisu-Cake/verify-rust-std/blob/0df72f7bd42755cdc4649a59d73fb243b0be0895/research/challenge-8/refinedrust-feasibility/G1-REMEDIATION-INDEPENDENT-REVIEW.md).
+
+**Остаточный локальный R1 исправлен; candidate готов к окончательной независимой
+проверке ограниченной Phase 1 remediation. Cloud G1 NOT DISPATCH READY.**
+Это не закрытие R2/R9, actual linkage или proof и не замена независимого review.
+Ниже сохранены прежние evidence/claims; этот блок уточняет прежнее заявление
+«R1 service defect исправлен», опровергнутое qualified-callee control review.
+
+## R1: причина, граница и regression
+
+Гипотеза service fix: отказ при точке непосредственно после callee identifier
+предотвращает усечение qualified identity без знания pinned grammar.
+`CallS Module.FnMut_loc []` теперь даёт `calls=[]` и явный parse error
+`unsupported qualified CallS callee syntax`. Точка проверяется до разбора
+arguments; остаток имени не становится argument terms. Это узкое ограничение
+служебного lexical scanner, не изменение RefinedRust parser/trusted semantics.
+
+`_radium_call` использует только error-free shared scan и возвращает false
+для `Module`, `FnMut_loc` и полного qualified имени. Event gate теперь сохраняет
+parser error как INCONCLUSIVE с номером block; callee inventory возвращает тот
+же error и не использует частичные calls. Location parameter `Module`, supplied
+reviewed map и hash-bound candidate Definition не повышают parser failure.
+
+Три новых regression tests проверяют qualified/multicomponent identifiers,
+whitespace/nested comments вокруг точки, event/inventory agreement с подменой
+map, nested/multiple/unknown calls и повреждённые comments/strings/arguments.
+Расширен existing missing-binding test: extra binding также INCONCLUSIVE.
+Полная неизменённая synthetic fixture: **6 calls / 4 distinct bindings**.
+Comments/strings не создают calls; неполный или unsupported scan не даёт PASS.
+Никакая реальная RR grammar/continuation role не выводится из synthetic fixture.
+
+## Проверки и identity
+
+- Targeted parser suite: **20/20 PASS**, 13.355 s.
+- Full isolated service/parser suite: **33/33 PASS**, 34.669 s:
+  `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s research/challenge-8/refinedrust-feasibility/g1 -p 'test_*.py' -v`.
+- Python AST с grammar 3.10: 10 files PASS; JSON parsing: 9 files PASS;
+  `bash -n g1/entrypoint.sh` и `git diff --check` PASS.
+- Imports/entrypoints просмотрены до tests: только stdlib и service/auditor
+  modules, synthetic temporary data. Runner/injector/compiler/Cloud не
+  импортированы и не исполнены. Live evidence/coordinator не менялись.
+- Worktree/branch — только назначенные владельцем; вход чистый на exact
+  baseline, origin — наш fork; fetch выполнен. Read-only Actions list пуст.
+  Review branch/чужие worktrees не изменены; merge/cherry-pick не выполнялись.
+- Прочитаны собственные AGENTS/WORK-POLICY/runbooks (revision
+  `5bf53668a4afa51c302e599be91a2dbc4b24042d`) и актуальные docs origin/main,
+  включая policy update `ba69d1047caeb1e53e288c32654dbdc5cf718a99`.
+  Coordinator migration не относится к этому поручению: Cloud budget **0**,
+  Cloud/coordinator implementation и state не менялись.
+
+Targeted read-only поиск RR под `/root` и `/tmp` не обнаружил source directory,
+rrconfig или wrapper files. Exact RR object
+`332d945fafa14bf55c0c8390cb35ec4b0c012cff` недоступен в project Git object DB.
+Локального candidate для проверки Git identity/origin не найдено; это не
+доказательство отсутствия копии под произвольным именем. Pin не заменён,
+checkout/bundle не загружались. Source/compiler/profile pins сохранены.
+
+## Остаток и остановка
+
+R2 positive normal/unwind role parser **NOT_IMPLEMENTED / UNKNOWN**;
+R9 exact writer/parser/config/wrapper contracts **UNKNOWN**; actual callee
+linkage **UNKNOWN**. Непереопределяемый `radium_output_contract=UNKNOWN`
+и existing linkage gates сохранены. Runtime watchdog/native core/actual RR
+export/cleanup/image/proof всё **NOT_RUN**; verification accepted false.
+R4–R8/Cloud integration вне scope, не реализованы. Operational infra SHA/image
+digest UNASSIGNED/UNCONFIRMED. Расширения доверенных предпосылок нет.
+
+Cloud budget/charge **0/0**, own Build/token **NONE**. После обычного commit/push
+собственной ветки — **STOP**. Следующий шаг — окончательная независимая проверка
+опубликованного candidate; Cloud требует отдельного завершения contracts,
+integration review/freeze и авторизации/бюджета.
+
+## Предыдущий checkpoint 217c939
+
+```text
+# RefinedRust feasibility — G1 REVIEW REMEDIATION PHASE 1 CLOSED
+
+2026-10-11, Europe/Moscow. **READY FOR REPEAT INDEPENDENT REVIEW AS CANDIDATE / R2/R9 UNKNOWN / NOT DISPATCH READY.** Cloud budget/charge **0/0**; Build/token **NONE**, lane/ledger/phase не зарегистрированы. Авторизация только own harness/parser/collector/service tests; после публикации STOP.
+
+- Worktree `/root/verify-rust-std-refinedrust-feasibility-20261011`, branch `research/refinedrust-feasibility-20261011`, origin `Tiramisu-Cake/verify-rust-std`; чистый вход на baseline `619cd100eed3ef5806f1c37ced79995358bc6ceb`, отдельный index. Review `07f0180d146ed1e1ce1d89ddba7102d5f4bb882d` прочитан полностью; review-ветка не изменена.
+- Read policy revision `5bf53668a4afa51c302e599be91a2dbc4b24042d`, редакция 2026-10-10; AGENTS/WORK-POLICY/AGENT-RUNBOOK/Cloud runbooks и own STATUS прочитаны. Source `c7ca8c467aecf10a4b53039372ee97714f854ee3`, SmallSort blob `e555fce440872898e47fd5114f32eb15401d07df`, RR `332d945fafa14bf55c0c8390cb35ec4b0c012cff`, compiler `e457a7b0d326d67b4322ef0d11bd715cfaeda48f` не изменены.
+- R1: shared CallS inventory/event scanner видит 6 calls / 4 bindings; missing/unknown calls и unrelated definitions не разрешают PASS. Actual callee linkage остаётся UNKNOWN.
+- R2: ложный Radium unwind gate удалён. Positive normal/unwind role parser **NOT_IMPLEMENTED**: exact pinned writer недоступен. Output-contract gate UNKNOWN нельзя повысить map-файлом. MIR all-exit cleanup и payload-projection Drop controls усилены.
+- R3/R10: interrupted controls/stages не засчитываются; bounded process-group termination исправлен статически. Stage-dependent command/log/config/environment/image/source/N2 checks; local inventory, diagnostic и external completeness раздельны. `evidence_complete=false`, `verification_accepted=false`, proof NOT_RUN.
+
+[Remediation table, tests и остаточные риски](G1-REVIEW-REMEDIATION.md). Прежний STATUS 619cd100 сохранён там целиком. Integration validation: **30/30 service/parser tests PASS** (34.589 s); Python AST (3.10 grammar), JSON parsing, `bash -n` и `git diff --check` PASS. Injector/native core/RR export/actual cleanup/process-tree/image/Cloud всё **NOT_RUN**; synthetic tests не повышают proof status.
+
+Первый blocker: точные RR generator/parser/config/wrapper bytes недоступны; R2/R9 и positive callee linkage не закрыты. R4–R8/image/OCI/dispatcher/provider/transport/packaging вне текущей авторизации и не изменены. Operational infra SHA/image digest по-прежнему UNASSIGNED/UNCONFIRMED.
+
+Следующее разрешённое действие: повторный independent review Phase 1 candidate с явными UNKNOWN, затем решение владельца о закрытии остатка и отдельно о Cloud-интеграции. **STOP после собственного commit/push.** Никаких PR, Tool Application, Cloud или promise of continuation. Harness identity — полный опубликованный commit этой ветки; freeze требуется до любой будущей authorization.
+```
+
+## Исторический remediation report на baseline 619cd100
+
 # G1 review remediation — Phase 1
 
 2026-10-11, Europe/Moscow. Baseline:
