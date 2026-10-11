@@ -410,6 +410,10 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
     body_copy = executed(row.get("source_copy_line"))
     body_return = "Executing return statement" in segment
     leak = "Leak check." in segment
+    caller_headers = list(re.finditer(r"(?m)^.*Verifying function 'natural_onecell'.*$", log))
+    caller_segment = log[caller_headers[0].start():] if len(caller_headers) == 1 else ""
+    caller_return = "Executing return statement" in caller_segment
+    caller_leak = "Leak check." in caller_segment
     source_unchanged = execution.get("source_unchanged_at_every_stage") is True
     setup = (source_unchanged and all(stages.get(stage) == 0
              for stage in ("exporter", "decode", "refinement")) and
@@ -439,7 +443,7 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
                     re.search(rf"verified/lib\.rs\({row['double_effect_line']},\d+.*\): error:", errors[0]) is not None and
                     "CopyOnDrop_drop_effect" in errors[0] and "No matching heap chunks" in errors[0])
     positive = (setup and stages.get("verifast") == 0 and not errors and not dead and body_copy and
-                body_return and leak and "0 errors found" in log)
+                body_return and leak and caller_return and caller_leak and "0 errors found" in log)
     classification = ("NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY" if positive else
                       "CALLER_READY_ENTRY_EXPECTED_REJECTION" if
                       name == "caller_ready_entry_false" and targeted else
@@ -451,7 +455,7 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
             "natural_scope_end_executed": executed(row.get("natural_scope_end_line")),
             "dead_code_lines": dead,
             "body_copy_executed": body_copy, "body_return_executed": body_return,
-            "leak_check": leak, "errors": errors, "targeted_negative_matched": targeted,
+            "leak_check": leak, "caller_return": caller_return, "caller_leak_check": caller_leak, "errors": errors, "targeted_negative_matched": targeted,
             "actual_callee_or_glue_credit": False, "caller_construction_credit": False,
             "scope": "bounded concrete-u64 natural Drop fixture only; no panic path or generic insert_tail credit"}
 
