@@ -293,7 +293,7 @@ index 296680a1..39575b73 100644
                  it must be the case that all calls of that function were inlined. *)
          else
 diff --git a/src/refinement_checker/refinement_checker.ml b/src/refinement_checker/refinement_checker.ml
-index 77c3c289..86e3ce79 100644
+index 77c3c289..f8647452 100644
 --- a/src/refinement_checker/refinement_checker.ml
 +++ b/src/refinement_checker/refinement_checker.ml
 @@ -412,6 +412,16 @@ let update_env x v env = (x, v) :: List.remove_assoc x env
@@ -313,7 +313,25 @@ index 77c3c289..86e3ce79 100644
  let fns_to_be_inlined: (string * body) list =
    let local x = {local={name=x}; projection=[]; local_is_mutable=false; kind=Other} in
   [
-@@ -619,6 +629,10 @@ let fns_to_be_inlined: (string * body) list =
+@@ -536,6 +546,8 @@ let fns_to_be_inlined: (string * body) list =
+           statements=[];
+           terminator={
+             kind=Drop {
++              selected_drop_path=""; selected_drop_hash=""; selected_guard_path="";
++              is_bare_local=false; is_replace=false; generated_body_key="";
+               place={
+                 local={name="self"};
+                 projection=[Field {index=Stdint.Uint32.of_int 1; name=Something {name="1"}; ty={kind=Param "A"}}];
+@@ -560,6 +572,8 @@ let fns_to_be_inlined: (string * body) list =
+           statements=[];
+           terminator={
+             kind=Drop {
++              selected_drop_path=""; selected_drop_hash=""; selected_guard_path="";
++              is_bare_local=false; is_replace=false; generated_body_key="";
+               place={
+                 local={name="self"};
+                 projection=[Field {index=Stdint.Uint32.of_int 1; name=Something {name="1"}; ty={kind=Param "A"}}];
+@@ -619,6 +633,10 @@ let fns_to_be_inlined: (string * body) list =
        clauses=[];
        is_trait_fn=false;
        is_drop_fn=false;
@@ -324,7 +342,7 @@ index 77c3c289..86e3ce79 100644
        visibility=Public;
      }
    );
-@@ -716,6 +730,10 @@ let fns_to_be_inlined: (string * body) list =
+@@ -716,6 +734,10 @@ let fns_to_be_inlined: (string * body) list =
      clauses=[];
      is_trait_fn=false;
      is_drop_fn=false;
@@ -335,7 +353,7 @@ index 77c3c289..86e3ce79 100644
      visibility=Public;
    }
    );
-@@ -955,6 +973,10 @@ let fns_to_be_inlined: (string * body) list =
+@@ -955,6 +977,10 @@ let fns_to_be_inlined: (string * body) list =
      clauses=[];
      is_trait_fn=false;
      is_drop_fn=false;
@@ -346,7 +364,7 @@ index 77c3c289..86e3ce79 100644
      visibility=Public;
    });
    ("std::result::Result::<T, E>::map_err",
-@@ -1193,6 +1215,10 @@ let fns_to_be_inlined: (string * body) list =
+@@ -1193,6 +1219,10 @@ let fns_to_be_inlined: (string * body) list =
      clauses=[];
      is_trait_fn=false;
      is_drop_fn=false;
@@ -357,7 +375,7 @@ index 77c3c289..86e3ce79 100644
      visibility=Public;
    });
    ("std::option::Option::<T>::map",
-@@ -1409,6 +1435,10 @@ let fns_to_be_inlined: (string * body) list =
+@@ -1409,6 +1439,10 @@ let fns_to_be_inlined: (string * body) list =
      clauses=[];
      is_trait_fn=false;
      is_drop_fn=false;
@@ -368,7 +386,7 @@ index 77c3c289..86e3ce79 100644
      visibility=Public;
    });
    "std::option::Option::<T>::unwrap_or_else",
-@@ -1589,6 +1619,10 @@ let fns_to_be_inlined: (string * body) list =
+@@ -1589,6 +1623,10 @@ let fns_to_be_inlined: (string * body) list =
      clauses=[];
      is_trait_fn=false;
      is_drop_fn=false;

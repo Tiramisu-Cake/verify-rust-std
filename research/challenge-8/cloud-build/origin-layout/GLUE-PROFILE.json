@@ -1,6 +1,6 @@
 {
   "schema": "smallsort-tracked-md-profile-v1",
-  "profile": "experimental-merge-actual-glue-body-v2",
+  "profile": "experimental-merge-actual-glue-body-v3",
   "verifast_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
   "baseline_translator_sha256": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
   "translator_sha256": "f17691b857225785d79aee6c958c92143549e8ac61750c7295af38ec476b8cac",
@@ -88,7 +88,7 @@
     },
     {
       "path": "research/challenge-8/cloud-build/origin-layout/glue-body.patch",
-      "sha256": "581ee2ca595f935af1f5701bb07b5dd98056da5d269877e458de38d6aea70d5a"
+      "sha256": "22619b8dbe10ab831efef57dad0302ec1a86e5f8813860e982c5509ef5727f15"
     }
   ],
   "previous_selected_profile_sha256": "7e4f6088574056a0846aad2887895836b5e03edf06bb5a493d29daf44151cfff",
@@ -97,11 +97,13 @@
   "preserved_selected_profile_sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
   "glue_credit": "EXPERIMENTAL_NOT_PROVED",
   "semantic_delta": "Exact compiler-owned generated DropGlue body appended with captured method identity/phase and concrete Instance descriptor; qualified raw trait call lowered to checked selected method, caller receiver/end producer retained; official rebuilt refiner checks exact generated CFG including unwind without snippet shortcut. Frozen kernel/memory/alias/prelude unchanged; concrete non-generic u64 extracted specialization only.",
-  "effective_tool_commit": "a382cea28be0805f076ef3e735cdff931c9d2524",
+  "effective_tool_commit": "853fd1e2edb309101df83b93c65572a0d8d0d189",
   "previous_glue_observation_profile_sha256": "ede5bd5e338703a6c1f99e6ee0dfe422115241fef9a7a9fadc4a9f9e71f63e1b",
-  "glue_body_tool_commit": "a382cea28be0805f076ef3e735cdff931c9d2524",
-  "glue_body_patch_sha256": "581ee2ca595f935af1f5701bb07b5dd98056da5d269877e458de38d6aea70d5a",
+  "glue_body_tool_commit": "853fd1e2edb309101df83b93c65572a0d8d0d189",
+  "glue_body_patch_sha256": "22619b8dbe10ab831efef57dad0302ec1a86e5f8813860e982c5509ef5727f15",
   "baseline_refiner_binary_sha256": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
   "refiner_main_source_sha256": "0775c7cc84f126e8dcc3b14ff4a373c32a7b49bea9d0dbca1ba8db6f86290d3d",
-  "refiner_core_source_sha256": "d5e0a1be5b1dfd80b0939286fcd4375010a1ed4673824a942a423c1aa8b70276"
+  "refiner_core_source_sha256": "b6bb66ea597756d449ee4221ffb7cf2133ff1c60b325824e2e1451c85dcd1229",
+  "draft_status": "STATIC_PREPARED_NOT_CLOUD_BUILT",
+  "last_buildable_exporter_profile": "experimental-merge-actual-glue-body-v2"
 }
