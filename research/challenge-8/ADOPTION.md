@@ -51,6 +51,7 @@ AGENTS.md
 research/challenge-8/WORK-POLICY.md
 research/challenge-8/AGENT-RUNBOOK.md
 research/challenge-8/COMPLETION-PLAN.md
+research/challenge-8/PROGRESS-REVIEW.md
 research/challenge-8/PLAN.md
 research/challenge-8/cloud-build/README.md
 research/challenge-8/cloud-build/PARALLEL-BUILDS.md

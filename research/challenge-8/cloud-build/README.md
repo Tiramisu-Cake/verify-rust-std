@@ -4,7 +4,8 @@
 исполняемые clients/recipes, pins и собственный ledger берутся из явно назначенной
 ветки и поручения. [WORK-POLICY](../WORK-POLICY.md) задаёт полномочия/сессии,
 [AGENT-RUNBOOK](../AGENT-RUNBOOK.md) — proof/evidence loop,
-[v3 protocol](PARALLEL-BUILDS-V3.md) — три slots после явного lossless transition.
+[v3 protocol](PARALLEL-BUILDS-V3.md) — три slots после явного lossless transition;
+исторический [v2 protocol](PARALLEL-BUILDS.md) сохраняется в архиве.
 Исторические migration/night accounts и команды — в [архиве](../archive/team-procedure-2026-10-10/README-ARCHIVE.md).
 
 ## Inputs и счёт до submit

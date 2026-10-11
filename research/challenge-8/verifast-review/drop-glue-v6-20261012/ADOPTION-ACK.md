@@ -1,0 +1,9 @@
+# Собственный ACK
+
+Принята main revision `6e1a8e59c56669abe5e6ec2013478e45ed2cc267` по ADOPTION.md; WORK-POLICY (редакция 2026-10-10), PROGRESS-REVIEW (редакция 1, 2026-10-11), COMPLETION-PLAN и остальные общие docs перенесены адресно, прежние branch-local docs сохранены в [архиве](../../archive/review-v6-adoption-20261012/INDEX.md). Документационный commit записан в END-CHECKPOINT после commit.
+
+Стартовый checkpoint `d1dfd450036a10dd41719fcc399cf519a2ec5350`. Собственный новый worktree `/root/verify-rust-std-review-v6`, ветка `review/verifast-drop-glue-v6-20261012`; origin Tiramisu-Cake/verify-rust-std. Общее дерево и чужие worktrees/coordinator не изменяются.
+
+Миссия: адресный read-only maintainer review actual Drop glue v6, продолжение K; потребитель — actual insert_tail normal/panic cleanup и будущая совместимость с tool I. Конкретное поручение владельца: до 60 минут, Cloud 0; только чтение/hashes/static review и малые isolated parser/classifier tests. Независимые semantic/raw reviewers привлечены по поручению. Наблюдение времени: 2026-10-11T21:52:09Z; консервативный deadline 22:47:00Z, без extension. Новые proof jobs не разрешены. Собственных Build/reservation/request не создавалось, свой Cloud счёт 0/0; состояние чужих счетов не подтверждается и не изменяется. Миграция coordinator завершена согласно владельцу и исходному checkpoint; этот review её не повторяет.
+
+Actual обязательство: compiler Instance/MIR → generated glue → checked selected Drop → полный normal post/CURRENT → caller end_ref_mut/physical StorageDead; panic applicability остаётся отдельным обязательством. Merge checkpoint `420188dd1732d53f3f515690ed2ff6f53a9026ab` фиксирован; moving head не используется. Tool I, as_mut_ptr, ManuallyDrop::new и прежние PASS сохраняются. Следующий разрешённый шаг — review pinned v6/raw archive; development v8/transport/caller у merge. Никакого принятия профиля, merge или upstream PR.
