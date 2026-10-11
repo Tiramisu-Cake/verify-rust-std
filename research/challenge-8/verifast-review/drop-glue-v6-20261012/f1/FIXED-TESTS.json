@@ -1,0 +1,126 @@
+{
+  "kind": "ISOLATED_SERVICE_ONLY_NO_NEW_PROOF",
+  "mode": "fixed",
+  "runner_sha256": "cb30a0a65e130b4bb38b99f609b3dcf929661185c3fbb9f6da6b845a0fb46d25",
+  "parser_sha256": "a5f28d5feb9c3e07d2bb5ee6b19a29dc45ea782d5f51a1630f993124f20bd995",
+  "saved_ast_sha256": "ffd79636616da2f94588c3acd7192731214f1c568226f6294aa8e68fb997a2da",
+  "entrypoint": "_body_glue_ast_evidence (real parser and temporary proof-ast.ml)",
+  "cases": {
+    "valid_saved": {
+      "admitted": true,
+      "contracts_match": true,
+      "literal_unwind_false": true,
+      "synthetic": false,
+      "ast_sha256": "ffd79636616da2f94588c3acd7192731214f1c568226f6294aa8e68fb997a2da"
+    },
+    "duplicate_returning": {
+      "admitted": false,
+      "contracts_match": true,
+      "literal_unwind_false": false,
+      "synthetic": true,
+      "ast_sha256": "f20529e5950ab1bac468a731a749927d2cc599d9a4040ea1d90e215e9e46f661"
+    },
+    "duplicate_unwinding": {
+      "admitted": false,
+      "contracts_match": true,
+      "literal_unwind_false": false,
+      "synthetic": true,
+      "ast_sha256": "a7267054dd9c8555a87c27d2acf9b9856071117621405baf22eee00224cedaa4"
+    },
+    "missing_returning": {
+      "admitted": false,
+      "contracts_match": true,
+      "literal_unwind_false": false,
+      "synthetic": true,
+      "ast_sha256": "134d89cc963b3ac5451a597af7a209c0148c3174e25f23a9afce3a22e347088f"
+    },
+    "missing_unwinding": {
+      "admitted": false,
+      "contracts_match": true,
+      "literal_unwind_false": false,
+      "synthetic": true,
+      "ast_sha256": "b7a3da6d18c05d1f0727fd0e44eceac55e841d853cc2da343556a8411d8938a7"
+    },
+    "extra_known_arm": {
+      "admitted": false,
+      "contracts_match": true,
+      "literal_unwind_false": false,
+      "synthetic": true,
+      "ast_sha256": "f20529e5950ab1bac468a731a749927d2cc599d9a4040ea1d90e215e9e46f661"
+    },
+    "unknown_arm": {
+      "admitted": false,
+      "contracts_match": true,
+      "literal_unwind_false": false,
+      "synthetic": true,
+      "ast_sha256": "15266aeed4015be2fe167080119a0ddf0100cc51e72a625782b43edb9e210e58"
+    },
+    "malformed_arm": {
+      "admitted": false,
+      "contracts_match": true,
+      "literal_unwind_false": false,
+      "synthetic": true,
+      "ast_sha256": "b7db707b64e5b6e7212331e473542b9e3de44c42a844780e985ab1e38e238447"
+    },
+    "malformed_arm_arity": {
+      "admitted": false,
+      "contracts_match": true,
+      "literal_unwind_false": false,
+      "synthetic": true,
+      "ast_sha256": "2d9e0245828e28242f7ec3d65fadb6c42dc0787f9a0467589cac49bfa356be18"
+    },
+    "extra_malformed_clause": {
+      "admitted": false,
+      "contracts_match": true,
+      "literal_unwind_false": false,
+      "synthetic": true,
+      "ast_sha256": "b812ca713f5c73158d2bcde395bb49cd31566e0703d405c9f48700b96154b7f1"
+    },
+    "default": {
+      "admitted": false,
+      "contracts_match": true,
+      "literal_unwind_false": false,
+      "synthetic": true,
+      "ast_sha256": "a194337cc0631bc320c2c259ce15afca86819b77dfb56a0a1f85a19cc1c7ff48"
+    },
+    "wrong_returning_binders": {
+      "admitted": false,
+      "contracts_match": true,
+      "literal_unwind_false": false,
+      "synthetic": true,
+      "ast_sha256": "449021e937eaa1f9d8bfe475a70bbc9d3def718d33dfa933cbee2aeb31776710"
+    },
+    "wrong_unwinding_binders": {
+      "admitted": false,
+      "contracts_match": true,
+      "literal_unwind_false": false,
+      "synthetic": true,
+      "ast_sha256": "701184fec619acddade5d4ace2f025d786201f824ee95f5e8da40beb8eb989a8"
+    },
+    "malformed_unwind_post": {
+      "admitted": false,
+      "contracts_match": true,
+      "literal_unwind_false": false,
+      "synthetic": true,
+      "ast_sha256": "8140b28121918d22431f1db16bea2ebb397da04076704d68dba6854ea7dd2abc"
+    },
+    "wrapped_switch": {
+      "admitted": false,
+      "contracts_match": true,
+      "literal_unwind_false": false,
+      "synthetic": true,
+      "ast_sha256": "c9532393961db48bc0920690275bdd2f416746152b65305b2fd6c570a5c1fadc"
+    }
+  },
+  "literal_false": {
+    "valid": true,
+    "symbol": false,
+    "empty": false,
+    "extra_argument": false,
+    "non_location": false,
+    "foreign_location": false,
+    "true": false,
+    "wrapper": false
+  },
+  "unmodified_saved_positive": true
+}

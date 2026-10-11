@@ -1,0 +1,1002 @@
+#!/usr/bin/env python3
+"""Draft hosted fixture for a source-linked natural Drop terminator.
+
+This module is inert on import.  Its hosted ``run`` hook prepares a bounded
+concrete-u64 adapter around the pinned CopyOnDrop source; the adapter ends a
+lexical scope and relies on Rust's ordinary Drop terminator.  It never spells
+an explicit runtime destructor call.
+"""
+from __future__ import annotations
+
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import re
+import sys
+
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[3]
+SOURCE = ROOT / "library/core/src/slice/sort/shared/smallsort.rs"
+OLD_ONECELL = HERE / "onecell-drop-interface.py"
+OLD_PREP = ROOT / "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prepare.py"
+OLD_CONSUMER = HERE / "concrete-consumer.py"
+CASES = ("positive", "after_natural_drop_false", "caller_ready_entry_false",
+         "missing_receiver_frame", "missing_source_permission", "duplicate_effect_simultaneous", "caller_dead_code")
+DRAFT_STATUS = "READY"
+DRAFT_REASON = ("The caller now follows the existing readonly half-FBC frame recipe and "
+                "packages direct singleton arrays before the natural Drop terminator. "
+                "Padding-fraction behavior is not established from a generated AST, so "
+                "this remains a draft: do not prepare or execute before parent review.")
+
+
+def _load(name: str, path: Path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"pinned module unavailable: {path}")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+def _sha(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def _line(data: bytes, token: bytes) -> int:
+    if data.count(token) != 1:
+        raise ValueError(f"nonunique source anchor: {token!r}")
+    return data[:data.index(token)].count(b"\n") + 1
+
+
+def _replace_once(data: bytes, before: bytes, after: bytes, label: str) -> bytes:
+    if data.count(before) != 1:
+        raise ValueError(f"{label}: expected one source anchor")
+    return data.replace(before, after, 1)
+
+
+def _as_ghost_comments(fragment: bytes) -> bytes:
+    """Embed body safety-proof statements as caller ghost statements."""
+    lines = fragment.splitlines()
+    if not lines or any(not line.startswith(b"    ") for line in lines):
+        raise ValueError("expected indented safety-proof statements")
+    return b"".join(b"        //@ " + line[4:] + b"\n" for line in lines)
+
+
+NATURAL_DROP_EXIT = b"        //@ assert true; // TARGET: natural Drop scope exit\n"
+NATURAL_FALSE = b"        //@ assert false; // TARGET: after natural Drop terminator\n"
+CALLER_READY_FALSE = b"        //@ assert false; // TARGET: caller direct Drop-pre entry\n"
+CALLER_SIGNATURE = b"unsafe fn natural_onecell(tail: *mut u64)"
+BODY_GLUE_PROFILE = "experimental-merge-actual-glue-body-v8"
+GENERATED_GLUE_NAME = "__vf_generated_drop_glue"
+
+
+def _is_generated_glue_name(value: str) -> bool:
+    return value == GENERATED_GLUE_NAME or value.endswith("::" + GENERATED_GLUE_NAME)
+
+
+def _literal_false_with_loc(value, ast) -> bool:
+    """Accept only the location-bearing False node emitted by dump_ast_with_locs."""
+    if not isinstance(value, ast.Node) or value.name != "False" or len(value.args) != 1:
+        return False
+    try:
+        location = ast.loc(value.args[0])
+    except Exception:
+        return False
+    return re.fullmatch(
+        r"verified/lib\.rs\([1-9][0-9]*,[1-9][0-9]*(?:-[1-9][0-9]*(?:,[1-9][0-9]*)?)?\)",
+        location) is not None
+
+
+def _prepare(evidence: Path) -> dict:
+    """Build source-linked caller/callee fixtures; only the hosted runner calls this."""
+    if DRAFT_STATUS != "READY":
+        raise RuntimeError(DRAFT_REASON)
+    if evidence.exists():
+        raise FileExistsError(f"refusing to reuse natural Drop evidence: {evidence}")
+    body = _load("natural_drop_onecell_source", OLD_ONECELL)
+    prep = _load("natural_drop_insert_tail_templates", OLD_PREP)
+    consumer = _load("natural_drop_consumer_templates", OLD_CONSUMER)
+    composition = _load("selected_drop_caller_templates", HERE / "onecell-caller-composition.py")
+    source, _, original_drop, signature, copy_call, own, alignment = body._source_inputs()
+    contract = body._specialize(body.ONECELL_CONTRACT)
+    withheld = (
+        b"pred_ctor withheld_receiver(p: *mut CopyOnDrop)(;) = (*p).len |-> ?v;\n"
+        b"pred_ctor withheld_source(p: *const u64)(;) = [1/4]p[..1] |-> ?vs;\n")
+    effect = b"/*@\n" + body.EFFECT_DEF + withheld + b"@*/\n\n"
+
+    # Exact runtime fragment anchors come from actual insert_tail source.
+    raw = SOURCE.read_bytes()
+    if raw.count(prep.READ) != 1 or raw.count(prep.GUARD) != 1:
+        raise ValueError("pinned actual ManuallyDrop read/guard initializer changed")
+    caller_contract = body._specialize(prep.CONTRACT)
+    runtime = (b"\n" + CALLER_SIGNATURE + caller_contract + b" {\n"
+               b"    unsafe {\n" + prep.READ +
+               b"        {\n" + prep.GUARD + b"        }\n"
+               b"    }\n}\n")
+    original_drop = original_drop.replace(b"use core::ptr;",
+                                          b"use core::{mem::ManuallyDrop, ptr};", 1)
+    # The normal and unwind caller contract is inherited verbatim from the
+    # existing bounded one-cell adapter.  The natural scope exit itself is the
+    # only runtime Drop operation in this caller.
+    original = original_drop + runtime
+
+    cases_dir = evidence / "cases"
+    cases_dir.mkdir(parents=True)
+    rows = {}
+    source_identity = prep.SOURCE_IDENTITY
+    constructor_geometry = prep.CONSTRUCTOR_GEOMETRY
+    constructor_lines = constructor_geometry.splitlines(keepends=True)
+    constructor_destination_identity = constructor_lines[0]
+    constructor_source_facts = b"".join(constructor_lines[1:4])
+    constructor_separation = constructor_lines[4]
+    annotations = prep.ANNOTATIONS
+    source_geom = tuple(body._proof_syntax(body._specialize(item)).replace(
+        b"gap_guard.src", b"guard_src").replace(b"gap_guard.dst", b"guard_dst")
+        for item in prep.GEOMETRY)
+    destination_geom = body._proof_syntax(body._specialize_alignment_lemmas(
+        prep.DESTINATION_GEOMETRY)).replace(b"gap_guard.src", b"guard_src").replace(
+            b"gap_guard.dst", b"guard_dst")
+    source_alignment = body._proof_syntax(body._specialize_alignment_lemmas(
+        prep.ALIGNMENT)).replace(b"gap_guard.src", b"guard_src")
+    source_limits = body._proof_syntax(body._specialize(prep.SOURCE_LIMITS)).replace(
+        b"gap_guard.src", b"guard_src")
+    caller_source_geom = tuple(body._specialize(item) for item in prep.GEOMETRY)
+    caller_destination_geom = body._specialize_alignment_lemmas(prep.DESTINATION_GEOMETRY)
+    caller_source_alignment = body._specialize_alignment_lemmas(prep.ALIGNMENT)
+    caller_source_limits = body._specialize(prep.SOURCE_LIMITS)
+    false_ghost = NATURAL_FALSE
+    # These pointer values must outlive the nested guard scope.  Bind them in
+    # the outer unsafe block using the caller's original held-reference and
+    # destination identities, before `gap_guard` is created.
+    recovery_bindings = (
+        b"        //@ let recovery_src = held_ref;\n"
+        b"        //@ let recovery_dst = tail;\n")
+
+    for name in CASES:
+        case_own = own
+        # The source-linked Drop body retains its narrow len-one contract and
+        # explicit normal effect.  Its checked copy remains self.len at runtime.
+        bridge = (body.FIELD_BIND + body.LEN_ONE + source_alignment + source_limits +
+                  b"".join(source_geom) + destination_geom)
+        bridge += body.SOURCE_ARRAY + body.DEST_ARRAY
+        bridge += body.CALL + body.EFFECT_CLOSE
+        case_contract = body._replace_once(
+            contract,
+            b"    open CopyOnDrop_full_borrow_content(_t, self)();\n"
+            b"    open <CopyOnDrop>.own(_t, *self);\n",
+            b"    open CopyOnDrop_full_borrow_content(_t, self)();\n"
+            b"    open <CopyOnDrop>.own(_t, *self);\n" + bridge,
+            "natural Drop strong-pre body bridge")
+
+        # Caller protocol: preserve the established readonly half-FBC frame,
+        # open its two half-own shares, then package the direct singleton
+        # resources required by the checked Drop body.  The body gets no own
+        # or FBC predicate at its compiler-selected Drop terminator.
+        caller_proof = composition._caller_proof(body, prep, consumer)
+        caller_proof = caller_proof.removesuffix(b"        //@ close_points_to(&gap_guard);\n")
+        if name == "missing_receiver_frame":
+            caller_proof += (
+                b"        //@ let withheld_k = begin_lifetime();\n"
+                b"        //@ close withheld_receiver(&gap_guard)();\n"
+                b"        //@ borrow(withheld_k, withheld_receiver(&gap_guard));\n")
+        if name == "missing_source_permission":
+            caller_proof += (
+                b"        //@ let withheld_k = begin_lifetime();\n"
+                b"        //@ close withheld_source(guard_src)();\n"
+                b"        //@ borrow(withheld_k, withheld_source(guard_src));\n")
+        caller_ready_false = b""
+        if name == "caller_ready_entry_false":
+            caller_ready_false = (
+                b"        //@ assert thread_token(t) &*& t == currentThread &*& "
+                b"type_interp::<u64>() &*& gap_guard.src |-> guard_src &*& "
+                b"gap_guard.dst |-> guard_dst &*& gap_guard.len |-> guard_len &*& "
+                b"struct_CopyOnDrop_padding(&gap_guard) &*& guard_len == 1 &*& "
+                b"0 < std::mem::size_of::<u64>() &*& "
+                b"std::mem::size_of::<u64>() <= isize::MAX &*& "
+                b"guard_src as usize != 0 &*& guard_dst as usize != 0 &*& "
+                b"guard_src as usize % std::mem::align_of::<u64>() == 0 &*& "
+                b"guard_dst as usize % std::mem::align_of::<u64>() == 0 &*& "
+                b"object_pointer_within_limits(guard_src, std::mem::size_of::<u64>()) == true &*& "
+                b"object_pointer_within_limits(guard_dst, std::mem::size_of::<u64>()) == true &*& "
+                b"guard_src as usize <= usize::MAX - std::mem::size_of::<u64>() &*& "
+                b"guard_dst as usize <= usize::MAX - std::mem::size_of::<u64>() &*& "
+                b"pointer_within_limits(guard_src) == true &*& "
+                b"pointer_within_limits(guard_src + 1) == true &*& "
+                b"pointer_within_limits(guard_dst) == true &*& "
+                b"pointer_within_limits(guard_dst + 1) == true &*& "
+                b"(guard_src as usize + std::mem::size_of::<u64>() <= guard_dst as usize || "
+                b"guard_dst as usize + std::mem::size_of::<u64>() <= guard_src as usize) &*& "
+                b"[1/4]guard_src[..1] |-> cons(?ready_current, nil) &*& "
+                b"guard_dst[..1] |-> _ &*& <u64>.own(t, ready_current);\n" +
+                CALLER_READY_FALSE)
+            caller_proof += caller_ready_false
+        adapted_recovery = body._specialize(prep.RECOVER).replace(b"gap_guard.src", b"recovery_src").replace(
+            b"gap_guard.dst", b"recovery_dst")
+        adapted_recovery = adapted_recovery.replace(
+            b"        //@ end_ref_readonly(held_ref);\n",
+            consumer.POST_COPY_LADDER + b"        //@ end_ref_readonly(held_ref);\n", 1)
+        effect_close = b"        //@ close CopyOnDrop_drop_effect(t, recovery_src, recovery_dst, 1);\n"
+        double_effect = (b"        //@ assert CopyOnDrop_drop_effect(t, recovery_src, recovery_dst, 1) &*& "
+                         b"CopyOnDrop_drop_effect(t, recovery_src, recovery_dst, 1); // TARGET: simultaneous effects\n")
+        recovery_tail = (effect_close + (double_effect if name == "duplicate_effect_simultaneous" else b"") +
+                         b"        //@ open CopyOnDrop_drop_effect(t, recovery_src, recovery_dst, 1);\n" + adapted_recovery)
+        dead_control = b"        //@ if (false) { assert true; } // TARGET: real caller dead code\n"
+        if name == "caller_dead_code":
+            recovery_tail += dead_control
+        if name == "after_natural_drop_false":
+            recovery = NATURAL_DROP_EXIT + false_ghost + recovery_tail
+        else:
+            recovery = NATURAL_DROP_EXIT + recovery_tail
+        verified = _replace_once(original, signature, signature + case_contract,
+                                 "Drop body contract")
+        verified = _replace_once(verified, b"}\n\nimpl Drop for CopyOnDrop {",
+                                 b"}\n\n" + case_own + alignment + effect +
+                                 b"impl Drop for CopyOnDrop {", "Drop predicates")
+        verified = _replace_once(verified, prep.READ,
+                                 prep.READ + annotations + recovery_bindings,
+                                 "readonly caller setup and outer recovery bindings")
+        # Insert the proof construction immediately after the exact guard init,
+        # then recovery after the lexical scope has emitted Drop.
+        verified = _replace_once(verified, prep.GUARD,
+                                 prep.GUARD + caller_proof,
+                                 "caller pre-Drop resources")
+        scope_end = b"        }\n    }\n}\n"
+        if verified.count(CALLER_SIGNATURE) != 1:
+            raise ValueError("selected caller source binding not unique")
+        prefix, caller = verified.split(CALLER_SIGNATURE, 1)
+        caller = _replace_once(caller, scope_end,
+                               b"        }\n" + recovery + b"    }\n}\n",
+                               "caller post-Drop recovery")
+        verified = prefix + CALLER_SIGNATURE + caller
+        ghosts = [case_own, alignment, effect, case_contract, annotations,
+                  caller_proof, recovery_bindings, recovery]
+        stripped = verified
+        for ghost in ghosts:
+            if stripped.count(ghost) != 1:
+                raise ValueError(f"{name}: ghost source fragment not unique: {ghost[:60]!r}")
+            stripped = stripped.replace(ghost, b"", 1)
+        if stripped != original:
+            raise ValueError(f"{name}: runtime changed after ghost strip")
+        case_dir = cases_dir / name
+        (case_dir / "original").mkdir(parents=True)
+        (case_dir / "verified").mkdir()
+        (case_dir / "original/lib.rs").write_bytes(original)
+        (case_dir / "verified/lib.rs").write_bytes(verified)
+        rows[name] = {
+            "case": name, "source_sha256": source.SOURCE_SHA256,
+            "source_git_blob": source.SOURCE_GIT_BLOB,
+            "source_block_sha256": source.BLOCK_SHA256,
+            "original_sha256": _sha(original), "verified_sha256": _sha(verified),
+            "ghost_fragments": [part.decode("ascii") for part in ghosts],
+            "read_line": _line(verified, prep.READ),
+            "guard_line": _line(verified, prep.GUARD),
+            "natural_scope_end_line": _line(verified, NATURAL_DROP_EXIT),
+            "drop_body_copy_line": _line(verified, body.CALL),
+            "source_copy_line": _line(verified, copy_call),
+            "call_line": _line(verified, body.CALL),
+            "canonical": True, "uses_effect": True, "body_false_line": None, "prototype_false_line": None,
+            "effect_fixture_kind": "exact",
+            "false_line": (_line(verified, false_ghost) if name == "after_natural_drop_false" else
+                           _line(verified, CALLER_READY_FALSE) if name == "caller_ready_entry_false" else None),
+            "target_stage": ("caller_ready_entry_before_scope_exit" if name == "caller_ready_entry_false" else
+                             "after_natural_drop" if name == "after_natural_drop_false" else None),
+            "natural_drop_expected_to_execute": name != "caller_ready_entry_false",
+            "body_copy_expected_to_execute": name != "caller_ready_entry_false",
+            "caller_ready_entry_false_grants_glue_or_normal_recovery_credit": False,
+            "expected_missing": ("receiver_frame" if name == "missing_receiver_frame" else
+                                 "source_permission" if name == "missing_source_permission" else None),
+            "dead_control_line": (_line(verified, dead_control) if name == "caller_dead_code" else None),
+            "double_effect_line": (_line(verified, double_effect) if name == "duplicate_effect_simultaneous" else None),
+            "runtime_natural_drop_only": True,
+            "runtime_destructor_call_present": False,
+            "normal_effect_predicate": "CopyOnDrop_drop_effect",
+            "source_recovery_after_drop_before_tmp_storage_dead": True,
+            "fbc_recombination": "readonly half-FBC frame -> field frame -> direct singleton arrays",
+            "drop_terminator_pre_has_own_or_fbc": False,
+            "direct_source_array_packaged": name != "missing_source_singleton_array",
+            "direct_destination_array_packaged": name != "missing_destination_singleton_array",
+            "physical_source_quarter_and_destination_gap_retained": True,
+        }
+    metadata = {
+        "schema": "source-linked-u64-onecell-natural-drop-v1",
+        "profile": "SOURCE_LINKED_U64_ONECELL_NATURAL_DROP_DRAFT",
+        "accepted": False,
+        "scope": "bounded source-derived u64 adapter; actual generic insert_tail and panic path remain unproved",
+        "source_sha256": source.SOURCE_SHA256,
+        "source_git_blob": source.SOURCE_GIT_BLOB,
+        "source_block_sha256": source.BLOCK_SHA256,
+        "runtime_call_semantics": "nested lexical scope invokes natural compiler Drop terminator; no explicit runtime Drop::drop call",
+        "caller_contract": "full inherited normal/unwind tail contract; no unwind path exercised",
+        "drop_body_contract_sha256": _sha(contract),
+        "actual_drop_copy": copy_call.decode(),
+        "actual_drop_copy_runtime_len_preserved": b"self.len" in copy_call,
+        "canonical_post_effect": effect.decode("ascii"),
+        "canonical_own_omission_negative": "NOT_APPLICABLE for u64",
+        "fbc_recombination": "close full own; close/open half FBC; reuse concrete-consumer FBC_FIELD_FRAME and POST_FBC_LADDER; package direct source/destination singleton arrays before natural Drop",
+        "padding_fraction_merge": "NOT_ASSERTED: generated AST unavailable; target has three pointer-sized fields but no generated padding evidence was inspected",
+        "draft_status": DRAFT_STATUS,
+        "callee_or_glue_credit": False,
+        "caller_construction_credit": False,
+        "cases": rows,
+    }
+    (evidence / "extraction.json").write_text(json.dumps(metadata, indent=2, sort_keys=True) + "\n")
+    return metadata
+
+
+def _source_gate(case: Path, row: dict, prep) -> dict:
+    original = (case / "original/lib.rs").read_bytes()
+    verified = (case / "verified/lib.rs").read_bytes()
+    stripped = verified
+    for fragment in row["ghost_fragments"]:
+        token = fragment.encode("ascii")
+        if stripped.count(token) != 1:
+            return {"admitted": False, "reason": "ghost strip fragment count differs"}
+        stripped = stripped.replace(token, b"", 1)
+    caller = original[original.index(CALLER_SIGNATURE):]
+    caller_runtime_ok = (
+        caller.count(prep.READ) == 1 and caller.count(prep.GUARD) == 1 and
+        b"ptr::copy_nonoverlapping" not in caller and
+        b"Drop::drop" not in caller and b"drop_in_place" not in caller and
+        caller.count(b"        {\n" + prep.GUARD + b"        }\n    }\n}\n") == 1 and
+        caller.count(b"let tmp = ManuallyDrop::new(tail.read());") == 1)
+    body_runtime_ok = (verified.count(b"ptr::copy_nonoverlapping(self.src, self.dst, self.len);") == 1 and
+                       b"on_unwind_ens false" in verified)
+    integrity = (stripped == original and caller_runtime_ok and body_runtime_ok and
+                 verified.count(b"pred CopyOnDrop_drop_effect") == 1 and
+                 not any(token in verified for token in
+                         (b"//@ assume", b"//@ leak", b"assume_correct", b"Freeze")))
+    return {"admitted": integrity, "runtime_equal_after_ghost_strip": stripped == original,
+            "caller_uses_actual_read_and_guard": caller_runtime_ok,
+            "caller_has_no_explicit_copy_or_destructor_call": caller_runtime_ok,
+            "actual_drop_keeps_dynamic_self_len_copy": body_runtime_ok,
+            "exactly_one_effect_definition": verified.count(b"pred CopyOnDrop_drop_effect") == 1,
+            "no_assume_leak_or_freeze": not any(token in verified for token in
+                (b"//@ assume", b"//@ leak", b"assume_correct", b"Freeze"))}
+
+
+def _caller_ast_evidence(case: Path, ast) -> dict:
+    path = case / "proof-ast.ml"
+    if not path.is_file():
+        return {"present": False, "admitted": False}
+    try:
+        tree = ast.OcamlAstText(path.read_text(errors="replace")).parse()
+        funcs = [node for node in ast.nodes(tree, "Func")
+                 if len(node.args) == 13 and node.args[4] == "natural_onecell"]
+        bodies = [node for node in funcs if isinstance(node.args[10], ast.Node) and
+                  node.args[10].name == "Some"]
+        calls = []
+        for node in ast.nodes(bodies[0].args[10], "CallExpr") if len(bodies) == 1 else []:
+            if len(node.args) > 1 and isinstance(node.args[1], str):
+                calls.append({"callee": node.args[1], "loc": ast.loc(node.args[0]), "ast": repr(node)})
+        switches = []
+        if len(bodies) == 1:
+            for node in ast.nodes(bodies[0].args[10], "SwitchStmt"):
+                if len(node.args) == 3 and isinstance(node.args[1], ast.Node) and node.args[1].name == "CallExpr":
+                    name = node.args[1].args[1]
+                    if "Drop" in name and name != "std::ptr::drop_in_place":
+                        arms = []
+                        for arm in node.args[2]:
+                            tag = arm.args[1].args[1] if isinstance(arm.args[1], ast.Node) else None
+                            arm_calls = [call.args[1] for call in ast.nodes(arm.args[2], "CallExpr")]
+                            returns = [call.args[1] for ret in ast.nodes(arm.args[2], "ReturnStmt")
+                                       for call in ast.nodes(ret, "CallExpr")]
+                            arms.append({"tag": tag, "calls": arm_calls, "return_calls": returns, "gotos": [go.args[1] for go in ast.nodes(arm.args[2], "GotoStmt")]})
+                        switches.append({"callee": name, "arms": arms})
+        return {"present": True, "admitted": len(bodies) == 1,
+                "selected_outcome_switches": switches,
+                "caller_func_count": len(funcs), "caller_body_count": len(bodies),
+                "call_nodes": calls,
+                "potential_drop_callees": [row for row in calls
+                    if "Drop" in row["callee"] or "CopyOnDrop" in row["callee"]]}
+    except Exception as error:
+        return {"present": True, "admitted": False,
+                "reason": f"caller AST evidence collection failed: {error}"}
+
+
+def _body_glue_ast_evidence(case: Path, ast, selected_path: str, mir: dict) -> dict:
+    """Bind the caller to one generated glue body and that body to actual Drop."""
+    path = case / "proof-ast.ml"
+    if not path.is_file():
+        return {"present": False, "admitted": False}
+    try:
+        tree = ast.OcamlAstText(path.read_text(errors="replace")).parse()
+        funcs = [node for node in ast.nodes(tree, "Func") if len(node.args) == 13]
+        callers = [node for node in funcs if node.args[4] == "natural_onecell"]
+        glue_funcs = [node for node in funcs if _is_generated_glue_name(node.args[4])]
+        caller_bodies = [node for node in callers if isinstance(node.args[10], ast.Node)
+                         and node.args[10].name == "Some"]
+        glue_bodies = [node for node in glue_funcs if isinstance(node.args[10], ast.Node)
+                       and node.args[10].name == "Some"]
+        if len(caller_bodies) != 1 or len(glue_funcs) != 1 or len(glue_bodies) != 1:
+            return {"present": True, "admitted": False,
+                    "caller_count": len(callers), "caller_body_count": len(caller_bodies),
+                    "generated_glue_count": len(glue_funcs),
+                    "generated_glue_body_count": len(glue_bodies),
+                    "reason": "caller or generated private glue body is not unique"}
+
+        def call_rows(function):
+            result = []
+            runtime = function.args[10]
+            for call in ast.nodes(runtime, "CallExpr"):
+                if len(call.args) == 6 and isinstance(call.args[1], str):
+                    result.append({"callee": call.args[1], "loc": ast.loc(call.args[0]),
+                                   "node": call})
+            return result
+
+        caller_calls = call_rows(caller_bodies[0])
+        glue_calls = call_rows(glue_bodies[0])
+        caller_glue = [call for call in caller_calls
+                       if _is_generated_glue_name(call["callee"])]
+        glue_actual = [call for call in glue_calls if call["callee"] == selected_path]
+        caller_switches = []
+        caller_runtime = caller_bodies[0].args[10]
+        for switch in ast.nodes(caller_runtime, "SwitchStmt"):
+            if (len(switch.args) == 3 and isinstance(switch.args[1], ast.Node) and
+                    switch.args[1].name == "CallExpr" and len(switch.args[1].args) == 6 and
+                    _is_generated_glue_name(switch.args[1].args[1])):
+                arms = []
+                for arm in switch.args[2]:
+                    if not isinstance(arm, ast.Node) or len(arm.args) != 3:
+                        continue
+                    arms.append({"tag": arm.args[1].args[1]
+                                 if isinstance(arm.args[1], ast.Node) else None,
+                                 "calls": [call.args[1] for call in ast.nodes(arm.args[2], "CallExpr")
+                                           if len(call.args) > 1 and isinstance(call.args[1], str)],
+                                 "gotos": [go.args[1] for go in ast.nodes(arm.args[2], "GotoStmt")]})
+                caller_switches.append({"arms": arms})
+        arms = {arm["tag"]: arm for arm in caller_switches[0]["arms"]} \
+            if len(caller_switches) == 1 else {}
+        protocol = (set(arms) == {"returning", "unwinding"} and
+                    all(arm["calls"].count("end_ref_mut") == 1 and
+                        arm["calls"].count("close_points_to") == 1 and
+                        arm["calls"].count("open_points_to") == 1
+                        for arm in arms.values()) and
+                    arms["unwinding"]["gotos"] == [str(mir.get("selected_cleanup_target"))] and
+                    mir.get("selected_cleanup_is_statement_free_resume") is True)
+        caller_receiver = [call for call in caller_calls if call["callee"] == "create_ref_mut"]
+        caller_ends = [call for call in caller_calls if call["callee"] == "end_ref_mut"]
+        caller_forbidden = [call["callee"] for call in caller_calls
+                            if call["callee"] == selected_path or
+                            call["callee"].endswith("drop_in_place")]
+        glue_forbidden = [call["callee"] for call in glue_calls
+                          if call["callee"] in ("create_ref_mut", "end_ref_mut",
+                                                "std::ptr::drop_in_place") or
+                          call["callee"].endswith("drop_in_place")]
+        glue = glue_bodies[0]
+        contract = glue.args[8]
+        # Func.args[7] is the separate safety-proof slot. The literal false
+        # unwind post is represented in the contract AST below.
+        no_safety_proof = (isinstance(glue.args[7], tuple) and len(glue.args[7]) == 2 and
+                           glue.args[7][0] == ast.Sym("None") and
+                           glue.args[7][1] == ast.Sym("None"))
+        contract_pair = (contract.args[0] if isinstance(contract, ast.Node) and
+                         contract.name == "Some" and len(contract.args) == 1 else None)
+        selected_funcs = [node for node in funcs if node.args[4] == selected_path and
+                          isinstance(node.args[10], ast.Node) and node.args[10].name == "Some"]
+        selected_contract = selected_funcs[0].args[8] if len(selected_funcs) == 1 else None
+        selected_pair = (selected_contract.args[0] if isinstance(selected_contract, ast.Node) and
+                         selected_contract.name == "Some" and len(selected_contract.args) == 1 else None)
+        contract_shape = (isinstance(contract_pair, tuple) and len(contract_pair) == 2 and
+                          isinstance(contract_pair[0], ast.Node) and
+                          isinstance(contract_pair[1], tuple) and len(contract_pair[1]) == 2 and
+                          isinstance(contract_pair[1][0], str) and
+                          isinstance(contract_pair[1][1], ast.Node))
+        selected_shape = (isinstance(selected_pair, tuple) and len(selected_pair) == 2 and
+                          isinstance(selected_pair[0], ast.Node) and
+                          isinstance(selected_pair[1], tuple) and len(selected_pair[1]) == 2 and
+                          isinstance(selected_pair[1][1], ast.Node))
+        strong_contract = (contract_shape and selected_shape and
+                           contract_pair[0] == selected_pair[0] and
+                           contract_pair[1][1] == selected_pair[1][1])
+        post = contract_pair[1][1] if contract_shape else None
+        outcome_switches = [node for node in ast.nodes(post, "SwitchExpr")
+                            if len(node.args) == 4 and isinstance(node.args[2], list)]
+        outcomes = {}
+        if (len(outcome_switches) == 1 and outcome_switches[0] is post and
+                post.args[3] == ast.Sym("None") and len(post.args[2]) == 2):
+            clauses = post.args[2]
+            # Validate the complete switch before a dict can erase duplicates
+            # or hide malformed/extra clauses. A default is never admitted.
+            if (all(isinstance(arm, ast.Node) and arm.name == "SwitchExprClause" and
+                    len(arm.args) == 4 and isinstance(arm.args[1], str) and
+                    arm.args[1] in ("returning", "unwinding") and
+                    arm.args[2] == (["result"] if arm.args[1] == "returning" else []) and
+                    isinstance(arm.args[3], ast.Node) for arm in clauses) and
+                    {arm.args[1] for arm in clauses} == {"returning", "unwinding"}):
+                outcomes = {arm.args[1]: {"binders": arm.args[2], "post": arm.args[3]}
+                            for arm in clauses}
+        literal_unwind_false = (
+            set(outcomes) == {"returning", "unwinding"} and
+            outcomes["returning"]["binders"] == ["result"] and
+            outcomes["unwinding"]["binders"] == [] and
+            _literal_false_with_loc(outcomes["unwinding"]["post"], ast))
+        copied_receiver = False
+        receiver_name = None
+        receiver_copy_loc = None
+        if len(glue_actual) == 1:
+            try:
+                actual_args = ast.narg(glue_actual[0]["node"], "CallExpr", 6)[4]
+                if isinstance(actual_args, list) and len(actual_args) == 1:
+                    receiver_name = ast.var(ast.narg(actual_args[0], "LitPat", 1)[0])
+                    runtime = glue.args[10]
+                    assignments = [node for node in ast.nodes(runtime, "AssignExpr")
+                                   if len(node.args) == 4 and
+                                   ast.var(node.args[1]) == receiver_name]
+                    source_vars = ([ast.var(node) for node in
+                                   ast.nodes(assignments[0].args[3], "Var")]
+                                   if len(assignments) == 1 else [])
+                    copied_receiver = (len(assignments) == 1 and len(source_vars) == 1 and
+                                       source_vars[0] != receiver_name)
+                    if copied_receiver:
+                        receiver_copy_loc = ast.loc(assignments[0].args[0])
+            except (ValueError, TypeError, AttributeError):
+                copied_receiver = False
+        # The private function must carry its own ordinary contract. The
+        # selected Drop body is independently admitted by body._effect_ast_gate.
+        admitted = (len(caller_glue) == 1 and len(glue_actual) == 1 and
+                    not caller_forbidden and not glue_forbidden and
+                    len(caller_receiver) == 1 and len(caller_ends) == 2 and protocol and
+                    no_safety_proof and strong_contract and literal_unwind_false and
+                    copied_receiver)
+        return {"present": True, "admitted": admitted,
+                "caller_count": len(callers), "generated_glue_count": len(glue_funcs),
+                "caller_private_glue_call_count": len(caller_glue),
+                "glue_actual_method_call_count": len(glue_actual),
+                "selected_method": selected_path,
+                "glue_selected_method_call_loc": glue_actual[0]["loc"] if len(glue_actual) == 1 else None,
+                "glue_receiver_copy_loc": receiver_copy_loc,
+                "caller_direct_selected_or_generic_drop_calls": caller_forbidden,
+                "glue_receiver_create_or_end_calls": glue_forbidden,
+                "caller_receiver_create_count": len(caller_receiver),
+                "caller_borrow_end_count": len(caller_ends),
+                "caller_return_unwind_protocol": protocol,
+                "glue_contract_present": strong_contract,
+                "glue_full_pre_and_normal_unwind_posts_match_selected_method": strong_contract,
+                "glue_copied_receiver": copied_receiver,
+                "glue_actual_receiver_local": receiver_name,
+                "glue_safety_proof_absent": no_safety_proof,
+                "glue_literal_unwind_false": literal_unwind_false,
+                "reason": None if admitted else "generated glue AST linkage or contract shape failed"}
+    except Exception as error:
+        return {"present": True, "admitted": False,
+                "reason": f"generated glue AST evidence collection failed: {error}"}
+
+
+def _source_permission_target(log: str, verified: bytes, row: dict, call_loc: str) -> bool:
+    """Match the source-array precondition's exact auto-close refusal, not setup."""
+    source_req = b"    [1/4]src[..1] |-> cons(?current, nil) &*& dst[..1] |-> _ &*&"
+    if verified.count(source_req) != 1:
+        return False
+    source_line = _line(verified, source_req)
+    # This bounded fixture's constructor and readonly producer bind these
+    # symbolic values; a dst/alias/coefficient change is not the source oracle.
+    exact_chunk = ("[1/4]points_to<u64>(get_CopyOnDrop_src(mk_CopyOnDrop("
+                   "fn_outcome_result(outcome0), tail0, 1)), _)")
+    errors = [line for line in log.splitlines() if re.search(r"\berror:", line, re.I)]
+    if len(errors) != 1 or not re.fullmatch(
+            r"[^\n]*/bin/rust/prelude_core\.rsspec\(264,12-15\): error: "
+            r"No matching heap chunks: " + re.escape(exact_chunk), errors[0]):
+        return False
+    executing = lambda line: re.search(
+        rf"verified/lib\.rs\({line},\d+.*\): (?:note: )?Executing statement", log) is not None
+    return (executing(row["natural_scope_end_line"] - 1) and
+            executing(row["natural_scope_end_line"] - 2) and
+            f"verified/lib.rs({row['natural_scope_end_line'] - 3},13-18): Producing predicate chunk" in log and
+            f"verified/lib.rs({row['natural_scope_end_line'] - 2},13-19): Verifying call" in log and
+            log.count(call_loc + ": Verifying call") == 2 and
+            call_loc + ": note: Verifying call" in log and
+            f"verified/lib.rs({source_line},5-6): note: Consuming assertion" in log and
+            "prelude_core.rsspec(259,6-11): Auto-closing predicate with coefficient 1/4" in log and
+            not executing(row["natural_scope_end_line"]))
+
+
+def _generated_glue_proof_gate(log: str, glue_ast: dict) -> dict:
+    """Require runtime proof markers inside the uniquely delimited glue proof."""
+    name = GENERATED_GLUE_NAME
+    headers = list(re.finditer(
+        r"(?m)^.*Verifying function '([^']+)'[^\n]*$", log))
+    matches = [header for header in headers
+               if _is_generated_glue_name(header.group(1))]
+    segment = ""
+    if len(matches) == 1:
+        start = matches[0].start()
+        later = [header.start() for header in headers if header.start() > start]
+        segment = log[start:min(later)] if later else log[start:]
+    call_loc = glue_ast.get("glue_selected_method_call_loc")
+    copy_loc = glue_ast.get("glue_receiver_copy_loc")
+    return_mark = bool(re.search(r"(?m)^.*Executing return statement\s*$", segment))
+    leak_mark = bool(re.search(r"(?m)^.*Leak check\.\s*$", segment))
+    call_exec = bool(call_loc and re.search(
+        rf"(?m)^\s*\d+(?:\.\d+)?s: {re.escape(call_loc)}: (?:note: )?Executing statement\s*$", segment))
+    method_call = bool(call_loc and re.search(
+        rf"(?m)^\s*\d+(?:\.\d+)?s: {re.escape(call_loc)}: (?:note: )?Verifying call\s*$", segment))
+    copy_exec = bool(copy_loc and re.search(
+        rf"(?m)^\s*\d+(?:\.\d+)?s: {re.escape(copy_loc)}: (?:note: )?Executing statement\s*$", segment))
+    errors = [line for line in segment.splitlines() if re.search(r"\berror:", line, re.I)]
+    dead = [line for line in segment.splitlines() if re.search(r"dead code", line, re.I)]
+    admitted = (len(matches) == 1 and bool(call_loc) and bool(copy_loc) and
+                copy_exec and call_exec and method_call and return_mark and leak_mark and
+                not errors and not dead)
+    return {"admitted": admitted, "header_count": len(matches),
+            "header_name": matches[0].group(1) if len(matches) == 1 else None,
+            "selected_method_call_loc": call_loc, "receiver_copy_loc": copy_loc,
+            "selected_method_call_executed": call_exec,
+            "receiver_copy_executed": copy_exec,
+            "selected_method_call_verified": method_call,
+            "return_executed": return_mark, "leak_check": leak_mark,
+            "errors": errors, "dead_code": dead}
+
+
+def _body_glue_negative_gate(name: str, case: Path, row: dict, log: str,
+                             errors: list[str], dead: list[str], caller_ast: dict,
+                             glue_proof_gate: dict, setup: bool,
+                             natural_exit_executed: bool, caller_return: bool,
+                             caller_leak: bool) -> dict:
+    """Match one declared negative at its generated-glue-route source obligation."""
+    calls = caller_ast.get("call_nodes", [])
+    glue_calls = [call for call in calls if _is_generated_glue_name(call.get("callee", ""))]
+    receiver_calls = [call for call in calls if call.get("callee") == "create_ref_mut"]
+    glue_loc = glue_calls[0]["loc"] if len(glue_calls) == 1 else None
+    receiver_loc = receiver_calls[0]["loc"] if len(receiver_calls) == 1 else None
+
+    def at(loc: str | None, marker: str) -> bool:
+        return bool(loc and re.search(
+            rf"(?m)^\s*\d+(?:\.\d+)?s: {re.escape(loc)}: (?:note: )?{marker}\s*$", log))
+
+    def exact_error_span(line_number: int, token: bytes, occurrence: int = 0) -> str | None:
+        source_lines = (case / "verified/lib.rs").read_bytes().splitlines()
+        if not 1 <= line_number <= len(source_lines):
+            return None
+        source_line = source_lines[line_number - 1]
+        starts = [match.start() for match in re.finditer(re.escape(token), source_line)]
+        if len(starts) <= occurrence:
+            return None
+        column = starts[occurrence] + 1
+        return f"verified/lib.rs({line_number},{column}-{column + len(token)})"
+
+    matched = False
+    if (len(glue_calls) == 1 and len(receiver_calls) == 1 and
+            glue_proof_gate.get("admitted") is True):
+        if name in ("after_natural_drop_false", "caller_ready_entry_false"):
+            target_stage = ("after_natural_drop" if name == "after_natural_drop_false" else
+                            "caller_ready_entry_before_scope_exit")
+            false_loc = exact_error_span(row.get("false_line", 0), b"false")
+            false_error = (len(errors) == 1 and false_loc is not None and
+                           errors[0] == false_loc +
+                           ": error: Assertion might not hold. (Cannot prove false.)")
+            if name == "after_natural_drop_false":
+                matched = (row.get("target_stage") == target_stage and bool(false_error) and
+                           natural_exit_executed and glue_loc == receiver_loc and
+                           at(glue_loc, "Executing statement") and at(glue_loc, "Verifying call"))
+            else:
+                loc_line = (int(glue_loc.split("(", 1)[1].split(",", 1)[0])
+                            if glue_loc and re.search(r"\([0-9]+,", glue_loc) else -1)
+                matched = (row.get("target_stage") == target_stage and bool(false_error) and
+                           loc_line > row.get("false_line", 0) and glue_loc == receiver_loc and
+                           not at(glue_loc, "Executing statement") and not natural_exit_executed)
+        elif name == "missing_receiver_frame":
+            matched = (row.get("expected_missing") == "receiver_frame" and
+                       len(errors) == 1 and receiver_loc == glue_loc and
+                       errors[0].startswith(receiver_loc + ": error: No matching heap chunks: CopyOnDrop_len(") and
+                       "gap_guard_addr" in errors[0] and at(receiver_loc, "Executing statement") and
+                       at(receiver_loc, "Consuming object"))
+        elif name == "missing_source_permission":
+            verified_path = case / "verified/lib.rs"
+            matched = (row.get("expected_missing") == "source_permission" and
+                       receiver_loc == glue_loc and
+                       _source_permission_target(log, verified_path.read_bytes(), row, glue_loc))
+        elif name == "duplicate_effect_simultaneous":
+            matched = (len(errors) == 1 and row.get("double_effect_line") is not None and
+                       natural_exit_executed and glue_loc == receiver_loc and
+                       at(glue_loc, "Executing statement") and at(glue_loc, "Verifying call") and
+                       (effect_loc := exact_error_span(
+                           row["double_effect_line"], b"CopyOnDrop_drop_effect", 1)) is not None and
+                       errors[0].startswith(effect_loc +
+                           ": error: No matching heap chunks: CopyOnDrop_drop_effect("))
+        elif name == "caller_dead_code":
+            dead_loc = exact_error_span(row.get("dead_control_line", 0), b"assert")
+            matching_dead = [record for record in dead if dead_loc and
+                             record == dead_loc + ": dead code"]
+            matched = (len(matching_dead) == 1 and not errors and natural_exit_executed and
+                       glue_loc == receiver_loc and at(glue_loc, "Executing statement") and
+                       at(glue_loc, "Verifying call") and caller_return and caller_leak)
+    return {"matched": bool(matched), "admitted": bool(setup and matched),
+            "setup_admitted": setup, "case": name,
+            "caller_generated_glue_loc": glue_loc,
+            "caller_receiver_create_loc": receiver_loc,
+            "generated_glue_proof_admitted": glue_proof_gate.get("admitted") is True,
+            "reason": ("exact negative matched; full source/MIR/AST/refinement setup is required"
+                       if matched and not setup else None if matched else
+                       "negative did not match its exact generated-glue-route obligation")}
+
+
+def _classify(name: str, case: Path, row: dict, execution: dict,
+              prep, body, drop_module, proof_base, profile: str = "") -> dict:
+    stages = execution.get("stages", {})
+    source = _source_gate(case, row, prep)
+    mir = (_natural_drop_mir_gate(case, row, proof_base.mir_helper)
+           if stages.get("decode") == 0 else {"admitted": False})
+    caller_ast = (_caller_ast_evidence(case, proof_base.ast_helper)
+                  if stages.get("decode") == 0 else {"admitted": False})
+    selected = mir.get("selected_normal_drop", {})
+    drop_path = selected.get("selected_path", "")
+    body_glue_profile = profile == BODY_GLUE_PROFILE
+    if body_glue_profile:
+        glue_ast = (_body_glue_ast_evidence(case, proof_base.ast_helper, drop_path, mir)
+                    if stages.get("decode") == 0 else {"admitted": False})
+        caller_ast["body_glue_evidence"] = glue_ast
+        caller_ast["selected_call_binding"] = glue_ast.get("admitted") is True
+        caller_ast["admitted"] = caller_ast.get("admitted") is True and glue_ast.get("admitted") is True
+        actual_calls = []
+        # Historical location-specific negatives are intentionally disabled
+        # for this new call route until a fresh raw run establishes their lines.
+    else:
+        calls = caller_ast.get("call_nodes", [])
+        actual_calls = [call for call in calls if call["callee"] == drop_path]
+        receiver_calls = [call for call in calls if call["callee"] == "create_ref_mut"]
+        ends = [call for call in calls if call["callee"] == "end_ref_mut"]
+        switches = caller_ast.get("selected_outcome_switches", [])
+        arms = {arm["tag"]: arm for arm in switches[0]["arms"]} if len(switches) == 1 else {}
+        protocol = (set(arms) == {"returning", "unwinding"} and
+                    all(arm["calls"].count("end_ref_mut") == 1 and
+                        arm["calls"].count("close_points_to") == 1 and
+                        arm["calls"].count("open_points_to") == 1 for arm in arms.values()) and
+                    arms["unwinding"]["gotos"] == [str(mir.get("selected_cleanup_target"))] and
+                    mir.get("selected_cleanup_is_statement_free_resume") is True)
+        binding = (len(actual_calls) == 1 and len(receiver_calls) == 1 and len(ends) == 2 and protocol and
+                   not any(call["callee"] == "std::ptr::drop_in_place" for call in calls))
+        caller_ast["selected_call_binding"] = binding
+        caller_ast["selected_method_call_count"] = len(actual_calls)
+        caller_ast["receiver_create_count"] = len(receiver_calls)
+        caller_ast["borrow_end_count"] = len(ends)
+        caller_ast["admitted"] = caller_ast.get("admitted") is True and binding
+    body_ast = (body._effect_ast_gate(case, dict(row, case="positive"), proof_base, drop_module)
+                if stages.get("decode") == 0 else {"admitted": False})
+    refinement_gate = {"admitted": True, "reason": "legacy profile stage receipt"}
+    if body_glue_profile:
+        refinement_out = case / "refinement.out"
+        refinement_text = refinement_out.read_text(errors="replace") if refinement_out.is_file() else ""
+        refinement_gate = {
+            "present": refinement_out.is_file(),
+            "successful_marker": "No refinement errors found" in refinement_text,
+            "generated_drop_glue_error": "Generated DropGlue:" in refinement_text,
+            "admitted": (stages.get("refinement") == 0 and
+                         "No refinement errors found" in refinement_text and
+                         "Generated DropGlue:" not in refinement_text)}
+    log_path = case / "verifast.log"
+    log = log_path.read_text(errors="replace") if log_path.is_file() else ""
+    errors = [line for line in log.splitlines() if re.search(r"\berror:", line, re.I)]
+    dead = [line for line in log.splitlines() if re.search(r"dead code", line, re.I)]
+    segment = drop_module._body_segment(log, proof_base, row)
+    executed = lambda line: bool(line and re.search(
+        rf"verified/lib\.rs\({line},\d+.*\): (?:note: )?Executing statement", log))
+    body_copy = executed(row.get("source_copy_line"))
+    body_return = "Executing return statement" in segment
+    leak = "Leak check." in segment
+    caller_headers = list(re.finditer(r"(?m)^.*Verifying function 'natural_onecell'.*$", log))
+    caller_segment = log[caller_headers[0].start():] if len(caller_headers) == 1 else ""
+    caller_return = "Executing return statement" in caller_segment
+    caller_leak = "Leak check." in caller_segment
+    generated_glue_proof_gate = (_generated_glue_proof_gate(
+        log, caller_ast.get("body_glue_evidence", {})) if body_glue_profile else
+        {"admitted": False, "reason": "not required by selected-method profile"})
+    source_unchanged = execution.get("source_unchanged_at_every_stage") is True
+    setup = (source_unchanged and all(stages.get(stage) == 0
+             for stage in ("exporter", "decode", "refinement")) and
+             refinement_gate.get("admitted") is True and
+             source.get("admitted") is True and mir.get("admitted") is True and
+             caller_ast.get("admitted") is True and body_ast.get("admitted") is True)
+    body_glue_negative = (_body_glue_negative_gate(
+        name, case, row, log, errors, dead, caller_ast, generated_glue_proof_gate,
+        setup, executed(row.get("natural_scope_end_line")), caller_return, caller_leak)
+        if body_glue_profile else {"matched": False, "admitted": False,
+                                  "reason": "not required by selected-method profile"})
+    targeted = False
+    if (not body_glue_profile and setup and name == "after_natural_drop_false" and
+            stages.get("verifast") == 1 and len(errors) == 1):
+        targeted = (executed(row.get("natural_scope_end_line")) and
+                    re.search(rf"verified/lib\.rs\({row['false_line']},\d+-\d+\): "
+                              r"error: Assertion might not hold\. \(Cannot prove false\.\)", errors[0]) is not None)
+    if (not body_glue_profile and setup and name == "caller_ready_entry_false" and
+            stages.get("verifast") == 1 and len(errors) == 1):
+        false_error = re.search(
+            rf"verified/lib\.rs\({row['false_line']},\d+-\d+\): "
+            r"error: Assertion might not hold\. \(Cannot prove false\.\)", errors[0])
+        dead_after_target = all(
+            (match := re.search(r"verified/lib\.rs\((\d+),", record)) is not None and
+            int(match.group(1)) > row["false_line"] for record in dead)
+        targeted = bool(false_error and dead_after_target)
+    if (not body_glue_profile and setup and row.get("expected_missing") and
+            stages.get("verifast") == 1 and len(errors) == 1):
+        call_loc = actual_calls[0]["loc"]
+        location_match = errors[0].startswith(call_loc + ": error:")
+        predicate = ("CopyOnDrop_len" if row["expected_missing"] == "receiver_frame" else "array")
+        if row["expected_missing"] == "source_permission":
+            targeted = _source_permission_target(log, (case / "verified/lib.rs").read_bytes(), row, call_loc)
+        else:
+            targeted = location_match and predicate in errors[0] and "No matching heap chunks" in errors[0]
+    if (not body_glue_profile and setup and name == "duplicate_effect_simultaneous" and
+            stages.get("verifast") == 1 and len(errors) == 1):
+        targeted = (executed(row.get("natural_scope_end_line")) and
+                    re.search(rf"verified/lib\.rs\({row['double_effect_line']},\d+.*\): error:", errors[0]) is not None and
+                    "CopyOnDrop_drop_effect" in errors[0] and "No matching heap chunks" in errors[0])
+    if (not body_glue_profile and setup and name == "caller_dead_code" and
+            stages.get("verifast") == 1 and not errors):
+        targeted = any(f"verified/lib.rs({row['dead_control_line']}," in record for record in dead) and caller_return and caller_leak
+    if body_glue_profile:
+        targeted = body_glue_negative.get("admitted") is True
+    positive = (setup and (not body_glue_profile or generated_glue_proof_gate.get("admitted") is True) and
+                stages.get("verifast") == 0 and not errors and not dead and body_copy and
+                body_return and leak and caller_return and caller_leak and "0 errors found" in log)
+    classification = ("NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY" if positive else
+                      "CALLER_READY_ENTRY_EXPECTED_REJECTION" if
+                      name == "caller_ready_entry_false" and targeted else
+                      "EXPECTED_REJECTION" if targeted else "INCONCLUSIVE")
+    return {"case": name, "classification": classification, "accepted": False,
+            "stages": stages, "source_gate": source, "mir_gate": mir,
+            "caller_ast_evidence": caller_ast, "drop_body_effect_ast_gate": body_ast,
+            "generated_glue_refinement_gate": refinement_gate,
+            "generated_glue_proof_gate": generated_glue_proof_gate,
+            "generated_glue_negative_gate": body_glue_negative,
+            "source_unchanged_at_every_stage": source_unchanged,
+            "natural_scope_end_executed": executed(row.get("natural_scope_end_line")),
+            "dead_code_lines": dead,
+            "body_copy_executed": body_copy, "body_return_executed": body_return,
+            "leak_check": leak, "caller_return": caller_return, "caller_leak_check": caller_leak, "errors": errors, "targeted_negative_matched": targeted,
+            "actual_checked_selected_method_credit": positive,
+            "compiler_generated_glue_credit": bool(body_glue_profile and positive),
+            "caller_construction_credit": positive,
+            "generated_drop_glue_credit": bool(body_glue_profile and positive),
+            "scope": "bounded concrete-u64 natural Drop fixture only; no panic path or generic insert_tail credit"}
+
+
+def _natural_drop_mir_gate(case: Path, row: dict, mir) -> dict:
+    """Require one actual caller Drop terminator for the guard local."""
+    path = case / "decode.out"
+    if not path.is_file():
+        return {"admitted": False, "reason": "decoded MIR absent"}
+    try:
+        tree = mir.CapnpText(path.read_text(errors="replace")).parse()
+        bodies = [body for body in mir.path(tree, "bodies")
+                  if mir.path(body, "defPath") == "natural_onecell"]
+        if len(bodies) != 1:
+            return {"admitted": False, "reason": "caller MIR body is not unique"}
+        debug = mir.path(bodies[0], "varDebugInfo")
+        guard_debug = [entry for entry in debug
+                       if mir.path(entry, "name", "name") == "gap_guard"]
+        if len(guard_debug) != 1:
+            return {"admitted": False, "reason": "guard local debug binding is not unique"}
+        guard_local = mir.path(guard_debug[0], "value", "place", "local")
+        drops = []
+        calls = []
+        for block_index, block in enumerate(mir.path(bodies[0], "basicBlocks")):
+            kind = mir.path(block, "terminator", "kind")
+            if isinstance(kind, dict) and "drop" in kind:
+                drop = kind["drop"]
+                place = mir.path(drop, "place")
+                drops.append({"selected_path": mir.path(drop, "selectedDropPath"),
+                              "selected_hash": mir.path(drop, "selectedDropHash"),
+                              "guard_path": mir.path(drop, "selectedGuardPath"),
+                              "bare_local": mir.path(drop, "isBareLocal"),
+                              "replace": mir.path(drop, "isReplace"),
+                              "span": mir.path(block, "terminator", "sourceInfo", "span"),
+                              "block": mir.path(block, "id", "index"), "is_cleanup": mir.path(block, "isCleanup"), "local": mir.path(place, "local"),
+                              "local_name": mir.local(place),
+                              "target": mir.path(drop, "target", "index"),
+                              "unwind": mir.path(drop, "unwindAction")})
+            elif isinstance(kind, dict) and "call" in kind:
+                calls.append(mir.call_name(kind["call"]))
+        guard_drops = [drop for drop in drops if drop["local"] == guard_local]
+        explicit_drop_calls = [name for name in calls if name.endswith("::drop") or "drop_in_place" in name]
+        normal_drops = [drop for drop in guard_drops if drop["is_cleanup"] is False]
+        selected = normal_drops[0] if len(normal_drops) == 1 else {}
+        unwind = selected.get("unwind", {})
+        cleanup_target = mir.path(unwind, "cleanup", "index") if "cleanup" in unwind else None
+        cleanup_blocks = [block for block in mir.path(bodies[0], "basicBlocks")
+                          if mir.path(block, "id", "index") == cleanup_target]
+        resume_ok = (len(cleanup_blocks) == 1 and mir.path(cleanup_blocks[0], "isCleanup") is True and
+                     mir.path(cleanup_blocks[0], "statements") == [] and
+                     "unwindResume" in mir.path(cleanup_blocks[0], "terminator", "kind"))
+        checked_bodies = [body for body in mir.path(tree, "bodies")
+                          if mir.path(body, "defPath") == selected.get("selected_path") and
+                             mir.path(body, "defPathHash") == selected.get("selected_hash") and
+                             mir.path(body, "isDropFn") is True]
+        admitted = (len(normal_drops) == 1 and resume_ok and not explicit_drop_calls and
+                    selected.get("bare_local") is True and selected.get("replace") is False and
+                    selected.get("guard_path") == "CopyOnDrop" and len(checked_bodies) == 1)
+
+        return {"admitted": admitted, "guard_drop_terminators": guard_drops,
+                "guard_debug_local": guard_local,
+                "explicit_runtime_drop_calls": explicit_drop_calls,
+                "actual_natural_drop_terminator": len(normal_drops) == 1,
+                "selected_normal_drop": selected, "selected_cleanup_target": cleanup_target,
+                "selected_cleanup_is_statement_free_resume": resume_ok,
+                "selected_same_unit_checked_body_count": len(checked_bodies)}
+    except Exception as error:
+        return {"admitted": False, "reason": f"natural Drop MIR admission failed closed: {error}"}
+
+
+def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) -> dict:
+    """Draft hosted hook; no local proof/toolchain entrypoint is exposed."""
+    if DRAFT_STATUS != "READY":
+        return {"schema": "source-linked-u64-onecell-natural-drop-draft-v1",
+                "status": DRAFT_STATUS, "accepted": False,
+                "reason": DRAFT_REASON, "cases": {name: "NOT_RUN" for name in CASES},
+                "toolchain_invoked": False, "prepare_or_extraction_invoked": False}
+    if not callable(execute_case):
+        raise TypeError("execute_case callback required")
+    consumer = _load("natural_drop_receipt_gate", OLD_CONSUMER)
+    prep = _load("natural_drop_insert_tail_templates", OLD_PREP)
+    body = _load("natural_drop_body_gate", OLD_ONECELL)
+    drop_module = _load("natural_drop_existing_admission", HERE / "concrete-drop-body.py")
+    proof_base = _load("natural_drop_hosted_runner_gate", ROOT /
+                       "research/challenge-8/merge/overnight/copy-on-drop-prove.py")
+    provider, proof_sha = proof_base.require_hosted_cloud()
+    if args.profile not in ("experimental-merge-selected-drop-receiver-v4",
+                            "experimental-merge-actual-glue-observation-v2",
+                            "experimental-merge-actual-glue-observation-v3",
+                            "experimental-merge-actual-glue-body-v8"):
+        raise RuntimeError("selected Drop exact supported experimental profile required")
+    consumer.PROFILE = args.profile
+    receipt = consumer._validate_receipt(args, validated_receipt, provider, proof_sha)
+    extraction = _prepare(evidence)
+    (evidence / "receipt.json").write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
+    results = {}
+    for name, row in extraction["cases"].items():
+        case = evidence / "cases" / name
+        before = consumer._hashes(case)
+        execution = execute_case(case, args, env)
+        after = consumer._hashes(case)
+        execution["source_files_unchanged"] = before == after
+        execution["stage_receipt_gate"] = consumer._stage_receipts(
+            case, execution.get("stages", {}), before)
+        execution["source_unchanged_at_every_stage"] = (
+            before == after and execution["stage_receipt_gate"]["admitted"])
+        try:
+            result = _classify(name, case, row, execution, prep, body, drop_module,
+                               proof_base, profile=args.profile)
+        except Exception as error:
+            result = {"case": name, "classification": "INCONCLUSIVE", "accepted": False,
+                      "classifier_exception": repr(error), "stages": execution.get("stages", {})}
+
+        (case / "classification.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
+        results[name] = result["classification"]
+    admission_controls = {"all_matched": False, "status": "NOT_RUN"}
+    receiver_controls = {"all_matched": False, "status": "NOT_RUN"}
+    if args.profile == BODY_GLUE_PROFILE and results.get("positive") == "NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY":
+        positive_case = evidence / "cases" / "positive"
+        for module_name, filename, destination in (
+                ("generated_glue_admission_controls", "generated-glue-admission-controls.py", "admission-controls"),
+                ("generated_glue_receiver_controls", "generated-glue-receiver-controls.py", "receiver-controls")):
+            try:
+                module = _load(module_name, HERE / filename)
+                if destination == "admission-controls":
+                    admission_controls = module.run(evidence / destination, args, env, proof_base, positive_case)
+                else:
+                    receiver_controls = module.run(evidence / destination, args, env, proof_base, positive_case, execute_case)
+            except Exception as error:
+                failure = {"all_matched": False, "status": "INCONCLUSIVE", "error": repr(error)}
+                if destination == "admission-controls":
+                    admission_controls = failure
+                else:
+                    receiver_controls = failure
+                (evidence / (destination + "-failure.json")).write_text(json.dumps(failure, indent=2) + "\n")
+    aggregate = {"schema": "source-linked-u64-onecell-natural-drop-draft-v1",
+                 "accepted": False, "profile": extraction["profile"],
+                 "receipt_sha256": receipt["receipt_sha256"], "cases": results,
+                 "scope": extraction["scope"],
+                 "generated_glue_admission_controls": admission_controls,
+                 "generated_glue_receiver_controls": receiver_controls,
+                 "all_matched": (args.profile != BODY_GLUE_PROFILE or
+                                 (admission_controls.get("all_matched") is True and
+                                  receiver_controls.get("all_matched") is True)) and results == {"positive": "NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY",
+                    "caller_ready_entry_false": "CALLER_READY_ENTRY_EXPECTED_REJECTION",
+                    "after_natural_drop_false": "EXPECTED_REJECTION", "missing_receiver_frame": "EXPECTED_REJECTION",
+                    "missing_source_permission": "EXPECTED_REJECTION", "duplicate_effect_simultaneous": "EXPECTED_REJECTION",
+                    "caller_dead_code": "EXPECTED_REJECTION"},
+                 "next_gate": "candidate review; no profile acceptance or generic/panic claim"}
+    (evidence / "aggregate.json").write_text(json.dumps(aggregate, indent=2, sort_keys=True) + "\n")
+    return aggregate

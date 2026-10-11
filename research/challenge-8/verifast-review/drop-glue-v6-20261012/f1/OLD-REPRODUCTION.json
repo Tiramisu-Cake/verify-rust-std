@@ -1,0 +1,33 @@
+{
+  "kind": "ISOLATED_SERVICE_ONLY_NO_NEW_PROOF",
+  "mode": "old",
+  "runner_sha256": "3e3e1b917a7cc301fee16074a80f7470a98ebcc4d4eb04b61781e54cbcc28a51",
+  "parser_sha256": "a5f28d5feb9c3e07d2bb5ee6b19a29dc45ea782d5f51a1630f993124f20bd995",
+  "saved_ast_sha256": "ffd79636616da2f94588c3acd7192731214f1c568226f6294aa8e68fb997a2da",
+  "entrypoint": "_body_glue_ast_evidence (real parser and temporary proof-ast.ml)",
+  "cases": {
+    "valid_saved": {
+      "admitted": true,
+      "contracts_match": true,
+      "literal_unwind_false": true,
+      "synthetic": false,
+      "ast_sha256": "ffd79636616da2f94588c3acd7192731214f1c568226f6294aa8e68fb997a2da"
+    },
+    "duplicate_returning": {
+      "admitted": true,
+      "contracts_match": true,
+      "literal_unwind_false": true,
+      "synthetic": true,
+      "ast_sha256": "f20529e5950ab1bac468a731a749927d2cc599d9a4040ea1d90e215e9e46f661"
+    },
+    "duplicate_unwinding": {
+      "admitted": true,
+      "contracts_match": true,
+      "literal_unwind_false": true,
+      "synthetic": true,
+      "ast_sha256": "a7267054dd9c8555a87c27d2acf9b9856071117621405baf22eee00224cedaa4"
+    }
+  },
+  "literal_false": {},
+  "unmodified_saved_positive": true
+}

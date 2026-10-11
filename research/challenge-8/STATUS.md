@@ -1,32 +1,27 @@
-# VeriFast maintainer — actual Drop glue v6 read-only review
+# VeriFast maintainer — F1 classifier admission repair
 
-**Bounded v6 claim CONFIRMED; integration BLOCKED / CHANGES_REQUIRED.**
-Fixed merge420188dd, proof/infra f8c7cb7e, tool e0a94e3e, Build34485da0:
-actual compiler Instance/MIR→official-refined generated glue→checked method→
-bounded normal caller/CURRENT/full posts/return/free/leak supported by raw evidence.
-K False Node defect repaired; unit `_0` change bounded by strict generated CFG.
-Additional duplicate-arm classifier admission weakness requires exact cardinality.
+**F1 CLOSED в собственном reviewed classifier patch; integration BLOCKED.**
+Start ed14b2de; exact runner base420188dd → fixed source SHA cb30a0a65e13…46d25.
+Outcome switch проверяется до dict: ровно два valid unique returning/unwinding,
+точные binders, no default/extra clauses, прежний literal False(location).
 
-[Review](verifast-review/drop-glue-v6-20261012/REVIEW.md),
-[independent review](verifast-review/drop-glue-v6-20261012/INDEPENDENT-REVIEW.md),
-[pins](verifast-review/drop-glue-v6-20261012/INPUTS.json),
-[replay commands](verifast-review/drop-glue-v6-20261012/REPRODUCE.md),
-[checkpoint](verifast-review/drop-glue-v6-20261012/END-CHECKPOINT.md).
-Raw Cloud FAILURE/six raw INCONCLUSIVE unchanged; scoped saved gate replay matches
-six intended negatives, no fresh proof. V8 not built; nine admission and four
-receiver/end/retirement controls NOT_RUN. Actual insert_tail late-panic, full B1/B2,
-O23 and compatible I integration remain OPEN; generic/ZST credit absent.
+[Пакет/команды](verifast-review/drop-glue-v6-20261012/f1/README.md),
+[patch](verifast-review/drop-glue-v6-20261012/f1/classifier.patch),
+[tests](verifast-review/drop-glue-v6-20261012/f1/FIXED-TESTS.json),
+[replay](verifast-review/drop-glue-v6-20261012/f1/REPLAY.json),
+[independent GO](verifast-review/drop-glue-v6-20261012/f1/INDEPENDENT-REVIEW.md).
+Старый F1 воспроизведён; fixed saved positive и 14 invalid entrypoint cases,
+8 reused False/location cases проверены. Seven unchanged v6 saved cases прошли
+source/caller/glue AST admission и scoped log replay. Bounded normal PASS сохраняется;
+raw Cloud FAILURE/six INCONCLUSIVE не переписаны. New proof0/Cloud0.
 
-Own read-only Cloud0/60-minute session CLOSED; no own builds/reservations/requests,
-no proof execution, foreign worktree/coordinator changes, upstream PR/merge/profile
-acceptance. Merge retains v8/transport/caller development. Next review decision:
-retain bounded v6 evidence; integration requires missing qualification and caller
-applicability gates in a separately authorized session.
+V8/transport/receiver-end/caller development остаются у merge. I compatibility,
+nine official admission/four receiver-end-retirement controls, actual insert_tail
+panic cleanup, B1/B2/O23 остаются OPEN/NOT_RUN; profile NOT_ACCEPTED/NOT_FOR_INTEGRATION.
+Main6e1a8e59/ACKea155143 и upstream as_mut_ptr/ManuallyDrop::new/tool I/PASS сохранены.
+Исходный [immutable review](https://github.com/Tiramisu-Cake/verify-rust-std/tree/7567431a7877ede692d5d523ff4756a88a2fd239/research/challenge-8/verifast-review/drop-glue-v6-20261012) не изменён.
 
-Main policy6e1a8e59 adopted with [own ACK](verifast-review/drop-glue-v6-20261012/ADOPTION-ACK.md),
-docs commit ea155143. Coordinator migration already completed; no migration repeated.
-Upstream as_mut_ptr/ManuallyDrop::new, tool I and previous PASS remain preserved in
-[previous maintainer status](verifast-review/drop-glue-v6-20261012/PREVIOUS-STATUS.md).
-
-[Опубликованный immutable review-пакет](https://github.com/Tiramisu-Cake/verify-rust-std/tree/7567431a7877ede692d5d523ff4756a88a2fd239/research/challenge-8/verifast-review/drop-glue-v6-20261012), commit7567431a;
-[publication receipt](verifast-review/drop-glue-v6-20261012/PUBLICATION.json).
+Собственная ветка review/verifast-drop-glue-f1-20261012; active merge files,
+foreign worktrees/coordinator не тронуты; merge/upstream PR/profile adoption отсутствуют.
+[Publication receipt](verifast-review/drop-glue-v6-20261012/f1/PUBLICATION.json),
+[cleanup receipt](verifast-review/drop-glue-v6-20261012/f1/CLEANUP.json).
