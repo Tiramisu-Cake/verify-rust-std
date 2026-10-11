@@ -1,0 +1,214 @@
+{
+  "accepted": false,
+  "actual_caller_proved": false,
+  "bool_required_gates_supplement": {
+    "baseline_archive_sha256": "a368cccb8b725e0ad8592fae4ee705913c84e8319230c907c33ed4919ecbd536",
+    "baseline_build_id": "5cb5b5d3-e4d6-4185-9234-f3a89e79829e",
+    "baseline_console_sha256": "9fc7c65b438e41ad014a08fe2f8b3e8f9b296866e010d8c423468b21565b3fd5",
+    "baseline_manifest_sha256": "7882e54599974e39262ef2e55c8ae632eb0b5434b34c1698c5fc2de87e5a1a0e",
+    "baseline_proof_sha": "7f5f88b54d9d631fee24ec84ab868d42c2f174b3",
+    "required_regression_targets": [
+      "selector_cleanup_off",
+      "cleanup_partial_optin",
+      "composition_admission_mutants",
+      "theorem_controls",
+      "inherited_baseline_inputs",
+      "strict_lifetime",
+      "pointer_value_pointee_rights",
+      "mdnew_retained_fix"
+    ]
+  },
+  "c4_source_sha256": "ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f",
+  "callable_summary": false,
+  "classification": "EXPERIMENTAL_C4_SELECT_INTEGRATION",
+  "composition_patch_sha256": "2d66e204ba38bfa6152f4c0d07bbbbea1f0db8a721d38fc2d9acda3b037281d3",
+  "compressed_delivery": [
+    {
+      "compressed_sha256": "874f5abedae0f47a4a326f6b1e22d1f6969649f1e8bada51228ecc3a6551b88a",
+      "path": "tool-c4.patch.xz",
+      "raw_path": "tool-c4.patch",
+      "raw_sha256": "b33e19deec896aefad1232f982e4499dfcdef6026e09c12b9c914852d9f6beaa",
+      "raw_size": 481162
+    },
+    {
+      "compressed_sha256": "ca356854438fb2f54d3dc999880976d13c92e2b4e2d94960e87b14f198f43bc3",
+      "path": "source-modules.json.xz",
+      "raw_path": "source-modules.json",
+      "raw_sha256": "21516461a662781aabbf296bf5cb4016f10051c019205204a7740ecec0fe44f6",
+      "raw_size": 643353
+    }
+  ],
+  "effective_hashes": {
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "src/frontend/ocaml_expr_of_ast.ml": "cd90799926cfc73d86e3c9b137ed84e977b1a918d1ba8723f3f26125cbb7aafe",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "a392cf28f72a8ae9c54faabf2454ddaff07757b6f0f98548ed72a7b8daab9ba3",
+    "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+    "src/verifast1.ml": "bfbfb518fb9783afeeba9384e1431b6cd280c7da7713b9fdbfd15a8395b00207"
+  },
+  "inherited_c4_controls": {
+    "eligibility": "C4 bound rule/body/kernel/posts unchanged; changes affect first-select mode and optional AST transport only; fresh C4 positive matches pre-AST",
+    "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+    "pre_ast_sha256": "0ed31137cf55a2ed47ed624a6c61591e4aaf96371df3c2979fc10ce8d95bb222",
+    "review": "RAW-EVIDENCE-REVIEW.md",
+    "rows": {
+      "c1-unwind-false-assert": {
+        "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE",
+        "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+        "exit": 1,
+        "expected_vc": "verified/lib.rs(365,18-89): error: Assertion might not hold. (Cannot prove false.)",
+        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+        "log_sha256": "6758ebdef7561342b12bc2657ec362c900dbb101491abede621bfdc41b90c6f4",
+        "raw_vc_review": "REVIEWED",
+        "target_entry_before_first_error": true
+      },
+      "c2-unwind-false-assert": {
+        "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE",
+        "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+        "exit": 1,
+        "expected_vc": "verified/lib.rs(398,18-99): error: Assertion might not hold. (Cannot prove false.)",
+        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+        "log_sha256": "dd26bbf782c123dce67bfb512d18636ff60b7703f32559505c80a4d625fa2b0c",
+        "raw_vc_review": "REVIEWED",
+        "target_entry_before_first_error": true
+      },
+      "c3-unwind-false-assert": {
+        "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE",
+        "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+        "exit": 1,
+        "expected_vc": "verified/lib.rs(447,18-75): error: Assertion might not hold. (Cannot prove false.)",
+        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+        "log_sha256": "e345ea15aa6480faee3df28c2bac7ba13f540caa929962b4fcc808e4e282f87b",
+        "raw_vc_review": "REVIEWED",
+        "target_entry_before_first_error": true
+      },
+      "c4-normal-missing-close": {
+        "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE",
+        "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+        "exit": 1,
+        "expected_vc": "verified/lib.rs(68,29-30): error: No matching heap chunks: comparison_debt<T>(t, _, ptr_add_(v_base, (2 + 0), T_typeid), ptr_add_(v_base, 0, T_typeid), _, _, _, _)",
+        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+        "log_sha256": "461065cc6132412c2b23f78c69d9ab724dabe7af71d4ded7e339322d59c4e3bf",
+        "raw_vc_review": "REVIEWED",
+        "target_entry_before_first_error": true
+      },
+      "c4-normal-omit-join": {
+        "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE",
+        "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+        "exit": 1,
+        "expected_vc": "verified/lib.rs(317,5-12): error: No matching heap chunks: foreach<T>(cons(right_after2, cons(a_current0, cons(left_after2, cons(c_current0, nil)))), own0(T_typeid, t))",
+        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+        "log_sha256": "cd4d2e8d81ec3e53d4026290e52294280936d0fc4278d0722e6ad38dea29e71c",
+        "raw_vc_review": "REVIEWED",
+        "target_entry_before_first_error": true
+      },
+      "c4-unwind-false-assert": {
+        "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE",
+        "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+        "exit": 1,
+        "expected_vc": "verified/lib.rs(482,18-75): error: Assertion might not hold. (Cannot prove false.)",
+        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+        "log_sha256": "9c1f68e741511be15ce7b8ab80c746803b6c8b8521c587609c744b88f574c94c",
+        "raw_vc_review": "REVIEWED",
+        "target_entry_before_first_error": true
+      },
+      "c4-unwind-missing-close": {
+        "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE",
+        "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+        "exit": 1,
+        "expected_vc": "verified/lib.rs(68,29-30): error: No matching heap chunks: comparison_debt<T>(t, _, ptr_add_(v_base, (2 + 0), T_typeid), ptr_add_(v_base, 0, T_typeid), _, _, _, _)",
+        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+        "log_sha256": "28a92edfd3353984b2ed89bc9daf47038d1711ffad59f3dc4bf4e83cbeec0427",
+        "raw_vc_review": "REVIEWED",
+        "target_entry_before_first_error": true
+      },
+      "c4-unwind-omit-join": {
+        "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE",
+        "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+        "exit": 1,
+        "expected_vc": "verified/lib.rs(324,5-12): error: No matching heap chunks: foreach<T>(cons(right_after2, cons(a_current0, cons(left_after2, cons(c_current0, nil)))), own0(T_typeid, t))",
+        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+        "log_sha256": "6e29f9dc75dfe53aa9a885fe0405e1ca44c98f4b6b9cdd166c2a885887975a08",
+        "raw_vc_review": "REVIEWED",
+        "target_entry_before_first_error": true
+      },
+      "normal-false-post": {
+        "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE",
+        "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+        "exit": 1,
+        "expected_vc": "verified/lib.rs(315,21-24): error: Cannot prove condition. (Cannot prove false.)",
+        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+        "log_sha256": "3b176743d60b36c8d00b1ac9c3fdb4d220d664a8d85911285953ed99ca1fe05a",
+        "raw_vc_review": "REVIEWED",
+        "target_entry_before_first_error": true
+      }
+    },
+    "source_sha256": "ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f"
+  },
+  "native_zst_base_profile": "verifast-native-zst-c3-integration-20261011-h",
+  "native_zst_profile": "verifast-slice-as-mut-ptr-native-c3-20261011-i",
+  "native_zst_tool_patches": [
+    {
+      "after": {
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "672acdd3155c3bde046b3f724fc5aa98449632c099f962a235f4c047a2eee12c",
+        "src/verifast1.ml": "bfbfb518fb9783afeeba9384e1431b6cd280c7da7713b9fdbfd15a8395b00207"
+      },
+      "before": {
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "4450157b3137a58d46c4be52fd454695c1dcb2a123947df8b3d2ccfcc1e8f26f",
+        "src/verifast1.ml": "b1b0ae618bbce1a0bce9714ce10a47dbeb855e919b980b7ce6a70108ff9b91d7"
+      },
+      "path": "research/challenge-8/verifast-review/native-zst-20261011/merged-extra.patch",
+      "sha256": "be1fd96f1c5e1eb28dcf143bd76acc02aaaded36ccd5adb23537e411c150ed87"
+    },
+    {
+      "after": {
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "a392cf28f72a8ae9c54faabf2454ddaff07757b6f0f98548ed72a7b8daab9ba3"
+      },
+      "before": {
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "672acdd3155c3bde046b3f724fc5aa98449632c099f962a235f4c047a2eee12c"
+      },
+      "path": "research/challenge-8/verifast-review/slice-as-mut-ptr-20261011/slice-binding.patch",
+      "sha256": "e4ce35de48c434f90a9412d0cbff2ad4c22d27e123a94e3e6df5841033cd3144"
+    }
+  ],
+  "outer_scope_capture_pins": {
+    "normal": {
+      "body_sha256": [
+        "967b297f9044c1c9ba81b6e5e469c5ef6d013e33b4f17cf8134138fd4fe065c5"
+      ],
+      "whole_decoded_mir_sha256": "5a2e53473c99720b20f5186469c91c49c562cd8b89c7f9d9160589979e66d220"
+    },
+    "readonly": {
+      "body_sha256": [
+        "1fa420e27a2c8e7e9983a347b3958a6926ca52abc762ee3c8d3c9347fd90e49e"
+      ],
+      "whole_decoded_mir_sha256": "4d8512c3d899f543c4e4808215151708fe1aa417886a2ec04bd1fa531b460b57"
+    }
+  },
+  "producer_final_ast_sha256": "48bbedb711fade25fde0622af0b56c6c17aab318ce0a94f1e517f9c153a81af9",
+  "producer_typed_location_endpoints": 3442,
+  "profile_accepted": false,
+  "profile_id": "verifast-slice-as-mut-ptr-native-c3-20261011-i",
+  "selector_integration_patch_sha256": "2c384f14b596c9f2713c39592ce0f414e4bdb9d994dbab7895eaa7a92eedfff0",
+  "selector_source_sha256": "7ec86f52b362f7f8b2ed26e3fa108212eb3d6288820bab9c6db3fa37bf8cabe0",
+  "slice_binding_profile": "verifast-slice-as-mut-ptr-native-c3-20261011-i",
+  "slice_binding_source_manifest": "research/challenge-8/cloud-build/sort4-caller-entry-native/CALLER-ENTRY-MANIFEST.json",
+  "slice_source_delivery": {
+    "compressed_sha256": "e784a028a598bc050bf975ad4ab339aec943e5ae4dd4e1778865c7235d5113f0",
+    "git_blob": "16b5766ba08362bbf6ab13e127d71c7d920eccf7",
+    "path": "research/challenge-8/cloud-build/verifast-slice-binding-integration/slice-mod.rs.xz",
+    "raw_path": "library/core/src/slice/mod.rs",
+    "raw_sha256": "e3a45814fc07497d6e85d182d6b30782711e4b77752fa817988ec6da12e2cb6f",
+    "raw_size": 229683
+  },
+  "source_modules_count": 30,
+  "source_modules_pack_sha256": "21516461a662781aabbf296bf5cb4016f10051c019205204a7740ecec0fe44f6",
+  "source_modules_provenance_commit": "3338d1d17be0cef3d7787a42e8d76113386fd8fd",
+  "stock_effective_hashes": {
+    "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796"
+  },
+  "tool_base_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "tool_c4_patch_sha256": "b33e19deec896aefad1232f982e4499dfcdef6026e09c12b9c914852d9f6beaa"
+}

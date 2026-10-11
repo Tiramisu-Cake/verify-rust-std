@@ -1,0 +1,31 @@
+{
+  "proof_sha": "46ffa84f717d428a5da91ef2f86d9024ede90fcd",
+  "infra_sha": "46ffa84f717d428a5da91ef2f86d9024ede90fcd",
+  "payload_bytes": 532691,
+  "payload_sha256": "94a5e50964eb5f15c6e7e84bc4f37f4584aea1d6857a13c7a0caf1cc74c91c19",
+  "base64_bytes": 710256,
+  "source_parts": 179,
+  "limit_parts": 191,
+  "fits": true,
+  "phase_id": "SORT4-ACTUAL-CALLER-ENTRY-CLOUD-2026-10-11",
+  "phase_guard_files": [
+    "cloud-build/control.py",
+    "cloud-build/run-sort4-c1-current-recovery.sh",
+    "cloud-build/sort4-caller-entry-native/driver.py",
+    "cloud-build/sort4-caller-entry-native/CALLER-ENTRY-MANIFEST.json"
+  ],
+  "phase_guard_values_match": true,
+  "entrypoint_preserved": "research/challenge-8/cloud-build/run-o26-sort4-c1-current-recovery.sh",
+  "proof_paths": 74,
+  "recipe_infra_paths": 8,
+  "snapshot_std_paths": 9,
+  "new_ast_inventory": "NOT_YET_CAPTURED_FIRST_CLOUD",
+  "inventory_specific_new_binding": false,
+  "old_c1_c4_inventory_flags": "OFF",
+  "source_boundary": "smallsort.rs:254; unfiltered actual checks, diagnostic branch cuts only",
+  "canonical_method": "slice/mod.rs:778; self as *mut [T] as *mut T",
+  "rationale_and_independent_static_review_before_dispatch": true,
+  "local_proof_toolchain_executed": false,
+  "coordinator_v2_and_limits_unchanged": true,
+  "proof_verdict": "NOT_RUN"
+}

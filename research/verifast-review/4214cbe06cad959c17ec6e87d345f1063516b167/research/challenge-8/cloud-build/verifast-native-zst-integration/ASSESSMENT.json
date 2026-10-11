@@ -1,0 +1,106 @@
+{
+  "classification": "READY_FOR_INTEGRATION_REVIEW",
+  "accepted": false,
+  "profile_accepted": false,
+  "tool_commit": "46181aff379a5d4231cc51814cfe3732bda21c03",
+  "profile": "verifast-native-zst-c3-integration-20261011-h",
+  "base_bool_tool": "4a34010cc3930eec46fc4e72c1b793ad734fa730",
+  "primary_runner": "03c2f4e134473253045d716a9779cc1b8530d0bb",
+  "supplemental_runner": "491a98e35e5dd3caab257d91074f4aacb06415d4",
+  "effective_hashes": {
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "672acdd3155c3bde046b3f724fc5aa98449632c099f962a235f4c047a2eee12c",
+    "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "src/frontend/ocaml_expr_of_ast.ml": "cd90799926cfc73d86e3c9b137ed84e977b1a918d1ba8723f3f26125cbb7aafe",
+    "src/verifast1.ml": "bfbfb518fb9783afeeba9384e1431b6cd280c7da7713b9fdbfd15a8395b00207"
+  },
+  "binary_sha256": "6b73208f02f9b1c0d2e84b1b43bf53a70797c9d1953e818c6626ee4c99ee376d",
+  "primary_build": "47ee47d9-274b-4b13-84e2-167ba88ff770",
+  "supplemental_build": "15f28723-2e2a-46b0-9b39-145dbb1787fa",
+  "primary_raw_pins": {
+    "baseline_build_id": "47ee47d9-274b-4b13-84e2-167ba88ff770",
+    "baseline_proof_sha": "03c2f4e134473253045d716a9779cc1b8530d0bb",
+    "baseline_manifest_sha256": "f51acee9d4fcb5415ead8f1972a426cc8588679655f18577498ae028e71f055e",
+    "baseline_native_result_sha256": "17503443b9aa43fb8b683a9970f0bed76cced13c4ceb3db367ef7de9298749d6",
+    "baseline_integration_result_sha256": "1e915134a839b75a28d0189149100360aca1d3973e5924fa7b9af89143d8a5f4",
+    "baseline_audit_sha256": "c7111326913eeb9c58e19e7a7d59024dac46ff331a0408c0a50fa6eb4d80fb03",
+    "baseline_prepared_sha256": "e6c7dae4c528b1f7259476467fbd266ece9b8293682a988db3e13ba11f5612ad",
+    "baseline_binary_sha256": "6b73208f02f9b1c0d2e84b1b43bf53a70797c9d1953e818c6626ee4c99ee376d",
+    "c_sources_sha256": {
+      "c-nonempty": "0795cf5af0aca963af2f5656e42d5a899fa31c19866f1cfbbfcc05e1227dfb3a",
+      "cpp-empty": "b9d0c398d00bb5b62277a1a5566a0d7bf53f8541bc6654e75d0dc108af93e361"
+    }
+  },
+  "raw_verdicts_preserved": true,
+  "fresh_gates": "All required gates independently raw-reviewed; see compact matrix. Expected VCs and admission refusals retain their distinct classifications.",
+  "native_c4_plus_select_proved": false,
+  "actual_caller_proved": false,
+  "full_sort4_proved": false,
+  "open_reservations": [
+    "Added ZST guard actual caller correspondence",
+    "native C4+select composition",
+    "Full sort4/native caller",
+    "O23 metadata escape; reference-output sketch OPEN/NOT_RUN",
+    "Inherited O26/A1/memory/prelude/compiler/supplied-entry assumptions",
+    "Broader Rust layout/ownership theorem and upstream regression suite",
+    "Owner profile adoption"
+  ],
+  "reading_versions": {
+    "maintainer_entry": "9d776517d82acca133a05fcac86e70f67f550bb5",
+    "proof_checkpoint": "aeb8c82e2d6d5843153f9d85a5e420b3791bfe52",
+    "accepted_policy": "c7ca8c467aecf10a4b53039372ee97714f854ee3",
+    "first_agent_package": "0f673c4f05b5c04f0704244e93f929c78611e0fa",
+    "native_c4_proof": "8de4cda418c4772009359fbb90e7e7f34836cca0"
+  },
+  "review_files_sha256": {
+    "RATIONALE.md": "6e5e58c7243186c51bdc39a8266d664424d9e1d1f073db4d7433896ba83dc645",
+    "SEMANTIC-REVIEW.md": "bbef36cb831f2dc740398b2ebcca1536d74c7a3de926cd7494d95dccefd3d507",
+    "RUNNER-REVIEW.md": "bb7f36a1cd4b16d2e5342af7fc8dc505bd3c3ee8ea7bb7d8f147e84115076bb6",
+    "RAW-ZST-REVIEW-47EE.md": "846130d3531985150c185338306773ec2e6c9272d513f989fe29dfa5308978d6",
+    "RAW-NATIVE-REVIEW-47EE.md": "5485d26948dcc1ef423eba28028196572203a4384fcf1a176f000471eeae563d",
+    "RAW-BOOL-REVIEW-47EE.md": "7341268ec845873023e731c7440e5840085d20be18204988bf4f198528b804ef",
+    "RAW-C-SUPPLEMENT-15F2.md": "a7353fb50cc088bd567d1ca96d7255d07fcf05fc42b1273ec75117476cf28320",
+    "READINESS-REVIEW.md": "425002457b5e94bc795bea16a505ace7894336472d45307a3cae9b5879ca669b"
+  },
+  "overlay_sha256": "be1fd96f1c5e1eb28dcf143bd76acc02aaaded36ccd5adb23537e411c150ed87",
+  "primary_manifest_sha256": "f51acee9d4fcb5415ead8f1972a426cc8588679655f18577498ae028e71f055e",
+  "supplemental_manifest_sha256": "b682d390dceb72573692ac41eb06b3114fe924a7e7fb48d472305f65aad53024",
+  "pack_and_delivery": {
+    "tool_base_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+    "tool_c4_patch_sha256": "b33e19deec896aefad1232f982e4499dfcdef6026e09c12b9c914852d9f6beaa",
+    "selector_integration_patch_sha256": "2c384f14b596c9f2713c39592ce0f414e4bdb9d994dbab7895eaa7a92eedfff0",
+    "composition_patch_sha256": "2d66e204ba38bfa6152f4c0d07bbbbea1f0db8a721d38fc2d9acda3b037281d3",
+    "source_modules_pack_sha256": "21516461a662781aabbf296bf5cb4016f10051c019205204a7740ecec0fe44f6",
+    "source_modules_count": 30,
+    "compressed_delivery": [
+      {
+        "path": "tool-c4.patch.xz",
+        "raw_path": "tool-c4.patch",
+        "raw_size": 481162,
+        "compressed_sha256": "874f5abedae0f47a4a326f6b1e22d1f6969649f1e8bada51228ecc3a6551b88a",
+        "raw_sha256": "b33e19deec896aefad1232f982e4499dfcdef6026e09c12b9c914852d9f6beaa"
+      },
+      {
+        "path": "source-modules.json.xz",
+        "raw_path": "source-modules.json",
+        "raw_size": 643353,
+        "compressed_sha256": "ca356854438fb2f54d3dc999880976d13c92e2b4e2d94960e87b14f198f43bc3",
+        "raw_sha256": "21516461a662781aabbf296bf5cb4016f10051c019205204a7740ecec0fe44f6"
+      }
+    ]
+  },
+  "scope": "Exact guarded native C1/C4 fixtures, Rust ZST model controls and existing Bool first-select composition compatibility on one tool; not native C4+select or actual caller",
+  "supplemental_result_sha256": "90041ae4738a60eefd18ec099db4be4a1e467f7496347d7038aa7bcc3a63a822",
+  "supplemental_audit_sha256": "e97678868b51ef1a4b396c0bf9a0f7a19bde69e248f9afc542105e67cdb55f14",
+  "evidence_archives": {
+    "47ee47d9-274b-4b13-84e2-167ba88ff770": "e1ebd0fe39eba2f4d35eacda8c824418ed3a729daf8638204e588a037bcd9d3f",
+    "15f28723-2e2a-46b0-9b39-145dbb1787fa": "7ca1279fea89b7858af3694948accdafebf2643f88cb505c98a1cc633461f027"
+  },
+  "cloud_seconds": 745,
+  "ledger_closed": true,
+  "unresolved_cloud_reservations": [],
+  "proof_credit": false,
+  "readiness_kind": "Addressed human raw-evidence adjudication; not profile adoption, Cloud SUCCESS or unrestricted theorem"
+}

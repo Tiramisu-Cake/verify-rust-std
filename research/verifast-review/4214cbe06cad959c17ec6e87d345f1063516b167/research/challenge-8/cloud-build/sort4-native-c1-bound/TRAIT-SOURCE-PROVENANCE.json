@@ -1,0 +1,20 @@
+{
+  "mode": "DOCUMENTARY_EXCERPT_NOT_CALLER_PROOF",
+  "source_commit": "a0343cec1c1874d58d78a8c3d2f290541c8c4837",
+  "sources": {
+    "library/core/src/marker.rs": {
+      "git_blob": "64a67bbd11c12bc6dd03867cb5c479642dbec3a6",
+      "sha256": "f7e098f8b9ad1a6dded90b81fd943afbe6c8d60934354838998880fe05f80755",
+      "exact_declaration": "pub unsafe auto trait Freeze {}",
+      "line": 908
+    },
+    "library/core/src/slice/sort/shared/mod.rs": {
+      "git_blob": "e1977d79f32076488e37048d17be77e37a321b0c",
+      "sha256": "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8",
+      "exact_declaration": "pub(crate) trait FreezeMarker {}\n\nimpl<T: Freeze> FreezeMarker for T {}",
+      "line": 11
+    }
+  },
+  "full_files_remain_in_published_repository": true,
+  "not_runtime_or_frozen_proof_std_dependency": true
+}

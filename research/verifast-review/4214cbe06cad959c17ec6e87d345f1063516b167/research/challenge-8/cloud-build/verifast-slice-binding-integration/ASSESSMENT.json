@@ -1,0 +1,92 @@
+{
+  "assessment_version": "maintainer-slice-binding-I-v1",
+  "verdict": "READY_FOR_INTEGRATION_REVIEW",
+  "tool_commit": "b6cb276afd13107c2a90ca50acbb12ff0a992dd8",
+  "base_tool_commit": "46181aff379a5d4231cc51814cfe3732bda21c03",
+  "incoming_proof_commit": "64922e1e5978b7204a6664e33a9f202aa6eea920",
+  "incoming_patch_sha256": "f200a5812149bb2278ded1d1ccb27a104b3dec3c03c5e40c79e30409d0d06916",
+  "profile": "verifast-slice-as-mut-ptr-native-c3-20261011-i",
+  "effective_hashes": {
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "src/frontend/ocaml_expr_of_ast.ml": "cd90799926cfc73d86e3c9b137ed84e977b1a918d1ba8723f3f26125cbb7aafe",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "a392cf28f72a8ae9c54faabf2454ddaff07757b6f0f98548ed72a7b8daab9ba3",
+    "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+    "src/verifast1.ml": "bfbfb518fb9783afeeba9384e1431b6cd280c7da7713b9fdbfd15a8395b00207"
+  },
+  "console_sha256": "9fc7c65b438e41ad014a08fe2f8b3e8f9b296866e010d8c423468b21565b3fd5",
+  "runners": {
+    "primary": "7f5f88b54d9d631fee24ec84ab868d42c2f174b3",
+    "tested_bool_only_supplement": "99deac7a0275359124038d134aa46a08e5131fe6",
+    "corrected_full_UNRUN": "0371f4f8c19e488cd32fb719a8b2f8fcf3dbcbd0"
+  },
+  "builds": [
+    {
+      "build_id": "5cb5b5d3-e4d6-4185-9234-f3a89e79829e",
+      "infra_sha": "7f5f88b54d9d631fee24ec84ab868d42c2f174b3",
+      "proof_sha": "7f5f88b54d9d631fee24ec84ab868d42c2f174b3",
+      "status": "FAILURE",
+      "create_time": "2026-10-11T16:50:46.770911782Z",
+      "finish_time": "2026-10-11T16:58:00.612660Z",
+      "build_seconds": 434,
+      "submitted_config_sha256": "6c0a0f970e92da0e8106c901bd890b2c1625ad7120767ff1ca2a916b9a9c6bb0",
+      "source_input_sha256": "2dd1186ffb885ac9ad44f02946260d687aa879a8f8ffbedddfb03f1fd56490fb",
+      "archive_sha256": "a368cccb8b725e0ad8592fae4ee705913c84e8319230c907c33ed4919ecbd536",
+      "download_verified": true
+    },
+    {
+      "build_id": "d7e340fc-4cb9-4bd1-8a3f-d43d84fdf1d6",
+      "infra_sha": "99deac7a0275359124038d134aa46a08e5131fe6",
+      "proof_sha": "99deac7a0275359124038d134aa46a08e5131fe6",
+      "status": "FAILURE",
+      "create_time": "2026-10-11T17:16:14.962879267Z",
+      "finish_time": "2026-10-11T17:22:36.134207Z",
+      "build_seconds": 382,
+      "submitted_config_sha256": "4faf40c3f0a8879ce2a9ecdc971c575f04ded8bbca2c2aed8c45318e93ae32eb",
+      "source_input_sha256": "68f9dad4f1ab2488891ce76512fcc5105323887154518a830e4ffb9f76049f95",
+      "archive_sha256": "14b182a4e242e7a035121dadc577d16544f2d6095b37c4aa63fa7b3302eb00ec",
+      "download_verified": true
+    }
+  ],
+  "raw_evidence_immutable": true,
+  "historical_H_readiness_preserved": true,
+  "profile_accepted": false,
+  "owner_adoption": "OPEN",
+  "actual_caller_proved": false,
+  "native_c4_plus_select_proved": false,
+  "full_sort4_proved": false,
+  "callable_summary": false,
+  "open_reservations": [
+    "caller len+16 overflow",
+    "public ZST guard correspondence/transfer",
+    "native C4+select and full sort4 proof-owner mission",
+    "general O23 and reference-output metadata-negative OPEN/NOT_RUN",
+    "inherited O26/A1/compiler/prelude/memory/native-entry assumptions",
+    "bare-tool source/version portability beyond pinned admission",
+    "broader upstream regression/layout coverage",
+    "owner profile adoption"
+  ],
+  "commands": "REPRODUCE.md",
+  "matrix": "GATE-MATRIX.md",
+  "semantic_review": "../../verifast-review/slice-as-mut-ptr-20261011/SEMANTIC-REVIEW.md",
+  "binding_raw_review": "../../verifast-review/slice-as-mut-ptr-20261011/RAW-EVIDENCE-REVIEW.md",
+  "compatibility_raw_review": "../../verifast-review/slice-as-mut-ptr-20261011/COMPATIBILITY-REVIEW.md",
+  "scope": "Exact pinned slice as_mut_ptr value binding, isolated components/consumer and existing guarded native C1/C4 plus Bool C3 fixture compatibility; split-Build same-tool evidence",
+  "independent_raw_review": "ADDRESSED_GO",
+  "account": {
+    "status": "CLOSED",
+    "used_build_seconds": 816,
+    "ceiling_build_seconds": 3600,
+    "unused_expired": 2784,
+    "unresolved_cloud_reservations": []
+  },
+  "mandatory_gates": {
+    "slice_components_consumer_controls": "REVIEWED_EXPECTED_OBSERVED_BUILD_5cb5b5d3",
+    "native_c1_c4_zst_cpp_c4_controls": "REVIEWED_EXPECTED_OBSERVED_BUILD_5cb5b5d3",
+    "selector_c4_first_select_composition": "REVIEWED_PASS_BUILD_d7e340fc",
+    "frame_cleanup_admission_lifetime_pointer_mdnew": "REVIEWED_EXPECTED_OBSERVED_BUILD_d7e340fc",
+    "outer_bool_local_hrtb_closure": "REVIEWED_POSITIVE_BUILD_d7e340fc"
+  },
+  "assessment_distinct_from_machine_acceptance": true
+}

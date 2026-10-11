@@ -1,0 +1,67 @@
+{
+  "classification": "EXPERIMENTAL_C4_SELECT_INTEGRATION",
+  "accepted": false,
+  "tool_base_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "tool_c4_patch_sha256": "b33e19deec896aefad1232f982e4499dfcdef6026e09c12b9c914852d9f6beaa",
+  "selector_integration_patch_sha256": "2c384f14b596c9f2713c39592ce0f414e4bdb9d994dbab7895eaa7a92eedfff0",
+  "composition_patch_sha256": "2d66e204ba38bfa6152f4c0d07bbbbea1f0db8a721d38fc2d9acda3b037281d3",
+  "effective_hashes": {
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "672acdd3155c3bde046b3f724fc5aa98449632c099f962a235f4c047a2eee12c",
+    "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "src/frontend/ocaml_expr_of_ast.ml": "cd90799926cfc73d86e3c9b137ed84e977b1a918d1ba8723f3f26125cbb7aafe",
+    "src/verifast1.ml": "bfbfb518fb9783afeeba9384e1431b6cd280c7da7713b9fdbfd15a8395b00207"
+  },
+  "selector_source_sha256": "7ec86f52b362f7f8b2ed26e3fa108212eb3d6288820bab9c6db3fa37bf8cabe0",
+  "c4_source_sha256": "ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f",
+  "source_modules_pack_sha256": "21516461a662781aabbf296bf5cb4016f10051c019205204a7740ecec0fe44f6",
+  "source_modules_provenance_commit": "3338d1d17be0cef3d7787a42e8d76113386fd8fd",
+  "source_modules_count": 30,
+  "compressed_delivery": [
+    {
+      "path": "tool-c4.patch.xz",
+      "raw_path": "tool-c4.patch",
+      "raw_size": 481162,
+      "compressed_sha256": "874f5abedae0f47a4a326f6b1e22d1f6969649f1e8bada51228ecc3a6551b88a",
+      "raw_sha256": "b33e19deec896aefad1232f982e4499dfcdef6026e09c12b9c914852d9f6beaa"
+    },
+    {
+      "path": "source-modules.json.xz",
+      "raw_path": "source-modules.json",
+      "raw_size": 643353,
+      "compressed_sha256": "ca356854438fb2f54d3dc999880976d13c92e2b4e2d94960e87b14f198f43bc3",
+      "raw_sha256": "21516461a662781aabbf296bf5cb4016f10051c019205204a7740ecec0fe44f6"
+    }
+  ],
+  "native_zst_profile": "verifast-native-zst-c3-integration-20261011-h",
+  "native_zst_tool_patches": [
+    {
+      "path": "research/challenge-8/verifast-review/native-zst-20261011/merged-extra.patch",
+      "sha256": "be1fd96f1c5e1eb28dcf143bd76acc02aaaded36ccd5adb23537e411c150ed87",
+      "before": {
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "4450157b3137a58d46c4be52fd454695c1dcb2a123947df8b3d2ccfcc1e8f26f",
+        "src/verifast1.ml": "b1b0ae618bbce1a0bce9714ce10a47dbeb855e919b980b7ce6a70108ff9b91d7"
+      },
+      "after": {
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "672acdd3155c3bde046b3f724fc5aa98449632c099f962a235f4c047a2eee12c",
+        "src/verifast1.ml": "bfbfb518fb9783afeeba9384e1431b6cd280c7da7713b9fdbfd15a8395b00207"
+      }
+    }
+  ],
+  "supplemental_resume": {
+    "baseline_build_id": "47ee47d9-274b-4b13-84e2-167ba88ff770",
+    "baseline_proof_sha": "03c2f4e134473253045d716a9779cc1b8530d0bb",
+    "baseline_manifest_sha256": "f51acee9d4fcb5415ead8f1972a426cc8588679655f18577498ae028e71f055e",
+    "baseline_native_result_sha256": "17503443b9aa43fb8b683a9970f0bed76cced13c4ceb3db367ef7de9298749d6",
+    "baseline_integration_result_sha256": "1e915134a839b75a28d0189149100360aca1d3973e5924fa7b9af89143d8a5f4",
+    "baseline_audit_sha256": "c7111326913eeb9c58e19e7a7d59024dac46ff331a0408c0a50fa6eb4d80fb03",
+    "baseline_prepared_sha256": "e6c7dae4c528b1f7259476467fbd266ece9b8293682a988db3e13ba11f5612ad",
+    "baseline_binary_sha256": "6b73208f02f9b1c0d2e84b1b43bf53a70797c9d1953e818c6626ee4c99ee376d",
+    "c_sources_sha256": {
+      "c-nonempty": "0795cf5af0aca963af2f5656e42d5a899fa31c19866f1cfbbfcc05e1227dfb3a",
+      "cpp-empty": "b9d0c398d00bb5b62277a1a5566a0d7bf53f8541bc6654e75d0dc108af93e361"
+    }
+  }
+}

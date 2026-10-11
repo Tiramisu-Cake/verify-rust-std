@@ -1,0 +1,41 @@
+{
+  "mode": "NATIVE_CALLER_ENTRY_AND_SLICE_AS_MUT_PTR_DIAGNOSTIC",
+  "phase_id": "SORT4-ACTUAL-CALLER-ENTRY-CLOUD-2026-10-11",
+  "cloud_build_enabled": false,
+  "profile_accepted": false,
+  "actual_caller_proved": false,
+  "callable_summary": false,
+  "tool_head": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+  "c4_base_translator_sha256": "66e266d3a36517d8c552b34ab17357b7b5d11192095e47672504533611c76124",
+  "as_mut_ptr_translator_sha256": "21ca026ae3279ef7da9a8a482b5355fab4c39250dec553854509b1f8923f52c4",
+  "as_mut_ptr_patch_sha256": "f200a5812149bb2278ded1d1ccb27a104b3dec3c03c5e40c79e30409d0d06916",
+  "actual_slice_source_sha256": "e3a45814fc07497d6e85d182d6b30782711e4b77752fa817988ec6da12e2cb6f",
+  "actual_smallsort_source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+  "source_template_sha256": "20dd70aae480bb694b6de563e2e473685062b25e31df79b42c102c288267f2c4",
+  "ghost_strip_sha256": "1b1187a78b461fd37980e82b679c6df01e95b440896eea347da4cea8fe27c70d",
+  "fresh_c4_effective_profile_manifest_sha256": "caef3c12b6fd498dd970d08a57e865339855501ddc83a7a8abaf9dfe49a1e8f7",
+  "frozen_c4_snapshot_sha256": "004dab0f90e2abf75a422c83302015f593ec9273a78fc72d0e09ef71c1a2432b",
+  "runtime_helpers_sha256": {
+    "sort4-native-c4/driver.py": "6b7646efbc797b489ea257eed715960c04ce28cb43e539a55fa41d3a419983f8",
+    "sort4-first-scope-audit.py": "98d9a1551ef172f3cd8daf9d53083c6cde07349e666e9426f903c8c0003986d3",
+    "overnight-sort4/capture.py": "0d993e8c36cb7684eb509e8efcfb9553b07e92e87885f4ae430269c4cb2a6060"
+  },
+  "strict_patches": [
+    [
+      "overnight-lifetime/verifast-strict-lft-cut-26.10.patch",
+      "d557082b0c17771acd7386ad6caca7bc139877cf1ca513d9570da210b1b542d8"
+    ],
+    [
+      "overnight-lifetime/verifast-cut-relocate-callback-TESTONLY.patch",
+      "e7189430eca9a48ed49d280131bd22987af8d05ed43a88f9c4a5c9767e57bb9e"
+    ],
+    [
+      "overnight-lifetime/verifast-cut-relocate-translated-ids-TEST.patch",
+      "fa862fe86406d95eb921f2935b2e4f6cf048c5366ece8d8836e5fcd7b41a9145"
+    ]
+  ],
+  "actual_sized_type_source_sha256": "b86a596a58dcb21a45e8b29b33327ca8c7bde708aa6fca158d4366e51403daf2",
+  "actual_unstable_source_sha256": "23fa044fde8d3542f5f298654923ed2426930373259e6f71670c75b80501cf9a",
+  "session_closed": true
+}
