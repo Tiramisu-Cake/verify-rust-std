@@ -78,7 +78,8 @@ def save(path: Path, data) -> None:
 
 def context(a):
     need(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
-         os.environ.get("LANE") == "verifast-native-zst-integration" and
+         os.environ.get("LANE") in ("verifast-native-zst-integration",
+                                      "verifast-slice-binding-integration") and
          not os.environ.get("GITHUB_ACTIONS"), "Cloud lane identity")
     for name in ("proof_root", "cloud_dir", "evidence", "manifest"):
         need(str(getattr(a, name).resolve()).startswith("/workspace/"), name + " outside workspace")
@@ -452,11 +453,15 @@ def model_cases(a, driver, models, prepared):
         path = fixture / (name + ext)
         before = sha(path)
         stage, raw = driver.stage(a, "zst-" + name + "-verification",
-            [str(a.tool_home / "bin/verifast"), path.name], fixture, isolated_env(driver), 180)
-        good = (stage["exit"] == 0 and "0 errors found (" in raw and sha(path) == before)
+            [str(a.tool_home / "bin/verifast"), "-shared", path.name],
+            fixture, isolated_env(driver), 180)
+        good = (stage["exit"] == 0 and "0 errors found (" in raw and
+                "1 statement" in raw and first_error(raw) is None and
+                sha(path) == before)
         rows[name] = {"classification": "EXPECTED_OBSERVED" if good else "INCONCLUSIVE",
                       "exit": stage["exit"], "first_error": first_error(raw),
-                      "source_sha256": before, "log_sha256": stage["log_sha256"]}
+                      "source_sha256": before, "log_sha256": stage["log_sha256"],
+                      "argv": ["-shared", path.name]}
         save(root / (name + ".json"), rows[name])
     return {"cases": rows, "all_expected_observed": all(
         row["classification"] == "EXPECTED_OBSERVED" for row in rows.values())}

@@ -80,6 +80,11 @@ NATIVE_ZST_START='2026-10-11T14:03:19Z'
 NATIVE_ZST_MAIN='2026-10-11T16:03:19Z'
 NATIVE_ZST_END='2026-10-11T16:33:19Z'
 NATIVE_ZST_LANES=['verifast-native-zst-integration']
+SLICE_BINDING_PHASE='VERIFAST-SLICE-BINDING-INTEGRATION-CLOUD-2026-10-11-I'
+SLICE_BINDING_START='2026-10-11T16:16:32Z'
+SLICE_BINDING_MAIN='2026-10-11T18:16:32Z'
+SLICE_BINDING_END='2026-10-11T18:46:32Z'
+SLICE_BINDING_LANES=['verifast-slice-binding-integration']
 
 PHASE_PATTERN=re.compile(r'[A-Z][A-Z0-9-]{0,100}\Z')
 OWNER_PATTERN=re.compile(r'[A-Za-z0-9._-]{1,80}\Z')
@@ -287,6 +292,17 @@ def reconcile_reservation(record,caller_owner,caller_ledger):
 
 
 def authorized_phase(a,ledger):
+ if a.phase_id==SLICE_BINDING_PHASE:
+  if (a.owner!='verifast' or ledger.get('owner')!='verifast' or
+      ledger.get('phase')!=SLICE_BINDING_PHASE or ledger.get('status')!='AUTHORIZED' or
+      ledger.get('ceiling_build_seconds')!=3600 or
+      ledger.get('start_utc')!=SLICE_BINDING_START or
+      ledger.get('main_deadline_utc')!=SLICE_BINDING_MAIN or
+      ledger.get('deadline_utc')!=SLICE_BINDING_END or
+      ledger.get('allowed_lanes')!=SLICE_BINDING_LANES):raise SystemExit('Maintainer slice binding session requires exact owner/account/window/lane')
+  deadline=datetime.datetime.fromisoformat(SLICE_BINDING_END.replace('Z','+00:00'))
+  if datetime.datetime.now(datetime.timezone.utc)>=deadline:raise SystemExit('Phase deadline has passed')
+  return deadline
  if a.phase_id==NATIVE_ZST_PHASE:
   if (a.owner!='verifast' or ledger.get('owner')!='verifast' or
       ledger.get('phase')!=NATIVE_ZST_PHASE or ledger.get('status')!='AUTHORIZED' or
@@ -413,6 +429,7 @@ def run_command(a,state,ledger,ledger_path):
   if not LANE_PATTERN.fullmatch(a.lane):raise SystemExit('Invalid lane name')
   if a.source_mode!='pinned-objects':raise SystemExit('New phase requires pinned Git objects')
   now=datetime.datetime.now(datetime.timezone.utc)
+  if a.phase_id==SLICE_BINDING_PHASE and now>=datetime.datetime.fromisoformat(SLICE_BINDING_MAIN.replace('Z','+00:00')):raise SystemExit('Maintainer slice binding main window ended; no new experiment')
   if a.phase_id==NATIVE_ZST_PHASE and now>=datetime.datetime.fromisoformat(NATIVE_ZST_MAIN.replace('Z','+00:00')):raise SystemExit('Maintainer native/ZST main window ended; no new experiment')
   if a.phase_id==INTEGRATION_D_PHASE and now>=datetime.datetime.fromisoformat(INTEGRATION_D_MAIN.replace('Z','+00:00')):raise SystemExit('Maintainer session D main window ended; no new experiment')
   if a.phase_id==INTEGRATION_C_PHASE and now>=datetime.datetime.fromisoformat(INTEGRATION_C_MAIN.replace('Z','+00:00')):raise SystemExit('Maintainer session C main window ended; no new experiment')

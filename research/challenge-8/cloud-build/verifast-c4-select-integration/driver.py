@@ -305,7 +305,8 @@ def prepare(a):
 def source_prepare(a):
     need(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
          os.environ.get("LANE") in ("verifast-c4-select-integration",
-                                     "verifast-native-zst-integration") and
+                                     "verifast-native-zst-integration",
+                                     "verifast-slice-binding-integration") and
          not os.environ.get("GITHUB_ACTIONS"), "Cloud integration lane required")
     data = manifest(a)
     c4case, selector_case, source = prepare(a)
@@ -486,7 +487,8 @@ def source_admission_mutants(a, c4case, expected):
 def run(a):
     need(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
          os.environ.get("LANE") in ("verifast-c4-select-integration",
-                                     "verifast-native-zst-integration") and
+                                     "verifast-native-zst-integration",
+                                     "verifast-slice-binding-integration") and
          not os.environ.get("GITHUB_ACTIONS"), "Cloud integration lane required")
     data = manifest(a)
     pin(a)

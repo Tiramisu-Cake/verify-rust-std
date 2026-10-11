@@ -1,0 +1,248 @@
+#!/usr/bin/env python3
+"""Cloud-only slice binding fixtures on the single H native integration tool.
+
+Source preparation runs before package installation. Verification only consumes
+that immutable preparation; it never reconstructs a historical tool profile.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import importlib.util
+import json
+import lzma
+import os
+from pathlib import Path
+import re
+import subprocess
+import sys
+from types import SimpleNamespace
+
+
+LANE = "verifast-slice-binding-integration"
+PROFILE = "verifast-slice-as-mut-ptr-native-c3-20261011-i"
+CALLER = Path("research/challenge-8/cloud-build/sort4-caller-entry-native")
+SLICE_CASES = ("canonical-generic", "canonical-mu", "consumer-positive",
+               "consumer-wrong-pointer", "consumer-missing-raw-rights",
+               "consumer-mu-cast-no-initialized-T")
+
+
+def need(condition: bool, message: str) -> None:
+    if not condition:
+        raise RuntimeError("SLICE-BINDING: " + message)
+
+
+def sha(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def save(path: Path, value: object) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value, sort_keys=True, indent=2) + "\n")
+
+
+def load(path: Path, label: str):
+    spec = importlib.util.spec_from_file_location(label, path)
+    need(spec is not None and spec.loader is not None, "module absent: " + str(path))
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[label] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+def context(a) -> tuple[dict, dict]:
+    need(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
+         os.environ.get("LANE") == LANE and not os.environ.get("GITHUB_ACTIONS"),
+         "Cloud lane identity")
+    for name in ("proof_root", "cloud_dir", "evidence", "manifest"):
+        need(str(getattr(a, name).resolve()).startswith("/workspace/"),
+             name + " outside workspace")
+    need(subprocess.check_output(["git", "-C", str(a.proof_root), "rev-parse", "HEAD"],
+                                 text=True).strip() == os.environ.get("PROOF_SHA"),
+         "proof SHA differs")
+    data = json.loads(a.manifest.read_text())
+    need(data.get("slice_binding_profile") == PROFILE and
+         data.get("profile_accepted") is False and
+         data.get("actual_caller_proved") is False and
+         data.get("callable_summary") is False and
+         data["effective_hashes"]["src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"] ==
+         "a392cf28f72a8ae9c54faabf2454ddaff07757b6f0f98548ed72a7b8daab9ba3",
+         "experimental profile identity")
+    source_path = a.proof_root / data["slice_binding_source_manifest"]
+    source = json.loads(source_path.read_text())
+    need(source.get("profile_accepted") is False and
+         source.get("as_mut_ptr_patch_sha256") ==
+         "f200a5812149bb2278ded1d1ccb27a104b3dec3c03c5e40c79e30409d0d06916",
+         "copied candidate source identity")
+    return data, source
+
+
+def materialize_slice(a, data: dict, source: dict) -> None:
+    """Restore the exact committed Rust source from bounded transport bytes."""
+    delivery = data["slice_source_delivery"]
+    need(delivery["raw_path"] == "library/core/src/slice/mod.rs" and
+         delivery["raw_sha256"] == source["actual_slice_source_sha256"] and
+         delivery["raw_size"] == 229683 and
+         delivery["git_blob"] == "16b5766ba08362bbf6ab13e127d71c7d920eccf7",
+         "slice delivery manifest")
+    archive = a.proof_root / delivery["path"]
+    need(archive.is_file() and sha(archive) == delivery["compressed_sha256"],
+         "compressed slice source pin")
+    decoder = lzma.LZMADecompressor(format=lzma.FORMAT_XZ)
+    raw = decoder.decompress(archive.read_bytes(), max_length=delivery["raw_size"] + 1)
+    need(decoder.eof and not decoder.unused_data and len(raw) == delivery["raw_size"] and
+         hashlib.sha256(raw).hexdigest() == delivery["raw_sha256"],
+         "exact full slice source transport")
+    expected = subprocess.check_output(["git", "-C", str(a.proof_root),
+                                        "ls-tree", "HEAD", "--", delivery["raw_path"]],
+                                       text=True).strip().split()
+    need(expected[:3] == ["100644", "blob", delivery["git_blob"]],
+         "proof commit slice Git blob pin")
+    actual_oid = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+    need(actual_oid == delivery["git_blob"], "transport Git blob identity")
+    target = a.proof_root / delivery["raw_path"]
+    need(not target.is_symlink() and all(not parent.is_symlink() for parent in target.parents),
+         "slice source symlink")
+    need(not target.exists() or target.read_bytes() == raw,
+         "existing slice source differs")
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_bytes(raw)
+    save(a.evidence / "slice-source-delivery.json", {
+        "committed_path": delivery["raw_path"], "git_blob": actual_oid,
+        "raw_sha256": delivery["raw_sha256"],
+        "compressed_sha256": delivery["compressed_sha256"],
+        "full_source_bytes_delivered": True, "compiler_or_verifier_invoked": False,
+        "proof_credit": False})
+
+
+def source_prepare(a, data: dict, source: dict) -> None:
+    need(not a.evidence.exists(), "source preparation already exists")
+    a.evidence.mkdir(parents=True)
+    caller = load(a.cloud_dir / CALLER.relative_to("research/challenge-8/cloud-build") /
+                  "driver.py", "slice_binding_caller_sources")
+    ghost_path = a.cloud_dir / "sort4-native-c1-bound/ghost-strip.py"
+    caller.pinned_file(ghost_path, source["ghost_strip_sha256"], "ghost strip")
+    ghost = load(ghost_path, "slice_binding_ghost_strip")
+    work = SimpleNamespace(proof_root=a.proof_root, evidence=a.evidence)
+    certificate = caller.source_certificate(work, source)
+    admission = caller.source_admission_controls(work, source)
+    rows = {}
+    for name in caller.CASES:
+        fixture, cert = caller.make_fixture(work, None, ghost, source, name)
+        rows[name] = {"fixture": str(fixture.relative_to(a.evidence)),
+                      "verified_sha256": cert["verified_sha256"],
+                      "original_sha256": cert["original_sha256"],
+                      "verification": "NOT_RUN_SOURCE_PREPARATION_ONLY"}
+    need(all(row["refused_before_verifier"] for row in admission.values()),
+         "source admission controls")
+    save(a.evidence / "prepared.json", {
+        "profile": PROFILE, "proof_sha": os.environ["PROOF_SHA"],
+        "source_manifest_sha256": sha(a.proof_root / data["slice_binding_source_manifest"]),
+        "source_certificate": certificate, "source_admission": admission,
+        "cases": rows, "compiler_or_verifier_invoked": False,
+        "all_sources_prepared_before_tool_build": True, "proof_credit": False})
+
+
+def run(a, data: dict, source: dict) -> None:
+    need(a.tool_home is not None and a.compiler_sysroot is not None and
+         a.work_root is not None and a.deadline_epoch is not None,
+         "Cloud tool arguments")
+    need(not a.evidence.exists(), "result already exists")
+    a.evidence.mkdir(parents=True)
+    prepared = a.evidence.parents[1] / "source-preparation/slice"
+    report = json.loads((prepared / "prepared.json").read_text())
+    need(report["profile"] == PROFILE and report["proof_sha"] == os.environ["PROOF_SHA"] and
+         report["source_manifest_sha256"] ==
+         sha(a.proof_root / data["slice_binding_source_manifest"]) and
+         report["all_sources_prepared_before_tool_build"] is True,
+         "prepared source identity")
+    c4 = load(a.cloud_dir / "sort4-native-c4/driver.py", "slice_binding_c4_helper")
+    caller = load(a.cloud_dir / CALLER.relative_to("research/challenge-8/cloud-build") /
+                  "driver.py", "slice_binding_caller_checks")
+    tool = a.tool_home
+    need(sha(tool / "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml") ==
+         data["effective_hashes"]["src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"],
+         "final translator pin")
+    integration = load(a.cloud_dir / "verifast-c4-select-integration/driver.py",
+                       "slice_binding_integration_pin")
+    integration.pin(SimpleNamespace(proof_root=a.proof_root, manifest=a.manifest,
+                                    tool_home=tool, evidence=a.evidence))
+    env = c4.clean_env(a, tool)
+    results = {}
+    save(a.evidence / "result.json", {"profile": PROFILE, "cases": {},
+                                     "classification": "NOT_RUN", "proof_credit": False})
+    for name in SLICE_CASES:
+        fixture = prepared / report["cases"][name]["fixture"]
+        need(sha(fixture / "verified/lib.rs") == report["cases"][name]["verified_sha256"] and
+             sha(fixture / "original/lib.rs") == report["cases"][name]["original_sha256"],
+             "prepared fixture mutated: " + name)
+        case_root = a.evidence / name
+        result = caller.verify_one(a, c4, tool, env, fixture, name,
+                                   root_override=case_root)
+        original = (fixture / "original/lib.rs").read_text()
+        result["source_calls"] = {
+            "v.as_mut_ptr": original.count("v.as_mut_ptr()"),
+            "scratch.as_mut_ptr": original.count("scratch.as_mut_ptr()")}
+        result["actual_callee_equivalence_from_marker"] = False
+        results[name] = {key: result.get(key) for key in
+                         ("classification", "gate_passed", "first_causal_stage",
+                          "first_error", "verifier_exit", "paired_support_passed",
+                          "proof_ast_sha256", "source_calls", "actual_callee_equivalence_from_marker")}
+        save(a.evidence / "result.json", {"profile": PROFILE, "cases": results,
+                                         "classification": "IN_PROGRESS",
+                                         "tool_sha256": sha(tool / "bin/verifast"),
+                                         "proof_credit": False})
+    all_gates = all(row.get("gate_passed") is True for row in results.values())
+    save(a.evidence / "result.json", {"profile": PROFILE, "cases": results,
+        "classification": ("SLICE_BINDING_CANDIDATE_RAW_REVIEW_REQUIRED" if all_gates else
+                           "SLICE_BINDING_FIRST_OBLIGATION_OPEN"),
+        "all_expected_observed": all_gates, "source_admission": report["source_admission"],
+        "tool_sha256": sha(tool / "bin/verifast"), "proof_credit": False,
+        "profile_accepted": False, "actual_caller_proved": False,
+        "callable_summary": False})
+
+
+def audit(a, data: dict, source: dict) -> None:
+    root = a.evidence.parents[1]
+    rows = {}
+    for key, path in (("slice", root / "cases/slice-binding/result.json"),
+                      ("integration", root / "cases/integration/result.json"),
+                      ("native", root / "cases/native-zst/result.json")):
+        rows[key] = json.loads(path.read_text()) if path.is_file() else "NOT_RUN"
+    result = {"profile": PROFILE, "classification": "FRESH_COMBINED_RUN_RAW_REVIEW_REQUIRED",
+              "cases": rows, "runner_exits": {"slice": a.slice_exit,
+                                              "integration": a.integration_exit,
+                                              "native": a.native_exit},
+              "proof_credit": False, "profile_accepted": False,
+              "actual_caller_proved": False, "callable_summary": False}
+    if any(code != 0 for code in result["runner_exits"].values()):
+        result["classification"] = "INCOMPLETE_OR_FIRST_OBLIGATION_OPEN"
+    save(root / "proof-audit.json", result)
+    need(result["classification"] == "FRESH_COMBINED_RUN_RAW_REVIEW_REQUIRED",
+         "one or more fresh gates incomplete")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("mode", choices=("materialize-slice", "source-prepare", "run", "audit"))
+    for name in ("proof-root", "cloud-dir", "evidence", "manifest"):
+        parser.add_argument("--" + name, type=Path, required=True)
+    for name in ("tool-home", "compiler-sysroot", "work-root"):
+        parser.add_argument("--" + name, type=Path)
+    parser.add_argument("--deadline-epoch", type=int)
+    for name in ("slice-exit", "integration-exit", "native-exit"):
+        parser.add_argument("--" + name, type=int)
+    a = parser.parse_args()
+    data, source = context(a)
+    if a.mode == "materialize-slice":
+        materialize_slice(a, data, source)
+    elif a.mode == "source-prepare":
+        source_prepare(a, data, source)
+    elif a.mode == "run":
+        run(a, data, source)
+    else:
+        audit(a, data, source)
+
+
+if __name__ == "__main__":
+    main()
