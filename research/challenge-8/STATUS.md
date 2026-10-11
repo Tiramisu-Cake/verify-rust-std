@@ -1,4 +1,8 @@
-# VeriFast maintainer checkpoint — session E closed
+# VeriFast maintainer checkpoint — read-only outer-F semantic review closed
+
+Read-only review recommends correcting outer-F gate design: mandatory cut106 rejection of the current Fbool example is unsupported. Cut closes a nominal binding; cmp_k ends later in recovery. Compiler HRTB justifies retained indexed Output=Bool equality; no illegal post-cut type/resource use found. Candidate positive locality/normal-unwind closure control; genuine negative coverage remains OPEN/INCONCLUSIVE. Independent addressed review completed. [Review-note](verifast-review/outer-f-semantic-20261011/REVIEW.md), [checkpoint](verifast-review/outer-f-semantic-20261011/CHECKPOINT.md). Cloud0, no registration/build/verification or executable/semantic change. Historical BLOCKED and separate selector/C4/composition PASS preserved; no READY/adoption/O23 closure. Next: agree corrected gate design and separately prepare/review an actual indexed-output negative use-site.
+
+## Preserved session E status
 
 BLOCKED reconfirmed without another Build. The repeated C-based request's runner-UNRUN status is historical: ca5f5460 already executed in D/Build9397d5cd through delivery84f21b3b. Tool4a34010/profileC3 and all meaningful inputs match. Reused D selector/C4/composition PASS and reviewed gates remain separate from missing mandatory outer-F cut106 VC. No honest exact-path repair under unchanged-kernel/no-new-rule scope; no new semantic change or fresh E proof. E ledger CLOSED0/3600,3600expire; no own requests/reservations. [E checkpoint](cloud-build/verifast-c4-select-outer-e/END-CHECKPOINT-2026-10-11-E.md), [input equality](cloud-build/verifast-c4-select-outer-e/INPUT-RECONFIRMATION.json). Previous accounts/evidence preserved; no automatic session.
 
