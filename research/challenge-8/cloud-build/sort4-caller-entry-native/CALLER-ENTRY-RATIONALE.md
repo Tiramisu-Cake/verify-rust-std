@@ -24,6 +24,12 @@ interpretation or alias fact. Both `v` and `scratch` instantiations must retain
 their complete native arrays/foreach owners, with `scratch` still opaque
 `MaybeUninit<T>` storage. A fresh wrong-pointer assertion and a missing-raw-
 permission assertion must fail at their intended points after the projection.
+An additional native `scratch.as_mut_ptr() as *mut T` control asserts a one-cell
+initialized `T` array. It must fail at that exact assertion with missing
+`array<T>` authority: the cast changes the pointer type but never turns
+opaque `MaybeUninit<T>` ownership into initialized `T` ownership. Its reachable
+`scratch.len() >= 1` branch and preceding opaque MU array/foreach assertions
+exclude an empty-slice explanation for the intended failure.
 
 This one-symbol rule is rebased from the historical own-lane
 `verifast-slice-as-mut-ptr.patch` (SHA-256
@@ -55,7 +61,8 @@ Positive gates: exact std source SHA and method body bytes; native generic T
 and `MaybeUninit<T>` instances; full generated posts on normal and unwind,
 local free and leak checks; all registered physical AST nodes executed;
 paired normal/read-only full MIR and refinement. Negative gates: wrong pointer
-value and missing raw authority fail at their exact assertions; malformed,
+value, missing raw authority and forbidden MU-to-initialized-T authority fail
+at their exact assertions; malformed,
 wrong source, extra body and default-off modes refuse before proof. A setup,
 frontend, earlier overflow, abort or unrelated helper failure cannot count as
 a negative. The entry diagnostic records its first actual obligation even if

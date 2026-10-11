@@ -17,11 +17,11 @@ fn canonical_slice_as_mut_ptr_mu<T>(slice: &mut [MaybeUninit<T>]) -> *mut MaybeU
 // CASE_BEGIN consumer-positive
 fn native_slice_pointer_consumer<T>(v: &mut [T], scratch: &mut [MaybeUninit<T>]) {
     let v_base = v.as_mut_ptr();
-    let scratch_base = scratch.as_mut_ptr();
+    let scratch_base = scratch.as_mut_ptr() as *mut T;
     //@ let source_base = strip_pointer_metadata(v as pointer) as *T;
     //@ let mu_base = strip_pointer_metadata(scratch as pointer) as *std::mem::MaybeUninit<T>;
     //@ assert v_base == source_base;
-    //@ assert scratch_base == mu_base;
+    //@ assert scratch_base == strip_pointer_metadata(scratch as pointer) as *mut T;
     //@ assert source_base[..ptr_len(v)] |-> ?source_current;
     //@ assert foreach(source_current, own::<T>(currentThread));
     //@ assert mu_base[..ptr_len(scratch)] |-> ?mu_current;
@@ -47,6 +47,19 @@ fn native_slice_pointer_consumer<T>(v: &mut [T], scratch: &mut [MaybeUninit<T>],
         } @*/
 }
 // CASE_END consumer-missing-raw-rights
+
+// CASE_BEGIN consumer-mu-cast-no-initialized-T
+fn native_slice_pointer_consumer<T>(v: &mut [T], scratch: &mut [MaybeUninit<T>]) {
+    let _v_base = v.as_mut_ptr();
+    let scratch_base = scratch.as_mut_ptr() as *mut T;
+    if scratch.len() >= 1 {
+        //@ let mu_base = strip_pointer_metadata(scratch as pointer) as *std::mem::MaybeUninit<T>;
+        //@ assert mu_base[..ptr_len(scratch)] |-> ?mu_current;
+        //@ assert foreach(mu_current, own::<std::mem::MaybeUninit<T>>(currentThread));
+        //@ assert scratch_base[..1] |-> ?initialized_values;
+    }
+}
+// CASE_END consumer-mu-cast-no-initialized-T
 
 // CASE_BEGIN actual-unfiltered-prefix
 fn small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
@@ -94,7 +107,7 @@ fn small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
         } else {
             // Explicit diagnostic stop for the unselected short path.
             return;
-        }
+        };
     }
 }
 // CASE_END actual-unfiltered-prefix

@@ -7150,3 +7150,34 @@ to current native C1-C4 composition within scope/budget with fresh exits and
 negatives. No MU-to-initialized-T inverse, artificial sizezero return, supplied
 nonzero premise, full caller/sort4 theorem or accepted profile is claimed.
 Exact published proof/infra SHA and target identities follow in the fresh review.
+
+First dispatch: proof=infra46ffa84f717d428a5da91ef2f86d9024ede90fcd,
+Builda125db66-0204-47bb-964f-c3134d4b6eef. Exact published payload
+94a5e50964eb5f15c6e7e84bc4f37f4584aea1d6857a13c7a0caf1cc74c91c19,
+532691bytes/179parts<=191;74proof paths/8recipeinfra plus exactcore.
+Phase guards/controller/wrapper/driver/manifest agree. All nine snapshot std
+inputs retained; new AST inventory captured in Cloud before new inventory binding
+(the only new tool rule is an exact pointer symbol). Timeout1200/reserve1260.
+No proof verdict until raw target evidence and intended controls are reviewed.
+
+Fresh a125db66 terminalFAILURE/394seconds (archive045e43a1, independent588
+file inventory and390textchunks, download integrity verified). Canonical native
+T/MU casts VF0/53statements each/all55physicalIDs, real native slice method
+consumer VF0/62/all63IDs with full posts. Both assertion negatives reached
+line14 at intended pointer predicate/missing array<T>, but classifier wrongly
+required AST dump exit0 (dump writes AST then runs the same failing proof).
+Unfiltered actual prefix stopped in normal-export at missing semicolon line55;
+NO semantic prefix verdict. Collector also lacked accepted=false typed audit
+at mandatory allprooflogs path. No caller/C1-C4/model acceptance credit.
+Full raw review: cloud-build/sort4-caller-entry-native/FRESH-A125DB66-REVIEW.md.
+
+Second experiment card, before dispatch: same exact tool chain and one-symbol
+binding, fix only fixture semicolon, negative AST classification and required
+audit publication. All targets/gates rerun freshly. Positive consumer now tests
+actual scratch.as_mut_ptr() as *mut T while keeping native opaque MU array/own
+resources. One targeted permission-risk control under reachable scratch.len()>=1
+first confirms native MU storage and then asserts initialized array<T>; expected
+No matching heap chunks at that exact assertion. No inverse or supplied raw
+authority. Original helper runtime checks/len+16/abort/direct-sort4 condition
+still unfiltered; expected first true obstacle is recorded, never counted as
+a negative or caller PASS. No tool-semantic change beyond the reviewed binding.

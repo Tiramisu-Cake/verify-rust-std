@@ -38,6 +38,7 @@ CASES = {
     "consumer-positive": "native_slice_pointer_consumer",
     "consumer-wrong-pointer": "native_slice_pointer_consumer",
     "consumer-missing-raw-rights": "native_slice_pointer_consumer",
+    "consumer-mu-cast-no-initialized-T": "native_slice_pointer_consumer",
     "actual-unfiltered-prefix": "small_sort_general_with_scratch",
 }
 
@@ -334,6 +335,15 @@ def make_fixture(a, helper, ghost, manifest: dict, name: str) -> tuple[Path, dic
         need(original.count(b"v.as_mut_ptr()") == 1 and
              original.count(b"scratch.as_mut_ptr()") == 1,
              "both actual native slice calls")
+        if name in ("consumer-positive", "consumer-mu-cast-no-initialized-T"):
+            need(original.count(b"let scratch_base = scratch.as_mut_ptr() as *mut T;") == 1,
+                 "actual scratch slice call and raw T cast")
+        if name == "consumer-mu-cast-no-initialized-T":
+            need(source.count(b"if scratch.len() >= 1 {") == 1 and
+                 source.count(b"mu_base[..ptr_len(scratch)] |-> ?mu_current") == 1 and
+                 source.count(b"foreach(mu_current, own::<std::mem::MaybeUninit<T>>(currentThread))") == 1 and
+                 source.count(b"scratch_base[..1] |-> ?initialized_values") == 1,
+                 "reachable opaque MU rights before forbidden initialized T assertion")
     if name == "actual-unfiltered-prefix":
         for token in (b"if len < 2", b"scratch.len() < len + 16",
                       b"intrinsics::abort()", b"v.as_mut_ptr()",
@@ -350,21 +360,27 @@ def make_fixture(a, helper, ghost, manifest: dict, name: str) -> tuple[Path, dic
 def classify(name: str, result: dict, root: Path, source: str) -> dict:
     first = result.get("first_error") or ""
     pair = result.get("support", {}).get("paired_support_passed") is True
-    ast = (result.get("stages", {}).get("proof-ast-diagnostic") == 0 and
-           result.get("proof_ast_sha256") is not None)
+    ast = result.get("proof_ast_sha256") is not None
+    ast_diagnostic_exit = result.get("stages", {}).get("proof-ast-diagnostic")
     stage = result.get("first_causal_stage")
     exit_code = result.get("stages", {}).get("verification")
     if name in ("canonical-generic", "canonical-mu", "consumer-positive"):
-        passed = (pair and ast and result.get("source_pair_immutable") is True and
+        passed = (pair and ast and ast_diagnostic_exit == 0 and
+                  result.get("source_pair_immutable") is True and
                   stage == "NONE_OBSERVED" and exit_code == 0)
         label = "FRESH_VF0_CANDIDATE_RAW_REVIEW_REQUIRED" if passed else "POSITIVE_FIRST_OBLIGATION"
-    elif name in ("consumer-wrong-pointer", "consumer-missing-raw-rights"):
-        assertion = ("v_base != source_base" if name == "consumer-wrong-pointer" else
-                     "unrelated[..1] |-> ?unrelated_values")
+    elif name in ("consumer-wrong-pointer", "consumer-missing-raw-rights",
+                  "consumer-mu-cast-no-initialized-T"):
+        assertion = {"consumer-wrong-pointer": "v_base != source_base",
+                     "consumer-missing-raw-rights": "unrelated[..1] |-> ?unrelated_values",
+                     "consumer-mu-cast-no-initialized-T":
+                         "scratch_base[..1] |-> ?initialized_values"}[name]
         lines = [i for i, line in enumerate(source.splitlines(), 1)
                  if assertion in line]
         locations = [int(x) for x in re.findall(r"verified/lib\.rs\((\d+),", first)]
         expected_error = ("Cannot prove" if name == "consumer-wrong-pointer" else
+                          "No matching heap chunks: array<T>" if
+                          name == "consumer-mu-cast-no-initialized-T" else
                           "No matching heap chunks")
         passed = (pair and ast and result.get("source_pair_immutable") is True and
                   stage == "verification" and exit_code not in (None, 0) and
@@ -406,6 +422,9 @@ def run(a) -> None:
                  a.compiler_sysroot, a.evidence, a.proof_root, a.work_root, a.cloud_dir):
         need(str(path).startswith("/workspace/") and "/../" not in str(path) and
              "/./" not in str(path), "unsafe path " + str(path))
+    need(a.evidence.parent.name == "cases" and
+         a.evidence.parent.parent.name == "allprooflogs",
+         "caller case evidence layout")
     need(not a.evidence.exists() and a.deadline_epoch - time.time() > 120,
          "fresh evidence and sufficient time required")
     need(git(a.proof_root, "rev-parse", "HEAD").decode().strip() ==
@@ -519,16 +538,28 @@ def run(a) -> None:
                 "actual-unfiltered-prefix",
                 root_override=a.evidence / "cases" / "actual-unfiltered-prefix-postbinding")
             for name in ("consumer-positive", "consumer-wrong-pointer",
-                         "consumer-missing-raw-rights"):
+                         "consumer-missing-raw-rights",
+                         "consumer-mu-cast-no-initialized-T"):
                 fixture = (consumer_fixture if name == "consumer-positive" else
                            make_fixture(a, c4, ghost, manifest, name)[0])
                 cases[name] = verify_one(a, c4, tool, env, fixture, name)
-        save(a.evidence / "diagnostic-audit.json", {
+        expected_cases = (set(CASES) | {"actual-unfiltered-prefix-postbinding"})
+        diagnostic_complete = (expected_cases <= set(cases) and default_pass and
+                               all(row["refused_before_verifier"] for row in source_controls.values()) and
+                               phase_control["refused_before_verifier"] and
+                               all(cases[name].get("support", {}).get("paired_support_passed") is True and
+                                   cases[name].get("source_pair_immutable") is True
+                                   for name in expected_cases))
+        audit_result = {
             "classification": ("SLICE_COMPONENT_AND_CONSUMER_CANDIDATE_RAW_REVIEW_REQUIRED"
                                if component_ready and default_pass and all(cases.get(name, {}).get("gate_passed")
                                for name in ("consumer-positive", "consumer-wrong-pointer",
-                                            "consumer-missing-raw-rights")) else
+                                            "consumer-missing-raw-rights",
+                                            "consumer-mu-cast-no-initialized-T")) else
                                "FIRST_CAUSAL_OBLIGATION_OPEN_NO_CALLER_PROOF"),
+            "accepted": False, "verification_accepted": False,
+            "diagnostic_complete": diagnostic_complete,
+            "collector_pass_is_proof": False,
             "component_ready_before_binding": component_ready,
             "default_off_control": default_control,
             "source_admission_controls": source_controls,
@@ -540,8 +571,11 @@ def run(a) -> None:
             "tool_before_binding_translator": manifest["c4_base_translator_sha256"],
             "tool_after_binding_translator": (manifest["as_mut_ptr_translator_sha256"]
                                               if component_ready and default_pass else None),
-            "actual_caller_proved": False, "callable_summary": False,
-            "profile_accepted": False, "proof_credit": False})
+            "actual_sort4_proved": False, "actual_caller_proved": False,
+            "callable_summary": False, "profile_accepted": False,
+            "proof_credit": False}
+        save(a.evidence / "diagnostic-audit.json", audit_result)
+        save(a.evidence.parent.parent / "proof-audit.json", audit_result)
         need(audit.snapshot(a.production_source, a.proof_root) == production,
              "production source mutated during diagnostics")
     except Exception as exc:
