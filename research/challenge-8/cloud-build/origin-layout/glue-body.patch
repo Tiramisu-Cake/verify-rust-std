@@ -717,7 +717,7 @@ index 4f296f40..684d3f76 100644
                                      drop_data_cpn.set_selected_drop_path(&tcx.def_path_str(did));
                                      drop_data_cpn.set_selected_drop_hash(&format!("{:?}", tcx.def_path_hash(did)));
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index 13467ea1..2e0fa319 100644
+index 13467ea1..873d3a18 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -1928,12 +1928,23 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -830,9 +830,25 @@ index 13467ea1..2e0fa319 100644
            if selected then begin
              if not (is_bare_local_get drop_data_cpn) || is_replace_get drop_data_cpn
                  || not place_is_mutable || TranslatorArgs.ignore_unwind_paths then
-@@ -3120,7 +3180,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3119,8 +3179,25 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+             let ghost name args = Ast.PureStmt (loc, Ast.ExprStmt (call name args)) in
              let finish = [ghost "close_points_to" [receiver]; ghost "end_ref_mut" [receiver];
                            ghost "open_points_to" [address]] in
++            (* Separately profiled fault-injection controls for the qualified
++               caller interface only. The unset path is exactly the ordinary
++               finish above; compiler-owned glue is never changed. *)
++            let finish = match Sys.getenv_opt "SMALLSORT_DROP_RECEIVER_CONTROL", generated_call with
++              | None, _ -> finish
++              | Some "omit_end", Some _ ->
++                  [ghost "close_points_to" [receiver]; ghost "open_points_to" [address]]
++              | Some "wrong_end", Some _ ->
++                  [ghost "close_points_to" [receiver]; ghost "end_ref_mut" [address];
++                   ghost "open_points_to" [address]]
++              | Some "duplicate_end", Some _ ->
++                  [ghost "close_points_to" [receiver]; ghost "end_ref_mut" [receiver];
++                   ghost "end_ref_mut" [receiver]; ghost "open_points_to" [address]]
++              | Some _, _ -> Ast.static_error loc "Unsupported generated Drop receiver diagnostic" None
++            in
              let unwind_stmts, unwind_targets = translate_unwind_action (unwind_action_get drop_data_cpn) loc in
 -            let selected_call = Ast.CallExpr (loc, selected_path, [Ast.InferredTypeExpr loc], [],
 +            let call_name = match generated_call with
@@ -841,7 +857,7 @@ index 13467ea1..2e0fa319 100644
                [Ast.LitPat receiver], Ast.Static) in
              let call_stmt = Ast.SwitchStmt (loc, selected_call, [
                Ast.SwitchStmtClause (loc, call "returning" [Ast.Var (loc, "__result")], finish);
-@@ -5289,6 +5351,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5289,6 +5366,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
    let translate_body (body_tr_defs_ctx : body_tr_defs_ctx) (body_cpn : BodyRd.t)
        =
      let open BodyRd in
@@ -850,7 +866,7 @@ index 13467ea1..2e0fa319 100644
      (* This is a source-admission count, not a parser for annotations.  Every
         occurrence must later be replaced in a parsed ghost expression. *)
      let stack_addr_spelling = "mir_stack_addr" in
-@@ -5632,6 +5696,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5632,6 +5711,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let ghost_stmts = ghost_stmts
        let body_imp_loc = imp_loc
        let body_tr_defs_ctx = body_tr_defs_ctx
@@ -858,7 +874,7 @@ index 13467ea1..2e0fa319 100644
        let strict_lft_scope_ends = strict_lft_scope_ends
        let callback_close = callback_close
        let callback_recover = callback_recover
-@@ -5644,10 +5709,193 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5644,10 +5724,193 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        ListAux.try_map translate_var_debug_info vdis_cpn
      in
      let env_map, trs_map = make_var_id_name_maps imp_loc vdis in
@@ -1053,7 +1069,7 @@ index 13467ea1..2e0fa319 100644
      | DefKind.Fn ->
          let def_path = def_path_get body_cpn in
          let name = TrName.translate_def_path def_path in
-@@ -9086,6 +9334,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -9086,6 +9349,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        in
        let traits_decls = List.flatten traits_decls in
        let bodies_cpn = VfMirRd.VfMir.bodies_get_list vf_mir_cpn in
@@ -1066,7 +1082,7 @@ index 13467ea1..2e0fa319 100644
        let bodies_cpn =
          bodies_cpn
          |> List.filter (fun body_cpn ->
-@@ -9097,6 +9351,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -9097,6 +9366,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          if Args.skip_specless_fns then
            List.filter
              (fun body_cpn ->
@@ -1074,7 +1090,7 @@ index 13467ea1..2e0fa319 100644
                not
                  (Capnp.Array.is_empty
                     (ContractRd.annotations_get (BodyRd.contract_get body_cpn))))
-@@ -9120,8 +9375,85 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -9120,8 +9390,85 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
            | _ -> None
            end
          | _ -> None) bodies_cpn in

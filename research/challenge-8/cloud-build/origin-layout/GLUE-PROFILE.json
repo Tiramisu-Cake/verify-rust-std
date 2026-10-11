@@ -1,9 +1,9 @@
 {
   "schema": "smallsort-tracked-md-profile-v1",
-  "profile": "experimental-merge-actual-glue-body-v6",
+  "profile": "experimental-merge-actual-glue-body-v7",
   "verifast_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
   "baseline_translator_sha256": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
-  "translator_sha256": "f17691b857225785d79aee6c958c92143549e8ac61750c7295af38ec476b8cac",
+  "translator_sha256": "79b61f6f0273e240ad594926c1add347906775c204cf2730a690018030172d55",
   "patch_sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6",
   "historical_md_patch_sha256": "5500204aadd0ea0a2996d63d064160185457b6d337782aa4300c11272ab450cc",
   "kernel_sha256": "f6395a07ce443a4c1a64e88965ae9321ff1c6648fe094f75da279914117e194f",
@@ -88,7 +88,7 @@
     },
     {
       "path": "research/challenge-8/cloud-build/origin-layout/glue-body.patch",
-      "sha256": "5152e55f32008374331ebc754690369147d3850def35421eb746f244e097410d"
+      "sha256": "96abed1e437b380854c120d7e421b63e204cef751d0d0427a8e5f1c1df21e5b1"
     }
   ],
   "previous_selected_profile_sha256": "7e4f6088574056a0846aad2887895836b5e03edf06bb5a493d29daf44151cfff",
@@ -96,15 +96,15 @@
   "glue_observation_patch_sha256": "82fff6af2b5e98d2a1a8b0dafd0d9951bbb103408967a95d22e3461b367421ea",
   "preserved_selected_profile_sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
   "glue_credit": "EXPERIMENTAL_NOT_PROVED",
-  "semantic_delta": "Exact compiler-owned generated DropGlue body appended with captured method identity/phase and concrete Instance descriptor; qualified raw trait call lowered to checked selected method, caller receiver/end producer retained; official rebuilt refiner checks exact generated CFG including unwind without snippet shortcut. Frozen kernel/memory/alias/prelude unchanged; concrete non-generic u64 extracted specialization only. V6 narrowly compares absent unit Return locals only for generated-tagged unit bodies after strict shape/identity/CFG pair qualification; ordinary/non-unit absent Return refuses, and populated-vs-absent mismatch refuses. No synthetic assignment or CFG change.",
-  "effective_tool_commit": "e0a94e3eab17fcd69f7fad785f7a0fb316d27258",
+  "semantic_delta": "Exact compiler-owned generated DropGlue body appended with captured method identity/phase and concrete Instance descriptor; qualified raw trait call lowered to checked selected method, caller receiver/end producer retained; official rebuilt refiner checks exact generated CFG including unwind without snippet shortcut. Frozen kernel/memory/alias/prelude unchanged; concrete non-generic u64 extracted specialization only. V6 narrowly compares absent unit Return locals only for generated-tagged unit bodies after strict shape/identity/CFG pair qualification; ordinary/non-unit absent Return refuses, and populated-vs-absent mismatch refuses. No synthetic assignment or CFG change. V7 explicitly enabled synthetic caller-finish diagnostics omit/wrong/duplicate end only for qualified generated-call route; default finish AST unchanged, glue/compiler MIR untouched. Fresh same-profile positive and mandatory regressions required; synthetic controls never source-proof acceptance.",
+  "effective_tool_commit": "f267688dd68e9532f3fe06b3ce13772575d16626",
   "previous_glue_observation_profile_sha256": "ede5bd5e338703a6c1f99e6ee0dfe422115241fef9a7a9fadc4a9f9e71f63e1b",
-  "glue_body_tool_commit": "e0a94e3eab17fcd69f7fad785f7a0fb316d27258",
-  "glue_body_patch_sha256": "5152e55f32008374331ebc754690369147d3850def35421eb746f244e097410d",
+  "glue_body_tool_commit": "f267688dd68e9532f3fe06b3ce13772575d16626",
+  "glue_body_patch_sha256": "96abed1e437b380854c120d7e421b63e204cef751d0d0427a8e5f1c1df21e5b1",
   "baseline_refiner_binary_sha256": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
   "refiner_main_source_sha256": "9aba12084bbe17971dd12af35417385bde79afad28af80e7e254103f3a782b3c",
   "refiner_core_source_sha256": "e232312e5f24ca98e25fe32fe0be5300eca4deda69438af2ebf90985061b3dc8",
   "draft_status": "STATIC_PREPARED_NOT_CLOUD_BUILT",
   "last_buildable_exporter_profile": "experimental-merge-actual-glue-body-v2",
-  "previous_body_profile_sha256": "be44761fc00c64009e11744d44b07894e18876b8624af15ce5a0059eb26a9060"
+  "previous_body_profile_sha256": "e97cce6325ad7f2874fccc963d43d1e9e1c0c795f813cc1bddc46a1ce9fa0081"
 }

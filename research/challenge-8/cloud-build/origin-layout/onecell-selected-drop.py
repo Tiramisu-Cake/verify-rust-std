@@ -69,7 +69,7 @@ NATURAL_DROP_EXIT = b"        //@ assert true; // TARGET: natural Drop scope exi
 NATURAL_FALSE = b"        //@ assert false; // TARGET: after natural Drop terminator\n"
 CALLER_READY_FALSE = b"        //@ assert false; // TARGET: caller direct Drop-pre entry\n"
 CALLER_SIGNATURE = b"unsafe fn natural_onecell(tail: *mut u64)"
-BODY_GLUE_PROFILE = "experimental-merge-actual-glue-body-v6"
+BODY_GLUE_PROFILE = "experimental-merge-actual-glue-body-v7"
 GENERATED_GLUE_NAME = "__vf_generated_drop_glue"
 
 
@@ -621,6 +621,89 @@ def _generated_glue_proof_gate(log: str, glue_ast: dict) -> dict:
             "errors": errors, "dead_code": dead}
 
 
+def _body_glue_negative_gate(name: str, case: Path, row: dict, log: str,
+                             errors: list[str], dead: list[str], caller_ast: dict,
+                             glue_proof_gate: dict, setup: bool,
+                             natural_exit_executed: bool, caller_return: bool,
+                             caller_leak: bool) -> dict:
+    """Match one declared negative at its generated-glue-route source obligation."""
+    calls = caller_ast.get("call_nodes", [])
+    glue_calls = [call for call in calls if _is_generated_glue_name(call.get("callee", ""))]
+    receiver_calls = [call for call in calls if call.get("callee") == "create_ref_mut"]
+    glue_loc = glue_calls[0]["loc"] if len(glue_calls) == 1 else None
+    receiver_loc = receiver_calls[0]["loc"] if len(receiver_calls) == 1 else None
+
+    def at(loc: str | None, marker: str) -> bool:
+        return bool(loc and re.search(
+            rf"(?m)^\s*\d+(?:\.\d+)?s: {re.escape(loc)}: (?:note: )?{marker}\s*$", log))
+
+    def exact_error_span(line_number: int, token: bytes, occurrence: int = 0) -> str | None:
+        source_lines = (case / "verified/lib.rs").read_bytes().splitlines()
+        if not 1 <= line_number <= len(source_lines):
+            return None
+        source_line = source_lines[line_number - 1]
+        starts = [match.start() for match in re.finditer(re.escape(token), source_line)]
+        if len(starts) <= occurrence:
+            return None
+        column = starts[occurrence] + 1
+        return f"verified/lib.rs({line_number},{column}-{column + len(token)})"
+
+    matched = False
+    if (len(glue_calls) == 1 and len(receiver_calls) == 1 and
+            glue_proof_gate.get("admitted") is True):
+        if name in ("after_natural_drop_false", "caller_ready_entry_false"):
+            target_stage = ("after_natural_drop" if name == "after_natural_drop_false" else
+                            "caller_ready_entry_before_scope_exit")
+            false_loc = exact_error_span(row.get("false_line", 0), b"false")
+            false_error = (len(errors) == 1 and false_loc is not None and
+                           errors[0] == false_loc +
+                           ": error: Assertion might not hold. (Cannot prove false.)")
+            if name == "after_natural_drop_false":
+                matched = (row.get("target_stage") == target_stage and bool(false_error) and
+                           natural_exit_executed and glue_loc == receiver_loc and
+                           at(glue_loc, "Executing statement") and at(glue_loc, "Verifying call"))
+            else:
+                loc_line = (int(glue_loc.split("(", 1)[1].split(",", 1)[0])
+                            if glue_loc and re.search(r"\([0-9]+,", glue_loc) else -1)
+                matched = (row.get("target_stage") == target_stage and bool(false_error) and
+                           loc_line > row.get("false_line", 0) and glue_loc == receiver_loc and
+                           not at(glue_loc, "Executing statement") and not natural_exit_executed)
+        elif name == "missing_receiver_frame":
+            matched = (row.get("expected_missing") == "receiver_frame" and
+                       len(errors) == 1 and receiver_loc == glue_loc and
+                       errors[0].startswith(receiver_loc + ": error: No matching heap chunks: CopyOnDrop_len(") and
+                       "gap_guard_addr" in errors[0] and at(receiver_loc, "Executing statement") and
+                       at(receiver_loc, "Consuming object"))
+        elif name == "missing_source_permission":
+            verified_path = case / "verified/lib.rs"
+            matched = (row.get("expected_missing") == "source_permission" and
+                       receiver_loc == glue_loc and
+                       _source_permission_target(log, verified_path.read_bytes(), row, glue_loc))
+        elif name == "duplicate_effect_simultaneous":
+            matched = (len(errors) == 1 and row.get("double_effect_line") is not None and
+                       natural_exit_executed and glue_loc == receiver_loc and
+                       at(glue_loc, "Executing statement") and at(glue_loc, "Verifying call") and
+                       (effect_loc := exact_error_span(
+                           row["double_effect_line"], b"CopyOnDrop_drop_effect", 1)) is not None and
+                       errors[0].startswith(effect_loc +
+                           ": error: No matching heap chunks: CopyOnDrop_drop_effect("))
+        elif name == "caller_dead_code":
+            dead_loc = exact_error_span(row.get("dead_control_line", 0), b"assert")
+            matching_dead = [record for record in dead if dead_loc and
+                             record == dead_loc + ": dead code"]
+            matched = (len(matching_dead) == 1 and not errors and natural_exit_executed and
+                       glue_loc == receiver_loc and at(glue_loc, "Executing statement") and
+                       at(glue_loc, "Verifying call") and caller_return and caller_leak)
+    return {"matched": bool(matched), "admitted": bool(setup and matched),
+            "setup_admitted": setup, "case": name,
+            "caller_generated_glue_loc": glue_loc,
+            "caller_receiver_create_loc": receiver_loc,
+            "generated_glue_proof_admitted": glue_proof_gate.get("admitted") is True,
+            "reason": ("exact negative matched; full source/MIR/AST/refinement setup is required"
+                       if matched and not setup else None if matched else
+                       "negative did not match its exact generated-glue-route obligation")}
+
+
 def _classify(name: str, case: Path, row: dict, execution: dict,
               prep, body, drop_module, proof_base, profile: str = "") -> dict:
     stages = execution.get("stages", {})
@@ -697,6 +780,11 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
              refinement_gate.get("admitted") is True and
              source.get("admitted") is True and mir.get("admitted") is True and
              caller_ast.get("admitted") is True and body_ast.get("admitted") is True)
+    body_glue_negative = (_body_glue_negative_gate(
+        name, case, row, log, errors, dead, caller_ast, generated_glue_proof_gate,
+        setup, executed(row.get("natural_scope_end_line")), caller_return, caller_leak)
+        if body_glue_profile else {"matched": False, "admitted": False,
+                                  "reason": "not required by selected-method profile"})
     targeted = False
     if (not body_glue_profile and setup and name == "after_natural_drop_false" and
             stages.get("verifast") == 1 and len(errors) == 1):
@@ -729,6 +817,8 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
     if (not body_glue_profile and setup and name == "caller_dead_code" and
             stages.get("verifast") == 1 and not errors):
         targeted = any(f"verified/lib.rs({row['dead_control_line']}," in record for record in dead) and caller_return and caller_leak
+    if body_glue_profile:
+        targeted = body_glue_negative.get("admitted") is True
     positive = (setup and (not body_glue_profile or generated_glue_proof_gate.get("admitted") is True) and
                 stages.get("verifast") == 0 and not errors and not dead and body_copy and
                 body_return and leak and caller_return and caller_leak and "0 errors found" in log)
@@ -741,6 +831,7 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
             "caller_ast_evidence": caller_ast, "drop_body_effect_ast_gate": body_ast,
             "generated_glue_refinement_gate": refinement_gate,
             "generated_glue_proof_gate": generated_glue_proof_gate,
+            "generated_glue_negative_gate": body_glue_negative,
             "source_unchanged_at_every_stage": source_unchanged,
             "natural_scope_end_executed": executed(row.get("natural_scope_end_line")),
             "dead_code_lines": dead,
@@ -838,7 +929,7 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
     if args.profile not in ("experimental-merge-selected-drop-receiver-v4",
                             "experimental-merge-actual-glue-observation-v2",
                             "experimental-merge-actual-glue-observation-v3",
-                            "experimental-merge-actual-glue-body-v6"):
+                            "experimental-merge-actual-glue-body-v7"):
         raise RuntimeError("selected Drop exact supported experimental profile required")
     consumer.PROFILE = args.profile
     receipt = consumer._validate_receipt(args, validated_receipt, provider, proof_sha)
@@ -864,11 +955,35 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
 
         (case / "classification.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
         results[name] = result["classification"]
+    admission_controls = {"all_matched": False, "status": "NOT_RUN"}
+    receiver_controls = {"all_matched": False, "status": "NOT_RUN"}
+    if args.profile == BODY_GLUE_PROFILE and results.get("positive") == "NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY":
+        positive_case = evidence / "cases" / "positive"
+        for module_name, filename, destination in (
+                ("generated_glue_admission_controls", "generated-glue-admission-controls.py", "admission-controls"),
+                ("generated_glue_receiver_controls", "generated-glue-receiver-controls.py", "receiver-controls")):
+            try:
+                module = _load(module_name, HERE / filename)
+                if destination == "admission-controls":
+                    admission_controls = module.run(evidence / destination, args, env, proof_base, positive_case)
+                else:
+                    receiver_controls = module.run(evidence / destination, args, env, proof_base, positive_case, execute_case)
+            except Exception as error:
+                failure = {"all_matched": False, "status": "INCONCLUSIVE", "error": repr(error)}
+                if destination == "admission-controls":
+                    admission_controls = failure
+                else:
+                    receiver_controls = failure
+                (evidence / (destination + "-failure.json")).write_text(json.dumps(failure, indent=2) + "\n")
     aggregate = {"schema": "source-linked-u64-onecell-natural-drop-draft-v1",
                  "accepted": False, "profile": extraction["profile"],
                  "receipt_sha256": receipt["receipt_sha256"], "cases": results,
                  "scope": extraction["scope"],
-                 "all_matched": results == {"positive": "NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY",
+                 "generated_glue_admission_controls": admission_controls,
+                 "generated_glue_receiver_controls": receiver_controls,
+                 "all_matched": (args.profile != BODY_GLUE_PROFILE or
+                                 (admission_controls.get("all_matched") is True and
+                                  receiver_controls.get("all_matched") is True)) and results == {"positive": "NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY",
                     "caller_ready_entry_false": "CALLER_READY_ENTRY_EXPECTED_REJECTION",
                     "after_natural_drop_false": "EXPECTED_REJECTION", "missing_receiver_frame": "EXPECTED_REJECTION",
                     "missing_source_permission": "EXPECTED_REJECTION", "duplicate_effect_simultaneous": "EXPECTED_REJECTION",

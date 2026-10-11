@@ -27,7 +27,7 @@ def _profile_identity() -> str:
     profile = json.loads(Path(selected).read_text()).get("profile")
     if profile not in ("experimental-merge-actual-glue-observation-v2",
                        "experimental-merge-actual-glue-observation-v3",
-                            "experimental-merge-actual-glue-body-v6",
+                            "experimental-merge-actual-glue-body-v7",
                        "experimental-merge-selected-drop-receiver-v4"):
         raise RuntimeError("unsupported concrete-u64 experimental profile identity")
     return profile

@@ -1,0 +1,1163 @@
+diff --git a/src/refinement_checker/main.ml b/src/refinement_checker/main.ml
+index 296680a1..d5c3e98c 100644
+--- a/src/refinement_checker/main.ml
++++ b/src/refinement_checker/main.ml
+@@ -81,6 +81,247 @@ let verified_bodies =
+   |> List.map (fun body -> (canonicalize_def_path body.def_path, body))
+   |> ensure_unique_keys
+ 
++let generated_glue_key = "__vf_generated_drop_glue"
++
++let require_generated condition message =
++  if not condition then error ("Generated DropGlue: " ^ message)
++
++let one_generated_body unit_name bodies =
++  let generated = List.filter (fun (_, body) -> body.generated_glue.enabled) bodies in
++  match generated with
++  | [] -> None
++  | [(_, body)] ->
++      require_generated (body.def_path = generated_glue_key &&
++                         body.generated_glue.body_key = generated_glue_key)
++        (unit_name ^ " has an unexpected generated body key");
++      require_generated
++        (List.length (List.filter (fun (_, b) ->
++           b.def_path = generated_glue_key) bodies) = 1)
++        (unit_name ^ " has a duplicate generated body key");
++      Some body
++  | _ -> error ("Generated DropGlue: " ^ unit_name ^ " has multiple tagged bodies")
++
++let generated_original = one_generated_body "original" original_bodies
++let generated_verified = one_generated_body "verified" verified_bodies
++
++let check_generated_unit unit_name bodies body =
++  let g = body.generated_glue in
++  let nonempty name value =
++    require_generated (value <> "") (unit_name ^ " has no " ^ name)
++  in
++  List.iter (fun (name, value) -> nonempty name value)
++    ["guard path", g.guard_path; "guard hash", g.guard_hash;
++     "glue path", g.glue_def_path; "glue hash", g.glue_def_hash;
++     "selected drop path", g.selected_drop_path;
++     "selected drop hash", g.selected_drop_hash;
++     "selected source hash", g.selected_source_hash;
++     "raw trait path", g.raw_trait_path;
++     "raw trait hash", g.raw_trait_hash;
++     "raw trait arguments", g.raw_trait_args];
++  require_generated (g.instance_kind = "DropGlue" && g.instance_args <> [] &&
++                     g.resolved_args = [] &&
++                     g.glue_def_path = "core::ptr::drop_glue" &&
++                     g.raw_trait_path = "core::ops::Drop::drop")
++    (unit_name ^ " has an unsupported instance");
++  require_generated (g.selected_source_phase = "Runtime(PostCleanup)" &&
++                     g.mir_phase = "Runtime(Optimized)" &&
++                     g.unwind_kind = "Continue" &&
++                     g.normal_target = Stdint.Uint32.of_int 1)
++    (unit_name ^ " has an unexpected MIR phase or control-flow edge");
++  require_generated (body.def_path_hash = g.glue_def_hash &&
++                     body.captured_mir_hash <> "" &&
++                     body.captured_mir_phase = g.mir_phase)
++    (unit_name ^ " generated body does not match its captured glue identity");
++  require_generated (body.def_kind = Fn && body.visibility = Restricted &&
++                     body.hir_generics.params = [] && body.generics = [] &&
++                     body.impl_block_generics = [] && body.clauses = [] &&
++                     body.impl_block_clauses = [] && body.ghost_stmts = [] &&
++                     body.ghost_decl_blocks = [] && body.loop_spec_blocks = [] &&
++                     body.var_debug_info = [] &&
++                     body.contract.annotations = [] &&
++                     not body.is_drop_fn && not body.is_trait_fn)
++    (unit_name ^ " generated body has unsupported declarations");
++  let selected = List.filter (fun (_, b) ->
++    b.is_drop_fn && b.def_path = g.selected_drop_path &&
++    b.def_path_hash = g.selected_drop_hash) bodies in
++  let selected = match selected with
++    | [(_, b)] -> b
++    | _ -> error ("Generated DropGlue: " ^ unit_name ^
++                  " must contain one checked selected Drop::drop body")
++  in
++  require_generated (selected.captured_mir_hash = g.selected_source_hash &&
++                     selected.captured_mir_phase = g.selected_source_phase)
++    (unit_name ^ " selected method does not match captured MIR");
++  let drops = bodies |> List.concat_map (fun (_, b) ->
++    b.basic_blocks |> List.filter_map (fun bb ->
++      match bb.terminator.kind with
++      | Drop d when d.generated_body_key <> "" -> Some (b, bb.is_cleanup, d)
++      | _ -> None)) in
++  let normal_drops = List.filter (fun (_, is_cleanup, _) -> not is_cleanup) drops in
++  begin match normal_drops with
++  | [(caller, _, _)] ->
++      require_generated (List.for_all (fun (b, _, _) -> b.def_path = caller.def_path) drops)
++        (unit_name ^ " tagged Drops occur in different callers");
++      List.iter (fun (_, _, d) ->
++      require_generated (d.generated_body_key = g.body_key &&
++                         d.selected_drop_path = g.selected_drop_path &&
++                         d.selected_drop_hash = g.selected_drop_hash &&
++                         d.selected_guard_path = g.guard_path &&
++                         d.is_bare_local && not d.is_replace &&
++                         d.place.projection = [])
++        (unit_name ^ " caller Drop does not bind the generated body");
++      let guard_locals = List.filter (fun (local: Vf_mir_decoder.local_decl) ->
++        local.id = d.place.local &&
++        local.ty.kind = (match g.receiver_type.kind with
++          | Ref {ty; _} -> ty.kind
++          | _ -> Tuple [])) caller.local_decls in
++      require_generated (List.length guard_locals = 1)
++        (unit_name ^ " caller Drop place has the wrong guard type")) drops
++  | _ -> error ("Generated DropGlue: " ^ unit_name ^
++                " must contain exactly one normal tagged caller Drop")
++  end
++
++let check_generated_layout unit_name vf_mir body =
++  let rec ind_list_to_list = function
++    | Nil -> []
++    | Cons {h; t} -> h :: ind_list_to_list t
++  in
++  let g = body.generated_glue in
++  require_generated (vf_mir.target_triple = "x86_64-unknown-linux-gnu" &&
++                     vf_mir.pointer_width = 64)
++    (unit_name ^ " has the wrong target");
++  let guards = List.filter (fun (adt: adt_def) ->
++    adt.id.name = g.guard_path && adt.is_local &&
++    adt.has_concrete_guard_layout &&
++    adt.concrete_guard_def_path = g.guard_path &&
++    adt.concrete_guard_def_path_hash = g.guard_hash)
++    (ind_list_to_list vf_mir.adt_defs) in
++  match guards with
++  | [adt] ->
++      let u64: Vf_mir_decoder.ty = {kind=UInt U64} in
++      begin match adt.variants with
++      | [variant] ->
++          begin match variant.fields with
++          | [src; dst; len] ->
++              require_generated
++                (src.name.name = "src" && dst.name.name = "dst" &&
++                 len.name.name = "len" &&
++                 src.ty.kind = RawPtr {mutability=Not; ty=u64} &&
++                 dst.ty.kind = RawPtr {mutability=Mut; ty=u64} &&
++                 len.ty.kind = UInt USize &&
++                 adt.concrete_guard_size_bytes = Stdint.Uint64.of_int 24 &&
++                 adt.concrete_guard_align_bytes = Stdint.Uint64.of_int 8 &&
++                 adt.concrete_guard_field_offsets = ["0"; "8"; "16"] &&
++                 adt.concrete_guard_field_sizes = ["8"; "8"; "8"])
++                (unit_name ^ " has a different concrete guard layout")
++          | _ -> error ("Generated DropGlue: " ^ unit_name ^ " guard has wrong fields")
++          end
++      | _ -> error ("Generated DropGlue: " ^ unit_name ^ " guard has wrong variants")
++      end
++  | _ -> error ("Generated DropGlue: " ^ unit_name ^
++                " must contain one matching local concrete guard")
++
++let check_generated_shape unit_name body =
++  let g = body.generated_glue in
++  let bad detail = error ("Generated DropGlue: " ^ unit_name ^ " " ^ detail) in
++  let local name (p: Vf_mir_decoder.place) =
++    p.local.name = name && p.projection = [] && p.kind = Other in
++  let unit_ty (ty: Vf_mir_decoder.ty) = ty.kind = Tuple [] in
++  begin match body.inputs, body.local_decls with
++  | [input], [r; self; copied; result] ->
++      if input <> g.receiver_type || not (unit_ty body.output) ||
++         not (unit_ty r.ty && unit_ty result.ty) ||
++         self.ty <> input || copied.ty <> input ||
++         r.id.name <> "_0" || self.id.name <> "_1" ||
++         copied.id.name <> "_2" || result.id.name <> "_3" ||
++         List.map (fun (local: local_decl) -> local.mutability) body.local_decls <>
++           [Mut; Not; Mut; Mut] then
++        bad "has a different signature or local layout";
++      begin match input.kind with
++      | Ref {mutability=Mut; ty={kind=Adt guard}; _}
++          when guard.id.name = g.guard_path && guard.substs = [] &&
++               g.instance_args = [{kind=Type {kind=Adt guard}}] -> ()
++      | _ -> bad "receiver is not &mut of the selected guard"
++      end
++  | _ -> bad "must have exactly one input and four locals"
++  end;
++  begin match body.basic_blocks with
++  | [bb0; bb1] when bb0.id.index = Stdint.Uint32.of_int 0 &&
++                     bb1.id.index = Stdint.Uint32.of_int 1 &&
++                     not bb0.is_cleanup && not bb1.is_cleanup ->
++      begin match bb0.statements with
++      | [{kind=Assign {lhs_place; rhs_rvalue=Use (Copy source)}; _}]
++          when local "_2" lhs_place && local "_1" source -> ()
++      | _ -> bad "bb0 must contain only _2 = copy _1"
++      end;
++      begin match bb0.terminator.kind with
++      | Call call ->
++          begin match call.func with
++          | Constant {const=Val {const_value=ZeroSized;
++                                 ty={kind=FnDef fn}}; _}
++              when fn.id.name = g.raw_trait_path &&
++                   fn.substs = g.instance_args &&
++                   fn.late_bound_generic_param_count = 1 -> ()
++          | _ -> bad "call is not the recorded raw trait FnDef"
++          end;
++          begin match call.args, call.target, call.unwind_action with
++          | [Move arg], Something target, Continue
++              when local "_2" arg && local "_3" call.destination &&
++                   target.index = g.normal_target &&
++                   call.ghost_generic_arg_list = Nothing -> ()
++          | _ -> bad "call operands, destination, target, or unwind differ"
++          end
++      | _ -> bad "bb0 must end in the recorded trait call"
++      end;
++      require_generated (bb1.statements = [] && bb1.terminator.kind = Return)
++        (unit_name ^ " bb1 must contain only Return")
++  | _ -> bad "must have exactly the observed two-block CFG"
++  end
++
++let check_generated_pair body0 body1 =
++  check_generated_unit "original" original_bodies body0;
++  check_generated_unit "verified" verified_bodies body1;
++  check_generated_layout "original" original_vf_mir body0;
++  check_generated_layout "verified" verified_vf_mir body1;
++  check_generated_shape "original" body0;
++  check_generated_shape "verified" body1;
++  let g0, g1 = body0.generated_glue, body1.generated_glue in
++  require_generated
++    (g0.body_key = g1.body_key && g0.guard_path = g1.guard_path &&
++     g0.glue_def_path = g1.glue_def_path &&
++     g0.instance_kind = g1.instance_kind &&
++     g0.instance_args = g1.instance_args &&
++     g0.selected_drop_path = g1.selected_drop_path &&
++     g0.resolved_args = g1.resolved_args &&
++     g0.selected_source_phase = g1.selected_source_phase &&
++     g0.raw_trait_path = g1.raw_trait_path &&
++     g0.raw_trait_args = g1.raw_trait_args &&
++     g0.normal_target = g1.normal_target &&
++     g0.unwind_kind = g1.unwind_kind && g0.mir_phase = g1.mir_phase &&
++     g0.receiver_type = g1.receiver_type)
++    "original and verified descriptors differ";
++  let without_spans (b: body) =
++    let local_decls = List.map (fun (d: local_decl) ->
++      {d with source_info={span=Dummy}}) b.local_decls in
++    let basic_blocks = List.map (fun (bb: basic_block) ->
++      let statements = List.map (fun (s: statement) ->
++        {s with source_info={span=Dummy}}) bb.statements in
++      let kind = match bb.terminator.kind with
++        | Call call ->
++            let func: Vf_mir_decoder.operand = match call.func with
++              | Constant c -> Constant {c with span=Dummy}
++              | operand -> operand
++            in
++            Call {call with func; call_span=Dummy}
++        | kind -> kind
++      in
++      let terminator = {bb.terminator with source_info={span=Dummy}; kind} in
++      {bb with statements; terminator}) b.basic_blocks in
++    local_decls, basic_blocks
++  in
++  require_generated (without_spans body0 = without_spans body1)
++    "original and verified MIR differ outside source spans"
++
+ let get_line_offsets text =
+   let rec get_line_offsets' text offset acc =
+     match String.index_from_opt text offset '\n' with
+@@ -136,7 +377,12 @@ let original_checked_spans = ref []
+ let verified_checked_spans = ref wrapper_fn_spans
+ 
+ let check_body_refines_body def_path body verified_body =
+-  if bodies_are_identical def_path body verified_body then begin
++  if body.generated_glue.enabled || verified_body.generated_glue.enabled then begin
++    require_generated (body.generated_glue.enabled && verified_body.generated_glue.enabled)
++      "tag is present on only one side";
++    check_generated_pair body verified_body;
++    check_body_refines_body original_bodies verified_bodies def_path body verified_body
++  end else if bodies_are_identical def_path body verified_body then begin
+     if !verbosity >= verbosity_body then
+       Printf.printf "Function bodies for %s are identical\n" def_path
+   end else (
+@@ -284,11 +530,26 @@ let rec check_module module0 module1 =
+   List.iter2 check_module submodules0 submodules1
+ 
+ let check_bodies () =
++  let has_generated_drop bodies =
++    List.exists (fun (_, body) ->
++      List.exists (fun bb -> match bb.terminator.kind with
++        | Drop d -> d.generated_body_key <> ""
++        | _ -> false) body.basic_blocks) bodies
++  in
++  begin match generated_original, generated_verified with
++  | None, None ->
++      require_generated
++        (not (has_generated_drop original_bodies) &&
++         not (has_generated_drop verified_bodies))
++        "a tagged caller Drop has no generated body"
++  | Some _, Some _ -> ()
++  | _ -> error "Generated DropGlue: body missing from one exported unit"
++  end;
+   original_bodies
+   |> List.iter @@ fun (def_path, body) ->
+      match List.assoc_opt def_path verified_bodies with
+      | None ->
+-        if body.visibility = Restricted then
++        if body.visibility = Restricted && not body.generated_glue.enabled then
+           () (* If a private function of the original program does not appear in the verified program,
+                 it must be the case that all calls of that function were inlined. *)
+         else
+diff --git a/src/refinement_checker/refinement_checker.ml b/src/refinement_checker/refinement_checker.ml
+index 77c3c289..68ceedc7 100644
+--- a/src/refinement_checker/refinement_checker.ml
++++ b/src/refinement_checker/refinement_checker.ml
+@@ -412,6 +412,16 @@ let update_env x v env = (x, v) :: List.remove_assoc x env
+ 
+ let local_name (locals: local_decl array) i = locals.(i).id.name
+ 
++let empty_generated_glue: generated_glue = {
++  enabled=false; body_key=""; guard_path=""; guard_hash="";
++  glue_def_path=""; glue_def_hash=""; instance_kind="";
++  instance_args=[]; selected_drop_path=""; selected_drop_hash="";
++  resolved_args=[]; selected_source_phase=""; selected_source_hash="";
++  raw_trait_path=""; raw_trait_hash=""; raw_trait_args="";
++  normal_target=Stdint.Uint32.of_int 0; unwind_kind=""; mir_phase="";
++  receiver_type={kind=Tuple []}
++}
++
+ let fns_to_be_inlined: (string * body) list =
+   let local x = {local={name=x}; projection=[]; local_is_mutable=false; kind=Other} in
+  [
+@@ -536,6 +546,8 @@ let fns_to_be_inlined: (string * body) list =
+           statements=[];
+           terminator={
+             kind=Drop {
++              selected_drop_path=""; selected_drop_hash=""; selected_guard_path="";
++              is_bare_local=false; is_replace=false; generated_body_key="";
+               place={
+                 local={name="self"};
+                 projection=[Field {index=Stdint.Uint32.of_int 1; name=Something {name="1"}; ty={kind=Param "A"}}];
+@@ -560,6 +572,8 @@ let fns_to_be_inlined: (string * body) list =
+           statements=[];
+           terminator={
+             kind=Drop {
++              selected_drop_path=""; selected_drop_hash=""; selected_guard_path="";
++              is_bare_local=false; is_replace=false; generated_body_key="";
+               place={
+                 local={name="self"};
+                 projection=[Field {index=Stdint.Uint32.of_int 1; name=Something {name="1"}; ty={kind=Param "A"}}];
+@@ -619,6 +633,10 @@ let fns_to_be_inlined: (string * body) list =
+       clauses=[];
+       is_trait_fn=false;
+       is_drop_fn=false;
++      def_path_hash="";
++      generated_glue=empty_generated_glue;
++      captured_mir_hash="";
++      captured_mir_phase="";
+       visibility=Public;
+     }
+   );
+@@ -716,6 +734,10 @@ let fns_to_be_inlined: (string * body) list =
+     clauses=[];
+     is_trait_fn=false;
+     is_drop_fn=false;
++      def_path_hash="";
++      generated_glue=empty_generated_glue;
++      captured_mir_hash="";
++      captured_mir_phase="";
+     visibility=Public;
+   }
+   );
+@@ -955,6 +977,10 @@ let fns_to_be_inlined: (string * body) list =
+     clauses=[];
+     is_trait_fn=false;
+     is_drop_fn=false;
++      def_path_hash="";
++      generated_glue=empty_generated_glue;
++      captured_mir_hash="";
++      captured_mir_phase="";
+     visibility=Public;
+   });
+   ("std::result::Result::<T, E>::map_err",
+@@ -1193,6 +1219,10 @@ let fns_to_be_inlined: (string * body) list =
+     clauses=[];
+     is_trait_fn=false;
+     is_drop_fn=false;
++      def_path_hash="";
++      generated_glue=empty_generated_glue;
++      captured_mir_hash="";
++      captured_mir_phase="";
+     visibility=Public;
+   });
+   ("std::option::Option::<T>::map",
+@@ -1409,6 +1439,10 @@ let fns_to_be_inlined: (string * body) list =
+     clauses=[];
+     is_trait_fn=false;
+     is_drop_fn=false;
++      def_path_hash="";
++      generated_glue=empty_generated_glue;
++      captured_mir_hash="";
++      captured_mir_phase="";
+     visibility=Public;
+   });
+   "std::option::Option::<T>::unwrap_or_else",
+@@ -1589,6 +1623,10 @@ let fns_to_be_inlined: (string * body) list =
+     clauses=[];
+     is_trait_fn=false;
+     is_drop_fn=false;
++      def_path_hash="";
++      generated_glue=empty_generated_glue;
++      captured_mir_hash="";
++      captured_mir_phase="";
+     visibility=Public;
+   }
+ ]
+@@ -2509,10 +2547,20 @@ let check_body_refines_body bodies0 bodies1 def_path body0 body1 =
+         | UnwindResume, UnwindResume -> ()
+         | UnwindTerminate, UnwindTerminate -> ()
+         | (Return, Return) ->
+-            let retVal0 = List.assoc {lv_caller=None; lv_name=locals0.(0).id.name} env0 in
+-            let retVal1 = List.assoc {lv_caller=None; lv_name=locals1.(0).id.name} env1 in
++            (* The compiler-owned, separately shape-qualified DropGlue returns
++               unit without assigning _0. Compare this case explicitly; do not
++               manufacture a value for an absent non-unit return local. *)
++            let return_value (body: body) (locals: local_decl array) env =
++              match List.assoc_opt {lv_caller=None; lv_name=locals.(0).id.name} env with
++              | Some value -> Some value
++              | None when body.generated_glue.enabled && body.output.kind = Tuple [] &&
++                          locals.(0).ty.kind = Tuple [] -> None
++              | None -> error "Return local has no value in the refinement environment"
++            in
++            let retVal0 = return_value body0 locals0 env0 in
++            let retVal1 = return_value body1 locals1 env1 in
+             if retVal0 <> retVal1 then
+-              error (Printf.sprintf "In function %s, at basic block %s in the original crate and basic block %s in the verified crate, the return values %s and %s are not equal" def_path i_bb0#to_string i_bb1#to_string (string_of_local_var_state retVal0) (string_of_local_var_state retVal1))
++              error (Printf.sprintf "In function %s, at basic block %s in the original crate and basic block %s in the verified crate, the return values are not equal" def_path i_bb0#to_string i_bb1#to_string)
+         | _, Unreachable -> ()
+         | (Call call0, Call call1) ->
+           let func0 = call0.func in
+diff --git a/src/rust_frontend/vf_mir/vf_mir.capnp b/src/rust_frontend/vf_mir/vf_mir.capnp
+index 75fac073..86c298fc 100644
+--- a/src/rust_frontend/vf_mir/vf_mir.capnp
++++ b/src/rust_frontend/vf_mir/vf_mir.capnp
+@@ -778,6 +778,7 @@ struct TerminatorKind {
+         selectedGuardPath @5: Text;
+         isBareLocal @6: Bool;
+         isReplace @7: Bool;
++        generatedBodyKey @8: Text;
+     }
+ 
+     struct AssertData {
+@@ -805,6 +806,32 @@ struct TerminatorKind {
+     }
+ }
+ 
++# Evidence for one concrete compiler-generated DropGlue instance.  The hashes
++# bind identities within one exported unit; paths identify the corresponding
++# definitions across the original and verified units.
++struct GeneratedGlue {
++    enabled @0: Bool;
++    bodyKey @1: Text;
++    guardPath @2: Text;
++    guardHash @3: Text;
++    glueDefPath @4: Text;
++    glueDefHash @5: Text;
++    instanceKind @6: Text;
++    instanceArgs @7: List(GenericArg);
++    selectedDropPath @8: Text;
++    selectedDropHash @9: Text;
++    resolvedArgs @10: List(GenericArg);
++    selectedSourcePhase @11: Text;
++    selectedSourceHash @12: Text;
++    rawTraitPath @13: Text;
++    rawTraitHash @14: Text;
++    rawTraitArgs @15: Text;
++    normalTarget @16: UInt32;
++    unwindKind @17: Text;
++    mirPhase @18: Text;
++    receiverType @19: Ty;
++}
++
+ struct Terminator {
+     sourceInfo @0: SourceInfo;
+     kind @1: TerminatorKind;
+@@ -886,6 +913,9 @@ struct Body {
+     isTraitFn @12: Bool;
+     isDropFn @13: Bool; # Implements std::ops::Drop::drop
+     defPathHash @26: Text;
++    generatedGlue @27: GeneratedGlue;
++    capturedMirHash @28: Text;
++    capturedMirPhase @29: Text;
+     visibility @22: Visibility;
+ }
+ 
+diff --git a/src/rust_frontend/vf_mir_exporter/src/lib.rs b/src/rust_frontend/vf_mir_exporter/src/lib.rs
+index 4f296f40..684d3f76 100644
+--- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
++++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
+@@ -634,6 +634,7 @@ use rustc_span::RemapPathScopeComponents;
+         mode: EncKind<'tcx, 'a>,
+         annots: LinkedList<Box<GhostRange>>,
+         mut_annots: Vec<rustc_span::BytePos>,
++        generated_raw_callee: Option<rustc_hir::def_id::DefId>,
+     }
+ 
+     impl<'tcx, 'a> EncCtx<'tcx, 'a> {
+@@ -649,6 +650,7 @@ use rustc_span::RemapPathScopeComponents;
+                 mode,
+                 annots,
+                 mut_annots,
++                generated_raw_callee: None,
+             }
+         }
+         pub fn add_req_adt(&mut self, adt: ty::AdtDef<'tcx>) {
+@@ -668,6 +670,19 @@ use rustc_span::RemapPathScopeComponents;
+         }
+     }
+ 
++    // Actual immutable compiler body, not a hand-written MIR helper.
++    struct GeneratedGlue<'tcx> {
++        body: &'tcx mir::Body<'tcx>,
++        drop_ty: ty::Ty<'tcx>,
++        guard: ty::AdtDef<'tcx>,
++        instance: ty::Instance<'tcx>,
++        selected: ty::Instance<'tcx>,
++        raw_callee: rustc_hir::def_id::DefId,
++        raw_args: String,
++        source_hash: String,
++        source_phase: String,
++    }
++
+     pub struct VfMirCapnpBuilder<'tcx> {
+         tcx: TyCtxt<'tcx>,
+         directives: Vec<Box<GhostRange>>,
+@@ -908,6 +923,145 @@ use rustc_span::RemapPathScopeComponents;
+                 .unwrap_or_else(|error| panic!("cannot write glue observation {path:?}: {error}"));
+         }
+ 
++        fn captured_mir_hash(body: &mir::Body<'tcx>) -> String {
++            use std::hash::{Hash, Hasher};
++            let mut hasher = std::collections::hash_map::DefaultHasher::new();
++            format!("{body:#?}").hash(&mut hasher);
++            format!("{:016x}", hasher.finish())
++        }
++
++        // Collect from already-owned source MIR. Never ask rustc for selected
++        // method MIR after the collector has stolen it.
++        fn collect_generated_glue(&self) -> Vec<GeneratedGlue<'tcx>> {
++            if std::env::var_os("SMALLSORT_ACTUAL_GLUE_BODY").is_none() {
++                return Vec::new();
++            }
++            let tcx = self.tcx;
++            let mut result: Vec<GeneratedGlue<'tcx>> = Vec::new();
++            for (owner, _) in &self.bodies {
++                for block in owner.basic_blocks.iter() {
++                    let mir::TerminatorKind::Drop { place, replace, .. } = &block.terminator().kind else { continue };
++                    let drop_ty = place.ty(&owner.local_decls, tcx).ty;
++                    let ty::TyKind::Adt(guard, guard_args) = drop_ty.kind() else { continue };
++                    if !guard.did().is_local() || !guard_args.is_empty() { continue }
++                    let Some(destructor) = guard.destructor(tcx) else { continue };
++                    // Other local types must retain ordinary Drop semantics.
++                    if tcx.def_path_str(guard.did()) != "CopyOnDrop" { continue }
++                    assert!(place.projection.is_empty() && !replace, "generated glue needs bare local non-replacement Drop");
++                    if result.iter().any(|g| g.drop_ty == drop_ty) { continue }
++                    assert!(result.is_empty(), "only one concrete generated glue admitted per unit");
++                    assert_eq!(guard.all_fields().count(), 3, "exact guard fields");
++                    for (i, field) in guard.all_fields().enumerate() {
++                        let ty = tcx.type_of(field.did).instantiate_identity().skip_normalization();
++                        match (i, ty.kind()) {
++                            (0, ty::TyKind::RawPtr(t, mir::Mutability::Not)) | (1, ty::TyKind::RawPtr(t, mir::Mutability::Mut)) => assert_eq!(*t, tcx.types.u64),
++                            (2, ty::TyKind::Uint(ty::UintTy::Usize)) => (),
++                            _ => panic!("generated glue exact concrete-u64 guard fields refused"),
++                        }
++                    }
++                    let instance = ty::Instance::resolve_drop_glue(tcx, drop_ty);
++                    assert_eq!(instance.args.len(), 1);
++                    assert!(matches!(instance.args[0].kind(), ty::GenericArgKind::Type(t) if t == drop_ty));
++                    let body = tcx.instance_mir(instance.def);
++                    assert_eq!(body.source.instance, instance.def);
++                    assert!(format!("{:?}", instance.def).starts_with("Shim(DropGlue("));
++                    let locals = body.local_decls.iter_enumerated().map(|(id, _)| id).collect::<Vec<_>>();
++                    let blocks = body.basic_blocks.iter_enumerated().map(|(id, _)| id).collect::<Vec<_>>();
++                    assert_eq!(format!("{:?}", body.phase), "Runtime(Optimized)");
++                    assert_eq!(body.arg_count, 1);
++                    assert_eq!(body.local_decls.len(), 4);
++                    assert_eq!(body.local_decls[locals[0]].ty, tcx.types.unit);
++                    assert_eq!(body.local_decls[locals[3]].ty, tcx.types.unit);
++                    for i in [1, 2] {
++                        assert!(matches!(body.local_decls[locals[i]].ty.kind(), ty::TyKind::Ref(_, t, mir::Mutability::Mut) if *t == drop_ty));
++                    }
++                    assert_eq!(body.basic_blocks.len(), 2);
++                    let entry = &body.basic_blocks[blocks[0]];
++                    let exit = &body.basic_blocks[blocks[1]];
++                    assert!(!entry.is_cleanup && !exit.is_cleanup && exit.statements.is_empty());
++                    assert!(matches!(exit.terminator().kind, mir::TerminatorKind::Return));
++                    assert_eq!(entry.statements.len(), 1);
++                    assert!(matches!(&entry.statements[0].kind, mir::StatementKind::Assign(a)
++                        if a.0 == mir::Place::from(locals[2]) && matches!(&a.1, mir::Rvalue::Use(mir::Operand::Copy(p), _) if *p == mir::Place::from(locals[1]))));
++                    let mir::TerminatorKind::Call { func, args, destination, target, unwind, .. } = &entry.terminator().kind else { panic!("actual generated glue entry not call") };
++                    assert_eq!(*target, Some(blocks[1]));
++                    assert!(matches!(unwind, mir::UnwindAction::Continue));
++                    assert_eq!(*destination, mir::Place::from(locals[3]));
++                    assert_eq!(args.len(), 1);
++                    assert!(matches!(&args[0].node, mir::Operand::Move(p) if *p == mir::Place::from(locals[2])));
++                    let callee_ty = func.ty(&body.local_decls, tcx);
++                    let ty::TyKind::FnDef(raw_callee, raw_args) = callee_ty.kind() else { panic!("glue callee not FnDef") };
++                    let selected = ty::Instance::try_resolve(tcx, ty::TypingEnv::fully_monomorphized(), *raw_callee,
++                        tcx.instantiate_bound_regions_with_erased(*raw_args)).expect("glue callee resolution").expect("unresolved glue callee");
++                    let expected = ty::Instance { def: ty::InstanceKind::Item(destructor.did), args: *guard_args };
++                    assert_eq!(selected, expected, "whole destructor Instance equality required");
++                    let captures = self.bodies.iter().filter(|(b, _)| b.source.def_id() == selected.def_id()).collect::<Vec<_>>();
++                    assert_eq!(captures.len(), 1, "unique captured actual method");
++                    let source = &captures[0].0;
++                    result.push(GeneratedGlue { body, drop_ty, guard: *guard, instance, selected, raw_callee: *raw_callee,
++                        raw_args: format!("{raw_args:?}"), source_hash: Self::captured_mir_hash(source), source_phase: format!("{:?}", source.phase) });
++                }
++            }
++            result
++        }
++
++        fn encode_generated_body(&self, g: &GeneratedGlue<'tcx>, mut output: body_cpn::Builder<'_>) {
++            let tcx = self.tcx;
++            let body = g.body;
++            let locals = body.local_decls.iter_enumerated().map(|(id, _)| id).collect::<Vec<_>>();
++            let mut ctx = EncCtx::new(tcx, EncKind::Body(body), LinkedList::new(), Vec::new());
++            ctx.generated_raw_callee = Some(g.raw_callee);
++            output.set_def_path("__vf_generated_drop_glue");
++            output.set_def_path_hash(&format!("{:?}", tcx.def_path_hash(g.instance.def_id())));
++            output.reborrow().init_def_kind().set_fn(());
++            output.reborrow().init_visibility().set_restricted(());
++            output.reborrow().init_unsafety().set_unsafe(());
++            output.set_captured_mir_hash(&Self::captured_mir_hash(body));
++            output.set_captured_mir_phase(&format!("{:?}", body.phase));
++            for field in [0, 1, 2] {
++                let span = match field {
++                    0 => output.reborrow().init_fn_sig_span(),
++                    1 => output.reborrow().init_span(),
++                    _ => output.reborrow().init_imp_span(),
++                };
++                Self::encode_span_data(tcx, &body.span.data(), span);
++            }
++            let mut contract = output.reborrow().init_contract();
++            Self::encode_span_data(tcx, &body.span.data(), contract.reborrow().init_span());
++            contract.init_annotations(0);
++            let mut gens = output.reborrow().init_hir_generics();
++            Self::encode_span_data(tcx, &body.span.data(), gens.reborrow().init_span());
++            gens.init_params(0);
++            output.reborrow().init_impl_block_hir_generics().set_nothing(());
++            Self::encode_ty(tcx, &mut ctx, body.local_decls[locals[0]].ty, output.reborrow().init_output());
++            let mut inputs = output.reborrow().init_inputs(1);
++            Self::encode_ty(tcx, &mut ctx, body.local_decls[locals[1]].ty, inputs.reborrow().get(0));
++            output.reborrow().fill_local_decls(body.local_decls.iter_enumerated(), |out, (id, decl)| Self::encode_local_decl(tcx, &mut ctx, id, decl, out));
++            output.reborrow().fill_basic_blocks(body.basic_blocks.iter_enumerated(), |out, (id, block)| Self::encode_basic_block(tcx, &mut ctx, id, block, out, &self.bodies));
++            let mut d = output.init_generated_glue();
++            d.set_enabled(true);
++            d.set_body_key("__vf_generated_drop_glue");
++            d.set_guard_path(&tcx.def_path_str(g.guard.did()));
++            d.set_guard_hash(&format!("{:?}", tcx.def_path_hash(g.guard.did())));
++            d.set_glue_def_path(&tcx.def_path_str(g.instance.def_id()));
++            d.set_glue_def_hash(&format!("{:?}", tcx.def_path_hash(g.instance.def_id())));
++            d.set_instance_kind("DropGlue");
++            let mut args = d.reborrow().init_instance_args(g.instance.args.len());
++            for (i, arg) in g.instance.args.iter().enumerate() { Self::encode_gen_arg(tcx, &mut ctx, arg, args.reborrow().get(i)); }
++            d.set_selected_drop_path(&tcx.def_path_str(g.selected.def_id()));
++            d.set_selected_drop_hash(&format!("{:?}", tcx.def_path_hash(g.selected.def_id())));
++            d.reborrow().init_resolved_args(0);
++            d.set_selected_source_phase(&g.source_phase);
++            d.set_selected_source_hash(&g.source_hash);
++            d.set_raw_trait_path(&tcx.def_path_str(g.raw_callee));
++            d.set_raw_trait_hash(&format!("{:?}", tcx.def_path_hash(g.raw_callee)));
++            d.set_raw_trait_args(&g.raw_args);
++            d.set_normal_target(1);
++            d.set_unwind_kind("Continue");
++            d.set_mir_phase(&format!("{:?}", body.phase));
++            Self::encode_ty(tcx, &mut ctx, body.local_decls[locals[1]].ty, d.init_receiver_type());
++        }
++
+         fn encode_trait_impls(&mut self, vf_mir_cpn: &mut vf_mir_cpn::Builder<'_>) {
+             let mut enc_ctx = EncCtx::new(self.tcx, EncKind::Other, LinkedList::new(), Vec::new());
+             vf_mir_cpn.fill_trait_impls(&self.trait_impls, |mut trait_impl_cpn, trait_impl| {
+@@ -1106,7 +1260,10 @@ use rustc_span::RemapPathScopeComponents;
+             // Encode traits (consumes annotations)
+             self.encode_traits(&mut req_adt_defs, vf_mir_cpn.reborrow());
+ 
+-            vf_mir_cpn.fill_bodies(&self.bodies, |mut body_cpn, (body, span)| {
++            let generated = self.collect_generated_glue();
++            let mut body_outputs = vf_mir_cpn.reborrow().init_bodies(self.bodies.len() + generated.len());
++            for (index, (body, span)) in self.bodies.iter().enumerate() {
++                let mut body_cpn = body_outputs.reborrow().get(index);
+                 Self::encode_span_data(
+                     self.tcx,
+                     &span.data(),
+@@ -1133,7 +1290,10 @@ use rustc_span::RemapPathScopeComponents;
+                 let mut enc_ctx = EncCtx::new(self.tcx, EncKind::Body(body), annots, mut_annots);
+                 Self::encode_body(&mut enc_ctx, body_cpn, &self.bodies);
+                 req_adt_defs.extend(enc_ctx.get_req_adts());
+-            });
++            }
++            for (index, glue) in generated.iter().enumerate() {
++                self.encode_generated_body(glue, body_outputs.reborrow().get(self.bodies.len() + index));
++            }
+ 
+             // Encode directives
+             vf_mir_cpn.fill_directives(&self.directives, |directive_cpn, directive| {
+@@ -1543,6 +1703,8 @@ use rustc_span::RemapPathScopeComponents;
+             );
+ 
+             let def_id = body.source.def_id();
++            body_cpn.set_captured_mir_hash(&Self::captured_mir_hash(body));
++            body_cpn.set_captured_mir_phase(&format!("{:?}", body.phase));
+ 
+             let kind = tcx.def_kind(def_id);
+             let is_closure = match kind {
+@@ -2116,7 +2278,9 @@ use rustc_span::RemapPathScopeComponents;
+                 }
+                 ty::TyKind::FnDef(def_id, substs) => {
+                     let fn_def_ty_cpn = ty_kind_cpn.init_fn_def();
+-                    let substs = substs.no_bound_vars().expect("FnDef args with bound vars");
++                    let substs = if enc_ctx.generated_raw_callee == Some(*def_id) {
++                        tcx.instantiate_bound_regions_with_erased(*substs)
++                    } else { substs.no_bound_vars().expect("FnDef args with bound vars") };
+                     Self::encode_ty_fn_def(tcx, enc_ctx, def_id, substs, fn_def_ty_cpn);
+                 }
+                 ty::TyKind::FnPtr(binder, header) => {
+@@ -2824,6 +2988,9 @@ use rustc_span::RemapPathScopeComponents;
+                             if let Some(destructor) = adt.destructor(tcx) {
+                                 let did = destructor.did;
+                                 if did.is_local() {
++                                    if std::env::var_os("SMALLSORT_ACTUAL_GLUE_BODY").is_some() && tcx.def_path_str(adt.did()) == "CopyOnDrop" {
++                                        drop_data_cpn.set_generated_body_key("__vf_generated_drop_glue");
++                                    }
+                                     drop_data_cpn.set_selected_guard_path(&tcx.def_path_str(adt.did()));
+                                     drop_data_cpn.set_selected_drop_path(&tcx.def_path_str(did));
+                                     drop_data_cpn.set_selected_drop_hash(&format!("{:?}", tcx.def_path_hash(did)));
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+index 13467ea1..2e0fa319 100644
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -1928,12 +1928,23 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+ 
+   type body_tr_defs_ctx = {
+     selected_drops : (string * string * string) list;
++    generated_glue : generated_glue_binding option;
+     adt_defs : Mir.adt_def_tr list;
+     ghost_decl_map : (string * Ast.decl) list;
+     directives : Mir.annot list;
+     fn_specializer : string -> D.generic_arg list -> string * D.generic_arg list;
+   }
+ 
++  and generated_glue_binding = {
++    glue_key : string;
++    glue_guard : string;
++    glue_selected_path : string;
++    glue_selected_hash : string;
++    glue_raw_trait_path : string;
++    glue_raw_trait_hash : string;
++    glue_method_body : BodyRd.t;
++  }
++
+   type var_id_trs_entry = { id : string; internal_name : string }
+   type var_id_trs_map = var_id_trs_entry list
+ 
+@@ -1944,6 +1955,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+     val ghost_stmts : Ast.stmt list
+     val body_imp_loc : Ast.loc
+     val body_tr_defs_ctx : body_tr_defs_ctx
++    val is_generated_glue : bool
+     val strict_lft_scope_ends : (Ast.loc * string) list
+     val callback_close : (Ast.loc * string * Ast.stmt) option
+     val callback_recover : Ast.stmt option
+@@ -1965,6 +1977,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       let callback_unwind_label = "#merge_callback_unwind_epilogue"
+       let selected_resume_targets : string list ref = ref []
+       let translating_selected_resume = ref false
++      let generated_glue = Args.body_tr_defs_ctx.generated_glue
++      let is_generated_glue = Args.is_generated_glue
+       let hrtb_fnmut_output_bounds : (string * string) list ref = ref []
+       let pending_hrtb_projection_eq : Ast.stmt list ref = ref []
+ 
+@@ -2464,6 +2478,30 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       | `TrTypedConstantFn fn_def_ty_cpn -> (
+           let fn_name = fn_def_ty_cpn.id.name in
+           let substs_cpn = fn_def_ty_cpn.substs in
++          if State.is_generated_glue then begin
++            let binding = match State.generated_glue with
++              | Some binding -> binding
++              | None -> Ast.static_error call_loc "Unbound generated Drop glue" None in
++            let raw_trait = canonicalize_item_name fn_name in
++            let expected_trait = canonicalize_item_name binding.glue_raw_trait_path in
++            let concrete_guard = match substs_cpn with
++              | [{ D.kind = D.Type ty }] ->
++                  (match decode_ty ty with
++                   | `Adt (guard, _, []) -> Some guard
++                   | _ -> None)
++              | _ -> None in
++            if raw_trait <> expected_trait ||
++               concrete_guard <> Some binding.glue_guard ||
++               fn_def_ty_cpn.late_bound_generic_param_count <> 1 ||
++               List.length args_cpn <> 1 || tmp_rvalue_binders <> [] ||
++               (match args with [Ast.Var _] -> false | _ -> true) then
++              Ast.static_error call_loc
++                "Generated Drop trait call differs from the resolved local instance" None;
++            Ok ([], FnCallOutcome
++              (Ast.CallExpr (fn_loc, binding.glue_selected_path,
++                 [Ast.InferredTypeExpr call_loc], [],
++                 [Ast.LitPat (List.hd args)], Ast.Static)))
++          end else
+           let fn_name = translate_fn_name fn_name substs_cpn in
+           let substs_cpn =
+             substs_cpn
+@@ -2782,7 +2820,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       | Continue ->
+           ( [
+               Ast.ReturnStmt
+-                (loc, Some (Ast.CallExpr (loc, "unwinding", [], [], [], Static)));
++                ((if State.is_generated_glue then Ast.DummyLoc else loc),
++                 Some (Ast.CallExpr (loc, "unwinding", [], [], [], Static)));
+             ],
+             [] )
+       | Unreachable -> ([ Ast.Assert (loc, Ast.False loc) ], [])
+@@ -3108,6 +3147,27 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+           let guard_path = TrName.translate_def_path (selected_guard_path_get drop_data_cpn) in
+           let selected = List.mem (selected_path, selected_hash, guard_path)
+             Args.body_tr_defs_ctx.selected_drops in
++          let generated_body_key = generated_body_key_get drop_data_cpn in
++          let generated_call = match Args.body_tr_defs_ctx.generated_glue with
++            | None ->
++                if generated_body_key <> "" then
++                  Ast.static_error loc "Drop references an absent generated glue body" None;
++                None
++            | Some binding ->
++                if generated_body_key = "" then begin
++                  if selected_path = binding.glue_selected_path &&
++                     selected_hash = binding.glue_selected_hash &&
++                     guard_path = binding.glue_guard then
++                    Ast.static_error loc "Selected Drop is missing its generated glue reference" None;
++                  None
++                end
++                else if not selected ||
++                        generated_body_key <> binding.glue_key ||
++                        selected_path <> binding.glue_selected_path ||
++                        selected_hash <> binding.glue_selected_hash ||
++                        guard_path <> binding.glue_guard then
++                  Ast.static_error loc "Drop generated glue reference does not match the selected method" None
++                else Some binding.glue_key in
+           if selected then begin
+             if not (is_bare_local_get drop_data_cpn) || is_replace_get drop_data_cpn
+                 || not place_is_mutable || TranslatorArgs.ignore_unwind_paths then
+@@ -3120,7 +3180,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+             let finish = [ghost "close_points_to" [receiver]; ghost "end_ref_mut" [receiver];
+                           ghost "open_points_to" [address]] in
+             let unwind_stmts, unwind_targets = translate_unwind_action (unwind_action_get drop_data_cpn) loc in
+-            let selected_call = Ast.CallExpr (loc, selected_path, [Ast.InferredTypeExpr loc], [],
++            let call_name = match generated_call with
++              | Some key -> key | None -> selected_path in
++            let selected_call = Ast.CallExpr (loc, call_name, [Ast.InferredTypeExpr loc], [],
+               [Ast.LitPat receiver], Ast.Static) in
+             let call_stmt = Ast.SwitchStmt (loc, selected_call, [
+               Ast.SwitchStmtClause (loc, call "returning" [Ast.Var (loc, "__result")], finish);
+@@ -5289,6 +5351,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+   let translate_body (body_tr_defs_ctx : body_tr_defs_ctx) (body_cpn : BodyRd.t)
+       =
+     let open BodyRd in
++    let is_generated_glue =
++      VfMirRd.GeneratedGlue.enabled_get (generated_glue_get body_cpn) in
+     (* This is a source-admission count, not a parser for annotations.  Every
+        occurrence must later be replaced in a parsed ghost expression. *)
+     let stack_addr_spelling = "mir_stack_addr" in
+@@ -5632,6 +5696,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       let ghost_stmts = ghost_stmts
+       let body_imp_loc = imp_loc
+       let body_tr_defs_ctx = body_tr_defs_ctx
++      let is_generated_glue = is_generated_glue
+       let strict_lft_scope_ends = strict_lft_scope_ends
+       let callback_close = callback_close
+       let callback_recover = callback_recover
+@@ -5644,10 +5709,193 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       ListAux.try_map translate_var_debug_info vdis_cpn
+     in
+     let env_map, trs_map = make_var_id_name_maps imp_loc vdis in
+-    let _ = var_id_trs_map_ref := trs_map in
++    let _ = var_id_trs_map_ref :=
++      if is_generated_glue then
++        { id = TrName.tag_internal "_1"; internal_name = "self" } :: trs_map
++      else trs_map in
+     let def_kind_cpn = def_kind_get body_cpn in
+     let def_kind = DefKind.get def_kind_cpn in
+     match def_kind with
++    | DefKind.Fn when is_generated_glue ->
++        let binding = match body_tr_defs_ctx.generated_glue with
++          | Some binding -> binding
++          | None -> Ast.static_error fn_sig_loc "Unbound generated Drop glue body" None in
++        let descriptor = generated_glue_get body_cpn in
++        if VfMirRd.GeneratedGlue.body_key_get descriptor <> binding.glue_key ||
++           TrName.translate_def_path (def_path_get body_cpn) <> binding.glue_key ||
++           vdis <> [] || ghost_stmts <> [] ||
++           ghost_decl_blocks_get_list body_cpn <> [] ||
++           loop_spec_blocks_get_list body_cpn <> [] ||
++           generics_get_list body_cpn <> [] ||
++           impl_block_generics_get_list body_cpn <> [] ||
++           not (Capnp.Array.is_empty
++             (ContractRd.annotations_get (contract_get body_cpn))) ||
++           TranslatorArgs.ignore_unwind_paths then
++          Ast.static_error fn_sig_loc "Generated Drop glue has unsupported declarations or configuration" None;
++        let inputs = inputs_get_list body_cpn |> List.map D.decode_ty in
++        let output = D.decode_ty (output_get body_cpn) in
++        let local_decls_cpn = local_decls_get_list body_cpn in
++        let receiver_type = match inputs with
++          | [input] ->
++              (match decode_ty input with
++               | `Ref (_, true, `Adt (guard, _, [])) ->
++                   guard = binding.glue_guard &&
++                   input = D.decode_ty (VfMirRd.GeneratedGlue.receiver_type_get descriptor)
++               | _ -> false)
++          | _ -> false in
++        if List.length inputs <> 1 || List.length local_decls_cpn <> 4 ||
++           decode_ty output <> `Tuple [] || not receiver_type ||
++           List.map (fun local -> LocalDeclIdRd.name_get (LocalDeclRd.id_get local))
++             local_decls_cpn <> ["_0"; "_1"; "_2"; "_3"] ||
++           (match local_decls_cpn, inputs with
++            | [ret; formal; copied; result], [input] ->
++                D.decode_ty (LocalDeclRd.ty_get ret) <> output ||
++                D.decode_ty (LocalDeclRd.ty_get formal) <> input ||
++                D.decode_ty (LocalDeclRd.ty_get copied) <> input ||
++                D.decode_ty (LocalDeclRd.ty_get result) <> output
++            | _ -> true) then
++          Ast.static_error fn_sig_loc "Generated Drop glue has a mismatched MIR signature" None;
++        let* _, selected_contract_opt =
++          translate_contract (contract_get binding.glue_method_body) in
++        let strong_contract = match selected_contract_opt with
++          | Some ((false, (None, Some _), Some (pre, post), false), false) ->
++              (match post with
++               | "outcome", Ast.SwitchExpr
++                   (_, _, [Ast.SwitchExprClause (_, "returning", ["result"], _);
++                            Ast.SwitchExprClause (_, "unwinding", [], Ast.False _)], None) ->
++                   (false, (None, None), Some (pre, post), false)
++               | _ -> Ast.static_error fn_sig_loc
++                   "Selected Drop method must have on_unwind_ens false" None)
++          | _ -> Ast.static_error fn_sig_loc
++              "Selected Drop method lacks the exact checked strong normal/unwind contract" None in
++        let name = binding.glue_key in
++        Rocq_writer.rocq_print_tuple Args.rocq_writer @@ fun () ->
++        Rocq_writer.rocq_print_tuple_element Args.rocq_writer begin fun () ->
++          Rocq_writer.rocq_print_string_literal Args.rocq_writer name
++        end;
++        Rocq_writer.rocq_print_tuple_element Args.rocq_writer @@ fun () ->
++        Rocq_writer.rocq_print_big_record Args.rocq_writer @@ fun () ->
++        let split_name = TrName.split_def_path (module_def_path_get body_cpn) name in
++        Rocq_writer.rocq_print_big_record_field Args.rocq_writer "inputs" begin fun () ->
++          Rocq_writer.rocq_print_small_list Args.rocq_writer @@ fun () ->
++          List.iter (fun ty ->
++            Rocq_writer.rocq_print_small_list_element Args.rocq_writer @@ fun () ->
++            Rocq_writer.rocq_print_data Args.rocq_writer Vf_mir_rocq.rocq_print_ty ty)
++            inputs
++        end;
++        Rocq_writer.rocq_print_big_record_field Args.rocq_writer "output" begin fun () ->
++          Rocq_writer.rocq_print_data Args.rocq_writer Vf_mir_rocq.rocq_print_ty output
++        end;
++        let* local_decls =
++          Rocq_writer.rocq_print_big_record_field Args.rocq_writer "local_decls" @@ fun () ->
++          Rocq_writer.rocq_print_big_list Args.rocq_writer @@ fun () ->
++          ListAux.try_map (fun local ->
++            Rocq_writer.rocq_print_big_list_element Args.rocq_writer @@ fun () ->
++            translate_local_decl local) local_decls_cpn in
++        let ret_place_decl :: param_decl :: other_decls = local_decls in
++        let* ret_ty_info = translate_decoded_ty output ret_place_decl.loc in
++        let ret_place_decl = { ret_place_decl with ty = lazy ret_ty_info } in
++        let* param_ty_info = translate_decoded_ty (List.hd inputs) param_decl.loc in
++        (* The generated MIR has the receiver type but no HIR lifetime binder.
++           Use the checked method's one late-bound receiver lifetime for the
++           private signature; this changes only the erased region spelling. *)
++        let* method_gens, _ =
++          translate_hir_generics (hir_generics_get binding.glue_method_body) in
++        let receiver_lft = match method_gens with
++          | [name, Hir.GenParamLifetime]
++            when String.length name > 1 && name.[0] = '\'' -> name
++          | _ -> Ast.static_error fn_sig_loc
++              "Selected Drop method must have one receiver lifetime binder" None in
++        (match inputs_get_list binding.glue_method_body with
++         | [input] ->
++             (match decode_ty (D.decode_ty input) with
++              | `Ref (region, true, `Adt (guard, _, []))
++                when region = receiver_lft && guard = binding.glue_guard -> ()
++              | _ -> Ast.static_error fn_sig_loc
++                  "Selected Drop method receiver does not use its checked lifetime" None)
++         | _ -> Ast.static_error fn_sig_loc
++             "Selected Drop method receiver arity changed" None);
++        let glue_tparams = [(receiver_lft, {Ast.sized = false})] in
++        let param_ty = match param_ty_info.vf_ty with
++          | Ast.RustRefTypeExpr (at, _, Ast.Mutable, guard_ty) ->
++              let ty = Ast.RustRefTypeExpr
++                (at, Ast.IdentTypeExpr (at, None, receiver_lft),
++                 Ast.Mutable, guard_ty) in
++              (match param_decl.mutability with
++               | Mir.Not -> Ast.ConstTypeExpr (param_decl.loc, ty)
++               | Mir.Mut -> ty)
++          | _ -> Ast.static_error fn_sig_loc
++              "Generated Drop receiver is not a mutable reference" None in
++        let* loc = translate_span_data (span_get body_cpn) in
++        let* closing_cbrace_loc = LocAux.get_last_col_loc loc in
++        let bblocks_cpn = basic_blocks_get_list body_cpn in
++        let bare_place place expected =
++          LocalDeclIdRd.name_get (PlaceRd.local_get place) = expected &&
++          PlaceRd.projection_get_list place = [] in
++        let exact_glue_cfg = match bblocks_cpn with
++          | [entry; normal] ->
++              Stdint.Uint32.to_string
++                (BasicBlockIdRd.index_get (BasicBlockRd.id_get entry)) = "0" &&
++              Stdint.Uint32.to_string
++                (BasicBlockIdRd.index_get (BasicBlockRd.id_get normal)) = "1" &&
++              not (BasicBlockRd.is_cleanup_get entry) &&
++              not (BasicBlockRd.is_cleanup_get normal) &&
++              (match BasicBlockRd.statements_get_list entry with
++               | [stmt] ->
++                   (match StatementKindRd.get (StatementRd.kind_get stmt) with
++                    | StatementKindRd.Assign data ->
++                        bare_place (StatementKindRd.AssignData.lhs_place_get data) "_2" &&
++                        (match RvalueRd.get
++                          (StatementKindRd.AssignData.rhs_rvalue_get data) with
++                         | RvalueRd.Use operand ->
++                             (match OperandRd.get operand with
++                              | OperandRd.Copy place -> bare_place place "_1"
++                              | _ -> false)
++                         | _ -> false)
++                    | _ -> false)
++               | _ -> false) &&
++              (match TerminatorKindRd.get
++                (TerminatorRd.kind_get (BasicBlockRd.terminator_get entry)) with
++               | TerminatorKindRd.Call call ->
++                   bare_place (FnCallDataRd.destination_get call) "_3" &&
++                   (match FnCallDataRd.args_get_list call with
++                    | [arg] -> (match OperandRd.get arg with
++                        | OperandRd.Move place -> bare_place place "_2"
++                        | _ -> false)
++                    | _ -> false) &&
++                   (match OptionRd.get (FnCallDataRd.target_get call) with
++                    | OptionRd.Something ptr ->
++                        Stdint.Uint32.to_string
++                          (BasicBlockIdRd.index_get (VfMirRd.of_pointer ptr)) = "1"
++                    | _ -> false) &&
++                   UnwindActionRd.get (FnCallDataRd.unwind_action_get call)
++                     = UnwindActionRd.Continue
++               | _ -> false) &&
++              BasicBlockRd.statements_get_list normal = [] &&
++              TerminatorKindRd.get
++                (TerminatorRd.kind_get (BasicBlockRd.terminator_get normal))
++                = TerminatorKindRd.Return
++          | _ -> false in
++        if not exact_glue_cfg then
++          Ast.static_error loc "Generated Drop glue MIR is not the admitted copy/call/return CFG" None;
++        let* bblocks =
++          Rocq_writer.rocq_print_big_record_field Args.rocq_writer "basic_blocks" @@ fun () ->
++          Rocq_writer.rocq_print_big_list Args.rocq_writer @@ fun () ->
++          ListAux.try_filter_map (fun block ->
++            translate_basic_block ret_place_decl.id block) bblocks_cpn in
++        let vf_bblocks = translate_basic_blocks_to_stmts (find_blocks bblocks) [] in
++        let ret_ty = Ast.ConstructedTypeExpr
++          (Ast.type_expr_loc ret_ty_info.vf_ty, "fn_outcome", [ret_ty_info.vf_ty]) in
++        let body = Ast.Func
++          (loc, Ast.Regular, glue_tparams, Some ret_ty, name, [(param_ty, "self")],
++           false, (None, None), (let (_, _, pre_post, _) = strong_contract in pre_post),
++           false,
++           Some (List.map (translate_to_vf_local_decl loc)
++                   (ret_place_decl :: other_decls) @ vf_bblocks,
++                 closing_cbrace_loc),
++           false, []) in
++        Ok (None, (split_name, body),
++            ({ id = loc; info = env_map } : VF0.debug_info_rust_fe))
+     | DefKind.Fn ->
+         let def_path = def_path_get body_cpn in
+         let name = TrName.translate_def_path def_path in
+@@ -9086,6 +9334,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       in
+       let traits_decls = List.flatten traits_decls in
+       let bodies_cpn = VfMirRd.VfMir.bodies_get_list vf_mir_cpn in
++      List.iter (fun body ->
++        if VfMirRd.GeneratedGlue.enabled_get (BodyRd.generated_glue_get body) &&
++           BodyRd.DefKind.get (BodyRd.def_kind_get body) <> BodyRd.DefKind.Fn then
++          Ast.static_error Ast.DummyLoc
++            "Tagged generated Drop glue must be a function body" None)
++        bodies_cpn;
+       let bodies_cpn =
+         bodies_cpn
+         |> List.filter (fun body_cpn ->
+@@ -9097,6 +9351,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+         if Args.skip_specless_fns then
+           List.filter
+             (fun body_cpn ->
++              VfMirRd.GeneratedGlue.enabled_get (BodyRd.generated_glue_get body_cpn) ||
+               not
+                 (Capnp.Array.is_empty
+                    (ContractRd.annotations_get (BodyRd.contract_get body_cpn))))
+@@ -9120,8 +9375,85 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+           | _ -> None
+           end
+         | _ -> None) bodies_cpn in
++      let* generated_glue =
++        let generated_bodies = List.filter (fun body ->
++          VfMirRd.GeneratedGlue.enabled_get (BodyRd.generated_glue_get body))
++          bodies_cpn in
++        match generated_bodies with
++        | [] -> Ok None
++        | [generated_body] ->
++            let descriptor = BodyRd.generated_glue_get generated_body in
++            let module G = VfMirRd.GeneratedGlue in
++            let* loc = translate_span_data (BodyRd.span_get generated_body) in
++            let fail reason = Ast.static_error loc reason None in
++            let key = G.body_key_get descriptor in
++            if List.length (List.filter (fun body ->
++              TrName.translate_def_path (BodyRd.def_path_get body) = key)
++              bodies_cpn) <> 1 then
++              fail "Generated Drop glue key is missing or duplicated";
++            let guard = TrName.translate_def_path (G.guard_path_get descriptor) in
++            let selected_path = TrName.translate_def_path (G.selected_drop_path_get descriptor) in
++            let selected_hash = G.selected_drop_hash_get descriptor in
++            let resolved_args = G.resolved_args_get_list descriptor in
++            let instance_args = G.instance_args_get_list descriptor in
++            let concrete_arg = match instance_args with
++              | [arg] ->
++                  (match (D.decode_generic_arg arg).kind with
++                   | Type ty ->
++                       (match decode_ty ty with
++                        | `Adt (name, _, []) -> Some name
++                        | _ -> None)
++                   | _ -> None)
++              | _ -> None in
++            if key <> "__vf_generated_drop_glue" ||
++               TrName.translate_def_path (BodyRd.def_path_get generated_body) <> key ||
++               G.instance_kind_get descriptor <> "DropGlue" ||
++               G.glue_def_path_get descriptor = "" ||
++               G.glue_def_hash_get descriptor = "" ||
++               G.guard_hash_get descriptor = "" ||
++               selected_hash = "" ||
++               G.selected_source_hash_get descriptor = "" ||
++               canonicalize_item_name (G.raw_trait_path_get descriptor)
++                 <> "std::ops::Drop::drop" ||
++               G.raw_trait_hash_get descriptor = "" ||
++               G.raw_trait_args_get descriptor = "" ||
++               G.unwind_kind_get descriptor <> "Continue" ||
++               G.mir_phase_get descriptor <> "Runtime(Optimized)" ||
++               BodyRd.captured_mir_phase_get generated_body <> "Runtime(Optimized)" ||
++               BodyRd.captured_mir_hash_get generated_body = "" ||
++               G.selected_source_phase_get descriptor <> "Runtime(PostCleanup)" ||
++               Stdint.Uint32.to_string (G.normal_target_get descriptor) <> "1" ||
++               concrete_arg <> Some guard || resolved_args <> [] ||
++               not (List.mem (selected_path, selected_hash, guard) selected_drops) then
++              fail "Generated Drop glue descriptor is outside the admitted concrete instance";
++            let method_bodies = List.filter (fun body ->
++              BodyRd.is_drop_fn_get body &&
++              TrName.translate_def_path (BodyRd.def_path_get body) = selected_path &&
++              BodyRd.def_path_hash_get body = selected_hash &&
++              BodyRd.captured_mir_hash_get body = G.selected_source_hash_get descriptor &&
++              BodyRd.captured_mir_phase_get body = G.selected_source_phase_get descriptor)
++              bodies_cpn in
++            let method_body = match method_bodies with
++              | [method_body] -> method_body
++              | _ -> fail "Generated Drop glue needs exactly one matching checked source method" in
++            (match BodyRd.inputs_get_list method_body with
++             | [input] ->
++                 (match decode_ty (D.decode_ty input) with
++                  | `Ref (_, true, `Adt (name, _, [])) when name = guard -> ()
++                  | _ -> fail "Selected Drop method receiver is not the concrete mutable guard")
++             | _ -> fail "Selected Drop method receiver arity changed");
++            Ok (Some { glue_key = key; glue_guard = guard;
++                   glue_selected_path = selected_path;
++                   glue_selected_hash = selected_hash;
++                   glue_raw_trait_path = G.raw_trait_path_get descriptor;
++                   glue_raw_trait_hash = G.raw_trait_hash_get descriptor;
++                   glue_method_body = method_body })
++        | _ -> Ast.static_error Ast.DummyLoc
++            "Multiple generated Drop glue bodies in one exported unit" None
++      in
+       let body_tr_defs_ctx =
+-        { selected_drops; adt_defs; ghost_decl_map; directives = vf_mir_translator_directives; fn_specializer }
++        { selected_drops; generated_glue; adt_defs; ghost_decl_map;
++          directives = vf_mir_translator_directives; fn_specializer }
+       in
+       let* bodies_tr_res =
+         Rocq_writer.rocq_print Args.rocq_writer "Definition bodies := ";
