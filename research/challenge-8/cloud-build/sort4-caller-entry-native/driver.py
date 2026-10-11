@@ -302,7 +302,7 @@ def reconstruct(a, helper, audit, manifest: dict, env: dict) -> tuple[Path, dict
                            profile["patch_sha256"], allowed,
                            before={path: profile["files"][path]["base_sha256"] for path in allowed},
                            after={path: profile["files"][path]["result_sha256"] for path in allowed}))
-    base_result_path = a.proof_root / C1 / "NATIVE-C4-BASE-RESULT-MANIFEST.json"
+    base_result_path = a.proof_root / HERE / "SELECTED-BASE-SNAPSHOT.json"
     pinned_file(base_result_path, manifest["fresh_c4_effective_profile_manifest_sha256"],
                 "fresh native C4 result manifest")
     base_result = json.loads(base_result_path.read_text())
