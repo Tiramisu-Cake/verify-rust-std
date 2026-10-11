@@ -137,3 +137,16 @@ seconds за причинный Build и как минимум отдельны�
 guard Drop будет пропущен. Если первый Build не достигает late Call, статус
 late semantics остаётся NOT_RUN, а полезное следующее действие выбирается по
 его первой подтверждённой причине.
+
+
+Предварительный proof-only вариант для подтверждённого отказа `tail.sub(1)`:
+существующие `array_split::<u64>`/`array_join::<u64>` и `array_inv`
+(`prelude_core.rsspec` 270–284) позволяют раскрыть interior cell bounds из
+собственного полного `begin[..3]`. Разбить массив на три одиночные области,
+получить bounds для `begin+1`/`begin+2`, затем объединить тот же полный
+physical array до callback; логические `foreach(..., own)` ресурсы остаются
+единственными. Это вариант для проверки после конкретного causal log, не
+выполненная extraction/proof и не новая pointer/origin premise. Его цена —
+новый exact proof SHA/roundtrip/Cloud Build на том же frozen profile; он
+может лишь продвинуть к genuine callback loan frontier, не закрыть late
+cleanup или общий Call/Drop refiner TODO.

@@ -82,7 +82,11 @@ def _mutations(original: str, verified: str) -> dict[str, tuple[str, str]]:
             "generated call normal target"))
     cases["missing_caller_generated_reference"] = (
         "original", _one(original, '                generatedBodyKey = "__vf_generated_drop_glue" ) ) ),\n',
-                         '                 ) ) ),\n', "caller generated-body reference"))
+                         '                 ) ) ),\n', "missing caller generated-body reference"))
+    cases["wrong_caller_generated_reference"] = (
+        "original", _one(original, '                generatedBodyKey = "__vf_generated_drop_glue" ) ) ),\n',
+                         '                generatedBodyKey = "__vf_wrong_generated_drop_glue" ) ) ),\n',
+                         "caller generated-body reference"))
     return cases
 
 
@@ -338,7 +342,8 @@ def run(evidence: Path, args, env: dict[str, str], base, positive_case: Path) ->
             "wrong_unwind_edge": "Generated DropGlue: verified has an unexpected MIR phase or control-flow edge",
             "wrong_actual_call_unwind": "Generated DropGlue: verified call operands, destination, target, or unwind differ",
             "wrong_actual_call_normal_target": "Generated DropGlue: verified call operands, destination, target, or unwind differ",
-            "missing_caller_generated_reference": "Generated DropGlue: original caller Drop does not bind the generated body",
+            "missing_caller_generated_reference": "Generated DropGlue: original must contain exactly one normal tagged caller Drop",
+            "wrong_caller_generated_reference": "Generated DropGlue: original caller Drop does not bind the generated body",
         }
         outcomes = {}
         for name, (side, mutated_text) in _mutations(original_text, verified_text).items():

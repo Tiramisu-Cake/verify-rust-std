@@ -142,7 +142,7 @@ def _ordinary_default_off(evidence: Path, args, env: dict[str, str], base) -> di
         'impl Drop for OrdinaryDrop {\n'
         '    fn drop(&mut self) { unsafe { *self.0 = 1; } }\n'
         '}\n'
-        'pub unsafe fn ordinary_drop(ptr: *mut u64) {\n'
+        'pub fn ordinary_drop(ptr: *mut u64) {\n'
         '    let _guard = OrdinaryDrop(ptr);\n'
         '}\n')
     for side in ('original', 'verified'):
