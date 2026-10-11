@@ -579,7 +579,7 @@ def verify_case(a, tool: Path, fixture: Path, root: Path,
 def native_zst_model_diagnostics(a, patched_tool: Path,
                                  env: dict[str, str]) -> dict:
     """Run compact source/refinement/verifier gates on the experimental tool."""
-    ghost = load(a.cloud_dir / "sort4-native-entry-c1/c2_discovery.py",
+    ghost = load(a.cloud_dir / "sort4-native-c1-bound/ghost-strip.py",
                  "native_c4_zst_gate_ghost_strip")
     module = load(a.proof_root / HERE / "zst_model_gates.py", "native_c4_zst_gates")
     results = {}
@@ -837,7 +837,8 @@ def supplied_cases(a, tool: Path, env: dict[str, str],
             "full_source_blob_transported": False, "correspondence": excerpt,
             "method_call_binding_proved": False, "actual_callee_summary_admitted": False,
             "scope": "Reviewed implementation-expression component only"})
-    ghost = load(a.cloud_dir / "sort4-native-entry-c1/c2_discovery.py",
+    ghost = load(a.cloud_dir / ("sort4-native-c1-bound/ghost-strip.py" if C1_ZST_REPAIR_SESSION
+                              else "sort4-native-entry-c1/c2_discovery.py"),
                  "native_c4_ghost_strip")
     active = env.copy()
     active.update({key: "0" for key in DISABLED_C_SCOPES})

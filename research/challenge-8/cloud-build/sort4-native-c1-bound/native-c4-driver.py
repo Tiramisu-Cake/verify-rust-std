@@ -141,7 +141,7 @@ def make_source(a, driver, fixture):
     )
     for expression in expressions:
         require(std.count(expression) == 1, "actual std expression " + expression)
-    ghost = driver.load(a.cloud_dir / "sort4-native-entry-c1/c2_discovery.py", "native_c4_ghost")
+    ghost = driver.load(a.cloud_dir / "sort4-native-c1-bound/ghost-strip.py", "native_c4_ghost")
     verified = verified_text.encode()
     original = ghost.strip_ghost(verified)
     for expression in expressions:
@@ -192,6 +192,8 @@ def run_bound(a, c1_tool, env, driver):
              if line.startswith(("--- ", "+++ "))] ==
             [f"--- a/{TR}", f"+++ b/{TR}"],
             "bound manifest/patch admission")
+    require(sha(a.cloud_dir / "sort4-native-c1-bound/ghost-strip.py") ==
+            manifest.get("ghost_strip_sha256"), "exact ghost-strip helper")
     source_inputs = capture_manifest.get("source_inputs")
     require(isinstance(source_inputs, dict) and len(source_inputs) == 6 and
             all(sha(a.proof_root / path) == expected
