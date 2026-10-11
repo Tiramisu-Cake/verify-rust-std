@@ -1,3 +1,17 @@
+# VeriFast maintainer — actual Drop glue body-v3 review K
+
+Incominge267f948/tool853fd1e2 body-v3: semantic design scoped **GO**, package
+**CHANGES_REQUIRED** (runner False AST Node/Sym mismatch), integration **BLOCKED**.
+Independent addressed review completed. Generated glue NOT_PROVED; fresh V3 refiner
+and all generated-body/receiver-end/retirement/panic-cleanup gates remain OPEN.
+[Review](verifast-review/drop-glue-body-v3-20261011-k/REVIEW.md),
+[checkpoint](verifast-review/drop-glue-body-v3-20261011-k/END-CHECKPOINT.md).
+Concrete-u64/x86_64 guardlen1 with explicit premises; no insert_tail claim.
+Read-only Cloud0 session CLOSED; merge development/active state untouched.
+I tool/profile and READY/PASS unchanged; no integration or automatic continuation.
+
+## Preserved J status
+
 # VeriFast maintainer — selected binding / caller bound review J
 
 Read-only incoming5ffebdf review: compiler binding **CHANGES_REQUIRED**, native
