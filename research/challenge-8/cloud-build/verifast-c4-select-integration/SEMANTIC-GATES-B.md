@@ -116,30 +116,33 @@ The archived full MIR confirms this call has `unwindAction = unreachable`,
 while body 7's real `DropOnPanic` paths use `Cleanup(index=38)` and that block
 is marked cleanup. This is the concrete reachable-unwind mutant.
 
-## Strict current-outer-bound escape
+## Outer-F Bool positive locality and closure (owner-approved correction 2026-10-11)
 
-The current `negative_typed_chunk_survives_cut` is only the heap-chunk case.
-The old `negative_outer_bound_escape` that asserted
-`type_interp::<&'cmp T>()` is inadequate: it never registered an outer
-projection bound. Add a separate saved strict-cut case with outer generic
-`F: FnMut(&T, &T) -> bool`, `type_interp::<F>()`, a matching pair of live
-`T` references inside the named `'cmp` scope, and one real `f(left, right)`
-call before the cut. The Rust translator must emit exactly one
-`#register_type_projection_equality` for outer `F`, with trait argument tuple
-`(&'cmp T, &'cmp T)` and RHS `bool`; record the serialized AST node and prove
-the equality is the one the verifier processes (not a source `assert` or
-`assume`). If it does not register that node, this fixture is invalid and
-must be repaired before use.
+The required cut106 rejection was withdrawn after the read-only semantic review
+`a0bd98275be52760dcb30f9a6c8d07ef6d7dcd36`. Keep the exact source, contracts,
+`negative_outer_bound_escape` historical name, tool/profile and all semantic
+inputs unchanged. That name does not make the example a valid negative.
 
-Expected negative: paired source/MIR/refinement and all fixture admissions
-pass; target function is entered; the first strict-cut VC is exactly
-`A lifetime-scoped type escaped into current outer bound metadata`, attributed
-to the cut after that registered projection. No heap-leak, unresolved
-inference, type mismatch, parser, or unrelated callback error earns this
-gate. Keep the complete original normal/unwind posts and strict opt-in. Also
-retain the distinct live-heap negative with exact
-`A lifetime-scoped heap chunk is still live at the binding end`; these are
-separate invariants.
+Expected positive: paired source/MIR/refinement and exact admissions pass; one
+FnOnce Output=Bool registration for outer F with tuple `(&'cmp T, &'cmp T)`
+immediately precedes the actual FnMut callback103; six service locals are inside
+the strict block. Require the actual call verification, normal and unwind scope
+closure at106, both recover_pair calls, original post consumption, lifetime-token
+consumption, return/leak checks, no errors/dead code and terminal95 statements.
+Repeated same-coordinate statement events are not proof of an exact unique
+registration event: use the pinned final AST plus contextual call trace.
+
+The pure `outer_bool_auditor.py` audits these observations on saved evidence.
+Its replay does not invoke proof, change old summaries or create fresh proof
+credit. Historical expected-VC and Cloud FAILURE remain in the immutable D
+archive/review. A missing event or incomplete log is INCONCLUSIVE even with exit0.
+The Cloud runner uses the same auditor for observation; its changed classifier
+has not itself been executed in Cloud.
+
+General metadata escape negative and O23 soundness remain OPEN. The sketch of
+an HRTB callback returning a reference is NOT_RUN, outside the exact Bool
+matcher. It does not automatically become a requirement to widen this profile.
+The distinct live-heap/debt/token negatives retain their intended semantic VCs.
 
 ## Implementation boundaries and review checklist
 
@@ -150,7 +153,7 @@ evidence directory, and emits a named stage marker. Every negative row must
 store stage exit, exact target header order, exact first diagnostic/refusal,
 mutant fingerprint, and raw log hash. Set composition completion false unless
 the positive, wrong-result, both Leak controls, all admission cases, reachable
-unwind, strict current-bound and existing strict owner/debt/token controls
+unwind, outer-F Bool positive closure and existing strict owner/debt/token controls
 all reach their specified predicates. All controls remain diagnostic-only;
 none widens source scope or grants proof credit.
 

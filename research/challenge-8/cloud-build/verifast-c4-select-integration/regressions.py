@@ -474,90 +474,18 @@ def _run_lifetime(a, selector_case, c4_env, proof, capture, inherited=None, mir_
     outer_result, outer_log = proof(
         a, "regression-lifetime-negative_outer_bound_escape", outer_case,
         outer_env, 300)
-    marker_lines = [number for number, line in enumerate(
-        outer_verified.decode().splitlines(), 1) if "end_lft_binding::<'cmp>()" in line]
-    target_header = "negative_outer_bound_escape"
-    expected_message = "A lifetime-scoped type escaped into current outer bound metadata"
-    outer_errors = outer_result.get("errors", [])
-    exact_outer_error = (len(outer_errors) == 1 and expected_message in outer_errors[0]
-        and len(marker_lines) == 1 and
-        re.search(r"verified/lib\.rs\(" + str(marker_lines[0]) + r",\d+(?:-|\))",
-                  outer_errors[0]) is not None)
-    target_position = outer_log.find("Verifying function '" + target_header + "'")
-    error_position = outer_log.find(outer_errors[0]) if outer_errors else -1
-    target_entered = (outer_result.get("headers", []).count(target_header) == 1 and
-        target_position >= 0 and error_position > target_position)
-    ast_text = ast_export.read_text(errors="replace") if ast_export.is_file() else ""
-    ast_hash = _sha(ast_export) if ast_text else None
-    ast_projection = _outer_projection_ast(ast_text) if ast_text else {
-        "registration_marker_count": 0, "registration_node_count": 0,
-        "matching_node_count": 0, "matching_nodes": []}
-    ast_marker = re.findall(
-        r"(?m)^SORT4-CURRENT-BOUND-AST-EXPORT: target=negative_outer_bound_escape "
-        r"source_sha256=([0-9a-f]{64}) final_flattened_ast_sha256=([0-9a-f]{64}) "
-        r"bytes=(\d+) file=(\S+) strict_cut=1 observation_only$", outer_log)
-    ast_export_exact = (len(ast_marker) == 1 and ast_export.is_file() and
-        ast_marker[0][0] == hashlib.sha256(outer_verified).hexdigest() and
-        ast_marker[0][1] == ast_hash and int(ast_marker[0][2]) == ast_export.stat().st_size and
-        Path(ast_marker[0][3]) == ast_export and
-        ast_projection["matching_node_count"] == 1 and
-        ast_projection["registration_marker_count"] == 1 and
-        ast_projection["registration_node_count"] == 1 and
-        ast_projection["matching_nodes"][0]["immediately_before_call"])
-    projection_location = (ast_projection["matching_nodes"][0]["call_location"]
-        if ast_projection["matching_node_count"] == 1 else None)
-    registration_events = re.findall(
-        r"(?m)^.*CHALLENGE8_HRTB_EQ F=F T=T lifetime='cmp call=(verified/lib\.rs\(\d+,\d+-\d+\))$",
-        outer_log)
-    projection_event_exact = (len(registration_events) == 1 and
-                              registration_events[0] == projection_location)
-    executing_node = (projection_location + ": Executing statement"
-                      if projection_location else None)
-    executing_positions = ([match.start() for match in
-        re.finditer(re.escape(executing_node), outer_log)] if executing_node else [])
-    executing_event_exact = (len(executing_positions) >= 2 and
-        target_position >= 0 and all(target_position < position < error_position
-                                    for position in executing_positions))
-    executing_event_review = ("PENDING_ADDITIONAL_INDISTINGUISHABLE_EVENTS"
-        if len(executing_positions) > 2 else
-        "PENDING_RAW_REVIEW" if len(executing_positions) == 2 else "NOT_OBSERVED")
-    source_projection_shape = (
-        b"F: FnMut(&T, &T) -> bool" in outer_verified and
-        b"type_interp::<F>()" in outer_verified and
-        b"is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(&*left, &*right)" in outer_verified and
-        marker_lines and outer_verified.index(b"end_lft_binding::<'cmp>()") >
-        outer_verified.index(b"is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/"))
-    outer_intended = (outer_result.get("exit") == 1 and exact_outer_error and
-        target_entered and source_projection_shape and ast_export_exact and
-        projection_event_exact and executing_event_exact and
-        not outer_result.get("dead_code") and
-        outer_result.get("source_pair", {}).get("verified") == hashlib.sha256(outer_verified).hexdigest() and
-        outer_result.get("source_pair", {}).get("original") == hashlib.sha256(outer_original).hexdigest())
+    auditor = _module(Path(__file__).with_name("outer_bool_auditor.py"))
+    ast_text = ast_export.read_text() if ast_export.is_file() else ""
+    positive = auditor.audit(outer_log, ast_text, outer_verified, outer_original, outer_result)
     results["outer_type_escape"] = {
-        "category": "outer_bound_escape", "stage": outer_result,
-        "expected_vc": expected_message,
-        "expected_cut_line": marker_lines[0] if len(marker_lines) == 1 else None,
-        "source_projection_shape": source_projection_shape,
-        "target_entry_before_exact_error": target_entered,
-        "first_error": outer_errors[0] if outer_errors else None,
-        "projection_ast": {key: value for key, value in ast_projection.items()
-                            if key != "matching_nodes"},
-        "projection_location": projection_location,
-        "projection_node_sha256": (
-            hashlib.sha256(ast_projection["matching_nodes"][0]["node"].encode()).hexdigest()
-            if ast_projection["matching_node_count"] == 1 else None),
-        "registration_precedes_real_fnmut_switch": (
-            ast_projection["matching_nodes"][0]["immediately_before_call"]
-            if ast_projection["matching_node_count"] == 1 else False),
-        "ast_export_sha256": ast_hash,
-        "ast_export_exact": ast_export_exact,
-        "translator_registration_event_exact": projection_event_exact,
-        "verbose_execution_at_projection_exact": executing_event_exact,
-        "verbose_execution_count_at_projection": len(executing_positions),
-        "verbose_execution_positions": executing_positions,
-        "raw_vc_review": executing_event_review,
-        "intended_site_observed": outer_intended, "proof_credit": False,
-        "raw_log_sha256": hashlib.sha256(outer_log.encode()).hexdigest(),
+        "category": "positive_local_hrtb_normal_unwind_closure",
+        "historical_fixture_name": "negative_outer_bound_escape",
+        "stage": outer_result, "expected_vc": None, "expected_cut_line": 106,
+        "positive_audit": positive,
+        "intended_site_observed": positive["classification"] == "PASS_POSITIVE_LOCAL_HRTB_CLOSURE",
+        "raw_vc_review": "PENDING_INDEPENDENT_POSITIVE_REVIEW",
+        "metadata_escape_negative": "OPEN_NOT_RUN", "general_O23": "OPEN",
+        "proof_credit": False, "raw_log_sha256": hashlib.sha256(outer_log.encode()).hexdigest(),
     }
     _record(root / "result.json", {"classification": "DIAGNOSTIC_ONLY",
         "inherited_baseline_used": inherited_rows is not None,
@@ -861,9 +789,9 @@ def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof,
     if not relation or relation.get("raw_vc_review") != "REVIEWED":
         blockers.append("wrong_selected_original_relation_raw_review_pending")
     if not report["targets"]["strict_lifetime"]["outer_type_escape"].get("intended_site_observed"):
-        blockers.append("strict_lifetime_outer_type_escape_not_observed")
+        blockers.append("strict_lifetime_outer_bool_positive_closure_not_observed")
     if report["targets"]["strict_lifetime"]["outer_type_escape"].get("raw_vc_review") != "REVIEWED":
-        blockers.append("strict_lifetime_outer_type_escape_raw_review_pending")
+        blockers.append("strict_lifetime_outer_bool_positive_raw_review_pending")
     for target, control_name in (("frame", "leak-current-four-cell-frame"),
                                  ("thread_resources", "leak-thread-token")):
         control = report["targets"]["theorem_controls"][target]
