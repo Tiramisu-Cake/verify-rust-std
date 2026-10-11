@@ -12,8 +12,9 @@ import datetime
 COORDINATION = Path('/root/smallsort-ci-coordination')
 MAX_ACTIVE = 2
 SCHEMA_VERSION = 2
-PROTOCOLS = {2: 2, 3: 3}
+PROTOCOLS = {2: 2, 3: 3, 4: 4}
 V3_OWNERS = frozenset(('select-sort4', 'merge', 'verifast'))
+V4_OWNERS = frozenset((*V3_OWNERS, 'refinedrust-feasibility'))
 
 
 def read(path):
@@ -59,7 +60,7 @@ def protocol():
     """Return the active envelope version and capacity; caller holds locked().
 
     Absence and legacy single-record state remain v2 on their first mutation.
-    Only the explicit migration helper may change an existing v2 envelope to v3.
+    Only an explicit migration helper may change an existing envelope version.
     """
     path = COORDINATION / 'active.json'
     if not path.exists():
@@ -70,7 +71,9 @@ def protocol():
     if 'schema_version' not in data:
         return SCHEMA_VERSION, MAX_ACTIVE
     version = data['schema_version']
-    if type(version) is not int or version not in PROTOCOLS or data.get('max_active') != PROTOCOLS[version]:
+    if (type(version) is not int or version not in PROTOCOLS or
+            type(data.get('max_active')) is not int or
+            data['max_active'] != PROTOCOLS[version]):
         raise RuntimeError('Unsupported Cloud Build coordination protocol')
     return version, PROTOCOLS[version]
 
@@ -82,7 +85,7 @@ def ledger_key(value):
 
 
 def reservations():
-    """Read legacy single-slot, v2 or v3 state; caller holds locked().
+    """Read legacy single-slot, v2, v3 or v4 state; caller holds locked().
 
     Keep the same file and lock. A v1 client sees the v2 envelope as occupied
     and cannot reconcile its missing record fields, so it fails closed.
@@ -101,7 +104,15 @@ def reservations():
         records = [data]
     if not isinstance(records, list) or len(records) > capacity:
         raise RuntimeError('Invalid Cloud Build reservation count')
-    tokens, owners, ledgers = set(), set(), set()
+    validate_records(records, version, require_full=(version == 4))
+    return records
+
+
+def validate_records(records, version, require_full=False):
+    """Keep legacy reads compatible; require full reconciler records for v4."""
+    if not isinstance(records, list):
+        raise RuntimeError('Invalid Cloud Build reservation count')
+    tokens, owners, ledgers, build_ids = set(), set(), set(), set()
     for record in records:
         if not isinstance(record, dict):
             raise RuntimeError('Invalid Cloud Build reservation')
@@ -114,9 +125,46 @@ def reservations():
             if value in seen:
                 raise RuntimeError('Missing or duplicate reservation ' + key)
             seen.add(value)
+        for key in ('phase_id', 'state_dir'):
+            if require_full or key in record:
+                if not isinstance(record.get(key), str) or not record[key]:
+                    raise RuntimeError('Invalid reservation ' + key)
+        if 'state_dir' in record and not Path(record['state_dir']).is_absolute():
+            raise RuntimeError('Reservation state_dir must be absolute')
+        if require_full and ('build_id' not in record or 'item' not in record):
+            raise RuntimeError('Incomplete Cloud Build reservation')
+        build_id = record.get('build_id')
+        if 'build_id' in record and build_id is not None:
+            if not isinstance(build_id, str) or not build_id:
+                raise RuntimeError('Invalid reservation Build ID')
+        item_build_id = None
+        if 'item' in record:
+            item = record['item']
+            if not isinstance(item, dict):
+                raise RuntimeError('Invalid reservation item')
+            if require_full and any(key not in item for key in ('dispatch_token', 'owner', 'phase_id')):
+                raise RuntimeError('Incomplete reservation item identity')
+            for key in ('owner', 'phase_id', 'ledger', 'state_dir', 'dispatch_token', 'build_id'):
+                if key == 'build_id':
+                    # The ledger item and global record may acquire the same
+                    # Build ID in separate reconciler steps; one can lag.
+                    if key in item and item[key] is not None and (
+                            not isinstance(item[key], str) or not item[key]):
+                        raise RuntimeError('Invalid reservation item Build ID')
+                    item_build_id = item.get(key)
+                    if (item.get(key) and record.get(key) and item[key] != record[key]):
+                        raise RuntimeError('Reservation item identity conflicts: ' + key)
+                elif key in item and item[key] != record.get(key):
+                    raise RuntimeError('Reservation item identity conflicts: ' + key)
+        known_build_id = build_id or item_build_id
+        if known_build_id:
+            if known_build_id in build_ids:
+                raise RuntimeError('Invalid or duplicate reservation Build ID')
+            build_ids.add(known_build_id)
         if version == 3 and record['owner'] not in V3_OWNERS:
             raise RuntimeError('Unsupported v3 Cloud Build owner')
-    return records
+        if version == 4 and record['owner'] not in V4_OWNERS:
+            raise RuntimeError('Unsupported v4 Cloud Build owner')
 
 
 def active(owner=None):
@@ -132,12 +180,14 @@ def save_reservations(records):
     version, capacity = protocol()
     if len(records) > capacity:
         raise RuntimeError('Cloud Build reservation capacity exceeded')
-    if version == 3 and any(r['owner'] not in V3_OWNERS for r in records):
-        raise RuntimeError('Unsupported v3 Cloud Build owner')
-    write(COORDINATION / 'active.json', {
-        'schema_version': version, 'max_active': capacity,
-        'reservations': records,
-    })
+    validate_records(records, version, require_full=(version == 4))
+    path = COORDINATION / 'active.json'
+    previous = read(path) if path.exists() else {}
+    # Envelope metadata (including future timestamps) belongs to the shared
+    # coordinator. Replacing a reservation must not discard unrelated fields.
+    envelope = previous.copy() if 'schema_version' in previous else {}
+    envelope.update(schema_version=version, max_active=capacity, reservations=records)
+    write(path, envelope)
 
 
 def require_capacity(owner, ledger, ongoing=()):
@@ -151,32 +201,46 @@ def require_capacity(owner, ledger, ongoing=()):
     requested_ledger = ledger_key(ledger)
     if any(r['owner'] == owner or ledger_key(r['ledger']) == requested_ledger for r in records):
         raise RuntimeError('Owner or ledger already has an active or unresolved build')
-    ids, matched_tokens = set(), set()
-    occupied = len(records)
-    for build in ongoing:
-        build_id = build.get('id')
-        if not isinstance(build_id, str) or not build_id or build_id in ids:
-            raise RuntimeError('Invalid or duplicate ongoing Build ID')
-        ids.add(build_id)
-        matches = [r for r in records if r.get('build_id') == build_id or
-                   r['dispatch_token'] in build.get('tags', [])]
-        if len(matches) > 1:
-            raise RuntimeError('Ongoing build matches multiple reservations')
-        if matches:
-            record = matches[0]
-            token = record['dispatch_token']
-            if (token in matched_tokens or token not in build.get('tags', []) or
-                    record.get('build_id') not in (None, build_id)):
-                raise RuntimeError('Ongoing build conflicts with reserved token or Build ID')
-            matched_tokens.add(token)
-        else:
-            occupied += 1
+    occupied = occupied_slots(records, ongoing)
     _, capacity = protocol()
     if occupied >= capacity:
         raise RuntimeError(('Both' if capacity == 2 else 'All') +
                            ' Cloud Build slots are occupied; monitor/reconcile first')
     if capacity == 3 and owner not in V3_OWNERS:
         raise RuntimeError('Unsupported v3 Cloud Build owner')
+    if capacity == 4 and owner not in V4_OWNERS:
+        raise RuntimeError('Unsupported v4 Cloud Build owner')
+
+
+def occupied_slots(records, ongoing):
+    """Validate current API inventory and count reservations plus unmatched Builds."""
+    ids, matched_tokens = set(), set()
+    occupied = len(records)
+    for build in ongoing:
+        if not isinstance(build, dict):
+            raise RuntimeError('Invalid ongoing Build')
+        build_id = build.get('id')
+        if not isinstance(build_id, str) or not build_id or build_id in ids:
+            raise RuntimeError('Invalid or duplicate ongoing Build ID')
+        ids.add(build_id)
+        tags = build.get('tags', [])
+        if not isinstance(tags, list) or any(not isinstance(t, str) or not t for t in tags) or len(tags) != len(set(tags)):
+            raise RuntimeError('Invalid or duplicate ongoing Build token')
+        matches = [r for r in records if (r.get('build_id') or r.get('item', {}).get('build_id')) == build_id or
+                   r['dispatch_token'] in tags]
+        if len(matches) > 1:
+            raise RuntimeError('Ongoing build matches multiple reservations')
+        if matches:
+            record = matches[0]
+            token = record['dispatch_token']
+            known_build_id = record.get('build_id') or record.get('item', {}).get('build_id')
+            if (token in matched_tokens or token not in tags or
+                    known_build_id not in (None, build_id)):
+                raise RuntimeError('Ongoing build conflicts with reserved token or Build ID')
+            matched_tokens.add(token)
+        else:
+            occupied += 1
+    return occupied
 
 
 def reserve(record):
@@ -199,7 +263,9 @@ def update(record):
         raise RuntimeError('Global Cloud Build reservation identity changed')
     if current.get('build_id') is not None and current['build_id'] != record.get('build_id'):
         raise RuntimeError('Global Cloud Build reservation Build ID changed')
-    records[index] = record
+    # A dispatcher may know only the fields it updates. Retain opaque receipt
+    # and timing metadata already attached to this exact token.
+    records[index] = {**current, **record}
     save_reservations(records)
 
 
