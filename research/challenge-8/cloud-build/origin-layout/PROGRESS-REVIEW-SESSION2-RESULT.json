@@ -1,0 +1,1092 @@
+{
+  "B1": {
+    "accepted_profile": false,
+    "achieved": true,
+    "admission_controls": {
+      "missing_caller_generated_reference": {
+        "copied_refiner_sha256": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+        "exit_code": 1,
+        "expected_message": "Generated DropGlue: original must contain exactly one normal tagged caller Drop",
+        "expected_message_present": true,
+        "log_sha256": "086c520f36c306329ae1b43b7315951c712f6d9df6f3a11c88c1c84edf653d6a",
+        "matched": true,
+        "original_message_sha256": "32041666caac84ba5f3de6eb6e41a1fbc5b0699ae7d0682b26db2929198184db",
+        "source_sha256_after": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "source_sha256_before": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "stage": "INTENDED_ADMISSION_REFUSAL",
+        "verified_message_sha256": "2e152aee4c39d2dad8d7d31e6b52a1254d24154c498d3d3b245bc7030e31de6d",
+        "wrapper_sha256": "d78fc5b8cea9782acb85bc1a38ea73f0f8aa4bfcefa4665c46e71d329415cd68"
+      },
+      "missing_generated_enabled": {
+        "copied_refiner_sha256": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+        "exit_code": 1,
+        "expected_message": "Generated DropGlue: body missing from one exported unit",
+        "expected_message_present": true,
+        "log_sha256": "f0f4d9d96f3dd6390bc9e005bf984f91d8db8c9e8ceca4198aba1afbd551d536",
+        "matched": true,
+        "original_message_sha256": "ef261998123aa914f63bdfc817b66c1637c1228d973d731ffa6dade7aaa4e0e8",
+        "source_sha256_after": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "source_sha256_before": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "stage": "INTENDED_ADMISSION_REFUSAL",
+        "verified_message_sha256": "59eb32c2af83b461c7d9517ddbe71c8bc8126fbb49317b39841085bd4ad53c86",
+        "wrapper_sha256": "4d54154f7cb75f1d944842ae0255d32113067a12526bc01bf087b2ab3d3fa376"
+      },
+      "wrong_actual_call_normal_target": {
+        "copied_refiner_sha256": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+        "exit_code": 1,
+        "expected_message": "Generated DropGlue: verified call operands, destination, target, or unwind differ",
+        "expected_message_present": true,
+        "log_sha256": "d126dd2870a73d30a9943ec2fd966553e15f0bb81930423a0b81b5d1b63bcf2c",
+        "matched": true,
+        "original_message_sha256": "ef261998123aa914f63bdfc817b66c1637c1228d973d731ffa6dade7aaa4e0e8",
+        "source_sha256_after": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "source_sha256_before": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "stage": "INTENDED_ADMISSION_REFUSAL",
+        "verified_message_sha256": "4c82ec435a0a0640971840e244ea1df429efb5891f7af905c91f3e427a394b8b",
+        "wrapper_sha256": "a8225d3961775c0d300fa93b3132a5056c1109b7c91e120f7e7ad5adf79798ea"
+      },
+      "wrong_actual_call_target": {
+        "copied_refiner_sha256": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+        "exit_code": 1,
+        "expected_message": "Generated DropGlue: verified call is not the recorded raw trait FnDef",
+        "expected_message_present": true,
+        "log_sha256": "35754ad566c230681351472efe44655ab50a5231baac7f39088a3be0d252d547",
+        "matched": true,
+        "original_message_sha256": "ef261998123aa914f63bdfc817b66c1637c1228d973d731ffa6dade7aaa4e0e8",
+        "source_sha256_after": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "source_sha256_before": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "stage": "INTENDED_ADMISSION_REFUSAL",
+        "verified_message_sha256": "7c52791c62ce010fbdebe3c033783ba4b600b9dd6510278bf4873f25e7e46fe2",
+        "wrapper_sha256": "c4bd2b304791af6dba54f4f69ff136aa61ef2dedb2fcaecc7816821cd8572b9f"
+      },
+      "wrong_actual_call_unwind": {
+        "copied_refiner_sha256": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+        "exit_code": 1,
+        "expected_message": "Generated DropGlue: verified call operands, destination, target, or unwind differ",
+        "expected_message_present": true,
+        "log_sha256": "d126dd2870a73d30a9943ec2fd966553e15f0bb81930423a0b81b5d1b63bcf2c",
+        "matched": true,
+        "original_message_sha256": "ef261998123aa914f63bdfc817b66c1637c1228d973d731ffa6dade7aaa4e0e8",
+        "source_sha256_after": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "source_sha256_before": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "stage": "INTENDED_ADMISSION_REFUSAL",
+        "verified_message_sha256": "eeeab5b5b2543132a21886df8f01369a8d48f0b8c42db400f877b9efbe8ec459",
+        "wrapper_sha256": "b84ea1018f460b0937304e1a5269f782b1217ec52b8fbd28201261b63d4e4ef9"
+      },
+      "wrong_caller_generated_reference": {
+        "copied_refiner_sha256": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+        "exit_code": 1,
+        "expected_message": "Generated DropGlue: original caller Drop does not bind the generated body",
+        "expected_message_present": true,
+        "log_sha256": "1f18073759799e66f7487e615fb56b7d97601ab9557a5f04e05d48ac1491c272",
+        "matched": true,
+        "original_message_sha256": "c7867ac47d3dd96ab55414023858272fc64179ca94016553c9e78a775a515cec",
+        "source_sha256_after": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "source_sha256_before": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "stage": "INTENDED_ADMISSION_REFUSAL",
+        "verified_message_sha256": "2e152aee4c39d2dad8d7d31e6b52a1254d24154c498d3d3b245bc7030e31de6d",
+        "wrapper_sha256": "56417c74156eb79006f556b01df8c6dab46dd0c6d6834803c7cd46f055204c76"
+      },
+      "wrong_generated_body_key": {
+        "copied_refiner_sha256": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+        "exit_code": 1,
+        "expected_message": "Generated DropGlue: verified has an unexpected generated body key",
+        "expected_message_present": true,
+        "log_sha256": "2f6b6d79f001b39037416a61d919e7f3f4df66fbfc786b762594126357a4b8c7",
+        "matched": true,
+        "original_message_sha256": "ef261998123aa914f63bdfc817b66c1637c1228d973d731ffa6dade7aaa4e0e8",
+        "source_sha256_after": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "source_sha256_before": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "stage": "INTENDED_ADMISSION_REFUSAL",
+        "verified_message_sha256": "48004ab8de1d6178c0b5d130f3d88ed0569fe5625e24c6669a4649565d5daf18",
+        "wrapper_sha256": "2049b8f181d5b85779dc9e353806039ad5e27213559af5e0f13fcfc188c62f83"
+      },
+      "wrong_generated_function_identity": {
+        "copied_refiner_sha256": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+        "exit_code": 1,
+        "expected_message": "Generated DropGlue: verified has an unexpected generated body key",
+        "expected_message_present": true,
+        "log_sha256": "2f6b6d79f001b39037416a61d919e7f3f4df66fbfc786b762594126357a4b8c7",
+        "matched": true,
+        "original_message_sha256": "ef261998123aa914f63bdfc817b66c1637c1228d973d731ffa6dade7aaa4e0e8",
+        "source_sha256_after": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "source_sha256_before": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "stage": "INTENDED_ADMISSION_REFUSAL",
+        "verified_message_sha256": "9b941098b6c9ba2b562a866bf9520038242dcff75f1b97faa313f01d1ed95f3f",
+        "wrapper_sha256": "a630520fa7ad0ff15341eea8618e91d9221a5fb39f0cb527227ffa71ecea4431"
+      },
+      "wrong_selected_destructor": {
+        "copied_refiner_sha256": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+        "exit_code": 1,
+        "expected_message": "Generated DropGlue: verified must contain one checked selected Drop::drop body",
+        "expected_message_present": true,
+        "log_sha256": "2a6682c5754aeca0c68926c58973389eab866c341221eabf89d3a98f46f2e753",
+        "matched": true,
+        "original_message_sha256": "ef261998123aa914f63bdfc817b66c1637c1228d973d731ffa6dade7aaa4e0e8",
+        "source_sha256_after": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "source_sha256_before": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "stage": "INTENDED_ADMISSION_REFUSAL",
+        "verified_message_sha256": "683dc7de02bfade6631b8b017d7ff5b0002a9f751a655dffaf765bbdd7b0912d",
+        "wrapper_sha256": "7dc2c25b64b5f99c90ffec9847ed82aeb8a6c3b43c8505ddb9eb922776e05968"
+      },
+      "wrong_unwind_edge": {
+        "copied_refiner_sha256": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+        "exit_code": 1,
+        "expected_message": "Generated DropGlue: verified has an unexpected MIR phase or control-flow edge",
+        "expected_message_present": true,
+        "log_sha256": "9c47b516c16fbb632081943148f3df5fb6be0746a822dd857d60a9ca84961b18",
+        "matched": true,
+        "original_message_sha256": "ef261998123aa914f63bdfc817b66c1637c1228d973d731ffa6dade7aaa4e0e8",
+        "source_sha256_after": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "source_sha256_before": {
+          "original": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+          "verified": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+        },
+        "stage": "INTENDED_ADMISSION_REFUSAL",
+        "verified_message_sha256": "8fd73cd01affe7581e2ca910f7fdd77f3bb95571414cbe533441bbe439c2c1e3",
+        "wrapper_sha256": "cde1cfd2385aa37297d997b18fe2c95d9f5b762e60d989a1258a4073dbac62a1"
+      }
+    },
+    "cases": {
+      "after_natural_drop_false": "EXPECTED_REJECTION",
+      "caller_dead_code": "EXPECTED_REJECTION",
+      "caller_ready_entry_false": "CALLER_READY_ENTRY_EXPECTED_REJECTION",
+      "duplicate_effect_simultaneous": "EXPECTED_REJECTION",
+      "missing_receiver_frame": "EXPECTED_REJECTION",
+      "missing_source_permission": "EXPECTED_REJECTION",
+      "positive": "NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY"
+    },
+    "compatibility": {
+      "admission_capture_receipt_sha256": "93e7ef3ed764867757d8a895fea84774d7676b86feda2248aef44c7c79c9bed0",
+      "all_matched": true,
+      "capnp_sha256": "450cbc621cf98bc9e704dd1691cdd16ebfcafe15d4122c24b3326973d4766019",
+      "cases": {
+        "encoded_baseline": {
+          "copied_refiner_sha256": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+          "exit_code": 0,
+          "log_sha256": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3",
+          "matched": true,
+          "original_message_sha256": "ef261998123aa914f63bdfc817b66c1637c1228d973d731ffa6dade7aaa4e0e8",
+          "sources_unchanged": true,
+          "verified_message_sha256": "2e152aee4c39d2dad8d7d31e6b52a1254d24154c498d3d3b245bc7030e31de6d",
+          "wrapper_sha256": "7684503ffa171a0e50d008e2b9fe0a81815cba348a296728ad4f270d928c9373"
+        },
+        "generated_present_absent_0": {
+          "copied_refiner_sha256": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+          "earlier_gate_matched": true,
+          "exit_code": 1,
+          "expected_earlier_message": "Generated DropGlue: verified call operands, destination, target, or unwind differ",
+          "log_sha256": "d126dd2870a73d30a9943ec2fd966553e15f0bb81930423a0b81b5d1b63bcf2c",
+          "original_message_sha256": "ef261998123aa914f63bdfc817b66c1637c1228d973d731ffa6dade7aaa4e0e8",
+          "sources_unchanged": true,
+          "verified_message_sha256": "9faa625d3b15234c8e088ef7363b4bd5a81e45f121f94f2d5e690b15fcb593e2",
+          "wrapper_sha256": "6f8675e42c184be583cbe2647614b1df38e9ac02687adbb6946372ee19e00dbf"
+        },
+        "ordinary_nonunit_missing_0": {
+          "copied_refiner_sha256": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+          "exit_code": 1,
+          "expected_message": "Return local has no value in the refinement environment",
+          "log_sha256": "5f9457e6a2cf162f9d3b38879f89ab080b2c48006d2abacbf834d48d02b89a3c",
+          "matched": true,
+          "original_message_sha256": "6945f7d7583d9be08de96f7a2a8047d6b60c9ea9670b7c61b47487a33d5c2c27",
+          "sources_unchanged": true,
+          "verified_message_sha256": "06134dfd5512eb2944a5bee7029f55205d5d914f28b893f3ea74d454e756c7df",
+          "wrapper_sha256": "57431031d299f7ce28e762f47ec1b7d76c55b5d625ee77c3642968be6015b9ac"
+        },
+        "ordinary_present_absent_0": {
+          "copied_refiner_sha256": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+          "exit_code": 1,
+          "expected_message": "Return local has no value in the refinement environment",
+          "log_sha256": "08fda8222790fdfc807f976803919352edf9137af951d0a7c51c736a7a697271",
+          "matched": true,
+          "original_message_sha256": "ef261998123aa914f63bdfc817b66c1637c1228d973d731ffa6dade7aaa4e0e8",
+          "sources_unchanged": true,
+          "verified_message_sha256": "d4b15bf685ffe82ebe7696cdc27316645c45332042201992fdd37862f7ca4c58",
+          "wrapper_sha256": "c46571ea2fefa22c1ac58f81addc0c9b8495fced9fa4840f3c338078d8c2cf35"
+        },
+        "ordinary_unit_missing_0": {
+          "copied_refiner_sha256": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+          "exit_code": 1,
+          "expected_message": "Return local has no value in the refinement environment",
+          "log_sha256": "5f9457e6a2cf162f9d3b38879f89ab080b2c48006d2abacbf834d48d02b89a3c",
+          "matched": true,
+          "original_message_sha256": "de32b70bedc05396098be896dfa0c0b1ff636939f303f9bc5c9c3f4c704e12cb",
+          "sources_unchanged": true,
+          "verified_message_sha256": "d4b15bf685ffe82ebe7696cdc27316645c45332042201992fdd37862f7ca4c58",
+          "wrapper_sha256": "ca433d8283f433dd0559b93a21d3be0f7caaa70bcacd091d760739b7e6d0c02c"
+        },
+        "raw_baseline": {
+          "copied_refiner_sha256": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+          "exit_code": 0,
+          "log_sha256": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3",
+          "matched": true,
+          "original_message_sha256": "cdc24f2964c37620cbe8e7836577236fe4b709850b49d54f93ac44107c3fa10c",
+          "sources_unchanged": true,
+          "verified_message_sha256": "5a8e415da19556ab7eee0bc2cd5879562816d7e79149aa35afc19b66275b03f1",
+          "wrapper_sha256": "2c518856188206f24da1296326159ee51d2045601f2380f17675171caf76fa23"
+        }
+      },
+      "classification": "REFINER_COMPATIBILITY_ONLY_NO_PROOF_CREDIT",
+      "default_off_ordinary_drop": {
+        "ast_sha256": "9b1c6c2b90e119e623c0b3aa2fd1405605753f15c1bf20b9ac9b32a37df1054b",
+        "classification": "DEFAULT_OFF_FRONTEND_COMPATIBILITY_ONLY_NO_PROOF_CREDIT",
+        "decoded_sha256": "5208a0aeaeba8bf06209589298de30454f2799040b9926c139651166f99f3b34",
+        "decoder_exit_code": 0,
+        "exporter_exit_code": 0,
+        "exporter_sha256": "6d47354ab0bff88e966ce5bc3a4820ec9e988313d8e6b47ac607854e70dfd3c2",
+        "fixture_source_sha256": "380311015457c205b4bb5c0c9ea5a9895d93358cc5e3a16ec1014dc2d66eff8c",
+        "generated_call_count": 0,
+        "generated_flag_absent": true,
+        "matched": true,
+        "no_generated_body": true,
+        "no_generated_drop_reference": true,
+        "ordinary_ast_function_count": 1,
+        "ordinary_drop_in_place_call_count": 1,
+        "ordinary_drop_mir_present": true,
+        "receiver_rewrite_call_count": 0,
+        "source_sha256_after": "380311015457c205b4bb5c0c9ea5a9895d93358cc5e3a16ec1014dc2d66eff8c",
+        "stage": "ORDINARY_DEFAULT_OFF_AST_COMPATIBILITY",
+        "verifier_exit_code": 1,
+        "verifier_sha256": "ae82bc4852b70720deea44d37b19f4a1e4016b536966a3daa4b1ba5ce12da730"
+      },
+      "executed_controls_matched": true,
+      "generated_present_absent_0": {
+        "qualified": false,
+        "reason": "generated call destination must be _3, return block empty, and both MIR bodies equal",
+        "stage": "PRE_RETURN_GENERATED_SHAPE_GATE"
+      },
+      "inputs_sha256": {
+        "original_decoded": "d9b6a3bc13ce70b8374193d30f414e737c1524776849a78b1755eb8d89b7b707",
+        "original_raw": "cdc24f2964c37620cbe8e7836577236fe4b709850b49d54f93ac44107c3fa10c",
+        "original_source": "1f602539155e245b09b8af960559dd99d338bf352c024fa15faed1fed0c3963a",
+        "verified_decoded": "fe5f86ace76a50c3af5421bc205a7041db9cea16c35391564e852e40c31e021e",
+        "verified_raw": "5a8e415da19556ab7eee0bc2cd5879562816d7e79149aa35afc19b66275b03f1",
+        "verified_source": "ff2351600be322e79057af6bee3c001c79ee7eed56086208b5c7cc6691ec5c6f"
+      },
+      "legacy_synthetic_drop_defaults": {
+        "classification": "STATIC_SOURCE_COMPATIBILITY_ONLY_NO_PROOF_CREDIT",
+        "expected_source_sha256": "e232312e5f24ca98e25fe32fe0be5300eca4deda69438af2ebf90985061b3dc8",
+        "explicit_unqualified_default_count": 2,
+        "matched": true,
+        "refiner_sha256": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+        "source_path": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/src/refinement_checker/refinement_checker.ml",
+        "source_sha256": "e232312e5f24ca98e25fe32fe0be5300eca4deda69438af2ebf90985061b3dc8",
+        "synthetic_drop_count": 2
+      },
+      "profile": "experimental-merge-actual-glue-body-v8",
+      "refiner_sha256": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+      "schema": "generated-glue-compatibility-controls-v1",
+      "schema_sha256": "b6c63644e8926a207b4393b80bf27696838aa22fe9db33acecc9fefa68550750",
+      "status": "COMPATIBILITY_CONTROLS_MATCHED_WITH_EARLIER_GENERATED_GATE"
+    },
+    "generated_present_absent_0_credit": "mandatory earlier shape rejection only; no direct Return VC",
+    "helper_control_matched": true,
+    "new_caller_receiver_FBC_origin_end_token_premises": false,
+    "ordinary_regression": {
+      "accepted": false,
+      "cases": {
+        "ordinary_call_normal_unwind": "PASS"
+      },
+      "classifier_controls_passed": true,
+      "evidence_collection_completed": true,
+      "exit_code": 0,
+      "profile": "experimental-merge-actual-glue-body-v8",
+      "proof_sha": "958afc34558419a37626b04b57610e220e7f4c03",
+      "provider": {
+        "arch": "x86_64",
+        "build_id": "7f45c598-f9f2-424a-ae19-84701c9aaf4f",
+        "os": "ubuntu-22.04",
+        "project": "smallsort-ci",
+        "provider": "cloud-build",
+        "region": "global"
+      },
+      "rustc_toolchain": "nightly-2026-09-25",
+      "rustc_version": "rustc 1.100.0-nightly (f7575a9da 2026-09-24)\nbinary: rustc\ncommit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f\ncommit-date: 2026-09-24\nhost: x86_64-unknown-linux-gnu\nrelease: 1.100.0-nightly\nLLVM version: 23.1.1\n",
+      "schema_sha256": "b6c63644e8926a207b4393b80bf27696838aa22fe9db33acecc9fefa68550750",
+      "scope": "exact combined-candidate ordinary normal/unwind smoke",
+      "tool_sha256": {
+        "refinement-checker": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+        "verifast": "ae82bc4852b70720deea44d37b19f4a1e4016b536966a3daa4b1ba5ce12da730",
+        "vf-rust-mir-exporter": "6d47354ab0bff88e966ce5bc3a4820ec9e988313d8e6b47ac607854e70dfd3c2"
+      }
+    },
+    "positive": {
+      "accepted": false,
+      "actual_checked_selected_method_credit": true,
+      "body_copy_executed": true,
+      "body_return_executed": true,
+      "caller_ast_evidence_summary": {
+        "admitted": true,
+        "caller_body_count": 1,
+        "caller_func_count": 1,
+        "details_retained_in_verified_archive": true,
+        "present": true,
+        "selected_call_binding": true
+      },
+      "caller_construction_credit": true,
+      "caller_leak_check": true,
+      "caller_return": true,
+      "case": "positive",
+      "classification": "NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY",
+      "compiler_generated_glue_credit": true,
+      "dead_code_lines": [],
+      "drop_body_effect_ast_gate": {
+        "admitted": true,
+        "base_body_gate": {
+          "admitted": false,
+          "custom_own_count": 1,
+          "fbc_fields": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "generated_contract_structural_gate": false,
+          "generated_outcome_calls": {
+            "returning": [
+              "thread_token",
+              "struct_CopyOnDrop_padding",
+              "CopyOnDrop_drop_effect"
+            ],
+            "unwinding": [
+              "thread_token",
+              "struct_CopyOnDrop_padding"
+            ]
+          },
+          "generated_outcome_fields": {
+            "returning": [
+              "src",
+              "dst",
+              "len"
+            ],
+            "unwinding": [
+              "src",
+              "dst",
+              "len"
+            ]
+          },
+          "generated_outcome_tags": [
+            "returning",
+            "unwinding"
+          ],
+          "probe_ast": true,
+          "prototype_calls": [
+            "initialized_storage_alignment",
+            "points_to_limits",
+            "object_pointer_within_limits",
+            "uninitialized_storage_alignment",
+            "points_to__limits",
+            "object_pointer_within_limits",
+            "points_to_limits",
+            "pointer_within_limits",
+            "cons",
+            "points_to__limits",
+            "pointer_within_limits",
+            "cons",
+            "call"
+          ],
+          "prototype_closes": [
+            "array",
+            "array",
+            "array_",
+            "array_",
+            "CopyOnDrop_drop_effect"
+          ],
+          "prototype_opens": [
+            "CopyOnDrop_full_borrow_content",
+            "CopyOnDrop_own"
+          ],
+          "runtime_copy_field_origins": [
+            0,
+            1,
+            2
+          ],
+          "runtime_dynamic_copy_count": 1
+        },
+        "body_linkage": true,
+        "effect_argument_count_and_uniqueness": true,
+        "effect_argument_names": [
+          "_t",
+          "src",
+          "dst",
+          "len"
+        ],
+        "effect_definition_gate": {
+          "admitted": true,
+          "body_admitted": true,
+          "body_leaf_count": 5,
+          "declaration_count": 1,
+          "definition_count": 1,
+          "destination_singleton_current": "current",
+          "input_names": [
+            "t",
+            "src",
+            "dst",
+            "len"
+          ],
+          "owner_current": "current",
+          "signature_admitted": true,
+          "source_line": 42,
+          "source_quarter_current": "current"
+        },
+        "generated_call_names": [
+          "ref_origin",
+          "thread_token",
+          "CopyOnDrop_full_borrow_content",
+          "thread_token",
+          "struct_CopyOnDrop_padding",
+          "CopyOnDrop_drop_effect",
+          "thread_token",
+          "struct_CopyOnDrop_padding"
+        ],
+        "generated_field_variables": {
+          "dst": "dst",
+          "len": "len",
+          "src": "src"
+        },
+        "generated_normal_only_effect": true,
+        "generated_outcome_calls": {
+          "returning": [
+            "thread_token",
+            "struct_CopyOnDrop_padding",
+            "CopyOnDrop_drop_effect"
+          ],
+          "unwinding": [
+            "thread_token",
+            "struct_CopyOnDrop_padding"
+          ]
+        },
+        "generated_outcome_fields": {
+          "returning": [
+            "src",
+            "dst",
+            "len"
+          ],
+          "unwinding": [
+            "src",
+            "dst",
+            "len"
+          ]
+        },
+        "generated_unwind_unchanged_effect_absent": true,
+        "prototype_closes": [
+          "array",
+          "array",
+          "array_",
+          "array_",
+          "CopyOnDrop_drop_effect"
+        ],
+        "simultaneous_full_effect_assertion_ast": false
+      },
+      "errors": [],
+      "generated_drop_glue_credit": true,
+      "generated_glue_negative_gate": {
+        "admitted": false,
+        "caller_generated_glue_loc": "verified/lib.rs(194,9-10)",
+        "caller_receiver_create_loc": "verified/lib.rs(194,9-10)",
+        "case": "positive",
+        "generated_glue_proof_admitted": true,
+        "matched": false,
+        "reason": "negative did not match its exact generated-glue-route obligation",
+        "setup_admitted": true
+      },
+      "generated_glue_proof_gate": {
+        "admitted": true,
+        "dead_code": [],
+        "errors": [],
+        "header_count": 1,
+        "header_name": "__vf_generated_drop_glue",
+        "leak_check": true,
+        "receiver_copy_executed": true,
+        "receiver_copy_loc": "/workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs(848,1)",
+        "return_executed": true,
+        "selected_method_call_executed": true,
+        "selected_method_call_loc": "/workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs(848,1-850,25)",
+        "selected_method_call_verified": true
+      },
+      "generated_glue_refinement_gate": {
+        "admitted": true,
+        "generated_drop_glue_error": false,
+        "present": true,
+        "successful_marker": true
+      },
+      "leak_check": true,
+      "mir_gate": {
+        "actual_natural_drop_terminator": true,
+        "admitted": true,
+        "explicit_runtime_drop_calls": [],
+        "guard_debug_local": {
+          "name": "_12"
+        },
+        "guard_drop_terminators": [
+          {
+            "bare_local": true,
+            "block": 58,
+            "guard_path": "CopyOnDrop",
+            "is_cleanup": false,
+            "local": {
+              "name": "_12"
+            },
+            "local_name": "_12",
+            "replace": false,
+            "selected_hash": "DefPathHash(Fingerprint(12908149020305531562, 11549365108250137374))",
+            "selected_path": "<CopyOnDrop as core::ops::Drop>::drop",
+            "span": {
+              "regular": {
+                "hi": {
+                  "col": {
+                    "pos": 9
+                  },
+                  "file": {
+                    "name": {
+                      "real": {
+                        "localPath": "verified/lib.rs"
+                      }
+                    }
+                  },
+                  "line": 194
+                },
+                "lo": {
+                  "col": {
+                    "pos": 8
+                  },
+                  "file": {
+                    "name": {
+                      "real": {
+                        "localPath": "verified/lib.rs"
+                      }
+                    }
+                  },
+                  "line": 194
+                }
+              }
+            },
+            "target": 59,
+            "unwind": {
+              "cleanup": {
+                "index": 72
+              }
+            }
+          },
+          {
+            "bare_local": true,
+            "block": 71,
+            "guard_path": "CopyOnDrop",
+            "is_cleanup": true,
+            "local": {
+              "name": "_12"
+            },
+            "local_name": "_12",
+            "replace": false,
+            "selected_hash": "DefPathHash(Fingerprint(12908149020305531562, 11549365108250137374))",
+            "selected_path": "<CopyOnDrop as core::ops::Drop>::drop",
+            "span": {
+              "regular": {
+                "hi": {
+                  "col": {
+                    "pos": 9
+                  },
+                  "file": {
+                    "name": {
+                      "real": {
+                        "localPath": "verified/lib.rs"
+                      }
+                    }
+                  },
+                  "line": 194
+                },
+                "lo": {
+                  "col": {
+                    "pos": 8
+                  },
+                  "file": {
+                    "name": {
+                      "real": {
+                        "localPath": "verified/lib.rs"
+                      }
+                    }
+                  },
+                  "line": 194
+                }
+              }
+            },
+            "target": 72,
+            "unwind": {
+              "terminate": null
+            }
+          }
+        ],
+        "selected_cleanup_is_statement_free_resume": true,
+        "selected_cleanup_target": 72,
+        "selected_normal_drop": {
+          "bare_local": true,
+          "block": 58,
+          "guard_path": "CopyOnDrop",
+          "is_cleanup": false,
+          "local": {
+            "name": "_12"
+          },
+          "local_name": "_12",
+          "replace": false,
+          "selected_hash": "DefPathHash(Fingerprint(12908149020305531562, 11549365108250137374))",
+          "selected_path": "<CopyOnDrop as core::ops::Drop>::drop",
+          "span": {
+            "regular": {
+              "hi": {
+                "col": {
+                  "pos": 9
+                },
+                "file": {
+                  "name": {
+                    "real": {
+                      "localPath": "verified/lib.rs"
+                    }
+                  }
+                },
+                "line": 194
+              },
+              "lo": {
+                "col": {
+                  "pos": 8
+                },
+                "file": {
+                  "name": {
+                    "real": {
+                      "localPath": "verified/lib.rs"
+                    }
+                  }
+                },
+                "line": 194
+              }
+            }
+          },
+          "target": 59,
+          "unwind": {
+            "cleanup": {
+              "index": 72
+            }
+          }
+        },
+        "selected_same_unit_checked_body_count": 1
+      },
+      "natural_scope_end_executed": true,
+      "scope": "bounded concrete-u64 natural Drop fixture only; no panic path or generic insert_tail credit",
+      "source_gate": {
+        "actual_drop_keeps_dynamic_self_len_copy": true,
+        "admitted": true,
+        "caller_has_no_explicit_copy_or_destructor_call": true,
+        "caller_uses_actual_read_and_guard": true,
+        "exactly_one_effect_definition": true,
+        "no_assume_leak_or_freeze": true,
+        "runtime_equal_after_ghost_strip": true,
+        "selected_method_safety_proof_source_bound": true
+      },
+      "source_unchanged_at_every_stage": true,
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 0
+      },
+      "targeted_negative_matched": false
+    },
+    "receiver_controls": {
+      "duplicate_end": {
+        "ast_control_matched": true,
+        "classification": "EXPECTED_RECEIVER_END_REJECTION",
+        "errors": [
+          "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/aliasing.rsspec(68,9-26): error: No matching heap chunks: ref_mut_end_token<CopyOnDrop>(fn_outcome_result(outcome1), _)"
+        ],
+        "expected_error_predicate": "ref_mut_end_token<CopyOnDrop>(fn_outcome_result(outcome1), _)",
+        "retirement_log_order_admitted": false,
+        "stages": {
+          "decode": 0,
+          "exporter": 0,
+          "refinement": 0,
+          "verifast": 1
+        },
+        "target_error_and_caller_trace": {
+          "caller_drop_loc": "verified/lib.rs(194,9-10)",
+          "caller_drop_note": "verified/lib.rs(194,9-10): note: Verifying call",
+          "caller_note_line_number": 703,
+          "error_count": 1,
+          "error_line": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/aliasing.rsspec(68,9-26): error: No matching heap chunks: ref_mut_end_token<CopyOnDrop>(fn_outcome_result(outcome1), _)",
+          "error_line_number": 697,
+          "exact_error_count": 1,
+          "matched": true
+        },
+        "target_error_matched": true
+      },
+      "omit_end": {
+        "ast_control_matched": true,
+        "classification": "EXPECTED_RECEIVER_END_REJECTION",
+        "errors": [
+          "verified/lib.rs(194,9-10): error: No matching heap chunks: [_]points_to<CopyOnDrop>(gap_guard_addr, _)"
+        ],
+        "expected_error_predicate": "[_]points_to<CopyOnDrop>(gap_guard_addr, _)",
+        "retirement_log_order_admitted": false,
+        "stages": {
+          "decode": 0,
+          "exporter": 0,
+          "refinement": 0,
+          "verifast": 1
+        },
+        "target_error_and_caller_trace": {
+          "caller_drop_loc": "verified/lib.rs(194,9-10)",
+          "caller_drop_note": "verified/lib.rs(194,9-10): direct points_to call failure",
+          "caller_note_line_number": 695,
+          "error_count": 1,
+          "error_line": "verified/lib.rs(194,9-10): error: No matching heap chunks: [_]points_to<CopyOnDrop>(gap_guard_addr, _)",
+          "error_line_number": 695,
+          "exact_error_count": 1,
+          "matched": true
+        },
+        "target_error_matched": true
+      },
+      "post_retirement_drop": {
+        "ast_control_matched": true,
+        "classification": "EXPECTED_POST_RETIREMENT_DROP_REJECTION",
+        "errors": [
+          "verified/lib.rs(53,17-20): error: No matching heap chunks: CopyOnDrop_src(fn_outcome_result(outcome1), _)"
+        ],
+        "expected_error_predicate": "CopyOnDrop_src(fn_outcome_result(outcome1), _)",
+        "retirement_log_order_admitted": true,
+        "stages": {
+          "decode": 0,
+          "exporter": 0,
+          "refinement": 0,
+          "verifast": 1
+        },
+        "target_error_and_caller_trace": {
+          "caller_drop_loc": "verified/lib.rs(194,9-10)",
+          "caller_drop_note": "verified/lib.rs(194,9-10): note: Verifying call",
+          "caller_note_line_number": 712,
+          "error_count": 1,
+          "error_line": "verified/lib.rs(53,17-20): error: No matching heap chunks: CopyOnDrop_src(fn_outcome_result(outcome1), _)",
+          "error_line_number": 706,
+          "exact_error_count": 1,
+          "matched": true
+        },
+        "target_error_matched": true
+      },
+      "wrong_end": {
+        "ast_control_matched": true,
+        "classification": "EXPECTED_RECEIVER_END_REJECTION",
+        "errors": [
+          "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/aliasing.rsspec(68,9-26): error: No matching heap chunks: ref_mut_end_token<CopyOnDrop>(gap_guard_addr, _)"
+        ],
+        "expected_error_predicate": "ref_mut_end_token<CopyOnDrop>(gap_guard_addr, _)",
+        "retirement_log_order_admitted": false,
+        "stages": {
+          "decode": 0,
+          "exporter": 0,
+          "refinement": 0,
+          "verifast": 1
+        },
+        "target_error_and_caller_trace": {
+          "caller_drop_loc": "verified/lib.rs(194,9-10)",
+          "caller_drop_note": "verified/lib.rs(194,9-10): note: Verifying call",
+          "caller_note_line_number": 701,
+          "error_count": 1,
+          "error_line": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/aliasing.rsspec(68,9-26): error: No matching heap chunks: ref_mut_end_token<CopyOnDrop>(gap_guard_addr, _)",
+          "error_line_number": 695,
+          "exact_error_count": 1,
+          "matched": true
+        },
+        "target_error_matched": true
+      }
+    },
+    "retained_caller_premises": "initial tail geometry/cell/u64 owner/thread/type",
+    "scope": "bounded concrete-u64 x86_64 guard-len1 normal actual caller/generated glue/resolved same-unit selected Drop CURRENT/full normal posts return/free/leak; not generic insert_tail or panic",
+    "synthetic_records_credit": "static exact-source compatibility only"
+  },
+  "B2": {
+    "achieved": false,
+    "caller_loc": "verified/lib.rs(138,21-27)",
+    "classification": {
+      "accepted": false,
+      "ast_gate": {
+        "admitted": false,
+        "fnmut_call_nodes": 2,
+        "generated_glue_call_nodes": 2,
+        "observed_minimal_shape": true,
+        "reason": "actual callback and cleanup nodes lack exact MIR outcome qualification"
+      },
+      "classification": "INCONCLUSIVE_CAUSAL_DIAGNOSTIC",
+      "dead_code": [],
+      "errors": [
+        "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/aliasing.rsspec(88,9-29): error: No matching heap chunks: ref_precreated_token<u64>(tail0, _)"
+      ],
+      "first_error": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/aliasing.rsspec(88,9-29): error: No matching heap chunks: ref_precreated_token<u64>(tail0, _)",
+      "full_normal_and_unwind_proved": false,
+      "late_callback_executed": false,
+      "mir_gate": {
+        "admitted": false,
+        "call_edges": [
+          {
+            "block": 0,
+            "unwind": "{'continue': None}"
+          },
+          {
+            "block": 1,
+            "unwind": "{'continue': None}"
+          },
+          {
+            "block": 3,
+            "unwind": "{'continue': None}"
+          },
+          {
+            "block": 5,
+            "unwind": "{'continue': None}"
+          },
+          {
+            "block": 6,
+            "unwind": "{'continue': None}"
+          },
+          {
+            "block": 8,
+            "unwind": "{'cleanup': {'index': 20}}"
+          },
+          {
+            "block": 11,
+            "unwind": "{'cleanup': {'index': 20}}"
+          },
+          {
+            "block": 12,
+            "unwind": "{'cleanup': {'index': 20}}"
+          },
+          {
+            "block": 13,
+            "unwind": "{'cleanup': {'index': 20}}"
+          }
+        ],
+        "drop_edges": [
+          {
+            "block": 17,
+            "cleanup": false,
+            "unwind": "{'cleanup': {'index': 21}}"
+          },
+          {
+            "block": 20,
+            "cleanup": true,
+            "unwind": "{'terminate': None}"
+          }
+        ],
+        "observed_minimal_shape": true,
+        "reason": "exact late Call\u2192cleanup Drop routing and unwind refinement remain unqualified"
+      },
+      "proof_credit": false,
+      "refinement_unwind_qualified": false,
+      "source_exact": true,
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      }
+    },
+    "excluded_first_failure": "tail.sub(1) pointer bounds; statement137 executed",
+    "first_call_HRTB_registration": 0,
+    "first_causal_stage": "verifier shared-reference creation before first FnMut callback",
+    "log_sha256": "ea10c38c633c98386e64d93cc88816092cecf2e4f7ce6edaabec75ca02487ca7",
+    "no_receiver_FBC_origin_end_token_premises": true,
+    "preparation": {
+      "actual_drop_copy_line": 111,
+      "actual_drop_sha256": "caff1edbfa3a8d9fd29459e49c43abd0f8f987f9061c75e7bf6ecedbbba26a6a",
+      "actual_first_call_line": 138,
+      "actual_first_pointer_line": 137,
+      "actual_guard_line": 148,
+      "actual_insert_tail_bytes": 1380,
+      "actual_insert_tail_sha256": "9bc00f3913373e5879769b9970d66b1a56ada05a10205d51cafdf6533ecc2f29",
+      "actual_late_call_line": 163,
+      "actual_read_line": 147,
+      "actual_shift_line": 154,
+      "actual_update_line": 155,
+      "expected_first_causal_blocker": "source line 540 tail.sub(1) pointer_within_limits, if three-cell array alone does not expose the interior bound; then first comparator loans at line 541",
+      "ghost_strip_exact": true,
+      "mechanically_specialized_insert_sha256": "f799a98138081d4d42b3ab3faed62568be8a1e015e5f537fc61c9f1e9cb12246",
+      "original_sha256": "d5a1f33a06115a3a23918afe054191227ca29d990fb199147d23ec4f6531bc26",
+      "profile": "experimental-merge-actual-glue-body-v8",
+      "proof_credit": false,
+      "source_git_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+      "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+      "target_normal_and_unwind": "full current initialized 3-cell array, one own per current value, current F/thread/type/frame",
+      "verified_sha256": "3ccf7783833f937889c04d549c70d0369a610bc4114760392ff89239144cbdef",
+      "wrapper_line": 182
+    },
+    "target_remaining": "normal and reachable late panic after shift; callback loans/frame CURRENT updated gap exact caller cleanup refinement"
+  },
+  "accounting": {
+    "carryover": false,
+    "fresh_ceiling_seconds": 3600,
+    "previous_retired_seconds": 1925,
+    "unused_retired_seconds": 1564,
+    "used_seconds": 2036
+  },
+  "build": {
+    "accounted": true,
+    "archive_sha256": "3c5908b36497bdc9aabd0a14f6f6c3df18564ea9dd898eeee15b4de514cadb5c",
+    "build_id": "7f45c598-f9f2-424a-ae19-84701c9aaf4f",
+    "build_seconds": 568,
+    "create_time": "2026-10-11T23:35:26.557862994Z",
+    "dispatch_token": "dispatch-28ded6436a7040dca326871fc42abb50",
+    "download_verified": true,
+    "execution_seconds": 567,
+    "finish_time": "2026-10-11T23:44:53.687659Z",
+    "infra_sha": "958afc34558419a37626b04b57610e220e7f4c03",
+    "lane": "merge",
+    "owner": "merge",
+    "phase_id": "MERGE-B1-B2-CLOUD-2026-10-12",
+    "proof_sha": "958afc34558419a37626b04b57610e220e7f4c03",
+    "publish_text_logs": true,
+    "reserved_seconds": 960,
+    "source_input_sha256": "2a67ec20130aa0de840f6454fa17bafe6a089666ec06770d713999433d6639fa",
+    "source_mode": "pinned-objects",
+    "start_time": "2026-10-11T23:35:27.330422500Z",
+    "status": "FAILURE",
+    "submitted_config_sha256": "47e1e80c52fc0d7563e68d2ee6f37c20a1ae2923023d67e6f76fc4deb8712d96",
+    "timeout_seconds": 900
+  },
+  "checkpoint_sha": "420188dd1732d53f3f515690ed2ff6f53a9026ab",
+  "closed_utc": "2026-10-11T23:57:46.233980Z",
+  "docs_adoption_commit": "1e65f562994220a909ccf97903c36cb054576b76",
+  "integrity_verified": true,
+  "main_cutoff_utc": "2026-10-11T23:36:26Z",
+  "policy_sha": "6e1a8e59c56669abe5e6ec2013478e45ed2cc267",
+  "profile": {
+    "accepted": false,
+    "case_receipt_sha256": "0f1a57ed08dfdc70d1e0f88fe9f62d9e6bd73db40383960e00378b42a7feed1b",
+    "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+    "integration_status": "NOT_FOR_INTEGRATION",
+    "patches_in_application_order": [
+      {
+        "path": "research/challenge-8/merge/overnight/wrapping.patch",
+        "sha256": "c7c776ff5aef2b8668aa2ed3d59b47109fce1d67a9dc2f2043fc2744dc0ed31e"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/callback.patch",
+        "sha256": "0a006df94f04d6425d70280967d6652bdd33ccb88ead4a44f02a2e36775aaa5e"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/copy.patch",
+        "sha256": "da167ee095e9fb5f425e2d604dd46a973a8c1e3a5121b2c87cc3546b0ec8e9a5"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/cleanup.patch",
+        "sha256": "94fe2cd69edc9da6907553961ca32f0557c338266d9e9472e577860a95887604"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/usize-multiple.patch",
+        "sha256": "ecdd1fd6fcc8d811f02fa308ddc533386e0031193d527ea6950a099f8ccccaa1"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/stack-address.patch",
+        "sha256": "f1444866322bf06b40e078a381a69acea7ccd92b613f7dc903d289044d8cba64"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/tracked-md.patch",
+        "sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6"
+      },
+      {
+        "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/allocation-span.patch",
+        "sha256": "603ab250705fa9d83c94631f7570bd3e1cc7fc06187c35e6ae8465fcb5efca1b"
+      },
+      {
+        "path": "research/challenge-8/cloud-build/origin-layout/unit-layout.patch",
+        "sha256": "00c7f9310ca30e3403daabdfe8e7d4c8c13aa84e78434acade309c98faadc68a"
+      },
+      {
+        "path": "research/challenge-8/cloud-build/origin-layout/guard-layout.patch",
+        "sha256": "16476ac7e615831bfd49cec3efdcefd1d76eab1a57f2df47b97f43fb8d6a1d74"
+      },
+      {
+        "path": "research/challenge-8/cloud-build/origin-layout/selected-drop.patch",
+        "sha256": "57bab179dc11366369689c0980209c2e76acf82339a346b02e1cc99fdfbb610a"
+      },
+      {
+        "path": "research/challenge-8/cloud-build/origin-layout/glue-observation.patch",
+        "sha256": "82fff6af2b5e98d2a1a8b0dafd0d9951bbb103408967a95d22e3461b367421ea"
+      },
+      {
+        "path": "research/challenge-8/cloud-build/origin-layout/glue-body.patch",
+        "sha256": "0aad1332daa465a6c175c830c7caf561736c928d9169b5429b674a0b84c1e687"
+      }
+    ],
+    "profile": "experimental-merge-actual-glue-body-v8",
+    "profile_build_sha256": "0fd4241255603483ee8e630cdf0c5fdb300fcbe3f1ddbce401eb65e6d1364c9e",
+    "profile_sha256": "0e67b038f940a9892dcb840747fbcc340532a31649979601af545acc41a0c68b",
+    "rust_toolchain": "nightly-2026-09-25",
+    "scope": "candidate tool identity only; no proof credit",
+    "status": "receipt-bound-candidate-profile",
+    "std_base_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+    "tool_commit": "a158398e336edce9817f62a55733a3470a986d7b",
+    "tool_hashes": {
+      "refinement-checker": "efa56cbf4235b05eeec867169b15f068b6d3afc71a7623fa9d7614c0589a3921",
+      "verifast": "ae82bc4852b70720deea44d37b19f4a1e4016b536966a3daa4b1ba5ce12da730",
+      "vf-rust-mir-exporter": "6d47354ab0bff88e966ce5bc3a4820ec9e988313d8e6b47ac607854e70dfd3c2"
+    },
+    "verifast_source_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+  },
+  "progress_review_session": 2,
+  "schema": "merge-progress-review-session2-result-v1",
+  "start_utc": "2026-10-11T21:36:26Z",
+  "text_chunk_count": 629,
+  "third_session_requires_owner_progress_review": true,
+  "window_sessions_total": 2
+}
