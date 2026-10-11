@@ -1,3 +1,16 @@
+# Native C1 ZST diagnosis — active authorized session
+
+2026-10-11 start00:21:00UTC, main02:21:00, finish-only02:51:00;
+owner select-sort4, existing assigned branch/worktree, checkpointd2c739b.
+Separate3600Cloudseconds/no carry, v2/max2/one own build. Policyc7ca8c46 read.
+Exact physical-node diagnostics and callback-free MU-dependence controls prepared;
+no new proof status. Static lead: stock positive struct size plus MaybeUninit
+size equality excludes T=ZST when native scratch size is instantiated. Fresh
+physical-ID/trigger confirmation pending; general semantics repair not authorized.
+[Session card](cloud-build/sort4-native-c1-bound/SESSION-2026-10-11.md),
+[new ledger](cloud-build/sort4-native-c1-bound/BUDGET-2026-10-11.json).
+Native C1 INCOMPLETE, connected C4 NOT_RUN. All original branches/checks retained.
+
 # Native → actual C1 — session closed, connected verdict incomplete
 
 Session 2026-10-10 21:49:42 UTC → main deadline23:49:42 UTC; finish-only

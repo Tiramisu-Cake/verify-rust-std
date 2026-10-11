@@ -41,7 +41,7 @@
                end;
 --- a/src/verify_expr.ml
 +++ b/src/verify_expr.ml
-@@ -464,7 +464,39 @@
+@@ -464,7 +464,40 @@
      | PureStmt _ | NonpureStmt _ | BlockStmt _ -> true
      | _ -> false
  
@@ -68,10 +68,11 @@
 +        in
 +        let predecessor = !previousLabel in
 +        let loc = stmt_loc s in
++        let callerLoc = root_caller_token loc in
 +        let report = not (is_transparent_stmt s) in
-+        if report then
++        if report && callerLoc != dummy_loc0 then
 +          Printf.printf "AST_STMT list=%d ordinal=%d kind=%s predecessor_label=%s loc=%s\n"
-+            listIndex ordinal kind predecessor (string_of_loc0 (root_caller_token loc));
++            listIndex ordinal kind predecessor (string_of_loc0 callerLoc);
 +        begin match s with
 +          | LabelStmt (_, name) -> previousLabel := name
 +          | _ -> ()
