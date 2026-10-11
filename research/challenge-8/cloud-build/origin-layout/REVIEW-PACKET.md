@@ -1,6 +1,6 @@
 # Merge len1 / caller resource handoff review package
 
-Current session is active; [FINAL-CHECKPOINT.md](FINAL-CHECKPOINT.md) and
+Current session is CLOSED (1795/3600 used;1805 retired); [FINAL-CHECKPOINT.md](FINAL-CHECKPOINT.md) and
 [BUDGET.json](BUDGET.json) govern status/accounting. Historical guard/len1 package
 is retained in [archive/REVIEW-PACKET-GUARD-LEN1-20261010.md](archive/REVIEW-PACKET-GUARD-LEN1-20261010.md).
 This package requests internal review only: profile **NOT_ACCEPTED**, integration
@@ -27,15 +27,16 @@ matches admitted symbolic variable names and exact source span/first production.
 input hashes, classifier version, full effective profile and negative mutations.
 
 Caller first attempt `c226905b` / `7f4d59d1` is preparation refusal before copy
-or call, not an ownership negative. Corrected fresh `419034a3` / `7c7e2465` is
-pending. [CALLER-COMPOSITION-CARD-20261011.md](CALLER-COMPOSITION-CARD-20261011.md)
+or call, not an ownership negative. Corrected `419034a3` / `7c7e2465` preserved its wrong token refusal; latest
+`1ce46121` / `bc08afa0` is **FRESH_PASS_BOUNDED_NORMAL_COMPOSITION_FRAGMENT_ONLY**. [CALLER-COMPOSITION-CARD-20261011.md](CALLER-COMPOSITION-CARD-20261011.md)
 defines unchanged full posts, exact three cases and stage/location gates;
 [CALLER-RESOURCE-REVIEW-20261011.md](CALLER-RESOURCE-REVIEW-20261011.md) confirms
 that its strong helper input is derived from actual read/constructor/canonical
-own/FBC, with conserved fractions, fields, padding, quarter/gap and borrow token.
-The mutable borrow/cast handoff uses existing close/open_points_to and
-end_ref_mut; it introduces no origin equality assumption or standalone entry
-resource. Cloud must establish both helper implementation and real caller call,
+own/FBC, with conserved fractions, fields, padding and quarter/gap.
+Fresh419034 shows mutable Ref+Cast lowers to AddressOf then AddressOfDeref;
+no create_ref_mut token is generated. Latest bc08afa0 uses close/open_points_to,
+asserted actual pointer/allocation equality and returned full physical frame;
+it introduces no origin equality assumption or standalone entry resource. Fresh Cloud establishes both helper implementation and real caller call,
 CURRENT effect open, recovery, complete normal posts and function-specific
 return/leak checks. Source/MIR/AST identify a manual u64 helper, not compiler
 glue. Actual Drop method receiver-origin, actual compiler cleanup/glue and panic
@@ -50,3 +51,5 @@ Both mandatory normal/unwind regression groups passed fresh in both completed
 builds; guard21/span6 previous fresh b1da6f8e remain unchanged-profile evidence,
 not new runs. No local proof/compiler/extractor was run; saved/synthetic checks
 are service/preparation evidence. No disk cleanup or foreign mutations.
+
+Final independent resource review confirms actualcheckedcall159, returnedframe161/effect162/CURRENTrecovery/fullpost170/callerreturnleak172 andhelpercopy75/effect76/returnleak78. Bothnegatives match exactly159 beforecall and163 aftereffectopen. All4archives verified, ownactive/reservations/unresolvednone andrequestwithdrawn; accountCLOSED, noautomaticnewsession. Full freshreceipt CALLER-COMPOSITION-QUALIFICATION-20261011.json. Method-origin/finalDropglue/panic remainOPEN.

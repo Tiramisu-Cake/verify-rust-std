@@ -22,6 +22,7 @@ def load(name, path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('evidence', type=Path)
+    parser.add_argument('--campaign', choices=('len1', 'caller'), default='len1')
     parser.add_argument('--build-id', required=True)
     parser.add_argument('--proof-sha', required=True)
     parser.add_argument('--archive-sha256', required=True)
@@ -33,6 +34,8 @@ def main():
     base = load('saved_len1_parsers', ROOT /
                 'research/challenge-8/merge/overnight/copy-on-drop-prove.py')
     extraction = json.loads((args.evidence / 'extraction.json').read_text())
+    caller = (load('saved_caller_classifier', HERE / 'onecell-caller-composition.py')
+              if args.campaign == 'caller' else None)
     results = {}
     for name, row in extraction['cases'].items():
         case = args.evidence / 'cases' / name
@@ -43,13 +46,16 @@ def main():
         execution = {'stages': stages,
                      'source_files_unchanged': receipts['admitted'],
                      'source_unchanged_at_every_stage': receipts['admitted']}
-        results[name] = target._classify(name, case, row, execution, drop, base, consumer)
-    print(json.dumps({'schema': 'onecell-saved-replay-v2',
+        results[name] = (caller._classify(case, row, execution, base.mir_helper,
+                                         base.ast_helper, target) if caller else
+                         target._classify(name, case, row, execution, drop, base, consumer))
+    print(json.dumps({'schema': 'onecell-saved-replay-v2', 'campaign': args.campaign,
                       'identity_note': 'caller supplied IDs; archive integrity must be verified independently',
                       'build_id': args.build_id, 'proof_sha': args.proof_sha,
                       'archive_sha256': args.archive_sha256,
                       'classifier_sha256': hashlib.sha256(
-                          (HERE / 'onecell-drop-interface.py').read_bytes()).hexdigest(),
+                          (HERE / ('onecell-caller-composition.py' if caller else
+                                   'onecell-drop-interface.py')).read_bytes()).hexdigest(),
                       'fresh_proof': False, 'replay_is_new_proof': False,
                       'cases': results}, indent=2, sort_keys=True))
 

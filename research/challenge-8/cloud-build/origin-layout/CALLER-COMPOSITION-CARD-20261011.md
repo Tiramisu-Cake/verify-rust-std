@@ -1,6 +1,6 @@
 # Bounded one-cell caller composition, 2026-10-11
 
-Status: first attempt **INCONCLUSIVE_PREPARATION**, first corrected adapter **INCONCLUSIVE_ANNOTATION**; actual-address correction **NOT_RUN**. Build `c226905b-2b8c-49ef-b795-c6818874bef2` reached source/MIR/AST admission but refused unsupported local RawPtr in refinement and unsafe helper safety_proof without a prototype before either checked copy or caller call. These are not ownership negatives. This card records a
+Status: first attempt **INCONCLUSIVE_PREPARATION**, first corrected adapter **INCONCLUSIVE_ANNOTATION**; actual-address correction **FRESH_PASS_FRAGMENT_ONLY** (`1ce46121`/`bc08afa0`). Build `c226905b-2b8c-49ef-b795-c6818874bef2` reached source/MIR/AST admission but refused unsupported local RawPtr in refinement and unsafe helper safety_proof without a prototype before either checked copy or caller call. These are not ownership negatives. This card records a
 falsifiable experiment for the frozen `df6b3fbf` tool candidate and profile
 `0b8cf55b`. A fresh hosted Build, its full raw logs, stage/source receipts,
 positive and intended negative classifications are required before any proof

@@ -1,9 +1,46 @@
-# MERGE len1 qualification / caller composition — ACTIVE
+# MERGE len1 / bounded caller composition — CLOSED
 
-Owner merge, own worktrees/branches retained. Session start2026-10-10T22:36:57Z, main2026-10-11T00:36:57Z, finishing01:06:57Z; fresh3600Clouds/no carryover. Policyc7ca8c46 read. v2/max2/oneown.
+Session start2026-10-10T22:36:57Z, main2026-10-11T00:36:57Z, finishing01:06:57Z;
+completed beforemain. Hour status23:35:59Z delivered. Own worktrees/branches
+preserved, policyc7ca8c46/coordinatorv2/max2/oneown observed.
 
-Saved c6e247a9 regressions: missing_source_quarter EXPECTED_REJECTION atcontract52/sourcequarter ownership; direct/canonicalpositive savedadmissionPASS; synthetic effectgate/unsupportedcases andrunner8mutationsPASS_SERVICE_ONLY. HistoricalCloudINCONCLUSIVE andoldduplicatecloseUNEXPECTED_ACCEPTANCE retained. Newnegative demands simultaneoustwofullsamepayload effects after singleclose fromsole resource set; pure savedbytepreflightPASS.
+Saved regressions CLOSED: missing_source_quarter intended mandatorysourcequarter
+refusal atcontract52; synthetic effect gate expects exactCURRENT body and keeps
+unsupportedcases refused. HistoricalCloudINCONCLUSIVE andbad duplicate-close
+UNEXPECTED_ACCEPTANCE preserved. Replay is not a new proof.
 
-Fresh corrected12casecampaign Build1396ff47-bc4f-4b77-99ea-cf1a4b1c457a, exactproof=infra d491b9378886be6925f5095803818bfb73b692fe FRESH_PROOF + SAVED_ADMISSION, all12matched; originalCloudINCONCLUSIVE kept. Toolcomponentdf6b3fbf; effectivebasef760+ordered10patches/all12trustedhashes [effective profile](cloud-build/origin-layout/EFFECTIVE-SOURCE.json), profile0b8cf55b unchanged/NOT_ACCEPTED. GuardpreviousfreshPASS_CONTROL b1da6f8e retained. Callercomposition3case Buildc226905b-2b8c-49ef-b795-c6818874bef2/exact7f4d59d1 INCONCLUSIVE_PREPARATION (unsafe helper prototype and refiner local RawPtr); actualglueNOT_IMPLEMENTED/panicNOT_EXERCISED/outscope.
+Len1 component QUALIFIED_FRESH_PROOF_PLUS_SAVED_ADMISSION: fresh1396ff47 /
+d491b937, all12 matched after saved diagnostic correction. Directbody/nonempty
+canonical positives and simultaneoustwofullsamepayload effectnegative qualified;
+secondpredicate106:76–98 refuses after first105produced, sole originalresources.
+RawCloudINCONCLUSIVE retained. Internalreview only, profile NOT_ACCEPTED.
 
-Current: corrected caller3case Build419034a3-08e9-48e8-a8d5-a2c71c84c50e at7c7e2465 RUNNING/awaiting evidence on sameprofile. Saved qualification all12matched; actualmethodreceiver-origin remainsOPEN, rawhelperfragmentdoesnotclaimDropglue. Budget849/3600, remaining2751, oneownactive419034a3; v2/max2 retained. No newBuild/experimentaftermain. [Session](cloud-build/origin-layout/SESSION.md), [saved regressions](cloud-build/origin-layout/LEN1-SAVED-REGRESSIONS-20261011.json), [budget](cloud-build/origin-layout/BUDGET.json).
+Bounded caller normal composition FRESH_PASS_FRAGMENT_ONLY: Build
+1ce46121-8edb-480e-b8b6-d3ef299a84cf, exactproof=infra
+bc08afa0bcec86337986a12cfdca7ff5d749b04d, archive56f985ae integrityverified.
+Actualread/constructor→canonicalown/FBC→derivedphysicalfields/padding/quarter/gap/
+geometry→realcheckedhelpercall159→CURRENTeffect162→originalnormalpost170→
+return/leak172. Helpercopy75/effect76/returnleak78 verifiedsameunit before summary.
+Bothnegatives exactentry159 andaftereffect163 match. Priorcaller preparation/
+wrongtokenrefusals c226905b/419034 retained, notresource-negatives.
+
+Externalcaller entry remains validtailphysicalstorage/heldowner, thread/type,
+u64 size/alignment/limits/no-overflow. Actualmethodreceiver ref_origin(self)==self
+andselectedDrop/gluelowering OPEN; rawhelpermanualspecialization is not
+compiler-produced Drop or wholeinsert_tail. ActualglueNOT_IMPLEMENTED,
+paniccleanupNOT_PROVED/NOT_EXERCISED, generic/ZST outscope.
+
+Tool df6b3fbf unchanged, fullbasef760+ordered10patches/12trustedhashes anddeps
+[EFFECTIVE-SOURCE](cloud-build/origin-layout/EFFECTIVE-SOURCE.json), profile0b8cf55b
+NOT_ACCEPTED/NOT_FOR_INTEGRATION. Bothmandatorynormal-unwindsmokes freshPASS
+all4Builds; guard21/span6 previousfreshPASS b1da6f8e unchangedprofileNOT_RERUN.
+
+Account CLOSED1795/3600Cloudseconds create→finish,1805unusedretired/no carryover.
+All4Builds terminal/accounted/fullarchiveverified; ownrequestWITHDRAWN,
+active/reservations/unresolvedNONE. No automaticnewsession. Next internalreview
+of len1 andboundedcaller receipts; experiments need explicitnewsession andledger.
+[Final checkpoint](cloud-build/origin-layout/FINAL-CHECKPOINT.md),
+[len1 qualification](cloud-build/origin-layout/LEN1-QUALIFICATION-20261011.json),
+[caller qualification](cloud-build/origin-layout/CALLER-COMPOSITION-QUALIFICATION-20261011.json),
+[review packet](cloud-build/origin-layout/REVIEW-PACKET.md),
+[budget](cloud-build/origin-layout/BUDGET.json).

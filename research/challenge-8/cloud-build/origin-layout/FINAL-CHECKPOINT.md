@@ -1,9 +1,10 @@
-# Merge len1 qualification and caller composition — ACTIVE
+# Merge len1 qualification and caller composition — CLOSED
 
 Session start `2026-10-10T22:36:57Z`, main cutoff `2026-10-11T00:36:57Z`,
 finishing cutoff `01:06:57Z`. Hour status delivered `23:35:59Z`; continuation
-without waiting. No new experiments/Builds after main cutoff and no automatic
-next session. Previous closed checkpoint is preserved in
+without waiting. Authorized bounded step and evidence review completed before main cutoff. All
+four Builds are terminal/accounted, own request withdrawn, no own reservation
+or unresolved submission. No automatic next session. Previous closed checkpoint is preserved in
 [archive/FINAL-CHECKPOINT-GUARD-LEN1-20261010.md](archive/FINAL-CHECKPOINT-GUARD-LEN1-20261010.md).
 
 Own project `/root/verify-rust-std-merge-origin`, branch
@@ -81,11 +82,28 @@ Field halves, padding and source quarter are conserved through FBC; live
 allocation geometry supplies guard separation, constructor supplies length and
 field identities. Existing close_points_to folds the initialized guard before
 `&mut gap_guard as *mut CopyOnDrop`; open_points_to exposes returned fields and
-padding with ref_mut_end_token. Helper entry consumes those physical resources,
-normal post returns them plus CURRENT effect, and end_ref_mut returns the guard
-allocation before effect recovery/end_ref_readonly/end_lifetime/full normal
-posts. There is no assumed pointer-origin equality or supplied body input.
-Corrected adapter **NOT_RUN until terminal fresh evidence**.
+padding at the actual guard address. Helper entry is intended to consume those physical resources,
+normal post returns them plus CURRENT effect. Fresh419034 shows Ref+Cast actually
+lowers to AddressOf(gap_guard) and AddressOf(Deref(reference)), with no token
+producer. The erroneous token assertion/end_ref_mut is preserved as an annotation
+refusal. Corrected bc08afa0 asserts the derived physical pointer equality and
+returned full field/padding frame, then effect recovery/end_ref_readonly/
+end_lifetime/full normal posts. There is no assumed origin equality or supplied
+body input. Latest corrected adapter **FRESH_PASS_BOUNDED_NORMAL_COMPOSITION_FRAGMENT_ONLY**.
+
+Fresh Build **1ce46121-8edb-480e-b8b6-d3ef299a84cf**, proof=infra
+**bc08afa0bcec86337986a12cfdca7ff5d749b04d**, archive
+`56f985ae90fbaf931ebdd6fe191aafb3922f3d944ed2aecfad3ed8019a82f351`, is SUCCESS.
+All3 cases match after complete archive/index/config/input/inventory verification.
+Positive actual checked call159, returned physical frame161, CURRENT effect
+open162, original normal post170 and caller return/leak172 pass; helper dynamic
+copy75/effect close76/return+leak78 verify independently in the same unit before
+its summary is used. Entry false refuses159 before call; after-call false
+refuses163 after checked call/effect open. Source/MIR/AST and refinement admit
+all3. No source Assume/Leak or dead-code trace in checked functions.
+[CALLER-COMPOSITION-QUALIFICATION-20261011.json](CALLER-COMPOSITION-QUALIFICATION-20261011.json)
+pins exact input/classifier/tool hashes, CURRENT and ownership fractions,
+fields/padding and original posts. Independent final resource review GO.
 
 Source mapping: pinned std read/constructor550–551, Drop copy306; u64 helper
 substitutes `self.field` with `(*guard).field` only and retains dynamic len.
@@ -100,11 +118,18 @@ specialization is **not compiler-produced Drop/glue** or whole insert_tail.
 Caller entry still supplies initialized tail storage/held u64 ownership,
 thread token, type interpretation, u64 positive size/alignment, object limits,
 isize/no-overflow bounds. Lifetime resources originate in existing reference
-operations. Constructor/body entry facts are derived only if fresh composition
-closes: source/destination identities, len1, source quarter/destination gap,
+operations. The fresh bounded composition derives constructor/body entry facts: source/destination identities, len1, source quarter/destination gap,
 CURRENT owner, payload geometry/separation, physical guard fields/padding and
-borrow return token. Actual Drop receiver `ref_origin(self)==self` applicability
+actual lowered pointer/allocation binding. Actual Drop receiver `ref_origin(self)==self` applicability
 remains **OPEN**; the raw helper does not establish that method precondition.
+Frozen aliasing.rsspec create_ref_mut/end_ref_mut (55–69) returns physical
+ownership, not ref_origin fixedpoint; origin geometry/idempotence (10–23)
+does not supply this equality. The actual current cast lowers to address
+expressions without such token. Translator actual Drop pre (4585–4613) requires
+fixedpoint/full borrow content; rust_belt reborrow_ref_mut requires a separate
+full_borrow/lifetime package. No such method bridge or selected compiler
+Drop/glue call is proved by this adapter. This is the reached applicability/
+lowering boundary, not a new semantic defect or a proof of all insert_tail.
 
 Actual compiler Drop/glue **NOT_IMPLEMENTED**. Panic/unwind cleanup
 **NOT_PROVED / NOT_EXERCISED** in the normal fragment. Generic/ZST, comparator,
@@ -139,10 +164,24 @@ Numeric Dune version was not captured. No trust patch was changed this session.
 ## Accounting and continuation
 
 [BUDGET.json](BUDGET.json) is authoritative: 3600 fresh seconds create→finish,
-including failures, no carryover. Two terminal/accounted builds so far:444+405
-=849 seconds; 2751 remain before pending corrected submission. All archive,
-index, inventory and pinned config/source integrity checks completed for these
-builds. Pending submission must be reconciled before any duplicate or new Build.
+including failures, no carryover. Account **CLOSED**:444+405+506+440 = **1795/3600** seconds used;
+**1805 unused seconds retired**, no carryover. All four archive/index/inventory/
+pinned config/source integrity checks complete; text-log indices verified,
+separate text chunks not downloaded. Own request **WITHDRAWN**, active/reservations/
+unresolved **NONE**. No ID/token requiring recovery remains.
+
+| Build ID | Exact proof=infra SHA | Status / seconds |
+| --- | --- | --- |
+| 1396ff47-bc4f-4b77-99ea-cf1a4b1c457a | d491b9378886be6925f5095803818bfb73b692fe | FAILURE/raw INCONCLUSIVE; saved qualification /444 |
+| c226905b-2b8c-49ef-b795-c6818874bef2 | 7f4d59d10f1396636b84145e3c26cc6d990ade3a | FAILURE/preparation /405 |
+| 419034a3-08e9-48e8-a8d5-a2c71c84c50e | 7c7e24655c7bdf6e6b00df995da6c8152e315ddc | FAILURE/incorrect token annotation /506 |
+| 1ce46121-8edb-480e-b8b6-d3ef299a84cf | bc08afa0bcec86337986a12cfdca7ff5d749b04d | SUCCESS/bounded normal composition /440 |
+
+Exact create/start/finish times, dispatch tokens, config/source/archive digests
+are in BUDGET.json. Last Build create00:13:53.771198277Z and finish00:21:13.258843Z
+precede main cutoff. All four Builds freshly compile the frozen candidate and
+retain both mandatory normal/unwind regression groups. No semantic patch/newpin
+was needed. Guard21/span6 remain earlier PASS, not rerun.
 
 Saved replay (in own worktree; saved archive unpacked outside Git):
 
@@ -165,5 +204,18 @@ python3 -B research/challenge-8/cloud-build/control.py \
  --state-dir /tmp/merge-len1-composition-20261011 status
 ```
 
-At closure record terminal Builds, exact spend/retired balance, withdraw own
-request/reservation and preserve any unresolved ID/token with next action.
+Caller saved replay (service evidence only; fresh proof remains bc08afa0):
+
+```bash
+python3 -B research/challenge-8/cloud-build/origin-layout/saved-len1-replay.py \
+ /tmp/merge-caller-fresh-1ce46121/saved/allprooflogs/checked-minimal-bridge/onecell-caller-composition \
+ --campaign caller --build-id 1ce46121-8edb-480e-b8b6-d3ef299a84cf \
+ --proof-sha bc08afa0bcec86337986a12cfdca7ff5d749b04d \
+ --archive-sha256 56f985ae90fbaf931ebdd6fe191aafb3922f3d944ed2aecfad3ed8019a82f351
+```
+
+Next permitted review: examine the qualified len1 and bounded composition
+receipts on the unchanged experimental profile. A new experimental session
+requires new explicit authorization/account/phase registration; this CLOSED
+ledger cannot dispatch. The current scope excludes implementing actual glue
+or panic cleanup. No automatic session, profile acceptance or upstream publication.

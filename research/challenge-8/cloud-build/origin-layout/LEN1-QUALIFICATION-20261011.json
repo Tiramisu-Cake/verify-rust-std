@@ -2174,6 +2174,17 @@
   },
   "classifier_sha256": "a8a8c6cb80304f6b4079b9c6be5ac2c4e3ecab993752ce3b592bd19e09ddc170",
   "command": "python3 -B research/challenge-8/cloud-build/origin-layout/saved-len1-replay.py /tmp/merge-len1-fresh-1396ff47/saved/allprooflogs/checked-minimal-bridge/onecell-drop-interface --build-id 1396ff47-bc4f-4b77-99ea-cf1a4b1c457a --proof-sha d491b9378886be6925f5095803818bfb73b692fe --archive-sha256 56169df42aef94641b2dd56b86576eda2f5853a50f0ba8de268896a09df81a6f",
+  "dependency_pins": {
+    "Capnp": "0.10.4",
+    "Dune_binary_sha256": "2fb09b0245e247ee2501fdce01a18a8665bdc03d0a5fe90b8e0e18867261000a",
+    "Dune_numeric_version": "NOT_CAPTURED",
+    "OCaml": "4.14.0",
+    "VFdeps_archive_sha256": "8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580",
+    "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+    "decoder_commit": "2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2",
+    "rust_toolchain": "nightly-2026-09-25",
+    "target": "x86_64-unknown-linux-gnu"
+  },
   "duplication_target": {
     "AST_full_Sep_same_args": true,
     "diagnostic": "No matching heap chunks: CopyOnDrop_drop_effect(_t, src, dst, len)",
@@ -2247,6 +2258,55 @@
       "src/verifast.ml": "f6395a07ce443a4c1a64e88965ae9321ff1c6648fe094f75da279914117e194f",
       "src/verifast1.ml": "c64e4d60631f42aacdf64b4529c992a856f60e2a37066d3209545cb384b10d3c",
       "src/verify_expr.ml": "8883a76d802cca15bb362f251de683d2c8216c058c3aed98d6bec8aa471c6dd5"
+    }
+  },
+  "fresh_build_artifact_observations": {
+    "artifacts": {
+      "bin/verifast": {
+        "executable": true,
+        "sha256": "89494bde13a63cc547afce3c51a12b9ee724c1e8b50d2cfd2bd15d91c050e8ad"
+      },
+      "bin/vf-rust-mir-exporter": {
+        "executable": true,
+        "sha256": "ca45dbfcecea55d87c80dc11e32b65834e04f17126ef4872145e050ed000cf62"
+      },
+      "src/rust_frontend/vf_mir/vf_mir.capnp": {
+        "profile_sha256": "bac5f307bb74f0e98efeebfe67649639666ec4a9e38c3cb8bcb60a3259fe31f9",
+        "sha256": "bac5f307bb74f0e98efeebfe67649639666ec4a9e38c3cb8bcb60a3259fe31f9"
+      },
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs": {
+        "profile_sha256": "f80da46a4e5dd7dc89888d0392a29ff5fee1f096c85845c1f33517f46c93526b",
+        "sha256": "f80da46a4e5dd7dc89888d0392a29ff5fee1f096c85845c1f33517f46c93526b"
+      },
+      "src/rust_frontend/vf_mir_exporter/target/debug/vf_mir_exporter": {
+        "executable": true,
+        "sha256": "ca45dbfcecea55d87c80dc11e32b65834e04f17126ef4872145e050ed000cf62"
+      },
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": {
+        "profile_sha256": "5167ad14a4edc6bc0559855b51e216df7721b37d575013759c5d35ccd80ddfd4",
+        "sha256": "5167ad14a4edc6bc0559855b51e216df7721b37d575013759c5d35ccd80ddfd4"
+      }
+    },
+    "binary_identity_not_assumed_between_builds": true,
+    "build_id": "1396ff47-bc4f-4b77-99ea-cf1a4b1c457a",
+    "profile_sha256": "0b8cf55b0e7b5a1d0e0595b1483726459cb1d2f40264311e2014d3580ad189b8",
+    "stages": {
+      "console-build": {
+        "exit_code": 0,
+        "log": "console-build.log"
+      },
+      "decoder-build": {
+        "exit_code": 0,
+        "log": "decoder-build.log"
+      },
+      "exporter-build": {
+        "exit_code": 0,
+        "log": "exporter-build.log"
+      },
+      "translator-build": {
+        "exit_code": 0,
+        "log": "translator-build.log"
+      }
     }
   },
   "fresh_proof": false,
