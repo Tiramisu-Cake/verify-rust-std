@@ -1379,6 +1379,140 @@ def audit_selected_callgraph(functions: dict[str, str],
             "proof_credit": False}
 
 
+def _selected_ast_inventory(ast: str) -> dict:
+    """Parse generated Func records; threshold has a prototype and definition."""
+    records = []
+    for match in re.finditer(r"(?m)^\s*Func\s*\(", ast):
+        opening = ast.index("(", match.start())
+        end = _balanced_end(ast, opening)
+        fields = _split_ast_fields(ast[opening + 1:end])
+        need(len(fields) == 13,
+             "generated Func has exact thirteen-field AST shape")
+        name_match = re.fullmatch(r'"([^"\\]+)"', fields[4])
+        need(name_match is not None, "generated Func has a literal function name")
+        body = fields[10]
+        need(body == "None" or body.startswith("Some ("),
+             "generated Func body is exactly None or Some")
+        records.append({"name": name_match.group(1), "fields": fields,
+                        "body_kind": "prototype" if body == "None" else "definition",
+                        "raw": ast[match.start():end + 1]})
+    need(records, "proof AST Func inventory")
+    names = ("selected_freeze_basecase", "sort4_selected_branch_threshold",
+             "sort4_selected_branch_small_sort", "sort4_selected_branch_helper")
+    selected = {}
+    for name in names:
+        found = [record for record in records if record["name"] == name]
+        if name == "sort4_selected_branch_threshold":
+            prototypes = [row for row in found if row["body_kind"] == "prototype"]
+            definitions = [row for row in found if row["body_kind"] == "definition"]
+            need(len(found) == 2 and len(prototypes) == 1 and len(definitions) == 1,
+                 "threshold has exactly one prototype and one definition")
+            prototype, definition = prototypes[0], definitions[0]
+            header_fields = (*range(0, 8), 9, 11, 12)
+            need(all(prototype["fields"][index] == definition["fields"][index]
+                     for index in header_fields),
+                 "threshold prototype/definition headers agree outside contracts/body")
+            contract = prototype["fields"][8]
+            need(contract.count("SwitchExprClause") == 2 and
+                 contract.count('"returning"') == 1 and
+                 contract.count('"unwinding"') == 1,
+                 "threshold prototype retains one normal and unwind post")
+            normal = parenthesized(contract, "SwitchExprClause",
+                                   contract.index('"returning"'))
+            unwind = parenthesized(contract, "SwitchExprClause",
+                                   contract.index('"unwinding"'))
+            need(normal.count('"thread_token"') >= 1 and
+                 unwind.count('"thread_token"') >= 1,
+                 "threshold prototype normal/unwind thread posts retained")
+            prototype_callees = {callee for callee, _ in _call_records(contract)}
+            selected_edges = {"sort4_selected_branch_threshold",
+                              "sort4_selected_branch_small_sort",
+                              "sort4_selected_branch_helper",
+                              "StableSmallSortTypeImpl::small_sort_threshold",
+                              "StableSmallSortTypeImpl::small_sort",
+                              "small_sort_general_with_scratch"}
+            need(not (prototype_callees & selected_edges),
+                 "threshold prototype has no selected-call edges")
+            selected[name] = {"definition": definition, "prototype": prototype,
+                              "prototype_posts": {
+                                  "normal_present": True, "unwind_present": True,
+                                  "normal_sha256": hashlib.sha256(normal.encode()).hexdigest(),
+                                  "unwind_sha256": hashlib.sha256(unwind.encode()).hexdigest()}}
+        else:
+            need(len(found) == 1 and found[0]["body_kind"] == "definition",
+                 "selected generated function has exactly one body: " + name)
+            selected[name] = {"definition": found[0], "prototype": None,
+                              "prototype_posts": None}
+    return {"records": records, "selected": selected,
+            "definitions": {name: item["definition"]["raw"]
+                            for name, item in selected.items()},
+            "all_segments": [record["raw"] for record in records]}
+
+
+def _synthetic_selected_ast_inventory_controls(ast: str) -> dict:
+    parsed = _selected_ast_inventory(ast)
+    selected_records = [parsed["selected"][name]["definition"]
+                        for name in parsed["selected"]]
+    selected_records.insert(1, parsed["selected"][
+        "sort4_selected_branch_threshold"]["prototype"])
+    baseline = "\n".join(record["raw"] for record in selected_records)
+    threshold = parsed["selected"]["sort4_selected_branch_threshold"]
+    prototype_raw = threshold["prototype"]["raw"]
+    definition_raw = threshold["definition"]["raw"]
+
+    def changed(raw: str, index: int, value: str | None) -> str:
+        opening = raw.index("(")
+        end = _balanced_end(raw, opening)
+        fields = _split_ast_fields(raw[opening + 1:end])
+        if value is None:
+            fields.pop(index)
+        else:
+            fields[index] = value
+        return "Func (" + ", ".join(fields) + ")"
+
+    cases = {
+        "duplicate-threshold-prototype": baseline + "\n" + prototype_raw,
+        "duplicate-threshold-definition": baseline + "\n" + definition_raw,
+        "missing-threshold-prototype": "\n".join(
+            record["raw"] for record in selected_records if record is not threshold["prototype"]),
+        "missing-threshold-definition": "\n".join(
+            record["raw"] for record in selected_records if record is not threshold["definition"]),
+        "mismatched-threshold-header": baseline.replace(
+            definition_raw, changed(definition_raw, 9, '"true"'), 1),
+        "bodyless-selected-helper": baseline.replace(
+            parsed["selected"]["sort4_selected_branch_helper"]["definition"]["raw"],
+            changed(parsed["selected"]["sort4_selected_branch_helper"]["definition"]["raw"],
+                    10, "None"), 1),
+        "malformed-selected-fields": baseline.replace(
+            parsed["selected"]["selected_freeze_basecase"]["definition"]["raw"],
+            changed(parsed["selected"]["selected_freeze_basecase"]["definition"]["raw"],
+                    12, None), 1),
+        "selected-edge-in-threshold-prototype": baseline.replace(
+            prototype_raw,
+            changed(prototype_raw, 8,
+                    threshold["prototype"]["fields"][8][:-1] +
+                    ' CallExpr (loc "synthetic", "sort4_selected_branch_small_sort", [], [], [], Static)' +
+                    threshold["prototype"]["fields"][8][-1]),
+            1),
+    }
+    _selected_ast_inventory(baseline)
+    controls = {"baseline-selected-Func-inventory-accepted": {
+        "refused": False, "reason": "synthetic exact prototype/definition inventory accepted",
+        "synthetic": True, "proof_credit": False}}
+    for name, mutated in cases.items():
+        try:
+            _selected_ast_inventory(mutated)
+            refused, reason = False, "synthetic Func inventory unexpectedly accepted"
+        except Exception as exc:
+            refused, reason = True, str(exc)
+        controls[name] = {"refused": refused, "reason": reason,
+                          "synthetic": True, "proof_credit": False}
+    need(all(row["refused"] for key, row in controls.items()
+             if key != "baseline-selected-Func-inventory-accepted"),
+         "synthetic Func prototype/definition admission controls")
+    return controls
+
+
 def _synthetic_callgraph_controls() -> dict:
     def call(name: str, args: tuple[str, ...]) -> str:
         rendered = "; ".join(
@@ -1549,21 +1683,14 @@ def post_ast_audit(root: Path, result: dict, target: str, case: str,
     need(path.is_file() and sha(path) == result.get("proof_ast_sha256"),
          "captured exact selected proof AST")
     ast = path.read_text(errors="replace")
-    starts = [match.start() for match in re.finditer(r"(?m)^\s*Func \(", ast)]
-    need(starts, "proof AST function inventory")
-    starts.append(len(ast))
-    functions = [ast[starts[index]:starts[index + 1]]
-                 for index in range(len(starts) - 1)]
+    inventory = _selected_ast_inventory(ast)
+    functions = inventory["all_segments"]
     names = ("selected_freeze_basecase", "sort4_selected_branch_threshold",
              "sort4_selected_branch_small_sort", "sort4_selected_branch_helper")
     rows = {}
     function_segments = {}
     for name in names:
-        matches = [segment for segment in functions
-                   if re.search(r',\s*"' + re.escape(name) + r'"\s*,\s*\[',
-                                segment.split("Some ((", 1)[0])]
-        need(len(matches) == 1, "one selected generated function/post " + name)
-        segment = matches[0]
+        segment = inventory["definitions"][name]
         function_segments[name] = segment
         normal = 'SwitchExprClause' in segment and '"returning"' in segment
         unwind = 'SwitchExprClause' in segment and '"unwinding"' in segment
@@ -1595,6 +1722,8 @@ def post_ast_audit(root: Path, result: dict, target: str, case: str,
                                        observed_mode)
     callgraph = audit_selected_callgraph(function_segments, operand_map, functions)
     audit = {"proof_ast_sha256": sha(path), "functions": rows,
+             "threshold_prototype_posts": inventory["selected"][
+                 "sort4_selected_branch_threshold"]["prototype_posts"],
              "source_caller_target": target,
              "case": case, "observed_translation_mode": observed_mode,
              "admitted_operand_map": operand_map,

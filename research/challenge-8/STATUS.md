@@ -32,12 +32,18 @@ replay validated; negatives normal17/18/19 and21/22/23, readonly16/17/18.
 Build b8779246 (ce1b9c19) independently observed both negative normal AST maps;
 explicit stop before proof, archive/inventory/text evidence verified.
 842/3600 accounted;2758 remaining. Source-MD5 operand gate now matches all three
-Cloud observations; fresh full-profile selected proof/regression is next.
+Cloud observations. Build132d (3490c287) executed seven fresh regression gates
+and selected positive; exact binding/paired support pass, full AST captured.
+First causal verifier refusal: duplicate trait lifetime parameter at lib.rs13;
+no user function verified, no bound/helper credit. Threshold prototype+definition
+collector mismatch blocked selected negatives; parser-only repair/replay next.
+1270/3600 used;2330 remaining; no active own build.
 
 Caller qualification Freeze only; unrestricted actual quicksort applicability OPEN.
 Bound transfer NOT_PROVED; helper overflow/abort/pointers/firstcall resources
-NOT_REACHED; caller→C4 NOT_RUN. First open obligation is fresh
-selected bound/helper proof with full native posts.
+NOT_REACHED; caller→C4 NOT_RUN. First open obligation is trait declaration lifetime/generic interface;
+new generic translation rules require owner decision. Existing parser audit
+and fresh negative-case diagnostics will be completed before checkpoint.
 No size/nonzero premise added. Opaque IS_ZST/sizeof link remains separate OPEN
 blocker; unchanged public guard was not repeated.
 Historical supplied-premise guarded C1–C4 PASS stays separate. Full sort4 C5/copies,

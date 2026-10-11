@@ -7530,3 +7530,34 @@ call precondition. Earlier causal refusal is inconclusive, not an intended negat
 Profile experimental/unaccepted; Freeze diagnostic cannot discharge unrestricted
 original generic applicability (None unresolved). No nonzero or scratch rights
 created by cast; any resource/model boundary is checkpointed without bypass.
+
+Session2 Build3:132d75f9-61ae-4bfa-9f63-ac7fbc0e56a1, proof=infra
+3490c28761fc21ac9af82a4b7350545992a48df4,428s, archive
+9a2d703a27b1e9487a24c839360f4ceb2636a11a5ce1c83921a817500e3bbf6b.
+Official hashes/config/source/inventory/text logs complete. Exact binding compiles,
+positive paired source/MIR/refinement and full AST present. Verifier invocation
+exit1 at verified/lib.rs(13,8-18): Duplicate type parameter ''_'. AST trait
+small_sort declares Self and three repeated '_ lifetimes, lacks F parameter
+while its parameter/resource type refers to F, and reference types name three
+separate '__35/36/37 regions. This is a translator trait-declaration interface
+blocker, before symbolic caller/helper proof; no bound, arithmetic, abort or
+C1-C4 credit. No generic semantic rewrite is authorized by local-map repair.
+Auditor itself then refused two threshold Func records: bodyless stock prototype
+plus explicit-post implementation definition. All seven final-profile controls
+were executed before selected positive (full report follows raw review).
+Negative selected cases not invoked because that audit refusal stopped runner.
+1270/3600 used,2330 remaining; own build/reservation closed, ready request retained.
+
+Before Build4: parser-only distinction of precisely one threshold prototype and
+one definition, identical header fields, separately preserved prototype posts,
+and one implementation for every other selected function. Exact callgraph edges
+still three, all post/resources checked; duplicate definitions/prototypes or
+header mismatch refuse. Replay on copied saved AST, not live evidence; no proof
+credit. No translator/profile/source change from Build3. Hypothesis: after this
+collector correction, every selected case executes its existing fresh proof
+invocations and full AST audit. Expected observed blocker is duplicate trait
+lifetime parameter; this is deliberately an inconclusive diagnostic at frontend,
+not a successful false31/source-array negative. It completes the requested fresh
+cases and exposes full error/AST identities for the minimal reproducible blocker.
+No repair/removal of trait declaration, binder rewriting, F omission repair,
+post weakening, nonzero premise or public-guard repeat is authorized here.

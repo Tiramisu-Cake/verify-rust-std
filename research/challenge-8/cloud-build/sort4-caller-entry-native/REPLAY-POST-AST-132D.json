@@ -1,0 +1,135 @@
+{
+  "case": "selected-branch-positive",
+  "consumer_admission_sha256": "41021512642706231f4e78518d508d8c3944816800e4a4a940e26fa581f2220e",
+  "definition_posts": {
+    "selected_freeze_basecase": {
+      "normal": true,
+      "unwind": true
+    },
+    "sort4_selected_branch_helper": {
+      "normal": true,
+      "unwind": true
+    },
+    "sort4_selected_branch_small_sort": {
+      "normal": true,
+      "unwind": true
+    },
+    "sort4_selected_branch_threshold": {
+      "normal": true,
+      "unwind": true
+    }
+  },
+  "input_sha256": "024e1ffea9f64a0318adc8056f9e17cd694225a5332bb7b450aa71f93f071b61",
+  "original_verdict": {
+    "accepted": false,
+    "actual_sort4_proved": false,
+    "callable_summary": false,
+    "classification": "FIRST_CAUSAL_STAGE_DIAGNOSTIC",
+    "collector_pass_is_proof": false,
+    "first_causal_stage": "verification",
+    "first_error": "verified/lib.rs(13,8-18): error: Duplicate type parameter ''_'.",
+    "first_stage_log_sha256": "0e7f189e5225f363a657f9bacc9e755350c413122d0fdcc2aa1b68232ef2b02e",
+    "proof_ast_sha256": "024e1ffea9f64a0318adc8056f9e17cd694225a5332bb7b450aa71f93f071b61",
+    "source_pair_immutable": true,
+    "stages": {
+      "normal-decode": 0,
+      "normal-export": 0,
+      "proof-ast-diagnostic": 1,
+      "readonly-decode": 0,
+      "readonly-export": 0,
+      "refinement": 0,
+      "verification": 1
+    },
+    "support": {
+      "full_mir": {
+        "normal": {
+          "bytes": 82794,
+          "defpath": "selected_freeze_basecase",
+          "sha256": "d400158f162a1dc9c340a0d42220dfc7c4778e31c5b2d49f6ba4d31094f3c827"
+        },
+        "readonly": {
+          "bytes": 77920,
+          "defpath": "selected_freeze_basecase",
+          "sha256": "5aab490589f109ef275bd46eede3049fc500c79d54e5c8a449dae9d239408319"
+        }
+      },
+      "paired_support_passed": true,
+      "proof_credit": false,
+      "source_pair_sha256": {
+        "original/lib.rs": "27114d1c931568c8b338c2a573a29fa0fdc844597759997b49fef8f564d72057",
+        "verified/lib.rs": "470b144bcc63a8343d0b0b0a432ff5b538eaaeac93e9f968faeee2a9dc4f6135"
+      },
+      "target": "selected_freeze_basecase"
+    },
+    "verifier_exit": 1
+  },
+  "proof_credit": false,
+  "purpose": "parser-only post-AST audit replay; no compiler, verifier, extractor, or proof runner",
+  "raw_build_id": "132d75f9-61ae-4bfa-9f63-ac7fbc0e56a1",
+  "replay_command": "python3 research/challenge-8/cloud-build/sort4-caller-entry-native/replay-post-ast-132d.py",
+  "replay_result": "PASS",
+  "replay_timestamp_utc": "2026-10-11 23:29:18 UTC",
+  "selected_callgraph_edge_count": 3,
+  "selected_proof_module_sha256": "3347ad41c0273ebf186dbcf0520182455b32a65ad9619f2b2c7d3d00c12a7d7f",
+  "synthetic_func_inventory_controls": {
+    "baseline-selected-Func-inventory-accepted": {
+      "proof_credit": false,
+      "reason": "synthetic exact prototype/definition inventory accepted",
+      "refused": false,
+      "synthetic": true
+    },
+    "bodyless-selected-helper": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: selected generated function has exactly one body: sort4_selected_branch_helper",
+      "refused": true,
+      "synthetic": true
+    },
+    "duplicate-threshold-definition": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: threshold has exactly one prototype and one definition",
+      "refused": true,
+      "synthetic": true
+    },
+    "duplicate-threshold-prototype": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: threshold has exactly one prototype and one definition",
+      "refused": true,
+      "synthetic": true
+    },
+    "malformed-selected-fields": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: generated Func has exact thirteen-field AST shape",
+      "refused": true,
+      "synthetic": true
+    },
+    "mismatched-threshold-header": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: threshold prototype/definition headers agree outside contracts/body",
+      "refused": true,
+      "synthetic": true
+    },
+    "missing-threshold-definition": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: threshold has exactly one prototype and one definition",
+      "refused": true,
+      "synthetic": true
+    },
+    "missing-threshold-prototype": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: threshold has exactly one prototype and one definition",
+      "refused": true,
+      "synthetic": true
+    },
+    "selected-edge-in-threshold-prototype": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: threshold prototype has no selected-call edges",
+      "refused": true,
+      "synthetic": true
+    }
+  },
+  "threshold_inventory": {
+    "definition_count": 1,
+    "prototype_count": 1,
+    "prototype_normal_unwind_posts_retained": true
+  }
+}
