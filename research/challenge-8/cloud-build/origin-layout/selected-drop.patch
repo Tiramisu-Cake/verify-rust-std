@@ -57,7 +57,7 @@ index 7e5d6f3c..df5dedeb 100644
                  mir::TerminatorKind::TailCall { .. } => terminator_kind_cpn.set_tail_call(()),
                  mir::TerminatorKind::Assert {
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index 0535a92a..4c5f09a2 100644
+index 0535a92a..13467ea1 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -1927,6 +1927,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -151,7 +151,7 @@ index 0535a92a..4c5f09a2 100644
 +                  (TrName.translate_def_path (TerminatorKindRd.DropData.selected_drop_path_get data),
 +                   TerminatorKindRd.DropData.selected_drop_hash_get data,
 +                   TrName.translate_def_path (TerminatorKindRd.DropData.selected_guard_path_get data))
-+                  Args.body_tr_defs_ctx.selected_drops ->
++                  body_tr_defs_ctx.selected_drops ->
 +                  (match UnwindActionRd.get (TerminatorKindRd.DropData.unwind_action_get data) with
 +                   | UnwindActionRd.Cleanup target ->
 +                       let id = translate_basic_block_id target in
