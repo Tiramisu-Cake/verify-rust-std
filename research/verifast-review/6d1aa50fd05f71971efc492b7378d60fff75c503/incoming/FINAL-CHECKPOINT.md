@@ -1,0 +1,29 @@
+# Merge actual compiler glue — closed session; glue not proved
+
+Continued from `7614324034afa773346dd9660b993cbe8a453a1d`. Owner **merge** retains glue/end/cleanup development; maintainer review and compatibility only. Project worktree `/root/verify-rust-std-merge-origin`, branch `merge/incoming-origin-20261009`; isolated tool worktree `/root/verifast-merge-actual-glue`, branch `merge/actual-glue-instance-20261011`.
+
+Read policy revision `c7ca8c467aecf10a4b53039372ee97714f854ee3`; current identical policy bytes were last committed at `5bf53668a4afa51c302e599be91a2dbc4b24042d`, SHA256 `479c0eeb5bcb7f5dec3b5ccd526de0087a2101a1e018090389676a4dcccc0521`. Session started 16:15:22Z; original main/finish limits 18:15:22Z/18:45:22Z. Hour report around 17:15Z. User added 30 minutes around 18:44Z, extending the cutoff to 19:15:22Z with no further grace.
+
+**1196/3600 Cloud seconds used** (511 + 315 + 370); unused **2404 retired**, no carryover. Prior 1410 remain retired. All three builds are terminal, accounted and downloaded with full integrity checks. No own active build, reservation or unresolved dispatch; own turn request withdrawn. Peer state unchanged. Compiler, extraction and verifier execution remained Cloud-only.
+
+| Result | Exact status and limit |
+| --- | --- |
+| Exporter buildability | Observation-v5 and body-v2 exporter/decoder/translator/console compiled. Body-v2 official refiner failed to build. Body-v3 refiner-only draft is not Cloud-built. |
+| Resolved destructor binding | All 42 v5 observations: whole resolved Item Instance equals adt.destructor, args []; exact captured method DefId/hash and Runtime(PostCleanup). Captured source body is separate from concrete substitutions. |
+| Verified actual glue | NOT_PROVED. Draft exports actual incoming &mut, copy receiver, resolved call, Return and unwind Continue; no invented Ref/StorageDead or manual helper. Official refiner requires exact original/verified generated CFG including unwind without snippet shortcut. |
+| Receiver/end controls | Existing bounded caller creates its token internally. New omitted/wrong end and replay after retirement are NOT_IMPLEMENTED/NOT_RUN. No receiver/FBC/origin/end token supplied as a premise; no permissions from address equality. |
+| CURRENT/full posts | Fresh v5 selected7/helper4/mandatory-smoke PASS_COMPONENT_DIAGNOSTIC; dynamic self.len, full normal CURRENT/resource posts and return/free/leak remain bounded selected-method results on v2/v5. No transfer to generated glue. |
+| Actual panic cleanup | NOT_PROVED/NOT_RUN. Actual late callback unwind edge, updated gap and resource provenance remain open; ordinary unwind smoke has no cleanup credit. |
+| insert_tail applicability | NOT_PROVED. Concrete-u64 normal adapter still has explicit supplied entry-state premises. [10,20,5] needs multiple cells despite guard len==1. Generic T/ZST excluded. |
+
+The current prepared candidate is **body-v3**, tool `853fd1e2edb309101df83b93c65572a0d8d0d189`, profile `77852588b0f177eb4c7d4e4a65626f6a3648f78768da08b82458c3650e14a2a2`. It supplies empty qualification fields and false flags in two existing synthetic Drop records. Exporter/decoder/translator/console sources are unchanged from the compiled V2 candidate. Full 13-patch/14-source-pin/18-overlay/96-file replay and runner names agree: **PASS_STATIC_ONLY**, not build or proof credit. Portable patch and exact profile are committed for review; all profiles remain NOT_ACCEPTED / NOT_FOR_INTEGRATION.
+
+Build evidence:
+
+- Binding v5: `12a54039-11a4-4275-bfa1-0a23f80263b4`, proof/infra `d74a50c886a8e5a19289c577a9b41fadca760630`, SUCCESS, 511 seconds. Archive `b283c431f5b5d41e1972523367c0586b4eae02244860ffda67debcc8e7ebf4de`. [Receipt](GLUE-BINDING-RESULT-20261011.json).
+- Body-v1: `b48cd6eb-033b-430f-b4a4-90fbbcbcabe8`, proof/infra `f6b62c0e04f84b21096257f4ac4bf5e7cb6ee6b8`, FAILURE, 315 seconds. Exporter 101: MIR Use has two fields and five Cap'n Proto size/index APIs require usize. Other stages did not run. Archive `82459ff6cb0127eb5891f696c1f27c6acd4b6ff9ec72153384d11eea85501dc5`. [Receipt](GLUE-BODY-V1-RESULT-20261011.json).
+- Body-v2: `f4668722-2c58-4a42-9a4c-295ba8130313`, proof/infra `2b109b92fb9a04706fdf3acb0007c185c579d984`, FAILURE, 370 seconds. Created 18:52:00.113567334Z, started 18:52:00.885364646Z, finished 18:58:10.110939Z. First four stages 0, refiner 1: missing metadata fields in old synthetic Drop literals at refinement_checker.ml 548/572. Extraction/refinement/proof did not run. Archive `c1b7372cd77d48b589a44d6ede928f8d8142363a5487ee48aa5d5dcac84ddfc3`; config `70cdea6b9e5e6cbc744ab9c546c0ccc519030a9a57422630013555fe9029c583`; source input `02935390433b85ee28fc6cf2b3a6876c81223a5133a2acaa3aa95caf9ac3a9d4`; text index `48848f2f88f47b818a2875a3366ff7339614ba4df8b07ba99a2596c802ae82ae`. [Receipt](GLUE-BODY-V2-RESULT-20261011.json).
+
+Every archive, inventory, submitted config, source input, text index and all text chunks were verified. Compiler/setup refusals are not intended negatives. Historical observation-v4 non-buildable draft, observation-v2 PASS, original failures/manifests/verdicts and supplied premises remain preserved. Pinned-input transport initially refused the oversized payload before any build; the gzip/xz repair preserves complete raw Git objects and exact object IDs, fixed config slots and coordinator v2.
+
+After a fresh authorized session and budget, the next step is Cloud build of the V3 official refiner with exact source/binary receipts, then actual generated-body extraction/refinement/proof and caller receiver/end qualification on that same profile, before actual late-panic cleanup. No new V3 Cloud cycle could fit the remaining window including evidence. No active run remains and no work is promised after closure. General kernel/memory/alias or generic T/ZST expansion, acceptance, merge, upstream/Actions and external messages remain unauthorized.

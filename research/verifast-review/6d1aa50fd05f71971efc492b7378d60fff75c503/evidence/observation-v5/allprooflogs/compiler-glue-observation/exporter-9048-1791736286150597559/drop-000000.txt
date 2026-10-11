@@ -1,0 +1,387 @@
+format=small-sort-drop-glue-observation-v3
+observation_sequence=0
+caller_def_path=natural_onecell
+caller_def_path_hash=DefPathHash(Fingerprint(12908149020305531562, 4206253812073658053))
+caller_instance=Item(DefId(0:12 ~ lib[b322]::natural_onecell))
+drop_source_span=verified/lib.rs:197:9: 197:10 (#0)
+drop_place_type=CopyOnDrop
+guard_def_path=CopyOnDrop
+guard_def_path_hash=DefPathHash(Fingerprint(12908149020305531562, 2587542365494602866))
+selected_drop_def_path=<CopyOnDrop as core::ops::Drop>::drop
+selected_drop_def_path_hash=DefPathHash(Fingerprint(12908149020305531562, 11549365108250137374))
+resolved_instance=Instance { def: Shim(DropGlue(DefId(1:3580 ~ core[b5b9]::ptr::drop_glue), Some(CopyOnDrop))), args: [CopyOnDrop] }
+resolved_instance_kind=Shim(DropGlue(DefId(1:3580 ~ core[b5b9]::ptr::drop_glue), Some(CopyOnDrop)))
+resolve_drop_glue_typing_env=TypingEnv { typing_mode: TypingModeEqWrapper(Codegen), param_env: ParamEnv { caller_bounds: [] } }
+resolved_instance_def_path=core::ptr::drop_glue
+resolved_instance_def_path_hash=DefPathHash(Fingerprint(13094696384810584084, 1244510955527670111))
+resolved_instance_args=[CopyOnDrop]
+glue_body_source_instance=Shim(DropGlue(DefId(1:3580 ~ core[b5b9]::ptr::drop_glue), Some(CopyOnDrop)))
+glue_local index=_0 type=()
+glue_local index=_1 type=&'{erased} mut CopyOnDrop
+glue_local index=_2 type=&'{erased} mut CopyOnDrop
+glue_local index=_3 type=()
+glue_receiver_form_observation ref_rvalue_count=0 storage_dead_count=0
+
+--- full raw MIR pretty ---
+fn core::ptr::drop_glue(_1: &mut CopyOnDrop) -> () {
+    let mut _0: ();
+    let mut _2: &mut CopyOnDrop;
+    let mut _3: ();
+
+    bb0: {
+        _2 = copy _1;
+        _3 = <CopyOnDrop as core::ops::Drop>::drop(move _2) -> [return: bb1, unwind continue];
+    }
+
+    bb1: {
+        return;
+    }
+}
+
+--- full raw MIR debug ---
+Body {
+    basic_blocks: BasicBlocks {
+        basic_blocks: [
+            BasicBlockData {
+                statements: [
+                    _2 = copy _1,
+                ],
+                after_last_stmt_debuginfos: StmtDebugInfos(
+                    None,
+                ),
+                terminator: Some(
+                    _3 = <CopyOnDrop as core::ops::Drop>::drop(move _2) -> [return: bb1, unwind continue],
+                ),
+                is_cleanup: false,
+            },
+            BasicBlockData {
+                statements: [],
+                after_last_stmt_debuginfos: StmtDebugInfos(
+                    None,
+                ),
+                terminator: Some(
+                    return,
+                ),
+                is_cleanup: false,
+            },
+        ],
+        cache: Cache {
+            predecessors: OnceLock(
+                <uninit>,
+            ),
+            reverse_postorder: OnceLock(
+                <uninit>,
+            ),
+            dominators: OnceLock(
+                <uninit>,
+            ),
+        },
+    },
+    phase: Runtime(
+        Optimized,
+    ),
+    pass_count: 1,
+    source: MirSource {
+        instance: Shim(
+            DropGlue(
+                DefId(1:3580 ~ core[b5b9]::ptr::drop_glue),
+                Some(
+                    CopyOnDrop,
+                ),
+            ),
+        ),
+        promoted: None,
+    },
+    source_scopes: [
+        SourceScopeData {
+            span: /workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:848:1: 850:25 (#0),
+            parent_scope: None,
+            inlined: None,
+            inlined_parent_scope: None,
+            local_data: Clear,
+        },
+    ],
+    coroutine: None,
+    local_decls: [
+        LocalDecl {
+            mutability: Mut,
+            local_info: Set(
+                Boring,
+            ),
+            ty: (),
+            user_ty: None,
+            source_info: SourceInfo {
+                span: /workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:848:1: 850:25 (#0),
+                scope: scope[0],
+            },
+        },
+        LocalDecl {
+            mutability: Not,
+            local_info: Set(
+                Boring,
+            ),
+            ty: &'{erased} mut CopyOnDrop,
+            user_ty: None,
+            source_info: SourceInfo {
+                span: /workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:848:1: 850:25 (#0),
+                scope: scope[0],
+            },
+        },
+        LocalDecl {
+            mutability: Mut,
+            local_info: Set(
+                Boring,
+            ),
+            ty: &'{erased} mut CopyOnDrop,
+            user_ty: None,
+            source_info: SourceInfo {
+                span: /workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:848:1: 850:25 (#0),
+                scope: scope[0],
+            },
+        },
+        LocalDecl {
+            mutability: Mut,
+            local_info: Set(
+                Boring,
+            ),
+            ty: (),
+            user_ty: None,
+            source_info: SourceInfo {
+                span: /workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:848:1: 850:25 (#0),
+                scope: scope[0],
+            },
+        },
+    ],
+    user_type_annotations: [],
+    arg_count: 1,
+    spread_arg: None,
+    var_debug_info: [],
+    span: /workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:848:1: 850:25 (#0),
+    required_consts: Some(
+        [],
+    ),
+    mentioned_items: Some(
+        [
+            Spanned {
+                node: Fn(
+                    FnDef(
+                        DefId(1:4815 ~ core[b5b9]::ops::drop::Drop::drop),
+                        Binder {
+                            value: [
+                                CopyOnDrop,
+                            ],
+                            bound_vars: [
+                                Region(
+                                    BrNamed(DefId(1:74689 ~ core[b5b9]::ops::drop::Drop::drop::'_)),
+                                ),
+                            ],
+                        },
+                    ),
+                ),
+                span: /workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:848:1: 850:25 (#0),
+            },
+        ],
+    ),
+    is_polymorphic: false,
+    injection_phase: None,
+    tainted_by_errors: None,
+    coverage_early_info: None,
+    coverage_mir_info: None,
+}
+--- call/drop edge observations ---
+call block=bb0 callee=<CopyOnDrop as core::ops::Drop>::drop callee_type=FnDef(DefId(1:4815 ~ core[b5b9]::ops::drop::Drop::drop), Binder { value: [CopyOnDrop], bound_vars: [Region(BrNamed(DefId(1:74689 ~ core[b5b9]::ops::drop::Drop::drop::'_)))] }) normal_target=Some(bb1) unwind=Continue
+call_signature block=bb0 def_path=core::ops::Drop::drop signature=EarlyBinder { value: Binder { value: fn(&'^0.Named(DefId(1:74689 ~ core[b5b9]::ops::drop::Drop::drop::'_)) mut Self/#0), bound_vars: [Region(BrNamed(DefId(1:74689 ~ core[b5b9]::ops::drop::Drop::drop::'_)))] }, .. } args=Binder { value: [CopyOnDrop], bound_vars: [Region(BrNamed(DefId(1:74689 ~ core[b5b9]::ops::drop::Drop::drop::'_)))] } selected_drop_match=false
+call_expected_destructor_instance block=bb0 expected=Instance { def: Item(DefId(0:11 ~ lib[b322]::{impl#0}::drop)), args: [] } exact_instance_match=true
+call_resolve block=bb0 status=resolved instance=Instance { def: Item(DefId(0:11 ~ lib[b322]::{impl#0}::drop)), args: [] }
+call_resolved_def_path block=bb0 path=<CopyOnDrop as core::ops::Drop>::drop hash=DefPathHash(Fingerprint(12908149020305531562, 11549365108250137374)) selected_drop_match=true
+call_resolved_kind block=bb0 kind=Item(DefId(0:11 ~ lib[b322]::{impl#0}::drop)) args=[]
+selected_method_capture owner=DefId(0:11 ~ lib[b322]::{impl#0}::drop) source_instance=Item(DefId(0:11 ~ lib[b322]::{impl#0}::drop)) phase=Runtime(PostCleanup) body_query=mir_drops_elaborated_and_const_checked instantiated=false concrete_args=[]
+selected_method_mir_debug_hash=d1d3a46eebc5784e hash_kind=DefaultHasher-of-Debug-output body_query=mir_drops_elaborated_and_const_checked instance_args=[]
+
+--- resolved selected method exporter-owned MIR pretty (mir_drops_elaborated_and_const_checked) ---
+fn <impl at verified/lib.rs:50:1: 50:25>::drop(_1: &mut CopyOnDrop) -> () {
+    debug self => _1;
+    let mut _0: ();
+    let _2: ();
+    let mut _3: *const u64;
+    let mut _4: *mut u64;
+    let mut _5: usize;
+
+    bb0: {
+        StorageLive(_2);
+        StorageLive(_3);
+        _3 = copy ((*_1).0: *const u64);
+        StorageLive(_4);
+        _4 = copy ((*_1).1: *mut u64);
+        StorageLive(_5);
+        _5 = copy ((*_1).2: usize);
+        _2 = core::ptr::copy_nonoverlapping::<u64>(move _3, move _4, move _5) -> [return: bb1, unwind continue];
+    }
+
+    bb1: {
+        StorageDead(_5);
+        StorageDead(_4);
+        StorageDead(_3);
+        StorageDead(_2);
+        _0 = const ();
+        return;
+    }
+}
+
+--- resolved selected method exporter-owned MIR debug ---
+Body {
+    basic_blocks: BasicBlocks {
+        basic_blocks: [
+            BasicBlockData {
+                statements: [
+                    StorageLive(_2),
+                    StorageLive(_3),
+                    _3 = copy ((*_1).0: *const u64),
+                    StorageLive(_4),
+                    _4 = copy ((*_1).1: *mut u64),
+                    StorageLive(_5),
+                    _5 = copy ((*_1).2: usize),
+                ],
+                after_last_stmt_debuginfos: StmtDebugInfos(
+                    None,
+                ),
+                terminator: Some(
+                    _2 = core::ptr::copy_nonoverlapping::<u64>(move _3, move _4, move _5) -> [return: bb1, unwind continue],
+                ),
+                is_cleanup: false,
+            },
+            BasicBlockData {
+                statements: [
+                    StorageDead(_5),
+                    StorageDead(_4),
+                    StorageDead(_3),
+                    StorageDead(_2),
+                    _0 = const (),
+                ],
+                after_last_stmt_debuginfos: StmtDebugInfos(
+                    None,
+                ),
+                terminator: Some(
+                    return,
+                ),
+                is_cleanup: false,
+            },
+        ],
+        cache: Cache {
+            predecessors: OnceLock(
+                <uninit>,
+            ),
+            reverse_postorder: OnceLock(
+                <uninit>,
+            ),
+            dominators: OnceLock(
+                <uninit>,
+            ),
+        },
+    },
+    phase: Runtime(
+        PostCleanup,
+    ),
+    pass_count: 1,
+    source: MirSource {
+        instance: Item(
+            DefId(0:11 ~ lib[b322]::{impl#0}::drop),
+        ),
+        promoted: None,
+    },
+    source_scopes: [
+        SourceScopeData {
+            span: verified/lib.rs:51:5: 115:6 (#0),
+            parent_scope: None,
+            inlined: None,
+            inlined_parent_scope: None,
+            local_data: Set(
+                SourceScopeLocalData {
+                    lint_root: HirId(DefId(0:11 ~ lib[b322]::{impl#0}::drop).0),
+                },
+            ),
+        },
+    ],
+    coroutine: None,
+    local_decls: [
+        LocalDecl {
+            mutability: Mut,
+            local_info: Clear,
+            ty: (),
+            user_ty: None,
+            source_info: SourceInfo {
+                span: verified/lib.rs:51:23: 51:23 (#0),
+                scope: scope[0],
+            },
+        },
+        LocalDecl {
+            mutability: Not,
+            local_info: Clear,
+            ty: &'{erased} mut CopyOnDrop,
+            user_ty: None,
+            source_info: SourceInfo {
+                span: verified/lib.rs:51:13: 51:22 (#0),
+                scope: scope[0],
+            },
+        },
+        LocalDecl {
+            mutability: Not,
+            local_info: Clear,
+            ty: (),
+            user_ty: None,
+            source_info: SourceInfo {
+                span: verified/lib.rs:113:13: 113:67 (#0),
+                scope: scope[0],
+            },
+        },
+        LocalDecl {
+            mutability: Mut,
+            local_info: Clear,
+            ty: *const u64,
+            user_ty: None,
+            source_info: SourceInfo {
+                span: verified/lib.rs:113:38: 113:46 (#0),
+                scope: scope[0],
+            },
+        },
+        LocalDecl {
+            mutability: Mut,
+            local_info: Clear,
+            ty: *mut u64,
+            user_ty: None,
+            source_info: SourceInfo {
+                span: verified/lib.rs:113:48: 113:56 (#0),
+                scope: scope[0],
+            },
+        },
+        LocalDecl {
+            mutability: Mut,
+            local_info: Clear,
+            ty: usize,
+            user_ty: None,
+            source_info: SourceInfo {
+                span: verified/lib.rs:113:58: 113:66 (#0),
+                scope: scope[0],
+            },
+        },
+    ],
+    user_type_annotations: [],
+    arg_count: 1,
+    spread_arg: None,
+    var_debug_info: [
+        self => _1,
+    ],
+    span: verified/lib.rs:51:5: 115:6 (#0),
+    required_consts: Some(
+        [],
+    ),
+    mentioned_items: None,
+    is_polymorphic: false,
+    injection_phase: None,
+    tainted_by_errors: None,
+    coverage_early_info: None,
+    coverage_mir_info: None,
+}
+selected_drop_signature=EarlyBinder { value: Binder { value: fn(&'^0.Named(DefId(0:13 ~ lib[b322]::{impl#0}::drop::'_)) mut CopyOnDrop), bound_vars: [Region(BrNamed(DefId(0:13 ~ lib[b322]::{impl#0}::drop::'_)))] }, .. }
+call_resolved_type=FnDef(DefId(0:11 ~ lib[b322]::{impl#0}::drop), Binder { value: [], bound_vars: [] })
+resolved_instance_type=FnDef(DefId(1:3580 ~ core[b5b9]::ptr::drop_glue), Binder { value: [CopyOnDrop], bound_vars: [] })

@@ -1,0 +1,269 @@
+diff --git a/src/rust_frontend/vf_mir_exporter/src/lib.rs b/src/rust_frontend/vf_mir_exporter/src/lib.rs
+index df5dedeb..4f296f40 100644
+--- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
++++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
+@@ -732,6 +732,182 @@ use rustc_span::RemapPathScopeComponents;
+             msg_cpn
+         }
+ 
++        // This is a diagnostic observation only. It deliberately does not add
++        // generated glue to the Cap'n Proto output or affect ordinary exports.
++        // The opt-in is useful for checking the exact compiler Instance and MIR
++        // selected for the concrete local Drop terminator below.
++        fn observe_selected_drop_glue(
++            tcx: TyCtxt<'tcx>,
++            caller_body: &mir::Body<'tcx>,
++            caller_span: Span,
++            guard: ty::AdtDef<'tcx>,
++            destructor: rustc_hir::def_id::DefId,
++            drop_ty: ty::Ty<'tcx>,
++            exported_bodies: &[(mir::Body<'tcx>, Span)],
++        ) {
++            let Some(observation_dir) = std::env::var_os("SMALLSORT_GLUE_OBSERVATION_DIR") else {
++                return;
++            };
++            static INVOCATION_DIR: std::sync::OnceLock<std::path::PathBuf> =
++                std::sync::OnceLock::new();
++            let base_dir = std::path::PathBuf::from(observation_dir);
++            let observation_dir = INVOCATION_DIR.get_or_init(|| {
++                assert!(
++                    !base_dir.as_os_str().is_empty(),
++                    "SMALLSORT_GLUE_OBSERVATION_DIR must name a directory"
++                );
++                std::fs::create_dir_all(&base_dir).unwrap_or_else(|error| {
++                    panic!("cannot create glue observation directory {base_dir:?}: {error}")
++                });
++                let nonce = std::time::SystemTime::now()
++                    .duration_since(std::time::UNIX_EPOCH)
++                    .expect("system clock is before the Unix epoch")
++                    .as_nanos();
++                let invocation_dir = base_dir.join(format!(
++                    "exporter-{}-{nonce}",
++                    std::process::id()
++                ));
++                std::fs::create_dir(&invocation_dir).unwrap_or_else(|error| {
++                    panic!("cannot create unique glue observation directory {invocation_dir:?}: {error}")
++                });
++                invocation_dir
++            });
++
++            let caller_def_id = caller_body.source.def_id();
++            let caller_hash = format!("{:?}", tcx.def_path_hash(caller_def_id));
++            let guard_hash = format!("{:?}", tcx.def_path_hash(guard.did()));
++            let caller_instance = format!("{:?}", caller_body.source.instance);
++            let span_data = caller_span.data();
++            static NEXT_OBSERVATION: std::sync::atomic::AtomicUsize =
++                std::sync::atomic::AtomicUsize::new(0);
++            let sequence = NEXT_OBSERVATION.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
++            let file_name = format!("drop-{sequence:06}.txt");
++            let path = observation_dir.join(file_name);
++
++            let instance = ty::Instance::resolve_drop_glue(tcx, drop_ty);
++            let mut observation = String::new();
++            use std::fmt::Write as _;
++
++            writeln!(observation, "format=small-sort-drop-glue-observation-v3").unwrap();
++            writeln!(observation, "observation_sequence={sequence}").unwrap();
++            writeln!(observation, "caller_def_path={}", tcx.def_path_str(caller_def_id)).unwrap();
++            writeln!(observation, "caller_def_path_hash={caller_hash}").unwrap();
++            writeln!(observation, "caller_instance={caller_instance}").unwrap();
++            writeln!(observation, "drop_source_span={span_data:?}").unwrap();
++            writeln!(observation, "drop_place_type={drop_ty:?}").unwrap();
++            writeln!(observation, "guard_def_path={}", tcx.def_path_str(guard.did())).unwrap();
++            writeln!(observation, "guard_def_path_hash={guard_hash}").unwrap();
++            writeln!(observation, "selected_drop_def_path={}", tcx.def_path_str(destructor)).unwrap();
++            writeln!(observation, "selected_drop_def_path_hash={:?}", tcx.def_path_hash(destructor)).unwrap();
++            writeln!(observation, "resolved_instance={instance:?}").unwrap();
++            writeln!(observation, "resolved_instance_kind={:?}", instance.def).unwrap();
++            writeln!(observation, "resolve_drop_glue_typing_env={:?}", ty::TypingEnv::fully_monomorphized()).unwrap();
++            writeln!(observation, "resolved_instance_def_path={}", tcx.def_path_str(instance.def_id())).unwrap();
++            writeln!(observation, "resolved_instance_def_path_hash={:?}", tcx.def_path_hash(instance.def_id())).unwrap();
++            writeln!(observation, "resolved_instance_args={:?}", instance.args).unwrap();
++            let partial_path = path.with_extension("partial");
++            std::fs::write(&partial_path, observation.as_bytes()).expect("cannot checkpoint glue identity");
++            let glue_body = tcx.instance_mir(instance.def);
++            writeln!(observation, "glue_body_source_instance={:?}", glue_body.source.instance).unwrap();
++            for (local, decl) in glue_body.local_decls.iter_enumerated() {
++                writeln!(observation, "glue_local index={local:?} type={:?}", decl.ty).unwrap();
++            }
++            let ref_rvalue_count = glue_body.basic_blocks.iter().flat_map(|block| block.statements.iter()).filter(|statement| {
++                matches!(&statement.kind, mir::StatementKind::Assign(assign) if matches!(&assign.1, mir::Rvalue::Ref(..)))
++            }).count();
++            let storage_dead_count = glue_body.basic_blocks.iter().flat_map(|block| block.statements.iter()).filter(|statement| {
++                matches!(&statement.kind, mir::StatementKind::StorageDead(..))
++            }).count();
++            writeln!(observation, "glue_receiver_form_observation ref_rvalue_count={ref_rvalue_count} storage_dead_count={storage_dead_count}").unwrap();
++
++            writeln!(observation, "\n--- full raw MIR pretty ---").unwrap();
++            observation.push_str(&crate::mir_utils::mir_body_pretty_string(tcx, glue_body));
++            writeln!(observation, "\n--- full raw MIR debug ---\n{glue_body:#?}").unwrap();
++            writeln!(observation, "--- call/drop edge observations ---").unwrap();
++            std::fs::write(&partial_path, observation.as_bytes()).expect("cannot checkpoint raw glue MIR");
++            for (block_id, block) in glue_body.basic_blocks.iter_enumerated() {
++                let terminator = block.terminator();
++                match &terminator.kind {
++                    mir::TerminatorKind::Call { func, target, unwind, .. } => {
++                        let callee_ty = func.ty(&glue_body.local_decls, tcx);
++                        writeln!(
++                            observation,
++                            "call block={block_id:?} callee={func:?} callee_type={callee_ty:?} normal_target={target:?} unwind={unwind:?}"
++                        )
++                        .unwrap();
++                        if let ty::TyKind::FnDef(callee_def_id, callee_args) = callee_ty.kind() {
++                            writeln!(
++                                observation,
++                                "call_signature block={block_id:?} def_path={} signature={:?} args={callee_args:?} selected_drop_match={}",
++                                tcx.def_path_str(*callee_def_id),
++                                tcx.fn_sig(*callee_def_id),
++                                *callee_def_id == destructor,
++                            )
++                            .unwrap();
++                            std::fs::write(&partial_path, observation.as_bytes()).expect("cannot checkpoint raw trait callee");
++                            match ty::Instance::try_resolve(
++                                tcx,
++                                ty::TypingEnv::fully_monomorphized(),
++                                *callee_def_id,
++                                tcx.instantiate_bound_regions_with_erased(*callee_args),
++                            ) {
++                                Ok(Some(callee_instance)) => {
++                                    let resolved_selected_drop_match = callee_instance.def_id() == destructor;
++                                    let expected_args = match drop_ty.kind() { ty::TyKind::Adt(_, args) => *args, _ => unreachable!() };
++                                    let expected_instance = ty::Instance { def: ty::InstanceKind::Item(destructor), args: expected_args };
++                                    writeln!(observation, "call_expected_destructor_instance block={block_id:?} expected={expected_instance:?} exact_instance_match={}", callee_instance == expected_instance).unwrap();
++                                    writeln!(observation, "call_resolve block={block_id:?} status=resolved instance={callee_instance:?}").unwrap();
++                                    writeln!(observation, "call_resolved_def_path block={block_id:?} path={} hash={:?} selected_drop_match={resolved_selected_drop_match}", tcx.def_path_str(callee_instance.def_id()), tcx.def_path_hash(callee_instance.def_id())).unwrap();
++                                    writeln!(observation, "call_resolved_kind block={block_id:?} kind={:?} args={:?}", callee_instance.def, callee_instance.args).unwrap();
++                                    std::fs::write(&partial_path, observation.as_bytes()).expect("cannot checkpoint resolved trait callee");
++                                    if resolved_selected_drop_match {
++                                        if let Some((selected_body, _)) = exported_bodies.iter().find(|(body, _)| body.source.def_id() == callee_instance.def_id()) {
++                                            writeln!(observation, "selected_method_capture owner={:?} source_instance={:?} phase={:?} body_query=mir_drops_elaborated_and_const_checked instantiated=false concrete_args={:?}", selected_body.source.def_id(), selected_body.source.instance, selected_body.phase, callee_instance.args).unwrap();
++                                            let selected_debug = format!("{selected_body:#?}");
++                                            let mut hasher = std::collections::hash_map::DefaultHasher::new();
++                                            use std::hash::{Hash, Hasher};
++                                            selected_debug.hash(&mut hasher);
++                                            writeln!(observation, "selected_method_mir_debug_hash={:016x} hash_kind=DefaultHasher-of-Debug-output body_query=mir_drops_elaborated_and_const_checked instance_args={:?}", hasher.finish(), callee_instance.args).unwrap();
++                                            writeln!(observation, "\n--- resolved selected method exporter-owned MIR pretty (mir_drops_elaborated_and_const_checked) ---").unwrap();
++                                            observation.push_str(&crate::mir_utils::mir_body_pretty_string(tcx, selected_body));
++                                            writeln!(observation, "\n--- resolved selected method exporter-owned MIR debug ---\n{selected_debug}").unwrap();
++                                            std::fs::write(&partial_path, observation.as_bytes()).expect("cannot checkpoint captured method MIR");
++                                            writeln!(observation, "selected_drop_signature={:?}", tcx.fn_sig(destructor)).unwrap();
++                                            writeln!(observation, "call_resolved_type={:?}", callee_instance.ty(tcx, ty::TypingEnv::fully_monomorphized())).unwrap();
++                                        } else {
++                                            writeln!(observation, "selected_method_mir_capture=not-in-exporter-owned-body-list instance_args={:?}", callee_instance.args).unwrap();
++                                        }
++                                    }
++                                }
++                                Ok(None) => writeln!(observation, "call_resolve block={block_id:?} status=unresolved-none").unwrap(),
++                                Err(_) => writeln!(observation, "call_resolve block={block_id:?} status=unresolved-error").unwrap(),
++                            }
++                        }
++                    }
++                    mir::TerminatorKind::Drop { place, target, unwind, .. } => {
++                        writeln!(
++                            observation,
++                            "drop block={block_id:?} place={place:?} place_type={:?} normal_target={target:?} unwind={unwind:?}",
++                            place.ty(&glue_body.local_decls, tcx).ty,
++                        )
++                        .unwrap();
++                    }
++                    _ => {}
++                }
++            }
++
++            std::fs::write(&partial_path, observation.as_bytes()).expect("cannot checkpoint complete binding");
++            writeln!(observation, "resolved_instance_type={:?}", instance.ty(tcx, ty::TypingEnv::fully_monomorphized())).unwrap();
++
++            let mut file = std::fs::OpenOptions::new()
++                .write(true)
++                .create_new(true)
++                .open(&path)
++                .unwrap_or_else(|error| panic!("cannot create unique glue observation {path:?}: {error}"));
++            std::io::Write::write_all(&mut file, observation.as_bytes())
++                .unwrap_or_else(|error| panic!("cannot write glue observation {path:?}: {error}"));
++        }
++
+         fn encode_trait_impls(&mut self, vf_mir_cpn: &mut vf_mir_cpn::Builder<'_>) {
+             let mut enc_ctx = EncCtx::new(self.tcx, EncKind::Other, LinkedList::new(), Vec::new());
+             vf_mir_cpn.fill_trait_impls(&self.trait_impls, |mut trait_impl_cpn, trait_impl| {
+@@ -955,7 +1131,7 @@ use rustc_span::RemapPathScopeComponents;
+                     annot.span().unwrap().data().hi
+                 }).collect::<Vec<_>>();
+                 let mut enc_ctx = EncCtx::new(self.tcx, EncKind::Body(body), annots, mut_annots);
+-                Self::encode_body(&mut enc_ctx, body_cpn);
++                Self::encode_body(&mut enc_ctx, body_cpn, &self.bodies);
+                 req_adt_defs.extend(enc_ctx.get_req_adts());
+             });
+ 
+@@ -1355,7 +1531,7 @@ use rustc_span::RemapPathScopeComponents;
+             }
+         }
+ 
+-        fn encode_body(enc_ctx: &mut EncCtx<'tcx, 'a>, mut body_cpn: body_cpn::Builder<'_>) {
++        fn encode_body(enc_ctx: &mut EncCtx<'tcx, 'a>, mut body_cpn: body_cpn::Builder<'_>, exported_bodies: &[(mir::Body<'tcx>, Span)]) {
+             let tcx = enc_ctx.tcx;
+             let body = enc_ctx.body();
+             trace!("Encoding MIR: {:?}", body.source.instance);
+@@ -1538,6 +1714,7 @@ use rustc_span::RemapPathScopeComponents;
+                         basic_block_idx,
+                         basic_block,
+                         basic_block_cpn,
++                        exported_bodies,
+                     );
+                 },
+             );
+@@ -2184,6 +2361,7 @@ use rustc_span::RemapPathScopeComponents;
+             basic_block_idx: mir::BasicBlock,
+             basic_block_data: &mir::BasicBlockData<'tcx>,
+             mut basic_block_cpn: basic_block_cpn::Builder<'_>,
++            exported_bodies: &[(mir::Body<'tcx>, Span)],
+         ) {
+             let basic_block_id_cpn = basic_block_cpn.reborrow().init_id();
+             Self::encode_basic_block_id(basic_block_idx, basic_block_id_cpn);
+@@ -2196,7 +2374,7 @@ use rustc_span::RemapPathScopeComponents;
+             );
+ 
+             let terminator_cpn = basic_block_cpn.reborrow().init_terminator();
+-            Self::encode_terminator(tcx, enc_ctx, basic_block_data.terminator(), terminator_cpn);
++            Self::encode_terminator(tcx, enc_ctx, basic_block_data.terminator(), terminator_cpn, exported_bodies);
+ 
+             basic_block_cpn.set_is_cleanup(basic_block_data.is_cleanup);
+         }
+@@ -2560,18 +2738,21 @@ use rustc_span::RemapPathScopeComponents;
+             enc_ctx: &mut EncCtx<'tcx, 'a>,
+             terminator: &mir::Terminator<'tcx>,
+             mut terminator_cpn: terminator_cpn::Builder<'_>,
++            exported_bodies: &[(mir::Body<'tcx>, Span)],
+         ) {
+             let src_info_cpn = terminator_cpn.reborrow().init_source_info();
+             Self::encode_source_info(tcx, &terminator.source_info, src_info_cpn);
+             let terminator_kind_cpn = terminator_cpn.init_kind();
+-            Self::encode_terminator_kind(tcx, enc_ctx, &terminator.kind, terminator_kind_cpn);
++            Self::encode_terminator_kind(tcx, enc_ctx, &terminator.kind, terminator.source_info.span, terminator_kind_cpn, exported_bodies);
+         }
+ 
+         fn encode_terminator_kind(
+             tcx: TyCtxt<'tcx>,
+             enc_ctx: &mut EncCtx<'tcx, 'a>,
+             terminator_kind: &mir::TerminatorKind<'tcx>,
++            source_span: Span,
+             mut terminator_kind_cpn: terminator_kind_cpn::Builder<'_>,
++            exported_bodies: &[(mir::Body<'tcx>, Span)],
+         ) {
+             match terminator_kind {
+                 mir::TerminatorKind::Goto { target } => {
+@@ -2646,6 +2827,15 @@ use rustc_span::RemapPathScopeComponents;
+                                     drop_data_cpn.set_selected_guard_path(&tcx.def_path_str(adt.did()));
+                                     drop_data_cpn.set_selected_drop_path(&tcx.def_path_str(did));
+                                     drop_data_cpn.set_selected_drop_hash(&format!("{:?}", tcx.def_path_hash(did)));
++                                    Self::observe_selected_drop_glue(
++                                        tcx,
++                                        enc_ctx.body(),
++                                        source_span,
++                                        *adt,
++                                        did,
++                                        place_ty,
++                                        exported_bodies,
++                                    );
+                                 }
+                             }
+                         }

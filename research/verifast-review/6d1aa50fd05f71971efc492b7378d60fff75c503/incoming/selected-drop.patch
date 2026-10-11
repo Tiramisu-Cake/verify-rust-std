@@ -1,0 +1,195 @@
+diff --git a/src/rust_frontend/vf_mir/vf_mir.capnp b/src/rust_frontend/vf_mir/vf_mir.capnp
+index bdd6c9b6..75fac073 100644
+--- a/src/rust_frontend/vf_mir/vf_mir.capnp
++++ b/src/rust_frontend/vf_mir/vf_mir.capnp
+@@ -773,6 +773,11 @@ struct TerminatorKind {
+         place @0: Place;
+         target @1: BasicBlockId;
+         unwindAction @2: UnwindAction;
++        selectedDropPath @3: Text;
++        selectedDropHash @4: Text;
++        selectedGuardPath @5: Text;
++        isBareLocal @6: Bool;
++        isReplace @7: Bool;
+     }
+ 
+     struct AssertData {
+@@ -880,6 +885,7 @@ struct Body {
+     clauses @17: List(Clause);
+     isTraitFn @12: Bool;
+     isDropFn @13: Bool; # Implements std::ops::Drop::drop
++    defPathHash @26: Text;
+     visibility @22: Visibility;
+ }
+ 
+diff --git a/src/rust_frontend/vf_mir_exporter/src/lib.rs b/src/rust_frontend/vf_mir_exporter/src/lib.rs
+index 7e5d6f3c..df5dedeb 100644
+--- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
++++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
+@@ -1401,6 +1401,7 @@ use rustc_span::RemapPathScopeComponents;
+ 
+             let def_path = tcx.def_path_str(def_id);
+             body_cpn.set_def_path(&def_path);
++            body_cpn.set_def_path_hash(&format!("{:?}", tcx.def_path_hash(def_id)));
+ 
+             let parent_module = tcx.parent_module_from_def_id(def_id.expect_local());
+             if parent_module != rustc_span::def_id::CRATE_MOD_ID {
+@@ -2634,6 +2635,21 @@ use rustc_span::RemapPathScopeComponents;
+                     Self::encode_place(enc_ctx, place, drop_data_cpn.reborrow().init_place());
+                     Self::encode_basic_block_id(*target, drop_data_cpn.reborrow().init_target());
+                     Self::encode_unwind_action(unwind, drop_data_cpn.reborrow().init_unwind_action());
++                    drop_data_cpn.set_is_bare_local(place.projection.is_empty());
++                    drop_data_cpn.set_is_replace(*replace);
++                    let place_ty = place.ty(&enc_ctx.body().local_decls, tcx).ty;
++                    if let ty::Adt(adt, args) = place_ty.kind() {
++                        if args.is_empty() && adt.did().is_local() {
++                            if let Some(destructor) = adt.destructor(tcx) {
++                                let did = destructor.did;
++                                if did.is_local() {
++                                    drop_data_cpn.set_selected_guard_path(&tcx.def_path_str(adt.did()));
++                                    drop_data_cpn.set_selected_drop_path(&tcx.def_path_str(did));
++                                    drop_data_cpn.set_selected_drop_hash(&format!("{:?}", tcx.def_path_hash(did)));
++                                }
++                            }
++                        }
++                    }
+                 }
+                 mir::TerminatorKind::TailCall { .. } => terminator_kind_cpn.set_tail_call(()),
+                 mir::TerminatorKind::Assert {
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+index 0535a92a..13467ea1 100644
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -1927,6 +1927,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+     translate_ty (D.decode_ty ty_cpn) loc
+ 
+   type body_tr_defs_ctx = {
++    selected_drops : (string * string * string) list;
+     adt_defs : Mir.adt_def_tr list;
+     ghost_decl_map : (string * Ast.decl) list;
+     directives : Mir.annot list;
+@@ -1962,6 +1963,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       let callback_call_loc = ref None
+       let fnmut_call_count = ref 0
+       let callback_unwind_label = "#merge_callback_unwind_epilogue"
++      let selected_resume_targets : string list ref = ref []
++      let translating_selected_resume = ref false
+       let hrtb_fnmut_output_bounds : (string * string) list ref = ref []
+       let pending_hrtb_projection_eq : Ast.stmt list ref = ref []
+ 
+@@ -3100,6 +3103,36 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+           let* place, place_is_mutable = translate_place place_cpn loc in
+           let target_cpn = target_get drop_data_cpn in
+           let target = translate_basic_block_id target_cpn in
++          let selected_path = TrName.translate_def_path (selected_drop_path_get drop_data_cpn) in
++          let selected_hash = selected_drop_hash_get drop_data_cpn in
++          let guard_path = TrName.translate_def_path (selected_guard_path_get drop_data_cpn) in
++          let selected = List.mem (selected_path, selected_hash, guard_path)
++            Args.body_tr_defs_ctx.selected_drops in
++          if selected then begin
++            if not (is_bare_local_get drop_data_cpn) || is_replace_get drop_data_cpn
++                || not place_is_mutable || TranslatorArgs.ignore_unwind_paths then
++              Ast.static_error loc "Qualified selected Drop requires mutable bare local, replace=false and unwind checking" None;
++            let receiver_name = "__vf_drop_receiver_" ^ target in
++            let receiver = Ast.Var (loc, receiver_name) in
++            let address = Ast.AddressOf (loc, place) in
++            let call name args = Ast.CallExpr (loc, name, [], [], List.map (fun e -> Ast.LitPat e) args, Ast.Static) in
++            let ghost name args = Ast.PureStmt (loc, Ast.ExprStmt (call name args)) in
++            let finish = [ghost "close_points_to" [receiver]; ghost "end_ref_mut" [receiver];
++                          ghost "open_points_to" [address]] in
++            let unwind_stmts, unwind_targets = translate_unwind_action (unwind_action_get drop_data_cpn) loc in
++            let selected_call = Ast.CallExpr (loc, selected_path, [Ast.InferredTypeExpr loc], [],
++              [Ast.LitPat receiver], Ast.Static) in
++            let call_stmt = Ast.SwitchStmt (loc, selected_call, [
++              Ast.SwitchStmtClause (loc, call "returning" [Ast.Var (loc, "__result")], finish);
++              Ast.SwitchStmtClause (loc, call "unwinding" [], finish @ unwind_stmts)]) in
++            Ok ([ghost "close_points_to" [address];
++                 Ast.DeclStmt (loc, [(loc, Some (Ast.PtrTypeExpr (loc,
++                   Ast.StructTypeExpr (loc, Some guard_path, None, [], []))),
++                   receiver_name, Some (call "fn_outcome_result" [call "create_ref_mut" [address]]),
++                   (ref false, ref None))]);
++                 ghost "open_points_to" [receiver]; call_stmt],
++                Mir.GotoTerminator (loc, target), target :: unwind_targets)
++          end else
+           let unfreeze_stmts, freeze_stmts =
+             if place_is_mutable then ([], [])
+             else
+@@ -3168,10 +3201,13 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+               Mir.EncodedTerminator,
+               target :: fail_targets )
+       | UnwindResume ->
++          (* Resume has no source statement. Preserve its MIR edge and expression;
++             direct qualified Drop cleanup uses the existing synthetic location. *)
++          let stmt_loc = if !State.translating_selected_resume then Ast.DummyLoc else loc in
+           Ok
+             ( [
+                 Ast.ReturnStmt
+-                  ( loc,
++                  ( stmt_loc,
+                     Some (Ast.CallExpr (loc, "unwinding", [], [], [], Static))
+                   );
+               ],
+@@ -3871,7 +3907,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+         let terminator_cpn = terminator_get bblock_cpn in
+         let* terminator_stmts, terminator, successors =
+           Rocq_writer.rocq_print_big_record_field TranslatorArgs.rocq_writer "terminator" @@ fun () ->
+-            translate_terminator ret_place_id terminator_cpn
++            State.translating_selected_resume := List.mem id !State.selected_resume_targets;
++            let result = translate_terminator ret_place_id terminator_cpn in
++            State.translating_selected_resume := false;
++            result
+         in
+         let bblock : Mir.basic_block =
+           {
+@@ -6085,6 +6124,24 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+               List.map (translate_to_vf_local_decl loc) (ret_place_decl :: local_decls)
+             in
+             let bblocks_cpn = basic_blocks_get_list body_cpn in
++            State.selected_resume_targets := List.filter_map (fun block ->
++              match TerminatorKindRd.get (TerminatorRd.kind_get (BasicBlockRd.terminator_get block)) with
++              | TerminatorKindRd.Drop data when List.mem
++                  (TrName.translate_def_path (TerminatorKindRd.DropData.selected_drop_path_get data),
++                   TerminatorKindRd.DropData.selected_drop_hash_get data,
++                   TrName.translate_def_path (TerminatorKindRd.DropData.selected_guard_path_get data))
++                  body_tr_defs_ctx.selected_drops ->
++                  (match UnwindActionRd.get (TerminatorKindRd.DropData.unwind_action_get data) with
++                   | UnwindActionRd.Cleanup target ->
++                       let id = translate_basic_block_id target in
++                       (match List.find_opt (fun block ->
++                          translate_basic_block_id (BasicBlockRd.id_get block) = id) bblocks_cpn with
++                        | Some resume when BasicBlockRd.is_cleanup_get resume &&
++                            BasicBlockRd.statements_get_list resume = [] &&
++                            TerminatorKindRd.get (TerminatorRd.kind_get (BasicBlockRd.terminator_get resume)) = TerminatorKindRd.UnwindResume -> Some id
++                        | _ -> None)
++                   | _ -> None)
++              | _ -> None) bblocks_cpn;
+             let* bblocks =
+               Rocq_writer.rocq_print_big_record_field Args.rocq_writer "basic_blocks" @@ fun () ->
+                 Rocq_writer.rocq_print_big_list Args.rocq_writer @@ fun () ->
+@@ -9046,8 +9103,25 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+             bodies_cpn
+         else bodies_cpn
+       in
++      let selected_drops = List.filter_map (fun body ->
++        if not (BodyRd.is_drop_fn_get body) ||
++           BodyRd.generics_get_list body <> [] ||
++           BodyRd.impl_block_generics_get_list body <> [] ||
++           Capnp.Array.is_empty (ContractRd.annotations_get (BodyRd.contract_get body)) then None
++        else match BodyRd.inputs_get_list body with
++        | [input] -> begin match decode_ty (D.decode_ty input) with
++          | `Ref (_, _, `Adt (id, _, [])) ->
++              let guard = id in
++              begin match concrete_drop_effect_decl ghost_decl_map adt_defs guard [] [] with
++              | None -> None
++              | Some _ -> Some (TrName.translate_def_path (BodyRd.def_path_get body),
++                                BodyRd.def_path_hash_get body, guard)
++              end
++          | _ -> None
++          end
++        | _ -> None) bodies_cpn in
+       let body_tr_defs_ctx =
+-        { adt_defs; ghost_decl_map; directives = vf_mir_translator_directives; fn_specializer }
++        { selected_drops; adt_defs; ghost_decl_map; directives = vf_mir_translator_directives; fn_specializer }
+       in
+       let* bodies_tr_res =
+         Rocq_writer.rocq_print Args.rocq_writer "Definition bodies := ";
