@@ -1218,8 +1218,9 @@ def run(a) -> None:
         else:
             supplied = supplied_cases(a, tool, active, capture_tool, bound_tool)
         native_c4_capture = None
+        native_c4_bound = None
         if C1_ZST_REPAIR_SESSION and profile.get("native_c4_mode") is not None:
-            need(profile["native_c4_mode"] == "CAPTURE_ONLY" and
+            need(profile["native_c4_mode"] in ("CAPTURE_ONLY", "BOUND_CANDIDATE") and
                  zst_model.get("gates_passed") is True and
                  supplied.get("cases", {}).get("native-c1-bound-positive", {}).get(
                      "native_bound_candidate_binding") is True,
@@ -1236,9 +1237,12 @@ def run(a) -> None:
             save(a.evidence / "native-c1-before-c4.json", supplied)
             c4_module = load(a.cloud_dir / "sort4-native-c1-bound/native-c4-driver.py",
                              "native_c4_capture_module")
-            native_c4_capture = c4_module.run(a, bound_tool, active, SimpleNamespace(
-                load=load, stage=stage, clean_env=clean_env,
-                source_support=source_support, save=save))
+            c4_namespace = SimpleNamespace(load=load, stage=stage,
+                clean_env=clean_env, source_support=source_support, save=save)
+            if profile["native_c4_mode"] == "BOUND_CANDIDATE":
+                native_c4_bound = c4_module.run_bound(a, bound_tool, active, c4_namespace)
+            else:
+                native_c4_capture = c4_module.run(a, bound_tool, active, c4_namespace)
         if reuse_admission:
             need(profile.get("prior_fresh_admission_build") == "3584fb04-e237-4d66-9c85-60de4df059c4" and
                  profile.get("prior_fresh_admission_proof_infra") == "285220a384d050e046d1e8709b79a52bd602e675" and
@@ -1285,6 +1289,7 @@ def run(a) -> None:
                   "c4": c4, "native": native, "supplied": supplied,
                   "zst_model_diagnostics": zst_model,
                   "native_c4_capture": native_c4_capture,
+                  "native_c4_bound": native_c4_bound,
                   "admission": admission,
                   "comment_admission": comment_admission,
                   "run_mode": profile["run_mode"],
