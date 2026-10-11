@@ -512,11 +512,11 @@ def run(a) -> None:
          "production_patch_sha256": sha(a.production_applied_patch),
          "profile_accepted": False})
     try:
-        helper_path = a.cloud_dir / "sort4-native-c4/driver.py"
+        helper_path = a.cloud_dir / "sort4-caller-entry-native/selected-runtime.py"
         audit_path = a.cloud_dir / "sort4-first-scope-audit.py"
         capture_path = a.proof_root / REL / "overnight-sort4/capture.py"
         ghost_path = a.cloud_dir / "sort4-native-c1-bound/ghost-strip.py"
-        for path, pin in ((helper_path, manifest["runtime_helpers_sha256"]["sort4-native-c4/driver.py"]),
+        for path, pin in ((helper_path, manifest["runtime_helpers_sha256"]["selected-runtime.py"]),
                           (audit_path, manifest["runtime_helpers_sha256"]["sort4-first-scope-audit.py"]),
                           (capture_path, manifest["runtime_helpers_sha256"]["overnight-sort4/capture.py"]),
                           (ghost_path, manifest["ghost_strip_sha256"])):
