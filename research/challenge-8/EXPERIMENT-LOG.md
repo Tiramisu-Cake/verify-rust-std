@@ -7390,3 +7390,7 @@ unsorted recipe paths (fixed) then bounded transport exceeded (query-only closur
 pruned to actual runtime dependencies). No Cloud cost or proof-negative credit.
 Full former proof closure remains committed in cd4ad0b7; re-add required profiles/
 patches before selected proof mode. Query compiler inputs/semantics unchanged.
+
+### 2026-10-11 compiler query d071: pinned API setup refusal
+
+Phase SORT4-COMPILER-BINDING-PREFIX-CLOUD-2026-10-11; owner select-sort4. Build `d0710ad2-df8c-418d-8894-fdd9cefe7a6f`, proof/infra `72428327d733abe9fecf73738122a6e32ac4d467`: FAILURE at exporter-build, before query. Pinned API errors: FnDef args Binder, impl_of_method removed, caller_bounds iterator Debug; deny(warnings) parentheses. No selection/proof credit. Exact body TypingEnv preserved in narrow API fix using existing exporter no_bound_vars/impl_of_assoc APIs; added Cloud-only full MIR decode for admission review. Hypothesis: corrected pinned API executes six observations with both impls, selected Freeze/fallback Cell/unqualified generic contexts. No native proof gate yet. Archive SHA256 `76249ea297a295d270c08b8f0da9d49db9f3b52d5d66f0da0f4b1aa4a5fb371a`; full evidence `/tmp/select-binding-prefix-d071-read`, extracted `/tmp/select-binding-prefix-d071-raw`. Conservative charge342s, remaining3258s. This is setup refusal, not semantic negative.

@@ -1,6 +1,6 @@
 --- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
 +++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
-@@ -2600,6 +2600,92 @@
+@@ -2600,6 +2600,93 @@
              fn_span: &rustc_span::Span,
              mut fn_call_data_cpn: fn_call_data_cpn::Builder<'_>,
          ) {
@@ -14,11 +14,12 @@
 +                let body = enc_ctx.body();
 +                let caller_def_id = body.source.def_id();
 +                let caller_path = tcx.def_path_str(caller_def_id);
-+                let selected_caller = (caller_path == "binding_selected_freeze" || caller_path == "lib::binding_selected_freeze");
-+                let fallback_caller = (caller_path == "binding_fallback_cell" || caller_path == "lib::binding_fallback_cell");
-+                let generic_caller = (caller_path == "binding_unconstrained_generic" || caller_path == "lib::binding_unconstrained_generic");
++                let selected_caller = caller_path == "binding_selected_freeze" || caller_path == "lib::binding_selected_freeze";
++                let fallback_caller = caller_path == "binding_fallback_cell" || caller_path == "lib::binding_fallback_cell";
++                let generic_caller = caller_path == "binding_unconstrained_generic" || caller_path == "lib::binding_unconstrained_generic";
 +                if selected_caller || fallback_caller || generic_caller {
 +                    if let ty::FnDef(callee_def_id, callee_args) = func.ty(body, tcx).kind() {
++                        let original_args = callee_args.no_bound_vars().expect("FnDef args with bound vars");
 +                        let callee_path = tcx.def_path_str(*callee_def_id);
 +                        if callee_path.contains("StableSmallSortTypeImpl")
 +                            && (callee_path.ends_with("::small_sort_threshold")
@@ -31,11 +32,11 @@
 +                                 resolved_span, resolved_impl_span,
 +                                 resolved_line, resolved_impl_line) =
 +                                match ty::Instance::try_resolve(
-+                                    tcx, typing_env, *callee_def_id, *callee_args,
++                                    tcx, typing_env, *callee_def_id, original_args,
 +                                ) {
 +                                    Ok(Some(instance)) => {
 +                                        let resolved_id = instance.def_id();
-+                                        let impl_id = tcx.impl_of_method(resolved_id);
++                                        let impl_id = tcx.impl_of_assoc(resolved_id);
 +                                        (
 +                                            "some".to_owned(),
 +                                            format!("{:?}", instance.def),
@@ -70,10 +71,10 @@
 +                                format!("{:?}", caller_span.data()),
 +                                source_map.lookup_char_pos(caller_span.lo()).line,
 +                                format!("{:?}", typing_env),
-+                                format!("{:?}", typing_env.param_env.caller_bounds()),
++                                format!("{:?}", typing_env.param_env.caller_bounds().collect::<Vec<_>>()),
 +                                callee_path,
 +                                format!("{:?}", callee_def_id),
-+                                format!("{:?}", callee_args),
++                                format!("{:?}", original_args),
 +                                format!("{:?}", func),
 +                                format!("{:?}", args),
 +                                args.len(),

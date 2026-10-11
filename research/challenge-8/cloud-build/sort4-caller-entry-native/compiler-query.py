@@ -256,6 +256,13 @@ def run(a, c4, audit, manifest: dict, ghost) -> dict:
                         if MARKER in line]
             save(a.evidence / "compiler-binding" / (mode + "-raw-records.json"), raw_rows)
             require(row.get("exit") == 0, "Cloud " + mode + " exporter query")
+            # Preserve full compiler MIR for exact clauses, substitutions and
+            # reborrow operand dataflow review before native binding admission.
+            decoded = a.evidence / "compiler-binding" / (mode + "-mir.txt")
+            decode = c4.stage(a, a.evidence / "compiler-binding", mode + "-mir-decode",
+                              ["capnp", "decode", str(tool / "src/rust_frontend/vf_mir/vf_mir.capnp"), "VfMir"],
+                              query_env, 60, cwd=fixture, stdin=binary, stdout=decoded)
+            require(decode.get("exit") == 0, "Cloud " + mode + " MIR decode")
             require(all(sha(fixture / name) == pins["fixture_sha256"] for name in
                         ("verified/lib.rs", "original/lib.rs")),
                     mode + " immutable source pair")
