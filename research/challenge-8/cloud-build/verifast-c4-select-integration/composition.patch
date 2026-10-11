@@ -1,5 +1,28 @@
+diff --git a/src/frontend/ocaml_expr_of_ast.ml b/src/frontend/ocaml_expr_of_ast.ml
+index 959ce64b..12609da7 100644
+--- a/src/frontend/ocaml_expr_of_ast.ml
++++ b/src/frontend/ocaml_expr_of_ast.ml
+@@ -839,12 +839,12 @@ and of_stmt = function
+     of_loc closeBraceLoc;
+     of_ref (of_list (fun (x, isConstVar) -> T [s x; b isConstVar])) addressTaken
+   ])
+-| PerformActionStmt (_, _, _, _, _, _, _, _, _, _, _, _) -> failwith "TODO"
+-| SplitFractionStmt (_, _, _, _, _) -> failwith "TODO"
+-| MergeFractionsStmt (_, _) -> failwith "TODO"
+-| CreateBoxStmt (_, _, _, _, _, _, _) -> failwith "TODO"
+-| CreateHandleStmt (_, _, _, _, _) -> failwith "TODO"
+-| DisposeBoxStmt (_, _, _, _) -> failwith "TODO"
++| PerformActionStmt (_, _, _, _, _, _, _, _, _, _, _, _) -> failwith "Ocaml_expr_of_ast: unsupported PerformActionStmt"
++| SplitFractionStmt (_, _, _, _, _) -> failwith "Ocaml_expr_of_ast: unsupported SplitFractionStmt"
++| MergeFractionsStmt (l, a) -> C ("MergeFractionsStmt", [of_loc l; of_expr a])
++| CreateBoxStmt (_, _, _, _, _, _, _) -> failwith "Ocaml_expr_of_ast: unsupported CreateBoxStmt"
++| CreateHandleStmt (_, _, _, _, _) -> failwith "Ocaml_expr_of_ast: unsupported CreateHandleStmt"
++| DisposeBoxStmt (_, _, _, _) -> failwith "Ocaml_expr_of_ast: unsupported DisposeBoxStmt"
+ | LabelStmt (l, lbl) -> C ("LabelStmt", [of_loc l; S lbl])
+ | GotoStmt (l, lbl) -> C ("GotoStmt", [of_loc l; S lbl])
+ | NoopStmt l -> C ("NoopStmt", [of_loc l])
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index d189d58a..2a60021e 100644
+index d189d58a..72e3f0b8 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -6784,17 +6784,47 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -137,7 +160,7 @@ index d189d58a..2a60021e 100644
                     reject "outer local declaration inventory";
                   let block_loc, cmp_decl, old_stmts, old_close =
                     match root 224 with
-@@ -8565,6 +8647,197 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -8565,6 +8647,204 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                     if control = "c4-normal-omit-join" then
                       Ast.NoopStmt (Ast.stmt_loc (block (c4_cut_index + 2)))
                     else block (c4_cut_index + 2) in
@@ -329,13 +352,20 @@ index d189d58a..2a60021e 100644
 +                              Ast.LitPat own], Ast.Static) in
 +                           [Ast.Leak (loc, Ast.Sep (loc, cells, each))]
 +                       | _ -> [] in
++                     let finish_pointer_value =
++                       let loc = Ast.stmt_loc transformed in
++                       Ast.PureStmt (loc,
++                         Ast.Open (loc, None, "raw_ptr_own",
++                           [Ast.IdentTypeExpr (loc, None, "T")], [],
++                           [Ast.LitPat (Ast.Var (loc, "t"));
++                            Ast.LitPat (Ast.Var (loc, "min"))], None)) in
 +                     [block 171; block 172; block 173; transformed;
-+                      result_assertion] @ leak_control
++                      result_assertion; finish_pointer_value] @ leak_control
 +                   end in
                   let outer = Ast.BlockStmt
                     (block_loc, [],
                      [c1_child; Ast.NoopStmt cut1; block 35; block 36;
-@@ -8574,7 +8847,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -8574,7 +8854,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                      [c3_child; Ast.NoopStmt cut3;
                       block (c3_cut_index + 1); c3_normal_join;
                       block 134; c4_child; Ast.NoopStmt cut4;
@@ -344,7 +374,7 @@ index d189d58a..2a60021e 100644
                      old_close, ref []) in
                   let normal_wrapper = Ast.BlockStmt
                     (Ast.stmt_loc (root 220), [],
-@@ -8677,8 +8950,11 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -8677,8 +8957,11 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                     "actual-c4-bound-post-ast.ml"
                     (Ocaml_expr_of_ast.of_decl changed_decl);
                   Printf.eprintf
@@ -358,7 +388,7 @@ index d189d58a..2a60021e 100644
                     (List.length gotos) control;
                   changed_decl
                 end else if c2_discovery_requested then begin
-@@ -15105,6 +15381,26 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -15105,6 +15388,26 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" = Some "1" in
      let rebase = sort4_wrapper_rebase_opt_in root in
      let input_relation = sort4_wrapper_input_relation_opt_in root in
@@ -385,7 +415,7 @@ index d189d58a..2a60021e 100644
      let names = if nine then [
        "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new";
        "sort4_checked_as_mut_ptr"; "sort4_checked_pointer_drop";
-@@ -15536,17 +15832,84 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -15536,17 +15839,84 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
         List.length (BodyRd.basic_blocks_get_list
           (List.nth bodies (if nine then 8 else 4))) <> 4 then
        reject "owner outer/nested local and block inventory";
@@ -479,7 +509,7 @@ index d189d58a..2a60021e 100644
      if cleanup_edges <> (if input_relation then (if Sort4R3FrameTest.enabled then 18 else 23) else if rebase then 18 else if nine then 10 else 9) then
        reject "owner shared cleanup predecessor inventory";
      (match (if input_relation then
-@@ -17148,12 +17511,407 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -17148,12 +17518,407 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              (modularize_fn_decl module_imports_map)
              (body_sigs @ proof_body_decls)
        in

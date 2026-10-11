@@ -119,3 +119,23 @@ typed transport certificate, imported-body order, composition proof and
 negative controls. Prior B2 crash/refusal results remain setup failures and
 receive no semantic credit. I reviewed source and profile metadata only; I ran
 no compile, verifier, Cloud action, or tool execution.
+
+## Patch-delivery review — runner commit 9ff47c3d
+
+The corrected composition patch is based on the intermediate translator blob
+`d189d58a`, recorded as snapshot `57bdb9ed2fc45a420fb3b3f98ee004f01d709846`,
+after the pinned tool-C4 and selector-integration patches. Its target blob
+`2a60021e3a88eabc97cf3a80d11214739e1e05ec` matches the translator blob at
+reviewed tool commit `09389e2c0a4d6d2ed4e1146df0ad6321832c12cb`. The updated
+composition patch SHA `0a5eb46815defaef599cc13c2c6aaad7325da9e998661f9039f8cfc13049b147`
+matches the C1 manifest. The delivery receipt records the exact three-patch
+order from official base `f76012fb518703b1d98e243ac4f487f16877cfcb`, all five
+effective source hashes matching the manifest, and no foreign index or
+worktree mutation. The 30-module source pack and reviewed tool commit remain
+unchanged.
+
+**Delivery verdict: GO for submitting runner commit `9ff47c3d` under the
+existing C1 experimental profile.** This resolves the earlier packaging-only
+refusal; it gives no compile, proof, or negative-control credit. The next Cloud
+run must still report its own exact patch preflight and fresh verification
+results.
