@@ -1,8 +1,8 @@
-# MERGE actual glue — session closed; mission remains open
+# MERGE actual glue — body-v3 Cloud qualification session active
 
 Owner `merge`, branch `merge/incoming-origin-20261009`, worktree `/root/verify-rust-std-merge-origin`; isolated tool branch `merge/actual-glue-instance-20261011`. Continued from `7614324034afa773346dd9660b993cbe8a453a1d`. Read policy revision `c7ca8c467aecf10a4b53039372ee97714f854ee3`; current identical policy bytes were last committed at `5bf53668a4afa51c302e599be91a2dbc4b24042d`.
 
-Session began 16:15:22Z, with the original main/finish limits at 18:15:22Z/18:45:22Z. The user added 30 minutes at approximately 18:44Z, extending the cutoff to 19:15:22Z without another grace period. Hour report was delivered around 17:15Z. All three builds are terminal, accounted and downloaded with complete integrity verification: 511 + 315 + 370 = **1196/3600 Cloud seconds**. The unused 2404 seconds are retired; previous 1410 seconds remain retired, with no carryover. No own active build/reservation/unresolved dispatch remains; the own turn request was withdrawn.
+New authorized session starts 19:19:34Z from exact checkpoint e267f9485bfe620f5570b66e63226f1d0ea6fb77, main21:19:34Z/finish21:49:34Z/hour20:19:34Z. Fresh **3600 Cloud seconds**; prior2404 and earlier1410 remain retired. Existing owner merge/lane/v2. No active own Build before dispatch. Historical session preserved in archive.
 
 Observation-v5 (`12a54039`, proof/infra `d74a50c8`) compiled and freshly passed the bounded selected7/helper4/mandatory-smoke campaign. All 42 observations bind the resolved whole callee Instance to `adt.destructor`, args `[]`, and to the exact captured method identity and `Runtime(PostCleanup)` phase. Captured source MIR and concrete Instance substitutions remain separate; selected method MIR is not re-queried. Historical observation-v2 PASS, non-buildable observation-v4 and all failures/premises are preserved.
 
@@ -12,6 +12,6 @@ The prepared body-v3 draft, tool `853fd1e2edb309101df83b93c65572a0d8d0d189`, pro
 
 Resolved destructor binding is observed. Actual generated glue is not proved. New receiver/end/retirement controls are not implemented/run. Dynamic self.len, CURRENT, full normal posts and return/free/leak credit remain confined to the bounded selected-method route on v2/v5. Actual callback panic cleanup, updated gap/resource provenance and applicability to insert_tail are not proved. The `[10,20,5]` witness requires multiple cells despite guard len==1; supplied entry premises remain explicit. Generic T/ZST and general kernel/memory/alias changes remain outside scope.
 
-Next, after a fresh authorized session/budget: build the V3 official refiner in Cloud with exact receipts, check actual generated body and actual method with strict original/verified CFG including unwind, then qualify caller receiver/end controls before late-panic cleanup. Development remains merge's responsibility; maintainer receives a review/compatibility candidate only. No automatic dispatch, acceptance, merge, upstream/Actions or external messages.
+Next within this authorized session: build the V3 official refiner in Cloud with exact receipts, check actual generated body and actual method with strict original/verified CFG including unwind, then qualify caller receiver/end controls before late-panic cleanup. Development remains merge's responsibility; maintainer receives a review/compatibility candidate only. No automatic dispatch, acceptance, merge, upstream/Actions or external messages.
 
 [Checkpoint](cloud-build/origin-layout/FINAL-CHECKPOINT.md) · [Account](cloud-build/origin-layout/BUDGET.json) · [Next experiment](cloud-build/origin-layout/GLUE-NEXT-EXPERIMENT-20261011.md)
