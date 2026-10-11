@@ -11,6 +11,7 @@
 | [AGENT-RUNBOOK](AGENT-RUNBOOK.md) | Одна процедура входа, эксперимента, продолжения и checkpoint |
 | [Cloud runbook](cloud-build/README.md), [v2](cloud-build/PARALLEL-BUILDS.md) | Exact inputs, submit/status/evidence/accounting и два slots |
 | [COMPLETION-PLAN](COMPLETION-PLAN.md), [PLAN](PLAN.md) | Конечные требования и зависимости, без выдачи разрешений |
+| [PROGRESS-REVIEW](PROGRESS-REVIEW.md) | Условный индекс готовности, две сессии на proof-агента и артефакты пересмотра |
 | [ADOPTION](ADOPTION.md) | Адресный перенос общих docs и принятие всеми тремя агентами |
 | [INFRASTRUCTURE-TASK](INFRASTRUCTURE-TASK.md) | Поставленная отдельная работа, без реализации |
 | [Архив](archive/team-procedure-2026-10-10/README-ARCHIVE.md) | Прежние инструкции и исторический bootstrap run log |
