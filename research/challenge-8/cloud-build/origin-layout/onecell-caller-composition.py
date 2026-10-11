@@ -362,7 +362,8 @@ def _origin_equality_matches(operation, ast, row: dict) -> bool:
     if (not isinstance(operation, ast.Node) or operation.name != "Operation" or
             len(operation.args) != 3 or operation.args[1] != ast.Sym("Eq") or
             ast.location_line(operation.args[0]) != row["origin_line"] or
-            not re.match(rf"verified/lib\.rs\({row['origin_line']},{row['origin_equality_column']}-",
+            not re.fullmatch(rf"verified/lib\.rs\({row['origin_line']},{row['origin_equality_column']}-"
+                             rf"{row['origin_equality_column'] + 2}\)",
                          ast.loc(operation.args[0]))):
         return False
     operands = operation.args[2]
@@ -487,15 +488,19 @@ def _classify(case: Path, row: dict, execution: dict, mir, ast, body) -> dict:
         # Require the exact source-derived equality column, all prior admission gates, and execution
         # of the constructed physical field frame before interpreting a result.
         exact_origin_error = (len(errors) == 1 and bool(re.fullmatch(
-            rf"verified/lib\.rs\({row['origin_line']},{row['origin_equality_column']}-\d+\): error: "
-            r"Assertion might not hold\. \(Cannot prove equality\.\)", errors[0])))
+            rf"verified/lib\.rs\({row['origin_line']},{row['origin_equality_column']}-"
+            rf"{row['origin_equality_column'] + 2}\): error: "
+            r"Assertion might not hold\. "
+            r"\(Cannot prove ref_origin\(gap_guard_addr\) = gap_guard_addr\.\)", errors[0])))
         frame_reached = executed(row["guard_fields_line"])
         no_earlier_error = not any(
             re.search(rf"verified/lib\.rs\({line},\d+", error)
             for error in errors for line in range(1, row["origin_line"]))
         probe_location_error = (len(errors) == 1 and bool(re.search(
-            rf"verified/lib\.rs\({row['origin_line']},{row['origin_equality_column']}-\d+\): error: "
-            r"Assertion might not hold\. \(Cannot prove equality\.\)", errors[0])))
+            rf"verified/lib\.rs\({row['origin_line']},{row['origin_equality_column']}-"
+            rf"{row['origin_equality_column'] + 2}\): error: "
+            r"Assertion might not hold\. "
+            r"\(Cannot prove ref_origin\(gap_guard_addr\) = gap_guard_addr\.\)", errors[0])))
         origin_probe_negative = (setup and frame_reached and no_earlier_error and
                                  probe_location_error and stages.get("verifast") == 1 and
                                  not dead and executed(row["guard_fields_line"]))
@@ -534,6 +539,8 @@ def _classify(case: Path, row: dict, execution: dict, mir, ast, body) -> dict:
             "receiver_origin_probe_established": origin_probe_established,
             "receiver_origin_probe_exact_location_error": (exact_origin_error
                 if row["expected"] == "receiver_origin_probe" else False),
+            "receiver_origin_probe_expected_alias": ("gap_guard_addr"
+                if row["expected"] == "receiver_origin_probe" else None),
             "receiver_origin_probe_guard_frame_executed": (executed(row["guard_fields_line"])
                 if row["expected"] == "receiver_origin_probe" else False),
             "helper_copy_executed": executed(row["helper_copy_line"]),

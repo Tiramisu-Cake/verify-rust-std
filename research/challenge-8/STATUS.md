@@ -1,25 +1,34 @@
-# MERGE receiver localization — ACTIVE
+# MERGE receiver — CLOSED / BLOCKED
 
-Session from ce2bc9d67ce83b2439fb17177487b462267c36e1, owner merge,
-assigned merge/incoming-origin-20261009. Start2026-10-11T08:17:34Z,
-main09:17:34Z, finishing09:47:34Z; fresh3600Cloud/no carryover.
-Policyc7ca8c46 adopted/read; v2/max2/oneown. Own BUDGET.json authoritative.
+Сессия отce2bc9d6, ownmerge/incoming-origin-20261009: start2026-10-11T08:17:34Z,
+main09:17:34Z/finish09:47:34Z; закрыта после точного blocker, без новой сессии.
+Policyc7ca8c46 прочитана, v2/max2/oneown; peers сохранены.
 
-Previous len1 remains QUALIFIED_LEN1_COMPONENT_FRESH_PROOF_PLUS_SAVED_ADMISSION
-(1396ff47/d491b937, raw historicalINCONCLUSIVE preserved); caller remains
-FRESH_PASS_BOUNDED_NORMAL_COMPOSITION_FRAGMENT_ONLY (1ce46121/bc08afa0).
-Concrete-u64/x86_64/len1, checked raw-pointer helper; actual receiver/glue/panic
-not credited. Frozen profile0b8cf55b NOT_ACCEPTED/NOT_FOR_INTEGRATION.
+Fresh846517a9/c8962f4b, frozenprofile0b8cf55b: source/MIR/AST/refinementPASS,
+полный physical frame158; первый отказ159:42–44
+`Cannot prove ref_origin(gap_guard_addr) = gap_guard_addr.`
+Receiver bridge direct-address BLOCKED; actual methodcall/glue/panic NOT_RUN.
+Abstract fullborrow можно построить begin_lifetime+borrow, но reborrow result
+не связан с actualreceiver. Pointer origin idempotence не передаёт permissions.
+Нет новых caller premises/token/semantic patch.
 
-Resource audit: full_borrow package is constructible using existing begin_lifetime
-and borrow over closed FBC. Source-bound actual receiver remains unconnected:
-mutableRef lowers to AddressOf; reborrow_ref_mut returns a distinct modeled pointer
-with fixedpoint/FBC but no equality to this physical receiver. Before deciding
-blocker, one new origin assertion after derived physical field frame will test
-whether frozen proof rules establish its fixedpoint. Three old controls and both
-mandatory normal/unwind smoke groups retained; no actual method invocation claim.
-[Ledger/card](cloud-build/origin-layout/RECEIVER-RESOURCE-LEDGER-20261011.md).
+RawFAILURE/INCONCLUSIVE сохранён; exact-message classifier fix + savedreplay4/4
+не новая proof-сборка. Fullarchive/inventory/config/source/index/chunks integrity
+PASS,12effectivepinsfreshmatch. Helperpositive CURRENT/fullnormalposts/returnleak
+и обеbefore/afterfalse controlsfreshPASS; sourcepairs byte-identicalbc08afa0.
+Обаmandatorynormal/unwindsmokesfreshPASS; cleanupнашегocallerнеproved.
+Guard21/span6 reusedb1da6f8e/7995fccf/profile0b8,NOT_RERUN.
 
-New Cloud diagnostic pending publication/dispatch; no fresh proof yet.
-Compiler glue and paniccleanup NOT_RUN; source/method effect interface via generic
-drop_in_place remains open. Previous checkpoint archived on closure.
+Len1 остаётся QUALIFIED_LEN1_COMPONENT_FRESH_PROOF_PLUS_SAVED_ADMISSION
+1396ff47/d491b937; callerFRESH_PASS_BOUNDED_NORMAL_COMPOSITION_FRAGMENT_ONLY.
+Domainconcrete-u64/x86_64,len1; профильNOT_ACCEPTED/NOT_FOR_INTEGRATION.
+ActualmethodcontrolsNOT_RUN доreceiver bridge. Suppliedvalidtail/heldowner,
+thread/type/size/alignment/objectbounds остаются прежними.
+
+CLOSED458/3600Cloudseconds,3142retired/no carryover, ownactive/reservations/
+unresolvedNONE/requestWITHDRAWN. Peer active state не менялся.
+[Checkpoint](cloud-build/origin-layout/FINAL-CHECKPOINT.md),
+[qualification](cloud-build/origin-layout/RECEIVER-QUALIFICATION-20261011.json),
+[ledger](cloud-build/origin-layout/BUDGET.json).
+Следующий шаг — [локальный запрос владельцу VeriFast](cloud-build/origin-layout/VERIFAST-RECEIVER-REQUEST-20261011.md)
+оsource-boundreceiver/dispatchrule; не отправлен внешне. Новой гипотезы/Build нет.

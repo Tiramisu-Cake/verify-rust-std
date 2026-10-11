@@ -23,9 +23,14 @@ module._ast_gate = lambda case, row, ast, body: {"admitted": True}
 # are LitPat-wrapped, matching the repository's admitted function-call ASTs.
 ast = module._load("composition_ast_service_test", module.ROOT /
                    "research/challenge-8/merge/overnight/stack-proof-ast-admission.py")
-row_ast = {"origin_line": 20, "origin_equality_column": 43}
-assert_loc = ast.Node("loc", ["verified/lib.rs(20,13-55)"])
-eq_loc = ast.Node("loc", ["verified/lib.rs(20,43-45)"])
+row_ast = {
+    "origin_line": 20,
+    "origin_equality_column": module.ORIGIN_ASSERT.splitlines()[0].index(b"==") + 1,
+}
+assert_column = module.ORIGIN_ASSERT.splitlines()[0].index(b"assert ref_origin") + 1
+assert_loc = ast.Node("loc", [f"verified/lib.rs(20,{assert_column}-55)"])
+eq_loc = ast.Node("loc", [f"verified/lib.rs(20,{row_ast['origin_equality_column']}-"
+                             f"{row_ast['origin_equality_column'] + 2})"])
 guard_arg = ast.Node("LitPat", [ast.Node("Var", [assert_loc, "guard_ptr"])])
 origin_call = ast.Node("CallExpr", [eq_loc, "ref_origin", [], [], [guard_arg], ast.Sym("Static")])
 guard_rhs = ast.Node("Var", [eq_loc, "guard_ptr"])
@@ -42,7 +47,8 @@ assert not module._origin_equality_matches(
     ast.Node("Operation", [eq_loc, ast.Sym("Eq"),
         [origin_call, ast.Node("Var", [eq_loc, "other_ptr"])] ]), ast, row_ast)
 assert not module._origin_equality_matches(
-    ast.Node("Operation", [ast.Node("loc", ["verified/lib.rs(20,44-46)"]),
+    ast.Node("Operation", [ast.Node("loc", [f"verified/lib.rs(20,{row_ast['origin_equality_column']}-"
+                                           f"{row_ast['origin_equality_column'] + 3})"]),
         ast.Sym("Eq"), [origin_call, guard_rhs]]), ast, row_ast)
 
 row = {
@@ -66,16 +72,42 @@ with tempfile.TemporaryDirectory(prefix="onecell-origin-classifier-") as tmp:
     (case / "verified/lib.rs").write_text("")
     (case / "verifast.log").write_text(
         "verified/lib.rs(19,12-48): note: Executing statement\n"
-        f"verified/lib.rs(20,{row['origin_equality_column']}-54): error: Assertion might not hold. (Cannot prove equality.)\n")
+        f"verified/lib.rs(20,{row['origin_equality_column']}-{row['origin_equality_column'] + 2}): error: "
+        "Assertion might not hold. (Cannot prove ref_origin(gap_guard_addr) = gap_guard_addr.)\n")
     classified = module._classify(case, row, execution, None, None, None)
     assert classified["classification"] == "EXPECTED_RECEIVER_ORIGIN_REJECTION"
     assert classified["receiver_origin_probe_targeted_negative"] is True
     assert classified["receiver_origin_probe_exact_location_error"] is True
+    assert classified["receiver_origin_probe_expected_alias"] == "gap_guard_addr"
 
-    # The same error at a different column is inconclusive.
+    # Wrong canonical symbol, wrong expression, wrong column, and a failure
+    # before reaching the physical field frame must remain inconclusive.
+    wrong_payloads = (
+        "ref_origin(gap_guard_addr_other) = gap_guard_addr_other.",
+        "ref_origin(gap_guard_addr) = some_other_pointer.",
+    )
+    for payload in wrong_payloads:
+        (case / "verifast.log").write_text(
+            "verified/lib.rs(19,12-48): note: Executing statement\n"
+            f"verified/lib.rs(20,{row['origin_equality_column']}-{row['origin_equality_column'] + 2}): error: "
+            f"Assertion might not hold. (Cannot prove {payload})\n")
+        classified = module._classify(case, row, execution, None, None, None)
+        assert classified["classification"] == "INCONCLUSIVE"
     (case / "verifast.log").write_text(
         "verified/lib.rs(19,12-48): note: Executing statement\n"
-        f"verified/lib.rs(20,{row['origin_equality_column'] + 1}-54): error: Assertion might not hold. (Cannot prove equality.)\n")
+        f"verified/lib.rs(20,{row['origin_equality_column'] + 1}-{row['origin_equality_column'] + 3}): error: "
+        "Assertion might not hold. (Cannot prove ref_origin(gap_guard_addr) = gap_guard_addr.)\n")
+    classified = module._classify(case, row, execution, None, None, None)
+    assert classified["classification"] == "INCONCLUSIVE"
+    (case / "verifast.log").write_text(
+        "verified/lib.rs(19,12-48): note: Executing statement\n"
+        f"verified/lib.rs(20,{row['origin_equality_column']}-{row['origin_equality_column'] + 3}): error: "
+        "Assertion might not hold. (Cannot prove ref_origin(gap_guard_addr) = gap_guard_addr.)\n")
+    classified = module._classify(case, row, execution, None, None, None)
+    assert classified["classification"] == "INCONCLUSIVE"
+    (case / "verifast.log").write_text(
+        f"verified/lib.rs(20,{row['origin_equality_column']}-{row['origin_equality_column'] + 2}): error: "
+        "Assertion might not hold. (Cannot prove ref_origin(gap_guard_addr) = gap_guard_addr.)\n")
     classified = module._classify(case, row, execution, None, None, None)
     assert classified["classification"] == "INCONCLUSIVE"
 
@@ -98,4 +130,4 @@ with tempfile.TemporaryDirectory(prefix="onecell-origin-classifier-") as tmp:
     assert classified["accepted"] is False
     assert classified["actual_drop_glue_credit"] is False
 
-print("PASS_SERVICE_ONLY: exact negative, wrong-column refusal, unexpected success")
+print("PASS_SERVICE_ONLY: exact negative, wrong alias/expression/column/frame refusals, unexpected success")

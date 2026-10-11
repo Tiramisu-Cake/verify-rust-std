@@ -99,3 +99,21 @@ Effective translator citations: Drop terminator3097–3139; mutable Ref3433–34
 generated Drop4810–4840; gen_drop_contract4737; generated FBC6169 onwards.
 Unchanged aliasing/lifetime spec hashes in RECEIVER-RULE-BINDINGS-20261011.json
 match the pinned base exactly. Source reconstruction is text evidence only.
+
+Independent receiver audit and addressed probe review: abstract fullborrow
+construction is available; no current source-bound returned reborrow receiver.
+All three historical fixture branches unchanged; new assertion source strip and
+AST exact payload/operator spans reviewed. Fresh receiver probe published at
+c8962f4b8e10a8a1b457826272d101631fd23d97, Build
+846517a9-5a8b-4a18-827c-3f74fa148903. Actual result pending full archive.
+
+Additional no-rebase audit: ref_origin(g) preserves address/metadata and geometry,
+but may have different provenance. Frozen points_to/array/to_u8s rules preserve
+exact pointer index (effective prelude_core:212–249,327–341); lifetime byte
+conversions preserve p (rust_belt/points_to_at_lifetime:114–132). Struct open/close
+operates at the same structPointerTerm; heap matching uses definitely_equal/SMT
+identity (base assertions.ml:140–142,2284–2298,2358–2369,2407–2420), not mere numeric
+address equality. No permission-rebasing rule from g to ref_origin(g) found.
+Heap alloc/alloc_block origin facts concern freshly allocated heap storage and
+do not bind stack StorageLive guard. Thus writing ghost r=ref_origin(g) proves
+fixedpoint(r), but supplies neither FBC(t,r) nor the actual receiver binding.

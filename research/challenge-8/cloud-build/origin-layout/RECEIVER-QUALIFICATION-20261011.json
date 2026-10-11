@@ -1,0 +1,257 @@
+{
+  "actual_method_controls": "NOT_RUN: nonvacuity before/after true method, receiver/FBC omission, missing-source, simultaneous effects; prerequisite receiver route blocked",
+  "archive_sha256": "d5a86538d2ace52897d8974697eab0c3af6ad99627143874d35d30ed836e9527",
+  "budget_build_seconds": 458,
+  "build_id": "846517a9-5a8b-4a18-827c-3f74fa148903",
+  "build_stage_wall_times": {
+    "console-build-time.txt": "0:51.53",
+    "decoder-build-time.txt": "0:01.98",
+    "exporter-build-time.txt": "0:51.94",
+    "postbuild-source-hash-check-time.txt": "0:00.05",
+    "translator-build-time.txt": "0:03.78"
+  },
+  "case_stage_elapsed_seconds": {
+    "after_call_current_false": {
+      "decode": 0.066,
+      "exporter": 0.066,
+      "refinement": 0.217,
+      "verifast": 0.418
+    },
+    "caller_entry_false": {
+      "decode": 0.066,
+      "exporter": 0.066,
+      "refinement": 0.217,
+      "verifast": 0.417
+    },
+    "positive": {
+      "decode": 0.066,
+      "exporter": 0.116,
+      "refinement": 0.217,
+      "verifast": 0.518
+    },
+    "receiver_origin_probe": {
+      "decode": 0.066,
+      "exporter": 0.066,
+      "refinement": 0.217,
+      "verifast": 0.417
+    }
+  },
+  "cases": {
+    "after_call_current_false": {
+      "ast_gate": true,
+      "classification": "EXPECTED_AFTER_CALL_CURRENT_REJECTION",
+      "full_return_and_leak": false,
+      "mir_gate": true,
+      "source_gate": true,
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      }
+    },
+    "caller_entry_false": {
+      "ast_gate": true,
+      "classification": "EXPECTED_CALLER_ENTRY_REJECTION",
+      "full_return_and_leak": false,
+      "mir_gate": true,
+      "source_gate": true,
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      }
+    },
+    "positive": {
+      "ast_gate": true,
+      "classification": "BOUNDED_NORMAL_COMPOSITION_PASS_FRAGMENT_ONLY",
+      "full_return_and_leak": true,
+      "mir_gate": true,
+      "source_gate": true,
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 0
+      }
+    },
+    "receiver_origin_probe": {
+      "ast_gate": true,
+      "classification": "EXPECTED_RECEIVER_ORIGIN_REJECTION",
+      "full_return_and_leak": false,
+      "mir_gate": true,
+      "source_gate": true,
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      }
+    }
+  },
+  "classification": "FRESH_DIRECT_RECEIVER_ORIGIN_REFUSAL_PLUS_SAVED_CLASSIFIER_ADMISSION",
+  "corrected_classifier_sha256": "d67262635674ff5634e7f06601249500df8cb295329e4f59ae4aaea95a121e21",
+  "effective_tool": "EFFECTIVE-SOURCE.json",
+  "environment": {
+    "accepted": false,
+    "cloud_build_id": "846517a9-5a8b-4a18-827c-3f74fa148903",
+    "profile": "experimental-merge-qualified-guard-onecell-v1",
+    "profile_evidence": "/workspace/evidence/allprooflogs/tracked-md-build",
+    "proof_sha": "c8962f4b8e10a8a1b457826272d101631fd23d97",
+    "provider": {
+      "arch": "x86_64",
+      "build_id": "846517a9-5a8b-4a18-827c-3f74fa148903",
+      "os": "ubuntu-22.04",
+      "project": "smallsort-ci",
+      "provider": "cloud-build",
+      "region": "global"
+    },
+    "rustc_toolchain": "nightly-2026-09-25",
+    "rustc_version": "rustc 1.100.0-nightly (f7575a9da 2026-09-24)\nbinary: rustc\ncommit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f\ncommit-date: 2026-09-24\nhost: x86_64-unknown-linux-gnu\nrelease: 1.100.0-nightly\nLLVM version: 23.1.1\n",
+    "schema_sha256": "bac5f307bb74f0e98efeebfe67649639666ec4a9e38c3cb8bcb60a3259fe31f9",
+    "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+    "tool_sha256": {
+      "refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+      "verifast": "89494bde13a63cc547afce3c51a12b9ee724c1e8b50d2cfd2bd15d91c050e8ad",
+      "vf-rust-mir-exporter": "ca45dbfcecea55d87c80dc11e32b65834e04f17126ef4872145e050ed000cf62"
+    }
+  },
+  "fresh_effective_twelve_source_hashes_match": true,
+  "fresh_tool_artifacts": {
+    "exporter": "ca45dbfcecea55d87c80dc11e32b65834e04f17126ef4872145e050ed000cf62",
+    "refiner": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "verifast": "89494bde13a63cc547afce3c51a12b9ee724c1e8b50d2cfd2bd15d91c050e8ad",
+    "z3": "1837668dc531d14b3a4fffc0b690b77929d29c41868f98a89686f5ff64da95ea"
+  },
+  "infra_sha": "c8962f4b8e10a8a1b457826272d101631fd23d97",
+  "input_files_sha256": {
+    "allprooflogs/checked-minimal-bridge/aggregate.json": "36a80ddac4ca52a151065520881130f5258791973c72092a9f1f5431db103631",
+    "allprooflogs/checked-minimal-bridge/combined-profile-smoke/aggregate.json": "c65a1ccef15479ba92d1f9a9439f2657b2cc343656e36921285a065d630ec078",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/aggregate.json": "167dd009dbab7f34842f690a6cea2befec3b725f4bf881872c3ecfdae9399a55",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/after_call_current_false/classification.json": "5d7f16055f412e1d79d801f63375509809d273262202293f8f18c8d7fa864e00",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/after_call_current_false/compiler-mir.bin": "95fca319b8221b891b4542a67be411330f972172f44527728e4c1234a454e954",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/after_call_current_false/decode-stage.json": "7275dd2a864c6306ab2f7fb2d36a72e58e17119f235a3f295e25ac6db5cc7f7b",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/after_call_current_false/decode.out": "9cd47e80d62c54c9894806c7e8c9da223178d16d6dd3211fe88773cecb950cd8",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/after_call_current_false/exporter-stage.json": "c58f4ca5604f23c1536005ac5854bcd9838bfe9f539341c23fb92bcc30841edd",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/after_call_current_false/original/lib.rs": "aab6a57cc85876b18b99d5d9a40bb239a2202fc7c89d3a621e7def354d5399c9",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/after_call_current_false/proof-ast.ml": "be498fc4d234e013fa40a67ece2898e3f5e4967f46cb1aa509d6bfd821268908",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/after_call_current_false/refinement-stage.json": "a5f945cafa59724fe96b170f1c45e34403498e3eac10a59aa6bc124029ef4a7b",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/after_call_current_false/verifast-stage.json": "90e778de865ffefd72a448cb399cb1a53ec158e6999695b744e3ea156354f81c",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/after_call_current_false/verifast.log": "0e1e84f52c19f6157074161de1b833d7350f6e23270aaa1582b78ae4a6013f78",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/after_call_current_false/verified/lib.rs": "06aef371350254afdd7a0c59339496b21e76eb80aeac79c1e3fa133c5901e0aa",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/caller_entry_false/classification.json": "202a2071bb94ad651fcfc037d7c9f704a4ecc8b9b35bb49116056901ab967a3e",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/caller_entry_false/compiler-mir.bin": "429e609023caf0b0b338abe179938f3e15bc05ee371e1035c854b07d730469b3",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/caller_entry_false/decode-stage.json": "ae8c94a0075b9a28f11d62b7862a527a0a20b547da92947837d2e220a4a29d63",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/caller_entry_false/decode.out": "7f9dc013bb24758711270474d634f8fef41f324f9df934d9c6ed5c494a21ee93",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/caller_entry_false/exporter-stage.json": "d28469829f574ccfd3c3a46155bc4c9e35bf71b6bc7973170d1f6321ffa95127",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/caller_entry_false/original/lib.rs": "aab6a57cc85876b18b99d5d9a40bb239a2202fc7c89d3a621e7def354d5399c9",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/caller_entry_false/proof-ast.ml": "354e6531f64cfca29421f1b1cfbf844d08ef742f919facd7562e343330700152",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/caller_entry_false/refinement-stage.json": "42fd555cca8a0959ee5f78104daec99874cdbaecb99d0dc4a013637528ccc3a8",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/caller_entry_false/verifast-stage.json": "0f347dd42d13015358e27140eb4ca6a91bbdde2dea0015ef2ccc267f3b9e8f8f",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/caller_entry_false/verifast.log": "fd5d427f83189e43ed0bfd6306b492dbe12ae0f22326b55d9bfc8fd41abf084b",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/caller_entry_false/verified/lib.rs": "e79684fe2e53c361b500d35dfe2af669e2c193a29ee7f30b6b98aebf0f7be688",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/positive/classification.json": "bfdfcc1955fd528e45788a30700d5e2a89031bb72b027becac0d17ce9b8dbac5",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/positive/compiler-mir.bin": "8d450b60bced30029e60bc63943ed4b12c3a62a9da12273d8c3b4dfbf933cb92",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/positive/decode-stage.json": "ad339383e9218093c2ff31d906cd729b54a55731626d1c420e5e3bc610820826",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/positive/decode.out": "43a3f30f03b2cfa8e1309320896a474edc9a2a418fd47fa2cb2c912217199762",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/positive/exporter-stage.json": "449771280f52faeb4ab272c116c2916db2afc6e17d7acc38640506c9d17fcebf",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/positive/original/lib.rs": "aab6a57cc85876b18b99d5d9a40bb239a2202fc7c89d3a621e7def354d5399c9",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/positive/proof-ast.ml": "361110e09c167799f0e928cfe14a021b2455962d511efd16f0b503cc7370d660",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/positive/refinement-stage.json": "a0273179e505664c50694254b33cb1910fc2a4dc7d835db822aa5888e9b8162b",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/positive/verifast-stage.json": "930f03d9bdf4cf660b2f50f5ab7eaf696be2672efb957e643386e0102755e3ea",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/positive/verifast.log": "ec26d2a8f29fd3c353e0b6432fbb83639fa25523b66fd1776db9103f5a1cf649",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/positive/verified/lib.rs": "55921bd6ab212ccdb28854730c7f291a6d628a8b9bfed6a58e0543c3a13a9d3d",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/receiver_origin_probe/classification.json": "96bf29e6ada0b7b679ac5417613a36ee2f563c5cd3392b51ef1021eb0b2dbb00",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/receiver_origin_probe/compiler-mir.bin": "a4846ad19da612e1ec8a90fa8b3b633c04fbc6726a8ee7fd713ffc266212ae1f",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/receiver_origin_probe/decode-stage.json": "700879306ffb3a9e691c870be2ad8c2c2492243e106388eac02f478fbc20999a",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/receiver_origin_probe/decode.out": "6f0831c04f569e6bc3951bce8f6e810c4081818030bc607188359f57dc1c4f89",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/receiver_origin_probe/exporter-stage.json": "6704d0f30129c03fe12c4c41ac5c85d2f281bd4f1edf677344ba1272ad1475d1",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/receiver_origin_probe/original/lib.rs": "aab6a57cc85876b18b99d5d9a40bb239a2202fc7c89d3a621e7def354d5399c9",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/receiver_origin_probe/proof-ast.ml": "468176595295b8fe0544dcc9e756e968d52ecad6cb37d503e82f6bebd7f4a5cf",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/receiver_origin_probe/refinement-stage.json": "5e9e04e424f05c67a7f30d75b383bb5cde1f6f7f7a079e1f41f644a7065f632f",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/receiver_origin_probe/verifast-stage.json": "3e7ce7f1b77f409a5b2d747be7eb6ed598d747c61c8172f52988d33664e6e24b",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/receiver_origin_probe/verifast.log": "7de33be9f4309f9552e59b7a9b46f507db5a844ccd15695cdd0cb830bb6212db",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/cases/receiver_origin_probe/verified/lib.rs": "bb6faf2be45a43ec4c86ff80fa6182c3d1ff160efbb471428adbdd9225a95585",
+    "allprooflogs/checked-minimal-bridge/onecell-caller-composition/extraction.json": "85b8f62bbc5dbd0b38ff8e722acb328cfd98a35d4045e4b2aa6e05654def62d3",
+    "allprooflogs/checked-profile-smoke/aggregate.json": "fe1458dfa638b5c51e6f1b79cc01029d9c56ae8e6638de8609a4da798ced66b7",
+    "allprooflogs/tracked-md-build/compile-preflight.json": "f5378c1931e2c4b42e2080f1b12adb4a4f6014911a4aad74fdb94cc3ee2e7c87",
+    "allprooflogs/tracked-md-build/postbuild-source-hash-check-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "allprooflogs/tracked-md-build/profile-build.json": "23a632280979ad261d0ae2204196f78f87cedabba7857ea075792e2694d35f6e",
+    "archive.sha256": "53022a95e13233fd8ddace8027d3430474fae66c30c0122eebc460a6e9a5e9bb",
+    "files-sha256.json": "4e4c0d579dbc6ab2d2eb2281ea125be25fc853891de8f0534ba34fa5e4a3a9cb",
+    "manifest.json": "fae1d479aa1b759ed1eec5edf10af983b38f846ffbdc043e4ca7d549246f321e",
+    "submitted-config.json": "90e6fcf3ea58a4e15f9a5b354432c2f6b06a6b2b0f8755c872669f74010710e4",
+    "summary.json": "78dea63a86ec2e4c46d186e1e88228a67104d959ea34b98cb79dcec335f047b9",
+    "text-logs-index.json": "b2ae4609577ec37345418778535e1b3cea0f263665f9fb279402087c96cf32ee",
+    "upload-complete.json": "21a3148f013fd64fadc7a3b91b7896eec2a7fd902496afbb793ad1f0cea8e416"
+  },
+  "integrity_verified": true,
+  "mandatory_smokes": "FRESH_PASS_BOTH_ORDINARY_NORMAL_UNWIND_GROUPS; no caller panic cleanup claim",
+  "next_experiment": "VeriFast owner review source-bound creation/receiver and method dispatch rule; local request in VERIFAST-RECEIVER-REQUEST-20261011.md, not sent externally",
+  "original_campaign_verdict": "INCONCLUSIVE",
+  "original_cases": {
+    "after_call_current_false": "EXPECTED_AFTER_CALL_CURRENT_REJECTION",
+    "caller_entry_false": "EXPECTED_CALLER_ENTRY_REJECTION",
+    "positive": "BOUNDED_NORMAL_COMPOSITION_PASS_FRAGMENT_ONLY",
+    "receiver_origin_probe": "INCONCLUSIVE"
+  },
+  "original_classifier_sha256": "c38a4c52c1f5231dc31bbfd3fa5a742ce855512fa4de73faaa6f5e649d3e123e",
+  "original_cloud_status": "FAILURE",
+  "profile_acceptance": "NOT_ACCEPTED / NOT_FOR_INTEGRATION",
+  "profile_sha256": "0b8cf55b0e7b5a1d0e0595b1483726459cb1d2f40264311e2014d3580ad189b8",
+  "proof_sha": "c8962f4b8e10a8a1b457826272d101631fd23d97",
+  "queue_setup_packaging_upload_separate_times": "NOT_CAPTURED; create-to-finish is charge, not proof duration",
+  "raw_verdict_preserved": true,
+  "replay_classification": {
+    "after_call_current_false": "EXPECTED_AFTER_CALL_CURRENT_REJECTION",
+    "caller_entry_false": "EXPECTED_CALLER_ENTRY_REJECTION",
+    "positive": "BOUNDED_NORMAL_COMPOSITION_PASS_FRAGMENT_ONLY",
+    "receiver_origin_probe": "EXPECTED_RECEIVER_ORIGIN_REJECTION"
+  },
+  "replay_is_new_proof": false,
+  "replay_path": "/tmp/merge-receiver-20261011/receiver-saved-replay.json",
+  "replay_sha256": "5148e1edf50817891aae93dd45ad4c67c2febe40638a0e388a91e2481d98460e",
+  "reused_guard_span": {
+    "archive_sha256": "a47f1958ffa4a08b9d7147059fab95e21a65aebc35c3802cc3009ef8d7f2e1dc",
+    "build_id": "b1da6f8e-7569-4070-b86d-857bce812c13",
+    "profile_sha256": "0b8cf55b0e7b5a1d0e0595b1483726459cb1d2f40264311e2014d3580ad189b8",
+    "proof_sha": "7995fccfee6c0e29621c2cffcca94161c7e05729",
+    "status": "REUSED_PREVIOUS_FRESH_PASS_NOT_RERUN"
+  },
+  "saved_len1_controls": "1396ff47/d491b937 LEN1-QUALIFICATION-20261011.json unchanged, only component scope; old close-close bad oracle retained",
+  "schema": "receiver-origin-localization-v1",
+  "source_and_raw_logs_unchanged": true,
+  "statuses": {
+    "CURRENT_recovery_full_normal_posts": "FRESH_PASS_HELPER_FRAGMENT_ONLY; ACTUAL_METHOD_PATH_NOT_REACHED",
+    "actual_drop_body": "SAVED_QUALIFIED_LEN1_COMPONENT_FRESH_PROOF_PLUS_SAVED_ADMISSION; bounded direct body strong premises, not fresh method body in this session",
+    "actual_method_call": "NOT_RUN_NOT_PROVED",
+    "compiler_generated_glue": "NOT_RUN_NOT_PROVED",
+    "panic_unwind_cleanup": "NOT_RUN_NOT_PROVED",
+    "receiver_bridge": "BLOCKED_FRESH_DIRECT_ORIGIN_REFUSAL; abstract borrow construction STATIC_ONLY",
+    "return_free_leak": "FRESH_PASS_HELPER_FRAGMENT_ONLY; ACTUAL_METHOD_PATH_NOT_REACHED"
+  },
+  "supplied_premises": [
+    "initialized valid tail storage and held u64 owner",
+    "thread token/currentThread and type_interp",
+    "positive u64 size/isize bound, alignment/object limits/no-overflow"
+  ],
+  "target": {
+    "actual_helper_call_reached": false,
+    "case": "receiver_origin_probe",
+    "column_end": 44,
+    "column_start": 42,
+    "error": "verified/lib.rs(159,42-44): error: Assertion might not hold. (Cannot prove ref_origin(gap_guard_addr) = gap_guard_addr.)",
+    "full_physical_frame_produced": true,
+    "guard_fields_executed_line": 158,
+    "limit": "blocks direct physical receiver route; not a proof that an abstract keyed full_borrow is unconstructible",
+    "line": 159,
+    "no_dead_code_records": true,
+    "source_binding": "AddressOf(gap_guard) then AddressOf(Deref(reference))",
+    "source_mir_ast_refinement_admitted": true,
+    "source_pointer": "guard_ptr",
+    "verified_symbolic_pointer": "gap_guard_addr"
+  },
+  "text_log_index_and_chunks_verified": true,
+  "unchanged_original_three_source_pairs": "BYTE_IDENTICAL_TO_BC08AFA0"
+}
