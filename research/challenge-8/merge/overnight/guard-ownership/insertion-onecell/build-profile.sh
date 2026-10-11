@@ -19,9 +19,9 @@ here=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 mkdir -p "$evidence"
 cp -a "$base_home" "$new_home"
 python3 - "$here" "$base_home" "$new_home" "$evidence" <<'BOOTSTRAP'
-import hashlib,json,pathlib,shutil,sys
+import hashlib,json,os,pathlib,shutil,sys
 here,base,home,evidence=map(pathlib.Path,sys.argv[1:])
-pins=json.loads((here/'PROFILE.json').read_text())
+pins=json.loads(pathlib.Path(os.environ.get('SMALLSORT_MERGE_PROFILE', str(here/'PROFILE.json'))).read_text())
 # The console cache contract restores only bin/verifast.  Keep the two frozen
 # helpers sourced from the same pinned 26.10 release archive used by run.sh;
 # fill only omissions, and never replace a present but mismatched dependency.
@@ -73,9 +73,9 @@ for relative in ('bin/vf-cxx-ast-exporter','bin/prelude_cxx.h'):
 (evidence/'frozen-dependency-bootstrap.json').write_text(json.dumps(report,indent=2)+'\n')
 BOOTSTRAP
 python3 - "$here" "$new_home" "$evidence" <<'PINS'
-import hashlib,json,pathlib,sys
+import hashlib,json,os,pathlib,sys
 here,home,evidence=map(pathlib.Path,sys.argv[1:])
-pins=json.loads((here/'PROFILE.json').read_text())
+pins=json.loads(pathlib.Path(os.environ.get('SMALLSORT_MERGE_PROFILE', str(here/'PROFILE.json'))).read_text())
 assert pins['schema']=='smallsort-tracked-md-profile-v1' and not pins['accepted']
 paths={'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml':'baseline_translator_sha256','src/verifast.ml':'baseline_kernel_sha256','src/verifast1.ml':'model_baseline_sha256','src/rust_frontend/vf_mir_translator/rust_parser.ml':'parser_sha256','bin/rust/prelude_core.rsspec':'prelude_sha256','bin/rust/std/lib.rsspec':'stdlib_sha256','bin/vf-rust-mir-exporter':'baseline_exporter_sha256','bin/refinement-checker':'refiner_sha256','bin/libz3.so':'z3_sha256','src/frontend/ocaml_expr_of_ast.ml':'baseline_emitter_sha256'}
 for path,key in paths.items():
@@ -87,8 +87,8 @@ git -C "$new_home" apply --check "$here/tracked-md.patch"
 git -C "$new_home" apply --whitespace=error "$here/tracked-md.patch"
 cp "$here/tracked-md.patch" "$evidence/tracked-md.patch"
 python3 - "$here" <<'SPANPIN'
-import hashlib,json,pathlib,sys
-h=pathlib.Path(sys.argv[1]);p=json.loads((h/'PROFILE.json').read_text())
+import hashlib,json,os,pathlib,sys
+h=pathlib.Path(sys.argv[1]);p=json.loads(pathlib.Path(os.environ.get('SMALLSORT_MERGE_PROFILE', str(h/'PROFILE.json'))).read_text())
 assert hashlib.sha256((h/'allocation-span.patch').read_bytes()).hexdigest()==p['allocation_span_patch_sha256']
 SPANPIN
 git -C "$new_home" -c core.whitespace=cr-at-eol apply --check "$here/allocation-span.patch"
@@ -96,8 +96,8 @@ git -C "$new_home" -c core.whitespace=cr-at-eol apply --whitespace=error "$here/
 cp "$here/allocation-span.patch" "$evidence/allocation-span.patch"
 layout_patch="$here/../../../../cloud-build/origin-layout/unit-layout.patch"
 python3 - "$here" "$layout_patch" <<'LAYOUTPIN'
-import hashlib,json,pathlib,sys
-h,p=map(pathlib.Path,sys.argv[1:]);pins=json.loads((h/'PROFILE.json').read_text())
+import hashlib,json,os,pathlib,sys
+h,p=map(pathlib.Path,sys.argv[1:]);pins=json.loads(pathlib.Path(os.environ.get('SMALLSORT_MERGE_PROFILE', str(h/'PROFILE.json'))).read_text())
 assert hashlib.sha256(p.read_bytes()).hexdigest()==pins['unit_layout_patch_sha256']
 LAYOUTPIN
 git -C "$new_home" -c core.whitespace=cr-at-eol apply --check "$layout_patch"
@@ -105,20 +105,32 @@ git -C "$new_home" -c core.whitespace=cr-at-eol apply --whitespace=error "$layou
 cp "$layout_patch" "$evidence/unit-layout.patch"
 guard_patch="$here/../../../../cloud-build/origin-layout/guard-layout.patch"
 python3 - "$here" "$guard_patch" <<'GUARDPIN'
-import hashlib,json,pathlib,sys
-h,p=map(pathlib.Path,sys.argv[1:]);pins=json.loads((h/'PROFILE.json').read_text())
+import hashlib,json,os,pathlib,sys
+h,p=map(pathlib.Path,sys.argv[1:]);pins=json.loads(pathlib.Path(os.environ.get('SMALLSORT_MERGE_PROFILE', str(h/'PROFILE.json'))).read_text())
 assert hashlib.sha256(p.read_bytes()).hexdigest()==pins['guard_layout_patch_sha256']
 GUARDPIN
 git -C "$new_home" -c core.whitespace=cr-at-eol apply --check "$guard_patch"
 git -C "$new_home" -c core.whitespace=cr-at-eol apply --whitespace=error "$guard_patch"
 cp "$guard_patch" "$evidence/guard-layout.patch"
+if [[ -n "${SMALLSORT_MERGE_PROFILE:-}" ]]; then
+  selected_patch="$here/../../../../cloud-build/origin-layout/selected-drop.patch"
+  python3 - "$SMALLSORT_MERGE_PROFILE" "$selected_patch" <<'SELECTEDPIN'
+import hashlib,json,pathlib,sys
+profile,patch=map(pathlib.Path,sys.argv[1:]);p=json.loads(profile.read_text())
+assert p['profile']=='experimental-merge-selected-drop-receiver-v1' and p['accepted'] is False
+assert hashlib.sha256(patch.read_bytes()).hexdigest()==p['selected_drop_patch_sha256']
+SELECTEDPIN
+  git -C "$new_home" apply --check "$selected_patch"
+  git -C "$new_home" apply --whitespace=error "$selected_patch"
+  cp "$selected_patch" "$evidence/selected-drop.patch"
+fi
 # Prepare-only mode preserves the exact existing patch/dependency preparation,
 # then stops before Cargo, Dune, native controls or any proof execution.
 if [[ "$build_mode" == prepare-only ]]; then
   python3 - "$here" "$new_home" "$evidence" <<'PREPARED'
-import hashlib,json,pathlib,sys
+import hashlib,json,os,pathlib,sys
 here,home,evidence=map(pathlib.Path,sys.argv[1:])
-profile=here/'PROFILE.json'
+profile=pathlib.Path(os.environ.get('SMALLSORT_MERGE_PROFILE', str(here/'PROFILE.json')))
 record={'schema':'onecell-source-preparation-v1','classification':'PREPARED_ONLY_NO_COMPILE_OR_PROOF_CREDIT',
         'accepted':False,'compiler_attempted':False,'proof_attempted':False,
         'source_home':str(home),'profile_sha256':hashlib.sha256(profile.read_bytes()).hexdigest()}
@@ -159,7 +171,7 @@ cat "$evidence/console-build.log"
 python3 - "$here" "$new_home" "$evidence" "$base_evidence" <<'FINAL'
 import hashlib,json,os,pathlib,runpy,sys
 here,home,evidence,base_evidence=map(pathlib.Path,sys.argv[1:])
-pins=json.loads((here/'PROFILE.json').read_text())
+pins=json.loads(pathlib.Path(os.environ.get('SMALLSORT_MERGE_PROFILE', str(here/'PROFILE.json'))).read_text())
 h=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 paths={'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml':'translator_sha256','src/verifast.ml':'kernel_sha256','src/verifast1.ml':'model_sha256','src/rust_frontend/vf_mir_translator/rust_parser.ml':'parser_sha256','bin/rust/prelude_core.rsspec':'prelude_sha256','bin/rust/std/lib.rsspec':'stdlib_sha256','src/rust_frontend/vf_mir_exporter/src/lib.rs':'exporter_source_sha256','src/rust_frontend/vf_mir/vf_mir.capnp':'schema_sha256','bin/refinement-checker':'refiner_sha256','bin/libz3.so':'z3_sha256','src/frontend/ocaml_expr_of_ast.ml':'emitter_sha256','src/frontend/ast.ml':'ast_sha256','src/SExpressionEmitter.ml':'sexpression_sha256','src/verify_expr.ml':'verify_expr_sha256'}
 for path,key in paths.items(): assert h(home/path)==pins[key],(path,key)

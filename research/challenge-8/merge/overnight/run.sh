@@ -304,6 +304,7 @@ bash research/challenge-8/merge/overnight/build.sh "$tool_home" "$evidence/build
 
 if [[ "$run_mode" == merge_compile_only || "$run_mode" == merge_bridge_minimal || "$run_mode" == merge_len1_minimal || "$run_mode" == merge_caller_composition_minimal ]]; then
   onecell_component="$repo/research/challenge-8/merge/overnight/guard-ownership/insertion-onecell"
+  export SMALLSORT_MERGE_PROFILE="$repo/research/challenge-8/cloud-build/origin-layout/SELECTED-PROFILE.json"
   candidate_home="$task_temp/verifast-tracked-md-source"
   preparation_evidence="$evidence/tracked-md-build-preparation"
   compile_evidence="$evidence/tracked-md-build"

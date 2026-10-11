@@ -1,3 +1,7 @@
+# Active selected Drop session
+
+Owner разработки — merge; прежняя передача ownership отменена. Start09:24:22Z, main11:24:22Z, finish11:54:22Z; budget3600 newCloudseconds/no carryover. Policyc7ca8c46 read. Actual selected destructor/receiver candidate in progress, all previous proof statuses retained below.
+
 # Merge receiver localization — CLOSED / BLOCKED
 
 Сессия от checkpoint `ce2bc9d67ce83b2439fb17177487b462267c36e1`.

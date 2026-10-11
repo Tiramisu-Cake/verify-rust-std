@@ -1,3 +1,9 @@
+# MERGE selected Drop candidate — ACTIVE / EXPERIMENTAL
+
+2026-10-11: owner разработки receiver/lowering — **merge**. Передача разработки maintainer отменена; исторический запрос сохранён. Новая сессия09:24:22Z–11:24:22Z, finish11:54:22Z; новый бюджет3600Cloudseconds, старые3142retired. Policyc7ca8c467aecf10a4b53039372ee97714f854ee3 прочитана. Scope concrete-u64/x86_64,len1; узкий semantic candidate разрешён, принятие профиля не разрешено. Следующий шаг: compiler-selected destructor receiver и проверенное тело/CURRENT, собственный изолированный tool worktree.
+
+## Предыдущий checkpoint (статусы не повышены)
+
 # MERGE receiver — CLOSED / BLOCKED
 
 Сессия отce2bc9d6, ownmerge/incoming-origin-20261009: start2026-10-11T08:17:34Z,

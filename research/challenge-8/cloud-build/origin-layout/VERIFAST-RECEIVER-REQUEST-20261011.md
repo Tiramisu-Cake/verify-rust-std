@@ -1,3 +1,5 @@
+> Historical diagnostic material. 2026-10-11 owner correction: development ownership remains **merge**; maintainer receives a developed candidate for review/compatibility/integration. This request does not replace development and has not been sent.
+
 # Prepared VeriFast owner request — not sent externally
 
 Frozen profile `experimental-merge-qualified-guard-onecell-v1`, SHA256

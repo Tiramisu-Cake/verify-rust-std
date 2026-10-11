@@ -48,7 +48,7 @@ python3 "${SMALLSORT_PROVIDER_FILE:?}" >/dev/null
 here=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 repo=$(git -C "$here" rev-parse --show-toplevel)
 onecell="$repo/research/challenge-8/merge/overnight/guard-ownership/insertion-onecell"
-profile="$onecell/PROFILE.json"
+profile="${SMALLSORT_MERGE_PROFILE:-$onecell/PROFILE.json}"
 
 # Confirm the prepared source tree and the exact existing profile patches before
 # invoking either compiler. A mismatch is a preflight refusal, never proof credit.
