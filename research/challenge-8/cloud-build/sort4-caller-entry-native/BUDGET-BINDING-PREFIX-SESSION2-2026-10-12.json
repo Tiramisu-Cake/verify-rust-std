@@ -1,14 +1,14 @@
 {
   "phase": "SORT4-COMPILER-BINDING-PREFIX-SESSION2-CLOUD-2026-10-12",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "authorization": "Direct owner session #2 from 8b6545094fea0ea25079bda51505d7f990ef2d1a; A1 then A2, exact per-case/mode MIR provenance admission, Cloud AST observation and actual selected helper prefix; existing semantics allowlist only. 120 minutes main plus 30 finish-only, new 3600 seconds, no carry.",
   "owner": "select-sort4",
   "start_utc": "2026-10-11T21:49:02Z",
   "main_deadline_utc": "2026-10-11T23:49:02Z",
   "deadline_utc": "2026-10-12T00:19:02Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 1270,
-  "remaining_build_seconds": 2330,
+  "used_build_seconds": 1686,
+  "remaining_build_seconds": 0,
   "maximum_build_timeout_seconds": 1740,
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
@@ -86,9 +86,37 @@
       "execution_seconds": 427,
       "download_verified": true,
       "archive_sha256": "9a2d703a27b1e9487a24c839360f4ceb2636a11a5ce1c83921a817500e3bbf6b"
+    },
+    {
+      "dispatch_token": "dispatch-90c83d9c06694e8394fad763668888c5",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-COMPILER-BINDING-PREFIX-SESSION2-CLOUD-2026-10-12",
+      "infra_sha": "8763e495475505b247e1a354ec805bd5ab4b4558",
+      "proof_sha": "8763e495475505b247e1a354ec805bd5ab4b4558",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "f49e5b59976ea1fdc8b9f327b2d5d16a56b68b8fe25d30c999e59402434a65f4",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "31677319d2b6f366ebc02d3385ee543a1cf47dba7738c85bc4764d1ae5139b4a",
+      "build_id": "077360e8-b6d7-4d79-a101-dd4792ea328f",
+      "start_time": "2026-10-11T23:33:41.554160540Z",
+      "finish_time": "2026-10-11T23:40:36.634197Z",
+      "create_time": "2026-10-11T23:33:40.794715387Z",
+      "build_seconds": 416,
+      "accounted": true,
+      "execution_seconds": 416,
+      "download_verified": true,
+      "archive_sha256": "f9c37561d7760dffe9b4e512389fe317214d4fc4f39129c5f1309209a1bc5ace"
     }
   ],
   "policy_revision_read": "6e1a8e59c56669abe5e6ec2013478e45ed2cc267",
   "initial_checkpoint": "8b6545094fea0ea25079bda51505d7f990ef2d1a",
-  "session_number": 2
+  "session_number": 2,
+  "closed_utc": "2026-10-11T23:48:10.935492+00:00",
+  "retired_build_seconds": 1914,
+  "own_reservations": 0,
+  "own_ready_request": false
 }

@@ -178,13 +178,16 @@ with the pinned intrinsic, zero substitutions/operands, no destination, and
 and all native proof stages are verified, the patch is unaccepted diagnostic
 infrastructure only.
 
-## Final static review — unfinished admission gates
+## Current admission and proof boundary
 
-The candidate now specifies call counters with a final after-translation
-cardinality check. These guards have not been compiled or exercised. The exact
-the strict full caller clauses, substitutions, and reborrow locals are now observed in paired fresh MIR; the exact generated AST argument names remain to be confirmed after translation. The patch has not been compiled or exercised. AST edge identities, resource/post controls, and runner integration remain pending. The candidate remains absent from the runnable driver/recipe and
-receives no actual caller or conditional helper proof credit.
-
+Cloud compilation and source/MIR admission now exercise the narrow binding
+candidate. Each fixture has separate verified normal/readonly maps; intermediate
+translated operands were observed in Cloud before opening proof-mode operand
+matching. The actual user functions still have no proof credit: the verifier
+refuses the original safe trait method declaration at duplicate lifetime type
+parameters before caller/helper verification. Admission and full AST presence do
+not discharge bound, arithmetic, resource or unwind obligations. The profile is
+experimental and unaccepted.
 
 ## Post-translation call-graph audit
 
@@ -192,7 +195,28 @@ The runner's selected proof-AST audit also checks the emitted call graph by
 owner and cardinality: the canonical root has exactly one selected threshold
 call and one selected `small_sort` call; the selected method has exactly one
 helper call; threshold and helper have no further edges to these selected
-functions. The threshold has no operands. The root's selected method call must use the exact AST locals `$_16`, `$_17`, `$_18`; the selected method's helper call must use `$_5`, `$_6`, `$_7`. Fresh paired MIR maps those specific reborrow locals to formal `v`, `scratch`, and `is_less` in source order. The AST checker rejects any different temporary IDs or unresolved original callees. Synthetic missing-edge, duplicate,
+functions. The threshold has no operands. The root's selected method call uses an exact source-MD5-specific normal AST
+map: positive/false31 `$_17,$_18,$_19`, source-array `$_21,$_22,$_23`.
+The selected method's helper call uses `$_5,$_6,$_7`. Readonly root maps remain
+`_16,_17,_18`; normal/readonly are compared only after each direct mutable
+reborrow from the exact source formal has been validated. The AST mode is pinned
+from independent Cloud observations, never inferred from MIR or a list union. The AST checker rejects any different temporary IDs or unresolved original callees. Synthetic missing-edge, duplicate,
 wrong-owner, wrong-operand, and unrenamed generic-fallback records exercise the same matcher. These are
 static admission checks only: they do not establish MIR provenance, preserve
 postconditions by themselves, or grant proof credit.
+
+The emitted threshold has one bodyless generated prototype and one implementation
+with explicit posts. The parser requires identical headers, audits both posts,
+and uses the single definition for three-edge counting; all extra declarations
+are still checked for escaped selected edges. Duplicate/missing records,
+header mismatches and prototype edges refuse. Normal/unwind resource audits
+remain mandatory for every selected definition.
+
+The first unresolved verifier interface is the original trait required function:
+three repeated `'_` type parameters and omitted method `F` despite typed uses.
+The pinned translator's `translate_trait_required_fn` explicitly rejects specs
+on safe trait required functions. Fixing generic binders or adding checked trait
+contracts is a new semantic/interface decision beyond this local-map repair.
+A common trait contract checked against both implementations is the concrete
+alternative to forcing an Instance in unqualified generic context; its support,
+impl conformance, and full normal/unwind resource obligations need explicit review.

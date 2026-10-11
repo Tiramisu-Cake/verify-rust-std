@@ -1,55 +1,56 @@
-# select/sort4 — session #2 active: exact MIR admission → A1 → A2
+# select/sort4 — session #2 CLOSED; mandatory A1/A2 review
 
 Owner `select-sort4`; worktree `/root/verify-rust-std-select-night`; branch
-`research/night-select-sort4-cloud-2026-10-09`. Initial checkpoint
-`5ffebdf53cc37b5814fa78ad3acb4081519288d8`; last proof/infra input
-`8562527b76accbeb2405313d032ccbb6802173a6`.
-Policy adopted: `6e1a8e59c56669abe5e6ec2013478e45ed2cc267`, docs `e92176fd`.
-Session #2 `SORT4-COMPILER-BINDING-PREFIX-SESSION2-CLOUD-2026-10-12`: start
-21:49:02 UTC, main23:49:02, finish-only00:19:02; new3600s, no carry.
-Goal A1 then A2; narrow exact mode/case admission repair, Cloud AST observation
-before operand gate adjustment; no new layout/alias/kernel rules.
-Mission remains full actual sort4/caller applicability, then sort8/verified merge.
-Phase `SORT4-COMPILER-BINDING-PREFIX-CLOUD-2026-10-11`:
-19:22:51–21:22:51 UTC main; finish-only until21:52:51 UTC.
-Four terminal Builds;1521/3600 conservative seconds consumed;2079 retired.
-Session #1 CLOSED; own Build/reservation/request none at session2 opening.
-A1/A2 not achieved; mandatory review after this second session before a third.
+`research/night-select-sort4-cloud-2026-10-09`. Resumed checkpoint
+`8b6545094fea0ea25079bda51505d7f990ef2d1a`. Mission remains full actual sort4
+with applicability to real callers, then sort8 with checked merge.
+Policy6e1a8e59c56669abe5e6ec2013478e45ed2cc267 adopted, docs
+ e92176fd7dd3fa369506281eb1ce76b2dd40d1b0; previous instructions archived.
+Installed coordinator v3/schema3/max3 preserved; no transition or state reset.
 
-Both-impl compiler evidence: PASS observationally on exact pinned compiler,
-real body.typing_env, original DefIds/args. Freeze-qualified T/F/FnMut caller
-selects both Freeze methods; Cell selects blanket fallback; unqualified generic
-returns None for both. Complete clauses/substs/lifetimes and paired MIR checked.
-Selected-only source correspondence and missing/corrupt evidence controls PASS.
-Compiler observation is not a callable summary or whole-caller proof.
+Session #2 `SORT4-COMPILER-BINDING-PREFIX-SESSION2-CLOUD-2026-10-12`:
+start2026-10-11T21:49:02Z; main23:49:02Z; finish-only absolute00:19:02Z.
+Closed23:48:10Z after four terminal Builds.1686/3600 conservative seconds
+used,1914 retired,remaining0; prior session1 2079 retired untouched.
+All own evidence/config/input/inventory/text chunks verified; no own active or
+unresolved Build,reservation,ready request. Runnable manifest disabled.
+No third session or generic/trusted-rule extension authorized.
 
-Session2 Build `5bd2b7c3-ec17-45aa-a60e-7bdda819233c` (83b1d445):
-compiler gate/selected console/three paired MIR-refinement captures complete.
-Positive translated normal operands17/18/19, helper5/6/7 observed; deliberate
-literal refusal, no selected verification/full post AST. All three mode maps
-replay validated; negatives normal17/18/19 and21/22/23, readonly16/17/18.
-435/3600 accounted;3165 remaining, own active Build/reservation none.
-Build b8779246 (ce1b9c19) independently observed both negative normal AST maps;
-explicit stop before proof, archive/inventory/text evidence verified.
-842/3600 accounted;2758 remaining. Source-MD5 operand gate now matches all three
-Cloud observations. Build132d (3490c287) executed seven fresh regression gates
-and selected positive; exact binding/paired support pass, full AST captured.
-First causal verifier refusal: duplicate trait lifetime parameter at lib.rs13;
-no user function verified, no bound/helper credit. Threshold prototype+definition
-collector mismatch blocked selected negatives; parser-only repair/replay next.
-1270/3600 used;2330 remaining; no active own build.
+A1 NOT ACHIEVED; A2 NOT ACHIEVED; PROGRESS-REVIEW score unchanged.
+Exact normal/readonly maps and source provenance now admitted separately;
+Cloud observed every case's actual normal Ast.Var operands. Positive/false31
+root17/18/19, source-array21/22/23; readonly16/17/18; helper5/6/7.
+Strict source/callee/full clauses/binders/substs/reborrow/move-projection gates,
+source-MD5-specific translator operands and exactly three AST edges preserved.
+Saved-data parser/classifier replays preserve old verdicts,zero proof credit.
+Threshold prototype+definition auditor now checks both posts and single body.
 
-Caller qualification Freeze only; unrestricted actual quicksort applicability OPEN.
-Bound transfer NOT_PROVED; helper overflow/abort/pointers/firstcall resources
-NOT_REACHED; caller→C4 NOT_RUN. First open obligation is trait declaration lifetime/generic interface;
-new generic translation rules require owner decision. Existing parser audit
-and fresh negative-case diagnostics will be completed before checkpoint.
-No size/nonzero premise added. Opaque IS_ZST/sizeof link remains separate OPEN
-blocker; unchanged public guard was not repeated.
-Historical supplied-premise guarded C1–C4 PASS stays separate. Full sort4 C5/copies,
-second call, generic applicability and sort8 OPEN. Profile experimental/unaccepted;
-select-sort4 retains patch/consumer ownership; maintainer review only.
+Final Build `077360e8-b6d7-4d79-a101-dd4792ea328f`, proof=infra
+`8763e495475505b247e1a354ec805bd5ab4b4558`: collector SUCCESS,verification_accepted
+false. All3 selected cases paired export/decode/refinement and full post AST pass;
+diagnostic+verification exit1 at trait lib.rs13 Duplicate type parameter ''_'.
+No selected user function verified. False31/source-array inconclusive at earlier
+frontend obligation, NOT intended negatives. Seven fresh regression gates behave
+as intended; unchanged public guard not repeated. Full normal/unwind/resource
+posts present structurally,exact prepatch-post equality RAW_REVIEW_REQUIRED.
+Bound transfer,len+16,abort,helper pointers/firstcall resources,C1-C4 normal and
+four direct-unwind posts remain NOT_PROVED/NOT_REACHED.
 
-[Checkpoint](cloud-build/sort4-caller-entry-native/END-CHECKPOINT-2026-10-11-COMPILER-BINDING-PREFIX.md),
-[result identities](cloud-build/sort4-caller-entry-native/SESSION-RESULT-MANIFEST.json),
-[closed account](cloud-build/sort4-caller-entry-native/BUDGET-BINDING-PREFIX-2026-10-11.json).
+Compiler query retains both actual impls and full TypingEnv: Freeze diagnostic
+selected pair, Cell fallback pair, unrestricted generic None (no allowed Instance).
+Original unrestricted quicksort applicability OPEN; no added runtime Freeze bound.
+Profile experimental/unaccepted. No root bound/nonzero/research size guard or
+MaybeUninit→T permission supplied. Historical guarded C1-C4 positive size/source/
+destination premises remain separate; IS_ZST→sizeof and MU destination bridge OPEN.
+Full C5/copies/secondcall/sort8 OPEN.
+
+First causal blocker is exact original safe trait declaration's three duplicate
+lifetime parameters and omitted method F. New generic semantics require review.
+Concrete alternative: common trait contract checked against both actual impls,
+with original generic caller consuming it; pinned translator currently rejects
+safe trait required-function explicit specs. The bounded next experiment, cost,
+negative controls, trust risks and C4 opaque-MU alternative are recorded in the
+[session #2 checkpoint](cloud-build/sort4-caller-entry-native/END-CHECKPOINT-2026-10-12-SESSION2.md).
+[Full result identities](cloud-build/sort4-caller-entry-native/SESSION-RESULT-MANIFEST.json),
+[closed account](cloud-build/sort4-caller-entry-native/BUDGET-BINDING-PREFIX-SESSION2-2026-10-12.json).
+Next permitted action: mandatory owner/maintainer A1/A2 interface/trust review.

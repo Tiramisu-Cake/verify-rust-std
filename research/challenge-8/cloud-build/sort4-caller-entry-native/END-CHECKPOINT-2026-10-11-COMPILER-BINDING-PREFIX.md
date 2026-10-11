@@ -105,3 +105,18 @@ Session2 gets its own exact dispatcher registration; compiler candidate opt-in
 phase remains pinned to previous profile name, distinct from accounting phase.
 Next permitted step: lightweight replay and Cloud AST capture, then fresh controls
 and actual proof within existing lane and authorized semantic scope.
+
+
+## Session #2 closure ACK
+
+Policy SHA6e1a8e59c56669abe5e6ec2013478e45ed2cc267; local docs commit
+ e92176fd7dd3fa369506281eb1ce76b2dd40d1b0. Mission and authorized scope unchanged:
+actual sort4/caller applicability then sort8; narrow mode-local admission repair,
+Cloud AST observation then fresh selected proof. Session #2 observed closed at
+2026-10-11T23:48:10.935492+00:00; recorded main23:49:02Z/absolute00:19:02Z.
+3600 new seconds:1686 used,1914 retired; previous2079 retired untouched.
+All four own Builds terminal/evidence verified; no own reservations/request.
+Installed coordinator v3 adoption3bd466e367d6b458b2d5c8c29eb4cdd24d1e3d12 preserved.
+A1/A2 NOT ACHIEVED; next allowed action is mandatory interface/trust review,
+not an automatic third session. Latest completed checkpoint:
+[session #2](END-CHECKPOINT-2026-10-12-SESSION2.md).

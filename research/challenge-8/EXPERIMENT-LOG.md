@@ -7561,3 +7561,24 @@ not a successful false31/source-array negative. It completes the requested fresh
 cases and exposes full error/AST identities for the minimal reproducible blocker.
 No repair/removal of trait declaration, binder rewriting, F omission repair,
 post weakening, nonzero premise or public-guard repeat is authorized here.
+
+Session2 final Build077360e8-b6d7-4d79-a101-dd4792ea328f, exact proof=infra
+8763e495475505b247e1a354ec805bd5ab4b4558,416s, collector SUCCESS/evidence complete;
+archive f9c37561d7760dffe9b4e512389fe317214d4fc4f39129c5f1309209a1bc5ace.
+All3 cases ran paired support, dump and verification; full normal/unwind resource
+post AST and strict3edges PASS structurally. Each first/only error is duplicate
+trait parameter at13; neither caller/method/threshold/helper is verified.
+Negatives correctly inconclusive, not their intended predicates. Seven fresh
+regression gates genuine (four VF0 candidates, three intended rights/assertion
+negatives). Critical/modified sources,RSSpec and console identical to Build132d;
+profile experimental/unaccepted, equality to prepatch posts RAW_REVIEW_REQUIRED.
+No A1/A2 upgrade, bound/helper/firstcall/C4 normal/four unwind NOT_PROVED/NOT_RUN.
+
+Closed session#2 at2026-10-11T23:48:10.935492+00:00,1686/3600 used,1914 retired,
+remaining0; old2079 retired unchanged. All4 Builds accounted and official
+archive/config/source/inventory/text hashes verified; ownreservation/request none.
+Runnable manifest disabled. No new experiments in finish-only period; docs/evidence
+checkpoint only. Mandatory A1/A2 review before third; precise trait/F/lifetime
+blocker and shared checked trait-contract plus opaque-MU C4 alternatives in
+END-CHECKPOINT-2026-10-12-SESSION2.md. New generic/trusted rules require owner
+scope decision before implementation; no third phase authorized, score unchanged.
