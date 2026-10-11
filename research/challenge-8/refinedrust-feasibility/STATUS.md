@@ -1,3 +1,36 @@
+# RefinedRust feasibility — PINNED AUDIT COMPLETE / V4 READY_FOR_ADOPTION
+
+2026-10-12; baseline 2fb4ec507b35e04a0953bb2176a9c6434bf506c5.
+[G1-PINNED-FRONTEND-AUDIT](G1-PINNED-FRONTEND-AUDIT.md): exact RR332d/treeb33
+read-only, native Cargo routing/settings/dumps/interfaces inspected. Confirmed
+candidate fixes only: explicit ptr/closures/sized includes + custom_inner_attributes,
+RUST_LOG=info, Cloud version/embedded Cargo/rustc path check. Stock rr::verify
+selects annotated functions; shared ADT/trait/glue stages may still block core.
+Actual MaybeDangling transitive callees retained; no unit/only_spec/semantic patch,
+no own Radium parser development. Source/tool/compiler pins unchanged.
+
+V4 package **READY_FOR_ADOPTION / NOT MIGRATED**, own infra branch
+infra/coordinator-v4-refinedrust-20261012 at
+`c506d59822532ecf1fad2681cac5b150eeec138f`; portable code
+`3bf951e5fae4a34df48854f1e215dd881eb8658f`, coordinator SHA256
+`66908c8ce4c363abf463b1067f356a61955d123af0bb05a7229dafd4749543d4`.
+Live remains v3/max3; last snapshot includes merge55f96a17, peer pins/ledger/process
+unchanged. Four fresh reviewed-client ACKs MISSING; RR dispatcher not provisioned.
+Addressed patch/procedure and exact client hashes are in package checkpoint.
+Legacy max3 owner-extension proposal superseded; no partial migration performed.
+
+Independent infra review findings fixed; v4 synthetic14/14 + v3 compatibility4/4
+PASS, API mocked; source static/JSON/anchors and G1 service4/4 PASS. Provider
+four-Build/CPU quota UNKNOWN (Cloud Quotas API SERVICE_DISABLED, not enabled).
+Image/binary/vendor freeze, real client adoption and separate G1 phase/window/
+ledger/authorization remain blockers. Warm1260/cold1800 are proposals only.
+
+Policy origin/main6e1a8e59 read; Cloud budget/charge **0/0**, own Build/token NONE.
+Compiler/extraction/frontend/proof/Cloud **NOT_RUN**, production clients/state
+not changed. Cleanup only own three infra-test pyc/emptydir: **56 KiB**; root
+free~2.2G (96% used), inodes21%; source/evidence/foreignfiles preserved.
+After own publication **STOP**. Historical checkpoints below are retained.
+
 # RefinedRust feasibility — SOURCE AVAILABLE / SOURCE RECOVERY CLOSED
 
 2026-10-12; baseline 42d01e4c0ad136aa81f95575703c8661998b61c5.

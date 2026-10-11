@@ -19,6 +19,10 @@ SCHEMA = "g1-ghost-annotations-v1"
 ALLOWED_ATTRS = {
     '#![feature(register_tool)]',
     '#![register_tool(rr)]',
+    '#![feature(custom_inner_attributes)]',
+    '#![rr::include("ptr")]',
+    '#![rr::include("closures")]',
+    '#![rr::include("sized")]',
     '#[rr::verify]',
     '#[rr::may_unwind_if("True")]',
     '#[rr::refined_by("()" : "unit")]',

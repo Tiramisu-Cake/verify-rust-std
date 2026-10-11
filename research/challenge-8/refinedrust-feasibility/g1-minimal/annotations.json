@@ -14,7 +14,11 @@
           "anchor": "#![stable(feature = \"core\", since = \"1.6.0\")]\n",
           "attributes": [
             "#![feature(register_tool)]",
-            "#![register_tool(rr)]"
+            "#![register_tool(rr)]",
+            "#![feature(custom_inner_attributes)]",
+            "#![rr::include(\"ptr\")]",
+            "#![rr::include(\"closures\")]",
+            "#![rr::include(\"sized\")]"
           ]
         }
       ]

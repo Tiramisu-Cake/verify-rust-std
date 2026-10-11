@@ -147,6 +147,7 @@ def main():
                 'CARGO_NET_OFFLINE': 'true', 'CARGO_BUILD_JOBS': '1',
                 'RUSTUP_TOOLCHAIN': pins['compiler']['channel'], 'RUSTC_BOOTSTRAP': '1',
                 'RUSTFLAGS': '-Cpanic=unwind -Coverflow-checks=on',
+                'RUST_LOG': 'info',
                 'LD_LIBRARY_PATH': '/opt/rust/lib:/opt/rust/lib/rustlib/x86_64-unknown-linux-gnu/lib',
                 'BUILD_ID': build_id, 'CLOUD_BUILD_ID': build_id,
                 'SMALLSORT_EXECUTION_PROVIDER': 'cloud-build', 'GIT_TERMINAL_PROMPT': '0',
@@ -159,6 +160,12 @@ def main():
             raise ValueError('compiler identity mismatch')
         if command('cargo-version', [bins['cargo']['path'], '-V'], rr, base, 15) != 0:
             raise ValueError('cargo version failed')
+        if command('rr-version', [bins['cargo-refinedrust']['path'], '--version'], rr, base, 15) != 0:
+            raise ValueError('stock RR version report failed')
+        rr_version = (out / 'rr-version/command.log').read_text()
+        if ((' (' + bins['cargo']['path'] + ')') not in rr_version or
+                (' (' + bins['rustc']['path'] + ')') not in rr_version):
+            raise ValueError('RR compile-time Cargo/rustc paths differ from frozen binaries')
         if command('source-restore', ['bash', str(HERE / 'restore-source.sh'), str(source)], rr, base, 180) != 0:
             raise ValueError('exact source transfer failed')
         failed_stage = 'source-inputs'
