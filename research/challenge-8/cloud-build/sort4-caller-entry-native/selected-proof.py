@@ -21,6 +21,14 @@ SELECTED = {
 CONTROLS = ("canonical-generic", "canonical-mu", "consumer-positive",
             "consumer-wrong-pointer", "consumer-missing-raw-rights",
             "consumer-mu-cast-no-initialized-T", "threshold-body-positive")
+SELECTED_LOCAL_MAPS = {
+    "binding_selected_freeze": {
+        "normal": {"root": ["_16", "_17", "_18"], "helper": ["_5", "_6", "_7"]},
+        "readonly": {"root": ["_16", "_17", "_18"], "helper": ["_5", "_6", "_7"]}},
+    "selected_freeze_basecase": {
+        "normal": {"root": ["_17", "_18", "_19"], "helper": ["_5", "_6", "_7"]},
+        "readonly": {"root": ["_16", "_17", "_18"], "helper": ["_5", "_6", "_7"]}},
+}
 
 
 def need(ok: bool, why: str) -> None:
@@ -285,14 +293,23 @@ def _mir_call_shape(call: dict, name: str, argument_names: list[str],
         need(_mir_arg_source_roots(body, call, roots) == argument_names,
              "MIR operands derive from v, scratch, is_less in order " + name)
         need(expected_temporaries is not None and
+             len(set(expected_temporaries)) == len(expected_temporaries),
+             "selected call temporaries are unique " + name)
+        need(expected_temporaries is not None and
              _mir_exact_reborrow_temporaries(
                  body, call, roots, expected_temporaries, argument_names),
              "exact direct MIR reborrow temporaries for translated AST " + name)
+    source_locals = {source: local for local, source in roots.items()}
     return {"callee": name, "call_line": source_line,
             "fn_def_substs": ["T"] if not argument_names else ["T", "F"],
             "late_bound_generic_param_count": fn_def["lateBoundGenericParamCount"],
             "argument_source_roots": argument_names,
-            "argument_mir_locals": expected_temporaries or []}
+            "source_mir_locals": [source_locals[item] for item in argument_names],
+            "argument_mir_locals": expected_temporaries or [],
+            "argument_operand_shapes": [
+                {"kind": next(iter(operand)),
+                 "projection": next(iter(operand.values())).get("projection")}
+                for operand in call["args"]]}
 
 
 def _mir_type_arg(name: str) -> dict:
@@ -300,7 +317,9 @@ def _mir_type_arg(name: str) -> dict:
 
 
 def _mir_selected_graph(functions: list[dict], source: str,
-                        caller_name: str, *, query_fixture: bool) -> dict:
+                        caller_name: str, *, query_fixture: bool,
+                        expected_root_temporaries: list[str] | None = None,
+                        expected_helper_temporaries: list[str] | None = None) -> dict:
     """Admit only the source-pinned selected caller, impl, and helper graph."""
     need(len(functions) == (9 if query_fixture else 4),
          "closed compiler binding MIR function inventory")
@@ -360,6 +379,9 @@ def _mir_selected_graph(functions: list[dict], source: str,
     need(len(root_calls) == 2 and
          {_mir_callee(call)["id"]["name"] for call in root_calls} ==
          set(expected_calls), "exact selected MIR trait call pair")
+    need(expected_root_temporaries is not None and
+         expected_helper_temporaries is not None,
+         "case/mode exact MIR local map is required")
     root_records = []
     for call in root_calls:
         name = _mir_callee(call)["id"]["name"]
@@ -368,7 +390,7 @@ def _mir_selected_graph(functions: list[dict], source: str,
         root_records.append(_mir_call_shape(
             call, name, args, expected_calls[name], caller,
             {"_1": "v", "_2": "scratch", "_5": "is_less"},
-            ["_16", "_17", "_18"] if args else []))
+            expected_root_temporaries if args else []))
     helper_name = "small_sort_general_with_scratch"
     helper_calls = [call for call in _mir_calls(selected["small_sort"])
                     if _mir_callee(call)["id"]["name"] == helper_name]
@@ -377,7 +399,7 @@ def _mir_selected_graph(functions: list[dict], source: str,
         helper_calls[0], helper_name, ["v", "scratch", "is_less"],
         _mir_source_line(source, helper_name + "(v, scratch, is_less);"),
         selected["small_sort"], {"_1": "v", "_2": "scratch", "_3": "is_less"},
-        ["_5", "_6", "_7"])
+        expected_helper_temporaries)
     return {"caller": caller_name, "caller_line": _mir_signature_line(caller),
             "selected_method_lines": method_lines,
             "helper_line": _mir_signature_line(helper),
@@ -524,7 +546,8 @@ def _mir_exact_reborrow_temporaries(body: dict, call: dict,
 
 def full_mir_admission(mir_paths: dict[str, Path], source: str,
                        caller_name: str, *, query_fixture: bool,
-                       expected_call_lines: dict[str, int] | None = None) -> dict:
+                       expected_call_lines: dict[str, int] | None = None,
+                       local_maps: dict[str, dict[str, list[str]]] | None = None) -> dict:
     """Admit the two complete, source-pinned MIR graphs before binding."""
     summaries = {}
     hashes = {}
@@ -536,22 +559,38 @@ def full_mir_admission(mir_paths: dict[str, Path], source: str,
         hashes[mode] = sha(path)
         functions = decoded_mir_functions(path.read_text(errors="strict"))
         parsed[mode] = functions
+        need(local_maps is not None and mode in local_maps,
+             mode + " exact selected MIR local map missing")
+        maps = local_maps[mode]
         summaries[mode] = _mir_selected_graph(
-            functions, source, caller_name, query_fixture=query_fixture)
+            functions, source, caller_name, query_fixture=query_fixture,
+            expected_root_temporaries=maps["root"],
+            expected_helper_temporaries=maps["helper"])
         if expected_call_lines is not None:
             observed = {row["callee"].removeprefix("StableSmallSortTypeImpl::"):
                         row["call_line"] for row in summaries[mode]["calls"]
                         if row["callee"].startswith("StableSmallSortTypeImpl::")}
             need(observed == expected_call_lines,
                  mode + " MIR calls equal compiler-observed original callsites")
-    need(summaries["normal"] == summaries["readonly"],
-         "normal/readonly full MIR structural clauses, substitutions and provenance")
+    def semantic_summary(summary: dict) -> dict:
+        import copy
+        normalized = copy.deepcopy(summary)
+        for row in normalized["calls"]:
+            # Numeric compiler locals are omitted only after the per-mode exact
+            # local map and provenance checks above have succeeded.
+            row.pop("argument_mir_locals")
+        return normalized
+    need(semantic_summary(summaries["normal"]) ==
+         semantic_summary(summaries["readonly"]),
+         "normal/readonly full MIR semantic clauses, substitutions and provenance")
     # The same admission predicate must reject changes to its causal fields.
     import copy
     baseline = parsed["normal"]
     controls = {}
     for name in ("missing-MIR-body", "missing-Freeze-clause",
-                 "wrong-MIR-operand", "wrong-late-bound-lifetimes"):
+                 "wrong-MIR-operand", "wrong-late-bound-lifetimes",
+                 "wrong-original-argument-source", "wrong-move-projection",
+                 "wrong-temporary-id", "missing-binder"):
         modified = list(baseline)
         if name == "missing-MIR-body":
             modified.pop()
@@ -564,17 +603,36 @@ def full_mir_admission(mir_paths: dict[str, Path], source: str,
                 caller["clauses"] = [clause for clause in caller["clauses"]
                                      if clause.get("trait", {}).get("defId") !=
                                      "FreezeMarker"]
+            elif name == "missing-binder":
+                small_call = next(call for call in _mir_calls(caller)
+                                  if _mir_callee(call)["id"]["name"] ==
+                                  "StableSmallSortTypeImpl::small_sort")
+                del _mir_callee(small_call)["lateBoundGenericParamCount"]
             else:
                 small_call = next(call for call in _mir_calls(caller)
                                   if _mir_callee(call)["id"]["name"] ==
                                   "StableSmallSortTypeImpl::small_sort")
                 if name == "wrong-MIR-operand":
                     next(iter(small_call["args"][2].values()))["local"]["name"] = "_2"
+                elif name == "wrong-original-argument-source":
+                    first_temp = local_maps["normal"]["root"][0]
+                    first_assign = next(statement["kind"]["assign"]
+                        for block in caller["basicBlocks"]
+                        for statement in block["statements"]
+                        if statement.get("kind", {}).get("assign", {})
+                        .get("lhsPlace", {}).get("local", {}).get("name") == first_temp)
+                    first_assign["rhsRvalue"]["ref"]["place"]["local"]["name"] = "_2"
+                elif name == "wrong-move-projection":
+                    small_call["args"][0]["move"]["projection"] = [{"deref": "void"}]
+                elif name == "wrong-temporary-id":
+                    small_call["args"][0]["move"]["local"]["name"] = "_999"
                 else:
                     _mir_callee(small_call)["lateBoundGenericParamCount"] = 2
         try:
             _mir_selected_graph(modified, source, caller_name,
-                                query_fixture=query_fixture)
+                                query_fixture=query_fixture,
+                                expected_root_temporaries=local_maps["normal"]["root"],
+                                expected_helper_temporaries=local_maps["normal"]["helper"])
             refused, reason = False, "structural MIR predicate unexpectedly accepted"
         except Exception as exc:
             refused, reason = True, str(exc)
@@ -585,9 +643,20 @@ def full_mir_admission(mir_paths: dict[str, Path], source: str,
     need(all(row["refused_before_verifier"] for row in controls.values()),
          "full MIR structural negative controls")
     return {"mir_sha256": hashes, "structural_summary": summaries["normal"],
-            "normal_readonly_structural_equality": True,
+            "raw_per_mode_maps": local_maps,
+            "per_mode_structural_summaries": summaries,
+            "normal_readonly_semantic_equality": True,
             "negative_controls": controls,
             "complete_source_typed_graph": True, "proof_credit": False}
+
+
+def semantic_mir_calls(graph: dict) -> list[dict]:
+    """Normalize numeric locals after full per-case/per-mode map admission."""
+    return [{key: row[key] for key in
+             ("callee", "fn_def_substs", "late_bound_generic_param_count",
+              "argument_source_roots", "source_mir_locals",
+              "argument_operand_shapes")}
+            for row in graph["calls"]]
 
 
 def load(path: Path, name: str):
@@ -915,7 +984,10 @@ def compiler_gate(a, manifest: dict, query_result: dict) -> dict:
     full_mir = full_mir_admission(
         mir_paths, fixture_text, "binding_selected_freeze", query_fixture=True,
         expected_call_lines=exact_maps["normal"]["expected_call_lines"][
-            "binding_selected_freeze"])
+            "binding_selected_freeze"],
+        local_maps={mode: {"root": ["_16", "_17", "_18"],
+                           "helper": ["_5", "_6", "_7"]}
+                    for mode in ("normal", "readonly")})
     save(a.evidence / "compiler-binding-full-mir-admission.json", full_mir)
     baseline = observations["normal"]
     def synthetic_refusal(mutated: list[dict]) -> tuple[bool, str]:
@@ -975,12 +1047,14 @@ def compiler_gate(a, manifest: dict, query_result: dict) -> dict:
 
 def selected_fixture_mir_gate(a, c4, tool: Path, env: dict,
                               fixture: Path, target: str,
-                              query_graph: dict) -> dict:
+                              query_graph: dict,
+                              precomputed_support: tuple[dict, dict] | None = None) -> dict:
     """Check the actual selected consumer graph before its binding opt-in."""
     root = fixture.parent / "pre-binding"
     prior = {side: sha(fixture / side / "lib.rs")
              for side in ("verified", "original")}
-    rows, support = c4.source_support(a, tool, fixture, root, env, target=target)
+    rows, support = (precomputed_support if precomputed_support is not None else
+                     c4.source_support(a, tool, fixture, root, env, target=target))
     need(support.get("paired_support_passed") is True and
          all(rows[key].get("exit") == 0 for key in
              ("normal-export", "normal-decode", "readonly-export",
@@ -996,14 +1070,13 @@ def selected_fixture_mir_gate(a, c4, tool: Path, env: dict,
              rows[mode + "-decode"].get("stdout_sha256") == sha(mir_paths[mode]),
              target + " exact pre-binding MIR binary/decode")
     source = (fixture / "verified/lib.rs").read_text()
-    observed = full_mir_admission(mir_paths, source, target, query_fixture=False)
-    def semantic_calls(graph: dict) -> list[dict]:
-        return [{key: row[key] for key in
-                 ("callee", "fn_def_substs", "late_bound_generic_param_count",
-                  "argument_source_roots", "argument_mir_locals")}
-                for row in graph["calls"]]
-    need(semantic_calls(observed["structural_summary"]) ==
-         semantic_calls(query_graph) and
+    need(target in SELECTED_LOCAL_MAPS,
+         target + " has no observed normal/readonly local map; admission remains closed")
+    observed = full_mir_admission(
+        mir_paths, source, target, query_fixture=False,
+        local_maps=SELECTED_LOCAL_MAPS[target])
+    need(semantic_mir_calls(observed["structural_summary"]) ==
+         semantic_mir_calls(query_graph) and
          observed["structural_summary"]["full_selected_caller_and_helper_clauses"] and
          observed["structural_summary"]["selected_impl_clauses"] and
          observed["structural_summary"]["input_shapes"] ==
@@ -1412,13 +1485,105 @@ def run(a, c4, audit, manifest: dict, ghost, caller_driver, query_result: dict) 
              "final profile differs beyond selected translator/console")
         save(a.evidence / "selected-effective-profile.json", final)
         base_env = c4.clean_env(a, tool)
+        template = (a.proof_root / HERE / "selected-branch-cases.rs").read_text()
+        if manifest.get("selected_capture_only") is True:
+            captures = {}
+            for name, target in SELECTED.items():
+                fixture = make_selected_fixture(
+                    a, caller_driver, ghost, template, name,
+                    selected_pins["case_verified_lib_md5"][name])
+                root = fixture.parent
+                rows, support = c4.source_support(
+                    a, tool, fixture, root / "pre-binding", base_env,
+                    target=target)
+                row = {"paired_support_passed": support.get("paired_support_passed") is True,
+                       "source_support_sha256": sha(root / "pre-binding/source-support.json"),
+                       "raw_mir_sha256": {mode: support.get("full_mir", {}).get(
+                           mode, {}).get("sha256") for mode in ("normal", "readonly")},
+                       "proof_credit": False}
+                if support.get("paired_support_passed") is True:
+                    try:
+                        admission = selected_fixture_mir_gate(
+                            a, c4, tool, base_env, fixture, target,
+                            gate["full_mir_structural_summary"],
+                            precomputed_support=(rows, support))
+                        row.update(mir_admitted=True,
+                                   admission_sha256=sha(root /
+                                       "pre-binding/selected-pre-binding-mir-admission.json"))
+                        need(target == "selected_freeze_basecase" and
+                             SELECTED_LOCAL_MAPS[target]["normal"]["root"] !=
+                             ["_16", "_17", "_18"] and
+                             selected_pins["patch_sha256"] == sha(
+                                 a.proof_root / HERE / "selected-branch-binding.patch"),
+                             "AST diagnostic lacks the pinned pre-verification literal refusal")
+                        selected_env = dict(base_env)
+                        selected_env.update(SORT4_SELECTED_BRANCH_INTERFACE="1",
+                                            SORT4_SELECTED_COMPILER_BINDING_VERIFIED="1",
+                                            SORT4_ACTUAL_CALLER_ENTRY_PHASE_ID=PHASE)
+                        # The pinned translator must refuse its literal operand
+                        # map before verifier execution; retain that refusal.
+                        ast_stage = c4.stage(
+                            a, root / "pre-binding", "proof-ast-diagnostic",
+                            [str(tool / "bin/verifast"), "-dump_ast_with_locs",
+                             "proof-ast.ml", "-rustc_args", "--edition 2021",
+                             "verified/lib.rs"], selected_env, 90, cwd=fixture)
+                        ast_log = root / "pre-binding/proof-ast-diagnostic.log"
+                        ast_text = ast_log.read_text(errors="replace") if ast_log.is_file() else ""
+                        marker = re.search(
+                            r"SORT4-SELECTED-OPERAND-OBSERVATION: source=([0-9a-f]+) "
+                            r"owner=([^ ]+) callee=([^ ]+) vars=([^\s]+)", ast_text)
+                        observed_vars = marker.group(4).split(",") if marker else []
+                        observed_locals = [name.removeprefix("$") for name in observed_vars]
+                        observed_mode = next((mode for mode in ("normal", "readonly")
+                            if observed_locals == SELECTED_LOCAL_MAPS[target][mode]["root"]), None)
+                        need(ast_stage.get("exit") not in (None, 0) and marker is not None and
+                             marker.group(1) == selected_pins["case_verified_lib_md5"][name] and
+                             marker.group(2) == target and
+                             marker.group(3) == "StableSmallSortTypeImpl::small_sort" and
+                             observed_mode is not None and
+                             "selected call operands/order differ from observed MIR reborrow locals"
+                             in ast_text,
+                             "pinned selected translator did not stop at expected operand refusal")
+                        ast_path = fixture / "proof-ast.ml"
+                        if ast_path.is_file():
+                            import shutil
+                            shutil.copy2(ast_path, root / "pre-binding/proof-ast.ml")
+                        row["ast_diagnostic"] = {
+                            "exit": ast_stage.get("exit"),
+                            "expected_operand_refusal_observed": True,
+                            "operand_observation": marker.group(0),
+                            "observed_mode": observed_mode,
+                            "raw_per_mode_local_maps": SELECTED_LOCAL_MAPS[target],
+                            "log_sha256": digest_or_none(ast_log),
+                            "ast_sha256": digest_or_none(root / "pre-binding/proof-ast.ml"),
+                            "verification_invoked": False, "proof_credit": False}
+                    except Exception as exc:
+                        row.update(mir_admitted=False, admission_reason=str(exc),
+                                   ast_diagnostic={"invoked": False,
+                                                   "verification_invoked": False,
+                                                   "proof_credit": False})
+                else:
+                    row.update(mir_admitted=False,
+                               admission_reason="paired source support failed",
+                               ast_diagnostic={"invoked": False,
+                                               "verification_invoked": False,
+                                               "proof_credit": False})
+                captures[name] = row
+            need(all(not item.get("ast_diagnostic", {}).get("verification_invoked", True)
+                     for item in captures.values()),
+                 "capture-only mode must not invoke verification")
+            result.update(classification="SELECTED_MIR_CAPTURE_ONLY",
+                          capture_only=True, selected_consumer_captures=captures,
+                          diagnostic_complete=False, binding_gate_open=False,
+                          verification_invoked=False, proof_credit=False)
+            save(a.evidence / "selected-proof-audit.json", result)
+            return result
         controls = {}
         for name in CONTROLS:
             fixture, _ = caller_driver.make_fixture(a, c4, ghost, manifest, name)
             controls[name] = caller_driver.verify_one(a, c4, tool, base_env, fixture, name)
         need(all(controls[name].get("gate_passed") is True for name in CONTROLS),
              "final-profile canonical T/MU, pointer and threshold body controls")
-        template = (a.proof_root / HERE / "selected-branch-cases.rs").read_text()
         cases = {}
         consumer_mir = {}
         for name, target in SELECTED.items():
