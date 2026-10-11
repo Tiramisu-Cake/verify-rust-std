@@ -13,6 +13,7 @@ import gzip
 import hashlib
 import io
 import json
+import lzma
 import os
 from pathlib import Path, PurePosixPath
 import re
@@ -22,6 +23,7 @@ import sys
 
 SCHEMA = "smallsort-git-source-input-v1"
 SHARED_SCHEMA = "smallsort-git-source-input-v2-shared-objects"
+PACKED_MAGIC = b"SMALLSORT-PACKED-GIT-OBJECTS-V1\0"
 OBJECT_ID = re.compile(r"^[0-9a-f]{40}$")
 WORKSPACE = Path("/workspace")
 STD_PATHS = (
@@ -297,15 +299,62 @@ def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes
                 raw_object = base64.b64decode(item["data_base64"], validate=True)
                 item["data_base64"] = base64.b64encode(gzip.compress(raw_object, mtime=0)).decode("ascii")
                 item["compression"] = "gzip"
-            # The I lane's single outer gzip keeps the same Git object closure
-            # while avoiding base64 inflation of already-compressed objects.
             payload["shared_objects"].append(item)
+    if lane == "verifast-slice-binding-integration":
+        # Pack original Git objects once as binary. Every OID, size, type and
+        # selected path is still checked by the ordinary restore machinery.
+        objects = []
+        offset = 0
+        for item in payload["shared_objects"]:
+            data = base64.b64decode(item.pop("data_base64"), validate=True)
+            item["offset"] = offset
+            offset += len(data)
+            objects.append(data)
+        metadata = (json.dumps(payload, sort_keys=True, separators=(",", ":")) + "\n").encode()
+        bundle = PACKED_MAGIC + len(metadata).to_bytes(8, "big") + metadata + b"".join(objects)
+        return gzip.compress(lzma.compress(bundle, preset=6), compresslevel=9, mtime=0)
     raw = (json.dumps(payload, sort_keys=True, separators=(",", ":")) + "\n").encode()
     buffer = io.BytesIO()
     with gzip.GzipFile(fileobj=buffer, mode="wb", filename="",
                        compresslevel=9, mtime=0) as stream:
         stream.write(raw)
     return buffer.getvalue()
+
+
+def decode_payload(compressed: bytes) -> dict:
+    try:
+        raw = gzip.decompress(compressed)
+        if not raw.startswith(b"\xfd7zXZ\x00"):
+            return json.loads(raw)
+        decoder = lzma.LZMADecompressor(format=lzma.FORMAT_XZ)
+        bundle = decoder.decompress(raw, max_length=32 * 1024 * 1024 + 1)
+        if not decoder.eof or decoder.unused_data or len(bundle) > 32 * 1024 * 1024:
+            stop("packed Git object archive exceeds bound or has trailing data")
+        prefix = len(PACKED_MAGIC)
+        if not bundle.startswith(PACKED_MAGIC) or len(bundle) < prefix + 8:
+            stop("packed Git object archive magic differs")
+        size = int.from_bytes(bundle[prefix:prefix + 8], "big")
+        if size <= 0 or size > 2 * 1024 * 1024:
+            stop("packed metadata size outside bound")
+        start = prefix + 8 + size
+        payload = json.loads(bundle[prefix + 8:start])
+        if payload.get("lane") != "verifast-slice-binding-integration" or \
+                payload.get("schema") != SHARED_SCHEMA:
+            stop("packed archive lane or schema differs")
+        packed = bundle[start:]
+        offset = 0
+        for item in payload.get("shared_objects", []):
+            if item.pop("offset", None) != offset or type(item.get("size")) is not int or \
+                    item["size"] < 0 or offset + item["size"] > len(packed):
+                stop("packed Git object offsets differ")
+            data = packed[offset:offset + item["size"]]
+            item["data_base64"] = base64.b64encode(data).decode("ascii")
+            offset += item["size"]
+        if offset != len(packed):
+            stop("packed Git object closure has trailing data")
+        return payload
+    except (OSError, lzma.LZMAError, ValueError, json.JSONDecodeError) as error:
+        stop(f"source archive is unreadable: {error}")
 
 
 def expected_infra_paths(repo_record_data: dict, recipe: dict | None = None) -> list[str]:
@@ -428,11 +477,7 @@ def restore_archive(archive: Path, evidence: Path) -> dict:
     ensure_workspace(archive)
     ensure_workspace(evidence)
     compressed = archive.read_bytes()
-    try:
-        raw = gzip.decompress(compressed)
-        payload = json.loads(raw)
-    except (OSError, json.JSONDecodeError) as error:
-        stop(f"source archive is unreadable: {error}")
+    payload = decode_payload(compressed)
     if payload.get("schema") not in (SCHEMA, SHARED_SCHEMA):
         stop("unsupported source archive schema")
     if payload["schema"] == SHARED_SCHEMA:
