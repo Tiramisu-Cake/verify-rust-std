@@ -25,6 +25,27 @@ CALLER = Path("research/challenge-8/cloud-build/sort4-caller-entry-native")
 SLICE_CASES = ("canonical-generic", "canonical-mu", "consumer-positive",
                "consumer-wrong-pointer", "consumer-missing-raw-rights",
                "consumer-mu-cast-no-initialized-T")
+REQUIRED_MANIFEST_KEYS = frozenset((
+    "tool_c4_patch_sha256", "selector_integration_patch_sha256",
+    "composition_patch_sha256", "compressed_delivery",
+    "source_modules_pack_sha256", "source_modules_provenance_commit",
+    "source_modules_count", "effective_hashes", "stock_effective_hashes",
+    "selector_source_sha256", "c4_source_sha256", "producer_final_ast_sha256",
+    "producer_typed_location_endpoints", "inherited_c4_controls",
+    "outer_scope_capture_pins", "native_zst_tool_patches",
+    "slice_binding_source_manifest", "slice_source_delivery",
+    "native_zst_profile", "profile_id", "slice_binding_profile",
+))
+OUTER_SCOPE_PINS = {
+    "normal": {
+        "body_sha256": ["967b297f9044c1c9ba81b6e5e469c5ef6d013e33b4f17cf8134138fd4fe065c5"],
+        "whole_decoded_mir_sha256": "5a2e53473c99720b20f5186469c91c49c562cd8b89c7f9d9160589979e66d220",
+    },
+    "readonly": {
+        "body_sha256": ["1fa420e27a2c8e7e9983a347b3958a6926ca52abc762ee3c8d3c9347fd90e49e"],
+        "whole_decoded_mir_sha256": "4d8512c3d899f543c4e4808215151708fe1aa417886a2ec04bd1fa531b460b57",
+    },
+}
 
 
 def need(condition: bool, message: str) -> None:
@@ -61,6 +82,11 @@ def context(a) -> tuple[dict, dict]:
                                  text=True).strip() == os.environ.get("PROOF_SHA"),
          "proof SHA differs")
     data = json.loads(a.manifest.read_text())
+    need(REQUIRED_MANIFEST_KEYS <= set(data),
+         "incomplete integration manifest: " +
+         ", ".join(sorted(REQUIRED_MANIFEST_KEYS - set(data))))
+    need(data["outer_scope_capture_pins"] == OUTER_SCOPE_PINS,
+         "reviewed outer normal/readonly capture pins")
     need(data.get("slice_binding_profile") == PROFILE and
          data.get("profile_accepted") is False and
          data.get("actual_caller_proved") is False and
