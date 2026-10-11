@@ -1,7 +1,6 @@
 {
   "classification": "EXPERIMENTAL_C4_SELECT_INTEGRATION",
   "accepted": false,
-  "profile_accepted": false,
   "tool_base_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb",
   "tool_c4_patch_sha256": "b33e19deec896aefad1232f982e4499dfcdef6026e09c12b9c914852d9f6beaa",
   "selector_integration_patch_sha256": "2c384f14b596c9f2713c39592ce0f414e4bdb9d994dbab7895eaa7a92eedfff0",
@@ -36,11 +35,6 @@
       "raw_sha256": "21516461a662781aabbf296bf5cb4016f10051c019205204a7740ecec0fe44f6"
     }
   ],
-  "stock_effective_hashes": {
-    "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
-    "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28"
-  },
-  "profile_id": "verifast-native-zst-c3-integration-20261011-h",
   "native_zst_profile": "verifast-native-zst-c3-integration-20261011-h",
   "native_zst_tool_patches": [
     {
@@ -68,7 +62,6 @@
     "c_sources_sha256": {
       "c-nonempty": "0795cf5af0aca963af2f5656e42d5a899fa31c19866f1cfbbfcc05e1227dfb3a",
       "cpp-empty": "b9d0c398d00bb5b62277a1a5566a0d7bf53f8541bc6654e75d0dc108af93e361"
-    },
-    "purpose": "Rerun only C/C++ positive controls with -shared; first Cloud Rust/Bool matrices remain separately reviewed evidence, not supplemental proof credit."
+    }
   }
 }
