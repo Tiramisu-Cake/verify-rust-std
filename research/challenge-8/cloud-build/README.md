@@ -4,7 +4,7 @@
 исполняемые clients/recipes, pins и собственный ledger берутся из явно назначенной
 ветки и поручения. [WORK-POLICY](../WORK-POLICY.md) задаёт полномочия/сессии,
 [AGENT-RUNBOOK](../AGENT-RUNBOOK.md) — proof/evidence loop,
-[v2 protocol](PARALLEL-BUILDS.md) — неизменённый предел двух slots.
+[v3 protocol](PARALLEL-BUILDS-V3.md) — три slots после явного lossless transition.
 Исторические migration/night accounts и команды — в [архиве](../archive/team-procedure-2026-10-10/README-ARCHIVE.md).
 
 ## Inputs и счёт до submit
@@ -12,8 +12,8 @@
 - Proof owners `select-sort4` и `merge`; свой absolute ledger и state directory.
   Maintainer использует stable owner своего конкретного задания (в прочитанном
   fullmake account — `verifast`) и собственный ledger, не alias proof-owner.
-  Его Build тоже занимает один из двух общих slots; третья одновременная submission
-  ждёт capacity. Это не выдаёт maintainer новый счёт/бюджет.
+  Его Build занимает один из трёх общих slots; каждому из select-sort4, merge
+  и verifast разрешён максимум один occupied slot. Это не выдаёт maintainer новый счёт/бюджет.
 - Phase ID, явная authorization, статус AUTHORIZED, ещё не истёкшие main/absolute
   deadlines, ceiling/remaining seconds и reviewed allowed_lanes своего задания.
   Старый ledger AUTHORIZED после deadline не является разрешением.
@@ -71,7 +71,7 @@ lane/proof ограничения и оставшееся окно своего 
 Использовать существующий client с общей `/root/smallsort-ci-coordination/lock`.
 Под flock он reconcile reservations/API, допускает и атомарно резервирует submit,
 сохраняет token и ответ; uncertain reply занимает slot до однозначного resolution.
-[v2](PARALLEL-BUILDS.md) считает максимум два occupied project slots, один на owner
+[v3](PARALLEL-BUILDS-V3.md) считает максимум три occupied project slots, один на owner
 и ledger, включая untracked API builds. Не править live active.json вручную.
 
 Ledger charges — округлённый вверх createTime→finishTime, включая queue, setup,
