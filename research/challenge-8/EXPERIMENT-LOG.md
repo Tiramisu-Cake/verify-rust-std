@@ -7055,3 +7055,14 @@ assertion-fail, reachableZSTfalse and missingpermission intended refusals; C/C++
 Matrix size assertionspass, missing existing unit alignment lemma call fails14.
 C1skipped/C4notrun;339seconds accounted.
 [Full review](cloud-build/sort4-native-c1-bound/FRESH-B1BABB85-REVIEW.md).
+
+
+## 2026-10-11 fresh ZST repair and native C1 PASS
+
+Builded016f05/proof=infraf1e13905: every model gate passes, including nonvacuity
+and missingpermissions; nativeC1VF0/196, retainedLabel3Goto63 nowEXEC203 afterzero
+assumption withfullnativeposts/unit/free/leak. Normal226/unwind210 falsecontrols
+reachintendedassertions; alladmissioncontrolsretained. Exactsource/MIR/AST unchanged.
+Profileexperimental/unaccepted; researchguarddoesnotprovecallerorgenericactualZST.
+398seconds; total737/3600,2863remaining. ConnectedC4nextinscope.
+[Rawreview](cloud-build/sort4-native-c1-bound/FRESH-ED016F05-REVIEW.md).

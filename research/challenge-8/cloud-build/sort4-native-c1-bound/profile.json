@@ -23,10 +23,10 @@
     "c3-unwind-false-assert",
     "c4-unwind-false-assert"
   ],
-  "native_to_c1": "INCOMPLETE_DEAD_PHYSICAL_203_FROZEN_MU_SIZE_MODEL",
-  "native_to_c4": "NOT_RUN",
+  "native_to_c1": "FRESH_FULL_VF0_NATIVE_C1_GUARDED_FRAGMENT_UNACCEPTED_RUST_ZST_PROFILE",
+  "native_to_c4": "PREPARING_CAPTURE_NOT_RUN",
   "actual_caller_to_sort4": "NOT_PROVED",
-  "proof_scope": "Source-linked internal native C1 reached normal/direct-unwind/len<8 full CURRENT posts/free/leak; retained sizezero branch excluded by frozen MU/struct size model, dead-code refusal. No complete theorem or callable summary.",
+  "proof_scope": "Fresh full source-linked native C1 guarded fragment normal/direct-unwind/len<8/sizezero full CURRENT posts/unit/free/leak, actual operand1,0. No callable summary/external caller/full generic actual sort4 ZST claim.",
   "translator_sha256": "1eab6eb54fe5c23d53ca72a6d9dfcbbff09c09ffaf26c48a4f450f5068a8d313",
   "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
   "case_file": "followup-cases.rs",
@@ -54,6 +54,8 @@
   "prior_fresh_admission_proof_infra": "285220a384d050e046d1e8709b79a52bd602e675",
   "admission_controls_run": "NOT_RUN_PRIOR_FRESH_PASS",
   "session_status": "AUTHORIZED",
-  "draft_cloud_status": "PREPARING_MODEL_GATES",
-  "zst_repair_tool_manifest": "ZST-REPAIR-TOOL-MANIFEST.json"
+  "draft_cloud_status": "MODEL_GATES_AND_NATIVE_C1_PASS",
+  "zst_repair_tool_manifest": "ZST-REPAIR-TOOL-MANIFEST.json",
+  "fresh_native_c1_build": "ed016f05-c66b-4d9f-8be4-12b8c0271f8f",
+  "fresh_native_c1_proof_infra": "f1e139053eac06da27a4068b47b0d44cbca1cb73"
 }

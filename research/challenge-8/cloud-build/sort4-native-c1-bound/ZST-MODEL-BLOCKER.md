@@ -1,3 +1,8 @@
+> Historical diagnosis/checkpoint scope. New separately authorized size repair
+> session has fresh model gates and native C1 fragment PASS on experimental,
+> unaccepted profile: [ED016 review](FRESH-ED016F05-REVIEW.md). Original frozen
+> model limitation and its run identities below are preserved.
+
 # Native C1 ZST blocker — exact frozen model limitation
 
 READY for VeriFast-agent review; diagnosis complete, model repair NOT_AUTHORIZED

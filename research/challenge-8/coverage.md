@@ -919,3 +919,18 @@ implicit nativeentryarray_inv beforebody/calls; firstpositivequery passeswithMU,
 failswithoutMU. No genericZST support or binding-only targetrepair. Sessionclosed
 1430/3600, unused2170/no carry; ownbuilds/reservations/requestempty. Checkpoint
 cloud-build/sort4-native-c1-bound/END-CHECKPOINT-2026-10-11-ZST.md.
+
+
+## 2026-10-11 scoped Rust ZST repair / native C1 update
+
+Fresh Clouded016f05 (proof=infraf1e139053eac06da27a4068b47b0d44cbca1cb73) gives
+full native C1 guarded research fragment VF0/196statements, actual comparator1,0,
+native source4/tail/MUopaque/F/thread/lifetime/type resources, full CURRENT normal/
+direct-unwind/len<8/sizezero posts/unit/free/leak. Retained source/MIR/ASTzero route
+now truly executes (Label3/Goto63, run-local203). All modelgates/nonvacuity/permission
+negative and affected normal/unwind/admission controls freshpass. Separate minimal
+Rust size-rule candidate19ee0d68: Rustnonnegative/completeempty0; C/C++positive and
+upper/alignment/footprint/resources unchanged. Profile experimental/unaccepted.
+No callable summary, fullactualsort4, stdcaller applicability or genericactual
+sort4ZST safety proved. Connected nativeC4 preparing, NOT_RUN; old suppliedC1→C4
+independent. [Fresh evidence](cloud-build/sort4-native-c1-bound/FRESH-ED016F05-REVIEW.md).
