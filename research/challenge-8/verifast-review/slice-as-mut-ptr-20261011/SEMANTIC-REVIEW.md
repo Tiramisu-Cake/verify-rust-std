@@ -79,17 +79,19 @@ from post-binding translator
 The archived Cloud profile has a different translator from tool `46181aff`;
 its results cannot qualify this integrated head. The later raw reviews report
 isolated generic/MU and consumer positives, plus intended wrong-pointer,
-missing-raw-rights and forbidden MU-initialized-`T` negatives. Default-off,
-source-mutation and malformed-phase refusals are admission results, not
-verifier negatives. Their archived `verification_accepted` and profile
+missing-raw-rights and forbidden MU-initialized-`T` negatives. Historical
+base-tool no-match, source-mutation and malformed-phase refusals are admission
+results, not verifier negatives. The unconditional one-symbol extension has
+no new default-off mode, so that archived no-match result is not a fresh
+new-profile gate. Their archived `verification_accepted` and profile
 acceptance remain false. The first archived build's malformed audit and
 pre-MIR syntax failure confer no caller result.
 
 Fresh combined-tool gates should cover exact source/hash and method shape,
 normal/read-only MIR and refinement; canonical generic/MU native-reference
 cases; a consumer with the real `as_mut_ptr` call and separate scratch cast;
-the three intended negatives; source/phase mutations; and default-off exact
-method rejection. Recheck the affected native C1/C4 and existing Bool C3
+the three intended negatives; and exact-source mutation refusals under the
+current lane admission. Recheck the affected native C1/C4 and existing Bool C3
 isolation/compatibility gates on the combined SHA. Inherited ZST/C1/C4
 semantics need their own independent review and applicable regression record;
 this note reviews only the new binding. Preserve C/C++ controls where the
