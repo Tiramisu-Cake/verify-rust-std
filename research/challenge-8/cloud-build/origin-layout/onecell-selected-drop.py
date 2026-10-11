@@ -69,6 +69,8 @@ NATURAL_DROP_EXIT = b"        //@ assert true; // TARGET: natural Drop scope exi
 NATURAL_FALSE = b"        //@ assert false; // TARGET: after natural Drop terminator\n"
 CALLER_READY_FALSE = b"        //@ assert false; // TARGET: caller direct Drop-pre entry\n"
 CALLER_SIGNATURE = b"unsafe fn natural_onecell(tail: *mut u64)"
+BODY_GLUE_PROFILE = "experimental-merge-actual-glue-body-v1"
+GENERATED_GLUE_NAME = "__vf_generated_drop_glue"
 
 
 def _prepare(evidence: Path) -> dict:
@@ -377,6 +379,161 @@ def _caller_ast_evidence(case: Path, ast) -> dict:
                 "reason": f"caller AST evidence collection failed: {error}"}
 
 
+def _body_glue_ast_evidence(case: Path, ast, selected_path: str, mir: dict) -> dict:
+    """Bind the caller to one generated glue body and that body to actual Drop."""
+    path = case / "proof-ast.ml"
+    if not path.is_file():
+        return {"present": False, "admitted": False}
+    try:
+        tree = ast.OcamlAstText(path.read_text(errors="replace")).parse()
+        funcs = [node for node in ast.nodes(tree, "Func") if len(node.args) == 13]
+        callers = [node for node in funcs if node.args[4] == "natural_onecell"]
+        glue_funcs = [node for node in funcs if node.args[4] == GENERATED_GLUE_NAME]
+        caller_bodies = [node for node in callers if isinstance(node.args[10], ast.Node)
+                         and node.args[10].name == "Some"]
+        glue_bodies = [node for node in glue_funcs if isinstance(node.args[10], ast.Node)
+                       and node.args[10].name == "Some"]
+        if len(caller_bodies) != 1 or len(glue_funcs) != 1 or len(glue_bodies) != 1:
+            return {"present": True, "admitted": False,
+                    "caller_count": len(callers), "caller_body_count": len(caller_bodies),
+                    "generated_glue_count": len(glue_funcs),
+                    "generated_glue_body_count": len(glue_bodies),
+                    "reason": "caller or generated private glue body is not unique"}
+
+        def call_rows(function):
+            result = []
+            runtime = function.args[10]
+            for call in ast.nodes(runtime, "CallExpr"):
+                if len(call.args) == 6 and isinstance(call.args[1], str):
+                    result.append({"callee": call.args[1], "loc": ast.loc(call.args[0]),
+                                   "node": call})
+            return result
+
+        caller_calls = call_rows(caller_bodies[0])
+        glue_calls = call_rows(glue_bodies[0])
+        caller_glue = [call for call in caller_calls
+                       if call["callee"].endswith(GENERATED_GLUE_NAME)]
+        glue_actual = [call for call in glue_calls if call["callee"] == selected_path]
+        caller_switches = []
+        caller_runtime = caller_bodies[0].args[10]
+        for switch in ast.nodes(caller_runtime, "SwitchStmt"):
+            if (len(switch.args) == 3 and isinstance(switch.args[1], ast.Node) and
+                    switch.args[1].name == "CallExpr" and len(switch.args[1].args) == 6 and
+                    switch.args[1].args[1].endswith(GENERATED_GLUE_NAME)):
+                arms = []
+                for arm in switch.args[2]:
+                    if not isinstance(arm, ast.Node) or len(arm.args) != 3:
+                        continue
+                    arms.append({"tag": arm.args[1].args[1]
+                                 if isinstance(arm.args[1], ast.Node) else None,
+                                 "calls": [call.args[1] for call in ast.nodes(arm.args[2], "CallExpr")
+                                           if len(call.args) > 1 and isinstance(call.args[1], str)],
+                                 "gotos": [go.args[1] for go in ast.nodes(arm.args[2], "GotoStmt")]})
+                caller_switches.append({"arms": arms})
+        arms = {arm["tag"]: arm for arm in caller_switches[0]["arms"]} \
+            if len(caller_switches) == 1 else {}
+        protocol = (set(arms) == {"returning", "unwinding"} and
+                    all(arm["calls"].count("end_ref_mut") == 1 and
+                        arm["calls"].count("close_points_to") == 1 and
+                        arm["calls"].count("open_points_to") == 1
+                        for arm in arms.values()) and
+                    arms["unwinding"]["gotos"] == [str(mir.get("selected_cleanup_target"))] and
+                    mir.get("selected_cleanup_is_statement_free_resume") is True)
+        caller_receiver = [call for call in caller_calls if call["callee"] == "create_ref_mut"]
+        caller_ends = [call for call in caller_calls if call["callee"] == "end_ref_mut"]
+        caller_forbidden = [call["callee"] for call in caller_calls
+                            if call["callee"] == selected_path or
+                            call["callee"].endswith("drop_in_place")]
+        glue_forbidden = [call["callee"] for call in glue_calls
+                          if call["callee"] in ("create_ref_mut", "end_ref_mut",
+                                                "std::ptr::drop_in_place") or
+                          call["callee"].endswith("drop_in_place")]
+        glue = glue_bodies[0]
+        contract = glue.args[8]
+        # Func.args[7] is the separate safety-proof slot. The literal false
+        # unwind post is represented in the contract AST below.
+        no_safety_proof = (isinstance(glue.args[7], tuple) and len(glue.args[7]) == 2 and
+                           glue.args[7][0] == ast.Sym("None") and
+                           glue.args[7][1] == ast.Sym("None"))
+        contract_pair = (contract.args[0] if isinstance(contract, ast.Node) and
+                         contract.name == "Some" and len(contract.args) == 1 else None)
+        selected_funcs = [node for node in funcs if node.args[4] == selected_path and
+                          isinstance(node.args[10], ast.Node) and node.args[10].name == "Some"]
+        selected_contract = selected_funcs[0].args[8] if len(selected_funcs) == 1 else None
+        selected_pair = (selected_contract.args[0] if isinstance(selected_contract, ast.Node) and
+                         selected_contract.name == "Some" and len(selected_contract.args) == 1 else None)
+        contract_shape = (isinstance(contract_pair, tuple) and len(contract_pair) == 2 and
+                          isinstance(contract_pair[0], ast.Node) and
+                          isinstance(contract_pair[1], tuple) and len(contract_pair[1]) == 2 and
+                          isinstance(contract_pair[1][0], str) and
+                          isinstance(contract_pair[1][1], ast.Node))
+        selected_shape = (isinstance(selected_pair, tuple) and len(selected_pair) == 2 and
+                          isinstance(selected_pair[0], ast.Node) and
+                          isinstance(selected_pair[1], tuple) and len(selected_pair[1]) == 2 and
+                          isinstance(selected_pair[1][1], ast.Node))
+        strong_contract = (contract_shape and selected_shape and
+                           contract_pair[0] == selected_pair[0] and
+                           contract_pair[1][1] == selected_pair[1][1])
+        post = contract_pair[1][1] if contract_shape else None
+        outcome_switches = [node for node in ast.nodes(post, "SwitchExpr")
+                            if len(node.args) == 4 and isinstance(node.args[2], list)]
+        outcomes = {}
+        if len(outcome_switches) == 1:
+            for arm in outcome_switches[0].args[2]:
+                if isinstance(arm, ast.Node) and arm.name == "SwitchExprClause" and len(arm.args) == 4:
+                    outcomes[arm.args[1]] = {"binders": arm.args[2], "post": arm.args[3]}
+        literal_unwind_false = (
+            set(outcomes) == {"returning", "unwinding"} and
+            outcomes["returning"]["binders"] == ["result"] and
+            outcomes["unwinding"]["binders"] == [] and
+            outcomes["unwinding"]["post"] == ast.Sym("False"))
+        copied_receiver = False
+        receiver_name = None
+        if len(glue_actual) == 1:
+            try:
+                actual_args = ast.narg(glue_actual[0]["node"], "CallExpr", 6)[4]
+                if isinstance(actual_args, list) and len(actual_args) == 1:
+                    receiver_name = ast.var(ast.narg(actual_args[0], "LitPat", 1)[0])
+                    runtime = glue.args[10]
+                    assignments = [node for node in ast.nodes(runtime, "AssignExpr")
+                                   if len(node.args) == 4 and
+                                   ast.var(node.args[1]) == receiver_name]
+                    source_vars = ([ast.var(node) for node in
+                                   ast.nodes(assignments[0].args[3], "Var")]
+                                   if len(assignments) == 1 else [])
+                    copied_receiver = (len(assignments) == 1 and len(source_vars) == 1 and
+                                       source_vars[0] != receiver_name)
+            except (ValueError, TypeError, AttributeError):
+                copied_receiver = False
+        # The private function must carry its own ordinary contract. The
+        # selected Drop body is independently admitted by body._effect_ast_gate.
+        admitted = (len(caller_glue) == 1 and len(glue_actual) == 1 and
+                    not caller_forbidden and not glue_forbidden and
+                    len(caller_receiver) == 1 and len(caller_ends) == 2 and protocol and
+                    no_safety_proof and strong_contract and literal_unwind_false and
+                    copied_receiver)
+        return {"present": True, "admitted": admitted,
+                "caller_count": len(callers), "generated_glue_count": len(glue_funcs),
+                "caller_private_glue_call_count": len(caller_glue),
+                "glue_actual_method_call_count": len(glue_actual),
+                "selected_method": selected_path,
+                "caller_direct_selected_or_generic_drop_calls": caller_forbidden,
+                "glue_receiver_create_or_end_calls": glue_forbidden,
+                "caller_receiver_create_count": len(caller_receiver),
+                "caller_borrow_end_count": len(caller_ends),
+                "caller_return_unwind_protocol": protocol,
+                "glue_contract_present": strong_contract,
+                "glue_full_pre_and_normal_unwind_posts_match_selected_method": strong_contract,
+                "glue_copied_receiver": copied_receiver,
+                "glue_actual_receiver_local": receiver_name,
+                "glue_safety_proof_absent": no_safety_proof,
+                "glue_literal_unwind_false": literal_unwind_false,
+                "reason": None if admitted else "generated glue AST linkage or contract shape failed"}
+    except Exception as error:
+        return {"present": True, "admitted": False,
+                "reason": f"generated glue AST evidence collection failed: {error}"}
+
+
 def _source_permission_target(log: str, verified: bytes, row: dict, call_loc: str) -> bool:
     """Match the source-array precondition's exact auto-close refusal, not setup."""
     source_req = b"    [1/4]src[..1] |-> cons(?current, nil) &*& dst[..1] |-> _ &*&"
@@ -406,7 +563,7 @@ def _source_permission_target(log: str, verified: bytes, row: dict, call_loc: st
 
 
 def _classify(name: str, case: Path, row: dict, execution: dict,
-              prep, body, drop_module, proof_base) -> dict:
+              prep, body, drop_module, proof_base, profile: str = "") -> dict:
     stages = execution.get("stages", {})
     source = _source_gate(case, row, prep)
     mir = (_natural_drop_mir_gate(case, row, proof_base.mir_helper)
@@ -415,27 +572,49 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
                   if stages.get("decode") == 0 else {"admitted": False})
     selected = mir.get("selected_normal_drop", {})
     drop_path = selected.get("selected_path", "")
-    calls = caller_ast.get("call_nodes", [])
-    actual_calls = [call for call in calls if call["callee"] == drop_path]
-    receiver_calls = [call for call in calls if call["callee"] == "create_ref_mut"]
-    ends = [call for call in calls if call["callee"] == "end_ref_mut"]
-    switches = caller_ast.get("selected_outcome_switches", [])
-    arms = {arm["tag"]: arm for arm in switches[0]["arms"]} if len(switches) == 1 else {}
-    protocol = (set(arms) == {"returning", "unwinding"} and
-                all(arm["calls"].count("end_ref_mut") == 1 and
-                    arm["calls"].count("close_points_to") == 1 and
-                    arm["calls"].count("open_points_to") == 1 for arm in arms.values()) and
-                arms["unwinding"]["gotos"] == [str(mir.get("selected_cleanup_target"))] and
-                mir.get("selected_cleanup_is_statement_free_resume") is True)
-    binding = (len(actual_calls) == 1 and len(receiver_calls) == 1 and len(ends) == 2 and protocol and
-               not any(call["callee"] == "std::ptr::drop_in_place" for call in calls))
-    caller_ast["selected_call_binding"] = binding
-    caller_ast["selected_method_call_count"] = len(actual_calls)
-    caller_ast["receiver_create_count"] = len(receiver_calls)
-    caller_ast["borrow_end_count"] = len(ends)
-    caller_ast["admitted"] = caller_ast.get("admitted") is True and binding
+    body_glue_profile = profile == BODY_GLUE_PROFILE
+    if body_glue_profile:
+        glue_ast = (_body_glue_ast_evidence(case, proof_base.ast_helper, drop_path, mir)
+                    if stages.get("decode") == 0 else {"admitted": False})
+        caller_ast["body_glue_evidence"] = glue_ast
+        caller_ast["selected_call_binding"] = glue_ast.get("admitted") is True
+        caller_ast["admitted"] = caller_ast.get("admitted") is True and glue_ast.get("admitted") is True
+        actual_calls = []
+        # Historical location-specific negatives are intentionally disabled
+        # for this new call route until a fresh raw run establishes their lines.
+    else:
+        calls = caller_ast.get("call_nodes", [])
+        actual_calls = [call for call in calls if call["callee"] == drop_path]
+        receiver_calls = [call for call in calls if call["callee"] == "create_ref_mut"]
+        ends = [call for call in calls if call["callee"] == "end_ref_mut"]
+        switches = caller_ast.get("selected_outcome_switches", [])
+        arms = {arm["tag"]: arm for arm in switches[0]["arms"]} if len(switches) == 1 else {}
+        protocol = (set(arms) == {"returning", "unwinding"} and
+                    all(arm["calls"].count("end_ref_mut") == 1 and
+                        arm["calls"].count("close_points_to") == 1 and
+                        arm["calls"].count("open_points_to") == 1 for arm in arms.values()) and
+                    arms["unwinding"]["gotos"] == [str(mir.get("selected_cleanup_target"))] and
+                    mir.get("selected_cleanup_is_statement_free_resume") is True)
+        binding = (len(actual_calls) == 1 and len(receiver_calls) == 1 and len(ends) == 2 and protocol and
+                   not any(call["callee"] == "std::ptr::drop_in_place" for call in calls))
+        caller_ast["selected_call_binding"] = binding
+        caller_ast["selected_method_call_count"] = len(actual_calls)
+        caller_ast["receiver_create_count"] = len(receiver_calls)
+        caller_ast["borrow_end_count"] = len(ends)
+        caller_ast["admitted"] = caller_ast.get("admitted") is True and binding
     body_ast = (body._effect_ast_gate(case, dict(row, case="positive"), proof_base, drop_module)
                 if stages.get("decode") == 0 else {"admitted": False})
+    refinement_gate = {"admitted": True, "reason": "legacy profile stage receipt"}
+    if body_glue_profile:
+        refinement_out = case / "refinement.out"
+        refinement_text = refinement_out.read_text(errors="replace") if refinement_out.is_file() else ""
+        refinement_gate = {
+            "present": refinement_out.is_file(),
+            "successful_marker": "No refinement errors found" in refinement_text,
+            "generated_drop_glue_error": "Generated DropGlue:" in refinement_text,
+            "admitted": (stages.get("refinement") == 0 and
+                         "No refinement errors found" in refinement_text and
+                         "Generated DropGlue:" not in refinement_text)}
     log_path = case / "verifast.log"
     log = log_path.read_text(errors="replace") if log_path.is_file() else ""
     errors = [line for line in log.splitlines() if re.search(r"\berror:", line, re.I)]
@@ -453,14 +632,16 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
     source_unchanged = execution.get("source_unchanged_at_every_stage") is True
     setup = (source_unchanged and all(stages.get(stage) == 0
              for stage in ("exporter", "decode", "refinement")) and
+             refinement_gate.get("admitted") is True and
              source.get("admitted") is True and mir.get("admitted") is True and
              caller_ast.get("admitted") is True and body_ast.get("admitted") is True)
     targeted = False
-    if setup and name == "after_natural_drop_false" and stages.get("verifast") == 1 and len(errors) == 1:
+    if (not body_glue_profile and setup and name == "after_natural_drop_false" and
+            stages.get("verifast") == 1 and len(errors) == 1):
         targeted = (executed(row.get("natural_scope_end_line")) and
                     re.search(rf"verified/lib\.rs\({row['false_line']},\d+-\d+\): "
                               r"error: Assertion might not hold\. \(Cannot prove false\.\)", errors[0]) is not None)
-    if (setup and name == "caller_ready_entry_false" and
+    if (not body_glue_profile and setup and name == "caller_ready_entry_false" and
             stages.get("verifast") == 1 and len(errors) == 1):
         false_error = re.search(
             rf"verified/lib\.rs\({row['false_line']},\d+-\d+\): "
@@ -469,7 +650,8 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
             (match := re.search(r"verified/lib\.rs\((\d+),", record)) is not None and
             int(match.group(1)) > row["false_line"] for record in dead)
         targeted = bool(false_error and dead_after_target)
-    if setup and row.get("expected_missing") and stages.get("verifast") == 1 and len(errors) == 1:
+    if (not body_glue_profile and setup and row.get("expected_missing") and
+            stages.get("verifast") == 1 and len(errors) == 1):
         call_loc = actual_calls[0]["loc"]
         location_match = errors[0].startswith(call_loc + ": error:")
         predicate = ("CopyOnDrop_len" if row["expected_missing"] == "receiver_frame" else "array")
@@ -477,11 +659,13 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
             targeted = _source_permission_target(log, (case / "verified/lib.rs").read_bytes(), row, call_loc)
         else:
             targeted = location_match and predicate in errors[0] and "No matching heap chunks" in errors[0]
-    if setup and name == "duplicate_effect_simultaneous" and stages.get("verifast") == 1 and len(errors) == 1:
+    if (not body_glue_profile and setup and name == "duplicate_effect_simultaneous" and
+            stages.get("verifast") == 1 and len(errors) == 1):
         targeted = (executed(row.get("natural_scope_end_line")) and
                     re.search(rf"verified/lib\.rs\({row['double_effect_line']},\d+.*\): error:", errors[0]) is not None and
                     "CopyOnDrop_drop_effect" in errors[0] and "No matching heap chunks" in errors[0])
-    if setup and name == "caller_dead_code" and stages.get("verifast") == 1 and not errors:
+    if (not body_glue_profile and setup and name == "caller_dead_code" and
+            stages.get("verifast") == 1 and not errors):
         targeted = any(f"verified/lib.rs({row['dead_control_line']}," in record for record in dead) and caller_return and caller_leak
     positive = (setup and stages.get("verifast") == 0 and not errors and not dead and body_copy and
                 body_return and leak and caller_return and caller_leak and "0 errors found" in log)
@@ -492,13 +676,16 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
     return {"case": name, "classification": classification, "accepted": False,
             "stages": stages, "source_gate": source, "mir_gate": mir,
             "caller_ast_evidence": caller_ast, "drop_body_effect_ast_gate": body_ast,
+            "generated_glue_refinement_gate": refinement_gate,
             "source_unchanged_at_every_stage": source_unchanged,
             "natural_scope_end_executed": executed(row.get("natural_scope_end_line")),
             "dead_code_lines": dead,
             "body_copy_executed": body_copy, "body_return_executed": body_return,
             "leak_check": leak, "caller_return": caller_return, "caller_leak_check": caller_leak, "errors": errors, "targeted_negative_matched": targeted,
-            "actual_checked_selected_method_credit": positive, "compiler_generated_glue_credit": False,
+            "actual_checked_selected_method_credit": positive,
+            "compiler_generated_glue_credit": bool(body_glue_profile and positive),
             "caller_construction_credit": positive,
+            "generated_drop_glue_credit": bool(body_glue_profile and positive),
             "scope": "bounded concrete-u64 natural Drop fixture only; no panic path or generic insert_tail credit"}
 
 
@@ -587,7 +774,7 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
     if args.profile not in ("experimental-merge-selected-drop-receiver-v4",
                             "experimental-merge-actual-glue-observation-v2",
                             "experimental-merge-actual-glue-observation-v3",
-                            "experimental-merge-actual-glue-observation-v5"):
+                            "experimental-merge-actual-glue-body-v1"):
         raise RuntimeError("selected Drop exact supported experimental profile required")
     consumer.PROFILE = args.profile
     receipt = consumer._validate_receipt(args, validated_receipt, provider, proof_sha)
@@ -605,7 +792,8 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
         execution["source_unchanged_at_every_stage"] = (
             before == after and execution["stage_receipt_gate"]["admitted"])
         try:
-            result = _classify(name, case, row, execution, prep, body, drop_module, proof_base)
+            result = _classify(name, case, row, execution, prep, body, drop_module,
+                               proof_base, profile=args.profile)
         except Exception as error:
             result = {"case": name, "classification": "INCONCLUSIVE", "accepted": False,
                       "classifier_exception": repr(error), "stages": execution.get("stages", {})}

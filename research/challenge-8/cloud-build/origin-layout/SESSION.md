@@ -227,3 +227,9 @@ Final metadata audit corrected only staticreceipt saved_build_binding:057dfa45 s
 ## Binding repair session — 2026-10-11T16:15:22Z
 
 Continuation checkpoint76143240. Exact adopted policy c7ca8c467aecf10a4b53039372ee97714f854ee3; after fetch identical bytes to origin/main, last file commit5bf53668a4afa51c302e599be91a2dbc4b24042d, SHA256479c0eeb5bcb7f5dec3b5ccd526de0087a2101a1e018090389676a4dcccc0521. Main18:15:22Z/finish18:45:22Z/hour17:15:22Z. Fresh3600Cloud seconds; prior1410retired/account archived. Ownmerge lane/clientv2, no peer mutation. Captured slice chain traced by read-only explorer; all three helper declarations and calls now carry exact immutable body view. No method query after steal.
+
+First v5 Build 12a54039-11a4-4275-bfa1-0a23f80263b4 exactproof=infra d74a50c886a8e5a19289c577a9b41fadca760630 token dispatch-8ce956aec18e4da9add22ac0c3323109 config 1d9af3913bc105239004dd858fe24973a171482e25c45e6febb0a341d96844ed source 36961302bff8f44f725065674f8a3b8ebd857fb30b54106e4e0e04fff281243f timeout900/reserve960. Static replay PASS_STATIC_ONLY; no buildability/glue claim pendingCloud.
+
+Binding v5 Build12a54039/d74a50c8 SUCCESS511s/fullarchiveb283c431 integrityverified incl allchunks. Exporter/decoder/translator/console exits0; selected7/helper4+normalunwindsmokes freshv5PASS_COMPONENT_DIAGNOSTIC. All42 rawobservations wholeInstance equality true for Item(adt.destructor.did) args[], exactcapturedowner Runtime(PostCleanup), glueRuntime(Optimized). Capturedsourcebody not instantiated; concreteargs separate. Generatedglue stillNOT_RUN. Budget511used/3089remaining.
+
+Hour checkpoint 2026-10-11 ~17:15UTC: v5binding/exporter confirmed;511/3600used3089remaining; body-v1 candidate dbbba0d3 exactcompilerbody/officialrefiner prepared, staticreplay before Cloud pending. Glue/end/cleanup NOT_PROVED. Continue authorized scope; no acceptance or generic/kernel expansion.

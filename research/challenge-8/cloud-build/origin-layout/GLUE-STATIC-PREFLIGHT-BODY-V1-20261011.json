@@ -1,0 +1,18 @@
+{
+  "classification": "PASS_STATIC_ONLY",
+  "profile": "experimental-merge-actual-glue-body-v1",
+  "profile_sha256": "8b79e83c7db16fbec2696377c6880403e7ce6365bb7369bde3ce05a4d6b36c30",
+  "tool": "dbbba0d3ad1b2aaec9b40a87405b1518e5dd7e71",
+  "patches": 13,
+  "trusted_source_pins": 14,
+  "provider_transforms": 18,
+  "recipe_closure": 96,
+  "compilation": "NOT_RUN",
+  "toolchain_executed": false,
+  "proof_executed": false,
+  "source_replay": "/tmp/merge-glue-body-v1-text-replay-2",
+  "static_harness_initial_failures": [
+    "overlay replay lacked dependency pins; corrected ordering",
+    "reused replay directory retained added test; fresh replay then succeeded"
+  ]
+}

@@ -32,7 +32,7 @@ prep = load("onecell_prepare", HERE / "prepare.py")
 base = load("onecell_stages", HERE.parents[1] / "copy-on-drop-prove.py")
 ast = base.ast_helper
 mir = base.mir_helper
-PROFILE = ("experimental-merge-actual-glue-observation-v5" if os.environ.get("SMALLSORT_MERGE_PROFILE") else "experimental-merge-qualified-guard-onecell-v1")
+PROFILE = ("experimental-merge-actual-glue-body-v1" if os.environ.get("SMALLSORT_MERGE_PROFILE") else "experimental-merge-qualified-guard-onecell-v1")
 CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
          "double_physical_fbc")
 CAMPAIGN = "incoming-origin-controls-only-v1"
@@ -474,9 +474,11 @@ def main() -> int:
     for key in ("patch_sha256", "translator_sha256", "emitter_sha256", "kernel_sha256",
                 "ast_sha256", "sexpression_sha256", "verify_expr_sha256",
                 "model_sha256", "unit_layout_patch_sha256", "parser_sha256", "prelude_sha256", "stdlib_sha256",
-                "exporter_source_sha256", "schema_sha256", "guard_layout_patch_sha256", "refiner_sha256", "z3_sha256"):
+                "exporter_source_sha256", "schema_sha256", "guard_layout_patch_sha256", "refiner_main_source_sha256", "refiner_core_source_sha256", "z3_sha256"):
         if profile_build.get(key) != profile_card.get(key):
             raise RuntimeError(f"tracked MD profile pin differs: {key}")
+    if profile_build.get("refiner_build_exit") != 0 or profile_build.get("refiner_built_from_source") is not True:
+        raise RuntimeError("actual generated-glue profile requires official refiner source build receipt")
     if base.file_sha(HERE / "tracked-md.patch") != profile_card["patch_sha256"]:
         raise RuntimeError("tracked MD patch identity differs")
     if (base.file_sha(prep.ROOT / "research/challenge-8/verifast-tracked-manually-drop-regressions.rs")
@@ -503,6 +505,8 @@ def main() -> int:
         "bin/rust/prelude_core.rsspec": "prelude_sha256",
         "bin/rust/std/lib.rsspec": "stdlib_sha256",
         "bin/libz3.so": "z3_sha256",
+        "src/refinement_checker/main.ml": "refiner_main_source_sha256",
+        "src/refinement_checker/refinement_checker.ml": "refiner_core_source_sha256",
     }
     for relative, key in source_pins.items():
         if base.file_sha(args.tool_home / relative) != profile_card[key]:

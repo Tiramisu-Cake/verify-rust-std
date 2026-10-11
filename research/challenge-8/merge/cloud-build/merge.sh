@@ -444,7 +444,7 @@ try:
     compile_report = json.loads(compile_path.read_text())
 except Exception:
     compile_report = {}
-required = ("exporter-build", "decoder-build", "translator-build", "console-build")
+required = ("exporter-build", "decoder-build", "translator-build", "console-build", "refiner-build")
 stages = compile_report.get("stages", {}) if isinstance(compile_report, dict) else {}
 stage_codes = {name: stages.get(name, {}).get("exit_code") for name in required}
 post_hash = compile_dir / "postbuild-source-hash-check-exit-code.txt"

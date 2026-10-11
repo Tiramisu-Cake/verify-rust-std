@@ -20,7 +20,7 @@ import sys
 
 
 FILES = {
-    "research/challenge-8/merge/overnight/run.sh": "9b8eece9a1eca043f41395fdaa75201410c7e386a832de191f4575dd97991d56",
+    "research/challenge-8/merge/overnight/run.sh": "a05b3961225c3c358e5fe7f8b4517716f2792eb0bdfe688051962c1626b09f1c",
     "research/challenge-8/merge/overnight/build.sh": "dc6e30a5fb3aa24ff7f014910f3c54925fdde3e40f40ea8c1fcfcdafb89ae096",
     "research/challenge-8/merge/overnight/pointer-prove.py": "cb6d43c972d1c19f60b1cd355529f71fb6e68a9fa9242e4176814acbed8f8b96",
     "research/challenge-8/merge/overnight/actual-prepare.py": "8f96ea92e43651c0952102236c76348dca8079ea96a8bab1bb24de4851e07ca5",

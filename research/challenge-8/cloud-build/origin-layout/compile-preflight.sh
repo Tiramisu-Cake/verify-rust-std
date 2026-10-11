@@ -32,7 +32,7 @@ report = {
 }
 report['stages'] = {name: {'exit_code': int((pathlib.Path(directory)/(name+'-exit-code.txt')).read_text().strip())
                          if (pathlib.Path(directory)/(name+'-exit-code.txt')).is_file() else None, 'log': name+'.log'}
-                    for name in ('exporter-build','decoder-build','translator-build','console-build')}
+                    for name in ('exporter-build','decoder-build','translator-build','console-build','refiner-build')}
 (pathlib.Path(directory)/'compile-preflight.json').write_text(json.dumps(report,indent=2)+'\n')
 MANIFEST
   exit "$rc"
@@ -61,6 +61,8 @@ assert subprocess.check_output(['git', '-C', str(home), 'rev-parse', 'HEAD'], te
 sources = {
  'src/rust_frontend/vf_mir_exporter/src/lib.rs':'exporter_source_sha256',
  'src/rust_frontend/vf_mir/vf_mir.capnp':'schema_sha256',
+ 'src/refinement_checker/main.ml':'refiner_main_source_sha256',
+ 'src/refinement_checker/refinement_checker.ml':'refiner_core_source_sha256',
  'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml':'translator_sha256',
  'src/rust_frontend/vf_mir_translator/rust_parser.ml':'parser_sha256',
  'src/frontend/ast.ml':'ast_sha256',
@@ -149,6 +151,10 @@ run_step console-build bash -c \
   'cd "$1/src" && dune build -j 1 vfconsole/vfconsole.exe && cp _build/default/vfconsole/vfconsole.exe ../bin/verifast' \
   bash "$candidate"
 
+run_step refiner-build bash -c \
+  'cd "$1/src" && dune build -j 1 refinement_checker/main.exe && cp _build/default/refinement_checker/main.exe ../bin/refinement-checker' \
+  bash "$candidate"
+
 run_step postbuild-source-hash-check python3 - "$candidate" "$profile" <<'POSTPINS'
 import hashlib, json, pathlib, sys
 home, profile_path = map(pathlib.Path, sys.argv[1:])
@@ -156,6 +162,8 @@ p = json.loads(profile_path.read_text())
 sources = {
  'src/rust_frontend/vf_mir_exporter/src/lib.rs':'exporter_source_sha256',
  'src/rust_frontend/vf_mir/vf_mir.capnp':'schema_sha256',
+ 'src/refinement_checker/main.ml':'refiner_main_source_sha256',
+ 'src/refinement_checker/refinement_checker.ml':'refiner_core_source_sha256',
  'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml':'translator_sha256',
  'src/rust_frontend/vf_mir_translator/rust_parser.ml':'parser_sha256',
  'src/frontend/ast.ml':'ast_sha256',
@@ -189,15 +197,17 @@ report = {
  'stages':{},
  'artifacts':{},
 }
-for stage in ('exporter-build','decoder-build','translator-build','console-build'):
+for stage in ('exporter-build','decoder-build','translator-build','console-build','refiner-build'):
  code_path=evidence/(stage+'-exit-code.txt')
  report['stages'][stage]={'exit_code':int(code_path.read_text().strip()) if code_path.exists() else None,
                           'log':stage+'.log'}
 for rel, key in [('src/rust_frontend/vf_mir_exporter/src/lib.rs','exporter_source_sha256'),
                  ('src/rust_frontend/vf_mir/vf_mir.capnp','schema_sha256'),
-                 ('src/rust_frontend/vf_mir_translator/vf_mir_translator.ml','translator_sha256')]:
+                 ('src/rust_frontend/vf_mir_translator/vf_mir_translator.ml','translator_sha256'),
+                 ('src/refinement_checker/main.ml','refiner_main_source_sha256'),
+                 ('src/refinement_checker/refinement_checker.ml','refiner_core_source_sha256')]:
  report['artifacts'][rel]={'profile_sha256':p[key],'sha256':sha(home/rel)}
-for rel in ('src/rust_frontend/vf_mir_exporter/target/debug/vf_mir_exporter','bin/vf-rust-mir-exporter','bin/verifast'):
+for rel in ('src/rust_frontend/vf_mir_exporter/target/debug/vf_mir_exporter','bin/vf-rust-mir-exporter','bin/verifast','bin/refinement-checker'):
  path=home/rel
  if path.is_file(): report['artifacts'][rel]={'sha256':sha(path),'executable':bool(path.stat().st_mode & 0o111)}
 (evidence/'compile-preflight.json').write_text(json.dumps(report,indent=2)+'\n')
@@ -211,8 +221,9 @@ profile_build.update(exporter_sha256=sha(home/'bin/vf-rust-mir-exporter'),
     provider=runpy.run_path(os.environ['SMALLSORT_PROVIDER_FILE'])['require_supported_provider'](),
     build_exit=0, compile_only=True, proof_attempted=False,
     compile_preflight_sha256=sha(evidence/'compile-preflight.json'))
-for rel,key in [('bin/refinement-checker','refiner_sha256'),('bin/libz3.so','z3_sha256')]:
+for rel,key in [('bin/libz3.so','z3_sha256')]:
     assert sha(home/rel)==p[key], (rel,key)
+profile_build.update(refiner_sha256=sha(home/'bin/refinement-checker'), refiner_build_exit=0, refiner_built_from_source=True, refiner_main_source_sha256=sha(home/'src/refinement_checker/main.ml'), refiner_core_source_sha256=sha(home/'src/refinement_checker/refinement_checker.ml'))
 (evidence/'profile-build.json').write_text(json.dumps(profile_build,indent=2)+'\n')
 
 REPORT
