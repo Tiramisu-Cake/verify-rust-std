@@ -46,6 +46,19 @@ OUTER_SCOPE_PINS = {
         "whole_decoded_mir_sha256": "4d8512c3d899f543c4e4808215151708fe1aa417886a2ec04bd1fa531b460b57",
     },
 }
+BOOL_SUPPLEMENT = {
+    "baseline_build_id": "5cb5b5d3-e4d6-4185-9234-f3a89e79829e",
+    "baseline_proof_sha": "7f5f88b54d9d631fee24ec84ab868d42c2f174b3",
+    "baseline_manifest_sha256": "7882e54599974e39262ef2e55c8ae632eb0b5434b34c1698c5fc2de87e5a1a0e",
+    "baseline_archive_sha256": "a368cccb8b725e0ad8592fae4ee705913c84e8319230c907c33ed4919ecbd536",
+    "baseline_console_sha256": "9fc7c65b438e41ad014a08fe2f8b3e8f9b296866e010d8c423468b21565b3fd5",
+    "required_regression_targets": [
+        "selector_cleanup_off", "cleanup_partial_optin",
+        "composition_admission_mutants", "theorem_controls",
+        "inherited_baseline_inputs", "strict_lifetime",
+        "pointer_value_pointee_rights", "mdnew_retained_fix",
+    ],
+}
 
 
 def need(condition: bool, message: str) -> None:
@@ -87,6 +100,9 @@ def context(a) -> tuple[dict, dict]:
          ", ".join(sorted(REQUIRED_MANIFEST_KEYS - set(data))))
     need(data["outer_scope_capture_pins"] == OUTER_SCOPE_PINS,
          "reviewed outer normal/readonly capture pins")
+    if "bool_required_gates_supplement" in data:
+        need(data["bool_required_gates_supplement"] == BOOL_SUPPLEMENT,
+             "Bool-only supplement identity and target set")
     need(data.get("slice_binding_profile") == PROFILE and
          data.get("profile_accepted") is False and
          data.get("actual_caller_proved") is False and
@@ -101,6 +117,64 @@ def context(a) -> tuple[dict, dict]:
          "f200a5812149bb2278ded1d1ccb27a104b3dec3c03c5e40c79e30409d0d06916",
          "copied candidate source identity")
     return data, source
+
+
+def supplement_check(a, data: dict) -> None:
+    """Seal the rebuilt console before any supplemental verifier invocation."""
+    need(data.get("bool_required_gates_supplement") == BOOL_SUPPLEMENT,
+         "Bool-only supplement was not selected")
+    effective = json.loads((a.evidence / "effective-hashes.json").read_text())
+    need(effective.get("exact") is True and
+         effective.get("actual", {}).get("bin/verifast") ==
+         BOOL_SUPPLEMENT["baseline_console_sha256"] and
+         effective.get("expected") == data["effective_hashes"] and
+         (a.evidence / "effective-console-sha256.txt").read_text().strip() ==
+         BOOL_SUPPLEMENT["baseline_console_sha256"] and
+         sha(a.tool_home / "bin/verifast") == BOOL_SUPPLEMENT["baseline_console_sha256"],
+         "supplement console differs from primary Build or seven effective pins")
+
+
+def supplement_record(a, data: dict) -> None:
+    """Link only this Build's integration diagnostics to the primary Build."""
+    supplement_check(a, data)
+    result_path = a.evidence / "result.json"
+    need(result_path.is_file(), "supplement integration result absent")
+    result = json.loads(result_path.read_text())
+    need(result.get("accepted") is False and
+         result.get("verification_accepted") is False,
+         "supplement result must remain unaccepted")
+    regressions = result.get("stages", {}).get("regressions", {})
+    targets = regressions.get("targets", {}) if isinstance(regressions, dict) else {}
+    expected = set(BOOL_SUPPLEMENT["required_regression_targets"])
+    actual = set(targets) if isinstance(targets, dict) else set()
+    outer = targets.get("strict_lifetime", {}).get("outer_type_escape", {}) if isinstance(targets, dict) else {}
+    row = {
+        "classification": "BOOL_REQUIRED_GATES_SUPPLEMENT_RAW_REVIEW_PENDING"
+                          if actual == expected and outer.get("intended_site_observed") is True
+                          else "BOOL_REQUIRED_GATES_SUPPLEMENT_INCOMPLETE",
+        "supplemental_only": True, "profile": PROFILE,
+        "baseline_build_id": BOOL_SUPPLEMENT["baseline_build_id"],
+        "baseline_proof_sha": BOOL_SUPPLEMENT["baseline_proof_sha"],
+        "baseline_manifest_sha256": BOOL_SUPPLEMENT["baseline_manifest_sha256"],
+        "baseline_archive_sha256": BOOL_SUPPLEMENT["baseline_archive_sha256"],
+        "same_console_sha256": BOOL_SUPPLEMENT["baseline_console_sha256"],
+        "required_regression_targets": BOOL_SUPPLEMENT["required_regression_targets"],
+        "targets_present": actual == expected,
+        "missing_targets": sorted(expected - actual),
+        "outer_bool_machine_observed": (
+            outer.get("intended_site_observed") is True and
+            outer.get("positive_audit", {}).get("classification") ==
+            "PASS_POSITIVE_LOCAL_HRTB_CLOSURE"),
+        "regression_completion_gates": regressions.get("completion_gates"),
+        "integration_result_sha256": sha(result_path),
+        "integration_diagnostic_complete": result.get("diagnostic_complete") is True,
+        "raw_review_pending": True, "proof_credit": False,
+        "accepted": False, "verification_accepted": False,
+        "profile_accepted": False,
+    }
+    save(a.evidence / "bool-supplement.json", row)
+    need(actual == expected and row["outer_bool_machine_observed"],
+         "supplement missing required targets or outer Bool machine observation")
 
 
 def materialize_slice(a, data: dict, source: dict) -> None:
@@ -315,7 +389,8 @@ def audit(a, data: dict, source: dict) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("mode", choices=("materialize-slice", "source-prepare", "run", "audit"))
+    parser.add_argument("mode", choices=("materialize-slice", "source-prepare", "run", "audit",
+                                         "supplement-check", "supplement-record"))
     for name in ("proof-root", "cloud-dir", "evidence", "manifest"):
         parser.add_argument("--" + name, type=Path, required=True)
     for name in ("tool-home", "compiler-sysroot", "work-root"):
@@ -331,6 +406,10 @@ def main() -> None:
         source_prepare(a, data, source)
     elif a.mode == "run":
         run(a, data, source)
+    elif a.mode == "supplement-check":
+        supplement_check(a, data)
+    elif a.mode == "supplement-record":
+        supplement_record(a, data)
     else:
         audit(a, data, source)
 

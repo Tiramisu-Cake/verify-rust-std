@@ -129,6 +129,23 @@ for binary in vf-rust-mir-exporter refinement-checker vf-cxx-ast-exporter libz3.
 done
 stage tool-pin python3 "$runner" pin --proof-root "$proof_root" \
   --manifest "$manifest" --evidence "$ev" --tool-home "$source_home"
+if python3 -c 'import json,sys; sys.exit(0 if "bool_required_gates_supplement" in json.load(open(sys.argv[1])) else 1)' "$manifest"; then
+  stage bool-supplement-console python3 "$slice_runner" supplement-check \
+    --proof-root "$proof_root" --cloud-dir "$cloud_dir" \
+    --manifest "$manifest" --evidence "$ev" --tool-home "$source_home"
+  current_stage=bool-required-gates
+  export SORT4_C4_SELECT_DIAGNOSTIC_STAGE=affected-gates
+  set +e
+  python3 "$runner" run --proof-root "$proof_root" --cloud-dir "$cloud_dir" \
+    --manifest "$manifest" --evidence "$ev" --tool-home "$source_home" \
+    --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
+  integration_exit=$?
+  set -e
+  stage bool-supplement-record python3 "$slice_runner" supplement-record \
+    --proof-root "$proof_root" --cloud-dir "$cloud_dir" \
+    --manifest "$manifest" --evidence "$ev" --tool-home "$source_home"
+  exit "$integration_exit"
+fi
 current_stage=slice-binding
 set +e
 python3 "$slice_runner" run --proof-root "$proof_root" --cloud-dir "$cloud_dir" \
