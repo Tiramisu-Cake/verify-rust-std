@@ -1,0 +1,86 @@
+{
+  "schema": "g1-ghost-annotations-v1",
+  "source_commit": "c7ca8c467aecf10a4b53039372ee97714f854ee3",
+  "refinedrust_commit": "332d945fafa14bf55c0c8390cb35ec4b0c012cff",
+  "purpose": "First stock frontend diagnostic only; no unit refinement, assumed summary or True unwind resource post.",
+  "files": [
+    {
+      "path": "library/core/src/lib.rs",
+      "source_key": "core_lib",
+      "sha256": "ec773985e10a944e1d4b0fc35ac22e163f59ef3af4ba5324df20129db18c7860",
+      "insertions": [
+        {
+          "symbol": "core::rr tool registration",
+          "anchor": "#![stable(feature = \"core\", since = \"1.6.0\")]\n",
+          "attributes": [
+            "#![feature(register_tool)]",
+            "#![register_tool(rr)]"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "source_key": "smallsort",
+      "sha256": "32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959",
+      "insertions": [
+        {
+          "symbol": "CopyOnDrop<T>::drop",
+          "anchor": "    fn drop(&mut self) {\n",
+          "attributes": [
+            "    #[rr::verify]"
+          ]
+        },
+        {
+          "symbol": "insert_tail<T,F>",
+          "anchor": "unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {\n",
+          "attributes": [
+            "#[rr::verify]"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/mem/manually_drop.rs",
+      "source_key": "manually_drop",
+      "sha256": "17e8e41866d3eadcfdc6f1a516e4ed9dd5555e10ad725aac3b04aec7c759731b",
+      "insertions": [
+        {
+          "symbol": "ManuallyDrop<T>::new",
+          "anchor": "    pub const fn new(value: T) -> ManuallyDrop<T> {\n",
+          "attributes": [
+            "    #[rr::verify]"
+          ]
+        },
+        {
+          "symbol": "Deref for ManuallyDrop<T>::deref",
+          "anchor": "    fn deref(&self) -> &T {\n",
+          "attributes": [
+            "    #[rr::verify]"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/mem/maybe_dangling.rs",
+      "source_key": "maybe_dangling",
+      "sha256": "1cf24b2ec36fff143f329f2ef6db5b4d47cfa798da7f30d88b554b712c8f4b53",
+      "insertions": [
+        {
+          "symbol": "MaybeDangling<P>::new",
+          "anchor": "    pub const fn new(x: P) -> Self\n",
+          "attributes": [
+            "    #[rr::verify]"
+          ]
+        },
+        {
+          "symbol": "MaybeDangling<P>::as_ref",
+          "anchor": "    pub const fn as_ref(&self) -> &P {\n",
+          "attributes": [
+            "    #[rr::verify]"
+          ]
+        }
+      ]
+    }
+  ]
+}

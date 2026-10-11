@@ -1,3 +1,30 @@
+# RefinedRust feasibility — FIRST REAL G1 CANDIDATE / EXECUTION BLOCKED
+
+2026-10-12. Baseline d85bb12da89b0aa02f0c7ad6f820820da8768799;
+[G1-RUN-READINESS](G1-RUN-READINESS.md) и isolated `g1-minimal/` candidate:
+штатный frontend, exact core/ghost-byte receipts, native diagnostics/generated
+artifacts; собственный Radium parser не gate. Старый harness не развивался.
+Cloud budget/charge **0/0**, своих Build/token/ledger NONE; compiler/extraction/
+verification/image/production mutations **NOT_RUN**. После commit/push STOP.
+
+Policy origin/main 6e1a8e59c56669abe5e6ec2013478e45ed2cc267 прочитана.
+Live read-only v3/max3 содержит merge reservation a9613c24-8f42-4008-981b-4df6b1e9206d;
+peer/account/process не менялись, это не API capacity audit. Owner proposal
+NOT_APPLIED: separate refinedrust-feasibility, max3 unchanged; нужны fresh
+coordinated client ACKs, не повторная v2→v3 migration. Dispatcher/recipe/metadata
+proposals на exact base 454d8a17e9c7989cbfebf24c4cdd31fea629abb0 не применены.
+
+Blockers: exact RR self-contained bundle/externally approved SHA256+generation,
+fresh pinned source/workflow/export audit; compatible image/dependency/export
+freeze (registry locations.list denied, existence UNKNOWN); reviewed owner/client/
+lane integration; отдельно phase/window/ledger/Cloud budget authorization.
+Source/compiler/tool pins сохранены; generated output не proof PASS.
+
+Validation: pure synthetic service 4/4 PASS, synthetic existing-packager gates
+PASS; Python3.10 AST/JSON/shell/anchors/recipe/static patch checks PASS. Patched
+dispatcher/coordinator только разобраны как текст; proof tools не запускались.
+Ниже сохранены исторические checkpoints.
+
 # RefinedRust feasibility — G1 MINIMAL PREPARATION CLOSED
 
 2026-10-12. [G1-MINIMAL-PLAN](G1-MINIMAL-PLAN.md) — текущий design decision по

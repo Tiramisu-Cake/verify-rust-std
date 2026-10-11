@@ -1,0 +1,55 @@
+{
+  "schema": "refinedrust-g1-minimal-cold-recipe-candidate-v1",
+  "status": "PREPARATION_ONLY_NOT_DISPATCHABLE",
+  "purpose": "Candidate for a separately reviewed Cloud-only, offline, frontend-only tool image setup. It establishes no proof result.",
+  "source_transfer": "research/challenge-8/refinedrust-feasibility/g1-minimal/source-transfer.json",
+  "base_recipe": "research/challenge-8/refinedrust-feasibility/g1/cloud/COLD-BUILD-RECIPE.json",
+  "image_inputs": "research/challenge-8/refinedrust-feasibility/g1/cloud/IMAGE-INPUTS.json",
+  "dockerfile": "research/challenge-8/refinedrust-feasibility/g1/cloud/Dockerfile.candidate",
+  "dockerfile_jobs_proposal": "research/challenge-8/refinedrust-feasibility/g1-minimal/cold-jobs.proposal.patch",
+  "pinned_inputs": {
+    "base_os_digest": "ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401",
+    "refinedrust_commit": "332d945fafa14bf55c0c8390cb35ec4b0c012cff",
+    "refinedrust_tree": "b33bcccbbbd6168ac73e0c7238a1edddbe34057c",
+    "rr_frontend_lock_sha256": "b66b9e281478be8263eab9ba210964cdd8f1db92535b7b81305f50dea03682aa",
+    "rust_channel": "nightly-2026-08-28",
+    "rustc_source_commit": "e457a7b0d326d67b4322ef0d11bd715cfaeda48f",
+    "rustc_archive_sha256": "b41f2e026eae47d66d67b9199c31084e470a05166c78d6770e8a838f8e98331f",
+    "cargo_archive_sha256": "1fb253af555a7edd3758bc3a00ddf262f6d5114a21e43e7c5d8207ea34887cb7",
+    "rustc_dev_archive_sha256": "f6a29511f80d08ff780a566b63ee54775d8f875b33716202035641748e40be71",
+    "llvm_tools_archive_sha256": "88967a1ad48a1784e558fe8324b693322d3e49c498554712e20339ceb7516d00",
+    "rust_src_archive_sha256": "6e6713037291a3880e3c9b3c5949a516d5064250541bfb88cb20226285c50a91",
+    "rust_std_archive_sha256": "73c5854230a3424379137953e835ce0c83d0282929214722e43831bebd547ce3"
+  },
+  "proposed_cloud_shape": {
+    "provider": "Cloud Build",
+    "machine_type": "E2_STANDARD_2",
+    "cargo_jobs": 1,
+    "network_during_image_build": "disabled",
+    "timeout_seconds": 1740,
+    "reserve_seconds": 1800,
+    "dispatcher_integration": "separate review required; no registration patch is applied",
+    "proposed_adjustment": "Apply the isolated cold-jobs proposal only after review; existing Dockerfile is unchanged."
+  },
+  "blocking_unknowns": {
+    "deb_snapshot_and_exact_package_versions": null,
+    "deb_bundle_sha256": null,
+    "vendor_tree_sha256": null,
+    "cargo_home_config_sha256": null,
+    "rr_bundle_uri": null,
+    "rr_bundle_generation": null,
+    "rr_bundle_sha256": null,
+    "context_archive_uri": null,
+    "context_archive_generation": null,
+    "context_archive_sha256": null,
+    "registry_destination": null,
+    "docker_builder_image_digest": null,
+    "image_digest": null,
+    "stdlib_export_inventory_and_actual_source_audit": null
+  },
+  "explicit_gates": [
+    "No image build or dispatch until every required context object has an immutable identity and verified hash.",
+    "Inspect the transferred pinned RefinedRust source and its exported stdlib bindings before freeze; availability and required exports are unresolved. Source reading is permitted locally, tool execution remains Cloud-only.",
+    "A cold image setup cannot authorize proof execution or upgrade any proof status."
+  ]
+}

@@ -1,0 +1,149 @@
+--- a/research/challenge-8/cloud-build/control.py
++++ b/research/challenge-8/cloud-build/control.py
+@@ -10,6 +10,18 @@
+ BUCKET='gs://smallsort-ci-evidence-504462351565/cloud-build'
+ UBUNTU='ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401'
+ SDK='gcr.io/google.com/cloudsdktool/google-cloud-cli@sha256:c631b05e8121048b29c9917bdc0a9fadd76d012f04f180a4409ec2ee534e832e'
++G1_LANE='refinedrust-g1-minimal'
++# Unassigned values deliberately block G1; freeze only after separate owner review.
++G1_FREEZE={'phase':None,'start_utc':None,'main_deadline_utc':None,'deadline_utc':None,
++ 'proof_sha':None,'image_digest':None,'freeze_sha256':None}
++
++def execution_image(lane):
++ if lane!=G1_LANE:return UBUNTU
++ image=G1_FREEZE['image_digest']
++ if not isinstance(image,str) or not re.fullmatch(r'[^\s]+@sha256:[0-9a-f]{64}',image):
++  raise SystemExit('G1 image has not been reviewed/frozen')
++ return image
++
+ ACCOUNT='smallsort-builder@smallsort-ci.iam.gserviceaccount.com'
+ SDK_PYTHON='/usr/lib/google-cloud-sdk/platform/bundledpythonunix/bin/python3'
+ TERMINAL={'SUCCESS','FAILURE','INTERNAL_ERROR','TIMEOUT','CANCELLED','EXPIRED'}
+@@ -28,9 +40,10 @@
+  if p.returncode:raise RuntimeError(p.stderr.strip())
+  return json.loads(p.stdout) if p.stdout.strip() else None
+
+-def envs(infra,proof,lane):return [f'INFRA_SHA={infra}',f'PROOF_SHA={proof}',f'LANE={lane}',f'PROOF_IMAGE={UBUNTU}','CLOUD_BUILD_ID=${BUILD_ID}','CLOUD_BUILD_PROJECT_ID=${PROJECT_ID}','CLOUD_BUILD_REGION=global','SMALLSORT_EXECUTION_PROVIDER=cloud-build','SUBMITTED_CONFIG_SHA=${_CONFIG_SHA}',] + [f'CONFIG_PART_{i}=${{_CONFIG_{i}}}' for i in range(8)]
++def envs(infra,proof,lane):return [f'INFRA_SHA={infra}',f'PROOF_SHA={proof}',f'LANE={lane}',f'PROOF_IMAGE={execution_image(lane)}','CLOUD_BUILD_ID=${BUILD_ID}','CLOUD_BUILD_PROJECT_ID=${PROJECT_ID}','CLOUD_BUILD_REGION=global','SMALLSORT_EXECUTION_PROVIDER=cloud-build','SUBMITTED_CONFIG_SHA=${_CONFIG_SHA}',] + [f'CONFIG_PART_{i}=${{_CONFIG_{i}}}' for i in range(8)]
+
+ def config(infra,proof,lane,seconds,token,source_payload=None):
++ image=execution_image(lane)
+  work_seconds=seconds-70
+  work='''set -euo pipefail
+  export DEBIAN_FRONTEND=noninteractive
+@@ -70,6 +83,9 @@
+   end=work.index(' export EVIDENCE_ROOT',start)
+   work=work[:start]+replacement+work[end:]
+   source_env=['SOURCE_GROUP_'+str(i)+'='+''.join('${_SOURCE_'+str(i*10+j)+'}' for j in range(len(group))) for i,group in enumerate(groups)]+[f'SOURCE_INPUT_SHA256={digest(source_payload)}','SOURCE_MODE=pinned-objects','SOURCE_RESTORE_BYTES='+restore]
++ if lane==G1_LANE:
++  if source_payload is None:raise SystemExit('G1 requires pinned-objects transport')
++  work=work.replace(' export DEBIAN_FRONTEND=noninteractive\n apt-get update\n apt-get install --yes --no-install-recommends ca-certificates curl git python3 time\n','',1)
+  if lane=='smoke-success':work="printf 'SMALLSORT_BUCKET_WRITE_PROBE\\n'; printf 'cloud-build bucket probe\\n' > /workspace/evidence/probe.txt"
+  elif lane=='smoke-error':work="printf 'CONTROLLED_ERROR_START\\n'; printf 'deliberate exit 42\\n' >&2; exit 42"
+  elif lane=='smoke-timeout':work="printf 'INTERNAL_TIMEOUT_START\\n'; timeout --signal=TERM --kill-after=1s 2s bash -c 'sleep 30'"
+@@ -121,7 +137,7 @@
+ except Exception as e:
+  print('INCOMPLETE_EVIDENCE',type(e).__name__,str(e));sys.exit(2)
+ '''
+- return {'steps':[{'id':'execute','name':UBUNTU,'entrypoint':'bash','args':['-ceu',body],'env':envs(infra,proof,lane)+source_env,'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane)+['PACKAGER_BYTES='+package],'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':SDK_PYTHON,'args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':{'machineType':'E2_STANDARD_2','logging':'CLOUD_LOGGING_ONLY'},'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder',**{f'_CONFIG_{i}':'placeholder' for i in range(8)},**{f'_SOURCE_{i}':part for i,part in enumerate(source_parts)}}}
++ return {'steps':[{'id':'execute','name':image,'entrypoint':'bash','args':['-ceu',body],'env':envs(infra,proof,lane)+source_env,'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane)+['PACKAGER_BYTES='+package],'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':SDK_PYTHON,'args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':{'machineType':'E2_STANDARD_2',**({'diskSizeGb':100} if lane==G1_LANE else {}),'logging':'CLOUD_LOGGING_ONLY'},'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder',**{f'_CONFIG_{i}':'placeholder' for i in range(8)},**{f'_SOURCE_{i}':part for i,part in enumerate(source_parts)}}}
+
+ def reconcile(state,ledger,ledger_path):
+  for item in ledger['builds']:
+@@ -427,6 +443,19 @@
+   cutoff=datetime.datetime.fromisoformat('2026-10-12T00:06:26+00:00')
+   if a.command=='submit' and datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(ledger['main_deadline_utc'].replace('Z','+00:00')):
+    raise SystemExit('B1/B2 main window passed; finishing/evidence/checkpoint only')
++ if a.phase_id and a.phase_id==G1_FREEZE['phase']:
++  if (a.owner!='refinedrust-feasibility' or ledger.get('owner')!=a.owner or
++      ledger.get('allowed_lanes')!=[G1_LANE] or ledger['ceiling_build_seconds']!=1260 or
++      any(ledger.get(k)!=G1_FREEZE[k] or G1_FREEZE[k] is None for k in
++          ('start_utc','main_deadline_utc','deadline_utc','proof_sha','image_digest','freeze_sha256'))):
++   raise SystemExit('G1 requires separately frozen owner/window/1260-second account/inputs')
++  start=datetime.datetime.fromisoformat(G1_FREEZE['start_utc'].replace('Z','+00:00'))
++  main=datetime.datetime.fromisoformat(G1_FREEZE['main_deadline_utc'].replace('Z','+00:00'))
++  cutoff=datetime.datetime.fromisoformat(G1_FREEZE['deadline_utc'].replace('Z','+00:00'))
++  now=datetime.datetime.now(datetime.timezone.utc)
++  if not start<=now or not start<main<=cutoff or main-start>datetime.timedelta(hours=2) or cutoff-main>datetime.timedelta(minutes=30):
++   raise SystemExit('G1 window invalid or not started')
++  if a.command=='submit' and now>=main:raise SystemExit('G1 main window has ended')
+  if deadline.tzinfo is None or deadline>cutoff:raise SystemExit('Phase deadline exceeds authorized cutoff')
+  if a.phase_id==NIGHT_PHASE and deadline!=cutoff:raise SystemExit('Select phase requires its exact 08:00 UTC deadline')
+  if datetime.datetime.now(datetime.timezone.utc)>=deadline:raise SystemExit('Phase deadline has passed')
+@@ -493,6 +522,12 @@
+   return
+  if a.command=='submit':
+   deadline=authorized_phase(a,ledger)
++  if a.lane==G1_LANE:
++   if (a.phase_id!=G1_FREEZE['phase'] or a.timeout!=1200 or ledger.get('builds') or
++       a.infra_sha!=ledger.get('infra_sha') or a.proof_sha!=G1_FREEZE['proof_sha']):
++    raise SystemExit('G1 permits one separately frozen warm attempt only')
++   freeze_bytes=subprocess.check_output(['git','show',a.proof_sha+':research/challenge-8/refinedrust-feasibility/g1-minimal/freeze.json'],cwd=ROOT)
++   if digest(freeze_bytes)!=G1_FREEZE['freeze_sha256']:raise SystemExit('G1 freeze bytes mismatch')
+   if a.lane not in ledger.get('allowed_lanes',[]):raise SystemExit('Lane is not approved in the phase account')
+   if not LANE_PATTERN.fullmatch(a.lane):raise SystemExit('Invalid lane name')
+   if a.source_mode!='pinned-objects':raise SystemExit('New phase requires pinned Git objects')
+--- a/research/challenge-8/cloud-build/run-refinedrust-g1.sh
++++ b/research/challenge-8/cloud-build/run-refinedrust-g1.sh
+@@ -0,0 +1,9 @@
++#!/usr/bin/env bash
++# Recipe infrastructure entrypoint; actual driver stays in pinned proof inputs.
++set -euo pipefail
++[[ ${1:-} == refinedrust-g1-minimal ]] || exit 2
++[[ ${SMALLSORT_EXECUTION_PROVIDER:-} == cloud-build ]] || exit 2
++: "${CLOUD_BUILD_ID:?Cloud-only G1}"
++export PROOF_ROOT=${PROOF_ROOT:-/workspace/proof}
++export EVIDENCE_ROOT=${EVIDENCE_ROOT:-/workspace/evidence}
++exec bash "$PROOF_ROOT/research/challenge-8/refinedrust-feasibility/g1-minimal/entrypoint.sh"
+--- a/research/challenge-8/cloud-build/recipes/refinedrust-g1-minimal.json
++++ b/research/challenge-8/cloud-build/recipes/refinedrust-g1-minimal.json
+@@ -0,0 +1,30 @@
++{
++  "schema": "smallsort-cloud-recipe-v1",
++  "lane": "refinedrust-g1-minimal",
++  "infra_transport": "exact-recipe-v1",
++  "entrypoint": "research/challenge-8/cloud-build/run-refinedrust-g1.sh",
++  "infra_paths": [
++    "research/challenge-8/cloud-build/control.py",
++    "research/challenge-8/cloud-build/coordination.py",
++    "research/challenge-8/cloud-build/package-evidence.py",
++    "research/challenge-8/cloud-build/recipes/refinedrust-g1-minimal.json",
++    "research/challenge-8/cloud-build/run-proof.sh",
++    "research/challenge-8/cloud-build/run-refinedrust-g1.sh",
++    "research/challenge-8/cloud-build/source-input.py",
++    "research/challenge-8/cloud-build/verify-evidence.py"
++  ],
++  "proof_paths": [
++    "research/challenge-8/refinedrust-feasibility/g1-minimal/annotations.json",
++    "research/challenge-8/refinedrust-feasibility/g1-minimal/entrypoint.sh",
++    "research/challenge-8/refinedrust-feasibility/g1-minimal/freeze.json",
++    "research/challenge-8/refinedrust-feasibility/g1-minimal/inputs.json",
++    "research/challenge-8/refinedrust-feasibility/g1-minimal/restore-source.sh",
++    "research/challenge-8/refinedrust-feasibility/g1-minimal/run.py",
++    "research/challenge-8/refinedrust-feasibility/g1-minimal/service.py",
++    "research/challenge-8/refinedrust-feasibility/g1/annotate.py",
++    "research/challenge-8/refinedrust-feasibility/g1/controls/p0/Cargo.lock",
++    "research/challenge-8/refinedrust-feasibility/g1/controls/p0/Cargo.toml",
++    "research/challenge-8/refinedrust-feasibility/g1/controls/p0/src/lib.rs",
++    "research/challenge-8/refinedrust-feasibility/g1/verify_inputs.py"
++  ]
++}
+--- a/research/challenge-8/cloud-build/package-evidence.py
++++ b/research/challenge-8/cloud-build/package-evidence.py
+@@ -142,6 +142,15 @@
+     and selected case receipt. Missing or contradictory metadata is represented
+     as unknown/inconsistent while raw evidence packaging continues unchanged.
+     """
++    if lane == "refinedrust-g1-minimal":
++        identities = parse_json_or_none(payload.get("g1/inputs.json")) or {}
++        freeze = parse_json_or_none(payload.get("g1/freeze.json")) or {}
++        return {"baseline": {"std_base_sha": identities.get("source", {}).get("commit")},
++                "executed": {"status": "frontend-diagnostic-only", "accepted": False,
++                    "tool_commit": identities.get("rr", {}).get("commit"),
++                    "compiler_commit": identities.get("compiler", {}).get("commit"),
++                    "profile": identities.get("profile"), "image_digest": freeze.get("image_digest"),
++                    "scope": "generation/log collection; proof NOT_RUN; absent metadata UNKNOWN"}}
+     baseline = {
+         "verifast_source_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+         "std_base_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+# End of unapplied proposal.
