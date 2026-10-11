@@ -1,0 +1,214 @@
+{
+  "schema": "merge-compiler-instance-observation-v1",
+  "classification": "OBSERVED_NOT_VERIFIED_GLUE",
+  "build_id": "854d9fb5-1fca-4155-a4e5-86ef182385e4",
+  "proof_sha": "e2d37f698302938faff704a0a441124da4831d9e",
+  "archive_sha256": "f05a6053d43ce0edcac7a882cc66d1b094d58637a6aaa754afdea5dc086a062b",
+  "profile": "experimental-merge-actual-glue-observation-v2",
+  "profile_sha256": "1da0c9fba80c46aeed7ce74b4ddfbba6d80d6b12c6640e19fe15b4c24702a5e2",
+  "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+  "target": "x86_64-unknown-linux-gnu",
+  "domain": "CopyOnDrop concrete-u64, guard.len==1, bounded normal adapter",
+  "instance": "Shim(DropGlue(core::ptr::drop_glue,Some(CopyOnDrop)))",
+  "args": [
+    "CopyOnDrop"
+  ],
+  "input": "&mut CopyOnDrop (erased lifetime)",
+  "output": "()",
+  "mir_phase": "Runtime(Optimized)",
+  "blocks": {
+    "bb0": {
+      "statements": [
+        "_2 = copy _1"
+      ],
+      "call": "<CopyOnDrop as core::ops::Drop>::drop(move _2)",
+      "destination": "_3",
+      "normal": "bb1",
+      "unwind": "Continue"
+    },
+    "bb1": {
+      "statements": [],
+      "terminator": "Return"
+    }
+  },
+  "receiver_ref_rvalue": false,
+  "storage_dead": false,
+  "destructor_binding": "ADT destructor local path/hash recorded; raw FnDef identifies generic trait method; resolved callee Instance observation required",
+  "borrow_end": "not explicit in raw glue; caller receiver create/end must bracket verified glue and restore physical guard before caller StorageDead",
+  "hypothesis_expected_rawptr_ref_shape": "FALSIFIED_BY_OBSERVATION",
+  "actual_glue_body_proof": "NOT_RUN",
+  "panic_cleanup": "NOT_RUN",
+  "selected7_helper4_and_smokes": "FRESH_PASS_COMPONENT_ONLY",
+  "accepted": false,
+  "integration_status": "NOT_FOR_INTEGRATION",
+  "observations": [
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8829-1791731664785058384/drop-000000.txt",
+      "sha256": "0d9c2c57dfb6807991662909bff236f1c88bfc45153a679961cbfb1df41ba639"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8829-1791731664785058384/drop-000001.txt",
+      "sha256": "aa2f41e541049ab062f5b9c805e441a2f4e54b49acfdd0d13440851f097f3cb7"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8843-1791731665038436850/drop-000000.txt",
+      "sha256": "0d9c2c57dfb6807991662909bff236f1c88bfc45153a679961cbfb1df41ba639"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8843-1791731665038436850/drop-000001.txt",
+      "sha256": "aa2f41e541049ab062f5b9c805e441a2f4e54b49acfdd0d13440851f097f3cb7"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8857-1791731665574995301/drop-000000.txt",
+      "sha256": "a812d0ef4fc6ca2c09b8e6ac224b3eb5bd2a9db2da3e331ec7f20021578d8c2a"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8868-1791731665665172644/drop-000000.txt",
+      "sha256": "008045dcf087e3cc5d15cabb7c8655a65390ce06965140d6d6378ced1bc0ceeb"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8874-1791731666551218428/drop-000000.txt",
+      "sha256": "0d9c2c57dfb6807991662909bff236f1c88bfc45153a679961cbfb1df41ba639"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8874-1791731666551218428/drop-000001.txt",
+      "sha256": "aa2f41e541049ab062f5b9c805e441a2f4e54b49acfdd0d13440851f097f3cb7"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8888-1791731666795844630/drop-000000.txt",
+      "sha256": "0d9c2c57dfb6807991662909bff236f1c88bfc45153a679961cbfb1df41ba639"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8888-1791731666795844630/drop-000001.txt",
+      "sha256": "aa2f41e541049ab062f5b9c805e441a2f4e54b49acfdd0d13440851f097f3cb7"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8902-1791731667238324249/drop-000000.txt",
+      "sha256": "a812d0ef4fc6ca2c09b8e6ac224b3eb5bd2a9db2da3e331ec7f20021578d8c2a"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8913-1791731667326300802/drop-000000.txt",
+      "sha256": "008045dcf087e3cc5d15cabb7c8655a65390ce06965140d6d6378ced1bc0ceeb"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8919-1791731668194916930/drop-000000.txt",
+      "sha256": "50be4e98677231a8e6f16639042f320945c0859d1b43793f19540f09e972b69d"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8919-1791731668194916930/drop-000001.txt",
+      "sha256": "f42a8d276dd5b76e9b634c575966b190cb1274b0bc26ad5f4ed64f488bf6fbc2"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8933-1791731668449190954/drop-000000.txt",
+      "sha256": "50be4e98677231a8e6f16639042f320945c0859d1b43793f19540f09e972b69d"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8933-1791731668449190954/drop-000001.txt",
+      "sha256": "f42a8d276dd5b76e9b634c575966b190cb1274b0bc26ad5f4ed64f488bf6fbc2"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8947-1791731668884619106/drop-000000.txt",
+      "sha256": "a812d0ef4fc6ca2c09b8e6ac224b3eb5bd2a9db2da3e331ec7f20021578d8c2a"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8958-1791731668972009951/drop-000000.txt",
+      "sha256": "e4182c2bd08efa7c104416ec6f93762e00687e5f9d400c826785f73f4b3017b3"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8964-1791731669854231797/drop-000000.txt",
+      "sha256": "41ba13dd9005a4b6c38c9d9d504838c3449da64da64d5f38fe32a34a67c756c2"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8964-1791731669854231797/drop-000001.txt",
+      "sha256": "53b20bd282041d9b5b80f4bd7cd921c0ae3c924f722f9919a3a3ae346482f241"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8978-1791731670102852336/drop-000000.txt",
+      "sha256": "41ba13dd9005a4b6c38c9d9d504838c3449da64da64d5f38fe32a34a67c756c2"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8978-1791731670102852336/drop-000001.txt",
+      "sha256": "53b20bd282041d9b5b80f4bd7cd921c0ae3c924f722f9919a3a3ae346482f241"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-8992-1791731670484995889/drop-000000.txt",
+      "sha256": "a812d0ef4fc6ca2c09b8e6ac224b3eb5bd2a9db2da3e331ec7f20021578d8c2a"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-9003-1791731670581452766/drop-000000.txt",
+      "sha256": "09fcc3a63bd487dbae8696857d057c72a3b5265d5bc96b5cf08199c225949f16"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-9009-1791731671536092350/drop-000000.txt",
+      "sha256": "41ba13dd9005a4b6c38c9d9d504838c3449da64da64d5f38fe32a34a67c756c2"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-9009-1791731671536092350/drop-000001.txt",
+      "sha256": "53b20bd282041d9b5b80f4bd7cd921c0ae3c924f722f9919a3a3ae346482f241"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-9023-1791731671776737906/drop-000000.txt",
+      "sha256": "41ba13dd9005a4b6c38c9d9d504838c3449da64da64d5f38fe32a34a67c756c2"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-9023-1791731671776737906/drop-000001.txt",
+      "sha256": "53b20bd282041d9b5b80f4bd7cd921c0ae3c924f722f9919a3a3ae346482f241"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-9037-1791731672216034693/drop-000000.txt",
+      "sha256": "a812d0ef4fc6ca2c09b8e6ac224b3eb5bd2a9db2da3e331ec7f20021578d8c2a"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-9048-1791731672300777009/drop-000000.txt",
+      "sha256": "09fcc3a63bd487dbae8696857d057c72a3b5265d5bc96b5cf08199c225949f16"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-9054-1791731673163323966/drop-000000.txt",
+      "sha256": "0d9c2c57dfb6807991662909bff236f1c88bfc45153a679961cbfb1df41ba639"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-9054-1791731673163323966/drop-000001.txt",
+      "sha256": "aa2f41e541049ab062f5b9c805e441a2f4e54b49acfdd0d13440851f097f3cb7"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-9068-1791731673365821832/drop-000000.txt",
+      "sha256": "0d9c2c57dfb6807991662909bff236f1c88bfc45153a679961cbfb1df41ba639"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-9068-1791731673365821832/drop-000001.txt",
+      "sha256": "aa2f41e541049ab062f5b9c805e441a2f4e54b49acfdd0d13440851f097f3cb7"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-9082-1791731673800075508/drop-000000.txt",
+      "sha256": "a812d0ef4fc6ca2c09b8e6ac224b3eb5bd2a9db2da3e331ec7f20021578d8c2a"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-9093-1791731673886401092/drop-000000.txt",
+      "sha256": "008045dcf087e3cc5d15cabb7c8655a65390ce06965140d6d6378ced1bc0ceeb"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-9099-1791731674728995495/drop-000000.txt",
+      "sha256": "0d9c2c57dfb6807991662909bff236f1c88bfc45153a679961cbfb1df41ba639"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-9099-1791731674728995495/drop-000001.txt",
+      "sha256": "aa2f41e541049ab062f5b9c805e441a2f4e54b49acfdd0d13440851f097f3cb7"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-9113-1791731674966084036/drop-000000.txt",
+      "sha256": "0d9c2c57dfb6807991662909bff236f1c88bfc45153a679961cbfb1df41ba639"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-9113-1791731674966084036/drop-000001.txt",
+      "sha256": "aa2f41e541049ab062f5b9c805e441a2f4e54b49acfdd0d13440851f097f3cb7"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-9127-1791731675510449418/drop-000000.txt",
+      "sha256": "a812d0ef4fc6ca2c09b8e6ac224b3eb5bd2a9db2da3e331ec7f20021578d8c2a"
+    },
+    {
+      "path": "allprooflogs/compiler-glue-observation/exporter-9138-1791731675595478995/drop-000000.txt",
+      "sha256": "008045dcf087e3cc5d15cabb7c8655a65390ce06965140d6d6378ced1bc0ceeb"
+    }
+  ]
+}

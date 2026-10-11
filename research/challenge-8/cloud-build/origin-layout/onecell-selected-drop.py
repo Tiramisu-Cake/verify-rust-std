@@ -585,7 +585,8 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
                        "research/challenge-8/merge/overnight/copy-on-drop-prove.py")
     provider, proof_sha = proof_base.require_hosted_cloud()
     if args.profile not in ("experimental-merge-selected-drop-receiver-v4",
-                            "experimental-merge-actual-glue-observation-v2"):
+                            "experimental-merge-actual-glue-observation-v2",
+                            "experimental-merge-actual-glue-observation-v3"):
         raise RuntimeError("selected Drop exact supported experimental profile required")
     consumer.PROFILE = args.profile
     receipt = consumer._validate_receipt(args, validated_receipt, provider, proof_sha)

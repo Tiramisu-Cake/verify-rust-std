@@ -351,7 +351,7 @@ assert x['cases']=={'ordinary_call_normal_unwind':'PASS'} and x['classifier_cont
 RETAINEDSMOKE
   export SMALLSORT_GLUE_OBSERVATION_DIR="$evidence/compiler-glue-observation"
   profile_name=experimental-merge-qualified-guard-onecell-v1
-  [[ -z "${SMALLSORT_MERGE_PROFILE:-}" ]] || profile_name=experimental-merge-actual-glue-observation-v2
+  [[ -z "${SMALLSORT_MERGE_PROFILE:-}" ]] || profile_name=experimental-merge-actual-glue-observation-v3
   proof_campaign=bridge-minimal-v1
   [[ "$run_mode" != merge_len1_minimal ]] || proof_campaign=len1-minimal-v1
   [[ "$run_mode" != merge_caller_composition_minimal ]] || proof_campaign=caller-composition-minimal-v1
