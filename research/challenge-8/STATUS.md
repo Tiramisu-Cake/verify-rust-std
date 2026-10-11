@@ -27,3 +27,6 @@ Main policy6e1a8e59 adopted with [own ACK](verifast-review/drop-glue-v6-20261012
 docs commit ea155143. Coordinator migration already completed; no migration repeated.
 Upstream as_mut_ptr/ManuallyDrop::new, tool I and previous PASS remain preserved in
 [previous maintainer status](verifast-review/drop-glue-v6-20261012/PREVIOUS-STATUS.md).
+
+[Опубликованный immutable review-пакет](https://github.com/Tiramisu-Cake/verify-rust-std/tree/7567431a7877ede692d5d523ff4756a88a2fd239/research/challenge-8/verifast-review/drop-glue-v6-20261012), commit7567431a;
+[publication receipt](verifast-review/drop-glue-v6-20261012/PUBLICATION.json).
