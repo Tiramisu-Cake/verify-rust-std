@@ -31,7 +31,7 @@ export SORT4_SELECT_PROFILE=experimental-s6-26.10-v1
 mkdir -p "$RUSTUP_HOME" "$CARGO_HOME" "$TMPDIR"
 export PATH="$CARGO_HOME/bin:$PATH"
 current_stage=preflight
-trap 'code=$?; if [[ ! -f "$ev/result.json" ]]; then python3 "$runner" failure --evidence "$ev" --stage "$current_stage" --exit-code "$code" || true; fi' EXIT
+trap 'code=$?; if [[ ! -f "$ev/result.json" && ! -f "$stage_ev/cases/native-zst-supplement/result.json" ]]; then python3 "$runner" failure --evidence "$ev" --stage "$current_stage" --exit-code "$code" || true; fi' EXIT
 
 remaining() {
   local seconds=$((deadline - $(date +%s) - 20))
@@ -132,6 +132,13 @@ for binary in vf-rust-mir-exporter refinement-checker vf-cxx-ast-exporter libz3.
 done
 stage tool-pin python3 "$runner" pin --proof-root "$proof_root" \
   --manifest "$manifest" --evidence "$ev" --tool-home "$source_home"
+if python3 -c 'import json,sys; sys.exit(0 if isinstance(json.load(open(sys.argv[1])).get("supplemental_resume"),dict) else 1)' "$manifest"; then
+  current_stage=supplemental-c-controls
+  python3 "$native_runner" resume-c --proof-root "$proof_root" --cloud-dir "$cloud_dir" \
+    --manifest "$manifest" --evidence "$stage_ev/cases/native-zst-supplement" \
+    --tool-home "$source_home" --deadline-epoch "$deadline"
+  exit 0
+fi
 current_stage=integration
 export SORT4_C4_SELECT_DIAGNOSTIC_STAGE=affected-gates
 set +e

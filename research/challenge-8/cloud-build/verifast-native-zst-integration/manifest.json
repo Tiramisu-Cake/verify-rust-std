@@ -76,76 +76,19 @@
     "c3_manifest_sha256": "4311a7a8cf3c6537dfa082416187a2c2b98438aa5b656c9ae9cf2c35b4ee1bad"
   },
   "new_profile_verdict": "NOT_RUN",
-  "inherited_c4_controls": {
-    "source_sha256": "ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f",
-    "pre_ast_sha256": "0ed31137cf55a2ed47ed624a6c61591e4aaf96371df3c2979fc10ce8d95bb222",
-    "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
-    "eligibility": "Historical C3 metadata only; no credit under changed verifast1; superseded by fresh nine adapter controls",
-    "rows": {
-      "c1-unwind-false-assert": {
-        "exit": 1,
-        "target_entry_before_first_error": true,
-        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
-        "raw_vc_review": "REVIEWED",
-        "expected_vc": "verified/lib.rs(365,18-89): error: Assertion might not hold. (Cannot prove false.)"
-      },
-      "c2-unwind-false-assert": {
-        "exit": 1,
-        "target_entry_before_first_error": true,
-        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
-        "raw_vc_review": "REVIEWED",
-        "expected_vc": "verified/lib.rs(398,18-99): error: Assertion might not hold. (Cannot prove false.)"
-      },
-      "c3-unwind-false-assert": {
-        "exit": 1,
-        "target_entry_before_first_error": true,
-        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
-        "raw_vc_review": "REVIEWED",
-        "expected_vc": "verified/lib.rs(447,18-75): error: Assertion might not hold. (Cannot prove false.)"
-      },
-      "c4-normal-missing-close": {
-        "exit": 1,
-        "target_entry_before_first_error": true,
-        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
-        "raw_vc_review": "REVIEWED",
-        "expected_vc": "verified/lib.rs(68,29-30): error: No matching heap chunks: comparison_debt<T>(t, _, ptr_add_(v_base, (2 + 0), T_typeid), ptr_add_(v_base, 0, T_typeid), _, _, _, _)"
-      },
-      "c4-normal-omit-join": {
-        "exit": 1,
-        "target_entry_before_first_error": true,
-        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
-        "raw_vc_review": "REVIEWED",
-        "expected_vc": "verified/lib.rs(317,5-12): error: No matching heap chunks: foreach<T>(cons(right_after2, cons(a_current0, cons(left_after2, cons(c_current0, nil)))), own0(T_typeid, t))"
-      },
-      "c4-unwind-false-assert": {
-        "exit": 1,
-        "target_entry_before_first_error": true,
-        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
-        "raw_vc_review": "REVIEWED",
-        "expected_vc": "verified/lib.rs(482,18-75): error: Assertion might not hold. (Cannot prove false.)"
-      },
-      "c4-unwind-missing-close": {
-        "exit": 1,
-        "target_entry_before_first_error": true,
-        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
-        "raw_vc_review": "REVIEWED",
-        "expected_vc": "verified/lib.rs(68,29-30): error: No matching heap chunks: comparison_debt<T>(t, _, ptr_add_(v_base, (2 + 0), T_typeid), ptr_add_(v_base, 0, T_typeid), _, _, _, _)"
-      },
-      "c4-unwind-omit-join": {
-        "exit": 1,
-        "target_entry_before_first_error": true,
-        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
-        "raw_vc_review": "REVIEWED",
-        "expected_vc": "verified/lib.rs(324,5-12): error: No matching heap chunks: foreach<T>(cons(right_after2, cons(a_current0, cons(left_after2, cons(c_current0, nil)))), own0(T_typeid, t))"
-      },
-      "normal-false-post": {
-        "exit": 1,
-        "target_entry_before_first_error": true,
-        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
-        "raw_vc_review": "REVIEWED",
-        "expected_vc": "verified/lib.rs(315,21-24): error: Cannot prove condition. (Cannot prove false.)"
-      }
+  "supplemental_resume": {
+    "baseline_build_id": "47ee47d9-274b-4b13-84e2-167ba88ff770",
+    "baseline_proof_sha": "03c2f4e134473253045d716a9779cc1b8530d0bb",
+    "baseline_manifest_sha256": "f51acee9d4fcb5415ead8f1972a426cc8588679655f18577498ae028e71f055e",
+    "baseline_native_result_sha256": "17503443b9aa43fb8b683a9970f0bed76cced13c4ceb3db367ef7de9298749d6",
+    "baseline_integration_result_sha256": "1e915134a839b75a28d0189149100360aca1d3973e5924fa7b9af89143d8a5f4",
+    "baseline_audit_sha256": "c7111326913eeb9c58e19e7a7d59024dac46ff331a0408c0a50fa6eb4d80fb03",
+    "baseline_prepared_sha256": "e6c7dae4c528b1f7259476467fbd266ece9b8293682a988db3e13ba11f5612ad",
+    "baseline_binary_sha256": "6b73208f02f9b1c0d2e84b1b43bf53a70797c9d1953e818c6626ee4c99ee376d",
+    "c_sources_sha256": {
+      "c-nonempty": "0795cf5af0aca963af2f5656e42d5a899fa31c19866f1cfbbfcc05e1227dfb3a",
+      "cpp-empty": "b9d0c398d00bb5b62277a1a5566a0d7bf53f8541bc6654e75d0dc108af93e361"
     },
-    "historical_evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09"
+    "purpose": "Rerun only C/C++ positive controls with -shared; first Cloud Rust/Bool matrices remain separately reviewed evidence, not supplemental proof credit."
   }
 }

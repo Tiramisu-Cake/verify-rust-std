@@ -500,6 +500,92 @@ def run(a, data):
          "one or more fresh native/ZST gates inconclusive")
 
 
+def resume_c_controls(a, data):
+    """Supplement first Cloud evidence with only the C/C++ shared-library gates."""
+    resume = data.get("supplemental_resume")
+    need(isinstance(resume, dict) and resume.get("baseline_build_id") ==
+         "47ee47d9-274b-4b13-84e2-167ba88ff770" and
+         resume.get("baseline_proof_sha") == "03c2f4e134473253045d716a9779cc1b8530d0bb",
+         "supplemental baseline identity")
+    need(not a.evidence.exists(), "supplemental evidence already exists")
+    a.evidence.mkdir(parents=True)
+    prepared = a.evidence.parents[1] / "source-preparation/native"
+    prep_path = prepared / "prepared.json"
+    need(sha(prep_path) == resume["baseline_prepared_sha256"],
+         "supplemental source preparation differs from baseline")
+    prep = json.loads(prep_path.read_text())
+    need(prep["profile"] == data["native_zst_profile"] and
+         prep["source_prepared_before_console_build"] is True,
+         "supplemental source preparation status")
+    driver, _, models, _ = modules(a)
+    driver.pin(SimpleNamespace(proof_root=a.proof_root, manifest=a.manifest,
+                               tool_home=a.tool_home, evidence=a.evidence))
+    binary_sha = sha(a.tool_home / "bin/verifast")
+    need(binary_sha == resume["baseline_binary_sha256"],
+         "supplemental binary differs from baseline")
+    effective = {key: sha(a.tool_home / key) for key in data["effective_hashes"]}
+    need(effective == data["effective_hashes"], "supplemental effective tree differs")
+    need(set(models.C_CONTROLS) == set(resume["c_sources_sha256"]) ==
+         {"c-nonempty", "cpp-empty"}, "supplemental case set")
+    rows = {}
+    result = {
+        "classification": "SUPPLEMENTAL_C_CONTROLS_INCOMPLETE",
+        "baseline_build_id": resume["baseline_build_id"],
+        "baseline_proof_sha": resume["baseline_proof_sha"],
+        "baseline_manifest_sha256": resume["baseline_manifest_sha256"],
+        "baseline_native_result_sha256": resume["baseline_native_result_sha256"],
+        "baseline_integration_result_sha256": resume["baseline_integration_result_sha256"],
+        "baseline_audit_sha256": resume["baseline_audit_sha256"],
+        "baseline_prepared_sha256": resume["baseline_prepared_sha256"],
+        "current_proof_sha": os.environ["PROOF_SHA"],
+        "current_infra_sha": os.environ["INFRA_SHA"],
+        "tool_sha256": binary_sha, "effective_hashes": effective,
+        "fresh_c4_controls": "BASELINE_RESULT_REFERENCE_ONLY",
+        "native_c1": "BASELINE_RESULT_REFERENCE_ONLY",
+        "native_c4": "BASELINE_RESULT_REFERENCE_ONLY",
+        "rust_zst_models": "BASELINE_RESULT_REFERENCE_ONLY",
+        "bool_composition": "BASELINE_RESULT_REFERENCE_ONLY",
+        "cases": rows, "raw_review": "PENDING_INDEPENDENT_REVIEW",
+        "accepted": False, "verification_accepted": False,
+        "profile_accepted": False, "proof_credit": False,
+    }
+    save(a.evidence / "result.json", result)
+    for name in ("c-nonempty", "cpp-empty"):
+        ext = ".c" if name == "c-nonempty" else ".cpp"
+        fixture = prepared / "zst" / name
+        path = fixture / (name + ext)
+        before = sha(path)
+        need(before == prep["zst_controls"][name]["source_sha256"] ==
+             resume["c_sources_sha256"][name], "supplemental C source differs")
+        stage, raw = driver.stage(a, "supplemental-" + name + "-verification",
+            [str(a.tool_home / "bin/verifast"), "-shared", path.name],
+            fixture, isolated_env(driver), 180)
+        good = (stage["exit"] == 0 and "0 errors found (" in raw and
+                "1 statement" in raw and first_error(raw) is None and
+                sha(path) == before)
+        rows[name] = {"classification": "EXPECTED_OBSERVED" if good else "INCONCLUSIVE",
+                      "exit": stage["exit"], "first_error": first_error(raw),
+                      "source_sha256": before, "log_sha256": stage["log_sha256"],
+                      "argv": ["-shared", path.name], "proof_credit": False}
+        save(a.evidence / (name + ".json"), rows[name])
+        save(a.evidence / "result.json", result)
+    complete = all(row["classification"] == "EXPECTED_OBSERVED" for row in rows.values())
+    result["classification"] = ("SUPPLEMENTAL_C_CONTROLS_EXPECTED_OBSERVED_RAW_REVIEW_REQUIRED"
+        if complete else "SUPPLEMENTAL_C_CONTROLS_INCOMPLETE")
+    save(a.evidence / "result.json", result)
+    save(a.evidence.parents[1] / "proof-audit.json", {
+        "classification": result["classification"], "supplemental_only": True,
+        "baseline_build_id": resume["baseline_build_id"],
+        "supplemental_result_sha256": sha(a.evidence / "result.json"),
+        "other_gates": "BASELINE_RESULT_REFERENCE_ONLY",
+        "raw_review": "PENDING_INDEPENDENT_REVIEW",
+        "diagnostic_complete": False, "accepted": False,
+        "verification_accepted": False, "profile_accepted": False,
+        "proof_credit": False})
+    need(complete, "supplemental C/C++ gates inconclusive")
+    need(False, "supplemental raw review pending; no automatic proof credit")
+
+
 def audit(a, data):
     integration = a.evidence.parents[1] / "cases/integration/result.json"
     native = a.evidence / "result.json"
@@ -529,7 +615,7 @@ def audit(a, data):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("mode", choices=("source-prepare", "apply", "run", "audit"))
+    parser.add_argument("mode", choices=("source-prepare", "apply", "run", "resume-c", "audit"))
     parser.add_argument("--proof-root", required=True, type=Path)
     parser.add_argument("--cloud-dir", required=True, type=Path)
     parser.add_argument("--manifest", required=True, type=Path)
@@ -554,6 +640,10 @@ def main():
         need(a.tool_home is not None and a.compiler_sysroot is not None and
              a.deadline_epoch is not None, "run inputs")
         run(a, data)
+    elif a.mode == "resume-c":
+        need(a.tool_home is not None and a.deadline_epoch is not None,
+             "supplemental run inputs")
+        resume_c_controls(a, data)
     else:
         need(a.integration_exit is not None and a.native_exit is not None,
              "component exits")
