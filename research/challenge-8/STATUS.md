@@ -1,4 +1,8 @@
-# VeriFast maintainer checkpoint — session D closed
+# VeriFast maintainer checkpoint — session E closed
+
+BLOCKED reconfirmed without another Build. The repeated C-based request's runner-UNRUN status is historical: ca5f5460 already executed in D/Build9397d5cd through delivery84f21b3b. Tool4a34010/profileC3 and all meaningful inputs match. Reused D selector/C4/composition PASS and reviewed gates remain separate from missing mandatory outer-F cut106 VC. No honest exact-path repair under unchanged-kernel/no-new-rule scope; no new semantic change or fresh E proof. E ledger CLOSED0/3600,3600expire; no own requests/reservations. [E checkpoint](cloud-build/verifast-c4-select-outer-e/END-CHECKPOINT-2026-10-11-E.md), [input equality](cloud-build/verifast-c4-select-outer-e/INPUT-RECONFIRMATION.json). Previous accounts/evidence preserved; no automatic session.
+
+## Preserved session D status
 
 BLOCKED. Fresh unchanged-C3 selector, bounded C1→C4 and first-real-select composition PASS. Corrected runner ca5f5460 executed on delivery84f21b3b/Build9397d5cd. Mandatory outer-F reaches registration/callback103/cut106, frees six relocated locals and unexpectedly PASSes; the required escape VC is NOT_OBSERVED. Independent review found no honest exact-path repair without a new semantic rule or different fixture. Tool/kernel/posts/CURRENT unchanged. All other agreed raw gates and typed AST transport reviewed; old unchanged-input evidence retains original pins.
 
