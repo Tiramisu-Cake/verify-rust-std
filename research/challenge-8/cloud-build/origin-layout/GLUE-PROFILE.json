@@ -1,6 +1,6 @@
 {
   "schema": "smallsort-tracked-md-profile-v1",
-  "profile": "experimental-merge-actual-glue-body-v1",
+  "profile": "experimental-merge-actual-glue-body-v2",
   "verifast_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
   "baseline_translator_sha256": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
   "translator_sha256": "f17691b857225785d79aee6c958c92143549e8ac61750c7295af38ec476b8cac",
@@ -31,7 +31,7 @@
   "baseline_exporter_sha256": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
   "guard_layout_patch_sha256": "16476ac7e615831bfd49cec3efdcefd1d76eab1a57f2df47b97f43fb8d6a1d74",
   "guard_layout_tool_commit": "df6b3fbfcf4192d6b442d13e35dafe8477a3fe6f",
-  "exporter_source_sha256": "d5840bb5beea5fac374abb3409dcbeb3c1dbbf5fa51dbbf21d24f074a7f0b948",
+  "exporter_source_sha256": "d8bca867798fd93ececcb5fd8db330d6d23d2f7b815009437bf4961b9fcd2f51",
   "schema_sha256": "b6c63644e8926a207b4393b80bf27696838aa22fe9db33acecc9fefa68550750",
   "selected_drop_patch_sha256": "57bab179dc11366369689c0980209c2e76acf82339a346b02e1cc99fdfbb610a",
   "selected_drop_tool_commit": "8a3f63eabf18cc76cc9048c086dda95fbec84d03",
@@ -88,7 +88,7 @@
     },
     {
       "path": "research/challenge-8/cloud-build/origin-layout/glue-body.patch",
-      "sha256": "afe340cc7cd51276ba0a4ea3de05cd57c4a8a89b2063b5bb8bdf3b32a55a35d3"
+      "sha256": "581ee2ca595f935af1f5701bb07b5dd98056da5d269877e458de38d6aea70d5a"
     }
   ],
   "previous_selected_profile_sha256": "7e4f6088574056a0846aad2887895836b5e03edf06bb5a493d29daf44151cfff",
@@ -97,10 +97,10 @@
   "preserved_selected_profile_sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
   "glue_credit": "EXPERIMENTAL_NOT_PROVED",
   "semantic_delta": "Exact compiler-owned generated DropGlue body appended with captured method identity/phase and concrete Instance descriptor; qualified raw trait call lowered to checked selected method, caller receiver/end producer retained; official rebuilt refiner checks exact generated CFG including unwind without snippet shortcut. Frozen kernel/memory/alias/prelude unchanged; concrete non-generic u64 extracted specialization only.",
-  "effective_tool_commit": "dbbba0d3ad1b2aaec9b40a87405b1518e5dd7e71",
+  "effective_tool_commit": "a382cea28be0805f076ef3e735cdff931c9d2524",
   "previous_glue_observation_profile_sha256": "ede5bd5e338703a6c1f99e6ee0dfe422115241fef9a7a9fadc4a9f9e71f63e1b",
-  "glue_body_tool_commit": "dbbba0d3ad1b2aaec9b40a87405b1518e5dd7e71",
-  "glue_body_patch_sha256": "afe340cc7cd51276ba0a4ea3de05cd57c4a8a89b2063b5bb8bdf3b32a55a35d3",
+  "glue_body_tool_commit": "a382cea28be0805f076ef3e735cdff931c9d2524",
+  "glue_body_patch_sha256": "581ee2ca595f935af1f5701bb07b5dd98056da5d269877e458de38d6aea70d5a",
   "baseline_refiner_binary_sha256": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
   "refiner_main_source_sha256": "0775c7cc84f126e8dcc3b14ff4a373c32a7b49bea9d0dbca1ba8db6f86290d3d",
   "refiner_core_source_sha256": "d5e0a1be5b1dfd80b0939286fcd4375010a1ed4673824a942a423c1aa8b70276"

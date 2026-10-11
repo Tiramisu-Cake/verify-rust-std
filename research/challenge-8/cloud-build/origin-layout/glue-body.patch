@@ -435,7 +435,7 @@ index 75fac073..86c298fc 100644
  }
  
 diff --git a/src/rust_frontend/vf_mir_exporter/src/lib.rs b/src/rust_frontend/vf_mir_exporter/src/lib.rs
-index 4f296f40..c60b81d4 100644
+index 4f296f40..684d3f76 100644
 --- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
 +++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
 @@ -634,6 +634,7 @@ use rustc_span::RemapPathScopeComponents;
@@ -537,7 +537,7 @@ index 4f296f40..c60b81d4 100644
 +                    assert!(matches!(exit.terminator().kind, mir::TerminatorKind::Return));
 +                    assert_eq!(entry.statements.len(), 1);
 +                    assert!(matches!(&entry.statements[0].kind, mir::StatementKind::Assign(a)
-+                        if a.0 == mir::Place::from(locals[2]) && matches!(&a.1, mir::Rvalue::Use(mir::Operand::Copy(p)) if *p == mir::Place::from(locals[1]))));
++                        if a.0 == mir::Place::from(locals[2]) && matches!(&a.1, mir::Rvalue::Use(mir::Operand::Copy(p), _) if *p == mir::Place::from(locals[1]))));
 +                    let mir::TerminatorKind::Call { func, args, destination, target, unwind, .. } = &entry.terminator().kind else { panic!("actual generated glue entry not call") };
 +                    assert_eq!(*target, Some(blocks[1]));
 +                    assert!(matches!(unwind, mir::UnwindAction::Continue));
@@ -601,8 +601,8 @@ index 4f296f40..c60b81d4 100644
 +            d.set_glue_def_path(&tcx.def_path_str(g.instance.def_id()));
 +            d.set_glue_def_hash(&format!("{:?}", tcx.def_path_hash(g.instance.def_id())));
 +            d.set_instance_kind("DropGlue");
-+            let mut args = d.reborrow().init_instance_args(g.instance.args.len() as u32);
-+            for (i, arg) in g.instance.args.iter().enumerate() { Self::encode_gen_arg(tcx, &mut ctx, arg, args.reborrow().get(i as u32)); }
++            let mut args = d.reborrow().init_instance_args(g.instance.args.len());
++            for (i, arg) in g.instance.args.iter().enumerate() { Self::encode_gen_arg(tcx, &mut ctx, arg, args.reborrow().get(i)); }
 +            d.set_selected_drop_path(&tcx.def_path_str(g.selected.def_id()));
 +            d.set_selected_drop_hash(&format!("{:?}", tcx.def_path_hash(g.selected.def_id())));
 +            d.reborrow().init_resolved_args(0);
@@ -626,9 +626,9 @@ index 4f296f40..c60b81d4 100644
  
 -            vf_mir_cpn.fill_bodies(&self.bodies, |mut body_cpn, (body, span)| {
 +            let generated = self.collect_generated_glue();
-+            let mut body_outputs = vf_mir_cpn.reborrow().init_bodies((self.bodies.len() + generated.len()) as u32);
++            let mut body_outputs = vf_mir_cpn.reborrow().init_bodies(self.bodies.len() + generated.len());
 +            for (index, (body, span)) in self.bodies.iter().enumerate() {
-+                let mut body_cpn = body_outputs.reborrow().get(index as u32);
++                let mut body_cpn = body_outputs.reborrow().get(index);
                  Self::encode_span_data(
                      self.tcx,
                      &span.data(),
@@ -639,7 +639,7 @@ index 4f296f40..c60b81d4 100644
 -            });
 +            }
 +            for (index, glue) in generated.iter().enumerate() {
-+                self.encode_generated_body(glue, body_outputs.reborrow().get((self.bodies.len() + index) as u32));
++                self.encode_generated_body(glue, body_outputs.reborrow().get(self.bodies.len() + index));
 +            }
  
              // Encode directives
