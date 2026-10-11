@@ -63,3 +63,12 @@ admission. Source capture alone is `NOT_RUN` for target proof and creates no
 callable summary. External `as_mut_ptr`, caller guards/overflow, C5,
 select/copies, generic full sort4 and composition with maintainer profiles
 remain outside this fragment.
+
+Transport closure: the full marker.rs and shared/mod.rs are documentary provenance,
+not accessed by this lane and not members of frozen proof_std. Their complete
+published Git blob IDs and SHA256 plus exact Freeze/FreezeMarker declarations
+are retained in TRAIT-SOURCE-PROVENANCE.json (pinned and checked by the capture
+module); the complete files remain in the published repository. Only their
+transport is omitted to fit the existing 191-slot limit. No frozen snapshot,
+compiler input, executable dependency or source applicability claim changes.
+The fixture's local FreezeMarker declaration still requires caller review.

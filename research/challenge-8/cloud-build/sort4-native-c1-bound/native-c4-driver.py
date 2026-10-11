@@ -71,6 +71,14 @@ def make_source(a, driver, fixture):
     matched = re.search(r"(?ms)^// CASE_BEGIN native-c1-bound-positive\n(.*?)^// CASE_END native-c1-bound-positive$", source)
     require(matched is not None, "pinned C1 positive case absent")
     first = matched.group(1)
+    provenance = json.loads((a.proof_root / HERE / "TRAIT-SOURCE-PROVENANCE.json").read_text())
+    require(provenance["mode"] == "DOCUMENTARY_EXCERPT_NOT_CALLER_PROOF" and
+            provenance["sources"]["library/core/src/marker.rs"]["exact_declaration"] ==
+            "pub unsafe auto trait Freeze {}" and
+            provenance["sources"]["library/core/src/slice/sort/shared/mod.rs"]["exact_declaration"] ==
+            "pub(crate) trait FreezeMarker {}\n\nimpl<T: Freeze> FreezeMarker for T {}",
+            "trait provenance declarations")
+
     require(first.count("let c1 = is_less") == 1 and first.count("let c2 = is_less") == 0,
             "C1 case runtime shape")
     selected_file = (a.proof_root /
@@ -178,7 +186,7 @@ def run(a, c1_tool, env, driver):
              if line.startswith(("--- ", "+++ "))] ==
             [f"--- a/{TR}", f"+++ b/{TR}"], "manifest/patch admission")
     source_inputs = manifest.get("source_inputs")
-    require(isinstance(source_inputs, dict) and len(source_inputs) == 5 and
+    require(isinstance(source_inputs, dict) and len(source_inputs) == 6 and
             all(sha(a.proof_root / path) == expected
                 for path, expected in source_inputs.items()),
             "exact source/helper input hashes")
