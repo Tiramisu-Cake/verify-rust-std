@@ -1,6 +1,6 @@
 # MERGE selected Drop candidate — ACTIVE / EXPERIMENTAL
 
-2026-10-11: owner разработки receiver/lowering — **merge**. Передача разработки maintainer отменена; исторический запрос сохранён. Новая сессия09:24:22Z–11:24:22Z, finish11:54:22Z; новый бюджет3600Cloudseconds, старые3142retired. Policyc7ca8c467aecf10a4b53039372ee97714f854ee3 прочитана. Scope concrete-u64/x86_64,len1; узкий semantic candidate разрешён, принятие профиля не разрешено. Текущий шаг: merge разработал candidate tool1aacf837/profile91ee32c6 (v2); fresh Build7a2f2f2b наa0ab0d31 выполняется в own merge lane. Следующий шаг owner merge: inspect fresh receiver/method/CURRENT/full posts and mandatory controls, сохранить qualification и пакет для maintainer review. Разработка не передана maintainer; профиль NOT_ACCEPTED.
+2026-10-11: owner разработки receiver/lowering — **merge**. Передача разработки maintainer отменена; исторический запрос сохранён. Новая сессия09:24:22Z–11:24:22Z, finish11:54:22Z; новый бюджет3600Cloudseconds, старые3142retired. Policyc7ca8c467aecf10a4b53039372ee97714f854ee3 прочитана. Scope concrete-u64/x86_64,len1; узкий semantic candidate разрешён, принятие профиля не разрешено. Текущий шаг: merge разработал candidate tool8a3f63ea/profile803abaa5 (v4); fresh Buildfab8b1f5 на65b1679a выполняется в own merge lane. Следующий шаг owner merge: inspect fresh receiver/method/CURRENT/full posts and mandatory controls, сохранить qualification и пакет для maintainer review. Разработка не передана maintainer; профиль NOT_ACCEPTED.
 
 ## Предыдущий checkpoint (статусы не повышены)
 

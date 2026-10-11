@@ -1,0 +1,21 @@
+# Next compiler-glue experiment — merge-owned, NOT_RUN
+
+This is preparation for the next obligation, not delegation or a proof. Do not infer glue credit from a qualified selected Drop call. Current normal receiver candidate and its exact profile/checkpoint must first be qualified. No compiler query, new glue lowering or supplied caller precondition has been implemented here. Development remains merge; maintainer reviews compatibility and integration after a concrete candidate exists.
+
+## First remaining interface and falsifiable hypothesis
+
+Current exporter exports local destructor DefId/DefPathHash from adt.destructor(tcx).did, and binds it to the checked same-unit actual body. It does not export or verify a compiler-generated drop_in_place glue instance body. Existing generic drop_in_place contract is unchanged and is insufficient to return the CURRENT effect; strengthening that generic summary is forbidden.
+
+Hypothesis: the pinned compiler's concrete CopyOnDrop glue instance contains exactly a mutable receiver construction, the selected local destructor call and a normal return; the three raw-pointer/raw-pointer/usize fields have no further destructor. Verify this by exporting the actual compiler instance MIR with exact Instance identity/type substitution/DefId, nightly/target/source/layout bindings. Compiler API spelling and instantiated body format must be established at the pinned compiler revision in Cloud; no claim is based on guessed APIs. Reject foreign/generic/projected/replacement or ambiguous instance bindings. First diagnostic result must state whether this shape is observed, not assert that glue is already proved.
+
+## Resource ledger for the actual consumer
+
+Input is the actual constructor's physical full guard fields/padding and external singleton source quarter, destination gap and CURRENT owner/type_interp, with retained readonly end/lifetime resources. No origin/FBC/receiver premise may be added. Packing yields typed physical storage. Actual glue's mutable-reference rvalue must obtain receiver storage plus exact end token through existing create_ref_mut, not numerical address equality. The checked actual method strong contract consumes receiver fields/padding plus external payload; normal post returns them and the CURRENT effect. Close receiver storage, consume precisely the created end token, restore physical guard, return glue's full normal post, then caller StorageDead/free and original tail recovery. If generated MIR has no explicit temporary StorageDead, the borrow-end point must be justified from that exact call/return scope, not invented or skipped.
+
+Canonical trait receiver/full-borrow applicability is separate from this direct checked implementation route. Existing reborrow_ref_mut provides FBC at a new receiver but does not independently return the strong CURRENT payload alongside a reclosed gap-own; no duplication is permitted. Any need for a general alias/model/kernel redesign is a concrete project-owner scope decision, not automatic maintainer ownership transfer.
+
+## Gates before credit
+
+Bind original/verified source, compiler instance MIR, AST and official refinement to the same pinned inputs; verify generated glue body and actual selected method body, not assumed summaries. Preserve full normal/unwind posts and dynamic self.len copy. Require pre/post-call nonvacuity, missing usable receiver frame, missing source quarter, simultaneous two-full-effects rejection, omitted/wrong borrow-end and repeated destructor controls at intended obligations. Confirm one normal destructor edge and no path from its normal successor to a second guard Drop; separately record cleanup Drop and original unwind successor. Keep real source dead-code gate, no assume/leak shortcuts, and return/free/leak checks. Repeat affected admission/lowering and mandatory normal/unwind regressions on the exact new experimental profile; old PASS is not transferred. Do not claim caller panic cleanup from ordinary smoke or a normal no-unwind method proof.
+
+The minimal next action is an exact pinned compiler-instance observation, followed by a narrow implementation only if the shape/resources support it. This session does not automatically open another session or budget. The current selected normal candidate remains experimental NOT_ACCEPTED / NOT_FOR_INTEGRATION.
