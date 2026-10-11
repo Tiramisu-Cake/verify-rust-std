@@ -470,7 +470,7 @@ proof_attempted = ((compile_dir.parent / "retained-six-smoke.log").is_file() or
                    (compile_dir.parent / "minimal-bridge.log").is_file())
 bridge_pass = (bridge.get("all_matched") is True and bridge.get("accepted") is False and
     bridge.get("schema") == ("merge-minimal-guard-bridge-v1" if build_mode == "bridge-minimal" else "merge-minimal-caller-composition-v1" if build_mode == "caller-composition-minimal" else "merge-minimal-selected-drop-v1" if build_mode == "selected-drop-minimal" else "merge-minimal-len1-interface-v1") and
-    bridge.get("exact_case_sets") is True and len(bridge.get("cases",{})) == (21 if build_mode == "bridge-minimal" else 4 if build_mode == "caller-composition-minimal" else 6 if build_mode == "selected-drop-minimal" else 12) and
+    bridge.get("exact_case_sets") is True and len(bridge.get("cases",{})) == (21 if build_mode == "bridge-minimal" else 4 if build_mode == "caller-composition-minimal" else 7 if build_mode == "selected-drop-minimal" else 12) and
     bridge.get("campaign") == ("bridge-minimal-v1" if build_mode == "bridge-minimal" else "caller-composition-minimal-v1" if build_mode == "caller-composition-minimal" else "selected-drop-minimal-v1" if build_mode == "selected-drop-minimal" else "len1-minimal-v1") and
     retained.get("cases") == {"ordinary_call_normal_unwind": "PASS"} and
     retained.get("classifier_controls_passed") is True)

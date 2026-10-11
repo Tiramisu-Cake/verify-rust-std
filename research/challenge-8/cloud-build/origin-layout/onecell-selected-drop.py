@@ -23,7 +23,7 @@ OLD_ONECELL = HERE / "onecell-drop-interface.py"
 OLD_PREP = ROOT / "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prepare.py"
 OLD_CONSUMER = HERE / "concrete-consumer.py"
 CASES = ("positive", "after_natural_drop_false", "caller_ready_entry_false",
-         "missing_receiver_frame", "missing_source_permission", "duplicate_effect_simultaneous")
+         "missing_receiver_frame", "missing_source_permission", "duplicate_effect_simultaneous", "caller_dead_code")
 DRAFT_STATUS = "READY"
 DRAFT_REASON = ("The caller now follows the existing readonly half-FBC frame recipe and "
                 "packages direct singleton arrays before the natural Drop terminator. "
@@ -85,7 +85,7 @@ def _prepare(evidence: Path) -> dict:
     contract = body._specialize(body.ONECELL_CONTRACT)
     withheld = (
         b"pred_ctor withheld_receiver(p: *mut CopyOnDrop)(;) = (*p).len |-> ?v;\n"
-        b"pred_ctor withheld_source(p: *const u64)(;) = [1/4]p[..1] |-> ?vs &*& [1/4](*p |-> ?v);\n")
+        b"pred_ctor withheld_source(p: *const u64)(;) = [1/4]p[..1] |-> ?vs;\n")
     effect = b"/*@\n" + body.EFFECT_DEF + withheld + b"@*/\n\n"
 
     # Exact runtime fragment anchors come from actual insert_tail source.
@@ -204,6 +204,9 @@ def _prepare(evidence: Path) -> dict:
                          b"CopyOnDrop_drop_effect(t, recovery_src, recovery_dst, 1); // TARGET: simultaneous effects\n")
         recovery_tail = (effect_close + (double_effect if name == "duplicate_effect_simultaneous" else b"") +
                          b"        //@ open CopyOnDrop_drop_effect(t, recovery_src, recovery_dst, 1);\n" + adapted_recovery)
+        dead_control = b"        //@ if (false) { assert true; } // TARGET: real caller dead code\n"
+        if name == "caller_dead_code":
+            recovery_tail += dead_control
         if name == "after_natural_drop_false":
             recovery = NATURAL_DROP_EXIT + false_ghost + recovery_tail
         else:
@@ -266,6 +269,7 @@ def _prepare(evidence: Path) -> dict:
             "caller_ready_entry_false_grants_glue_or_normal_recovery_credit": False,
             "expected_missing": ("receiver_frame" if name == "missing_receiver_frame" else
                                  "source_permission" if name == "missing_source_permission" else None),
+            "dead_control_line": (_line(verified, dead_control) if name == "caller_dead_code" else None),
             "double_effect_line": (_line(verified, double_effect) if name == "duplicate_effect_simultaneous" else None),
             "runtime_natural_drop_only": True,
             "runtime_destructor_call_present": False,
@@ -360,7 +364,7 @@ def _caller_ast_evidence(case: Path, ast) -> dict:
                             arm_calls = [call.args[1] for call in ast.nodes(arm.args[2], "CallExpr")]
                             returns = [call.args[1] for ret in ast.nodes(arm.args[2], "ReturnStmt")
                                        for call in ast.nodes(ret, "CallExpr")]
-                            arms.append({"tag": tag, "calls": arm_calls, "return_calls": returns})
+                            arms.append({"tag": tag, "calls": arm_calls, "return_calls": returns, "gotos": [go.args[1] for go in ast.nodes(arm.args[2], "GotoStmt")]})
                         switches.append({"callee": name, "arms": arms})
         return {"present": True, "admitted": len(bodies) == 1,
                 "selected_outcome_switches": switches,
@@ -381,7 +385,7 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
            if stages.get("decode") == 0 else {"admitted": False})
     caller_ast = (_caller_ast_evidence(case, proof_base.ast_helper)
                   if stages.get("decode") == 0 else {"admitted": False})
-    selected = mir.get("guard_drop_terminators", [{}])[0] if mir.get("guard_drop_terminators") else {}
+    selected = mir.get("selected_normal_drop", {})
     drop_path = selected.get("selected_path", "")
     calls = caller_ast.get("call_nodes", [])
     actual_calls = [call for call in calls if call["callee"] == drop_path]
@@ -393,8 +397,8 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
                 all(arm["calls"].count("end_ref_mut") == 1 and
                     arm["calls"].count("close_points_to") == 1 and
                     arm["calls"].count("open_points_to") == 1 for arm in arms.values()) and
-                arms["unwinding"]["return_calls"] == ["unwinding"] and
-                selected.get("unwind") == {"continue": None})
+                arms["unwinding"]["gotos"] == [str(mir.get("selected_cleanup_target"))] and
+                mir.get("selected_cleanup_is_statement_free_resume") is True)
     binding = (len(actual_calls) == 1 and len(receiver_calls) == 1 and len(ends) == 2 and protocol and
                not any(call["callee"] == "std::ptr::drop_in_place" for call in calls))
     caller_ast["selected_call_binding"] = binding
@@ -402,7 +406,7 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
     caller_ast["receiver_create_count"] = len(receiver_calls)
     caller_ast["borrow_end_count"] = len(ends)
     caller_ast["admitted"] = caller_ast.get("admitted") is True and binding
-    body_ast = (body._effect_ast_gate(case, row, proof_base, drop_module)
+    body_ast = (body._effect_ast_gate(case, dict(row, case="positive"), proof_base, drop_module)
                 if stages.get("decode") == 0 else {"admitted": False})
     log_path = case / "verifast.log"
     log = log_path.read_text(errors="replace") if log_path.is_file() else ""
@@ -441,11 +445,15 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
         call_loc = actual_calls[0]["loc"]
         location_match = errors[0].startswith(call_loc + ": error:")
         predicate = ("CopyOnDrop_len" if row["expected_missing"] == "receiver_frame" else "array")
+        if row["expected_missing"] == "source_permission":
+            location_match = executed(row.get("natural_scope_end_line") - 1) and "array" in errors[0]
         targeted = location_match and predicate in errors[0] and "No matching heap chunks" in errors[0]
     if setup and name == "duplicate_effect_simultaneous" and stages.get("verifast") == 1 and len(errors) == 1:
         targeted = (executed(row.get("natural_scope_end_line")) and
                     re.search(rf"verified/lib\.rs\({row['double_effect_line']},\d+.*\): error:", errors[0]) is not None and
                     "CopyOnDrop_drop_effect" in errors[0] and "No matching heap chunks" in errors[0])
+    if setup and name == "caller_dead_code" and stages.get("verifast") == 1 and not errors:
+        targeted = any(f"verified/lib.rs({row['dead_control_line']}," in record for record in dead) and caller_return and caller_leak
     positive = (setup and stages.get("verifast") == 0 and not errors and not dead and body_copy and
                 body_return and leak and caller_return and caller_leak and "0 errors found" in log)
     classification = ("NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY" if positive else
@@ -460,7 +468,8 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
             "dead_code_lines": dead,
             "body_copy_executed": body_copy, "body_return_executed": body_return,
             "leak_check": leak, "caller_return": caller_return, "caller_leak_check": caller_leak, "errors": errors, "targeted_negative_matched": targeted,
-            "actual_callee_or_glue_credit": False, "caller_construction_credit": False,
+            "actual_checked_selected_method_credit": positive, "compiler_generated_glue_credit": False,
+            "caller_construction_credit": positive,
             "scope": "bounded concrete-u64 natural Drop fixture only; no panic path or generic insert_tail credit"}
 
 
@@ -480,7 +489,7 @@ def _natural_drop_mir_gate(case: Path, row: dict, mir) -> dict:
                        if mir.path(entry, "name", "name") == "gap_guard"]
         if len(guard_debug) != 1:
             return {"admitted": False, "reason": "guard local debug binding is not unique"}
-        guard_local = mir.path(guard_debug[0], "place", "local")
+        guard_local = mir.path(guard_debug[0], "value", "place", "local")
         drops = []
         calls = []
         for block_index, block in enumerate(mir.path(bodies[0], "basicBlocks")):
@@ -494,27 +503,37 @@ def _natural_drop_mir_gate(case: Path, row: dict, mir) -> dict:
                               "bare_local": mir.path(drop, "isBareLocal"),
                               "replace": mir.path(drop, "isReplace"),
                               "span": mir.path(block, "terminator", "sourceInfo", "span"),
-                              "block": block_index, "local": mir.path(place, "local"),
-                              "local_name": mir.local_name(place),
+                              "block": mir.path(block, "id", "index"), "is_cleanup": mir.path(block, "isCleanup"), "local": mir.path(place, "local"),
+                              "local_name": mir.local(place),
                               "target": mir.path(drop, "target", "index"),
                               "unwind": mir.path(drop, "unwindAction")})
             elif isinstance(kind, dict) and "call" in kind:
                 calls.append(mir.call_name(kind["call"]))
         guard_drops = [drop for drop in drops if drop["local"] == guard_local]
-        explicit_drop_calls = [name for name in calls if "Drop" in name or "drop_in_place" in name]
-        selected = guard_drops[0] if len(guard_drops) == 1 else {}
+        explicit_drop_calls = [name for name in calls if name.endswith("::drop") or "drop_in_place" in name]
+        normal_drops = [drop for drop in guard_drops if drop["is_cleanup"] is False]
+        selected = normal_drops[0] if len(normal_drops) == 1 else {}
+        unwind = selected.get("unwind", {})
+        cleanup_target = mir.path(unwind, "cleanup", "index") if "cleanup" in unwind else None
+        cleanup_blocks = [block for block in mir.path(bodies[0], "basicBlocks")
+                          if mir.path(block, "id", "index") == cleanup_target]
+        resume_ok = (len(cleanup_blocks) == 1 and mir.path(cleanup_blocks[0], "isCleanup") is True and
+                     mir.path(cleanup_blocks[0], "statements") == [] and
+                     "unwindResume" in mir.path(cleanup_blocks[0], "terminator", "kind"))
         checked_bodies = [body for body in mir.path(tree, "bodies")
                           if mir.path(body, "defPath") == selected.get("selected_path") and
                              mir.path(body, "defPathHash") == selected.get("selected_hash") and
                              mir.path(body, "isDropFn") is True]
-        admitted = (len(guard_drops) == 1 and not explicit_drop_calls and
+        admitted = (len(normal_drops) == 1 and resume_ok and not explicit_drop_calls and
                     selected.get("bare_local") is True and selected.get("replace") is False and
                     selected.get("guard_path") == "CopyOnDrop" and len(checked_bodies) == 1)
 
         return {"admitted": admitted, "guard_drop_terminators": guard_drops,
                 "guard_debug_local": guard_local,
                 "explicit_runtime_drop_calls": explicit_drop_calls,
-                "actual_natural_drop_terminator": len(guard_drops) == 1,
+                "actual_natural_drop_terminator": len(normal_drops) == 1,
+                "selected_normal_drop": selected, "selected_cleanup_target": cleanup_target,
+                "selected_cleanup_is_statement_free_resume": resume_ok,
                 "selected_same_unit_checked_body_count": len(checked_bodies)}
     except Exception as error:
         return {"admitted": False, "reason": f"natural Drop MIR admission failed closed: {error}"}
@@ -536,7 +555,7 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
     proof_base = _load("natural_drop_hosted_runner_gate", ROOT /
                        "research/challenge-8/merge/overnight/copy-on-drop-prove.py")
     provider, proof_sha = proof_base.require_hosted_cloud()
-    if args.profile != "experimental-merge-selected-drop-receiver-v1":
+    if args.profile != "experimental-merge-selected-drop-receiver-v2":
         raise RuntimeError("selected Drop exact experimental profile required")
     consumer.PROFILE = args.profile
     receipt = consumer._validate_receipt(args, validated_receipt, provider, proof_sha)
@@ -568,7 +587,8 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
                  "all_matched": results == {"positive": "NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY",
                     "caller_ready_entry_false": "CALLER_READY_ENTRY_EXPECTED_REJECTION",
                     "after_natural_drop_false": "EXPECTED_REJECTION", "missing_receiver_frame": "EXPECTED_REJECTION",
-                    "missing_source_permission": "EXPECTED_REJECTION", "duplicate_effect_simultaneous": "EXPECTED_REJECTION"},
+                    "missing_source_permission": "EXPECTED_REJECTION", "duplicate_effect_simultaneous": "EXPECTED_REJECTION",
+                    "caller_dead_code": "EXPECTED_REJECTION"},
                  "next_gate": "candidate review; no profile acceptance or generic/panic claim"}
     (evidence / "aggregate.json").write_text(json.dumps(aggregate, indent=2, sort_keys=True) + "\n")
     return aggregate

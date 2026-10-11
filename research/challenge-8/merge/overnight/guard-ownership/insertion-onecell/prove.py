@@ -32,7 +32,7 @@ prep = load("onecell_prepare", HERE / "prepare.py")
 base = load("onecell_stages", HERE.parents[1] / "copy-on-drop-prove.py")
 ast = base.ast_helper
 mir = base.mir_helper
-PROFILE = ("experimental-merge-selected-drop-receiver-v1" if os.environ.get("SMALLSORT_MERGE_PROFILE") else "experimental-merge-qualified-guard-onecell-v1")
+PROFILE = ("experimental-merge-selected-drop-receiver-v2" if os.environ.get("SMALLSORT_MERGE_PROFILE") else "experimental-merge-qualified-guard-onecell-v1")
 CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
          "double_physical_fbc")
 CAMPAIGN = "incoming-origin-controls-only-v1"
@@ -578,11 +578,11 @@ def main() -> int:
             "receiver_origin_probe": "EXPECTED_RECEIVER_ORIGIN_REJECTION"}
         selected = load("onecell_selected_drop", HERE.parents[3] / "cloud-build/origin-layout/onecell-selected-drop.py")
         summary = selected.run(args.evidence / "onecell-selected-drop", args, env, execute_case, environment)
-        exact = set(summary.get("cases", {})) == set(selected.CASES) and len(selected.CASES) == 6
+        exact = set(summary.get("cases", {})) == set(selected.CASES) and len(selected.CASES) == 7
         matched = exact and helper_matched and summary.get("all_matched") is True and summary.get("accepted") is False
         aggregate = {"schema": "merge-minimal-selected-drop-v1", "profile": PROFILE,
             "campaign": "selected-drop-minimal-v1", "accepted": False,
-            "all_matched": matched, "exact_case_sets": exact, "required_case_count": 6,
+            "all_matched": matched, "exact_case_sets": exact, "required_case_count": 7,
             "classification": "PASS_COMPONENT_DIAGNOSTIC" if matched else "INCONCLUSIVE",
             "environment": environment, "combined_profile_smoke": combined_smoke,
             "selected_drop": summary, "helper_control": helper, "helper_control_matched": helper_matched, "cases": summary.get("cases", {}),
