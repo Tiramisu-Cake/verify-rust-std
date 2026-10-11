@@ -1,0 +1,30 @@
+{
+  "schema": "refinedrust-g1-image-receipt-v1",
+  "status": "UNASSIGNED_NOT_RUN",
+  "path_in_image": "/opt/g1-image-receipt.json",
+  "image_digest": null,
+  "image_digest_binding": "cold Build registry receipt",
+  "base_image_digest": "ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401",
+  "rr_commit": "332d945fafa14bf55c0c8390cb35ec4b0c012cff",
+  "rr_checkout_clean": null,
+  "compiler_source_commit": "e457a7b0d326d67b4322ef0d11bd715cfaeda48f",
+  "rustc_version_verbose": null,
+  "rr_frontend_lock_sha256": "b66b9e281478be8263eab9ba210964cdd8f1db92535b7b81305f50dea03682aa",
+  "rust_distribution_archives_sha256": null,
+  "os_package_inventory": null,
+  "os_package_bundle_sha256": null,
+  "cargo_vendor_archive_sha256": null,
+  "cargo_config": {
+    "path": "/opt/g1-cargo/config.toml",
+    "sha256": null
+  },
+  "binaries": {
+    "rustc": {"path": "/opt/rust/bin/rustc", "sha256": null},
+    "cargo": {"path": "/opt/rust/bin/cargo", "sha256": null},
+    "cargo_refinedrust": {"path": "/opt/rr-bin/cargo-refinedrust", "sha256": null},
+    "refinedrust_rustc": {"path": "/opt/rr-bin/refinedrust-rustc", "sha256": null}
+  },
+  "ld_library_path": "/opt/rust/lib:/opt/rust/lib/rustlib/x86_64-unknown-linux-gnu/lib",
+  "receipt_generator_sha256": null,
+  "null_fields_block_warm_admission": true
+}

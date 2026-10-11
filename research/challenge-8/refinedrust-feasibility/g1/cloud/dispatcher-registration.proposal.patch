@@ -1,0 +1,78 @@
+# Candidate against Git object ac6a1c4ebe84ee05302f4cc5829ff1075e99d822.
+# NOT APPLIED. Still fail-closed pending image digest and reviewed authorization receipt transport.
+# Review and adapt against the chosen runtime Git object; do not apply blindly.
+--- a/research/challenge-8/cloud-build/control.py
++++ b/research/challenge-8/cloud-build/control.py
+@@ -9,6 +9,9 @@
+ GCLOUD=['gcloud','--configuration=smallsort-ci','--account=smallsort-dispatcher@smallsort-ci.iam.gserviceaccount.com','--project=smallsort-ci']
+ BUCKET='gs://smallsort-ci-evidence-504462351565/cloud-build'
+ UBUNTU='ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401'
++G1_LANE='refinedrust-g1-admission'
++# Freeze from a terminal, reviewed cold image receipt before allowing G1 dispatch.
++G1_IMAGE=''
+ SDK='gcr.io/google.com/cloudsdktool/google-cloud-cli@sha256:c631b05e8121048b29c9917bdc0a9fadd76d012f04f180a4409ec2ee534e832e'
+ ACCOUNT='smallsort-builder@smallsort-ci.iam.gserviceaccount.com'
+ SDK_PYTHON='/usr/lib/google-cloud-sdk/platform/bundledpythonunix/bin/python3'
+@@ -96,6 +99,8 @@
+-def envs(infra,proof,lane):return [f'INFRA_SHA={infra}',f'PROOF_SHA={proof}',f'LANE={lane}',f'PROOF_IMAGE={UBUNTU}','CLOUD_BUILD_ID=${BUILD_ID}','CLOUD_BUILD_PROJECT_ID=${PROJECT_ID}','CLOUD_BUILD_REGION=global','SMALLSORT_EXECUTION_PROVIDER=cloud-build','SUBMITTED_CONFIG_SHA=${_CONFIG_SHA}',] + [f'CONFIG_PART_{i}=${{_CONFIG_{i}}}' for i in range(8)]
++def envs(infra,proof,lane):return [f'INFRA_SHA={infra}',f'PROOF_SHA={proof}',f'LANE={lane}',f'PROOF_IMAGE={G1_IMAGE if lane==G1_LANE else UBUNTU}','CLOUD_BUILD_ID=${BUILD_ID}','CLOUD_BUILD_PROJECT_ID=${PROJECT_ID}','CLOUD_BUILD_REGION=global','SMALLSORT_EXECUTION_PROVIDER=cloud-build','SUBMITTED_CONFIG_SHA=${_CONFIG_SHA}',] + [f'CONFIG_PART_{i}=${{_CONFIG_{i}}}' for i in range(8)]
+
+ def config(infra,proof,lane,seconds,token,source_payload=None):
++ if lane==G1_LANE and not re.fullmatch(r'[a-z0-9.-]+(?:/[a-z0-9._/-]+)?@sha256:[0-9a-f]{64}',G1_IMAGE):
++  raise SystemExit('G1 image digest has not been frozen and reviewed')
+  work_seconds=seconds-70
+  work='''set -euo pipefail
+  export DEBIAN_FRONTEND=noninteractive
+@@ -135,6 +140,12 @@
+   end=work.index(' export EVIDENCE_ROOT',start)
+   work=work[:start]+replacement+work[end:]
+   source_env=['SOURCE_GROUP_'+str(i)+'='+''.join('${_SOURCE_'+str(i*10+j)+'}' for j in range(len(group))) for i,group in enumerate(groups)]+[f'SOURCE_INPUT_SHA256={digest(source_payload)}','SOURCE_MODE=pinned-objects','SOURCE_RESTORE_BYTES='+restore]
++ if lane==G1_LANE:
++  # The exact-recipe transport has already restored reviewed infra/proof objects.
++  # Core requires the full pinned repository; the wrapper fetches and verifies it.
++  work=work.replace(' export DEBIAN_FRONTEND=noninteractive\n apt-get update\n apt-get install --yes --no-install-recommends ca-certificates curl git python3 time\n','',1)
++  work=work.replace('bash /workspace/infra/research/challenge-8/cloud-build/run-proof.sh "$LANE"',
++    'bash /workspace/infra/research/challenge-8/cloud-build/run-refinedrust-g1.sh "$LANE"',1)
+  if lane=='smoke-success':work="printf 'SMALLSORT_BUCKET_WRITE_PROBE\\n'; printf 'cloud-build bucket probe\\n' > /workspace/evidence/probe.txt"
+  elif lane=='smoke-error':work="printf 'CONTROLLED_ERROR_START\\n'; printf 'deliberate exit 42\\n' >&2; exit 42"
+  elif lane=='smoke-timeout':work="printf 'INTERNAL_TIMEOUT_START\\n'; timeout --signal=TERM --kill-after=1s 2s bash -c 'sleep 30'"
+@@ -186,7 +197,7 @@
+ except Exception as e:
+  print('INCOMPLETE_EVIDENCE',type(e).__name__,str(e));sys.exit(2)
+ '''
+- return {'steps':[{'id':'execute','name':UBUNTU,'entrypoint':'bash','args':['-ceu',body],'env':envs(infra,proof,lane)+source_env,'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane)+['PACKAGER_BYTES='+package],'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':SDK_PYTHON,'args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':{'machineType':'E2_STANDARD_2','logging':'CLOUD_LOGGING_ONLY'},'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder',**{f'_CONFIG_{i}':'placeholder' for i in range(8)},**{f'_SOURCE_{i}':part for i,part in enumerate(source_parts)}}}
++ return {'steps':[{'id':'execute','name':G1_IMAGE if lane==G1_LANE else UBUNTU,'entrypoint':'bash','args':['-ceu',body],'env':envs(infra,proof,lane)+source_env,'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane)+['PACKAGER_BYTES='+package],'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':SDK_PYTHON,'args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':{'machineType':'E2_HIGHCPU_32' if lane==G1_LANE else 'E2_STANDARD_2',**({'diskSizeGb':'100'} if lane==G1_LANE else {}),'logging':'CLOUD_LOGGING_ONLY'},'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder',**{f'_CONFIG_{i}':'placeholder' for i in range(8)},**{f'_SOURCE_{i}':part for i,part in enumerate(source_parts)}}}
+
+ def reconcile(state,ledger,ledger_path):
+  for item in ledger['builds']:
+@@ -287,6 +298,13 @@
+
+
+ def authorized_phase(a,ledger):
++ if a.phase_id and re.fullmatch(r'RR-G1-ADMISSION-[0-9]{8}',a.phase_id):
++  if (a.owner!='refinedrust-feasibility' or ledger.get('owner')!=a.owner or
++      ledger.get('status')!='AUTHORIZED' or ledger.get('allowed_lanes')!=[G1_LANE] or
++      ledger.get('ceiling_build_seconds')!=1260 or
++      not ledger.get('g1_image_receipt_sha256') or
++      not ledger.get('g1_authorization_receipt_sha256')):
++   raise SystemExit('G1 owner, account, receipt and lane must be separately approved')
+  if a.phase_id==NATIVE_ZST_PHASE:
+   if (a.owner!='verifast' or ledger.get('owner')!='verifast' or
+       ledger.get('phase')!=NATIVE_ZST_PHASE or ledger.get('status')!='AUTHORIZED' or
+@@ -336,7 +354,7 @@
+  if a.phase_id==NEXT_SELECT_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or not set(ledger['allowed_lanes'])<=NEXT_SELECT_LANES or ledger.get('start_utc')!=NEXT_SELECT_START or ledger.get('main_deadline_utc')!=NEXT_SELECT_MAIN_DEADLINE):raise SystemExit('Next select phase requires its exact separate account, owner, window and lanes')
+  try:deadline=datetime.datetime.fromisoformat(ledger['deadline_utc'].replace('Z','+00:00'))
+  except (KeyError,AttributeError,ValueError) as error:raise SystemExit('Invalid phase deadline') from error
+- cutoff=datetime.datetime.fromisoformat((C3_PREFIX_DEADLINE if a.phase_id==C3_PREFIX_PHASE else COMPOSE_DEADLINE if a.phase_id==COMPOSE_PHASE else MISSION_DEADLINE if a.phase_id==MISSION_PHASE else C1_BRIDGE_DEADLINE if a.phase_id==C1_BRIDGE_PHASE else C1_CALLER_ENTRY_DEADLINE if a.phase_id==C1_CALLER_ENTRY_PHASE else C1_ACTUAL_DEADLINE if a.phase_id==C1_ACTUAL_PHASE else C1_DEADLINE if a.phase_id==C1_PHASE else NEXT_SELECT_DEADLINE if a.phase_id==NEXT_SELECT_PHASE else AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
++ cutoff=datetime.datetime.fromisoformat((ledger['deadline_utc'] if a.phase_id and re.fullmatch(r'RR-G1-ADMISSION-[0-9]{8}',a.phase_id) else C3_PREFIX_DEADLINE if a.phase_id==C3_PREFIX_PHASE else COMPOSE_DEADLINE if a.phase_id==COMPOSE_PHASE else MISSION_DEADLINE if a.phase_id==MISSION_PHASE else C1_BRIDGE_DEADLINE if a.phase_id==C1_BRIDGE_PHASE else C1_CALLER_ENTRY_DEADLINE if a.phase_id==C1_CALLER_ENTRY_PHASE else C1_ACTUAL_DEADLINE if a.phase_id==C1_ACTUAL_PHASE else C1_DEADLINE if a.phase_id==C1_PHASE else NEXT_SELECT_DEADLINE if a.phase_id==NEXT_SELECT_PHASE else AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
+  if deadline.tzinfo is None or deadline>cutoff:raise SystemExit('Phase deadline exceeds its authorized cutoff')
+  if a.phase_id==DAY_PHASE and deadline!=cutoff:raise SystemExit('Day select phase requires its exact absolute deadline')
+  if a.phase_id==AFTERNOON_PHASE and deadline!=cutoff:raise SystemExit('Afternoon select phase requires its exact absolute deadline')
+@@ -410,6 +428,7 @@
+  if a.command=='submit':
+   deadline=authorized_phase(a,ledger)
+   if a.lane not in ledger.get('allowed_lanes',[]):raise SystemExit('Lane is not approved in the phase account')
++  if a.lane==G1_LANE:raise SystemExit('G1 authorization receipt transport is not reviewed; no dispatch')
+   if not LANE_PATTERN.fullmatch(a.lane):raise SystemExit('Invalid lane name')
+   if a.source_mode!='pinned-objects':raise SystemExit('New phase requires pinned Git objects')
+   now=datetime.datetime.now(datetime.timezone.utc)

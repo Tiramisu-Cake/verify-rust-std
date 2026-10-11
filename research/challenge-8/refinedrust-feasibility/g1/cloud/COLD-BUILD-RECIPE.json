@@ -1,0 +1,54 @@
+{
+  "schema": "refinedrust-g1-cold-build-candidate-v1",
+  "status": "NOT_DISPATCHABLE",
+  "owner": "refinedrust-feasibility",
+  "phase_id": null,
+  "ledger_absolute": null,
+  "state_absolute": null,
+  "lane": "refinedrust-g1-image-setup",
+  "timeout_seconds": 1740,
+  "reserve_seconds": 1800,
+  "build": {
+    "provider": "Cloud Build global default pool",
+    "machineType": "E2_HIGHCPU_32",
+    "diskSizeGb": 100,
+    "max_parallel_cargo_jobs": 2,
+    "candidate_system_package_roles": [
+      "git and ca-certificates for exact RR/source checkout",
+      "python3 for image receipt and G1 runner",
+      "C/C++ linker, libc development headers and pkg-config for locked Cargo crates",
+      "runtime loader libraries for pinned rustc and generated RR binaries"
+    ],
+    "exact_deb_versions_and_transitive_dependencies": null,
+    "source_mode": "pinned-objects",
+    "dockerfile": "research/challenge-8/refinedrust-feasibility/g1/cloud/Dockerfile.candidate",
+    "context_archive_uri_with_generation": null,
+    "context_archive_sha256": null,
+    "required_context": [
+      "context/rr/ (clean Git checkout at exact RR commit, including .git)",
+      "context/debs.tar (exact .deb set and SHA256SUMS; package versions and apt snapshot frozen)",
+      "context/vendor.tar (Cargo registry vendor tree and .cargo-checksum.json files)",
+      "context/cargo-config.toml (source replacement to vendor; offline mode)",
+      "context/rustc-vv-expected.txt (full exact -Vv output from official archive)",
+      "IMAGE-INPUTS.json and write-image-receipt.py from the reviewed Cloud candidate Git object",
+      "context/rustc-nightly-x86_64-unknown-linux-gnu.tar.xz",
+      "context/cargo-nightly-x86_64-unknown-linux-gnu.tar.xz",
+      "context/rustc-dev-nightly-x86_64-unknown-linux-gnu.tar.xz",
+      "context/llvm-tools-nightly-x86_64-unknown-linux-gnu.tar.xz",
+      "context/rust-src-nightly.tar.xz",
+      "context/rust-std-nightly-x86_64-unknown-linux-gnu.tar.xz"
+    ],
+    "commands_after_context_restore": [
+      "sha256sum -c context-archive.sha256",
+      "docker build --network=none --file Dockerfile.candidate --build-arg DEB_BUNDLE_SHA256=<frozen> --build-arg VENDOR_TREE_SHA256=<frozen> --build-arg CARGO_CONFIG_SHA256=<frozen> --tag <immutable-candidate-tag> .",
+      "docker create <immutable-candidate-tag>; docker cp <local-container>:/opt/g1-image-receipt.json <evidence>/image-receipt.json; docker rm <local-container>",
+      "sha256sum <evidence>/image-receipt.json; verify receipt pins and package inventory against reviewed context",
+      "docker push <immutable-candidate-tag>",
+      "resolve pushed image to sha256 digest and save registry receipt binding digest, image-receipt SHA256, cold Build ID and context generation",
+      "record /opt/g1-executables.sha256, clean RR Git identity, rustc -Vv, Cargo lock hash, context inventory, package versions, timing and resource receipt"
+    ],
+    "output_image_digest": null,
+    "retry": false
+  },
+  "admission_rule": "Missing/null identity, digest, context generation or checksum blocks the cold submit. Only a terminal reconciled cold Build can supply an immutable warm image digest."
+}

@@ -1,0 +1,184 @@
+{
+  "schema": "rr-g1-pins-v1",
+  "source": {
+    "commit": "c7ca8c467aecf10a4b53039372ee97714f854ee3",
+    "trees": {
+      "library": "4ae912b9caf2e477a2b0caef084fb349c878f0fd",
+      "library/contracts": "f05daf8f588874108a5e92b07b3bfad8f21996ea",
+      "library/portable-simd": "dad7d5af24b99d85aa32eddac4e664b026fb9bef",
+      "library/stdarch": "775ec65ed2e85db47b020f9b5bfacdc7182dc306"
+    },
+    "files": [
+      {
+        "path": "rust-toolchain.toml",
+        "mode": "100644",
+        "blob": "d7a05c65d581f54e415ad6c73b67dd2052324762",
+        "sha256": "20180f8307182dce745e0304bcbee56ee2a85fc7608392b2c8b266dfe533c78c",
+        "bytes": 231
+      },
+      {
+        "path": "library/Cargo.toml",
+        "mode": "100644",
+        "blob": "87df966bb6b874faa0358c6d626954d76b384890",
+        "sha256": "d1c133e6fa50400a81cd4342658596d7dfdff18e5d0cacd3d31b69e8991ee451",
+        "bytes": 2955
+      },
+      {
+        "path": "library/Cargo.lock",
+        "mode": "100644",
+        "blob": "940c8dd662869d6fc2eaa1aaa532f3052769c009",
+        "sha256": "004ac2495ca79fbf6d1c85c8a8e659d50efe75823dc4564e3efe145be3226810",
+        "bytes": 14135
+      },
+      {
+        "path": "library/core/Cargo.toml",
+        "mode": "100644",
+        "blob": "66452e569f7782f957624f5045a9b0489997981e",
+        "sha256": "862551b016f26ccab6f4923d49f97ea0e5ef37c28f3ffafb2ced7e309dbce6ed",
+        "bytes": 1767
+      },
+      {
+        "path": "library/core/src/lib.rs",
+        "mode": "100644",
+        "blob": "57864d80376c4e1741b1306ee66550de57451f74",
+        "sha256": "ec773985e10a944e1d4b0fc35ac22e163f59ef3af4ba5324df20129db18c7860",
+        "bytes": 13185
+      },
+      {
+        "path": "library/core/src/slice/sort/shared/smallsort.rs",
+        "mode": "100644",
+        "blob": "e555fce440872898e47fd5114f32eb15401d07df",
+        "sha256": "32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959",
+        "bytes": 32383
+      },
+      {
+        "path": "library/core/src/mem/manually_drop.rs",
+        "mode": "100644",
+        "blob": "ca008a82ee6f09bbd429f2ef40f5e33f17ebf69b",
+        "sha256": "17e8e41866d3eadcfdc6f1a516e4ed9dd5555e10ad725aac3b04aec7c759731b",
+        "bytes": 12402
+      },
+      {
+        "path": "library/core/src/mem/maybe_dangling.rs",
+        "mode": "100644",
+        "blob": "a5f77e667f9757c56e7ff088a928e3041440f68c",
+        "sha256": "1cf24b2ec36fff143f329f2ef6db5b4d47cfa798da7f30d88b554b712c8f4b53",
+        "bytes": 4421
+      },
+      {
+        "path": "library/core/src/ptr/mod.rs",
+        "mode": "100644",
+        "blob": "50d2396728ee411f9e958239322c4419cee6b307",
+        "sha256": "325d69d3ce0fef9099f985febc5b712bbdb3563364648adc1396a365699987aa",
+        "bytes": 123201
+      },
+      {
+        "path": "library/core/src/ptr/const_ptr.rs",
+        "mode": "100644",
+        "blob": "a51e1a4fc29814ff1dd13ffcf2f4e71a766084c3",
+        "sha256": "02c667f68d194d14a1d035d02cc5ca130a715acf37bb52db9ab392104f71a782",
+        "bytes": 116053
+      },
+      {
+        "path": "library/core/src/ptr/mut_ptr.rs",
+        "mode": "100644",
+        "blob": "6e6e72eb03fbf20f593866213e89fce1879b0bd1",
+        "sha256": "d35858d6b1ec693d5e01b994e2d8248f73c7062c151e75e73ea635456fc82098",
+        "bytes": 133455
+      },
+      {
+        "path": "library/core/src/ops/function.rs",
+        "mode": "100644",
+        "blob": "efe5c0871fb8bb6839dc3ea63ccac1aa092b0d58",
+        "sha256": "de71bdb131d527fae027f1eb32fc98cbff261bdc471f6786bbd59d6759814cf3",
+        "bytes": 11077
+      },
+      {
+        "path": ".gitmodules",
+        "mode": "100644",
+        "blob": "8b0134981647f61bcb0288631c9b3904368091f8",
+        "sha256": "93f8aef14130e19df0a76f15159e96aa033e7b80be9662a3c52a02a2d2307c66",
+        "bytes": 245
+      }
+    ],
+    "verify_paths": [
+      "library"
+    ],
+    "gitlinks": {
+      "library/backtrace": {
+        "commit": "28ec93b503bf0410745bc3d571bf3dc1caac3019",
+        "files": [],
+        "verify_paths": [
+          ""
+        ],
+        "gitlinks": {}
+      }
+    }
+  },
+  "rr": {
+    "commit": "332d945fafa14bf55c0c8390cb35ec4b0c012cff",
+    "tree": "b33bcccbbbd6168ac73e0c7238a1edddbe34057c",
+    "files": [
+      {
+        "path": "rr_frontend/Cargo.toml",
+        "mode": "100644",
+        "blob": "1d7891a06d5dc4e5e5d5f8566f25526968f25331",
+        "sha256": "5c8636be6c5f25949e57d07b8462c636aa2f2d91d91da12c66234477bc9290f7",
+        "bytes": 1213
+      },
+      {
+        "path": "rr_frontend/Cargo.lock",
+        "mode": "100644",
+        "blob": "d357fa171478753f558fede6ec0131194099e0f7",
+        "sha256": "b66b9e281478be8263eab9ba210964cdd8f1db92535b7b81305f50dea03682aa",
+        "bytes": 35371
+      },
+      {
+        "path": "rr_frontend/rust-toolchain.toml",
+        "mode": "100644",
+        "blob": "1c9f8e2eac71626fee9584d8a27d5b944e0ff7df",
+        "sha256": "79ef42e730fcc0bc23bde84ca0509970d4e1702d59e92300c85108488cf24aba",
+        "bytes": 130
+      },
+      {
+        "path": "rr_frontend/refinedrust_frontend/src/bin/cargo-refinedrust.rs",
+        "mode": "100644",
+        "blob": "4de3d90610e0a3c40620ce9ef034ecfa7f58495a",
+        "sha256": "8f811a28f21a373048004b17c499b91b8f99b8d292492705cdf2d5677b8f8c56",
+        "bytes": 4598
+      },
+      {
+        "path": "rr_frontend/refinedrust_frontend/src/bin/refinedrust-rustc.rs",
+        "mode": "100644",
+        "blob": "2e0a15eb4d22a3e1bc0a0b4028f66c4ababb43b3",
+        "sha256": "d09d07f730ca7a47dd0e2dfcf6bb33f3047d02951d4a331a57ac84f6a91e7131",
+        "bytes": 6658
+      },
+      {
+        "path": "rr_frontend/rrconfig/src/lib.rs",
+        "mode": "100644",
+        "blob": "d3635e40ea569949addf02ca4f0bf7f2bfc473ce",
+        "sha256": "2b0a0da357204bbe5794cdf4fcc78dc37452ff71927f7cbcbdb0fcc1f3522228",
+        "bytes": 13349
+      }
+    ],
+    "verify_paths": [
+      ""
+    ],
+    "gitlinks": {}
+  },
+  "compiler": {
+    "commit": "e457a7b0d326d67b4322ef0d11bd715cfaeda48f",
+    "channel": "nightly-2026-08-28",
+    "host": "x86_64-unknown-linux-gnu",
+    "manifest_sha256": "a10ff685d2159307e414d29c1a1f97e576c77c59ebe93c4c13d075fc7e088d4b"
+  },
+  "profile": "rr-g1-frontend-unpatched-v1",
+  "dispatch": {
+    "owner": "refinedrust-feasibility",
+    "project": "smallsort-ci",
+    "max_active": 2,
+    "warm_timeout": 1200,
+    "warm_reservation": 1260
+  }
+}

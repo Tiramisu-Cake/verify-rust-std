@@ -1,0 +1,25 @@
+{
+  "schema": "rr-g1-execution-authorization-v1",
+  "authorized": false,
+  "owner": "refinedrust-feasibility",
+  "project": "smallsort-ci",
+  "expires_at": null,
+  "identities": {
+    "build_id": null,
+    "source_sha": "c7ca8c467aecf10a4b53039372ee97714f854ee3",
+    "tool_sha": "332d945fafa14bf55c0c8390cb35ec4b0c012cff",
+    "compiler_sha": "e457a7b0d326d67b4322ef0d11bd715cfaeda48f",
+    "proof_sha": null,
+    "infra_sha": null,
+    "image_digest": null,
+    "profile": "rr-g1-frontend-unpatched-v1"
+  },
+  "harness_sha256": null,
+  "binaries": null,
+  "cargo_home": "/opt/g1-cargo",
+  "cargo_config_sha256": null,
+  "image_receipt": "/opt/g1-image-receipt.json",
+  "image_receipt_sha256": null,
+  "registry_binding": null,
+  "note": "Non-authorizing template. Reviewed dispatcher must supply every required value from exact submitted inputs, approved ledger/session, terminal cold build and registry receipts. BUILD_ID alone is only a misuse guard."
+}

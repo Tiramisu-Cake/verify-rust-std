@@ -1,0 +1,119 @@
+{
+  "schema": "g1-ghost-annotations-v1",
+  "source_commit": "c7ca8c467aecf10a4b53039372ee97714f854ee3",
+  "refinedrust_commit": "332d945fafa14bf55c0c8390cb35ec4b0c012cff",
+  "purpose": "Diagnostic frontend admission of exact generic bodies. No safety or CURRENT-recovery proof is claimed.",
+  "files": [
+    {
+      "path": "library/core/src/lib.rs",
+      "source_key": "core_lib",
+      "sha256": "ec773985e10a944e1d4b0fc35ac22e163f59ef3af4ba5324df20129db18c7860",
+      "insertions": [
+        {
+          "symbol": "core::rr tool registration",
+          "anchor": "#![stable(feature = \"core\", since = \"1.6.0\")]\n",
+          "attributes": ["#![feature(register_tool)]", "#![register_tool(rr)]"]
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "source_key": "smallsort",
+      "sha256": "32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959",
+      "insertions": [
+        {
+          "symbol": "CopyOnDrop<T>",
+          "anchor": "struct CopyOnDrop<T> {\n",
+          "attributes": ["#[rr::refined_by(\"()\" : \"unit\")]"]
+        },
+        {
+          "symbol": "CopyOnDrop<T>::drop",
+          "anchor": "    fn drop(&mut self) {\n",
+          "attributes": ["    #[rr::verify]"]
+        },
+        {
+          "symbol": "insert_tail<T,F>",
+          "anchor": "unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {\n",
+          "attributes": ["#[rr::may_unwind_if(\"True\")]", "#[rr::verify]"]
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/mem/manually_drop.rs",
+      "source_key": "manually_drop",
+      "sha256": "17e8e41866d3eadcfdc6f1a516e4ed9dd5555e10ad725aac3b04aec7c759731b",
+      "insertions": [
+        {
+          "symbol": "ManuallyDrop<T>",
+          "anchor": "pub struct ManuallyDrop<T: ?Sized> {\n",
+          "attributes": ["#[rr::refined_by(\"()\" : \"unit\")]"]
+        },
+        {
+          "symbol": "ManuallyDrop<T>::new",
+          "anchor": "    pub const fn new(value: T) -> ManuallyDrop<T> {\n",
+          "attributes": ["    #[rr::verify]"]
+        },
+        {
+          "symbol": "Deref for ManuallyDrop<T>::deref",
+          "anchor": "    fn deref(&self) -> &T {\n",
+          "attributes": ["    #[rr::verify]"]
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/mem/maybe_dangling.rs",
+      "source_key": "maybe_dangling",
+      "sha256": "1cf24b2ec36fff143f329f2ef6db5b4d47cfa798da7f30d88b554b712c8f4b53",
+      "insertions": [
+        {
+          "symbol": "MaybeDangling<P>",
+          "anchor": "pub struct MaybeDangling<P: ?Sized>(P);\n",
+          "attributes": ["#[rr::refined_by(\"()\" : \"unit\")]"]
+        },
+        {
+          "symbol": "MaybeDangling<P>::new",
+          "anchor": "    pub const fn new(x: P) -> Self\n",
+          "attributes": ["    #[rr::verify]"]
+        },
+        {
+          "symbol": "MaybeDangling<P>::as_ref",
+          "anchor": "    pub const fn as_ref(&self) -> &P {\n",
+          "attributes": ["    #[rr::verify]"]
+        }
+      ]
+    }
+  ],
+  "known_callee_edges": [
+    "insert_tail -> <*mut T>::sub, <*mut T>::read, ptr::copy_nonoverlapping, FnMut::call_mut",
+    "insert_tail normal and unwind -> CopyOnDrop<T>::drop and compiler drop glue",
+    "ManuallyDrop<T>::new -> MaybeDangling<T>::new",
+    "Deref for ManuallyDrop<T>::deref -> MaybeDangling<T>::as_ref"
+  ],
+  "existing_model_boundaries_to_audit": [
+    {
+      "actual": "core::ptr::mut_ptr::sub",
+      "rr_export": "stdlib/ptr/src/lib.rs:258",
+      "kind": "code_shim(ptr_sub)",
+      "proof_status": "Existing RR model boundary; exact DefId binding and applicability remain unobserved."
+    },
+    {
+      "actual": "core::ptr::mut_ptr::read",
+      "rr_export": "stdlib/ptr/src/lib.rs:122",
+      "kind": "export_as wrapper to code_shim(ptr_read)",
+      "proof_status": "Existing RR model boundary; Copyable versus move ownership must be assessed."
+    },
+    {
+      "actual": "core::ptr::copy_nonoverlapping",
+      "rr_export": "stdlib/ptr/src/lib.rs:157",
+      "kind": "code_shim(ptr_copy_nonoverlapping)",
+      "proof_status": "Existing RR model boundary; scalar versus ArraySynType(T,1) and ownership applicability unresolved."
+    }
+  ],
+  "unresolved": [
+    "Full recursive callee DefId closure and pointer shim/binding inventory require Cloud MIR observation.",
+    "FnMut::call_mut uses an actual trait/call boundary; no new trusted trait specification or purity premise is supplied.",
+    "Any absent selected ordinary callee binding is STOP / LIBRARY-SPEC, not permission for only_spec or a substitute summary.",
+    "Transparent ADT field ownership and ManuallyDrop payload-drop suppression have not been admitted or proved.",
+    "The diagnostic True unwind condition is not the target normal/unwind resource contract or a safety proof."
+  ]
+}
