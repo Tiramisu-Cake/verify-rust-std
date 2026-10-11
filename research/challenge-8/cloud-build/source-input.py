@@ -477,6 +477,12 @@ def restore_archive(archive: Path, evidence: Path) -> dict:
     ensure_workspace(archive)
     ensure_workspace(evidence)
     compressed = archive.read_bytes()
+    # Preserve the existing certificate field: it hashes the bytes inside the
+    # outer gzip envelope. For I these bytes are the packed XZ bundle.
+    try:
+        payload_bytes = gzip.decompress(compressed)
+    except OSError as error:
+        stop(f"source archive is unreadable: {error}")
     payload = decode_payload(compressed)
     if payload.get("schema") not in (SCHEMA, SHARED_SCHEMA):
         stop("unsupported source archive schema")
@@ -539,7 +545,9 @@ def restore_archive(archive: Path, evidence: Path) -> dict:
         "schema": payload["schema"], "lane": lane,
         "archive_sha256": hashlib.sha256(compressed).hexdigest(),
         "archive_size": len(compressed),
-        "payload_sha256": hashlib.sha256(raw).hexdigest(),
+        "payload_sha256": hashlib.sha256(payload_bytes).hexdigest(),
+        "payload_encoding": ("packed-xz-v1" if lane ==
+                             "verifast-slice-binding-integration" else "json-v1"),
         "infra": {"commit": infra_record["commit"],
                   "root_tree": infra_record["root_tree"],
                   "restored_paths": infra_restored,
