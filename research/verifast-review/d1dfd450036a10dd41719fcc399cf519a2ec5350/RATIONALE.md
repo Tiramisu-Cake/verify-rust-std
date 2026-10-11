@@ -1,0 +1,13 @@
+# Standalone slice as_mut_ptr candidate L
+
+Clean base 0a83dba42db7ce0b445034ece5298afe980e57dc. Reuse the independently reviewed exact one-line binding from tool I b6cb276afd13107c2a90ca50acbb12ff0a992dd8 (packet4214cbe06cad959c17ec6e87d345f1063516b167); no other research patches.
+
+Add only std::slice::<impl [T]>::as_mut_ptr to existing as_ptr arm. Compiler-resolved core name uses existing canonicalization to std. Existing two-substitution shape starts with element type, one receiver, cast to element pointer. Rust nightly2026-09-25 commit f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f source slice/mod.rs runtime method is self as *mut [T] as *mut T. Cloud must retain exact installed source and digest, compiler identity, actual call MIR and typed AST.
+
+Rust compiler supplies well-typed MIR and resolved method identity/type arguments. Translator checks exact canonical method name, existing substitution arity/type first slot and one argument; it does not itself independently pin std source, enforce a source hash, or independently validate receiver/second argument kind. These existing frontend trust boundaries are retained. Cast only projects pointer value; it adds no pointee ownership, writable authority, initialized-T view, lifetime or aliasing facts. Existing as_ptr kernel/casts/resources/unwind semantics remain untouched. Empty length does not grant a dereference right. MaybeUninit element pointer is not initialized-T ownership.
+
+Target tests must execute real calls, preserve entry resources and check pointer equality; negative must reach missing ownership/initialized view at a marked VC. Baseline on this exact upstream version must fail due to missing method binding. Candidate fresh Cloud focused checks plus normal Rust regression suite and upstream Linux make test. No Challenge8 execution or pin adoption. Independent patch/test/evidence review required before READY_FOR_USER_REVIEW.
+
+## Installed compiler source receipt
+
+First fresh Cloud Build424fd00e confirmed actual rustc1.100.0-nightly/f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f and installed core/src/slice/mod.rs SHA256 efe182d20200e0ef6206a1eeea492fdfcf419f2f14011a5e9ff56ae2f4cd6a2c. Method line762 has receiver &mut self and result *mut T, line763 is the exact pair of casts; attributes rustc_as_ptr, rustc_no_writable and never_returns_null_ptr are present. The lowering adds no new attribute-derived facts. The proof-repository source used by I has a different whole-file digest and is only context, not the standalone std pin.
