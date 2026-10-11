@@ -40,6 +40,7 @@ THRESHOLD_CASES = {
     "threshold-selected-positive": "selected_freeze_threshold",
     "threshold-selected-false-31": "selected_freeze_threshold",
     "threshold-default-control": "default_threshold",
+    "threshold-selected-missing-freeze": "selected_freeze_threshold",
 }
 CASES = {
     "canonical-generic": "canonical_slice_as_mut_ptr",
@@ -448,6 +449,10 @@ def classify(name: str, result: dict, root: Path, source: str) -> dict:
                   len(lines) == 1 and lines[0] in locations and
                   expected_error in first)
         label = "INTENDED_ASSERTION_NEGATIVE_RAW_REVIEW_REQUIRED" if passed else "NEGATIVE_FIRST_OBLIGATION_WRONG_OR_INCONCLUSIVE"
+    elif name == "threshold-selected-missing-freeze":
+        passed = (pair and stage == "verification" and exit_code not in (None, 0) and
+                  "SORT4-STABLE-METHOD: caller missing compiler FreezeMarker<T> clause" in first)
+        label = "MISSING_FREEZE_CLAUSE_ADMISSION_REFUSAL_NOT_PROOF_NEGATIVE" if passed else "ADMISSION_CONTROL_WRONG_OR_INCONCLUSIVE"
     else:
         passed = False
         label = "UNFILTERED_ENTRY_FIRST_OBLIGATION_DIAGNOSTIC_NO_PROOF_CREDIT"
@@ -593,13 +598,38 @@ def run(a) -> None:
                  "post-binding profile differs beyond translator/console")
             save(a.evidence / "post-binding-effective-snapshot.json", after)
             env = c4.clean_env(a, tool)
+            binding = json.loads((a.proof_root / HERE / "STABLE-THRESHOLD-BINDING-PINS.json").read_text())
+            apply(a, c4, tool, env, "stable-threshold-binding",
+                  a.proof_root / HERE / "stable-threshold-binding.patch",
+                  binding["patch_sha256"], {str(TR)},
+                  before={str(TR): binding["base_translator_sha256"]},
+                  after={str(TR): binding["result_translator_sha256"]})
+            (tool / "bin/verifast").unlink(missing_ok=True)
+            row = c4.stage(a, a.evidence / "tool", "stable-method-console-build",
+                           ["make", "-C", str(tool / "src"), "../bin/verifast",
+                            "WITHOUT_LABLGTK=yes", "VERBOSE=yes"],
+                           c4.clean_env(a, tool), 900, cwd=tool)
+            need(row.get("exit") == 0, "stable threshold binding console build")
+            final = audit.snapshot(tool, a.proof_root)
+            need(final["critical"][str(TR)] == binding["result_translator_sha256"] and
+                 all(final["critical"][key] == value for key,value in after["critical"].items() if key != str(TR)) and
+                 final["effective_rsspec"] == after["effective_rsspec"] and
+                 final["proof_std"] == after["proof_std"] and
+                 final["modified_names"] == after["modified_names"],
+                 "stable method profile changed beyond translator/console")
+            save(a.evidence / "stable-method-effective-snapshot.json", final)
+            env = c4.clean_env(a, tool)
             for name in ("public-guard-positive", "public-guard-false-positive-size",
                          "public-guard-zst-branch-false"):
                 fixture, _ = make_fixture(a, c4, ghost, manifest, name)
                 cases[name] = verify_one(a, c4, tool, env, fixture, name)
             for name in THRESHOLD_CASES:
                 fixture, _ = make_fixture(a, c4, ghost, manifest, name)
-                cases[name] = verify_one(a, c4, tool, env, fixture, name)
+                active = dict(env)
+                if name != "threshold-body-positive":
+                    active["SORT4_STABLE_METHOD_BINDING"] = "1"
+                cases[name] = verify_one(a, c4, tool, active, fixture, name)
+                cases[name]["stable_method_binding_enabled"] = name != "threshold-body-positive"
             cases["actual-unfiltered-prefix-postbinding"] = verify_one(
                 a, c4, tool, env,
                 a.evidence / "cases" / "actual-unfiltered-prefix" / "fixture",
@@ -644,6 +674,9 @@ def run(a) -> None:
             "tool_before_binding_translator": manifest["c4_base_translator_sha256"],
             "tool_after_binding_translator": (manifest["as_mut_ptr_translator_sha256"]
                                               if component_ready and default_pass else None),
+            "stable_method_profile_translator": final["critical"][str(TR)] if component_ready and default_pass else None,
+            "threshold_specialization_proved": False,
+            "caller_bound_transfer_proved": False,
             "actual_sort4_proved": False, "actual_caller_proved": False,
             "callable_summary": False, "profile_accepted": False,
             "proof_credit": False}

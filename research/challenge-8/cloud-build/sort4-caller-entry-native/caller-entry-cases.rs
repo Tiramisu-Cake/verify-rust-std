@@ -120,6 +120,8 @@ where
     if T::IS_ZST {
         return;
     }
+    //@ assert std::mem::size_of::<T>() != 0;
+    //@ std::alloc::is_valid_layout_size_of_align_of::<T>();
     //@ assert std::mem::size_of::<T>() > 0;
     //@ produce_type_interp::<T>();
     //@ produce_type_interp::<F>();

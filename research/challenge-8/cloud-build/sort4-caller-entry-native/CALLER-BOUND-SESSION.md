@@ -39,3 +39,22 @@ No whole quicksort/public sort/driftsort/scratch allocation credit.
 Bound<=32 does not imply nonzero. Helper must retain len<2, len+16/abort,
 v pointer, division, scratch pointer/cast, actual branch and first call order.
 Threshold/body compiler identity binding and native transfer remain OPEN.
+
+## Guard first fresh result and proof-only follow-up
+
+Build0b7b3e53-4c43-4ee4-a6c5-4d53f8872204 at984d8007c0b2250b8a7a2c3b9bd37e6f32aaa249:
+collectorSUCCESS/acceptedfalse; guard ghost lookup repaired. Both false-zero
+continuation and reachable ZST-arm false fail at intended semantic assertions
+under21ca026a. Positive >0 stops atlib.rs12: model records !=0 but has not
+triggered nonnegative-size fact. This is semantic failure, not lookup failure.
+No guard positive credit; source/refinement passes. Helper overflow unchanged.
+
+Before next execution, preserve >0 and precede it by !=0 plus the existing
+fully qualified std::alloc::is_valid_layout_size_of_align_of::<T>() lemma.
+Frozen std/lib.rsspec:965–968 has reqtrue, ens is_valid_layout(sizeof,align);
+its existing definition includes0<=size (line946). No spec/tool/model edit or
+new axiom: explicit invocation of an already pinned lemma. Native resources
+and normal/unwind posts unchanged. New fresh positive must reach !=0, lemma,
+>0 and all cleanup. If lemma resolution/model assumption fails, record it;
+no general size-model/frontend repair in scope. False-zero and ZSTfalse still
+must reject at their own actual continuation/branch assertions.
