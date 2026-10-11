@@ -7384,3 +7384,9 @@ semantic assertion, lost source array precondition, bad impl/callsite/evidence
 admission, touched pointer/resource/unwind cases. Historical Copy refusal remains
 frontend-only. Public IS_ZST/sizeof blocker unchanged; no new size model or C4
 nonzero assumption authorized. No status upgrade from preparation.
+
+First two submissions refused at local preflight before reservation/Build creation:
+unsorted recipe paths (fixed) then bounded transport exceeded (query-only closure
+pruned to actual runtime dependencies). No Cloud cost or proof-negative credit.
+Full former proof closure remains committed in cd4ad0b7; re-add required profiles/
+patches before selected proof mode. Query compiler inputs/semantics unchanged.
