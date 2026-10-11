@@ -1,3 +1,19 @@
+# VeriFast maintainer — selected binding / caller bound review J
+
+Read-only incoming5ffebdf review: compiler binding **CHANGES_REQUIRED**, native
+interface **CHANGES_REQUIRED**, complete conditional proof admission **BLOCKED**.
+GO only for future evidence-only compiler observation in actual body TypingEnv,
+selected translation disabled. Missing Instance/argument identity, final call
+cardinalities, observed complete clauses/lifetimes and same-input runner evidence
+gates remain open. Independent addressed review completed.
+[Review](verifast-review/selected-bound-20261011-j/REVIEW.md),
+[checkpoint](verifast-review/selected-bound-20261011-j/END-CHECKPOINT.md).
+No integration/code/proof change; Cloud0, session CLOSED, no automatic continuation.
+I tool b6cb276/profile I and reviewed READY/PASS preserved; full runner0371f4f8 UNRUN.
+Caller/publicZST/nativeC4+select/fullsort4/O23 and inherited assumptions remain OPEN.
+
+## Preserved I status
+
 # VeriFast maintainer — slice pointer binding candidate I
 
 **READY_FOR_INTEGRATION_REVIEW** for tool `b6cb276afd13107c2a90ca50acbb12ff0a992dd8`, profile `verifast-slice-as-mut-ptr-native-c3-20261011-i`. Independent semantic and fresh raw reviews completed. Same-binary Builds5cb5b5d3/d7e340fc cover slice53/53/63, native196/485, nine-selector141/C4370/composition466 PASS and required controls. Both raw CloudFAILURE histories remain unchanged; full corrected runner0371f4f8 UNRUN. [Checkpoint](cloud-build/verifast-slice-binding-integration/END-CHECKPOINT.md), [matrix](cloud-build/verifast-slice-binding-integration/GATE-MATRIX.md), [assessment](cloud-build/verifast-slice-binding-integration/ASSESSMENT.json), [commands](cloud-build/verifast-slice-binding-integration/REPRODUCE.md). Caller/publicZSTguard/nativeC4+select/fullsort4/O23/inherited assumptions and owner adoption remainOPEN. OwnledgerCLOSED816/3600;2784expire; ownrequest/reservations:none. Latest30min extension is package/checkpoint-only; no automatic continuation.
