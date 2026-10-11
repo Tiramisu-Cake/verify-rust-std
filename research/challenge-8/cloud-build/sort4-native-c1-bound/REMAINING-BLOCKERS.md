@@ -1,14 +1,24 @@
-# Current localization — 2026-10-11 session
+# Current localization — 2026-10-11, session closed
 
-Fresh009ad1c2 /f8115f33 establishes exact physical203: postlist138/ordinal256
-Goto63 afterLabel3, originalroot131, printed228,2; noEXEC203. Other equalprinted
-locations202/204 execute. Source/MIR/pre/postAST all unchanged from3521.
-Callback-free sameguard native&T[] VF0; addingunused nativeMU[] VF1/deadzero.
-Current cause localized to frozen native MU layout/resource model, not dropped
-CFG or unwind-epilogue placement. Entry array_inv introduces MU size before
-body calls; exact positive-bound trigger follow-up pending. No admissible
-source-specific repair yet. NativeC1 INCOMPLETE; connectedC4 NOT_RUN.
-[Fresh review](FRESH-009AD1C2-REVIEW.md), [maintainer blocker](ZST-MODEL-BLOCKER.md).
+Fresh009ad1c2/f8115f33 and9ae319b8/b81f1c3c establish physical ID203:
+postlist138/ordinal256, Goto63 after Label3, original root131, printed228,2;
+noEXEC203. Equal printed locations202/204 execute. Source/MIR/pre/postAST
+unchanged from3521; the zero route is retained, then symbolically excluded.
+
+Callback-free same guard without MU scratch passes VF0. Adding unused native
+MU scratch gives dead-code refusal. Fresh9ae observes size_of_MaybeUninit and
+MaybeUninit_size_limits triggers during implicit entry array_inv, before body
+or len/size_of calls. First positive-size query succeeds with MU and fails
+without MU. The established cause is the existing frozen MU/struct layout
+model limitation, not source-specific CFG or visit-accounting failure.
+
+No admissible binding-only repair on this frozen model. A general model/layout
+repair needs a separate VeriFast-agent decision and regression gate. Native C1
+INCOMPLETE; connected C4 NOT_RUN. Address normal226/unwind210 cleanup negatives,
+strict/admission/resource/leak/dead-code checks retained. Session closed1430/3600;
+unused2170 retired/no carry; own Builds/reservations/ready request closed.
+[Physical review](FRESH-009AD1C2-REVIEW.md), [entry cause](FRESH-9AE319B8-REVIEW.md),
+[Maintainer blocker](ZST-MODEL-BLOCKER.md), [checkpoint](END-CHECKPOINT-2026-10-11-ZST.md).
 The following prior-session account is preserved as historical evidence.
 
 # Remaining precise obligations — native bound C1 session
