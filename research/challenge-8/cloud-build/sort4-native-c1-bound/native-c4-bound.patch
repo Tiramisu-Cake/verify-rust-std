@@ -125,7 +125,7 @@
               (Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" = Some "1" &&
                State.body_name = "sort4_stable") then
              hrtb_fnmut_output_bounds else [];
-@@ -7533,7 +7573,260 @@
+@@ -7533,7 +7573,266 @@
                 let original_decl =
                   mk_fn_decl contract
                     (Some (original_body, closing_cbrace_loc)) in
@@ -147,11 +147,17 @@
 +                 if status <> Unix.WEXITED 0 || pre_sha <>
 +                    "65b9ddf282ab3b8d123bba3725600528936ff09e236c4261841d61f66cb5ae18  native-c4-bound-pre-ast.ml"
 +                 then reject "original full AST SHA256";
++                 let bounds = !State.hrtb_fnmut_output_bounds in
++                 Printf.eprintf
++                   "NATIVE-C4-BOUND inventory body=%d locals=%d projections=%d epilogue=%d hrtb=%s\n%!"
++                   (List.length original_body) (List.length vf_local_decls)
++                   (List.length projection_clause_stmts)
++                   (List.length callback_unwind_epilog)
++                   (String.concat "," (List.map (fun (f,t) -> f ^ ":" ^ t) bounds));
 +                 if List.length original_body <> 282 ||
 +                    List.length vf_local_decls <> 239 ||
 +                    projection_clause_stmts <> [] ||
-+                    callback_unwind_epilog <> [] ||
-+                    !State.hrtb_fnmut_output_bounds <> [("F", "T")]
++                    callback_unwind_epilog <> [] || bounds <> [("F", "T")]
 +                 then reject "complete native AST/HRTB inventory";
 +                 let root n = List.nth original_body n in
 +                 let slice start count xs =
@@ -387,7 +393,7 @@
                   let reject why = failwith ("NATIVE-C4-CAPTURE: " ^ why) in
                   if State.body_name <> "small_sort_general_with_scratch" then
                     reject "wrong target body";
-@@ -16675,6 +16968,41 @@
+@@ -16675,6 +16974,41 @@
             TrName.translate_def_path (BodyRd.def_path_get body) =
               Sort4PointerDrop.local_name) bodies_cpn) then
          Sort4PointerDrop.reject "checked method omitted from verification";
