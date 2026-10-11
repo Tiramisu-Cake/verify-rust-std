@@ -1,0 +1,550 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -6559,12 +6559,91 @@
+     end;
+     requested
+ 
++  (* Diagnostic for one exact native four-call source.  This mode emits the
++     original AST and refuses before verification; it adds no proof rewrite. *)
++  let native_c4_capture_requested () =
++    let requested =
++      match Sys.getenv_opt "SORT4_NATIVE_C4_CAPTURE" with
++      | None | Some "0" -> false
++      | Some "1" -> true
++      | _ -> failwith "NATIVE-C4-CAPTURE: malformed opt-in" in
++    if requested then begin
++      let off name =
++        match Sys.getenv_opt name with
++        | None | Some "0" -> true
++        | _ -> false in
++      let no_control name =
++        match Sys.getenv_opt name with
++        | None | Some "none" -> true
++        | _ -> false in
++      if Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "0" ||
++         Sys.getenv_opt "SORT4_STRICT_LFT_CUT" <> Some "1" ||
++         not (List.for_all off
++           ["SORT4_NATIVE_OPAQUE_C1_CAPTURE";
++            "SORT4_NATIVE_OPAQUE_C1_BOUND";
++            "SORT4_ACTUAL_C1_PREFIX_TEST";
++            "SORT4_ACTUAL_C2_DISCOVERY_TEST";
++            "SORT4_ACTUAL_C2_BOUND_PREFIX_TEST";
++            "SORT4_ACTUAL_C3_CAPTURE_TEST";
++            "SORT4_ACTUAL_C3_BOUND_PREFIX_TEST";
++            "SORT4_ACTUAL_C4_CAPTURE_TEST";
++            "SORT4_ACTUAL_C4_BOUND_PREFIX_TEST";
++            "SORT4_C1_OUTPUT_EQ";
++            "SORT4_HRTB_OUTPUT";
++            "SORT4_STRICT_LFT_RELOCATE"]) ||
++         Sys.getenv_opt "SORT4_HRTB_OUTPUT_TARGETS" <> None ||
++         not (List.for_all no_control
++           ["SORT4_NATIVE_OPAQUE_C1_BOUND_CONTROL";
++            "SORT4_C1_PREFIX_CONTROL"; "SORT4_C2_BOUND_CONTROL";
++            "SORT4_C3_BOUND_CONTROL"; "SORT4_C4_BOUND_CONTROL";
++            "SORT4_C1_DEBT_CONTROL"])
++      then failwith "NATIVE-C4-CAPTURE: isolated capture environment required"
++    end;
++    requested
++
++  let native_c4_bound_requested () =
++    let requested =
++      match Sys.getenv_opt "SORT4_NATIVE_C4_BOUND" with
++      | None | Some "0" -> false
++      | Some "1" -> true
++      | _ -> failwith "NATIVE-C4-BOUND: malformed opt-in" in
++    if requested then begin
++      let off name =
++        match Sys.getenv_opt name with
++        | None | Some "0" -> true
++        | _ -> false in
++      let no_control name =
++        match Sys.getenv_opt name with
++        | None | Some "none" -> true
++        | _ -> false in
++      if Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "0" ||
++         Sys.getenv_opt "SORT4_STRICT_LFT_CUT" <> Some "1" ||
++         not (List.for_all off
++           ["SORT4_NATIVE_C4_CAPTURE"; "SORT4_NATIVE_OPAQUE_C1_CAPTURE";
++            "SORT4_NATIVE_OPAQUE_C1_BOUND"; "SORT4_ACTUAL_C1_PREFIX_TEST";
++            "SORT4_ACTUAL_C2_DISCOVERY_TEST"; "SORT4_ACTUAL_C2_BOUND_PREFIX_TEST";
++            "SORT4_ACTUAL_C3_CAPTURE_TEST"; "SORT4_ACTUAL_C3_BOUND_PREFIX_TEST";
++            "SORT4_ACTUAL_C4_CAPTURE_TEST"; "SORT4_ACTUAL_C4_BOUND_PREFIX_TEST";
++            "SORT4_C1_OUTPUT_EQ"; "SORT4_HRTB_OUTPUT";
++            "SORT4_STRICT_LFT_RELOCATE"]) ||
++         Sys.getenv_opt "SORT4_HRTB_OUTPUT_TARGETS" <> None ||
++         not (List.for_all no_control
++           ["SORT4_NATIVE_OPAQUE_C1_BOUND_CONTROL";
++            "SORT4_C1_PREFIX_CONTROL"; "SORT4_C2_BOUND_CONTROL";
++            "SORT4_C3_BOUND_CONTROL"; "SORT4_C4_BOUND_CONTROL";
++            "SORT4_C1_DEBT_CONTROL"])
++      then failwith "NATIVE-C4-BOUND: isolated exact-bound environment required"
++    end;
++    requested
++
+   let translate_body (body_tr_defs_ctx : body_tr_defs_ctx) (body_cpn : BodyRd.t)
+       =
+     let native_c1_capture_requested =
+       native_opaque_c1_capture_requested () in
+     let native_c1_bound_requested =
+       native_opaque_c1_bound_requested () in
++    let native_c4_capture_requested = native_c4_capture_requested () in
++    let native_c4_bound_requested = native_c4_bound_requested () in
+     let prefix_requested =
+       match Sys.getenv_opt "SORT4_ACTUAL_C1_PREFIX_TEST" with
+       | None | Some "0" -> false
+@@ -6751,17 +6830,25 @@
+     let translate_c2_scaffold_stmt gs_cpn =
+       let raw = AnnotationRd.raw_get gs_cpn in
+       if ((c2_discovery_requested || c2_bound_requested || c3_capture_requested ||
+-           c3_bound_requested || c4_capture_requested || c4_bound_requested) &&
++           c3_bound_requested || c4_capture_requested || c4_bound_requested ||
++           native_c4_capture_requested || native_c4_bound_requested) &&
+           raw = "/*@ let_lft 'cmp2 = cmp2_k; @*/") ||
+-         ((c3_capture_requested || c3_bound_requested || c4_capture_requested || c4_bound_requested) &&
++         ((c3_capture_requested || c3_bound_requested || c4_capture_requested ||
++           c4_bound_requested || native_c4_capture_requested || native_c4_bound_requested) &&
+           raw = "/*@ let_lft 'cmp3 = cmp3_k; @*/") ||
+-         ((c4_capture_requested || c4_bound_requested) &&
++         ((c4_capture_requested || c4_bound_requested || native_c4_capture_requested ||
++           native_c4_bound_requested) &&
+           raw = "/*@ let_lft 'cmp4 = cmp4_k; @*/")
+       then begin
+         let* annot = translate_annotation gs_cpn in
+         let (file, line, _), _ = Ast.lexed_loc annot.span in
+-        if body_name <> "sort4_stable" || Filename.basename file <> "lib.rs" ||
+-           (not (c3_capture_requested || c3_bound_requested || c4_capture_requested || c4_bound_requested) && line <> 196) then
++        if (if native_c4_capture_requested || native_c4_bound_requested then
++              body_name <> "small_sort_general_with_scratch"
++            else body_name <> "sort4_stable") ||
++           Filename.basename file <> "lib.rs" ||
++           (not (c3_capture_requested || c3_bound_requested || c4_capture_requested ||
++                 c4_bound_requested || native_c4_capture_requested ||
++                 native_c4_bound_requested) && line <> 196) then
+           failwith "SORT4-C2-DISCOVERY: unbound declaration location differs";
+         let lifetime, witness, placeholder, count =
+           if raw = "/*@ let_lft 'cmp2 = cmp2_k; @*/" then
+@@ -6792,13 +6879,17 @@
+       end else translate_ghost_stmt gs_cpn in
+     let* ghost_stmts = ListAux.try_map translate_c2_scaffold_stmt ghost_stmts_cpn in
+     if (c2_discovery_requested || c2_bound_requested || c3_capture_requested ||
+-        c3_bound_requested || c4_capture_requested || c4_bound_requested) &&
++        c3_bound_requested || c4_capture_requested || c4_bound_requested ||
++        native_c4_capture_requested || native_c4_bound_requested) &&
+        !c2_unbound_decl_count <> 1 then
+       failwith "SORT4-C2-DISCOVERY: exact-one unbound declaration required";
+-    if (c3_capture_requested || c3_bound_requested || c4_capture_requested || c4_bound_requested) &&
++    if (c3_capture_requested || c3_bound_requested || c4_capture_requested ||
++        c4_bound_requested || native_c4_capture_requested || native_c4_bound_requested) &&
+        !c3_unbound_decl_count <> 1 then
+       failwith "SORT4-C3-CAPTURE: exact-one cmp3 declaration required";
+-    if (c4_capture_requested || c4_bound_requested) && !c4_unbound_decl_count <> 1 then
++    if (c4_capture_requested || c4_bound_requested || native_c4_capture_requested ||
++        native_c4_bound_requested) &&
++       !c4_unbound_decl_count <> 1 then
+       failwith "SORT4-C4-CAPTURE: exact-one cmp4 declaration required";
+     let* ghost_stmts =
+       ListAux.try_sort LocAux.compare_err_desc
+@@ -6822,7 +6913,8 @@
+       | _ -> None
+     in
+     let markers, ghost_stmts =
+-      if (native_c1_capture_requested || native_c1_bound_requested) &&
++      if (native_c1_capture_requested || native_c1_bound_requested ||
++          native_c4_capture_requested || native_c4_bound_requested) &&
+          body_name =
+            "small_sort_general_with_scratch" then begin
+         (* Retain the exact source cut through original AST capture.  The
+@@ -6831,7 +6923,14 @@
+         let cuts = List.filter
+           (fun stmt -> match marker_call stmt with Some _ -> true | None -> false)
+           ghost_stmts in
+-        (match cuts with
++        (if native_c4_capture_requested || native_c4_bound_requested then begin
++           let names = List.map (fun stmt ->
++             match marker_call stmt with
++             | Some ([Ast.IdentTypeExpr (_, None, name)], []) -> name
++             | _ -> failwith "NATIVE-C4-CAPTURE: cut shape") cuts in
++           if names <> ["'cmp"; "'cmp2"; "'cmp3"; "'cmp4"] then
++             failwith "NATIVE-C4-CAPTURE: exact four ordered cuts required"
++         end else match cuts with
+          | [stmt] ->
+              let file, line, _ = fst (Ast.lexed_loc (Ast.stmt_loc stmt)) in
+              (match marker_call stmt with
+@@ -7133,6 +7232,7 @@
+         end;
+         State.hrtb_fnmut_output_bounds :=
+           if State.hrtb_fnmut_output_enabled || native_c1_bound_requested ||
++             native_c4_bound_requested ||
+              (Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" = Some "1" &&
+               State.body_name = "sort4_stable") then
+             hrtb_fnmut_output_bounds else [];
+@@ -7473,7 +7573,287 @@
+                let original_decl =
+                  mk_fn_decl contract
+                    (Some (original_body, closing_cbrace_loc)) in
+-               if native_c1_capture_requested then begin
++               if native_c4_bound_requested then begin
++                 let reject why = failwith ("NATIVE-C4-BOUND: " ^ why) in
++                 if State.body_name <> "small_sort_general_with_scratch" then
++                   reject "target body";
++                 let pre_file = "native-c4-bound-pre-ast.ml" in
++                 let post_file = "native-c4-bound-post-ast.ml" in
++                 if Sys.file_exists pre_file || Sys.file_exists post_file then
++                   reject "preexisting AST artifact";
++                 Ocaml_expr_formatter.print_ocaml_expr_to_file false pre_file
++                   (Ocaml_expr_of_ast.of_decl original_decl);
++                 let ic = Unix.open_process_in
++                   "/usr/bin/sha256sum -- native-c4-bound-pre-ast.ml" in
++                 let pre_sha = input_line ic in
++                 let status = Unix.close_process_in ic in
++                 if status <> Unix.WEXITED 0 || pre_sha <>
++                    "65b9ddf282ab3b8d123bba3725600528936ff09e236c4261841d61f66cb5ae18  native-c4-bound-pre-ast.ml"
++                 then reject "original full AST SHA256";
++                 if List.length original_body <> 282 ||
++                    List.length vf_local_decls <> 239 ||
++                    projection_clause_stmts <> [] ||
++                    callback_unwind_epilog <> [] ||
++                    !State.hrtb_fnmut_output_bounds <> [("F", "T")]
++                 then reject "complete native AST/HRTB inventory";
++                 let root n = List.nth original_body n in
++                 let slice start count xs =
++                   List.filteri (fun i _ -> start <= i && i < start + count) xs in
++                 let check_local name stmt =
++                   match stmt with
++                   | Ast.DeclStmt (_, [(_, Some _, actual, None, (taken, _))])
++                     when actual = name && not !taken -> ()
++                   | _ -> reject ("local declaration " ^ name) in
++                 List.iter (fun (i, name) -> check_local name (root i))
++                   [(50,"c1"); (97,"c2"); (169,"c3"); (216,"c4");
++                    (124,"a"); (128,"b"); (133,"c"); (138,"d")];
++                 let groups =
++                   [(51, ["$_54"; "$_55"; "$_56"; "$_57"; "$_58";
++                          "$_59"; "$_60"; "$_61"]);
++                    (98, ["$_101"; "$_102"; "$_103"; "$_104"; "$_105";
++                          "$_106"; "$_107"; "$_108"; "$_109"; "$_110"]);
++                    (170, ["$_173"; "$_174"; "$_175"; "$_176";
++                           "$_177"; "$_178"]);
++                    (217, ["$_220"; "$_221"; "$_222"; "$_223";
++                           "$_224"; "$_225"])] in
++                 List.iter (fun (start, names) ->
++                   List.iter2 check_local names
++                     (slice start (List.length names) original_body)) groups;
++                 let kept_decls = List.filteri (fun i _ ->
++                   i < 239 && not (List.exists (fun (start, names) ->
++                     start <= i && i < start + List.length names) groups))
++                   original_body in
++                 if List.length kept_decls <> 209 then
++                   reject "outer local declaration conservation";
++                 let block_loc, cmp_decl, old_stmts, old_close =
++                   match root 273 with
++                   | Ast.BlockStmt (loc, [decl], ss, close, locals)
++                     when !locals = [] && List.length ss = 215 ->
++                       (loc, decl, ss, close)
++                   | _ -> reject "one source four-call block" in
++                 let block n = List.nth old_stmts n in
++                 let source_line stmt =
++                   let (file, line, _), _ = Ast.lexed_loc (Ast.stmt_loc stmt) in
++                   if file <> "verified/lib.rs" then reject "source file";
++                   line in
++                 List.iter (fun (i, line) ->
++                   if source_line (block i) <> line then
++                     reject (Printf.sprintf "source statement %d" i))
++                   [(21,368); (31,387); (33,389);
++                    (69,425); (81,442); (83,444);
++                    (142,487); (150,504); (152,506);
++                    (190,544); (198,561); (200,563)];
++                 let lifetime name witness stmt =
++                   match stmt with
++                   | Ast.TypeWithTypeidDecl (_, actual,
++                       Ast.CallExpr (_, "typeid_of_lft", [], [],
++                         [Ast.LitPat (Ast.Var (_, actual_witness))], Ast.Static))
++                     when actual = name && actual_witness = witness -> stmt
++                   | _ -> reject ("lifetime declaration " ^ name) in
++                 let cmp_decl = lifetime "'cmp" "cmp_k" cmp_decl in
++                 let placeholder index name witness marker =
++                   match block index with
++                   | Ast.PureStmt (_, Ast.BlockStmt (_, [decl],
++                       [Ast.ExprStmt (Ast.CallExpr (_, actual, [], [], [],
++                         Ast.Static))], _, locals))
++                     when actual = marker && !locals = [] ->
++                       lifetime name witness decl
++                   | _ -> reject ("lifetime placeholder " ^ name) in
++                 let cmp2_decl = placeholder 48 "'cmp2" "cmp2_k"
++                   "__vf_sort4_C2_UNBOUND_LIFETIME_DECL_PLACEHOLDER" in
++                 let cmp3_decl = placeholder 119 "'cmp3" "cmp3_k"
++                   "__vf_sort4_C3_UNBOUND_LIFETIME_DECL_PLACEHOLDER" in
++                 let cmp4_decl = placeholder 167 "'cmp4" "cmp4_k"
++                   "__vf_sort4_C4_UNBOUND_LIFETIME_DECL_PLACEHOLDER" in
++                 let marker_parts index marker join_name =
++                   match block index with
++                   | Ast.PureStmt (_, Ast.BlockStmt (_, [],
++                       [Ast.ExprStmt (Ast.CallExpr (_, actual, [], [], [],
++                          Ast.Static));
++                        Ast.BlockStmt (_, [], [debt], _, debt_free);
++                        Ast.BlockStmt (_, [], [recover], _, recover_free);
++                        Ast.BlockStmt (_, [], [join], _, join_free);
++                        Ast.BlockStmt (_, [], full, _, full_free)],
++                       _, marker_free))
++                     when actual = marker && !debt_free = [] &&
++                          !recover_free = [] && !join_free = [] &&
++                          !full_free = [] && !marker_free = [] &&
++                          List.length full >= 8 ->
++                       (match debt, recover, join with
++                        | Ast.Close (_, None, "comparison_debt", [_], [], _, None),
++                          Ast.ExprStmt (Ast.CallExpr (_, "recover_pair", [_],
++                            [], _, Ast.Static)),
++                          Ast.ExprStmt (Ast.CallExpr (_, actual_join, [_],
++                            [], _, Ast.Static)) when actual_join = join_name ->
++                             (debt, recover, join, full)
++                        | _ -> reject ("unwind cleanup identity " ^ marker))
++                   | _ -> reject ("four-block unwind marker " ^ marker) in
++                 let m1 = marker_parts 21 "__vf_sort4_first_unwind"
++                   "join_four_owned_cells" in
++                 let m2 = marker_parts 69 "__vf_sort4_second_unwind"
++                   "join_four_owned_cells" in
++                 let m3 = marker_parts 142 "__vf_sort4_third_unwind"
++                   "join_selected_four" in
++                 let m4 = marker_parts 190 "__vf_sort4_fourth_unwind"
++                   "join_selected_four" in
++                 let control =
++                   match Sys.getenv_opt "SORT4_NATIVE_C4_BOUND_CONTROL" with
++                   | None | Some "none" -> "none"
++                   | Some ("normal_false" | "c1_unwind_false" |
++                           "c2_unwind_false" | "c3_unwind_false" |
++                           "c4_unwind_false" as c) -> c
++                   | _ -> reject "malformed control" in
++                 let bind_switch index lft receiver tuple result debt label =
++                   match block index with
++                   | Ast.SwitchStmt (call_loc,
++                       (Ast.CallExpr (_, "std::ops::FnMut::call_mut",
++                         [Ast.IdentTypeExpr (_, None, "F") as f_ty;
++                          (Ast.StructTypeExpr (_, Some "std_tuple_2_", None,
++                            [], [Ast.RustRefTypeExpr (_,
++                                   Ast.IdentTypeExpr (_, None, left_lft),
++                                   Ast.Shared, Ast.IdentTypeExpr (_, None, "T"));
++                                 Ast.RustRefTypeExpr (_,
++                                   Ast.IdentTypeExpr (_, None, right_lft),
++                                   Ast.Shared, Ast.IdentTypeExpr (_, None, "T"))])
++                           as args_ty);
++                          Ast.IdentTypeExpr (_, None, method_lft)], [],
++                         [Ast.LitPat (Ast.Var (_, actual_receiver));
++                          Ast.LitPat (Ast.Var (_, actual_tuple))], Ast.Static)
++                        as call),
++                       [Ast.SwitchStmtClause (_, normal_case,
++                          [Ast.ExprStmt (Ast.AssignExpr (_,
++                            Ast.Var (_, assigned), Ast.Initialization,
++                            Ast.Var (_, "__result"))) as normal_stmt]);
++                        Ast.SwitchStmtClause (unwind_loc, unwind_case,
++                          [Ast.ReturnStmt (_, Some (Ast.CallExpr (_,
++                            "unwinding", [], [], [], Ast.Static))) as
++                             unwind_return])])
++                     when left_lft = lft && right_lft = lft &&
++                          method_lft = lft && actual_receiver = receiver &&
++                          actual_tuple = tuple && assigned = result ->
++                       let projection = Ast.ExprStmt (Ast.CallExpr
++                         (call_loc, "#register_type_projection_equality",
++                          [Ast.ProjectionTypeExpr (call_loc, f_ty,
++                             "std::ops::FnOnce", [args_ty], "Output");
++                           Ast.ManifestTypeExpr (call_loc, Ast.Bool)],
++                          [], [], Ast.Static)) in
++                       let bound = Ast.SwitchStmt (call_loc, call,
++                         [Ast.SwitchStmtClause (call_loc, normal_case,
++                            [normal_stmt]);
++                          Ast.SwitchStmtClause (unwind_loc, unwind_case,
++                            [Ast.PureStmt (Ast.stmt_loc debt, debt);
++                             Ast.GotoStmt (unwind_loc, label)])]) in
++                       (projection, bound, unwind_return)
++                   | _ -> reject ("exact compiler FnMut switch " ^ lft) in
++                 let debt (d, _, _, _) = d in
++                 let label i = "#native_c4_direct_unwind_" ^ string_of_int i in
++                 let c1_eq, c1_call, c1_return =
++                   bind_switch 31 "'cmp" "$_54" "$_55" "c1"
++                     (debt m1) (label 1) in
++                 let c2_eq, c2_call, c2_return =
++                   bind_switch 81 "'cmp2" "$_101" "$_102" "c2"
++                     (debt m2) (label 2) in
++                 let c3_eq, c3_call, c3_return =
++                   bind_switch 150 "'cmp3" "$_173" "$_174" "c3"
++                     (debt m3) (label 3) in
++                 let c4_eq, c4_call, c4_return =
++                   bind_switch 198 "'cmp4" "$_220" "$_221" "c4"
++                     (debt m4) (label 4) in
++                 let cuts = [(33,"'cmp"); (83,"'cmp2");
++                             (152,"'cmp3"); (200,"'cmp4")] in
++                 List.iter (fun (i, lft) -> match block i with
++                   | Ast.PureStmt (_, Ast.ExprStmt (Ast.CallExpr (_,
++                       "end_lft_binding",
++                       [Ast.IdentTypeExpr (_, None, actual)], [], [],
++                       Ast.Static))) when actual = lft -> ()
++                   | _ -> reject ("strict cut " ^ lft)) cuts;
++                 let strict index lft =
++                   let loc = Ast.stmt_loc (block index) in
++                   Ast.ExprStmt (Ast.CallExpr
++                     (loc, "#strict_lft_binding_scope",
++                      [Ast.IdentTypeExpr (loc, None, lft)], [], [],
++                      Ast.Static)) in
++                 let child start stop marker call eq bound decl locals cut lft =
++                   let body = slice start (stop - start) old_stmts
++                     |> List.mapi (fun j stmt ->
++                          let i = start + j in
++                          if i = marker then
++                            [Ast.NoopStmt (Ast.stmt_loc stmt)]
++                          else if i = call then [eq; bound]
++                          else [stmt]) |> List.flatten in
++                   let loc = Ast.stmt_loc (block start) in
++                   let cut_loc = Ast.stmt_loc (block cut) in
++                   Ast.BlockStmt (loc, [decl], strict cut lft ::
++                     (locals @ body), cut_loc, ref []) in
++                 let c1_child = child 0 33 21 31 c1_eq c1_call cmp_decl
++                   (slice 51 8 original_body) 33 "'cmp" in
++                 let c2_child = child 49 83 69 81 c2_eq c2_call cmp2_decl
++                   (slice 98 10 original_body) 83 "'cmp2" in
++                 let c3_child = child 120 152 142 150 c3_eq c3_call cmp3_decl
++                   (slice 170 6 original_body) 152 "'cmp3" in
++                 let c4_child = child 168 200 190 198 c4_eq c4_call cmp4_decl
++                   (slice 217 6 original_body) 200 "'cmp4" in
++                 let false_assert mode stmt =
++                   if control = mode then
++                     [Ast.Assert (Ast.stmt_loc stmt,
++                       Ast.False (Ast.stmt_loc stmt))]
++                   else [] in
++                 let epilogue n (_, recover, join, full) ret =
++                   [Ast.LabelStmt (Ast.stmt_loc ret, label n);
++                    Ast.PureStmt (Ast.stmt_loc recover, recover);
++                    Ast.PureStmt (Ast.stmt_loc join, join)] @
++                   List.map (fun s -> Ast.PureStmt (Ast.stmt_loc s, s)) full @
++                   false_assert ("c" ^ string_of_int n ^ "_unwind_false") ret @
++                   [ret] in
++                 let no_op n = Ast.NoopStmt (Ast.stmt_loc (block n)) in
++                 let outer_body =
++                   [c1_child; no_op 33] @ slice 34 14 old_stmts @
++                   [c2_child; no_op 83] @ slice 84 35 old_stmts @
++                   [c3_child; no_op 152] @ slice 153 14 old_stmts @
++                   [c4_child; no_op 200] @ slice 201 13 old_stmts @
++                   false_assert "normal_false" (block 214) @ [block 214] @
++                   epilogue 1 m1 c1_return @ epilogue 2 m2 c2_return @
++                   epilogue 3 m3 c3_return @ epilogue 4 m4 c4_return in
++                 let outer = Ast.BlockStmt (block_loc, [], outer_body,
++                   old_close, ref []) in
++                 let after = kept_decls @ slice 239 34 original_body @
++                   [outer] @ slice 274 8 original_body in
++                 let changed_decl = mk_fn_decl contract
++                   (Some (after, closing_cbrace_loc)) in
++                 Ocaml_expr_formatter.print_ocaml_expr_to_file false post_file
++                   (Ocaml_expr_of_ast.of_decl changed_decl);
++                 Printf.eprintf
++                   "NATIVE-C4-BOUND admitted pre_ast=%s calls=4 direct_unwind=4 full_cleanup=4 control=%s NOT_CALLABLE_SUMMARY\n%!"
++                   (String.sub pre_sha 0 64) control;
++                 changed_decl
++               end else if native_c4_capture_requested then begin
++                 let reject why = failwith ("NATIVE-C4-CAPTURE: " ^ why) in
++                 if State.body_name <> "small_sort_general_with_scratch" then
++                   reject "wrong target body";
++                 let calls = ref [] in
++                 List.iter
++                   (Ast.stmt_iter (function
++                      | Ast.SwitchStmt
++                          (loc, Ast.CallExpr
++                            (_, "std::ops::FnMut::call_mut", _, _, _, Ast.Static),
++                           _) -> calls := loc :: !calls
++                      | _ -> ())) original_body;
++                 if List.length !calls <> 4 then
++                   reject "exact four compiler FnMut calls required";
++                 let output = "native-c4-capture-pre-ast.ml" in
++                 if Sys.file_exists output then reject "preexisting AST output";
++                 let before = Marshal.to_string original_decl
++                   [Marshal.No_sharing] in
++                 Ocaml_expr_formatter.print_ocaml_expr_to_file false output
++                   (Ocaml_expr_of_ast.of_decl original_decl);
++                 if Marshal.to_string original_decl [Marshal.No_sharing] <>
++                    before then reject "original AST mutated by capture";
++                 Printf.eprintf
++                   "NATIVE-C4-CAPTURE original_md5=%s artifact=%s\n%!"
++                   (Digest.to_hex (Digest.string before)) output;
++                 failwith
++                   "NATIVE-C4-CAPTURE: FULL_ORIGINAL_AST_CAPTURED_NOT_PROOF"
++               end else if native_c1_capture_requested then begin
+                  let reject why = failwith
+                    ("NATIVE-OPAQUE-C1-CAPTURE: " ^ why) in
+                  if State.body_name <> "small_sort_general_with_scratch" then
+@@ -16588,6 +16968,80 @@
+            TrName.translate_def_path (BodyRd.def_path_get body) =
+              Sort4PointerDrop.local_name) bodies_cpn) then
+         Sort4PointerDrop.reject "checked method omitted from verification";
++      if native_c4_bound_requested () then begin
++        let reject why = failwith ("NATIVE-C4-BOUND: " ^ why) in
++        if Args.ignore_unwind_paths || Args.skip_specless_fns ||
++           List.length bodies_cpn <> 1 ||
++           TrName.translate_def_path (BodyRd.def_path_get
++             (List.hd bodies_cpn)) <> "small_sort_general_with_scratch" then
++          reject "isolated exact-one body, unwind/full checks required";
++        let ic = Unix.open_process_in "/usr/bin/sha256sum -- verified/lib.rs" in
++        let row = input_line ic in
++        let status = Unix.close_process_in ic in
++        if status <> Unix.WEXITED 0 || row <>
++           "0f92a609c898df5271cbafd04cea688bf7b46c8b4786f8313b8ff99db995e9c4  verified/lib.rs"
++        then reject "verified source SHA256 differs";
++        let ic = open_in_bin "verified/lib.rs" in
++        let source = Fun.protect ~finally:(fun () -> close_in ic)
++          (fun () -> really_input_string ic (in_channel_length ic)) in
++        let exact_once needle =
++          let n = String.length needle in
++          let rec scan i count =
++            if i + n > String.length source then count
++            else if String.sub source i n = needle then
++              scan (i + n) (count + 1)
++            else scan (i + 1) count in
++          if scan 0 0 <> 1 then reject ("source inventory: " ^ needle) in
++        List.iter exact_once
++          ["if size_of::<T>() == 0 {"; "if len >= 8 {";
++           "__vf_sort4_first_unwind();";
++           "__vf_sort4_second_unwind();";
++           "__vf_sort4_third_unwind();";
++           "__vf_sort4_fourth_unwind();";
++           "let c1 = is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(&*v_base.add(1), &*v_base);";
++           "let c2 = is_less/*@::<F, (&'cmp2 T, &'cmp2 T), 'cmp2>@*/(&*v_base.add(3), &*v_base.add(2));";
++           "let c3 = is_less/*@::<F, (&'cmp3 T, &'cmp3 T), 'cmp3>@*/(&*c, &*a);";
++           "let c4 = is_less/*@::<F, (&'cmp4 T, &'cmp4 T), 'cmp4>@*/(&*d, &*b);"]
++      end;
++      if native_c4_capture_requested () then begin
++        let reject why = failwith ("NATIVE-C4-CAPTURE: " ^ why) in
++        if Args.ignore_unwind_paths || Args.skip_specless_fns ||
++           List.length bodies_cpn <> 1 ||
++           TrName.translate_def_path (BodyRd.def_path_get
++             (List.hd bodies_cpn)) <> "small_sort_general_with_scratch" then
++          reject "isolated exact-one body, unwind/full checks required";
++        let expected = match Sys.getenv_opt
++          "SORT4_NATIVE_C4_CAPTURE_SOURCE_SHA256" with
++          | Some s when String.length s = 64 &&
++              String.for_all (function '0'..'9' | 'a'..'f' -> true | _ -> false) s -> s
++          | _ -> reject "missing exact source SHA256" in
++        let ic = Unix.open_process_in "/usr/bin/sha256sum -- verified/lib.rs" in
++        let row = input_line ic in
++        let status = Unix.close_process_in ic in
++        if status <> Unix.WEXITED 0 ||
++           row <> expected ^ "  verified/lib.rs" then
++          reject "verified source SHA256 differs";
++        let ic = open_in_bin "verified/lib.rs" in
++        let source = Fun.protect ~finally:(fun () -> close_in ic)
++          (fun () -> really_input_string ic (in_channel_length ic)) in
++        let exact_once needle =
++          let n = String.length needle in
++          let rec scan i count =
++            if i + n > String.length source then count
++            else if String.sub source i n = needle then scan (i + n) (count + 1)
++            else scan (i + 1) count in
++          if scan 0 0 <> 1 then reject ("source inventory: " ^ needle) in
++        List.iter exact_once
++          ["if size_of::<T>() == 0 {"; "if len >= 8 {";
++           "__vf_sort4_first_unwind();";
++           "__vf_sort4_second_unwind();";
++           "__vf_sort4_third_unwind();";
++           "__vf_sort4_fourth_unwind();";
++           "let c1 = is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(&*v_base.add(1), &*v_base);";
++           "let c2 = is_less/*@::<F, (&'cmp2 T, &'cmp2 T), 'cmp2>@*/(&*v_base.add(3), &*v_base.add(2));";
++           "let c3 = is_less/*@::<F, (&'cmp3 T, &'cmp3 T), 'cmp3>@*/(&*c, &*a);";
++           "let c4 = is_less/*@::<F, (&'cmp4 T, &'cmp4 T), 'cmp4>@*/(&*d, &*b);"]
++      end;
+       if native_opaque_c1_bound_requested () then begin
+         let reject why = failwith
+           ("NATIVE-OPAQUE-C1-BOUND: " ^ why) in

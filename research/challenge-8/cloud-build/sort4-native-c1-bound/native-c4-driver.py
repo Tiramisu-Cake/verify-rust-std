@@ -169,105 +169,6 @@ def make_source(a, driver, fixture):
     return certificate
 
 
-def run(a, c1_tool, env, driver):
-    require(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
-            os.environ.get("LANE") == "o26-sort4-c1-current-recovery",
-            "Cloud-only authorized lane")
-    manifest_path = a.proof_root / HERE / "NATIVE-C4-CAPTURE-MANIFEST.json"
-    manifest = json.loads(manifest_path.read_text())
-    patch = a.proof_root / HERE / "native-c4-capture.patch"
-    require(manifest.get("mode") == "NATIVE_C4_CAPTURE_ONLY_ALWAYS_REFUSE" and
-            manifest.get("profile_accepted") is False and
-            manifest.get("tool_head") == "f76012fb518703b1d98e243ac4f487f16877cfcb" and
-            manifest.get("base_translator_sha256") == BASE_TR and
-            manifest.get("kernel_sha256") == KERNEL and
-            sha(patch) == manifest.get("patch_sha256") and
-            [line for line in patch.read_text().splitlines()
-             if line.startswith(("--- ", "+++ "))] ==
-            [f"--- a/{TR}", f"+++ b/{TR}"], "manifest/patch admission")
-    source_inputs = manifest.get("source_inputs")
-    require(isinstance(source_inputs, dict) and len(source_inputs) == 6 and
-            all(sha(a.proof_root / path) == expected
-                for path, expected in source_inputs.items()),
-            "exact source/helper input hashes")
-    require(sha(c1_tool / TR) == BASE_TR and
-            sha(c1_tool / "src/verifast.ml") == KERNEL,
-            "fresh C1 base tool identity")
-    historical = driver.load(a.cloud_dir / "sort4-c1-current-recovery.py", "native_c4_snapshot")
-    before = historical.snapshot(a, c1_tool)
-    verifast1_before = sha(c1_tool / "src/verifast1.ml")
-    require(verifast1_before == manifest.get("verifast1_sha256"),
-            "fresh reviewed ZST repair model identity")
-    tool = a.work_root / "sort4-native-c4-capture-isolated-source"
-    require(not tool.exists(), "isolated capture tool preexists")
-    shutil.copytree(c1_tool, tool, symlinks=True)
-    require(historical.snapshot(a, tool) == before, "isolated tool copy")
-    root = a.evidence / "native-c4-capture"
-    for operation in ("check", "apply"):
-        row = driver.stage(a, root, "patch-" + operation,
-                           ["git", "-C", str(tool), "apply", *( ["--check"] if operation == "check" else []), str(patch)],
-                           env, 60, cwd=tool)
-        require(row.get("exit") == 0, "incremental patch " + operation)
-    require(sha(tool / TR) == manifest.get("translator_sha256"), "patched translator hash")
-    active = driver.clean_env(a, tool)
-    row = driver.stage(a, root, "console-build",
-                       ["make", "-C", str(tool / "src"), "../bin/verifast",
-                        "WITHOUT_LABLGTK=yes", "VERBOSE=yes"], active, 600, cwd=tool)
-    require(row.get("exit") == 0, "capture console build")
-    after = historical.snapshot(a, tool)
-    require(after["head"] == before["head"] and
-            after["head"] == manifest["tool_head"] and
-            sha(tool / "src/verifast1.ml") == verifast1_before and
-            after["critical"][str(TR)] == manifest["translator_sha256"] and
-            all(after["critical"][key] == value for key, value in before["critical"].items()
-                if key != str(TR)) and
-            all(after["modified_hashes"][key] == value
-                for key, value in before["modified_hashes"].items()
-                if key != str(TR)) and
-            all(after[key] == before[key] for key in ("effective_rsspec", "proof_std", "modified_names")) and
-            all(after["binaries"][key] == value for key, value in before["binaries"].items()
-                if key != "bin/verifast"), "non-translator tool identity")
-    driver.save(root / "effective-profile.json", {
-        "manifest": manifest, "manifest_sha256": sha(manifest_path),
-        "before": before, "after": after,
-        "verifast1_sha256_before": verifast1_before,
-        "verifast1_sha256_after": sha(tool / "src/verifast1.ml"),
-        "proof_credit": False, "accepted": False})
-    fixture = root / "fixture"
-    certificate = make_source(a, driver, fixture)
-    active.update({"SORT4_ACTUAL_AST_SCOPE_TEST": "0", "SORT4_STRICT_LFT_CUT": "1",
-                   "SORT4_NATIVE_C4_CAPTURE": "0", "SORT4_NATIVE_C4_CAPTURE_SOURCE_SHA256": ""})
-    stages, support = driver.source_support(a, tool, fixture, root, active,
-                                             target="small_sort_general_with_scratch")
-    require(support.get("paired_support_passed") is True,
-            "normal/readonly MIR and refinement support")
-    active.update({"SORT4_NATIVE_C4_CAPTURE": "1",
-                   "SORT4_NATIVE_C4_CAPTURE_SOURCE_SHA256": certificate["verified_sha256"]})
-    row = driver.stage(a, root, "capture-refusal",
-                       [str(tool / "bin/verifast"), "-rustc_args", "--edition 2021",
-                        "-verbose", "2", "verified/lib.rs"], active, 180, cwd=fixture)
-    ast = fixture / "native-c4-capture-pre-ast.ml"
-    raw = (root / "capture-refusal.log").read_text(errors="replace")
-    classification = "NATIVE_C4_CAPTURE_INCONCLUSIVE_NOT_PROOF"
-    if (row.get("exit") in (1, 2) and ast.is_file() and
-            "NATIVE-C4-CAPTURE: FULL_ORIGINAL_AST_CAPTURED_NOT_PROOF" in raw and
-            "Verifying function 'small_sort_general_with_scratch'" not in raw):
-        classification = "NATIVE_C4_SOURCE_MIR_PREAST_CAPTURED_REFUSED_NOT_PROOF"
-    if ast.is_file():
-        shutil.copy2(ast, root / ast.name)
-    result = {"classification": classification, "source": certificate,
-              "support": support, "capture_exit": row.get("exit"),
-              "pre_ast_sha256": sha(ast) if ast.is_file() else None,
-              "tool": {"translator": sha(tool / TR),
-                       "kernel": sha(tool / "src/verifast.ml"),
-                       "verifast1": sha(tool / "src/verifast1.ml"),
-                       "console": sha(tool / "bin/verifast"),
-                       "head": after["head"]},
-              "target_proof": "NOT_RUN", "profile_accepted": False,
-              "actual_caller_proved": False}
-    driver.save(root / "result.json", result)
-    return result
-
 
 def run_bound(a, c1_tool, env, driver):
     """Fresh, default-off exact-source candidate and its refusal controls."""
@@ -278,20 +179,24 @@ def run_bound(a, c1_tool, env, driver):
     manifest = json.loads(manifest_path.read_text())
     capture_manifest = json.loads((a.proof_root / HERE /
                                    "NATIVE-C4-CAPTURE-MANIFEST.json").read_text())
-    capture_patch = a.proof_root / HERE / "native-c4-capture.patch"
-    bound_patch = a.proof_root / HERE / "native-c4-bound.patch"
+    combined_patch = a.proof_root / HERE / "native-c4-bound-combined.patch"
     require(manifest.get("mode") == "NATIVE_C4_BOUND_SOURCE_SPECIFIC_CANDIDATE" and
             manifest.get("profile_accepted") is False and
             manifest.get("tool_head") == capture_manifest.get("tool_head") and
             manifest.get("kernel_sha256") == KERNEL and
             manifest.get("verifast1_sha256") == capture_manifest.get("verifast1_sha256") and
             manifest.get("capture_translator_sha256") == capture_manifest.get("translator_sha256") and
-            sha(capture_patch) == capture_manifest.get("patch_sha256") and
-            sha(bound_patch) == manifest.get("bound_patch_sha256") and
-            [line for line in bound_patch.read_text().splitlines()
+            manifest.get("base_translator_sha256") == BASE_TR and
+            sha(combined_patch) == manifest.get("combined_patch_sha256") and
+            [line for line in combined_patch.read_text().splitlines()
              if line.startswith(("--- ", "+++ "))] ==
             [f"--- a/{TR}", f"+++ b/{TR}"],
             "bound manifest/patch admission")
+    source_inputs = capture_manifest.get("source_inputs")
+    require(isinstance(source_inputs, dict) and len(source_inputs) == 6 and
+            all(sha(a.proof_root / path) == expected
+                for path, expected in source_inputs.items()),
+            "bound exact source/helper input hashes")
     require(sha(c1_tool / TR) == BASE_TR and
             sha(c1_tool / "src/verifast.ml") == KERNEL and
             sha(c1_tool / "src/verifast1.ml") == manifest["verifast1_sha256"],
@@ -304,16 +209,14 @@ def run_bound(a, c1_tool, env, driver):
     shutil.copytree(c1_tool, tool, symlinks=True)
     require(historical.snapshot(a, tool) == before, "bound tool copy")
     root = a.evidence / "native-c4-bound"
-    for name, patch, expected in (
-            ("capture", capture_patch, manifest["capture_translator_sha256"]),
-            ("bound", bound_patch, manifest["bound_translator_sha256"])):
-        for operation in ("check", "apply"):
-            row = driver.stage(a, root, f"{name}-patch-{operation}",
-                               ["git", "-C", str(tool), "apply",
-                                *(["--check"] if operation == "check" else []),
-                                str(patch)], env, 60, cwd=tool)
-            require(row.get("exit") == 0, f"{name} patch {operation}")
-        require(sha(tool / TR) == expected, f"{name} translator identity")
+    for operation in ("check", "apply"):
+        row = driver.stage(a, root, "combined-patch-" + operation,
+                           ["git", "-C", str(tool), "apply",
+                            *(["--check"] if operation == "check" else []),
+                            str(combined_patch)], env, 60, cwd=tool)
+        require(row.get("exit") == 0, "combined patch " + operation)
+    require(sha(tool / TR) == manifest["bound_translator_sha256"],
+            "combined translator identity")
     active = driver.clean_env(a, tool)
     row = driver.stage(a, root, "console-build",
                        ["make", "-C", str(tool / "src"), "../bin/verifast",
