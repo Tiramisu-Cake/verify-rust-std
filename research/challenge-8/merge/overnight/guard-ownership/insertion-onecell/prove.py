@@ -32,7 +32,7 @@ prep = load("onecell_prepare", HERE / "prepare.py")
 base = load("onecell_stages", HERE.parents[1] / "copy-on-drop-prove.py")
 ast = base.ast_helper
 mir = base.mir_helper
-PROFILE = "experimental-merge-qualified-guard-onecell-v1"
+PROFILE = ("experimental-merge-selected-drop-receiver-v1" if os.environ.get("SMALLSORT_MERGE_PROFILE") else "experimental-merge-qualified-guard-onecell-v1")
 CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
          "double_physical_fbc")
 CAMPAIGN = "incoming-origin-controls-only-v1"
@@ -447,7 +447,7 @@ def main() -> int:
     parser.add_argument("--compiler-sysroot", type=Path, required=True)
     parser.add_argument("--schema", type=Path, required=True)
     parser.add_argument("--evidence", type=Path, required=True)
-    parser.add_argument("--campaign", choices=(CAMPAIGN, "legacy-full-controls-v1", "bridge-minimal-v1", "len1-minimal-v1", "caller-composition-minimal-v1"),
+    parser.add_argument("--campaign", choices=(CAMPAIGN, "legacy-full-controls-v1", "bridge-minimal-v1", "len1-minimal-v1", "caller-composition-minimal-v1", "selected-drop-minimal-v1"),
                         default=CAMPAIGN)
     parser.add_argument("--stage-seconds", type=int, default=35)
     parser.add_argument("--verifier-seconds", type=int, default=50)
@@ -461,7 +461,7 @@ def main() -> int:
     if not args.tool_home.is_dir() or not args.profile_evidence.is_dir() or \
             not args.compiler_sysroot.is_dir() or not args.schema.is_file():
         raise RuntimeError("pinned hosted tool/evidence/sysroot/schema missing")
-    profile_card = json.loads((HERE / "PROFILE.json").read_text())
+    profile_card = json.loads(Path(os.environ.get("SMALLSORT_MERGE_PROFILE", str(HERE / "PROFILE.json"))).read_text())
     profile_build = json.loads((args.profile_evidence / "profile-build.json").read_text())
     if profile_card.get("schema") != "smallsort-tracked-md-profile-v1" or \
             profile_card.get("profile") != PROFILE or \
@@ -568,6 +568,28 @@ def main() -> int:
             {"ordinary_call_normal_unwind": "PASS"} or
             combined_smoke.get("classifier_controls_passed") is not True):
         raise RuntimeError("combined candidate mandatory smoke did not pass; retain artifacts")
+    if args.campaign == "selected-drop-minimal-v1":
+        control = load("selected_drop_helper_control", HERE.parents[3] / "cloud-build/origin-layout/onecell-caller-composition.py")
+        helper = control.run(args.evidence / "helper-control", args, env, execute_case, environment)
+        helper_matched = helper.get("cases") == {
+            "positive": "BOUNDED_NORMAL_COMPOSITION_PASS_FRAGMENT_ONLY",
+            "after_call_current_false": "EXPECTED_AFTER_CALL_CURRENT_REJECTION",
+            "caller_entry_false": "EXPECTED_CALLER_ENTRY_REJECTION",
+            "receiver_origin_probe": "EXPECTED_RECEIVER_ORIGIN_REJECTION"}
+        selected = load("onecell_selected_drop", HERE.parents[3] / "cloud-build/origin-layout/onecell-selected-drop.py")
+        summary = selected.run(args.evidence / "onecell-selected-drop", args, env, execute_case, environment)
+        exact = set(summary.get("cases", {})) == set(selected.CASES) and len(selected.CASES) == 6
+        matched = exact and helper_matched and summary.get("all_matched") is True and summary.get("accepted") is False
+        aggregate = {"schema": "merge-minimal-selected-drop-v1", "profile": PROFILE,
+            "campaign": "selected-drop-minimal-v1", "accepted": False,
+            "all_matched": matched, "exact_case_sets": exact, "required_case_count": 6,
+            "classification": "PASS_COMPONENT_DIAGNOSTIC" if matched else "INCONCLUSIVE",
+            "environment": environment, "combined_profile_smoke": combined_smoke,
+            "selected_drop": summary, "helper_control": helper, "helper_control_matched": helper_matched, "cases": summary.get("cases", {}),
+            "panic_unwind": "NOT_RUN", "combined_profile_acceptance": False}
+        (args.evidence / "aggregate.json").write_text(json.dumps(aggregate, indent=2)+"\n")
+        return 0 if matched else 1
+
     if args.campaign == "caller-composition-minimal-v1":
         composition = load("onecell_caller_composition", HERE.parents[3] / "cloud-build/origin-layout/onecell-caller-composition.py")
         summary = composition.run(args.evidence / "onecell-caller-composition", args, env, execute_case, environment)

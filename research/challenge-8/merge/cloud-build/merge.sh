@@ -114,7 +114,7 @@ data = json.loads(path.read_text())
 if set(data) != {"schema", "mode"} or data.get("schema") != "merge-bridge-build-mode-v1":
     raise SystemExit("invalid BUILD-MODE.json schema or fields")
 mode = data.get("mode")
-if mode not in {"compile-only", "bridge-minimal", "len1-minimal", "caller-composition-minimal", "proof"}:
+if mode not in {"compile-only", "bridge-minimal", "len1-minimal", "caller-composition-minimal", "selected-drop-minimal", "proof"}:
     raise SystemExit("BUILD-MODE.json mode must be compile-only, bridge-minimal, len1-minimal, caller-composition-minimal or proof")
 print(mode)
 BUILDMODE
@@ -399,12 +399,13 @@ printf 'lane_work_budget_seconds=%s\nselected_drop_groups=%s\nor_join_selected=%
   "$lane_work_budget_seconds" "$drop_groups_selected" "$or_join_selected" "$matrix_timeout" \
   > "$evidence_root/lane-work-budget.txt"
 
-if [[ "$build_mode" == compile-only || "$build_mode" == bridge-minimal || "$build_mode" == len1-minimal || "$build_mode" == caller-composition-minimal ]]; then
+if [[ "$build_mode" == compile-only || "$build_mode" == bridge-minimal || "$build_mode" == len1-minimal || "$build_mode" == caller-composition-minimal || "$build_mode" == selected-drop-minimal ]]; then
   CURRENT_STAGE="$build_mode-preflight"
   runner_mode=merge_compile_only
   [[ "$build_mode" != bridge-minimal ]] || runner_mode=merge_bridge_minimal
   [[ "$build_mode" != len1-minimal ]] || runner_mode=merge_len1_minimal
   [[ "$build_mode" != caller-composition-minimal ]] || runner_mode=merge_caller_composition_minimal
+  [[ "$build_mode" != selected-drop-minimal ]] || runner_mode=merge_selected_drop_minimal
   compile_remaining=$((lane_work_budget_seconds - (SECONDS - lane_started) - 140))
   compile_status=0
   if (( compile_remaining > 0 )); then
@@ -459,7 +460,7 @@ all_compile_pass = (
 bridge_path = compile_dir.parent / "checked-minimal-bridge" / "aggregate.json"
 retained_path = compile_dir.parent / "checked-profile-smoke" / "aggregate.json"
 bridge, retained = {}, {}
-if build_mode in {"bridge-minimal", "len1-minimal", "caller-composition-minimal"}:
+if build_mode in {"bridge-minimal", "len1-minimal", "caller-composition-minimal", "selected-drop-minimal"}:
     try:
         bridge = json.loads(bridge_path.read_text())
         retained = json.loads(retained_path.read_text())
@@ -468,9 +469,9 @@ if build_mode in {"bridge-minimal", "len1-minimal", "caller-composition-minimal"
 proof_attempted = ((compile_dir.parent / "retained-six-smoke.log").is_file() or
                    (compile_dir.parent / "minimal-bridge.log").is_file())
 bridge_pass = (bridge.get("all_matched") is True and bridge.get("accepted") is False and
-    bridge.get("schema") == ("merge-minimal-guard-bridge-v1" if build_mode == "bridge-minimal" else "merge-minimal-caller-composition-v1" if build_mode == "caller-composition-minimal" else "merge-minimal-len1-interface-v1") and
-    bridge.get("exact_case_sets") is True and len(bridge.get("cases",{})) == (21 if build_mode == "bridge-minimal" else 4 if build_mode == "caller-composition-minimal" else 12) and
-    bridge.get("campaign") == ("bridge-minimal-v1" if build_mode == "bridge-minimal" else "caller-composition-minimal-v1" if build_mode == "caller-composition-minimal" else "len1-minimal-v1") and
+    bridge.get("schema") == ("merge-minimal-guard-bridge-v1" if build_mode == "bridge-minimal" else "merge-minimal-caller-composition-v1" if build_mode == "caller-composition-minimal" else "merge-minimal-selected-drop-v1" if build_mode == "selected-drop-minimal" else "merge-minimal-len1-interface-v1") and
+    bridge.get("exact_case_sets") is True and len(bridge.get("cases",{})) == (21 if build_mode == "bridge-minimal" else 4 if build_mode == "caller-composition-minimal" else 6 if build_mode == "selected-drop-minimal" else 12) and
+    bridge.get("campaign") == ("bridge-minimal-v1" if build_mode == "bridge-minimal" else "caller-composition-minimal-v1" if build_mode == "caller-composition-minimal" else "selected-drop-minimal-v1" if build_mode == "selected-drop-minimal" else "len1-minimal-v1") and
     retained.get("cases") == {"ordinary_call_normal_unwind": "PASS"} and
     retained.get("classifier_controls_passed") is True)
 diagnostic_complete = (all_compile_pass and dispatcher_status == 0 and
@@ -499,7 +500,7 @@ audit = {
 pathlib.Path(output).write_text(json.dumps(audit, indent=2, sort_keys=True) + "\n")
 case_dir = compile_dir.parent / "cases" / build_mode
 case_dir.mkdir(parents=True, exist_ok=True)
-case_report = dict(bridge if build_mode in {"bridge-minimal", "len1-minimal", "caller-composition-minimal"} else compile_report)
+case_report = dict(bridge if build_mode in {"bridge-minimal", "len1-minimal", "caller-composition-minimal", "selected-drop-minimal"} else compile_report)
 case_report.update({
     "case": build_mode,
     "classification": audit["classification"],

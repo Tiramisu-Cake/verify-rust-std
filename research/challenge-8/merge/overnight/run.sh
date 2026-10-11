@@ -12,7 +12,7 @@ set -euo pipefail
   exit 2
 }
 run_mode=${1:-}
-[[ "$run_mode" == merge_geometry || "$run_mode" == merge_compile_only || "$run_mode" == merge_bridge_minimal || "$run_mode" == merge_len1_minimal || "$run_mode" == merge_caller_composition_minimal ]] || {
+[[ "$run_mode" == merge_geometry || "$run_mode" == merge_compile_only || "$run_mode" == merge_bridge_minimal || "$run_mode" == merge_len1_minimal || "$run_mode" == merge_caller_composition_minimal || "$run_mode" == merge_selected_drop_minimal ]] || {
   echo 'expected merge_geometry, merge_compile_only, merge_bridge_minimal merge_len1_minimal or merge_caller_composition_minimal run mode' >&2
   exit 2
 }
@@ -302,9 +302,11 @@ suite() {
 experimental_home="$task_temp/source"
 bash research/challenge-8/merge/overnight/build.sh "$tool_home" "$evidence/build" "$experimental_home"
 
-if [[ "$run_mode" == merge_compile_only || "$run_mode" == merge_bridge_minimal || "$run_mode" == merge_len1_minimal || "$run_mode" == merge_caller_composition_minimal ]]; then
+if [[ "$run_mode" == merge_compile_only || "$run_mode" == merge_bridge_minimal || "$run_mode" == merge_len1_minimal || "$run_mode" == merge_caller_composition_minimal || "$run_mode" == merge_selected_drop_minimal ]]; then
   onecell_component="$repo/research/challenge-8/merge/overnight/guard-ownership/insertion-onecell"
-  export SMALLSORT_MERGE_PROFILE="$repo/research/challenge-8/cloud-build/origin-layout/SELECTED-PROFILE.json"
+  if [[ "$run_mode" == merge_compile_only || "$run_mode" == merge_selected_drop_minimal ]]; then
+    export SMALLSORT_MERGE_PROFILE="$repo/research/challenge-8/cloud-build/origin-layout/SELECTED-PROFILE.json"
+  fi
   candidate_home="$task_temp/verifast-tracked-md-source"
   preparation_evidence="$evidence/tracked-md-build-preparation"
   compile_evidence="$evidence/tracked-md-build"
@@ -347,11 +349,14 @@ import json,sys
 x=json.load(open(sys.argv[1]))
 assert x['cases']=={'ordinary_call_normal_unwind':'PASS'} and x['classifier_controls_passed'] is True
 RETAINEDSMOKE
+  profile_name=experimental-merge-qualified-guard-onecell-v1
+  [[ -z "${SMALLSORT_MERGE_PROFILE:-}" ]] || profile_name=experimental-merge-selected-drop-receiver-v1
   proof_campaign=bridge-minimal-v1
   [[ "$run_mode" != merge_len1_minimal ]] || proof_campaign=len1-minimal-v1
   [[ "$run_mode" != merge_caller_composition_minimal ]] || proof_campaign=caller-composition-minimal-v1
+  [[ "$run_mode" != merge_selected_drop_minimal ]] || proof_campaign=selected-drop-minimal-v1
   python3 "$onecell_component/prove.py" \
-    --profile experimental-merge-qualified-guard-onecell-v1 \
+    --profile "$profile_name" \
     --profile-evidence "$compile_evidence" --tool-home "$candidate_home" \
     --compiler-sysroot "$compiler_sysroot" \
     --schema "$candidate_home/src/rust_frontend/vf_mir/vf_mir.capnp" \
