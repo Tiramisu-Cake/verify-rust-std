@@ -7006,3 +7006,18 @@ inverse/optional destination or re-supplied raw C1 resources. Four Builds
 all accounted/download-verified, unused2044 closed/no carry, no active Build,
 reservation or ready request. Exact pins/commands/reviews/limitations:
 cloud-build/sort4-native-c1-bound/END-CHECKPOINT-2026-10-11.md.
+
+## 2026-10-11 native C1 exact-node/ZST diagnostic session
+
+Direct continuation fromd2c739b, assigned select worktree/branch, ownerselect-sort4.
+Policyc7ca8c46 read; separate3600Cloudsec/no carry; main00:21–02:21UTC,
+finish-only≤02:51. Diagnostic-only general code; binding/harness repair in scope,
+general model/kernel semantics repair excluded. Full obligation/hypothesis/pins
+and outcome mapping in cloud-build/sort4-native-c1-bound/SESSION-2026-10-11.md.
+
+Prepared143eec6d isolated physical-loc REGISTER/EXEC/DEAD plus AST kind/root/
+predecessor diagnostics, unchanged source/translator/kernel decision; callback-
+free with/without native opaque MU scratch controls, paired source/MIR/refinement.
+Buildb05354e9 failed setup-only old shell phase-ID guard before driver/cases;
+VF target/probes NOT_RUN, no semantic credit. Integrity archive5fd8c143,276sec.
+1286f1dc repairs exact wrapper ID (not guard removal); newBuild8dc2562a started.

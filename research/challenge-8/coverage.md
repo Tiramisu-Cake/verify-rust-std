@@ -905,3 +905,13 @@ inverse/optional destination or re-supplied raw C1 resources. Four Builds
 all accounted/download-verified, unused2044 closed/no carry, no active Build,
 reservation or ready request. Exact pins/commands/reviews/limitations:
 cloud-build/sort4-native-c1-bound/END-CHECKPOINT-2026-10-11.md.
+
+2026-10-11 fresh009ad1c2/f8115f33 diagnostic: physical203 (postlist138,
+Goto63 afterLabel3, originalroot131) is the only dead228,2 node. Its equalprinted
+neighbors202/204 execute. Full native positive source/MIR/pre/postAST unchanged
+from3521; all8 paired support/refinement and addressnormal226/unwind210 controls
+retained. Callback-free guard withoutMU scratch VF0, withunused nativeMU scratch
+VF1/deadzero on unchanged frozenC4. This localizes frozen MU size/model restriction;
+no genericZST support or fullC1 theorem. NativeC1 INCOMPLETE, connectedC4 NOT_RUN.
+See cloud-build/sort4-native-c1-bound/FRESH-009AD1C2-REVIEW.md and
+ZST-MODEL-BLOCKER.md; entry-beforecalls trigger follow-up pending.

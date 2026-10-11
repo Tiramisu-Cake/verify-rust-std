@@ -1,3 +1,16 @@
+# Current localization — 2026-10-11 session
+
+Fresh009ad1c2 /f8115f33 establishes exact physical203: postlist138/ordinal256
+Goto63 afterLabel3, originalroot131, printed228,2; noEXEC203. Other equalprinted
+locations202/204 execute. Source/MIR/pre/postAST all unchanged from3521.
+Callback-free sameguard native&T[] VF0; addingunused nativeMU[] VF1/deadzero.
+Current cause localized to frozen native MU layout/resource model, not dropped
+CFG or unwind-epilogue placement. Entry array_inv introduces MU size before
+body calls; exact positive-bound trigger follow-up pending. No admissible
+source-specific repair yet. NativeC1 INCOMPLETE; connectedC4 NOT_RUN.
+[Fresh review](FRESH-009AD1C2-REVIEW.md), [maintainer blocker](ZST-MODEL-BLOCKER.md).
+The following prior-session account is preserved as historical evidence.
+
 # Remaining precise obligations — native bound C1 session
 
 Fresh10006623 native target reaches actual first FnMut operands1,0; CURRENT

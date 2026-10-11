@@ -15,7 +15,8 @@ translator381e80eb (full pins in NATIVE-C1-BOUND-TOOL-MANIFEST.json). Frozen
 `sizeof(typeid)`; generic sizedness alone supplies no positive-size condition.
 
 Stock `bin/rust/std/lib.rsspec:429` declares `struct MaybeUninit<T>`.
-At478–480, automatic `size_of_MaybeUninit` equates its size to `size_of<T>`.
+At523–525 in the effective spec (478–480 in upstream pinned base), automatic
+`size_of_MaybeUninit` equates its size to `size_of<T>`.
 The frozen translator's `translate_adt_ty` StructKind/UnionKind mapping at791–817
 also represents actual Rust union MaybeUninit as StructTypeExpr; actual std
 `library/core/src/mem/maybe_uninit.rs:355–358` is a union, admitting ZST layouts.
@@ -47,3 +48,17 @@ Current owner assignment allows diagnosis only there. A maintainer proposal
 needs its own rationale/admission/regression gate including generic ZST, unit,
 MU<()> and ordinary nonZST/normal/unwind controls, before this target is rerun.
 No connected C4 extension until full native C1 exit0 with retained paths/checks.
+
+Effective std spec independently reconstructed by Git-object read plus applying
+only the saved `refreshed-applied.patch` bin/rust/std/lib.rsspec hunk, without
+proof/extraction execution: SHA256d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf
+exactly matches frozen snapshot. verifast1.ml Git object SHA256
+b1b0ae618bbce1a0bce9714ce10a47dbeb855e919b980b7ce6a70108ff9b91d7.
+This avoids relying on the separately evolving `/root/verifast` worktree bytes.
+
+Exact saved normal MIR: bb1 calls size_of<T> into_8→bb2; bb2 assigns
+_7=(_8==0), then bool SwitchInt values=[0], targets=[4,3]. Thus false/nonzero
+routesbb4; true/zero routesbb3. Pre-AST root79 has If(_7, Goto3, Goto4);
+post-AST retains it and the Label3→Goto63 tail. There is no successor inversion
+or dropped ZST block in this binding; default bool “otherwise” means true.
+The root131 candidate refers to original pre-AST, not a post-rewrite list index.

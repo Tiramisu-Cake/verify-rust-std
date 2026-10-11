@@ -492,7 +492,8 @@ def source_support(a, tool: Path, fixture: Path, root: Path,
 def verify_case(a, tool: Path, fixture: Path, root: Path,
                 env: dict[str, str], *, target: str, ast: bool = True,
                 require_paired_support: bool = False,
-                required_full_mir: tuple[str, str] | None = None) -> dict:
+                required_full_mir: tuple[str, str] | None = None,
+                verbosity: int | None = None) -> dict:
     input_sha = {name: sha(fixture / name)
                  for name in ("verified/lib.rs", "original/lib.rs")}
     rows, support = source_support(a, tool, fixture, root, env, target=target)
@@ -506,8 +507,10 @@ def verify_case(a, tool: Path, fixture: Path, root: Path,
              required_full_mir[1] and
              support["source_pair_sha256"] == input_sha,
              "native C1 bound exact normal/readonly MIR pre-verifier gate failed")
+    if verbosity is None:
+        verbosity = 4 if C1_BOUND_SESSION else 2
     command = [str(tool / "bin/verifast"), "-rustc_args", "--edition 2021",
-               "-verbose", "4" if C1_BOUND_SESSION else "2", "verified/lib.rs"]
+               "-verbose", str(verbosity), "verified/lib.rs"]
     if ast:
         rows["proof-ast-diagnostic"] = stage(a, root, "proof-ast-diagnostic",
                                              [str(tool / "bin/verifast"),
@@ -539,14 +542,15 @@ def verify_case(a, tool: Path, fixture: Path, root: Path,
 
 def native_zst_model_diagnostics(a, frozen_tool: Path,
                                  env: dict[str, str]) -> dict:
-    """Compare the size guard with and without an unused MaybeUninit slice."""
+    """Test whether MU entry resources make the positive-size fact available."""
     ghost = load(a.cloud_dir / "sort4-native-entry-c1/c2_discovery.py",
                  "native_zst_diag_ghost_strip")
     cases = {
-        "zst-model-without-scratch": """#![allow(dead_code, unused_variables)]
+        "zst-entry-bound-without-scratch": """#![allow(dead_code, unused_variables)]
 use std::mem::size_of;
 
 fn small_sort_general_with_scratch<T>(v: &mut [T]) {
+    //@ assert std::mem::size_of::<T>() > 0;
     let len = v.len();
     if size_of::<T>() == 0 {
         return;
@@ -556,10 +560,11 @@ fn small_sort_general_with_scratch<T>(v: &mut [T]) {
     }
 }
 """,
-        "zst-model-with-unused-mu-scratch": """#![allow(dead_code, unused_variables)]
+        "zst-entry-bound-with-unused-mu-scratch": """#![allow(dead_code, unused_variables)]
 use std::mem::{size_of, MaybeUninit};
 
 fn small_sort_general_with_scratch<T>(v: &mut [T], scratch: &mut [MaybeUninit<T>]) {
+    //@ assert std::mem::size_of::<T>() > 0;
     let len = v.len();
     if size_of::<T>() == 0 {
         return;
@@ -590,7 +595,8 @@ fn small_sort_general_with_scratch<T>(v: &mut [T], scratch: &mut [MaybeUninit<T>
         try:
             result = verify_case(a, frozen_tool, fixture, root, env,
                                  target="small_sort_general_with_scratch",
-                                 ast=True, require_paired_support=True)
+                                 ast=True, require_paired_support=True,
+                                 verbosity=6)
         except Exception as exc:
             result = {"classification": "ZST_MODEL_DIAGNOSTIC_SETUP_OR_COLLECTOR_ERROR",
                       "first_causal_stage": "COLLECTOR", "reason": str(exc),
