@@ -9,7 +9,7 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 Read [WORK-POLICY](WORK-POLICY.md), the branch-local [STATUS](STATUS.md),
 [AGENT-RUNBOOK](AGENT-RUNBOOK.md), [Cloud procedure](cloud-build/README.md)
 and [COMPLETION-PLAN](COMPLETION-PLAN.md). Latest select checkpoint:
-[caller bridge](cloud-build/sort4-c1-caller-bridge/END-CHECKPOINT-2026-10-09.md).
+[compiler binding / prefix](cloud-build/sort4-caller-entry-native/END-CHECKPOINT-2026-10-11-COMPILER-BINDING-PREFIX.md).
 Prior operating text and status are retained in the
 [branch archive](archive/select-adoption-2026-10-10/README.md); dated research
 results below are evidence within their original identities, not authorization.
