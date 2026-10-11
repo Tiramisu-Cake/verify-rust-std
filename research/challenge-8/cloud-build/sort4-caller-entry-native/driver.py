@@ -41,6 +41,8 @@ THRESHOLD_CASES = {
     "threshold-selected-false-31": "selected_freeze_threshold",
     "threshold-default-control": "default_threshold",
     "threshold-selected-missing-freeze": "selected_freeze_threshold",
+    "threshold-mutated-source": "selected_freeze_threshold",
+    "threshold-wrong-selected-impl": "selected_freeze_threshold",
 }
 CASES = {
     "canonical-generic": "canonical_slice_as_mut_ptr",
@@ -449,6 +451,10 @@ def classify(name: str, result: dict, root: Path, source: str) -> dict:
                   len(lines) == 1 and lines[0] in locations and
                   expected_error in first)
         label = "INTENDED_ASSERTION_NEGATIVE_RAW_REVIEW_REQUIRED" if passed else "NEGATIVE_FIRST_OBLIGATION_WRONG_OR_INCONCLUSIVE"
+    elif name in ("threshold-mutated-source", "threshold-wrong-selected-impl"):
+        passed = (pair and stage == "verification" and exit_code not in (None, 0) and
+                  "SORT4-STABLE-METHOD: verified fixture source identity" in first)
+        label = "THRESHOLD_SOURCE_ADMISSION_REFUSAL_NOT_PROOF_NEGATIVE" if passed else "ADMISSION_CONTROL_WRONG_OR_INCONCLUSIVE"
     elif name == "threshold-selected-missing-freeze":
         passed = (pair and stage == "verification" and exit_code not in (None, 0) and
                   "SORT4-STABLE-METHOD: caller missing compiler FreezeMarker<T> clause" in first)
@@ -628,6 +634,7 @@ def run(a) -> None:
                 active = dict(env)
                 if name != "threshold-body-positive":
                     active["SORT4_STABLE_METHOD_BINDING"] = "1"
+                    active["SORT4_ACTUAL_CALLER_ENTRY_PHASE_ID"] = manifest["phase_id"]
                 cases[name] = verify_one(a, c4, tool, active, fixture, name)
                 cases[name]["stable_method_binding_enabled"] = name != "threshold-body-positive"
             cases["actual-unfiltered-prefix-postbinding"] = verify_one(
@@ -675,6 +682,7 @@ def run(a) -> None:
             "tool_after_binding_translator": (manifest["as_mut_ptr_translator_sha256"]
                                               if component_ready and default_pass else None),
             "stable_method_profile_translator": final["critical"][str(TR)] if component_ready and default_pass else None,
+            "threshold_diagnostic_gates_passed": all(cases.get(name, {}).get("gate_passed") for name in THRESHOLD_CASES),
             "threshold_specialization_proved": False,
             "caller_bound_transfer_proved": False,
             "actual_sort4_proved": False, "actual_caller_proved": False,
@@ -685,7 +693,7 @@ def run(a) -> None:
         need(audit.snapshot(a.production_source, a.proof_root) == production,
              "production source mutated during diagnostics")
     except Exception as exc:
-        save(a.evidence.parent.parent / "proof-audit.json", {"accepted": False, "verification_accepted": False, "diagnostic_complete": False, "evidence_complete": False, "profile_accepted": False, "classification": "SETUP_OR_COLLECTOR_ERROR_NOT_PROOF_VERDICT", "reason": str(exc)})
+        save(a.evidence.parent.parent / "proof-audit.json", {"accepted": False, "verification_accepted": False, "diagnostic_complete": False, "evidence_complete": False, "profile_accepted": False, "classification": "SETUP_OR_COLLECTOR_ERROR_NOT_PROOF_VERDICT", "reason": str(exc), "model_verdict": "UNACCEPTED", "tool_verdict": "SETUP_OR_COLLECTOR_FAILURE", "proof_verdict": "NOT_RUN_OR_INCONCLUSIVE", "first_causal_stage": "setup_or_collector"})
         save(a.evidence / "collector-error.json", {
             "classification": "SETUP_OR_COLLECTOR_ERROR_NOT_PROOF_VERDICT",
             "reason": str(exc), "profile_accepted": False, "proof_credit": False})

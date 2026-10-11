@@ -11,8 +11,8 @@ Existing compute_trait_impl_fn_specialisations matches generic args and emits
 WARNING that clauses are ignored. A Freeze-selected caller theorem cannot use
 that as admissible specialization evidence. Owner explicitly authorizes exact
 threshold/small_sort source-bound bindings, not a general specialization model.
-We propose an opt-in narrowly matched rule for StableSmallSortTypeImpl's two
-methods in one pinned standalone source fixture. Ordinary translation stays
+We propose an opt-in narrowly matched rule for StableSmallSortTypeImpl's threshold
+method in one pinned standalone source fixture. Ordinary translation stays
 unchanged when disabled. A future fixture must admit exact source, compiler
 MIR/body/impl/const identities; source mutation/wrong impl/false qualifier refuse.
 
@@ -21,8 +21,10 @@ MIR/body/impl/const identities; source mutation/wrong impl/false qualifier refus
 At the exact trait call, require compiler type argument ParamT, method's exact
 trait identity and call arity, actual body caller's compiler clause FreezeMarker<T>,
 and one exact nonnegative safe local implementation with same ParamT and
-FreezeMarker<T> clause. Bind to that implementation's compiler-exported method
-DefId; retain normal FnCallOutcome, original operands/substitutions and native
+FreezeMarker<T> clause. Infer the local selected body by exact source and compiler impl clauses;
+**the exporter does not report a resolved selected impl DefId**. This inference
+is an experimental, unaccepted trust assumption, not compiler selection evidence;
+ retain normal FnCallOutcome, original operands/substitutions and native
 contracts. No numeric32 substitution, no ownership permission or type model.
 Threshold32 summary must be verified from actual constant-return body before
 use. The selected small_sort still calls helper with the original same slices/F.
@@ -30,7 +32,7 @@ This is a theorem explicitly qualified by FreezeMarker, never an unrestricted
 quicksort theorem or a runtime generic-signature change.
 
 Trust: pinned Rust compiler/exporter correctly reports source clauses, DefIds,
-operands and specialization selection; source shapes exactly match current std.
+operands; selection inference remains a separate open trust gate; source shapes exactly match current std.
 The rule does not establish nonzero, scratch allocation or arbitrary recursive
 quicksort safety. Marker qualification is necessary, not additional safety credit.
 Existing ignored-clause routing must not run for these bound calls. Any relevant
@@ -66,3 +68,11 @@ An unconstrained ParamT refuses; no general specialization architecture.
 Whitelisted full verified fixture hashes plus pinned std source admissions
 precede rewriting. Modified source refuses. Unknown clauses/types/extra body
 inventory refuse. Model/parser/RSSpec/kernel/refiner/exporter unchanged.
+
+## Review correction 2026-10-11
+
+Raw FnDef is the trait identity and traitImpls is empty. There is no exported
+compiler-selected impl target. Threshold probe PASS therefore cannot establish
+actual caller applicability. Current patch is threshold-only; selected small_sort
+and helper transfer are separate obligations. Exact Sized+Freeze clauses and
+Cell<u8> decoder type are required; no additional clause/type admits.
