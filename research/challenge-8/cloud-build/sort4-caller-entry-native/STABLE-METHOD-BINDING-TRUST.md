@@ -76,3 +76,33 @@ compiler-selected impl target. Threshold probe PASS therefore cannot establish
 actual caller applicability. Current patch is threshold-only; selected small_sort
 and helper transfer are separate obligations. Exact Sized+Freeze clauses and
 Cell<u8> decoder type are required; no additional clause/type admits.
+
+## Current admission decision — 2026-10-11 19:22:51UTC
+
+New phase SORT4-COMPILER-BINDING-PREFIX-CLOUD-2026-10-11 supersedes the prior
+source/clauses-only inference for any new caller proof. The first experiment
+observes pinned compiler selection with both blanket and Freeze implementations
+present in one diagnostic source. Real body.typing_env(tcx), original callee
+DefId/args and original slice/comparator operands are compulsory. Compiler
+DefIds are run-local; they must map through source spans/impl predicates to
+exact source impl bodies, not a numeric ID carried across runs. Freeze caller
+and concrete fallback are controls; original unconstrained generic caller is
+recorded separately, including no resolved instance. No source/runtime MIR or
+compiler selection changes are permitted by the observational exporter.
+
+Native binding may open only after runner validates complete fresh evidence
+against exact source/compiler/exporter/profile identities, complete caller
+T/F/FnMut predicates, higher-ranked lifetimes and generic substitutions. The
+selected-only proof fixture additionally requires checkable body/callsite/source
+correspondence to the program containing both impls. Missing/stale/ambiguous/
+mutated evidence or wrong impl/callsite fails admission; an environment flag
+alone supplies no proof. Clause-ignoring generic dispatch must not handle these
+bound edges. Final post-translation inventory/callgraph/cardinality and per-unit
+reset are mandatory, with unchanged native resource preconditions and full
+normal/unwind posts. The sole interface addition is pure ptr_len(v)<=32 in
+selected small_sort and helper. Root caller receives no added bound premise.
+
+A successful query is compiler/tool evidence only. Until qualified bound proof,
+helper prefix/resources and full posts execute, all caller/prefix claims stay
+open. General specialization, sizes/associated constants, ownership/aliasing/
+MU inverse, callback, kernel/solver repairs remain outside this assignment.

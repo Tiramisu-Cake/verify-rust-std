@@ -1,66 +1,90 @@
 --- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
 +++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
-@@ -2600,6 +2600,68 @@
+@@ -2600,6 +2600,92 @@
              fn_span: &rustc_span::Span,
              mut fn_call_data_cpn: fn_call_data_cpn::Builder<'_>,
          ) {
-+            // Evidence-only, Cloud-phase-scoped compiler binding probe. It does not
-+            // affect encoded MIR or any translation/admission decision.
++            // Cloud-only evidence probe. This never changes the encoded MIR.
 +            if std::env::var("SMALLSORT_EXECUTION_PROVIDER").as_deref() == Ok("cloud-build")
 +                && std::env::var("SORT4_ACTUAL_CALLER_ENTRY_PHASE_ID").as_deref()
-+                    == Ok("SORT4-CALLER-DERIVED-BOUND-CLOUD-2026-10-11")
++                    == Ok("SORT4-COMPILER-BINDING-PREFIX-CLOUD-2026-10-11")
 +                && std::env::var("SORT4_SELECTED_INSTANCE_EVIDENCE").as_deref()
-+                    == Ok("SORT4-CALLER-DERIVED-BOUND-CLOUD-2026-10-11")
++                    == Ok("SORT4-COMPILER-BINDING-PREFIX-CLOUD-2026-10-11")
 +            {
 +                let body = enc_ctx.body();
 +                let caller_def_id = body.source.def_id();
 +                let caller_path = tcx.def_path_str(caller_def_id);
-+                let caller_is_whitelisted_fixture = caller_path == "selected_freeze_basecase"
-+                    || caller_path == "selected_freeze_basecase_false_31"
-+                    || caller_path == "selected_freeze_basecase_missing_source_array";
-+                if caller_is_whitelisted_fixture {
++                let selected_caller = (caller_path == "binding_selected_freeze" || caller_path == "lib::binding_selected_freeze");
++                let fallback_caller = (caller_path == "binding_fallback_cell" || caller_path == "lib::binding_fallback_cell");
++                let generic_caller = (caller_path == "binding_unconstrained_generic" || caller_path == "lib::binding_unconstrained_generic");
++                if selected_caller || fallback_caller || generic_caller {
 +                    if let ty::FnDef(callee_def_id, callee_args) = func.ty(body, tcx).kind() {
 +                        let callee_path = tcx.def_path_str(*callee_def_id);
-+                        let exact_small_sort_trait_method =
-+                            callee_path == "StableSmallSortTypeImpl::small_sort_threshold"
-+                                || callee_path == "StableSmallSortTypeImpl::small_sort";
-+                        if exact_small_sort_trait_method {
++                        if callee_path.contains("StableSmallSortTypeImpl")
++                            && (callee_path.ends_with("::small_sort_threshold")
++                                || callee_path.ends_with("::small_sort"))
++                        {
 +                            let typing_env = body.typing_env(tcx);
-+                            match ty::Instance::try_resolve(
-+                                tcx,
-+                                typing_env,
-+                                *callee_def_id,
-+                                *callee_args,
-+                            ) {
-+                                Ok(Some(instance)) => info!(
-+                                    target: "selected_instance_evidence",
-+                                    "caller={} typing_env={:?} callee={} resolved_instance={} resolved_def_id={:?} resolved_source_span={:?} call_source_span={:?}",
-+                                    caller_path,
-+                                    typing_env,
-+                                    callee_path,
-+                                    tcx.def_path_str(instance.def_id()),
-+                                    instance.def_id(),
-+                                    tcx.def_span(instance.def_id()).data(),
-+                                    fn_span.data(),
-+                                ),
-+                                Ok(None) => info!(
-+                                    target: "selected_instance_evidence",
-+                                    "caller={} typing_env={:?} callee={} resolved_instance=<none> call_source_span={:?}",
-+                                    caller_path,
-+                                    typing_env,
-+                                    callee_path,
-+                                    fn_span.data(),
-+                                ),
-+                                Err(error) => info!(
-+                                    target: "selected_instance_evidence",
-+                                    "caller={} typing_env={:?} callee={} resolution_error={:?} call_source_span={:?}",
-+                                    caller_path,
-+                                    typing_env,
-+                                    callee_path,
-+                                    error,
-+                                    fn_span.data(),
-+                                ),
-+                            }
++                            let source_map = tcx.sess.source_map();
++                            let (resolution, instance_kind, resolved_path, resolved_def_id,
++                                 resolved_args, resolved_impl_id, resolved_impl_path,
++                                 resolved_span, resolved_impl_span,
++                                 resolved_line, resolved_impl_line) =
++                                match ty::Instance::try_resolve(
++                                    tcx, typing_env, *callee_def_id, *callee_args,
++                                ) {
++                                    Ok(Some(instance)) => {
++                                        let resolved_id = instance.def_id();
++                                        let impl_id = tcx.impl_of_method(resolved_id);
++                                        (
++                                            "some".to_owned(),
++                                            format!("{:?}", instance.def),
++                                            tcx.def_path_str(resolved_id),
++                                            format!("{:?}", resolved_id),
++                                            format!("{:?}", instance.args),
++                                            format!("{:?}", impl_id),
++                                            impl_id.map(|id| tcx.def_path_str(id)).unwrap_or_default(),
++                                            format!("{:?}", tcx.def_span(resolved_id).data()),
++                                            impl_id.map(|id| format!("{:?}", tcx.def_span(id).data()))
++                                                .unwrap_or_default(),
++                                            source_map.lookup_char_pos(tcx.def_span(resolved_id).lo()).line,
++                                            impl_id.map(|id| source_map.lookup_char_pos(tcx.def_span(id).lo()).line)
++                                                .unwrap_or(0),
++                                        )
++                                    }
++                                    Ok(None) => ("none".to_owned(), String::new(), String::new(),
++                                                 String::new(), String::new(), String::new(),
++                                                 String::new(), String::new(), String::new(), 0, 0),
++                                    Err(error) => (format!("error:{:?}", error), String::new(),
++                                                   String::new(), String::new(), String::new(),
++                                                   String::new(), String::new(), String::new(),
++                                                   String::new(), 0, 0),
++                                };
++                            let caller_span = tcx.def_span(caller_def_id);
++                            let call_span = *fn_span;
++                            eprintln!(
++                                "SORT4_BINDING_V1\t{{\"caller\":{:?},\"caller_def_id\":{:?},\"caller_source_file\":{:?},\"caller_span\":{:?},\"caller_line\":{},\"typing_env\":{:?},\"caller_clauses\":{:?},\"callee\":{:?},\"callee_def_id\":{:?},\"original_args\":{:?},\"operand\":{:?},\"arguments\":{:?},\"argument_count\":{},\"call_source_file\":{:?},\"call_span\":{:?},\"call_line\":{},\"resolution\":{:?},\"instance_kind\":{:?},\"resolved_path\":{:?},\"resolved_def_id\":{:?},\"resolved_args\":{:?},\"resolved_impl_id\":{:?},\"resolved_impl_path\":{:?},\"resolved_span\":{:?},\"resolved_impl_span\":{:?},\"resolved_line\":{},\"resolved_impl_line\":{}}}",
++                                caller_path,
++                                format!("{:?}", caller_def_id),
++                                format!("{:?}", source_map.lookup_source_file(caller_span.lo()).name),
++                                format!("{:?}", caller_span.data()),
++                                source_map.lookup_char_pos(caller_span.lo()).line,
++                                format!("{:?}", typing_env),
++                                format!("{:?}", typing_env.param_env.caller_bounds()),
++                                callee_path,
++                                format!("{:?}", callee_def_id),
++                                format!("{:?}", callee_args),
++                                format!("{:?}", func),
++                                format!("{:?}", args),
++                                args.len(),
++                                format!("{:?}", source_map.lookup_source_file(call_span.lo()).name),
++                                format!("{:?}", call_span.data()),
++                                source_map.lookup_char_pos(call_span.lo()).line,
++                                resolution, instance_kind, resolved_path, resolved_def_id,
++                                resolved_args, resolved_impl_id, resolved_impl_path,
++                                resolved_span, resolved_impl_span,
++                                resolved_line, resolved_impl_line,
++                            );
 +                        }
 +                    }
 +                }

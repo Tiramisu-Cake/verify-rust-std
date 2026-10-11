@@ -7351,3 +7351,36 @@ Final draft review: selected-branch call counters lack a final cardinalitycheck;
 full T,F callerclauses/lifetimeinventory pending. Candidate is not runnable.
 Evidence-only compilerquery candidate uses exact local fixture DefPaths, real
 TypingEnv and resolvedimpl source span; uncompiled/unexecuted, no target credit.
+
+
+## 2026-10-11 19:22:51UTC — compiler binding and helper prefix session
+
+Direct owner continuation from `5ffebdf53cc37b5814fa78ad3acb4081519288d8`.
+Policy `c7ca8c467aecf10a4b53039372ee97714f854ee3` fetched/read; local common
+policy files identical. Assigned branch/worktree clean at start, own git-dir/index
+confirmed. GitHub Actions read-only inspection; none dispatched.
+Phase SORT4-COMPILER-BINDING-PREFIX-CLOUD-2026-10-11, own separate ledger3600;
+main21:22:51UTC, absolute21:52:51UTC. Existing lane and v2 coordination preserved.
+
+First hypothesis: pinned compiler `Instance::try_resolve` in real body TypingEnv
+resolves both actual stable trait calls to Freeze impl in qualified generic caller,
+and fallback in Cell<u8> control; unconstrained result recorded separately.
+Minimal query inventory includes both actual blanket and Freeze impls, their
+real methods/call operands and source mapping; suffix callees may be diagnostic
+cuts with no proof credit. Capture full caller clauses, original/resolved args,
+InstanceKind, DefIds/impl identity/source spans. Query changes no runtime MIR or
+compiler selection; exporter default-off observational patch only. Outcome:
+correct complete evidence permits narrow admission design; API mismatch gets
+addressed within pinned API scope; unresolved qualified selection is a blocker,
+not permission to construct a stronger TypingEnv or general specialization model.
+
+Target later native theorem is qualified T: FreezeMarker, real F:FnMut clauses,
+all native source/scratch/F/thread/lifetime/type resources and full normal/unwind
+posts. Pure len<=32 only in selected small_sort/helper interface, never root.
+Root must derive it from verified threshold32 and actual guard, same args. Helper
+must traverse original early return/scratch abort/pointers/branches, preserving
+opaque MU and rejecting invented initialized-T permissions. Controls: guard31
+semantic assertion, lost source array precondition, bad impl/callsite/evidence
+admission, touched pointer/resource/unwind cases. Historical Copy refusal remains
+frontend-only. Public IS_ZST/sizeof blocker unchanged; no new size model or C4
+nonzero assumption authorized. No status upgrade from preparation.

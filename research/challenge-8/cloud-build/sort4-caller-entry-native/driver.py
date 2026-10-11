@@ -95,7 +95,7 @@ def phase_gate(manifest: dict, env: dict) -> None:
          env.get("LANE") == "o26-sort4-c1-current-recovery" and
          env.get("SORT4_ACTUAL_CALLER_ENTRY_PHASE") == "1" and
          env.get("SORT4_ACTUAL_CALLER_ENTRY_PHASE_ID") ==
-         "SORT4-CALLER-DERIVED-BOUND-CLOUD-2026-10-11" and
+         "SORT4-COMPILER-BINDING-PREFIX-CLOUD-2026-10-11" and
          not env.get("GITHUB_ACTIONS"), "authorized Cloud phase and lane only")
     need(manifest["mode"] == "NATIVE_CALLER_ENTRY_AND_SLICE_AS_MUT_PTR_DIAGNOSTIC" and
          manifest["phase_id"] == env["SORT4_ACTUAL_CALLER_ENTRY_PHASE_ID"] and
@@ -534,6 +534,15 @@ def run(a) -> None:
         save(a.evidence / "actual-source-certificate.json", cert)
         source_controls = source_admission_controls(a, manifest)
         phase_control = phase_admission_control(a, manifest)
+        if manifest.get("session_mode") == "COMPILER_QUERY_ONLY":
+            query_pins_path = a.proof_root / HERE / "COMPILER-SELECTED-INSTANCE-PINS.json"
+            pinned_file(query_pins_path, manifest["compiler_query_pins_sha256"], "compiler query pins")
+            query_pins = json.loads(query_pins_path.read_text())
+            query_path = a.cloud_dir / "sort4-caller-entry-native/compiler-query.py"
+            pinned_file(query_path, query_pins["query_module_sha256"], "compiler query module")
+            query = load(query_path, "compiler_query")
+            query.run(a, c4, audit, manifest, ghost)
+            return
         tool, expected, production = reconstruct(a, c4, audit, manifest, os.environ.copy())
         env = c4.clean_env(a, tool)
         cases = {}
