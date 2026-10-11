@@ -67,8 +67,11 @@ remain outside this fragment.
 Transport closure: the full marker.rs and shared/mod.rs are documentary provenance,
 not accessed by this lane and not members of frozen proof_std. Their complete
 published Git blob IDs and SHA256 plus exact Freeze/FreezeMarker declarations
-are retained in TRAIT-SOURCE-PROVENANCE.json (pinned and checked by the capture
-module); the complete files remain in the published repository. Only their
+are retained in TRAIT-SOURCE-PROVENANCE.json. The whole certificate file is
+pinned by the manifest and its declaration strings checked by the capture
+module; correspondence of commit/blob/hash/lines was independently audited
+against published Git objects before submit. The complete files remain in the
+published repository. Only their
 transport is omitted to fit the existing 191-slot limit. No frozen snapshot,
 compiler input, executable dependency or source applicability claim changes.
 The fixture's local FreezeMarker declaration still requires caller review.
