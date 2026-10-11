@@ -1,0 +1,21 @@
+{
+  "classification": "ISOLATED_GIT_ONLY_PATCH_CHAIN_CHECK",
+  "proof_credit": false,
+  "base": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "composition_base": "57bdb9ed2fc45a420fb3b3f98ee004f01d709846",
+  "tool_head": "09389e2c0a4d6d2ed4e1146df0ad6321832c12cb",
+  "ordered_patches": [
+    "tool-c4.patch",
+    "selector-integration.patch",
+    "composition.patch"
+  ],
+  "composition_patch_sha256": "0a5eb46815defaef599cc13c2c6aaad7325da9e998661f9039f8cfc13049b147",
+  "effective_sources_exact": {
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "f250c2d137fd0998438afee375b7eddd88bd3a916b12dcf7ffb62953d1a4b7d2",
+    "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf"
+  },
+  "foreign_index_or_worktree_changed": false
+}

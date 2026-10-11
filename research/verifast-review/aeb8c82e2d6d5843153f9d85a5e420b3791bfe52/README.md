@@ -1,0 +1,17 @@
+# VeriFast exact Bool profile — READY_FOR_INTEGRATION_REVIEW
+
+Checkpoint `aeb8c82e2d6d5843153f9d85a5e420b3791bfe52`; tool `4a34010cc3930eec46fc4e72c1b793ad734fa730`; profile `verifast-c4-select-composition-20261011-c3`.
+Tested runner `ca5f54607bf9e36ecbb9a24085cc6cc9e18db98c`; tested delivery `84f21b3bf244eb352cb91584fc84a73d6703b117`; Build `9397d5cd-51e6-4de4-87d0-e2195728f713`.
+Corrected runner/standalone auditor `8fd96ce4927c853ed6e02be6f9cba1fd4131eb05` (Cloud adapter NOT_RUN).
+
+**READY_FOR_INTEGRATION_REVIEW**, with explicit limited scope and addressed independent GO. Owner withdrew unsupported cut106 refusal. Exact unchanged historical negative_outer_bound_escape fixture is a positive local HRTB/normal-unwind resource-closure control. Pure saved-data replay binds five independent D digests and verifies17 observations;30 classifier cases pass, including missing events, truncation and self-consistent derivative refusal. This is old-evidence reclassification, not fresh proof or historical Cloud SUCCESS.
+
+Read [the compact current gate matrix](research/challenge-8/cloud-build/verifast-c4-select-bool-review/GATE-MATRIX.md), [addressed review](research/challenge-8/cloud-build/verifast-c4-select-bool-review/REVIEW.md), [current assessment manifest](research/challenge-8/cloud-build/verifast-c4-select-bool-review/manifest.json), [proof/replay commands](research/challenge-8/cloud-build/verifast-c4-select-bool-review/REPRODUCE.md) and [checkpoint](research/challenge-8/cloud-build/verifast-c4-select-bool-review/END-CHECKPOINT.md).
+
+D selector/C4/466-statement first-select composition PASS retain their pins. Six targeted VCs, sealed typed location-only/alias-preserving transport, cleanup and exact admission observations are reviewed. Named old nineC4/fourstrict/twopointer/fiveMDnew rows retain their meaningful-input reuse basis. Original archive/logs/summary/verdict/integration manifest and Cloud FAILURE/INTEGRATION_DIAGNOSTIC_INCOMPLETE/accepted=false are unchanged. The new current assessment is a separate manifest; do not replace historical results.
+
+No fixture name/source/contracts/tool/kernel/translator/spec or semantic input changed. Infra-only observation/expectation, tests and documentation changed. This session Cloud budget/use0: no registration, Build, compiler, extraction or verifier. Existing full30 pack/twoXZ and tool pins retained. General metadata escape negative/reference-output sketch OPEN/NOT_RUN/INCONCLUSIVE; broader O23 and inference/SMT conservativity, inherited O26/A1/memory/prelude/compiler/supplied-entry assumptions and owner adoption remain open. No fullsort4/nextselect/native caller or unrestricted theorem. READY is not profile acceptance or final Challenge8 qualification.
+
+proof.bundle requires checkpoint c6520d4cc436f276810234804e5f1f7cdc2f29e6 and carries D/E/F/G review history. tool.bundle requires base f76012fb518703b1d98e243ac4f487f16877cfcb. Prior C/D/E evidence and F semantic note resolve relative links. Exact proof command records a CLOSED D account and does not authorize replay; classifier commands are independently permitted saved-data checks. No automatic next session.
+
+Append-only internal review/verifast packet preserves all prior packets and the separate upstream candidate. No force-push, common baseline merge or upstream publication. Archival instructions defer to explicit user scope. files-sha256.json inventories packet content.
