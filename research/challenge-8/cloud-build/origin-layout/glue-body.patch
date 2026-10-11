@@ -1,5 +1,5 @@
 diff --git a/src/refinement_checker/main.ml b/src/refinement_checker/main.ml
-index 296680a1..cb2d5faf 100644
+index 296680a1..d5c3e98c 100644
 --- a/src/refinement_checker/main.ml
 +++ b/src/refinement_checker/main.ml
 @@ -81,6 +81,247 @@ let verified_bodies =
@@ -233,7 +233,7 @@ index 296680a1..cb2d5faf 100644
 +        {s with source_info={span=Dummy}}) bb.statements in
 +      let kind = match bb.terminator.kind with
 +        | Call call ->
-+            let func = match call.func with
++            let func: Vf_mir_decoder.operand = match call.func with
 +              | Constant c -> Constant {c with span=Dummy}
 +              | operand -> operand
 +            in

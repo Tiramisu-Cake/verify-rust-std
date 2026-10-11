@@ -69,7 +69,7 @@ NATURAL_DROP_EXIT = b"        //@ assert true; // TARGET: natural Drop scope exi
 NATURAL_FALSE = b"        //@ assert false; // TARGET: after natural Drop terminator\n"
 CALLER_READY_FALSE = b"        //@ assert false; // TARGET: caller direct Drop-pre entry\n"
 CALLER_SIGNATURE = b"unsafe fn natural_onecell(tail: *mut u64)"
-BODY_GLUE_PROFILE = "experimental-merge-actual-glue-body-v4"
+BODY_GLUE_PROFILE = "experimental-merge-actual-glue-body-v5"
 GENERATED_GLUE_NAME = "__vf_generated_drop_glue"
 
 
@@ -825,7 +825,7 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
     if args.profile not in ("experimental-merge-selected-drop-receiver-v4",
                             "experimental-merge-actual-glue-observation-v2",
                             "experimental-merge-actual-glue-observation-v3",
-                            "experimental-merge-actual-glue-body-v4"):
+                            "experimental-merge-actual-glue-body-v5"):
         raise RuntimeError("selected Drop exact supported experimental profile required")
     consumer.PROFILE = args.profile
     receipt = consumer._validate_receipt(args, validated_receipt, provider, proof_sha)
