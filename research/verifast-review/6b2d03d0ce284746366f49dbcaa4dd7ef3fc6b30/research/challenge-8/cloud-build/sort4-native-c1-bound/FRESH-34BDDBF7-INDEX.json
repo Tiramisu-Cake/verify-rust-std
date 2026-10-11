@@ -1,0 +1,102 @@
+{
+  "native-c1-prepared-false-args": {
+    "accepted": false,
+    "actual_sort4_proved": false,
+    "callable_summary": false,
+    "classification": "FIRST_CAUSAL_STAGE_DIAGNOSTIC",
+    "collector_pass_is_proof": false,
+    "effective_tool": {
+      "console_sha256": "8d686fef29ae6fe5b6adb91a946ff9942aef682baf934b273cc61d71a625527b",
+      "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+      "native_c1_capture_default_off": false,
+      "native_c1_capture_only": false,
+      "translator_sha256": "1eab6eb54fe5c23d53ca72a6d9dfcbbff09c09ffaf26c48a4f450f5068a8d313"
+    },
+    "first_causal_stage": "verification",
+    "first_error": "verified/lib.rs(190,24-29): error: Assertion might not hold. (Cannot prove false.)",
+    "first_stage_log_sha256": "d0edf5d5e71c1ee5b99bc56e06135577b581408c81709e7bae32efe1c1ad9650",
+    "proof_ast_sha256": null,
+    "source_pair_immutable": true,
+    "stages": {
+      "normal-decode": 0,
+      "normal-export": 0,
+      "proof-ast-diagnostic": 2,
+      "readonly-decode": 0,
+      "readonly-export": 0,
+      "refinement": 0,
+      "verification": 1
+    },
+    "support": {
+      "full_mir": {
+        "normal": {
+          "bytes": 487450,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "8def294f024875acc28116f7489ad3819540aaeb4a1e258ac86af0c9e12338e6"
+        },
+        "readonly": {
+          "bytes": 126830,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "6fab1f3a3baeaa0531570d48cd32bedff194abda5331f20e7e5a6e69ca475aef"
+        }
+      },
+      "paired_support_passed": true,
+      "proof_credit": false,
+      "source_pair_sha256": {
+        "original/lib.rs": "5e01e0d2377952b130e6fa5cf95a7546b7971755913025bd08d2bd22e3778586",
+        "verified/lib.rs": "8b23b23bc453e9d81f0fe445a360447833c04bea32ae6a3b3af3ab027b8cc241"
+      },
+      "target": "small_sort_general_with_scratch"
+    },
+    "verifier_exit": 1
+  },
+  "native-c1-prepared-positive": {
+    "accepted": false,
+    "actual_sort4_proved": false,
+    "callable_summary": false,
+    "classification": "FIRST_CAUSAL_STAGE_DIAGNOSTIC",
+    "collector_pass_is_proof": false,
+    "effective_tool": {
+      "console_sha256": "8d686fef29ae6fe5b6adb91a946ff9942aef682baf934b273cc61d71a625527b",
+      "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+      "native_c1_capture_default_off": false,
+      "native_c1_capture_only": false,
+      "translator_sha256": "1eab6eb54fe5c23d53ca72a6d9dfcbbff09c09ffaf26c48a4f450f5068a8d313"
+    },
+    "first_causal_stage": "verification",
+    "first_error": "verified/lib.rs(198,17-21): error: No matching heap chunks: [_]own0(ref_typeid(typeid_of_lft(cmp_k), T_typeid), _t)(left_ref)",
+    "first_stage_log_sha256": "91696d11945d7246e343f9f393f56a972bd534bee86513087a099ebc37b20efb",
+    "proof_ast_sha256": null,
+    "source_pair_immutable": true,
+    "stages": {
+      "normal-decode": 0,
+      "normal-export": 0,
+      "proof-ast-diagnostic": 2,
+      "readonly-decode": 0,
+      "readonly-export": 0,
+      "refinement": 0,
+      "verification": 1
+    },
+    "support": {
+      "full_mir": {
+        "normal": {
+          "bytes": 481892,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "c7dc910327e2f99b81a4fce4eecd0d12a02980fb93e2f566fe4cc9a9df8d6cf9"
+        },
+        "readonly": {
+          "bytes": 126160,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "e90e49ea35873493c946f89727566f8adf16eba854add18d47ddc091f5b39a2e"
+        }
+      },
+      "paired_support_passed": true,
+      "proof_credit": false,
+      "source_pair_sha256": {
+        "original/lib.rs": "5e01e0d2377952b130e6fa5cf95a7546b7971755913025bd08d2bd22e3778586",
+        "verified/lib.rs": "73f74d152e2b26906fd7ee888f60840adf98a5912ab06d50359cc64e4026d257"
+      },
+      "target": "small_sort_general_with_scratch"
+    },
+    "verifier_exit": 1
+  }
+}

@@ -1,0 +1,21 @@
+--- a/src/verifast1.ml
++++ b/src/verifast1.ml
+@@ -6516,9 +6516,17 @@
+     in
+     let packed = List.mem Packed attrs in
+     let repr_c = dialect <> Some Rust || List.mem ReprC attrs in
+-    assume_axiom (fun _ _ s -> (sn ^ "_size_limits", s, ctxt#mk_and (ctxt#mk_lt (ctxt#mk_intlit 0) s) (ctxt#mk_le s max_uintptr_term)));
++    (* Rust structs, including repr(C), may be zero-sized. *)
++    assume_axiom (fun _ _ s ->
++      let lower_bound =
++        if is_rust then ctxt#mk_le (ctxt#mk_intlit 0) s
++        else ctxt#mk_lt (ctxt#mk_intlit 0) s
++      in
++      (sn ^ "_size_limits", s, ctxt#mk_and lower_bound (ctxt#mk_le s max_uintptr_term)));
+     match body_opt with
+     | Some (_, fmap, _) ->
++      if is_rust && fmap = [] then
++        assume_axiom (fun _ _ s -> (sn ^ "_empty_rust_size", s, ctxt#mk_eq s (ctxt#mk_intlit 0)));
+       let rec offset_iter fields current is_first =
+         begin match fields with
+         | [] -> if packed then assume_axiom (fun targs_env targs s -> (sn ^ "_packed_size", s, ctxt#mk_eq s (current targs_env)))

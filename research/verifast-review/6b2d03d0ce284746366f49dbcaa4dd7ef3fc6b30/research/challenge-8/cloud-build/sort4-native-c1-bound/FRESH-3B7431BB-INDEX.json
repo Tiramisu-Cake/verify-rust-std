@@ -1,0 +1,85 @@
+{
+  "build_id": "3b7431bb-4e18-4921-b690-307e4ba7f984",
+  "proof_infra": "8de4cda418c4772009359fbb90e7e7f34836cca0",
+  "archive_sha256": "4e9c337e98d403d5959d0581c8739b4510cb5b94b977fae2ce0a947b35e4f6e4",
+  "text_logs_index_sha256": "ccf48de2563412a27e8c393bc171db58189740b72370f98ff5eef3128c9be3b8",
+  "created_utc": "2026-10-11T10:26:03.935776892Z",
+  "terminal_utc": "2026-10-11T10:33:48.564284Z",
+  "conservative_cloud_seconds": 465,
+  "cumulative_cloud_seconds": 2526,
+  "budget_seconds": 3600,
+  "remaining_seconds": 1074,
+  "collector": {
+    "run_exit_code": 0,
+    "diagnostic_complete": true,
+    "evidence_complete": true,
+    "text_logs_complete": true,
+    "verification_accepted": false
+  },
+  "inventory_hashes_independently_checked": 1053,
+  "model_gates_passed": true,
+  "native_c1_prerequisite_candidate_and_controls_passed": true,
+  "c4": {
+    "classification": "NATIVE_C4_BOUND_VF0_CANDIDATE_RAW_REVIEW_REQUIRED",
+    "target_proof": "RAW_REVIEW_REQUIRED",
+    "positive": {
+      "verifier_exit": 0,
+      "first_error": null,
+      "post_ast_sha256": "759d08b814674869c26ec067c34c259d819cadbf7703ac76009b048e6bebf675",
+      "first_log_tail": "0 errors found (485 statements verified) (target: x86_64-unknown-linux-gnu (LP64))",
+      "first_causal_stage": "NONE_OBSERVED"
+    },
+    "false_controls": {
+      "normal-false": {
+        "classification": "INTENDED_FALSE_ASSERTION",
+        "first_error": "verified/lib.rs(577,9-40): error: Assertion might not hold. (Cannot prove false.)"
+      },
+      "c1-unwind-false": {
+        "classification": "INTENDED_FALSE_ASSERTION",
+        "first_error": "verified/lib.rs(387,22-93): error: Assertion might not hold. (Cannot prove false.)"
+      },
+      "c2-unwind-false": {
+        "classification": "INTENDED_FALSE_ASSERTION",
+        "first_error": "verified/lib.rs(442,18-99): error: Assertion might not hold. (Cannot prove false.)"
+      },
+      "c3-unwind-false": {
+        "classification": "INTENDED_FALSE_ASSERTION",
+        "first_error": "verified/lib.rs(504,18-75): error: Assertion might not hold. (Cannot prove false.)"
+      },
+      "c4-unwind-false": {
+        "classification": "INTENDED_FALSE_ASSERTION",
+        "first_error": "verified/lib.rs(561,18-75): error: Assertion might not hold. (Cannot prove false.)"
+      }
+    },
+    "admission_controls": {
+      "source-refusal": "INTENDED_ADMISSION_REFUSAL",
+      "extra-body": "INTENDED_ADMISSION_REFUSAL",
+      "malformed": "INTENDED_ADMISSION_REFUSAL",
+      "mixed": "INTENDED_ADMISSION_REFUSAL",
+      "default-off": "DEFAULT_OFF_NOT_ADMITTED; parse error, not semantic negative"
+    },
+    "verified_source_sha256": "0f92a609c898df5271cbafd04cea688bf7b46c8b4786f8313b8ff99db995e9c4",
+    "original_source_sha256": "9628df15e3a42643d671bd1e9f5684e0bdd81162e26ab8233ce704a9657942df",
+    "normal_full_mir_sha256": "b0da712d2b16c76d1baac91ae69c591ddeab308a2242e196fe876fd27e35e24d",
+    "readonly_full_mir_sha256": "79c16a30be7b2921ccdaa35c66aac496f236d900130fff72a36b81524e50ef86",
+    "pre_transform_ast_sha256": "65b9ddf282ab3b8d123bba3725600528936ff09e236c4261841d61f66cb5ae18",
+    "paired_support_passed": true,
+    "effective_profile": {
+      "head": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+      "translator_sha256": "66e266d3a36517d8c552b34ab17357b7b5d11192095e47672504533611c76124",
+      "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+      "verifast1_sha256": "bfbfb518fb9783afeeba9384e1431b6cd280c7da7713b9fdbfd15a8395b00207",
+      "console_sha256": "b73d563b88727846581ab33d425a2fd57ff736fa52e580addde930da33bb01fc"
+    },
+    "profile_accepted": false,
+    "proof_credit": false,
+    "actual_caller_proved": false,
+    "callable_summary": false
+  },
+  "raw_path": "/tmp/native-c4-3b743-raw/allprooflogs/cases/sort4-c1-current-recovery",
+  "legacy_native_c1_to_c4_driver_path_executed": false,
+  "native_c4_bound_fragment_verifier_exit0": true,
+  "target_type_domain": "The existing pinned source target small_sort_general_with_scratch<T: FreezeMarker> (source line 220); not the unbounded sort4_stable<T> source at line 606.",
+  "caller_scope": "External caller/callable summary NOT_PROVED; legacy separate C1-to-C4 driver path NOT_RUN. Current native_c4_bound target contains and verifies the four sequential actual C1-C4 comparator expressions.",
+  "legacy_native_c1_to_c4_driver_path_field_provenance": "Raw native-c4-bound/result.json source.native_c1_to_c4 field; refers to a legacy separate driver path, not the current four-call native_c4_bound target."
+}

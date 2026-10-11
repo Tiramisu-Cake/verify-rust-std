@@ -1,0 +1,9 @@
+# Addressed independent readiness boundary
+
+Reviewer `review_native_h` returned conditional GO after reading the current matrix/assessment and independent C/C++ supplement note. The concrete condition was to replace the then-pending supplemental rows with reviewed results. The maintainer applied that condition: both two-control stages exit0, one statement and linking success, same prepared sources/seven effective hashes/binary. No new proof run or semantic change is implied by this documentation update.
+
+GO is confined to a separate human READY_FOR_INTEGRATION_REVIEW assessment for exact Bool + guarded native C1/C4 fixture compatibility. Build47 freshly reran Bool composition and affected strict/pointer/ManuallyDrop/controls after verifast1 changed, plus native/ZST checks, on one effective tool. Build15f reran only the two affected C/C++ controls on the identical binary. Original kernel, exact source/MIR/AST admission, original normal/unwind posts and CURRENT resources remain preserved.
+
+Keep raw Cloud FAILURE, diagnostic INCOMPLETE, accepted=false, profile_accepted=false and proof_credit=false as original machine records. ASSESSMENT.json is a separate addressed raw adjudication. Compact REVIEWED_PASS credits an intended gate; expected negative VCs remain failures, admission refusals remain admission checks, default-off failures remain frontend observations. Neither a setup failure nor an earlier unrelated VC closes a negative gate.
+
+Native C4+select, actual caller and added ZST guard correspondence, full sort4, general O23/metadata negative/reference-output sketch and upstream/owner adoption stay open. No unconditional layout or caller theorem follows. Historical first-agent/C3 matrices retain pins and were not silently transferred to the changed tool. Fresh adapter rows provide current credit; historical component rows are provenance only.

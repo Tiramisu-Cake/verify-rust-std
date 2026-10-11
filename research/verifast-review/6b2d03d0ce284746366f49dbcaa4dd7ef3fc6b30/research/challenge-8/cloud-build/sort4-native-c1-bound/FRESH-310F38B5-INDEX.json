@@ -1,0 +1,46 @@
+{
+  "build_id": "310f38b5-5f45-4d4c-bb72-cd3f48ed40c6",
+  "proof_infra": "736691964dd733b67ded1a683efe5d586f5952f0",
+  "archive_sha256": "e1d34905210b47f1d0fb1e7609b95112dca9ef7789fa5a53d05e23582609c9b8",
+  "text_logs_index_sha256": "d8140fa51c20c482b902e4d1353cec4f4e9c20bfa76516f6c9eca6098e234050",
+  "create_utc": "2026-10-11T10:14:49.688428244Z",
+  "terminal_utc": "2026-10-11T10:21:59.276092Z",
+  "conservative_cloud_seconds": 430,
+  "cumulative_cloud_seconds": 2061,
+  "budget_seconds": 3600,
+  "remaining_seconds": 1539,
+  "collector": {
+    "run_exit_code": 0,
+    "diagnostic_complete": true,
+    "evidence_complete": true,
+    "text_logs_complete": true,
+    "verification_accepted": false
+  },
+  "inventory_hashes_independently_checked": 1041,
+  "model_gates_passed": true,
+  "fresh_native_c1_gates_passed": true,
+  "c4": {
+    "classification": "NATIVE_C4_BOUND_POSITIVE_INCONCLUSIVE",
+    "positive_and_five_false_controls": "INCONCLUSIVE_BEFORE_ADMISSION_AND_POST_AST",
+    "inventory": "body=284 locals=239 projections=0 epilogue=0 hrtb=F:T",
+    "stale_inventory_gate_expected_body": 282,
+    "first_error": "Fatal error: exception Failure(\"NATIVE-C4-BOUND: complete native AST/HRTB inventory\")",
+    "verified_source_sha256": "0f92a609c898df5271cbafd04cea688bf7b46c8b4786f8313b8ff99db995e9c4",
+    "original_source_sha256": "9628df15e3a42643d671bd1e9f5684e0bdd81162e26ab8233ce704a9657942df",
+    "normal_full_mir_sha256": "b0da712d2b16c76d1baac91ae69c591ddeab308a2242e196fe876fd27e35e24d",
+    "readonly_full_mir_sha256": "79c16a30be7b2921ccdaa35c66aac496f236d900130fff72a36b81524e50ef86",
+    "pre_transform_ast_sha256": "65b9ddf282ab3b8d123bba3725600528936ff09e236c4261841d61f66cb5ae18",
+    "post_transform_ast": null,
+    "effective_translator_sha256": "a1be12ce7800222b25acd67e0766ee66d6290c6d9e451819fe27c51063093a06",
+    "proof_credit": false,
+    "profile_accepted": false,
+    "actual_caller_proved": false,
+    "callable_summary": false
+  },
+  "corrected_8de4cda_candidate": {
+    "source_commit": "8de4cda418c4772009359fbb90e7e7f34836cca0",
+    "expected_translator_sha256": "66e266d3a36517d8c552b34ab17357b7b5d11192095e47672504533611c76124",
+    "status": "PENDING_FRESH_CLOUD_RESULT; 310f is not evidence for this candidate"
+  },
+  "raw_path": "/tmp/native-c4-310f-raw/allprooflogs/cases/sort4-c1-current-recovery"
+}
