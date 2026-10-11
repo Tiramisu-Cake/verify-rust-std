@@ -574,13 +574,19 @@ def main() -> int:
         expected = {"positive": "BOUNDED_NORMAL_COMPOSITION_PASS_FRAGMENT_ONLY",
                     "after_call_current_false": "EXPECTED_AFTER_CALL_CURRENT_REJECTION",
                     "caller_entry_false": "EXPECTED_CALLER_ENTRY_REJECTION"}
-        exact = set(summary.get("cases", {})) == set(composition.CASES) == set(expected)
+        cases = summary.get("cases", {})
+        origin_outcomes = {"EXPECTED_RECEIVER_ORIGIN_REJECTION", "PROBE_ORIGIN_ESTABLISHED"}
+        expected_names = set(expected) | {"receiver_origin_probe"}
+        exact = (set(cases) == set(composition.CASES) == expected_names and
+                 len(composition.CASES) == 4)
         matched = (exact and summary.get("qualified_fragment") is True and
-                   summary.get("accepted") is False and summary.get("cases") == expected)
+                   summary.get("accepted") is False and
+                   all(cases.get(name) == outcome for name, outcome in expected.items()) and
+                   cases.get("receiver_origin_probe") in origin_outcomes)
         aggregate = {"schema": "merge-minimal-caller-composition-v1", "profile": PROFILE,
             "campaign": "caller-composition-minimal-v1", "accepted": False,
             "diagnostic_complete": matched, "all_matched": matched,
-            "exact_case_sets": exact, "required_case_count": 3,
+            "exact_case_sets": exact, "required_case_count": 4,
             "classification": "PASS_COMPONENT_DIAGNOSTIC" if matched else "INCONCLUSIVE",
             "environment": environment, "combined_profile_smoke": combined_smoke,
             "caller_composition": summary, "cases": summary.get("cases", {}),

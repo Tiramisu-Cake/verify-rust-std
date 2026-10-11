@@ -20,7 +20,8 @@ SOURCE = ROOT / "library/core/src/slice/sort/shared/smallsort.rs"
 PREP = ROOT / "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prepare.py"
 ONECELL = HERE / "onecell-drop-interface.py"
 CONSUMER = HERE / "concrete-consumer.py"
-CASES = ("positive", "after_call_current_false", "caller_entry_false")
+CASES = ("positive", "after_call_current_false", "caller_entry_false",
+         "receiver_origin_probe")
 PROFILE = "experimental-merge-qualified-guard-onecell-v1"
 HELPER_NAME = b"checked_len1_body"
 CALL = b"        checked_len1_body(guard_ptr);\n"
@@ -37,6 +38,7 @@ BORROW_END = (b"        //@ assert guard_ptr == &gap_guard as *mut CopyOnDrop; /
               b"        //@ assert gap_guard.src |-> guard_src &*& gap_guard.dst |-> guard_dst &*& gap_guard.len |-> 1 &*& struct_CopyOnDrop_padding(&gap_guard); // RETURN: conserved guard frame\n")
 AFTER_FALSE = b"        //@ assert false; // TARGET: after checked body CURRENT effect\n"
 ENTRY_FALSE = b"        //@ assert false; // TARGET: caller supplies checked body entry\n"
+ORIGIN_ASSERT = b"        //@ assert ref_origin(guard_ptr) == guard_ptr; // TARGET: receiver origin fixedpoint\n"
 
 
 def _load(name: str, path: Path):
@@ -180,7 +182,7 @@ def _prepare(evidence: Path) -> dict:
     effect_open = b"        //@ open CopyOnDrop_drop_effect(t, recovery_src, recovery_dst, 1);\n"
     rows = {}
     for name in CASES:
-        proof = BORROW_SETUP + (ENTRY_FALSE if name == "caller_entry_false" else b"")
+        proof = BORROW_SETUP + (ORIGIN_ASSERT if name == "receiver_origin_probe" else b"") + (ENTRY_FALSE if name == "caller_entry_false" else b"")
         tail = BORROW_END + effect_open + (AFTER_FALSE if name == "after_call_current_false" else b"") + recovery
         verified = _once(original, b"}\n\n" + b"unsafe fn checked_len1_body",
                          b"}\n\n" + intro + b"unsafe fn checked_len1_body",
@@ -221,6 +223,12 @@ def _prepare(evidence: Path) -> dict:
             "helper_copy_line": _line(verified, BODY_COPY),
             "helper_effect_close_line": _line(verified, HELPER_EFFECT_CLOSE),
             "borrow_open_line": _line(verified, BORROW_SETUP.splitlines(keepends=True)[0]),
+            "guard_fields_line": _line(verified, BORROW_SETUP.splitlines(keepends=True)[2]),
+            "origin_line": (_line(verified, ORIGIN_ASSERT) if name == "receiver_origin_probe" else None),
+            "origin_assert_column": (verified.splitlines()[_line(verified, ORIGIN_ASSERT) - 1].index(b"assert ref_origin") + 1
+                                     if name == "receiver_origin_probe" else None),
+            "origin_equality_column": (verified.splitlines()[_line(verified, ORIGIN_ASSERT) - 1].index(b"==") + 1
+                                       if name == "receiver_origin_probe" else None),
             "guard_frame_return_line": _line(verified, BORROW_END.splitlines(keepends=True)[1]),
             "effect_open_line": _line(verified, effect_open),
             "entry_line": _line(verified, b"// ENTRY: actual resources"),
@@ -228,7 +236,8 @@ def _prepare(evidence: Path) -> dict:
                            else _line(verified, AFTER_FALSE) if name == "after_call_current_false"
                            else None),
             "expected": ("pass" if name == "positive" else "after_call_false" if
-                         name == "after_call_current_false" else "caller_entry_false"),
+                         name == "after_call_current_false" else "caller_entry_false" if
+                         name == "caller_entry_false" else "receiver_origin_probe"),
         }
         helper_start = verified.index(b"unsafe fn checked_len1_body")
         caller_start = verified.index(CALLER_NAME)
@@ -275,9 +284,12 @@ def _source_gate(case: Path, row: dict) -> dict:
                     verified.count(b"        //@ close_points_to(&gap_guard);\n") == 1 and
                     verified.count(BORROW_SETUP) == 1 and
                     verified.count(BORROW_END) == 1 and
+                    (row["case"] != "receiver_origin_probe" or verified.count(ORIGIN_ASSERT) == 1) and
                     verified.index(b"        //@ close_points_to(&gap_guard);\n") <
                     verified.index(POINTER) < verified.index(BORROW_SETUP) <
                     verified.index(CALL) < verified.index(BORROW_END) and
+                    (row["case"] != "receiver_origin_probe" or
+                     verified.index(BORROW_SETUP) < verified.index(ORIGIN_ASSERT) < verified.index(CALL)) and
                     b"impl Drop for CopyOnDrop" not in original and
                     b"ptr::copy_nonoverlapping" not in caller and
                     b"on_unwind_ens false" in verified and
@@ -345,6 +357,34 @@ def _mir_gate(case: Path, row: dict, mir) -> dict:
         return {"admitted": False, "reason": f"MIR gate failed closed: {error}"}
 
 
+def _origin_equality_matches(operation, ast, row: dict) -> bool:
+    """Match precisely `ref_origin(guard_ptr) == guard_ptr` at its operator span."""
+    if (not isinstance(operation, ast.Node) or operation.name != "Operation" or
+            len(operation.args) != 3 or operation.args[1] != ast.Sym("Eq") or
+            ast.location_line(operation.args[0]) != row["origin_line"] or
+            not re.match(rf"verified/lib\.rs\({row['origin_line']},{row['origin_equality_column']}-",
+                         ast.loc(operation.args[0]))):
+        return False
+    operands = operation.args[2]
+    if not isinstance(operands, list) or len(operands) != 2:
+        return False
+    left, right = operands
+    if (not isinstance(left, ast.Node) or left.name != "CallExpr" or len(left.args) != 6 or
+            left.args[1] != "ref_origin" or left.args[2] != [] or left.args[3] != []):
+        return False
+    actual_args = left.args[4]
+    if not isinstance(actual_args, list) or len(actual_args) != 1:
+        return False
+    try:
+        actual = ast.narg(actual_args[0], "LitPat", 1)[0]
+    except (ValueError, TypeError, ast.AdmissionError):
+        return False
+    return (isinstance(actual, ast.Node) and actual.name == "Var" and
+            len(actual.args) == 2 and actual.args[1] == "guard_ptr" and
+            isinstance(right, ast.Node) and right.name == "Var" and
+            len(right.args) == 2 and right.args[1] == "guard_ptr")
+
+
 def _ast_gate(case: Path, row: dict, ast, body) -> dict:
     path = case / "proof-ast.ml"
     if not path.is_file():
@@ -376,6 +416,20 @@ def _ast_gate(case: Path, row: dict, ast, body) -> dict:
         helper_effect_closes = [n for n in ast.nodes(helper[0].args[10], "Close") if
                                 "CopyOnDrop_drop_effect" in repr(n) and
                                 ast.location_line(n.args[0]) == row["helper_effect_close_line"]]
+        origin_equalities = []
+        origin_assertions = []
+        if row["case"] == "receiver_origin_probe":
+            for assertion in ast.nodes(caller[0].args[10], "Assert"):
+                if (len(assertion.args) == 2 and
+                        ast.location_line(assertion.args[0]) == row["origin_line"] and
+                        re.match(rf"verified/lib\.rs\({row['origin_line']},{row['origin_assert_column']}-",
+                                 ast.loc(assertion.args[0]))):
+                    origin_assertions.append(assertion)
+            for operation in ast.nodes(caller[0].args[10], "Operation"):
+                if (_origin_equality_matches(operation, ast, row) and
+                        any(len(assertion.args) == 2 and assertion.args[1] is operation
+                            for assertion in origin_assertions)):
+                    origin_equalities.append(operation)
         closes = [n for n in ast.nodes(caller[0].args[10], "Close") if
                   "CopyOnDrop_full_borrow_content" in repr(n)]
         opens = [n for n in ast.nodes(caller[0].args[10], "Open") if
@@ -386,7 +440,9 @@ def _ast_gate(case: Path, row: dict, ast, body) -> dict:
                     len(helper_effect_closes) == 1 and
                     "False" not in repr(own[0].args[4]) and
                     "False" not in repr(effect_body[0].args[5]) and
-                    b"(*guard).src" in (case / "verified/lib.rs").read_bytes())
+                    b"(*guard).src" in (case / "verified/lib.rs").read_bytes() and
+                    (row["case"] != "receiver_origin_probe" or
+                     len(origin_assertions) == len(origin_equalities) == 1))
         return {"admitted": admitted, "helper_copy_count": len(helper_copy),
                 "caller_helper_call_count": len(caller_call),
                 "nonempty_own_count": len(own), "fbc_count": len(fbc),
@@ -425,6 +481,33 @@ def _classify(case: Path, row: dict, execution: dict, mir, ast, body) -> dict:
                 executed(row["helper_copy_line"]) and executed(row["call_line"]) and
                 executed(row["effect_open_line"]) and "0 errors found" in log and
                 full_return)
+    origin_probe_negative = False
+    origin_probe_established = False
+    if row["expected"] == "receiver_origin_probe":
+        # Require the exact source-derived equality column, all prior admission gates, and execution
+        # of the constructed physical field frame before interpreting a result.
+        exact_origin_error = (len(errors) == 1 and bool(re.fullmatch(
+            rf"verified/lib\.rs\({row['origin_line']},{row['origin_equality_column']}-\d+\): error: "
+            r"Assertion might not hold\. \(Cannot prove equality\.\)", errors[0])))
+        frame_reached = executed(row["guard_fields_line"])
+        no_earlier_error = not any(
+            re.search(rf"verified/lib\.rs\({line},\d+", error)
+            for error in errors for line in range(1, row["origin_line"]))
+        probe_location_error = (len(errors) == 1 and bool(re.search(
+            rf"verified/lib\.rs\({row['origin_line']},{row['origin_equality_column']}-\d+\): error: "
+            r"Assertion might not hold\. \(Cannot prove equality\.\)", errors[0])))
+        origin_probe_negative = (setup and frame_reached and no_earlier_error and
+                                 probe_location_error and stages.get("verifast") == 1 and
+                                 not dead and executed(row["guard_fields_line"]))
+        origin_probe_established = (setup and frame_reached and executed(row["origin_line"]) and
+                                    executed(row["helper_copy_line"]) and executed(row["call_line"]) and
+                                    executed(row["effect_open_line"]) and stages.get("verifast") == 0 and
+                                    not errors and not dead and "0 errors found" in log and
+                                    full_return)
+        # Keep column-precise check explicit in evidence; a different column is
+        # an inconclusive result even if it resembles the expected assertion.
+        if origin_probe_negative and not exact_origin_error:
+            origin_probe_negative = False
     negative = False
     if setup and stages.get("verifast") == 1 and len(errors) == 1 and not dead and row["false_line"]:
         negative = bool(re.search(
@@ -440,11 +523,19 @@ def _classify(case: Path, row: dict, execution: dict, mir, ast, body) -> dict:
                       row["expected"] == "after_call_false" and negative else
                       "EXPECTED_CALLER_ENTRY_REJECTION" if
                       row["expected"] == "caller_entry_false" and negative else
+                      "EXPECTED_RECEIVER_ORIGIN_REJECTION" if origin_probe_negative else
+                      "PROBE_ORIGIN_ESTABLISHED" if origin_probe_established else
                       "INCONCLUSIVE")
     return {"case": row["case"], "classification": classification, "accepted": False,
             "source_gate": source, "mir_gate": mir_result, "ast_gate": ast_result,
             "stages": stages, "errors": errors, "dead_code_records": dead,
             "targeted_negative": negative,
+            "receiver_origin_probe_targeted_negative": origin_probe_negative,
+            "receiver_origin_probe_established": origin_probe_established,
+            "receiver_origin_probe_exact_location_error": (exact_origin_error
+                if row["expected"] == "receiver_origin_probe" else False),
+            "receiver_origin_probe_guard_frame_executed": (executed(row["guard_fields_line"])
+                if row["expected"] == "receiver_origin_probe" else False),
             "helper_copy_executed": executed(row["helper_copy_line"]),
             "caller_checked_call_executed": executed(row["call_line"]),
             "normal_effect_open_executed": executed(row["effect_open_line"]),
@@ -482,11 +573,14 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
         rows[name] = result["classification"]
     complete = (rows.get("positive") == "BOUNDED_NORMAL_COMPOSITION_PASS_FRAGMENT_ONLY" and
                 rows.get("after_call_current_false") == "EXPECTED_AFTER_CALL_CURRENT_REJECTION" and
-                rows.get("caller_entry_false") == "EXPECTED_CALLER_ENTRY_REJECTION")
+                rows.get("caller_entry_false") == "EXPECTED_CALLER_ENTRY_REJECTION" and
+                rows.get("receiver_origin_probe") in ("EXPECTED_RECEIVER_ORIGIN_REJECTION",
+                                                       "PROBE_ORIGIN_ESTABLISHED"))
     aggregate = {"schema": "source-derived-u64-onecell-normal-composition-v1",
                  "accepted": False, "qualified_fragment": complete,
                  "profile": extraction["profile"], "receipt_sha256": receipt["receipt_sha256"],
                  "cases": rows, "actual_drop_glue_credit": False,
+                 "receiver_origin_probe_is_method_proof": False,
                  "whole_insert_tail_credit": False, "scope": extraction["scope"]}
     (evidence / "aggregate.json").write_text(json.dumps(aggregate, indent=2, sort_keys=True) + "\n")
     return aggregate

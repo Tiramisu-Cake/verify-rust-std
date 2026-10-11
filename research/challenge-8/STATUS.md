@@ -1,46 +1,25 @@
-# MERGE len1 / bounded caller composition — CLOSED
+# MERGE receiver localization — ACTIVE
 
-Session start2026-10-10T22:36:57Z, main2026-10-11T00:36:57Z, finishing01:06:57Z;
-completed beforemain. Hour status23:35:59Z delivered. Own worktrees/branches
-preserved, policyc7ca8c46/coordinatorv2/max2/oneown observed.
+Session from ce2bc9d67ce83b2439fb17177487b462267c36e1, owner merge,
+assigned merge/incoming-origin-20261009. Start2026-10-11T08:17:34Z,
+main09:17:34Z, finishing09:47:34Z; fresh3600Cloud/no carryover.
+Policyc7ca8c46 adopted/read; v2/max2/oneown. Own BUDGET.json authoritative.
 
-Saved regressions CLOSED: missing_source_quarter intended mandatorysourcequarter
-refusal atcontract52; synthetic effect gate expects exactCURRENT body and keeps
-unsupportedcases refused. HistoricalCloudINCONCLUSIVE andbad duplicate-close
-UNEXPECTED_ACCEPTANCE preserved. Replay is not a new proof.
+Previous len1 remains QUALIFIED_LEN1_COMPONENT_FRESH_PROOF_PLUS_SAVED_ADMISSION
+(1396ff47/d491b937, raw historicalINCONCLUSIVE preserved); caller remains
+FRESH_PASS_BOUNDED_NORMAL_COMPOSITION_FRAGMENT_ONLY (1ce46121/bc08afa0).
+Concrete-u64/x86_64/len1, checked raw-pointer helper; actual receiver/glue/panic
+not credited. Frozen profile0b8cf55b NOT_ACCEPTED/NOT_FOR_INTEGRATION.
 
-Len1 component QUALIFIED_FRESH_PROOF_PLUS_SAVED_ADMISSION: fresh1396ff47 /
-d491b937, all12 matched after saved diagnostic correction. Directbody/nonempty
-canonical positives and simultaneoustwofullsamepayload effectnegative qualified;
-secondpredicate106:76–98 refuses after first105produced, sole originalresources.
-RawCloudINCONCLUSIVE retained. Internalreview only, profile NOT_ACCEPTED.
+Resource audit: full_borrow package is constructible using existing begin_lifetime
+and borrow over closed FBC. Source-bound actual receiver remains unconnected:
+mutableRef lowers to AddressOf; reborrow_ref_mut returns a distinct modeled pointer
+with fixedpoint/FBC but no equality to this physical receiver. Before deciding
+blocker, one new origin assertion after derived physical field frame will test
+whether frozen proof rules establish its fixedpoint. Three old controls and both
+mandatory normal/unwind smoke groups retained; no actual method invocation claim.
+[Ledger/card](cloud-build/origin-layout/RECEIVER-RESOURCE-LEDGER-20261011.md).
 
-Bounded caller normal composition FRESH_PASS_FRAGMENT_ONLY: Build
-1ce46121-8edb-480e-b8b6-d3ef299a84cf, exactproof=infra
-bc08afa0bcec86337986a12cfdca7ff5d749b04d, archive56f985ae integrityverified.
-Actualread/constructor→canonicalown/FBC→derivedphysicalfields/padding/quarter/gap/
-geometry→realcheckedhelpercall159→CURRENTeffect162→originalnormalpost170→
-return/leak172. Helpercopy75/effect76/returnleak78 verifiedsameunit before summary.
-Bothnegatives exactentry159 andaftereffect163 match. Priorcaller preparation/
-wrongtokenrefusals c226905b/419034 retained, notresource-negatives.
-
-Externalcaller entry remains validtailphysicalstorage/heldowner, thread/type,
-u64 size/alignment/limits/no-overflow. Actualmethodreceiver ref_origin(self)==self
-andselectedDrop/gluelowering OPEN; rawhelpermanualspecialization is not
-compiler-produced Drop or wholeinsert_tail. ActualglueNOT_IMPLEMENTED,
-paniccleanupNOT_PROVED/NOT_EXERCISED, generic/ZST outscope.
-
-Tool df6b3fbf unchanged, fullbasef760+ordered10patches/12trustedhashes anddeps
-[EFFECTIVE-SOURCE](cloud-build/origin-layout/EFFECTIVE-SOURCE.json), profile0b8cf55b
-NOT_ACCEPTED/NOT_FOR_INTEGRATION. Bothmandatorynormal-unwindsmokes freshPASS
-all4Builds; guard21/span6 previousfreshPASS b1da6f8e unchangedprofileNOT_RERUN.
-
-Account CLOSED1795/3600Cloudseconds create→finish,1805unusedretired/no carryover.
-All4Builds terminal/accounted/fullarchiveverified; ownrequestWITHDRAWN,
-active/reservations/unresolvedNONE. No automaticnewsession. Next internalreview
-of len1 andboundedcaller receipts; experiments need explicitnewsession andledger.
-[Final checkpoint](cloud-build/origin-layout/FINAL-CHECKPOINT.md),
-[len1 qualification](cloud-build/origin-layout/LEN1-QUALIFICATION-20261011.json),
-[caller qualification](cloud-build/origin-layout/CALLER-COMPOSITION-QUALIFICATION-20261011.json),
-[review packet](cloud-build/origin-layout/REVIEW-PACKET.md),
-[budget](cloud-build/origin-layout/BUDGET.json).
+New Cloud diagnostic pending publication/dispatch; no fresh proof yet.
+Compiler glue and paniccleanup NOT_RUN; source/method effect interface via generic
+drop_in_place remains open. Previous checkpoint archived on closure.

@@ -53,7 +53,7 @@ with tempfile.TemporaryDirectory(prefix='merge-len1-audit-service-') as temporar
         outcomes[label]=result['diagnostic_complete']
     caller_summary = dict(summary, schema='merge-minimal-caller-composition-v1',
                           campaign='caller-composition-minimal-v1',
-                          cases={str(i):'synthetic' for i in range(3)})
+                          cases={str(i):'synthetic' for i in range(4)})
     caller_outcomes = {}
     for label in ('positive', 'missing_case', 'wrong_schema', 'not_matched'):
         row = copy.deepcopy(caller_summary)
