@@ -460,7 +460,7 @@ def _run_lifetime(a, selector_case, c4_env, proof, capture, inherited=None, mir_
     })
     _need(mir_capture is not None, "outer full MIR capture callback required")
     outer_inventory = mir_capture(a, outer_case, "outer-bound", ["negative_outer_bound_escape"])
-    immutable = json.loads((a.cloud_dir / "verifast-c4-select-integration/manifest.json").read_text())
+    immutable = json.loads(a.manifest.read_text())
     _need(outer_inventory == immutable["outer_scope_capture_pins"],
           "outer normal/readonly full MIR differs from reviewed capture")
     outer_env = env.copy()
