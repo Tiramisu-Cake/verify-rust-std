@@ -125,8 +125,8 @@ Cloud lane без подготовки proof toolchain в рамках разр�
 
 Cloud Build остаётся провайдером builds/verification; GitHub — source/docs/PR.
 Исследовательские GitHub Actions не запускать без отдельного прямого поручения.
-Два project-wide queued/running/unresolved Build максимум, один на стабильного
-owner и ledger; действующий v2 coordinator и консервативный budget accounting
+Три project-wide queued/running/unresolved Build максимум, один на стабильного
+owner и ledger; действующий v3 coordinator и консервативный budget accounting
 сохраняются. Никаких ручных правок чужих reservations/ledgers.
 
 ## 5. Критерий полезного следующего эксперимента
