@@ -1,0 +1,7 @@
+# First Build — preserved FAILURE
+
+Build424fd00e-ca19-4d49-892d-9c7449fea010, runner5ce6304c919cc3aa3f522926b15c4506872926cc, head1ef8474610274bbf9d0652613ac2cabbb1fc476b/treef21bda99968f8dc7fee4de3303768b0ecb4ddf55. Cloud FAILURE, stage negative-marked, integrity verified; archive1149404282f3f15bfcc249a4b3e84b0d9a41ffad0c18c5525c0543c1d971952d; charge532s.
+
+Fresh positive PASS62; baseline exact No such function: std::slice::<impl [T]>::as_mut_ptr at positive line4. Independent reviewer inspected AST: actual cast for reborrowed receiver; pointer equality, open/read/close array; normal/unwind resource posts retained. Compilerf7575a9 nightly2026-09-25, installed slice/mod.rs SHAefe182d20200e0ef6206a1eeea492fdfcf419f2f14011a5e9ff56ae2f4cd6a2c, actual method lines761-763 no_writable plus self as *mut [T] as *mut T. This source differs from proof-repository source hash; standalone uses the actual installed compiler std source.
+
+Marked negative reaches expected-failure handling, then dead-code diagnostics prevent completion. No unmarked targeted VC or suite credit from this Build. Redesign registration to require unmarked dereference error at line8 plus exit1, no allow_dead_code flag. POSIX case needed because mysh uses /bin/sh; should_fail directive must be removed for default command. Updated head095ef553e92deaae063b3684ea3172128e666785 changes tests/registration only; tool rule unchanged. Second fresh Build still needed. Historical raw status/verdict unchanged.

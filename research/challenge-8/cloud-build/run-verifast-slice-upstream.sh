@@ -15,8 +15,8 @@ stock="$work/verifast-26.10"
 deps="$work/vfdeps-adf88dc"
 deadline=${SMALLSORT_DEADLINE_EPOCH:?}
 base=0a83dba42db7ce0b445034ece5298afe980e57dc
-head=1ef8474610274bbf9d0652613ac2cabbb1fc476b
-tree=f21bda99968f8dc7fee4de3303768b0ecb4ddf55
+head=095ef553e92deaae063b3684ea3172128e666785
+tree=54e80209593942d1381283f71fa916c02fa4ac57
 rustc_commit=f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f
 stock_sha=5ad2a65997457fd5996a27f93107ef7e52c90c0d12b63b6e67f7acbc73e90efd
 deps_sha=8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580
@@ -171,6 +171,7 @@ CONDITIONAL
 # Baseline build uses exact base translator. Test bytes stay the candidate's.
 cp "$candidate/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" "$work/candidate-translator.ml"
 git -C "$candidate" show "$base:src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" > "$candidate/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
+[[ -z "$(git -C "$candidate" diff "$base" --name-only -- src bin)" ]] || exit 2
 run_stage baseline-build 600 "$candidate/src" split make build NUMCPU=4 WITHOUT_LABLGTK=1
 sha256sum "$candidate/bin/verifast" > "$all/baseline-binary.sha256"
 baseline_rc=0
@@ -185,10 +186,10 @@ sha256sum "$all/compiler-slice-mod.rs" > "$all/compiler-slice-source.sha256"
 mkdir -p "$all/cases/slice-binding"
 cp "$candidate/tests/rust/safe_abstraction/"slice_as_mut_ptr*.rs "$all/cases/slice-binding/"
 run_stage positive 120 "$candidate/tests/rust/safe_abstraction" split "$candidate/bin/verifast" -dump_ast_with_locs "$all/cases/slice-binding/positive.ast" slice_as_mut_ptr.rs
-run_stage negative-marked 120 "$candidate/tests/rust/safe_abstraction" split "$candidate/bin/verifast" -allow_should_fail slice_as_mut_ptr_no_init.rs
 negative_rc=0
 run_stage negative-diagnostic 120 "$candidate/tests/rust/safe_abstraction" split "$candidate/bin/verifast" slice_as_mut_ptr_no_init.rs || negative_rc=$?
 [[ "$negative_rc" == 1 ]] || exit 3
+[[ "$(cat "$all/negative-diagnostic.stdout.log" "$all/negative-diagnostic.stderr.log")" == *'slice_as_mut_ptr_no_init.rs(8,'*'): error: No matching heap chunks:'* ]] || exit 3
 run_stage positive-mir 120 "$candidate/tests/rust/safe_abstraction" split "$candidate/bin/vf-rust-mir-exporter" slice_as_mut_ptr.rs "--sysroot=$compiler_sysroot" --crate-type lib
 run_stage positive-mir-decode 60 "$candidate" split capnp decode "$candidate/src/rust_frontend/vf_mir/vf_mir.capnp" VfMir < "$all/positive-mir.stdout.log"
 snapshot make-test-before.txt
