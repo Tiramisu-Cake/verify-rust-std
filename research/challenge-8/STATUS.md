@@ -1,3 +1,9 @@
+# VeriFast maintainer — slice pointer binding candidate I
+
+**READY_FOR_INTEGRATION_REVIEW** for tool `b6cb276afd13107c2a90ca50acbb12ff0a992dd8`, profile `verifast-slice-as-mut-ptr-native-c3-20261011-i`. Independent semantic and fresh raw reviews completed. Same-binary Builds5cb5b5d3/d7e340fc cover slice53/53/63, native196/485, nine-selector141/C4370/composition466 PASS and required controls. Both raw CloudFAILURE histories remain unchanged; full corrected runner0371f4f8 UNRUN. [Checkpoint](cloud-build/verifast-slice-binding-integration/END-CHECKPOINT.md), [matrix](cloud-build/verifast-slice-binding-integration/GATE-MATRIX.md), [assessment](cloud-build/verifast-slice-binding-integration/ASSESSMENT.json), [commands](cloud-build/verifast-slice-binding-integration/REPRODUCE.md). Caller/publicZSTguard/nativeC4+select/fullsort4/O23/inherited assumptions and owner adoption remainOPEN. OwnledgerCLOSED816/3600;2784expire; ownrequest/reservations:none. Latest30min extension is package/checkpoint-only; no automatic continuation.
+
+## Preserved historical H status
+
 # VeriFast maintainer — reviewed native/ZST compatible candidate
 
 **READY_FOR_INTEGRATION_REVIEW** for tool `46181aff379a5d4231cc51814cfe3732bda21c03`, profile `verifast-native-zst-c3-integration-20261011-h`. Reviewed Rust ZST semantics and exact native C1/C4 admission ported onto unchanged Bool C3 kernel/posts/CURRENT. Fresh Build47ee47d9: nativeC1 196/nativeC4 485 statements; nine-body selector141/boundedC4 370/first-select composition466 PASS; all addressed VC/admission/cleanup/lifetime/pointer/MDnew/model controls reviewed. Supplemental15f28723 closes unchanged C/C++ controls with -shared on identical binary/sevenpins. Primary runner03c2f4e; supplement491a98e; both Cloud FAILURE and raw unaccepted diagnostic history preserved. Separate maintainer assessment is review readiness, not owner adoption.
