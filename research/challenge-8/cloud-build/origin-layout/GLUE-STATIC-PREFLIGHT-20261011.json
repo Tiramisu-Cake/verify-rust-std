@@ -90,7 +90,6 @@
     "research/challenge-8/merge/stock-26.10/run.sh": "fcf5ccfcefbce8c479e135da5221ad5e4da0fbc349cadd7a0e9cd4cf03f2dbf1"
   },
   "proof_infra_closure_sha256": {
-    "research/challenge-8/cloud-build/run-merge.sh": "a2a436543991dfa078174b90a37478ea0a247f6781b79189f3fafaf1f76a3127",
     "library/core/src/slice/sort/shared/mod.rs": "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8",
     "library/core/src/slice/sort/shared/smallsort.rs": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
     "research/challenge-8/cloud-build/origin-layout/BUILD-MODE.json": "e58b65567aa2fe6b1828faaf92bdbe13c2f89173bdb652fda4804faef672d6a5",
@@ -99,18 +98,19 @@
     "research/challenge-8/cloud-build/origin-layout/SELECTED-PROFILE.json": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
     "research/challenge-8/cloud-build/origin-layout/compile-preflight.sh": "085ef017df70f218c911ed90aab0cb9de9d0a6f113392099849c3e66a38ff27d",
     "research/challenge-8/cloud-build/origin-layout/compiler-layout.rs": "9c93e94f7b5a49488313d0964221de40f58b70962f771d2f82c4f2344071a086",
-    "research/challenge-8/cloud-build/origin-layout/concrete-consumer.py": "7f7c0262de4a52af0af9af8348ed2cf939f22c0a4a36b158f7597520607edefc",
+    "research/challenge-8/cloud-build/origin-layout/concrete-consumer.py": "9ea1d1b8e5a017859c33073c8b0d4078063baa52b7fcf01d82b683c34ba69c96",
     "research/challenge-8/cloud-build/origin-layout/concrete-drop-body.py": "fdab4b5ffe93a0e19fd65ca1ed03dd23894340cebb5d735d67a8a45c1cdecbe8",
     "research/challenge-8/cloud-build/origin-layout/glue-observation.patch": "1bb2ee700de2a70938633a237d3a7dd4c2877da472012195ac340b22240a8819",
     "research/challenge-8/cloud-build/origin-layout/guard-layout-admission.py": "56c52f07195d7248ee3eae6de2ee578e6f4181b203db4031cda2b460a00d1ee0",
     "research/challenge-8/cloud-build/origin-layout/guard-layout.patch": "16476ac7e615831bfd49cec3efdcefd1d76eab1a57f2df47b97f43fb8d6a1d74",
-    "research/challenge-8/cloud-build/origin-layout/onecell-caller-composition.py": "66495948d86c90264284d8c79dfef5a5d95fca8eea3b82be615e007f5fb8ed95",
+    "research/challenge-8/cloud-build/origin-layout/onecell-caller-composition.py": "a2c6a09060e7694416e6cadb02bd6f95074f648543e2fc029a9054685d2832a9",
     "research/challenge-8/cloud-build/origin-layout/onecell-drop-interface.py": "a8a8c6cb80304f6b4079b9c6be5ac2c4e3ecab993752ce3b592bd19e09ddc170",
-    "research/challenge-8/cloud-build/origin-layout/onecell-selected-drop.py": "bb57409310356344e0be58f9e967fe88c0cca7b15a8673971a362edc816f24eb",
+    "research/challenge-8/cloud-build/origin-layout/onecell-selected-drop.py": "fa86e437085d07354d5cbac0ba169adfe220ded81fcf7840b0017bd81703c3db",
     "research/challenge-8/cloud-build/origin-layout/selected-drop.patch": "57bab179dc11366369689c0980209c2e76acf82339a346b02e1cc99fdfbb610a",
     "research/challenge-8/cloud-build/origin-layout/unit-layout.patch": "00c7f9310ca30e3403daabdfe8e7d4c8c13aa84e78434acade309c98faadc68a",
     "research/challenge-8/cloud-build/origin-layout/unit-name.c": "7801d14e98a51cf3287eb07277f4787597221a10c76878f75f1aeecc7028b859",
     "research/challenge-8/cloud-build/origin-layout/unit-name.cpp": "a55870423300b30247663915384f30717151c987858a4e0d9d5a625a731d77b9",
+    "research/challenge-8/cloud-build/run-merge.sh": "a2a436543991dfa078174b90a37478ea0a247f6781b79189f3fafaf1f76a3127",
     "research/challenge-8/merge/cloud-build/callback-destination-frame.py": "fb958b7753f890b834263fdb520da3e22e7b0857ba0b26a0453d0fe714bbb48e",
     "research/challenge-8/merge/cloud-build/guard-geometry-audit.py": "488923c804e722c450b250e7a4c53d873e84eb7a6e667f31a97a2c95c809c429",
     "research/challenge-8/merge/cloud-build/merge-audit.py": "cc05557994be4db8491884287cd53a6c931b945dbef4f9f81d4b6d8567e567ce",
@@ -190,5 +190,21 @@
   "mode": {
     "schema": "merge-bridge-build-mode-v1",
     "mode": "selected-drop-minimal"
+  },
+  "runner_identity_preflight": {
+    "transitive_selected_campaign": "PASS_STATIC_EXACT_SUPPORTED_V2_WITH_V4_HISTORY",
+    "files": [
+      "concrete-consumer.py",
+      "onecell-caller-composition.py",
+      "onecell-selected-drop.py"
+    ],
+    "hash_and_receipt_guards_preserved": true,
+    "compiled_tool_profile_unchanged": true
+  },
+  "saved_build_binding": {
+    "build_id": "057dfa45-cae0-491d-876e-4a5d47ed9c2d",
+    "archive_sha256": "10370363985e30c716d492e9f7d8f8c40c9dd593c5bbd8a4b3dc1d77981cb27d",
+    "compilation_stages": "ALL_ZERO",
+    "proof_consumer": "NOT_RUN_PROFILE_ADMISSION"
   }
 }

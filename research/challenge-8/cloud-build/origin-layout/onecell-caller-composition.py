@@ -23,7 +23,18 @@ ONECELL = HERE / "onecell-drop-interface.py"
 CONSUMER = HERE / "concrete-consumer.py"
 CASES = ("positive", "after_call_current_false", "caller_entry_false",
          "receiver_origin_probe")
-PROFILE = ("experimental-merge-selected-drop-receiver-v4" if os.environ.get("SMALLSORT_MERGE_PROFILE") else "experimental-merge-qualified-guard-onecell-v1")
+def _profile_identity() -> str:
+    selected = os.environ.get("SMALLSORT_MERGE_PROFILE")
+    if not selected:
+        return "experimental-merge-qualified-guard-onecell-v1"
+    profile = json.loads(Path(selected).read_text()).get("profile")
+    if profile not in ("experimental-merge-actual-glue-observation-v2",
+                       "experimental-merge-selected-drop-receiver-v4"):
+        raise RuntimeError("unsupported caller-composition experimental profile identity")
+    return profile
+
+
+PROFILE = _profile_identity()
 HELPER_NAME = b"checked_len1_body"
 CALL = b"        checked_len1_body(guard_ptr);\n"
 POINTER = b"        let guard_ptr = &mut gap_guard as *mut CopyOnDrop;\n"

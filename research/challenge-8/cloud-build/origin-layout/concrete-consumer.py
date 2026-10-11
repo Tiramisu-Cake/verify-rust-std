@@ -20,7 +20,18 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
 OLD = ROOT / "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell"
 SOURCE = ROOT / "library/core/src/slice/sort/shared/smallsort.rs"
-PROFILE = ("experimental-merge-selected-drop-receiver-v4" if os.environ.get("SMALLSORT_MERGE_PROFILE") else "experimental-merge-qualified-guard-onecell-v1")
+def _profile_identity() -> str:
+    selected = os.environ.get("SMALLSORT_MERGE_PROFILE")
+    if not selected:
+        return "experimental-merge-qualified-guard-onecell-v1"
+    profile = json.loads(Path(selected).read_text()).get("profile")
+    if profile not in ("experimental-merge-actual-glue-observation-v2",
+                       "experimental-merge-selected-drop-receiver-v4"):
+        raise RuntimeError("unsupported concrete-u64 experimental profile identity")
+    return profile
+
+
+PROFILE = _profile_identity()
 CASES = ("positive", "after_fbc_false", "after_recovery_false",
          "missing_held_owner", "double_physical_fbc")
 POST_FBC_LADDER = (
