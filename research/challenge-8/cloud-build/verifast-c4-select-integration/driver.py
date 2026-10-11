@@ -741,8 +741,8 @@ def run(a):
                         log.find("Verifying function '" + name + "'") < target
                         for name in selector_names)
                     exact_error = (len(row["errors"]) == 1 and
-                        re.search(r"verified/lib\.rs\(487,\d+(?:-\d+(?:,\d+)?)?\): error: Cannot prove condition",
-                                  row["errors"][0]) is not None)
+                        re.fullmatch(r"verified/lib\.rs\(487,19-55\): error: Assertion might not hold\. \(Cannot prove false\.\)",
+                                     row["errors"][0]) is not None)
                     row["intended_negative"] = (
                         "EXACT_TARGET_VC_OBSERVED" if row["exit"] in (1, 2) and
                         row["target_before_first_error"] and
