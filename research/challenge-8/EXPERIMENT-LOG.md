@@ -6677,3 +6677,5 @@ V3 ff7fb62b/16750582:381s, scopeArgs compile refusal, archivedbe8f9ec2e28910a37a
 ## 2026-10-11 merge actual glue continuation from7386469d
 
 Session14:03:11Z/main16:03:11Z/absolute16:33:11Z, fresh3600Cloudseconds; old314retired. Policyc7ca8c46 read/adoption1b9e3df3 matches origin/main. Scope and semantic/resource/gate rationale recorded in GLUE-NEXT-EXPERIMENT before implementation. Existing v4 boundednormal selectedmethod result and all historical failures remain; actualglue/panicNOT_RUN. Ownmerge/v2max2, no generalkernel/model or genericT/ZST permission.
+
+Glue observation attempt1 b1c43e12/81864fa4 FAILURE377s beforeexportercompile completion E0425 lib2775 missingterminator scope; archivec51d4009 allinventory/config/source/index/chunks verified. Observation andallproofcasesNOT_RUN. Directspan-argument setupcorrection46263ae2 -> observationv2 profile, fresh fullstaticreplay before nextBuild; failurev1 preserved/no proofcredit.
