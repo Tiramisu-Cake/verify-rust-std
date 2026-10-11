@@ -934,3 +934,18 @@ upper/alignment/footprint/resources unchanged. Profile experimental/unaccepted.
 No callable summary, fullactualsort4, stdcaller applicability or genericactual
 sort4ZST safety proved. Connected nativeC4 preparing, NOT_RUN; old suppliedC1→C4
 independent. [Fresh evidence](cloud-build/sort4-native-c1-bound/FRESH-ED016F05-REVIEW.md).
+
+
+## 2026-10-11 fresh native C1–C4 guarded fragment
+
+Build3b7431bb, proof=infra8de4cda418c4772009359fbb90e7e7f34836cca0: verifier0,
+485 statements; all503 registered physical locations executed, including real
+ZST/len<8 returns. Four actual C1–C4 expressions, sequential CURRENT native
+resources, full normal/four direct-unwind/unit/free/leak posts and paired
+refinement pass. Five false controls reject at normal577/unwind387/442/504/561;
+source/extrabody/malformed/mixed/default-off admissions retained.
+Rust ZST repair/model/C1 gates freshly repeated. Profile experimental/unaccepted;
+existing scratch-caller T:FreezeMarker domain, no full actual sort4/caller proof
+or generic ZST safety. Earlier supplied C1→C4 PASS remains separate.
+See [fresh review](cloud-build/sort4-native-c1-bound/FRESH-3B7431BB-REVIEW.md)
+and [review package](cloud-build/sort4-native-c1-bound/MAINTAINER-NATIVE-C4-REVIEW.md).

@@ -7075,3 +7075,37 @@ native sourcepair/MIR/refinement/preAST captured, intentional beforeproofrefusal
 Full CURRENT native cleanup posts present on normal andeachunwind, not yetproved.
 428seconds; total1165/3600,2435remaining. Experimental/unaccepted; no callercredit.
 [Full raw review](cloud-build/sort4-native-c1-bound/FRESH-55F876C4-REVIEW.md).
+
+
+## 2026-10-11 native C4 bound candidate frontend blocker
+
+Buildd128e368/proof=infraa868bfd3: fresh ZST model and native C1 gates pass;
+source-pinned C4 normal/readonly MIR/refinement and preAST identities match.
+However, C4 positive and all5 false controls stop before admission/postAST at
+`complete native AST/HRTB inventory`; classify INCONCLUSIVE, with no proof
+negative. Four admission refusals behave as intended; default-off stays
+unadmitted with a parse error. Profile remains experimental/unaccepted, with no
+proof/caller credit. 466sec; total1631/3600. Independently checked1041
+inventory entries. [Review](cloud-build/sort4-native-c1-bound/FRESH-D128E368-REVIEW.md).
+
+
+## 2026-10-11 native C4 inventory count diagnostic
+
+Build310f38b5/proof=infra736691964: fresh ZST model and native C1 gates pass;
+C4 paired source/MIR/refinement/preAST remain pinned. Inventory prints body284,
+locals239, projections0, epilogue0, HRTB F:T against stale body gate282; positive
+and five false controls stop before admission/postAST, so INCONCLUSIVE, not proof
+negatives. Admission controls retained. This is the old a1be12ce candidate, not
+corrected 8de4cda/66e266d3; its fresh result is recorded in the next entry. No proof/caller credit.
+430sec; total2061/3600,1539remaining. [Review](cloud-build/sort4-native-c1-bound/FRESH-310F38B5-REVIEW.md).
+
+
+## 2026-10-11 corrected native C4 fragment VF0 candidate
+
+Build3b7431bb/proof=infra8de4cda4: fresh model and native C1 prerequisite gates
+pass; C4 corrected 284-root inventory admits, positive four-call fragment VF0
+(485 statements), normal plus all4 direct-unwind false controls hit intended
+assertions, and admission controls retain intended refusals. Paired source/fullMIR/
+refinement/AST identities unchanged. Diagnostic only: external caller is NOT_PROVED,
+C1-to-C4 execution NOT_RUN, profile unaccepted and no proof credit. 465sec;
+total2526/3600,1074remaining. [Review](cloud-build/sort4-native-c1-bound/FRESH-3B7431BB-REVIEW.md).
