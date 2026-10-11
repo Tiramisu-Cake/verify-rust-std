@@ -1,10 +1,10 @@
 {
-  "classification": "PASS_STATIC_SOURCE_PROFILE_RUNNER_OVERLAY_CLOSURE_ONLY",
+  "classification": "PASS_STATIC_V4_PROFILE_CHAIN_RUNNER_OVERLAY_CLOSURE_ONLY",
   "accepted": false,
   "compiler_or_extraction_or_proof_executed": false,
-  "profile": "experimental-merge-actual-glue-observation-v3",
-  "profile_sha256": "dde4b505d46e62adbda0631b043f7b221cf19c2ada0594189467b361e936b623",
-  "tool_commit": "bab129ecece319606aea658aa85eefe2925427e9",
+  "profile": "experimental-merge-actual-glue-observation-v4",
+  "profile_sha256": "ede5bd5e338703a6c1f99e6ee0dfe422115241fef9a7a9fadc4a9f9e71f63e1b",
+  "tool_commit": "54407e62230ad8b2b5e211d1551f26ae4378b179",
   "ordered_patch_chain": [
     {
       "path": "research/challenge-8/merge/overnight/wrapping.patch",
@@ -52,7 +52,7 @@
     },
     {
       "path": "research/challenge-8/cloud-build/origin-layout/glue-observation.patch",
-      "sha256": "7c9a095c5ba46bc863bb23770268c8c79e01fc732eec79045a39e1d05389f9ee"
+      "sha256": "d0d17314d31c3b2ff481e43d28dbf604cc60382152fc63fddbd05970727e988b"
     }
   ],
   "source_sha256": {
@@ -63,7 +63,7 @@
     "src/frontend/ast.ml": "380a0bd63476849138268eaf7f7c2f8563af4231dbd1ab61e86a00fd13688afe",
     "src/SExpressionEmitter.ml": "4e99d9702ca691e498601ffeeccc930f465841404cde2a28e00eb196880352a7",
     "src/verify_expr.ml": "8883a76d802cca15bb362f251de683d2c8216c058c3aed98d6bec8aa471c6dd5",
-    "src/rust_frontend/vf_mir_exporter/src/lib.rs": "80781d488e78cbca9a57ea79c40d0665caa53653643c87f1db3036199e3036ff",
+    "src/rust_frontend/vf_mir_exporter/src/lib.rs": "171baa00aeedb9e5258c8bf4c162c5ff9fc62ddc71824e506cb4376647fc3077",
     "src/rust_frontend/vf_mir/vf_mir.capnp": "bdc86568487604b68eb4c4fb2d676fc510cec55344fc1ce0b1d7abcdb4b7c85d",
     "src/rust_frontend/vf_mir_translator/rust_parser.ml": "8ed673086183323058aac5e0e21399e4532d1e74b97c5d41105827e8643107bd",
     "bin/rust/prelude_core.rsspec": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
@@ -73,7 +73,9 @@
     "research/challenge-8/networks/prove.py": "557106c6aed4ac5a31e38425dea0c11b13e85313407d2f1864f3b1b3b578a2b5",
     "research/challenge-8/merge/stock-26.10/prove.py": "31d48ef14fa2bed7887512b5771dcfb19caabc5d8e7b6bf164979dfabfc70924",
     "research/challenge-8/merge/stock-26.10/functional-prove.py": "10d45964b25e7b16b560c918363240c8ed4feee47ac40b4a8c1be415fc1a26c9",
-    "research/challenge-8/merge/overnight/run.sh": "fe500004a125fe6ff1fa3d4032030ca335252fe1f5a67ef0111341f4af028c6b",
+    "research/challenge-8/merge/stock-26.10/order-prove.py": "9c8728f80d3eb0804a290d433be7dd10b3f4462dc58d1a6fd832b1f3711834b6",
+    "research/challenge-8/merge/stock-26.10/run.sh": "fcf5ccfcefbce8c479e135da5221ad5e4da0fbc349cadd7a0e9cd4cf03f2dbf1",
+    "research/challenge-8/merge/overnight/run.sh": "433c0a003610b3699144320bcd3ef13997f644614e0807d2ca702092daf07fcf",
     "research/challenge-8/merge/overnight/build.sh": "dbe38dbdf0a4eb360b8568dcaaa7786beadaba7aeb7849b4a8ab4c905060ea03",
     "research/challenge-8/merge/overnight/pointer-prove.py": "6c9f76e2f254a71c4ac1bd4dbef6ffdfc2893c972a46af31cc5e7b7dcc728905",
     "research/challenge-8/merge/overnight/actual-prepare.py": "8ef3c43fd13de893797f2e0cee84baa7df2963faf79b3a17da5bbc12ed7572df",
@@ -85,27 +87,25 @@
     "research/challenge-8/merge/overnight/m2-admission-prove.py": "db2adc91c9080fc97d906ead363460ef901863a0cdc4603303f68ab098db3711",
     "research/challenge-8/merge/overnight/hrtb-admission-certificate.py": "fe3d94947cd5122767ee1cd99c8db29592a0e9723d74d446b1745ee274d40d34",
     "research/challenge-8/merge/overnight/native-prove.py": "b89997128d336e8bfe8f50c1c8c276f410c31fc7a8f9a7f4a49ff260b7926108",
-    "research/challenge-8/merge/overnight/usize-multiple-admission.py": "ded2c713e00e42a13fd8019b6ef3a2c1a992eace1ae7049c327643852dca92aa",
-    "research/challenge-8/merge/stock-26.10/order-prove.py": "9c8728f80d3eb0804a290d433be7dd10b3f4462dc58d1a6fd832b1f3711834b6",
-    "research/challenge-8/merge/stock-26.10/run.sh": "fcf5ccfcefbce8c479e135da5221ad5e4da0fbc349cadd7a0e9cd4cf03f2dbf1"
+    "research/challenge-8/merge/overnight/usize-multiple-admission.py": "ded2c713e00e42a13fd8019b6ef3a2c1a992eace1ae7049c327643852dca92aa"
   },
   "proof_infra_closure_sha256": {
     "library/core/src/slice/sort/shared/mod.rs": "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8",
     "library/core/src/slice/sort/shared/smallsort.rs": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
     "research/challenge-8/cloud-build/origin-layout/BUILD-MODE.json": "e58b65567aa2fe6b1828faaf92bdbe13c2f89173bdb652fda4804faef672d6a5",
-    "research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json": "dde4b505d46e62adbda0631b043f7b221cf19c2ada0594189467b361e936b623",
+    "research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json": "ede5bd5e338703a6c1f99e6ee0dfe422115241fef9a7a9fadc4a9f9e71f63e1b",
     "research/challenge-8/cloud-build/origin-layout/LAYOUT-PINS.json": "80b96dc336463472445c695626a4cc93bb7780a681134b6031f07bb21b079e70",
     "research/challenge-8/cloud-build/origin-layout/SELECTED-PROFILE.json": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
     "research/challenge-8/cloud-build/origin-layout/compile-preflight.sh": "085ef017df70f218c911ed90aab0cb9de9d0a6f113392099849c3e66a38ff27d",
     "research/challenge-8/cloud-build/origin-layout/compiler-layout.rs": "9c93e94f7b5a49488313d0964221de40f58b70962f771d2f82c4f2344071a086",
-    "research/challenge-8/cloud-build/origin-layout/concrete-consumer.py": "883537598271ce1796928176557de929ddc15bc188f90601730391b282994910",
+    "research/challenge-8/cloud-build/origin-layout/concrete-consumer.py": "940c7a81fc7c8513f9ba6789ed7cec8f3950d94a5d50efa18f812aab46349fbc",
     "research/challenge-8/cloud-build/origin-layout/concrete-drop-body.py": "fdab4b5ffe93a0e19fd65ca1ed03dd23894340cebb5d735d67a8a45c1cdecbe8",
-    "research/challenge-8/cloud-build/origin-layout/glue-observation.patch": "7c9a095c5ba46bc863bb23770268c8c79e01fc732eec79045a39e1d05389f9ee",
+    "research/challenge-8/cloud-build/origin-layout/glue-observation.patch": "d0d17314d31c3b2ff481e43d28dbf604cc60382152fc63fddbd05970727e988b",
     "research/challenge-8/cloud-build/origin-layout/guard-layout-admission.py": "56c52f07195d7248ee3eae6de2ee578e6f4181b203db4031cda2b460a00d1ee0",
     "research/challenge-8/cloud-build/origin-layout/guard-layout.patch": "16476ac7e615831bfd49cec3efdcefd1d76eab1a57f2df47b97f43fb8d6a1d74",
-    "research/challenge-8/cloud-build/origin-layout/onecell-caller-composition.py": "d2aede271d842abff7d2a41b17c75cee62fa02eb05f277a5dce231c2e6a11ff6",
+    "research/challenge-8/cloud-build/origin-layout/onecell-caller-composition.py": "34c9cbd63fb5cf0596c6495e35a7a8248056c3eb9989e69e2135ae4a36e7fa0c",
     "research/challenge-8/cloud-build/origin-layout/onecell-drop-interface.py": "a8a8c6cb80304f6b4079b9c6be5ac2c4e3ecab993752ce3b592bd19e09ddc170",
-    "research/challenge-8/cloud-build/origin-layout/onecell-selected-drop.py": "f8a6fa74310842b94928add57689119f5fcdc995ee4a5e2f98aa36166e89fe0a",
+    "research/challenge-8/cloud-build/origin-layout/onecell-selected-drop.py": "92f1f0572af32cbd485d6ba82cd8914d7cf8c01883404f19c7c3f77ced7e5cd9",
     "research/challenge-8/cloud-build/origin-layout/selected-drop.patch": "57bab179dc11366369689c0980209c2e76acf82339a346b02e1cc99fdfbb610a",
     "research/challenge-8/cloud-build/origin-layout/unit-layout.patch": "00c7f9310ca30e3403daabdfe8e7d4c8c13aa84e78434acade309c98faadc68a",
     "research/challenge-8/cloud-build/origin-layout/unit-name.c": "7801d14e98a51cf3287eb07277f4787597221a10c76878f75f1aeecc7028b859",
@@ -115,7 +115,7 @@
     "research/challenge-8/merge/cloud-build/guard-geometry-audit.py": "488923c804e722c450b250e7a4c53d873e84eb7a6e667f31a97a2c95c809c429",
     "research/challenge-8/merge/cloud-build/merge-audit.py": "cc05557994be4db8491884287cd53a6c931b945dbef4f9f81d4b6d8567e567ce",
     "research/challenge-8/merge/cloud-build/merge.sh": "c24a3cfe8a79d40480d250e9f946b7d58398dea448a214dc6a26cc225113adf8",
-    "research/challenge-8/merge/cloud-build/provider-overlays.py": "ae30c39a169aa0d05434fa23d6fb83e7703bacc04c487b9d10f23a9f396ec34b",
+    "research/challenge-8/merge/cloud-build/provider-overlays.py": "40969cf8886f70ae7cddffb425c0832f34eb33daced3026655dacb16bad9aaa8",
     "research/challenge-8/merge/cloud-build/selection.json": "379989a90b87cf0b6b60217ba6038f906914d70a41030c240e89d725a4780c09",
     "research/challenge-8/merge/cloud-build/selection.py": "f3bd119a5f3c96c0380993156569e3a50e736a5a8b4ff0450ed24dd390d15456",
     "research/challenge-8/merge/overnight/actual-prepare.py": "8f96ea92e43651c0952102236c76348dca8079ea96a8bab1bb24de4851e07ca5",
@@ -139,10 +139,10 @@
     "research/challenge-8/merge/overnight/guard-ownership/drop-geometry/prove.py": "eab5e6b8cf15e7e21f7dcbc66ce95ae7c40f8eea0d03aca1b3e54a9f52f08d7b",
     "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/PROFILE.json": "0b8cf55b0e7b5a1d0e0595b1483726459cb1d2f40264311e2014d3580ad189b8",
     "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/allocation-span.patch": "603ab250705fa9d83c94631f7570bd3e1cc7fc06187c35e6ae8465fcb5efca1b",
-    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/build-profile.sh": "1b2af5b4a428a94a4b84f4376151137ad460985430f4cf887a320fbb52590b23",
+    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/build-profile.sh": "900c7076d372b89d3cb5e7aae7db6b495cda8f6e013023a575b7079ad9baf900",
     "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/md_classifier.py": "b884b1f4166087449e8bd641bb5dee806bf8aa9c6e9a80d74878f17b756230e0",
     "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prepare.py": "eabf1bab391763238873e4cc52c435c708781144dfbdc6c946e34e4dfef006d1",
-    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "cdf1d62bbe1238adbc8e0ae8c4140ee72b12687a2c61750c58bfd1018af331c5",
+    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "eeee796c35b5cde39bab034763b04079b434ad2fc1613fc756beb22f2d7ad0be",
     "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/span-controls.py": "1c68614864f83659eff2212d4ab9daca30d4a38c7f3fb5b1f622a8be91e90f7f",
     "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/span-controls.rs": "a91d67c954ea99b129c3f7e8b24b0454b079dbcf7cbda250dabc1a7756fc3406",
     "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/tracked-md.patch": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6",
@@ -162,7 +162,7 @@
     "research/challenge-8/merge/overnight/or-join-liveness/run-seven.sh": "a7347b3b22f1d818a0c936060c1847b3fedb1368f76d597433f24538383774c6",
     "research/challenge-8/merge/overnight/panic-macro-admission.py": "a805e9235f327edc808ee007735e755d37cb7041a2b242eb83061f24bba76caf",
     "research/challenge-8/merge/overnight/pointer-prove.py": "cb6d43c972d1c19f60b1cd355529f71fb6e68a9fa9242e4176814acbed8f8b96",
-    "research/challenge-8/merge/overnight/run.sh": "1e13417ffc6f5998d65f7238b96a93251a25a785d3d6530f2483d6b718435cb8",
+    "research/challenge-8/merge/overnight/run.sh": "b0ac3c0bb7dbfc857c83bd6c95aa0970a7aefad895b36959a502fdb9c11dae1f",
     "research/challenge-8/merge/overnight/stack-address-admission.py": "9ecce61ca3886f2b9e21bb03d35ce6312da5eb405ff35a0bb37211eb2c49e974",
     "research/challenge-8/merge/overnight/stack-address-controls-prepare.py": "483f7e980c1a5e02eb491e4c5ab6353ab5a73d9a5abdaa192848ca4bc5452d3b",
     "research/challenge-8/merge/overnight/stack-address.patch": "f1444866322bf06b40e078a381a69acea7ccd92b613f7dc903d289044d8cba64",
@@ -192,12 +192,23 @@
     "mode": "selected-drop-minimal"
   },
   "runner_identity_preflight": {
-    "transitive_selected_campaign": "PASS_STATIC_EXACT_SUPPORTED_V3_WITH_V2_V4_HISTORY",
+    "classification": "PASS_STATIC_EXACT_SUPPORTED_V4_WITH_V3_V2_AND_SELECTED_DROP_V4_HISTORY",
     "files": [
-      "concrete-consumer.py",
-      "onecell-caller-composition.py",
-      "onecell-selected-drop.py"
+      "research/challenge-8/cloud-build/origin-layout/compile-preflight.sh",
+      "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/build-profile.sh",
+      "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py",
+      "research/challenge-8/cloud-build/origin-layout/concrete-consumer.py",
+      "research/challenge-8/cloud-build/origin-layout/onecell-caller-composition.py",
+      "research/challenge-8/cloud-build/origin-layout/onecell-selected-drop.py"
     ],
+    "sha256": {
+      "compile-preflight.sh": "085ef017df70f218c911ed90aab0cb9de9d0a6f113392099849c3e66a38ff27d",
+      "build-profile.sh": "900c7076d372b89d3cb5e7aae7db6b495cda8f6e013023a575b7079ad9baf900",
+      "prove.py": "eeee796c35b5cde39bab034763b04079b434ad2fc1613fc756beb22f2d7ad0be",
+      "concrete-consumer.py": "940c7a81fc7c8513f9ba6789ed7cec8f3950d94a5d50efa18f812aab46349fbc",
+      "onecell-caller-composition.py": "34c9cbd63fb5cf0596c6495e35a7a8248056c3eb9989e69e2135ae4a36e7fa0c",
+      "onecell-selected-drop.py": "92f1f0572af32cbd485d6ba82cd8914d7cf8c01883404f19c7c3f77ced7e5cd9"
+    },
     "hash_and_receipt_guards_preserved": true,
     "compiled_tool_profile_unchanged": false
   },
@@ -206,5 +217,49 @@
     "archive_sha256": "10370363985e30c716d492e9f7d8f8c40c9dd593c5bbd8a4b3dc1d77981cb27d",
     "compilation_stages": "ALL_ZERO",
     "proof_consumer": "FRESH_SELECTED7_HELPER4_SMOKES_PASS_OBSERVATION_V2_ONLY"
+  },
+  "static_validation": {
+    "candidate_tool_head": "54407e62230ad8b2b5e211d1551f26ae4378b179",
+    "profile_effective_tool_commit_match": true,
+    "clean_candidate_worktree": true,
+    "ordered_12_patch_hashes_match": true,
+    "trusted_source_pins_match": 12,
+    "provider_transform_count": 18,
+    "provider_transform_order": [
+      "research/challenge-8/networks/prove.py",
+      "research/challenge-8/merge/stock-26.10/prove.py",
+      "research/challenge-8/merge/stock-26.10/functional-prove.py",
+      "research/challenge-8/merge/stock-26.10/order-prove.py",
+      "research/challenge-8/merge/stock-26.10/run.sh"
+    ],
+    "provider_overlay_hashes_recomputed_in_memory": true,
+    "python_ast_files": [
+      "research/challenge-8/cloud-build/origin-layout/concrete-consumer.py",
+      "research/challenge-8/cloud-build/origin-layout/onecell-caller-composition.py",
+      "research/challenge-8/cloud-build/origin-layout/onecell-selected-drop.py",
+      "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py"
+    ],
+    "bash_n_files": [
+      "research/challenge-8/merge/overnight/run.sh",
+      "research/challenge-8/merge/overnight/build.sh",
+      "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/build-profile.sh",
+      "research/challenge-8/cloud-build/origin-layout/compile-preflight.sh"
+    ],
+    "recipe_closure_files": 96,
+    "toolchain_executed": false,
+    "proof_executed": false,
+    "saved_replay_comparison": {
+      "path": "/tmp/merge-glue-static-replay-baseline-20261011",
+      "classification": "PASS_REPLAY_TARGET_MATCHES_TOOL_HEAD_AND_ALL_12_PROFILE_SOURCE_PINS",
+      "matched_trusted_sources": 12,
+      "tool_head": "54407e62230ad8b2b5e211d1551f26ae4378b179",
+      "profile_effective_tool_commit": "54407e62230ad8b2b5e211d1551f26ae4378b179",
+      "patch_reapplication_attempt": "FAILED_AS_ALREADY_APPLIED_ON_TEMPORARY_COPY",
+      "note": "Direct SHA256 comparison of all twelve profile source paths in saved replay, isolated candidate tool HEAD, and current GLUE-PROFILE passed. The temporary-copy reapplication was unnecessary because both final patches were already present; no original replay data was modified."
+    }
+  },
+  "historical_v3_receipt": {
+    "path": "research/challenge-8/cloud-build/origin-layout/GLUE-STATIC-PREFLIGHT-V3-20261011.json",
+    "preserved_unchanged": true
   }
 }
