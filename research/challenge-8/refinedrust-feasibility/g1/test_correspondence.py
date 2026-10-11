@@ -8,7 +8,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from correspondence import inspect_outputs
+from correspondence import inspect_outputs, _radium_definition, _radium_inventory, _radium_call, _cleanup_outcomes
 
 
 SOURCE = Path(__file__).resolve().parents[4] / "library/core/src/slice/sort/shared/smallsort.rs"
@@ -134,7 +134,8 @@ class CorrespondenceTests(unittest.TestCase):
         self.assertFalse(result["admission_complete"])
         self.assertTrue(result["unproved"])
         self.assertTrue(all(c["status"] == "OBSERVED" for c in result["checks"] if c["id"].startswith("event:")))
-        self.assertEqual("OBSERVED", next(c for c in result["checks"] if c["id"] == "radium_unwind_paths")["status"])
+        self.assertEqual("UNKNOWN", next(c for c in result["checks"] if c["id"] == "radium_unwind_paths")["status"])
+        self.assertEqual("UNKNOWN", next(c for c in result["checks"] if c["id"] == "radium_output_contract")["status"])
 
     def test_missing_map_is_inconclusive(self) -> None:
         self.receipt["correspondence"] = {}
@@ -207,6 +208,128 @@ class CorrespondenceTests(unittest.TestCase):
         result = inspect_outputs(self.root, self.receipt)
         self.assertEqual("STOP", result["verdict"])
         self.assertEqual("STOP", next(c for c in result["checks"] if c["id"] == "late_unwind")["status"])
+
+    def mapped_insert_tail(self):
+        """Only a synthetic selected-body map, never a complete admission map."""
+        self.receipt['body_map'] = {'insert_tail': {
+            'source_line': next(i for i, s in enumerate(SOURCE.read_text().splitlines(), 1)
+                                if s.startswith('unsafe fn insert_tail<')),
+            'mir_file': str(self.mir.relative_to(self.root)), 'mir_sha256': digest(MIR.encode()),
+            'mir_header': MIR.splitlines()[0],
+            'radium_file': str(self.radium.relative_to(self.root)), 'radium_sha256': digest(RADIUM.encode()),
+            'radium_definition': 'insert_tail_def',
+        }}
+
+    def replace_radium(self, text):
+        self.radium.write_text(text)
+        for entry in self.receipt['correspondence'].values():
+            entry['radium_sha256'] = digest(text.encode())
+        for entry in self.receipt.get('body_map', {}).values():
+            entry['radium_sha256'] = digest(text.encode())
+
+    def check_status(self, result, name):
+        return next(c for c in result['checks'] if c['id'] == name)['status']
+
+    def test_inline_inventory_and_events_agree(self):
+        definition = _radium_definition(RADIUM, 'insert_tail_def')
+        calls, error = _radium_inventory(definition)
+        self.assertEqual('', error)
+        self.assertEqual(6, len(calls))
+        self.assertEqual({'FnMut_loc', 'read_loc', 'copy_loc', 'CopyOnDrop_DropGlue_loc'},
+                         {c['binding'] for c in calls})
+        self.mapped_insert_tail()
+        result = inspect_outputs(self.root, self.receipt)
+        gate = next(c for c in result['checks'] if c['id'] == 'callees:insert_tail')
+        self.assertEqual(6, gate['evidence']['call_count'])
+        self.assertEqual('INCONCLUSIVE', gate['status'])  # no binding inventory
+
+    def test_comment_and_string_calls_do_not_count(self):
+        text = RADIUM.replace('f_init :=', '(* CallS bogus (* nested *) [] *)\n f_init :=')
+        calls, error = _radium_inventory(_radium_definition(text, 'insert_tail_def'))
+        self.assertEqual('', error)
+        self.assertEqual(6, len(calls))
+        self.assertFalse(_radium_call('(* CallS fake [] *) "CallS fake"', 'fake'))
+
+    def test_unknown_call_and_unbalanced_arguments_fail_closed(self):
+        for replacement in ('CallS (Var FnMut_loc)', 'CallSNew FnMut_loc',
+                            'CallS FnMut_loc [', 'CallS FnMut_loc'):
+            with self.subTest(replacement=replacement):
+                text = RADIUM.replace('CallS FnMut_loc [] [] [@{expr} ] None (Goto "_bb1") (Goto "_bb10")', replacement)
+                calls, error = _radium_inventory(_radium_definition(text, 'insert_tail_def'))
+                self.assertTrue(error)
+                self.assertEqual([], calls)
+                self.mapped_insert_tail()
+                self.replace_radium(text)
+                result = inspect_outputs(self.root, self.receipt)
+                self.assertNotEqual('PASS', result['verdict'])
+                self.assertEqual('INCONCLUSIVE', self.check_status(result, 'callees:insert_tail'))
+
+    def test_missing_binding_and_unrelated_definition_do_not_resolve(self):
+        self.mapped_insert_tail()
+        targets = self.root / 'output/unrelated.v'
+        targets.write_text('Definition unrelated := True.\n')
+        edges = [{'caller': 'insert_tail', 'binding': name, 'resolution': 'translated_body',
+                  'resolved_file': 'output/unrelated.v', 'resolved_sha256': digest(targets.read_bytes()),
+                  'resolved_definition': 'unrelated'}
+                 for name in ('FnMut_loc', 'read_loc', 'copy_loc', 'CopyOnDrop_DropGlue_loc')]
+        self.receipt['callee_inventory'] = edges
+        result = inspect_outputs(self.root, self.receipt)
+        self.assertNotEqual('PASS', result['verdict'])
+        self.assertEqual('UNKNOWN', self.check_status(result, 'callees:insert_tail'))
+        self.receipt['callee_inventory'] = edges[:-1]
+        result = inspect_outputs(self.root, self.receipt)
+        self.assertEqual('INCONCLUSIVE', self.check_status(result, 'callees:insert_tail'))
+
+    def test_continuation_claims_cannot_qualify_unknown_writer(self):
+        mutations = {
+            'swapped': RADIUM.replace('(Goto "_bb1") (Goto "_bb10")', '(Goto "_bb10") (Goto "_bb1")'),
+            'normal_only_cleanup': RADIUM.replace('(Goto "_bb4") (Goto "_bb12")', '(Goto "_bb12") (Goto "_bb4")'),
+            'bypass_drop': RADIUM.replace('(Goto "_bb4") (Goto "_bb12")', '(Goto "_bb4") (Goto "_bb13")'),
+        }
+        for name, text in mutations.items():
+            with self.subTest(name=name):
+                self.replace_radium(text)
+                result = inspect_outputs(self.root, self.receipt)
+                self.assertEqual('UNKNOWN', self.check_status(result, 'radium_unwind_paths'))
+                self.assertNotEqual('PASS', result['verdict'])
+        # Even changing the map to call the normal argument "unwind" cannot
+        # turn UNKNOWN into OBSERVED. Only inspected pinned source can qualify it.
+        self.receipt['correspondence']['first_fnmut']['radium_unwind_bb'] = 1
+        result = inspect_outputs(self.root, self.receipt)
+        self.assertEqual('UNKNOWN', self.check_status(result, 'radium_unwind_paths'))
+
+    def test_missing_radium_drop_is_rejected_at_drop_event(self):
+        self.replace_radium(RADIUM.replace('"_bb12" := CallS CopyOnDrop_DropGlue_loc [] [] [@{expr} ] None (Goto "_bb13") (UnwindTerminate)',
+                                          '"_bb12" := Goto "_bb13"'))
+        result = inspect_outputs(self.root, self.receipt)
+        self.assertEqual('NOT_OBSERVED', self.check_status(result, 'event:late_guard_drop'))
+        self.assertNotEqual('PASS', result['verdict'])
+
+    def test_payload_projection_drop_is_stop(self):
+        bad = MIR.replace('bb5: {\n        return;', 'bb5: {\n        drop((_7.0: T)) -> [return: bb6, unwind: cleanup bb13];\n    }\n    bb6: {\n        return;')
+        self.mir.write_text(bad)
+        for entry in self.receipt['correspondence'].values():
+            entry['mir_sha256'] = digest(bad.encode())
+        result = inspect_outputs(self.root, self.receipt)
+        self.assertEqual('STOP', self.check_status(result, 'payload_drop'))
+
+    def test_all_mir_cleanup_exits_must_be_established(self):
+        blocks = {0: 'switchInt(_1) -> [0: bb1, otherwise: bb2];',
+                  1: 'drop(_8) -> [return: bb3, unwind terminate(cleanup)];',
+                  2: 'resume;', 3: 'resume;'}
+        self.assertEqual({False, True}, _cleanup_outcomes(blocks, 0, '_8'))
+        blocks[2] = 'goto -> bb99;'
+        self.assertEqual({True, None}, _cleanup_outcomes(blocks, 0, '_8'))
+        blocks[2] = 'goto -> bb2;'
+        self.assertEqual({True, None}, _cleanup_outcomes(blocks, 0, '_8'))
+        blocks[2] = '// resume;\nunsupported_terminal;'
+        self.assertEqual({True, None}, _cleanup_outcomes(blocks, 0, '_8'))
+
+    def test_call_outside_selected_blocks_cannot_disappear(self):
+        text = RADIUM.replace('f_init :=', 'CallS outside []\n f_init :=')
+        calls, error = _radium_inventory(_radium_definition(text, 'insert_tail_def'))
+        self.assertEqual([], calls)
+        self.assertIn('outside', error)
 
 
 if __name__ == "__main__":

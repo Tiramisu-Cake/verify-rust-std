@@ -19,7 +19,7 @@ import time
 
 from annotate import prepare
 from evidence import collect, digest, seal
-from service import check_identity, negative_unknown_procedure, negative_source_certificate, positive_unit_definition
+from service import check_identity, normal_completion, negative_unknown_procedure, negative_source_certificate, positive_unit_definition
 from verify_inputs import verify_checkout
 
 HERE = Path(__file__).resolve().parent
@@ -102,6 +102,7 @@ def authorization(path, pins):
 
 def command(argv, cwd, env, directory, timeout):
     directory.mkdir(parents=True, exist_ok=True)
+    write_json(directory / 'environment.json', env)
     started = datetime.now(timezone.utc).isoformat()
     begin = time.monotonic()
     timed_out = False
@@ -112,16 +113,34 @@ def command(argv, cwd, env, directory, timeout):
             code = proc.wait(timeout=max(1, timeout))
         except subprocess.TimeoutExpired:
             timed_out = True
-            os.killpg(proc.pid, signal.SIGTERM)
+            try:
+                os.killpg(proc.pid, signal.SIGTERM)
+            except ProcessLookupError:
+                pass
             try:
                 code = proc.wait(timeout=2)
             except subprocess.TimeoutExpired:
+                code = None
+            # The parent may have exited on TERM while its children still run.
+            # Always kill the remaining process group before leaving the log.
+            try:
                 os.killpg(proc.pid, signal.SIGKILL)
-                code = proc.wait()
-    rec = {'argv': argv, 'cwd': str(cwd), 'started': started,
+            except ProcessLookupError:
+                pass
+            if code is None:
+                try:
+                    code = proc.wait(timeout=2)
+                except subprocess.TimeoutExpired:
+                    code = None
+    rec = {'argv': argv, 'cwd': str(cwd), 'evidence_dir': str(directory), 'started': started,
            'finished': datetime.now(timezone.utc).isoformat(), 'seconds': time.monotonic()-begin,
-           'returncode': code, 'timed_out': timed_out,
+           'returncode': code, 'timed_out': timed_out, 'signaled': code is not None and code < 0,
+           'environment_sha256': digest(directory / 'environment.json'),
+           'log_sha256': digest(directory / 'command.log'),
+           'log_bytes': (directory / 'command.log').stat().st_size,
            'child_peak_rss_kib_cumulative': resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss}
+    if 'RR_CONFIG' in env:
+        rec['rr_config_sha256'] = digest(Path(env['RR_CONFIG']))
     write_json(directory / 'command.json', rec)
     return rec
 
@@ -202,7 +221,7 @@ def execute(repo, rr, out, auth):
             raise ValueError('less than 40 GiB free workspace')
         rec = invoke('versions', [binaries['rustc']['path'], '-Vv'], repo, base, 15)
         version = (out / 'versions/command.log').read_text()
-        stages['compiler'] = {'ok': rec['returncode'] == 0 and
+        stages['compiler'] = {'ok': normal_completion(rec) and rec['returncode'] == 0 and
                              ('commit-hash: ' + pins['compiler']['commit']) in version and
                              ('host: ' + pins['compiler']['host']) in version,
                              'version_log': 'versions/command.log'}
@@ -218,12 +237,13 @@ def execute(repo, rr, out, auth):
                                    str(work / 'Cargo.toml'), '--locked', '--offline', '--target',
                                    pins['compiler']['host']], work, env, budget)
             if name == 'p0':
-                controls['P0'] = result['returncode'] == 0 and any(
+                controls['P0'] = normal_completion(result) and result['returncode'] == 0 and any(
                     positive_unit_definition(f.read_text(errors='replace'))
                     for f in (out / name / 'output').rglob('*.v'))
             else:
-                controls['N1'] = negative_unknown_procedure(result['returncode'],
-                                                            (out / name / 'command.log').read_text(errors='replace'))
+                controls['N1'] = negative_unknown_procedure(
+                    result['returncode'], (out / name / 'command.log').read_text(errors='replace'),
+                    timed_out=result['timed_out'], signaled=result['signaled'])
         annotation_manifest = json.loads((HERE/'annotations.json').read_text())
         hashes = {rec['source_key']: rec['sha256'] for rec in annotation_manifest['files']}
         fixture = json.loads((HERE/'controls/n2-source-certificate.json').read_text())
@@ -235,7 +255,7 @@ def execute(repo, rr, out, auth):
         result = invoke('native', [binaries['cargo']['path'], 'check', '--manifest-path',
                                   str(repo / 'library/Cargo.toml'), '-p', 'core', '--locked',
                                   '--offline', '--target', pins['compiler']['host']], repo, native_env, 240)
-        if result['returncode'] != 0:
+        if not normal_completion(result) or result['returncode'] != 0:
             result['compiler_rejection'] = bool(re.search(r'error\[E\d+\]', (out/'native/command.log').read_text(errors='replace')))
             raise ValueError('native core admission failed')
         certificate = prepare(repo, out / 'source-receipt.json.pending')
@@ -260,13 +280,19 @@ def execute(repo, rr, out, auth):
         shutil.rmtree(out / 'native-target', ignore_errors=True)
         write_json(out / 'execution.json', execution)
         write_json(out / 'summary.json', {'verdict': 'INCONCLUSIVE', 'proof_status': 'NOT_RUN',
-                                         'verification_accepted': False, 'status': 'classification pending'})
+                                         'verification_accepted': False,
+                                         'local_inventory_valid': False,
+                                         'diagnostic_complete': False,
+                                         'evidence_complete': False,
+                                         'status': 'classification pending'})
         seal(out)
         try:
             summary = collect(out, ids)
         except (OSError, ValueError, KeyError, TypeError) as exc:
             summary = {'verdict': 'INCONCLUSIVE', 'blocker': 'collector: ' + str(exc),
-                       'verification_accepted': False, 'proof_status': 'NOT_RUN'}
+                       'verification_accepted': False, 'proof_status': 'NOT_RUN',
+                       'local_inventory_valid': False, 'diagnostic_complete': False,
+                       'evidence_complete': False}
         write_json(out / 'summary.json', summary)
         seal(out)
     return 0 if summary['verdict'] == 'PASS' else 2

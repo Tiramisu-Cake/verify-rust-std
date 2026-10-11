@@ -19,11 +19,20 @@ def check_identity(actual, expected):
         raise ValueError('image must be an immutable repository digest')
 
 
-def negative_unknown_procedure(exit_code, text):
+def normal_completion(stage):
+    """A shell exit status is usable only after an uninterrupted process exit."""
+    code = stage.get('returncode')
+    return (type(code) is int and 0 <= code < 128 and
+            stage.get('timed_out') is False and
+            stage.get('signaled') is False)
+
+
+def negative_unknown_procedure(exit_code, text, *, timed_out=False, signaled=False):
     # Stock Message::UnknownProcedure Display text, tied to our own DefId path.
     # A Rust setup failure elsewhere must not earn negative credit.
     pattern = r'Unknown procedure:\s*DefId\([^\n]*g1_unregistered[^\n]*\)'
-    if exit_code in (None, 0) or re.search(r'error\[E\d+\]|panicked at|signal: 9', text):
+    if (type(exit_code) is not int or not 0 < exit_code < 128 or timed_out or signaled or
+            re.search(r'error\[E\d+\]|panicked at|signal: 9', text)):
         return False
     errors = re.findall(r'^error:\s*(.*)$', text, re.MULTILINE)
     intended = [e for e in errors if re.fullmatch(pattern, e)]
@@ -40,16 +49,19 @@ def classify(stages, controls, correspondence):
         if name not in stages:
             return dict(result, verdict='INCONCLUSIVE', blocker=name + ': NOT_RUN')
         if stages[name].get('ok') is not True:
+            if name == 'compiler' and stages[name].get('interrupted') is True:
+                return dict(result, verdict='INCONCLUSIVE', blocker='compiler preflight interrupted')
             return dict(result, verdict='STOP', blocker=name + ': identity/environment mismatch')
     if not all(controls.get(k) is True for k in ('P0', 'N1', 'N2')):
         return dict(result, verdict='INCONCLUSIVE', blocker='admission control missing or failed')
     native = stages.get('native', {})
-    if native.get('returncode') != 0:
-        verdict = 'STOP' if native.get('compiler_rejection') is True and not native.get('timed_out') else 'INCONCLUSIVE'
+    if not normal_completion(native) or native.get('returncode') != 0:
+        verdict = ('STOP' if normal_completion(native) and
+                   native.get('compiler_rejection') is True else 'INCONCLUSIVE')
         return dict(result, verdict=verdict, blocker='native core compatibility: ' + str(native.get('returncode', 'NOT_RUN')))
     target = stages.get('p1', {})
-    if 'returncode' not in target or target.get('timed_out'):
-        return dict(result, verdict='INCONCLUSIVE', blocker='P1 NOT_RUN/timeout')
+    if not normal_completion(target):
+        return dict(result, verdict='INCONCLUSIVE', blocker='P1 NOT_RUN/timeout/signal')
     if target['returncode'] != 0:
         # Do not infer target specificity merely from a generic exporter error.
         return dict(result, verdict='INCONCLUSIVE', blocker='P1 failed; selected-callee/operation attribution requires raw-log review')
@@ -84,4 +96,6 @@ def positive_unit_definition(text):
     if end < 0:
         return False
     body = text[matches[0].end():end]
-    return 'f_code :=' in body and 'f_init :=' in body
+    return (not re.search(r'^Program Definition\b|Final Obligation\.', body, re.MULTILINE) and
+            re.search(r'\|\}\.[ \t\r\n]*$', body) is not None and
+            'f_code :=' in body and 'f_init :=' in body)

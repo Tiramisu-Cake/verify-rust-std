@@ -70,6 +70,9 @@ from typing import Any
 PINNED_SMALLSORT_SHA256 = "32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959"
 PINNED_SOURCE_COMMIT = "c7ca8c467aecf10a4b53039372ee97714f854ee3"
 PINNED_RR_COMMIT = "332d945fafa14bf55c0c8390cb35ec4b0c012cff"
+# No verified bytes of the pinned Radium writer are available in this package.
+# A reviewed-map claim or synthetic fixture cannot qualify the output contract.
+RADIUM_OUTPUT_CONTRACT = "UNKNOWN"
 REVIEWED_MAP_SCHEMA = "g1-reviewed-correspondence-v1"
 PINNED_SOURCES = {
     "smallsort": PINNED_SMALLSORT_SHA256,
@@ -193,9 +196,144 @@ def _radium_blocks(definition: str) -> dict[int, str]:
     return blocks
 
 
+def _coq_tokens(text: str) -> list[str]:
+    """Lex saved text, excluding nested Coq comments and keeping strings opaque.
+
+    This is not a Coq parser. Unbalanced comments/strings/delimiters are errors;
+    no search for call names in comments or quoted strings earns admission.
+    """
+    tokens: list[str] = []
+    pos = 0
+    while pos < len(text):
+        if text[pos].isspace():
+            pos += 1
+        elif text.startswith('(*', pos):
+            depth = 1
+            pos += 2
+            while depth and pos < len(text):
+                if text.startswith('(*', pos):
+                    depth += 1
+                    pos += 2
+                elif text.startswith('*)', pos):
+                    depth -= 1
+                    pos += 2
+                else:
+                    pos += 1
+            if depth:
+                raise ValueError('unterminated Coq comment')
+        elif text[pos] == '"':
+            start = pos
+            pos += 1
+            while pos < len(text):
+                if text[pos] == '"':
+                    if text.startswith('""', pos):
+                        pos += 2
+                    else:
+                        pos += 1
+                        break
+                else:
+                    pos += 1
+            else:
+                raise ValueError('unterminated Coq string')
+            tokens.append(text[start:pos])
+        else:
+            match = re.match(r'[A-Za-z_][A-Za-z_0-9\']*|[0-9]+|:=|=>', text[pos:])
+            token = match.group(0) if match else text[pos]
+            tokens.append(token)
+            pos += len(token)
+    return tokens
+
+
+def _coq_term(tokens: list[str], pos: int) -> tuple[list[str], int]:
+    if pos >= len(tokens):
+        raise ValueError('missing call argument')
+    pairs = {'(': ')', '[': ']', '{': '}'}
+    token = tokens[pos]
+    if token in pairs:
+        start = pos
+        stack = [pairs[token]]
+        pos += 1
+        while stack and pos < len(tokens):
+            token = tokens[pos]
+            if token in pairs:
+                stack.append(pairs[token])
+            elif token in pairs.values():
+                if stack.pop() != token:
+                    raise ValueError('mismatched call argument delimiter')
+            pos += 1
+        if stack:
+            raise ValueError('unterminated call argument')
+        return tokens[start:pos], pos
+    if token in pairs.values() or token in {';', '$', '%', ':='}:
+        raise ValueError('invalid call argument')
+    return [token], pos + 1
+
+
+def _radium_calls(block: str) -> tuple[list[dict[str, Any]], str]:
+    """Syntactic CallS inventory; deliberately does not assign argument roles.
+
+    The old fixture has a bare location parameter and balanced argument terms.
+    Counting those terms is useful service evidence, not qualification of the
+    pinned generator. Complex callees/unknown CallS spellings fail closed. The
+    identical inventory is used for event detection and selected-body closure.
+    """
+    try:
+        tokens = _coq_tokens(block)
+        # Remove the legacy fixture's map fragment trailer, if present. Do not
+        # treat f_init or the next map fragment as arguments of the final call.
+        for pos in range(len(tokens) - 3):
+            if tokens[pos:pos + 4] == [']', '>', '%', 'E']:
+                tokens = tokens[:pos]
+                break
+        calls: list[dict[str, Any]] = []
+        for pos, token in enumerate(tokens):
+            if token.startswith('CallS') and token != 'CallS':
+                raise ValueError('unknown CallS constructor')
+            if token != 'CallS':
+                continue
+            if pos + 1 >= len(tokens) or not re.fullmatch(r'[A-Za-z_][A-Za-z_0-9]*', tokens[pos + 1]):
+                raise ValueError('unknown CallS callee form')
+            end = pos + 2
+            arguments: list[list[str]] = []
+            while end < len(tokens):
+                term, end = _coq_term(tokens, end)
+                if 'CallS' in term:
+                    raise ValueError('nested CallS requires a verified statement grammar')
+                arguments.append(term)
+            if not arguments:
+                raise ValueError('CallS has no argument terms')
+            calls.append({'binding': tokens[pos + 1], 'arguments': arguments})
+        if len(calls) > 1:
+            raise ValueError('multiple CallS in one block require a verified statement grammar')
+        return calls, ''
+    except ValueError as exc:
+        return [], str(exc)
+
+
+def _radium_inventory(definition: str) -> tuple[list[dict[str, Any]], str]:
+    blocks = _radium_blocks(definition)
+    if not blocks:
+        return [], 'selected Radium blocks absent'
+    calls: list[dict[str, Any]] = []
+    for bb, block in blocks.items():
+        found, error = _radium_calls(block)
+        if error:
+            return [], f'bb{bb}: {error}'
+        calls.extend(dict(call, bb=bb) for call in found)
+    try:
+        # Calls outside recognized blocks cannot silently vanish from inventory.
+        count = _coq_tokens(definition).count('CallS')
+    except ValueError as exc:
+        return [], str(exc)
+    if count != len(calls):
+        return [], 'CallS occurs outside the recognized block inventory'
+    return calls, ''
+
+
 def _successors(block: str, kind: str = "any") -> set[int]:
     # rustc terminators print e.g. [return: bb3, unwind: bb9],
     # [return: bb3, unwind: cleanup bb9], goto -> bb3, switchInt -> [...].
+    block = re.sub(r'//[^\n]*', '', block)
     if kind == "unwind":
         patterns = (r"\bunwind:\s*(?:cleanup\s*)?bb(\d+)",)
     elif kind == "normal":
@@ -223,20 +361,34 @@ def _reachable(blocks: dict[int, str], start: int, target: int, kind: str = "nor
     return False
 
 
-def _cleanup_outcomes(blocks: dict[int, str], first: int, guard_local: str) -> set[bool]:
-    pending: list[tuple[int, bool]] = [(first, False)]
-    seen: set[tuple[int, bool]] = set()
-    outcomes: set[bool] = set()
+def _cleanup_outcomes(blocks: dict[int, str], first: int, guard_local: str) -> set[bool | None]:
+    # None is an unestablished exit (missing block, cycle, unfamiliar terminal).
+    # Never silently discard such a branch while accepting another good path.
+    pending = [(first, False, frozenset())]
+    outcomes: set[bool | None] = set()
+    steps = 0
     while pending:
-        current, dropped = pending.pop()
-        if (current, dropped) in seen or current not in blocks:
+        current, dropped, path = pending.pop()
+        steps += 1
+        if steps > 10000:
+            outcomes.add(None)
+            break
+        state = (current, dropped)
+        if state in path or current not in blocks:
+            outcomes.add(None)
             continue
-        seen.add((current, dropped))
-        body = blocks[current]
-        dropped |= bool(re.search(r"\bdrop\s*\(\s*" + re.escape(guard_local) + r"\s*\)", body))
-        if re.search(r"\bresume\b|\bUnwindResume\b", body, re.I):
+        body = re.sub(r'//[^\n]*', '', blocks[current])
+        dropped |= bool(re.search(r"(?m)^\s*drop\s*\(\s*" + re.escape(guard_local) + r"\s*\)\s*->", body))
+        if re.search(r"(?m)^\s*(?:resume|UnwindResume)\s*;", body):
             outcomes.add(dropped)
-        pending.extend((x, dropped) for x in _successors(body) if x in blocks)
+            continue
+        successors = _successors(body)
+        terminal = bool(re.search(r'\bunwind\s+terminate\b|\bUnwindTerminate\b', body, re.I))
+        if terminal:
+            outcomes.add(dropped)
+        if not successors and not terminal:
+            outcomes.add(None)
+        pending.extend((x, dropped, path | {state}) for x in successors)
     return outcomes
 
 
@@ -251,7 +403,8 @@ def _event_call(block: str, callee: str) -> bool:
 def _radium_call(block: str, binding: str) -> bool:
     if not isinstance(binding, str) or not re.fullmatch(r"[A-Za-z_][A-Za-z_0-9]*", binding):
         return False
-    return bool(re.search(r"(?m)^\s*CallS\s+" + re.escape(binding) + r"\s", block))
+    calls, error = _radium_calls(block)
+    return not error and len(calls) == 1 and calls[0]['binding'] == binding
 
 
 def _source_path(base: Path, value: Any) -> Path:
@@ -308,6 +461,8 @@ def inspect_outputs(out_dir: str | Path, source_receipt: dict[str, Any]) -> dict
     """
     root = Path(out_dir).resolve()
     checks: list[dict[str, Any]] = []
+    _check(checks, 'radium_output_contract', RADIUM_OUTPUT_CONTRACT,
+           'pinned generator/config/annotation semantics have not been independently inspected; no real-output PASS')
     if not isinstance(source_receipt, dict):
         source_receipt = {}
     schema = source_receipt.get("reviewed_map_schema")
@@ -463,14 +618,12 @@ def inspect_outputs(out_dir: str | Path, source_receipt: dict[str, Any]) -> dict
         same_radium = normal_drop is not None and late_drop is not None and all(x["rblocks"] == first["rblocks"] and x["entry"].get("radium_file") == first["entry"].get("radium_file") and x["entry"].get("radium_definition") == first["entry"].get("radium_definition") for x in (read, copy, late, normal_drop, late_drop))
         if same_radium and late_drop is not None:
             panic_free = any("UnwindFreeAnnot" in x["rblocks"][x["radium_bb"]] for x in (first, late))
-            _check(checks, "fnmut_unwind_policy", "STOP" if panic_free else "OBSERVED", "FnMut Radium call wrongly excludes unwind" if panic_free else "both selected FnMut Radium calls retain unwind continuation")
-            first_edge = str(first["entry"].get("radium_unwind_bb", ""))
-            late_edge = str(late["entry"].get("radium_unwind_bb", ""))
-            first_unwind_block = first["rblocks"].get(int(first_edge)) if first_edge.isdigit() else None
-            late_unwind_block = first["rblocks"].get(int(late_edge)) if late_edge.isdigit() else None
-            first_edge_ok = first_unwind_block is not None and bool(re.search(r'Goto\s+"_bb' + re.escape(first_edge) + r'"', first["rblocks"][first["radium_bb"]])) and "Unwind" in first_unwind_block and "UnwindFreeAnnot" not in first_unwind_block
-            late_edge_ok = late_unwind_block is not None and bool(re.search(r'Goto\s+"_bb' + re.escape(late_edge) + r'"', late["rblocks"][late["radium_bb"]])) and (int(late_edge) == late_drop["radium_bb"] or _reachable({k: ' '.join('bb' + x for x in re.findall(r'Goto\s+"_bb(\d+)"', v)) for k, v in first["rblocks"].items()}, int(late_edge), late_drop["radium_bb"], "any"))
-            _check(checks, "radium_unwind_paths", "OBSERVED" if first_edge_ok and late_edge_ok else "INCONCLUSIVE", "mapped first and late Radium unwind successors lead to Unwind/DropGlue" if first_edge_ok and late_edge_ok else "Radium unwind successor or DropGlue link not established")
+            _check(checks, "fnmut_unwind_policy", "STOP" if panic_free else "UNKNOWN", "FnMut block contains forbidden UnwindFreeAnnot" if panic_free else "absence of a panic-free marker does not establish the unwind continuation")
+            # Do not infer roles from a Goto occurring anywhere in a call. The
+            # actual pinned writer is unavailable; in particular a supplied
+            # radium_unwind_bb or the fixture's argument order is not authority.
+            _check(checks, "radium_normal_paths", "UNKNOWN", "normal continuation roles require the exact pinned Radium writer")
+            _check(checks, "radium_unwind_paths", "UNKNOWN", "early/late cleanup roles and all exits require the exact pinned Radium writer; map cannot qualify them")
         else:
             _check(checks, "fnmut_unwind_policy", "INCONCLUSIVE", "selected Radium FnMut blocks are not in one generated definition")
             _check(checks, "radium_unwind_paths", "INCONCLUSIVE", "selected Radium events are not in one generated definition")
@@ -485,7 +638,7 @@ def inspect_outputs(out_dir: str | Path, source_receipt: dict[str, Any]) -> dict
             _check(checks, "local_identity", "OBSERVED", "MIR debug declarations bind guard and ManuallyDrop temporary", guard=guard, tmp=tmp)
             first_unwind = _successors(first["mblocks"][first["mir_bb"]], "unwind")
             late_unwind = _successors(late["mblocks"][late["mir_bb"]], "unwind")
-            no_payload_drop = not any(re.search(r"\bdrop\s*\(\s*" + re.escape(tmp) + r"\s*\)", b) for b in first["mblocks"].values())
+            no_payload_drop = not any(re.search(r"\bdrop\s*\(\s*(?:\(\s*)?" + re.escape(tmp) + r"\b", b) for b in first["mblocks"].values())
             if no_payload_drop:
                 _check(checks, "payload_drop", "OBSERVED", "no MIR Drop terminator targets the ManuallyDrop temporary")
             else:
@@ -549,14 +702,21 @@ def inspect_outputs(out_dir: str | Path, source_receipt: dict[str, Any]) -> dict
             _check(checks, f"callees:{label}", "NOT_RUN", "selected body unavailable; callee closure unobserved")
             continue
         definition, _ = body_definitions[label]
-        bindings = set(re.findall(r"(?m)^\s*CallS\s+([A-Za-z_][A-Za-z_0-9]*)\s", definition))
+        calls, parse_error = _radium_inventory(definition)
+        if parse_error:
+            _check(checks, f"callees:{label}", "INCONCLUSIVE", parse_error)
+            continue
+        bindings = {call['binding'] for call in calls}
         supplied = [x for x in callee_inventory if isinstance(x, dict) and x.get("caller") == label]
         by_binding = {str(x.get("binding")): x for x in supplied}
         if len(by_binding) != len(supplied) or set(by_binding) != bindings:
-            _check(checks, f"callees:{label}", "INCONCLUSIVE", "CallS binding closure differs from reviewed callee inventory", emitted=sorted(bindings), inventoried=sorted(by_binding))
+            _check(checks, f"callees:{label}", "INCONCLUSIVE", "CallS binding closure differs from reviewed callee inventory", emitted=sorted(bindings), call_count=len(calls), inventoried=sorted(by_binding))
             continue
         unresolved: list[str] = []
         for binding, edge in by_binding.items():
+            if not re.search(r'\(\s*' + re.escape(binding) + r'\s*:\s*loc\s*\)', definition.split(': function :=', 1)[0]):
+                unresolved.append(binding)
+                continue
             resolution = edge.get("resolution")
             target_path = _inside(root, edge.get("resolved_file"))
             if resolution not in {"translated_body", "compiler_glue", "rr_shim", "trait_contract", "intrinsic"} or target_path is None:
@@ -564,9 +724,12 @@ def inspect_outputs(out_dir: str | Path, source_receipt: dict[str, Any]) -> dict
                 continue
             target_text, error = _read_file(target_path, edge.get("resolved_sha256"))
             symbol = edge.get("resolved_definition")
-            if error or target_text is None or not isinstance(symbol, str) or not re.search(r"(?m)^(?:Program )?Definition\s+" + re.escape(symbol) + r"\b", target_text):
+            if error or target_text is None or not isinstance(symbol, str) or not re.fullmatch(r'[A-Za-z_][A-Za-z_0-9]*', symbol) or len(re.findall(r"(?m)^(?:Program )?Definition\s+" + re.escape(symbol) + r"\b", target_text)) != 1:
                 unresolved.append(binding)
-        _check(checks, f"callees:{label}", "OBSERVED" if not unresolved else "INCONCLUSIVE", "all emitted call location bindings have hash-bound target definitions" if not unresolved else "callee bindings lack verified target definitions", unresolved=unresolved, bindings=sorted(bindings))
+        # Existence of arbitrary definitions does not substantiate linkage to
+        # a location parameter, DefId or type substitution. Until the exact
+        # generator/linking contract is inspected there is no positive resolver.
+        _check(checks, f"callees:{label}", "INCONCLUSIVE" if unresolved else "UNKNOWN" if bindings else "OBSERVED", "candidate definitions missing or ambiguous" if unresolved else "candidate definitions do not establish callee linkage; pinned linking contract UNKNOWN" if bindings else "no CallS in selected body", unresolved=unresolved, bindings=sorted(bindings), call_count=len(calls))
 
     # Resource forms are syntactic inventory, never a discharge of their proof
     # obligations.  The reviewed receipt must identify exact generated spec

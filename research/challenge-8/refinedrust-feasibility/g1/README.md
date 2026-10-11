@@ -5,6 +5,20 @@ are review candidates, not a registered lane. Source c7ca8c467aecf10a4b53039372e
 RR 332d945fafa14bf55c0c8390cb35ec4b0c012cff, compiler
 e457a7b0d326d67b4322ef0d11bd715cfaeda48f; full blob/tree/byte receipts in inputs.json.
 
+Phase 1 remediation is documented in
+[G1-REVIEW-REMEDIATION](../G1-REVIEW-REMEDIATION.md). The independent review
+found that the original callee/unwind gates could report false observations.
+Events and inventory now share a comment-aware, balanced-term CallS scanner;
+the synthetic fixture contains six calls and four distinct location bindings.
+Definition existence never resolves a callee binding. The exact pinned Radium
+writer could not be retrieved for independent inspection, so its continuation,
+linking, annotation and configuration contracts remain **UNKNOWN**. The auditor
+has an unconditional UNKNOWN output-contract gate: even a reviewed map cannot
+grant real-output admission PASS in this revision. No continuation roles are
+inferred from the synthetic fixture or arbitrary Goto occurrences. Completing
+R2 requires inspected pinned writer bytes before implementing positive Radium
+normal/unwind path acceptance; this package does not claim that work is complete.
+
 `run.py` is the Cloud-only entrypoint driver. It requires a fresh disposable
 source checkout, clean pinned RR image checkout, fresh /workspace evidence,
 BUILD_ID, SMALLSORT_EXECUTION_PROVIDER=cloud-build, the reviewed dispatcher's
@@ -52,8 +66,9 @@ without an independently reviewed source/MIR/Radium mapping, a successful P1 is
 later create `g1-reviewed-correspondence-v1` JSON with `correspondence`, `body_map`,
 `locals`, `callee_inventory`, `resource_inventory`; exact schema is in
 correspondence.py. Do not guess a map in advance or patch the frontend to emit one.
-The collector verifies its externally reviewed SHA256 and every selected artifact
-hash/body/block/edge; missing fields cannot grant PASS.
+The collector checks the externally reviewed SHA256 and selected artifact
+hashes/body/block occurrences. Edge roles and actual callee linkage remain
+UNKNOWN; a map or name occurrence cannot close those gates.
 
 Saved-data collector command shape (service-only, no compiler):
 
@@ -74,10 +89,19 @@ shim applicability require separate review/proof. No arbitrary resolution label
 is a theorem or permission to replace ordinary source with a shim.
 
 Permitted VPS checks: AST/JSON parsing, bash -n, Git/hash checks and the synthetic
-`test_service.py`/`test_correspondence.py` suites after inspecting imports. They
+`test_service.py`/`test_correspondence.py`/`test_evidence.py` suites after inspecting imports. They
 import no driver/injector/toolchain/Cloud modules. Do not invoke run.py,
 annotate.py, Dockerfile or write-image-receipt.py locally. Neither fixture Rust
 code nor actual annotated core was compiled or generated on VPS.
+
+The collector verifies required receipts and artifacts for attempted stages,
+command/log/environment/config consistency, and the archived reviewed N2 bytes.
+Timeouts/signals never earn P0/N1/native/P1 credit. `local_inventory_valid` is
+distinct from `diagnostic_complete`; `evidence_complete` stays false until the
+external package/upload protocol is integrated and independently verified.
+Per-file hashes and internally consistent records alone do not authenticate
+execution. The process-group timeout fix is statically reviewed only; a real
+process-tree test is reserved for a separately authorized Cloud session.
 
 [Cloud candidates](cloud/REVIEW.md) document remaining provider/transport/
 registration/evidence-packaging gaps. Production scripts and coordinator are
