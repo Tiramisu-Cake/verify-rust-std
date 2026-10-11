@@ -7066,3 +7066,12 @@ reachintendedassertions; alladmissioncontrolsretained. Exactsource/MIR/AST uncha
 Profileexperimental/unaccepted; researchguarddoesnotprovecallerorgenericactualZST.
 398seconds; total737/3600,2863remaining. ConnectedC4nextinscope.
 [Rawreview](cloud-build/sort4-native-c1-bound/FRESH-ED016F05-REVIEW.md).
+
+
+## 2026-10-11 native C4 capture before binding
+
+Build55f876c4/proof=infra0c1bd9d7: freshmodel/C1 gates retained; actual four-call
+native sourcepair/MIR/refinement/preAST captured, intentional beforeproofrefusal.
+Full CURRENT native cleanup posts present on normal andeachunwind, not yetproved.
+428seconds; total1165/3600,2435remaining. Experimental/unaccepted; no callercredit.
+[Full raw review](cloud-build/sort4-native-c1-bound/FRESH-55F876C4-REVIEW.md).

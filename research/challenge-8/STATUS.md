@@ -17,10 +17,11 @@ route EXEC203 after Label3/Goto63, full native normal/direct-unwind/len<8/zero
 CURRENT posts/unit/free/leak and intendednormal226/unwind210negative refusals.
 Exactsource/MIR/pre/postAST match original nativefragment. All admission controls
 retained. Experimental/unaccepted model profile; genericactualsort4/callerZST open.
-737/3600seconds accounted and both downloads integrityverified;2863remaining,
-C4 capture Build55f876c4-c3a7-4a4f-87b4-9242a3ad660b WORKING (1260sec reservation).
-Exact proof=infra0c1bd9d70635776d587489163384b8c4f25b9d1b; preflight567222bytes/190parts.
-Capture-only must refuse before proof; nativeC4 target NOT_RUN.
+1165/3600seconds accounted;2435remaining, all three builds terminal/downloadverified.
+Fresh C4capture55f876c4/proof=infra0c1bd9d7: exact sourcepair, pairedMIR/refinement,
+originalAST fourcompiler calls andfourcleanupmarkers captured; intended refusal
+beforetarget. C4proofNOT_RUN. Exact native C1–C4 binder now being developed using
+only reviewed percall rules; no general callback/ownership semantics extension.
 
 Model patch: Rust nonnegative struct size with retained max_uintptr upper bound;
 complete entirely empty Rust field list size0; C/C++strictpositive unchanged.
