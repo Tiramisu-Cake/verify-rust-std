@@ -18,12 +18,15 @@ import sys
 
 
 HERE = Path(__file__).resolve().parent
-EXPECTED_PROFILE = "experimental-merge-actual-glue-body-v7"
-CONTROLS = {
+V7_PROFILE = "experimental-merge-actual-glue-body-v7"
+V8_PROFILE = "experimental-merge-actual-glue-body-v8"
+V7_CONTROLS = {
     "omit_end": "SMALLSORT_DROP_RECEIVER_CONTROL=omit_end",
     "wrong_end": "SMALLSORT_DROP_RECEIVER_CONTROL=wrong_end",
     "duplicate_end": "SMALLSORT_DROP_RECEIVER_CONTROL=duplicate_end",
 }
+RETIREMENT_CONTROL = {"post_retirement_drop":
+                      "SMALLSORT_DROP_RECEIVER_CONTROL=post_retirement_drop"}
 GLUE_NAME = "__vf_generated_drop_glue"
 
 
@@ -121,6 +124,92 @@ def _inspect_ast(path: Path, ast, expected_drop_loc: str) -> dict:
             "outcome_arms": switches[0] if len(switches) == 1 else []}
 
 
+def _inspect_retirement_ast(path: Path, ast, expected_drop_loc: str,
+                            expected_mir_local: str) -> dict:
+    """Bind a second call directly after the exact guard's Rust StorageDead."""
+    tree = ast.OcamlAstText(path.read_text(errors="replace")).parse()
+    functions = [node for node in ast.nodes(tree, "Func")
+                 if len(node.args) == 13 and node.args[4] == "natural_onecell"]
+    bodies = [node for node in functions if isinstance(node.args[10], ast.Node) and
+              node.args[10].name == "Some"]
+    if len(functions) != 1 or len(bodies) != 1:
+        return {"admitted": False, "reason": "caller AST body is absent or nonunique"}
+    runtime = bodies[0].args[10].args[0]
+    calls = _call_rows(runtime, ast)
+    generated = [row for row in calls if row["callee"] == GLUE_NAME]
+    if len(generated) != 2:
+        return {"admitted": False, "reason": "expected natural and post-retirement calls exactly once each",
+                "generated_call_count": len(generated),
+                "generated_call_locs": [row["loc"] for row in generated]}
+    if any(row["loc"] != expected_drop_loc for row in generated):
+        return {"admitted": False, "reason": "generated call moved from the caller Drop span",
+                "generated_call_locs": [row["loc"] for row in generated]}
+    receiver_args = [_argument_kind(row["node"], ast) for row in generated]
+    if receiver_args[0][0] != "receiver" or receiver_args[1] != receiver_args[0]:
+        return {"admitted": False, "reason": "post-retirement call does not reuse the first receiver",
+                "generated_receiver_arguments": receiver_args}
+
+    storage_matches = []
+    storage_for_local = []
+    adjacent_calls = []
+    event_order = []
+
+    def visit(value):
+        if isinstance(value, ast.Node):
+            if value.name == "CallExpr" and len(value.args) == 6 and value.args[1] == GLUE_NAME:
+                event_order.append(("call", value))
+            elif value.name == "RustStorageDeadStmt" and len(value.args) == 4:
+                if value.args[2] == expected_mir_local:
+                    storage_for_local.append(value)
+                if (value.args[2] == expected_mir_local and value.args[3] == "gap_guard" and
+                        ast.loc(value.args[1]) == expected_drop_loc):
+                    event_order.append(("storage", value))
+            for child in value.args:
+                visit(child)
+        elif isinstance(value, (list, tuple)):
+            for child in value:
+                visit(child)
+
+    def inspect_siblings(value):
+        if isinstance(value, (list, tuple)):
+            for index, child in enumerate(value):
+                if (isinstance(child, ast.Node) and child.name == "RustStorageDeadStmt" and
+                        len(child.args) == 4 and child.args[2] == expected_mir_local and
+                        child.args[3] == "gap_guard" and ast.loc(child.args[1]) == expected_drop_loc):
+                    storage_matches.append(child)
+                    if index + 1 < len(value):
+                        following = value[index + 1]
+                        if isinstance(following, ast.Node) and following.name == "ExprStmt":
+                            expr = ast.narg(following, "ExprStmt", 1)[0]
+                            if (isinstance(expr, ast.Node) and expr.name == "CallExpr" and
+                                    len(expr.args) == 6 and expr.args[1] == GLUE_NAME):
+                                adjacent_calls.append(expr)
+                inspect_siblings(child)
+        elif isinstance(value, ast.Node):
+            inspect_siblings(value.args)
+
+    visit(runtime)
+    inspect_siblings(runtime)
+    storage_positions = [index for index, (kind, _) in enumerate(event_order) if kind == "storage"]
+    call_positions = [index for index, (kind, _) in enumerate(event_order) if kind == "call"]
+    ordered = (len(storage_positions) == 1 and len(call_positions) == 2 and
+               call_positions[0] < storage_positions[0] < call_positions[1])
+    direct_call = (len(storage_matches) == 1 and len(adjacent_calls) == 1 and
+                   adjacent_calls[0] is generated[1]["node"])
+    return {"admitted": (len(storage_for_local) == 1 and len(storage_matches) == 1 and
+                         direct_call and ordered),
+            "guard_mir_local": expected_mir_local,
+            "guard_storage_dead_count": len(storage_for_local),
+            "guard_storage_dead_loc": (ast.loc(storage_matches[0].args[1])
+                                       if storage_matches else None),
+            "generated_call_count": len(generated),
+            "generated_call_locs": [row["loc"] for row in generated],
+            "generated_receiver_arguments": receiver_args,
+            "storage_dead_immediately_precedes_second_call": direct_call,
+            "natural_call_storage_dead_second_call_order": ordered,
+            "second_call_after_retirement_count": len(adjacent_calls)}
+
+
 def _expected_ast(mode: str, details: dict, positive_receiver: tuple[str, str | None]) -> bool:
     if not details.get("admitted") or details.get("receiver_argument") != list(positive_receiver):
         return False
@@ -185,7 +274,7 @@ def _glue_markers_precede_error(log: str, glue_gate: dict, error: str,
 
 def _classify(case: Path, mode: str, execution: dict, source_before: dict,
               source_after: dict, positive_drop_loc: str, positive_receiver: tuple,
-              positive_glue_body: dict, ast, drop_module) -> dict:
+              positive_glue_body: dict, ast, drop_module, mir_helper) -> dict:
     stages = execution.get("stages", {})
     original_stages = execution.get("original_export_stages", {})
     proof_ast = case / "proof-ast.ml"
@@ -193,29 +282,55 @@ def _classify(case: Path, mode: str, execution: dict, source_before: dict,
     log = log_path.read_text(errors="replace") if log_path.is_file() else ""
     errors = [line for line in log.splitlines() if re.search(r"\berror:", line, re.I)]
     dead = [line for line in log.splitlines() if re.search(r"dead code", line, re.I)]
-    ast_evidence = (_inspect_ast(proof_ast, ast, positive_drop_loc)
+    retirement = mode == "post_retirement_drop"
+    mir_gate = (drop_module._natural_drop_mir_gate(case, {}, mir_helper)
+                if retirement and stages.get("decode") == 0 else {"admitted": False})
+    guard_local = mir_gate.get("guard_debug_local")
+    if isinstance(guard_local, dict):
+        guard_local = guard_local.get("name", guard_local.get("local"))
+    if isinstance(guard_local, int):
+        guard_local = f"_{guard_local}"
+    ast_evidence = ((_inspect_retirement_ast(proof_ast, ast, positive_drop_loc, guard_local)
+                     if retirement and isinstance(guard_local, str) else
+                     {"admitted": False, "reason": "actual Drop MIR guard binding unavailable"})
+                    if retirement else
+                    _inspect_ast(proof_ast, ast, positive_drop_loc)
                     if stages.get("decode") == 0 and proof_ast.is_file() else
                     {"admitted": False, "reason": "proof AST missing or decode failed"})
-    ast_matched = _expected_ast(mode, ast_evidence, positive_receiver)
+    ast_matched = (_expected_ast(mode, ast_evidence, positive_receiver)
+                   if not retirement else bool(mir_gate.get("admitted") and
+                       ast_evidence.get("admitted") and ast_evidence.get("guard_storage_dead_loc") == positive_drop_loc))
     glue_gate = drop_module._generated_glue_proof_gate(log, positive_glue_body)
     stages_ready = (stages.get("exporter") == 0 and stages.get("decode") == 0 and
                     stages.get("refinement") == 0 and stages.get("verifast") == 1 and
                     original_stages == {"exporter": 0, "decode": 0})
     unchanged = (source_before == source_after and
                  execution.get("source_unchanged_at_every_stage") is True)
-    expected_predicate = ("points_to<CopyOnDrop>" if mode == "omit_end" else
-                          "ref_mut_end_token")
+    expected_predicate = ("CopyOnDrop_len" if retirement else
+                          "points_to<CopyOnDrop>" if mode == "omit_end" else "ref_mut_end_token")
     target_errors = [error for error in errors
                      if error.startswith(positive_drop_loc + ": error:") and
                      "No matching heap chunks" in error and expected_predicate in error]
     # The generated callee must complete its own copied-receiver call, Return,
     # and leak check. The caller failure is admitted only at the actual Drop
     # statement location from the positive AST binding.
+    if retirement:
+        call_markers = [m.start() for m in re.finditer(
+            rf"(?m)^.*{re.escape(positive_drop_loc)}: Verifying call[^\n]*$", log)]
+        free_markers = [m.start() for m in re.finditer(
+            rf"(?m)^.*{re.escape(positive_drop_loc)}: Freeing locals\.[^\n]*$", log)]
+        retirement_log = (len(call_markers) == 2 and len(free_markers) >= 1 and
+                          call_markers[0] < min(free_markers) < call_markers[1] <
+                          (log.find(target_errors[0]) if len(target_errors) == 1 else -1))
+    else:
+        retirement_log = False
     matched = (stages_ready and unchanged and ast_matched and
                glue_gate.get("admitted") is True and len(errors) == 1 and
                len(target_errors) == 1 and not dead and
-               _glue_markers_precede_error(log, glue_gate, target_errors[0], drop_module))
-    return {"case": mode, "classification": "EXPECTED_RECEIVER_END_REJECTION" if matched else "INCONCLUSIVE",
+               _glue_markers_precede_error(log, glue_gate, target_errors[0], drop_module) and
+               (not retirement or retirement_log))
+    return {"case": mode, "classification": ("EXPECTED_POST_RETIREMENT_DROP_REJECTION" if retirement else
+            "EXPECTED_RECEIVER_END_REJECTION") if matched else "INCONCLUSIVE",
             "accepted": False, "premises_supplied": False,
             "post_retirement_claim": "NOT_RUN",
             "stages": stages, "original_export_stages": original_stages,
@@ -223,6 +338,8 @@ def _classify(case: Path, mode: str, execution: dict, source_before: dict,
             "source_unchanged_at_every_stage": unchanged,
             "positive_drop_call_loc": positive_drop_loc,
             "ast_control_evidence": ast_evidence,
+            "actual_drop_mir_gate": mir_gate if retirement else "NOT_RUN",
+            "retirement_log_order_admitted": retirement_log,
             "ast_control_matched": ast_matched,
             "generated_glue_body_gate": glue_gate,
             "expected_error_predicate": expected_predicate,
@@ -244,13 +361,20 @@ def run(evidence: Path, args, env: dict, base, positive_case: Path, execute_case
     evidence.mkdir(parents=True)
     cases_root = evidence / "cases"
     cases_root.mkdir()
-    status = {name: "NOT_RUN" for name in CONTROLS}
+    profile_label = getattr(args, "profile", "")
+    if profile_label == V7_PROFILE:
+        controls = V7_CONTROLS
+    elif profile_label == V8_PROFILE:
+        controls = {**V7_CONTROLS, **RETIREMENT_CONTROL}
+    else:
+        controls = {}
+    status = {name: "NOT_RUN" for name in controls}
     aggregate = {"schema": "generated-glue-receiver-end-controls-v1",
                  "profile": getattr(args, "profile", None), "accepted": False,
                  "all_matched": False, "cases": status,
                  "post_retirement_claim": "NOT_RUN", "premises_supplied": False}
-    if getattr(args, "profile", None) != EXPECTED_PROFILE:
-        aggregate["reason"] = "receiver translator diagnostics are scoped to the body-v7 profile"
+    if not controls:
+        aggregate["reason"] = "receiver diagnostics require the explicitly pinned body-v7 or body-v8 profile"
         (evidence / "aggregate.json").write_text(json.dumps(aggregate, indent=2) + "\n")
         return aggregate
     if not callable(execute_case):
@@ -318,8 +442,7 @@ def run(evidence: Path, args, env: dict, base, positive_case: Path, execute_case
     aggregate["positive_receiver"] = positive_receiver
     aggregate["positive_ast_sha256"] = _sha(positive_ast_path)
     aggregate["positive_classification_sha256"] = _sha(positive_result_path)
-    profile_label = getattr(args, "profile", "")
-    for mode in CONTROLS:
+    for mode in controls:
         case = cases_root / mode
         case.mkdir()
         for subdir in ("original", "verified"):
@@ -334,17 +457,18 @@ def run(evidence: Path, args, env: dict, base, positive_case: Path, execute_case
         source_after = base.hashes(case)
         result = _classify(case, mode, execution, source_before, source_after,
                            drop_loc, tuple(positive_receiver), positive_glue,
-                           ast, drop_module)
+                           ast, drop_module, base.mir_helper)
         result["profile"] = profile_label
-        result["translator_diagnostic"] = CONTROLS[mode]
+        result["translator_diagnostic"] = controls[mode]
         result["execution_receipt"] = execution
         (case / "classification.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
         status[mode] = result["classification"]
     aggregate["cases"] = status
-    aggregate["all_matched"] = (bool(CONTROLS) and set(status) == set(CONTROLS) and
-        all(value == "EXPECTED_RECEIVER_END_REJECTION" for value in status.values()))
+    aggregate["all_matched"] = (bool(controls) and set(status) == set(controls) and
+        all(value == ("EXPECTED_POST_RETIREMENT_DROP_REJECTION" if name == "post_retirement_drop"
+                      else "EXPECTED_RECEIVER_END_REJECTION") for name, value in status.items()))
     aggregate["controls"] = {name: json.loads((cases_root / name / "classification.json").read_text())
-                             for name in CONTROLS}
-    aggregate["next_gate"] = "caller receiver/end positive composition; no post-retirement credit"
+                             for name in controls}
+    aggregate["next_gate"] = "caller receiver/end qualification; negative controls supply no proof credit"
     (evidence / "aggregate.json").write_text(json.dumps(aggregate, indent=2, sort_keys=True) + "\n")
     return aggregate
