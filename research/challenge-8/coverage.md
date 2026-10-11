@@ -949,3 +949,19 @@ existing scratch-caller T:FreezeMarker domain, no full actual sort4/caller proof
 or generic ZST safety. Earlier supplied C1→C4 PASS remains separate.
 See [fresh review](cloud-build/sort4-native-c1-bound/FRESH-3B7431BB-REVIEW.md)
 and [review package](cloud-build/sort4-native-c1-bound/MAINTAINER-NATIVE-C4-REVIEW.md).
+
+## 2026-10-11 actual caller-entry / pointer binding
+
+Fresh Build1d2237d7 at0a61febf verifies canonical slice cast bodies for T/MU
+and a native real-as_mut_ptr consumer with actual MU-to-T raw pointer cast,
+full native ownership/posts and all65 physical locations executed. Three
+wrong-pointer/raw-authority/initialized-T assertions fail at intended locations;
+source/phase/default-off admissions are separate. The one-symbol pointer
+binding and inherited ZST/C1/C4 profiles remain experimental/unaccepted.
+Both unfiltered actual helper prefixes pass paired MIR/refinement and stop
+at smallsort.rs:230 / fixture20 on len+16<=usizeMAX. Neither prefix reaches
+abort or pointer calls; actual caller entry and caller-to-C4 remain OPEN.
+No public nonzero premise is supplied to the helper. Second sort4, sort8,
+full actual sort4 and callable caller applicability remain separate/unproved.
+See [fresh raw review](cloud-build/sort4-caller-entry-native/FRESH-1D2237D7-REVIEW.md)
+and [first blocker](cloud-build/sort4-caller-entry-native/CALLER-ENTRY-BLOCKER.md).

@@ -22,7 +22,9 @@ with full posts; three intended assertions and admission controls pass.
 Both actual prefix variants stop at smallsort.rs:230, mapped lib.rs:20:
 len+16<=usizeMAX. Paired MIR/refinement pass; abort/pointer calls not reached.
 Public ZST guard transfer to this helper remains OPEN; caller-to-C4 NOT_RUN.
-Preparing proof-only exact public first-guard prefix, cut before len/likely;
+Third Buildd352b4a6 terminal/accounted:1157used/2443remaining. Public stable
+guard fixtures stopped at BufGuard generic-T frontend before guard; no guard
+credit. Final proof-only experiment uses exact unstable public first guard;
 this supplies no helper premise and changes no model/tool rule.
 [Fresh raw review](cloud-build/sort4-caller-entry-native/FRESH-A125DB66-REVIEW.md). New source-bound binding/lowering within approved
 caller/as_mut_ptr/cast/C1-C4 scope only. No newownership/aliasaxioms/MUinverse,

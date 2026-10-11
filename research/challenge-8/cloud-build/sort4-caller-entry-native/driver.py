@@ -34,11 +34,7 @@ HEADER = ("#![feature(freeze, rustc_attrs, core_intrinsics)]\n"
           "impl<T: Freeze> FreezeMarker for T {}\n\n")
 PUBLIC_HEADER = ("#![feature(sized_type_properties)]\n"
                  "#![allow(dead_code, unused_variables)]\n"
-                 "use std::mem::{size_of, MaybeUninit, SizedTypeProperties};\n"
-                 "pub trait BufGuard<T> {\n"
-                 "    fn with_capacity(capacity: usize) -> Self;\n"
-                 "    fn as_uninit_slice_mut(&mut self) -> &mut [MaybeUninit<T>];\n"
-                 "}\n\n")
+                 "use std::mem::{size_of, SizedTypeProperties};\n\n")
 CASES = {
     "canonical-generic": "canonical_slice_as_mut_ptr",
     "canonical-mu": "canonical_slice_as_mut_ptr_mu",
@@ -115,26 +111,20 @@ def source_certificate(a, manifest: dict) -> dict:
          small_text.count("let presorted_len = if const { size_of::<T>() <= 16 } && len >= 16 {") == 1 and
          small_text.count("} else if len >= 8 {\n            // SAFETY: scratch_base is valid and has enough space.\n            sort4_stable(v_base, scratch_base, is_less);") == 1,
          "actual scratch/branch/first-call source boundary")
-    stable = a.proof_root / "library/core/src/slice/sort/stable/mod.rs"
+    unstable = a.proof_root / "library/core/src/slice/sort/unstable/mod.rs"
     sized = a.proof_root / "library/core/src/mem/mod.rs"
-    pinned_file(stable, manifest["actual_stable_source_sha256"], "public stable-sort source")
+    pinned_file(unstable, manifest["actual_unstable_source_sha256"], "public unstable-sort source")
     pinned_file(sized, manifest["actual_sized_type_source_sha256"], "SizedTypeProperties source")
-    stable_text = stable.read_text()
-    guard = ("pub fn sort<T, F: FnMut(&T, &T) -> bool, BufT: BufGuard<T>>(v: &mut [T], is_less: &mut F) {\n"
+    unstable_text = unstable.read_text()
+    guard = ("pub fn sort<T, F>(v: &mut [T], is_less: &mut F)\n"
+             "where\n    F: FnMut(&T, &T) -> bool,\n{\n"
              "    // Arrays of zero-sized types are always all-equal, and thus sorted.\n"
              "    if T::IS_ZST {\n        return;\n    }")
-    trait_methods = ("pub trait BufGuard<T> {\n"
-                     "    /// Creates new buffer that holds at least `capacity` memory.\n"
-                     "    fn with_capacity(capacity: usize) -> Self;\n"
-                     "    /// Returns mutable access to uninitialized memory owned by the buffer.\n"
-                     "    fn as_uninit_slice_mut(&mut self) -> &mut [MaybeUninit<T>];\n"
-                     "}")
-    need(stable_text.count(guard) == 1 and
-         stable_text.count(trait_methods) == 1 and
+    need(unstable_text.count(guard) == 1 and
          sized.read_text().count("const IS_ZST: bool = Self::SIZE == 0;") == 1,
-         "actual public first guard and generic buffer trait")
+         "actual public unstable first guard and sized type relation")
     return {"slice_sha256": sha(std), "smallsort_sha256": sha(small),
-            "stable_sha256": sha(stable), "sized_type_sha256": sha(sized),
+            "unstable_sha256": sha(unstable), "sized_type_sha256": sha(sized),
             "public_guard_exact_source": True,
             "canonical_method_body": method,
             "actual_entry_has_len_early_return": True,
@@ -384,7 +374,8 @@ def make_fixture(a, helper, ghost, manifest: dict, name: str) -> tuple[Path, dic
              b"assume(" not in original and b"sort4_stable(" not in original,
              "prefix diagnostic boundary/no supplied domain")
     if name.startswith("public-"):
-        actual_signature = b"pub fn sort<T, F: FnMut(&T, &T) -> bool, BufT: BufGuard<T>>(v: &mut [T], is_less: &mut F) {"
+        actual_signature = (b"pub fn sort<T, F>(v: &mut [T], is_less: &mut F)\n"
+                            b"where\n    F: FnMut(&T, &T) -> bool,\n{")
         need(original.count(actual_signature) == 1 and
              original.count(b"if T::IS_ZST {\n        return;\n    }") == 1 and
              b"let len = v.len()" not in original and

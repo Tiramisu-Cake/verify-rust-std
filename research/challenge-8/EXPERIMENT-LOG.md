@@ -7215,3 +7215,28 @@ Main static review confirms BufGuard is copied solely as unused generic context,
 both method signatures match pinned source, IS_ZST definition is source-pinned,
 and negative modifies only ghost assertion. Public source/MIR/AST identity is
 captured freshly in Cloud; no inventory-specific replacement uses guessed IDs.
+
+Third dispatch: Buildd352b4a6-d86d-48b4-86ca-cdccb0af4d89, proof=infra
+3ed89d79a4d0c389607fac7eb0b3909d7e7d4b28; config
+9a9a0cdd5b69160d7e8ccd340191822c81bdb31f04d568f0ef558b0026b369e9;
+source payload322b2a2746a4c163368b65f874c04a157ac811cb140669c2f6f73bda0adfe798,
+538968bytes/181parts<=191,76proof/8recipeinfra paths. Timeout1200/reserve1260.
+Fresh public guard source/MIR/AST/physical IDs required; no old inventory
+assumption, no actual helper premise transfer or caller PASS asserted.
+
+Third Buildd352b4a6 collector SUCCESS/389conservative seconds;1157used/2443
+remaining. Archiveae39f373baf16748479cb05c0874e5c51536a8a692bfcfd63037778b6e1e9e75
+and748inventory/478textchunks independently verified, standard download verified.
+Pointer positives/three intended negatives freshly pass; helperoverflow unchanged.
+ALLthree public stable guard cases stop before guard at verifier type-resolution
+lib.rs(6,8-27), T in BufGuard::as_uninit_slice_mut; paired support passes.
+NOpublicguard positive or semantic negative credit. Historical failure retained.
+
+Fourth experiment card BEFOREimplementation: exact public unstable::sort<T,F>
+where F:FnMut(&T,&T)->bool first T::IS_ZST guard, cut before len/likely.
+This is an actual separate public route, avoids stable's BufGuard fixture
+frontend obstacle, and changes no trait/ADT/model/translator/spec rule.
+Keep positive nonzero/native-resource/full-post checks and two exact assertion
+negatives, including reachable ZST assertfalse; repeat component and helper
+gates. The stable public guard and transfer down either actualcallchain remain
+OPEN unless freshly proved. No helper nonzero premise supplied.

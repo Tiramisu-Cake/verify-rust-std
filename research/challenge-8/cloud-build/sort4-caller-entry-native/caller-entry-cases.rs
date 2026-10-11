@@ -113,7 +113,10 @@ fn small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
 // CASE_END actual-unfiltered-prefix
 
 // CASE_BEGIN public-guard-positive
-pub fn sort<T, F: FnMut(&T, &T) -> bool, BufT: BufGuard<T>>(v: &mut [T], is_less: &mut F) {
+pub fn sort<T, F>(v: &mut [T], is_less: &mut F)
+where
+    F: FnMut(&T, &T) -> bool,
+{
     if T::IS_ZST {
         return;
     }
@@ -133,7 +136,10 @@ pub fn sort<T, F: FnMut(&T, &T) -> bool, BufT: BufGuard<T>>(v: &mut [T], is_less
 // CASE_END public-guard-positive
 
 // CASE_BEGIN public-guard-false-positive-size
-pub fn sort<T, F: FnMut(&T, &T) -> bool, BufT: BufGuard<T>>(v: &mut [T], is_less: &mut F) {
+pub fn sort<T, F>(v: &mut [T], is_less: &mut F)
+where
+    F: FnMut(&T, &T) -> bool,
+{
     if T::IS_ZST {
         return;
     }
@@ -142,7 +148,10 @@ pub fn sort<T, F: FnMut(&T, &T) -> bool, BufT: BufGuard<T>>(v: &mut [T], is_less
 // CASE_END public-guard-false-positive-size
 
 // CASE_BEGIN public-guard-zst-branch-false
-pub fn sort<T, F: FnMut(&T, &T) -> bool, BufT: BufGuard<T>>(v: &mut [T], is_less: &mut F) {
+pub fn sort<T, F>(v: &mut [T], is_less: &mut F)
+where
+    F: FnMut(&T, &T) -> bool,
+{
     if T::IS_ZST {
         //@ assert false;
         return;

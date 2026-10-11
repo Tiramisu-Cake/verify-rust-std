@@ -1,9 +1,13 @@
-# Public stable-sort guard prefix — conditional Cloud diagnostic
+# Public unstable-sort guard prefix — conditional Cloud diagnostic
 
-The actual public entry is `library/core/src/slice/sort/stable/mod.rs:29`:
-`sort<T, F: FnMut(&T, &T) -> bool, BufT: BufGuard<T>>(v: &mut [T],
-is_less: &mut F)`. The pinned source SHA-256 is
-`3f2b2d8543a1cb91c9352e041bed49949a31cbd4b1030ec1a82cca1304cb22d3`.
+Cloud build d352b4a6 first tested the stable entry with exact
+`BufT: BufGuard<T>`. All three cases stopped in the frontend at the copied
+trait declaration (`No such type parameter ... T`, line 6). They give no
+guard or negative proof credit. The next diagnostic uses the other real
+public entry, `library/core/src/slice/sort/unstable/mod.rs:22`:
+`pub fn sort<T, F>(v: &mut [T], is_less: &mut F) where
+F: FnMut(&T, &T) -> bool`. Its source SHA-256 is
+`23fa044fde8d3542f5f298654923ed2426930373259e6f71670c75b80501cf9a`.
 It first returns if `T::IS_ZST`, then computes `len = v.len()` and returns
 when `intrinsics::likely(len < 2)`. This experiment cuts immediately after
 the first guard, before computing `len` or translating `likely`. The actual `SizedTypeProperties::IS_ZST`
@@ -13,7 +17,7 @@ The pinned translator already lowers the exact associated constant to
 `std::mem::IS_ZST::<T>()`, whose existing rsspec says its result equals
 `size_of::<T>() == 0`. This diagnostic changes no tool rule or spec.
 
-The proof-only fixture retains the generic `T/F/BufT` signature, native
+The proof-only fixture retains the exact generic `T/F` signature, native
 `v: &mut [T]` and `is_less: &mut F` resources, and the exact first guard.
 It asserts only that this guard's continuation has `size_of::<T>() > 0`.
 The ZST early return must satisfy its full generated normal, unwind, local
@@ -26,7 +30,7 @@ later `len` and `intrinsics::likely` operations receive no proof credit.
 
 This is a deliberately partial public-entry diagnostic. It cannot transfer
 this continuation fact to `small_sort_general_with_scratch`: the intervening
-cfg selection, insertion/driftsort, scratch construction and calls remain
+cfg selection, insertion/ipnsort/quicksort, scratch construction and calls remain
 unproved. In particular, it supplies no non-ZST precondition to the separate
 native helper fixture and cannot resolve its `len + 16` obligation by fiat.
 Any VF0 result remains a candidate under the experimental, unaccepted
