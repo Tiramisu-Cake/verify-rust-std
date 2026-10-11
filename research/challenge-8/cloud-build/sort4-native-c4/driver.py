@@ -23,7 +23,7 @@ ROOT = Path("research/challenge-8/cloud-build")
 FROZEN_HERE = ROOT / "sort4-native-c4"
 OPAQUE_PHASE = "SORT4-NATIVE-OPAQUE-CLOUD-2026-10-10"
 OPAQUE_SESSION = os.environ.get("SORT4_NATIVE_OPAQUE_PHASE") == "1"
-C1_BOUND_PHASE = "SORT4-NATIVE-C1-BOUND-CLOUD-2026-10-10"
+C1_BOUND_PHASE = "SORT4-NATIVE-C1-ZST-DIAG-CLOUD-2026-10-11"
 C1_BOUND_SESSION = os.environ.get("SORT4_NATIVE_C1_BOUND_PHASE") == "1"
 HERE = ROOT / ("sort4-native-c1-bound" if C1_BOUND_SESSION else
                "sort4-native-opaque" if OPAQUE_SESSION else "sort4-native-c4")
@@ -281,7 +281,7 @@ def build_native_capture_tool(a, historical, base: Path, env: dict[str, str]) ->
 
 
 def build_native_bound_tool(a, historical, base: Path, env: dict[str, str]) -> Path:
-    """Build the exact capture+bound translator chain in a separate Cloud tool."""
+    """Build the pinned capture+bound chain plus dead-code identity diagnostics."""
     need(C1_BOUND_SESSION, "native C1 bound tool is outside its exact phase")
     capture_dir = a.proof_root / ROOT / "sort4-native-opaque"
     capture_profile_path = capture_dir / "NATIVE-C1-CAPTURE-PROFILE.json"
@@ -339,6 +339,33 @@ def build_native_bound_tool(a, historical, base: Path, env: dict[str, str]) -> P
         need(sha(tool / TRANSLATOR) == manifest["translator_sha256"] and
              sha(tool / KERNEL) == FINAL_KERNEL,
              f"native C1 {label} result pin differs")
+    diagnostic_manifest_path = a.proof_root / HERE / "NATIVE-DEAD-CODE-IDENTITY-DIAGNOSTIC-MANIFEST.json"
+    diagnostic_patch = a.proof_root / HERE / "native-dead-code-identity-diagnostic.patch"
+    diagnostic = json.loads(diagnostic_manifest_path.read_text())
+    diagnostic_files = diagnostic.get("files", {})
+    need(diagnostic.get("tool_head") == "f76012fb518703b1d98e243ac4f487f16877cfcb" and
+         diagnostic.get("mode") == "DIAGNOSTIC_ONLY_PRESERVE_DEAD_CODE_REFUSAL" and
+         diagnostic.get("profile_accepted") is False and
+         diagnostic.get("kernel_sha256") == FINAL_KERNEL and
+         sha(diagnostic_patch) == diagnostic.get("patch_sha256") and
+         set(diagnostic_files) == {"src/vfconsole/vfconsole.ml", "src/verify_expr.ml"} and
+         [line for line in diagnostic_patch.read_text().splitlines()
+          if line.startswith(("--- ", "+++ "))] == [
+              "--- a/src/vfconsole/vfconsole.ml", "+++ b/src/vfconsole/vfconsole.ml",
+              "--- a/src/verify_expr.ml", "+++ b/src/verify_expr.ml"],
+         "dead-code identity diagnostic manifest or patch differs")
+    for rel, pins in diagnostic_files.items():
+        need(sha(tool / rel) == pins["base_sha256"],
+             f"dead-code diagnostic base hash differs: {rel}")
+    for operation, argv in (("check", ["apply", "--check"]), ("apply", ["apply"])):
+        row = stage(a, root, f"dead-code-diagnostic-patch-{operation}",
+                    ["git", "-C", str(tool), *argv, str(diagnostic_patch)], env,
+                    60, cwd=tool)
+        need(row.get("exit") == 0,
+             f"dead-code diagnostic patch {operation} failed")
+    for rel, pins in diagnostic_files.items():
+        need(sha(tool / rel) == pins["result_sha256"],
+             f"dead-code diagnostic result hash differs: {rel}")
     (tool / "bin/verifast").unlink(missing_ok=True)
     row = stage(a, root, "console-build",
                 ["make", "-C", str(tool / "src"), "../bin/verifast",
@@ -346,22 +373,27 @@ def build_native_bound_tool(a, historical, base: Path, env: dict[str, str]) -> P
                 600, cwd=tool)
     need(row.get("exit") == 0, "native C1 bound console build failed")
     after = historical.snapshot(a, tool)
+    permitted_modified_names = set(before["modified_names"]) | set(diagnostic_files)
     need(after["head"] == before["head"] and
          after["critical"][str(TRANSLATOR)] == bound["translator_sha256"] and
          all(after["critical"][key] == value
              for key, value in before["critical"].items()
              if key != str(TRANSLATOR)) and
          all(after[key] == before[key] for key in
-             ("effective_rsspec", "proof_std", "modified_names")) and
+             ("effective_rsspec", "proof_std")) and
+         set(after["modified_names"]) == permitted_modified_names and
          all(after["binaries"][key] == value
              for key, value in before["binaries"].items()
              if key != "bin/verifast"),
-         "native C1 bound tool changed frozen non-translator inputs")
+         "native C1 diagnostic build changed frozen semantics or unexpected files")
     save(root / "effective-profile.json", {
         "capture_profile_sha256": sha(capture_profile_path),
         "bound_profile_sha256": sha(bound_profile_path),
+        "diagnostic_manifest_sha256": sha(diagnostic_manifest_path),
+        "diagnostic_patch_sha256": sha(diagnostic_patch),
         "capture_patch_sha256": sha(patches[0][0]),
         "bound_patch_sha256": sha(patches[1][0]),
+        "diagnostic_files": diagnostic_files,
         "snapshot": after, "accepted": False,
         "frozen_c4_tool_unchanged": True})
     return tool
@@ -475,7 +507,7 @@ def verify_case(a, tool: Path, fixture: Path, root: Path,
              support["source_pair_sha256"] == input_sha,
              "native C1 bound exact normal/readonly MIR pre-verifier gate failed")
     command = [str(tool / "bin/verifast"), "-rustc_args", "--edition 2021",
-               "-verbose", "2", "verified/lib.rs"]
+               "-verbose", "4" if C1_BOUND_SESSION else "2", "verified/lib.rs"]
     if ast:
         rows["proof-ast-diagnostic"] = stage(a, root, "proof-ast-diagnostic",
                                              [str(tool / "bin/verifast"),
@@ -503,6 +535,77 @@ def verify_case(a, tool: Path, fixture: Path, root: Path,
                                 "FIRST_CAUSAL_STAGE_DIAGNOSTIC")
     save(root / "case-result.json", result)
     return result
+
+
+def native_zst_model_diagnostics(a, frozen_tool: Path,
+                                 env: dict[str, str]) -> dict:
+    """Compare the size guard with and without an unused MaybeUninit slice."""
+    ghost = load(a.cloud_dir / "sort4-native-entry-c1/c2_discovery.py",
+                 "native_zst_diag_ghost_strip")
+    cases = {
+        "zst-model-without-scratch": """#![allow(dead_code, unused_variables)]
+use std::mem::size_of;
+
+fn small_sort_general_with_scratch<T>(v: &mut [T]) {
+    let len = v.len();
+    if size_of::<T>() == 0 {
+        return;
+    }
+    if len >= 8 {
+        //@ assert len >= 8;
+    }
+}
+""",
+        "zst-model-with-unused-mu-scratch": """#![allow(dead_code, unused_variables)]
+use std::mem::{size_of, MaybeUninit};
+
+fn small_sort_general_with_scratch<T>(v: &mut [T], scratch: &mut [MaybeUninit<T>]) {
+    let len = v.len();
+    if size_of::<T>() == 0 {
+        return;
+    }
+    if len >= 8 {
+        //@ assert len >= 8;
+    }
+}
+""",
+    }
+    results = {}
+    for name, source in cases.items():
+        root = a.evidence / "zst-model" / name
+        fixture = root / "fixture"
+        (fixture / "verified").mkdir(parents=True, exist_ok=True)
+        (fixture / "original").mkdir(exist_ok=True)
+        verified = source.encode()
+        original = ghost.strip_ghost(verified)
+        (fixture / "verified/lib.rs").write_bytes(verified)
+        (fixture / "original/lib.rs").write_bytes(original)
+        save(root / "source-certificate.json", {
+            "case": name, "target": "small_sort_general_with_scratch",
+            "verified_sha256": sha(fixture / "verified/lib.rs"),
+            "original_sha256": sha(fixture / "original/lib.rs"),
+            "paired_source_generated_from_inline_constant": True,
+            "contains_unused_maybeuninit_parameter": "unused-mu" in name,
+            "proof_credit": False})
+        try:
+            result = verify_case(a, frozen_tool, fixture, root, env,
+                                 target="small_sort_general_with_scratch",
+                                 ast=True, require_paired_support=True)
+        except Exception as exc:
+            result = {"classification": "ZST_MODEL_DIAGNOSTIC_SETUP_OR_COLLECTOR_ERROR",
+                      "first_causal_stage": "COLLECTOR", "reason": str(exc),
+                      "source_pair_immutable": True, "proof_credit": False}
+            save(root / "case-result.json", result)
+        result.update(diagnostic_only=True, proof_credit=False,
+                      frozen_tool_console_sha256=sha(frozen_tool / "bin/verifast"))
+        save(root / "case-result.json", result)
+        results[name] = result
+    output = {"classification": "ZST_MODEL_DIAGNOSTICS_RECORDED",
+              "tool_role": "FROZEN_C4_TOOL_NOT_BOUND_ADMISSION_TOOL",
+              "paired_support_required": True, "proof_credit": False,
+              "cases": results}
+    save(a.evidence / "zst-model-diagnostics.json", output)
+    return output
 
 
 def verify_c4_reuse_support(a, tool: Path, fixture: Path, root: Path,
@@ -1045,6 +1148,8 @@ def run(a) -> None:
                 "unwind_post": "target full native CURRENT source, scratch MU, F.own and thread after direct C1 cleanup",
                 "accepted": False, "proof_credit": False})
         supplied = supplied_cases(a, tool, active, capture_tool, bound_tool)
+        zst_model = (native_zst_model_diagnostics(a, tool, active)
+                     if C1_BOUND_SESSION else None)
         if reuse_admission:
             need(profile.get("prior_fresh_admission_build") == "3584fb04-e237-4d66-9c85-60de4df059c4" and
                  profile.get("prior_fresh_admission_proof_infra") == "285220a384d050e046d1e8709b79a52bd602e675" and
@@ -1089,6 +1194,7 @@ def run(a) -> None:
                   "frozen_translator_sha256": FINAL_TRANSLATOR,
                   "frozen_kernel_sha256": FINAL_KERNEL,
                   "c4": c4, "native": native, "supplied": supplied,
+                  "zst_model_diagnostics": zst_model,
                   "admission": admission,
                   "comment_admission": comment_admission,
                   "run_mode": profile["run_mode"],
