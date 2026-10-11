@@ -10,9 +10,11 @@ from __future__ import annotations
 import argparse
 import base64
 import gzip
+from functools import lru_cache
 import hashlib
 import io
 import json
+import lzma
 import os
 from pathlib import Path, PurePosixPath
 import re
@@ -83,6 +85,7 @@ def git_oid(kind: str, data: bytes) -> str:
     return hashlib.sha1(f"{kind} {len(data)}\0".encode() + data).hexdigest()
 
 
+@lru_cache(maxsize=4096)
 def read_object(repo: Path, kind: str, oid: str) -> bytes:
     if git(repo, "cat-file", "-t", oid).decode().strip() != kind:
         stop(f"unexpected object type for {oid}; expected {kind}")
@@ -272,8 +275,10 @@ def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes
         for oid in sorted(pool):
             item = dict(pool[oid])
             raw_object = base64.b64decode(item["data_base64"], validate=True)
-            item["data_base64"] = base64.b64encode(gzip.compress(raw_object, mtime=0)).decode("ascii")
-            item["compression"] = "gzip"
+            packed = gzip.compress(raw_object, mtime=0)
+            xz = lzma.compress(raw_object, preset=6)
+            item["compression"] = "xz" if len(xz) < len(packed) else "gzip"
+            item["data_base64"] = base64.b64encode(xz if item["compression"] == "xz" else packed).decode("ascii")
             payload["shared_objects"].append(item)
     raw = (json.dumps(payload, sort_keys=True, separators=(",", ":")) + "\n").encode()
     buffer = io.BytesIO()
@@ -343,9 +348,11 @@ def restore_repo(record: dict, destination: Path, allowed_paths: list[str]) -> l
             data = base64.b64decode(item.get("data_base64", ""), validate=True)
             if item.get("compression") == "gzip":
                 data = gzip.decompress(data)
+            elif item.get("compression") == "xz":
+                data = lzma.decompress(data)
             elif item.get("compression") is not None:
                 stop(f"unsupported Git object compression: {oid}")
-        except (ValueError, TypeError, OSError, EOFError):
+        except (ValueError, TypeError, OSError, EOFError, lzma.LZMAError):
             stop(f"invalid base64 for Git object {oid}")
         if len(data) != item.get("size") or git_oid(kind, data) != oid:
             stop(f"Git object identity check failed: {oid}")
