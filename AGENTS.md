@@ -31,7 +31,7 @@ build/check/test, rustc, bootstrap/x.py и эквивалентные subprocess
 Разрешены чтение/правки, Git, hashes, syntax/static parsing и малые изолированные
 classifier/parser tests по [WORK-POLICY §4](research/challenge-8/WORK-POLICY.md#4-дешёвые-проверки-на-vps-разрешённое-исключение).
 
-Сохранять v2 coordinator: максимум два project-wide queued/running/unresolved
+Использовать согласованный v3 coordinator: максимум три project-wide queued/running/unresolved
 Build, один на стабильного owner и ledger. Не обходить dispatcher и не править
 вручную live coordinator/чужой учёт. Actions dispatch и изменение triggers —
 только по отдельному прямому поручению.

@@ -12,6 +12,8 @@ import datetime
 COORDINATION = Path('/root/smallsort-ci-coordination')
 MAX_ACTIVE = 2
 SCHEMA_VERSION = 2
+PROTOCOLS = {2: 2, 3: 3}
+V3_OWNERS = frozenset(('select-sort4', 'merge', 'verifast'))
 
 
 def read(path):
@@ -53,8 +55,34 @@ def locked():
             fcntl.flock(handle, fcntl.LOCK_UN)
 
 
+def protocol():
+    """Return the active envelope version and capacity; caller holds locked().
+
+    Absence and legacy single-record state remain v2 on their first mutation.
+    Only the explicit migration helper may change an existing v2 envelope to v3.
+    """
+    path = COORDINATION / 'active.json'
+    if not path.exists():
+        return SCHEMA_VERSION, MAX_ACTIVE
+    data = read(path)
+    if not isinstance(data, dict):
+        raise RuntimeError('Invalid Cloud Build coordination state')
+    if 'schema_version' not in data:
+        return SCHEMA_VERSION, MAX_ACTIVE
+    version = data['schema_version']
+    if type(version) is not int or version not in PROTOCOLS or data.get('max_active') != PROTOCOLS[version]:
+        raise RuntimeError('Unsupported Cloud Build coordination protocol')
+    return version, PROTOCOLS[version]
+
+
+def ledger_key(value):
+    if not isinstance(value, (str, Path)) or not Path(value).is_absolute():
+        raise RuntimeError('Reservation ledger must be absolute')
+    return str(Path(value).resolve())
+
+
 def reservations():
-    """Read legacy single-slot or v2 state; caller holds locked().
+    """Read legacy single-slot, v2 or v3 state; caller holds locked().
 
     Keep the same file and lock. A v1 client sees the v2 envelope as occupied
     and cannot reconcile its missing record fields, so it fails closed.
@@ -66,13 +94,12 @@ def reservations():
     data = read(path)
     if not isinstance(data, dict):
         raise RuntimeError('Invalid Cloud Build coordination state')
+    version, capacity = protocol()
     if 'schema_version' in data:
-        if data['schema_version'] != SCHEMA_VERSION or data.get('max_active') != MAX_ACTIVE:
-            raise RuntimeError('Unsupported Cloud Build coordination protocol')
         records = data.get('reservations')
     else:
         records = [data]
-    if not isinstance(records, list) or len(records) > MAX_ACTIVE:
+    if not isinstance(records, list) or len(records) > capacity:
         raise RuntimeError('Invalid Cloud Build reservation count')
     tokens, owners, ledgers = set(), set(), set()
     for record in records:
@@ -80,11 +107,15 @@ def reservations():
             raise RuntimeError('Invalid Cloud Build reservation')
         for key, seen in (('dispatch_token', tokens), ('owner', owners), ('ledger', ledgers)):
             value = record.get(key)
-            if not isinstance(value, str) or not value or value in seen:
+            if not isinstance(value, str) or not value:
+                raise RuntimeError('Missing or duplicate reservation ' + key)
+            if key == 'ledger':
+                value = ledger_key(value)
+            if value in seen:
                 raise RuntimeError('Missing or duplicate reservation ' + key)
             seen.add(value)
-        if not Path(record['ledger']).is_absolute():
-            raise RuntimeError('Reservation ledger must be absolute')
+        if version == 3 and record['owner'] not in V3_OWNERS:
+            raise RuntimeError('Unsupported v3 Cloud Build owner')
     return records
 
 
@@ -98,8 +129,13 @@ def active(owner=None):
 
 
 def save_reservations(records):
+    version, capacity = protocol()
+    if len(records) > capacity:
+        raise RuntimeError('Cloud Build reservation capacity exceeded')
+    if version == 3 and any(r['owner'] not in V3_OWNERS for r in records):
+        raise RuntimeError('Unsupported v3 Cloud Build owner')
     write(COORDINATION / 'active.json', {
-        'schema_version': SCHEMA_VERSION, 'max_active': MAX_ACTIVE,
+        'schema_version': version, 'max_active': capacity,
         'reservations': records,
     })
 
@@ -112,7 +148,8 @@ def require_capacity(owner, ledger, ongoing=()):
     All project builds count, including ones submitted outside this client.
     """
     records = reservations()
-    if any(r['owner'] == owner or r['ledger'] == str(ledger) for r in records):
+    requested_ledger = ledger_key(ledger)
+    if any(r['owner'] == owner or ledger_key(r['ledger']) == requested_ledger for r in records):
         raise RuntimeError('Owner or ledger already has an active or unresolved build')
     ids, matched_tokens = set(), set()
     occupied = len(records)
@@ -134,8 +171,12 @@ def require_capacity(owner, ledger, ongoing=()):
             matched_tokens.add(token)
         else:
             occupied += 1
-    if occupied >= MAX_ACTIVE:
-        raise RuntimeError('Both Cloud Build slots are occupied; monitor/reconcile first')
+    _, capacity = protocol()
+    if occupied >= capacity:
+        raise RuntimeError(('Both' if capacity == 2 else 'All') +
+                           ' Cloud Build slots are occupied; monitor/reconcile first')
+    if capacity == 3 and owner not in V3_OWNERS:
+        raise RuntimeError('Unsupported v3 Cloud Build owner')
 
 
 def reserve(record):
