@@ -319,8 +319,10 @@ def _classify(case: Path, mode: str, execution: dict, source_before: dict,
             rf"(?m)^.*{re.escape(positive_drop_loc)}: Verifying call[^\n]*$", log)]
         free_markers = [m.start() for m in re.finditer(
             rf"(?m)^.*{re.escape(positive_drop_loc)}: Freeing locals\.[^\n]*$", log)]
-        retirement_log = (len(call_markers) == 2 and len(free_markers) >= 1 and
-                          call_markers[0] < min(free_markers) < call_markers[1] <
+        # The qualified normal path verifies create_ref_mut, glue, and
+        # end_ref_mut before retirement; the injected glue is the fourth call.
+        retirement_log = (len(call_markers) == 4 and len(free_markers) >= 1 and
+                          call_markers[2] < min(free_markers) < call_markers[3] <
                           (log.find(target_errors[0]) if len(target_errors) == 1 else -1))
     else:
         retirement_log = False
