@@ -1,0 +1,177 @@
+{
+  "auditor_sha256": "ce5bd31e46f8efa131b31dd9e1222a78ea7ddf749b8e4927974027c6f402fa53",
+  "auditor_version": "outer-bool-positive-v1",
+  "cases": [
+    {
+      "case": "unchanged_saved_evidence",
+      "classification": "PASS_POSITIVE_LOCAL_HRTB_CLOSURE",
+      "synthetic": false
+    },
+    {
+      "case": "missing_registration",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true,
+      "target_check": "translator_registration_and_call"
+    },
+    {
+      "case": "missing_translator_call",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true,
+      "target_check": "translator_registration_and_call"
+    },
+    {
+      "case": "missing_actual_callback",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true,
+      "target_check": "actual_callback"
+    },
+    {
+      "case": "missing_normal_recovery",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true,
+      "target_check": "normal_resource_closure"
+    },
+    {
+      "case": "missing_unwind_recovery",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true,
+      "target_check": "unwind_resource_closure"
+    },
+    {
+      "case": "missing_cut",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true,
+      "target_check": "two_complete_paths"
+    },
+    {
+      "case": "missing_normal_owner_post",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true,
+      "target_check": "normal_resource_closure"
+    },
+    {
+      "case": "missing_unwind_owner_post",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true,
+      "target_check": "unwind_resource_closure"
+    },
+    {
+      "case": "missing_normal_return",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true,
+      "target_check": "normal_resource_closure"
+    },
+    {
+      "case": "missing_unwind_return",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true,
+      "target_check": "unwind_resource_closure"
+    },
+    {
+      "case": "missing_lifetime_consumption",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true,
+      "target_check": "two_complete_paths"
+    },
+    {
+      "case": "missing_leak",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true,
+      "target_check": "two_complete_paths"
+    },
+    {
+      "case": "missing_export_marker",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true,
+      "target_check": "export_seal"
+    },
+    {
+      "case": "missing_relocation",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true,
+      "target_check": "relocation_observed"
+    },
+    {
+      "case": "missing_target_header",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true,
+      "target_check": "target_entered_once_and_last"
+    },
+    {
+      "case": "missing_completion",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true,
+      "target_check": "terminal_completion"
+    },
+    {
+      "case": "truncated_log",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true
+    },
+    {
+      "case": "truncated_with_success_banner",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true
+    },
+    {
+      "case": "wrong_projection",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true
+    },
+    {
+      "case": "missing_final_ast",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true
+    },
+    {
+      "case": "nonzero_exit",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true
+    },
+    {
+      "case": "stale_log_hash",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true
+    },
+    {
+      "case": "recorded_error",
+      "classification": "INCONCLUSIVE",
+      "synthetic": true
+    },
+    {
+      "case": "saved_identity_tamper_log",
+      "classification": "IDENTITY_REFUSED",
+      "synthetic": true
+    },
+    {
+      "case": "saved_identity_tamper_proof",
+      "classification": "IDENTITY_REFUSED",
+      "synthetic": true
+    },
+    {
+      "case": "saved_identity_tamper_manifest",
+      "classification": "IDENTITY_REFUSED",
+      "synthetic": true
+    },
+    {
+      "case": "saved_identity_tamper_summary",
+      "classification": "IDENTITY_REFUSED",
+      "synthetic": true
+    },
+    {
+      "case": "saved_identity_tamper_inventory",
+      "classification": "IDENTITY_REFUSED",
+      "synthetic": true
+    },
+    {
+      "case": "self_consistent_derivative_is_not_saved_build",
+      "classification": "IDENTITY_REFUSED",
+      "synthetic": true
+    }
+  ],
+  "classification": "CLASSIFIER_TESTS_PASS",
+  "count": 30,
+  "fresh_proof": false,
+  "proof_credit": false,
+  "test_sha256": "70f0b64c09e53168ad20b9274c0a1a203223b66b9fb519084fd28989f45c266d"
+}

@@ -1,0 +1,356 @@
+{
+  "accepted": false,
+  "accounting": {
+    "automatic_restart": false,
+    "cloud_budget_seconds": 0,
+    "cloud_used_seconds": 0,
+    "deadline_utc": "2026-10-11T10:50:27Z",
+    "new_builds": [],
+    "new_registrations": [],
+    "old_ledgers_unchanged": true,
+    "own_unresolved_cloud_reservations": [],
+    "owner": "verifast",
+    "session_start_utc": "2026-10-11T09:50:27Z",
+    "status": "CLOSED"
+  },
+  "auditor_sha256": "ce5bd31e46f8efa131b31dd9e1222a78ea7ddf749b8e4927974027c6f402fa53",
+  "auditor_version": "outer-bool-positive-v1",
+  "build": "9397d5cd-51e6-4de4-87d0-e2195728f713",
+  "checkpoint_parent": "a0bd98275be52760dcb30f9a6c8d07ef6d7dcd36",
+  "classification": "SAVED_EVIDENCE_REVIEW_AND_RECLASSIFICATION",
+  "classifier_case_count": 30,
+  "commands": "REPRODUCE.md",
+  "compiler": "nightly-2026-09-25",
+  "corrected_runner_auditor_commit": "8fd96ce4927c853ed6e02be6f9cba1fd4131eb05",
+  "corrected_runner_cloud": "NOT_RUN",
+  "dependencies_file": "DEPENDENCIES.md",
+  "dependency_manifest_context": "Use original pinned manifest for complete ordered patches, source/MIR/AST, full30 pack, twoXZ and dependency identities; unchanged inputs independently checked",
+  "effective_hashes": {
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "src/frontend/ocaml_expr_of_ast.ml": "cd90799926cfc73d86e3c9b137ed84e977b1a918d1ba8723f3f26125cbb7aafe",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "4450157b3137a58d46c4be52fd454695c1dcb2a123947df8b3d2ccfcc1e8f26f",
+    "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c"
+  },
+  "fresh_proof": false,
+  "gate_matrix": "GATE-MATRIX.md",
+  "independent_review": "REVIEW.md",
+  "inherited_assumptions": "Inherited experimental O26 A1 transmute/memory/prelude, bounded supplied entry premises; no profile acceptance or whole sort4 summary",
+  "inherited_assumptions_status": {
+    "C4_strict_lifetime_kernel": "UNCHANGED_MATCHES_C4_PIN",
+    "MDnew_identity_CFG": "INHERITED_ONCE_RETAINED_FIXTURE_EVIDENCE",
+    "O26_A1_transmute_memory_prelude": "INHERITED_EXPERIMENTAL_UNACCEPTED",
+    "bounded_entry_premises": "SUPPLIED_NOT_NATIVE_CALLER_PROVED",
+    "raw_ptr_own": "VALUE_ONLY_NO_POINTEE_RIGHTS"
+  },
+  "new_proof_credit": false,
+  "original_cloud_status": "FAILURE",
+  "original_integration_result": "INTEGRATION_DIAGNOSTIC_INCOMPLETE",
+  "original_manifest": "../verifast-c4-select-integration/manifest.json",
+  "original_manifest_sha256": "4311a7a8cf3c6537dfa082416187a2c2b98438aa5b656c9ae9cf2c35b4ee1bad",
+  "original_manifest_verdict_preserved": "BLOCKED",
+  "profile_accepted": false,
+  "profile_id": "verifast-c4-select-composition-20261011-c3",
+  "raw_archive": "../verifast-c4-select-outer-d/raw/evidence.tar.gz",
+  "raw_archive_sha256": "8a8428b2958176f9135841aa77dee2c96a1da72a3961a4183a8d957743aacf50",
+  "replay": "replay.json",
+  "replay_sha256": "282ff18b8c2ebcb1fc1d20ffeea3b2af2b3d183fd413a310071c43e59ed1a92c",
+  "reuse": {
+    "meaningful_inputs": {
+      "archive_sha256": "24a016d861d9582e9c6a9d202463bbcd2a25dffad8b0874d77132f190c632f4f",
+      "build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+      "eligibility": "Only optional first-select/AST-transport and exact selector CFG inventory changed; standalone strict-cut, pointer-value and ManuallyDrop rule inputs preserved. Fresh outer-bound fixture is separately run.",
+      "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+      "parser_sha256": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+      "prelude_sha256": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+      "review": "RAW-EVIDENCE-REVIEW.md",
+      "strict_case_template_sha256": "7cb5c8a8a2541da30af188c8731ee13276c59b206e5ed58a78e909852719359e"
+    },
+    "nine_C4_controls": {
+      "eligibility": "C4 bound rule/body/kernel/posts unchanged; changes affect first-select mode and optional AST transport only; fresh C4 positive matches pre-AST",
+      "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+      "pre_ast_sha256": "0ed31137cf55a2ed47ed624a6c61591e4aaf96371df3c2979fc10ce8d95bb222",
+      "review": "RAW-EVIDENCE-REVIEW.md",
+      "rows": {
+        "c1-unwind-false-assert": {
+          "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE",
+          "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+          "exit": 1,
+          "expected_vc": "verified/lib.rs(365,18-89): error: Assertion might not hold. (Cannot prove false.)",
+          "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+          "log_sha256": "6758ebdef7561342b12bc2657ec362c900dbb101491abede621bfdc41b90c6f4",
+          "raw_vc_review": "REVIEWED",
+          "target_entry_before_first_error": true
+        },
+        "c2-unwind-false-assert": {
+          "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE",
+          "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+          "exit": 1,
+          "expected_vc": "verified/lib.rs(398,18-99): error: Assertion might not hold. (Cannot prove false.)",
+          "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+          "log_sha256": "dd26bbf782c123dce67bfb512d18636ff60b7703f32559505c80a4d625fa2b0c",
+          "raw_vc_review": "REVIEWED",
+          "target_entry_before_first_error": true
+        },
+        "c3-unwind-false-assert": {
+          "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE",
+          "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+          "exit": 1,
+          "expected_vc": "verified/lib.rs(447,18-75): error: Assertion might not hold. (Cannot prove false.)",
+          "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+          "log_sha256": "e345ea15aa6480faee3df28c2bac7ba13f540caa929962b4fcc808e4e282f87b",
+          "raw_vc_review": "REVIEWED",
+          "target_entry_before_first_error": true
+        },
+        "c4-normal-missing-close": {
+          "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE",
+          "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+          "exit": 1,
+          "expected_vc": "verified/lib.rs(68,29-30): error: No matching heap chunks: comparison_debt<T>(t, _, ptr_add_(v_base, (2 + 0), T_typeid), ptr_add_(v_base, 0, T_typeid), _, _, _, _)",
+          "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+          "log_sha256": "461065cc6132412c2b23f78c69d9ab724dabe7af71d4ded7e339322d59c4e3bf",
+          "raw_vc_review": "REVIEWED",
+          "target_entry_before_first_error": true
+        },
+        "c4-normal-omit-join": {
+          "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE",
+          "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+          "exit": 1,
+          "expected_vc": "verified/lib.rs(317,5-12): error: No matching heap chunks: foreach<T>(cons(right_after2, cons(a_current0, cons(left_after2, cons(c_current0, nil)))), own0(T_typeid, t))",
+          "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+          "log_sha256": "cd4d2e8d81ec3e53d4026290e52294280936d0fc4278d0722e6ad38dea29e71c",
+          "raw_vc_review": "REVIEWED",
+          "target_entry_before_first_error": true
+        },
+        "c4-unwind-false-assert": {
+          "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE",
+          "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+          "exit": 1,
+          "expected_vc": "verified/lib.rs(482,18-75): error: Assertion might not hold. (Cannot prove false.)",
+          "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+          "log_sha256": "9c1f68e741511be15ce7b8ab80c746803b6c8b8521c587609c744b88f574c94c",
+          "raw_vc_review": "REVIEWED",
+          "target_entry_before_first_error": true
+        },
+        "c4-unwind-missing-close": {
+          "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE",
+          "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+          "exit": 1,
+          "expected_vc": "verified/lib.rs(68,29-30): error: No matching heap chunks: comparison_debt<T>(t, _, ptr_add_(v_base, (2 + 0), T_typeid), ptr_add_(v_base, 0, T_typeid), _, _, _, _)",
+          "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+          "log_sha256": "28a92edfd3353984b2ed89bc9daf47038d1711ffad59f3dc4bf4e83cbeec0427",
+          "raw_vc_review": "REVIEWED",
+          "target_entry_before_first_error": true
+        },
+        "c4-unwind-omit-join": {
+          "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE",
+          "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+          "exit": 1,
+          "expected_vc": "verified/lib.rs(324,5-12): error: No matching heap chunks: foreach<T>(cons(right_after2, cons(a_current0, cons(left_after2, cons(c_current0, nil)))), own0(T_typeid, t))",
+          "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+          "log_sha256": "6e29f9dc75dfe53aa9a885fe0405e1ca44c98f4b6b9cdd166c2a885887975a08",
+          "raw_vc_review": "REVIEWED",
+          "target_entry_before_first_error": true
+        },
+        "normal-false-post": {
+          "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE",
+          "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+          "exit": 1,
+          "expected_vc": "verified/lib.rs(315,21-24): error: Cannot prove condition. (Cannot prove false.)",
+          "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+          "log_sha256": "3b176743d60b36c8d00b1ac9c3fdb4d220d664a8d85911285953ed99ca1fe05a",
+          "raw_vc_review": "REVIEWED",
+          "target_entry_before_first_error": true
+        }
+      },
+      "source_sha256": "ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f"
+    },
+    "old_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+    "review": "../verifast-c4-select-outer-d/RAW-GATES-REVIEW-D.md",
+    "strict_pointer_mdnew": {
+      "mdnew_retained_fix": {
+        "all_intended": true,
+        "fixtures": {
+          "dead_code_pre.rs": {
+            "classification": "REUSED_UNCHANGED_BASELINE",
+            "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+            "expected": "dead",
+            "expected_failure_harness": false,
+            "expected_failure_interpretation": null,
+            "intended_diagnostic": true,
+            "proof_credit": false,
+            "raw_log_sha256": "fd03189a209e9500696e5a36c24aacfeb04711d647af82391a264cb08d4d3103",
+            "raw_vc_review": "REVIEWED"
+          },
+          "false_normal_post.rs": {
+            "classification": "REUSED_UNCHANGED_BASELINE",
+            "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+            "expected": "fail",
+            "expected_failure_harness": true,
+            "expected_failure_interpretation": "-allow_should_fail verified authored false assertion at normal/unwind post; exit0 is harness success, not printed VC error",
+            "intended_diagnostic": true,
+            "proof_credit": false,
+            "raw_log_sha256": "dcb6b7106978b8f51a783a9f9556fb9a777e00a6aa59105b8d597a7f7db26481",
+            "raw_vc_review": "REVIEWED"
+          },
+          "forget.rs": {
+            "classification": "REUSED_UNCHANGED_BASELINE",
+            "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+            "expected": "pass",
+            "expected_failure_harness": false,
+            "expected_failure_interpretation": null,
+            "intended_diagnostic": true,
+            "proof_credit": false,
+            "raw_log_sha256": "54d055485d7a1a48186b0c5099ae7364ac85b11e39f7bac4eceaf26360fc3120",
+            "raw_vc_review": "REVIEWED"
+          },
+          "shared_cleanup.rs": {
+            "classification": "REUSED_UNCHANGED_BASELINE",
+            "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+            "expected": "pass",
+            "expected_failure_harness": false,
+            "expected_failure_interpretation": null,
+            "intended_diagnostic": true,
+            "proof_credit": false,
+            "raw_log_sha256": "880699a9b6190bceec671f988ce122f730a7da0612324e2d1b16773a40c4117a",
+            "raw_vc_review": "REVIEWED"
+          },
+          "shared_false_unwind.rs": {
+            "classification": "REUSED_UNCHANGED_BASELINE",
+            "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+            "expected": "fail",
+            "expected_failure_harness": true,
+            "expected_failure_interpretation": "-allow_should_fail verified authored false assertion at normal/unwind post; exit0 is harness success, not printed VC error",
+            "intended_diagnostic": true,
+            "proof_credit": false,
+            "raw_log_sha256": "30f97176d826a5c5b9baa3a9622b6c4bb69dd3855852db4107eadeb1e4330a39",
+            "raw_vc_review": "REVIEWED"
+          }
+        },
+        "proof_credit": false,
+        "review": "RAW-EVIDENCE-REVIEW.md",
+        "state": "REUSED_UNCHANGED_BASELINE"
+      },
+      "pointer_value_pointee_rights": {
+        "no-pointee-rights": {
+          "classification": "REUSED_UNCHANGED_BASELINE",
+          "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+          "intended_site_observed": true,
+          "proof_credit": false,
+          "raw_log_sha256": "c904374ef8515e52ecd2e8d4c4bce1cd42378a16d31f8ddc7ca31bde3e29dd50",
+          "raw_vc_review": "REVIEWED",
+          "source_pair": {
+            "original": "0e95827393313b0e079be36aba9d596738e450712f6b809324f212edc8cdc22b",
+            "verified": "5bc1758b6a884d37f9b1c422dab21eac271d4b390f066b30df0f26e54be383ab"
+          }
+        },
+        "positive": {
+          "classification": "REUSED_UNCHANGED_BASELINE",
+          "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+          "intended_site_observed": true,
+          "proof_credit": false,
+          "raw_log_sha256": "3b14a4a93f02c02d00da684f0912dec50a8f03503140dc17b54e8626a064d2b4",
+          "raw_vc_review": "REVIEWED",
+          "source_pair": {
+            "original": "93c589851db3d4628e38840e870b8228fc3d42bb2ba914778a8b57a251d9eabf",
+            "verified": "4454dfa01184e4b2af97ada3d616a9718bb72a3539538b1a2818807c99caeb72"
+          }
+        }
+      },
+      "strict_lifetime": {
+        "negative_reserved_half_after_lifetime_end": {
+          "category": "debt_or_token",
+          "classification": "REUSED_UNCHANGED_BASELINE",
+          "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+          "expected_vc": "lifetime_token",
+          "intended_site_observed": true,
+          "proof_credit": false,
+          "raw_log_sha256": "74f9326d5af248d9a4c16d587384ef6a72b76a564874f5260786249e1eb9915d",
+          "raw_vc_review": "REVIEWED",
+          "source_pair": {
+            "original": "c77f8e2da59e2824876185eedc28abf33c5452fa413bd529ff83708cccb9e00a",
+            "verified": "a9fefd0e7671442e1e842cfe5e212a3ca0b37f2df0a2ced3208319ae94c2fd16"
+          }
+        },
+        "negative_typed_chunk_survives_cut": {
+          "category": "owner_escape",
+          "classification": "REUSED_UNCHANGED_BASELINE",
+          "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+          "expected_vc": "A lifetime-scoped heap chunk is still live at the binding end",
+          "intended_site_observed": true,
+          "proof_credit": false,
+          "raw_log_sha256": "33c9f731fd3738ffc7ca50b6288e753698b3922dbef4f67da139e9f78c94e560",
+          "raw_vc_review": "REVIEWED",
+          "source_pair": {
+            "original": "96a14a8ed20c1d7f00da5b1ad1a5167ca18905fef6ceb9f2d0c4019b03912685",
+            "verified": "e94cbf0d0b6853ee1fa3eeee052f1fbf9f946f391eb6ad9e88ee1daaa46e6f8e"
+          }
+        },
+        "negative_unclosed_fractional_access": {
+          "category": "debt",
+          "classification": "REUSED_UNCHANGED_BASELINE",
+          "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+          "expected_vc": "lifetime_token",
+          "intended_site_observed": true,
+          "proof_credit": false,
+          "raw_log_sha256": "807087e3760b79d82d7e2f35567fe993942502c2b089ca0ff52b241167ec654f",
+          "raw_vc_review": "REVIEWED",
+          "source_pair": {
+            "original": "6a888d5a08020c816ed48d6fb1639b8b8b7eccbe46bad96937651c169318a6b1",
+            "verified": "69dbe6aecaf2132c1247dacad41ff8aa77f03ffbb3d87a875648bc5a912393c0"
+          }
+        },
+        "positive_basic": {
+          "category": "positive",
+          "classification": "REUSED_UNCHANGED_BASELINE",
+          "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
+          "expected_vc": null,
+          "intended_site_observed": true,
+          "proof_credit": false,
+          "raw_log_sha256": "0fe41daba7d1d6d1fb9d146cc0747ecdf9ee553669c351930475109e261a912f",
+          "raw_vc_review": "REVIEWED",
+          "source_pair": {
+            "original": "bf602a50aeaa379da835e8f77ac9ca51b74fc89d4637ec7d31fcaea04f577958",
+            "verified": "b99b1a59efaa50dc719f82e796623dc886ff839d35f42b5f8e4c206d7faa7280"
+          }
+        }
+      }
+    }
+  },
+  "schema": "verifast-bool-readiness-review-v1",
+  "settings": {
+    "C4": "strict_lft_cut=1",
+    "deadcode": "enabled",
+    "leak": "enabled",
+    "selector": "parent opt-ins only;strict_lft_cut=0",
+    "selector_omitted_opt_ins": [
+      "SORT4_GUARD_REPO_ROOT",
+      "SORT4_GUARD_TEMPLATE_REPO_ROOT",
+      "SORT4_A1_LINK_REPO_ROOT"
+    ],
+    "unwind": "enabled"
+  },
+  "tested_delivery": "84f21b3bf244eb352cb91584fc84a73d6703b117",
+  "tested_runner_commit": "ca5f54607bf9e36ecbb9a24085cc6cc9e18db98c",
+  "tests": "tests.json",
+  "tests_sha256": "44393cbf0e7fa26e7d03ba0f17f9a886073b864e88af7a88c6b6c5e267587232",
+  "tool_commit": "4a34010cc3930eec46fc4e72c1b793ad734fa730",
+  "unresolved_reservations": [
+    "General metadata escape negative and reference-output sketch OPEN/NOT_RUN/INCONCLUSIVE, outside current Bool matcher",
+    "Broader O23 relocation applicability/mutation matrix inherited OPEN/unaccepted",
+    "General mutable-inference/SMT conservativity not established; no illicit use found for exact Bool path",
+    "O26/A1/memory/prelude/compiler-source and supplied bounded-entry assumptions inherited experimental",
+    "Owner profile adoption PENDING; no fullsort4/next select/native caller/unrestricted theorem",
+    "Corrected runner observation adapter Cloud NOT_RUN; saved-data replay only"
+  ],
+  "verdict": "READY_FOR_INTEGRATION_REVIEW",
+  "verdicts": {
+    "C4": "PASS_D_BOUNDED_ORIGINAL_POSTS",
+    "composition": "PASS_D_466_STATEMENTS_SAME_INVOCATION",
+    "controls": "REVIEWED_SIX_D_VCS_AND_ADMISSION_REFUSALS_PLUS_NAMED_UNCHANGED_BASELINE_REUSE",
+    "outer_F": "PASS_POSITIVE_LOCAL_HRTB_CLOSURE_SAVED_EVIDENCE_RECLASSIFICATION",
+    "selector": "PASS_D_NINE_ACTUAL_BODIES",
+    "transport": "REVIEWED_SEALED_TYPED_LOCATION_ONLY_ALIAS_PRESERVING"
+  }
+}
