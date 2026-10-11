@@ -1,31 +1,23 @@
-# VeriFast maintainer — F1 classifier admission repair
+# VeriFast maintainer — I / actual glue compatibility preflight
 
-**F1 CLOSED в собственном reviewed classifier patch; integration BLOCKED.**
-Start ed14b2de; exact runner base420188dd → fixed source SHA cb30a0a65e13…46d25.
-Outcome switch проверяется до dict: ровно два valid unique returning/unwinding,
-точные binders, no default/extra clauses, прежний literal False(location).
+**BLOCKED: combined tool source candidate NOT_PREPARED / UNBUILT / NOT_RUN.**
+Fixed I toolb6cb276a/package4214cbe0 vs glue a158398e/project6283377b:
+необходимы новые compiler-qualified layout и StorageLive/live-origin/numeric-span
+rules, отсутствующие в frozen I. Отдельный trust decision и receipt transport через
+I strict freeze обязательны; whole merge chain также теряет I slice/pointer-drop/
+FRAME/native/MDnew/strict/ZST paths. Семантика tool не менялась.
 
-[Пакет/команды](verifast-review/drop-glue-v6-20261012/f1/README.md),
-[patch](verifast-review/drop-glue-v6-20261012/f1/classifier.patch),
-[tests](verifast-review/drop-glue-v6-20261012/f1/FIXED-TESTS.json),
-[replay](verifast-review/drop-glue-v6-20261012/f1/REPLAY.json),
-[independent GO](verifast-review/drop-glue-v6-20261012/f1/INDEPENDENT-REVIEW.md).
-Старый F1 воспроизведён; fixed saved positive и 14 invalid entrypoint cases,
-8 reused False/location cases проверены. Seven unchanged v6 saved cases прошли
-source/caller/glue AST admission и scoped log replay. Bounded normal PASS сохраняется;
-raw Cloud FAILURE/six INCONCLUSIVE не переписаны. New proof0/Cloud0.
+[Compatibility blocker](verifast-review/i-glue-compat-20261012/COMPATIBILITY.md),
+[exact hashes/dependencies](verifast-review/i-glue-compat-20261012/INPUTS-AND-SOURCE-COMPARISON.json),
+[conditional future gates](verifast-review/i-glue-compat-20261012/FUTURE-GATES.md),
+[independent GO](verifast-review/i-glue-compat-20261012/INDEPENDENT-REVIEW.md),
+[commands](verifast-review/i-glue-compat-20261012/REPRODUCE.md).
+F1 остаётся CLOSED; опубликованный patch применён только к собственной runner628
+copy. Service15 cases (1saved/14synthetic) +8False проходят; v8 proof/qualification
+status не повышен. Separate v8 Builda9613c24 признан, moving merge head не читался.
 
-V8/transport/receiver-end/caller development остаются у merge. I compatibility,
-nine official admission/four receiver-end-retirement controls, actual insert_tail
-panic cleanup, B1/B2/O23 остаются OPEN/NOT_RUN; profile NOT_ACCEPTED/NOT_FOR_INTEGRATION.
-Main6e1a8e59/ACKea155143 и upstream as_mut_ptr/ManuallyDrop::new/tool I/PASS сохранены.
-Исходный [immutable review](https://github.com/Tiramisu-Cake/verify-rust-std/tree/7567431a7877ede692d5d523ff4756a88a2fd239/research/challenge-8/verifast-review/drop-glue-v6-20261012) не изменён.
-
-Собственная ветка review/verifast-drop-glue-f1-20261012; active merge files,
-foreign worktrees/coordinator не тронуты; merge/upstream PR/profile adoption отсутствуют.
-[Publication receipt](verifast-review/drop-glue-v6-20261012/f1/PUBLICATION.json),
-[cleanup receipt](verifast-review/drop-glue-v6-20261012/f1/CLEANUP.json).
-
-Сессия CLOSED в пределах 60 минут. Tested head35145044; publication/tree/manifest
-проверены перед cleanup. Удалены только свои redundant /tmp copies/helper:
-2 768 896 allocated bytes (≈2.64 MiB); active worktrees и merge-owned raw evidence сохранены.
+Main6e1a8e59 и ACKea155143, I/ready upstream as_mut_ptr/ManuallyDrop::new и прежние
+PASS сохранены. B1/B2/O23, receiver/end controls/actual panic cleanup остаются
+отдельными obligations; v6 PASS не переносится наv8 или отсутствующий combined tool.
+Cloud0/newproof0, no compiler/extraction/refiner/verifier execution, merge/upstream
+PR/profile acceptance, active merge/coordinator/foreign worktree changes.

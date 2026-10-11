@@ -1,0 +1,26 @@
+--- a/research/challenge-8/cloud-build/origin-layout/onecell-selected-drop.py
++++ b/research/challenge-8/cloud-build/origin-layout/onecell-selected-drop.py
+@@ -495,10 +495,19 @@
+         outcome_switches = [node for node in ast.nodes(post, "SwitchExpr")
+                             if len(node.args) == 4 and isinstance(node.args[2], list)]
+         outcomes = {}
+-        if len(outcome_switches) == 1:
+-            for arm in outcome_switches[0].args[2]:
+-                if isinstance(arm, ast.Node) and arm.name == "SwitchExprClause" and len(arm.args) == 4:
+-                    outcomes[arm.args[1]] = {"binders": arm.args[2], "post": arm.args[3]}
++        if (len(outcome_switches) == 1 and outcome_switches[0] is post and
++                post.args[3] == ast.Sym("None") and len(post.args[2]) == 2):
++            clauses = post.args[2]
++            # Validate the complete switch before a dict can erase duplicates
++            # or hide malformed/extra clauses. A default is never admitted.
++            if (all(isinstance(arm, ast.Node) and arm.name == "SwitchExprClause" and
++                    len(arm.args) == 4 and isinstance(arm.args[1], str) and
++                    arm.args[1] in ("returning", "unwinding") and
++                    arm.args[2] == (["result"] if arm.args[1] == "returning" else []) and
++                    isinstance(arm.args[3], ast.Node) for arm in clauses) and
++                    {arm.args[1] for arm in clauses} == {"returning", "unwinding"}):
++                outcomes = {arm.args[1]: {"binders": arm.args[2], "post": arm.args[3]}
++                            for arm in clauses}
+         literal_unwind_false = (
+             set(outcomes) == {"returning", "unwinding"} and
+             outcomes["returning"]["binders"] == ["result"] and

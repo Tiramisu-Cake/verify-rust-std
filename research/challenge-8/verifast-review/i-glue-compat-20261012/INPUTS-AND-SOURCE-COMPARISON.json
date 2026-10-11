@@ -1,0 +1,332 @@
+{
+  "kind": "STATIC_COMPATIBILITY_BLOCKER_NO_COMBINED_TOOL_SOURCE",
+  "start_checkpoint": "6a4afc1cb56e25ad242199c38ebd3bb6234dc2bf",
+  "policy_commit": "6e1a8e59c56669abe5e6ec2013478e45ed2cc267",
+  "i_tool": "b6cb276afd13107c2a90ca50acbb12ff0a992dd8",
+  "i_package": "4214cbe06cad959c17ec6e87d345f1063516b167",
+  "glue_v8_tool": "a158398e336edce9817f62a55733a3470a986d7b",
+  "glue_project_snapshot": "6283377b3729e0d6bebaf115f3c44f2e0187bc41",
+  "common_base": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "i_manifest_sha256": "a889608820c8704f6a05a1a231baf0f4777e45f48364acd62a5301ce06dabf5f",
+  "glue_profile_sha256": "0e67b038f940a9892dcb840747fbcc340532a31649979601af545acc41a0c68b",
+  "i_effective_hashes": {
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "src/frontend/ocaml_expr_of_ast.ml": "cd90799926cfc73d86e3c9b137ed84e977b1a918d1ba8723f3f26125cbb7aafe",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "a392cf28f72a8ae9c54faabf2454ddaff07757b6f0f98548ed72a7b8daab9ba3",
+    "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+    "src/verifast1.ml": "bfbfb518fb9783afeeba9384e1431b6cd280c7da7713b9fdbfd15a8395b00207"
+  },
+  "v8_verified_source_pins": {
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "fcc975b31e4fa4477e90ae4bc25e6b634f542df6f800d1415bbaeb83a722e1e3",
+    "src/verifast.ml": "f6395a07ce443a4c1a64e88965ae9321ff1c6648fe094f75da279914117e194f",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "8ed673086183323058aac5e0e21399e4532d1e74b97c5d41105827e8643107bd",
+    "bin/rust/prelude_core.rsspec": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+    "bin/rust/std/lib.rsspec": "d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227",
+    "src/frontend/ocaml_expr_of_ast.ml": "3f94401e1430fc413e1a68ad8bae13ad718b63f83707e3804d579d6f7e4371ef",
+    "src/frontend/ast.ml": "380a0bd63476849138268eaf7f7c2f8563af4231dbd1ab61e86a00fd13688afe",
+    "src/SExpressionEmitter.ml": "4e99d9702ca691e498601ffeeccc930f465841404cde2a28e00eb196880352a7",
+    "src/verify_expr.ml": "8883a76d802cca15bb362f251de683d2c8216c058c3aed98d6bec8aa471c6dd5",
+    "src/verifast1.ml": "c64e4d60631f42aacdf64b4529c992a856f60e2a37066d3209545cb384b10d3c",
+    "src/rust_frontend/vf_mir_exporter/src/lib.rs": "d8bca867798fd93ececcb5fd8db330d6d23d2f7b815009437bf4961b9fcd2f51",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "b6c63644e8926a207b4393b80bf27696838aa22fe9db33acecc9fefa68550750",
+    "src/refinement_checker/main.ml": "9aba12084bbe17971dd12af35417385bde79afad28af80e7e254103f3a782b3c",
+    "src/refinement_checker/refinement_checker.ml": "e232312e5f24ca98e25fe32fe0be5300eca4deda69438af2ebf90985061b3dc8"
+  },
+  "ordered_v8_patch_chain": [
+    {
+      "path": "research/challenge-8/merge/overnight/wrapping.patch",
+      "sha256": "c7c776ff5aef2b8668aa2ed3d59b47109fce1d67a9dc2f2043fc2744dc0ed31e",
+      "changed_files": [
+        "bin/rust/prelude_core.rsspec",
+        "bin/rust/std/lib.rsspec",
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
+      ]
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/callback.patch",
+      "sha256": "0a006df94f04d6425d70280967d6652bdd33ccb88ead4a44f02a2e36775aaa5e",
+      "changed_files": [
+        "src/rust_frontend/vf_mir_translator/rust_parser.ml",
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
+      ]
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/copy.patch",
+      "sha256": "da167ee095e9fb5f425e2d604dd46a973a8c1e3a5121b2c87cc3546b0ec8e9a5",
+      "changed_files": [
+        "bin/rust/std/lib.rsspec",
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
+      ]
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/cleanup.patch",
+      "sha256": "94fe2cd69edc9da6907553961ca32f0557c338266d9e9472e577860a95887604",
+      "changed_files": [
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml",
+        "src/verifast.ml"
+      ]
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/usize-multiple.patch",
+      "sha256": "ecdd1fd6fcc8d811f02fa308ddc533386e0031193d527ea6950a099f8ccccaa1",
+      "changed_files": [
+        "bin/rust/std/lib.rsspec"
+      ]
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/stack-address.patch",
+      "sha256": "f1444866322bf06b40e078a381a69acea7ccd92b613f7dc903d289044d8cba64",
+      "changed_files": [
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
+      ]
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/tracked-md.patch",
+      "sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6",
+      "changed_files": [
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml",
+        "src/frontend/ocaml_expr_of_ast.ml"
+      ]
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/allocation-span.patch",
+      "sha256": "603ab250705fa9d83c94631f7570bd3e1cc7fc06187c35e6ae8465fcb5efca1b",
+      "changed_files": [
+        "src/SExpressionEmitter.ml",
+        "src/frontend/ast.ml",
+        "src/frontend/ocaml_expr_of_ast.ml",
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml",
+        "src/verifast.ml",
+        "src/verify_expr.ml",
+        "tests/rust_storage_marker_name_calls.c",
+        "testsuite.mysh"
+      ]
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/unit-layout.patch",
+      "sha256": "00c7f9310ca30e3403daabdfe8e7d4c8c13aa84e78434acade309c98faadc68a",
+      "changed_files": [
+        "src/verifast1.ml"
+      ]
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/guard-layout.patch",
+      "sha256": "16476ac7e615831bfd49cec3efdcefd1d76eab1a57f2df47b97f43fb8d6a1d74",
+      "changed_files": [
+        "src/SExpressionEmitter.ml",
+        "src/frontend/ast.ml",
+        "src/frontend/ocaml_expr_of_ast.ml",
+        "src/rust_frontend/vf_mir/vf_mir.capnp",
+        "src/rust_frontend/vf_mir_exporter/src/lib.rs",
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml",
+        "src/verifast.ml",
+        "src/verifast1.ml"
+      ]
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/selected-drop.patch",
+      "sha256": "57bab179dc11366369689c0980209c2e76acf82339a346b02e1cc99fdfbb610a",
+      "changed_files": [
+        "src/rust_frontend/vf_mir/vf_mir.capnp",
+        "src/rust_frontend/vf_mir_exporter/src/lib.rs",
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
+      ]
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/glue-observation.patch",
+      "sha256": "82fff6af2b5e98d2a1a8b0dafd0d9951bbb103408967a95d22e3461b367421ea",
+      "changed_files": [
+        "src/rust_frontend/vf_mir_exporter/src/lib.rs"
+      ]
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/glue-body.patch",
+      "sha256": "0aad1332daa465a6c175c830c7caf561736c928d9169b5429b674a0b84c1e687",
+      "changed_files": [
+        "src/refinement_checker/main.ml",
+        "src/refinement_checker/refinement_checker.ml",
+        "src/rust_frontend/vf_mir/vf_mir.capnp",
+        "src/rust_frontend/vf_mir_exporter/src/lib.rs",
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
+      ]
+    }
+  ],
+  "changed_files": [
+    {
+      "path": "bin/rust/prelude_core.rsspec",
+      "base_sha256": "435146cd4632541241563ae45b146704c14f6f7cdd3b5d404837617f08bc91b8",
+      "i_sha256": "435146cd4632541241563ae45b146704c14f6f7cdd3b5d404837617f08bc91b8",
+      "v8_sha256": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+      "i_changed_from_base": false,
+      "v8_changed_from_base": true,
+      "i_v8_identical": false
+    },
+    {
+      "path": "bin/rust/std/lib.rsspec",
+      "base_sha256": "2da7acfb6596f8abec90c103ef7f294152c18f974b88124669882fc051272999",
+      "i_sha256": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+      "v8_sha256": "d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227",
+      "i_changed_from_base": true,
+      "v8_changed_from_base": true,
+      "i_v8_identical": false
+    },
+    {
+      "path": "src/SExpressionEmitter.ml",
+      "base_sha256": "5f6268956cbd2d90cf0d4589a19c4286d0f38a1202cb264ad706f44724d0389c",
+      "i_sha256": "5f6268956cbd2d90cf0d4589a19c4286d0f38a1202cb264ad706f44724d0389c",
+      "v8_sha256": "4e99d9702ca691e498601ffeeccc930f465841404cde2a28e00eb196880352a7",
+      "i_changed_from_base": false,
+      "v8_changed_from_base": true,
+      "i_v8_identical": false
+    },
+    {
+      "path": "src/frontend/ast.ml",
+      "base_sha256": "de4dc2c13c7ba9098fefa78300debc78a2024830e93b6e6e03d9cdecd6d7bf2c",
+      "i_sha256": "de4dc2c13c7ba9098fefa78300debc78a2024830e93b6e6e03d9cdecd6d7bf2c",
+      "v8_sha256": "380a0bd63476849138268eaf7f7c2f8563af4231dbd1ab61e86a00fd13688afe",
+      "i_changed_from_base": false,
+      "v8_changed_from_base": true,
+      "i_v8_identical": false
+    },
+    {
+      "path": "src/frontend/ocaml_expr_of_ast.ml",
+      "base_sha256": "898203bf8fe5802478fdfd41456b49ad07f1e6fedf0535c3d303d4ec2081c9ff",
+      "i_sha256": "cd90799926cfc73d86e3c9b137ed84e977b1a918d1ba8723f3f26125cbb7aafe",
+      "v8_sha256": "3f94401e1430fc413e1a68ad8bae13ad718b63f83707e3804d579d6f7e4371ef",
+      "i_changed_from_base": true,
+      "v8_changed_from_base": true,
+      "i_v8_identical": false
+    },
+    {
+      "path": "src/refinement_checker/main.ml",
+      "base_sha256": "96a2cb4daacd81fc524967e49ac09ffa5eb29968a3a9ea3bf6819a72c7c243e1",
+      "i_sha256": "96a2cb4daacd81fc524967e49ac09ffa5eb29968a3a9ea3bf6819a72c7c243e1",
+      "v8_sha256": "9aba12084bbe17971dd12af35417385bde79afad28af80e7e254103f3a782b3c",
+      "i_changed_from_base": false,
+      "v8_changed_from_base": true,
+      "i_v8_identical": false
+    },
+    {
+      "path": "src/refinement_checker/refinement_checker.ml",
+      "base_sha256": "77c5432dc4d63ecd53cf28bebfdf2000cad05365bf1d9dcc78630a511e7fa3b0",
+      "i_sha256": "77c5432dc4d63ecd53cf28bebfdf2000cad05365bf1d9dcc78630a511e7fa3b0",
+      "v8_sha256": "e232312e5f24ca98e25fe32fe0be5300eca4deda69438af2ebf90985061b3dc8",
+      "i_changed_from_base": false,
+      "v8_changed_from_base": true,
+      "i_v8_identical": false
+    },
+    {
+      "path": "src/rust_frontend/vf_mir/vf_mir.capnp",
+      "base_sha256": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+      "i_sha256": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+      "v8_sha256": "b6c63644e8926a207b4393b80bf27696838aa22fe9db33acecc9fefa68550750",
+      "i_changed_from_base": false,
+      "v8_changed_from_base": true,
+      "i_v8_identical": false
+    },
+    {
+      "path": "src/rust_frontend/vf_mir_exporter/src/lib.rs",
+      "base_sha256": "11f1e10bb8e52a4950611f874b1123c11e2c87cbb1378c3f5060992f74425f00",
+      "i_sha256": "11f1e10bb8e52a4950611f874b1123c11e2c87cbb1378c3f5060992f74425f00",
+      "v8_sha256": "d8bca867798fd93ececcb5fd8db330d6d23d2f7b815009437bf4961b9fcd2f51",
+      "i_changed_from_base": false,
+      "v8_changed_from_base": true,
+      "i_v8_identical": false
+    },
+    {
+      "path": "src/rust_frontend/vf_mir_translator/rust_parser.ml",
+      "base_sha256": "b26422aff8a6091181485a1355fc60e3a2afde5c8bff2bbe5176fdee07b08622",
+      "i_sha256": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+      "v8_sha256": "8ed673086183323058aac5e0e21399e4532d1e74b97c5d41105827e8643107bd",
+      "i_changed_from_base": true,
+      "v8_changed_from_base": true,
+      "i_v8_identical": false
+    },
+    {
+      "path": "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml",
+      "base_sha256": "c1eb897673f88b0b8dc50798deca603bdad2c60818b6d5380ccf1dda055fe445",
+      "i_sha256": "a392cf28f72a8ae9c54faabf2454ddaff07757b6f0f98548ed72a7b8daab9ba3",
+      "v8_sha256": "fcc975b31e4fa4477e90ae4bc25e6b634f542df6f800d1415bbaeb83a722e1e3",
+      "i_changed_from_base": true,
+      "v8_changed_from_base": true,
+      "i_v8_identical": false
+    },
+    {
+      "path": "src/verifast.ml",
+      "base_sha256": "adbf2c3de02cba7fbdb0b8e203a864e34c1b2ab16de4f6b153477106dbba04d0",
+      "i_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+      "v8_sha256": "f6395a07ce443a4c1a64e88965ae9321ff1c6648fe094f75da279914117e194f",
+      "i_changed_from_base": true,
+      "v8_changed_from_base": true,
+      "i_v8_identical": false
+    },
+    {
+      "path": "src/verifast1.ml",
+      "base_sha256": "b1b0ae618bbce1a0bce9714ce10a47dbeb855e919b980b7ce6a70108ff9b91d7",
+      "i_sha256": "bfbfb518fb9783afeeba9384e1431b6cd280c7da7713b9fdbfd15a8395b00207",
+      "v8_sha256": "c64e4d60631f42aacdf64b4529c992a856f60e2a37066d3209545cb384b10d3c",
+      "i_changed_from_base": true,
+      "v8_changed_from_base": true,
+      "i_v8_identical": false
+    },
+    {
+      "path": "src/verify_expr.ml",
+      "base_sha256": "f2a2a32c990219392cff3b1dbc13992567cf9cdc37d29ae3214e4353d81f8150",
+      "i_sha256": "f2a2a32c990219392cff3b1dbc13992567cf9cdc37d29ae3214e4353d81f8150",
+      "v8_sha256": "8883a76d802cca15bb362f251de683d2c8216c058c3aed98d6bec8aa471c6dd5",
+      "i_changed_from_base": false,
+      "v8_changed_from_base": true,
+      "i_v8_identical": false
+    },
+    {
+      "path": "tests/rust_storage_marker_name_calls.c",
+      "base_sha256": null,
+      "i_sha256": null,
+      "v8_sha256": "fca07cb19257bbae2263d6c58f95a76f9308834f48bdd9440358526e8c846a5d",
+      "i_changed_from_base": false,
+      "v8_changed_from_base": true,
+      "i_v8_identical": false
+    },
+    {
+      "path": "testsuite.mysh",
+      "base_sha256": "5a9864f11af956ffe8f0019a5405cf9b0ece1670be7ef151168e9df2847b49a1",
+      "i_sha256": "5a9864f11af956ffe8f0019a5405cf9b0ece1670be7ef151168e9df2847b49a1",
+      "v8_sha256": "0818c48bd7694a3cd9dbbf362ae834fbc0c02443ace68bb4f0a7f3154bd0c2f9",
+      "i_changed_from_base": false,
+      "v8_changed_from_base": true,
+      "i_v8_identical": false
+    }
+  ],
+  "byte_identical_common_paths": {
+    "bin/rust/aliasing.rsspec": "2c673b73fa7a41d56672bfb3a180f3e7d7e2cdf7280f1b38f8fad138f08b4518",
+    "bin/rust/rust_belt/aliasing.rsspec": "0e1d8cc59e823afe83c6be5088d41de7ad7fd6ec844204e6a06ec715f9bf128e",
+    "src/frontend/parser.ml": "f1f3bfadd6e931605217b95ec68fa39075c26d2b68850a8f9d3d028151f4df5c",
+    "src/rust_frontend/vf_mir_translator/rustbelt.ml": "91905bc6a3812a3eb0de6bcc965e658eb86bc948d887a7bf4de7f1baec9b3aa0",
+    "src/rust_frontend/vf_mir_translator/vf_mir_annot_parser.ml": "976f76cb3d85e103265458f01d515d4def1e322cfba3edc0c78e5fe548d876b7"
+  },
+  "combined_tool_candidate": {
+    "base": "b6cb276afd13107c2a90ca50acbb12ff0a992dd8",
+    "head": null,
+    "status": "BLOCKED_NOT_PREPARED_UNBUILT_NOT_RUN"
+  },
+  "integration_runner": {
+    "base_project_commit": "6283377b3729e0d6bebaf115f3c44f2e0187bc41",
+    "source_path": "research/challenge-8/cloud-build/origin-layout/onecell-selected-drop.py",
+    "base_sha256": "7d902cc20e43b4e183bd8397c96b25b06ab9a697da26b03c2380d94e1cb2a0e6",
+    "fixed_sha256": "7a753b375ee17ca659e80f945deec2f04a1c30f9beb09b510cd4bff0f2282f85",
+    "f1_patch_sha256": "de889dc552195d679ff67a0bcfbd855490e75f9bbe9a081ae580455f21b27917",
+    "active_merge_runner_changed": false
+  },
+  "saved_f1_service_build": "a9613c24-8f42-4008-981b-4df6b1e9206d",
+  "saved_f1_service_inputs": {
+    "allprooflogs/checked-minimal-bridge/onecell-selected-drop/extraction.json": "30302e147007735f1f1049cc9a29b0654cdc423751ae26452757894533d39a60",
+    "allprooflogs/checked-minimal-bridge/onecell-selected-drop/cases/positive/classification.json": "8474873ff201b5928800bb12c927c4ee18efe2ac78ffaa9c2f827378769466c0",
+    "allprooflogs/checked-minimal-bridge/onecell-selected-drop/cases/positive/proof-ast.ml": "ffd79636616da2f94588c3acd7192731214f1c568226f6294aa8e68fb997a2da"
+  },
+  "saved_f1_scope": "AST admission service only; no raw proof/qualification review or v6->v8 transfer",
+  "new_proof": false,
+  "cloud_seconds": 0,
+  "profile_accepted": false
+}
