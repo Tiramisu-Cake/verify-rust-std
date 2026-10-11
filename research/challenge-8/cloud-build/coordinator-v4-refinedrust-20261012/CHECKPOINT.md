@@ -53,7 +53,9 @@ visible control.py processes, revalidates source/ACKs under the existing flock,
 reads live global API inventory using canonical project/account/configuration,
 validates ID/token consistency/occupancy and atomically changes only envelope
 version/capacity. Full JSON readback and each owner's tokens/Build IDs are required.
-Any refusal leaves v3 intact. Do not use the historical v2→v3 helper on live v3.
+Any refusal before the atomic write leaves v3 intact; after a readback failure,
+inspect/checkpoint the actual state without resetting it. Do not use the
+historical v2→v3 helper on live v3.
 
 ## Evidence and limits
 
