@@ -35,6 +35,12 @@ HEADER = ("#![feature(freeze, rustc_attrs, core_intrinsics)]\n"
 PUBLIC_HEADER = ("#![feature(sized_type_properties)]\n"
                  "#![allow(dead_code, unused_variables)]\n"
                  "use std::mem::{size_of, SizedTypeProperties};\n\n")
+THRESHOLD_CASES = {
+    "threshold-body-positive": "selected_threshold_body",
+    "threshold-selected-positive": "selected_freeze_threshold",
+    "threshold-selected-false-31": "selected_freeze_threshold",
+    "threshold-default-control": "default_threshold",
+}
 CASES = {
     "canonical-generic": "canonical_slice_as_mut_ptr",
     "canonical-mu": "canonical_slice_as_mut_ptr_mu",
@@ -46,6 +52,7 @@ CASES = {
     "public-guard-positive": "sort",
     "public-guard-false-positive-size": "sort",
     "public-guard-zst-branch-false": "sort",
+    **THRESHOLD_CASES,
 }
 
 
@@ -111,6 +118,15 @@ def source_certificate(a, manifest: dict) -> dict:
          small_text.count("let presorted_len = if const { size_of::<T>() <= 16 } && len >= 16 {") == 1 and
          small_text.count("} else if len >= 8 {\n            // SAFETY: scratch_base is valid and has enough space.\n            sort4_stable(v_base, scratch_base, is_less);") == 1,
          "actual scratch/branch/first-call source boundary")
+    quick = a.proof_root / "library/core/src/slice/sort/stable/quicksort.rs"
+    shared = a.proof_root / "library/core/src/slice/sort/shared/mod.rs"
+    pinned_file(quick, manifest["actual_quicksort_source_sha256"], "stable quicksort")
+    pinned_file(shared, manifest["actual_shared_source_sha256"], "FreezeMarker source")
+    need(quick.read_text().count("if len <= T::small_sort_threshold() {\n            T::small_sort(v, scratch, is_less);\n            return;\n        }") == 1, "actual base-case guard/trait calls")
+    need(small_text.count("impl<T: FreezeMarker> StableSmallSortTypeImpl for T {") == 1 and
+         small_text.count("const SMALL_SORT_GENERAL_THRESHOLD: usize = 32;") == 1 and
+         small_text.count("const SMALL_SORT_FALLBACK_THRESHOLD: usize = 16;") == 1,
+         "actual selected impl/threshold definitions")
     unstable = a.proof_root / "library/core/src/slice/sort/unstable/mod.rs"
     sized = a.proof_root / "library/core/src/mem/mod.rs"
     pinned_file(unstable, manifest["actual_unstable_source_sha256"], "public unstable-sort source")
@@ -326,12 +342,15 @@ def case_source(template: str, name: str) -> str:
 
 
 def make_fixture(a, helper, ghost, manifest: dict, name: str) -> tuple[Path, dict]:
-    template_path = a.proof_root / HERE / "caller-entry-cases.rs"
-    pinned_file(template_path, manifest["source_template_sha256"], "source template")
+    threshold = name in THRESHOLD_CASES
+    template_path = a.proof_root / HERE / ("threshold-probes.rs" if threshold else "caller-entry-cases.rs")
+    pinned_file(template_path, manifest["threshold_template_sha256"] if threshold else manifest["source_template_sha256"], "source template")
     text = template_path.read_text()
-    need(set(re.findall(r"(?m)^// CASE_BEGIN ([^\s]+)$", text)) == set(CASES),
+    need(set(re.findall(r"(?m)^// CASE_BEGIN ([^\s]+)$", text)) == (set(THRESHOLD_CASES) if threshold else set(CASES) - set(THRESHOLD_CASES)),
          "case inventory")
     source = case_source(text, name).encode()
+    if threshold:
+        source = source.replace(b"feature(freeze, rustc_attrs, core_intrinsics)", b"feature(freeze, rustc_attrs, core_intrinsics, min_specialization)")
     original = ghost.strip_ghost(source)
     fixture = a.evidence / "cases" / name / "fixture"
     (fixture / "verified").mkdir(parents=True)
@@ -398,26 +417,29 @@ def classify(name: str, result: dict, root: Path, source: str) -> dict:
     stage = result.get("first_causal_stage")
     exit_code = result.get("stages", {}).get("verification")
     if name in ("canonical-generic", "canonical-mu", "consumer-positive",
-                "public-guard-positive"):
+                "public-guard-positive", "threshold-body-positive",
+                "threshold-selected-positive", "threshold-default-control"):
         passed = (pair and ast and ast_diagnostic_exit == 0 and
                   result.get("source_pair_immutable") is True and
                   stage == "NONE_OBSERVED" and exit_code == 0)
         label = "FRESH_VF0_CANDIDATE_RAW_REVIEW_REQUIRED" if passed else "POSITIVE_FIRST_OBLIGATION"
     elif name in ("consumer-wrong-pointer", "consumer-missing-raw-rights",
                   "consumer-mu-cast-no-initialized-T",
-                  "public-guard-false-positive-size", "public-guard-zst-branch-false"):
+                  "public-guard-false-positive-size", "public-guard-zst-branch-false",
+                  "threshold-selected-false-31"):
         assertion = {"consumer-wrong-pointer": "v_base != source_base",
                      "consumer-missing-raw-rights": "unrelated[..1] |-> ?unrelated_values",
                      "consumer-mu-cast-no-initialized-T":
                          "scratch_base[..1] |-> ?initialized_values",
                      "public-guard-false-positive-size": "assert std::mem::size_of::<T>() == 0",
-                     "public-guard-zst-branch-false": "assert false"}[name]
+                     "public-guard-zst-branch-false": "assert false",
+                     "threshold-selected-false-31": "assert threshold == 31"}[name]
         lines = [i for i, line in enumerate(source.splitlines(), 1)
                  if assertion in line]
         locations = [int(x) for x in re.findall(r"verified/lib\.rs\((\d+),", first)]
         expected_error = ("Cannot prove" if name in
                           ("consumer-wrong-pointer", "public-guard-false-positive-size",
-                           "public-guard-zst-branch-false") else
+                           "public-guard-zst-branch-false", "threshold-selected-false-31") else
                           "No matching heap chunks: array<T>" if
                           name == "consumer-mu-cast-no-initialized-T" else
                           "No matching heap chunks")
@@ -573,6 +595,9 @@ def run(a) -> None:
             env = c4.clean_env(a, tool)
             for name in ("public-guard-positive", "public-guard-false-positive-size",
                          "public-guard-zst-branch-false"):
+                fixture, _ = make_fixture(a, c4, ghost, manifest, name)
+                cases[name] = verify_one(a, c4, tool, env, fixture, name)
+            for name in THRESHOLD_CASES:
                 fixture, _ = make_fixture(a, c4, ghost, manifest, name)
                 cases[name] = verify_one(a, c4, tool, env, fixture, name)
             cases["actual-unfiltered-prefix-postbinding"] = verify_one(
