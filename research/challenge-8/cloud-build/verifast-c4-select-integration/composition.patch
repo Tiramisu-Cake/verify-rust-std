@@ -22,7 +22,7 @@ index 959ce64b..12609da7 100644
  | GotoStmt (l, lbl) -> C ("GotoStmt", [of_loc l; S lbl])
  | NoopStmt l -> C ("NoopStmt", [of_loc l])
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index d189d58a..3b0753e6 100644
+index d189d58a..a484c22e 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -6784,17 +6784,47 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -102,7 +102,45 @@ index d189d58a..3b0753e6 100644
      if (callback_fixture && parsed_callback_markers <> 1) ||
         (not callback_fixture && parsed_callback_markers <> 0) then
        State.fail_callback_unwind
-@@ -8233,13 +8281,46 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7594,9 +7642,25 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+                fixture. The host runner independently pins both complete MIR
+                bodies. A changed source, local type, or cut fails closed. *)
+             let relocation_ids = ["_27"; "_28"; "_29"; "_30"; "_31"; "_32"] in
++            let relocate_outer =
++              name = "negative_outer_bound_escape" &&
++              Sys.getenv_opt "SORT4_STRICT_LFT_CUT" = Some "1" &&
++              Sys.getenv_opt "SORT4_HRTB_OUTPUT" = Some "1" &&
++              Sys.getenv_opt "SORT4_HRTB_OUTPUT_TARGETS" =
++                Some "negative_outer_bound_escape" &&
++              (match Sys.getenv_opt "SORT4_CURRENT_BOUND_AST_EXPORT" with
++               | Some path when not (Filename.is_relative path) &&
++                   not (Sys.file_exists path) ->
++                   let ic = Unix.open_process_in
++                     "/usr/bin/sha256sum -- verified/lib.rs" in
++                   let row = input_line ic in
++                   let status = Unix.close_process_in ic in
++                   status = Unix.WEXITED 0 && row =
++                     "bca43d1a7b92cac4faf11362f55b35d115306e920fb0999139a57836dbd94cf5  verified/lib.rs"
++               | _ -> false) in
+             let relocate =
+               Sys.getenv_opt "SORT4_STRICT_LFT_RELOCATE" = Some "1" &&
+-              name = "callback_positive" in
++              (name = "callback_positive" || relocate_outer) in
+             let relocation_pairs =
+               if relocate then
+                 List.map (fun raw -> (raw, translate_local_decl_id_ raw))
+@@ -7610,7 +7674,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+                 with _ -> Ast.static_error fn_sig_loc
+                   "Strict relocation source file is unavailable" None in
+               if source_file <> "verified/lib.rs" || source_line <> 52 ||
+-                 source_md5 <> "7b206fedf030cc663d77378b75e0d141" then
++                 source_md5 <> (if relocate_outer then
++                   "533c766ca85f97db615a700882dc0e89"
++                 else "7b206fedf030cc663d77378b75e0d141") then
+                 Ast.static_error fn_sig_loc
+                   "Strict relocation source certificate changed" None;
+               let cut_loc =
+@@ -8233,13 +8299,46 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                   let future_indexes =
                     [190; 191; 192; 193; 194; 195] in
                   let future_decls =
@@ -150,7 +188,7 @@ index d189d58a..3b0753e6 100644
                   let kept_decls =
                     List.filteri (fun i _ ->
                       i < 220 && not (24 <= i && i <= 31) &&
-@@ -8247,7 +8328,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -8247,7 +8346,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                       not (121 <= i && i <= 126) &&
                       not (157 <= i && i <= 162) &&
                       not (List.mem i future_indexes)) original_body in
@@ -160,7 +198,7 @@ index d189d58a..3b0753e6 100644
                     reject "outer local declaration inventory";
                   let block_loc, cmp_decl, old_stmts, old_close =
                     match root 224 with
-@@ -8565,6 +8647,204 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -8565,6 +8665,204 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                     if control = "c4-normal-omit-join" then
                       Ast.NoopStmt (Ast.stmt_loc (block (c4_cut_index + 2)))
                     else block (c4_cut_index + 2) in
@@ -365,7 +403,7 @@ index d189d58a..3b0753e6 100644
                   let outer = Ast.BlockStmt
                     (block_loc, [],
                      [c1_child; Ast.NoopStmt cut1; block 35; block 36;
-@@ -8574,7 +8854,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -8574,7 +8872,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                      [c3_child; Ast.NoopStmt cut3;
                       block (c3_cut_index + 1); c3_normal_join;
                       block 134; c4_child; Ast.NoopStmt cut4;
@@ -374,7 +412,7 @@ index d189d58a..3b0753e6 100644
                      old_close, ref []) in
                   let normal_wrapper = Ast.BlockStmt
                     (Ast.stmt_loc (root 220), [],
-@@ -8677,8 +8957,11 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -8677,8 +8975,11 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                     "actual-c4-bound-post-ast.ml"
                     (Ocaml_expr_of_ast.of_decl changed_decl);
                   Printf.eprintf
@@ -388,7 +426,7 @@ index d189d58a..3b0753e6 100644
                     (List.length gotos) control;
                   changed_decl
                 end else if c2_discovery_requested then begin
-@@ -15105,6 +15388,26 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -15105,6 +15406,26 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" = Some "1" in
      let rebase = sort4_wrapper_rebase_opt_in root in
      let input_relation = sort4_wrapper_input_relation_opt_in root in
@@ -415,7 +453,7 @@ index d189d58a..3b0753e6 100644
      let names = if nine then [
        "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new";
        "sort4_checked_as_mut_ptr"; "sort4_checked_pointer_drop";
-@@ -15536,17 +15839,84 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -15536,17 +15857,84 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
         List.length (BodyRd.basic_blocks_get_list
           (List.nth bodies (if nine then 8 else 4))) <> 4 then
        reject "owner outer/nested local and block inventory";
@@ -509,7 +547,7 @@ index d189d58a..3b0753e6 100644
      if cleanup_edges <> (if input_relation then (if Sort4R3FrameTest.enabled then 18 else 23) else if rebase then 18 else if nine then 10 else 9) then
        reject "owner shared cleanup predecessor inventory";
      (match (if input_relation then
-@@ -17148,12 +17518,430 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -17148,12 +17536,430 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              (modularize_fn_decl module_imports_map)
              (body_sigs @ proof_body_decls)
        in
@@ -780,7 +818,7 @@ index d189d58a..3b0753e6 100644
 +            reject "exact C4 one-body import environment";
 +          let bytes = Sort4MaybeUninit.read_file path in
 +          let fixed_export_sha256 =
-+            "a567807354602a49f2445f083b4c62a849cb385b915f9a6e6fd99932473e878e" in
++            "48bbedb711fade25fde0622af0b56c6c17aab318ce0a94f1e517f9c153a81af9" in
 +          let expected = match Sys.getenv_opt
 +            "SORT4_C4_SELECT_AST_EXPORT_SHA256" with
 +            | Some s when s = fixed_export_sha256 -> fixed_export_sha256

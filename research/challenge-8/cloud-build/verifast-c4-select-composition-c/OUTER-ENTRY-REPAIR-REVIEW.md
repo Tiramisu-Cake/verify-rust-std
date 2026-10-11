@@ -90,3 +90,110 @@ exit frees each relocated AST declaration exactly once while original
 unwind posts remain in force. Any missing event, new path, type/role mismatch,
 or retained alias means HOLD and no relocation. Existing exact admission
 mutants must continue to refuse before proof.
+
+### Normal MIR capture review
+
+Read-only review of
+`/tmp/verifast-c-2a5e-extracted/allprooflogs/cases/integration/outer-discovery-normal-mir.txt`
+confirms the six roles and one normal route. Normal MIR declares `_27`–`_32`
+with the expected erased-region types. Each has one `StorageLive` in the
+line-103 call block, uses only for the mutable callback receiver,
+construction/reborrow of the two shared-reference arguments, and the one
+`core::ops::FnMut::call_mut`, then one `StorageDead` in that call's normal
+return block (source line 103). All six deaths precede the line-104 post-call
+ghost close and line-106 lifetime cut. I found no later use, second
+`StorageLive`, Drop, or cleanup use for these IDs in the target body. The
+FnMut call has direct `unwindAction=Continue`, so its unwind edge exits without
+a cleanup block or subsequent MIR use. The borrow chains are `&mut *is_less`
+for `_27`, `&*left -> _30 -> _29`, and `&*right -> _32 -> _31`; `_29`/`_31`
+are placed as values in tuple `_28`. No address is taken of a temporary's own
+storage.
+
+This supports the normal-path relocation rationale, but the readonly MIR
+capture still needs independent review before GO: the compiler renumbers
+locals, and its StorageLive/dead/call/unwind facts must be mapped by role, not
+assumed from these normal IDs. No semantic edit is cleared yet.
+
+### Fresh NORMAL and readonly capture review
+
+The corrected capture-only Build `7c662097` supplies both full target-body
+records and reports `proof_credit=false`. I independently hashed the text
+files; their body hashes match the capture record:
+
+- NORMAL body `967b297f9044c1c9ba81b6e5e469c5ef6d013e33b4f17cf8134138fd4fe065c5`;
+  whole decoded MIR `5a2e53473c99720b20f5186469c91c49c562cd8b89c7f9d9160589979e66d220`.
+- Readonly body `1fa420e27a2c8e7e9983a347b3958a6926ca52abc762ee3c8d3c9347fd90e49e`;
+  whole decoded MIR `4d8512c3d899f543c4e4808215151708fe1aa417886a2ec04bd1fa531b460b57`.
+
+Readonly uses renumbered locals with an exact role match to NORMAL:
+`_7` receiver maps to NORMAL `_27`; `_8` argument tuple to `_28`; `_9` / `_10`
+are left reborrow / backing reference and map to `_29` / `_30`; `_11` / `_12`
+are right reborrow / backing reference and map to `_31` / `_32`. All six
+readonly locals have one `StorageLive` in the source-103 call block, uses only
+in those reference/tuple constructions and the one `FnMut::call_mut`, and one
+`StorageDead` in the normal return block before source line 104 and the line
+106 cut. The call's unwind action is direct `Continue`; it has no cleanup
+successor. The complete six-ID occurrence scan shows no later use, extra live,
+Drop, or cleanup use in either mode. The references are values borrowing the
+formal callback and pointees; no MIR operation takes the address of one of
+these temporaries' own storage.
+
+**Conditional GO for the exact six-local relocation candidate**, reusing the
+existing `SORT4_STRICT_LFT_RELOCATE` implementation with a separate
+`negative_outer_bound_escape` source/flag/export admission branch as described
+above. Both independently captured MIR modes now support moving these
+declarations into the exact `'cmp` strict block: normal execution kills all
+six before the cut; direct callback unwind exits with no cleanup/use/Drop and
+the strict AST block can free the six local declarations once. This verdict
+does not grant proof credit. Keep the verifier's fail-closed entry/exit logic,
+original normal/unwind posts, identity/call/unwind gates, and all existing
+admission mutants. The edited candidate still needs fresh Cloud build and
+proof; its strict-negative row is creditable only if it passes the real call
+and fails at the intended post-cut outer-bound VC. Capture hashes and this
+review must be retained with that candidate.
+
+### Implementation preflight review
+
+Reviewed the current translator and runner diffs. The existing positive
+`callback_positive` relocation source/MD5 path remains intact. The new
+`negative_outer_bound_escape` branch requires strict cut and HRTB output,
+the exact singleton target, absolute unused AST-export path, and the fixed
+`sha256sum` row for the target file; the shared relocation gate additionally
+requires `SORT4_STRICT_LFT_RELOCATE=1`. Its source MD5 selection is specific
+to this target. The exact six-ID/type/address-taken/count checks and single
+insertion assertion are reused. I found no kernel, postcondition, or existing
+positive-branch weakening in the reviewed tool diff.
+
+The runner creates the exact renamed source fixture, recaptures full NORMAL
+and readonly target MIR and refinement, and compares the returned inventory
+to `manifest["outer_scope_capture_pins"]` before invoking the target proof.
+The capture values to pin are the two body hashes and two whole-decoded-MIR
+hashes recorded above. This equality is a fail-closed replay check, not a
+replacement for the separate source-hash/translator gates.
+
+**Source review: GO, conditional on the final manifest containing the exact
+four reviewed outer-scope capture pins and its new profile/runner identities
+before Cloud submission.** At review time the checked manifest was still the
+C3 discovery manifest (`profile_id=...-c3-discovery`) and had no
+`outer_scope_capture_pins`; the new runner would fail closed at that lookup.
+Do not submit until the final manifest replaces that discovery profile and
+pins the reviewed capture. No compile or proof was run for this review.
+
+### Final manifest check
+
+The updated manifest now pins exactly the independently hashed capture:
+NORMAL body `967b297f...fe065c5`, whole MIR `5a2e5347...e66d220`; readonly
+body `1fa420e2...fd90e49e`, whole MIR `4d8512c3...b460b57`. It records capture
+Build `7c662097-71a7-4c0a-8b80-ef1d15f8a622`, archive
+`fd7deccc56b4c6adea1b40fa8e1e5b6c770b43bc023f53639617ed02be1c9719`, and
+`proof_credit=false`. The translator effective-source hash also matches the
+reviewed tool source. This resolves the MIR-manifest pin condition.
+
+One runner identity condition remains before submit: the manifest still lists
+`candidate_runner_commit=4c2e2447...`, while the checked proof checkout is at
+`cc95e4f29b2869631d3665d37a830a10f3c9fb29` and has uncommitted driver and
+regression changes. Commit the reviewed runner changes, then update the
+manifest to the exact candidate runner commit and execution status. Until
+those identities agree, hold Cloud submission; the source/tool portion of
+this review is GO, but the submitted runner package is not yet identified by
+the manifest.
