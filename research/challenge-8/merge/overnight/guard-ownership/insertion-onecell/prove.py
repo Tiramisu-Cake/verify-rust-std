@@ -609,6 +609,31 @@ def main() -> int:
             "environment": environment, "combined_profile_smoke": combined_smoke,
             "selected_drop": summary, "helper_control": helper, "helper_control_matched": helper_matched, "cases": summary.get("cases", {}),
             "panic_unwind": "NOT_RUN", "combined_profile_acceptance": False}
+        # B2 is a separate actual-source diagnostic, entered only after every
+        # fresh B1 gate in this same pinned campaign has qualified. No callee
+        # summary, caller resource premise, or tool semantics changes here.
+        b2_mode = HERE.parents[3] / "cloud-build/origin-layout/B2-ACTUAL-CAMPAIGN.json"
+        if matched and b2_mode.is_file():
+            mode = json.loads(b2_mode.read_text())
+            if mode != {"schema": "merge-b2-actual-campaign-v1", "enabled": True,
+                        "domain": "concrete-u64-guard-len1-three-cells"}:
+                raise RuntimeError("B2 mode is not the exact pinned diagnostic")
+            aggregate["b1_all_matched"] = True
+            try:
+                actual = load("actual_insert_tail_b2", HERE.parents[3] /
+                              "cloud-build/origin-layout/actual-insert-tail-b2.py")
+                aggregate["actual_insert_tail_b2"] = actual.run(
+                    args.evidence / "actual-insert-tail-b2", args, env,
+                    execute_case, environment)
+                aggregate["classification"] = "INCONCLUSIVE_B2_CAUSAL_DIAGNOSTIC"
+            except Exception as error:
+                aggregate["actual_insert_tail_b2"] = {
+                    "classification": "INCONCLUSIVE_B2_SETUP", "error": repr(error),
+                    "accepted": False, "proof_credit": False}
+                aggregate["classification"] = "INCONCLUSIVE_B2_SETUP"
+            aggregate["panic_unwind"] = "NOT_PROVED"
+            (args.evidence / "aggregate.json").write_text(json.dumps(aggregate, indent=2)+"\n")
+            return 1  # A causal diagnostic never upgrades the full B2 target.
         (args.evidence / "aggregate.json").write_text(json.dumps(aggregate, indent=2)+"\n")
         return 0 if matched else 1
 

@@ -169,7 +169,7 @@ def _ordinary_default_off(evidence: Path, args, env: dict[str, str], base) -> di
         row['matched'] = False
         row['stage'] = 'EXPORTER_SETUP_FAILURE'
         return row
-    include_dirs = list(dict.fromkeys([Path(args.schema).parent, *args.capnp_include]))
+    include_dirs = list(dict.fromkeys([Path(args.schema).parent, *getattr(args, "capnp_include", ())]))
     decode_args = ['capnp', 'decode']
     for directory in include_dirs:
         decode_args.extend(['-I', str(directory)])

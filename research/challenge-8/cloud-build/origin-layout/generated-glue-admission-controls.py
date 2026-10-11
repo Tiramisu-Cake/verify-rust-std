@@ -191,7 +191,7 @@ def run(evidence: Path, args, env: dict[str, str], base, positive_case: Path) ->
     captured_raw, capture_receipt = capture_refiner_exports(evidence, args, env, base,
                                                              positive_case)
     capture_sources = evidence / 'refiner-export-capture/sources'
-    include_dirs = list(dict.fromkeys([Path(args.schema).parent, *args.capnp_include]))
+    include_dirs = list(dict.fromkeys([Path(args.schema).parent, *getattr(args, "capnp_include", ())]))
     decode_args = ['capnp', 'decode']
     for directory in include_dirs:
         decode_args.extend(['-I', str(directory)])

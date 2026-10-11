@@ -267,9 +267,71 @@ def _glue_markers_precede_error(log: str, glue_gate: dict, error: str,
     copy = positions(glue_gate.get("receiver_copy_loc"), "Executing statement")
     method = positions(glue_gate.get("selected_method_call_loc"), "Verifying call")
     ret = [start + m.start() for m in re.finditer(r"(?m)^.*Executing return statement\s*$", segment)]
-    leak = [start + m.start() for m in re.finditer(r"(?m)^.*Leak check\.\s*$", segment)]
+    call_loc = glue_gate.get("selected_method_call_loc")
+    span = re.fullmatch(r"(.+)\(([1-9][0-9]*),[0-9]+-([1-9][0-9]*),[0-9]+\)",
+                        call_loc or "")
+    leak = []
+    if span is not None:
+        file_name, _, end_line = span.groups()
+        leak_loc = re.compile(rf"(?m)^.*{re.escape(file_name)}\({end_line},[0-9]+(?:-[0-9]+)?\): Leak check\.$")
+        leak = [start + m.start() for m in leak_loc.finditer(segment)]
     return (len(copy) == 1 and len(method) == 1 and len(ret) == 1 and len(leak) == 1 and
             copy[0] < method[0] < ret[0] < leak[0] < target_at)
+
+
+def _target_error_and_call_trace(log: str, mode: str, drop_loc: str) -> dict:
+    """Match the first failing callee precondition and its exact caller call.
+
+    VeriFast reports a failed called-method precondition at the assertion or
+    predicate definition that could not be consumed, then annotates the call
+    site.  The primary error location therefore need not be the caller's Drop
+    span.  Both ends are required here; a same-text error elsewhere is not a
+    receiver-control result.
+    """
+    expected = {
+        "omit_end": ("^" + re.escape(drop_loc) + r": error: No matching heap chunks: "
+                     r"\[_\]points_to<CopyOnDrop>\(gap_guard_addr, _\)"),
+        "wrong_end": (r"(?:^|/)aliasing\.rsspec\(68,9-26\): error: No matching heap chunks: "
+                      r"ref_mut_end_token<CopyOnDrop>\(gap_guard_addr, _\)"),
+        "duplicate_end": (r"(?:^|/)aliasing\.rsspec\(68,9-26\): error: No matching heap chunks: "
+                          r"ref_mut_end_token<CopyOnDrop>\(fn_outcome_result\(outcome1\), _\)"),
+        "post_retirement_drop": (r"^verified/lib\.rs\(53,17-20\): error: No matching heap chunks: "
+                                 r"CopyOnDrop_src\(fn_outcome_result\(outcome1\), _\)"),
+    }
+    pattern = expected.get(mode)
+    if pattern is None:
+        return {"matched": False, "reason": "unknown receiver control"}
+    lines = log.splitlines()
+    errors = [(i, line) for i, line in enumerate(lines) if re.search(r"\berror:", line, re.I)]
+    exact = [(i, line) for i, line in errors if re.search(pattern, line)]
+    caller_note = f"{drop_loc}: note: Verifying call"
+    trace = []
+    if len(exact) == 1:
+        error_index = exact[0][0]
+        # The source excerpt and caret follow the primary error; the call-site
+        # note is attached to that same diagnostic within this bounded block.
+        trace = [(i, line) for i, line in enumerate(lines[error_index + 1:error_index + 12],
+                                                     error_index + 1)
+                 if line.strip().endswith(caller_note)]
+    # The omitted-end diagnostic is a direct call-site points_to failure, so
+    # the primary error itself is the exact Drop call and the trailing note is
+    # only "Consuming points_to chunk". Other modes fail in the callee contract
+    # and must carry the call-site note.
+    direct_callsite = mode == "omit_end" and len(exact) == 1 and \
+        exact[0][1].startswith(drop_loc + ": error:") and \
+        any(line.strip() == f"{drop_loc}: note: Consuming points_to chunk"
+            for line in lines[exact[0][0] + 1:exact[0][0] + 8])
+    call_trace_ok = len(trace) == 1 if mode != "omit_end" else direct_callsite
+    matched = len(errors) == len(exact) == 1 and call_trace_ok
+    return {"matched": matched, "error_count": len(errors),
+            "exact_error_count": len(exact),
+            "error_line": exact[0][1] if len(exact) == 1 else None,
+            "error_line_number": exact[0][0] + 1 if len(exact) == 1 else None,
+            "caller_drop_note": (trace[0][1] if len(trace) == 1 else
+                                 (f"{drop_loc}: direct points_to call failure" if direct_callsite else None)),
+            "caller_note_line_number": (trace[0][0] + 1 if len(trace) == 1 else
+                                        (exact[0][0] + 1 if direct_callsite else None)),
+            "caller_drop_loc": drop_loc}
 
 
 def _classify(case: Path, mode: str, execution: dict, source_before: dict,
@@ -306,11 +368,8 @@ def _classify(case: Path, mode: str, execution: dict, source_before: dict,
                     original_stages == {"exporter": 0, "decode": 0})
     unchanged = (source_before == source_after and
                  execution.get("source_unchanged_at_every_stage") is True)
-    expected_predicate = ("CopyOnDrop_len" if retirement else
-                          "points_to<CopyOnDrop>" if mode == "omit_end" else "ref_mut_end_token")
-    target_errors = [error for error in errors
-                     if error.startswith(positive_drop_loc + ": error:") and
-                     "No matching heap chunks" in error and expected_predicate in error]
+    target = _target_error_and_call_trace(log, mode, positive_drop_loc)
+    target_errors = [target["error_line"]] if target.get("matched") else []
     # The generated callee must complete its own copied-receiver call, Return,
     # and leak check. The caller failure is admitted only at the actual Drop
     # statement location from the positive AST binding.
@@ -344,7 +403,12 @@ def _classify(case: Path, mode: str, execution: dict, source_before: dict,
             "retirement_log_order_admitted": retirement_log,
             "ast_control_matched": ast_matched,
             "generated_glue_body_gate": glue_gate,
-            "expected_error_predicate": expected_predicate,
+            "expected_error_predicate": (
+                "CopyOnDrop_src(fn_outcome_result(outcome1), _)" if retirement else
+                "[_]points_to<CopyOnDrop>(gap_guard_addr, _)" if mode == "omit_end" else
+                "ref_mut_end_token<CopyOnDrop>(" +
+                ("fn_outcome_result(outcome1)" if mode == "duplicate_end" else "gap_guard_addr") + ", _)"),
+            "target_error_and_caller_trace": target,
             "errors": errors, "dead_code": dead,
             "target_error_matched": len(target_errors) == 1,
             "generated_glue_markers_precede_caller_error": bool(target_errors) and

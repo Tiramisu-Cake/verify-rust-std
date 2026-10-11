@@ -1,0 +1,132 @@
+{
+  "schema": "merge-b1-session2-compact-receipt-v1",
+  "build_id": "53b4b12f-d9ec-44ca-8ca3-8cb0f5124b60",
+  "proof_sha": "6283377b3729e0d6bebaf115f3c44f2e0187bc41",
+  "raw_build_status": "FAILURE",
+  "archive_sha256": "c68665ddec58a457c6b2badd0d1f057b925a6ff89acb6c00f91e334cdf610561",
+  "integrity_verified": true,
+  "charged_seconds": 485,
+  "total_used_seconds": 899,
+  "remaining_seconds": 2701,
+  "b1": "OPEN_PENDING_ORACLE_REPLAY_AND_NINE_ADMISSION",
+  "b2": "NOT_RUN",
+  "admission_first_causal": "exact exporter capture succeeded; runner Namespace has no capnp_include before decoder/baselines/mutants",
+  "controls": {
+    "omit_end": {
+      "classification": "INCONCLUSIVE",
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "original_export_stages": {
+        "decode": 0,
+        "exporter": 0
+      },
+      "errors": [
+        "verified/lib.rs(194,9-10): error: No matching heap chunks: [_]points_to<CopyOnDrop>(gap_guard_addr, _)"
+      ],
+      "dead_code": [],
+      "ast_control_matched": true,
+      "source_unchanged_at_every_stage": true,
+      "retirement_log_order_admitted": false,
+      "glue_body_admitted": true,
+      "classification_sha256": "f91f85d04ba07031c7033db0ab0f5bcaf7329dbe357165a85a1f3e2925512975",
+      "full_log_sha256": "966e172d06c5e29ab83a003139c1a0c7c1daf49af91f5b8bca3e1d284bd87e25"
+    },
+    "wrong_end": {
+      "classification": "INCONCLUSIVE",
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "original_export_stages": {
+        "decode": 0,
+        "exporter": 0
+      },
+      "errors": [
+        "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/aliasing.rsspec(68,9-26): error: No matching heap chunks: ref_mut_end_token<CopyOnDrop>(gap_guard_addr, _)"
+      ],
+      "dead_code": [],
+      "ast_control_matched": true,
+      "source_unchanged_at_every_stage": true,
+      "retirement_log_order_admitted": false,
+      "glue_body_admitted": true,
+      "classification_sha256": "9fcc91f465e4dc85454257845f6e337be8e3e5b7513bd5330d2cf349fb0f9f21",
+      "full_log_sha256": "d934549673fe1fcbb1863a13b36ebf2493b9d22d78149bac00a3c92bb8cde535"
+    },
+    "duplicate_end": {
+      "classification": "INCONCLUSIVE",
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "original_export_stages": {
+        "decode": 0,
+        "exporter": 0
+      },
+      "errors": [
+        "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/aliasing.rsspec(68,9-26): error: No matching heap chunks: ref_mut_end_token<CopyOnDrop>(fn_outcome_result(outcome1), _)"
+      ],
+      "dead_code": [],
+      "ast_control_matched": true,
+      "source_unchanged_at_every_stage": true,
+      "retirement_log_order_admitted": false,
+      "glue_body_admitted": true,
+      "classification_sha256": "99839177f86c75daba9be23c8ca3dec36fe31ddd565dff8ec3c10f072f811d9a",
+      "full_log_sha256": "041e317091219c514e3e90cafc3f065fb7195f4fdd10ea21dd9d3b7042c51008"
+    },
+    "post_retirement_drop": {
+      "classification": "INCONCLUSIVE",
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "original_export_stages": {
+        "decode": 0,
+        "exporter": 0
+      },
+      "errors": [
+        "verified/lib.rs(53,17-20): error: No matching heap chunks: CopyOnDrop_src(fn_outcome_result(outcome1), _)"
+      ],
+      "dead_code": [],
+      "ast_control_matched": true,
+      "source_unchanged_at_every_stage": true,
+      "retirement_log_order_admitted": false,
+      "glue_body_admitted": true,
+      "classification_sha256": "8e6b5faff76042a03fef87130aa42845eabbd26620c5249987a260d0f127b9d8",
+      "full_log_sha256": "3f25792bf267950f75f06ea795cb0e77f36cf419685ad8eb6a92dbca676940b9"
+    }
+  },
+  "refiner_capture": {
+    "exit_code": 0,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "raw_messages_sha256": {
+      "original": "cdc24f2964c37620cbe8e7836577236fe4b709850b49d54f93ac44107c3fa10c",
+      "verified": "5a8e415da19556ab7eee0bc2cd5879562816d7e79149aa35afc19b66275b03f1"
+    },
+    "argv": {
+      "original": [
+        "original/lib.rs",
+        "--sysroot=/workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu",
+        "--vf-rust-mir-exporter:preprocess-readonly",
+        "--edition",
+        "2021"
+      ],
+      "verified": [
+        "verified/lib.rs",
+        "--sysroot=/workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu",
+        "--vf-rust-mir-exporter:preprocess-readonly",
+        "--edition",
+        "2021"
+      ]
+    }
+  }
+}
