@@ -1614,28 +1614,38 @@ def classify_selected(name: str, result: dict, fixture: Path) -> dict:
     lines = [int(value) for value in re.findall(r"verified/lib\.rs\((\d+),", first)]
     paired = result.get("support", {}).get("paired_support_passed") is True
     common = (paired and result.get("source_pair_immutable") is True and
-              result.get("proof_ast_sha256") is not None and
-              result.get("stages", {}).get("proof-ast-diagnostic") == 0)
+              result.get("proof_ast_sha256") is not None)
+    diagnostic_exit = result.get("stages", {}).get("proof-ast-diagnostic")
+    # Dumping the AST also verifies. Intended negatives must fail at the same
+    # first obligation in both invocations, after the mandatory full AST audit.
+    diagnostic_log = fixture.parent / "proof-ast-diagnostic.log"
+    diagnostic_text = diagnostic_log.read_text(errors="replace") if diagnostic_log.is_file() else ""
+    diagnostic_errors = [line for line in diagnostic_text.splitlines()
+                         if ": error:" in line or line.startswith(("Fatal error:", "error:", "error["))
+                         or re.fullmatch(r"verified/lib\.rs\(\d+,\d+(?:-\d+)?\): dead code", line)]
+    matching_negative_diagnostic = (diagnostic_exit == 1 and
+                                    bool(diagnostic_errors) and
+                                    diagnostic_errors[0] == first)
     stage = result.get("first_causal_stage")
     exit_code = result.get("stages", {}).get("verification")
     if name == "selected-branch-positive":
         log = fixture.parent / "verification.log"
         verbose = log.read_text(errors="replace") if log.is_file() else ""
-        passed = (common and stage == "NONE_OBSERVED" and exit_code == 0 and
+        passed = (common and diagnostic_exit == 0 and stage == "NONE_OBSERVED" and exit_code == 0 and
                   "Leak check." in verbose and "0 errors found (" in verbose)
         label = "SELECTED_PREFIX_VF0_CANDIDATE_RAW_REVIEW_REQUIRED" if passed else \
                 "SELECTED_PREFIX_FIRST_OBLIGATION_INCONCLUSIVE"
     elif name == "selected-branch-false-bound-31":
         intended = [i for i, line in enumerate(source.splitlines(), 1)
                     if "//@ assert len <= 31;" in line]
-        passed = (common and stage == "verification" and exit_code not in (None, 0) and
+        passed = (common and matching_negative_diagnostic and stage == "verification" and exit_code == 1 and
                   len(intended) == 1 and intended[0] in lines and "Cannot prove" in first)
         label = "INTENDED_FALSE31_NEGATIVE_RAW_REVIEW_REQUIRED" if passed else \
                 "FALSE31_FIRST_OBLIGATION_WRONG_OR_INCONCLUSIVE"
     else:
         intended = [i for i, line in enumerate(source.splitlines(), 1)
                     if "T::small_sort(v, scratch, is_less);" in line]
-        passed = (common and stage == "verification" and exit_code not in (None, 0) and
+        passed = (common and matching_negative_diagnostic and stage == "verification" and exit_code == 1 and
                   len(intended) == 1 and intended[0] in lines and
                   "No matching heap chunks" in first and "array" in first)
         label = "INTENDED_SOURCE_ARRAY_NEGATIVE_RAW_REVIEW_REQUIRED" if passed else \

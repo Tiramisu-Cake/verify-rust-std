@@ -7498,3 +7498,35 @@ and query/consumer checks still precede flag; no operand set union. If both
 observations match, align translator exact source-MD5-specific literal operands
 and run all fresh selected proof/regression gates. Any earlier failure keeps
 A1/A2 OPEN and is classified. Main23:49:02UTC/absolute00:19:02;3165s remaining.
+
+Session2 Build2:b8779246-8ef6-4a9e-922d-27e8747a8089, proof=infra
+ce1b9c19d9f865698aa9fcf1eb1f2e0cee5120b2,407s, archive
+ e2d406312435677bf33316861cd26333cd042ba932a830cc12848ad7deabb78f.
+Official source/config/inventory/text chunks verified; evidence complete.
+Both negatives admitted their full mode maps; intermediate normal Ast.Var
+false31=17/18/19, source-array=21/22/23, helper both5/6/7. Both diagnostic2
+at explicit capture stop; no AST/verification/proof credit. Old verdict remains.
+842/3600 accounted;2758 remaining; no active own build after accounting.
+
+Before fresh selected proof: source-MD5-specific operand gate now uses independently
+Cloud-observed normal maps for each exact case, never union or arbitrary temps.
+Readonly and source-origin maps remain independently validated. Translator
+source/callee/subst/full clauses/binders/interfaces/abort/three-edge gates and
+normal/unwind resource posts preserved; kernel/prelude/layout untouched.
+Regression scope remains the seven final-profile canonical T/MU, pointer rights
+and actual threshold controls plus three selected cases, fresh compiler evidence,
+paired source/MIR/refinement and full post AST. Their sufficient coverage rationale
+is the unchanged preceding session2 gate plan. Public-guard repeat excluded.
+Classifier correction: -dump_ast_with_locs also executes verifier. Positive
+requires diagnostic0; intended negatives require diagnostic1 AND verification1
+with identical first causal error, exact intended source line, full mandatory
+post AST and immutable paired source. Diagnostic2/mismatched first failure refuses.
+Eleven isolated synthetic classifier negatives per case and thirteen AST controls
+pass; replay final maps preserves old b229/b877 verdicts and input hashes.
+Hypothesis: exact binding now reaches actual selected threshold/guard transfer
+and original helper len+16/abort/pointers without supplied root bound. Positive
+must pass full posts; false31 must fail assert31; missing source must fail array
+call precondition. Earlier causal refusal is inconclusive, not an intended negative.
+Profile experimental/unaccepted; Freeze diagnostic cannot discharge unrestricted
+original generic applicability (None unresolved). No nonzero or scratch rights
+created by cast; any resource/model boundary is checkpointed without bypass.

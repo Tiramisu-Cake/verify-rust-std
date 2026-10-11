@@ -1,7 +1,7 @@
 {
   "base_translator_sha256": "5dde9c2f9c9bb75144da78d0f242c3ca6807baa5731d736ced0cc438e0bc8f47",
-  "result_translator_sha256": "003390b09bcf766e3db913245b8fcfb391b97fcad1eae330b2c7775f5b0a7f79",
-  "patch_sha256": "ef5601533cc4093bf5a1c9179664c0c7a0ab649d18bd8c0ca61ee20b81dbf30e",
+  "result_translator_sha256": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64",
+  "patch_sha256": "09c988cf45585734e9e2f9f03d98a7f9123a518f877ce0c0d7aa32c032f8c56e",
   "case_verified_lib_md5": {
     "selected-branch-positive": "0e4a1459be31e3d48083e0e90e71a6e9",
     "selected-branch-false-bound-31": "52dc359aa5c64a4a96170bfc1dbc263f",
@@ -74,10 +74,12 @@
       ]
     }
   },
-  "session2_observation": "Before altering strict literal translated operand gate, print actual intermediate Ast.Var names and refuse mismatch; no proof credit.",
+  "session2_observation": "Build2 captured actual normal-mode Ast.Var operands for all three pinned source digests under capture-only stop (exit 2); strict proof-mode mapping is source-MD5-specific and unknown digests refuse.",
   "capture_only_gate": "Default-off runner diagnostic rejects immediately after incoming selected small_sort Ast.Var observation, before binding/verification; all normal proof gates unchanged.",
   "observed_translation_modes": {
-    "selected-branch-positive": "normal"
+    "selected-branch-positive": "normal",
+    "selected-branch-false-bound-31": "normal",
+    "selected-branch-missing-source-array": "normal"
   },
   "mode_specific_mir_maps": {
     "selected_freeze_basecase": {
@@ -186,5 +188,56 @@
     }
   },
   "mir_map_observation_build": "5bd2b7c3-ec17-45aa-a60e-7bdda819233c",
-  "mir_map_replay_sha256": "f34b2254f5b7ef4751e2de4b348e3a1315fb3a1757bf5cacff8d8b3d743cbcfc"
+  "mir_map_replay_sha256": "f34b2254f5b7ef4751e2de4b348e3a1315fb3a1757bf5cacff8d8b3d743cbcfc",
+  "selected_translation_observations": {
+    "archive_sha256": "e2d406312435677bf33316861cd26333cd042ba932a830cc12848ad7deabb78f",
+    "build_id": "b877",
+    "capture_only": true,
+    "capture_only_exit": 2,
+    "cases": {
+      "selected-branch-false-bound-31": {
+        "helper_ast_vars": [
+          "$_5",
+          "$_6",
+          "$_7"
+        ],
+        "mode": "normal",
+        "root_ast_vars": [
+          "$_17",
+          "$_18",
+          "$_19"
+        ],
+        "source_md5": "52dc359aa5c64a4a96170bfc1dbc263f"
+      },
+      "selected-branch-missing-source-array": {
+        "helper_ast_vars": [
+          "$_5",
+          "$_6",
+          "$_7"
+        ],
+        "mode": "normal",
+        "root_ast_vars": [
+          "$_21",
+          "$_22",
+          "$_23"
+        ],
+        "source_md5": "59d4a31eb99993ed665d01e982100a72"
+      },
+      "selected-branch-positive": {
+        "helper_ast_vars": [
+          "$_5",
+          "$_6",
+          "$_7"
+        ],
+        "mode": "normal",
+        "root_ast_vars": [
+          "$_17",
+          "$_18",
+          "$_19"
+        ],
+        "source_md5": "0e4a1459be31e3d48083e0e90e71a6e9"
+      }
+    },
+    "proof_credit": false
+  }
 }

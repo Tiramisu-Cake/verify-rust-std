@@ -1,6 +1,6 @@
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-@@ -390,6 +390,218 @@
+@@ -390,6 +390,224 @@
        end
    end
  
@@ -55,6 +55,12 @@
 +      | "59d4a31eb99993ed665d01e982100a72" ->
 +          "selected_freeze_basecase_missing_source_array"
 +      | _ -> reject "unknown fixture for selected call graph"
++    let selected_small_sort_args () =
++      match Digest.to_hex (Digest.file "verified/lib.rs") with
++      | "0e4a1459be31e3d48083e0e90e71a6e9" -> ["$_17"; "$_18"; "$_19"]
++      | "52dc359aa5c64a4a96170bfc1dbc263f" -> ["$_17"; "$_18"; "$_19"]
++      | "59d4a31eb99993ed665d01e982100a72" -> ["$_21"; "$_22"; "$_23"]
++      | _ -> reject "unknown selected small_sort operand source digest"
 +    (* The fresh paired MIR records a reborrow temp for every selected-call
 +       operand.  Require those exact generated local IDs after translation;
 +       do not accept arbitrary temps or guessed source names. *)
@@ -151,7 +157,7 @@
 +          | None | Some "0" -> ()
 +          | Some "1" -> reject "capture-only stop before selected-call binding and verification"
 +          | _ -> reject "malformed capture-only mode");
-+          exact_var_args ["$_16"; "$_17"; "$_18"] args;
++          exact_var_args (selected_small_sort_args ()) args;
 +          record small_sort_calls small_sort_owners body;
 +          selected_small_sort, substs
 +      | _ -> reject "trait method call name, compiler clauses, or generic/operand arity"
@@ -219,7 +225,7 @@
    (* Experimental, fail-closed pointer-only source-equivalence profile.  The
       source/body check below enables this gate only for the exact hosted unit;
       no ordinary Rust translation changes when the repository locator is unset. *)
-@@ -3275,8 +3487,22 @@
+@@ -3275,8 +3493,22 @@
                    { kind = Lifetime { id = "'erased" } })
            in
            let fn_name, substs_cpn =
@@ -244,7 +250,7 @@
                if args_cpn <> [] then Sort4StableCaller.reject "threshold call operand arity";
                Sort4StableCaller.bind State.body_name Args.source_clauses fn_name substs_cpn
              end else Args.body_tr_defs_ctx.fn_specializer fn_name substs_cpn
-@@ -3990,7 +4216,21 @@
+@@ -3990,7 +4222,21 @@
                "typed SAFE forget call/outcome/shared cleanup"
        in
        let fn_call_rexpr =
@@ -267,7 +273,7 @@
            match fn_call_rexpr with
            | FnCallOutcome call -> FnCallResult (result_of_outcome fn_loc call)
            | _ -> assert false
-@@ -6690,6 +6930,7 @@
+@@ -6690,6 +6936,7 @@
    let translate_body (body_tr_defs_ctx : body_tr_defs_ctx) (body_cpn : BodyRd.t)
        =
      if Sort4StableCaller.enabled () then Sort4StableCaller.check_source ();
@@ -275,7 +281,7 @@
      let native_c1_capture_requested =
        native_opaque_c1_capture_requested () in
      let native_c1_bound_requested =
-@@ -7188,7 +7429,8 @@
+@@ -7188,7 +7435,8 @@
      match def_kind with
      | DefKind.Fn ->
          let def_path = def_path_get body_cpn in
@@ -285,7 +291,7 @@
            else TrName.translate_def_path def_path in
          Rocq_writer.rocq_print_tuple Args.rocq_writer @@ fun () ->
          Rocq_writer.rocq_print_tuple_element Args.rocq_writer begin fun () ->
-@@ -7431,6 +7673,12 @@
+@@ -7431,6 +7679,12 @@
                    param_decls
                    (ret_place_loc, ret_ty_info)
              in
@@ -298,7 +304,7 @@
              let contract_template =
                (false, (None, None), Some pre_post_template, false)
              in
-@@ -17010,6 +17258,19 @@
+@@ -17010,6 +17264,19 @@
             List.length (List.filter ((=) Sort4StableCaller.fallback) renamed) <> 1 then
            Sort4StableCaller.reject "selected/default body clause inventory"
        end;
@@ -318,7 +324,7 @@
        let bodies_cpn =
          bodies_cpn
          |> List.filter (fun body_cpn ->
-@@ -17379,6 +17640,7 @@
+@@ -17379,6 +17646,7 @@
        let body_tr_defs_ctx =
          { adt_defs; directives = vf_mir_translator_directives; fn_specializer }
        in
@@ -326,7 +332,7 @@
        let* bodies_tr_res =
          Rocq_writer.rocq_print Args.rocq_writer "Definition bodies := ";
          Rocq_writer.rocq_print_big_list Args.rocq_writer @@ fun () ->
-@@ -17390,6 +17652,8 @@
+@@ -17390,6 +17658,8 @@
        let body_sig_opts, body_decls, debug_infos =
          ListAux.split3 bodies_tr_res
        in

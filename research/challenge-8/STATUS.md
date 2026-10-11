@@ -29,12 +29,14 @@ Positive translated normal operands17/18/19, helper5/6/7 observed; deliberate
 literal refusal, no selected verification/full post AST. All three mode maps
 replay validated; negatives normal17/18/19 and21/22/23, readonly16/17/18.
 435/3600 accounted;3165 remaining, own active Build/reservation none.
-Next: explicit-stop Cloud capture of negative translated operands, then fresh
-exact-profile selected positive/false31/source-array and actual helper proof.
+Build b8779246 (ce1b9c19) independently observed both negative normal AST maps;
+explicit stop before proof, archive/inventory/text evidence verified.
+842/3600 accounted;2758 remaining. Source-MD5 operand gate now matches all three
+Cloud observations; fresh full-profile selected proof/regression is next.
 
 Caller qualification Freeze only; unrestricted actual quicksort applicability OPEN.
 Bound transfer NOT_PROVED; helper overflow/abort/pointers/firstcall resources
-NOT_REACHED; caller→C4 NOT_RUN. First open obligation is negative translated-AST observation, then fresh
+NOT_REACHED; caller→C4 NOT_RUN. First open obligation is fresh
 selected bound/helper proof with full native posts.
 No size/nonzero premise added. Opaque IS_ZST/sizeof link remains separate OPEN
 blocker; unchanged public guard was not repeated.

@@ -1,0 +1,710 @@
+{
+  "auditor_sha256": "994cb66edc7e9289929e3c17057f3254ac5858d1dc381740c8e2bc82c27c54b7",
+  "build_ids": [
+    "b22985f8-7aae-4058-9e3e-bae10f222a6f",
+    "b8779246-8ef6-4a9e-922d-27e8747a8089"
+  ],
+  "compiler_or_verifier_executed": false,
+  "exact_inputs": [
+    "8562527b76accbeb2405313d032ccbb6802173a6",
+    "ce1b9c19d9f865698aa9fcf1eb1f2e0cee5120b2"
+  ],
+  "old_verdict_artifacts": {
+    "/tmp/select-binding-prefix-b229-raw/allprooflogs/cases/sort4-c1-current-recovery/selected-proof-audit.json": "3ca882817ff8a571cabd649439dd989835d2516630809efc5bb1be69e1659d2b",
+    "/tmp/select-session2-b877-raw/allprooflogs/cases/sort4-c1-current-recovery/selected-proof-audit.json": "ddc58636f5fc0a6e969adba5440e4b3ed582b008b72d0a05709df29ed79f3236"
+  },
+  "proof_credit": false,
+  "rows": [
+    {
+      "admission": "PASS",
+      "case": "binding_selected_freeze",
+      "mir_sha256": {
+        "normal": "27fb6b16a16fce39620fb043720f1fb3b9c0a3b20b539474b6de12318f74cb26",
+        "readonly": "bd8a407b6c9c628b2a53e5d1549e41b12201c8962e6190f9027982187c46d38e"
+      },
+      "negative_controls": {
+        "missing-Freeze-clause": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: exact selected caller source, full clauses and five typed inputs",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "missing-MIR-body": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: closed compiler binding MIR function inventory",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "missing-binder": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR FnDef shape",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-MIR-operand": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR operands derive from v, scratch, is_less in order StableSmallSortTypeImpl::small_sort",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-late-bound-lifetimes": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR FnDef T/F substitutions, three late-bound lifetimes and arity StableSmallSortTypeImpl::small_sort",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-move-projection": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: exact direct MIR reborrow temporaries for translated AST StableSmallSortTypeImpl::small_sort",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-original-argument-source": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR operands derive from v, scratch, is_less in order StableSmallSortTypeImpl::small_sort",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-temporary-id": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR operand has no direct source-input definition",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        }
+      },
+      "normal_readonly_semantic_equality": true,
+      "proof_credit": false,
+      "raw_per_mode_maps": {
+        "normal": {
+          "helper": [
+            "_5",
+            "_6",
+            "_7"
+          ],
+          "root": [
+            "_16",
+            "_17",
+            "_18"
+          ]
+        },
+        "readonly": {
+          "helper": [
+            "_5",
+            "_6",
+            "_7"
+          ],
+          "root": [
+            "_16",
+            "_17",
+            "_18"
+          ]
+        }
+      },
+      "semantic_calls": [
+        {
+          "argument_operand_shapes": [
+            {
+              "kind": "move",
+              "projection": []
+            },
+            {
+              "kind": "move",
+              "projection": []
+            },
+            {
+              "kind": "move",
+              "projection": []
+            }
+          ],
+          "argument_source_roots": [
+            "v",
+            "scratch",
+            "is_less"
+          ],
+          "callee": "StableSmallSortTypeImpl::small_sort",
+          "fn_def_substs": [
+            "T",
+            "F"
+          ],
+          "late_bound_generic_param_count": 3,
+          "source_mir_locals": [
+            "_1",
+            "_2",
+            "_5"
+          ]
+        },
+        {
+          "argument_operand_shapes": [],
+          "argument_source_roots": [],
+          "callee": "StableSmallSortTypeImpl::small_sort_threshold",
+          "fn_def_substs": [
+            "T"
+          ],
+          "late_bound_generic_param_count": 0,
+          "source_mir_locals": []
+        },
+        {
+          "argument_operand_shapes": [
+            {
+              "kind": "move",
+              "projection": []
+            },
+            {
+              "kind": "move",
+              "projection": []
+            },
+            {
+              "kind": "move",
+              "projection": []
+            }
+          ],
+          "argument_source_roots": [
+            "v",
+            "scratch",
+            "is_less"
+          ],
+          "callee": "small_sort_general_with_scratch",
+          "fn_def_substs": [
+            "T",
+            "F"
+          ],
+          "late_bound_generic_param_count": 3,
+          "source_mir_locals": [
+            "_1",
+            "_2",
+            "_3"
+          ]
+        }
+      ],
+      "source_sha256": "d82094eb075a6369e8eeae63f954489d5d27b3795101a7ae9c56a72f1a32b7bd",
+      "target": "binding_selected_freeze"
+    },
+    {
+      "admission": "PASS",
+      "case": "selected-branch-positive",
+      "mir_sha256": {
+        "normal": "b9b70ecbf616bf4a0264bff5921fd6cf15f66f0fa3600481ebb0f66d51368973",
+        "readonly": "3c09a4dfa0df472979d612de335433e2f75d4e08c8befb6784cb7fc4cb39475a"
+      },
+      "negative_controls": {
+        "missing-Freeze-clause": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: exact selected caller source, full clauses and five typed inputs",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "missing-MIR-body": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: closed compiler binding MIR function inventory",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "missing-binder": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR FnDef shape",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-MIR-operand": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR operands derive from v, scratch, is_less in order StableSmallSortTypeImpl::small_sort",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-late-bound-lifetimes": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR FnDef T/F substitutions, three late-bound lifetimes and arity StableSmallSortTypeImpl::small_sort",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-move-projection": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: exact direct MIR reborrow temporaries for translated AST StableSmallSortTypeImpl::small_sort",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-original-argument-source": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR operands derive from v, scratch, is_less in order StableSmallSortTypeImpl::small_sort",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-temporary-id": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR operand has no direct source-input definition",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        }
+      },
+      "normal_readonly_semantic_equality": true,
+      "proof_credit": false,
+      "raw_per_mode_maps": {
+        "normal": {
+          "helper": [
+            "_5",
+            "_6",
+            "_7"
+          ],
+          "root": [
+            "_17",
+            "_18",
+            "_19"
+          ]
+        },
+        "readonly": {
+          "helper": [
+            "_5",
+            "_6",
+            "_7"
+          ],
+          "root": [
+            "_16",
+            "_17",
+            "_18"
+          ]
+        }
+      },
+      "semantic_calls": [
+        {
+          "argument_operand_shapes": [
+            {
+              "kind": "move",
+              "projection": []
+            },
+            {
+              "kind": "move",
+              "projection": []
+            },
+            {
+              "kind": "move",
+              "projection": []
+            }
+          ],
+          "argument_source_roots": [
+            "v",
+            "scratch",
+            "is_less"
+          ],
+          "callee": "StableSmallSortTypeImpl::small_sort",
+          "fn_def_substs": [
+            "T",
+            "F"
+          ],
+          "late_bound_generic_param_count": 3,
+          "source_mir_locals": [
+            "_1",
+            "_2",
+            "_5"
+          ]
+        },
+        {
+          "argument_operand_shapes": [],
+          "argument_source_roots": [],
+          "callee": "StableSmallSortTypeImpl::small_sort_threshold",
+          "fn_def_substs": [
+            "T"
+          ],
+          "late_bound_generic_param_count": 0,
+          "source_mir_locals": []
+        },
+        {
+          "argument_operand_shapes": [
+            {
+              "kind": "move",
+              "projection": []
+            },
+            {
+              "kind": "move",
+              "projection": []
+            },
+            {
+              "kind": "move",
+              "projection": []
+            }
+          ],
+          "argument_source_roots": [
+            "v",
+            "scratch",
+            "is_less"
+          ],
+          "callee": "small_sort_general_with_scratch",
+          "fn_def_substs": [
+            "T",
+            "F"
+          ],
+          "late_bound_generic_param_count": 3,
+          "source_mir_locals": [
+            "_1",
+            "_2",
+            "_3"
+          ]
+        }
+      ],
+      "semantic_query_match": true,
+      "source_sha256": "470b144bcc63a8343d0b0b0a432ff5b538eaaeac93e9f968faeee2a9dc4f6135",
+      "target": "selected_freeze_basecase"
+    },
+    {
+      "admission": "PASS",
+      "case": "selected-branch-false-bound-31",
+      "mir_sha256": {
+        "normal": "1061b838f3304c489dfa7a4c40b9dd63da4a37deb062b2a3af5544dd70ba2a93",
+        "readonly": "30cdb9f28295f3a055d0c3bfa54764a06e217675baacb32650f6478ae78a5708"
+      },
+      "negative_controls": {
+        "missing-Freeze-clause": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: exact selected caller source, full clauses and five typed inputs",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "missing-MIR-body": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: closed compiler binding MIR function inventory",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "missing-binder": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR FnDef shape",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-MIR-operand": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR operands derive from v, scratch, is_less in order StableSmallSortTypeImpl::small_sort",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-late-bound-lifetimes": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR FnDef T/F substitutions, three late-bound lifetimes and arity StableSmallSortTypeImpl::small_sort",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-move-projection": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: exact direct MIR reborrow temporaries for translated AST StableSmallSortTypeImpl::small_sort",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-original-argument-source": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR operands derive from v, scratch, is_less in order StableSmallSortTypeImpl::small_sort",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-temporary-id": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR operand has no direct source-input definition",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        }
+      },
+      "normal_readonly_semantic_equality": true,
+      "proof_credit": false,
+      "raw_per_mode_maps": {
+        "normal": {
+          "helper": [
+            "_5",
+            "_6",
+            "_7"
+          ],
+          "root": [
+            "_17",
+            "_18",
+            "_19"
+          ]
+        },
+        "readonly": {
+          "helper": [
+            "_5",
+            "_6",
+            "_7"
+          ],
+          "root": [
+            "_16",
+            "_17",
+            "_18"
+          ]
+        }
+      },
+      "semantic_calls": [
+        {
+          "argument_operand_shapes": [
+            {
+              "kind": "move",
+              "projection": []
+            },
+            {
+              "kind": "move",
+              "projection": []
+            },
+            {
+              "kind": "move",
+              "projection": []
+            }
+          ],
+          "argument_source_roots": [
+            "v",
+            "scratch",
+            "is_less"
+          ],
+          "callee": "StableSmallSortTypeImpl::small_sort",
+          "fn_def_substs": [
+            "T",
+            "F"
+          ],
+          "late_bound_generic_param_count": 3,
+          "source_mir_locals": [
+            "_1",
+            "_2",
+            "_5"
+          ]
+        },
+        {
+          "argument_operand_shapes": [],
+          "argument_source_roots": [],
+          "callee": "StableSmallSortTypeImpl::small_sort_threshold",
+          "fn_def_substs": [
+            "T"
+          ],
+          "late_bound_generic_param_count": 0,
+          "source_mir_locals": []
+        },
+        {
+          "argument_operand_shapes": [
+            {
+              "kind": "move",
+              "projection": []
+            },
+            {
+              "kind": "move",
+              "projection": []
+            },
+            {
+              "kind": "move",
+              "projection": []
+            }
+          ],
+          "argument_source_roots": [
+            "v",
+            "scratch",
+            "is_less"
+          ],
+          "callee": "small_sort_general_with_scratch",
+          "fn_def_substs": [
+            "T",
+            "F"
+          ],
+          "late_bound_generic_param_count": 3,
+          "source_mir_locals": [
+            "_1",
+            "_2",
+            "_3"
+          ]
+        }
+      ],
+      "semantic_query_match": true,
+      "source_sha256": "0eae63f563a78dc5da0c3428474067cfcbc5ed87505defb0fb371cfcb53c5753",
+      "target": "selected_freeze_basecase_false_31"
+    },
+    {
+      "admission": "PASS",
+      "case": "selected-branch-missing-source-array",
+      "mir_sha256": {
+        "normal": "87cc44ae48ee07dcbc53827012b24bd8462d88529b407ee1c9ef3fb3dcdc5982",
+        "readonly": "d67e2f3873e9d879d332403a08194f74ebc830dd84c4caab4436b8cb97ec1082"
+      },
+      "negative_controls": {
+        "missing-Freeze-clause": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: exact selected caller source, full clauses and five typed inputs",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "missing-MIR-body": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: closed compiler binding MIR function inventory",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "missing-binder": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR FnDef shape",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-MIR-operand": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR operands derive from v, scratch, is_less in order StableSmallSortTypeImpl::small_sort",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-late-bound-lifetimes": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR FnDef T/F substitutions, three late-bound lifetimes and arity StableSmallSortTypeImpl::small_sort",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-move-projection": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: exact direct MIR reborrow temporaries for translated AST StableSmallSortTypeImpl::small_sort",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-original-argument-source": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR operands derive from v, scratch, is_less in order StableSmallSortTypeImpl::small_sort",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        },
+        "wrong-temporary-id": {
+          "proof_credit": false,
+          "reason": "SELECTED-PROOF: MIR operand has no direct source-input definition",
+          "refused_before_verifier": true,
+          "stage": "full_mir_structural_admission",
+          "synthetic": true
+        }
+      },
+      "normal_readonly_semantic_equality": true,
+      "proof_credit": false,
+      "raw_per_mode_maps": {
+        "normal": {
+          "helper": [
+            "_5",
+            "_6",
+            "_7"
+          ],
+          "root": [
+            "_21",
+            "_22",
+            "_23"
+          ]
+        },
+        "readonly": {
+          "helper": [
+            "_5",
+            "_6",
+            "_7"
+          ],
+          "root": [
+            "_16",
+            "_17",
+            "_18"
+          ]
+        }
+      },
+      "semantic_calls": [
+        {
+          "argument_operand_shapes": [
+            {
+              "kind": "move",
+              "projection": []
+            },
+            {
+              "kind": "move",
+              "projection": []
+            },
+            {
+              "kind": "move",
+              "projection": []
+            }
+          ],
+          "argument_source_roots": [
+            "v",
+            "scratch",
+            "is_less"
+          ],
+          "callee": "StableSmallSortTypeImpl::small_sort",
+          "fn_def_substs": [
+            "T",
+            "F"
+          ],
+          "late_bound_generic_param_count": 3,
+          "source_mir_locals": [
+            "_1",
+            "_2",
+            "_5"
+          ]
+        },
+        {
+          "argument_operand_shapes": [],
+          "argument_source_roots": [],
+          "callee": "StableSmallSortTypeImpl::small_sort_threshold",
+          "fn_def_substs": [
+            "T"
+          ],
+          "late_bound_generic_param_count": 0,
+          "source_mir_locals": []
+        },
+        {
+          "argument_operand_shapes": [
+            {
+              "kind": "move",
+              "projection": []
+            },
+            {
+              "kind": "move",
+              "projection": []
+            },
+            {
+              "kind": "move",
+              "projection": []
+            }
+          ],
+          "argument_source_roots": [
+            "v",
+            "scratch",
+            "is_less"
+          ],
+          "callee": "small_sort_general_with_scratch",
+          "fn_def_substs": [
+            "T",
+            "F"
+          ],
+          "late_bound_generic_param_count": 3,
+          "source_mir_locals": [
+            "_1",
+            "_2",
+            "_3"
+          ]
+        }
+      ],
+      "semantic_query_match": true,
+      "source_sha256": "1a51a135a8d3b32c1401ab69ff1328f5ce68c7652b0bc18b96517b98249c9ea9",
+      "target": "selected_freeze_basecase_missing_source_array"
+    }
+  ]
+}
