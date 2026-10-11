@@ -1,0 +1,24 @@
+{
+  "kind": "ISOLATED_CLASSIFIER_TEST_SAVED_SYNTHETIC_DATA_ONLY",
+  "build_id": "2991985a-861a-484c-8162-de021c1086b6",
+  "input_sha256": "9c0009e9f162bfb4736cf34c08cefb94013f5840e81c8737b8f1d7fdee5c61ef",
+  "classifier_sha256": "f301bc2a903bb87ec91a9dbc931afdcd16bb7f48df91cbde56d8da48695af697",
+  "baseline": "ADMITTED_REPLAY_NOT_NEW_PROOF",
+  "controls": {
+    "wrong_selected_hash": "EXPECTED_ADMISSION_REJECTION",
+    "wrong_selected_path": "EXPECTED_ADMISSION_REJECTION",
+    "wrong_guard": "EXPECTED_ADMISSION_REJECTION",
+    "replacement_drop": "EXPECTED_ADMISSION_REJECTION",
+    "projected_place": "EXPECTED_ADMISSION_REJECTION",
+    "cleanup_not_resume": "EXPECTED_ADMISSION_REJECTION"
+  },
+  "no_toolchain_or_preparation": true,
+  "saved_replay_summary": {
+    "after_natural_drop_false": "EXPECTED_REJECTION",
+    "caller_ready_entry_false": "CALLER_READY_ENTRY_EXPECTED_REJECTION",
+    "missing_receiver_frame": "EXPECTED_REJECTION",
+    "duplicate_effect_simultaneous": "EXPECTED_REJECTION",
+    "missing_source_permission": "INCONCLUSIVE_SETUP_FAILURE",
+    "positive": "INCONCLUSIVE_SYNTHETIC_RESUME_DEAD_CODE"
+  }
+}
