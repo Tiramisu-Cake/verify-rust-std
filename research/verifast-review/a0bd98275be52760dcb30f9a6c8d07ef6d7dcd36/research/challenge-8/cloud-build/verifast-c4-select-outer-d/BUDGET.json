@@ -1,0 +1,47 @@
+{
+  "phase": "VERIFAST-C4-SELECT-OUTER-CLOUD-2026-10-11-D",
+  "owner": "verifast",
+  "status": "CLOSED",
+  "authorization": "Direct user session: close exact outer-F gate with unchanged tool4a34010 and corrected runnerca5f5460, finish agreed integration review gates/package; narrow runner/exact outer path repairs only with semantic rationale and independent review. New120min+30min finish-only; Cloud3600 including failures.",
+  "start_utc": "2026-10-11T08:36:36Z",
+  "main_deadline_utc": "2026-10-11T10:36:36Z",
+  "deadline_utc": "2026-10-11T11:06:36Z",
+  "ceiling_build_seconds": 3600,
+  "used_build_seconds": 374,
+  "remaining_build_seconds": 3226,
+  "allowed_lanes": [
+    "verifast-c4-select-integration"
+  ],
+  "active_build": null,
+  "builds": [
+    {
+      "dispatch_token": "dispatch-558a0df161714c6b8919a2e784d79e89",
+      "owner": "verifast",
+      "phase_id": "VERIFAST-C4-SELECT-OUTER-CLOUD-2026-10-11-D",
+      "infra_sha": "84f21b3bf244eb352cb91584fc84a73d6703b117",
+      "proof_sha": "84f21b3bf244eb352cb91584fc84a73d6703b117",
+      "lane": "verifast-c4-select-integration",
+      "submitted_config_sha256": "e5ef8ba51af57364848596e3d702a20233ccfa85afbb65dc76c0731e3b9773e2",
+      "reserved_seconds": 1110,
+      "timeout_seconds": 1050,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "69533844d1f7050a897a73592d4e0b4712595957083574a5d2b649feb0db0335",
+      "build_id": "9397d5cd-51e6-4de4-87d0-e2195728f713",
+      "start_time": "2026-10-11T08:42:24.679765690Z",
+      "finish_time": "2026-10-11T08:48:36.877480Z",
+      "create_time": "2026-10-11T08:42:23.714532543Z",
+      "build_seconds": 374,
+      "accounted": true,
+      "execution_seconds": 373,
+      "download_verified": true,
+      "archive_sha256": "8a8428b2958176f9135841aa77dee2c96a1da72a3961a4183a8d957743aacf50"
+    }
+  ],
+  "closed_utc": "2026-10-11T08:56:51Z",
+  "unused_seconds_expired": 3226,
+  "own_unresolved_reservations": [],
+  "ready_request_withdrawn": true,
+  "closure_reason": "Mandatory exact outer-F negative unexpectedly passes; independent review found no honest repair under unchanged-kernel/no-new-rule scope. No automatic next session."
+}

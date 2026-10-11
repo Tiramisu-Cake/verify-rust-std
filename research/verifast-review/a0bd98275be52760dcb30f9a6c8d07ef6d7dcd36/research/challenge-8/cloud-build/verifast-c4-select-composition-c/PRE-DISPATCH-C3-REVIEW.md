@@ -1,0 +1,7 @@
+# Final C3 pre-dispatch independent review
+
+Independent pointer-cut/transport reviewer returned static GO for fixed producer SHA48bbedb711fade25fde0622af0b56c6c17aab318ce0a94f1e517f9c153a81af9, discovery=false, tool4a34010cc3930eec46fc4e72c1b793ad734fa730, profile verifast-c4-select-composition-20261011-c3. Compared tool delta after87b79a84: Marshal[] and both identity-partition certificates/count separation are unchanged. Changes are only fixed import seal and narrow exact outer fixture relocation independently reviewed in OUTER-ENTRY-REPAIR-REVIEW.md. Patch2d66e204ba38bfa6152f4c0d07bbbbea1f0db8a721d38fc2d9acda3b037281d3, translator4450157b3137a58d46c4be52fd454695c1dcb2a123947df8b3d2ccfcc1e8f26f, bundle4e49738d4d48d98dcf93f73aa62aa3ce4f96fbe3ec7e77e84643008aeaee23d1 all agree with actual bytes.
+
+Independent outer reviewer confirmed exact normal/readonly inventory pins from capture Build7c662097 against whole/body files, new source/opt-in/target/export gates and unchanged existing positive branch. Runner source fec0744073852fb4a2d1bc71ba90af6f77a1d312 recaptures/refines both modes before proof. Final delivery9ffa34d2c35032cb3bd5c4172b40c95989eb3fa9 adds frozen manifest/bundle/patch; full Git ordered-patch byte comparison is PATCH-DELIVERY-CHECK-C3.json.
+
+Static GO permits the already-authorized Cloud experiment only. It grants no proof or integration acceptance. Full nine-body producer and consumer proof, exact negative gates and fresh transport artifact review remain required.

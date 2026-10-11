@@ -1,0 +1,1256 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -664,12 +664,83 @@
+       failwith ("SORT4-ACTUAL-NESTED-H2: certificate mismatch: " ^ why)
+   end
+ 
++  (* Exact source-linked pointer FRAME TEST; base profiles remain default-off. *)
++  module Sort4R3FrameTest = struct
++    let reject why = failwith
++      ("SORT4-R3-FRAME-TEST: certificate mismatch: " ^ why)
++    let root = match Sys.getenv_opt "SORT4_R3_FRAME_TEST_REPO_ROOT",
++                     Sys.getenv_opt "SORT4_R3_FRAME_TEST" with
++      | None, None -> None
++      | Some root, Some "1" -> Some root
++      | _ -> reject "exact root/test opt-in pair"
++    let enabled = root <> None
++    let require_root actual_root =
++      if enabled then (
++        if root <> Some actual_root ||
++           List.exists (fun key -> Sys.getenv_opt key <> Some actual_root)
++             ["SORT4_ACTUAL_OWNER_REPO_ROOT"; "SORT4_ACTUAL_NESTED_H2_REPO_ROOT";
++              "SORT4_ACTUAL_FORGET_OWN_REPO_ROOT";
++              "SORT4_A1_NINE_REPO_ROOT"; "SORT4_WRAPPER_REBASE_REPO_ROOT";
++              "SORT4_WRAPPER_INPUT_RELATION_REPO_ROOT";
++              "SORT4_R3_GHOST_SCOPE_TEST_REPO_ROOT";
++              "SORT4_R3_RECEIVER_TEST_REPO_ROOT";
++              "SORT4_R3_GHOST_COLUMN_TEST_REPO_ROOT";
++              "SORT4_R3_COLUMN_NESTED_TEST_REPO_ROOT"] ||
++           List.exists (fun key -> Sys.getenv_opt key <> Some "1")
++             ["SORT4_ACTUAL_OWNER_ADMISSION"; "SORT4_ACTUAL_OWNER_NINE_ADMISSION";
++              "SORT4_WRAPPER_REBASE_ADMISSION";
++              "SORT4_WRAPPER_INPUT_RELATION_ADMISSION";
++              "SORT4_R3_GHOST_SCOPE_TEST"; "SORT4_R3_RECEIVER_TEST";
++              "SORT4_R3_GHOST_COLUMN_TEST"; "SORT4_R3_COLUMN_NESTED_TEST"] then
++          reject "exact inherited owner/nine/R3/scope/receiver/COLUMN/nested roots";
++        Printf.printf "SORT4-R3-FRAME-TEST: exact source-linked thread-only frame profile enabled\n%!"
++      )
++  end
++
++  (* Exact FRAME late ghost references to observed internal wrapper names. *)
++  module Sort4R3FrameShadowTest = struct
++    let reject why = failwith
++      ("SORT4-R3-FRAME-SHADOW-TEST: certificate mismatch: " ^ why)
++    let root = match Sys.getenv_opt "SORT4_R3_FRAME_SHADOW_TEST_REPO_ROOT",
++                     Sys.getenv_opt "SORT4_R3_FRAME_SHADOW_TEST" with
++      | None, None -> None
++      | Some root, Some "1" -> Some root
++      | _ -> reject "exact root/test opt-in pair"
++    let enabled = root <> None
++    let require_root actual_root =
++      if enabled then (
++        if root <> Some actual_root || Sort4R3FrameTest.root <> root then
++          reject "exact inherited FRAME root/test pair";
++        Printf.printf "SORT4-R3-FRAME-SHADOW-TEST: exact three late wrapper references enabled\n%!"
++      )
++  end
++
++  (* Exact FRAME-shadow pointer-only false-unwind cleanup projection TEST.
++     The original MIR cleanup graph remains in the admitted full-unit hash. *)
++  module Sort4R3CleanupProjectionTest = struct
++    let reject why = failwith
++      ("SORT4-R3-CLEANUP-PROJECTION-TEST: certificate mismatch: " ^ why)
++    let root = match
++      Sys.getenv_opt "SORT4_R3_CLEANUP_PROJECTION_TEST_REPO_ROOT",
++      Sys.getenv_opt "SORT4_R3_CLEANUP_PROJECTION_TEST" with
++      | None, None -> None
++      | Some root, Some "1" -> Some root
++      | _ -> reject "exact root/test opt-in pair"
++    let active = ref false
++    let pointer_drop_projected = ref 0
++    let assume_init_projected = ref 0
++  end
++
+   module Sort4ActualForgetOwn = struct
+     let active = ref false
+     let redirected = ref 0
+     let projected = ref 0
+     let callee_name = "checked_forget_owned"
+-    let annotations = [
++    let annotations = if Sort4R3FrameTest.enabled then [
++      "/*@\nreq thread_token(?tid) &*& tid == currentThread;\n@*/";
++      "/*@\nens thread_token(tid);\n@*/";
++      "/*@\non_unwind_ens false;\n@*/"
++    ] else [
+       "/*@\nreq thread_token(?tid) &*& tid == currentThread &*& <T>.own(tid, t);\n@*/";
+       "/*@\nens thread_token(tid) &*& <T>.own(tid, t);\n@*/";
+       "/*@\non_unwind_ens false;\n@*/"
+@@ -707,6 +778,8 @@
+     let actual_projection = ref false
+     let actual_owner_admitted = ref false
+     let actual_nine_admitted = ref false
++    let wrapper_rebase_active = ref false
++    let wrapper_input_relation_active = ref false
+     let actual_nested_ghosts : AnnotationRd.t list ref = ref []
+     let projection_ghosts = [
+       "//@ std::mem::open_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>);";
+@@ -996,8 +1069,19 @@
+     let check_outer_call body =
+       let blocks = BodyRd.basic_blocks_get_list body in
+       let expected_arg, expected_target, expected_cleanup =
+-        match List.length (BodyRd.local_decls_get_list body),
+-              List.length blocks with
++        let inventory =
++          List.length (BodyRd.local_decls_get_list body),
++          List.length blocks in
++        if !Sort4SelectIntrinsic.wrapper_input_relation_active then
++          match inventory with
++          | 56, 39 when Sort4R3FrameTest.enabled -> "_51", 35, 38
++          | 61, 44 when not Sort4R3FrameTest.enabled -> "_56", 40, 43
++          | _ -> reject "wrapper input relation exact outer local/block inventory"
++        else if !Sort4SelectIntrinsic.wrapper_rebase_active then
++          match inventory with
++          | 52, 35 -> "_47", 31, 34
++          | _ -> reject "wrapper rebase exact outer local/block inventory"
++        else match inventory with
+         | 42, 25 -> "_37", 21, 24
+         | 31, 14 -> "_26", 10, 13
+         | _ -> reject "outer local/block inventory" in
+@@ -2694,6 +2778,9 @@
+   module TrBody (Args : sig
+     val var_id_trs_map_ref : var_id_trs_map ref
+     val ghost_stmts : Ast.stmt list
++    val r3_ghost_column_test_active : bool
++    val r3_ghost_column_test_candidates : Ast.stmt list
++    val r3_ghost_column_test_routes : int ref
+     val body_imp_loc : Ast.loc
+     val body_name : string
+     val body_tr_defs_ctx : body_tr_defs_ctx
+@@ -2706,6 +2793,9 @@
+     module State = struct
+       let var_id_trs_map_ref = Args.var_id_trs_map_ref
+       let ghost_stmts = ref Args.ghost_stmts
++      let r3_ghost_column_test_active = Args.r3_ghost_column_test_active
++      let r3_ghost_column_test_candidates = Args.r3_ghost_column_test_candidates
++      let r3_ghost_column_test_routes = Args.r3_ghost_column_test_routes
+       let body_imp_loc = Args.body_imp_loc
+       let body_name = Args.body_name
+       let body_tr_defs_ctx = Args.body_tr_defs_ctx
+@@ -3286,7 +3376,9 @@
+                       | OperandRd.Move place when
+                           List.mem
+                             (LocalDeclIdRd.name_get (PlaceRd.local_get place))
+-                            ["_37"; "_26"] &&
++                            (if !Sort4SelectIntrinsic.wrapper_input_relation_active
++                             then [if Sort4R3FrameTest.enabled then "_51" else "_56"] else if !Sort4SelectIntrinsic.wrapper_rebase_active
++                             then ["_47"] else ["_37"; "_26"]) &&
+                           PlaceRd.local_is_mutable_get place &&
+                           PlaceRd.projection_get_list place = [] &&
+                           VfMirRd.PlaceKind.get (PlaceRd.kind_get place) =
+@@ -3604,7 +3696,9 @@
+                      (match OperandRd.get operand with
+                       | OperandRd.Move place when
+                           LocalDeclIdRd.name_get (PlaceRd.local_get place) =
+-                            (if !Sort4SelectIntrinsic.actual_owner_admitted then
++                            (if !Sort4SelectIntrinsic.wrapper_input_relation_active then
++                               (if Sort4R3FrameTest.enabled then "_33" else "_34") else if !Sort4SelectIntrinsic.wrapper_rebase_active then
++                               "_30" else if !Sort4SelectIntrinsic.actual_owner_admitted then
+                                "_28" else if !Sort4SelectIntrinsic.actual_projection
+                                then "_26" else "_23") &&
+                           PlaceRd.local_is_mutable_get place &&
+@@ -3689,12 +3783,38 @@
+                    when Sort4MaybeUninit.pointer_element raw_pointer &&
+                         raw_pointer = element_pointer ->
+                      if State.body_name = "select_unpredictable" then (
++                       let receiver_test_requested =
++                         match Sys.getenv_opt
++                           "SORT4_R3_RECEIVER_TEST_REPO_ROOT",
++                               Sys.getenv_opt "SORT4_R3_RECEIVER_TEST" with
++                         | None, None -> false
++                         | Some _, Some "1" -> true
++                         | _ -> Sort4AsMutPtr.reject
++                             "R3 receiver TEST partial or invalid opt-in" in
++                       if receiver_test_requested then (
++                         let root = match Sys.getenv_opt
++                           "SORT4_R3_RECEIVER_TEST_REPO_ROOT" with
++                           | Some root -> root
++                           | None -> Sort4AsMutPtr.reject
++                               "R3 receiver TEST missing root" in
++                         if Sys.getenv_opt
++                              "SORT4_R3_GHOST_SCOPE_TEST_REPO_ROOT" <> Some root ||
++                            Sys.getenv_opt "SORT4_R3_GHOST_SCOPE_TEST" <> Some "1" ||
++                            Sys.getenv_opt "SORT4_WRAPPER_INPUT_RELATION_REPO_ROOT" <> Some root ||
++                            Sys.getenv_opt "SORT4_WRAPPER_INPUT_RELATION_ADMISSION" <> Some "1" ||
++                            not !Sort4SelectIntrinsic.wrapper_input_relation_active ||
++                            not !Sort4SelectIntrinsic.actual_owner_admitted ||
++                            not !Sort4SelectIntrinsic.actual_nine_admitted then
++                           Sort4AsMutPtr.reject
++                             "R3 receiver TEST exact parent admission");
+                        let expected_local =
+-                         if !Sort4AsMutPtr.redirect_count = 0 then "_9"
+-                         else if !Sort4AsMutPtr.redirect_count = 1 then "_11"
++                         if !Sort4AsMutPtr.redirect_count = 0 then
++                           if receiver_test_requested then "_11" else "_9"
++                         else if !Sort4AsMutPtr.redirect_count = 1 then
++                           if receiver_test_requested then "_13" else "_11"
+                          else Sort4AsMutPtr.reject
+                            "actual external receiver call count" in
+-                       match OperandRd.get receiver_cpn with
++                       (match OperandRd.get receiver_cpn with
+                        | OperandRd.Move place when
+                            LocalDeclIdRd.name_get (PlaceRd.local_get place) =
+                              expected_local &&
+@@ -3704,6 +3824,10 @@
+                              VfMirRd.PlaceKind.Other -> ()
+                        | _ -> Sort4AsMutPtr.reject
+                            "actual external receiver operand/binding");
++                       if receiver_test_requested then
++                         Printf.printf
++                           "R3-RECEIVER-TEST: accepted NORMAL receiver %s\n%!"
++                           expected_local);
+                      incr Sort4AsMutPtr.redirect_count;
+                      Printf.printf
+                        "SORT4-AS-MUT-PTR: redirected typed external call %d\n%!"
+@@ -3800,7 +3924,10 @@
+                      (match OperandRd.get operand with
+                       | OperandRd.Move place when
+                           LocalDeclIdRd.name_get
+-                            (PlaceRd.local_get place) = "_32" &&
++                            (PlaceRd.local_get place) =
++                              (if !Sort4SelectIntrinsic.wrapper_input_relation_active
++                               then (if Sort4R3FrameTest.enabled then "_36" else "_38") else if !Sort4SelectIntrinsic.wrapper_rebase_active
++                               then "_34" else "_32") &&
+                           PlaceRd.local_is_mutable_get place &&
+                           PlaceRd.projection_get_list place = [] &&
+                           VfMirRd.PlaceKind.get (PlaceRd.kind_get place) =
+@@ -3914,21 +4041,34 @@
+                   kind=StructKind;
+                   substs=[{kind=Type inner}]}}}];
+                late_bound_generic_param_count=0}}}},
+-            [Move {local={name="_32"};projection=[]}],
++            [Move {local={name=forget_arg};projection=[]}],
+             FnCallOutcome (Ast.CallExpr
+               (_, "checked_forget_owned", [_], [],
+                [Ast.LitPat _], Ast.Static)),
+             UnwindActionRd.Cleanup cleanup,
+             OptionRd.Something normal
+               when Sort4MaybeUninit.pointer_element inner &&
++                   forget_arg =
++                     (if !Sort4SelectIntrinsic.wrapper_input_relation_active
++                      then (if Sort4R3FrameTest.enabled then "_36" else "_38") else if !Sort4SelectIntrinsic.wrapper_rebase_active
++                      then "_34" else "_32") &&
+                    Stdint.Uint32.to_int
+-                     (BasicBlockIdRd.index_get cleanup) = 24 &&
++                     (BasicBlockIdRd.index_get cleanup) =
++                       (if !Sort4SelectIntrinsic.wrapper_input_relation_active
++                        then (if Sort4R3FrameTest.enabled then 38 else 43) else if !Sort4SelectIntrinsic.wrapper_rebase_active
++                        then 34 else 24) &&
+                    Stdint.Uint32.to_int
+                      (BasicBlockIdRd.index_get
+-                       (VfMirRd.of_pointer normal)) = 15 &&
++                       (VfMirRd.of_pointer normal)) =
++                         (if !Sort4SelectIntrinsic.wrapper_input_relation_active
++                          then (if Sort4R3FrameTest.enabled then 19 else 21) else if !Sort4SelectIntrinsic.wrapper_rebase_active
++                          then 17 else 15) &&
+                    LocalDeclIdRd.name_get
+                      (PlaceRd.local_get
+-                       (destination_get fn_call_data_cpn)) = "_31" &&
++                       (destination_get fn_call_data_cpn)) =
++                         (if !Sort4SelectIntrinsic.wrapper_input_relation_active
++                          then (if Sort4R3FrameTest.enabled then "_35" else "_37") else if !Sort4SelectIntrinsic.wrapper_rebase_active
++                          then "_33" else "_31") &&
+                    not TranslatorArgs.ignore_unwind_paths ->
+                 incr Sort4ActualForgetOwn.projected;
+                 if !Sort4ActualForgetOwn.projected <> 1 then
+@@ -3938,8 +4078,96 @@
+           | _ -> Sort4ActualForgetOwn.reject
+               "typed SAFE forget call/outcome/shared cleanup"
+       in
++      let checked_r3_cleanup_no_unwind =
++        if not !Sort4R3CleanupProjectionTest.active ||
++           State.body_name <> "select_unpredictable" then false
++        else
++          let site = match Ast.lexed_loc fn_loc with
++            | ((path, 202, 14), (end_path, 202, 29))
++                when path = end_path &&
++                     Filename.check_suffix path "verified/lib.rs" ->
++                Some (`PointerDrop,
++                      "std::ptr::mut_ptr::<impl *mut T>::drop_in_place",
++                      Sort4PointerDrop.local_name, "_33", "_32", false, 17)
++            | ((path, 237, 81), (end_path, 237, 94))
++                when path = end_path &&
++                     Filename.check_suffix path "verified/lib.rs" ->
++                Some (`AssumeInit,
++                      "std::mem::MaybeUninit::<T>::assume_init",
++                      Sort4A1Link.caller_name, "_51", "_0", true, 35)
++            | _ -> None
++          in
++          match site with
++          | None -> false
++          | Some (kind, expected_fn, expected_checked, expected_arg,
++                  expected_dst, dst_mutable, expected_normal) ->
++              let reject = Sort4R3CleanupProjectionTest.reject in
++              let exact_place name mutable_local place =
++                LocalDeclIdRd.name_get (PlaceRd.local_get place) = name &&
++                PlaceRd.local_is_mutable_get place = mutable_local &&
++                PlaceRd.projection_get_list place = [] &&
++                VfMirRd.PlaceKind.get (PlaceRd.kind_get place) =
++                  VfMirRd.PlaceKind.Other
++              in
++              let exact_fn = match D.decode_operand func_cpn with
++                | Constant {const=Val {ty={kind=FnDef
++                    {id={name}; substs=[{kind=Type {kind=RawPtr
++                       {ty={kind=Param "Element"}; mutability=Not}}}];
++                     late_bound_generic_param_count=0}}}} ->
++                    name = expected_fn
++                | _ -> false
++              in
++              let exact_arg = match args_cpn with
++                | [operand] ->
++                    (match OperandRd.get operand with
++                     | OperandRd.Move place ->
++                         exact_place expected_arg true place
++                     | _ -> false)
++                | _ -> false
++              in
++              let exact_expr = match fn_call_rexpr with
++                | FnCallOutcome (Ast.CallExpr
++                    (_, name, [Ast.IdentTypeExpr (_, None, "Element")],
++                     [], [Ast.LitPat _], Ast.Static)) ->
++                    name = expected_checked
++                | _ -> false
++              in
++              let exact_edges =
++                match UnwindActionRd.get
++                        (unwind_action_get fn_call_data_cpn),
++                      OptionRd.get (target_get fn_call_data_cpn) with
++                | UnwindActionRd.Cleanup cleanup,
++                  OptionRd.Something normal ->
++                    Stdint.Uint32.to_int
++                      (BasicBlockIdRd.index_get cleanup) = 38 &&
++                    Stdint.Uint32.to_int
++                      (BasicBlockIdRd.index_get
++                        (VfMirRd.of_pointer normal)) = expected_normal
++                | _ -> false
++              in
++              if not (exact_fn && exact_arg && exact_expr && exact_edges &&
++                      exact_place expected_dst dst_mutable
++                        (destination_get fn_call_data_cpn) &&
++                      not TranslatorArgs.ignore_unwind_paths) then
++                reject "exact typed call/Move/destination/normal/cleanup";
++              (match kind with
++               | `PointerDrop ->
++                   incr Sort4R3CleanupProjectionTest.pointer_drop_projected;
++                   if !Sort4R3CleanupProjectionTest.pointer_drop_projected <> 1
++                   then reject "pointer-drop call count";
++                   Printf.printf
++                     "SORT4-R3-CLEANUP-PROJECTION-TEST: projected exact pointer-drop false-unwind call\n%!"
++               | `AssumeInit ->
++                   incr Sort4R3CleanupProjectionTest.assume_init_projected;
++                   if !Sort4R3CleanupProjectionTest.assume_init_projected <> 1
++                   then reject "assume-init call count";
++                   Printf.printf
++                     "SORT4-R3-CLEANUP-PROJECTION-TEST: projected exact assume-init false-unwind call\n%!");
++              true
++      in
+       let fn_call_rexpr =
+-        if checked_g1_no_unwind || checked_owner_no_unwind then
++        if checked_g1_no_unwind || checked_owner_no_unwind ||
++           checked_r3_cleanup_no_unwind then
+           match fn_call_rexpr with
+           | FnCallOutcome call -> FnCallResult (result_of_outcome fn_loc call)
+           | _ -> assert false
+@@ -4085,12 +4313,57 @@
+             in
+             let phl = get_start_loc (Ast.lexed_loc call_loc) in
+             let ghost_stmt =
+-              List.find
+-                (fun gs ->
+-                  let gsl = get_start_loc Ast.(gs |> stmt_loc |> lexed_loc) in
+-                  let (gsl_l, gsl_c), (phl_l, phl_c) = (gsl, phl) in
+-                  gsl_l = phl_l)
+-                !State.ghost_stmts
++              if State.r3_ghost_column_test_active &&
++                 State.body_name = "select_unpredictable" then
++                (match phl with
++                 | (155, _) ->
++                     let (((call_path, call_line, call_col),
++                           (call_end_path, call_end_line, call_end_col))) =
++                       Ast.lexed_loc call_loc in
++                     if call_path <> call_end_path then
++                       Sort4AsMutPtr.reject "R3 ghost-column TEST call path";
++                     let expected_call, expected_ast_col =
++                       match call_line, call_col, call_end_line, call_end_col with
++                       | 155, 1, 155, 32 -> "155:1", 1
++                       | 155, 73, 155, 104 -> "155:73", 41
++                       | _ -> Sort4AsMutPtr.reject
++                           "R3 ghost-column TEST exact call span" in
++                     let next_route = !State.r3_ghost_column_test_routes in
++                     if (next_route = 0 && (call_line, call_col, call_end_col,
++                                           expected_ast_col) <> (155,1,32,1)) ||
++                        (next_route = 1 && (call_line, call_col, call_end_col,
++                                           expected_ast_col) <> (155,73,104,41)) ||
++                        next_route > 1 then
++                       Sort4AsMutPtr.reject
++                         "R3 ghost-column TEST exact one-to-one ordered route";
++                     let candidates = List.filter (fun gs ->
++                       match Ast.lexed_loc Ast.(gs |> stmt_loc) with
++                       | ((path, 155, col), _) ->
++                           path = call_path && col = expected_ast_col
++                       | _ -> false) State.r3_ghost_column_test_candidates in
++                     (match candidates with
++                      | [gs] ->
++                          incr State.r3_ghost_column_test_routes;
++                          Printf.printf
++                            "R3-GHOST-COLUMN-TEST: call %s -> AST 155:%d\n%!"
++                            expected_call expected_ast_col;
++                          gs
++                      | _ -> Sort4AsMutPtr.reject
++                          "R3 ghost-column TEST exact distinct candidate route")
++                 | _ ->
++                     List.find
++                       (fun gs ->
++                         let gsl = get_start_loc Ast.(gs |> stmt_loc |> lexed_loc) in
++                         let (gsl_l, _gsl_c), (phl_l, _phl_c) = (gsl, phl) in
++                         gsl_l = phl_l)
++                       !State.ghost_stmts)
++              else
++                List.find
++                  (fun gs ->
++                    let gsl = get_start_loc Ast.(gs |> stmt_loc |> lexed_loc) in
++                    let (gsl_l, _gsl_c), (phl_l, _phl_c) = (gsl, phl) in
++                    gsl_l = phl_l)
++                  !State.ghost_stmts
+             in
+             (match State.callback_unwind_marker ghost_stmt with
+              | None -> ([ ghost_stmt ], targets)
+@@ -4114,7 +4387,8 @@
+               (match fn_call_rexpr, terminator with
+               | FnCallResult _, Mir.GotoTerminator _
+                 when !manuallydrop_new_identity_lowering ||
+-                     checked_g1_no_unwind || checked_owner_no_unwind ->
++                     checked_g1_no_unwind || checked_owner_no_unwind ||
++                     checked_r3_cleanup_no_unwind ->
+                   (* The identity lowering emits only the normal assignment/goto.
+                      The separately proved G1 callee has false unwind.  Keep
+                      successor inventory faithful to the emitted CFG. *)
+@@ -6631,18 +6905,103 @@
+     let* fn_sig_loc = translate_span_data (fn_sig_span_get body_cpn) in
+     let exported_ghost_stmts = ghost_stmts_get_list body_cpn in
+     let body_name = TrName.translate_def_path (def_path_get body_cpn) in
++    let r3_ghost_column_test_requested =
++      match Sys.getenv_opt "SORT4_R3_GHOST_COLUMN_TEST_REPO_ROOT",
++            Sys.getenv_opt "SORT4_R3_GHOST_COLUMN_TEST" with
++      | None, None -> false
++      | Some _, Some "1" -> true
++      | _ -> Sort4AsMutPtr.reject
++          "R3 ghost-column TEST partial or invalid opt-in" in
++    if r3_ghost_column_test_requested && body_name = "select_unpredictable" then (
++      let root = match Sys.getenv_opt "SORT4_R3_GHOST_COLUMN_TEST_REPO_ROOT" with
++        | Some root -> root
++        | None -> Sort4AsMutPtr.reject "R3 ghost-column TEST missing root" in
++      if Sys.getenv_opt "SORT4_ACTUAL_OWNER_REPO_ROOT" <> Some root ||
++         Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" <> Some "1" ||
++         Sys.getenv_opt "SORT4_ACTUAL_NESTED_H2_REPO_ROOT" <> Some root ||
++         Sys.getenv_opt "SORT4_R3_GHOST_SCOPE_TEST_REPO_ROOT" <> Some root ||
++         Sys.getenv_opt "SORT4_R3_GHOST_SCOPE_TEST" <> Some "1" ||
++         Sys.getenv_opt "SORT4_R3_RECEIVER_TEST_REPO_ROOT" <> Some root ||
++         Sys.getenv_opt "SORT4_R3_RECEIVER_TEST" <> Some "1" ||
++         Sys.getenv_opt "SORT4_WRAPPER_INPUT_RELATION_REPO_ROOT" <> Some root ||
++         Sys.getenv_opt "SORT4_WRAPPER_INPUT_RELATION_ADMISSION" <> Some "1" ||
++         Sys.getenv_opt "SORT4_WRAPPER_REBASE_REPO_ROOT" <> Some root ||
++         Sys.getenv_opt "SORT4_WRAPPER_REBASE_ADMISSION" <> Some "1" ||
++         not !Sort4SelectIntrinsic.wrapper_rebase_active ||
++         not !Sort4SelectIntrinsic.wrapper_input_relation_active ||
++         not !Sort4SelectIntrinsic.actual_owner_admitted ||
++         not !Sort4SelectIntrinsic.actual_nine_admitted then
++        Sort4AsMutPtr.reject "R3 ghost-column TEST exact parent admission");
++    (* R3 ghost-scope TEST is opt-in and only applies after exact R3 admission.
++       Preserve the two new outer input bindings while transferring precisely
++       the two original nested opens to the qualified Drop body. *)
++    let r3_ghost_scope_test_requested =
++      match Sys.getenv_opt "SORT4_R3_GHOST_SCOPE_TEST_REPO_ROOT",
++            Sys.getenv_opt "SORT4_R3_GHOST_SCOPE_TEST" with
++      | None, None -> false
++      | Some _, Some "1" -> true
++      | _ -> Sort4SelectIntrinsic.reject
++          "R3 ghost-scope TEST partial or invalid opt-in" in
+     let ghost_stmts_cpn =
+       if !Sort4SelectIntrinsic.actual_owner_admitted then
+         if body_name = "select_unpredictable" then
+-          (match exported_ghost_stmts,
+-                 !Sort4SelectIntrinsic.actual_nested_ghosts with
+-           | first::second::rest,[nested_first;nested_second]
+-             when AnnotationRd.raw_get first =
+-                    AnnotationRd.raw_get nested_first &&
+-                  AnnotationRd.raw_get second =
+-                    AnnotationRd.raw_get nested_second -> rest
+-           | _ -> Sort4SelectIntrinsic.reject
+-               "actual outer/nested ghost scope inventory")
++          if r3_ghost_scope_test_requested then (
++            let root = match Sys.getenv_opt
++              "SORT4_R3_GHOST_SCOPE_TEST_REPO_ROOT" with
++              | Some root -> root
++              | None -> Sort4SelectIntrinsic.reject
++                  "R3 ghost-scope TEST missing root" in
++            if Sys.getenv_opt "SORT4_WRAPPER_INPUT_RELATION_REPO_ROOT" <>
++                 Some root ||
++               Sys.getenv_opt "SORT4_WRAPPER_INPUT_RELATION_ADMISSION" <>
++                 Some "1" ||
++               not !Sort4SelectIntrinsic.wrapper_input_relation_active ||
++               not !Sort4SelectIntrinsic.actual_nine_admitted then
++              Sort4SelectIntrinsic.reject
++                "R3 ghost-scope TEST exact parent admission";
++            if r3_ghost_column_test_requested then (
++               let start ann =
++                 Stdint.Uint64.to_int (AnnotationRd.start_line_get ann),
++                 Stdint.Uint64.to_int (AnnotationRd.start_col_get ann) in
++               let finish ann =
++                 Stdint.Uint64.to_int (AnnotationRd.end_line_get ann),
++                 Stdint.Uint64.to_int (AnnotationRd.end_col_get ann) in
++               match exported_ghost_stmts with
++               | saved_true::saved_false::_
++                 when AnnotationRd.raw_get saved_true =
++                        "/*@ let saved_true_input = true_val; @*/" &&
++                      AnnotationRd.raw_get saved_false =
++                        "/*@ let saved_false_input = false_val; @*/" &&
++                      start saved_true = (155,1) && finish saved_true = (155,41) &&
++                      start saved_false = (155,41) && finish saved_false = (155,83) -> ()
++               | _ -> Sort4AsMutPtr.reject
++                   "R3 ghost-column TEST exact source annotation raws/spans");
++             (match exported_ghost_stmts,
++                   !Sort4SelectIntrinsic.actual_nested_ghosts with
++             | saved_true::saved_false::open_full::open_own::rest,
++               [nested_full;nested_own]
++               when AnnotationRd.raw_get saved_true =
++                      "/*@ let saved_true_input = true_val; @*/" &&
++                    AnnotationRd.raw_get saved_false =
++                      "/*@ let saved_false_input = false_val; @*/" &&
++                    AnnotationRd.raw_get open_full =
++                      AnnotationRd.raw_get nested_full &&
++                    AnnotationRd.raw_get open_own =
++                      AnnotationRd.raw_get nested_own ->
++                 Printf.printf "R3-GHOST-SCOPE-TEST: retained two input lets; nested opens transferred\n%!";
++                 saved_true::saved_false::rest
++             | _ -> Sort4SelectIntrinsic.reject
++                 "R3 outer/nested ghost scope inventory"))
++          else
++            (match exported_ghost_stmts,
++                   !Sort4SelectIntrinsic.actual_nested_ghosts with
++             | first::second::rest,[nested_first;nested_second]
++               when AnnotationRd.raw_get first =
++                      AnnotationRd.raw_get nested_first &&
++                    AnnotationRd.raw_get second =
++                      AnnotationRd.raw_get nested_second -> rest
++             | _ -> Sort4SelectIntrinsic.reject
++                 "actual outer/nested ghost scope inventory")
+         else if body_name =
+           "<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop"
+         then
+@@ -6716,6 +7075,24 @@
+           LocAux.try_compare_loc l1 l2)
+         ghost_stmts
+     in
++    let r3_ghost_column_test_candidates =
++      if r3_ghost_column_test_requested && body_name = "select_unpredictable" then (
++        let at155 = List.filter (fun stmt ->
++          match Ast.lexed_loc Ast.(stmt |> stmt_loc) with
++          | ((_, 155, _), _) -> true
++          | _ -> false) ghost_stmts in
++        match at155 with
++        | [first; second]
++          when Ast.lexed_loc Ast.(first |> stmt_loc) <>
++                 Ast.lexed_loc Ast.(second |> stmt_loc) &&
++               (match Ast.lexed_loc Ast.(first |> stmt_loc) with
++                | ((_,155,1),_) -> true | _ -> false) &&
++               (match Ast.lexed_loc Ast.(second |> stmt_loc) with
++                | ((_,155,41),_) -> true | _ -> false) -> [first;second]
++        | _ -> Sort4AsMutPtr.reject
++            "R3 ghost-column TEST exact two distinct AST candidates")
++      else [] in
++    let r3_ghost_column_test_routes = ref 0 in
+     let* ghost_decl_blocks =
+       ListAux.try_map translate_ghost_decl_block
+         (ghost_decl_blocks_get_list body_cpn)
+@@ -6860,6 +7237,10 @@
+     let open TrBody (struct
+       let var_id_trs_map_ref = var_id_trs_map_ref
+       let ghost_stmts = ghost_stmts
++      let r3_ghost_column_test_active =
++        r3_ghost_column_test_requested && body_name = "select_unpredictable"
++      let r3_ghost_column_test_candidates = r3_ghost_column_test_candidates
++      let r3_ghost_column_test_routes = r3_ghost_column_test_routes
+       let body_imp_loc = imp_loc
+       let body_name = TrName.translate_def_path (def_path_get body_cpn)
+       let body_tr_defs_ctx = body_tr_defs_ctx
+@@ -7320,6 +7701,10 @@
+               Printf.eprintf
+                 "STRICT-RELOCATE outer_removed=6 inner_insertions=1\n%!"
+             end;
++            if State.r3_ghost_column_test_active &&
++               !State.r3_ghost_column_test_routes <> 2 then
++              Sort4AsMutPtr.reject
++                "R3 ghost-column TEST exact two translated routes";
+             if !State.pending_callback_unwind <> None then
+               State.fail_callback_unwind "marker has no matching following call";
+             let expected_markers =
+@@ -14689,11 +15074,37 @@
+         then reject "host sha256sum hex") digest;
+       digest)
+ 
++  let sort4_wrapper_rebase_opt_in root =
++    match Sys.getenv_opt "SORT4_WRAPPER_REBASE_REPO_ROOT",
++          Sys.getenv_opt "SORT4_WRAPPER_REBASE_ADMISSION" with
++    | None, None -> false
++    | Some requested_root, Some "1" when
++        requested_root = root &&
++        Sys.getenv_opt "SORT4_ACTUAL_OWNER_REPO_ROOT" = Some root &&
++        Sys.getenv_opt "SORT4_ACTUAL_OWNER_ADMISSION" = Some "1" &&
++        Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" = Some "1" &&
++        Sys.getenv_opt "SORT4_A1_NINE_REPO_ROOT" = Some root -> true
++    | _ -> Sort4SelectIntrinsic.reject
++        "wrapper rebase exact root/nine-body owner/A1 opt-in pair"
++
++  let sort4_wrapper_input_relation_opt_in root =
++    match Sys.getenv_opt "SORT4_WRAPPER_INPUT_RELATION_REPO_ROOT",
++          Sys.getenv_opt "SORT4_WRAPPER_INPUT_RELATION_ADMISSION" with
++    | None, None -> false
++    | Some requested_root, Some "1" when
++        requested_root = root && sort4_wrapper_rebase_opt_in root -> true
++    | _ -> Sort4SelectIntrinsic.reject
++        "wrapper input relation exact root/R2 opt-in pair"
++
+   let sort4_actual_owner_admit
+       (vf_mir : VfMirRd.VfMir.t) root (body : BodyRd.t) =
+     let reject = Sort4SelectIntrinsic.reject in
++    Sort4R3FrameTest.require_root root;
++    Sort4R3FrameShadowTest.require_root root;
+     let nine =
+       Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" = Some "1" in
++    let rebase = sort4_wrapper_rebase_opt_in root in
++    let input_relation = sort4_wrapper_input_relation_opt_in root in
+     let names = if nine then [
+       "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new";
+       "sort4_checked_as_mut_ptr"; "sort4_checked_pointer_drop";
+@@ -14715,8 +15126,10 @@
+       "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951";
+       "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed";
+       "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6";
+-      "e8dd503c0bf832081e71dcc9d115c2a07e9349ff746ec7e7cce132edf63f4137";
+-      "9577c64905c4a45eecc4aab506f6276fea076f8a7a18d2f7ca0304cf70205b86";
++      (if Sort4R3FrameTest.enabled then "3346dfaf24b95e4802303674696dc9caab0ee31306e65bfc1ec885f40dbe4cff" else "e8dd503c0bf832081e71dcc9d115c2a07e9349ff746ec7e7cce132edf63f4137");
++      (if input_relation then (if Sort4R3FrameTest.enabled then (if Sort4R3FrameShadowTest.enabled then "404bf9dade6187f40836abc7be359d56103fc9a26d0d2e4abcb6e405c78e6107" else "5f15e8e887c2bf67767837b245d4f7ae97d06f9df40c6992a73c854b75b30dc1") else "f8374652a11e36073ad6ed10ec39b0f8de62da53265dd80d2dc2c3565491cee1") else
++       if rebase then "00fafebcaf338797daa681da8f4631be56a98d285fd945e76dfd7725b162a286" else
++         "9577c64905c4a45eecc4aab506f6276fea076f8a7a18d2f7ca0304cf70205b86");
+       "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+     ] else [
+       "6527c8df047e70602b40ec03b17614a3e278b19f23ef94a4aa5e87f6793c39b7";
+@@ -14737,7 +15150,9 @@
+       | _ -> reject "owner actual source path" in
+     let source = Sort4MaybeUninit.read_file path in
+     if sort4_actual_owner_sha256 source <>
+-         (if nine then
++         (if input_relation then (if Sort4R3FrameTest.enabled then (if Sort4R3FrameShadowTest.enabled then "7ec86f52b362f7f8b2ed26e3fa108212eb3d6288820bab9c6db3fa37bf8cabe0" else "8543e99940897e3289f9f57fe3edc30fa4cffbba713b68aab36eb49d3faac816") else "a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463")
++          else if rebase then "11067f06ba7c745cfb221a559fb29778eba8d7b6e65f6db1a814ff7ce72bdfd4"
++          else if nine then
+             "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
+           else
+             "595e93c5c08ebd61a6ab4b7f7b98ed2f2d6765dbb8d903509a53391ea9a2b5b3") then
+@@ -14789,6 +15204,45 @@
+       "    /*@ std::mem::open_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>); @*/\n" ^
+       "    /*@ assert *true_ptr |-> ?true_payload; @*/\n" ^
+       "    /*@ assert *false_ptr |-> ?false_payload; @*/\n" in
++    let rebase_save_old_ghosts = [
++      {|/*@ assert *(true_ptr as *std::mem::MaybeUninit<*Element>) |-> ?old_true_wrapper &*&
++        std::mem::MaybeUninit_pointer_own::<Element>()(t, old_true_wrapper); @*/|};
++      {|/*@ assert *(false_ptr as *std::mem::MaybeUninit<*Element>) |-> ?old_false_wrapper &*&
++        std::mem::MaybeUninit_pointer_own::<Element>()(t, old_false_wrapper); @*/|}
++    ] in
++    let rebase_save_old = "    " ^ String.concat "\n    " rebase_save_old_ghosts ^ "\n" in
++    let rebase_both_ghosts = [
++      {|/*@ assert *(true_ptr as *std::mem::MaybeUninit<*Element>) |-> ?current_true_wrapper; @*/|};
++      {|/*@ assert *(false_ptr as *std::mem::MaybeUninit<*Element>) |-> ?current_false_wrapper; @*/|};
++      {|/*@ open std::mem::MaybeUninit_pointer_own::<Element>()(t, old_true_wrapper); @*/|};
++      {|/*@ match std::mem::MaybeUninit::inner(old_true_wrapper) {
++            none => {}
++            some(p) => { open raw_ptr_own::<Element>()(t, p); }
++        } @*/|};
++      {|/*@ open std::mem::MaybeUninit_pointer_own::<Element>()(t, old_false_wrapper); @*/|};
++      {|/*@ match std::mem::MaybeUninit::inner(old_false_wrapper) {
++            none => {}
++            some(p) => { open raw_ptr_own::<Element>()(t, p); }
++        } @*/|};
++      {|/*@ std::mem::close_MaybeUninit_pointer_own::<Element>(t, current_true_wrapper); @*/|};
++      {|/*@ std::mem::close_MaybeUninit_pointer_own::<Element>(t, current_false_wrapper); @*/|}
++    ] in
++    let rebase_both = "        " ^ String.concat "\n        " rebase_both_ghosts ^ "\n" in
++    let input_saved_ghosts = [
++      "/*@ let saved_true_input = true_val; @*/";
++      "/*@ let saved_false_input = false_val; @*/"
++    ] in
++    let input_payload_ghosts = [
++      "/*@ assert true_payload == saved_true_input; @*/";
++      "/*@ assert false_payload == saved_false_input; @*/"
++    ] in
++    let input_wrapper_ghosts = [
++      "/*@ assert std::mem::MaybeUninit::inner(current_true_wrapper) == some(saved_true_input); @*/";
++      "/*@ assert std::mem::MaybeUninit::inner(current_false_wrapper) == some(saved_false_input); @*/";
++      (if Sort4R3FrameShadowTest.enabled then "/*@ assert std::mem::MaybeUninit::inner(true_val_1) == some(saved_true_input); @*/" else "/*@ assert std::mem::MaybeUninit::inner(true_val) == some(saved_true_input); @*/");
++      (if Sort4R3FrameShadowTest.enabled then "/*@ assert std::mem::MaybeUninit::inner(false_val_1) == some(saved_false_input); @*/" else "/*@ assert std::mem::MaybeUninit::inner(false_val) == some(saved_false_input); @*/");
++      (if Sort4R3FrameShadowTest.enabled then "/*@ assert std::mem::MaybeUninit::inner(if condition { true_val_1 } else { false_val_1 }) == some(if condition { saved_true_input } else { saved_false_input }); @*/" else "/*@ assert std::mem::MaybeUninit::inner(if condition { true_val } else { false_val }) == some(if condition { saved_true_input } else { saved_false_input }); @*/")
++    ] in
+     let owner = if nine then
+       "        /*@ if (condition) {\n" ^
+       "                 close raw_ptr_own::<Element>()(t, true_payload);\n" ^
+@@ -14832,13 +15286,32 @@
+     let body_text = insert_after body_text
+       "    let false_ptr = false_val.as_mut_ptr();\n" wrappers in
+     let body_text = insert_after body_text
+-      "        let guard = DropOnPanic { inner: guard };\n" owner in
++      "        let guard = DropOnPanic { inner: guard };\n"
++      (if Sort4R3FrameTest.enabled then "" else owner) in
+     let body_text = insert_after body_text
+       "        drop.drop_in_place();\n"
+-      (unselected ^ (if nine then saved_guard else open_owner)) in
++      (unselected ^ (if Sort4R3FrameTest.enabled then ""
++                     else if nine then saved_guard else open_owner)) in
+     let body_text = insert_after body_text
+       "        crate::mem::forget(guard);\n"
+-      ((if nine then open_owner else "") ^ selected) in
++      ((if nine && not Sort4R3FrameTest.enabled then open_owner else "") ^ selected) in
++    let body_text = if rebase then insert_before body_text
++      "    /*@ std::mem::open_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>); @*/\n"
++      rebase_save_old else body_text in
++    let body_text = if rebase then insert_before body_text
++      "        // Note that it is important to use the values here. Reading from the pointer we got makes\n"
++      rebase_both else body_text in
++    let body_text = if input_relation then insert_before body_text
++      "    let mut true_val = MaybeUninit::new(true_val);"
++      (String.concat "" input_saved_ghosts) else body_text in
++    let body_text = if input_relation then insert_after body_text
++      "    /*@ assert *false_ptr |-> ?false_payload; @*/\n"
++      ("    " ^ String.concat "\n    " input_payload_ghosts ^ "\n")
++      else body_text in
++    let body_text = if input_relation then insert_before body_text
++      "        // Note that it is important to use the values here. Reading from the pointer we got makes\n"
++      ("        " ^ String.concat "\n        " input_wrapper_ghosts ^ "\n")
++      else body_text in
+     let signature =
+       "pub fn select_unpredictable<Element>(\n    condition: bool,\n    true_val: *const Element,\n    false_val: *const Element,\n) -> *const Element" in
+     let contract =
+@@ -14905,26 +15378,29 @@
+     let* () = check_span "actual contract"
+       (ContractRd.span_get (BodyRd.contract_get body))
+       signature_end body_at in
+-    let expected_ghosts = [
++    let expected_ghosts = (if input_relation then input_saved_ghosts else []) @ [
+       "//@ open <select_unpredictable::DropOnPanic<T>>.full_borrow_content(_t, self)();";
+-      "//@ open <select_unpredictable::DropOnPanic<T>>.own(_t, ?g);";
++      "//@ open <select_unpredictable::DropOnPanic<T>>.own(_t, ?g);"
++    ] @ (if rebase then rebase_save_old_ghosts else []) @ [
+       "/*@ std::mem::open_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>); @*/";
+       "/*@ std::mem::open_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>); @*/";
+       "/*@ assert *true_ptr |-> ?true_payload; @*/";
+-      "/*@ assert *false_ptr |-> ?false_payload; @*/";
+-      String.trim owner; String.trim unselected
++      "/*@ assert *false_ptr |-> ?false_payload; @*/"
++    ] @ (if input_relation then input_payload_ghosts else []) @
++    (if Sort4R3FrameTest.enabled then [] else [String.trim owner]) @ [
++      String.trim unselected
+     ] @
+-    (if nine then [String.trim saved_guard] else []) @
+-    (if nine then [
++    (if nine && not Sort4R3FrameTest.enabled then [String.trim saved_guard] else []) @
++    (if Sort4R3FrameTest.enabled then [] else if nine then [
+       "/*@ open <select_unpredictable::DropOnPanic<*Element>>.own(t, saved_guard); @*/";
+       "/*@ assert *saved_guard.inner |-> ?selected_payload; @*/"
+     ] else [
+       "/*@ open <select_unpredictable::DropOnPanic<*Element>>.own(t, guard); @*/";
+       "/*@ assert *guard.inner |-> ?selected_payload; @*/"
+-    ]) @ [
+-      "/*@ open raw_ptr_own::<Element>()(t, selected_payload); @*/";
+-      String.trim selected
+-    ] in
++    ]) @ (if Sort4R3FrameTest.enabled then [] else [
++      "/*@ open raw_ptr_own::<Element>()(t, selected_payload); @*/"
++    ]) @ [String.trim selected] @ (if rebase then rebase_both_ghosts else []) @
++    (if input_relation then input_wrapper_ghosts else []) in
+     if List.map AnnotationRd.raw_get (BodyRd.ghost_stmts_get_list body) <>
+          expected_ghosts then reject "owner exact ordered ghost statements";
+     let* _ = ListAux.try_map (fun ghost ->
+@@ -14942,7 +15418,9 @@
+     let unit_digest = sort4_actual_owner_sha256
+       (Marshal.to_string (D.decode_vf_mir vf_mir) [Marshal.No_sharing]) in
+     if unit_digest <>
+-         (if nine then
++         (if input_relation then (if Sort4R3FrameTest.enabled then (if Sort4R3FrameShadowTest.enabled then "203989644124ecd20473efc286cb43a148de4f196c10b4a037f4bdb04cd2d098" else "dd53398bd088a3eff17985ad1f0069398ce5b87acf295b2345828c568f1d01f0") else "407acbaea262ba908ed88434231e9fce1128678840f5d929deaad71838290a92")
++          else if rebase then "9c63ec19fcbc7f6c6e1b336b59c5af2bab470bd1b17c0345f0a57ac777a7cb00"
++          else if nine then
+             "10cf6e4d2a462082d456135078a77ea6670358f1ad15e0d81901104e8a102b43"
+           else
+             "3075b627aab5c0548f6f30a3727af5215bc6859a446009263de718b20a18d66e") then
+@@ -14952,6 +15430,106 @@
+         (Marshal.to_string (D.decode_body b) [Marshal.No_sharing]) in
+       if actual <> expected then reject "owner complete decoded body SHA256")
+       bodies body_hashes;
++    if rebase &&
++       (List.length (BodyRd.local_decls_get_list body) <>
++          (if input_relation then (if Sort4R3FrameTest.enabled then 56 else 61) else 52) ||
++        List.length (BodyRd.basic_blocks_get_list body) <>
++          (if input_relation then (if Sort4R3FrameTest.enabled then 39 else 44) else 35)) then
++      reject (if input_relation then
++        "wrapper input relation exact outer local/block inventory"
++       else "wrapper rebase exact outer local/block inventory");
++    if rebase then (
++      let blocks = BodyRd.basic_blocks_get_list body in
++      let ghost_call index destination normal cleanup =
++        let block = List.nth blocks index in
++        if BasicBlockRd.is_cleanup_get block then
++          reject "wrapper rebase ghost block marked cleanup";
++        match TerminatorKindRd.get
++          (TerminatorRd.kind_get (BasicBlockRd.terminator_get block)) with
++        | TerminatorKindRd.Call data ->
++            let open FnCallDataRd in
++            (match OperandRd.get (func_get data) with
++             | OperandRd.Constant c ->
++                 (match VfMirRd.MirConst.get (ConstOperandRd.const_get c) with
++                  | VfMirRd.MirConst.Val v when
++                      VfMirRd.ConstValue.get
++                        (VfMirRd.MirConst.Val.const_value_get v) =
++                          VfMirRd.ConstValue.ZeroSized ->
++                      (match (D.decode_ty
++                        (VfMirRd.MirConst.Val.ty_get v)).kind with
++                       | D.FnDef {id={name="VeriFast_ghost_command"};
++                                  substs=[];late_bound_generic_param_count=0} -> ()
++                       | _ -> reject "wrapper rebase typed ghost call")
++                  | _ -> reject "wrapper rebase ghost call constant")
++             | _ -> reject "wrapper rebase ghost call operand");
++            if args_get_list data <> [] then
++              reject "wrapper rebase ghost call arguments";
++            let p = destination_get data in
++            if LocalDeclIdRd.name_get (PlaceRd.local_get p) <> destination ||
++               PlaceRd.local_is_mutable_get p ||
++               PlaceRd.projection_get_list p <> [] ||
++               VfMirRd.PlaceKind.get (PlaceRd.kind_get p) <>
++                 VfMirRd.PlaceKind.Other then
++              reject "wrapper rebase ghost destination";
++            (match OptionRd.get (target_get data) with
++             | OptionRd.Something next when
++                 Stdint.Uint32.to_int
++                   (BasicBlockIdRd.index_get (VfMirRd.of_pointer next)) =
++                   normal -> ()
++             | _ -> reject "wrapper rebase ghost normal successor");
++            (match cleanup,UnwindActionRd.get (unwind_action_get data) with
++             | None,UnwindActionRd.Continue -> ()
++             | Some expected,UnwindActionRd.Cleanup id when
++                 Stdint.Uint32.to_int (BasicBlockIdRd.index_get id) =
++                   expected -> ()
++             | _ -> reject "wrapper rebase ghost unwind successor")
++        | _ -> reject "wrapper rebase ghost call block" in
++      if input_relation then (
++        ghost_call 0 "_4" 1 None;
++        ghost_call 1 "_5" 2 None;
++        ghost_call 6 "_14" 7 None;
++        ghost_call 7 "_15" 8 None;
++        ghost_call 12 "_20" 13 None;
++        ghost_call 13 "_21" 14 None;
++        if Sort4R3FrameTest.enabled then (
++          ghost_call 20 "_38" 21 (Some 38);
++          ghost_call 21 "_39" 22 (Some 38);
++          ghost_call 22 "_40" 23 (Some 38);
++          ghost_call 23 "_41" 24 (Some 38);
++          ghost_call 24 "_42" 25 (Some 38);
++          ghost_call 25 "_43" 26 (Some 38);
++          ghost_call 26 "_44" 27 (Some 38);
++          ghost_call 27 "_45" 28 (Some 38);
++          ghost_call 28 "_46" 29 (Some 38);
++          ghost_call 29 "_47" 30 (Some 38);
++          ghost_call 30 "_48" 31 (Some 38);
++          ghost_call 31 "_49" 32 (Some 38);
++          ghost_call 32 "_50" 33 (Some 38))
++        else (
++        ghost_call 25 "_43" 26 (Some 43);
++        ghost_call 26 "_44" 27 (Some 43);
++        ghost_call 27 "_45" 28 (Some 43);
++        ghost_call 28 "_46" 29 (Some 43);
++        ghost_call 29 "_47" 30 (Some 43);
++        ghost_call 30 "_48" 31 (Some 43);
++        ghost_call 31 "_49" 32 (Some 43);
++        ghost_call 32 "_50" 33 (Some 43);
++        ghost_call 33 "_51" 34 (Some 43);
++        ghost_call 34 "_52" 35 (Some 43);
++        ghost_call 35 "_53" 36 (Some 43);
++        ghost_call 36 "_54" 37 (Some 43);
++        ghost_call 37 "_55" 38 (Some 43)))
++      else (
++        ghost_call 4 "_12" 5 None;
++        ghost_call 5 "_13" 6 None;
++        ghost_call 21 "_39" 22 (Some 34);
++        ghost_call 22 "_40" 23 (Some 34);
++        ghost_call 23 "_41" 24 (Some 34);
++        ghost_call 24 "_42" 25 (Some 34);
++        ghost_call 25 "_43" 26 (Some 34);
++        ghost_call 26 "_44" 27 (Some 34);
++        ghost_call 27 "_45" 28 (Some 34);
++        ghost_call 28 "_46" 29 (Some 34)));
+     if (not nine &&
+         (List.length (BodyRd.local_decls_get_list body) <> 41 ||
+          List.length (BodyRd.basic_blocks_get_list body) <> 24)) ||
+@@ -14965,16 +15543,20 @@
+           (match UnwindActionRd.get (FnCallDataRd.unwind_action_get data) with
+            | UnwindActionRd.Cleanup target when
+                Stdint.Uint32.to_int (BasicBlockIdRd.index_get target) =
+-                 (if nine then 24 else 23) ->
++                 (if input_relation then (if Sort4R3FrameTest.enabled then 38 else 43) else if rebase then 34 else if nine then 24 else 23) ->
+                n + 1
+            | _ -> n)
+       | _ -> n) 0 (BodyRd.basic_blocks_get_list body) in
+-    if cleanup_edges <> (if nine then 10 else 9) then
++    if cleanup_edges <> (if input_relation then (if Sort4R3FrameTest.enabled then 18 else 23) else if rebase then 18 else if nine then 10 else 9) then
+       reject "owner shared cleanup predecessor inventory";
+-    (match BodyRd.ghost_stmts_get_list body with
++    (match (if input_relation then
++              List.tl (List.tl (BodyRd.ghost_stmts_get_list body))
++            else BodyRd.ghost_stmts_get_list body) with
+      | first::second::_ ->
+          Sort4SelectIntrinsic.actual_nested_ghosts := [first;second]
+      | _ -> reject "owner nested ghost metadata transfer source");
++    Sort4SelectIntrinsic.wrapper_rebase_active := rebase;
++    Sort4SelectIntrinsic.wrapper_input_relation_active := input_relation;
+     Sort4SelectIntrinsic.actual_nine_admitted := nine;
+     Printf.printf
+       (if nine then
+@@ -15146,6 +15728,8 @@
+     active := false; actual_certified := false; actual_projection := false;
+     actual_owner_admitted := false;
+     actual_nine_admitted := false;
++    wrapper_rebase_active := false;
++    wrapper_input_relation_active := false;
+     actual_nested_ghosts := [];
+     ptr_count := 0; mu_count := 0;
+     expected_ptr := 0; expected_mu := 0;
+@@ -15534,10 +16118,14 @@
+ 
+   let certify_sort4_a1_nine (vf_mir : VfMirRd.VfMir.t) root =
+     let open Sort4A1Nine in
++    let rebase = sort4_wrapper_rebase_opt_in root in
++    let input_relation = sort4_wrapper_input_relation_opt_in root in
+     active := false;
+     transmute_redirects := 0;
+     assume_init_redirects := 0;
+-    if not !Sort4SelectIntrinsic.actual_nine_admitted ||
++    if rebase <> !Sort4SelectIntrinsic.wrapper_rebase_active ||
++       input_relation <> !Sort4SelectIntrinsic.wrapper_input_relation_active ||
++       not !Sort4SelectIntrinsic.actual_nine_admitted ||
+        Sys.getenv_opt "SORT4_ACTUAL_OWNER_REPO_ROOT" <> Some root ||
+        Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" <> Some "1" ||
+        Sys.getenv_opt "SORT4_A1_LINK_REPO_ROOT" <> None then
+@@ -15568,7 +16156,9 @@
+     let path = source_path transmute_loc in
+     if source_path method_loc <> path || source_path outer_loc <> path ||
+        sort4_actual_owner_sha256 (Sort4MaybeUninit.read_file path) <>
+-         "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
++         (if input_relation then (if Sort4R3FrameTest.enabled then (if Sort4R3FrameShadowTest.enabled then "7ec86f52b362f7f8b2ed26e3fa108212eb3d6288820bab9c6db3fa37bf8cabe0" else "8543e99940897e3289f9f57fe3edc30fa4cffbba713b68aab36eb49d3faac816") else "a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463") else
++          if rebase then "11067f06ba7c745cfb221a559fb29778eba8d7b6e65f6db1a814ff7ce72bdfd4" else
++            "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6")
+     then reject "exact nine-body verified source unit";
+     if not (Sort4A1Link.local_shape transmute &&
+             Sort4A1Link.local_shape method_body) then
+@@ -15680,8 +16270,12 @@
+   let certify_sort4_actual_forget_own
+       (vf_mir : VfMirRd.VfMir.t) root =
+     let open Sort4ActualForgetOwn in
++    let rebase = sort4_wrapper_rebase_opt_in root in
++    let input_relation = sort4_wrapper_input_relation_opt_in root in
+     active := false; redirected := 0; projected := 0;
+-    if not !Sort4SelectIntrinsic.actual_nine_admitted ||
++    if rebase <> !Sort4SelectIntrinsic.wrapper_rebase_active ||
++       input_relation <> !Sort4SelectIntrinsic.wrapper_input_relation_active ||
++       not !Sort4SelectIntrinsic.actual_nine_admitted ||
+        Sys.getenv_opt "SORT4_ACTUAL_OWNER_REPO_ROOT" <> Some root ||
+        Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" <> Some "1" then
+       reject "exact nine-body owner admission required";
+@@ -15734,9 +16328,18 @@
+          "pub const fn forget<T>(t: T)" <> body then
+       reject "actual SAFE forget exact std runtime body";
+     let blocks = BodyRd.basic_blocks_get_list outer in
+-    if List.length blocks <> 25 then
++    if List.length (BodyRd.local_decls_get_list outer) <>
++         (if input_relation then (if Sort4R3FrameTest.enabled then 56 else 61) else if rebase then 52 else 42) ||
++       List.length blocks <> (if input_relation then (if Sort4R3FrameTest.enabled then 39 else 44) else if rebase then 35 else 25) then
+       reject "exact actual shared-cleanup block inventory";
+-    let call_block = List.nth blocks 14 in
++    let call_block = List.nth blocks (if input_relation then (if Sort4R3FrameTest.enabled then 18 else 20) else if rebase then 16 else 14) in
++    let dead_id, result_id, arg_id, flag_id, guard_id,
++        normal_id, cleanup_id =
++      if input_relation && Sort4R3FrameTest.enabled then
++        "_34", "_35", "_36", "_55", "_30", 19, 38
++      else if input_relation then "_36", "_37", "_38", "_60", "_30", 21, 43
++      else if rebase then "_32", "_33", "_34", "_51", "_26", 17, 34
++      else "_30", "_31", "_32", "_41", "_24", 15, 24 in
+     let place id mutable_ p =
+       if LocalDeclIdRd.name_get (PlaceRd.local_get p) <> id ||
+          PlaceRd.local_is_mutable_get p <> mutable_ ||
+@@ -15754,13 +16357,13 @@
+           | StatementKindRd.StorageDead a,
+             StatementKindRd.StorageLive b,
+             StatementKindRd.StorageLive c when
+-              LocalDeclIdRd.name_get a = "_30" &&
+-              LocalDeclIdRd.name_get b = "_31" &&
+-              LocalDeclIdRd.name_get c = "_32" -> ()
++              LocalDeclIdRd.name_get a = dead_id &&
++              LocalDeclIdRd.name_get b = result_id &&
++              LocalDeclIdRd.name_get c = arg_id -> ()
+           | _ -> reject "forget ordered storage statements");
+          (match statement_kind flag with
+           | StatementKindRd.Assign data ->
+-              place "_41" true
++              place flag_id true
+                 (StatementKindRd.AssignData.lhs_place_get data);
+               (match RvalueRd.get
+                 (StatementKindRd.AssignData.rhs_rvalue_get data) with
+@@ -15791,13 +16394,13 @@
+           | _ -> reject "forget flag statement");
+          (match statement_kind move_guard with
+           | StatementKindRd.Assign data ->
+-              place "_32" true
++              place arg_id true
+                 (StatementKindRd.AssignData.lhs_place_get data);
+               (match RvalueRd.get
+                 (StatementKindRd.AssignData.rhs_rvalue_get data) with
+                | RvalueRd.Use op ->
+                    (match OperandRd.get op with
+-                    | OperandRd.Move p -> place "_24" false p
++                    | OperandRd.Move p -> place guard_id false p
+                     | _ -> reject "guard not moved before forget")
+                | _ -> reject "guard move rvalue")
+           | _ -> reject "guard move statement")
+@@ -15829,24 +16432,26 @@
+          (match args_get_list data with
+           | [op] ->
+               (match OperandRd.get op with
+-               | OperandRd.Move p -> place "_32" true p
++               | OperandRd.Move p -> place arg_id true p
+                | _ -> reject "forget argument plain Move")
+           | _ -> reject "forget call arity");
+-         place "_31" false (destination_get data);
++         place result_id false (destination_get data);
+          (match UnwindActionRd.get (unwind_action_get data),
+                 OptionRd.get (target_get data) with
+           | UnwindActionRd.Cleanup cleanup,
+             OptionRd.Something normal when
+               Stdint.Uint32.to_int
+-                (BasicBlockIdRd.index_get cleanup) = 24 &&
++                (BasicBlockIdRd.index_get cleanup) = cleanup_id &&
+               Stdint.Uint32.to_int
+                 (BasicBlockIdRd.index_get
+-                  (VfMirRd.of_pointer normal)) = 15 -> ()
++                  (VfMirRd.of_pointer normal)) = normal_id -> ()
+           | _ -> reject "forget normal/shared-cleanup successors")
+      | _ -> reject "forget exact call terminator");
+     active := true;
+     Printf.printf
+-      "SORT4-ACTUAL-FORGET-OWN: exact nine-body SAFE call/owner callee admitted\n%!";
++      (if Sort4R3FrameTest.enabled then
++         "SORT4-ACTUAL-FORGET-OWN: exact nine-body SAFE call/thread-only frame callee admitted\n%!"
++       else "SORT4-ACTUAL-FORGET-OWN: exact nine-body SAFE call/owner callee admitted\n%!");
+     Ok ()
+ 
+   (* O23 diagnostic only.  A complete decoded-unit/body snapshot for the
+@@ -15998,6 +16603,30 @@
+                   Sort4G1Call.translated := 0; Ok ()
+         | Some root -> certify_sort4_g1_call vf_mir_cpn root
+       in
++      Sort4R3CleanupProjectionTest.active := false;
++      Sort4R3CleanupProjectionTest.pointer_drop_projected := 0;
++      Sort4R3CleanupProjectionTest.assume_init_projected := 0;
++      (match Sort4R3CleanupProjectionTest.root with
++       | None -> ()
++       | Some root ->
++           if Sort4R3FrameShadowTest.root <> Some root ||
++              Sort4R3FrameTest.root <> Some root ||
++              Sys.getenv_opt "SORT4_SELECT_INTRINSIC_REPO_ROOT" <> Some root ||
++              Sys.getenv_opt "SORT4_POINTER_DROP_REPO_ROOT" <> Some root ||
++              Sys.getenv_opt "SORT4_A1_NINE_REPO_ROOT" <> Some root ||
++              Sys.getenv_opt "SORT4_ACTUAL_FORGET_OWN_REPO_ROOT" <> Some root ||
++              not !Sort4SelectIntrinsic.actual_certified ||
++              not !Sort4SelectIntrinsic.actual_owner_admitted ||
++              not !Sort4SelectIntrinsic.actual_nine_admitted ||
++              not !Sort4SelectIntrinsic.wrapper_input_relation_active ||
++              not !Sort4PointerDrop.active ||
++              not !Sort4A1Nine.active ||
++              not !Sort4ActualForgetOwn.active then
++             Sort4R3CleanupProjectionTest.reject
++               "exact admitted FRAME-shadow source/unit and checked callees required";
++           Sort4R3CleanupProjectionTest.active := true;
++           Printf.printf
++             "SORT4-R3-CLEANUP-PROJECTION-TEST: exact FRAME-shadow admission enabled\n%!");
+       Rocq_writer.rocq_print Args.rocq_writer "From VeriFast Require Export VfMir.\n\n";
+       (* Todo @Nima: we should add necessary inclusions during translation *)
+       let extern_header_names =
+@@ -16316,6 +16945,12 @@
+         Printf.printf
+           "G1-CALL-CFG: one source-certified false-unwind call projected\n%!"
+       );
++      if !Sort4R3CleanupProjectionTest.active then (
++        if !Sort4R3CleanupProjectionTest.pointer_drop_projected <> 1 ||
++           !Sort4R3CleanupProjectionTest.assume_init_projected <> 1 then
++          Sort4R3CleanupProjectionTest.reject
++            "exactly one pointer-drop and one assume-init projection required"
++      );
+       if !Sort4MaybeUninit.active then (
+         if !Sort4MaybeUninit.inner_call_count <> 1 ||
+            !Sort4MaybeUninit.aggregate_count <> 1 ||
+@@ -16357,6 +16992,143 @@
+       *)
+       let body_sigs = AstAux.sort_decls_lexically body_sigs in
+       let body_decls = AstAux.sort_decls_lexically body_decls in
++      (* Exact R3 TEST: declaration scheduling only.  All production body,
++         signature, predicate and ghost AST nodes remain untouched. *)
++      let proof_body_decls = match Sys.getenv_opt
++        "SORT4_R3_COLUMN_NESTED_TEST_REPO_ROOT",
++        Sys.getenv_opt "SORT4_R3_COLUMN_NESTED_TEST" with
++        | None, None -> body_decls
++        | Some root, Some "1" ->
++          let reject why = failwith
++            ("SORT4-R3-NESTED-BEFORE-OUTER-TEST: certificate mismatch: " ^ why) in
++          if Sys.getenv_opt "SORT4_R3_GHOST_COLUMN_TEST_REPO_ROOT" <> Some root ||
++             Sys.getenv_opt "SORT4_R3_GHOST_COLUMN_TEST" <> Some "1" ||
++             Sys.getenv_opt "SORT4_R3_GHOST_SCOPE_TEST_REPO_ROOT" <> Some root ||
++             Sys.getenv_opt "SORT4_R3_GHOST_SCOPE_TEST" <> Some "1" ||
++             Sys.getenv_opt "SORT4_R3_RECEIVER_TEST_REPO_ROOT" <> Some root ||
++             Sys.getenv_opt "SORT4_R3_RECEIVER_TEST" <> Some "1" ||
++             Sys.getenv_opt "SORT4_WRAPPER_INPUT_RELATION_REPO_ROOT" <> Some root ||
++             Sys.getenv_opt "SORT4_WRAPPER_INPUT_RELATION_ADMISSION" <> Some "1" ||
++             Sys.getenv_opt "SORT4_WRAPPER_REBASE_REPO_ROOT" <> Some root ||
++             Sys.getenv_opt "SORT4_WRAPPER_REBASE_ADMISSION" <> Some "1" ||
++             Sys.getenv_opt "SORT4_ACTUAL_OWNER_REPO_ROOT" <> Some root ||
++             Sys.getenv_opt "SORT4_ACTUAL_NESTED_H2_REPO_ROOT" <> Some root ||
++             Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" <> Some "1" ||
++             not !Sort4SelectIntrinsic.actual_nine_admitted ||
++             not !Sort4SelectIntrinsic.wrapper_input_relation_active ||
++             not !Sort4ActualNestedH2.active then
++            reject "R3 exact nine-body owner/nested admission required";
++          let expected_names = [
++            "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new";
++            "sort4_checked_as_mut_ptr"; "sort4_checked_pointer_drop";
++            "sort4_checked_generic_drop"; "checked_transmute_neo_pointer";
++            "checked_assume_init_pointer"; "checked_forget_owned";
++            "select_unpredictable";
++            "<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop"
++          ] in
++          let expected_positions =
++            [(18,5);(33,1);(49,1);(65,1);(82,1);(100,1);(121,1);
++             (135,1);(165,9)] in
++          if List.length bodies_cpn <> 9 || List.length body_decls <> 9 ||
++             List.length body_sigs <> 3 ||
++             List.map (fun b -> TrName.translate_def_path
++               (BodyRd.def_path_get b)) bodies_cpn <> expected_names then
++            reject "complete nine MIR/AST body inventory";
++          let unit_bytes = Marshal.to_string
++            (D.decode_vf_mir vf_mir_cpn) [Marshal.No_sharing] in
++          let nested_bytes = Marshal.to_string
++            (D.decode_body (List.nth bodies_cpn 8)) [Marshal.No_sharing] in
++          if sort4_actual_owner_sha256 unit_bytes <>
++               (if Sort4R3FrameTest.enabled then (if Sort4R3FrameShadowTest.enabled then "203989644124ecd20473efc286cb43a148de4f196c10b4a037f4bdb04cd2d098" else "dd53398bd088a3eff17985ad1f0069398ce5b87acf295b2345828c568f1d01f0") else "407acbaea262ba908ed88434231e9fce1128678840f5d929deaad71838290a92") ||
++             sort4_actual_owner_sha256 nested_bytes <>
++               "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a" then
++            reject "complete unit and actual nested body-8 bytes";
++          let nested_cpn = List.nth bodies_cpn 8 in
++          let translated_span label span =
++            match translate_span_data span with
++            | Ok loc -> Ast.lexed_loc loc
++            | Error _ -> reject label in
++          let body_span = translated_span "actual nested MIR body span"
++            (BodyRd.span_get nested_cpn) in
++          let sig_span = translated_span "actual nested MIR signature span"
++            (BodyRd.fn_sig_span_get nested_cpn) in
++          let decl_span = Ast.lexed_loc
++            (AstAux.decl_loc (snd (List.nth body_decls 8))) in
++          (match body_span, sig_span with
++           | (((body_path,165,9),(body_path2,170,10)),
++              ((sig_path,165,9),(sig_path2,165,27))) when
++                body_path = body_path2 && body_path = sig_path &&
++                body_path = sig_path2 &&
++                Filename.check_suffix body_path "verified/lib.rs" &&
++                decl_span = body_span -> ()
++           | _ -> reject "actual nested complete MIR/AST spans");
++          let path = match decl_span with
++            | ((path,165,9), (path2,170,10)) when
++                path = path2 && Filename.check_suffix path "verified/lib.rs" -> path
++            | _ -> reject "actual nested full source span" in
++          if sort4_actual_owner_sha256
++               (Sort4MaybeUninit.read_file path) <>
++               (if Sort4R3FrameTest.enabled then (if Sort4R3FrameShadowTest.enabled then "7ec86f52b362f7f8b2ed26e3fa108212eb3d6288820bab9c6db3fa37bf8cabe0" else "8543e99940897e3289f9f57fe3edc30fa4cffbba713b68aab36eb49d3faac816") else "a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463") then
++            reject "canonical verified source bytes";
++          let expected_keys = List.map (fun b ->
++            let name = TrName.translate_def_path (BodyRd.def_path_get b) in
++            TrName.split_def_path (BodyRd.module_def_path_get b) name)
++            bodies_cpn in
++          if List.map fst body_decls <> expected_keys then
++            reject "lexical qualified declaration order/identity";
++          let describe phase ds =
++            List.iteri (fun i (key, d) ->
++              (match d with
++               | Ast.Func (_,_,_,_,_,_,_,_,_,_,Some _,_,_) -> ()
++               | _ -> reject "body declaration is not a function definition");
++              let ((file,line,col), (file2,_,_)) =
++                Ast.lexed_loc (AstAux.decl_loc d) in
++              let original_index = if phase = "before" then i
++                else if i = 7 then 8 else if i = 8 then 7 else i in
++              let expected_line,expected_col =
++                List.nth expected_positions original_index in
++              let body_name = TrName.translate_def_path
++                (BodyRd.def_path_get (List.nth bodies_cpn original_index)) in
++              if file <> file2 ||
++                 not (Filename.check_suffix file "verified/lib.rs") ||
++                 line <> expected_line || col <> expected_col then
++                reject "exact declaration source location";
++              let bytes = Marshal.to_string (key,d) [Marshal.No_sharing] in
++              Printf.printf
++                "SORT4-R3-NESTED-BEFORE-OUTER-TEST: %s[%d] body_name=%s module=%s fn=%s type=FuncBody loc=%s:%d:%d ast_sha256=%s\n%!"
++                phase i body_name (fst key) (snd key) file line col
++                (sort4_actual_owner_sha256 bytes)) ds in
++          let signature_bytes = Marshal.to_string body_sigs
++            [Marshal.No_sharing] in
++          let signature_sha = sort4_actual_owner_sha256
++            signature_bytes in
++          describe "before" body_decls;
++          let reordered = match body_decls with
++            | [a;b;c;d;e;f;g;outer;nested] ->
++                [a;b;c;d;e;f;g;nested;outer]
++            | _ -> reject "exact one-item permutation shape" in
++          let expected_reordered_keys = match expected_keys with
++            | [a;b;c;d;e;f;g;outer;nested] ->
++                [a;b;c;d;e;f;g;nested;outer]
++            | _ -> reject "exact qualified key inventory" in
++          if List.map fst reordered <> expected_reordered_keys ||
++             List.sort compare (List.map (fun (_,d) ->
++               Marshal.to_string d [Marshal.No_sharing]) reordered) <>
++             List.sort compare (List.map (fun (_,d) ->
++               Marshal.to_string d [Marshal.No_sharing]) body_decls) then
++            reject "function body loss/change/duplication";
++          describe "after" reordered;
++          let signature_after_sha = sort4_actual_owner_sha256
++            (Marshal.to_string body_sigs [Marshal.No_sharing]) in
++          if signature_after_sha <> signature_sha then
++            reject "signature or contract AST changed";
++          Printf.printf
++            "SORT4-R3-NESTED-BEFORE-OUTER-TEST: exact nine-body one-item permutation, signatures=%d signatures_sha256_before=%s signatures_sha256_after=%s and prior predicates/ghosts unchanged\n%!"
++            (List.length body_sigs) signature_sha signature_after_sha;
++          reordered
++        | _ -> failwith
++          "SORT4-R3-NESTED-BEFORE-OUTER-TEST: certificate mismatch: exact root/test opt-in pair"
++      in
+       let traits_and_body_decls = traits_decls @ List.map snd body_decls in
+       let debug_infos = VF0.DbgInfoRustFe debug_infos in
+       let trait_impl_prototypes =
+@@ -16374,7 +17146,7 @@
+         @ ghost_decls
+         @ List.map
+             (modularize_fn_decl module_imports_map)
+-            (body_sigs @ body_decls)
++            (body_sigs @ proof_body_decls)
+       in
+       Ok
+         ( headers,

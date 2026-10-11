@@ -1,0 +1,13 @@
+# VeriFast outer-F — read-only semantic review
+
+Checkpoint `a0bd98275be52760dcb30f9a6c8d07ef6d7dcd36`; tool `4a34010cc3930eec46fc4e72c1b793ad734fa730`; runner `ca5f54607bf9e36ecbb9a24085cc6cc9e18db98c`; tested delivery `84f21b3bf244eb352cb91584fc84a73d6703b117`; profile `verifast-c4-select-composition-20261011-c3`.
+
+**Recommendation: correct the gate expectation/design. Negative coverage remains OPEN/INCONCLUSIVE.** The required cut106 rejection of the current F-to-bool example is unsupported: nominal scope ends before the underlying lifetime is retired; compiler HRTB justifies the indexed Bool projection equality. No concrete forbidden post-cut inference was found. The present fixture is a candidate positive locality/normal-unwind resource-closure control. This is not a general proof of metadata conservativity or O23 soundness.
+
+Read [the single semantic review-note](research/challenge-8/verifast-review/outer-f-semantic-20261011/REVIEW.md) and [closed checkpoint](research/challenge-8/verifast-review/outer-f-semantic-20261011/CHECKPOINT.md). An independent addressed review considered the exact path and the proposed negative sketch. The indexed-reference-output control is NOT_RUN, outside current Bool admission; source correspondence, resource closure and nonvacuity remain open. No specific kernel fix is supported by this review.
+
+Read-only session: Cloud budget/use 0, no registration/build/compiler/extraction/verifier execution. No executable tests, runner, kernel, translator, contracts, trusted semantics, manifest or historical verdicts changed. The previous Build `9397d5cd-51e6-4de4-87d0-e2195728f713` and its raw archive/AST/log are preserved; selector/C4/466-statement composition PASS retain their original pins. Historical BLOCKED/UNEXPECTED_NEGATIVE_PASS classifications are not rewritten. READY, profile adoption, full sort4/native caller and O23 closure are not claimed.
+
+The complete prior C/D/E evidence and dependency pack are retained to resolve relative review links. The original exact command in outer-d/REPRODUCE-D.md describes a CLOSED historical account and is not authorization to replay. proof.bundle requires checkpoint `c6520d4cc436f276810234804e5f1f7cdc2f29e6`; tool.bundle requires base `f76012fb518703b1d98e243ac4f487f16877cfcb`. No automatic next session. Next action is an owner decision on corrected gate design, followed by separately authorized development/review of a genuine negative use-site.
+
+Append-only internal review/verifast publication preserves earlier packets and the separate upstream candidate. Archival instructions defer to the explicit read-only user scope. files-sha256.json inventories packet content.
