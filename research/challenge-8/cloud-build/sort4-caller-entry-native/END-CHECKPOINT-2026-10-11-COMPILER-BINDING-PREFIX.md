@@ -81,3 +81,27 @@ At close global active.json was externally at schema3/max3, empty reservations;
 our session retained its v2 max2 policy and made no transition or limit change.
 Do not adopt that external state as authorization for a third Build. Peer state
 preserved; no merges/upstream publication/external messages.
+
+## Policy adoption ACK / session #2 — observed 2026-10-11T21:49:02Z
+
+Policy full SHA `6e1a8e59c56669abe5e6ec2013478e45ed2cc267`; local docs commit
+`e92176fd7dd3fa369506281eb1ce76b2dd40d1b0`. Exact common file set and PARALLEL-BUILDS-V3 adopted;
+previous tracked instructions preserved in archive/select-adoption-2026-10-12
+with original HEAD/source paths. Historical EOF whitespace preserved byte-for-byte.
+Mission: complete actual sort4 with caller applicability, then sort8/verified merge.
+Current assignment: A1 then A2; first repair exact per-case/mode MIR maps, replay
+saved b229 data, observe translated AST in Cloud before translator operand changes.
+Session #1 remains CLOSED (1521 consumed/2079 retired); shared snapshot ACTIVE
+is historical. Session #2 start 2026-10-11T21:49:02Z, main 2026-10-11T23:49:02Z,
+finish-only absolute 2026-10-12T00:19:02Z; new separate 3600 seconds.
+Own active Builds/reservations/request none at observation, global schema3/max3
+with empty reservations. Current coordinator hash matches accepted v3 ACK
+`49464b5a1078c99f8f44ef0bba06bb285c039ca0a0ab10d104bc7b54f32cb4bc`;
+client hash `fbf008a6a781783853cc82c7c325fb14bb5294e3da2b1b7f23ba7583f6baf2dc`
+matches ACK in policy commit, infra `3bd466e367d6b458b2d5c8c29eb4cdd24d1e3d12`,
+baseline `8562527b76accbeb2405313d032ccbb6802173a6`. Older branch ACK
+(ed6b2b6a) is historical, not installed-client ACK. No transition/state reset.
+Session2 gets its own exact dispatcher registration; compiler candidate opt-in
+phase remains pinned to previous profile name, distinct from accounting phase.
+Next permitted step: lightweight replay and Cloud AST capture, then fresh controls
+and actual proof within existing lane and authorized semantic scope.

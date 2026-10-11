@@ -7420,3 +7420,49 @@ Exact proof/infra8562527b76accbeb2405313d032ccbb6802173a6, Build b22985f8-7aae-4
 Selected-positive paired export/decode/refinement PASS, then admission refused literal MIR temporary mismatch: normal args_17,_18,_19 vs query/readonly_16,_17,_18; exact reborrow roots unchanged v/scratch/is_less. Extra normal VeriFast_ghost_command for guard assertion shifts temps. Selected verifier, full AST/native-post graph audit, false31/source-array semantic controls NOT_RUN. Gate remains closed; refusal not semantic negative. First open obligation is exact mode-specific mapping plus observed AST mode; next authorized session may repair narrowly without loosening provenance/clauses/identity. Main deadline passed before result inspection; no new experiment or Build initiated thereafter. Public IS_ZST/sizeof and nonzero obligations unchanged; no ZST return/nonzero supplied, no C4 composition.
 
 Archive SHA6c0f0c6ccebe5d3dd0fbdb5d91a4cdcdadc8fd47d6510a7853e8ea736dc75c3f; raw /tmp/select-binding-prefix-b229-raw, official verified evidence /tmp/select-binding-prefix-b229-read. Charge420s; aggregate1521/3600, remainder2079 retired. Four terminal Builds, no own unresolved/reservation/request. Model experimental/unaccepted; tool compiled but admission closed; proof local threshold/pointer only. Full per-stage identities, raw hashes, controls and prior-session preservation in SESSION-RESULT-MANIFEST.
+
+## Session #2 / mode-specific MIR admission — 2026-10-12 MSK
+
+Policy 6e1a8e59c56669abe5e6ec2013478e45ed2cc267 adopted in e92176fd;
+checkpoint 8b6545094fea0ea25079bda51505d7f990ef2d1a. Start21:49:02 UTC,
+main23:49:02, finish-only00:19:02; fresh3600 conservative seconds, owner select-sort4,
+one existing o26-sort4-c1-current-recovery lane, v3 max3/one owner-ledger.
+
+Actual obligation: stable quicksort threshold/selected method/helper entry bound
+through len+16, then helper prefix/native C1–C4 with resources from caller.
+Initial falsifiable hypothesis: the b229 refusal is solely the ghost-command
+normal-local shift, not differing original argument provenance. Exact query
+both-mode caller16/17/18, selected-positive normal17/18/19 and readonly16/17/18;
+helper5/6/7. Per-case/mode maps are independently pinned after observations,
+never arbitrary local sets/unions. Negative-case maps must first be observed
+in Cloud; unobserved maps refuse binding. Replay saved immutable b229 source/MIR
+and synthetic wrong-input-source, wrong move/projection/temp/clauses/binders
+controls before dispatch. Retain old verdict and separate replay/hash identities.
+
+Authorized narrow auditor/translator change: validate exact map and one direct
+mutable reborrow from each original formal, retain raw maps, compare semantic
+call graphs only after map admission. Original callee, full clauses/binders,
+substs, source identity, exact edge/cardinality checks remain. No new trusted
+memory/layout/alias/kernel rules; runtime/proof assertions/posts unchanged.
+Before replacing translator literal operands, Cloud capture-only diagnostic
+observes translated Ast.Var operands and paired MIR for all three cases;
+compiler binding flag is set only by successful runner gate, never manually.
+Capture grants no proof credit. Existing strict translator rejects mismatch
+and prints incoming operands at the translated call; missing maps remain refused.
+
+Fresh final-profile regression set: six both-impl compiler records with original
+TypingEnv/Instance/args/clauses, query corruption/source/MIR controls; canonical
+T and opaque MU, as_mut_ptr positive/wrong-pointer/missing-rights/MU-cast negatives,
+actual threshold body; selected positive/false31/source-array. These exercise
+every modified binding and inherited pointer/resource interface; unchanged
+public-guard experiment is excluded. Old PASS is not transferred. False31 must
+fail its actual assert len<=31, source-array its source-array call precondition;
+earlier stages are NOT_RUN/inconclusive. Native full normal/unwind/F/thread/
+lifetime/source/scratch/free/leak/dead-code posts stay enabled. Target C1–C4
+requires normal plus all four direct-unwind posts, MaybeUninit remains opaque.
+
+Domain: selected diagnostic Freeze-qualified T and FnMut F, unrestricted
+generic caller applicability OPEN; generic None has no permissible Instance.
+No supplied root bound/nonzero, no size guard, no IS_ZST/sizeof repair. PASS
+permits original helper traversal in scope; causal model/resource failure is
+checkpointed and assessed, never bypassed. Profile remains experimental.
