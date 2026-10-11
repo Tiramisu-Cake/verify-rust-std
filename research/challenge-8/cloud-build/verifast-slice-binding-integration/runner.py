@@ -257,8 +257,14 @@ def audit(a, data: dict, source: dict) -> None:
     components_ok = (slice_ok and integration_ok and native_ok and same_tool and
                      a.slice_exit == 0 and a.native_exit == 0 and
                      a.integration_exit in (0, 1))
+    integration_diagnostic = (isinstance(rows["integration"], dict) and
+                              rows["integration"].get("diagnostic_complete") is True)
+    regression = (rows["integration"].get("stages", {}).get("regressions", {})
+                  if isinstance(rows["integration"], dict) else {})
+    if not isinstance(regression, dict):
+        regression = {}
     result = {"profile": PROFILE, "classification": (
-                  "FRESH_COMPONENT_EVIDENCE_RAW_REVIEW_REQUIRED" if components_ok else
+                  "SCOPED_COMPONENT_EVIDENCE_RAW_REVIEW_PENDING" if components_ok else
                   "INCOMPLETE_OR_FIRST_OBLIGATION_OPEN"),
               "cases": rows, "runner_exits": {"slice": a.slice_exit,
                                               "integration": a.integration_exit,
@@ -266,7 +272,12 @@ def audit(a, data: dict, source: dict) -> None:
               "required_components": {"slice": slice_ok, "nine_body_c4_composition": integration_ok,
                                       "native_c1_c4_zst": native_ok,
                                       "same_compiled_tool": same_tool},
-              "diagnostic_complete": components_ok,
+              "scoped_components_complete": components_ok,
+              "integration_diagnostic_complete": integration_diagnostic,
+              "integration_completion_blockers": (rows["integration"].get("completion_blockers")
+                  if isinstance(rows["integration"], dict) else ["integration_result_missing"]),
+              "integration_regression_gates": regression.get("completion_gates"),
+              "diagnostic_complete": False,
               "raw_review_pending": True, "proof_credit": False,
               "accepted": False, "verification_accepted": False,
               "profile_accepted": False,
