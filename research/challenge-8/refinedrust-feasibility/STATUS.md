@@ -1,3 +1,28 @@
+# RefinedRust feasibility — SOURCE AVAILABLE / SOURCE RECOVERY CLOSED
+
+2026-10-12; baseline 42d01e4c0ad136aa81f95575703c8661998b61c5.
+[G1-SOURCE-RECOVERY](G1-SOURCE-RECOVERY.md): exact RR clone найден в первоначальной
+вложенной `.sources/`; прежний source-transfer blocker был ошибочным и закрыт.
+HEAD 332d945fafa14bf55c0c8390cb35ec4b0c012cff, tree
+b33bcccbbbd6168ac73e0c7238a1edddbe34057c; 2569 tracked bytes/modes и шесть
+pinned frontend/config blob/SHA256 сверены, Git integrity PASS, checkout clean.
+Source сохранён вне /tmp/project Git:
+`/root/refinedrust-feasibility-sources/refinedrust-332d945fafa14bf55c0c8390cb35ec4b0c012cff`;
+old ignored .sources path — symlink. External transfer не требуется.
+
+Policy origin/main 6e1a8e59c56669abe5e6ec2013478e45ed2cc267 прочитана.
+Cleanup только unused own clone hooks samples/optional reverse index: **80 KiB**
+allocated blocks; root free ~2.4G (96% used), inode usage20%. /tmp похожие файлы
+неясной принадлежности и все evidence оставлены; receipts и список в recovery doc.
+Network recovery attempts0; source/tool/compiler pins сохранены.
+
+Cloud budget/charge **0/0**, своих Build/token/ledger NONE. Compiler/extraction/
+frontend/proof/Cloud/production mutations **NOT_RUN**. Runner/parser/CI/integration
+не развивались. Source identity не повышает proof status; workflow/image/exports/
+owner adoption/execution authorization остаются отдельными вопросами.
+После own documentation commit/push **STOP**. Ниже сохранены historical checkpoints;
+их утверждения о недоступности source superseded этим recovery.
+
 # RefinedRust feasibility — FIRST REAL G1 CANDIDATE / EXECUTION BLOCKED
 
 2026-10-12. Baseline d85bb12da89b0aa02f0c7ad6f820820da8768799;
