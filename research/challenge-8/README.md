@@ -2,8 +2,7 @@
 
 Use [WORK-POLICY](WORK-POLICY.md), [ADOPTION](ADOPTION.md), [AGENT-RUNBOOK](AGENT-RUNBOOK.md) and current [STATUS](STATUS.md). Historical onboarding/Run/Next instructions below are superseded; subject index and run history remain preserved.
 
-Current merge continuation: [NIGHT-MERGE-CLOUD-2026-10-09](merge/NIGHT-MERGE-CLOUD-2026-10-09.md),
-separate Cloud budget/shared lock, retained stack/G2/actual2/3 candidates.
+Current assignment and exact merge session are recorded in [SESSION](cloud-build/origin-layout/SESSION.md). Historical continuation examples below grant no authority.
 [STATUS](STATUS.md) is the current checkpoint.
 
 ## Переходный checkpoint — Git sync, повторная приёмка НЕ ВЫПОЛНЕНА
@@ -146,9 +145,7 @@ first-callback candidate and ran no experiment. Earlier phases remain closed.
    and [general rules](../../doc/src/general-rules.md).
 4. The relevant design/proof note and actual source before implementation.
 
-The owner's server is for editing/orchestration only. All compilation,
-verification and executable tests run on GitHub-hosted Actions. See STATUS for
-both completed hosted runs and their evidence boundaries.
+Current execution boundary is [WORK-POLICY](WORK-POLICY.md): compiler/extraction/verification Cloud-only; isolated service tests permitted by section4. Historical Actions evidence below remains dated.
 
 ## Specifications and proof boundaries
 
