@@ -1,0 +1,13 @@
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+index ccabdbdf..55df8d3a 100644
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -3877,7 +3877,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+                 Ok
+                   ( tmp_rvalue_binders,
+                     FnCallResult (CastExpr (fn_loc, PtrTypeExpr (fn_loc, ManifestTypeExpr (fn_loc, Int (Unsigned, FixedWidthRank 0))), arg)) )
+-            | "std::slice::<impl [T]>::as_ptr" ->
++            | "std::slice::<impl [T]>::as_ptr" | "std::slice::<impl [T]>::as_mut_ptr" ->
+                 let [ Mir.GenArgType gen_arg_ty_info; _ ] = substs in
+                 let [ arg ] = args in
+                 Ok
