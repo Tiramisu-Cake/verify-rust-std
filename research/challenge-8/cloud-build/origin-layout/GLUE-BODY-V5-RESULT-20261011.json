@@ -1,0 +1,44 @@
+{
+  "build_id": "f226a757-0fd3-4c0c-bb04-292197a4b65b",
+  "proof_infra_sha": "de2f3f5f80c4e10488ef1024b8bba76bf476c548",
+  "tool": "042c8c1473848424925f581978a0e42daa5be2f5",
+  "profile_sha256": "be44761fc00c64009e11744d44b07894e18876b8624af15ce5a0059eb26a9060",
+  "build_seconds": 418,
+  "archive_sha256": "85a5d84d3a8580fdfe0b0a0d4fdc4203fca43f66c63c2cb4b93c988abaae4552",
+  "integrity": "FULL_ARCHIVE_INVENTORY_CONFIG_SOURCE_INPUT_INDEX_ALL_CHUNKS_VERIFIED",
+  "compile_stages": {
+    "exporter": 0,
+    "decoder": 0,
+    "translator": 0,
+    "console": 0,
+    "refiner": 0
+  },
+  "actual_binary_sha256": {
+    "exporter": "6d47354ab0bff88e966ce5bc3a4820ec9e988313d8e6b47ac607854e70dfd3c2",
+    "console": "cefd3314017876ffe0accacea9d81aee0cb6596165afd31103a5cacda3719b0a",
+    "refiner": "8524dbfa709b16f180fb28bc50253be624fa9e69a1b10df817f2956f49448995"
+  },
+  "refiner_source_sha256": {
+    "main": "9aba12084bbe17971dd12af35417385bde79afad28af80e7e254103f3a782b3c",
+    "core": "b6bb66ea597756d449ee4221ffb7cf2133ff1c60b325824e2e1451c85dcd1229"
+  },
+  "extraction": {
+    "original": 0,
+    "verified": 0,
+    "decode": 0
+  },
+  "official_refinement": {
+    "exit": 2,
+    "error": "Not_found at refinement_checker.ml2550: unassigned unit _0 Return lookup"
+  },
+  "verifast": {
+    "exit": 0,
+    "statements": 298,
+    "private_glue_body": "RAW_VERIFIED_CALL_RETURN_LEAK",
+    "caller_path": "AST_CALLS_ACTUAL_GENERATED_GLUE"
+  },
+  "generated_glue_qualification": "BLOCKED_BY_OFFICIAL_REFINEMENT",
+  "receiver_end_controls": "NOT_RUN",
+  "panic_cleanup": "NOT_PROVED",
+  "accepted": false
+}

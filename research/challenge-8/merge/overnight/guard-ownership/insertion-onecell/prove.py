@@ -32,7 +32,7 @@ prep = load("onecell_prepare", HERE / "prepare.py")
 base = load("onecell_stages", HERE.parents[1] / "copy-on-drop-prove.py")
 ast = base.ast_helper
 mir = base.mir_helper
-PROFILE = ("experimental-merge-actual-glue-body-v5" if os.environ.get("SMALLSORT_MERGE_PROFILE") else "experimental-merge-qualified-guard-onecell-v1")
+PROFILE = ("experimental-merge-actual-glue-body-v6" if os.environ.get("SMALLSORT_MERGE_PROFILE") else "experimental-merge-qualified-guard-onecell-v1")
 CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
          "double_physical_fbc")
 CAMPAIGN = "incoming-origin-controls-only-v1"
@@ -275,7 +275,7 @@ def execute_case(case: Path, args, env: dict) -> dict:
     # Preserve both independently exported generated CFGs for inspection.
     # The official refiner still exports and compares the source pair itself.
     original_stages = {}
-    if args.profile == "experimental-merge-actual-glue-body-v5":
+    if args.profile == "experimental-merge-actual-glue-body-v6":
         original_export = base.run_stage(case, "original-exporter", [
             str(args.tool_home / "bin/vf-rust-mir-exporter"), "original/lib.rs",
             f"--sysroot={args.compiler_sysroot}", "--edition", "2021", "--crate-type", "lib",

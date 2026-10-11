@@ -69,12 +69,25 @@ NATURAL_DROP_EXIT = b"        //@ assert true; // TARGET: natural Drop scope exi
 NATURAL_FALSE = b"        //@ assert false; // TARGET: after natural Drop terminator\n"
 CALLER_READY_FALSE = b"        //@ assert false; // TARGET: caller direct Drop-pre entry\n"
 CALLER_SIGNATURE = b"unsafe fn natural_onecell(tail: *mut u64)"
-BODY_GLUE_PROFILE = "experimental-merge-actual-glue-body-v5"
+BODY_GLUE_PROFILE = "experimental-merge-actual-glue-body-v6"
 GENERATED_GLUE_NAME = "__vf_generated_drop_glue"
 
 
 def _is_generated_glue_name(value: str) -> bool:
     return value == GENERATED_GLUE_NAME or value.endswith("::" + GENERATED_GLUE_NAME)
+
+
+def _literal_false_with_loc(value, ast) -> bool:
+    """Accept only the location-bearing False node emitted by dump_ast_with_locs."""
+    if not isinstance(value, ast.Node) or value.name != "False" or len(value.args) != 1:
+        return False
+    try:
+        location = ast.loc(value.args[0])
+    except Exception:
+        return False
+    return re.fullmatch(
+        r"verified/lib\.rs\([1-9][0-9]*,[1-9][0-9]*(?:-[1-9][0-9]*(?:,[1-9][0-9]*)?)?\)",
+        location) is not None
 
 
 def _prepare(evidence: Path) -> dict:
@@ -490,7 +503,7 @@ def _body_glue_ast_evidence(case: Path, ast, selected_path: str, mir: dict) -> d
             set(outcomes) == {"returning", "unwinding"} and
             outcomes["returning"]["binders"] == ["result"] and
             outcomes["unwinding"]["binders"] == [] and
-            outcomes["unwinding"]["post"] == ast.Sym("False"))
+            _literal_false_with_loc(outcomes["unwinding"]["post"], ast))
         copied_receiver = False
         receiver_name = None
         receiver_copy_loc = None
@@ -590,7 +603,7 @@ def _generated_glue_proof_gate(log: str, glue_ast: dict) -> dict:
     call_exec = bool(call_loc and re.search(
         rf"(?m)^\s*\d+(?:\.\d+)?s: {re.escape(call_loc)}: (?:note: )?Executing statement\s*$", segment))
     method_call = bool(call_loc and re.search(
-        rf"(?m)^\s*\d+(?:\.\d+)?s: {re.escape(call_loc)}: (?:note: )?Verifying function call\s*$", segment))
+        rf"(?m)^\s*\d+(?:\.\d+)?s: {re.escape(call_loc)}: (?:note: )?Verifying call\s*$", segment))
     copy_exec = bool(copy_loc and re.search(
         rf"(?m)^\s*\d+(?:\.\d+)?s: {re.escape(copy_loc)}: (?:note: )?Executing statement\s*$", segment))
     errors = [line for line in segment.splitlines() if re.search(r"\berror:", line, re.I)]
@@ -825,7 +838,7 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
     if args.profile not in ("experimental-merge-selected-drop-receiver-v4",
                             "experimental-merge-actual-glue-observation-v2",
                             "experimental-merge-actual-glue-observation-v3",
-                            "experimental-merge-actual-glue-body-v5"):
+                            "experimental-merge-actual-glue-body-v6"):
         raise RuntimeError("selected Drop exact supported experimental profile required")
     consumer.PROFILE = args.profile
     receipt = consumer._validate_receipt(args, validated_receipt, provider, proof_sha)
