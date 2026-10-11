@@ -111,3 +111,41 @@ fn small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
     }
 }
 // CASE_END actual-unfiltered-prefix
+
+// CASE_BEGIN public-guard-positive
+pub fn sort<T, F: FnMut(&T, &T) -> bool, BufT: BufGuard<T>>(v: &mut [T], is_less: &mut F) {
+    if T::IS_ZST {
+        return;
+    }
+    //@ assert size_of::<T>() > 0;
+    //@ produce_type_interp::<T>();
+    //@ produce_type_interp::<F>();
+    //@ assert thread_token(?t);
+    //@ assert t == currentThread;
+    //@ let v_base = strip_pointer_metadata(v as pointer) as *T;
+    //@ assert v_base[..ptr_len(v)] |-> ?source_current;
+    //@ assert foreach(source_current, own::<T>(t));
+    //@ assert *is_less |-> ?less_current;
+    //@ assert <F>.own(t, less_current);
+    //@ leak type_interp::<T>();
+    //@ leak type_interp::<F>();
+}
+// CASE_END public-guard-positive
+
+// CASE_BEGIN public-guard-false-positive-size
+pub fn sort<T, F: FnMut(&T, &T) -> bool, BufT: BufGuard<T>>(v: &mut [T], is_less: &mut F) {
+    if T::IS_ZST {
+        return;
+    }
+    //@ assert size_of::<T>() == 0;
+}
+// CASE_END public-guard-false-positive-size
+
+// CASE_BEGIN public-guard-zst-branch-false
+pub fn sort<T, F: FnMut(&T, &T) -> bool, BufT: BufGuard<T>>(v: &mut [T], is_less: &mut F) {
+    if T::IS_ZST {
+        //@ assert false;
+        return;
+    }
+}
+// CASE_END public-guard-zst-branch-false

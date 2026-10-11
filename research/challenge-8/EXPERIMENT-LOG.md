@@ -7181,3 +7181,37 @@ No matching heap chunks at that exact assertion. No inverse or supplied raw
 authority. Original helper runtime checks/len+16/abort/direct-sort4 condition
 still unfiltered; expected first true obstacle is recorded, never counted as
 a negative or caller PASS. No tool-semantic change beyond the reviewed binding.
+
+Second dispatch proof=infra0a61febf105b29dcb89d6fc25ec993bdcfd17e46,
+Build1d2237d7-2183-48ff-8aa9-a6c8d29fcd83. Published source payload
+3e714aad37c315b3a600a1ab70fa48c21fecaed1e2c08c9227087df3e7cdcac5,
+533480bytes/179parts. Timeout1200/reserve1260;394seconds alreadyaccounted.
+Precise firstcollector cause: packager accepts root OR allprooflogs audit,
+but firstrootaudit lacked Boolean accepted and was rejected as untyped. Both
+paths and accepted=false/diagnostic_complete are now supplied. No proofupgrade.
+
+Fresh second Build1d2237d7 terminal collector SUCCESS; target diagnostics
+complete, proof accepted=false. Archive9a0aa14a804981b9fed0feca217c706827bab7bda563238bd800221d609d288c;
+standard download integrity verified. Conservative374seconds; session768used,
+2832remaining. Both actual prefix variants have paired support/refinement and
+verifier1 at verified/lib.rs(20,24-32), actual smallsort.rs:230 len+16 overflow
+obligation (ptr_len(v)+16<=usizeMAX). Abort and pointer calls are not reached.
+Exporter overflow_checks=off; no runtime UB claim and no arithmetic/model
+repair in this scope. Canonical T/MU and real casted scratch consumer VF0,
+full posts; exact wrong-pointer/missing-array/MU-cast-no-initialized-T negatives
+and source/phase/default-off controls pass. This does not prove actualcaller
+entry or compose native C4. Public source guard transfer remains OPEN.
+
+Third experiment card before dispatch: proof-only public stable::sort first
+T::IS_ZST guard, exact T/F/BufT signature and source-pinned BufGuard context;
+cut BEFORE len/likely. Positive asserts nonzero on actual guard continuation,
+native source/F/thread/lifetime/type resources and full posts. Two negatives:
+false zero-size continuation assertion and reachable ZST-branch assert false,
+each expected at its source-derived assertion after paired MIR/refinement.
+All pointer/component controls and unfiltered helper prefix rerun. No new
+translator/model/spec rule; no transfer of public nonzero into helper.
+Rationale written before implementation in PUBLIC-GUARD-PREFIX-CARD.md.
+Main static review confirms BufGuard is copied solely as unused generic context,
+both method signatures match pinned source, IS_ZST definition is source-pinned,
+and negative modifies only ghost assertion. Public source/MIR/AST identity is
+captured freshly in Cloud; no inventory-specific replacement uses guessed IDs.

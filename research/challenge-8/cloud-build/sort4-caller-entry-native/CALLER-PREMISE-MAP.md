@@ -62,6 +62,24 @@ resource shapes, and route notes are retained in `CALLER-PREMISE-NOTES.md`.
 
 ## Current experiment boundary
 
+Fresh Build `1d2237d7-2183-48ff-8aa9-a6c8d29fcd83` at exact proof/infra
+`0a61febf105b29dcb89d6fc25ec993bdcfd17e46` reaches verification in both
+unfiltered prefix variants. The first obligation is actual `len + 16` at
+`smallsort.rs:230`, mapped to `verified/lib.rs(20,24-32)`:
+`ptr_len(fn_outcome_result(outcome)) + 16 <= usize::MAX`.
+Both paired MIR/refinement gates pass; the verifier exits 1 at this overflow
+obligation before abort or either pointer call. This is not a runtime UB
+finding: the exporter uses `-Coverflow_checks=off`, while the current proof
+model requires the mathematical sum to fit. ZST array footprint gives no
+length bound. No arithmetic-model change or assumed nonzero premise is made.
+
+The independent canonical T/MU bodies and real-call/casted-scratch native
+consumer exit 0 with full posts. Wrong-pointer, unrelated raw permissions,
+and MU-cast-to-initialized-T assertions are each rejected at their intended
+assertion. These component facts do not close the actual helper prefix,
+first/second call, or caller-to-C4 composition. Public ZST guard entailment
+and its transfer through downstream calls remain separate obligations.
+
 The authorized next experiment is a fresh minimal rebase of the
 `our-slice-as-mut` patch (`f200a581`) into the current C4 typed-strip arm: first
 an actual-body component, then a `T`/`MaybeUninit` real-call consumer with full

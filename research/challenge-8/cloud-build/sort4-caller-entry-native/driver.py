@@ -32,6 +32,13 @@ HEADER = ("#![feature(freeze, rustc_attrs, core_intrinsics)]\n"
           "#[unsafe(rustc_allow_lifetime_dependent_specialization)]\n"
           "pub(crate) trait FreezeMarker {}\n"
           "impl<T: Freeze> FreezeMarker for T {}\n\n")
+PUBLIC_HEADER = ("#![feature(sized_type_properties)]\n"
+                 "#![allow(dead_code, unused_variables)]\n"
+                 "use std::mem::{size_of, MaybeUninit, SizedTypeProperties};\n"
+                 "pub trait BufGuard<T> {\n"
+                 "    fn with_capacity(capacity: usize) -> Self;\n"
+                 "    fn as_uninit_slice_mut(&mut self) -> &mut [MaybeUninit<T>];\n"
+                 "}\n\n")
 CASES = {
     "canonical-generic": "canonical_slice_as_mut_ptr",
     "canonical-mu": "canonical_slice_as_mut_ptr_mu",
@@ -40,6 +47,9 @@ CASES = {
     "consumer-missing-raw-rights": "native_slice_pointer_consumer",
     "consumer-mu-cast-no-initialized-T": "native_slice_pointer_consumer",
     "actual-unfiltered-prefix": "small_sort_general_with_scratch",
+    "public-guard-positive": "sort",
+    "public-guard-false-positive-size": "sort",
+    "public-guard-zst-branch-false": "sort",
 }
 
 
@@ -105,7 +115,27 @@ def source_certificate(a, manifest: dict) -> dict:
          small_text.count("let presorted_len = if const { size_of::<T>() <= 16 } && len >= 16 {") == 1 and
          small_text.count("} else if len >= 8 {\n            // SAFETY: scratch_base is valid and has enough space.\n            sort4_stable(v_base, scratch_base, is_less);") == 1,
          "actual scratch/branch/first-call source boundary")
+    stable = a.proof_root / "library/core/src/slice/sort/stable/mod.rs"
+    sized = a.proof_root / "library/core/src/mem/mod.rs"
+    pinned_file(stable, manifest["actual_stable_source_sha256"], "public stable-sort source")
+    pinned_file(sized, manifest["actual_sized_type_source_sha256"], "SizedTypeProperties source")
+    stable_text = stable.read_text()
+    guard = ("pub fn sort<T, F: FnMut(&T, &T) -> bool, BufT: BufGuard<T>>(v: &mut [T], is_less: &mut F) {\n"
+             "    // Arrays of zero-sized types are always all-equal, and thus sorted.\n"
+             "    if T::IS_ZST {\n        return;\n    }")
+    trait_methods = ("pub trait BufGuard<T> {\n"
+                     "    /// Creates new buffer that holds at least `capacity` memory.\n"
+                     "    fn with_capacity(capacity: usize) -> Self;\n"
+                     "    /// Returns mutable access to uninitialized memory owned by the buffer.\n"
+                     "    fn as_uninit_slice_mut(&mut self) -> &mut [MaybeUninit<T>];\n"
+                     "}")
+    need(stable_text.count(guard) == 1 and
+         stable_text.count(trait_methods) == 1 and
+         sized.read_text().count("const IS_ZST: bool = Self::SIZE == 0;") == 1,
+         "actual public first guard and generic buffer trait")
     return {"slice_sha256": sha(std), "smallsort_sha256": sha(small),
+            "stable_sha256": sha(stable), "sized_type_sha256": sha(sized),
+            "public_guard_exact_source": True,
             "canonical_method_body": method,
             "actual_entry_has_len_early_return": True,
             "actual_entry_has_evaluated_len_plus_16_abort": True,
@@ -302,7 +332,7 @@ def case_source(template: str, name: str) -> str:
     pattern = rf"(?ms)^// CASE_BEGIN {re.escape(name)}\n(.*?)^// CASE_END {re.escape(name)}$"
     matches = re.findall(pattern, template)
     need(len(matches) == 1, "unique case block " + name)
-    return HEADER + matches[0].rstrip() + "\n"
+    return (PUBLIC_HEADER if name.startswith("public-") else HEADER) + matches[0].rstrip() + "\n"
 
 
 def make_fixture(a, helper, ghost, manifest: dict, name: str) -> tuple[Path, dict]:
@@ -353,6 +383,18 @@ def make_fixture(a, helper, ghost, manifest: dict, name: str) -> tuple[Path, dic
         need(b"size_of::<T>() == 0" not in original and
              b"assume(" not in original and b"sort4_stable(" not in original,
              "prefix diagnostic boundary/no supplied domain")
+    if name.startswith("public-"):
+        actual_signature = b"pub fn sort<T, F: FnMut(&T, &T) -> bool, BufT: BufGuard<T>>(v: &mut [T], is_less: &mut F) {"
+        need(original.count(actual_signature) == 1 and
+             original.count(b"if T::IS_ZST {\n        return;\n    }") == 1 and
+             b"let len = v.len()" not in original and
+             b"intrinsics::likely" not in original and
+             b"assume(" not in original,
+             "exact public first guard cut before later source")
+        if name == "public-guard-zst-branch-false":
+            need(source.count(b"if T::IS_ZST {\n        //@ assert false;\n        return;\n    }") == 1,
+                 "ZST false assertion is ghost-only inside actual guard")
+        cert["public_guard_cut_before_len"] = True
     save(fixture.parent / "source-certificate.json", cert)
     return fixture, cert
 
@@ -364,21 +406,27 @@ def classify(name: str, result: dict, root: Path, source: str) -> dict:
     ast_diagnostic_exit = result.get("stages", {}).get("proof-ast-diagnostic")
     stage = result.get("first_causal_stage")
     exit_code = result.get("stages", {}).get("verification")
-    if name in ("canonical-generic", "canonical-mu", "consumer-positive"):
+    if name in ("canonical-generic", "canonical-mu", "consumer-positive",
+                "public-guard-positive"):
         passed = (pair and ast and ast_diagnostic_exit == 0 and
                   result.get("source_pair_immutable") is True and
                   stage == "NONE_OBSERVED" and exit_code == 0)
         label = "FRESH_VF0_CANDIDATE_RAW_REVIEW_REQUIRED" if passed else "POSITIVE_FIRST_OBLIGATION"
     elif name in ("consumer-wrong-pointer", "consumer-missing-raw-rights",
-                  "consumer-mu-cast-no-initialized-T"):
+                  "consumer-mu-cast-no-initialized-T",
+                  "public-guard-false-positive-size", "public-guard-zst-branch-false"):
         assertion = {"consumer-wrong-pointer": "v_base != source_base",
                      "consumer-missing-raw-rights": "unrelated[..1] |-> ?unrelated_values",
                      "consumer-mu-cast-no-initialized-T":
-                         "scratch_base[..1] |-> ?initialized_values"}[name]
+                         "scratch_base[..1] |-> ?initialized_values",
+                     "public-guard-false-positive-size": "assert size_of::<T>() == 0",
+                     "public-guard-zst-branch-false": "assert false"}[name]
         lines = [i for i, line in enumerate(source.splitlines(), 1)
                  if assertion in line]
         locations = [int(x) for x in re.findall(r"verified/lib\.rs\((\d+),", first)]
-        expected_error = ("Cannot prove" if name == "consumer-wrong-pointer" else
+        expected_error = ("Cannot prove" if name in
+                          ("consumer-wrong-pointer", "public-guard-false-positive-size",
+                           "public-guard-zst-branch-false") else
                           "No matching heap chunks: array<T>" if
                           name == "consumer-mu-cast-no-initialized-T" else
                           "No matching heap chunks")
@@ -465,6 +513,10 @@ def run(a) -> None:
         tool, expected, production = reconstruct(a, c4, audit, manifest, os.environ.copy())
         env = c4.clean_env(a, tool)
         cases = {}
+        for name in ("public-guard-positive", "public-guard-false-positive-size",
+                     "public-guard-zst-branch-false"):
+            fixture, _ = make_fixture(a, c4, ghost, manifest, name)
+            cases[name] = verify_one(a, c4, tool, env, fixture, name)
         # Keep this independent of component success: it records the original
         # entry obstruction under the current pre-binding tool.
         fixture, _ = make_fixture(a, c4, ghost, manifest, "actual-unfiltered-prefix")
@@ -561,6 +613,11 @@ def run(a) -> None:
             "diagnostic_complete": diagnostic_complete,
             "collector_pass_is_proof": False,
             "component_ready_before_binding": component_ready,
+            "public_guard_candidate_raw_review_required": all(
+                cases.get(name, {}).get("gate_passed") for name in
+                ("public-guard-positive", "public-guard-false-positive-size",
+                 "public-guard-zst-branch-false")),
+            "public_guard_transfer_to_helper_proved": False,
             "default_off_control": default_control,
             "source_admission_controls": source_controls,
             "phase_admission_control": phase_control,
