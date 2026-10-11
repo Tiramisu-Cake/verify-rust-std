@@ -43,3 +43,47 @@ Exact Git-object packaging preflight for2e995605:561577gzipbytes,
 188sourceparts at3990chars/part, below191bound. Four skipped native_cases
 caller-entry files removed; no source/tool/proof/check/gate changes. Earlier
 8ab attempt exceeded bound beforeAPI, no Build/reservation/charge.
+
+## Physical-node / entry-bound diagnostic session, 2026-10-11
+
+Historical3521 command above is preserved, not a dispatch authorization.
+Diagnostic phase `SORT4-NATIVE-C1-ZST-DIAG-CLOUD-2026-10-11` uses the separate
+BUDGET-2026-10-11.json account; start00:21UTC, main02:21, finish-only02:51.
+Lane and owner unchanged. Recipe adds only diagnostic manifest+patch to proof
+role:78 proof paths;16 recipe infra paths /23 total infra including core.
+Captured original3521 postAST c5fa49a0 remains byte-identical in009. General
+code patch changes only vfconsole/verify_expr logging, with original visit
+registration/removal, check filtering and refusal preserved. Full diagnostic
+pins in NATIVE-DEAD-CODE-IDENTITY-DIAGNOSTIC-MANIFEST.json.
+
+009 proof=infra f8115f33f35d745b9da9ab5e01f0ee3b7908ce56 ran verbosity4 native
+and fresh callback-free with/without MU controls. Entry-beforecalls follow-up
+9ae319b8 uses b81f1c3ccce23e0b5e2a029350c0a6443b929747, only new minimal
+probe assertions and verbosity6; target source/tool semantics unchanged.
+Preflight b81:565261 gzip bytes,189parts, packed SHA256
+c511986a7fead8b7b75adff476d8acd053ed0c74e73c411ee5871a112dd242ba;
+role-specific object bytes/hash checks pass for driver, wrapper, discovery
+helper and both diagnostic proof dependencies. Static Python AST, bash syntax
+and diff-whitespace checks pass; no local proof/extraction/compilation.
+
+Executed command (reproduction record; a closed session needs new authorization):
+
+```sh
+python3 research/challenge-8/cloud-build/control.py \
+  --phase-id SORT4-NATIVE-C1-ZST-DIAG-CLOUD-2026-10-11 \
+  --ledger /root/verify-rust-std-select-night/research/challenge-8/cloud-build/sort4-native-c1-bound/BUDGET-2026-10-11.json \
+  --state-dir /tmp/smallsort-cloud-native-c1-zst-diag-20261011 \
+  --owner select-sort4 submit \
+  --infra-sha b81f1c3ccce23e0b5e2a029350c0a6443b929747 \
+  --proof-sha b81f1c3ccce23e0b5e2a029350c0a6443b929747 \
+  --lane o26-sort4-c1-current-recovery --source-mode pinned-objects --timeout 900
+```
+
+Specific status/download used the same explicit phase/ledger/state-dir/owner,
+with `status BUILD_ID` then `download BUILD_ID --output /tmp/native-c1-zst-diag-009-read
+--text-logs` (009) or its9ae saved-evidence directory. Canonical GCS archive is
+`gs://smallsort-ci-evidence-504462351565/cloud-build/BUILD_ID/evidence.tar.gz`.
+Raw verifier argv is captured in each verification-stage.json: `-rustc_args
+"--edition 2021" -verbose 4 verified/lib.rs` for native;6 only for entry probes.
+Paired export/decode/refinement always precede verifier. Saved evidence reader
+executes no prover; fresh evidence review/checkpoint state separate verdicts.

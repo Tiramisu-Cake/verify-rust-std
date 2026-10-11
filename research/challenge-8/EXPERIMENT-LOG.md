@@ -7021,3 +7021,25 @@ free with/without native opaque MU scratch controls, paired source/MIR/refinemen
 Buildb05354e9 failed setup-only old shell phase-ID guard before driver/cases;
 VF target/probes NOT_RUN, no semantic credit. Integrity archive5fd8c143,276sec.
 1286f1dc repairs exact wrapper ID (not guard removal); newBuild8dc2562a started.
+
+Fresh009ad1c2 /proof=infra f8115f33 terminal SUCCESS/390sec, integrity archive
+48b943568293e42d56374af931963a85637fc69c2c62324f15df1ad90c5efc5d verified.
+Nativepositive stillVF1 dead228,2; exactphysical203 postlist138 Goto63 afterLabel3,
+originalroot131; equalprinted202/204 visited. All6source/MIR/ASTpins match3521;
+strict/defaultoff/admission/cleanup negatives retained. MinimalnoMU sameguardVF0,
+withunusednativeMU[]VF1deadzero. Constraint localized to frozen model chain;
+verbose4 observesentryMUarray_invterm beforecalls but notnamedtrigger.
+Entry-beforecalls positive-size assertion/verbose6 follow-up b81f1c3c documented
+before dispatch; same frozen semantics, no assume/proofcredit or C4 extension.
+Currentcharge1076/3600. Full details FRESH-009AD1C2-REVIEW.md/sessioncard.
+
+Final9ae319b8/b81f1c3c diagnosticSUCCESS354sec, archivef23156ad5744bace48a0dd1c36b4eae7a2e05c672787331539644298fdc70466 integrityverified. BothnamedMUsizeaxioms
+trigger during implicit entryarray_inv beforebody/calls; firstpositivequery
+passeswithMU/failswithoutMU. Nativepositive stillVF1 physical203; all6program
+pins/8pairedsupport/strict/admission/addresscleanup controls retained. Established
+frozen MU/struct model limitation; no authorized binding-only repair. C1INCOMPLETE,
+connectedC4NOT_RUN; generalmodelrepair notimplemented. Ready maintainerblocker
+and END-CHECKPOINT-2026-10-11-ZST.md recordscope/pins/commands/exactnode/cause.
+SessionCLOSED1430/3600, unused2170 retired/no carry; all4buildsterminal/accounted/
+downloadverified, active/reservations/requestempty, v2preserved, profileclosed.
+Hourprogress01:21UTC thencheckpoint/pushcontinued; noautoresume.

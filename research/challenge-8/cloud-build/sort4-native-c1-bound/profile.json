@@ -1,9 +1,9 @@
 {
   "classification": "EXPERIMENTAL_NATIVE_C1_BOUND_ON_ISOLATED_CAPTURE_OVERLAY",
   "phase_id": "SORT4-NATIVE-C1-ZST-DIAG-CLOUD-2026-10-11",
-  "cloud_enabled": true,
+  "cloud_enabled": false,
   "profile_accepted": false,
-  "dispatch_authorized": true,
+  "dispatch_authorized": false,
   "run_mode": "FROZEN_C4_INDEPENDENT_FOLLOWUP",
   "tool_head": "f76012fb518703b1d98e243ac4f487f16877cfcb",
   "frozen_translator_sha256": "1eab6eb54fe5c23d53ca72a6d9dfcbbff09c09ffaf26c48a4f450f5068a8d313",
@@ -23,10 +23,10 @@
     "c3-unwind-false-assert",
     "c4-unwind-false-assert"
   ],
-  "native_to_c1": "NOT_RUN",
+  "native_to_c1": "INCOMPLETE_DEAD_PHYSICAL_203_FROZEN_MU_SIZE_MODEL",
   "native_to_c4": "NOT_RUN",
   "actual_caller_to_sort4": "NOT_PROVED",
-  "proof_scope": "Exact native C1 call and full normal/direct-unwind posts in a separate translator-only experimental tool; admission and false-post controls; no callable summary or proof credit before raw review",
+  "proof_scope": "Source-linked internal native C1 reached normal/direct-unwind/len<8 full CURRENT posts/free/leak; retained sizezero branch excluded by frozen MU/struct size model, dead-code refusal. No complete theorem or callable summary.",
   "translator_sha256": "1eab6eb54fe5c23d53ca72a6d9dfcbbff09c09ffaf26c48a4f450f5068a8d313",
   "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
   "case_file": "followup-cases.rs",
@@ -53,6 +53,6 @@
   "prior_fresh_admission_build": "3584fb04-e237-4d66-9c85-60de4df059c4",
   "prior_fresh_admission_proof_infra": "285220a384d050e046d1e8709b79a52bd602e675",
   "admission_controls_run": "NOT_RUN_PRIOR_FRESH_PASS",
-  "session_status": "AUTHORIZED_NOT_RUN",
-  "draft_cloud_status": "NOT_RUN"
+  "session_status": "CLOSED_MODEL_BLOCKER",
+  "draft_cloud_status": "DIAGNOSTICS_COMPLETE_NATIVE_C1_INCOMPLETE"
 }

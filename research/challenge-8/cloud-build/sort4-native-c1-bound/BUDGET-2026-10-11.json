@@ -1,14 +1,14 @@
 {
   "phase": "SORT4-NATIVE-C1-ZST-DIAG-CLOUD-2026-10-11",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "authorization": "Direct owner assignment 2026-10-11: resume d2c739b in select worktree, exact physical dead-code diagnosis and ZST source/MIR/AST/execution localization; diagnostic-only general code, source-specific binding repair, fresh complete native C1 then connected C4. Separate 3600 Cloud seconds, no carry.",
   "owner": "select-sort4",
   "start_utc": "2026-10-11T00:21:00Z",
   "main_deadline_utc": "2026-10-11T02:21:00Z",
   "deadline_utc": "2026-10-11T02:51:00Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 1076,
-  "remaining_build_seconds": 2524,
+  "used_build_seconds": 1430,
+  "remaining_build_seconds": 0,
   "maximum_build_timeout_seconds": 1740,
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
@@ -86,8 +86,41 @@
       "execution_seconds": 389,
       "download_verified": true,
       "archive_sha256": "48b943568293e42d56374af931963a85637fc69c2c62324f15df1ad90c5efc5d"
+    },
+    {
+      "dispatch_token": "dispatch-2a5f54eb06354f159625e245ec8f4f4f",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-NATIVE-C1-ZST-DIAG-CLOUD-2026-10-11",
+      "infra_sha": "b81f1c3ccce23e0b5e2a029350c0a6443b929747",
+      "proof_sha": "b81f1c3ccce23e0b5e2a029350c0a6443b929747",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "13ca3f51b8a97b97105bfd86aa9854aeec2e8740723ece8b8b81c8d3cd33ddc5",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "c511986a7fead8b7b75adff476d8acd053ed0c74e73c411ee5871a112dd242ba",
+      "build_id": "9ae319b8-7f82-4045-818c-ef654567f57f",
+      "start_time": "2026-10-11T01:11:12.113122802Z",
+      "finish_time": "2026-10-11T01:17:04.716959Z",
+      "create_time": "2026-10-11T01:11:11.187097637Z",
+      "build_seconds": 354,
+      "accounted": true,
+      "execution_seconds": 353,
+      "download_verified": true,
+      "archive_sha256": "f23156ad5744bace48a0dd1c36b4eae7a2e05c672787331539644298fdc70466"
     }
   ],
   "policy_revision_read": "c7ca8c467aecf10a4b53039372ee97714f854ee3",
-  "initial_checkpoint": "d2c739b557941875f0888eca50749fcbd6d4e9a7"
+  "initial_checkpoint": "d2c739b557941875f0888eca50749fcbd6d4e9a7",
+  "closed_utc": "2026-10-11T01:22:29Z",
+  "unused_closed_seconds": 2170,
+  "budget_carry_forward": false,
+  "own_reservations_closed": true,
+  "ready_request_closed": true,
+  "unresolved": [],
+  "native_c1_verdict": "INCOMPLETE_DEAD_PHYSICAL_203_FROZEN_MU_SIZE_MODEL",
+  "native_c4_verdict": "NOT_RUN",
+  "closure_reason": "Exact model limitation localized; general semantic repair requires separate maintainer decision, no admissible source-specific fix on frozen profile."
 }

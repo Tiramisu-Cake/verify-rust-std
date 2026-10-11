@@ -1,15 +1,25 @@
-# Native C1 ZST diagnosis — active authorized session
+# Native C1 exact ZST diagnosis — session closed, model blocker
 
-2026-10-11 start00:21:00UTC, main02:21:00, finish-only02:51:00;
-owner select-sort4, existing assigned branch/worktree, checkpointd2c739b.
-Separate3600Cloudseconds/no carry, v2/max2/one own build. Policyc7ca8c46 read.
-Exact physical-node diagnostics and callback-free MU-dependence controls prepared;
-no new proof status. Static lead: stock positive struct size plus MaybeUninit
-size equality excludes T=ZST when native scratch size is instantiated. Fresh
-physical-ID/trigger confirmation pending; general semantics repair not authorized.
-[Session card](cloud-build/sort4-native-c1-bound/SESSION-2026-10-11.md),
-[new ledger](cloud-build/sort4-native-c1-bound/BUDGET-2026-10-11.json).
-Native C1 INCOMPLETE, connected C4 NOT_RUN. All original branches/checks retained.
+2026-10-11 sessionstart00:21UTC, closed after localized model blocker;
+ownerselect-sort4, assignedbranch/worktree, initiald2c739b, policyc7ca8c46 adopted.
+Fresh009/f8115f33 and9ae/b81f1c3c diagnostic SUCCESS, nativepositiveVF1:
+physical203 /postlist138/ordinal256 Goto63 afterLabel3 /originalroot131 /228,2,
+noEXEC203; equalprinted202/204 execute. Source/MIR/pre/postAST unchanged3521.
+Freshcallbackfree pair: noMU sameguardVF0; unusednativeMU[] deadzero. Entryfirst
+positive-size assertion succeedswithMU/failswithoutMU; namedsize_of_MaybeUninit
+andMaybeUninit_size_limits triggers during implicit nativeentryarray_inv before
+body/calls. Established existing frozen MU/struct model limitation, not CFG or
+visit-accounting fault. No admissible binding-only fix; generalrepair notauthorized.
+NativeC1 INCOMPLETE, connectedC4 NOT_RUN; genericZST NOT_PROVED. Reachednormal/
+directunwind/len<8 fullCURRENT nativeposts/unit/free/leak andfalse226/210 retained.
+Allbranches/checks/resources preserved; noMUinverse/optionalT/peerprofile/strictdraft.
+Fourterminal/accounted/downloadverified Builds1430/3600sec; unused2170 closed/no
+carry. Own active/reservation/ready request empty; v2/max2 preserved. Profileclosed.
+[Checkpoint](cloud-build/sort4-native-c1-bound/END-CHECKPOINT-2026-10-11-ZST.md),
+[Exact cause](cloud-build/sort4-native-c1-bound/FRESH-9AE319B8-REVIEW.md),
+[VeriFast blocker](cloud-build/sort4-native-c1-bound/ZST-MODEL-BLOCKER.md).
+Next: read-only evidence/docs; separately approved modelrepair/newsession required.
+No new session automatically starts. Prior checkpoints below are historical.
 
 # Native → actual C1 — session closed, connected verdict incomplete
 

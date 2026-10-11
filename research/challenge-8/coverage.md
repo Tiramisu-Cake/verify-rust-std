@@ -914,4 +914,8 @@ retained. Callback-free guard withoutMU scratch VF0, withunused nativeMU scratch
 VF1/deadzero on unchanged frozenC4. This localizes frozen MU size/model restriction;
 no genericZST support or fullC1 theorem. NativeC1 INCOMPLETE, connectedC4 NOT_RUN.
 See cloud-build/sort4-native-c1-bound/FRESH-009AD1C2-REVIEW.md and
-ZST-MODEL-BLOCKER.md; entry-beforecalls trigger follow-up pending.
+ZST-MODEL-BLOCKER.md. Fresh9ae/b81f1c3c confirms bothnamed MUsize axioms at
+implicit nativeentryarray_inv beforebody/calls; firstpositivequery passeswithMU,
+failswithoutMU. No genericZST support or binding-only targetrepair. Sessionclosed
+1430/3600, unused2170/no carry; ownbuilds/reservations/requestempty. Checkpoint
+cloud-build/sort4-native-c1-bound/END-CHECKPOINT-2026-10-11-ZST.md.
