@@ -292,6 +292,11 @@ def reconcile_reservation(record,caller_owner,caller_ledger):
 
 
 def authorized_phase(a,ledger):
+ if a.phase_id=='VERIFAST-SLICE-UPSTREAM-CLOUD-2026-10-11-L':
+  expected={'owner':'verifast','phase':a.phase_id,'status':'AUTHORIZED','ceiling_build_seconds':3600,'start_utc':'2026-10-11T20:10:16Z','main_deadline_utc':'2026-10-11T22:10:16Z','deadline_utc':'2026-10-11T22:40:16Z','allowed_lanes':['verifast-slice-upstream']}
+  if a.owner!='verifast' or any(ledger.get(k)!=v for k,v in expected.items()):raise SystemExit('Standalone upstream L account/window mismatch')
+  if datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(expected['main_deadline_utc'].replace('Z','+00:00')):raise SystemExit('Standalone upstream L main window closed')
+  return datetime.datetime.fromisoformat(expected['deadline_utc'].replace('Z','+00:00'))
  if a.phase_id==SLICE_BINDING_PHASE:
   if (a.owner!='verifast' or ledger.get('owner')!='verifast' or
       ledger.get('phase')!=SLICE_BINDING_PHASE or ledger.get('status')!='AUTHORIZED' or

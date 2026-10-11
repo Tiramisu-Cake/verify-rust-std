@@ -1,0 +1,15 @@
+{
+  "schema": "smallsort-cloud-recipe-v1",
+  "lane": "verifast-slice-upstream",
+  "infra_transport": "exact-recipe-v1",
+  "entrypoint": "research/challenge-8/cloud-build/run-verifast-slice-upstream.sh",
+  "infra_paths": [
+    "research/challenge-8/cloud-build/restore-slice-upstream.py",
+    "research/challenge-8/cloud-build/run-verifast-slice-upstream.sh",
+    "research/challenge-8/cloud-build/slice-upstream-audit.py"
+  ],
+  "proof_paths": [
+    "research/challenge-8/verifast-input/1ef8474610274bbf9d0652613ac2cabbb1fc476b/bundle",
+    "research/challenge-8/verifast-input/1ef8474610274bbf9d0652613ac2cabbb1fc476b/manifest"
+  ]
+}
