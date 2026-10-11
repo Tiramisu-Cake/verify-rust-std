@@ -1,14 +1,14 @@
 {
   "phase": "SORT4-NATIVE-C1-BOUND-CLOUD-2026-10-10",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "authorization": "Direct owner assignment 2026-10-10: native C1 prepared-Args two-case diagnostic on the frozen C4 profile, then only separately reviewed within-mission binding work. Fresh 3600 Cloud seconds; no carry, Actions or local proof execution.",
   "owner": "select-sort4",
   "start_utc": "2026-10-10T21:49:42Z",
   "main_deadline_utc": "2026-10-10T23:49:42Z",
   "deadline_utc": "2026-10-11T00:19:42Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 1166,
-  "remaining_build_seconds": 2434,
+  "used_build_seconds": 1556,
+  "remaining_build_seconds": 2044,
   "maximum_build_timeout_seconds": 1740,
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
@@ -86,6 +86,39 @@
       "execution_seconds": 416,
       "download_verified": true,
       "archive_sha256": "5b0b69c1f543069fae1d8c5a4c33bf0d727afd99c083cad32245e25bb794cb82"
+    },
+    {
+      "dispatch_token": "dispatch-f9d33272075e4481990a02c3f462e512",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-NATIVE-C1-BOUND-CLOUD-2026-10-10",
+      "infra_sha": "2e995605f5183907817d92db082624281665d61e",
+      "proof_sha": "2e995605f5183907817d92db082624281665d61e",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "03c27dd85bad79f48e4b7f41613fdc05b0b7d06199045d69d9d7a7ecf03c8db2",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "d6162f7526d251c099e16ed456ad17ca402b824588e0c8dfe7cc25ccd1eb93db",
+      "build_id": "3521e3b3-5979-4c35-b931-93c4e165176b",
+      "start_time": "2026-10-10T23:48:15.692049190Z",
+      "finish_time": "2026-10-10T23:54:44.406774Z",
+      "create_time": "2026-10-10T23:48:14.972546175Z",
+      "build_seconds": 390,
+      "accounted": true,
+      "execution_seconds": 389,
+      "download_verified": true,
+      "archive_sha256": "9fe9e42f34e4b5c2b1fb8a4644d3b00ab398cf871181b9efa045455ac7979249"
     }
-  ]
+  ],
+  "closed_utc": "2026-10-11T00:11:19Z",
+  "main_window_closed_utc": "2026-10-10T23:49:42Z",
+  "unused_closed_seconds": 2044,
+  "budget_carry_forward": false,
+  "own_reservations_closed": true,
+  "ready_request_closed": true,
+  "unresolved": [],
+  "native_c1_verdict": "INCOMPLETE_DEAD_CODE_228_2",
+  "native_c4_verdict": "NOT_RUN"
 }

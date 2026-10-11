@@ -1,22 +1,30 @@
-# Native → actual C1 — active authorized session
+# Native → actual C1 — session closed, connected verdict incomplete
 
-New session start 2026-10-10 21:49:42 UTC; main deadline 23:49:42 UTC;
-finish-only limit 2026-10-11 00:19:42 UTC. Initial checkpoint93f902c2.
-Owner select-sort4; own worktree/branch unchanged. Policyc7ca8c46/adoption retained.
-Separate3600 Cloud seconds, v2/max2/one own Build; no previous-budget carry.
+Session 2026-10-10 21:49:42 UTC → main deadline23:49:42 UTC; finish-only
+limit2026-10-11 00:19:42 UTC. Owner select-sort4, own branch/worktree retained,
+policyc7ca8c46/adoption retained. Four terminal Cloud Builds,1556/3600 seconds;
+2044 unused closed without carry, no own active Build/reservation/ready request.
 
-Fresh prepared diagnostic34bddbf7/16bbfa6c: strict entry/native→Args.own
-reached; intended falseArgs190 refusal. Positive fails198 only in undo ref-own
-opening. Full normal posts not closed; no callback. Charged362/3600 seconds.
-[Factual review](cloud-build/sort4-native-c1-bound/FRESH-34BDDBF7-REVIEW.md).
-[Session card](cloud-build/sort4-native-c1-bound/SESSION-SEMANTIC-CARD.md).
-[Pre-dispatch review](cloud-build/sort4-native-c1-bound/PRE-DISPATCH-REVIEW.md).
-Native C1 binding implementation underway after independent MIR/kernel scope
-review; new isolated own translator only, no general semantics/profile adoption.
-Native→actualC1/C4 and actual caller→sort4 remain NOT_PROVED.
+Fresh final3521e3b3 /proof=infra2e995605 reaches actual C1 operands1,0 from
+native source4/tail/F/thread/type resources, scratch MU opaque. Normal,
+direct comparator unwind and len<8 return traces check full CURRENT native
+posts/unit/free/leak, but verifier exit1: `dead code228,2`. No fresh native→C1
+PASS or callable summary; native→C4 NOT_RUN. Normal/unwind false controls
+reach intended cleanup226/210; default-off and all admission refusals retained.
+Reviewed source-specific CFG placement correction did not remove the refusal.
+First next step: identify the physical dead node and why size_of==0 path is
+unvisited. Originalroot131 afterLabel3 is a candidate; no general tool rule
+is established as necessary. No check/branch removed or generic semantics changed.
 
-Previous closed session/evidence/accounting remain authoritative separately:
-[Checkpoint](cloud-build/sort4-native-opaque/END-CHECKPOINT-2026-10-10.md).
+[Final checkpoint](cloud-build/sort4-native-c1-bound/END-CHECKPOINT-2026-10-11.md).
+[Fresh evidence](cloud-build/sort4-native-c1-bound/FRESH-3521E3B3-REVIEW.md).
+[Exact reproduction](cloud-build/sort4-native-c1-bound/REPRODUCTION.md).
+[Remaining blockers](cloud-build/sort4-native-c1-bound/REMAINING-BLOCKERS.md).
+Experimental profile unaccepted. Internal comparison boundary requires nonZST/
+positive size and len>=8; caller branch alone does not imply positive size.
+External pointer call/caller/guards/overflow/generic ZST remain separate.
+Previous native/components and raw C1→C4 VF0/370 remain prior independent PASS.
+No new session automatically starts.
 
 # Native opaque prefix — session closed to new experiments
 

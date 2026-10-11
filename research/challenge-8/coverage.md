@@ -890,3 +890,18 @@ Cloud7456e9be running; normal/direct-unwind proof still NOT_RUN pending evidence
 No reference inverse, optional-T adapter, general semantic patch or caller proof.
 See cloud-build/sort4-native-c1-bound/FRESH-34BDDBF7-REVIEW.md and
 BOUND-PRE-DISPATCH-REVIEW.md. Prior conditional C1→C4 remains separate.
+
+2026-10-11 native C1-bound session CLOSED: fresh3521e3b3-5979-4c35-b931-93c4e165176b,
+proof=infra2e995605f5183907817d92db082624281665d61e, translator381e80eb,
+unchanged kernel37ed2550. Actual C1 operands1,0 and normal/direct-unwind CURRENT
+native recovery/post/unit/free/leak terminal traces reached; positive exit1
+`dead code228,2`, no connected theorem. False normal226/unwind210 intended
+cleanup assertions reached; all8 paired support/refinement and4 admission
+refusals retained. CFG placement-only hypothesis falsified; root131 sizezero
+route candidate needs exact-node diagnosis. No general rule necessity inferred.
+C4 NOT_RUN; prior raw C1→C4/components independent. Scratch MU opaque; no MU
+inverse/optional destination or re-supplied raw C1 resources. Four Builds
+34bddbf7/7456e9be/10006623/3521e3b3 charged362+387+417+390=1556/3600,
+all accounted/download-verified, unused2044 closed/no carry, no active Build,
+reservation or ready request. Exact pins/commands/reviews/limitations:
+cloud-build/sort4-native-c1-bound/END-CHECKPOINT-2026-10-11.md.

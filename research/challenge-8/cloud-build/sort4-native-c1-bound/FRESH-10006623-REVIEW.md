@@ -49,3 +49,14 @@ leaks, BEFORE automatic return/post/final leak check. They establish reachabilit
 of explicit cleanup boundary; positive trace independently reaches automatic
 post/free/final leak on direct unwind and normal terminal paths. Neither gives
 VF0 credit until the remaining dead-code refusal closes on fresh corrected run.
+
+23:39 diagnosis qualification: identical printed228,2 corresponds to several
+separate physically tracked AST locations (root129 Goto63 after Label62,
+root131 Goto63 after Label3, root133 Return). `HashedLoc.equal` uses physical
+identity; labels are transparent to dead-code bookkeeping. The positive trace
+shows normal C1/len<8 returns through Goto62 but no visible size_of==0 true
+branch/Goto3. Thus appended-epilogue placement is a falsifiable hypothesis,
+not established sole cause. Root131 may be the still-unvisited tracked node.
+Fresh corrected run must decide. Preserve source zero-size branch, return,
+dead-code and all resource checks; no inference/general-semantics conclusion
+or positive proof claim follows from this diagnostic.
