@@ -123,11 +123,23 @@ def source_prepare(a, data: dict, source: dict) -> None:
     ghost_path = a.cloud_dir / "sort4-native-c1-bound/ghost-strip.py"
     caller.pinned_file(ghost_path, source["ghost_strip_sha256"], "ghost strip")
     ghost = load(ghost_path, "slice_binding_ghost_strip")
+    for relative, label in (("sort4-native-c4/driver.py", "sort4-native-c4/driver.py"),
+                            ("overnight-sort4/capture.py", "overnight-sort4/capture.py")):
+        path = (a.cloud_dir / relative if relative.startswith("sort4-native") else
+                a.proof_root / "research/challenge-8" / relative)
+        caller.pinned_file(path, source["runtime_helpers_sha256"][label], label)
+        load(path, "slice_binding_preflight_" + label.replace("/", "_"))
     work = SimpleNamespace(proof_root=a.proof_root, evidence=a.evidence)
-    certificate = caller.source_certificate(work, source)
+    slice_path = a.proof_root / "library/core/src/slice/mod.rs"
+    method = caller.validate_slice_source_bytes(slice_path.read_bytes(), source)
+    certificate = {"source_path": "library/core/src/slice/mod.rs",
+                   "source_sha256": sha(slice_path),
+                   "canonical_method_body": method,
+                   "full_source_bytes_delivered": True,
+                   "method_count": 1, "proof_credit": False}
     admission = caller.source_admission_controls(work, source)
     rows = {}
-    for name in caller.CASES:
+    for name in SLICE_CASES:
         fixture, cert = caller.make_fixture(work, None, ghost, source, name)
         rows[name] = {"fixture": str(fixture.relative_to(a.evidence)),
                       "verified_sha256": cert["verified_sha256"],
@@ -180,14 +192,19 @@ def run(a, data: dict, source: dict) -> None:
         result = caller.verify_one(a, c4, tool, env, fixture, name,
                                    root_override=case_root)
         original = (fixture / "original/lib.rs").read_text()
+        mir_path = case_root / ("normal-" + caller.CASES[name] + "-full-mir.txt")
+        mir_text = mir_path.read_text(errors="replace") if mir_path.is_file() else ""
         result["source_calls"] = {
             "v.as_mut_ptr": original.count("v.as_mut_ptr()"),
-            "scratch.as_mut_ptr": original.count("scratch.as_mut_ptr()")}
+            "scratch.as_mut_ptr": original.count("scratch.as_mut_ptr()"),
+            "normal_mir_as_mut_ptr_mentions": len(re.findall(r"as_mut_ptr", mir_text))}
+        result["normal_full_mir_sha256"] = sha(mir_path) if mir_path.is_file() else None
         result["actual_callee_equivalence_from_marker"] = False
         results[name] = {key: result.get(key) for key in
                          ("classification", "gate_passed", "first_causal_stage",
                           "first_error", "verifier_exit", "paired_support_passed",
-                          "proof_ast_sha256", "source_calls", "actual_callee_equivalence_from_marker")}
+                          "proof_ast_sha256", "source_calls", "normal_full_mir_sha256",
+                          "actual_callee_equivalence_from_marker")}
         save(a.evidence / "result.json", {"profile": PROFILE, "cases": results,
                                          "classification": "IN_PROGRESS",
                                          "tool_sha256": sha(tool / "bin/verifast"),
@@ -209,16 +226,53 @@ def audit(a, data: dict, source: dict) -> None:
                       ("integration", root / "cases/integration/result.json"),
                       ("native", root / "cases/native-zst/result.json")):
         rows[key] = json.loads(path.read_text()) if path.is_file() else "NOT_RUN"
-    result = {"profile": PROFILE, "classification": "FRESH_COMBINED_RUN_RAW_REVIEW_REQUIRED",
+    slice_ok = (isinstance(rows["slice"], dict) and
+                rows["slice"].get("classification") ==
+                "SLICE_BINDING_CANDIDATE_RAW_REVIEW_REQUIRED" and
+                rows["slice"].get("all_expected_observed") is True and
+                set(rows["slice"].get("cases", {})) == set(SLICE_CASES) and
+                all(row.get("gate_passed") is True for row in
+                    rows["slice"]["cases"].values()) and
+                all(row.get("refused_before_verifier") is True for row in
+                    rows["slice"].get("source_admission", {}).values()) and
+                len(rows["slice"].get("source_admission", {})) == 3)
+    integration_ok = (isinstance(rows["integration"], dict) and
+                      all(rows["integration"].get(key) is True for key in
+                          ("selector_full_nine_body", "c4_positive", "composition_positive")))
+    native_ok = (isinstance(rows["native"], dict) and
+                 rows["native"].get("classification") ==
+                 "NATIVE_ZST_EXPECTED_OBSERVED_RAW_REVIEW_REQUIRED" and
+                 rows["native"].get("profile") == PROFILE and
+                 all(isinstance(rows["native"].get(key), dict) and
+                     rows["native"][key].get("all_expected_observed") is True for key in
+                     ("fresh_c4_controls", "native_c1", "native", "zst")))
+    effective_path = root / "cases/integration/effective-hashes.json"
+    effective = json.loads(effective_path.read_text()) if effective_path.is_file() else {}
+    console = effective.get("actual", {}).get("bin/verifast")
+    same_tool = (isinstance(console, str) and
+                 isinstance(rows["slice"], dict) and
+                 isinstance(rows["native"], dict) and
+                 console == rows["slice"].get("tool_sha256") ==
+                 rows["native"].get("tool_sha256"))
+    components_ok = (slice_ok and integration_ok and native_ok and same_tool and
+                     a.slice_exit == 0 and a.native_exit == 0 and
+                     a.integration_exit in (0, 1))
+    result = {"profile": PROFILE, "classification": (
+                  "FRESH_COMPONENT_EVIDENCE_RAW_REVIEW_REQUIRED" if components_ok else
+                  "INCOMPLETE_OR_FIRST_OBLIGATION_OPEN"),
               "cases": rows, "runner_exits": {"slice": a.slice_exit,
                                               "integration": a.integration_exit,
                                               "native": a.native_exit},
-              "proof_credit": False, "profile_accepted": False,
+              "required_components": {"slice": slice_ok, "nine_body_c4_composition": integration_ok,
+                                      "native_c1_c4_zst": native_ok,
+                                      "same_compiled_tool": same_tool},
+              "diagnostic_complete": components_ok,
+              "raw_review_pending": True, "proof_credit": False,
+              "accepted": False, "verification_accepted": False,
+              "profile_accepted": False,
               "actual_caller_proved": False, "callable_summary": False}
-    if any(code != 0 for code in result["runner_exits"].values()):
-        result["classification"] = "INCOMPLETE_OR_FIRST_OBLIGATION_OPEN"
     save(root / "proof-audit.json", result)
-    need(result["classification"] == "FRESH_COMBINED_RUN_RAW_REVIEW_REQUIRED",
+    need(components_ok,
          "one or more fresh gates incomplete")
 
 

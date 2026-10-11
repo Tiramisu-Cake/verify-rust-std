@@ -188,7 +188,8 @@ def _inherited_regressions(a, tool, capture) -> dict:
     """Reuse only reviewed rows whose rule and fixture inputs are still exact."""
     path = a.proof_root / HERE / "manifest.json"
     manifest = (json.loads(path.read_text()) if path.is_file() else {}) if \
-        os.environ.get("LANE") != "verifast-native-zst-integration" else {}
+        os.environ.get("LANE") not in ("verifast-native-zst-integration",
+                                      "verifast-slice-binding-integration") else {}
     inputs = manifest.get("inherited_regression_inputs", {})
     targets = manifest.get("inherited_regression_targets", {})
     actual_inputs = {
@@ -199,7 +200,8 @@ def _inherited_regressions(a, tool, capture) -> dict:
     }
     # The native/ZST lane changes verifast1.ml; historical C3 rows cannot be
     # inherited even when their narrower old input list still matches.
-    input_pins_exact = os.environ.get("LANE") != "verifast-native-zst-integration" and bool(inputs) and all(
+    input_pins_exact = os.environ.get("LANE") not in (
+        "verifast-native-zst-integration", "verifast-slice-binding-integration") and bool(inputs) and all(
         inputs.get(name) == digest for name, digest in actual_inputs.items())
     strict_expected = {
         "positive_basic": ("positive", None),
@@ -280,7 +282,8 @@ def _module(path: Path):
 def _cloud_guard() -> None:
     _need(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
           os.environ.get("LANE") in ("verifast-c4-select-integration",
-                                      "verifast-native-zst-integration") and
+                                      "verifast-native-zst-integration",
+                                      "verifast-slice-binding-integration") and
           not os.environ.get("GITHUB_ACTIONS"), "Cloud integration lane required")
 
 

@@ -293,9 +293,12 @@ def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes
         payload["shared_objects"] = []
         for oid in sorted(pool):
             item = dict(pool[oid])
-            raw_object = base64.b64decode(item["data_base64"], validate=True)
-            item["data_base64"] = base64.b64encode(gzip.compress(raw_object, mtime=0)).decode("ascii")
-            item["compression"] = "gzip"
+            if lane != "verifast-slice-binding-integration":
+                raw_object = base64.b64decode(item["data_base64"], validate=True)
+                item["data_base64"] = base64.b64encode(gzip.compress(raw_object, mtime=0)).decode("ascii")
+                item["compression"] = "gzip"
+            # The I lane's single outer gzip keeps the same Git object closure
+            # while avoiding base64 inflation of already-compressed objects.
             payload["shared_objects"].append(item)
     raw = (json.dumps(payload, sort_keys=True, separators=(",", ":")) + "\n").encode()
     buffer = io.BytesIO()

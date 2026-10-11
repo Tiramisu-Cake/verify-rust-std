@@ -87,9 +87,12 @@ def context(a):
         ["git", "-C", str(a.proof_root), "rev-parse", "HEAD"], text=True).strip(),
         "proof commit differs")
     data = json.loads(a.manifest.read_text())
+    expected_profile = ("verifast-slice-as-mut-ptr-native-c3-20261011-i"
+                        if os.environ.get("LANE") == "verifast-slice-binding-integration"
+                        else "verifast-native-zst-c3-integration-20261011-h")
     need(data.get("classification") == "EXPERIMENTAL_C4_SELECT_INTEGRATION" and
          data.get("accepted") is False and
-         data.get("native_zst_profile") == "verifast-native-zst-c3-integration-20261011-h",
+         data.get("native_zst_profile") == expected_profile,
          "new integration manifest identity")
     return data
 
