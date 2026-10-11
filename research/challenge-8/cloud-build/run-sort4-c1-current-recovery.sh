@@ -8,7 +8,8 @@ cloud_dir=${INFRA_CLOUD_DIR:-/workspace/infra/research/challenge-8/cloud-build}
 if [[ -n "${SORT4_ACTUAL_CALLER_ENTRY_PHASE:-}" ||
       -n "${SORT4_ACTUAL_CALLER_ENTRY_PHASE_ID:-}" ]]; then
   [[ "${SORT4_ACTUAL_CALLER_ENTRY_PHASE:-}" == 1 &&
-     "${SORT4_ACTUAL_CALLER_ENTRY_PHASE_ID:-}" == SORT4-ACTUAL-CALLER-ENTRY-CLOUD-2026-10-11 &&
+     ( "${SORT4_ACTUAL_CALLER_ENTRY_PHASE_ID:-}" == SORT4-ACTUAL-CALLER-ENTRY-CLOUD-2026-10-11 ||
+       "${SORT4_ACTUAL_CALLER_ENTRY_PHASE_ID:-}" == SORT4-CALLER-DERIVED-BOUND-CLOUD-2026-10-11 ) &&
      "${LANE:-}" == o26-sort4-c1-current-recovery &&
      -z "${SORT4_NATIVE_C4_PHASE:-}" &&
      -z "${SORT4_NATIVE_C4_PHASE_ID:-}" &&

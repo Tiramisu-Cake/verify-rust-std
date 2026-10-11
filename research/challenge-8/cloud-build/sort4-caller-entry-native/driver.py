@@ -85,7 +85,7 @@ def phase_gate(manifest: dict, env: dict) -> None:
          env.get("LANE") == "o26-sort4-c1-current-recovery" and
          env.get("SORT4_ACTUAL_CALLER_ENTRY_PHASE") == "1" and
          env.get("SORT4_ACTUAL_CALLER_ENTRY_PHASE_ID") ==
-         "SORT4-ACTUAL-CALLER-ENTRY-CLOUD-2026-10-11" and
+         "SORT4-CALLER-DERIVED-BOUND-CLOUD-2026-10-11" and
          not env.get("GITHUB_ACTIONS"), "authorized Cloud phase and lane only")
     need(manifest["mode"] == "NATIVE_CALLER_ENTRY_AND_SLICE_AS_MUT_PTR_DIAGNOSTIC" and
          manifest["phase_id"] == env["SORT4_ACTUAL_CALLER_ENTRY_PHASE_ID"] and
@@ -410,7 +410,7 @@ def classify(name: str, result: dict, root: Path, source: str) -> dict:
                      "consumer-missing-raw-rights": "unrelated[..1] |-> ?unrelated_values",
                      "consumer-mu-cast-no-initialized-T":
                          "scratch_base[..1] |-> ?initialized_values",
-                     "public-guard-false-positive-size": "assert size_of::<T>() == 0",
+                     "public-guard-false-positive-size": "assert std::mem::size_of::<T>() == 0",
                      "public-guard-zst-branch-false": "assert false"}[name]
         lines = [i for i, line in enumerate(source.splitlines(), 1)
                  if assertion in line]
@@ -504,10 +504,6 @@ def run(a) -> None:
         tool, expected, production = reconstruct(a, c4, audit, manifest, os.environ.copy())
         env = c4.clean_env(a, tool)
         cases = {}
-        for name in ("public-guard-positive", "public-guard-false-positive-size",
-                     "public-guard-zst-branch-false"):
-            fixture, _ = make_fixture(a, c4, ghost, manifest, name)
-            cases[name] = verify_one(a, c4, tool, env, fixture, name)
         # Keep this independent of component success: it records the original
         # entry obstruction under the current pre-binding tool.
         fixture, _ = make_fixture(a, c4, ghost, manifest, "actual-unfiltered-prefix")
@@ -575,6 +571,10 @@ def run(a) -> None:
                  "post-binding profile differs beyond translator/console")
             save(a.evidence / "post-binding-effective-snapshot.json", after)
             env = c4.clean_env(a, tool)
+            for name in ("public-guard-positive", "public-guard-false-positive-size",
+                         "public-guard-zst-branch-false"):
+                fixture, _ = make_fixture(a, c4, ghost, manifest, name)
+                cases[name] = verify_one(a, c4, tool, env, fixture, name)
             cases["actual-unfiltered-prefix-postbinding"] = verify_one(
                 a, c4, tool, env,
                 a.evidence / "cases" / "actual-unfiltered-prefix" / "fixture",
@@ -627,6 +627,7 @@ def run(a) -> None:
         need(audit.snapshot(a.production_source, a.proof_root) == production,
              "production source mutated during diagnostics")
     except Exception as exc:
+        save(a.evidence.parent.parent / "proof-audit.json", {"accepted": False, "verification_accepted": False, "diagnostic_complete": False, "evidence_complete": False, "profile_accepted": False, "classification": "SETUP_OR_COLLECTOR_ERROR_NOT_PROOF_VERDICT", "reason": str(exc)})
         save(a.evidence / "collector-error.json", {
             "classification": "SETUP_OR_COLLECTOR_ERROR_NOT_PROOF_VERDICT",
             "reason": str(exc), "profile_accepted": False, "proof_credit": False})

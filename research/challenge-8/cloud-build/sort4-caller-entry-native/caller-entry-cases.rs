@@ -120,7 +120,7 @@ where
     if T::IS_ZST {
         return;
     }
-    //@ assert size_of::<T>() > 0;
+    //@ assert std::mem::size_of::<T>() > 0;
     //@ produce_type_interp::<T>();
     //@ produce_type_interp::<F>();
     //@ assert thread_token(?t);
@@ -143,7 +143,7 @@ where
     if T::IS_ZST {
         return;
     }
-    //@ assert size_of::<T>() == 0;
+    //@ assert std::mem::size_of::<T>() == 0;
 }
 // CASE_END public-guard-false-positive-size
 
