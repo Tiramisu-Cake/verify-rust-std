@@ -1,9 +1,9 @@
 {
-  "classification": "EXPERIMENTAL_NATIVE_C1_BOUND_ON_ISOLATED_CAPTURE_OVERLAY",
-  "phase_id": "SORT4-NATIVE-C1-ZST-DIAG-CLOUD-2026-10-11",
-  "cloud_enabled": false,
+  "classification": "EXPERIMENTAL_UNACCEPTED_RUST_ZST_SIZE_NATIVE_C1",
+  "phase_id": "SORT4-NATIVE-C1-ZST-REPAIR-CLOUD-2026-10-11",
+  "cloud_enabled": true,
   "profile_accepted": false,
-  "dispatch_authorized": false,
+  "dispatch_authorized": true,
   "run_mode": "FROZEN_C4_INDEPENDENT_FOLLOWUP",
   "tool_head": "f76012fb518703b1d98e243ac4f487f16877cfcb",
   "frozen_translator_sha256": "1eab6eb54fe5c23d53ca72a6d9dfcbbff09c09ffaf26c48a4f450f5068a8d313",
@@ -53,6 +53,7 @@
   "prior_fresh_admission_build": "3584fb04-e237-4d66-9c85-60de4df059c4",
   "prior_fresh_admission_proof_infra": "285220a384d050e046d1e8709b79a52bd602e675",
   "admission_controls_run": "NOT_RUN_PRIOR_FRESH_PASS",
-  "session_status": "CLOSED_MODEL_BLOCKER",
-  "draft_cloud_status": "DIAGNOSTICS_COMPLETE_NATIVE_C1_INCOMPLETE"
+  "session_status": "AUTHORIZED",
+  "draft_cloud_status": "PREPARING_MODEL_GATES",
+  "zst_repair_tool_manifest": "ZST-REPAIR-TOOL-MANIFEST.json"
 }
