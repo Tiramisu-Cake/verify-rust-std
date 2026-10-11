@@ -1,3 +1,22 @@
+# RefinedRust feasibility — G1 MINIMAL PREPARATION CLOSED
+
+2026-10-12. [G1-MINIMAL-PLAN](G1-MINIMAL-PLAN.md) — текущий design decision по
+прямому поручению владельца: штатный cargo refinedrust, real diagnostics/artifacts,
+без обязательного собственного Radium parser. Старый package/parser сохранён;
+разработка parser STOP до отдельного решения. Cloud budget/charge **0/0**,
+Build/token NONE; compilation/extraction/frontend/proof/infrastructure NOT_RUN.
+
+Policy прочитана из origin/main `6e1a8e59c56669abe5e6ec2013478e45ed2cc267`.
+Live coordinator read-only: v3/max3, reservations пусты; migration/ACK трёх
+действующих owners уже выполнены. refinedrust-feasibility не входит в V3_OWNERS;
+его adoption/registration, image freeze и execution budget требуют отдельного
+решения. Production state/clients не изменены. Pinned upstream raw/blob сегодня
+недоступны; выводы workflow основаны на прежнем audit, fresh bytes review остаётся
+pre-implementation gate. Source/tool/compiler pins сохранены, proof credit нет.
+
+Подготовка завершена documentation commit в собственной ветке; **STOP**.
+Ниже сохранён прежний checkpoint без изменения исторических результатов.
+
 # RefinedRust feasibility — G1 FINAL R1 FIX CLOSED
 
 2026-10-12, Europe/Moscow. **R1 LOCAL FIX READY FOR FINAL INDEPENDENT REVIEW /
