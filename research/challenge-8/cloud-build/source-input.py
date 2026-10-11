@@ -277,15 +277,8 @@ def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes
             raw_object = base64.b64decode(item["data_base64"], validate=True)
             packed = gzip.compress(raw_object, mtime=0)
             xz = lzma.compress(raw_object, preset=6)
-            # Raw small objects let the outer gzip share repeated metadata and
-            # Python fragments. The existing decoder already admits None.
-            if len(raw_object) <= 8192:
-                item["compression"] = None
-                encoded_object = raw_object
-            else:
-                item["compression"] = "xz" if len(xz) < len(packed) else "gzip"
-                encoded_object = xz if item["compression"] == "xz" else packed
-            item["data_base64"] = base64.b64encode(encoded_object).decode("ascii")
+            item["compression"] = "xz" if len(xz) < len(packed) else "gzip"
+            item["data_base64"] = base64.b64encode(xz if item["compression"] == "xz" else packed).decode("ascii")
             payload["shared_objects"].append(item)
     raw = (json.dumps(payload, sort_keys=True, separators=(",", ":")) + "\n").encode()
     buffer = io.BytesIO()

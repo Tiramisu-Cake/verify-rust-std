@@ -1,6 +1,6 @@
 # Concrete CopyOnDrop compiler glue: bounded implementation contract
 
-**Status: BOUNDED_ACTUAL_GLUE_VERIFIED_V6 / V7_CONTROLS_PREPARED / NOT_FOR_INTEGRATION.** Merge owns the
+**Status: BOUNDED_ACTUAL_GLUE_VERIFIED_V6 / V8_CONTROLS_STATIC_PREPARED_NOT_RUN / NOT_FOR_INTEGRATION.** Merge owns the
 tool and proof work. This note is a static implementation boundary, not a new
 phase, permission, proof result, or transfer to the VeriFast maintainer. It
 uses the accepted policy revision `c7ca8c467aecf10a4b53039372ee97714f854ee3`
@@ -164,3 +164,6 @@ V7 receiver/admissionexperiment beforedispatch: toolf267688dd68e9532f3fe06b3ce13
 V7 submit7b0ec3d7 refused beforepayload/reservation/API: bothprojectslotsoccupied byotherstableowners. NoBuild/noCloudcharge. Coordinatorv2/max2 retained; no pinnedpeerinputs changed. V7profile/patch/staticfailurecontextpreserved NOT_CLOUD_BUILT.
 
 V8 cardbeforefreshdispatch: toola158398e336edce9817f62a55733a3470a986d7b/profile0e67b038f940a9892dcb840747fbcc340532a31649979601af545acc41a0c68b. IncludesV7defaultunchangedfinishdiagnostics andnewpost_retirement_drop syntheticcallerASTfault. Read-onlydesignreviewfindsexistingpositiveAST has samecreatedreceiverdecl in scope, firstcheckedglue/end/physicalrestore thenactualRustStorageDead ofguard. V8 derivesexactreceiver/local fromunique noncleanupqualifiedtaggedDrop, retainsrealStorageDead, andinsertssecondsamegluecall immediatelyafterit, no recreatedreceiver/openpermissions/newpremises. Falsifiablehypothesis: secondstrongcallee precondition cannotbe satisfied afterend andactualphysicalguardretirement; expectedexactsecondcallmissingreceiver/CopyOnDrop_len/ref_mut_end_tokenresource, firstcall/bodyReturn/leak andStorageDead/free execution required. Setup/type/unbound/deadcodefailure isINCONCLUSIVE, notpostretirementnegative. Fullstd/domain/posts remainV6same; generatedglueincoming&mut/copy/actualselectedcall/Return/Continue untouched, kernelmodelaliasunchanged. Freshsameprofilepositive/mandatorynormalunwind/helper4/6proofcontrols/9officialadmissioncontrols/4receiverendcontrols required; noV6PASStransfer. Noactualinsert_tailcallbackpaniccleanupclaim. Ifslotopensandtimeout+queuefitsdeadline dispatchonlythisreviewablecandidate; ifnotsaveSTATIC_PREPARED_NOT_CLOUD_BUILT andretireunusedbudget.
+
+
+Session2 CLOSED: bounded actualgeneratedbody/officialrefinement/callerpath qualifiedV6. CurrentV8 diagnosticprofile notCloudbuilt dueunchangedclosuretransport bound; expandedcontrolsNOT_RUN. Allfailedsource/binary/setup/packinghistory preserved. SeeFINAL-CHECKPOINT; noautomaticcontinuation/newexperiment/profileacceptance.
