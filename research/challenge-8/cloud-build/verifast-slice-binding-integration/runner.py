@@ -148,9 +148,12 @@ def supplement_record(a, data: dict) -> None:
     expected = set(BOOL_SUPPLEMENT["required_regression_targets"])
     actual = set(targets) if isinstance(targets, dict) else set()
     outer = targets.get("strict_lifetime", {}).get("outer_type_escape", {}) if isinstance(targets, dict) else {}
+    positive_gates = {key: result.get(key) is True for key in
+                      ("selector_full_nine_body", "c4_positive", "composition_positive")}
     row = {
         "classification": "BOOL_REQUIRED_GATES_SUPPLEMENT_RAW_REVIEW_PENDING"
-                          if actual == expected and outer.get("intended_site_observed") is True
+                          if actual == expected and all(positive_gates.values()) and
+                          outer.get("intended_site_observed") is True
                           else "BOOL_REQUIRED_GATES_SUPPLEMENT_INCOMPLETE",
         "supplemental_only": True, "profile": PROFILE,
         "baseline_build_id": BOOL_SUPPLEMENT["baseline_build_id"],
@@ -158,6 +161,14 @@ def supplement_record(a, data: dict) -> None:
         "baseline_manifest_sha256": BOOL_SUPPLEMENT["baseline_manifest_sha256"],
         "baseline_archive_sha256": BOOL_SUPPLEMENT["baseline_archive_sha256"],
         "same_console_sha256": BOOL_SUPPLEMENT["baseline_console_sha256"],
+        "positive_gates": positive_gates,
+        "baseline_groups": {group: {
+            "state": "NOT_RERUN_BASELINE_REFERENCE_ONLY",
+            "build_id": BOOL_SUPPLEMENT["baseline_build_id"],
+            "proof_sha": BOOL_SUPPLEMENT["baseline_proof_sha"],
+            "archive_sha256": BOOL_SUPPLEMENT["baseline_archive_sha256"],
+            "fresh_supplemental_proof": False,
+        } for group in ("slice_binding", "native_c1_c4_zst")},
         "required_regression_targets": BOOL_SUPPLEMENT["required_regression_targets"],
         "targets_present": actual == expected,
         "missing_targets": sorted(expected - actual),
@@ -173,8 +184,9 @@ def supplement_record(a, data: dict) -> None:
         "profile_accepted": False,
     }
     save(a.evidence / "bool-supplement.json", row)
-    need(actual == expected and row["outer_bool_machine_observed"],
-         "supplement missing required targets or outer Bool machine observation")
+    need(actual == expected and all(positive_gates.values()) and
+         row["outer_bool_machine_observed"],
+         "supplement missing positives, required targets or outer Bool observation")
 
 
 def materialize_slice(a, data: dict, source: dict) -> None:
