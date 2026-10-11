@@ -17,6 +17,7 @@ parser_spec = importlib.util.spec_from_file_location("selected_drop_ast_parser_t
 ast = importlib.util.module_from_spec(parser_spec)
 sys.modules[parser_spec.name] = ast
 parser_spec.loader.exec_module(ast)
+ast_parser = ast
 emitted_false = ast.OcamlAstText(
     'False(loc "verified/lib.rs(42,17-22)")').parse()
 assert module._literal_false_with_loc(emitted_false, ast)
@@ -169,4 +170,27 @@ run_negative("caller_dead_code", {"dead_control_line": 20}, 20,
              markers(negative_call_loc, "Executing statement", "Verifying call"),
              dead_lines=["verified/lib.rs(20,26-32): dead code"],
              caller_return=True, caller_leak=True)
+
+def receiver_function(name, lifetime, guard="CopyOnDrop"):
+    loc = ast_parser.Node("loc", ["verified/lib.rs(1,1-2)"])
+    region = ast_parser.Node("IdentTypeExpr", [loc, ast_parser.Sym("None"), lifetime])
+    referent = ast_parser.Node("StructTypeExpr", [loc, ast_parser.Node("Some", [guard]),
+                                                   ast_parser.Sym("None"), [], []])
+    ref = ast_parser.Node("RustRefTypeExpr", [loc, region, ast_parser.Sym("Mutable"), referent])
+    const_ref = ast_parser.Node("ConstTypeExpr", [loc, ref])
+    return ast_parser.Node("Func", [loc, ast_parser.Sym("Regular"), [(lifetime, ast_parser.Sym("None"))],
+                                    ast_parser.Sym("None"), name, [(const_ref, "self")],
+                                    ast_parser.Sym("false"), (ast_parser.Sym("None"), ast_parser.Sym("None")),
+                                    ast_parser.Sym("None"), ast_parser.Sym("false"), ast_parser.Sym("None"),
+                                    ast_parser.Sym("false"), []])
+
+selected = receiver_function("<CopyOnDrop as core::ops::Drop>::drop", "'a")
+glue = receiver_function("__vf_generated_drop_glue", "'a")
+assert module._receiver_lifetime_signature(glue, selected, ast_parser, "CopyOnDrop")["admitted"]
+assert not module._receiver_lifetime_signature(
+    receiver_function("__vf_generated_drop_glue", "'b"), selected, ast_parser,
+    "CopyOnDrop")["admitted"]
+assert not module._receiver_lifetime_signature(
+    receiver_function("__vf_generated_drop_glue", "'a", "Other"), selected, ast_parser,
+    "CopyOnDrop")["admitted"]
 print("PASS_SERVICE_ONLY: generated glue requires unique local runtime proof evidence")

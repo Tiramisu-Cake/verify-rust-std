@@ -71,6 +71,16 @@ CALLER_READY_FALSE = b"        //@ assert false; // TARGET: caller direct Drop-p
 CALLER_SIGNATURE = b"unsafe fn natural_onecell(tail: *mut u64)"
 BODY_GLUE_PROFILE = "experimental-merge-actual-glue-body-v8"
 GENERATED_GLUE_NAME = "__vf_generated_drop_glue"
+CANONICAL_METHOD_PROOF_STATEMENTS = [
+    "Open", "Open", "Assert", "Assert", "ExprStmt", "ExprStmt", "Assert", "Assert",
+    "Assert", "Assert", "Assert", "ExprStmt", "ExprStmt", "Assert", "Assert", "Assert",
+    "Assert", "ExprStmt", "Assert", "Close", "Assert", "Close", "ExprStmt", "Assert",
+    "Close", "Assert", "Close", "ExprStmt", "Close"]
+CANONICAL_METHOD_PROOF_CALLS = [
+    "initialized_storage_alignment", "points_to_limits", "object_pointer_within_limits",
+    "uninitialized_storage_alignment", "points_to__limits", "object_pointer_within_limits",
+    "points_to_limits", "pointer_within_limits", "cons", "points_to__limits",
+    "pointer_within_limits", "cons", "call"]
 
 
 def _is_generated_glue_name(value: str) -> bool:
@@ -88,6 +98,68 @@ def _literal_false_with_loc(value, ast) -> bool:
     return re.fullmatch(
         r"verified/lib\.rs\([1-9][0-9]*,[1-9][0-9]*(?:-[1-9][0-9]*(?:,[1-9][0-9]*)?)?\)",
         location) is not None
+
+
+def _receiver_lifetime_signature(glue, selected, ast, guard: str) -> dict:
+    """Bind the generated input to the checked method's single lifetime."""
+    def binders(function):
+        params = function.args[2]
+        if not isinstance(params, list):
+            return []
+        return [item[0] for item in params if isinstance(item, tuple) and
+                len(item) == 2 and isinstance(item[0], str) and item[0].startswith("'")]
+
+    def input_type(function):
+        params = function.args[5]
+        if not isinstance(params, list) or len(params) != 1:
+            return None
+        param = params[0]
+        ty = param[0] if isinstance(param, tuple) and len(param) == 2 else None
+        if isinstance(ty, ast.Node) and ty.name == "ConstTypeExpr" and len(ty.args) == 2:
+            ty = ty.args[1]
+        return ty
+
+    def nominal_name(ty):
+        if not isinstance(ty, ast.Node) or ty.name != "StructTypeExpr" or len(ty.args) != 5:
+            return None
+        name = ty.args[1]
+        if isinstance(name, ast.Node) and name.name == "Some" and len(name.args) == 1:
+            return name.args[0] if isinstance(name.args[0], str) else None
+        return None
+
+    def without_locations(value):
+        if isinstance(value, ast.Node):
+            args = value.args[1:] if value.args and isinstance(value.args[0], ast.Node) and value.args[0].name == "loc" else value.args
+            return (value.name, tuple(without_locations(arg) for arg in args))
+        if isinstance(value, tuple):
+            return tuple(without_locations(arg) for arg in value)
+        if isinstance(value, list):
+            return tuple(without_locations(arg) for arg in value)
+        return value
+
+    def ref_parts(ty):
+        if not isinstance(ty, ast.Node) or ty.name != "RustRefTypeExpr" or len(ty.args) != 4:
+            return None
+        region, mutability, referent = ty.args[1:]
+        if (not isinstance(region, ast.Node) or region.name != "IdentTypeExpr" or
+                len(region.args) != 3 or not isinstance(region.args[2], str) or
+                nominal_name(referent) != guard):
+            return None
+        return region.args[2], mutability, referent
+
+    selected_binders, glue_binders = binders(selected), binders(glue)
+    selected_type, glue_type = input_type(selected), input_type(glue)
+    selected_ref, glue_ref = ref_parts(selected_type), ref_parts(glue_type)
+    admitted = (len(selected_binders) == len(glue_binders) == 1 and
+                selected_binders == glue_binders and selected_ref is not None and
+                glue_ref is not None and selected_ref[0] == glue_ref[0] == selected_binders[0] and
+                selected_ref[1] == ast.Sym("Mutable") and glue_ref[1] == ast.Sym("Mutable") and
+                nominal_name(selected_ref[2]) == nominal_name(glue_ref[2]) == guard and
+                without_locations(selected_type) == without_locations(glue_type))
+    return {"admitted": admitted, "selected_lifetime_binders": selected_binders,
+            "generated_lifetime_binders": glue_binders,
+            "selected_input_type": repr(selected_type), "generated_input_type": repr(glue_type),
+            "reason": None if admitted else "generated receiver lifetime/input differs from selected method"}
 
 
 def _prepare(evidence: Path) -> dict:
@@ -271,6 +343,9 @@ def _prepare(evidence: Path) -> dict:
             "source_block_sha256": source.BLOCK_SHA256,
             "original_sha256": _sha(original), "verified_sha256": _sha(verified),
             "ghost_fragments": [part.decode("ascii") for part in ghosts],
+            "selected_method_contract_sha256": _sha(case_contract),
+            "selected_method_safety_proof_sha256": _sha(bridge),
+            "selected_method_safety_proof_source": bridge.decode("ascii"),
             "read_line": _line(verified, prep.READ),
             "guard_line": _line(verified, prep.GUARD),
             "natural_scope_end_line": _line(verified, NATURAL_DROP_EXIT),
@@ -344,11 +419,21 @@ def _source_gate(case: Path, row: dict, prep) -> dict:
         caller.count(b"let tmp = ManuallyDrop::new(tail.read());") == 1)
     body_runtime_ok = (verified.count(b"ptr::copy_nonoverlapping(self.src, self.dst, self.len);") == 1 and
                        b"on_unwind_ens false" in verified)
+    expected_safety = row.get("selected_method_safety_proof_source", "").encode("ascii")
+    contract_fragments = [fragment.encode("ascii") for fragment in row["ghost_fragments"]
+                          if b"safety_proof {" in fragment.encode("ascii")]
+    safety_source_bound = (bool(expected_safety) and verified.count(expected_safety) == 1 and
+                           _sha(expected_safety) == row.get("selected_method_safety_proof_sha256") and
+                           len(contract_fragments) == 1 and
+                           _sha(contract_fragments[0]) == row.get("selected_method_contract_sha256") and
+                           expected_safety in contract_fragments[0])
     integrity = (stripped == original and caller_runtime_ok and body_runtime_ok and
+                 safety_source_bound and
                  verified.count(b"pred CopyOnDrop_drop_effect") == 1 and
                  not any(token in verified for token in
                          (b"//@ assume", b"//@ leak", b"assume_correct", b"Freeze")))
     return {"admitted": integrity, "runtime_equal_after_ghost_strip": stripped == original,
+            "selected_method_safety_proof_source_bound": safety_source_bound,
             "caller_uses_actual_read_and_guard": caller_runtime_ok,
             "caller_has_no_explicit_copy_or_destructor_call": caller_runtime_ok,
             "actual_drop_keeps_dynamic_self_len_copy": body_runtime_ok,
@@ -396,7 +481,8 @@ def _caller_ast_evidence(case: Path, ast) -> dict:
                 "reason": f"caller AST evidence collection failed: {error}"}
 
 
-def _body_glue_ast_evidence(case: Path, ast, selected_path: str, mir: dict) -> dict:
+def _body_glue_ast_evidence(case: Path, ast, selected_path: str, mir: dict,
+                            row: dict | None = None) -> dict:
     """Bind the caller to one generated glue body and that body to actual Drop."""
     path = case / "proof-ast.ml"
     if not path.is_file():
@@ -466,6 +552,30 @@ def _body_glue_ast_evidence(case: Path, ast, selected_path: str, mir: dict) -> d
                                                 "std::ptr::drop_in_place") or
                           call["callee"].endswith("drop_in_place")]
         glue = glue_bodies[0]
+        selected_funcs = [node for node in funcs if node.args[4] == selected_path and
+                          isinstance(node.args[10], ast.Node) and node.args[10].name == "Some"]
+        receiver_signature = (_receiver_lifetime_signature(
+            glue, selected_funcs[0], ast, "CopyOnDrop")
+            if len(selected_funcs) == 1 else {"admitted": False,
+                                             "reason": "selected method body is not unique"})
+        selected_safety_proof = None
+        if len(selected_funcs) == 1:
+            slot = selected_funcs[0].args[7]
+            if isinstance(slot, tuple) and len(slot) == 2 and isinstance(slot[1], ast.Node) and slot[1].name == "Some" and len(slot[1].args) == 1:
+                proof_shape = slot[1].args[0]
+                if isinstance(proof_shape, tuple) and len(proof_shape) == 3 and isinstance(proof_shape[1], list):
+                    selected_safety_proof = proof_shape[1]
+        selected_proof_calls = [node.args[1] for node in ast.nodes(selected_safety_proof, "CallExpr")
+                                if len(node.args) > 1 and isinstance(node.args[1], str)]
+        selected_proof_statements = ([node.name for node in selected_safety_proof]
+                                     if isinstance(selected_safety_proof, list) else [])
+        selected_proof_bound = (selected_safety_proof is not None and
+                                selected_proof_calls == CANONICAL_METHOD_PROOF_CALLS and
+                                selected_proof_statements == CANONICAL_METHOD_PROOF_STATEMENTS and
+                                not ast.nodes(selected_safety_proof, "Assume") and
+                                not ast.nodes(selected_safety_proof, "Leak") and
+                                isinstance(row, dict) and
+                                isinstance(row.get("selected_method_safety_proof_sha256"), str))
         contract = glue.args[8]
         # Func.args[7] is the separate safety-proof slot. The literal false
         # unwind post is represented in the contract AST below.
@@ -474,8 +584,6 @@ def _body_glue_ast_evidence(case: Path, ast, selected_path: str, mir: dict) -> d
                            glue.args[7][1] == ast.Sym("None"))
         contract_pair = (contract.args[0] if isinstance(contract, ast.Node) and
                          contract.name == "Some" and len(contract.args) == 1 else None)
-        selected_funcs = [node for node in funcs if node.args[4] == selected_path and
-                          isinstance(node.args[10], ast.Node) and node.args[10].name == "Some"]
         selected_contract = selected_funcs[0].args[8] if len(selected_funcs) == 1 else None
         selected_pair = (selected_contract.args[0] if isinstance(selected_contract, ast.Node) and
                          selected_contract.name == "Some" and len(selected_contract.args) == 1 else None)
@@ -531,7 +639,8 @@ def _body_glue_ast_evidence(case: Path, ast, selected_path: str, mir: dict) -> d
                     not caller_forbidden and not glue_forbidden and
                     len(caller_receiver) == 1 and len(caller_ends) == 2 and protocol and
                     no_safety_proof and strong_contract and literal_unwind_false and
-                    copied_receiver)
+                    copied_receiver and receiver_signature.get("admitted") is True and
+                    selected_proof_bound)
         return {"present": True, "admitted": admitted,
                 "caller_count": len(callers), "generated_glue_count": len(glue_funcs),
                 "caller_private_glue_call_count": len(caller_glue),
@@ -549,6 +658,12 @@ def _body_glue_ast_evidence(case: Path, ast, selected_path: str, mir: dict) -> d
                 "glue_copied_receiver": copied_receiver,
                 "glue_actual_receiver_local": receiver_name,
                 "glue_safety_proof_absent": no_safety_proof,
+                "selected_method_safety_proof_present": selected_safety_proof is not None,
+                "selected_method_safety_proof_calls": selected_proof_calls,
+                "selected_method_safety_proof_statements": selected_proof_statements,
+                "selected_method_contract_sha256": row.get("selected_method_contract_sha256") if isinstance(row, dict) else None,
+                "selected_method_safety_proof_sha256": row.get("selected_method_safety_proof_sha256") if isinstance(row, dict) else None,
+                "receiver_lifetime_signature": receiver_signature,
                 "glue_literal_unwind_false": literal_unwind_false,
                 "reason": None if admitted else "generated glue AST linkage or contract shape failed"}
     except Exception as error:
@@ -716,7 +831,7 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
     drop_path = selected.get("selected_path", "")
     body_glue_profile = profile == BODY_GLUE_PROFILE
     if body_glue_profile:
-        glue_ast = (_body_glue_ast_evidence(case, proof_base.ast_helper, drop_path, mir)
+        glue_ast = (_body_glue_ast_evidence(case, proof_base.ast_helper, drop_path, mir, row)
                     if stages.get("decode") == 0 else {"admitted": False})
         caller_ast["body_glue_evidence"] = glue_ast
         caller_ast["selected_call_binding"] = glue_ast.get("admitted") is True
