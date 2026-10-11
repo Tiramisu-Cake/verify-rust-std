@@ -1,34 +1,40 @@
-# select/sort4 — compiler binding / helper prefix session ACTIVE
+# select/sort4 — compiler binding / helper prefix session CLOSED
 
 Owner `select-sort4`; worktree `/root/verify-rust-std-select-night`; branch
-`research/night-select-sort4-cloud-2026-10-09`, start checkpoint
-`5ffebdf53cc37b5814fa78ad3acb4081519288d8`.
-Policy read/fetched: `c7ca8c467aecf10a4b53039372ee97714f854ee3` (local docs identical).
+`research/night-select-sort4-cloud-2026-10-09`. Initial checkpoint
+`5ffebdf53cc37b5814fa78ad3acb4081519288d8`; last proof/infra input
+`8562527b76accbeb2405313d032ccbb6802173a6`.
+Policy read/fetched: `c7ca8c467aecf10a4b53039372ee97714f854ee3`.
 Phase `SORT4-COMPILER-BINDING-PREFIX-CLOUD-2026-10-11`:
 19:22:51–21:22:51 UTC main; finish-only until21:52:51 UTC.
-New ceiling3600 conservative Cloud seconds, no carry; own separate
-[BUDGET](cloud-build/sort4-caller-entry-native/BUDGET-BINDING-PREFIX-2026-10-11.json).
-Existing lane `o26-sort4-c1-current-recovery`, v2 max2 / one per owner+ledger.
-Initial own active Build/reservation none; peer reservation preserved.
+Four terminal Builds;1521/3600 conservative seconds consumed;2079 retired.
+Own Build/reservation/request none; no automatic next session.
 
-First experiment: evidence-only compiler query with BOTH original stable impls,
-real Freeze caller T/F/FnMut clauses/operands, fallback and unconstrained controls.
-Query uses original DefId/args and body.typing_env; no invented context.
-Both-impl compiler observations obtained in3aa3 (exporter/MIR PASS): selected Freeze
-pair, blanket Cell pair, unqualified generic None pair. Numeric lifetime DefIds
-differ across invocations; exact DefPath/binder classifier replay PASS, raw audit
-retained INCONCLUSIVE. Charge697/3600; remaining2903.
-Binding interface remains default-off / NOT_PROVED until exact evidence admission.
-Next: inspect query, complete clauses/substitution/callgraph gates, prove native
-caller bound and helper original prefix; no renewed unchanged public guard test.
+Both-impl compiler evidence: PASS observationally on exact pinned compiler,
+real body.typing_env, original DefIds/args. Freeze-qualified T/F/FnMut caller
+selects both Freeze methods; Cell selects blanket fallback; unqualified generic
+returns None for both. Complete clauses/substs/lifetimes and paired MIR checked.
+Selected-only source correspondence and missing/corrupt evidence controls PASS.
+Compiler observation is not a callable summary or whole-caller proof.
 
-Prior proof statuses unchanged: selected threshold body32/default16 diagnostic
-and pointer controls passed only under their exact historical profiles.
-Actual guarded transfer, helper overflow/abort/pointers/firstcall resources and
-caller→C4 OPEN/NOT_RUN. Public nonzero blocker: opaque IS_ZST lacking sizeof link;
-size-model repair outside scope. No nonzero premise supplied.
-Full sort4/C5/copies/secondcall/generic applicability/sort8 remain OPEN.
-Tool/model experimental/unaccepted; select-sort4 keeps consumer ownership.
+Final Build `b22985f8-7aae-4058-9e3e-bae10f222a6f`: selected translator compiles;
+fresh threshold body32 + canonical T/MU/pointer consumer positives and three
+pointer/resource negatives pass their intended gates. Selected consumer paired
+export/refinement PASS, but pre-binding admission REFUSED: normal MIR small_sort
+args `_17,_18,_19`, readonly/query `_16,_17,_18`; same v/scratch/is_less origins.
+Ghost assertion creates extra normal MIR temporary. Gate stays closed; selected
+verifier, false31/source-array controls and AST/native-post audit NOT_RUN.
 
-[Prior checkpoint](cloud-build/sort4-caller-entry-native/END-CHECKPOINT-2026-10-11-CALLER-BOUND.md),
-[prior result pins](cloud-build/sort4-caller-entry-native/SESSION-RESULT-MANIFEST.json).
+Caller qualification Freeze only; unrestricted actual quicksort applicability OPEN.
+Bound transfer NOT_PROVED; helper overflow/abort/pointers/firstcall resources
+NOT_REACHED; caller→C4 NOT_RUN. First open obligation is mode-specific exact
+consumer temporary/provenance admission, then actual translated AST observation.
+No size/nonzero premise added. Opaque IS_ZST/sizeof link remains separate OPEN
+blocker; unchanged public guard was not repeated.
+Historical supplied-premise guarded C1–C4 PASS stays separate. Full sort4 C5/copies,
+second call, generic applicability and sort8 OPEN. Profile experimental/unaccepted;
+select-sort4 retains patch/consumer ownership; maintainer review only.
+
+[Checkpoint](cloud-build/sort4-caller-entry-native/END-CHECKPOINT-2026-10-11-COMPILER-BINDING-PREFIX.md),
+[result identities](cloud-build/sort4-caller-entry-native/SESSION-RESULT-MANIFEST.json),
+[closed account](cloud-build/sort4-caller-entry-native/BUDGET-BINDING-PREFIX-2026-10-11.json).

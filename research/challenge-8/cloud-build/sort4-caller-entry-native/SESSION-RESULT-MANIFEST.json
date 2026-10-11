@@ -1,67 +1,560 @@
 {
-  "phase": "SORT4-CALLER-DERIVED-BOUND-CLOUD-2026-10-11",
-  "initial_checkpoint": "64922e1e5978b7204a6664e33a9f202aa6eea920",
+  "phase": "SORT4-COMPILER-BINDING-PREFIX-CLOUD-2026-10-11",
+  "initial_checkpoint": "5ffebdf53cc37b5814fa78ad3acb4081519288d8",
   "policy_revision_read": "c7ca8c467aecf10a4b53039372ee97714f854ee3",
-  "main_deadline_utc": "2026-10-11T18:55:01Z",
-  "deadline_utc": "2026-10-11T19:25:01Z",
+  "main_deadline_utc": "2026-10-11T21:22:51Z",
+  "deadline_utc": "2026-10-11T21:52:51Z",
+  "proof_input_sha": "8562527b76accbeb2405313d032ccbb6802173a6",
   "builds": [
     {
-      "build_id": "0b7b3e53-4c43-4ee4-a6c5-4d53f8872204",
-      "proof_sha": "984d8007c0b2250b8a7a2c3b9bd37e6f32aaa249",
-      "infra_sha": "984d8007c0b2250b8a7a2c3b9bd37e6f32aaa249",
-      "config_sha256": "327a5b9197aea2d6bc0677dc1b769ed0a2d8a4d16dbe86b1e770bdbfdfab34c1",
-      "source_input_sha256": "6a0dacb219f23f80c2097ba155cc22dbf3204a5c1a4fd0625af946cb4618a84b",
-      "archive_sha256": "7947b1b806ce234724749a28cc3e2c4f308ef1e0dff2b7a220c90bfc7995861f",
-      "conservative_seconds": 346,
-      "terminal_status": "SUCCESS",
-      "download_verified": true
+      "dispatch_token": "dispatch-d21c5f000a354b32825c0ba41ed2fac4",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-COMPILER-BINDING-PREFIX-CLOUD-2026-10-11",
+      "infra_sha": "72428327d733abe9fecf73738122a6e32ac4d467",
+      "proof_sha": "72428327d733abe9fecf73738122a6e32ac4d467",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "39dd7ecbad8bb1603ebfa7ba1573b5d99f5e46f68f57d4d2380a1f0689a09f31",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "41dd98a68b9060a0f3dc94f6a559f5bef34e6369fbe5ee4a701425a2d7c5a478",
+      "build_id": "d0710ad2-df8c-418d-8894-fdd9cefe7a6f",
+      "start_time": "2026-10-11T19:53:27.587287976Z",
+      "finish_time": "2026-10-11T19:59:08.019425Z",
+      "create_time": "2026-10-11T19:53:26.820466026Z",
+      "build_seconds": 342,
+      "accounted": true,
+      "execution_seconds": 341,
+      "download_verified": true,
+      "archive_sha256": "76249ea297a295d270c08b8f0da9d49db9f3b52d5d66f0da0f4b1aa4a5fb371a"
     },
     {
-      "build_id": "379098e8-1827-476e-8919-1e344e545a37",
-      "proof_sha": "caa42f2abe2a1fef098bdef9803fe079e0dd5dde",
-      "infra_sha": "caa42f2abe2a1fef098bdef9803fe079e0dd5dde",
-      "config_sha256": "d96f5537e99d472c3bad7f53faca8991aca0a5cc91d9a1f20e6ff58f49457731",
-      "source_input_sha256": "91a5e3545e94ca6bf66f3839eb6c4e487783554f19a66278d55854aa5ec604a5",
-      "archive_sha256": "bb247b242fbea77fa1061939a2583a0a7791bdd5dfea8768da054f3f25e3b8cc",
-      "conservative_seconds": 398,
-      "terminal_status": "SUCCESS",
-      "download_verified": true
+      "dispatch_token": "dispatch-ed37cd99bac94b89833257d5651217ce",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-COMPILER-BINDING-PREFIX-CLOUD-2026-10-11",
+      "infra_sha": "04c9208d266305b04645b26fcb858916e0f08d94",
+      "proof_sha": "04c9208d266305b04645b26fcb858916e0f08d94",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "3f04d071930ec251d9455ab3482f8cced3a703a9210e14891eed6962e186a3b8",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "6dbf6e3b52cbda65e9b3b4a13adef9a740246587666cf7bea73b7fad5baafcf1",
+      "build_id": "3aa3d0eb-7f9a-49c1-82ee-6d7acbce01b5",
+      "start_time": "2026-10-11T20:11:24.451623073Z",
+      "finish_time": "2026-10-11T20:17:18.008167Z",
+      "create_time": "2026-10-11T20:11:23.623299412Z",
+      "build_seconds": 355,
+      "accounted": true,
+      "execution_seconds": 354,
+      "download_verified": true,
+      "archive_sha256": "f91e69e7a01c77b8491f67050fd30e585a6ce478bf3ad3d695a14297827de06a"
     },
     {
-      "build_id": "5a60dd5f-2564-4c40-b09f-7781e4cb206d",
-      "proof_sha": "4087c67ed5d2d0b95a8ef6bd35c82d9729d1337b",
-      "infra_sha": "4087c67ed5d2d0b95a8ef6bd35c82d9729d1337b",
-      "config_sha256": "59c986c1f3cd0cbe72ecc5b175340bf7e1e96d9ef5dc39f837ef5854c123a400",
-      "source_input_sha256": "5a340e8f72093cd87f1265e6369f28c499a3315478c94845cad7c33e92fd50cc",
-      "archive_sha256": "91ee1f7563df3a16da07ef3266439713aadbeb6116dab62cfa47c3437446b7b9",
-      "conservative_seconds": 358,
-      "terminal_status": "FAILURE",
-      "download_verified": true
+      "dispatch_token": "dispatch-0298ee4662df4e1dadca2a4e64913b84",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-COMPILER-BINDING-PREFIX-CLOUD-2026-10-11",
+      "infra_sha": "05cb227be53225266ee775643a5d28e96376a94f",
+      "proof_sha": "05cb227be53225266ee775643a5d28e96376a94f",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "a7ad1bdc67d6fdbf3d012e7dea2a74e455d76c680144b538c0db9651f835fb22",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "832a3425bc8fd787680548ca1056be7df46dfa7efc877571e211b31d297a0d3d",
+      "build_id": "723dd8e5-9e88-42fe-9cf1-e33780b1d423",
+      "start_time": "2026-10-11T20:54:17.281567202Z",
+      "finish_time": "2026-10-11T21:01:00.136823Z",
+      "create_time": "2026-10-11T20:54:16.514540246Z",
+      "build_seconds": 404,
+      "accounted": true,
+      "execution_seconds": 403,
+      "download_verified": true,
+      "archive_sha256": "17ffd29075b26e2660cb808f36b1738f7a5934d6b78b4d0eb08ecaca85f40e8c"
     },
     {
-      "build_id": "8fa3210b-1dd2-4578-b0d1-49819cc07a84",
-      "proof_sha": "a4d1789b7d652dab7c783f1288b913e8882bdf5b",
-      "infra_sha": "a4d1789b7d652dab7c783f1288b913e8882bdf5b",
-      "config_sha256": "a8e35d22ec9b3c5c570abaf2bceb3b01bf2619149392cdbf0842a9b8d7809ebe",
-      "source_input_sha256": "1d90ab0a9acdb39bfe3e2bcfe27e927ba502307294182a1a20e01b9aa2ce71c2",
-      "archive_sha256": "550129fa1993b0d03f25f99b32d62d49be954127683057bc23222a3cfa947862",
-      "conservative_seconds": 347,
-      "terminal_status": "FAILURE",
-      "download_verified": true
+      "dispatch_token": "dispatch-db8cea11d2da4529b532470648e5ba31",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-COMPILER-BINDING-PREFIX-CLOUD-2026-10-11",
+      "infra_sha": "8562527b76accbeb2405313d032ccbb6802173a6",
+      "proof_sha": "8562527b76accbeb2405313d032ccbb6802173a6",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "5f2af55b7ab66312c2b415dc0582705887e6d35cc0e0d2fa066153644818b9ef",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "3dfcb76862869563244b0a1572936e570956fa4c8d78cb2c12059573dde83776",
+      "build_id": "b22985f8-7aae-4058-9e3e-bae10f222a6f",
+      "start_time": "2026-10-11T21:12:41.066341645Z",
+      "finish_time": "2026-10-11T21:19:39.413214Z",
+      "create_time": "2026-10-11T21:12:40.325502641Z",
+      "build_seconds": 420,
+      "accounted": true,
+      "execution_seconds": 419,
+      "download_verified": true,
+      "archive_sha256": "6c0f0c6ccebe5d3dd0fbdb5d91a4cdcdadc8fd47d6510a7853e8ea736dc75c3f"
     }
   ],
-  "used_conservative_seconds": 1449,
-  "retired_seconds": 2151,
+  "used_conservative_seconds": 1521,
+  "retired_seconds": 2079,
   "model_verdict": "FROZEN_EXPERIMENTAL_UNACCEPTED",
-  "tool_verdict": "THRESHOLD_ONLY_COMPILED_SOURCE_CLAUSE_BINDING_UNACCEPTED",
-  "proof_verdict": "LOCAL_THRESHOLD_POINTER_ONLY_NO_ACTUAL_CALLER",
-  "public_nonzero_proved": false,
+  "tool_verdict": "SELECTED_TRANSLATOR_COMPILED_CONSUMER_TEMP_ID_ADMISSION_REFUSAL",
+  "proof_verdict": "THRESHOLD_POINTER_CONTROLS_ONLY_SELECTED_PREFIX_NOT_RUN",
+  "compiler_selection_both_impls_observed": true,
   "compiler_selected_impl_proved": false,
+  "caller_qualification": "T:FreezeMarker, F:FnMut(&T,&T)->bool; real operands; both original stable impls retained in compiler query",
+  "unqualified_generic_instance": "None for both methods; not replaced with selected",
+  "binding_gate_open": false,
   "caller_bound_transfer_proved": false,
   "helper_overflow_closed": false,
   "abort_handled": false,
   "helper_pointer_calls_reached": false,
   "first_callsite_resources_proved": false,
   "caller_c4_proved": false,
-  "profile_accepted": false
+  "public_nonzero_proved": false,
+  "profile_accepted": false,
+  "first_open_obligation": "Exact mode-specific consumer MIR temporary admission; normal ghost assertion shifts small_sort args +1. No selected native proof reached.",
+  "compiler_query": {
+    "accepted": false,
+    "actual_caller_proved": false,
+    "binding_gate_open": false,
+    "built_exporter_sha256": "425abb5429e310ec4ea2ab148cdf6ba363b4d2ab315f784481956e598155fe6d",
+    "caller_bound_transfer_proved": false,
+    "classification": "COMPILER_BINDING_OBSERVED_EVIDENCE_ONLY",
+    "compiler_binding": {
+      "binding_gate_open": false,
+      "fallback_pair_observed": true,
+      "per_caller": {
+        "binding_fallback_cell": {
+          "small_sort": "observed_fallback",
+          "small_sort_threshold": "observed_fallback"
+        },
+        "binding_selected_freeze": {
+          "small_sort": "observed_selected",
+          "small_sort_threshold": "observed_selected"
+        },
+        "binding_unconstrained_generic": {
+          "small_sort": "unresolved",
+          "small_sort_threshold": "unresolved"
+        }
+      },
+      "selected_pair_observed": true,
+      "selection_observation_complete": true,
+      "unconstrained_not_selected": true
+    },
+    "diagnostic_complete": true,
+    "profile_accepted": false,
+    "proof_credit": false,
+    "raw_exporter_log_sha256": {
+      "normal": "0e05b7641ab4f015ab7d13b93db3d1c1d46115df34fcc8758161a8fea1f3c8f2",
+      "readonly": "e82bee761ffb6e79c891de978384eb8490375ca6cfa7f5a2dae48f27306a7e6b"
+    },
+    "selection_observation_complete": true,
+    "source_certificate_sha256": "577efe4f5a8743478d4f7fc7b0f191ba57d064a2ab69f130090af5801ea62d23",
+    "verification_accepted": false
+  },
+  "admission_controls": {
+    "mismatched-raw-log-hash": {
+      "predicate": "normal_raw_log_sha256",
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: evidence identity: normal_raw_log_sha256",
+      "refused_before_verifier": true,
+      "stage": "identity_admission",
+      "synthetic": true
+    },
+    "missing-entire-query-evidence": {
+      "predicate": "same_build_query_audit",
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: evidence identity: same_build_query_audit",
+      "refused_before_verifier": true,
+      "stage": "identity_admission",
+      "synthetic": true
+    },
+    "missing-record": {
+      "predicate": "six exact caller/method records",
+      "proof_credit": false,
+      "reason": "COMPILER-BINDING: exactly six compiler call records",
+      "refused_before_verifier": true,
+      "stage": "record_admission",
+      "synthetic": true
+    },
+    "mutated-source": {
+      "predicate": "query_fixture_sha256",
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: evidence identity: query_fixture_sha256",
+      "refused_before_verifier": true,
+      "stage": "identity_admission",
+      "synthetic": true
+    },
+    "wrong-callee": {
+      "predicate": "exact original trait DefPath",
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: exact original caller and trait callee DefPath",
+      "refused_before_verifier": true,
+      "stage": "record_admission",
+      "synthetic": true
+    },
+    "wrong-callsite": {
+      "predicate": "exact original call line",
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: exact original callsite line and source file",
+      "refused_before_verifier": true,
+      "stage": "record_admission",
+      "synthetic": true
+    },
+    "wrong-compiler-identity": {
+      "predicate": "compiler_commit_present",
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: evidence identity: compiler_commit_present",
+      "refused_before_verifier": true,
+      "stage": "identity_admission",
+      "synthetic": true
+    },
+    "wrong-exporter-source": {
+      "predicate": "patched_exporter_sha256",
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: evidence identity: patched_exporter_sha256",
+      "refused_before_verifier": true,
+      "stage": "identity_admission",
+      "synthetic": true
+    },
+    "wrong-impl": {
+      "predicate": "selected impl source line",
+      "proof_credit": false,
+      "reason": "selection observation incomplete",
+      "refused_before_verifier": true,
+      "stage": "record_admission",
+      "synthetic": true
+    }
+  },
+  "controls": {
+    "canonical-generic": {
+      "classification": "FRESH_VF0_CANDIDATE_RAW_REVIEW_REQUIRED",
+      "gate_passed": true,
+      "first_causal_stage": "NONE_OBSERVED",
+      "first_error": null,
+      "stages": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "proof-ast-diagnostic": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 0
+      },
+      "full_log_sha256": "9555cc9c29c161ae2f97406ecec28d962d445c21a8828debf732913f3f528364",
+      "proof_ast_sha256": "f4a5f6629ad282b20d7f3d01f2cf4ecee4ec7798a8bae32320489e23eba9874a",
+      "paired_support_passed": true
+    },
+    "canonical-mu": {
+      "classification": "FRESH_VF0_CANDIDATE_RAW_REVIEW_REQUIRED",
+      "gate_passed": true,
+      "first_causal_stage": "NONE_OBSERVED",
+      "first_error": null,
+      "stages": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "proof-ast-diagnostic": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 0
+      },
+      "full_log_sha256": "0c4d2f78362c2fa7f65cfb0156cb0d1fc48342654f5e0404cab65bde9dfd2c7f",
+      "proof_ast_sha256": "e35e945f87ca6bd5a5b3e44a34f34f34875fc0c044d57dd5a92bec3938589ae5",
+      "paired_support_passed": true
+    },
+    "consumer-missing-raw-rights": {
+      "classification": "INTENDED_ASSERTION_NEGATIVE_RAW_REVIEW_REQUIRED",
+      "gate_passed": true,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(14,35-38): error: No matching heap chunks: array<T>(unrelated, 1, _)",
+      "stages": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "proof-ast-diagnostic": 1,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 1
+      },
+      "full_log_sha256": "994390b5e412e27fe92d06f5e37921c1f70a7028baf36f89767661d075860c35",
+      "proof_ast_sha256": "0b8838b3ea95cc8d1be6af06dd6599fbb8a0f4f5f827640add504f998b7e9fc2",
+      "paired_support_passed": true
+    },
+    "consumer-mu-cast-no-initialized-T": {
+      "classification": "INTENDED_ASSERTION_NEGATIVE_RAW_REVIEW_REQUIRED",
+      "gate_passed": true,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(17,38-41): error: No matching heap chunks: array<T>(strip_pointer_metadata(scratch), 1, _)",
+      "stages": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "proof-ast-diagnostic": 1,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 1
+      },
+      "full_log_sha256": "fcb18e7466a384ac51f9e93a1a77a430a53fc9b78e30e3d173dd0b9f926dec4c",
+      "proof_ast_sha256": "c7a0d31cb0fa74b87f9dc781ff5edec54d10c5cf092184d2b5eed60f85036a15",
+      "paired_support_passed": true
+    },
+    "consumer-positive": {
+      "classification": "FRESH_VF0_CANDIDATE_RAW_REVIEW_REQUIRED",
+      "gate_passed": true,
+      "first_causal_stage": "NONE_OBSERVED",
+      "first_error": null,
+      "stages": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "proof-ast-diagnostic": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 0
+      },
+      "full_log_sha256": "5cadfd0c828165f47d91155a8154ccb0e89cd07ee6065b3125a356437e5d3081",
+      "proof_ast_sha256": "c52d67b0a465cc89308d6e6cde35ea0ae1ef9244bbd85d07a980be37a963f8f2",
+      "paired_support_passed": true
+    },
+    "consumer-wrong-pointer": {
+      "classification": "INTENDED_ASSERTION_NEGATIVE_RAW_REVIEW_REQUIRED",
+      "gate_passed": true,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(14,23-25): error: Assertion might not hold. (Cannot prove !(strip_pointer_metadata(v) = strip_pointer_metadata(v)).)",
+      "stages": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "proof-ast-diagnostic": 1,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 1
+      },
+      "full_log_sha256": "0ffec7b6683f8a52da4740b5b2b93c4760636e771c4fcec5bc91ab55284e4610",
+      "proof_ast_sha256": "e614ff0b9ab279e12772955ace12956520ed3474414db21b63638d5ca71ee80f",
+      "paired_support_passed": true
+    },
+    "threshold-body-positive": {
+      "classification": "FRESH_VF0_CANDIDATE_RAW_REVIEW_REQUIRED",
+      "gate_passed": true,
+      "first_causal_stage": "NONE_OBSERVED",
+      "first_error": null,
+      "stages": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "proof-ast-diagnostic": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 0
+      },
+      "full_log_sha256": "4f90bc50267c27c57f4952e370c67c3b168a36bcbbacceb60033d644b3072a68",
+      "proof_ast_sha256": "a6a447eac505d2c7698785949ed0b011f8c3155c300bd60c5e27c9e21158dbf8",
+      "paired_support_passed": true
+    },
+    "selected-false31": {
+      "status": "NOT_RUN",
+      "intended_stage": "verification",
+      "intended_predicate": "len<=31 inside real guard"
+    },
+    "selected-missing-source-array": {
+      "status": "NOT_RUN",
+      "intended_stage": "verification",
+      "intended_predicate": "selected call source-array precondition"
+    }
+  },
+  "source_support_selected_positive": {
+    "full_mir": {
+      "normal": {
+        "bytes": 82794,
+        "defpath": "selected_freeze_basecase",
+        "sha256": "d400158f162a1dc9c340a0d42220dfc7c4778e31c5b2d49f6ba4d31094f3c827"
+      },
+      "readonly": {
+        "bytes": 77920,
+        "defpath": "selected_freeze_basecase",
+        "sha256": "5aab490589f109ef275bd46eede3049fc500c79d54e5c8a449dae9d239408319"
+      }
+    },
+    "paired_support_passed": true,
+    "proof_credit": false,
+    "source_pair_sha256": {
+      "original/lib.rs": "27114d1c931568c8b338c2a573a29fa0fdc844597759997b49fef8f564d72057",
+      "verified/lib.rs": "470b144bcc63a8343d0b0b0a432ff5b538eaaeac93e9f968faeee2a9dc4f6135"
+    },
+    "target": "selected_freeze_basecase"
+  },
+  "identities": {
+    "compiler-binding-records.json": "40bc12560d605d902542768e18941be07953596152f1c2e49f92d1bd03eda0bd",
+    "compiler-binding-tool-identity.json": "72c37af26f1968c2acab21dff9d6583da4de14897dfeb68642303b87e68c5743",
+    "compiler-binding-source-certificate.json": "577efe4f5a8743478d4f7fc7b0f191ba57d064a2ab69f130090af5801ea62d23",
+    "compiler-binding-full-mir-admission.json": "73eb3b8902748081a92730f7a6cfd15546c2e13e7fcf45d64cc4f8f7a86d0bd4",
+    "selected-compiler-admission.json": "708fa03349c8f5e5f0278fb1c5b4a6bee7c686588001fbc3332032ed7782b4d3",
+    "selected-source-correspondence.json": "72c864ab1d2ecefff988e19e2106f665c3d02e5763b8fd41a8d1c14f80f3c9c0",
+    "selected-effective-profile.json": "3465acf128d4ac96cfce7e20008cbfad1809e8252990b80cb597fbad16264da0",
+    "selected-proof-audit.json": "3ca882817ff8a571cabd649439dd989835d2516630809efc5bb1be69e1659d2b"
+  },
+  "tool_profile": {
+    "binaries": {
+      "bin/libz3.so": "1837668dc531d14b3a4fffc0b690b77929d29c41868f98a89686f5ff64da95ea",
+      "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+      "bin/verifast": "d9fe5a32e5dc7247d8084945848ff0e471104dccbf5e39fe1fb90717d162bd2f",
+      "bin/vf-cxx-ast-exporter": "9f3793b0420c727e9c290884313b9f129552aa7536ef0c15e47e91a9cb76de17",
+      "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796"
+    },
+    "critical": {
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+      "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "cba50fa1ad56b5ec640d2cfbcc67e7867cd7ff6591e3699fc3cfa1317f5528a6",
+      "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c"
+    },
+    "effective_rsspec": {
+      "bin/rust/aliasing.rsspec": "2c673b73fa7a41d56672bfb3a180f3e7d7e2cdf7280f1b38f8fad138f08b4518",
+      "bin/rust/counting.rsspec": "67c22244b47af891ffe5c21641fb26ea55fd0cf38381e60f9e723a5e0c714258",
+      "bin/rust/ghost_cells.rsspec": "fef7475f2ad6d79e1904b23a234d3aa8b3befc7300bc15231d93fd6b53a52227",
+      "bin/rust/list.rsspec": "27f6020a56262544ca8fabd636999c7cfae551be578769d7be9e7ceb1c70d97e",
+      "bin/rust/listex.rsspec": "7e4bb22a0207b97d76e47c2e4bafecbd4e1770299c0721fe61e3b9cbd3e2fd36",
+      "bin/rust/mask.rsspec": "ff0d295ffcc268df404605a2d3be944e53447d8774d83cb0f8bf8c9ea5adbf8f",
+      "bin/rust/nat.rsspec": "c26a8e7ec30843c60d7915cde0ab7d2cf9408eaa9c9c4916b0c463b7aac894ec",
+      "bin/rust/prelude.rsspec": "d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5",
+      "bin/rust/prelude_core.rsspec": "435146cd4632541241563ae45b146704c14f6f7cdd3b5d404837617f08bc91b8",
+      "bin/rust/prelude_core_core.rsspec": "d9c6a848b46bfc432d16074fd0535f712c546570b65405153d45de9c33e1838c",
+      "bin/rust/ptr_rels.rsspec": "506fdb20e30f49565face1e2d40a636afa92760e0c7c621dddcf940cc30972cf",
+      "bin/rust/rust_belt/aliasing.rsspec": "0e1d8cc59e823afe83c6be5088d41de7ad7fd6ec844204e6a06ec715f9bf128e",
+      "bin/rust/rust_belt/general.rsspec": "ef2ff16dffd472bbc5fd7fa17e7f13a03d83919520da5ce7e2d7095194790d1d",
+      "bin/rust/rust_belt/lem_aux.rsspec": "b4a3a831fbc4e15d6b3bf5d67c616cf94d51a7c753d5ef72e07fb4def65a9278",
+      "bin/rust/rust_belt/lifetime_logic.rsspec": "516fefc4f5ba2ba9e73250196f2652a40d2dc586df9b40c93364cd7f21397f54",
+      "bin/rust/rust_belt/points_to_at_lifetime.rsspec": "dd27384b6c17b733c8e36487ed82574fdf290ac5bc4e4becd24076dbebfffe4b",
+      "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf"
+    },
+    "head": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+    "modified_hashes": {
+      "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+      "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "cba50fa1ad56b5ec640d2cfbcc67e7867cd7ff6591e3699fc3cfa1317f5528a6",
+      "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+      "src/verifast1.ml": "bfbfb518fb9783afeeba9384e1431b6cd280c7da7713b9fdbfd15a8395b00207",
+      "src/verify_expr.ml": "c2246e54f06fe099b5ddb6ba500aba4f6186498b1a44cb8a51b3389b18fe8ca9",
+      "src/vfconsole/vfconsole.ml": "79179baa9ad9e9cb2ee5163f4c9528f665519d894c43093183fd8e9f31b06898"
+    },
+    "modified_names": [
+      "bin/rust/std/lib.rsspec",
+      "src/rust_frontend/vf_mir_translator/rust_parser.ml",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml",
+      "src/verifast.ml",
+      "src/verifast1.ml",
+      "src/verify_expr.ml",
+      "src/vfconsole/vfconsole.ml"
+    ],
+    "proof_std": {
+      "library/core/src/hint.rs": "ce89716d46b8060db2c2da1aef1d4bcccf90e0804fc021d4470c55203501315f",
+      "library/core/src/intrinsics/mod.rs": "de4a6d2afbd1d9f725222c1f4d95a107b8202586b952ce2a619a054c6f2f1865",
+      "library/core/src/mem/manually_drop.rs": "f9cce798828cc852c00feeea9a6218c225b68d92727a5edbddc7c08a731a4f25",
+      "library/core/src/mem/maybe_dangling.rs": "0e1ec6f588f2c314751054b39c73d19517eb1fd03e31e7865c95813c389d1182",
+      "library/core/src/mem/maybe_uninit.rs": "1230d267542337ee2842c29d8227cf8a58fe75c53a2a70efaee3922c4e8e25c0",
+      "library/core/src/mem/mod.rs": "b86a596a58dcb21a45e8b29b33327ca8c7bde708aa6fca158d4366e51403daf2",
+      "library/core/src/ptr/mod.rs": "5f70e87f1d2d8becf475ff88c48fb4c718895d3249ed7b45a0cddf68c2e663f8",
+      "library/core/src/ptr/mut_ptr.rs": "f10ffcdeed5a97d1f219ddbfa2e1fd11e7b4ca3825189801985b96629cda16f7",
+      "library/core/src/slice/sort/shared/smallsort.rs": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+    },
+    "tracked_diff_sha256": "44d4ebaf0829c4ff79759a15529c956fcd6a2ef73a31f3c2282ab964af54a3ee"
+  },
+  "patch_sha256": "ce6b707264d071a4a0a8fa9b05391f152abde5b8f4574167e3de9d212802c7b4",
+  "pins_sha256": "3a4ff714f301665d15239945eb4dae8ff539a9dca0fdc7e070d83c9a084a2928",
+  "evidence_locations": {
+    "raw": "/tmp/select-binding-prefix-b229-raw",
+    "verified_download": "/tmp/select-binding-prefix-b229-read",
+    "cloud": "gs://smallsort-ci-evidence-504462351565/cloud-build/b22985f8-7aae-4058-9e3e-bae10f222a6f/"
+  },
+  "prior_session": {
+    "phase": "SORT4-CALLER-DERIVED-BOUND-CLOUD-2026-10-11",
+    "initial_checkpoint": "64922e1e5978b7204a6664e33a9f202aa6eea920",
+    "policy_revision_read": "c7ca8c467aecf10a4b53039372ee97714f854ee3",
+    "main_deadline_utc": "2026-10-11T18:55:01Z",
+    "deadline_utc": "2026-10-11T19:25:01Z",
+    "builds": [
+      {
+        "build_id": "0b7b3e53-4c43-4ee4-a6c5-4d53f8872204",
+        "proof_sha": "984d8007c0b2250b8a7a2c3b9bd37e6f32aaa249",
+        "infra_sha": "984d8007c0b2250b8a7a2c3b9bd37e6f32aaa249",
+        "config_sha256": "327a5b9197aea2d6bc0677dc1b769ed0a2d8a4d16dbe86b1e770bdbfdfab34c1",
+        "source_input_sha256": "6a0dacb219f23f80c2097ba155cc22dbf3204a5c1a4fd0625af946cb4618a84b",
+        "archive_sha256": "7947b1b806ce234724749a28cc3e2c4f308ef1e0dff2b7a220c90bfc7995861f",
+        "conservative_seconds": 346,
+        "terminal_status": "SUCCESS",
+        "download_verified": true
+      },
+      {
+        "build_id": "379098e8-1827-476e-8919-1e344e545a37",
+        "proof_sha": "caa42f2abe2a1fef098bdef9803fe079e0dd5dde",
+        "infra_sha": "caa42f2abe2a1fef098bdef9803fe079e0dd5dde",
+        "config_sha256": "d96f5537e99d472c3bad7f53faca8991aca0a5cc91d9a1f20e6ff58f49457731",
+        "source_input_sha256": "91a5e3545e94ca6bf66f3839eb6c4e487783554f19a66278d55854aa5ec604a5",
+        "archive_sha256": "bb247b242fbea77fa1061939a2583a0a7791bdd5dfea8768da054f3f25e3b8cc",
+        "conservative_seconds": 398,
+        "terminal_status": "SUCCESS",
+        "download_verified": true
+      },
+      {
+        "build_id": "5a60dd5f-2564-4c40-b09f-7781e4cb206d",
+        "proof_sha": "4087c67ed5d2d0b95a8ef6bd35c82d9729d1337b",
+        "infra_sha": "4087c67ed5d2d0b95a8ef6bd35c82d9729d1337b",
+        "config_sha256": "59c986c1f3cd0cbe72ecc5b175340bf7e1e96d9ef5dc39f837ef5854c123a400",
+        "source_input_sha256": "5a340e8f72093cd87f1265e6369f28c499a3315478c94845cad7c33e92fd50cc",
+        "archive_sha256": "91ee1f7563df3a16da07ef3266439713aadbeb6116dab62cfa47c3437446b7b9",
+        "conservative_seconds": 358,
+        "terminal_status": "FAILURE",
+        "download_verified": true
+      },
+      {
+        "build_id": "8fa3210b-1dd2-4578-b0d1-49819cc07a84",
+        "proof_sha": "a4d1789b7d652dab7c783f1288b913e8882bdf5b",
+        "infra_sha": "a4d1789b7d652dab7c783f1288b913e8882bdf5b",
+        "config_sha256": "a8e35d22ec9b3c5c570abaf2bceb3b01bf2619149392cdbf0842a9b8d7809ebe",
+        "source_input_sha256": "1d90ab0a9acdb39bfe3e2bcfe27e927ba502307294182a1a20e01b9aa2ce71c2",
+        "archive_sha256": "550129fa1993b0d03f25f99b32d62d49be954127683057bc23222a3cfa947862",
+        "conservative_seconds": 347,
+        "terminal_status": "FAILURE",
+        "download_verified": true
+      }
+    ],
+    "used_conservative_seconds": 1449,
+    "retired_seconds": 2151,
+    "model_verdict": "FROZEN_EXPERIMENTAL_UNACCEPTED",
+    "tool_verdict": "THRESHOLD_ONLY_COMPILED_SOURCE_CLAUSE_BINDING_UNACCEPTED",
+    "proof_verdict": "LOCAL_THRESHOLD_POINTER_ONLY_NO_ACTUAL_CALLER",
+    "public_nonzero_proved": false,
+    "compiler_selected_impl_proved": false,
+    "caller_bound_transfer_proved": false,
+    "helper_overflow_closed": false,
+    "abort_handled": false,
+    "helper_pointer_calls_reached": false,
+    "first_callsite_resources_proved": false,
+    "caller_c4_proved": false,
+    "profile_accepted": false
+  },
+  "session_closed": true,
+  "closed_utc": "2026-10-11T21:29:29.437512+00:00",
+  "own_active_build": null,
+  "own_reservations": 0,
+  "own_ready_request": false,
+  "coordinator_state_at_close": {
+    "schema_version": 3,
+    "max_active": 3,
+    "reservations_count": 0,
+    "session_policy_max_active": 2,
+    "transition_authored": false
+  },
+  "evidence_integrity_verified": true,
+  "text_log_chunks_verified": true
 }
