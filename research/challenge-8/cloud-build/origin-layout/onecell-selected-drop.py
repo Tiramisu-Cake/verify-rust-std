@@ -251,7 +251,7 @@ def _prepare(evidence: Path) -> dict:
             "drop_body_copy_line": _line(verified, body.CALL),
             "source_copy_line": _line(verified, copy_call),
             "call_line": _line(verified, body.CALL),
-            "canonical": True, "uses_effect": True,
+            "canonical": True, "uses_effect": True, "body_false_line": None, "prototype_false_line": None,
             "effect_fixture_kind": "exact",
             "false_line": (_line(verified, false_ghost) if name == "after_natural_drop_false" else
                            _line(verified, CALLER_READY_FALSE) if name == "caller_ready_entry_false" else None),
@@ -545,8 +545,12 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
             case, execution.get("stages", {}), before)
         execution["source_unchanged_at_every_stage"] = (
             before == after and execution["stage_receipt_gate"]["admitted"])
-        result = _classify(name, case, row, execution, prep, body,
-                           drop_module, proof_base)
+        try:
+            result = _classify(name, case, row, execution, prep, body, drop_module, proof_base)
+        except Exception as error:
+            result = {"case": name, "classification": "INCONCLUSIVE", "accepted": False,
+                      "classifier_exception": repr(error), "stages": execution.get("stages", {})}
+
         (case / "classification.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
         results[name] = result["classification"]
     aggregate = {"schema": "source-linked-u64-onecell-natural-drop-draft-v1",
