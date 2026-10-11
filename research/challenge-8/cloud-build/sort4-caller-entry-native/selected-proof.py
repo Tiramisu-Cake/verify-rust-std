@@ -1190,19 +1190,34 @@ def _arg_source_name(argument: str) -> str | None:
 
 
 def audit_selected_callgraph(functions: dict[str, str],
+                             operand_map: dict,
                              all_function_segments: list[str] | None = None) -> dict:
     expected_names = {"selected_freeze_basecase",
                       "sort4_selected_branch_threshold",
                       "sort4_selected_branch_small_sort",
                       "sort4_selected_branch_helper"}
     need(set(functions) == expected_names, "closed selected generated function set")
+    need(isinstance(operand_map, dict) and
+         set(operand_map) in ({"root", "helper"}, {"root", "helper", "fixture"}) and
+         isinstance(operand_map["root"], list) and
+         isinstance(operand_map["helper"], list) and
+         ("fixture" not in operand_map or
+          operand_map["fixture"] == "synthetic-callgraph-v1"),
+         "explicit selected AST operand map; synthetic marker only for controls")
+    need(len(operand_map["root"]) == 3 and len(set(operand_map["root"])) == 3 and
+         all(re.fullmatch(r"\$[A-Za-z_][A-Za-z_0-9]*", name)
+             for name in operand_map["root"]) and
+         len(operand_map["helper"]) == 3 and len(set(operand_map["helper"])) == 3 and
+         all(re.fullmatch(r"\$[A-Za-z_][A-Za-z_0-9]*", name)
+             for name in operand_map["helper"]),
+         "three explicit exact AST variable operands per selected edge")
     selected = "sort4_selected_branch_small_sort"
     helper = "sort4_selected_branch_helper"
     threshold = "sort4_selected_branch_threshold"
     expected = {
-        "selected_freeze_basecase": {threshold: ([], 1), selected: (["$_16", "$_17", "$_18"], 1)},
+        "selected_freeze_basecase": {threshold: ([], 1), selected: (operand_map["root"], 1)},
         "sort4_selected_branch_threshold": {},
-        selected: {helper: (["$_5", "$_6", "$_7"], 1)},
+        selected: {helper: (operand_map["helper"], 1)},
         "sort4_selected_branch_helper": {},
     }
     all_selected_edges: list[tuple[str, str, list[str]]] = []
@@ -1247,8 +1262,8 @@ def audit_selected_callgraph(functions: dict[str, str],
                      "selected edge escaped its exact owner function: " + callee)
     expected_edges = {
         ("selected_freeze_basecase", threshold, ()),
-        ("selected_freeze_basecase", selected, ("$_16", "$_17", "$_18")),
-        (selected, helper, ("$_5", "$_6", "$_7")),
+        ("selected_freeze_basecase", selected, tuple(operand_map["root"])),
+        (selected, helper, tuple(operand_map["helper"])),
     }
     observed_edges = {(owner, callee, tuple(args))
                       for owner, callee, args in all_selected_edges}
@@ -1261,7 +1276,7 @@ def audit_selected_callgraph(functions: dict[str, str],
                 {"owner": owner, "callee": callee, "args": args}
                 for owner, callee, args in sorted(all_selected_edges)],
             "per_owner_counts": per_owner,
-            "operand_identity_level": "exact AST temporary IDs; pre-binding full MIR verifies source reborrows",
+            "operand_identity_level": "exact AST temporary IDs checked against admitted per-mode MIR source map",
             "complete": True,
             "proof_credit": False}
 
@@ -1287,16 +1302,25 @@ def _synthetic_callgraph_controls() -> dict:
         "wrong-helper-owner": dict(baseline, **{helper: call(helper, ("$_5", "$_6", "$_7"))}),
         "wrong-operand": dict(baseline, selected_freeze_basecase=
                                call(threshold, ()) + call(selected, ("$_9", "$_17", "$_18"))),
+        "wrong-helper-local": dict(baseline, **{selected: call(helper, ("$_5", "$_99", "$_7"))}),
+        "wrong-projection": dict(baseline, **{selected:
+            f'CallExpr (loc "synthetic", "{helper}", [], [], '
+            '[DerefExpr (LitPat (Var (loc "synthetic", "$_5"))); '
+            'LitPat (Var (loc "synthetic", "$_6")); '
+            'LitPat (Var (loc "synthetic", "$_7"))], Static)'}),
         "unrenamed-generic-fallback": dict(baseline, selected_freeze_basecase=
                                call("StableSmallSortTypeImpl::small_sort", ("$_16", "$_17", "$_18"))),
     }
-    audit_selected_callgraph(baseline)
+    operand_map = {"root": ["$_16", "$_17", "$_18"],
+                   "helper": ["$_5", "$_6", "$_7"],
+                   "fixture": "synthetic-callgraph-v1"}
+    audit_selected_callgraph(baseline, operand_map, list(baseline.values()))
     controls = {"baseline-shape-accepted": {
         "refused": False, "reason": "expected synthetic selected graph accepted",
         "synthetic": True, "proof_credit": False}}
     for name, mutated in mutations.items():
         try:
-            audit_selected_callgraph(mutated)
+            audit_selected_callgraph(mutated, operand_map, list(mutated.values()))
             refused, reason = False, "synthetic call graph unexpectedly accepted"
         except Exception as exc:
             refused, reason = True, str(exc)
@@ -1304,20 +1328,125 @@ def _synthetic_callgraph_controls() -> dict:
                           "synthetic": True, "proof_credit": False}
     try:
         audit_selected_callgraph(
-            baseline, [*baseline.values(), call(selected, ("$_16", "$_17", "$_18"))])
+            baseline, operand_map,
+            [*baseline.values(), call(selected, ("$_16", "$_17", "$_18"))])
         refused, reason = False, "synthetic out-of-owner edge unexpectedly accepted"
     except Exception as exc:
         refused, reason = True, str(exc)
     controls["edge-outside-owner-inventory"] = {
         "refused": refused, "reason": reason, "synthetic": True,
         "proof_credit": False}
+    try:
+        audit_selected_callgraph(baseline)
+        refused, reason = False, "missing explicit operand map unexpectedly accepted"
+    except Exception as exc:
+        refused, reason = True, str(exc)
+    controls["missing-explicit-operand-map"] = {
+        "refused": refused, "reason": reason, "synthetic": True,
+        "proof_credit": False}
+    try:
+        wrong_map = {**operand_map, "root": ["$_16", "$_16", "$_18"]}
+        audit_selected_callgraph(baseline, wrong_map)
+        refused, reason = False, "duplicate operand-map local unexpectedly accepted"
+    except Exception as exc:
+        refused, reason = True, str(exc)
+    controls["duplicate-operand-map-local"] = {
+        "refused": refused, "reason": reason, "synthetic": True,
+        "proof_credit": False}
+    def admitted(mode: str) -> dict:
+        maps = SELECTED_LOCAL_MAPS["selected_freeze_basecase"]
+        def row(callee: str, locals_: list[str], source_locals: list[str]) -> dict:
+            return {"callee": callee, "argument_mir_locals": locals_,
+                    "argument_source_roots": ["v", "scratch", "is_less"],
+                    "source_mir_locals": source_locals,
+                    "argument_operand_shapes": [{"kind": "move", "projection": []}] * 3}
+        return {"binding_gate_open": True, "paired_source_support": True,
+                "structural_summary": {"caller": "selected_freeze_basecase"},
+                "raw_per_mode_maps": maps,
+                "per_mode_structural_summaries": {
+                    item: {"caller": "selected_freeze_basecase", "calls": [
+                        row("StableSmallSortTypeImpl::small_sort",
+                            maps[item]["root"], ["_1", "_2", "_5"]),
+                        row("small_sort_general_with_scratch",
+                            maps[item]["helper"], ["_1", "_2", "_3"])]}
+                    for item in ("normal", "readonly")}}
+    for mode in ("normal", "readonly"):
+        mapped = _consumer_operand_map(admitted(mode), "selected-branch-positive",
+                                       "selected_freeze_basecase", mode)
+        expected_map = {"root": ["$" + item for item in
+                                  SELECTED_LOCAL_MAPS["selected_freeze_basecase"][mode]["root"]],
+                        "helper": ["$" + item for item in
+                                    SELECTED_LOCAL_MAPS["selected_freeze_basecase"][mode]["helper"]]}
+        need(mapped == expected_map, "synthetic explicit mode-to-AST operand mapping")
+    bad_admission = admitted("normal")
+    bad_admission["per_mode_structural_summaries"]["normal"]["calls"][0][
+        "source_mir_locals"] = ["_2", "_1", "_5"]
+    for label, selected_case, selected_target, selected_mode, certificate in (
+        ("unobserved-translation-mode", "selected-branch-positive",
+         "selected_freeze_basecase", "", admitted("normal")),
+        ("wrong-case-certificate", "selected-branch-false-bound-31",
+         "selected_freeze_basecase", "normal", admitted("normal")),
+        ("wrong-MIR-source-map", "selected-branch-positive",
+         "selected_freeze_basecase", "normal", bad_admission),
+    ):
+        try:
+            _consumer_operand_map(certificate, selected_case, selected_target,
+                                  selected_mode)
+            refused, reason = False, "synthetic consumer map unexpectedly accepted"
+        except Exception as exc:
+            refused, reason = True, str(exc)
+        controls[label] = {"refused": refused, "reason": reason,
+                           "synthetic": True, "proof_credit": False}
     need(all(control["refused"] for name, control in controls.items()
              if name != "baseline-shape-accepted"),
          "synthetic selected-callgraph negative controls")
     return controls
 
 
-def post_ast_audit(root: Path, result: dict, target: str) -> dict:
+def _consumer_operand_map(admission: dict, case: str, target: str,
+                          observed_mode: str) -> dict:
+    need(observed_mode in ("normal", "readonly"),
+         "observed selected AST translation mode is explicitly pinned")
+    need(case in SELECTED and SELECTED[case] == target and
+         target in SELECTED_LOCAL_MAPS and
+         admission.get("binding_gate_open") is True and
+         admission.get("paired_source_support") is True and
+         admission.get("structural_summary", {}).get("caller") == target,
+         "selected consumer MIR admission certificate matches exact case/target")
+    need(admission.get("raw_per_mode_maps") == SELECTED_LOCAL_MAPS[target],
+         "consumer admission retains exact observed normal/readonly local maps")
+    modes = admission.get("per_mode_structural_summaries")
+    need(isinstance(modes, dict) and set(modes) == {"normal", "readonly"},
+         "consumer admission includes both mode-specific structural summaries")
+    for mode in ("normal", "readonly"):
+        summary = modes[mode]
+        need(summary.get("caller") == target,
+             mode + " MIR structural summary caller identity")
+        root_rows = [row for row in summary.get("calls", [])
+                     if row.get("callee") == "StableSmallSortTypeImpl::small_sort"]
+        helper_rows = [row for row in summary.get("calls", [])
+                       if row.get("callee") == "small_sort_general_with_scratch"]
+        need(len(root_rows) == 1 and len(helper_rows) == 1,
+             mode + " MIR selected root/helper call uniqueness")
+        root, helper = root_rows[0], helper_rows[0]
+        need(root.get("argument_mir_locals") == SELECTED_LOCAL_MAPS[target][mode]["root"] and
+             root.get("argument_source_roots") == ["v", "scratch", "is_less"] and
+             root.get("source_mir_locals") == ["_1", "_2", "_5"] and
+             root.get("argument_operand_shapes") == [
+                 {"kind": "move", "projection": []}] * 3 and
+             helper.get("argument_mir_locals") == SELECTED_LOCAL_MAPS[target][mode]["helper"] and
+             helper.get("argument_source_roots") == ["v", "scratch", "is_less"] and
+             helper.get("source_mir_locals") == ["_1", "_2", "_3"] and
+             helper.get("argument_operand_shapes") == [
+                 {"kind": "move", "projection": []}] * 3,
+             mode + " MIR map/source roots/move operands agree with admission")
+    expected = SELECTED_LOCAL_MAPS[target][observed_mode]
+    return {"root": ["$" + local for local in expected["root"]],
+            "helper": ["$" + local for local in expected["helper"]]}
+
+
+def post_ast_audit(root: Path, result: dict, target: str, case: str,
+                   observed_mode: str, consumer_admission: dict) -> dict:
     path = root / "proof-ast.ml"
     need(path.is_file() and sha(path) == result.get("proof_ast_sha256"),
          "captured exact selected proof AST")
@@ -1364,9 +1493,13 @@ def post_ast_audit(root: Path, result: dict, target: str) -> dict:
                       "normal_post_sha256": hashlib.sha256(returning_clause.encode()).hexdigest(),
                       "unwind_post_sha256": hashlib.sha256(unwinding_clause.encode()).hexdigest(),
                       "post_resource_counts": clause_counts}
-    callgraph = audit_selected_callgraph(function_segments, functions)
+    operand_map = _consumer_operand_map(consumer_admission, case, target,
+                                       observed_mode)
+    callgraph = audit_selected_callgraph(function_segments, operand_map, functions)
     audit = {"proof_ast_sha256": sha(path), "functions": rows,
              "source_caller_target": target,
+             "case": case, "observed_translation_mode": observed_mode,
+             "admitted_operand_map": operand_map,
              "generated_caller_name": "selected_freeze_basecase",
              "callgraph": callgraph,
              "synthetic_callgraph_controls": _synthetic_callgraph_controls(),
@@ -1488,7 +1621,13 @@ def run(a, c4, audit, manifest: dict, ghost, caller_driver, query_result: dict) 
         template = (a.proof_root / HERE / "selected-branch-cases.rs").read_text()
         if manifest.get("selected_capture_only") is True:
             captures = {}
-            for name, target in SELECTED.items():
+            capture_names = manifest.get("selected_capture_cases")
+            need(isinstance(capture_names, list) and capture_names and
+                 len(capture_names) == len(set(capture_names)) and
+                 set(capture_names) <= set(SELECTED),
+                 "explicit distinct selected capture cases")
+            for name in capture_names:
+                target = SELECTED[name]
                 fixture = make_selected_fixture(
                     a, caller_driver, ghost, template, name,
                     selected_pins["case_verified_lib_md5"][name])
@@ -1510,18 +1649,16 @@ def run(a, c4, audit, manifest: dict, ghost, caller_driver, query_result: dict) 
                         row.update(mir_admitted=True,
                                    admission_sha256=sha(root /
                                        "pre-binding/selected-pre-binding-mir-admission.json"))
-                        need(target == "selected_freeze_basecase" and
-                             SELECTED_LOCAL_MAPS[target]["normal"]["root"] !=
-                             ["_16", "_17", "_18"] and
-                             selected_pins["patch_sha256"] == sha(
+                        need(selected_pins["patch_sha256"] == sha(
                                  a.proof_root / HERE / "selected-branch-binding.patch"),
-                             "AST diagnostic lacks the pinned pre-verification literal refusal")
+                             "AST diagnostic requires the exact capture-stop translator")
                         selected_env = dict(base_env)
                         selected_env.update(SORT4_SELECTED_BRANCH_INTERFACE="1",
                                             SORT4_SELECTED_COMPILER_BINDING_VERIFIED="1",
                                             SORT4_ACTUAL_CALLER_ENTRY_PHASE_ID=PHASE)
-                        # The pinned translator must refuse its literal operand
-                        # map before verifier execution; retain that refusal.
+                        selected_env["SORT4_SELECTED_OPERAND_CAPTURE_ONLY"] = "1"
+                        # The translator explicitly stops after operand observation,
+                        # before binding/verification, independent of local numbers.
                         ast_stage = c4.stage(
                             a, root / "pre-binding", "proof-ast-diagnostic",
                             [str(tool / "bin/verifast"), "-dump_ast_with_locs",
@@ -1533,15 +1670,16 @@ def run(a, c4, audit, manifest: dict, ghost, caller_driver, query_result: dict) 
                             r"SORT4-SELECTED-OPERAND-OBSERVATION: source=([0-9a-f]+) "
                             r"owner=([^ ]+) callee=([^ ]+) vars=([^\s]+)", ast_text)
                         observed_vars = marker.group(4).split(",") if marker else []
-                        observed_locals = [name.removeprefix("$") for name in observed_vars]
-                        observed_mode = next((mode for mode in ("normal", "readonly")
-                            if observed_locals == SELECTED_LOCAL_MAPS[target][mode]["root"]), None)
+                        matching_modes = [mode for mode in ("normal", "readonly")
+                            if observed_vars == ["$" + local for local in
+                                SELECTED_LOCAL_MAPS[target][mode]["root"]]]
+                        observed_mode = matching_modes[0] if len(matching_modes) == 1 else None
                         need(ast_stage.get("exit") not in (None, 0) and marker is not None and
                              marker.group(1) == selected_pins["case_verified_lib_md5"][name] and
                              marker.group(2) == target and
                              marker.group(3) == "StableSmallSortTypeImpl::small_sort" and
                              observed_mode is not None and
-                             "selected call operands/order differ from observed MIR reborrow locals"
+                             "capture-only stop before selected-call binding and verification"
                              in ast_text,
                              "pinned selected translator did not stop at expected operand refusal")
                         ast_path = fixture / "proof-ast.ml"
@@ -1604,7 +1742,13 @@ def run(a, c4, audit, manifest: dict, ghost, caller_driver, query_result: dict) 
             raw = c4.verify_case(a, tool, fixture, root, selected_env,
                                  target=target, ast=True,
                                  require_paired_support=False, verbosity=6)
-            posts = post_ast_audit(root, raw, target)
+            observed_mode = selected_pins.get("observed_translation_modes", {}).get(name)
+            admission_path = root / "pre-binding/selected-pre-binding-mir-admission.json"
+            consumer_admission = json.loads(admission_path.read_text())
+            need(consumer_admission == consumer,
+                 name + " on-disk consumer MIR admission certificate is unchanged")
+            posts = post_ast_audit(root, raw, target, name, observed_mode,
+                                   consumer_admission)
             row = classify_selected(name, raw, fixture)
             row["post_ast_sha256"] = posts["proof_ast_sha256"]
             row["normal_and_unwind_posts_present"] = posts[

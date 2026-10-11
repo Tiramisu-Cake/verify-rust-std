@@ -1,0 +1,1318 @@
+{
+  "build_id": "5bd2b7c3-ec17-45aa-a60e-7bdda819233c",
+  "proof_sha": "83b1d4451910902a8d6ef931a05e32b8d46e3624",
+  "infra_sha": "83b1d4451910902a8d6ef931a05e32b8d46e3624",
+  "archive_sha256": "70aa987852c8129e409dda94f4b4dddc6e3bd4447f7502edcfe0e806de016071",
+  "auditor_sha256": "db56ba3fad7794fbd33f44bb41ecb653b75994c85785ff1f2a64f440853fe6e8",
+  "old_verdict": "SELECTED_MIR_CAPTURE_ONLY; negatives lacked pinned maps; no verification invoked",
+  "replay_kind": "saved-source/MIR-only; exact maps observed then direct mutable original-source provenance admitted; synthetic causal negatives",
+  "cases": {
+    "selected-branch-positive": {
+      "source_sha256": "470b144bcc63a8343d0b0b0a432ff5b538eaaeac93e9f968faeee2a9dc4f6135",
+      "source_md5": "0e4a1459be31e3d48083e0e90e71a6e9",
+      "local_maps": {
+        "normal": {
+          "root": [
+            "_17",
+            "_18",
+            "_19"
+          ],
+          "helper": [
+            "_5",
+            "_6",
+            "_7"
+          ]
+        },
+        "readonly": {
+          "root": [
+            "_16",
+            "_17",
+            "_18"
+          ],
+          "helper": [
+            "_5",
+            "_6",
+            "_7"
+          ]
+        }
+      },
+      "replay": {
+        "mir_sha256": {
+          "normal": "b9b70ecbf616bf4a0264bff5921fd6cf15f66f0fa3600481ebb0f66d51368973",
+          "readonly": "3c09a4dfa0df472979d612de335433e2f75d4e08c8befb6784cb7fc4cb39475a"
+        },
+        "structural_summary": {
+          "caller": "selected_freeze_basecase",
+          "caller_line": 44,
+          "selected_method_lines": {
+            "small_sort_threshold": 23,
+            "small_sort": 31
+          },
+          "helper_line": 65,
+          "full_selected_caller_and_helper_clauses": true,
+          "selected_impl_clauses": true,
+          "input_shapes": "v:&mut[T],scratch:&mut[MaybeUninit<T>],is_less:&mut F",
+          "calls": [
+            {
+              "callee": "StableSmallSortTypeImpl::small_sort",
+              "call_line": 56,
+              "fn_def_substs": [
+                "T",
+                "F"
+              ],
+              "late_bound_generic_param_count": 3,
+              "argument_source_roots": [
+                "v",
+                "scratch",
+                "is_less"
+              ],
+              "source_mir_locals": [
+                "_1",
+                "_2",
+                "_5"
+              ],
+              "argument_mir_locals": [
+                "_17",
+                "_18",
+                "_19"
+              ],
+              "argument_operand_shapes": [
+                {
+                  "kind": "move",
+                  "projection": []
+                },
+                {
+                  "kind": "move",
+                  "projection": []
+                },
+                {
+                  "kind": "move",
+                  "projection": []
+                }
+              ]
+            },
+            {
+              "callee": "StableSmallSortTypeImpl::small_sort_threshold",
+              "call_line": 54,
+              "fn_def_substs": [
+                "T"
+              ],
+              "late_bound_generic_param_count": 0,
+              "argument_source_roots": [],
+              "source_mir_locals": [],
+              "argument_mir_locals": [],
+              "argument_operand_shapes": []
+            },
+            {
+              "callee": "small_sort_general_with_scratch",
+              "call_line": 36,
+              "fn_def_substs": [
+                "T",
+                "F"
+              ],
+              "late_bound_generic_param_count": 3,
+              "argument_source_roots": [
+                "v",
+                "scratch",
+                "is_less"
+              ],
+              "source_mir_locals": [
+                "_1",
+                "_2",
+                "_3"
+              ],
+              "argument_mir_locals": [
+                "_5",
+                "_6",
+                "_7"
+              ],
+              "argument_operand_shapes": [
+                {
+                  "kind": "move",
+                  "projection": []
+                },
+                {
+                  "kind": "move",
+                  "projection": []
+                },
+                {
+                  "kind": "move",
+                  "projection": []
+                }
+              ]
+            }
+          ],
+          "proof_credit": false
+        },
+        "raw_per_mode_maps": {
+          "normal": {
+            "root": [
+              "_17",
+              "_18",
+              "_19"
+            ],
+            "helper": [
+              "_5",
+              "_6",
+              "_7"
+            ]
+          },
+          "readonly": {
+            "root": [
+              "_16",
+              "_17",
+              "_18"
+            ],
+            "helper": [
+              "_5",
+              "_6",
+              "_7"
+            ]
+          }
+        },
+        "per_mode_structural_summaries": {
+          "normal": {
+            "caller": "selected_freeze_basecase",
+            "caller_line": 44,
+            "selected_method_lines": {
+              "small_sort_threshold": 23,
+              "small_sort": 31
+            },
+            "helper_line": 65,
+            "full_selected_caller_and_helper_clauses": true,
+            "selected_impl_clauses": true,
+            "input_shapes": "v:&mut[T],scratch:&mut[MaybeUninit<T>],is_less:&mut F",
+            "calls": [
+              {
+                "callee": "StableSmallSortTypeImpl::small_sort",
+                "call_line": 56,
+                "fn_def_substs": [
+                  "T",
+                  "F"
+                ],
+                "late_bound_generic_param_count": 3,
+                "argument_source_roots": [
+                  "v",
+                  "scratch",
+                  "is_less"
+                ],
+                "source_mir_locals": [
+                  "_1",
+                  "_2",
+                  "_5"
+                ],
+                "argument_mir_locals": [
+                  "_17",
+                  "_18",
+                  "_19"
+                ],
+                "argument_operand_shapes": [
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  }
+                ]
+              },
+              {
+                "callee": "StableSmallSortTypeImpl::small_sort_threshold",
+                "call_line": 54,
+                "fn_def_substs": [
+                  "T"
+                ],
+                "late_bound_generic_param_count": 0,
+                "argument_source_roots": [],
+                "source_mir_locals": [],
+                "argument_mir_locals": [],
+                "argument_operand_shapes": []
+              },
+              {
+                "callee": "small_sort_general_with_scratch",
+                "call_line": 36,
+                "fn_def_substs": [
+                  "T",
+                  "F"
+                ],
+                "late_bound_generic_param_count": 3,
+                "argument_source_roots": [
+                  "v",
+                  "scratch",
+                  "is_less"
+                ],
+                "source_mir_locals": [
+                  "_1",
+                  "_2",
+                  "_3"
+                ],
+                "argument_mir_locals": [
+                  "_5",
+                  "_6",
+                  "_7"
+                ],
+                "argument_operand_shapes": [
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  }
+                ]
+              }
+            ],
+            "proof_credit": false
+          },
+          "readonly": {
+            "caller": "selected_freeze_basecase",
+            "caller_line": 44,
+            "selected_method_lines": {
+              "small_sort_threshold": 23,
+              "small_sort": 31
+            },
+            "helper_line": 65,
+            "full_selected_caller_and_helper_clauses": true,
+            "selected_impl_clauses": true,
+            "input_shapes": "v:&mut[T],scratch:&mut[MaybeUninit<T>],is_less:&mut F",
+            "calls": [
+              {
+                "callee": "StableSmallSortTypeImpl::small_sort",
+                "call_line": 56,
+                "fn_def_substs": [
+                  "T",
+                  "F"
+                ],
+                "late_bound_generic_param_count": 3,
+                "argument_source_roots": [
+                  "v",
+                  "scratch",
+                  "is_less"
+                ],
+                "source_mir_locals": [
+                  "_1",
+                  "_2",
+                  "_5"
+                ],
+                "argument_mir_locals": [
+                  "_16",
+                  "_17",
+                  "_18"
+                ],
+                "argument_operand_shapes": [
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  }
+                ]
+              },
+              {
+                "callee": "StableSmallSortTypeImpl::small_sort_threshold",
+                "call_line": 54,
+                "fn_def_substs": [
+                  "T"
+                ],
+                "late_bound_generic_param_count": 0,
+                "argument_source_roots": [],
+                "source_mir_locals": [],
+                "argument_mir_locals": [],
+                "argument_operand_shapes": []
+              },
+              {
+                "callee": "small_sort_general_with_scratch",
+                "call_line": 36,
+                "fn_def_substs": [
+                  "T",
+                  "F"
+                ],
+                "late_bound_generic_param_count": 3,
+                "argument_source_roots": [
+                  "v",
+                  "scratch",
+                  "is_less"
+                ],
+                "source_mir_locals": [
+                  "_1",
+                  "_2",
+                  "_3"
+                ],
+                "argument_mir_locals": [
+                  "_5",
+                  "_6",
+                  "_7"
+                ],
+                "argument_operand_shapes": [
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  }
+                ]
+              }
+            ],
+            "proof_credit": false
+          }
+        },
+        "normal_readonly_semantic_equality": true,
+        "negative_controls": {
+          "missing-MIR-body": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: closed compiler binding MIR function inventory",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "missing-Freeze-clause": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: exact selected caller source, full clauses and five typed inputs",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "wrong-MIR-operand": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: MIR operands derive from v, scratch, is_less in order StableSmallSortTypeImpl::small_sort",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "wrong-late-bound-lifetimes": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: MIR FnDef T/F substitutions, three late-bound lifetimes and arity StableSmallSortTypeImpl::small_sort",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "wrong-original-argument-source": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: MIR operands derive from v, scratch, is_less in order StableSmallSortTypeImpl::small_sort",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "wrong-move-projection": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: exact direct MIR reborrow temporaries for translated AST StableSmallSortTypeImpl::small_sort",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "wrong-temporary-id": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: MIR operand has no direct source-input definition",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "missing-binder": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: MIR FnDef shape",
+            "synthetic": true,
+            "proof_credit": false
+          }
+        },
+        "complete_source_typed_graph": true,
+        "proof_credit": false
+      },
+      "proof_credit": false
+    },
+    "selected-branch-false-bound-31": {
+      "source_sha256": "0eae63f563a78dc5da0c3428474067cfcbc5ed87505defb0fb371cfcb53c5753",
+      "source_md5": "52dc359aa5c64a4a96170bfc1dbc263f",
+      "local_maps": {
+        "normal": {
+          "root": [
+            "_17",
+            "_18",
+            "_19"
+          ],
+          "helper": [
+            "_5",
+            "_6",
+            "_7"
+          ]
+        },
+        "readonly": {
+          "root": [
+            "_16",
+            "_17",
+            "_18"
+          ],
+          "helper": [
+            "_5",
+            "_6",
+            "_7"
+          ]
+        }
+      },
+      "replay": {
+        "mir_sha256": {
+          "normal": "1061b838f3304c489dfa7a4c40b9dd63da4a37deb062b2a3af5544dd70ba2a93",
+          "readonly": "30cdb9f28295f3a055d0c3bfa54764a06e217675baacb32650f6478ae78a5708"
+        },
+        "structural_summary": {
+          "caller": "selected_freeze_basecase_false_31",
+          "caller_line": 40,
+          "selected_method_lines": {
+            "small_sort_threshold": 23,
+            "small_sort": 31
+          },
+          "helper_line": 59,
+          "full_selected_caller_and_helper_clauses": true,
+          "selected_impl_clauses": true,
+          "input_shapes": "v:&mut[T],scratch:&mut[MaybeUninit<T>],is_less:&mut F",
+          "calls": [
+            {
+              "callee": "StableSmallSortTypeImpl::small_sort",
+              "call_line": 52,
+              "fn_def_substs": [
+                "T",
+                "F"
+              ],
+              "late_bound_generic_param_count": 3,
+              "argument_source_roots": [
+                "v",
+                "scratch",
+                "is_less"
+              ],
+              "source_mir_locals": [
+                "_1",
+                "_2",
+                "_5"
+              ],
+              "argument_mir_locals": [
+                "_17",
+                "_18",
+                "_19"
+              ],
+              "argument_operand_shapes": [
+                {
+                  "kind": "move",
+                  "projection": []
+                },
+                {
+                  "kind": "move",
+                  "projection": []
+                },
+                {
+                  "kind": "move",
+                  "projection": []
+                }
+              ]
+            },
+            {
+              "callee": "StableSmallSortTypeImpl::small_sort_threshold",
+              "call_line": 49,
+              "fn_def_substs": [
+                "T"
+              ],
+              "late_bound_generic_param_count": 0,
+              "argument_source_roots": [],
+              "source_mir_locals": [],
+              "argument_mir_locals": [],
+              "argument_operand_shapes": []
+            },
+            {
+              "callee": "small_sort_general_with_scratch",
+              "call_line": 36,
+              "fn_def_substs": [
+                "T",
+                "F"
+              ],
+              "late_bound_generic_param_count": 3,
+              "argument_source_roots": [
+                "v",
+                "scratch",
+                "is_less"
+              ],
+              "source_mir_locals": [
+                "_1",
+                "_2",
+                "_3"
+              ],
+              "argument_mir_locals": [
+                "_5",
+                "_6",
+                "_7"
+              ],
+              "argument_operand_shapes": [
+                {
+                  "kind": "move",
+                  "projection": []
+                },
+                {
+                  "kind": "move",
+                  "projection": []
+                },
+                {
+                  "kind": "move",
+                  "projection": []
+                }
+              ]
+            }
+          ],
+          "proof_credit": false
+        },
+        "raw_per_mode_maps": {
+          "normal": {
+            "root": [
+              "_17",
+              "_18",
+              "_19"
+            ],
+            "helper": [
+              "_5",
+              "_6",
+              "_7"
+            ]
+          },
+          "readonly": {
+            "root": [
+              "_16",
+              "_17",
+              "_18"
+            ],
+            "helper": [
+              "_5",
+              "_6",
+              "_7"
+            ]
+          }
+        },
+        "per_mode_structural_summaries": {
+          "normal": {
+            "caller": "selected_freeze_basecase_false_31",
+            "caller_line": 40,
+            "selected_method_lines": {
+              "small_sort_threshold": 23,
+              "small_sort": 31
+            },
+            "helper_line": 59,
+            "full_selected_caller_and_helper_clauses": true,
+            "selected_impl_clauses": true,
+            "input_shapes": "v:&mut[T],scratch:&mut[MaybeUninit<T>],is_less:&mut F",
+            "calls": [
+              {
+                "callee": "StableSmallSortTypeImpl::small_sort",
+                "call_line": 52,
+                "fn_def_substs": [
+                  "T",
+                  "F"
+                ],
+                "late_bound_generic_param_count": 3,
+                "argument_source_roots": [
+                  "v",
+                  "scratch",
+                  "is_less"
+                ],
+                "source_mir_locals": [
+                  "_1",
+                  "_2",
+                  "_5"
+                ],
+                "argument_mir_locals": [
+                  "_17",
+                  "_18",
+                  "_19"
+                ],
+                "argument_operand_shapes": [
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  }
+                ]
+              },
+              {
+                "callee": "StableSmallSortTypeImpl::small_sort_threshold",
+                "call_line": 49,
+                "fn_def_substs": [
+                  "T"
+                ],
+                "late_bound_generic_param_count": 0,
+                "argument_source_roots": [],
+                "source_mir_locals": [],
+                "argument_mir_locals": [],
+                "argument_operand_shapes": []
+              },
+              {
+                "callee": "small_sort_general_with_scratch",
+                "call_line": 36,
+                "fn_def_substs": [
+                  "T",
+                  "F"
+                ],
+                "late_bound_generic_param_count": 3,
+                "argument_source_roots": [
+                  "v",
+                  "scratch",
+                  "is_less"
+                ],
+                "source_mir_locals": [
+                  "_1",
+                  "_2",
+                  "_3"
+                ],
+                "argument_mir_locals": [
+                  "_5",
+                  "_6",
+                  "_7"
+                ],
+                "argument_operand_shapes": [
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  }
+                ]
+              }
+            ],
+            "proof_credit": false
+          },
+          "readonly": {
+            "caller": "selected_freeze_basecase_false_31",
+            "caller_line": 40,
+            "selected_method_lines": {
+              "small_sort_threshold": 23,
+              "small_sort": 31
+            },
+            "helper_line": 59,
+            "full_selected_caller_and_helper_clauses": true,
+            "selected_impl_clauses": true,
+            "input_shapes": "v:&mut[T],scratch:&mut[MaybeUninit<T>],is_less:&mut F",
+            "calls": [
+              {
+                "callee": "StableSmallSortTypeImpl::small_sort",
+                "call_line": 52,
+                "fn_def_substs": [
+                  "T",
+                  "F"
+                ],
+                "late_bound_generic_param_count": 3,
+                "argument_source_roots": [
+                  "v",
+                  "scratch",
+                  "is_less"
+                ],
+                "source_mir_locals": [
+                  "_1",
+                  "_2",
+                  "_5"
+                ],
+                "argument_mir_locals": [
+                  "_16",
+                  "_17",
+                  "_18"
+                ],
+                "argument_operand_shapes": [
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  }
+                ]
+              },
+              {
+                "callee": "StableSmallSortTypeImpl::small_sort_threshold",
+                "call_line": 49,
+                "fn_def_substs": [
+                  "T"
+                ],
+                "late_bound_generic_param_count": 0,
+                "argument_source_roots": [],
+                "source_mir_locals": [],
+                "argument_mir_locals": [],
+                "argument_operand_shapes": []
+              },
+              {
+                "callee": "small_sort_general_with_scratch",
+                "call_line": 36,
+                "fn_def_substs": [
+                  "T",
+                  "F"
+                ],
+                "late_bound_generic_param_count": 3,
+                "argument_source_roots": [
+                  "v",
+                  "scratch",
+                  "is_less"
+                ],
+                "source_mir_locals": [
+                  "_1",
+                  "_2",
+                  "_3"
+                ],
+                "argument_mir_locals": [
+                  "_5",
+                  "_6",
+                  "_7"
+                ],
+                "argument_operand_shapes": [
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  }
+                ]
+              }
+            ],
+            "proof_credit": false
+          }
+        },
+        "normal_readonly_semantic_equality": true,
+        "negative_controls": {
+          "missing-MIR-body": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: closed compiler binding MIR function inventory",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "missing-Freeze-clause": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: exact selected caller source, full clauses and five typed inputs",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "wrong-MIR-operand": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: MIR operands derive from v, scratch, is_less in order StableSmallSortTypeImpl::small_sort",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "wrong-late-bound-lifetimes": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: MIR FnDef T/F substitutions, three late-bound lifetimes and arity StableSmallSortTypeImpl::small_sort",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "wrong-original-argument-source": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: MIR operands derive from v, scratch, is_less in order StableSmallSortTypeImpl::small_sort",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "wrong-move-projection": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: exact direct MIR reborrow temporaries for translated AST StableSmallSortTypeImpl::small_sort",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "wrong-temporary-id": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: MIR operand has no direct source-input definition",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "missing-binder": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: MIR FnDef shape",
+            "synthetic": true,
+            "proof_credit": false
+          }
+        },
+        "complete_source_typed_graph": true,
+        "proof_credit": false
+      },
+      "proof_credit": false
+    },
+    "selected-branch-missing-source-array": {
+      "source_sha256": "1a51a135a8d3b32c1401ab69ff1328f5ce68c7652b0bc18b96517b98249c9ea9",
+      "source_md5": "59d4a31eb99993ed665d01e982100a72",
+      "local_maps": {
+        "normal": {
+          "root": [
+            "_21",
+            "_22",
+            "_23"
+          ],
+          "helper": [
+            "_5",
+            "_6",
+            "_7"
+          ]
+        },
+        "readonly": {
+          "root": [
+            "_16",
+            "_17",
+            "_18"
+          ],
+          "helper": [
+            "_5",
+            "_6",
+            "_7"
+          ]
+        }
+      },
+      "replay": {
+        "mir_sha256": {
+          "normal": "87cc44ae48ee07dcbc53827012b24bd8462d88529b407ee1c9ef3fb3dcdc5982",
+          "readonly": "d67e2f3873e9d879d332403a08194f74ebc830dd84c4caab4436b8cb97ec1082"
+        },
+        "structural_summary": {
+          "caller": "selected_freeze_basecase_missing_source_array",
+          "caller_line": 40,
+          "selected_method_lines": {
+            "small_sort_threshold": 23,
+            "small_sort": 31
+          },
+          "helper_line": 64,
+          "full_selected_caller_and_helper_clauses": true,
+          "selected_impl_clauses": true,
+          "input_shapes": "v:&mut[T],scratch:&mut[MaybeUninit<T>],is_less:&mut F",
+          "calls": [
+            {
+              "callee": "StableSmallSortTypeImpl::small_sort",
+              "call_line": 57,
+              "fn_def_substs": [
+                "T",
+                "F"
+              ],
+              "late_bound_generic_param_count": 3,
+              "argument_source_roots": [
+                "v",
+                "scratch",
+                "is_less"
+              ],
+              "source_mir_locals": [
+                "_1",
+                "_2",
+                "_5"
+              ],
+              "argument_mir_locals": [
+                "_21",
+                "_22",
+                "_23"
+              ],
+              "argument_operand_shapes": [
+                {
+                  "kind": "move",
+                  "projection": []
+                },
+                {
+                  "kind": "move",
+                  "projection": []
+                },
+                {
+                  "kind": "move",
+                  "projection": []
+                }
+              ]
+            },
+            {
+              "callee": "StableSmallSortTypeImpl::small_sort_threshold",
+              "call_line": 49,
+              "fn_def_substs": [
+                "T"
+              ],
+              "late_bound_generic_param_count": 0,
+              "argument_source_roots": [],
+              "source_mir_locals": [],
+              "argument_mir_locals": [],
+              "argument_operand_shapes": []
+            },
+            {
+              "callee": "small_sort_general_with_scratch",
+              "call_line": 36,
+              "fn_def_substs": [
+                "T",
+                "F"
+              ],
+              "late_bound_generic_param_count": 3,
+              "argument_source_roots": [
+                "v",
+                "scratch",
+                "is_less"
+              ],
+              "source_mir_locals": [
+                "_1",
+                "_2",
+                "_3"
+              ],
+              "argument_mir_locals": [
+                "_5",
+                "_6",
+                "_7"
+              ],
+              "argument_operand_shapes": [
+                {
+                  "kind": "move",
+                  "projection": []
+                },
+                {
+                  "kind": "move",
+                  "projection": []
+                },
+                {
+                  "kind": "move",
+                  "projection": []
+                }
+              ]
+            }
+          ],
+          "proof_credit": false
+        },
+        "raw_per_mode_maps": {
+          "normal": {
+            "root": [
+              "_21",
+              "_22",
+              "_23"
+            ],
+            "helper": [
+              "_5",
+              "_6",
+              "_7"
+            ]
+          },
+          "readonly": {
+            "root": [
+              "_16",
+              "_17",
+              "_18"
+            ],
+            "helper": [
+              "_5",
+              "_6",
+              "_7"
+            ]
+          }
+        },
+        "per_mode_structural_summaries": {
+          "normal": {
+            "caller": "selected_freeze_basecase_missing_source_array",
+            "caller_line": 40,
+            "selected_method_lines": {
+              "small_sort_threshold": 23,
+              "small_sort": 31
+            },
+            "helper_line": 64,
+            "full_selected_caller_and_helper_clauses": true,
+            "selected_impl_clauses": true,
+            "input_shapes": "v:&mut[T],scratch:&mut[MaybeUninit<T>],is_less:&mut F",
+            "calls": [
+              {
+                "callee": "StableSmallSortTypeImpl::small_sort",
+                "call_line": 57,
+                "fn_def_substs": [
+                  "T",
+                  "F"
+                ],
+                "late_bound_generic_param_count": 3,
+                "argument_source_roots": [
+                  "v",
+                  "scratch",
+                  "is_less"
+                ],
+                "source_mir_locals": [
+                  "_1",
+                  "_2",
+                  "_5"
+                ],
+                "argument_mir_locals": [
+                  "_21",
+                  "_22",
+                  "_23"
+                ],
+                "argument_operand_shapes": [
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  }
+                ]
+              },
+              {
+                "callee": "StableSmallSortTypeImpl::small_sort_threshold",
+                "call_line": 49,
+                "fn_def_substs": [
+                  "T"
+                ],
+                "late_bound_generic_param_count": 0,
+                "argument_source_roots": [],
+                "source_mir_locals": [],
+                "argument_mir_locals": [],
+                "argument_operand_shapes": []
+              },
+              {
+                "callee": "small_sort_general_with_scratch",
+                "call_line": 36,
+                "fn_def_substs": [
+                  "T",
+                  "F"
+                ],
+                "late_bound_generic_param_count": 3,
+                "argument_source_roots": [
+                  "v",
+                  "scratch",
+                  "is_less"
+                ],
+                "source_mir_locals": [
+                  "_1",
+                  "_2",
+                  "_3"
+                ],
+                "argument_mir_locals": [
+                  "_5",
+                  "_6",
+                  "_7"
+                ],
+                "argument_operand_shapes": [
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  }
+                ]
+              }
+            ],
+            "proof_credit": false
+          },
+          "readonly": {
+            "caller": "selected_freeze_basecase_missing_source_array",
+            "caller_line": 40,
+            "selected_method_lines": {
+              "small_sort_threshold": 23,
+              "small_sort": 31
+            },
+            "helper_line": 64,
+            "full_selected_caller_and_helper_clauses": true,
+            "selected_impl_clauses": true,
+            "input_shapes": "v:&mut[T],scratch:&mut[MaybeUninit<T>],is_less:&mut F",
+            "calls": [
+              {
+                "callee": "StableSmallSortTypeImpl::small_sort",
+                "call_line": 57,
+                "fn_def_substs": [
+                  "T",
+                  "F"
+                ],
+                "late_bound_generic_param_count": 3,
+                "argument_source_roots": [
+                  "v",
+                  "scratch",
+                  "is_less"
+                ],
+                "source_mir_locals": [
+                  "_1",
+                  "_2",
+                  "_5"
+                ],
+                "argument_mir_locals": [
+                  "_16",
+                  "_17",
+                  "_18"
+                ],
+                "argument_operand_shapes": [
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  }
+                ]
+              },
+              {
+                "callee": "StableSmallSortTypeImpl::small_sort_threshold",
+                "call_line": 49,
+                "fn_def_substs": [
+                  "T"
+                ],
+                "late_bound_generic_param_count": 0,
+                "argument_source_roots": [],
+                "source_mir_locals": [],
+                "argument_mir_locals": [],
+                "argument_operand_shapes": []
+              },
+              {
+                "callee": "small_sort_general_with_scratch",
+                "call_line": 36,
+                "fn_def_substs": [
+                  "T",
+                  "F"
+                ],
+                "late_bound_generic_param_count": 3,
+                "argument_source_roots": [
+                  "v",
+                  "scratch",
+                  "is_less"
+                ],
+                "source_mir_locals": [
+                  "_1",
+                  "_2",
+                  "_3"
+                ],
+                "argument_mir_locals": [
+                  "_5",
+                  "_6",
+                  "_7"
+                ],
+                "argument_operand_shapes": [
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  },
+                  {
+                    "kind": "move",
+                    "projection": []
+                  }
+                ]
+              }
+            ],
+            "proof_credit": false
+          }
+        },
+        "normal_readonly_semantic_equality": true,
+        "negative_controls": {
+          "missing-MIR-body": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: closed compiler binding MIR function inventory",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "missing-Freeze-clause": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: exact selected caller source, full clauses and five typed inputs",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "wrong-MIR-operand": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: MIR operands derive from v, scratch, is_less in order StableSmallSortTypeImpl::small_sort",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "wrong-late-bound-lifetimes": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: MIR FnDef T/F substitutions, three late-bound lifetimes and arity StableSmallSortTypeImpl::small_sort",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "wrong-original-argument-source": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: MIR operands derive from v, scratch, is_less in order StableSmallSortTypeImpl::small_sort",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "wrong-move-projection": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: exact direct MIR reborrow temporaries for translated AST StableSmallSortTypeImpl::small_sort",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "wrong-temporary-id": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: MIR operand has no direct source-input definition",
+            "synthetic": true,
+            "proof_credit": false
+          },
+          "missing-binder": {
+            "refused_before_verifier": true,
+            "stage": "full_mir_structural_admission",
+            "reason": "SELECTED-PROOF: MIR FnDef shape",
+            "synthetic": true,
+            "proof_credit": false
+          }
+        },
+        "complete_source_typed_graph": true,
+        "proof_credit": false
+      },
+      "proof_credit": false
+    }
+  },
+  "proof_credit": false,
+  "compiler_or_verifier_executed": false
+}

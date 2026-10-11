@@ -1,0 +1,93 @@
+{
+  "all_negative_controls_refused": true,
+  "auditor_sha256": "d660374e5d5cacefb90a4a63d0a211157f8c3a680fde2516ca46ac92fded20a6",
+  "baseline_accepted": true,
+  "compiler_or_verifier_executed": false,
+  "proof_credit": false,
+  "synthetic_controls": {
+    "baseline-shape-accepted": {
+      "proof_credit": false,
+      "reason": "expected synthetic selected graph accepted",
+      "refused": false,
+      "synthetic": true
+    },
+    "duplicate-helper-edge": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: exact selected call graph cardinality for sort4_selected_branch_small_sort",
+      "refused": true,
+      "synthetic": true
+    },
+    "duplicate-operand-map-local": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: three explicit exact AST variable operands per selected edge",
+      "refused": true,
+      "synthetic": true
+    },
+    "edge-outside-owner-inventory": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: selected edge escaped its exact owner function: sort4_selected_branch_small_sort",
+      "refused": true,
+      "synthetic": true
+    },
+    "missing-explicit-operand-map": {
+      "proof_credit": false,
+      "reason": "audit_selected_callgraph() missing 1 required positional argument: 'operand_map'",
+      "refused": true,
+      "synthetic": true
+    },
+    "missing-small-sort-edge": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: exact selected call graph cardinality for selected_freeze_basecase",
+      "refused": true,
+      "synthetic": true
+    },
+    "unobserved-translation-mode": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: observed selected AST translation mode is explicitly pinned",
+      "refused": true,
+      "synthetic": true
+    },
+    "unrenamed-generic-fallback": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: unrenamed selected call escaped binding: selected_freeze_basecase -> StableSmallSortTypeImpl::small_sort",
+      "refused": true,
+      "synthetic": true
+    },
+    "wrong-MIR-source-map": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: normal MIR map/source roots/move operands agree with admission",
+      "refused": true,
+      "synthetic": true
+    },
+    "wrong-case-certificate": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: selected consumer MIR admission certificate matches exact case/target",
+      "refused": true,
+      "synthetic": true
+    },
+    "wrong-helper-local": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: selected call owner/operand provenance: sort4_selected_branch_small_sort -> sort4_selected_branch_helper",
+      "refused": true,
+      "synthetic": true
+    },
+    "wrong-helper-owner": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: selected call owner/operand provenance: sort4_selected_branch_helper -> sort4_selected_branch_helper",
+      "refused": true,
+      "synthetic": true
+    },
+    "wrong-operand": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: selected call owner/operand provenance: selected_freeze_basecase -> sort4_selected_branch_small_sort",
+      "refused": true,
+      "synthetic": true
+    },
+    "wrong-projection": {
+      "proof_credit": false,
+      "reason": "SELECTED-PROOF: selected call arguments must be direct exact AST vars",
+      "refused": true,
+      "synthetic": true
+    }
+  }
+}
