@@ -56,106 +56,6 @@
       "whole_decoded_mir_sha256": "4d8512c3d899f543c4e4808215151708fe1aa417886a2ec04bd1fa531b460b57"
     }
   },
-  "inherited_c4_controls": {
-    "source_sha256": "ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f",
-    "pre_ast_sha256": "0ed31137cf55a2ed47ed624a6c61591e4aaf96371df3c2979fc10ce8d95bb222",
-    "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
-    "review": "RAW-EVIDENCE-REVIEW.md",
-    "eligibility": "C4 bound rule/body/kernel/posts unchanged; changes affect first-select mode and optional AST transport only; fresh C4 positive matches pre-AST",
-    "rows": {
-      "c1-unwind-false-assert": {
-        "exit": 1,
-        "target_entry_before_first_error": true,
-        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
-        "raw_vc_review": "REVIEWED",
-        "log_sha256": "6758ebdef7561342b12bc2657ec362c900dbb101491abede621bfdc41b90c6f4",
-        "expected_vc": "verified/lib.rs(365,18-89): error: Assertion might not hold. (Cannot prove false.)",
-        "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
-        "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE"
-      },
-      "c2-unwind-false-assert": {
-        "exit": 1,
-        "target_entry_before_first_error": true,
-        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
-        "raw_vc_review": "REVIEWED",
-        "log_sha256": "dd26bbf782c123dce67bfb512d18636ff60b7703f32559505c80a4d625fa2b0c",
-        "expected_vc": "verified/lib.rs(398,18-99): error: Assertion might not hold. (Cannot prove false.)",
-        "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
-        "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE"
-      },
-      "c3-unwind-false-assert": {
-        "exit": 1,
-        "target_entry_before_first_error": true,
-        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
-        "raw_vc_review": "REVIEWED",
-        "log_sha256": "e345ea15aa6480faee3df28c2bac7ba13f540caa929962b4fcc808e4e282f87b",
-        "expected_vc": "verified/lib.rs(447,18-75): error: Assertion might not hold. (Cannot prove false.)",
-        "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
-        "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE"
-      },
-      "c4-normal-missing-close": {
-        "exit": 1,
-        "target_entry_before_first_error": true,
-        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
-        "raw_vc_review": "REVIEWED",
-        "log_sha256": "461065cc6132412c2b23f78c69d9ab724dabe7af71d4ded7e339322d59c4e3bf",
-        "expected_vc": "verified/lib.rs(68,29-30): error: No matching heap chunks: comparison_debt<T>(t, _, ptr_add_(v_base, (2 + 0), T_typeid), ptr_add_(v_base, 0, T_typeid), _, _, _, _)",
-        "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
-        "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE"
-      },
-      "c4-normal-omit-join": {
-        "exit": 1,
-        "target_entry_before_first_error": true,
-        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
-        "raw_vc_review": "REVIEWED",
-        "log_sha256": "cd4d2e8d81ec3e53d4026290e52294280936d0fc4278d0722e6ad38dea29e71c",
-        "expected_vc": "verified/lib.rs(317,5-12): error: No matching heap chunks: foreach<T>(cons(right_after2, cons(a_current0, cons(left_after2, cons(c_current0, nil)))), own0(T_typeid, t))",
-        "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
-        "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE"
-      },
-      "c4-unwind-false-assert": {
-        "exit": 1,
-        "target_entry_before_first_error": true,
-        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
-        "raw_vc_review": "REVIEWED",
-        "log_sha256": "9c1f68e741511be15ce7b8ab80c746803b6c8b8521c587609c744b88f574c94c",
-        "expected_vc": "verified/lib.rs(482,18-75): error: Assertion might not hold. (Cannot prove false.)",
-        "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
-        "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE"
-      },
-      "c4-unwind-missing-close": {
-        "exit": 1,
-        "target_entry_before_first_error": true,
-        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
-        "raw_vc_review": "REVIEWED",
-        "log_sha256": "28a92edfd3353984b2ed89bc9daf47038d1711ffad59f3dc4bf4e83cbeec0427",
-        "expected_vc": "verified/lib.rs(68,29-30): error: No matching heap chunks: comparison_debt<T>(t, _, ptr_add_(v_base, (2 + 0), T_typeid), ptr_add_(v_base, 0, T_typeid), _, _, _, _)",
-        "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
-        "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE"
-      },
-      "c4-unwind-omit-join": {
-        "exit": 1,
-        "target_entry_before_first_error": true,
-        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
-        "raw_vc_review": "REVIEWED",
-        "log_sha256": "6e29f9dc75dfe53aa9a885fe0405e1ca44c98f4b6b9cdd166c2a885887975a08",
-        "expected_vc": "verified/lib.rs(324,5-12): error: No matching heap chunks: foreach<T>(cons(right_after2, cons(a_current0, cons(left_after2, cons(c_current0, nil)))), own0(T_typeid, t))",
-        "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
-        "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE"
-      },
-      "normal-false-post": {
-        "exit": 1,
-        "target_entry_before_first_error": true,
-        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
-        "raw_vc_review": "REVIEWED",
-        "log_sha256": "3b176743d60b36c8d00b1ac9c3fdb4d220d664a8d85911285953ed99ca1fe05a",
-        "expected_vc": "verified/lib.rs(315,21-24): error: Cannot prove condition. (Cannot prove false.)",
-        "evidence_build": "af4e44a3-ff6b-4d66-b6a0-7bd65f2f1e09",
-        "classification": "REUSED_UNCHANGED_C4_RULE_EVIDENCE"
-      }
-    }
-  },
-  "outer_capture_only": false,
   "profile_id": "verifast-native-zst-c3-integration-20261011-h",
   "native_zst_profile": "verifast-native-zst-c3-integration-20261011-h",
   "native_zst_tool_patches": [
@@ -172,12 +72,79 @@
       }
     }
   ],
-  "tool_candidate_commit": "46181aff379a5d4231cc51814cfe3732bda21c03",
-  "previous_profile": "verifast-c4-select-composition-20261011-c3",
   "historical_reference": {
-    "c3_manifest_sha256": "4311a7a8cf3c6537dfa082416187a2c2b98438aa5b656c9ae9cf2c35b4ee1bad",
-    "c3_evidence_retained_under_original_pins": true,
-    "fresh_inherited_c4_and_regression_gates": "NOT_RUN"
+    "c3_manifest_sha256": "4311a7a8cf3c6537dfa082416187a2c2b98438aa5b656c9ae9cf2c35b4ee1bad"
   },
-  "new_profile_verdict": "NOT_RUN"
+  "new_profile_verdict": "NOT_RUN",
+  "inherited_c4_controls": {
+    "source_sha256": "ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f",
+    "pre_ast_sha256": "0ed31137cf55a2ed47ed624a6c61591e4aaf96371df3c2979fc10ce8d95bb222",
+    "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+    "eligibility": "C4 bound rule/body/kernel/posts unchanged; changes affect first-select mode and optional AST transport only; fresh C4 positive matches pre-AST",
+    "rows": {
+      "c1-unwind-false-assert": {
+        "exit": 1,
+        "target_entry_before_first_error": true,
+        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+        "raw_vc_review": "REVIEWED",
+        "expected_vc": "verified/lib.rs(365,18-89): error: Assertion might not hold. (Cannot prove false.)"
+      },
+      "c2-unwind-false-assert": {
+        "exit": 1,
+        "target_entry_before_first_error": true,
+        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+        "raw_vc_review": "REVIEWED",
+        "expected_vc": "verified/lib.rs(398,18-99): error: Assertion might not hold. (Cannot prove false.)"
+      },
+      "c3-unwind-false-assert": {
+        "exit": 1,
+        "target_entry_before_first_error": true,
+        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+        "raw_vc_review": "REVIEWED",
+        "expected_vc": "verified/lib.rs(447,18-75): error: Assertion might not hold. (Cannot prove false.)"
+      },
+      "c4-normal-missing-close": {
+        "exit": 1,
+        "target_entry_before_first_error": true,
+        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+        "raw_vc_review": "REVIEWED",
+        "expected_vc": "verified/lib.rs(68,29-30): error: No matching heap chunks: comparison_debt<T>(t, _, ptr_add_(v_base, (2 + 0), T_typeid), ptr_add_(v_base, 0, T_typeid), _, _, _, _)"
+      },
+      "c4-normal-omit-join": {
+        "exit": 1,
+        "target_entry_before_first_error": true,
+        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+        "raw_vc_review": "REVIEWED",
+        "expected_vc": "verified/lib.rs(317,5-12): error: No matching heap chunks: foreach<T>(cons(right_after2, cons(a_current0, cons(left_after2, cons(c_current0, nil)))), own0(T_typeid, t))"
+      },
+      "c4-unwind-false-assert": {
+        "exit": 1,
+        "target_entry_before_first_error": true,
+        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+        "raw_vc_review": "REVIEWED",
+        "expected_vc": "verified/lib.rs(482,18-75): error: Assertion might not hold. (Cannot prove false.)"
+      },
+      "c4-unwind-missing-close": {
+        "exit": 1,
+        "target_entry_before_first_error": true,
+        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+        "raw_vc_review": "REVIEWED",
+        "expected_vc": "verified/lib.rs(68,29-30): error: No matching heap chunks: comparison_debt<T>(t, _, ptr_add_(v_base, (2 + 0), T_typeid), ptr_add_(v_base, 0, T_typeid), _, _, _, _)"
+      },
+      "c4-unwind-omit-join": {
+        "exit": 1,
+        "target_entry_before_first_error": true,
+        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+        "raw_vc_review": "REVIEWED",
+        "expected_vc": "verified/lib.rs(324,5-12): error: No matching heap chunks: foreach<T>(cons(right_after2, cons(a_current0, cons(left_after2, cons(c_current0, nil)))), own0(T_typeid, t))"
+      },
+      "normal-false-post": {
+        "exit": 1,
+        "target_entry_before_first_error": true,
+        "intended_negative": "EXACT_TARGET_VC_OBSERVED",
+        "raw_vc_review": "REVIEWED",
+        "expected_vc": "verified/lib.rs(315,21-24): error: Cannot prove condition. (Cannot prove false.)"
+      }
+    }
+  }
 }
