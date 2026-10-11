@@ -154,7 +154,7 @@
 +                   (List.length projection_clause_stmts)
 +                   (List.length callback_unwind_epilog)
 +                   (String.concat "," (List.map (fun (f,t) -> f ^ ":" ^ t) bounds));
-+                 if List.length original_body <> 282 ||
++                 if List.length original_body <> 284 ||
 +                    List.length vf_local_decls <> 239 ||
 +                    projection_clause_stmts <> [] ||
 +                    callback_unwind_epilog <> [] || bounds <> [("F", "T")]
@@ -189,7 +189,7 @@
 +                 if List.length kept_decls <> 209 then
 +                   reject "outer local declaration conservation";
 +                 let block_loc, cmp_decl, old_stmts, old_close =
-+                   match root 273 with
++                   match root 275 with
 +                   | Ast.BlockStmt (loc, [decl], ss, close, locals)
 +                     when !locals = [] && List.length ss = 215 ->
 +                       (loc, decl, ss, close)
@@ -379,8 +379,8 @@
 +                   epilogue 3 m3 c3_return @ epilogue 4 m4 c4_return in
 +                 let outer = Ast.BlockStmt (block_loc, [], outer_body,
 +                   old_close, ref []) in
-+                 let after = kept_decls @ slice 239 34 original_body @
-+                   [outer] @ slice 274 8 original_body in
++                 let after = kept_decls @ slice 239 36 original_body @
++                   [outer] @ slice 276 8 original_body in
 +                 let changed_decl = mk_fn_decl contract
 +                   (Some (after, closing_cbrace_loc)) in
 +                 Ocaml_expr_formatter.print_ocaml_expr_to_file false post_file
