@@ -102,6 +102,85 @@ def _write_wrapper(bin_dir: Path, raw_original: Path, raw_verified: Path) -> tup
     return wrapper, _sha(wrapper)
 
 
+def capture_refiner_exports(evidence: Path, args, env: dict[str, str], base,
+                            positive_case: Path) -> tuple[dict[str, Path], dict]:
+    """Capture the two exact exporter invocations made by the official refiner.
+
+    The ordinary case exporter has different rustc arguments from the refiner
+    frontend. Reusing its MIR makes a false negative at unrelated constants.
+    This wrapper forwards argv byte-for-byte to the pinned real exporter and
+    saves its stdout before the refiner consumes it. It runs only in Cloud.
+    """
+    capture = evidence / 'refiner-export-capture'
+    capture.mkdir()
+    bin_dir = capture / 'bin'
+    bin_dir.mkdir()
+    sources = capture / 'sources'
+    (sources / 'original').mkdir(parents=True)
+    (sources / 'verified').mkdir()
+    source_before = {}
+    for side in ('original', 'verified'):
+        src = positive_case / side / 'lib.rs'
+        dst = sources / side / 'lib.rs'
+        shutil.copy2(src, dst)
+        source_before[side] = _sha(dst)
+    refiner_source = Path(args.tool_home) / 'bin/refinement-checker'
+    exporter_source = Path(args.tool_home) / 'bin/vf-rust-mir-exporter'
+    refiner = bin_dir / 'refinement-checker'
+    shutil.copy2(refiner_source, refiner)
+    refiner.chmod(refiner.stat().st_mode | 0o111)
+    if _sha(refiner) != _sha(refiner_source):
+        raise RuntimeError('capture refiner copy differs from pinned executable')
+    wrapper = bin_dir / 'vf-rust-mir-exporter'
+    wrapper.write_text(
+        '#!/usr/bin/env python3\n'
+        'import json, os, pathlib, subprocess, sys\n'
+        f'real = {str(exporter_source)!r}\n'
+        f'root = pathlib.Path({str(capture)!r})\n'
+        'allowed = {"original/lib.rs": "original", "verified/lib.rs": "verified"}\n'
+        'if len(sys.argv) < 2 or sys.argv[1] not in allowed:\n'
+        '    raise SystemExit("refiner exporter capture refused unknown source")\n'
+        'side = allowed[sys.argv[1]]\n'
+        'result = subprocess.run([real, *sys.argv[1:]], stdout=subprocess.PIPE,\n'
+        '                        stderr=subprocess.PIPE, check=False)\n'
+        'if result.returncode == 0:\n'
+        '    target = root / (side + "-refiner-export.bin")\n'
+        '    fd = os.open(target, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)\n'
+        '    with os.fdopen(fd, "wb") as output: output.write(result.stdout)\n'
+        '    (root / (side + "-argv.json")).write_text(json.dumps(sys.argv[1:]))\n'
+        'sys.stdout.buffer.write(result.stdout)\n'
+        'sys.stderr.buffer.write(result.stderr)\n'
+        'raise SystemExit(result.returncode)\n', encoding='utf-8')
+    wrapper.chmod(0o755)
+    child_env = dict(env)
+    child_env['PATH'] = str(bin_dir) + os.pathsep + child_env.get('PATH', '')
+    status = base.run_stage(sources, 'official-refinement-capture', [
+        str(refiner), '--rustc-args', '--edition 2021',
+        'original/lib.rs', 'verified/lib.rs'], child_env,
+        timeout_seconds=args.stage_seconds)
+    log = ''.join((sources / name).read_text(errors='replace') for name in (
+        'official-refinement-capture.log', 'official-refinement-capture.out')
+        if (sources / name).exists())
+    raw = {side: capture / (side + '-refiner-export.bin')
+           for side in ('original', 'verified')}
+    after = {side: _sha(sources / side / 'lib.rs') for side in source_before}
+    row = {'exit_code': status, 'success_marker': 'No refinement errors found',
+           'success_marker_present': 'No refinement errors found' in log,
+           'source_sha256_before': source_before, 'source_sha256_after': after,
+           'refiner_sha256': _sha(refiner), 'real_exporter_sha256': _sha(exporter_source),
+           'wrapper_sha256': _sha(wrapper),
+           'raw_sha256': {side: _sha(path) for side, path in raw.items() if path.is_file()},
+           'argv': {side: json.loads((capture / (side + '-argv.json')).read_text())
+                    for side in raw if (capture / (side + '-argv.json')).is_file()}}
+    row['matched'] = (status == 0 and row['success_marker_present'] and
+                      source_before == after and all(path.is_file() and
+                      path.stat().st_size > 0 for path in raw.values()) and
+                      len(row['argv']) == 2)
+    if not row['matched']:
+        raise RuntimeError(f'official refiner exporter capture failed: {row}')
+    return raw, row
+
+
 def run(evidence: Path, args, env: dict[str, str], base, positive_case: Path) -> dict:
     """Run baseline replays and bounded official-refiner admission mutants."""
     evidence = Path(evidence)
@@ -109,13 +188,31 @@ def run(evidence: Path, args, env: dict[str, str], base, positive_case: Path) ->
     if evidence.exists():
         raise FileExistsError(f"refusing to reuse generated-glue admission evidence: {evidence}")
     evidence.mkdir(parents=True)
+    captured_raw, capture_receipt = capture_refiner_exports(evidence, args, env, base,
+                                                             positive_case)
+    capture_sources = evidence / 'refiner-export-capture/sources'
+    include_dirs = list(dict.fromkeys([Path(args.schema).parent, *args.capnp_include]))
+    decode_args = ['capnp', 'decode']
+    for directory in include_dirs:
+        decode_args.extend(['-I', str(directory)])
+    decode_args.extend([str(args.schema), 'VfMir'])
+    captured_decoded = {}
+    for side in ('original', 'verified'):
+        name = f'{side}-refiner-decode.out'
+        status = base.run_stage(capture_sources, f'{side}-refiner-decode',
+                                decode_args, env, timeout_seconds=args.stage_seconds,
+                                stdin=captured_raw[side], stdout_name=name)
+        path = capture_sources / name
+        if status != 0 or not path.is_file() or path.stat().st_size == 0:
+            raise RuntimeError(f'{side}: captured official-refiner MIR decode failed')
+        captured_decoded[side] = path
     source_files = {
         "original_source": positive_case / "original/lib.rs",
         "verified_source": positive_case / "verified/lib.rs",
-        "original_raw_export": positive_case / "original-compiler-mir.bin",
-        "verified_raw_export": positive_case / "compiler-mir.bin",
-        "original_decoded": positive_case / "original-decode.out",
-        "verified_decoded": positive_case / "decode.out",
+        "original_raw_export": captured_raw['original'],
+        "verified_raw_export": captured_raw['verified'],
+        "original_decoded": captured_decoded['original'],
+        "verified_decoded": captured_decoded['verified'],
     }
     for label, path in source_files.items():
         if not path.is_file():
@@ -138,6 +235,7 @@ def run(evidence: Path, args, env: dict[str, str], base, positive_case: Path) ->
         "capnp_path": capnp_path,
         "capnp_sha256": _sha(Path(capnp_path)),
         "cases": {},
+        "official_refiner_export_capture": capture_receipt,
     }
     original_text = source_files["original_decoded"].read_text()
     verified_text = source_files["verified_decoded"].read_text()

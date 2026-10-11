@@ -1072,23 +1072,29 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
         results[name] = result["classification"]
     admission_controls = {"all_matched": False, "status": "NOT_RUN"}
     receiver_controls = {"all_matched": False, "status": "NOT_RUN"}
+    compatibility_controls = {"all_matched": False, "status": "NOT_RUN"}
     if args.profile == BODY_GLUE_PROFILE and results.get("positive") == "NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY":
         positive_case = evidence / "cases" / "positive"
         for module_name, filename, destination in (
                 ("generated_glue_admission_controls", "generated-glue-admission-controls.py", "admission-controls"),
-                ("generated_glue_receiver_controls", "generated-glue-receiver-controls.py", "receiver-controls")):
+                ("generated_glue_receiver_controls", "generated-glue-receiver-controls.py", "receiver-controls"),
+                ("generated_glue_compatibility_controls", "generated-glue-compatibility-controls.py", "compatibility-controls")):
             try:
                 module = _load(module_name, HERE / filename)
                 if destination == "admission-controls":
                     admission_controls = module.run(evidence / destination, args, env, proof_base, positive_case)
-                else:
+                elif destination == "receiver-controls":
                     receiver_controls = module.run(evidence / destination, args, env, proof_base, positive_case, execute_case)
+                else:
+                    compatibility_controls = module.run(evidence / destination, args, env, proof_base, positive_case)
             except Exception as error:
                 failure = {"all_matched": False, "status": "INCONCLUSIVE", "error": repr(error)}
                 if destination == "admission-controls":
                     admission_controls = failure
-                else:
+                elif destination == "receiver-controls":
                     receiver_controls = failure
+                else:
+                    compatibility_controls = failure
                 (evidence / (destination + "-failure.json")).write_text(json.dumps(failure, indent=2) + "\n")
     aggregate = {"schema": "source-linked-u64-onecell-natural-drop-draft-v1",
                  "accepted": False, "profile": extraction["profile"],
@@ -1096,9 +1102,11 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
                  "scope": extraction["scope"],
                  "generated_glue_admission_controls": admission_controls,
                  "generated_glue_receiver_controls": receiver_controls,
+                 "generated_glue_compatibility_controls": compatibility_controls,
                  "all_matched": (args.profile != BODY_GLUE_PROFILE or
                                  (admission_controls.get("all_matched") is True and
-                                  receiver_controls.get("all_matched") is True)) and results == {"positive": "NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY",
+                                  receiver_controls.get("all_matched") is True and
+                                  compatibility_controls.get("all_matched") is True)) and results == {"positive": "NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY",
                     "caller_ready_entry_false": "CALLER_READY_ENTRY_EXPECTED_REJECTION",
                     "after_natural_drop_false": "EXPECTED_REJECTION", "missing_receiver_frame": "EXPECTED_REJECTION",
                     "missing_source_permission": "EXPECTED_REJECTION", "duplicate_effect_simultaneous": "EXPECTED_REJECTION",

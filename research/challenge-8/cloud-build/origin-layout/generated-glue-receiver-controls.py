@@ -52,17 +52,17 @@ def _call_rows(runtime, ast) -> list[dict]:
     return rows
 
 
-def _argument_kind(call, ast) -> tuple[str, str | None]:
+def _argument_kind(call, ast) -> list[str | None]:
     args = ast.narg(call, "CallExpr", 6)[4]
     if not isinstance(args, list) or len(args) != 1:
-        return "invalid", None
+        return ["invalid", None]
     pattern = ast.narg(args[0], "LitPat", 1)[0]
     if isinstance(pattern, ast.Node) and pattern.name == "Var":
-        return "receiver", ast.var(pattern)
+        return ["receiver", ast.var(pattern)]
     if isinstance(pattern, ast.Node) and pattern.name == "AddressOf":
         pointer = ast.narg(pattern, "AddressOf", 2)[1]
-        return "address", ast.var(pointer)
-    return "invalid", None
+        return ["address", ast.var(pointer)]
+    return ["invalid", None]
 
 
 def _inspect_ast(path: Path, ast, expected_drop_loc: str) -> dict:
@@ -432,8 +432,8 @@ def run(evidence: Path, args, env: dict, base, positive_case: Path, execute_case
         if positive_receiver[0] != "receiver":
             raise ValueError("positive generated caller call does not pass its receiver variable")
         receiver_pair = tuple(positive_receiver)
-        if (positive_inspection.get("end_arguments_at_drop_loc") != [receiver_pair, receiver_pair] or
-                any(arm.get("end_arguments") != [receiver_pair] for arm in
+        if (positive_inspection.get("end_arguments_at_drop_loc") != [list(receiver_pair), list(receiver_pair)] or
+                any(arm.get("end_arguments") != [list(receiver_pair)] for arm in
                     positive_inspection.get("outcome_arms", []))):
             raise ValueError("positive return/unwind arms do not end the exact generated receiver")
     except Exception as error:
