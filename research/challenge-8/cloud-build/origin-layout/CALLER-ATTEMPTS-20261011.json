@@ -1095,6 +1095,1206 @@
   "classification": "INCONCLUSIVE_PREPARATION",
   "cloud_status": "FAILURE",
   "composition_credit": false,
+  "corrected_attempt": {
+    "actual_lowering": "AddressOf(gap_guard) then AddressOf(Deref(reference)); no create_ref_mut",
+    "archive_sha256": "fc5fd5601ad578c435d87c19f4ff0f323bef32c0e803603960ab1d5545429ef9",
+    "build_id": "419034a3-08e9-48e8-a8d5-a2c71c84c50e",
+    "caller_composition_credit": false,
+    "cases": {
+      "after_call_current_false": {
+        "accepted": false,
+        "actual_drop_glue_credit": false,
+        "ast_gate": {
+          "admitted": true,
+          "caller_call_args": [
+            "[Node(name='loc', args=['verified/lib.rs(159,9-37)']), 'checked_len1_body', [], [], [Node(name='LitPat', args=[Node(name='Var', args=[Node(name='loc', args=['verified/lib.rs(159,9-37)']), '$_73'])])], Sym(name='Static')]"
+          ],
+          "caller_fbc_close_count": 1,
+          "caller_fbc_open_count": 1,
+          "caller_helper_call_count": 1,
+          "effect_declaration_count": 1,
+          "effect_definition_count": 1,
+          "effect_definition_gate": {
+            "admitted": true,
+            "body_admitted": true,
+            "body_leaf_count": 5,
+            "declaration_count": 1,
+            "definition_count": 1,
+            "destination_singleton_current": "current",
+            "input_names": [
+              "t",
+              "src",
+              "dst",
+              "len"
+            ],
+            "owner_current": "current",
+            "signature_admitted": true,
+            "source_line": 42,
+            "source_quarter_current": "current"
+          },
+          "fbc_count": 1,
+          "helper_copy_count": 1,
+          "helper_effect_close_count": 1,
+          "nonempty_own_count": 1
+        },
+        "caller_checked_call_executed": false,
+        "case": "after_call_current_false",
+        "classification": "INCONCLUSIVE",
+        "dead_code_records": [],
+        "errors": [
+          "verified/lib.rs(157,20-37): error: No matching heap chunks: ref_mut_end_token<CopyOnDrop>(gap_guard_addr, gap_guard_addr)"
+        ],
+        "full_normal_return_and_leak": false,
+        "helper_copy_executed": true,
+        "mir_gate": {
+          "actual_body_copy_origin": "checked helper body only",
+          "admitted": true,
+          "caller_calls": [
+            [
+              "core::ptr::mut_ptr::<impl *mut T>::read",
+              97
+            ],
+            [
+              "core::mem::ManuallyDrop::<T>::new",
+              97
+            ],
+            [
+              "VeriFast_ghost_command",
+              98
+            ],
+            [
+              "VeriFast_ghost_command",
+              99
+            ],
+            [
+              "VeriFast_ghost_command",
+              100
+            ],
+            [
+              "VeriFast_ghost_command",
+              101
+            ],
+            [
+              "VeriFast_ghost_command",
+              102
+            ],
+            [
+              "VeriFast_ghost_command",
+              103
+            ],
+            [
+              "core::ops::Deref::deref",
+              104
+            ],
+            [
+              "VeriFast_ghost_command",
+              105
+            ],
+            [
+              "VeriFast_ghost_command",
+              106
+            ],
+            [
+              "VeriFast_ghost_command",
+              107
+            ],
+            [
+              "VeriFast_ghost_command",
+              108
+            ],
+            [
+              "VeriFast_ghost_command",
+              109
+            ],
+            [
+              "VeriFast_ghost_command",
+              110
+            ],
+            [
+              "VeriFast_ghost_command",
+              111
+            ],
+            [
+              "VeriFast_ghost_command",
+              112
+            ],
+            [
+              "VeriFast_ghost_command",
+              113
+            ],
+            [
+              "VeriFast_ghost_command",
+              114
+            ],
+            [
+              "VeriFast_ghost_command",
+              115
+            ],
+            [
+              "VeriFast_ghost_command",
+              116
+            ],
+            [
+              "VeriFast_ghost_command",
+              117
+            ],
+            [
+              "VeriFast_ghost_command",
+              118
+            ],
+            [
+              "VeriFast_ghost_command",
+              119
+            ],
+            [
+              "VeriFast_ghost_command",
+              120
+            ],
+            [
+              "VeriFast_ghost_command",
+              121
+            ],
+            [
+              "VeriFast_ghost_command",
+              122
+            ],
+            [
+              "VeriFast_ghost_command",
+              123
+            ],
+            [
+              "VeriFast_ghost_command",
+              124
+            ],
+            [
+              "VeriFast_ghost_command",
+              125
+            ],
+            [
+              "VeriFast_ghost_command",
+              126
+            ],
+            [
+              "VeriFast_ghost_command",
+              127
+            ],
+            [
+              "VeriFast_ghost_command",
+              128
+            ],
+            [
+              "VeriFast_ghost_command",
+              129
+            ],
+            [
+              "VeriFast_ghost_command",
+              130
+            ],
+            [
+              "VeriFast_ghost_command",
+              131
+            ],
+            [
+              "VeriFast_ghost_command",
+              132
+            ],
+            [
+              "VeriFast_ghost_command",
+              133
+            ],
+            [
+              "VeriFast_ghost_command",
+              134
+            ],
+            [
+              "VeriFast_ghost_command",
+              135
+            ],
+            [
+              "VeriFast_ghost_command",
+              136
+            ],
+            [
+              "VeriFast_ghost_command",
+              137
+            ],
+            [
+              "VeriFast_ghost_command",
+              138
+            ],
+            [
+              "VeriFast_ghost_command",
+              139
+            ],
+            [
+              "VeriFast_ghost_command",
+              140
+            ],
+            [
+              "VeriFast_ghost_command",
+              141
+            ],
+            [
+              "VeriFast_ghost_command",
+              142
+            ],
+            [
+              "VeriFast_ghost_command",
+              143
+            ],
+            [
+              "VeriFast_ghost_command",
+              144
+            ],
+            [
+              "VeriFast_ghost_command",
+              145
+            ],
+            [
+              "VeriFast_ghost_command",
+              146
+            ],
+            [
+              "VeriFast_ghost_command",
+              147
+            ],
+            [
+              "VeriFast_ghost_command",
+              148
+            ],
+            [
+              "VeriFast_ghost_command",
+              149
+            ],
+            [
+              "VeriFast_ghost_command",
+              150
+            ],
+            [
+              "VeriFast_ghost_command",
+              151
+            ],
+            [
+              "VeriFast_ghost_command",
+              152
+            ],
+            [
+              "VeriFast_ghost_command",
+              153
+            ],
+            [
+              "VeriFast_ghost_command",
+              154
+            ],
+            [
+              "VeriFast_ghost_command",
+              156
+            ],
+            [
+              "VeriFast_ghost_command",
+              157
+            ],
+            [
+              "VeriFast_ghost_command",
+              158
+            ],
+            [
+              "checked_len1_body",
+              159
+            ],
+            [
+              "VeriFast_ghost_command",
+              160
+            ],
+            [
+              "VeriFast_ghost_command",
+              161
+            ],
+            [
+              "VeriFast_ghost_command",
+              162
+            ],
+            [
+              "VeriFast_ghost_command",
+              163
+            ],
+            [
+              "VeriFast_ghost_command",
+              164
+            ],
+            [
+              "VeriFast_ghost_command",
+              165
+            ],
+            [
+              "VeriFast_ghost_command",
+              166
+            ],
+            [
+              "VeriFast_ghost_command",
+              167
+            ],
+            [
+              "VeriFast_ghost_command",
+              168
+            ],
+            [
+              "VeriFast_ghost_command",
+              169
+            ],
+            [
+              "VeriFast_ghost_command",
+              170
+            ],
+            [
+              "VeriFast_ghost_command",
+              171
+            ]
+          ],
+          "caller_live_debug_names": [
+            "tail",
+            "tmp",
+            "gap_guard",
+            "guard_ptr"
+          ],
+          "constructor_aggregates": [
+            [
+              104,
+              3,
+              [
+                "src",
+                "dst",
+                "len"
+              ]
+            ]
+          ],
+          "helper_calls": [
+            [
+              "core::ptr::copy_nonoverlapping",
+              75
+            ],
+            [
+              "VeriFast_ghost_command",
+              76
+            ]
+          ]
+        },
+        "normal_effect_open_executed": false,
+        "source_gate": {
+          "actual_constructor": true,
+          "actual_dynamic_body_copy": true,
+          "admitted": true,
+          "ghost_strip_equal": true,
+          "no_compiler_drop_glue": true
+        },
+        "stages": {
+          "decode": 0,
+          "exporter": 0,
+          "refinement": 0,
+          "verifast": 1
+        },
+        "targeted_negative": false,
+        "whole_insert_tail_credit": false
+      },
+      "caller_entry_false": {
+        "accepted": false,
+        "actual_drop_glue_credit": false,
+        "ast_gate": {
+          "admitted": true,
+          "caller_call_args": [
+            "[Node(name='loc', args=['verified/lib.rs(160,9-37)']), 'checked_len1_body', [], [], [Node(name='LitPat', args=[Node(name='Var', args=[Node(name='loc', args=['verified/lib.rs(160,9-37)']), '$_74'])])], Sym(name='Static')]"
+          ],
+          "caller_fbc_close_count": 1,
+          "caller_fbc_open_count": 1,
+          "caller_helper_call_count": 1,
+          "effect_declaration_count": 1,
+          "effect_definition_count": 1,
+          "effect_definition_gate": {
+            "admitted": true,
+            "body_admitted": true,
+            "body_leaf_count": 5,
+            "declaration_count": 1,
+            "definition_count": 1,
+            "destination_singleton_current": "current",
+            "input_names": [
+              "t",
+              "src",
+              "dst",
+              "len"
+            ],
+            "owner_current": "current",
+            "signature_admitted": true,
+            "source_line": 42,
+            "source_quarter_current": "current"
+          },
+          "fbc_count": 1,
+          "helper_copy_count": 1,
+          "helper_effect_close_count": 1,
+          "nonempty_own_count": 1
+        },
+        "caller_checked_call_executed": false,
+        "case": "caller_entry_false",
+        "classification": "INCONCLUSIVE",
+        "dead_code_records": [],
+        "errors": [
+          "verified/lib.rs(157,20-37): error: No matching heap chunks: ref_mut_end_token<CopyOnDrop>(gap_guard_addr, gap_guard_addr)"
+        ],
+        "full_normal_return_and_leak": false,
+        "helper_copy_executed": true,
+        "mir_gate": {
+          "actual_body_copy_origin": "checked helper body only",
+          "admitted": true,
+          "caller_calls": [
+            [
+              "core::ptr::mut_ptr::<impl *mut T>::read",
+              97
+            ],
+            [
+              "core::mem::ManuallyDrop::<T>::new",
+              97
+            ],
+            [
+              "VeriFast_ghost_command",
+              98
+            ],
+            [
+              "VeriFast_ghost_command",
+              99
+            ],
+            [
+              "VeriFast_ghost_command",
+              100
+            ],
+            [
+              "VeriFast_ghost_command",
+              101
+            ],
+            [
+              "VeriFast_ghost_command",
+              102
+            ],
+            [
+              "VeriFast_ghost_command",
+              103
+            ],
+            [
+              "core::ops::Deref::deref",
+              104
+            ],
+            [
+              "VeriFast_ghost_command",
+              105
+            ],
+            [
+              "VeriFast_ghost_command",
+              106
+            ],
+            [
+              "VeriFast_ghost_command",
+              107
+            ],
+            [
+              "VeriFast_ghost_command",
+              108
+            ],
+            [
+              "VeriFast_ghost_command",
+              109
+            ],
+            [
+              "VeriFast_ghost_command",
+              110
+            ],
+            [
+              "VeriFast_ghost_command",
+              111
+            ],
+            [
+              "VeriFast_ghost_command",
+              112
+            ],
+            [
+              "VeriFast_ghost_command",
+              113
+            ],
+            [
+              "VeriFast_ghost_command",
+              114
+            ],
+            [
+              "VeriFast_ghost_command",
+              115
+            ],
+            [
+              "VeriFast_ghost_command",
+              116
+            ],
+            [
+              "VeriFast_ghost_command",
+              117
+            ],
+            [
+              "VeriFast_ghost_command",
+              118
+            ],
+            [
+              "VeriFast_ghost_command",
+              119
+            ],
+            [
+              "VeriFast_ghost_command",
+              120
+            ],
+            [
+              "VeriFast_ghost_command",
+              121
+            ],
+            [
+              "VeriFast_ghost_command",
+              122
+            ],
+            [
+              "VeriFast_ghost_command",
+              123
+            ],
+            [
+              "VeriFast_ghost_command",
+              124
+            ],
+            [
+              "VeriFast_ghost_command",
+              125
+            ],
+            [
+              "VeriFast_ghost_command",
+              126
+            ],
+            [
+              "VeriFast_ghost_command",
+              127
+            ],
+            [
+              "VeriFast_ghost_command",
+              128
+            ],
+            [
+              "VeriFast_ghost_command",
+              129
+            ],
+            [
+              "VeriFast_ghost_command",
+              130
+            ],
+            [
+              "VeriFast_ghost_command",
+              131
+            ],
+            [
+              "VeriFast_ghost_command",
+              132
+            ],
+            [
+              "VeriFast_ghost_command",
+              133
+            ],
+            [
+              "VeriFast_ghost_command",
+              134
+            ],
+            [
+              "VeriFast_ghost_command",
+              135
+            ],
+            [
+              "VeriFast_ghost_command",
+              136
+            ],
+            [
+              "VeriFast_ghost_command",
+              137
+            ],
+            [
+              "VeriFast_ghost_command",
+              138
+            ],
+            [
+              "VeriFast_ghost_command",
+              139
+            ],
+            [
+              "VeriFast_ghost_command",
+              140
+            ],
+            [
+              "VeriFast_ghost_command",
+              141
+            ],
+            [
+              "VeriFast_ghost_command",
+              142
+            ],
+            [
+              "VeriFast_ghost_command",
+              143
+            ],
+            [
+              "VeriFast_ghost_command",
+              144
+            ],
+            [
+              "VeriFast_ghost_command",
+              145
+            ],
+            [
+              "VeriFast_ghost_command",
+              146
+            ],
+            [
+              "VeriFast_ghost_command",
+              147
+            ],
+            [
+              "VeriFast_ghost_command",
+              148
+            ],
+            [
+              "VeriFast_ghost_command",
+              149
+            ],
+            [
+              "VeriFast_ghost_command",
+              150
+            ],
+            [
+              "VeriFast_ghost_command",
+              151
+            ],
+            [
+              "VeriFast_ghost_command",
+              152
+            ],
+            [
+              "VeriFast_ghost_command",
+              153
+            ],
+            [
+              "VeriFast_ghost_command",
+              154
+            ],
+            [
+              "VeriFast_ghost_command",
+              156
+            ],
+            [
+              "VeriFast_ghost_command",
+              157
+            ],
+            [
+              "VeriFast_ghost_command",
+              158
+            ],
+            [
+              "VeriFast_ghost_command",
+              159
+            ],
+            [
+              "checked_len1_body",
+              160
+            ],
+            [
+              "VeriFast_ghost_command",
+              161
+            ],
+            [
+              "VeriFast_ghost_command",
+              162
+            ],
+            [
+              "VeriFast_ghost_command",
+              163
+            ],
+            [
+              "VeriFast_ghost_command",
+              164
+            ],
+            [
+              "VeriFast_ghost_command",
+              165
+            ],
+            [
+              "VeriFast_ghost_command",
+              166
+            ],
+            [
+              "VeriFast_ghost_command",
+              167
+            ],
+            [
+              "VeriFast_ghost_command",
+              168
+            ],
+            [
+              "VeriFast_ghost_command",
+              169
+            ],
+            [
+              "VeriFast_ghost_command",
+              170
+            ],
+            [
+              "VeriFast_ghost_command",
+              171
+            ]
+          ],
+          "caller_live_debug_names": [
+            "tail",
+            "tmp",
+            "gap_guard",
+            "guard_ptr"
+          ],
+          "constructor_aggregates": [
+            [
+              104,
+              3,
+              [
+                "src",
+                "dst",
+                "len"
+              ]
+            ]
+          ],
+          "helper_calls": [
+            [
+              "core::ptr::copy_nonoverlapping",
+              75
+            ],
+            [
+              "VeriFast_ghost_command",
+              76
+            ]
+          ]
+        },
+        "normal_effect_open_executed": false,
+        "source_gate": {
+          "actual_constructor": true,
+          "actual_dynamic_body_copy": true,
+          "admitted": true,
+          "ghost_strip_equal": true,
+          "no_compiler_drop_glue": true
+        },
+        "stages": {
+          "decode": 0,
+          "exporter": 0,
+          "refinement": 0,
+          "verifast": 1
+        },
+        "targeted_negative": false,
+        "whole_insert_tail_credit": false
+      },
+      "positive": {
+        "accepted": false,
+        "actual_drop_glue_credit": false,
+        "ast_gate": {
+          "admitted": true,
+          "caller_call_args": [
+            "[Node(name='loc', args=['verified/lib.rs(159,9-37)']), 'checked_len1_body', [], [], [Node(name='LitPat', args=[Node(name='Var', args=[Node(name='loc', args=['verified/lib.rs(159,9-37)']), '$_73'])])], Sym(name='Static')]"
+          ],
+          "caller_fbc_close_count": 1,
+          "caller_fbc_open_count": 1,
+          "caller_helper_call_count": 1,
+          "effect_declaration_count": 1,
+          "effect_definition_count": 1,
+          "effect_definition_gate": {
+            "admitted": true,
+            "body_admitted": true,
+            "body_leaf_count": 5,
+            "declaration_count": 1,
+            "definition_count": 1,
+            "destination_singleton_current": "current",
+            "input_names": [
+              "t",
+              "src",
+              "dst",
+              "len"
+            ],
+            "owner_current": "current",
+            "signature_admitted": true,
+            "source_line": 42,
+            "source_quarter_current": "current"
+          },
+          "fbc_count": 1,
+          "helper_copy_count": 1,
+          "helper_effect_close_count": 1,
+          "nonempty_own_count": 1
+        },
+        "caller_checked_call_executed": false,
+        "case": "positive",
+        "classification": "INCONCLUSIVE",
+        "dead_code_records": [],
+        "errors": [
+          "verified/lib.rs(157,20-37): error: No matching heap chunks: ref_mut_end_token<CopyOnDrop>(gap_guard_addr, gap_guard_addr)"
+        ],
+        "full_normal_return_and_leak": false,
+        "helper_copy_executed": true,
+        "mir_gate": {
+          "actual_body_copy_origin": "checked helper body only",
+          "admitted": true,
+          "caller_calls": [
+            [
+              "core::ptr::mut_ptr::<impl *mut T>::read",
+              97
+            ],
+            [
+              "core::mem::ManuallyDrop::<T>::new",
+              97
+            ],
+            [
+              "VeriFast_ghost_command",
+              98
+            ],
+            [
+              "VeriFast_ghost_command",
+              99
+            ],
+            [
+              "VeriFast_ghost_command",
+              100
+            ],
+            [
+              "VeriFast_ghost_command",
+              101
+            ],
+            [
+              "VeriFast_ghost_command",
+              102
+            ],
+            [
+              "VeriFast_ghost_command",
+              103
+            ],
+            [
+              "core::ops::Deref::deref",
+              104
+            ],
+            [
+              "VeriFast_ghost_command",
+              105
+            ],
+            [
+              "VeriFast_ghost_command",
+              106
+            ],
+            [
+              "VeriFast_ghost_command",
+              107
+            ],
+            [
+              "VeriFast_ghost_command",
+              108
+            ],
+            [
+              "VeriFast_ghost_command",
+              109
+            ],
+            [
+              "VeriFast_ghost_command",
+              110
+            ],
+            [
+              "VeriFast_ghost_command",
+              111
+            ],
+            [
+              "VeriFast_ghost_command",
+              112
+            ],
+            [
+              "VeriFast_ghost_command",
+              113
+            ],
+            [
+              "VeriFast_ghost_command",
+              114
+            ],
+            [
+              "VeriFast_ghost_command",
+              115
+            ],
+            [
+              "VeriFast_ghost_command",
+              116
+            ],
+            [
+              "VeriFast_ghost_command",
+              117
+            ],
+            [
+              "VeriFast_ghost_command",
+              118
+            ],
+            [
+              "VeriFast_ghost_command",
+              119
+            ],
+            [
+              "VeriFast_ghost_command",
+              120
+            ],
+            [
+              "VeriFast_ghost_command",
+              121
+            ],
+            [
+              "VeriFast_ghost_command",
+              122
+            ],
+            [
+              "VeriFast_ghost_command",
+              123
+            ],
+            [
+              "VeriFast_ghost_command",
+              124
+            ],
+            [
+              "VeriFast_ghost_command",
+              125
+            ],
+            [
+              "VeriFast_ghost_command",
+              126
+            ],
+            [
+              "VeriFast_ghost_command",
+              127
+            ],
+            [
+              "VeriFast_ghost_command",
+              128
+            ],
+            [
+              "VeriFast_ghost_command",
+              129
+            ],
+            [
+              "VeriFast_ghost_command",
+              130
+            ],
+            [
+              "VeriFast_ghost_command",
+              131
+            ],
+            [
+              "VeriFast_ghost_command",
+              132
+            ],
+            [
+              "VeriFast_ghost_command",
+              133
+            ],
+            [
+              "VeriFast_ghost_command",
+              134
+            ],
+            [
+              "VeriFast_ghost_command",
+              135
+            ],
+            [
+              "VeriFast_ghost_command",
+              136
+            ],
+            [
+              "VeriFast_ghost_command",
+              137
+            ],
+            [
+              "VeriFast_ghost_command",
+              138
+            ],
+            [
+              "VeriFast_ghost_command",
+              139
+            ],
+            [
+              "VeriFast_ghost_command",
+              140
+            ],
+            [
+              "VeriFast_ghost_command",
+              141
+            ],
+            [
+              "VeriFast_ghost_command",
+              142
+            ],
+            [
+              "VeriFast_ghost_command",
+              143
+            ],
+            [
+              "VeriFast_ghost_command",
+              144
+            ],
+            [
+              "VeriFast_ghost_command",
+              145
+            ],
+            [
+              "VeriFast_ghost_command",
+              146
+            ],
+            [
+              "VeriFast_ghost_command",
+              147
+            ],
+            [
+              "VeriFast_ghost_command",
+              148
+            ],
+            [
+              "VeriFast_ghost_command",
+              149
+            ],
+            [
+              "VeriFast_ghost_command",
+              150
+            ],
+            [
+              "VeriFast_ghost_command",
+              151
+            ],
+            [
+              "VeriFast_ghost_command",
+              152
+            ],
+            [
+              "VeriFast_ghost_command",
+              153
+            ],
+            [
+              "VeriFast_ghost_command",
+              154
+            ],
+            [
+              "VeriFast_ghost_command",
+              156
+            ],
+            [
+              "VeriFast_ghost_command",
+              157
+            ],
+            [
+              "VeriFast_ghost_command",
+              158
+            ],
+            [
+              "checked_len1_body",
+              159
+            ],
+            [
+              "VeriFast_ghost_command",
+              160
+            ],
+            [
+              "VeriFast_ghost_command",
+              161
+            ],
+            [
+              "VeriFast_ghost_command",
+              162
+            ],
+            [
+              "VeriFast_ghost_command",
+              163
+            ],
+            [
+              "VeriFast_ghost_command",
+              164
+            ],
+            [
+              "VeriFast_ghost_command",
+              165
+            ],
+            [
+              "VeriFast_ghost_command",
+              166
+            ],
+            [
+              "VeriFast_ghost_command",
+              167
+            ],
+            [
+              "VeriFast_ghost_command",
+              168
+            ],
+            [
+              "VeriFast_ghost_command",
+              169
+            ],
+            [
+              "VeriFast_ghost_command",
+              170
+            ]
+          ],
+          "caller_live_debug_names": [
+            "tail",
+            "tmp",
+            "gap_guard",
+            "guard_ptr"
+          ],
+          "constructor_aggregates": [
+            [
+              104,
+              3,
+              [
+                "src",
+                "dst",
+                "len"
+              ]
+            ]
+          ],
+          "helper_calls": [
+            [
+              "core::ptr::copy_nonoverlapping",
+              75
+            ],
+            [
+              "VeriFast_ghost_command",
+              76
+            ]
+          ]
+        },
+        "normal_effect_open_executed": false,
+        "source_gate": {
+          "actual_constructor": true,
+          "actual_dynamic_body_copy": true,
+          "admitted": true,
+          "ghost_strip_equal": true,
+          "no_compiler_drop_glue": true
+        },
+        "stages": {
+          "decode": 0,
+          "exporter": 0,
+          "refinement": 0,
+          "verifast": 1
+        },
+        "targeted_negative": false,
+        "whole_insert_tail_credit": false
+      }
+    },
+    "charge_seconds": 506,
+    "classification": "INCONCLUSIVE_ANNOTATION_EXPECTED_TOKEN_NOT_PRODUCED_BY_ACTUAL_LOWERING",
+    "helper_body_fresh_proof": true,
+    "helper_copy_effect_normal_return_leak": {
+      "copy_line": 75,
+      "effect_close_line": 76,
+      "return_leak_line": 78
+    },
+    "intended_negative_credit": false,
+    "proof_sha": "7c7e24655c7bdf6e6b00df995da6c8152e315ddc",
+    "source_MIR_AST_all3_admit": true
+  },
   "first_verifier_cause": "unsafe free function safety_proof has no generated prototype",
   "independent_refinement_cause": "RawPtr of local guard not yet supported",
   "mandatory_combined_profile_smoke": {

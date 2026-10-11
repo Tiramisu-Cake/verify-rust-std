@@ -1,6 +1,6 @@
 # Bounded one-cell caller composition, 2026-10-11
 
-Status: first attempt **INCONCLUSIVE_PREPARATION**, corrected adapter **NOT_RUN**. Build `c226905b-2b8c-49ef-b795-c6818874bef2` reached source/MIR/AST admission but refused unsupported local RawPtr in refinement and unsafe helper safety_proof without a prototype before either checked copy or caller call. These are not ownership negatives. This card records a
+Status: first attempt **INCONCLUSIVE_PREPARATION**, first corrected adapter **INCONCLUSIVE_ANNOTATION**; actual-address correction **NOT_RUN**. Build `c226905b-2b8c-49ef-b795-c6818874bef2` reached source/MIR/AST admission but refused unsupported local RawPtr in refinement and unsafe helper safety_proof without a prototype before either checked copy or caller call. These are not ownership negatives. This card records a
 falsifiable experiment for the frozen `df6b3fbf` tool candidate and profile
 `0b8cf55b`. A fresh hosted Build, its full raw logs, stage/source receipts,
 positive and intended negative classifications are required before any proof
@@ -39,7 +39,7 @@ established field-frame merge and two half-own opens restore the same field
 chunks, padding, source quarter, destination singleton and type
 interpretation. Typed storage lemmas and the actual constructor geometry
 derive the strong helper's alignment, bounds, length and separation. The
-singleton arrays are packaged from those chunks before the real call. The initialized guard fields and padding fold through existing `close_points_to(&gap_guard)` before the actual mutable borrow. The returned pointer carries `ref_mut_end_token(guard_ptr, &gap_guard)` and its physical aggregate is opened with `open_points_to(guard_ptr)`; no numeric origin identity is assumed. After the helper returns those same fields and padding, `close_points_to(guard_ptr)` and `end_ref_mut(guard_ptr)` restore the original local guard allocation for cleanup.
+singleton arrays are packaged from those chunks before the real call. The initialized guard fields and padding fold through existing `close_points_to(&gap_guard)` before the actual mutable borrow. Fresh419034 MIR/AST shows this expression lowers to AddressOf(gap_guard) and then AddressOf(Deref(reference)), with no create_ref_mut or token. Its physical aggregate is opened with `open_points_to(guard_ptr)` and the actual pointer equality is asserted rather than assumed. After the helper returns those same fields and padding, the caller checks their original allocation identity and retains the full physical frame for ordinary StorageDead cleanup. The erroneous token assertion/end_ref_mut from the prior adapter is preserved as an annotation refusal, not a resource negative.
 
 The helper requires that complete strong precondition, executes its exact
 dynamic-length copy, and uses an inline ghost statement after the runtime copy to close `CopyOnDrop_drop_effect` on the resulting

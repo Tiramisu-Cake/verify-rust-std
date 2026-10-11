@@ -30,11 +30,11 @@ BODY_COPY = b"            ptr::copy_nonoverlapping((*guard).src, (*guard).dst, (
 HELPER_EFFECT_CLOSE = b"        //@ close CopyOnDrop_drop_effect(t, src, dst, len);\n"
 BORROW_SETUP = (
     b"        //@ open_points_to(guard_ptr);\n"
-    b"        //@ assert ref_mut_end_token(guard_ptr, &gap_guard); // LIVE: mutable borrow return token\n"
+    b"        //@ assert guard_ptr == &gap_guard as *mut CopyOnDrop; // LIVE: actual lowered guard address\n"
     b"        //@ assert (*guard_ptr).src |-> guard_src &*& (*guard_ptr).dst |-> guard_dst &*& (*guard_ptr).len |-> guard_len &*& struct_CopyOnDrop_padding(guard_ptr); // ENTRY: borrowed guard fields\n"
 )
-BORROW_END = (b"        //@ close_points_to(guard_ptr);\n"
-              b"        //@ end_ref_mut(guard_ptr);\n")
+BORROW_END = (b"        //@ assert guard_ptr == &gap_guard as *mut CopyOnDrop; // RETURN: original guard allocation\n"
+              b"        //@ assert gap_guard.src |-> guard_src &*& gap_guard.dst |-> guard_dst &*& gap_guard.len |-> 1 &*& struct_CopyOnDrop_padding(&gap_guard); // RETURN: conserved guard frame\n")
 AFTER_FALSE = b"        //@ assert false; // TARGET: after checked body CURRENT effect\n"
 ENTRY_FALSE = b"        //@ assert false; // TARGET: caller supplies checked body entry\n"
 
@@ -221,7 +221,7 @@ def _prepare(evidence: Path) -> dict:
             "helper_copy_line": _line(verified, BODY_COPY),
             "helper_effect_close_line": _line(verified, HELPER_EFFECT_CLOSE),
             "borrow_open_line": _line(verified, BORROW_SETUP.splitlines(keepends=True)[0]),
-            "borrow_end_line": _line(verified, BORROW_END.splitlines(keepends=True)[1]),
+            "guard_frame_return_line": _line(verified, BORROW_END.splitlines(keepends=True)[1]),
             "effect_open_line": _line(verified, effect_open),
             "entry_line": _line(verified, b"// ENTRY: actual resources"),
             "false_line": (_line(verified, ENTRY_FALSE) if name == "caller_entry_false"
