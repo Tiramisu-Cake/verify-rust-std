@@ -22,12 +22,110 @@ CONTROLS = ("canonical-generic", "canonical-mu", "consumer-positive",
             "consumer-wrong-pointer", "consumer-missing-raw-rights",
             "consumer-mu-cast-no-initialized-T", "threshold-body-positive")
 SELECTED_LOCAL_MAPS = {
-    "binding_selected_freeze": {
-        "normal": {"root": ["_16", "_17", "_18"], "helper": ["_5", "_6", "_7"]},
-        "readonly": {"root": ["_16", "_17", "_18"], "helper": ["_5", "_6", "_7"]}},
     "selected_freeze_basecase": {
-        "normal": {"root": ["_17", "_18", "_19"], "helper": ["_5", "_6", "_7"]},
-        "readonly": {"root": ["_16", "_17", "_18"], "helper": ["_5", "_6", "_7"]}},
+        "normal": {
+            "root": [
+                "_17",
+                "_18",
+                "_19"
+            ],
+            "helper": [
+                "_5",
+                "_6",
+                "_7"
+            ]
+        },
+        "readonly": {
+            "root": [
+                "_16",
+                "_17",
+                "_18"
+            ],
+            "helper": [
+                "_5",
+                "_6",
+                "_7"
+            ]
+        }
+    },
+    "selected_freeze_basecase_false_31": {
+        "normal": {
+            "root": [
+                "_17",
+                "_18",
+                "_19"
+            ],
+            "helper": [
+                "_5",
+                "_6",
+                "_7"
+            ]
+        },
+        "readonly": {
+            "root": [
+                "_16",
+                "_17",
+                "_18"
+            ],
+            "helper": [
+                "_5",
+                "_6",
+                "_7"
+            ]
+        }
+    },
+    "selected_freeze_basecase_missing_source_array": {
+        "normal": {
+            "root": [
+                "_21",
+                "_22",
+                "_23"
+            ],
+            "helper": [
+                "_5",
+                "_6",
+                "_7"
+            ]
+        },
+        "readonly": {
+            "root": [
+                "_16",
+                "_17",
+                "_18"
+            ],
+            "helper": [
+                "_5",
+                "_6",
+                "_7"
+            ]
+        }
+    },
+    "binding_selected_freeze": {
+        "normal": {
+            "root": [
+                "_16",
+                "_17",
+                "_18"
+            ],
+            "helper": [
+                "_5",
+                "_6",
+                "_7"
+            ]
+        },
+        "readonly": {
+            "root": [
+                "_16",
+                "_17",
+                "_18"
+            ],
+            "helper": [
+                "_5",
+                "_6",
+                "_7"
+            ]
+        }
+    }
 }
 
 

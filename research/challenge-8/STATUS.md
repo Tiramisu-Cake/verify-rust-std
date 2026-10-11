@@ -23,18 +23,19 @@ returns None for both. Complete clauses/substs/lifetimes and paired MIR checked.
 Selected-only source correspondence and missing/corrupt evidence controls PASS.
 Compiler observation is not a callable summary or whole-caller proof.
 
-Final Build `b22985f8-7aae-4058-9e3e-bae10f222a6f`: selected translator compiles;
-fresh threshold body32 + canonical T/MU/pointer consumer positives and three
-pointer/resource negatives pass their intended gates. Selected consumer paired
-export/refinement PASS, but pre-binding admission REFUSED: normal MIR small_sort
-args `_17,_18,_19`, readonly/query `_16,_17,_18`; same v/scratch/is_less origins.
-Ghost assertion creates extra normal MIR temporary. Gate stays closed; selected
-verifier, false31/source-array controls and AST/native-post audit NOT_RUN.
+Session2 Build `5bd2b7c3-ec17-45aa-a60e-7bdda819233c` (83b1d445):
+compiler gate/selected console/three paired MIR-refinement captures complete.
+Positive translated normal operands17/18/19, helper5/6/7 observed; deliberate
+literal refusal, no selected verification/full post AST. All three mode maps
+replay validated; negatives normal17/18/19 and21/22/23, readonly16/17/18.
+435/3600 accounted;3165 remaining, own active Build/reservation none.
+Next: explicit-stop Cloud capture of negative translated operands, then fresh
+exact-profile selected positive/false31/source-array and actual helper proof.
 
 Caller qualification Freeze only; unrestricted actual quicksort applicability OPEN.
 Bound transfer NOT_PROVED; helper overflow/abort/pointers/firstcall resources
-NOT_REACHED; caller→C4 NOT_RUN. First open obligation is mode-specific exact
-consumer temporary/provenance admission, then actual translated AST observation.
+NOT_REACHED; caller→C4 NOT_RUN. First open obligation is negative translated-AST observation, then fresh
+selected bound/helper proof with full native posts.
 No size/nonzero premise added. Opaque IS_ZST/sizeof link remains separate OPEN
 blocker; unchanged public guard was not repeated.
 Historical supplied-premise guarded C1–C4 PASS stays separate. Full sort4 C5/copies,

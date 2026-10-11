@@ -1,7 +1,7 @@
 {
   "base_translator_sha256": "5dde9c2f9c9bb75144da78d0f242c3ca6807baa5731d736ced0cc438e0bc8f47",
-  "result_translator_sha256": "61471920f481c5d1c24a6fa3805cfa4a972a2511c3034aea0af1bd80d75aba66",
-  "patch_sha256": "3919836c187b8c74dc4253f2ed3365ff11a607f5c6b24df8e0f808c5c42d38db",
+  "result_translator_sha256": "003390b09bcf766e3db913245b8fcfb391b97fcad1eae330b2c7775f5b0a7f79",
+  "patch_sha256": "ef5601533cc4093bf5a1c9179664c0c7a0ab649d18bd8c0ca61ee20b81dbf30e",
   "case_verified_lib_md5": {
     "selected-branch-positive": "0e4a1459be31e3d48083e0e90e71a6e9",
     "selected-branch-false-bound-31": "52dc359aa5c64a4a96170bfc1dbc263f",
@@ -13,7 +13,7 @@
     "selected StableSmallSortTypeImpl::small_sort impl",
     "small_sort_general_with_scratch"
   ],
-  "call_binding": "strict exact full T/F/Sized/Freeze/FnMut/HRTB/Output<bool> clause vectors; exact T,F,three appended erased lifetimes; paired fresh MIR maps caller _16/_17/_18 reborrow operands to v/scratch/is_less and selected impl _5/_6/_7 to v/scratch/is_less; translator accepts only corresponding $-prefixed AST local IDs",
+  "call_binding": "Per-case/mode exact moved locals, unique direct mutable reborrow from source formals; complete clauses, substitutions and binder vector; semantic comparisons only through admitted maps. Translated AST mode independently observed in Cloud before proof.",
   "generic_clause_ignoring_specializer": "must not be used for selected threshold/small_sort/helper calls; otherwise hard gate",
   "phase_id": "SORT4-COMPILER-BINDING-PREFIX-CLOUD-2026-10-11",
   "call_graph_gate": "IMPLEMENTED BUT UNCOMPILED: reset per full translation; final after-translation exact owner/cardinality checks for threshold, small_sort, helper, interfaces, abort; selected method/helper operands require exact observed MIR reborrow temp IDs",
@@ -74,5 +74,117 @@
       ]
     }
   },
-  "session2_observation": "Before altering strict literal translated operand gate, print actual intermediate Ast.Var names and refuse mismatch; no proof credit."
+  "session2_observation": "Before altering strict literal translated operand gate, print actual intermediate Ast.Var names and refuse mismatch; no proof credit.",
+  "capture_only_gate": "Default-off runner diagnostic rejects immediately after incoming selected small_sort Ast.Var observation, before binding/verification; all normal proof gates unchanged.",
+  "observed_translation_modes": {
+    "selected-branch-positive": "normal"
+  },
+  "mode_specific_mir_maps": {
+    "selected_freeze_basecase": {
+      "normal": {
+        "root": [
+          "_17",
+          "_18",
+          "_19"
+        ],
+        "helper": [
+          "_5",
+          "_6",
+          "_7"
+        ]
+      },
+      "readonly": {
+        "root": [
+          "_16",
+          "_17",
+          "_18"
+        ],
+        "helper": [
+          "_5",
+          "_6",
+          "_7"
+        ]
+      }
+    },
+    "selected_freeze_basecase_false_31": {
+      "normal": {
+        "root": [
+          "_17",
+          "_18",
+          "_19"
+        ],
+        "helper": [
+          "_5",
+          "_6",
+          "_7"
+        ]
+      },
+      "readonly": {
+        "root": [
+          "_16",
+          "_17",
+          "_18"
+        ],
+        "helper": [
+          "_5",
+          "_6",
+          "_7"
+        ]
+      }
+    },
+    "selected_freeze_basecase_missing_source_array": {
+      "normal": {
+        "root": [
+          "_21",
+          "_22",
+          "_23"
+        ],
+        "helper": [
+          "_5",
+          "_6",
+          "_7"
+        ]
+      },
+      "readonly": {
+        "root": [
+          "_16",
+          "_17",
+          "_18"
+        ],
+        "helper": [
+          "_5",
+          "_6",
+          "_7"
+        ]
+      }
+    },
+    "binding_selected_freeze": {
+      "normal": {
+        "root": [
+          "_16",
+          "_17",
+          "_18"
+        ],
+        "helper": [
+          "_5",
+          "_6",
+          "_7"
+        ]
+      },
+      "readonly": {
+        "root": [
+          "_16",
+          "_17",
+          "_18"
+        ],
+        "helper": [
+          "_5",
+          "_6",
+          "_7"
+        ]
+      }
+    }
+  },
+  "mir_map_observation_build": "5bd2b7c3-ec17-45aa-a60e-7bdda819233c",
+  "mir_map_replay_sha256": "f34b2254f5b7ef4751e2de4b348e3a1315fb3a1757bf5cacff8d8b3d743cbcfc"
 }

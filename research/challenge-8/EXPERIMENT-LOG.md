@@ -7466,3 +7466,35 @@ generic caller applicability OPEN; generic None has no permissible Instance.
 No supplied root bound/nonzero, no size guard, no IS_ZST/sizeof repair. PASS
 permits original helper traversal in scope; causal model/resource failure is
 checkpointed and assessed, never bypassed. Profile remains experimental.
+
+Session2 capture hardening rationale (before next dispatch): retain exact source/
+clause/subst gate and operand observation, then explicitly refuse on runner-only
+SORT4_SELECTED_OPERAND_CAPTURE_ONLY=1 before selected-call binding. This
+diagnostic-only rejection avoids relying on an operand mismatch to stop the
+console before its verification engine. Default-off proof semantics/callgraph
+remain unchanged; missing/malformed mode refuses. No kernel/console changes.
+Next capture will use independently admitted observed negative-case MIR maps,
+retain normal/readonly maps and actual Ast.Var evidence, with zero proof credit.
+
+Session2 Build1:5bd2b7c3-ec17-45aa-a60e-7bdda819233c, proof=infra
+83b1d4451910902a8d6ef931a05e32b8d46e3624,435s, verified archive
+70aa987852c8129e409dda94f4b4dddc6e3bd4447f7502edcfe0e806de016071.
+Fresh compiler admission, paired MIR/refinement all three fixtures, selected
+console build completed. Positive intermediate Ast.Var normal caller17/18/19
+and helper5/6/7 observed; literal16/17/18 refused before selected proof.
+No full selected AST/post audit or selected proof credit. Capture-only expected
+collector false/Build FAILURE; evidence complete, run_exit0. Saved-data replay
+5BD2 independently checks positive/false31 normal17/18/19, source-array
+normal21/22/23; all readonly16/17/18, all helper5/6/7, all source roots unchanged.
+Eight causal MIR negatives per case refuse, including wrong original source.
+Old capture verdict retained separately from replay; raw evidence unchanged.
+
+Build2 hypothesis: with negative-case exact normal/readonly maps now pinned,
+the same console translates their root Ast.Var operands consistently with
+those admitted maps. Capture only false31/source-array to observe actual mode
+and operands; explicit translator diagnostic stop prevents verification.
+Do not repeat positive capture. Exact full source/clause/subst/binder/reborrow
+and query/consumer checks still precede flag; no operand set union. If both
+observations match, align translator exact source-MD5-specific literal operands
+and run all fresh selected proof/regression gates. Any earlier failure keeps
+A1/A2 OPEN and is classified. Main23:49:02UTC/absolute00:19:02;3165s remaining.
