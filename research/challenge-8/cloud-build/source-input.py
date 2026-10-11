@@ -276,7 +276,7 @@ def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes
             item = dict(pool[oid])
             raw_object = base64.b64decode(item["data_base64"], validate=True)
             packed = gzip.compress(raw_object, mtime=0)
-            xz = lzma.compress(raw_object, preset=6)
+            xz = lzma.compress(raw_object, preset=9 | lzma.PRESET_EXTREME)
             item["compression"] = "xz" if len(xz) < len(packed) else "gzip"
             item["data_base64"] = base64.b64encode(xz if item["compression"] == "xz" else packed).decode("ascii")
             payload["shared_objects"].append(item)
