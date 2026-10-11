@@ -7109,3 +7109,44 @@ assertions, and admission controls retain intended refusals. Paired source/fullM
 refinement/AST identities unchanged. Diagnostic only: external caller is NOT_PROVED,
 C1-to-C4 execution NOT_RUN, profile unaccepted and no proof credit. 465sec;
 total2526/3600,1074remaining. [Review](cloud-build/sort4-native-c1-bound/FRESH-3B7431BB-REVIEW.md).
+
+
+## 2026-10-11 actual caller entry: first experiment card (before dispatch)
+
+Owner select-sort4; phase SORT4-ACTUAL-CALLER-ENTRY-CLOUD-2026-10-11.
+Checkpoint0f673c4f05b5c04f0704244e93f929c78611e0fa; policy full revision
+c7ca8c467aecf10a4b53039372ee97714f854ee3, adopted6726a08d. New account3600
+Cloudseconds, start13:54:02/main15:54:02/finish16:24:02UTC; no budget carry.
+Lane o26-sort4-c1-current-recovery, unchanged v2 coordinator and limits.
+
+Actual obligation: small_sort_general_with_scratch entry to first direct
+sort4_stable at pinned SmallSort line254. Domain is the actual generic signature
+with native v/scratch/F/lifetime/thread resources, without selected-path or
+nonzero assumptions. Original len<2, scratch.len()<len+16/abort, pointer calls,
+scratch cast and sort8/direct/short decisions remain in the runtime prefix.
+The explicit diagnostic cut at the call boundary supplies no callee summary.
+
+Hypothesis: the exact slice as_mut_ptr symbol may use the existing typed
+metadata-stripping cast after fresh verification of the same-version canonical
+body. Only the historical one-symbol own-lane patch is rebased onto our pinned
+ZST/C1/C4 chain; all other model/kernel/spec rules remain unchanged.
+Rationale and static applicability/trust/gates precede implementation in
+cloud-build/sort4-caller-entry-native/CALLER-ENTRY-RATIONALE.md. Independent
+static review found no additional permissions or ownership in this rule.
+
+Gates: canonical generic T and MU operations, then real method consumers with
+complete generated normal/unwind/free/leak posts, paired full MIR/refinement,
+strict lifetimes and physical dead-code checks. Wrong pointer assertion and
+missing raw authority must fail at their own assertions. Default-off, malformed,
+wrong-source and extra-body controls must refuse before proof. Source-pair,
+MIR/AST inventory and tool hashes are recorded fresh; unknown fresh AST counts
+are captured before any inventory-dependent binding, never guessed.
+
+Outcome mapping: canonical/component or consumer failure blocks method credit
+and motivates only a localized permitted correction. An earlier overflow or
+explicit-abort failure in the unfiltered prefix is an OPEN caller obligation,
+not an intended negative or caller PASS. If entry resources are derived, proceed
+to current native C1-C4 composition within scope/budget with fresh exits and
+negatives. No MU-to-initialized-T inverse, artificial sizezero return, supplied
+nonzero premise, full caller/sort4 theorem or accepted profile is claimed.
+Exact published proof/infra SHA and target identities follow in the fresh review.
