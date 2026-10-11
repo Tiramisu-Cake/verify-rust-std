@@ -69,8 +69,12 @@ NATURAL_DROP_EXIT = b"        //@ assert true; // TARGET: natural Drop scope exi
 NATURAL_FALSE = b"        //@ assert false; // TARGET: after natural Drop terminator\n"
 CALLER_READY_FALSE = b"        //@ assert false; // TARGET: caller direct Drop-pre entry\n"
 CALLER_SIGNATURE = b"unsafe fn natural_onecell(tail: *mut u64)"
-BODY_GLUE_PROFILE = "experimental-merge-actual-glue-body-v3"
+BODY_GLUE_PROFILE = "experimental-merge-actual-glue-body-v4"
 GENERATED_GLUE_NAME = "__vf_generated_drop_glue"
+
+
+def _is_generated_glue_name(value: str) -> bool:
+    return value == GENERATED_GLUE_NAME or value.endswith("::" + GENERATED_GLUE_NAME)
 
 
 def _prepare(evidence: Path) -> dict:
@@ -388,7 +392,7 @@ def _body_glue_ast_evidence(case: Path, ast, selected_path: str, mir: dict) -> d
         tree = ast.OcamlAstText(path.read_text(errors="replace")).parse()
         funcs = [node for node in ast.nodes(tree, "Func") if len(node.args) == 13]
         callers = [node for node in funcs if node.args[4] == "natural_onecell"]
-        glue_funcs = [node for node in funcs if node.args[4] == GENERATED_GLUE_NAME]
+        glue_funcs = [node for node in funcs if _is_generated_glue_name(node.args[4])]
         caller_bodies = [node for node in callers if isinstance(node.args[10], ast.Node)
                          and node.args[10].name == "Some"]
         glue_bodies = [node for node in glue_funcs if isinstance(node.args[10], ast.Node)
@@ -412,14 +416,14 @@ def _body_glue_ast_evidence(case: Path, ast, selected_path: str, mir: dict) -> d
         caller_calls = call_rows(caller_bodies[0])
         glue_calls = call_rows(glue_bodies[0])
         caller_glue = [call for call in caller_calls
-                       if call["callee"].endswith(GENERATED_GLUE_NAME)]
+                       if _is_generated_glue_name(call["callee"])]
         glue_actual = [call for call in glue_calls if call["callee"] == selected_path]
         caller_switches = []
         caller_runtime = caller_bodies[0].args[10]
         for switch in ast.nodes(caller_runtime, "SwitchStmt"):
             if (len(switch.args) == 3 and isinstance(switch.args[1], ast.Node) and
                     switch.args[1].name == "CallExpr" and len(switch.args[1].args) == 6 and
-                    switch.args[1].args[1].endswith(GENERATED_GLUE_NAME)):
+                    _is_generated_glue_name(switch.args[1].args[1])):
                 arms = []
                 for arm in switch.args[2]:
                     if not isinstance(arm, ast.Node) or len(arm.args) != 3:
@@ -489,6 +493,7 @@ def _body_glue_ast_evidence(case: Path, ast, selected_path: str, mir: dict) -> d
             outcomes["unwinding"]["post"] == ast.Sym("False"))
         copied_receiver = False
         receiver_name = None
+        receiver_copy_loc = None
         if len(glue_actual) == 1:
             try:
                 actual_args = ast.narg(glue_actual[0]["node"], "CallExpr", 6)[4]
@@ -503,6 +508,8 @@ def _body_glue_ast_evidence(case: Path, ast, selected_path: str, mir: dict) -> d
                                    if len(assignments) == 1 else [])
                     copied_receiver = (len(assignments) == 1 and len(source_vars) == 1 and
                                        source_vars[0] != receiver_name)
+                    if copied_receiver:
+                        receiver_copy_loc = ast.loc(assignments[0].args[0])
             except (ValueError, TypeError, AttributeError):
                 copied_receiver = False
         # The private function must carry its own ordinary contract. The
@@ -517,6 +524,8 @@ def _body_glue_ast_evidence(case: Path, ast, selected_path: str, mir: dict) -> d
                 "caller_private_glue_call_count": len(caller_glue),
                 "glue_actual_method_call_count": len(glue_actual),
                 "selected_method": selected_path,
+                "glue_selected_method_call_loc": glue_actual[0]["loc"] if len(glue_actual) == 1 else None,
+                "glue_receiver_copy_loc": receiver_copy_loc,
                 "caller_direct_selected_or_generic_drop_calls": caller_forbidden,
                 "glue_receiver_create_or_end_calls": glue_forbidden,
                 "caller_receiver_create_count": len(caller_receiver),
@@ -560,6 +569,43 @@ def _source_permission_target(log: str, verified: bytes, row: dict, call_loc: st
             f"verified/lib.rs({source_line},5-6): note: Consuming assertion" in log and
             "prelude_core.rsspec(259,6-11): Auto-closing predicate with coefficient 1/4" in log and
             not executing(row["natural_scope_end_line"]))
+
+
+def _generated_glue_proof_gate(log: str, glue_ast: dict) -> dict:
+    """Require runtime proof markers inside the uniquely delimited glue proof."""
+    name = GENERATED_GLUE_NAME
+    headers = list(re.finditer(
+        r"(?m)^.*Verifying function '([^']+)'[^\n]*$", log))
+    matches = [header for header in headers
+               if _is_generated_glue_name(header.group(1))]
+    segment = ""
+    if len(matches) == 1:
+        start = matches[0].start()
+        later = [header.start() for header in headers if header.start() > start]
+        segment = log[start:min(later)] if later else log[start:]
+    call_loc = glue_ast.get("glue_selected_method_call_loc")
+    copy_loc = glue_ast.get("glue_receiver_copy_loc")
+    return_mark = bool(re.search(r"(?m)^.*Executing return statement\s*$", segment))
+    leak_mark = bool(re.search(r"(?m)^.*Leak check\.\s*$", segment))
+    call_exec = bool(call_loc and re.search(
+        rf"(?m)^\s*\d+(?:\.\d+)?s: {re.escape(call_loc)}: (?:note: )?Executing statement\s*$", segment))
+    method_call = bool(call_loc and re.search(
+        rf"(?m)^\s*\d+(?:\.\d+)?s: {re.escape(call_loc)}: (?:note: )?Verifying function call\s*$", segment))
+    copy_exec = bool(copy_loc and re.search(
+        rf"(?m)^\s*\d+(?:\.\d+)?s: {re.escape(copy_loc)}: (?:note: )?Executing statement\s*$", segment))
+    errors = [line for line in segment.splitlines() if re.search(r"\berror:", line, re.I)]
+    dead = [line for line in segment.splitlines() if re.search(r"dead code", line, re.I)]
+    admitted = (len(matches) == 1 and bool(call_loc) and bool(copy_loc) and
+                copy_exec and call_exec and method_call and return_mark and leak_mark and
+                not errors and not dead)
+    return {"admitted": admitted, "header_count": len(matches),
+            "header_name": matches[0].group(1) if len(matches) == 1 else None,
+            "selected_method_call_loc": call_loc, "receiver_copy_loc": copy_loc,
+            "selected_method_call_executed": call_exec,
+            "receiver_copy_executed": copy_exec,
+            "selected_method_call_verified": method_call,
+            "return_executed": return_mark, "leak_check": leak_mark,
+            "errors": errors, "dead_code": dead}
 
 
 def _classify(name: str, case: Path, row: dict, execution: dict,
@@ -629,6 +675,9 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
     caller_segment = log[caller_headers[0].start():] if len(caller_headers) == 1 else ""
     caller_return = "Executing return statement" in caller_segment
     caller_leak = "Leak check." in caller_segment
+    generated_glue_proof_gate = (_generated_glue_proof_gate(
+        log, caller_ast.get("body_glue_evidence", {})) if body_glue_profile else
+        {"admitted": False, "reason": "not required by selected-method profile"})
     source_unchanged = execution.get("source_unchanged_at_every_stage") is True
     setup = (source_unchanged and all(stages.get(stage) == 0
              for stage in ("exporter", "decode", "refinement")) and
@@ -667,7 +716,8 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
     if (not body_glue_profile and setup and name == "caller_dead_code" and
             stages.get("verifast") == 1 and not errors):
         targeted = any(f"verified/lib.rs({row['dead_control_line']}," in record for record in dead) and caller_return and caller_leak
-    positive = (setup and stages.get("verifast") == 0 and not errors and not dead and body_copy and
+    positive = (setup and (not body_glue_profile or generated_glue_proof_gate.get("admitted") is True) and
+                stages.get("verifast") == 0 and not errors and not dead and body_copy and
                 body_return and leak and caller_return and caller_leak and "0 errors found" in log)
     classification = ("NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY" if positive else
                       "CALLER_READY_ENTRY_EXPECTED_REJECTION" if
@@ -677,6 +727,7 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
             "stages": stages, "source_gate": source, "mir_gate": mir,
             "caller_ast_evidence": caller_ast, "drop_body_effect_ast_gate": body_ast,
             "generated_glue_refinement_gate": refinement_gate,
+            "generated_glue_proof_gate": generated_glue_proof_gate,
             "source_unchanged_at_every_stage": source_unchanged,
             "natural_scope_end_executed": executed(row.get("natural_scope_end_line")),
             "dead_code_lines": dead,
@@ -774,7 +825,7 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
     if args.profile not in ("experimental-merge-selected-drop-receiver-v4",
                             "experimental-merge-actual-glue-observation-v2",
                             "experimental-merge-actual-glue-observation-v3",
-                            "experimental-merge-actual-glue-body-v3"):
+                            "experimental-merge-actual-glue-body-v4"):
         raise RuntimeError("selected Drop exact supported experimental profile required")
     consumer.PROFILE = args.profile
     receipt = consumer._validate_receipt(args, validated_receipt, provider, proof_sha)

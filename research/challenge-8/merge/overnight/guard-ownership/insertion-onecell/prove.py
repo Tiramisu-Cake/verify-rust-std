@@ -32,7 +32,7 @@ prep = load("onecell_prepare", HERE / "prepare.py")
 base = load("onecell_stages", HERE.parents[1] / "copy-on-drop-prove.py")
 ast = base.ast_helper
 mir = base.mir_helper
-PROFILE = ("experimental-merge-actual-glue-body-v3" if os.environ.get("SMALLSORT_MERGE_PROFILE") else "experimental-merge-qualified-guard-onecell-v1")
+PROFILE = ("experimental-merge-actual-glue-body-v4" if os.environ.get("SMALLSORT_MERGE_PROFILE") else "experimental-merge-qualified-guard-onecell-v1")
 CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
          "double_physical_fbc")
 CAMPAIGN = "incoming-origin-controls-only-v1"
@@ -272,6 +272,23 @@ def execute_case(case: Path, args, env: dict) -> dict:
     else:
         decode = 125
         base.not_run(case, "decode", "exporter failed")
+    # Preserve both independently exported generated CFGs for inspection.
+    # The official refiner still exports and compares the source pair itself.
+    original_stages = {}
+    if args.profile == "experimental-merge-actual-glue-body-v4":
+        original_export = base.run_stage(case, "original-exporter", [
+            str(args.tool_home / "bin/vf-rust-mir-exporter"), "original/lib.rs",
+            f"--sysroot={args.compiler_sysroot}", "--edition", "2021", "--crate-type", "lib",
+            ], env, timeout_seconds=args.stage_seconds,
+            stdout_name="original-compiler-mir.bin")
+        if original_export == 0:
+            original_decode = base.run_stage(case, "original-decode", ["capnp", "decode", "-I",
+                str(args.schema.parent), str(args.schema), "VfMir"], env,
+                timeout_seconds=args.stage_seconds, stdin=case / "original-compiler-mir.bin")
+        else:
+            original_decode = 125
+            base.not_run(case, "original-decode", "original exporter failed")
+        original_stages = {"exporter": original_export, "decode": original_decode}
     vf_arguments = [str(args.tool_home / "bin/verifast"),
         "-rustc_args", "--edition 2021", "-verbose", "1", "-dump_ast_with_locs",
         "proof-ast.ml"]
@@ -315,6 +332,7 @@ def execute_case(case: Path, args, env: dict) -> dict:
         if json.loads(path.read_text()).get("status") != "NOT_RUN")
     return {"stages": {"exporter": exporter, "decode": decode,
                        "verifast": vf, "refinement": refinement},
+            "original_export_stages": original_stages,
             **({"extern_spec_binding": extern_spec_binding} if extern_spec_binding is not None else {}),
             "source_before": source_before, "source_after": source_after,
             "source_unchanged_at_every_stage": unchanged}
