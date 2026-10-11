@@ -17,6 +17,7 @@ import shutil
 import subprocess
 import sys
 import time
+from types import SimpleNamespace
 
 
 ROOT = Path("research/challenge-8/cloud-build")
@@ -1216,6 +1217,28 @@ def run(a) -> None:
                         "cases": {}, "proof_credit": False}
         else:
             supplied = supplied_cases(a, tool, active, capture_tool, bound_tool)
+        native_c4_capture = None
+        if C1_ZST_REPAIR_SESSION and profile.get("native_c4_mode") is not None:
+            need(profile["native_c4_mode"] == "CAPTURE_ONLY" and
+                 zst_model.get("gates_passed") is True and
+                 supplied.get("cases", {}).get("native-c1-bound-positive", {}).get(
+                     "native_bound_candidate_binding") is True,
+                 "native C4 capture requires fresh full model gates and native C1")
+            fresh = supplied["cases"]
+            need(all(fresh.get(name, {}).get("native_bound_classification") ==
+                     "NATIVE_C1_BOUND_FALSE_CONTROL_RAW_REVIEW_REQUIRED"
+                     for name in ("native-c1-bound-false-normal", "native-c1-bound-false-unwind")) and
+                 all(fresh.get(name, {}).get("native_bound_classification") ==
+                     "NATIVE_C1_BOUND_ADMISSION_REFUSAL_NOT_SEMANTIC_NEGATIVE"
+                     for name in ("native-c1-bound-source-refusal", "native-c1-bound-extra-body",
+                                  "native-c1-bound-malformed", "native-c1-bound-mixed")),
+                 "native C4 requires complete fresh C1 control matrix")
+            save(a.evidence / "native-c1-before-c4.json", supplied)
+            c4_module = load(a.cloud_dir / "sort4-native-c1-bound/native-c4-driver.py",
+                             "native_c4_capture_module")
+            native_c4_capture = c4_module.run(a, bound_tool, active, SimpleNamespace(
+                load=load, stage=stage, clean_env=clean_env,
+                source_support=source_support, save=save))
         if reuse_admission:
             need(profile.get("prior_fresh_admission_build") == "3584fb04-e237-4d66-9c85-60de4df059c4" and
                  profile.get("prior_fresh_admission_proof_infra") == "285220a384d050e046d1e8709b79a52bd602e675" and
@@ -1261,6 +1284,7 @@ def run(a) -> None:
                   "frozen_kernel_sha256": FINAL_KERNEL,
                   "c4": c4, "native": native, "supplied": supplied,
                   "zst_model_diagnostics": zst_model,
+                  "native_c4_capture": native_c4_capture,
                   "admission": admission,
                   "comment_admission": comment_admission,
                   "run_mode": profile["run_mode"],
