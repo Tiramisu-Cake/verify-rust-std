@@ -24,6 +24,7 @@ import sys
 
 SCHEMA = "smallsort-git-source-input-v1"
 SHARED_SCHEMA = "smallsort-git-source-input-v2-shared-objects"
+SHARED_STREAM_SCHEMA = "smallsort-git-source-input-v3-shared-stream"
 OBJECT_ID = re.compile(r"^[0-9a-f]{40}$")
 WORKSPACE = Path("/workspace")
 STD_PATHS = (
@@ -270,16 +271,26 @@ def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes
                     stop("same object ID has inconsistent source records")
                 pool[oid] = item
             record["objects"] = [{"oid": item["oid"]} for item in record["objects"]]
-        payload["schema"] = SHARED_SCHEMA
+        payload["schema"] = SHARED_STREAM_SCHEMA
         payload["shared_objects"] = []
+        object_stream = bytearray()
         for oid in sorted(pool):
             item = dict(pool[oid])
             raw_object = base64.b64decode(item["data_base64"], validate=True)
-            packed = gzip.compress(raw_object, mtime=0)
-            xz = lzma.compress(raw_object, preset=6)
-            item["compression"] = "xz" if len(xz) < len(packed) else "gzip"
-            item["data_base64"] = base64.b64encode(xz if item["compression"] == "xz" else packed).decode("ascii")
+            item.pop("data_base64")
+            item["offset"] = len(object_stream)
+            object_stream.extend(raw_object)
             payload["shared_objects"].append(item)
+        stream_bytes = bytes(object_stream)
+        compressed_streams = (
+            ("gzip", gzip.compress(stream_bytes, compresslevel=9, mtime=0)),
+            ("xz", lzma.compress(stream_bytes, preset=6)),
+        )
+        encoding, packed_stream = min(compressed_streams, key=lambda item: len(item[1]))
+        payload["object_stream"] = {
+            "encoding": encoding,
+            "data_base64": base64.b64encode(packed_stream).decode("ascii"),
+        }
     raw = (json.dumps(payload, sort_keys=True, separators=(",", ":")) + "\n").encode()
     buffer = io.BytesIO()
     with gzip.GzipFile(fileobj=buffer, mode="wb", filename="",
@@ -406,9 +417,60 @@ def restore_archive(archive: Path, evidence: Path) -> dict:
         payload = json.loads(raw)
     except (OSError, json.JSONDecodeError) as error:
         stop(f"source archive is unreadable: {error}")
-    if payload.get("schema") not in (SCHEMA, SHARED_SCHEMA):
+    if payload.get("schema") not in (SCHEMA, SHARED_SCHEMA, SHARED_STREAM_SCHEMA):
         stop("unsupported source archive schema")
-    if payload["schema"] == SHARED_SCHEMA:
+    if payload["schema"] == SHARED_STREAM_SCHEMA:
+        entries = payload.get("shared_objects")
+        stream_record = payload.get("object_stream")
+        if (not isinstance(entries, list) or not isinstance(stream_record, dict) or
+                set(stream_record) != {"encoding", "data_base64"} or
+                stream_record.get("encoding") not in ("gzip", "xz")):
+            stop("invalid shared Git object stream")
+        try:
+            packed_stream = base64.b64decode(stream_record["data_base64"], validate=True)
+            if stream_record["encoding"] == "gzip":
+                object_stream = gzip.decompress(packed_stream)
+            else:
+                object_stream = lzma.decompress(packed_stream)
+        except (ValueError, TypeError, OSError, EOFError, lzma.LZMAError):
+            stop("invalid compressed shared Git object stream")
+        pool = {}
+        offset = 0
+        for item in entries:
+            if not isinstance(item, dict) or set(item) != {"oid", "type", "size", "offset"}:
+                stop("invalid shared Git object stream entry")
+            oid, kind, size, item_offset = item["oid"], item["type"], item["size"], item["offset"]
+            if (not isinstance(oid, str) or not OBJECT_ID.fullmatch(oid) or oid in pool or
+                    kind not in ("commit", "tree", "blob") or type(size) is not int or size < 0 or
+                    type(item_offset) is not int or item_offset != offset):
+                stop("invalid or noncontiguous shared Git object stream entry")
+            end = offset + size
+            if end > len(object_stream):
+                stop("shared Git object stream entry exceeds stream length")
+            raw_object = object_stream[offset:end]
+            pool[oid] = {**item, "data_base64": base64.b64encode(raw_object).decode("ascii")}
+            offset = end
+        if offset != len(object_stream):
+            stop("shared Git object stream has unclaimed bytes")
+        if "shared_objects" not in payload:
+            stop("shared schema requires an object pool")
+        referenced = set()
+        for name in ("infra", "proof", *(("baseline",) if "baseline" in payload else ())):
+            record = payload.get(name)
+            if not isinstance(record, dict):
+                stop("shared schema requires both original input repositories")
+            expanded = []
+            for ref in record.get("objects", []):
+                if not isinstance(ref, dict) or set(ref) != {"oid"} or ref["oid"] not in pool:
+                    stop("invalid shared-object reference")
+                referenced.add(ref["oid"])
+                expanded.append(pool[ref["oid"]])
+            record["objects"] = expanded
+        if referenced != set(pool):
+            stop("shared Git object pool differs from repository closure union")
+    elif payload["schema"] == SHARED_SCHEMA:
+        if "object_stream" in payload:
+            stop("unexpected shared Git object stream in v2 archive")
         pool = {}
         for item in payload.get("shared_objects", []):
             oid = item.get("oid")
@@ -429,7 +491,7 @@ def restore_archive(archive: Path, evidence: Path) -> dict:
             record["objects"] = expanded
         if referenced != set(pool):
             stop("shared Git object pool differs from repository closure union")
-    elif "shared_objects" in payload:
+    elif "shared_objects" in payload or "object_stream" in payload:
         stop("unexpected shared Git object pool")
     lane = payload.get("lane")
     infra_record = payload.get("infra", {})
