@@ -798,7 +798,7 @@ def run(a):
     else:
         regressions = module(a.cloud_dir / "verifast-c4-select-integration/regressions.py", "integration_regressions")
         stages["regressions"] = regressions.run(a, a.tool_home, selector_case, c4case,
-            selector_env(a), c4_env(), stage, proof, composition.get("controls", {}), admission_mutants)
+            selector_env(a), c4_env(), stage, proof, composition.get("controls", {}), admission_mutants, capture)
     if c4_ok and not parents_only:
         inherited = data["inherited_c4_controls"]
         need(inherited["source_sha256"] == actual_sources["c4"] and

@@ -369,7 +369,7 @@ def prepare_source_fixtures(a, root: Path) -> dict:
     return report
 
 
-def _run_lifetime(a, selector_case, c4_env, proof, capture, inherited=None) -> dict:
+def _run_lifetime(a, selector_case, c4_env, proof, capture, inherited=None, mir_capture=None) -> dict:
     """Run the saved isolated strict-cut cases through the parent's proof callback."""
     template_path = a.proof_root / REQUIRED_FILES[0]
     template = template_path.read_bytes()
@@ -458,7 +458,13 @@ def _run_lifetime(a, selector_case, c4_env, proof, capture, inherited=None) -> d
         "ghost_strip_runtime_identity": outer_original == capture.strip_ghost(outer_verified),
         "proof_credit": False,
     })
+    _need(mir_capture is not None, "outer full MIR capture callback required")
+    outer_inventory = mir_capture(a, outer_case, "outer-bound", ["negative_outer_bound_escape"])
+    immutable = json.loads((a.cloud_dir / "verifast-c4-select-integration/manifest.json").read_text())
+    _need(outer_inventory == immutable["outer_scope_capture_pins"],
+          "outer normal/readonly full MIR differs from reviewed capture")
     outer_env = env.copy()
+    outer_env["SORT4_STRICT_LFT_RELOCATE"] = "1"
     outer_env["SORT4_STRICT_LFT_CUT"] = "1"
     outer_env["SORT4_HRTB_OUTPUT"] = "1"
     outer_env["SORT4_HRTB_OUTPUT_TARGETS"] = "negative_outer_bound_escape"
@@ -561,7 +567,7 @@ def _run_lifetime(a, selector_case, c4_env, proof, capture, inherited=None) -> d
 
 
 def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof,
-        composition_controls=None, composition_admission_mutants=None):
+        composition_controls=None, composition_admission_mutants=None, mir_capture=None):
     """Execute only narrow, callback-mediated regressions and record NOT_RUN gaps."""
     _cloud_guard()
     evidence = a.evidence / "regressions"
@@ -697,7 +703,7 @@ def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof,
         "proof_credit": False,
     }
     report["targets"]["strict_lifetime"] = _run_lifetime(
-        a, selector_case, c4_env, proof, lifetime_capture, inherited)
+        a, selector_case, c4_env, proof, lifetime_capture, inherited, mir_capture)
 
     pointer_rows = {}
     inherited_pointer = inherited["pointer_value_pointee_rights"]
