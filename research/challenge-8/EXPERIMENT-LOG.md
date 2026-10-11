@@ -7240,3 +7240,26 @@ Keep positive nonzero/native-resource/full-post checks and two exact assertion
 negatives, including reachable ZST assertfalse; repeat component and helper
 gates. The stable public guard and transfer down either actualcallchain remain
 OPEN unless freshly proved. No helper nonzero premise supplied.
+
+Final fourth dispatch: Build00e90a4b-b7ed-4b92-8b07-bbf168dbc820, exact
+proof=infra4871e8a6b47d9f863d42df802233496a051a7242, config
+fb1d06685ea9ac6442eb564f2e90a140ed16b39c83c79a2679449a8049af35a6;
+payload3e23cf565b23df66db2f45824834279599df7df62b85ed05a1940a2dc4e876da,
+541394bytes/181parts,77proof/8recipeinfra. Timeout1200/reserve1260.
+All admission/deadline/transport checks passed before dispatch. No inventory
+constants guessed, no newmodel/tool rule, no assumedhelperdomain.
+
+Final Build00e90a4b collector SUCCESS/432seconds; total1589/3600, unused2011
+retired/no carry. Archive2c3e5c6870d51c605221f875abf87d7d21e7ef814b53614d2f84fefde7782760,
+748/748 inventory and478textchunks independently checked; standard download
+verified. Allpointercomponents/fullposts and3intendedpermission/pointernegatives
+freshpass; helperoverflow remains actual firstVC bothprofiles. Publicunstable
+ZSTfalse assertion reaches exact lib.rs10 Cannotprovefalse; positive andfalse
+zero continuation fail unrelated ghost size_of lookup at12, NOsemanticcredit.
+Publicprofileprebinding66e266d3, consumerspostbinding21ca026a, no composition.
+Establishednextproofnotation std::mem::size_of::<T>() from prior modelgates;
+no codefix/newBuild after15:54 maincutoff. AccountCLOSED15:57:57.997385Z, all4
+terminal/accounted/downloadverified, ownres/request/unresolvedempty, v2max2
+checked, owncloudmanifestdisabled. Checkpoint/reviewpackage/finalfullmanifest
+record exactsource/MIR/AST/tool/model/proof limits. No fullactualcaller/sort4
+proof or newnativeC4composition; no automatic nextsession.

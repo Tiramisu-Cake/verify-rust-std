@@ -168,6 +168,9 @@ or complete sort4/SmallSort function.
 
 ## Current-phase Cloud command template
 
+The complete recorded run table, commands and persistent raw evidence paths
+are in [REPRODUCTION.md](REPRODUCTION.md).
+
 This is the reviewed command shape for the existing authorized phase, not a
 new dispatch or a request to run a build. Use the current published exact
 proof/infra SHAs, the assigned stable owner's ledger/state, and a lane allowed
@@ -191,12 +194,39 @@ own unresolved Builds/capacity; do not copy the historical hashes if sources
 or recipe change. Download and verify the complete archive, inventory, receipt
 and logs before interpreting proof status.
 
-## Third public-guard build — pending raw review
+## Third public-guard build: frontend obstacle
 
-The upcoming third build is expected to add a source-bound public stable-guard
-prefix. Its exact Build ID, proof/infra SHAs, archive hash, per-case stage
-results, source/MIR/AST roots, first causal obligation, and whether the guard
-fact transfers to the actual helper are **PENDING RAW REVIEW**. Do not infer
-guard entailment from admission, collector success, or static source alone;
-the proof/model/profile status remains unchanged until that package is
-independently reviewed.
+Build `d352b4a6-d86d-48b4-86ca-cdccb0af4d89`, exact proof/infra
+`3ed89d79a4d0c389607fac7eb0b3909d7e7d4b28`, has verified archive
+`ae39f373baf16748479cb05c0874e5c51536a8a692bfcfd63037778b6e1e9e75`.
+All 748 inventory entries and 478 text chunks match. The
+[fresh third review](FRESH-D352B4A6-REVIEW.md) confirms pointer gates rerun
+successfully and the original helper overflow remains first. All three stable
+public-guard fixtures fail type resolution in copied `BufGuard` at line6,
+before `sort`'s guard. Their paired support passes, but neither positive nor
+intended negative receives semantic credit. No general trait repair is made.
+
+## Fourth public-guard build: partial nonvacuity result
+
+Exact proof/infra `4871e8a6b47d9f863d42df802233496a051a7242` selects the
+actual public `unstable::sort<T,F>` first guard, cut before len/likely, with
+source `23fa044fde8d3542f5f298654923ed2426930373259e6f71670c75b80501cf9a`
+and template `20dd70aae480bb694b6de563e2e473685062b25e31df79b42c102c288267f2c4`.
+This removes the unused BufGuard fixture context by choosing a different
+actual entry signature; it changes no tool/model semantics. Build `00e90a4b-b7ed-4b92-8b07-bbf168dbc820` has archive
+`2c3e5c6870d51c605221f875abf87d7d21e7ef814b53614d2f84fefde7782760`;
+[fresh raw review](FRESH-00E90A4B-REVIEW.md) records exact source/MIR/AST and
+all gate outcomes. The real ZST-branch false assertion rejects at line10.
+Both continuation cases stop at unresolved ghost `size_of` line12, so neither
+nonzero inference nor its opposite-assertion negative is credited. The
+established next proof-only spelling is `std::mem::size_of::<T>()`; no repair
+or new experiment was performed after the main deadline. This guard uses
+pre-binding translator66e266d3; pointer consumer uses post-binding21ca026a.
+The [final full base/result manifest](FINAL-BASE-RESULT-MANIFEST.json) records
+both profiles; complete snapshots match the second build independently.
+No downstream guard transfer, actual helper bridge or caller-to-C4 is proved.
+
+Session CLOSED;1589/3600sec used,2011 retired, own Builds/reservations/ready
+request empty. Commands above are recorded history; new dispatch requires a
+new authorized session/phase/account. Review/integration belongs to maintainer;
+select-sort4 retains the full actual sort4/caller mission, followed by sort8.

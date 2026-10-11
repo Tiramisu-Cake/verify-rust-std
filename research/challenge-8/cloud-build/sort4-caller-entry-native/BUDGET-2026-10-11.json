@@ -1,14 +1,14 @@
 {
   "phase": "SORT4-ACTUAL-CALLER-ENTRY-CLOUD-2026-10-11",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "authorization": "Direct owner continuation 2026-10-11 from0f673c4f: actualcallerentry tosort4 resources, realas_mut_ptr/cast/source-bound binding andexistingC1-C4 composition; no newownershipaxioms/MUinverse/generalcallback/solver/kernel/sizeextension.120m+30mfinish-only,new3600Cloudsec no carry.",
   "owner": "select-sort4",
   "start_utc": "2026-10-11T13:54:02Z",
   "main_deadline_utc": "2026-10-11T15:54:02Z",
   "deadline_utc": "2026-10-11T16:24:02Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 1157,
-  "remaining_build_seconds": 2443,
+  "used_build_seconds": 1589,
+  "remaining_build_seconds": 2011,
   "maximum_build_timeout_seconds": 1740,
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
@@ -86,9 +86,42 @@
       "execution_seconds": 388,
       "download_verified": true,
       "archive_sha256": "ae39f373baf16748479cb05c0874e5c51536a8a692bfcfd63037778b6e1e9e75"
+    },
+    {
+      "dispatch_token": "dispatch-a2dc48afaf284bd2b67a703e52c120bb",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-ACTUAL-CALLER-ENTRY-CLOUD-2026-10-11",
+      "infra_sha": "4871e8a6b47d9f863d42df802233496a051a7242",
+      "proof_sha": "4871e8a6b47d9f863d42df802233496a051a7242",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "fb1d06685ea9ac6442eb564f2e90a140ed16b39c83c79a2679449a8049af35a6",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "3e23cf565b23df66db2f45824834279599df7df62b85ed05a1940a2dc4e876da",
+      "build_id": "00e90a4b-b7ed-4b92-8b07-bbf168dbc820",
+      "start_time": "2026-10-11T15:44:52.700638958Z",
+      "finish_time": "2026-10-11T15:52:03.861878Z",
+      "create_time": "2026-10-11T15:44:51.923239402Z",
+      "build_seconds": 432,
+      "accounted": true,
+      "execution_seconds": 432,
+      "download_verified": true,
+      "archive_sha256": "2c3e5c6870d51c605221f875abf87d7d21e7ef814b53614d2f84fefde7782760"
     }
   ],
   "policy_revision_read": "c7ca8c467aecf10a4b53039372ee97714f854ee3",
   "policy_adoption_commit": "6726a08d30b37d6d0f4ae65c3d8c2861615d249a",
-  "initial_checkpoint": "0f673c4f05b5c04f0704244e93f929c78611e0fa"
+  "initial_checkpoint": "0f673c4f05b5c04f0704244e93f929c78611e0fa",
+  "closed_utc": "2026-10-11T15:57:57.997385Z",
+  "main_window_closed_utc": "2026-10-11T15:54:02Z",
+  "unused_closed_seconds": 2011,
+  "unused_seconds_retired": true,
+  "carry_forward_allowed": false,
+  "own_reservations_closed": true,
+  "ready_request_closed": true,
+  "unresolved_build_ids": [],
+  "closure_reason": "Main window ended; final begun Build and all evidence/accounting completed. Caller entry bridge and public nonzero proof remain open; no automatic next session."
 }

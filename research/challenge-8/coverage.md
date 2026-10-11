@@ -965,3 +965,12 @@ No public nonzero premise is supplied to the helper. Second sort4, sort8,
 full actual sort4 and callable caller applicability remain separate/unproved.
 See [fresh raw review](cloud-build/sort4-caller-entry-native/FRESH-1D2237D7-REVIEW.md)
 and [first blocker](cloud-build/sort4-caller-entry-native/CALLER-ENTRY-BLOCKER.md).
+
+Final Build00e90a4b at4871e8a6 repeats allpointer gates and sameactualhelper
+overflow. Actualunstablepublicguard ZSTfalse assertion rejects at intended
+line10, proving nonvacuity; positive/falsezero-continuation fixtures stop at
+unresolved ghost size_of line12. Publicnonzero and downstreamdomaintransfer
+remain unproved. Stableguard fixture earlier failed BufGuard genericscope.
+No actualcaller-to-C4 composition; publiccasesprebinding, consumerspostbinding.
+Sessionclosed1589/3600, unused2011retired, ownBuild/res/request/unresolvednone.
+See [checkpoint](cloud-build/sort4-caller-entry-native/END-CHECKPOINT-2026-10-11-CALLER-ENTRY.md).
