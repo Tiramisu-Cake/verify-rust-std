@@ -646,11 +646,25 @@
     "fresh_selected7_helper4_and_ordinary_smokes": "PASS_COMPONENT_DIAGNOSTIC",
     "compiler_instance_observation": "42 raw actual DropGlue bodies; ref input/copy/trait-call/return/unwindContinue; noRef/noStorageDead",
     "verified_glue_body": "NOT_RUN",
-    "resolved_destructor_binding": "PENDING_V4_OBSERVATION",
+    "resolved_destructor_binding": "NOT_OBSERVED: v3 stolen MIR panic, v4 compile E0425",
     "receiver_omitted_wrong_end_repeat_retired_controls": "NOT_RUN",
     "reachable_actual_insert_tail_panic_cleanup": "NOT_RUN",
     "supplied_premises": "Original ledger and bindings unchanged; no canonical FBC/origin applicability upgrade",
     "v3_failure": "a6ee2fbe rustc stolen-query panic, all7 INCONCLUSIVE, no intended negative credit",
-    "accepted": false
+    "accepted": false,
+    "v4_failure": {
+      "build_id": "2d88c92f-e721-4cfe-9eee-4c0aa1846903",
+      "proof_sha": "dc42741245002c010c4e27554003a7ba4e28d1bf",
+      "profile": "experimental-merge-actual-glue-observation-v4",
+      "profile_sha256": "ede5bd5e338703a6c1f99e6ee0dfe422115241fef9a7a9fadc4a9f9e71f63e1b",
+      "tool_commit": "54407e62230ad8b2b5e211d1551f26ae4378b179",
+      "archive_sha256": "59a5e1881da1a1596a18501e2a1a6bbc7b63d370cac7a205389ff3778facd894",
+      "stage": "exporter-build E0425 exported_bodies scope at2820",
+      "consumer_proof": "NOT_RUN",
+      "integrity_verified": true
+    },
+    "session_status": "CLOSED",
+    "used_build_seconds": 2190,
+    "unused_retired_seconds": 1410
   }
 }
