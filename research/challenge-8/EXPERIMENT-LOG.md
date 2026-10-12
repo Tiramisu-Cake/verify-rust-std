@@ -7582,3 +7582,41 @@ checkpoint only. Mandatory A1/A2 review before third; precise trait/F/lifetime
 blocker and shared checked trait-contract plus opaque-MU C4 alternatives in
 END-CHECKPOINT-2026-10-12-SESSION2.md. New generic/trusted rules require owner
 scope decision before implementation; no third phase authorized, score unchanged.
+
+### 2026-10-12 — A1 approach decision package, DESIGN/UNRUN, Cloud 0
+
+Owner-assigned read/design window after two closed select-sort4 proof sessions;
+initial a22282dac3765c7d9948e6edfb0ae74102a4280b, T0 00:18:36Z, main01:18:36Z,
+finish-only01:48:36Z. Existing ACK of policy6e1a8e59... confirmed, no re-adoption.
+No tool/proof patch, compiler/extractor/verifier or dispatch executed. Counters
+and accounts unchanged. Own status, existing checkpoint and this log updated.
+
+Prepared [owner package](cloud-build/sort4-caller-entry-native/A1-TRAIT-CONTRACT-REVIEW-2026-10-12.md)
+plus exact-source translator rationale and fixture plan (all UNRUN): common
+threshold16..32 checked against both actual impls, genuine generic trait call
+transfers original guard to n<=32/n+16<=48; full native normal/unwind interface
+keeps unrestricted T/F, callback panic and opaque MU. Full small_sort theorem
+requires both actual bodies and dependencies, no assumed summary. A1 route
+change needs owner decision because generic None is not a selected Instance.
+
+Static pinned source finding: RequiredFn schema f760:878 has no method F/generic
+clauses; exporter f760:819 serializes printable binder names independently of
+inputs. Representation requires narrow required-item exporter/schema/decoder
+and translator work, separately from safe required-method contract and both-impl
+conformance. Exact final saved translator independently hashes e484d9...d807e64.
+No kernel/layout/alias change suggested. First proposed Build threshold/interface
+only with actual both-impl bodies and bad-impl/binder/region/F/source/binding
+negatives, full posts and seven regressions:900s timeout,960s reservation AFTER
+authorization. No fresh proof credit from this package/static checks.
+
+A2 proposed prefix resource envelope retains exact opaque MU frame through normal
+and four direct-unwind exits, with CURRENT initialized source/F and closure of
+all borrow debts. ZST source split/borrow protocol still unproved; len8–15 does
+not derive nonzero. Full destination writes/copies need further proof; no MU→T
+bridge. A1/A2 NOT ACHIEVED, score15% unchanged, all prior verdicts preserved.
+Own reproducible translator scratch cleanup and retained evidence recorded in
+the existing session2 checkpoint. Next: owner/maintainer review, not execution.
+Design closed00:42:16Z within main window. Static link/fence/hash/whitespace checks
+pass; compact explorer review fixed actual AST no-redirect gate plus forced
+legacy clause-ignoring redirect control. P0 arithmetic is explicitly a caller
+lemma; actual helper transfer and full small_sort proofs remain P2/UNRUN.

@@ -124,3 +124,75 @@ and modular-contract alternative; separate decision before any generic/trusted
 rule implementation or third proof session. This checkpoint is not phase
 approval, experimental profile acceptance, or authorization to continue builds.
 
+## 2026-10-12 — owner-assigned approach review, Cloud budget 0
+
+This append records a documentation/design window, not proof session #3. Initial
+checkpoint `a22282dac3765c7d9948e6edfb0ae74102a4280b`; no newer changes reset.
+T0 `00:18:36Z`, main deadline `01:18:36Z`, finish-only absolute `01:48:36Z`.
+ACK policy `6e1a8e59c56669abe5e6ec2013478e45ed2cc267` already in adopted docs
+`e92176fd7dd3fa369506281eb1ce76b2dd40d1b0`; confirmed without repeat transfer.
+Read AGENTS/WORK-POLICY/ADOPTION/PROGRESS-REVIEW and latest checkpoint/manifest;
+own branch/worktree clean initially, HEAD exactly supplied. Origin fetched;
+GitHub Actions read-only list returned no runs. No workflow or Cloud dispatch.
+
+Decision package:
+[common trait interface](A1-TRAIT-CONTRACT-REVIEW-2026-10-12.md),
+[exact pinned source/trust boundary](A1-TRANSLATOR-REVIEW-2026-10-12.md),
+[source-derived fixture plan UNRUN](A1-FIXTURES-UNRUN-2026-10-12.md).
+Recommended common threshold16..32, native bounded-base-case small_sort theorem
+with full CURRENT normal/unwind resources against both actual impls. Original
+generic guard derives n<=32, arithmetic n+16<=48; no selected Instance, supplied
+bound, Freeze/nonzero or MU→T bridge. Literal old A1 selected-Instance criterion
+needs owner's route decision; no administrative relabelling as ACHIEVED.
+
+Concrete additional scope fact: pinned RequiredFn schema lacks method generics
+and clauses; exporter uses printable lifetime names independently of input Ty
+regions. Minimal candidate spans required-item exporter/schema/decoder plus
+translator, not a lifetime rename. Existing prototype generation needs exact
+generic Self/F/impl identity and full normal/unwind conformance gates; the
+clause-ignoring specialization path cannot justify unrestricted trait dispatch.
+Final translator e484d9...d807e64 independently hashed at own saved
+`/tmp/selected-branch-align-check/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml`;
+f760 source read by Git object, no checkout/change to maintainer worktree.
+
+First proposed experiment is threshold/interface-only: both actual threshold
+body proofs, original generic threshold call/guard arithmetic and full retained
+small_sort signature/source shape. Full small_sort summary remains UNPROVED and
+unavailable; full caller/helper gate additionally needs actual insertion/helper
+dependencies. All planned fixtures UNRUN. One proposed Build:900s timeout,
+960s conservative reservation from a NEW separately granted account; none
+reserved here. Maintainer reviews/integrates; select-sort4 owns patch development
+after authorization. No kernel/layout/alias expansion proposed.
+
+A2 candidate C1–C4 prefix preserves exact native MU scratch frame normal and all
+four direct-unwind paths, without unused typed destination rights. Existing
+nonzero source split/reborrow applicability still lacks ZST proof; len8–15
+includes ZST. This does not prove impossible ZST support, only the current gap.
+Full C5/copies/secondcall/sort8 still OPEN. A1/A2 NOT ACHIEVED, 15% unchanged;
+all old Build verdicts and experimental profile status preserved. Previous
+budgets remain CLOSED/retired, no new account/coordinator state changed.
+
+VPS artifact assessment: this window created only the three tracked design docs
+and these status/log/checkpoint edits, no new /tmp evidence/tool output. Existing
+own scratch assessed; no active process using the removed directories observed.
+Removed six unused reproducible translator-only scratch directories:
+`/tmp/select-session2-translator-check`, `...-capture-stop`, `...-observe`,
+`/tmp/selected-branch-check`, `...-work`, `/tmp/select-binding-prefix-suffix-check`.
+Each held exactly one source ML file and no symlinks/results; combined 4,978,821
+bytes. Necessary exact base/final translator copies, all raw/read Build evidence,
+unique logs/archives and own Git history retained. Other owners/worktrees/caches,
+coordinator and shared state untouched.
+
+Next permitted step: review this concrete package; a separately named owner
+scope/trust decision, implementation window and Cloud budget are needed before
+R/C/G implementation or Build. This checkpoint authorizes none of them.
+
+Design review completed `2026-10-12T00:42:16Z`, within main window. Compact
+read-only explorer review integrated: actual AST/common-trait no-redirect gate
+and forced clause-ignoring redirect negative; P0 arithmetic explicitly caller
+lemma, not reached helper; zero-arg threshold native envelope distinguished from
+small_sort resources. Source hashes and exact final translator locations checked.
+Static relative Markdown targets/fenced blocks and `git diff --check` pass;
+no executable proof tests needed for docs-only changes. Cloud spent0, no active
+new run/draft tool implementation. Package ready for separate owner decision.
+
