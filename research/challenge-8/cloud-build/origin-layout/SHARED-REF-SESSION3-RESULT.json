@@ -132,7 +132,8 @@
       "accepted": false
     },
     "necessary_raw_logs_read_in_full": 65,
-    "raw_log_audit_sha256": "cc07e5e3c5b1000a67d5d452cf86dc01209773029e58f68270129cdb5eed0dd6"
+    "raw_log_audit_sha256": "cc07e5e3c5b1000a67d5d452cf86dc01209773029e58f68270129cdb5eed0dd6",
+    "raw_log_audit_local_path": "/tmp/merge-shared-ref-session3-20261012/necessary-raw-log-audit.json"
   },
   "B2": {
     "achieved": false,
@@ -755,7 +756,9 @@
         "elapsed_seconds": 0.417,
         "source_unchanged": true
       }
-    }
+    },
+    "actual_outer_caller_verified": false,
+    "reference_premise_source": "actual insert_tail original three initialized array cells + foreach owners; actual local [10,20,5] wrapper/full call boundary remains unproved because callee stops on first unwind"
   },
   "accounting": {
     "ceiling_seconds": 960,
@@ -792,7 +795,69 @@
       "inventory_files_checked_by_explorer": 1174,
       "apparent_bytes": 215213917,
       "reason": "closed own session expansion; all inventory hashes checked; exact paired archive+receipts retained; no active process references"
+    },
+    {
+      "removed": "/tmp/merge-glue-observation-preview-854d9fb5.tar.gz",
+      "retained": "/tmp/merge-glue-fresh-854d9fb5/evidence.tar.gz",
+      "sha256": "f05a6053d43ce0edcac7a882cc66d1b094d58637a6aaa754afdea5dc086a062b",
+      "apparent_bytes": 2028399,
+      "reason": "exact hash duplicate verified before removal; canonical archive/manifest and upload receipt retained"
+    },
+    {
+      "removed": "/tmp/merge-glue-observation-preview-a6ee2fbe.tar.gz",
+      "retained": "/tmp/merge-glue-fresh-a6ee2fbe/evidence.tar.gz",
+      "sha256": "4e1d57a1a8ce4d1669d9b1f0da0569f6cecf78519336e08548e6b2856f26f4b5",
+      "apparent_bytes": 1766869,
+      "reason": "exact hash duplicate verified before removal; canonical archive/manifest and upload receipt retained"
+    },
+    {
+      "removed": "/tmp/merge-glue-observation-preview-2d88c92f.tar.gz",
+      "retained": "/tmp/merge-glue-fresh-2d88c92f-terminal/evidence.tar.gz",
+      "sha256": "59a5e1881da1a1596a18501e2a1a6bbc7b63d370cac7a205389ff3778facd894",
+      "apparent_bytes": 1078731,
+      "reason": "exact hash duplicate verified before removal; canonical archive/manifest and upload receipt retained"
+    },
+    {
+      "removed": "/tmp/merge-bridge-101982de-early.tar.gz",
+      "retained": "/tmp/merge-bridge-evidence-101982de/evidence.tar.gz",
+      "sha256": "177d5d2742f3b8bb0b2fd53f5cfb568f8f90692800dc6f75b071e76330d26454",
+      "apparent_bytes": 1092944,
+      "reason": "exact hash duplicate verified before removal; canonical archive/manifest and upload receipt retained"
+    },
+    {
+      "removed": "/tmp/merge-final-peek",
+      "retained": "/tmp/merge-final-evidence-7f45c598/manifest.json",
+      "sha256": "50daa88662ebd1c4433936e6b705e7b31570576c351cf706e0a38b7756615dc9",
+      "apparent_bytes": 482407,
+      "reason": "exact hash duplicate verified before removal; canonical archive/manifest and upload receipt retained"
+    },
+    {
+      "removed": "/tmp/merge-third-peek",
+      "retained": "/tmp/merge-b1-b2-evidence-55f96a17",
+      "files_sha256": {
+        "manifest.json": "0a4f3ad314f07484e5c4451b5cb4ab8c74e7e5276313d816000e3efcaf770bc9",
+        "text-logs-index.json": "da8f1458cddee8e0b9fdec3851e8fb96b3e0651ec66cf0c4666d7a8cb62a3c90"
+      },
+      "apparent_bytes": 954937,
+      "reason": "both files checked byte-for-byte before deletion, including second index found by protective guard"
+    },
+    {
+      "removed": "/tmp/merge-shared-ref-session3-analysis",
+      "retained": "/tmp/merge-shared-ref-evidence-30bce9a0",
+      "apparent_bytes": 3980935,
+      "reason": "all extracted copies matched inventory or exact canonical archive metadata; unique raw audit retained",
+      "audit_receipt": "/tmp/merge-shared-ref-session3-20261012/necessary-raw-log-audit.json"
+    },
+    {
+      "removed": "/tmp/merge-shared-ref-session3-static/object-roundtrip",
+      "retained": "/tmp/merge-shared-ref-evidence-30bce9a0",
+      "apparent_bytes": 3892013,
+      "reason": "own temporary selected Git-object roundtrip; exact source-input archive/certificate preserved in verified Cloud archive and full Git commit retained"
     }
   ],
-  "next_action_requires_owner_decision": "qualified concrete-u64 HRTB output and first Continue-unwind callback loans/F/frame/resource recovery; separate semantic scope/profile/regression gate if new semantics required; actual late Call->cleanup Drop->Resume remains separate"
+  "next_action_requires_owner_decision": "qualified concrete-u64 HRTB output and first Continue-unwind callback loans/F/frame/resource recovery; separate semantic scope/profile/regression gate if new semantics required; actual late Call->cleanup Drop->Resume remains separate",
+  "proof_closeout_checkpoint_sha": "e24bd2c2311f6019635d1e9afaaa5a468f01cb13",
+  "cleanup_total_apparent_bytes": 457860967,
+  "cleanup_finished_utc": "2026-10-12T09:01:11.637744Z",
+  "verified_inventory_file_count": 1244
 }
