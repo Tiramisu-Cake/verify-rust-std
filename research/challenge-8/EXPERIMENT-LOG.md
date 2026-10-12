@@ -6923,3 +6923,21 @@ Seven unchanged v6 cases Build34485da0/tool e0a94e3e: source/caller/glue AST adm
 Start6a4afc1c, policy6e1a8e59/ACKea155143 preserved. Fixed I b6cb276a/package4214cbe0 vs glue a158398e/snapshot6283377b, commonbase f76012fb. 16 differing tool files, 7I/14glue source pins/13ordered patch hashes matched; actual dependency review distinguishes shared definitions, optional unrelated merge patches, new storage/layout rules and diagnostics. **BLOCKED combined source candidate** until narrow trust decision for qualified layout + live-origin numeric span and stable provenance across preserved I strict freeze; whole chain import loses I-specific paths and is rejected. [Report](verifast-review/i-glue-compat-20261012/COMPATIBILITY.md), [conditional gates](verifast-review/i-glue-compat-20261012/FUTURE-GATES.md), independent addressed GO.
 
 F1 applied only to own runner628 copy; 1saved positive/14synthetic entrypoint mutants +8False service tests pass, using hash-inventory-bound A961 saved AST/row only. Separate v8 Builda9613c24 execution recognized, no raw proof/qualification review/status upgrade. New combined tool NOT_PREPARED/UNBUILT/NOT_RUN; no executable dispatch command for absent profile. Cloud0/newproof0, no tool semantics/proof inputs/active merge/coordinator changes. Actual insert_tail panic/B1/B2/O23/I compatibility remain open. Internal package publication/cleanup receipts separate; upstream candidates/PASS preserved.
+
+
+## I actual-glue prerequisites /2026-10-12 — preimplementation card
+
+Direct120min+30finishing/3600Cloud authorization, stable ownerverifast, new ledger.
+Policy6e1a8e59/e3db6b5e read; start98bd08b1, I b6cb276a, sourceglue a158398e.
+Hypothesis: qualified u64 stack allocation geometry with legal incoming-resource
+identity and I strict-freeze mapping derives actual constructor separation
+without new caller premises, while consumed/rebuilt or retired handles refuse.
+Exact domain nongeneric CopyOnDrop/u64, x86_64, compilerf7575a9da, source SHA
+allowlist; full prefix and diagnostic suffix normal/unwind/resource posts in
+fixture-admission. New tool059687f1/profileexperimental-i-glue-prereqs-u64-v1.
+Independent conditionalGO before implementation; new arbitrary bounds axiom
+rejected, existing I resource-checked points_to__limits reused. Guard24 numeric
+geometry withheld. C0–C2 source/settings/build/lifecycle first; proof negatives
+count only at exact intended gate. PASS enables affectedC4–C7 only; setup failure
+correct source/type/API, unsupported bounds checkpoint without weaker posts.
+C3/B1/B2/O23/mergeactualcleanup/upstream remain outside this gate credit.

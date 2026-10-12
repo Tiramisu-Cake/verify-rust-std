@@ -1,0 +1,111 @@
+{
+  "schema": "verifast-i-glue-prereqs-fixtures-v1",
+  "source_hash": "sha256-full-source-bytes",
+  "positive_pair": "cases/prefix-positive",
+  "source_fixtures": [
+    {
+      "id": "c2-prefix-positive",
+      "path": "cases/prefix-positive",
+      "admission": "allow",
+      "original_sha256": "1c1e4464095a3f1a224a74e3cbdc3a80a049f0ccd80177c00d597dea44042865",
+      "verified_sha256": "6603e934a7251535a8282821d9ddf9d4fcbbb220300692f726f7566b3511294f",
+      "expected": "C2 target reached with actual constructor/physical fields/padding/source quarter and full readonly source; diagnostic ordinary copy suffix preserves normal/unwind value, tail ownership, lifetime and leak posts; actual Drop impl body and proof checked separately"
+    },
+    {
+      "id": "overlapping-storage-negative",
+      "path": "cases/overlap-negative",
+      "admission": "allow-control",
+      "original_sha256": "ecbb7a36495d1c14adac6bb138bb9d44b431c410725928991725d14b27f9ade0",
+      "verified_sha256": "b66f08f4ed6c6dba43c7e7ab814b3e51704fba82dbe15163ce8f0cfca423d3e8",
+      "expected_gate": "the CopyOnDrop ownership/separation close on the intentionally aliased src/dst must fail before C2 target, after body entry"
+    },
+    {
+      "id": "missing-source-permission-negative",
+      "path": "cases/missing-source-right-negative",
+      "admission": "allow-control",
+      "original_sha256": "1c1e4464095a3f1a224a74e3cbdc3a80a049f0ccd80177c00d597dea44042865",
+      "verified_sha256": "b60d830fea706142c58034df992f6675abfacb15e041f896241fa685a780afdd",
+      "expected_gate": "full source points_to assertion at the C2 target fails because only the established source fraction is available"
+    },
+    {
+      "id": "readonly-destination-safety-proof-negative",
+      "path": "cases/readonly-destination-negative",
+      "admission": "allow-control",
+      "original_sha256": "1c1e4464095a3f1a224a74e3cbdc3a80a049f0ccd80177c00d597dea44042865",
+      "verified_sha256": "3b288ad2e82827fb10e1594b9274ac36384ef653afcb8cf81f5390bcfb6fc7ac",
+      "expected_gate": "the checked Drop safety_proof must refuse to close the full uninitialized destination array from the quarter-only destination permission in the weakened method precondition; this is a safety-proof permission refusal, not a C2 target or Drop-body copy-write negative"
+    },
+    {
+      "id": "strict-origin-survivor",
+      "path": "cases/strict-survivor",
+      "admission": "allow-control",
+      "original_sha256": "3851c9098781b895c61c5fce38a01dc658d02129d604a415f0a97a1932d9b491",
+      "verified_sha256": "213d1c61fb8e981dce473b58e5251200bdc2bc4481c76af79f9a8b3366873cc2",
+      "expected": "pass at actual strict-scope exit: the incoming tail points_to survives through a let_lft strict binding block that allocates an address-taken local; evidence must show body entry and checked strict-freeze old-to-new heap map before tail.read"
+    },
+    {
+      "id": "reconstructed-origin-negative",
+      "path": "cases/reconstructed-origin-negative",
+      "admission": "allow-control",
+      "original_sha256": "83f9a02e160fb1b9f04b915b64ea2d2186f18cf531957e1bfe3dd831a32385a1",
+      "verified_sha256": "48d06973bdf1ade5f0362138c5d838f2f042dfe630170846369e0de45f5cfaaa",
+      "expected_gate": "reject at actual constructor ownership/separation gate after tail.read + tail.write rebuilds a same-address/value chunk and a second tail.read consumes it; no origin may be inferred by structural or address equality"
+    },
+    {
+      "id": "consumed-origin-negative",
+      "path": "cases/consumed-origin-negative",
+      "admission": "allow-control",
+      "original_sha256": "2857313a8dcdebdaf1f420d37081e0f85125a2b904597928c57ea0622eee7cdb",
+      "verified_sha256": "f7db87110338e402bb8302c4dc2a95067dfe5d9a0419ec8fdc52613de03fd730",
+      "expected_gate": "reject at actual constructor ownership/separation gate after tail.read consumes the incoming chunk before tmp is created; the saved value is moved into tmp, and tail remains uninitialized"
+    },
+    {
+      "id": "reused-local-incarnation",
+      "path": "cases/reused-local-incarnation",
+      "admission": "allow-control",
+      "original_sha256": "fefff80e4b8429b1fabb1b7f2bc3c4e109c5813d7e186b355638854b5c7c46ad",
+      "verified_sha256": "8a5b77be03e095b17a8dab1473ec76663d2f52aef1b2927ed9056a2ecdd9d7a0",
+      "expected": "pass at C2 gate after two nested scratch StorageLive/StorageDead scopes precede tmp; record body entry, each retirement and fresh incarnation, with no stale-receipt reuse when stack slots may be reused"
+    },
+    {
+      "id": "source-marker-call-negative",
+      "path": "cases/fake-marker-source-call",
+      "admission": "allow-control",
+      "original_sha256": "0335d3bcac0499aa361802c516d4173156b05788fc60aee5c7fbab94adadb5ff",
+      "verified_sha256": "99b5c23baf46b4e5e8ea82f40ef90193b47a61e6f456e08020663e5d7e3c67c1",
+      "expected_gate": "the ordinary annotation call vf__rust_storage_live(0) is rejected by the source parser/name resolution and emits no internal RustStorageLiveStmt"
+    },
+    {
+      "id": "unadmitted-source-digest-negative",
+      "path": "cases/source-digest-reject",
+      "admission": "reject",
+      "original_sha256": "b22ed00e6fe6ea867f43496efba9d410179c760614c1f8e277b8471544c8c86e",
+      "verified_sha256": "bff06c35e52e238aff447c6c8710e3f760307e35258a2ba98249a3920ea10b22",
+      "expected_gate": "exact full source SHA admission, before layout/source assertions"
+    },
+    {
+      "id": "retired-storage-separation-negative",
+      "path": "cases/retired-reuse-negative",
+      "admission": "allow-control",
+      "original_sha256": "248c4f74bd55ed3d0b053111c82f0ab7be782b7dc059bc6b4d31955af95198b4",
+      "verified_sha256": "8c5979cd308a95d9c7808c4d2c05ba213b51f3195215a4ba36301eaaab5bcc47",
+      "expected_gate": "after first address-taken local StorageDead, assert its retained raw address is disjoint from a second address-taken local; fail at this exact span-apart assertion because retired stack storage may be reused"
+    }
+  ],
+  "same_admitted_positive_source_required_for_metadata_controls": [
+    "compiler-commit",
+    "target-triple",
+    "abi-width",
+    "nominal-defpath-and-hash",
+    "generic-or-field-shape",
+    "size-align-field-size-offset",
+    "duplicate-attribute",
+    "foreign-or-forged-layout"
+  ],
+  "same_admitted_positive_source_required_for_storage_proof_controls": [
+    "wrong-mir-id-marker-binding",
+    "wrong-translated-local-marker-binding"
+  ],
+  "metadata_control_rule": "Mutate already-translated metadata while preserving the admitted positive source SHA; each control must reach the real translator/kernel metadata refusal, never a runner-side generic digest gate.",
+  "storage_control_rule": "Origin and incarnation controls each use their own admitted full-source pair pins above and must reach the actual translated RustStorageLive/Dead and strict-origin kernel path after body entry; synthetic model emulators do not count."
+}

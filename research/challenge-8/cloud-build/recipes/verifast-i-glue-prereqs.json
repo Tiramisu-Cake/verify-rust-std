@@ -1,0 +1,41 @@
+{
+  "schema": "smallsort-cloud-recipe-v1",
+  "lane": "verifast-i-glue-prereqs",
+  "infra_transport": "exact-recipe-v1",
+  "entrypoint": "research/challenge-8/cloud-build/verifast-i-glue-prereqs/run.sh",
+  "infra_paths": [
+    "research/challenge-8/cloud-build/exact-infra-transport-controls.py",
+    "research/challenge-8/cloud-build/provider.py",
+    "research/challenge-8/cloud-build/run-proof.sh",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/run.sh",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/runner.py"
+  ],
+  "proof_paths": [
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/consumed-origin-negative/original/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/consumed-origin-negative/verified/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/fake-marker-source-call/original/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/fake-marker-source-call/verified/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/missing-source-right-negative/original/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/missing-source-right-negative/verified/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/overlap-negative/original/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/overlap-negative/verified/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/prefix-positive/original/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/prefix-positive/verified/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/readonly-destination-negative/original/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/readonly-destination-negative/verified/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/reconstructed-origin-negative/original/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/reconstructed-origin-negative/verified/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/retired-reuse-negative/original/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/retired-reuse-negative/verified/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/reused-local-incarnation/original/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/reused-local-incarnation/verified/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/source-digest-reject/original/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/source-digest-reject/verified/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/strict-survivor/original/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/cases/strict-survivor/verified/lib.rs",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/fixture-admission.json",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/i-base.patch.xz",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/manifest.json",
+    "research/challenge-8/cloud-build/verifast-i-glue-prereqs/tool.patch.xz"
+  ]
+}

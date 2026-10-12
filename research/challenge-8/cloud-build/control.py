@@ -85,6 +85,11 @@ SLICE_BINDING_START='2026-10-11T16:16:32Z'
 SLICE_BINDING_MAIN='2026-10-11T18:16:32Z'
 SLICE_BINDING_END='2026-10-11T18:46:32Z'
 SLICE_BINDING_LANES=['verifast-slice-binding-integration']
+I_GLUE_PREREQS_PHASE='VERIFAST-I-GLUE-PREREQS-CLOUD-2026-10-12'
+I_GLUE_PREREQS_START='2026-10-11T23:37:59Z'
+I_GLUE_PREREQS_MAIN='2026-10-12T01:37:59Z'
+I_GLUE_PREREQS_END='2026-10-12T02:07:59Z'
+I_GLUE_PREREQS_LANES=['verifast-i-glue-prereqs']
 
 PHASE_PATTERN=re.compile(r'[A-Z][A-Z0-9-]{0,100}\Z')
 OWNER_PATTERN=re.compile(r'[A-Za-z0-9._-]{1,80}\Z')
@@ -308,6 +313,17 @@ def authorized_phase(a,ledger):
   deadline=datetime.datetime.fromisoformat(SLICE_BINDING_END.replace('Z','+00:00'))
   if datetime.datetime.now(datetime.timezone.utc)>=deadline:raise SystemExit('Phase deadline has passed')
   return deadline
+ if a.phase_id==I_GLUE_PREREQS_PHASE:
+  if (a.owner!='verifast' or ledger.get('owner')!='verifast' or
+      ledger.get('phase')!=I_GLUE_PREREQS_PHASE or ledger.get('status')!='AUTHORIZED' or
+      ledger.get('ceiling_build_seconds')!=3600 or
+      ledger.get('start_utc')!=I_GLUE_PREREQS_START or
+      ledger.get('main_deadline_utc')!=I_GLUE_PREREQS_MAIN or
+      ledger.get('deadline_utc')!=I_GLUE_PREREQS_END or
+      ledger.get('allowed_lanes')!=I_GLUE_PREREQS_LANES):raise SystemExit('Maintainer I glue prerequisites session requires exact owner/account/window/lane')
+  deadline=datetime.datetime.fromisoformat(I_GLUE_PREREQS_END.replace('Z','+00:00'))
+  if datetime.datetime.now(datetime.timezone.utc)>=deadline:raise SystemExit('Phase deadline has passed')
+  return deadline
  if a.phase_id==NATIVE_ZST_PHASE:
   if (a.owner!='verifast' or ledger.get('owner')!='verifast' or
       ledger.get('phase')!=NATIVE_ZST_PHASE or ledger.get('status')!='AUTHORIZED' or
@@ -357,12 +373,13 @@ def authorized_phase(a,ledger):
  if a.phase_id==NEXT_SELECT_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or not set(ledger['allowed_lanes'])<=NEXT_SELECT_LANES or ledger.get('start_utc')!=NEXT_SELECT_START or ledger.get('main_deadline_utc')!=NEXT_SELECT_MAIN_DEADLINE):raise SystemExit('Next select phase requires its exact separate account, owner, window and lanes')
  try:deadline=datetime.datetime.fromisoformat(ledger['deadline_utc'].replace('Z','+00:00'))
  except (KeyError,AttributeError,ValueError) as error:raise SystemExit('Invalid phase deadline') from error
- cutoff=datetime.datetime.fromisoformat((C3_PREFIX_DEADLINE if a.phase_id==C3_PREFIX_PHASE else COMPOSE_DEADLINE if a.phase_id==COMPOSE_PHASE else MISSION_DEADLINE if a.phase_id==MISSION_PHASE else C1_BRIDGE_DEADLINE if a.phase_id==C1_BRIDGE_PHASE else C1_CALLER_ENTRY_DEADLINE if a.phase_id==C1_CALLER_ENTRY_PHASE else C1_ACTUAL_DEADLINE if a.phase_id==C1_ACTUAL_PHASE else C1_DEADLINE if a.phase_id==C1_PHASE else NEXT_SELECT_DEADLINE if a.phase_id==NEXT_SELECT_PHASE else AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
+ cutoff=datetime.datetime.fromisoformat((I_GLUE_PREREQS_END if a.phase_id==I_GLUE_PREREQS_PHASE else C3_PREFIX_DEADLINE if a.phase_id==C3_PREFIX_PHASE else COMPOSE_DEADLINE if a.phase_id==COMPOSE_PHASE else MISSION_DEADLINE if a.phase_id==MISSION_PHASE else C1_BRIDGE_DEADLINE if a.phase_id==C1_BRIDGE_PHASE else C1_CALLER_ENTRY_DEADLINE if a.phase_id==C1_CALLER_ENTRY_PHASE else C1_ACTUAL_DEADLINE if a.phase_id==C1_ACTUAL_PHASE else C1_DEADLINE if a.phase_id==C1_PHASE else NEXT_SELECT_DEADLINE if a.phase_id==NEXT_SELECT_PHASE else AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
  if deadline.tzinfo is None or deadline>cutoff:raise SystemExit('Phase deadline exceeds its authorized cutoff')
  if a.phase_id==DAY_PHASE and deadline!=cutoff:raise SystemExit('Day select phase requires its exact absolute deadline')
  if a.phase_id==AFTERNOON_PHASE and deadline!=cutoff:raise SystemExit('Afternoon select phase requires its exact absolute deadline')
  if a.phase_id==NEXT_SELECT_PHASE and deadline!=cutoff:raise SystemExit('Next select phase requires its exact absolute deadline')
  if a.phase_id==C3_PREFIX_PHASE and deadline!=cutoff:raise SystemExit('C3 prefix phase requires its exact absolute deadline')
+ if a.phase_id==I_GLUE_PREREQS_PHASE and deadline!=cutoff:raise SystemExit('I glue prerequisites phase requires its exact absolute deadline')
  if a.phase_id==C1_BRIDGE_PHASE and deadline!=cutoff:raise SystemExit('C1 caller-bridge phase requires exact absolute deadline')
  if a.phase_id==C1_CALLER_ENTRY_PHASE and deadline!=cutoff:raise SystemExit('C1 caller-entry phase requires its exact absolute deadline')
  if a.phase_id==NIGHT_PHASE and deadline!=cutoff:raise SystemExit('Select phase requires its exact 08:00 UTC deadline')
@@ -435,6 +452,7 @@ def run_command(a,state,ledger,ledger_path):
   if a.source_mode!='pinned-objects':raise SystemExit('New phase requires pinned Git objects')
   now=datetime.datetime.now(datetime.timezone.utc)
   if a.phase_id==SLICE_BINDING_PHASE and now>=datetime.datetime.fromisoformat(SLICE_BINDING_MAIN.replace('Z','+00:00')):raise SystemExit('Maintainer slice binding main window ended; no new experiment')
+  if a.phase_id==I_GLUE_PREREQS_PHASE and now>=datetime.datetime.fromisoformat(I_GLUE_PREREQS_MAIN.replace('Z','+00:00')):raise SystemExit('I glue prerequisites main window ended; no new experiment')
   if a.phase_id==NATIVE_ZST_PHASE and now>=datetime.datetime.fromisoformat(NATIVE_ZST_MAIN.replace('Z','+00:00')):raise SystemExit('Maintainer native/ZST main window ended; no new experiment')
   if a.phase_id==INTEGRATION_D_PHASE and now>=datetime.datetime.fromisoformat(INTEGRATION_D_MAIN.replace('Z','+00:00')):raise SystemExit('Maintainer session D main window ended; no new experiment')
   if a.phase_id==INTEGRATION_C_PHASE and now>=datetime.datetime.fromisoformat(INTEGRATION_C_MAIN.replace('Z','+00:00')):raise SystemExit('Maintainer session C main window ended; no new experiment')
