@@ -109,3 +109,44 @@ calibrated from raw Cloud evidence. Until then every control is NOT_RUN and
 the v8/B2 profile remains NOT_ACCEPTED/NOT_FOR_INTEGRATION. A full source,
 proof, or tool change requires a fresh exact-SHA Build; saved replay changes
 only classification of unchanged artifacts.
+
+## Session №3: first two shared-reference resources (authorized 2026-10-12)
+
+T0 **2026-10-12T00:19:22Z**; main **01:19:22Z**, absolute **01:49:22Z**. Last30min only finish started step/evidence/account/checkpoint. Exactlyone newBuild, timeout<=900s plus60s queue, separate960Cloud seconds. Stableownermerge/reviewedmergelane, installedv3/max3/oneperowner unchanged. Policy6e1a8e59c56669abe5e6ec2013478e45ed2cc267 and adoptionACK1e65f562994220a909ccf97903c36cb054576b76 confirmed. Profile/tool remain exactly v8/a158398e336edce9817f62a55733a3470a986d7b/profileSHA0e67b038f940a9892dcb840747fbcc340532a31649979601af545acc41a0c68b, EXPERIMENTAL/NOT_ACCEPTED/NOT_FOR_INTEGRATION. Previousunused1564retired; no carryover.
+
+**Falsifiable hypothesis:** both first references (`sift=begin+1`, `tail=begin+2`) can derive precreation **and** initialized/shared access from the original three-cell array and its sole owners using the existing full-borrow/lifetime/share interface. This supersedes the old conditional pointer-bounds-first prediction for Build7f45c598: tail.sub(1) already executed there. No comparator restrictions or receiver/FBC/origin/end-token/gap/ownership entry assumptions added. Domain remains concreteu64/threecells/genericF; full original body and full normal/unwind target posts retained verbatim. All current cell owners, F/thread/type and caller frame must survive/reassemble.
+
+Concrete applicability review: historical `extract-verifast-insertion.py` RANGE_COMPARE_PREP is specialized at n=3,T=u64; its old diagnostic posts are not copied. Split two singleton cells and corresponding foreach owners, close FBC, borrow/share, precreate and init_ref_share both references, open genuine tracked initialization access fractions and package actual reference tuple. On normal false-return and true-continuation attempt close both accesses, end lexical lifetime/full borrows and rejoin array/owners before actual subsequent runtime. Full first Continue-unwind restoration remains an explicit target; no new callback or cleanup semantics/markers are implemented. Exactu64FnMut HRTB registration was0; if loans pass and call admission/recovery fails, preserve that first causal blocker and stop. Call→cleanup Drop→Resume remains separately open; refiner0/nodes give no qualification.
+
+**Controls/oracles:** preserve the existing same-campaign B1 positive, six proof negatives, ten official admission (originalnine plus wrongkeybinding), four receiver/end/retirement controls, helperfour, mandatory retainedsix and exactcombined ordinarynormal/unwind regressions. Existing predicates/locations remain encoded in their source-bound classifiers. A negative counts only at its exact configured stage/obligation, never setup/unsupported/dead-code substitution. First actual target positive must pass both create_ref requirements then genuine first FnMut call, and restore both normal/firstContinue-unwind resources; statementreach alone is insufficient. No new B2 cleanupnegative is claimed before its prerequisite execution.
+
+**Outcome mapping:** fullfirstcallback normal/unwind recovery→partialprogress only, report next causal obligation in completebody; create_ref refusal→hypothesis not discharged, exact resourceerror retained; HRTB/callback/cleanupsemanticfrontier→reproducibleblocker with frozenprofile, no semantics expansion; setup/refinementfailure→INCONCLUSIVE, no resourcecredit. AfteroneBuild inspect fullarchive/inventories/receipts/rawlogs, then closewindow; any classifiercorrection savedreplay only, preserving oldverdict. B2 requires full PROGRESS-REVIEW criterion and index15% staysunchanged.
+
+**Pre-dispatch identities:** actualSmallSort full85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1/blob40939f922bcb6fdc7ee0d30427fa861827043827, Dropcaff1edbfa3a8d9fd29459e49c43abd0f8f987f9061c75e7bf6ecedbbba26a6a, fullinsert9bc00f3913373e5879769b9970d66b1a56ada05a10205d51cafdf6533ecc2f29. Baseline exactsource/ghoststrip/MIR/AST are saved from Build7f45c598/proof=infra958afc34558419a37626b04b57610e220e7f4c03; identities below are historical, not newproof. Fresh verifiedsource/ghoststrip and MIR/AST identities must be retained by the Cloud stage receipts before interpretation; compiling/extraction locally is forbidden.
+
+```json
+{
+  "original/lib.rs": "d5a1f33a06115a3a23918afe054191227ca29d990fb199147d23ec4f6531bc26",
+  "verified/lib.rs": "3ccf7783833f937889c04d549c70d0369a610bc4114760392ff89239144cbdef",
+  "original-compiler-mir.bin": "65956454c89b1d0fccece0ff018372adfab75d50d08030bcb59632d3977d675f",
+  "compiler-mir.bin": "14dc2bdc3d85c41d644375e722e084e862cd2e8607282070039a97783183f997",
+  "original-decode.out": "564bc866378c3b15ea18ff68edfb665c1658defe25503eda2d9025cd00a14286",
+  "decode.out": "e20974bdb8b8082a0960ebd2accdd0c3fe285d19484c219e45c30fd01badef2d",
+  "proof-ast.ml": "4af36e7ee577a499533fac7ba643b17985c517e843e88f14dc4e7ab2fe6aed76",
+  "verifast.log": "ea10c38c633c98386e64d93cc88816092cecf2e4f7ce6edaabec75ca02487ca7"
+}
+```
+
+Fresh planned byte identities (static insertion into unchanged saved baseline; no local extraction/compiler/proof execution):
+
+```json
+{
+  "check": "SAVED_BYTE_STATIC_ONLY_NOT_PROOF_NOT_EXTRACTION",
+  "verified_sha256": "7501d1b03a53252929e1776c36acc33587c3cf6f60ee9c90e532ed3f55d31fc9",
+  "unchanged_prior_verified_sha256": "3ccf7783833f937889c04d549c70d0369a610bc4114760392ff89239144cbdef",
+  "new_annotations_strip_to_prior_verified": true,
+  "annotation_sha256": "0778ce459efa5f057063c2bda3605d5218fbb875aa389cf0da56ca8b0e6ec2e1",
+  "normal_unwind_post_sha256": "778eeee10b9fa0a1fa66194f0035cffb5c40916189216c38275b5c43b9093d49",
+  "source_script_sha256": "97d05c5ee21d607ad7d99f0d6c07b398eca71c2f0a7940c9fab543320ee2ec41"
+}
+```

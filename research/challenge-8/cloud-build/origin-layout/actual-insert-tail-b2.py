@@ -81,6 +81,80 @@ on_unwind_ens thread_token(t) &*& type_interp::<u64>() &*& type_interp::<F>() &*
     *is_less |-> ?panic_f &*& <F>.own(t, panic_f);
 @*/"""
 
+# Specialized from extract-verifast-insertion.py's reviewed RANGE_COMPARE_PREP
+# and RANGE_COMPARE_RECOVER_CUT sequence. Keep this concrete B2 annotation
+# local so its runtime preparation has no dependency on running the extractor.
+# This retains the concrete split/borrow/init-share/tuple sequence and adds
+# the inverse owner, foreach, and array joins after the template's borrow-end.
+B2_COMPARE_PREP = b"""        //@ array_inv::<u64>();
+        //@ array_split::<u64>(begin, 1);
+        //@ array_split::<u64>(begin + 1, 1);
+        //@ foreach_split(xs, own::<u64>(t), 1);
+        //@ length_drop(1, xs);
+        //@ note(length(drop(1, xs)) == 2);
+        //@ foreach_split(drop(1, xs), own::<u64>(t), 1);
+        //@ note(sift == begin + 1);
+        //@ note(tail == begin + 2);
+        //@ open array::<u64>(sift, 1, take(1, drop(1, xs)));
+        //@ open array::<u64>(tail, 1, drop(1, drop(1, xs)));
+        //@ open foreach(take(1, drop(1, xs)), own::<u64>(t));
+        //@ open foreach(drop(1, drop(1, xs)), own::<u64>(t));
+        //@ open own::<u64>(t)(head(take(1, drop(1, xs))));
+        //@ open own::<u64>(t)(head(drop(1, drop(1, xs))));
+        //@ close_full_borrow_content::<u64>(t, sift);
+        //@ close_full_borrow_content::<u64>(t, tail);
+        //@ assert [1/2]lifetime_token(cmp_k);
+        //@ borrow(cmp_k, <u64>.full_borrow_content(t, sift));
+        //@ assert [1/2]lifetime_token(cmp_k);
+        //@ borrow(cmp_k, <u64>.full_borrow_content(t, tail));
+        //@ assert [1/2]lifetime_token(cmp_k);
+        //@ share_full_borrow::<u64>(cmp_k, t, sift);
+        //@ assert [1/2]lifetime_token(cmp_k);
+        //@ share_full_borrow::<u64>(cmp_k, t, tail);
+        //@ assert [1/2]lifetime_token(cmp_k);
+        //@ let cmp_tail_ref = precreate_ref(tail);
+        //@ let cmp_sift_ref = precreate_ref(sift);
+        //@ init_ref_share::<u64>(cmp_k, t, cmp_tail_ref);
+        //@ assert [1/2]lifetime_token(cmp_k);
+        //@ init_ref_share::<u64>(cmp_k, t, cmp_sift_ref);
+        //@ assert [1/2]lifetime_token(cmp_k);
+        //@ merge_fractions lifetime_token(cmp_k);
+        //@ assert [1/2]lifetime_token(cmp_k);
+        //@ open_frac_borrow(cmp_k, ref_initialized_(cmp_tail_ref), 1/4);
+        //@ assert [1/4]lifetime_token(cmp_k);
+        //@ open [?tail_ref_frac]ref_initialized_::<u64>(cmp_tail_ref)();
+        //@ assert [1/4]lifetime_token(cmp_k);
+        //@ open_frac_borrow(cmp_k, ref_initialized_(cmp_sift_ref), 1/4);
+        //@ open [?sift_ref_frac]ref_initialized_::<u64>(cmp_sift_ref)();
+        //@ close_ref_own::<'cmp, u64>(cmp_tail_ref);
+        //@ close_ref_own::<'cmp, u64>(cmp_sift_ref);
+        //@ close <(&'cmp u64, &'cmp u64)>.own(t, std_tuple_2_::<&'cmp u64, &'cmp u64> { 0: cmp_tail_ref, 1: cmp_sift_ref });
+"""
+B2_COMPARE_RECOVER = b"""        //@ close [tail_ref_frac]ref_initialized_::<u64>(cmp_tail_ref)();
+        //@ close_frac_borrow(tail_ref_frac, ref_initialized_(cmp_tail_ref));
+        //@ close [sift_ref_frac]ref_initialized_::<u64>(cmp_sift_ref)();
+        //@ close_frac_borrow(sift_ref_frac, ref_initialized_(cmp_sift_ref));
+        //@ merge_fractions lifetime_token(cmp_k);
+        //@ assert [1/2]lifetime_token(cmp_k);
+        //@ end_lft_binding::<'cmp>();
+        //@ assert lifetime_token(cmp_k);
+        //@ end_lifetime(cmp_k);
+        //@ borrow_end(cmp_k, <u64>.full_borrow_content(t, tail));
+        //@ open_full_borrow_content::<u64>(t, tail);
+        //@ borrow_end(cmp_k, <u64>.full_borrow_content(t, sift));
+        //@ open_full_borrow_content::<u64>(t, sift);
+        //@ close own::<u64>(t)(head(take(1, drop(1, xs))));
+        //@ close own::<u64>(t)(head(drop(1, drop(1, xs))));
+        //@ close foreach(take(1, drop(1, xs)), own::<u64>(t));
+        //@ close foreach(drop(1, drop(1, xs)), own::<u64>(t));
+        //@ close array::<u64>(sift, 1, take(1, drop(1, xs)));
+        //@ close array::<u64>(tail, 1, drop(1, drop(1, xs)));
+        //@ array_join::<u64>(begin + 1);
+        //@ array_join::<u64>(begin);
+        //@ foreach_join(drop(1, xs), own::<u64>(t), 1);
+        //@ foreach_join(xs, own::<u64>(t), 1);
+"""
+
 
 def _load(name: str, path: Path):
     spec = importlib.util.spec_from_file_location(name, path)
@@ -225,12 +299,38 @@ def _prepare(evidence: Path) -> dict:
     verified = _once(verified, INSERT_SIGNATURE,
                      INSERT_SIGNATURE + INSERT_CONTRACT,
                      "full actual insert_tail safety contract")
+    # First actual two-reference callback only. This is the concrete u64,n=3
+    # specialization of the reviewed range-comparison template; no source
+    # extractor or additional pointer premise is involved.
+    lifetime_begin = b"    //@ let cmp_k = begin_lifetime();\n    //@ assert lifetime_token(cmp_k);\n"
+    lifetime_bind = b"        /*@ let_lft 'cmp = cmp_k; @*/\n        //@ assert [1/2]lifetime_token(cmp_k);\n"
+    compare_prep = B2_COMPARE_PREP
+    compare_call = (b"        if !is_less/*@::<F, (&'cmp u64, &'cmp u64), 'cmp>@*/"
+                    b"(&*tail, &*sift) {")
+    callback_type_annotation = b"/*@::<F, (&'cmp u64, &'cmp u64), 'cmp>@*/"
+    compare_recover = B2_COMPARE_RECOVER
+    # Put the same recovery on both normal outcomes: before the early return
+    # and on the continuing path before tail.read(). No panic marker is added.
+    return_recover = compare_recover.replace(b"        ", b"            ")
+    body_anchor = b"    // SAFETY: see individual comments.\n    unsafe {\n"
+    verified = _once(verified, body_anchor,
+                     lifetime_begin + body_anchor + lifetime_bind,
+                     "actual insert_tail callback lifetime")
+    verified = _once(verified, b"        if !is_less(&*tail, &*sift) {",
+                     compare_prep + compare_call, "first two-reference callback")
+    verified = _once(verified, b"            return;\n        }\n\n        // SAFETY: after this read",
+                     return_recover + b"            return;\n        }\n" + compare_recover +
+                     b"\n        // SAFETY: after this read",
+                     "first callback recovery on both normal outcomes")
     verified = _once(verified, WRAPPER_SIGNATURE,
                      WRAPPER_SIGNATURE + WRAPPER_CONTRACT,
                      "local three-cell wrapper contract")
     ghosts = (drop_contract, source_own, alignment,
               b"/*@\n" + onecell.EFFECT_DEF + b"@*/\n\n",
-              INSERT_CONTRACT, WRAPPER_CONTRACT)
+              INSERT_CONTRACT, WRAPPER_CONTRACT,
+              lifetime_begin, lifetime_bind,
+              compare_prep, compare_recover, return_recover,
+              callback_type_annotation)
     stripped = verified
     for ghost in ghosts:
         stripped = _once(stripped, ghost, b"", "ghost strip")
@@ -264,15 +364,24 @@ def _prepare(evidence: Path) -> dict:
         "ghost_strip_exact": True, "profile": PROFILE,
         "actual_read_line": _line(verified, b"let tmp = ManuallyDrop::new(tail.read());"),
         "actual_first_pointer_line": _line(verified, b"let mut sift = tail.sub(1);"),
-        "actual_first_call_line": _line(verified, b"if !is_less(&*tail, &*sift) {"),
+        "actual_first_call_line": _line(verified, b"if !is_less/*@::<F, (&'cmp u64, &'cmp u64), 'cmp>@*/"),
         "actual_guard_line": _line(verified, b"let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };"),
         "actual_shift_line": _line(verified, b"ptr::copy_nonoverlapping(sift, gap_guard.dst, 1);"),
         "actual_update_line": _line(verified, b"gap_guard.dst = sift;"),
         "actual_late_call_line": _line(verified, b"if !is_less(&tmp, &*sift) {"),
         "actual_drop_copy_line": _line(verified, b"ptr::copy_nonoverlapping(self.src, self.dst, self.len);"),
+        "first_callback_annotation_sha256": _sha(b"".join((
+            lifetime_begin, lifetime_bind, compare_prep, callback_type_annotation,
+            return_recover, compare_recover))),
+        "full_normal_unwind_post_sha256": _sha(
+            INSERT_CONTRACT.split(b"@*//*@", 2)[1] + INSERT_CONTRACT.split(b"@*//*@", 2)[2]),
+        "first_callback_reference_tuple": "(&'cmp u64, &'cmp u64) = (tail, sift), matching the actual first FnMut call",
+        "first_callback_recovery": "attempted on both normal outcomes: callback fractions/tokens, shared-borrow contents, singleton owners and array/foreach splits rejoined",
+        "first_callback_unwind_recovery_qualified": False,
+        "first_callback_unwind_status": "UNRESOLVED: actual first FnMut edge is expected Continue; no panic marker or synthetic unwind recovery is installed",
         "wrapper_line": _line(verified, b"let mut values = [10_u64, 20_u64, 5_u64];"),
         "target_normal_and_unwind": "full current initialized 3-cell array, one own per current value, current F/thread/type/frame",
-        "expected_first_causal_blocker": "source line 540 tail.sub(1) pointer_within_limits, if three-cell array alone does not expose the interior bound; then first comparator loans at line 541",
+        "expected_first_causal_blocker": "target is the first actual comparator two-reference loan/tuple obligation at source line 541; any earlier tail.sub(1) refusal remains a distinct blocker and receives no new premise",
         "proof_credit": False,
     }
     (evidence / "preparation.json").write_text(json.dumps(record, indent=2, sort_keys=True) + "\n")
@@ -335,12 +444,25 @@ def _classify(case: Path, record: dict, execution: dict, proof) -> dict:
     log = log_path.read_text(errors="replace") if log_path.is_file() else ""
     errors = [line for line in log.splitlines() if re.search(r"\berror:", line, re.I)]
     dead = [line for line in log.splitlines() if "dead code" in line.lower()]
+    reached_first_statement = bool(re.search(rf"verified/lib\.rs\({record['actual_first_call_line']},\d+.*\): (?:note: )?Executing statement", log))
     reached_late = bool(re.search(rf"verified/lib\.rs\({record['actual_late_call_line']},\d+.*\): (?:note: )?Executing statement", log))
+    artifact_names = ("compiler-mir.bin", "compiler-mir.txt", "decode.out", "proof-ast.ml",
+                      "original-compiler-mir.bin", "original-compiler-mir.txt",
+                      "original-decode.out", "original-proof-ast.ml")
+    artifact_hashes = {name: _sha((case / name).read_bytes()) for name in artifact_names
+                       if (case / name).is_file()}
     return {"classification": "INCONCLUSIVE_CAUSAL_DIAGNOSTIC",
             "accepted": False, "proof_credit": False,
             "stages": stages, "source_exact": exact, "mir_gate": mir_gate,
             "ast_gate": ast_gate,
             "late_callback_executed": reached_late,
+            "first_callback_statement_executed": reached_first_statement,
+            "first_callback_fnmut_admitted": False,
+            "first_callback_fnmut_admission_reason": "statement trace does not establish CallExpr/MIR call admission; fresh MIR/AST gate is diagnostic only",
+            "first_callback_unwind_recovery_qualified": False,
+            "first_callback_unwind_status": "UNRESOLVED; this annotation only rejoins normal return and continuation paths",
+            "artifact_sha256": artifact_hashes,
+            "stage_receipt_gate": execution.get("stage_receipt_gate"),
             "first_error": errors[0] if errors else None,
             "errors": errors, "dead_code": dead,
             "refinement_unwind_qualified": False,
