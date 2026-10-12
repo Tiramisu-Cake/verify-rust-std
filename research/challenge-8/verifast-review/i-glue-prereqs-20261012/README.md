@@ -12,3 +12,5 @@ exact pinned Cloud build failures and complete NOT_RUN matrix; no adoption.
 Historical PASS evidence and upstream candidates preserved at their old pins.
 C3 deferred; B1/B2/O23 remain open. Merge agent's v8/actual cleanup untouched.
 Publication is on own internal research branch, with no merge or upstream PR.
+
+proof.bundle preserves the own prepared lane and execution commits, requiring the exact start. compiler-reference.tar.gz preserves the pinned compiler excerpts; package inventory binds both. Raw logs remain at verified durable GCS prefixes. An optional static-copy GCS upload was denied storage.objects.create; the source-reference copy is instead published with this internal Git package.
