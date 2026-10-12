@@ -2,16 +2,49 @@
   "owner": "verifast",
   "phase": "VERIFAST-I-GLUE-PREREQS-CLOUD-2026-10-12",
   "status": "AUTHORIZED",
-  "authorization": "Direct user authorization for C0-C2 Cloud-only prerequisites work; exact 3600-second build ceiling; do not dispatch until main-agent review approves the concrete lane package.",
+  "authorization": "Direct user authorization for C0-C2 Cloud-only prerequisites work; exact 3600-second build ceiling; do not dispatch until main-agent review approves the concrete lane package. User explicitly resumed the interrupted session and authorized 20 additional minutes if needed; observed resume08:36:41UTC, active extension until08:56:41UTC, remaining finishing-only allowance30min; same ceiling3600 and no residual transfer.",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 0,
-  "remaining_build_seconds": 3600,
+  "used_build_seconds": 277,
+  "remaining_build_seconds": 3323,
   "start_utc": "2026-10-11T23:37:59Z",
-  "main_deadline_utc": "2026-10-12T01:37:59Z",
-  "deadline_utc": "2026-10-12T02:07:59Z",
-  "allowed_lanes": ["verifast-i-glue-prereqs"],
+  "main_deadline_utc": "2026-10-12T08:56:41Z",
+  "deadline_utc": "2026-10-12T09:26:41Z",
+  "allowed_lanes": [
+    "verifast-i-glue-prereqs"
+  ],
   "active_build": null,
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-012bcd7b7c38405fbd9b7e91690aefe8",
+      "owner": "verifast",
+      "phase_id": "VERIFAST-I-GLUE-PREREQS-CLOUD-2026-10-12",
+      "infra_sha": "1c1be0002fbf91658a6ade6865af1c778685c9a0",
+      "proof_sha": "1c1be0002fbf91658a6ade6865af1c778685c9a0",
+      "lane": "verifast-i-glue-prereqs",
+      "submitted_config_sha256": "172ec0f7d81ca3aae609b83dbaa6eb8192e1aa5df8b487fdc4f69c2227eebec1",
+      "reserved_seconds": 1160,
+      "timeout_seconds": 1100,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "afaf00d12bf8982dc514b405fa81ba11b16c75427456acffa5a8a299075d7982",
+      "build_id": "d02ccd21-5328-4880-87a8-ab2ffd7e04ef",
+      "start_time": "2026-10-12T00:46:19.789706091Z",
+      "finish_time": "2026-10-12T00:50:54.351868Z",
+      "create_time": "2026-10-12T00:46:18.122133803Z",
+      "build_seconds": 277,
+      "accounted": true,
+      "execution_seconds": 275,
+      "download_verified": true,
+      "archive_sha256": "324a70f99f48cee18556c92967297f9b67035424bd3148dd332b6f5c0182311b"
+    }
+  ],
   "unresolved_reservations": [],
-  "automatic_continuation": false
+  "automatic_continuation": false,
+  "explicit_resume": {
+    "observed_utc": "2026-10-12T08:36:41Z",
+    "extra_active_minutes": 20,
+    "budget_reset": false,
+    "cleanup_after_window": true
+  }
 }

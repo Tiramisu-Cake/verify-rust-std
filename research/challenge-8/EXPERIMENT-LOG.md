@@ -6941,3 +6941,14 @@ geometry withheld. C0–C2 source/settings/build/lifecycle first; proof negative
 count only at exact intended gate. PASS enables affectedC4–C7 only; setup failure
 correct source/type/API, unsupported bounds checkpoint without weaker posts.
 C3/B1/B2/O23/mergeactualcleanup/upstream remain outside this gate credit.
+
+C1 initial Buildd02ccd21 onproof/infra1c1be000/tool059687 failed exporter-build
+exit101 before decoder/console/refiner/proof.277seconds charged,3323left.
+Source/tree/input closure passed; qualified compiler receiptf7575a9da recorded.
+11 diagnostics from3pinned-API errors (nestednamespace SourceFileHash, own_params,
+FieldIdx indexed fields). No intended negative/no proofcredit. Missing audit
+collector field remains preserved as evidence_complete=false, raw archive
+324a70f99f48cee18556c92967297f9b67035424bd3148dd332b6f5c0182311b verified.
+After interruption owner explicitly resumed/+20active minutes, observed
+08:36:41UTC; new main08:56:41, finishing09:26:41; same budget, no reset/transfer.
+Cleanup outside active window explicitly authorized.

@@ -278,6 +278,11 @@ def main():
     if a.mode == "checkpoint":
         save(a.evidence / "execution-checkpoint.json", {"stage": a.stage, "exit": a.exit_code,
              "raw_result_present": (a.evidence / "result.json").exists(), "profile_accepted": False})
+        audit = a.evidence.parents[1] / "proof-audit.json"
+        if not audit.exists():
+            save(audit, {"classification": "COMPONENT_BUILD_OR_SETUP_FAILURE", "stage": a.stage,
+                 "exit": a.exit_code, "diagnostic_complete": False, "verification_accepted": False,
+                 "proof_credit": False, "accepted": False})
         return
     data = context(a)
     {"inputs": inputs, "apply": apply, "pin": pin, "run": run}[a.mode](a, data)
