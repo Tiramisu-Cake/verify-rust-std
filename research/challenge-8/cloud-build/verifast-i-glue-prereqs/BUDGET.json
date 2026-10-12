@@ -1,11 +1,11 @@
 {
   "owner": "verifast",
   "phase": "VERIFAST-I-GLUE-PREREQS-CLOUD-2026-10-12",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "authorization": "Direct user authorization for C0-C2 Cloud-only prerequisites work; exact 3600-second build ceiling; do not dispatch until main-agent review approves the concrete lane package. User explicitly resumed the interrupted session and authorized 20 additional minutes if needed; observed resume08:36:41UTC, active extension until08:56:41UTC, remaining finishing-only allowance30min; same ceiling3600 and no residual transfer.",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 277,
-  "remaining_build_seconds": 3323,
+  "used_build_seconds": 582,
+  "remaining_build_seconds": 3018,
   "start_utc": "2026-10-11T23:37:59Z",
   "main_deadline_utc": "2026-10-12T08:56:41Z",
   "deadline_utc": "2026-10-12T09:26:41Z",
@@ -37,6 +37,30 @@
       "execution_seconds": 275,
       "download_verified": true,
       "archive_sha256": "324a70f99f48cee18556c92967297f9b67035424bd3148dd332b6f5c0182311b"
+    },
+    {
+      "dispatch_token": "dispatch-3bb24a27008843d19dcbd332f48f18f1",
+      "owner": "verifast",
+      "phase_id": "VERIFAST-I-GLUE-PREREQS-CLOUD-2026-10-12",
+      "infra_sha": "fc11cdfc55c29c9d101d24e40c80da65c2721cff",
+      "proof_sha": "fc11cdfc55c29c9d101d24e40c80da65c2721cff",
+      "lane": "verifast-i-glue-prereqs",
+      "submitted_config_sha256": "a65bb8d869765b3e23fe702108adfd908474a4a69012e7d3ef8314d04d0f4b9e",
+      "reserved_seconds": 1060,
+      "timeout_seconds": 1000,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "cb2d3f5ef1562c509813afe39a81c9493791cd1a954c1af47915a62a69784ebf",
+      "build_id": "70085ccc-e0b7-4099-98bb-7d206f2fc635",
+      "start_time": "2026-10-12T08:47:25.726107429Z",
+      "finish_time": "2026-10-12T08:52:29.576187Z",
+      "create_time": "2026-10-12T08:47:24.920966341Z",
+      "build_seconds": 305,
+      "accounted": true,
+      "execution_seconds": 304,
+      "download_verified": true,
+      "archive_sha256": "ef289db69248b93b813918585ad009aeb4c66e9d3f1ad6ab886d07a84eae3266"
     }
   ],
   "unresolved_reservations": [],
@@ -46,5 +70,9 @@
     "extra_active_minutes": 20,
     "budget_reset": false,
     "cleanup_after_window": true
-  }
+  },
+  "closed_reason": "Main window ended; two setup/component failures, no proof execution; finishing publication only",
+  "unspent_retired_seconds": 3018,
+  "spendable_build_seconds": 0,
+  "carry_forward_seconds": 0
 }

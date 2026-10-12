@@ -60,3 +60,15 @@ and eleven effective file hashes. The patch and tree values independently match
 the reviewed tool repository. `tool_head` remains a provenance label; effective
 bytes and executable hashes are checked independently by the runner. No Cloud
 build, verifier or proof was run locally.
+
+## First Cloud attempt
+
+Run `d02ccd21` stopped at `exporter-build` with exit 101, before C0–C2 proof
+execution. The raw archive retained the build log and checkpoint; it has no
+proof credit. The follow-up checkpoint handler now writes
+`allprooflogs/proof-audit.json` for a failed setup if no audit exists, with
+`classification=COMPONENT_BUILD_OR_SETUP_FAILURE`, `proof_credit=false`, and
+`verification_accepted=false`. Its `a.evidence.parents[1]` resolves to the
+existing `allprooflogs` directory for this runner's evidence path. This only
+improves factual failure packaging; it does not convert a setup failure into
+a diagnostic negative.

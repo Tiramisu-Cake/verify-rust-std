@@ -1,28 +1,26 @@
-# VeriFast — narrow I actual-glue prerequisites
+# VeriFast — narrow I prerequisites checkpoint
 
-IN PROGRESS: separately authorized C0–C2 session, owner verifast, fresh3600Cloudseconds.
-Start98bd08b1; baseline I b6cb276a; source reference glue a158398e. Additive tool
-059687f1 is STATIC_PREPARED / NOT_CLOUD_BUILT / NOT_RUN, independently reviewed
-conditional GO. Strict freeze/inference/types/bounds, empty Rust ZST, MDnew,
-as_mut_ptr, certified pointer-drop and FRAME/Bool/native/selector paths retained.
-Guard layout/source/compiler receipts and live storage are opt-in; only u64
-numeric geometry, no new guard24 bounds axiom. Old span assumptions not adopted.
+SESSION CLOSED / NOT_QUALIFIED. Own additive tool c23278c3 over I b6cb276a;
+start98bd08b1, glue reference a158398e. Independent design and final review done.
+Cloud277+305=582/3600s, two terminal FAILURE runs; ledger closed, no active build,
+reservation or turn request, remaining3018 retired, no automatic continuation.
 
-Actual obligation: same natural_onecell constructor/resource prefix with no
-extra caller premises; diagnostic copy suffix retains full tail/value/quarter
-normal/unwind posts, actual Drop method/canonical safety_proof separately checked.
-C3 deferred by user; current v8 qualification and actual insert_tail/panic cleanup
-remain merge-owned and untouched. B1/B2/O23/profile adoption/upstream remain OPEN.
+C0 input/source/compiler/tree closure checked, runtime settings controls NOT_RUN.
+C1 partial: pinned exporter built; console decoder generation failed (exit2).
+Official refiner/verifier and C2 lifecycle/layout controls NOT_RUN; no proof credit.
+C4–C7 affected replay NOT_RUN because prerequisites did not close. C3 deferred
+by user; B1/B2/O23/adoption remain OPEN. Old PASS preserved in START-STATUS.md.
 
-Main window23:37:59–01:37:59UTC, finish-only02:07:59UTC. Policy6e1a8e59/e3db6b5e
-and ADOPTION read; installed v3 coordinator preserved; own separate ledger,
-no inherited budget. Cloud0; own active/unresolved/reservation0 before dispatch.
+Exact domain/profile and limitations: [semantic card](verifast-review/i-glue-prereqs-20261012/SEMANTIC-CARD.md).
+[Internal package](verifast-review/i-glue-prereqs-20261012/README.md),
+[results](verifast-review/i-glue-prereqs-20261012/RESULTS.json),
+[final independent review](verifast-review/i-glue-prereqs-20261012/FINAL-REVIEW.md).
+Strict freeze, inference/types/bounds and default I rules retained in candidate;
+no execution evidence yet for those claims on new tool. No general guard24 bounds
+axiom, generic/ZST/array model change or whole merge chain. Merge-owned v8,
+actual insert_tail/panic cleanup, files/inputs/coordinator untouched.
 
-[Design](verifast-review/i-glue-prereqs-20261012/DESIGN.md),
-[independent review](verifast-review/i-glue-prereqs-20261012/TOOL-REVIEW.md),
-[exact profile/runner manifest](cloud-build/verifast-i-glue-prereqs/manifest.json),
-[gate matrix](cloud-build/verifast-i-glue-prereqs/C2-GATE-MATRIX.md).
-Previous proof statuses and source/tool pins preserved in
-[start checkpoint](verifast-review/i-glue-prereqs-20261012/START-STATUS.md).
-Next permitted action: exact pinned Cloud C0–C2, then only affected I gates if
-C0–C2 close. No acceptance/merge/upstream action.
+User explicit resume20min observed08:36:41UTC, main ended08:56:41UTC;
+finish-only deadline09:26:41UTC. Policy6e1a8e59/e3db6b5e and ADOPTION preserved.
+Next requires new session authorization: decoder-compatible schema decision,
+repin and fresh Cloud C0–C2, then affected C4–C7. No continuation authorized here.

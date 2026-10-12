@@ -58,3 +58,17 @@ binds all three before the layout check. The committed diff passes
 `git -c core.whitespace=cr-at-eol diff --check b6cb276a..059687f1` (the tool
 sources use CRLF). Compilation, proof results and actual first-diagnostic
 classification remain Cloud-only and unobserved here.
+
+## First Cloud failure and localized API correction
+
+Cloud run `d02ccd21` at project SHA `1c1be000` stopped at exporter compilation
+(`exit 101`), before any proof obligation. The saved `exporter-build.log`
+reports three pinned rustc API mismatches: `SourceFileHash` and its algorithm
+were imported outside the nested module, `Generics.params` is absent, and
+`IndexSlice<FieldIdx>` rejects integer/usize indexing. Tool follow-up
+`c23278c3` changes only these sites: fully qualified `rustc_span` names,
+`own_params.is_empty()` plus `parent_count == 0`, and `fields.iter().nth(i)`
+after the checked three-field length. It introduces no new trust fact or
+profile path. The new tree is `3a2c16640c10958a5d185dc8d928c47950406907`.
+Static review: **GO for one fresh Cloud run**; exporter compilation and all
+proof gates remain unobserved for this corrected source.

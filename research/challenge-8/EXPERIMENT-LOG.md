@@ -6952,3 +6952,15 @@ collector field remains preserved as evidence_complete=false, raw archive
 After interruption owner explicitly resumed/+20active minutes, observed
 08:36:41UTC; new main08:56:41, finishing09:26:41; same budget, no reset/transfer.
 Cleanup outside active window explicitly authorized.
+
+## I prerequisites final checkpoint — 2026-10-12
+
+Second Cloud70085ccc at projectfc11cdfc/toolc232 closed FAILURE: exporter built,
+console decoder generation exit2, no refiner/verifier/body target execution.
+Independent FINAL-REVIEW: NOT_QUALIFIED. Scalar-list decoder support is the next
+concrete hypothesis, not a proved gate refusal. Two builds charged582s total;
+all listed archive/member/text hashes verified, reservation and request cleared,
+ledger CLOSED, unspent3018 retired. C0 runtime/C2/C4–C7 NOT_RUN, C1 partial failed,
+C3 deferred. No trust acceptance/B1/B2/O23 closure. Internal semantic card/pins/
+commands/results matrix in verifast-review/i-glue-prereqs-20261012. New experiments
+stopped at08:56:41UTC; finish-only packaging within09:26:41UTC.

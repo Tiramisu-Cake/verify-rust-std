@@ -1,0 +1,280 @@
+{
+  "profile_accepted": false,
+  "proof_credit": false,
+  "cloud_seconds": 582,
+  "runs": [
+    {
+      "build": "d02ccd21-5328-4880-87a8-ab2ffd7e04ef",
+      "gcs_prefix": "gs://smallsort-ci-evidence-504462351565/cloud-build/d02ccd21-5328-4880-87a8-ab2ffd7e04ef",
+      "archive_sha256": "324a70f99f48cee18556c92967297f9b67035424bd3148dd332b6f5c0182311b",
+      "archive_members_hash_verified": true,
+      "summary": {
+        "build_id": "d02ccd21-5328-4880-87a8-ab2ffd7e04ef",
+        "diagnostic_complete": false,
+        "evidence_complete": false,
+        "failure_class": "run-failed",
+        "lane": "verifast-i-glue-prereqs",
+        "missing_mandatory": [
+          "allprooflogs/proof-audit.json"
+        ],
+        "run_exit_code": 101,
+        "schema_version": 1,
+        "smoke_success": false,
+        "text_logs_complete": true,
+        "text_logs_index_sha256": "16131ee566dda33fa7b47dc999579618d1a78ff7d8c3b5077d78ecdf511ad83b",
+        "verification_accepted": false
+      },
+      "input_closure": {
+        "compiler": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+        "fixture_manifest_sha256": "c838a488d134f055883fface118273350b9e1e7e910b322a517075384f5093fe",
+        "manifest_sha256": "16559227680c59392dedb908ebbce5173d245bacee68116a4dff7dfbce3181c8",
+        "profile": "experimental-i-glue-prereqs-u64-v1",
+        "proof_credit": false,
+        "source_pairs": [
+          {
+            "admission": "allow",
+            "expected": "C2 target reached with actual constructor/physical fields/padding/source quarter and full readonly source; diagnostic ordinary copy suffix preserves normal/unwind value, tail ownership, lifetime and leak posts; actual Drop impl body and proof checked separately",
+            "id": "c2-prefix-positive",
+            "original_sha256": "1c1e4464095a3f1a224a74e3cbdc3a80a049f0ccd80177c00d597dea44042865",
+            "path": "cases/prefix-positive",
+            "verified_sha256": "6603e934a7251535a8282821d9ddf9d4fcbbb220300692f726f7566b3511294f"
+          },
+          {
+            "admission": "allow-control",
+            "expected_gate": "the CopyOnDrop ownership/separation close on the intentionally aliased src/dst must fail before C2 target, after body entry",
+            "id": "overlapping-storage-negative",
+            "original_sha256": "ecbb7a36495d1c14adac6bb138bb9d44b431c410725928991725d14b27f9ade0",
+            "path": "cases/overlap-negative",
+            "verified_sha256": "b66f08f4ed6c6dba43c7e7ab814b3e51704fba82dbe15163ce8f0cfca423d3e8"
+          },
+          {
+            "admission": "allow-control",
+            "expected_gate": "full source points_to assertion at the C2 target fails because only the established source fraction is available",
+            "id": "missing-source-permission-negative",
+            "original_sha256": "1c1e4464095a3f1a224a74e3cbdc3a80a049f0ccd80177c00d597dea44042865",
+            "path": "cases/missing-source-right-negative",
+            "verified_sha256": "b60d830fea706142c58034df992f6675abfacb15e041f896241fa685a780afdd"
+          },
+          {
+            "admission": "allow-control",
+            "expected_gate": "the checked Drop safety_proof must refuse to close the full uninitialized destination array from the quarter-only destination permission in the weakened method precondition; this is a safety-proof permission refusal, not a C2 target or Drop-body copy-write negative",
+            "id": "readonly-destination-safety-proof-negative",
+            "original_sha256": "1c1e4464095a3f1a224a74e3cbdc3a80a049f0ccd80177c00d597dea44042865",
+            "path": "cases/readonly-destination-negative",
+            "verified_sha256": "3b288ad2e82827fb10e1594b9274ac36384ef653afcb8cf81f5390bcfb6fc7ac"
+          },
+          {
+            "admission": "allow-control",
+            "expected": "pass at actual strict-scope exit: the incoming tail points_to survives through a let_lft strict binding block that allocates an address-taken local; evidence must show body entry and checked strict-freeze old-to-new heap map before tail.read",
+            "id": "strict-origin-survivor",
+            "original_sha256": "3851c9098781b895c61c5fce38a01dc658d02129d604a415f0a97a1932d9b491",
+            "path": "cases/strict-survivor",
+            "verified_sha256": "213d1c61fb8e981dce473b58e5251200bdc2bc4481c76af79f9a8b3366873cc2"
+          },
+          {
+            "admission": "allow-control",
+            "expected_gate": "reject at actual constructor ownership/separation gate after tail.read + tail.write rebuilds a same-address/value chunk and a second tail.read consumes it; no origin may be inferred by structural or address equality",
+            "id": "reconstructed-origin-negative",
+            "original_sha256": "83f9a02e160fb1b9f04b915b64ea2d2186f18cf531957e1bfe3dd831a32385a1",
+            "path": "cases/reconstructed-origin-negative",
+            "verified_sha256": "48d06973bdf1ade5f0362138c5d838f2f042dfe630170846369e0de45f5cfaaa"
+          },
+          {
+            "admission": "allow-control",
+            "expected_gate": "reject at actual constructor ownership/separation gate after tail.read consumes the incoming chunk before tmp is created; the saved value is moved into tmp, and tail remains uninitialized",
+            "id": "consumed-origin-negative",
+            "original_sha256": "2857313a8dcdebdaf1f420d37081e0f85125a2b904597928c57ea0622eee7cdb",
+            "path": "cases/consumed-origin-negative",
+            "verified_sha256": "f7db87110338e402bb8302c4dc2a95067dfe5d9a0419ec8fdc52613de03fd730"
+          },
+          {
+            "admission": "allow-control",
+            "expected": "pass at C2 gate after two nested scratch StorageLive/StorageDead scopes precede tmp; record body entry, each retirement and fresh incarnation, with no stale-receipt reuse when stack slots may be reused",
+            "id": "reused-local-incarnation",
+            "original_sha256": "fefff80e4b8429b1fabb1b7f2bc3c4e109c5813d7e186b355638854b5c7c46ad",
+            "path": "cases/reused-local-incarnation",
+            "verified_sha256": "8a5b77be03e095b17a8dab1473ec76663d2f52aef1b2927ed9056a2ecdd9d7a0"
+          },
+          {
+            "admission": "allow-control",
+            "expected_gate": "the ordinary annotation call vf__rust_storage_live(0) is rejected by the source parser/name resolution and emits no internal RustStorageLiveStmt",
+            "id": "source-marker-call-negative",
+            "original_sha256": "0335d3bcac0499aa361802c516d4173156b05788fc60aee5c7fbab94adadb5ff",
+            "path": "cases/fake-marker-source-call",
+            "verified_sha256": "99b5c23baf46b4e5e8ea82f40ef90193b47a61e6f456e08020663e5d7e3c67c1"
+          },
+          {
+            "admission": "reject",
+            "expected_gate": "exact full source SHA admission, before layout/source assertions",
+            "id": "unadmitted-source-digest-negative",
+            "original_sha256": "b22ed00e6fe6ea867f43496efba9d410179c760614c1f8e277b8471544c8c86e",
+            "path": "cases/source-digest-reject",
+            "verified_sha256": "bff06c35e52e238aff447c6c8710e3f760307e35258a2ba98249a3920ea10b22"
+          },
+          {
+            "admission": "allow-control",
+            "expected_gate": "after first address-taken local StorageDead, assert its retained raw address is disjoint from a second address-taken local; fail at this exact span-apart assertion because retired stack storage may be reused",
+            "id": "retired-storage-separation-negative",
+            "original_sha256": "248c4f74bd55ed3d0b053111c82f0ab7be782b7dc059bc6b4d31955af95198b4",
+            "path": "cases/retired-reuse-negative",
+            "verified_sha256": "8c5979cd308a95d9c7808c4d2c05ba213b51f3195215a4ba36301eaaab5bcc47"
+          }
+        ],
+        "source_preparation_or_compilation": false
+      },
+      "assembled_tree": {
+        "actual_tree": "f299edd9b8c4e1283cb377b50681697de90d8a60",
+        "expected_tree": "f299edd9b8c4e1283cb377b50681697de90d8a60",
+        "source_reconstructed_from_exact_patches": true,
+        "tool_head": "059687f190dc528338ea854566f0c1dc57375888"
+      },
+      "checkpoint": {
+        "exit": 101,
+        "profile_accepted": false,
+        "raw_result_present": false,
+        "stage": "exporter-build"
+      }
+    },
+    {
+      "build": "70085ccc-e0b7-4099-98bb-7d206f2fc635",
+      "gcs_prefix": "gs://smallsort-ci-evidence-504462351565/cloud-build/70085ccc-e0b7-4099-98bb-7d206f2fc635",
+      "archive_sha256": "ef289db69248b93b813918585ad009aeb4c66e9d3f1ad6ab886d07a84eae3266",
+      "archive_members_hash_verified": true,
+      "summary": {
+        "build_id": "70085ccc-e0b7-4099-98bb-7d206f2fc635",
+        "diagnostic_complete": false,
+        "evidence_complete": true,
+        "failure_class": "run-failed",
+        "lane": "verifast-i-glue-prereqs",
+        "missing_mandatory": [],
+        "run_exit_code": 2,
+        "schema_version": 1,
+        "smoke_success": false,
+        "text_logs_complete": true,
+        "text_logs_index_sha256": "e0ca26cd94aed187db610f53881ae3d9ecf5ce569df4814094d935990508c21e",
+        "verification_accepted": false
+      },
+      "input_closure": {
+        "compiler": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+        "fixture_manifest_sha256": "c838a488d134f055883fface118273350b9e1e7e910b322a517075384f5093fe",
+        "manifest_sha256": "e9957bc94b3133f2fe1582279ef2a878e6ecd86cfd3baa411f3343655d867d70",
+        "profile": "experimental-i-glue-prereqs-u64-v1",
+        "proof_credit": false,
+        "source_pairs": [
+          {
+            "admission": "allow",
+            "expected": "C2 target reached with actual constructor/physical fields/padding/source quarter and full readonly source; diagnostic ordinary copy suffix preserves normal/unwind value, tail ownership, lifetime and leak posts; actual Drop impl body and proof checked separately",
+            "id": "c2-prefix-positive",
+            "original_sha256": "1c1e4464095a3f1a224a74e3cbdc3a80a049f0ccd80177c00d597dea44042865",
+            "path": "cases/prefix-positive",
+            "verified_sha256": "6603e934a7251535a8282821d9ddf9d4fcbbb220300692f726f7566b3511294f"
+          },
+          {
+            "admission": "allow-control",
+            "expected_gate": "the CopyOnDrop ownership/separation close on the intentionally aliased src/dst must fail before C2 target, after body entry",
+            "id": "overlapping-storage-negative",
+            "original_sha256": "ecbb7a36495d1c14adac6bb138bb9d44b431c410725928991725d14b27f9ade0",
+            "path": "cases/overlap-negative",
+            "verified_sha256": "b66f08f4ed6c6dba43c7e7ab814b3e51704fba82dbe15163ce8f0cfca423d3e8"
+          },
+          {
+            "admission": "allow-control",
+            "expected_gate": "full source points_to assertion at the C2 target fails because only the established source fraction is available",
+            "id": "missing-source-permission-negative",
+            "original_sha256": "1c1e4464095a3f1a224a74e3cbdc3a80a049f0ccd80177c00d597dea44042865",
+            "path": "cases/missing-source-right-negative",
+            "verified_sha256": "b60d830fea706142c58034df992f6675abfacb15e041f896241fa685a780afdd"
+          },
+          {
+            "admission": "allow-control",
+            "expected_gate": "the checked Drop safety_proof must refuse to close the full uninitialized destination array from the quarter-only destination permission in the weakened method precondition; this is a safety-proof permission refusal, not a C2 target or Drop-body copy-write negative",
+            "id": "readonly-destination-safety-proof-negative",
+            "original_sha256": "1c1e4464095a3f1a224a74e3cbdc3a80a049f0ccd80177c00d597dea44042865",
+            "path": "cases/readonly-destination-negative",
+            "verified_sha256": "3b288ad2e82827fb10e1594b9274ac36384ef653afcb8cf81f5390bcfb6fc7ac"
+          },
+          {
+            "admission": "allow-control",
+            "expected": "pass at actual strict-scope exit: the incoming tail points_to survives through a let_lft strict binding block that allocates an address-taken local; evidence must show body entry and checked strict-freeze old-to-new heap map before tail.read",
+            "id": "strict-origin-survivor",
+            "original_sha256": "3851c9098781b895c61c5fce38a01dc658d02129d604a415f0a97a1932d9b491",
+            "path": "cases/strict-survivor",
+            "verified_sha256": "213d1c61fb8e981dce473b58e5251200bdc2bc4481c76af79f9a8b3366873cc2"
+          },
+          {
+            "admission": "allow-control",
+            "expected_gate": "reject at actual constructor ownership/separation gate after tail.read + tail.write rebuilds a same-address/value chunk and a second tail.read consumes it; no origin may be inferred by structural or address equality",
+            "id": "reconstructed-origin-negative",
+            "original_sha256": "83f9a02e160fb1b9f04b915b64ea2d2186f18cf531957e1bfe3dd831a32385a1",
+            "path": "cases/reconstructed-origin-negative",
+            "verified_sha256": "48d06973bdf1ade5f0362138c5d838f2f042dfe630170846369e0de45f5cfaaa"
+          },
+          {
+            "admission": "allow-control",
+            "expected_gate": "reject at actual constructor ownership/separation gate after tail.read consumes the incoming chunk before tmp is created; the saved value is moved into tmp, and tail remains uninitialized",
+            "id": "consumed-origin-negative",
+            "original_sha256": "2857313a8dcdebdaf1f420d37081e0f85125a2b904597928c57ea0622eee7cdb",
+            "path": "cases/consumed-origin-negative",
+            "verified_sha256": "f7db87110338e402bb8302c4dc2a95067dfe5d9a0419ec8fdc52613de03fd730"
+          },
+          {
+            "admission": "allow-control",
+            "expected": "pass at C2 gate after two nested scratch StorageLive/StorageDead scopes precede tmp; record body entry, each retirement and fresh incarnation, with no stale-receipt reuse when stack slots may be reused",
+            "id": "reused-local-incarnation",
+            "original_sha256": "fefff80e4b8429b1fabb1b7f2bc3c4e109c5813d7e186b355638854b5c7c46ad",
+            "path": "cases/reused-local-incarnation",
+            "verified_sha256": "8a5b77be03e095b17a8dab1473ec76663d2f52aef1b2927ed9056a2ecdd9d7a0"
+          },
+          {
+            "admission": "allow-control",
+            "expected_gate": "the ordinary annotation call vf__rust_storage_live(0) is rejected by the source parser/name resolution and emits no internal RustStorageLiveStmt",
+            "id": "source-marker-call-negative",
+            "original_sha256": "0335d3bcac0499aa361802c516d4173156b05788fc60aee5c7fbab94adadb5ff",
+            "path": "cases/fake-marker-source-call",
+            "verified_sha256": "99b5c23baf46b4e5e8ea82f40ef90193b47a61e6f456e08020663e5d7e3c67c1"
+          },
+          {
+            "admission": "reject",
+            "expected_gate": "exact full source SHA admission, before layout/source assertions",
+            "id": "unadmitted-source-digest-negative",
+            "original_sha256": "b22ed00e6fe6ea867f43496efba9d410179c760614c1f8e277b8471544c8c86e",
+            "path": "cases/source-digest-reject",
+            "verified_sha256": "bff06c35e52e238aff447c6c8710e3f760307e35258a2ba98249a3920ea10b22"
+          },
+          {
+            "admission": "allow-control",
+            "expected_gate": "after first address-taken local StorageDead, assert its retained raw address is disjoint from a second address-taken local; fail at this exact span-apart assertion because retired stack storage may be reused",
+            "id": "retired-storage-separation-negative",
+            "original_sha256": "248c4f74bd55ed3d0b053111c82f0ab7be782b7dc059bc6b4d31955af95198b4",
+            "path": "cases/retired-reuse-negative",
+            "verified_sha256": "8c5979cd308a95d9c7808c4d2c05ba213b51f3195215a4ba36301eaaab5bcc47"
+          }
+        ],
+        "source_preparation_or_compilation": false
+      },
+      "assembled_tree": {
+        "actual_tree": "3a2c16640c10958a5d185dc8d928c47950406907",
+        "expected_tree": "3a2c16640c10958a5d185dc8d928c47950406907",
+        "source_reconstructed_from_exact_patches": true,
+        "tool_head": "c23278c3ea716b64d2fdeee134b834095956ac56"
+      },
+      "checkpoint": {
+        "exit": 2,
+        "profile_accepted": false,
+        "raw_result_present": false,
+        "stage": "console-build"
+      },
+      "proof_audit": {
+        "accepted": false,
+        "classification": "COMPONENT_BUILD_OR_SETUP_FAILURE",
+        "diagnostic_complete": false,
+        "exit": 2,
+        "proof_credit": false,
+        "stage": "console-build",
+        "verification_accepted": false
+      },
+      "exporter_build_exit": 0,
+      "console_build_exit": 2
+    }
+  ]
+}
