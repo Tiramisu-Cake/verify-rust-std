@@ -231,6 +231,29 @@ def authorized_phase(a,ledger):
  try:deadline=datetime.datetime.fromisoformat(ledger['deadline_utc'].replace('Z','+00:00'))
  except (KeyError,AttributeError,ValueError) as error:raise SystemExit('Invalid phase deadline') from error
  cutoff=datetime.datetime.fromisoformat(NIGHT_DEADLINE.replace('Z','+00:00'))
+ if a.phase_id=='CI-IAM-E2E-ONCE-2026-10-17':
+  # Separate, explicitly activated account; never reuse a historical ledger.
+  expected_ledger=DIR/'ci-iam-e2e-once-20261017'/'BUDGET.json'
+  if (a.ledger.resolve()!=expected_ledger.resolve() or
+      a.owner!='merge' or ledger.get('owner')!='merge' or
+      ledger['ceiling_build_seconds']!=360 or
+      ledger.get('allowed_lanes')!=['coordination-regression']):
+   raise SystemExit('IAM E2E phase requires its separate merge account and exact scope')
+  try:start=datetime.datetime.fromisoformat(ledger['start_utc'].replace('Z','+00:00'))
+  except (KeyError,AttributeError,ValueError) as error:raise SystemExit('Invalid IAM E2E start') from error
+  if (start.tzinfo is None or deadline.tzinfo is None or
+      deadline-start!=datetime.timedelta(minutes=30) or
+      datetime.datetime.now(datetime.timezone.utc)<start):
+   raise SystemExit('IAM E2E requires an active, explicit 30-minute window')
+  cutoff=deadline
+  if a.command=='submit':
+   # The dispatcher persists DISPATCH_PENDING before its only API submit call.
+   # Even a definitive API rejection consumes this account's single attempt.
+   if (ledger.get('builds')!=[] or ledger.get('active_build') is not None or
+       a.timeout!=300 or a.lane!='coordination-regression' or
+       a.source_mode!='pinned-objects' or
+       a.proof_sha!='e918eb875119d912b981da2bfec4e0406e06571e'):
+    raise SystemExit('IAM E2E permits one pinned historical diagnostic attempt, timeout300s')
  if a.phase_id=='DAY-MERGE-CLOUD-2026-10-09':
   if (a.owner!='merge' or ledger['ceiling_build_seconds']!=3600 or
       ledger.get('allowed_lanes')!=['merge'] or
