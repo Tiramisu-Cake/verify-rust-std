@@ -92,3 +92,16 @@ SHAs and its own committed byte hash, avoiding a containing-commit self-hash
 cycle. Exact published SHAs will be recorded in the release binding before submit.
 All26 initial profile statuses stay NOT_RUN; cloud_build_enabled=true authorizes
 only the reviewed runner route in this exact one-Build account, not acceptance.
+
+
+## Source transport preflight follow-up
+
+The first published implementation is `ca8eacc71ec6412f06c6bda4596898a1f6df0fba`.
+Its pinned-object source payload was720712 bytes /960952 base64 bytes, exceeding
+the unchanged191×3990 substitution bound762090. `control.config` refused before
+request/reservation/dispatch; Builds0, spend0. This is a transport readiness
+blocker, not an observed compiler/interface/proof verdict. Shared-object pooling
+already removes duplicate proof/infra objects. No mandatory matrix/source input
+is dropped. A separately reviewed opt-in compact source encoding is being
+prepared within the existing exact recipe transport, retaining original Git
+objects, commit/tree/path/size/SHA identities and coordinator bounds.

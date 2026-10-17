@@ -57,3 +57,35 @@ Final reviewed source hashes:
 
 Coordinator source unchanged; registered control.py SHA256 `4520fd588de193781e19fb99321f4040dc7663a36f14c3d4f6a25335cc4b7677`.
 Recipe SHA256 `288e57d0b678d0d5c2b5d02f66edd3b914916d56888585c525e12a48fa2a45d9`.
+
+
+## Additive source transport review
+
+Legacy source payload exceeded the unchanged Cloud substitutions bound. The
+existing lane now explicitly opts into `utf8-xz-envelope-v1`: strict UTF-8 blob
+strings and legacy binary fallback inside a bounded XZ payload, still delivered
+inside the existing gzip archive. Every original selected path is retained.
+Commit/tree/blob identities, byte lengths, selected SHA256/mode/path closure,
+source archive hash, coordinator limits and budget rules remain checked.
+No proof or decoded/refinement artifact is cached or transported by this codec.
+
+Independent Luna High review found unbounded binary gzip fallback and an
+uncaught truncated outer gzip error; both were returned to the original worker
+and fixed. Six isolated pure Git transport tests pass, covering exact Unicode/
+BOM/CRLF bytes, binary fallback, legacy deterministic encoding, closure and
+size/OID failures, codec/field ambiguity and decoder truncation/size limits.
+These tests provide transport evidence only and zero formal verification credit.
+
+Frozen transport hashes:
+
+| File | SHA256 |
+| --- | --- |
+| `source-input.py` | `09b0b5b03f853ce354226e8e70f60233f24c3a829c38047c98a556dd2aa6534a` |
+| `exact-infra-transport-controls.py` | `e9f2c714d94c97ba1561a603db51b67eb58e6c2a9e8bbcd19a750bafe769fc34` |
+| `recipes/o26-sort4-c1-current-recovery.json` | `dc39cb199f3bd74bb116cd4092441d9f976d9e146d86e1d383dfeefd32e79915` |
+| `test_source_input_transport.py` | `9be868f715bff8b831aaff0b1268721b984195ea8da6bca04cc993780322fcb1` |
+
+Final independent readback of frozen `09b0b5b0` codec: both findings fixed;
+legacy v1/shared and compact object shapes closed, UTF-8 rejected without
+compact opt-in. No remaining concrete source-readiness blocker. This disposition
+requires the committed full-input restore/config preflight before dispatch.

@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import argparse
 import copy
-import gzip
 import importlib.util
 import json
 import os
@@ -176,7 +175,7 @@ def main() -> None:
          a.evidence == Path("/workspace/evidence") and
          a.infra == Path("/workspace/infra"), "exact transport paths differ")
     source = load_source(a.infra / ROOT / "source-input.py")
-    payload = json.loads(gzip.decompress(a.archive.read_bytes()))
+    payload, _ = source.decode_payload(a.archive.read_bytes())
     need(payload.get("schema") == source.SHARED_SCHEMA and
          payload.get("lane") == a.lane, "restored archive schema/lane differs")
     recipe = source.validate_recipe(payload.get("recipe", {}), a.lane)

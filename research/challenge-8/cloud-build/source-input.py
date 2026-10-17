@@ -13,6 +13,7 @@ import gzip
 import hashlib
 import io
 import json
+import lzma
 import os
 from pathlib import Path, PurePosixPath
 import re
@@ -22,6 +23,10 @@ import sys
 
 SCHEMA = "smallsort-git-source-input-v1"
 SHARED_SCHEMA = "smallsort-git-source-input-v2-shared-objects"
+COMPACT_SCHEMA = "smallsort-git-source-input-v3-utf8-xz-envelope"
+SOURCE_TRANSPORT_CODEC = "utf8-xz-envelope-v1"
+MAX_DECODED_PAYLOAD = 64 * 1024 * 1024
+XZ_MEMLIMIT = 128 * 1024 * 1024
 OBJECT_ID = re.compile(r"^[0-9a-f]{40}$")
 WORKSPACE = Path("/workspace")
 STD_PATHS = (
@@ -71,6 +76,52 @@ INFRA_PYTHON_PREFIXES = (
 
 def stop(message: str) -> "NoReturn":
     raise SystemExit(message)
+
+
+def _unique_json_object(pairs: list[tuple[str, object]]) -> dict:
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate JSON field: {key}")
+        result[key] = value
+    return result
+
+
+def _json_loads_strict(data: bytes) -> object:
+    return json.loads(data.decode("utf-8", errors="strict"),
+                      object_pairs_hook=_unique_json_object)
+
+
+def _validate_shared_object_shapes(payload: dict, *, compact: bool) -> None:
+    rows = payload.get("shared_objects")
+    if not isinstance(rows, list):
+        stop("shared-object pool must be a list")
+    for row in rows:
+        if not isinstance(row, dict):
+            stop("shared-object entry must be an object")
+        keys = set(row)
+        utf8_shape = {"oid", "type", "size", "data_utf8"}
+        compressed_shape = {"oid", "type", "size", "data_base64", "compression"}
+        if keys == utf8_shape:
+            if not compact or row.get("type") != "blob" or not isinstance(row.get("data_utf8"), str):
+                stop("UTF-8 source objects require compact blob transport")
+        elif keys == compressed_shape:
+            if row.get("compression") != "gzip":
+                stop("unsupported shared-object compression")
+        else:
+            stop("shared Git object has ambiguous or unknown fields")
+
+
+def _validate_legacy_record_shapes(payload: dict) -> None:
+    names = ("infra", "proof", *( ("baseline",) if "baseline" in payload else () ))
+    for name in names:
+        record = payload.get(name)
+        if not isinstance(record, dict) or not isinstance(record.get("objects"), list):
+            stop("legacy source archive repository record is invalid")
+        for row in record["objects"]:
+            if (not isinstance(row, dict) or
+                    set(row) != {"oid", "type", "size", "data_base64"}):
+                stop("legacy Git object has ambiguous or unsupported fields")
 
 
 def valid_path(value: str) -> str:
@@ -199,6 +250,9 @@ def validate_recipe(recipe: dict, lane: str) -> dict:
     transport = recipe.get("infra_transport")
     if transport is not None and transport != EXACT_INFRA_TRANSPORT:
         stop("unknown recipe infrastructure transport policy")
+    source_codec = recipe.get("source_transport_codec")
+    if source_codec is not None and source_codec != SOURCE_TRANSPORT_CODEC:
+        stop("unknown recipe source transport codec")
     for key in ("proof_paths", "infra_paths"):
         paths = recipe.get(key)
         if not isinstance(paths, list) or not paths or paths != sorted(set(paths)):
@@ -233,7 +287,7 @@ def committed_recipe(repo: Path, infra_sha: str, lane: str) -> dict:
     if not re.fullmatch(r"[a-z][a-z0-9-]{0,63}", lane):
         stop("invalid recipe lane")
     raw = git(repo, "show", infra_sha + ":" + RECIPE_PREFIX + lane + ".json")
-    return validate_recipe(json.loads(raw), lane)
+    return validate_recipe(_json_loads_strict(raw), lane)
 
 
 def repo_record(repo: Path, commit: str, paths: list[str]) -> tuple[dict, dict[str, tuple[str, bytes]]]:
@@ -260,6 +314,7 @@ def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes
     """Return deterministic gzip JSON for the requested source commits."""
     repo = repo.resolve()
     recipe = None if lane in ("stock", "constructor") else committed_recipe(repo, infra_sha, lane)
+    compact_transport = bool(recipe and recipe.get("source_transport_codec") == SOURCE_TRANSPORT_CODEC)
     if recipe and recipe.get("infra_transport") == EXACT_INFRA_TRANSPORT:
         selected_infra = sorted(set(EXACT_INFRA_CORE + tuple(recipe["infra_paths"]) +
                                     (RECIPE_PREFIX + lane + ".json",)))
@@ -294,15 +349,121 @@ def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes
         for oid in sorted(pool):
             item = dict(pool[oid])
             raw_object = base64.b64decode(item["data_base64"], validate=True)
-            item["data_base64"] = base64.b64encode(gzip.compress(raw_object, mtime=0)).decode("ascii")
-            item["compression"] = "gzip"
+            if compact_transport and item["type"] == "blob":
+                try:
+                    item["data_utf8"] = raw_object.decode("utf-8", errors="strict")
+                except UnicodeDecodeError:
+                    item["data_base64"] = base64.b64encode(
+                        gzip.compress(raw_object, mtime=0)).decode("ascii")
+                    item["compression"] = "gzip"
+                else:
+                    del item["data_base64"]
+            else:
+                item["data_base64"] = base64.b64encode(gzip.compress(raw_object, mtime=0)).decode("ascii")
+                item["compression"] = "gzip"
             payload["shared_objects"].append(item)
-    raw = (json.dumps(payload, sort_keys=True, separators=(",", ":")) + "\n").encode()
+    raw = (json.dumps(payload, sort_keys=True, separators=(",", ":"),
+                      ensure_ascii=not compact_transport) + "\n").encode("utf-8")
+    if compact_transport:
+        envelope = {
+            "schema": COMPACT_SCHEMA,
+            "transport_codec": SOURCE_TRANSPORT_CODEC,
+            "payload_xz_base64": base64.b64encode(lzma.compress(raw, format=lzma.FORMAT_XZ,
+                                                                preset=6)).decode("ascii"),
+        }
+        raw = (json.dumps(envelope, sort_keys=True, separators=(",", ":")) + "\n").encode()
     buffer = io.BytesIO()
     with gzip.GzipFile(fileobj=buffer, mode="wb", filename="",
                        compresslevel=9, mtime=0) as stream:
         stream.write(raw)
     return buffer.getvalue()
+
+
+def _bounded_gzip_decode(data: bytes, *, limit: int | None = None,
+                         label: str = "source archive payload") -> bytes:
+    limit = MAX_DECODED_PAYLOAD if limit is None else limit
+    with gzip.GzipFile(fileobj=io.BytesIO(data), mode="rb") as stream:
+        raw = stream.read(limit + 1)
+    if len(raw) > limit:
+        stop(f"{label} exceeds decoded size limit")
+    return raw
+
+
+def _bounded_xz_decode(data: bytes) -> bytes:
+    try:
+        decoder = lzma.LZMADecompressor(format=lzma.FORMAT_XZ, memlimit=XZ_MEMLIMIT)
+        raw = bytearray()
+        pending = data
+        while True:
+            chunk = decoder.decompress(pending, max_length=MAX_DECODED_PAYLOAD + 1 - len(raw))
+            pending = b""
+            raw.extend(chunk)
+            if len(raw) > MAX_DECODED_PAYLOAD:
+                stop("compact source payload exceeds decoded size limit")
+            if decoder.eof:
+                if decoder.unused_data:
+                    stop("compact source payload has trailing bytes")
+                return bytes(raw)
+            if decoder.needs_input:
+                stop("compact source payload is truncated")
+    except (lzma.LZMAError, EOFError, ValueError) as error:
+        stop(f"compact source payload is unreadable: {error}")
+
+
+def decode_payload(compressed: bytes) -> tuple[dict, bytes]:
+    """Decode a legacy gzip payload or the opt-in bounded xz envelope."""
+    try:
+        outer_raw = _bounded_gzip_decode(compressed)
+        envelope = _json_loads_strict(outer_raw)
+    except (OSError, EOFError, ValueError, UnicodeDecodeError) as error:
+        stop(f"source archive is unreadable: {error}")
+    if not isinstance(envelope, dict):
+        stop("source archive envelope must be a JSON object")
+    if envelope.get("schema") != COMPACT_SCHEMA:
+        if "transport_codec" in envelope:
+            stop("unexpected source archive transport codec tag")
+        recipe = envelope.get("recipe")
+        if isinstance(recipe, dict) and "source_transport_codec" in recipe:
+            stop("recipe codec opt-in requires the compact source envelope")
+        schema = envelope.get("schema")
+        if schema == SCHEMA:
+            allowed = {"schema", "lane", "infra", "proof", "recipe", "baseline"}
+            required = {"schema", "lane", "infra", "proof"}
+        elif schema == SHARED_SCHEMA:
+            allowed = {"schema", "lane", "infra", "proof", "recipe", "baseline", "shared_objects"}
+            required = {"schema", "lane", "infra", "proof", "recipe", "shared_objects"}
+        else:
+            return envelope, outer_raw
+        if set(envelope) - allowed or not required.issubset(envelope):
+            stop("source archive has ambiguous or unknown fields")
+        if schema == SHARED_SCHEMA:
+            _validate_shared_object_shapes(envelope, compact=False)
+        else:
+            _validate_legacy_record_shapes(envelope)
+        return envelope, outer_raw
+    if set(envelope) != {"schema", "transport_codec", "payload_xz_base64"}:
+        stop("compact source envelope has ambiguous or unknown fields")
+    if envelope.get("transport_codec") != SOURCE_TRANSPORT_CODEC:
+        stop("unknown compact source transport codec")
+    try:
+        packed = base64.b64decode(envelope["payload_xz_base64"], validate=True)
+    except (ValueError, TypeError):
+        stop("invalid compact source payload base64")
+    inner_raw = _bounded_xz_decode(packed)
+    try:
+        payload = _json_loads_strict(inner_raw)
+    except (ValueError, UnicodeDecodeError) as error:
+        stop(f"compact source payload JSON is unreadable: {error}")
+    if (not isinstance(payload, dict) or payload.get("schema") != SHARED_SCHEMA or
+            not isinstance(payload.get("recipe"), dict) or
+            payload["recipe"].get("source_transport_codec") != SOURCE_TRANSPORT_CODEC):
+        stop("compact source payload lacks the exact recipe codec opt-in")
+    allowed = {"schema", "lane", "infra", "proof", "recipe", "baseline", "shared_objects"}
+    required = {"schema", "lane", "infra", "proof", "recipe", "shared_objects"}
+    if set(payload) - allowed or not required.issubset(payload):
+        stop("compact source payload has ambiguous or unknown fields")
+    _validate_shared_object_shapes(payload, compact=True)
+    return payload, inner_raw
 
 
 def expected_infra_paths(repo_record_data: dict, recipe: dict | None = None) -> list[str]:
@@ -370,12 +531,28 @@ def restore_repo(record: dict, destination: Path, allowed_paths: list[str]) -> l
         if oid in object_ids:
             stop(f"duplicate Git object record: {oid}")
         object_ids.add(oid)
+        size = item.get("size")
+        if not isinstance(size, int) or isinstance(size, bool) or not 0 <= size <= MAX_DECODED_PAYLOAD:
+            stop(f"invalid Git object size: {oid}")
         try:
-            data = base64.b64decode(item.get("data_base64", ""), validate=True)
-            if item.get("compression") == "gzip":
-                data = gzip.decompress(data)
-            elif item.get("compression") is not None:
-                stop(f"unsupported Git object compression: {oid}")
+            if "data_utf8" in item:
+                if (kind != "blob" or
+                        set(item) != {"oid", "type", "size", "data_utf8"}):
+                    stop(f"ambiguous or unsupported UTF-8 Git object record: {oid}")
+                if not isinstance(item["data_utf8"], str):
+                    stop(f"invalid UTF-8 Git object text: {oid}")
+                data = item["data_utf8"].encode("utf-8", errors="strict")
+            else:
+                if "data_base64" not in item or "data_utf8" in item:
+                    stop(f"missing or ambiguous Git object data: {oid}")
+                if set(item) not in ({"oid", "type", "size", "data_base64"},
+                                     {"oid", "type", "size", "data_base64", "compression"}):
+                    stop(f"ambiguous or unsupported Git object fields: {oid}")
+                data = base64.b64decode(item.get("data_base64", ""), validate=True)
+                if item.get("compression") == "gzip":
+                    data = _bounded_gzip_decode(data, limit=size, label=f"Git object {oid}")
+                elif item.get("compression") is not None:
+                    stop(f"unsupported Git object compression: {oid}")
         except (ValueError, TypeError, OSError, EOFError):
             stop(f"invalid base64 for Git object {oid}")
         if len(data) != item.get("size") or git_oid(kind, data) != oid:
@@ -425,11 +602,7 @@ def restore_archive(archive: Path, evidence: Path) -> dict:
     ensure_workspace(archive)
     ensure_workspace(evidence)
     compressed = archive.read_bytes()
-    try:
-        raw = gzip.decompress(compressed)
-        payload = json.loads(raw)
-    except (OSError, json.JSONDecodeError) as error:
-        stop(f"source archive is unreadable: {error}")
+    payload, raw = decode_payload(compressed)
     if payload.get("schema") not in (SCHEMA, SHARED_SCHEMA):
         stop("unsupported source archive schema")
     if payload["schema"] == SHARED_SCHEMA:
@@ -472,7 +645,7 @@ def restore_archive(archive: Path, evidence: Path) -> dict:
     infra_dir, proof_dir = WORKSPACE / "infra", WORKSPACE / "proof"
     infra_restored = restore_repo(infra_record, infra_dir, infra_paths_allowed)
     if recipe:
-        restored_recipe = json.loads((infra_dir / (RECIPE_PREFIX + lane + ".json")).read_bytes())
+        restored_recipe = _json_loads_strict((infra_dir / (RECIPE_PREFIX + lane + ".json")).read_bytes())
         if restored_recipe != recipe:
             stop("recipe differs from original infrastructure Git object")
     proof_restored = restore_repo(proof_record_data, proof_dir, proof_paths_allowed)
