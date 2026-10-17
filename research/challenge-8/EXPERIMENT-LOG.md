@@ -6864,3 +6864,32 @@ Next immutable-input preflight and one Build only if candidate ready.
 ### First-callback one-Build outcome
 
 Builda7ad5ce8-2cba-415e-8d7f-6d4ca78ef125 at proof=infra08b61d8162b1c01c840ed573847622a004232a05 terminalFAILURE. Required Brief: archive/inventoryverified, sourceNOT_ACCEPTED/evidence_completeFalse,12files/5textentries, no campaign/cases/stage. No formal/negative credit and no causal stage inferred. Accountclosed103/960,857retired/no retry; local proof/compilation/raw evidence never run/read. Prepared/reviewed tool d928cb1d/profile300fd8a7/patchb7bf8674 retained for concrete review/audit. Final detailed checkpoint and exact result: cloud-build/origin-layout/FINAL-CHECKPOINT.md and FIRST-CALLBACK-RESULT-20261017.json.
+
+
+## 2026-10-17 — разовый административный аудит a7ad5ce8: ограничение интерфейса
+
+Owner merge, worktree /root/verify-rust-std-merge-origin, branch
+merge/incoming-origin-20261009, исходный checkpoint df0a29a0. Поручение <=60 минут,
+0 новых Builds/0 proof budget. Прочитаны WORK-POLICY/COMPLETION-PLAN и Evidence Brief
+revision 2026-10-17, policy commit 584891be87db5c056bf9082c1ad24665eea74e69.
+Повторный smallsort-brief и reader /index,/receipt сохранены отдельно с SHA256,
+совпадающими с processor receipt. Processor 0.3.0: diagnostic_complete=false,
+evidence_complete=false, aggregates={}, cases=[], executed profile unknown.
+Последняя завершённая исполнительная стадия, failing command и её exit, tool
+build/exporter/decoder/refiner/verifier reachability и причина отсутствия cases
+не установлены. Общий run exit1 и inventory не используются для такого вывода.
+Проверенные bounded diagnostic endpoints 404; run.services.list PERMISSION_DENIED.
+Нет raw fallback, изменения IAM/credentials/production/coordinator или исполнения
+compiler/extraction/verifier. Отсутствие других admin механизмов не доказано.
+
+[Точный admin запрос](cloud-build/origin-layout/ADMIN-AUDIT-REQUEST-20261017.md)
+задаёт service-side <=16KiB выборку: completion/failure receipts, <=30 relevant
+строк, явные stage markers и creation/packaging/processor reconciliation, identities
+и source references. [Отдельный результат](cloud-build/origin-layout/ADMIN-AUDIT-RESULT-20261017.json)
+не переписывает FIRST-CALLBACK-RESULT/PINS/BUDGET, Brief или прежние verdicts.
+Без причины нет адресного исправления/нового кандидата. Docs/JSON/hash/static diff
+checks только; synthetic service tests/review не требуются без code changes.
+Счёт103/960 CLOSED/857retired и лимит единственного Build сохранены; download_verified
+не менялся, B1/новые normal/unwind/B2 credit не повышены. Следующий шаг — получить
+ограниченный admin ответ; Build/retry требуют отдельной авторизации. Обычные
+CI results после этой попытки аудита снова только smallsort-brief.

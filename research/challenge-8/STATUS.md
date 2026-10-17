@@ -1,3 +1,24 @@
+# MERGE — административный аудит: требуется ограниченная выборка
+
+2026-10-17: продолжение от `df0a29a0`, owner merge, новых Builds/бюджета 0.
+Причина отказа `a7ad5ce8` и достигнутые исполнительные стадии **не установлены**.
+Reader 0.3.0 `/index` и `/receipt` подтверждают прежний неполный Brief;
+executed profile unknown. Проверенные bounded diagnostic routes возвращают 404,
+`run.services.list` запрещён текущей identity. Другие admin interfaces не исключены.
+Raw archives/logs на VPS не скачивались; IAM, production и coordinator не менялись.
+
+[Точный запрос администратору](cloud-build/origin-layout/ADMIN-AUDIT-REQUEST-20261017.md)
+задаёт ограниченную выборку failing command/exit/excerpt, stage markers и
+creation→packaging→processor для campaign/cases, с provenance.
+[Отдельный результат](cloud-build/origin-layout/ADMIN-AUDIT-RESULT-20261017.json)
+сохраняет исходные compact reports и hashes. Исправление без причины не подготовлено;
+кандидат к следующему отдельно разрешённому Build пока не готов. Изменён только
+checkpoint/документация. Исторические verdicts/pins/ledger сохранены.
+Счёт CLOSED **103/960 s, 857 retired**, retry запрещён. Нового proof credit нет.
+Обычные дальнейшие CI results — исключительно `smallsort-brief BUILD_UUID`.
+
+Предыдущий checkpoint ниже сохранён как история.
+
 # MERGE — первое comparator: CLOSED / INCONCLUSIVE
 
 Нового normal/unwind proof credit нет. Подготовлены и независимо статически

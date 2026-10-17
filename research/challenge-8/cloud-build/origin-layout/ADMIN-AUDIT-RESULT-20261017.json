@@ -1,0 +1,72 @@
+{
+  "schema": "merge-first-callback-admin-audit-v1",
+  "build_id": "a7ad5ce8-2cba-415e-8d7f-6d4ca78ef125",
+  "owner": "merge",
+  "checkpoint": "df0a29a08c82048917f23c765d63d50eca9e07d4",
+  "observed_utc": "2026-10-17T10:06:51.987376+00:00",
+  "authorization": "Owner message: one-off bounded administrative audit of this Build only; 0 new Builds; 0 proof budget; <=60 minutes.",
+  "classification": "INCOMPLETE_ADMIN_DIAGNOSTIC_INTERFACE_UNAVAILABLE",
+  "proof_sha": "08b61d8162b1c01c840ed573847622a004232a05",
+  "infra_sha": "08b61d8162b1c01c840ed573847622a004232a05",
+  "tool_pin": "d928cb1d7ac60c257daa537fa65577f41135f832",
+  "profile_pin": "experimental-merge-first-callback-u64-v1",
+  "executed_profile": "UNKNOWN_IN_READER_INDEX",
+  "last_confirmed_execution_stage": null,
+  "failed_command": null,
+  "failed_command_exit_status": null,
+  "source_reported_run_exit": 1,
+  "diagnostic_message": null,
+  "stages": {
+    "tool_build": "UNKNOWN_NO_STAGE_EVIDENCE",
+    "exporter": "UNKNOWN_NO_STAGE_EVIDENCE",
+    "decoder": "UNKNOWN_NO_STAGE_EVIDENCE",
+    "refiner": "UNKNOWN_NO_STAGE_EVIDENCE",
+    "verifier": "UNKNOWN_NO_STAGE_EVIDENCE"
+  },
+  "campaign_cases_absence_cause": "UNKNOWN: not created vs not packaged vs not represented by processor unresolved",
+  "confirmed_reporting_facts": [
+    "Processor 0.3.0: diagnostic_complete=false, evidence_complete=false; aggregates={}, cases=[].",
+    "Source-reported missing_mandatory: allprooflogs/cases/* and allprooflogs stage logs/resource/exit files.",
+    "Archive/inventory integrity verified by processor; this does not establish pipeline reachability."
+  ],
+  "interface_observations": {
+    "GET /openapi.json": 404,
+    "GET /": 404,
+    "GET /builds/UUID": 404,
+    "GET /builds/UUID/search?q=error&limit=5&context=3": 404,
+    "GET /builds/UUID/diagnostics?limit=5&context=3": 404,
+    "GET /health": "200: mode reader, processor 0.3.0",
+    "run.services.list": "PERMISSION_DENIED for existing dispatcher identity; no IAM or credential changes attempted"
+  },
+  "sources": [
+    {
+      "endpoint": "https://smallsort-evidence-reader-cpl7plw5ja-uc.a.run.app/builds/a7ad5ce8-2cba-415e-8d7f-6d4ca78ef125/brief",
+      "file": "ADMIN-AUDIT-ORIGINAL-BRIEF-20261017.md",
+      "sha256": "654a3fbbce6229d7c63731b574cb5e9b12c24846597903447ac34dbce310a4be",
+      "bytes": 1047
+    },
+    {
+      "endpoint": "https://smallsort-evidence-reader-cpl7plw5ja-uc.a.run.app/builds/a7ad5ce8-2cba-415e-8d7f-6d4ca78ef125/index",
+      "file": "ADMIN-AUDIT-READER-INDEX-20261017.json",
+      "sha256": "7e21d454dde7119cb61fc2622dab3600e4a490445ef6a3c3e0f89b0297abee0e",
+      "bytes": 2479
+    },
+    {
+      "endpoint": "https://smallsort-evidence-reader-cpl7plw5ja-uc.a.run.app/builds/a7ad5ce8-2cba-415e-8d7f-6d4ca78ef125/receipt",
+      "file": "ADMIN-AUDIT-READER-RECEIPT-20261017.json",
+      "sha256": "64d000bd2007f51a7c4a3f292f987df83f273e43c77dc357a1a9f8f4623f1279",
+      "bytes": 675
+    }
+  ],
+  "raw_archives_downloaded": false,
+  "full_logs_downloaded": false,
+  "cloud_logging_read": false,
+  "download_verified_modified": false,
+  "ledger_modified": false,
+  "new_builds": 0,
+  "new_proof_credit": false,
+  "fix_prepared": false,
+  "candidate_readiness": "BLOCKED_PENDING_BOUNDED_ADMIN_RESPONSE; no corrected candidate identity",
+  "policy_read": "WORK-POLICY/COMPLETION-PLAN and Evidence Brief revision 2026-10-17; policy commit 584891be87db5c056bf9082c1ad24665eea74e69",
+  "next_action": "Administrator supplies bounded selection specified in ADMIN-AUDIT-REQUEST-20261017.md; no retry authorized. Ordinary future CI results remain smallsort-brief only."
+}

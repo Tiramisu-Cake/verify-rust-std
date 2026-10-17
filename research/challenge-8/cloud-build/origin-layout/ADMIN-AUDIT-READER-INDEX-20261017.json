@@ -1,0 +1,68 @@
+{
+  "aggregates": {},
+  "archive_sha256": "936446f35abbc5239c245f31c32d64a9a6531bf9ffc194c971e9a0ce6a314a65",
+  "build_id": "a7ad5ce8-2cba-415e-8d7f-6d4ca78ef125",
+  "cases": [],
+  "caveats": [
+    "No new proof performed by processor.",
+    "Verifier error lines are observational and need original-classifier review for causal status.",
+    "Archived inventory bytes SHA-256 verified; separate GCS text chunk bytes not fetched.",
+    "Agent session-level evaluation requires a separate session manifest."
+  ],
+  "identities": {
+    "infra_sha": "08b61d8162b1c01c840ed573847622a004232a05",
+    "proof_audit_path": "proof-audit.json",
+    "proof_sha": "08b61d8162b1c01c840ed573847622a004232a05",
+    "tool_profile": {
+      "baseline": {
+        "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+        "patches_in_application_order": [],
+        "rust_toolchain": "nightly-2026-09-25",
+        "scope": "stock baseline reference; not an execution claim",
+        "std_base_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+        "verifast_source_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+      },
+      "executed": {
+        "scope": "candidate profile not established by archived evidence",
+        "status": "unknown"
+      }
+    }
+  },
+  "integrity": {
+    "archive_inventory": {
+      "all_files_sha256_verified": true,
+      "excluded_metadata_verified": 2,
+      "unpacked_bytes": 630337,
+      "verified_files": 12
+    },
+    "metadata": "SHA-256_CROSS_REFERENCES_VERIFIED",
+    "text_log_index": {
+      "chunk_object_bytes": "NOT_CHECKED_IN_GCS",
+      "chunks": 5,
+      "cross_checked_inventory_sha": true,
+      "source_files": 5
+    }
+  },
+  "processing_status": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "processor_version": "0.3.0",
+  "proof_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "reported": {
+    "diagnostic_complete": false,
+    "evidence_complete": false,
+    "failure_class": "run-failed",
+    "lane": "merge",
+    "missing_mandatory": [
+      "allprooflogs/cases/*",
+      "allprooflogs stage logs/resource/exit files"
+    ],
+    "run_exit_code": 1,
+    "text_logs_complete": true,
+    "verification_accepted": false
+  },
+  "schema": "smallsort-evidence-index-v1",
+  "source": {
+    "archive_uri": "gs://smallsort-ci-evidence-504462351565/cloud-build/a7ad5ce8-2cba-415e-8d7f-6d4ca78ef125/evidence.tar.gz",
+    "bucket": "smallsort-ci-evidence-504462351565",
+    "original_prefix": "cloud-build/a7ad5ce8-2cba-415e-8d7f-6d4ca78ef125"
+  }
+}
