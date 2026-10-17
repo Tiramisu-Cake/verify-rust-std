@@ -1,0 +1,114 @@
+{
+  "a1_focus_semantics_sha256": {
+    "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+    "src/verifast1.ml": "bfbfb518fb9783afeeba9384e1431b6cd280c7da7713b9fdbfd15a8395b00207",
+    "src/verify_expr.ml": "c2246e54f06fe099b5ddb6ba500aba4f6186498b1a44cb8a51b3389b18fe8ca9",
+    "src/vfconsole/vfconsole.ml": "79179baa9ad9e9cb2ee5163f4c9528f665519d894c43093183fd8e9f31b06898"
+  },
+  "a1_helper_sha256": {
+    "a1-ast-gates.py": "ab0b86a8773f2300392b0ab56a00b8068df1ac78296835bcd9d3ff965f2b54b8",
+    "a1-call-binding.py": "ff79dc058385a6d1476a389022aeae7a063e6238695f9046d6b709e2f49ba27d",
+    "a1-compiler-inventory.py": "6b1cf336d7af59a92eaf023e9870b93de8b1b0b9aa74d20ceb42a636fbfd72dc",
+    "a1-contract-admission.py": "0ac3b182a24ba3a8cfd21588dd393f652e864bf54593ac7f4a5caaa473927ad4",
+    "a1-fixtures.py": "2e5dc197288f323cf200c3a0124ec8a4a1a53afe41b78bd878a5222a3aaed9c7",
+    "a1-focus-backend.py": "627de306d68790effbec95fde0a777bc8f889fcdced3afc0fdaae3ceb6de8075",
+    "a1-proof-classifier.py": "7a2070a3132bc7d4601565aebd25e0aea682520e3fbb32a6045ccdf276142a2e",
+    "a1-summary-receipt.py": "bcc55360698346f0aa2dfb3858c6b555a9104db95308116d2c16c188a9b8a7dd",
+    "a1-synthetic-backend.py": "5e97783d9cfa98388f0eae646e78432ebd35648cf79aa86ae423996dc72ad40f",
+    "a1-synthetic-inputs.py": "ef770ff0a2fb1ad02bafee1c6f850302b35f95972209cc6d7e85a6e8b0dd0cfd",
+    "a1-tool.py": "31237e0a435164bd14b73f6df2c5124df31d47b074f1623b3e37326ecf9b6e09",
+    "selected-proof.py": "3347ad41c0273ebf186dbcf0520182455b32a65ad9619f2b2c7d3d00c12a7d7f"
+  },
+  "base_translator_sha256": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64",
+  "c_after": {
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+    "src/rust_frontend/vf_mir_exporter/src/lib.rs": "469c377dfb9e3a249abd0fd4205a54ee1d41b091da41aca0f8fe07959e48e6bf",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "4e1c7e12dc67f3ea9f6305ea495f9503c170ad624612d0839dc8e8f00ae3a00d"
+  },
+  "c_before": {
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+    "src/rust_frontend/vf_mir_exporter/src/lib.rs": "469c377dfb9e3a249abd0fd4205a54ee1d41b091da41aca0f8fe07959e48e6bf",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "564a865b4a4b0ac6a05c55f9f1ece48f7517e614bf25f49816c34eebe269e6ed"
+  },
+  "c_patch_sha256": "e7cdc8a8504338ccaab760975c1a3f1a739211d7f8d531dd214babc2005d894e",
+  "caller_driver_sha256": "75df07539721e16e2329f94ebe392f8f3626ca106be906cfc0cc61345db4797a",
+  "caller_manifest_sha256": "cea1daca656e641f083aabc1eb8c62784edde889ae01470b339c719e3ba3c8d2",
+  "checkpoint_utc": "2026-10-17T01:44:06.996737+00:00",
+  "cloud_build_enabled": false,
+  "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+  "compiler_toolchain": "nightly-2026-09-25",
+  "dispatch_blockers": [
+    "P1 full small_sort required/impl signatures, scoped binder mapping and entire native pre/returning/unwind AST gate is absent",
+    "Full 26-row execution/admission lifecycle and N-false31 exact-pair two-body receipt are not integrated",
+    "900-second complete matrix feasibility/cache not reviewed; exact published proof/infra pins and recipe closure absent"
+  ],
+  "first_matrix_cases": {
+    "N-alpha-valid": "NOT_RUN",
+    "N-binder-collapse": "NOT_RUN",
+    "N-binding": "NOT_RUN",
+    "N-clause-redirect": "NOT_RUN",
+    "N-clauses": "NOT_RUN",
+    "N-default-contract": "NOT_RUN",
+    "N-duplicate": "NOT_RUN",
+    "N-false31": "NOT_RUN",
+    "N-free-region": "NOT_RUN",
+    "N-freeze-contract": "NOT_RUN",
+    "N-no-F": "NOT_RUN",
+    "N-region-swap": "NOT_RUN",
+    "N-source": "NOT_RUN",
+    "OFF": "NOT_RUN",
+    "P-dispatch": "NOT_RUN",
+    "P0a": "NOT_RUN",
+    "P0b": "NOT_RUN",
+    "P0c": "NOT_RUN",
+    "P1": "NOT_RUN",
+    "R1": "NOT_RUN",
+    "R2": "NOT_RUN",
+    "R3": "NOT_RUN",
+    "R4": "NOT_RUN",
+    "R5": "NOT_RUN",
+    "R6": "NOT_RUN",
+    "R7": "NOT_RUN"
+  },
+  "first_matrix_status": "NOT_RUN",
+  "infra_sha": null,
+  "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+  "local_validation": {
+    "compilation": "NOT_RUN",
+    "formal_verification": "NOT_RUN",
+    "kind": "isolated-synthetic-classifier-parser-only",
+    "result": "PASS",
+    "source_patch_application_and_sha256": "PASS",
+    "tests": 96
+  },
+  "owner": "select-sort4",
+  "phase": "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17",
+  "phase_id": "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17",
+  "pointer_width": 64,
+  "profile_accepted": false,
+  "proof_credit": false,
+  "proof_sha": null,
+  "r_after": {
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+    "src/rust_frontend/vf_mir_exporter/src/lib.rs": "469c377dfb9e3a249abd0fd4205a54ee1d41b091da41aca0f8fe07959e48e6bf",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "564a865b4a4b0ac6a05c55f9f1ece48f7517e614bf25f49816c34eebe269e6ed"
+  },
+  "r_before": {
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "src/rust_frontend/vf_mir_exporter/src/lib.rs": "11f1e10bb8e52a4950611f874b1123c11e2c87cbb1378c3f5060992f74425f00",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64"
+  },
+  "r_patch_sha256": "4c0a43a10d5e023af7c190ed801546cf9877448d8dde65b39a773d68707f5a5e",
+  "schema": "smallsort-a1-rcg-source-profile-v1",
+  "selected_base_translator_sha256": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64",
+  "stable_threshold_pins_sha256": "6d1753038cb1fe9b6ce933f025e905d1776aca4a418f747285208f8a2f0625ed",
+  "status": "NO_GO_CHECKPOINT_UNRUN",
+  "std_source_sha256": {
+    "library/core/src/marker.rs": "f7e098f8b9ad1a6dded90b81fd943afbe6c8d60934354838998880fe05f80755",
+    "library/core/src/slice/sort/shared/mod.rs": "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8",
+    "library/core/src/slice/sort/shared/smallsort.rs": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+    "library/core/src/slice/sort/stable/quicksort.rs": "4a41df6bc7c4e0a6fcb655fde9bf73ed62f3a675ca805f2f766919ce249d8f4c"
+  },
+  "target": "x86_64-unknown-linux-gnu",
+  "tool_head": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+}

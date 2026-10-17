@@ -1,0 +1,487 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -343,6 +343,187 @@
+   module VfMirCapnpAlias = Vf_mir_capnp_alias
+   module VfMirRd = VfMirCapnpAlias.VfMirRd
+   open VfMirCapnpAlias
++
++  (* A1 fixed safe threshold contract. Experimental, default OFF.  The
++     native contract is preserved syntactically in both outcome arms; only a
++     pure conjunction on returning(result) is added. This is not a mechanism
++     for trusting arbitrary user specifications on safe methods. *)
++  module Sort4A1Contract = struct
++    let reject why = failwith ("SORT4-A1-CONTRACT: " ^ why)
++    let focus_argument () =
++      let rec find result = function
++        | [] -> result
++        | "-focus"::value::rest -> find (value::result) rest
++        | "-focus"::[] -> reject "missing focus value"
++        | _::rest -> find result rest in
++      match find [] (Array.to_list Sys.argv) with
++      | [one] -> one
++      | _ -> reject "one explicit existing focus target required"
++    let observer_body_focus : string option ref = ref None
++    let observer_focus () = match !observer_body_focus with
++      | Some focus -> focus
++      | None -> reject "compiler observer focus not established"
++    let enabled () =
++      match Sys.getenv_opt "SORT4_A1_CHECKED_TRAIT_CONTRACT" with
++      | None | Some "0" -> false
++      | Some "1" ->
++          if Sys.getenv_opt "SMALLSORT_EXECUTION_PROVIDER" <> Some "cloud-build" ||
++             Sys.getenv_opt "SORT4_A1_PHASE_ID" <>
++               Some "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17" then
++            reject "exact authorized Cloud phase required";
++          if Args.ignore_unwind_paths || Args.skip_specless_fns ||
++             Args.ignore_ref_creation || Args.allow_ignore_ref_creation then
++            reject "native unwind and complete source inventory required";
++          List.iter (fun flag -> match Sys.getenv_opt flag with
++            | None | Some "0" -> ()
++            | _ -> reject ("conflicting legacy binding flag: " ^ flag))
++            ["SORT4_STABLE_METHOD_BINDING"; "SORT4_SELECTED_BRANCH_INTERFACE";
++             "SORT4_SELECTED_COMPILER_BINDING_VERIFIED"];
++          (match Sys.getenv_opt "SORT4_A1_STAGE" with
++           | None | Some "bodies" -> ignore (focus_argument ())
++           | Some "interface" ->
++               if focus_argument () <> "verified/lib.rs:0" then
++                 reject "interface representation stage cannot verify a body"
++           | Some "caller" -> ignore (focus_argument ())
++           | _ -> reject "unknown summary publication stage");
++          true
++      | _ -> reject "malformed opt-in"
++
++    let threshold = "StableSmallSortTypeImpl::small_sort_threshold"
++    let small_sort = "StableSmallSortTypeImpl::small_sort"
++    let is_common_item name = name = threshold || name = small_sort
++    let legacy_probe : (string -> D.generic_arg list -> unit) option ref = ref None
++    let force_legacy () =
++      match Sys.getenv_opt "SORT4_A1_FORCE_LEGACY_REDIRECT" with
++      | None | Some "0" -> false
++      | Some "1" -> true
++      | _ -> reject "malformed forced-redirect control"
++
++    (* The ordinary native trait envelope stays public before conformance;
++       the stronger range summary is published only for a caller invocation
++       bound to both actual-body receipts from this exact source/tool/build.
++       Receipts are trusted-runner reports, not kernel proof certificates. *)
++    let published_ids : (string * string * string * string) option ref = ref None
++    let publication_requested () =
++      match Sys.getenv_opt "SORT4_A1_STAGE" with
++      | None | Some "bodies" | Some "interface" -> false
++      | Some "caller" -> true
++      | _ -> reject "unknown summary publication stage"
++    let required_env name = match Sys.getenv_opt name with
++      | Some value when value <> "" -> value
++      | _ -> reject ("missing pinned identity: " ^ name)
++    let digest_file path =
++      let command = "/usr/bin/sha256sum" in
++      let ic = try Unix.open_process_args_in command
++          [|command; "--"; path|]
++        with Unix.Unix_error _ -> reject "SHA256 helper unavailable" in
++      let line = try input_line ic with End_of_file -> "" in
++      let status = Unix.close_process_in ic in
++      if status <> Unix.WEXITED 0 || String.length line < 66 then
++        reject ("missing or unhashed receipt input: " ^ path);
++      let hash = String.sub line 0 64 in
++      if not (String.for_all
++           (function '0'..'9' | 'a'..'f' -> true | _ -> false) hash) then
++        reject "malformed SHA256 receipt input";
++      hash
++    let check_publication_receipt () =
++      if not (publication_requested ()) then false else begin
++        let path = "a1-threshold-summary.receipt" in
++        let ic = try open_in_bin path with Sys_error _ ->
++          reject "both-impl summary receipt unavailable" in
++        let receipt = Fun.protect ~finally:(fun () -> close_in ic) (fun () ->
++          let length = in_channel_length ic in
++          if length > 2048 then reject "oversized summary receipt";
++          really_input_string ic length) in
++        let bin = Filename.dirname Sys.executable_name in
++        let tool = Filename.dirname bin in
++        let prefix = [
++          "SMALLSORT_A1_THRESHOLD_RECEIPT_V1";
++          "build=" ^ required_env "CLOUD_BUILD_ID";
++          "proof=" ^ required_env "PROOF_SHA";
++          "infra=" ^ required_env "INFRA_SHA";
++          "profile=" ^ required_env "SORT4_A1_PROFILE_SHA256";
++          "target=A1-FIRST-MATRIX-THRESHOLD-INTERFACE";
++          "caller=a1_guard_observer";
++          "focus=" ^ observer_focus ();
++          "verified_sha256=" ^ digest_file "verified/lib.rs";
++          "original_sha256=" ^ digest_file "original/lib.rs";
++          "verifier_sha256=" ^ digest_file Sys.executable_name;
++          "exporter_sha256=" ^ digest_file (Filename.concat bin "vf-rust-mir-exporter");
++          "schema_sha256=" ^ digest_file
++            (Filename.concat tool "src/rust_frontend/vf_mir/vf_mir.capnp")
++        ] in
++        let rows = String.split_on_char '\n' receipt in
++        let rec drop_prefix expected observed = match expected, observed with
++          | [], tail -> tail
++          | x::xs, y::ys when x=y -> drop_prefix xs ys
++          | _ -> reject "summary receipt source/tool/run pins differ" in
++        let number key value =
++          let prefix = key ^ "=" in
++          if not (String.starts_with ~prefix value) then
++            reject "summary receipt compiler identity field differs";
++          let id = String.sub value (String.length prefix)
++            (String.length value - String.length prefix) in
++          if id = "" || id = "0" ||
++             not (String.for_all (function '0'..'9' -> true | _ -> false) id)
++          then reject "summary receipt malformed compiler identity";
++          id in
++        (match drop_prefix prefix rows with
++         | [di; dt; fi; ft;
++            "assurance=runner-reported-both-actual-bodies-and-native-conformance";
++            ""] ->
++             let ids = number "default_impl" di, number "default_item" dt,
++               number "freeze_impl" fi, number "freeze_item" ft in
++             let di, dt, fi, ft = ids in
++             if List.length (List.sort_uniq String.compare [di;dt;fi;ft]) <> 4
++             then reject "summary receipt repeated compiler identities";
++             published_ids := Some ids
++         | _ -> reject "summary receipt lacks both actual-body conformance gates");
++        true
++      end
++
++    type implementation = {
++      impl_index : string; item_index : string; method_name : string;
++      body_name : string; applicability : string;
++    }
++    let inventory : implementation list ref = ref []
++    let index body = Stdint.Uint32.to_string (BodyRd.def_index_get body)
++    let body_entry body =
++      let id = index body in
++      List.find_opt (fun row -> row.item_index = id) !inventory
++    let rename body =
++      match body_entry body with
++      | Some row -> row.body_name
++      | None -> TrName.translate_def_path (BodyRd.def_path_get body)
++    let threshold_body body =
++      match body_entry body with
++      | Some row -> row.method_name = "small_sort_threshold"
++      | None -> false
++    let threshold_name name =
++      List.exists (fun row -> row.body_name = name &&
++        row.method_name = "small_sort_threshold") !inventory
++
++    let threshold_contract loc (pre, (outcome, post)) =
++      let open Ast in
++      match post with
++      | SwitchExpr (lp, Var (lv, x),
++          [SwitchExprClause (lr, "returning", [result], normal);
++           SwitchExprClause (lu, "unwinding", [], unwind)], None)
++        when x = outcome ->
++          let int n = IntLit
++            (loc, Big_int.big_int_of_int n, true, false, NoLSuffix) in
++          let value = Var (loc, result) in
++          let lower = Operation (loc, Le, [int 16; value]) in
++          let upper = Operation (loc, Le, [value; int 32]) in
++          let range = Operation (loc, And, [lower; upper]) in
++          let checked = SwitchExpr (lp, Var (lv, x),
++            [SwitchExprClause (lr, "returning", [result],
++               Sep (loc, normal, range));
++             SwitchExprClause (lu, "unwinding", [], unwind)], None) in
++          (* Keep [pre], [normal], and [unwind] as original AST subtrees. *)
++          pre, (outcome, checked)
++      | _ -> reject "native normal/unwind contract shape differs"
++  end
+ 
+   (* Narrow selected stable threshold binding; experimental/default off. *)
+   module Sort4StableCaller = struct
+@@ -3442,6 +3623,7 @@
+                     Static )) )
+       else
+       (* Todo @Nima: There should be a way to get separated source spans for args *)
++      let a1_original_callee = ref None in
+       let args = List.map (fun arg_cpn -> (arg_cpn, fn_loc)) args_cpn in
+       let* tmp_rvalue_binders, args =
+         Rocq_writer.rocq_print_big_record_field TranslatorArgs.rocq_writer "args" @@ fun () ->
+@@ -3473,6 +3655,31 @@
+               args,
+               Ast.Static (*method_binding*) )
+         in
++        (match !a1_original_callee with
++         | None -> ()
++         | Some original ->
++             (match call_expr with
++              | Ast.CallExpr (_, actual, targs, [], call_args, Ast.Static)
++                when original=actual ->
++                  let type_is name = function
++                    | Ast.IdentTypeExpr (_, None, actual) -> name=actual
++                    | _ -> false in
++                  let shape = if original=Sort4A1Contract.threshold then
++                    (match targs, call_args with
++                     | [t], [] -> type_is "T" t
++                     | _ -> false)
++                    else (match targs, call_args with
++                     | [t;f; Ast.InferredTypeExpr _; Ast.InferredTypeExpr _;
++                        Ast.InferredTypeExpr _], [_;_;_] ->
++                          type_is "T" t && type_is "F" f
++                     | _ -> false) in
++                  if not shape then Sort4A1Contract.reject
++                    "final common call AST lost generic/region arguments";
++                  Printf.printf
++                    "SORT4-A1-CALL-AST: original=%s actual=%s type_args=%d operands=%d redirect=false\n%!"
++                    original actual (List.length targs) (List.length call_args)
++              | _ -> Sort4A1Contract.reject
++                  "actual call AST redirects original common trait item"));
+         Ok (tmp_rvalue_binders, FnCallOutcome call_expr)
+       in
+       let* callee =
+@@ -3493,7 +3700,27 @@
+                   { kind = Lifetime { id = "'erased" } })
+           in
+           let fn_name, substs_cpn =
+-            if Sort4SelectedBranch.enabled () then begin
++            if Sort4A1Contract.enabled () &&
++               Sort4A1Contract.is_common_item fn_name then begin
++              a1_original_callee := Some fn_name;
++              if Sort4A1Contract.publication_requested () &&
++                 State.body_name = "a1_guard_observer" &&
++                 fn_name = Sort4A1Contract.small_sort then
++                Sort4A1Contract.reject
++                  "observer cannot consume an unproved small_sort summary";
++              if Sort4A1Contract.force_legacy () then
++                (match !(Sort4A1Contract.legacy_probe) with
++                 | Some probe -> probe fn_name substs_cpn
++                 | None -> Sort4A1Contract.reject "legacy probe resolver missing");
++              if fn_name = Sort4A1Contract.threshold &&
++                 (args_cpn <> [] ||
++                  substs_cpn <> [{D.kind=D.Type {kind=D.Param "T"}}]) then
++                Sort4A1Contract.reject "generic threshold call identity/arguments";
++              Printf.printf
++                "SORT4-A1-DISPATCH: original=%s translated=%s redirect=false\n%!"
++                fn_name fn_name;
++              fn_name, substs_cpn
++            end else if Sort4SelectedBranch.enabled () then begin
+               if fn_name = "StableSmallSortTypeImpl::small_sort_threshold" ||
+                  fn_name = "StableSmallSortTypeImpl::small_sort" then
+                 Sort4SelectedBranch.bind State.body_name Args.source_clauses fn_name
+@@ -6995,6 +7222,12 @@
+             (List.map TrName.lft_name_without_apostrophe internal_lifetime_params)
+             required_outlives required_send required_sync params result
+         in
++        let contract =
++          if Sort4A1Contract.enabled () && a1_required &&
++             name = "small_sort_threshold" &&
++             Sort4A1Contract.check_publication_receipt () then
++            Sort4A1Contract.threshold_contract loc contract
++          else contract in
+         Ok ((false, (None, None), Some contract, false), false))
+     in
+     if assume_correct then
+@@ -7814,7 +8047,8 @@
+     match def_kind with
+     | DefKind.Fn ->
+         let def_path = def_path_get body_cpn in
+-        let name = if Sort4SelectedBranch.enabled () then Sort4SelectedBranch.rename body_cpn
++        let name = if Sort4A1Contract.enabled () then Sort4A1Contract.rename body_cpn
++          else if Sort4SelectedBranch.enabled () then Sort4SelectedBranch.rename body_cpn
+           else if Sort4StableCaller.enabled () then Sort4StableCaller.rename body_cpn
+           else TrName.translate_def_path def_path in
+         Rocq_writer.rocq_print_tuple Args.rocq_writer @@ fun () ->
+@@ -8064,6 +8298,16 @@
+                   pre_post_template
+               else pre_post_template
+             in
++            let pre_post_template =
++              if Sort4A1Contract.enabled () &&
++                 Sort4A1Contract.threshold_body body_cpn then begin
++                if param_decls <> [] || lft_param_names <> [] ||
++                   outlives_clauses <> [] || send_tparams <> [] ||
++                   sync_tparams <> [] || contract_opt <> None then
++                  Sort4A1Contract.reject
++                    "actual threshold must retain unannotated zero-arg native contract";
++                Sort4A1Contract.threshold_contract fn_sig_loc pre_post_template
++              end else pre_post_template in
+             let contract_template =
+               (false, (None, None), Some pre_post_template, false)
+             in
+@@ -17566,9 +17810,30 @@
+         translate_trait_impls (VfMirRd.VfMir.trait_impls_get_list vf_mir_cpn)
+       in
+       let fn_specialisations =
+-        compute_trait_impl_fn_specialisations trait_impls @
++        (let impls = if Sort4A1Contract.enabled () then
++           List.filter (fun impl -> impl.of_trait <> "StableSmallSortTypeImpl")
++             trait_impls else trait_impls in
++         if Sort4A1Contract.enabled () && List.exists
++              (fun (name, _) -> Sort4A1Contract.is_common_item
++                (canonicalize_item_name name)) fn_specializations then
++           Sort4A1Contract.reject "explicit common-item specialization is forbidden";
++         compute_trait_impl_fn_specialisations impls) @
+         fn_specializations
+       in
++      if Sort4A1Contract.enabled () && Sort4A1Contract.force_legacy () then begin
++        let legacy = compute_trait_impl_fn_specialisations trait_impls in
++        Sort4A1Contract.legacy_probe := Some (fun name substs ->
++          let candidates = List.filter (fun (key, _) ->
++            canonicalize_item_name key=name) legacy in
++          let redirected = List.find_map (fun (_, resolve) -> resolve substs)
++            candidates in
++          match redirected with
++          | Some (target, _) when target<>name ->
++              Sort4A1Contract.reject
++                "legacy clause-ignoring redirect attempted at common call"
++          | _ -> Sort4A1Contract.reject
++              "INCONCLUSIVE: forced legacy resolver did not produce a redirect")
++      end;
+       let fn_specialisations_table = Hashtbl.create 10 in
+       Hashtbl.add_seq fn_specialisations_table (List.to_seq fn_specialisations);
+       let fn_specializer trait_fn substs =
+@@ -17622,13 +17887,118 @@
+       let* traits_cpn =
+         CapnpAux.ind_list_get_list (VfMirRd.VfMir.traits_get vf_mir_cpn)
+       in
++      let bodies_cpn = VfMirRd.VfMir.bodies_get_list vf_mir_cpn in
++      (* Bind the caller focus before translating the required contract, whose
++         receipt parser uses that exact compiler span. Full impl inventory and
++         receipt-ID reconciliation still gate all later body/call translation. *)
++      if Sort4A1Contract.enabled () then begin
++        let open Sort4A1Contract in
++        observer_body_focus := None;
++        published_ids := None;
++        if publication_requested () then begin
++          let observers = List.filter (fun body ->
++            BodyRd.def_path_get body = "a1_guard_observer") bodies_cpn in
++          (match observers with
++           | [body] ->
++               let loc = Result.get_ok
++                 (translate_span_data (BodyRd.span_get body)) in
++               let (file, line, _), _ = Ast.lexed_loc loc in
++               let actual_file = try Unix.realpath file with _ ->
++                 reject "cannot resolve actual observer focus source" in
++               if actual_file <> Unix.realpath "verified/lib.rs" then
++                 reject "actual observer focus is outside certified source";
++               observer_body_focus := Some ("verified/lib.rs:" ^ string_of_int line)
++           | _ -> reject "one actual compiler observer body required");
++          if focus_argument () <> observer_focus () then
++            reject "caller summary is restricted to the actual compiler observer"
++        end;
++      end;
+       let* traits_decls =
+         ListAux.try_map
+           (translate_trait adt_defs Args.skip_specless_fns)
+           traits_cpn
+       in
+       let traits_decls = List.flatten traits_decls in
+-      let bodies_cpn = VfMirRd.VfMir.bodies_get_list vf_mir_cpn in
++      if Sort4A1Contract.enabled () then begin
++        let open Sort4A1Contract in
++        inventory := [];
++        let impls = List.filter (fun impl ->
++          impl.of_trait = "StableSmallSortTypeImpl") trait_impls in
++        if List.length impls <> 2 then reject "exactly two actual impls required";
++        let sized = D.Trait {def_id="std::marker::Sized";
++          args=[{kind=D.Type {kind=D.Param "T"}}]; bound_regions=[]} in
++        let freeze = D.Trait {def_id="FreezeMarker";
++          args=[{kind=D.Type {kind=D.Param "T"}}]; bound_regions=[]} in
++        let applicability = ref [] in
++        List.iter (fun impl ->
++          if impl.is_unsafe || impl.is_negative ||
++             impl.gen_args <> [{D.kind=D.Type {kind=D.Param "T"}}] ||
++             List.map (fun (p : D.generic_param_def) -> p.name, p.kind)
++               impl.generics <> [("T", D.Type)] then
++            reject "generic impl domain/identity differs";
++          let kind = if impl.clauses = [sized] then "default"
++            else if impl.clauses = [sized; freeze] then "freeze"
++            else reject "impl applicability clauses differ" in
++          if List.mem kind !applicability then reject "duplicate impl applicability";
++          applicability := kind :: !applicability;
++          let impl_index = Stdint.Uint32.to_string
++            (TraitImplRd.def_index_get impl.trait_impl_cpn) in
++          let items = TraitImplRd.items_get_list impl.trait_impl_cpn in
++          if List.sort String.compare
++               (List.map VfMirRd.TraitImplItem.name_get items) <>
++             ["small_sort"; "small_sort_threshold"] then
++            reject "full impl method inventory differs";
++          List.iter (fun item ->
++            let method_name = VfMirRd.TraitImplItem.name_get item in
++            let item_index = Stdint.Uint32.to_string
++              (VfMirRd.TraitImplItem.def_index_get item) in
++            if List.exists (fun row -> row.item_index = item_index)
++                 !inventory then reject "duplicate compiler item identity";
++            let bodies = List.filter (fun body -> index body = item_index)
++              bodies_cpn in
++            (match bodies with
++             | [body] when BodyRd.def_path_get body =
++                   "<T as StableSmallSortTypeImpl>::" ^ method_name ->
++                 let body_generics = BodyRd.impl_block_generics_get_list body
++                   |> List.map D.decode_generic_param_def in
++                 let body_clauses = BodyRd.impl_block_clauses_get_list body
++                   |> List.map D.decode_clause in
++                 if body_generics<>impl.generics || body_clauses<>impl.clauses then
++                   reject "compiler body/impl generic or applicability binding differs"
++             | _ -> reject "compiler impl item does not identify one actual body");
++            let body_name = "__a1_impl_" ^ impl_index ^ "_item_" ^ item_index ^
++              "_" ^ method_name in
++            inventory := {impl_index; item_index; method_name; body_name;
++              applicability=kind} :: !inventory) items) impls;
++        if List.length (List.sort_uniq String.compare
++             (List.map (fun row -> row.impl_index) !inventory)) <> 2 then
++          reject "distinct compiler impl identities required";
++        if not (publication_requested ()) &&
++           Sys.getenv_opt "SORT4_A1_STAGE" <> Some "interface" then begin
++          let allowed = bodies_cpn |> List.filter_map (fun body ->
++            if not (threshold_body body) then None else
++            let loc = Result.get_ok
++              (translate_span_data (BodyRd.span_get body)) in
++            let (file, line, _), _ = Ast.lexed_loc loc in
++            let actual_file = try Unix.realpath file with _ ->
++              reject "cannot resolve actual body focus source" in
++            if actual_file <> Unix.realpath "verified/lib.rs" then
++              reject "actual body focus is outside certified source";
++            Some ("verified/lib.rs:" ^ string_of_int line)) in
++          if not (List.mem (focus_argument ()) allowed) then
++            reject "body stage cannot verify another method or generic caller"
++        end;
++        (match !published_ids with
++         | None -> ()
++         | Some (di, dt, fi, ft) ->
++             let same applicability impl_index item_index =
++               List.filter (fun row -> row.applicability=applicability &&
++                 row.method_name="small_sort_threshold" &&
++                 row.impl_index=impl_index && row.item_index=item_index)
++                 !inventory |> List.length = 1 in
++             if not (same "default" di dt && same "freeze" fi ft) then
++               reject "summary receipt differs from actual compiler impl inventory")
++      end;
+       if Sort4StableCaller.enabled () then begin
+         Sort4StableCaller.check_source ();
+         let names = List.map (fun body ->
+@@ -18118,7 +18488,34 @@
+       let traits_and_body_decls = traits_decls @ List.map snd body_decls in
+       let debug_infos = VF0.DbgInfoRustFe debug_infos in
+       let trait_impl_prototypes =
+-        compute_trait_impl_prototypes adt_defs traits_and_body_decls trait_impls
++        let impls = if Sort4A1Contract.enabled () then
++          List.filter (fun impl -> impl.of_trait <> "StableSmallSortTypeImpl")
++            trait_impls else trait_impls in
++        let ordinary = compute_trait_impl_prototypes
++          adt_defs traits_and_body_decls impls in
++        if not (Sort4A1Contract.enabled ()) then ordinary else begin
++          let common = List.filter_map (function
++            | Ast.Func (_, Ast.Regular, _, Some rt, name, [], false,
++                (None, None), Some contract, false, None, false, [])
++              when name = Sort4A1Contract.threshold -> Some (rt, contract)
++            | _ -> None) traits_decls in
++          let rt, contract = match common with [one] -> one
++            | _ -> Sort4A1Contract.reject "exact-one common threshold prototype required" in
++          let contract = if Sort4A1Contract.publication_requested () then contract
++            else Sort4A1Contract.threshold_contract
++              (Ast.type_expr_loc rt) contract in
++          let prototypes = body_decls |> List.filter_map (fun (_, decl) ->
++            match decl with
++            | Ast.Func (loc, Ast.Regular, tparams, Some _, name, [], false,
++                (None, None), Some _, false, Some _, false, [])
++              when Sort4A1Contract.threshold_name name ->
++                Some (Ast.Func (loc, Ast.Regular, tparams, Some rt, name, [],
++                  false, (None, None), Some contract, false, None, false, []))
++            | _ -> None) in
++          if List.length prototypes <> 2 then
++            Sort4A1Contract.reject "both actual threshold conformance prototypes required";
++          ordinary @ prototypes
++        end
+       in
+       (* Hack: for structs, functions, and other item-likes inside modules we
+          currently generate toplevel VF declarations with paths as names. However, to properly resolve names inside those declarations,
