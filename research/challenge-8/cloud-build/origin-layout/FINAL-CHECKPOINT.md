@@ -89,3 +89,103 @@ Build `30bce9a0-29e8-4535-9060-ee6d9df2dccc`, rawFAILURE; proof=infra `9e15014b5
 T0 00:19:22Z, main01:19:22Z, absolute01:49:22Z; Buildfinished00:48:04Z in originalwindow. Completion resumed08:38:07Z under owner20min allowance; no newproof/Build. Account CLOSED **543/960s;417 retired**, previous1564retired/no carryover. Own active/request/reservation/unresolved none; v3/max3 unchanged. Policy6e1a8e59c56669abe5e6ec2013478e45ed2cc267/ACK1e65f562994220a909ccf97903c36cb054576b76 confirmed.
 
 Next needs a separate owner decision on exact-u64 HRTB and first Continue-unwind recovery; new semantics need separate scope/profile/regression gate. Additional session is not opened. [Checkpoint](cloud-build/origin-layout/FINAL-CHECKPOINT.md) · [Exact result](cloud-build/origin-layout/SHARED-REF-SESSION3-RESULT.json) · [Experiment card](cloud-build/origin-layout/ACTUAL-INSERT-TAIL-B2-CARD.md).
+
+
+## Первое actual comparator: задание закрыто — 2026-10-17
+
+**INCONCLUSIVE: Evidence Brief недостаточен. Нового proof credit нет.**
+История предыдущих трёх сессий, их failures, pins и закрытые счета сохранены.
+Worktree `/root/verify-rust-std-merge-origin`, ветка `merge/incoming-origin-20261009`,
+owner `merge`. Локальные инструкции Evidence Brief сохранены коммитом `584891be`.
+Semantic card записана до реализации; независимый review получен до Cloud.
+
+Подготовлена узкая поддержка concrete-u64 FnMut/HRTB с сохранением compiler
+Trait/Output binders и проверками call-local instantiation. Новый opt-in протокол
+восстанавливает ghost-ресурсы первого Call через локальный выход из strict
+lifetime block; normal successor и исходный Continue сохранены. Official refiner
+по default-off флагу проверяет это ребро после сравнения callee/operands.
+Поздний Cleanup → настоящий guard Drop → Resume остаётся отдельным путём.
+Kernel, memory/alias/layout model, prelude, runtime std и generic signatures
+не изменены. Новых supplied receiver/FBC/origin/end/gap permissions нет.
+
+Подготовлены source-linked prefix с явным cut перед tail.read/ManuallyDrop/guard,
+отдельная full-body diagnostic с неизменными конечными CURRENT posts, четыре
+resource negatives, HRTB/Output/binder controls, official unwind mutant,
+late-Cleanup refusal и восемь прежних HRTB cases. Сохранены обязательные B1,
+normal/unwind, receiver/end/retirement/default-off проверки. Статический GO
+подтверждает готовность эксперимента, а не доказательство этих обязательств.
+
+### Точные pins отправленного Build
+
+- Proof = infra: `08b61d8162b1c01c840ed573847622a004232a05`.
+- Tool: `d928cb1d7ac60c257daa537fa65577f41135f832`, parent `a158398e`.
+- Profile: `experimental-merge-first-callback-u64-v1`, SHA256
+  `300fd8a7172c1644552b43c5bfda51a7c8a620f505012abd3760772df55102e3`.
+- Новый патч после прежних 13: SHA256
+  `b7bf867409fbf6fc6c0a9dcc25d3b286a94365380c30e4b3081dbd3f5708929d`.
+- Compiler: nightly-2026-09-25 / `f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f`, x86_64.
+- SmallSort SHA256 `85c75bc9…`, actual insert_tail `9bc00f39…` сохранены.
+  Полные значения находятся в semantic card и machine pins.
+- Прежний v8 profile сохранён побайтно: `GLUE-PROFILE-V8-20261012.json`, SHA256
+  `0e67b038f940a9892dcb840747fbcc340532a31649979601af545acc41a0c68b`.
+- Source payload: SHA256 `0617dda2…`, 428955 bytes, 144/191 transport parts.
+  Config SHA256 `242fa7da…`; полные значения — в pins/result.
+
+Профиль остаётся EXPERIMENTAL / NOT_ACCEPTED / NOT_FOR_INTEGRATION.
+Tool source закоммичен локально; опубликованный патч точно воспроизводит delta.
+Исходники и документация опубликованы только в своей ветке форка.
+Upstream push, Actions dispatch и внешних сообщений не было.
+
+### Результат и ограничение Evidence Brief
+
+Единственный Build **`a7ad5ce8-2cba-415e-8d7f-6d4ca78ef125`**, terminal **FAILURE**.
+Create `01:02:28.345404400Z`, start `01:02:29.219956161Z`, finish `01:04:10.488849Z`.
+После terminal выполнено `smallsort-brief BUILD_UUID`.
+
+Brief: `VERIFIED_ARCHIVE_AND_INVENTORY`; source-reported verdict
+`NOT_ACCEPTED_AS_REPORTED`, run exit 1, `evidence_complete=False`.
+Проверены SHA256 12 inventory files; 2 metadata exceptions cross-checked;
+5 text-index entries/chunks, remote chunk bytes не проверены.
+Archive SHA256 prefix `936446f35abbc523`.
+**Campaign aggregate, representative cases и стадия отказа в Brief отсутствуют.**
+Целостность архива не означает успешную verification. Raw archives, полные logs,
+Cloud Logging и локальные raw evidence не читались; download_verified не менялся.
+Brief прежнего Build `30bce9a0` также получен: его array error130 остаётся
+наблюдением/source claim, а не независимо установленной причиной.
+
+| Обязательство этого Build | Что установлено |
+| --- | --- |
+| Корректный FnMut/HRTB контракт, сверх регистрации/достижения Call | Не установлено; отсутствует в Brief |
+| Normal false: полные CURRENT ресурсы раннего возврата | Не установлено; отсутствует в Brief |
+| Normal true: ресурсы перед tail.read/guard | Не установлено; отсутствует в Brief |
+| Первый panic: оба loans, initialized array3/owners, CURRENT F, thread/type/lifetime/caller frame, исходный Continue | Не установлено; отсутствует в Brief |
+| Prefix theorem и следующий full-body frontier | Не установлено; отсутствует в Brief |
+| Official first-unwind refinement и intended mutant rejection | Не установлено; отсутствует в Brief |
+| Resource/HRTB/binder/late-Cleanup negatives и новые B1/regressions | Не установлено; отрицательного credit нет |
+
+**Первый установленный blocker — граница отчётности:** в Brief нет данных,
+позволяющих определить стадию/причину отказа. Нельзя назвать это compiler,
+exporter, refiner или resource-proof failure либо вывести NOT_RUN/PASS из
+отсутствия cases. Причина требует отдельно разрешённого административного audit.
+B2 и процент покрытия не повышены: full shift, updated gap, late panic,
+настоящий cleanup/Drop и полные caller posts остаются открытыми.
+Generic T, ZST и объединение с профилем I не входили в задание.
+
+### Счёт и следующий шаг
+
+T0 `00:32:42Z`, main deadline `02:32:42Z`, finishing-only deadline `03:02:42Z`.
+Завершение без использования extension. Coordinator учёл **103/960 Cloud seconds**;
+API execution interval округлён до 102 s. **857 unused seconds retired**,
+без carryover и автоматического retry. Единственный Build израсходован.
+Счёт CLOSED `01:06:46.731264Z`; своих active/reservation/unresolved/request нет.
+Existing v3/max3 и чужое состояние сохранены. Длительности compilation,
+extraction/proof/setup отдельно не сообщены; create→finish не является proof time.
+
+Следующий шаг — **отдельно разрешённый administrative audit** для определения
+стадии отказа, затем конкретное исправление и новый отдельно разрешённый счёт
+Cloud, если потребуется. Работа после закрытия этой сессии не обещается.
+
+[Exact result](FIRST-CALLBACK-RESULT-20261017.json) ·
+[Pins](FIRST-CALLBACK-PINS-20261017.json) ·
+[Semantic card](FIRST-CALLBACK-SEMANTIC-CARD-20261017.md) ·
+[Independent review](FIRST-CALLBACK-REVIEW-20261017.md).

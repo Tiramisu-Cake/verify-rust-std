@@ -5,11 +5,34 @@
     "merge"
   ],
   "ceiling_build_seconds": 960,
-  "used_build_seconds": 0,
-  "remaining_build_seconds": 960,
-  "builds": [],
+  "used_build_seconds": 103,
+  "remaining_build_seconds": 857,
+  "builds": [
+    {
+      "dispatch_token": "dispatch-c8c18bb85d8b45629229911846201986",
+      "owner": "merge",
+      "phase_id": "MERGE-FIRST-CALLBACK-CLOUD-2026-10-17",
+      "infra_sha": "08b61d8162b1c01c840ed573847622a004232a05",
+      "proof_sha": "08b61d8162b1c01c840ed573847622a004232a05",
+      "lane": "merge",
+      "submitted_config_sha256": "242fa7dac0a4125da540da05d2873acffd53c78032c150197a51dd8397d6c38d",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "0617dda2b91fe83f949dfd35583cbfc1d2c442671680609c58b1356a578841ce",
+      "build_id": "a7ad5ce8-2cba-415e-8d7f-6d4ca78ef125",
+      "start_time": "2026-10-17T01:02:29.219956161Z",
+      "finish_time": "2026-10-17T01:04:10.488849Z",
+      "create_time": "2026-10-17T01:02:28.345404400Z",
+      "build_seconds": 103,
+      "accounted": true,
+      "execution_seconds": 102
+    }
+  ],
   "active_build": null,
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "start_utc": "2026-10-17T00:32:42Z",
   "main_deadline_utc": "2026-10-17T02:32:42Z",
   "deadline_utc": "2026-10-17T03:02:42Z",
@@ -17,5 +40,8 @@
   "max_timeout_seconds": 900,
   "authorization": "Direct owner assignment 2026-10-17: source-bound concrete-u64 FnMut/HRTB, first actual comparator normal false/true and Continue-unwind CURRENT recovery; narrow official first-edge refinement check. Semantic card before implementation, independent review and exact new experimental pins before one Build; if not ready, no speculative launch. Fresh960s,120min main+30 finishing; no carryover. Existing v3 coordinator; Evidence Brief only.",
   "policy_revision": "6e1a8e59c56669abe5e6ec2013478e45ed2cc267",
-  "evidence_policy_revision": "2026-10-17"
+  "evidence_policy_revision": "2026-10-17",
+  "closed_utc": "2026-10-17T01:06:46.731264Z",
+  "retired_unused_seconds": 857,
+  "closing_reason": "Single authorized Build consumed; terminal FAILURE; Evidence Brief incomplete, no campaign/stage/cases reported. No retry or carryover; raw audit requires separate explicit authorization."
 }

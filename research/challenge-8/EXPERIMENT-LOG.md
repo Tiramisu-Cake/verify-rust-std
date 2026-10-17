@@ -6859,3 +6859,8 @@ separate. Source/runtime/kernel/model/prelude constraints preserved. Brief of
 30bce9a0 obtained without raw fallback: archive/inventory integrity, source
 NOT_ACCEPTED, observed array error130; not independently established cause.
 Next immutable-input preflight and one Build only if candidate ready.
+
+
+### First-callback one-Build outcome
+
+Builda7ad5ce8-2cba-415e-8d7f-6d4ca78ef125 at proof=infra08b61d8162b1c01c840ed573847622a004232a05 terminalFAILURE. Required Brief: archive/inventoryverified, sourceNOT_ACCEPTED/evidence_completeFalse,12files/5textentries, no campaign/cases/stage. No formal/negative credit and no causal stage inferred. Accountclosed103/960,857retired/no retry; local proof/compilation/raw evidence never run/read. Prepared/reviewed tool d928cb1d/profile300fd8a7/patchb7bf8674 retained for concrete review/audit. Final detailed checkpoint and exact result: cloud-build/origin-layout/FINAL-CHECKPOINT.md and FIRST-CALLBACK-RESULT-20261017.json.

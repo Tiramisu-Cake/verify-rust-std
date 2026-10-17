@@ -364,3 +364,8 @@ before any dispatch; otherwise checkpoint prepared work without speculative CI.
 Policy6e1a8e59/adoption1e65f562 read; Evidence Brief owner revision2026-10-17
 preserved in commit584891be. Previous three sessions above remain historical.
 No new proof credit yet; B2 open, experimental profiles not accepted.
+
+
+### First-callback assignment closed
+
+Builda7ad5ce8 terminalFAILURE; Brief incomplete/no campaign or cases; no normal/unwind proof credit. Account103/960s,857retired, oneBuildconsumed/no retry; ownactive/requestnone. Exactproof=infra08b61d81/toold928cb1d/profile300fd8a7. See final section FINAL-CHECKPOINT.md and FIRST-CALLBACK-RESULT-20261017.json. Next cause requires separately authorized admin audit; no raw fallback.

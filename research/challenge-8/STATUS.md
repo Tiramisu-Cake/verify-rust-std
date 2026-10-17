@@ -1,29 +1,32 @@
-# MERGE — first actual comparator, separate limited assignment
+# MERGE — первое comparator: CLOSED / INCONCLUSIVE
 
-Authorized phase MERGE-FIRST-CALLBACK-CLOUD-2026-10-17, owner merge;
-worktree /root/verify-rust-std-merge-origin, branch merge/incoming-origin-20261009.
-T0 00:32:42Z; main02:32:42Z; finishing-only03:02:42Z.
-Fresh960 Cloudseconds, one Build timeout<=900, no carryover or automatic retry.
-No new Build submitted yet; current spend0. Existing v3 coordination unchanged.
+Нового normal/unwind proof credit нет. Подготовлены и независимо статически
+проверены concrete-u64 HRTB, локальное восстановление первого Continue и узкая
+проверка official refiner. Prefix явно обрезан перед tail.read; полное тело и
+конечные posts сохранены отдельно. B2 остаётся открытым.
 
-Prepared source-bound concrete-u64 HRTB + local first-Continue ghost recovery,
-with independent static review. Tool d928cb1d7ac60c257daa537fa65577f41135f832;
-new experimental profile experimental-merge-first-callback-u64-v1, NOT_ACCEPTED /
-NOT_FOR_INTEGRATION. Kernel/model/prelude/runtime std frozen. Actual first false,
-true and panic recovery are NOT_RUN/NOT_PROVED. Prefix explicitly cuts before
-tail.read; complete-body diagnostic retains all final CURRENT normal/unwind posts.
-Late Cleanup/Drop/Resume remains distinct and unqualified. B2 OPEN.
+Build **a7ad5ce8-2cba-415e-8d7f-6d4ca78ef125**: terminal FAILURE.
+`smallsort-brief`: VERIFIED_ARCHIVE_AND_INVENTORY, source NOT_ACCEPTED,
+evidence_complete=False, 12 inventory files / 5 text entries; **нет campaign,
+cases или стадии отказа**. Первый установленный blocker — недостаточность Brief
+для определения причины. Нельзя выводить compiler/proof failure, NOT_RUN или PASS.
+Raw evidence не читались, download_verified не повышался.
 
-Prior third session preserved: Build30bce9a0-29e8-4535-9060-ee6d9df2dccc,
-proof/infra9e15014b, toola158398e. Historical B1 boundednormal result unchanged.
-Its Evidence Brief obtained this session: VERIFIED_ARCHIVE_AND_INVENTORY,
-NOT_ACCEPTED_AS_REPORTED; recorded first observed array post error at130;
-Brief does not independently establish causal blocker/proof acceptance.
-No raw logs/archives read; no historical ledger/evidence mutations.
+Proof = infra `08b61d8162b1c01c840ed573847622a004232a05`;
+tool `d928cb1d7ac60c257daa537fa65577f41135f832`;
+profile `300fd8a7172c1644552b43c5bfda51a7c8a620f505012abd3760772df55102e3`,
+experimental-merge-first-callback-u64-v1, NOT_ACCEPTED / NOT_FOR_INTEGRATION.
+Kernel/model/prelude/runtime std сохранены. История трёх сессий и прежний B1
+в bounded normal domain не переписаны. Инструкции Evidence Brief сохранены в584891be.
 
-[Semantic card](cloud-build/origin-layout/FIRST-CALLBACK-SEMANTIC-CARD-20261017.md) ·
-[Independent review](cloud-build/origin-layout/FIRST-CALLBACK-REVIEW-20261017.md) ·
-[Exact candidate pins](cloud-build/origin-layout/FIRST-CALLBACK-PINS-20261017.json) ·
-[Separate ledger](cloud-build/origin-layout/FIRST-CALLBACK-BUDGET-20261017.json).
-Next: immutable-input preflight, then at most one exact-SHA Build if ready;
-after terminal only smallsort-brief UUID. Missing gates/Brief limit claims.
+Отдельный счёт owner merge CLOSED: **103/960 s, 857 s retired**; один Build
+израсходован, carryover/retry нет. T0 00:32:42Z, main02:32:42Z,
+absolute03:02:42Z; закрыт01:06:46.731264Z. Своих active/request/unresolved нет;
+existing v3/max3 сохранён.
+
+Следующий шаг требует отдельно разрешённого admin audit для определения стадии;
+затем конкретное исправление и отдельно разрешённый новый Build при необходимости.
+[Checkpoint](cloud-build/origin-layout/FINAL-CHECKPOINT.md) ·
+[Result](cloud-build/origin-layout/FIRST-CALLBACK-RESULT-20261017.json) ·
+[Pins](cloud-build/origin-layout/FIRST-CALLBACK-PINS-20261017.json) ·
+[Review](cloud-build/origin-layout/FIRST-CALLBACK-REVIEW-20261017.md).
