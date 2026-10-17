@@ -6842,3 +6842,20 @@ T0 2026-10-12T00:19:22Z; main01:19:22Z, absolute01:49:22Z. Build finished00:48:0
 Build **30bce9a0-29e8-4535-9060-ee6d9df2dccc**, rawFAILURE, proof=infra **9e15014b5c62f94eb797e044d1f4ca9bd8cb74f1**. Tool **a158398e336edce9817f62a55733a3470a986d7b**, profile **0e67b038f940a9892dcb840747fbcc340532a31649979601af545acc41a0c68b**, EXPERIMENTAL/NOT_ACCEPTED/NOT_FOR_INTEGRATION unchanged. Originalsource d5a1f33a06115a3a23918afe054191227ca29d990fb199147d23ec4f6531bc26 / verified7501d1b03a53252929e1776c36acc33587c3cf6f60ee9c90e532ed3f55d31fc9; ghoststrip exact, fullposts hash778eeee10b9fa0a1fa66194f0035cffb5c40916189216c38275b5c43b9093d49. Artifactidentities and source/stagereceipts in [compactresult](cloud-build/origin-layout/SHARED-REF-SESSION3-RESULT.json). Log2bd6af00d485cba410ab51542fae7f80c99d6cd202d5fd6d4b1bc8f1ac48bce9; archive8adafda11fba216005943f9aa5709ae7b3ce55c97e74a900f34105a956b3e98b. Fullarchive/inventory/config/source-input/uploadreceipt/index/alltextchunks integrityverified; previousverdicts unchanged, noclassifier replay or secondBuild.
 
 Account CLOSED **543/960 seconds**, **417 unused retired**, previous1564 retired/no carryover. OneBuild terminal/accounted/downloadverified. Ownactive/reservation/unresolved/request none afterinstalledclient reconciliation/withdrawal; coordinatorv3/max3 unchanged, no manualforeignmutations. Source/toolworktrees preserved; onlyownprojectbranchpublication. NoActions/merge/upstream/externalmessages. Newsessionnotautomaticallyopened. Nextrequiresseparateownerdecision onconcreteu64HRTB and firstContinue-unwind callbackresource recovery; iftrustedsemantics needed, separatecard/profile/admissionregression beforeimplementation.
+
+
+## 2026-10-17 — first actual comparator, preparation before one Build
+
+Separate owner merge assignment; semantic card recorded before implementation.
+Original three sessions/checkpoints/ledgers retained. New tool d928cb1d,
+profile experimental-merge-first-callback-u64-v1: compiler-clause Trait binder
+preservation + exactu64 HRTB, first-call-only local strict-scope Continue recovery,
+default-off official first-edge comparison. Independent static review/fixes
+recorded in cloud-build/origin-layout/FIRST-CALLBACK-REVIEW-20261017.md.
+Four resource negatives and HRTB/binder/officialedge/lateCleanup/old8 controls
+prepared; B1 mandatory existing campaign retained. No new proof result or Cloud
+spend. Actual prefix cut before tail.read is partial; fullbody unchangedposts
+separate. Source/runtime/kernel/model/prelude constraints preserved. Brief of
+30bce9a0 obtained without raw fallback: archive/inventory integrity, source
+NOT_ACCEPTED, observed array error130; not independently established cause.
+Next immutable-input preflight and one Build only if candidate ready.

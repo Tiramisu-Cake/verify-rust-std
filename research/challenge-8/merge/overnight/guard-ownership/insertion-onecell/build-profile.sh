@@ -117,7 +117,7 @@ if [[ -n "${SMALLSORT_MERGE_PROFILE:-}" ]]; then
   python3 - "$SMALLSORT_MERGE_PROFILE" "$selected_patch" <<'SELECTEDPIN'
 import hashlib,json,pathlib,sys
 profile,patch=map(pathlib.Path,sys.argv[1:]);p=json.loads(profile.read_text())
-assert p['profile']=='experimental-merge-actual-glue-body-v8' and p['accepted'] is False
+assert p['profile'] in ('experimental-merge-actual-glue-body-v8', 'experimental-merge-first-callback-u64-v1') and p['accepted'] is False
 assert hashlib.sha256(patch.read_bytes()).hexdigest()==p['selected_drop_patch_sha256']
 SELECTEDPIN
   git -C "$new_home" apply --check "$selected_patch"
@@ -127,7 +127,7 @@ SELECTEDPIN
   python3 - "$SMALLSORT_MERGE_PROFILE" "$glue_patch" <<'GLUEPIN'
 import hashlib,json,pathlib,sys
 p=json.loads(pathlib.Path(sys.argv[1]).read_text());patch=pathlib.Path(sys.argv[2])
-assert p['profile']=='experimental-merge-actual-glue-body-v8' and p['accepted'] is False
+assert p['profile'] in ('experimental-merge-actual-glue-body-v8', 'experimental-merge-first-callback-u64-v1') and p['accepted'] is False
 assert hashlib.sha256(patch.read_bytes()).hexdigest()==p['glue_observation_patch_sha256']
 GLUEPIN
   git -C "$new_home" apply --check "$glue_patch"
@@ -137,12 +137,31 @@ GLUEPIN
   python3 - "$SMALLSORT_MERGE_PROFILE" "$body_patch" <<'BODYPIN'
 import hashlib,json,pathlib,sys
 p=json.loads(pathlib.Path(sys.argv[1]).read_text());patch=pathlib.Path(sys.argv[2])
-assert p['profile']=='experimental-merge-actual-glue-body-v8' and p['accepted'] is False
+assert p['profile'] in ('experimental-merge-actual-glue-body-v8', 'experimental-merge-first-callback-u64-v1') and p['accepted'] is False
 assert hashlib.sha256(patch.read_bytes()).hexdigest()==p['glue_body_patch_sha256']
 BODYPIN
   git -C "$new_home" apply --check "$body_patch"
   git -C "$new_home" apply --whitespace=error "$body_patch"
   cp "$body_patch" "$evidence/glue-body.patch"
+fi
+if [[ -n "${SMALLSORT_MERGE_PROFILE:-}" ]]; then
+  first_patch="$here/../../../../cloud-build/origin-layout/first-callback.patch"
+  apply_first=$(python3 - "$SMALLSORT_MERGE_PROFILE" "$first_patch" <<'FIRSTPIN'
+import hashlib,json,pathlib,sys
+p=json.loads(pathlib.Path(sys.argv[1]).read_text())
+if p['profile']=='experimental-merge-first-callback-u64-v1':
+    assert p['accepted'] is False
+    assert hashlib.sha256(pathlib.Path(sys.argv[2]).read_bytes()).hexdigest()==p['first_callback_patch_sha256']
+    print('yes')
+else:
+    print('no')
+FIRSTPIN
+)
+  if [[ "$apply_first" == yes ]]; then
+    git -C "$new_home" apply --check "$first_patch"
+    git -C "$new_home" apply --whitespace=error "$first_patch"
+    cp "$first_patch" "$evidence/first-callback.patch"
+  fi
 fi
 # Prepare-only mode preserves the exact existing patch/dependency preparation,
 # then stops before Cargo, Dune, native controls or any proof execution.

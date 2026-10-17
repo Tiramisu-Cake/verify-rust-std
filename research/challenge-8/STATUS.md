@@ -1,13 +1,29 @@
-# Merge / insert_tail — limited third session CLOSED
+# MERGE — first actual comparator, separate limited assignment
 
-Both actual first shared references now pass `ref_precreated_token` and `ref_initialized` obligations from the original three-cell array and owners. The verifier reaches the first FnMut at `verified/lib.rs(185,13-77)`. Callback resource restoration remains unproved.
+Authorized phase MERGE-FIRST-CALLBACK-CLOUD-2026-10-17, owner merge;
+worktree /root/verify-rust-std-merge-origin, branch merge/incoming-origin-20261009.
+T0 00:32:42Z; main02:32:42Z; finishing-only03:02:42Z.
+Fresh960 Cloudseconds, one Build timeout<=900, no carryover or automatic retry.
+No new Build submitted yet; current spend0. Existing v3 coordination unchanged.
 
-First causal blocker: full first Continue-unwind post at `verified/lib.rs(130,16-19)` lacks `array<u64>(begin, 3, _)`. AST routes the callback unwind to `ReturnStmt(unwinding)` before loan/lifetime recovery. Neither normal recovery block executes. Concrete-u64 HRTB registration remains0; late callback, updated gap and cleanup are not reached. No normal/unwind F/frame/full-post credit. Full body/posts preserved; no new entry premises or trusted semantics.
+Prepared source-bound concrete-u64 HRTB + local first-Continue ghost recovery,
+with independent static review. Tool d928cb1d7ac60c257daa537fa65577f41135f832;
+new experimental profile experimental-merge-first-callback-u64-v1, NOT_ACCEPTED /
+NOT_FOR_INTEGRATION. Kernel/model/prelude/runtime std frozen. Actual first false,
+true and panic recovery are NOT_RUN/NOT_PROVED. Prefix explicitly cuts before
+tail.read; complete-body diagnostic retains all final CURRENT normal/unwind posts.
+Late Cleanup/Drop/Resume remains distinct and unqualified. B2 OPEN.
 
-B1 regression **PASS within the previous bounded normal domain**: positive, six proof negatives, ten admission, four receiver/end/retirement, helpers and mandatory normal/unwind regressions matched. **B2 NOT ACHIEVED** under PROGRESS-REVIEW; index15% unchanged.
+Prior third session preserved: Build30bce9a0-29e8-4535-9060-ee6d9df2dccc,
+proof/infra9e15014b, toola158398e. Historical B1 boundednormal result unchanged.
+Its Evidence Brief obtained this session: VERIFIED_ARCHIVE_AND_INVENTORY,
+NOT_ACCEPTED_AS_REPORTED; recorded first observed array post error at130;
+Brief does not independently establish causal blocker/proof acceptance.
+No raw logs/archives read; no historical ledger/evidence mutations.
 
-Build `30bce9a0-29e8-4535-9060-ee6d9df2dccc`, rawFAILURE; proof=infra `9e15014b5c62f94eb797e044d1f4ca9bd8cb74f1`. Frozen tool `a158398e336edce9817f62a55733a3470a986d7b`; profile `0e67b038f940a9892dcb840747fbcc340532a31649979601af545acc41a0c68b`, EXPERIMENTAL/NOT_ACCEPTED/NOT_FOR_INTEGRATION. Full archive/inventory/receipts/text chunks verified.
-
-T0 00:19:22Z, main01:19:22Z, absolute01:49:22Z; Buildfinished00:48:04Z in originalwindow. Completion resumed08:38:07Z under owner20min allowance; no newproof/Build. Account CLOSED **543/960s;417 retired**, previous1564retired/no carryover. Own active/request/reservation/unresolved none; v3/max3 unchanged. Policy6e1a8e59c56669abe5e6ec2013478e45ed2cc267/ACK1e65f562994220a909ccf97903c36cb054576b76 confirmed.
-
-Next needs a separate owner decision on exact-u64 HRTB and first Continue-unwind recovery; new semantics need separate scope/profile/regression gate. Additional session is not opened. [Checkpoint](cloud-build/origin-layout/FINAL-CHECKPOINT.md) · [Exact result](cloud-build/origin-layout/SHARED-REF-SESSION3-RESULT.json) · [Experiment card](cloud-build/origin-layout/ACTUAL-INSERT-TAIL-B2-CARD.md).
+[Semantic card](cloud-build/origin-layout/FIRST-CALLBACK-SEMANTIC-CARD-20261017.md) ·
+[Independent review](cloud-build/origin-layout/FIRST-CALLBACK-REVIEW-20261017.md) ·
+[Exact candidate pins](cloud-build/origin-layout/FIRST-CALLBACK-PINS-20261017.json) ·
+[Separate ledger](cloud-build/origin-layout/FIRST-CALLBACK-BUDGET-20261017.json).
+Next: immutable-input preflight, then at most one exact-SHA Build if ready;
+after terminal only smallsort-brief UUID. Missing gates/Brief limit claims.

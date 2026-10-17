@@ -70,6 +70,7 @@ NATURAL_FALSE = b"        //@ assert false; // TARGET: after natural Drop termin
 CALLER_READY_FALSE = b"        //@ assert false; // TARGET: caller direct Drop-pre entry\n"
 CALLER_SIGNATURE = b"unsafe fn natural_onecell(tail: *mut u64)"
 BODY_GLUE_PROFILE = "experimental-merge-actual-glue-body-v8"
+BODY_GLUE_PROFILES = (BODY_GLUE_PROFILE, "experimental-merge-first-callback-u64-v1")
 GENERATED_GLUE_NAME = "__vf_generated_drop_glue"
 CANONICAL_METHOD_PROOF_STATEMENTS = [
     "Open", "Open", "Assert", "Assert", "ExprStmt", "ExprStmt", "Assert", "Assert",
@@ -829,7 +830,7 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
                   if stages.get("decode") == 0 else {"admitted": False})
     selected = mir.get("selected_normal_drop", {})
     drop_path = selected.get("selected_path", "")
-    body_glue_profile = profile == BODY_GLUE_PROFILE
+    body_glue_profile = profile in BODY_GLUE_PROFILES
     if body_glue_profile:
         glue_ast = (_body_glue_ast_evidence(case, proof_base.ast_helper, drop_path, mir, row)
                     if stages.get("decode") == 0 else {"admitted": False})
@@ -1044,7 +1045,8 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
     if args.profile not in ("experimental-merge-selected-drop-receiver-v4",
                             "experimental-merge-actual-glue-observation-v2",
                             "experimental-merge-actual-glue-observation-v3",
-                            "experimental-merge-actual-glue-body-v8"):
+                            "experimental-merge-actual-glue-body-v8",
+                            "experimental-merge-first-callback-u64-v1"):
         raise RuntimeError("selected Drop exact supported experimental profile required")
     consumer.PROFILE = args.profile
     receipt = consumer._validate_receipt(args, validated_receipt, provider, proof_sha)
@@ -1073,7 +1075,7 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
     admission_controls = {"all_matched": False, "status": "NOT_RUN"}
     receiver_controls = {"all_matched": False, "status": "NOT_RUN"}
     compatibility_controls = {"all_matched": False, "status": "NOT_RUN"}
-    if args.profile == BODY_GLUE_PROFILE and results.get("positive") == "NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY":
+    if args.profile in BODY_GLUE_PROFILES and results.get("positive") == "NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY":
         positive_case = evidence / "cases" / "positive"
         for module_name, filename, destination in (
                 ("generated_glue_admission_controls", "generated-glue-admission-controls.py", "admission-controls"),
@@ -1103,7 +1105,7 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
                  "generated_glue_admission_controls": admission_controls,
                  "generated_glue_receiver_controls": receiver_controls,
                  "generated_glue_compatibility_controls": compatibility_controls,
-                 "all_matched": (args.profile != BODY_GLUE_PROFILE or
+                 "all_matched": (args.profile not in BODY_GLUE_PROFILES or
                                  (admission_controls.get("all_matched") is True and
                                   receiver_controls.get("all_matched") is True and
                                   compatibility_controls.get("all_matched") is True)) and results == {"positive": "NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY",

@@ -154,3 +154,10 @@ negative-source instrumentation, not commands accepted by the new marker gate.
 Positive source rejects leak/assume and retains every full normal/unwind post.
 A negative that fails admission or before its intended recovery/post is
 INCONCLUSIVE. This clarifies the no-leak invariant for all positive proofs.
+
+
+Control clarification: u64's logical own predicate may be duplicable/empty;
+therefore the cell-owner loss control splits off and discards the actual first
+singleton array ownership chunk, then attempts array_join. Its intended rejection
+is the missing physical cell owner at that join, not failure to recreate u64.own.
+Only this explicit negative contains that discard; no positive proof does.

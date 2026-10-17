@@ -32,7 +32,7 @@ prep = load("onecell_prepare", HERE / "prepare.py")
 base = load("onecell_stages", HERE.parents[1] / "copy-on-drop-prove.py")
 ast = base.ast_helper
 mir = base.mir_helper
-PROFILE = ("experimental-merge-actual-glue-body-v8" if os.environ.get("SMALLSORT_MERGE_PROFILE") else "experimental-merge-qualified-guard-onecell-v1")
+PROFILE = concrete_consumer.PROFILE
 CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
          "double_physical_fbc")
 CAMPAIGN = "incoming-origin-controls-only-v1"
@@ -275,7 +275,7 @@ def execute_case(case: Path, args, env: dict) -> dict:
     # Preserve both independently exported generated CFGs for inspection.
     # The official refiner still exports and compares the source pair itself.
     original_stages = {}
-    if args.profile == "experimental-merge-actual-glue-body-v8":
+    if args.profile in ("experimental-merge-actual-glue-body-v8", "experimental-merge-first-callback-u64-v1"):
         original_export = base.run_stage(case, "original-exporter", [
             str(args.tool_home / "bin/vf-rust-mir-exporter"), "original/lib.rs",
             f"--sysroot={args.compiler_sysroot}", "--edition", "2021", "--crate-type", "lib",
@@ -322,7 +322,9 @@ def execute_case(case: Path, args, env: dict) -> dict:
         receipt["extern_spec_binding"] = extern_spec_binding
         receipt_path.write_text(json.dumps(receipt, indent=2) + "\n")
     refinement = base.run_stage(case, "refinement", [
-        str(args.tool_home / "bin/refinement-checker"), "--rustc-args", "--edition 2021",
+        str(args.tool_home / "bin/refinement-checker"),
+        *(["--check-first-fnmut-continue"] if getattr(args, "first_fnmut_continue", False) else []),
+        "--rustc-args", "--edition 2021",
         "original/lib.rs", "verified/lib.rs"], env,
         timeout_seconds=args.stage_seconds)
     source_after = base.hashes(case)
@@ -621,7 +623,8 @@ def main() -> int:
             aggregate["b1_all_matched"] = True
             try:
                 actual = load("actual_insert_tail_b2", HERE.parents[3] /
-                              "cloud-build/origin-layout/actual-insert-tail-b2.py")
+                              ("cloud-build/origin-layout/first-callback.py" if args.profile == "experimental-merge-first-callback-u64-v1" else
+                               "cloud-build/origin-layout/actual-insert-tail-b2.py"))
                 aggregate["actual_insert_tail_b2"] = actual.run(
                     args.evidence / "actual-insert-tail-b2", args, env,
                     execute_case, environment)

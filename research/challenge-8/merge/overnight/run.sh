@@ -352,7 +352,15 @@ RETAINEDSMOKE
   export SMALLSORT_GLUE_OBSERVATION_DIR="$evidence/compiler-glue-observation"
   export SMALLSORT_ACTUAL_GLUE_BODY=1
   profile_name=experimental-merge-qualified-guard-onecell-v1
-  [[ -z "${SMALLSORT_MERGE_PROFILE:-}" ]] || profile_name=experimental-merge-actual-glue-body-v8
+  if [[ -n "${SMALLSORT_MERGE_PROFILE:-}" ]]; then
+    profile_name=$(python3 - "$SMALLSORT_MERGE_PROFILE" <<'PROFILE_NAME'
+import json,pathlib,sys
+profile=json.loads(pathlib.Path(sys.argv[1]).read_text())['profile']
+assert profile in ("experimental-merge-actual-glue-body-v8", "experimental-merge-first-callback-u64-v1")
+print(profile)
+PROFILE_NAME
+)
+  fi
   proof_campaign=bridge-minimal-v1
   [[ "$run_mode" != merge_len1_minimal ]] || proof_campaign=len1-minimal-v1
   [[ "$run_mode" != merge_caller_composition_minimal ]] || proof_campaign=caller-composition-minimal-v1

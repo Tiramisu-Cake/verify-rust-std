@@ -231,6 +231,21 @@ def authorized_phase(a,ledger):
  try:deadline=datetime.datetime.fromisoformat(ledger['deadline_utc'].replace('Z','+00:00'))
  except (KeyError,AttributeError,ValueError) as error:raise SystemExit('Invalid phase deadline') from error
  cutoff=datetime.datetime.fromisoformat(NIGHT_DEADLINE.replace('Z','+00:00'))
+ if a.phase_id=='MERGE-FIRST-CALLBACK-CLOUD-2026-10-17':
+  expected_ledger=DIR/'origin-layout'/'FIRST-CALLBACK-BUDGET-20261017.json'
+  if (a.ledger.resolve()!=expected_ledger.resolve() or
+      a.owner!='merge' or ledger.get('owner')!='merge' or
+      ledger['ceiling_build_seconds']!=960 or ledger.get('allowed_lanes')!=['merge'] or
+      ledger.get('start_utc')!='2026-10-17T00:32:42Z' or
+      ledger.get('main_deadline_utc')!='2026-10-17T02:32:42Z' or
+      ledger.get('deadline_utc')!='2026-10-17T03:02:42Z'):
+   raise SystemExit('First callback phase differs from explicit owner authorization')
+  cutoff=datetime.datetime.fromisoformat('2026-10-17T03:02:42+00:00')
+  if a.command=='submit':
+   if datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(ledger['main_deadline_utc'].replace('Z','+00:00')):
+    raise SystemExit('First callback main window passed; finishing only')
+   if a.timeout>900 or a.lane!='merge' or ledger.get('builds') or ledger.get('active_build') is not None:
+    raise SystemExit('First callback permits one merge Build, timeout at most900s; no automatic retry')
  if a.phase_id=='CI-IAM-E2E-ONCE-2026-10-17':
   # Separate, explicitly activated account; never reuse a historical ledger.
   expected_ledger=DIR/'ci-iam-e2e-once-20261017'/'BUDGET.json'

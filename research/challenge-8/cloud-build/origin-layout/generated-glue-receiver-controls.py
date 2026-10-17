@@ -430,7 +430,7 @@ def run(evidence: Path, args, env: dict, base, positive_case: Path, execute_case
     profile_label = getattr(args, "profile", "")
     if profile_label == V7_PROFILE:
         controls = V7_CONTROLS
-    elif profile_label == V8_PROFILE:
+    elif profile_label in (V8_PROFILE, "experimental-merge-first-callback-u64-v1"):
         controls = {**V7_CONTROLS, **RETIREMENT_CONTROL}
     else:
         controls = {}
