@@ -1,4 +1,4 @@
-# A1 R/C/G continuation — 2026-10-17 (ACTIVE, NOT_RUN)
+# A1 R/C/G continuation — 2026-10-17 (CLOSED; ONE BUILD, BRIEF INSUFFICIENT)
 
 Owner `select-sort4`; supplied checkpoint `1cfb60e0`, candidate `bc2af772`.
 This is a new explicit owner-authorized account, not reopening or rewriting the
@@ -112,3 +112,11 @@ proof paths restored from158 shared original Git objects, with unchanged
 identity/closure/hash checks; config argument and submitted-config transport
 bounds PASS. [Published pin binding](A1-CONTINUATION-RELEASE-2026-10-17.json).
 Independent review has no remaining concrete source-readiness blocker.
+
+## Closure
+
+Sole Build completed FAILURE,330 Cloud seconds charged, unused630 retired.
+The Brief verifies archive/inventory but supplies no A1 rows/stages; actual
+P1/all26/false31 states and causal blocker remain UNESTABLISHED. No raw fallback.
+[Final checkpoint](A1-CONTINUATION-CHECKPOINT-2026-10-17.md) records exact limits
+and next step. Earlier NOT_RUN text above records preflight state only.

@@ -7691,3 +7691,21 @@ pins/closure checks PASS. No local scientific execution, no Cloud Build yet,
 no raw evidence read. All actual matrix/proof gates NOT_RUN; no Brief yet.
 See A1-CONTINUATION-2026-10-17.md and independent review for source pins and
 runtime estimate. Next authorized step: publish exact pins, preflight, one Build.
+
+
+## 2026-10-17 — A1 continuation: sole Build, Brief reporting limitation
+
+Source P1/all26 routes/false31 own-pair lifecycle completed, source-reviewed and
+published `9678ddf631902765d7013f5ed1b9fd05159463a6`; binding `801dca35`.
+Full source preflight PASS:33 infra/105 proof paths,158 shared Git objects,
+502283-byte payload,168/191 substitutions, unchanged coordinator bounds.
+Cloud Build `57ea65a3-475e-4370-810c-19ad36803174`: FAILURE,330s charged (329s
+execution),1/1 authorized Builds, unused630s retired. Existing account untouched.
+`smallsort-brief` retrieved: VERIFIED_ARCHIVE_AND_INVENTORY, source
+NOT_ACCEPTED_AS_REPORTED, run exit0, evidence_complete=True, but no aggregate
+or representative cases. P1/all26/false31 actual states and scientific causal
+blocker UNESTABLISHED. No raw evidence read/downloaded, no proof credit.
+Stop reason: external A1 reporting gap; need detailed Brief or separately
+authorized administrative audit before evidence-based scoped diagnosis.
+See A1-CONTINUATION-CHECKPOINT-2026-10-17.md and machine result for all26 rows,
+lifecycle, pins/account/next step. Full A1/A2 and other excluded targets stay open.
