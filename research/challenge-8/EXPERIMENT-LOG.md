@@ -7620,3 +7620,59 @@ Design closed00:42:16Z within main window. Static link/fence/hash/whitespace che
 pass; compact explorer review fixed actual AST no-redirect gate plus forced
 legacy clause-ignoring redirect control. P0 arithmetic is explicitly a caller
 lemma; actual helper transfer and full small_sort proofs remain P2/UNRUN.
+
+
+## 2026-10-17 — A1 checked trait-contract bounded session (ACTIVE / UNRUN)
+
+Direct owner authorization: R/C/G only, first matrix in
+A1-FIXTURES-UNRUN-2026-10-12.md; common contract route accepted, A1 not closed.
+T0 00:28:49Z, main02:28:49Z, finish-only02:58:49Z, owner select-sort4,
+new ledger BUDGET-A1-TRAIT-CONTRACT-2026-10-17.json:960seconds, one900s Build
+plus60s queue reserve, no carry/retry. Initial proof/infra candidate base
+39c73ebb391ec9432644338f84f3cfd453d990a0. Coordinator v3 not modified.
+Policy2026-10-17 Evidence Brief read; local instruction changes preserved.
+
+Semantic rationale/gates recorded before implementation in
+A1-RCG-SEMANTIC-GATES-2026-10-17.md. Independent source review recorded in
+A1-RCG-INDEPENDENT-REVIEW-2026-10-17.md; corrected kernel EnsuresAsn analysis
+in A1-KERNEL-CONFORMANCE-SOURCE-REVIEW-2026-10-17.md. Code drafts add required-item
+transport, threshold common contract, generic no-redirect path, staged admission
+and source/tool-bound receipt services. Review found generic-use identity,
+alpha-renaming, argument-order and signature-shape issues; in-scope fixes underway.
+No local compiler/verifier/extractor, Cloud submit or raw evidence read.
+All first-matrix proof gates NOT_RUN; no Brief exists for a new Build.
+Synthetic service checks are not threshold/interface proof. A1/A2 and profile
+status unchanged. Final checkpoint/account to be appended at session close.
+
+
+## 2026-10-17 — A1 R/C/G common checked contract, NO-GO checkpoint (без Build)
+
+Owner select-sort4; source candidate `bc2af77223428df14b61300a81eb99541c49723e`;
+сессия 00:28:49Z–01:46:25Z, до основного deadline 02:28:49Z. Прочитаны
+WORK-POLICY 2026-10-10 и owner Evidence Brief 2026-10-17; pre-existing локальные
+инструкции сохранены вне commits. До реализации записаны semantic rationale
+и gates; R/C/G source patch прошёл независимый review с локальными исправлениями.
+
+Первый установленный blocker запуска — отсутствует полный P1 native small_sort
+interface gate: required/impl signatures, scoped Self/F/regions/clauses и полные
+native pre/returning/unwind AST под корректной alpha map. Threshold/call-shape
+gate этого не заменяет. Полное выполнение/классификация всех 26 строк и exact-pair
+N-false31 receipt также не интегрированы; runtime900s feasibility не проверена.
+`run(a)` остаётся закрытым preflight; source profile `fbdb28dc43582b9b9bb695929f0b8200148761ed66c2c7b78def0df1da7b75d0`
+имеет cloud_build_enabled=false и null proof/infra run pins.
+
+Локально 96 synthetic parser/classifier tests PASS, Python AST parse и exact
+R→C application/result SHA checks PASS. Это только сервисные source/structure
+results. Обе actual threshold bodies, generic proof, P1, все N-* и свежие R1–R7
+**NOT_RUN**; Brief gates отсутствуют. Source claims не повышены до proof.
+Ни Cloud request, ни Build, ни Actions не запускались; raw logs/archives и
+Cloud Logging не читались. Расход **0/960 Cloud s**, Builds **0/1**; новый
+счёт закрыт NO-GO, 960 unspent retired без carry. Исторические записи неизменны.
+
+[Точный checkpoint](cloud-build/sort4-caller-entry-native/A1-RCG-CHECKPOINT-2026-10-17.md)
+фиксирует pins, исправленные focus/receipt gates и следующий конкретный шаг:
+полный P1 AST mapping/equality gate, затем сквозная матрица и N-false31 lifecycle,
+независимый review и exact run pins в новом разрешённом окне/счёте.
+Threshold/interface hypothesis не подтверждена; A1/A2 NOT ACHIEVED,
+index 15%, experimental profile UNACCEPTED. P2/A2/ZST/resources/copies/sort8
+не входят в результат или разрешение этой сессии.

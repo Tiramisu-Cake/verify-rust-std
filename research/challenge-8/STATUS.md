@@ -1,78 +1,47 @@
-# select/sort4 — A1 approach-review package; no proof authorization
+# select/sort4 — A1 common trait-contract: NO-GO / checkpoint
 
-Owner `select-sort4`; worktree `/root/verify-rust-std-select-night`; branch
-`research/night-select-sort4-cloud-2026-10-09`. Current review started from
-`a22282dac3765c7d9948e6edfb0ae74102a4280b`. Mission remains full actual sort4
-with applicability to real callers, then sort8 with checked merge.
-Policy6e1a8e59c56669abe5e6ec2013478e45ed2cc267 adopted, docs
- e92176fd7dd3fa369506281eb1ce76b2dd40d1b0; previous instructions archived.
-Installed coordinator v3/schema3/max3 preserved; no transition or state reset.
+Owner `select-sort4`; worktree `/root/verify-rust-std-select-night`; ветка
+`research/night-select-sort4-cloud-2026-10-09`. Source-кандидат:
+`bc2af77223428df14b61300a81eb99541c49723e`.
 
-Completed owner assignment: docs/source/evidence review after TWO closed proof
-sessions; counters not reset. T0 2026-10-12T00:18:36Z, main01:18:36Z,
-finish-only01:48:36Z. Cloud budget0,spent0,dispatch0. No trusted implementation.
-[Concrete owner package](cloud-build/sort4-caller-entry-native/A1-TRAIT-CONTRACT-REVIEW-2026-10-12.md)
-recommends common trait contract checked against both original impls and used
-by unrestricted generic caller. Threshold16..32 transfers original guard to
-len<=32/len+16<=48. Binder/F representation and safe contract/conformance are
-separate obligations; required-item schema/exporter currently omits F/clauses,
-so scoped exporter/schema/decoder+translator permission is necessary.
-Fixture plan UNRUN; first proposed Build tests both threshold bodies, generic
-bound and method-interface shape, never consumes unproved small_sort summary.
-Estimated one900s timeout/960s reservation only AFTER separate authorization.
-Design closed2026-10-12T00:42:16Z within main window; static Markdown/link/hash
-checks and diff whitespace checks pass. Package ready for owner's decision.
-A2 opaque-MU frame plus ZST-compatible source-borrow protocol remains OPEN.
-A1/A2 NOT ACHIEVED, index15% unchanged, experimental profile UNACCEPTED.
-Next permitted action: owner/maintainer decision on exact R/C/G boundary and
-scoped theorem; no implementation/proof campaign from this checkpoint.
+Разрешённый эксперимент R/C/G подготовлен как **UNRUN-кандидат**.
+Threshold/interface hypothesis не подтверждена. Первый установленный blocker
+запуска — отсутствует полный P1 gate: привязка `Self,F`, трёх scoped input regions,
+полных clauses и native pre/returning/unwind AST исходного `small_sort` к обеим
+actual impl. Проверки threshold и формы generic call этого не заменяют.
+Сквозное исполнение/классификация всех 26 строк и отдельный exact-pair receipt
+для N-false31 также не завершены. `run(a)` остаётся закрытым preflight;
+`cloud_build_enabled=false`, proof/infra run pins не выпущены.
 
-Previous proof evidence (unchanged):
+[Точный checkpoint](cloud-build/sort4-caller-entry-native/A1-RCG-CHECKPOINT-2026-10-17.md),
+[semantic rationale/gates](cloud-build/sort4-caller-entry-native/A1-RCG-SEMANTIC-GATES-2026-10-17.md),
+[независимый source review](cloud-build/sort4-caller-entry-native/A1-RCG-INDEPENDENT-REVIEW-2026-10-17.md).
+R/C/G, exporter/schema/decoder, threshold bodies, generic proof, P1, negatives
+и семь свежих регрессий — **NOT_RUN**. Подтверждённых Brief gates нет: Build
+не запрашивался и Brief отсутствует. Raw logs/archives не читались.
 
-Session #2 `SORT4-COMPILER-BINDING-PREFIX-SESSION2-CLOUD-2026-10-12`:
-start2026-10-11T21:49:02Z; main23:49:02Z; finish-only absolute00:19:02Z.
-Closed23:48:10Z after four terminal Builds.1686/3600 conservative seconds
-used,1914 retired,remaining0; prior session1 2079 retired untouched.
-All own evidence/config/input/inventory/text chunks verified; no own active or
-unresolved Build,reservation,ready request. Runnable manifest disabled.
-No third session or generic/trusted-rule extension authorized.
+Локально: **96 изолированных синтетических parser/classifier tests PASS**;
+Python AST parse, последовательное применение R→C и exact SHA256 checks PASS.
+Это сервисные/структурные проверки, не compilation или formal verification.
+Source review проверил сохранение native envelope в C, identities в R,
+запрет selected redirect, привязку focus к compiler `Body.span` и порядок receipt;
+это source-reported claims, без независимого proof credit.
 
-A1 NOT ACHIEVED; A2 NOT ACHIEVED; PROGRESS-REVIEW score unchanged.
-Exact normal/readonly maps and source provenance now admitted separately;
-Cloud observed every case's actual normal Ast.Var operands. Positive/false31
-root17/18/19, source-array21/22/23; readonly16/17/18; helper5/6/7.
-Strict source/callee/full clauses/binders/substs/reborrow/move-projection gates,
-source-MD5-specific translator operands and exactly three AST edges preserved.
-Saved-data parser/classifier replays preserve old verdicts,zero proof credit.
-Threshold prototype+definition auditor now checks both posts and single body.
+Сессия: 00:28:49Z–01:46:25Z, завершена NO-GO checkpoint до основного лимита
+02:28:49Z (finish-only предел 02:58:49Z). [Отдельный счёт](cloud-build/sort4-caller-entry-native/BUDGET-A1-TRAIT-CONTRACT-2026-10-17.json)
+закрыт без Build: **расход 0/960 Cloud секунд, Builds 0/1**, 960 неиспользованных
+секунд retired, без переноса. Coordinator v3, slots и исторические ledgers не
+менялись; ни Actions, ни Cloud dispatch не выполнялись.
 
-Final Build `077360e8-b6d7-4d79-a101-dd4792ea328f`, proof=infra
-`8763e495475505b247e1a354ec805bd5ab4b4558`: collector SUCCESS,verification_accepted
-false. All3 selected cases paired export/decode/refinement and full post AST pass;
-diagnostic+verification exit1 at trait lib.rs13 Duplicate type parameter ''_'.
-No selected user function verified. False31/source-array inconclusive at earlier
-frontend obligation, NOT intended negatives. Seven fresh regression gates behave
-as intended; unchanged public guard not repeated. Full normal/unwind/resource
-posts present structurally,exact prepatch-post equality RAW_REVIEW_REQUIRED.
-Bound transfer,len+16,abort,helper pointers/firstcall resources,C1-C4 normal and
-four direct-unwind posts remain NOT_PROVED/NOT_REACHED.
+Следующий конкретный шаг — реализовать и независимо проверить полный P1 AST
+mapping/equality gate, затем связать всю матрицу и exact-pair N-false31 lifecycle.
+До запуска нужны полный review, proof/infra pins, recipe closure и открытое
+разрешённое окно/счёт; этот checkpoint не разрешает автоматический Build.
+A1/A2 **NOT ACHIEVED**, index 15% и experimental profile **UNACCEPTED** неизменны.
+Полный A1 требует последующей доказанной actual small_sort→helper передачи;
+A2, ZST/resource redesign, C5/copies и sort8 остаются вне задания.
 
-Compiler query retains both actual impls and full TypingEnv: Freeze diagnostic
-selected pair, Cell fallback pair, unrestricted generic None (no allowed Instance).
-Original unrestricted quicksort applicability OPEN; no added runtime Freeze bound.
-Profile experimental/unaccepted. No root bound/nonzero/research size guard or
-MaybeUninit→T permission supplied. Historical guarded C1-C4 positive size/source/
-destination premises remain separate; IS_ZST→sizeof and MU destination bridge OPEN.
-Full C5/copies/secondcall/sort8 OPEN.
-
-First causal blocker is exact original safe trait declaration's three duplicate
-lifetime parameters and omitted method F. New generic semantics require review.
-Concrete alternative: common trait contract checked against both actual impls,
-with original generic caller consuming it; pinned translator currently rejects
-safe trait required-function explicit specs. The bounded next experiment, cost,
-negative controls, trust risks and C4 opaque-MU alternative are recorded in the
-[session #2 checkpoint](cloud-build/sort4-caller-entry-native/END-CHECKPOINT-2026-10-12-SESSION2.md).
-[Full result identities](cloud-build/sort4-caller-entry-native/SESSION-RESULT-MANIFEST.json),
-[closed account](cloud-build/sort4-caller-entry-native/BUDGET-BINDING-PREFIX-SESSION2-2026-10-12.json).
-Current review outcome is appended to that same checkpoint; previous session
-verdicts/accounts remain unchanged.
+Policy read: WORK-POLICY 2026-10-10 + owner Evidence Brief 2026-10-17.
+Все исходные локальные изменения инструкций Evidence Brief сохранены и не
+включены в commits этой сессии. [Предыдущий STATUS](cloud-build/sort4-caller-entry-native/STATUS-BEFORE-A1-TRAIT-CONTRACT-2026-10-17.md)
+сохраняет прежние run IDs, failures и закрытые бюджеты без изменений.
