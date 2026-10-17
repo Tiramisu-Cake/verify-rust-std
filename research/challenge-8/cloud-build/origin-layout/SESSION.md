@@ -350,3 +350,17 @@ Build **30bce9a0-29e8-4535-9060-ee6d9df2dccc**, rawFAILURE, proof=infra **9e1501
 Account CLOSED **543/960 seconds**, **417 unused retired**, previous1564 retired/no carryover. OneBuild terminal/accounted/downloadverified. Ownactive/reservation/unresolved/request none afterinstalledclient reconciliation/withdrawal; coordinatorv3/max3 unchanged, no manualforeignmutations. Source/toolworktrees preserved; onlyownprojectbranchpublication. NoActions/merge/upstream/externalmessages. Newsessionnotautomaticallyopened. Nextrequiresseparateownerdecision onconcreteu64HRTB and firstContinue-unwind callbackresource recovery; iftrustedsemantics needed, separatecard/profile/admissionregression beforeimplementation.
 
 Final own artifact cleanup after proof/account closure: 457860967 apparent bytes reclaimed. Only verified duplicate expansions/previews/manifests and thissession temporary Git-object/analysis copies removed. Extra thirdpeek index checked against preserved original; manifest/summary metadata compared directly to canonical archive where omitted from self-inventory. All canonical archives/inventories/receipts, currentBuildstate and unique raw-audit receipt preserved. No foreignfiles/worktrees, shared/toolcaches or solecopies deleted. Exactpaths/hashes in SHARED-REF-SESSION3-RESULT.json. Cleanup separate from proofwindow by latestowner instruction.
+
+
+## Separate first-callback assignment — 2026-10-17
+
+Owner merge, worktree /root/verify-rust-std-merge-origin, branch
+merge/incoming-origin-20261009. T0 00:32:42Z; main02:32:42Z;
+finishing-only03:02:42Z. Fresh960 Cloudseconds, at most one Build timeout900;
+separate FIRST-CALLBACK-BUDGET-20261017.json, no historical carryover.
+[Semantic card](FIRST-CALLBACK-SEMANTIC-CARD-20261017.md) was written before
+implementation. Independent review/profile pins and all gates must be ready
+before any dispatch; otherwise checkpoint prepared work without speculative CI.
+Policy6e1a8e59/adoption1e65f562 read; Evidence Brief owner revision2026-10-17
+preserved in commit584891be. Previous three sessions above remain historical.
+No new proof credit yet; B2 open, experimental profiles not accepted.
