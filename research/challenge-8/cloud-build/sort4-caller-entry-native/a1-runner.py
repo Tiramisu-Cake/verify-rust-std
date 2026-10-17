@@ -48,7 +48,6 @@ SYNTHETIC_MUTATION = {
     "N-binder-collapse": "binder_collapse",
     "N-alpha-valid": "alpha_valid",
     "N-free-region": "free_region_input",
-    "N-region-swap": "input_region_swap",
     "N-no-F": "no_F",
     "N-clauses": "remove_fnmut and remove_output in separate isolated inputs",
     "N-duplicate": "duplicate_impl_method",
@@ -57,7 +56,6 @@ SYNTHETIC_INPUT_PLAN = {
     "N-binder-collapse": ("binder_collapse",),
     "N-alpha-valid": ("alpha_valid",),
     "N-free-region": ("free_region_input",),
-    "N-region-swap": ("input_region_swap",),
     "N-no-F": ("no_F",),
     "N-clauses": ("remove_fnmut", "remove_output"),
     "N-duplicate": ("duplicate_impl_method",),
@@ -70,32 +68,12 @@ LEGACY_CONTROL = {
     "R7": "threshold-body-positive",
 }
 
-# Each missing adapter must return actual same-Build compiler, AST, stage, and
-# location observations. A declared expected outcome or service-shaped record
-# is not an implementation of any hook.
-MISSING_BACKEND_HOOKS = {
-    "reviewed_helper_pins":
-        "Freeze and review exact hashes for every A1 source helper in a1_helper_sha256; no unpinned dynamic import.",
-    "focused_threshold_body_and_conformance":
-        "Derive exactly one actually checked body and separate native conformance from pinned focus/kernel semantics, same-invocation verifier stage/VF0 and full AST posts; a focus flag or AST alone is insufficient.",
-    "exact_a1_classifier":
-        "Classify actual current verifier stage and first causal predicate/location, including negative post failures, before writing any service-shaped record.",
-    "full_small_sort_p1_interface":
-        "Bind compiler RequiredFn Self/F and all three scoped input regions plus full clauses to the final common small_sort Func and both numeric impl signatures; compare complete native pre/returning/unwind AST subtrees under a scoped positional alpha map. Existing threshold-only AST gates cannot supply P1.",
-    "synthetic_and_admission_controls":
-        "Complete isolated decoded-VfMir transport, legacy redirect, source/binding mutation refusals, and N-clauses isolated inputs; preserve interface-only zero-body credit.",
-    "fresh_legacy_controls":
-        "Run R1-R7 in isolated sources on the final tool using driver.verify_one/classify and adapt only current observed stages to A1 admission records.",
-    "default_off_control":
-        "Run OFF with the A1 R/C opt-in disabled on the final tool and classify the original duplicate trait-parameter behavior without proof credit.",
-}
-
 A1_HELPERS = (
     "a1-fixtures.py", "a1-tool.py", "a1-focus-backend.py",
     "a1-compiler-inventory.py", "a1-call-binding.py", "a1-ast-gates.py",
     "a1-synthetic-inputs.py", "a1-synthetic-backend.py",
     "a1-contract-admission.py", "a1-summary-receipt.py",
-    "a1-proof-classifier.py", "selected-proof.py",
+    "a1-proof-classifier.py", "a1-matrix-classifier.py", "selected-proof.py",
 )
 FOCUS_SEMANTICS_PINS = {
     "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
@@ -198,7 +176,7 @@ def prepare_off_fixture(a, selected, driver, ghost, manifest: dict,
     """Use the exact old selected positive source with A1 opt-in disabled."""
     pin_path = Path(a.proof_root) / HERE / "SELECTED-BRANCH-BINDING-PINS.json"
     _need(pin_path.is_file() and
-          _sha(pin_path) == profile.get("stable_threshold_pins_sha256"),
+          _sha(pin_path) == manifest.get("selected_binding_pins_sha256"),
           "old selected source pin inventory changed")
     pins = json.loads(pin_path.read_text())
     selected.source_correspondence(a, manifest, driver, ghost)
@@ -309,12 +287,11 @@ def prepare_admission_control_inputs(a, call_binding_module, inventory_module, *
                 compiler_inventory["inventory"]["required_method_ids"]}
     _need(set(required) == {"small_sort_threshold", "small_sort"},
           "closed required-item compiler inventory")
-    correct = {"schema": "a1-common-binding-claim-v1", "caller": "quicksort",
-               "method": "small_sort", "call_line": common[0]["call_line"],
-               "callee": "StableSmallSortTypeImpl::small_sort",
-               "substs": ["T", "F"], "late_bound_lifetime_count": 3,
-               "argument_roots": ["v", "scratch", "is_less"],
-               "compiler_trait_item_id": required["small_sort"]}
+    correct = call_binding_module.construct_common_binding_claim(
+        binding, compiler_inventory)
+    _need(correct.get("call_line") == common[0]["call_line"] and
+          correct.get("compiler_trait_item_id") == required["small_sort"],
+          "constructed common binding claim differs from paired compiler observations")
     call_binding_module.validate_common_binding_claim(binding, compiler_inventory,
                                                        correct)
     wrong_certificate = deepcopy(dict(certificate))
@@ -322,13 +299,15 @@ def prepare_admission_control_inputs(a, call_binding_module, inventory_module, *
     _need(wrong_certificate["cases"]["P1"]["generated_source_sha256"] !=
           source_case["generated_source_sha256"],
           "source certificate mutation must change bytes")
-    wrong_binding = {**correct, "selected_impl_id":
-                     compiler_inventory["inventory"]["impls"][0]["impl_def_index"]}
+    wrong_binding = {**correct, "callee": "StableSmallSortTypeImpl::not_small_sort"}
     forced_redirect = {"SORT4_A1_FORCE_LEGACY_REDIRECT": "1",
                        "SORT4_A1_CHECKED_TRAIT_CONTRACT": "1",
                        "source_pair_sha256": source_case["generated_source_sha256"]}
+    region_claim = call_binding_module.mutate_region_binding_claim(
+        call_binding_module.construct_common_binding_claim(binding, compiler_inventory))
     values = {"N-source": wrong_certificate,
               "N-binding": wrong_binding,
+              "N-region-swap": region_claim,
               "N-clause-redirect": forced_redirect}
     root = Path(a.evidence) / "a1-admission-controls"
     root.mkdir(parents=True, exist_ok=False)
@@ -358,7 +337,8 @@ def materialize_expected_cases(admission_module, certificate: Mapping[str, Any],
     _need(set(admission_module.MATRIX) == set(CASE_ORDER) and
           set(synthetic) == set(SYNTHETIC_INPUT_PLAN) and
           set(legacy) == set(LEGACY_CONTROL) and
-          set(controls) == {"N-source", "N-binding", "N-clause-redirect"} and
+          set(controls) == {"N-source", "N-binding", "N-region-swap",
+                            "N-clause-redirect"} and
           set(bound_impls) == {"default16", "freeze32"},
           "complete produced first-matrix source/input inventory")
     source_cases = certificate["cases"]
@@ -391,6 +371,8 @@ def materialize_expected_cases(admission_module, certificate: Mapping[str, Any],
                   all(HEX64.fullmatch(digest) for digest in digests),
                   "actual isolated synthetic message hashes required")
             result[case_id]["synthetic_input_sha256"] = digests
+        if case_id in controls:
+            result[case_id]["control_input_sha256"] = item["input_sha256"]
         if case_id in ("P0a", "P0b", "N-default-contract", "N-freeze-contract"):
             impl = "default16" if case_id in ("P0a", "N-default-contract") else "freeze32"
             result[case_id]["focused_item_id"] = bound_impls[impl]["compiler_item_id"]
@@ -403,7 +385,9 @@ def publish_positive_threshold_receipt(a, *, tool: Path, tool_receipt: Mapping[s
                                        positive: Mapping[str, Mapping[str, Any]],
                                        expected_cases: Mapping[str, Any],
                                        helpers: Mapping[str, Any],
-                                       profile_sha256: str) -> tuple[Any, str]:
+                                       profile_sha256: str,
+                                       pair_source_case: str = "P0a",
+                                       receipt_case: str = "P0c") -> tuple[Any, str]:
     """Record two actually checked impls, then bind one exact-pair caller receipt.
 
     This is runner-reported workflow admission, not independent proof credit.
@@ -411,6 +395,8 @@ def publish_positive_threshold_receipt(a, *, tool: Path, tool_receipt: Mapping[s
     two current focused execution attestations.
     """
     _need(set(positive) == {"P0a", "P0b"} and
+          pair_source_case in certificate["cases"] and
+          receipt_case in certificate["cases"] and
           set(expected_cases) == set(CASE_ORDER),
           "both current impl runs and complete expected source IDs required")
     admission = helpers["a1-contract-admission.py"]
@@ -447,9 +433,9 @@ def publish_positive_threshold_receipt(a, *, tool: Path, tool_receipt: Mapping[s
         expected_inventory=expected_inventory,
         expected_run_pins=pins,
         expected_impl_inputs={
-            impl: {"source_id": certificate["cases"][case]["source_id"],
-                   "unit_id": certificate["cases"][case]["unit_id"]}
-            for impl, case in (("default16", "P0a"), ("freeze32", "P0b"))},
+            impl: {"source_id": certificate["cases"][pair_source_case]["source_id"],
+                   "unit_id": certificate["cases"][pair_source_case]["unit_id"]}
+            for impl in ("default16", "freeze32")},
         expected_cases=expected_cases)
     source_pair_id = receipts.source_pair_id(hashes)
     inventory_rows = [{"impl": impl, **row}
@@ -475,8 +461,8 @@ def publish_positive_threshold_receipt(a, *, tool: Path, tool_receipt: Mapping[s
         record = {**pins, "build_id": raw["build_id"],
                   "record_kind": "runner_attestation", "proof_credit": False,
                   "impl": impl, "inventory": inventory_rows,
-                  "source_id": certificate["cases"][case_id]["source_id"],
-                  "unit_id": certificate["cases"][case_id]["unit_id"],
+                  "source_id": certificate["cases"][pair_source_case]["source_id"],
+                  "unit_id": certificate["cases"][pair_source_case]["unit_id"],
                   "source_pair_id": source_pair_id,
                   "proof_kind": "actual_body", "skipped": False,
                   "focus_mode": "actual-body-and-conformance",
@@ -492,20 +478,20 @@ def publish_positive_threshold_receipt(a, *, tool: Path, tool_receipt: Mapping[s
     normal = Path(positive["P0a"]["raw"]["artifacts"]["normal-mir.txt"]["path"])
     readonly = Path(positive["P0a"]["raw"]["artifacts"]["readonly-mir.txt"]["path"])
     observer = helpers["a1-call-binding.py"].observe(
-        "P0c", normal.read_text(encoding="utf-8"),
+        receipt_case, normal.read_text(encoding="utf-8"),
         readonly.read_text(encoding="utf-8"), dict(certificate),
-        (source_package / certificate["cases"]["P0c"]["source_file"])
+        (source_package / certificate["cases"][receipt_case]["source_file"])
         .read_text(encoding="utf-8"))
     span = observer["binding"]["mir_body_span"]
     focus = f"verified/lib.rs:{span['lo']['line']}"
-    receipt_path = (Path(a.evidence) / "a1-fixtures" / "P0c" /
+    receipt_path = (Path(a.evidence) / "a1-fixtures" / receipt_case /
                     "a1-threshold-summary.receipt")
     receipts.write_cloud_receipt(
         receipt_path, gate, build=os.environ["CLOUD_BUILD_ID"],
         proof=pins["proof_id"], infra=pins["infra_id"],
         profile=profile_sha256, hashes=hashes, caller_focus=focus)
     _need(receipt_path.is_file() and
-          (Path(a.evidence) / "a1-fixtures" / "P0c" / "verified/lib.rs").is_file(),
+          (Path(a.evidence) / "a1-fixtures" / receipt_case / "verified/lib.rs").is_file(),
           "positive caller receipt/source absent")
     return gate, str(receipt_path)
 
@@ -514,7 +500,10 @@ def draft_positive_receipt_stage(a, c4, driver, ghost, helper, manifest: dict,
                                  profile: dict, *, tool: Path,
                                  tool_receipt: Mapping[str, Any],
                                  profile_sha256: str,
-                                 helpers: Mapping[str, Any]) -> dict:
+                                 helpers: Mapping[str, Any],
+                                 support_cache: dict[str, dict] | None = None,
+                                 progress: dict[str, Any] | None = None,
+                                 progress_hook=None) -> dict:
     """Stage current positive inputs and an exact-pair P0c receipt, if proved.
 
     This is not called by `run` until every matrix backend and its pins are
@@ -531,17 +520,25 @@ def draft_positive_receipt_stage(a, c4, driver, ghost, helper, manifest: dict,
           tool_receipt.get("classification") == "A1_TOOL_BUILT_UNRUN_PROOF" and
           tool_receipt.get("proof_credit") is False,
           "one pinned final tool and complete helper map required")
+    support_cache = support_cache if support_cache is not None else {}
     certificate_path, certificate = prepare_source_fixtures(
         a, helpers, ghost)
     package = certificate_path.parent
-    legacy = prepare_legacy_fixtures(a, driver, helper, ghost, manifest)
-    off = prepare_off_fixture(
-        a, helpers["selected-proof.py"], driver, ghost, manifest, profile)
+    progress = progress if progress is not None else {}
+    progress.update(certificate_path=str(certificate_path), certificate=certificate)
+    if progress_hook is not None:
+        progress_hook("source-constructor")
+    legacy = progress.get("legacy_inputs", {})
+    off = progress.get("off_input")
+    progress.setdefault("positive_cases", {})
     first = collect_source_case(
         a, c4, ghost, tool=tool, tool_receipt=dict(tool_receipt),
         profile=profile, manifest=manifest,
         certificate_path=certificate_path, certificate=certificate,
-        helpers=helpers, case_id="P0a")
+        helpers=helpers, case_id="P0a", support_cache=support_cache)
+    progress["positive_cases"]["P0a"] = first
+    if progress_hook is not None:
+        progress_hook("P0a-observed")
     first_attestation = first.get("execution_attestation")
     _need(isinstance(first_attestation, Mapping) and
           first_attestation.get("focus_body_verified") is True and
@@ -552,7 +549,11 @@ def draft_positive_receipt_stage(a, c4, driver, ghost, helper, manifest: dict,
         a, c4, ghost, tool=tool, tool_receipt=dict(tool_receipt),
         profile=profile, manifest=manifest,
         certificate_path=certificate_path, certificate=certificate,
-        helpers=helpers, case_id="P0b", native_baseline=native)
+        helpers=helpers, case_id="P0b", native_baseline=native,
+        support_cache=support_cache)
+    progress["positive_cases"]["P0b"] = second
+    if progress_hook is not None:
+        progress_hook("P0b-observed")
     second_attestation = second.get("execution_attestation")
     _need(isinstance(second_attestation, Mapping) and
           second_attestation.get("focus_body_verified") is True and
@@ -571,43 +572,187 @@ def draft_positive_receipt_stage(a, c4, driver, ghost, helper, manifest: dict,
     expected = materialize_expected_cases(
         helpers["a1-contract-admission.py"], certificate, synthetic,
         legacy, off, controls, first["structure"]["bound_impls"])
+    progress.update(synthetic_inputs=synthetic, admission_controls=controls,
+                    expected_case_ids=expected)
     gate, receipt_path = publish_positive_threshold_receipt(
         a, tool=tool, tool_receipt=tool_receipt,
         certificate=certificate, source_package=package,
         positive={"P0a": first, "P0b": second},
         expected_cases=expected, helpers=helpers,
         profile_sha256=profile_sha256)
+    progress.update(admission_gate=gate, positive_receipt_path=receipt_path,
+                    expected_case_ids=expected)
+    if progress_hook is not None:
+        progress_hook("positive-receipt-issued")
     caller = collect_source_case(
         a, c4, ghost, tool=tool, tool_receipt=dict(tool_receipt),
         profile=profile, manifest=manifest,
         certificate_path=certificate_path, certificate=certificate,
-        helpers=helpers, case_id="P0c", native_baseline=native)
+        helpers=helpers, case_id="P0c", native_baseline=native,
+        support_cache=support_cache)
+    progress["positive_cases"]["P0c"] = caller
+    if progress_hook is not None:
+        progress_hook("P0c-observed")
     caller_attestation = caller.get("execution_attestation")
     _need(isinstance(caller_attestation, Mapping) and
           caller_attestation.get("caller_body_verified") is True and
           gate.common_summary_available is True,
           "published common threshold caller was not verified on the exact pair")
-    return {"classification": "DRAFT_POSITIVE_STAGE_SOURCE_REPORTED_ONLY",
+    result = {"classification": "DRAFT_POSITIVE_STAGE_SOURCE_REPORTED_ONLY",
             "certificate_path": str(certificate_path),
             "receipt_path": receipt_path,
             "expected_case_ids": expected,
             "positive_cases": {"P0a": first, "P0b": second, "P0c": caller},
             "synthetic_inputs": synthetic,
             "admission_controls": controls,
+            "support_cache": support_cache,
             "legacy_inputs": legacy, "off_input": off,
+            "admission_gate": gate,
             "proof_credit": False, "first_matrix_complete": False}
+    progress.update(result)
+    if progress_hook is not None:
+        progress_hook("positive-lifecycle-complete")
+    return result
+
+
+def draft_false31_pair_stage(a, c4, ghost, *, tool: Path,
+                             tool_receipt: Mapping[str, Any], profile: dict,
+                             manifest: dict, certificate_path: Path,
+                             certificate: Mapping[str, Any],
+                             source_package: Path,
+                             positive_native_baseline: Mapping[str, Any],
+                             expected_cases: Mapping[str, Any] | None,
+                             helpers: Mapping[str, Any],
+                             profile_sha256: str,
+                             support_cache: dict[str, dict] | None = None,
+                             progress: dict[str, Any] | None = None,
+                             progress_hook=None) -> dict:
+    """Re-prove both threshold bodies on false31's own bytes before its receipt.
+
+    The two body invocations focus the certified N-false31 source pair and are
+    isolated from the positive pair's body attestations. Only after both
+    current VF0/conformance observations and matching native posts does this
+    write a receipt into the N-false31 fixture for the caller invocation.
+    """
+    support_cache = support_cache if support_cache is not None else {}
+    false_case = certificate["cases"]["N-false31"]
+    pair = {}
+    pair["P0a"] = collect_source_case(
+        a, c4, ghost, tool=tool, tool_receipt=dict(tool_receipt),
+        profile=profile, manifest=manifest, certificate_path=certificate_path,
+        certificate=certificate, helpers=helpers, case_id="N-false31",
+        native_baseline=positive_native_baseline, focus_case_id="P0a",
+        support_cache=support_cache)
+    first = pair["P0a"]
+    if progress is not None:
+        progress.setdefault("body_cases", {})["P0a"] = first
+        if progress_hook is not None:
+            progress_hook("N-false31-P0a-observed")
+    first_attestation = first.get("execution_attestation")
+    _need(isinstance(first_attestation, Mapping) and
+          first_attestation.get("focus_body_verified") is True and
+          first_attestation.get("focus_conformance_verified") is True and
+          first["structure"]["threshold_posts"]["native"] ==
+          positive_native_baseline,
+          "false31 source pair default threshold body/conformance was not proved")
+    native = first["structure"]["threshold_posts"]["native"]
+    pair["P0b"] = collect_source_case(
+        a, c4, ghost, tool=tool, tool_receipt=dict(tool_receipt),
+        profile=profile, manifest=manifest, certificate_path=certificate_path,
+        certificate=certificate, helpers=helpers, case_id="N-false31",
+        native_baseline=native, focus_case_id="P0b",
+        support_cache=support_cache)
+    second = pair["P0b"]
+    if progress is not None:
+        progress.setdefault("body_cases", {})["P0b"] = second
+        if progress_hook is not None:
+            progress_hook("N-false31-P0b-observed")
+    second_attestation = second.get("execution_attestation")
+    _need(isinstance(second_attestation, Mapping) and
+          second_attestation.get("focus_body_verified") is True and
+          second_attestation.get("focus_conformance_verified") is True and
+          second["structure"]["threshold_posts"]["native"] == native and
+          second["structure"]["threshold_posts"]["native"] ==
+          positive_native_baseline,
+          "false31 source pair Freeze threshold body/conformance was not proved")
+
+    if not isinstance(expected_cases, Mapping):
+        return {"not_run": True, "execution_started": False,
+                "reason": "false31 own bodies observed; complete receipt input manifest unavailable",
+                "partial_body_cases": pair, "proof_credit": False}
+
+    false_expected = deepcopy(dict(expected_cases))
+    # A1Admission constructor requires one paired source/unit identity across
+    # the positive alias family. This receipt-only copy rebinds all aliases;
+    # the caller separately receives and validates the actual false31 pair.
+    for case_id in ("P0a", "P0b", "P0c", "P-dispatch", "P1"):
+        false_expected[case_id]["source_id"] = false_case["source_id"]
+        false_expected[case_id]["unit_id"] = false_case["unit_id"]
+    gate, receipt_path = publish_positive_threshold_receipt(
+        a, tool=tool, tool_receipt=tool_receipt, certificate=certificate,
+        source_package=source_package, positive=pair,
+        expected_cases=false_expected, helpers=helpers,
+        profile_sha256=profile_sha256, pair_source_case="N-false31",
+        receipt_case="N-false31")
+    if progress is not None:
+        progress.update(receipt_path=str(receipt_path),
+                        receipt_issued_after_both_bodies=True)
+        if progress_hook is not None:
+            progress_hook("N-false31-receipt-issued")
+    caller = collect_source_case(
+        a, c4, ghost, tool=tool, tool_receipt=dict(tool_receipt),
+        profile=profile, manifest=manifest, certificate_path=certificate_path,
+        certificate=certificate, helpers=helpers, case_id="N-false31",
+        native_baseline=native, focus_case_id="N-false31",
+        support_cache=support_cache)
+    if progress is not None:
+        progress["caller_case"] = caller
+        if progress_hook is not None:
+            progress_hook("N-false31-caller-raw-observed")
+    candidate = caller.get("proof_candidate")
+    attestation = caller.get("execution_attestation")
+    boundary = observe_false31_boundary(
+        caller, second, certificate, helpers["a1-ast-gates.py"])
+    _need(isinstance(candidate, Mapping) and
+          candidate.get("classification") == "INTENDED_FOCUSED_FAILURE_CANDIDATE" and
+          candidate.get("target_reached") is True and
+          candidate.get("predicate") == "len<=31" and
+          isinstance(attestation, Mapping) and
+          attestation.get("caller_body_reached") is True and
+          attestation.get("caller_body_verified") is False and
+          boundary.get("classification") ==
+          "LEN32_BOUNDARY_ADMISSIBLE_BY_CHECKED_INTERFACE_AND_GUARD" and
+          gate.common_summary_available is True and
+          Path(receipt_path).is_file(),
+          "false31 caller did not fail at its own intended assertion after its own receipt")
+    observation = {"classification": "FALSE31_OWN_PAIR_REPROVED_AND_CALLER_OBSERVED",
+            "source_pair_sha256": pair["P0a"]["raw"]["source_pair_sha256"],
+            "receipt_path": receipt_path, "body_cases": pair,
+            "caller_case": caller, "boundary_observation": boundary,
+            "observed_input_ids": {"source_id": false_case["source_id"],
+                                   "unit_id": false_case["unit_id"]},
+            "receipt_issued_after_both_bodies": True,
+            "proof_credit": False}
+    if progress is not None:
+        progress["boundary_observation"] = boundary
+    if progress_hook is not None:
+        progress_hook("N-false31-caller-observed")
+    return observation
 
 
 def observe_focused_structure(case_id: str, raw: Mapping[str, Any],
                               fixture: Path, certificate: Mapping[str, Any],
                               helpers: Mapping[str, Any], *,
-                              native_baseline: Mapping[str, Any] | None = None) -> dict:
+                              native_baseline: Mapping[str, Any] | None = None,
+                              focus_case_id: str | None = None) -> dict:
     """Bind one raw focused case to compiler IDs, full native AST and MIR calls.
 
     The output remains structure-only. It never asserts body execution,
     conformance, verification success, or independent proof credit.
     """
+    focus_case_id = focus_case_id or case_id
     _need(case_id in SOURCE_CASE and raw.get("case_id") == case_id and
+          raw.get("focus_case_id", case_id) == focus_case_id and
           raw.get("paired_support", {}).get("paired_support_passed") is True,
           "paired current source support is required")
     paths = {}
@@ -653,11 +798,31 @@ def observe_focused_structure(case_id: str, raw: Mapping[str, Any],
               if name == "small_sort_threshold"]
     _need(len(common) == 1, "one compiler required threshold source span")
     gates = helpers["a1-ast-gates.py"]
-    posts = gates.threshold_posts(paths["proof-ast.ml"].read_text(encoding="utf-8"),
-                                  bound, stage=raw["focus_stage"],
-                                  baseline=native_baseline, common_line=common[0])
+    if focus_case_id == "P1":
+        actual_pair_digest = hashlib.sha256(
+            (raw["source_pair_sha256"]["verified"] + ":" +
+             raw["source_pair_sha256"]["original"]).encode("ascii")).hexdigest()
+        interface = gates.small_sort_interface(
+            paths["proof-ast.ml"].read_text(encoding="utf-8"), inventory,
+            baseline=native_baseline,
+            actual_source_pair_sha256=actual_pair_digest)
+        posts = gates.threshold_posts(paths["proof-ast.ml"].read_text(encoding="utf-8"),
+                                      bound, stage="interface",
+                                      baseline=None, common_line=common[0])
+    else:
+        interface = None
+        stage = raw["focus_stage"]
+        if focus_case_id in {"P0a", "P0b", "N-default-contract",
+                            "N-freeze-contract", "N-false31"} and \
+                stage == "bodies" and focus_case_id == "N-false31":
+            # N-false31 reuses its own source bytes for fresh threshold body
+            # proofs; it never borrows P0a/P0b source or receipt identities.
+            stage = "bodies"
+        posts = gates.threshold_posts(paths["proof-ast.ml"].read_text(encoding="utf-8"),
+                                      bound, stage=stage,
+                                      baseline=native_baseline, common_line=common[0])
     calls = None
-    if case_id in ("P0c", "N-false31", "P1"):
+    if focus_case_id in ("P0c", "N-false31", "P1"):
         calls = helpers["a1-call-binding.py"].observe(
             case_id, normal, readonly, dict(certificate), source)
         binding = calls["binding"]
@@ -684,9 +849,11 @@ def observe_focused_structure(case_id: str, raw: Mapping[str, Any],
                      owner=owner, expected=expected, source_line=caller_ast_line,
                      call_lines=lines, expected_arguments=operands)}
     return {"classification": "STRUCTURE_ONLY_UNRUN_PROOF",
-            "case_id": case_id, "inventory": inventory,
+            "case_id": case_id, "focus_case_id": focus_case_id,
+            "inventory": inventory,
             "bound_impls": bound, "threshold_posts": posts,
-            "caller_calls": calls, "proof_credit": False,
+            "caller_calls": calls, "small_sort_interface": interface,
+            "proof_credit": False,
             "body_count_observed": None,
             "native_conformance_verified": None}
 
@@ -695,31 +862,50 @@ def collect_source_case(a, c4, ghost, *, tool: Path, tool_receipt: dict,
                         profile: dict, manifest: dict, certificate_path: Path,
                         certificate: Mapping[str, Any], helpers: Mapping[str, Any],
                         case_id: str,
-                        native_baseline: Mapping[str, Any] | None = None) -> dict:
+                        native_baseline: Mapping[str, Any] | None = None,
+                        focus_case_id: str | None = None,
+                        support_cache: dict[str, dict] | None = None,
+                        evidence_id: str | None = None,
+                        control_env: Mapping[str, str] | None = None) -> dict:
     """Run one isolated paired source case and record only raw/structural facts."""
     _need(case_id in SOURCE_CASE and
           int(a.deadline_epoch) - int(time.time()) > 120,
           "source case unsupported or shared deadline exhausted")
     fixture = Path(a.evidence) / "a1-fixtures" / case_id
+    focus_case_id = focus_case_id or case_id
     raw = helpers["a1-focus-backend.py"].collect_focus(
         a, c4, ghost, tool, tool_receipt, profile, manifest,
         certificate_path, fixture, case_id,
         inventory_module=helpers["a1-compiler-inventory.py"],
-        call_binding_module=helpers["a1-call-binding.py"])
+        call_binding_module=helpers["a1-call-binding.py"],
+        focus_case_id=focus_case_id, support_cache=support_cache,
+        evidence_id=evidence_id, control_env=control_env)
     if raw.get("paired_support", {}).get("paired_support_passed") is not True or \
             raw.get("artifacts", {}).get("proof-ast.ml", {}).get("sha256") is None:
         return {"classification": "INCONCLUSIVE_CURRENT_STAGE",
                 "case_id": case_id, "raw": raw, "structure": None,
                 "proof_credit": False}
     structure = observe_focused_structure(case_id, raw, fixture, certificate,
-                                           helpers, native_baseline=native_baseline)
+                                           helpers, native_baseline=native_baseline,
+                                           focus_case_id=focus_case_id)
+    expected_case = certificate["cases"][case_id]
+    actual_pair = {"verified/lib.rs": _sha(fixture / "verified/lib.rs"),
+                   "original/lib.rs": _sha(fixture / "original/lib.rs")}
+    expected_original_sha = hashlib.sha256(
+        ghost.strip_ghost((fixture / "verified/lib.rs").read_bytes())).hexdigest()
+    _need(actual_pair == {"verified/lib.rs": expected_case["generated_source_sha256"],
+                          "original/lib.rs": expected_original_sha} and
+          raw.get("source_pair_sha256") == {
+              "verified": actual_pair["verified/lib.rs"],
+              "original": actual_pair["original/lib.rs"]},
+          "observed source fixture differs from its immutable constructor certificate")
     ast_path = Path(raw["artifacts"]["proof-ast.ml"]["path"])
     interval = None
-    if case_id in {"P0a", "P0b", "P0c", "N-default-contract",
-                   "N-freeze-contract", "N-false31"}:
-        if case_id in ("P0a", "N-default-contract"):
+    if focus_case_id in {"P0a", "P0b", "P0c", "N-default-contract",
+                         "N-freeze-contract", "N-false31"}:
+        if focus_case_id in ("P0a", "N-default-contract"):
             selected_impl = "default16"
-        elif case_id in ("P0b", "N-freeze-contract"):
+        elif focus_case_id in ("P0b", "N-freeze-contract"):
             selected_impl = "freeze32"
         else:
             selected_impl = None
@@ -743,10 +929,10 @@ def collect_source_case(a, c4, ghost, *, tool: Path, tool_receipt: dict,
             compiler_span=compiler_span)
     candidate = None
     execution = None
-    if case_id in {"P0a", "P0b", "P0c", "N-default-contract",
-                   "N-freeze-contract", "N-false31"}:
+    if focus_case_id in {"P0a", "P0b", "P0c", "N-default-contract",
+                         "N-freeze-contract", "N-false31"}:
         stage = raw.get("stages", {}).get("verification", {})
-        log = Path(a.evidence) / "focus" / case_id / "verification.log"
+        log = Path(raw.get("evidence_root", Path(a.evidence) / "focus" / case_id)) / "verification.log"
         _need(log.is_file() and stage.get("log_sha256") == _sha(log),
               "same-invocation verifier diagnostic log missing or changed")
         caller = structure["caller_calls"]
@@ -755,22 +941,260 @@ def collect_source_case(a, c4, ghost, *, tool: Path, tool_receipt: dict,
                   "mir_binding": caller["mir"] if caller else None}
         source = (fixture / "verified/lib.rs").read_text(encoding="utf-8")
         verifier_log = log.read_text(encoding="utf-8")
+        candidate_observation = dict(raw)
+        candidate_observation["case_id"] = focus_case_id
         candidate = helpers["a1-proof-classifier.py"].classify_focus(
-            case_id, raw, bundle, source, verifier_log)
+            focus_case_id, candidate_observation, bundle, source, verifier_log)
         _need(candidate.get("proof_credit") is False and
               candidate.get("body_count") is None and
               candidate.get("native_conformance_verified") is None,
               "candidate classifier improperly minted execution/conformance facts")
         if candidate.get("candidate_passed") is True:
             execution = attest_focused_execution(
-                case_id, tool=tool, profile=profile, raw=raw,
+                focus_case_id, tool=tool, profile=profile,
+                raw=candidate_observation,
                 structure=structure, interval=interval, candidate=candidate,
                 verifier_log=verifier_log)
     return {"classification": "RAW_AND_STRUCTURE_ONLY_UNCLASSIFIED",
             "case_id": case_id, "raw": raw, "structure": structure,
+            "fixture_path": str(fixture),
+            "observed_input_ids": {"source_id": expected_case["source_id"],
+                                   "unit_id": expected_case["unit_id"]},
+            "observed_input_sha256": actual_pair,
             "focus_interval": interval, "proof_candidate": candidate,
             "execution_attestation": execution,
             "proof_credit": False}
+
+
+def collect_native_reference_baseline(a, c4, *, tool: Path,
+                                      tool_receipt: Mapping[str, Any],
+                                      profile: Mapping[str, Any],
+                                      fixture: Path,
+                                      p1_raw: Mapping[str, Any],
+                                      p1_structure: Mapping[str, Any],
+                                      helpers: Mapping[str, Any]) -> dict:
+    """Capture the exact P1 interface under the separately built R-only console."""
+    reference = tool_receipt.get("native_reference")
+    _need(isinstance(reference, Mapping) and
+          reference.get("kind") == "separately-built-R-only-native-reference" and
+          reference.get("proof_credit") is False and
+          reference.get("build_id") == os.environ.get("CLOUD_BUILD_ID") and
+          reference.get("build_exit") == 0 and
+          reference.get("c_patch_applied") is False and
+          reference.get("r_patch_sha256") == profile.get("r_patch_sha256") and
+          reference.get("translator_sha256") ==
+          profile.get("r_after", {}).get("src/rust_frontend/vf_mir_translator/vf_mir_translator.ml") and
+          reference.get("schema_sha256") ==
+          profile.get("r_after", {}).get("src/rust_frontend/vf_mir/vf_mir.capnp") and
+          reference.get("exporter_source_sha256") ==
+          profile.get("r_after", {}).get("src/rust_frontend/vf_mir_exporter/src/lib.rs"),
+          "separately built R-only native reference receipt required")
+    console = Path(reference.get("console_path", "")).resolve()
+    _need(console.is_file() and str(console).startswith("/workspace/") and
+          _sha(console) == reference.get("console_binary_sha256") and
+          HEX64.fullmatch(str(reference.get("translator_sha256", ""))) and
+          reference.get("schema_sha256") == tool_receipt.get("final_schema_sha256") and
+          reference.get("exporter_binary_sha256") ==
+          tool_receipt.get("exporter_binary_sha256"),
+          "R-only reference tool identity/schema/exporter mismatch")
+    _need(p1_raw.get("case_id") == "P1" and
+          p1_raw.get("focus_stage") == "interface" and
+          p1_raw.get("paired_support", {}).get("paired_support_passed") is True and
+          p1_raw.get("source_pair_sha256") == {
+              "verified": _sha(fixture / "verified/lib.rs"),
+              "original": _sha(fixture / "original/lib.rs")},
+          "same-build P1 source pair required for native baseline")
+    root = Path(a.evidence) / "a1-native-reference" / "P1"
+    _need(not root.exists() and int(a.deadline_epoch) - int(time.time()) > 30,
+          "fresh R-only baseline destination and deadline required")
+    root.mkdir(parents=True)
+    env = c4.clean_env(a, tool)
+    env.update(SORT4_A1_PHASE_ID=PHASE,
+               SORT4_A1_CHECKED_TRAIT_CONTRACT="1",
+               SORT4_A1_STAGE="interface",
+               SORT4_A1_PROFILE_SHA256=os.environ["SORT4_A1_PROFILE_SHA256"])
+    ast_path = root / "r-only-native-reference-ast.ml"
+    command = [str(console), "-focus", "verified/lib.rs:0",
+               "-dump_ast_with_locs", str(ast_path),
+               "-rustc_args", "--edition 2021", "verified/lib.rs"]
+    stage = c4.stage(a, root, "r-only-native-reference",
+                     command, env, 240, cwd=fixture)
+    source_after = {name: _sha(fixture / name)
+                    for name in ("verified/lib.rs", "original/lib.rs")}
+    _need(source_after == p1_raw["source_pair_sha256"] and
+          ast_path.is_file(),
+          "R-only baseline did not preserve exact P1 source pair or emit its pre-verification AST")
+    actual_source_pair_sha256 = hashlib.sha256(
+        (source_after["verified"] + ":" + source_after["original"]).encode("ascii")
+    ).hexdigest()
+    source_pair_id = p1_structure["inventory"]["case_binding"]["source_pair_id"]
+    ast_gates = helpers["a1-ast-gates.py"]
+    reference_observation = {
+        "schema": "a1-r-only-native-reference-receipt-v1",
+        "mode": "r-only-native-reference",
+        "source_pair_id": source_pair_id,
+        "reference_binary_sha256": _sha(console),
+        "reference_translator_sha256": reference["translator_sha256"],
+        "ast_sha256": _sha(ast_path),
+        "source_pair_sha256": source_after,
+        "actual_source_pair_sha256": actual_source_pair_sha256,
+        "build_id": os.environ["CLOUD_BUILD_ID"],
+        "observed_exit": stage.get("exit"),
+        "proof_credit": False,
+    }
+    reference_receipt_path = root / "r-only-native-reference-observation.json"
+    reference_receipt_path.write_text(
+        json.dumps(reference_observation, sort_keys=True, indent=2) + "\n",
+        encoding="utf-8")
+    baseline = ast_gates.small_sort_native_baseline(
+        ast_path.read_text(encoding="utf-8"), p1_structure["inventory"],
+        source_pair_id=source_pair_id,
+        reference_receipt=reference_observation)
+    _need(baseline.get("schema") == "a1-small-sort-native-baseline-v1" and
+          baseline.get("provenance") == "r-only-native-translation" and
+          baseline.get("source_pair_id") == source_pair_id and
+          baseline.get("actual_source_pair_sha256") == actual_source_pair_sha256 and
+          baseline.get("proof_credit") is False and
+          baseline.get("conformance_credit") is False,
+          "R-only native baseline provenance/pair identity failed")
+    return {"classification": "R_ONLY_NATIVE_INTERFACE_BASELINE_OBSERVED",
+            "raw": {"stage": stage, "console_sha256": _sha(console),
+                    "translator_sha256": reference["translator_sha256"],
+                    "source_pair_sha256": source_after,
+                    "ast_path": str(ast_path), "ast_sha256": _sha(ast_path),
+                    "reference_observation_path": str(reference_receipt_path),
+                    "build_id": os.environ["CLOUD_BUILD_ID"]},
+            "baseline": baseline, "proof_credit": False}
+
+
+def collect_p1_interface_case(a, c4, ghost, *, tool: Path,
+                              tool_receipt: Mapping[str, Any], profile: dict,
+                              manifest: dict, certificate_path: Path,
+                              certificate: Mapping[str, Any],
+                              helpers: Mapping[str, Any],
+                              support_cache: dict[str, dict] | None = None) -> dict:
+    """Observe P1 with final R+C tool against a separately collected R-only AST."""
+    fixture = Path(a.evidence) / "a1-fixtures" / "P1"
+    raw = helpers["a1-focus-backend.py"].collect_focus(
+        a, c4, ghost, tool, dict(tool_receipt), profile, manifest,
+        certificate_path, fixture, "P1",
+        inventory_module=helpers["a1-compiler-inventory.py"],
+        call_binding_module=helpers["a1-call-binding.py"],
+        support_cache=support_cache)
+    _need(raw.get("case_id") == "P1" and raw.get("focus_case_id") == "P1" and
+          raw.get("focus_stage") == "interface" and
+          raw.get("focus") == "verified/lib.rs:0" and
+          raw.get("paired_support", {}).get("paired_support_passed") is True and
+          raw.get("stages", {}).get("verification", {}).get("exit") == 0 and
+          raw.get("artifacts", {}).get("proof-ast.ml", {}).get("sha256"),
+          "P1 final-tool interface observation did not complete cleanly")
+    source = (fixture / "verified/lib.rs").read_text(encoding="utf-8")
+    normal = Path(raw["artifacts"]["normal-mir.txt"]["path"]).read_text(encoding="utf-8")
+    readonly = Path(raw["artifacts"]["readonly-mir.txt"]["path"]).read_text(encoding="utf-8")
+    inventory = helpers["a1-compiler-inventory.py"].observe(
+        "P1", normal, readonly, dict(certificate), source)
+    reference = collect_native_reference_baseline(
+        a, c4, tool=tool, tool_receipt=tool_receipt, profile=profile,
+        fixture=fixture, p1_raw=raw,
+        p1_structure={"inventory": inventory}, helpers=helpers)
+    structure = observe_focused_structure(
+        "P1", raw, fixture, certificate, helpers,
+        native_baseline=reference["baseline"], focus_case_id="P1")
+    interface = structure.get("small_sort_interface")
+    _need(isinstance(interface, Mapping) and
+          interface.get("classification") == "INTERFACE_STRUCTURE_ONLY_UNRUN_PROOF" and
+          interface.get("structural_pass") is True and
+          interface.get("body_count") == 0 and
+          interface.get("proof_credit") is False and
+          interface.get("source_pair_id") == reference["baseline"]["source_pair_id"] and
+          interface.get("compiler_interface_digest") ==
+          reference["baseline"]["compiler_interface_digest"],
+          "P1 full small_sort interface structural gate failed")
+    return {"classification": "P1_FULL_INTERFACE_OBSERVED",
+            "raw": raw, "inventory": inventory, "baseline": reference,
+            "structure": structure, "proof_credit": False,
+            "body_count": 0,
+            "observed_input_ids": {
+                "source_id": certificate["cases"]["P1"]["source_id"],
+                "unit_id": certificate["cases"]["P1"]["unit_id"]},
+            "observed_input_sha256": {
+                "verified/lib.rs": _sha(fixture / "verified/lib.rs"),
+                "original/lib.rs": _sha(fixture / "original/lib.rs")}}
+
+
+def observe_false31_boundary(caller_case: Mapping[str, Any],
+                             freeze_body_case: Mapping[str, Any],
+                             certificate: Mapping[str, Any],
+                             ast_gates) -> dict:
+    """Bind len=32 boundary admissibility to the actual checked interface/call.
+
+    This is a structural boundary observation. It records the checked native
+    threshold range, actual Freeze body observation, and the certified strict
+    caller guard in one source pair; it never claims a concrete execution or
+    independent proof credit.
+    """
+    source_case = certificate["cases"]["N-false31"]
+    body_attestation = freeze_body_case.get("execution_attestation")
+    _need(isinstance(body_attestation, Mapping) and
+          body_attestation.get("focus_body_verified") is True and
+          body_attestation.get("focus_conformance_verified") is True and
+          body_attestation.get("compiler_identity", {}).get("impl") == "freeze32",
+          "boundary requires actual same-pair Freeze32 body/conformance attestation")
+    caller_raw = caller_case["raw"]
+    caller_structure = caller_case["structure"]
+    _need(caller_raw.get("source_pair_sha256", {}).get("verified") ==
+          source_case["generated_source_sha256"] and
+          caller_structure.get("focus_case_id") == "N-false31" and
+          caller_structure.get("caller_calls", {}).get("ast", {}).get("classification") ==
+          "CALL_AST_STRUCTURE_ONLY",
+          "boundary caller AST/source pair is not compiler-bound")
+    source = Path(caller_case["fixture_path"]) / "verified/lib.rs"
+    _need(source.is_file() and _sha(source) ==
+          source_case["generated_source_sha256"],
+          "boundary source bytes differ from N-false31 certificate")
+    lines = source.read_text(encoding="utf-8").splitlines()
+    guard = "if len <= T::small_sort_threshold() {"
+    guards = [index for index, line in enumerate(lines, 1) if line.strip() == guard]
+    assertions = [index for index, line in enumerate(lines, 1)
+                  if line.strip() == "//@ assert len <= 31;"]
+    _need(len(guards) == len(assertions) == 1 and guards[0] < assertions[0],
+          "certified inclusive threshold guard and false31 assertion must be unique and ordered")
+    binding = caller_structure["caller_calls"]["mir"]["binding"]
+    calls = binding.get("calls", [])
+    threshold_calls = [row for row in calls
+                       if row.get("callee") == "StableSmallSortTypeImpl::small_sort_threshold"]
+    _need(len(threshold_calls) == 1 and
+          threshold_calls[0].get("call_line") == guards[0],
+          "compiler MIR threshold call must bind to the certified inclusive guard line")
+    # Use the actual N-false31 caller AST: unlike an impl-body focus, this
+    # caller stage has passed the checked common native summary through its
+    # exact-pair receipt.
+    caller_ast = Path(caller_raw["artifacts"]["proof-ast.ml"]["path"])
+    inventory = caller_structure["inventory"]["inventory"]
+    common_spans = [span for name, span in inventory["required_method_spans"]
+                    if name == "small_sort_threshold"]
+    _need(len(common_spans) == 1, "one compiler required threshold span")
+    fs = ast_gates.functions(caller_ast.read_text(encoding="utf-8"))
+    common = [row for row in fs if row["name"] == ast_gates.COMMON and
+              row["kind"] == "prototype"]
+    _need(len(common) == 1, "one compiler-bound checked common threshold AST prototype required")
+    _need(ast_gates._source_line(common[0]["fields"][0]) == common_spans[0][0][1],
+          "checked common AST prototype differs from compiler required-item span")
+    checked = ast_gates.contract(common[0], True)
+    _need(checked.get("checked_range") is True and
+          caller_structure["threshold_posts"].get("stage") == "caller" and
+          caller_structure["threshold_posts"].get("common_checked") is True,
+          "actual AST must retain the inclusive 16..32 common threshold contract")
+    return {"classification": "LEN32_BOUNDARY_ADMISSIBLE_BY_CHECKED_INTERFACE_AND_GUARD",
+            "source_pair_sha256": caller_raw["source_pair_sha256"],
+            "guard_source_line": guards[0], "assertion_source_line": assertions[0],
+            "guard_expression": "len <= T::small_sort_threshold()",
+            "threshold_contract_ast_sha256": _sha(caller_ast),
+            "threshold_upper_bound": 32, "boundary_len": 32,
+            "boundary_satisfies_guard": 32 <= 32,
+            "freeze_body_conformance_observed": True,
+            "proof_credit": False,
+            "assurance": "source-and-AST structural boundary observation"}
 
 
 def _ast_source_span(location: Any) -> tuple[int, int] | None:
@@ -967,12 +1391,13 @@ def preflight_plan(profile: Mapping[str, Any], matrix: Mapping[str, Any] | None 
                 "caller-body" if case_id in ("P0c", "N-false31") else
                 "interface-only" if case_id in
                 {"P-dispatch", "P1", *SYNTHETIC_MUTATION,
-                 "N-source", "N-binding", "N-clause-redirect"} else "none")
+                 "N-source", "N-binding", "N-region-swap",
+                 "N-clause-redirect"} else "none")
         cases.append({"case_id": case_id, "source_adapter": source,
                       "focus_mode": mode, "executed": False,
                       "proof_credit": False})
     return {
-        "classification": "BLOCKED_UNIMPLEMENTED_STAGE",
+        "classification": "PLANNED_UNRUN_MATRIX",
         "phase_id": PHASE,
         "case_count": len(cases), "cases": cases,
         "planned_order": list(CASE_ORDER),
@@ -985,16 +1410,266 @@ def preflight_plan(profile: Mapping[str, Any], matrix: Mapping[str, Any] | None 
             "admission": "a1-contract-admission.A1Admission",
             "receipt": "a1-summary-receipt.write_cloud_receipt",
         },
-        "missing_backend_hooks": MISSING_BACKEND_HOOKS.copy(),
-        "first_missing_stage": "full_small_sort_p1_interface",
+        "required_runtime_gates": [
+            "same-Build immutable source and tool identities",
+            "actual focused body/conformance and caller stages",
+            "P1 compiler-bound structural interface plus R-only native baseline",
+            "synthetic transport/admission classifier routes",
+            "all 26 observed rows validated by A1Admission"],
+        "first_missing_stage": None,
         "tool_reconstructed": False, "fixtures_generated": False,
         "verification_invoked": False, "matrix_complete": False,
         "dispatch_ready": False, "proof_credit": False,
     }
 
 
-def run(a) -> dict:
-    """Cloud-only admission checkpoint; no tool or proof stage is reachable."""
+def _stage_result(case_id: str, observation: Any, *, error: str | None = None) -> dict:
+    """Keep lifecycle status separate from expected matrix verdict labels."""
+    if not isinstance(observation, Mapping):
+        return {"case_id": case_id, "status": "INCONCLUSIVE" if error else "NOT_RUN",
+                "observed_stage": None, "observed_outcome": None,
+                "reason": error, "proof_credit": False}
+    raw = observation.get("raw")
+    if isinstance(raw, Mapping):
+        nested_stages = raw.get("stages")
+        stages = nested_stages if isinstance(nested_stages, Mapping) else {}
+    else:
+        stages = observation.get("stages", {})
+    if not isinstance(stages, Mapping):
+        stages = {}
+    stage = observation.get("first_causal_stage")
+    if stage is None:
+        stage = next((name for name, row in stages.items()
+                      if isinstance(row, Mapping) and row.get("exit") not in (None, 0)), None)
+    outcome = observation.get("classification")
+    if outcome is None and isinstance(observation.get("proof_candidate"), Mapping):
+        outcome = observation["proof_candidate"].get("classification")
+    status = ("INCONCLUSIVE" if isinstance(outcome, str) and
+              "INCONCLUSIVE" in outcome else
+              "OBSERVED" if stages or raw or outcome else "INCONCLUSIVE")
+    return {"case_id": case_id, "status": status,
+            "observed_stage": stage, "observed_outcome": outcome,
+            "reason": error, "proof_credit": False}
+
+
+def _safe_action(rows: dict, case_id: str, action) -> Any:
+    """Run one adapter without converting setup/early failures into a verdict."""
+    try:
+        value = action()
+        rows[case_id] = value
+        return value
+    except Exception as exc:
+        rows[case_id] = {"adapter_error": f"{type(exc).__name__}: {exc}",
+                         "proof_credit": False}
+        return None
+
+
+def _jsonable(value: Any) -> Any:
+    """Preserve structural observations in progress JSON without repr fallbacks."""
+    if isinstance(value, Mapping):
+        return {str(key): _jsonable(item) for key, item in value.items()
+                if key not in {"admission_gate", "support_cache", "certificate"}}
+    if isinstance(value, (tuple, list)):
+        return [_jsonable(item) for item in value]
+    if isinstance(value, (str, int, float, bool)) or value is None:
+        return value
+    if isinstance(value, Path):
+        return str(value)
+    raise TypeError("unsupported progress value: " + type(value).__name__)
+
+
+def _run_off_observation(a, c4, tool: Path, off_input: Mapping[str, Any],
+                        selected_proof) -> dict:
+    """Observe the selected positive fixture with the A1 opt-in absent."""
+    fixture = Path(str(off_input.get("fixture", ""))).resolve()
+    _need(str(fixture).startswith(str(Path(a.evidence).resolve())) and
+          (fixture / "verified/lib.rs").is_file() and
+          (fixture / "original/lib.rs").is_file(),
+          "certified OFF selected source pair required")
+    root = Path(a.evidence) / "a1-off-observation"
+    _need(not root.exists(), "fresh OFF observation destination required")
+    env = c4.clean_env(a, tool)
+    _need("SORT4_A1_CHECKED_TRAIT_CONTRACT" not in env and
+          "SORT4_A1_PHASE_ID" not in env,
+          "A1 opt-in must be absent in OFF environment")
+    source_pair_before = {name: _sha(fixture / name)
+                          for name in ("verified/lib.rs", "original/lib.rs")}
+    _need(source_pair_before == {"verified/lib.rs": off_input.get("verified_sha256"),
+                                "original/lib.rs": off_input.get("original_sha256")},
+          "OFF exact prepared source pair identity")
+    result = c4.verify_case(a, tool, fixture, root, env,
+                            target=selected_proof.SELECTED["selected-branch-positive"],
+                            ast=True, require_paired_support=False, verbosity=4)
+    log_path = root / "verification.log"
+    log = log_path.read_text(errors="replace") if log_path.is_file() else ""
+    first = next((line for line in log.splitlines()
+                  if ": error:" in line or line.startswith(("Fatal error:", "error:"))), None)
+    source_pair_after = {name: _sha(fixture / name)
+                         for name in ("verified/lib.rs", "original/lib.rs")}
+    source_lines = (fixture / "verified/lib.rs").read_text(encoding="utf-8").splitlines()
+    trait_lines = [index for index, line in enumerate(source_lines, 1)
+                   if "trait StableSmallSortTypeImpl" in line]
+    impl_lines = [index for index, line in enumerate(source_lines, 1)
+                  if line.lstrip().startswith("impl<") and "StableSmallSortTypeImpl" in line]
+    trait_method_lines = [index for index, line in enumerate(source_lines, 1)
+                          if line.strip().startswith("fn small_sort<F:") and
+                          (not impl_lines or index < impl_lines[0])]
+    error_lines = [int(value) for value in re.findall(r"(?:^|/)verified/lib\.rs\((\d+),", first or "")]
+    duplicate_diagnostic = (len(trait_lines) == len(trait_method_lines) == 1 and
+                            len(error_lines) == 1 and
+                            error_lines[0] == trait_method_lines[0] and
+                            "Duplicate type parameter ''_'" in (first or ""))
+    immutable = source_pair_after == source_pair_before
+    return {"classification": "OFF_BASELINE_OBSERVATION_ONLY",
+            "stages": result.get("stages", {}),
+            "first_causal_stage": result.get("first_causal_stage"),
+            "first_diagnostic": first,
+            "paired_support": result.get("support"),
+            "source_pair_immutable": result.get("source_pair_immutable"),
+            "observed_input_ids": {"source_id": off_input["source_id"],
+                                   "unit_id": off_input["unit_id"]}
+            if source_pair_after == source_pair_before else None,
+            "source_pair_sha256": source_pair_after,
+            "prepared_source_pair_sha256": source_pair_before,
+            "exact_source_bound_duplicate_parameter_diagnostic": duplicate_diagnostic,
+            "duplicate_trait_parameter_at_source_declaration": duplicate_diagnostic and immutable,
+            "input_identity_verified": immutable and
+                source_pair_after == source_pair_before and
+                off_input.get("verified_sha256") == source_pair_after["verified/lib.rs"] and
+                off_input.get("original_sha256") == source_pair_after["original/lib.rs"],
+            "source_id": off_input["source_id"], "unit_id": off_input["unit_id"],
+            "proof_ast_sha256": result.get("proof_ast_sha256"),
+            "proof_credit": False}
+
+
+def classify_dispatch_observation(raw: Mapping[str, Any], *,
+                                  expected_source_sha256: str) -> dict:
+    """Classify translator dispatch from exact current full-unit trace lines."""
+    result = {"classification": "INCONCLUSIVE_DISPATCH_OBSERVATION",
+              "proof_credit": False}
+    stages = raw.get("stages", {})
+    if (raw.get("case_id") != "P-dispatch" or
+            raw.get("source_pair_sha256", {}).get("verified") != expected_source_sha256 or
+            raw.get("paired_support", {}).get("paired_support_passed") is not True or
+            not isinstance(stages, Mapping) or
+            stages.get("verification", {}).get("exit") != 0):
+        return {**result, "reason": "full-unit translator/stage/source gate missing"}
+    log = Path(raw.get("evidence_root", "")) / "verification.log"
+    if not log.is_file() or stages["verification"].get("log_sha256") != _sha(log):
+        return {**result, "reason": "same-invocation translated-call trace unavailable"}
+    lines = log.read_text(errors="replace").splitlines()
+    observed = {}
+    for tag, name in (("SORT4-A1-DISPATCH", "StableSmallSortTypeImpl::small_sort_threshold"),
+                      ("SORT4-A1-DISPATCH", "StableSmallSortTypeImpl::small_sort")):
+        matches = [line for line in lines if line.startswith(tag + ":") and
+                   ("original=" + name) in line]
+        if len(matches) != 1:
+            return {**result, "reason": "unique original common dispatch trace missing",
+                    "matched_lines": len(matches)}
+        match = re.fullmatch(re.escape(tag) + r": original=" + re.escape(name) +
+                             r" translated=" + re.escape(name) + r" redirect=false", matches[0])
+        if match is None:
+            return {**result, "reason": "translator redirected or changed original common call"}
+        observed[name] = matches[0]
+    if not raw.get("artifacts", {}).get("proof-ast.ml", {}).get("sha256"):
+        return {**result, "reason": "same-unit AST missing"}
+    return {"classification": "ORIGINAL_COMMON_TRAIT_DISPATCH_OBSERVED",
+            "trace_lines": observed, "source_sha256": expected_source_sha256,
+            "verification_exit": 0, "proof_credit": False}
+
+
+def observe_admission_control(case_id: str, *, call_binding, compiler_inventory,
+                              normal: str, readonly: str, certificate: Mapping[str, Any],
+                              source: str, control_path: Path) -> dict:
+    """Execute the source-reported admission validators on actual paired MIR."""
+    result = {"case_id": case_id, "classification": "INCONCLUSIVE_ADMISSION_CONTROL",
+              "proof_credit": False}
+    input_sha = _sha(control_path)
+    if case_id == "N-source":
+        mutated_certificate = json.loads(control_path.read_text())
+        try:
+            call_binding.observe("P1", normal, readonly,
+                                 mutated_certificate, source)
+        except call_binding.CallBindingError as exc:
+            if "generated Rust source does not match case source hashes" == str(exc):
+                return {**result, "classification": "SOURCE_CERTIFICATE_REFUSAL_OBSERVED",
+                        "stage": "source-admission", "error_type": type(exc).__name__,
+                        "observed_error": str(exc), "control_input_sha256": input_sha,
+                        "control_input_immutable": _sha(control_path) == input_sha,
+                        "observed_input_ids": {"source_id": certificate["cases"]["P1"]["source_id"],
+                                               "unit_id": certificate["cases"]["P1"]["unit_id"]}}
+            return {**result, "observed_error": str(exc)}
+        return {**result, "reason": "mutated certificate unexpectedly admitted"}
+    if case_id == "N-binding":
+        observation = call_binding.observe("P1", normal, readonly,
+                                           dict(certificate), source)
+        inventory = compiler_inventory.observe("P1", normal, readonly,
+                                                dict(certificate), source)
+        wrong_claim = json.loads(control_path.read_text())
+        try:
+            call_binding.validate_common_binding_claim(observation, inventory,
+                                                       wrong_claim)
+        except call_binding.CallBindingError as exc:
+            if str(exc) != "claim differs from the paired compiler caller MIR binding":
+                return {**result, "observed_error": str(exc)}
+            return {**result, "classification": "CALL_BINDING_CLAIM_REFUSAL_OBSERVED",
+                    "stage": "call-binding-admission", "error_type": type(exc).__name__,
+                    "observed_error": str(exc), "control_input_sha256": input_sha,
+                    "control_input_immutable": _sha(control_path) == input_sha,
+                    "observed_input_ids": {"source_id": certificate["cases"]["P1"]["source_id"],
+                                           "unit_id": certificate["cases"]["P1"]["unit_id"]}}
+        return {**result, "reason": "mutated caller claim unexpectedly admitted"}
+    if case_id == "N-region-swap":
+        observation = call_binding.observe("P1", normal, readonly,
+                                           dict(certificate), source)
+        inventory = compiler_inventory.observe("P1", normal, readonly,
+                                                dict(certificate), source)
+        claim = json.loads(control_path.read_text())
+        try:
+            call_binding.validate_common_binding_claim(observation, inventory, claim)
+        except call_binding.CallBindingError as exc:
+            if str(exc) != "claim input-region role map differs from compiler-derived call/input region map":
+                return {**result, "observed_error": str(exc)}
+            return {**result, "classification": "INPUT_REGION_ROLE_REFUSAL_OBSERVED",
+                    "stage": "call-binding-admission", "error_type": type(exc).__name__,
+                    "observed_error": str(exc), "control_input_sha256": input_sha,
+                    "control_input_immutable": _sha(control_path) == input_sha,
+                    "observed_input_ids": {"source_id": certificate["cases"]["P1"]["source_id"],
+                                           "unit_id": certificate["cases"]["P1"]["unit_id"]}}
+        return {**result, "reason": "mutated input-region claim unexpectedly admitted"}
+    return {**result, "reason": "unsupported pure admission control"}
+
+
+def classify_redirect_observation(raw: Mapping[str, Any], *,
+                                  expected_source_sha256: str) -> dict:
+    """Require the forced legacy probe's own first translator refusal."""
+    result = {"classification": "INCONCLUSIVE_REDIRECT_CONTROL",
+              "proof_credit": False}
+    stages = raw.get("stages", {})
+    if (raw.get("focus_case_id") != "P0c" or
+            raw.get("source_pair_sha256", {}).get("verified") != expected_source_sha256 or
+            raw.get("paired_support", {}).get("paired_support_passed") is not True or
+            not isinstance(stages, Mapping) or
+            stages.get("verification", {}).get("exit") in (None, 0)):
+        return {**result, "reason": "forced redirect invocation did not reach failing translator"}
+    log = Path(raw.get("evidence_root", "")) / "verification.log"
+    if not log.is_file() or stages["verification"].get("log_sha256") != _sha(log):
+        return {**result, "reason": "same-invocation redirect diagnostic unavailable"}
+    text = log.read_text(errors="replace")
+    first = next((line for line in text.splitlines()
+                  if ": error:" in line or line.startswith(("Fatal error:", "error:"))), None)
+    intended = "SORT4-A1-CONTRACT: legacy clause-ignoring redirect attempted at common call"
+    if first is None or intended not in first:
+        return {**result, "reason": "first diagnostic differs from intended legacy redirect refusal",
+                "first_diagnostic": first}
+    return {"classification": "LEGACY_REDIRECT_REFUSAL_OBSERVED",
+            "stage": "translated-call-gate", "first_diagnostic": first,
+            "verification_exit": stages["verification"]["exit"],
+            "proof_credit": False}
+
+
+def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
+    """Run the pinned A1 lifecycle and retain only actually observed results."""
     env = os.environ
     _need(env.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
           env.get("SORT4_A1_PHASE_ID") == PHASE and
@@ -1019,18 +1694,708 @@ def run(a) -> dict:
         ["git", "-C", str(a.proof_root), "rev-parse", "HEAD"], text=True).strip()
     _need(actual == proof_sha, "proof checkout SHA differs")
     profile = json.loads(profile_path.read_text())
-    _need(profile.get("proof_sha") == proof_sha and
-          profile.get("infra_sha") == infra_sha and
+    _need(profile.get("profile_pin_source") == "coordinator-environment" and
+          profile.get("proof_sha") in (None, "") and
+          profile.get("infra_sha") in (None, "") and
           profile.get("cloud_build_enabled") is True,
-          "published A1 profile has no matching authorized run pins")
-    result = preflight_plan(profile, _admission_matrix(
+          "published A1 profile must use the exact coordinator-pinned run identity")
+    plan = preflight_plan(profile, _admission_matrix(
         Path(a.proof_root) / HERE / "a1-contract-admission.py"))
-    result.update(build_id=env["CLOUD_BUILD_ID"], proof_sha=proof_sha,
-                  infra_sha=infra_sha, profile_sha256=profile_sha)
-    # The checkpoint is written only in an isolated Cloud evidence directory.
-    # It is not a result row and must never be fed to A1Admission.
-    path = Path(a.evidence) / "a1-first-matrix-preflight.json"
+    expected_manifest = Path(a.proof_root) / HERE / "CALLER-ENTRY-MANIFEST.json"
+    _need(expected_manifest.is_file() and
+          _sha(expected_manifest) == profile.get("caller_manifest_sha256") and
+          json.loads(expected_manifest.read_text()) == dict(manifest),
+          "exact legacy caller manifest required")
+    dependencies = (
+        (c4, Path(a.cloud_dir) / "sort4-caller-entry-native/selected-runtime.py",
+         manifest["runtime_helpers_sha256"]["selected-runtime.py"]),
+        (audit, Path(a.cloud_dir) / "sort4-first-scope-audit.py",
+         manifest["runtime_helpers_sha256"]["sort4-first-scope-audit.py"]),
+        (driver, Path(a.cloud_dir) / "sort4-caller-entry-native/driver.py",
+         profile["caller_driver_sha256"]),
+        (ghost, Path(a.cloud_dir) / "sort4-native-c1-bound/ghost-strip.py",
+         manifest["ghost_strip_sha256"]),
+    )
+    for module, path, digest in dependencies:
+        _need(Path(module.__file__).resolve() == path.resolve() and
+              path.is_file() and _sha(path) == digest,
+              "runner dependency differs from exact Cloud/proof pin: " + str(path))
+    result = {"classification": "A1_RUNNER_OBSERVED_LIFECYCLE",
+              "phase_id": PHASE, "planned_order": list(CASE_ORDER),
+              "case_status": {case_id: {"status": "NOT_RUN",
+                  "observed_stage": None, "observed_outcome": None,
+                  "proof_credit": False} for case_id in CASE_ORDER},
+              "observed_rows": [], "matrix_complete": False,
+              "dispatch_ready": False, "admission_record_created": False,
+              "proof_credit": False,
+              "build_id": env["CLOUD_BUILD_ID"], "proof_sha": proof_sha,
+              "infra_sha": infra_sha, "profile_sha256": profile_sha}
+    progress_path = Path(a.evidence) / "a1-lifecycle-progress.json"
+    progress_path.parent.mkdir(parents=True, exist_ok=True)
+    progress_path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
+
+    def persist_progress():
+        snapshot = deepcopy(result)
+        snapshot["observation_details"] = _jsonable(observations)
+        snapshot["execution_events"] = _jsonable(execution_events)
+        snapshot["positive_lifecycle_progress"] = {
+            key: value for key, value in positive_progress.items()
+            if key not in ("certificate", "admission_gate", "support_cache")}
+        progress_path.write_text(json.dumps(_jsonable(snapshot), indent=2,
+                                            sort_keys=True) + "\n")
+
+    execution_events: list[dict[str, Any]] = []
+
+    def action(case_id: str, thunk, *, minimum_remaining: int | None = None):
+        minimum = (minimum_remaining if minimum_remaining is not None else
+                   120 if case_id in SOURCE_CASE or case_id in
+                   {"P1", "N-false31", "N-clause-redirect"} else 30)
+        remaining = int(a.deadline_epoch) - int(time.time())
+        if remaining <= minimum:
+            value = {"not_run": True, "execution_started": False,
+                     "reason": "shared Build deadline left no safe stage budget",
+                     "deadline_remaining_seconds": max(0, remaining),
+                     "proof_credit": False}
+            observations[case_id] = value
+            execution_events.append({"case_id": case_id, "event": "not_run",
+                                     "execution_started": False,
+                                     "reason": value["reason"]})
+            persist_progress()
+            return None
+        action_event_start = len(execution_events)
+        execution_events.append({"case_id": case_id, "event": "started",
+                                 "execution_started": True})
+        try:
+            value = thunk()
+            observations[case_id] = value
+            execution_events.append({"case_id": case_id, "event": "completed",
+                                     "execution_started": True})
+        except Exception as exc:
+            prior_stage = next((event.get("stage") for event in reversed(
+                                execution_events[action_event_start:])
+                                if event.get("event") == "stage_observed"), case_id)
+            value = {"adapter_error": f"{type(exc).__name__}: {exc}",
+                     "not_run": False, "execution_started": True,
+                     "failed_stage": prior_stage,
+                     "proof_credit": False}
+            observations[case_id] = value
+            execution_events.append({"case_id": case_id, "event": "adapter_error",
+                                     "execution_started": True,
+                                     "stage": prior_stage,
+                                     "error": value["adapter_error"]})
+        persist_progress()
+        return value
+
+    def stage_progress(stage_name: str):
+        case_key = stage_name.split("-observed", 1)[0]
+        if case_key.startswith("N-false31-"):
+            target = positive_progress.get("false31", {}).get("body_cases", {}).get(
+                case_key.removeprefix("N-false31-"), {})
+        else:
+            target = positive_progress.get("positive_cases", {}).get(case_key, {})
+        raw = target.get("raw", {}) if isinstance(target, Mapping) else {}
+        candidate = target.get("proof_candidate", {}) if isinstance(target, Mapping) else {}
+        execution_events.append({"case_id": case_key, "event": "stage_observed",
+                                 "stage": stage_name, "execution_started": True,
+                                 "raw_first_causal_stage": raw.get("first_causal_stage")
+                                    if isinstance(raw, Mapping) else None,
+                                 "candidate_classification": candidate.get("classification")
+                                    if isinstance(candidate, Mapping) else None,
+                                 "verification_exit": raw.get("stages", {}).get(
+                                     "verification", {}).get("exit")
+                                    if isinstance(raw, Mapping) else None})
+        persist_progress()
+
+    observations: dict[str, Any] = {}
+    errors: dict[str, str] = {}
+    support_cache: dict[str, dict] = {}
+    positive_progress: dict[str, Any] = {}
+    helpers = None
+    draft = None
+    try:
+        execution_events.append({"case_id": "tool-reconstruction", "event": "started",
+                                 "execution_started": True})
+        helpers = load_pinned_helpers(Path(a.proof_root), profile)
+        tool, tool_receipt = helpers["a1-tool.py"].reconstruct(
+            a, c4, audit, driver, dict(manifest), profile)
+        result.update(tool_path=str(tool), tool_receipt=tool_receipt,
+                      tool_reconstructed=tool_receipt.get("proof_credit") is False)
+        execution_events.append({"case_id": "tool-reconstruction", "event": "completed",
+                                 "execution_started": True})
+        persist_progress()
+    except Exception as exc:
+        result.update(tool_reconstructed=False,
+                      run_error=f"{type(exc).__name__}: {exc}")
+        result["first_missing_stage"] = "tool-reconstruction"
+        execution_events.append({"case_id": "tool-reconstruction", "event": "adapter_error",
+                                 "execution_started": True,
+                                 "error": result["run_error"]})
+        persist_progress()
+    if helpers is not None and result.get("tool_reconstructed"):
+        tool = Path(result["tool_path"])
+        receipt = result["tool_receipt"]
+        legacy_prepared = action("prepare-legacy-fixtures", lambda:
+            prepare_legacy_fixtures(a, driver, c4, ghost, dict(manifest)))
+        if legacy_prepared is not None:
+            positive_progress["legacy_inputs"] = legacy_prepared
+        off_prepared = action("prepare-off-fixture", lambda:
+            prepare_off_fixture(a, helpers["selected-proof.py"], driver,
+                                ghost, dict(manifest), profile))
+        if off_prepared is not None:
+            positive_progress["off_input"] = off_prepared
+        # The current positive lifecycle performs two real body/conformance
+        # runs, then writes the exact-pair receipt, then runs its caller.
+        draft = action("P0a", lambda:
+            draft_positive_receipt_stage(
+            a, c4, driver, ghost, c4, dict(manifest), profile,
+                tool=tool, tool_receipt=receipt, profile_sha256=profile_sha,
+                helpers=helpers, support_cache=support_cache,
+                progress=positive_progress, progress_hook=stage_progress))
+        observations.update(positive_progress.get("positive_cases", {}))
+        certificate_path_value = positive_progress.get("certificate_path")
+        certificate = positive_progress.get("certificate")
+        certificate_path = (Path(certificate_path_value)
+                            if isinstance(certificate_path_value, str) else None)
+        expected_cases_for_run = positive_progress.get("expected_case_ids", {})
+        persist_progress()
+        if draft is not None:
+            observations["P0b"] = draft["positive_cases"]["P0b"]
+            observations["P0c"] = draft["positive_cases"]["P0c"]
+            result["case_status"]["P0a"] = _stage_result(
+                "P0a", draft["positive_cases"]["P0a"])
+            result["case_status"]["P0b"] = _stage_result("P0b", observations["P0b"])
+            result["case_status"]["P0c"] = _stage_result("P0c", observations["P0c"])
+            certificate_path = Path(draft["certificate_path"])
+            certificate = json.loads(certificate_path.read_text())
+            result["source_certificate_sha256"] = _sha(certificate_path)
+            result["positive_receipt_path"] = draft["receipt_path"]
+            result["expected_cases"] = draft["expected_case_ids"]
+        if certificate is not None and certificate_path is not None:
+            positive_cases = positive_progress.get("positive_cases", {})
+            p0a_partial = positive_cases.get("P0a", {})
+            # Any independent full-unit/interface, negative-body, admission,
+            # legacy-regression, and OFF route proceeds even when a positive
+            # body or caller gate fails. Only receipt-dependent caller rows
+            # require the complete positive lifecycle.
+            if "legacy_inputs" not in positive_progress:
+                legacy_prepared = action("prepare-legacy-fixtures", lambda:
+                    prepare_legacy_fixtures(a, driver, c4, ghost, dict(manifest)))
+                if legacy_prepared is not None:
+                    positive_progress["legacy_inputs"] = legacy_prepared
+            if "off_input" not in positive_progress:
+                off_prepared = action("prepare-off-fixture", lambda:
+                    prepare_off_fixture(
+                        a, helpers["selected-proof.py"], driver, ghost,
+                        dict(manifest), profile))
+                if off_prepared is not None:
+                    positive_progress["off_input"] = off_prepared
+            if ("synthetic_inputs" not in positive_progress and
+                    isinstance(p0a_partial.get("raw", {}).get("artifacts"), Mapping) and
+                    isinstance(p0a_partial.get("structure"), Mapping)):
+                decoded_path = Path(p0a_partial["raw"]["artifacts"]["normal-mir.txt"]["path"])
+                prepared = action("prepare-synthetic-inputs", lambda:
+                    prepare_synthetic_inputs(
+                        a, helpers["a1-synthetic-inputs.py"],
+                        baseline_decoded=decoded_path,
+                        inventory=p0a_partial["structure"]["inventory"],
+                        certificate=certificate))
+                if prepared is not None:
+                    positive_progress["synthetic_inputs"] = prepared
+            if ("admission_controls" not in positive_progress and
+                    isinstance(p0a_partial.get("raw", {}).get("artifacts"), Mapping)):
+                artifacts = p0a_partial["raw"]["artifacts"]
+                prepared_controls = action("prepare-admission-controls", lambda:
+                    prepare_admission_control_inputs(
+                        a, helpers["a1-call-binding.py"],
+                        helpers["a1-compiler-inventory.py"],
+                        certificate=certificate, certificate_path=certificate_path,
+                        normal_decoded=Path(artifacts["normal-mir.txt"]["path"]),
+                        readonly_decoded=Path(artifacts["readonly-mir.txt"]["path"])))
+                if prepared_controls is not None:
+                    positive_progress["admission_controls"] = prepared_controls
+            expected_cases = positive_progress.get("expected_case_ids")
+            if (not isinstance(expected_cases, Mapping) and
+                    isinstance(positive_progress.get("synthetic_inputs"), Mapping) and
+                    isinstance(positive_progress.get("admission_controls"), Mapping) and
+                    isinstance(positive_progress.get("legacy_inputs"), Mapping) and
+                    isinstance(positive_progress.get("off_input"), Mapping) and
+                    isinstance(p0a_partial.get("structure"), Mapping)):
+                expected_cases = action("materialize-matrix-identities", lambda:
+                    materialize_expected_cases(
+                        helpers["a1-contract-admission.py"], certificate,
+                        positive_progress["synthetic_inputs"],
+                        positive_progress["legacy_inputs"],
+                        positive_progress["off_input"],
+                        positive_progress["admission_controls"],
+                        p0a_partial["structure"]["bound_impls"]))
+                if expected_cases is not None:
+                    positive_progress["expected_case_ids"] = expected_cases
+                    expected_cases_for_run = expected_cases
+            observations.update(positive_cases)
+            # Transport controls are invoked against the exact paired
+            # compiler-derived decoded message. A classifier must inspect the
+            # actual current translator output, never mutation metadata.
+            first = positive_cases.get("P0a", {})
+            first_artifacts = first.get("raw", {}).get("artifacts", {})
+            decoded = (Path(first_artifacts["normal-mir.txt"]["path"])
+                       if isinstance(first_artifacts, Mapping) and
+                       isinstance(first_artifacts.get("normal-mir.txt"), Mapping) else None)
+            synthetic_inputs = positive_progress.get("synthetic_inputs", {})
+            mutator = helpers["a1-synthetic-inputs.py"]
+            backend = helpers["a1-synthetic-backend.py"]
+            impls = [row for row in first.get("structure", {}).get("inventory", {})
+                     .get("inventory", {}).get("impls", [])
+                     if row.get("impl") == "default16"]
+            impl_index = impls[0]["impl_def_index"] if len(impls) == 1 else None
+            for case_id, inputs in (synthetic_inputs.items() if decoded is not None else ()):
+                for message in inputs["messages"]:
+                    mutation = message["mutation"]
+                    root = Path(message["path"]).parent / (mutation + "-run")
+                    raw = action(case_id + "/" + mutation, lambda m=mutation, r=root:
+                        backend.inject(
+                            a, c4, mutator, tool=tool,
+                            fixture=Path(a.evidence) / "a1-fixtures" / "P1",
+                            root=r, baseline_decoded=decoded,
+                            baseline_sha256=_sha(decoded), mutation=m,
+                            impl_def_index=impl_index if m == "duplicate_impl_method" else None,
+                            env={**c4.clean_env(a, tool),
+                                 "SMALLSORT_EXECUTION_PROVIDER": "cloud-build",
+                                 "SORT4_A1_PHASE_ID": PHASE,
+                                 "SORT4_A1_CHECKED_TRAIT_CONTRACT": "1",
+                                 "SORT4_A1_STAGE": "interface"}))
+                    if raw is not None:
+                        decoded_actual = Path(root) / "synthetic-vfmir.txt"
+                        if (_sha(decoded_actual) != message["sha256"] or
+                                raw.get("decoded_input_sha256") != message["sha256"] or
+                                raw.get("build_id") != env["CLOUD_BUILD_ID"] or
+                                raw.get("console_sha256") != receipt.get("console_binary_sha256") or
+                                raw.get("source_pair_sha256") != first.get("raw", {}).get("source_pair_sha256")):
+                            observations[case_id + "/" + mutation] = {
+                                "transport": raw,
+                                "classifier": {"classification":
+                                    "INCONCLUSIVE_SYNTHETIC_INPUT_IDENTITY",
+                                    "proof_credit": False},
+                                "mutation": mutation,
+                                "input_sha256": _sha(decoded_actual),
+                                "proof_credit": False}
+                            persist_progress()
+                            continue
+                        log_path = Path(root) / "synthetic-translator.log"
+                        log_text = log_path.read_text(errors="replace") if log_path.is_file() else None
+                        classified = backend.classify(raw, mutation=message["mutation"],
+                                                      verifier_log=log_text)
+                        observations[case_id + "/" + mutation] = {
+                            "transport": raw, "classifier": classified,
+                            "mutation": mutation,
+                            "input_sha256": message["sha256"],
+                            "proof_credit": False}
+                        persist_progress()
+                values = [observations.get(case_id + "/" + row["mutation"])
+                          for row in inputs["messages"]]
+                identities_match = all(
+                    isinstance(value, Mapping) and
+                    value.get("transport", {}).get("decoded_input_sha256") ==
+                    row.get("sha256") for value, row in zip(values, inputs["messages"]))
+                observations[case_id] = {
+                    "messages": values,
+                    "source_id": inputs.get("source_id") if identities_match else None,
+                    "unit_id": inputs.get("unit_id") if identities_match else None,
+                    "proof_credit": False}
+                persist_progress()
+
+            # Full-interface, dispatch, and implementation negatives have no
+            # dependency on the common caller receipt. Preserve their own source
+            # pairs and collect them even when P0a/P0b did not pass.
+            p1 = action("P1", lambda:
+                collect_p1_interface_case(
+                    a, c4, ghost, tool=tool, tool_receipt=receipt, profile=profile,
+                    manifest=dict(manifest), certificate_path=certificate_path,
+                    certificate=certificate, helpers=helpers,
+                    support_cache=support_cache))
+            dispatch = action("P-dispatch", lambda:
+                collect_source_case(
+                    a, c4, ghost, tool=tool, tool_receipt=dict(receipt),
+                    profile=profile, manifest=dict(manifest),
+                    certificate_path=certificate_path, certificate=certificate,
+                    helpers=helpers, case_id="P-dispatch",
+                    support_cache=support_cache))
+            if dispatch is not None:
+                source_sha = certificate["cases"]["P-dispatch"]["generated_source_sha256"]
+                observations["P-dispatch"] = {
+                    **dispatch, "dispatch_classifier": classify_dispatch_observation(
+                        dispatch.get("raw", {}), expected_source_sha256=source_sha)}
+                persist_progress()
+            p0a_native = first.get("structure", {}).get("threshold_posts", {}).get("native")
+            for case_id in ("N-default-contract", "N-freeze-contract"):
+                action(case_id, lambda c=case_id:
+                    collect_source_case(
+                        a, c4, ghost, tool=tool, tool_receipt=dict(receipt),
+                        profile=profile, manifest=dict(manifest),
+                        certificate_path=certificate_path, certificate=certificate,
+                        helpers=helpers, case_id=c, native_baseline=p0a_native,
+                        support_cache=support_cache))
+
+            # False31 alone depends on two successful same-pair threshold body
+            # attestations and its own receipt.
+            if isinstance(certificate, Mapping) and isinstance(p0a_native, Mapping):
+                false31 = action("N-false31", lambda:
+                    draft_false31_pair_stage(
+                        a, c4, ghost, tool=tool, tool_receipt=receipt,
+                        profile=profile, manifest=dict(manifest),
+                        certificate_path=certificate_path, certificate=certificate,
+                        source_package=certificate_path.parent,
+                        positive_native_baseline=p0a_native,
+                        expected_cases=(expected_cases_for_run
+                                        if isinstance(expected_cases_for_run, Mapping)
+                                        else None), helpers=helpers,
+                        profile_sha256=profile_sha, support_cache=support_cache,
+                        progress=positive_progress.setdefault("false31", {}),
+                        progress_hook=stage_progress))
+                if false31 is not None:
+                    result["case_status"]["N-false31"] = _stage_result("N-false31", false31)
+                elif "caller_case" not in positive_progress.get("false31", {}):
+                    observations["N-false31"] = {
+                        "not_run": True, "execution_started": False,
+                        "reason": "false31 caller receipt prerequisites were not established",
+                        "partial_body_cases": positive_progress.get("false31", {}).get(
+                            "body_cases", {}), "proof_credit": False}
+                    persist_progress()
+
+            # Wrong source/caller/region claims use the exact P0a paired MIR
+            # inventory when available. Otherwise their constructor or
+            # validator failure remains inconclusive while other rows continue.
+            controls = positive_progress.get("admission_controls", {})
+            if isinstance(controls, Mapping) and isinstance(first_artifacts, Mapping):
+                normal_entry = first_artifacts.get("normal-mir.txt", {})
+                readonly_entry = first_artifacts.get("readonly-mir.txt", {})
+                if isinstance(normal_entry, Mapping) and isinstance(readonly_entry, Mapping):
+                    normal_path = Path(normal_entry["path"])
+                    readonly_path = Path(readonly_entry["path"])
+                    source_path = certificate_path.parent / certificate["cases"]["P1"]["source_file"]
+                    for control_id in ("N-source", "N-binding", "N-region-swap"):
+                        if control_id not in controls:
+                            continue
+                        path = Path(controls[control_id]["path"])
+                        observed = action(control_id, lambda c=control_id, p=path:
+                            observe_admission_control(
+                                c, call_binding=helpers["a1-call-binding.py"],
+                                compiler_inventory=helpers["a1-compiler-inventory.py"],
+                                normal=normal_path.read_text(encoding="utf-8"),
+                                readonly=readonly_path.read_text(encoding="utf-8"),
+                                certificate=certificate,
+                                source=source_path.read_text(encoding="utf-8"),
+                                control_path=p))
+                        if observed is not None:
+                            expected_control = controls[control_id]
+                            observed_ids = observed.get("observed_input_ids")
+                            observed.update(
+                                input_identity_verified=(
+                                    observed.get("control_input_immutable") is True and
+                                    observed.get("control_input_sha256") ==
+                                    expected_control["input_sha256"] and
+                                    isinstance(observed_ids, Mapping) and
+                                    observed_ids.get("source_id") ==
+                                        certificate["cases"]["P1"]["source_id"] and
+                                    observed_ids.get("unit_id") ==
+                                        certificate["cases"]["P1"]["unit_id"]),
+                                input_sha256=observed.get("control_input_sha256"),
+                                source_id=expected_control["source_id"],
+                                unit_id=expected_control["unit_id"])
+                            observations[control_id] = observed
+                            persist_progress()
+
+            # The forced legacy redirect is a fresh caller run and therefore
+            # remains dependent on successful P0a/P0b receipt publication.
+            receipt_value = positive_progress.get("positive_receipt_path")
+            if (isinstance(receipt_value, str) and Path(receipt_value).is_file() and
+                    "N-clause-redirect" in controls):
+                control_path = Path(controls["N-clause-redirect"]["path"])
+                def run_redirect_control():
+                    control_doc = json.loads(control_path.read_text(encoding="utf-8"))
+                    _need(control_doc == {
+                        "SORT4_A1_FORCE_LEGACY_REDIRECT": "1",
+                        "SORT4_A1_CHECKED_TRAIT_CONTRACT": "1",
+                        "source_pair_sha256": certificate["cases"]["P0c"]
+                            ["generated_source_sha256"]},
+                        "exact prepared redirect configuration required")
+                    observed_redirect = collect_source_case(
+                        a, c4, ghost, tool=tool, tool_receipt=dict(receipt),
+                        profile=profile, manifest=dict(manifest),
+                        certificate_path=certificate_path, certificate=certificate,
+                        helpers=helpers, case_id="P0c", evidence_id="N-clause-redirect",
+                        control_env={"SORT4_A1_FORCE_LEGACY_REDIRECT":
+                                     control_doc["SORT4_A1_FORCE_LEGACY_REDIRECT"]},
+                        support_cache=support_cache)
+                    observed_redirect["control_input_sha256"] = _sha(control_path)
+                    return observed_redirect
+                redirect = action("N-clause-redirect", run_redirect_control)
+                if redirect is not None:
+                    raw_redirect = redirect.get("raw", {})
+                    redirect_class = classify_redirect_observation(
+                        raw_redirect,
+                        expected_source_sha256=certificate["cases"]["P0c"]
+                            ["generated_source_sha256"])
+                    control_sha = _sha(control_path)
+                    control_doc = json.loads(control_path.read_text())
+                    source_identity = redirect.get("observed_input_ids")
+                    raw_pair = raw_redirect.get("source_pair_sha256", {})
+                    observations["N-clause-redirect"] = {
+                        "raw": raw_redirect, "classifier": redirect_class,
+                        "input_identity_verified": (
+                            redirect.get("control_input_sha256") == control_sha and
+                            control_sha == controls["N-clause-redirect"]["input_sha256"] and
+                            control_doc.get("SORT4_A1_FORCE_LEGACY_REDIRECT") == "1" and
+                            control_doc.get("SORT4_A1_CHECKED_TRAIT_CONTRACT") == "1" and
+                            control_doc.get("source_pair_sha256") == raw_pair.get("verified") and
+                            isinstance(source_identity, Mapping) and
+                            source_identity.get("source_id") == certificate["cases"]["P0c"]["source_id"] and
+                            source_identity.get("unit_id") == certificate["cases"]["P0c"]["unit_id"]),
+                        "input_sha256": control_sha,
+                        "source_id": controls["N-clause-redirect"]["source_id"],
+                        "unit_id": controls["N-clause-redirect"]["unit_id"],
+                        "proof_credit": False}
+                    persist_progress()
+        # All R1-R7 are fresh isolated fixtures and actual driver verifier
+        # invocations on the one reconstructed final tool.
+        legacy = (draft.get("legacy_inputs", {}) if draft is not None else
+                  positive_progress.get("legacy_inputs", {}))
+        if set(legacy) == set(LEGACY_CONTROL):
+            legacy_env = c4.clean_env(a, tool)
+            for case_id, driver_name in LEGACY_CONTROL.items():
+                item = legacy[case_id]
+                fixture = Path(item["fixture"])
+                observed = action(case_id, lambda n=driver_name, f=fixture:
+                    driver.verify_one(a, c4, tool, legacy_env, f, n))
+                if observed is not None:
+                    verified = fixture / "verified/lib.rs"
+                    original = fixture / "original/lib.rs"
+                    observed_pair = {"verified": _sha(verified),
+                                     "original": _sha(original)}
+                    if (observed_pair == {
+                            "verified": item["certificate"]["verified_sha256"],
+                            "original": item["certificate"]["original_sha256"]} and
+                            observed.get("source_pair_immutable") is True):
+                        observed.update(
+                            input_identity_verified=True,
+                            source_id=item["source_id"], unit_id=item["unit_id"],
+                            source_pair_sha256=observed_pair)
+                    else:
+                        observed.update(input_identity_verified=False,
+                                        observed_input_ids=None,
+                                        source_pair_sha256=observed_pair)
+                    result["case_status"][case_id] = _stage_result(case_id, observed)
+        # OFF is an actual final-tool run with opt-in absent. Its result is
+        # preserved as observed stage data; only the exact duplicate-parameter
+        # frontend diagnostic is classified as baseline behavior.
+        off_input = (draft.get("off_input") if draft is not None else
+                     positive_progress.get("off_input"))
+        off = (action("OFF", lambda:
+            _run_off_observation(a, c4, tool, off_input,
+                                 helpers["selected-proof.py"]))
+               if isinstance(off_input, Mapping) else None)
+        if off is not None:
+            result["case_status"]["OFF"] = _stage_result("OFF", off)
+    # Interpret each row only after its route-specific observations exist.
+    expected_inputs = (draft.get("expected_case_ids", {}) if draft is not None else
+                       positive_progress.get("expected_case_ids", {}))
+    expected_inputs = dict(expected_inputs) if isinstance(expected_inputs, Mapping) else {}
+    certificate = positive_progress.get("certificate")
+    synthetic_inputs = positive_progress.get("synthetic_inputs", {})
+    legacy_inputs = positive_progress.get("legacy_inputs", {})
+    controls = positive_progress.get("admission_controls", {})
+    off_input = positive_progress.get("off_input")
+    admission = helpers.get("a1-contract-admission.py") if helpers else None
+    if admission is not None:
+        for case_id in CASE_ORDER:
+            if case_id in expected_inputs:
+                continue
+            if case_id in SOURCE_CASE:
+                source_row = (certificate.get("cases", {}).get(SOURCE_CASE[case_id], {})
+                              if isinstance(certificate, Mapping) else {})
+            elif case_id in SYNTHETIC_INPUT_PLAN:
+                source_row = synthetic_inputs.get(case_id, {})
+            elif case_id in LEGACY_CONTROL:
+                source_row = legacy_inputs.get(case_id, {})
+            elif case_id == "OFF":
+                source_row = off_input if isinstance(off_input, Mapping) else {}
+            else:
+                source_row = controls.get(case_id, {})
+            if not (isinstance(source_row, Mapping) and
+                    isinstance(source_row.get("source_id"), str) and
+                    isinstance(source_row.get("unit_id"), str)):
+                continue
+            stage, predicate, location, outcome, classification = admission.MATRIX[case_id]
+            expected = {"source_id": source_row["source_id"],
+                        "unit_id": source_row["unit_id"],
+                        "stage": stage, "predicate": predicate,
+                        "location": location, "outcome": outcome,
+                        "classification": classification}
+            if case_id in SYNTHETIC_INPUT_PLAN:
+                messages = source_row.get("messages", ())
+                if len(messages) != len(SYNTHETIC_INPUT_PLAN[case_id]):
+                    continue
+                expected["synthetic_input_sha256"] = tuple(row["sha256"] for row in messages)
+            if case_id in controls:
+                expected["control_input_sha256"] = source_row.get("input_sha256")
+            expected_inputs[case_id] = expected
+    expected_inventory = {}
+    run_pins = None
+    if helpers is not None and result.get("tool_reconstructed"):
+        hashes = {"verifier": receipt["console_binary_sha256"],
+                  "exporter": receipt["exporter_binary_sha256"],
+                  "schema": receipt["final_schema_sha256"]}
+        receipts = helpers["a1-summary-receipt.py"]
+        run_pins = {"tool_id": receipts.tool_id(hashes),
+                    "profile_id": profile_sha, "proof_id": proof_sha,
+                    "infra_id": infra_sha, "target_id": receipts.TARGET}
+        p0a = observations.get("P0a", {})
+        p1 = observations.get("P1", {})
+        identity_source = (p0a if isinstance(p0a, Mapping) and
+                           isinstance(p0a.get("structure"), Mapping) else p1)
+        bound = identity_source.get("structure", {}).get("bound_impls", {}) if isinstance(identity_source, Mapping) else {}
+        expected_inventory = {
+            impl: {"compiler_impl_id": row.get("compiler_impl_id"),
+                   "compiler_item_id": row.get("compiler_item_id")}
+            for impl, row in bound.items() if isinstance(row, Mapping)}
+
+    records = []
+    classifier = helpers.get("a1-matrix-classifier.py") if helpers else None
+    for case_id in CASE_ORDER:
+        observation = observations.get(case_id)
+        if (isinstance(observation, Mapping) and
+                observation.get("not_run") is True and
+                observation.get("execution_started") is False):
+            classified = {"case_id": case_id, "status": "NOT_RUN",
+                          "matrix_gate_passed": False, "record": None,
+                          "reason": observation.get("reason"),
+                          "proof_credit": False}
+        elif (case_id in expected_inputs and classifier is not None and
+                run_pins is not None and env.get("CLOUD_BUILD_ID")):
+            classified = classifier.classify_case(
+                case_id, observation, expected_input=expected_inputs[case_id],
+                run_pins=run_pins, build_id=env["CLOUD_BUILD_ID"],
+                expected_inventory=expected_inventory)
+        else:
+            classified = {"case_id": case_id,
+                          "status": "INCONCLUSIVE" if observation is not None else "NOT_RUN",
+                          "matrix_gate_passed": False, "record": None,
+                          "reason": "expected input identity or run pins unavailable",
+                          "proof_credit": False}
+        result["case_status"][case_id] = {
+            "status": classified["status"],
+            "observed_stage": (classified.get("record") or {}).get("stage"),
+            "observed_outcome": classified.get("observed_classification"),
+            "reason": classified.get("reason"),
+            "matrix_gate_passed": classified.get("matrix_gate_passed") is True,
+            "proof_credit": False,
+            "provenance": classified.get("provenance")}
+        if classified.get("record") is not None:
+            records.append(classified["record"])
+        persist_progress()
+
+    result["cases"] = result["case_status"]
+    result.update(diagnostic_complete=False, evidence_complete=False,
+                  verification_accepted=False, profile_accepted=False,
+                  accepted=False, proof_verdict=None)
+    def actual_id(case_id, key):
+        observation = observations.get(case_id)
+        if not isinstance(observation, Mapping):
+            return None
+        raw = observation.get("raw")
+        if isinstance(raw, Mapping) and isinstance(raw.get(key), str):
+            return raw[key]
+        return observation.get(key) if isinstance(observation.get(key), str) else None
+
+    result["observed_rows"] = [
+        {"case_id": case_id, "source_id": actual_id(case_id, "source_id"),
+         "unit_id": actual_id(case_id, "unit_id"),
+         "observation": observations.get(case_id),
+         "status": result["case_status"][case_id]}
+        for case_id in CASE_ORDER]
+    result["observed_row_count"] = sum(
+        row["status"] == "INTENDED_CLASSIFIED" for row in result["case_status"].values())
+    all_classified = (len(records) == len(CASE_ORDER) and
+                      all(row["status"] == "INTENDED_CLASSIFIED"
+                          for row in result["case_status"].values()))
+    admission_gate = (draft.get("admission_gate") if draft is not None else
+                      positive_progress.get("admission_gate"))
+    if all_classified and admission_gate is not None:
+        try:
+            admission_gate.record_matrix(records)
+            result["matrix_complete"] = True
+            result["admission_record_created"] = True
+            result["admission_state"] = admission_gate.state()
+            result["matrix_validation"] = "all-26-runner-observations-validated"
+        except Exception as exc:
+            result["matrix_complete"] = False
+            result["admission_record_created"] = False
+            result["matrix_validation_error"] = f"{type(exc).__name__}: {exc}"
+    else:
+        result["matrix_complete"] = False
+        result["admission_record_created"] = False
+        result["matrix_validation"] = "incomplete-or-inconclusive-observations"
+    result["dispatch_ready"] = False
+    result["first_missing_stage"] = next(
+        (case_id for case_id in CASE_ORDER
+         if result["case_status"][case_id]["status"] != "INTENDED_CLASSIFIED"), None)
+    first_blocker = next((event for event in execution_events
+                          if event.get("event") == "adapter_error"), None)
+    causal = None
+    if first_blocker is None:
+        # Scientific adapters can finish normally while their actual output
+        # fails the intended predicate. Preserve that failed row without
+        # presenting plan order as causal order.
+        failed_case = next((case_id for case_id in CASE_ORDER
+                            if result["case_status"][case_id]["status"] !=
+                            "INTENDED_CLASSIFIED"), None)
+        if failed_case is not None:
+            observation = observations.get(failed_case, {})
+            raw = observation.get("raw", {}) if isinstance(observation, Mapping) else {}
+            actual_stage = (raw.get("first_causal_stage")
+                            if isinstance(raw, Mapping) else None)
+            reason = result["case_status"][failed_case].get("reason")
+            first_blocker = {
+                "case_id": failed_case,
+                "event": "classifier_failure",
+                "execution_started": (failed_case in observations and
+                                       observation.get("execution_started", True)
+                                       if isinstance(observation, Mapping) else False),
+                "reason": reason or "mandatory row did not reach intended classification",
+                "causal_stage": actual_stage or "UNESTABLISHED",
+            }
+            causal = actual_stage or "UNESTABLISHED"
+    if first_blocker is not None:
+        case_id = first_blocker.get("case_id")
+        if case_id == "tool-reconstruction":
+            causal = "tool-reconstruction"
+        else:
+            observation = observations.get(case_id, {})
+            nested_stage = str(first_blocker.get("stage", ""))
+            target_case = None
+            if nested_stage.startswith("N-false31-"):
+                target_case = nested_stage.removeprefix("N-false31-").removesuffix("-observed")
+                observation = positive_progress.get("false31", {}).get(
+                    "body_cases", {}).get(target_case, observation)
+            elif nested_stage in {"P0a-observed", "P0b-observed", "P0c-observed"}:
+                target_case = nested_stage.removesuffix("-observed")
+                observation = positive_progress.get("positive_cases", {}).get(target_case, observation)
+            elif case_id == "P0a":
+                observation = positive_progress.get("positive_cases", {}).get("P0a", observation)
+            raw = observation.get("raw", {}) if isinstance(observation, Mapping) else {}
+            candidate = observation.get("proof_candidate", {}) if isinstance(observation, Mapping) else {}
+            error_context = candidate.get("error_context", {}) if isinstance(candidate, Mapping) else {}
+            causal = ((raw.get("first_causal_stage") if isinstance(raw, Mapping) else None) or
+                      (candidate.get("first_causal_stage") if isinstance(candidate, Mapping) else None) or
+                      (error_context.get("stage") if isinstance(error_context, Mapping) else None) or
+                      "UNESTABLISHED")
+    result["first_causal_stage"] = causal
+    result["first_blocker"] = first_blocker
+    all_rows_classified = all(row["status"] == "INTENDED_CLASSIFIED"
+                              for row in result["case_status"].values())
+    result["diagnostic_complete"] = bool(all_rows_classified and result["matrix_complete"])
+    result["execution_events"] = execution_events
+    result["observation_details"] = observations
+    path = Path(a.evidence) / "diagnostic-audit.json"
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("x") as output:
-        output.write(json.dumps(result, indent=2, sort_keys=True) + "\n")
+    path.write_text(json.dumps(_jsonable(result), indent=2, sort_keys=True) + "\n")
     return result

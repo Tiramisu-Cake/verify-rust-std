@@ -2,6 +2,8 @@
 import importlib.util
 from pathlib import Path
 import unittest
+import hashlib
+import json
 
 
 path = Path(__file__).with_name("a1-ast-gates.py")
@@ -14,6 +16,7 @@ runner_spec = importlib.util.spec_from_file_location(
 assert runner_spec is not None and runner_spec.loader is not None
 runner = importlib.util.module_from_spec(runner_spec)
 runner_spec.loader.exec_module(runner)
+import test_a1_compiler_inventory as inventory_fixture
 
 
 def loc(line):
@@ -98,7 +101,185 @@ def caller_func(name, line, call_line, *, small_sort=False, alias=False):
             f'(None, None), None, false, Some (([{body}], {loc(line)})), false, [])')
 
 
+def small_sort_func(name, line, *, body=False, impl_self="Self",
+                    drop_resource=False, drop_unwind=False, substitute=False,
+                    mix_region=False, drop_outcome=False, return_substitute=False,
+                    lifetime_bound_mutant=False, mix_native_fraction=False,
+                    wrong_maybeuninit=False):
+    binders = (impl_self, "F", "'a", "'b", "'c")
+    params = "; ".join(f'("{x}", ({"true" if lifetime_bound_mutant and x.startswith(chr(39)) else ("false" if x.startswith(chr(39)) else "true")}))'
+                        for x in binders)
+    def ident(value):
+        return f'IdentTypeExpr ({loc(line)}, None, "{value}")'
+    def region(value):
+        return f'Var ({loc(line)}, "{value}")'
+    def ref(lifetime, inner):
+        return f'RustRefTypeExpr ({loc(line)}, {region(lifetime)}, Mutable, {inner})'
+    slice_self = f'SliceTypeExpr ({loc(line)}, {ident(impl_self)})'
+    maybe_name = "evil::mem::MaybeUninit" if wrong_maybeuninit else "std::mem::MaybeUninit"
+    maybe = (f'StructTypeExpr ({loc(line)}, Some ("{maybe_name}"), '
+             f'None, [], [{ident(impl_self)}])')
+    scratch_ty = f'SliceTypeExpr ({loc(line)}, {maybe})'
+    comparator = ident("T" if substitute else "F")
+    region_scratch = "'a" if mix_region else "'b"
+    region_v, region_cmp = "'a", "'c"
+    declarations = "; ".join((
+        f'({ref(region_v, slice_self)}, "v")',
+        f'({ref(region_scratch, scratch_ty)}, "scratch")',
+        f'({ref(region_cmp, comparator)}, "is_less")'))
+    token = f'CallExpr ({loc(line)}, "thread_token", [], [], [], Static)'
+    rights = f'CallExpr ({loc(line)}, "raw_rights", [], [], [], Static)'
+    native = rights if drop_resource else f'Sep ({loc(line)}, {token}, {rights})'
+    fraction_names = ("_q_b", "_q_b", "_q_c") if mix_native_fraction else ("_q_a", "_q_b", "_q_c")
+    for fraction in fraction_names:
+        native = (f'Sep ({loc(line)}, CoefAsn ({loc(line)}, VarPat ({loc(line)}, "{fraction}"), '
+                  f'Var ({loc(line)}, "{fraction[3:]}")), {native})')
+    unwind = rights if drop_unwind else native
+    arms = f'SwitchExprClause ({loc(line)}, "returning", ["r"], {native})'
+    if not drop_outcome:
+        arms += f'; SwitchExprClause ({loc(line)}, "unwinding", [], {unwind})'
+    result_post = (f'SwitchExpr ({loc(line)}, Var ({loc(line)}, "out"), '
+                   f'[{arms}], None)')
+    pre = f'Sep ({loc(line)}, CallExpr ({loc(line)}, "input_owners", [], [], [], Static), {token})'
+    spec = f'Some (({pre}, ("out", {result_post})))'
+    unit_name = "std_tuple_1_" if return_substitute else "std_tuple_0_"
+    return_ty = (f'Some (ConstructedTypeExpr ({loc(line)}, "fn_outcome", '
+                 f'[ManifestTypeExpr ({loc(line)}, StructType ("{unit_name}", []))]))')
+    body_field = f'Some (([], {loc(line)}))' if body else 'None'
+    return (f'Func ({loc(line)}, Regular, [{params}], {return_ty}, "{name}", '
+            f'[{declarations}], false, (None, None), {spec}, false, {body_field}, false, [])')
+
+
+def p1_fixture(*, candidate_extra=True, **changes):
+    pair_hashes = {"verified": "a" * 64, "original": "b" * 64}
+    actual_pair = hashlib.sha256(
+        (pair_hashes["verified"] + ":" + pair_hashes["original"]).encode("ascii")
+    ).hexdigest()
+    source = inventory_fixture.valid_source()
+    cert = inventory_fixture.certificate(source)
+    observation = inventory_fixture.m.observe("P0a", inventory_fixture.stream(),
+                                               inventory_fixture.stream(), cert, source)
+    r_only_default_drop_resource = changes.pop("r_only_default_drop_resource", False)
+    r_only_freeze_drop_outcome = changes.pop("r_only_freeze_drop_outcome", False)
+    native_ast = "\n".join((
+        small_sort_func("StableSmallSortTypeImpl::small_sort", 2),
+        small_sort_func("crate::default16::small_sort", 6, body=True, impl_self="T",
+                        drop_resource=r_only_default_drop_resource),
+        small_sort_func("crate::freeze32::small_sort", 12, body=True, impl_self="T",
+                        drop_outcome=r_only_freeze_drop_outcome)))
+    global_return = changes.pop("all_return_substitute", False)
+    candidate_first = small_sort_func("__a1_impl_1_item_12_small_sort", 6,
+                                      body=True, impl_self="T",
+                                      return_substitute=global_return, **changes)
+    candidate_ast = "\n".join((small_sort_func("StableSmallSortTypeImpl::small_sort", 2,
+                                                return_substitute=global_return),
+                                candidate_first,
+                                small_sort_func("__a1_impl_2_item_22_small_sort", 12,
+                                                body=True, impl_self="T",
+                                                return_substitute=global_return)))
+    if candidate_extra:
+        candidate_ast += "\n" + func(70, "r_only_extra", True)
+    pair = observation["case_binding"]["source_pair_id"]
+    receipt = {"schema": "a1-r-only-native-reference-receipt-v1",
+               "mode": "r-only-native-reference", "source_pair_id": pair,
+               "reference_binary_sha256": "1" * 64,
+               "reference_translator_sha256": "2" * 64,
+               "source_pair_sha256": pair_hashes,
+               "actual_source_pair_sha256": actual_pair,
+               "build_id": "synthetic-r-only-build", "observed_exit": 1,
+               "proof_credit": False,
+               "ast_sha256": hashlib.sha256(native_ast.encode()).hexdigest()}
+    baseline = gate.small_sort_native_baseline(native_ast, observation,
+                                                source_pair_id=pair,
+                                                reference_receipt=receipt)
+    return candidate_ast, observation, baseline, actual_pair
+
+
 class SyntheticAstGates(unittest.TestCase):
+    def test_p1_binds_full_interface_and_native_triplet(self):
+        ast, inventory, baseline, actual_pair = p1_fixture()
+        result = gate.small_sort_interface(ast, inventory, baseline=baseline,
+                                            actual_source_pair_sha256=actual_pair)
+        self.assertTrue(result["structural_pass"])
+        self.assertEqual(result["classification"], "INTERFACE_STRUCTURE_ONLY_UNRUN_PROOF")
+        self.assertEqual(set(result["impls"]), {"default16", "freeze32"})
+        self.assertEqual(
+            {name: row["item_def_id"]
+             for name, row in baseline["normalized_impls"].items()},
+            {"default16": "crate::default16::small_sort",
+             "freeze32": "crate::freeze32::small_sort"})
+        self.assertTrue(all(result["impls"][name]["native_matches_r_only_original_impl"]
+                            for name in ("default16", "freeze32")))
+        self.assertTrue(result["compiler_clauses_source_bound"])
+        self.assertEqual(result["ast_clause_representation"],
+                         "none; compiler-required interface is separately validated")
+        self.assertEqual(result["body_count"], 0)
+        self.assertFalse(result["proof_credit"])
+
+    def test_p1_rejects_lost_native_resource(self):
+        ast, inventory, baseline, actual_pair = p1_fixture(drop_resource=True)
+        with self.assertRaises(gate.AstGateError):
+            gate.small_sort_interface(ast, inventory, baseline=baseline,
+                                      actual_source_pair_sha256=actual_pair)
+
+    def test_p1_rejects_lost_unwind_outcome(self):
+        ast, inventory, baseline, actual_pair = p1_fixture(drop_outcome=True)
+        with self.assertRaises(gate.AstGateError):
+            gate.small_sort_interface(ast, inventory, baseline=baseline,
+                                      actual_source_pair_sha256=actual_pair)
+
+    def test_r_only_baseline_binds_original_impl_bodies_by_defpath_and_span(self):
+        for mutation in ("r_only_default_drop_resource", "r_only_freeze_drop_outcome"):
+            with self.subTest(mutation=mutation):
+                with self.assertRaises(gate.AstGateError):
+                    p1_fixture(**{mutation: True})
+
+    def test_p1_rejects_self_or_unprovenanced_baseline(self):
+        ast, inventory, baseline, actual_pair = p1_fixture()
+        self_baseline = dict(baseline)
+        candidate_sha = hashlib.sha256(ast.encode()).hexdigest()
+        self_baseline["ast_sha256"] = candidate_sha
+        self_baseline["reference_receipt"] = {**baseline["reference_receipt"],
+                                               "ast_sha256": candidate_sha}
+        with self.assertRaises(gate.AstGateError):
+            gate.small_sort_interface(ast, inventory, baseline=self_baseline,
+                                      actual_source_pair_sha256=actual_pair)
+        wrong_source = {**baseline, "source_pair_id": "0" * 64}
+        with self.assertRaises(gate.AstGateError):
+            gate.small_sort_interface(ast, inventory, baseline=wrong_source,
+                                      actual_source_pair_sha256=actual_pair)
+        with self.assertRaises(gate.AstGateError):
+            gate.small_sort_interface(ast, inventory, baseline=baseline,
+                                      actual_source_pair_sha256="4" * 64)
+        bad_pair_receipt = {**baseline, "reference_receipt": {
+            **baseline["reference_receipt"],
+            "source_pair_sha256": {"verified": "c" * 64, "original": "b" * 64}}}
+        with self.assertRaises(gate.AstGateError):
+            gate.small_sort_interface(ast, inventory, baseline=bad_pair_receipt,
+                                      actual_source_pair_sha256=actual_pair)
+
+    def test_p1_rejects_type_substitution_and_region_mixing(self):
+        for changes in ({"substitute": True}, {"mix_region": True},
+                        {"mix_native_fraction": True}, {"wrong_maybeuninit": True}):
+            ast, inventory, baseline, actual_pair = p1_fixture(**changes)
+            with self.assertRaises(gate.AstGateError):
+                gate.small_sort_interface(ast, inventory, baseline=baseline,
+                                          actual_source_pair_sha256=actual_pair)
+
+    def test_p1_rejects_uniform_return_header_substitution(self):
+        # Changing common and both impl headers together must still fail the
+        # compiler-derived unit return check and independent R-only header.
+        ast, inventory, baseline, actual_pair = p1_fixture(all_return_substitute=True)
+        with self.assertRaises(gate.AstGateError):
+            gate.small_sort_interface(ast, inventory, baseline=baseline,
+                                      actual_source_pair_sha256=actual_pair)
+
+    def test_p1_rejects_lifetime_sized_marker_mutation(self):
+        ast, inventory, baseline, actual_pair = p1_fixture(lifetime_bound_mutant=True)
+        with self.assertRaises(gate.AstGateError):
+            gate.small_sort_interface(ast, inventory, baseline=baseline,
+                                      actual_source_pair_sha256=actual_pair)
+
     def test_body_contracts_preserve_native(self):
         result = gate.threshold_posts(all_functions(), INVENTORY,
                                       stage="bodies", common_line=20)

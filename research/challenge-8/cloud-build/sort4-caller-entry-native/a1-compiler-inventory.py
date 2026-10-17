@@ -174,8 +174,8 @@ def _trait(root):
     _unique_by(required, lambda f: _text(f, "name"), "required method name")
     # Patched required-item encoding carries stable compiler indices and parent.
     parent_paths = {_text(fn, "parentDefId") for fn in required}
-    if len(parent_paths) != 1 or next(iter(parent_paths)).split("::")[-1] != "StableSmallSortTypeImpl":
-        raise InventoryError("required methods disagree on root trait compiler path")
+    if parent_paths != {"StableSmallSortTypeImpl"}:
+        raise InventoryError("required methods do not identify the exact root trait compiler path")
     for fn in required:
         if _text(fn, "parentDefId") not in parent_paths:
             raise InventoryError("required method has wrong parent compiler path")
@@ -184,6 +184,8 @@ def _trait(root):
         if _one(fn, "scopedRepresentation") != _parser.Atom("true"):
             raise InventoryError("required method lacks scoped representation")
         _span(_one(fn, "nameSpan"))
+        if _text(fn, "defId") != "StableSmallSortTypeImpl::" + _text(fn, "name"):
+            raise InventoryError("required method has an unexpected compiler DefId")
     if len({_uint(fn, "parentDefIndex") for fn in required}) != 1:
         raise InventoryError("required methods disagree on root trait compiler identity")
     if len({_uint(fn, "defIndex") for fn in required}) != 2:
@@ -193,7 +195,7 @@ def _trait(root):
 
 def _impls(root, expected_trait_path):
     rows = _records(root, "traitImpls")
-    selected = [i for i in rows if _text(i, "ofTrait").split("::")[-1] == "StableSmallSortTypeImpl"]
+    selected = [i for i in rows if _text(i, "ofTrait") == "StableSmallSortTypeImpl"]
     if len(selected) != 2:
         raise InventoryError("expected exactly two source impls of root trait")
     by_id = _unique_by(selected, lambda i: _uint(i, "defIndex"), "impl defIndex")
@@ -259,8 +261,81 @@ def _body_map(root):
             "fn_sig_span": _span(_one(body, "fnSigSpan")),
             "mir_span": _span(_one(body, "span")),
             "imp_span": _span(_one(body, "impSpan")),
+            "record": body,
         }
     return output
+
+
+def _impl_body_small_sort(body, impl_name, expected_impl_generic_id):
+    record = body["record"]
+    impl_generics = _records(record, "implBlockGenerics")
+    generics = _records(record, "generics")
+    impl_names = tuple(_text(x, "name") for x in impl_generics)
+    generic_names = tuple(_text(x, "name") for x in generics)
+    if impl_names != ("T",) or tuple(_index(x, "index") for x in impl_generics) != (0,) or \
+            generic_names != ("F",) or tuple(_index(x, "index") for x in generics) != (1,):
+        raise InventoryError("impl small_sort Body must retain impl T and method F in their schema tables")
+    impl_ids = tuple(_uint(x, "defIndex") for x in impl_generics)
+    generic_ids = tuple(_uint(x, "defIndex") for x in generics)
+    if impl_ids != (expected_impl_generic_id,):
+        raise InventoryError("impl small_sort Body T identity differs from its compiler TraitImpl")
+    if len(set(impl_ids + generic_ids)) != 2:
+        raise InventoryError("impl small_sort Body generic compiler identities collide")
+    input_types = tuple(_ty(x) for x in _list(_member(record, "inputs"), "impl small_sort Body inputs"))
+    output = _ty(_member(record, "output"))
+    if len(input_types) != 3 or output != ("tuple", ()):
+        raise InventoryError("impl small_sort Body signature must have three inputs and unit output")
+    regions = tuple(x[1] for x in input_types if isinstance(x, tuple) and len(x) == 4 and x[0] == "ref")
+    if len(regions) != 3 or len(set(regions)) != 3:
+        raise InventoryError("impl small_sort Body input regions must remain distinct")
+    alias = {"T": "@Self", "F": "@F", **{region: f"@input_{i}" for i, region in enumerate(regions)}}
+
+    def normalized(value):
+        if isinstance(value, str):
+            return alias.get(value, value)
+        if isinstance(value, tuple):
+            return tuple(normalized(x) for x in value)
+        return value
+    normalized_inputs = tuple(normalized(x) for x in input_types)
+    expected_inputs = (
+        ("ref", "@input_0", True, ("slice", ("param", "@Self"))),
+        ("ref", "@input_1", True, ("slice", ("adt", "MaybeUninit", (("type", ("param", "@Self")),)))),
+        ("ref", "@input_2", True, ("param", "@F")))
+    if normalized_inputs != expected_inputs:
+        raise InventoryError("impl small_sort Body signature differs from Self/F positional input types")
+
+    clauses = tuple(normalized(_canonical_small_sort_clause(_trait_clause_shape(x)))
+                    for x in _records(record, "clauses"))
+    sized = [x for x in clauses if x == ("trait", "Sized", (("type", ("param", "@F")),), ())]
+    fnmut = [x for x in clauses if x[0] == "trait" and x[1] == "FnMut"]
+    output_rows = [x for x in clauses if x[0] == "projection" and x[1] == "Output"]
+    if len(clauses) != 3 or len(sized) != 1 or len(fnmut) != 1 or len(output_rows) != 1:
+        raise InventoryError("impl small_sort Body must retain exact Sized(F)/FnMut/Output clauses")
+    _, _, fn_args, fn_regions = fnmut[0]
+    _, _, out_args, out_regions, out_ty = output_rows[0]
+    def callable_args(regions_):
+        if len(regions_) != 2 or len(set(regions_)) != 2:
+            return None
+        return (("type", ("param", "@F")), ("type", ("tuple", (
+            ("ref", regions_[0], False, ("param", "@Self")),
+            ("ref", regions_[1], False, ("param", "@Self"))))))
+    if fn_args != callable_args(fn_regions) or out_args != callable_args(out_regions) or \
+            out_ty != ("bool",) or set(fn_regions) & set(out_regions) or \
+            set(regions) & (set(fn_regions) | set(out_regions)):
+        raise InventoryError("impl small_sort Body FnMut/Output binders are merged or malformed")
+    canonical = {"impl_generic_names": impl_names,
+                 "impl_generic_ids": impl_ids,
+                 "generic_names": generic_names,
+                 "generic_ids": generic_ids,
+                 "input_regions": tuple(alias[r] for r in regions),
+                 "inputs": normalized_inputs,
+                 "clauses": clauses,
+                 "impl": impl_name,
+                 "def_path": body["def_path"],
+                 "fn_sig_span": body["fn_sig_span"],
+                 "mir_span": body["mir_span"]}
+    canonical["digest"] = hashlib.sha256(json.dumps(canonical, sort_keys=True, default=str).encode()).hexdigest()
+    return canonical
 
 
 def _generic_arg_type_param(arg):
@@ -283,6 +358,295 @@ def _generic_arg_type_param(arg):
     return param.value
 
 
+def _member(record, key):
+    try:
+        return _one(record, key)
+    except _parser.ShapeError as exc:
+        raise InventoryError(str(exc)) from exc
+
+
+def _text_atom(value, label):
+    if not isinstance(value, _parser.Text):
+        raise InventoryError(f"{label} must be quoted text")
+    return value.value
+
+
+def _list(value, label):
+    if not isinstance(value, _parser.ListValue):
+        raise InventoryError(f"{label} must be a list")
+    return value.values
+
+
+def _union(record, label, choices):
+    if not isinstance(record, _parser.Record):
+        raise InventoryError(f"{label} must be a union record")
+    keys = tuple(key for key, _ in record.fields)
+    if len(keys) != 1 or keys[0] not in choices:
+        raise InventoryError(f"{label} has an unknown union shape")
+    return keys[0], _member(record, keys[0])
+
+
+def _ty(value):
+    """Decode just the closed compiler type subset used by small_sort."""
+    kind, payload = _union(_member(value, "kind"), "small_sort type kind",
+                           ("ref", "slice", "param", "adt", "tuple", "bool"))
+    if kind == "param":
+        return ("param", _text_atom(payload, "type parameter"))
+    if kind == "ref":
+        region = _member(payload, "region")
+        region_id = _text_atom(_member(region, "id"), "reference region id")
+        referent = _ty(_member(payload, "ty"))
+        mutability, mut_payload = _union(_member(payload, "mutability"), "reference mutability",
+                                         ("mut", "not"))
+        if mut_payload != _parser.Atom("void"):
+            raise InventoryError("reference mutability payload must be void")
+        return ("ref", region_id, mutability == "mut", referent)
+    if kind == "slice":
+        return ("slice", _ty(payload))
+    if kind == "tuple":
+        return ("tuple", tuple(_ty(x) for x in _list(payload, "tuple type")))
+    if kind == "bool":
+        if payload != _parser.Atom("void"):
+            raise InventoryError("bool type payload must be void")
+        return ("bool",)
+    if kind == "adt":
+        adt_id = _member(payload, "id")
+        name = _text(adt_id, "name")
+        adt_kind, adt_payload = _union(_member(payload, "kind"), "ADT kind",
+                                       ("structKind", "enumKind", "unionKind"))
+        if adt_kind != "structKind" or adt_payload != _parser.Atom("void"):
+            raise InventoryError("MaybeUninit must retain its compiler struct ADT kind")
+        if name not in ("core::mem::MaybeUninit", "std::mem::MaybeUninit"):
+            raise InventoryError("unsupported ADT identity in small_sort interface")
+        name = "MaybeUninit"
+        args = _list(_member(payload, "substs"), "ADT substitutions")
+        return ("adt", name, tuple(_generic_arg_shape(x) for x in args))
+    raise InventoryError("unsupported small_sort compiler type")
+
+
+def _generic_arg_shape(value):
+    kind, payload = _union(_member(value, "kind"), "generic argument kind",
+                           ("type", "lifetime"))
+    if kind == "type":
+        return ("type", _ty(payload))
+    return ("lifetime", _text_atom(_member(payload, "id"), "generic lifetime id"))
+
+
+def _trait_clause_shape(value):
+    union, clause = _union(value, "small_sort clause", ("trait", "projection"))
+    if union == "trait":
+        name = _text_atom(_member(clause, "defId"), "trait clause DefId")
+        args = tuple(_generic_arg_shape(x) for x in
+                     _list(_member(clause, "args"), "trait clause args"))
+        regions = tuple(_text_atom(x, "trait bound region") for x in
+                        _list(_member(clause, "boundRegions"), "trait bound regions"))
+        return ("trait", name, args, regions)
+    term = _member(clause, "projectionTerm")
+    name = _text_atom(_member(term, "defId"), "projection DefId")
+    args = tuple(_generic_arg_shape(x) for x in
+                 _list(_member(term, "args"), "projection args"))
+    regions = tuple(_text_atom(x, "projection bound region") for x in
+                    _list(_member(clause, "boundRegions"), "projection bound regions"))
+    rhs = _member(clause, "term")
+    rhs_kind, rhs_value = _union(rhs, "projection result", ("ty",))
+    return ("projection", name, args, regions, _ty(rhs_value))
+
+
+def _canonical_small_sort_clause(shape, *, parent_trait=None):
+    """Accept only the pinned standard-library identities used by this API."""
+    kind, name, *rest = shape
+    if kind == "trait" and name in ("core::marker::Sized", "std::marker::Sized"):
+        return (kind, "Sized", *rest)
+    if kind == "trait" and name in ("core::ops::FnMut", "std::ops::FnMut"):
+        return (kind, "FnMut", *rest)
+    if kind == "projection" and name in (
+            "core::ops::FnOnce::Output", "std::ops::FnOnce::Output"):
+        return (kind, "Output", *rest)
+    if kind == "trait" and parent_trait is not None and name == parent_trait:
+        return (kind, "StableSmallSortTypeImpl", *rest)
+    raise InventoryError("small_sort clause has an unexpected compiler DefId")
+
+
+def _required_small_sort(required):
+    methods = [fn for fn in required if _text(fn, "name") == "small_sort"]
+    if len(methods) != 1:
+        raise InventoryError("expected one compiler required small_sort method")
+    method = methods[0]
+    if _one(method, "scopedRepresentation") != _parser.Atom("true"):
+        raise InventoryError("small_sort required method lacks scoped representation")
+    method_id = _uint(method, "defIndex")
+    parent_id = _uint(method, "parentDefIndex")
+    if _text(method, "defId") != "StableSmallSortTypeImpl::small_sort" or \
+            _text(method, "parentDefId") != "StableSmallSortTypeImpl":
+        raise InventoryError("required small_sort compiler DefId does not match its owner")
+
+    type_params = _records(method, "typeParams")
+    if len(type_params) != 2:
+        raise InventoryError("small_sort must retain exactly Self and method F type bindings")
+    names = tuple(_text(x, "name") for x in type_params)
+    indices = tuple(_index(x, "index") for x in type_params)
+    type_ids = tuple(_uint(x, "defIndex") for x in type_params)
+    if names != ("Self", "F") or indices != (0, 1) or len(set(type_ids)) != 2:
+        raise InventoryError("small_sort Self/F compiler type identities are incomplete or reordered")
+    aliases = tuple(_text(x, "alias") for x in type_params)
+    if len(set(aliases)) != 2:
+        raise InventoryError("small_sort Self/F wire aliases collide")
+    generic_rows = _records(method, "generics")
+    if len(generic_rows) != 1 or _text(generic_rows[0], "name") != "F" or \
+            _index(generic_rows[0], "index") != 1 or \
+            _uint(generic_rows[0], "defIndex") != type_ids[1]:
+        raise InventoryError("small_sort method generic table does not identify F")
+
+    lifetime_params = tuple(_text_atom(x, "small_sort signature lifetime") for x in
+                            _list(_member(method, "lifetimeParams"), "small_sort lifetimeParams"))
+    scoped = _records(method, "scopedRegions")
+    scoped_rows = []
+    semantic_ids, wire_aliases = set(), set()
+    for row in scoped:
+        alias = _text(row, "alias")
+        scope = _text(row, "scope")
+        depth, index = _index(row, "depth"), _index(row, "index")
+        kind = _text(row, "kind")
+        elided = _member(row, "elidedRole")
+        if elided not in (_parser.Atom("true"), _parser.Atom("false")):
+            raise InventoryError("small_sort scoped region elidedRole must be boolean")
+        semantic = (scope, depth, index, kind)
+        if alias in wire_aliases or semantic in semantic_ids or depth != 0 or kind not in ("anon", "named", "printing"):
+            raise InventoryError("small_sort scoped region identity is duplicate or malformed")
+        wire_aliases.add(alias)
+        semantic_ids.add(semantic)
+        scoped_rows.append((alias, scope, depth, index, kind, elided == _parser.Atom("true")))
+    by_scope = {scope: [row for row in scoped_rows if row[1] == scope]
+                for scope in {row[1] for row in scoped_rows}}
+    sig_rows = by_scope.get("sig", [])
+    if len(lifetime_params) != 3 or len(set(lifetime_params)) != 3 or \
+            len(sig_rows) != 3 or tuple(row[0] for row in sorted(sig_rows, key=lambda x: x[3])) != lifetime_params or \
+            tuple(row[3] for row in sorted(sig_rows, key=lambda x: x[3])) != (0, 1, 2) or \
+            not all(row[5] for row in sig_rows):
+        raise InventoryError("small_sort must preserve three ordered distinct scoped input regions")
+
+    def normalize_shape(value, names):
+        if isinstance(value, str):
+            return names.get(value, value)
+        if isinstance(value, tuple):
+            if len(value) == 2 and value[0] == "param" and value[1] in names:
+                return ("param", names[value[1]])
+            if len(value) == 4 and value[0] == "ref" and value[1] in names:
+                return (value[0], names[value[1]], value[2], normalize_shape(value[3], names))
+            return tuple(normalize_shape(x, names) for x in value)
+        return value
+    type_names = {aliases[0]: "Self", aliases[1]: "F"}
+    region_names = {region: f"@input_{i}" for i, region in enumerate(lifetime_params)}
+    inputs = tuple(normalize_shape(_ty(x), type_names | region_names)
+                   for x in _list(_member(method, "inputs"), "small_sort inputs"))
+    output = normalize_shape(_ty(_member(method, "output")), type_names | region_names)
+    if len(inputs) != 3 or output != ("tuple", ()):
+        raise InventoryError("small_sort compiler signature must have three inputs and unit output")
+    if inputs != tuple(("ref", f"@input_{i}", True, inner) for i, inner in enumerate((
+            ("slice", ("param", "Self")),
+            ("slice", ("adt", "MaybeUninit", (("type", ("param", "Self")),))),
+            ("param", "F")))):
+        raise InventoryError("small_sort compiler signature lost Self, F, mutability, or positional input regions")
+
+    clauses = tuple(normalize_shape(_canonical_small_sort_clause(_trait_clause_shape(x)),
+                                    type_names | region_names)
+                    for x in _records(method, "clauses"))
+    if len(clauses) != 3:
+        raise InventoryError("small_sort required item must retain exactly three method-owned clauses")
+    expected_fixed = {
+        ("trait", "Sized", (("type", ("param", "F")),), ()),
+    }
+    if not expected_fixed.issubset(set(clauses)):
+        raise InventoryError("small_sort full clauses lost Sized(Self) or Sized(F)")
+    fnmut = [x for x in clauses if x[0] == "trait" and x[1] == "FnMut"]
+    output_clause = [x for x in clauses if x[0] == "projection" and x[1] == "Output"]
+    if len(fnmut) != 1 or len(output_clause) != 1:
+        raise InventoryError("small_sort full FnMut/Output clause pair is missing")
+    _, _, fn_args, fn_regions = fnmut[0]
+    _, _, out_args, out_regions, out_ty = output_clause[0]
+    fn_regions = tuple(fnmut[0][3])
+    out_binders = tuple(output_clause[0][3])
+    expected_fn_args = (("type", ("param", "F")), ("type", ("tuple", (
+        ("ref", fn_regions[0], False, ("param", "Self")),
+        ("ref", fn_regions[1], False, ("param", "Self")))))) if len(fn_regions) == 2 else ()
+    expected_out_args = (("type", ("param", "F")), ("type", ("tuple", (
+        ("ref", out_binders[0], False, ("param", "Self")),
+        ("ref", out_binders[1], False, ("param", "Self")))))) if len(out_binders) == 2 else ()
+    if len(fn_regions) != 2 or len(set(fn_regions)) != 2 or fn_args != expected_fn_args or \
+            len(out_binders) != 2 or len(set(out_binders)) != 2 or out_args != expected_out_args or out_ty != ("bool",):
+        raise InventoryError("small_sort HRTB FnMut/Output clauses differ or lose bound regions")
+    fnmut_ordinal = next(i for i, clause in enumerate(clauses)
+                         if clause[0] == "trait" and clause[1] == "FnMut")
+    output_ordinal = next(i for i, clause in enumerate(clauses)
+                          if clause[0] == "projection" and clause[1] == "Output")
+    hrtb_scopes = [scope for scope in by_scope if scope.startswith("clause_")]
+    if len(hrtb_scopes) != 2:
+        raise InventoryError("small_sort FnMut and Output must have distinct scoped binders")
+    for scope in hrtb_scopes:
+        rows = sorted(by_scope[scope], key=lambda x: x[3])
+        expected_binders = (fn_regions if scope == f"clause_{fnmut_ordinal}" else
+                            out_binders if scope == f"clause_{output_ordinal}" else ())
+        if len(rows) != 2 or tuple(x[3] for x in rows) != (0, 1) or \
+                tuple(x[0] for x in rows) != expected_binders:
+            raise InventoryError("small_sort HRTB clause binder identity is incomplete")
+    if set(lifetime_params) & (set(fn_regions) | set(out_binders)) or \
+            len(hrtb_scopes) != 2 or set(by_scope) != {
+                "sig", f"clause_{fnmut_ordinal}", f"clause_{output_ordinal}"}:
+        raise InventoryError("small_sort input and HRTB regions must remain disjoint")
+    parent_trait = _text(method, "parentDefId")
+    parent_clauses = tuple(normalize_shape(
+        _canonical_small_sort_clause(_trait_clause_shape(x), parent_trait=parent_trait),
+        type_names | region_names) for x in _records(method, "parentClauses"))
+    expected_parent = {
+        ("trait", "Sized", (("type", ("param", "Self")),), ()),
+        ("trait", "StableSmallSortTypeImpl", (("type", ("param", "Self")),), ()),
+    }
+    if set(parent_clauses) != expected_parent:
+        raise InventoryError("small_sort parent trait clauses are incomplete or unexpected")
+
+    # Canonicalize aliases by positional binder role; compiler numeric identity
+    # remains separately exposed and never derives from rendered names.
+    alpha = {aliases[0]: "@Self", aliases[1]: "@F"}
+    alpha.update({region: f"@input_{i}" for i, region in enumerate(lifetime_params)})
+    for scope, rows in by_scope.items():
+        if scope.startswith("clause_"):
+            for i, row in enumerate(sorted(rows, key=lambda x: x[3])):
+                alpha[row[0]] = f"@hrtb_{i}"
+    def canon(value):
+        if isinstance(value, _parser.Text):
+            return alpha.get(value.value, value.value)
+        if isinstance(value, _parser.Record):
+            return tuple((k, canon(v)) for k, v in value.fields)
+        if isinstance(value, _parser.ListValue):
+            return tuple(canon(x) for x in value.values)
+        if isinstance(value, _parser.Number):
+            return int(value.value, 0)
+        if isinstance(value, _parser.Atom):
+            return value.value
+        raise InventoryError("unknown compiler small_sort interface value")
+    identity = {
+        "required_def_id": _text(method, "defId"), "required_def_index": method_id,
+        "parent_def_id": _text(method, "parentDefId"), "parent_def_index": parent_id,
+        "source_span": _span(_member(method, "nameSpan")),
+        "type_params": tuple((names[i], indices[i], type_ids[i]) for i in range(2)),
+        "signature_regions": tuple(alpha[x] for x in lifetime_params),
+        "hrtb_regions": tuple(alpha[x] for x in fn_regions),
+        "scoped_regions": tuple((alpha.get(a, a), scope, depth, index, kind, elided)
+                                 for a, scope, depth, index, kind, elided in scoped_rows),
+        "inputs": inputs, "output": output,
+        "clauses": tuple(canon(x) for x in _records(method, "clauses")),
+        "parent_clauses": tuple(canon(x) for x in _records(method, "parentClauses")),
+        "ast_type_param_names": ("Self", "F"),
+        "alpha_roles": ("Self", "F", "input_0", "input_1", "input_2", "hrtb_0", "hrtb_1"),
+    }
+    identity["interface_digest"] = hashlib.sha256(json.dumps(identity, sort_keys=True, default=str).encode()).hexdigest()
+    return identity
+
+
+def tuple_shape(value):
+    return value
+
+
 def _trait_clause(clause):
     _exact_fields(clause, ("trait",), "impl clause")
     trait = _one(clause, "trait", required=False)
@@ -303,6 +667,7 @@ def _trait_clause(clause):
 
 def _freeze_shape(root):
     trait, required = _trait(root)
+    required_small_sort = _required_small_sort(required)
     impls = _impls(root, _text(required[0], "parentDefId"))
     bodies = _body_map(root)
     global_item_ids = set()
@@ -326,7 +691,10 @@ def _freeze_shape(root):
             if _text(item, "defId") != body["def_path"]:
                 raise InventoryError("impl item defId does not match body's defPath")
             observed_items.append({"name": method, "def_index": item_id,
-                                   "def_id": _text(item, "defId"), "body": body})
+                                   "def_id": _text(item, "defId"), "body": body,
+                                   "small_sort_signature": (_impl_body_small_sort(
+                                       body, name, _uint(info["generics"][0], "defIndex"))
+                                       if method == "small_sort" else None)})
         observations.append({"impl": name, "impl_def_index": impl_id,
                              "self_ty": info["self_ty"], "generic_names": info["generic_names"],
                              "generics": tuple(_parser.render_value(x) for x in info["generics"]),
@@ -349,8 +717,7 @@ def _freeze_shape(root):
                                           for name in names):
             raise InventoryError("Freeze clause does not name the source-local FreezeMarker")
         if kind == "freeze32":
-            crate_prefix = _text(required[0], "parentDefId").rsplit("::", 1)[0]
-            if f"{crate_prefix}::FreezeMarker" not in names:
+            if "FreezeMarker" not in names:
                 raise InventoryError("Freeze applicability does not resolve to this fixture's FreezeMarker")
     if not set(bodies).issuperset(global_item_ids):
         raise InventoryError("one or more impl item bodies are unbound")
@@ -360,12 +727,35 @@ def _freeze_shape(root):
     required_ids = {_uint(x, "defIndex") for x in required}
     if required_ids.intersection(impl_ids) or required_ids.intersection(bodies):
         raise InventoryError("trait method and impl/body compiler identities collide")
+    small_sort_required_id = required_small_sort["required_def_index"]
+    impl_small_sort_identities = tuple(sorted(
+        ({"impl": row["impl"], "impl_def_index": row["impl_def_index"],
+          "item_def_index": next(item["def_index"] for item in row["items"]
+                                  if item["name"] == "small_sort"),
+          "item_def_id": next(item["def_id"] for item in row["items"]
+                               if item["name"] == "small_sort"),
+          "ast_body_line": next(item["body"]["mir_span"][0][1] for item in row["items"]
+                                if item["name"] == "small_sort"),
+          "compiler_signature_digest": next(item["small_sort_signature"]["digest"]
+                                             for item in row["items"]
+                                             if item["name"] == "small_sort"),
+          "compiler_signature": next(item["small_sort_signature"]
+                                      for item in row["items"]
+                                      if item["name"] == "small_sort"),
+          "source_fn_sig_span": next(item["body"]["fn_sig_span"] for item in row["items"]
+                                      if item["name"] == "small_sort"),
+          "alias": "__a1_impl_{}_item_{}_small_sort".format(
+              row["impl_def_index"], next(item["def_index"] for item in row["items"]
+                                            if item["name"] == "small_sort"))}
+         for row in observations), key=lambda row: row["impl"]))
     return {"trait_def_id": _text(required[0], "parentDefId"),
             "trait_methods": tuple(sorted(_text(x, "name") for x in required)),
             "required_method_ids": tuple(sorted((_uint(x, "defIndex"), _text(x, "name")) for x in required)),
             "required_method_spans": tuple(sorted(
                 ((_text(x, "name"), _span(_one(x, "nameSpan"))) for x in required),
                 key=lambda x: x[0])),
+            "required_small_sort": required_small_sort,
+            "impl_small_sort_identities": impl_small_sort_identities,
             "impls": tuple(sorted(observations, key=lambda x: x["impl"])),
             "body_count": len(bodies)}
 

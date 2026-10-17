@@ -14,9 +14,10 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import time
-from typing import Any
+from typing import Any, Mapping
 
 
 PHASE = "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17"
@@ -135,7 +136,9 @@ def _cloud_gate(a, c4, ghost, tool: Path, receipt: dict,
     need(profile_path.is_file() and sha(profile_path) == profile_hash and
          json.loads(profile_path.read_text()) == profile and
          profile.get("phase_id") == PHASE and
-         profile.get("proof_sha") == proof and profile.get("infra_sha") == infra and
+         profile.get("profile_pin_source") == "coordinator-environment" and
+         profile.get("proof_sha") in (None, "") and
+         profile.get("infra_sha") in (None, "") and
          profile.get("cloud_build_enabled") is True and
          profile.get("profile_accepted") is False,
          "published A1 profile identity")
@@ -185,9 +188,106 @@ def _artifact(path: Path) -> dict[str, Any]:
             "bytes": path.stat().st_size if path.is_file() else None}
 
 
+def _support_cache_key(a, tool: Path, fixture: Path, env: Mapping[str, str],
+                      receipt: Mapping[str, Any]) -> str:
+    """Key only exact same-Build paired support bytes and execution config."""
+    source_pair = {name: sha(fixture / name)
+                   for name in ("verified/lib.rs", "original/lib.rs")}
+    tool_files = {
+        "console": sha(tool / "bin/verifast"),
+        "exporter": sha(tool / "bin/vf-rust-mir-exporter"),
+        "schema": sha(tool / "src/rust_frontend/vf_mir/vf_mir.capnp"),
+        "refiner": sha(tool / "bin/refinement-checker"),
+    }
+    config = {key: env.get(key) for key in (
+        "RUSTUP_TOOLCHAIN", "RUSTFLAGS", "RUSTC_WRAPPER", "SORT4_A1_PHASE_ID",
+        "SORT4_A1_CHECKED_TRAIT_CONTRACT", "SORT4_A1_STAGE",
+        "SORT4_A1_PROFILE_SHA256", "SORT4_A1_FORCE_LEGACY_REDIRECT")}
+    identity = {"build_id": os.environ["CLOUD_BUILD_ID"],
+                "source_pair_sha256": source_pair, "tool_sha256": tool_files,
+                "tool_receipt": {key: receipt.get(key) for key in (
+                    "final_translator_sha256", "final_schema_sha256",
+                    "final_exporter_sha256", "console_binary_sha256",
+                    "exporter_binary_sha256")},
+                "sysroot": str(Path(a.compiler_sysroot).resolve()),
+                "compiler_toolchain": os.environ.get("RUSTUP_TOOLCHAIN"),
+                "target": os.environ.get("CARGO_BUILD_TARGET"),
+                "config": config, "support_target": "a1_guard_observer",
+                "proof_credit": False}
+    return hashlib.sha256(json.dumps(identity, sort_keys=True,
+                                     separators=(",", ":")).encode()).hexdigest()
+
+
+def _cached_support(a, root: Path, fixture: Path, *, key: str,
+                    support_cache: dict[str, dict]) -> tuple[dict, dict] | None:
+    entry = support_cache.get(key)
+    if entry is None:
+        return None
+    expected_pair = {name: sha(fixture / name)
+                     for name in ("verified/lib.rs", "original/lib.rs")}
+    if entry.get("source_pair_sha256") != expected_pair or \
+            entry.get("build_id") != os.environ["CLOUD_BUILD_ID"] or \
+            entry.get("paired_support", {}).get("paired_support_passed") is not True:
+        support_cache.pop(key, None)
+        return None
+    artifacts = entry.get("artifacts", {})
+    names = ("normal-mir.bin", "normal-mir.txt", "readonly-mir.bin",
+             "readonly-mir.txt", "normal-a1_guard_observer-full-mir.txt",
+             "readonly-a1_guard_observer-full-mir.txt")
+    for name in names:
+        item = artifacts.get(name)
+        src = Path(item.get("path", "")) if isinstance(item, Mapping) else Path()
+        if not src.is_file() or sha(src) != item.get("sha256"):
+            support_cache.pop(key, None)
+            return None
+    root.mkdir(parents=True, exist_ok=False)
+    copied = {}
+    for name in names:
+        src = Path(artifacts[name]["path"])
+        dst = root / name
+        shutil.copy2(src, dst)
+        if sha(dst) != artifacts[name]["sha256"]:
+            raise RuntimeError("A1-FOCUS: paired support cache copy identity mismatch")
+        copied[name] = {**artifacts[name], "path": str(dst)}
+    rows = dict(entry["stages"])
+    for name, row in rows.items():
+        rows[name] = {**row, "reused_support": True,
+                      "same_build_identity_validated": True}
+    support = {**entry["paired_support"],
+               "source_pair_sha256": expected_pair,
+               "cached_from_support_key": key,
+               "same_build_identity_validated": True,
+               "proof_credit": False}
+    return rows, support
+
+
+def _remember_support(a, root: Path, source_pair: Mapping[str, str],
+                      rows: Mapping[str, Any], support: Mapping[str, Any],
+                      support_cache: dict[str, dict], key: str) -> None:
+    if support.get("paired_support_passed") is not True:
+        return
+    names = ("normal-mir.bin", "normal-mir.txt", "readonly-mir.bin",
+             "readonly-mir.txt", "normal-a1_guard_observer-full-mir.txt",
+             "readonly-a1_guard_observer-full-mir.txt")
+    artifacts = {}
+    for name in names:
+        path = root / name
+        if not path.is_file():
+            return
+        artifacts[name] = {"path": str(path), "sha256": sha(path)}
+    support_cache[key] = {"build_id": os.environ["CLOUD_BUILD_ID"],
+                          "source_pair_sha256": dict(source_pair),
+                          "stages": dict(rows), "paired_support": dict(support),
+                          "artifacts": artifacts, "proof_credit": False}
+
+
 def collect_focus(a, c4, ghost, tool: Path, receipt: dict, profile: dict,
                   manifest: dict, source_certificate: Path, fixture: Path,
-                  case_id: str, *, inventory_module, call_binding_module) -> dict:
+                  case_id: str, *, inventory_module, call_binding_module,
+                  focus_case_id: str | None = None,
+                  support_cache: dict[str, dict] | None = None,
+                  evidence_id: str | None = None,
+                  control_env: Mapping[str, str] | None = None) -> dict:
     """Collect paired full-unit stages and one focused AST/verifier observation.
 
     This function does not classify pass/fail or populate A1Admission. Every
@@ -195,7 +295,9 @@ def collect_focus(a, c4, ghost, tool: Path, receipt: dict, profile: dict,
     still checked afresh and no stage result is reused across cases.
     """
     _cloud_gate(a, c4, ghost, tool, receipt, profile, manifest)
-    need(case_id in ALL_CASES, "unsupported focused A1 case")
+    need(case_id in ALL_CASES, "unsupported certified source case")
+    focus_case_id = focus_case_id or case_id
+    need(focus_case_id in ALL_CASES, "unsupported A1 focus case")
     fixture = checked_path(fixture, Path(a.evidence), "case fixture")
     source_certificate = checked_path(source_certificate, Path(a.evidence),
                                       "source certificate")
@@ -219,26 +321,51 @@ def collect_focus(a, c4, ghost, tool: Path, receipt: dict, profile: dict,
          isinstance(case.get("source_id"), str) and
          isinstance(case.get("unit_id"), str),
          "exact certified verified/original source pair")
-    declaration_line = source_focus_line(verified.read_bytes(), case_id)
-    stage_mode = ("bodies" if case_id in BODY_CASES else
-                  "caller" if case_id in CALLER_CASES else "interface")
+    declaration_line = source_focus_line(verified.read_bytes(), focus_case_id)
+    stage_mode = ("bodies" if focus_case_id in BODY_CASES else
+                  "caller" if focus_case_id in CALLER_CASES else "interface")
     if stage_mode == "caller":
         need((fixture / "a1-threshold-summary.receipt").is_file(),
              "caller publication requires the two-body receipt")
-    root = Path(a.evidence) / "focus" / case_id
+    root_name = (evidence_id if evidence_id is not None else
+                 case_id if focus_case_id == case_id else
+                 case_id + "--focus-" + focus_case_id)
+    need(isinstance(root_name, str) and re.fullmatch(r"[A-Za-z0-9_.-]+", root_name),
+         "safe isolated evidence key")
+    root = Path(a.evidence) / "focus" / root_name
     need(not root.exists(), "focused case evidence directory already exists")
     env = c4.clean_env(a, tool)
     env.update(SORT4_A1_PHASE_ID=PHASE,
                SORT4_A1_CHECKED_TRAIT_CONTRACT="1",
                SORT4_A1_STAGE=stage_mode,
                SORT4_A1_PROFILE_SHA256=os.environ["SORT4_A1_PROFILE_SHA256"])
+    if control_env is not None:
+        need(dict(control_env) == {"SORT4_A1_FORCE_LEGACY_REDIRECT": "1"} and
+             stage_mode == "caller",
+             "only isolated caller legacy-redirect control is supported")
+        env.update(control_env)
     # The capture target is unique in the full decoded stream. It does not
     # filter the exporter or translator and is not a claim about focused body.
-    rows, support = c4.source_support(a, tool, fixture, root, env,
-                                      target="a1_guard_observer")
+    cache_key = (_support_cache_key(a, tool, fixture, env, receipt)
+                 if support_cache is not None else None)
+    cached = (_cached_support(a, root, fixture, key=cache_key,
+                              support_cache=support_cache)
+              if support_cache is not None else None)
+    if cached is None:
+        rows, support = c4.source_support(a, tool, fixture, root, env,
+                                          target="a1_guard_observer")
+        if support_cache is not None and cache_key is not None:
+            _remember_support(a, root,
+                              {"verified/lib.rs": sha(verified),
+                               "original/lib.rs": sha(original)},
+                              rows, support, support_cache, cache_key)
+    else:
+        rows, support = cached
     result: dict[str, Any] = {
         "classification": "RAW_FOCUSED_STAGE_UNCLASSIFIED",
-        "case_id": case_id, "source_id": case["source_id"],
+        "case_id": case_id, "focus_case_id": focus_case_id,
+        "evidence_root": str(root),
+        "source_id": case["source_id"],
         "unit_id": case["unit_id"],
         "build_id": os.environ["CLOUD_BUILD_ID"],
         "focus": None, "focus_stage": stage_mode,
@@ -266,8 +393,8 @@ def collect_focus(a, c4, ghost, tool: Path, receipt: dict, profile: dict,
         inventory = inventory_module.observe(case_id, normal_text, readonly_text,
                                              cert, source_text)
         line = 0
-        if case_id in BODY_CASES:
-            selected_impl = BODY_CASES[case_id]
+        if focus_case_id in BODY_CASES:
+            selected_impl = BODY_CASES[focus_case_id]
             candidates = [row for row in inventory["inventory"]["impls"]
                           if row["impl"] == selected_impl]
             need(len(candidates) == 1, "one numeric compiler impl for body focus")
@@ -291,7 +418,7 @@ def collect_focus(a, c4, ghost, tool: Path, receipt: dict, profile: dict,
                 "fn_sig_span": signature}
         elif case_id in CALLER_CASES:
             binding = call_binding_module.observe(
-                case_id, normal_text, readonly_text, cert, source_text)
+                focus_case_id, normal_text, readonly_text, cert, source_text)
             span = binding["binding"].get("mir_body_span")
             need(isinstance(span, dict) and
                  span.get("lo", {}).get("source_path") == "verified/lib.rs" and

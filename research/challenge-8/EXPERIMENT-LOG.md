@@ -7676,3 +7676,18 @@ Cloud Logging не читались. Расход **0/960 Cloud s**, Builds **0/
 Threshold/interface hypothesis не подтверждена; A1/A2 NOT ACHIEVED,
 index 15%, experimental profile UNACCEPTED. P2/A2/ZST/resources/copies/sort8
 не входят в результат или разрешение этой сессии.
+
+
+## 2026-10-17 — A1 continuation, independent source review complete / Cloud NOT_RUN
+
+New owner account960s/one900s Build, start09:58:22Z/main11:58:22Z/absolute12:28:22Z;
+prior960 retired unchanged. Checkpoint1cfb60e0/candidatebc2af772 retained.
+Implemented full P1 compiler/binder/signature/native-tree observation gate with
+separate R-only ORIGINAL impl reference, all26 live adapters/classifier/admission
+routes, own-pair false31 two-body receipt ordering, bounded exact-pair support
+reuse and existing-lane/recipe/phase binding. Independent Luna High review fixed
+localized findings;137 synthetic tests and55 final targeted tests PASS, static
+pins/closure checks PASS. No local scientific execution, no Cloud Build yet,
+no raw evidence read. All actual matrix/proof gates NOT_RUN; no Brief yet.
+See A1-CONTINUATION-2026-10-17.md and independent review for source pins and
+runtime estimate. Next authorized step: publish exact pins, preflight, one Build.

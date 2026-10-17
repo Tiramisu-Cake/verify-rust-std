@@ -1,4 +1,5 @@
 {
+  "a1_entry_sha256": "e29c4133b1a0fea444ed882aded3a233ea92bd2bdc1b7d7e379b555a2e6ae216",
   "a1_focus_semantics_sha256": {
     "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
     "src/verifast1.ml": "bfbfb518fb9783afeeba9384e1431b6cd280c7da7713b9fdbfd15a8395b00207",
@@ -6,20 +7,25 @@
     "src/vfconsole/vfconsole.ml": "79179baa9ad9e9cb2ee5163f4c9528f665519d894c43093183fd8e9f31b06898"
   },
   "a1_helper_sha256": {
-    "a1-ast-gates.py": "ab0b86a8773f2300392b0ab56a00b8068df1ac78296835bcd9d3ff965f2b54b8",
-    "a1-call-binding.py": "ff79dc058385a6d1476a389022aeae7a063e6238695f9046d6b709e2f49ba27d",
-    "a1-compiler-inventory.py": "6b1cf336d7af59a92eaf023e9870b93de8b1b0b9aa74d20ceb42a636fbfd72dc",
+    "a1-ast-gates.py": "2d4c9badda0d74ca4439bc39f5fb647804d8dee4a129e8263ac4ee21db82b76f",
+    "a1-call-binding.py": "302a0ee3e2eb1950aa4bd42ac2c5cedbaabc97b114754f63421de8e0d1f9f0cb",
+    "a1-compiler-inventory.py": "286db29e897505b09b701031ddc501033a8ff8d902e6247eb7e4f548bb2729e1",
     "a1-contract-admission.py": "0ac3b182a24ba3a8cfd21588dd393f652e864bf54593ac7f4a5caaa473927ad4",
     "a1-fixtures.py": "2e5dc197288f323cf200c3a0124ec8a4a1a53afe41b78bd878a5222a3aaed9c7",
-    "a1-focus-backend.py": "627de306d68790effbec95fde0a777bc8f889fcdced3afc0fdaae3ceb6de8075",
+    "a1-focus-backend.py": "3bc0d790c93a426e4bf72961aed49232f28b20db6a989a360284f060e4e56c72",
+    "a1-matrix-classifier.py": "e50dca88e41f41a1919db83412f5016ea19428b2c6b092bfe1c8cfc61c70b6a6",
     "a1-proof-classifier.py": "7a2070a3132bc7d4601565aebd25e0aea682520e3fbb32a6045ccdf276142a2e",
     "a1-summary-receipt.py": "bcc55360698346f0aa2dfb3858c6b555a9104db95308116d2c16c188a9b8a7dd",
-    "a1-synthetic-backend.py": "5e97783d9cfa98388f0eae646e78432ebd35648cf79aa86ae423996dc72ad40f",
+    "a1-synthetic-backend.py": "4498e7dbcd4ffaaf4746bfee239e56a36f78e883da59937d9b48c1025e5b8feb",
     "a1-synthetic-inputs.py": "ef770ff0a2fb1ad02bafee1c6f850302b35f95972209cc6d7e85a6e8b0dd0cfd",
-    "a1-tool.py": "31237e0a435164bd14b73f6df2c5124df31d47b074f1623b3e37326ecf9b6e09",
+    "a1-tool.py": "3e66772e031592db8dd7662c9a69dc72b54ad59e2cc838f3a27a09da2e37479d",
     "selected-proof.py": "3347ad41c0273ebf186dbcf0520182455b32a65ad9619f2b2c7d3d00c12a7d7f"
   },
+  "a1_runner_sha256": "2cc554ff0e772abc5f2cd0419330f0cdec6fa32f3e85e186f5ab4b30f9dcecea",
+  "account": "BUDGET-A1-CONTINUATION-2026-10-17.json",
   "base_translator_sha256": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64",
+  "baseline_candidate_commit": "bc2af77223428df14b61300a81eb99541c49723e",
+  "baseline_profile_sha256": "fbdb28dc43582b9b9bb695929f0b8200148761ed66c2c7b78def0df1da7b75d0",
   "c_after": {
     "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
     "src/rust_frontend/vf_mir_exporter/src/lib.rs": "469c377dfb9e3a249abd0fd4205a54ee1d41b091da41aca0f8fe07959e48e6bf",
@@ -33,15 +39,12 @@
   "c_patch_sha256": "e7cdc8a8504338ccaab760975c1a3f1a739211d7f8d531dd214babc2005d894e",
   "caller_driver_sha256": "75df07539721e16e2329f94ebe392f8f3626ca106be906cfc0cc61345db4797a",
   "caller_manifest_sha256": "cea1daca656e641f083aabc1eb8c62784edde889ae01470b339c719e3ba3c8d2",
-  "checkpoint_utc": "2026-10-17T01:44:06.996737+00:00",
-  "cloud_build_enabled": false,
+  "checkpoint_utc": "2026-10-17T10:40:08.477219+00:00",
+  "cloud_build_enabled": true,
   "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
   "compiler_toolchain": "nightly-2026-09-25",
-  "dispatch_blockers": [
-    "P1 full small_sort required/impl signatures, scoped binder mapping and entire native pre/returning/unwind AST gate is absent",
-    "Full 26-row execution/admission lifecycle and N-false31 exact-pair two-body receipt are not integrated",
-    "900-second complete matrix feasibility/cache not reviewed; exact published proof/infra pins and recipe closure absent"
-  ],
+  "deadline_utc": "2026-10-17T12:28:22Z",
+  "dispatch_blockers": [],
   "first_matrix_cases": {
     "N-alpha-valid": "NOT_RUN",
     "N-binder-collapse": "NOT_RUN",
@@ -78,14 +81,24 @@
     "formal_verification": "NOT_RUN",
     "kind": "isolated-synthetic-classifier-parser-only",
     "result": "PASS",
-    "source_patch_application_and_sha256": "PASS",
-    "tests": 96
+    "source_patch_application_and_sha256": "previous-candidate-PASS-unchanged-patches",
+    "tests": 137
+  },
+  "main_deadline_utc": "2026-10-17T11:58:22Z",
+  "native_interface_reference": {
+    "baseline_scope": "original required prototype and both actual small_sort implementation definitions; full headers/pre/returning/unwind",
+    "c_patch_applied": false,
+    "kind": "separately-built-R-only-original-impl-native-AST",
+    "proof_credit": false,
+    "runtime_exit_is_proof": false,
+    "translator_sha256": "564a865b4a4b0ac6a05c55f9f1ece48f7517e614bf25f49816c34eebe269e6ed"
   },
   "owner": "select-sort4",
   "phase": "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17",
   "phase_id": "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17",
   "pointer_width": 64,
   "profile_accepted": false,
+  "profile_pin_source": "coordinator-environment",
   "proof_credit": false,
   "proof_sha": null,
   "r_after": {
@@ -102,7 +115,17 @@
   "schema": "smallsort-a1-rcg-source-profile-v1",
   "selected_base_translator_sha256": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64",
   "stable_threshold_pins_sha256": "6d1753038cb1fe9b6ce933f025e905d1776aca4a418f747285208f8a2f0625ed",
-  "status": "NO_GO_CHECKPOINT_UNRUN",
+  "stage_budget_estimate": {
+    "build_timeout_seconds": 900,
+    "estimate_not_measured": true,
+    "incomplete_rows": "NOT_RUN or INCONCLUSIVE; never matrix acceptance",
+    "inner_margin_seconds": 15,
+    "nominal_work_deadline_seconds": 815,
+    "outer_envelope_seconds": 70,
+    "queue_reserve_seconds": 60
+  },
+  "start_utc": "2026-10-17T09:58:22Z",
+  "status": "REVIEWED_SOURCE_READY_FIRST_MATRIX_UNRUN",
   "std_source_sha256": {
     "library/core/src/marker.rs": "f7e098f8b9ad1a6dded90b81fd943afbe6c8d60934354838998880fe05f80755",
     "library/core/src/slice/sort/shared/mod.rs": "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8",

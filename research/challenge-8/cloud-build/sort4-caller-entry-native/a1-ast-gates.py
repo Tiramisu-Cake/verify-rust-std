@@ -32,6 +32,18 @@ def digest(value: Any) -> str:
     return hashlib.sha256(repr(value).encode()).hexdigest()
 
 
+def _valid_sha256(value: Any) -> bool:
+    return isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value) is not None
+
+
+def _receipt_pair_sha256(receipt: Mapping[str, Any]) -> str | None:
+    parts = receipt.get("source_pair_sha256")
+    if not isinstance(parts, Mapping) or not all(
+            _valid_sha256(parts.get(key)) for key in ("verified", "original")):
+        return None
+    return hashlib.sha256((parts["verified"] + ":" + parts["original"]).encode("ascii")).hexdigest()
+
+
 def balanced_end(source: str, opening: int) -> int:
     pairs = {"(": ")", "[": "]", "{": "}"}
     need(opening < len(source) and source[opening] in pairs, "opening delimiter")
@@ -425,6 +437,502 @@ def threshold_posts(ast: str, inventory: Mapping[str, Mapping[str, Any]],
             "native_sha256": {key: digest(value) for key, value in native.items()},
             "impls": checked_rows, "proof_credit": False,
             "body_conformance_proved": False}
+
+
+def _small_sort_native(record: Mapping[str, Any], alpha: Mapping[str, str]) -> dict[str, Any]:
+    spec, = node(record["fields"][8], "Some", 1)
+    pre, outcome_post = node(spec, "tuple", 2)
+    outcome, post = node(outcome_post, "tuple", 2)
+    outcome_name = atom(outcome)
+    _, discrim, arms, default = node(post, "SwitchExpr", 4)
+    need(default == ("atom", "None"), "small_sort outcome default")
+    _, discriminant = node(discrim, "Var", 2)
+    atom(discriminant, outcome_name)
+    clauses = items(arms)
+    returning = [x for x in clauses if node(x, "SwitchExprClause", 4)[1] == ("str", "returning")]
+    unwinding = [x for x in clauses if node(x, "SwitchExprClause", 4)[1] == ("str", "unwinding")]
+    need(len(clauses) == 2 and len(returning) == len(unwinding) == 1,
+         "small_sort must retain exactly returning and unwind outcomes")
+    _, _, result_args, normal = node(returning[0], "SwitchExprClause", 4)
+    _, _, unwind_args, unwind = node(unwinding[0], "SwitchExprClause", 4)
+    need(len(items(result_args)) == 1 and len(items(unwind_args)) == 0,
+         "small_sort outcome binder shape")
+    result_name = atom(items(result_args)[0])
+    scoped = {**alpha, outcome_name: "@outcome", result_name: "@result"}
+    return {"pre": normalize(pre, scoped),
+            "returning": normalize(normal, scoped),
+            "unwind": normalize(unwind, scoped)}
+
+
+def _small_sort_generic_names(record: Mapping[str, Any]) -> tuple[str, ...]:
+    rows = items(record["fields"][2])
+    names = []
+    for row in rows:
+        name, _bounds = node(row, "tuple", 2)
+        names.append(atom(name))
+    return tuple(names)
+
+
+def _small_sort_alpha(record: Mapping[str, Any], *, self_name: str) -> dict[str, str]:
+    names = _small_sort_generic_names(record)
+    need(len(names) == 5 and names[:2] == (self_name, "F") and
+         all(name.startswith("'") and name not in ("'static", "'_<erased>")
+             for name in names[2:]) and len(set(names[2:])) == 3,
+         "small_sort AST must declare Self/F and three distinct positional input regions")
+    alpha = {self_name: "@Self", "Self": "@Self", "T": "@Self", "F": "@F"}
+    for i, name in enumerate(names[2:]):
+        # AST type identifiers keep the apostrophe; gen_contract uses the
+        # internal ghost lifetime spelling without it. Both are bound by the
+        # same compiler-derived positional region identity.
+        alpha[name] = f"@input_{i}"
+        alpha[name[1:]] = f"@input_{i}"
+        alpha["_q_" + name[1:]] = f"@input_{i}_fraction"
+    return alpha
+
+
+def _ast_region_expr(value: Any) -> str:
+    if isinstance(value, tuple) and value[0] == "Var":
+        _, name = node(value, "Var", 2)
+        return atom(name)
+    if isinstance(value, tuple) and value[0] == "IdentTypeExpr":
+        _, package, name = node(value, "IdentTypeExpr", 3)
+        need(package == ("atom", "None"), "small_sort AST lifetime package")
+        return atom(name)
+    raise AstGateError("small_sort AST lifetime expression")
+
+
+def _ast_ty(value: Any) -> Any:
+    if not isinstance(value, tuple) or len(value) != 2:
+        raise AstGateError("small_sort AST type expression")
+    kind, _ = value
+    if kind == "RustRefTypeExpr":
+        loc, region, mutability, referent = node(value, kind, 4)
+        need(isinstance(loc, tuple) and loc[0] == "loc", "reference type location")
+        need(mutability in (("atom", "Mutable"), ("atom", "Shared")),
+             "reference mutability tag")
+        return ("ref", _ast_region_expr(region), mutability[1] == "Mutable", _ast_ty(referent))
+    if kind == "SliceTypeExpr":
+        loc, elem = node(value, kind, 2)
+        need(isinstance(loc, tuple) and loc[0] == "loc", "slice type location")
+        return ("slice", _ast_ty(elem))
+    if kind == "IdentTypeExpr":
+        _, package, name = node(value, kind, 3)
+        need(package in (("atom", "None"), ("Some", (("str", "core"),)),
+                         ("Some", (("str", "std"),))), "type identifier package")
+        return ("param", atom(name))
+    if kind == "StructTypeExpr":
+        loc, name, _fields, _attrs, args = node(value, kind, 5)
+        need(isinstance(loc, tuple) and loc[0] == "loc", "struct type location")
+        name_option = node(name, "Some", 1)
+        struct_name = atom(name_option[0])
+        need(struct_name == "std::mem::MaybeUninit",
+             "small_sort AST ADT identifier is not translator-canonical std::mem::MaybeUninit")
+        type_args = tuple(_ast_ty(x) for x in items(args))
+        return ("adt", struct_name.split("::")[-1], type_args)
+    if kind == "ManifestTypeExpr":
+        _loc, manifest = node(value, kind, 2)
+        return ("manifest", normalize(manifest))
+    raise AstGateError("unsupported small_sort AST signature type " + str(kind))
+
+
+def _small_sort_ast_signature(record: Mapping[str, Any], self_name: str,
+                              alpha: Mapping[str, str]) -> tuple[Any, ...]:
+    rows = items(record["fields"][5])
+    need(len(rows) == 3, "small_sort AST must retain exactly three typed parameters")
+    names, types = [], []
+    for row in rows:
+        typ, name = node(row, "tuple", 2)
+        types.append(_ast_ty(typ))
+        names.append(atom(name))
+    need(tuple(names) == ("v", "scratch", "is_less"),
+         "small_sort AST parameter order/name binding")
+    normalized = []
+    for typ in types:
+        def rename(value):
+            if isinstance(value, tuple):
+                if len(value) == 2 and value[0] == "param":
+                    return ("param", alpha.get(value[1], value[1]))
+                if len(value) == 3 and value[0] == "ref":
+                    return (value[0], alpha.get(value[1], value[1]), value[2], rename(value[2]))
+                return tuple(rename(x) for x in value)
+            return alpha.get(value, value) if isinstance(value, str) else value
+        normalized.append(rename(typ))
+    expected = (("ref", "@input_0", True, ("slice", ("param", "@Self"))),
+                ("ref", "@input_1", True, ("slice", ("adt", "MaybeUninit", (("param", "@Self"),)))),
+                ("ref", "@input_2", True, ("param", "@F")))
+    need(tuple(normalized) == expected,
+         "small_sort AST typed parameters differ from compiler Self/F/input-region signature")
+    return tuple(normalized)
+
+
+def _compiler_small_sort_type_to_ast(value: Any) -> Any:
+    """Convert compiler canonical types to the AST gate's matching shape."""
+    if not isinstance(value, tuple):
+        return value
+    if len(value) == 2 and value[0] == "param":
+        return ("param", {"Self": "@Self", "F": "@F"}.get(value[1], value[1]))
+    if value and value[0] == "adt":
+        args = tuple(_compiler_small_sort_type_to_ast(arg[1])
+                     if isinstance(arg, tuple) and len(arg) == 2 and arg[0] == "type"
+                     else arg for arg in value[2])
+        return ("adt", value[1].split("::")[-1], args)
+    return tuple(_compiler_small_sort_type_to_ast(x) for x in value)
+
+
+def _small_sort_ast_return(record: Mapping[str, Any]) -> str:
+    wrapped, = node(record["fields"][3], "Some", 1)
+    _, outcome_name, args = node(wrapped, "ConstructedTypeExpr", 3)
+    atom(outcome_name, "fn_outcome")
+    returns = items(args)
+    need(len(returns) == 1, "small_sort must retain one normal return type")
+    _, unit = node(returns[0], "ManifestTypeExpr", 2)
+    struct_name, struct_args = node(unit, "StructType", 2)
+    atom(struct_name, "std_tuple_0_")
+    need(items(struct_args) == (), "small_sort normal return type must be unit")
+    return "unit"
+
+
+def _small_sort_ast_header(record: Mapping[str, Any], alpha: Mapping[str, str]) -> tuple[Any, ...]:
+    """Normalize complete regular/safe header fields retained by Func."""
+    return tuple(normalize(record["fields"][index], alpha)
+                 for index in (1, 2, 3, 5, 6, 7, 9, 11, 12))
+
+
+def _small_sort_ast_bounds(record: Mapping[str, Any]) -> tuple[bool, ...]:
+    rows = items(record["fields"][2])
+    bounds = []
+    for row in rows:
+        _, payload = node(row, "tuple", 2)
+        (value,) = node(payload, "tuple", 1)
+        need(value in (("atom", "true"), ("atom", "false")),
+             "small_sort AST generic bound marker")
+        bounds.append(value == ("atom", "true"))
+    need(len(bounds) == 5 and tuple(bounds[:2]) == (True, True) and
+         tuple(bounds[2:]) == (False, False, False),
+         "small_sort AST Self/F sized markers and signature lifetimes differ from compiler interface")
+    return tuple(bounds)
+
+
+def _small_sort_impl_surface(record: Mapping[str, Any], identity: Mapping[str, Any], *,
+                             label: str) -> dict[str, Any]:
+    """Bind an original/candidate impl definition to its compiler item identity."""
+    item_path = identity.get("item_def_id")
+    need(isinstance(item_path, str) and item_path and record.get("name") == item_path and
+         record.get("kind") == "definition",
+         label + " AST definition does not match its compiler item DefPath")
+    need(_source_line(record["fields"][0]) == identity.get("ast_body_line"),
+         label + " AST definition span differs from compiler Body.span")
+    signature = identity.get("compiler_signature")
+    need(isinstance(signature, Mapping) and
+         signature.get("digest") == identity.get("compiler_signature_digest"),
+         label + " compiler Body signature identity missing")
+    alpha = _small_sort_alpha(record, self_name="T")
+    ast_signature = _small_sort_ast_signature(record, "T", alpha)
+    expected_signature = tuple(_compiler_small_sort_type_to_ast(x)
+                               for x in signature.get("inputs", ()))
+    need(ast_signature == expected_signature,
+         label + " AST parameter types differ from compiler Body signature")
+    compiler_regions = signature.get("input_regions")
+    ast_regions = _small_sort_generic_names(record)[2:]
+    need(compiler_regions == ("@input_0", "@input_1", "@input_2") and
+         tuple(alpha.get(region) for region in ast_regions) == compiler_regions,
+         label + " AST lifetime alpha map differs from compiler positional input-region map")
+    need(_small_sort_ast_return(record) == "unit",
+         label + " AST return type differs from compiler unit output")
+    _small_sort_ast_bounds(record)
+    native = _small_sort_native(record, alpha)
+    header = _small_sort_ast_header(record, alpha)
+    return {"item_def_id": item_path, "compiler_impl_id": identity.get("impl_def_index"),
+            "compiler_item_id": identity.get("item_def_index"),
+            "compiler_signature_digest": signature["digest"],
+            "positional_alpha_map": tuple(sorted(alpha.items())),
+            "compiler_positional_region_map": tuple(zip(ast_regions, compiler_regions)),
+            "normalized_header": header, "normalized_native": native,
+            "native_sha256": {key: digest(value) for key, value in native.items()},
+            "ast_body_line": identity["ast_body_line"]}
+
+
+def small_sort_native_baseline(ast: str, inventory: Mapping[str, Any], *,
+                               source_pair_id: str,
+                               reference_receipt: Mapping[str, Any]) -> dict[str, Any]:
+    """Extract native small_sort structure from the independently run R-only AST.
+
+    The caller must label this result only after collecting the AST from a
+    separate R-only native-reference invocation. This routine grants no
+    proof/conformance credit. `source_pair_id` is the compiler inventory's
+    certified verified-source ID; the receipt separately binds the actual
+    verified+original pair by its two file hashes and their combined digest.
+    """
+    observed = _inventory_payload(inventory)
+    interface = observed.get("required_small_sort")
+    need(isinstance(interface, Mapping), "compiler required small_sort interface missing")
+    case = inventory.get("case_binding", {})
+    need(isinstance(case, Mapping) and case.get("source_pair_id") == source_pair_id,
+         "R-only baseline source pair does not match compiler inventory")
+    need(isinstance(reference_receipt, Mapping) and
+         reference_receipt.get("schema") == "a1-r-only-native-reference-receipt-v1" and
+         reference_receipt.get("mode") == "r-only-native-reference" and
+         reference_receipt.get("source_pair_id") == source_pair_id and
+         all(isinstance(reference_receipt.get(key), str) and
+             re.fullmatch(r"[0-9a-f]{64}", reference_receipt[key]) is not None
+         for key in ("reference_binary_sha256", "reference_translator_sha256",
+                     "ast_sha256", "actual_source_pair_sha256")) and
+         _receipt_pair_sha256(reference_receipt) ==
+         reference_receipt.get("actual_source_pair_sha256") and
+         isinstance(reference_receipt.get("build_id"), str) and bool(reference_receipt["build_id"]) and
+         isinstance(reference_receipt.get("observed_exit"), int) and
+         reference_receipt.get("proof_credit") is False and
+         hashlib.sha256(ast.encode("utf-8")).hexdigest() == reference_receipt.get("ast_sha256"),
+         "separate R-only native-reference tool/AST receipt missing or mismatched")
+    fs = functions(ast)
+    required_id = interface.get("required_def_id")
+    common = [row for row in fs if row["name"] == required_id]
+    need(len(common) == 1 and common[0]["kind"] == "prototype",
+         "R-only AST must contain the compiler-bound required small_sort prototype")
+    alpha = _small_sort_alpha(common[0], self_name="Self")
+    signature = _small_sort_ast_signature(common[0], "Self", alpha)
+    need(interface.get("ast_type_param_names") == ("Self", "F") and
+         signature == tuple(_compiler_small_sort_type_to_ast(x)
+                            for x in interface.get("inputs", ())) and
+         interface.get("output") == ("tuple", ()) and
+         _small_sort_ast_return(common[0]) == "unit",
+         "R-only required AST signature differs from compiler-derived interface")
+    _small_sort_ast_bounds(common[0])
+    need(_source_line(common[0]["fields"][0]) == interface["source_span"][0][1],
+         "R-only required small_sort AST location differs from compiler nameSpan")
+    native = _small_sort_native(common[0], alpha)
+    common_header = _small_sort_ast_header(common[0], alpha)
+    impl_identities = observed.get("impl_small_sort_identities")
+    need(isinstance(impl_identities, (tuple, list)) and len(impl_identities) == 2,
+         "compiler-bound original small_sort impl identities missing from R-only baseline")
+    original_impls = {}
+    item_paths = set()
+    for identity in impl_identities:
+        need(isinstance(identity, Mapping) and
+             identity.get("impl") in ("default16", "freeze32") and
+             identity["impl"] not in original_impls,
+             "compiler original impl identity row is malformed or duplicated")
+        item_path = identity.get("item_def_id")
+        need(isinstance(item_path, str) and item_path not in item_paths,
+             "compiler original impl item DefPath is missing or duplicated")
+        item_paths.add(item_path)
+        matches = [row for row in fs if row["name"] == item_path and
+                   row["kind"] == "definition" and
+                   _source_line(row["fields"][0]) == identity.get("ast_body_line")]
+        need(len(matches) == 1,
+             "R-only AST must contain one original impl definition by compiler DefPath and Body.span: " +
+             identity["impl"])
+        surface = _small_sort_impl_surface(matches[0], identity,
+                                           label="R-only " + identity["impl"])
+        need(surface["normalized_native"] == native,
+             "unmodified R-only impl native contract differs from required common baseline: " +
+             identity["impl"])
+        need(surface["normalized_header"] == common_header,
+             "unmodified R-only impl typed header differs from required common baseline: " +
+             identity["impl"])
+        original_impls[identity["impl"]] = surface
+    need(set(original_impls) == {"default16", "freeze32"},
+         "R-only baseline must bind both original small_sort impl definitions")
+    return {"schema": "a1-small-sort-native-baseline-v1",
+            "provenance": "r-only-native-translation",
+            "source_pair_id": source_pair_id,
+            "actual_source_pair_sha256": reference_receipt["actual_source_pair_sha256"],
+            "compiler_interface_digest": interface["interface_digest"],
+            "reference_receipt": dict(reference_receipt),
+            "ast_sha256": hashlib.sha256(ast.encode("utf-8")).hexdigest(),
+            "normalized_header": common_header,
+            "normalized_native": native,
+            "native_sha256": {key: digest(value) for key, value in native.items()},
+            "normalized_impls": original_impls,
+            "proof_credit": False, "conformance_credit": False}
+
+
+def _inventory_payload(inventory: Mapping[str, Any]) -> Mapping[str, Any]:
+    need(isinstance(inventory, Mapping) and
+         inventory.get("schema") == "a1-compiler-inventory-observation-v1" and
+         inventory.get("provenance") == "source-reported-compiler-inventory-only" and
+         inventory.get("proof_credit") is False,
+         "full source-reported compiler inventory observation required")
+    payload = inventory.get("inventory")
+    need(isinstance(payload, Mapping), "compiler inventory payload missing")
+    return payload
+
+
+def small_sort_interface(ast: str, inventory: Mapping[str, Any], *,
+                         baseline: Mapping[str, Any] | None,
+                         actual_source_pair_sha256: str) -> dict[str, Any]:
+    """Bind compiler-required and both impl small_sort ASTs; interface only.
+
+    The baseline must come from a separate R-only native-reference AST dump.
+    `actual_source_pair_sha256` is recomputed from the exact pair hashes in its
+    receipt and compared independently of the inventory's source ID.
+    Every compared contract is complete native pre/returning/unwind structure;
+    only explicit positional binder alpha-renaming is permitted.
+    """
+    payload = _inventory_payload(inventory)
+    case = inventory.get("case_binding")
+    need(isinstance(case, Mapping) and isinstance(case.get("source_pair_id"), str),
+         "compiler inventory source-pair identity missing")
+    interface = payload.get("required_small_sort")
+    identities = payload.get("impl_small_sort_identities")
+    need(isinstance(interface, Mapping) and isinstance(identities, (tuple, list)) and
+         len(identities) == 2,
+         "complete compiler required/impl small_sort identities missing")
+    need(isinstance(baseline, Mapping) and
+         baseline.get("schema") == "a1-small-sort-native-baseline-v1" and
+         baseline.get("provenance") == "r-only-native-translation" and
+         baseline.get("source_pair_id") == case["source_pair_id"] and
+         baseline.get("actual_source_pair_sha256") == actual_source_pair_sha256 and
+         baseline.get("compiler_interface_digest") == interface.get("interface_digest") and
+         baseline.get("proof_credit") is False and baseline.get("conformance_credit") is False,
+         "independent R-only native baseline missing or bound to another source/interface")
+    receipt = baseline.get("reference_receipt")
+    need(isinstance(receipt, Mapping) and
+         receipt.get("schema") == "a1-r-only-native-reference-receipt-v1" and
+         receipt.get("mode") == "r-only-native-reference" and
+         receipt.get("source_pair_id") == case["source_pair_id"] and
+         isinstance(actual_source_pair_sha256, str) and
+         re.fullmatch(r"[0-9a-f]{64}", actual_source_pair_sha256) is not None and
+         _receipt_pair_sha256(receipt) == actual_source_pair_sha256 and
+         receipt.get("actual_source_pair_sha256") == actual_source_pair_sha256 and
+         receipt.get("ast_sha256") == baseline.get("ast_sha256") and
+         receipt.get("proof_credit") is False and
+         hashlib.sha256(ast.encode("utf-8")).hexdigest() != baseline.get("ast_sha256"),
+         "P1 baseline is candidate-self or lacks an independent R-only invocation identity")
+    baseline_native = baseline.get("normalized_native")
+    baseline_header = baseline.get("normalized_header")
+    baseline_hashes = baseline.get("native_sha256")
+    baseline_impls = baseline.get("normalized_impls")
+    need(isinstance(baseline_header, (tuple, list)) and
+         isinstance(baseline_native, Mapping) and set(baseline_native) ==
+         {"pre", "returning", "unwind"} and isinstance(baseline_hashes, Mapping) and
+         all(baseline_hashes.get(key) == digest(baseline_native[key])
+             for key in ("pre", "returning", "unwind")) and
+         isinstance(baseline_impls, Mapping) and set(baseline_impls) ==
+         {"default16", "freeze32"},
+         "R-only baseline common/original-impl native receipts are incomplete")
+    for impl_name, original in baseline_impls.items():
+        need(isinstance(original, Mapping) and
+             isinstance(original.get("normalized_native"), Mapping) and
+             set(original["normalized_native"]) == {"pre", "returning", "unwind"} and
+             isinstance(original.get("native_sha256"), Mapping) and
+             all(original["native_sha256"].get(key) == digest(original["normalized_native"][key])
+                 for key in ("pre", "returning", "unwind")) and
+             original["normalized_native"] == baseline_native and
+             original.get("normalized_header") == tuple(baseline_header),
+             "R-only original impl baseline is incomplete or differs from required common: " +
+             impl_name)
+
+    fs = functions(ast)
+    common_name = interface.get("required_def_id")
+    common = [row for row in fs if row["name"] == common_name]
+    need(len(common) == 1 and common[0]["kind"] == "prototype",
+         "AST must bind the unique required small_sort prototype and Self/F order")
+    alpha_common = _small_sort_alpha(common[0], self_name="Self")
+    common_signature = _small_sort_ast_signature(common[0], "Self", alpha_common)
+    required_signature = tuple(_compiler_small_sort_type_to_ast(x)
+                               for x in interface.get("inputs", ()))
+    need(interface.get("ast_type_param_names") == ("Self", "F") and
+         common_signature == required_signature,
+         "required AST signature differs from compiler-derived Self/F/scoped inputs")
+    need(_small_sort_ast_return(common[0]) == "unit" and
+         interface.get("output") == ("tuple", ()),
+         "required AST return differs from compiler-derived unit output")
+    _small_sort_ast_bounds(common[0])
+    need(_source_line(common[0]["fields"][0]) == interface["source_span"][0][1],
+         "required small_sort AST source location differs from compiler nameSpan")
+    common_native = _small_sort_native(common[0], alpha_common)
+    need(_small_sort_ast_header(common[0], alpha_common) == tuple(baseline_header),
+         "candidate common full typed/native header differs from independent R-only baseline")
+    need(common_native == baseline_native,
+         "candidate common small_sort native contract differs from independent R-only baseline")
+
+    # The native baseline AST carries the unchanged method's full header. Impl
+    # Self is compiler T; F remains the method parameter. Lifetimes are compared
+    # by their positional roles after the compiler interface has established
+    # distinct signature and HRTB binders.
+    checked = {}
+    aliases = set()
+    for row in identities:
+        need(isinstance(row, Mapping) and row.get("impl") in ("default16", "freeze32"),
+             "compiler small_sort impl identity row")
+        original = baseline_impls.get(row["impl"])
+        need(isinstance(original, Mapping) and
+             original.get("item_def_id") == row.get("item_def_id") and
+             original.get("compiler_impl_id") == row.get("impl_def_index") and
+             original.get("compiler_item_id") == row.get("item_def_index") and
+             original.get("compiler_signature_digest") == row.get("compiler_signature_digest"),
+             "R-only original impl baseline is bound to another compiler item: " + row["impl"])
+        alias = row.get("alias")
+        need(isinstance(alias, str) and alias not in aliases and
+             re.fullmatch(r"__a1_impl_[1-9][0-9]*_item_[1-9][0-9]*_small_sort", alias),
+             "compiler-derived numeric small_sort impl alias")
+        aliases.add(alias)
+        found = [fn for fn in fs if fn["name"] == alias]
+        body = [fn for fn in found if fn["kind"] == "definition"]
+        need(len(found) == len(body) == 1,
+             "one compiler-bound actual small_sort impl definition: " + row["impl"])
+        fn = body[0]
+        alpha_impl = _small_sort_alpha(fn, self_name="T")
+        ast_signature = _small_sort_ast_signature(fn, "T", alpha_impl)
+        compiler_signature = row.get("compiler_signature")
+        need(isinstance(compiler_signature, Mapping) and
+             compiler_signature.get("digest") == row.get("compiler_signature_digest"),
+             "numeric impl Body compiler signature identity missing")
+        expected_signature = tuple(_compiler_small_sort_type_to_ast(x)
+                                   for x in compiler_signature.get("inputs", ()))
+        need(ast_signature == expected_signature,
+             "actual impl AST parameter types differ from its numeric compiler Body signature")
+        compiler_regions = compiler_signature.get("input_regions")
+        ast_regions = _small_sort_generic_names(fn)[2:]
+        need(compiler_regions == ("@input_0", "@input_1", "@input_2") and
+             tuple(alpha_impl.get(region) for region in ast_regions) == compiler_regions and
+             original.get("compiler_positional_region_map") ==
+             tuple(zip(ast_regions, compiler_regions)),
+             "actual impl AST lifetime alpha map differs from compiler positional input-region map")
+        need(_small_sort_ast_return(fn) == "unit",
+             "actual impl AST return type differs from compiler unit output")
+        _small_sort_ast_bounds(fn)
+        need(_source_line(fn["fields"][0]) == row.get("ast_body_line"),
+             "small_sort implementation AST span differs from compiler Body.span")
+        native = _small_sort_native(fn, alpha_impl)
+        need(native == original["normalized_native"] and native == baseline_native,
+             "impl small_sort native pre/returning/unwind differs from its original R-only body: " + row["impl"])
+        impl_header = _small_sort_ast_header(fn, alpha_impl)
+        need(impl_header == original["normalized_header"],
+             "impl small_sort full typed/native header differs from its original R-only body: " +
+             row["impl"])
+        need(_small_sort_ast_header(common[0], alpha_common) ==
+             impl_header,
+             "common and impl small_sort AST typed headers differ under positional alpha map")
+        need(ast_signature == common_signature,
+             "common and impl AST parameter signature differs under compiler positional map")
+        checked[row["impl"]] = {
+            "alias": alias, "compiler_impl_id": str(row["impl_def_index"]),
+            "compiler_item_id": str(row["item_def_index"]),
+            "compiler_signature_digest": compiler_signature["digest"],
+            "positional_alpha_map": tuple(sorted(alpha_impl.items())),
+            "compiler_positional_region_map": tuple(zip(ast_regions, compiler_regions)),
+            "native_sha256": {key: digest(common_native[key]) for key in common_native},
+            "actual_definition_bound_to_compiler_item": True,
+            "native_matches_r_only_original_impl": True,
+        }
+    need({row.get("impl") for row in identities} == {"default16", "freeze32"},
+         "both actual small_sort implementations are required")
+    return {"schema": "a1-small-sort-interface-observation-v1",
+            "classification": "INTERFACE_STRUCTURE_ONLY_UNRUN_PROOF",
+            "source_pair_id": case["source_pair_id"],
+            "actual_source_pair_sha256": actual_source_pair_sha256,
+            "compiler_interface_digest": interface["interface_digest"],
+            "normalized_native": common_native,
+            "native_sha256": {key: digest(common_native[key]) for key in common_native},
+            "impls": checked, "structural_pass": True,
+            "compiler_clauses_source_bound": True,
+            "ast_clause_representation": "none; compiler-required interface is separately validated",
+            "compiler_clause_digest": digest(interface["clauses"]),
+            "positional_alpha_roles": interface["alpha_roles"],
+            "body_count": 0, "proof_credit": False,
+            "conformance_credit": False, "native_contract_credit": False}
 
 
 def _calls(body: Any) -> list[dict[str, Any]]:

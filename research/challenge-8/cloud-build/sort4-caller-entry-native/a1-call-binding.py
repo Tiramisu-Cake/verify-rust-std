@@ -22,6 +22,54 @@ class CallBindingError(ValueError):
     """Caller MIR cannot be bound to the certified source callsites."""
 
 
+CALL_BINDING_REGION_MAP_REFUSAL = "INPUT_REGION_ROLE_REFUSAL_OBSERVED"
+
+
+def construct_common_binding_claim(call_binding, compiler_inventory):
+    """Build the valid structure-only common-call claim from paired observations."""
+    _need(isinstance(call_binding, Mapping) and isinstance(compiler_inventory, Mapping),
+          "paired caller binding and compiler inventory observations are required")
+    caller_binding = call_binding.get("binding")
+    _need(isinstance(caller_binding, Mapping) and caller_binding.get("caller") == "quicksort",
+          "common binding claim requires the original unrestricted quicksort caller")
+    calls = [row for row in caller_binding.get("calls", ())
+             if isinstance(row, Mapping) and row.get("callee") ==
+             "StableSmallSortTypeImpl::small_sort"]
+    _need(len(calls) == 1, "caller must have exactly one bound common small_sort call")
+    inv = compiler_inventory.get("inventory")
+    _need(isinstance(inv, Mapping) and inv.get("trait_def_id") == "StableSmallSortTypeImpl",
+          "inventory does not identify the expected common trait")
+    ids = inv.get("required_method_ids")
+    _need(isinstance(ids, (tuple, list)), "inventory required-method identities are missing")
+    matches = [identity for identity, name in ids
+               if isinstance(identity, int) and name == "small_sort"]
+    _need(len(matches) == 1, "inventory common required-method identity is ambiguous")
+    row = calls[0]
+    return {"schema": "a1-common-binding-claim-v1", "caller": "quicksort",
+            "method": "small_sort", "call_line": row.get("call_line"),
+            "callee": row.get("callee"), "substs": list(row.get("substs", ())),
+            "late_bound_lifetime_count": row.get("late_bound_lifetime_count"),
+            "argument_roots": list(row.get("argument_roots", ())),
+            "argument_region_roles": [list(entry) for entry in
+                                      row.get("argument_region_roles", ())],
+            "compiler_trait_item_id": matches[0]}
+
+
+def mutate_region_binding_claim(claim):
+    """Return the N-region-swap admission control with v/scratch roles swapped."""
+    _need(isinstance(claim, dict) and isinstance(claim.get("argument_region_roles"), list),
+          "common binding claim has no positional input-region role map")
+    result = dict(claim)
+    result["argument_region_roles"] = [list(entry)
+                                       for entry in claim["argument_region_roles"]]
+    roles = result["argument_region_roles"]
+    _need(len(roles) == 3 and all(isinstance(entry, list) and len(entry) == 3
+                                  for entry in roles),
+          "common binding claim input-region role map has unknown shape")
+    roles[0][1:], roles[1][1:] = roles[1][1:], roles[0][1:]
+    return result
+
+
 def validate_common_binding_claim(call_binding, compiler_inventory, claim):
     """Admit an exact claim connecting an unrestricted caller to the common trait item.
 
@@ -30,7 +78,7 @@ def validate_common_binding_claim(call_binding, compiler_inventory, claim):
     """
     expected_keys = {"schema", "caller", "method", "call_line", "callee",
                      "substs", "late_bound_lifetime_count", "argument_roots",
-                     "compiler_trait_item_id"}
+                     "argument_region_roles", "compiler_trait_item_id"}
     _need(isinstance(claim, dict) and set(claim) == expected_keys,
           "common binding claim must use the closed exact schema")
     _need(claim.get("schema") == "a1-common-binding-claim-v1",
@@ -74,8 +122,11 @@ def validate_common_binding_claim(call_binding, compiler_inventory, claim):
     }
     _need(all(claim.get(key) == value for key, value in expected_claim.items()),
           "claim differs from the paired compiler caller MIR binding")
+    expected_region_roles = [list(entry) for entry in observed.get("argument_region_roles", ())]
+    _need(claim.get("argument_region_roles") == expected_region_roles,
+          "claim input-region role map differs from compiler-derived call/input region map")
     inv = compiler_inventory.get("inventory")
-    _need(isinstance(inv, Mapping) and inv.get("trait_def_id") == "crate::StableSmallSortTypeImpl",
+    _need(isinstance(inv, Mapping) and inv.get("trait_def_id") == "StableSmallSortTypeImpl",
           "inventory does not identify the expected common trait")
     required_ids = inv.get("required_method_ids")
     _need(isinstance(required_ids, (tuple, list)), "inventory required-method identities are missing")
@@ -96,6 +147,8 @@ def validate_common_binding_claim(call_binding, compiler_inventory, claim):
                     "callee": observed["callee"], "substs": ("T", "F"),
                     "late_bound_lifetime_count": 3,
                     "argument_roots": ("v", "scratch", "is_less"),
+                    "argument_region_roles": tuple(tuple(entry) for entry in
+                                                    observed["argument_region_roles"]),
                     "required_method_ids": tuple(sorted((identity, name)
                                                          for name, identity in named.items())),
                     "compiler_trait_item_id": named["small_sort"],
@@ -169,6 +222,19 @@ def _input_region_ids(body):
           len(set(regions)) == 4,
           "v, scratch, pivot, and is_less input regions must remain distinct")
     return tuple(regions)
+
+
+def _argument_region_roles(call, input_regions):
+    """Bind roots to observed caller-input region identities by signature position.
+
+    These are caller formal-input regions only. MIR reborrow temporaries are
+    erased in the exporter and no temporary lifetime is inferred here.
+    """
+    roots = call.get("argument_roots")
+    _need(roots == ["v", "scratch", "is_less"] and len(input_regions) == 4,
+          "small_sort roots cannot be bound to the caller input-region signature")
+    return tuple((root, f"input_region_{position}", input_regions[position])
+                 for position, root in enumerate(roots))
 
 
 def _generic_names(body):
@@ -384,6 +450,9 @@ def _analyze_functions(case_id, functions, certificate, source):
     expected_lines = _source_calls(source, caller_name)
     roots, debug_names_by_local = _debug_input_roots(caller)
     calls = _calls_for(caller, caller_name, expected_lines, roots, debug_names_by_local)
+    for call in calls:
+        if call["callee"] == "StableSmallSortTypeImpl::small_sort":
+            call["argument_region_roles"] = _argument_region_roles(call, input_regions)
     return {"caller": caller_name, "compiler_generics": generics,
             "case_binding": {"case_id": case_id,
                              "source_pair_id": case["source_pair_id"],
@@ -409,9 +478,6 @@ def observe(case_id: str, normal_decoded: str, readonly_decoded: str,
     _need(normal["mir_body_span"] == readonly["mir_body_span"],
           "normal and readonly caller MIR Body.span bounds differ")
     def semantic(row):
-        calls = tuple({key: value for key, value in call.items()
-                       if key not in ("argument_mir_locals", "expected_ast_arguments")}
-                      for call in row["calls"])
         region_aliases = {region: f"input_region_{i}"
                           for i, region in enumerate(row["input_regions"])}
         region_aliases.update({region: f"hrtb_region_{i}"
@@ -424,6 +490,9 @@ def observe(case_id: str, normal_decoded: str, readonly_decoded: str,
             if isinstance(value, dict):
                 return {key: normalize(item) for key, item in value.items()}
             return value
+        calls = tuple(normalize({key: value for key, value in call.items()
+                                 if key not in ("argument_mir_locals", "expected_ast_arguments")})
+                      for call in row["calls"])
         normalized = {key: value for key, value in row.items()
                       if key not in ("calls", "input_regions", "hrtb_regions", "clauses")}
         normalized["calls"] = calls

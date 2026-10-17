@@ -218,6 +218,35 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
          "R/C exact file-map shape and ordering")
     apply("a1-required-item-R", R_PATCH, profile["r_patch_sha256"],
           {TR, SCHEMA, EXPORTER}, before=r_before, after=r_after)
+    # Capture a separately built native-reference console before C/G exists.
+    # R repairs representation only; this binary cannot add the checked
+    # threshold contract or aliases supplied by C. Its AST is an independent
+    # execution reference for native-interface preservation, never a proof.
+    (tool / "bin/verifast").unlink(missing_ok=True)
+    reference_build = c4.stage(
+        a, evidence, "a1-R-only-native-reference-build",
+        ["make", "-C", str(tool / "src"), "build-vf-rust-mir-exporter",
+         "../bin/verifast", "WITHOUT_LABLGTK=yes", "VERBOSE=yes"],
+        c4.clean_env(a, tool), 900, cwd=tool)
+    need(reference_build.get("exit") == 0, "R-only native reference build")
+    need(all(sha(tool / key) == value for key, value in r_after.items()),
+         "R-only native reference source drift")
+    reference_console = tool / "bin/verifast-a1-native-reference"
+    need(not reference_console.exists(), "native reference binary already exists")
+    shutil.copy2(tool / "bin/verifast", reference_console)
+    native_reference = {
+        "kind": "separately-built-R-only-native-reference",
+        "console_path": str(reference_console),
+        "console_binary_sha256": sha(reference_console),
+        "translator_sha256": r_after[TR],
+        "schema_sha256": r_after[SCHEMA],
+        "exporter_source_sha256": r_after[EXPORTER],
+        "exporter_binary_sha256": sha(tool / "bin/vf-rust-mir-exporter"),
+        "r_patch_sha256": profile["r_patch_sha256"],
+        "c_patch_applied": False,
+        "build_id": os.environ["CLOUD_BUILD_ID"],
+        "build_exit": reference_build["exit"], "proof_credit": False}
+    save(evidence / "R-only-native-reference-receipt.json", native_reference)
     apply("a1-checked-threshold-C", C_PATCH, profile["c_patch_sha256"],
           {TR}, before={TR: c_before[TR]}, after={TR: c_after[TR]})
     before_build = audit.snapshot(tool, root)
@@ -268,6 +297,7 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
                "final_kernel_sha256": final["critical"][KERNEL],
                "exporter_binary_sha256": final["binaries"]["bin/vf-rust-mir-exporter"],
                "console_binary_sha256": final["binaries"]["bin/verifast"],
-               "build_exit": build["exit"], "proof_credit": False}
+               "build_exit": build["exit"], "native_reference": native_reference,
+               "proof_credit": False}
     save(evidence / "reconstruction-receipt.json", receipt)
     return tool, receipt

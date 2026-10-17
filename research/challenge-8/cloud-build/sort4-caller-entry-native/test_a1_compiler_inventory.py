@@ -25,14 +25,45 @@ def span(path="verified/lib.rs", line=1, endline=None):
 
 
 def required(name, idx):
-    return f'(name = "{name}", nameSpan = {span(line=1 if name == "small_sort_threshold" else 2)}, defId = "crate::StableSmallSortTypeImpl::{name}", defIndex = {idx}, parentDefId = "crate::StableSmallSortTypeImpl", parentDefIndex = 7, scopedRepresentation = true)'
+    base = f'name = "{name}", nameSpan = {span(line=1 if name == "small_sort_threshold" else 2)}, defId = "StableSmallSortTypeImpl::{name}", defIndex = {idx}, parentDefId = "StableSmallSortTypeImpl", parentDefIndex = 7, scopedRepresentation = true'
+    if name != "small_sort":
+        return f'({base})'
+    def ty(kind):
+        return f'(kind = {kind})'
+    def param(value):
+        return ty(f'(param = "{value}")')
+    def ref(region, target, mut=True):
+        return ty(f'(ref = (region = (id = "{region}"), ty = {target}, mutability = ({"mut" if mut else "not"} = void)))')
+    def gtype(value):
+        return f'(kind = (type = {value}))'
+    inputs = [ref("a", ty('(slice = ' + param("tp_self") + ')')),
+              ref("b", ty('(slice = (kind = (adt = (id = (name = "core::mem::MaybeUninit"), kind = (structKind = void), substs = [' + gtype(param("tp_self")) + ']))))')),
+              ref("c", param("tp_f"))]
+    def fn_args(left, right):
+        tuple_arg = gtype(ty('(tuple = [' + ref(left, param("tp_self"), False) + ', ' + ref(right, param("tp_self"), False) + '])'))
+        return '[' + gtype(param("tp_f")) + ', ' + tuple_arg + ']'
+    fnmut = f'(trait = (defId = "core::ops::FnMut", args = {fn_args("h20", "h21")}, boundRegions = ["h20", "h21"]))'
+    projection = f'(projection = (projectionTerm = (defId = "core::ops::FnOnce::Output", args = {fn_args("h30", "h31")}), boundRegions = ["h30", "h31"], term = (ty = (kind = (bool = void)))))'
+    clauses = [
+        '(trait = (defId = "core::marker::Sized", args = [' + gtype(param("tp_f")) + '], boundRegions = []))',
+        fnmut, projection]
+    scoped = []
+    for scope, names in (("sig", ("a", "b", "c")),
+                         ("clause_1", ("h20", "h21")),
+                         ("clause_2", ("h30", "h31"))):
+        for position, alias in enumerate(names):
+            scoped.append(f'(alias = "{alias}", scope = "{scope}", depth = 0, index = {position}, kind = "anon", elidedRole = {"true" if scope == "sig" else "false"})')
+    parent = [
+        '(trait = (defId = "core::marker::Sized", args = [' + gtype(param("tp_self")) + '], boundRegions = []))',
+        '(trait = (defId = "StableSmallSortTypeImpl", args = [' + gtype(param("tp_self")) + '], boundRegions = []))']
+    return f'({base}, typeParams = [(alias = "tp_self", name = "Self", index = 0, defIndex = 71), (alias = "tp_f", name = "F", index = 1, defIndex = 72)], generics = [(name = "F", index = 1, defIndex = 72)], lifetimeParams = ["a", "b", "c"], inputs = [{" , ".join(inputs)}], output = (kind = (tuple = [])), clauses = [{", ".join(clauses)}], parentClauses = [{", ".join(parent)}], scopedRegions = [{", ".join(scoped)}])'
 
 
 def impl(identity, freeze=False, duplicate_item=False):
     def arg(name="T"):
         return f'(kind = (type = (kind = (param = "{name}"))))'
     def clause(name):
-        trait_path = "crate::FreezeMarker" if name == "FreezeMarker" else "core::marker::Sized"
+        trait_path = "FreezeMarker" if name == "FreezeMarker" else "core::marker::Sized"
         return f'(trait = (defId = "{trait_path}", args = [{arg()}], boundRegions = []))'
     gen_clause = ', clauses = [' + clause('Sized') + (', ' + clause('FreezeMarker') if freeze else '') + ']'
     threshold = identity * 10 + 1
@@ -42,13 +73,34 @@ def impl(identity, freeze=False, duplicate_item=False):
     ]
     if duplicate_item:
         body_items.append(body_items[0])
-    return (f'(ofTrait = "crate::StableSmallSortTypeImpl", selfTy = "T", defIndex = {identity}, '
+    return (f'(ofTrait = "StableSmallSortTypeImpl", selfTy = "T", defIndex = {identity}, '
             f'generics = [(name = "T", kind = (type = void), index = 0, defIndex = {identity + 100})]{gen_clause}, '
             f'isUnsafe = false, isNegative = false, genArgs = [{arg()}], span = {span(line=9 if freeze else 3, endline=14 if freeze else 8)}, items = [{", ".join(body_items)}])')
 
 
-def body(defindex, path, line, block_line):
-    return (f'(defIndex = {defindex}, defPath = "{path}", fnSigSpan = {span(line=line)}, span = {span(line=line)}, impSpan = {span(line=block_line)})')
+def body(defindex, path, line, block_line, impl_generic_id=101, method_generic_id=201):
+    extra = ""
+    if path.endswith("::small_sort"):
+        def ty(kind): return f'(kind = {kind})'
+        def param(name): return ty(f'(param = "{name}")')
+        def ref(region, inner, mut=True):
+            return ty(f'(ref = (region = (id = "{region}"), ty = {inner}, mutability = ({"mut" if mut else "not"} = void)))')
+        def gtype(value): return f'(kind = (type = {value}))'
+        inputs = [ref("ia", ty('(slice = ' + param("T") + ')')),
+                  ref("ib", ty('(slice = (kind = (adt = (id = (name = "core::mem::MaybeUninit"), kind = (structKind = void), substs = [' + gtype(param("T")) + ']))))')),
+                  ref("ic", param("F"))]
+        def fn_args(a, b):
+            tup = gtype(ty('(tuple = [' + ref(a, param("T"), False) + ', ' + ref(b, param("T"), False) + '])'))
+            return '[' + gtype(param("F")) + ', ' + tup + ']'
+        clauses = [
+            '(trait = (defId = "core::marker::Sized", args = [' + gtype(param("F")) + '], boundRegions = []))',
+            f'(trait = (defId = "core::ops::FnMut", args = {fn_args("ha", "hb")}, boundRegions = ["ha", "hb"]))',
+            f'(projection = (projectionTerm = (defId = "core::ops::FnOnce::Output", args = {fn_args("oa", "ob")}), boundRegions = ["oa", "ob"], term = (ty = (kind = (bool = void)))))']
+        extra = (', inputs = [' + ', '.join(inputs) + '], output = (kind = (tuple = [])), '
+                 f'implBlockGenerics = [(name = "T", index = 0, defIndex = {impl_generic_id}, kind = (type = void))], '
+                 f'generics = [(name = "F", index = 1, defIndex = {method_generic_id}, kind = (type = void))], '
+                 'clauses = [' + ', '.join(clauses) + ']')
+    return (f'(defIndex = {defindex}, defPath = "{path}", fnSigSpan = {span(line=line)}, span = {span(line=line)}, impSpan = {span(line=block_line)}{extra})')
 
 
 def stream(freeze_marker=True, duplicate_impl_id=False, duplicate_body_id=False):
@@ -58,9 +110,9 @@ def stream(freeze_marker=True, duplicate_impl_id=False, duplicate_body_id=False)
     traits = f'(cons = (h = (name = "StableSmallSortTypeImpl", requiredFns = (cons = (h = {required("small_sort_threshold", 70)}, t = (cons = (h = {required("small_sort", 71)}, t = (nil = void)))))), t = (nil = void)))'
     impls = f'[{impl(1)}, {impl(i2, freeze=freeze_marker)}]'
     bodies = (f'[{body(id_thr1, "crate::default16::small_sort_threshold", 4, 5)}, '
-              f'{body(id_small1, "crate::default16::small_sort", 6, 7)}, '
+              f'{body(id_small1, "crate::default16::small_sort", 6, 7, 101, 201)}, '
               f'{body(id_thr2, "crate::freeze32::small_sort_threshold", 10, 11)}, '
-              f'{body(id_small2, "crate::freeze32::small_sort", 12, 13)}]')
+              f'{body(id_small2, "crate::freeze32::small_sort", 12, 13, 102, 202)}]')
     return f'(traits = {traits}, traitImpls = {impls}, bodies = {bodies})'
 
 
@@ -108,8 +160,74 @@ class InventoryTests(unittest.TestCase):
         self.assertFalse(result["proof_credit"])
         self.assertFalse(result["native_contract_credit"])
         self.assertEqual({x["impl"] for x in result["inventory"]["impls"]}, {"default16", "freeze32"})
+        required_small = result["inventory"]["required_small_sort"]
+        self.assertEqual(required_small["ast_type_param_names"], ("Self", "F"))
+        self.assertEqual(required_small["signature_regions"],
+                         ("@input_0", "@input_1", "@input_2"))
+        self.assertEqual(len(required_small["hrtb_regions"]), 2)
+        self.assertEqual({x["impl"] for x in result["inventory"]["impl_small_sort_identities"]},
+                         {"default16", "freeze32"})
+        self.assertTrue(all(len(x["compiler_signature_digest"]) == 64
+                            for x in result["inventory"]["impl_small_sort_identities"]))
         with self.assertRaises(TypeError):
             result["proof_credit"] = True
+
+    def test_required_small_sort_lost_F_rejected(self):
+        source = valid_source()
+        text = stream().replace('name = "F", index = 1, defIndex = 72',
+                                'name = "G", index = 1, defIndex = 72', 1)
+        with self.assertRaises(m.InventoryError):
+            m.observe("P0a", text, text, certificate(source), source)
+
+    def test_required_small_sort_region_collapse_rejected(self):
+        source = valid_source()
+        text = stream().replace('lifetimeParams = ["a", "b", "c"]',
+                                'lifetimeParams = ["a", "a", "c"]', 1)
+        with self.assertRaises(m.InventoryError):
+            m.observe("P0a", text, text, certificate(source), source)
+
+    def test_required_small_sort_missing_output_clause_rejected(self):
+        source = valid_source()
+        text = stream()
+        start = text.find(', (projection = (projectionTerm = (defId = "core::ops::FnOnce::Output"')
+        self.assertGreaterEqual(start, 0)
+        end = text.find('], parentClauses', start)
+        self.assertGreater(end, start)
+        malformed = text[:start] + text[end:]
+        with self.assertRaises(m.InventoryError):
+            m.observe("P0a", malformed, malformed, certificate(source), source)
+
+    def test_impl_small_sort_compiler_signature_substitution_rejected(self):
+        source = valid_source()
+        text = stream().replace('name = "T", index = 0, defIndex = 101',
+                                'name = "U", index = 0, defIndex = 101', 1)
+        with self.assertRaises(m.InventoryError):
+            m.observe("P0a", text, text, certificate(source), source)
+
+    def test_impl_small_sort_body_T_identity_must_match_trait_impl(self):
+        source = valid_source()
+        text = stream().replace('implBlockGenerics = [(name = "T", index = 0, defIndex = 102',
+                                'implBlockGenerics = [(name = "T", index = 0, defIndex = 101', 1)
+        with self.assertRaises(m.InventoryError):
+            m.observe("P0a", text, text, certificate(source), source)
+
+    def test_small_sort_rejects_wrong_compiler_defid_namespaces(self):
+        source = valid_source()
+        for needle, replacement in (
+                ('name = "core::mem::MaybeUninit"', 'name = "evil::mem::MaybeUninit"'),
+                ('defId = "core::ops::FnMut"', 'defId = "evil::ops::FnMut"'),
+                ('defId = "StableSmallSortTypeImpl", args = [',
+                 'defId = "evil::StableSmallSortTypeImpl", args = [')):
+            text = stream().replace(needle, replacement, 1)
+            with self.subTest(needle=needle), self.assertRaises(m.InventoryError):
+                m.observe("P0a", text, text, certificate(source), source)
+
+    def test_small_sort_rejects_qualified_root_trait_identity(self):
+        source = valid_source()
+        text = stream().replace('ofTrait = "StableSmallSortTypeImpl"',
+                                'ofTrait = "evil::StableSmallSortTypeImpl"', 1)
+        with self.assertRaises(m.InventoryError):
+            m.observe("P0a", text, text, certificate(source), source)
 
     def test_wrong_freeze_applicability_rejected(self):
         text = stream(freeze_marker=False)
@@ -144,7 +262,7 @@ class InventoryTests(unittest.TestCase):
     def test_missing_body_rejected(self):
         source = valid_source()
         text = stream().replace(
-            ", " + body(22, "crate::freeze32::small_sort", 12, 13), "")
+            ", " + body(22, "crate::freeze32::small_sort", 12, 13, 102, 202), "")
         with self.assertRaises(m.InventoryError):
             m.observe("P0a", text, text, certificate(source), source)
 

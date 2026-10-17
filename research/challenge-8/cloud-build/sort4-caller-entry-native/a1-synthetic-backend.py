@@ -10,12 +10,23 @@ import hashlib
 import os
 from pathlib import Path
 import shutil
+import re
 import time
 
 PHASE = "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17"
 MUTATIONS = frozenset({"binder_collapse", "alpha_valid", "free_region_input",
                        "input_region_swap", "no_F", "remove_fnmut", "remove_output",
                        "change_fnmut", "change_output", "duplicate_impl_method"})
+
+INTENDED_DIAGNOSTICS = {
+    "binder_collapse": ("A1 duplicate scoped region alias or identity",),
+    "free_region_input": ("A1 free input region in", "A1 free required-item region"),
+    "input_region_swap": ("A1 required item lost a distinct input borrow or F",),
+    "no_F": ("A1 HIR/compiler method generic mismatch",),
+    "remove_fnmut": ("A1 missing FnMut/Output clause pair",),
+    "remove_output": ("A1 missing FnMut/Output clause pair",),
+    "duplicate_impl_method": ("SORT4-A1-CONTRACT: full impl method inventory differs",),
+}
 
 
 def _need(ok: bool, why: str) -> None:
@@ -73,6 +84,7 @@ def inject(a, c4, mutator, *, tool: Path, fixture: Path, root: Path,
     root.mkdir(parents=True)
     decoded, encoded = root / "synthetic-vfmir.txt", root / "synthetic-vfmir.bin"
     decoded.write_text(modified, encoding="utf-8")
+    decoded_sha = _sha(decoded)
     schema = tool / "src/rust_frontend/vf_mir/vf_mir.capnp"
     stages = {}
     stages["synthetic-encode"] = c4.stage(
@@ -118,15 +130,59 @@ def inject(a, c4, mutator, *, tool: Path, fixture: Path, root: Path,
     stages["synthetic-translator"] = c4.stage(
         a, root, "synthetic-translator", argv, env, 60, cwd=fixture)
     _need(_sha(console) == console_sha and _sha(tool / "bin/verifast") == console_sha and
-          _sha(encoded) == message_sha and _sha(baseline_decoded) == baseline_sha256 and
+          _sha(encoded) == message_sha and _sha(decoded) == decoded_sha and
+          _sha(baseline_decoded) == baseline_sha256 and
           all(_sha(path) == digest for path, digest in fixed.items()),
           "synthetic invocation changed its source, tool, input or console")
     return {"classification": "SYNTHETIC_TRANSLATOR_OBSERVATION_UNCLASSIFIED",
             "stages": stages, "mutation": metadata,
+            "build_id": os.environ["CLOUD_BUILD_ID"],
             "baseline_decoded_sha256": baseline_sha256,
+            "decoded_input_sha256": decoded_sha,
             "synthetic_message_sha256": message_sha,
+            "source_pair_sha256": {
+                "verified": _sha(fixture / "verified/lib.rs"),
+                "original": _sha(fixture / "original/lib.rs")},
             "console_sha256": console_sha, "transport_wrapper_sha256": _sha(wrapper),
             "ast_path": str(root / "synthetic-ast.ml"),
             "synthetic": True, "compiler_derived": False,
             "refinement_derived": False, "summary_available": False,
             "proof_credit": False}
+
+
+def classify(observation: dict, *, mutation: str, verifier_log: str | None) -> dict:
+    """Classify the observed translator stage for a synthetic-only message.
+
+    A matching expected string without a terminal translator invocation is
+    insufficient. Alpha renaming is representation-only and requires an
+    actual successful translation plus the emitted AST. No result grants
+    compiler, refinement, or proof credit.
+    """
+    result = {"classification": "INCONCLUSIVE_SYNTHETIC_TRANSLATOR",
+              "mutation": mutation, "proof_credit": False,
+              "compiler_derived": False, "refinement_derived": False}
+    stages = observation.get("stages", {})
+    translator = stages.get("synthetic-translator")
+    ast_path = Path(observation.get("ast_path", ""))
+    if not isinstance(translator, dict) or not isinstance(translator.get("exit"), int):
+        return {**result, "reason": "translator stage did not reach a terminal exit"}
+    if mutation == "alpha_valid":
+        if translator["exit"] == 0 and ast_path.is_file() and ast_path.stat().st_size > 0:
+            return {**result, "classification": "SYNTHETIC_REPRESENTATION_ACCEPTED",
+                    "stage": "interface", "exit": 0,
+                    "ast_sha256": _sha(ast_path), "summary_available": False}
+        return {**result, "reason": "alpha-renamed interface did not translate successfully"}
+    if verifier_log is None or not isinstance(verifier_log, str):
+        return {**result, "reason": "translator diagnostic unavailable"}
+    first = next((line for line in verifier_log.splitlines()
+                  if "error:" in line or line.startswith(("Fatal error:", "error:"))), None)
+    accepted = INTENDED_DIAGNOSTICS.get(mutation, ())
+    if translator["exit"] != 0 and first and any(text in first for text in accepted):
+        return {**result, "classification": "SYNTHETIC_REFUSAL_OBSERVED",
+                "stage": "interface", "exit": translator["exit"],
+                "first_diagnostic": first, "diagnostic_match": next(
+                    text for text in accepted if text in first),
+                "summary_available": False}
+    return {**result, "reason": "observed terminal diagnostic differs from intended refusal",
+            "stage": "interface", "exit": translator["exit"],
+            "first_diagnostic": first}

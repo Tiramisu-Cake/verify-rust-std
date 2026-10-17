@@ -252,20 +252,38 @@ class CallBindingTests(unittest.TestCase):
                      "proof_credit": False,
                      "case_binding": {"case_id": "P1",
                                       "source_pair_id": hashlib.sha256(SOURCE.encode()).hexdigest()},
-                     "inventory": {"trait_def_id": "crate::StableSmallSortTypeImpl",
+                     "inventory": {"trait_def_id": "StableSmallSortTypeImpl",
                                    "required_method_ids": ((70, "small_sort_threshold"),
                                                            (71, "small_sort"))}}
-        claim = {"schema": "a1-common-binding-claim-v1", "caller": "quicksort",
-                 "method": "small_sort", "call_line": 6,
-                 "callee": "StableSmallSortTypeImpl::small_sort",
-                 "substs": ["T", "F"], "late_bound_lifetime_count": 3,
-                 "argument_roots": ["v", "scratch", "is_less"],
-                 "compiler_trait_item_id": 71}
+        claim = m.construct_common_binding_claim(result, inventory)
+        self.assertEqual(claim["argument_region_roles"], [
+            ["v", "input_region_0", "a"],
+            ["scratch", "input_region_1", "b"],
+            ["is_less", "input_region_2", "c"],
+        ])
         admitted = m.validate_common_binding_claim(result, inventory, claim)
         self.assertFalse(admitted["proof_credit"])
         self.assertFalse(admitted["native_contract_credit"])
         self.assertEqual(admitted["required_method_ids"],
                          ((70, "small_sort_threshold"), (71, "small_sort")))
+
+    def test_common_binding_claim_rejects_swapped_input_region_roles(self):
+        result = m.observe("P1", decoded("quicksort"), decoded("quicksort", tag="ro"),
+                           certificate(), SOURCE)
+        inventory = {"schema": "a1-compiler-inventory-observation-v1",
+                     "provenance": "source-reported-compiler-inventory-only",
+                     "proof_credit": False,
+                     "case_binding": {"case_id": "P1",
+                                      "source_pair_id": hashlib.sha256(SOURCE.encode()).hexdigest()},
+                     "inventory": {"trait_def_id": "StableSmallSortTypeImpl",
+                                   "required_method_ids": ((70, "small_sort_threshold"),
+                                                           (71, "small_sort"))}}
+        claim = m.construct_common_binding_claim(result, inventory)
+        swapped = m.mutate_region_binding_claim(claim)
+        with self.assertRaisesRegex(
+                m.CallBindingError,
+                "claim input-region role map differs from compiler-derived call/input region map"):
+            m.validate_common_binding_claim(result, inventory, swapped)
 
     def test_common_binding_claim_rejects_redirect_or_wrong_item(self):
         result = m.observe("P1", decoded("quicksort"), decoded("quicksort", tag="ro"),
