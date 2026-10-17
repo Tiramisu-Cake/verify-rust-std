@@ -1,5 +1,7 @@
 # Cloud Build: существующий v2 протокол двух slots
 
+Порядок CI evidence для всех версий координатора задаёт [SmallSort Evidence Brief](../EVIDENCE-BRIEF.md): после terminal Build используйте `smallsort-brief BUILD_UUID`; обычные агенты не читают raw logs или archives.
+
 Решение владельца 2026-10-09 13:52 МСК: максимум **два** project-wide
 queued/running/unresolved Build; максимум один на стабильного owner и ledger.
 Эта документационная редакция сохраняет протокол и число slots. Будущая смена
@@ -25,8 +27,7 @@ Capacity включает reservations и live untracked API Builds, без дв
 `request`/`withdraw-request` — advisory, не очередь чередования. Свободный slot
 может использовать независимый разрешённый owner; idle peer не блокирует его.
 Cancel разрешён только matching owner/phase/ledger/Build; дождаться terminal API.
-Download/hash выполняются вне lock, затем собственный receipt записывается
-атомарно. Короткое client reconciliation чужого счёта — часть протокола, не
+Короткое client reconciliation чужого счёта — часть протокола, не
 разрешение агенту вручную редактировать чужой учёт.
 
 Legacy state читается losslessly; первая mutation атомарно пишет v2. Старые
