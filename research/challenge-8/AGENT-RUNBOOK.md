@@ -4,6 +4,8 @@
 правила proof integrity — в [AGENTS](../../AGENTS.md). Этот файл задаёт процесс,
 [Cloud runbook](cloud-build/README.md) — команды и учёт,
 [COMPLETION-PLAN](COMPLETION-PLAN.md) — конечные обязательства.
+[SmallSort Evidence Brief](EVIDENCE-BRIEF.md) задаёт приоритетный порядок
+получения и интерпретации результатов CI.
 [Архив](archive/team-procedure-2026-10-10/README-ARCHIVE.md) сохраняет прежние
 Actions-примеры, ветки, бюджеты и stop-условия без действующей авторизации.
 
@@ -69,17 +71,20 @@ Actions-примеры, ветки, бюджеты и stop-условия без
    примерно раз в минуту; не отдавать мониторинг владельцу. Примерно через час
    дать короткий отчёт по [режиму сессии](WORK-POLICY.md#1-миссия-полномочия-и-сессия),
    затем продолжать в scope. Сборка/очередь сама по себе не повод закрыть сессию.
-6. После terminal status получить и проверить полный archive, inventory, inputs,
-   upload receipt и нужные raw logs, включая успешные Build. Сверить target body,
-   posts, checks и intended negative sites. Collector SUCCESS, diagnostic_complete
-   и verification_accepted — разные факты. NOT_RUN не считать PASS.
-7. Классифицировать первый causal blocker: setup/build, frontend/export/decode,
+6. После terminal status получить отчёт командой `smallsort-brief BUILD_UUID`.
+   Следовать [Evidence Brief policy](EVIDENCE-BRIEF.md); при недостатке отчёта
+   зафиксировать ограничение и запросить отдельно разрешённый administrative audit.
+   Не читать raw evidence. NOT_RUN не считать PASS.
+7. По Brief классифицировать blocker: setup/build, frontend/export/decode,
    unsupported operation, resource/post proof, refinement, timeout/OOM или infra.
+   Если причинность не установлена отчётом, оставить её неподтверждённой; первое
+   наблюдаемое сообщение об ошибке само по себе не доказывает causal blocker.
    Рутинный fix внутри scope и промежуточный PASS не требуют остановки при наличии
    времени/бюджета. Новая trust/architecture область требует отдельного решения.
 8. После изменения source/proof/profile нужен новый exact-SHA proof run. Для
-   classifier-only fix сначала replay неизменных saved data по WORK-POLICY §3–4;
-   cold build ради аудитора не нужен. Прежний verdict сохранять отдельно.
+   classifier/parser-only fix допустимы малые синтетические service tests по
+   WORK-POLICY §4. Полный raw-evidence replay требует отдельно разрешённого
+   administrative audit. Прежний verdict сохранять отдельно.
 9. Обновить компактный STATUS и существующий evidence record. Выбрать следующий
    actual шаг миссии. За main deadline не начинать новый Build/эксперимент;
    до absolute deadline — только начатый шаг, evidence, учёт и checkpoint.
@@ -104,7 +109,7 @@ Phase cards с прошедшими сроками — evidence; их стары
 | --- | --- |
 | Actual caller progress | Какой caller теперь устанавливает/использует какие premises; что пока supplied или не достигнуто |
 | Target reached by run | Build ID → actual obligation, entry/target/post reached, verdict; new proof / replay / NOT_RUN раздельно |
-| Время | Подготовка/dependencies/verifier build; extraction/refinement/proof; packaging/upload/download/hash/replay/evidence analysis отдельно |
+| Время | Подготовка/dependencies/verifier build; extraction/refinement/proof; packaging/upload/hash/Evidence Brief analysis отдельно |
 | Учёт | Wall-clock начало/main/absolute/end; conservative Cloud charge, remaining/retired, active/unresolved IDs |
 | Общий blocker | Одна причинная формулировка, затронутые select/merge/maintainer и ссылки; fixes и trust debt раздельно |
 | Следующий шаг | Одно полезное действие в миссии и нужная будущая авторизация, если сессия закрыта |

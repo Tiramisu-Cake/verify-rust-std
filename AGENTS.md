@@ -1,3 +1,14 @@
+## Evidence Brief — решение владельца от 2026-10-17
+
+Для всех SmallSort agents, worktrees и reviewers действует
+[Evidence Brief policy](research/challenge-8/EVIDENCE-BRIEF.md), с приоритетом над
+противоречащими указаниями ниже и в старых phase cards/runbooks. После terminal
+Build использовать `smallsort-brief BUILD_UUID`. Полные Build/verifier logs,
+raw evidence archives и Cloud Logging не читать и не скачивать, включая локальные
+копии и обход через connectors. Если Brief недостаточен или отсутствует — сообщить
+ограничение; без raw fallback и без повышения proof credit. Отдельный admin audit
+требует явной авторизации. Coordinator, budgets, owners и deadlines сохраняются.
+
 # Challenge 8: постоянные инструкции команды
 
 Работаем в форке `Tiramisu-Cake/verify-rust-std`. Прямое актуальное поручение

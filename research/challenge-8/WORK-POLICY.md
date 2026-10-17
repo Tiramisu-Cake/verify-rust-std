@@ -87,17 +87,23 @@ validity/uninitialized checks, удалением failing assertions или пр
 его достаточности и сохранении конечных гарантий; смена trusted semantics идёт
 по разрешению миссии и её semantic-card/regression процедуре (раздел 1).
 
+Обычная отчётность CI регулируется [SmallSort Evidence Brief](EVIDENCE-BRIEF.md):
+после terminal Build использовать `smallsort-brief BUILD_UUID`. Полные raw logs и
+GCS archives нельзя читать даже локально; replay полного evidence требует отдельно
+разрешённого administrative audit.
+
 ## 3. Три разных вида работы с evidence
 
 | Вид | Что делаем | Что можно утверждать |
 | --- | --- | --- |
 | Новая верификация | Cloud Build с exact proof/infra/tool/profile identities; затронутые gates и достаточная интеграционная проверка | Результат только реально выполненных obligations |
-| Повторная классификация | Исправленный auditor читает сохранённые неизменные сырые логи/артефакты без запуска proof toolchain | Уточнение вывода о старом запуске в его прежнем домене и профиле |
+| Повторная классификация | Отдельно разрешённый administrative audit читает неизменные raw logs/артефакты без запуска proof toolchain | Уточнение вывода о старом запуске в его прежнем домене и профиле; не обычный workflow агента |
 | Ранее не выполненный случай | Новый Cloud запуск нужного case, если он был пропущен или execution не дошёл до него | Новый результат этого case после фактического исполнения |
 
-Для replay записать исходный Build ID, proof/infra/tool/profile identities,
-пути и hashes исходных артефактов, новую версию аудитора, команду, прежний и новый
-вердикт с причиной изменения. Сохранять исходные логи и предыдущий вердикт;
+В отдельно разрешённом audit для replay записать исходный Build ID,
+proof/infra/tool/profile identities, пути и hashes исходных артефактов, новую
+версию аудитора, команду, прежний и новый вердикт с причиной изменения. Сохранять
+исходные логи и предыдущий вердикт;
 результат replay писать отдельно. Синтетические fixtures явно помечать.
 
 Если исходных данных недостаточно, verdict остаётся INCONCLUSIVE/NOT_RUN.
@@ -110,7 +116,9 @@ validity/uninitialized checks, удалением failing assertions или пр
 
 Помимо чтения, Git, hash, syntax и static parsing, **разрешены небольшие
 изолированные executable tests служебных классификаторов и parsers** на
-сохранённых логах или синтетических данных. Временные output/fixtures — в отдельном
+синтетических данных. Чтение/replay сохранённых raw logs не входит в это
+исключение и требует отдельно разрешённого administrative audit. Временные
+output/fixtures — в отдельном
 каталоге; реальные evidence, чужие файлы и coordinator state не изменять.
 Перед запуском проверить entrypoint/imports: он не должен запускать proof runner,
 compiler/verifier, source extractor, dependency installation или cloud dispatch.
