@@ -1,0 +1,123 @@
+{
+  "schema": "smallsort-bounded-build-diagnostic-v1",
+  "build_id": "57ea65a3-475e-4370-810c-19ad36803174",
+  "checkpoint_reviewed": "874932e8",
+  "infra_sha": "9678ddf631902765d7013f5ed1b9fd05159463a6",
+  "proof_sha": "9678ddf631902765d7013f5ed1b9fd05159463a6",
+  "retrieved_utc": "2026-10-17T13:21:29.264661+00:00",
+  "permitted_reports": {
+    "brief": "https://smallsort-evidence-reader-cpl7plw5ja-uc.a.run.app/builds/57ea65a3-475e-4370-810c-19ad36803174/brief",
+    "index": "https://smallsort-evidence-reader-cpl7plw5ja-uc.a.run.app/builds/57ea65a3-475e-4370-810c-19ad36803174/index",
+    "receipt": "https://smallsort-evidence-reader-cpl7plw5ja-uc.a.run.app/builds/57ea65a3-475e-4370-810c-19ad36803174/receipt"
+  },
+  "cloud_api": "projects/smallsort-ci/locations/global/builds/57ea65a3-475e-4370-810c-19ad36803174",
+  "report_hashes": {
+    "brief.md": "54b9f0abcdd981e950c63656cf7d61d21db1b4a3f95d3aee4b11107c938bf153",
+    "build-metadata.json": "fc80d5dbf5a51ef51334f528f1879f683da12e01970b83145550e2817eb8931c",
+    "build-steps.json": "27ac0cfb18d25756dbe0db2a96579d1961faf4257491cdf8e388ac135a6ca5b5",
+    "evidence-index.json": "30fd8b8b7885e34fc446040be8c1b0bb0c4f2934ebb5f18c8db0be4aa5ee854b",
+    "processing-receipt.json": "d828e68880f37719496a9805b2d6b5062790b6a464551121f7b16d7b25989e07",
+    "source-pins.json": "b974d5f3705bab899d4cb0b1a31b3e61cfb756e06c4fa49933fb65b5936f48eb"
+  },
+  "receipt_hash_checks": {
+    "brief_matches": true,
+    "index_matches": true
+  },
+  "steps": [
+    {
+      "id": "execute",
+      "status": "SUCCESS",
+      "api_exit_code_present": false,
+      "api_exit_code": null,
+      "normalized_exit_code": 0,
+      "exit_code_basis": "SUCCESS; default zero omitted in API projection, submitted step has no allowedExitCodes",
+      "timing": {
+        "endTime": "2026-10-17T11:02:02.278571886Z",
+        "startTime": "2026-10-17T10:57:34.174611152Z"
+      },
+      "duration_seconds": 268.10396
+    },
+    {
+      "id": "package-upload",
+      "status": "SUCCESS",
+      "api_exit_code_present": false,
+      "api_exit_code": null,
+      "normalized_exit_code": 0,
+      "exit_code_basis": "SUCCESS; default zero omitted in API projection, submitted step has no allowedExitCodes",
+      "timing": {
+        "endTime": "2026-10-17T11:02:49.805659049Z",
+        "startTime": "2026-10-17T11:02:02.278819202Z"
+      },
+      "duration_seconds": 47.52684
+    },
+    {
+      "id": "verdict",
+      "status": "FAILURE",
+      "api_exit_code_present": true,
+      "api_exit_code": 1,
+      "normalized_exit_code": 1,
+      "exit_code_basis": "API explicit",
+      "timing": {
+        "endTime": "2026-10-17T11:02:51.312458825Z",
+        "startTime": "2026-10-17T11:02:49.805862519Z"
+      },
+      "duration_seconds": 1.506596
+    }
+  ],
+  "source_reported": {
+    "diagnostic_complete": false,
+    "evidence_complete": true,
+    "failure_class": "none",
+    "lane": "o26-sort4-c1-current-recovery",
+    "missing_mandatory": [],
+    "run_exit_code": 0,
+    "text_logs_complete": true,
+    "verification_accepted": false
+  },
+  "index_cases_empty_is_raw_cases_absence": false,
+  "index_aggregate_empty_is_raw_aggregate_absence": false,
+  "tool_profile_scope_is_runtime_evidence": false,
+  "immediate_build_failure": "verdict summary acceptance predicate false; API step exit1. It is not a causal verifier error.",
+  "first_verification_causal_blocker": "UNKNOWN",
+  "P1": "UNKNOWN",
+  "matrix": {
+    "N-alpha-valid": "UNKNOWN",
+    "N-binder-collapse": "UNKNOWN",
+    "N-binding": "UNKNOWN",
+    "N-clause-redirect": "UNKNOWN",
+    "N-clauses": "UNKNOWN",
+    "N-default-contract": "UNKNOWN",
+    "N-duplicate": "UNKNOWN",
+    "N-false31": "UNKNOWN",
+    "N-free-region": "UNKNOWN",
+    "N-freeze-contract": "UNKNOWN",
+    "N-no-F": "UNKNOWN",
+    "N-region-swap": "UNKNOWN",
+    "N-source": "UNKNOWN",
+    "OFF": "UNKNOWN",
+    "P-dispatch": "UNKNOWN",
+    "P0a": "UNKNOWN",
+    "P0b": "UNKNOWN",
+    "P0c": "UNKNOWN",
+    "P1": "UNKNOWN",
+    "R1": "UNKNOWN",
+    "R2": "UNKNOWN",
+    "R3": "UNKNOWN",
+    "R4": "UNKNOWN",
+    "R5": "UNKNOWN",
+    "R6": "UNKNOWN",
+    "R7": "UNKNOWN"
+  },
+  "false31": {
+    "own_default_body_conformance": "UNKNOWN",
+    "own_freeze_body_conformance": "UNKNOWN",
+    "own_receipt": "UNKNOWN",
+    "threshold32_len32_admission": "UNKNOWN",
+    "caller_len_le31_assertion": "UNKNOWN"
+  },
+  "formal_credit_changed": false,
+  "historical_records_changed": false,
+  "new_cloud_builds": 0,
+  "raw_evidence_accessed": false,
+  "next_step": "ADMIN-AUDIT-REQUEST.md; request only, no audit authorization implied"
+}
