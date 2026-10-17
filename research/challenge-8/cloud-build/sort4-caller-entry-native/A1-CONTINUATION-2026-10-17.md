@@ -105,3 +105,10 @@ already removes duplicate proof/infra objects. No mandatory matrix/source input
 is dropped. A separately reviewed opt-in compact source encoding is being
 prepared within the existing exact recipe transport, retaining original Git
 objects, commit/tree/path/size/SHA identities and coordinator bounds.
+
+Final committed-source preflight PASS: `9678ddf631902765d7013f5ed1b9fd05159463a6`,
+502283 bytes /669712 base64 bytes,168/191 substitutions. Exact33 infra +105
+proof paths restored from158 shared original Git objects, with unchanged
+identity/closure/hash checks; config argument and submitted-config transport
+bounds PASS. [Published pin binding](A1-CONTINUATION-RELEASE-2026-10-17.json).
+Independent review has no remaining concrete source-readiness blocker.
