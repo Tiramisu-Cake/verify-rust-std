@@ -458,7 +458,7 @@ index 68ceedc7..eade1c64 100644
            let dest1 = call1.destination in
            begin match call0.target, call1.target with
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index f381dd5a..280588b0 100644
+index f381dd5a..8d6c7d75 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -1948,6 +1948,20 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -787,7 +787,7 @@ index f381dd5a..280588b0 100644
               [ tparam ]
           | _ -> [])
  
-@@ -5438,6 +5578,190 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5438,6 +5578,197 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          | Some lft -> Some (Ast.stmt_loc stmt, lft)
          | None -> None) ghost_stmts
      in
@@ -897,24 +897,29 @@ index f381dd5a..280588b0 100644
 +            | Ast.CallExpr (_, found, [], [], found_args, Ast.Static) ->
 +                found = name && args found_args
 +            | _ -> false in
-+          let drop xs = expr_call "drop"
-+            (function [Ast.LitPat n; Ast.LitPat e] ->
-+              one n && xs e | _ -> false) in
 +          let take xs = expr_call "take"
 +            (function [Ast.LitPat n; Ast.LitPat e] ->
 +              one n && xs e | _ -> false) in
-+          let first_rest = drop (var "xs") in
-+          let sift_seq = take first_rest in
-+          let tail_seq = drop first_rest in
-+          let head seq = expr_call "head"
-+            (function [Ast.LitPat e] -> seq e | _ -> false) in
++          let singleton name = expr_call "cons"
++            (function [Ast.LitPat value; Ast.LitPat rest] ->
++              var name value && var "nil" rest | _ -> false) in
++          let sift_seq = singleton "current_sift" in
++          let tail_seq = singleton "current_tail" in
++          let current_rest = expr_call "append"
++            (function [Ast.LitPat left; Ast.LitPat right] ->
++              sift_seq left && tail_seq right | _ -> false) in
++          let bind_current ptr name = function
++            | Ast.Assert (_, Ast.PointsTo
++                (_, Ast.Deref (_, Ast.Var (_, pointer)), Ast.RegularPointsTo,
++                 Ast.VarPat (_, found))) -> pointer = ptr && found = name
++            | _ -> false in
 +          let own_pred = function
 +            | Ast.CallExpr (_, "own", [tp], [], [t], Ast.Static) ->
 +                u64 tp && pvar "t" t
 +            | _ -> false in
-+          let close_own seq = function
++          let close_own name = function
 +            | Ast.Close (_, None, "own", [tp], [t], [Ast.LitPat e], None) ->
-+                u64 tp && pvar "t" t && head seq e
++                u64 tp && pvar "t" t && var name e
 +            | _ -> false in
 +          let close_foreach seq = function
 +            | Ast.Close (_, None, "foreach", [], [],
@@ -931,20 +936,22 @@ index f381dd5a..280588b0 100644
 +            | _ -> false in
 +          let array_join ptr = call "array_join" only_u64
 +            (function [Ast.LitPat p] -> ptr p | _ -> false) in
-+          let foreach_join seq = call "foreach_join" no_targs
-+            (function [Ast.LitPat elems; Ast.LitPat own; Ast.LitPat n] ->
-+              seq elems && own_pred own && one n | _ -> false) in
++          let foreach_append left right = call "foreach_append" no_targs
++            (function [Ast.LitPat xs; Ast.LitPat ys] ->
++              left xs && right ys | _ -> false) in
 +          let recover_shape = function
-+            | [a; b; c; d; e; f; g; h; i; j; k; l; m; n; o; p] ->
++            | [a; b; c; d; e; f; g; h; i; j; k; l; m; n; o; p; q; r] ->
 +                token_assert "1" a && end_lifetime b &&
 +                borrow_end "tail" c && open_full "tail" d &&
-+                borrow_end "sift" e && open_full "sift" f &&
-+                close_own sift_seq g && close_own tail_seq h &&
-+                close_foreach sift_seq i && close_foreach tail_seq j &&
-+                close_array "sift" sift_seq k &&
-+                close_array "tail" tail_seq l &&
-+                array_join begin_plus_one m && array_join (var "begin") n &&
-+                foreach_join first_rest o && foreach_join (var "xs") p
++                bind_current "tail" "current_tail" e &&
++                borrow_end "sift" f && open_full "sift" g &&
++                bind_current "sift" "current_sift" h &&
++                close_own "current_sift" i && close_own "current_tail" j &&
++                close_foreach sift_seq k && close_foreach tail_seq l &&
++                close_array "sift" sift_seq m && close_array "tail" tail_seq n &&
++                array_join begin_plus_one o && array_join (var "begin") p &&
++                foreach_append sift_seq tail_seq q &&
++                foreach_append (take (var "xs")) current_rest r
 +            | _ -> false in
 +          if not (close_shape close_commands && recover_shape recover_commands) then
 +            Ast.static_error cut_l
@@ -978,7 +985,7 @@ index f381dd5a..280588b0 100644
      let callback_close, callback_recover, strict_lft_scope_ends, callback_scope_start =
        match marked "callback_close", scope_markers, marked "callback_recover" with
        | [], [], [] -> None, None, [], None
-@@ -5637,11 +5961,18 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5637,11 +5968,18 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
            let loc = match ghost_stmts with stmt :: _ -> Ast.stmt_loc stmt | [] -> fn_sig_loc in
            Ast.static_error loc "Incomplete or ambiguous callback cleanup markers" None
      in
@@ -998,7 +1005,7 @@ index f381dd5a..280588b0 100644
          | Some (close_l, _, _), Some recover_stmt when l = close_l -> Ast.NoopStmt l
          | Some _, Some recover_stmt ->
              (match block_marker "callback_recover" stmt with
-@@ -5686,6 +6017,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5686,6 +6024,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
               | _ -> false) decls &&
             source_pos l < source_pos cut_l && source_pos cut_l < source_pos closeBraceLoc)
             strict_lft_scope_ends with
@@ -1007,7 +1014,7 @@ index f381dd5a..280588b0 100644
           | Some (cut_l, _) -> [end_stmt cut_l; Ast.NoopStmt closeBraceLoc]
           | None -> [end_stmt closeBraceLoc]
      in
-@@ -5717,6 +6050,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5717,6 +6057,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let callback_close = callback_close
        let callback_recover = callback_recover
        let callback_scope_start = callback_scope_start
@@ -1015,7 +1022,7 @@ index f381dd5a..280588b0 100644
      end) in
      let vdis_cpn = var_debug_info_get_list body_cpn in
      (* Since var id translation map is empty var debug info contains the plain Mir ids *)
-@@ -5965,30 +6299,47 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5965,30 +6306,47 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                     let args =
                       List.map decode_generic_arg proj_pred.projection_term.args
                     in
@@ -1075,7 +1082,7 @@ index f381dd5a..280588b0 100644
                     | _ -> [])
                 | _ -> [])
          in
-@@ -6414,10 +6765,152 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6414,10 +6772,152 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                        translate_basic_block ret_place_id bblock_cpn)
                      bblocks_cpn
              in
@@ -1228,7 +1235,7 @@ index f381dd5a..280588b0 100644
              (* This deliberately invalid generated call is a separately
                 profiled control. Select its local and receiver from the MIR
                 Drop edge, then place it immediately after that local's real
-@@ -7829,7 +8322,13 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7829,7 +8329,13 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                in
                impl_clauses
                |> List.iter @@ fun impl_clause ->
@@ -1243,7 +1250,7 @@ index f381dd5a..280588b0 100644
                     let string_of_clauses clauses =
                       String.concat ", " (List.map string_of_clause clauses)
                     in
-@@ -7852,7 +8351,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7852,7 +8358,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                in
                impl_clauses
                |> Util.flatmap (function

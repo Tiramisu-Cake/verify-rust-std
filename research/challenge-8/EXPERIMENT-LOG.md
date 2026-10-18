@@ -7172,3 +7172,17 @@ consumed first_scope_end marker loses source-location placeholder. Tool2a507868
 sole NoopStmt cut_l addition; existing scopeend/CFG/strict lookup unchanged.
 Profile566457f4/patchfc34d5e0/translatorb9232f69; static14/16/14/18 +4synthetic PASS;
 Luna High GO. Receipt-only path changes paired, not separate proof experiment.
+
+
+### R1 Build2 and separately authorized CURRENT recovery correction
+
+Buildb4c78447 FAILURE/579s; total1107. Firstactualcall/localContinue nowobserved;
+bothcases sourceexact/HRTB/officialqualifierTrue,refinement0/VF1. Recoveryown
+missing atentryxshead, common checked ghostsequence; branchidentity/wholecausality
+unknown. Sourceposts CURRENT notentry equality. [Result](cloud-build/origin-layout/R1-BUILD2-RESULT-20261018.json).
+IndependentreviewrequiresownerdecisionforexactASTwhitelist; owner20:02Zapproved
+onlythatCURRENTvalue/rejoin correction. Rationale beforeimplementation semanticcard.
+Tool08d6a578/profile82973e1e/patch4aa84aa5, proofannotations+5strictadmissionmutants;
+alloldcontrols unchanged.14/16/14/18static+6new/4prior syntheticPASS. Reviewcaught
+newclassifier124/126timeout-launch gap; fixedexactexit1/case-insensitivefatalguard.
+Finalreviewpending; noBuild3yet. Compiler/model/prelude/CFG/contracts untouched.

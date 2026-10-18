@@ -1,0 +1,35 @@
+{
+  "schema": "merge-r1-current-identities-v1",
+  "owner_authorization": "Explicit owner reply2026-10-18T20:02Z; R1-CURRENT-RECOVERY-DECISION-20261018.md",
+  "changes": {
+    "effective_tool_commit": {
+      "old": "2a5078681bf9b750d2fedb2223666df2f9baaeea",
+      "new": "08d6a578e00d902cb9c99aad8d6ae2020c7d728a"
+    },
+    "translator_sha256": {
+      "old": "b9232f69d951e7a2ea0de10a1897c3c8ba2e4540c5b7ae750a2c5eb10421fe25",
+      "new": "2ff7b16f326f06da6f53f6ea9227c09de441dd2ac1ab7d7f3aa5c247d6c17de5"
+    },
+    "first_callback_patch_sha256": {
+      "old": "fc34d5e0666fe5ab12546229449253406637ff55326877e35f5a01cedd4597de",
+      "new": "4aa84aa536e98bb3a728a966fb5159e3d66cbec844cfb6700e571ed7a57920e9"
+    },
+    "profile_sha256": {
+      "old": "566457f424e21a52274ee3227f1f292696d43f8775dba8b5bc05444b6c9ff4c1",
+      "new": "82973e1eb17f4383b02310611cee3f023f4aa5f0a619f228838674d85e41be59"
+    },
+    "first-callback.py": {
+      "old_sha256": "c88c2427bb0b3731083b89317a12666619c19b42c4e852bc5a3d2d9c786670a7",
+      "new_sha256": "add2510d2948cc544ea07aece27e3b1d09b37a54080fa9624b983b8d28980400",
+      "reason": "CURRENTghostannotations"
+    },
+    "first-callback-admission-controls.py": {
+      "old_sha256": "d728189e6746fec15b7f127645c30978502c96aa7c903b667f415df9b2815a4f",
+      "new_sha256": "ddbb71b9fe56f14da8fe3923d1664075b3e0bce5566c1896d9a59585fba09465",
+      "reason": "5additional exact-current-admission negatives; earliercontrols/classifierspreserved"
+    }
+  },
+  "reason": "Owner-authorized exact CURRENT18command admission + checked annotation rejoin; no newlogical primitive or CFG/HRTB/model/post change",
+  "compiler_unchanged": "nightly-2026-09-25/f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+  "refiner_core_unchanged": "d20a433c93563b87ff0a48241c94e366df06dba2f87b5e7f85ba47edb6980dd1"
+}

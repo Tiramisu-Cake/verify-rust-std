@@ -152,11 +152,11 @@ Tool commit остаётся в локальной назначенной вет
 
 ## Отчёт агента
 
-Начато исполнение 2026-10-18T19:04:30Z. Сейчас Build1 terminal/accounted (528s), Build2 submitted; исторические accounts закрыты и не используются.
+Начато исполнение 2026-10-18T19:04:30Z. Сейчас два Builds terminal/accounted:528+579=1107s; исторические accounts закрыты и не используются.
 
 ### Сессия
 
-- Статус: ACTIVE — marker-fix Build2 submitted; awaiting terminal/Brief.
+- Статус: ACTIVE — owner-approved CURRENT recovery candidate; final review/preflight.
 - ID задания: `merge-first-comparator-2026-10-18-r1`.
 - T0 / main deadline / absolute deadline (UTC): `2026-10-18T19:04:30Z` / `21:04:30Z` / `21:34:30Z`.
 - Стартовые Project/tool HEAD: `431f43f54060558330489dd9190bfc97ca31f55e` / `52ba7e2506af993007675269111a24d15406d58b`; Evidence Brief policy revision2026-10-17 / commit584891be. WORK-POLICY/COMPLETION-PLAN и current assignment приняты.
@@ -170,6 +170,7 @@ Tool commit остаётся в локальной назначенной вет
 - До реализации rationale/source applicability/gates записаны в FIRST-CALLBACK-SEMANTIC-CARD-20261017.md, раздел R1. План: profile-scoped strict hash mapping с сохранением v8, compact classification/dispatch receipts через существующие schemas. Ни tool/profile, ни trusted semantics не меняются.
 - Первый кандидат Project proof=infra `762932d3158f7c5dcab0294a2a6c815c3bcd1a19`, release `ab26b351`; tool52ba7e25/profile84949dd9/patchdf08af37 unchanged. R1-RELEASE-20261018.json:106proofpaths,14patches,432081byte immutable payload/145parts, SHA87a6b062…. Published exact source checked.
 - Reporting-path follow-up reviewer: packaging всех payload подтверждён; поддержка Reader classifications вне /cases/ не установлена доступными исходниками. Receipt absence не заменяет execution evidence и не оправдывает новый Build только ради reporting.
+- CURRENT candidate:6newsynthetic tests PASS,4priorservice tests PASS,14orderedpatches/16reconstructedfiles/14profilepins/18strictbasepins PASS_STATIC_ONLY. Reviewer timeout/launch-status finding fixed in NEWclassifier only (exactexit1+case-insensitivefatalrejection); final independent Luna High readiness GO recorded R1-CURRENT-REVIEW-20261018.json.
 - Статические проверки:14patches/16reconstructed files/14profilepins/18strictbasepins PASS;4synthetic service tests PASS. Независимый Luna High review GO, source hashes в R1-REVIEW-20261018.json; tool/profile unchanged.
 
 ### Запуски
@@ -179,7 +180,7 @@ Tool commit остаётся в локальной назначенной вет
 
 | `2f7ba4a0-1c94-4c05-a33f-0a959a340b06` | `762932d3` / R1-RELEASE-20261018.json | profile-scoped compatibility pin; full mandatory matrix + dispatch receipts | FAILURE19:30:57Z | fresh Brief: campaign invoked; prefix/fullbody INCONCLUSIVE, Not_found in translator List.find;5dependent controls source NOT_RUN | 528s |
 
-| `b4c78447-2c45-4548-98e9-18d00bf86132` | `251a83ad` / R1-MARKER-RELEASE-20261018.json | exact Noop marker location + receipt paths; full mandatory matrix | submitted | pending terminal/Brief | reserved960s |
+| `b4c78447-2c45-4548-98e9-18d00bf86132` | `251a83ad` / R1-MARKER-RELEASE-20261018.json | exact Noop marker location + receipt paths; full mandatory matrix | FAILURE19:52:22Z | source first call/localContinue reached; own(entry-xs-head) missing in recovery, VF1 | 579s |
 
 Два разных кандидата/Builds; дубликаты не отправлялись. Результаты сопровождать provenance и ограничениями; полный Brief не вставлять.
 
@@ -197,7 +198,9 @@ Tool commit остаётся в локальной назначенной вет
 - B2 и formal credit: OPEN/False; нового independent proof credit нет.
 - Причина общего FAILURE: UNKNOWN в Processor; конкретный case blocker выше не переносится в общий causal verdict.
 - Новый tool-кандидат `2a5078681bf9b750d2fedb2223666df2f9baaeea`: sole Noop location; profile SHA566457f424e21a52274ee3227f1f292696d43f8775dba8b5bc05444b6c9ff4c1, patchfc34d5e0…, translatorb9232f69…. Старый manifest сохранён, R1-MARKER-IDENTITIES-20261018.json. Static14/16/14/18 +4synthetic PASS, final Luna High GO. Project proof=infra251a83adc4eadcd6a1e3eb87e795124596e228c2 опубликован; R1-MARKER-RELEASE-20261018.json проверяет106proofpaths/145parts/432518bytes payload SHA48bdc7e2…. Build2 b4c78447-2c45-4548-98e9-18d00bf86132 отправлен.
-- Первый свежий blocker: prefix/fullbody translator placeholder lookup List.find Not_found, наблюдается в Brief. Source-level отсутствует statement для уже валидированного first scope-end marker; минимальный Noop-location candidate и rationale записаны до реализации в semantic card, bounded review запрошен. Whole-Build causal_status UNKNOWN.
+- Build2: R1-BUILD2-RESULT-20261018.json; local_first_continue/actual_first_call/official qualifier/HRTB/source_exact=True, exporter/decode/refinement0/VF1 bothcases. Previous lookup blocker устранён для этих cases. All4resource/controlgroup sourceNOT_RUN; B1 sourceall_matchedTrue; no B2/independent credit.
+- Текущий свежий blocker: missing own<uint64> at recovery general149; source recovery uses entryxs after open_full returns CURRENT value. Owner approved narrow CURRENT AST whitelist correction20:02Z. Tool08d6a578/profile82973e1e/patch4aa84aa5/translator2ff7b16f; exact18command CURRENT rejoin plus5newadmissionnegatives. No assumptions/extraowners/contract or CFG change.
+- Build1 свежий blocker: prefix/fullbody translator placeholder lookup List.find Not_found, наблюдается в Brief. Source-level отсутствует statement для уже валидированного first scope-end marker; минимальный Noop-location candidate и rationale записаны до реализации в semantic card, bounded review запрошен. Whole-Build causal_status UNKNOWN.
 
 ### Закрытие и следующий шаг
 

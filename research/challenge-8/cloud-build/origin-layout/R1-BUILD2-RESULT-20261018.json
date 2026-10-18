@@ -1,0 +1,270 @@
+{
+  "schema": "merge-r1-build-result-v1",
+  "build_id": "b4c78447-2c45-4548-98e9-18d00bf86132",
+  "terminal_status": "FAILURE",
+  "proof_sha": "251a83adc4eadcd6a1e3eb87e795124596e228c2",
+  "infra_sha": "251a83adc4eadcd6a1e3eb87e795124596e228c2",
+  "tool": "2a5078681bf9b750d2fedb2223666df2f9baaeea",
+  "profile_sha256": "566457f424e21a52274ee3227f1f292696d43f8775dba8b5bc05444b6c9ff4c1",
+  "build_seconds": 579,
+  "execution_seconds": 578,
+  "processing_status": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "whole_build_causal_status": "UNKNOWN",
+  "build_milestone_observed_exits": {
+    "console-build": [
+      0,
+      0
+    ],
+    "decoder-build": [
+      0
+    ],
+    "exporter-build": [
+      0
+    ],
+    "refiner-build": [
+      0
+    ],
+    "tracked-md-compile": [
+      0
+    ],
+    "tracked-md-preparation": [
+      0
+    ],
+    "translator-build": [
+      0
+    ]
+  },
+  "first_callback_results_source_claims": {
+    "/": {
+      "source_fields": {
+        "accepted": false,
+        "all_target_controls_matched": false,
+        "b2_achieved": false,
+        "classification": "DIAGNOSTIC_ONLY_UNTIL_ALL_GATES_MATCH",
+        "prefix_current_normal_unwind_proved": false,
+        "schema": "first-callback-campaign-v1"
+      },
+      "reference": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+        "sha256": "1e10041cfa4d27e838a95c0c37294fc3ce49852ed6043613450f96a17b5131b6",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "/results/full_body": {
+      "source_fields": {
+        "accepted": false,
+        "b2_achieved": false,
+        "classification": "INCONCLUSIVE",
+        "current_false_true_panic_proved": false,
+        "cut": null,
+        "first_error": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/rust_belt/general.rsspec(149,51-52): error: No matching heap chunks: own(uint64_t_typeid)(t, head(take(1, drop(1, xs))))",
+        "full_insert_tail_proved": false,
+        "hrtb_registration_observed": true,
+        "intended_negative": false,
+        "local_first_continue_observed": true,
+        "mutation": null,
+        "official_first_continue_qualified": true,
+        "prefix": false,
+        "proof_credit": false,
+        "runtime_frontiers": {
+          "actual_first_call_line": true,
+          "actual_late_call_line": false,
+          "actual_read_line": false,
+          "actual_shift_line": false,
+          "actual_update_line": false,
+          "false_return_line": false
+        },
+        "schema": "first-callback-result-v1",
+        "source_exact": true,
+        "stages": {
+          "decode": 0,
+          "exporter": 0,
+          "refinement": 0,
+          "verifast": 1
+        }
+      },
+      "reference": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+        "sha256": "1e10041cfa4d27e838a95c0c37294fc3ce49852ed6043613450f96a17b5131b6",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "/results/prefix": {
+      "source_fields": {
+        "accepted": false,
+        "b2_achieved": false,
+        "classification": "INCONCLUSIVE",
+        "current_false_true_panic_proved": false,
+        "cut": "immediately before tail.read/ManuallyDrop/guard; true path returns at cut",
+        "first_error": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/rust_belt/general.rsspec(149,51-52): error: No matching heap chunks: own(uint64_t_typeid)(t, head(take(1, drop(1, xs))))",
+        "full_insert_tail_proved": false,
+        "hrtb_registration_observed": true,
+        "intended_negative": false,
+        "local_first_continue_observed": true,
+        "mutation": null,
+        "official_first_continue_qualified": true,
+        "prefix": true,
+        "proof_credit": false,
+        "runtime_frontiers": {
+          "actual_first_call_line": true,
+          "actual_late_call_line": false,
+          "actual_read_line": false,
+          "actual_shift_line": false,
+          "actual_update_line": false,
+          "false_return_line": false
+        },
+        "schema": "first-callback-result-v1",
+        "source_exact": true,
+        "stages": {
+          "decode": 0,
+          "exporter": 0,
+          "refinement": 0,
+          "verifast": 1
+        }
+      },
+      "reference": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+        "sha256": "1e10041cfa4d27e838a95c0c37294fc3ce49852ed6043613450f96a17b5131b6",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "/results/admission_controls": {
+      "source_fields": {
+        "all_matched": false,
+        "classification": "NOT_RUN_PREFIX_PREREQUISITE_FAILED",
+        "proof_credit": false
+      },
+      "reference": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+        "sha256": "1e10041cfa4d27e838a95c0c37294fc3ce49852ed6043613450f96a17b5131b6",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "/results/lost_cell_owner": {
+      "source_fields": {
+        "classification": "NOT_RUN_PREFIX_PREREQUISITE_FAILED",
+        "intended_negative": false,
+        "proof_credit": false
+      },
+      "reference": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+        "sha256": "1e10041cfa4d27e838a95c0c37294fc3ce49852ed6043613450f96a17b5131b6",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "/results/lost_current_f": {
+      "source_fields": {
+        "classification": "NOT_RUN_PREFIX_PREREQUISITE_FAILED",
+        "intended_negative": false,
+        "proof_credit": false
+      },
+      "reference": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+        "sha256": "1e10041cfa4d27e838a95c0c37294fc3ce49852ed6043613450f96a17b5131b6",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "/results/lost_reference_fraction": {
+      "source_fields": {
+        "classification": "NOT_RUN_PREFIX_PREREQUISITE_FAILED",
+        "intended_negative": false,
+        "proof_credit": false
+      },
+      "reference": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+        "sha256": "1e10041cfa4d27e838a95c0c37294fc3ce49852ed6043613450f96a17b5131b6",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "/results/lost_reference_token": {
+      "source_fields": {
+        "classification": "NOT_RUN_PREFIX_PREREQUISITE_FAILED",
+        "intended_negative": false,
+        "proof_credit": false
+      },
+      "reference": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+        "sha256": "1e10041cfa4d27e838a95c0c37294fc3ce49852ed6043613450f96a17b5131b6",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    }
+  },
+  "service_receipts": [
+    {
+      "case": "allprooflogs/checked-minimal-bridge/first-comparator-dispatch/cases/dispatch",
+      "first_observed_error": null,
+      "log_source": null,
+      "official_records": {
+        "classification.json": {
+          "accepted": false,
+          "classification": "CAMPAIGN_RETURNED",
+          "proof_credit": false,
+          "reason": "Dispatch observation, not target proof"
+        }
+      },
+      "provenance": {
+        "classification.json": {
+          "archive_member": true,
+          "sha256": "b10ca16bc3533655895a9c909cb43435ee44ce17df5e8278849960b5c82b326e",
+          "source_file": "allprooflogs/checked-minimal-bridge/first-comparator-dispatch/cases/dispatch/classification.json",
+          "text_chunk_paths": []
+        }
+      },
+      "stage_exit_codes": {}
+    },
+    {
+      "case": "allprooflogs/checked-minimal-bridge/onecell-selected-drop/compatibility-controls/source-compatibility/cases/legacy_synthetic_drop_defaults",
+      "first_observed_error": null,
+      "log_source": null,
+      "official_records": {
+        "classification.json": {
+          "accepted": false,
+          "classification": "STATIC_SOURCE_COMPATIBILITY_ONLY_NO_PROOF_CREDIT",
+          "proof_credit": false
+        }
+      },
+      "provenance": {
+        "classification.json": {
+          "archive_member": true,
+          "sha256": "2dd85f45d543dd297e4007bc472dc6298e108491fc0c4c929ea69a3c083e6aa2",
+          "source_file": "allprooflogs/checked-minimal-bridge/onecell-selected-drop/compatibility-controls/source-compatibility/cases/legacy_synthetic_drop_defaults/classification.json",
+          "text_chunk_paths": []
+        }
+      },
+      "stage_exit_codes": {}
+    }
+  ],
+  "b1_aggregate_source_claims": {
+    "allprooflogs/checked-minimal-bridge/onecell-selected-drop/aggregate.json": {
+      "accepted": false,
+      "all_matched": true,
+      "provenance": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/onecell-selected-drop/aggregate.json",
+        "sha256": "7b8def6d11319dbb4cd79ee390e82ae12b7affd8b2917d87bbf14508fe950df3",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "allprooflogs/checked-minimal-bridge/onecell-selected-drop/receiver-controls/aggregate.json": {
+      "accepted": false,
+      "all_matched": true,
+      "provenance": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/onecell-selected-drop/receiver-controls/aggregate.json",
+        "sha256": "8fd07d7e233e96ad7d2fe9f58a0778a2444f55b4106e3d92fc84302d0dd710ca",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    }
+  },
+  "hypothesis_result": "marker lookup no longer blocks: local first_continue + actual_first_call source flags True and normal proof trace reaches recovery; new missing owned-value obligation observed. No claim of whole-Build causality.",
+  "remaining_questions": {
+    "CURRENT_false_true_panic": "not established; joint source flagFalse, no separate successful branch receipts",
+    "full_body_frontier": "source runtime first callTrue/read/shift/update/lateFalse; recovery error own(entryxshead) observed, not successful full-body frontier proof",
+    "first_admission_and_resource_controls": "5groups explicitly sourceNOT_RUN_PREFIX_PREREQUISITE_FAILED",
+    "whole_build_cause": "UNKNOWN/not extracted Processor; Reader accessible",
+    "nested_receipt_details": "Processor projects case classifications but not source_binding/prerequisites/source_gate; no Reader transport issue"
+  },
+  "proof_credit_added": false,
+  "b2_achieved": false,
+  "raw_evidence_access": false,
+  "download_verified_set": false
+}

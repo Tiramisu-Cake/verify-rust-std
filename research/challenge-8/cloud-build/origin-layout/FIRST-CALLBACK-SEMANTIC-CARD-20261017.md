@@ -249,3 +249,30 @@ an evidence-path correction paired with the independently needed translator fix;
 no extra Build is justified solely for reporting. Update synthetic receipt-path
 assertion and source-only preflight expected path list; independent review before
 submit. Reader nested-field projection remains a reporting limitation, not credit.
+
+
+### Owner-authorized CURRENT admission correction — before implementation
+
+2026-10-18T20:02Z owner explicitly approved the narrow proposal in
+R1-CURRENT-RECOVERY-DECISION-20261018.md and independent review within the existing
+R1 main deadline21:04:30Z. This is a separate authorized trusted admission delta,
+not a neutral-typing claim. Exact checked recovery uses18commands: two current
+points-to assert binders, owners/singleton arrays/foreach at those values,
+existing foreach_append twice instead of undefined foreach_join. Framed first
+cell, CURRENT final posts, physical resources/F/thread/type/lifetimes preserved.
+
+Change only first recovery annotation assembly + its exact marker AST whitelist.
+No new semantic primitive, permission/axiom, memory/layout/model/prelude/kernel,
+HRTB rule, marker binding, CFG/unwind route or late Cleanup behavior. Both named
+current binders must bind the exact tail/sift pointer respectively; exact own,
+cons/nil, array pointers, append arguments/types and order checked fail closed.
+All recovery remains ordinary verifier-checked ghost commands. Historical source,
+profile and patch identities preserved, new candidate receives new identities.
+
+Preflight: exact2a507868→new translator-only diff plus18base/14profilepins/14patch
+reconstruction; synthetic pure annotation assembly and negative fixture mutations,
+no local extractor/compiler/verifier. Independent Luna High source+admission GO
+required. Full unchanged Cloud matrix checks prefix false/true/Continue-panic,
+separatefullbody,4resource-loss negatives, compiler/HRTB/binder/lateCleanup/
+firstunwindmutant and B1/helper/smoke/defaultoff/receiver/end/retirement. Earlier
+setup/refusal is never an intended resource negative. No unchanged retry.

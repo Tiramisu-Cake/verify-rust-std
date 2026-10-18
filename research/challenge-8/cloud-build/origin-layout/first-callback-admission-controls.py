@@ -623,6 +623,83 @@ def _source_annotation_mutant(source: bytes, mutation: str) -> bytes:
     return source.replace(CALL_ANNOTATION, changed, 1)
 
 
+CURRENT_RECOVERY_MUTATIONS = (
+    "wrong_current_tail_pointer", "wrong_current_sift_binder", "wrong_current_owner",
+    "wrong_current_array_value", "wrong_current_append_order")
+EXPECTED_CURRENT_RECOVERY_ERROR = "Unsupported first callback loan and owner recovery commands"
+
+
+def _current_recovery_mutant(source: bytes, mutation: str) -> bytes:
+    edits = {
+        "wrong_current_tail_pointer": (b"assert *tail |-> ?current_tail;", b"assert *sift |-> ?current_tail;"),
+        "wrong_current_sift_binder": (b"assert *sift |-> ?current_sift;", b"assert *sift |-> ?current_tail;"),
+        "wrong_current_owner": (b"close own::<u64>(t)(current_sift);", b"close own::<u64>(t)(current_tail);"),
+        "wrong_current_array_value": (b"close array::<u64>(sift, 1, cons(current_sift, nil));",
+                                      b"close array::<u64>(sift, 1, cons(current_tail, nil));"),
+        "wrong_current_append_order": (
+            b"foreach_append(take(1, xs), append(cons(current_sift, nil), cons(current_tail, nil)));",
+            b"foreach_append(take(1, xs), append(cons(current_tail, nil), cons(current_sift, nil)));"),
+    }
+    if mutation not in edits:
+        raise ValueError(f"unknown current recovery mutation: {mutation}")
+    before, after = edits[mutation]
+    if source.count(CALL_ANNOTATION) != 1 or source.count(before) != 1:
+        raise ValueError("CURRENT recovery mutation requires exact unique first-call source")
+    return source.replace(before, after, 1)
+
+
+def _intended_current_recovery_refusal(outcome: dict, scope_end_line: int) -> bool:
+    log = outcome["log"]
+    errors = [line for line in log.splitlines() if re.search(r"\berror:", line, re.I)]
+    return (outcome["exit_code"] == 1 and len(errors) == 1 and
+            EXPECTED_CURRENT_RECOVERY_ERROR in errors[0] and
+            f"verified/lib.rs({scope_end_line}," in errors[0] and
+            not re.search(r"fatal error:", log, re.I) and "0 errors found" not in log)
+
+
+def _current_recovery_controls(evidence: Path, args, env: dict[str, str], base,
+                               source_pair: tuple[bytes, bytes]) -> dict:
+    evidence.mkdir(parents=True, exist_ok=False)
+    marker = b"first_callback_scope_end::"
+    if source_pair[1].count(marker) != 1:
+        raise ValueError("CURRENT recovery control requires one source-linked scope end")
+    scope_end_line = source_pair[1][:source_pair[1].index(marker)].count(b"\n") + 1
+    results = {}
+    for mutation in CURRENT_RECOVERY_MUTATIONS:
+        family = evidence / mutation
+        family.mkdir()
+        baseline = _run_verifast(f"{mutation}/positive-baseline", evidence, args, env,
+                                 base, source_pair, capture=family/"positive-export.bin")
+        baseline_ok = _positive_vf(baseline)
+        row = {"positive_baseline": {"matched": baseline_ok,
+            "exit_code": baseline["exit_code"], "log_sha256": baseline["log_sha256"],
+            "verifast_sha256": baseline["verifast_sha256"],
+            "exporter_wrapper_sha256": baseline["exporter_wrapper_sha256"],
+            "captured_export_sha256": baseline["captured_export_sha256"]}}
+        if not baseline_ok:
+            row.update(matched=False, status="POSITIVE_BASELINE_FAILED_MUTANT_NOT_RUN")
+            results[mutation] = row
+            continue
+        try:
+            mutant_pair = (source_pair[0], _current_recovery_mutant(source_pair[1], mutation))
+        except Exception as error:
+            row.update(matched=False, status="NOT_RUN_SOURCE_MUTATION_SETUP_FAILED",
+                       blocker=f"{type(error).__name__}: {error}")
+            results[mutation] = row
+            continue
+        outcome = _run_verifast(f"{mutation}/mutant", evidence, args, env, base, mutant_pair)
+        matched = _intended_current_recovery_refusal(outcome, scope_end_line)
+        row.update(matched=matched,
+            status="INTENDED_CURRENT_RECOVERY_ADMISSION_REFUSAL" if matched else "INCONCLUSIVE_WRONG_OR_EARLIER_FAILURE",
+            expected_error=EXPECTED_CURRENT_RECOVERY_ERROR, expected_source_line=scope_end_line,
+            exit_code=outcome["exit_code"], log_sha256=outcome["log_sha256"],
+            verifast_sha256=outcome["verifast_sha256"],
+            exporter_wrapper_sha256=outcome["exporter_wrapper_sha256"],
+            source_sha256=outcome["source_sha256"])
+        results[mutation] = row
+    return results
+
+
 def _source_ghost_controls(evidence: Path, args, env: dict[str, str], base,
                            source_pair: tuple[bytes, bytes], *,
                            mutations: tuple[str, ...]) -> dict:
@@ -1146,6 +1223,8 @@ def run(evidence: Path, args, env: dict[str, str], execute_case,
     ghost_mutations = ("wrong_ghost_F", "wrong_ghost_u64", "wrong_ghost_lifetime")
     record["controls"]["ghost_call_mutations"] = _source_ghost_controls(
         evidence / "ghost-call", args, env, base, source_pair, mutations=ghost_mutations)
+    record["controls"]["current_recovery_admission"] = _current_recovery_controls(
+        evidence / "current-recovery", args, env, base, source_pair)
     here = Path(__file__).resolve().parent
     record["controls"]["legacy_eight_regressions"] = _legacy_regression_controls(
         evidence / "legacy-eight-controls", args, env, base,
@@ -1157,7 +1236,7 @@ def run(evidence: Path, args, env: dict[str, str], execute_case,
         evidence / "official-refiner-unwind", args, env, base, source_pair,
         include_dirs, source_record)
     required = []
-    for family in ("compiler_clause_mutations", "ghost_call_mutations"):
+    for family in ("compiler_clause_mutations", "ghost_call_mutations", "current_recovery_admission"):
         required.extend(row.get("matched") is True for row in record["controls"][family].values())
     legacy = record["controls"]["legacy_eight_regressions"]
     required.append(legacy.get("matched") is True)

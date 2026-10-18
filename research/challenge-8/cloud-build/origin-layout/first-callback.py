@@ -18,6 +18,30 @@ PROFILE = 'experimental-merge-first-callback-u64-v1'
 PREFIX_NAME = b'insert_tail_first_callback_prefix'
 CUT = b'        // SAFETY: after this read'
 
+# Exact inherited suffix and owner-authorized CURRENT replacement; ghost only.
+ENTRY_OWNER_REJOIN = b"""        //@ close own::<u64>(t)(head(take(1, drop(1, xs))));
+        //@ close own::<u64>(t)(head(drop(1, drop(1, xs))));
+        //@ close foreach(take(1, drop(1, xs)), own::<u64>(t));
+        //@ close foreach(drop(1, drop(1, xs)), own::<u64>(t));
+        //@ close array::<u64>(sift, 1, take(1, drop(1, xs)));
+        //@ close array::<u64>(tail, 1, drop(1, drop(1, xs)));
+        //@ array_join::<u64>(begin + 1);
+        //@ array_join::<u64>(begin);
+        //@ foreach_join(drop(1, xs), own::<u64>(t), 1);
+        //@ foreach_join(xs, own::<u64>(t), 1);
+"""
+CURRENT_OWNER_REJOIN = b"""        //@ close own::<u64>(t)(current_sift);
+        //@ close own::<u64>(t)(current_tail);
+        //@ close foreach(cons(current_sift, nil), own::<u64>(t));
+        //@ close foreach(cons(current_tail, nil), own::<u64>(t));
+        //@ close array::<u64>(sift, 1, cons(current_sift, nil));
+        //@ close array::<u64>(tail, 1, cons(current_tail, nil));
+        //@ array_join::<u64>(begin + 1);
+        //@ array_join::<u64>(begin);
+        //@ foreach_append(cons(current_sift, nil), cons(current_tail, nil));
+        //@ foreach_append(take(1, xs), append(cons(current_sift, nil), cons(current_tail, nil)));
+"""
+
 
 def _load(name, path):
     spec = importlib.util.spec_from_file_location(name, path)
@@ -51,6 +75,13 @@ def _markers(old, mutation=None):
     if old.B2_COMPARE_RECOVER.count(split) != 1:
         raise ValueError('callback lifetime split changed')
     close, recover = old.B2_COMPARE_RECOVER.split(split)
+    recover = _one(recover, ENTRY_OWNER_REJOIN, CURRENT_OWNER_REJOIN,
+                   'CURRENT owner and physical-cell rejoin')
+    for pointer, value in (('tail', 'current_tail'), ('sift', 'current_sift')):
+        opened = f'        //@ open_full_borrow_content::<u64>(t, {pointer});\n'.encode()
+        bound = f'        //@ assert *{pointer} |-> ?{value};\n'.encode()
+        recover = _one(recover, opened, opened + bound,
+                       f'bind returned CURRENT {pointer} value')
     if mutation == 'lost_reference_fraction':
         close = _one(close, b'close_frac_borrow(tail_ref_frac,',
                      b'close_frac_borrow(tail_ref_frac + 1,', 'bad reference fraction')

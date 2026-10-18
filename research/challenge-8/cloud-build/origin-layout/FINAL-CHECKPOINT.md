@@ -429,3 +429,17 @@ profile566457f4/patchfc34d5e0/translatorb9232f69, one Noop marker location; prio
 manifest preserved. Nested/cases no-credit receipt paths corrected. Static14/16/
 14/18 +4synthetic PASS; Luna High GO. Build2 pending publication/source closure.
 B2 open, no independent new credit; active own Build none. Main/absolute unchanged.
+
+
+### R1 Build2 terminal / owner-approved CURRENT admission candidate
+
+Buildb4c78447 FAILURE19:52:22Z/579charged(578execution), source251a83ad/tool2a507868/
+profile566457f4. Reader v6 index+Brief linked hashes,2newservicecases nowprojected.
+Previous lookup passed; actualcall/localContinue flagsTrue; recoverymissingown at
+oldxshead, bothprefix/fullbodyVF1 afterexport/decode/refinement0. Wholecausality
+UNKNOWN; CURRENTnormal/unwind notproved;5controls sourceNOT_RUN; B2open.
+Total1107s, ownactive/reservation/requestnone. Owner20:02Z explicitlyapproved
+narrowCURRENT18command recoveryadmission; doc R1-CURRENT-RECOVERY-DECISION-20261018.md.
+Tool08d6a578/profile82973e1e/patch4aa84aa5/translator2ff7b16f prepared, priorprofile
+preserved.6new+4prior synthetic tests/static14/16/14/18 PASS; independent final
+reviewpending afterNEWclassifier fix requiringexactnormalexit1. NoBuild3yet.

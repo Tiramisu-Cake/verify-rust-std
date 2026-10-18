@@ -1,3 +1,26 @@
+# MERGE — R1 ACTIVE: CURRENT recovery candidate, explicit owner approval
+
+Build2 **b4c78447-2c45-4548-98e9-18d00bf86132**, source251a83ad/tool2a507868/
+profile566457f4, terminalFAILURE/579charged. Previous lookup passed: sourceactual
+firstcall/localContinue/HRTB/officialqualifier/exactTrue; bothprefix/fullbody
+exporter-decode-refinement0/VF1. New observed recovery error: missingown at
+ENTRYxshead/general149. No normalfalse/true/panic theorem;5dependentcontrols
+sourceNOT_RUN. B1 sourceall_matchedTrue; no independentcredit/B2.
+[Build2 result](cloud-build/origin-layout/R1-BUILD2-RESULT-20261018.json).
+
+Owner20:02Z explicitly authorized narrowly changing exact recovery AST admission
+for CURRENT values. Proposed18checkedcommands bindreturnedcellvalues/rejoinonce
+usingexistingforeach_append, no entryequality/extraowners/newkernel/CFG/posts.
+Tool08d6a578/profile82973e1e/patch4aa84aa5/translator2ff7b16f prepared; priorprofile
+preserved.5newadmissionnegatives added, alloldgates retained.6newsynthetic+4prior
+service tests PASS;14patch/16files/14profilepins/18basepins staticPASS. FinalGO
+pending afterclassifierreviewfix; noBuild3yet.
+2terminalBuilds=528+579=1107Cloudseconds, ownactive/reservation/requestnone.
+Main21:04:30Z/absolute21:34:30Z unchanged; furtherBuild onlyexactpublishedcandidate
+andreviewGO. [Agent report](CURRENT-TASK.md), [decision/rationale](cloud-build/origin-layout/R1-CURRENT-RECOVERY-DECISION-20261018.md).
+
+Earlier checkpoints preserved below.
+
 # MERGE — R1 ACTIVE: first-comparator invoked; neutral marker fix READY
 
 Build1 **2f7ba4a0-1c94-4c05-a33f-0a959a340b06**, proof=infra762932d3,

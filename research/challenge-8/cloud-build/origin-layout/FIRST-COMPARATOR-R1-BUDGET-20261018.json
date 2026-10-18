@@ -8,8 +8,8 @@
   "ceiling_build_seconds": 18960,
   "technical_ceiling_not_user_spend_budget": true,
   "technical_ceiling_calculation": "9000s absolute window +960s largest single reservation envelope +9000s rounding/bookkeeping headroom =18960s. Numeric client representation only; no separately authorized cumulative budget. Actual per-owner sequential accounting and deadlines govern; no carryover from closed accounts.",
-  "used_build_seconds": 528,
-  "remaining_build_seconds": 18432,
+  "used_build_seconds": 1107,
+  "remaining_build_seconds": 17853,
   "builds": [
     {
       "dispatch_token": "dispatch-a3a6ad33e5ba4a95b4a0c07657c098a0",
@@ -43,17 +43,20 @@
       "submitted_config_sha256": "1cd8160594be2181236694debd0ea272f501777f67b314554e9cbb056a01ecab",
       "reserved_seconds": 960,
       "timeout_seconds": 900,
-      "status": "WORKING",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "48bdc7e201567ecaae5b277a254262d971770603a858d1bf39aab746243b5b7c",
       "build_id": "b4c78447-2c45-4548-98e9-18d00bf86132",
       "start_time": "2026-10-18T19:42:45.018435272Z",
-      "finish_time": null,
-      "create_time": "2026-10-18T19:42:44.114519236Z"
+      "finish_time": "2026-10-18T19:52:22.334519Z",
+      "create_time": "2026-10-18T19:42:44.114519236Z",
+      "build_seconds": 579,
+      "accounted": true,
+      "execution_seconds": 578
     }
   ],
-  "active_build": "b4c78447-2c45-4548-98e9-18d00bf86132",
+  "active_build": null,
   "status": "AUTHORIZED",
   "start_utc": "2026-10-18T19:04:30Z",
   "main_deadline_utc": "2026-10-18T21:04:30Z",
