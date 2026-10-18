@@ -1,4 +1,4 @@
-# select/sort4 — buildability achieved; parser audit decision pending
+# select/sort4 — session CLOSED at parser evidence/scope boundary
 
 Task select-sort4-ocaml-buildability-2026-10-18-r1,ownerselect-sort4.
 Branchresearch/night-select-sort4-cloud-2026-10-09;initiale3837f41.
@@ -22,7 +22,8 @@ andverifiedarchiveinventorynotproof;stageorderUNKNOWN.
 
 [Owneraudit/scopedecisionrequest](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-NEXT-DECISION-2026-10-18.md)
 prepared;questionpending. No rawaccess/parsergrammarchange/newBuildforreportgap.
-Proceedonlywithauthorizedindependentreport/pincheckswhileawaitingdecision;
-main/absolutecutoffsunchanged. [Currenttask/report](CURRENT-TASK.md),
+Sessionclosed2026-10-18T20:21:51Zbeforemain;technicalheadroom16845closed,
+requestwithdrawn,noactive/unresolved. No furtherimplementation/Cloudwithoutnew
+assignment;boundedadminauditneedsseparateexplicitauthorization. [Currenttask/report](CURRENT-TASK.md),
 [session](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-SESSION-2026-10-18.md),
 [latestBrief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R5-BRIEF-2026-10-18.md).

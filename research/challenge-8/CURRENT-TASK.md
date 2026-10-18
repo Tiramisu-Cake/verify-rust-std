@@ -157,82 +157,71 @@ Reviewer проверяет типизацию, связанные места, �
 
 ### Сессия
 
-- Статус: ACTIVE — исходники и служебная регистрация, первый Build отправлен.
-- ID задания: `select-sort4-ocaml-buildability-2026-10-18-r1`.
-- T0: `2026-10-18T18:59:16Z`; main deadline `20:59:16Z`; absolute deadline `21:29:16Z`.
-- Исходный project HEAD/remote: `e3837f4110f8713d00ba2e0f4bb7284b578831ae`. Прочитаны branch-local WORK-POLICY/STATUS и локальная owner Evidence Brief policy 2026-10-17; существующие незакоммиченные policy/docs сохраняются.
-- Owner `select-sort4`. Новая регистрация с отдельным ledger готовится; старые счета405/555 и433/527 закрыты и не меняются.
-- Обнаружены семь изменённых tracked policy/docs и untracked EVIDENCE-BRIEF.md, CURRENT-TASK.md. CURRENT-TASK.md включается в публикацию по этому поручению; остальные не коммитятся.
+- **Статус: CLOSED_AT_SCOPE_BOUNDARY; цель достигнута частично, нужен отдельный audit/scope decision.** Компиляция R/C пройдена; собственные receipt bytes/hash и поимённые26 результатов полностью не установлены. A1/A2 не закрыты.
+- ID задания: `select-sort4-ocaml-buildability-2026-10-18-r1`; owner `select-sort4`, назначенные worktree/branch сохранены.
+- T0 `2026-10-18T18:59:16Z`; main deadline `20:59:16Z`; absolute deadline `21:29:16Z`. Завершение `2026-10-18T20:21:51Z` на границе доступного evidence/scope, до main deadline; finishing extension не использована.
+- Исходный HEAD/remote `e3837f4110f8713d00ba2e0f4bb7284b578831ae`; прочитаны WORK-POLICY/COMPLETION-PLAN и branch-local инструкции этой редакции, локальная owner Evidence Brief policy2026-10-17. Содержание раздела «Задание» сохранено побайтно.
+- Phase `SORT4-A1-OCAML-BUILDABILITY-2026-10-18-R1`; [новый ledger](cloud-build/sort4-caller-entry-native/BUDGET-A1-BUILDABILITY-2026-10-18.json). Штатная branch-local регистрация через существующий coordinator, без изменения общего протокола. Один свой occupied/unresolved Build и дополнительный max2 project occupied check под общей блокировкой.
+- Технический numeric ceiling18960 =9000wall+9000rounding headroom+960final reservation; hard deadlines ограничивали время, число последовательных Builds не ограничивалось. Это не возврат лимита960/3600 и не продление. Все расходы учтены coordinator; старые405/960+555retired,433/960+527retired и другие счета не менялись.
+- Восемь исходных локальных policy/docs правок сохранены и не коммитились; CURRENT-TASK.md добавлен по поручению. Нет force-push, reset, upstream/Actions dispatch, новых dependencies или локального compiler/proof execution.
 
 ### Изменения и review
 
-- По pinned source `check_type` вызывается только с `D.decode_ty`/полями ref/slice/tuple, ADT substitutions и generic argument Type, следовательно параметр — `D.ty`; у ADT.substs элементы `D.generic_arg`. Готовятся две локальные аннотации. Arms, отказы, обход и regions/binders сохраняются.
-- Обзор остальных R-added OCaml мест выполняется. Два удаления unused_mut и прежняя D.generic_arg_kind сохраняются; их успешная компиляция пока не утверждается.
-- R1: полный R `d99a5ed229533132b8292c5fc70ea93dbe261e9f76c2a0fcc6d6723e796454ca`; R-after/C-before `ffacadc74de9dded1e50e9b9a71f75a905cf97c7c823427cf7044494e87d052d`; C-after `a11741f096eb2e1808cadcb8a49eeeb33117630ae6c141d0202af22b14a9b8c3`. C побайтно прежний. [Source check](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R1-SOURCE-CHECK-2026-10-18.json).
-- Регистрация новой phase `SORT4-A1-OCAML-BUILDABILITY-2026-10-18-R1`, owner/ledger отдельно. Технический ceiling18960=9000wall+9000rounding headroom+960reservation; deadlines ограничивают сессию, число последовательных Builds не ограничено. Служебные6 synthetic checks PASS. Обзор R-added OCaml завершён; других обоснованных неоднозначных мест не найдено. Luna HIGH review **GO**; committed closure/config **PASS**. Точный proof/infra`ff7fbd1daa9b89f74ec79c313ad27f6bd80f5b53`, release[R1](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R1-RELEASE-2026-10-18.json).
+1. **R1:** `check_type scope (ty : D.ty)` и ADT lambda `(arg : D.generic_arg)` по pinned schema/callers. Сохранены оба unused_mut removals и `D.generic_arg_kind` annotation. Других обоснованных неоднозначных мест в R-added OCaml не найдено. Arms/refusals/regions/binders не менялись.
+2. **R2:** закрыта функция observer одной дополнительной `}` в каждом P0c/N-false31 suffix. Сохранены assertions/returns/cuts и исходный P1 caller.
+3. **R3:** из fixture `#![feature(...)]` удалён только неподдерживаемый `internal_features`; остальные feature entries и warnings/check policy сохранены.
+4. **R4:** исправлено service result-shape consumption: success tag отличает успешный lifecycle от error/not_run dictionaries во всех5связанных выборах. Ошибки сохраняются, независимые routes используют накопленный partial progress. Proof/admission/receipt predicates не менялись.
+5. **R5:** guarded artifact paths и nullable structures на связанных outside-action consumers; отсутствующие данные остаются недоступными, пути/успех не подставляются. Все `_need` AST-вызовы неизменны.
+
+Для каждого code diff один независимый **GPT-6 Luna HIGH**, fork none, без вложенной делегации, дал **GO**; [R1](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R1-REVIEW-2026-10-18.md), [R2](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R2-REVIEW-2026-10-18.md), [R3](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R3-REVIEW-2026-10-18.md), [R4](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R4-REVIEW-2026-10-18.md), [R5](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R5-REVIEW-2026-10-18.md). Статический review не выдавался за компиляцию.
+
+Каждый кандидат прошёл source-only exact base→43pre-R→fullR→unchangedC и committed closure/config preflight;33infra+107proof paths/160objects,169–170substitutions. Изолированные6служебных checks,6success-record synthetic cases,8artifact parser cases PASS; tiny string-parser probe только синтетический. Ни full runner, ни fixture/source constructor, ни compiler/decoder generation/refiner/verifier локально не запускались.
+
+Текущие identities ([полный R5 manifest](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R5-RELEASE-2026-10-18.json)):
+
+| Артефакт | Identity |
+| --- | --- |
+| Последний source/infra checkpoint | `6f3abaa45b97345cf467a7fc24a8b7d39ab09af7` |
+| Pre-submit R5 release publication | `6a9ba300018741b40e2cf357a26cbb307416be63` |
+| Полный R, неизменный послеR1 | `d99a5ed229533132b8292c5fc70ea93dbe261e9f76c2a0fcc6d6723e796454ca` |
+| C, побайтно прежний | `e7cdc8a8504338ccaab760975c1a3f1a739211d7f8d531dd214babc2005d894e` |
+| R5 profile | `0725058f726be256ee239b9a5e0d1bb91fd65618a6ae16292b712491fd9fb453` |
+| R-after/C-before translator | `ffacadc74de9dded1e50e9b9a71f75a905cf97c7c823427cf7044494e87d052d` |
+| C-after translator | `a11741f096eb2e1808cadcb8a49eeeb33117630ae6c141d0202af22b14a9b8c3` |
+| R5 source payload | `fd9b74d4d518256d017b099884f5c0b4809eb99f73c3ff0f3f473f5d9e351dcc` |
+
+R-before/exporter/compiler/decoder и все43pre-R patches сохранены; toolbase`f76012fb518703b1d98e243ac4f487f16877cfcb`,compiler`nightly-2026-09-25`/`f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f`,decoder`2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2`. Runtime std, kernel/model/prelude/refiner, C/G, contracts, domain и26inventory не менялись. Parser/admission helpers тоже побайтно прежние.
 
 ### Запуски
 
+Все source/infra кандидаты и release checkpoints опубликованы до submit, remote SHA подтверждён. Только существующая полная конфигурация R-only→C→26, timeout900s; неизвестный ответ не ретраился.
+
 | Build UUID | Точный кандидат / manifest | Изменение или гипотеза | Terminal status | Brief / установленный результат | Charge |
 | --- | --- | --- | --- | --- | --- |
-| `92524a3d-fec8-4e74-a902-271f791e8bb7` | `ff7fbd1daa9b89f74ec79c313ad27f6bd80f5b53` / [R1 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R1-RELEASE-2026-10-18.json) | Две expected-type аннотации, полный R-only→C→26 | FAILURE | [Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R1-BRIEF-2026-10-18.md): R-only и final-C exit0; P0a unclosed delimiter, original/lib.rs156 | 415s |
-| `ae9fd22f-a143-4a4f-9d7c-2911ec1ad042` | `28cd86597b07e6c2726cf1c391cfdfbd28997a98` / [R2 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R2-RELEASE-2026-10-18.json) | Два delimiter fix в fixture, R/C прежние; полный R-only→C→26 | FAILURE | [R2 Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R2-BRIEF-2026-10-18.md): tool stages exit0, P0a unknown feature internal_features | 401s |
-| `20180c22-c6e9-49d5-9819-1e88aa703d35` | `5651bd99099a102de077c241139fb48235e8c326` / [R3 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R3-RELEASE-2026-10-18.json) | Удалён unsupported feature из fixtureheader; полный R-only→C→26 | FAILURE | [R3 Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R3-BRIEF-2026-10-18.md): R/C stages exit0, runner KeyError positive_cases | 421s |
-| `729160af-7f20-4a8a-b238-cc8aa077cc35` | `864fe65f21b5ca381b9417726e7f509453de91ae` / [R4 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R4-RELEASE-2026-10-18.json) | Tagged success/error-result wiring, predicates прежние; полный R-only→C→26 | FAILURE | [R4 Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R4-BRIEF-2026-10-18.md): namedR/C exit0, runner KeyError path | 433s |
-| `87df47e4-002b-432c-bc87-56612136b448` | `6f3abaa45b97345cf467a7fc24a8b7d39ab09af7` / [R5 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R5-RELEASE-2026-10-18.json) | Partialartifact/structure availability, gates прежние; полный R-only→C→26 | FAILURE | [R5 Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R5-BRIEF-2026-10-18.md):26reported,8classified/5inc/13notrun; InventoryError9362 | 445s |
-
-Отправлен первый Build; source/infra/release опубликованы до submit, remoteSHA подтверждён. [Refreshed baseline Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-BASELINE-BRIEF-7987E81F-2026-10-18.md): actualD.rvalue/expectedstring,102/102 records; исходный Brief сохранён. Expected-type admin audit больше не нужен, прежние unknowns не повышены.
+| `92524a3d-fec8-4e74-a902-271f791e8bb7` | `ff7fbd1daa9b89f74ec79c313ad27f6bd80f5b53` / [R1 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R1-RELEASE-2026-10-18.json) | Две OCaml type annotations; полный R-only→C→26 | FAILURE | [Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R1-BRIEF-2026-10-18.md): R-only/final-C named stages exit0; P0a unclosed delimiter | 415s |
+| `ae9fd22f-a143-4a4f-9d7c-2911ec1ad042` | `28cd86597b07e6c2726cf1c391cfdfbd28997a98` / [R2 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R2-RELEASE-2026-10-18.json) | Два closing delimiters observer; полный R-only→C→26 | FAILURE | [Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R2-BRIEF-2026-10-18.md): R-only/final-C named stages exit0; P0a unknown feature | 401s |
+| `20180c22-c6e9-49d5-9819-1e88aa703d35` | `5651bd99099a102de077c241139fb48235e8c326` / [R3 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R3-RELEASE-2026-10-18.json) | Удалён unsupported feature entry; полный R-only→C→26 | FAILURE | [Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R3-BRIEF-2026-10-18.md): R-only/final-C named stages exit0; runner KeyError positive_cases | 421s |
+| `729160af-7f20-4a8a-b238-cc8aa077cc35` | `864fe65f21b5ca381b9417726e7f509453de91ae` / [R4 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R4-RELEASE-2026-10-18.json) | Success/error-result discrimination; полный R-only→C→26 | FAILURE | [Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R4-BRIEF-2026-10-18.md): R-only/final-C named stages exit0; runner KeyError path | 433s |
+| `87df47e4-002b-432c-bc87-56612136b448` | `6f3abaa45b97345cf467a7fc24a8b7d39ab09af7` / [R5 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R5-RELEASE-2026-10-18.json) | Partial artifact/structure availability; полный R-only→C→26 | FAILURE | [Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R5-BRIEF-2026-10-18.md): 26source rows:8classified/5inc/13notrun; InventoryError quoted string9362 | 445s |
 
 ### Итог evidence
 
-R1: R-only и final-C named stages exit0; own reference receipt требуется pinned flow между ними, но его содержимое/hash отдельно не раскрыты Brief. P0a normal/readonly/refinement exit1; proof outcome не установлен. Остальные26/P1/N-false31 UNKNOWN, поскольку Brief не содержит per-row verdicts; неизвестное не превращается в NOT_RUN.
-A1/A2 OPEN, formal credit отсутствует.
+- **R-only/exporter/console build:** именованные R-only reference и final-C build stages R1–R4 имеют source-observed exit0. Это успешные сборочные стадии конкретных кандидатов, а не вывод из количества нулевых exits. Прежние OCaml/unused_mut ошибки больше не блокируют эти сборки; исчерпывающее отсутствие любых warning diagnostics отдельно не заявляется.
+- **Собственный reference receipt:** pinned flow требует новый receipt между этими стадиями; его bytes/hash/acceptance отдельно Brief не показывает. В R5 compact Brief эти два named stages отдельно не приведены; завершение tool reconstruction поддержано только frozen source flow к P0a. Старые receipts не подставлялись и не кредитовались.
+- **Финальный C:** сборка R1–R4 подтверждена именованным stage0; C был неизменным. Это не proof completion и не профиль acceptance.
+- **26 строк:** R5 Brief source aggregate **8INTENDED_CLASSIFIED/5INCONCLUSIVE/13NOT_RUN**. Поимённые verdicts не раскрыты. [Таблица26имён/границы provenance](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-MATRIX-2026-10-18.md) и [machine result](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R5-RESULT-2026-10-18.json) оставляют индивидуальные verdicts UNKNOWN, не угадывают mixed mapping. 8source classifications не означают8доказанных std теорем.
+- **P1:** полный own native-interface/equality/refinement outcome UNKNOWN; credit не установлен.
+- **N-false31:** собственные default/Freeze body+conformance, own receipt, threshold32/len32 admission и caller assertion lifecycle не установлены отдельным evidence. Positive-baseline receipt не кредитовался.
+- **A1/A2, B1/B2:** A1/A2 OPEN/NOT_ACHIEVED; нового независимо установленного B1/B2 formal credit нет. Full actual caller/helper transfer не доказан.
+- **Первый remaining reported blocker:** P0a `InventoryError: decoded VfMir parse failed: invalid quoted string at byte9362`, источник proof-auditSHA256`81414bda84c65ced707c66e720f3c26938b4dd321e920952065807635e838769`; diagnostic SOURCE_REPORTED, causality UNKNOWN. Реальный literal/field/escape не показан.
+- **Ограничения:** R5 181/181 stage records; orderNOT_ESTABLISHED,last stageUNKNOWN. Runexit0/evidencecompleteTrue/VERIFIED_ARCHIVE_AND_INVENTORY отдельны от proof. Нет raw downloads/log reads/CloudLogging и `download_verified` не устанавливался.
+- Source parser `_string` использует json.loads. [Synthetic probe](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-PARSER-SYNTHETIC-PROBE-2026-10-18.json) принимает JSON strings и отвергает synthetic`\x41`; это не диагноз реального9362. Grammar/parser реализация не менялась.
 
 ### Закрытие и следующий шаг
 
-Сессия активна,2Builds/415s accounted +960s reserved. Следующий шаг — минимальное исправление синтаксической сборки fixture: OBSERVER_SUFFIX не закрывает функцию observer. Подготовка review и нового полного Build в разрешённом scope; R/C не меняются.
-
-### Ход работы — R1 terminal и R2 гипотеза
-
-- R1 успешно прошёл обе named tool-build стадии; compiler blocker6884 не останавливает новую сборку. Полнота receipt evidence ограничена Brief.
-- Статическое чтение `_observer`: signature открывает функцию, guard открывает loop/if; P0c и N-false31 suffix закрывают только if/loop. Отсутствует финальная `}` функции, затем следует исходный P1 caller. Это согласуется с unclosed delimiter; точная причинность нескольких Cloud failures пока UNKNOWN.
-- R2: добавить только завершающую скобку в оба suffix literals как минимальный syntax/build-assembly fix. Assertions/cuts/target functions/source std/C/G/матрица не меняются. Source extractor/fixture constructor локально не запускался.
-
-- R2 подготовлен: два delimiter literal fix, статический AST/literal разбор PASS без запуска construct/extractor; повторная43pre-R/R/C source-only реконструкция PASS, R/C иcompiler/decoder/exporter неизменны. Profile`e8ee4cd419549931f52085252811fa0016320fd1bef31bb227da416091eecf8c`; helper`5fe5e65c8150ca583b37e7458b1da504ed46668da0a8413390e9f183f0d755d3`. Зависимые pins обновлены;6служебных checks PASS, exact-diff Luna HIGH **GO**, committed closure/config **PASS**. R2proof/infra`28cd86597b07e6c2726cf1c391cfdfbd28997a98`; [release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R2-RELEASE-2026-10-18.json).
-
-- R2 Build`ae9fd22f-a143-4a4f-9d7c-2911ec1ad042` отправлен после публикации`da099c42`; config`06fe4403335574cef498ae2576a4067a16dc35fd1941867e0cbad412989242a4`; terminal evidence pending.
-
-- R2 terminal: обе named tool stages exit0; P0a compiler unknown feature`internal_features`,original/lib.rs1:53. Новый R3 удаляет только неподдерживаемый feature entry из fixtureheader, без allow-lint/check изменений. R/C/compiler/decoder прежние. Reconstructed43pre-R/R/C PASS; review/closure pending.
-
-- R3 reviewed exactdiff **GO**, committed closure/config **PASS**: source/infra`5651bd99099a102de077c241139fb48235e8c326`, sourcepayload`b983837d2e8551da2fe0f1cd521998d1e859bc15049a6df1bdb6115a6b14065e`,170substitutions. [R3 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R3-RELEASE-2026-10-18.json). Два terminal Builds,816s accounted,active/unresolved none перед следующим submit.
-
-- R3 Build`20180c22-c6e9-49d5-9819-1e88aa703d35` принят после публикации`2fc75621`; config`2aea241075e39d448dad17e7a263c389922617203b0bdda6432d4b19ed43b7e1`;816s accounted +960reserved.
-
-- R3 terminal: R/C named stages и отдельные export/decode exit0; wrapper KeyError`positive_cases`. R4 исправляет tagged success-record consumption и4связанных fallback selections. Proof/admission/receipt predicates неизменны; failedobservations остаются, независимые rows используют существующий partial progress. 6synthetic classifier cases и source-only43pre-R/R/C PASS. Ни run(), ни proof/compiler/constructor локально не вызывались. Exactdiff review/closure pending.
-
-- R4 exact-diff Luna HIGH **GO**, committed closure/config **PASS**: source/infra`864fe65f21b5ca381b9417726e7f509453de91ae`,sourcepayload`af552c4ce77e97fdfcd2db39290ee9188dc166d876695089f864e31a283a4d01`;170substitutions. [R4 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R4-RELEASE-2026-10-18.json).
-
-- R4 Build`729160af-7f20-4a8a-b238-cc8aa077cc35` принят после публикации`8870728b`; config`5b9394f5c702c46ff9ee09026834587660e8fecf981a2768149abf1e3a8d0153`;1237s accounted+960reserved. Идентификатор получен тем же submit, повторной отправки не было.
-
-### Промежуточный отчёт около T+60 минут
-
--4Builds отправлены,3terminal/1237Cloudseconds accounted; R4`729160af-7f20-4a8a-b238-cc8aa077cc35` ACTIVE с960reserve. Старые счета не менялись.
-- R-only и финальный C named build stages exit0 в R1/R2/R3; это подтверждение сборочных stages, не proofacceptance. Own reference receipt contents/hash пока отдельно не доступны Brief.
-- OCaml typecontext, fixture delimiters и unsupported feature исправлены; R4 исправляет service success/error discrimination. Все code diffs прошли Luna HIGH GO и committedclosure.
-- Full26/P1/N-false31/A1/A2 пока не установлены. Продолжение в scope до20:59:16Z,absolute21:29:16Z; новых permissions/бюджета не добавлено.
-
-- R4 terminal: namedR/C exit0, partialexport/decode0; runner`normal_entry["path"]` KeyError2082. Статический producer всегда включаетpath, но consumerdefaults{} проходят Mapping-only guard послеP0aerror. Исправление availability/dereferenceguard готовится, без подстановкиpath или повышенияfailedgate; 1670s accounted за4Builds.
-
-- R5 объединяет string-path availability guards для partialMIR preparation/decoded/controls и Mapping guards дляnullable first/identity structures. 8synthetic parser cases PASS, все `_need` AST byte-equivalent;43pre-R/R/C source-only PASS. Никакой path/evidence/успех не подставлен; отсутствующие dependent inputs не исполняются и не получаютcredit, остальные строки продолжаются. Review/closure pending.
-
-- R5 exact-diff Luna HIGH **GO**, committed closure/config **PASS**: source/infra`6f3abaa45b97345cf467a7fc24a8b7d39ab09af7`, sourcepayload`fd9b74d4d518256d017b099884f5c0b4809eb99f73c3ff0f3f473f5d9e351dcc`;170substitutions. [R5 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R5-RELEASE-2026-10-18.json).
-
-- R5 Build`87df47e4-002b-432c-bc87-56612136b448` принят после публикации`6a9ba300`; config`03dedc36e963dfed431d17cbf5b93bdcc94429d51bf7608e2d232b2cf2584ae8`;1670s accounted+960reserved.
-
-### R5 terminal / запрос решения
-
--5terminal Builds,**2115s** charged,ownactive/unresolved none. R5 rootrunexit0 не proofacceptance;BuildFAILURE,source NOT_ACCEPTED_AS_REPORTED.
-- Brief:181/181stage records,orderUNKNOWN;26source-reported rows,8INTENDED_CLASSIFIED/5INCONCLUSIVE/13NOT_RUN. Поимённые verdicts не раскрыты: [26-row evidence table](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-MATRIX-2026-10-18.md) сохраняетUNKNOWNиндивидуально, а не подставляет guessedmapping.
-- ПервыйreportedblockerP0a: InventoryErrorinvalidquotedstring9362; actualquotedliteral/field/escape не показаны. P1 иN-false31fullreceipt/lifecycle неизвестны;A1/A2OPEN,formalcreditнет.
-- Source `_Parser._string` использует json.loads;3tiny synthetic parser probes подтверждаютJSON-only limitation, но не доказываютactualescapeв9362. Parser/admissiongrammar не изменялась.
-- Подготовлен [узкий admin audit / scope decision](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-NEXT-DECISION-2026-10-18.md), вопрос владельцу отправлен. Доявногоответаrawaccess/parsergrammarchanges/newBuildдляобходаreportgapнеразрешены. В пределахscopeпродолжаетсясверкаpins/отчёта;сессияпокаожидаетрешения.
+- **5 terminal Builds / 2115Cloudseconds**. Own ledger CLOSED_SCOPE_BOUNDARY_PARSER_AUDIT_PENDING; remaining16845 — закрытый технический numeric headroom, не переносимый бюджет/деньги и не разрешение на продолжение.
+- Own active/unresolved IDs отсутствуют; отмен не требовалось, request withdrawn через coordinator. Чужие reservations/protocol не редактировались. Исторические счета и evidence сохранены.
+- Время завершения `2026-10-18T20:21:51Z`. Причина — достигнута buildability, дальнейший конкретный parser fix нельзя выбрать без литерала, а grammar входит в source/admission boundary за пределами compile/build-wiring scope (§2). Цель полного receipt/26proof evidence не объявляется достигнутой.
+- [Отдельный узкий admin audit/scope request](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-NEXT-DECISION-2026-10-18.md) подготовлен и отправлен владельцу:≤16KiB,≤30rawlines, actualliteral/escape/offsets+SHA,26named statuses,receipt facts; без Build/toolchain. Ответ/авторизация на момент checkpoint не получены, ожидание не считалось разрешением. До явной авторизации raw access запрещён.
+- Следующий шаг: получить этот компактный audit result, затем отдельно решить минимальный parser compatibility scope с неизменными shape/identity/admission predicates. Никакого нового Build только ради отчётности. Дальнейшая реализация/Cloud потребует нового задания/scope/window; фоновой работы после завершения нет.
+- Последний tested source checkpoint`6f3abaa45b97345cf467a7fc24a8b7d39ab09af7`; [session card](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-SESSION-2026-10-18.md), все releases/Briefs/results опубликованы. Parser-кандидат не реализован; непроверенных code changes послеR5 нет. Итоговый docs checkpoint — publication commit, содержащий этот отчёт; полный remote SHA сообщается в финальном ответе, чтобы не путать его с исполненным source SHA.

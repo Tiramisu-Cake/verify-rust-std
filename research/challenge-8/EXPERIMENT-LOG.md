@@ -7785,3 +7785,20 @@ records hypothesis/domain/fullposts/gates,outcome decisions and newledger;oldclo
 accounts preserved. Refreshed baselineBrief adds expectedstring;newR annotates
 check_typeD.ty/ADTargD.generic_arg only;source-onlyR/C+6service checksPASS,review
 and committedclosure pending. No newproofcredit.
+
+
+### Buildability session final checkpoint — 2026-10-18T20:21:51Z
+
+FivefullBuilds:92524a3d/415s,ae9fd22f/401s,20180c22/421s,729160af/433s,
+87df47e4/445s,total2115s;allterminalFAILURE,accountCLOSEDatscopeboundary,ownactive/
+unresolvednone,requestwithdrawn. ExactfullIDs/source/profile/config hashes and
+allhypothesesin [currenttaskreport](CURRENT-TASK.md) and
+[sessioncard](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-SESSION-2026-10-18.md).
+R/CbuildabilitysuccessnamedR1-R4stages0. MinimalR2/R3fixtureandR4/R5servicewiring
+fixesLunaHIGHGO;C/compiler/decoder/kernel/contracts/G/26unchanged. Finaltestedsource
+6f3abaa45b97345cf467a7fc24a8b7d39ab09af7. R5rootrun0notproof;sourceaggregate26:
+8INTENDED_CLASSIFIED/5INCONCLUSIVE/13NOT_RUN,individualnamesunexposed. Reportkeeps
+individualUNKNOWN. RemainingP0aInventoryErrorinvalidquotedstring9362;parseruses
+JSONliteralparser,actualbytesunknown. No grammar/admissionchange;boundedadminaudit
+requestedseparately,no rawaccess. Receiptcontents/P1/N-false31/A1/A2notestablished;
+noformalcredit. Alloldaccounts/evidenceandownerlocaldocspreserved,nocarry.
