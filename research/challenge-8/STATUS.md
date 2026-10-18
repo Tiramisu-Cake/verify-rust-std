@@ -1,3 +1,28 @@
+# MERGE — stale base pin: исправление подготовлено, без commit/Build
+
+2026-10-17: владелец предоставил ограниченный admin audit Build `a7ad5ce8`
+и принял причину: `provider-overlay` отказал на устаревшем base pin `run.sh`.
+Сообщение full-stderr.log:2 передано владельцем; raw evidence здесь не читались.
+Ожидаемый `a0ddebad…` соответствует parent `e2d8182f`/blob `a65817f5…`;
+фактический `ae0aa063…` точно воспроизводится из proof `08b61d81`/blob `a7db3efd…`.
+Статически base validation расположена до transforms/static-preflight/runner.
+Brief v2 подтверждает mismatch, но не выполнение стадий; о запуске инструментов
+и результатах верификации по этому Brief утверждений нет.
+
+По отдельному поручению подготовлена замена одного pin в `provider-overlays.py`;
+все 18 checks без изменений. Recipe связывает adapter и inputs одним PROOF_SHA,
+старые commits используют свои adapter pins; override-конфигураций не найдено.
+Regression test: 18 Git blob hashes, synthetic positive boundary и однобайтовый
+отказ для каждого input до transforms/без изменения sources. AST/bash syntax
+и static production diff checks прошли. Независимый source review GPT-6 Luna High: GO, замечаний нет; reviewer также
+выполнил три regression tests и diff check: PASS. Исполняемый fix/test оставлены uncommitted для решения владельца.
+Повторная сверка происхождения и три regression tests 2026-10-18: PASS.
+Fix готов к фиксации и следующему отдельно разрешённому CI Build; не cloud-tested.
+Новых Builds/бюджета/proof credit нет; tool/profile/ledger/verdicts сохранены,
+CLOSED 103/960 s, 857 retired. Commit и Build требуют следующих решений владельца.
+
+Предыдущие checkpoints ниже сохранены как история.
+
 # MERGE — административный аудит: требуется ограниченная выборка
 
 2026-10-17: продолжение от `df0a29a0`, owner merge, новых Builds/бюджета 0.

@@ -6893,3 +6893,46 @@ checks только; synthetic service tests/review не требуются бе
 не менялся, B1/новые normal/unwind/B2 credit не повышены. Следующий шаг — получить
 ограниченный admin ответ; Build/retry требуют отдельной авторизации. Обычные
 CI results после этой попытки аудита снова только smallsort-brief.
+
+
+## 2026-10-17 — stale run.sh base pin: source-only correction prepared
+
+Owner supplied bounded administrative finding: full-stderr.log:2 reports actual
+run.sh SHA256 ae0aa063624630f651fc4b466bc2e39c0ad017be75652a43ae2130eea672ca54;
+log hash checked by administrator. Root did not read raw evidence. Owner accepted
+cause, authorized minimal fix/tests/source review but reserved commit and Build.
+Git analysis: proof=infra08b61d8162b1c01c840ed573847622a004232a05 changed run.sh
+profile-name selection but retained provider-overlays.py FILES pin from0d16c161.
+Old expected a0ddebad721fe49d510f74b52f0eae105bef863a5258f919ab915ab63bc8e279
+matches parent e2d8182fc4f0f4d5425ae0f3fdc25bf6da1103cf blob
+a65817f5ffffc6c0a599e9cedbee128600419846; actual matches selected proof blob
+a7db3efdec43759d491d679e0237fbe9734646a9. Other17 base pins match. Static ordering places the provider-overlay validation
+before transforms and runner invocation. Brief v2 confirms the mismatch but does
+not establish stage execution or verification results; no such credit is claimed. Previous Brief/admin-attempt records remain unchanged.
+
+Prepared production diff changes one expected hash only. All18 exact validations
+and validate-before-write ordering preserved. merge recipe uses same proof_paths
+contract for adapter and run.sh; all six modes share the gate, no configured
+MERGE_OVERLAY_TOOL override found. Historical0d16c161/e2d8182f same-proof pairs
+still match all18. No dual-version adapter is needed for these source contracts.
+New test-provider-base-pins.py statically checks all18 Git inputs and runs only
+synthetic data through main validation with transforms mocked to stop immediately.
+Three tests PASS, including18 one-byte mutation subcases; no source mutation or
+manifest after refusal. AST/bash syntax and diff checks PASS. Independent source review by GPT-6 Luna High: GO, no findings; reviewer
+independently ran the three tests and git diff --check successfully. No compiler,
+extraction, verifier, Cloud Build, commit or push. Tool/profile and historical
+verdicts/results/ledger/budget unchanged;103/960 CLOSED,857retired, zero proof gain.
+
+
+## 2026-10-18 — stale pin correction rechecked against source provenance
+
+Owner clarified that Brief v2 SOURCE_PIN_MISMATCH/causal_status UNKNOWN does not
+prevent correcting independently established pin drift. Rechecked unchanged
+candidate: current run.sh equals Git blob at proof08b61d81 byte-for-byte; adapter
+expected hash matches that blob, while historical expected hash matches its parent.
+The failed commit modified run.sh profile selection without modifying the adapter.
+All three regression tests PASS again (18 source hashes and18 synthetic one-byte
+refusals). Earlier independent GPT-6 Luna High source review remains applicable:
+production/test bytes unchanged. No tool execution/result claim from old Brief.
+Candidate ready for commit review and a separately authorized new CI Build;
+no commit/push/Build here, no proof credit or historical ledger/budget changes.
