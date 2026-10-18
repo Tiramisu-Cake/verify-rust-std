@@ -1,3 +1,28 @@
+# MERGE — R1 ACTIVE: first-comparator invoked; neutral marker fix READY
+
+Build1 **2f7ba4a0-1c94-4c05-a33f-0a959a340b06**, proof=infra762932d3,
+FAILURE/528charged seconds. Reader v6/Processor0.7.0: B1 selected/receiver gates
+source all_matched=True; first-callback prefix/fullbody both source_exact=True,
+exporter/decode/refinement0,verifast2, INCONCLUSIVE. Observed Not_found in translator
+List.find3138. HRTB registration/official first-Continue qualifier sourceTrue,
+local markerFalse; full CURRENT false/true/panic recovery not established.
+All4resource negatives and admission group source NOT_RUN_PREFIX_PREREQUISITE_FAILED.
+Whole-Build causal_status UNKNOWN. B2 OPEN; no independent proof credit.
+[Fresh result/provenance](cloud-build/origin-layout/R1-BUILD1-RESULT-20261018.json).
+
+Prepared exact neutral source correction: tool2a507868 vs52ba7e25, sole line adds
+NoopStmt cut_l for already consumed/validated scope marker. Real scope end/CFG and
+strict lookup unchanged. Profile SHA566457f4…/patchfc34d5e0…/translatorb9232f69…;
+old manifest and historical source preserved.18strictbasepins/run.sh unchanged.
+14patches/16sourcefiles/14profilepins/18basepins static PASS;4synthetic PASS;
+independent Luna High final GO including receipt-path correction to nested /cases/.
+New candidate not Cloud-tested yet. Session remains main through21:04:30Z,
+absolute21:34:30Z;528s used/no carryover, own active Build none. Next exact
+publication/closure check then concrete marker-fix Build with all mandatory gates.
+[Agent report](CURRENT-TASK.md), [semantic rationale](cloud-build/origin-layout/FIRST-CALLBACK-SEMANTIC-CARD-20261017.md).
+
+Earlier checkpoints below preserved.
+
 # MERGE — R1 ACTIVE: profile-scoped compatibility pin + dispatch receipts
 
 Session2026-10-18T19:04:30Z, main21:04:30Z, absolute21:34:30Z; owner merge,

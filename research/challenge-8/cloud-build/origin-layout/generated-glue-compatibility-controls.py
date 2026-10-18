@@ -268,8 +268,8 @@ def run(evidence: Path, args, env: dict[str, str], base, positive_case: Path) ->
         raise FileNotFoundError('hosted capnp and official refiner are required')
     source_gate = _synthetic_defaults_gate(
         Path(args.tool_home) / 'src/refinement_checker/refinement_checker.ml', refiner, args.profile)
-    gate_case = evidence / 'source-compatibility'
-    gate_case.mkdir()
+    gate_case = evidence / 'source-compatibility' / 'cases' / 'legacy_synthetic_drop_defaults'
+    gate_case.mkdir(parents=True)
     (gate_case / 'classification.json').write_text(json.dumps({
         'case': 'legacy_synthetic_drop_defaults', 'profile': args.profile,
         'classification': 'STATIC_SOURCE_COMPATIBILITY_ONLY_NO_PROOF_CREDIT',

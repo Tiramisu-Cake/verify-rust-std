@@ -22,7 +22,7 @@ def record(evidence: Path, *, status: str, binding: dict,
            'reason': ('First-comparator invocation skipped because prerequisite gate failed'
                       if not ready else 'Dispatch observation, not target proof'),
            'details': details or {}}
-    directory = Path(evidence) / 'first-comparator-dispatch'
+    directory = Path(evidence) / 'first-comparator-dispatch' / 'cases' / 'dispatch'
     directory.mkdir(parents=True, exist_ok=True)
     (directory / 'classification.json').write_text(json.dumps(row, indent=2) + '\n')
     return row

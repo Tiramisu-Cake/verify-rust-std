@@ -204,3 +204,48 @@ pins. Independent Luna High review before one concrete corrective Build. Outcome
 new Build establishes whether mandatory B1 gates qualify and first-comparator
 campaign reaches real obligations; any next failure handled in existing scope,
 never weaken guards or treat setup negative as intended proof rejection.
+
+
+### R1 next hypothesis: consumed-marker placeholder bookkeeping (before implementation)
+
+Fresh Build2f7ba4a0 executes first-callback prefix/fullbody cases, both report
+INCONCLUSIVE/verifast exit2. Sanitized Brief context observes Not_found at
+translate_fn_call List.find line3138; not an independently causal whole-Build verdict.
+Source52ba7e25: exporter preprocessor.rs283 emits VeriFast_ghost_command for the
+in-body first_callback_scope_end annotation. After exact first marker/protocol
+validation, translator5982 filters that marker. The first_strict_scope_ends branch
+6020 supplies only Noop at original closing brace, whereas old callback branch
+supplies end_stmt at cut_l. Generic placeholder lookup3138 remains exact List.find.
+Thus the validated first scope-end placeholder has no source-location statement.
+
+Candidate minimal neutral bookkeeping correction: ONLY for the existing validated
+first_strict_scope_ends branch, retain Ast.NoopStmt cut_l in addition to original
+Ast.NoopStmt closeBraceLoc. Do not emit an extra logical scope end: real end stays
+in existing generated scope_end_bb. No change to marker admission, strict-scope
+checks, HRTB/binder/resource checks, CFG edges/labels, continuation placement,
+cleanup actions, contracts/posts, kernel/model/prelude/exporter/refiner/runtime.
+No general lookup fallback or accepting unknown marker. This maps an already
+consumed control marker to a no-op, not a new ownership rule or unwind mechanism.
+Independent reviewer must confirm this neutral boundary before candidate Build;
+if it requires changing binding/CFG semantics, return decision to owner.
+
+Hypothesis falsifier: new pinned Cloud cases must get past this lookup; successful
+build alone does not confirm it, nor prove CURRENT normal/unwind resources. Keep
+prefix/fullbody and all original positive/negative gates separate. Static checks:
+exact one-line tool delta from52ba7e25, exact annotation retained, full ordered
+patch reconstruction/sourcepins18basepins, no new changes outside translator;
+existing synthetic dispatch/source gate tests unaffected. New identities for
+translator/tool/combined patch/profile; refiner core pin remains d20a unchanged.
+
+
+R1 receipt-path follow-up (before path-only correction): fresh v6 index projects
+19 `/cases/` cases and first-callback target results, but neither standalone
+outside-`/cases/` service classification is projected. Packaging source saves
+all files; Reader support for other paths is unverified. Relocate ONLY the two
+new no-credit classification files to `<existing-directory>/cases/<identity>/`
+using the already observed nested `/cases/` convention. Keep outer directory
+names, record contents, gates, statuses and proof predicates unchanged. This is
+an evidence-path correction paired with the independently needed translator fix;
+no extra Build is justified solely for reporting. Update synthetic receipt-path
+assertion and source-only preflight expected path list; independent review before
+submit. Reader nested-field projection remains a reporting limitation, not credit.

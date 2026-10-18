@@ -414,3 +414,18 @@ Independent stale compatibility source pin defect corrected only by exact
 profile-scoped hashes. Diagnostic receipts retain fail-closed prerequisite gates.
 Static preflight PASS; Luna High GO. No new Build yet. Tool52ba7e25/profile84949dd9
 unchanged; first comparator/full-body target still unestablished; B2 open.
+
+
+### R1 Build1 terminal / marker-fix candidate ready
+
+Build2f7ba4a0 FAILURE19:30:57Z, charged528s, proof=infra762932d3, tool52ba7e25,
+profile84949dd9 unchanged. Fresh Reader v6 index available; all hashes linked by
+receipt. First campaign invoked; exporter/decode/refinement0/VF2 in both exact
+prefix/fullbody. Observed Not_found at translator3138; no CURRENT branch proof.
+B1 selected/receiver all_matchedTrue source claims;5dependent target controls
+sourceNOT_RUN_PREFIX_PREREQUISITE_FAILED. Causal whole-Build statusUNKNOWN.
+[Result](R1-BUILD1-RESULT-20261018.json). Minimal neutral candidate tool2a507868,
+profile566457f4/patchfc34d5e0/translatorb9232f69, one Noop marker location; prior
+manifest preserved. Nested/cases no-credit receipt paths corrected. Static14/16/
+14/18 +4synthetic PASS; Luna High GO. Build2 pending publication/source closure.
+B2 open, no independent new credit; active own Build none. Main/absolute unchanged.

@@ -1,0 +1,251 @@
+{
+  "schema": "merge-r1-build-result-v1",
+  "build_id": "2f7ba4a0-1c94-4c05-a33f-0a959a340b06",
+  "terminal_status": "FAILURE",
+  "proof_sha": "762932d3158f7c5dcab0294a2a6c815c3bcd1a19",
+  "infra_sha": "762932d3158f7c5dcab0294a2a6c815c3bcd1a19",
+  "tool": "52ba7e2506af993007675269111a24d15406d58b",
+  "profile_sha256": "84949dd9b08e6eb867b9f17b3d2149dcd41b44f219bcc369e2970bf5eca90a3f",
+  "build_seconds": 528,
+  "processing_status": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "evidence_complete_source_claim": true,
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "whole_build_causal_status": "UNKNOWN",
+  "build_milestone_observed_exits": {
+    "console-build": [
+      0,
+      0
+    ],
+    "decoder-build": [
+      0
+    ],
+    "exporter-build": [
+      0
+    ],
+    "refiner-build": [
+      0
+    ],
+    "tracked-md-compile": [
+      0
+    ],
+    "tracked-md-preparation": [
+      0
+    ],
+    "translator-build": [
+      0
+    ]
+  },
+  "first_callback_results_source_claims": {
+    "/": {
+      "source_fields": {
+        "accepted": false,
+        "all_target_controls_matched": false,
+        "b2_achieved": false,
+        "classification": "DIAGNOSTIC_ONLY_UNTIL_ALL_GATES_MATCH",
+        "prefix_current_normal_unwind_proved": false,
+        "schema": "first-callback-campaign-v1"
+      },
+      "reference": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+        "sha256": "e5cb55c499eb1ce84058bc1876a2ad38f7bf29e7710b06793069e68332ae8100",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "/results/full_body": {
+      "source_fields": {
+        "accepted": false,
+        "b2_achieved": false,
+        "classification": "INCONCLUSIVE",
+        "current_false_true_panic_proved": false,
+        "cut": null,
+        "first_error": "Fatal error: exception Not_found",
+        "full_insert_tail_proved": false,
+        "hrtb_registration_observed": true,
+        "intended_negative": false,
+        "local_first_continue_observed": false,
+        "mutation": null,
+        "official_first_continue_qualified": true,
+        "prefix": false,
+        "proof_credit": false,
+        "runtime_frontiers": {
+          "actual_first_call_line": false,
+          "actual_late_call_line": false,
+          "actual_read_line": false,
+          "actual_shift_line": false,
+          "actual_update_line": false,
+          "false_return_line": false
+        },
+        "schema": "first-callback-result-v1",
+        "source_exact": true,
+        "stages": {
+          "decode": 0,
+          "exporter": 0,
+          "refinement": 0,
+          "verifast": 2
+        }
+      },
+      "reference": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+        "sha256": "e5cb55c499eb1ce84058bc1876a2ad38f7bf29e7710b06793069e68332ae8100",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "/results/prefix": {
+      "source_fields": {
+        "accepted": false,
+        "b2_achieved": false,
+        "classification": "INCONCLUSIVE",
+        "current_false_true_panic_proved": false,
+        "cut": "immediately before tail.read/ManuallyDrop/guard; true path returns at cut",
+        "first_error": "Fatal error: exception Not_found",
+        "full_insert_tail_proved": false,
+        "hrtb_registration_observed": true,
+        "intended_negative": false,
+        "local_first_continue_observed": false,
+        "mutation": null,
+        "official_first_continue_qualified": true,
+        "prefix": true,
+        "proof_credit": false,
+        "runtime_frontiers": {
+          "actual_first_call_line": false,
+          "actual_late_call_line": false,
+          "actual_read_line": false,
+          "actual_shift_line": false,
+          "actual_update_line": false,
+          "false_return_line": false
+        },
+        "schema": "first-callback-result-v1",
+        "source_exact": true,
+        "stages": {
+          "decode": 0,
+          "exporter": 0,
+          "refinement": 0,
+          "verifast": 2
+        }
+      },
+      "reference": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+        "sha256": "e5cb55c499eb1ce84058bc1876a2ad38f7bf29e7710b06793069e68332ae8100",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "/results/admission_controls": {
+      "source_fields": {
+        "all_matched": false,
+        "classification": "NOT_RUN_PREFIX_PREREQUISITE_FAILED",
+        "proof_credit": false
+      },
+      "reference": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+        "sha256": "e5cb55c499eb1ce84058bc1876a2ad38f7bf29e7710b06793069e68332ae8100",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "/results/lost_cell_owner": {
+      "source_fields": {
+        "classification": "NOT_RUN_PREFIX_PREREQUISITE_FAILED",
+        "intended_negative": false,
+        "proof_credit": false
+      },
+      "reference": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+        "sha256": "e5cb55c499eb1ce84058bc1876a2ad38f7bf29e7710b06793069e68332ae8100",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "/results/lost_current_f": {
+      "source_fields": {
+        "classification": "NOT_RUN_PREFIX_PREREQUISITE_FAILED",
+        "intended_negative": false,
+        "proof_credit": false
+      },
+      "reference": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+        "sha256": "e5cb55c499eb1ce84058bc1876a2ad38f7bf29e7710b06793069e68332ae8100",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "/results/lost_reference_fraction": {
+      "source_fields": {
+        "classification": "NOT_RUN_PREFIX_PREREQUISITE_FAILED",
+        "intended_negative": false,
+        "proof_credit": false
+      },
+      "reference": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+        "sha256": "e5cb55c499eb1ce84058bc1876a2ad38f7bf29e7710b06793069e68332ae8100",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "/results/lost_reference_token": {
+      "source_fields": {
+        "classification": "NOT_RUN_PREFIX_PREREQUISITE_FAILED",
+        "intended_negative": false,
+        "proof_credit": false
+      },
+      "reference": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+        "sha256": "e5cb55c499eb1ce84058bc1876a2ad38f7bf29e7710b06793069e68332ae8100",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    }
+  },
+  "b1_aggregate_source_claims": {
+    "allprooflogs/checked-minimal-bridge/onecell-selected-drop/aggregate.json": {
+      "accepted": false,
+      "all_matched": true,
+      "provenance": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/onecell-selected-drop/aggregate.json",
+        "sha256": "0d7ead12fb6a3f3c9ab6ede3ec6fa196b0fabf1f403e9a9ac7da29019ccac44c",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "allprooflogs/checked-minimal-bridge/onecell-selected-drop/receiver-controls/aggregate.json": {
+      "accepted": false,
+      "all_matched": true,
+      "provenance": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/onecell-selected-drop/receiver-controls/aggregate.json",
+        "sha256": "8fd07d7e233e96ad7d2fe9f58a0778a2444f55b4106e3d92fc84302d0dd710ca",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    }
+  },
+  "first_target_observed_blocker": {
+    "message": "Fatal error: exception Not_found",
+    "function": "Vf_mir_translator.Make.TrBody.translate_fn_call",
+    "source_line": 3138,
+    "ref": {
+      "archive_member": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verifast.log",
+      "sha256": "28b0680d62636a2b2b2aad7598aeb16fa9999d1530855d76ae3d8a1e8e98e5cc",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    "relevant_lines": [
+      {
+        "line": 56,
+        "text": "Fatal error: exception Not_found",
+        "withheld": null
+      },
+      {
+        "line": 57,
+        "text": "Raised at Stdlib__List.find in file \"list.ml\", line 224, characters 10-25",
+        "withheld": null
+      },
+      {
+        "line": 58,
+        "text": "Called from Vf_mir_translator.Make.TrBody.translate_fn_call.(fun) in file \"?REDACTED_LONG_VALUE?.ml\", line 3138, characters 14-266",
+        "withheld": null
+      }
+    ]
+  },
+  "remaining_questions": {
+    "whole_build_cause": "UNKNOWN; not extracted Processor; Reader accessible; source causal statement existence unknown",
+    "exact_missing_placeholder_runtime_location": "not included in processed context; static source establishes missing cut marker correspondence, candidate needs Cloud falsification",
+    "new_service_receipt_projection": "not projected Processor; Reader index accessible; inventory/payload packaging source saves files but runtime receipt content unavailable in derived index",
+    "normal_false_true_panic": "joint current_false_true_panic_proved=False source claim; no separate successful per-branch receipts",
+    "nested_B1_controls": "all_matched=True source claim; nested individual prerequisite detail not projected Processor"
+  },
+  "proof_credit_added": false,
+  "b2_achieved": false,
+  "raw_evidence_access": false,
+  "download_verified_set": false
+}

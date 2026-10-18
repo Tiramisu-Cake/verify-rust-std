@@ -45,7 +45,8 @@ class ServiceTests(unittest.TestCase):
         source = 'src/refinement_checker/refinement_checker.ml'
         for name, commit, manifest in (
             (V8, 'a158398e336edce9817f62a55733a3470a986d7b', 'GLUE-PROFILE-V8-20261012.json'),
-            (FIRST, '52ba7e2506af993007675269111a24d15406d58b', 'GLUE-PROFILE.json')):
+            (FIRST, '52ba7e2506af993007675269111a24d15406d58b', 'GLUE-PROFILE-FIRST-CALLBACK-PRE-MARKER-FIX-20261018.json'),
+            (FIRST, json.loads((HERE/'GLUE-PROFILE.json').read_text())['effective_tool_commit'], 'GLUE-PROFILE.json')):
             with self.subTest(profile=name):
                 data = subprocess.check_output(['git', '-C', tool, 'show', f'{commit}:{source}'])
                 expected = compat.PINNED_REFINER_SOURCE_SHA256_BY_PROFILE[name]
@@ -82,7 +83,7 @@ class ServiceTests(unittest.TestCase):
                                       prerequisites={'b1_matched': ready})
                 self.assertFalse(row['accepted'])
                 self.assertFalse(row['proof_credit'])
-                self.assertEqual(json.loads((Path(temp)/'first-comparator-dispatch/classification.json').read_text()), row)
+                self.assertEqual(json.loads((Path(temp)/'first-comparator-dispatch/cases/dispatch/classification.json').read_text()), row)
             for status, ready in [('NOT_RUN_PREREQUISITE_FAILED', True), ('DISPATCHED', False)]:
                 with self.assertRaises(ValueError):
                     dispatch.record(Path(temp), status=status, binding=binding, prerequisites={'b1_matched': ready})

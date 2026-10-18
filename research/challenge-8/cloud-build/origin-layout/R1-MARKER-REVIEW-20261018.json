@@ -1,0 +1,20 @@
+{
+  "reviewer": "GPT-6 Luna",
+  "reasoning_effort": "high",
+  "fork_turns": "none",
+  "nested_delegation": false,
+  "verdict": "GO",
+  "tool": "2a5078681bf9b750d2fedb2223666df2f9baaeea",
+  "tool_delta": "sole NoopStmt cut_l sentinel for already validated and consumed marker; no new logical statement/rule/CFG edge; original close Noop retained; strict generic List.find unchanged",
+  "incremental_receipt_path_review": "GO: only two no-credit paths moved to observed /cases/<identity>/classification.json convention; record contents and predicates unchanged",
+  "reviewed_sha256": {
+    "research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json": "566457f424e21a52274ee3227f1f292696d43f8775dba8b5bc05444b6c9ff4c1",
+    "research/challenge-8/cloud-build/origin-layout/first-callback.patch": "fc34d5e0666fe5ab12546229449253406637ff55326877e35f5a01cedd4597de",
+    "research/challenge-8/cloud-build/origin-layout/first-comparator-dispatch.py": "959e5501ff3a4bd1773b9441b090d0f53fc382a54dfe2edfabc69635bfa32e78",
+    "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py": "24944b97e856de67cf5a2581230054f8e724f80af6702f78a339ea96cfe278d0",
+    "research/challenge-8/cloud-build/origin-layout/r1-service-test.py": "be695c654aaa0be9aeceb726de12f1d042b3dd79c11188d09e9427601c4e2ad5",
+    "research/challenge-8/cloud-build/origin-layout/r1-marker-source-preflight.py": "2dfdfbfcd16a95530778ba335be9fee85e063422f26ac6016ccb87c0ab1890c7"
+  },
+  "checks": "14orderedpatches/16reconstructedfiles/14profilepins/18strictbasepins PASS_STATIC_ONLY;4synthetic tests PASS;git diff --check PASS",
+  "static_not_proof_credit": true
+}

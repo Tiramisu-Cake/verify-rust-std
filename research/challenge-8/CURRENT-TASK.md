@@ -152,23 +152,23 @@ Tool commit остаётся в локальной назначенной вет
 
 ## Отчёт агента
 
-Начато исполнение 2026-10-18T19:04:30Z. Новых Builds пока нет; исторические accounts закрыты и не используются.
+Начато исполнение 2026-10-18T19:04:30Z. Сейчас один новый Build terminal/accounted (528s); исторические accounts закрыты и не используются.
 
 ### Сессия
 
-- Статус: ACTIVE — R1 Build submitted; awaiting terminal/Brief.
+- Статус: ACTIVE — first-comparator case blocker source diagnosis; next neutral fix under review.
 - ID задания: `merge-first-comparator-2026-10-18-r1`.
 - T0 / main deadline / absolute deadline (UTC): `2026-10-18T19:04:30Z` / `21:04:30Z` / `21:34:30Z`.
-- Project/tool HEAD: `431f43f54060558330489dd9190bfc97ca31f55e` / `52ba7e2506af993007675269111a24d15406d58b`; Evidence Brief policy revision2026-10-17 / commit584891be. WORK-POLICY/COMPLETION-PLAN и current assignment приняты.
+- Стартовые Project/tool HEAD: `431f43f54060558330489dd9190bfc97ca31f55e` / `52ba7e2506af993007675269111a24d15406d58b`; Evidence Brief policy revision2026-10-17 / commit584891be. WORK-POLICY/COMPLETION-PLAN и current assignment приняты.
 - Phase `MERGE-FIRST-COMPARATOR-R1-2026-10-18`, owner merge; новый отдельный ledger зарегистрирован. Только временное окно, без скрытого старого960s ceiling.
-- Project clean, кроме предоставленного untracked CURRENT-TASK.md; назначенный tool clean на52ba7e25. Задание выше сохранено побайтно, другие worktrees не изменяются.
+- На старте Project clean, кроме предоставленного untracked CURRENT-TASK.md; tool был clean на52ba7e25. Задание выше сохранено побайтно, другие worktrees не изменяются.
 
 ### Диагноз, изменения и review
 
 - Актуальный Brief e3252f3a получен через smallsort-brief; v6 schema/Processor0.7.0 установлены через Reader receipt/index, SHA linkage проверен; provenance/time/SHA сохранены в R1-BASELINE-BRIEF-PROVENANCE-20261018.json. Все build milestones exit0; smoke и bounded positives source-reported PASS; first-comparator records отсутствуют, NOT_RUN не выводится.
 - Flow прослежен до packaging. B1 matched gate предшествует first-callback.run. Найден stale compatibility source pin: gate требует e232… для любого профиля, выбранный профиль и exact tool blob требуют d20a…. Это source defect, не установленная runtime-причина старого Build. Штатный Reader index доступен; per-question source/Processor/Reader ограничения записаны в R1-BASELINE-INDEX-ASSESSMENT-20261018.md. Старый runtime cause UNKNOWN; raw audit не выполнялся.
 - До реализации rationale/source applicability/gates записаны в FIRST-CALLBACK-SEMANTIC-CARD-20261017.md, раздел R1. План: profile-scoped strict hash mapping с сохранением v8, compact classification/dispatch receipts через существующие schemas. Ни tool/profile, ни trusted semantics не меняются.
-- Project proof=infra `762932d3158f7c5dcab0294a2a6c815c3bcd1a19`, release `ab26b351`; tool52ba7e25/profile84949dd9/patchdf08af37 unchanged. R1-RELEASE-20261018.json:106proofpaths,14patches,432081byte immutable payload/145parts, SHA87a6b062…. Published exact source checked.
+- Первый кандидат Project proof=infra `762932d3158f7c5dcab0294a2a6c815c3bcd1a19`, release `ab26b351`; tool52ba7e25/profile84949dd9/patchdf08af37 unchanged. R1-RELEASE-20261018.json:106proofpaths,14patches,432081byte immutable payload/145parts, SHA87a6b062…. Published exact source checked.
 - Reporting-path follow-up reviewer: packaging всех payload подтверждён; поддержка Reader classifications вне /cases/ не установлена доступными исходниками. Receipt absence не заменяет execution evidence и не оправдывает новый Build только ради reporting.
 - Статические проверки:14patches/16reconstructed files/14profilepins/18strictbasepins PASS;4synthetic service tests PASS. Независимый Luna High review GO, source hashes в R1-REVIEW-20261018.json; tool/profile unchanged.
 
@@ -177,24 +177,25 @@ Tool commit остаётся в локальной назначенной вет
 | Build UUID | Точный кандидат / manifest | Изменение или гипотеза | Terminal status | Brief / установленный результат | Charge |
 | --- | --- | --- | --- | --- | --- |
 
-| `2f7ba4a0-1c94-4c05-a33f-0a959a340b06` | `762932d3` / R1-RELEASE-20261018.json | profile-scoped compatibility pin; full mandatory matrix + dispatch receipts | submitted | terminal/Brief pending | reserved960s |
+| `2f7ba4a0-1c94-4c05-a33f-0a959a340b06` | `762932d3` / R1-RELEASE-20261018.json | profile-scoped compatibility pin; full mandatory matrix + dispatch receipts | FAILURE19:30:57Z | fresh Brief: campaign invoked; prefix/fullbody INCONCLUSIVE, Not_found in translator List.find;5dependent controls source NOT_RUN | 528s |
 
 Один Build; дубликаты не отправлялись. Результаты сопровождать provenance и ограничениями; полный Brief не вставлять.
 
 ### Итог evidence
 
-- Tool buildability: —
-- Ordinary normal/unwind smoke: —
-- Helper/generated Drop bounded fragments и B1 regressions: —
-- First actual FnMut/HRTB admission: —
-- Normal false / normal true / first Continue-panic recovery: —
-- Source-linked prefix / separate full-body frontier: —
-- Official first-unwind comparison и mutant: —
-- Resource-loss / HRTB / binder / late-Cleanup и остальные mandatory controls: —
-- Подробная компактная таблица obligations/results/provenance: —
-- B2 и formal credit: —
-- Причина общего FAILURE, если установлена; иначе UNKNOWN: —
-- Первый подтверждённый blocker / запрос на недостающее evidence: —
+- Tool buildability: Build1 все7build milestones observed exit0; старое translator-type исправление подтверждено.
+- Ordinary normal/unwind smoke: Build1 source-reported PASS.
+- Helper/generated Drop bounded fragments и B1 regressions: Build1 selected/bridge/receiver all_matched=True source claims; accepted=False, не generic proof/admissibility.
+- First actual FnMut/HRTB admission: Build1 source hrtb_registration_observed=True; полная admission qualification не установлена, controls source NOT_RUN.
+- Normal false / normal true / first Continue-panic recovery: Build1 joint current_false_true_panic_proved=False; ни одна из трёх веток отдельно не доказана.
+- Source-linked prefix / separate full-body frontier: Build1 оба INCONCLUSIVE, source_exact=True, exporter/decode/refinement0/verifast2; observed Not_found translator List.find3138. Local first-Continue markerFalse, runtime statement trace flagsFalse не означают NOT_RUN.
+- Official first-unwind comparison и mutant: Build1 official_first_continue_qualified=True source claim; mutant в admission group source NOT_RUN_PREFIX_PREREQUISITE_FAILED.
+- Resource-loss / HRTB / binder / late-Cleanup и остальные mandatory controls: все4resource-loss и admission group source NOT_RUN_PREFIX_PREREQUISITE_FAILED, не intended-negative credit.
+- Подробные obligations/results/provenance: R1-BUILD1-RESULT-20261018.json, Reader schema v6/Processor0.7.0, receipt hashes совпали.
+- B2 и formal credit: OPEN/False; нового independent proof credit нет.
+- Причина общего FAILURE: UNKNOWN в Processor; конкретный case blocker выше не переносится в общий causal verdict.
+- Новый tool-кандидат `2a5078681bf9b750d2fedb2223666df2f9baaeea`: sole Noop location; profile SHA566457f424e21a52274ee3227f1f292696d43f8775dba8b5bc05444b6c9ff4c1, patchfc34d5e0…, translatorb9232f69…. Старый manifest сохранён, R1-MARKER-IDENTITIES-20261018.json. Static14/16/14/18 +4synthetic PASS, final Luna High GO. Build2 ещё не отправлен; новая publication/closure проверка готовится.
+- Первый свежий blocker: prefix/fullbody translator placeholder lookup List.find Not_found, наблюдается в Brief. Source-level отсутствует statement для уже валидированного first scope-end marker; минимальный Noop-location candidate и rationale записаны до реализации в semantic card, bounded review запрошен. Whole-Build causal_status UNKNOWN.
 
 ### Закрытие и следующий шаг
 

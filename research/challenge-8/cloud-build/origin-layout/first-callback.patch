@@ -458,7 +458,7 @@ index 68ceedc7..eade1c64 100644
            let dest1 = call1.destination in
            begin match call0.target, call1.target with
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index f381dd5a..aa7acb66 100644
+index f381dd5a..280588b0 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -1948,6 +1948,20 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -1003,7 +1003,7 @@ index f381dd5a..aa7acb66 100644
             source_pos l < source_pos cut_l && source_pos cut_l < source_pos closeBraceLoc)
             strict_lft_scope_ends with
 +         | Some (cut_l, _) when List.mem_assoc cut_l first_strict_scope_ends ->
-+             [Ast.NoopStmt closeBraceLoc]
++             [Ast.NoopStmt cut_l; Ast.NoopStmt closeBraceLoc]
           | Some (cut_l, _) -> [end_stmt cut_l; Ast.NoopStmt closeBraceLoc]
           | None -> [end_stmt closeBraceLoc]
      in

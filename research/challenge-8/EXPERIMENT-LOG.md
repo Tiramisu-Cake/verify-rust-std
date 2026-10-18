@@ -7159,3 +7159,16 @@ removes stale v8-only compatibility rejection without changing proof gates. New
 classification/dispatch receipts expose source flow without target credit.
 Tool/profile/patch unchanged. Source-only14patches/16files/14profilepins/18basepins
 PASS,4isolatedsynthetic tests PASS, independent Luna High GO. No Build yet.
+
+
+### R1 Build1: first comparator invoked, translation placeholder blocker
+
+2f7ba4a0 FAILURE/528s; proof=infra762932d3. Reader v6+receipt SHA linkage verified.
+B1 sourceall_matchedTrue; first prefix/fullbody exporter/decode/refinement0/VF2,
+INCONCLUSIVE/Not_found translator3138.5dependent controls explicitsourceNOT_RUN.
+[Result](cloud-build/origin-layout/R1-BUILD1-RESULT-20261018.json). No causal overall
+claim/proof credit. Before implementation semantic card records next hypothesis:
+consumed first_scope_end marker loses source-location placeholder. Tool2a507868
+sole NoopStmt cut_l addition; existing scopeend/CFG/strict lookup unchanged.
+Profile566457f4/patchfc34d5e0/translatorb9232f69; static14/16/14/18 +4synthetic PASS;
+Luna High GO. Receipt-only path changes paired, not separate proof experiment.
