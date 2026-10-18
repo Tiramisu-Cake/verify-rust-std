@@ -267,6 +267,27 @@ def authorized_phase(a,ledger):
    if (a.timeout!=900 or a.lane!='merge' or a.source_mode!='pinned-objects' or
        ledger.get('builds')!=[] or ledger.get('active_build') is not None):
     raise SystemExit('Pin-fix permits one pinned merge attempt, timeout900s; no retry')
+ if a.phase_id=='MERGE-FIRST-CALLBACK-TYPE-FIX-2026-10-18':
+  expected_ledger=DIR/'origin-layout'/'TYPE-FIX-BUDGET-20261018.json'
+  if (a.ledger.resolve()!=expected_ledger.resolve() or
+      a.owner!='merge' or ledger.get('owner')!='merge' or
+      ledger['ceiling_build_seconds']!=960 or ledger.get('allowed_lanes')!=['merge'] or
+      ledger.get('used_build_seconds')!=0 or ledger.get('remaining_build_seconds')!=960 or
+      ledger.get('start_utc')!='2026-10-18T14:13:12Z' or
+      ledger.get('main_deadline_utc')!='2026-10-18T16:13:12Z' or
+      ledger.get('deadline_utc')!='2026-10-18T16:43:12Z' or
+      ledger.get('max_builds')!=1 or ledger.get('max_timeout_seconds')!=900):
+   raise SystemExit('Type-fix phase differs from explicit owner authorization')
+  cutoff=datetime.datetime.fromisoformat('2026-10-18T16:43:12+00:00')
+  now=datetime.datetime.now(datetime.timezone.utc)
+  if now<datetime.datetime.fromisoformat(ledger['start_utc'].replace('Z','+00:00')):
+   raise SystemExit('Type-fix session has not started')
+  if a.command=='submit':
+   if now>=datetime.datetime.fromisoformat(ledger['main_deadline_utc'].replace('Z','+00:00')):
+    raise SystemExit('Type-fix main window passed; finishing only')
+   if (a.timeout!=900 or a.lane!='merge' or a.source_mode!='pinned-objects' or
+       ledger.get('builds')!=[] or ledger.get('active_build') is not None):
+    raise SystemExit('Type-fix permits one pinned merge attempt, timeout900s; no retry')
  if a.phase_id=='CI-IAM-E2E-ONCE-2026-10-17':
   # Separate, explicitly activated account; never reuse a historical ledger.
   expected_ledger=DIR/'ci-iam-e2e-once-20261017'/'BUDGET.json'

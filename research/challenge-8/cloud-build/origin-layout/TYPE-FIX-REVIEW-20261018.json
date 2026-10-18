@@ -1,0 +1,27 @@
+{
+  "schema": "first-fnmut-closed-type-review-v1",
+  "reviewer": "/root/review_closed_fnmut_type",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "fork_turns": "none",
+  "nested_delegation": false,
+  "verdict": "GO_FOR_ONE_FULL_CAMPAIGN_BUILD_STATIC_ONLY",
+  "tool": "52ba7e2506af993007675269111a24d15406d58b",
+  "findings": [],
+  "checks": [
+    "Exact sole tool type annotation; Ast.loc writer; exactly three tags; cons ordering and existing consumer rules unchanged.",
+    "Profile/patch dependent identities consistent; previous profile preserved;14patches reconstruct16sourcefiles;14sourcepins verified.",
+    "All18strictbasepins and complete controls/matrix retained; only profile+patch changed in proof recipe.",
+    "Exact owner/phase/ledger/deadline/fresh960budget/one900sattempt admission;6syntheticservice tests PASS.",
+    "Follow-up review of added14source-pin static Git checks: prior GO remains applicable."
+  ],
+  "hashes": {
+    "research/challenge-8/cloud-build/control.py": "65006a974044ea35c101cbdc39b5a8be92980b676ffb2a517097ebb7e5c96dd7",
+    "research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json": "84949dd9b08e6eb867b9f17b3d2149dcd41b44f219bcc369e2970bf5eca90a3f",
+    "research/challenge-8/cloud-build/origin-layout/first-callback.patch": "df08af37966ef28a9667dd8b50e45afa2e14ecf9d716e78765e2233820a64bd3",
+    "research/challenge-8/cloud-build/origin-layout/type-fix-source-preflight.py": "5427775bfa79ebf8bcff3c0d20478c98a5767a1e8ff3b714707684eb82199a66",
+    "research/challenge-8/cloud-build/origin-layout/type-fix-session-service-test.py": "d1532c6f18461739fa0e8e34426e2a1158df6c6b0320d59cb25ccaf751cb9ae3"
+  },
+  "buildability_confirmed": false,
+  "proof_acceptance": false
+}

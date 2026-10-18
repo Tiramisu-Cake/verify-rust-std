@@ -1,3 +1,21 @@
+# MERGE — TYPE-FIX сессия: кандидат к одному Build
+
+Phase MERGE-FIRST-CALLBACK-TYPE-FIX-2026-10-18, owner merge.
+T0 14:13:12Z/main16:13:12Z/finishing16:43:12Z; свежий960s,один Build<=900s.
+Tool52ba7e2506af993007675269111a24d15406d58b: только закрытая аннотация
+first_fnmut_calls; кандидат исправления до подтверждённой Cloud компиляции.
+Profile scope experimental-merge-first-callback-u64-v1 сохранён, новая точная
+identity SHA84949dd9b08e6eb867b9f17b3d2149dcd41b44f219bcc369e2970bf5eca90a3f.
+Independent Luna High GO; source-only14patches/16files/14sourcepins/18basepins PASS;
+6synthetic admission tests PASS. Обязательства/controls/18checks/run.sh сохранены.
+Подготовка публикации release/одного Build; evidence только через Brief.
+Old333/960/627retired и103/960/857retired CLOSED без переноса. B2 открыт.
+[Card](cloud-build/origin-layout/TYPE-FIX-CARD-20261018.md) ·
+[Identities](cloud-build/origin-layout/TYPE-FIX-IDENTITIES-20261018.json) ·
+[Review](cloud-build/origin-layout/TYPE-FIX-REVIEW-20261018.json).
+
+Предыдущие checkpoints ниже исторические.
+
 # MERGE — PIN-FIX CLOSED / INCONCLUSIVE
 
 Build **42b71cd8-7cfa-46ea-a6a6-502ed49f5b25** terminal FAILURE.

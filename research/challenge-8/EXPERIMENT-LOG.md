@@ -7020,3 +7020,23 @@ Next step requires explicit separate bounded admin audit per
 selection with provenance. No new semantic patch or Build authorized automatically.
 [Result](cloud-build/origin-layout/PIN-FIX-RESULT-20261018.json) · [Brief](cloud-build/origin-layout/PIN-FIX-EVIDENCE-BRIEF-20261018.md) ·
 [Release](cloud-build/origin-layout/PIN-FIX-RELEASE-20261018.json) · [Dispatch](cloud-build/origin-layout/PIN-FIX-DISPATCH-20261018.json).
+
+
+## 2026-10-18 — explicitly authorized closed-type translator candidate session
+
+Phase MERGE-FIRST-CALLBACK-TYPE-FIX-2026-10-18 owner merge, T014:13:12Z,
+main16:13:12Z,finishing16:43:12Z. Fresh960s/oneBuild<=900s; no retry/carryover.
+Prior333/960/627retired and103/960/857retired remain CLOSED. Candidate only adds
+Ast.loc * closed Continue/Cleanup/Other variant list-ref annotation; source writer/
+consumer checked before implementation. Tool52ba7e2506af993007675269111a24d15406d58b.
+Profile exact SHA84949dd9b08e6eb867b9f17b3d2149dcd41b44f219bcc369e2970bf5eca90a3f;
+scope label retained, previous profile bytes/patch preserved separately, historical
+records not rewritten. New combined patchdf08af37966ef28a9667dd8b50e45afa2e14ecf9d716e78765e2233820a64bd3.
+Compiler/dependencies/kernel/model/prelude/refiner/callback/runtime behavior frozen.
+Independent GPT-6 Luna High GO (no nested delegation),14ordered patches checked/
+applied to temporarysource-only tree,16files match toolcommit,14trustedsourcepins,
+18base hashes PASS;6synthetic new-session tests PASS. Only two proof recipe inputs
+changed(profile/patch); all mandatory gates and negatives unchanged. No local proof
+source extraction, compile/refine/verify or dependency install. Annotation remains
+candidate until fresh translator-build evidence. Details and old→new table in
+cloud-build/origin-layout/TYPE-FIX-CARD-20261018.md and TYPE-FIX-IDENTITIES-20261018.json.

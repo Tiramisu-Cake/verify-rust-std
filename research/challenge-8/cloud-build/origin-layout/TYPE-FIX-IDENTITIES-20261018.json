@@ -1,0 +1,29 @@
+{
+  "schema": "first-fnmut-type-fix-identities-v1",
+  "changes": {
+    "tool": {
+      "old": "d928cb1d7ac60c257daa537fa65577f41135f832",
+      "new": "52ba7e2506af993007675269111a24d15406d58b",
+      "reason": "sole explicit closed type annotation"
+    },
+    "profile_sha256": {
+      "old": "300fd8a7172c1644552b43c5bfda51a7c8a620f505012abd3760772df55102e3",
+      "new": "84949dd9b08e6eb867b9f17b3d2149dcd41b44f219bcc369e2970bf5eca90a3f",
+      "reason": "updated exact tool/translator/patch identities; scope label and semantic rules unchanged"
+    },
+    "first_callback_patch_sha256": {
+      "old": "b7bf867409fbf6fc6c0a9dcc25d3b286a94365380c30e4b3081dbd3f5708929d",
+      "new": "df08af37966ef28a9667dd8b50e45afa2e14ecf9d716e78765e2233820a64bd3",
+      "reason": "same baseline patch plus annotation"
+    },
+    "translator_source_sha256": {
+      "old": "fb9c7be7997fbe83016dc4258bb81f6d37af780bd7b3e21eaf6f668c8efab6b9",
+      "new": "be517cc54213ee350a0dfd6e892d2affb4bfa7d2c2a42e40232a4872bd83cc9f",
+      "reason": "two-line annotation replaces inferred ref[]"
+    }
+  },
+  "profile_label": "experimental-merge-first-callback-u64-v1",
+  "compiler_unchanged": "nightly-2026-09-25/f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+  "proof_infra_sha": "pending commit/release binding",
+  "old_build": "42b71cd8-7cfa-46ea-a6a6-502ed49f5b25"
+}

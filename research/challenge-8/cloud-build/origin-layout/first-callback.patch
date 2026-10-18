@@ -458,7 +458,7 @@ index 68ceedc7..eade1c64 100644
            let dest1 = call1.destination in
            begin match call0.target, call1.target with
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index f381dd5a..090341b1 100644
+index f381dd5a..aa7acb66 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -1948,6 +1948,20 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -494,7 +494,7 @@ index f381dd5a..090341b1 100644
      module State = struct
        let var_id_trs_map_ref = Args.var_id_trs_map_ref
        let ghost_stmts = ref Args.ghost_stmts
-@@ -1971,6 +1988,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -1971,6 +1988,13 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let callback_close = Args.callback_close
        let callback_recover = Args.callback_recover
        let callback_scope_start = Args.callback_scope_start
@@ -502,12 +502,13 @@ index f381dd5a..090341b1 100644
 +      let first_callback_used = ref false
 +      let first_callback_call_loc = ref None
 +      let first_callback_normal_target = ref None
-+      let first_fnmut_calls = ref []
++      let first_fnmut_calls :
++          (Ast.loc * [ `Continue | `Cleanup | `Other ]) list ref = ref []
 +      let first_callback_unwind_label = "#merge_first_callback_unwind"
        let callback_used = ref false
        let callback_call_loc = ref None
        let fnmut_call_count = ref 0
-@@ -1979,7 +2002,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -1979,7 +2003,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let translating_selected_resume = ref false
        let generated_glue = Args.body_tr_defs_ctx.generated_glue
        let is_generated_glue = Args.is_generated_glue
@@ -517,7 +518,7 @@ index f381dd5a..090341b1 100644
        let pending_hrtb_projection_eq : Ast.stmt list ref = ref []
  
        let fetch_ghost_stmts_before (l : Ast.loc0) =
-@@ -2406,46 +2430,92 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2406,46 +2431,92 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          in
          let projection_equality =
            let open Ast in
@@ -646,7 +647,7 @@ index f381dd5a..090341b1 100644
            | _ ->
                if canonicalize_item_name fn_name = "std::ops::FnMut::call_mut" then
                  Printf.eprintf
-@@ -2871,6 +2941,61 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2871,6 +2942,61 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          if TranslatorArgs.ignore_unwind_paths then ([], [])
          else translate_unwind_action (unwind_action_get fn_call_data_cpn) loc
        in
@@ -708,7 +709,7 @@ index f381dd5a..090341b1 100644
        let callback_cleanup =
          match State.callback_close, fn_call_rexpr with
          | Some (close_loc, lft, close_stmt),
-@@ -2964,15 +3089,29 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2964,15 +3090,29 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                                    [ LitPat (Var (loc, "__result")) ],
                                    Static ),
                                [ assignment (Ast.Var (loc, "__result")) ] @
@@ -742,7 +743,7 @@ index f381dd5a..090341b1 100644
              Ok
                ( [ call_stmt ],
                  Mir.GotoTerminator (loc, dst_bblock_id),
-@@ -5279,14 +5418,14 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5279,14 +5419,14 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
            (outlives_clause_cpn.region1.id, outlives_clause_cpn.region2.id)
      | Trait trait_clause_cpn ->
          let args = trait_clause_cpn.args |> List.map decode_generic_arg in
@@ -759,7 +760,7 @@ index f381dd5a..090341b1 100644
          Printf.sprintf "%s : %s<%s>"
            (string_of_decoded_type arg)
            name
-@@ -5299,7 +5438,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5299,7 +5439,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      |> Util.flatmap (function
           | `Trait
               ( ("std::marker::Sized" | "core::marker::Sized"),
@@ -768,7 +769,7 @@ index f381dd5a..090341b1 100644
               [ tparam ]
           | _ -> [])
  
-@@ -5308,7 +5447,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5308,7 +5448,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      |> Util.flatmap (function
           | `Trait
               ( ("std::marker::Send" | "core::marker::Send"),
@@ -777,7 +778,7 @@ index f381dd5a..090341b1 100644
               [ tparam ]
           | _ -> [])
  
-@@ -5317,7 +5456,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5317,7 +5457,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      |> Util.flatmap (function
           | `Trait
               ( ("std::marker::Sync" | "core::marker::Sync"),
@@ -786,7 +787,7 @@ index f381dd5a..090341b1 100644
               [ tparam ]
           | _ -> [])
  
-@@ -5438,6 +5577,190 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5438,6 +5578,190 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          | Some lft -> Some (Ast.stmt_loc stmt, lft)
          | None -> None) ghost_stmts
      in
@@ -977,7 +978,7 @@ index f381dd5a..090341b1 100644
      let callback_close, callback_recover, strict_lft_scope_ends, callback_scope_start =
        match marked "callback_close", scope_markers, marked "callback_recover" with
        | [], [], [] -> None, None, [], None
-@@ -5637,11 +5960,18 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5637,11 +5961,18 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
            let loc = match ghost_stmts with stmt :: _ -> Ast.stmt_loc stmt | [] -> fn_sig_loc in
            Ast.static_error loc "Incomplete or ambiguous callback cleanup markers" None
      in
@@ -997,7 +998,7 @@ index f381dd5a..090341b1 100644
          | Some (close_l, _, _), Some recover_stmt when l = close_l -> Ast.NoopStmt l
          | Some _, Some recover_stmt ->
              (match block_marker "callback_recover" stmt with
-@@ -5686,6 +6016,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5686,6 +6017,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
               | _ -> false) decls &&
             source_pos l < source_pos cut_l && source_pos cut_l < source_pos closeBraceLoc)
             strict_lft_scope_ends with
@@ -1006,7 +1007,7 @@ index f381dd5a..090341b1 100644
           | Some (cut_l, _) -> [end_stmt cut_l; Ast.NoopStmt closeBraceLoc]
           | None -> [end_stmt closeBraceLoc]
      in
-@@ -5717,6 +6049,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5717,6 +6050,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let callback_close = callback_close
        let callback_recover = callback_recover
        let callback_scope_start = callback_scope_start
@@ -1014,7 +1015,7 @@ index f381dd5a..090341b1 100644
      end) in
      let vdis_cpn = var_debug_info_get_list body_cpn in
      (* Since var id translation map is empty var debug info contains the plain Mir ids *)
-@@ -5965,30 +6298,47 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5965,30 +6299,47 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                     let args =
                       List.map decode_generic_arg proj_pred.projection_term.args
                     in
@@ -1074,7 +1075,7 @@ index f381dd5a..090341b1 100644
                     | _ -> [])
                 | _ -> [])
          in
-@@ -6414,10 +6764,152 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6414,10 +6765,152 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                        translate_basic_block ret_place_id bblock_cpn)
                      bblocks_cpn
              in
@@ -1227,7 +1228,7 @@ index f381dd5a..090341b1 100644
              (* This deliberately invalid generated call is a separately
                 profiled control. Select its local and receiver from the MIR
                 Drop edge, then place it immediately after that local's real
-@@ -7829,7 +8321,13 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7829,7 +8322,13 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                in
                impl_clauses
                |> List.iter @@ fun impl_clause ->
@@ -1242,7 +1243,7 @@ index f381dd5a..090341b1 100644
                     let string_of_clauses clauses =
                       String.concat ", " (List.map string_of_clause clauses)
                     in
-@@ -7852,7 +8350,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7852,7 +8351,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                in
                impl_clauses
                |> Util.flatmap (function
