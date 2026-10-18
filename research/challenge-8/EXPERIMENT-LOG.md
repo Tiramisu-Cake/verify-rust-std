@@ -7738,3 +7738,14 @@ reached by pinned flow. No formal credit, no raw fallback, no retry. Old ledgers
 and pins/checkpoints/policy bytes preserved. Account closed/request withdrawn.
 See A1-UNUSED-MUT-CHECKPOINT-2026-10-18.md, machine result and <=16KiB/30-line
 administrative diagnostic request for next evidence-based step.
+
+
+## 2026-10-18 — reloaded Brief identifies OCaml constructor error
+
+Ordinary Brief 0.5.1 now corroborates D.Type arity error at pinned R-only
+translator:6681. Previous reporting limitation resolved for choosing a minimal
+proposal. Source-based disambiguation hypothesis: annotate local match result
+D.generic_arg_kind. Separate overlay only; static apply/C compatibility PASS,
+no compiler validation. All26 source-reported NOT_RUN and no formal credit.
+Active patches/profile/pins/closed ledgers unchanged; no new Build/raw access.
+See diagnostic-7c26b389-ocaml-type-2026-10-18/REPORT.md and source-check.json.

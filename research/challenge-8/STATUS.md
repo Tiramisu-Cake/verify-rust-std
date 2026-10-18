@@ -1,34 +1,28 @@
-# select/sort4 — unused_mut fix Build failed at R-only build
+# select/sort4 — OCaml R-only build blocker identified
 
 Owner select-sort4; branch research/night-select-sort4-cloud-2026-10-09.
-Start d2444867 matched HEAD/remote; old reports/pins/ledgers and all8 local policy
-files preserved. Old Brief reporting gap resolved for choosing the two-mut fix.
 
-New candidate proof/infra e58a75bbdcf6704175ceebcd72a227607a92d2ae,
-release binding ab803728. New full R patch91fe9ad4…b6466 removes only the approved
-mut modifiers; exact exporter c29d0d46…b463ad verified via43-patch source chain/R/C
-maps.10 dispatcher+4 reuse tests PASS, independent source review and full committed
-closure/config preflight PASS. Source/synthetic evidence gives no formal credit.
+Reloaded Brief 0.5.1 for Build 7c26b389-1ad9-45c8-9adf-089125476fdb now reports
+OCaml `D.Type expects 0 argument(s)` at translator:6681; R-only reference build
+exit 2. The prior reporting gap is resolved for selecting a minimal proposal.
+Earlier checkpoints, reports, verdicts, pins and ledgers remain unchanged.
 
-One new authorized Build7c26b389-1ad9-45c8-9adf-089125476fdb finished FAILURE.
-Brief corroborates tool-reconstruction / a1-R-only-native-reference-build exit2;
-26 source-reported NOT_RUN, including P1/N-false31. Its diagnostic message array
-is empty: actual compiler/make error and exporter-vs-console result remain
-UNESTABLISHED. Do not infer that old unused_mut persisted or were eliminated.
-R-only receipt and final C tool are not reached by pinned source flow; no proof.
+Pinned source matches the diagnostic location. Separate one-line proposal adds
+`D.generic_arg_kind` type context to the local match result. Source-only patch
+application and unchanged-C compatibility PASS; compiler validation UNKNOWN.
+Active R/profile/release identities are unchanged: proof/infra e58a75bb,
+release ab803728, full R patch91fe9ad4…b6466, exporter c29d0d46…b463ad.
 
-New account charged433/960s (execution432s),1/1 Build, unused527 retired, CLOSED.
-Old330/960+630retired and earlier accounts remain closed unchanged; no carry.
-T008:37:29Z, main10:37:29Z, absolute11:07:29Z. Request withdrawn, no reservations.
-No raw archives/full logs/Cloud Logging read or downloaded; no download_verified.
+All 26 rows are source-reported NOT_RUN; P1, threshold proofs, own-pair N-false31
+lifecycle and final C success are unestablished. Stage order/last completed stage
+and Rust-exporter-alone outcome remain UNKNOWN. No formal credit; A1/A2 open.
 
-[Checkpoint](cloud-build/sort4-caller-entry-native/A1-UNUSED-MUT-CHECKPOINT-2026-10-18.md),
-[all26/lifecycle result](cloud-build/sort4-caller-entry-native/A1-UNUSED-MUT-RESULT-2026-10-18.json),
-[exact pins](cloud-build/sort4-caller-entry-native/A1-UNUSED-MUT-RELEASE-2026-10-18.json),
-[Brief](cloud-build/sort4-caller-entry-native/A1-UNUSED-MUT-EVIDENCE-BRIEF-2026-10-18.md),
-[bounded admin request](cloud-build/sort4-caller-entry-native/ADMIN-AUDIT-REQUEST-7c26b389-2026-10-18.md).
+[Current diagnosis and validation plan](cloud-build/sort4-caller-entry-native/diagnostic-7c26b389-ocaml-type-2026-10-18/REPORT.md),
+[Brief](cloud-build/sort4-caller-entry-native/diagnostic-7c26b389-ocaml-type-2026-10-18/brief.md),
+[separate proposal](cloud-build/sort4-caller-entry-native/diagnostic-7c26b389-ocaml-type-2026-10-18/PROPOSED-generic-arg-kind-annotation.patch).
 
-Next: separately authorize <=16KiB/30-line administrative diagnostic of the
-actual combined-build error before a next justified fix/new Build authorization.
-A1/A2 NOT ACHIEVED, index15%, profile UNACCEPTED. Actual small_sort→helper,
-A2/ZST/resources, C5/copies and sort8 remain outside this task.
+Account remains CLOSED: 433/960s charged, 1/1 Build, 527 retired; old accounts
+unchanged. No retry, new Build, raw audit or local compilation occurred.
+Next: authorize candidate activation and a separate Cloud allowance/window after
+review and source-only preparation. No administrative raw audit is required to
+select this fix; its compilation and later blockers remain untested.

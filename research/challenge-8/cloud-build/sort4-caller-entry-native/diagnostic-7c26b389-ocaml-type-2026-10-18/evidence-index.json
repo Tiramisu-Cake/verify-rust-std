@@ -1,0 +1,1390 @@
+{
+  "aggregates": {},
+  "archive_sha256": "4da91b4e0f81a8527bfbd45466c21e38daa1cb8cc57860648ec352c389a849ce",
+  "build_id": "7c26b389-1ad9-45c8-9adf-089125476fdb",
+  "capture_coverage": {
+    "aggregate_candidates": 0,
+    "aggregates_captured": 0,
+    "aggregates_not_captured": 0,
+    "budget_omitted_logs": 90,
+    "diagnostic_log_bytes": 80806,
+    "diagnostic_logs_captured": 16,
+    "oversized_logs": 0,
+    "stage_metadata_captured": 96
+  },
+  "cases": [
+    {
+      "case": "allprooflogs/cases/sort4-c1-current-recovery",
+      "first_observed_error": null,
+      "log_source": null,
+      "official_records": {},
+      "provenance": {
+        "a1-R-only-native-reference-build-stage.json": {
+          "archive_member": true,
+          "sha256": "66620752e728d7b7f66dfe0a20704d714845afd825a1f3fe1f18123e3b0e1e90",
+          "source_file": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build-stage.json",
+          "text_chunk_paths": []
+        },
+        "a1-R-only-native-reference-build.log": {
+          "archive_member": true,
+          "sha256": "f3ba5380316c6aee2aad00bc004aaaade6af5f9d2ba75f6b0569134314c81a9b",
+          "source_file": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+          "text_chunk_paths": [
+            "text-logs/a2eab57ef996656f094a761dcb8b44a70764a7dbc47a58ef5473b798996969cb.part-000000.txt"
+          ]
+        },
+        "apply-stage.json": {
+          "archive_member": true,
+          "sha256": "a43cdea0db40a0b76d421f3d773edda3fb33313289ee1419a6c8d47d50dd02d4",
+          "source_file": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-zst-size/apply-stage.json",
+          "text_chunk_paths": []
+        },
+        "apply.log": {
+          "archive_member": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "source_file": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-6/apply.log",
+          "text_chunk_paths": [
+            "text-logs/0c5a6c8fd4f2007b62545d5671232153d1806cc097d9b8747b35f70c90274cb8.part-000000.txt"
+          ]
+        },
+        "check-stage.json": {
+          "archive_member": true,
+          "sha256": "f32c1e2e2fd4e1fd0aa4a037bdffae847e61099207ec89cef02c7a73012c3077",
+          "source_file": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-zst-size/check-stage.json",
+          "text_chunk_paths": []
+        },
+        "check.log": {
+          "archive_member": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "source_file": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-5/check.log",
+          "text_chunk_paths": [
+            "text-logs/99016615dfceb922805c947122f0ee7607e558a4e37346941bc227ae8950db08.part-000000.txt"
+          ]
+        }
+      },
+      "stage_exit_codes": {}
+    }
+  ],
+  "caveats": [
+    "No new proof performed by processor.",
+    "Verifier error lines are observational and need original-classifier review for causal status.",
+    "Archived inventory bytes SHA-256 verified; separate GCS text chunk bytes not fetched.",
+    "Agent session-level evaluation requires a separate session manifest."
+  ],
+  "failure_diagnostics": {
+    "case_counts_evidence": "SOURCE_REPORTED",
+    "case_counts_reference": {
+      "archive_member": "proof-audit.json",
+      "sha256": "216c3a8ce72b1e6a0bdff71e0a67f25e9eac0e9fba6930212e3a82789de593f4",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    "case_status_counts": {
+      "NOT_RUN": 26
+    },
+    "case_total": 26,
+    "causal_status": "CORROBORATED_SOURCE_REPORT",
+    "issue": null,
+    "last_completed_stage": "UNKNOWN",
+    "limits": {
+      "log_bytes": 1048576,
+      "messages": 4
+    },
+    "log_diagnostic_counts": {
+      "OBSERVATIONS_EXTRACTED": 1
+    },
+    "message_coverage": {
+      "observations_selected": 2,
+      "omitted": 0,
+      "per_log_limit": 4,
+      "shown": 2
+    },
+    "messages": [
+      {
+        "category": "OCAML_COMPILER_ERROR",
+        "evidence": "OBSERVED",
+        "location": "rust_frontend/vf_mir_translator/vf_mir_translator.ml:6681",
+        "message": "The constructor D.Type expects 0 argument(s),",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+          "line": 1283,
+          "sha256": "f3ba5380316c6aee2aad00bc004aaaade6af5f9d2ba75f6b0569134314c81a9b",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        }
+      },
+      {
+        "category": "MAKE_FAILURE_SUMMARY",
+        "evidence": "OBSERVED",
+        "location": null,
+        "message": "make reported Error 1; child cause/status UNKNOWN",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+          "line": 1285,
+          "sha256": "f3ba5380316c6aee2aad00bc004aaaade6af5f9d2ba75f6b0569134314c81a9b",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        }
+      }
+    ],
+    "source_records": {},
+    "source_reported_blocker": {
+      "case_id": "tool-reconstruction",
+      "error": "RuntimeError: A1-TOOL: R-only native reference build",
+      "event": "adapter_error",
+      "evidence": "SOURCE_REPORTED",
+      "execution_started": true,
+      "reference": {
+        "archive_member": "proof-audit.json",
+        "sha256": "216c3a8ce72b1e6a0bdff71e0a67f25e9eac0e9fba6930212e3a82789de593f4",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "source_reported_causal_stage": "tool-reconstruction",
+    "stage_coverage": {
+      "candidate_records": 102,
+      "invalid_records": 0,
+      "not_captured": 6,
+      "omitted_records": 32,
+      "parsed_records": 96
+    },
+    "stage_failure": {
+      "classification": "TERMINAL",
+      "evidence": "OBSERVED",
+      "exit": 2,
+      "log_reference": {
+        "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+        "sha256": "f3ba5380316c6aee2aad00bc004aaaade6af5f9d2ba75f6b0569134314c81a9b",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "log_sha256_correlated": true,
+      "name": "a1-R-only-native-reference-build",
+      "reference": {
+        "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build-stage.json",
+        "sha256": "66620752e728d7b7f66dfe0a20704d714845afd825a1f3fe1f18123e3b0e1e90",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "timeout_seconds": 491
+    },
+    "stage_observations": [
+      {
+        "diagnostic_status": "OBSERVATIONS_EXTRACTED",
+        "evidence": "OBSERVED",
+        "exit": 2,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+          "sha256": "f3ba5380316c6aee2aad00bc004aaaade6af5f9d2ba75f6b0569134314c81a9b",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "messages": [
+          {
+            "category": "OCAML_COMPILER_ERROR",
+            "evidence": "OBSERVED",
+            "location": "rust_frontend/vf_mir_translator/vf_mir_translator.ml:6681",
+            "message": "The constructor D.Type expects 0 argument(s),",
+            "reference": {
+              "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+              "line": 1283,
+              "sha256": "f3ba5380316c6aee2aad00bc004aaaade6af5f9d2ba75f6b0569134314c81a9b",
+              "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+            }
+          },
+          {
+            "category": "MAKE_FAILURE_SUMMARY",
+            "evidence": "OBSERVED",
+            "location": null,
+            "message": "make reported Error 1; child cause/status UNKNOWN",
+            "reference": {
+              "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+              "line": 1285,
+              "sha256": "f3ba5380316c6aee2aad00bc004aaaade6af5f9d2ba75f6b0569134314c81a9b",
+              "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+            }
+          }
+        ],
+        "name": "a1-R-only-native-reference-build",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build-stage.json",
+          "sha256": "66620752e728d7b7f66dfe0a20704d714845afd825a1f3fe1f18123e3b0e1e90",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_NONZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-0/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-0/apply-stage.json",
+          "sha256": "565c110a7a40e4a6a3fad21c7ca4808c5f5192a9de4e5accdbb724f0026cbe2f",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-0/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-0/check-stage.json",
+          "sha256": "aa0f6ade1517364221d5a5e364346f9ec760e4b80e6c5e04ed3bc72bc087b27b",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-1/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-1/apply-stage.json",
+          "sha256": "f48677a0f65ef84a3436cbcc0e30f9079e72f4ae7ad86e37edc7da7ca7d32b9e",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-1/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-1/check-stage.json",
+          "sha256": "ffc4877606be711fec041025d2002ac847d0edd4680de97b0c9f7c5a0deff381",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-2/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-2/apply-stage.json",
+          "sha256": "f37319aafa9fadef193f6cfcb368e802aba0fd1b5b9f00f47e5ca68da536635f",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-2/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-2/check-stage.json",
+          "sha256": "867bc4edc4047c57bbb2edadae1826a5d55725371f03450f0d3d5e7925fb7ef9",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-3/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-3/apply-stage.json",
+          "sha256": "cb59c52b8e0593d9704ac2f2b60f57658f1bf29b2a85f3a59fe87d53bcc62d10",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-3/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-3/check-stage.json",
+          "sha256": "9af7e3445c3645b8fc3c3fb96c519e280f98553abf75512e17523ccaebe3c3b1",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-4/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-4/apply-stage.json",
+          "sha256": "9c7b21c1e9e6eb809b0323eb5c2c8e3585b58f99db33f05a04e091c7d705a9f0",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-4/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-4/check-stage.json",
+          "sha256": "3a0bd63d43b9801195ee0ca86a88bdbb8a551a070813d095021ccfb3c503e161",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-5/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-5/apply-stage.json",
+          "sha256": "d98b53df30c52de371d35d5253cc62326ddde25e20503a688bea3ae6fca9a329",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-5/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-5/check-stage.json",
+          "sha256": "d5e6caed99a75258f4efac9ea4004b66685d8ccc7e9121d13357eaff0e84061e",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-6/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-6/apply-stage.json",
+          "sha256": "26e86a0df0ef78f2a756a45c4b23194f4e608d25f80c1b23d927eff3f28180fb",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-6/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-6/check-stage.json",
+          "sha256": "1d0d26fcef734783d3a47bee9dafbb370650ad6c04b442b3e937d0eb3fbd0b58",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-7/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-7/apply-stage.json",
+          "sha256": "7fa26ea0d22c77129f804a567bc10de65ab34384b797074568809cd4d09ba68a",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-7/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-7/check-stage.json",
+          "sha256": "c2d63ae8f64c0de94be537dbc4ea8905ced098d8c0b9c4d755866a8fb6da5a8c",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-8/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-8/apply-stage.json",
+          "sha256": "a595e71e321d06fb3f89fb31fa30bc77098493adeaf8c1914e447d85193a34ce",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-8/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-8/check-stage.json",
+          "sha256": "158978bacb06d15f9551dd05e18359df081d02a2e36e0e98ea29f575c57bf42b",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-9/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-9/apply-stage.json",
+          "sha256": "b9dd6f20a786b0e4e51ed617a680755cd0b29de555dc735ba6b894388ba76b37",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-9/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-c4-9/check-stage.json",
+          "sha256": "bf05fb691231943c59d5462ecff0c258ba2ee9fde6c7d641d3713b3cb6184d82",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-dead-code-identity/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-dead-code-identity/apply-stage.json",
+          "sha256": "01ddf3c87fb71e668b43447542d0608f38e4e79d58400acd7725eee17f98ea51",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-dead-code-identity/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-dead-code-identity/check-stage.json",
+          "sha256": "eec75998c3be506a022f96d20c309adc528c806e739ac7e98540f6c2a80153a5",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-native-c1-bound/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-native-c1-bound/apply-stage.json",
+          "sha256": "c82a589d581fe27bb4375164c5af8c8b1f3c31647ccb41422c2f568d465b1ac6",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-native-c1-bound/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-native-c1-bound/check-stage.json",
+          "sha256": "6bbf5c07037f93b00c7118b2e0069ce0bf83d71d418ca18d44b1213151826882",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-native-c1-capture/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-native-c1-capture/apply-stage.json",
+          "sha256": "92fb1c47eebcc49abe9ada8a8dae7ee7f97330b712b78f4d49bd03cd112a4ad1",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-native-c1-capture/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-native-c1-capture/check-stage.json",
+          "sha256": "37e029bf395d998cbc7e93006b1cd5e764e994b9efe5f73df64d5a9da61167a7",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-native-c4-combined/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-native-c4-combined/apply-stage.json",
+          "sha256": "d6e70e8322cdb939a4987ce497797fbd57e7ca0257929037638073586b177b88",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-native-c4-combined/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-native-c4-combined/check-stage.json",
+          "sha256": "730f179104f4a3d73afb15f84d7cf99945c1872999ab9cc37aa0a7c3ec6c16a1",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-required-item-R/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-required-item-R/apply-stage.json",
+          "sha256": "fc721fed236da7eedbbae1566885d6418bcd98e8e46164b2c963c7eabce1be66",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-required-item-R/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-required-item-R/check-stage.json",
+          "sha256": "c99b3cbbe96484ce18cd189aef41aa1dc8ffd009c9fd9f63d88637d25ca526fd",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-selected-branch/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-selected-branch/apply-stage.json",
+          "sha256": "abc6384dd54b103d9e85a6aa588ae6f4064e63c5da6f85b64f434f31be8aecb4",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-selected-branch/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-selected-branch/check-stage.json",
+          "sha256": "028d36934a6b1ddabcdba9aedf31823b1118dd868463d6594ff5e514b1ee8ab5",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-slice-as-mut-ptr/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-slice-as-mut-ptr/apply-stage.json",
+          "sha256": "8d0cc910ece3e11edc1d5c906b866e16cd0b560c00fdfcdf4339514033fb7af2",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-slice-as-mut-ptr/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-slice-as-mut-ptr/check-stage.json",
+          "sha256": "a25edf3a8f344afcf20f0b4afd7e947e1906ab4e17ffd34bc3666ccd52c75a64",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-stable-threshold/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-stable-threshold/apply-stage.json",
+          "sha256": "f4493a27cc8466935001c45542091fcffbc09d7793b0eeea073bd497dffb4a8b",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-stable-threshold/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-stable-threshold/check-stage.json",
+          "sha256": "ae8959e0c83ec5818489d1369b20a75bf9e38bb531ee69a0806da3de9205f3a9",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-strict-0/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-strict-0/apply-stage.json",
+          "sha256": "d6c06862e5644d20488d084d25f984081da86da2eb9994e685eda4b7d9d9f08b",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-strict-0/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-strict-0/check-stage.json",
+          "sha256": "a8ddde5aeee89317a57e04fd70df444b6a35f4b254dc179d7f2575a2d5d4b7c4",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-strict-1/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-strict-1/apply-stage.json",
+          "sha256": "332d54bb2e6602a78941bf41c4143c58066bee889e17dc0ae10e5380a760e0eb",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-strict-1/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-strict-1/check-stage.json",
+          "sha256": "3653d96706434bc9646796fb0239317ab052dd7fa601b5036b46cbb545cead91",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-strict-2/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-strict-2/apply-stage.json",
+          "sha256": "48e2c3aecf2977753c4c2cbcc38369012d9652f4ea10eacdcd6c8cbf7ce20c5c",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-strict-2/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-strict-2/check-stage.json",
+          "sha256": "5c7d7940069cc1ad36df03632a39ee6f535c54305cd0d4b1e364134c13448ea1",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-zst-size/apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "apply",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-zst-size/apply-stage.json",
+          "sha256": "a43cdea0db40a0b76d421f3d773edda3fb33313289ee1419a6c8d47d50dd02d4",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "RECEIPT",
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-zst-size/check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "check",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/tool/a1-zst-size/check-stage.json",
+          "sha256": "f32c1e2e2fd4e1fd0aa4a037bdffae847e61099207ec89cef02c7a73012c3077",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "PAIRED_FILENAME_ONLY",
+        "log_reference": {
+          "archive_member": "allprooflogs/compiler.log",
+          "sha256": "081c3c9cf2e6359c99c26643c44793e2556e560674544faad006a1e409d52ef4",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "compiler",
+        "reference": {
+          "archive_member": "allprooflogs/compiler-exit-code.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "PAIRED_FILENAME_ONLY",
+        "log_reference": {
+          "archive_member": "allprooflogs/console-build.log",
+          "sha256": "dd873d4b684350c75f69a77e8a2cb249a4ae5371cf0bb156e2f2aad8b1e296e8",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "console-build",
+        "reference": {
+          "archive_member": "allprooflogs/console-build-exit-code.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "PAIRED_FILENAME_ONLY",
+        "log_reference": {
+          "archive_member": "allprooflogs/decoder-install.log",
+          "sha256": "9612ffd67f310d2c667242d5ec81e31c9d65a6920ea8d680a88a5ed99b6a605f",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "decoder-install",
+        "reference": {
+          "archive_member": "allprooflogs/decoder-install-exit-code.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "PAIRED_FILENAME_ONLY",
+        "log_reference": {
+          "archive_member": "allprooflogs/deps-download.log",
+          "sha256": "724eca70d2677054c1e4315da24d825f13c5c4a24c243250192f240b36a08c23",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "deps-download",
+        "reference": {
+          "archive_member": "allprooflogs/deps-download-exit-code.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "PAIRED_FILENAME_ONLY",
+        "log_reference": {
+          "archive_member": "allprooflogs/deps-extract.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "deps-extract",
+        "reference": {
+          "archive_member": "allprooflogs/deps-extract-exit-code.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "PAIRED_FILENAME_ONLY",
+        "log_reference": {
+          "archive_member": "allprooflogs/download.log",
+          "sha256": "4018b2cfb85cc863f0c7c74b266adeede9f58db4d5b1e4b2eef83bf6fd4f33cf",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "download",
+        "reference": {
+          "archive_member": "allprooflogs/download-exit-code.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "PAIRED_FILENAME_ONLY",
+        "log_reference": {
+          "archive_member": "allprooflogs/extract.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "extract",
+        "reference": {
+          "archive_member": "allprooflogs/extract-exit-code.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "PAIRED_FILENAME_ONLY",
+        "log_reference": {
+          "archive_member": "allprooflogs/package-index.log",
+          "sha256": "4f26d49f6a0e8b00ba7e97edb64cc8ef481cde1856aba9a1df27e36a443f7a82",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "package-index",
+        "reference": {
+          "archive_member": "allprooflogs/package-index-exit-code.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "PAIRED_FILENAME_ONLY",
+        "log_reference": {
+          "archive_member": "allprooflogs/packages-install.log",
+          "sha256": "2214cab14e996aee03df89e1f2355a00d62fb2c6bc1dfc4ba200a007ad9e0858",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "packages-install",
+        "reference": {
+          "archive_member": "allprooflogs/packages-install-exit-code.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "PAIRED_FILENAME_ONLY",
+        "log_reference": {
+          "archive_member": "allprooflogs/patch-1-apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "patch-1-apply",
+        "reference": {
+          "archive_member": "allprooflogs/patch-1-apply-exit-code.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "PAIRED_FILENAME_ONLY",
+        "log_reference": {
+          "archive_member": "allprooflogs/patch-1-check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "patch-1-check",
+        "reference": {
+          "archive_member": "allprooflogs/patch-1-check-exit-code.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "PAIRED_FILENAME_ONLY",
+        "log_reference": {
+          "archive_member": "allprooflogs/patch-10-apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "patch-10-apply",
+        "reference": {
+          "archive_member": "allprooflogs/patch-10-apply-exit-code.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "PAIRED_FILENAME_ONLY",
+        "log_reference": {
+          "archive_member": "allprooflogs/patch-10-check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "patch-10-check",
+        "reference": {
+          "archive_member": "allprooflogs/patch-10-check-exit-code.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "PAIRED_FILENAME_ONLY",
+        "log_reference": {
+          "archive_member": "allprooflogs/patch-11-apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "patch-11-apply",
+        "reference": {
+          "archive_member": "allprooflogs/patch-11-apply-exit-code.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "PAIRED_FILENAME_ONLY",
+        "log_reference": {
+          "archive_member": "allprooflogs/patch-11-check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "patch-11-check",
+        "reference": {
+          "archive_member": "allprooflogs/patch-11-check-exit-code.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "PAIRED_FILENAME_ONLY",
+        "log_reference": {
+          "archive_member": "allprooflogs/patch-12-apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "patch-12-apply",
+        "reference": {
+          "archive_member": "allprooflogs/patch-12-apply-exit-code.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "PAIRED_FILENAME_ONLY",
+        "log_reference": {
+          "archive_member": "allprooflogs/patch-12-check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "patch-12-check",
+        "reference": {
+          "archive_member": "allprooflogs/patch-12-check-exit-code.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "PAIRED_FILENAME_ONLY",
+        "log_reference": {
+          "archive_member": "allprooflogs/patch-13-apply.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "patch-13-apply",
+        "reference": {
+          "archive_member": "allprooflogs/patch-13-apply-exit-code.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      },
+      {
+        "evidence": "OBSERVED",
+        "exit": 0,
+        "linkage": "PAIRED_FILENAME_ONLY",
+        "log_reference": {
+          "archive_member": "allprooflogs/patch-13-check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_unavailable": "CAPTURE_BUDGET_EXCEEDED",
+        "name": "patch-13-check",
+        "reference": {
+          "archive_member": "allprooflogs/patch-13-check-exit-code.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "state": "EXIT_ZERO"
+      }
+    ],
+    "stage_order": "NOT_ESTABLISHED",
+    "stage_status_counts": {
+      "EXIT_NONZERO": 1,
+      "EXIT_ZERO": 95
+    },
+    "status": "CORROBORATED",
+    "unavailable": [
+      "STAGE_COVERAGE_INCOMPLETE_SEE_INDEX"
+    ]
+  },
+  "identities": {
+    "infra_sha": "e58a75bbdcf6704175ceebcd72a227607a92d2ae",
+    "proof_audit_path": "proof-audit.json",
+    "proof_sha": "e58a75bbdcf6704175ceebcd72a227607a92d2ae",
+    "tool_profile": {
+      "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+      "patches_in_application_order": [],
+      "rust_toolchain": "nightly-2026-09-25",
+      "scope": "no proof tools executed",
+      "std_base_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+      "verifast_source_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+    }
+  },
+  "integrity": {
+    "archive_inventory": {
+      "all_files_sha256_verified": true,
+      "excluded_metadata_verified": 2,
+      "unpacked_bytes": 2596250,
+      "verified_files": 356
+    },
+    "metadata": "SHA-256_CROSS_REFERENCES_VERIFIED",
+    "text_log_index": {
+      "chunk_object_bytes": "NOT_CHECKED_IN_GCS",
+      "chunks": 272,
+      "cross_checked_inventory_sha": true,
+      "source_files": 272
+    }
+  },
+  "processing_status": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "processor_version": "0.5.1",
+  "proof_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "reported": {
+    "diagnostic_complete": false,
+    "evidence_complete": true,
+    "failure_class": "none",
+    "lane": "o26-sort4-c1-current-recovery",
+    "missing_mandatory": [],
+    "run_exit_code": 0,
+    "text_logs_complete": true,
+    "verification_accepted": false
+  },
+  "schema": "smallsort-evidence-index-v4",
+  "source": {
+    "archive_uri": "gs://smallsort-ci-evidence-504462351565/cloud-build/7c26b389-1ad9-45c8-9adf-089125476fdb/evidence.tar.gz",
+    "bucket": "smallsort-ci-evidence-504462351565",
+    "original_prefix": "cloud-build/7c26b389-1ad9-45c8-9adf-089125476fdb"
+  }
+}

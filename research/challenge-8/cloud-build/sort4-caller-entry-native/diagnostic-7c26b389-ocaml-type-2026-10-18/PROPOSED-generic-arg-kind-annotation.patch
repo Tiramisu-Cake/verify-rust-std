@@ -1,0 +1,11 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -6677,7 +6677,7 @@
+         | _ -> Ast.static_error loc "A1 unsupported required-item type" None in
+       {ty with kind}
+     and normalize_required_arg regions (arg : D.generic_arg) : D.generic_arg =
+-      let kind = match arg.kind with
++      let kind : D.generic_arg_kind = match arg.kind with
+         | D.Type ty -> D.Type (normalize_required_ty regions ty)
+         | D.Lifetime r -> D.Lifetime
+             (if regions then {D.id = internal_region r.id} else r)
