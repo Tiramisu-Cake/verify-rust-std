@@ -615,21 +615,53 @@ def main() -> int:
         # fresh B1 gate in this same pinned campaign has qualified. No callee
         # summary, caller resource premise, or tool semantics changes here.
         b2_mode = HERE.parents[3] / "cloud-build/origin-layout/B2-ACTUAL-CAMPAIGN.json"
+        dispatch = None
+        if args.profile == "experimental-merge-first-callback-u64-v1":
+            dispatch = load("first_comparator_dispatch_receipt", HERE.parents[3] /
+                            "cloud-build/origin-layout/first-comparator-dispatch.py")
+            profile_path = Path(os.environ["SMALLSORT_MERGE_PROFILE"])
+            dispatch_binding = {"proof_sha": proof_sha, "profile": args.profile,
+                "profile_sha256": base.file_sha(profile_path),
+                "tool_commit": profile_card["effective_tool_commit"],
+                "tool_sha256": tool_hashes}
+            dispatch_prerequisites = {"b1_matched": matched,
+                "helper_matched": helper_matched, "exact_case_sets": exact,
+                "selected_all_matched": summary.get("all_matched") is True,
+                "mode_file_present": b2_mode.is_file()}
+            if not (matched and b2_mode.is_file()):
+                dispatch.record(args.evidence, status="NOT_RUN_PREREQUISITE_FAILED",
+                    binding=dispatch_binding, prerequisites=dispatch_prerequisites)
         if matched and b2_mode.is_file():
             mode = json.loads(b2_mode.read_text())
             if mode != {"schema": "merge-b2-actual-campaign-v1", "enabled": True,
                         "domain": "concrete-u64-guard-len1-three-cells"}:
+                if dispatch is not None:
+                    dispatch.record(args.evidence, status="INCONCLUSIVE_CAMPAIGN_EXCEPTION",
+                        binding=dispatch_binding, prerequisites=dispatch_prerequisites,
+                        details={"error": "B2 mode is not the exact pinned diagnostic", "invocation_started": False})
                 raise RuntimeError("B2 mode is not the exact pinned diagnostic")
             aggregate["b1_all_matched"] = True
             try:
+                if dispatch is not None:
+                    dispatch.record(args.evidence, status="DISPATCHED",
+                        binding=dispatch_binding, prerequisites=dispatch_prerequisites)
                 actual = load("actual_insert_tail_b2", HERE.parents[3] /
                               ("cloud-build/origin-layout/first-callback.py" if args.profile == "experimental-merge-first-callback-u64-v1" else
                                "cloud-build/origin-layout/actual-insert-tail-b2.py"))
                 aggregate["actual_insert_tail_b2"] = actual.run(
                     args.evidence / "actual-insert-tail-b2", args, env,
                     execute_case, environment)
+                if dispatch is not None:
+                    dispatch.record(args.evidence, status="CAMPAIGN_RETURNED",
+                        binding=dispatch_binding, prerequisites=dispatch_prerequisites,
+                        details={"classification": aggregate["actual_insert_tail_b2"].get("classification"),
+                                 "aggregate": "actual-insert-tail-b2/aggregate.json"})
                 aggregate["classification"] = "INCONCLUSIVE_B2_CAUSAL_DIAGNOSTIC"
             except Exception as error:
+                if dispatch is not None:
+                    dispatch.record(args.evidence, status="INCONCLUSIVE_CAMPAIGN_EXCEPTION",
+                        binding=dispatch_binding, prerequisites=dispatch_prerequisites,
+                        details={"error": repr(error)[:2000]})
                 aggregate["actual_insert_tail_b2"] = {
                     "classification": "INCONCLUSIVE_B2_SETUP", "error": repr(error),
                     "accepted": False, "proof_credit": False}

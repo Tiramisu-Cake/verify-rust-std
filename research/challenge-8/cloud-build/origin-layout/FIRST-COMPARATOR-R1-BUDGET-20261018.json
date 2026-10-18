@@ -1,0 +1,23 @@
+{
+  "phase": "MERGE-FIRST-COMPARATOR-R1-2026-10-18",
+  "owner": "merge",
+  "authorization_model": "time-window",
+  "allowed_lanes": [
+    "merge"
+  ],
+  "ceiling_build_seconds": 18960,
+  "technical_ceiling_not_user_spend_budget": true,
+  "technical_ceiling_calculation": "9000s absolute window +960s largest single reservation envelope +9000s rounding/bookkeeping headroom =18960s. Numeric client representation only; no separately authorized cumulative budget. Actual per-owner sequential accounting and deadlines govern; no carryover from closed accounts.",
+  "used_build_seconds": 0,
+  "remaining_build_seconds": 18960,
+  "builds": [],
+  "active_build": null,
+  "status": "AUTHORIZED",
+  "start_utc": "2026-10-18T19:04:30Z",
+  "main_deadline_utc": "2026-10-18T21:04:30Z",
+  "deadline_utc": "2026-10-18T21:34:30Z",
+  "max_timeout_seconds": 900,
+  "authorization": "Direct owner CURRENT-TASK merge-first-comparator-2026-10-18-r1: sequential concrete within-scope corrective Builds during120min main,30min finishing only; no separate cumulative seconds ceiling, technical numeric client representation; full gates/posts, frozen trusted semantics; source/Brief diagnosis, independent Luna High GO before changed candidate; no duplicate/unjustified rerun.",
+  "evidence_policy_revision": "2026-10-17",
+  "policy_revision": "584891be87db5c056bf9082c1ad24665eea74e69"
+}

@@ -21,7 +21,12 @@ HERE = Path(__file__).resolve().parent
 METHOD = '<CopyOnDrop as core::ops::Drop>::drop'
 SUCCESS = 'No refinement errors found'
 MISSING = 'Return local has no value in the refinement environment'
-PINNED_REFINER_SOURCE_SHA256 = 'e232312e5f24ca98e25fe32fe0be5300eca4deda69438af2ebf90985061b3dc8'
+PINNED_REFINER_SOURCE_SHA256_BY_PROFILE = {
+    'experimental-merge-actual-glue-body-v8':
+        'e232312e5f24ca98e25fe32fe0be5300eca4deda69438af2ebf90985061b3dc8',
+    'experimental-merge-first-callback-u64-v1':
+        'd20a433c93563b87ff0a48241c94e366df06dba2f87b5e7f85ba47edb6980dd1',
+}
 LEGACY_DROP_DEFAULTS = (
     'kind=Drop {\n'
     '              selected_drop_path=""; selected_drop_hash=""; selected_guard_path="";\n'
@@ -117,17 +122,18 @@ def _ordinary_mutant(text: str, nonunit: bool, remove: bool) -> str:
     return text[:start] + body + text[end:]
 
 
-def _synthetic_defaults_gate(source: Path, refiner: Path) -> dict:
+def _synthetic_defaults_gate(source: Path, refiner: Path, profile: str) -> dict:
     """Bind both old Box Drop constructors to exact source and built binary."""
     content = source.read_text()
     count = content.count(LEGACY_DROP_DEFAULTS)
     total = content.count('kind=Drop {')
-    row = {'source_path': str(source), 'source_sha256': _sha(source),
-           'expected_source_sha256': PINNED_REFINER_SOURCE_SHA256,
+    expected = PINNED_REFINER_SOURCE_SHA256_BY_PROFILE.get(profile)
+    row = {'profile': profile, 'source_path': str(source), 'source_sha256': _sha(source),
+           'expected_source_sha256': expected,
            'refiner_sha256': _sha(refiner), 'synthetic_drop_count': total,
            'explicit_unqualified_default_count': count,
            'classification': 'STATIC_SOURCE_COMPATIBILITY_ONLY_NO_PROOF_CREDIT'}
-    row['matched'] = (row['source_sha256'] == PINNED_REFINER_SOURCE_SHA256 and
+    row['matched'] = (expected is not None and row['source_sha256'] == expected and
                       total == 2 and count == 2)
     return row
 
@@ -261,7 +267,14 @@ def run(evidence: Path, args, env: dict[str, str], base, positive_case: Path) ->
     if capnp is None or not refiner.is_file():
         raise FileNotFoundError('hosted capnp and official refiner are required')
     source_gate = _synthetic_defaults_gate(
-        Path(args.tool_home) / 'src/refinement_checker/refinement_checker.ml', refiner)
+        Path(args.tool_home) / 'src/refinement_checker/refinement_checker.ml', refiner, args.profile)
+    gate_case = evidence / 'source-compatibility'
+    gate_case.mkdir()
+    (gate_case / 'classification.json').write_text(json.dumps({
+        'case': 'legacy_synthetic_drop_defaults', 'profile': args.profile,
+        'classification': 'STATIC_SOURCE_COMPATIBILITY_ONLY_NO_PROOF_CREDIT',
+        'accepted': False, 'proof_credit': False, 'source_gate': source_gate,
+    }, indent=2) + '\n')
     if not source_gate['matched']:
         raise RuntimeError(f'legacy synthetic Drop defaults changed: {source_gate}')
     if capture_row.get('refiner_sha256') != _sha(refiner) or any(

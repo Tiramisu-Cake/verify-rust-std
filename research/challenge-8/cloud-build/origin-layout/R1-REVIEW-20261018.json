@@ -1,0 +1,18 @@
+{
+  "reviewer": "GPT-6 Luna",
+  "reasoning_effort": "high",
+  "fork_turns": "none",
+  "nested_delegation": false,
+  "verdict": "GO",
+  "reviewed_sha256": {
+    "research/challenge-8/cloud-build/control.py": "d9737153589616aee655f1b6a1033994bd51587c645a1b8d5ca10f7dba8c3849",
+    "research/challenge-8/cloud-build/recipes/merge.json": "3b3fa467f87167a95bed6a9eda47bdd36b9ef2b779d94a2e7f281be5f1712cd9",
+    "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py": "96c59363a35c7aa1bbe3c189e46147668eebc9116a4c38f99fa0bee00945a1a6",
+    "research/challenge-8/cloud-build/origin-layout/first-comparator-dispatch.py": "b2cca0609c7f6079eb2794dc7cdb217934883ae79fb073edc1d56d982565eb8b",
+    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "47ce4547a280c74c7e21d5b9f3771c2efdef01cf4bf0239664b597318305c7ff",
+    "research/challenge-8/cloud-build/origin-layout/r1-service-test.py": "4f41ec0f17628d72364c1874bb133779f41c96742566ec5547ba53adae0906e2"
+  },
+  "findings": "Exact profile scoped source hashes; fail closed unknown/corruption; both defaults/count/source+binary checks preserved. Dispatch preserves prerequisite/mode gate and no proof credit. Exact owner/ledger/time window and pre-reserve deadline recheck; frozen semantics/posts/controls unchanged.",
+  "tests": "4/4 isolated synthetic tests PASS; git diff --check PASS",
+  "caveat": "Static GO establishes neither Cloud buildability nor target proof."
+}

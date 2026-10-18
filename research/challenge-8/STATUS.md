@@ -1,3 +1,31 @@
+# MERGE — R1 ACTIVE: profile-scoped compatibility pin + dispatch receipts
+
+Session2026-10-18T19:04:30Z, main21:04:30Z, absolute21:34:30Z; owner merge,
+phase MERGE-FIRST-COMPARATOR-R1-2026-10-18. Текущая задача и ход работы:
+[CURRENT-TASK](CURRENT-TASK.md), раздел «Отчёт агента».
+Новая временная authorization без отдельного cumulative Cloud ceiling; старые
+567/960+393retired,333/960+627retired,103/960+857retired CLOSED, без переноса.
+
+Уточнение старого Build e3252f3a: Reader index schema v6, Processor0.7.0;
+receipt-linked SHA Brief/index проверены. Translator/exporter/decoder/console/
+refiner/tracked-md-compile exit0; прежний недостаток translator receipt устранён.
+Smoke source PASS, helper/generated Drop bounded fragment PASS; receiver-controls
+source all_matched=true, selected-drop false. First comparator execution/results,
+первый unmatched gate и общий causal failure UNKNOWN; отсутствие named records
+не означает NOT_RUN. Nested compatibility/admission не проецируются Processor.
+[Разбор ограничений источника/Processor/Reader](cloud-build/origin-layout/R1-BASELINE-INDEX-ASSESSMENT-20261018.md).
+
+Независимо установлен source defect: compatibility gate безусловно ожидал старый
+v8 refiner hash e232…, хотя выбранный first-callback tool52ba7e25/profile84949dd9…
+имеет exact d20a…. Подготовлена строгая profile→hash mapping, v8 сохранён,
+unknown/corrupt fail closed; compact no-credit compatibility/dispatch receipts.
+Tool/profile/patch, trusted semantics, compiler, proof posts/controls неизменны.
+Static14patches/16files/14profilepins/18strictbasepins PASS;4synthetic tests PASS;
+independent Luna High GO. Новый Build ещё не отправлен. B2 OPEN, профиль
+NOT_FOR_INTEGRATION; setup correction/statics не дают proof credit.
+
+Предыдущие checkpoints ниже исторические.
+
 # MERGE — TYPE-FIX CLOSED / сборка source-reported PASS, proof INCONCLUSIVE
 
 Tool **52ba7e2506af993007675269111a24d15406d58b**: только явный закрытый тип

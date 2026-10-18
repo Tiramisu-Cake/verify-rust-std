@@ -1,3 +1,5 @@
+**Latest checkpoint:** R1 active; current task/report in [CURRENT-TASK](../../CURRENT-TASK.md); new section appended below. Earlier results preserved.
+
 **Latest checkpoint:** TYPE-FIX session2026-10-18, final section below; previous sections historical.
 
 **Latest checkpoint:** PIN-FIX session2026-10-18 in the final section below; previous sections historical.
@@ -398,3 +400,17 @@ receipt/executed identity and first unmatched gate/target/control results, <=16K
 No further patch or Build without separate owner decision.
 [Result](TYPE-FIX-RESULT-20261018.json) · [Brief](TYPE-FIX-EVIDENCE-BRIEF-20261018.md) ·
 [Identities](TYPE-FIX-IDENTITIES-20261018.json) · [Exact diff](TYPE-FIX-ONLY-20261018.patch).
+
+
+## R1 active — 2026-10-18
+
+T019:04:30Z/main21:04:30Z/absolute21:34:30Z. New time-window ledger;
+old accounts closed. Updated old Build evidence is v6/Processor0.7.0 and now
+explicitly confirms tool build exits0. Exact old identities unchanged.
+[Reader/index assessment](R1-BASELINE-INDEX-ASSESSMENT-20261018.md) distinguishes
+source absence, Processor projection gaps, Reader accessibility. Runtime causal
+failure and first-callback execution remain unknown; no raw audit performed.
+Independent stale compatibility source pin defect corrected only by exact
+profile-scoped hashes. Diagnostic receipts retain fail-closed prerequisite gates.
+Static preflight PASS; Luna High GO. No new Build yet. Tool52ba7e25/profile84949dd9
+unchanged; first comparator/full-body target still unestablished; B2 open.

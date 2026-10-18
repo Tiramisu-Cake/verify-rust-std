@@ -161,3 +161,46 @@ therefore the cell-owner loss control splits off and discards the actual first
 singleton array ownership chunk, then attempts array_join. Its intended rejection
 is the missing physical cell owner at that join, not failure to recreate u64.own.
 Only this explicit negative contains that discard; no positive proof does.
+
+
+## R1 source correction rationale — before implementation,2026-10-18
+
+Task merge-first-comparator-2026-10-18-r1; T019:04:30Z/main21:04:30Z/absolute21:34:30Z.
+Tool52ba7e25/profile84949dd9 unchanged. Updated Brief now confirms translator,
+exporter,decoder,console,refiner,tracked-md-compile exits0; first-comparator data
+still absent. No new request for build confirmation; only unmatched gate/actual
+first-comparator status requested for a separate bounded audit.
+
+Source flow: profile selection in overnight/run.sh → selected-drop-minimal-v1
+in insertion-onecell/prove.py → helper+selected.run → generated admission,
+receiver,compatibility gates → matched → first-callback.py.run → prefix/fullbody/
+negatives/classification.json+aggregate.json → dispatcher aggregate → package-evidence.
+B1 matched false prevents invocation; absence in old Brief is not proof of NOT_RUN.
+
+Concrete source defect in generated-glue-compatibility-controls.py:
+_synthetic_defaults_gate always requires e232312e5f24ca98e25fe32fe0be5300eca4deda69438af2ebf90985061b3dc8
+(old v8 refiner core), while selected profile pins d20a433c93563b87ff0a48241c94e366df06dba2f87b5e7f85ba47edb6980dd1.
+Current tool52ba7e25 reproduces the latter Git blob. Both existing legacy synthetic
+Drop constructors retain the exact defaults; two occurrences required. Thus a
+source-level false refusal exists for the selected profile if this gate is reached.
+Do not retroactively declare this the old Build's cause without its receipt.
+
+Authorized correction: explicit reviewed profile→expected-source-hash mapping:
+v8 retains olde232; first-callback-v1 requires exactd20a. Unknown profiles fail
+closed; no wildcard/current-file-derived expected hash. Preserve two exact default
+constructors and source+binary hash linkage, all compatibility/admission/receiver
+controls and predicates. Tool/profile identities stay unchanged. Add an existing
+classification.json compact source-gate receipt and a first-comparator dispatch
+classification.json with prerequisite statuses/reasons and exact source/profile
+binding. No proof credit from source gate or dispatched flag; future NOT_RUN only
+when the actual fresh branch explicitly skips invocation. No trusted/refinement
+semantics or proof contracts change.
+
+Gates affected: legacy source-compatibility gate, aggregate matched, first-callback
+invocation observability. Tests: both supported profile pins from immutable Git,
+synthetic valid/mutated/unknown/default-count failures; synthetic actual dispatch
+prerequisite false/success/exception receipts; publication/source closure and18base
+pins. Independent Luna High review before one concrete corrective Build. Outcomes:
+new Build establishes whether mandatory B1 gates qualify and first-comparator
+campaign reaches real obligations; any next failure handled in existing scope,
+never weaken guards or treat setup negative as intended proof rejection.

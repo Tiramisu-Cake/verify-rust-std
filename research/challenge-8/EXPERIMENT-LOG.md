@@ -7147,3 +7147,15 @@ receipt/executed identity and first unmatched gate/target/control results, <=16K
 No further patch or Build without separate owner decision.
 [Result](cloud-build/origin-layout/TYPE-FIX-RESULT-20261018.json) · [Brief](cloud-build/origin-layout/TYPE-FIX-EVIDENCE-BRIEF-20261018.md) ·
 [Identities](cloud-build/origin-layout/TYPE-FIX-IDENTITIES-20261018.json) · [Exact diff](cloud-build/origin-layout/TYPE-FIX-ONLY-20261018.patch).
+
+
+## 2026-10-18 R1 — source compatibility correction prepared
+
+Task merge-first-comparator-2026-10-18-r1, T019:04:30Z/main21:04:30Z/absolute21:34:30Z.
+Old Build e3252f3a Reader v6/Processor0.7.0 linked by receipt hashes; build milestone
+exits0 confirmed, first comparator/cause unknown. [Assessment](cloud-build/origin-layout/R1-BASELINE-INDEX-ASSESSMENT-20261018.md).
+Independent hypothesis: exact profile-scoped refiner source hash correction
+removes stale v8-only compatibility rejection without changing proof gates. New
+classification/dispatch receipts expose source flow without target credit.
+Tool/profile/patch unchanged. Source-only14patches/16files/14profilepins/18basepins
+PASS,4isolatedsynthetic tests PASS, independent Luna High GO. No Build yet.
