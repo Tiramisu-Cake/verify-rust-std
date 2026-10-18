@@ -207,3 +207,5 @@ A1/A2 OPEN, formal credit отсутствует.
 - R3 Build`20180c22-c6e9-49d5-9819-1e88aa703d35` принят после публикации`2fc75621`; config`2aea241075e39d448dad17e7a263c389922617203b0bdda6432d4b19ed43b7e1`;816s accounted +960reserved.
 
 - R3 terminal: R/C named stages и отдельные export/decode exit0; wrapper KeyError`positive_cases`. R4 исправляет tagged success-record consumption и4связанных fallback selections. Proof/admission/receipt predicates неизменны; failedobservations остаются, независимые rows используют существующий partial progress. 6synthetic classifier cases и source-only43pre-R/R/C PASS. Ни run(), ни proof/compiler/constructor локально не вызывались. Exactdiff review/closure pending.
+
+- R4 exact-diff Luna HIGH **GO**, committed closure/config **PASS**: source/infra`864fe65f21b5ca381b9417726e7f509453de91ae`,sourcepayload`af552c4ce77e97fdfcd2db39290ee9188dc166d876695089f864e31a283a4d01`;170substitutions. [R4 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R4-RELEASE-2026-10-18.json).

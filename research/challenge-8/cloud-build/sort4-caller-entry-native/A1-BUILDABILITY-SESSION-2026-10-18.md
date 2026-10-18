@@ -174,3 +174,10 @@ checks(evaluateonlyASTpredicateonfakedicts),Pythonstaticparse,43pre-R/R/Csource-
 applicationPASS. Nofullrunner/proofconstructor/extractor/compilerexecutedlocally.
 Hypothesis: noerrorrecordKeyError;existingindependent26routesattempted andactual
 blockinggatepreserved. Semantics/trust/admissionchangeoutsidecontractrequiresowner.
+
+## R4 committed release
+
+Candidate proof/infra`864fe65f21b5ca381b9417726e7f509453de91ae`; Luna HIGH GO, full committedclosure/configPASS.
+[R4 release](A1-BUILDABILITY-R4-RELEASE-2026-10-18.json),
+[review](A1-BUILDABILITY-R4-REVIEW-2026-10-18.md).
+{"commit": "864fe65f21b5ca381b9417726e7f509453de91ae", "config_arg_bounds": "PASS", "dispatch": "NOT_ATTEMPTED", "exact_restore": "PASS", "formal_credit": false, "phase_profile_environment": "PASS", "restored_paths": {"infra": 33, "proof": 107}, "shared_objects": 160, "source_payload_bytes": 505909, "source_sha256": "af552c4ce77e97fdfcd2db39290ee9188dc166d876695089f864e31a283a4d01", "source_substitutions": 170}
