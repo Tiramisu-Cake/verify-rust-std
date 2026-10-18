@@ -46,3 +46,15 @@ Independent Luna High static GO; full committed closure/config PASS,33infra+107p
 160 objects,169/191 substitutions. Release file binds all exact source/service pins.
 Original matrix/lifecycle code byte-identical apart from profile/auth identities.
 Focused backend path and dependent pin also follow new profile. No semantic fix added.
+
+## Cloud submitted
+
+Final static GO confirmed after closure PASS. Published checkpoint928fb6bb
+(remote exact928fb6bb206de91e3b3a38c201435f7077f608d3) before submission.
+Build7987e81f-cfc9-435b-8078-996cf7d2ae27, token
+dispatch-0089a297ba4549e78cf85600182487e6; proof/infra52847456.
+Submitted config3407efd92111c798f4a2089f5175210f73a16ff4589aa8d008978dc760f4e871.
+Existing coordinator main used with an additional fail-closed maximum2 capacity
+check under its existing lock, occupied0 at admission and reserve. No shared
+protocol/peer state edited; all original restrictions still apply.
+900s timeout+60queue reserve, single allowed Build spent; no retry.
