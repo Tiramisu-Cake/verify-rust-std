@@ -25,7 +25,7 @@ from typing import Any, Mapping
 PHASE = "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17"
 AUTHORIZATION_PHASE = "SORT4-A1-OCAML-BUILDABILITY-2026-10-18-R1"
 HERE = Path("research/challenge-8/cloud-build/sort4-caller-entry-native")
-PROFILE = HERE / "A1-BUILDABILITY-R3-PROFILE-2026-10-18.json"
+PROFILE = HERE / "A1-BUILDABILITY-R4-PROFILE-2026-10-18.json"
 HEX40 = re.compile(r"[0-9a-f]{40}\Z")
 HEX64 = re.compile(r"[0-9a-f]{64}\Z")
 
@@ -1818,6 +1818,7 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
     positive_progress: dict[str, Any] = {}
     helpers = None
     draft = None
+    draft_succeeded = False
     try:
         execution_events.append({"case_id": "tool-reconstruction", "event": "started",
                                  "execution_started": True})
@@ -1857,6 +1858,9 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
                 tool=tool, tool_receipt=receipt, profile_sha256=profile_sha,
                 helpers=helpers, support_cache=support_cache,
                 progress=positive_progress, progress_hook=stage_progress))
+        draft_succeeded = (isinstance(draft, Mapping) and
+                           draft.get("classification") ==
+                           "DRAFT_POSITIVE_STAGE_SOURCE_REPORTED_ONLY")
         observations.update(positive_progress.get("positive_cases", {}))
         certificate_path_value = positive_progress.get("certificate_path")
         certificate = positive_progress.get("certificate")
@@ -1864,7 +1868,7 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
                             if isinstance(certificate_path_value, str) else None)
         expected_cases_for_run = positive_progress.get("expected_case_ids", {})
         persist_progress()
-        if draft is not None:
+        if draft_succeeded:
             observations["P0b"] = draft["positive_cases"]["P0b"]
             observations["P0c"] = draft["positive_cases"]["P0c"]
             result["case_status"]["P0a"] = _stage_result(
@@ -2163,7 +2167,7 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
                     persist_progress()
         # All R1-R7 are fresh isolated fixtures and actual driver verifier
         # invocations on the one reconstructed final tool.
-        legacy = (draft.get("legacy_inputs", {}) if draft is not None else
+        legacy = (draft.get("legacy_inputs", {}) if draft_succeeded else
                   positive_progress.get("legacy_inputs", {}))
         if set(legacy) == set(LEGACY_CONTROL):
             legacy_env = c4.clean_env(a, tool)
@@ -2193,7 +2197,7 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
         # OFF is an actual final-tool run with opt-in absent. Its result is
         # preserved as observed stage data; only the exact duplicate-parameter
         # frontend diagnostic is classified as baseline behavior.
-        off_input = (draft.get("off_input") if draft is not None else
+        off_input = (draft.get("off_input") if draft_succeeded else
                      positive_progress.get("off_input"))
         off = (action("OFF", lambda:
             _run_off_observation(a, c4, tool, off_input,
@@ -2202,7 +2206,7 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
         if off is not None:
             result["case_status"]["OFF"] = _stage_result("OFF", off)
     # Interpret each row only after its route-specific observations exist.
-    expected_inputs = (draft.get("expected_case_ids", {}) if draft is not None else
+    expected_inputs = (draft.get("expected_case_ids", {}) if draft_succeeded else
                        positive_progress.get("expected_case_ids", {}))
     expected_inputs = dict(expected_inputs) if isinstance(expected_inputs, Mapping) else {}
     certificate = positive_progress.get("certificate")
@@ -2323,7 +2327,7 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
     all_classified = (len(records) == len(CASE_ORDER) and
                       all(row["status"] == "INTENDED_CLASSIFIED"
                           for row in result["case_status"].values()))
-    admission_gate = (draft.get("admission_gate") if draft is not None else
+    admission_gate = (draft.get("admission_gate") if draft_succeeded else
                       positive_progress.get("admission_gate"))
     if all_classified and admission_gate is not None:
         try:

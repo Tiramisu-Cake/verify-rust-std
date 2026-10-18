@@ -152,3 +152,25 @@ Build20180c22-c6e9-49d5-9819-1e88aa703d35;token
 dispatch-1ab4cd00befd4e30bf41e7bc75eef625;config
 2aea241075e39d448dad17e7a263c389922617203b0bdda6432d4b19ed43b7e1.
 900s timeout,fullmatrixunchanged;816s accountedbeforeR3.
+
+## R3 terminal and R4 service-result interface repair
+
+Build20180c22-c6e9-49d5-9819-1e88aa703d35FAILURE,421charged;session1237s.
+BriefR/Cbuildexit0 andindividualexport/decode0;KeyErrorpositive_cases inrun1868.
+ActualP0a proof/admissionerrorbeforewrapperfailureUNKNOWN,otherrowoutcomesUNKNOWN.
+
+Static action() returns error/NOT_RUN dictionaries; only successful positive draft
+has classificationDRAFT_POSITIVE_STAGE_SOURCE_REPORTED_ONLY. R4 uses this existing
+success tag to select success-only indexing and4draft-vs-partialprogress routes.
+Reviewerfound4relatedchoices(legacy/OFF/expectedinputs/admissiongate);singleindex
+fix would stillhideexistingpartialinputs andpreventindependentrows. All _need,
+body/conformance,source/admission,publishreceipt andmatrixclassifier predicates
+staybyteidentical. This fixes concreteexisting executionwiring,notmereBriefgap.
+Failuresarenotpromotedtosuccess; observations/events remain. Existing independent
+routescanrunwithoutimplyingcommonreceiptavailability ornewproofcredit.
+
+No R/C/tool/compiler/decoder/fixturefeature changesfromR3.6syntheticresult-shape
+checks(evaluateonlyASTpredicateonfakedicts),Pythonstaticparse,43pre-R/R/Csource-only
+applicationPASS. Nofullrunner/proofconstructor/extractor/compilerexecutedlocally.
+Hypothesis: noerrorrecordKeyError;existingindependent26routesattempted andactual
+blockinggatepreserved. Semantics/trust/admissionchangeoutsidecontractrequiresowner.
