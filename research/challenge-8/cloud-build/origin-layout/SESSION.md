@@ -385,3 +385,20 @@ GO,106proofpaths/14patchclosure; actual sourcepayload87a6b062…432081bytes/145p
 Old Build e3252f3a Reader schema v6/Processor0.7.0 verified; index accessible;
 nested prerequisite details not projected, first comparator/runtimecause unknown.
 Submit initiated via existing coordinator; UUID pending; no duplicate request.
+
+
+### R1 progress — Build1 accounted; marker-fix candidate submitted
+
+Build1 2f7ba4a0 FAILURE19:30:57Z/528s; sourceB1all_matchedTrue, first campaign
+prefix/fullbody INCONCLUSIVE/exporter-decode-refinement0/VF2, Not_found3138.
+No whole-Build causal inference, CURRENT normal/unwind unproved,5dependent controls
+explicitsourceNOT_RUN. Fresh Brief+Readerindex v6 linked by receipt hashes.
+Second candidate proof=infra251a83adc4eadcd6a1e3eb87e795124596e228c2,
+release07a2f9dd. Tool2a5078681bf9b750d2fedb2223666df2f9baaeea sole NoopStmt cut_l
+retains validated marker's source lookup location; no newlogicalrule/CFG/ownership.
+Profile566457f424e21a52274ee3227f1f292696d43f8775dba8b5bc05444b6c9ff4c1,
+patchfc34d5e0/translatorb9232f69; full14patch reconstruction/16files/14pins/18base
+PASS,4syntheticPASS, final LunaHighGO. Published closure48bdc7e2…/432518B/145parts.
+Only additional runner changes are2no-credit receipt paths moved to existing
+nested/cases convention, no standalone reporting Build. Submit initiated;
+UUIDpending, no duplicate. Deadlines unchanged; tool local/no upstream publication.
