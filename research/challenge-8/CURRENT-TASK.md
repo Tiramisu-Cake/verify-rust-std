@@ -156,11 +156,11 @@ Tool commit остаётся в локальной назначенной вет
 
 ### Сессия
 
-- Статус: ACTIVE — source/Brief diagnosis.
+- Статус: ACTIVE — R1 Build submitted; awaiting terminal/Brief.
 - ID задания: `merge-first-comparator-2026-10-18-r1`.
 - T0 / main deadline / absolute deadline (UTC): `2026-10-18T19:04:30Z` / `21:04:30Z` / `21:34:30Z`.
 - Project/tool HEAD: `431f43f54060558330489dd9190bfc97ca31f55e` / `52ba7e2506af993007675269111a24d15406d58b`; Evidence Brief policy revision2026-10-17 / commit584891be. WORK-POLICY/COMPLETION-PLAN и current assignment приняты.
-- Phase `MERGE-FIRST-COMPARATOR-R1-2026-10-18`, owner merge; новый отдельный ledger/регистрация готовятся. Только временное окно, без скрытого старого960s ceiling.
+- Phase `MERGE-FIRST-COMPARATOR-R1-2026-10-18`, owner merge; новый отдельный ledger зарегистрирован. Только временное окно, без скрытого старого960s ceiling.
 - Project clean, кроме предоставленного untracked CURRENT-TASK.md; назначенный tool clean на52ba7e25. Задание выше сохранено побайтно, другие worktrees не изменяются.
 
 ### Диагноз, изменения и review
@@ -168,7 +168,8 @@ Tool commit остаётся в локальной назначенной вет
 - Актуальный Brief e3252f3a получен через smallsort-brief; v6 schema/Processor0.7.0 установлены через Reader receipt/index, SHA linkage проверен; provenance/time/SHA сохранены в R1-BASELINE-BRIEF-PROVENANCE-20261018.json. Все build milestones exit0; smoke и bounded positives source-reported PASS; first-comparator records отсутствуют, NOT_RUN не выводится.
 - Flow прослежен до packaging. B1 matched gate предшествует first-callback.run. Найден stale compatibility source pin: gate требует e232… для любого профиля, выбранный профиль и exact tool blob требуют d20a…. Это source defect, не установленная runtime-причина старого Build. Штатный Reader index доступен; per-question source/Processor/Reader ограничения записаны в R1-BASELINE-INDEX-ASSESSMENT-20261018.md. Старый runtime cause UNKNOWN; raw audit не выполнялся.
 - До реализации rationale/source applicability/gates записаны в FIRST-CALLBACK-SEMANTIC-CARD-20261017.md, раздел R1. План: profile-scoped strict hash mapping с сохранением v8, compact classification/dispatch receipts через существующие schemas. Ни tool/profile, ни trusted semantics не меняются.
-- Project/tool/profile/patch/source identities и release manifest: —
+- Project proof=infra `762932d3158f7c5dcab0294a2a6c815c3bcd1a19`, release `ab26b351`; tool52ba7e25/profile84949dd9/patchdf08af37 unchanged. R1-RELEASE-20261018.json:106proofpaths,14patches,432081byte immutable payload/145parts, SHA87a6b062…. Published exact source checked.
+- Reporting-path follow-up reviewer: packaging всех payload подтверждён; поддержка Reader classifications вне /cases/ не установлена доступными исходниками. Receipt absence не заменяет execution evidence и не оправдывает новый Build только ради reporting.
 - Статические проверки:14patches/16reconstructed files/14profilepins/18strictbasepins PASS;4synthetic service tests PASS. Независимый Luna High review GO, source hashes в R1-REVIEW-20261018.json; tool/profile unchanged.
 
 ### Запуски
@@ -176,7 +177,9 @@ Tool commit остаётся в локальной назначенной вет
 | Build UUID | Точный кандидат / manifest | Изменение или гипотеза | Terminal status | Brief / установленный результат | Charge |
 | --- | --- | --- | --- | --- | --- |
 
-Builds пока отсутствуют. Результаты сопровождать provenance и ограничениями; полный Brief не вставлять.
+| `2f7ba4a0-1c94-4c05-a33f-0a959a340b06` | `762932d3` / R1-RELEASE-20261018.json | profile-scoped compatibility pin; full mandatory matrix + dispatch receipts | submitted | terminal/Brief pending | reserved960s |
+
+Один Build; дубликаты не отправлялись. Результаты сопровождать provenance и ограничениями; полный Brief не вставлять.
 
 ### Итог evidence
 

@@ -369,3 +369,19 @@ No new proof credit yet; B2 open, experimental profiles not accepted.
 ### First-callback assignment closed
 
 Builda7ad5ce8 terminalFAILURE; Brief incomplete/no campaign or cases; no normal/unwind proof credit. Account103/960s,857retired, oneBuildconsumed/no retry; ownactive/requestnone. Exactproof=infra08b61d81/toold928cb1d/profile300fd8a7. See final section FINAL-CHECKPOINT.md and FIRST-CALLBACK-RESULT-20261017.json. Next cause requires separately authorized admin audit; no raw fallback.
+
+
+## R1 first-comparator session — 2026-10-18 ACTIVE
+
+Task merge-first-comparator-2026-10-18-r1, owner merge. T019:04:30Z/main21:04:30Z/
+absolute21:34:30Z. Fresh time-window authorization; technical client ceiling18960s
+is not a cumulative user budget; old567/960+393retired,333/960+627retired,
+103/960+857retired remain CLOSED. Coordinator v3/max3 unchanged, one own slot.
+Candidate proof=infra762932d3158f7c5dcab0294a2a6c815c3bcd1a19,
+releaseab26b351. Exact profile/source compatibility pin correction preserves v8,
+18strictbasepins, all proof gates/posts. New no-credit dispatch/source receipts.
+Tool52ba7e25/profile84949dd9/patchdf08af37 unchanged. Static preflight + Luna High
+GO,106proofpaths/14patchclosure; actual sourcepayload87a6b062…432081bytes/145parts.
+Old Build e3252f3a Reader schema v6/Processor0.7.0 verified; index accessible;
+nested prerequisite details not projected, first comparator/runtimecause unknown.
+Submit initiated via existing coordinator; UUID pending; no duplicate request.

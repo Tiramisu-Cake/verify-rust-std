@@ -14,5 +14,10 @@
   },
   "findings": "Exact profile scoped source hashes; fail closed unknown/corruption; both defaults/count/source+binary checks preserved. Dispatch preserves prerequisite/mode gate and no proof credit. Exact owner/ledger/time window and pre-reserve deadline recheck; frozen semantics/posts/controls unchanged.",
   "tests": "4/4 isolated synthetic tests PASS; git diff --check PASS",
-  "caveat": "Static GO establishes neither Cloud buildability nor target proof."
+  "caveat": "Static GO establishes neither Cloud buildability nor target proof.",
+  "receipt_path_followup": {
+    "finding": "Packager recursively inventories all payload files. Reader v6/Processor0.7.0 selection source/schema unavailable in checked-in docs; surfacing classifications outside /cases/ is UNVERIFIED, not established incompatible.",
+    "scope": "Read only repo source/docs; no raw evidence or Cloud calls; reviewer Luna High same assigned agent",
+    "impact": "No target proof inferred from receipt presence/absence. Do not rerun solely for reporting gap."
+  }
 }
