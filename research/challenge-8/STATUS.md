@@ -17,3 +17,8 @@ closure PASS. Build92524a3d-fec8-4e74-a902-271f791e8bb7 active for proof/infraff
 
 [Current task and agent report](CURRENT-TASK.md),
 [Session hypothesis/pins/evidence](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-SESSION-2026-10-18.md).
+
+R1terminal92524a3dFAILURE: namedR-only andfinal-Cbuildstageexit0;P0a source support
+compileruncloseddelimiteroriginal/lib.rs156.415s charged;ownactive none. R2 minimal
+fixtureassemblyfix adds missing functionclose inP0c/N-false31suffix;R/C unchanged.
+Individual26rowverdicts/P1/N-false31UNKNOWN,noformalcredit;review/closurepending.

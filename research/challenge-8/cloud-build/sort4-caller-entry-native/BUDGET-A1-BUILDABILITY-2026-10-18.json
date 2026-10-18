@@ -1,5 +1,5 @@
 {
-  "active_build": "92524a3d-fec8-4e74-a902-271f791e8bb7",
+  "active_build": null,
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
   ],
@@ -15,11 +15,17 @@
       "submitted_config_sha256": "85b7b631a7a52c2d602f56305aa5f6bd1a5714d95611dc62b425c98514393f6e",
       "reserved_seconds": 960,
       "timeout_seconds": 900,
-      "status": "QUEUED",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "ea4cbff90b19db1f5651bc16b4d0a721fec0445bac2c838670a83c68c19eda07",
-      "build_id": "92524a3d-fec8-4e74-a902-271f791e8bb7"
+      "build_id": "92524a3d-fec8-4e74-a902-271f791e8bb7",
+      "start_time": "2026-10-18T19:06:21.210804087Z",
+      "finish_time": "2026-10-18T19:13:14.482206Z",
+      "create_time": "2026-10-18T19:06:20.471959517Z",
+      "build_seconds": 415,
+      "accounted": true,
+      "execution_seconds": 414
     }
   ],
   "ceiling_build_seconds": 18960,
@@ -32,9 +38,9 @@
   "no_carry": true,
   "owner": "select-sort4",
   "phase": "SORT4-A1-OCAML-BUILDABILITY-2026-10-18-R1",
-  "remaining_build_seconds": 18960,
+  "remaining_build_seconds": 18545,
   "start_utc": "2026-10-18T18:59:16Z",
   "status": "AUTHORIZED",
   "time_authorization": true,
-  "used_build_seconds": 0
+  "used_build_seconds": 415
 }

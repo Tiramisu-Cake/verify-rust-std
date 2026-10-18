@@ -132,7 +132,7 @@ def _cloud_gate(a, c4, ghost, tool: Path, receipt: dict,
          infra is not None and HEX40.fullmatch(infra) is not None and
          profile_hash is not None and HEX64.fullmatch(profile_hash) is not None,
          "full proof/infra/profile run pins")
-    profile_path = Path(a.proof_root) / HERE / "A1-BUILDABILITY-R1-PROFILE-2026-10-18.json"
+    profile_path = Path(a.proof_root) / HERE / "A1-BUILDABILITY-R2-PROFILE-2026-10-18.json"
     need(profile_path.is_file() and sha(profile_path) == profile_hash and
          json.loads(profile_path.read_text()) == profile and
          profile.get("phase_id") == PHASE and

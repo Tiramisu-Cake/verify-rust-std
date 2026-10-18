@@ -82,3 +82,27 @@ Build92524a3d-fec8-4e74-a902-271f791e8bb7,token
 dispatch-746a521760aa46988240b2a0c0059716;config
 85b7b631a7a52c2d602f56305aa5f6bd1a5714d95611dc62b425c98514393f6e.
 Full R-only→C→unchanged26;900timeout+60reserve;terminal evidence pending.
+
+## R1 terminal and R2 build-assembly hypothesis
+
+R1 Build92524a3d-fec8-4e74-a902-271f791e8bb7 FAILURE,415charged/414execution.
+Brief names R-only reference stage exit0 and final schema/exporter/console stage
+exit0. This establishes successful named combined build stages, not proof. Own
+fresh reference receipt is required between them by pinned flow, but receipt
+contents/hash not independently exposed in Brief. R1 compile blockers no longer
+block these stages.108/108 stage records; stage order/last stage still UNKNOWN.
+P0a normal-export/readonly-export/refinementexit1,unclosed delimiteroriginal/lib.rs156.
+No per-row verdict inventory in Brief; P0a setupfailure observed,other casesUNKNOWN.
+A1/A2 open,no formalcredit; no NOT_RUN inferred from absent records.
+
+Static constructor inspection shows `_observer` combines function-opening signature
+with loop/if-opening guard prefix, then suffix literals with only2closingbraces.
+Both P0c and N-false31 need a third final function delimiter before original P1
+caller. `_p1_caller` has correct balance because full guard alreadyclosesif.
+R2 repairs just these2literal delimiters, as minimum related build-assembly syntax
+fix authorized by task section2. No assertion,cut,pre/post,negative,target,caller,
+std runtime,G/C semantic change. No local fixture/source extraction execution.
+R/C fullpatch bytes unchangedR1; new helper/profile/source identities required.
+Hypothesis: compiler accepts both constructed observer declarations, then runs
+unchanged source-support/AST/proof gates. Further in-scope compileerror→continue;
+semantic/admission error→separate owner decision; reporting gap→audit not rerun.

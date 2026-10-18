@@ -175,16 +175,23 @@ Reviewer проверяет типизацию, связанные места, �
 
 | Build UUID | Точный кандидат / manifest | Изменение или гипотеза | Terminal status | Brief / установленный результат | Charge |
 | --- | --- | --- | --- | --- | --- |
-| `92524a3d-fec8-4e74-a902-271f791e8bb7` | `ff7fbd1daa9b89f74ec79c313ad27f6bd80f5b53` / [R1 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R1-RELEASE-2026-10-18.json) | Две expected-type аннотации, полный R-only→C→26 | SUBMITTED | Terminal Brief pending | reserve960s |
+| `92524a3d-fec8-4e74-a902-271f791e8bb7` | `ff7fbd1daa9b89f74ec79c313ad27f6bd80f5b53` / [R1 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R1-RELEASE-2026-10-18.json) | Две expected-type аннотации, полный R-only→C→26 | FAILURE | [Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R1-BRIEF-2026-10-18.md): R-only и final-C exit0; P0a unclosed delimiter, original/lib.rs156 | 415s |
 
 Отправлен первый Build; source/infra/release опубликованы до submit, remoteSHA подтверждён. [Refreshed baseline Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-BASELINE-BRIEF-7987E81F-2026-10-18.md): actualD.rvalue/expectedstring,102/102 records; исходный Brief сохранён. Expected-type admin audit больше не нужен, прежние unknowns не повышены.
 
 ### Итог evidence
 
-R-only/final C/26/P1/N-false31 нового Build: UNKNOWN, terminal evidence pending.
+R1: R-only и final-C named stages exit0; own reference receipt требуется pinned flow между ними, но его содержимое/hash отдельно не раскрыты Brief. P0a normal/readonly/refinement exit1; proof outcome не установлен. Остальные26/P1/N-false31 UNKNOWN, поскольку Brief не содержит per-row verdicts; неизвестное не превращается в NOT_RUN.
 A1/A2 OPEN, formal credit отсутствует.
 
 ### Закрытие и следующий шаг
 
-Сессия активна. Следующий шаг — source-only R/C reconstruction, полные pins,
-Luna HIGH review, committed closure/config preflight и публикация до Cloud.
+Сессия активна,1Build/415s. Следующий шаг — минимальное исправление синтаксической сборки fixture: OBSERVER_SUFFIX не закрывает функцию observer. Подготовка review и нового полного Build в разрешённом scope; R/C не меняются.
+
+### Ход работы — R1 terminal и R2 гипотеза
+
+- R1 успешно прошёл обе named tool-build стадии; compiler blocker6884 не останавливает новую сборку. Полнота receipt evidence ограничена Brief.
+- Статическое чтение `_observer`: signature открывает функцию, guard открывает loop/if; P0c и N-false31 suffix закрывают только if/loop. Отсутствует финальная `}` функции, затем следует исходный P1 caller. Это согласуется с unclosed delimiter; точная причинность нескольких Cloud failures пока UNKNOWN.
+- R2: добавить только завершающую скобку в оба suffix literals как минимальный syntax/build-assembly fix. Assertions/cuts/target functions/source std/C/G/матрица не меняются. Source extractor/fixture constructor локально не запускался.
+
+- R2 подготовлен: два delimiter literal fix, статический AST/literal разбор PASS без запуска construct/extractor; повторная43pre-R/R/C source-only реконструкция PASS, R/C иcompiler/decoder/exporter неизменны. Profile`e8ee4cd419549931f52085252811fa0016320fd1bef31bb227da416091eecf8c`; helper`5fe5e65c8150ca583b37e7458b1da504ed46668da0a8413390e9f183f0d755d3`. Зависимые pins обновлены;6служебных checks PASS, exact-diff review/closure pending.

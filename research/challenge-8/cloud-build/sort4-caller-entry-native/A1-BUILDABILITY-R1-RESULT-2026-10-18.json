@@ -1,0 +1,43 @@
+{
+  "A1": "OPEN",
+  "A2": "OPEN",
+  "N_false31": "UNKNOWN; lifecycle not independently exposed",
+  "P0a": "source support setup failure: normal-export/readonly-export/refinement exit1; no proof outcome established",
+  "P1": "UNKNOWN",
+  "R_only_build": "EXIT_ZERO as individually named by Brief",
+  "brief_sha256": "7c75d6ff6259f7f9c221e77f5f8cefd7f352e98c46f876975822d329d1459e6c",
+  "build": {
+    "accounted": true,
+    "build_id": "92524a3d-fec8-4e74-a902-271f791e8bb7",
+    "build_seconds": 415,
+    "create_time": "2026-10-18T19:06:20.471959517Z",
+    "dispatch_token": "dispatch-746a521760aa46988240b2a0c0059716",
+    "execution_seconds": 414,
+    "finish_time": "2026-10-18T19:13:14.482206Z",
+    "infra_sha": "ff7fbd1daa9b89f74ec79c313ad27f6bd80f5b53",
+    "lane": "o26-sort4-c1-current-recovery",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-A1-OCAML-BUILDABILITY-2026-10-18-R1",
+    "proof_sha": "ff7fbd1daa9b89f74ec79c313ad27f6bd80f5b53",
+    "publish_text_logs": true,
+    "reserved_seconds": 960,
+    "source_input_sha256": "ea4cbff90b19db1f5651bc16b4d0a721fec0445bac2c838670a83c68c19eda07",
+    "source_mode": "pinned-objects",
+    "start_time": "2026-10-18T19:06:21.210804087Z",
+    "status": "FAILURE",
+    "submitted_config_sha256": "85b7b631a7a52c2d602f56305aa5f6bd1a5714d95611dc62b425c98514393f6e",
+    "timeout_seconds": 900
+  },
+  "final_C_build": "EXIT_ZERO as individually named by Brief",
+  "first_error": {
+    "causality": "UNKNOWN; multiple failed stages",
+    "diagnostic": "unclosed delimiter",
+    "line": 2,
+    "location": "original/lib.rs156:3",
+    "sha256": "4bce889a6a5400408eae1fce79e40f54f271fd956bfbb95e96a388902e021109",
+    "source": "focus/P0a/refinement.log"
+  },
+  "formal_credit": false,
+  "matrix_other_rows": "UNKNOWN: no per-row matrix verdicts captured in this Brief; do not infer NOT_RUN",
+  "own_reference_receipt": "Successful R-only stage and later final-C stage observed; fresh receipt issuance required between them by pinned source flow, receipt contents/hash not exposed independently"
+}

@@ -62,8 +62,8 @@ SOURCE_FILES = {
 }
 
 OBSERVER_SUFFIX = {
-    "P0c": """\n        //@ assert len <= 32;\n        let requirement = len + 16;\n        //@ assert requirement <= 48;\n        return;\n    }\n    // A1 diagnostic cut: non-base continuation is intentionally not present.\n    return;\n}\n""",
-    "N-false31": """\n        //@ assert len <= 31;\n        let requirement = len + 16;\n        //@ assert requirement <= 48;\n        return;\n    }\n    // A1 diagnostic cut: non-base continuation is intentionally not present.\n    return;\n}\n""",
+    "P0c": """\n        //@ assert len <= 32;\n        let requirement = len + 16;\n        //@ assert requirement <= 48;\n        return;\n    }\n    // A1 diagnostic cut: non-base continuation is intentionally not present.\n    return;\n}\n}\n""",
+    "N-false31": """\n        //@ assert len <= 31;\n        let requirement = len + 16;\n        //@ assert requirement <= 48;\n        return;\n    }\n    // A1 diagnostic cut: non-base continuation is intentionally not present.\n    return;\n}\n}\n""",
 }
 
 
