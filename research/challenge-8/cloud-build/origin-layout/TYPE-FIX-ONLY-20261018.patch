@@ -1,0 +1,14 @@
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+index 090341b1..aa7acb66 100644
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -1992,7 +1992,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       let first_callback_used = ref false
+       let first_callback_call_loc = ref None
+       let first_callback_normal_target = ref None
+-      let first_fnmut_calls = ref []
++      let first_fnmut_calls :
++          (Ast.loc * [ `Continue | `Cleanup | `Other ]) list ref = ref []
+       let first_callback_unwind_label = "#merge_first_callback_unwind"
+       let callback_used = ref false
+       let callback_call_loc = ref None

@@ -1,3 +1,38 @@
+# MERGE — TYPE-FIX CLOSED / сборка source-reported PASS, proof INCONCLUSIVE
+
+Tool **52ba7e2506af993007675269111a24d15406d58b**: только явный закрытый тип
+first_fnmut_calls. Project proof=infra **59a3dcaed3f3061a551fec00fd0c503a52043405**,
+releasef975ff0d. Profile scope experimental-merge-first-callback-u64-v1,
+новая identity SHA**84949dd9b08e6eb867b9f17b3d2149dcd41b44f219bcc369e2970bf5eca90a3f**.
+Old→new pins и точный diff сохранены. Independent Luna High GO; static14patches/
+16files/14sourcepins/18basepins и6syntheticphase tests PASS. Source closure передаёт
+все14точных патчей отf76012fb;remote candidate HEAD не нужен. Tool commit локален
+по уточнению владельца, воспроизводимый пакет опубликован в project branch.
+
+Build **e3252f3a-1034-405e-bc15-d406b79f20ed**, terminal FAILURE14:33:40Z.
+Brief integrity VERIFIED_ARCHIVE_AND_INVENTORY; source compiler_classification=PASS,
+proof_attempted=True,evidence_complete=True,runexit1. **Это source claims.**
+Прямой translator-build receipt отсутствует; устранение старой ошибки отдельно
+не подтверждено доступным Brief, хотя compilerPASS поддерживает гипотезу.
+Source aggregate selected-drop/bridge INCONCLUSIVE; smoke1casePASS; показаны4expected
+rejection controls. Первый actual comparator/prefix/fullbody и полные normalfalse/
+normaltrue/Continue-panic/controls не установлены. Причинность и порядок стадий
+UNKNOWN;154stage records не captured,32omitted. Не считать intended negatives
+причиной общего FAILURE. Первый подтверждённый blocker — неполнота отчёта.
+Нового независимого proof credit нет; B2 открыт; профиль NOT_FOR_INTEGRATION.
+
+Сессия T014:13:12Z/main16:13:12Z/absolute16:43:12Z завершена в основном окне.
+Новый счёт CLOSED **567/960s,393retired**, одна попытка consumed/no retry/carryover;
+execution566s не является proof duration. Own reservation/request none.
+Old333/960,627retired и103/960,857retired сохранены. Raw evidence не читались,
+download_verified не выставлялся. Next: отдельно разрешённый bounded audit
+[запрос](cloud-build/origin-layout/TYPE-FIX-ADMIN-AUDIT-REQUEST-20261018.md).
+[Result](cloud-build/origin-layout/TYPE-FIX-RESULT-20261018.json) ·
+[Brief](cloud-build/origin-layout/TYPE-FIX-EVIDENCE-BRIEF-20261018.md) ·
+[Identities](cloud-build/origin-layout/TYPE-FIX-IDENTITIES-20261018.json).
+
+Предыдущие checkpoints ниже исторические.
+
 # MERGE — TYPE-FIX сессия: кандидат к одному Build
 
 Phase MERGE-FIRST-CALLBACK-TYPE-FIX-2026-10-18, owner merge.
@@ -8,7 +43,9 @@ Profile scope experimental-merge-first-callback-u64-v1 сохранён, нов�
 identity SHA84949dd9b08e6eb867b9f17b3d2149dcd41b44f219bcc369e2970bf5eca90a3f.
 Independent Luna High GO; source-only14patches/16files/14sourcepins/18basepins PASS;
 6synthetic admission tests PASS. Обязательства/controls/18checks/run.sh сохранены.
-Подготовка публикации release/одного Build; evidence только через Brief.
+Proof=infra59a3dcaed3f3061a551fec00fd0c503a52043405 опубликованы, releasef975ff0d.
+Build e3252f3a-1034-405e-bc15-d406b79f20ed отправлен; источник payload совпал
+с preflight. Мониторинг активен; evidence только через Brief.
 Old333/960/627retired и103/960/857retired CLOSED без переноса. B2 открыт.
 [Card](cloud-build/origin-layout/TYPE-FIX-CARD-20261018.md) ·
 [Identities](cloud-build/origin-layout/TYPE-FIX-IDENTITIES-20261018.json) ·

@@ -5,11 +5,34 @@
     "merge"
   ],
   "ceiling_build_seconds": 960,
-  "used_build_seconds": 0,
-  "remaining_build_seconds": 960,
-  "builds": [],
+  "used_build_seconds": 567,
+  "remaining_build_seconds": 393,
+  "builds": [
+    {
+      "dispatch_token": "dispatch-c406c3940ce543de84f5802214845e22",
+      "owner": "merge",
+      "phase_id": "MERGE-FIRST-CALLBACK-TYPE-FIX-2026-10-18",
+      "infra_sha": "59a3dcaed3f3061a551fec00fd0c503a52043405",
+      "proof_sha": "59a3dcaed3f3061a551fec00fd0c503a52043405",
+      "lane": "merge",
+      "submitted_config_sha256": "aee43b1416190a52b317cf8b63c1a185cc68a72a25c7078877cbdbad50dbed36",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "4c97ad4450ff8098bba53b429bbfd46c187d29b2ec567429b736209bb22f26e0",
+      "build_id": "e3252f3a-1034-405e-bc15-d406b79f20ed",
+      "start_time": "2026-10-18T14:24:15.142082048Z",
+      "finish_time": "2026-10-18T14:33:40.832218Z",
+      "create_time": "2026-10-18T14:24:14.330981030Z",
+      "build_seconds": 567,
+      "accounted": true,
+      "execution_seconds": 566
+    }
+  ],
   "active_build": null,
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "start_utc": "2026-10-18T14:13:12Z",
   "main_deadline_utc": "2026-10-18T16:13:12Z",
   "deadline_utc": "2026-10-18T16:43:12Z",
@@ -17,5 +40,8 @@
   "max_timeout_seconds": 900,
   "authorization": "Direct owner assignment2026-10-18: sole closed-type annotation first_fnmut_calls; update dependent tool/patch/profile pins; one independent Luna High review; one fresh full first-comparator campaign Build after GO/source preflight. No other semantic/compiler/dependency changes, no retry/carryover. Brief-only.",
   "policy_revision": "584891be87db5c056bf9082c1ad24665eea74e69",
-  "evidence_policy_revision": "2026-10-17"
+  "evidence_policy_revision": "2026-10-17",
+  "closed_utc": "2026-10-18T14:37:05.343589+00:00",
+  "retired_unused_seconds": 393,
+  "closing_reason": "One authorized Build consumed and accounted. Brief reports compiler PASS as source claim but omits translator receipt and target obligations; request bounded audit. No retry/carryover or patch expansion."
 }

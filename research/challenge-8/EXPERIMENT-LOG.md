@@ -7040,3 +7040,110 @@ changed(profile/patch); all mandatory gates and negatives unchanged. No local pr
 source extraction, compile/refine/verify or dependency install. Annotation remains
 candidate until fresh translator-build evidence. Details and old→new table in
 cloud-build/origin-layout/TYPE-FIX-CARD-20261018.md and TYPE-FIX-IDENTITIES-20261018.json.
+
+
+## TYPE-FIX session2026-10-18 — CLOSED / two distinct outcomes
+
+Owner merge, project /root/verify-rust-std-merge-origin branch
+merge/incoming-origin-20261009; tool /root/verifast-merge-actual-glue branch
+merge/actual-glue-instance-20261011. Sole tool change fromd928cb1d to
+**52ba7e2506af993007675269111a24d15406d58b**:
+
+```ocaml
+let first_fnmut_calls :
+    (Ast.loc * [ `Continue | `Cleanup | `Other ]) list ref = ref []
+```
+
+Writer typedloc:Ast.loc, exactlyContinue/Cleanup/Other tags, unchanged cons and
+source-sort/shape checks verified before implementation. No casts, Obj.magic,
+diagnostic suppression, semantics/contracts/kernel/model/dependency/compiler change.
+New translator SHA **be517cc54213ee350a0dfd6e892d2affb4bfa7d2c2a42e40232a4872bd83cc9f**.
+Combined first-callback patch SHA **df08af37966ef28a9667dd8b50e45afa2e14ecf9d716e78765e2233820a64bd3**.
+Profile scope experimental-merge-first-callback-u64-v1 retained; new exact JSON
+SHA **84949dd9b08e6eb867b9f17b3d2149dcd41b44f219bcc369e2970bf5eca90a3f**,
+previous300fd8a7 profile bytes and patch saved separately, old records unchanged.
+Compiler nightly-2026-09-25/f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f unchanged.
+
+One independent GPT-6 Luna High reviewer GO, no nested delegation.14patches apply
+in source-only temp tree,16files match tool commit,14profile source hashes/18strict
+base pins PASS. All105proof recipe inputs checked: only profile and combinedpatch
+change; runtime/controls/normal-unwind posts/late-Cleanup separation unchanged.
+6isolated phase service tests PASS, no real API/coordinator/ledger mutation.
+No local compiler/extraction/refiner/verifier/dependency installation.
+
+Proof=infra **59a3dcaed3f3061a551fec00fd0c503a52043405**, published candidate;
+release bindingf975ff0d. Source payload **4c97ad4450ff8098bba53b429bbfd46c187d29b2ec567429b736209bb22f26e0**,
+430423bytes/144of191parts. All14exactpatchblobs in committed recipe; patch paths
+cover the full basef76012fb→candidate16-file delta. Existing Cloudbuild fetches
+exact public base, applies exact transferred chain and verifies14sourcepins;
+no remote candidate HEAD or transport change needed. Owner clarified tool commit
+stays local, publish patch/base/toolSHAs/hashes/pins through project branch; no
+fork creation or upstream push. Supplemental closure confirmation saved separately.
+
+One Build **e3252f3a-1034-405e-bc15-d406b79f20ed** terminal FAILURE.
+Config **aee43b1416190a52b317cf8b63c1a185cc68a72a25c7078877cbdbad50dbed36**,
+dispatch-c406c3940ce543de84f5802214845e22. API create14:24:14.330981030Z,
+start14:24:15.142082048Z,finish14:33:40.832218Z. Existing v3 coordinator used;
+no duplicate submission, Actions, workflow/transport/IAM changes.
+
+### Buildability question
+
+Fresh Brief: VERIFIED_ARCHIVE_AND_INVENTORY. Source assertions
+compiler_classification=PASS,proof_attempted=True; evidence_complete=True,runexit1.
+This supports the annotation hypothesis as a **source-reported build result**.
+Brief does not expose translator-build exit/receipt or exact executed source/binary
+identity. Old NON_GENERALIZABLE_TYPE_VARIABLES is not listed; absence alone is
+not independent confirmation of elimination. Direct translator-stage confirmation
+therefore remains not established in available report. No expanded patch prepared.
+
+### Verification question
+
+Stage observations24EXIT_NONZERO/72UNKNOWN,250candidates/96parsed/154notcaptured/
+32omitted; orderNOT_ESTABLISHED,lastcompletedUNKNOWN. Shown nonzero receipts are
+helper negatives and an official-refiner admission control, not a causal failure.
+Selected-drop-minimal and checked-minimal-bridge aggregates INCONCLUSIVE/acceptedFalse,
+7case classificationsUNKNOWN in processor. Combined-profile-smoke source aggregate
+reports1casePASS, without individual normal/unwind targets. Four representative
+classifications are source-reported expected rejections:
+
+| Case | Source classification / observed predicate |
+| --- | --- |
+| helper after_call_current_false | EXPECTED_AFTER_CALL_CURRENT_REJECTION; false at163 |
+| helper caller_entry_false | EXPECTED_CALLER_ENTRY_REJECTION; false at159 |
+| helper receiver_origin_probe | EXPECTED_RECEIVER_ORIGIN_REJECTION; ref_origin equality at159 |
+| after_natural_drop_false | EXPECTED_REJECTION; false at196 |
+
+These observations are not independent negative/proof credit or whole B1 acceptance.
+
+| Required target | Result established by available Brief |
+| --- | --- |
+| First actual concrete-u64 FnMut/HRTB contract | Not established |
+| Normal false: full CURRENT early-return resources | Not established |
+| Normal true: full CURRENT before tail.read/guard | Not established |
+| First original Continue panic: loans,array3/owners,F,thread/type/lifetime/frame | Not established |
+| Source-linked partial prefix at explicit cut | Not established |
+| Separate fullbody unchanged posts/frontier | Not established |
+| Official first-unwind refinement/mutant | Not established |
+| Resource-loss/HRTB/binder/late-Cleanup controls | Not established |
+| Complete fresh B1,normal/unwind,admission,default-off,receiver/end/retirement | Not established |
+
+Do not infer first campaign NOT_RUN from absent cases. Source claims and archive
+integrity kept distinct; no transfer of old profile results. B2 stays OPEN; no new
+independent proof credit. Experimental profile NOT_ACCEPTED/NOT_FOR_INTEGRATION.
+First confirmed blocker: missing direct translator receipt and decisive unmatched
+gate/target result; causal overall Build failure UNKNOWN.132diagnostic logs budget-
+omitted; no raw archives/logs/Cloud Logging or local copies read, no download_verified.
+
+### Account and next step
+
+Phase MERGE-FIRST-CALLBACK-TYPE-FIX-2026-10-18, T0 **14:13:12Z**,
+main16:13:12Z,finishing16:43:12Z. CLOSED **567/960Cloudseconds**, **393retired**;
+execution566s is not proof duration. One attempt consumed; no retry/carryover.
+Own active/reservation/request none. Prior333/960,627retired and103/960,857retired
+remain CLOSED unchanged. Closure timestamp in TYPE-FIX-BUDGET-20261018.json;
+checkpoint finished within main window. One next step: explicitly authorize
+[bounded admin audit](cloud-build/origin-layout/TYPE-FIX-ADMIN-AUDIT-REQUEST-20261018.md) for translator
+receipt/executed identity and first unmatched gate/target/control results, <=16KiB.
+No further patch or Build without separate owner decision.
+[Result](cloud-build/origin-layout/TYPE-FIX-RESULT-20261018.json) · [Brief](cloud-build/origin-layout/TYPE-FIX-EVIDENCE-BRIEF-20261018.md) ·
+[Identities](cloud-build/origin-layout/TYPE-FIX-IDENTITIES-20261018.json) · [Exact diff](cloud-build/origin-layout/TYPE-FIX-ONLY-20261018.patch).
