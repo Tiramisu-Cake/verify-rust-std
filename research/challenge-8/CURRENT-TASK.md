@@ -152,11 +152,11 @@ Tool commit остаётся в локальной назначенной вет
 
 ## Отчёт агента
 
-Начато исполнение 2026-10-18T19:04:30Z. Сейчас два Builds terminal/accounted:528+579=1107s; исторические accounts закрыты и не используются.
+Начато исполнение 2026-10-18T19:04:30Z. Сейчас два Builds terminal/accounted:528+579=1107s и третийsubmitted; исторические accounts закрыты и не используются.
 
 ### Сессия
 
-- Статус: ACTIVE — owner-approved CURRENT recovery candidate; review GO; exact inputs published, nextBuild pending.
+- Статус: ACTIVE — owner-approved CURRENT recovery candidate; review GO; Build3 submitted, awaitingterminal.
 - ID задания: `merge-first-comparator-2026-10-18-r1`.
 - T0 / main deadline / absolute deadline (UTC): `2026-10-18T19:04:30Z` / `21:04:30Z` / `21:34:30Z`.
 - Стартовые Project/tool HEAD: `431f43f54060558330489dd9190bfc97ca31f55e` / `52ba7e2506af993007675269111a24d15406d58b`; Evidence Brief policy revision2026-10-17 / commit584891be. WORK-POLICY/COMPLETION-PLAN и current assignment приняты.
@@ -182,7 +182,9 @@ Tool commit остаётся в локальной назначенной вет
 
 | `b4c78447-2c45-4548-98e9-18d00bf86132` | `251a83ad` / R1-MARKER-RELEASE-20261018.json | exact Noop marker location + receipt paths; full mandatory matrix | FAILURE19:52:22Z | source first call/localContinue reached; own(entry-xs-head) missing in recovery, VF1 | 579s |
 
-Два разных кандидата/Builds; дубликаты не отправлялись. Результаты сопровождать provenance и ограничениями; полный Brief не вставлять.
+| `e7b74165-b8ac-4d40-b541-396540104e08` | `e87f0d09` / R1-CURRENT-RELEASE-20261018.json | approvedCURRENT18commands +5strictadmissionnegatives, full oldmatrix | submitted | pending terminal/Brief | reserved960s |
+
+Три разных кандидата/Builds; дубликаты не отправлялись. Результаты сопровождать provenance и ограничениями; полный Brief не вставлять.
 
 ### Итог evidence
 
@@ -194,7 +196,7 @@ Tool commit остаётся в локальной назначенной вет
 - Source-linked prefix / separate full-body frontier: Build1 оба INCONCLUSIVE, source_exact=True, exporter/decode/refinement0/verifast2; observed Not_found translator List.find3138. Local first-Continue markerFalse, runtime statement trace flagsFalse не означают NOT_RUN.
 - Official first-unwind comparison и mutant: Build1 official_first_continue_qualified=True source claim; mutant в admission group source NOT_RUN_PREFIX_PREREQUISITE_FAILED.
 - Resource-loss / HRTB / binder / late-Cleanup и остальные mandatory controls: все4resource-loss и admission group source NOT_RUN_PREFIX_PREREQUISITE_FAILED, не intended-negative credit.
-- Подробные obligations/results/provenance: R1-BUILD1-RESULT-20261018.json, Reader schema v6/Processor0.7.0, receipt hashes совпали.
+- Подробные obligations/results/provenance: R1-OBLIGATIONS-20261018.md и R1-BUILD1/2-RESULT-20261018.json, Reader schema v6/Processor0.7.0, receipt hashes совпали.
 - B2 и formal credit: OPEN/False; нового independent proof credit нет.
 - Причина общего FAILURE: UNKNOWN в Processor; конкретный case blocker выше не переносится в общий causal verdict.
 - Новый tool-кандидат `2a5078681bf9b750d2fedb2223666df2f9baaeea`: sole Noop location; profile SHA566457f424e21a52274ee3227f1f292696d43f8775dba8b5bc05444b6c9ff4c1, patchfc34d5e0…, translatorb9232f69…. Старый manifest сохранён, R1-MARKER-IDENTITIES-20261018.json. Static14/16/14/18 +4synthetic PASS, final Luna High GO. Project proof=infra251a83adc4eadcd6a1e3eb87e795124596e228c2 опубликован; R1-MARKER-RELEASE-20261018.json проверяет106proofpaths/145parts/432518bytes payload SHA48bdc7e2…. Build2 b4c78447-2c45-4548-98e9-18d00bf86132 отправлен.

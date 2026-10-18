@@ -402,3 +402,17 @@ PASS,4syntheticPASS, final LunaHighGO. Published closure48bdc7e2…/432518B/145p
 Only additional runner changes are2no-credit receipt paths moved to existing
 nested/cases convention, no standalone reporting Build. Submit initiated;
 UUIDpending, no duplicate. Deadlines unchanged; tool local/no upstream publication.
+
+
+### R1 third candidate submitted after explicit CURRENT admission decision
+
+Owner20:02Z approved narrow exact CURRENT recovery admission. Tool08d6a578,
+profile82973e1e/patch4aa84aa5/translator2ff7b16f, sourcee87f0d09, release7ad45db0.
+Exact18checkedcommands rejoinreturnedCURRENTcells/owners once, frozenposts/CFG/
+HRTB/model retained.5strictadmissionnegatives added; alloldcontrols unchanged.
+6new+4prior synthetic tests and14/16/14/18sourcepreflight PASS; final LunaHighGO
+fixesNEWclassifiertimeout124/launch126 falseaccept viaexactStaticErrorexit1.
+Publishedclosure4ae63aa6…/433587B/145parts verified and matchedsubmittedpayload.
+Build e7b74165-b8ac-4d40-b541-396540104e08 submittedtimeout900; prior2terminalBuilds
+528+579=1107s accounted; currentreservation960s. No unchangedretry or oldcarryover.
+Main21:04:30Z/absolute21:34:30Z unchanged; targetresultsawaitBrief/Readerindex.
