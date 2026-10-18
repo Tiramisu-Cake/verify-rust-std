@@ -156,7 +156,7 @@ Tool commit остаётся в локальной назначенной вет
 
 ### Сессия
 
-- Статус: ACTIVE — owner-approved CURRENT recovery candidate; final review/preflight.
+- Статус: ACTIVE — owner-approved CURRENT recovery candidate; review GO; exact inputs published, nextBuild pending.
 - ID задания: `merge-first-comparator-2026-10-18-r1`.
 - T0 / main deadline / absolute deadline (UTC): `2026-10-18T19:04:30Z` / `21:04:30Z` / `21:34:30Z`.
 - Стартовые Project/tool HEAD: `431f43f54060558330489dd9190bfc97ca31f55e` / `52ba7e2506af993007675269111a24d15406d58b`; Evidence Brief policy revision2026-10-17 / commit584891be. WORK-POLICY/COMPLETION-PLAN и current assignment приняты.
@@ -170,7 +170,7 @@ Tool commit остаётся в локальной назначенной вет
 - До реализации rationale/source applicability/gates записаны в FIRST-CALLBACK-SEMANTIC-CARD-20261017.md, раздел R1. План: profile-scoped strict hash mapping с сохранением v8, compact classification/dispatch receipts через существующие schemas. Ни tool/profile, ни trusted semantics не меняются.
 - Первый кандидат Project proof=infra `762932d3158f7c5dcab0294a2a6c815c3bcd1a19`, release `ab26b351`; tool52ba7e25/profile84949dd9/patchdf08af37 unchanged. R1-RELEASE-20261018.json:106proofpaths,14patches,432081byte immutable payload/145parts, SHA87a6b062…. Published exact source checked.
 - Reporting-path follow-up reviewer: packaging всех payload подтверждён; поддержка Reader classifications вне /cases/ не установлена доступными исходниками. Receipt absence не заменяет execution evidence и не оправдывает новый Build только ради reporting.
-- CURRENT candidate:6newsynthetic tests PASS,4priorservice tests PASS,14orderedpatches/16reconstructedfiles/14profilepins/18strictbasepins PASS_STATIC_ONLY. Reviewer timeout/launch-status finding fixed in NEWclassifier only (exactexit1+case-insensitivefatalrejection); final independent Luna High readiness GO recorded R1-CURRENT-REVIEW-20261018.json.
+- CURRENT candidate:6newsynthetic tests PASS,4priorservice tests PASS,14orderedpatches/16reconstructedfiles/14profilepins/18strictbasepins PASS_STATIC_ONLY. Reviewer timeout/launch-status finding fixed in NEWclassifier only (exactexit1+case-insensitivefatalrejection); final independent Luna High readiness GO recorded R1-CURRENT-REVIEW-20261018.json. Project proof=infrae87f0d09a9a61e979da0d00b131d2e6ed7e11dc1 published; R1-CURRENT-RELEASE-20261018.json verifies433587byte closure/145parts/106paths, SHA4ae63aa6….
 - Статические проверки:14patches/16reconstructed files/14profilepins/18strictbasepins PASS;4synthetic service tests PASS. Независимый Luna High review GO, source hashes в R1-REVIEW-20261018.json; tool/profile unchanged.
 
 ### Запуски
