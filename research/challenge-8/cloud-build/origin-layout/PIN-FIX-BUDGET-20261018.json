@@ -5,11 +5,34 @@
     "merge"
   ],
   "ceiling_build_seconds": 960,
-  "used_build_seconds": 0,
-  "remaining_build_seconds": 960,
-  "builds": [],
+  "used_build_seconds": 333,
+  "remaining_build_seconds": 627,
+  "builds": [
+    {
+      "dispatch_token": "dispatch-7f20af9bfd1a4525b57af04176c8dfcb",
+      "owner": "merge",
+      "phase_id": "MERGE-FIRST-CALLBACK-PIN-FIX-2026-10-18",
+      "infra_sha": "c405641217d9b440b03ff74836a1d05983f82c3e",
+      "proof_sha": "c405641217d9b440b03ff74836a1d05983f82c3e",
+      "lane": "merge",
+      "submitted_config_sha256": "78b4e468f335fe8fa3601415778b8595b05ab4b3ed35755068a449f7a964eece",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "7b2a788288a304321668f7ba88aab99117a5039cf5329cd78d8bbb8dbbc75c0b",
+      "build_id": "42b71cd8-7cfa-46ea-a6a6-502ed49f5b25",
+      "start_time": "2026-10-18T09:04:46.525178716Z",
+      "finish_time": "2026-10-18T09:10:18.381771Z",
+      "create_time": "2026-10-18T09:04:45.784297701Z",
+      "build_seconds": 333,
+      "accounted": true,
+      "execution_seconds": 332
+    }
+  ],
   "active_build": null,
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "start_utc": "2026-10-18T08:41:55Z",
   "main_deadline_utc": "2026-10-18T10:41:55Z",
   "deadline_utc": "2026-10-18T11:11:55Z",
@@ -17,5 +40,8 @@
   "max_timeout_seconds": 900,
   "authorization": "Direct owner assignment 2026-10-18: commit reviewed stale provider base pin correction; publish consistent immutable inputs; one fresh Cloud Build of unchanged first-comparator campaign via existing v3 coordinator. No semantic changes, no matrix reduction, no retry/carryover. Brief-only; no raw/admin audit authorization for this Build.",
   "policy_revision": "584891be87db5c056bf9082c1ad24665eea74e69",
-  "evidence_policy_revision": "2026-10-17"
+  "evidence_policy_revision": "2026-10-17",
+  "closed_utc": "2026-10-18T09:13:33.028516+00:00",
+  "retired_unused_seconds": 627,
+  "closing_reason": "Single authorized Build terminal/accounted; Brief insufficient for stage/cause/obligations. No retry/carryover; separate admin audit requested."
 }

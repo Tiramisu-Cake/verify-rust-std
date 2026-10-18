@@ -1,0 +1,107 @@
+{
+  "schema": "merge-first-callback-pin-fix-result-v1",
+  "owner": "merge",
+  "phase": "MERGE-FIRST-CALLBACK-PIN-FIX-2026-10-18",
+  "fix_commit": "a3b8029a21c415c832714513b48383fdefa09100",
+  "proof_sha": "c405641217d9b440b03ff74836a1d05983f82c3e",
+  "infra_sha": "c405641217d9b440b03ff74836a1d05983f82c3e",
+  "tool_pin": "d928cb1d7ac60c257daa537fa65577f41135f832",
+  "profile_pin": "experimental-merge-first-callback-u64-v1",
+  "profile_sha256": "300fd8a7172c1644552b43c5bfda51a7c8a620f505012abd3760772df55102e3",
+  "executed_tool_profile_identity": "NOT_REPORTED_IN_BRIEF",
+  "build_id": "42b71cd8-7cfa-46ea-a6a6-502ed49f5b25",
+  "build_status": "FAILURE",
+  "dispatch_token": "dispatch-7f20af9bfd1a4525b57af04176c8dfcb",
+  "config_sha256": "78b4e468f335fe8fa3601415778b8595b05ab4b3ed35755068a449f7a964eece",
+  "source_payload_sha256": "7b2a788288a304321668f7ba88aab99117a5039cf5329cd78d8bbb8dbbc75c0b",
+  "classification": "INCONCLUSIVE_EVIDENCE_BRIEF_INSUFFICIENT",
+  "accepted": false,
+  "new_proof_credit": false,
+  "b2_achieved": false,
+  "brief": {
+    "file": "PIN-FIX-EVIDENCE-BRIEF-20261018.md",
+    "sha256": "c51fd8f7f2fc57820a691c8a8999b2cbd1b69e44495b9686257c3630215ebf97",
+    "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+    "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+    "source_run_exit": 1,
+    "source_evidence_complete": true,
+    "archive_sha256_prefix": "9d29c730cccc4854",
+    "inventory_verified_files": 148,
+    "metadata_exceptions_cross_checked": 2,
+    "text_index_entries": 112,
+    "text_chunks": 112,
+    "remote_text_chunk_bytes_checked": false,
+    "diagnostic_status": "UNKNOWN",
+    "causal_status": "UNKNOWN",
+    "missing_diagnostic": "NO_SUPPORTED_VERIFIED_FAILURE_DIAGNOSTIC",
+    "campaign_aggregate_found": false,
+    "representative_case_path": "allprooflogs/cases/selected-drop-minimal",
+    "case_verdict_or_stages_reported": false
+  },
+  "stages": {
+    "provider_validation": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "source_preparation": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "tool_build": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "extraction": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "exporter": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "decoder": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "official_refiner": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "verifier": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF"
+  },
+  "obligations": {
+    "concrete_u64_fnmut_hrtb_contract": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "normal_false_current_early_return_resources": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "normal_true_current_before_tail_read_guard_resources": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "first_panic_reference_loans_initialized_array3_owners_current_f_thread_type_lifetime_caller_frame_original_continue": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "source_linked_prefix_resource_theorem": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "full_body_unchanged_posts_next_frontier": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF"
+  },
+  "controls": {
+    "official_first_continue_refinement_and_intended_mutant": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "resource_loss_negatives": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "hrtb_output_binder_type_controls": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "late_cleanup_refusal": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "b1_bounded_normal_regression": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "ordinary_normal_unwind_and_helpers": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "generated_glue_admission": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "receiver_end_retirement": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF",
+    "default_off_compatibility": "NOT_ESTABLISHED_BY_FRESH_EVIDENCE_BRIEF"
+  },
+  "first_confirmed_blocker": "Reporting insufficiency: Brief contains no supported verified failure diagnostic, campaign aggregate, case verdict or stage receipts. Execution failure cause remains unknown.",
+  "timing": {
+    "create_time": "2026-10-18T09:04:45.784297701Z",
+    "start_time": "2026-10-18T09:04:46.525178716Z",
+    "finish_time": "2026-10-18T09:10:18.381771Z",
+    "execution_seconds": 332
+  },
+  "session": {
+    "start_utc": "2026-10-18T08:41:55Z",
+    "main_deadline_utc": "2026-10-18T10:41:55Z",
+    "deadline_utc": "2026-10-18T11:11:55Z"
+  },
+  "account": {
+    "ceiling_seconds": 960,
+    "charged_seconds": 333,
+    "retired_unused_seconds": 627,
+    "build_attempts": 1,
+    "retry_authorized": false,
+    "carryover": false,
+    "status": "CLOSED",
+    "closed_utc": "2026-10-18T09:13:33.028516+00:00",
+    "own_active_build": null,
+    "own_request_withdrawn": true
+  },
+  "local_validation": {
+    "original_pin_fix_tests": "3 PASS,18 source hashes,18 one-byte refusal subcases; preserved prior independent Luna High GO",
+    "new_session_admission_tests": "6 PASS; independent Luna High GO after exact fresh budget guard",
+    "source_only_preflight": "105 proof inputs; only adapter hash literal differs from08b61d81; all18 strict pins match; payload144/191parts; exact published SHA verified"
+  },
+  "evidence_boundary": {
+    "raw_logs_or_archives_read": false,
+    "cloud_logging_read": false,
+    "admin_audit_authorized_for_this_build": false,
+    "download_verified_set_from_brief": false,
+    "historical_ledgers_verdicts_preserved": true
+  },
+  "next_step": "Request separate bounded administrative audit as PIN-FIX-ADMIN-AUDIT-REQUEST-20261018.md; no semantic changes or automatic retry."
+}

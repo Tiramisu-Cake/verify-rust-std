@@ -6951,3 +6951,72 @@ session registration and synthetic admission tests prepared before submission.
 Session/card details in cloud-build/origin-layout/PIN-FIX-SESSION-20261018.md.
 Brief-only evidence; no raw audit for this new Build. No source/proof toolchain
 execution locally and no proof gain from setup preparation.
+
+
+## PIN-FIX session 2026-10-18 — CLOSED / INCONCLUSIVE
+
+Owner merge resumed worktree /root/verify-rust-std-merge-origin, branch
+merge/incoming-origin-20261009, explicit new one-Build owner assignment.
+Fixa3b8029a binds adapter to exact run.sh bytes from08b61d81; no wildcard/autoaccept.
+Session registrationc4056412 is separately tested/reviewed admission code, not a
+proof/tool change. Proof=infra **c405641217d9b440b03ff74836a1d05983f82c3e**,
+release binding20cf0e6d, exact published SHAs verified before dispatch.
+Tool **d928cb1d7ac60c257daa537fa65577f41135f832**;
+profile **experimental-merge-first-callback-u64-v1**, SHA256
+**300fd8a7172c1644552b43c5bfda51a7c8a620f505012abd3760772df55102e3**.
+Compiler remainsnightly-2026-09-25/f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f.
+Profile experimental/NOT_ACCEPTED/NOT_FOR_INTEGRATION; B2 open.
+
+All105 recipe proof inputs checked: only adapter expected SHA differs from08b61d81;
+all18 pinned inputs match. Source payload **7b2a788288a304321668f7ba88aab99117a5039cf5329cd78d8bbb8dbbc75c0b**,
+429531bytes/144of191parts. Original three regression tests and independent source
+review GO preserved; six synthetic new-session admission tests PASS and independent
+GPT-6 Luna High GO after exact fresh used0/remaining960 guard. No nested delegation.
+No local proof source preparation, compiler, extraction or verifier execution.
+
+One Build **42b71cd8-7cfa-46ea-a6a6-502ed49f5b25**, terminal FAILURE.
+Config **78b4e468f335fe8fa3601415778b8595b05ab4b3ed35755068a449f7a964eece**,
+token dispatch-7f20af9bfd1a4525b57af04176c8dfcb. API create09:04:45.784297701Z,
+start09:04:46.525178716Z,finish09:10:18.381771Z. Existing v3 coordinator used,
+no duplicate submit/Actions/workflow or trigger change.
+
+After terminal: only smallsort-brief UUID. Brief saved separately unchanged:
+VERIFIED_ARCHIVE_AND_INVENTORY; source NOT_ACCEPTED_AS_REPORTED/runexit1/
+evidence_complete=True. Inventory148files+2metadata crosschecks;112textentries/
+chunks, remote chunk bytes not checked. Archive prefix9d29c730cccc4854.
+Diagnostic status UNKNOWN, causal status UNKNOWN,
+NO_SUPPORTED_VERIFIED_FAILURE_DIAGNOSTIC. No campaign aggregate; only representative
+path allprooflogs/cases/selected-drop-minimal without verdict/stages.
+Archive integrity is not verification acceptance or evidence of a reached stage.
+
+| Required obligation/control | Fresh result established by Brief |
+| --- | --- |
+| Concrete-u64 FnMut/HRTB first actual comparator contract | Not established |
+| Normal false: full CURRENT early-return resources | Not established |
+| Normal true: restored CURRENT before tail.read/guard | Not established |
+| First panic: loans,array3/owners,CURRENT F,thread/type/lifetime/frame,original Continue | Not established |
+| Source-linked prefix with explicit cut | Not established |
+| Separate full-body diagnostic/unchanged final posts/frontier | Not established |
+| Official first-unwind refinement and intended mutant | Not established |
+| Resource-loss/HRTB/binder/late-Cleanup controls | Not established |
+| Mandatory B1,normal/unwind,helpers,admission,receiver/end/retirement/default-off | Not established |
+
+Provider validation/source preparation/tool build/exporter/decoder/refiner/verifier
+reachability also unknown from this Brief. Static source preflight cannot substitute
+for fresh execution receipts. First confirmed blocker is reporting insufficiency;
+causal Build failure unknown. Missing aggregate may mean absent/unpackaged/unreported;
+not resolved from current Brief. No new proof/negative credit, no transfer of old B1.
+No raw Build/verifier logs, archives, Cloud Logging or local raw copies read; no
+download_verified from Brief. No admin audit authorized for this new Build.
+
+New phase MERGE-FIRST-CALLBACK-PIN-FIX-2026-10-18 T0 **08:41:55Z**, main10:41:55Z,
+finishing11:11:55Z. Ledger CLOSED, **333/960Cloudseconds**, **627retired**;
+API execution332s is not proof duration. Single attempt consumed, no carryover/retry.
+Own active/reservation/request none. Old103/960,857retired CLOSED unchanged.
+Closure time recorded in PIN-FIX-BUDGET-20261018.json; session finished within main.
+
+Next step requires explicit separate bounded admin audit per
+[request](cloud-build/origin-layout/PIN-FIX-ADMIN-AUDIT-REQUEST-20261018.md), <=16KiB stage/failure/case/collector
+selection with provenance. No new semantic patch or Build authorized automatically.
+[Result](cloud-build/origin-layout/PIN-FIX-RESULT-20261018.json) · [Brief](cloud-build/origin-layout/PIN-FIX-EVIDENCE-BRIEF-20261018.md) ·
+[Release](cloud-build/origin-layout/PIN-FIX-RELEASE-20261018.json) · [Dispatch](cloud-build/origin-layout/PIN-FIX-DISPATCH-20261018.json).

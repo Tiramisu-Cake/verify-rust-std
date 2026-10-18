@@ -1,3 +1,35 @@
+# MERGE — PIN-FIX CLOSED / INCONCLUSIVE
+
+Build **42b71cd8-7cfa-46ea-a6a6-502ed49f5b25** terminal FAILURE.
+Fix commit **a3b8029a**, proof=infra **c405641217d9b440b03ff74836a1d05983f82c3e**;
+release binding20cf0e6d. Tool **d928cb1d7ac60c257daa537fa65577f41135f832**,
+profile experimental-merge-first-callback-u64-v1 / SHA256
+**300fd8a7172c1644552b43c5bfda51a7c8a620f505012abd3760772df55102e3** unchanged.
+Source-only preflight105proofpaths/18strictpins PASS; one expected SHA changed,
+three pin regressions/prior independent GO preserved; six new admission tests and
+independent Luna High review GO. No local compilation/extraction/verification.
+
+Fresh Evidence Brief: VERIFIED_ARCHIVE_AND_INVENTORY, source NOT_ACCEPTED,
+run exit1, evidence_complete=True,148verifiedfiles/112textentries. Diagnostic and
+causality UNKNOWN; NO_SUPPORTED_VERIFIED_FAILURE_DIAGNOSTIC, no aggregate,
+selected-drop-minimal path without verdict/stages. **Provider/tool build/export/
+decode/refine/verifier execution and all target/control results are not established
+by this Brief.** No PASS/NOT_RUN inference from missing cases, exit or duration.
+First confirmed blocker: insufficient reporting; execution failure cause unknown.
+No new normal/unwind/B1/B2 credit; B2 open. Raw evidence not read/downloaded;
+download_verified not set. Profile remains NOT_ACCEPTED/NOT_FOR_INTEGRATION.
+
+T0 08:41:55Z/main10:41:55Z/absolute11:11:55Z; completed within main window.
+New account CLOSED **333/960s,627retired**, one attempt consumed/no retry/carryover.
+Execution interval332s is not proof duration. Own active/request/reservation none.
+Prior account103/960,857retired and historical verdicts preserved unchanged.
+Next: separately authorize [bounded admin audit](cloud-build/origin-layout/PIN-FIX-ADMIN-AUDIT-REQUEST-20261018.md).
+[Result](cloud-build/origin-layout/PIN-FIX-RESULT-20261018.json) ·
+[Brief](cloud-build/origin-layout/PIN-FIX-EVIDENCE-BRIEF-20261018.md) ·
+[Release](cloud-build/origin-layout/PIN-FIX-RELEASE-20261018.json).
+
+Previous checkpoints below are historical, not standing authorization.
+
 # MERGE — PIN-FIX сессия активна: подготовка одного Build
 
 Phase MERGE-FIRST-CALLBACK-PIN-FIX-2026-10-18, owner merge.
@@ -5,7 +37,10 @@ T0 08:41:55Z; main10:41:55Z; finishing11:11:55Z. Новый отдельный �
 максимум один Build/timeout900s, без retry/carryover. Исправлениеa3b8029a
 зафиксировано: один expected run.sh hash, все18 checks сохранены.
 Semantic tool/profile/patch и104 остальных proof recipe inputs неизменны.
-Session registration и source-only preflight готовятся к публикации.
+Proof=infra c405641217d9b440b03ff74836a1d05983f82c3e опубликованы,
+release binding20cf0e6d. Один Build42b71cd8-7cfa-46ea-a6a6-502ed49f5b25
+отправлен через v3, reserved960s. Source payload7b2a7882…/144parts совпал с preflight.
+Session admission independent review GO,6service tests PASS. Мониторинг активен.
 Результаты нового Build — только Evidence Brief; raw/admin audit не разрешён.
 Старый103/960 CLOSED,857retired сохранён; нового proof credit нет, B2 открыт.
 [Session](cloud-build/origin-layout/PIN-FIX-SESSION-20261018.md).
