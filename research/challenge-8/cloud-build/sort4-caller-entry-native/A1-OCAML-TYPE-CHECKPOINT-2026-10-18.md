@@ -37,3 +37,12 @@ If new code error arises, stop patch expansion and report concrete blocker.
 Single terminal Build ends session regardless of matrix success. Evidence only
 via smallsort-brief; missing data stay UNKNOWN unless source-reported NOT_RUN.
 Full A1/A2 remain open; no formal credit at source checkpoint.
+
+## Pre-submit release
+
+Proof/infra528474564154dd2c54e210e233a09b1a8a8d8343; profile SHA256
+e8afe608713051e5e6f1e9191095846887c47d635980d4a5aac0be7888331de0.
+Independent Luna High static GO; full committed closure/config PASS,33infra+107proof,
+160 objects,169/191 substitutions. Release file binds all exact source/service pins.
+Original matrix/lifecycle code byte-identical apart from profile/auth identities.
+Focused backend path and dependent pin also follow new profile. No semantic fix added.

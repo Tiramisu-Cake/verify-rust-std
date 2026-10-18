@@ -8,7 +8,8 @@ one900s Build, no retry. Previous account433 charged/527 retired stays CLOSED.
 Full R includes only approved D.generic_arg_kind annotation relative to active R,
 retaining both unused_mut removals.43-patch source-only reconstruction and exact
 R/C expected identities PASS; C unchanged. Matrix26/P1/own-pair N-false31/G unchanged.
-Independent Luna High review and committed closure preflight pending before Cloud.
+Independent Luna High review GO; committed full closure/config preflight PASS.
+Candidate proof/infra528474564154dd2c54e210e233a09b1a8a8d8343; Cloud pending.
 Compilation/proof outcomes UNKNOWN; A1/A2 remain open, no new formal credit.
 
 [Session checkpoint](cloud-build/sort4-caller-entry-native/A1-OCAML-TYPE-CHECKPOINT-2026-10-18.md),
