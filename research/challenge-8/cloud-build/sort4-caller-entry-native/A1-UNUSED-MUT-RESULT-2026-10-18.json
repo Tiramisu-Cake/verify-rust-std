@@ -1,0 +1,555 @@
+{
+  "schema": "smallsort-a1-unused-mut-result-v1",
+  "owner": "select-sort4",
+  "initial_checkpoint": "d2444867685f809c01005e4f11bf7a56499859af",
+  "candidate_commit": "e58a75bbdcf6704175ceebcd72a227607a92d2ae",
+  "release_binding_commit": "ab803728",
+  "authorization_phase_id": "SORT4-A1-UNUSED-MUT-FIX-CLOUD-2026-10-18",
+  "experiment_protocol_phase_id": "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17",
+  "published_release_binding": {
+    "schema": "smallsort-a1-unused-mut-release-binding-v1",
+    "checkpoint": "d2444867685f809c01005e4f11bf7a56499859af",
+    "owner": "select-sort4",
+    "authorization_phase_id": "SORT4-A1-UNUSED-MUT-FIX-CLOUD-2026-10-18",
+    "experiment_protocol_phase_id": "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17",
+    "proof_sha": "e58a75bbdcf6704175ceebcd72a227607a92d2ae",
+    "infra_sha": "e58a75bbdcf6704175ceebcd72a227607a92d2ae",
+    "profile_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-RCG-UNUSED-MUT-PROFILE-2026-10-18.json",
+    "profile_sha256": "f3782dcaa2de2355739fa7134ada8c6df71a52ebf59e3e75037104fec77c5fb0",
+    "full_R_patch_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/required-item-representation-unused-mut-2026-10-18.patch",
+    "full_R_patch_sha256": "91fe9ad49c34d834e435605d95fb183e92e03c72f3d353e588dd7092fbeb6466",
+    "exporter_source_sha256": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+    "tool_pins": {
+      "tool_head": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+      "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+      "compiler_toolchain": "nightly-2026-09-25",
+      "c_patch_sha256": "e7cdc8a8504338ccaab760975c1a3f1a739211d7f8d531dd214babc2005d894e",
+      "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+      "target": "x86_64-unknown-linux-gnu",
+      "pointer_width": 64,
+      "r_before": {
+        "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+        "src/rust_frontend/vf_mir_exporter/src/lib.rs": "11f1e10bb8e52a4950611f874b1123c11e2c87cbb1378c3f5060992f74425f00",
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64"
+      },
+      "r_after": {
+        "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+        "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "564a865b4a4b0ac6a05c55f9f1ece48f7517e614bf25f49816c34eebe269e6ed"
+      },
+      "c_before": {
+        "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+        "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "564a865b4a4b0ac6a05c55f9f1ece48f7517e614bf25f49816c34eebe269e6ed"
+      },
+      "c_after": {
+        "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+        "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "4e1c7e12dc67f3ea9f6305ea495f9503c170ad624612d0839dc8e8f00ae3a00d"
+      },
+      "a1_focus_semantics_sha256": {
+        "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+        "src/verifast1.ml": "bfbfb518fb9783afeeba9384e1431b6cd280c7da7713b9fdbfd15a8395b00207",
+        "src/verify_expr.ml": "c2246e54f06fe099b5ddb6ba500aba4f6186498b1a44cb8a51b3389b18fe8ca9",
+        "src/vfconsole/vfconsole.ml": "79179baa9ad9e9cb2ee5163f4c9528f665519d894c43093183fd8e9f31b06898"
+      }
+    },
+    "service_pins": {
+      "research/challenge-8/cloud-build/control.py": "bf123c169cbb97b012faa8c2cce79cb36116639e9e45453212b9611dddf52cd5",
+      "research/challenge-8/cloud-build/coordination.py": "49464b5a1078c99f8f44ef0bba06bb285c039ca0a0ab10d104bc7b54f32cb4bc",
+      "research/challenge-8/cloud-build/source-input.py": "09b0b5b03f853ce354226e8e70f60233f24c3a829c38047c98a556dd2aa6534a",
+      "research/challenge-8/cloud-build/recipes/o26-sort4-c1-current-recovery.json": "c809987400f538eb4c83bdd3673cd69d80f3a922cfd02ef3d9f8eacde4caa7f6",
+      "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-entry.py": "f4420968817bc205ad35ed8690fcf268d8e1ada181dcb34f7d99cb54294f4941",
+      "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-runner.py": "d23cbe3fdd3090d4fb050979564705abf964673155cf9db5b21c2f63d1e39aee"
+    },
+    "helper_sha256": {
+      "a1-ast-gates.py": "2d4c9badda0d74ca4439bc39f5fb647804d8dee4a129e8263ac4ee21db82b76f",
+      "a1-call-binding.py": "302a0ee3e2eb1950aa4bd42ac2c5cedbaabc97b114754f63421de8e0d1f9f0cb",
+      "a1-compiler-inventory.py": "286db29e897505b09b701031ddc501033a8ff8d902e6247eb7e4f548bb2729e1",
+      "a1-contract-admission.py": "0ac3b182a24ba3a8cfd21588dd393f652e864bf54593ac7f4a5caaa473927ad4",
+      "a1-fixtures.py": "2e5dc197288f323cf200c3a0124ec8a4a1a53afe41b78bd878a5222a3aaed9c7",
+      "a1-focus-backend.py": "157860353395d33ba1977ba52a1342c781161ca155116958df55ef80e0fc9e72",
+      "a1-matrix-classifier.py": "e50dca88e41f41a1919db83412f5016ea19428b2c6b092bfe1c8cfc61c70b6a6",
+      "a1-proof-classifier.py": "7a2070a3132bc7d4601565aebd25e0aea682520e3fbb32a6045ccdf276142a2e",
+      "a1-summary-receipt.py": "bcc55360698346f0aa2dfb3858c6b555a9104db95308116d2c16c188a9b8a7dd",
+      "a1-synthetic-backend.py": "4498e7dbcd4ffaaf4746bfee239e56a36f78e883da59937d9b48c1025e5b8feb",
+      "a1-synthetic-inputs.py": "ef770ff0a2fb1ad02bafee1c6f850302b35f95972209cc6d7e85a6e8b0dd0cfd",
+      "a1-tool.py": "4dfe398682fc772d0fabf16623ff002034a71f94d01cca5a4bce19914e206983",
+      "selected-proof.py": "3347ad41c0273ebf186dbcf0520182455b32a65ad9619f2b2c7d3d00c12a7d7f"
+    },
+    "preflight": {
+      "published_candidate": "e58a75bbdcf6704175ceebcd72a227607a92d2ae",
+      "source_payload_bytes": 504218,
+      "source_payload_base64_bytes": 672292,
+      "source_sha256": "d2b4e66b46dff5bbb5701aef1c8c41d2cb119731b8f00b1fa84f5ca1a23ae28f",
+      "source_substitutions": 169,
+      "source_substitutions_limit": 191,
+      "source_value_limit": 3990,
+      "exact_restore": "PASS",
+      "infra_paths": 33,
+      "proof_paths": 107,
+      "shared_objects": 160,
+      "config_arg_bounds": "PASS",
+      "dispatch": "NOT_ATTEMPTED"
+    },
+    "stage_env_bindings_verified": true,
+    "independent_review": "A1-UNUSED-MUT-REVIEW-2026-10-18.md",
+    "source_check": "A1-UNUSED-MUT-SOURCE-CHECK-2026-10-18.json",
+    "budget": {
+      "seconds": 960,
+      "maximum_builds": 1,
+      "timeout": 900,
+      "start_utc": "2026-10-18T08:37:29Z",
+      "main_deadline_utc": "2026-10-18T10:37:29Z",
+      "absolute_deadline_utc": "2026-10-18T11:07:29Z"
+    },
+    "new_matrix_status": "NOT_RUN",
+    "formal_credit": false
+  },
+  "source_fix": "exactly two unused mut modifiers removed at exporter843,906",
+  "new_cloud_builds_authorized": 1,
+  "execution_status": "FAILURE",
+  "R_only_reference_build": {
+    "status": "FAILED",
+    "stage": "a1-R-only-native-reference-build",
+    "exit": 2,
+    "classification": "TERMINAL",
+    "timeout_budget_seconds": 491,
+    "evidence": "OBSERVED_STAGE_FROM_VERIFIED_ARCHIVED_MEMBER",
+    "reference": {
+      "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build-stage.json",
+      "sha256": "66620752e728d7b7f66dfe0a20704d714845afd825a1f3fe1f18123e3b0e1e90",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  },
+  "R_only_reference_receipt": {
+    "status": "NOT_ISSUED_BY_RUNNER_SOURCE_FLOW",
+    "basis": "a1-tool.reconstruct requires combined build exit0 before copy/hash/receipt; current stage exit2; no independent receipt absence audit"
+  },
+  "final_C_tool": {
+    "status": "NOT_RUN_SOURCE_FLOW",
+    "basis": "C apply/final build follows successful R-only build and reference receipt"
+  },
+  "P1": "NOT_RUN_SOURCE_REPORTED",
+  "matrix": {
+    "N-alpha-valid": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "N-binder-collapse": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "N-binding": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "N-clause-redirect": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "N-clauses": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "N-default-contract": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "N-duplicate": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "N-false31": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "N-free-region": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "N-freeze-contract": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "N-no-F": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "N-region-swap": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "N-source": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "OFF": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "P-dispatch": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "P0a": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "P0b": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "P0c": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "P1": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "R1": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "R2": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "R3": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "R4": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "R5": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "R6": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    },
+    "R7": {
+      "status": "NOT_RUN",
+      "initial_profile_status": "NOT_RUN",
+      "proof_credit": false,
+      "basis": "SOURCE_REPORTED26/26 from proof-audit.json via processor0.4.0; same pinned26-row inventory",
+      "intended_negative_credit": false
+    }
+  },
+  "N_false31": {
+    "own_default_body_conformance": {
+      "status": "NOT_RUN_SOURCE_FLOW",
+      "basis": "all26 source-reported NOT_RUN; reconstruction fails before any source-case lifecycle; no individual substage receipt evidence returned"
+    },
+    "own_freeze_body_conformance": {
+      "status": "NOT_RUN_SOURCE_FLOW",
+      "basis": "all26 source-reported NOT_RUN; reconstruction fails before any source-case lifecycle; no individual substage receipt evidence returned"
+    },
+    "own_receipt": {
+      "status": "NOT_RUN_SOURCE_FLOW",
+      "basis": "all26 source-reported NOT_RUN; reconstruction fails before any source-case lifecycle; no individual substage receipt evidence returned"
+    },
+    "threshold32_len32_admission": {
+      "status": "NOT_RUN_SOURCE_FLOW",
+      "basis": "all26 source-reported NOT_RUN; reconstruction fails before any source-case lifecycle; no individual substage receipt evidence returned"
+    },
+    "caller_len_le31_assertion": {
+      "status": "NOT_RUN_SOURCE_FLOW",
+      "basis": "all26 source-reported NOT_RUN; reconstruction fails before any source-case lifecycle; no individual substage receipt evidence returned"
+    }
+  },
+  "first_current_causal_blocker": {
+    "stage": "tool-reconstruction / a1-R-only-native-reference-build",
+    "status": "CORROBORATED_SOURCE_REPORT",
+    "stage_exit": 2,
+    "upstream_compiler_or_make_diagnostic": "UNESTABLISHED",
+    "reason": "failure_diagnostics.messages=[]; actual first error/failed component is not exposed"
+  },
+  "historical_blocker": "old Build R-only compiler unused_mut; approved source edits applied and exact hashes verified; runtime removal of those diagnostics not yet established",
+  "formal_credit": false,
+  "full_A1_A2": "NOT_ACHIEVED",
+  "scope_exclusions": [
+    "actual small_sort\u2192helper",
+    "A2/ZST/resource redesign",
+    "C5/copies",
+    "sort8"
+  ],
+  "raw_evidence_accessed": false,
+  "prior_accounts_changed": false,
+  "local_policy_edits_preserved": true,
+  "build_id": "7c26b389-1ad9-45c8-9adf-089125476fdb",
+  "submitted_config_sha256": "b54b646c52589c95e2e42a869e5c05b4f15b6ed626756ffb77e11cd735b99c41",
+  "dispatch_token": "dispatch-d50d53c788cc4471adce8389f7057e2b",
+  "build_create_utc": "2026-10-18T09:01:41.175877758Z",
+  "build_start_utc": "2026-10-18T09:01:41.935008081Z",
+  "build_finish_utc": "2026-10-18T09:08:53.320178Z",
+  "used_cloud_seconds": 433,
+  "execution_seconds": 432,
+  "unused_retired_cloud_seconds": 527,
+  "new_builds_used": 1,
+  "retry_authorized": false,
+  "R_only_exporter_compile_alone": "UNESTABLISHED_BRIEF_NO_DIAGNOSTIC",
+  "R_only_console_build_alone": "UNESTABLISHED_BRIEF_NO_DIAGNOSTIC",
+  "checkpoint_utc": "2026-10-18T09:49:41.999516+00:00",
+  "brief": {
+    "path": "A1-UNUSED-MUT-EVIDENCE-BRIEF-2026-10-18.md",
+    "sha256": "2a9657a67f3f214e960e09639a2a4afb3be78ce3506d5d06db59f760ff85544f",
+    "index_path": "A1-UNUSED-MUT-EVIDENCE-INDEX-2026-10-18.json",
+    "index_sha256": "bbf7d9e8b6dbba8b6e127db93fc31e7d0b4368f1ea1d15576b5aa9888f396cf2",
+    "processor_version": "0.4.0",
+    "processing_status": "VERIFIED_ARCHIVE_AND_INVENTORY",
+    "archive_sha256": "4da91b4e0f81a8527bfbd45466c21e38daa1cb8cc57860648ec352c389a849ce",
+    "source_reported": {
+      "diagnostic_complete": false,
+      "evidence_complete": true,
+      "failure_class": "none",
+      "lane": "o26-sort4-c1-current-recovery",
+      "missing_mandatory": [],
+      "run_exit_code": 0,
+      "text_logs_complete": true,
+      "verification_accepted": false
+    },
+    "failure_diagnostics": {
+      "case_counts_evidence": "SOURCE_REPORTED",
+      "case_counts_reference": {
+        "archive_member": "proof-audit.json",
+        "sha256": "216c3a8ce72b1e6a0bdff71e0a67f25e9eac0e9fba6930212e3a82789de593f4",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "case_status_counts": {
+        "NOT_RUN": 26
+      },
+      "case_total": 26,
+      "causal_status": "CORROBORATED_SOURCE_REPORT",
+      "issue": null,
+      "limits": {
+        "log_bytes": 1048576,
+        "messages": 4
+      },
+      "messages": [],
+      "source_reported_blocker": {
+        "case_id": "tool-reconstruction",
+        "error": "RuntimeError: A1-TOOL: R-only native reference build",
+        "event": "adapter_error",
+        "evidence": "SOURCE_REPORTED",
+        "execution_started": true,
+        "reference": {
+          "archive_member": "proof-audit.json",
+          "sha256": "216c3a8ce72b1e6a0bdff71e0a67f25e9eac0e9fba6930212e3a82789de593f4",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        }
+      },
+      "source_reported_causal_stage": "tool-reconstruction",
+      "stage_failure": {
+        "classification": "TERMINAL",
+        "evidence": "OBSERVED",
+        "exit": 2,
+        "log_reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+          "sha256": "f3ba5380316c6aee2aad00bc004aaaade6af5f9d2ba75f6b0569134314c81a9b",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "log_sha256_correlated": true,
+        "name": "a1-R-only-native-reference-build",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build-stage.json",
+          "sha256": "66620752e728d7b7f66dfe0a20704d714845afd825a1f3fe1f18123e3b0e1e90",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        },
+        "timeout_seconds": 491
+      },
+      "status": "CORROBORATED",
+      "unavailable": []
+    },
+    "integrity": {
+      "archive_inventory": {
+        "all_files_sha256_verified": true,
+        "excluded_metadata_verified": 2,
+        "unpacked_bytes": 2596250,
+        "verified_files": 356
+      },
+      "metadata": "SHA-256_CROSS_REFERENCES_VERIFIED",
+      "text_log_index": {
+        "chunk_object_bytes": "NOT_CHECKED_IN_GCS",
+        "chunks": 272,
+        "cross_checked_inventory_sha": true,
+        "source_files": 272
+      }
+    },
+    "receipt_hash_checks": "PASS",
+    "integrity_is_proof_acceptance": false
+  },
+  "next_step": "Separately authorize ADMIN-AUDIT-REQUEST-7c26b389-2026-10-18.md for <=16KiB diagnostic, <=30 context lines, exact failed command/component/status, last confirmed stage and SHA provenance; no automatic new Build or further semantic edits.",
+  "local_work_window_extension": {
+    "owner_authorized_hours": 1,
+    "main_deadline_utc": "2026-10-18T11:37:29Z",
+    "finish_checkpoint_deadline_utc": "2026-10-18T12:07:29Z",
+    "closed_CI_window_and_ledger_unchanged": true,
+    "new_Build_or_raw_audit_authorization": false
+  },
+  "tmp_cleanup": {
+    "kind": "explicit-whitelist-owned-temporary-source-scripts-and-report-duplicates-only",
+    "utc": "2026-10-18T09:48:19.634141+00:00",
+    "removed_files": [
+      {
+        "path": "/tmp/select-sort4-unused-mut-brief.md",
+        "bytes": 1931
+      },
+      {
+        "path": "/tmp/select-sort4-unused-mut-preserved.json",
+        "bytes": 7542
+      },
+      {
+        "path": "/tmp/select-sort4-a1-continuation-brief.json",
+        "bytes": 1051
+      },
+      {
+        "path": "/tmp/select-sort4-diagnostic-brief.md",
+        "bytes": 1051
+      },
+      {
+        "path": "/tmp/select-sort4-diagnostic-build-metadata.json",
+        "bytes": 806
+      },
+      {
+        "path": "/tmp/select-sort4-diagnostic-index.json",
+        "bytes": 2218
+      },
+      {
+        "path": "/tmp/select-sort4-diagnostic-receipt.json",
+        "bytes": 675
+      },
+      {
+        "path": "/tmp/select-sort4-diagnostic-source-pins.json",
+        "bytes": 1517
+      },
+      {
+        "path": "/tmp/select-sort4-diagnostic-steps.json",
+        "bytes": 726
+      },
+      {
+        "path": "/tmp/select-sort4-unused-mut-final-preflight.json",
+        "bytes": 489
+      },
+      {
+        "path": "/tmp/select-sort4-unused-mut-preflight.py",
+        "bytes": 2778
+      },
+      {
+        "path": "/tmp/select-sort4-unused-mut-prepare.py",
+        "bytes": 8847
+      },
+      {
+        "path": "/tmp/select-sort4-unused-mut-source-check.py",
+        "bytes": 5884
+      },
+      {
+        "path": "/tmp/select-sort4-R-exporter-source-only.rs",
+        "bytes": 168400
+      },
+      {
+        "path": "/tmp/select-sort4-a1-checkpoint-base.json",
+        "bytes": 3636
+      },
+      {
+        "path": "/tmp/select-sort4-a1-continuation-source-preflight.gz",
+        "bytes": 720712
+      },
+      {
+        "path": "/tmp/select-sort4-a1-final-preflight.json",
+        "bytes": 489
+      },
+      {
+        "path": "/tmp/select-sort4-a1-preflight.py",
+        "bytes": 2449
+      }
+    ],
+    "removed_bytes": 931201,
+    "preserved_coordinator_state_dirs": [
+      "/tmp/select-sort4-a1-unused-mut-20261018",
+      "/tmp/select-sort4-a1-continuation-20261017"
+    ],
+    "unknown_or_foreign_files_touched": false,
+    "raw_evidence_read": false
+  },
+  "brief_recheck": "Repeated smallsort-brief after owner extension: same R-only exit2/26NOT_RUN with no compiler/make messages"
+}

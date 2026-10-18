@@ -1,21 +1,48 @@
 {
   "phase": "SORT4-A1-UNUSED-MUT-FIX-CLOUD-2026-10-18",
-  "status": "AUTHORIZED",
+  "status": "CLOSED_ONE_BUILD_R_ONLY_FAILURE",
   "authorization": "Direct owner authorization 2026-10-18: apply exactly two unused_mut removals, preserve R/C/G and all26 A1 matrix; publish exact candidate pins and preflight before one900s Cloud Build; no retry.",
   "owner": "select-sort4",
   "start_utc": "2026-10-18T08:37:29Z",
   "main_deadline_utc": "2026-10-18T10:37:29Z",
   "deadline_utc": "2026-10-18T11:07:29Z",
   "ceiling_build_seconds": 960,
-  "used_build_seconds": 0,
-  "remaining_build_seconds": 960,
+  "used_build_seconds": 433,
+  "remaining_build_seconds": 527,
   "maximum_build_timeout_seconds": 900,
   "maximum_builds": 1,
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
   ],
   "active_build": null,
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-d50d53c788cc4471adce8389f7057e2b",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-A1-UNUSED-MUT-FIX-CLOUD-2026-10-18",
+      "infra_sha": "e58a75bbdcf6704175ceebcd72a227607a92d2ae",
+      "proof_sha": "e58a75bbdcf6704175ceebcd72a227607a92d2ae",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "b54b646c52589c95e2e42a869e5c05b4f15b6ed626756ffb77e11cd735b99c41",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "d2b4e66b46dff5bbb5701aef1c8c41d2cb119731b8f00b1fa84f5ca1a23ae28f",
+      "build_id": "7c26b389-1ad9-45c8-9adf-089125476fdb",
+      "start_time": "2026-10-18T09:01:41.935008081Z",
+      "finish_time": "2026-10-18T09:08:53.320178Z",
+      "create_time": "2026-10-18T09:01:41.175877758Z",
+      "build_seconds": 433,
+      "accounted": true,
+      "execution_seconds": 432
+    }
+  ],
   "previous_accounts": "All old accounts unchanged/closed, including330/960 with630 retired; no carry.",
-  "no_carry": true
+  "no_carry": true,
+  "retired_unused_build_seconds": 527,
+  "closure_reason": "One permitted Build consumed. Corroborated R-only combined build exit2, all26 source-reported NOT_RUN; detailed compiler/make cause absent from Brief. No retry/carry.",
+  "brief_report_sha256": "2a9657a67f3f214e960e09639a2a4afb3be78ce3506d5d06db59f760ff85544f",
+  "evidence_interface": "smallsort-brief"
 }

@@ -1,29 +1,34 @@
-# select/sort4 — unused_mut fix candidate, Cloud NOT_RUN
+# select/sort4 — unused_mut fix Build failed at R-only build
 
 Owner select-sort4; branch research/night-select-sort4-cloud-2026-10-09.
-Initial checkpoint/HEAD d2444867 matched remote; no fresher commits found.
+Start d2444867 matched HEAD/remote; old reports/pins/ledgers and all8 local policy
+files preserved. Old Brief reporting gap resolved for choosing the two-mut fix.
 
-Updated Brief for57ea65a3-475e-4370-810c-19ad36803174 now corroborates R-only
-native reference build exit2: unused_mut exporter843:17 and906:60 under
-#![deny(warnings)]. All26 rows source-reported NOT_RUN. The prior insufficient
-Brief diagnosis is resolved for choosing this fix; old reports/checkpoints stay
-unchanged. P1/N-false31/formal verification were not established.
+New candidate proof/infra e58a75bbdcf6704175ceebcd72a227607a92d2ae,
+release binding ab803728. New full R patch91fe9ad4…b6466 removes only the approved
+mut modifiers; exact exporter c29d0d46…b463ad verified via43-patch source chain/R/C
+maps.10 dispatcher+4 reuse tests PASS, independent source review and full committed
+closure/config preflight PASS. Source/synthetic evidence gives no formal credit.
 
-New R candidate removes only the two approved mut tokens. Exact43-patch baseline,
-R/C source/hash and frozen semantic checks PASS; exporter c29d0d46…b463ad.
-New profile/authorization binding and recipe retain the same26-row matrix.
-10 dispatcher checks +4 same-Build reuse tests PASS, independent Luna High review
-finds no source blocker. Compilation/extraction/verification only Cloud; new
-candidate remains NOT_RUN pending published closure/config preflight and Build.
+One new authorized Build7c26b389-1ad9-45c8-9adf-089125476fdb finished FAILURE.
+Brief corroborates tool-reconstruction / a1-R-only-native-reference-build exit2;
+26 source-reported NOT_RUN, including P1/N-false31. Its diagnostic message array
+is empty: actual compiler/make error and exporter-vs-console result remain
+UNESTABLISHED. Do not infer that old unused_mut persisted or were eliminated.
+R-only receipt and final C tool are not reached by pinned source flow; no proof.
 
-New phase SORT4-A1-UNUSED-MUT-FIX-CLOUD-2026-10-18; T008:37:29Z,
-main10:37:29Z, absolute11:07:29Z,960s/max1 Build900s. Old330/960 with630 retired
-and earlier accounts remain closed; no carry. Canonical C protocol ID stays old;
-new authorization ID is separately pinned/enforced without translator changes.
+New account charged433/960s (execution432s),1/1 Build, unused527 retired, CLOSED.
+Old330/960+630retired and earlier accounts remain closed unchanged; no carry.
+T008:37:29Z, main10:37:29Z, absolute11:07:29Z. Request withdrawn, no reservations.
+No raw archives/full logs/Cloud Logging read or downloaded; no download_verified.
 
-[Session](cloud-build/sort4-caller-entry-native/A1-UNUSED-MUT-FIX-2026-10-18.md),
-[source checks](cloud-build/sort4-caller-entry-native/A1-UNUSED-MUT-SOURCE-CHECK-2026-10-18.json),
-[review](cloud-build/sort4-caller-entry-native/A1-UNUSED-MUT-REVIEW-2026-10-18.md).
-Previous STATUS preserved in dated snapshot. All pre-existing local policy edits
-preserved. Full A1/A2 NOT ACHIEVED, index15%, profile UNACCEPTED; actual
-small_sort→helper, A2/ZST, C5/copies and sort8 remain outside this task.
+[Checkpoint](cloud-build/sort4-caller-entry-native/A1-UNUSED-MUT-CHECKPOINT-2026-10-18.md),
+[all26/lifecycle result](cloud-build/sort4-caller-entry-native/A1-UNUSED-MUT-RESULT-2026-10-18.json),
+[exact pins](cloud-build/sort4-caller-entry-native/A1-UNUSED-MUT-RELEASE-2026-10-18.json),
+[Brief](cloud-build/sort4-caller-entry-native/A1-UNUSED-MUT-EVIDENCE-BRIEF-2026-10-18.md),
+[bounded admin request](cloud-build/sort4-caller-entry-native/ADMIN-AUDIT-REQUEST-7c26b389-2026-10-18.md).
+
+Next: separately authorize <=16KiB/30-line administrative diagnostic of the
+actual combined-build error before a next justified fix/new Build authorization.
+A1/A2 NOT ACHIEVED, index15%, profile UNACCEPTED. Actual small_sort→helper,
+A2/ZST/resources, C5/copies and sort8 remain outside this task.

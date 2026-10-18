@@ -1,0 +1,135 @@
+{
+  "aggregates": {},
+  "archive_sha256": "4da91b4e0f81a8527bfbd45466c21e38daa1cb8cc57860648ec352c389a849ce",
+  "build_id": "7c26b389-1ad9-45c8-9adf-089125476fdb",
+  "cases": [
+    {
+      "case": "allprooflogs/cases/sort4-c1-current-recovery",
+      "first_observed_error": null,
+      "log_source": null,
+      "official_records": {},
+      "provenance": {
+        "a1-R-only-native-reference-build-stage.json": {
+          "archive_member": true,
+          "sha256": "66620752e728d7b7f66dfe0a20704d714845afd825a1f3fe1f18123e3b0e1e90",
+          "source_file": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build-stage.json",
+          "text_chunk_paths": []
+        },
+        "a1-R-only-native-reference-build.log": {
+          "archive_member": true,
+          "sha256": "f3ba5380316c6aee2aad00bc004aaaade6af5f9d2ba75f6b0569134314c81a9b",
+          "source_file": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+          "text_chunk_paths": [
+            "text-logs/a2eab57ef996656f094a761dcb8b44a70764a7dbc47a58ef5473b798996969cb.part-000000.txt"
+          ]
+        }
+      },
+      "stage_exit_codes": {}
+    }
+  ],
+  "caveats": [
+    "No new proof performed by processor.",
+    "Verifier error lines are observational and need original-classifier review for causal status.",
+    "Archived inventory bytes SHA-256 verified; separate GCS text chunk bytes not fetched.",
+    "Agent session-level evaluation requires a separate session manifest."
+  ],
+  "failure_diagnostics": {
+    "case_counts_evidence": "SOURCE_REPORTED",
+    "case_counts_reference": {
+      "archive_member": "proof-audit.json",
+      "sha256": "216c3a8ce72b1e6a0bdff71e0a67f25e9eac0e9fba6930212e3a82789de593f4",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    "case_status_counts": {
+      "NOT_RUN": 26
+    },
+    "case_total": 26,
+    "causal_status": "CORROBORATED_SOURCE_REPORT",
+    "issue": null,
+    "limits": {
+      "log_bytes": 1048576,
+      "messages": 4
+    },
+    "messages": [],
+    "source_reported_blocker": {
+      "case_id": "tool-reconstruction",
+      "error": "RuntimeError: A1-TOOL: R-only native reference build",
+      "event": "adapter_error",
+      "evidence": "SOURCE_REPORTED",
+      "execution_started": true,
+      "reference": {
+        "archive_member": "proof-audit.json",
+        "sha256": "216c3a8ce72b1e6a0bdff71e0a67f25e9eac0e9fba6930212e3a82789de593f4",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "source_reported_causal_stage": "tool-reconstruction",
+    "stage_failure": {
+      "classification": "TERMINAL",
+      "evidence": "OBSERVED",
+      "exit": 2,
+      "log_reference": {
+        "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+        "sha256": "f3ba5380316c6aee2aad00bc004aaaade6af5f9d2ba75f6b0569134314c81a9b",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "log_sha256_correlated": true,
+      "name": "a1-R-only-native-reference-build",
+      "reference": {
+        "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build-stage.json",
+        "sha256": "66620752e728d7b7f66dfe0a20704d714845afd825a1f3fe1f18123e3b0e1e90",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "timeout_seconds": 491
+    },
+    "status": "CORROBORATED",
+    "unavailable": []
+  },
+  "identities": {
+    "infra_sha": "e58a75bbdcf6704175ceebcd72a227607a92d2ae",
+    "proof_audit_path": "proof-audit.json",
+    "proof_sha": "e58a75bbdcf6704175ceebcd72a227607a92d2ae",
+    "tool_profile": {
+      "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+      "patches_in_application_order": [],
+      "rust_toolchain": "nightly-2026-09-25",
+      "scope": "no proof tools executed",
+      "std_base_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+      "verifast_source_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+    }
+  },
+  "integrity": {
+    "archive_inventory": {
+      "all_files_sha256_verified": true,
+      "excluded_metadata_verified": 2,
+      "unpacked_bytes": 2596250,
+      "verified_files": 356
+    },
+    "metadata": "SHA-256_CROSS_REFERENCES_VERIFIED",
+    "text_log_index": {
+      "chunk_object_bytes": "NOT_CHECKED_IN_GCS",
+      "chunks": 272,
+      "cross_checked_inventory_sha": true,
+      "source_files": 272
+    }
+  },
+  "processing_status": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "processor_version": "0.4.0",
+  "proof_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "reported": {
+    "diagnostic_complete": false,
+    "evidence_complete": true,
+    "failure_class": "none",
+    "lane": "o26-sort4-c1-current-recovery",
+    "missing_mandatory": [],
+    "run_exit_code": 0,
+    "text_logs_complete": true,
+    "verification_accepted": false
+  },
+  "schema": "smallsort-evidence-index-v2",
+  "source": {
+    "archive_uri": "gs://smallsort-ci-evidence-504462351565/cloud-build/7c26b389-1ad9-45c8-9adf-089125476fdb/evidence.tar.gz",
+    "bucket": "smallsort-ci-evidence-504462351565",
+    "original_prefix": "cloud-build/7c26b389-1ad9-45c8-9adf-089125476fdb"
+  }
+}

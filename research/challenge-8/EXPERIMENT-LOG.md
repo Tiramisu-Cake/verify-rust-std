@@ -7722,3 +7722,19 @@ New authorization explicitly bound to unchanged C protocol, no semantic input
 changes beyond approved fix.10+4 isolated service/reuse checks PASS; independent
 Luna High source review has no blocker. New Cloud candidate NOT_RUN pending
 published-source closure/config preflight. Source/synthetic PASS is not proof.
+
+
+## 2026-10-18 — unused_mut candidate sole Build result
+
+Published exact proof/infra e58a75bbdcf6704175ceebcd72a227607a92d2ae;
+release ab803728. Build7c26b389-1ad9-45c8-9adf-089125476fdb FAILURE,
+09:01:41Z→09:08:53Z;433s charged (432s execution),1/1 Build,527 unused retired.
+Ordinary Brief/index/receipt0.4.0 hashes match; integrity verified, source
+NOT_ACCEPTED/run0/evidence_complete=true/diagnostic_complete=false. Corroborated
+R-only reference combined build exit2, budget491s;26 source-reported NOT_RUN.
+No compiler/make messages exposed, so actual upstream error and old-diagnostic
+clearance remain unknown. R-only receipt, final C, P1 and own-pair false31 not
+reached by pinned flow. No formal credit, no raw fallback, no retry. Old ledgers
+and pins/checkpoints/policy bytes preserved. Account closed/request withdrawn.
+See A1-UNUSED-MUT-CHECKPOINT-2026-10-18.md, machine result and <=16KiB/30-line
+administrative diagnostic request for next evidence-based step.

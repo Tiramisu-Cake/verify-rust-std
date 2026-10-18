@@ -1,4 +1,4 @@
-# A1 unused_mut fix — 2026-10-18 (ACTIVE; candidate NOT_RUN)
+# A1 unused_mut fix — 2026-10-18 (CLOSED; R-only build exit2)
 
 Owner select-sort4; initial checkpoint/HEAD and remote d2444867. No newer commit
 was present. Eight pre-existing local Evidence Brief policy/instruction files
@@ -67,3 +67,17 @@ and new profile hash verified; config argument and submitted-config transport
 bounds PASS. Published release binding: A1-UNUSED-MUT-RELEASE-2026-10-18.json.
 The copied patch artifact retains inherited context whitespace; its delta from
 old R has no introduced whitespace issues and exact two-token source difference.
+
+## Closure
+
+Sole Build7c26b389-1ad9-45c8-9adf-089125476fdb: FAILURE,433s charged,
+527s retired. R-only combined build exit2 corroborated;26NOT_RUN source-reported.
+Brief has no actual compiler/make diagnostic. Final C and case lifecycles not
+reached by source flow. See A1-UNUSED-MUT-CHECKPOINT-2026-10-18.md and bounded
+ADMIN-AUDIT-REQUEST-7c26b389-2026-10-18.md. No retry or raw fallback.
+
+Local work window extended by owner by1h after the Build: main11:37:29Z,
+finish/checkpoint12:07:29Z. Closed CI ledger retains its original window and
+accounting; no new Build/raw-audit authorization. Owned /tmp source/preflight
+scripts and redundant report copies cleaned via explicit whitelist; coordinator
+state and unknown/foreign artifacts retained. See cleanup manifest.
