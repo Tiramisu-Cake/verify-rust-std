@@ -496,5 +496,95 @@
     "CURRENT_false_true_panic": "joint source claim does not establish branches separately",
     "skipped_controls": "only explicit source NOT_RUN used; no credit",
     "nested_receipt_details": "not extracted Processor; Reader accessible"
-  }
+  },
+  "bounded_processed_diagnostic_contexts": [
+    {
+      "anchor_line": 716,
+      "causal_status": "UNKNOWN",
+      "coverage": {
+        "lines_outside_window": 917,
+        "oversized_lines_in_scan": 3,
+        "sanitized_lines_in_scan": 357,
+        "scan_limit_reached": false,
+        "scanned_bytes": 71101,
+        "scanned_lines": 929,
+        "source_bytes": 71101,
+        "window_lines_omitted_for_byte_budget": 0,
+        "withheld_lines_in_scan": 106
+      },
+      "evidence": "OBSERVED_UNTRUSTED_TEXT",
+      "id": 1,
+      "lines": [
+        {
+          "line": 713,
+          "text": "0.233116s: ?REDACTED_LONG_VALUE?.rsspec(178,6-13): Inferring chunk arguments",
+          "withheld": null
+        },
+        {
+          "line": 714,
+          "text": "0.233126s: verified/lib.rs(188,432-437): Producing predicate chunk",
+          "withheld": null
+        },
+        {
+          "line": 715,
+          "text": "0.233134s: verified/lib.rs(188,487-492): Executing statement",
+          "withheld": null
+        },
+        {
+          "line": 716,
+          "text": "?REDACTED_LONG_VALUE?.rsspec(181,32-39): error: No matching heap chunks: foreach?u64?(t3, own0(uint64_t_typeid, t))",
+          "withheld": null
+        },
+        {
+          "line": 717,
+          "text": "[WITHHELD: COMMAND_ENVIRONMENT_OR_ROLE_TEXT]",
+          "withheld": "COMMAND_ENVIRONMENT_OR_ROLE_TEXT"
+        },
+        {
+          "line": 718,
+          "text": "? ^^^^^^^",
+          "withheld": null
+        },
+        {
+          "line": 719,
+          "text": "?REDACTED_LONG_VALUE?.rsspec(181,32-39): note: Consuming assertion",
+          "withheld": null
+        },
+        {
+          "line": 720,
+          "text": "[WITHHELD: COMMAND_ENVIRONMENT_OR_ROLE_TEXT]",
+          "withheld": "COMMAND_ENVIRONMENT_OR_ROLE_TEXT"
+        },
+        {
+          "line": 721,
+          "text": "? ^^^^^^^",
+          "withheld": null
+        },
+        {
+          "line": 722,
+          "text": "verified/lib.rs(188,487-492): note: Executing statement",
+          "withheld": null
+        },
+        {
+          "line": 723,
+          "text": "[WITHHELD: OVERSIZED_LINE]",
+          "withheld": "OVERSIZED_LINE"
+        },
+        {
+          "line": 724,
+          "text": "? ^^^^^",
+          "text_clipped": true,
+          "withheld": null
+        }
+      ],
+      "parser_classification": "NO_SUPPORTED_PARSER_CLASSIFICATION",
+      "reference": {
+        "archive_member": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verifast.log",
+        "sha256": "f210c13e302b0a05b0a5a03e4beaa9563f1bf54daee72da6af02378d61be96d8",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "selection": "FIRST_GENERIC_MARKER",
+      "status": "AVAILABLE"
+    }
+  ]
 }
