@@ -1,0 +1,18 @@
+{
+  "schema": "pin-fix-session-source-review-v1",
+  "reviewer": "/root/review_pin_fix_phase",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "fork_turns": "none",
+  "verdict": "GO",
+  "findings_resolved": [
+    "Require exact fresh initial used_build_seconds=0 and remaining_build_seconds=960, not just ceiling960."
+  ],
+  "test_result": "6/6 PASS; refusal matrix includes identity/path/budget/bounds/attempt state/source/timeout/window; mocked request/submit only; real and historical ledgers unchanged.",
+  "code_hashes": {
+    "research/challenge-8/cloud-build/control.py": "ad5f74655e4f07957a9fb575a0105f1f7660b4ed3f9533c80245d071d8b7bef8",
+    "research/challenge-8/cloud-build/origin-layout/pin-fix-session-service-test.py": "3ff79d21706bee997007b56a7e2f7be41b2f4fc1fc9f5e355d7ca65156381b78"
+  },
+  "proof_or_tool_semantics_changed": false,
+  "coordinator_changed": false
+}

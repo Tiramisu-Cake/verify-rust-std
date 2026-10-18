@@ -6936,3 +6936,18 @@ refusals). Earlier independent GPT-6 Luna High source review remains applicable:
 production/test bytes unchanged. No tool execution/result claim from old Brief.
 Candidate ready for commit review and a separately authorized new CI Build;
 no commit/push/Build here, no proof credit or historical ledger/budget changes.
+
+
+## 2026-10-18 — separately authorized provider-pin fix Build session opened
+
+Stable owner merge; phase MERGE-FIRST-CALLBACK-PIN-FIX-2026-10-18.
+T0 08:41:55Z/main10:41:55Z/absolute11:11:55Z. Fresh960s, one Build exactly900s
+plus60s queue envelope, no carryover/retry. Prior103/960/857retired CLOSED unchanged.
+Committed reviewed pin/test/records asa3b8029a; semantic tool d928cb1d and profile
+300fd8a7172c1644552b43c5bfda51a7c8a620f505012abd3760772df55102e3 unchanged.
+All105 proof recipe paths checked: only adapter expected hash differs from08b61d81;
+all18 base hashes match; all mandatory campaign hooks/controls retained. New exact
+session registration and synthetic admission tests prepared before submission.
+Session/card details in cloud-build/origin-layout/PIN-FIX-SESSION-20261018.md.
+Brief-only evidence; no raw audit for this new Build. No source/proof toolchain
+execution locally and no proof gain from setup preparation.

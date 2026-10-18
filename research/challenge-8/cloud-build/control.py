@@ -246,6 +246,27 @@ def authorized_phase(a,ledger):
     raise SystemExit('First callback main window passed; finishing only')
    if a.timeout>900 or a.lane!='merge' or ledger.get('builds') or ledger.get('active_build') is not None:
     raise SystemExit('First callback permits one merge Build, timeout at most900s; no automatic retry')
+ if a.phase_id=='MERGE-FIRST-CALLBACK-PIN-FIX-2026-10-18':
+  expected_ledger=DIR/'origin-layout'/'PIN-FIX-BUDGET-20261018.json'
+  if (a.ledger.resolve()!=expected_ledger.resolve() or
+      a.owner!='merge' or ledger.get('owner')!='merge' or
+      ledger['ceiling_build_seconds']!=960 or ledger.get('allowed_lanes')!=['merge'] or
+      ledger.get('used_build_seconds')!=0 or ledger.get('remaining_build_seconds')!=960 or
+      ledger.get('start_utc')!='2026-10-18T08:41:55Z' or
+      ledger.get('main_deadline_utc')!='2026-10-18T10:41:55Z' or
+      ledger.get('deadline_utc')!='2026-10-18T11:11:55Z' or
+      ledger.get('max_builds')!=1 or ledger.get('max_timeout_seconds')!=900):
+   raise SystemExit('Pin-fix phase differs from explicit owner authorization')
+  cutoff=datetime.datetime.fromisoformat('2026-10-18T11:11:55+00:00')
+  now=datetime.datetime.now(datetime.timezone.utc)
+  if now<datetime.datetime.fromisoformat(ledger['start_utc'].replace('Z','+00:00')):
+   raise SystemExit('Pin-fix session has not started')
+  if a.command=='submit':
+   if now>=datetime.datetime.fromisoformat(ledger['main_deadline_utc'].replace('Z','+00:00')):
+    raise SystemExit('Pin-fix main window passed; finishing only')
+   if (a.timeout!=900 or a.lane!='merge' or a.source_mode!='pinned-objects' or
+       ledger.get('builds')!=[] or ledger.get('active_build') is not None):
+    raise SystemExit('Pin-fix permits one pinned merge attempt, timeout900s; no retry')
  if a.phase_id=='CI-IAM-E2E-ONCE-2026-10-17':
   # Separate, explicitly activated account; never reuse a historical ledger.
   expected_ledger=DIR/'ci-iam-e2e-once-20261017'/'BUDGET.json'

@@ -1,3 +1,17 @@
+# MERGE — PIN-FIX сессия активна: подготовка одного Build
+
+Phase MERGE-FIRST-CALLBACK-PIN-FIX-2026-10-18, owner merge.
+T0 08:41:55Z; main10:41:55Z; finishing11:11:55Z. Новый отдельный счёт960s,
+максимум один Build/timeout900s, без retry/carryover. Исправлениеa3b8029a
+зафиксировано: один expected run.sh hash, все18 checks сохранены.
+Semantic tool/profile/patch и104 остальных proof recipe inputs неизменны.
+Session registration и source-only preflight готовятся к публикации.
+Результаты нового Build — только Evidence Brief; raw/admin audit не разрешён.
+Старый103/960 CLOSED,857retired сохранён; нового proof credit нет, B2 открыт.
+[Session](cloud-build/origin-layout/PIN-FIX-SESSION-20261018.md).
+
+Предыдущие checkpoints ниже сохранены как история.
+
 # MERGE — stale base pin: исправление подготовлено, без commit/Build
 
 2026-10-17: владелец предоставил ограниченный admin audit Build `a7ad5ce8`
