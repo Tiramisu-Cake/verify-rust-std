@@ -152,11 +152,11 @@ Tool commit остаётся в локальной назначенной вет
 
 ## Отчёт агента
 
-Начато исполнение 2026-10-18T19:04:30Z. Сейчас два Builds terminal/accounted:528+579=1107s и третийsubmitted; исторические accounts закрыты и не используются.
+Начато исполнение 2026-10-18T19:04:30Z. Сейчас три Builds terminal/accounted:528+579+598=1705s; singleton candidate review GO; исторические accounts закрыты и не используются.
 
 ### Сессия
 
-- Статус: ACTIVE — owner-approved CURRENT recovery candidate; review GO; Build3 submitted, awaitingterminal.
+- Статус: ACTIVE — Build3 terminal, proof-only singleton candidate final review GO.
 - ID задания: `merge-first-comparator-2026-10-18-r1`.
 - T0 / main deadline / absolute deadline (UTC): `2026-10-18T19:04:30Z` / `21:04:30Z` / `21:34:30Z`.
 - Стартовые Project/tool HEAD: `431f43f54060558330489dd9190bfc97ca31f55e` / `52ba7e2506af993007675269111a24d15406d58b`; Evidence Brief policy revision2026-10-17 / commit584891be. WORK-POLICY/COMPLETION-PLAN и current assignment приняты.
@@ -182,7 +182,7 @@ Tool commit остаётся в локальной назначенной вет
 
 | `b4c78447-2c45-4548-98e9-18d00bf86132` | `251a83ad` / R1-MARKER-RELEASE-20261018.json | exact Noop marker location + receipt paths; full mandatory matrix | FAILURE19:52:22Z | source first call/localContinue reached; own(entry-xs-head) missing in recovery, VF1 | 579s |
 
-| `e7b74165-b8ac-4d40-b541-396540104e08` | `e87f0d09` / R1-CURRENT-RELEASE-20261018.json | approvedCURRENT18commands +5strictadmissionnegatives, full oldmatrix | submitted | pending terminal/Brief | reserved960s |
+| `e7b74165-b8ac-4d40-b541-396540104e08` | `e87f0d09` / R1-CURRENT-RELEASE-20261018.json | approvedCURRENT18commands +5strictadmissionnegatives, full oldmatrix | FAILURE20:26:29Z | CURRENT owners/firstforeach passed; secondforeach missing tail chunk, VF1 | 598s |
 
 Три разных кандидата/Builds; дубликаты не отправлялись. Результаты сопровождать provenance и ограничениями; полный Brief не вставлять.
 
@@ -212,3 +212,9 @@ Tool commit остаётся в локальной назначенной вет
 - Source checkpoint / published docs checkpoint или отметка о последующем publication commit: —
 - Непроверенные изменения и местонахождение кандидата: —
 - Конкретный следующий шаг и требуется ли новое разрешение: —
+
+### R1 Build3 terminal / singleton candidate (20:36Z)
+
+Build `e7b74165-b8ac-4d40-b541-396540104e08` FAILURE20:26:29Z, charge598s/execution597s. Total3builds1705s, no active Build. Fresh smallsort-brief plus Reader v6/Processor0.7.0 receipt/index hashes verified; compact derived artifacts R1-BUILD3-*. All7 build milestones observed exit0. Prefix and fullbody sourceexact/HRTB/firstContinue/actualfirstcall claimsTrue, exporter/decode/refinement0,VF1, jointCURRENTfalse/true/panicFalse. Recovery now passes CURRENT owner closes and first foreach; next observed error list.rsspec181 missing foreach(t3,own<u64>) on second/tail foreach close (derived context verified188:487). Whole-Build causal_status UNKNOWN. Five dependent groups explicitly sourceNOT_RUN_PREFIX_PREREQUISITE_FAILED; B1 sourceall_matchedTrue. No independent proof credit/B2.
+
+Next concrete hypothesis recorded before implementation: existing checked length_drop/length_take/drop_length facts establish both original singleton list lengths1 and last suffix nil before callback lifetime. Six pure proof commands; no heap/owner assumptions, no entry=CURRENT equality, no weakened posts/whitelist/CFG. Tool08d6a578/profile82973e1e/patch4aa84aa5 unchanged; only first-callback.py differs among106proofrecipepaths. Seven synthetic tests and14/16/14/18 source-only preflight PASS. Independent Luna High final GO, R1-SINGLETON-REVIEW-20261018.json. Full mandatory matrix retained for next Build; actual success unknown.

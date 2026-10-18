@@ -18,6 +18,15 @@ PROFILE = 'experimental-merge-first-callback-u64-v1'
 PREFIX_NAME = b'insert_tail_first_callback_prefix'
 CUT = b'        // SAFETY: after this read'
 
+# Pure entry facts, before the callback lifetime; no resources or value equality.
+SINGLETON_FACTS = b"""    //@ length_drop(1, xs);
+    //@ length_take(1, drop(1, xs));
+    //@ length_drop(1, drop(1, xs));
+    //@ note(length(take(1, drop(1, xs))) == 1);
+    //@ note(length(drop(1, drop(1, xs))) == 1);
+    //@ drop_length(drop(1, drop(1, xs)));
+"""
+
 # Exact inherited suffix and owner-authorized CURRENT replacement; ghost only.
 ENTRY_OWNER_REJOIN = b"""        //@ close own::<u64>(t)(head(take(1, drop(1, xs))));
         //@ close own::<u64>(t)(head(drop(1, drop(1, xs))));
@@ -61,6 +70,12 @@ def _one(data, old, new, label):
     if data.count(old) != 1:
         raise ValueError(f'{label}: expected one exact anchor')
     return data.replace(old, new, 1)
+
+
+def _add_singleton_facts(source):
+    anchor = b"    //@ let cmp_k = begin_lifetime();\n"
+    return _one(source, anchor, SINGLETON_FACTS + anchor,
+                'pure singleton length facts before callback lifetime')
 
 
 def _commands(fragment):
@@ -128,6 +143,7 @@ def prepare(evidence, *, prefix=False, mutation=None):
     original = (case / 'original/lib.rs').read_bytes()
     verified = (case / 'verified/lib.rs').read_bytes()
     full_original = original
+    verified = _add_singleton_facts(verified)
     verified = _one(verified,
                     old.B2_COMPARE_RECOVER.replace(b'        ', b'            '),
                     b'', 'remove old false recovery')

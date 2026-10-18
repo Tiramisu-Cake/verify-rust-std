@@ -38,6 +38,20 @@ def outcome(log, code):
 
 
 class CurrentTests(unittest.TestCase):
+    def test_singleton_facts_are_pure_unique_and_outside_lifetime(self):
+        anchor = b"    //@ let cmp_k = begin_lifetime();\n"
+        synthetic = b"fn synthetic() {\n"+anchor+b"    /*@ let_lft 'cmp = cmp_k; @*/\n}\n"
+        changed = campaign._add_singleton_facts(synthetic)
+        self.assertEqual(changed.replace(campaign.SINGLETON_FACTS, b'', 1), synthetic)
+        self.assertEqual(campaign.SINGLETON_FACTS.count(b'//@ '), 6)
+        self.assertLess(changed.index(b'length_drop'), changed.index(b'begin_lifetime'))
+        self.assertLess(changed.index(b'length_take'), changed.index(b'let_lft'))
+        self.assertNotIn(b'own', campaign.SINGLETON_FACTS)
+        self.assertNotIn(b'assume', campaign.SINGLETON_FACTS)
+        self.assertNotIn(b'leak', campaign.SINGLETON_FACTS)
+        for bad in (b'no anchor', synthetic+anchor):
+            with self.assertRaises(ValueError): campaign._add_singleton_facts(bad)
+
     def test_current_recovery_uses_returned_values_and_keeps_close_protocol(self):
         lines = campaign._markers(OLD).splitlines()
         self.assertEqual(len(lines), 3)

@@ -276,3 +276,35 @@ required. Full unchanged Cloud matrix checks prefix false/true/Continue-panic,
 separatefullbody,4resource-loss negatives, compiler/HRTB/binder/lateCleanup/
 firstunwindmutant and B1/helper/smoke/defaultoff/receiver/end/retirement. Earlier
 setup/refusal is never an intended resource negative. No unchanged retry.
+
+
+### R1 singleton-tail normalization — before implementation
+
+Build3e7b74165/sourcee87f0d09/tool08d6a578/profile82973e1e: bothcases reachfirstcall,
+localContinue/refinement, thenVF1 atsecondcloseforeach. Brief boundedcontext
+fullbodylogf210c13e…713-716 showsfirstcloseforeachproduced atverified188:432 and
+secondatt188:487 failspinnedlist181 foreach(t3,own<u64>). Currentownerclosureold
+entryvalueblocker has passed; no prefix/normal/unwind success claimed.
+
+Proof-only hypothesis: oldtail singleton's foreach tail t3 lacks explicit zero
+length/nil normalization. Functionentry length(xs)=3, existing checked length_drop
+and length_take establish both oldsingletonlengths1, hence their residual empty
+tails align with nil. Insert exactly5pure checked ghostcommands before fresh
+begin_lifetime and outside let_lft: length_drop(1,xs);length_take(1,drop(1,xs));
+length_drop(1,drop(1,xs));note(length(take(1,drop(1,xs)))==1);
+note(length(drop(1,drop(1,xs)))==1). No array/owner/resource production, assume,
+leak, entry/current value equality, marker/whitelist/CFG or contract change.
+Tool08d6a578/profile82973e1e/patch4aa84aa5 remainexact. Onlyproof/infra/closure
+identities change. Ordinary proofannotation scope already authorized.
+
+Gates: exactuniqueentryanchor, pure source annotation test/staleanchor refusal,
+full14patch/16files/14pins/18base closure +independentLunaHighsourceGO; mandatory
+matrix/5newadmissionnegatives unchanged. FreshBuild falsifieswhethertailforeach
+nowrejoins; do not claimnextstage or weakenpostsifitdoesnot.
+
+Before dispatch, strengthen only the pure normalization (6commands total): after
+the two length1 notes, call existing drop_length(drop(1,drop(1,xs))). Its checked
+post gives drop(length(lastSingleton),lastSingleton)==nil; length1 then makes
+the opaque last foreach tail explicitly nil. First sift slice already succeeded;
+no need new heap close or solver-dependent entry/current equality. Same proof-only
+scope; exact recovery/tool/profile/controls unchanged.

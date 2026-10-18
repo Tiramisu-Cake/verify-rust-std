@@ -416,3 +416,9 @@ Publishedclosure4ae63aa6…/433587B/145parts verified and matchedsubmittedpayloa
 Build e7b74165-b8ac-4d40-b541-396540104e08 submittedtimeout900; prior2terminalBuilds
 528+579=1107s accounted; currentreservation960s. No unchangedretry or oldcarryover.
 Main21:04:30Z/absolute21:34:30Z unchanged; targetresultsawaitBrief/Readerindex.
+
+### R1 Build3 terminal / singleton candidate (20:36Z)
+
+Build `e7b74165-b8ac-4d40-b541-396540104e08` FAILURE20:26:29Z, charge598s/execution597s. Total3builds1705s, no active Build. Fresh smallsort-brief plus Reader v6/Processor0.7.0 receipt/index hashes verified; compact derived artifacts R1-BUILD3-*. All7 build milestones observed exit0. Prefix and fullbody sourceexact/HRTB/firstContinue/actualfirstcall claimsTrue, exporter/decode/refinement0,VF1, jointCURRENTfalse/true/panicFalse. Recovery now passes CURRENT owner closes and first foreach; next observed error list.rsspec181 missing foreach(t3,own<u64>) on second/tail foreach close (derived context verified188:487). Whole-Build causal_status UNKNOWN. Five dependent groups explicitly sourceNOT_RUN_PREFIX_PREREQUISITE_FAILED; B1 sourceall_matchedTrue. No independent proof credit/B2.
+
+Next concrete hypothesis recorded before implementation: existing checked length_drop/length_take/drop_length facts establish both original singleton list lengths1 and last suffix nil before callback lifetime. Six pure proof commands; no heap/owner assumptions, no entry=CURRENT equality, no weakened posts/whitelist/CFG. Tool08d6a578/profile82973e1e/patch4aa84aa5 unchanged; only first-callback.py differs among106proofrecipepaths. Seven synthetic tests and14/16/14/18 source-only preflight PASS. Independent Luna High final GO, R1-SINGLETON-REVIEW-20261018.json. Full mandatory matrix retained for next Build; actual success unknown.
