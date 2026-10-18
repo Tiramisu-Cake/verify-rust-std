@@ -1,0 +1,20 @@
+--- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
++++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
+@@ -840,7 +840,7 @@
+             type_params: &[(u32, String, u32, String)],
+             arg: ty::GenericArg<'tcx>, out: gen_arg_cpn::Builder<'_>,
+         ) {
+-            let mut kind = out.init_kind();
++            let kind = out.init_kind();
+             match arg.kind() {
+                 ty::GenericArgKind::Lifetime(region) =>
+                     Self::encode_required_region(enc_ctx.tcx, owner, scope, region, kind.init_lifetime()),
+@@ -903,7 +903,7 @@
+             enc_ctx: &mut EncCtx<'tcx, 'a>, owner: u32, scope_prefix: &str,
+             ordinal: usize,
+             type_params: &[(u32, String, u32, String)],
+-            clause: &(ty::Clause<'tcx>, rustc_span::Span), mut out: clause_cpn::Builder<'_>,
++            clause: &(ty::Clause<'tcx>, rustc_span::Span), out: clause_cpn::Builder<'_>,
+         ) {
+             let scope = format!("{}clause_{}", scope_prefix, ordinal);
+             let bound_regions: Vec<String> = clause.0.kind().bound_vars().iter()

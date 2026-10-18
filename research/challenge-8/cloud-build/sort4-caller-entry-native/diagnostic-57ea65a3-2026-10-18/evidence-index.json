@@ -1,0 +1,172 @@
+{
+  "aggregates": {},
+  "archive_sha256": "02901f734338f175e9969c47fe59c35d369e75e2150308b06495ba6acc2e6c0f",
+  "build_id": "57ea65a3-475e-4370-810c-19ad36803174",
+  "cases": [
+    {
+      "case": "allprooflogs/cases/sort4-c1-current-recovery",
+      "first_observed_error": null,
+      "log_source": null,
+      "official_records": {},
+      "provenance": {
+        "a1-R-only-native-reference-build-stage.json": {
+          "archive_member": true,
+          "sha256": "ddc330bc8f67e0aa0a068ced23a8a8d2e3e201df9293a100b9858712dc80d563",
+          "source_file": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build-stage.json",
+          "text_chunk_paths": []
+        },
+        "a1-R-only-native-reference-build.log": {
+          "archive_member": true,
+          "sha256": "fce1d5e4658d815703b38bb15a7517818224d25ce3515480b9c4f138bdcef4ee",
+          "source_file": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+          "text_chunk_paths": [
+            "text-logs/a2eab57ef996656f094a761dcb8b44a70764a7dbc47a58ef5473b798996969cb.part-000000.txt"
+          ]
+        }
+      },
+      "stage_exit_codes": {}
+    }
+  ],
+  "caveats": [
+    "No new proof performed by processor.",
+    "Verifier error lines are observational and need original-classifier review for causal status.",
+    "Archived inventory bytes SHA-256 verified; separate GCS text chunk bytes not fetched.",
+    "Agent session-level evaluation requires a separate session manifest."
+  ],
+  "failure_diagnostics": {
+    "case_counts_evidence": "SOURCE_REPORTED",
+    "case_counts_reference": {
+      "archive_member": "proof-audit.json",
+      "sha256": "88a0e0838b3eb6172156be9d9ab8057e90ec3b99ea85b55b8573d1dc2c56d068",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    "case_status_counts": {
+      "NOT_RUN": 26
+    },
+    "case_total": 26,
+    "causal_status": "CORROBORATED_SOURCE_REPORT",
+    "issue": null,
+    "limits": {
+      "log_bytes": 1048576,
+      "messages": 4
+    },
+    "messages": [
+      {
+        "category": "RUST_UNUSED_MUT",
+        "evidence": "OBSERVED",
+        "location": "src/lib.rs:843:17",
+        "message": "Rust unused_mut: variable does not need to be mutable",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+          "line": 68,
+          "sha256": "fce1d5e4658d815703b38bb15a7517818224d25ce3515480b9c4f138bdcef4ee",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        }
+      },
+      {
+        "category": "RUST_UNUSED_MUT",
+        "evidence": "OBSERVED",
+        "location": "src/lib.rs:906:60",
+        "message": "Rust unused_mut: variable does not need to be mutable",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+          "line": 83,
+          "sha256": "fce1d5e4658d815703b38bb15a7517818224d25ce3515480b9c4f138bdcef4ee",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        }
+      },
+      {
+        "category": "COMPILER_ERROR",
+        "evidence": "OBSERVED",
+        "location": null,
+        "message": "could not compile ?vf_mir_exporter? (lib) due to 2 previous errors",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+          "line": 91,
+          "sha256": "fce1d5e4658d815703b38bb15a7517818224d25ce3515480b9c4f138bdcef4ee",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        }
+      }
+    ],
+    "source_reported_blocker": {
+      "case_id": "tool-reconstruction",
+      "error": "RuntimeError: A1-TOOL: R-only native reference build",
+      "event": "adapter_error",
+      "evidence": "SOURCE_REPORTED",
+      "execution_started": true,
+      "reference": {
+        "archive_member": "proof-audit.json",
+        "sha256": "88a0e0838b3eb6172156be9d9ab8057e90ec3b99ea85b55b8573d1dc2c56d068",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "source_reported_causal_stage": "tool-reconstruction",
+    "stage_failure": {
+      "classification": "TERMINAL",
+      "evidence": "OBSERVED",
+      "exit": 2,
+      "log_reference": {
+        "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+        "sha256": "fce1d5e4658d815703b38bb15a7517818224d25ce3515480b9c4f138bdcef4ee",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "log_sha256_correlated": true,
+      "name": "a1-R-only-native-reference-build",
+      "reference": {
+        "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build-stage.json",
+        "sha256": "ddc330bc8f67e0aa0a068ced23a8a8d2e3e201df9293a100b9858712dc80d563",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "timeout_seconds": 541
+    },
+    "status": "CORROBORATED",
+    "unavailable": []
+  },
+  "identities": {
+    "infra_sha": "9678ddf631902765d7013f5ed1b9fd05159463a6",
+    "proof_audit_path": "proof-audit.json",
+    "proof_sha": "9678ddf631902765d7013f5ed1b9fd05159463a6",
+    "tool_profile": {
+      "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+      "patches_in_application_order": [],
+      "rust_toolchain": "nightly-2026-09-25",
+      "scope": "no proof tools executed",
+      "std_base_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+      "verifast_source_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+    }
+  },
+  "integrity": {
+    "archive_inventory": {
+      "all_files_sha256_verified": true,
+      "excluded_metadata_verified": 2,
+      "unpacked_bytes": 2514433,
+      "verified_files": 356
+    },
+    "metadata": "SHA-256_CROSS_REFERENCES_VERIFIED",
+    "text_log_index": {
+      "chunk_object_bytes": "NOT_CHECKED_IN_GCS",
+      "chunks": 272,
+      "cross_checked_inventory_sha": true,
+      "source_files": 272
+    }
+  },
+  "processing_status": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "processor_version": "0.4.0",
+  "proof_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "reported": {
+    "diagnostic_complete": false,
+    "evidence_complete": true,
+    "failure_class": "none",
+    "lane": "o26-sort4-c1-current-recovery",
+    "missing_mandatory": [],
+    "run_exit_code": 0,
+    "text_logs_complete": true,
+    "verification_accepted": false
+  },
+  "schema": "smallsort-evidence-index-v2",
+  "source": {
+    "archive_uri": "gs://smallsort-ci-evidence-504462351565/cloud-build/57ea65a3-475e-4370-810c-19ad36803174/evidence.tar.gz",
+    "bucket": "smallsort-ci-evidence-504462351565",
+    "original_prefix": "cloud-build/57ea65a3-475e-4370-810c-19ad36803174"
+  }
+}

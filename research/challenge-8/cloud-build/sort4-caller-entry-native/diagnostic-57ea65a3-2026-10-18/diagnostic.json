@@ -1,0 +1,256 @@
+{
+  "build_id": "57ea65a3-475e-4370-810c-19ad36803174",
+  "processor_version": "0.4.0",
+  "archive_sha256": "02901f734338f175e9969c47fe59c35d369e75e2150308b06495ba6acc2e6c0f",
+  "first_blocker": {
+    "case_counts_evidence": "SOURCE_REPORTED",
+    "case_counts_reference": {
+      "archive_member": "proof-audit.json",
+      "sha256": "88a0e0838b3eb6172156be9d9ab8057e90ec3b99ea85b55b8573d1dc2c56d068",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    "case_status_counts": {
+      "NOT_RUN": 26
+    },
+    "case_total": 26,
+    "causal_status": "CORROBORATED_SOURCE_REPORT",
+    "issue": null,
+    "limits": {
+      "log_bytes": 1048576,
+      "messages": 4
+    },
+    "messages": [
+      {
+        "category": "RUST_UNUSED_MUT",
+        "evidence": "OBSERVED",
+        "location": "src/lib.rs:843:17",
+        "message": "Rust unused_mut: variable does not need to be mutable",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+          "line": 68,
+          "sha256": "fce1d5e4658d815703b38bb15a7517818224d25ce3515480b9c4f138bdcef4ee",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        }
+      },
+      {
+        "category": "RUST_UNUSED_MUT",
+        "evidence": "OBSERVED",
+        "location": "src/lib.rs:906:60",
+        "message": "Rust unused_mut: variable does not need to be mutable",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+          "line": 83,
+          "sha256": "fce1d5e4658d815703b38bb15a7517818224d25ce3515480b9c4f138bdcef4ee",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        }
+      },
+      {
+        "category": "COMPILER_ERROR",
+        "evidence": "OBSERVED",
+        "location": null,
+        "message": "could not compile ?vf_mir_exporter? (lib) due to 2 previous errors",
+        "reference": {
+          "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+          "line": 91,
+          "sha256": "fce1d5e4658d815703b38bb15a7517818224d25ce3515480b9c4f138bdcef4ee",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        }
+      }
+    ],
+    "source_reported_blocker": {
+      "case_id": "tool-reconstruction",
+      "error": "RuntimeError: A1-TOOL: R-only native reference build",
+      "event": "adapter_error",
+      "evidence": "SOURCE_REPORTED",
+      "execution_started": true,
+      "reference": {
+        "archive_member": "proof-audit.json",
+        "sha256": "88a0e0838b3eb6172156be9d9ab8057e90ec3b99ea85b55b8573d1dc2c56d068",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    },
+    "source_reported_causal_stage": "tool-reconstruction",
+    "stage_failure": {
+      "classification": "TERMINAL",
+      "evidence": "OBSERVED",
+      "exit": 2,
+      "log_reference": {
+        "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+        "sha256": "fce1d5e4658d815703b38bb15a7517818224d25ce3515480b9c4f138bdcef4ee",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "log_sha256_correlated": true,
+      "name": "a1-R-only-native-reference-build",
+      "reference": {
+        "archive_member": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build-stage.json",
+        "sha256": "ddc330bc8f67e0aa0a068ced23a8a8d2e3e201df9293a100b9858712dc80d563",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "timeout_seconds": 541
+    },
+    "status": "CORROBORATED",
+    "unavailable": []
+  },
+  "matrix": {
+    "N-alpha-valid": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "N-binder-collapse": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "N-binding": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "N-clause-redirect": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "N-clauses": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "N-default-contract": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "N-duplicate": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "N-false31": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "N-free-region": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "N-freeze-contract": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "N-no-F": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "N-region-swap": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "N-source": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "OFF": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "P-dispatch": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "P0a": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "P0b": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "P0c": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "P1": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "R1": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "R2": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "R3": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "R4": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "R5": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "R6": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    },
+    "R7": {
+      "status": "NOT_RUN",
+      "basis": "SOURCE_REPORTED26/26; pinned26-row inventory and reconstruction failure before case execution",
+      "proof_credit": false
+    }
+  },
+  "P1": "NOT_RUN_SOURCE_REPORTED",
+  "false31": {
+    "own_default_body_conformance": {
+      "status": "NOT_REACHED",
+      "basis": "pinned control flow after the corroborated R-only build failure; no independent per-substage receipt is exposed"
+    },
+    "own_freeze_body_conformance": {
+      "status": "NOT_REACHED",
+      "basis": "pinned control flow after the corroborated R-only build failure; no independent per-substage receipt is exposed"
+    },
+    "own_receipt_issuance": {
+      "status": "NOT_REACHED",
+      "basis": "pinned control flow after the corroborated R-only build failure; no independent per-substage receipt is exposed"
+    },
+    "threshold32_len32_admission": {
+      "status": "NOT_REACHED",
+      "basis": "pinned control flow after the corroborated R-only build failure; no independent per-substage receipt is exposed"
+    },
+    "caller_len_le31_assertion": {
+      "status": "NOT_REACHED",
+      "basis": "pinned control flow after the corroborated R-only build failure; no independent per-substage receipt is exposed"
+    }
+  },
+  "historical_records_modified": false,
+  "active_pins_modified": false,
+  "new_cloud_builds": 0,
+  "compiler_or_verifier_executed_locally": false,
+  "formal_credit": false,
+  "fix_proposal": "PROPOSED-unused-mut-fix.patch",
+  "source_checks": "source-check.json"
+}
