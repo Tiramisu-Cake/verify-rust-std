@@ -1,0 +1,277 @@
+{
+  "A1": "OPEN/NOT_ACHIEVED",
+  "A2": "OPEN/NOT_ACHIEVED",
+  "C_sha256": "e7cdc8a8504338ccaab760975c1a3f1a739211d7f8d531dd214babc2005d894e",
+  "D_Type_error_elimination": "NOT_SEPARATELY_CONFIRMED_BY_BRIEF; newer different error at6884 is evidence of changed failure, not successful compilation or exhaustive absence of old diagnostics",
+  "N_false31": {
+    "baseline_receipt_substitution": "none credited",
+    "caller_len_le31_assertion": "not established",
+    "case": "NOT_RUN source-reported aggregate",
+    "own_default_and_Freeze_body_conformance": "not reached by pinned source flow; individual substage receipts unavailable",
+    "own_receipt_issuance": "not established",
+    "threshold32_len32_admission": "not established"
+  },
+  "P1": "NOT_RUN source-reported aggregate; full AST mapping/equality/refinement unestablished",
+  "admin_audit_requested": "ADMIN-AUDIT-REQUEST-7987E81F-2026-10-18.md; not authorized or performed",
+  "budget": {
+    "builds": 1,
+    "ceiling": 960,
+    "charged": 405,
+    "closed": true,
+    "maximum_builds": 1,
+    "no_carry": true,
+    "retired": 555
+  },
+  "build": {
+    "accounted": true,
+    "build_id": "7987e81f-cfc9-435b-8078-996cf7d2ae27",
+    "build_seconds": 405,
+    "create_time": "2026-10-18T14:43:18.751233009Z",
+    "dispatch_token": "dispatch-0089a297ba4549e78cf85600182487e6",
+    "execution_seconds": 405,
+    "finish_time": "2026-10-18T14:50:03.595007Z",
+    "infra_sha": "528474564154dd2c54e210e233a09b1a8a8d8343",
+    "lane": "o26-sort4-c1-current-recovery",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-A1-OCAML-TYPE-FIX-CLOUD-2026-10-18",
+    "proof_sha": "528474564154dd2c54e210e233a09b1a8a8d8343",
+    "publish_text_logs": true,
+    "reserved_seconds": 960,
+    "source_input_sha256": "76f93af1d14a22a8d46c3b419dd18d6ac3de3a6006a4b3a1dc1190afb90e5de0",
+    "source_mode": "pinned-objects",
+    "start_time": "2026-10-18T14:43:19.497388865Z",
+    "status": "FAILURE",
+    "submitted_config_sha256": "3407efd92111c798f4a2089f5175210f73a16ff4589aa8d008978dc760f4e871",
+    "timeout_seconds": 900
+  },
+  "candidate_commit": "528474564154dd2c54e210e233a09b1a8a8d8343",
+  "evidence_integrity": "VERIFIED_ARCHIVE_AND_INVENTORY as reported by Brief; no proof acceptance implied",
+  "first_confirmed_blocker": {
+    "causality": "CORROBORATED_SOURCE_REPORT; no independent exhaustive causal ordering",
+    "diagnostic": "This pattern matches values of type D.rvalue",
+    "diagnostic_status": "CORROBORATED",
+    "exit": 2,
+    "expected_type": "NOT_PRESENT_IN_BRIEF",
+    "log_reference_line": 1288,
+    "log_reference_sha256": "685b0ffaa59c21d321fda7aa473555f768cc5821ee0ca405d11e868f46254b49",
+    "source_location": "rust_frontend/vf_mir_translator/vf_mir_translator.ml:6884",
+    "source_read_only_mapping": "R-only exact translator line6884 is D.Ref r pattern in local check_type",
+    "stage": "a1-R-only-native-reference-build",
+    "stage_sha256": "7409eab6ea453f5fc21a51d23b1d348b83975d2b7c67f555ce893178c9d4145a"
+  },
+  "formal_credit": false,
+  "full_R_sha256": "e7ef10e7d532670482741fa108b5faa5b605f1697875e042ce25f1cc81ce4cb6",
+  "initial_checkpoint": "0291b11ed5d200038ad53d4477c494b24c8ed390",
+  "last_completed_stage": "UNKNOWN",
+  "matrix": [
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "OFF",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "P0a",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "P0b",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "P0c",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "P-dispatch",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "P1",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "N-binder-collapse",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "N-alpha-valid",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "N-free-region",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "N-region-swap",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "N-no-F",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "N-clauses",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "N-default-contract",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "N-freeze-contract",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "N-false31",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "N-source",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "N-binding",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "N-clause-redirect",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "N-duplicate",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "R1",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "R2",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "R3",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "R4",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "R5",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "R6",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    },
+    {
+      "basis": "source-reported aggregate26/26 plus unchanged CASE_ORDER",
+      "case": "R7",
+      "formal_credit": false,
+      "status": "NOT_RUN"
+    }
+  ],
+  "matrix_provenance": {
+    "brief_sha256": "c7c498cf602b73ec1cab88331197d884f38607490696ebabf3f4b0f3b872740a",
+    "claim": "Runner-reported cases:26;NOT_RUN=26",
+    "interface": "smallsort-brief",
+    "proof_audit_sha256": "67f1e16b2609e8c153f398f385b08ba4df47c04a9b6361b49edacc863b642b13",
+    "row_mapping": "unchanged pinned CASE_ORDER; aggregate coverage, not independently exposed per-row receipts"
+  },
+  "missing": [
+    "complete compiler diagnostic with expected type and span",
+    "independent exporter-alone outcome",
+    "stage order/last completed substage",
+    "individual matrix/substage receipts and reference/final-tool binary outcomes"
+  ],
+  "old_unused_mut_elimination": "NOT_SEPARATELY_CONFIRMED_BY_BRIEF",
+  "pre_submit_release_commit": "928fb6bb206de91e3b3a38c201435f7077f608d3",
+  "profile_sha256": "e8afe608713051e5e6f1e9191095846887c47d635980d4a5aac0be7888331de0",
+  "review": "GO: GPT-6 Luna HIGH; static only",
+  "schema": "smallsort-a1-ocaml-type-result-v1",
+  "source_maps": {
+    "c_after": {
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "72f4f0b83d3c565edde5c9bbb688ac12a6d21ce94d149fff37c22a5555ac639d"
+    },
+    "c_before": {
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "7b9ae6bfcc056cf5b1ade002c867157a36cc992535d2baf40b9dd10203c433c3"
+    },
+    "r_after": {
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "7b9ae6bfcc056cf5b1ade002c867157a36cc992535d2baf40b9dd10203c433c3"
+    },
+    "r_before": {
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs": "11f1e10bb8e52a4950611f874b1123c11e2c87cbb1378c3f5060992f74425f00",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64"
+    }
+  },
+  "source_reported_evidence_complete": true,
+  "source_reported_run_exit": 0,
+  "source_reported_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "stage_coverage": {
+    "candidate_records": 102,
+    "not_captured": 6,
+    "omitted_records": 32,
+    "parsed_records": 96
+  },
+  "stage_order": "NOT_ESTABLISHED",
+  "successful_R_only_build": "NOT_ESTABLISHED; combined stage exit2",
+  "successful_exporter_alone": "UNKNOWN",
+  "successful_final_C_build": "NOT_ESTABLISHED; downstream by pinned source flow"
+}

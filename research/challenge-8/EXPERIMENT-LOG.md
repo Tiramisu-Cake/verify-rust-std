@@ -7759,3 +7759,18 @@ See [experiment hypothesis/domain/gates and source checkpoint](cloud-build/sort4
 Only expected D.generic_arg_kind annotation in full R, unused_mut retained,C bytes
 unchanged; source-only43-patch R/C composition and expected hashes PASS.
 Compiler validation and all26 fresh outcomes pending; formal credit absent.
+
+
+### OCaml type candidate — terminal7987e81f and session closure
+
+Proof/infra52847456; published928fb6bb before submit; Luna High GO and source-only
+R/C exact hashes/closure PASS. Build7987e81f-cfc9-435b-8078-996cf7d2ae27 FAILURE,
+14:43:18.751233009→14:50:03.595007Z,405s charged/960,555 retired,one/one,CLOSED.
+Only Evidence Brief read: corroborated source-reported R-only build exit2,
+`This pattern matches values of type D.rvalue` translator6884. Expected type/span
+missing; old D.Type6681 absence/elimination not separately confirmed by Brief.
+26/26 source-reported NOT_RUN; P1/own-pair N-false31/A1/A2 unestablished,no formal
+credit. Stage order/last stage/exporter-alone UNKNOWN. No further code fix,raw
+access,retry or download_verified. All historical accounts preserved.
+See [final checkpoint/all26 provenance](cloud-build/sort4-caller-entry-native/A1-OCAML-TYPE-CHECKPOINT-2026-10-18.md)
+and [separate admin request](cloud-build/sort4-caller-entry-native/ADMIN-AUDIT-REQUEST-7987E81F-2026-10-18.md).

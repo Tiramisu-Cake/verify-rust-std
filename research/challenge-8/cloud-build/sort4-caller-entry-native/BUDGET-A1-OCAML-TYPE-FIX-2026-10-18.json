@@ -1,5 +1,5 @@
 {
-  "active_build": "7987e81f-cfc9-435b-8078-996cf7d2ae27",
+  "active_build": null,
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
   ],
@@ -15,11 +15,17 @@
       "submitted_config_sha256": "3407efd92111c798f4a2089f5175210f73a16ff4589aa8d008978dc760f4e871",
       "reserved_seconds": 960,
       "timeout_seconds": 900,
-      "status": "QUEUED",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "76f93af1d14a22a8d46c3b419dd18d6ac3de3a6006a4b3a1dc1190afb90e5de0",
-      "build_id": "7987e81f-cfc9-435b-8078-996cf7d2ae27"
+      "build_id": "7987e81f-cfc9-435b-8078-996cf7d2ae27",
+      "start_time": "2026-10-18T14:43:19.497388865Z",
+      "finish_time": "2026-10-18T14:50:03.595007Z",
+      "create_time": "2026-10-18T14:43:18.751233009Z",
+      "build_seconds": 405,
+      "accounted": true,
+      "execution_seconds": 405
     }
   ],
   "ceiling_build_seconds": 960,
@@ -31,8 +37,12 @@
   "owner": "select-sort4",
   "phase": "SORT4-A1-OCAML-TYPE-FIX-CLOUD-2026-10-18",
   "previous_account": "BUDGET-A1-UNUSED-MUT-FIX-2026-10-18.json: CLOSED 433 charged,527 retired",
-  "remaining_build_seconds": 960,
+  "remaining_build_seconds": 555,
   "start_utc": "2026-10-18T14:31:11Z",
-  "status": "AUTHORIZED",
-  "used_build_seconds": 0
+  "status": "CLOSED_ONE_BUILD_R_ONLY_FAILURE",
+  "used_build_seconds": 405,
+  "retired_unused_build_seconds": 555,
+  "closure_reason": "One permitted Build consumed; R-only reference build exit2 and new OCaml D.rvalue pattern diagnostic at translator6884.26 source-reported NOT_RUN. No retry/carry; further code fixes need new assignment.",
+  "evidence_interface": "smallsort-brief",
+  "brief_report_sha256": "c7c498cf602b73ec1cab88331197d884f38607490696ebabf3f4b0f3b872740a"
 }
