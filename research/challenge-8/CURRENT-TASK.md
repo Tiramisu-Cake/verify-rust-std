@@ -194,7 +194,7 @@ Tool commit остаётся в локальной назначенной вет
 - Подробные obligations/results/provenance: R1-BUILD1-RESULT-20261018.json, Reader schema v6/Processor0.7.0, receipt hashes совпали.
 - B2 и formal credit: OPEN/False; нового independent proof credit нет.
 - Причина общего FAILURE: UNKNOWN в Processor; конкретный case blocker выше не переносится в общий causal verdict.
-- Новый tool-кандидат `2a5078681bf9b750d2fedb2223666df2f9baaeea`: sole Noop location; profile SHA566457f424e21a52274ee3227f1f292696d43f8775dba8b5bc05444b6c9ff4c1, patchfc34d5e0…, translatorb9232f69…. Старый manifest сохранён, R1-MARKER-IDENTITIES-20261018.json. Static14/16/14/18 +4synthetic PASS, final Luna High GO. Build2 ещё не отправлен; новая publication/closure проверка готовится.
+- Новый tool-кандидат `2a5078681bf9b750d2fedb2223666df2f9baaeea`: sole Noop location; profile SHA566457f424e21a52274ee3227f1f292696d43f8775dba8b5bc05444b6c9ff4c1, patchfc34d5e0…, translatorb9232f69…. Старый manifest сохранён, R1-MARKER-IDENTITIES-20261018.json. Static14/16/14/18 +4synthetic PASS, final Luna High GO. Project proof=infra251a83adc4eadcd6a1e3eb87e795124596e228c2 опубликован; R1-MARKER-RELEASE-20261018.json проверяет106proofpaths/145parts/432518bytes payload SHA48bdc7e2…. Build2 ещё не отправлен.
 - Первый свежий blocker: prefix/fullbody translator placeholder lookup List.find Not_found, наблюдается в Brief. Source-level отсутствует statement для уже валидированного first scope-end marker; минимальный Noop-location candidate и rationale записаны до реализации в semantic card, bounded review запрошен. Whole-Build causal_status UNKNOWN.
 
 ### Закрытие и следующий шаг
