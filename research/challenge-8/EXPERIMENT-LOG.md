@@ -7749,3 +7749,13 @@ D.generic_arg_kind. Separate overlay only; static apply/C compatibility PASS,
 no compiler validation. All26 source-reported NOT_RUN and no formal credit.
 Active patches/profile/pins/closed ledgers unchanged; no new Build/raw access.
 See diagnostic-7c26b389-ocaml-type-2026-10-18/REPORT.md and source-check.json.
+
+
+## 2026-10-18 — authorized OCaml constructor annotation candidate
+
+Direct owner continuation0291b11e; T0 14:31:11Z/main16:31:11Z/absolute17:01:11Z.
+Fresh960s,one900s Build,no retry/carry; prior433/527 closed unchanged.
+See [experiment hypothesis/domain/gates and source checkpoint](cloud-build/sort4-caller-entry-native/A1-OCAML-TYPE-CHECKPOINT-2026-10-18.md).
+Only expected D.generic_arg_kind annotation in full R, unused_mut retained,C bytes
+unchanged; source-only43-patch R/C composition and expected hashes PASS.
+Compiler validation and all26 fresh outcomes pending; formal credit absent.
