@@ -67,3 +67,10 @@ Compiler failure→Brief diagnosis and next justified compile-only fix in scope;
 verification/admission error requiring semantics/contract changes→owner question,
 no expansion. Reporting gap→audit request only,no unchanged rerun for bypass.
 Positive complete evidence→record bounds/fullproof distinction; A1/A2 not automatic.
+
+## R1 committed release
+
+Candidate proof/infra`ff7fbd1daa9b89f74ec79c313ad27f6bd80f5b53`; Luna HIGH GO, full committedclosure/configPASS.
+[R1 release](A1-BUILDABILITY-R1-RELEASE-2026-10-18.json),
+[review](A1-BUILDABILITY-R1-REVIEW-2026-10-18.md).
+{"commit": "ff7fbd1daa9b89f74ec79c313ad27f6bd80f5b53", "config_arg_bounds": "PASS", "dispatch": "NOT_ATTEMPTED", "exact_restore": "PASS", "formal_credit": false, "phase_profile_environment": "PASS", "restored_paths": {"infra": 33, "proof": 107}, "shared_objects": 160, "source_payload_bytes": 505400, "source_sha256": "ea4cbff90b19db1f5651bc16b4d0a721fec0445bac2c838670a83c68c19eda07", "source_substitutions": 169}
