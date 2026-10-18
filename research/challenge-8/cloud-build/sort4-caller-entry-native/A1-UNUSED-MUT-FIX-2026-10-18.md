@@ -59,3 +59,11 @@ terminal status use smallsort-brief only, no raw/archive/log fallback.
 
 Full A1/A2 remain open, even if threshold/interface matrix later succeeds. Actual
 small_sort→helper, A2/ZST/resource redesign, C5/copies and sort8 are excluded.
+
+Committed-source preflight PASS for `e58a75bbdcf6704175ceebcd72a227607a92d2ae`:504218 bytes/672292
+base64 bytes,169/191 substitutions;33 infra +107 proof paths restored from160
+shared Git objects with exact hashes/closure. New auth + preserved protocol env
+and new profile hash verified; config argument and submitted-config transport
+bounds PASS. Published release binding: A1-UNUSED-MUT-RELEASE-2026-10-18.json.
+The copied patch artifact retains inherited context whitespace; its delta from
+old R has no introduced whitespace issues and exact two-token source difference.

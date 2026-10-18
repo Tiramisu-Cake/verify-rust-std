@@ -26,3 +26,11 @@ Reviewed source identity table (profile local-validation metadata finalized by m
 | `a1-tool.py` | `4dfe398682fc772d0fabf16623ff002034a71f94d01cca5a4bce19914e206983` |
 | `required-item-representation-unused-mut-2026-10-18.patch` | `91fe9ad49c34d834e435605d95fb183e92e03c72f3d353e588dd7092fbeb6466` |
 | `A1-RCG-UNUSED-MUT-PROFILE-2026-10-18.json` | `f3782dcaa2de2355739fa7134ada8c6df71a52ebf59e3e75037104fec77c5fb0` |
+
+Committed-source preflight PASS for `e58a75bbdcf6704175ceebcd72a227607a92d2ae`:504218 bytes/672292
+base64 bytes,169/191 substitutions;33 infra +107 proof paths restored from160
+shared Git objects with exact hashes/closure. New auth + preserved protocol env
+and new profile hash verified; config argument and submitted-config transport
+bounds PASS. Published release binding: A1-UNUSED-MUT-RELEASE-2026-10-18.json.
+The copied patch artifact retains inherited context whitespace; its delta from
+old R has no introduced whitespace issues and exact two-token source difference.
