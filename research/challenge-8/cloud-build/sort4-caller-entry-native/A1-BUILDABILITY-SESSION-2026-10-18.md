@@ -181,3 +181,11 @@ Candidate proof/infra`864fe65f21b5ca381b9417726e7f509453de91ae`; Luna HIGH GO, f
 [R4 release](A1-BUILDABILITY-R4-RELEASE-2026-10-18.json),
 [review](A1-BUILDABILITY-R4-REVIEW-2026-10-18.md).
 {"commit": "864fe65f21b5ca381b9417726e7f509453de91ae", "config_arg_bounds": "PASS", "dispatch": "NOT_ATTEMPTED", "exact_restore": "PASS", "formal_credit": false, "phase_profile_environment": "PASS", "restored_paths": {"infra": 33, "proof": 107}, "shared_objects": 160, "source_payload_bytes": 505909, "source_sha256": "af552c4ce77e97fdfcd2db39290ee9188dc166d876695089f864e31a283a4d01", "source_substitutions": 170}
+
+## R4 submit
+
+Published8870728baf31a57b55f729daca52478919da30c6 before submit.
+Build729160af-7f20-4a8a-b238-cc8aa077cc35;token
+dispatch-1cc9070c942642058e0d27aeb0f88afb;config
+5b9394f5c702c46ff9ee09026834587660e8fecf981a2768149abf1e3a8d0153.
+900s timeout,full26configuration;1237saccounted+960reserve.
