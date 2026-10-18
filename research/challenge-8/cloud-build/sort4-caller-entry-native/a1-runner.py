@@ -23,8 +23,9 @@ from typing import Any, Mapping
 
 
 PHASE = "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17"
+AUTHORIZATION_PHASE = "SORT4-A1-UNUSED-MUT-FIX-CLOUD-2026-10-18"
 HERE = Path("research/challenge-8/cloud-build/sort4-caller-entry-native")
-PROFILE = HERE / "A1-RCG-PROFILE-2026-10-17.json"
+PROFILE = HERE / "A1-RCG-UNUSED-MUT-PROFILE-2026-10-18.json"
 HEX40 = re.compile(r"[0-9a-f]{40}\Z")
 HEX64 = re.compile(r"[0-9a-f]{64}\Z")
 
@@ -1699,6 +1700,10 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
           profile.get("infra_sha") in (None, "") and
           profile.get("cloud_build_enabled") is True,
           "published A1 profile must use the exact coordinator-pinned run identity")
+    _need(env.get("SORT4_A1_AUTHORIZATION_PHASE_ID") == AUTHORIZATION_PHASE and
+          profile.get("authorization_phase_id") == AUTHORIZATION_PHASE and
+          profile.get("experiment_protocol_phase_id") == PHASE,
+          "exact authorization to preserved experiment protocol binding")
     plan = preflight_plan(profile, _admission_matrix(
         Path(a.proof_root) / HERE / "a1-contract-admission.py"))
     expected_manifest = Path(a.proof_root) / HERE / "CALLER-ENTRY-MANIFEST.json"
@@ -1721,7 +1726,8 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
               path.is_file() and _sha(path) == digest,
               "runner dependency differs from exact Cloud/proof pin: " + str(path))
     result = {"classification": "A1_RUNNER_OBSERVED_LIFECYCLE",
-              "phase_id": PHASE, "planned_order": list(CASE_ORDER),
+              "phase_id": PHASE, "authorization_phase_id": AUTHORIZATION_PHASE,
+              "planned_order": list(CASE_ORDER),
               "case_status": {case_id: {"status": "NOT_RUN",
                   "observed_stage": None, "observed_outcome": None,
                   "proof_credit": False} for case_id in CASE_ORDER},

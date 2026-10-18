@@ -7709,3 +7709,16 @@ Stop reason: external A1 reporting gap; need detailed Brief or separately
 authorized administrative audit before evidence-based scoped diagnosis.
 See A1-CONTINUATION-CHECKPOINT-2026-10-17.md and machine result for all26 rows,
 lifecycle, pins/account/next step. Full A1/A2 and other excluded targets stay open.
+
+
+## 2026-10-18 — authorized minimal unused_mut R candidate
+
+Start d2444867/remote exact; T008:37:29Z main10:37:29Z absolute11:07:29Z.
+Updated Brief confirms old R-only build exit2, two unused_mut,26NOT_RUN.
+New full R patch preserves old file and removes only approved two mut tokens;
+exporter c29d0d46…b463ad verified through full43-patch source chain/R/C maps.
+New ledger960s/max1 Build900s/no carry; old330/960+630retired untouched.
+New authorization explicitly bound to unchanged C protocol, no semantic input
+changes beyond approved fix.10+4 isolated service/reuse checks PASS; independent
+Luna High source review has no blocker. New Cloud candidate NOT_RUN pending
+published-source closure/config preflight. Source/synthetic PASS is not proof.

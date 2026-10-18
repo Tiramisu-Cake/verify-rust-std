@@ -1,32 +1,29 @@
-# select/sort4 — A1 continuation Build complete, Brief insufficient
+# select/sort4 — unused_mut fix candidate, Cloud NOT_RUN
 
-Owner `select-sort4`; branch `research/night-select-sort4-cloud-2026-10-09`.
-Continuation from `1cfb60e0` / candidate `bc2af772`. Source P1, all26 observed
-matrix routes and N-false31 own-pair lifecycle implemented and independently
-reviewed. Published proof/infra `9678ddf631902765d7013f5ed1b9fd05159463a6`;
-release binding published in `801dca35`. Common checked trait contract retained;
-frozen kernel/region/model/prelude/refinement scope unchanged.
+Owner select-sort4; branch research/night-select-sort4-cloud-2026-10-09.
+Initial checkpoint/HEAD d2444867 matched remote; no fresher commits found.
 
-One authorized Build `57ea65a3-475e-4370-810c-19ad36803174` finished FAILURE.
-Coordinator charge330/960s (execution329s);1/1 Builds used, unused630s retired,
-no retry. Existing retired ledger, verdicts, sessions and eight pre-existing
-local Evidence Brief policy files preserved byte-for-byte.
+Updated Brief for57ea65a3-475e-4370-810c-19ad36803174 now corroborates R-only
+native reference build exit2: unused_mut exporter843:17 and906:60 under
+#![deny(warnings)]. All26 rows source-reported NOT_RUN. The prior insufficient
+Brief diagnosis is resolved for choosing this fix; old reports/checkpoints stay
+unchanged. P1/N-false31/formal verification were not established.
 
-Evidence Brief: VERIFIED_ARCHIVE_AND_INVENTORY; source verdict
-NOT_ACCEPTED_AS_REPORTED, source run exit0, source evidence_complete=True.
-No campaign aggregate or representative cases reported. Actual P1, all26 rows
-and N-false31 lifecycle are UNESTABLISHED through the available reporting
-interface; no formal credit or intended-negative credit. First scientific causal
-blocker UNESTABLISHED; first unresolved blocker is missing A1 detail in Brief.
+New R candidate removes only the two approved mut tokens. Exact43-patch baseline,
+R/C source/hash and frozen semantic checks PASS; exporter c29d0d46…b463ad.
+New profile/authorization binding and recipe retain the same26-row matrix.
+10 dispatcher checks +4 same-Build reuse tests PASS, independent Luna High review
+finds no source blocker. Compilation/extraction/verification only Cloud; new
+candidate remains NOT_RUN pending published closure/config preflight and Build.
 
-[Final checkpoint](cloud-build/sort4-caller-entry-native/A1-CONTINUATION-CHECKPOINT-2026-10-17.md),
-[machine result](cloud-build/sort4-caller-entry-native/A1-CONTINUATION-RESULT-2026-10-17.json),
-[exact Brief](cloud-build/sort4-caller-entry-native/A1-CONTINUATION-EVIDENCE-BRIEF-2026-10-17.md),
-[pins/preflight](cloud-build/sort4-caller-entry-native/A1-CONTINUATION-RELEASE-2026-10-17.json),
-[source review](cloud-build/sort4-caller-entry-native/A1-CONTINUATION-REVIEW-2026-10-17.md).
+New phase SORT4-A1-UNUSED-MUT-FIX-CLOUD-2026-10-18; T008:37:29Z,
+main10:37:29Z, absolute11:07:29Z,960s/max1 Build900s. Old330/960 with630 retired
+and earlier accounts remain closed; no carry. Canonical C protocol ID stays old;
+new authorization ID is separately pinned/enforced without translator changes.
 
-Next: A1-capable Brief with rows/stages/receipt ordering/first blocker, or separately
-owner-authorized administrative raw audit. No raw logs/archives read/downloaded;
-no download_verified set. Source/synthetic tests PASS is not formal verification.
-Full A1/A2 NOT ACHIEVED, index15%, experimental profile UNACCEPTED. Actual
-small_sort→helper, ZST/resources, C5/copies and sort8 remain open.
+[Session](cloud-build/sort4-caller-entry-native/A1-UNUSED-MUT-FIX-2026-10-18.md),
+[source checks](cloud-build/sort4-caller-entry-native/A1-UNUSED-MUT-SOURCE-CHECK-2026-10-18.json),
+[review](cloud-build/sort4-caller-entry-native/A1-UNUSED-MUT-REVIEW-2026-10-18.md).
+Previous STATUS preserved in dated snapshot. All pre-existing local policy edits
+preserved. Full A1/A2 NOT ACHIEVED, index15%, profile UNACCEPTED; actual
+small_sort→helper, A2/ZST, C5/copies and sort8 remain outside this task.

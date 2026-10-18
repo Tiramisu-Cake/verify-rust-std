@@ -13,6 +13,7 @@ import subprocess
 
 HERE = Path('research/challenge-8/cloud-build/sort4-caller-entry-native')
 PHASE = 'SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17'
+AUTHORIZATION_PHASE = 'SORT4-A1-UNUSED-MUT-FIX-CLOUD-2026-10-18'
 
 
 def sha(path: Path) -> str:
@@ -42,6 +43,7 @@ def main() -> None:
     a = parser.parse_args()
     if (os.environ.get('SMALLSORT_EXECUTION_PROVIDER') != 'cloud-build' or
             os.environ.get('SORT4_A1_PHASE_ID') != PHASE or
+            os.environ.get('SORT4_A1_AUTHORIZATION_PHASE_ID') != AUTHORIZATION_PHASE or
             os.environ.get('SORT4_A1_CHECKED_TRAIT_CONTRACT') != '1' or
             os.environ.get('LANE') != 'o26-sort4-c1-current-recovery' or
             not os.environ.get('CLOUD_BUILD_ID') or os.environ.get('GITHUB_ACTIONS')):
@@ -54,10 +56,13 @@ def main() -> None:
         head = subprocess.check_output(['git', '-C', str(checkout), 'rev-parse', 'HEAD'], text=True).strip()
         if head != os.environ.get(key):
             raise RuntimeError('A1 entry published checkout pin differs: ' + key)
-    profile_path = a.proof_root / HERE / 'A1-RCG-PROFILE-2026-10-17.json'
+    profile_path = a.proof_root / HERE / 'A1-RCG-UNUSED-MUT-PROFILE-2026-10-18.json'
     if sha(profile_path) != os.environ.get('SORT4_A1_PROFILE_SHA256'):
         raise RuntimeError('A1 entry profile pin differs')
     profile = json.loads(profile_path.read_text())
+    if (profile.get('authorization_phase_id') != AUTHORIZATION_PHASE or
+            profile.get('experiment_protocol_phase_id') != PHASE):
+        raise RuntimeError('A1 entry authorization/protocol binding differs')
     manifest_path = a.proof_root / HERE / 'CALLER-ENTRY-MANIFEST.json'
     if sha(manifest_path) != profile['caller_manifest_sha256']:
         raise RuntimeError('A1 entry legacy manifest pin differs')
