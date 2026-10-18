@@ -200,3 +200,5 @@ A1/A2 OPEN, formal credit отсутствует.
 - R2 Build`ae9fd22f-a143-4a4f-9d7c-2911ec1ad042` отправлен после публикации`da099c42`; config`06fe4403335574cef498ae2576a4067a16dc35fd1941867e0cbad412989242a4`; terminal evidence pending.
 
 - R2 terminal: обе named tool stages exit0; P0a compiler unknown feature`internal_features`,original/lib.rs1:53. Новый R3 удаляет только неподдерживаемый feature entry из fixtureheader, без allow-lint/check изменений. R/C/compiler/decoder прежние. Reconstructed43pre-R/R/C PASS; review/closure pending.
+
+- R3 reviewed exactdiff **GO**, committed closure/config **PASS**: source/infra`5651bd99099a102de077c241139fb48235e8c326`, sourcepayload`b983837d2e8551da2fe0f1cd521998d1e859bc15049a6df1bdb6115a6b14065e`,170substitutions. [R3 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R3-RELEASE-2026-10-18.json). Два terminal Builds,816s accounted,active/unresolved none перед следующим submit.

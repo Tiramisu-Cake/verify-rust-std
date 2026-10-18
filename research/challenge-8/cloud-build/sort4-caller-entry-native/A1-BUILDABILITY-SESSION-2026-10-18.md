@@ -137,3 +137,10 @@ runtime,std,contract,G/C/domain/lifecyclechange. This is minimumbuild-headerfix.
 R/CbyteidenticalR1;43pre-R/R/Csource-onlyreconstructionPASS. Nofixtureconstruction,
 sourceextractionorcompilationlocally. Hypothesiscompilerpassesheaderthenunchanged
 fullmatrixcontinues;runtime/admissionsemanticblockerrequiresownerdecision.
+
+## R3 committed release
+
+Candidate proof/infra`5651bd99099a102de077c241139fb48235e8c326`; Luna HIGH GO, full committedclosure/configPASS.
+[R3 release](A1-BUILDABILITY-R3-RELEASE-2026-10-18.json),
+[review](A1-BUILDABILITY-R3-REVIEW-2026-10-18.md).
+{"commit": "5651bd99099a102de077c241139fb48235e8c326", "config_arg_bounds": "PASS", "dispatch": "NOT_ATTEMPTED", "exact_restore": "PASS", "formal_credit": false, "phase_profile_environment": "PASS", "restored_paths": {"infra": 33, "proof": 107}, "shared_objects": 160, "source_payload_bytes": 505972, "source_sha256": "b983837d2e8551da2fe0f1cd521998d1e859bc15049a6df1bdb6115a6b14065e", "source_substitutions": 170}
