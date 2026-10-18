@@ -1,0 +1,69 @@
+# Select/sort4 OCaml buildability session
+
+Task select-sort4-ocaml-buildability-2026-10-18-r1, direct owner invocation of
+CURRENT-TASK.md. InitialHEAD/remotee3837f4110f8713d00ba2e0f4bb7284b578831ae.
+Owner select-sort4, assigned research/night-select-sort4-cloud-2026-10-09.
+T0 2026-10-18T18:59:16Z/main20:59:16Z/absolute21:29:16Z.
+WORK-POLICY at e3837f41 plus existing owner Evidence Brief policy2026-10-17 read;
+eight unrelated owner policy/docs edits preserved and excluded from commits.
+
+Sequential within-scope code fixes/Builds authorized until main deadline, not a
+one-Build or960/3600s cap. New phase SORT4-A1-OCAML-BUILDABILITY-2026-10-18-R1.
+Own ledger BUDGET-A1-BUILDABILITY-2026-10-18.json uses existing numeric registration:
+technical18960s=150*60wall9000+9000rounding headroom+960final reservation. This
+represents the time authorization, not an extension; hard main/absolute cutoffs,
+max900s per Build and one occupied/unresolved own Build remain enforced. No carry.
+Existing coordinator protocol unchanged; phase admission additionally enforces
+owner's max2 project occupied slots under existing coordinator lock, including
+untracked live Builds. Original reservations/unresolved/accounting code unchanged.
+Old405/960+555retired,433/960+527retired and all old ledgers remain byte-preserved.
+
+## Baseline evidence refresh
+
+[New ordinary Brief for7987e81f](A1-BUILDABILITY-BASELINE-BRIEF-7987E81F-2026-10-18.md)
+adds actual D.rvalue / expected string at translator6884. This expected-type
+information no longer needs admin access. Original Brief/checkpoint observations
+remain historical, not overwritten.102/102 records captured, no omissions, but
+orderNOT_ESTABLISHED,last stageUNKNOWN. console-buildexit0 is an individual record,
+not proof of new R-only reference success. Combined R-onlyexit2;26source-reported
+NOT_RUN; no formal credit. Integrity remains distinct from proof acceptance.
+
+## R1 hypothesis, domain and outcome decisions
+
+Minimal expected-type annotations repair record-label/constructor disambiguation:
+`check_type scope (ty : D.ty)` and ADT lambda `(arg : D.generic_arg)`.
+Schema Ty.kind:TyKind; GenericArg.kind:GenericArgKind; Adt.substs:List(GenericArg).
+Callers supply D.decode_ty, ref.ty, Slice/Tuple members and GenericArgKind.Type.
+Unannotated qualified kind can select the latest same-labelled string field;
+D.Ref is also an overloaded rvalue constructor. Annotation selects intended schema
+types without changing any arm, refusal, traversal, region or binder identity.
+
+Reviewed all R-added OCaml: normalize_required_ty already types D.ty and returns
+D.ty; normalize_required_arg already types D.generic_arg and local generic_arg_kind.
+Clauses are decoded by D.decode_clause and match unambiguous clause constructors;
+record/collection fields otherwise have typed producers and consumers. No blanket
+refactor or other speculative annotation. Two old unused_mut removals retained.
+Preservation is source evidence, not successful compilation.
+
+Actual obligations/domain/posts remain original R/C/G/26-row experiment in
+A1-RCG-SEMANTIC-GATES-2026-10-17.md: common threshold post16<=result<=32 for actual
+default/Freeze bodies/conformance, unrestricted generic T, original comparator F,
+three borrows/HRTB/FnMut/Output=bool, full native normal/unwind/safe contracts.
+No supplied length bound, Copy/Freeze/nonzero/no-panic restriction, runtime/std,
+compiler/decoder/dependency/schema/exporter/kernel/prelude/refiner/G change.
+P1 remains complete interface mapping; N-false31 requires own pair bodies,
+conformance,receipt issuance and caller assertion order. No old receipt substitute.
+
+R1 source-only base→43pre-R→new fullR→unchangedC application PASS; exact source maps
+in A1-BUILDABILITY-R1-SOURCE-CHECK-2026-10-18.json. New R differs by exactly two
+annotations from preceding R. Frozen semantics/schema/exporter/R-before unchanged.
+6 isolated synthetic service checks validate exact new account, arbitrary sequential
+Build count admission,900s limit,main cutoff and original-protocol env. No local
+compiler,decoder generator,extraction,refiner,verifier or proof runner executed.
+Luna HIGH review and committed closure/config preflight required before submit.
+
+Each full Build: fresh R-only exporter/console and own receipt,final C,unchanged26.
+Compiler failure→Brief diagnosis and next justified compile-only fix in scope;
+verification/admission error requiring semantics/contract changes→owner question,
+no expansion. Reporting gap→audit request only,no unchanged rerun for bypass.
+Positive complete evidence→record bounds/fullproof distinction; A1/A2 not automatic.

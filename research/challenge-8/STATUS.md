@@ -1,28 +1,19 @@
-# select/sort4 — OCaml annotation tested; session CLOSED
+# select/sort4 — buildability session ACTIVE
 
-Owner select-sort4; branch research/night-select-sort4-cloud-2026-10-09.
-Initial0291b11e; proof/infra528474564154dd2c54e210e233a09b1a8a8d8343,
-pre-submit publication928fb6bb. Luna HIGH static review GO; source reconstruction/
-full closure PASS. Only authorized annotation added to full R; unused_mut retained,
-C/schema/compiler/decoder/semantics unchanged. Full pins in release/checkpoint.
+Task select-sort4-ocaml-buildability-2026-10-18-r1;owner select-sort4.
+Branch research/night-select-sort4-cloud-2026-10-09;initiale3837f41.
+T0 18:59:16UTC/main20:59:16/absolute21:29:16,2026-10-18.
+Sequential within-scope compiler fixes and full Builds authorized,timeout<=900;
+no960/3600 aggregate cap. Separate ledger registers technical time envelope18960s;
+hard deadlines,one own active/max2 occupied project slots preserved. Old accounts
+405+555retired and433+527retired unchanged.
 
-Build7987e81f-cfc9-435b-8078-996cf7d2ae27 FAILURE. Brief corroborates R-only
-reference build exit2, new OCaml `This pattern matches values of type D.rvalue`
-at translator6884. Old D.Type6681 elimination not separately confirmed; exporter
-success, R-only receipt and final C success unestablished. No additional code fix.
+Refreshed Brief7987e81f: actual D.rvalue/expected string at translator6884,
+102/102 records,individual console-buildexit0; stage orderUNKNOWN,R-onlyexit2,
+26source-reportedNOT_RUN. Expected-type admin audit gap now resolved.
+Prepared R1 annotations check_type:D.ty and ADTarg:D.generic_arg;source-only
+43patch R/C composition and6synthetic service checks PASS. Luna review/committed
+closure pending. No local compile/proof;no formal credit,A1/A2 OPEN.
 
-All26 rows source-reported NOT_RUN (Brief aggregate + unchanged pinned inventory).
-P1 and complete own-pair N-false31 lifecycle unestablished; A1/A2 OPEN,formal creditNONE.
-Integrity VERIFIED_ARCHIVE_AND_INVENTORY is separate from proof. Stage orderUNKNOWN;
-Brief lacks complete compiler expected type/span and exporter-alone outcome.
-Admin audit requested separately, not performed; no raw fallback.
-
-Window14:31:11/main16:31:11/absolute17:01:11UTC,2026-10-18; closed after sole Build.
-405/960s charged,555 retired,Build1/1; no retry/carry,own active/unresolved none.
-Previous433/527 account and historical records unchanged. Further fixes/runs need
-new assignment; exact diagnostic needs separately authorized administrative audit.
-
-[Final checkpoint](cloud-build/sort4-caller-entry-native/A1-OCAML-TYPE-CHECKPOINT-2026-10-18.md),
-[Brief](cloud-build/sort4-caller-entry-native/A1-OCAML-TYPE-EVIDENCE-BRIEF-2026-10-18.md),
-[all26 results/provenance](cloud-build/sort4-caller-entry-native/A1-OCAML-TYPE-RESULT-2026-10-18.json),
-[audit request](cloud-build/sort4-caller-entry-native/ADMIN-AUDIT-REQUEST-7987E81F-2026-10-18.md).
+[Current task and agent report](CURRENT-TASK.md),
+[Session hypothesis/pins/evidence](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-SESSION-2026-10-18.md).

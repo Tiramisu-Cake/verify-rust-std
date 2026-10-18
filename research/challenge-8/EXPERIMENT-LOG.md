@@ -7774,3 +7774,14 @@ credit. Stage order/last stage/exporter-alone UNKNOWN. No further code fix,raw
 access,retry or download_verified. All historical accounts preserved.
 See [final checkpoint/all26 provenance](cloud-build/sort4-caller-entry-native/A1-OCAML-TYPE-CHECKPOINT-2026-10-18.md)
 and [separate admin request](cloud-build/sort4-caller-entry-native/ADMIN-AUDIT-REQUEST-7987E81F-2026-10-18.md).
+
+
+## 2026-10-18 18:59:16Z — authorized buildability sessionR1
+
+CURRENT-TASK select-sort4-ocaml-buildability-2026-10-18-r1 invoked by owner;
+main20:59:16/absolute21:29:16UTC,sequentialwithin-scopeBuilds<=900s,no960/3600cap.
+[Experiment card](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-SESSION-2026-10-18.md)
+records hypothesis/domain/fullposts/gates,outcome decisions and newledger;oldclosed
+accounts preserved. Refreshed baselineBrief adds expectedstring;newR annotates
+check_typeD.ty/ADTargD.generic_arg only;source-onlyR/C+6service checksPASS,review
+and committedclosure pending. No newproofcredit.

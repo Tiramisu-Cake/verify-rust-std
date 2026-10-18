@@ -1,0 +1,1032 @@
+--- a/src/rust_frontend/vf_mir/vf_mir.capnp
++++ b/src/rust_frontend/vf_mir/vf_mir.capnp
+@@ -390,6 +390,8 @@
+ struct GenericParamDef {
+     name @0: Text;
+     kind @1: GenericParamDefKind;
++    index @2: UInt32;
++    defIndex @3: UInt32;
+ }
+ 
+ # A clause that can appear in a 'where' clause
+@@ -872,10 +874,26 @@
+     isTraitFn @12: Bool;
+     isDropFn @13: Bool; # Implements std::ops::Drop::drop
+     visibility @22: Visibility;
++    # Compiler identity for the A1 source certificate (zero when absent).
++    defIndex @26: UInt32;
+ }
+ 
+ struct Trait {
+     struct RequiredFn {
++        struct ScopedRegionBinding {
++            alias @0: Text; # Wire alias; alpha-renaming this is allowed.
++            scope @1: Text; # "sig" or "clause_N".
++            depth @2: UInt32;
++            index @3: UInt32;
++            kind @4: Text; # anon, named, printing
++            elidedRole @5: Bool; # Pinned native-contract classification.
++        }
++        struct TypeParamBinding {
++            alias @0: Text; # Wire alias; alpha-renaming this is allowed.
++            index @1: UInt32;
++            defIndex @2: UInt32;
++            name @3: Text; # Source generic name corresponding to the compiler identity.
++        }
+         name @0: Text;
+         nameSpan @6: SpanData;
+         unsafety @4: Unsafety;
+@@ -884,6 +902,19 @@
+         output @2: Ty;
+         argNames @3: List(Text);
+         contract @5: List(Annotation);
++        # Populated only for the source-certified A1 required-item route. The
++        # ordinary reader continues to use the original fields when it is off.
++        defId @8: Text;
++        defIndex @9: UInt32;
++        hirGenerics @10: Hir.Generics;
++        generics @11: List(GenericParamDef);
++        clauses @12: List(Clause);
++        scopedRepresentation @13: Bool;
++        scopedRegions @14: List(ScopedRegionBinding);
++        typeParams @15: List(TypeParamBinding);
++        parentClauses @16: List(Clause); # Trait-owner clauses, separate from method clauses.
++        parentDefId @17: Text;
++        parentDefIndex @18: UInt32;
+     }
+ 
+     name @0: Text;
+@@ -900,6 +931,7 @@
+ struct TraitImplItem {
+     name @0: Text;
+     defId @1: Text;
++    defIndex @2: UInt32;
+ }
+ 
+ struct TraitImpl {
+@@ -912,6 +944,7 @@
+     generics @6: List(GenericParamDef);
+     clauses @7: List(Clause);
+     items @2: List(TraitImplItem);
++    defIndex @9: UInt32;
+ }
+ 
+ struct Module {
+--- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
++++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
+@@ -334,6 +334,7 @@
+ struct TraitImplItemInfo {
+     name: String,
+     def_id: String,
++    def_index: u32,
+ }
+ 
+ struct TraitImplInfo {
+@@ -342,7 +343,8 @@
+     is_unsafe: bool,
+     is_negative: bool,
+     of_trait: rustc_hir::def_id::DefId,
+-    self_ty: rustc_hir::def_id::DefId,
++    self_ty: Option<rustc_hir::def_id::DefId>,
++    self_ty_name: String,
+     items: Vec<TraitImplItemInfo>,
+ }
+ 
+@@ -377,7 +379,7 @@
+             rustc_hir::ItemKind::Impl(impl_) => {
+                 if let Some(trait_impl_header) = &impl_.of_trait {
+                     if let Some(of_trait) = trait_impl_header.trait_ref.trait_def_id() {
+-                        if let rustc_hir::TyKind::Path(rustc_hir::QPath::Resolved(
++                        let struct_self_ty = if let rustc_hir::TyKind::Path(rustc_hir::QPath::Resolved(
+                             None,
+                             self_ty_path,
+                         )) = impl_.self_ty.kind
+@@ -386,14 +388,26 @@
+                                 rustc_hir::def::DefKind::Struct,
+                                 self_ty,
+                             ) = self_ty_path.res
+-                            {
++                            { Some(self_ty) } else { None }
++                        } else { None };
++                        let a1_trait_path = self.tcx.def_path_str(of_trait);
++                        let a1_enabled =
++                            std::env::var("SORT4_A1_CHECKED_TRAIT_CONTRACT").as_deref() == Ok("1");
++                        if a1_enabled && a1_trait_path != "StableSmallSortTypeImpl" &&
++                           a1_trait_path.ends_with("::StableSmallSortTypeImpl") {
++                            panic!("A1 required-item representation: qualified trait outside source certificate");
++                        }
++                        let a1_generic_impl = a1_enabled &&
++                            a1_trait_path == "StableSmallSortTypeImpl";
++                        if struct_self_ty.is_some() || a1_generic_impl {
+                                 let mut items = Vec::<TraitImplItemInfo>::new();
+                                 for item_id in impl_.items {
+                                     let item = self.tcx.hir_impl_item(*item_id);
+                                     items.push(
+                                         TraitImplItemInfo {
+                                             name: item.ident.to_string(),
+-                                            def_id: self.tcx.def_path_str(item_id.owner_id.to_def_id())
++                                            def_id: self.tcx.def_path_str(item_id.owner_id.to_def_id()),
++                                            def_index: item_id.owner_id.to_def_id().index.as_u32(),
+                                         }
+                                     );
+                                 }
+@@ -406,10 +420,11 @@
+                                         _ => false,
+                                     },
+                                     of_trait,
+-                                    self_ty,
++                                    self_ty: struct_self_ty,
++                                    self_ty_name: self.tcx.type_of(item.owner_id.def_id)
++                                        .instantiate_identity().skip_normalization().to_string(),
+                                     items,
+                                 });
+-                            }
+                         }
+                     }
+                 }
+@@ -763,12 +778,187 @@
+                     },
+                 );
+                 trait_impl_cpn.set_of_trait(&self.tcx.def_path_str(trait_impl.of_trait));
+-                trait_impl_cpn.set_self_ty(&self.tcx.def_path_str(trait_impl.self_ty));
++                trait_impl_cpn.set_self_ty(&match trait_impl.self_ty {
++                    Some(def_id) => self.tcx.def_path_str(def_id),
++                    None => trait_impl.self_ty_name.clone(),
++                });
++                trait_impl_cpn.set_def_index(trait_impl.def_id.to_def_id().index.as_u32());
+                 trait_impl_cpn.fill_items(&trait_impl.items, |mut item_cpn, item| {
+                     item_cpn.set_name(&item.name); 
+                     item_cpn.set_def_id(&item.def_id);
++                    item_cpn.set_def_index(item.def_index);
+                 });
+             });
++        }
++
++        // Required-item encoding is deliberately local. The ordinary region,
++        // type and clause encoders retain their existing wire representation.
++        // The scope component identifies the signature or the particular
++        // clause binder; printable rustc names never participate in identity.
++        fn required_bound_region_id(
++            owner: u32, scope: &str, depth: u32, index: u32,
++            elided_role: bool, kind: &str,
++        ) -> String {
++            // gen_contract recognizes elided mutable input borrows by the
++            // `'_' prefix. Preserve the old encoder's classification exactly.
++            let prefix = if elided_role { "'__vf_req" } else { "'vf_req" };
++            format!("{}_r_{}_{}_{}_{}_{}", prefix, owner, scope, depth, index, kind)
++        }
++
++        fn encode_required_region(
++            tcx: TyCtxt<'tcx>, owner: u32, scope: &str,
++            region: ty::Region<'tcx>, mut out: region_cpn::Builder<'_>,
++        ) {
++            match region.kind() {
++                ty::RegionKind::ReEarlyParam(param) => {
++                    let prefix = if param.name.as_str().starts_with("'_") {
++                        "'__vf_req"
++                    } else { "'vf_req" };
++                    out.set_id(&format!("{}_e_{}_{}", prefix, owner, param.index));
++                }
++                ty::RegionKind::ReBound(ty::BoundVarIndexKind::Bound(depth), bound) => {
++                    let (kind, elided_role) = match bound.kind {
++                        ty::BoundRegionKind::Anon => ("anon", true),
++                        ty::BoundRegionKind::Named(def_id) =>
++                            ("named", tcx.item_name(def_id).as_str().starts_with("'_")),
++                        ty::BoundRegionKind::NamedForPrinting(name) =>
++                            ("printing", name.as_str().starts_with("'_")),
++                        ty::BoundRegionKind::ClosureEnv =>
++                            panic!("A1 required-item representation: closure environment region"),
++                    };
++                    out.set_id(&Self::required_bound_region_id(
++                        owner, scope, depth.as_u32(), bound.var.as_u32(),
++                        elided_role, kind));
++                }
++                ty::RegionKind::ReStatic => out.set_id("'static"),
++                other => panic!("A1 required-item representation: unsupported region {:?}", other),
++            }
++        }
++
++        fn encode_required_gen_arg(
++            enc_ctx: &mut EncCtx<'tcx, 'a>, owner: u32, scope: &str,
++            type_params: &[(u32, String, u32, String)],
++            arg: ty::GenericArg<'tcx>, out: gen_arg_cpn::Builder<'_>,
++        ) {
++            let kind = out.init_kind();
++            match arg.kind() {
++                ty::GenericArgKind::Lifetime(region) =>
++                    Self::encode_required_region(enc_ctx.tcx, owner, scope, region, kind.init_lifetime()),
++                ty::GenericArgKind::Type(ty) =>
++                    Self::encode_required_ty(enc_ctx, owner, scope, type_params,
++                        ty, kind.init_type()),
++                ty::GenericArgKind::Const(_) =>
++                    panic!("A1 required-item representation: unsupported const argument"),
++            }
++        }
++
++        fn encode_required_ty(
++            enc_ctx: &mut EncCtx<'tcx, 'a>, owner: u32, scope: &str,
++            type_params: &[(u32, String, u32, String)],
++            ty: ty::Ty<'tcx>, out: ty_cpn::Builder<'_>,
++        ) {
++            let mut kind = out.init_kind();
++            match ty.kind() {
++                ty::TyKind::Ref(region, pointee, mutability) => {
++                    let mut reference = kind.init_ref();
++                    Self::encode_required_region(enc_ctx.tcx, owner, scope, *region,
++                        reference.reborrow().init_region());
++                    Self::encode_required_ty(enc_ctx, owner, scope, type_params, *pointee,
++                        reference.reborrow().init_ty());
++                    Self::encode_mutability(*mutability, reference.init_mutability());
++                }
++                ty::TyKind::Slice(element) =>
++                    Self::encode_required_ty(enc_ctx, owner, scope, type_params,
++                        *element, kind.init_slice()),
++                ty::TyKind::Tuple(elements) => {
++                    kind.fill_tuple(elements.iter(), |element_out, element| {
++                        Self::encode_required_ty(enc_ctx, owner, scope, type_params,
++                            element, element_out);
++                    });
++                }
++                ty::TyKind::Adt(adt_def, args) => {
++                    let mut adt = kind.init_adt();
++                    Self::encode_adt_def_id(enc_ctx, adt_def.did(), adt.reborrow().init_id());
++                    adt.reborrow().fill_substs(args.iter(), |arg_out, arg| {
++                        Self::encode_required_gen_arg(enc_ctx, owner, scope, type_params,
++                            arg, arg_out);
++                    });
++                    Self::encode_adt_kind(adt_def.adt_kind(), adt.init_kind());
++                    enc_ctx.add_req_adt(*adt_def);
++                }
++                ty::TyKind::Param(param) => {
++                    let (_, _, _, alias) = type_params.iter().find(|(index, name, _, _)|
++                        *index == param.index && name.as_str() == param.name.as_str())
++                        .expect("A1 required-item representation: unbound type parameter");
++                    kind.set_param(alias);
++                }
++                ty::TyKind::Bool => kind.set_bool(()),
++                ty::TyKind::Uint(int) => Self::encode_ty_uint(*int, kind.init_u_int()),
++                ty::TyKind::Never => kind.set_never(()),
++                other => panic!("A1 required-item representation: unsupported type {:?}", other),
++            }
++        }
++
++        fn encode_required_clause(
++            enc_ctx: &mut EncCtx<'tcx, 'a>, owner: u32, scope_prefix: &str,
++            ordinal: usize,
++            type_params: &[(u32, String, u32, String)],
++            clause: &(ty::Clause<'tcx>, rustc_span::Span), out: clause_cpn::Builder<'_>,
++        ) {
++            let scope = format!("{}clause_{}", scope_prefix, ordinal);
++            let bound_regions: Vec<String> = clause.0.kind().bound_vars().iter()
++                .enumerate().map(|(index, kind)| {
++                    let (tag, elided_role) = match kind {
++                        ty::BoundVariableKind::Region(ty::BoundRegionKind::Anon) => ("anon", true),
++                        ty::BoundVariableKind::Region(ty::BoundRegionKind::Named(def_id)) =>
++                            ("named", enc_ctx.tcx.item_name(def_id).as_str().starts_with("'_")),
++                        ty::BoundVariableKind::Region(ty::BoundRegionKind::NamedForPrinting(name)) =>
++                            ("printing", name.as_str().starts_with("'_")),
++                        _ => panic!("A1 required-item representation: unsupported clause binder"),
++                    };
++                    Self::required_bound_region_id(owner, &scope, 0, index as u32,
++                        elided_role, tag)
++                }).collect();
++            match clause.0.kind().skip_binder() {
++                ty::ClauseKind::RegionOutlives(pair) if bound_regions.is_empty() => {
++                    let mut c = out.init_outlives();
++                    Self::encode_required_region(enc_ctx.tcx, owner, &scope, pair.0,
++                        c.reborrow().init_region1());
++                    Self::encode_required_region(enc_ctx.tcx, owner, &scope, pair.1,
++                        c.init_region2());
++                }
++                ty::ClauseKind::Trait(trait_clause) => {
++                    if format!("{:?}", trait_clause.polarity) != "Positive" {
++                        panic!("A1 required-item representation: negative trait clause");
++                    }
++                    let mut c = out.init_trait();
++                    c.reborrow().fill_bound_regions(bound_regions.iter().map(String::as_str));
++                    c.set_def_id(&enc_ctx.tcx.def_path_str(trait_clause.trait_ref.def_id));
++                    c.fill_args(trait_clause.trait_ref.args, |arg_out, arg| {
++                        Self::encode_required_gen_arg(enc_ctx, owner, &scope,
++                            type_params, arg, arg_out);
++                    });
++                }
++                ty::ClauseKind::Projection(projection_clause) => {
++                    let mut c = out.init_projection();
++                    c.reborrow().fill_bound_regions(bound_regions.iter().map(String::as_str));
++                    let mut term = c.reborrow().init_projection_term();
++                    term.set_def_id(&enc_ctx.tcx.def_path_str(
++                        projection_clause.projection_term.expect_projection_def_id()));
++                    term.fill_args(projection_clause.projection_term.args, |arg_out, arg| {
++                        Self::encode_required_gen_arg(enc_ctx, owner, &scope,
++                            type_params, arg, arg_out);
++                    });
++                    match projection_clause.term.kind() {
++                        ty::TermKind::Ty(ty) => Self::encode_required_ty(
++                            enc_ctx, owner, &scope, type_params,
++                            ty, c.init_term().init_ty()),
++                        ty::TermKind::Const(_) =>
++                            panic!("A1 required-item representation: const projection"),
++                    }
++                }
++                _ => panic!("A1 required-item representation: unsupported clause"),
++            }
+         }
+ 
+         fn encode_traits(
+@@ -786,13 +976,38 @@
+                 let mut trait_cpn = traits_cons_cpn.reborrow().init_h();
+                 let name = self.tcx.def_path_str(trait_def_id);
+                 trait_cpn.set_name(&name);
++                let a1_required_item = match std::env::var("SORT4_A1_CHECKED_TRAIT_CONTRACT") {
++                    Err(std::env::VarError::NotPresent) => false,
++                    Ok(value) if value == "0" => false,
++                    Ok(value) if value == "1" => {
++                        if name != "StableSmallSortTypeImpl" &&
++                           name.ends_with("::StableSmallSortTypeImpl") {
++                            panic!("A1 required-item representation: qualified trait outside source certificate");
++                        }
++                        name == "StableSmallSortTypeImpl"
++                    }
++                    _ => panic!("A1 required-item representation: malformed opt-in"),
++                };
+                 let mut required_fns_cpn = trait_cpn.reborrow().init_required_fns();
++                let mut a1_seen_threshold = false;
++                let mut a1_seen_small_sort = false;
+                 for item in self
+                     .tcx
+                     .associated_items(trait_def_id)
+                     .in_definition_order()
+                 {
++                    if a1_required_item &&
++                       item.kind.as_def_kind() != rustc_hir::def::DefKind::AssocFn {
++                        panic!("A1 required-item representation: unexpected associated item");
++                    }
+                     if item.kind.as_def_kind() == rustc_hir::def::DefKind::AssocFn {
++                        if a1_required_item {
++                            match item.name().as_str() {
++                                "small_sort_threshold" if !a1_seen_threshold => a1_seen_threshold = true,
++                                "small_sort" if !a1_seen_small_sort => a1_seen_small_sort = true,
++                                _ => panic!("A1 required-item representation: unexpected or duplicate method"),
++                            }
++                        }
+                         let hir_item = self.tcx.hir_expect_trait_item(item.def_id.expect_local());
+                         match &hir_item.kind {
+                             hir::TraitItemKind::Fn(fn_sig, trait_fn) => {
+@@ -804,6 +1019,132 @@
+                                     let mut required_fn_cpn =
+                                         required_fns_cons_cpn.reborrow().init_h();
+                                     required_fn_cpn.set_name(&item.name().to_string());
++                                    let mut a1_type_params: Vec<(u32, String, u32, String)> = Vec::new();
++                                    if a1_required_item {
++                                        let def_id = item.def_id;
++                                        required_fn_cpn.set_def_id(&self.tcx.def_path_str(def_id));
++                                        required_fn_cpn.set_def_index(def_id.index.as_u32());
++                                        required_fn_cpn.set_parent_def_id(&name);
++                                        required_fn_cpn.set_parent_def_index(trait_def_id.index.as_u32());
++                                        required_fn_cpn.set_scoped_representation(true);
++                                        let hir_gens = self.tcx.hir_get_generics(def_id.expect_local())
++                                            .expect("A1 required item must have HIR generics");
++                                        Self::encode_hir_generics(
++                                            &mut enc_ctx, hir_gens,
++                                            required_fn_cpn.reborrow().init_hir_generics());
++                                        let method_gens = self.tcx.generics_of(def_id);
++                                        for param in self.tcx.generics_of(trait_def_id).own_params.iter()
++                                            .chain(method_gens.own_params.iter()) {
++                                            if !matches!(param.kind, GenericParamDefKind::Type { .. }) {
++                                                panic!("A1 required-item representation: unsupported early generic kind");
++                                            }
++                                            if a1_type_params.iter().any(|(index, _, did, _)|
++                                                *index == param.index || *did == param.def_id.index.as_u32()) {
++                                                panic!("A1 required-item representation: duplicate compiler type identity");
++                                            }
++                                            a1_type_params.push((param.index, param.name.to_string(),
++                                                param.def_id.index.as_u32(),
++                                                format!("__vf_req_t_{}_{}", def_id.index.as_u32(), param.index)));
++                                        }
++                                        required_fn_cpn.reborrow().fill_type_params(
++                                            &a1_type_params, |mut out, (index, name, did, alias)| {
++                                                out.set_alias(alias);
++                                                out.set_index(*index);
++                                                out.set_def_index(*did);
++                                                out.set_name(name);
++                                            });
++                                        required_fn_cpn.reborrow().fill_generics(
++                                            &method_gens.own_params,
++                                            |param_cpn, param| Self::encode_generic_param_def(param, param_cpn));
++                                        let clauses = self.tcx.clauses_of(def_id).clauses;
++                                        for clause in clauses {
++                                            if !matches!(clause.0.kind().skip_binder(),
++                                                ty::ClauseKind::RegionOutlives(_) |
++                                                ty::ClauseKind::Trait(_) |
++                                                ty::ClauseKind::Projection(_)) {
++                                                panic!("A1 required-item representation: unsupported clause");
++                                            }
++                                        }
++                                        required_fn_cpn.reborrow().fill_clauses(
++                                            clauses.iter().enumerate(), |clause_cpn, (ordinal, clause)| {
++                                                Self::encode_required_clause(
++                                                    &mut enc_ctx, def_id.index.as_u32(), "", ordinal,
++                                                    &a1_type_params,
++                                                    clause, clause_cpn);
++                                            });
++                                        let parent_clauses = self.tcx.clauses_of(trait_def_id).clauses;
++                                        required_fn_cpn.reborrow().fill_parent_clauses(
++                                            parent_clauses.iter().enumerate(), |clause_cpn, (ordinal, clause)| {
++                                                Self::encode_required_clause(
++                                                    &mut enc_ctx, trait_def_id.index.as_u32(),
++                                                    "parent_", ordinal, &a1_type_params,
++                                                    clause, clause_cpn);
++                                            });
++                                        let mut region_rows: Vec<(String, String, u32, u32, String, bool)> =
++                                            Vec::new();
++                                        for (index, bound_var) in sig0.bound_vars().iter().enumerate() {
++                                            let (tag, elided) = match bound_var {
++                                                ty::BoundVariableKind::Region(ty::BoundRegionKind::Anon) => ("anon", true),
++                                                ty::BoundVariableKind::Region(ty::BoundRegionKind::Named(did)) =>
++                                                    ("named", self.tcx.item_name(did).as_str().starts_with("'_")),
++                                                ty::BoundVariableKind::Region(ty::BoundRegionKind::NamedForPrinting(n)) =>
++                                                    ("printing", n.as_str().starts_with("'_")),
++                                                _ => panic!("A1 required-item representation: unsupported signature binder"),
++                                            };
++                                            region_rows.push((
++                                                Self::required_bound_region_id(def_id.index.as_u32(),
++                                                    "sig", 0, index as u32, elided, tag),
++                                                "sig".to_string(), 0, index as u32,
++                                                tag.to_string(), elided));
++                                        }
++                                        for (ordinal, clause) in clauses.iter().enumerate() {
++                                            let scope = format!("clause_{}", ordinal);
++                                            for (index, bound_var) in
++                                                clause.0.kind().bound_vars().iter().enumerate() {
++                                                let (tag, elided) = match bound_var {
++                                                    ty::BoundVariableKind::Region(ty::BoundRegionKind::Anon) => ("anon", true),
++                                                    ty::BoundVariableKind::Region(ty::BoundRegionKind::Named(did)) =>
++                                                        ("named", self.tcx.item_name(did).as_str().starts_with("'_")),
++                                                    ty::BoundVariableKind::Region(ty::BoundRegionKind::NamedForPrinting(n)) =>
++                                                        ("printing", n.as_str().starts_with("'_")),
++                                                    _ => panic!("A1 required-item representation: unsupported clause binder"),
++                                                };
++                                                region_rows.push((
++                                                    Self::required_bound_region_id(def_id.index.as_u32(),
++                                                        &scope, 0, index as u32, elided, tag),
++                                                    scope.clone(), 0, index as u32,
++                                                    tag.to_string(), elided));
++                                            }
++                                        }
++                                        for (ordinal, clause) in parent_clauses.iter().enumerate() {
++                                            let scope = format!("parent_clause_{}", ordinal);
++                                            for (index, bound_var) in
++                                                clause.0.kind().bound_vars().iter().enumerate() {
++                                                let (tag, elided) = match bound_var {
++                                                    ty::BoundVariableKind::Region(ty::BoundRegionKind::Anon) => ("anon", true),
++                                                    ty::BoundVariableKind::Region(ty::BoundRegionKind::Named(did)) =>
++                                                        ("named", self.tcx.item_name(did).as_str().starts_with("'_")),
++                                                    ty::BoundVariableKind::Region(ty::BoundRegionKind::NamedForPrinting(n)) =>
++                                                        ("printing", n.as_str().starts_with("'_")),
++                                                    _ => panic!("A1 required-item representation: unsupported parent clause binder"),
++                                                };
++                                                region_rows.push((
++                                                    Self::required_bound_region_id(trait_def_id.index.as_u32(),
++                                                        &scope, 0, index as u32, elided, tag),
++                                                    scope.clone(), 0, index as u32,
++                                                    tag.to_string(), elided));
++                                            }
++                                        }
++                                        required_fn_cpn.reborrow().fill_scoped_regions(
++                                            &region_rows, |mut out, (alias, scope, depth, index, tag, elided)| {
++                                                out.set_alias(alias);
++                                                out.set_scope(scope);
++                                                out.set_depth(*depth);
++                                                out.set_index(*index);
++                                                out.set_kind(tag);
++                                                out.set_elided_role(*elided);
++                                            });
++                                    }
+                                     Self::encode_span_data(
+                                         self.tcx,
+                                         &hir_item.ident.span.data(),
+@@ -817,7 +1158,21 @@
+                                         required_fn_cpn.reborrow().init_unsafety(),
+                                     );
+                                     required_fn_cpn.fill_lifetime_params(
+-                                        sig0.bound_vars().iter().map(|bound_var| match bound_var {
++                                        sig0.bound_vars().iter().enumerate().map(|(index, bound_var)| {
++                                            if a1_required_item {
++                                                let (tag, elided_role) = match bound_var {
++                                                    ty::BoundVariableKind::Region(ty::BoundRegionKind::Anon) => ("anon", true),
++                                                    ty::BoundVariableKind::Region(ty::BoundRegionKind::Named(def_id)) =>
++                                                        ("named", self.tcx.item_name(def_id).as_str().starts_with("'_")),
++                                                    ty::BoundVariableKind::Region(ty::BoundRegionKind::NamedForPrinting(name)) =>
++                                                        ("printing", name.as_str().starts_with("'_")),
++                                                    _ => panic!("A1 required-item representation: unsupported signature binder"),
++                                                };
++                                                return Self::required_bound_region_id(
++                                                    item.def_id.index.as_u32(), "sig", 0,
++                                                    index as u32, elided_role, tag);
++                                            }
++                                            match bound_var {
+                                             ty::BoundVariableKind::Ty(bound_ty_kind) => todo!(),
+                                             ty::BoundVariableKind::Region(bound_region_kind) => {
+                                                 match bound_region_kind {
+@@ -830,25 +1185,30 @@
+                                                 }
+                                             }
+                                             ty::BoundVariableKind::Const => todo!(),
++                                            }
+                                         }),
+                                     );
+                                     required_fn_cpn.fill_inputs(
+                                         sig.inputs(),
+                                         |input_cpn, input| {
+-                                            Self::encode_ty(
+-                                                self.tcx,
+-                                                &mut enc_ctx,
+-                                                *input,
+-                                                input_cpn,
+-                                            );
++                                            if a1_required_item {
++                                                Self::encode_required_ty(
++                                                    &mut enc_ctx, item.def_id.index.as_u32(),
++                                                    "sig", &a1_type_params, *input, input_cpn);
++                                            } else {
++                                                Self::encode_ty(self.tcx, &mut enc_ctx, *input, input_cpn);
++                                            }
+                                         },
+                                     );
+-                                    Self::encode_ty(
+-                                        self.tcx,
+-                                        &mut enc_ctx,
+-                                        sig.output(),
+-                                        required_fn_cpn.reborrow().init_output(),
+-                                    );
++                                    if a1_required_item {
++                                        Self::encode_required_ty(
++                                            &mut enc_ctx, item.def_id.index.as_u32(),
++                                            "sig", &a1_type_params, sig.output(),
++                                            required_fn_cpn.reborrow().init_output());
++                                    } else {
++                                        Self::encode_ty(self.tcx, &mut enc_ctx, sig.output(),
++                                            required_fn_cpn.reborrow().init_output());
++                                    }
+                                     required_fn_cpn
+                                         .fill_arg_names(arg_names.iter().map(|n| n.as_ref().map(|i| i.as_str()).unwrap_or("_")));
+                                     let contract: Vec<Box<GhostRange>> = self
+@@ -862,11 +1222,18 @@
+                                         Self::encode_annotation(self.tcx, annot, annot_cpn);
+                                     });
+                                     required_fns_cpn = required_fns_cons_cpn.init_t();
++                                } else if a1_required_item {
++                                    panic!("A1 required-item representation: provided method outside certificate");
+                                 }
+                             }
++                            _ if a1_required_item =>
++                                panic!("A1 required-item representation: expected required function"),
+                             _ => {}
+                         }
+                     }
++                }
++                if a1_required_item && (!a1_seen_threshold || !a1_seen_small_sort) {
++                    panic!("A1 required-item representation: incomplete certified trait");
+                 }
+                 traits_cpn = traits_cons_cpn.init_t();
+             }
+@@ -1240,6 +1607,8 @@
+             generic_param: &GenericParamDef,
+             mut generic_param_cpn: crate::vf_mir_capnp::generic_param_def::Builder<'_>,
+         ) {
++            generic_param_cpn.set_index(generic_param.index);
++            generic_param_cpn.set_def_index(generic_param.def_id.index.as_u32());
+             if generic_param.is_anonymous_lifetime() {
+                 generic_param_cpn.set_name(&Self::anonymous_early_bound_lifetime_name(generic_param.index));
+             } else {
+@@ -1265,6 +1634,7 @@
+             );
+ 
+             let def_id = body.source.def_id();
++            body_cpn.set_def_index(def_id.index.as_u32());
+ 
+             let kind = tcx.def_kind(def_id);
+             let is_closure = match kind {
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -6577,17 +6577,393 @@
+     let* loc = translate_span_data span_cpn in
+     Ok (params, loc)
+ 
++  module A1RequiredInterface = struct
++    (* Source-certified interface evidence, kept separate from the AST contract.
++       In particular, a checked clause here is not an assumed proof fact. *)
++    type t = {
++      def_id: string;
++      def_index: string;
++      parent_def_id: string;
++      parent_def_index: string;
++      method_params: (string * Hir.generic_param) list;
++      method_param_identities: (string * string * string) list;
++      ast_param_order: string list;
++      signature_regions: string list;
++      scoped_regions: (string * string * int * int * string * bool) list;
++      type_params: (string * string * int * int) list;
++      input_tys: D.ty list;
++      output_ty: D.ty;
++      clauses: D.clause list;
++      parent_clauses: D.clause list;
++    }
++    let by_def_id : (string, t) Hashtbl.t = Hashtbl.create 2
++    let register (item : t) =
++      if Hashtbl.mem by_def_id item.def_id then
++        failwith "A1 duplicate required-item compiler identity";
++      Hashtbl.add by_def_id item.def_id item
++    let find def_id = Hashtbl.find_opt by_def_id def_id
++  end
++
+   let translate_trait_required_fn (adt_defs : Mir.adt_def_tr list)
+       (trait_name : string) (required_fn_cpn : TraitRd.RequiredFn.t) =
+     let open TraitRd.RequiredFn in
+     let name = name_get required_fn_cpn in
+     let* loc = translate_span_data (name_span_get required_fn_cpn) in
++    let a1_mode = match Sys.getenv_opt "SORT4_A1_CHECKED_TRAIT_CONTRACT" with
++      | None | Some "0" -> false
++      | Some "1" -> true
++      | _ -> Ast.static_error loc "A1 malformed required-item opt-in" None in
++    if a1_mode && trait_name <> "StableSmallSortTypeImpl" &&
++       Filename.check_suffix trait_name "::StableSmallSortTypeImpl" then
++      Ast.static_error loc "A1 qualified trait outside source certificate" None;
++    if a1_mode && trait_name = "StableSmallSortTypeImpl" &&
++       name <> "small_sort_threshold" && name <> "small_sort" then
++      Ast.static_error loc "A1 unexpected required method" None;
++    let a1_required =
++      a1_mode &&
++      trait_name = "StableSmallSortTypeImpl" &&
++      (name = "small_sort_threshold" || name = "small_sort") in
++    let lifetime_params = lifetime_params_get_list required_fn_cpn in
++    let scoped_regions =
++      if not a1_required then [] else
++      let module B = TraitRd.RequiredFn.ScopedRegionBinding in
++      scoped_regions_get_list required_fn_cpn
++      |> List.map (fun b ->
++        (B.alias_get b, B.scope_get b,
++         Stdint.Uint32.to_int (B.depth_get b),
++         Stdint.Uint32.to_int (B.index_get b),
++         B.kind_get b, B.elided_role_get b)) in
++    let type_param_bindings =
++      if not a1_required then [] else
++      let module B = TraitRd.RequiredFn.TypeParamBinding in
++      type_params_get_list required_fn_cpn
++      |> List.map (fun b ->
++        (B.alias_get b, B.name_get b,
++         Stdint.Uint32.to_int (B.index_get b),
++         Stdint.Uint32.to_int (B.def_index_get b))) in
++    let type_param_alias wire =
++      match List.find_opt (fun (alias, _, _, _) -> alias = wire)
++          type_param_bindings with
++      | Some (_, name, _, _) -> name
++      | None -> Ast.static_error loc "A1 unbound compiler type parameter" None in
++    let internal_region alias =
++      if alias = "'static" then "'static" else
++      match List.find_opt
++          (fun (wire, _, _, _, _, _) -> wire = alias) scoped_regions with
++      | None -> Ast.static_error loc "A1 free required-item region" None
++      | Some (_, scope, depth, index, kind, elided) ->
++          let owner = Stdint.Uint32.to_string
++            (if String.starts_with ~prefix:"parent_clause_" scope then
++               parent_def_index_get required_fn_cpn
++             else def_index_get required_fn_cpn) in
++          let prefix = if elided then "'__vf_req" else "'vf_req" in
++          Printf.sprintf "%s_r_%s_%s_%d_%d_%s"
++            prefix owner scope depth index kind in
++    let internal_lifetime_params =
++      if a1_required then List.map internal_region lifetime_params
++      else lifetime_params in
++    let rec normalize_required_ty regions (ty : D.ty) : D.ty =
++      let kind = match ty.kind with
++        | D.Param name -> D.Param (type_param_alias name)
++        | D.Ref r -> D.Ref {r with
++            region = (if regions then {D.id = internal_region r.region.id}
++                      else r.region);
++            ty = normalize_required_ty regions r.ty}
++        | D.Slice t -> D.Slice (normalize_required_ty regions t)
++        | D.Tuple ts -> D.Tuple (List.map (normalize_required_ty regions) ts)
++        | D.Adt adt -> D.Adt {adt with
++            substs = List.map (normalize_required_arg regions) adt.substs}
++        | D.Bool | D.UInt _ | D.Never -> ty.kind
++        | _ -> Ast.static_error loc "A1 unsupported required-item type" None in
++      {ty with kind}
++    and normalize_required_arg regions (arg : D.generic_arg) : D.generic_arg =
++      let kind : D.generic_arg_kind = match arg.kind with
++        | D.Type ty -> D.Type (normalize_required_ty regions ty)
++        | D.Lifetime r -> D.Lifetime
++            (if regions then {D.id = internal_region r.id} else r)
++        | _ -> Ast.static_error loc "A1 unsupported required-item generic argument" None in
++      {arg with kind} in
++    let* method_params, required_sized, required_outlives, required_send, required_sync,
++         required_clauses =
++      if not a1_required then Ok ([], [], [], [], [], []) else begin
++        if not (scoped_representation_get required_fn_cpn) then
++          Ast.static_error loc "A1 required item lacks scoped representation" None;
++        let def_id = def_id_get required_fn_cpn in
++        let owner = Stdint.Uint32.to_string (def_index_get required_fn_cpn) in
++        if def_id <> trait_name ^ "::" ^ name then
++          Ast.static_error loc "A1 required-item compiler identity mismatch" None;
++        let aliases = List.map (fun (a, _, _, _, _, _) -> a) scoped_regions in
++        let semantic_ids = List.map
++          (fun (_, scope, depth, index, kind, _) ->
++            scope, depth, index, kind) scoped_regions in
++        let unique xs =
++          List.length xs = List.length (List.sort_uniq compare xs) in
++        if not (unique aliases) || not (unique semantic_ids) then
++          Ast.static_error loc "A1 duplicate scoped region alias or identity" None;
++        List.iter (fun (alias, scope, depth, _, kind, _) ->
++          if not (String.starts_with ~prefix:"'" alias) ||
++             alias = "'static" || alias = "'<erased>" ||
++             (scope <> "sig" &&
++              not (String.starts_with ~prefix:"clause_" scope) &&
++              not (String.starts_with ~prefix:"parent_clause_" scope)) ||
++             depth <> 0 ||
++             not (List.mem kind ["anon"; "named"; "printing"]) then
++            Ast.static_error loc "A1 malformed scoped region binding" None)
++          scoped_regions;
++        let rows scope =
++          List.filter (fun (_, s, _, _, _, _) -> s = scope) scoped_regions in
++        let check_binder scope index alias =
++          match List.filter
++              (fun (_, s, depth, i, _, _) ->
++                s = scope && depth = 0 && i = index) scoped_regions with
++          | [(a, _, _, _, _, _)] when a = alias -> ()
++          | _ -> Ast.static_error loc "A1 binder identity/alias mismatch" None in
++        if List.length (rows "sig") <> List.length lifetime_params then
++          Ast.static_error loc "A1 signature binder count mismatch" None;
++        List.iteri
++          (fun index region ->
++            check_binder "sig" index region)
++          lifetime_params;
++        let* hir_params, _ =
++          translate_hir_generics (hir_generics_get required_fn_cpn) in
++        let compiler_params =
++          generics_get_list required_fn_cpn
++          |> List.map translate_generic_param_def in
++        if hir_params <> compiler_params then
++          Ast.static_error loc "A1 HIR/compiler method generic mismatch" None;
++        let compiler_ids =
++          generics_get_list required_fn_cpn
++          |> List.map (fun p ->
++            (Stdint.Uint32.to_string (VfMirRd.GenericParamDef.index_get p),
++             Stdint.Uint32.to_string (VfMirRd.GenericParamDef.def_index_get p))) in
++        let unique xs =
++          List.length xs = List.length (List.sort_uniq String.compare xs) in
++        if not (unique (List.map fst compiler_ids)) ||
++           not (unique (List.map snd compiler_ids)) then
++          Ast.static_error loc "A1 duplicate method compiler generic identity" None;
++        let all_names = "Self" :: lifetime_params @ List.map fst hir_params in
++        if List.length all_names <> List.length (List.sort_uniq String.compare all_names) then
++          Ast.static_error loc "A1 duplicate required-item parameter" None;
++        let type_aliases = List.map (fun (alias, _, _, _) -> alias)
++          type_param_bindings in
++        let type_names = List.map (fun (_, name, _, _) -> name)
++          type_param_bindings in
++        let type_indices = List.map (fun (_, _, index, _) -> index)
++          type_param_bindings in
++        let type_defs = List.map (fun (_, _, _, did) -> did)
++          type_param_bindings in
++        if type_names <> ("Self" :: List.map fst hir_params) ||
++           List.length type_aliases <> List.length (List.sort_uniq String.compare type_aliases) ||
++           List.length type_indices <> List.length (List.sort_uniq compare type_indices) ||
++           List.length type_defs <> List.length (List.sort_uniq compare type_defs) ||
++           not (match type_param_bindings with
++             | (_, "Self", 0, _) :: method_rows ->
++                 List.map (fun (_, _, index, did) ->
++                   string_of_int index, string_of_int did) method_rows = compiler_ids
++             | _ -> false) then
++          Ast.static_error loc "A1 type parameter identity table mismatch" None;
++        let clauses =
++          clauses_get_list required_fn_cpn |> List.map D.decode_clause in
++        let parent_clauses =
++          parent_clauses_get_list required_fn_cpn |> List.map D.decode_clause in
++        if parent_def_id_get required_fn_cpn <> trait_name ||
++           Stdint.Uint32.to_int (parent_def_index_get required_fn_cpn) = 0 then
++          Ast.static_error loc "A1 parent trait compiler identity mismatch" None;
++        let sized = ref [] and outlives = ref [] and send = ref [] and sync = ref [] in
++        let fnmut = ref None and output = ref None in
++        let check_regions scope bound_regions =
++          if List.length (rows scope) <> List.length bound_regions then
++            Ast.static_error loc "A1 clause binder count mismatch" None;
++          List.iteri (fun index region ->
++            check_binder scope index region)
++            bound_regions in
++        List.iteri (fun ordinal clause ->
++          let scope = Printf.sprintf "clause_%d" ordinal in
++          match clause with
++          | D.Outlives c ->
++              check_regions scope [];
++              if c.region1.id <> "'static" &&
++                 not (List.mem c.region1.id lifetime_params) then
++                Ast.static_error loc "A1 free outlives region" None;
++              if c.region2.id <> "'static" &&
++                 not (List.mem c.region2.id lifetime_params) then
++                Ast.static_error loc "A1 free outlives region" None;
++              outlives := (internal_region c.region1.id,
++                           internal_region c.region2.id) :: !outlives
++          | D.Trait c ->
++              check_regions scope c.bound_regions;
++              let args = List.map
++                (fun arg -> decode_generic_arg (normalize_required_arg false arg))
++                c.args in
++              (match canonicalize_item_name c.def_id, c.bound_regions, args with
++               | "std::marker::Sized", [], [`Type (`Param p)]
++                   when List.mem p all_names -> sized := p :: !sized
++               | "std::marker::Send", [], [`Type (`Param p)]
++                   when List.mem p all_names -> send := p :: !send
++               | "std::marker::Sync", [], [`Type (`Param p)]
++                   when List.mem p all_names -> sync := p :: !sync
++               | "std::ops::FnMut", [r1; r2],
++                   [`Type (`Param f);
++                    `Type (`Tuple [`Ref (a, false, `Param t1);
++                                   `Ref (b, false, `Param t2)])]
++                   when r1 <> r2 && r1 = a && r2 = b &&
++                        List.mem f (List.map fst hir_params) &&
++                        t1 = "Self" && t2 = "Self" && !fnmut = None ->
++                   fnmut := Some f
++               | _ -> Ast.static_error loc "A1 unsupported required-item trait clause" None)
++          | D.Projection c ->
++              check_regions scope c.bound_regions;
++              let args = List.map
++                (fun arg -> decode_generic_arg (normalize_required_arg false arg))
++                c.projection_term.args in
++              (match canonicalize_item_name c.projection_term.def_id,
++                     c.bound_regions, args, c.term with
++               | "std::ops::FnOnce::Output", [r1; r2],
++                   [`Type (`Param f);
++                    `Type (`Tuple [`Ref (a, false, `Param t1);
++                                   `Ref (b, false, `Param t2)])], D.Ty rhs
++                   when r1 <> r2 && r1 = a && r2 = b &&
++                        List.mem f (List.map fst hir_params) &&
++                        t1 = "Self" && t2 = "Self" &&
++                        decode_ty (normalize_required_ty false rhs) = `Bool &&
++                        !output = None ->
++                   output := Some f
++               | _ -> Ast.static_error loc "A1 unsupported required-item projection" None)
++          | _ -> Ast.static_error loc "A1 ignored or unknown required-item clause" None)
++          clauses;
++        let parent_sized = ref false and parent_self_trait = ref false in
++        List.iteri (fun ordinal clause ->
++          let scope = Printf.sprintf "parent_clause_%d" ordinal in
++          match clause with
++          | D.Trait c ->
++              check_regions scope c.bound_regions;
++              let args = List.map
++                (fun arg -> decode_generic_arg (normalize_required_arg false arg))
++                c.args in
++              (match canonicalize_item_name c.def_id, c.bound_regions, args with
++               | "std::marker::Sized", [], [`Type (`Param "Self")]
++                   when not !parent_sized -> parent_sized := true
++               | id, [], [`Type (`Param "Self")]
++                   when id = trait_name && not !parent_self_trait ->
++                   parent_self_trait := true
++               | _ -> Ast.static_error loc "A1 unsupported parent trait clause" None)
++          | _ -> Ast.static_error loc "A1 unsupported parent trait clause" None)
++          parent_clauses;
++        if not !parent_sized || not !parent_self_trait then
++          Ast.static_error loc "A1 parent trait lacks compiler Sized or self clause" None;
++        sized := "Self" :: !sized;
++        if List.length scoped_regions <>
++           List.length lifetime_params +
++           List.fold_left (fun n clause -> n +
++             (match clause with
++              | D.Trait c -> List.length c.bound_regions
++              | D.Projection c -> List.length c.bound_regions
++              | _ -> 0)) 0 (clauses @ parent_clauses) then
++          Ast.static_error loc "A1 extra scoped region binding" None;
++        if name = "small_sort" then begin
++          if List.length hir_params <> 1 ||
++             (match hir_params with [(_, Hir.GenParamType)] -> false | _ -> true) ||
++             !fnmut <> !output || !fnmut <> Some (fst (List.hd hir_params)) then
++            Ast.static_error loc "A1 missing FnMut/Output clause pair" None
++        end else if hir_params <> [] || !fnmut <> None || !output <> None then
++          Ast.static_error loc "A1 threshold has unexpected method clauses" None;
++        Ok (List.map fst hir_params, List.rev !sized, List.rev !outlives,
++            List.rev !send, List.rev !sync, clauses)
++      end in
++    if a1_required then begin
++      (match UnsafetyRd.get (unsafety_get required_fn_cpn) with
++       | UnsafetyRd.Safe -> ()
++       | _ -> Ast.static_error loc "A1 required method is not safe" None);
++      let inputs_cpn = inputs_get_list required_fn_cpn in
++      let output_cpn = output_get required_fn_cpn in
++      let arg_names = arg_names_get_list required_fn_cpn in
++      if List.length inputs_cpn <> List.length arg_names then
++        Ast.static_error loc "A1 required method argument-name count mismatch" None;
++      let rec check_type scope (ty : D.ty) =
++        match ty.D.kind with
++        | D.Ref r ->
++            if r.region.id <> "'static" &&
++               not (List.mem r.region.id lifetime_params) then
++              Ast.static_error loc ("A1 free input region in " ^ scope) None;
++            check_type scope r.ty
++        | D.Slice ty -> check_type scope ty
++        | D.Tuple tys -> List.iter (check_type scope) tys
++        | D.Adt adt -> List.iter (fun (arg : D.generic_arg) -> match arg.D.kind with
++            | D.Type ty -> check_type scope ty
++            | D.Lifetime r when r.id = "'static" || List.mem r.id lifetime_params -> ()
++            | _ -> Ast.static_error loc "A1 unsupported required-item type argument" None)
++            adt.substs
++        | D.Param wire -> ignore (type_param_alias wire)
++        | D.Bool | D.UInt _ | D.Never -> ()
++        | _ -> Ast.static_error loc "A1 unsupported required-item type" None in
++      List.iter (fun ty -> check_type "signature" (D.decode_ty ty)) inputs_cpn;
++      check_type "result" (D.decode_ty output_cpn);
++      if name = "small_sort" then begin
++        let input_types = List.map (fun ty ->
++          decode_ty (normalize_required_ty false (D.decode_ty ty)))
++                 inputs_cpn in
++        if decode_ty (D.decode_ty output_cpn) <> `Tuple [] then
++          Ast.static_error loc "A1 small_sort result must be unit" None;
++        (match input_types with
++         | [`Ref (r1, true, `Slice (`Param "Self"));
++            `Ref (r2, true, `Slice (`Adt ("std::mem::MaybeUninit", _,
++                                      [`Type (`Param "Self")])));
++            `Ref (r3, true, `Param f)]
++             when r1 <> r2 && r1 <> r3 && r2 <> r3 &&
++                  lifetime_params = [r1; r2; r3] &&
++                  List.for_all (fun alias ->
++                    List.exists (fun (wire, scope, _, _, _, elided) ->
++                      wire = alias && scope = "sig" && elided)
++                      scoped_regions) [r1; r2; r3] &&
++                  List.mem f method_params -> ()
++         | _ -> Ast.static_error loc
++                  "A1 required item lost a distinct input borrow or F" None)
++      end else if inputs_cpn <> [] || lifetime_params <> [] ||
++                  decode_ty (D.decode_ty output_cpn) <> `Uint D.USize then
++        Ast.static_error loc "A1 threshold must be () -> usize" None;
++      let hir_params, _ =
++        Result.get_ok
++          (translate_hir_generics (hir_generics_get required_fn_cpn)) in
++      A1RequiredInterface.register {
++        def_id = def_id_get required_fn_cpn;
++        def_index = Stdint.Uint32.to_string (def_index_get required_fn_cpn);
++        parent_def_id = parent_def_id_get required_fn_cpn;
++        parent_def_index =
++          Stdint.Uint32.to_string (parent_def_index_get required_fn_cpn);
++        method_params = hir_params;
++        ast_param_order = ["Self"] @ List.map fst hir_params @
++          internal_lifetime_params;
++        method_param_identities =
++          generics_get_list required_fn_cpn
++          |> List.map (fun p ->
++            (VfMirRd.GenericParamDef.name_get p,
++             Stdint.Uint32.to_string (VfMirRd.GenericParamDef.index_get p),
++             Stdint.Uint32.to_string (VfMirRd.GenericParamDef.def_index_get p)));
++        signature_regions = lifetime_params;
++        scoped_regions;
++        type_params = type_param_bindings;
++        input_tys = List.map D.decode_ty (inputs_get_list required_fn_cpn);
++        output_ty = D.decode_ty (output_get required_fn_cpn);
++        clauses = required_clauses;
++        parent_clauses =
++          parent_clauses_get_list required_fn_cpn |> List.map D.decode_clause;
++      }
++    end;
+     let* input_infos =
+       inputs_get_list required_fn_cpn
+-      |> ListAux.try_map (fun ty_cpn -> translate_ty ty_cpn loc)
++      |> ListAux.try_map (fun ty_cpn ->
++           if a1_required then
++             translate_decoded_ty
++               (normalize_required_ty true (D.decode_ty ty_cpn)) loc
++           else translate_ty ty_cpn loc)
+     in
+     let inputs = input_infos |> List.map (fun { Mir.vf_ty } -> vf_ty) in
+-    let* output = translate_ty (output_get required_fn_cpn) loc in
++    let* output =
++      if a1_required then
++        translate_decoded_ty
++          (normalize_required_ty true
++             (D.decode_ty (output_get required_fn_cpn))) loc
++      else translate_ty (output_get required_fn_cpn) loc in
+     let ret_ty = output.vf_ty in
+     let arg_names = arg_names_get_list required_fn_cpn in
+     let (Some vf_param_decls) = Util.zip inputs arg_names in
+@@ -6616,9 +6992,8 @@
+         let result = (loc, output) in
+         let* contract =
+           gen_contract adt_defs loc
+-            (List.map TrName.lft_name_without_apostrophe
+-               (lifetime_params_get_list required_fn_cpn))
+-            [] [] [] params result
++            (List.map TrName.lft_name_without_apostrophe internal_lifetime_params)
++            required_outlives required_send required_sync params result
+         in
+         Ok ((false, (None, None), Some contract, false), false))
+     in
+@@ -6637,7 +7012,11 @@
+       Ast.Func
+         ( loc,
+           Ast.Regular,
+-          (*type params*) (Ast.unbounded_tparams ([ "Self" ] @ lifetime_params_get_list required_fn_cpn)),
++          (*type params*)
++          (if a1_required then
++             List.map (fun p -> (p, {Ast.sized = List.mem p required_sized}))
++               (["Self"] @ method_params @ internal_lifetime_params)
++           else Ast.unbounded_tparams (["Self"] @ lifetime_params)),
+           Some ret_ty,
+           Printf.sprintf "%s::%s" trait_name name,
+           vf_param_decls,

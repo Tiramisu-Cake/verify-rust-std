@@ -151,3 +151,13 @@ Unrelated eight local owner policy/documentation edits remain uncommitted/preser
 Own request withdrawn; no active/unresolved reservation. Final docs publication
 commit is the Git commit containing this terminal checkpoint; source/proof SHA is
 separately pinned above and must not be confused with docs HEAD.
+
+## Later ordinary Brief clarification — buildability session
+
+Fresh ordinary Brief exposes actual D.rvalue / expected string at6884;
+102/102 stage records,no omissions. Individual console-buildexit0 does not bind
+success to failed R-only candidate. Order remains unestablished;26NOT_RUN.
+[Preserved refreshed report](A1-BUILDABILITY-BASELINE-BRIEF-7987E81F-2026-10-18.md),
+SHA256`a9ff94dfff955e13cd28c34be181da6feb9051b2d84a440578734b125d854794`.
+Prior reports/claims/ledgers remain unchanged; expected-type audit need is resolved,
+other unexposed fields stay UNKNOWN. No source or proof result upgraded.
