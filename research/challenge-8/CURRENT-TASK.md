@@ -178,7 +178,7 @@ Reviewer проверяет типизацию, связанные места, �
 | `92524a3d-fec8-4e74-a902-271f791e8bb7` | `ff7fbd1daa9b89f74ec79c313ad27f6bd80f5b53` / [R1 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R1-RELEASE-2026-10-18.json) | Две expected-type аннотации, полный R-only→C→26 | FAILURE | [Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R1-BRIEF-2026-10-18.md): R-only и final-C exit0; P0a unclosed delimiter, original/lib.rs156 | 415s |
 | `ae9fd22f-a143-4a4f-9d7c-2911ec1ad042` | `28cd86597b07e6c2726cf1c391cfdfbd28997a98` / [R2 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R2-RELEASE-2026-10-18.json) | Два delimiter fix в fixture, R/C прежние; полный R-only→C→26 | FAILURE | [R2 Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R2-BRIEF-2026-10-18.md): tool stages exit0, P0a unknown feature internal_features | 401s |
 | `20180c22-c6e9-49d5-9819-1e88aa703d35` | `5651bd99099a102de077c241139fb48235e8c326` / [R3 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R3-RELEASE-2026-10-18.json) | Удалён unsupported feature из fixtureheader; полный R-only→C→26 | FAILURE | [R3 Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R3-BRIEF-2026-10-18.md): R/C stages exit0, runner KeyError positive_cases | 421s |
-| `729160af-7f20-4a8a-b238-cc8aa077cc35` | `864fe65f21b5ca381b9417726e7f509453de91ae` / [R4 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R4-RELEASE-2026-10-18.json) | Tagged success/error-result wiring, predicates прежние; полный R-only→C→26 | SUBMITTED | Terminal Brief pending | reserve960s |
+| `729160af-7f20-4a8a-b238-cc8aa077cc35` | `864fe65f21b5ca381b9417726e7f509453de91ae` / [R4 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R4-RELEASE-2026-10-18.json) | Tagged success/error-result wiring, predicates прежние; полный R-only→C→26 | FAILURE | [R4 Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R4-BRIEF-2026-10-18.md): namedR/C exit0, runner KeyError path | 433s |
 
 Отправлен первый Build; source/infra/release опубликованы до submit, remoteSHA подтверждён. [Refreshed baseline Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-BASELINE-BRIEF-7987E81F-2026-10-18.md): actualD.rvalue/expectedstring,102/102 records; исходный Brief сохранён. Expected-type admin audit больше не нужен, прежние unknowns не повышены.
 
@@ -212,3 +212,14 @@ A1/A2 OPEN, formal credit отсутствует.
 - R4 exact-diff Luna HIGH **GO**, committed closure/config **PASS**: source/infra`864fe65f21b5ca381b9417726e7f509453de91ae`,sourcepayload`af552c4ce77e97fdfcd2db39290ee9188dc166d876695089f864e31a283a4d01`;170substitutions. [R4 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R4-RELEASE-2026-10-18.json).
 
 - R4 Build`729160af-7f20-4a8a-b238-cc8aa077cc35` принят после публикации`8870728b`; config`5b9394f5c702c46ff9ee09026834587660e8fecf981a2768149abf1e3a8d0153`;1237s accounted+960reserved. Идентификатор получен тем же submit, повторной отправки не было.
+
+### Промежуточный отчёт около T+60 минут
+
+-4Builds отправлены,3terminal/1237Cloudseconds accounted; R4`729160af-7f20-4a8a-b238-cc8aa077cc35` ACTIVE с960reserve. Старые счета не менялись.
+- R-only и финальный C named build stages exit0 в R1/R2/R3; это подтверждение сборочных stages, не proofacceptance. Own reference receipt contents/hash пока отдельно не доступны Brief.
+- OCaml typecontext, fixture delimiters и unsupported feature исправлены; R4 исправляет service success/error discrimination. Все code diffs прошли Luna HIGH GO и committedclosure.
+- Full26/P1/N-false31/A1/A2 пока не установлены. Продолжение в scope до20:59:16Z,absolute21:29:16Z; новых permissions/бюджета не добавлено.
+
+- R4 terminal: namedR/C exit0, partialexport/decode0; runner`normal_entry["path"]` KeyError2082. Статический producer всегда включаетpath, но consumerdefaults{} проходят Mapping-only guard послеP0aerror. Исправление availability/dereferenceguard готовится, без подстановкиpath или повышенияfailedgate; 1670s accounted за4Builds.
+
+- R5 объединяет string-path availability guards для partialMIR preparation/decoded/controls и Mapping guards дляnullable first/identity structures. 8synthetic parser cases PASS, все `_need` AST byte-equivalent;43pre-R/R/C source-only PASS. Никакой path/evidence/успех не подставлен; отсутствующие dependent inputs не исполняются и не получаютcredit, остальные строки продолжаются. Review/closure pending.

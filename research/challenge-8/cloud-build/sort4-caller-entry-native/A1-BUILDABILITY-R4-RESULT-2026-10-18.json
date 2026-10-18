@@ -1,0 +1,42 @@
+{
+  "brief_sha256": "22d7de63b8d8b6966fbf8c6cecbff3dc997a6237e0c56e652eabc2d8b34213fe",
+  "build": {
+    "accounted": true,
+    "build_id": "729160af-7f20-4a8a-b238-cc8aa077cc35",
+    "build_seconds": 433,
+    "create_time": "2026-10-18T19:50:55.820223839Z",
+    "dispatch_token": "dispatch-1cc9070c942642058e0d27aeb0f88afb",
+    "execution_seconds": 432,
+    "finish_time": "2026-10-18T19:58:07.935187Z",
+    "infra_sha": "864fe65f21b5ca381b9417726e7f509453de91ae",
+    "lane": "o26-sort4-c1-current-recovery",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-A1-OCAML-BUILDABILITY-2026-10-18-R1",
+    "proof_sha": "864fe65f21b5ca381b9417726e7f509453de91ae",
+    "publish_text_logs": true,
+    "reserved_seconds": 960,
+    "source_input_sha256": "af552c4ce77e97fdfcd2db39290ee9188dc166d876695089f864e31a283a4d01",
+    "source_mode": "pinned-objects",
+    "start_time": "2026-10-18T19:50:56.582961910Z",
+    "status": "FAILURE",
+    "submitted_config_sha256": "5b9394f5c702c46ff9ee09026834587660e8fecf981a2768149abf1e3a8d0153",
+    "timeout_seconds": 900
+  },
+  "formal_credit": false,
+  "matrix_26": "per-rowUNKNOWN,noNOT_RUNinferred",
+  "named_R_only_build": "EXIT_ZERO",
+  "named_final_C_build": "EXIT_ZERO",
+  "named_stage_successes": [
+    "normal-decode",
+    "normal-export",
+    "readonly-decode"
+  ],
+  "own_reference_receipt": "Source flow requires fresh receipt between named stages; bytes/hash not exposed independently",
+  "runner_failure": {
+    "error": "KeyError:path",
+    "line": 2082,
+    "log_sha256": "8c36f6b4b73afd7f166326d182d162f7b937a84096768b2d5dcb3316bb697dfa",
+    "source": "bounded Brief untrusted context"
+  },
+  "stage_order": "NOT_ESTABLISHED"
+}

@@ -25,7 +25,7 @@ from typing import Any, Mapping
 PHASE = "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17"
 AUTHORIZATION_PHASE = "SORT4-A1-OCAML-BUILDABILITY-2026-10-18-R1"
 HERE = Path("research/challenge-8/cloud-build/sort4-caller-entry-native")
-PROFILE = HERE / "A1-BUILDABILITY-R4-PROFILE-2026-10-18.json"
+PROFILE = HERE / "A1-BUILDABILITY-R5-PROFILE-2026-10-18.json"
 HEX40 = re.compile(r"[0-9a-f]{40}\Z")
 HEX64 = re.compile(r"[0-9a-f]{64}\Z")
 
@@ -87,6 +87,17 @@ FOCUS_SEMANTICS_PINS = {
 def _need(ok: bool, why: str) -> None:
     if not ok:
         raise RuntimeError("A1-RUNNER: " + why)
+
+
+def _available_artifact_path(artifacts: Any, name: str) -> Path | None:
+    """Read a recorded path only when the partial artifact entry supplies it."""
+    if not isinstance(artifacts, Mapping):
+        return None
+    entry = artifacts.get(name)
+    if not isinstance(entry, Mapping):
+        return None
+    value = entry.get("path")
+    return Path(value) if isinstance(value, str) and value else None
 
 
 def _sha(path: Path) -> str:
@@ -1883,6 +1894,9 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
         if certificate is not None and certificate_path is not None:
             positive_cases = positive_progress.get("positive_cases", {})
             p0a_partial = positive_cases.get("P0a", {})
+            partial_artifacts = p0a_partial.get("raw", {}).get("artifacts", {})
+            partial_normal = _available_artifact_path(partial_artifacts, "normal-mir.txt")
+            partial_readonly = _available_artifact_path(partial_artifacts, "readonly-mir.txt")
             # Any independent full-unit/interface, negative-body, admission,
             # legacy-regression, and OFF route proceeds even when a positive
             # body or caller gate fails. Only receipt-dependent caller rows
@@ -1900,9 +1914,9 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
                 if off_prepared is not None:
                     positive_progress["off_input"] = off_prepared
             if ("synthetic_inputs" not in positive_progress and
-                    isinstance(p0a_partial.get("raw", {}).get("artifacts"), Mapping) and
+                    partial_normal is not None and
                     isinstance(p0a_partial.get("structure"), Mapping)):
-                decoded_path = Path(p0a_partial["raw"]["artifacts"]["normal-mir.txt"]["path"])
+                decoded_path = partial_normal
                 prepared = action("prepare-synthetic-inputs", lambda:
                     prepare_synthetic_inputs(
                         a, helpers["a1-synthetic-inputs.py"],
@@ -1912,15 +1926,14 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
                 if prepared is not None:
                     positive_progress["synthetic_inputs"] = prepared
             if ("admission_controls" not in positive_progress and
-                    isinstance(p0a_partial.get("raw", {}).get("artifacts"), Mapping)):
-                artifacts = p0a_partial["raw"]["artifacts"]
+                    partial_normal is not None and partial_readonly is not None):
                 prepared_controls = action("prepare-admission-controls", lambda:
                     prepare_admission_control_inputs(
                         a, helpers["a1-call-binding.py"],
                         helpers["a1-compiler-inventory.py"],
                         certificate=certificate, certificate_path=certificate_path,
-                        normal_decoded=Path(artifacts["normal-mir.txt"]["path"]),
-                        readonly_decoded=Path(artifacts["readonly-mir.txt"]["path"])))
+                        normal_decoded=partial_normal,
+                        readonly_decoded=partial_readonly))
                 if prepared_controls is not None:
                     positive_progress["admission_controls"] = prepared_controls
             expected_cases = positive_progress.get("expected_case_ids")
@@ -1947,13 +1960,13 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
             # actual current translator output, never mutation metadata.
             first = positive_cases.get("P0a", {})
             first_artifacts = first.get("raw", {}).get("artifacts", {})
-            decoded = (Path(first_artifacts["normal-mir.txt"]["path"])
-                       if isinstance(first_artifacts, Mapping) and
-                       isinstance(first_artifacts.get("normal-mir.txt"), Mapping) else None)
+            decoded = _available_artifact_path(first_artifacts, "normal-mir.txt")
+            first_structure = first.get("structure")
+            first_structure = first_structure if isinstance(first_structure, Mapping) else {}
             synthetic_inputs = positive_progress.get("synthetic_inputs", {})
             mutator = helpers["a1-synthetic-inputs.py"]
             backend = helpers["a1-synthetic-backend.py"]
-            impls = [row for row in first.get("structure", {}).get("inventory", {})
+            impls = [row for row in first_structure.get("inventory", {})
                      .get("inventory", {}).get("impls", [])
                      if row.get("impl") == "default16"]
             impl_index = impls[0]["impl_def_index"] if len(impls) == 1 else None
@@ -2035,7 +2048,7 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
                     **dispatch, "dispatch_classifier": classify_dispatch_observation(
                         dispatch.get("raw", {}), expected_source_sha256=source_sha)}
                 persist_progress()
-            p0a_native = first.get("structure", {}).get("threshold_posts", {}).get("native")
+            p0a_native = first_structure.get("threshold_posts", {}).get("native")
             for case_id in ("N-default-contract", "N-freeze-contract"):
                 action(case_id, lambda c=case_id:
                     collect_source_case(
@@ -2076,11 +2089,9 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
             # validator failure remains inconclusive while other rows continue.
             controls = positive_progress.get("admission_controls", {})
             if isinstance(controls, Mapping) and isinstance(first_artifacts, Mapping):
-                normal_entry = first_artifacts.get("normal-mir.txt", {})
-                readonly_entry = first_artifacts.get("readonly-mir.txt", {})
-                if isinstance(normal_entry, Mapping) and isinstance(readonly_entry, Mapping):
-                    normal_path = Path(normal_entry["path"])
-                    readonly_path = Path(readonly_entry["path"])
+                normal_path = _available_artifact_path(first_artifacts, "normal-mir.txt")
+                readonly_path = _available_artifact_path(first_artifacts, "readonly-mir.txt")
+                if normal_path is not None and readonly_path is not None:
                     source_path = certificate_path.parent / certificate["cases"]["P1"]["source_file"]
                     for control_id in ("N-source", "N-binding", "N-region-swap"):
                         if control_id not in controls:
@@ -2262,7 +2273,10 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
         p1 = observations.get("P1", {})
         identity_source = (p0a if isinstance(p0a, Mapping) and
                            isinstance(p0a.get("structure"), Mapping) else p1)
-        bound = identity_source.get("structure", {}).get("bound_impls", {}) if isinstance(identity_source, Mapping) else {}
+        identity_structure = (identity_source.get("structure")
+                              if isinstance(identity_source, Mapping) else None)
+        bound = (identity_structure.get("bound_impls", {})
+                 if isinstance(identity_structure, Mapping) else {})
         expected_inventory = {
             impl: {"compiler_impl_id": row.get("compiler_impl_id"),
                    "compiler_item_id": row.get("compiler_item_id")}

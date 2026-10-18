@@ -56,7 +56,7 @@ def main() -> None:
         head = subprocess.check_output(['git', '-C', str(checkout), 'rev-parse', 'HEAD'], text=True).strip()
         if head != os.environ.get(key):
             raise RuntimeError('A1 entry published checkout pin differs: ' + key)
-    profile_path = a.proof_root / HERE / 'A1-BUILDABILITY-R4-PROFILE-2026-10-18.json'
+    profile_path = a.proof_root / HERE / 'A1-BUILDABILITY-R5-PROFILE-2026-10-18.json'
     if sha(profile_path) != os.environ.get('SORT4_A1_PROFILE_SHA256'):
         raise RuntimeError('A1 entry profile pin differs')
     profile = json.loads(profile_path.read_text())

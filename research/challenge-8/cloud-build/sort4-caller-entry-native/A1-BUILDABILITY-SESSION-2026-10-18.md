@@ -189,3 +189,24 @@ Build729160af-7f20-4a8a-b238-cc8aa077cc35;token
 dispatch-1cc9070c942642058e0d27aeb0f88afb;config
 5b9394f5c702c46ff9ee09026834587660e8fecf981a2768149abf1e3a8d0153.
 900s timeout,full26configuration;1237saccounted+960reserve.
+
+## R4 terminal and R5 partial-record availability
+
+R4Build729160af FAILURE433s,session1670s. Brief boundedcontextKeyErrorpath at2082,
+source logsha8c36f6b4b73afd7f166326d182d162f7b937a84096768b2d5dcb3316bb697dfa.
+NamedR/Cbuild0;noformalcredit,no complete26rowoutcomes exposed.
+Artifactproducer alwayssuppliespath,but defaultempty records pass Mapping-only
+consumer guard afterP0afailure. Reviewerfoundrelatedoutside-action path reads at
+1905/1950 andnullable structure reads1956/2038;identity fallback2265also nullable.
+
+R5 centralizes optional recordedpath read(string/nonempty only,noIO) andusesit for
+partialinputpreparation/decoded/controlbranches. Nullable first/identitystructure
+maps normalize toempty onlyforavailabilityandno-data classification. No invented
+artifact orboundIDs,checkbypass,success/receiptcreated; downstreamactualroot/hash/
+provenance predicates andall _need AST conditions are unchanged. Missinginputs
+leave dependentrows unresolved; existing independentroutescontinue. This repairs
+concrete runtimewiringcrashes,not rerunforBriefdeficiency. R/C/fixture/compiler/
+decoderpinsunchanged.8isolatedsynthetic parser checks,Pythonstaticparse,fullsource
+43pre-R/R/CapplicationPASS. Fullrunner/compiler/constructor notexecutedlocally.
+Hypothesisrunnerreachesexistingclassification/checkpoint withoutdereferencing
+absentpartialrecords;semantic/proofblockers remainfailures andneedsownerdecision.
