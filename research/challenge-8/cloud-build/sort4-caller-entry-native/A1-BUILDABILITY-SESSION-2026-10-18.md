@@ -106,3 +106,10 @@ R/C fullpatch bytes unchangedR1; new helper/profile/source identities required.
 Hypothesis: compiler accepts both constructed observer declarations, then runs
 unchanged source-support/AST/proof gates. Further in-scope compileerror→continue;
 semantic/admission error→separate owner decision; reporting gap→audit not rerun.
+
+## R2 committed release
+
+Candidate proof/infra`28cd86597b07e6c2726cf1c391cfdfbd28997a98`; Luna HIGH GO, full committedclosure/configPASS.
+[R2 release](A1-BUILDABILITY-R2-RELEASE-2026-10-18.json),
+[review](A1-BUILDABILITY-R2-REVIEW-2026-10-18.md).
+{"commit": "28cd86597b07e6c2726cf1c391cfdfbd28997a98", "config_arg_bounds": "PASS", "dispatch": "NOT_ATTEMPTED", "exact_restore": "PASS", "formal_credit": false, "phase_profile_environment": "PASS", "restored_paths": {"infra": 33, "proof": 107}, "shared_objects": 160, "source_payload_bytes": 505755, "source_sha256": "f5e75e6817eae9b607ccd9dab2facb32f4f40473a68f0e54d6cea09a20da5006", "source_substitutions": 170}
