@@ -1,10 +1,27 @@
 {
-  "active_build": null,
+  "active_build": "92524a3d-fec8-4e74-a902-271f791e8bb7",
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
   ],
   "authorization": "CURRENT-TASK select-sort4-ocaml-buildability-2026-10-18-r1 and direct owner invocation:120min sequential Builds within R compile/type-only and dependent wiring scope;900s max per Build;main cutoff hard;existing full26 matrix unchanged. No aggregate960/3600 cap.",
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-746a521760aa46988240b2a0c0059716",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-A1-OCAML-BUILDABILITY-2026-10-18-R1",
+      "infra_sha": "ff7fbd1daa9b89f74ec79c313ad27f6bd80f5b53",
+      "proof_sha": "ff7fbd1daa9b89f74ec79c313ad27f6bd80f5b53",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "85b7b631a7a52c2d602f56305aa5f6bd1a5714d95611dc62b425c98514393f6e",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "QUEUED",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "ea4cbff90b19db1f5651bc16b4d0a721fec0445bac2c838670a83c68c19eda07",
+      "build_id": "92524a3d-fec8-4e74-a902-271f791e8bb7"
+    }
+  ],
   "ceiling_build_seconds": 18960,
   "ceiling_calculation": "Technical finite representation only:150min*60=9000 wall seconds +9000 rounding headroom +960 final reservation=18960. Main/absolute deadlines and one active owner remain authoritative; no new monetary/aggregate960 or3600 ceiling.",
   "deadline_utc": "2026-10-18T21:29:16Z",

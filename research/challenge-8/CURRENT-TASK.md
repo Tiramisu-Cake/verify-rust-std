@@ -157,7 +157,7 @@ Reviewer проверяет типизацию, связанные места, �
 
 ### Сессия
 
-- Статус: ACTIVE — исходники и служебная регистрация, Builds ещё не отправлены.
+- Статус: ACTIVE — исходники и служебная регистрация, первый Build отправлен.
 - ID задания: `select-sort4-ocaml-buildability-2026-10-18-r1`.
 - T0: `2026-10-18T18:59:16Z`; main deadline `20:59:16Z`; absolute deadline `21:29:16Z`.
 - Исходный project HEAD/remote: `e3837f4110f8713d00ba2e0f4bb7284b578831ae`. Прочитаны branch-local WORK-POLICY/STATUS и локальная owner Evidence Brief policy 2026-10-17; существующие незакоммиченные policy/docs сохраняются.
@@ -175,12 +175,13 @@ Reviewer проверяет типизацию, связанные места, �
 
 | Build UUID | Точный кандидат / manifest | Изменение или гипотеза | Terminal status | Brief / установленный результат | Charge |
 | --- | --- | --- | --- | --- | --- |
+| `92524a3d-fec8-4e74-a902-271f791e8bb7` | `ff7fbd1daa9b89f74ec79c313ad27f6bd80f5b53` / [R1 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R1-RELEASE-2026-10-18.json) | Две expected-type аннотации, полный R-only→C→26 | SUBMITTED | Terminal Brief pending | reserve960s |
 
-Новые Builds отсутствуют. [Refreshed baseline Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-BASELINE-BRIEF-7987E81F-2026-10-18.md): actualD.rvalue/expectedstring,102/102 records; исходный Brief сохранён. Expected-type admin audit больше не нужен, прежние unknowns не повышены.
+Отправлен первый Build; source/infra/release опубликованы до submit, remoteSHA подтверждён. [Refreshed baseline Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-BASELINE-BRIEF-7987E81F-2026-10-18.md): actualD.rvalue/expectedstring,102/102 records; исходный Brief сохранён. Expected-type admin audit больше не нужен, прежние unknowns не повышены.
 
 ### Итог evidence
 
-R-only/final C/26/P1/N-false31 свежего кандидата: UNKNOWN/ещё не запускались.
+R-only/final C/26/P1/N-false31 нового Build: UNKNOWN, terminal evidence pending.
 A1/A2 OPEN, formal credit отсутствует.
 
 ### Закрытие и следующий шаг

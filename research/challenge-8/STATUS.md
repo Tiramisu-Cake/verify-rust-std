@@ -12,8 +12,8 @@ Refreshed Brief7987e81f: actual D.rvalue/expected string at translator6884,
 102/102 records,individual console-buildexit0; stage orderUNKNOWN,R-onlyexit2,
 26source-reportedNOT_RUN. Expected-type admin audit gap now resolved.
 Prepared R1 annotations check_type:D.ty and ADTarg:D.generic_arg;source-only
-43patch R/C composition and6synthetic service checks PASS. Luna review/committed
-closure pending. No local compile/proof;no formal credit,A1/A2 OPEN.
+43patch R/C composition and6synthetic service checks PASS. Luna review GO,committed
+closure PASS. Build92524a3d-fec8-4e74-a902-271f791e8bb7 active for proof/infraff7fbd1d. No local compile/proof;no formal credit,A1/A2 OPEN.
 
 [Current task and agent report](CURRENT-TASK.md),
 [Session hypothesis/pins/evidence](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-SESSION-2026-10-18.md).
