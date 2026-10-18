@@ -225,3 +225,17 @@ Build87df47e4-002b-432c-bc87-56612136b448;token
 dispatch-2af5dfc80a30499d8553258a2a34d31a;config
 03dedc36e963dfed431d17cbf5b93bdcc94429d51bf7608e2d232b2cf2584ae8.
 900s timeout,full26 unchanged;1670saccountedbeforeR5.
+
+## R5 terminal — matrix reported, parser boundary open
+
+Build87df47e4-002b-432c-bc87-56612136b448FAILURE,445charged;session2115s.
+Rootrunexit0,sourceNOT_ACCEPTED_AS_REPORTED;archiveinventoryintegritynotproof.
+181/181records,stageorderUNKNOWN.26sourcerows8INTENDED_CLASSIFIED/5INCONCLUSIVE/
+13NOT_RUN;namesnotexposedbyBrief. Named26inventorytablekeepsindividualUNKNOWN.
+FirstreportedP0a InventoryError invalidquotedstring9362;proof-auditSHA256
+81414bda84c65ced707c66e720f3c26938b4dd321e920952065807635e838769.
+Stringparserusesjson.loads;actualfailingliteralnotexposed. TinyJSON/plain/\x41
+syntheticserviceprobeisnotactualinputdiagnosis,no parserimplementationchange.
+Requestedseparateboundedadminauditandlaterparser-scopedecision in
+A1-BUILDABILITY-NEXT-DECISION-2026-10-18.md;ownerquestionpending. No rawaccess,
+no newBuildforreportgap, no assumptionofreceiptcontents orformalcredit.

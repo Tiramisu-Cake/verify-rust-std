@@ -1,0 +1,22 @@
+{
+  "actual_cause": "NOT_INFERRED_FROM_SYNTHETIC_PROBE",
+  "actual_literal_at9362": "UNKNOWN; no raw read",
+  "examples": [
+    {
+      "outcome": "ACCEPTED",
+      "synthetic_text": "(value = \"plain\")"
+    },
+    {
+      "outcome": "ACCEPTED",
+      "synthetic_text": "(value = \"line\\n\")"
+    },
+    {
+      "outcome": "invalid quoted string at byte 9",
+      "synthetic_text": "(value = \"\\x41\")"
+    }
+  ],
+  "implementation_changes": false,
+  "kind": "isolated synthetic parser service probe",
+  "proof_credit": false,
+  "source_parser_sha256": "ef770ff0a2fb1ad02bafee1c6f850302b35f95972209cc6d7e85a6e8b0dd0cfd"
+}

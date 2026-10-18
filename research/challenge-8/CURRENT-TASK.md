@@ -179,7 +179,7 @@ Reviewer проверяет типизацию, связанные места, �
 | `ae9fd22f-a143-4a4f-9d7c-2911ec1ad042` | `28cd86597b07e6c2726cf1c391cfdfbd28997a98` / [R2 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R2-RELEASE-2026-10-18.json) | Два delimiter fix в fixture, R/C прежние; полный R-only→C→26 | FAILURE | [R2 Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R2-BRIEF-2026-10-18.md): tool stages exit0, P0a unknown feature internal_features | 401s |
 | `20180c22-c6e9-49d5-9819-1e88aa703d35` | `5651bd99099a102de077c241139fb48235e8c326` / [R3 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R3-RELEASE-2026-10-18.json) | Удалён unsupported feature из fixtureheader; полный R-only→C→26 | FAILURE | [R3 Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R3-BRIEF-2026-10-18.md): R/C stages exit0, runner KeyError positive_cases | 421s |
 | `729160af-7f20-4a8a-b238-cc8aa077cc35` | `864fe65f21b5ca381b9417726e7f509453de91ae` / [R4 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R4-RELEASE-2026-10-18.json) | Tagged success/error-result wiring, predicates прежние; полный R-only→C→26 | FAILURE | [R4 Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R4-BRIEF-2026-10-18.md): namedR/C exit0, runner KeyError path | 433s |
-| `87df47e4-002b-432c-bc87-56612136b448` | `6f3abaa45b97345cf467a7fc24a8b7d39ab09af7` / [R5 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R5-RELEASE-2026-10-18.json) | Partialartifact/structure availability, gates прежние; полный R-only→C→26 | SUBMITTED | Terminal Brief pending | reserve960s |
+| `87df47e4-002b-432c-bc87-56612136b448` | `6f3abaa45b97345cf467a7fc24a8b7d39ab09af7` / [R5 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R5-RELEASE-2026-10-18.json) | Partialartifact/structure availability, gates прежние; полный R-only→C→26 | FAILURE | [R5 Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R5-BRIEF-2026-10-18.md):26reported,8classified/5inc/13notrun; InventoryError9362 | 445s |
 
 Отправлен первый Build; source/infra/release опубликованы до submit, remoteSHA подтверждён. [Refreshed baseline Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-BASELINE-BRIEF-7987E81F-2026-10-18.md): actualD.rvalue/expectedstring,102/102 records; исходный Brief сохранён. Expected-type admin audit больше не нужен, прежние unknowns не повышены.
 
@@ -228,3 +228,11 @@ A1/A2 OPEN, formal credit отсутствует.
 - R5 exact-diff Luna HIGH **GO**, committed closure/config **PASS**: source/infra`6f3abaa45b97345cf467a7fc24a8b7d39ab09af7`, sourcepayload`fd9b74d4d518256d017b099884f5c0b4809eb99f73c3ff0f3f473f5d9e351dcc`;170substitutions. [R5 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R5-RELEASE-2026-10-18.json).
 
 - R5 Build`87df47e4-002b-432c-bc87-56612136b448` принят после публикации`6a9ba300`; config`03dedc36e963dfed431d17cbf5b93bdcc94429d51bf7608e2d232b2cf2584ae8`;1670s accounted+960reserved.
+
+### R5 terminal / запрос решения
+
+-5terminal Builds,**2115s** charged,ownactive/unresolved none. R5 rootrunexit0 не proofacceptance;BuildFAILURE,source NOT_ACCEPTED_AS_REPORTED.
+- Brief:181/181stage records,orderUNKNOWN;26source-reported rows,8INTENDED_CLASSIFIED/5INCONCLUSIVE/13NOT_RUN. Поимённые verdicts не раскрыты: [26-row evidence table](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-MATRIX-2026-10-18.md) сохраняетUNKNOWNиндивидуально, а не подставляет guessedmapping.
+- ПервыйreportedblockerP0a: InventoryErrorinvalidquotedstring9362; actualquotedliteral/field/escape не показаны. P1 иN-false31fullreceipt/lifecycle неизвестны;A1/A2OPEN,formalcreditнет.
+- Source `_Parser._string` использует json.loads;3tiny synthetic parser probes подтверждаютJSON-only limitation, но не доказываютactualescapeв9362. Parser/admissiongrammar не изменялась.
+- Подготовлен [узкий admin audit / scope decision](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-NEXT-DECISION-2026-10-18.md), вопрос владельцу отправлен. Доявногоответаrawaccess/parsergrammarchanges/newBuildдляобходаreportgapнеразрешены. В пределахscopeпродолжаетсясверкаpins/отчёта;сессияпокаожидаетрешения.

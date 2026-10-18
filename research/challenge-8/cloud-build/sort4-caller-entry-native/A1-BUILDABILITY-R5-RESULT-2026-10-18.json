@@ -1,0 +1,224 @@
+{
+  "A1": "OPEN",
+  "A2": "OPEN",
+  "N_false31": "UNKNOWN individually; own-pair lifecycle unestablished, no positive-baseline receipt credited",
+  "P1": "UNKNOWN; no own full interface/equality receipt established",
+  "R5_reference_receipt": "contents/hash not exposed; no old receipt substituted",
+  "R_only_build": "Earlier sessionR1-R4 named stages EXIT_ZERO; R5 own named stage not separately shown in compact Brief, completion inferred only from frozen source flow reachingP0a",
+  "admin_audit_requested": "A1-BUILDABILITY-NEXT-DECISION-2026-10-18.md; authorization pending",
+  "brief_sha256": "6f2fed840bb346fcbe4c6862cc84e4adef231631cd969207260597b7bc548f96",
+  "budget": {
+    "active": null,
+    "builds": 5,
+    "charged_seconds": 2115
+  },
+  "build": {
+    "accounted": true,
+    "build_id": "87df47e4-002b-432c-bc87-56612136b448",
+    "build_seconds": 445,
+    "create_time": "2026-10-18T20:07:37.238730549Z",
+    "dispatch_token": "dispatch-2af5dfc80a30499d8553258a2a34d31a",
+    "execution_seconds": 444,
+    "finish_time": "2026-10-18T20:15:01.663102Z",
+    "infra_sha": "6f3abaa45b97345cf467a7fc24a8b7d39ab09af7",
+    "lane": "o26-sort4-c1-current-recovery",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-A1-OCAML-BUILDABILITY-2026-10-18-R1",
+    "proof_sha": "6f3abaa45b97345cf467a7fc24a8b7d39ab09af7",
+    "publish_text_logs": true,
+    "reserved_seconds": 960,
+    "source_input_sha256": "fd9b74d4d518256d017b099884f5c0b4809eb99f73c3ff0f3f473f5d9e351dcc",
+    "source_mode": "pinned-objects",
+    "start_time": "2026-10-18T20:07:38.133567129Z",
+    "status": "FAILURE",
+    "submitted_config_sha256": "03dedc36e963dfed431d17cbf5b93bdcc94429d51bf7608e2d232b2cf2584ae8",
+    "timeout_seconds": 900
+  },
+  "final_C_build": "Earlier sessionR1-R4 named stages EXIT_ZERO; R5 own named stage not separately shown in compact Brief, completion inferred only from frozen source flow reachingP0a",
+  "first_reported_blocker": {
+    "case": "P0a",
+    "causality": "UNKNOWN",
+    "detail": "InventoryError: decoded VfMir parse failed: invalid quoted string at byte9362",
+    "diagnostic_status": "SOURCE_REPORTED",
+    "kind": "adapter_error",
+    "proof_audit_sha256": "81414bda84c65ced707c66e720f3c26938b4dd321e920952065807635e838769",
+    "provenance": "Brief source-reported proof-audit"
+  },
+  "formal_credit": false,
+  "individual_case_verdicts": "NOT_EXPOSED_BY_BRIEF; no inferred mapping from mixed aggregate",
+  "integrity": "VERIFIED_ARCHIVE_AND_INVENTORY; does not establish proof",
+  "rows": [
+    {
+      "case": "OFF",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "P0a",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "P0b",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "P0c",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "P-dispatch",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "P1",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "N-binder-collapse",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "N-alpha-valid",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "N-free-region",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "N-region-swap",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "N-no-F",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "N-clauses",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "N-default-contract",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "N-freeze-contract",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "N-false31",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "N-source",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "N-binding",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "N-clause-redirect",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "N-duplicate",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "R1",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "R2",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "R3",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "R4",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "R5",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "R6",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    },
+    {
+      "case": "R7",
+      "formal_credit": false,
+      "matrix_verdict": "UNKNOWN_INDIVIDUALLY",
+      "provenance": "unchanged pinned CASE_ORDER; Brief exposes mixed aggregate only"
+    }
+  ],
+  "schema": "smallsort-a1-buildability-r5-brief-result-v1",
+  "source_aggregate": {
+    "INCONCLUSIVE": 5,
+    "INTENDED_CLASSIFIED": 8,
+    "NOT_RUN": 13,
+    "row_count": 26
+  },
+  "source_proof_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "source_run_exit": 0,
+  "stage_coverage": {
+    "candidate": 181,
+    "not_captured": 0,
+    "omitted": 0,
+    "parsed": 181
+  },
+  "stage_order": "NOT_ESTABLISHED"
+}
