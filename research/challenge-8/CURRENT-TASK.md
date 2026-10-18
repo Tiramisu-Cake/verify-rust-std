@@ -177,6 +177,7 @@ Reviewer проверяет типизацию, связанные места, �
 | --- | --- | --- | --- | --- | --- |
 | `92524a3d-fec8-4e74-a902-271f791e8bb7` | `ff7fbd1daa9b89f74ec79c313ad27f6bd80f5b53` / [R1 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R1-RELEASE-2026-10-18.json) | Две expected-type аннотации, полный R-only→C→26 | FAILURE | [Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R1-BRIEF-2026-10-18.md): R-only и final-C exit0; P0a unclosed delimiter, original/lib.rs156 | 415s |
 | `ae9fd22f-a143-4a4f-9d7c-2911ec1ad042` | `28cd86597b07e6c2726cf1c391cfdfbd28997a98` / [R2 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R2-RELEASE-2026-10-18.json) | Два delimiter fix в fixture, R/C прежние; полный R-only→C→26 | FAILURE | [R2 Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R2-BRIEF-2026-10-18.md): tool stages exit0, P0a unknown feature internal_features | 401s |
+| `20180c22-c6e9-49d5-9819-1e88aa703d35` | `5651bd99099a102de077c241139fb48235e8c326` / [R3 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R3-RELEASE-2026-10-18.json) | Удалён unsupported feature из fixtureheader; полный R-only→C→26 | SUBMITTED | Terminal Brief pending | reserve960s |
 
 Отправлен первый Build; source/infra/release опубликованы до submit, remoteSHA подтверждён. [Refreshed baseline Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-BASELINE-BRIEF-7987E81F-2026-10-18.md): actualD.rvalue/expectedstring,102/102 records; исходный Brief сохранён. Expected-type admin audit больше не нужен, прежние unknowns не повышены.
 
@@ -202,3 +203,5 @@ A1/A2 OPEN, formal credit отсутствует.
 - R2 terminal: обе named tool stages exit0; P0a compiler unknown feature`internal_features`,original/lib.rs1:53. Новый R3 удаляет только неподдерживаемый feature entry из fixtureheader, без allow-lint/check изменений. R/C/compiler/decoder прежние. Reconstructed43pre-R/R/C PASS; review/closure pending.
 
 - R3 reviewed exactdiff **GO**, committed closure/config **PASS**: source/infra`5651bd99099a102de077c241139fb48235e8c326`, sourcepayload`b983837d2e8551da2fe0f1cd521998d1e859bc15049a6df1bdb6115a6b14065e`,170substitutions. [R3 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R3-RELEASE-2026-10-18.json). Два terminal Builds,816s accounted,active/unresolved none перед следующим submit.
+
+- R3 Build`20180c22-c6e9-49d5-9819-1e88aa703d35` принят после публикации`2fc75621`; config`2aea241075e39d448dad17e7a263c389922617203b0bdda6432d4b19ed43b7e1`;816s accounted +960reserved.
