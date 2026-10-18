@@ -210,3 +210,10 @@ decoderpinsunchanged.8isolatedsynthetic parser checks,Pythonstaticparse,fullsour
 43pre-R/R/CapplicationPASS. Fullrunner/compiler/constructor notexecutedlocally.
 Hypothesisrunnerreachesexistingclassification/checkpoint withoutdereferencing
 absentpartialrecords;semantic/proofblockers remainfailures andneedsownerdecision.
+
+## R5 committed release
+
+Candidate proof/infra`6f3abaa45b97345cf467a7fc24a8b7d39ab09af7`; Luna HIGH GO, full committedclosure/configPASS.
+[R5 release](A1-BUILDABILITY-R5-RELEASE-2026-10-18.json),
+[review](A1-BUILDABILITY-R5-REVIEW-2026-10-18.md).
+{"commit": "6f3abaa45b97345cf467a7fc24a8b7d39ab09af7", "config_arg_bounds": "PASS", "dispatch": "NOT_ATTEMPTED", "exact_restore": "PASS", "formal_credit": false, "phase_profile_environment": "PASS", "restored_paths": {"infra": 33, "proof": 107}, "shared_objects": 160, "source_payload_bytes": 506526, "source_sha256": "fd9b74d4d518256d017b099884f5c0b4809eb99f73c3ff0f3f473f5d9e351dcc", "source_substitutions": 170}

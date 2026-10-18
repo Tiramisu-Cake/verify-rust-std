@@ -223,3 +223,5 @@ A1/A2 OPEN, formal credit отсутствует.
 - R4 terminal: namedR/C exit0, partialexport/decode0; runner`normal_entry["path"]` KeyError2082. Статический producer всегда включаетpath, но consumerdefaults{} проходят Mapping-only guard послеP0aerror. Исправление availability/dereferenceguard готовится, без подстановкиpath или повышенияfailedgate; 1670s accounted за4Builds.
 
 - R5 объединяет string-path availability guards для partialMIR preparation/decoded/controls и Mapping guards дляnullable first/identity structures. 8synthetic parser cases PASS, все `_need` AST byte-equivalent;43pre-R/R/C source-only PASS. Никакой path/evidence/успех не подставлен; отсутствующие dependent inputs не исполняются и не получаютcredit, остальные строки продолжаются. Review/closure pending.
+
+- R5 exact-diff Luna HIGH **GO**, committed closure/config **PASS**: source/infra`6f3abaa45b97345cf467a7fc24a8b7d39ab09af7`, sourcepayload`fd9b74d4d518256d017b099884f5c0b4809eb99f73c3ff0f3f473f5d9e351dcc`;170substitutions. [R5 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R5-RELEASE-2026-10-18.json).
