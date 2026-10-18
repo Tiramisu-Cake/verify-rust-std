@@ -212,7 +212,7 @@ def _threshold_mutation(items: dict[str, bytes], impl_name: str) -> tuple[dict[s
 
 
 def _root_prefix(items: dict[str, bytes]) -> bytes:
-    return b"""#![feature(freeze, min_specialization, rustc_attrs, internal_features, core_intrinsics)]
+    return b"""#![feature(freeze, min_specialization, rustc_attrs, core_intrinsics)]
 #![allow(dead_code, unused_variables, unreachable_code)]
 use std::marker::Freeze;
 use std::intrinsics;

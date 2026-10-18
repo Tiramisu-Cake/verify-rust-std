@@ -176,7 +176,7 @@ Reviewer проверяет типизацию, связанные места, �
 | Build UUID | Точный кандидат / manifest | Изменение или гипотеза | Terminal status | Brief / установленный результат | Charge |
 | --- | --- | --- | --- | --- | --- |
 | `92524a3d-fec8-4e74-a902-271f791e8bb7` | `ff7fbd1daa9b89f74ec79c313ad27f6bd80f5b53` / [R1 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R1-RELEASE-2026-10-18.json) | Две expected-type аннотации, полный R-only→C→26 | FAILURE | [Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R1-BRIEF-2026-10-18.md): R-only и final-C exit0; P0a unclosed delimiter, original/lib.rs156 | 415s |
-| `ae9fd22f-a143-4a4f-9d7c-2911ec1ad042` | `28cd86597b07e6c2726cf1c391cfdfbd28997a98` / [R2 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R2-RELEASE-2026-10-18.json) | Два delimiter fix в fixture, R/C прежние; полный R-only→C→26 | SUBMITTED | Terminal Brief pending | reserve960s |
+| `ae9fd22f-a143-4a4f-9d7c-2911ec1ad042` | `28cd86597b07e6c2726cf1c391cfdfbd28997a98` / [R2 release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R2-RELEASE-2026-10-18.json) | Два delimiter fix в fixture, R/C прежние; полный R-only→C→26 | FAILURE | [R2 Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R2-BRIEF-2026-10-18.md): tool stages exit0, P0a unknown feature internal_features | 401s |
 
 Отправлен первый Build; source/infra/release опубликованы до submit, remoteSHA подтверждён. [Refreshed baseline Brief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-BASELINE-BRIEF-7987E81F-2026-10-18.md): actualD.rvalue/expectedstring,102/102 records; исходный Brief сохранён. Expected-type admin audit больше не нужен, прежние unknowns не повышены.
 
@@ -198,3 +198,5 @@ A1/A2 OPEN, formal credit отсутствует.
 - R2 подготовлен: два delimiter literal fix, статический AST/literal разбор PASS без запуска construct/extractor; повторная43pre-R/R/C source-only реконструкция PASS, R/C иcompiler/decoder/exporter неизменны. Profile`e8ee4cd419549931f52085252811fa0016320fd1bef31bb227da416091eecf8c`; helper`5fe5e65c8150ca583b37e7458b1da504ed46668da0a8413390e9f183f0d755d3`. Зависимые pins обновлены;6служебных checks PASS, exact-diff Luna HIGH **GO**, committed closure/config **PASS**. R2proof/infra`28cd86597b07e6c2726cf1c391cfdfbd28997a98`; [release](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R2-RELEASE-2026-10-18.json).
 
 - R2 Build`ae9fd22f-a143-4a4f-9d7c-2911ec1ad042` отправлен после публикации`da099c42`; config`06fe4403335574cef498ae2576a4067a16dc35fd1941867e0cbad412989242a4`; terminal evidence pending.
+
+- R2 terminal: обе named tool stages exit0; P0a compiler unknown feature`internal_features`,original/lib.rs1:53. Новый R3 удаляет только неподдерживаемый feature entry из fixtureheader, без allow-lint/check изменений. R/C/compiler/decoder прежние. Reconstructed43pre-R/R/C PASS; review/closure pending.

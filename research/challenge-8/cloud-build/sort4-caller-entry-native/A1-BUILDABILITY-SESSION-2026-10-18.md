@@ -121,3 +121,19 @@ Buildae9fd22f-a143-4a4f-9d7c-2911ec1ad042,token
 dispatch-c4940b8f3076485ebddf602872bcd205;config
 06fe4403335574cef498ae2576a4067a16dc35fd1941867e0cbad412989242a4.
 FullR-only→C→26,900s timeout,sameauthorizedsession,415accounted+960reserve.
+
+## R2 terminal and R3 header hypothesis
+
+Buildae9fd22f-a143-4a4f-9d7c-2911ec1ad042FAILURE,401charged;session816s.
+Brief names both R-only andfinal-Cbuildsexit0. P0asupportfailsnormal/readonly/refinement1.
+Refinement diagnosticunknownfeatureinternal_features atoriginal/lib.rs1:53,
+logsha a2701cdb50651f0c9ab18aaa6e98ab33b861f6fc9c0d2f56460981f69ab0faa9,line21.
+No per-rowverdicts exposed; otheroutcomesUNKNOWN,notNOT_RUN. Noformalcredit.
+
+Staticfixture rootheader mistakenlylists internal_features as a languagefeature.
+R3 removes onlythat unsupportedtoken,retainsfreeze/min_specialization/rustc_attrs/
+core_intrinsics andexistingwarningspolicy. Noallow-lint,check,deps/compiler/version,
+runtime,std,contract,G/C/domain/lifecyclechange. This is minimumbuild-headerfix.
+R/CbyteidenticalR1;43pre-R/R/Csource-onlyreconstructionPASS. Nofixtureconstruction,
+sourceextractionorcompilationlocally. Hypothesiscompilerpassesheaderthenunchanged
+fullmatrixcontinues;runtime/admissionsemanticblockerrequiresownerdecision.
