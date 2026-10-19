@@ -1,3 +1,5 @@
+> **Роли SmallSort:** Select/Merge разрабатывают патчи; VeriFast maintainer принимает готовые опубликованные патчи для review/регрессий/интеграции/upstream-пакета. Новый proof-blocker/model design ему автоматически не передаётся. [Границы роли](research/challenge-8/VERIFAST-ROLE.md).
+
 > **Evidence v0.11 — приоритет:** [краткий guide](research/challenge-8/EVIDENCE-READER-GUIDE.md). Brief → catalogue → refresh/info → locate/fragment → нужные страницы по next_offset/next_value_start. Пожизненной16-квоты и прежних лексических WITHHELD больше нет; соседний контекст/argv/environment читаются как данные. Не выгружать автоматически всё. Proof scope, T0, окна/бюджеты и coordinator сохраняются.
 
 > **Процесс итераций, 2026-10-19:** [ранние checks → целевой proof → полная матрица](research/challenge-8/ITERATION-PROCESS.md). Service error-path tests обязательны для затронутого runner; использовать существующий Cloud preflight. Принять на безопасной границе без изменения активных inputs/T0. Измерять закрытые proof obligations отдельно от setup-работы.
