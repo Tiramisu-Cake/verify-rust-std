@@ -1,6 +1,6 @@
-> **Процесс итераций, 2026-10-19:** [ранние checks → целевой proof → полная матрица](ITERATION-PROCESS.md). Service error-path tests обязательны для затронутого runner; использовать существующий Cloud preflight. Принять на безопасной границе без изменения активных inputs/T0. Измерять закрытые proof obligations отдельно от setup-работы.
+> **Evidence v0.9, 2026-10-19 — приоритет:** [краткий guide](EVIDENCE-READER-GUIDE.md). `/usr/local/bin/smallsort-brief`: Brief → адресный Reader → при нехватке данных `--refresh --file` (targeted) → admin audit, только если всё ещё недостаточно. Refresh разрешён без отдельного audit; общая квота 16 резервирований на Build, ошибки тоже могут её расходовать. Полные/raw логи, массовая выгрузка и обход удержания запрещены. Заменяет старый порядок Reader → сразу audit; сессии/budgets не меняются.
 
-> **Evidence Reader, 2026-10-19:** [актуальный краткий guide](EVIDENCE-READER-GUIDE.md). Использовать `/usr/local/bin/smallsort-brief` (v0.8): Brief → адресные `--catalogue`/`--search` → `--file --pointer`/`--start` → отдельно разрешённый audit, только если данных всё ещё недостаточно. Запросы проекции разрешены обычному агенту; полные/raw логи и массовая выгрузка запрещены. Этот порядок заменяет старые указания сразу запрашивать audit при неполном Brief; бюджеты и closed-сессии не меняются.
+> **Процесс итераций, 2026-10-19:** [ранние checks → целевой proof → полная матрица](ITERATION-PROCESS.md). Service error-path tests обязательны для затронутого runner; использовать существующий Cloud preflight. Принять на безопасной границе без изменения активных inputs/T0. Измерять закрытые proof obligations отдельно от setup-работы.
 
 # Challenge 8: единая процедура работы
 
@@ -77,7 +77,7 @@ Actions-примеры, ветки, бюджеты и stop-условия без
    затем продолжать в scope. Сборка/очередь сама по себе не повод закрыть сессию.
 6. После terminal status получить отчёт командой `smallsort-brief BUILD_UUID`.
    Следовать [Evidence Brief policy](EVIDENCE-BRIEF.md): при недостатке отчёта
-   сначала выполнить адресные запросы Reader по guide; если фактов всё ещё нет,
+   сначала выполнить адресные Reader-запросы, затем узкий --refresh по guide; если фактов всё ещё нет,
    зафиксировать ограничение и запросить отдельно разрешённый administrative audit.
    Не читать raw evidence. NOT_RUN не считать PASS.
 7. По Brief классифицировать blocker: setup/build, frontend/export/decode,
