@@ -992,14 +992,70 @@ def _argument_region_projection(arg, bindings):
     return _replace_field(arg, "kind", _replace_field(kind, tag, projected))
 
 
-def _body_region_projection(record):
+def _hir_fresh_projection(record, input_names, seen_fresh):
+    fields = [value for key, value in record.fields if key == "hirGenerics"]
+    if not fields:
+        # Minimal synthetic records historically omit HIR. Field presence is
+        # still retained in cross-mode comparison; real exports carry it.
+        return record
+    if len(fields) != 1 or not isinstance(fields[0], _parser.Record):
+        raise InventoryError("Body HIR generics must be one explicit record")
+    hir = fields[0]
+    params = _list(_member(hir, "params"), "Body HIR generic parameters")
+    if len(params) != 4:
+        raise InventoryError("Body HIR must contain F and three elided input lifetimes")
+    projected = []
+    fresh_names = []
+    fresh_ids = []
+    for position, param in enumerate(params):
+        if not isinstance(param, _parser.Record):
+            raise InventoryError("Body HIR parameter must be a record")
+        if _member(param, "pureWrtDrop") != _parser.Atom("false") or \
+                _member(param, "bounds") != _parser.Atom("void"):
+            raise InventoryError("Body HIR parameter drop/bounds flags differ from source")
+        tag, kind_payload = _union(_member(param, "kind"), "Body HIR parameter kind",
+                                  ("type", "lifetime", "const"))
+        name = _member(param, "name")
+        name_tag, payload = _union(name, "Body HIR parameter name", ("plain", "fresh"))
+        if kind_payload != _parser.Atom("void"):
+            raise InventoryError("Body HIR parameter kind payload must be void")
+        if position == 0:
+            if tag != "type" or name_tag != "plain" or not isinstance(payload, _parser.Record):
+                raise InventoryError("Body HIR first parameter must be plain type F")
+            symbol = _member(payload, "name")
+            if not isinstance(symbol, _parser.Record) or _text_atom(_member(symbol, "name"), "Body HIR type name") != "F":
+                raise InventoryError("Body HIR type parameter must match method F")
+            projected.append(param)
+            continue
+        if tag != "lifetime" or name_tag != "fresh":
+            raise InventoryError("Body HIR input lifetime must have a Fresh compiler identity")
+        _exact_fields(payload, ("h", "l"), "Body HIR Fresh UInt128 identity")
+        high, low = _index(payload, "h"), _uint(payload, "l")
+        if high != 0 or low >= (1 << 64):
+            raise InventoryError("Body HIR Fresh identity is outside compiler index range")
+        if low in seen_fresh or low in fresh_ids:
+            raise InventoryError("Body HIR Fresh compiler identity is reused")
+        fresh_ids.append(low)
+        fresh_names.append("'__" + str(low))
+        # The containing Body ID and input position are the comparison scope.
+        # Only after the exact binding check below is this projected record used.
+        fresh = _replace_field(payload, "l", _parser.Number(str(position)))
+        projected.append(_replace_field(param, "name", _replace_field(name, "fresh", fresh)))
+    if tuple(fresh_names) != input_names:
+        raise InventoryError("Body HIR Fresh lifetimes do not bind ordered input regions")
+    seen_fresh.update(fresh_ids)
+    return _replace_field(record, "hirGenerics", _replace_field(hir, "params", _parser.ListValue(tuple(projected))))
+
+
+def _body_region_projection(record, seen_fresh):
     # Caller invokes this only after _impl_body_small_sort has checked the full
     # signature, distinctness, local references, positional types and capture.
     body_id = _uint(record, "defIndex")
     inputs = _list(_member(record, "inputs"), "Body inputs")
     input_names = tuple(_ty(x)[1] for x in inputs)
     input_bindings = {name: f"@body:{body_id}:input:{slot}" for slot, name in enumerate(input_names)}
-    projected = _replace_field(record, "inputs", _parser.ListValue(tuple(
+    projected = _hir_fresh_projection(record, input_names, seen_fresh)
+    projected = _replace_field(projected, "inputs", _parser.ListValue(tuple(
         _type_region_projection(x, input_bindings) for x in inputs)))
     clauses = []
     for ordinal, clause in enumerate(_records(record, "clauses")):
@@ -1027,6 +1083,7 @@ def _body_region_projection(record):
 def _inventory_comparison(shape):
     result = dict(shape)
     impls = []
+    seen_fresh = set()
     for impl in shape["impls"]:
         row = dict(impl)
         items = []
@@ -1035,7 +1092,7 @@ def _inventory_comparison(shape):
             body = dict(item["body"])
             record = body["record"]
             if item["small_sort_signature"] is not None:
-                record = _body_region_projection(record)
+                record = _body_region_projection(record, seen_fresh)
             fields = []
             seen = set()
             for key, value in record.fields:
