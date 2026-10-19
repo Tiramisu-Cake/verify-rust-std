@@ -1,0 +1,17 @@
+{
+  "schema": "merge-r4-control-limit-v1",
+  "source_tool": "a42d50becbc84a45e33a58269358eee105f1fdcb",
+  "helper": "/root/r4_controls_design",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "before_storage_live": "INCONCLUSIVE: source ghost pre-declaration address has no runtime env binding; observed Unboundvariable, never intended heap/storage negative",
+  "source_routes": [
+    "vf_mir_exporter/src/lib.rs StorageLive/Dead2595-2599",
+    "vf_mir_translator.ml preservation4043-4056",
+    "verifast.ml deferreddecl1133-1139",
+    "verifast.ml checkedStorageLive1000-1060 /StorageDead1007-1013"
+  ],
+  "constraint": "No source-valid local address before MIR StorageLive under frozen frontend; no MIR mutation/fabricated env binding/owner in R4. AfterStorageDead is reachable control, retained strict predicate/location gate.",
+  "local_flags": "Deferred storage branch omits LocalAddrTaken; missing flag notfalse. Existing strict gate remains INCONCLUSIVE.",
+  "qualification": "OPEN; no full control/profile qualification or independent proof credit"
+}

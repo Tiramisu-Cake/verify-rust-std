@@ -436,3 +436,30 @@ Fresh Brief v6/Processor0.7.0 receipt/index SHA verified; R1-BUILD4-RESULT/BRIEF
 7synthetic tests+4priorservice tests PASS;14patches/16files/14profilepins/18strictbasepins source preflight PASS; independent Luna High staticGO. Runtime/posts/kernel/model/prelude/compiler and mandatorymatrix preserved. Reader available; missing exact prefix statement/nested details are Processor projection limitations, global causality/source causal receipt presence unresolved. No raw fallback/download_verified/admin audit.
 
 LedgerCLOSED; own active/unresolved/reservations none; own readyrequest withdrawn through coordinator; foreign state preserved. Technical unused numeric headroom closed without carryover, not user budget; old closed accounts untouched. Next: in a newly authorized time window, statically map prefix214 placeholder from pinned templates and prepare minimal checked annotation correction with review before any new Build; retain full CURRENT posts and separately diagnose tail.read array access. If exact statement cannot be obtained from pinned templates, request bounded admin excerpt only (Build5f668cd9, prefix verified214±4/sourceSHA), not raw logs.
+
+## R4 2026-10-20 — active guard/addressability checkpoint
+
+Task merge-guard-addressability-2026-10-20-r4; T0/main/absolute UTC
+2026-10-19 21:24:56 /23:24:56 /23:54:56. Owner merge, ceiling3600,
+prior accounts closed/no carryover. Toola42d50be/profile77164792 only exact
+MergeFractionsStmt continuation; old14patches/18base pins/model preserved.
+Build1 f6627644/sourceca1d6cb1 charge649: old AddressOf(tmp) passed, next
+ref_precreated_token(tmp_addr,_) ataliasing88. Build2 d43ddfb4/source25e7c1c7
+charge620: checked precreate/initreadonly/originalguard passed on observedpath;
+firstcopy215 reached, alignment sift failure atstd627. Sourceexacttrue; read,
+guard, shift executiontrue/updatefalse. Normalunwind andmultimerge stagecodes
+all0; unrelated local emittedflagfalse. Still INCONCLUSIVE qualification for
+missing marked-local flags; beforeLive frontendunbound is not intendednegative.
+Three intendedrejections: missingowner/afterDead/unsupportedoperand. No theorem,
+B2/profilequalification/independentcredit. Prefix lifetime/metadata outside R4;
+next exact design is proposal only.
+
+Build3 3e3a4e0c-a545-4872-9a87-c14ca4834818 active, proof=infra
+fea4b31e429a42ab94d0a2a2535a5c74ff47510e, payload85ff0996/configf8f99117;
+initialCURRENTsource singleton open and existing checked geometry lemmas before
+original loop. Fullposts/runtime/CFG/readonlyend preserved. New LunaHigh
+GO_DIAGNOSTIC_BUILD, 5synthetic wiringchecksPASS. Spent1269/3600 beforeterminal
+Build3; reserve960 separate, own unresolved submitnone. Continue afterterminal
+Brief withinmain/budget. Actual compilation/extraction/proof Cloudonly; Reader
+v0.11 targeted JSONfragments only, authtransient retryresolved/no rawfallback.
+New AGENTS/autonomy/role policy read; active explicit limits/T0 unchanged.

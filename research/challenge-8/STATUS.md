@@ -1,10 +1,10 @@
 # MERGE — R4 ACTIVE / guard addressability
 
 [CURRENT-TASK/отчёт](CURRENT-TASK.md). T0/main/absolute UTC:
-2026-10-19 21:24:56 /23:24:56 /23:54:56. Cloud ceiling3600, spent649;
-Build2 terminal charge pending, own active only `d43ddfb4-4b34-4503-b86c-9cbab437a291`.
-Published source=infra `25e7c1c73ec52189db19088f713ef71bd39a76a3`,
-config45f9d321/payloadabd2e627. Independent LunaHigh GO_DIAGNOSTIC_BUILD;
+2026-10-19 21:24:56 /23:24:56 /23:54:56. Cloud ceiling3600, spent1269;
+Build3 terminal charge pending, own active only `3e3a4e0c-a545-4872-9a87-c14ca4834818`.
+Published source=infra `fea4b31e429a42ab94d0a2a2535a5c74ff47510e`,
+configf8f99117/payload85ff0996. Independent LunaHigh GO_DIAGNOSTIC_BUILD;
 5 wiring tests + synthetic classifier service checks PASS.
 
 Toola42d50be changes only MergeFractionsStmt continuation, CRLF retained.
@@ -14,6 +14,9 @@ Build1 f6627644/sourceca1d6cb1 FAILURE/charge649: original guard AddressOf
 passed; next checked error aliasing.rsspec88 missing ref_precreated_token(tmp_addr,_).
 Build2 adds frozen checked precreate/initreadonly using actual tmp physical share;
 remaining readonly-end obligation/runtime/full CURRENT posts/cleanup retained.
+Build2 charge620: originalguard passed, freshfirstcopy215 alignment sift failure
+atstd/lib.rsspec627. Build3 opens CURRENT source singleton and proves checked
+geometry beforeinitialcopy; no partialloopinvariant/model/post/CFG changes.
 
 Controls Build1:2 intended rejections,7 INCONCLUSIVE. Build2 fixes immutable rawmut
 fixture, deterministic runtimeassert deadcode and ghost Rustliteral parseerror;
