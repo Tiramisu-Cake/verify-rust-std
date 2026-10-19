@@ -9,3 +9,5 @@ D1 falsifiable hypothesis: unchanged bounded parser reproduces actual error9362;
 R/C byte hashes/compiler/exporter/decoder/toolbase/43patches frozen by R5. Source reconstruction and review pending; no local compiler/extraction/runner invocation. New profile/phase only branch-local, shared coordinator protocol untouched.
 
 Owner direct extension: +90min main, T0 unchanged, main19:36:59Z/absolute20:06:59Z, ceiling3600 unchanged. Adopted replacement user AGENTS.md instructions during safe pre-submit boundary; preserve stricter max2 slots.
+
+D1 candidate189baef7:9synthetic groups PASS; source composition43preR/fullR/C PASS; committed closure33infra+107proof/160objects,170substitutions PASS; LunaHIGHGO after preserving persist_error. Preflight only, no proof/matrix acceptance.

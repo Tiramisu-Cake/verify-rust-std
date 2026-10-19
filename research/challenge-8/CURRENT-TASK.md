@@ -59,7 +59,7 @@ Timeout Build ≤900 секунд и не больше доступного бю
 - **Исходный checkpoint:** docs `e29c28972b96158d01f54193da0498cb5813f676`; executed source `6f3abaa45b97345cf467a7fc24a8b7d39ab09af7`. Branch/worktree проверены; исходные owner policy edits сохранены.
 - **Обязательство до → после:** P0a parser9362 → диагностика готовится; P1 INCONCLUSIVE, N-false31 NOT_RUN, matrix8/5/13; A1/A2 открыты, formal credit0.
 - **Диагноз/гипотеза:** старые8targeted responses не связывают input; повтор старого запроса не поможет. Новый P0a preflight сохранит actual normal/readonly/path/rawSHA/inputSHA/transform/coordinates/decoder cause/192-character window без изменения parser grammar и predicates.
-- **Review/проверки:** подготавливаются; submit до GO запрещён.
+- **Review/проверки:** [Luna HIGH GO](cloud-build/sort4-caller-entry-native/A1-PARSER-D1-REVIEW-2026-10-19.md);9synthetic groups PASS;43preR/fullR/C source-only composition PASS; committed closure33infra/107proof/160objects PASS.
 - **Builds:** нет. Cloud0/3600, active/reservations нет собственных.
-- **Следующий шаг:** synthetic error-path checks, Luna HIGH review, committed closure, опубликованный diagnostic preflight.
+- **Следующий шаг:** опубликовать release checkpoint и diagnostic preflight D1. Source/infra `189baef7ecb64fac969392a156ef72a9d5baf153`; [manifest](cloud-build/sort4-caller-entry-native/A1-PARSER-D1-RELEASE-2026-10-19.json).
 - **Подробности:** [session card](cloud-build/sort4-caller-entry-native/A1-PARSER-SESSION-2026-10-19.md).

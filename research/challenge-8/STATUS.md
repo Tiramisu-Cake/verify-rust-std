@@ -1,33 +1,3 @@
-> Уточнение v0.9,2026-10-19: [полная26-строчная таблица](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-READER-V09-2026-10-19.md) теперь установлена:8INTENDED_CLASSIFIED/5INCONCLUSIVE/13NOT_RUN; R2–R7 явно INTENDED_CLASSIFIED,credit=false. P0a начат,source-constructor error9362; parser input binding/literal остаются неустановленными. P1 INCONCLUSIVE,N-false31 NOT_RUN; formal credit не повышен.8узких targeted calls,Cloud расход0,сессия закрыта. Ниже сохранены прежние датированные checkpoints.
+# Select / sort4 — parser compatibility session ACTIVE
 
-> Уточнение2026-10-19: [Evidence Reader v0.8](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-READER-2026-10-19.md) теперь показывает R5 named R-only/final-C stage exit0 и собственный свежий reference receipt с совпавшими pins. Получены20поимённых statuses; P1 INCONCLUSIVE,N-false31 NOT_RUN,R2–R7 statusUNKNOWN (R2 gate=true/outcomePOSITIVE_INTENDED). P0a literal9362 и6status полей ограничены проекцией; требуется дополнение старого отчёта. A1/A2/formal credit не повышены. Cloud-сессия закрыта, нового расхода0. Ниже сохранён checkpoint2026-10-18.
-
-# select/sort4 — session CLOSED at parser evidence/scope boundary
-
-Task select-sort4-ocaml-buildability-2026-10-18-r1,ownerselect-sort4.
-Branchresearch/night-select-sort4-cloud-2026-10-09;initiale3837f41.
-T0 2026-10-18T18:59:16Z/main20:59:16/absolute21:29:16Z.
-5terminalBuilds,2115Cloudseconds accounted,ownactive/unresolvednone.
-Freshtimeauthorization/technicalledger18960;old405+555retired/433+527retiredunchanged.
-
-CurrentcandidateR5proof/infra6f3abaa45b97345cf467a7fc24a8b7d39ab09af7,
-release6a9ba300. All5codechangesLunaHIGHGO/sourceR-CclosurePASS.
-FullR d99a5ed2…454ca,C e7cdc8a8…d894e,compiler/decoder/exporter/frozenpinsretained.
-NamedR-only/final-CbuildstagesR1-R4explicitexit0;R5compactBriefdoesnotseparately
-showthose2individualstages,sourceflowreachesP0a. Receiptbytes/hashesnotexposed.
-
-R5Build87df47e4-002b-432c-bc87-56612136b448FAILURE,runexit0,NOT_ACCEPTED_AS_REPORTED.
-Briefsourceaggregate26rows:8INTENDED_CLASSIFIED/5INCONCLUSIVE/13NOT_RUN;namesnot
-exposed. [26-rowtable](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-MATRIX-2026-10-18.md)
-keepsindividualverdictsUNKNOWN. P1/N-false31/wholeA1/A2unestablished,noformalcredit.
-FirstreportedblockerP0aInventoryError:invalidquotedstringat9362. Boundedparser
-usesjson.loads;actualquotedliteral/field/escapearemissingfromBrief.181/181records
-andverifiedarchiveinventorynotproof;stageorderUNKNOWN.
-
-[Owneraudit/scopedecisionrequest](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-NEXT-DECISION-2026-10-18.md)
-prepared;questionpending. No rawaccess/parsergrammarchange/newBuildforreportgap.
-Sessionclosed2026-10-18T20:21:51Zbeforemain;technicalheadroom16845closed,
-requestwithdrawn,noactive/unresolved. No furtherimplementation/Cloudwithoutnew
-assignment;boundedadminauditneedsseparateexplicitauthorization. [Currenttask/report](CURRENT-TASK.md),
-[session](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-SESSION-2026-10-18.md),
-[latestBrief](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-R5-BRIEF-2026-10-18.md).
+Task select-p0a-parser-compatibility-2026-10-19-r2. T0 16:06:59Z; owner+90min extension main19:36:59Z/absolute20:06:59Z;3600Cloud seconds. D1 source/infra189baef7ecb64fac969392a156ef72a9d5baf153, diagnostic P0a preflight only. Luna HIGH GO; synthetic/error-path/source composition/committed closure PASS. No Build yet,0/3600. R/C/compiler/exporter/decoder/frozen semantics unchanged. P0a parser9362 remains target; P1 INCONCLUSIVE,N-false31 NOT_RUN; historical26 source8/5/13; no new proof credit. [Current report](CURRENT-TASK.md), [session](cloud-build/sort4-caller-entry-native/A1-PARSER-SESSION-2026-10-19.md), [D1 release](cloud-build/sort4-caller-entry-native/A1-PARSER-D1-RELEASE-2026-10-19.json). Previous checkpoints/evidence retained in Git and task-history.
