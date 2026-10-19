@@ -1,0 +1,57 @@
+{
+  "archive_sha256": "5d0589924f8c17024a0133406d022d1ed9f04d97b2558a6ccd6a170b76e8d50a",
+  "build_id": "c78529d0-f18b-4d13-9060-6517cde03cd5",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 987,
+    "line_separator": "LF",
+    "source_lines": 1226,
+    "start": 985,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "7d457f18b4648275ca0a94b68859d4f392f468bfe2b5d791e28d96b664fe6209",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/proof-ast.ml",
+  "file_sha256": "2757ca2a479947a06f44a78647545d78a8f37739c146bdf227819287f709748a",
+  "index_sha256": "68182b14009df8d08b86f064e5167f0aba69d354bc325a2827e3638eb09617b8",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 987,
+    "expected_sha256": "2757ca2a479947a06f44a78647545d78a8f37739c146bdf227819287f709748a",
+    "file_id": "7d457f18b4648275ca0a94b68859d4f392f468bfe2b5d791e28d96b664fe6209",
+    "start": 985
+  },
+  "request_id": "eeb90ed63fc99698cfc63e56ff8b593238f4842caa3dc03e83b2621cde49cf8f",
+  "requested_end": 987,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 985,
+      "text": "      RustStorageLiveStmt (loc \"verified/lib.rs(207,49-52)\", loc \"verified/lib.rs(207,49-52)\", \"_81\", \"$_81\");"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 986,
+      "text": "      ExprStmt (AssignExpr (loc \"verified/lib.rs(207,49-52)\", Var (loc \"verified/lib.rs(207,49-52)\", \"$_81\"), Mutation, CallExpr (loc \"verified/lib.rs(207,49-52)\", \"fn_outcome_result\", [], [], ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 987,
+      "text": "        LitPat (CallExpr (loc \"verified/lib.rs(207,49-52)\", \"create_ref\", [], [], [LitPat (AddressOf (loc \"verified/lib.rs(207,49-52)\", Var (loc \"verified/lib.rs(207,49-52)\", \"tmp\")))], Static))"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

@@ -439,3 +439,15 @@ now traced through pointer model/ptr_len/slice borrow and identity Upcast;
 no established length3 construction for this coercion. Proposals updated with
 minimal future Cloud reproducer and distinct exporter/model decisions. No new
 proof credit or control execution; frozen tool/runtime/posts remain unchanged.
+
+
+R3 closed-account v0.11 follow-up, instruction6b688232, start21:02:57Z;
+recorded 2026-10-19T21:14:37.072412+00:00. New guide/reference adopted: economical-exact-v1/schemaV2,
+old quota/WITHHELD lifted, client0b14d80b. Actual MIR local5 mutarray3/u64 and
+local4 mutslice/u64/erased regions, body/span and stageargv now available;
+guard actual scalar declaration/merge/address bound. Previous admin projection
+requests resolved for those fields. Metadata actual arrayStorageLive→none→
+identityUpcast still lacks length3 construction. Guard missingcont consequence
+source-derived; checked finitefraction ghosthelper is alternative only ifactual
+resource decomposition is proved. No code/proof/tool/Build or closedaccount
+change; no new proofgatecredit. Current diagnosis/proposals/provenance updated.

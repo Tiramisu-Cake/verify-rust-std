@@ -1,35 +1,37 @@
-# MERGE — R3 CLOSED / PARTIAL, 2026-10-19
+# MERGE — R3 CLOSED / PARTIAL; v0.11 read-only follow-up
 
-End 2026-10-19T19:54:58.952027+00:00; T0 16:09:27Z/main19:39:27Z/absolute20:09:27Z.
-[Текущее задание/отчёт](CURRENT-TASK.md). Продолжение52da95cb начато19:46:16Z:
-main уже истёк, только адресное read-only evidence/accounting/docs. Builds0,
-Cloud0/3600; ledgerCLOSED, unused3600 без carryover; своих active/unresolved/
-reservations/requests нет. Нового исполненного кандидата или proof credit нет.
+[Текущее задание/отчёт](CURRENT-TASK.md). R3 закрыта19:54:58Z2026-10-19,
+T0/main/absolute16:09:27/19:39:27/20:09:27 сохранены. Новое чтение по поручению
+владельца с21:02:57Z; Builds0/Cloud0, closed account/pins не менялись.
 
-Literal Locators v0.10 теперь доступны. В old prefix decode.out SHA70be7daa…
-прямо наблюдён move_5→_4 / erased target region / mutable slice_u64 /
-pointerCoercion. Связь с AST895 подкреплена actual assignment/cast nesting и
-source214; source LocalDecl types/body binding ещё неполны. Frozen exporter
-теряет Rust coercion subtype: Unsize не наблюдён. Metadata model/ptr_len/slice
-ownership/identity Upcast прослежены, length3 construction не установлена;
-lifetime-only patch пока не обоснован. [Диагноз/proposal](cloud-build/origin-layout/R3-PREFIX-DIAGNOSIS-20261019.md).
-MIR shared16 quota исчерпана; requested admin bounded local/body projection.
-Parser-input bindingNOT_ESTABLISHED/causalUNKNOWN сохранены, без raw fallback.
+**Прежние reporting blockers сняты.** v0.11 exact targeted читает нужные locals,
+array3, wrapper/source span, stage argv и fullbody guard AST. Historical quota/
+WITHHELD сохранены как старые ответы, admin projection для этих полей больше
+не нужна. [Provenance](cloud-build/origin-layout/R3-V011-PROVENANCE.json).
 
-Fullbody именно R2 Buildc78529d0 AST SHA2757ca2a…: locate source207 вернул
-LOCATE_WITHHELD; запрос safe admin AddressOf/tmp/merge projection, без обхода.
-[Guard proposal](cloud-build/origin-layout/R3-GUARD-PROPOSAL-20261019.md)
-остаётся условным source defect, не доказанная actual причина.
+Prefix source-linked cast move_5→_4: оба erased regions, source mut ref[u64;3],
+target mut ref[u64]; AST895 lifetime placeholder подтверждён. Exact Rust
+coercion subtype потерян exporter. Actual values array3/StorageLive и frozen
+pointer metadata route установлены: metadata_none проходит identity Upcast,
+length3 не конструируется. Lifetime-only correction недостаточна; нужен отдельно
+reviewed lowering/provenance/ownership gate. [Diagnosis/proposal](cloud-build/origin-layout/R3-PREFIX-DIAGNOSIS-20261019.md).
 
-Frozen tool08d6a578/profile82973e1e/runtime/posts/CURRENT18 неизменны.
-Prefix false/true/firstContinue-panic не доказаны;4resource/admission в последнем
-Build prerequisite-skipped. R2 split/open frontier сохранён, whole body/B2 OPEN.
-[Матрица](cloud-build/origin-layout/R3-OBLIGATIONS-20261019.md).
-Следующий шаг: admin MIR local/body projection и отдельное metadata/provenance
-решение; implementation/Cloud только по новому явному заданию. Новых фоновых
-действий нет; старые receipts не становятся финальным acceptance.
+Fullbody R2 AST: tmp scalar declaration424, prior merge710, create_ref(AddressOf
+(tmp))987 на source20749–52. Frozen prepass останавливается на merge, поэтому
+address_taken остаётся false по source trace. Это source-derived explanation,
+не runtime capture. [Guard proposal](cloud-build/origin-layout/R3-GUARD-PROPOSAL-20261019.md):
+cont locals tool fix или checked finite-fraction helper, оба не реализованы.
+
+Tool08d6a578/profile82973e1e/runtime/posts/CURRENT18 unchanged. No new proof:
+false/true/Continue-panic unaccepted;4resource/admission prerequisite-skipped
+в последнем Build. B1/helper/smoke bounded claims unchanged, B2 OPEN, independent
+credit0. [Матрица](cloud-build/origin-layout/R3-OBLIGATIONS-20261019.md).
+Следующий шаг — новый explicit scope/window для reviewed coercion proposal/
+reproducer и guard correction. Parser-input bindingNOT_ESTABLISHED/causalUNKNOWN
+сохранены; новых фоновых действий нет.
 
 Предыдущие checkpoints сохранены ниже как история.
+
 
 
 

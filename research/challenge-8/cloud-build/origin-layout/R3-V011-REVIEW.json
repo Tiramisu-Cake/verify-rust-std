@@ -1,0 +1,23 @@
+{
+  "schema": "merge-r3-v011-publication-review-v1",
+  "reviewer": "/root/r3_metadata_gate",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "reviewed_files": [
+    "R3-PREFIX-DIAGNOSIS-20261019.md",
+    "R3-GUARD-PROPOSAL-20261019.md"
+  ],
+  "decision": "GO_DOCS_PUBLICATION_ONLY",
+  "findings": [
+    "Actual metadata-none identity-cast route supported by saved AST/MIR and frozen source; no assertion ptr_len != 3 or later observed proof failure",
+    "Actual guard declaration/prior merge/AddressOf plus complete tmp occurrences support false address_taken by source trace, not runtime capture",
+    "Finite-fraction ghost helper remains conditional proposal; generic one-fraction shortcut is insufficient"
+  ],
+  "limits": [
+    "No tool/proof implementation or Cloud submit approval",
+    "No new independent proof credit",
+    "Parser-input binding remains NOT_ESTABLISHED; generic causal_status remains UNKNOWN"
+  ],
+  "recorded_utc": "2026-10-19T21:15:00.251910+00:00",
+  "review_mutations": false
+}

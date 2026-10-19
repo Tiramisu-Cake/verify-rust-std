@@ -1,104 +1,101 @@
-# R3: conditional guard address-taken proposal — NOT IMPLEMENTED
+# R3 guard — source-linked addressability diagnosis and proposals
 
-Owner merge; task merge-first-comparator-2026-10-19-r3. Frozen tool08d6a578,
-profile82973e1e, translator2ff7b16f. This is a reviewable proposal, not an
-established diagnosis of Build c78529d0 and not permission to change the tool.
+Frozen tool08d6a578/profile82973e1e/translator2ff7b16f. No implementation,
+proof edit or new Build. The v0.11 observations below supersede the earlier
+message-only/conditional diagnosis; historical JSON responses are unchanged.
 
-## Observed target and source binding
+## Actual Build and AST
 
-Build c78529d0-f18b-4d13-9060-6517cde03cd5, source014c3238, fullbody
-source_exact=True, exporter/decode/refinement0, verifier1. Error207:49–52:
-`Taking the address of this expression is not supported.` Static pinned
-preparation binds the adjacent original runtime statement after read206 to
-`let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };`.
-The exact failing AST operand/type and which checker branch emitted it remain
-NOT_ESTABLISHED; the source message alone cannot identify the cause.
-R2 CURRENT array split/open/read frontier is retained; no whole-body/read/guard
-or first-panic theorem is credited. Main firstcallback prefix is separate.
+Buildc78529d0-f18b-4d13-9060-6517cde03cd5, executed source014c3238, fullbody
+source_exact=True, exporter/decode/refinement0, verifier1. Observed error
+verified/lib.rs207:49–52: Taking the address of this expression is not supported.
+Original runtime guard is `CopyOnDrop { src: &*tmp, dst: tail, len: 1 }`, after
+read206; R2 CURRENT array split/open is retained. This file is **R2 fullbody**,
+not the old prefix AST:
+file7d457f18b4648275ca0a94b68859d4f392f468bfe2b5d791e28d96b664fe6209,
+SHA2757ca2a479947a06f44a78647545d78a8f37739c146bdf227819287f709748a,
+archive5d058992…/index68182b14… .
 
-## Verified frozen-source defect and conditional applicability
+| Exact archived AST | Observation |
+| --- | --- |
+| [424–425](R3-V011-GUARD-TMP-TYPE.json) | DeclStmt tmp:ConstTypeExpr(u64), initializer None, initial address_taken ref(false); function range117–227 |
+| [710](R3-V011-GUARD-MERGE.json) | PureStmt(MergeFractionsStmt(lifetime_token(cmp_k))), source180, before guard |
+| [985–987](R3-V011-GUARD-ADDRESS.json) | source207:49–52, create_ref(AddressOf(Var tmp)) inside actual fn_outcome_result assignment |
+| [Complete tmp locator](R3-V011-GUARD-TMP-LOCATE.json) | Quoted tmp occurs only at424/973/979/987/1058/1167; no earlier reference before merge710 except its declaration |
+| [Complete merge locator](R3-V011-GUARD-MERGE-LOCATE.json) | Merges710/800/816; fixing only the first visible caller merge would not remove all subsequent truncations |
 
-`src/verify_expr.ml:1557` has:
+## Frozen pass route and causal explanation
 
-```ocaml
-| MergeFractionsStmt(_, a) -> ass_mark_addr_taken a locals;
-```
+verify_expr.ml1510–1523 registers the declaration's address_taken ref by name.
+mark_if_local1388–1391 is its writer; the AddressOf branch1398–1404 invokes it.
+PureStmt1526 forwards the same continuation. MergeFractionsStmt1557 scans the
+assertion and **omits cont locals**. The CPS sequence1566–1569 therefore stops
+there. The actual merge assertion is about cmp_k, not tmp; the complete tmp
+locator shows no earlier tmp address reference. Subsequent AddressOf(tmp)
+987 cannot update the flag, and it stays false by this source trace.
 
-The surrounding CPS statement traversal uses `cont locals` to visit following
-statements. This arm omits it. Existing project artifact
-`research/challenge-8/verifast-address-taken.patch` gives the minimal diff:
+This ref(false) in the archived AST is initial serialized state; final false
+is **derived from the pinned pass and complete relevant occurrences**, not
+captured runtime state. The prepass is called once (verifast.ml3538). The
+separate stmt_address_taken walk only informs parameter heapy_vars and does
+not repair local declaration flags. verify_block1195–1206 leaves a non-address-
+taken scalar as a value type; StorageLive's scalar branch1057 does not allocate
+or change the flag. Checker verifast1.ml4982–4988 then rejects AddressOf(Var tmp)
+for scalar u64 with the exact observed diagnostic/location. The error's actual
+operand, declared type, prior merge and missed classification route are now
+source-linked, rather than inferred just from the Rust line/message.
+
+Generic parser_input_binding=NOT_ESTABLISHED and causal_status=UNKNOWN remain;
+this is a static causal explanation, not independent parser/verifier replay or
+proof acceptance. No whole read/guard/fullbody theorem or B2 credit follows.
+
+## Minimal tool proposal — NOT IMPLEMENTED
+
+Existing project artifact verifast-address-taken.patch gives the exact fix:
 
 ```diff
 -| MergeFractionsStmt(_, a) -> ass_mark_addr_taken a locals;
 +| MergeFractionsStmt(_, a) -> ass_mark_addr_taken a locals; cont locals
 ```
 
-The defect exists in the pinned source. The proof preparation and CURRENT18
-marker include merge_fractions before later tmp-address use. To assign this
-as the Build's cause still requires the actual AST order/storage classification:
-preceding MergeFractionsStmt, later AddressOf(Var tmp), and tmp left as a value
-local rather than RefType. No such trace is inferred from the error alone.
+This preserves assertion scanning and resumes the tail. It changes the frozen
+addressability classifier and requires an explicit tool/profile decision before
+implementation, new reviewed pins and independent GO; no automatic application
+of this existing historical patch. Kernel allocation rules/runtime need not be
+changed, but calling the patch frontend-only does not waive the trust boundary.
 
-Frozen translator reference lowering at3666ff has an opt-in tracked shared
-ManuallyDrop reference path; ManuallyDrop::deref is an identity translation.
-The path can create `create_ref(&tmp)` and needs tmp to be addressable.
-Checker verifast1.ml4982ff permits AddressOf(Var local) only for RefType or
-StaticArrayType; it emits the reported error otherwise. AddressOf(Deref(...))
-already has a special accepted path. A second evaluator catchall8885 can emit
-the same message; it must be distinguished before claiming root cause.
+Controls: AddressOf after/before merge, inside its assertion, across multiple
+merges, unrelated local stays unmarked; exactly one continuation/one physical
+allocation; missing ownership/beforeStorageLive/afterStorageDead negatives;
+unsupported operand shapes still reject. Retain full mandatory firstcallback/
+CURRENT18/HRTB/unwind/late-Cleanup/default-off/B1/helper/receiver/end/retirement
+matrix with full source/runtime/posts and strict closure. No local proof run.
 
-## Trust scope and rejected shortcuts
+## Possible checked proof-only alternative, not yet a candidate
 
-Adding the continuation changes the frozen address-taken pass and therefore
-which locals receive existing addressable-local storage. It is a trusted
-checker/profile change even though runtime, MIR lowering, kernel ownership
-rules and the physical allocation mechanism need not change. Do not apply
-this existing patch to tool or source closure under R3's frozen profile.
-A separate owner decision and exact new reviewed profile/patch identities
-are required. Preserve the current14patch chain as historical baseline.
+A checked ghost helper could contain merge while the caller uses a normal
+lemma call, allowing its own prepass to continue. No existing token-merge lemma
+was found in frozen lifetime_logic.rsspec. A generic contract taking just one
+fraction does **not** collect all caller chunks: normal lemma-call consumption
+passes only contract resources, while MergeFractionsStmt sums all matching
+chunks. Such a shortcut would not preserve the original operation.
 
-No ghost-resource tweak is proposed as a proven fix. An annotation placed after
-an unvisited merge boundary would also be missed by this prepass. Referring to
-future tmp before initialization/StorageLive, creating an ownership bridge,
-assuming numeric-address equality, replacing runtime `&*tmp`, or removing any
-merge/lifetime operation are not accepted workarounds.
+A valid narrow helper would explicitly receive the actual finite fragments,
+return their exact sum, and prove all coefficient conditions. For two actual
+fragments q1/q2, consume both and return q1+q2; a full token requires a proved
+q1+q2=1. Never assume this decomposition or sum from the current evidence. Each
+caller merge710/800/816 must be accounted for at its real resource point; helper
+must have no later address-taken locals affected by its own merge. First inspect
+the caller decomposition, then verify this helper body and calls in a newly
+authorized proof session. No resource removal, invented equality/owner bridge,
+future-local reference or runtime rewrite. This could avoid a tool change if
+checked; here it is only an alternative proposal, not a verified correction.
 
-## Required validation if separately authorized
+## v0.11 reporting result
 
-1. Establish exact archived AST/node/type/storage order, or an expressly
-   authorized minimal source-linked Cloud reproduction of that defect.
-2. Positive controls: address before and after merge_fractions; physical local
-   chunk and one allocation, normal/unwind lifetime/storage preserved.
-3. Negative controls: unsupported AddressOf operand shapes still reject; use
-   before StorageLive/after StorageDead and missing physical ownership reject
-   at intended checks. No arbitrary extra addressability/admission fallback.
-4. All current firstcallback/CURRENT18/HRTB/unwind/late-Cleanup/default-off/B1/
-   helper/receiver/end/retirement gates; fullbody read/guard frontier under
-   unchanged runtime and full normal/unwind posts. B2 remains separate.
-5. Independent Luna High GO; strict source/profile/patch/18base closure, exact
-   published source/config, existing coordinator, fresh authorized Cloud Build.
-
-No local compiler/decoder/refiner/verifier or proof preparer was run. Tool
-worktree remains unchanged. This proposal does not resolve the prefix214
-InferredTypeExpr error in its separate wrapper function.
-
-
-## v0.10 actual-AST request: retained limitation
-
-Catalogue of **Buildc78529d0** identifies full_body/cases/
-actual_three_current_full_posts/proof-ast.ml, file ID
-7d457f18b4648275ca0a94b68859d4f392f468bfe2b5d791e28d96b664fe6209,
-SHA2757ca2a479947a06f44a78647545d78a8f37739c146bdf227819287f709748a,
-archive5d058992…/index68182b14… . It is not the old prefix AST identity.
-
-[Exact-source-location locate request](R3-GUARD-LOCATE-20261019.json),
-literal `verified/lib.rs(207,49-52)`, returned **LOCATE_WITHHELD**,
-reason SENSITIVE_UNTRUSTED_OR_OVERSIZED_SOURCE_LINE, request
-347e136b0db5bdebb0017dd13b228fcb2eee5addac6d631199c4ecb79e31504f.
-No coordinates/text were returned; exactFalse. No alternate literal/near/window
-was used to bypass withholding. This path is stopped pending administrative
-safe projection of actual AddressOf operand/type, enclosing statement,
-preceding MergeFractionsStmt order and tmp storage classification. Request
-sent to owner. The confirmed pinned-source continuation defect remains a
-**conditional proposal**, not an established cause of this Build's failure.
-No tool/runtime/proof changes and no new formal credit.
+Earlier request347e136b… returned LOCATE_WITHHELD under v0.10 and remains saved
+in R3-GUARD-LOCATE-20261019.json. Under v0.11 the same source literal succeeds,
+request3d175c69…; bounded nodes above are exact, content_filtered=false. The
+prior administrative AST projection request is resolved for these node/type/
+order fields. No quota/cache/backend/IAM change or raw fallback was made.
+[Provenance](R3-V011-PROVENANCE.json); R3 remains CLOSED and Cloud0.
