@@ -2,7 +2,7 @@
 
 ## Задание
 
-- **ID:** `merge-first-comparator-2026-10-19-r3`; **статус:** READY, исполнение ещё не начато.
+- **ID:** `merge-first-comparator-2026-10-19-r3`; **статус:** ACTIVE, T0 2026-10-19T16:09:27Z.
 - **Owner:** `merge`.
 - **Project worktree:** `/root/verify-rust-std-merge-origin`.
 - **Project branch:** `merge/incoming-origin-20261009`, fork `Tiramisu-Cake/verify-rust-std`.
@@ -56,13 +56,13 @@ Timeout Build ≤900 секунд и не больше доступного бю
 
 ## Отчёт агента
 
-- **Статус:** NOT_STARTED. T0/main/absolute/end UTC: —.
-- **Исходный/итоговый source и docs checkpoint; pins:** —.
-- **Prefix normal false / normal true / Continue-panic до → после:** —; полные CURRENT posts и source binding —.
-- **Причина placeholder / checked correction:** точный AST/type/region/происхождение, evidence и неизвестное —.
-- **Fullbody read/guard frontier:** точный узел/новый результат/границы —.
-- **Controls / B1 / B2 / independent proof credit:** —.
-- **Review/checks:** —.
-- **Builds:** UUID → candidate → гипотеза/тип → Brief result → charge —.
-- **Время/расход:** wall-clock —; Cloud —/3600; setup/proof/reporting по данным, иначе «нет данных»; own active/unresolved/reservations —.
-- **Первый remaining blocker / следующий конкретный шаг / ссылки на records:** —.
+- **Статус:** ACTIVE, диагностический checkpoint; отдельное trusted-решение ожидается. T0/main/absolute UTC: 2026-10-19 16:09:27 / 19:39:27 / 20:09:27. Владелец добавил90мин к main; T0 и Cloud3600 неизменны. Сессия не закрыта, новых действий за пределами frozen scope нет.
+- **Source/docs/pins:** исходный HEAD020ed4cc, last executed proof=infra014c3238; новый checkpoint — этот коммит в назначенной ветке, не исполненный кандидат. Tool08d6a578/profile82973e1e/translator2ff7b16f неизменны, tool worktree чист. Чужие dirty/untracked docs сохранены.
+- **Prefix false / true / Continue-panic:** до→после без новых proof результатов; joint CURRENT ранееFalse, отдельное принятие не установлено. Полные CURRENT posts/runtime/cut сохранены. Новых закрытых proof obligations0; B2 OPEN, independent proof credit0.
+- **Placeholder:** exact archived AST895, CastExpr к mutable slice с InferredTypeExpr в lifetime, source214:17–23; strict checker проверяет lifetime и выдаёт точное сообщение. Erased MIR region следует из pinned translator, непосредственно не наблюдался. Generic args следующего вызова не исправляют cast; существующий checked ghost hook не найден. [Диагноз/proposal](cloud-build/origin-layout/R3-PREFIX-DIAGNOSIS-20261019.md): узкая lifetime-ascription и обязательный metadata/provenance gate, tool не менялся.
+- **Evidence limits:** old Build5f668cd9, AST SHA3193176b…/index3e3e6bad…;4 адресных ответа,37/925 строк; exactTrue/completeFalse. Parser-input bindingNOT_ESTABLISHED/causalUNKNOWN сохранены. Reader /argv stage receipt дал NO_DISPLAYABLE_FRAGMENT с omitted private key; удержание не обходилось. Нет raw/full-file fallback или Build ради чтения. Обновлённый AST locator владелец отложил на будущую версию; сессия работает без него.
+- **Fullbody:** R2 split/open retained; последний observed frontier207:49–52 у `CopyOnDrop { src: &*tmp, dst: tail, len: 1 }`. Frozen MergeFractionsStmt пропускает continuation в address-taken pass; точная связь с guard AST/storage пока не установлена. [Условный proposal](cloud-build/origin-layout/R3-GUARD-PROPOSAL-20261019.md), не реализован. Нового read/guard/fullbody theorem нет.
+- **Controls:** прежние B1/helper/smoke/receiver/end/retirement bounded source claims сохранены.4resource/admission в последнем Build явно prerequisite-skipped, не negative PASS. CURRENT18/HRTB/Output/projection/lifetime/official unwind/late-Cleanup/default-off и вся полная матрица остаются обязательными. [R3 obligations](cloud-build/origin-layout/R3-OBLIGATIONS-20261019.md).
+- **Review/checks:** [Luna High GO публикации](cloud-build/origin-layout/R3-REVIEW-20261019.json), не GO submit/tool/proof. Один isolated synthetic service test с invalid phase/owner/window/budget/lane/timeout/source-mode cases PASS; diff whitespace clean. Компилятор/decoder/refiner/verifier/preparer локально не запускались. Runtime/proof/tool не изменены; runner не изменён, только phase authorization.
+- **Builds/учёт:** R3 Builds0, charge0/3600; ledger active_build=null, reservations/submission requests не создавались. Last executed Buildc78529d0 относится к закрытому R2/590s, не списан повторно. [R3 ledger](cloud-build/origin-layout/FIRST-COMPARATOR-R3-BUDGET-20261019.json), [release](cloud-build/origin-layout/R3-RELEASE-20261019.json). Setup/proof/reporting раздельного хронометража нет; wall-clock по T0, последняя отметка в git checkpoint.
+- **Следующий шаг:** согласовать narrow trusted scope/profile до реализации; затем exact diff с ownership/metadata gates и независимым review. До этого не запускать неизменённый кандидат и не применять существующий guard patch к frozen tool. Продление времени само по себе не разрешает менять semantics.

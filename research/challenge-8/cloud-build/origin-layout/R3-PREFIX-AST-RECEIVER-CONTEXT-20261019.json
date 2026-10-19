@@ -1,0 +1,107 @@
+{
+  "archive_sha256": "8ffe3689f0148e508af26f8b833ebb7fa4679c355c5ba567b898cb40f7ce811f",
+  "build_id": "5f668cd9-fb34-4570-ad1c-4b97abbb36d0",
+  "causal_status": "UNKNOWN",
+  "caveat": "Coordinates refer only to the requested archived file. No decoding/transformation or parser-input identity is inferred.",
+  "complete": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 901,
+    "line_separator": "LF",
+    "source_lines": 925,
+    "start": 890,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "34ea04bf09c2f6022dac1c22a0444b4583420dfe82ec1865f5ac18b85f25039b",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/prefix/cases/actual_three_current_full_posts/proof-ast.ml",
+  "file_sha256": "3193176be89d0f18982253759930c9bdac47f2c1c4b6bc83c2437a69603a1f0c",
+  "index_sha256": "3e3e6bad420b25040d76c582c15abf42895c774d377d7df33bd9d43e9278a0ca",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 901,
+    "expected_sha256": "3193176be89d0f18982253759930c9bdac47f2c1c4b6bc83c2437a69603a1f0c",
+    "file_id": "34ea04bf09c2f6022dac1c22a0444b4583420dfe82ec1865f5ac18b85f25039b",
+    "start": 890
+  },
+  "request_id": "dd82ccf0c0462def485cb46918efc88252c952a31bcd0dbc307845b1afcfc438",
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 890,
+      "text": "      ExprStmt (AssignExpr (loc \"verified/lib.rs(213,22-45)\", ReadArray (loc \"verified/lib.rs(213,22-45)\", Var (loc \"verified/lib.rs(213,22-45)\", \"values\"), IntLit (loc \"verified/lib.rs(213,22-45)\", big_int_of_string \"2\", true, false, NoLSuffix)), Mutation, CastExpr (loc \"verified/lib.rs(213,39-44)\", ManifestTypeExpr (loc \"verified/lib.rs(213,39-44)\", Int (Unsigned, FixedWidthRank (3))), IntLit (loc \"verified/lib.rs(213,39-44)\", big_int_of_string \"5\", true, false, LLSuffix))));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 891,
+      "text": "      RustStorageLiveStmt (loc \"verified/lib.rs(214,9-14)\", loc \"verified/lib.rs(214,9-14)\", \"_3\", \"begin\");"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 892,
+      "text": "      RustStorageLiveStmt (loc \"verified/lib.rs(214,17-23)\", loc \"verified/lib.rs(214,17-23)\", \"_4\", \"$_4\");"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 893,
+      "text": "      RustStorageLiveStmt (loc \"verified/lib.rs(214,17-23)\", loc \"verified/lib.rs(214,17-23)\", \"_5\", \"$_5\");"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 894,
+      "text": "      ExprStmt (AssignExpr (loc \"verified/lib.rs(214,17-23)\", Var (loc \"verified/lib.rs(214,17-23)\", \"$_5\"), Mutation, AddressOf (loc \"verified/lib.rs(214,17-23)\", Var (loc \"verified/lib.rs(214,17-23)\", \"values\"))));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 895,
+      "text": "      ExprStmt (AssignExpr (loc \"verified/lib.rs(214,17-23)\", Var (loc \"verified/lib.rs(214,17-23)\", \"$_4\"), Mutation, CastExpr (loc \"verified/lib.rs(214,17-23)\", RustRefTypeExpr (loc \"verified/lib.rs(214,17-23)\", InferredTypeExpr (loc \"verified/lib.rs(214,17-23)\"), Mutable, SliceTypeExpr (loc \"verified/lib.rs(214,17-23)\", ManifestTypeExpr (loc \"verified/lib.rs(214,17-23)\", Int (Unsigned, FixedWidthRank (3))))), Var (loc \"verified/lib.rs(214,17-23)\", \"$_5\"))));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 896,
+      "text": "      RustStorageDeadStmt (loc \"verified/lib.rs(214,22-23)\", loc \"verified/lib.rs(214,22-23)\", \"_5\", \"$_5\");"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 897,
+      "text": "      SwitchStmt (loc \"verified/lib.rs(214,17-36)\", CallExpr (loc \"verified/lib.rs(214,17-36)\", \"std::slice::<impl [T]>::as_mut_ptr\", [ManifestTypeExpr (loc \"verified/lib.rs(214,17-36)\", Int (Unsigned, FixedWidthRank (3))); InferredTypeExpr (loc \"verified/lib.rs(214,17-36)\")], [], [LitPat (Var (loc \"verified/lib.rs(214,24-36)\", \"$_4\"))], Static), ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 898,
+      "text": "        SwitchStmtClause (loc \"verified/lib.rs(214,17-36)\", CallExpr (loc \"verified/lib.rs(214,17-36)\", \"returning\", [], [], [LitPat (Var (loc \"verified/lib.rs(214,17-36)\", \"__result\"))], Static), [ExprStmt (AssignExpr (loc \"verified/lib.rs(214,17-36)\", Var (loc \"verified/lib.rs(214,17-36)\", \"begin\"), Initialization, Var (loc \"verified/lib.rs(214,17-36)\", \"__result\")))]);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 899,
+      "text": "        SwitchStmtClause (loc \"verified/lib.rs(214,17-36)\", CallExpr (loc \"verified/lib.rs(214,17-36)\", \"unwinding\", [], [], [], Static), [ReturnStmt (loc \"verified/lib.rs(214,17-36)\", Some (CallExpr (loc \"verified/lib.rs(214,17-36)\", \"unwinding\", [], [], [], Static)))])"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 900,
+      "text": "      ]);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 901,
+      "text": "      RustStorageDeadStmt (loc \"verified/lib.rs(214,35-36)\", loc \"verified/lib.rs(214,35-36)\", \"_4\", \"$_4\");"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v1",
+  "status": "OK"
+}

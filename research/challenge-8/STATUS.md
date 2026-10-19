@@ -1,37 +1,33 @@
-# MERGE — R2 CLOSED / PARTIAL, 2026-10-19
+# MERGE — R3 diagnostic checkpoint, 2026-10-19
 
-T0 11:57Z/main13:57Z/absolute14:27Z; closed 2026-10-19T14:00:01.678801+00:00.
-[Текущее задание/отчёт](CURRENT-TASK.md). Один Build590s/execution589s accounted;
-своих active/unresolved/reservations нет, ready request withdrawn, ledgerCLOSED.
-После main cutoff только evidence/accounting/docs; новых proof edits/Builds нет.
+[Текущее задание/отчёт](CURRENT-TASK.md): T0 16:09:27Z, продлённый main19:39:27Z,
+absolute20:09:27Z. Cloud0/3600, Builds0; нового исполненного кандидата нет.
+Tool08d6a578/profile82973e1e/runtime/posts/CURRENT18 неизменны. Чужие dirty docs
+сохранены. Разрешённого proof-only исправления пока не установлено.
 
-Build `c78529d0-f18b-4d13-9060-6517cde03cd5`, proof=infra
-`014c3238dcf386b58ab2b1304fce80c8f4c3ac0d`, FAILURE. Checked CURRENT array
-split/open устранил прежний наблюдаемый points_to blocker на tail.read; далее
-unsupported address expression207:49–52 у original guard. Наблюдаемый path,
-без read/guard/fullbody theorem. Prefix214 VF1; joint CURRENT flagFalse,
-4resource+admission sourceNOT_RUN_PREFIX_PREREQUISITE_FAILED. B1 selected/receiver
-sourceall_matchedTrue; helper bounded positive+3expected; smoke sourcePASS.
-Tool08d6a578/profile82973e1e/runtime/posts/matrix unchanged. B2 OPEN, независимого
-proof credit нет. [Result](cloud-build/origin-layout/R2-BUILD1-RESULT-20261019.json),
-[obligations](cloud-build/origin-layout/R2-OBLIGATIONS-20261019.md).
+Prefix214 теперь связан с actual archived AST895: CastExpr к mutable slice
+имеет InferredTypeExpr в lifetime. Strict checker даёт точное сообщение на
+этом lifetime; translator erased-region происхождение выведено из pinned source,
+не прочитано непосредственно из MIR. Generic args следующего as_mut_ptr этот
+cast не меняют. Parser-input bindingNOT_ESTABLISHED/causalUNKNOWN сохранены.
+[Диагноз и узкий trusted proposal](cloud-build/origin-layout/R3-PREFIX-DIAGNOSIS-20261019.md).
+До допуска coercion нужно проверить metadata/provenance; blanket inference
+не предлагается. Tool-реализация требует отдельного решения владельца.
 
-Ownerv0.9 instructions read/adopted. Старый5f668cd9 targeted210–216 вернул
-OK/exactTrue/completeFalse:214=`let begin = values.as_mut_ptr();`, columns17–23
-=`values` в wrapper. FileSHA dd2e5689… matches catalogue/preparation;
-index3e3e6bad…/archive8ffe3689…, request09896cf5… .
-[Exact bounded observation](cloud-build/origin-layout/R2-PREFIX214-TARGETED-20261019.json).
-Source-reporting blocker resolved; type/lifetime cause and repair not established,
-causalUNKNOWN/parser_input_bindingNOT_ESTABLISHED unchanged. No raw fallback.
-Следующий шаг — read-only MIR/proof AST → pinned translator/type checker через
-Reader/targeted v0.9; это не требует нового execution window. В каталоге старого
-Build есть proof-ast.ml (SHA3193176b…), но failing AST node ещё не установлен.
-Checker подтверждает связь сообщения с запрещённым InferredTypeExpr; конкретный
-тип/lifetime и происхождение неизвестны. Новое окно нужно для proof-правок/Builds
-с LunaHigh review; frozen semantics. Остановка после source214 была преждевременной,
-доступные средства диагностики не исчерпаны.
+Fullbody guard207: pinned address-taken traversal не продолжает после
+MergeFractionsStmt. Дефект подтверждён исходником; связь с конкретным failing
+AST/storage guard пока условна. [Proposal](cloud-build/origin-layout/R3-GUARD-PROPOSAL-20261019.md),
+не применён. R2 split/open и полный runtime/posts сохранены.
+
+Новые закрытые proof obligations:0; prefix false/true/panic не доказаны;
+resource/admission controls в последнем Build prerequisite-skipped. B2 OPEN,
+независимого proof credit нет. [Матрица](cloud-build/origin-layout/R3-OBLIGATIONS-20261019.md).
+Следующий шаг — решение по отдельному trusted design/profile; после него exact
+reviewed diff и gates до реализации/Cloud. Не запускать неизменённый кандидат
+или Build только ради недостающего отчёта.
 
 Предыдущие checkpoints сохранены ниже как история.
+
 
 
 ## R1 — итог завершения 2026-10-19T05:41:03.073779+00:00

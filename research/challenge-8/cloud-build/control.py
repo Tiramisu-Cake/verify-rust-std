@@ -322,6 +322,23 @@ def authorized_phase(a,ledger):
    raise SystemExit('First-comparator R2 main window passed; no new dispatch/request')
   if a.command=='submit' and (not 90<=a.timeout<=900 or a.lane!='merge' or a.source_mode!='pinned-objects'):
    raise SystemExit('First-comparator R2 requires pinned merge Build timeout90..900s')
+ if a.phase_id=='MERGE-FIRST-COMPARATOR-R3-2026-10-19':
+  expected_ledger=DIR/'origin-layout'/'FIRST-COMPARATOR-R3-BUDGET-20261019.json'
+  if (a.ledger.resolve()!=expected_ledger.resolve() or a.owner!='merge' or
+      ledger.get('owner')!='merge' or ledger.get('authorization_model')!='bounded-cloud-budget' or
+      ledger['ceiling_build_seconds']!=3600 or ledger.get('allowed_lanes')!=['merge'] or
+      ledger.get('start_utc')!='2026-10-19T16:09:27Z' or
+      ledger.get('main_deadline_utc')!='2026-10-19T19:39:27Z' or
+      ledger.get('deadline_utc')!='2026-10-19T20:09:27Z'):
+   raise SystemExit('First-comparator R3 differs from owner time-window authorization')
+  cutoff=datetime.datetime.fromisoformat('2026-10-19T20:09:27+00:00')
+  now=datetime.datetime.now(datetime.timezone.utc)
+  if now<datetime.datetime.fromisoformat(ledger['start_utc'].replace('Z','+00:00')):
+   raise SystemExit('First-comparator R3 has not started')
+  if a.command in ('submit','request') and now>=datetime.datetime.fromisoformat(ledger['main_deadline_utc'].replace('Z','+00:00')):
+   raise SystemExit('First-comparator R3 main window passed; no new dispatch/request')
+  if a.command=='submit' and (not 90<=a.timeout<=900 or a.lane!='merge' or a.source_mode!='pinned-objects'):
+   raise SystemExit('First-comparator R3 requires pinned merge Build timeout90..900s')
  if a.phase_id=='CI-IAM-E2E-ONCE-2026-10-17':
   # Separate, explicitly activated account; never reuse a historical ledger.
   expected_ledger=DIR/'ci-iam-e2e-once-20261017'/'BUDGET.json'
@@ -658,7 +675,7 @@ def run_command(a,state,ledger,ledger_path):
   flags=state/(token+'-flags.json');write(flags,{'--substitutions':values})
   reservation={'dispatch_token':token,'owner':a.owner,'phase_id':a.phase_id,'ledger':str(ledger_path),'state_dir':str(state),'item':item,'build_id':None}
   # Recheck the time-window account after source/config preparation, before reserve.
-  if a.phase_id in ('MERGE-FIRST-COMPARATOR-R1-2026-10-18','MERGE-FIRST-COMPARATOR-R2-2026-10-19'):authorized_phase(a,ledger)
+  if a.phase_id in ('MERGE-FIRST-COMPARATOR-R1-2026-10-18','MERGE-FIRST-COMPARATOR-R2-2026-10-19','MERGE-FIRST-COMPARATOR-R3-2026-10-19'):authorized_phase(a,ledger)
   coordination.reserve(reservation)
   ledger['builds'].append(item);ledger['active_build']=token;write(ledger_path,ledger)
   cmd=['builds','submit','--no-source','--async','--region=global','--config='+str(path),'--flags-file='+str(flags),'--format=json','--quiet']

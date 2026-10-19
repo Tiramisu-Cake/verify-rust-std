@@ -7259,3 +7259,19 @@ emits the placeholder diagnostic for InferredTypeExpr. Failing node/type/lifetim
 and translator origin remain unestablished. Stopping after Rust214 was premature,
 not exhaustion of evidence tools. CURRENT-TASK/STATUS/Reader-limit record updated;
 ledger/pins/verdicts unchanged, no new Build/proof edits or claim of root cause.
+
+
+### R3 diagnostic checkpoint — 2026-10-19
+
+Owner extended main90minutes: T0 16:09:27Z unchanged, main19:39:27Z,
+absolute20:09:27Z; explicit Cloud3600 unchanged. New ledger0spent/0Builds.
+Four narrow v0.9 targeted AST observations locate source214 CastExpr at AST895,
+with inferred lifetime in mutable slice target. Frozen checker route matches
+placeholder diagnostic. Erased MIR region deduced from translator, not directly
+observed. Generic parserbindingNOT_ESTABLISHED/causalUNKNOWN retained; no raw
+fallback or proof credit. Existing ghost hooks do not bind the generated cast.
+R3-PREFIX-DIAGNOSIS records separate trusted proposal and metadata/provenance gate.
+Guard continuation defect confirmed in frozen source; actual Build causal
+binding remains conditional. R3-GUARD-PROPOSAL not implemented. Runtime/proof/
+tool/profile/controls unchanged; no speculative or report-only Build submitted.
+Synthetic phase guard test PASS; independent publication review recorded separately.

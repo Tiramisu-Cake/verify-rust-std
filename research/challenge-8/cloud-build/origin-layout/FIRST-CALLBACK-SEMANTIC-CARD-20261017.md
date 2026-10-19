@@ -370,3 +370,55 @@ Main13:57 cutoff elapsed before response; no new proof edits, experiments or
 Builds. LedgerCLOSED1Build590s, no own active/unresolved/reservation/request.
 Next newly authorized window: minimal wrapper receiver typing investigation,
 checked annotations within frozenprofile, LunaHighreview, fullgates.
+
+
+### R3 session opening — 2026-10-19T16:09:27Z
+
+Assignment merge-first-comparator-2026-10-19-r3; owner merge; main18:09:27Z,
+absolute18:39:27Z; separate FIRST-COMPARATOR-R3-BUDGET-20261019.json, explicit
+3600Cloud seconds, max timeout900+60reserve, existing v3 coordinator only.
+Policy HEAD020ed4cc plus supplied local ownerv0.9/ITERATION-PROCESS adopted;
+old accounts CLOSED/no carryover, tool08d6a578/translator2ff7b16f confirmed clean.
+Target actual u64,array3,genericF firstcallback source-linked prefix false/true/
+firstContinue-panic/fullCURRENTposts +4resource/admission controls; second path
+fullbody guard frontier after preserved R2 checked split/open. Full B2 stays open.
+First necessary evidence binding: archived prefix214 arrayreceiver values to
+actual proof-AST/MIR type/region node, not an inferred erasedlifetime diagnosis.
+Exact Rust fragment already retained; do not request again. AST catalogue
+identity34ea04bf…/SHA3193176b… known but retained projection unsupported. Seek
+source-location/node localization before narrowrefresh; no guessedoffsets or
+window reconstruction. Secondary read-only guard investigation assigned to
+LunaHigh, no nested agents/no refresh without coordination; no tool writes.
+No proof/runner candidate or Cloud experiment yet. Any future hypothesis/gates
+recorded here before implementation; exactclosure/config/publication+GO required.
+
+R3 explicit owner extension: «Добавляем полтора часа к основному времени».
+T0 remains2026-10-19T16:09:27Z; newmain19:39:27Z, finishingabsolute20:09:27Z.
+Original deadlines18:09:27/18:39:27 preserved as history, not reset. Cloud
+ceiling remains3600, no new trust/profile/runtime authority or oldbudgetcarryover.
+Owner also directs work without forthcoming AST-locator projection in this
+session; no guessed offsets, raw fallback or source-cause invention. Continue
+available retained evidence/source tracing and independent fullbody path.
+
+R3 phase registration preflight before implementation: add exact R3 branch to
+existing control.py authorization only (owner/ledger/lane/3600ceiling/T0/new
+deadlines/timeout90..900/pinned source), and existing lastmoment recheck.
+No common coordinator/transport/tool/proof changes. Synthetic service checks
+cover valid account and wrong/missing identity/deadlines/lane/timeout/closed.
+Fresh Cloud still requires an independently reviewed concrete proof candidate;
+registration alone cannot justify a reporting-only or speculative Build.
+
+R3 prefix AST evidence: exact archived proof-ast.ml SHA3193176b…, index3e3e6bad… .
+Header1 gives source_lines925; one EOF final-declaration window914–925 binds
+wrapper source215/216. Bounded call context902–913 binds source215 callee; its
+immediate predecessor890–901 contains source214 CastExpr. Four target requests
+are retained separately,37lines total/925, no file reconstruction, byte offset
+guessing, withheld bypass or raw archive access. Request dd82ccf0… establishes
+AST895 at source214:17–23 with RustRefTypeExpr(InferredTypeExpr,Mutable,Slice<u64>).
+Checker CastExpr4910 strictcheck→RustRefType2226→Inferred2240/2252 explains
+observed placeholder. MIR region itself was not read; frozen Cast3777→ref1541→
+region568 is the source-inferred origin, not a separate MIR observation.
+Targeted's parser_input_bindingNOT_ESTABLISHED and wholecausalUNKNOWN preserved.
+Call AST897 at214:17–36 has different Inferredgeneric; altering callghostargs
+does not modify earlier cast895. Schema CastData has no ghostarg annotation,
+FnCallData does. No currently established permitted proof-only correction yet.
