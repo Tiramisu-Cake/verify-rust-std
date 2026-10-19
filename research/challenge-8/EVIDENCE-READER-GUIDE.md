@@ -1,6 +1,6 @@
-# SmallSort Evidence — краткая инструкция v0.9
+# SmallSort Evidence — краткая инструкция v0.10
 
-Редакция 2026-10-19. Используй `/usr/local/bin/smallsort-brief`; `--help` должен содержать `--refresh`, `--end`, `--position`. Клиент и доступ уже настроены; старую `/root/smallsort-brief-v08` не использовать, IAM/URL/credentials самостоятельно не менять.
+Редакция 2026-10-19. Используй `/usr/local/bin/smallsort-brief`; `--help` должен содержать `--refresh`, `--end`, `--position`, `--locate`, `--near-position`. Literal Locators доступны по подтверждению владельца 2026-10-19. Клиент и доступ уже настроены; старую `/root/smallsort-brief-v08` не использовать, IAM/URL/credentials самостоятельно не менять.
 
 ## Порядок: Brief → Reader → targeted → административный разбор
 
@@ -8,7 +8,8 @@
 2. Найди файл через `--catalogue 'часть пути'` или наблюдение через `--search 'буквальный текст'` (без regex, без учёта регистра). `--within "$FILE_ID"` ограничивает поиск файлом. Поиск читает только сохранённую проекцию.
 3. Сначала запроси из неё `--file "$FILE_ID" --pointer '/нужное/поле'` либо `--file "$FILE_ID" --start 210`.
 4. Если фрагмент не сохранён, используй **один узкий `--refresh`** по известному file ID (примеры ниже). Это разрешённый обычному агенту targeted-запрос, отдельного admin audit для него не нужно. Сервер читает проверенный архив; агент получает только ограниченный очищенный ответ.
-5. Если и targeted не дал нужных фактов, укажи конкретный статус/ограничение и запроси административный разбор. Останови только зависимую часть; продолжай независимую работу в scope.
+5. Если нужный файл известен, но координат нет, используй `--refresh --file --locate` и при необходимости `--near-position` по [Literal Locators](EVIDENCE-LITERAL-LOCATORS.md), затем один ограниченный фрагмент.
+6. Если и targeted не дал нужных фактов, укажи конкретный статус/ограничение и запроси административный разбор. Останови только зависимую часть; продолжай независимую работу в scope.
 
 `BUILD_ID` — нужный UUID. `FILE_ID` — `id` каталога или `file.id` поиска **этого Build**, не путь и не SHA содержимого. Сверяй известный SHA с каталогом. `--refresh` не обновляет Brief, исходные отчёты или proof credit и не запускает proof Build.
 
@@ -35,6 +36,16 @@ smallsort-brief "$BUILD_ID" --refresh --file "$FILE_ID" --position 9362 --unit u
 
 JSON возвращается наблюдениями `pointer/value`; `/` в ключе кодируется `~1`, `~` — `~0`. Корень `--pointer ''` допустим, но обычно излишне широк. Без refresh `--start` выбирает только старую проекцию, `--end` недоступен. Для Reader бери следующую страницу только по `next_offset` (null = конец), с тем же `index_sha256`; при смене индекса не смешивай страницы.
 
+## Когда координаты неизвестны: Literal Locators
+
+```bash
+smallsort-brief "$BUILD_ID" --refresh --file "$FILE_ID" --locate 'InferredTypeExpr' --expect-sha256 "$EXPECTED_SHA256"
+# ANCHOR_CODEPOINT — unicode_start ранее полученного locator того же файла/SHA
+smallsort-brief "$BUILD_ID" --refresh --file "$FILE_ID" --locate 'InferredTypeExpr' --near-position "$ANCHOR_CODEPOINT" --unit unicode-codepoint --expect-sha256 "$EXPECTED_SHA256"
+```
+
+Locate — точный регистрозависимый literal (≥3 printable Unicode codepoints, ≤160 UTF-8 байт), один известный файл, до20 координат без текста/hex/пагинации. Near имеет фиксированные ±4096 явно выбранных единиц, возвращает search_scope; offsets с0, line/column с1, конец exclusive. При truncated/complete=false уточни известный literal по задаче, не перебирай окна. Затем отдельный безопасный position/line fragment по обычным лимитам. Все запросы используют общую16-квоту; LOCATE_WITHHELD нельзя обходить. Exact/complete относятся к координатам и scope, не к AST/type/region/parser binding/proof; NO_MATCH_IN_SEARCH_SCOPE не означает NOT_RUN или семантическое отсутствие. Длинная строка допускает locators, но её текст всё ещё может быть WINDOW_WITHHELD. [Остальные детали и поля ответа](EVIDENCE-LITERAL-LOCATORS.md).
+
 ## Квота, точность и ограничения
 
 - **16 разных targeted-резервирований на Build, общих для всех агентов.** Неудача после резервирования тоже расходует квоту. Она не сбрасывается рестартом или новым индексом. Завершённый идентичный нормализованный запрос к тому же индексу кешируется; новый pointer/диапазон/SHA-параметр/индекс может стоить нового запроса. Одновременные дубликаты могут занять дополнительные резервирования: согласуй их и переиспользуй сохранённый ответ. Каждый некешированный запрос может перечитать архив на сервере.
@@ -49,7 +60,7 @@ JSON возвращается наблюдениями `pointer/value`; `/` в �
 | `EXPLORATION_NOT_AVAILABLE_IN_REPORT` | Нет нужного проверенного каталога: административный перепроцессинг старого архива, без нового proof Build; targeted не заменяет каталог |
 | `LINE_RANGE_OUT_OF_RANGE` / `POSITION_OUT_OF_RANGE` | Исправь границы по `source_lines` / длине, единицам и выбранному файлу; не повторяй неверный запрос |
 | `LINE_WINDOW_BYTE_LIMIT` / `RESPONSE_BUDGET_EXCEEDED` | Сузь окно/поддерево |
-| `PRIVATE_FIELD_WITHHELD` / `WINDOW_WITHHELD` | Не обходи удержание другими окнами, hex или альтернативным доступом |
+| `PRIVATE_FIELD_WITHHELD` / `WINDOW_WITHHELD` / `LOCATE_WITHHELD` | Не обходи удержание другими окнами, hex или альтернативным доступом |
 | `BUILD_QUERY_BUDGET_EXCEEDED` | Используй готовые ответы/Reader, сообщи администратору о квоте |
 | `INVALID_JSON`, `NON_UTF8_INPUT`, file-size/type/extraction/integrity error | Зафиксируй точное ограничение, Build/file/request ID; не угадывай данные |
 
@@ -59,4 +70,4 @@ Exit codes: **0** — ответ доставлен, проверь status/cover
 
 Полные/raw logs, GCS archives, Cloud Logging и локальные копии обычному агенту по-прежнему запрещены; не обходи клиент через download/storage/logging-команды или connectors. Не ставь `download_verified` и не переписывай historical evidence/ledgers по ответам. Новые Builds, бюджеты, сроки и trusted semantics эта инструкция не разрешает. Coordinator остаётся прежним.
 
-Готовые узкие запросы для текущих blockers: [Merge / Select](EVIDENCE-READER-TASK-QUERIES.md). Полные детали при необходимости: [исходный справочник v0.9](EVIDENCE-READER-REFERENCE-v09.md).
+Готовые узкие запросы для текущих blockers: [Merge / Select](EVIDENCE-READER-TASK-QUERIES.md). Полные детали при необходимости: [v0.9](EVIDENCE-READER-REFERENCE-v09.md), [Literal Locators v0.10](EVIDENCE-READER-REFERENCE-v010.md).
