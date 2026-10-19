@@ -78,6 +78,19 @@ def _add_singleton_facts(source):
                 'pure singleton length facts before callback lifetime')
 
 
+# Fullbody only: expose the physically owned CURRENT tail from the rejoined array.
+TAIL_READ_OPEN = b"""        //@ assert array::<u64>(begin, 3, ?read_current);
+        //@ array_split::<u64>(begin, 2);
+        //@ open array::<u64>(tail, 1, drop(2, read_current));
+"""
+
+
+def _open_tail_read(source):
+    anchor = b'        let tmp = ManuallyDrop::new(tail.read());\n'
+    return _one(source, anchor, TAIL_READ_OPEN + anchor,
+                'open CURRENT tail singleton before original read')
+
+
 def _commands(fragment):
     lines = fragment.splitlines()
     if any(not line.lstrip().startswith(b'//@ ') for line in lines):
@@ -166,6 +179,8 @@ def prepare(evidence, *, prefix=False, mutation=None):
     if mutation not in (None, 'lost_reference_fraction', 'lost_reference_token',
                          'lost_current_f', 'lost_cell_owner'):
         raise ValueError('unknown first-comparator mutation')
+    if not prefix:
+        verified = _open_tail_read(verified)
     # Strip the NEW ghost-only annotations and compare with inherited source.
     # Other original ghost commands were already checked by old._prepare.
     # Runtime comparison removes only comments and whitespace; the inherited

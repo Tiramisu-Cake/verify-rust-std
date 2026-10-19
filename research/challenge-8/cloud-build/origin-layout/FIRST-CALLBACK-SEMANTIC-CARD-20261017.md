@@ -308,3 +308,37 @@ post gives drop(length(lastSingleton),lastSingleton)==nil; length1 then makes
 the opaque last foreach tail explicitly nil. First sift slice already succeeded;
 no need new heap close or solver-dependent entry/current equality. Same proof-only
 scope; exact recovery/tool/profile/controls unchanged.
+
+
+### R2 source preparation — 2026-10-19T11:57:00Z, before implementation
+
+Assignment merge-first-comparator-2026-10-19-r2; main13:57Z, absolute14:27Z;
+phase MERGE-FIRST-COMPARATOR-R2-2026-10-19, stable owner merge, separate ledger
+FIRST-COMPARATOR-R2-BUDGET-20261019.json. Policy checkpoint4c744fc5 plus preserved
+owner2026-10-19 Reader update. Old accounts CLOSED; no carryover.
+
+Old Build5f668cd9 Brief retains prefix214 placeholder and fullbody203 missing
+points_to(tail0,_). Reader catalogue returns EXPLORATION_NOT_AVAILABLE_IN_REPORT,
+index60c851a0dbe37bb68d9ff8131e4723d23ccc9139eeacff72133e136a02e0549b;
+narrow reprojection request sent, no raw fallback. Exact prefix statement/hash
+not established; do not edit it merely from line number.
+
+Independent fullbody hypothesis: CURRENT18 rejoin closes array(begin,3,CURRENT),
+so points_to(tail) is encapsulated. Immediately before original tail.read,
+bind CURRENT array list, checked array_split(begin,2), open its tail singleton.
+Pinned prelude_core.rsspec252-285 defines physical array and checked split;
+no ownership synthesis, entry=CURRENT equality or assumed pointer permission.
+Framed prefix array and foreach CURRENT owners remain. This is outside exact
+first-call recovery marker/whitelist; runtime, generic F, CURRENT F/thread/type/
+lifetime/frame, normal/unwind posts and prefix cut stay unchanged.
+
+Expected falsifier: fullbody must pass tail.read points_to obligation, then
+report next actual frontier; new unsupported/assertion failure is not success.
+Prefix+all controls and B1 regression matrix run unchanged; incomplete prefix
+remains no-credit. New Build for this proof candidate, never for missing reports.
+Tool08d6a578/profile82973e1e/patch4aa84aa5/translator2ff7b16f/compiler
+nightly2026-09-25 frozen;14patch closure/18basepins/run.sh unchanged.
+Independent Luna High GO, source closure/config publication before submit.
+Technical ceiling18960s =9000s absolute window +960s max reservation +9000s
+rounding/bookkeeping headroom; client representation only, deadlines and one
+owner Build govern, max timeout900, project-wide task limit2 despite v3 max3.

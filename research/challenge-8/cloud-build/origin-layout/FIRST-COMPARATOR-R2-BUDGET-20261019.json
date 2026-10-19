@@ -1,0 +1,24 @@
+{
+  "phase": "MERGE-FIRST-COMPARATOR-R2-2026-10-19",
+  "owner": "merge",
+  "authorization_model": "time-window",
+  "allowed_lanes": [
+    "merge"
+  ],
+  "ceiling_build_seconds": 18960,
+  "technical_ceiling_not_user_spend_budget": true,
+  "technical_ceiling_calculation": "9000s absolute window +960s largest reservation +9000s rounding/bookkeeping headroom; numeric representation only, main/absolute deadlines control.",
+  "used_build_seconds": 0,
+  "remaining_build_seconds": 18960,
+  "builds": [],
+  "active_build": null,
+  "status": "AUTHORIZED",
+  "start_utc": "2026-10-19T11:57:00Z",
+  "main_deadline_utc": "2026-10-19T13:57:00Z",
+  "deadline_utc": "2026-10-19T14:27:00Z",
+  "max_timeout_seconds": 900,
+  "authorization": "Direct owner CURRENT-TASK merge-first-comparator-2026-10-19-r2;120min main +30 finishing; exact published reviewed merge lane only, frozen semantics, full mandatory campaign; task at most2 project builds and one stable merge owner.",
+  "policy_revision": "4c744fc5b10dbbd489649782968cd099b76e48fc + preserved owner Evidence Reader 2026-10-19",
+  "evidence_policy_revision": "2026-10-19",
+  "carryover_allowed": false
+}
