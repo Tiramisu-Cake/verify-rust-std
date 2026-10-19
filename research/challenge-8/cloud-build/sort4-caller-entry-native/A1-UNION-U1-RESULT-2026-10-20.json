@@ -1,0 +1,63 @@
+{
+  "build_id": "a58c94a8-c080-4d41-9833-ac1d77b00bb0",
+  "candidate": "b65d49f9ecb8fb4cce01a8a95d7c3c9d8237b859",
+  "terminal": "FAILURE",
+  "charge_seconds": 466,
+  "execution_seconds": 465,
+  "archive_integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "source_run_exit": 0,
+  "source_evidence_complete": true,
+  "source_reported_blocker": "P0a adapter_error RuntimeError: A1-FOCUS: published A1 profile identity",
+  "guard_compilation_or_proof_fix_confirmed": false,
+  "matrix_source_aggregate": {
+    "INTENDED_CLASSIFIED": 8,
+    "INCONCLUSIVE": 5,
+    "NOT_RUN": 13
+  },
+  "catalogue": {
+    "archive_sha256": "f1690213475b038432e61c9c290c5f4847a03e0009f15047fcf94cefce4a8dc9",
+    "build_id": "a58c94a8-c080-4d41-9833-ac1d77b00bb0",
+    "causal_status": "UNKNOWN",
+    "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+    "coverage": {
+      "availability_counts": {
+        "EMPTY_FILE": 109,
+        "JSON_EXCEEDS_SCAN_LIMIT": 1,
+        "PROJECTED": 482,
+        "UNSUPPORTED_FILE_TYPE": 77
+      },
+      "catalogue_complete": true,
+      "content_bytes": 1988867,
+      "content_files": 592,
+      "files": 669,
+      "source_scan_bytes": 3597396
+    },
+    "index_sha256": "4b7b7d28d609866b7f053238ff13692831aedd2e98578b155f553d706b4178e0",
+    "next_offset": null,
+    "report_schema": "smallsort-evidence-index-v8",
+    "results": [
+      {
+        "complete": false,
+        "id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "kind": "json",
+        "path": "proof-audit.json",
+        "path_sanitized": false,
+        "scanned_bytes": 77341,
+        "sha256": "fed6b2cd98ae5e38e8d0c45d6433ed25241d09a36d8e5a0d7342722fa6584e1c",
+        "size_bytes": 77341,
+        "status": "PROJECTED",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      }
+    ],
+    "scope": {
+      "files_considered": 669,
+      "files_with_incomplete_content": 465,
+      "matches_in_retained_data": 1,
+      "source_absence_established": false
+    },
+    "status": "OK"
+  },
+  "causal_status": "UNKNOWN",
+  "independent_proof_credit": false
+}
