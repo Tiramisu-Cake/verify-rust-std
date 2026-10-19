@@ -1,6 +1,6 @@
-# R4 activation decision — owner authorized, Cloud UNRUN
+# R4 activation decision — strict union guard passed; binder boundary
 
-CURRENT-TASK select-maybeuninit-union-kind-2026-10-20-r4 authorizes activating the exact strict two-line proposal. Decision recorded before implementation. void/name/substitutions/Self/F/regions/source-binding/admission/lifecycle remain frozen. New full profile and fresh Cloud evidence required; historical NOT ACTIVATED sections below remain historical.
+CURRENT-TASK select-maybeuninit-union-kind-2026-10-20-r4 authorizes activating the exact strict two-line proposal. Decision recorded before implementation. U2 Build4787c3e2-3d93-40fd-bff5-96a31fed062f now reaches the later Body FnMut/Output binder predicate; strict union guard passed on that failing path, while P0a/P1 proof remains INCONCLUSIVE. See [R4 checkpoint](A1-UNION-CHECKPOINT-2026-10-20.md); no binder predicate was changed. void/name/substitutions/Self/F/regions/source-binding/admission/lifecycle remain frozen. New full profile and fresh Cloud evidence required; historical NOT ACTIVATED sections below remain historical.
 
 # Scope decision: MaybeUninit compiler ADT kind — NOT ACTIVATED
 

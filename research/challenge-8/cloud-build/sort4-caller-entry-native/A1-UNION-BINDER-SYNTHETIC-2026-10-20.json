@@ -1,0 +1,52 @@
+{
+  "synthetic_only": true,
+  "change": "only projection-clause binder spellings oa/ob to ha/hb, matching the independently bound FnMut clause spellings",
+  "observed_exception": "impl small_sort Body FnMut/Output binders are merged or malformed",
+  "new_predicate_activated": false,
+  "formal_credit": false,
+  "self_contained_synthetic_body_before": "(defIndex = 12, defPath = \"crate::default16::small_sort\", fnSigSpan = (regular = (lo = (file = (name = (real = (localPath = \"verified/lib.rs\"))), line = 6, col = (pos = 0)), hi = (file = (name = (real = (localPath = \"verified/lib.rs\"))), line = 6, col = (pos = 60)))), span = (regular = (lo = (file = (name = (real = (localPath = \"verified/lib.rs\"))), line = 6, col = (pos = 0)), hi = (file = (name = (real = (localPath = \"verified/lib.rs\"))), line = 6, col = (pos = 60)))), impSpan = (regular = (lo = (file = (name = (real = (localPath = \"verified/lib.rs\"))), line = 7, col = (pos = 0)), hi = (file = (name = (real = (localPath = \"verified/lib.rs\"))), line = 7, col = (pos = 60)))), inputs = [(kind = (ref = (region = (id = \"ia\"), ty = (kind = (slice = (kind = (param = \"T\")))), mutability = (mut = void)))), (kind = (ref = (region = (id = \"ib\"), ty = (kind = (slice = (kind = (adt = (id = (name = \"core::mem::MaybeUninit\"), kind = (unionKind = void), substs = [(kind = (type = (kind = (param = \"T\"))))]))))), mutability = (mut = void)))), (kind = (ref = (region = (id = \"ic\"), ty = (kind = (param = \"F\")), mutability = (mut = void))))], output = (kind = (tuple = [])), implBlockGenerics = [(name = \"T\", index = 0, defIndex = 101, kind = (type = void))], generics = [(name = \"F\", index = 1, defIndex = 201, kind = (type = void))], clauses = [(trait = (defId = \"core::marker::Sized\", args = [(kind = (type = (kind = (param = \"F\"))))], boundRegions = [])), (trait = (defId = \"core::ops::FnMut\", args = [(kind = (type = (kind = (param = \"F\")))), (kind = (type = (kind = (tuple = [(kind = (ref = (region = (id = \"ha\"), ty = (kind = (param = \"T\")), mutability = (not = void)))), (kind = (ref = (region = (id = \"hb\"), ty = (kind = (param = \"T\")), mutability = (not = void))))]))))], boundRegions = [\"ha\", \"hb\"])), (projection = (projectionTerm = (defId = \"core::ops::FnOnce::Output\", args = [(kind = (type = (kind = (param = \"F\")))), (kind = (type = (kind = (tuple = [(kind = (ref = (region = (id = \"oa\"), ty = (kind = (param = \"T\")), mutability = (not = void)))), (kind = (ref = (region = (id = \"ob\"), ty = (kind = (param = \"T\")), mutability = (not = void))))]))))]), boundRegions = [\"oa\", \"ob\"], term = (ty = (kind = (bool = void)))))])",
+  "self_contained_synthetic_body_after": "(defIndex = 12, defPath = \"crate::default16::small_sort\", fnSigSpan = (regular = (lo = (file = (name = (real = (localPath = \"verified/lib.rs\"))), line = 6, col = (pos = 0)), hi = (file = (name = (real = (localPath = \"verified/lib.rs\"))), line = 6, col = (pos = 60)))), span = (regular = (lo = (file = (name = (real = (localPath = \"verified/lib.rs\"))), line = 6, col = (pos = 0)), hi = (file = (name = (real = (localPath = \"verified/lib.rs\"))), line = 6, col = (pos = 60)))), impSpan = (regular = (lo = (file = (name = (real = (localPath = \"verified/lib.rs\"))), line = 7, col = (pos = 0)), hi = (file = (name = (real = (localPath = \"verified/lib.rs\"))), line = 7, col = (pos = 60)))), inputs = [(kind = (ref = (region = (id = \"ia\"), ty = (kind = (slice = (kind = (param = \"T\")))), mutability = (mut = void)))), (kind = (ref = (region = (id = \"ib\"), ty = (kind = (slice = (kind = (adt = (id = (name = \"core::mem::MaybeUninit\"), kind = (unionKind = void), substs = [(kind = (type = (kind = (param = \"T\"))))]))))), mutability = (mut = void)))), (kind = (ref = (region = (id = \"ic\"), ty = (kind = (param = \"F\")), mutability = (mut = void))))], output = (kind = (tuple = [])), implBlockGenerics = [(name = \"T\", index = 0, defIndex = 101, kind = (type = void))], generics = [(name = \"F\", index = 1, defIndex = 201, kind = (type = void))], clauses = [(trait = (defId = \"core::marker::Sized\", args = [(kind = (type = (kind = (param = \"F\"))))], boundRegions = [])), (trait = (defId = \"core::ops::FnMut\", args = [(kind = (type = (kind = (param = \"F\")))), (kind = (type = (kind = (tuple = [(kind = (ref = (region = (id = \"ha\"), ty = (kind = (param = \"T\")), mutability = (not = void)))), (kind = (ref = (region = (id = \"hb\"), ty = (kind = (param = \"T\")), mutability = (not = void))))]))))], boundRegions = [\"ha\", \"hb\"])), (projection = (projectionTerm = (defId = \"core::ops::FnOnce::Output\", args = [(kind = (type = (kind = (param = \"F\")))), (kind = (type = (kind = (tuple = [(kind = (ref = (region = (id = \"ha\"), ty = (kind = (param = \"T\")), mutability = (not = void)))), (kind = (ref = (region = (id = \"hb\"), ty = (kind = (param = \"T\")), mutability = (not = void))))]))))]), boundRegions = [\"ha\", \"hb\"], term = (ty = (kind = (bool = void)))))])",
+  "body_metadata": {
+    "def_path": "crate::default16::small_sort",
+    "fn_sig_span": [
+      [
+        "verified/lib.rs",
+        6,
+        0
+      ],
+      [
+        "verified/lib.rs",
+        6,
+        60
+      ]
+    ],
+    "mir_span": [
+      [
+        "verified/lib.rs",
+        6,
+        0
+      ],
+      [
+        "verified/lib.rs",
+        6,
+        60
+      ]
+    ],
+    "imp_span": [
+      [
+        "verified/lib.rs",
+        7,
+        0
+      ],
+      [
+        "verified/lib.rs",
+        7,
+        60
+      ]
+    ]
+  },
+  "impl_name": "default16",
+  "expected_impl_generic_id": 101,
+  "base_direct_validator": "ACCEPTED_REPRESENTATION_ONLY",
+  "mutated_direct_validator": "REJECTED_CURRENT_FROZEN_PREDICATE"
+}
