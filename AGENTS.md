@@ -1,3 +1,5 @@
+> **Evidence Reader, 2026-10-19:** [актуальный краткий guide](research/challenge-8/EVIDENCE-READER-GUIDE.md). Использовать `/usr/local/bin/smallsort-brief` (v0.8): Brief → адресные `--catalogue`/`--search` → `--file --pointer`/`--start` → отдельно разрешённый audit, только если данных всё ещё недостаточно. Запросы проекции разрешены обычному агенту; полные/raw логи и массовая выгрузка запрещены. Этот порядок заменяет старые указания сразу запрашивать audit при неполном Brief; бюджеты и closed-сессии не меняются.
+
 # Challenge 8: постоянные инструкции команды
 
 **Приоритетная политика отчётности CI:** [SmallSort Evidence Brief](research/challenge-8/EVIDENCE-BRIEF.md).

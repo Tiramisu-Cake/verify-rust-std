@@ -1,3 +1,5 @@
+> **Evidence Reader, 2026-10-19:** [актуальный краткий guide](../EVIDENCE-READER-GUIDE.md). Использовать `/usr/local/bin/smallsort-brief` (v0.8): Brief → адресные `--catalogue`/`--search` → `--file --pointer`/`--start` → отдельно разрешённый audit, только если данных всё ещё недостаточно. Запросы проекции разрешены обычному агенту; полные/raw логи и массовая выгрузка запрещены. Этот порядок заменяет старые указания сразу запрашивать audit при неполном Brief; бюджеты и closed-сессии не меняются.
+
 # Cloud Build: действующая процедура Challenge 8
 
 Это общий runbook для назначенных рабочих веток. В main здесь только docs;
@@ -90,9 +92,9 @@ infra/profile, а не копия digest в документации.
 ## Evidence и verdict
 
 Packaging/upload и внутренний final verdict — backend responsibilities.
-Обычный агент использует только compact Evidence Brief и отражает его ограничения.
+Обычный агент использует Brief и адресные запросы сохранённой проекции Reader по guide, отражая их ограничения.
 `VERIFIED_ARCHIVE_AND_INVENTORY` подтверждает целостность архива/inventory, не
-успешную formal verification. При missing/incomplete/insufficient Brief сообщить
+успешную formal verification. При missing/incomplete/insufficient Brief сначала использовать адресные запросы Reader; если их недостаточно, сообщить
 об ограничении; не выводить proof acceptance и не обращаться к raw evidence.
 Для raw audit запросить отдельно разрешённый administrative audit.
 Новые cache/preflight/replay lanes поставлены в [отдельном задании](../INFRASTRUCTURE-TASK.md).

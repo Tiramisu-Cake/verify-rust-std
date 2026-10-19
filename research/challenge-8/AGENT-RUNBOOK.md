@@ -1,3 +1,5 @@
+> **Evidence Reader, 2026-10-19:** [актуальный краткий guide](EVIDENCE-READER-GUIDE.md). Использовать `/usr/local/bin/smallsort-brief` (v0.8): Brief → адресные `--catalogue`/`--search` → `--file --pointer`/`--start` → отдельно разрешённый audit, только если данных всё ещё недостаточно. Запросы проекции разрешены обычному агенту; полные/raw логи и массовая выгрузка запрещены. Этот порядок заменяет старые указания сразу запрашивать audit при неполном Brief; бюджеты и closed-сессии не меняются.
+
 # Challenge 8: единая процедура работы
 
 Нормативные границы, миссии и режим сессий — в [WORK-POLICY](WORK-POLICY.md);
@@ -72,7 +74,8 @@ Actions-примеры, ветки, бюджеты и stop-условия без
    дать короткий отчёт по [режиму сессии](WORK-POLICY.md#1-миссия-полномочия-и-сессия),
    затем продолжать в scope. Сборка/очередь сама по себе не повод закрыть сессию.
 6. После terminal status получить отчёт командой `smallsort-brief BUILD_UUID`.
-   Следовать [Evidence Brief policy](EVIDENCE-BRIEF.md); при недостатке отчёта
+   Следовать [Evidence Brief policy](EVIDENCE-BRIEF.md): при недостатке отчёта
+   сначала выполнить адресные запросы Reader по guide; если фактов всё ещё нет,
    зафиксировать ограничение и запросить отдельно разрешённый administrative audit.
    Не читать raw evidence. NOT_RUN не считать PASS.
 7. По Brief классифицировать blocker: setup/build, frontend/export/decode,
