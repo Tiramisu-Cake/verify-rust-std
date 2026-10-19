@@ -1,4 +1,17 @@
 
+## R1 — итог завершения 2026-10-19T05:41:03.073779+00:00
+
+Окно19:04:30Z–21:04:30Z, absolute21:34:30Z 2026-10-18 истекло; продолжение владельца2026-10-19 использовано только для status/Brief/derived index/accounting/checkpoint. После возобновления новых Builds, proof changes, compiler/extraction/verifier execution нет.
+
+Все4Builds FAILURE и accounted: 528+579+598+628=2333Cloud seconds. Последний `5f668cd9-fb34-4570-ad1c-4b97abbb36d0` finished2026-10-18T20:45:53.936707Z; proof=infra `a0f3b7da95ad90e64ae5ef0efcda687431696133`. Candidate published; tool `08d6a578e00d902cb9c99aad8d6ae2020c7d728a`, profileSHA `82973e1eb17f4383b02310611cee3f023f4aa5f0a619f228838674d85e41be59`, patchSHA `4aa84aa536e98bb3a728a966fb5159e3d66cbec844cfb6700e571ed7a57920e9`; unchanged from CURRENT candidate.
+
+Fresh Brief v6/Processor0.7.0 receipt/index SHA verified; R1-BUILD4-RESULT/BRIEF/READER-RECEIPT/BRIEF-PROVENANCE-20261018 retain compact observations. All7build milestones exit0. Prefix/fullbody exporter/decode/refinement0,VF1; sourceexact/HRTB/localContinue/official qualifierTrue. Fullbody observed missing points_to<u64>(tail0,_) at verified203:42-48, runtimeactual_read_lineTrue. Prefix separate observed Placeholders are not allowed here at verified214:17-23. Previous foreach blocker passed on these observed paths; no jointCURRENT proof, separate false/true/panic results unknown. Fourresource negatives and admissiongroup explicitly sourceNOT_RUN_PREFIX_PREREQUISITE_FAILED. B1 selectedDrop/receiver sourceall_matchedTrue; smoke sourcePASS; no independent proofcredit or B2. Whole-Build causalityUNKNOWN.
+
+7synthetic tests+4priorservice tests PASS;14patches/16files/14profilepins/18strictbasepins source preflight PASS; independent Luna High staticGO. Runtime/posts/kernel/model/prelude/compiler and mandatorymatrix preserved. Reader available; missing exact prefix statement/nested details are Processor projection limitations, global causality/source causal receipt presence unresolved. No raw fallback/download_verified/admin audit.
+
+LedgerCLOSED; own active/unresolved/reservations none; own readyrequest withdrawn through coordinator; foreign state preserved. Technical unused numeric headroom closed without carryover, not user budget; old closed accounts untouched. Next: in a newly authorized time window, statically map prefix214 placeholder from pinned templates and prepare minimal checked annotation correction with review before any new Build; retain full CURRENT posts and separately diagnose tail.read array access. If exact statement cannot be obtained from pinned templates, request bounded admin excerpt only (Build5f668cd9, prefix verified214±4/sourceSHA), not raw logs.
+
+
 ### R1 Build3 terminal / singleton candidate (20:36Z)
 
 Build `e7b74165-b8ac-4d40-b541-396540104e08` FAILURE20:26:29Z, charge598s/execution597s. Total3builds1705s, no active Build. Fresh smallsort-brief plus Reader v6/Processor0.7.0 receipt/index hashes verified; compact derived artifacts R1-BUILD3-*. All7 build milestones observed exit0. Prefix and fullbody sourceexact/HRTB/firstContinue/actualfirstcall claimsTrue, exporter/decode/refinement0,VF1, jointCURRENTfalse/true/panicFalse. Recovery now passes CURRENT owner closes and first foreach; next observed error list.rsspec181 missing foreach(t3,own<u64>) on second/tail foreach close (derived context verified188:487). Whole-Build causal_status UNKNOWN. Five dependent groups explicitly sourceNOT_RUN_PREFIX_PREREQUISITE_FAILED; B1 sourceall_matchedTrue. No independent proof credit/B2.

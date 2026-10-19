@@ -8,8 +8,8 @@
   "ceiling_build_seconds": 18960,
   "technical_ceiling_not_user_spend_budget": true,
   "technical_ceiling_calculation": "9000s absolute window +960s largest single reservation envelope +9000s rounding/bookkeeping headroom =18960s. Numeric client representation only; no separately authorized cumulative budget. Actual per-owner sequential accounting and deadlines govern; no carryover from closed accounts.",
-  "used_build_seconds": 1705,
-  "remaining_build_seconds": 17255,
+  "used_build_seconds": 2333,
+  "remaining_build_seconds": 16627,
   "builds": [
     {
       "dispatch_token": "dispatch-a3a6ad33e5ba4a95b4a0c07657c098a0",
@@ -87,20 +87,37 @@
       "submitted_config_sha256": "9709e2333cb7ec3bc53f381cce71a98df16ce5cfdfc90945a5e6c51629a150a4",
       "reserved_seconds": 960,
       "timeout_seconds": 900,
-      "status": "QUEUED",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "99b8452518b453e6572bfa919fab829603749caada00b2e8131a8baf712a0d16",
-      "build_id": "5f668cd9-fb34-4570-ad1c-4b97abbb36d0"
+      "build_id": "5f668cd9-fb34-4570-ad1c-4b97abbb36d0",
+      "start_time": "2026-10-18T20:35:27.692143340Z",
+      "finish_time": "2026-10-18T20:45:53.936707Z",
+      "create_time": "2026-10-18T20:35:26.851229129Z",
+      "build_seconds": 628,
+      "accounted": true,
+      "execution_seconds": 627
     }
   ],
-  "active_build": "5f668cd9-fb34-4570-ad1c-4b97abbb36d0",
-  "status": "AUTHORIZED",
+  "active_build": null,
+  "status": "CLOSED",
   "start_utc": "2026-10-18T19:04:30Z",
   "main_deadline_utc": "2026-10-18T21:04:30Z",
   "deadline_utc": "2026-10-18T21:34:30Z",
   "max_timeout_seconds": 900,
   "authorization": "Direct owner CURRENT-TASK merge-first-comparator-2026-10-18-r1: sequential concrete within-scope corrective Builds during120min main,30min finishing only; no separate cumulative seconds ceiling, technical numeric client representation; full gates/posts, frozen trusted semantics; source/Brief diagnosis, independent Luna High GO before changed candidate; no duplicate/unjustified rerun.",
   "evidence_policy_revision": "2026-10-17",
-  "policy_revision": "584891be87db5c056bf9082c1ad24665eea74e69"
+  "policy_revision": "584891be87db5c056bf9082c1ad24665eea74e69",
+  "closed_utc": "2026-10-19T05:39:36.042337+00:00",
+  "carryover_allowed": false,
+  "technical_unused_headroom_closed": 16627,
+  "closing_reason": "Time window expired; final pre-deadline Build terminal2026-10-18T20:45:53Z. Completion resumed2026-10-19 at owner continuation: status/Brief/derived index/accounting/docs only, no new experiment. All4terminal/accounted; own reservation empty and request withdrawn. Technical headroom is not a user budget and is unavailable for carryover.",
+  "closing_coordination": {
+    "own_active": null,
+    "own_reservations": [],
+    "own_request": "WITHDRAWN",
+    "unresolved": [],
+    "peer_state_preserved": true
+  }
 }

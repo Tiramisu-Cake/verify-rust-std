@@ -67,3 +67,38 @@ confirmation again. Run3 tests a new concrete CURRENT candidate, not old history
 Build `e7b74165-b8ac-4d40-b541-396540104e08` FAILURE20:26:29Z, charge598s/execution597s. Total3builds1705s, no active Build. Fresh smallsort-brief plus Reader v6/Processor0.7.0 receipt/index hashes verified; compact derived artifacts R1-BUILD3-*. All7 build milestones observed exit0. Prefix and fullbody sourceexact/HRTB/firstContinue/actualfirstcall claimsTrue, exporter/decode/refinement0,VF1, jointCURRENTfalse/true/panicFalse. Recovery now passes CURRENT owner closes and first foreach; next observed error list.rsspec181 missing foreach(t3,own<u64>) on second/tail foreach close (derived context verified188:487). Whole-Build causal_status UNKNOWN. Five dependent groups explicitly sourceNOT_RUN_PREFIX_PREREQUISITE_FAILED; B1 sourceall_matchedTrue. No independent proof credit/B2.
 
 Next concrete hypothesis recorded before implementation: existing checked length_drop/length_take/drop_length facts establish both original singleton list lengths1 and last suffix nil before callback lifetime. Six pure proof commands; no heap/owner assumptions, no entry=CURRENT equality, no weakened posts/whitelist/CFG. Tool08d6a578/profile82973e1e/patch4aa84aa5 unchanged; only first-callback.py differs among106proofrecipepaths. Seven synthetic tests and14/16/14/18 source-only preflight PASS. Independent Luna High final GO, R1-SINGLETON-REVIEW-20261018.json. Full mandatory matrix retained for next Build; actual success unknown.
+
+## Final Build4: 5f668cd9-fb34-4570-ad1c-4b97abbb36d0
+
+All results below are source claims or bounded Reader observations, not independent full proof credit.
+
+| Obligation/control | Latest established result | Remaining limit |
+| --- | --- | --- |
+| Translator/exporter/decoder/console/refiner builds, tracked-md preparation/compile | all individual exit0 | No target proof implication |
+| Exact source/HRTB/local first Continue/official first-edge qualifier | source flagsTrue | Positive flags alone do not establish all admission controls |
+| Normal false CURRENT restoration | joint false/true/panic flagFalse | No separate successful branch receipt |
+| Normal true restoration before tail.read/guard | actual_read_lineTrue; points_to(tail0,_) missing at read | read/guard success and full resources not proved |
+| First Continue-panic full CURRENT recovery/frame/F | not established; jointflagFalse | No separate successful unwind receipt |
+| Source-linked prefix with explicit cut | INCONCLUSIVE; exporter/decode/refinement0,VF1 | Placeholders not allowed at verified214:17-23 |
+| Full-body unchanged-post diagnostic | INCONCLUSIVE; exporter/decode/refinement0,VF1 | missing points_to<u64>(tail0,_) verified203:42-48 |
+| lost_reference_fraction | source NOT_RUN_PREFIX_PREREQUISITE_FAILED | no intended-negative credit |
+| lost_reference_token | source NOT_RUN_PREFIX_PREREQUISITE_FAILED | no intended-negative credit |
+| lost_current_f | source NOT_RUN_PREFIX_PREREQUISITE_FAILED | no intended-negative credit |
+| lost_cell_owner | source NOT_RUN_PREFIX_PREREQUISITE_FAILED | no intended-negative credit |
+| HRTB/binder/Output/projection/lifetime/admission controls | group source NOT_RUN_PREFIX_PREREQUISITE_FAILED | no admission/control credit |
+| First-unwind intended mutant, late-Cleanup refusal, new5CURRENT negatives | same admissiongroup sourceNOT_RUN | static definitions retained; execution not established individually |
+| Ordinary normal/unwind smoke | source PASS | bounded smoke only |
+| Helper positive +3 negatives | source bounded fragment /3EXPECTED_CONTROL | no first-callback/B2 credit |
+| SelectedDrop positive +6 negatives | source all_matchedTrue | bounded positive fragment only, acceptedFalse |
+| Generated admission/default-off/compatibility | retained, parent sourceall_matchedTrue | individual nested details not projected Processor |
+| Receiver/end/retirement4 | source4EXPECTED_CONTROL/all_matchedTrue | no late actual Drop proof |
+| B2 / independent proof credit | OPEN / none | shift,gap,loop,latepanic,actualcleanupDrop,fullcallerposts remain |
+
+### Final missing-fact attribution
+
+- Reader v6 index/receipt available, hashes match; no Reader transport failure.
+- Separate successful normalfalse/normaltrue/panic source receipts not present in supported projection; jointFalse is in source result. Presence of other raw source receipts unknown, not NOT_RUN.
+- Prefix exact statement is not extracted in Processor's bounded diagnostic (line text WITHHELD); location/error/sourceSHA known. First try static pinned templates; optional separately authorized bounded audit: Build5f668cd9, prefix verified214±4 and source hash.
+- Nested source binding/prerequisites/tool_hashes/ordered patches and individual admission details are not extracted Processor (UNSUPPORTED_NESTED_SOURCE_DATA), not Reader unavailable. Candidate closure/pins independently checked statically.
+- Whole Build cause/stage order/last completed remain UNKNOWN/NOT_ESTABLISHED in Processor; presence of source causal receipt unknown. Separate admin request, if needed: exact causal receipt/failed command and exit only for5f668cd9; no raw archive/log download.
+- None of these reporting gaps justifies retrying unchanged inputs or claiming PASS/NOT_RUN from absence.
