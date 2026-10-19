@@ -1,0 +1,153 @@
+{
+  "archive_sha256": "2d20f49f9cf9f382b1a5b9250ce247935d3e6596a9dfbca700fc09f2d16ff42a",
+  "build_id": "2fbb0a99-30ba-4ce7-bab6-e0fc5d5420c0",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 20,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "92de6ec3e223362f51aea2b8cc39115cc6c5d03bbd4db225e49afe7e70412da2",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+  "file_sha256": "0e2c3d3a4aeda8ed0490f4d9f8abb24e6edc4845022e3e7aab88949ed590c7d4",
+  "index_sha256": "6f1fa8314aac97b6c5484a64fec1913516017ca5d75b0456736ccf266c946a3f",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "0e2c3d3a4aeda8ed0490f4d9f8abb24e6edc4845022e3e7aab88949ed590c7d4",
+    "file_id": "92de6ec3e223362f51aea2b8cc39115cc6c5d03bbd4db225e49afe7e70412da2",
+    "pointer": "/results/full_body"
+  },
+  "request_id": "fbdd929b257df8e1f3b693d1205558560adfe7c04d928ef62a6cb5bd5b6fbb63",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/accepted",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/b2_achieved",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/results/full_body/classification",
+      "value": "INCONCLUSIVE"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/current_false_true_panic_proved",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "null",
+      "pointer": "/results/full_body/cut",
+      "value": null
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/results/full_body/first_error",
+      "value": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/std/lib.rsspec(47,94-95): error: No matching heap chunks: own(std_tuple_2__type_info(ref_typeid(placeholder_23116_typeid, uint64_t_typeid), ref_typeid(placeholder_23117_typeid, uint64_t_typeid)))(t, mk_std_tuple_2_(fn_outcome_result(outcome9), fn_outcome_result(outcome11)))"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/full_insert_tail_proved",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/hrtb_registration_observed",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/intended_negative",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/results/full_body/limitations",
+      "value": "Prefix is partial. Registration/reached-call/refiner exit0 alone give no resource credit."
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/local_first_continue_observed",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "null",
+      "pointer": "/results/full_body/mutation",
+      "value": null
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/results/full_body/next_frontier",
+      "value": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/std/lib.rsspec(47,94-95): error: No matching heap chunks: own(std_tuple_2__type_info(ref_typeid(placeholder_23116_typeid, uint64_t_typeid), ref_typeid(placeholder_23117_typeid, uint64_t_typeid)))(t, mk_std_tuple_2_(fn_outcome_result(outcome9), fn_outcome_result(outcome11)))"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/official_first_continue_qualified",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/prefix",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/proof_credit",
+      "value": false
+    },
+    {
+      "child_count": 7,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/results/full_body/runtime_frontiers"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/results/full_body/schema",
+      "value": "first-callback-result-v1"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/source_exact",
+      "value": true
+    },
+    {
+      "child_count": 4,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/results/full_body/stages"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

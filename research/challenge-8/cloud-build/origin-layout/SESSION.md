@@ -437,28 +437,25 @@ Fresh Brief v6/Processor0.7.0 receipt/index SHA verified; R1-BUILD4-RESULT/BRIEF
 
 LedgerCLOSED; own active/unresolved/reservations none; own readyrequest withdrawn through coordinator; foreign state preserved. Technical unused numeric headroom closed without carryover, not user budget; old closed accounts untouched. Next: in a newly authorized time window, statically map prefix214 placeholder from pinned templates and prepare minimal checked annotation correction with review before any new Build; retain full CURRENT posts and separately diagnose tail.read array access. If exact statement cannot be obtained from pinned templates, request bounded admin excerpt only (Build5f668cd9, prefix verified214±4/sourceSHA), not raw logs.
 
-## R4 2026-10-20 — active guard/addressability checkpoint
+## R4 2026-10-20 — CLOSED/PARTIAL
 
-Task merge-guard-addressability-2026-10-20-r4; T0/main/absolute UTC
-2026-10-19 21:24:56 /23:24:56 /23:54:56. Owner merge, ceiling3600,
-prior accounts closed/no carryover. Toola42d50be/profile77164792 only exact
-MergeFractionsStmt continuation; old14patches/18base pins/model preserved.
-Build1 f6627644/sourceca1d6cb1 charge649: old AddressOf(tmp) passed, next
-ref_precreated_token ataliasing88. Build2 d43ddfb4/source25e7c1c7 charge620:
-checked readonly setup/originalguard passed, firstcopy215 siftalignment failure.
-Build3 3e3a4e0c/sourcefea4b31e charge611: checked sourceCURRENTsingleton and
-geometry/copy/update passed, nextlatecall241 requires freshtmpref token.
-Exact runtimefrontiers read/guard/shift/update/latecalltrue; sourceexacttrue.
-No theorem/B2/profilequalification/independentcredit. Normalunwind/multimerge
-stagecodesall0 andunrelatedfalse, still strictflagqualificationINCONCLUSIVE.
-3negatives intended; beforeLive sourcebinding limitation not negativePASS.
-Prefix lifetime/metadata outside R4; concrete next design proposal preserved.
+T0/main/absolute UTC2026-10-19 21:24:56 /23:24:56 /23:54:56,
+closure 2026-10-19T23:28:15.368739+00:00. Four terminal diagnostic Builds: f6627644/ca1d6cb1
+649s; d43ddfb4/25e7c1c7 620s;3e3a4e0c/fea4b31e611s;
+2fbb0a99/9473c146601s. Spent2481/3600, execution2478, unused1119retired;
+own request/reservations/active/unresolved0, no background or carryover.
+Toola42d50be/profile77164792 exactcontinuation/CRLF/preserved14patches+18base.
+Observed source-exact path advances old AddressOf(tmp) through reference setup,
+originalguard/initialcopy/update and late refs to actualFnMut247 Args.own tuple
+refusal atstd47. All actual fullnormal/unwind/B2/qualification remainOPEN,
+independentcredit0; no percentage gain.5positivefixtures all4stagecodes0,
+unrelatedfalse; rawcontrol3expected/6INC preserved. BeforeLive runtime noenv
+refusal, not frontenderror: currentmatcherINC, no historicalPASSrewrite.
+Prefix214 placeholderfailure unchanged; dependentresource/admissionNOTRUN.
 
-Build4 2fbb0a99-30ba-4ce7-bab6-e0fc5d5420c0 active, proof=infra
-9473c146dd3033ab04239e867f8738cdb9ad4081, payload828f0383/configb234d6b6;
-independent readonlyargumentsetup from actual remaining tmp/sift shares before
-unchangedlatecall. Everyloanend/fullposts/loop/cleanup stillchecked, no new
-callee/trustedsummary. NewLunaHighGO/5servicechecksPASS; Cloudonly actualproof.
-Spent1880/3600 beforeterminalBuild4; reserve960 separate, unresolvedsubmitnone.
-Policyautonomy/role/v0.11 accepted without T0/activeinputs/scope expansion.
-Aftermain no new hypothesis/dispatch; finishing evidence/account/checkpoint.
+Next checked lifetime/share/refown/tuple+CURRENT/readonly-end recovery proposal
+recorded beforemain, NOTIMPLEMENTED; prefix lifetime+metadata design only,
+no frozenmodel/exporter/schema/lateCleanup expansion. Independent LunaHigh GO
+before each diff dispatch;5syntheticwiring/classifier tests, strictstaticclosure
+checks separate from proof. Newpolicyread atsafe boundaries withoutT0/input
+reset. See R4-FINAL-RESULT/R4-OBLIGATIONS/CURRENT-TASK and exactReader fragments.

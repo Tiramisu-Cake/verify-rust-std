@@ -1,0 +1,75 @@
+{
+  "archive_sha256": "2d20f49f9cf9f382b1a5b9250ce247935d3e6596a9dfbca700fc09f2d16ff42a",
+  "build_id": "2fbb0a99-30ba-4ce7-bab6-e0fc5d5420c0",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 7,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "92de6ec3e223362f51aea2b8cc39115cc6c5d03bbd4db225e49afe7e70412da2",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+  "file_sha256": "0e2c3d3a4aeda8ed0490f4d9f8abb24e6edc4845022e3e7aab88949ed590c7d4",
+  "index_sha256": "6f1fa8314aac97b6c5484a64fec1913516017ca5d75b0456736ccf266c946a3f",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "0e2c3d3a4aeda8ed0490f4d9f8abb24e6edc4845022e3e7aab88949ed590c7d4",
+    "file_id": "92de6ec3e223362f51aea2b8cc39115cc6c5d03bbd4db225e49afe7e70412da2",
+    "pointer": "/results/full_body/runtime_frontiers"
+  },
+  "request_id": "29155d8a7c581758c11dfa6314b8d7e88480406ef436a155a59c98c58807a883",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/runtime_frontiers/actual_first_call_line",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/runtime_frontiers/actual_guard_line",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/runtime_frontiers/actual_late_call_line",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/runtime_frontiers/actual_read_line",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/runtime_frontiers/actual_shift_line",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/runtime_frontiers/actual_update_line",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/runtime_frontiers/false_return_line",
+      "value": false
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

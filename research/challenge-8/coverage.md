@@ -1,3 +1,12 @@
+> R4 CLOSED/PARTIAL, 2026-10-20: toola42d50be/profile77164792 exact
+> continuation passes old originalguard AddressOf(tmp). FinalBuild2fbb0a99 /
+> source9473c146 reaches original read/guard/firstcopy/update and late refs;
+> newrefusal is lateFnMut247 std/lib.rsspec47 missing Args.own tuple of refs.
+> Full CURRENT normal/unwind/lifecycle, prefix, wholeinsert_tail/B2 and
+> experimentalqualification remainOPEN; independentcredit0, percentageunchanged.
+>4Builds charge2481/3600;1119retired, no active/request/reservation.
+> [Final obligations](cloud-build/origin-layout/R4-OBLIGATIONS-20261020.md).
+
 > R2 merge diagnostic, 2026-10-19: Build c78529d0 (source014c3238, frozen
 > tool08d6a578/profile82973e1e) advances the observed fullbody path past the
 > previous tail.read points_to error to unsupported address expression207 at

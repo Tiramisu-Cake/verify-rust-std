@@ -1,31 +1,34 @@
-# R4 — guard/addressability obligations
+# R4 final obligations — CLOSED/PARTIAL
 
-Toola42d50be/profile77164792/patchf1786653; source=infra ca1d6cb1,
-Buildf6627644-8f4b-40fa-b28c-50b13a9d1825 terminal FAILURE, charge649. Old fourteen patches and
-all eighteen strict base pins preserved. No independent proof credit.
+Last executed source=infra9473c146dd3033ab04239e867f8738cdb9ad4081,
+Build2fbb0a99-30ba-4ce7-bab6-e0fc5d5420c0; toola42d50be/profile77164792.
+[Final result](R4-FINAL-RESULT-20261020.json), [release](R4-BUILD4-RELEASE-20261020.json).
 
-| Obligation | Current R4 result | Required evidence/limit |
+| Obligation | Final source observations / qualification | Limits |
 | --- | --- | --- |
-| Exact continuation change/CRLF/source closure | Static PASS15patch/16files/14sourcepins/18base | Cloud tool setup seven milestones exit0 |
-| Actual candidate address before/after merge/inside assertion/multiple merges | PENDING | Actual verifier emitted LocalAddrTaken + full proof/resource/stage receipts |
-| Unrelated local/unicity/physical storage | PENDING | Unmarked flag, physical resource post, source-linked allocation/liveness; source exact-once cont not independent runtime count |
-| Normal/unwind storage/lifetime return | PENDING | Full original resources on both exits, no leaks |
-| Missing owner / beforeLive / afterDead / unsupported operand negatives | PENDING | Setup succeeds; exact intended stage/message/location; setup errors INCONCLUSIVE |
-| Actual read/CopyOnDrop guard | R2 AddressOf20749–52 passed → missing ref_precreated_token at aliasing.rsspec88 | Full CURRENT split/open/runtime/final posts retained; no theorem from trace |
-| Fullbody subsequent proof frontier | PENDING | Source-linked fresh terminal Brief and addressed evidence |
-| Prefix false/true/firstContinue-panic | No repair in R4; fresh result pending | Known erased lifetime/metadata gap not bypassed |
-| 4resource + HRTB/Output/projection/binder/lifetime/official-unwind/CURRENT18/late-Cleanup | Matrix preserved; fresh result pending | Prefix prerequisite failures are explicit skips, never intended negative PASS |
-| B1/helper/smoke/generated Drop/default-off/receiver/end/retirement | Preserved, fresh result pending | Historical bounded claims do not qualify new profile |
-| Experimental profile qualification / full insert_tail/B2 | OPEN / OPEN | Full required compatible final matrix; no new independent acceptance |
+| Exact continuation/CRLF/closure |15patch/16files/14pins/18base staticPASS; realCloud toolmilestones0 |One allowed classifier branch only; experimental |
+| Before/after merge, assertion, several merges |All5positives exporter/decode/refiner/verifier0 |Raw classifications INCONCLUSIVE; missing marked-local emittedflags not guessed/relaxed |
+| Unrelated local / physical identity |Emitted unrelated=false; multimerge checkedpoints-to, pointeridentity, write/read has allstage0 |No independent profilequalification from a fixture |
+| Normal/unwind storage/lifetime return |Isolated actual normal/unwind fixture allstage0 |Full std caller normal/unwind remains OPEN |
+| Missingowner / afterDead / unsupportedAddressOf |3source-classified EXPECTED_REJECTION |Strict source/stage/message/location gates kept |
+| BeforeLive |Runtime target9 executes then no env address: Unboundvariablelocal; stages0/0/0/1 |Current automatic matcher remainsINCONCLUSIVE; not frontendfailure, not heap-owner lookup; no historicalPASSrewrite |
+| Actual read/guard/firstcopy/update |All reached on source-exact observedpath; initialgeometry and late reference initialization passed |Not complete guard lifecycle/full-return theorem |
+| Late actual FnMut |New refusal std/lib.rsspec47:94–95 Args.own(tuple ofsharedrefs, placeholderlifetimes) |Next checked lifetime/share/refown/tuple packaging and complete recovery, no assumedbridge |
+| Prefix false/true/firstContinue-panic |INCONCLUSIVE; sourceexacttrue;214:17–23 Placeholders-not-allowed |Known lifetime+length3 metadata deficiency unchanged; design only |
+|4resource-loss + HRTB/Output/projection/binder/lifetime/official-unwind/CURRENT18/lateCleanup admission |Groups/gates retained; prefix-dependent groups NOT_RUN_PREFIX_PREREQUISITE_FAILED |Skipped is not intendednegativePASS; lateCleanup lowering not implemented |
+| B1/helper/ordinary normal-unwind/generatedDrop/defaultoff/receiver/end/retirement |Retained bounded sourceclaims/receipts; no overall requalification |No transfer to full B2 or experimentalacceptance |
+| Full CURRENT normal/unwind / wholeinsert_tail/B2 / profile qualification |OPEN |Independentproofcredit0; no coveragepercentage increase |
 
-[Review](R4-REVIEW-20261020.json), [release](R4-RELEASE-20261020.json),
-[static preflight](R4-SOURCE-PREFLIGHT-20261020.json),
-[next prefix design proposal](R4-PREFIX-NEXT-DESIGN-20261020.md).
-No prefix lifetime-only admission, helper alternative, new model/exporter/schema
-or source runtime changes implemented. No local compiler/extractor/verifier.
+[Exact fullbody](R4-BUILD4-FULLBODY-20261020.json),
+[runtime flags](R4-BUILD4-RUNTIME-FRONTIERS-20261020.json),
+[raw controls](R4-BUILD4-CONTROLS-20261020.json),
+[control limits/correction](R4-CONTROL-LIMITS-20261020.json),
+[prefix](R4-BUILD4-PREFIX-20261020.json),
+[next prefix proposal](R4-PREFIX-NEXT-DESIGN-20261020.md).
+Reader fragments retain file/index/archive/request SHA/exact/coverage and do
+not independently establish parser-input binding or proof acceptance.
 
-Build1 exact observations: address_after_merge exporter/decode/refinement0/verifast1, emittedRocq present; return/leak followed by constant-assert deadcode, not PASS. Normal/unwind E0596 immutablelocal setupfailure. Missingphysicalowner andafterStorageDead EXPECTED_REJECTION. beforeLive Unboundvariable, unsupported Rustsuffixedghostliteral Parseerror: both INCONCLUSIVE. Candidate2 fixes fixtures and adds checked fullbody reference precreation/readonly initialization; predicates/posts/profile unchanged. Actual readonlyend/resource return and allcontrols await new Cloud evidence.
-
-Build2 d43ddfb4/source25e7c1c7: execution619/charge620, cumulative1269. Precreate/initreadonly and originalguard pass on observedpath; originalfirstcopy215 failschecked siftalignment atstd/lib.rsspec627. Normal/unwind andmultiplemerges each exporter/decode/refiner/verifier0; still strict INCONCLUSIVE due emittedflag gate, not independentproofcredit. Missingowner/afterDead/unsupportedoperand now3 EXPECTED_REJECTION. BeforeLive frontendunbound remains INCONCLUSIVE. [Frozen control limits](R4-CONTROL-LIMITS-20261020.json). Candidate3 initialCURRENTsourceopen/checkedgeometry; fullposts/loopCFG/readonlyend notweakened.
-
-Build3 3e3a4e0c/sourcefea4b31e: execution610/charge611, cumulative1880. Initialcopy geometry and actualcopy/update passed on observedpath, latecall241 nowrequires new ref_precreated_token(tmp_addr,_). Build4 2fbb0a99/source9473c146 active, checkedindependentreadonly argsetup; alloriginalcalleeposts/loop/readonlyend/cleanup remainopenchecked. Finalqualification/B2/independentcredit unchangedOPEN/0.
+4Builds charges649+620+611+601=2481; execution2478, unused1119retired.
+Own requests/reservations/active/unresolved0. All real compiler/preparer/proof
+execution Cloudonly. Docs/static/synthetic service results are separate from
+formal std obligations. No runtime/domain/contracts/CFG/model weakening.

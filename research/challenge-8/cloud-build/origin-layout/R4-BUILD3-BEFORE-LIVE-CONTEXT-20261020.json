@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "db873789675c2d69bb37efccb861ee8b10573bcbcb13e93a4143022eed04e5c3",
+  "build_id": "3e3a4e0c-a545-4872-9a87-c14ca4834818",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 119,
+    "line_separator": "LF",
+    "source_lines": 144,
+    "start": 108,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "e00e4143c663caffb07624929f624b35a036825d252c1222206ba6110529afc6",
+  "file_path": "allprooflogs/checked-minimal-bridge/addressability-controls/r4-addressability/before_storage_live/verifast.log",
+  "file_sha256": "f0b65403b3306de1061aadcd07dacc10c2eb6f3eab50f643434e33b27143c5b5",
+  "index_sha256": "815533cff7d618e33d802406a0c17e618a3c6310a389a4fdaac8d21e825509e6",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 119,
+    "expected_sha256": "f0b65403b3306de1061aadcd07dacc10c2eb6f3eab50f643434e33b27143c5b5",
+    "file_id": "e00e4143c663caffb07624929f624b35a036825d252c1222206ba6110529afc6",
+    "start": 108
+  },
+  "request_id": "b48e5464a1d5be2a8bb3011ca10bc2415bf2a4be8526ab9cddc5f5466cc3a5c6",
+  "requested_end": 119,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 108,
+      "text": "  0.136420s: verified/lib.rs(2,1-12,2): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 109,
+      "text": "  0.136430s: verified/lib.rs(2,1-12,2): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 110,
+      "text": "  0.136439s: verified/lib.rs(2,1-12,2): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 111,
+      "text": "  0.136447s: verified/lib.rs(2,1-12,2): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 112,
+      "text": "  0.136457s: verified/lib.rs(2,1-12,2): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 113,
+      "text": "  0.136488s: verified/lib.rs(2,1-12,2): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 114,
+      "text": "  0.136501s: verified/lib.rs(9,5-36): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 115,
+      "text": "  0.136559s: verified/lib.rs(9,5-84): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 116,
+      "text": "verified/lib.rs(9,19-24): error: Unbound variable 'local'"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 117,
+      "text": "9 |     //@ assert *(&local) |-> _; // TARGET: ghost address precedes local StorageLive"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 118,
+      "text": "  |                   ^^^^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 119,
+      "text": "verified/lib.rs(9,26-29): note: Consuming assertion"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

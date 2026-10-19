@@ -2,13 +2,13 @@
   "phase": "MERGE-GUARD-ADDRESSABILITY-R4-2026-10-20",
   "owner": "merge",
   "authorization_model": "bounded-cloud-budget",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "allowed_lanes": [
     "merge"
   ],
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 1880,
-  "remaining_build_seconds": 1720,
+  "used_build_seconds": 2481,
+  "remaining_build_seconds": 1119,
   "builds": [
     {
       "dispatch_token": "dispatch-6904ce117e254ef5a5a1079a416047a4",
@@ -86,19 +86,28 @@
       "submitted_config_sha256": "b234d6b698f35fb1e972fdad412f1e65dc183c2d26b285bda18c3abb68176398",
       "reserved_seconds": 960,
       "timeout_seconds": 900,
-      "status": "QUEUED",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "828f0383d5945ba29c46dc572f235b5b91240a51ba1479530f9c78b8ffde2740",
-      "build_id": "2fbb0a99-30ba-4ce7-bab6-e0fc5d5420c0"
+      "build_id": "2fbb0a99-30ba-4ce7-bab6-e0fc5d5420c0",
+      "start_time": "2026-10-19T23:10:13.062465574Z",
+      "finish_time": "2026-10-19T23:20:13.277627Z",
+      "create_time": "2026-10-19T23:10:12.346358922Z",
+      "build_seconds": 601,
+      "accounted": true,
+      "execution_seconds": 601
     }
   ],
-  "active_build": "2fbb0a99-30ba-4ce7-bab6-e0fc5d5420c0",
+  "active_build": null,
   "start_utc": "2026-10-19T21:24:56Z",
   "main_deadline_utc": "2026-10-19T23:24:56Z",
   "deadline_utc": "2026-10-19T23:54:56Z",
   "max_timeout_seconds": 900,
   "authorization": "Direct owner CURRENT-TASK r4:120min main+30finishing, explicit3600Cloud; exactly MergeFractionsStmt continuation fix/newexperimentalprofile/Cloudactualcontrols/fullbody proof-only iteration, prefix lowering frozen; stable merge owner existing coordinator/lane/pinned-objects; independent LunaHigh GO required.",
   "policy_revision": "56aad505f813c6716a444a3b509918ecfe2d1613 + preserved Evidencev0.11/ITERATION-PROCESS",
-  "carryover_allowed": false
+  "carryover_allowed": false,
+  "closed_utc": "2026-10-19T23:28:15.368739+00:00",
+  "retired_unused_build_seconds": 1119,
+  "close_reason": "R4 main window ended; four terminal diagnostic iterations; remaining Args.own/lifetime proof and experimental qualification open; no carryover or background work"
 }

@@ -7332,3 +7332,21 @@ Build d43ddfb4-4b34-4503-b86c-9cbab437a291, proof=infra25e7c1c73ec52189db19088f7
 
 ### R4 Build3 terminal / late-call reference setup
 Build3e3a4e0c-a545-4872-9a87-c14ca4834818, source=infrafea4b31e429a42ab94d0a2a2535a5c74ff47510e, mixed initialshift proof iteration, FAILURE; execution610/charge611, cumulative1880/3600, remaining1720, active=null. InitialCURRENTsplit/open/checkedalignment geometry and firstcopy/update passed on observedpath; nextactual latecomparator241:25–29 create_ref requires freshref_precreated_token(tmp_addr,_) ataliasing88. Candidate4 independently precreates/read-onlyinitializes bothreferences using retainedactualtmp share and remainingCURRENTsiftsingleton; fullcallee/posts/readonlyend remainchecked. No prefix/model/lowering/lateCleanup changes or proofcredit. NewLunaGO required beforepublishedCloud.
+
+### R4 CLOSED/PARTIAL — final compatible candidate
+Build2fbb0a99-30ba-4ce7-bab6-e0fc5d5420c0/source=infra9473c146dd3033ab04239e867f8738cdb9ad4081,
+FAILURE, charge601/execution601, total2481/3600/execution2478; unused1119retired.
+Actual source-exact observed path passes oldAddressOf, guardreadonly setup,
+originalguard/initialCURRENTcopy/update and lateargumentinitialization. Newfirst
+remainingerror std/lib.rsspec47:94–95 Args.own(two sharedrefs withplaceholder
+lifetimes) atlateactualFnMut247. No normal/unwind/lifecycle/B2/profilequalification
+or independentproofcredit. All5positivecontrols stagecodes0/unrelatedfalse;
+raw3expected/6INC. BeforeLive trace shows runtime no-env-address refusal rather
+than frontenderror; matcherINC kept, no historicalverdictrewrite. Prefix214
+placeholderfailure persists, dependentNOTRUN not negativePASS. Source/model/
+fullposts/CFG/gates unchanged; next checked scopedborrow/share/refown/tuple and
+CURRENT/readonly-end recovery proposal recorded beforemain, notimplemented.
+Own requestwithdrawn, terminalreservationreconciled, noactive/unresolved.
+Finishing only evidence/account/docs; stage durationallocation not measured,
+wallclock includes dialogue/Cloud/Readerwait, not activeagenttime. See
+R4-FINAL-RESULT-20261020.json and R4-BUILD4 exacttargetedobservations.

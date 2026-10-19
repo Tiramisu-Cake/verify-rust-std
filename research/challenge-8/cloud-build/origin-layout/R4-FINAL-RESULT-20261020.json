@@ -1,0 +1,72 @@
+{
+  "schema": "merge-r4-final-result-v1",
+  "status": "CLOSED_PARTIAL",
+  "recorded_end_utc": "2026-10-19T23:30:54.669668+00:00",
+  "start_utc": "2026-10-19T21:24:56Z",
+  "main_deadline_utc": "2026-10-19T23:24:56Z",
+  "absolute_deadline_utc": "2026-10-19T23:54:56Z",
+  "proof_source": "9473c146dd3033ab04239e867f8738cdb9ad4081",
+  "infra_source": "9473c146dd3033ab04239e867f8738cdb9ad4081",
+  "tool": "a42d50becbc84a45e33a58269358eee105f1fdcb",
+  "profile_sha256": "77164792cfca039fe8b2a993a198a545a74a074480371dba5f454a5e86709c66",
+  "builds": [
+    {
+      "id": "f6627644-8f4b-40fa-b28c-50b13a9d1825",
+      "source": "ca1d6cb10175611ac8b8decae90b3ac246263d09",
+      "status": "FAILURE",
+      "charge_seconds": 649,
+      "execution_seconds": 648
+    },
+    {
+      "id": "d43ddfb4-4b34-4503-b86c-9cbab437a291",
+      "source": "25e7c1c73ec52189db19088f713ef71bd39a76a3",
+      "status": "FAILURE",
+      "charge_seconds": 620,
+      "execution_seconds": 619
+    },
+    {
+      "id": "3e3a4e0c-a545-4872-9a87-c14ca4834818",
+      "source": "fea4b31e429a42ab94d0a2a2535a5c74ff47510e",
+      "status": "FAILURE",
+      "charge_seconds": 611,
+      "execution_seconds": 610
+    },
+    {
+      "id": "2fbb0a99-30ba-4ce7-bab6-e0fc5d5420c0",
+      "source": "9473c146dd3033ab04239e867f8738cdb9ad4081",
+      "status": "FAILURE",
+      "charge_seconds": 601,
+      "execution_seconds": 601
+    }
+  ],
+  "charged_seconds": 2481,
+  "execution_seconds": 2478,
+  "retired_unused_seconds": 1119,
+  "own_active": null,
+  "own_unresolved": null,
+  "own_reservations": [],
+  "own_request": false,
+  "diagnostic_milestones": [
+    "old AddressOf(tmp) guard refusal passed on source-linked observed path",
+    "checked reference initialization, originalguard, initialCURRENTcopy geometry/copy/update passed on observed path",
+    "both latecall refs initialized; actualFnMut call247 now requires Args.own(two shared refs, placeholderlifetimes)"
+  ],
+  "first_remaining_blocker": "std/lib.rsspec(47,94-95): missing Args.own tuple at actual late comparator247",
+  "full_normal_unwind_proof": false,
+  "full_insert_tail_proved": false,
+  "b2_achieved": false,
+  "profile_qualified": false,
+  "independent_proof_credit": false,
+  "controls": {
+    "raw_classifier": "3 EXPECTED_REJECTION / 6 INCONCLUSIVE",
+    "five_positive_stage_codes": "exporter=decode=refinement=verifast=0",
+    "unrelated_emitted_flag": false,
+    "before_live": "exporter/decode/refinement0,verifast1; currentmatcherINCONCLUSIVE; runtime no-env-address trace, not frontenderror; no historicalPASSrewrite",
+    "marked_local_flags": "omitted by frozen deferredstorage emitter; qualification remainsOPEN"
+  },
+  "prefix": "INCONCLUSIVE; unchanged erased lifetime/length3 metadata issue; proposal only; dependent resource/admission skips not negativePASS",
+  "next_proof": "checked scoped lifetime/share/reference-own and Args tuple packaging plus full CURRENT normal/unwind resource recovery; no assumed borrow bridge/static lifetime",
+  "stage_time_allocation": "not measured separately; wallclock is not active agent time",
+  "evidence": "R4-BUILD4-*.json exact targeted Reader observations, not independent proof verdicts",
+  "phase_closed_utc": "2026-10-19T23:28:15.368739+00:00"
+}

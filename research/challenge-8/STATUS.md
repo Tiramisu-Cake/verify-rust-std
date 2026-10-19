@@ -1,41 +1,36 @@
-# MERGE — R4 ACTIVE / guard addressability
+# MERGE — R4 CLOSED / PARTIAL
 
-[CURRENT-TASK/отчёт](CURRENT-TASK.md). T0/main/absolute UTC:
-2026-10-19 21:24:56 /23:24:56 /23:54:56. Cloud ceiling3600, spent1880;
-Build4 terminal charge pending, own active only `2fbb0a99-30ba-4ce7-bab6-e0fc5d5420c0`.
-Published source=infra `9473c146dd3033ab04239e867f8738cdb9ad4081`,
-configb234d6b6/payload828f0383. Independent LunaHigh GO_DIAGNOSTIC_BUILD;
-5 wiring tests + synthetic classifier service checks PASS.
+[CURRENT-TASK/отчёт](CURRENT-TASK.md),
+[итог/identities](cloud-build/origin-layout/R4-FINAL-RESULT-20261020.json).
+T0/main/absolute UTC 2026-10-19 21:24:56 /23:24:56 /23:54:56;
+closure 2026-10-19T23:28:15.368739+00:00. 4terminal FAILURE Builds, charge2481/3600,
+execution2478; unused1119 retired. Own active/unresolved/reservations/request0,
+no background continuation; no new hypotheses/dispatch after main.
 
-Toola42d50be changes only MergeFractionsStmt continuation, CRLF retained.
-Experimental profile `experimental-merge-guard-addressability-v1`/77164792,
-patchf1786653; old14chain/18strictbase/run.sh/translator/CURRENT18/model frozen.
-Build1 f6627644/sourceca1d6cb1 FAILURE/charge649: original guard AddressOf
-passed; next checked error aliasing.rsspec88 missing ref_precreated_token(tmp_addr,_).
-Build2 adds frozen checked precreate/initreadonly using actual tmp physical share;
-remaining readonly-end obligation/runtime/full CURRENT posts/cleanup retained.
-Build2 charge620: originalguard passed, freshfirstcopy215 alignment sift failure
-atstd/lib.rsspec627. Build3 opens CURRENT source singleton and proves checked
-geometry beforeinitialcopy; no partialloopinvariant/model/post/CFG changes.
-Build3 charge611: copy/update passed, latecall241 missing a fresh tmp reference
-token. Build4 prepares both readonly refs from actual remaining ownership; all
-end tokens/callee requirements/normal-unwind posts remain checked.
+Last executed proof=infra9473c146dd3033ab04239e867f8738cdb9ad4081,
+Build2fbb0a99-30ba-4ce7-bab6-e0fc5d5420c0. Toola42d50be/profile77164792
+only exact MergeFractionsStmt continuation; CRLF/old14chain/18base/run.sh/
+translator/CURRENT18/kernel/model/prelude/compiler pins preserved.
+Observed source-exact path: old AddressOf(tmp) blocker → checked reference
+setup/originalguard → CURRENT initialcopy geometry/copy/update → late refs.
+New first remaining blocker: actual late FnMut247, std/lib.rsspec47 missing
+Args.own(two shared refs, placeholderlifetimes). Full normal/unwind/lifecycle,
+wholeinsert_tail/B2/profilequalification OPEN; independentcredit0.
 
-Controls Build1:2 intended rejections,7 INCONCLUSIVE. Build2 fixes immutable rawmut
-fixture, deterministic runtimeassert deadcode and ghost Rustliteral parseerror;
-physical identity/write-read strengthened; oracles unchanged. BeforeLive still
-unboundlocal, and frozen deferred-storage emitter omits LocalAddrTaken for marked
-locals; no false inference or guessed names. New profile qualification OPEN,
-prefix/B2 OPEN, independent proof credit0. Whole original matrix/gates retained.
-[Release](cloud-build/origin-layout/R4-RELEASE-20261020.json),
-[obligations](cloud-build/origin-layout/R4-OBLIGATIONS-20261020.md).
+All5positivecontrols exporter/decode/refiner/verifier0, unrelatedflagfalse,
+but strict qualification stillINCONCLUSIVE (deferred marked-local emitter
+omission).3expectednegatives; beforeLive runtime no-env-address refusal has
+currentmatcherINCONCLUSIVE, not frontendfailure (prior assessment corrected).
+Prefix214 Placeholders-not-allowed persists; 4resource/admission groups
+prerequisiteNOTRUN. Original matrix/gates retained; source claims not upgraded.
+[Obligations](cloud-build/origin-layout/R4-OBLIGATIONS-20261020.md).
 
-Prefix lifetime/metadata implementation outside explicit R4 scope;
-[next exact design](cloud-build/origin-layout/R4-PREFIX-NEXT-DESIGN-20261020.md)
-is proposal only. User replacement AGENTS/autonomy/role policy read at safe
-boundary: active T0/inputs/explicit limits preserved; no automatic maintainer
-handoff or Actions dispatch. Continue ordinary checked proof iteration after
-terminal Brief within window/budget; no raw fallback/account carryover.
+Next proof: checked scoped lifetime/share/reference-own + Args tuple packaging
+and full CURRENT F/frame/cell normal/unwind/readonly-end recovery. Proposal
+recorded beforemain, not implemented. Prefix exact lifetime/metadata design is
+[proposal only](cloud-build/origin-layout/R4-PREFIX-NEXT-DESIGN-20261020.md);
+no R4 prefix/exporter/schema/model/lateCleanup expansion. Ready patch/profile
+published in assigned project branch; no tool remote/maintainer handoff/Actions.
 
 Previous R3 checkpoint retained below as history.
 

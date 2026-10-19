@@ -4,14 +4,18 @@
   "helper": "/root/r4_controls_design",
   "model": "gpt-6-luna",
   "reasoning_effort": "high",
-  "before_storage_live": "INCONCLUSIVE: source ghost pre-declaration address has no runtime env binding; observed Unboundvariable, never intended heap/storage negative",
+  "before_storage_live": "Current automatic INCONCLUSIVE: oracle expects NoMatchingHeap. Exact Build3 trace108-119 shows target9 executing then runtime Unboundvariablelocal (verifast1.ml8567 evalWVar/assert_false). Valid narrow no-env-address-beforeLive refusal, not frontend failure or a heap-owner negative.",
   "source_routes": [
     "vf_mir_exporter/src/lib.rs StorageLive/Dead2595-2599",
     "vf_mir_translator.ml preservation4043-4056",
     "verifast.ml deferreddecl1133-1139",
-    "verifast.ml checkedStorageLive1000-1060 /StorageDead1007-1013"
+    "verifast.ml checkedStorageLive1000-1060 /StorageDead1007-1013",
+    "verifast1.ml8567 evalWVar missing runtime env -> assert_false"
   ],
-  "constraint": "No source-valid local address before MIR StorageLive under frozen frontend; no MIR mutation/fabricated env binding/owner in R4. AfterStorageDead is reachable control, retained strict predicate/location gate.",
+  "constraint": "No fabricated env binding/owner or MIR mutation. Runtime no-env-address refusal is a valid narrow preLive property; this does not reach heap-owner lookup. Source/stage binding still required for classification.",
   "local_flags": "Deferred storage branch omits LocalAddrTaken; missing flag notfalse. Existing strict gate remains INCONCLUSIVE.",
-  "qualification": "OPEN; no full control/profile qualification or independent proof credit"
+  "qualification": "OPEN; no full control/profile qualification or independent proof credit",
+  "prior_before_live_assessment_superseded": "INCONCLUSIVE: source ghost pre-declaration address has no runtime env binding; observed Unboundvariable, never intended heap/storage negative",
+  "next_before_live_proposal": "Narrow runtime Unboundvariable oracle at exacttargetspan9:19-24 + successful setup/source/stage receipts + no live binding beforetarget. Do not upgrade from bounded log alone (parser_input_binding NOT_ESTABLISHED), no historical verdict rewrite; review and fresh compatible receipt/classifier validation required.",
+  "correction_review": "r4_controls_design LunaHigh read-only reanalysis, 2026-10-19T23:19Z; no code change"
 }
