@@ -7251,3 +7251,11 @@ corrected to documented216, no furtherwindowenumeration/rawaccess. Main13:57
 expired; this followup evidence/docs/accountingonly, no newexecution. Ledger
 CLOSED1Build590s, technicalunused18370 closed withoutcarryover, noownactive/
 unresolved/reservations, readyrequestwithdrawn. Nextaction inCURRENT-TASK.
+
+R2 report correction, owner followup2026-10-19: v0.9 provides a path for
+further read-only MIR/AST diagnostic work after the execution window closes.
+Catalogue confirms prefix proof-ast.ml SHA3193176b…; strict pinned checker
+emits the placeholder diagnostic for InferredTypeExpr. Failing node/type/lifetime
+and translator origin remain unestablished. Stopping after Rust214 was premature,
+not exhaustion of evidence tools. CURRENT-TASK/STATUS/Reader-limit record updated;
+ledger/pins/verdicts unchanged, no new Build/proof edits or claim of root cause.

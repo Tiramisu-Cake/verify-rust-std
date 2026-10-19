@@ -55,5 +55,26 @@
     "client_version": "0.9",
     "guide_sha256": "e9df05cb8cc9681acdbe8d848a09d8c5b85449e86cf9653c2cb178960dad41cc",
     "query_note": "Initial prior210-218 selector returned LINE_RANGE_OUT_OF_RANGE/source_lines216, requestd5f896676f8d0cb4fe7426333f9b040633f21561bcc6cceb937a398c7908b118. Corrected once to documented210-216 cached selector; no window enumeration; incremental quota cost not established."
+  },
+  "read_only_diagnostic_followup": {
+    "scope": "Existing evidence and frozen tool source reading only; no new execution window or Build required.",
+    "proof_ast_catalogue": {
+      "build_id": "5f668cd9-fb34-4570-ad1c-4b97abbb36d0",
+      "index_sha256": "3e3e6bad420b25040d76c582c15abf42895c774d377d7df33bd9d43e9278a0ca",
+      "file_id": "34ea04bf09c2f6022dac1c22a0444b4583420dfe82ec1865f5ac18b85f25039b",
+      "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/prefix/cases/actual_three_current_full_posts/proof-ast.ml",
+      "sha256": "3193176be89d0f18982253759930c9bdac47f2c1c4b6bc83c2437a69603a1f0c",
+      "size_bytes": 183582,
+      "reader_status": "UNSUPPORTED_FILE_TYPE",
+      "failing_node_read": false
+    },
+    "static_tool_observations": {
+      "tool_commit": "08d6a578e00d902cb9c99aad8d6ae2020c7d728a",
+      "src/verifast1.ml:2240-2270": "InferredTypeExpr invokes reportInferredType; strict check_pure_type uses report_inferred_types_as_error with exact diagnostic Placeholders are not allowed here.",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml:568-575": "Erased source regions can translate to InferredTypeExpr; this has not been bound to the failing AST node."
+    },
+    "cause": "NOT_ESTABLISHED",
+    "next_action": "Read narrowly located MIR/AST observations via Reader/targeted; connect exact failing type/lifetime to pinned translator/checker. No full-file reconstruction.",
+    "report_correction": "Stopping after exact Rust source was premature; further read-only diagnosis remains allowed. Proof edits/Builds require a new execution window; ledger remains CLOSED."
   }
 }

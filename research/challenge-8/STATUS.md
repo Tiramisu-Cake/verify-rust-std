@@ -23,8 +23,13 @@ index3e3e6bad…/archive8ffe3689…, request09896cf5… .
 [Exact bounded observation](cloud-build/origin-layout/R2-PREFIX214-TARGETED-20261019.json).
 Source-reporting blocker resolved; type/lifetime cause and repair not established,
 causalUNKNOWN/parser_input_bindingNOT_ESTABLISHED unchanged. No raw fallback.
-Следующий шаг требует нового execution window: исследовать array receiver typing,
-минимальный checked wrapper annotation fix + LunaHigh review; frozen semantics.
+Следующий шаг — read-only MIR/proof AST → pinned translator/type checker через
+Reader/targeted v0.9; это не требует нового execution window. В каталоге старого
+Build есть proof-ast.ml (SHA3193176b…), но failing AST node ещё не установлен.
+Checker подтверждает связь сообщения с запрещённым InferredTypeExpr; конкретный
+тип/lifetime и происхождение неизвестны. Новое окно нужно для proof-правок/Builds
+с LunaHigh review; frozen semantics. Остановка после source214 была преждевременной,
+доступные средства диагностики не исчерпаны.
 
 Предыдущие checkpoints сохранены ниже как история.
 
