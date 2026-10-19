@@ -444,22 +444,21 @@ Task merge-guard-addressability-2026-10-20-r4; T0/main/absolute UTC
 prior accounts closed/no carryover. Toola42d50be/profile77164792 only exact
 MergeFractionsStmt continuation; old14patches/18base pins/model preserved.
 Build1 f6627644/sourceca1d6cb1 charge649: old AddressOf(tmp) passed, next
-ref_precreated_token(tmp_addr,_) ataliasing88. Build2 d43ddfb4/source25e7c1c7
-charge620: checked precreate/initreadonly/originalguard passed on observedpath;
-firstcopy215 reached, alignment sift failure atstd627. Sourceexacttrue; read,
-guard, shift executiontrue/updatefalse. Normalunwind andmultimerge stagecodes
-all0; unrelated local emittedflagfalse. Still INCONCLUSIVE qualification for
-missing marked-local flags; beforeLive frontendunbound is not intendednegative.
-Three intendedrejections: missingowner/afterDead/unsupportedoperand. No theorem,
-B2/profilequalification/independentcredit. Prefix lifetime/metadata outside R4;
-next exact design is proposal only.
+ref_precreated_token ataliasing88. Build2 d43ddfb4/source25e7c1c7 charge620:
+checked readonly setup/originalguard passed, firstcopy215 siftalignment failure.
+Build3 3e3a4e0c/sourcefea4b31e charge611: checked sourceCURRENTsingleton and
+geometry/copy/update passed, nextlatecall241 requires freshtmpref token.
+Exact runtimefrontiers read/guard/shift/update/latecalltrue; sourceexacttrue.
+No theorem/B2/profilequalification/independentcredit. Normalunwind/multimerge
+stagecodesall0 andunrelatedfalse, still strictflagqualificationINCONCLUSIVE.
+3negatives intended; beforeLive sourcebinding limitation not negativePASS.
+Prefix lifetime/metadata outside R4; concrete next design proposal preserved.
 
-Build3 3e3a4e0c-a545-4872-9a87-c14ca4834818 active, proof=infra
-fea4b31e429a42ab94d0a2a2535a5c74ff47510e, payload85ff0996/configf8f99117;
-initialCURRENTsource singleton open and existing checked geometry lemmas before
-original loop. Fullposts/runtime/CFG/readonlyend preserved. New LunaHigh
-GO_DIAGNOSTIC_BUILD, 5synthetic wiringchecksPASS. Spent1269/3600 beforeterminal
-Build3; reserve960 separate, own unresolved submitnone. Continue afterterminal
-Brief withinmain/budget. Actual compilation/extraction/proof Cloudonly; Reader
-v0.11 targeted JSONfragments only, authtransient retryresolved/no rawfallback.
-New AGENTS/autonomy/role policy read; active explicit limits/T0 unchanged.
+Build4 2fbb0a99-30ba-4ce7-bab6-e0fc5d5420c0 active, proof=infra
+9473c146dd3033ab04239e867f8738cdb9ad4081, payload828f0383/configb234d6b6;
+independent readonlyargumentsetup from actual remaining tmp/sift shares before
+unchangedlatecall. Everyloanend/fullposts/loop/cleanup stillchecked, no new
+callee/trustedsummary. NewLunaHighGO/5servicechecksPASS; Cloudonly actualproof.
+Spent1880/3600 beforeterminalBuild4; reserve960 separate, unresolvedsubmitnone.
+Policyautonomy/role/v0.11 accepted without T0/activeinputs/scope expansion.
+Aftermain no new hypothesis/dispatch; finishing evidence/account/checkpoint.

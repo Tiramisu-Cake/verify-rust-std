@@ -1,0 +1,20 @@
+{
+  "schema": "merge-r4-review-v1",
+  "reviewer": "/root/r4_independent_review",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "decision": "GO_DIAGNOSTIC_BUILD",
+  "source": "9473c146dd3033ab04239e867f8738cdb9ad4081",
+  "reviewed_sha256": {
+    "first-callback.py": "c197d913c73b4f908f3602181e0e45b2b6dca99df7bd3850ac425a49a6b7f0b3",
+    "r4-wiring-service-test.py": "a87797638028ad491710db1f4f81e19f4abb49ebf8c5888188cc2f7451a877d2"
+  },
+  "scope": "Checked independent readonly initialization of tmp and actual CURRENT sift references before unchanged late call. No reused token, invented owner, numeric ownership bridge or new callee summary; fullbody only.",
+  "checks": [
+    "5 wiring synthetic tests PASS"
+  ],
+  "limits": [
+    "All readonly-end obligations/full posts/loop/cleanup remain checked",
+    "No wholefunction proof or profile qualification"
+  ]
+}

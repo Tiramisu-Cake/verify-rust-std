@@ -1,10 +1,10 @@
 # MERGE — R4 ACTIVE / guard addressability
 
 [CURRENT-TASK/отчёт](CURRENT-TASK.md). T0/main/absolute UTC:
-2026-10-19 21:24:56 /23:24:56 /23:54:56. Cloud ceiling3600, spent1269;
-Build3 terminal charge pending, own active only `3e3a4e0c-a545-4872-9a87-c14ca4834818`.
-Published source=infra `fea4b31e429a42ab94d0a2a2535a5c74ff47510e`,
-configf8f99117/payload85ff0996. Independent LunaHigh GO_DIAGNOSTIC_BUILD;
+2026-10-19 21:24:56 /23:24:56 /23:54:56. Cloud ceiling3600, spent1880;
+Build4 terminal charge pending, own active only `2fbb0a99-30ba-4ce7-bab6-e0fc5d5420c0`.
+Published source=infra `9473c146dd3033ab04239e867f8738cdb9ad4081`,
+configb234d6b6/payload828f0383. Independent LunaHigh GO_DIAGNOSTIC_BUILD;
 5 wiring tests + synthetic classifier service checks PASS.
 
 Toola42d50be changes only MergeFractionsStmt continuation, CRLF retained.
@@ -17,6 +17,9 @@ remaining readonly-end obligation/runtime/full CURRENT posts/cleanup retained.
 Build2 charge620: originalguard passed, freshfirstcopy215 alignment sift failure
 atstd/lib.rsspec627. Build3 opens CURRENT source singleton and proves checked
 geometry beforeinitialcopy; no partialloopinvariant/model/post/CFG changes.
+Build3 charge611: copy/update passed, latecall241 missing a fresh tmp reference
+token. Build4 prepares both readonly refs from actual remaining ownership; all
+end tokens/callee requirements/normal-unwind posts remain checked.
 
 Controls Build1:2 intended rejections,7 INCONCLUSIVE. Build2 fixes immutable rawmut
 fixture, deterministic runtimeassert deadcode and ghost Rustliteral parseerror;
