@@ -133,6 +133,21 @@ def _prepare_first_shift(source):
                 'open CURRENT source singleton and prove initial copy geometry')
 
 
+LATE_REFERENCE_PREP = b"""            //@ let r4_cmp_tmp_ref = precreate_ref::<u64>(&tmp);
+            //@ init_ref_readonly::<u64>(r4_cmp_tmp_ref, 1/2);
+            //@ assert array::<u64>(sift, 1, ?r4_cmp_current);
+            //@ open array::<u64>(sift, 1, r4_cmp_current);
+            //@ let r4_cmp_sift_ref = precreate_ref::<u64>(sift);
+            //@ init_ref_readonly::<u64>(r4_cmp_sift_ref, 1/2);
+"""
+
+
+def _prepare_late_references(source):
+    anchor = b'            if !is_less(&tmp, &*sift) {\n'
+    return _one(source, anchor, LATE_REFERENCE_PREP + anchor,
+                'checked independent readonly setup before late actual comparator')
+
+
 def _commands(fragment):
     lines = fragment.splitlines()
     if any(not line.lstrip().startswith(b'//@ ') for line in lines):
@@ -222,7 +237,7 @@ def prepare(evidence, *, prefix=False, mutation=None):
                          'lost_current_f', 'lost_cell_owner'):
         raise ValueError('unknown first-comparator mutation')
     if not prefix:
-        verified = _prepare_first_shift(_prepare_tmp_reference(_open_tail_read(verified)))
+        verified = _prepare_late_references(_prepare_first_shift(_prepare_tmp_reference(_open_tail_read(verified))))
     # Strip the NEW ghost-only annotations and compare with inherited source.
     # Other original ghost commands were already checked by old._prepare.
     # Runtime comparison removes only comments and whitespace; the inherited

@@ -529,3 +529,20 @@ Policy read at safe boundary, 2026-10-19T22:31Z: user replacement AGENTS instruc
 
 ### R4 candidate3 first-shift geometry hypothesis
 Build2 d43ddfb4/source25e7c1c7 reaches original first copy at verified215; exact source error std/lib.rsspec627:143–145 cannot prove sift alignment. Precreate/initreadonly/actualguard passed, no theorem credit. Hypothesis: existing physically owned CURRENT prefix array still hides the source cell; open its second singleton and invoke already checked concrete initialized_storage_alignment/points_to_limits and destination uninitialized_storage_alignment/points_to__limits. Establish all literal-count1 copy geometry (nonnull/alignment/extent/objectlimits/disjoint) from actual resources and same-allocation offset relations, not numeric equality as ownership. Prepare only the initial shift before original loop; later loop preservation/callback/readonly-end/cleanup obligations remain checked under full original normal/unwind posts, and failure there is a new honest frontier. Do not introduce a partial loop invariant or change source CFG/posts. Success: original shift call passes and actual update or later checked frontier is observed. Failure in the new annotations: inspect CURRENT resources/arithmetic, no assumptions/model relaxation. Same tool/profile/pins/matrix and independent Luna deltaGO before dispatch.
+
+### R4 candidate4 late-call argument preparation hypothesis
+Build3 3e3a4e0c/sourcefea4b31e reaches late actual comparator at241:25–29;
+missing aliasing.rsspec88 ref_precreated_token(tmp_addr,_), after initialshift.
+Hypothesis: guard reference consumed its one-shot precreation token; new actual
+shared references must be precreated/initialized independently from still-owned
+physical fractions. Before the unchanged late call, precreate/initreadonly a new
+tmp reference from the retained tmp fraction, open the remaining actual CURRENT
+singleton at sift (initial source begin+1 moved sift down to begin), then
+precreate/initreadonly the sift reference from its actual points-to share.
+No token reuse by equal numeric addresses, no alias/model/contract admission.
+Both new readonly-end obligations remain checked alongside the earlier guard
+loan under full original normal/unwind posts; ordinary FnMut/lifetime/CURRENT
+callee requirements are not assumed. This deliberately partial argument-setup
+diagnostic may expose a later callback/loan/cleanup frontier; it is not complete
+callback or guard proof. No lateCleanup/frontend lowering or prefix fix. Same
+profile/source-exact/matrix gates; independent Luna delta review before Cloud.
