@@ -23,9 +23,9 @@ from typing import Any, Mapping
 
 
 PHASE = "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17"
-AUTHORIZATION_PHASE = "SORT4-A1-OCAML-BUILDABILITY-2026-10-18-R1"
+AUTHORIZATION_PHASE = "SORT4-P0A-PARSER-COMPATIBILITY-2026-10-19-R2"
 HERE = Path("research/challenge-8/cloud-build/sort4-caller-entry-native")
-PROFILE = HERE / "A1-BUILDABILITY-R5-PROFILE-2026-10-18.json"
+PROFILE = HERE / "A1-PARSER-D1-PROFILE-2026-10-19.json"
 HEX40 = re.compile(r"[0-9a-f]{40}\Z")
 HEX64 = re.compile(r"[0-9a-f]{64}\Z")
 
@@ -1795,6 +1795,9 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
                      "not_run": False, "execution_started": True,
                      "failed_stage": prior_stage,
                      "proof_credit": False}
+            diagnostic = getattr(exc, "parser_diagnostic", None)
+            if isinstance(diagnostic, dict):
+                value["parser_diagnostic"] = diagnostic
             observations[case_id] = value
             execution_events.append({"case_id": case_id, "event": "adapter_error",
                                      "execution_started": True,
@@ -1852,6 +1855,31 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
     if helpers is not None and result.get("tool_reconstructed"):
         tool = Path(result["tool_path"])
         receipt = result["tool_receipt"]
+        if profile.get("execution_mode") == "parser-preflight":
+            def preflight():
+                certificate_path, certificate = prepare_source_fixtures(a, helpers, ghost)
+                stage_progress("source-constructor")
+                return helpers["a1-focus-backend.py"].collect_focus(
+                    a, c4, ghost, tool, dict(receipt), profile, dict(manifest),
+                    certificate_path, Path(a.evidence) / "a1-fixtures" / "P0a", "P0a",
+                    inventory_module=helpers["a1-compiler-inventory.py"],
+                    call_binding_module=helpers["a1-call-binding.py"], parser_preflight=True)
+            observed = action("P0a", preflight)
+            result.update(classification="A1_PARSER_PREFLIGHT_ONLY", proof_attempted=False,
+                          observation_details=_jsonable(observations), execution_events=execution_events,
+                          parser_preflight_passed=(isinstance(observed, Mapping) and
+                              observed.get("parser_preflight_passed") is True))
+            for key, row in result["case_status"].items():
+                row["reason"] = "parser preflight only; dependent proof/matrix not attempted"
+            if isinstance(observed, Mapping):
+                result["case_status"]["P0a"].update(status="INCONCLUSIVE",
+                    reason=observed.get("adapter_error") or observed.get("reason") or observed.get("classification", "parser preflight only"))
+            result["first_blocker"] = ((observed.get("first_blocker") if isinstance(observed, Mapping) else None) or
+                next((event for event in execution_events if event.get("event") == "adapter_error"), None))
+            persist_progress()
+            target = Path(a.evidence) / "diagnostic-audit.json"
+            target.write_text(json.dumps(_jsonable(result), indent=2, sort_keys=True) + "\n")
+            return result
         legacy_prepared = action("prepare-legacy-fixtures", lambda:
             prepare_legacy_fixtures(a, driver, c4, ghost, dict(manifest)))
         if legacy_prepared is not None:

@@ -9,6 +9,7 @@ from dataclasses import dataclass
 import hashlib
 import importlib.util
 import json
+import re
 from pathlib import Path
 import sys
 from types import MappingProxyType
@@ -870,11 +871,44 @@ def _source_binding(case_id, cert, source_text, shape):
             "compiler_input_path": next(iter(span_paths))}
 
 
+def _parse_inventory_input(source: str, label: str):
+    try:
+        return _freeze_shape(_find_vfmir(source))
+    except InventoryError as exc:
+        match = re.search(r"at byte ([0-9]+)", str(exc))
+        if match is not None:
+            position = int(match.group(1))
+            if 0 <= position <= len(source):
+                decoder = exc.__cause__.__cause__ if exc.__cause__ else None
+                local = decoder.pos if isinstance(decoder, json.JSONDecodeError) else None
+                error_position = min(len(source), position + local) if local is not None else position
+                lo, hi = max(0, error_position - 96), min(len(source), error_position + 96)
+                window = source[lo:hi]
+                exc.parser_diagnostic = {
+                    "schema": "a1-parser-input-diagnostic-v1", "call": label,
+                    "proof_credit": False, "parser_input_sha256": hashlib.sha256(source.encode("utf-8")).hexdigest(),
+                    "input_unicode_length": len(source), "input_utf8_length": len(source.encode("utf-8")),
+                    "reported_position_label": "byte", "reported_position_unit": "unicode-codepoint",
+                    "literal_unicode_start": position,
+                    "literal_utf8_start": len(source[:position].encode("utf-8")),
+                    "decoder_error": str(decoder)[:256] if decoder is not None else None,
+                    "decoder_local_unicode_position": local,
+                    "error_unicode_position": error_position,
+                    "error_utf8_position": len(source[:error_position].encode("utf-8")),
+                    "window_unicode_start": lo, "window_unicode_end": hi,
+                    "window_utf8_start": len(source[:lo].encode("utf-8")),
+                    "window_utf8_end": len(source[:hi].encode("utf-8")),
+                    "window_json": json.dumps(window, ensure_ascii=True),
+                    "window_utf8_hex": window.encode("utf-8").hex(),
+                    "exception": str(exc)[:256]}
+        raise
+
+
 def observe(case_id: str, normal_text: str, readonly_text: str,
             source_certificate: dict[str, Any], generated_source: str):
     """Return immutable source-reported inventory only; proof_credit is always false."""
-    normal = _freeze_shape(_find_vfmir(normal_text))
-    readonly = _freeze_shape(_find_vfmir(readonly_text))
+    normal = _parse_inventory_input(normal_text, "normal")
+    readonly = _parse_inventory_input(readonly_text, "readonly")
     if normal != readonly:
         raise InventoryError("normal and readonly VfMir compiler inventories differ")
     binding = _source_binding(case_id, source_certificate, generated_source, normal)

@@ -55,12 +55,11 @@ Timeout Build ≤900 секунд и не больше доступного бю
 
 ## Отчёт агента
 
-- **Статус:** NOT_STARTED. T0/main/absolute/end: —.
-- **Исходный/итоговый source и docs checkpoint; profile/pins:** —.
-- **Обязательство до → после:** P0a parser error → —; P1 —; N-false31 —; матрица —; A1/A2/formal credit —.
-- **Диагноз и исправление:** input/literal/binding, гипотеза, изменения/границы и неизвестное —.
-- **Review и проверки:** ссылки на GO/ограничения —.
-- **Builds:** UUID → candidate → гипотеза/тип → Brief result → charge; proof credit отдельно —.
-- **Время/расход:** wall-clock —; Cloud —/3600; setup/proof/reporting durations по данным, иначе «нет данных»; active/unresolved/reservations —.
-- **Первый оставшийся blocker и следующий конкретный шаг:** —.
-- **Подробности:** ссылки на компактные evidence/checkpoint/session records —.
+- **Статус:** IN_PROGRESS. T0 `2026-10-19T16:06:59Z`, main `19:36:59Z`, absolute `20:06:59Z`; end —.
+- **Исходный checkpoint:** docs `e29c28972b96158d01f54193da0498cb5813f676`; executed source `6f3abaa45b97345cf467a7fc24a8b7d39ab09af7`. Branch/worktree проверены; исходные owner policy edits сохранены.
+- **Обязательство до → после:** P0a parser9362 → диагностика готовится; P1 INCONCLUSIVE, N-false31 NOT_RUN, matrix8/5/13; A1/A2 открыты, formal credit0.
+- **Диагноз/гипотеза:** старые8targeted responses не связывают input; повтор старого запроса не поможет. Новый P0a preflight сохранит actual normal/readonly/path/rawSHA/inputSHA/transform/coordinates/decoder cause/192-character window без изменения parser grammar и predicates.
+- **Review/проверки:** подготавливаются; submit до GO запрещён.
+- **Builds:** нет. Cloud0/3600, active/reservations нет собственных.
+- **Следующий шаг:** synthetic error-path checks, Luna HIGH review, committed closure, опубликованный diagnostic preflight.
+- **Подробности:** [session card](cloud-build/sort4-caller-entry-native/A1-PARSER-SESSION-2026-10-19.md).

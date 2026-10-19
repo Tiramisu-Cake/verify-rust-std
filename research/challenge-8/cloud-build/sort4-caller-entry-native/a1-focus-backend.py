@@ -132,7 +132,7 @@ def _cloud_gate(a, c4, ghost, tool: Path, receipt: dict,
          infra is not None and HEX40.fullmatch(infra) is not None and
          profile_hash is not None and HEX64.fullmatch(profile_hash) is not None,
          "full proof/infra/profile run pins")
-    profile_path = Path(a.proof_root) / HERE / "A1-BUILDABILITY-R5-PROFILE-2026-10-18.json"
+    profile_path = Path(a.proof_root) / HERE / "A1-PARSER-D1-PROFILE-2026-10-19.json"
     need(profile_path.is_file() and sha(profile_path) == profile_hash and
          json.loads(profile_path.read_text()) == profile and
          profile.get("phase_id") == PHASE and
@@ -281,13 +281,29 @@ def _remember_support(a, root: Path, source_pair: Mapping[str, str],
                           "artifacts": artifacts, "proof_credit": False}
 
 
+def record_parser_diagnostic(exc, root: Path, evidence: Path) -> None:
+    """Persist bounded error context without converting failure to a result."""
+    diagnostic = getattr(exc, "parser_diagnostic", None)
+    if isinstance(diagnostic, dict) and diagnostic.get("call") in ("normal", "readonly"):
+        path = root / (diagnostic["call"] + "-mir.txt")
+        diagnostic = dict(diagnostic,
+            source_relative_path=str(path.relative_to(evidence)),
+            source_bytes_sha256=sha(path),
+            transformations=["UTF-8 strict decoding", "universal newlines: CRLF/CR to LF"],
+            parser_input_binding="ACTUAL_CALL_INPUT_RECORDED")
+        (root / "parser-input-diagnostic.json").write_text(
+            json.dumps(diagnostic, indent=2, sort_keys=True) + "\n")
+        exc.parser_diagnostic = diagnostic
+
+
 def collect_focus(a, c4, ghost, tool: Path, receipt: dict, profile: dict,
                   manifest: dict, source_certificate: Path, fixture: Path,
                   case_id: str, *, inventory_module, call_binding_module,
                   focus_case_id: str | None = None,
                   support_cache: dict[str, dict] | None = None,
                   evidence_id: str | None = None,
-                  control_env: Mapping[str, str] | None = None) -> dict:
+                  control_env: Mapping[str, str] | None = None,
+                  parser_preflight: bool = False) -> dict:
     """Collect paired full-unit stages and one focused AST/verifier observation.
 
     This function does not classify pass/fail or populate A1Admission. Every
@@ -386,12 +402,37 @@ def collect_focus(a, c4, ghost, tool: Path, receipt: dict, profile: dict,
     }
     if support.get("paired_support_passed") is not True:
         result["classification"] = "BLOCKED_PREVERIFIER_STAGE"
+        if parser_preflight:
+            result.update(parser_preflight_passed=False, proof_attempted=False,
+                reason="paired export/decode/refinement/capture or source identity prerequisite failed",
+                first_blocker={"case_id": case_id, "event": "preflight_prerequisite_failed",
+                    "stage": "paired-source-support", "causal_status": "UNKNOWN",
+                    "execution_started": True,
+                    "reason": "paired source support failed; retain stage exits and capture errors"})
     else:
         source_text = verified.read_text(encoding="utf-8")
         normal_text = (root / "normal-mir.txt").read_text(encoding="utf-8")
         readonly_text = (root / "readonly-mir.txt").read_text(encoding="utf-8")
-        inventory = inventory_module.observe(case_id, normal_text, readonly_text,
-                                             cert, source_text)
+        try:
+            inventory = inventory_module.observe(case_id, normal_text, readonly_text,
+                                                 cert, source_text)
+        except inventory_module.InventoryError as exc:
+            try:
+                record_parser_diagnostic(exc, root, Path(a.evidence))
+            except (OSError, ValueError, TypeError) as diagnostic_error:
+                exc.parser_diagnostic_persist_error = type(diagnostic_error).__name__
+            raise
+        if parser_preflight:
+            need(sha(verified) == case["generated_source_sha256"] and
+                 original.read_bytes() == ghost.strip_ghost(verified.read_bytes()),
+                 "source pair changed during focused stages")
+            _tool_identity(tool, receipt)
+            result.update(classification="PARSER_SOURCE_BINDING_PREFLIGHT_ONLY",
+                          parser_preflight_passed=True, proof_attempted=False)
+            (root / "parser-preflight.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
+            with (root / "a1-focus-raw-observation.json").open("x") as output:
+                output.write(json.dumps(result, indent=2, sort_keys=True) + "\n")
+            return result
         line = 0
         if focus_case_id in BODY_CASES:
             selected_impl = BODY_CASES[focus_case_id]
