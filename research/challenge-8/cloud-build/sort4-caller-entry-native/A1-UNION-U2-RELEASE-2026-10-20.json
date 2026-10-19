@@ -1,0 +1,83 @@
+{
+  "C_sha256": "e7cdc8a8504338ccaab760975c1a3f1a739211d7f8d531dd214babc2005d894e",
+  "R_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/required-item-representation-buildability-r1-2026-10-18.patch",
+  "R_sha256": "d99a5ed229533132b8292c5fc70ea93dbe261e9f76c2a0fcc6d6723e796454ca",
+  "authorization_phase_id": "SORT4-MAYBEUNINIT-UNION-KIND-2026-10-20-R4",
+  "closure": {
+    "commit": "0d997b4ee54e893c0297972f74998e53525ada8b",
+    "config_arg_bounds": "PASS",
+    "dispatch": "NOT_ATTEMPTED",
+    "exact_restore": "PASS",
+    "formal_credit": false,
+    "phase_profile_environment": "PASS",
+    "restored_paths": {
+      "infra": 33,
+      "proof": 107
+    },
+    "shared_objects": 160,
+    "source_payload_bytes": 509793,
+    "source_sha256": "6b85c9a99f024f45b3cfaa9a3d3c6189e3d7075af6ec7ecf475f9881f54624a0",
+    "source_substitutions": 171
+  },
+  "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+  "compiler_toolchain": "nightly-2026-09-25",
+  "cycle": "U2",
+  "decoder_commit": "2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2",
+  "execution_mode": "full-matrix",
+  "experiment_protocol_phase_id": "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17",
+  "formal_credit": false,
+  "helper_pins": {
+    "a1-ast-gates.py": "2d4c9badda0d74ca4439bc39f5fb647804d8dee4a129e8263ac4ee21db82b76f",
+    "a1-call-binding.py": "302a0ee3e2eb1950aa4bd42ac2c5cedbaabc97b114754f63421de8e0d1f9f0cb",
+    "a1-compiler-inventory.py": "b3788bb8000283e7c6252bf03484b1b04e6ed9502be4956bbec0cfa6d052ab53",
+    "a1-contract-admission.py": "0ac3b182a24ba3a8cfd21588dd393f652e864bf54593ac7f4a5caaa473927ad4",
+    "a1-fixtures.py": "6d2cd0956ed5d9821be1dd32f731f201e5aea52ae4f06a676d8dfc5c17355d25",
+    "a1-focus-backend.py": "ed3ca4231eca269c785bcf84ff9b33079bfa68aa3b658edade80aef115f9fd80",
+    "a1-matrix-classifier.py": "e50dca88e41f41a1919db83412f5016ea19428b2c6b092bfe1c8cfc61c70b6a6",
+    "a1-proof-classifier.py": "7a2070a3132bc7d4601565aebd25e0aea682520e3fbb32a6045ccdf276142a2e",
+    "a1-summary-receipt.py": "bcc55360698346f0aa2dfb3858c6b555a9104db95308116d2c16c188a9b8a7dd",
+    "a1-synthetic-backend.py": "4498e7dbcd4ffaaf4746bfee239e56a36f78e883da59937d9b48c1025e5b8feb",
+    "a1-synthetic-inputs.py": "92d4e5b336b4e6409da814523500978b56c52218a6289434b526929ae1275b27",
+    "a1-tool.py": "ea4edf71396cb1c7bf311b6b2b9ff4e6296bf41d66df5857eec3211a2c0569b3",
+    "selected-proof.py": "3347ad41c0273ebf186dbcf0520182455b32a65ad9619f2b2c7d3d00c12a7d7f"
+  },
+  "infra_sha": "0d997b4ee54e893c0297972f74998e53525ada8b",
+  "profile_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-UNION-U2-PROFILE-2026-10-20.json",
+  "profile_sha256": "b61a0376084aca32f50cd7ee5f2e438fd53e03c9087578b7871130e111dbdf73",
+  "proof_sha": "0d997b4ee54e893c0297972f74998e53525ada8b",
+  "review": "GPT-6 Luna HIGH GO; active strict kind diff/controls/pins; compilation/proof unestablished",
+  "schema": "smallsort-a1-union-release-v1",
+  "service_pins": {
+    "research/challenge-8/cloud-build/control.py": "099d8a5ab9a6e25ac4892290fed6358a1d0717f8b21d6731e7b98e2328e9ac07",
+    "research/challenge-8/cloud-build/coordination.py": "49464b5a1078c99f8f44ef0bba06bb285c039ca0a0ab10d104bc7b54f32cb4bc",
+    "research/challenge-8/cloud-build/recipes/o26-sort4-c1-current-recovery.json": "4ae5d809ac30a695ef5afeddacc9c6f0cdda7687c82c30214f1e6562ed0a4d24",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-entry.py": "b1ffe3a7a5249efd177a73e646b7bd1e07e6587039bffce2b665cefd0642a1a6",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-focus-backend.py": "ed3ca4231eca269c785bcf84ff9b33079bfa68aa3b658edade80aef115f9fd80",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-runner.py": "6dc037f8aebcc8769462f512fce20af8ac686fc7ea11c2dd65e94f7d92ec6018",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-tool.py": "ea4edf71396cb1c7bf311b6b2b9ff4e6296bf41d66df5857eec3211a2c0569b3",
+    "research/challenge-8/cloud-build/source-input.py": "09b0b5b03f853ce354226e8e70f60233f24c3a829c38047c98a556dd2aa6534a"
+  },
+  "source_maps": {
+    "c_after": {
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "a11741f096eb2e1808cadcb8a49eeeb33117630ae6c141d0202af22b14a9b8c3"
+    },
+    "c_before": {
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "ffacadc74de9dded1e50e9b9a71f75a905cf97c7c823427cf7044494e87d052d"
+    },
+    "r_after": {
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "ffacadc74de9dded1e50e9b9a71f75a905cf97c7c823427cf7044494e87d052d"
+    },
+    "r_before": {
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs": "11f1e10bb8e52a4950611f874b1123c11e2c87cbb1378c3f5060992f74425f00",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64"
+    }
+  },
+  "tool_head": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+}
