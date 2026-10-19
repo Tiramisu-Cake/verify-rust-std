@@ -50,7 +50,17 @@
     "classification": "INCONCLUSIVE",
     "first_error": "verified/lib.rs(214,17-23): error: Placeholders are not allowed here",
     "current_false_true_panic_proved": false,
-    "separate_false_true_panic_success": "NOT_ESTABLISHED"
+    "separate_false_true_panic_success": "NOT_ESTABLISHED",
+    "source_exact": true,
+    "stages": {
+      "exporter": 0,
+      "decode": 0,
+      "refinement": 0,
+      "verifast": 1
+    },
+    "hrtb_registration_observed": true,
+    "local_first_continue_observed": true,
+    "official_first_continue_qualified": true
   },
   "dependent_controls_source_status": "4resource negatives and admission group explicitly NOT_RUN_PREFIX_PREREQUISITE_FAILED",
   "build_milestones": "All7individual tool/preparation/compile exits observed0 in Brief; not formal acceptance.",
@@ -74,5 +84,16 @@
   "independent_full_proof_credit": false,
   "b2_achieved": false,
   "raw_evidence_access": false,
-  "download_verified_modified": false
+  "download_verified_modified": false,
+  "b1_regressions_source_claims": {
+    "selected_drop_all_matched": true,
+    "receiver_controls_all_matched": true,
+    "helper_cases": {
+      "positive": "BOUNDED_NORMAL_COMPOSITION_PASS_FRAGMENT_ONLY",
+      "after_call_current_false": "EXPECTED_AFTER_CALL_CURRENT_REJECTION",
+      "caller_entry_false": "EXPECTED_CALLER_ENTRY_REJECTION",
+      "receiver_origin_probe": "EXPECTED_RECEIVER_ORIGIN_REJECTION"
+    },
+    "limitations": "Selected/receiver nested content/node/value omissions retained; parent flags do not independently qualify nested cases."
+  }
 }

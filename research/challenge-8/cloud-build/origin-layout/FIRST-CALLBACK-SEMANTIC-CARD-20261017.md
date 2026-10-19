@@ -342,3 +342,20 @@ Independent Luna High GO, source closure/config publication before submit.
 Technical ceiling18960s =9000s absolute window +960s max reservation +9000s
 rounding/bookkeeping headroom; client representation only, deadlines and one
 owner Build govern, max timeout900, project-wide task limit2 despite v3 max3.
+
+R2 safe-boundary adoption2026-10-19T12:27Z: owner ITERATION-PROCESS.md
+SHA256c35810ee84013947aac27fe8289ce95043aa819ffb7e58bf9c19da7488f31289
+read from newly supplied local docs. T0/deadlines/Build1release/tool unchanged.
+Build1 type=proof; measured590Clouds/execution589, stage setup/compile/proof
+durations not obtained; elapsed wait for bounded source separately unmeasured.
+Closed full-target obligations0; observed fullbody frontier advanced from read
+points_to to next guard address expression, prefix/controls still open.
+Existing compile-preflight.sh is invoked through run.sh modes from merge.sh
+403ff/BUILD-MODE selected-drop-minimal; do not claim a new gate merely from
+presence. Next proof-only candidate should use exact target then all mandatory
+dependent controls, no redundant separate compile-only experiment or cache.
+Unchanged first-callback runner already explicit NOT_RUNs dependents if prefix
+fails; baseline B1 gates remain dispatch dependencies. No runner/collector result
+shape changes here; new tail annotation's unique/absent/duplicate anchor synthetic
+test and phase fail-closed checks already PASS. No additional test or Cloud run
+solely for this documentation adoption.

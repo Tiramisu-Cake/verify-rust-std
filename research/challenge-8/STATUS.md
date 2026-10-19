@@ -1,4 +1,4 @@
-# MERGE — R2 ACTIVE, 2026-10-19
+# MERGE — R2 WAITING_FOR_EVIDENCE, 2026-10-19
 
 Задание [CURRENT-TASK](CURRENT-TASK.md) r2; T0 11:57Z/main13:57Z/absolute14:27Z.
 Build1 `c78529d0-f18b-4d13-9060-6517cde03cd5`, proof=infra
@@ -19,6 +19,9 @@ search214 NO_MATCH_IN_RETAINED_PROJECTION. Exactstatement214 не установ
 узкое дополнение проекции запрошено; speculativefix/rawfallback нет.
 Следующий шаг: при получении exact prefix statement — минимальный
 proof/wrapper annotation fix с review; fullbody frontier207 установлен отдельно. B2 OPEN; old accounts untouched.
+Checkpoint 2026-10-19T12:30:01.582624+00:00: собственных active/unresolved/reservations нет,
+ready request отозван через coordinator; AUTHORIZED окно не перезапущено,
+новый кандидат требует exact prefix210–218 (bounded admin addition requested).
 
 Предыдущие checkpoints сохранены ниже как история.
 

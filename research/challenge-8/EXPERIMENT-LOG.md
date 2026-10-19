@@ -7232,3 +7232,13 @@ not observed; no whole-read/guard proof. Prefix214 placeholderunchanged;
 false/true/panic success. Result R2-BUILD1-RESULT-20261019 with bounded
 Reader provenance, catalogue1281complete/content386, PRIVATE_OR_SANITIZED_KEY1,
 log65536/68058limited. No fullbody/independentproofcredit/B2; causalUNKNOWN.
+
+R2 checkpoint 2026-10-19T12:30:01.582624+00:00: own ready request withdrawn; active/unresolved/
+reservations none,1Build590s accounted. Prefix sourceexact and stages0/0/0/1
+confirmed by bounded /results/prefix pages0/15 at same index68182b14; all three
+registration/Continue/official flagsTrue, no joint/perbranch success. Repeated
+old source fragment210 still unsupported/no displayable fragment; exact statement
+not established. Waiting for requested administrative bounded projection, no
+speculative fix/new Build/raw fallback. Original T0/main/absolute unchanged;
+authorization not renewed and no background work promised. New owner iteration
+policy adoption at safe boundary recorded in semantic card; no execution credit.
