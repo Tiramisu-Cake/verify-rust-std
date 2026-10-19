@@ -1,3 +1,5 @@
+> **Исторический справочник:** актуальная [инструкция v0.11](EVIDENCE-READER-GUIDE.md) отменяет прежние16-квоту, лексические WITHHELD и запрет targeted-пагинации. Ниже сохранён текст старой версии.
+
 # v0.10.0: exact literal locators in verified archived files
 
 Status: available for agent use, as confirmed by the owner on 2026-10-19.

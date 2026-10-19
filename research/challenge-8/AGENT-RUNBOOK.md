@@ -1,4 +1,4 @@
-> **Evidence v0.9, 2026-10-19 — приоритет:** [краткий guide](EVIDENCE-READER-GUIDE.md). `/usr/local/bin/smallsort-brief`: Brief → адресный Reader → при нехватке данных `--refresh --file` (targeted) → admin audit, только если всё ещё недостаточно. Refresh разрешён без отдельного audit; общая квота 16 резервирований на Build, ошибки тоже могут её расходовать. Полные/raw логи, массовая выгрузка и обход удержания запрещены. Заменяет старый порядок Reader → сразу audit; сессии/budgets не меняются. [Literal Locators v0.10](EVIDENCE-LITERAL-LOCATORS.md): `--locate` → координаты → bounded fragment; `--near-position --unit` по установленному anchor. Доступны по подтверждению владельца; общая16-квота, без вывода AST/type/parser binding и без обхода WITHHELD.
+> **Evidence v0.11 — приоритет:** [краткий guide](EVIDENCE-READER-GUIDE.md). Brief → catalogue → refresh/info → locate/fragment → нужные страницы по next_offset/next_value_start. Пожизненной16-квоты и прежних лексических WITHHELD больше нет; соседний контекст/argv/environment читаются как данные. Не выгружать автоматически всё. Proof scope, T0, окна/бюджеты и coordinator сохраняются.
 
 > **Процесс итераций, 2026-10-19:** [ранние checks → целевой proof → полная матрица](ITERATION-PROCESS.md). Service error-path tests обязательны для затронутого runner; использовать существующий Cloud preflight. Принять на безопасной границе без изменения активных inputs/T0. Измерять закрытые proof obligations отдельно от setup-работы.
 
@@ -77,7 +77,7 @@ Actions-примеры, ветки, бюджеты и stop-условия без
    затем продолжать в scope. Сборка/очередь сама по себе не повод закрыть сессию.
 6. После terminal status получить отчёт командой `smallsort-brief BUILD_UUID`.
    Следовать [Evidence Brief policy](EVIDENCE-BRIEF.md): при недостатке отчёта
-   сначала выполнить адресные Reader-запросы, затем узкий --refresh по guide; если фактов всё ещё нет,
+   использовать адресное чтение v0.11 (info/locate/fragment, нужные страницы/поля) по guide; при реальном оставшемся ограничении
    зафиксировать ограничение и запросить отдельно разрешённый administrative audit.
    Не читать raw evidence. NOT_RUN не считать PASS.
 7. По Brief классифицировать blocker: setup/build, frontend/export/decode,

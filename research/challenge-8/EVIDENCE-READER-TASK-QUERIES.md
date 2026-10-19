@@ -1,46 +1,47 @@
-# Адресные запросы к существующим Builds: Merge / Select
+# SmallSort Evidence v0.11 — адресные примеры для Select / Merge
 
-Редакция v0.10 от 2026-10-19. Сначала [краткий guide](EVIDENCE-READER-GUIDE.md). Это чтение существующего evidence, не новая proof-сессия. Информация о проверенных запросах ниже взята из инструкции установки v0.9.
+Сначала [краткий guide](EVIDENCE-READER-GUIDE.md). Метаданные ниже взяты из сохранённых bounded observations, а не из нового чтения исходных файлов. Проверь текущий каталог/индекс; не смешивай Builds. Старые WITHHELD/16-квота больше не запрещают эти запросы. Proof scope/закрытые сессии и их бюджеты сохраняются.
 
-## Merge: prefix214
+## Select: actual MaybeUninit record в D2
 
-В Build `5f668cd9-fb34-4570-ad1c-4b97abbb36d0` prefix-файл имеет 216 строк. Запрос **210–216** уже успешно проверен при установке и кешируется:
+Build `3fc08bb1-07cb-4aed-906d-1c53df1846b5`, P0a normal MIR. String9362 уже исправлен; новый ADT error не устанавливает failing normal/readonly call. Ранее locate был удержан v0.10; теперь продолжай через v0.11:
 
 ```bash
-smallsort-brief 5f668cd9-fb34-4570-ad1c-4b97abbb36d0 --refresh --file 607839ba7f21c33ff3ad3e988fe0f260ff5dba89e277011f9a54a78b34b46872 --start 210 --end 216 --expect-sha256 dd2e56890c425d4c0a6ff68750c62b272d12ad29cdd8282e8b99d0b35ea2aecd
+BUILD_ID='3fc08bb1-07cb-4aed-906d-1c53df1846b5'
+FILE_ID='c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2'
+EXPECTED_SHA='3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01'
+smallsort-brief "$BUILD_ID" --refresh --file "$FILE_ID" --expect-sha256 "$EXPECTED_SHA"
+smallsort-brief "$BUILD_ID" --refresh --file "$FILE_ID" --locate 'MaybeUninit' --expect-sha256 "$EXPECTED_SHA"
 ```
 
-Путь: `allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/prefix/cases/actual_three_current_full_posts/verified/lib.rs`. По инструкции установки строка214 — `let begin = values.as_mut_ptr();`. Сопоставь диагностическую позицию с точным ответом/source identity; это не доказательство причины отказа.
+По нужному locator прочитай position/lines, соседний контекст и при необходимости следующую страницу с выданным next_offset. Нужны name/kind/payload/substitutions одного record и связь с enclosing type/call; близость `MaybeUninit` и `unionKind` этого не доказывает. Не выдавай выбранный record за failing record без traversal/call binding. При необходимости читай относящиеся JSON fields/argv как данные. Реализация shape fix остаётся отдельным scope decision; старые26 statuses не запрашивай повторно без причины.
 
-**Не повторяй 210–218:** он уже вернул LINE_RANGE_OUT_OF_RANGE. Эти два разных диапазона заняли два резервирования; текущий остаток квоты может быть меньше из-за других запросов. Не делай новый Build ради фрагмента.
+## Merge: недостающие locals/body/cast связи в prefix MIR
 
-## Merge: координаты AST/MIR через Literal Locators
-
-Команды доступны по подтверждению владельца; сначала [правила locators](EVIDENCE-LITERAL-LOCATORS.md). Exact source214 уже установлен, повторно его читать не требуется. Метаданные AST ниже взяты из инструкции владельца, а не из нового чтения содержимого:
+Уже наблюдены AST895 и MIR target region='<erased>, mutable slice_u64, kind.pointerCoercion=void. Полные source locals/array3/body binding и metadata construction ещё не установлены. Прежний BUILD_QUERY_BUDGET_EXCEEDED относится к старому пути, не к v0.11:
 
 ```bash
 BUILD_ID='5f668cd9-fb34-4570-ad1c-4b97abbb36d0'
-AST_FILE_ID='34ea04bf09c2f6022dac1c22a0444b4583420dfe82ec1865f5ac18b85f25039b'
-AST_SHA='3193176be89d0f18982253759930c9bdac47f2c1c4b6bc83c2437a69603a1f0c'
-smallsort-brief "$BUILD_ID" --refresh --file "$AST_FILE_ID" --locate '214' --expect-sha256 "$AST_SHA"
-# Выбери unicode_start подходящего возвращённого locator; не подставляй line=214 как offset
-smallsort-brief "$BUILD_ID" --refresh --file "$AST_FILE_ID" --locate 'InferredTypeExpr' --near-position "$ANCHOR_CODEPOINT" --unit unicode-codepoint --expect-sha256 "$AST_SHA"
+FILE_ID='7decbe12be84eeb9ce03066a786554e0d80548f8d6e82b2b8a00d6e6ae15c179'
+EXPECTED_SHA='70be7daa815fd80ad8f921b1da2984e3cc64d258a7a0c625d59958b82518723c'
+smallsort-brief "$BUILD_ID" --refresh --file "$FILE_ID" --expect-sha256 "$EXPECTED_SHA"
 ```
 
-`214` — исследуемый source-position token, не уникальный node ID и не утверждение о грамматике AST. При множественных кандидатах сохрани неоднозначность; source-order/близость не означают enclosing node. Более точный literal бери из известного serializer syntax или показанного проверенного фрагмента. Для нужного результата запроси одно безопасное position/line окно. WINDOW_WITHHELD не обходить; квота общая, уточнения/фрагмент могут стоить отдельных резервирований.
+Переиспользуй сохранённые locator positions и cast fragments, затем уточняй соседний context/известный serializer literal/JSON pointer по данным. Не повторяй весь поиск source214. Metadata/provenance gate остаётся открытым; локализация не разрешает lifetime/model patch.
 
-Для prefix `decode.out` сначала выбери точный file ID через каталог того же Build и сверь SHA `70be7daa815fd80ad8f921b1da2984e3cc64d258a7a0c625d59958b82518723c`. Тот же workflow применим к известному literal; автоматической связи AST↔MIR или вывода receiver type/region нет. Новый proof Build ради локализации не нужен.
+## Merge: actual fullbody guard AST
 
-## Select: сначала вход парсера, затем позиция9362
-
-Build `87df47e4-002b-432c-bc87-56612136b448`. После проверки сохранённого `/first_blocker` через Reader:
+Это **другой Build/файл**, не prefix AST. Прежнее лексическое удержание снято новой политикой:
 
 ```bash
-smallsort-brief 87df47e4-002b-432c-bc87-56612136b448 --refresh --file cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96 --pointer /first_blocker --expect-sha256 81414bda84c65ced707c66e720f3c26938b4dd321e920952065807635e838769
+BUILD_ID='c78529d0-f18b-4d13-9060-6517cde03cd5'
+FILE_ID='7d457f18b4648275ca0a94b68859d4f392f468bfe2b5d791e28d96b664fe6209'
+EXPECTED_SHA='2757ca2a479947a06f44a78647545d78a8f37739c146bdf227819287f709748a'
+smallsort-brief "$BUILD_ID" --refresh --file "$FILE_ID" --locate 'verified/lib.rs(207,49-52)' --expect-sha256 "$EXPECTED_SHA"
 ```
 
-Установи цепочку «ошибка → входной файл/поле → SHA → преобразование». Наличие `focus/P0a/normal-mir.txt` в каталоге её не устанавливает. Если binding отсутствует, оставь NOT_ESTABLISHED и ищи только адресные диагностические сведения; не меняй грамматику по синтетическому escape.
+Прочитай нужный узел и контекст; нужны AddressOf operand/type, preceding MergeFractionsStmt и tmp storage classification. При нескольких совпадениях уточни привязку, не выбирай ближайшее как enclosing node автоматически. Проверка existing continuation defect и его causal applicability раздельны. Новые Builds/trusted semantics этим файлом не разрешаются.
 
-После установления входа запроси окно9362 с единицами, соответствующими коду парсера (`unicode-codepoint` для Python str), точным file ID/SHA и узким radius. Нужны реальный literal/field/escape, имеющееся decoder error и при необходимости hex; targeted не вычисляет отсутствующую ошибку парсера за него.
+## Продолжения
 
-Если в своём последнем отчёте R2–R7 уже установлены (Select v0.9), переиспользуй его; повтор не нужен. При действительном пробеле сначала Reader pointer `/case_status/R2` (и аналогично другие), затем тот же узкий pointer с refresh только при нехватке данных и с учётом общей квоты. Нужны status/reason/observed stage/outcome/provenance/gate/credit; неизвестное не заполнять из агрегата. Для P1 equality/reference и N-false31 lifecycle сначала найди конкретные receipts каталогом, затем запроси необходимые поля.
+Для locator/JSON-контейнера повторяй **тот же запрос** с `--offset "$NEXT_OFFSET"`, полученным из ответа. Для длинной JSON-строки — тот же `--pointer` с `--value-start "$NEXT_VALUE_START"`, без --offset. Не вычисляй offsets и не загружай автоматически все страницы. Если вновь получен старый WITHHELD/BUILD_QUERY_BUDGET_EXCEEDED, сохрани версию/точный ответ и проверь актуальный targeted v0.11 путь; не угадывай значения и не меняй backend/cache/IAM.

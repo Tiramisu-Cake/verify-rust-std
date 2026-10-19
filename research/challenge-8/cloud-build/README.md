@@ -1,4 +1,4 @@
-> **Evidence v0.9, 2026-10-19 — приоритет:** [краткий guide](../EVIDENCE-READER-GUIDE.md). `/usr/local/bin/smallsort-brief`: Brief → адресный Reader → при нехватке данных `--refresh --file` (targeted) → admin audit, только если всё ещё недостаточно. Refresh разрешён без отдельного audit; общая квота 16 резервирований на Build, ошибки тоже могут её расходовать. Полные/raw логи, массовая выгрузка и обход удержания запрещены. Заменяет старый порядок Reader → сразу audit; сессии/budgets не меняются. [Literal Locators v0.10](../EVIDENCE-LITERAL-LOCATORS.md): `--locate` → координаты → bounded fragment; `--near-position --unit` по установленному anchor. Доступны по подтверждению владельца; общая16-квота, без вывода AST/type/parser binding и без обхода WITHHELD.
+> **Evidence v0.11 — приоритет:** [краткий guide](../EVIDENCE-READER-GUIDE.md). Brief → catalogue → refresh/info → locate/fragment → нужные страницы по next_offset/next_value_start. Пожизненной16-квоты и прежних лексических WITHHELD больше нет; соседний контекст/argv/environment читаются как данные. Не выгружать автоматически всё. Proof scope, T0, окна/бюджеты и coordinator сохраняются.
 
 # Cloud Build: действующая процедура Challenge 8
 
@@ -92,9 +92,9 @@ infra/profile, а не копия digest в документации.
 ## Evidence и verdict
 
 Packaging/upload и внутренний final verdict — backend responsibilities.
-Обычный агент использует Brief и адресные запросы сохранённой проекции Reader по guide, отражая их ограничения.
+Обычный агент использует Brief/Reader и targeted v0.11 по guide, уточняя контекст/поля/страницы и отражая реальные ограничения.
 `VERIFIED_ARCHIVE_AND_INVENTORY` подтверждает целостность архива/inventory, не
-успешную formal verification. При missing/incomplete/insufficient Brief сначала использовать адресные Reader-запросы и узкий --refresh; если их недостаточно, сообщить
+успешную formal verification. При missing/incomplete/insufficient Brief использовать targeted v0.11, уточнение контекста/полей и явные страницы; при оставшемся format/resource ограничении сообщить
 об ограничении; не выводить proof acceptance и не обращаться к raw evidence.
 Для raw audit запросить отдельно разрешённый administrative audit.
 Новые cache/preflight/replay lanes поставлены в [отдельном задании](../INFRASTRUCTURE-TASK.md).
