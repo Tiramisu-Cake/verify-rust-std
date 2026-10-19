@@ -7275,3 +7275,17 @@ Guard continuation defect confirmed in frozen source; actual Build causal
 binding remains conditional. R3-GUARD-PROPOSAL not implemented. Runtime/proof/
 tool/profile/controls unchanged; no speculative or report-only Build submitted.
 Synthetic phase guard test PASS; independent publication review recorded separately.
+
+
+R3 v0.10 addressed read-only follow-up, instruction52da95cb,19:46:16Z onward:
+main already expired, no new experiment/proof change/Build. Actual MIR cast
+operand move_5→_4, target erased lifetime / mutable slice_u64, pointerCoercion
+category now observed; subtype erased by frozen exporter. Local types/enclosing
+body binding incomplete; shared quota refused10th MIR targeted request. Guard
+separate fullbody AST lookup LOCATE_WITHHELD, no alternate-window/literal bypass.
+Administrative safe projections requested. Metadata consumer/invariants traced;
+no proven length3 construction, no lifetime-only candidate. Updated R3 proposals,
+obligations/release/current report; independent Luna High source investigation,
+no new executable service code or repeated unchanged tests. R3 Cloud remains0.
+
+R3 closed 2026-10-19T19:54:58.952027+00:00:0Builds/0Cloud, unused3600 closed withoutcarryover; no own active/unresolved/reservations/request. Main already elapsed before follow-up; no proof candidate/tool delta. Admin bounded projections pending; no background work.

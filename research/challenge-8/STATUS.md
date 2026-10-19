@@ -1,32 +1,36 @@
-# MERGE — R3 diagnostic checkpoint, 2026-10-19
+# MERGE — R3 CLOSED / PARTIAL, 2026-10-19
 
-[Текущее задание/отчёт](CURRENT-TASK.md): T0 16:09:27Z, продлённый main19:39:27Z,
-absolute20:09:27Z. Cloud0/3600, Builds0; нового исполненного кандидата нет.
-Tool08d6a578/profile82973e1e/runtime/posts/CURRENT18 неизменны. Чужие dirty docs
-сохранены. Разрешённого proof-only исправления пока не установлено.
+End 2026-10-19T19:54:58.952027+00:00; T0 16:09:27Z/main19:39:27Z/absolute20:09:27Z.
+[Текущее задание/отчёт](CURRENT-TASK.md). Продолжение52da95cb начато19:46:16Z:
+main уже истёк, только адресное read-only evidence/accounting/docs. Builds0,
+Cloud0/3600; ledgerCLOSED, unused3600 без carryover; своих active/unresolved/
+reservations/requests нет. Нового исполненного кандидата или proof credit нет.
 
-Prefix214 теперь связан с actual archived AST895: CastExpr к mutable slice
-имеет InferredTypeExpr в lifetime. Strict checker даёт точное сообщение на
-этом lifetime; translator erased-region происхождение выведено из pinned source,
-не прочитано непосредственно из MIR. Generic args следующего as_mut_ptr этот
-cast не меняют. Parser-input bindingNOT_ESTABLISHED/causalUNKNOWN сохранены.
-[Диагноз и узкий trusted proposal](cloud-build/origin-layout/R3-PREFIX-DIAGNOSIS-20261019.md).
-До допуска coercion нужно проверить metadata/provenance; blanket inference
-не предлагается. Tool-реализация требует отдельного решения владельца.
+Literal Locators v0.10 теперь доступны. В old prefix decode.out SHA70be7daa…
+прямо наблюдён move_5→_4 / erased target region / mutable slice_u64 /
+pointerCoercion. Связь с AST895 подкреплена actual assignment/cast nesting и
+source214; source LocalDecl types/body binding ещё неполны. Frozen exporter
+теряет Rust coercion subtype: Unsize не наблюдён. Metadata model/ptr_len/slice
+ownership/identity Upcast прослежены, length3 construction не установлена;
+lifetime-only patch пока не обоснован. [Диагноз/proposal](cloud-build/origin-layout/R3-PREFIX-DIAGNOSIS-20261019.md).
+MIR shared16 quota исчерпана; requested admin bounded local/body projection.
+Parser-input bindingNOT_ESTABLISHED/causalUNKNOWN сохранены, без raw fallback.
 
-Fullbody guard207: pinned address-taken traversal не продолжает после
-MergeFractionsStmt. Дефект подтверждён исходником; связь с конкретным failing
-AST/storage guard пока условна. [Proposal](cloud-build/origin-layout/R3-GUARD-PROPOSAL-20261019.md),
-не применён. R2 split/open и полный runtime/posts сохранены.
+Fullbody именно R2 Buildc78529d0 AST SHA2757ca2a…: locate source207 вернул
+LOCATE_WITHHELD; запрос safe admin AddressOf/tmp/merge projection, без обхода.
+[Guard proposal](cloud-build/origin-layout/R3-GUARD-PROPOSAL-20261019.md)
+остаётся условным source defect, не доказанная actual причина.
 
-Новые закрытые proof obligations:0; prefix false/true/panic не доказаны;
-resource/admission controls в последнем Build prerequisite-skipped. B2 OPEN,
-независимого proof credit нет. [Матрица](cloud-build/origin-layout/R3-OBLIGATIONS-20261019.md).
-Следующий шаг — решение по отдельному trusted design/profile; после него exact
-reviewed diff и gates до реализации/Cloud. Не запускать неизменённый кандидат
-или Build только ради недостающего отчёта.
+Frozen tool08d6a578/profile82973e1e/runtime/posts/CURRENT18 неизменны.
+Prefix false/true/firstContinue-panic не доказаны;4resource/admission в последнем
+Build prerequisite-skipped. R2 split/open frontier сохранён, whole body/B2 OPEN.
+[Матрица](cloud-build/origin-layout/R3-OBLIGATIONS-20261019.md).
+Следующий шаг: admin MIR local/body projection и отдельное metadata/provenance
+решение; implementation/Cloud только по новому явному заданию. Новых фоновых
+действий нет; старые receipts не становятся финальным acceptance.
 
 Предыдущие checkpoints сохранены ниже как история.
+
 
 
 

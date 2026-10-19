@@ -422,3 +422,20 @@ Targeted's parser_input_bindingNOT_ESTABLISHED and wholecausalUNKNOWN preserved.
 Call AST897 at214:17–36 has different Inferredgeneric; altering callghostargs
 does not modify earlier cast895. Schema CastData has no ghostarg annotation,
 FnCallData does. No currently established permitted proof-only correction yet.
+
+
+R3 Literal Locators v0.10 follow-up, instruction52da95cb: resumed19:46:16Z,
+after extended main19:39:27Z, T0/absolute20:09:27Z/Cloud3600 unchanged. Adopted
+current guide/locators at safe boundary; no new proof hypotheses/edits/Builds.
+Existing AST895 observation reused. Addressed old prefix decode.out SHA70be7daa
+now directly exposes move_5→_4, target erased region/mutable slice_u64 and
+pointerCoercion; local type/whole enclosing binding still incomplete. Exporter
+records PointerCoercion subtype as unit, so Unsize is not an observed MIR fact.
+Nine MIR targeted delivered responses;10th budget-exceeded, no quota bypass.
+Guard fullbody **R2 Buildc78529d0** separate AST SHA2757ca2a locate returned
+LOCATE_WITHHELD; stopped that file without alternate selectors. Both remaining
+projection needs sent for administrative safe handling. Prefix metadata gate
+now traced through pointer model/ptr_len/slice borrow and identity Upcast;
+no established length3 construction for this coercion. Proposals updated with
+minimal future Cloud reproducer and distinct exporter/model decisions. No new
+proof credit or control execution; frozen tool/runtime/posts remain unchanged.

@@ -1,7 +1,7 @@
 {
   "phase": "MERGE-FIRST-COMPARATOR-R3-2026-10-19",
   "owner": "merge",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "allowed_lanes": [
     "merge"
   ],
@@ -24,5 +24,16 @@
     "previous_absolute_deadline_utc": "2026-10-19T18:39:27Z",
     "ceiling_unchanged": 3600
   },
-  "authorization_model": "bounded-cloud-budget"
+  "authorization_model": "bounded-cloud-budget",
+  "closed_utc": "2026-10-19T19:54:58.952027+00:00",
+  "closing_reason": "Extended main elapsed before v0.10 continuation; read-only addressed observations completed to quota/withheld boundaries. No proof-only candidate; no further implementation/Cloud without new authorization.",
+  "unused_budget_closed_without_carryover": 3600,
+  "closing_coordination": {
+    "own_active": null,
+    "own_reservations": [],
+    "own_request": "NONE",
+    "unresolved": [],
+    "peer_state_preserved": true
+  },
+  "followup_instruction_head": "52da95cb5367deab0746c6c0a8d4dbaf3d305fb1"
 }

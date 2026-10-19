@@ -81,3 +81,24 @@ merge/lifetime operation are not accepted workarounds.
 No local compiler/decoder/refiner/verifier or proof preparer was run. Tool
 worktree remains unchanged. This proposal does not resolve the prefix214
 InferredTypeExpr error in its separate wrapper function.
+
+
+## v0.10 actual-AST request: retained limitation
+
+Catalogue of **Buildc78529d0** identifies full_body/cases/
+actual_three_current_full_posts/proof-ast.ml, file ID
+7d457f18b4648275ca0a94b68859d4f392f468bfe2b5d791e28d96b664fe6209,
+SHA2757ca2a479947a06f44a78647545d78a8f37739c146bdf227819287f709748a,
+archive5d058992…/index68182b14… . It is not the old prefix AST identity.
+
+[Exact-source-location locate request](R3-GUARD-LOCATE-20261019.json),
+literal `verified/lib.rs(207,49-52)`, returned **LOCATE_WITHHELD**,
+reason SENSITIVE_UNTRUSTED_OR_OVERSIZED_SOURCE_LINE, request
+347e136b0db5bdebb0017dd13b228fcb2eee5addac6d631199c4ecb79e31504f.
+No coordinates/text were returned; exactFalse. No alternate literal/near/window
+was used to bypass withholding. This path is stopped pending administrative
+safe projection of actual AddressOf operand/type, enclosing statement,
+preceding MergeFractionsStmt order and tmp storage classification. Request
+sent to owner. The confirmed pinned-source continuation defect remains a
+**conditional proposal**, not an established cause of this Build's failure.
+No tool/runtime/proof changes and no new formal credit.

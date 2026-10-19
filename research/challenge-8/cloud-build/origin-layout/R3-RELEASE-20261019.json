@@ -15,5 +15,23 @@
   "review": "R3-REVIEW-20261019.json GO_PUBLICATION_ONLY",
   "proof_runtime_tool_changed": false,
   "candidate_release": false,
-  "next_gate": "Separate trusted scope/profile decision before implementation; metadata/provenance admission gate unresolved"
+  "next_gate": "Administrative bounded MIR local/body binding and guard AST projection; separately scoped metadata/provenance reproducer before lifetime-only admission",
+  "followup_instruction_head": "52da95cb5367deab0746c6c0a8d4dbaf3d305fb1",
+  "direct_mir_observations": {
+    "operand": "move _5 -> _4",
+    "target": "mutable slice<u64>, erased region",
+    "cast_category": "pointerCoercion",
+    "rust_coercion_subtype": "NOT_EXPORTED",
+    "source_local_complete_type": "NOT_OBSERVED",
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "causal_status": "UNKNOWN"
+  },
+  "followup_limits": {
+    "prefix": "BUILD_QUERY_BUDGET_EXCEEDED",
+    "guard": "LOCATE_WITHHELD",
+    "admin_projection_requested": true
+  },
+  "session_status": "CLOSED_PARTIAL",
+  "closed_utc": "2026-10-19T19:54:58.952027+00:00",
+  "unused_budget_closed_without_carryover": 3600
 }
