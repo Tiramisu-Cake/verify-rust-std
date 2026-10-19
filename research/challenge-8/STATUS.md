@@ -1,3 +1,5 @@
+> Уточнение2026-10-19: [Evidence Reader v0.8](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-READER-2026-10-19.md) теперь показывает R5 named R-only/final-C stage exit0 и собственный свежий reference receipt с совпавшими pins. Получены20поимённых statuses; P1 INCONCLUSIVE,N-false31 NOT_RUN,R2–R7 statusUNKNOWN (R2 gate=true/outcomePOSITIVE_INTENDED). P0a literal9362 и6status полей ограничены проекцией; требуется дополнение старого отчёта. A1/A2/formal credit не повышены. Cloud-сессия закрыта, нового расхода0. Ниже сохранён checkpoint2026-10-18.
+
 # select/sort4 — session CLOSED at parser evidence/scope boundary
 
 Task select-sort4-ocaml-buildability-2026-10-18-r1,ownerselect-sort4.
