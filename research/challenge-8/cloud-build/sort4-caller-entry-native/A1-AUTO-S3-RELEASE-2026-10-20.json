@@ -1,0 +1,122 @@
+{
+  "C_sha256": "e7cdc8a8504338ccaab760975c1a3f1a739211d7f8d531dd214babc2005d894e",
+  "R_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/required-item-representation-buildability-r1-2026-10-18.patch",
+  "R_sha256": "d99a5ed229533132b8292c5fc70ea93dbe261e9f76c2a0fcc6d6723e796454ca",
+  "authorization_phase_id": "SORT4-NATIVE-INTERFACE-AUTONOMOUS-2026-10-20-R5",
+  "changed_profile_identities": {
+    "a1-compiler-inventory.py": {
+      "after": "1ae13b3924de816e6db47eb986fbee330f255f8039dbd6276d86fbd070a4dc29",
+      "before": "3a87e423c50bd6fdacc0bc33658a1537933eb2236319ad2570b3f7df8bcd8617"
+    },
+    "a1-focus-backend.py": {
+      "after": "4d3a3e13a552e2581cccd013126f7ac4b0a4990441cdf120a199537bde4c7195",
+      "before": "4ae920dd164077a6966973e1f08788325f5decf20b039b06f2f5147eb6828216"
+    },
+    "a1_entry_sha256": {
+      "after": "44e0d32a4d9df0d4032be26df6e3dc0ebb40ed18a4fe700bd3d2aa714ab70ffa",
+      "before": "cb90afa0e534b29dedc25c92cbe3d1517a07686965c0e7c895d9f8946d1789b9"
+    },
+    "a1_runner_sha256": {
+      "after": "80693a68c7492eb907e4bd7c4d30e84bc7a3b52d8b1f59aea6542eafab6befe1",
+      "before": "c60c7c80dd2a8edd2c5c38f6a6481f5103890b09a9a5440d445df5381402a320"
+    },
+    "profile_sha256": {
+      "after": "926c483bf96b3cfa9ec8b2461518bcf0b768e59f41bdd8bd13bee41a8ded4702",
+      "before": "22483c0ee8e2a2b9729273b87858018e19f190ba3c79fb26f57ba12586704c28"
+    }
+  },
+  "closure": {
+    "commit": "e8279683b1b1546f38e9b9e770768cd2b7f532bf",
+    "config_arg_bounds": "PASS",
+    "dispatch": "NOT_ATTEMPTED",
+    "exact_restore": "PASS",
+    "formal_credit": false,
+    "phase_profile_environment": "PASS",
+    "restored_paths": {
+      "infra": 33,
+      "proof": 107
+    },
+    "shared_objects": 160,
+    "source_payload_bytes": 513132,
+    "source_sha256": "606a08f7994bc4c77ea74e445d7fd0674c28e43363cdb56c0054d603dde8caf0",
+    "source_substitutions": 172
+  },
+  "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+  "compiler_toolchain": "nightly-2026-09-25",
+  "cycle": "S3",
+  "decoder_commit": "2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2",
+  "execution_mode": "full-matrix",
+  "experiment_protocol_phase_id": "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17",
+  "formal_credit": false,
+  "helper_pins": {
+    "a1-ast-gates.py": "2d4c9badda0d74ca4439bc39f5fb647804d8dee4a129e8263ac4ee21db82b76f",
+    "a1-call-binding.py": "302a0ee3e2eb1950aa4bd42ac2c5cedbaabc97b114754f63421de8e0d1f9f0cb",
+    "a1-compiler-inventory.py": "1ae13b3924de816e6db47eb986fbee330f255f8039dbd6276d86fbd070a4dc29",
+    "a1-contract-admission.py": "0ac3b182a24ba3a8cfd21588dd393f652e864bf54593ac7f4a5caaa473927ad4",
+    "a1-fixtures.py": "6d2cd0956ed5d9821be1dd32f731f201e5aea52ae4f06a676d8dfc5c17355d25",
+    "a1-focus-backend.py": "4d3a3e13a552e2581cccd013126f7ac4b0a4990441cdf120a199537bde4c7195",
+    "a1-matrix-classifier.py": "e50dca88e41f41a1919db83412f5016ea19428b2c6b092bfe1c8cfc61c70b6a6",
+    "a1-proof-classifier.py": "7a2070a3132bc7d4601565aebd25e0aea682520e3fbb32a6045ccdf276142a2e",
+    "a1-summary-receipt.py": "bcc55360698346f0aa2dfb3858c6b555a9104db95308116d2c16c188a9b8a7dd",
+    "a1-synthetic-backend.py": "4498e7dbcd4ffaaf4746bfee239e56a36f78e883da59937d9b48c1025e5b8feb",
+    "a1-synthetic-inputs.py": "92d4e5b336b4e6409da814523500978b56c52218a6289434b526929ae1275b27",
+    "a1-tool.py": "ea4edf71396cb1c7bf311b6b2b9ff4e6296bf41d66df5857eec3211a2c0569b3",
+    "selected-proof.py": "3347ad41c0273ebf186dbcf0520182455b32a65ad9619f2b2c7d3d00c12a7d7f"
+  },
+  "infra_sha": "e8279683b1b1546f38e9b9e770768cd2b7f532bf",
+  "profile_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-AUTO-S3-PROFILE-2026-10-20.json",
+  "profile_sha256": "926c483bf96b3cfa9ec8b2461518bcf0b768e59f41bdd8bd13bee41a8ded4702",
+  "proof_sha": "e8279683b1b1546f38e9b9e770768cd2b7f532bf",
+  "retained_tool_identities": {
+    "c_after": {
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "a11741f096eb2e1808cadcb8a49eeeb33117630ae6c141d0202af22b14a9b8c3"
+    },
+    "c_before": {
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "ffacadc74de9dded1e50e9b9a71f75a905cf97c7c823427cf7044494e87d052d"
+    },
+    "c_patch_sha256": "e7cdc8a8504338ccaab760975c1a3f1a739211d7f8d531dd214babc2005d894e",
+    "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+    "compiler_toolchain": "nightly-2026-09-25",
+    "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+    "r_patch_sha256": "d99a5ed229533132b8292c5fc70ea93dbe261e9f76c2a0fcc6d6723e796454ca"
+  },
+  "review": "GO / independent GPT-6 Luna HIGH / A1-AUTO-S3-REVIEW-2026-10-20.md / synthetic controls and exact committed closure PASS; existing live coordinator preflight required",
+  "schema": "smallsort-a1-autonomous-release-v1",
+  "service_pins": {
+    "research/challenge-8/cloud-build/control.py": "73f49e51ba88f24e4342a543da4e60df082d0df27e959a5c2f065768d80b2516",
+    "research/challenge-8/cloud-build/coordination.py": "49464b5a1078c99f8f44ef0bba06bb285c039ca0a0ab10d104bc7b54f32cb4bc",
+    "research/challenge-8/cloud-build/recipes/o26-sort4-c1-current-recovery.json": "c2a5f932073c32baddc2554a43cb5c7158d5efae37686059f6873e43156e82dc",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-entry.py": "44e0d32a4d9df0d4032be26df6e3dc0ebb40ed18a4fe700bd3d2aa714ab70ffa",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-focus-backend.py": "4d3a3e13a552e2581cccd013126f7ac4b0a4990441cdf120a199537bde4c7195",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-runner.py": "80693a68c7492eb907e4bd7c4d30e84bc7a3b52d8b1f59aea6542eafab6befe1",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-tool.py": "ea4edf71396cb1c7bf311b6b2b9ff4e6296bf41d66df5857eec3211a2c0569b3",
+    "research/challenge-8/cloud-build/source-input.py": "09b0b5b03f853ce354226e8e70f60233f24c3a829c38047c98a556dd2aa6534a"
+  },
+  "source_maps": {
+    "c_after": {
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "a11741f096eb2e1808cadcb8a49eeeb33117630ae6c141d0202af22b14a9b8c3"
+    },
+    "c_before": {
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "ffacadc74de9dded1e50e9b9a71f75a905cf97c7c823427cf7044494e87d052d"
+    },
+    "r_after": {
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "ffacadc74de9dded1e50e9b9a71f75a905cf97c7c823427cf7044494e87d052d"
+    },
+    "r_before": {
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs": "11f1e10bb8e52a4950611f874b1123c11e2c87cbb1378c3f5060992f74425f00",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64"
+    }
+  },
+  "tool_head": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+}

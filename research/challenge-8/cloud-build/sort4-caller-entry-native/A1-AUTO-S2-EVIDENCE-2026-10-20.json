@@ -1,0 +1,325 @@
+{
+  "N-false31": {
+    "observations": [
+      {
+        "exact": true,
+        "kind": "boolean",
+        "pointer": "/case_status/N-false31/matrix_gate_passed",
+        "value": false
+      },
+      {
+        "exact": true,
+        "kind": "null",
+        "pointer": "/case_status/N-false31/observed_outcome",
+        "value": null
+      },
+      {
+        "exact": true,
+        "kind": "null",
+        "pointer": "/case_status/N-false31/observed_stage",
+        "value": null
+      },
+      {
+        "exact": true,
+        "kind": "boolean",
+        "pointer": "/case_status/N-false31/proof_credit",
+        "value": false
+      },
+      {
+        "exact": true,
+        "kind": "null",
+        "pointer": "/case_status/N-false31/provenance",
+        "value": null
+      },
+      {
+        "exact": true,
+        "kind": "null",
+        "pointer": "/case_status/N-false31/reason",
+        "value": null
+      },
+      {
+        "exact": true,
+        "kind": "string",
+        "pointer": "/case_status/N-false31/status",
+        "value": "NOT_RUN"
+      }
+    ],
+    "request_id": "b0d2acff131c669f15ef81b6f983d7e6120f350d9bf8e65468563a71099ea225"
+  },
+  "P0a": {
+    "observations": [
+      {
+        "exact": true,
+        "kind": "string",
+        "pointer": "/observation_details/P0a/adapter_error",
+        "value": "InventoryError: normal and readonly VfMir compiler inventories differ at inventory.impls[0].items[1].body.record.inputs"
+      },
+      {
+        "exact": true,
+        "kind": "boolean",
+        "pointer": "/observation_details/P0a/execution_started",
+        "value": true
+      },
+      {
+        "exact": true,
+        "kind": "string",
+        "pointer": "/observation_details/P0a/failed_stage",
+        "value": "source-constructor"
+      },
+      {
+        "exact": true,
+        "kind": "boolean",
+        "pointer": "/observation_details/P0a/not_run",
+        "value": false
+      },
+      {
+        "exact": true,
+        "kind": "boolean",
+        "pointer": "/observation_details/P0a/proof_credit",
+        "value": false
+      }
+    ],
+    "request_id": "e86124df16200b06396e6c7c948a4920a20ccb62662480b51a4fa2b77bfd353b"
+  },
+  "P1": {
+    "observations": [
+      {
+        "exact": true,
+        "kind": "string",
+        "pointer": "/observation_details/P1/adapter_error",
+        "value": "InventoryError: normal and readonly VfMir compiler inventories differ at inventory.impls[0].items[1].body.record.inputs"
+      },
+      {
+        "exact": true,
+        "kind": "boolean",
+        "pointer": "/observation_details/P1/execution_started",
+        "value": true
+      },
+      {
+        "exact": true,
+        "kind": "string",
+        "pointer": "/observation_details/P1/failed_stage",
+        "value": "P1"
+      },
+      {
+        "exact": true,
+        "kind": "boolean",
+        "pointer": "/observation_details/P1/not_run",
+        "value": false
+      },
+      {
+        "exact": true,
+        "kind": "boolean",
+        "pointer": "/observation_details/P1/proof_credit",
+        "value": false
+      }
+    ],
+    "request_id": "de8828f2c1cef4cc8e875e2800a0a5b120215274dd51dcac7f8cd6df953784f7"
+  },
+  "audit": {
+    "archive_sha256": "11e04d6bb298bc7f1af522829905503d3caf7bc3b038b89b33c650cf6eba3c52",
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "file_sha256": "58439d8537e9d5f95682fa60743058d0aa6d32a18b150dee890788f7a43521c4",
+    "index_sha256": "df07a9c9e937169c13344b5c4e7ea19b52676e5170463dcbc193c9feb3af18a6"
+  },
+  "build_id": "a62d316b-69d4-4ed6-acb2-7cbd38216a1d",
+  "charged_seconds": 407,
+  "download_verified": false,
+  "formal_credit": false,
+  "input_fragments": [
+    {
+      "complete": false,
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 298,
+        "line_separator": "LF",
+        "source_lines": 12974,
+        "start": 287,
+        "unit": "line"
+      },
+      "exact": true,
+      "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+      "file_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "request_id": "ce3fd4c1d78e1e3f3a5bd61cb7aa19faa4ea45be12a0590fa190aba60642318c",
+      "results": [
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 287,
+          "text": "      inputs = ["
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 288,
+          "text": "        ( kind = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 289,
+          "text": "            ref = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 290,
+          "text": "              region = (id = \"\\'__53\"),"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 291,
+          "text": "              ty = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 292,
+          "text": "                kind = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 293,
+          "text": "                  slice = (kind = (param = \"T\")) ) ),"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 294,
+          "text": "              mutability = (mut = void) ) ) ),"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 295,
+          "text": "        ( kind = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 296,
+          "text": "            ref = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 297,
+          "text": "              region = (id = \"\\'__54\"),"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 298,
+          "text": "              ty = ("
+        }
+      ]
+    },
+    {
+      "complete": false,
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 298,
+        "line_separator": "LF",
+        "source_lines": 12708,
+        "start": 287,
+        "unit": "line"
+      },
+      "exact": true,
+      "file_id": "145df5193e7abe0b6c3cbbc7988064bb1d47fbece830afdc53ffdac77572c689",
+      "file_sha256": "d57caad6a69e35778ba32cedf37850b31f76da64d385c3a80d08da6181f1d05e",
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "request_id": "9a41bf0b3c6bbf52069d2dd4745e97a283baa55ab454713ec6fcb4f7b176527a",
+      "results": [
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 287,
+          "text": "      inputs = ["
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 288,
+          "text": "        ( kind = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 289,
+          "text": "            ref = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 290,
+          "text": "              region = (id = \"\\'__48\"),"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 291,
+          "text": "              ty = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 292,
+          "text": "                kind = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 293,
+          "text": "                  slice = (kind = (param = \"T\")) ) ),"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 294,
+          "text": "              mutability = (mut = void) ) ) ),"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 295,
+          "text": "        ( kind = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 296,
+          "text": "            ref = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 297,
+          "text": "              region = (id = \"\\'__49\"),"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 298,
+          "text": "              ty = ("
+        }
+      ]
+    }
+  ],
+  "integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "proof_sha": "7d3ab6c2215298201dbe475c1fb26194e03f2915",
+  "publication_sha": "c767ee9c03156e2a28b75056178dc7baaaedb314",
+  "remaining_seconds": 2734,
+  "scope": "bounded source observations; no per-row inference from aggregate; no independent raw parser replay",
+  "source_case_counts": {
+    "INCONCLUSIVE": 5,
+    "INTENDED_CLASSIFIED": 8,
+    "NOT_RUN": 13
+  },
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "stage_order": "NOT_ESTABLISHED",
+  "terminal_status": "FAILURE",
+  "total_charged_seconds": 866
+}

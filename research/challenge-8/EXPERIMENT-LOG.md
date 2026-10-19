@@ -7832,3 +7832,8 @@ T0 2026-10-19T21:15:52Z,closed22:02:50Z before main23:15/absolute23:45. U1b65d49
 ### 2026-10-20 MSK — R5 S1 scoped Body binders
 
 New R5 T0 2026-10-19T22:34:09Z/main00:34:09Z/absolute01:04:09Z,3600newseconds. S1 exact068dedb1, publication91e57892, Buildf581f16f-2268-4ff6-882e-b5c34e088d0f FAILURE459charged. CompilerBody/clause/local-slot keys resolve typed references locally; original signatures/source/admission preserved. LunaHIGHGO/localsynthetic/exactclosure beforeCloud. Brief integrityverified,sourceNOT_ACCEPTED,full26aggregate8/5/13; P1explicitstarted/creditfalse; next P0a adaptererror normalreadonly inventory mismatch after bothparsepaths. No independentB1/B2credit,A1/A2OPEN. [Evidence](cloud-build/sort4-caller-entry-native/A1-AUTO-S1-EVIDENCE-2026-10-20.json). Continue S2 operational-inventory projection preserving all other fields/gates, not stop at new ordinarypredicate.
+
+
+### 2026-10-20 MSK — R5 S2 inventory projection / typed lifetime spelling
+
+S2exact7d3ab6c2,publicationc767ee9c,Builda62d316b-69d4-4ed6-acb2-7cbd38216a1dFAILURE407s,total866/3600. LunaHIGHGO/synthetic/exactclosure beforeCloud. Body operational-list values projected away; allotherfields/gates retained. Newboundedfirstdifference identifies raw Body.inputs: exactReader lines287–298normal__53/__54vsreadonly__48/__49,same displayed sliceT/mutability. Both validated signatures pass,rawduplicate comparisonstillfails; no all-differences explanationclaimed. P0a/P1started,Nfalse31explicitNOT_RUN,source26aggregate8/5/13; noformalcredit/A1A2OPEN. [Evidence/provenance](cloud-build/sort4-caller-entry-native/A1-AUTO-S2-EVIDENCE-2026-10-20.json). S3typed schema-only regionalpha candidate follows rationale/controls/review; ordinary next blocker doesnotcloseR5.
