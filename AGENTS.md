@@ -1,3 +1,5 @@
+> **Процесс итераций, 2026-10-19:** [ранние checks → целевой proof → полная матрица](research/challenge-8/ITERATION-PROCESS.md). Service error-path tests обязательны для затронутого runner; использовать существующий Cloud preflight. Принять на безопасной границе без изменения активных inputs/T0. Измерять закрытые proof obligations отдельно от setup-работы.
+
 > **Evidence Reader, 2026-10-19:** [актуальный краткий guide](research/challenge-8/EVIDENCE-READER-GUIDE.md). Использовать `/usr/local/bin/smallsort-brief` (v0.8): Brief → адресные `--catalogue`/`--search` → `--file --pointer`/`--start` → отдельно разрешённый audit, только если данных всё ещё недостаточно. Запросы проекции разрешены обычному агенту; полные/raw логи и массовая выгрузка запрещены. Этот порядок заменяет старые указания сразу запрашивать audit при неполном Brief; бюджеты и closed-сессии не меняются.
 
 # Challenge 8: постоянные инструкции команды
