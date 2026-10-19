@@ -7305,3 +7305,24 @@ proposals, noimplementation. Previous admin requests resolved for these data;
 parserbindingNOT_ESTABLISHED/globalcausalUNKNOWN retained.19bounded targeted
 replies archived in R3-V011 provenance; no raw/fullfile access/newBuild/credit.
 Closedledger unchanged, no proof control rerun; B2 OPEN.
+
+
+### R4 opening and first pinned Build — 2026-10-19
+
+Owner r4 instruction56aad505, T0 21:24:56Z/main23:24:56/absolute23:54:56,
+new separate3600Cloud ledger. Exact trusted continuation decision recorded
+before edits in semantic card. Toola42d50be/verify_expr97f5e50c changes only
+one CRLF line; added15th patchf1786653 to preserved14chain, newprofile77164792.
+Static composition15/16files/14sourcepins/18base PASS,4wiring+synthetic controls
+checks PASS, independent LunaHigh singleBuildGO and delivery-order followupGO.
+Recipe sorting corrected beforeAPI; no Cloud/charge from that static rejection.
+Full committed payload439325bytes/147parts/4c201cc6 and config envelope checked.
+Published source=infra ca1d6cb1; Buildf6627644-8f4b-40fa-b28c-50b13a9d1825,
+submittedconfigfb67b5fc, timeout900/reserve960. PENDING mixed experiment:
+compile→candidatecontrols→actual fullbodyguard/frontier with full originalposts
+and retained matrix; no credit or toolqualification yet. Prefixknownblocker
+unchanged, lifetime-only/schema/model admission forbidden. Roleupdate adopted
+without changing active inputs or delegating research to maintainer.
+
+### R4 Build1 terminal / candidate2, 2026-10-19
+Build f6627644-8f4b-40fa-b28c-50b13a9d1825, source=infra ca1d6cb10175611ac8b8decae90b3ac246263d09, FAILURE; charge649/execution648, remaining2951. Tool compile/setup seven milestones0. Old AddressOf(tmp) originalguard blocker passed; fullbody sourceexacttrue, fresh checked error aliasing.rsspec88 missing ref_precreated_token<u64>(tmp_addr,_). Controls2 intendedrejections,7INCONCLUSIVE. Exact bounded Reader observations in R4-BUILD1-*.json. No prefix/B2/profilequalification/independentcredit. Next hypothesis: frozenchecked precreate/initreadonly consumes actualtmpowner fraction; deterministicfixtureasserts ghostchecked toavoid unreachablepanicbranches; dynamicunwind/resources retained. Newdiff LunaGO required.

@@ -491,3 +491,36 @@ Preserve CURRENT array split/open and full final posts; known prefix placeholder
 remains expected independent limitation, NOT proofnegative success. Build type
 mixed (tool/classifier/proof), timeout900/account reservation960 within3600.
 No source/infra SHA claimed executed until fresh terminal receipt.
+
+
+R4 Build1 terminal f6627644/sourceca1d6cb1: FAILURE,649Cloud/execution648,
+all7toolmilestones exit0. Actual sourceexact fullbody now reaches create_ref at
+originalguard20749–52; next diagnostic aliasing.rsspec88 missing
+ref_precreated_token<u64>(tmp_addr,_). Prior unsupportedAddressOf not observed.
+No guard/fullbody theorem. Prefix remainsINCONCLUSIVE/resourceadmission skipped.
+Addressability negatives missingowner/afterDead sourceEXPECTED_REJECTION;
+positives andothernegatives INCONCLUSIVE, including normalunwindE0596 immutable
+local rawmut fixturebug. No toolqualification or formalcredit.
+
+NEXT hypothesis BEFORE edits: frozen precreate_ref requires true and returns
+only reference-init permission/token; init_ref_readonly consumes actual physical
+tmp points_to coefficient f and splits it into f/2 parent +f/2 reference, with
+readonly-end token. Add these existing checked operations only after original
+tmp initialization before original guard, typeu64/physical &tmp, fullbody-only.
+No numeric equality bridge or new kernel/model rule. Full CURRENT finalposts
+and resource/leak checks remain, including outstanding readonly-end obligation;
+this is deliberately partial guard-frontier diagnostic, never wholefunction
+proof if later cleanup/loan restoration fails. Do not touch lateCleanup lowering.
+PASS means prior tokenprecondition passes andnextcheckedfrontier observed;
+missingpermission means inspect actual fraction/source, not assumeownership.
+Same tool/profile strictpins remain. Separately repair controlfixturemutability
+and strengthen multiplemerge physical alias identity/readwrite checks; adjust
+oracles only after exact intended errors/stages are observed, not arbitrary
+setupfailures. Independent LunaHigh newdiffGO before newpublishedBuild.
+
+### R4 candidate2 controls hypothesis, 2026-10-19T22:15Z
+Targeted Build1 after-merge verifier fragment155–166 confirms successful return/leak check followed by `verified/lib.rs(15,5-24): dead code` at the deterministic runtime `assert!(local == 8)`. Exporter/decode/refinement were0, verifier1. Hypothesis: constant-condition assert panic branches trigger retained dead-code rejection. Replace deterministic fixture value/identity assertions by checked ghost assertions; keep physical pointer write/read as runtime operations and dynamic flag panic branch for normal/unwind. This preserves dead-code checking and full posts, without classifying Build1 as PASS. The real candidate must discharge the new ghost checks in Cloud. No classifier oracles relaxed.
+
+Candidate2 negative fixture follow-up: exact Reader unsupported error is Parse error at9:20–22 (`1u64` ghost literal), not intended AddressOf refusal. Use ghost integer literals `(1 + 2)` instead of Rust suffixed literals, keep same non-lvalue shape/message gate. beforeLive is Unbound variable local at9:19–24, remains INCONCLUSIVE; no frontend failure upgraded to intended storage rejection.
+
+R4 emitted-flag limit: exact Build1 Rocq flag catalogue contains no `local` entry. Frozen verifast.ml deferred Rust storage declaration branch (guard includes address_taken, lines1113–1135) registers storage and returns without calling rocq_print_local_addr_taken. Thus absence is not false, and guessed generated binder names are inadmissible. Retain strict local gate/INCONCLUSIVE and distinguish future actual exit0/resource/target-path observations from final-flag qualification. Do not modify the frozen emitter or infer full profile qualification. Original actual Const tmp AddressOf frontier remains independently observed through the checked create_ref precondition failure.

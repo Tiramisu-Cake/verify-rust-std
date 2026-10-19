@@ -24,27 +24,28 @@ CONTRACT = """\n/*@ req *anchor |-> ?old; @*/\n/*@ ens *anchor |-> old; @*/\n/*@
 # the expected storage/permission refusal at that annotation.
 CASES: dict[str, dict] = {
     "address_before_merge": {
-        "source": """pub unsafe fn address_before_merge(anchor: *mut u64)\n{contract}\n{{\n    let mut local = 7u64;\n    let _address = &raw mut local; // TARGET: address before merge\n    //@ let k = begin_lifetime();\n    //@ merge_fractions lifetime_token(k);\n    //@ end_lifetime(k);\n    local = local + 1;\n    assert!(local == 8);\n}\n""",
+        "source": """pub unsafe fn address_before_merge(anchor: *mut u64)\n{contract}\n{{\n    let mut local = 7u64;\n    let _address = &raw mut local; // TARGET: address before merge\n    //@ let k = begin_lifetime();\n    //@ merge_fractions lifetime_token(k);\n    //@ end_lifetime(k);\n    local = local + 1;\n    //@ assert local == 8;\n}\n""",
         "target_markers": ["address before merge"],
         "class": "positive", "locals": {"local": True},
     },
     "address_after_merge": {
-        "source": """pub unsafe fn address_after_merge(anchor: *mut u64)\n{contract}\n{{\n    let mut local = 7u64;\n    //@ let k = begin_lifetime();\n    //@ merge_fractions lifetime_token(k);\n    let _address = &raw mut local; // TARGET: address after merge\n    //@ end_lifetime(k);\n    local = local + 1;\n    assert!(local == 8);\n}\n""",
+        "source": """pub unsafe fn address_after_merge(anchor: *mut u64)\n{contract}\n{{\n    let mut local = 7u64;\n    //@ let k = begin_lifetime();\n    //@ merge_fractions lifetime_token(k);\n    let _address = &raw mut local; // TARGET: address after merge\n    //@ end_lifetime(k);\n    local = local + 1;\n    //@ assert local == 8;\n}\n""",
         "target_markers": ["address after merge"],
         "class": "positive", "locals": {"local": True},
     },
     "address_in_merge_assertion": {
-        "source": """pub unsafe fn address_in_merge_assertion(anchor: *mut u64)\n{contract}\n{{\n    let local = 7u64;\n    //@ merge_fractions points_to::<u64>(&local, _); // TARGET: AddressOf is inside merge assertion\n    assert!(local == 7);\n}\n""",
+        "source": """pub unsafe fn address_in_merge_assertion(anchor: *mut u64)\n{contract}\n{{\n    let local = 7u64;\n    //@ merge_fractions points_to::<u64>(&local, _); // TARGET: AddressOf is inside merge assertion\n    //@ assert local == 7;\n}\n""",
         "target_markers": ["AddressOf is inside merge assertion"],
         "class": "positive", "locals": {"local": True},
     },
     "multiple_merges_unrelated_local": {
-        "source": """pub unsafe fn multiple_merges_unrelated_local(anchor: *mut u64)\n{contract}\n{{\n    let mut local = 3u64;\n    let unrelated = 11u64;\n    //@ let k1 = begin_lifetime();\n    //@ merge_fractions lifetime_token(k1);\n    let _first = &raw mut local; // TARGET: first continuation\n    //@ end_lifetime(k1);\n    //@ let k2 = begin_lifetime();\n    //@ merge_fractions lifetime_token(k2);\n    let _second = &raw mut local; // TARGET: second continuation\n    //@ end_lifetime(k2);\n    assert!(local + unrelated == 14);\n}\n""",
-        "target_markers": ["first continuation", "second continuation"],
+        "source": """pub unsafe fn multiple_merges_unrelated_local(anchor: *mut u64)\n{contract}\n{{\n    let mut local = 3u64;\n    let unrelated = 11u64;\n    //@ let k1 = begin_lifetime();\n    //@ merge_fractions lifetime_token(k1);\n    let first = &raw mut local; // TARGET: first continuation\n    //@ end_lifetime(k1);\n    //@ let k2 = begin_lifetime();\n    //@ merge_fractions lifetime_token(k2);\n    let second = &raw mut local; // TARGET: second continuation\n    //@ end_lifetime(k2);\n    //@ assert first == second;\n    //@ assert points_to::<u64>(first, 3); // TARGET: physical ownership of the shared address\n    unsafe { *first = 5; }\n    let through_second = unsafe { *second };\n    //@ assert through_second == 5;\n    //@ assert local == 5;\n    //@ assert unrelated == 11;\n}\n""",
+        "target_markers": ["first continuation", "second continuation",
+                           "physical ownership of the shared address"],
         "class": "positive", "locals": {"local": True, "unrelated": False},
     },
     "address_normal_unwind": {
-        "source": """#[inline(never)]\nfn may_panic(flag: bool)\n/*@ req true; @*/\n/*@ ens true; @*/\n/*@ on_unwind_ens true; @*/\n{{\n    assert!(!flag);\n}}\n\npub unsafe fn address_normal_unwind(anchor: *mut u64, flag: bool)\n{contract}\n{{\n    let local = 19u64;\n    //@ let k = begin_lifetime();\n    //@ merge_fractions lifetime_token(k);\n    let _address = &raw mut local; // TARGET: address after merge on normal/unwind paths\n    //@ end_lifetime(k);\n    may_panic(flag);\n    assert!(local == 19);\n}}\n""",
+        "source": """#[inline(never)]\nfn may_panic(flag: bool)\n/*@ req true; @*/\n/*@ ens true; @*/\n/*@ on_unwind_ens true; @*/\n{{\n    assert!(!flag);\n}}\n\npub unsafe fn address_normal_unwind(anchor: *mut u64, flag: bool)\n{contract}\n{{\n    let mut local = 19u64;\n    //@ let k = begin_lifetime();\n    //@ merge_fractions lifetime_token(k);\n    let _address = &raw mut local; // TARGET: address after merge on normal/unwind paths\n    //@ end_lifetime(k);\n    may_panic(flag);\n    //@ assert local == 19;\n}}\n""",
         "target_markers": ["address after merge on normal/unwind paths"],
         "class": "positive", "locals": {"local": True},
     },
@@ -54,12 +55,12 @@ CASES: dict[str, dict] = {
         "error_contains": "No matching heap chunks",
     },
     "after_storage_dead": {
-        "source": """pub unsafe fn after_storage_dead(anchor: *mut u64)\n{contract}\n{{\n    let mut stale: *mut u64 = core::ptr::null_mut();\n    {{\n        let mut local = 23u64;\n        stale = &raw mut local;\n    }} // local StorageDead precedes the TARGET assertion\n    //@ assert *stale |-> ?observed; // TARGET: dereference after StorageDead\n}}\n""",
+        "source": """pub unsafe fn after_storage_dead(anchor: *mut u64)\n{contract}\n{{\n    let mut stale: *mut u64 = anchor;\n    {{\n        let mut local = 23u64;\n        stale = &raw mut local;\n    }} // local StorageDead precedes the TARGET assertion\n    //@ assert *stale |-> ?observed; // TARGET: dereference after StorageDead\n}}\n""",
         "class": "negative", "target": "dereference after StorageDead",
         "error_contains": "No matching heap chunks",
     },
     "unsupported_address_operand": {
-        "source": """pub unsafe fn unsupported_address_operand(anchor: *mut u64)\n{contract}\n{{\n    //@ assert &(1u64 + 2u64) == &(1u64 + 2u64); // TARGET: unsupported AddressOf operand\n}}\n""",
+        "source": """pub unsafe fn unsupported_address_operand(anchor: *mut u64)\n{contract}\n{{\n    //@ assert &(1 + 2) == &(1 + 2); // TARGET: unsupported AddressOf operand\n}}\n""",
         "class": "negative", "target": "unsupported AddressOf operand",
         "error_contains": "Taking the address of this expression is not supported.",
     },

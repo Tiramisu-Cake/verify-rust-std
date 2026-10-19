@@ -1,3 +1,31 @@
+> R4 fresh terminal: Build `f6627644-8f4b-40fa-b28c-50b13a9d1825`, source `ca1d6cb1`, charge649/3600, no active. Original guard AddressOf passed; next checked blocker `ref_precreated_token<u64>(tmp_addr,_)` at aliasing.rsspec88. Candidate2 checked reference initialization/fixture repairs under review. Prefix/B2/qualification OPEN; independent credit0. T0/main/absolute unchanged.
+
+# MERGE — R4 ACTIVE / guard addressability
+
+Task [CURRENT-TASK](CURRENT-TASK.md), T0 2026-10-19T21:24:56Z,
+main23:24:56Z/absolute23:54:56Z, new Cloud ceiling3600. Toola42d50be changes
+only MergeFractionsStmt continuation after assertion scan; CRLF retained.
+Experimental profile experimental-merge-guard-addressability-v1/SHA77164792,
+patchf1786653; old14chain/translator/CURRENT18/kernel/model/prelude unchanged.
+Static15patch/16files/14sourcepins/18strictbase PASS, real run.sh pin retained.
+Independent LunaHigh GO for exact candidate; service checks PASS.
+
+Buildf6627644-8f4b-40fa-b28c-50b13a9d1825 WORKING, source=infra ca1d6cb1,
+configfb67b5fc/payload4c201cc6; charge pending/reserve960, no proof result yet.
+Compile→real candidate addressability controls→retained B1/fullbody campaign;
+controls errors stay INCONCLUSIVE and do not hide independent actual frontier.
+R2 CURRENT split/open/read/guard runtime and full normal/unwind posts retained.
+New profile qualification OPEN/B2 OPEN/independent proof credit0.
+[Release](cloud-build/origin-layout/R4-RELEASE-20261020.json),
+[obligations](cloud-build/origin-layout/R4-OBLIGATIONS-20261020.md).
+
+Prefix coercion/lifetime/metadata implementation is outside R4; next separate
+scope proposal in [design](cloud-build/origin-layout/R4-PREFIX-NEXT-DESIGN-20261020.md).
+No old account carryover or raw evidence access. New owner role clarification
+read: Merge retains patch/proof ownership; no automatic maintainer delegation.
+
+Previous R3 checkpoint retained below as history.
+
 # MERGE — R3 CLOSED / PARTIAL; v0.11 read-only follow-up
 
 [Текущее задание/отчёт](CURRENT-TASK.md). R3 закрыта19:54:58Z2026-10-19,

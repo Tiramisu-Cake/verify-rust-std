@@ -118,6 +118,16 @@ with tempfile.TemporaryDirectory(prefix="r4-addressability-service-") as temp:
     before_live_source = (root / "suite/before_storage_live/verified/lib.rs").read_text()
     assert before_live_source.index("TARGET: ghost address precedes local StorageLive") < \
         before_live_source.index("let local = 31u64;")
+    multi_source = (root / "suite/multiple_merges_unrelated_local/verified/lib.rs").read_text()
+    assert "let first = &raw mut local" in multi_source
+    assert "let second = &raw mut local" in multi_source
+    assert "//@ assert first == second;" in multi_source
+    assert "points_to::<u64>(first, 3)" in multi_source
+    assert "unsafe { *first = 5; }" in multi_source
+    assert "let through_second = unsafe { *second };" in multi_source
+    assert metadata["multiple_merges_unrelated_local"]["locals"]["unrelated"] is False
+    unwind_source = (root / "suite/address_normal_unwind/verified/lib.rs").read_text()
+    assert "let mut local = 19u64;" in unwind_source
 
     # A single case callback exception becomes a row and does not abort the
     # remaining isolated cases. The fake callback executes no tools.

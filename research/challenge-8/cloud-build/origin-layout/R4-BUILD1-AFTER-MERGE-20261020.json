@@ -1,0 +1,153 @@
+{
+  "archive_sha256": "99779a1a84a7d2775a9b1acf361e1f407a87aec43be9d96b46e1aaf40a603e6b",
+  "build_id": "f6627644-8f4b-40fa-b28c-50b13a9d1825",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 28,
+  "complete": false,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "bc49a4971ec7c7cc5e41f7a2d52faa2ffc2094adc64aaf145ad606cbaf5eb76b",
+  "file_path": "allprooflogs/checked-minimal-bridge/addressability-controls/aggregate.json",
+  "file_sha256": "6a3845ff66ef153b6acee5832b58b1757f8b4e97682df9d2682c2093b6841255",
+  "index_sha256": "0ebdf295356f0b6cfcb671c70ca824e85b4d7e8f8bef8628e2c50db1462d6985",
+  "next_offset": 20,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "6a3845ff66ef153b6acee5832b58b1757f8b4e97682df9d2682c2093b6841255",
+    "file_id": "bc49a4971ec7c7cc5e41f7a2d52faa2ffc2094adc64aaf145ad606cbaf5eb76b",
+    "pointer": "/case_details/address_after_merge"
+  },
+  "request_id": "cf6618ddedd27f78a2cfb105b9093f406c23fee698eb61293a7383bf28bcb6cb",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/case_details/address_after_merge/accepted",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/case_details/address_after_merge/case",
+      "value": "address_after_merge"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/case_details/address_after_merge/classification",
+      "value": "INCONCLUSIVE"
+    },
+    {
+      "exact": true,
+      "kind": "null",
+      "pointer": "/case_details/address_after_merge/error_contains",
+      "value": null
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/case_details/address_after_merge/error_match",
+      "value": false
+    },
+    {
+      "child_count": 0,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/case_details/address_after_merge/errors"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/case_details/address_after_merge/evidence_class",
+      "value": "diagnostic control only; no profile acceptance or proof credit"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/case_details/address_after_merge/expected_class",
+      "value": "positive"
+    },
+    {
+      "child_count": 1,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/case_details/address_after_merge/expected_local_flags"
+    },
+    {
+      "child_count": 4,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/case_details/address_after_merge/expected_stages"
+    },
+    {
+      "child_count": 1,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/case_details/address_after_merge/locals"
+    },
+    {
+      "child_count": 1,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/case_details/address_after_merge/observed_local_flags"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/case_details/address_after_merge/original_export_stages"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/case_details/address_after_merge/original_sha256",
+      "value": "f9e59d98227e50cca166ec882a70b462db1930cd23a08a8e63c44bbe922981be"
+    },
+    {
+      "child_count": 4,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/case_details/address_after_merge/rocq_final_local_flags"
+    },
+    {
+      "child_count": 3,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/case_details/address_after_merge/source_after"
+    },
+    {
+      "child_count": 3,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/case_details/address_after_merge/source_before"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/case_details/address_after_merge/source_hashes_after"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/case_details/address_after_merge/source_receipts_match",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/case_details/address_after_merge/source_sha256",
+      "value": "f9e59d98227e50cca166ec882a70b462db1930cd23a08a8e63c44bbe922981be"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

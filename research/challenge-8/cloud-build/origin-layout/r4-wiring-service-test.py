@@ -44,6 +44,23 @@ class Tests(unittest.TestCase):
   self.assertIn('getattr(args, "r4_addressability_rocq", False) is True',text)
   self.assertIn('vf_arguments.append("-emit_rocq")',text)
   self.assertIn('source_unchanged_at_every_stage',text)
+ def test_checked_reference_transform_is_ghost_only_and_fail_closed(self):
+  import re
+  path=HERE/'first-callback.py';tree=ast.parse(path.read_bytes())
+  names={'_one','_prepare_tmp_reference'}
+  nodes=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name in names or isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='TMP_REFERENCE_INIT' for t in n.targets)]
+  context={};exec(compile(ast.fix_missing_locations(ast.Module(body=nodes,type_ignores=[])),str(path),'exec'),context)
+  anchor=b'        let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };\n'
+  source=b'        let tmp = synthetic_read();\n'+anchor+b'        synthetic_next();\n'
+  result=context['_prepare_tmp_reference'](source)
+  self.assertEqual(re.sub(rb'^[ \t]*//@[^\n]*\n',b'',result,flags=re.M),source)
+  self.assertEqual(result.count(b'precreate_ref::<u64>(&tmp)'),1)
+  self.assertEqual(result.count(b'init_ref_readonly::<u64>(r4_tmp_ref, 1/2)'),1)
+  for bad in (b'',source+anchor):
+   with self.assertRaises(ValueError):context['_prepare_tmp_reference'](bad)
+  prepare=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='prepare')
+  branch=next(n for n in prepare.body if isinstance(n,ast.If) and ast.unparse(n.test)=='not prefix')
+  self.assertIn('_prepare_tmp_reference(_open_tail_read(verified))',ast.unparse(branch))
  def test_parent_environment_satisfies_actual_control_receipt_gate(self):
   import hashlib
   root=HERE.parents[3]; path=root/'research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py'

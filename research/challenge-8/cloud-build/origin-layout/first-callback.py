@@ -91,6 +91,20 @@ def _open_tail_read(source):
                 'open CURRENT tail singleton before original read')
 
 
+# Checked primitives: precreation provides no points-to ownership; initialization
+# consumes a fraction of the actual tmp cell. Its readonly-end obligation remains
+# live and must be discharged by the unchanged full normal/unwind contracts.
+TMP_REFERENCE_INIT = b"""        //@ let r4_tmp_ref = precreate_ref::<u64>(&tmp);
+        //@ init_ref_readonly::<u64>(r4_tmp_ref, 1/2);
+"""
+
+
+def _prepare_tmp_reference(source):
+    anchor = b'        let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };\n'
+    return _one(source, anchor, TMP_REFERENCE_INIT + anchor,
+                'checked reference initialization before original guard')
+
+
 def _commands(fragment):
     lines = fragment.splitlines()
     if any(not line.lstrip().startswith(b'//@ ') for line in lines):
@@ -180,7 +194,7 @@ def prepare(evidence, *, prefix=False, mutation=None):
                          'lost_current_f', 'lost_cell_owner'):
         raise ValueError('unknown first-comparator mutation')
     if not prefix:
-        verified = _open_tail_read(verified)
+        verified = _prepare_tmp_reference(_open_tail_read(verified))
     # Strip the NEW ghost-only annotations and compare with inherited source.
     # Other original ghost commands were already checked by old._prepare.
     # Runtime comparison removes only comments and whitespace; the inherited
@@ -213,6 +227,7 @@ def prepare(evidence, *, prefix=False, mutation=None):
     record['actual_first_call_line'] = old._line(verified, call.rstrip(b'\n'))
     for key, anchor in (
         ('actual_read_line', b'let tmp = ManuallyDrop::new(tail.read());'),
+        ('actual_guard_line', b'let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };'),
         ('actual_shift_line', b'ptr::copy_nonoverlapping(sift, gap_guard.dst, 1);'),
         ('actual_update_line', b'gap_guard.dst = sift;'),
         ('actual_late_call_line', b'if !is_less(&tmp, &*sift) {')):
@@ -283,7 +298,7 @@ def classify(case, record, execution, *, baseline_positive=False):
     prefix_proved = bool(admitted and record['prefix'] and mutation is None and
                          stages.get('verifast') == 0 and not errors and 'dead code' not in text.lower())
     runtime_frontiers = {}
-    for key in ('actual_first_call_line', 'actual_read_line', 'actual_shift_line',
+    for key in ('actual_first_call_line', 'actual_read_line', 'actual_guard_line', 'actual_shift_line',
                 'actual_update_line', 'actual_late_call_line', 'false_return_line'):
         line = record.get(key)
         runtime_frontiers[key] = bool(line and re.search(

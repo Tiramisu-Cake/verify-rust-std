@@ -68,14 +68,12 @@ Evidence **v0.11**: Brief → catalogue → refresh/info → locate/fragment →
 
 ## Отчёт агента
 
-- **Статус:** ACTIVE. T0/main/absolute/end UTC: 2026-10-19 21:24:56 /23:24:56 /23:54:56 /—. Trust decision до реализации записан в semantic card; новый ledger3600, прежние счета закрыты.
-- **Tool/project/source/infra/profile/patch/closure identities:** —.
-- **Continuation fix / Cloud controls / actual guard frontier до→после:** —.
-- **Fullbody normal/unwind proof, CURRENT ресурсы:** —.
-- **Prefix false/true/Continue-panic / metadata design / frozen boundaries:** —.
-- **Полная матрица/B1/B2/independent proof credit:** —.
-- **Review/checks:** —.
-- **Builds:** UUID → exact candidate → гипотеза/тип → Brief result → charge —.
-- **Обслуживающая работа / proof-прирост / wall-clock / measured stage timings либо «нет данных»:** —.
-- **Учёт:** charge —/3600; own requests/reservations/active/unresolved —.
-- **Первый remaining blocker / следующий шаг / ссылки:** —.
+- **Статус:** ACTIVE. T0/main/absolute/end UTC: 2026-10-19 21:24:56 /23:24:56 /23:54:56 /—. Новая R4 phase, ceiling3600; прежние счета не открывались.
+- **Identities:** toola42d50becbc84a45e33a58269358eee105f1fdcb (только verify_expr continuation, CRLF), verify_exprSHA97f5e50c…; профиль experimental-merge-guard-addressability-v1/SHA77164792…; patchf1786653… . Published source=infra ca1d6cb10175611ac8b8decae90b3ac246263d09; payload4c201cc6…/439325bytes/147parts; submitted configfb67b5fc… . [Release](cloud-build/origin-layout/R4-RELEASE-20261020.json).
+- **Continuation/controls/guard:** narrow fix реализован; старые14patches/translator/CURRENT18/kernel/model/prelude сохранены. Real-candidate controls исполнены после compile/smoke. R2 AddressOf(tmp)20749–52 пройден; свежий frontier — aliasing.rsspec88 missing ref_precreated_token<u64>(tmp_addr,_). Controls:2 EXPECTED_REJECTION,7 INCONCLUSIVE, включая normal/unwind E0596 fixture. Без proof credit. Полные actual runtime/posts и R2 CURRENT split/open сохранены.
+- **Prefix:** не ремонтировался. [Следующий exact design](cloud-build/origin-layout/R4-PREFIX-NEXT-DESIGN-20261020.md): subtype-preserving gate, checked local lifetime/borrow, length3/data/provenance construction с full resource return; требует отдельного scope. Lifetime-only patch/schema/exporter/model changes и fractional helper не вводились.
+- **Матрица/credit:** все прежние группы сохранены; свежие результаты PENDING, не перенесены из старого профиля. B2 OPEN/independent proof credit0/profile qualification OPEN. [Obligations](cloud-build/origin-layout/R4-OBLIGATIONS-20261020.md).
+- **Review/checks:** [Luna High GO одного pinnedBuild](cloud-build/origin-layout/R4-REVIEW-20261020.json); static15patch/16files/14sourcepins/18strictbase PASS, run.sh pin unchanged.4 wiring tests + synthetic service error-path tests PASS; actual tests только Cloud. Source payload/limits проверены до submit. Sorted recipe constraint исправлен до API, отдельный review GO. Patch context сохраняет2 прежних trailing-space/CRLF строк; resulting tool diff одна строка, patch application strict PASS. Compiler/preparer/verifier локально не запускались.
+- **Builds:** f6627644-8f4b-40fa-b28c-50b13a9d1825 →ca1d6cb1 → mixed: compile новый инструмент/actual addressability controls/guard frontier/full retained matrix →FAILURE →charge649, execution648. Timeout900, прежний reserve960 снят.
+- **Время/учёт:** последнее обновление 2026-10-19T22:28:42Z; spent649/3600, remaining2951; own active=null, unresolved=null. unknown submit resolved to UUID, duplicate не отправлялся. Measured setup/proof/reporting durations пока нет. [Ledger](cloud-build/origin-layout/GUARD-ADDRESSABILITY-R4-BUDGET-20261020.json).
+- **Следующий шаг:** кандидат2: checked precreate/init readonly перед guard и исправленные fixtures; target diagnostics и новый Luna GO перед commit/publish/Cloud. Фонового продолжения после закрытия нет.
