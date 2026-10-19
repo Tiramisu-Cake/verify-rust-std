@@ -183,6 +183,10 @@ def transform(path: str, original: bytes, pins: dict[str, str] | None = None) ->
                  b'    --fixture research/challenge-8/merge/overnight/native-source-pair-turnover-cases.rs \\\n'
                  b'    --evidence "$evidence/checked-native-source-pair-turnover-stock"\n'
                  b'  return "$suite_status"\n}\n\nexperimental_home='), path)
+            # R4 keeps the baseline run.sh SHA strict; only the staged identity changes.
+            data = replace_once(data,
+                b'experimental-merge-first-callback-u64-v1',
+                b'experimental-merge-guard-addressability-v1', path)
             data = replace_once(data,
                 b'run_one bidirectional-len23-diagnostic 400 python3',
                 b'run_one bidirectional-len23-diagnostic 760 python3', path)

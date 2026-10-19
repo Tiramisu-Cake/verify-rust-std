@@ -117,7 +117,7 @@ if [[ -n "${SMALLSORT_MERGE_PROFILE:-}" ]]; then
   python3 - "$SMALLSORT_MERGE_PROFILE" "$selected_patch" <<'SELECTEDPIN'
 import hashlib,json,pathlib,sys
 profile,patch=map(pathlib.Path,sys.argv[1:]);p=json.loads(profile.read_text())
-assert p['profile'] in ('experimental-merge-actual-glue-body-v8', 'experimental-merge-first-callback-u64-v1') and p['accepted'] is False
+assert p['profile'] in ('experimental-merge-actual-glue-body-v8', 'experimental-merge-guard-addressability-v1') and p['accepted'] is False
 assert hashlib.sha256(patch.read_bytes()).hexdigest()==p['selected_drop_patch_sha256']
 SELECTEDPIN
   git -C "$new_home" apply --check "$selected_patch"
@@ -127,7 +127,7 @@ SELECTEDPIN
   python3 - "$SMALLSORT_MERGE_PROFILE" "$glue_patch" <<'GLUEPIN'
 import hashlib,json,pathlib,sys
 p=json.loads(pathlib.Path(sys.argv[1]).read_text());patch=pathlib.Path(sys.argv[2])
-assert p['profile'] in ('experimental-merge-actual-glue-body-v8', 'experimental-merge-first-callback-u64-v1') and p['accepted'] is False
+assert p['profile'] in ('experimental-merge-actual-glue-body-v8', 'experimental-merge-guard-addressability-v1') and p['accepted'] is False
 assert hashlib.sha256(patch.read_bytes()).hexdigest()==p['glue_observation_patch_sha256']
 GLUEPIN
   git -C "$new_home" apply --check "$glue_patch"
@@ -137,7 +137,7 @@ GLUEPIN
   python3 - "$SMALLSORT_MERGE_PROFILE" "$body_patch" <<'BODYPIN'
 import hashlib,json,pathlib,sys
 p=json.loads(pathlib.Path(sys.argv[1]).read_text());patch=pathlib.Path(sys.argv[2])
-assert p['profile'] in ('experimental-merge-actual-glue-body-v8', 'experimental-merge-first-callback-u64-v1') and p['accepted'] is False
+assert p['profile'] in ('experimental-merge-actual-glue-body-v8', 'experimental-merge-guard-addressability-v1') and p['accepted'] is False
 assert hashlib.sha256(patch.read_bytes()).hexdigest()==p['glue_body_patch_sha256']
 BODYPIN
   git -C "$new_home" apply --check "$body_patch"
@@ -149,7 +149,7 @@ if [[ -n "${SMALLSORT_MERGE_PROFILE:-}" ]]; then
   apply_first=$(python3 - "$SMALLSORT_MERGE_PROFILE" "$first_patch" <<'FIRSTPIN'
 import hashlib,json,pathlib,sys
 p=json.loads(pathlib.Path(sys.argv[1]).read_text())
-if p['profile']=='experimental-merge-first-callback-u64-v1':
+if p['profile']=='experimental-merge-guard-addressability-v1':
     assert p['accepted'] is False
     assert hashlib.sha256(pathlib.Path(sys.argv[2]).read_bytes()).hexdigest()==p['first_callback_patch_sha256']
     print('yes')
@@ -162,6 +162,21 @@ FIRSTPIN
     git -C "$new_home" apply --whitespace=error "$first_patch"
     cp "$first_patch" "$evidence/first-callback.patch"
   fi
+fi
+if [[ -n "${SMALLSORT_MERGE_PROFILE:-}" ]]; then
+  continuation_patch="$here/../../../../cloud-build/origin-layout/addressability-continuation.patch"
+  python3 - "$SMALLSORT_MERGE_PROFILE" "$continuation_patch" "$new_home" <<'ADDRESSPIN'
+import hashlib,json,pathlib,sys
+profile,patch,home=map(pathlib.Path,sys.argv[1:]);p=json.loads(profile.read_text())
+assert p['profile']=='experimental-merge-guard-addressability-v1' and p['accepted'] is False
+assert len(p['ordered_patch_chain'])==15
+assert p['ordered_patch_chain'][-1]['sha256']==p['addressability_patch_sha256']
+assert hashlib.sha256(patch.read_bytes()).hexdigest()==p['addressability_patch_sha256']
+assert hashlib.sha256((home/'src/verify_expr.ml').read_bytes()).hexdigest()==p['baseline_verify_expr_sha256']
+ADDRESSPIN
+  git -C "$new_home" -c core.whitespace=cr-at-eol apply --check "$continuation_patch"
+  git -C "$new_home" -c core.whitespace=cr-at-eol apply --whitespace=error "$continuation_patch"
+  cp "$continuation_patch" "$evidence/addressability-continuation.patch"
 fi
 # Prepare-only mode preserves the exact existing patch/dependency preparation,
 # then stops before Cargo, Dune, native controls or any proof execution.

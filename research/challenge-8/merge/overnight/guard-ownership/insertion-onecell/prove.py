@@ -275,7 +275,7 @@ def execute_case(case: Path, args, env: dict) -> dict:
     # Preserve both independently exported generated CFGs for inspection.
     # The official refiner still exports and compares the source pair itself.
     original_stages = {}
-    if args.profile in ("experimental-merge-actual-glue-body-v8", "experimental-merge-first-callback-u64-v1"):
+    if args.profile in ("experimental-merge-actual-glue-body-v8", "experimental-merge-guard-addressability-v1"):
         original_export = base.run_stage(case, "original-exporter", [
             str(args.tool_home / "bin/vf-rust-mir-exporter"), "original/lib.rs",
             f"--sysroot={args.compiler_sysroot}", "--edition", "2021", "--crate-type", "lib",
@@ -292,6 +292,8 @@ def execute_case(case: Path, args, env: dict) -> dict:
     vf_arguments = [str(args.tool_home / "bin/verifast"),
         "-rustc_args", "--edition 2021", "-verbose", "1", "-dump_ast_with_locs",
         "proof-ast.ml"]
+    if getattr(args, "r4_addressability_rocq", False) is True:
+        vf_arguments.append("-emit_rocq")
     qualification_target = getattr(args, "qualification_target", None)
     if qualification_target is not None:
         if qualification_target != "ILP32":
@@ -564,6 +566,11 @@ def main() -> int:
                    "schema_sha256": base.file_sha(args.schema),
                    "source_sha256": base.file_sha(prep.SOURCE),
                    "rustc_version": version, "rustc_toolchain": os.environ["RUSTUP_TOOLCHAIN"], "accepted": False}
+    if args.profile == "experimental-merge-guard-addressability-v1":
+        profile_path = Path(os.environ["SMALLSORT_MERGE_PROFILE"])
+        environment.update(profile_sha256=base.file_sha(profile_path),
+            tool_commit=profile_card["effective_tool_commit"],
+            verify_expr_sha256=profile_card["verify_expr_sha256"])
     (args.evidence / "environment.json").write_text(json.dumps(environment, indent=2) + "\n")
     # The retained lane smoke uses the six-patch binary. Run its same complete
     # ordinary normal/unwind gate on this exact combined candidate as well.
@@ -592,6 +599,23 @@ def main() -> int:
             {"ordinary_call_normal_unwind": "PASS"} or
             combined_smoke.get("classifier_controls_passed") is not True):
         raise RuntimeError("combined candidate mandatory smoke did not pass; retain artifacts")
+    r4_addressability = None
+    if args.profile == "experimental-merge-guard-addressability-v1":
+        control_root = args.evidence / "addressability-controls"
+        try:
+            r4_control = load("r4_addressability_controls", HERE.parents[3] /
+                              "cloud-build/origin-layout/r4-addressability-controls.py")
+            r4_addressability = r4_control.run(control_root, args, env, execute_case, environment)
+            if not isinstance(r4_addressability, dict) or type(r4_addressability.get("all_matched")) is not bool:
+                raise RuntimeError("addressability controls returned invalid summary shape")
+        except Exception as error:
+            r4_addressability = {"schema": "merge-r4-addressability-controls-v1",
+                "status": "INCONCLUSIVE_SERVICE_EXCEPTION", "all_matched": False,
+                "accepted": False, "proof_credit": False, "cases": {},
+                "exception": repr(error)}
+            control_root.mkdir(parents=True, exist_ok=True)
+            (control_root / "aggregate.json").write_text(json.dumps(r4_addressability, indent=2) + "\n")
+        # Independent fixture failures remain visible without hiding fullbody.
     if args.campaign == "selected-drop-minimal-v1":
         control = load("selected_drop_helper_control", HERE.parents[3] / "cloud-build/origin-layout/onecell-caller-composition.py")
         helper = control.run(args.evidence / "helper-control", args, env, execute_case, environment)
@@ -611,12 +635,16 @@ def main() -> int:
             "environment": environment, "combined_profile_smoke": combined_smoke,
             "selected_drop": summary, "helper_control": helper, "helper_control_matched": helper_matched, "cases": summary.get("cases", {}),
             "panic_unwind": "NOT_RUN", "combined_profile_acceptance": False}
+        if r4_addressability is not None:
+            aggregate["addressability_controls"] = r4_addressability
+            aggregate["addressability_controls_matched"] = r4_addressability.get("all_matched") is True
+            aggregate["experimental_profile_qualified"] = False
         # B2 is a separate actual-source diagnostic, entered only after every
         # fresh B1 gate in this same pinned campaign has qualified. No callee
         # summary, caller resource premise, or tool semantics changes here.
         b2_mode = HERE.parents[3] / "cloud-build/origin-layout/B2-ACTUAL-CAMPAIGN.json"
         dispatch = None
-        if args.profile == "experimental-merge-first-callback-u64-v1":
+        if args.profile == "experimental-merge-guard-addressability-v1":
             dispatch = load("first_comparator_dispatch_receipt", HERE.parents[3] /
                             "cloud-build/origin-layout/first-comparator-dispatch.py")
             profile_path = Path(os.environ["SMALLSORT_MERGE_PROFILE"])
@@ -646,7 +674,7 @@ def main() -> int:
                     dispatch.record(args.evidence, status="DISPATCHED",
                         binding=dispatch_binding, prerequisites=dispatch_prerequisites)
                 actual = load("actual_insert_tail_b2", HERE.parents[3] /
-                              ("cloud-build/origin-layout/first-callback.py" if args.profile == "experimental-merge-first-callback-u64-v1" else
+                              ("cloud-build/origin-layout/first-callback.py" if args.profile == "experimental-merge-guard-addressability-v1" else
                                "cloud-build/origin-layout/actual-insert-tail-b2.py"))
                 aggregate["actual_insert_tail_b2"] = actual.run(
                     args.evidence / "actual-insert-tail-b2", args, env,

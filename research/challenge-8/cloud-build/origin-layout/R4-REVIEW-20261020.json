@@ -1,0 +1,45 @@
+{
+  "schema": "merge-r4-independent-review-v1",
+  "reviewer": "/root/r4_independent_review",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "decision": "GO_SINGLE_PINNED_CLOUD_BUILD",
+  "max_timeout_seconds": 900,
+  "phase": "MERGE-GUARD-ADDRESSABILITY-R4-2026-10-20",
+  "ceiling_build_seconds": 3600,
+  "tool": "a42d50becbc84a45e33a58269358eee105f1fdcb",
+  "profile_sha256": "77164792cfca039fe8b2a993a198a545a74a074480371dba5f454a5e86709c66",
+  "patch_sha256": "f17866533a1cce7365d432a0d66cbcd9472a87cc44b027d67a78aa46bbbfd3e6",
+  "verify_expr_sha256": "97f5e50cbba0423338b096410ecbcc77d541b73efce30ef15220c6485891a5cd",
+  "reviewed_current_source_sha256": {
+    "cloud-build/control.py": "6e795e1b2ba18aa22f26154b70681f1df6183df0d3dcfe0a38fd6a5c4c9453ff",
+    "cloud-build/recipes/merge.json": "8411f9c3337a39e250e5f3c5a91044782c68adb959b51c108f677464a403f7cf",
+    "merge/cloud-build/provider-overlays.py": "ffb2199813b325c92187c00afc3bcc1e981e55bf84decb60890aa881e6a5c468",
+    "merge/overnight/guard-ownership/insertion-onecell/prove.py": "24dc5607657b0cce6860727139dc9e704cbd42d03507ebe72d0d8d172c2477a0",
+    "merge/overnight/guard-ownership/insertion-onecell/build-profile.sh": "77a4dcbfb8ecbeb0cfe8d948892b770323a52489241b96ddce037d081e3f481d",
+    "cloud-build/origin-layout/GLUE-PROFILE.json": "77164792cfca039fe8b2a993a198a545a74a074480371dba5f454a5e86709c66",
+    "cloud-build/origin-layout/addressability-continuation.patch": "f17866533a1cce7365d432a0d66cbcd9472a87cc44b027d67a78aa46bbbfd3e6",
+    "cloud-build/origin-layout/r4-addressability-controls.py": "6e1253492ff082fa2847d8873c38aeae59062e6127f0b60e255565dc989eec14",
+    "cloud-build/origin-layout/r4-addressability-service-test.py": "758164133a53bd3325e3aba661c2323160bb30e34beaa4f1cd0c03b794cd97aa",
+    "cloud-build/origin-layout/r4-wiring-service-test.py": "b17863f06427acb84cfc81b5f794ac9b7ff7026d321f2f2312c28528d88490d8",
+    "cloud-build/origin-layout/r4-source-preflight.py": "9fab0800ab41f169b470135429cc52955e1880d372c4ceadddd35d6ba4de3862",
+    "cloud-build/origin-layout/concrete-consumer.py": "7508065a9b155aafd0c927baf85d0cbf7867c6702d4b92b0d7faa771cb3a93c1",
+    "cloud-build/origin-layout/first-callback.py": "0a2bf5869ceae3b11f45e46517fd15560e9121ebf8e664651b5ea34d7d03acab",
+    "cloud-build/origin-layout/generated-glue-compatibility-controls.py": "15778a4886269d9342b821bd401722e265a05dc0faf15a56d62f83d4ff969446",
+    "cloud-build/origin-layout/generated-glue-receiver-controls.py": "2d38f5b2a44d9f3783a7c3410614b5da13a237da206532a4aebde0f9f4746f44",
+    "cloud-build/origin-layout/onecell-caller-composition.py": "db12a72b0ddd9b72fa181ca9f4bbed855593faaf17893393fe995116ba91f8b7",
+    "cloud-build/origin-layout/onecell-selected-drop.py": "11e89bfc0592aa96e563d1f1c0bb475f04c76ccaad0e99ce68f82d94d941f005"
+  },
+  "checks": [
+    "reviewed tool one-line scope/CRLF/preserved chain and delivery/profile/phase wiring",
+    "synthetic addressability service test PASS",
+    "AST parse final controls/service/hook PASS",
+    "parent static composition15/16/14/18 PASS_STATIC_ONLY"
+  ],
+  "limits": [
+    "not tool/profile qualification",
+    "no independent SmallSort proof credit",
+    "intended negatives require real candidate exact stage/predicate/location receipts"
+  ],
+  "recorded_utc": "2026-10-19T21:39:25.482695+00:00"
+}

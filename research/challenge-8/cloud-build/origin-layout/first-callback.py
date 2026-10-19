@@ -14,7 +14,7 @@ import re
 import sys
 
 HERE = Path(__file__).resolve().parent
-PROFILE = 'experimental-merge-first-callback-u64-v1'
+PROFILE = 'experimental-merge-guard-addressability-v1'
 PREFIX_NAME = b'insert_tail_first_callback_prefix'
 CUT = b'        // SAFETY: after this read'
 

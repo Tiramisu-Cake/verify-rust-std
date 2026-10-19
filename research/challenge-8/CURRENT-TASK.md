@@ -2,7 +2,7 @@
 
 ## Задание
 
-- **ID:** `merge-guard-addressability-2026-10-20-r4`; **статус:** READY, новая сессия ещё не начата.
+- **ID:** `merge-guard-addressability-2026-10-20-r4`; **статус:** ACTIVE, T0 2026-10-19T21:24:56Z.
 - **Owner:** `merge`.
 - **Project worktree:** `/root/verify-rust-std-merge-origin`; **branch:** `merge/incoming-origin-20261009`, fork `Tiramisu-Cake/verify-rust-std`.
 - **Tool worktree:** `/root/verifast-merge-actual-glue`; **branch:** `merge/actual-glue-instance-20261011`.
@@ -68,7 +68,7 @@ Evidence **v0.11**: Brief → catalogue → refresh/info → locate/fragment →
 
 ## Отчёт агента
 
-- **Статус:** NOT_STARTED. T0/main/absolute/end UTC: —.
+- **Статус:** ACTIVE. T0/main/absolute/end UTC: 2026-10-19 21:24:56 /23:24:56 /23:54:56 /—. Trust decision до реализации записан в semantic card; новый ledger3600, прежние счета закрыты.
 - **Tool/project/source/infra/profile/patch/closure identities:** —.
 - **Continuation fix / Cloud controls / actual guard frontier до→после:** —.
 - **Fullbody normal/unwind proof, CURRENT ресурсы:** —.

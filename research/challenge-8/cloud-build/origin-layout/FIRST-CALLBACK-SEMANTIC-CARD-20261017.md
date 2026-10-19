@@ -451,3 +451,43 @@ identityUpcast still lacks length3 construction. Guard missingcont consequence
 source-derived; checked finitefraction ghosthelper is alternative only ifactual
 resource decomposition is proved. No code/proof/tool/Build or closedaccount
 change; no new proofgatecredit. Current diagnosis/proposals/provenance updated.
+
+
+## R4 trust decision BEFORE implementation — 2026-10-19T21:24:56Z
+
+Owner task merge-guard-addressability-2026-10-20-r4, instruction56aad505.
+New T0 2026-10-19T21:24:56Z/main23:24:56Z/absolute23:54:56Z, own ledger3600Cloud
+seconds, no prior headroom carryover. Baseline tool08d6a578, profile82973e1e,
+translator2ff7b16f, verify_expr8883a76d (CRLF). Authorize exactly one change:
+MergeFractionsStmt scans its assertion then invokes existing cont locals once.
+CPS tail visitation marks actual later AddressOf uses under existing rules;
+no new ownership, memory/alias/layout or prefix coercion rule. Preserve every
+other tool byte and old14patch chain. New experimental profile retains all
+source pins except verify_expr plus explicit new tool/patch/profile identities.
+
+Actual obligation: source-exact fullbody CopyOnDrop src:&*tmp after CURRENT
+read with original full normal/unwind posts. Falsifiable hypothesis: resumed
+prepass sees actual tmp address, performs existing physical allocation, and
+passes prior error20749–52; a new failure is a new frontier, not whole proof.
+Cloud gates on the actual candidate: address before/after/within merge and
+multiple merges; unrelated local/unicity; physical allocation identity and
+normal/unwind/storage resources; intended missingowner/beforeLive/afterDead/
+unsupportedoperand negatives. Existing compile-preflight first, then controls,
+actual fullbody and full retained mandatory matrix by dependencies. Prefix
+lifetime+metadata known failure stays separate, prerequisite skipped negatives
+are not PASS. PASS permits proof-only iteration in same scope; setup failure
+requires delivery repair; other trusted changes require a new decision.
+Independent Luna High actual-diff GO before submit; local activity remains
+hashes/static composition/small service tests only. No fractional helper inR4.
+
+R4 candidate before first submit: toola42d50becbc84a45e33a58269358eee105f1fdcb,
+verify_expr97f5e50cbba0423338b096410ecbcc77d541b73efce30ef15220c6485891a5cd, patchf17866533a1cce7365d432a0d66cbcd9472a87cc44b027d67a78aa46bbbfd3e6,
+profileSHA77164792cfca039fe8b2a993a198a545a74a074480371dba5f454a5e86709c66. Static15patch/16files/14sourcepins/18base
+PASS;4wiring tests+syntheticcaseclassifier error paths PASS. Independent LunaHigh
+GO_SINGLE_PINNED_CLOUD_BUILD in R4-REVIEW-20261020.json. FirstBuild hypothesis:
+compile exact tool then new controls actualflags/normalunwind/storage; original
+fullbody proceeds past unsupported AddressOf(tmp)207 to a new checked frontier.
+Preserve CURRENT array split/open and full final posts; known prefix placeholder
+remains expected independent limitation, NOT proofnegative success. Build type
+mixed (tool/classifier/proof), timeout900/account reservation960 within3600.
+No source/infra SHA claimed executed until fresh terminal receipt.
