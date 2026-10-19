@@ -1798,6 +1798,9 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
             diagnostic = getattr(exc, "parser_diagnostic", None)
             if isinstance(diagnostic, dict):
                 value["parser_diagnostic"] = diagnostic
+            persist_error = getattr(exc, "parser_diagnostic_persist_error", None)
+            if isinstance(persist_error, str):
+                value["parser_diagnostic_persist_error"] = persist_error
             observations[case_id] = value
             execution_events.append({"case_id": case_id, "event": "adapter_error",
                                      "execution_started": True,
