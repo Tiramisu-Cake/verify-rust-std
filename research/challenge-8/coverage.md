@@ -978,3 +978,8 @@ remain unproved. Stableguard fixture earlier failed BufGuard genericscope.
 No actualcaller-to-C4 composition; publiccasesprebinding, consumerspostbinding.
 Sessionclosed1589/3600, unused2011retired, ownBuild/res/request/unresolvednone.
 See [checkpoint](cloud-build/sort4-caller-entry-native/END-CHECKPOINT-2026-10-11-CALLER-ENTRY.md).
+
+
+## 2026-10-20 R5 native interface progress (active)
+
+S1 Build f581f16f-2268-4ff6-882e-b5c34e088d0f advances both normal/readonly inventory parsing beyond Body FnMut/Output scope guard. Next interface inventory equality fails before native proof; P1started but full native/equality/refinement target not established, A1/A2 OPEN. No additional independent B1/B2 obligation closed. Scoped binding repair and local controls are representation work, not a caller proof. [Current session](cloud-build/sort4-caller-entry-native/A1-AUTO-SESSION-2026-10-20.md).

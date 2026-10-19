@@ -1,7 +1,7 @@
-# Select / sort4 — R5 ACTIVE, Body clause scopes
+# Select / sort4 — R5 ACTIVE, native interface inventory
 
-Taskselect-native-interface-autonomous-2026-10-20-r5, autonomy2026-10-20. T02026-10-19T22:34:09Z; main2026-10-20T00:34:09Z; absolute2026-10-20T01:04:09Z; new3600Cloudseconds. PriorR4closed917spent/2683retired/no carry.
+T0 `2026-10-19T22:34:09Z`; main `2026-10-20T00:34:09Z`; absolute `2026-10-20T01:04:09Z`. R5 account3600seconds; S1charged459,3141remaining. PriorR4closed917spent/2683retired/no carry.
 
-Selected target: Body clause-scoped binders preserving local/reference/input/source/admission criteria→P0a/P1→original26+ownNfalse31, then next useful proof blocker/caller. Scoped compilerBodyID/clauseOrdinal/slot implementation and synthetic controls ready; independent LunaHIGH active review and exact source closure beforeCloud. No local actual pipeline/toolchain.
+S1 scoped Body binders compiled candidate `068dedb1`, Build `f581f16f-2268-4ff6-882e-b5c34e088d0f` FAILURE. Both inventory parsing paths passed; next runner blocker normal/readonly inventory mismatch. Brief archive/inventory integrity verified; P1 started, no native/fullproof credit. Original26 source aggregate8classified/5inconclusive/13notrun. A1/A2 OPEN, no new independent B1/B2.
 
-No new proof results yet: P0a/P1INCONCLUSIVE,Nfalse31NOT_RUN,A1/A2OPEN,no new independentB1/B2. [Session](cloud-build/sort4-caller-entry-native/A1-AUTO-SESSION-2026-10-20.md), [current task/report](CURRENT-TASK.md).
+S2 addresses overly broad equality of preprocessing-dependent Body operational lists; contracts/interface/source/refinement/native/admission gates retained. LunaHIGH GO and synthetic comparison9/inventory24/profile5 PASS; exact closure/publication before Cloud. Continue within R5 window/budget through next useful proof blocker. [Task/report](CURRENT-TASK.md), [session/rationale](cloud-build/sort4-caller-entry-native/A1-AUTO-SESSION-2026-10-20.md).
