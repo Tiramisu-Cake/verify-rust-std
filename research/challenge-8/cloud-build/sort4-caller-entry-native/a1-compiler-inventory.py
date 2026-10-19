@@ -415,8 +415,8 @@ def _ty(value):
         name = _text(adt_id, "name")
         adt_kind, adt_payload = _union(_member(payload, "kind"), "ADT kind",
                                        ("structKind", "enumKind", "unionKind"))
-        if adt_kind != "structKind" or adt_payload != _parser.Atom("void"):
-            raise InventoryError("MaybeUninit must retain its compiler struct ADT kind")
+        if adt_kind != "unionKind" or adt_payload != _parser.Atom("void"):
+            raise InventoryError("MaybeUninit must retain its compiler union ADT kind")
         if name not in ("core::mem::MaybeUninit", "std::mem::MaybeUninit"):
             raise InventoryError("unsupported ADT identity in small_sort interface")
         name = "MaybeUninit"

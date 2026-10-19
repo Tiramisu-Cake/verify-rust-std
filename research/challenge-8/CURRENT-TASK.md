@@ -56,11 +56,11 @@ Timeout каждого Build≤900 секунд и не больше остав�
 
 ## Отчёт агента
 
-- **Статус:** NOT_STARTED. T0/main/absolute/end UTC: —.
-- **Source/docs checkpoint, inventory/profile/closure identities:** —.
-- **Активация MaybeUninit:** точный diff, controls/review и Cloud-проверка —.
-- **Proof до→после:** P0a —; P1 native/equality/refinement —; N-false31 own lifecycle —; матрица26 —; A1/A2/B1/B2/independent credit —.
-- **Builds:** UUID → exact candidate → гипотеза/тип → Brief verdict/gates → charge —.
-- **Обслуживающая работа / proof-прирост:** —.
-- **Время/учёт:** wall-clock —; charge —/3600; measured setup/proof/reporting либо «нет данных»; own requests/reservations/active/unresolved —.
-- **Первый оставшийся blocker, следующий шаг и ссылки на session/evidence records:** —.
+- **Статус:** ACTIVE. T0 `2026-10-19T21:15:52Z`; main `2026-10-19T23:15:52Z`; absolute `2026-10-19T23:45:52Z`; end —.
+- **Source/docs checkpoint:** `56e16db7f90d437c63a2318c40cdcfba960ef38b`; U1 inventory `b3788bb8000283e7c6252bf03484b1b04e6ed9502be4956bbec0cfa6d052ab53`, profile `87a9d4b38c969f557491464f32afa3fb79ec19e3146afe022455dc23d63b42a5`; exact committed closure готовится.
+- **Активация MaybeUninit:** exact two-line strict unionKind+error label; void/name/substs/Self/F/regions/binding/admission сохранены. Synthetic inventory24/admission23/phase-service7 PASS; source-only43preR/fullR/C+semantic pins PASS. Parser/R/C без изменений. Luna HIGH activation review идёт; до GO submit не выполняется.
+- **Proof до→после:** исходно P0a/P1 INCONCLUSIVE, N-false31 NOT_RUN,26source8intended/5inconclusive/13notrun, A1/A2OPEN; новых proof results пока нет.
+- **Builds:** пока0; новые receipts/Cloud results не подменяются историческими.
+- **Обслуживающая работа / proof-прирост:** guard+dependentphase/profile constants активированы; proof-прирост ещё не установлен.
+- **Время/учёт:**0/3600Cloud; own request зарегистрирован; reservations/active Build пока нет. Stage durations нет данных.
+- **Следующий шаг:** reviewed published exact candidate → existing full-matrix lane со штатными dependencies. [Session](cloud-build/sort4-caller-entry-native/A1-UNION-SESSION-2026-10-20.md).

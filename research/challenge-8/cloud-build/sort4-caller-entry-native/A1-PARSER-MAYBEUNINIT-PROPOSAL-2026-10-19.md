@@ -1,3 +1,7 @@
+# R4 activation decision — owner authorized, Cloud UNRUN
+
+CURRENT-TASK select-maybeuninit-union-kind-2026-10-20-r4 authorizes activating the exact strict two-line proposal. Decision recorded before implementation. void/name/substitutions/Self/F/regions/source-binding/admission/lifecycle remain frozen. New full profile and fresh Cloud evidence required; historical NOT ACTIVATED sections below remain historical.
+
 # Scope decision: MaybeUninit compiler ADT kind — NOT ACTIVATED
 
 ## Current finding — v0.11 follow-up, 2026-10-19 UTC

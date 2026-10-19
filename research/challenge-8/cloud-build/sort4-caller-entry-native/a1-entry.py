@@ -13,7 +13,7 @@ import subprocess
 
 HERE = Path('research/challenge-8/cloud-build/sort4-caller-entry-native')
 PHASE = 'SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17'
-AUTHORIZATION_PHASE = 'SORT4-P0A-PARSER-COMPATIBILITY-2026-10-19-R2'
+AUTHORIZATION_PHASE = 'SORT4-MAYBEUNINIT-UNION-KIND-2026-10-20-R4'
 
 
 def sha(path: Path) -> str:
@@ -56,7 +56,7 @@ def main() -> None:
         head = subprocess.check_output(['git', '-C', str(checkout), 'rev-parse', 'HEAD'], text=True).strip()
         if head != os.environ.get(key):
             raise RuntimeError('A1 entry published checkout pin differs: ' + key)
-    profile_path = a.proof_root / HERE / 'A1-PARSER-D2-PROFILE-2026-10-19.json'
+    profile_path = a.proof_root / HERE / 'A1-UNION-U1-PROFILE-2026-10-20.json'
     if sha(profile_path) != os.environ.get('SORT4_A1_PROFILE_SHA256'):
         raise RuntimeError('A1 entry profile pin differs')
     profile = json.loads(profile_path.read_text())

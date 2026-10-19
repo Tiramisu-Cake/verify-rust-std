@@ -37,7 +37,7 @@ def required(name, idx):
     def gtype(value):
         return f'(kind = (type = {value}))'
     inputs = [ref("a", ty('(slice = ' + param("tp_self") + ')')),
-              ref("b", ty('(slice = (kind = (adt = (id = (name = "core::mem::MaybeUninit"), kind = (structKind = void), substs = [' + gtype(param("tp_self")) + ']))))')),
+              ref("b", ty('(slice = (kind = (adt = (id = (name = "core::mem::MaybeUninit"), kind = (unionKind = void), substs = [' + gtype(param("tp_self")) + ']))))')),
               ref("c", param("tp_f"))]
     def fn_args(left, right):
         tuple_arg = gtype(ty('(tuple = [' + ref(left, param("tp_self"), False) + ', ' + ref(right, param("tp_self"), False) + '])'))
@@ -87,7 +87,7 @@ def body(defindex, path, line, block_line, impl_generic_id=101, method_generic_i
             return ty(f'(ref = (region = (id = "{region}"), ty = {inner}, mutability = ({"mut" if mut else "not"} = void)))')
         def gtype(value): return f'(kind = (type = {value}))'
         inputs = [ref("ia", ty('(slice = ' + param("T") + ')')),
-                  ref("ib", ty('(slice = (kind = (adt = (id = (name = "core::mem::MaybeUninit"), kind = (structKind = void), substs = [' + gtype(param("T")) + ']))))')),
+                  ref("ib", ty('(slice = (kind = (adt = (id = (name = "core::mem::MaybeUninit"), kind = (unionKind = void), substs = [' + gtype(param("T")) + ']))))')),
                   ref("ic", param("F"))]
         def fn_args(a, b):
             tup = gtype(ty('(tuple = [' + ref(a, param("T"), False) + ', ' + ref(b, param("T"), False) + '])'))
@@ -154,6 +154,33 @@ def certificate(source):
 
 
 class InventoryTests(unittest.TestCase):
+    def test_observed_maybeuninit_union_record(self):
+        # Minimal synthetic copy of the verified ADT structure, not actual MIR replay.
+        for name in ("std::mem::MaybeUninit", "core::mem::MaybeUninit"):
+            with self.subTest(name=name):
+                value = f'(kind=(adt=(id=(name="{name}"),kind=(unionKind=void),substs=[(kind=(type=(kind=(param="__vf_req_t_16_0"))))])))'
+                self.assertEqual(m._ty(m._parser.parse_records(value)[0]),
+                    ("adt", "MaybeUninit", (("type", ("param", "__vf_req_t_16_0")),)))
+
+    def test_maybeuninit_union_rejections_at_intended_checks(self):
+        value = '(kind=(adt=(id=(name="std::mem::MaybeUninit"),kind=(unionKind=void),substs=[(kind=(type=(kind=(param="Self"))))])))'
+        for old, new, message in (
+            ("unionKind=void", "structKind=void", "compiler union ADT kind"),
+            ("unionKind=void", "enumKind=void", "compiler union ADT kind"),
+            ("unionKind=void", "unionKind=true", "compiler union ADT kind"),
+            ("std::mem::MaybeUninit", "other::MaybeUninit", "unsupported ADT identity"),
+            ('substs=[(kind=(type=(kind=(param="Self"))))]', 'substs=void', "ADT substitutions"),
+            ('kind=(type=(kind=(param="Self")))', 'kind=(other=void)', "generic argument kind"),
+        ):
+            with self.subTest(new=new), self.assertRaisesRegex(m.InventoryError, message):
+                m._ty(m._parser.parse_records(value.replace(old, new))[0])
+
+    def test_required_small_sort_wrong_scratch_substitution(self):
+        source = valid_source()
+        text = stream().replace('param = "tp_self"', 'param = "tp_f"', 2)
+        with self.assertRaisesRegex(m.InventoryError, "signature lost Self, F"):
+            m.observe("P0a", text, text, certificate(source), source)
+
     def test_imp_span_binds_block_without_function_name(self):
         source = valid_source()
         result = m.observe("P0a", stream(), stream(), certificate(source), source)
