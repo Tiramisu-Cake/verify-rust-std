@@ -944,13 +944,78 @@ def _parse_inventory_input(source: str, label: str):
         raise
 
 
+# These lists describe preprocessing-dependent execution/debug data, not the
+# interface inventory. All other Body fields (including unknown fields) remain
+# in the comparison. Both complete raw records remain untouched.
+_OPERATIONAL_BODY_FIELDS = frozenset(("localDecls", "basicBlocks", "varDebugInfo"))
+
+
+def _inventory_comparison(shape):
+    result = dict(shape)
+    impls = []
+    for impl in shape["impls"]:
+        row = dict(impl)
+        items = []
+        for item in impl["items"]:
+            projected = dict(item)
+            body = dict(item["body"])
+            record = body["record"]
+            fields = []
+            seen = set()
+            for key, value in record.fields:
+                if key in _OPERATIONAL_BODY_FIELDS:
+                    if key in seen or not isinstance(value, _parser.ListValue):
+                        raise InventoryError("operational Body field must be one explicit list: " + key)
+                    seen.add(key)
+                    # Preserve field presence/order: a missing list on one side
+                    # still mismatches. Values are retained in the raw record.
+                    value = _parser.ListValue(())
+                fields.append((key, value))
+            body["record"] = _parser.Record(tuple(fields))
+            projected["body"] = body
+            items.append(projected)
+        row["items"] = tuple(items)
+        impls.append(row)
+    result["impls"] = tuple(impls)
+    return result
+
+
+def _first_difference(left, right, path="inventory"):
+    """Bounded diagnostic coordinates only; never relaxes comparison."""
+    path = path[:220]
+    if left == right:
+        return None
+    if isinstance(left, dict) and isinstance(right, dict):
+        if left.keys() != right.keys():
+            return path + ".keys"
+        for key in left:
+            if left[key] != right[key]:
+                return _first_difference(left[key], right[key], path + "." + str(key))
+    if isinstance(left, _parser.Record) and isinstance(right, _parser.Record):
+        if tuple(k for k, _ in left.fields) != tuple(k for k, _ in right.fields):
+            return path + ".fields"
+        for (key, value), (_, other) in zip(left.fields, right.fields):
+            if value != other:
+                return _first_difference(value, other, path + "." + key)
+    if isinstance(left, (tuple, list)) and isinstance(right, (tuple, list)):
+        if len(left) != len(right):
+            return path + ".length"
+        for index, (value, other) in enumerate(zip(left, right)):
+            if value != other:
+                return _first_difference(value, other, path + "[" + str(index) + "]")
+    return path[:240]
+
+
 def observe(case_id: str, normal_text: str, readonly_text: str,
             source_certificate: dict[str, Any], generated_source: str):
     """Return immutable source-reported inventory only; proof_credit is always false."""
     normal = _parse_inventory_input(normal_text, "normal")
     readonly = _parse_inventory_input(readonly_text, "readonly")
-    if normal != readonly:
-        raise InventoryError("normal and readonly VfMir compiler inventories differ")
+    normal_comparison = _inventory_comparison(normal)
+    readonly_comparison = _inventory_comparison(readonly)
+    if normal_comparison != readonly_comparison:
+        raise InventoryError("normal and readonly VfMir compiler inventories differ at " +
+                             _first_difference(normal_comparison, readonly_comparison))
     binding = _source_binding(case_id, source_certificate, generated_source, normal)
     return _freeze({"schema": "a1-compiler-inventory-observation-v1",
                     "provenance": "source-reported-compiler-inventory-only",
