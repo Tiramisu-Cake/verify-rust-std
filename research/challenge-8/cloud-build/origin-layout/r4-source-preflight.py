@@ -49,6 +49,7 @@ def main():
  assert len(fixed)==18
  for path,h in fixed.items():assert sha((ROOT/path).read_bytes())==h,path
  recipe=json.loads((ROOT/'research/challenge-8/cloud-build/recipes/merge.json').read_text())
+ assert recipe['proof_paths']==sorted(set(recipe['proof_paths']))
  assert set(fixed)<=set(recipe['proof_paths'])
  for path in recipe['proof_paths']:assert (ROOT/path).is_file(),path
  for path in recipe['proof_paths']:
