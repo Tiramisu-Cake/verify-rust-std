@@ -16,3 +16,9 @@ Review не передаёт владение реализацией. Перед
 Очередь принятых на обработку пакетов — `docs/challenge8/handoffs/` в `/root/verifast`; STATUS роли содержит текущий checkpoint. Появление экспериментального патча в proof-ветке само по себе не означает, что его передали maintainer.
 
 Эта инструкция фиксирует разделение ролей: она не выдаёт новое задание VeriFast-агенту, не переносит ownership, не открывает сессию/Build/бюджет и не разрешает upstream-публикацию.
+
+## GitHub Actions для VeriFast
+
+Дополнение владельца от2026-10-20: **owner `verifast` разрешён GitHub Actions CI** готовых инструментальных патчей в `Tiramisu-Cake/verifast`. Можно включить существующие workflows форка, публиковать согласованные ветки и проверять exact-head runs/jobs; CI не отключать ради push. Вычисления на VPS по-прежнему запрещены. Select/Merge сохраняют свои Cloud Build lanes/owners/budgets; разрешение maintainer не переносится на их proof-сессии.
+
+Для готовности upstream-пакета требуется успешный применимый CI форка на точном candidate head, с явными skips/ограничениями. Создание upstream PR остаётся отдельным действием; green fork CI не даёт consumer/formal/upstream acceptance. GCP Cloud budget и Actions durations учитываются отдельно. Actions evidence получать компактно из run/job/step/check summaries/annotations; GCP Brief UUID к Actions run ID не применяется, полный log download не разрешён. Существующие timebox/публикационные границы определяет текущее задание.

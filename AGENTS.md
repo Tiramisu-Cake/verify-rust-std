@@ -1,4 +1,4 @@
-> **Роли SmallSort:** Select/Merge разрабатывают патчи; VeriFast maintainer принимает готовые опубликованные патчи для review/регрессий/интеграции/upstream-пакета. Новый proof-blocker/model design ему автоматически не передаётся. [Границы роли](research/challenge-8/VERIFAST-ROLE.md).
+> **Роли SmallSort:** Select/Merge разрабатывают патчи; VeriFast maintainer принимает готовые опубликованные патчи для review/регрессий/интеграции/upstream-пакета. Новый proof-blocker/model design ему автоматически не передаётся. [Границы роли](research/challenge-8/VERIFAST-ROLE.md). Только роли verifast разрешён GitHub Actions CI готовых tool-патчей в Tiramisu-Cake/verifast; Select/Merge сохраняют Cloud Build lanes.
 
 > **Evidence v0.11 — приоритет:** [краткий guide](research/challenge-8/EVIDENCE-READER-GUIDE.md). Brief → catalogue → refresh/info → locate/fragment → нужные страницы по next_offset/next_value_start. Пожизненной16-квоты и прежних лексических WITHHELD больше нет; соседний контекст/argv/environment читаются как данные. Не выгружать автоматически всё. Proof scope, T0, окна/бюджеты и coordinator сохраняются.
 
