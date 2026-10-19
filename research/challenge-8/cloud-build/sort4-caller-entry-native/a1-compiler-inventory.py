@@ -950,6 +950,80 @@ def _parse_inventory_input(source: str, label: str):
 _OPERATIONAL_BODY_FIELDS = frozenset(("localDecls", "basicBlocks", "varDebugInfo"))
 
 
+def _replace_field(record, key, value):
+    if not isinstance(record, _parser.Record) or sum(k == key for k, _ in record.fields) != 1:
+        raise InventoryError("cannot identify unique compiler field: " + key)
+    return _parser.Record(tuple((k, value if k == key else v) for k, v in record.fields))
+
+
+def _region_id_projection(region, bindings):
+    name = _text_atom(_member(region, "id"), "typed region id")
+    if name not in bindings:
+        raise InventoryError("typed region reference is outside its validated scope")
+    return _replace_field(region, "id", _parser.Text(bindings[name]))
+
+
+def _type_region_projection(ty, bindings):
+    # Follow only schema-owned type paths. Unknown fields are kept verbatim.
+    kind = _member(ty, "kind")
+    tag, payload = _union(kind, "projected type", ("ref", "slice", "tuple", "adt", "param", "bool"))
+    if tag == "ref":
+        projected = _replace_field(payload, "region", _region_id_projection(_member(payload, "region"), bindings))
+        projected = _replace_field(projected, "ty", _type_region_projection(_member(payload, "ty"), bindings))
+    elif tag == "slice":
+        projected = _type_region_projection(payload, bindings)
+    elif tag == "tuple":
+        projected = _parser.ListValue(tuple(_type_region_projection(x, bindings)
+                                            for x in _list(payload, "projected tuple")))
+    elif tag == "adt":
+        args = _member(payload, "substs")
+        projected = _replace_field(payload, "substs", _parser.ListValue(tuple(
+            _argument_region_projection(x, bindings) for x in _list(args, "projected substitutions"))))
+    else:
+        return ty
+    return _replace_field(ty, "kind", _replace_field(kind, tag, projected))
+
+
+def _argument_region_projection(arg, bindings):
+    kind = _member(arg, "kind")
+    tag, payload = _union(kind, "projected generic argument", ("type", "lifetime"))
+    projected = (_type_region_projection(payload, bindings) if tag == "type"
+                 else _region_id_projection(payload, bindings))
+    return _replace_field(arg, "kind", _replace_field(kind, tag, projected))
+
+
+def _body_region_projection(record):
+    # Caller invokes this only after _impl_body_small_sort has checked the full
+    # signature, distinctness, local references, positional types and capture.
+    body_id = _uint(record, "defIndex")
+    inputs = _list(_member(record, "inputs"), "Body inputs")
+    input_names = tuple(_ty(x)[1] for x in inputs)
+    input_bindings = {name: f"@body:{body_id}:input:{slot}" for slot, name in enumerate(input_names)}
+    projected = _replace_field(record, "inputs", _parser.ListValue(tuple(
+        _type_region_projection(x, input_bindings) for x in inputs)))
+    clauses = []
+    for ordinal, clause in enumerate(_records(record, "clauses")):
+        tag, payload = _union(clause, "Body clause", ("trait", "projection"))
+        names = tuple(_text_atom(x, "Body bound region") for x in
+                      _list(_member(payload, "boundRegions"), "Body clause binders"))
+        bindings = {name: f"@body:{body_id}:clause:{ordinal}:region:{slot}"
+                    for slot, name in enumerate(names)}
+        row = _replace_field(payload, "boundRegions", _parser.ListValue(tuple(
+            _parser.Text(bindings[name]) for name in names)))
+        args_owner = payload if tag == "trait" else _member(payload, "projectionTerm")
+        args = _parser.ListValue(tuple(_argument_region_projection(x, bindings)
+                    for x in _list(_member(args_owner, "args"), "Body clause arguments")))
+        if tag == "trait":
+            row = _replace_field(row, "args", args)
+        else:
+            row = _replace_field(row, "projectionTerm", _replace_field(args_owner, "args", args))
+            term = _member(payload, "term")
+            row = _replace_field(row, "term", _replace_field(term, "ty",
+                _type_region_projection(_member(term, "ty"), bindings)))
+        clauses.append(_replace_field(clause, tag, row))
+    return _replace_field(projected, "clauses", _parser.ListValue(tuple(clauses)))
+
+
 def _inventory_comparison(shape):
     result = dict(shape)
     impls = []
@@ -960,6 +1034,8 @@ def _inventory_comparison(shape):
             projected = dict(item)
             body = dict(item["body"])
             record = body["record"]
+            if item["small_sort_signature"] is not None:
+                record = _body_region_projection(record)
             fields = []
             seen = set()
             for key, value in record.fields:
@@ -997,6 +1073,8 @@ def _first_difference(left, right, path="inventory"):
         for (key, value), (_, other) in zip(left.fields, right.fields):
             if value != other:
                 return _first_difference(value, other, path + "." + key)
+    if isinstance(left, _parser.ListValue) and isinstance(right, _parser.ListValue):
+        return _first_difference(left.values, right.values, path)
     if isinstance(left, (tuple, list)) and isinstance(right, (tuple, list)):
         if len(left) != len(right):
             return path + ".length"

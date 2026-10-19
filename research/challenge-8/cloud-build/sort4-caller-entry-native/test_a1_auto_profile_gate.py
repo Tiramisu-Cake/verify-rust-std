@@ -9,7 +9,7 @@ from types import SimpleNamespace
 import unittest
 
 HERE = Path(__file__).parent
-PROFILE = 'A1-AUTO-S2-PROFILE-2026-10-20.json'
+PROFILE = 'A1-AUTO-S3-PROFILE-2026-10-20.json'
 PATH = Path('research/challenge-8/cloud-build/sort4-caller-entry-native')
 TREE = ast.parse((HERE / 'a1-focus-backend.py').read_text())
 FUNCTION = next(n for n in TREE.body if isinstance(n, ast.FunctionDef) and n.name == '_cloud_gate')
