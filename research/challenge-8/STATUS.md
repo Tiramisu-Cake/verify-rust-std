@@ -1,3 +1,5 @@
+> Уточнение v0.9,2026-10-19: [полная26-строчная таблица](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-READER-V09-2026-10-19.md) теперь установлена:8INTENDED_CLASSIFIED/5INCONCLUSIVE/13NOT_RUN; R2–R7 явно INTENDED_CLASSIFIED,credit=false. P0a начат,source-constructor error9362; parser input binding/literal остаются неустановленными. P1 INCONCLUSIVE,N-false31 NOT_RUN; formal credit не повышен.8узких targeted calls,Cloud расход0,сессия закрыта. Ниже сохранены прежние датированные checkpoints.
+
 > Уточнение2026-10-19: [Evidence Reader v0.8](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-READER-2026-10-19.md) теперь показывает R5 named R-only/final-C stage exit0 и собственный свежий reference receipt с совпавшими pins. Получены20поимённых statuses; P1 INCONCLUSIVE,N-false31 NOT_RUN,R2–R7 statusUNKNOWN (R2 gate=true/outcomePOSITIVE_INTENDED). P0a literal9362 и6status полей ограничены проекцией; требуется дополнение старого отчёта. A1/A2/formal credit не повышены. Cloud-сессия закрыта, нового расхода0. Ниже сохранён checkpoint2026-10-18.
 
 # select/sort4 — session CLOSED at parser evidence/scope boundary

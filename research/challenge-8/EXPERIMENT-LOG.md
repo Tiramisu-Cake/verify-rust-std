@@ -7807,3 +7807,8 @@ noformalcredit. Alloldaccounts/evidenceandownerlocaldocspreserved,nocarry.
 ### 2026-10-19 — повторное чтение R5 через Evidence Reader v0.8
 
 [Компактный отчёт](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-READER-2026-10-19.md): Build87df47e4 без повторного запуска; R5 named R/C stage0 и собственный R-only receipt теперь видны, pins совпали. Получены20явных поимённых statuses; P1 INCONCLUSIVE,N-false31 NOT_RUN,R2–R7 statusUNKNOWN при R2 gate=true/outcomePOSITIVE_INTENDED. Parser literal9362 недоступен из-за CONTENT_BUDGET_EXCEEDED/NO_DISPLAYABLE_FRAGMENT; запрошено административное дополнение проекции старого отчёта. Нет raw чтения,download_verified,code/ledger изменений,нового formal credit или Cloud расхода. Предыдущие отчёты сохранены.
+
+
+### 2026-10-19 — Evidence Reader v0.9 targeted
+
+[Отчёт](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-READER-V09-2026-10-19.md):8узких refresh к существующему87df47e4,всеOK/complete/sanitized. Теперь26поимённых statuses8/5/13; R2–R7 INTENDED_CLASSIFIED,credit=false. P0a execution_started=true,source-constructor,error9362; input binding/literal не установлены,позиционное окно предположительного файла не читалось. P1/N-false31/A1/A2/formal credit без повышения. Старые отчёты/ledger сохранены,Cloud расход0,нового Build/кода нет.
