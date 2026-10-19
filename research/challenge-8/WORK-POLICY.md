@@ -1,3 +1,5 @@
+> **Автономность proof-агентов, 2026-10-20:** Select/Merge сами ставят задачи по миссии и плану; исправления inventory/binder/frontend и новые experimental profiles не требуют отдельного согласования каждого blocker при сохранении гарантий, review и controls. [Полномочия](PROOF-AGENT-AUTONOMY.md). Новые задания задают окно/бюджет; активные inputs/T0/явные границы и роль maintainer сохраняются.
+
 > **Evidence v0.11 — приоритет:** [краткий guide](EVIDENCE-READER-GUIDE.md). Brief → catalogue → refresh/info → locate/fragment → нужные страницы по next_offset/next_value_start. Пожизненной16-квоты и прежних лексических WITHHELD больше нет; соседний контекст/argv/environment читаются как данные. Не выгружать автоматически всё. Proof scope, T0, окна/бюджеты и coordinator сохраняются.
 
 > **Процесс итераций, 2026-10-19:** [ранние checks → целевой proof → полная матрица](ITERATION-PROCESS.md). Service error-path tests обязательны для затронутого runner; использовать существующий Cloud preflight. Принять на безопасной границе без изменения активных inputs/T0. Измерять закрытые proof obligations отдельно от setup-работы.
