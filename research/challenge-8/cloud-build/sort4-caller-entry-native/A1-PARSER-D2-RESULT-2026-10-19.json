@@ -1,0 +1,926 @@
+{
+  "build_id": "3fc08bb1-07cb-4aed-906d-1c53df1846b5",
+  "terminal_status": "FAILURE",
+  "proof_sha": "d246ccbcf7e851f1b3c471daf4ed7aa770e199ea",
+  "infra_sha": "d246ccbcf7e851f1b3c471daf4ed7aa770e199ea",
+  "profile_sha256": "084a0e7fb2e11511852066b9591df4377286debaa91c24c677ff4a5c89faf006",
+  "integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "archive_sha256": "a8012dd090949cb3002ac9fb163424e422800f11be59f8f4324b310ca72a6ea5",
+  "index_sha256": "2181683c5e59ffabd849bdb19acb6a4fa12c14dfacc769649d3bfca1cfc018fa",
+  "source_file": {
+    "complete": false,
+    "id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "kind": "json",
+    "path": "proof-audit.json",
+    "path_sanitized": false,
+    "scanned_bytes": 77583,
+    "sha256": "316dd1d30ddcde6c7569a96b5db1a172499fd2df88bab21975b113dbf60e3386",
+    "size_bytes": 77583,
+    "status": "PROJECTED",
+    "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+  },
+  "run_exit_source_claim": 0,
+  "evidence_complete_source_claim": true,
+  "proof_verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+  "first_reported_blocker": "P0a InventoryError: MaybeUninit must retain its compiler struct ADT kind",
+  "causal_status": "UNKNOWN",
+  "stage_order": "NOT_ESTABLISHED",
+  "matrix": {
+    "OFF": {
+      "status": "INTENDED_CLASSIFIED",
+      "source_pointer": "/case_status/OFF/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "P0a": {
+      "status": "INCONCLUSIVE",
+      "source_pointer": "/case_status/P0a/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "P0b": {
+      "status": "NOT_RUN",
+      "source_pointer": "/case_status/P0b/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "P0c": {
+      "status": "NOT_RUN",
+      "source_pointer": "/case_status/P0c/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "P-dispatch": {
+      "status": "INCONCLUSIVE",
+      "source_pointer": "/case_status/P-dispatch/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "P1": {
+      "status": "INCONCLUSIVE",
+      "source_pointer": "/case_status/P1/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "N-binder-collapse": {
+      "status": "NOT_RUN",
+      "source_pointer": "/case_status/N-binder-collapse/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "N-alpha-valid": {
+      "status": "NOT_RUN",
+      "source_pointer": "/case_status/N-alpha-valid/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "N-free-region": {
+      "status": "NOT_RUN",
+      "source_pointer": "/case_status/N-free-region/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "N-region-swap": {
+      "status": "NOT_RUN",
+      "source_pointer": "/case_status/N-region-swap/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "N-no-F": {
+      "status": "NOT_RUN",
+      "source_pointer": "/case_status/N-no-F/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "N-clauses": {
+      "status": "NOT_RUN",
+      "source_pointer": "/case_status/N-clauses/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "N-default-contract": {
+      "status": "INCONCLUSIVE",
+      "source_pointer": "/case_status/N-default-contract/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "N-freeze-contract": {
+      "status": "INCONCLUSIVE",
+      "source_pointer": "/case_status/N-freeze-contract/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "N-false31": {
+      "status": "NOT_RUN",
+      "source_pointer": "/case_status/N-false31/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "N-source": {
+      "status": "NOT_RUN",
+      "source_pointer": "/case_status/N-source/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "N-binding": {
+      "status": "NOT_RUN",
+      "source_pointer": "/case_status/N-binding/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "N-clause-redirect": {
+      "status": "NOT_RUN",
+      "source_pointer": "/case_status/N-clause-redirect/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "N-duplicate": {
+      "status": "NOT_RUN",
+      "source_pointer": "/case_status/N-duplicate/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "R1": {
+      "status": "INTENDED_CLASSIFIED",
+      "source_pointer": "/case_status/R1/status",
+      "claim_type": "SOURCE_REPORTED"
+    },
+    "R2": {
+      "status": "INTENDED_CLASSIFIED",
+      "source_pointer": "/case_status/R2/status",
+      "claim_type": "SOURCE_REPORTED",
+      "fields": {
+        "matrix_gate_passed": true,
+        "observed_outcome": "POSITIVE_INTENDED",
+        "observed_stage": "NONE_OBSERVED",
+        "proof_credit": false,
+        "provenance": "fresh-final-tool-regression",
+        "reason": null,
+        "status": "INTENDED_CLASSIFIED"
+      },
+      "request_id": "4a02bad54814e2eb41af500c5649bcb7566b5664db4e92a63629c7c8f9aef291"
+    },
+    "R3": {
+      "status": "INTENDED_CLASSIFIED",
+      "source_pointer": "/case_status/R3/status",
+      "claim_type": "SOURCE_REPORTED",
+      "fields": {
+        "matrix_gate_passed": true,
+        "observed_outcome": "POSITIVE_INTENDED",
+        "observed_stage": "NONE_OBSERVED",
+        "proof_credit": false,
+        "provenance": "fresh-final-tool-regression",
+        "reason": null,
+        "status": "INTENDED_CLASSIFIED"
+      },
+      "request_id": "ed86636b6050e67422c6c2f61345c8fa85aaabd95853ab7afaf55b3f3b1d8abd"
+    },
+    "R4": {
+      "status": "INTENDED_CLASSIFIED",
+      "source_pointer": "/case_status/R4/status",
+      "claim_type": "SOURCE_REPORTED",
+      "fields": {
+        "matrix_gate_passed": true,
+        "observed_outcome": "NEGATIVE_INTENDED",
+        "observed_stage": "verification",
+        "proof_credit": false,
+        "provenance": "fresh-final-tool-regression",
+        "reason": null,
+        "status": "INTENDED_CLASSIFIED"
+      },
+      "request_id": "5e97e4875b662ea4b8493d23b385fce4005639da81949c3e3308846acbeb4817"
+    },
+    "R5": {
+      "status": "INTENDED_CLASSIFIED",
+      "source_pointer": "/case_status/R5/status",
+      "claim_type": "SOURCE_REPORTED",
+      "fields": {
+        "matrix_gate_passed": true,
+        "observed_outcome": "NEGATIVE_INTENDED",
+        "observed_stage": "verification",
+        "proof_credit": false,
+        "provenance": "fresh-final-tool-regression",
+        "reason": null,
+        "status": "INTENDED_CLASSIFIED"
+      },
+      "request_id": "5f9aa83718b2be79818dfd54a0f2a535d709c4f05444ef14e3abbc1573b9c99c"
+    },
+    "R6": {
+      "status": "INTENDED_CLASSIFIED",
+      "source_pointer": "/case_status/R6/status",
+      "claim_type": "SOURCE_REPORTED",
+      "fields": {
+        "matrix_gate_passed": true,
+        "observed_outcome": "NEGATIVE_INTENDED",
+        "observed_stage": "verification",
+        "proof_credit": false,
+        "provenance": "fresh-final-tool-regression",
+        "reason": null,
+        "status": "INTENDED_CLASSIFIED"
+      },
+      "request_id": "aef5f3da5a9441d741a8d6b5cf457e11c3323c836881e56e3ad8e0be9a4b62fb"
+    },
+    "R7": {
+      "status": "INTENDED_CLASSIFIED",
+      "source_pointer": "/case_status/R7/status",
+      "claim_type": "SOURCE_REPORTED",
+      "fields": {
+        "matrix_gate_passed": true,
+        "observed_outcome": "POSITIVE_INTENDED",
+        "observed_stage": "NONE_OBSERVED",
+        "proof_credit": false,
+        "provenance": "fresh-final-tool-regression",
+        "reason": null,
+        "status": "INTENDED_CLASSIFIED"
+      },
+      "request_id": "67a2f0583a346812f01a4b626933d12dcf50ce666e03401f5667d0c44a1c04bb"
+    }
+  },
+  "observations": [
+    {
+      "archive_sha256": "a8012dd090949cb3002ac9fb163424e422800f11be59f8f4324b310ca72a6ea5",
+      "build_id": "3fc08bb1-07cb-4aed-906d-1c53df1846b5",
+      "causal_status": "UNKNOWN",
+      "caveat": "Coordinates refer only to the requested archived file. No decoding/transformation or parser-input identity is inferred.",
+      "complete": true,
+      "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+      "exact": false,
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_path": "proof-audit.json",
+      "file_sha256": "316dd1d30ddcde6c7569a96b5db1a172499fd2df88bab21975b113dbf60e3386",
+      "index_sha256": "2181683c5e59ffabd849bdb19acb6a4fa12c14dfacc769649d3bfca1cfc018fa",
+      "omissions": {},
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "path_sanitized": false,
+      "representation": "SANITIZED_JSON_OBSERVATIONS",
+      "request": {
+        "expected_sha256": "316dd1d30ddcde6c7569a96b5db1a172499fd2df88bab21975b113dbf60e3386",
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "pointer": "/case_status/R2"
+      },
+      "request_id": "4a02bad54814e2eb41af500c5649bcb7566b5664db4e92a63629c7c8f9aef291",
+      "results": [
+        {
+          "exact": false,
+          "pointer": "/case_status/R2/matrix_gate_passed",
+          "value": true
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R2/observed_outcome",
+          "value": "POSITIVE_INTENDED"
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R2/observed_stage",
+          "value": "NONE_OBSERVED"
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R2/proof_credit",
+          "value": false
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R2/provenance",
+          "value": "fresh-final-tool-regression"
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R2/reason",
+          "value": null
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R2/status",
+          "value": "INTENDED_CLASSIFIED"
+        }
+      ],
+      "schema": "smallsort-targeted-observation-v1",
+      "status": "OK"
+    },
+    {
+      "archive_sha256": "a8012dd090949cb3002ac9fb163424e422800f11be59f8f4324b310ca72a6ea5",
+      "build_id": "3fc08bb1-07cb-4aed-906d-1c53df1846b5",
+      "causal_status": "UNKNOWN",
+      "caveat": "Coordinates refer only to the requested archived file. No decoding/transformation or parser-input identity is inferred.",
+      "complete": true,
+      "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+      "exact": false,
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_path": "proof-audit.json",
+      "file_sha256": "316dd1d30ddcde6c7569a96b5db1a172499fd2df88bab21975b113dbf60e3386",
+      "index_sha256": "2181683c5e59ffabd849bdb19acb6a4fa12c14dfacc769649d3bfca1cfc018fa",
+      "omissions": {},
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "path_sanitized": false,
+      "representation": "SANITIZED_JSON_OBSERVATIONS",
+      "request": {
+        "expected_sha256": "316dd1d30ddcde6c7569a96b5db1a172499fd2df88bab21975b113dbf60e3386",
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "pointer": "/case_status/R3"
+      },
+      "request_id": "ed86636b6050e67422c6c2f61345c8fa85aaabd95853ab7afaf55b3f3b1d8abd",
+      "results": [
+        {
+          "exact": false,
+          "pointer": "/case_status/R3/matrix_gate_passed",
+          "value": true
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R3/observed_outcome",
+          "value": "POSITIVE_INTENDED"
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R3/observed_stage",
+          "value": "NONE_OBSERVED"
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R3/proof_credit",
+          "value": false
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R3/provenance",
+          "value": "fresh-final-tool-regression"
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R3/reason",
+          "value": null
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R3/status",
+          "value": "INTENDED_CLASSIFIED"
+        }
+      ],
+      "schema": "smallsort-targeted-observation-v1",
+      "status": "OK"
+    },
+    {
+      "archive_sha256": "a8012dd090949cb3002ac9fb163424e422800f11be59f8f4324b310ca72a6ea5",
+      "build_id": "3fc08bb1-07cb-4aed-906d-1c53df1846b5",
+      "causal_status": "UNKNOWN",
+      "caveat": "Coordinates refer only to the requested archived file. No decoding/transformation or parser-input identity is inferred.",
+      "complete": true,
+      "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+      "exact": false,
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_path": "proof-audit.json",
+      "file_sha256": "316dd1d30ddcde6c7569a96b5db1a172499fd2df88bab21975b113dbf60e3386",
+      "index_sha256": "2181683c5e59ffabd849bdb19acb6a4fa12c14dfacc769649d3bfca1cfc018fa",
+      "omissions": {},
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "path_sanitized": false,
+      "representation": "SANITIZED_JSON_OBSERVATIONS",
+      "request": {
+        "expected_sha256": "316dd1d30ddcde6c7569a96b5db1a172499fd2df88bab21975b113dbf60e3386",
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "pointer": "/case_status/R4"
+      },
+      "request_id": "5e97e4875b662ea4b8493d23b385fce4005639da81949c3e3308846acbeb4817",
+      "results": [
+        {
+          "exact": false,
+          "pointer": "/case_status/R4/matrix_gate_passed",
+          "value": true
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R4/observed_outcome",
+          "value": "NEGATIVE_INTENDED"
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R4/observed_stage",
+          "value": "verification"
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R4/proof_credit",
+          "value": false
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R4/provenance",
+          "value": "fresh-final-tool-regression"
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R4/reason",
+          "value": null
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R4/status",
+          "value": "INTENDED_CLASSIFIED"
+        }
+      ],
+      "schema": "smallsort-targeted-observation-v1",
+      "status": "OK"
+    },
+    {
+      "archive_sha256": "a8012dd090949cb3002ac9fb163424e422800f11be59f8f4324b310ca72a6ea5",
+      "build_id": "3fc08bb1-07cb-4aed-906d-1c53df1846b5",
+      "causal_status": "UNKNOWN",
+      "caveat": "Coordinates refer only to the requested archived file. No decoding/transformation or parser-input identity is inferred.",
+      "complete": true,
+      "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+      "exact": false,
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_path": "proof-audit.json",
+      "file_sha256": "316dd1d30ddcde6c7569a96b5db1a172499fd2df88bab21975b113dbf60e3386",
+      "index_sha256": "2181683c5e59ffabd849bdb19acb6a4fa12c14dfacc769649d3bfca1cfc018fa",
+      "omissions": {},
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "path_sanitized": false,
+      "representation": "SANITIZED_JSON_OBSERVATIONS",
+      "request": {
+        "expected_sha256": "316dd1d30ddcde6c7569a96b5db1a172499fd2df88bab21975b113dbf60e3386",
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "pointer": "/case_status/R5"
+      },
+      "request_id": "5f9aa83718b2be79818dfd54a0f2a535d709c4f05444ef14e3abbc1573b9c99c",
+      "results": [
+        {
+          "exact": false,
+          "pointer": "/case_status/R5/matrix_gate_passed",
+          "value": true
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R5/observed_outcome",
+          "value": "NEGATIVE_INTENDED"
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R5/observed_stage",
+          "value": "verification"
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R5/proof_credit",
+          "value": false
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R5/provenance",
+          "value": "fresh-final-tool-regression"
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R5/reason",
+          "value": null
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R5/status",
+          "value": "INTENDED_CLASSIFIED"
+        }
+      ],
+      "schema": "smallsort-targeted-observation-v1",
+      "status": "OK"
+    },
+    {
+      "archive_sha256": "a8012dd090949cb3002ac9fb163424e422800f11be59f8f4324b310ca72a6ea5",
+      "build_id": "3fc08bb1-07cb-4aed-906d-1c53df1846b5",
+      "causal_status": "UNKNOWN",
+      "caveat": "Coordinates refer only to the requested archived file. No decoding/transformation or parser-input identity is inferred.",
+      "complete": true,
+      "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+      "exact": false,
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_path": "proof-audit.json",
+      "file_sha256": "316dd1d30ddcde6c7569a96b5db1a172499fd2df88bab21975b113dbf60e3386",
+      "index_sha256": "2181683c5e59ffabd849bdb19acb6a4fa12c14dfacc769649d3bfca1cfc018fa",
+      "omissions": {},
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "path_sanitized": false,
+      "representation": "SANITIZED_JSON_OBSERVATIONS",
+      "request": {
+        "expected_sha256": "316dd1d30ddcde6c7569a96b5db1a172499fd2df88bab21975b113dbf60e3386",
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "pointer": "/case_status/R6"
+      },
+      "request_id": "aef5f3da5a9441d741a8d6b5cf457e11c3323c836881e56e3ad8e0be9a4b62fb",
+      "results": [
+        {
+          "exact": false,
+          "pointer": "/case_status/R6/matrix_gate_passed",
+          "value": true
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R6/observed_outcome",
+          "value": "NEGATIVE_INTENDED"
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R6/observed_stage",
+          "value": "verification"
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R6/proof_credit",
+          "value": false
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R6/provenance",
+          "value": "fresh-final-tool-regression"
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R6/reason",
+          "value": null
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R6/status",
+          "value": "INTENDED_CLASSIFIED"
+        }
+      ],
+      "schema": "smallsort-targeted-observation-v1",
+      "status": "OK"
+    },
+    {
+      "archive_sha256": "a8012dd090949cb3002ac9fb163424e422800f11be59f8f4324b310ca72a6ea5",
+      "build_id": "3fc08bb1-07cb-4aed-906d-1c53df1846b5",
+      "causal_status": "UNKNOWN",
+      "caveat": "Coordinates refer only to the requested archived file. No decoding/transformation or parser-input identity is inferred.",
+      "complete": true,
+      "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+      "exact": false,
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_path": "proof-audit.json",
+      "file_sha256": "316dd1d30ddcde6c7569a96b5db1a172499fd2df88bab21975b113dbf60e3386",
+      "index_sha256": "2181683c5e59ffabd849bdb19acb6a4fa12c14dfacc769649d3bfca1cfc018fa",
+      "omissions": {},
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "path_sanitized": false,
+      "representation": "SANITIZED_JSON_OBSERVATIONS",
+      "request": {
+        "expected_sha256": "316dd1d30ddcde6c7569a96b5db1a172499fd2df88bab21975b113dbf60e3386",
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "pointer": "/case_status/R7"
+      },
+      "request_id": "67a2f0583a346812f01a4b626933d12dcf50ce666e03401f5667d0c44a1c04bb",
+      "results": [
+        {
+          "exact": false,
+          "pointer": "/case_status/R7/matrix_gate_passed",
+          "value": true
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R7/observed_outcome",
+          "value": "POSITIVE_INTENDED"
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R7/observed_stage",
+          "value": "NONE_OBSERVED"
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R7/proof_credit",
+          "value": false
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R7/provenance",
+          "value": "fresh-final-tool-regression"
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R7/reason",
+          "value": null
+        },
+        {
+          "exact": false,
+          "pointer": "/case_status/R7/status",
+          "value": "INTENDED_CLASSIFIED"
+        }
+      ],
+      "schema": "smallsort-targeted-observation-v1",
+      "status": "OK"
+    },
+    {
+      "status": "OK",
+      "file": {
+        "complete": false,
+        "id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "kind": "json",
+        "path": "proof-audit.json",
+        "path_sanitized": false,
+        "scanned_bytes": 77583,
+        "sha256": "316dd1d30ddcde6c7569a96b5db1a172499fd2df88bab21975b113dbf60e3386",
+        "size_bytes": 77583,
+        "status": "PROJECTED",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "projection_coverage": {
+        "complete": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "omissions": {
+          "CONTENT_BYTE_LIMIT": 290,
+          "NODE_OR_BYTE_LIMIT": 3,
+          "PRIVATE_OR_SANITIZED_KEY": 1
+        },
+        "status": "PROJECTED",
+        "visited_nodes": 512
+      },
+      "next_offset": null,
+      "label": "p1-case",
+      "observations": [
+        {
+          "pointer": "/case_status/P1/matrix_gate_passed",
+          "value": false
+        },
+        {
+          "pointer": "/case_status/P1/observed_outcome",
+          "value": null
+        },
+        {
+          "pointer": "/case_status/P1/observed_stage",
+          "value": null
+        },
+        {
+          "pointer": "/case_status/P1/proof_credit",
+          "value": false
+        },
+        {
+          "pointer": "/case_status/P1/provenance",
+          "value": null
+        },
+        {
+          "pointer": "/case_status/P1/reason",
+          "value": "current raw source observation missing"
+        },
+        {
+          "pointer": "/case_status/P1/status",
+          "value": "INCONCLUSIVE"
+        }
+      ]
+    },
+    {
+      "status": "OK",
+      "file": {
+        "complete": false,
+        "id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "kind": "json",
+        "path": "proof-audit.json",
+        "path_sanitized": false,
+        "scanned_bytes": 77583,
+        "sha256": "316dd1d30ddcde6c7569a96b5db1a172499fd2df88bab21975b113dbf60e3386",
+        "size_bytes": 77583,
+        "status": "PROJECTED",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "projection_coverage": {
+        "complete": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "omissions": {
+          "CONTENT_BYTE_LIMIT": 290,
+          "NODE_OR_BYTE_LIMIT": 3,
+          "PRIVATE_OR_SANITIZED_KEY": 1
+        },
+        "status": "PROJECTED",
+        "visited_nodes": 512
+      },
+      "next_offset": null,
+      "label": "false31-case",
+      "observations": [
+        {
+          "pointer": "/case_status/N-false31/matrix_gate_passed",
+          "value": false
+        },
+        {
+          "pointer": "/case_status/N-false31/observed_outcome",
+          "value": null
+        },
+        {
+          "pointer": "/case_status/N-false31/observed_stage",
+          "value": null
+        },
+        {
+          "pointer": "/case_status/N-false31/proof_credit",
+          "value": false
+        },
+        {
+          "pointer": "/case_status/N-false31/provenance",
+          "value": null
+        },
+        {
+          "pointer": "/case_status/N-false31/reason",
+          "value": null
+        },
+        {
+          "pointer": "/case_status/N-false31/status",
+          "value": "NOT_RUN"
+        }
+      ]
+    },
+    {
+      "status": "OK",
+      "file": {
+        "complete": false,
+        "id": "99bc6724cf3b0ce51007aa488a32402f5fa70dbddaa9a900bb21b837fe7438c1",
+        "kind": "json",
+        "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/R-only-native-reference-receipt.json",
+        "path_sanitized": false,
+        "scanned_bytes": 858,
+        "sha256": "e17046850564f112336b9293eba9807098fa60d64d2420a343c82448ccf47ea0",
+        "size_bytes": 858,
+        "status": "PROJECTED",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "projection_coverage": {
+        "complete": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "omissions": {
+          "VALUE_TRANSFORMED": 1
+        },
+        "status": "PROJECTED",
+        "visited_nodes": 13
+      },
+      "next_offset": null,
+      "label": "reference",
+      "observations": [
+        {
+          "pointer": "/build_exit",
+          "value": 0
+        },
+        {
+          "pointer": "/build_id",
+          "value": "3fc08bb1-07cb-4aed-906d-1c53df1846b5"
+        },
+        {
+          "pointer": "/c_patch_applied",
+          "value": false
+        },
+        {
+          "pointer": "/console_binary_sha256",
+          "value": "7cfdceaea216eafb66db01944464a924f527af4ea2211bb2686502ebde4eb6c7"
+        },
+        {
+          "pointer": "/console_path",
+          "value": "?REDACTED_LONG_VALUE?"
+        },
+        {
+          "pointer": "/exporter_binary_sha256",
+          "value": "07804b821fe33d865efc6674f86a4aa5d6dcfb0e0d25c4f2d39c2af37c395b62"
+        },
+        {
+          "pointer": "/exporter_source_sha256",
+          "value": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad"
+        },
+        {
+          "pointer": "/kind",
+          "value": "separately-built-R-only-native-reference"
+        },
+        {
+          "pointer": "/proof_credit",
+          "value": false
+        },
+        {
+          "pointer": "/r_patch_sha256",
+          "value": "d99a5ed229533132b8292c5fc70ea93dbe261e9f76c2a0fcc6d6723e796454ca"
+        },
+        {
+          "pointer": "/schema_sha256",
+          "value": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b"
+        },
+        {
+          "pointer": "/translator_sha256",
+          "value": "ffacadc74de9dded1e50e9b9a71f75a905cf97c7c823427cf7044494e87d052d"
+        }
+      ]
+    },
+    {
+      "status": "OK",
+      "file": {
+        "complete": false,
+        "id": "ac89cf4fd6fa9e866371df6a27b5730b5cd9538d4bc430361ba70de6027404c2",
+        "kind": "json",
+        "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/reconstruction-receipt.json",
+        "path_sanitized": false,
+        "scanned_bytes": 2014,
+        "sha256": "466a27e5923f1691b63c534793c7262854cf4ba1eff4774d220c0706f9697633",
+        "size_bytes": 2014,
+        "status": "PROJECTED",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "projection_coverage": {
+        "complete": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "omissions": {
+          "VALUE_TRANSFORMED": 2
+        },
+        "status": "PROJECTED",
+        "visited_nodes": 29
+      },
+      "next_offset": 15,
+      "label": "reconstruction",
+      "observations": [
+        {
+          "pointer": "/build_exit",
+          "value": 0
+        },
+        {
+          "pointer": "/c_patch_sha256",
+          "value": "e7cdc8a8504338ccaab760975c1a3f1a739211d7f8d531dd214babc2005d894e"
+        },
+        {
+          "pointer": "/classification",
+          "value": "A1_TOOL_BUILT_UNRUN_PROOF"
+        },
+        {
+          "pointer": "/console_binary_sha256",
+          "value": "741b3995ff9b793fc0e48948bc3357efbd228a5dec74445d900e451e508bc490"
+        },
+        {
+          "pointer": "/exporter_binary_sha256",
+          "value": "07804b821fe33d865efc6674f86a4aa5d6dcfb0e0d25c4f2d39c2af37c395b62"
+        },
+        {
+          "pointer": "/final_exporter_sha256",
+          "value": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad"
+        },
+        {
+          "pointer": "/final_kernel_sha256",
+          "value": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c"
+        },
+        {
+          "pointer": "/final_schema_sha256",
+          "value": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b"
+        },
+        {
+          "pointer": "/final_translator_sha256",
+          "value": "a11741f096eb2e1808cadcb8a49eeeb33117630ae6c141d0202af22b14a9b8c3"
+        },
+        {
+          "pointer": "/native_reference/build_exit",
+          "value": 0
+        },
+        {
+          "pointer": "/native_reference/build_id",
+          "value": "3fc08bb1-07cb-4aed-906d-1c53df1846b5"
+        },
+        {
+          "pointer": "/native_reference/c_patch_applied",
+          "value": false
+        },
+        {
+          "pointer": "/native_reference/console_binary_sha256",
+          "value": "7cfdceaea216eafb66db01944464a924f527af4ea2211bb2686502ebde4eb6c7"
+        },
+        {
+          "pointer": "/native_reference/console_path",
+          "value": "?REDACTED_LONG_VALUE?"
+        },
+        {
+          "pointer": "/native_reference/exporter_binary_sha256",
+          "value": "07804b821fe33d865efc6674f86a4aa5d6dcfb0e0d25c4f2d39c2af37c395b62"
+        }
+      ]
+    },
+    {
+      "status": "OK",
+      "file_path": "proof-audit.json",
+      "file_sha256": "316dd1d30ddcde6c7569a96b5db1a172499fd2df88bab21975b113dbf60e3386",
+      "request_id": "3e62847b043dd3ce1eeb89415f77c1d33c2b7f56b39f570d3074c552f5268e5e",
+      "request": {
+        "expected_sha256": "316dd1d30ddcde6c7569a96b5db1a172499fd2df88bab21975b113dbf60e3386",
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "pointer": "/observation_details/P1"
+      },
+      "complete": true,
+      "exact": false,
+      "representation": "SANITIZED_JSON_OBSERVATIONS",
+      "label": "p1-targeted",
+      "observations": [
+        {
+          "exact": false,
+          "pointer": "/observation_details/P1/adapter_error",
+          "value": "InventoryError: MaybeUninit must retain its compiler struct ADT kind"
+        },
+        {
+          "exact": false,
+          "pointer": "/observation_details/P1/execution_started",
+          "value": true
+        },
+        {
+          "exact": false,
+          "pointer": "/observation_details/P1/failed_stage",
+          "value": "P1"
+        },
+        {
+          "exact": false,
+          "pointer": "/observation_details/P1/not_run",
+          "value": false
+        },
+        {
+          "exact": false,
+          "pointer": "/observation_details/P1/proof_credit",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "parser_progress": "D2 reaches _ty compiler-ADT guard after _find_vfmir completed bounded parse; prior string9362 error no longer blocks this path. Same normal input member SHA as D1. No local full-input replay.",
+  "actual_new_failing_adt_name_kind_payload": "NOT_SEPARATELY_OBSERVED",
+  "new_formal_credit": "NOT_ESTABLISHED",
+  "A1": "OPEN_NOT_ACHIEVED",
+  "A2": "OPEN_NOT_ACHIEVED",
+  "cloud_charge_seconds": 516,
+  "session_cloud_charge_seconds": 945,
+  "remaining_closed_at_scope_boundary": 2655,
+  "targeted_requests_this_build": 7,
+  "targeted_limits": "6case_status subtrees + P1 observation, all OK complete=true exact=false sanitizedJSON; no raw logs/archives or quota/cache changes."
+}

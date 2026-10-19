@@ -7817,3 +7817,8 @@ noformalcredit. Alloldaccounts/evidenceandownerlocaldocspreserved,nocarry.
 ### 2026-10-19 — P0a parser diagnostic D1
 
 New3600account/T0 16:06:59Z,owner+90min main19:36:59Z/absolute20:06:59Z. D1 f8748a4d-c5f6-47fe-b157-4a9e60839d4e,source189baef7,pre-submit22cacac3,LunaHIGHGO. Narrow diagnostic preflight,FAILURE429s,remaining3171; archive/inventoryverified,run0,evidencecompletefalse,proof_attemptedfalse;1INCONCLUSIVE/25NOT_RUN,notfullmatrix. Exact new normal call binding inputSHA3bf1…e6a01, literal C escaped apostrophe __53 at9362,error9363. [D1 result](cloud-build/sort4-caller-entry-native/A1-PARSER-D1-RESULT-2026-10-19.json). D2 rationale→strict token-aware apostrophe compatibility+offsetmap; synthetic checks andreviewGO,full26 Cloud pending. No formalcredit,oldledgers unchanged.
+
+
+### 2026-10-19 — parser compatibility D2 / scope closure
+
+D2 source/infra d246ccbc,publication1c79c503,Build3fc08bb1-07cb-4aed-906d-1c53df1846b5FAILURE516s. Approved minimal C apostrophe escape support+source offset mapping,LunaHIGHGO/local synthetic/sourcecomposition/committedclosurePASS. Cloud advances past string9362 to frozen MaybeUninit structADT guard. P1started/sameerror,full equalitynotestablished;Nfalse31NOT_RUN;newfull26source8/5/13,allstatusesfreshReader+7targeted. OwnR/Cfreshreceiptbuild0 separately; no newB1/B2formalcredit,A1/A2OPEN. [Checkpoint](cloud-build/sort4-caller-entry-native/A1-PARSER-CHECKPOINT-2026-10-19.md), [proposalNOTACTIVATED](cloud-build/sort4-caller-entry-native/A1-PARSER-MAYBEUNINIT-PROPOSAL-2026-10-19.md). End18:00:37Z,T0 16:06:59Z;owner+90main19:36/absolute20:06,unused.2Builds945/3600,2655retired/no carry;ownactive/unresolved0,requestwithdrawn. Shape predicate frozen, no thirdBuild or localproof/rawaccess; needs newassignment.

@@ -1,0 +1,32 @@
+{
+  "fixture": "(kind=(adt=(id=(name=\"core::mem::MaybeUninit\"),kind=(unionKind=void),substs=[(kind=(type=(kind=(param=\"Self\"))))])))",
+  "results": {
+    "unionKind": {
+      "result": "REJECTED_SYNTHETIC_ONLY",
+      "error": "MaybeUninit must retain its compiler struct ADT kind"
+    },
+    "structKind": {
+      "result": "ACCEPTED_SYNTHETIC_ONLY",
+      "value": [
+        "adt",
+        "MaybeUninit",
+        [
+          [
+            "type",
+            [
+              "param",
+              "Self"
+            ]
+          ]
+        ]
+      ]
+    },
+    "enumKind": {
+      "result": "REJECTED_SYNTHETIC_ONLY",
+      "error": "MaybeUninit must retain its compiler struct ADT kind"
+    }
+  },
+  "actual_archived_adt_record_observed": false,
+  "formal_credit": false,
+  "local_compiler_runner_verifier_execution": false
+}
