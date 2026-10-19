@@ -1,3 +1,27 @@
+# MERGE — R2 ACTIVE, 2026-10-19
+
+Задание [CURRENT-TASK](CURRENT-TASK.md) r2; T0 11:57Z/main13:57Z/absolute14:27Z.
+Build1 `c78529d0-f18b-4d13-9060-6517cde03cd5`, proof=infra
+`014c3238dcf386b58ab2b1304fce80c8f4c3ac0d`, terminal FAILURE12:14:38Z/590s.
+Brief: tool/preparation/compile exits0; prefix214 placeholder remains. Fullbody
+sourceexact, exporter/decode/refinement0/VF1, observed tail.read then unsupported
+address expression207:49–52 at next statement; shift/gap/late not reached by trace.
+No joint CURRENT proof;4resource+admission sourceNOT_RUN_PREFIX_PREREQUISITE_FAILED.
+[Result/provenance](cloud-build/origin-layout/R2-BUILD1-RESULT-20261019.json); новый proof credit не присвоен. Candidate добавляет только
+checked CURRENT array binder/split/open перед original tail.read в fullbody;
+prefix и полные posts/matrix сохранены. Tool08d6a578/profile82973e1e frozen.
+14patch/16files/14pins/18base staticPASS; LunaHighGO, [release](cloud-build/origin-layout/R2-RELEASE-20261019.json).
+
+Старый5f668cd9 Reader после owner reprocessing v8 index3e3e6bad…:
+prefix sourceSHA dd2e5689… совпадает с preparation /verified_sha256, но .rs
+UNSUPPORTED_FILE_TYPE/NO_DISPLAYABLE_FRAGMENT210; log retained65536/65629,
+search214 NO_MATCH_IN_RETAINED_PROJECTION. Exactstatement214 не установлен,
+узкое дополнение проекции запрошено; speculativefix/rawfallback нет.
+Следующий шаг: при получении exact prefix statement — минимальный
+proof/wrapper annotation fix с review; fullbody frontier207 установлен отдельно. B2 OPEN; old accounts untouched.
+
+Предыдущие checkpoints сохранены ниже как история.
+
 
 ## R1 — итог завершения 2026-10-19T05:41:03.073779+00:00
 

@@ -1,0 +1,78 @@
+{
+  "schema": "merge-r2-build-result-v1",
+  "build_id": "c78529d0-f18b-4d13-9060-6517cde03cd5",
+  "proof_sha": "014c3238dcf386b58ab2b1304fce80c8f4c3ac0d",
+  "infra_sha": "014c3238dcf386b58ab2b1304fce80c8f4c3ac0d",
+  "tool": "08d6a578e00d902cb9c99aad8d6ae2020c7d728a",
+  "profile_sha256": "82973e1eb17f4383b02310611cee3f023f4aa5f0a619f228838674d85e41be59",
+  "terminal_status": "FAILURE",
+  "build_seconds": 590,
+  "execution_seconds": 589,
+  "processing_status": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "whole_build_causal_status": "UNKNOWN",
+  "index_sha256": "68182b14009df8d08b86f064e5167f0aba69d354bc325a2827e3638eb09617b8",
+  "archive_sha256": "5d0589924f8c17024a0133406d022d1ed9f04d97b2558a6ccd6a170b76e8d50a",
+  "campaign": {
+    "file_id": "92de6ec3e223362f51aea2b8cc39115cc6c5d03bbd4db225e49afe7e70412da2",
+    "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+    "sha256": "56ddf095706dae44fce4cf0a202119d6bedcb9642c26f4c594226be2624bae7a",
+    "complete": false,
+    "projection_omissions": {
+      "PRIVATE_OR_SANITIZED_KEY": 1
+    }
+  },
+  "full_body": {
+    "classification": "INCONCLUSIVE",
+    "source_exact": true,
+    "stages": {
+      "exporter": 0,
+      "decode": 0,
+      "refinement": 0,
+      "verifast": 1
+    },
+    "hrtb_registration_observed": true,
+    "local_first_continue_observed": true,
+    "official_first_continue_qualified": true,
+    "first_error": "verified/lib.rs(207,49-52): error: Taking the address of this expression is not supported.",
+    "runtime_frontiers": {
+      "actual_first_call_line": true,
+      "actual_read_line": true,
+      "actual_shift_line": false,
+      "actual_update_line": false,
+      "actual_late_call_line": false,
+      "false_return_line": false
+    },
+    "tail_access_claim": "Prior points_to error not observed; execution reaches next statement207 on observed fullbody path. No standalone whole-read/guard/full-normal-unwind theorem inferred.",
+    "proof_credit": false
+  },
+  "prefix": {
+    "classification": "INCONCLUSIVE",
+    "first_error": "verified/lib.rs(214,17-23): error: Placeholders are not allowed here",
+    "current_false_true_panic_proved": false,
+    "separate_false_true_panic_success": "NOT_ESTABLISHED"
+  },
+  "dependent_controls_source_status": "4resource negatives and admission group explicitly NOT_RUN_PREFIX_PREREQUISITE_FAILED",
+  "build_milestones": "All7individual tool/preparation/compile exits observed0 in Brief; not formal acceptance.",
+  "diagnostic_provenance": {
+    "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verifast.log",
+    "sha256": "005efaf05e1f3ba512db42d9ac729ffee17db782cb560b7cdf9db4daabb7eceb",
+    "brief_lines": [
+      887,
+      888,
+      889,
+      890,
+      891,
+      892
+    ],
+    "reader_file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+    "reader_scanned_bytes": 65536,
+    "size_bytes": 68058,
+    "reader_status": "CONTENT_BUDGET_EXCEEDED",
+    "reader_search_206": "NO_MATCH_IN_RETAINED_PROJECTION"
+  },
+  "independent_full_proof_credit": false,
+  "b2_achieved": false,
+  "raw_evidence_access": false,
+  "download_verified_modified": false
+}

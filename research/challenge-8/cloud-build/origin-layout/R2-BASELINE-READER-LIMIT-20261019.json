@@ -5,5 +5,29 @@
   "status": "EXPLORATION_NOT_AVAILABLE_IN_REPORT",
   "schema": "smallsort-evidence-index-v6",
   "requires_reprocessing": true,
-  "limitation": "No real file ID, exact source fragment214 or source hash returned; narrow admin reprojection requested in user conversation. Source-only investigator cannot prove exact statement; no speculative prefix fix or raw fallback."
+  "limitation": "No real file ID, exact source fragment214 or source hash returned; narrow admin reprojection requested in user conversation. Source-only investigator cannot prove exact statement; no speculative prefix fix or raw fallback.",
+  "followup_v8": {
+    "index_sha256": "3e3e6bad420b25040d76c582c15abf42895c774d377d7df33bd9d43e9278a0ca",
+    "archive_sha256": "8ffe3689f0148e508af26f8b833ebb7fa4679c355c5ba567b898cb40f7ce811f",
+    "catalogue_complete": true,
+    "files": 1281,
+    "source": {
+      "file_id": "607839ba7f21c33ff3ad3e988fe0f260ff5dba89e277011f9a54a78b34b46872",
+      "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/prefix/cases/actual_three_current_full_posts/verified/lib.rs",
+      "sha256": "dd2e56890c425d4c0a6ff68750c62b272d12ad29cdd8282e8b99d0b35ea2aecd",
+      "status": "UNSUPPORTED_FILE_TYPE",
+      "start": 210,
+      "fragment_result": "NO_DISPLAYABLE_FRAGMENT"
+    },
+    "verifier_log": {
+      "file_id": "baa9ca04b59da72f80201556fdc5b684518d04e601cda1e054fe4b8344911732",
+      "sha256": "cfd4d0ac87f7a27cae645a742e4fdd13b9dfb7aafd46b25174a7563f5a2c3cff",
+      "scanned_bytes": 65536,
+      "size_bytes": 65629,
+      "status": "CONTENT_BUDGET_EXCEEDED",
+      "search": "214",
+      "search_result": "NO_MATCH_IN_RETAINED_PROJECTION"
+    },
+    "action": "Requested specifically lines210-218 of prefix .rs plus hash via admin bounded projection; user notified. No source absence/NOT_RUN inferred."
+  }
 }

@@ -83,19 +83,20 @@ Tool branch остаётся локальной; полный pinned patch chain
 
 ## Отчёт агента
 
-- **Статус:** ACTIVE: source preparation; old Build requires Reader reprojection.
-- **T0 / main / absolute UTC; phase / ledger:** 2026-10-19 11:57:00 / 13:57:00 / 14:27:00; MERGE-FIRST-COMPARATOR-R2-2026-10-19; cloud-build/origin-layout/FIRST-COMPARATOR-R2-BUDGET-20261019.json.
-- **Исходный HEAD / policy revision / сохранённые чужие изменения:** 4c744fc5b10dbbd489649782968cd099b76e48fc; WORK-POLICY revision 2026-10-10 plus owner Evidence Reader update 2026-10-19 (pre-existing uncommitted). Preserved AGENTS, runbook, policy, Brief, Cloud README, guide, task-history and task assignment.
-- **Исправления, точные source/tool/profile identities, release и review:** —
+- **Статус:** ACTIVE / частичный результат; ожидается точечное дополнение Reader для prefix214.
+- **T0 / main / absolute UTC; phase / ledger:** 2026-10-19 11:57:00 / 13:57:00 / 14:27:00; `MERGE-FIRST-COMPARATOR-R2-2026-10-19`; [отдельный ledger](cloud-build/origin-layout/FIRST-COMPARATOR-R2-BUDGET-20261019.json).
+- **Исходный HEAD / policy revision / сохранённые чужие изменения:** `4c744fc5b10dbbd489649782968cd099b76e48fc`; WORK-POLICY2026-10-10 + owner Reader2026-10-19 (исходные локальные правки). AGENTS/runbook/policy/Brief/CloudREADME/guide/task-history сохранены; чужие worktrees/closed accounts не менялись.
+- **Исправления, identities, release/review:** только fullbody proof: binder CURRENT array, checked split(begin,2), open tail singleton перед original read. Runtime/posts/first-call markers/prefix неизменны. Tool `08d6a578`, profileSHA `82973e1e…`, patchSHA `4aa84aa5…`, translatorSHA `2ff7b16f…`, compiler pins frozen. [Exact release](cloud-build/origin-layout/R2-RELEASE-20261019.json), [Luna High GO](cloud-build/origin-layout/R2-REVIEW-20261019.json), [14patch/16files/14pins/18base staticPASS](cloud-build/origin-layout/R2-SOURCE-PREFLIGHT-20261019.json); 7existing+2new synthetic tests PASS, локальных proof/extraction запусков нет.
 
 | Build UUID | Source/manifest и гипотеза | Terminal / ключевой результат Brief | Charge |
 | --- | --- | --- | --- |
+| c78529d0-f18b-4d13-9060-6517cde03cd5 | proof=infra `014c3238dcf386b58ab2b1304fce80c8f4c3ac0d`; CURRENT tail split/open | FAILURE12:14:38Z; fullbody next error207 unsupported address; prefix214 placeholder | 590s / execution589s |
 
-- **Prefix normal false / normal true / first Continue-panic:** —
-- **Fullbody tail.read / следующая установленная граница:** —
-- **Resource/admission/unwind/CURRENT18 negatives и B1 regressions:** —
-- **Evidence provenance/coverage; ссылка на компактную полную obligations-таблицу:** —
-- **B2 / formal credit; первый remaining blocker:** —
-- **Итог числа Builds/Cloud charge; active/unresolved/requests/reservations/ledger:** —
-- **Время и причина окончания; опубликованный checkpoint:** —
-- **Один конкретный следующий шаг / необходимое решение владельца:** —
+- **Prefix normal false / normal true / first Continue-panic:** отдельно не установлены; joint sourceflagFalse, VF1. Exact statement214 ещё недоступен; speculative placeholder fix не сделан.
+- **Fullbody tail.read / следующая граница:** прежний points_to blocker больше не наблюдается; trace readTrue, затем error207:49–52 “Taking the address of this expression is not supported.” у следующего original guard statement. Наблюдаемый путь, без whole-read/guard/fullbody theorem; shift/update/late traceFalse.
+- **Negatives / regressions:** 4resource+admission group явно sourceNOT_RUN_PREFIX_PREREQUISITE_FAILED; HRTB/firstunwind/lateCleanup/CURRENT18 не зачтены. SelectedDrop и receiver sourceall_matchedTrue, helper bounded positive+3expected, smoke sourcePASS; nested projection ограничения сохранены.
+- **Evidence provenance/coverage:** [Build1 result](cloud-build/origin-layout/R2-BUILD1-RESULT-20261019.json), [полная obligations-таблица](cloud-build/origin-layout/R2-OBLIGATIONS-20261019.md). Index `68182b14…`, archive verified, catalogue1281/content386; это integrity/source observations, не formal acceptance. OldBuild после ownerreprojection index `3e3e6bad…`, prefix sourceSHA `dd2e5689…` подтверждён preparation, но .rs unsupported/no fragment210; log bounded. [Точный запрос/ограничение](cloud-build/origin-layout/R2-BASELINE-READER-LIMIT-20261019.json). Raw fallback/download_verified нет; whole-Build causality UNKNOWN.
+- **B2 / formal credit / blocker:** OPEN / нового независимого credit нет; prefix214 exact source/type binding ещё не установлен, отдельный fullbody frontier207.
+- **Учёт:** 1Build/590s accounted, собственных active/unresolved/reservations нет; сессия AUTHORIZED, request только coordinator. Технический ceiling18960 — представление окна, не новый spend budget/carryover.
+- **Время/причина окончания; checkpoint:** сессия продолжается; [STATUS](STATUS.md) обновлён, исходный кандидат опубликован.
+- **Следующий шаг:** получить разрешённую bounded projection prefix210–218/sourcehash, сделать минимальный evidence-backed proof/wrapper fix и LunaHigh review перед новым Build; tool/matcher не расширять.

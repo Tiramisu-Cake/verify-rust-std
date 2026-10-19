@@ -1,0 +1,126 @@
+{
+  "archive_sha256": "5d0589924f8c17024a0133406d022d1ed9f04d97b2558a6ccd6a170b76e8d50a",
+  "build_id": "c78529d0-f18b-4d13-9060-6517cde03cd5",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 524,
+      "EMPTY_FILE": 20,
+      "JSON_EXCEEDS_SCAN_LIMIT": 1,
+      "PROJECTED": 365,
+      "SCAN_BUDGET_EXCEEDED": 40,
+      "UNSUPPORTED_FILE_TYPE": 331
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2096658,
+    "content_files": 386,
+    "files": 1281,
+    "source_scan_bytes": 8388608
+  },
+  "file": {
+    "complete": false,
+    "id": "075daabaa6d2719b752b9526f43a176a4a0afbdc423079de7114934ebe2613bd",
+    "kind": "json",
+    "path": "allprooflogs/checked-minimal-bridge/helper-control/aggregate.json",
+    "path_sanitized": false,
+    "scanned_bytes": 818,
+    "sha256": "8ffd9dbae7ffb7b7a2d07b8d381b878253cd2c93fe89a504598ca239f18ae5bb",
+    "size_bytes": 818,
+    "status": "PROJECTED",
+    "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+  },
+  "index_sha256": "68182b14009df8d08b86f064e5167f0aba69d354bc325a2827e3638eb09617b8",
+  "next_offset": null,
+  "projection_coverage": {
+    "complete": false,
+    "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+    "omissions": {
+      "VALUE_TRANSFORMED": 1
+    },
+    "status": "PROJECTED",
+    "visited_nodes": 15
+  },
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "file": {
+        "complete": false,
+        "id": "075daabaa6d2719b752b9526f43a176a4a0afbdc423079de7114934ebe2613bd",
+        "kind": "json",
+        "path": "allprooflogs/checked-minimal-bridge/helper-control/aggregate.json",
+        "path_sanitized": false,
+        "scanned_bytes": 818,
+        "sha256": "8ffd9dbae7ffb7b7a2d07b8d381b878253cd2c93fe89a504598ca239f18ae5bb",
+        "size_bytes": 818,
+        "status": "PROJECTED",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "observation": {
+        "pointer": "/cases/after_call_current_false",
+        "value": "EXPECTED_AFTER_CALL_CURRENT_REJECTION"
+      }
+    },
+    {
+      "file": {
+        "complete": false,
+        "id": "075daabaa6d2719b752b9526f43a176a4a0afbdc423079de7114934ebe2613bd",
+        "kind": "json",
+        "path": "allprooflogs/checked-minimal-bridge/helper-control/aggregate.json",
+        "path_sanitized": false,
+        "scanned_bytes": 818,
+        "sha256": "8ffd9dbae7ffb7b7a2d07b8d381b878253cd2c93fe89a504598ca239f18ae5bb",
+        "size_bytes": 818,
+        "status": "PROJECTED",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "observation": {
+        "pointer": "/cases/caller_entry_false",
+        "value": "EXPECTED_CALLER_ENTRY_REJECTION"
+      }
+    },
+    {
+      "file": {
+        "complete": false,
+        "id": "075daabaa6d2719b752b9526f43a176a4a0afbdc423079de7114934ebe2613bd",
+        "kind": "json",
+        "path": "allprooflogs/checked-minimal-bridge/helper-control/aggregate.json",
+        "path_sanitized": false,
+        "scanned_bytes": 818,
+        "sha256": "8ffd9dbae7ffb7b7a2d07b8d381b878253cd2c93fe89a504598ca239f18ae5bb",
+        "size_bytes": 818,
+        "status": "PROJECTED",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "observation": {
+        "pointer": "/cases/positive",
+        "value": "BOUNDED_NORMAL_COMPOSITION_PASS_FRAGMENT_ONLY"
+      }
+    },
+    {
+      "file": {
+        "complete": false,
+        "id": "075daabaa6d2719b752b9526f43a176a4a0afbdc423079de7114934ebe2613bd",
+        "kind": "json",
+        "path": "allprooflogs/checked-minimal-bridge/helper-control/aggregate.json",
+        "path_sanitized": false,
+        "scanned_bytes": 818,
+        "sha256": "8ffd9dbae7ffb7b7a2d07b8d381b878253cd2c93fe89a504598ca239f18ae5bb",
+        "size_bytes": 818,
+        "status": "PROJECTED",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "observation": {
+        "pointer": "/cases/receiver_origin_probe",
+        "value": "EXPECTED_RECEIVER_ORIGIN_REJECTION"
+      }
+    }
+  ],
+  "scope": {
+    "files_considered": 1,
+    "files_with_incomplete_content": 1,
+    "matches_in_retained_data": 4,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

@@ -7204,3 +7204,31 @@ Fresh Brief v6/Processor0.7.0 receipt/index SHA verified; R1-BUILD4-RESULT/BRIEF
 7synthetic tests+4priorservice tests PASS;14patches/16files/14profilepins/18strictbasepins source preflight PASS; independent Luna High staticGO. Runtime/posts/kernel/model/prelude/compiler and mandatorymatrix preserved. Reader available; missing exact prefix statement/nested details are Processor projection limitations, global causality/source causal receipt presence unresolved. No raw fallback/download_verified/admin audit.
 
 LedgerCLOSED; own active/unresolved/reservations none; own readyrequest withdrawn through coordinator; foreign state preserved. Technical unused numeric headroom closed without carryover, not user budget; old closed accounts untouched. Next: in a newly authorized time window, statically map prefix214 placeholder from pinned templates and prepare minimal checked annotation correction with review before any new Build; retain full CURRENT posts and separately diagnose tail.read array access. If exact statement cannot be obtained from pinned templates, request bounded admin excerpt only (Build5f668cd9, prefix verified214±4/sourceSHA), not raw logs.
+
+
+## R2 first comparator — 2026-10-19, source preparation and Build1
+
+Owner merge; CURRENT-TASK merge-first-comparator-2026-10-19-r2. T0 11:57Z,
+main13:57Z/absolute14:27Z. Hypothesis recorded before code in existing
+FIRST-CALLBACK-SEMANTIC-CARD: checked array CURRENT binder/split/open exposes
+tail physical cell before actual read, without runtime/post/trusted changes.
+Tool08d6a578/profile82973e1e frozen;14patch/16files/14pins/18base source PASS;
+7existing+2new synthetic tests PASS; LunaHigh GO R2-REVIEW.
+Proof=infra014c3238dcf386b58ab2b1304fce80c8f4c3ac0d published and exact closure
+c04b7fa706bdebb6861da284e7635399b575a66b1ac19ba59498ace4e6036fea checked.
+Build c78529d0-f18b-4d13-9060-6517cde03cd5 submitted via coordinator, timeout900.
+Full mandatory campaign unchanged. Outcome pending; no proof credit.
+Old5f668cd9 Reader initiallyv6 no exploration; after owner reprojectionv8,
+index3e3e6bad… sourcehashdd2e5689… known but source.rs unsupported and
+no fragment210. Exact prefix214 still missing; bounded admin addition requested.
+R2-BASELINE-READER-LIMIT preserves provenance/limits; no raw fallback.
+
+R2 Build1 terminal FAILURE12:14:38Z, coordinator charge590s/execution589s,
+no own active/reservation. Briefv8 index68182b14… confirms all7tool milestones0;
+sourceexact fullbody stages0/0/0/1, readtraceTrue; nextobserved error207:49-52
+Taking the address of this expression is not supported. Oldpoints_to at read
+not observed; no whole-read/guard proof. Prefix214 placeholderunchanged;
+4resource+admission sourceNOT_RUN_PREFIX_PREREQUISITE_FAILED; no separate
+false/true/panic success. Result R2-BUILD1-RESULT-20261019 with bounded
+Reader provenance, catalogue1281complete/content386, PRIVATE_OR_SANITIZED_KEY1,
+log65536/68058limited. No fullbody/independentproofcredit/B2; causalUNKNOWN.
