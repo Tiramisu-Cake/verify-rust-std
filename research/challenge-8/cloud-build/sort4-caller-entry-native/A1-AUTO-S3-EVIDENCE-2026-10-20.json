@@ -1,0 +1,290 @@
+{
+  "N-false31": {
+    "observations": [
+      {
+        "exact": true,
+        "kind": "boolean",
+        "pointer": "/case_status/N-false31/matrix_gate_passed",
+        "value": false
+      },
+      {
+        "exact": true,
+        "kind": "null",
+        "pointer": "/case_status/N-false31/observed_outcome",
+        "value": null
+      },
+      {
+        "exact": true,
+        "kind": "null",
+        "pointer": "/case_status/N-false31/observed_stage",
+        "value": null
+      },
+      {
+        "exact": true,
+        "kind": "boolean",
+        "pointer": "/case_status/N-false31/proof_credit",
+        "value": false
+      },
+      {
+        "exact": true,
+        "kind": "null",
+        "pointer": "/case_status/N-false31/provenance",
+        "value": null
+      },
+      {
+        "exact": true,
+        "kind": "null",
+        "pointer": "/case_status/N-false31/reason",
+        "value": null
+      },
+      {
+        "exact": true,
+        "kind": "string",
+        "pointer": "/case_status/N-false31/status",
+        "value": "NOT_RUN"
+      }
+    ],
+    "request_id": "c9b14a0ed40bb6700c1ad8e9037315edaabd1c7af00e88a174ab54903f3c53c4"
+  },
+  "P1": {
+    "observations": [
+      {
+        "exact": true,
+        "kind": "string",
+        "pointer": "/observation_details/P1/adapter_error",
+        "value": "InventoryError: normal and readonly VfMir compiler inventories differ at inventory.impls[0].items[1].body.record.hirGenerics.params[1].name.fresh.l"
+      },
+      {
+        "exact": true,
+        "kind": "boolean",
+        "pointer": "/observation_details/P1/execution_started",
+        "value": true
+      },
+      {
+        "exact": true,
+        "kind": "string",
+        "pointer": "/observation_details/P1/failed_stage",
+        "value": "P1"
+      },
+      {
+        "exact": true,
+        "kind": "boolean",
+        "pointer": "/observation_details/P1/not_run",
+        "value": false
+      },
+      {
+        "exact": true,
+        "kind": "boolean",
+        "pointer": "/observation_details/P1/proof_credit",
+        "value": false
+      }
+    ],
+    "request_id": "a1c063f290df6b0123aee4be23857b787bce369d5dcb75689218d589bb54b752"
+  },
+  "audit": {
+    "archive_sha256": "e8c2556e1e051c069d95d4986cc859f6f851458fad6a6d2f5a69952117673579",
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "file_sha256": "4448c8a89261ab5adb2a4dc7be3a958ef1b288fa8f7d71f666db06952f66440c",
+    "index_sha256": "32f9b507ba8bc59fafd14cff82807897a5790c3bcfdc08da3307417f3f66af8d"
+  },
+  "build_id": "53aeec23-552e-4f4c-8d94-a52bbdd8c0f3",
+  "charged_seconds": 447,
+  "download_verified": false,
+  "formal_credit": false,
+  "fresh_fragments": [
+    {
+      "complete": false,
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 1524,
+        "line_separator": "LF",
+        "source_lines": 12974,
+        "start": 1513,
+        "unit": "line"
+      },
+      "exact": true,
+      "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+      "file_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "request_id": "b0833f459b8c274eca7d696f78490b57b19b84c0a40e952d7089bbb6aa32a82d",
+      "results": [
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1513,
+          "text": "            pureWrtDrop = false,"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1514,
+          "text": "            kind = (type = void) ),"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1515,
+          "text": "          ( name = (fresh = (h = 0, l = 53)),"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1516,
+          "text": "            bounds = void,"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1517,
+          "text": "            span = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1518,
+          "text": "              regular = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1519,
+          "text": "                lo = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1520,
+          "text": "                  file = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1521,
+          "text": "                    name = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1522,
+          "text": "                      real = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1523,
+          "text": "                        localPath = \"verified/lib.rs\" ) ) ),"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1524,
+          "text": "                  line = 51,"
+        }
+      ]
+    },
+    {
+      "complete": false,
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 1524,
+        "line_separator": "LF",
+        "source_lines": 12708,
+        "start": 1513,
+        "unit": "line"
+      },
+      "exact": true,
+      "file_id": "145df5193e7abe0b6c3cbbc7988064bb1d47fbece830afdc53ffdac77572c689",
+      "file_sha256": "d57caad6a69e35778ba32cedf37850b31f76da64d385c3a80d08da6181f1d05e",
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "request_id": "deac651df985adc3b0238bad68c03bb4a4d4b40260bdd4beaa1c733563f8af6f",
+      "results": [
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1513,
+          "text": "            pureWrtDrop = false,"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1514,
+          "text": "            kind = (type = void) ),"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1515,
+          "text": "          ( name = (fresh = (h = 0, l = 48)),"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1516,
+          "text": "            bounds = void,"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1517,
+          "text": "            span = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1518,
+          "text": "              regular = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1519,
+          "text": "                lo = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1520,
+          "text": "                  file = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1521,
+          "text": "                    name = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1522,
+          "text": "                      real = ("
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1523,
+          "text": "                        localPath = \"verified/lib.rs\" ) ) ),"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1524,
+          "text": "                  line = 51,"
+        }
+      ]
+    }
+  ],
+  "integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "proof_sha": "e8279683b1b1546f38e9b9e770768cd2b7f532bf",
+  "publication_sha": "0ecfb1bb8cd7641df50ab9b86ac7acae50811e45",
+  "remaining_seconds": 2287,
+  "scope": "bounded source observations only; previous raw inputs/clauses pass before first HIR Fresh mismatch, not full inventory/native proof",
+  "source_case_counts": {
+    "INCONCLUSIVE": 5,
+    "INTENDED_CLASSIFIED": 8,
+    "NOT_RUN": 13
+  },
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "stage_order": "NOT_ESTABLISHED",
+  "terminal_status": "FAILURE",
+  "total_charged_seconds": 1313
+}
