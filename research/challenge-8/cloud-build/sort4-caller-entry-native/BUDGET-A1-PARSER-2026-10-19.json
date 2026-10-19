@@ -4,7 +4,30 @@
     "o26-sort4-c1-current-recovery"
   ],
   "authorization": "CURRENT-TASK select-p0a-parser-compatibility-2026-10-19-r2;120min+30finish;3600Cloudseconds;diagnosticP0a preflight then exact literal string compatibility and full26/P1/N-false31;900s max;existing lane/coordinator only; direct owner extension +90min main, no T0 reset, Cloud ceiling unchanged",
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-bcaac4f0670e4df997a6c41d24f951e5",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-P0A-PARSER-COMPATIBILITY-2026-10-19-R2",
+      "infra_sha": "189baef7ecb64fac969392a156ef72a9d5baf153",
+      "proof_sha": "189baef7ecb64fac969392a156ef72a9d5baf153",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "e5a18f44c49794c7cb24d1043a8d37fa95da6b5437eb6130e3a59b1a210a6d25",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "cfb55b7122dd8383892edc5211836e574854cd61756fa99b37df758db1281503",
+      "build_id": "f8748a4d-c5f6-47fe-b157-4a9e60839d4e",
+      "start_time": "2026-10-19T17:23:36.271538724Z",
+      "finish_time": "2026-10-19T17:30:43.786204Z",
+      "create_time": "2026-10-19T17:23:35.419100130Z",
+      "build_seconds": 429,
+      "accounted": true,
+      "execution_seconds": 428
+    }
+  ],
   "ceiling_build_seconds": 3600,
   "deadline_utc": "2026-10-19T20:06:59Z",
   "main_deadline_utc": "2026-10-19T19:36:59Z",
@@ -13,8 +36,8 @@
   "no_carry": true,
   "owner": "select-sort4",
   "phase": "SORT4-P0A-PARSER-COMPATIBILITY-2026-10-19-R2",
-  "remaining_build_seconds": 3600,
+  "remaining_build_seconds": 3171,
   "start_utc": "2026-10-19T16:06:59Z",
   "status": "AUTHORIZED",
-  "used_build_seconds": 0
+  "used_build_seconds": 429
 }

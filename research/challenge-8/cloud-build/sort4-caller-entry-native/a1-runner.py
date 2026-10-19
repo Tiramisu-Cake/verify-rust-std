@@ -25,7 +25,7 @@ from typing import Any, Mapping
 PHASE = "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17"
 AUTHORIZATION_PHASE = "SORT4-P0A-PARSER-COMPATIBILITY-2026-10-19-R2"
 HERE = Path("research/challenge-8/cloud-build/sort4-caller-entry-native")
-PROFILE = HERE / "A1-PARSER-D1-PROFILE-2026-10-19.json"
+PROFILE = HERE / "A1-PARSER-D2-PROFILE-2026-10-19.json"
 HEX40 = re.compile(r"[0-9a-f]{40}\Z")
 HEX64 = re.compile(r"[0-9a-f]{64}\Z")
 

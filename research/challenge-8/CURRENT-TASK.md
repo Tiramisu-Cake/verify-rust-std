@@ -57,9 +57,9 @@ Timeout Build ≤900 секунд и не больше доступного бю
 
 - **Статус:** IN_PROGRESS. T0 `2026-10-19T16:06:59Z`, main `19:36:59Z`, absolute `20:06:59Z`; end —.
 - **Исходный checkpoint:** docs `e29c28972b96158d01f54193da0498cb5813f676`; executed source `6f3abaa45b97345cf467a7fc24a8b7d39ab09af7`. Branch/worktree проверены; исходные owner policy edits сохранены.
-- **Обязательство до → после:** P0a parser9362 → диагностика готовится; P1 INCONCLUSIVE, N-false31 NOT_RUN, matrix8/5/13; A1/A2 открыты, formal credit0.
-- **Диагноз/гипотеза:** старые8targeted responses не связывают input; повтор старого запроса не поможет. Новый P0a preflight сохранит actual normal/readonly/path/rawSHA/inputSHA/transform/coordinates/decoder cause/192-character window без изменения parser grammar и predicates.
+- **Обязательство до → после:** P0a parser9362 → actual normal input и C escaped apostrophe __53 установлены; D2 исправление локально/review PASS, Cloud ещё не проверен; P1 INCONCLUSIVE, N-false31 NOT_RUN, matrix8/5/13; A1/A2 открыты, formal credit0.
+- **Диагноз/исправление:** D1 normal, raw/inputSHA3bf1b47d…e6a01, actual literal bytes9362..9370=225c275f5f353322; JSON failure9363. D2 принимает только установленный C apostrophe escape, сохраняет escape pairs/строгостьJSON/original coordinates; limits/shape/identity/admission untouched. [Rationale](cloud-build/sort4-caller-entry-native/A1-PARSER-D2-RATIONALE-2026-10-19.md), [D1 provenance](cloud-build/sort4-caller-entry-native/A1-PARSER-D1-RESULT-2026-10-19.json).
 - **Review/проверки:** [Luna HIGH GO](cloud-build/sort4-caller-entry-native/A1-PARSER-D1-REVIEW-2026-10-19.md);9synthetic groups PASS;43preR/fullR/C source-only composition PASS; committed closure33infra/107proof/160objects PASS.
-- **Builds:** нет. Cloud0/3600, active/reservations нет собственных.
-- **Следующий шаг:** опубликовать release checkpoint и diagnostic preflight D1. Source/infra `189baef7ecb64fac969392a156ef72a9d5baf153`; [manifest](cloud-build/sort4-caller-entry-native/A1-PARSER-D1-RELEASE-2026-10-19.json).
+- **Builds:** D1 `f8748a4d-c5f6-47fe-b157-4a9e60839d4e` → source/infra189baef7 → setup/parser diagnostic preflight; terminalFAILURE,429s charged,3171remaining; proof_attempted=false,1INCONCLUSIVE/25NOT_RUN как диагностическийpreflight.
+- **Следующий шаг:** committed D2closure/release и full26 Cloud. D2 LunaHIGHGO;10valid/11rejected/10oldJSON+5portable unit+9service groupsPASS. R/Csource composition frozenPASS. D1 publication22cacac3 до submit. Source/infra `189baef7ecb64fac969392a156ef72a9d5baf153`; [manifest](cloud-build/sort4-caller-entry-native/A1-PARSER-D1-RELEASE-2026-10-19.json).
 - **Подробности:** [session card](cloud-build/sort4-caller-entry-native/A1-PARSER-SESSION-2026-10-19.md).

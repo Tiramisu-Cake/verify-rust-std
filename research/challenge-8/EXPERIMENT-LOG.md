@@ -7812,3 +7812,8 @@ noformalcredit. Alloldaccounts/evidenceandownerlocaldocspreserved,nocarry.
 ### 2026-10-19 — Evidence Reader v0.9 targeted
 
 [Отчёт](cloud-build/sort4-caller-entry-native/A1-BUILDABILITY-READER-V09-2026-10-19.md):8узких refresh к существующему87df47e4,всеOK/complete/sanitized. Теперь26поимённых statuses8/5/13; R2–R7 INTENDED_CLASSIFIED,credit=false. P0a execution_started=true,source-constructor,error9362; input binding/literal не установлены,позиционное окно предположительного файла не читалось. P1/N-false31/A1/A2/formal credit без повышения. Старые отчёты/ledger сохранены,Cloud расход0,нового Build/кода нет.
+
+
+### 2026-10-19 — P0a parser diagnostic D1
+
+New3600account/T0 16:06:59Z,owner+90min main19:36:59Z/absolute20:06:59Z. D1 f8748a4d-c5f6-47fe-b157-4a9e60839d4e,source189baef7,pre-submit22cacac3,LunaHIGHGO. Narrow diagnostic preflight,FAILURE429s,remaining3171; archive/inventoryverified,run0,evidencecompletefalse,proof_attemptedfalse;1INCONCLUSIVE/25NOT_RUN,notfullmatrix. Exact new normal call binding inputSHA3bf1…e6a01, literal C escaped apostrophe __53 at9362,error9363. [D1 result](cloud-build/sort4-caller-entry-native/A1-PARSER-D1-RESULT-2026-10-19.json). D2 rationale→strict token-aware apostrophe compatibility+offsetmap; synthetic checks andreviewGO,full26 Cloud pending. No formalcredit,oldledgers unchanged.

@@ -11,3 +11,9 @@ R/C byte hashes/compiler/exporter/decoder/toolbase/43patches frozen by R5. Sourc
 Owner direct extension: +90min main, T0 unchanged, main19:36:59Z/absolute20:06:59Z, ceiling3600 unchanged. Adopted replacement user AGENTS.md instructions during safe pre-submit boundary; preserve stricter max2 slots.
 
 D1 candidate189baef7:9synthetic groups PASS; source composition43preR/fullR/C PASS; committed closure33infra+107proof/160objects,170substitutions PASS; LunaHIGHGO after preserving persist_error. Preflight only, no proof/matrix acceptance.
+
+D1 submitted: f8748a4d-c5f6-47fe-b157-4a9e60839d4e, proof/infra189baef7, release publication22cacac3 verified remote. ConfigSHA e5a18f44c49794c7cb24d1043a8d37fa95da6b5437eb6130e3a59b1a210a6d25,900s timeout+60reserve. Setup diagnostic-only purpose, no proof credit.
+
+D1 terminalFAILURE/429s accounted,remaining3171; Brief verified archive/inventory,run0,evidence_completefalse,proof_attemptedfalse,1INCONCLUSIVE/25NOT_RUN (preflight purpose only). Own R/C named build stages0. Actual normal parser binding and exact literal region.id C escaped apostrophe __53 established via new diagnostic + targeted file/SHA/coordinates; old generic servicecausality flags not retconned. See D1-RESULT/BRIEF.
+
+D2 rationale written before implementation: deterministic C apostrophe token support only, strictJSON rest, original coordinate map, raw hashes unchanged.5portable unit tests +10valid/11invalid/10priorJSON +9service groups PASS; R/C43preRsource composition/frozenmaps PASS; LunaHIGHGO. Full original26 and P1/N-false31 route restored, fresh ownreceipts required; no proof credit from local tests.

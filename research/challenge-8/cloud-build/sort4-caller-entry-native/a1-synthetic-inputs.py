@@ -56,6 +56,37 @@ MAX_DEPTH = 64
 MAX_TOP_LEVEL_RECORDS = 10_000
 
 
+def _decode_quoted_text(raw: str) -> str:
+    """Accept the observed Cap'n Proto apostrophe escape plus strict JSON text.
+
+    Escape pairs are consumed together: a literal escaped backslash is never
+    mistaken for the beginning of a C apostrophe escape. Source positions remain
+    available when the strict JSON decoder rejects any other malformed escape.
+    """
+    normalized: list[str] = []
+    source_positions: list[int] = []
+    i = 0
+    while i < len(raw):
+        if raw[i] == "\\" and i + 1 < len(raw):
+            if raw[i + 1] == "'":
+                normalized.append("'")
+                source_positions.append(i)
+            else:
+                normalized.extend(raw[i:i + 2])
+                source_positions.extend((i, i + 1))
+            i += 2
+        else:
+            normalized.append(raw[i])
+            source_positions.append(i)
+            i += 1
+    try:
+        return json.loads("".join(normalized))
+    except json.JSONDecodeError as exc:
+        exc.source_unicode_position = (source_positions[exc.pos]
+            if exc.pos < len(source_positions) else len(raw))
+        raise
+
+
 class _Parser:
     def __init__(self, source: str):
         if len(source) > MAX_SOURCE_CHARS:
@@ -101,7 +132,7 @@ class _Parser:
             elif ch == '"':
                 raw = self.source[start:self.i]
                 try:
-                    value = json.loads(raw)
+                    value = _decode_quoted_text(raw)
                 except (ValueError, json.JSONDecodeError) as exc:
                     raise ParseError(f"invalid quoted string at byte {start}") from exc
                 if not isinstance(value, str):

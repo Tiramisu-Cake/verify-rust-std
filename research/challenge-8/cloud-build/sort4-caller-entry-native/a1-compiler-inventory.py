@@ -880,7 +880,7 @@ def _parse_inventory_input(source: str, label: str):
             position = int(match.group(1))
             if 0 <= position <= len(source):
                 decoder = exc.__cause__.__cause__ if exc.__cause__ else None
-                local = decoder.pos if isinstance(decoder, json.JSONDecodeError) else None
+                local = getattr(decoder, "source_unicode_position", decoder.pos) if isinstance(decoder, json.JSONDecodeError) else None
                 error_position = min(len(source), position + local) if local is not None else position
                 lo, hi = max(0, error_position - 96), min(len(source), error_position + 96)
                 window = source[lo:hi]
@@ -893,6 +893,8 @@ def _parse_inventory_input(source: str, label: str):
                     "literal_utf8_start": len(source[:position].encode("utf-8")),
                     "decoder_error": str(decoder)[:256] if decoder is not None else None,
                     "decoder_local_unicode_position": local,
+                    "decoder_json_unicode_position": decoder.pos if isinstance(decoder, json.JSONDecodeError) else None,
+                    "decoder_error_coordinate_unit": "normalized-json-unicode-codepoint",
                     "error_unicode_position": error_position,
                     "error_utf8_position": len(source[:error_position].encode("utf-8")),
                     "window_unicode_start": lo, "window_unicode_end": hi,
