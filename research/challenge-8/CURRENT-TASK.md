@@ -1,104 +1,68 @@
-> **Evidence v0.9, 2026-10-19 — приоритет:** [краткий guide](EVIDENCE-READER-GUIDE.md). `/usr/local/bin/smallsort-brief`: Brief → адресный Reader → при нехватке данных `--refresh --file` (targeted) → admin audit, только если всё ещё недостаточно. Refresh разрешён без отдельного audit; общая квота 16 резервирований на Build, ошибки тоже могут её расходовать. Полные/raw логи, массовая выгрузка и обход удержания запрещены. Заменяет старый порядок Reader → сразу audit; сессии/budgets не меняются.
-
 # Merge / insert_tail — текущее задание
 
-**ID:** `merge-first-comparator-2026-10-19-r2`. **Статус:** CLOSED / PARTIAL; T0 2026-10-19T11:57:00Z, main deadline истёк.
+## Задание
 
-Этот файл содержит только последнее задание и один актуальный отчёт. Исполнитель обновляет раздел «Отчёт агента» на месте, а не добавляет новые дневники/повторные отчёты в конец. Итог — не более одной страницы плюс таблица Builds и ссылки на существующие артефакты. Перед следующим заданием координатор сохраняет законченную редакцию отдельно и полностью заменяет этот файл. Архив предыдущей сессии: [r1](task-history/merge-first-comparator-2026-10-18-r1.md); читать его целиком без конкретной необходимости не нужно.
+- **ID:** `merge-first-comparator-2026-10-19-r3`; **статус:** READY, исполнение ещё не начато.
+- **Owner:** `merge`.
+- **Project worktree:** `/root/verify-rust-std-merge-origin`.
+- **Project branch:** `merge/incoming-origin-20261009`, fork `Tiramisu-Cake/verify-rust-std`.
+- **Tool worktree:** `/root/verifast-merge-actual-glue`, branch `merge/actual-glue-instance-20261011`; в этой сессии только чтение, tool semantics/pins заморожены.
+- **Разрешение:** новая сессия по поручению владельца: 120 минут работы + до 30 минут завершения; **3600 Cloud секунд** по принятому новому процессу. Число последовательных Builds не ограничено в пределах времени и счёта. Старые счета закрыты.
 
-## 1. Цель и исходное состояние
+Ты стартуешь без контекста. Проверь worktree/branch, HEAD и dirty diff; сохрани чужие изменения. Прочитай `AGENTS.md`, [WORK-POLICY](WORK-POLICY.md), [ITERATION-PROCESS](ITERATION-PROCESS.md), [Cloud runbook](cloud-build/README.md), [краткий Evidence v0.9 guide](EVIDENCE-READER-GUIDE.md) и релевантную часть [semantic card](cloud-build/origin-layout/FIRST-CALLBACK-SEMANTIC-CARD-20261017.md). Старые сроки/счета в card исторические. Всю историю перечитывать не требуется.
 
-Доказать source-linked prefix первого фактического comparator call: normal false, normal true и первый Continue-panic с полным CURRENT восстановлением; выполнить зависимые negatives/admission controls. Отдельно восстановить доступ к tail перед original tail.read в full-body diagnostic и установить следующую проверенную границу. Prefix не заменяет полный insert_tail; B2 остаётся открытым до всех его обязательств.
+### Цель и исходная точка
 
-- Owner `merge`; project `/root/verify-rust-std-merge-origin`, branch `merge/incoming-origin-20261009`.
-- Tool `/root/verifast-merge-actual-glue`, branch `merge/actual-glue-instance-20261011`.
-- Docs checkpoint `4c744fc5`; последний исполненный proof=infra `a0f3b7da95ad90e64ae5ef0efcda687431696133`.
-- Build `5f668cd9-fb34-4570-ad1c-4b97abbb36d0`: FAILURE; toolchain stages exit0. Prefix/fullbody exporter/decode/refinement exit0, verifier exit1. Это разные результаты, не formal acceptance.
-- Prefix: `verified/lib.rs(214,17-23): Placeholders are not allowed here`.
-- Fullbody: `verified/lib.rs(203,42-48): No matching heap chunks: points_to<u64>(tail0, _)` у tail.read; успешное выполнение read/guard ещё не доказано.
-- Normal false/true/panic отдельно не доказаны; joint source flag false. Четыре resource-loss negatives и admission group имеют source-reported `NOT_RUN_PREFIX_PREREQUISITE_FAILED`.
-- B1/helper/ordinary normal-unwind сохраняют ограниченные source-reported результаты. Причина общего FAILURE и порядок стадий не установлены; сообщения `$HOME` не считать причиной.
+**Получить source-linked prefix первого фактического comparator call с полными CURRENT posts для normal false, normal true и первого Continue-panic; выполнить зависимые negatives/admission controls.** Вторичная цель — проверить разрешённую proof-only коррекцию следующего fullbody отказа у guard либо подготовить точный proposal. Prefix и отдельный пройденный read не закрывают полный insert_tail/B2.
 
-Последняя сессия CLOSED: 4 Builds / 2333 Cloud seconds; own active/unresolved/reservations отсутствовали по checkpoint. Исторические accounts не открывать. Новая сессия начинается по этому заданию, не задним числом.
+Последний docs checkpoint: `3ce676fc`; последний исполненный proof=infra: `014c3238dcf386b58ab2b1304fce80c8f4c3ac0d`; Build `c78529d0-f18b-4d13-9060-6517cde03cd5`. Docs HEAD не считать исполненным кандидатом. Прочитай [R2 obligations](cloud-build/origin-layout/R2-OBLIGATIONS-20261019.md), [R2 release](cloud-build/origin-layout/R2-RELEASE-20261019.json) и конкретные поля [R2 result](cloud-build/origin-layout/R2-BUILD1-RESULT-20261019.json). Установлено:
 
-## 2. Порядок работы
+- R2: один Build, 590 Cloud секунд, CLOSED, своих active/unresolved/reservations по checkpoint нет. Toolchain stages exit 0; нового independent proof credit нет.
+- Prefix verifier exit 1: `verified/lib.rs(214,17-23): Placeholders are not allowed here`. Exact исходник уже получен: `let begin = values.as_mut_ptr();`, диапазон указывает на `values` в wrapper. Это не recovery annotation; причина типа/lifetime ещё не установлена.
+- Fullbody: checked CURRENT array binder → split(begin,2) → open tail singleton устранили прежний наблюдаемый points_to blocker. Следующая ошибка: `verified/lib.rs(207,49-52): Taking the address of this expression is not supported.` у original guard. Это наблюдаемый path, не отдельная теорема read/guard/fullbody.
+- Normal false/true/panic отдельно не доказаны; joint CURRENT flag=false. Четыре resource negatives и admission group source-reported NOT_RUN_PREFIX_PREREQUISITE_FAILED. B1 selected/receiver all_matched, helper bounded и ordinary smoke сохраняют свои ограниченные source claims; B2 OPEN.
 
-1. Проверь branch/HEAD/status и собственный coordinator state. Сохрани чужие изменения. Прочитай актуальные AGENTS, [Evidence Reader guide](EVIDENCE-READER-GUIDE.md), релевантные WORK-POLICY/runbook и [semantic card](cloud-build/origin-layout/FIRST-CALLBACK-SEMANTIC-CARD-20261017.md). Старые окна/budgets в card исторические; действует раздел 5 ниже.
-2. Получи актуальный Brief последнего Build. Через catalogue/search и точечные fragments попробуй установить точный prefix statement214, его source hash, и контекст fullbody203. Используй реальный file ID из данного Build; не скачивай generated source целиком. Если отчёт старого формата или нужные данные не сохранены, укажи конкретное ограничение. Отсутствие фрагмента не означает NOT_RUN.
-3. Сопоставь statement с pinned исходниками шаблонов `first-callback.py` / `actual-insert-tail-b2.py`. Допустим статический разбор; не запускай локально prepare/extractor/runner для генерации proof source. Выбери минимальную коррекцию placeholder на основании доказанного соответствия, а не одного номера строки. Не заменяй неизвестное значение произвольной константой и не удаляй assertion/post.
-4. Для fullbody проследи физическое владение tail после CURRENT rejoin. Проверь гипотезу, что ячейка находится внутри восстановленного array predicate и перед read нужны существующие проверяемые split/open операции. Это гипотеза по исходникам, не установленный диагноз. Сохрани framed cells, CURRENT значения/owners/F и ресурсы обеих normal-веток и unwind.
-5. После source preflight и review запускай полную кампанию; анализируй Brief/адресные Reader observations, исправляй следующий blocker внутри scope. Каждый Build проверяет конкретный новый кандидат/гипотезу. Не повторяй неизменённый запуск без подтверждённого временного инфраструктурного сбоя.
+### Порядок работы и автономность
 
-Если существенных фактов не хватает даже после адресных Reader-запросов, подготовь узкий запрос на административное дополнение проекции старого Build. Это не разрешает самому читать raw evidence. Продолжай независимую source/proof подготовку, где фактов достаточно; новый Build только ради недостающей отчётности запрещён.
+1. **Сначала связать placeholder с конкретным AST/MIR узлом.** Используй [сохранённый exact prefix214](cloud-build/origin-layout/R2-PREFIX214-TARGETED-20261019.json), [диагностический индекс](cloud-build/origin-layout/R2-BASELINE-READER-LIMIT-20261019.json) и pinned исходники. Не запрашивай ту же строку Rust заново и не назначай причиной erased lifetime без связи с фактическим узлом.
+2. Для старого Build `5f668cd9-fb34-4570-ad1c-4b97abbb36d0` известен prefix `proof-ast.ml`: file ID `34ea04bf09c2f6022dac1c22a0444b4583420dfe82ec1865f5ac18b85f25039b`, SHA `3193176be89d0f18982253759930c9bdac47f2c1c4b6bc83c2437a69603a1f0c`; полный путь есть в диагностическом индексе. Reader UNSUPPORTED_FILE_TYPE не исчерпывает v0.9: targeted поддерживает .ml. Найди нужную сохранённую проекцию/локализацию, затем адресный refresh с exact SHA. Не угадывай offsets и не перебирай соседние окна для восстановления файла. При недостатке локализации запроси конкретное дополнение проекции AST node/source location, без raw fallback и нового Build только ради чтения.
+3. Проследи полученный узел до frozen translator и checker. Начальные места в tool: `src/verifast1.ml` около `InferredTypeExpr`/`report_inferred_types_as_error`, `src/rust_frontend/vf_mir_translator/vf_mir_translator.ml` около `vf_ty_arg_of_region`; сам факт наличия этих веток не устанавливает причину. Сопоставь тип/region receiver, wrapper contract, нормальный исходник и actual first-call cut. Учти возможные другие источники InferredTypeExpr.
+4. **Разрешён минимальный checked proof/wrapper fix**, когда связь установлена: явное корректное связывание типа/lifetime, ghost proof annotations и раскрытие/сборка существующих ресурсов с checked lemmas. Runtime wrapper, actual algorithm и extraction/source-exact требования сохранить; нельзя обходить ошибку заменой actual вызова, адреса или неизвестного типа произвольным значением. Если нужен новый translator/AST admission, подготовь точный минимальный diff/proposal с rationale и controls до реализации; frozen matcher автоматически не расширять.
+5. **Приоритет Cloud — целевой prefix.** Сначала дешёвые checks и существующий compile/source preflight по реальным зависимостям → exact prefix с полными posts → обязательные dependent controls. При раннем prerequisite failure явно сохранить причину пропуска зависимых случаев, независимые controls оставить. Разрешён минимальный branch-local ранний режим в существующей lane; для итогового acceptance нужна исходная полная матрица на совместимых финальных identities и собственные receipts. Новый межсессионный cache не разрешён.
+6. **Fullbody frontier — отдельный путь.** Сохрани R2 split/open. Через компактное evidence и pinned templates `cloud-build/origin-layout/first-callback.py` / `actual-insert-tail-b2.py` установи exact statement207 и AST operand. Разрешены proof annotations/checked resource operations, сохраняющие runtime и полные original posts. Если отказ связан с неподдержанным runtime AddressOf/guard lowering, установи конкретный узел и верни narrow tool proposal; реализация tool semantics здесь не разрешена. Не отвлекай сессию на late cleanup/Drop.
 
-## 3. Разрешённые изменения и invariants
+Продолжай после обычных исправимых ошибок в scope без нового разрешения. Каждый Build проверяет конкретное изменение/гипотезу; повтор неизменённого кандидата допустим только при подтверждённом временном infra failure. Если один путь требует scope decision, продолжай независимую разрешённую работу. Не заканчивай диагноз на строке Rust, если ещё доступны адресные AST/MIR observations и source tracing. Если фактов недостаточно, укажи точный пробел; не расходуй окно на повторение одинаковых запросов.
 
-Разрешаю самостоятельно исправлять proof annotations, placeholder binding и раскрытие/сборку уже имеющихся ресурсов в prefix/fullbody и связанном wrapper, используя существующие checked lemmas. Разрешены минимальные исправления своих runner/fixture/compact-result handling, pins и регистрации этой сессии. Перед изменением запиши гипотезу и затронутые obligations в существующей experiment card.
+### Invariants, pins и проверки
 
-Сохрани уже одобренную [CURRENT18 recovery](cloud-build/origin-layout/R1-CURRENT-RECOVERY-DECISION-20261018.md): возвращённые значения получают реальные binders, а не приравниваются к entry xs. Не создавай ресурсы из предположений, numeric address equality или пустоты u64.own; физическое ownership ячеек обязательно. Проверяй реальные объявления pinned lemmas, включая foreach_append.
+- Домен прежний: actual insert_tail, u64, исходный array3 wrapper, generic F с допустимыми effects/panic. Prefix имеет прежний явный cut до tail.read; fullbody сохраняет runtime и полные normal/unwind posts. Все три исхода callback восстанавливают CURRENT array/owners/F, thread/type/lifetime и caller frame без loan/lifetime leaks.
+- Сохрани [CURRENT18 recovery](cloud-build/origin-layout/R1-CURRENT-RECOVERY-DECISION-20261018.md): реальные returned binders, физические cell owners, existing checked lemmas. Не вводить entry=CURRENT equality, purity/no-panic, ресурсы из numeric pointer equality или пустоты u64.own; не переносить первый Continue на late Cleanup.
+- Обязательны четыре resource-loss negatives, HRTB/Output/projection/binder/lifetime controls, official first-unwind mutant, late-Cleanup refusal и пять CURRENT18 admission negatives. Сохраняются B1/helper/ordinary normal-unwind/generated Drop/default-off и receiver/end/retirement regressions. Negative засчитывается только на intended stage/predicate/location; setup failure не считается negative PASS.
+- Заморожены tool `08d6a578e00d902cb9c99aad8d6ae2020c7d728a`, profile scope `experimental-merge-first-callback-u64-v1`, profile SHA `82973e1eb17f4383b02310611cee3f023f4aa5f0a619f228838674d85e41be59`, patch SHA `4aa84aa536e98bb3a728a966fb5159e3d66cbec844cfb6700e571ed7a57920e9`, translator SHA `2ff7b16f326f06da6f53f6ea9227c09de441dd2ac1ab7d7f3aa5c247d6c17de5`. Compiler nightly-2026-09-25/f7575a9d, 14-patch source closure, 18 strict base checks и run.sh pin — без изменения. Актуальные полные identities сверяй с manifest, не принимай новый hash автоматически.
+- Разрешены свои proof annotations, checked wrapper bindings, минимальные runner/preflight/compact diagnostics fixes и зависимые project/source/config hashes. Tool profile/semantics, CURRENT18 matcher, kernel/memory/layout/alias model, prelude/HRTB, compiler/dependencies, runtime/std/generic signatures, contracts и unwind CFG не менять. Pins проверять строго.
+- На VPS только Git/hashes/static parsing/patch application и малые изолированные synthetic service tests. Изменённые consumers проверить на success/error/explicit NOT_RUN/partial/null/missing/path отсутствие; не придумывать PASS/paths. Не выполнять preparer/source extraction, compiler/decoder/refiner/verifier или proof runner локально и не устанавливать toolchain dependencies.
+- Перед submit нужен GO независимого reviewer нового diff и затронутых dependencies: **GPT-6 Luna HIGH**, `model="gpt-6-luna"`, `reasoning_effort="high"`, `fork_turns="none"`, без вложенной делегации и дорогой замены. Дай exact diff, source binding, invariants и проверки. Не повторять review неизменённого без причины; при недоступности reviewer подготовить остальные шаги и сообщить blocker.
+- Exact proof/infra SHAs и closure/config опубликовать в назначенной project branch до submit; проверить полный remote SHA. Tool branch остаётся локальной, source closure уже доставляет patch chain. Remote tool fork/push не нужен. Без reset/force-push/merge/upstream PR, чужих worktrees/ledgers, IAM/Actions/triggers или изменения coordinator/transport.
 
-Tool/translator/refiner semantics и exact CURRENT18 matcher заморожены. Если proof-only изменение невозможно выразить без нового AST admission, сначала верни конкретный минимальный diff/proposal и требуемые controls владельцу; не расширяй matcher автоматически. Ранее разрешённое изменение уже входит в baseline, но не даёт общего разрешения на новые правила.
+### Окно, учёт и Evidence
 
-Не менять runtime std, generic signatures, compiler/dependencies, kernel, memory/alias/layout model, prelude, HRTB rules или unwind CFG. Не ослаблять contracts, assertions, ownership/leak/refinement checks. Не добавлять purity/no-panic или entry=CURRENT equality. Не переносить first Continue recovery на late Cleanup; поздний cleanup/Drop и интеграция профиля I вне текущего scope.
+При фактическом начале запиши UTC T0/main=T0+120 минут/absolute=T0+150 минут, штатно зарегистрируй новую phase/ledger. **3600 секунд — отдельный Cloud ceiling** по conservative charge/reservation правилам. Это выдача запланированного бюджета нового процесса и замена безлимитного Cloud-счёта прежнего задания. Исторические 590 и 2333 spent/retired headroom не переносить. Общий live state вручную не менять; отказ coordinator не обходить.
 
-Домен: actual insert_tail, конкретный u64 и исходная array3 wrapper, generic F с допустимыми effects/panic. Source-linked prefix имеет прежний явный cut до tail.read; fullbody сохраняет runtime и полные исходные normal/unwind posts. Все три исхода первого callback должны восстановить array/owners, CURRENT F, thread/type/lifetime и caller frame; ни loan, ни lifetime не могут утечь.
+Timeout Build ≤900 секунд и не больше доступного бюджета/окна с envelope. Действующие project-wide slots и один occupied/unresolved Build на owner/ledger; неизвестный submit не повторять. Примерно через час сообщить целевой progress, Builds/charge и blocker, затем продолжать в scope. После T+120 новых Builds/retries/гипотез/отложенных submissions нет: отозвать неотправленные requests, до T+150 закончить уже начатое, evidence, учёт и checkpoint. При риске выхода за deadline своевременно cancel; отсутствие terminal confirmation честно записать как unresolved. Фонового продолжения после закрытия нет.
 
-Обязательны четыре resource-loss negatives, HRTB/Output/projection/binder/lifetime controls, official first-unwind mutant, late-Cleanup refusal и пять CURRENT18 admission negatives. Negative засчитывать только на intended stage/predicate/location. Сохрани B1, helper, ordinary normal/unwind, generated Drop/admission/default-off и receiver/end/retirement regressions. Не сокращай матрицу, чтобы получить зелёный aggregate.
+После terminal Build использовать `/usr/local/bin/smallsort-brief`: **Brief → Reader → узкий refresh → admin audit при оставшемся пробеле**. Следовать [guide v0.9](EVIDENCE-READER-GUIDE.md): 16 общих резервирований на Build, expected SHA, coverage/provenance/coordinates, cache reuse. Не читать/скачивать полные/raw logs, архивы, Cloud Logging и локальные копии; не восстанавливать файл по окнам. Недостаток отчётности не оправдывает новый Build. Не ставить `download_verified`, не переписывать historical evidence/ledgers. Отсутствие наблюдения не означает NOT_RUN; stage exit0/archive integrity/source flag не равны formal acceptance.
 
-## 4. Baseline, review и публикация
-
-| Артефакт | Закреплённая identity |
-| --- | --- |
-| Tool | `08d6a578e00d902cb9c99aad8d6ae2020c7d728a` |
-| Profile scope | `experimental-merge-first-callback-u64-v1` |
-| Profile SHA-256 | `82973e1eb17f4383b02310611cee3f023f4aa5f0a619f228838674d85e41be59` |
-| First-callback patch SHA-256 | `4aa84aa536e98bb3a728a966fb5159e3d66cbec844cfb6700e571ed7a57920e9` |
-| Translator SHA-256 | `2ff7b16f326f06da6f53f6ea9227c09de441dd2ac1ab7d7f3aa5c247d6c17de5` |
-
-Сверь [последний release manifest](cloud-build/origin-layout/R1-SINGLETON-RELEASE-20261018.json). Сохрани compiler nightly-2026-09-25/f7575a9d, 14-patch source closure, 18 strict base checks и прежний run.sh pin. Для proof/runner изменений обновляй зависимые source/config identities; не меняй tool/profile ради новой сессии. Ни wildcard, ни автоматическое принятие нового хеша не разрешены.
-
-Перед новым code/proof/runner кандидатом нужен независимый review нового diff и затронутых dependencies: один `gpt-6-luna`, `high`, `fork_turns=none`, без вложенной делегации. Передай точный scope, invariants и ожидаемые проверки; нужен GO до submit. Не перечитывай неизменённое целиком без причины. Более дорогие модели не разрешены.
-
-Локально — Git, hashes, статический разбор/применение патчей и малые изолированные synthetic service tests. Compiler, extraction, decoder generation, refiner/verifier и proof runners — только Cloud. Не устанавливай build dependencies. Проверь closure/config и опубликуй exact project/infra SHA до submit.
-
-Tool branch остаётся локальной; полный pinned patch chain доставляется существующим source closure из project branch. Remote fork/tool push не нужен. Не менять transport, общий coordinator, IAM/Actions/triggers, не публиковать upstream и не трогать чужие worktrees/ledgers.
-
-## 5. Новая автономная сессия: 120 + 30 минут
-
-- T0 — фактическое начало исполнения. Main deadline T0+120 минут, absolute deadline T0+150 минут; запиши UTC в отчёте и session card. Истечение времени/пауза диалога не перезапускает окно.
-- В основном окне число последовательных Builds не ограничено; прежние лимиты один Build / 960 или 3600 Cloud seconds не действуют для этой новой сессии. Расход полностью учитывается coordinator. Timeout отдельного Build ≤900 секунд.
-- Сохраняй действующие project-wide slots и максимум один occupied/unresolved Build на stable owner/ledger. Регистрация phase/authorization/числового ceiling — штатным механизмом. Если client требует ceiling, явно обоснуй его как техническое представление временного окна с reservation/rounding; это не разрешение выйти за deadlines. Общий протокол/live ledger вручную не менять, отказы не обходить.
-- До каждого submit сверяй main deadline. Не дублируй unresolved dispatch. Примерно через час дай короткий progress update и продолжай в scope без ожидания ответа.
-- После T+120 новые Builds/retries/отложенные submissions запрещены. Отзови собственные неотправленные requests. Оставшиеся 30 минут — дождаться уже запущенного Build, получить evidence, закрыть учёт, сохранить/опубликовать checkpoint и отчёт; новые эксперименты не начинать.
-- Планируй последний Build с запасом. При риске выхода за T+150 своевременно запроси cancel через coordinator. Если terminal confirmation нет, честно запиши active/unresolved ID и cancel request, не удаляй reservation и не заявляй ложное закрытие. Заверши сессию к absolute deadline, без обещания фонового продолжения.
-- Все старые accounts/retired headroom остаются закрытыми. Если целевые prefix+controls закрыты раньше, установи разрешённый fullbody frontier и заверши без лишних запусков; полную late-cleanup миссию автоматически не открывай.
-
-## 6. Evidence и критерий завершения
-
-Используй установленный `/usr/local/bin/smallsort-brief`: Brief → адресные catalogue/search → JSON pointer/короткий text fragment. Следуй [guide](EVIDENCE-READER-GUIDE.md): coverage, file ID, index hash, pagination/provenance. Не читать полные/raw logs/archives/Cloud Logging или локальные копии, не собирать их по фрагментам. Недостаток сохранённой проекции → узкий запрос audit/перепроцессинга, без нового Build ради чтения.
-
-Целостность, stage exit0, source flags, bounded fragments и independent proof credit различаются. Отсутствующая запись не означает NOT_RUN. Не выставляй download_verified по Reader, не переписывай исторические evidence/ledgers. Не назначай причину общего FAILURE без подтверждения.
-
-Цель сессии закрыта, когда свежий source-linked prefix с полными posts и обязательные controls имеют достаточное evidence, а fullbody отдельно показывает результат tail.read и следующую подтверждённую границу. Отдельные normal false/true/panic claims должны иметь основания; успешный qualifier/trace их не заменяет. B2 не закрывать только по prefix или доступу к tail. При deadline/scope blocker сохрани частичный результат честно.
-
-Обнови существующие STATUS/checkpoint/obligations и компактный отчёт ниже; зафиксируй/опубликуй в назначенной project branch. Не дописывай сюда старые отчёты, полный Brief или дневник каждой попытки. История/подробности остаются в артефактах и Git.
+Обнови компактный STATUS, существующие semantic/session/experiment/release/obligations документы и **один перезаписываемый отчёт ниже**, затем зафиксируй и опубликуй результат. История R2 сохранена в [архиве](task-history/merge-first-comparator-2026-10-19-r2.md); не дописывай новые дневники в этот файл. После закрытия новые proof/Build действия требуют следующего задания.
 
 ## Отчёт агента
 
-- **Статус:** CLOSED / PARTIAL. v0.9 получил exact prefix214; причина/исправление ещё не установлены.
-- **T0 / main / absolute UTC; phase / ledger:** 2026-10-19 11:57:00 / 13:57:00 / 14:27:00; `MERGE-FIRST-COMPARATOR-R2-2026-10-19`; [отдельный ledger](cloud-build/origin-layout/FIRST-COMPARATOR-R2-BUDGET-20261019.json).
-- **Исходный HEAD / policy revision / сохранённые чужие изменения:** `4c744fc5b10dbbd489649782968cd099b76e48fc`; WORK-POLICY2026-10-10 + owner Readerv0.9/ITERATION-PROCESS2026-10-19 (локальные docs; adoption в semantic card). AGENTS/runbook/policy/Brief/CloudREADME/guide/task-history сохранены; чужие worktrees/closed accounts не менялись.
-- **Исправления, identities, release/review:** только fullbody proof: binder CURRENT array, checked split(begin,2), open tail singleton перед original read. Runtime/posts/first-call markers/prefix неизменны. Tool `08d6a578`, profileSHA `82973e1e…`, patchSHA `4aa84aa5…`, translatorSHA `2ff7b16f…`, compiler pins frozen. [Exact release](cloud-build/origin-layout/R2-RELEASE-20261019.json), [Luna High GO](cloud-build/origin-layout/R2-REVIEW-20261019.json), [14patch/16files/14pins/18base staticPASS](cloud-build/origin-layout/R2-SOURCE-PREFLIGHT-20261019.json); 7existing+2new synthetic tests PASS, локальных proof/extraction запусков нет.
-
-| Build UUID | Source/manifest и гипотеза | Terminal / ключевой результат Brief | Charge |
-| --- | --- | --- | --- |
-| c78529d0-f18b-4d13-9060-6517cde03cd5 | proof=infra `014c3238dcf386b58ab2b1304fce80c8f4c3ac0d`; CURRENT tail split/open | FAILURE12:14:38Z; fullbody next error207 unsupported address; prefix214 placeholder | 590s / execution589s; type=proof |
-
-- **Prefix normal false / normal true / first Continue-panic:** отдельно не установлены; joint sourceflagFalse, VF1. Targeted exact214: `let begin = values.as_mut_ptr();`, columns17–23=`values` в wrapper. Это не recovery annotation; speculative fix не сделан.
-- **Fullbody tail.read / следующая граница:** прежний points_to blocker больше не наблюдается; trace readTrue, затем error207:49–52 “Taking the address of this expression is not supported.” у следующего original guard statement. Наблюдаемый путь, без whole-read/guard/fullbody theorem; shift/update/late traceFalse.
-- **Negatives / regressions:** 4resource+admission group явно sourceNOT_RUN_PREFIX_PREREQUISITE_FAILED; HRTB/firstunwind/lateCleanup/CURRENT18 не зачтены. SelectedDrop и receiver sourceall_matchedTrue, helper bounded positive+3expected, smoke sourcePASS; nested projection ограничения сохранены.
-- **Evidence provenance/coverage:** [Build1 result](cloud-build/origin-layout/R2-BUILD1-RESULT-20261019.json), [полная obligations-таблица](cloud-build/origin-layout/R2-OBLIGATIONS-20261019.md). Index `68182b14…`, archive verified, catalogue1281/content386; это integrity/source observations, не formal acceptance. OldBuild после ownerreprojection index `3e3e6bad…`, prefix sourceSHA `dd2e5689…` подтверждён preparation, targeted210–216 теперь OK/exactTrue/completeFalse, request `09896cf5…`, [точный фрагмент](cloud-build/origin-layout/R2-PREFIX214-TARGETED-20261019.json); log bounded. [История ограничений](cloud-build/origin-layout/R2-BASELINE-READER-LIMIT-20261019.json). Raw fallback/download_verified нет; whole-Build causality UNKNOWN.
-- **B2 / formal credit / blocker:** OPEN / нового независимого credit нет; prefix214 source установлен, type/lifetime cause и checked wrapper fix ещё не установлены, отдельный fullbody frontier207. Дальнейшая read-only диагностика доступна через Reader/targeted v0.9; истёкшее execution window её не запрещает.
-- **Учёт:** 1Build/590s accounted, собственных active/unresolved/reservations нет; ledger CLOSED, ready request отозван через coordinator. Технический ceiling18960 — представление окна, не новый spend budget/carryover.
-- **Время/причина окончания:** 2026-10-19T14:00:01.678801+00:00; main13:57Z истёк до получения targeted ответа. После cutoff только чтение evidence/учёт/docs; новых proof edits/Builds нет. [STATUS](STATUS.md) и результат опубликованы в назначенной ветке; unused technical headroom закрыт без carryover.
-- **Следующий шаг:** продолжить read-only сопоставление MIR/proof AST у `values.as_mut_ptr()` с pinned translator/type checker через Reader/targeted v0.9. Для старого Build каталог подтвердил `proof-ast.ml`, file ID `34ea04bf…`, SHA `3193176b…`; точный failing AST node ещё не прочитан. Checker связывает сообщение с запрещённым `InferredTypeExpr`, но конкретный тип/lifetime и его происхождение не установлены. Новое execution window требуется для proof-правок/Builds; frozen tool/matcher не расширять. Прежняя остановка после строки Rust была преждевременной, а не исчерпанием средств диагностики.
+- **Статус:** NOT_STARTED. T0/main/absolute/end UTC: —.
+- **Исходный/итоговый source и docs checkpoint; pins:** —.
+- **Prefix normal false / normal true / Continue-panic до → после:** —; полные CURRENT posts и source binding —.
+- **Причина placeholder / checked correction:** точный AST/type/region/происхождение, evidence и неизвестное —.
+- **Fullbody read/guard frontier:** точный узел/новый результат/границы —.
+- **Controls / B1 / B2 / independent proof credit:** —.
+- **Review/checks:** —.
+- **Builds:** UUID → candidate → гипотеза/тип → Brief result → charge —.
+- **Время/расход:** wall-clock —; Cloud —/3600; setup/proof/reporting по данным, иначе «нет данных»; own active/unresolved/reservations —.
+- **Первый remaining blocker / следующий конкретный шаг / ссылки на records:** —.
