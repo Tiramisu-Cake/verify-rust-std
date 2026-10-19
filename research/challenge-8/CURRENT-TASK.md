@@ -1,3 +1,5 @@
+> **Evidence v0.11 — приоритет:** [краткий guide](EVIDENCE-READER-GUIDE.md). Brief → catalogue → refresh/info → locate/fragment → нужные страницы по next_offset/next_value_start. Пожизненной16-квоты и прежних лексических WITHHELD больше нет; соседний контекст/argv/environment читаются как данные. Не выгружать автоматически всё. Proof scope, T0, окна/бюджеты и coordinator сохраняются.
+
 # Select / sort4 — текущее задание
 
 ## Задание
@@ -7,7 +9,7 @@
 - **Worktree:** `/root/verify-rust-std-select-night`; **branch:** `research/night-select-sort4-cloud-2026-10-09`, fork `Tiramisu-Cake/verify-rust-std`.
 - **Режим:** адресное чтение существующего CI evidence и подготовка законченного узкого proposal. Предыдущая proof-сессия закрыта; её T0/продление/ledger не возобновлять. Новых Cloud Builds, Cloud-бюджета или изменения shape/admission этим обновлением не разрешается.
 
-Ты стартуешь без контекста. Проверь branch/HEAD/dirty diff, сохрани чужие изменения. Прочитай `AGENTS.md`, [краткий guide v0.10](EVIDENCE-READER-GUIDE.md), [Literal Locators](EVIDENCE-LITERAL-LOCATORS.md), затем [последний checkpoint](cloud-build/sort4-caller-entry-native/A1-PARSER-CHECKPOINT-2026-10-19.md) и [MaybeUninit proposal](cloud-build/sort4-caller-entry-native/A1-PARSER-MAYBEUNINIT-PROPOSAL-2026-10-19.md). Всю историю не перечитывай. `--locate`/`--near-position` доступны; устаревшее ожидание deployment/отдельной авторизации на них отменено владельцем.
+Ты стартуешь без контекста. Проверь branch/HEAD/dirty diff, сохрани чужие изменения. Прочитай `AGENTS.md`, [краткий guide v0.11](EVIDENCE-READER-GUIDE.md), [Literal Locators](EVIDENCE-LITERAL-LOCATORS.md), затем [последний checkpoint](cloud-build/sort4-caller-entry-native/A1-PARSER-CHECKPOINT-2026-10-19.md) и [MaybeUninit proposal](cloud-build/sort4-caller-entry-native/A1-PARSER-MAYBEUNINIT-PROPOSAL-2026-10-19.md). Всю историю не перечитывай. `--locate`/`--near-position` доступны; устаревшее ожидание deployment/отдельной авторизации на них отменено владельцем.
 
 ### Точная цель
 
@@ -24,6 +26,7 @@ Pinned Rust объявляет `pub union MaybeUninit<T>`, exporter переда
 3. Для выбранного файла используй Literal Locators вместо ожидания новой административной проекции только из-за неизвестных координат:
 
 ```bash
+smallsort-brief "$BUILD_ID" --refresh --file "$MIR_FILE_ID" --expect-sha256 "$MIR_SHA"
 smallsort-brief "$BUILD_ID" --refresh --file "$MIR_FILE_ID" --locate 'MaybeUninit' --expect-sha256 "$MIR_SHA"
 # ANCHOR_CODEPOINT — unicode_start подходящего locator этого файла/SHA
 smallsort-brief "$BUILD_ID" --refresh --file "$MIR_FILE_ID" --locate 'unionKind' --near-position "$ANCHOR_CODEPOINT" --unit unicode-codepoint --expect-sha256 "$MIR_SHA"
@@ -31,15 +34,15 @@ smallsort-brief "$BUILD_ID" --refresh --file "$MIR_FILE_ID" --locate 'unionKind'
 smallsort-brief "$BUILD_ID" --refresh --file "$MIR_FILE_ID" --position "$RECORD_POSITION" --unit unicode-codepoint --radius 160 --expect-sha256 "$MIR_SHA"
 ```
 
-`BUILD_ID` заполни UUID D2 выше. Literal `unionKind` известен из pinned schema/exporter; его наличие около имени не доказывает принадлежность тому же ADT. Не ищи этот ожидаемый tag как единственный допустимый ответ: при другом наблюдаемом kind сохрани его. Более точные literals бери из известного serializer syntax или показанного verified fragment. Не угадывай offsets, не обходи файл окнами. При нескольких кандидатах сохраняй неоднозначность; отдельный record не выдавай за failing record без связи с обходом/call.
+`BUILD_ID` заполни UUID D2 выше. Literal `unionKind` известен из pinned schema/exporter; его наличие около имени не доказывает принадлежность тому же ADT. Не ищи этот ожидаемый tag как единственный допустимый ответ: при другом наблюдаемом kind сохрани его. Более точные literals бери из известного serializer syntax или показанного verified fragment. Координаты/продолжения бери из ответа; читай нужный соседний контекст и страницы без автоматической полной выгрузки. При нескольких кандидатах сохраняй неоднозначность; отдельный record не выдавай за failing record без связи с обходом/call.
 
-4. Сверь name/kind/void payload, substitutions и окружающий type context с `_ty`, pinned schema и exporter. Если маленького безопасного фрагмента недостаточно для принадлежности полей, явно укажи недостающую связь и запроси ровно её административную проекцию. Locator не разбирает AST/MIR и не восстанавливает преобразования.
+4. Сверь name/kind/void payload, substitutions и окружающий type context с `_ty`, pinned schema и exporter. Если одного фрагмента недостаточно для принадлежности полей, уточняй соседний контекст/JSON children/строку по value-start и страницы v0.11. Лишь при оставшемся реальном ограничении укажи недостающую связь и требуемую проекцию. Locator не разбирает AST/MIR и не восстанавливает преобразования.
 5. Допиши существующий proposal: что наблюдено, что выведено из source, минимальный diff и точные необходимые controls. Только если recognized MaybeUninit+unionKind+void подтверждён, обоснуй строгое unionKind ожидание; не предлагай struct-or-union wildcard и не ослабляй name/substitutions/Self/F/regions/source-binding/admission. При другой identity/shape отклони прежнюю гипотезу и дай конкретный следующий вариант. Не применять patch в активный candidate и не запускать его без следующего scope/session решения.
 6. Если proposal уточнён содержательно, получи review нового diff/rationale: **GPT-6 Luna HIGH**, `model="gpt-6-luna"`, `reasoning_effort="high"`, `fork_turns="none"`, без вложенной делегации и дорогой замены. GO здесь означает готовность proposal к решению, не разрешение CI/proof credit. Локально допустимы статические проверки/patch apply и малые synthetic service tests, но не полный MIR replay/preparer/compiler/decoder/refiner/verifier.
 
 ### Ограничения и результат
 
-Общая persistent квота16 на Build включает locators, near и последующий fragment; D2 ранее использовал7 targeted calls, фактический остаток может отличаться. До20 координат, без pagination; при truncated уточнить task-relevant literal, не перечислять offsets. Проверяй expected SHA, request/index/archive, единицы, exact/complete/search_scope. `NO_MATCH_IN_SEARCH_SCOPE` не означает NOT_RUN/отсутствие ADT. `LOCATE_WITHHELD`/`WINDOW_WITHHELD` не обходить; PENDING не ретраить циклом. Нового Build ради чтения не делать.
+Пожизненной16-квоты нет; до20 locators/JSON children на странице, продолжение только по выданному next_offset, JSON string — next_value_start через --value-start. Нужный соседний контекст разрешён. Проверяй expected SHA, request/index/archive, единицы/exact/complete/search_scope. Старые LOCATE_WITHHELD/WINDOW_WITHHELD/BUILD_QUERY_BUDGET_EXCEEDED сохраняй как исторический ответ; проверь версию/путь v0.11 и уточняй через него, без догадок. No-match не означает NOT_RUN/отсутствие узла; нового Build ради чтения не делать.
 
 R/C/tool/compiler/exporter/decoder/profile и guards сохраняются по D2 manifest: profile `084a0e7fb2e11511852066b9591df4377286debaa91c24c677ff4a5c89faf006`, parser `92d4e5b336b4e6409da814523500978b56c52218a6289434b526929ae1275b27`. Runtime/contracts/domain/kernel/refiner/admission не менять. Raw/full logs/archives/Cloud Logging и локальные копии запрещены; download_verified/исторические ledgers/verdicts не переписывать. Если независимые поля не доступны, вернуть точный limitation, без угадывания и ложного закрытия P0a/P1.
 
