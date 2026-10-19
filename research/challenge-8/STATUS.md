@@ -1,27 +1,30 @@
-# MERGE — R2 WAITING_FOR_EVIDENCE, 2026-10-19
+# MERGE — R2 CLOSED / PARTIAL, 2026-10-19
 
-Задание [CURRENT-TASK](CURRENT-TASK.md) r2; T0 11:57Z/main13:57Z/absolute14:27Z.
-Build1 `c78529d0-f18b-4d13-9060-6517cde03cd5`, proof=infra
-`014c3238dcf386b58ab2b1304fce80c8f4c3ac0d`, terminal FAILURE12:14:38Z/590s.
-Brief: tool/preparation/compile exits0; prefix214 placeholder remains. Fullbody
-sourceexact, exporter/decode/refinement0/VF1, observed tail.read then unsupported
-address expression207:49–52 at next statement; shift/gap/late not reached by trace.
-No joint CURRENT proof;4resource+admission sourceNOT_RUN_PREFIX_PREREQUISITE_FAILED.
-[Result/provenance](cloud-build/origin-layout/R2-BUILD1-RESULT-20261019.json); новый proof credit не присвоен. Candidate добавляет только
-checked CURRENT array binder/split/open перед original tail.read в fullbody;
-prefix и полные posts/matrix сохранены. Tool08d6a578/profile82973e1e frozen.
-14patch/16files/14pins/18base staticPASS; LunaHighGO, [release](cloud-build/origin-layout/R2-RELEASE-20261019.json).
+T0 11:57Z/main13:57Z/absolute14:27Z; closed 2026-10-19T14:00:01.678801+00:00.
+[Текущее задание/отчёт](CURRENT-TASK.md). Один Build590s/execution589s accounted;
+своих active/unresolved/reservations нет, ready request withdrawn, ledgerCLOSED.
+После main cutoff только evidence/accounting/docs; новых proof edits/Builds нет.
 
-Старый5f668cd9 Reader после owner reprocessing v8 index3e3e6bad…:
-prefix sourceSHA dd2e5689… совпадает с preparation /verified_sha256, но .rs
-UNSUPPORTED_FILE_TYPE/NO_DISPLAYABLE_FRAGMENT210; log retained65536/65629,
-search214 NO_MATCH_IN_RETAINED_PROJECTION. Exactstatement214 не установлен,
-узкое дополнение проекции запрошено; speculativefix/rawfallback нет.
-Следующий шаг: при получении exact prefix statement — минимальный
-proof/wrapper annotation fix с review; fullbody frontier207 установлен отдельно. B2 OPEN; old accounts untouched.
-Checkpoint 2026-10-19T12:30:01.582624+00:00: собственных active/unresolved/reservations нет,
-ready request отозван через coordinator; AUTHORIZED окно не перезапущено,
-новый кандидат требует exact prefix210–218 (bounded admin addition requested).
+Build `c78529d0-f18b-4d13-9060-6517cde03cd5`, proof=infra
+`014c3238dcf386b58ab2b1304fce80c8f4c3ac0d`, FAILURE. Checked CURRENT array
+split/open устранил прежний наблюдаемый points_to blocker на tail.read; далее
+unsupported address expression207:49–52 у original guard. Наблюдаемый path,
+без read/guard/fullbody theorem. Prefix214 VF1; joint CURRENT flagFalse,
+4resource+admission sourceNOT_RUN_PREFIX_PREREQUISITE_FAILED. B1 selected/receiver
+sourceall_matchedTrue; helper bounded positive+3expected; smoke sourcePASS.
+Tool08d6a578/profile82973e1e/runtime/posts/matrix unchanged. B2 OPEN, независимого
+proof credit нет. [Result](cloud-build/origin-layout/R2-BUILD1-RESULT-20261019.json),
+[obligations](cloud-build/origin-layout/R2-OBLIGATIONS-20261019.md).
+
+Ownerv0.9 instructions read/adopted. Старый5f668cd9 targeted210–216 вернул
+OK/exactTrue/completeFalse:214=`let begin = values.as_mut_ptr();`, columns17–23
+=`values` в wrapper. FileSHA dd2e5689… matches catalogue/preparation;
+index3e3e6bad…/archive8ffe3689…, request09896cf5… .
+[Exact bounded observation](cloud-build/origin-layout/R2-PREFIX214-TARGETED-20261019.json).
+Source-reporting blocker resolved; type/lifetime cause and repair not established,
+causalUNKNOWN/parser_input_bindingNOT_ESTABLISHED unchanged. No raw fallback.
+Следующий шаг требует нового execution window: исследовать array receiver typing,
+минимальный checked wrapper annotation fix + LunaHigh review; frozen semantics.
 
 Предыдущие checkpoints сохранены ниже как история.
 

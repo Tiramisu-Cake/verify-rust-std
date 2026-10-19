@@ -40,6 +40,9 @@ archive5d0589924f8c17024a0133406d022d1ed9f04d97b2558a6ccd6a170b76e8d50a.
 Catalogue1281complete; content386; fullbody campaign PRIVATE_OR_SANITIZED_KEY1;
 selected/receiver retain node/content/value omissions recorded in observations.
 Log65536/68058limited; search206 no match in retained projection, not source absence.
-Old prefix exact statement214 still unavailable as .rs unsupported; source hash known
-and matches preparation. [Old Reader limit/request](R2-BASELINE-READER-LIMIT-20261019.json).
+Old prefix214 exact statement now obtained using targetedv0.9 at fixed known file/SHA:
+`let begin = values.as_mut_ptr();`, columns17–23 identify `values` in wrapper.
+[Exact210–216 observation](R2-PREFIX214-TARGETED-20261019.json); request09896cf5…
+exactTrue/completeFalse, index3e3e6bad… and fileSHA dd2e5689… unchanged.
+This resolves missing-source reporting, not the type/lifetime cause or prefix proof. [Old Reader limit/request](R2-BASELINE-READER-LIMIT-20261019.json).
 No raw evidence, bulk pagination/reconstruction or download_verified changes.

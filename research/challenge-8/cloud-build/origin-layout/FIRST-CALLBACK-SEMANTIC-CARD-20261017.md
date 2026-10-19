@@ -359,3 +359,14 @@ fails; baseline B1 gates remain dispatch dependencies. No runner/collector resul
 shape changes here; new tail annotation's unique/absent/duplicate anchor synthetic
 test and phase fail-closed checks already PASS. No additional test or Cloud run
 solely for this documentation adoption.
+
+R2 closing evidence-only followup 2026-10-19T14:00:01.678801+00:00: ownerv0.9 guide/tasks queries
+read; targeted fixed prefix210–216 with expectedSHA returned OK/exactTrue,
+request09896cf5d49efd171e190aba4a60739a577f5fcc32cea43c4612cd75197a7e9d.
+Line214 is values.as_mut_ptr wrapper, columns17–23 array receiver values;
+sourcehashdd2e5689 matches old catalogue/preparation and exact pinned wrapper
+literal. Missing-source blocker resolved, cause/type/lifetime binding not proved.
+Main13:57 cutoff elapsed before response; no new proof edits, experiments or
+Builds. LedgerCLOSED1Build590s, no own active/unresolved/reservation/request.
+Next newly authorized window: minimal wrapper receiver typing investigation,
+checked annotations within frozenprofile, LunaHighreview, fullgates.

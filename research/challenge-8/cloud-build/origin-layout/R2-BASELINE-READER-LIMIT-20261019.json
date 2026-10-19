@@ -29,5 +29,31 @@
       "search_result": "NO_MATCH_IN_RETAINED_PROJECTION"
     },
     "action": "Requested specifically lines210-218 of prefix .rs plus hash via admin bounded projection; user notified. No source absence/NOT_RUN inferred."
+  },
+  "targeted_v09_followup": {
+    "status": "RESOLVED_EXACT_SOURCE_FRAGMENT",
+    "observation": "R2-PREFIX214-TARGETED-20261019.json",
+    "request_id": "09896cf5d49efd171e190aba4a60739a577f5fcc32cea43c4612cd75197a7e9d",
+    "index_sha256": "3e3e6bad420b25040d76c582c15abf42895c774d377d7df33bd9d43e9278a0ca",
+    "file_sha256": "dd2e56890c425d4c0a6ff68750c62b272d12ad29cdd8282e8b99d0b35ea2aecd",
+    "archive_sha256": "8ffe3689f0148e508af26f8b833ebb7fa4679c355c5ba567b898cb40f7ce811f",
+    "selector": {
+      "end": 216,
+      "expected_sha256": "dd2e56890c425d4c0a6ff68750c62b272d12ad29cdd8282e8b99d0b35ea2aecd",
+      "file_id": "607839ba7f21c33ff3ad3e988fe0f260ff5dba89e277011f9a54a78b34b46872",
+      "start": 210
+    },
+    "exact": true,
+    "complete": false,
+    "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+    "line214": "    let begin = values.as_mut_ptr();",
+    "columns17_23": "values (end-exclusive)",
+    "static_template_binding": "Exact unique WRAPPER_RUNTIME line in actual-insert-tail-b2.py; prefix transformation preserves wrapper runtime except callee rename.",
+    "causal_status": "UNKNOWN",
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "conclusion": "Error location maps to array receiver in wrapper as_mut_ptr, not an unknown first-call recovery annotation. No cause/repair/formal success inferred.",
+    "client_version": "0.9",
+    "guide_sha256": "e9df05cb8cc9681acdbe8d848a09d8c5b85449e86cf9653c2cb178960dad41cc",
+    "query_note": "Initial prior210-218 selector returned LINE_RANGE_OUT_OF_RANGE/source_lines216, requestd5f896676f8d0cb4fe7426333f9b040633f21561bcc6cceb937a398c7908b118. Corrected once to documented210-216 cached selector; no window enumeration; incremental quota cost not established."
   }
 }

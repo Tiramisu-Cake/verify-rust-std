@@ -7242,3 +7242,12 @@ not established. Waiting for requested administrative bounded projection, no
 speculative fix/new Build/raw fallback. Original T0/main/absolute unchanged;
 authorization not renewed and no background work promised. New owner iteration
 policy adoption at safe boundary recorded in semantic card; no execution credit.
+
+R2 close 2026-10-19T14:00:01.678801+00:00: v0.9 targeted resolves missing exact prefix214 source.
+R2-PREFIX214-TARGETED-20261019.json records exact210–216/SHA/request/coordinates;
+214 values.as_mut_ptr wrapper receiver, not recovery annotation. Parserbinding
+NOT_ESTABLISHED/causalUNKNOWN, no proofcredit upgrade. Outofrange210–218
+corrected to documented216, no furtherwindowenumeration/rawaccess. Main13:57
+expired; this followup evidence/docs/accountingonly, no newexecution. Ledger
+CLOSED1Build590s, technicalunused18370 closed withoutcarryover, noownactive/
+unresolved/reservations, readyrequestwithdrawn. Nextaction inCURRENT-TASK.
