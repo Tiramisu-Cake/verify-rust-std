@@ -1,0 +1,26 @@
+{
+  "schema": "merge-r4-review-v1",
+  "decision": "GO_DIAGNOSTIC_BUILD",
+  "reviewer": "/root/r4_independent_review",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "source": "25e7c1c73ec52189db19088f713ef71bd39a76a3",
+  "reviewed_sha256": {
+    "first-callback.py": "52f57172356d468dc205fe161b7dd945cca30aa33cee75ad91627812ea1672f1",
+    "r4-wiring-service-test.py": "265581abcb3877778d4246df1bf50d0588887a7b8b9b18dfff09fb8348d86b50",
+    "r4-addressability-controls.py": "b5377788d6a728642deb33b2eebd1f6839c0e8b03901510718c2588a6f23edcd",
+    "r4-addressability-service-test.py": "fc0d209beab4e50eebf4835cf3f44ae523eb1992508939c70d1a44e2906bfdec"
+  },
+  "scope": "One next pinned diagnostic Cloud; fullbody checked precreate/initreadonly, fixture mutability/ghostassert/physical write-read/unsuffixedliteral; classifier gates unchanged.",
+  "checks": [
+    "5 wiring tests PASS",
+    "synthetic addressability service tests PASS"
+  ],
+  "limits": [
+    "Readonly-end obligation remains checked/open",
+    "No wholefunction proof or profile qualification",
+    "Missing deferred-storage LocalAddrTaken emission remains INCONCLUSIVE; no guessed binder mapping"
+  ],
+  "profile_sha256": "77164792cfca039fe8b2a993a198a545a74a074480371dba5f454a5e86709c66",
+  "frozen_aliasing_sha256": "2c673b73fa7a41d56672bfb3a180f3e7d7e2cdf7280f1b38f8fad138f08b4518"
+}
