@@ -1,0 +1,9 @@
+# R5 native interface autonomous session
+
+T0 2026-10-19T22:34:09Z; main2026-10-20T00:34:09Z; absolute2026-10-20T01:04:09Z; new3600seconds, no carry from R4. Policies autonomy2026-10-20/iterationprocess/Evidencev0.11.
+
+Selected target: obtain actual P0a/P1 native interface/equality/refinement progress, retaining original26/Nfalse31 lifecycle. Backlog: (1) scope Body binders soundly; (2) fix the next concrete runner/interface/proof blocker preserving criteria; (3) finish compatible full26 and ownnegative lifecycle; (4) remaining A1/A2 caller proof per plan if prerequisites pass.
+
+Before implementation: current `_impl_body_small_sort` compares printed names globally across two independently bound clauses. Pinned exporter encodes each Clause.kind().bound_vars separately; same Named DefId display name can occur in both. Existing source record Body21 confirms same local pair in FnMut/Output. Hypothesis: compiler Body ID+clause ordinal+local binder slot with explicit local reference resolution corrects representation while preserving all mathematical signature/identity/source/admission criteria. No kernel/memory/ownership bridge assumed. Scope keys will canonicalize both declared binders and typed ref occurrences; local uniqueness, positional mapping, free/input capture, F/T/arity/mutability/output/exactclauses and numeric/source identities stay checked. Raw bytes remain retained in original records, not rewritten.
+
+Distinguishing controls: shared labels across separate scopes and consistent independent alpha-renames positive; localcollapse/free/inputcapture/inconsistentposition/missingambiguousscope/wrongtypes/output/arity/mutability/source/Body/impl identities negative. Actual compilation/proof onlyCloud. Same full-matrix Build earlypairedpreflight→target→dependentmatrix, no standalone coldpreflight. GO active diff/pins before submit. New blocker prompts specific hypothesis/review/iteration within task, not automatic early stop.

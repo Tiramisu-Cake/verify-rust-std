@@ -117,16 +117,22 @@ A1_BUILD_PROFILE='research/challenge-8/cloud-build/sort4-caller-entry-native/A1-
 A1_BUILD_CEILING=18960
 A1_PARSER_PHASE='SORT4-P0A-PARSER-COMPATIBILITY-2026-10-19-R2'
 A1_UNION_PHASE='SORT4-MAYBEUNINIT-UNION-KIND-2026-10-20-R4'
+A1_AUTO_PHASE='SORT4-NATIVE-INTERFACE-AUTONOMOUS-2026-10-20-R5'
 A1_PARSER_START='2026-10-19T16:06:59Z'
 A1_UNION_START='2026-10-19T21:15:52Z'
+A1_AUTO_START='2026-10-19T22:34:09Z'
 A1_PARSER_MAIN_DEADLINE='2026-10-19T19:36:59Z'
 A1_UNION_MAIN_DEADLINE='2026-10-19T23:15:52Z'
+A1_AUTO_MAIN_DEADLINE='2026-10-20T00:34:09Z'
 A1_PARSER_DEADLINE='2026-10-19T20:06:59Z'
 A1_UNION_DEADLINE='2026-10-19T23:45:52Z'
+A1_AUTO_DEADLINE='2026-10-20T01:04:09Z'
 A1_PARSER_PROFILE='research/challenge-8/cloud-build/sort4-caller-entry-native/A1-PARSER-D2-PROFILE-2026-10-19.json'
 A1_UNION_PROFILE='research/challenge-8/cloud-build/sort4-caller-entry-native/A1-UNION-U2-PROFILE-2026-10-20.json'
+A1_AUTO_PROFILE='research/challenge-8/cloud-build/sort4-caller-entry-native/A1-AUTO-S1-PROFILE-2026-10-20.json'
 A1_PARSER_CEILING=3600
 A1_UNION_CEILING=3600
+A1_AUTO_CEILING=3600
 LANE_PATTERN=re.compile(r'[a-z][a-z0-9-]{0,63}\Z')
 PHASE_PATTERN=re.compile(r'[A-Z][A-Z0-9-]{0,100}\Z')
 OWNER_PATTERN=re.compile(r'[A-Za-z0-9._-]{1,80}\Z')
@@ -186,6 +192,12 @@ def envs(infra,proof,lane,phase_id=None):
   profile=json.loads(profile_bytes)
   if profile.get('authorization_phase_id')!=A1_UNION_PHASE or profile.get('experiment_protocol_phase_id')!=A1_PHASE:raise SystemExit('A1 fix authorization/protocol profile binding differs')
   phase_env=['SORT4_A1_AUTHORIZATION_PHASE_ID='+A1_UNION_PHASE,'SORT4_A1_PHASE_ID='+A1_PHASE,
+             'SORT4_A1_CHECKED_TRAIT_CONTRACT=1','SORT4_A1_PROFILE_SHA256='+digest(profile_bytes)]
+ if phase_id==A1_AUTO_PHASE:
+  profile_bytes=subprocess.check_output(['git','show',proof+':'+A1_AUTO_PROFILE],cwd=ROOT)
+  profile=json.loads(profile_bytes)
+  if profile.get('authorization_phase_id')!=A1_AUTO_PHASE or profile.get('experiment_protocol_phase_id')!=A1_PHASE:raise SystemExit('A1 fix authorization/protocol profile binding differs')
+  phase_env=['SORT4_A1_AUTHORIZATION_PHASE_ID='+A1_AUTO_PHASE,'SORT4_A1_PHASE_ID='+A1_PHASE,
              'SORT4_A1_CHECKED_TRAIT_CONTRACT=1','SORT4_A1_PROFILE_SHA256='+digest(profile_bytes)]
  return [f'INFRA_SHA={infra}',f'PROOF_SHA={proof}',f'LANE={lane}',f'PROOF_IMAGE={UBUNTU}','CLOUD_BUILD_ID=${BUILD_ID}','CLOUD_BUILD_PROJECT_ID=${PROJECT_ID}','CLOUD_BUILD_REGION=global','SMALLSORT_EXECUTION_PROVIDER=cloud-build','SUBMITTED_CONFIG_SHA=${_CONFIG_SHA}',] + [f'CONFIG_PART_{i}=${{_CONFIG_{i}}}' for i in range(8)] + phase_env
 
@@ -391,6 +403,7 @@ def authorized_phase(a,ledger):
  if a.phase_id==A1_BUILD_PHASE and (ledger['ceiling_build_seconds']!=A1_BUILD_CEILING or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger.get('allowed_lanes',[]))!=A1_LANES or ledger.get('start_utc')!=A1_BUILD_START or ledger.get('main_deadline_utc')!=A1_BUILD_MAIN_DEADLINE or ledger.get('deadline_utc')!=A1_BUILD_DEADLINE or ledger.get('maximum_builds') is not None or ledger.get('maximum_build_timeout_seconds')!=900):raise SystemExit('A1 buildability session requires exact new account, owner, window, sequential Builds and lane')
  if a.phase_id==A1_PARSER_PHASE and (ledger['ceiling_build_seconds']!=A1_PARSER_CEILING or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger.get('allowed_lanes',[]))!=A1_LANES or ledger.get('start_utc')!=A1_PARSER_START or ledger.get('main_deadline_utc')!=A1_PARSER_MAIN_DEADLINE or ledger.get('deadline_utc')!=A1_PARSER_DEADLINE or ledger.get('maximum_builds') is not None or ledger.get('maximum_build_timeout_seconds')!=900):raise SystemExit('A1 parser compatibility session requires exact new account, owner, window, sequential Builds and lane')
  if a.phase_id==A1_UNION_PHASE and (ledger['ceiling_build_seconds']!=A1_UNION_CEILING or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger.get('allowed_lanes',[]))!=A1_LANES or ledger.get('start_utc')!=A1_UNION_START or ledger.get('main_deadline_utc')!=A1_UNION_MAIN_DEADLINE or ledger.get('deadline_utc')!=A1_UNION_DEADLINE or ledger.get('maximum_builds') is not None or ledger.get('maximum_build_timeout_seconds')!=900):raise SystemExit('A1 MaybeUninit union kind session requires exact new account, owner, window, sequential Builds and lane')
+ if a.phase_id==A1_AUTO_PHASE and (ledger['ceiling_build_seconds']!=A1_AUTO_CEILING or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger.get('allowed_lanes',[]))!=A1_LANES or ledger.get('start_utc')!=A1_AUTO_START or ledger.get('main_deadline_utc')!=A1_AUTO_MAIN_DEADLINE or ledger.get('deadline_utc')!=A1_AUTO_DEADLINE or ledger.get('maximum_builds') is not None or ledger.get('maximum_build_timeout_seconds')!=900):raise SystemExit('A1 Autonomous native interface session requires exact new account, owner, window, sequential Builds and lane')
  if a.phase_id==MISSION_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger.get('allowed_lanes',[]))!=MISSION_LANES or ledger.get('start_utc')!=MISSION_START or ledger.get('main_deadline_utc')!=MISSION_MAIN_DEADLINE or ledger.get('deadline_utc')!=MISSION_DEADLINE):raise SystemExit('Mission phase requires its exact separate account, owner, window and lanes')
  if a.phase_id==COMPOSE_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger.get('allowed_lanes',[]))!=COMPOSE_LANES or ledger.get('start_utc')!=COMPOSE_START or ledger.get('main_deadline_utc')!=COMPOSE_MAIN_DEADLINE or ledger.get('deadline_utc')!=COMPOSE_DEADLINE):raise SystemExit('Composition phase requires its exact separate account, owner, window and lanes')
  if a.phase_id==NATIVE_C4_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger.get('allowed_lanes',[]))!=NATIVE_C4_LANES or ledger.get('start_utc')!=NATIVE_C4_START or ledger.get('main_deadline_utc')!=NATIVE_C4_MAIN_DEADLINE or ledger.get('deadline_utc')!=NATIVE_C4_DEADLINE):raise SystemExit('Native C4 phase requires exact separate account, owner, window and lane')
@@ -412,8 +425,8 @@ def authorized_phase(a,ledger):
  if a.phase_id==NEXT_SELECT_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or not set(ledger['allowed_lanes'])<=NEXT_SELECT_LANES or ledger.get('start_utc')!=NEXT_SELECT_START or ledger.get('main_deadline_utc')!=NEXT_SELECT_MAIN_DEADLINE):raise SystemExit('Next select phase requires its exact separate account, owner, window and lanes')
  try:deadline=datetime.datetime.fromisoformat(ledger['deadline_utc'].replace('Z','+00:00'))
  except (KeyError,AttributeError,ValueError) as error:raise SystemExit('Invalid phase deadline') from error
- cutoff=datetime.datetime.fromisoformat((A1_UNION_DEADLINE if a.phase_id==A1_UNION_PHASE else A1_PARSER_DEADLINE if a.phase_id==A1_PARSER_PHASE else A1_BUILD_DEADLINE if a.phase_id==A1_BUILD_PHASE else A1_TYPE_DEADLINE if a.phase_id==A1_TYPE_PHASE else A1_FIX_DEADLINE if a.phase_id==A1_FIX_PHASE else A1_DEADLINE if a.phase_id==A1_PHASE else BINDING_SESSION2_DEADLINE if a.phase_id==BINDING_SESSION2_PHASE else BINDING_PREFIX_DEADLINE if a.phase_id==BINDING_PREFIX_PHASE else CALLER_BOUND_DEADLINE if a.phase_id==CALLER_BOUND_PHASE else ACTUAL_CALLER_ENTRY_DEADLINE if a.phase_id==ACTUAL_CALLER_ENTRY_PHASE else NATIVE_C1_BOUND_DEADLINE if a.phase_id==NATIVE_C1_BOUND_PHASE else NATIVE_OPAQUE_DEADLINE if a.phase_id==NATIVE_OPAQUE_PHASE else NATIVE_C4_DEADLINE if a.phase_id==NATIVE_C4_PHASE else C3_PREFIX_DEADLINE if a.phase_id==C3_PREFIX_PHASE else COMPOSE_DEADLINE if a.phase_id==COMPOSE_PHASE else MISSION_DEADLINE if a.phase_id==MISSION_PHASE else C1_BRIDGE_DEADLINE if a.phase_id==C1_BRIDGE_PHASE else C1_CALLER_ENTRY_DEADLINE if a.phase_id==C1_CALLER_ENTRY_PHASE else C1_ACTUAL_DEADLINE if a.phase_id==C1_ACTUAL_PHASE else C1_DEADLINE if a.phase_id==C1_PHASE else NEXT_SELECT_DEADLINE if a.phase_id==NEXT_SELECT_PHASE else AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
- if a.phase_id in (A1_PHASE,A1_FIX_PHASE,A1_TYPE_PHASE,A1_BUILD_PHASE,A1_PARSER_PHASE,A1_UNION_PHASE) and deadline!=cutoff:raise SystemExit('A1 requires exact absolute deadline')
+ cutoff=datetime.datetime.fromisoformat((A1_AUTO_DEADLINE if a.phase_id==A1_AUTO_PHASE else A1_UNION_DEADLINE if a.phase_id==A1_UNION_PHASE else A1_PARSER_DEADLINE if a.phase_id==A1_PARSER_PHASE else A1_BUILD_DEADLINE if a.phase_id==A1_BUILD_PHASE else A1_TYPE_DEADLINE if a.phase_id==A1_TYPE_PHASE else A1_FIX_DEADLINE if a.phase_id==A1_FIX_PHASE else A1_DEADLINE if a.phase_id==A1_PHASE else BINDING_SESSION2_DEADLINE if a.phase_id==BINDING_SESSION2_PHASE else BINDING_PREFIX_DEADLINE if a.phase_id==BINDING_PREFIX_PHASE else CALLER_BOUND_DEADLINE if a.phase_id==CALLER_BOUND_PHASE else ACTUAL_CALLER_ENTRY_DEADLINE if a.phase_id==ACTUAL_CALLER_ENTRY_PHASE else NATIVE_C1_BOUND_DEADLINE if a.phase_id==NATIVE_C1_BOUND_PHASE else NATIVE_OPAQUE_DEADLINE if a.phase_id==NATIVE_OPAQUE_PHASE else NATIVE_C4_DEADLINE if a.phase_id==NATIVE_C4_PHASE else C3_PREFIX_DEADLINE if a.phase_id==C3_PREFIX_PHASE else COMPOSE_DEADLINE if a.phase_id==COMPOSE_PHASE else MISSION_DEADLINE if a.phase_id==MISSION_PHASE else C1_BRIDGE_DEADLINE if a.phase_id==C1_BRIDGE_PHASE else C1_CALLER_ENTRY_DEADLINE if a.phase_id==C1_CALLER_ENTRY_PHASE else C1_ACTUAL_DEADLINE if a.phase_id==C1_ACTUAL_PHASE else C1_DEADLINE if a.phase_id==C1_PHASE else NEXT_SELECT_DEADLINE if a.phase_id==NEXT_SELECT_PHASE else AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
+ if a.phase_id in (A1_PHASE,A1_FIX_PHASE,A1_TYPE_PHASE,A1_BUILD_PHASE,A1_PARSER_PHASE,A1_UNION_PHASE,A1_AUTO_PHASE) and deadline!=cutoff:raise SystemExit('A1 requires exact absolute deadline')
  if deadline.tzinfo is None or deadline>cutoff:raise SystemExit('Phase deadline exceeds its authorized cutoff')
  if a.phase_id==DAY_PHASE and deadline!=cutoff:raise SystemExit('Day select phase requires its exact absolute deadline')
  if a.phase_id==AFTERNOON_PHASE and deadline!=cutoff:raise SystemExit('Afternoon select phase requires its exact absolute deadline')
@@ -502,6 +515,9 @@ def run_command(a,state,ledger,ledger_path):
   if a.phase_id==A1_UNION_PHASE:
    if datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(A1_UNION_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('MaybeUninit union kind main window ended; no new Build')
    if not 90<=a.timeout<=900:raise SystemExit('MaybeUninit union kind timeout must be90..900 seconds')
+  if a.phase_id==A1_AUTO_PHASE:
+   if datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(A1_AUTO_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('Autonomous native interface main window ended; no new Build')
+   if not 90<=a.timeout<=900:raise SystemExit('Autonomous native interface timeout must be90..900 seconds')
   if a.phase_id in (A1_PHASE,A1_FIX_PHASE,A1_TYPE_PHASE):
    phase_main=A1_TYPE_MAIN_DEADLINE if a.phase_id==A1_TYPE_PHASE else A1_FIX_MAIN_DEADLINE if a.phase_id==A1_FIX_PHASE else A1_MAIN_DEADLINE
    if datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(phase_main.replace('Z','+00:00')):raise SystemExit('A1 main window ended; no new Build')
@@ -548,6 +564,10 @@ def run_command(a,state,ledger,ledger_path):
    records=coordination.reservations()
    occupied=len(records)+sum(not any(x.get('build_id')==b['id'] or x['dispatch_token'] in b.get('tags',[]) for x in records) for b in ongoing or [])
    if occupied>=2:raise SystemExit('Buildability owner restriction: maximum2 occupied project slots')
+  if a.phase_id==A1_AUTO_PHASE:
+   records=coordination.reservations()
+   occupied=len(records)+sum(not any(x.get('build_id')==b['id'] or x['dispatch_token'] in b.get('tags',[]) for x in records) for b in ongoing or [])
+   if occupied>=2:raise SystemExit('Buildability owner restriction: maximum2 occupied project slots')
   # queue envelope is reserved too, respecting phase/per-build ceiling.
   if not 90<=a.timeout<=1740 or a.timeout+60>1800 or a.timeout+60>ledger['remaining_build_seconds']:raise SystemExit('Invalid timeout or insufficient phase budget (60s queue reserve included)')
   token='dispatch-'+uuid.uuid4().hex
@@ -582,6 +602,7 @@ def run_command(a,state,ledger,ledger_path):
   if a.phase_id==A1_BUILD_PHASE and datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(A1_BUILD_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('A1 fix main window ended during preflight; no new Build')
   if a.phase_id==A1_PARSER_PHASE and datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(A1_PARSER_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('A1 fix main window ended during preflight; no new Build')
   if a.phase_id==A1_UNION_PHASE and datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(A1_UNION_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('A1 fix main window ended during preflight; no new Build')
+  if a.phase_id==A1_AUTO_PHASE and datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(A1_AUTO_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('A1 fix main window ended during preflight; no new Build')
   if a.phase_id==BINDING_SESSION2_PHASE and datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(BINDING_SESSION2_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('Compiler binding session2 main window ended during preflight; no new Build')
   coordination.reserve(reservation)
   ledger['builds'].append(item);ledger['active_build']=token;write(ledger_path,ledger)

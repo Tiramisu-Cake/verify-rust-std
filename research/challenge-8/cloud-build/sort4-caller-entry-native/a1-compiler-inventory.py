@@ -267,6 +267,35 @@ def _body_map(root):
     return output
 
 
+def _scope_body_callable(clause, body_id, ordinal, input_regions):
+    """Resolve this compiler Clause's references against its own Binder slots.
+
+    Printed names identify slots only inside this boundRegions list. Scope
+    ownership comes from the selected compiler Body and the Clause occurrence,
+    not from the spelling or proximity of another clause's names.
+    """
+    names = clause[3]
+    if len(names) != 2 or len(set(names)) != 2:
+        raise InventoryError("impl small_sort Body clause must have two distinct local binders")
+    if set(input_regions) & set(names):
+        raise InventoryError("impl small_sort Body clause captures an input region")
+    keys = tuple(("body-clause", body_id, ordinal, i) for i in range(2))
+    bindings = dict(zip(names, keys))
+
+    def resolve(value):
+        if isinstance(value, tuple):
+            if len(value) == 4 and value[0] == "ref":
+                if value[1] not in bindings:
+                    raise InventoryError("impl small_sort Body clause reference is free or outside its scope")
+                return ("ref", bindings[value[1]], value[2], resolve(value[3]))
+            return tuple(resolve(x) for x in value)
+        return value
+
+    # Generic type parameters inhabit a separate namespace; only typed ref
+    # region positions are rewritten. Raw compiler records stay untouched.
+    return (clause[0], clause[1], resolve(clause[2]), keys, *clause[4:])
+
+
 def _impl_body_small_sort(body, impl_name, expected_impl_generic_id):
     record = body["record"]
     impl_generics = _records(record, "implBlockGenerics")
@@ -312,6 +341,16 @@ def _impl_body_small_sort(body, impl_name, expected_impl_generic_id):
     output_rows = [x for x in clauses if x[0] == "projection" and x[1] == "Output"]
     if len(clauses) != 3 or len(sized) != 1 or len(fnmut) != 1 or len(output_rows) != 1:
         raise InventoryError("impl small_sort Body must retain exact Sized(F)/FnMut/Output clauses")
+    try:
+        body_id = _uint(record, "defIndex")
+    except _parser.ShapeError as exc:
+        raise InventoryError(str(exc)) from exc
+    scoped_input_regions = tuple(alias[r] for r in regions)
+    clauses = tuple(_scope_body_callable(clause, body_id, ordinal, scoped_input_regions)
+                    if clause is fnmut[0] or clause is output_rows[0] else clause
+                    for ordinal, clause in enumerate(clauses))
+    fnmut = [x for x in clauses if x[0] == "trait" and x[1] == "FnMut"]
+    output_rows = [x for x in clauses if x[0] == "projection" and x[1] == "Output"]
     _, _, fn_args, fn_regions = fnmut[0]
     _, _, out_args, out_regions, out_ty = output_rows[0]
     def callable_args(regions_):
@@ -321,8 +360,7 @@ def _impl_body_small_sort(body, impl_name, expected_impl_generic_id):
             ("ref", regions_[0], False, ("param", "@Self")),
             ("ref", regions_[1], False, ("param", "@Self"))))))
     if fn_args != callable_args(fn_regions) or out_args != callable_args(out_regions) or \
-            out_ty != ("bool",) or set(fn_regions) & set(out_regions) or \
-            set(regions) & (set(fn_regions) | set(out_regions)):
+            out_ty != ("bool",) or set(fn_regions) & set(out_regions):
         raise InventoryError("impl small_sort Body FnMut/Output binders are merged or malformed")
     canonical = {"impl_generic_names": impl_names,
                  "impl_generic_ids": impl_ids,

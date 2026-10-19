@@ -62,10 +62,10 @@ Evidence v0.11: Brief → catalogue → refresh/info → locate/fragment → н�
 
 ## Отчёт агента
 
-- **Статус / T0/main/absolute/end:** NOT_STARTED / —.
-- **Самостоятельно выбранные цели и изменение плана:** —.
-- **Proof до→после / P0a/P1/26/N-false31/A1/A2 / B1/B2:** —.
-- **Обслуживание / rationale/review/controls / exact source/tool/profile identities:** —.
-- **Build UUID → гипотеза → candidate → результат → charge:** —.
-- **Время/учёт / own requests/reservations/active/unresolved / закрытие:** —.
-- **Опубликованный checkpoint / первый blocker / следующий эксперимент или точное решение владельца:** —.
+- **Статус / T0/main/absolute/end:** ACTIVE / 2026-10-19T22:34:09Z / 2026-10-20T00:34:09Z / 2026-10-20T01:04:09Z / —.
+- **Цели:** scoped Body binder identity→P0a/P1 native proof→полная26/Nfalse31 lifecycle; затем следующий конкретный blocker/остающиеся callers по плану. [Session/rationale](cloud-build/sort4-caller-entry-native/A1-AUTO-SESSION-2026-10-20.md).
+- **Proof до→после:** исходно P0a/P1INCONCLUSIVE,Nfalse31NOT_RUN,A1/A2OPEN, нового B1/B2нет. Нового Cloud evidence пока нет.
+- **Обслуживание:** реализация compilerBody/clause/local-slot keys, локальное разрешение typed ref, строгие cardinality/capture/position/F/T/output/source/admission сохранены. Controls binder10/inventory24/admission23/string5/phase7/profile5 PASS; localfindings capture namespace/missingID исправлены до Cloud. Newprofile a480939a78b8101fbfa9730b3570981fabfea6374d3b59d115af28622cfe7355; R/C/parser/toolchain baseline сохранены. LunaHIGH activation review в процессе; committedclosure готовится.
+- **Builds:**0; submit только послеGO/closure/publication.
+- **Время/учёт:**0/3600, ownrequest зарегистрирован; active/unresolved/reservations0, R4accountзакрыт917/2683безпереноса.
+- **Следующее:** published exact S1→existing fullmatrix lane; продолжение по новым доказанным результатам в scope.
