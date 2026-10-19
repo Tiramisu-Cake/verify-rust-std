@@ -105,6 +105,34 @@ def _prepare_tmp_reference(source):
                 'checked reference initialization before original guard')
 
 
+# Initial iteration only. Later loop/resource restoration remains a proof
+# obligation of the unchanged complete actual body and full final contracts.
+FIRST_SHIFT_PREP = b"""        //@ note(sift == begin + 1);
+        //@ array_split::<u64>(begin, 1);
+        //@ assert array::<u64>(sift, 1, ?r4_shift_current);
+        //@ open array::<u64>(sift, 1, r4_shift_current);
+        //@ initialized_storage_alignment(sift);
+        //@ points_to_limits::<u64>(sift);
+        //@ uninitialized_storage_alignment(gap_guard.dst);
+        //@ points_to__limits::<u64>(gap_guard.dst);
+        //@ assert sift as usize != 0;
+        //@ assert gap_guard.dst as usize != 0;
+        //@ assert sift as usize % std::mem::align_of::<u64>() == 0;
+        //@ assert gap_guard.dst as usize % std::mem::align_of::<u64>() == 0;
+        //@ assert object_pointer_within_limits(sift, std::mem::size_of::<u64>()) == true;
+        //@ assert object_pointer_within_limits(gap_guard.dst, std::mem::size_of::<u64>()) == true;
+        //@ assert sift as usize <= usize::MAX - std::mem::size_of::<u64>();
+        //@ assert gap_guard.dst as usize <= usize::MAX - std::mem::size_of::<u64>();
+        //@ assert sift as usize + std::mem::size_of::<u64>() <= gap_guard.dst as usize;
+"""
+
+
+def _prepare_first_shift(source):
+    anchor = b'        loop {\n'
+    return _one(source, anchor, FIRST_SHIFT_PREP + anchor,
+                'open CURRENT source singleton and prove initial copy geometry')
+
+
 def _commands(fragment):
     lines = fragment.splitlines()
     if any(not line.lstrip().startswith(b'//@ ') for line in lines):
@@ -194,7 +222,7 @@ def prepare(evidence, *, prefix=False, mutation=None):
                          'lost_current_f', 'lost_cell_owner'):
         raise ValueError('unknown first-comparator mutation')
     if not prefix:
-        verified = _prepare_tmp_reference(_open_tail_read(verified))
+        verified = _prepare_first_shift(_prepare_tmp_reference(_open_tail_read(verified)))
     # Strip the NEW ghost-only annotations and compare with inherited source.
     # Other original ghost commands were already checked by old._prepare.
     # Runtime comparison removes only comments and whitespace; the inherited

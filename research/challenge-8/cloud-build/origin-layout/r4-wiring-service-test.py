@@ -47,8 +47,8 @@ class Tests(unittest.TestCase):
  def test_checked_reference_transform_is_ghost_only_and_fail_closed(self):
   import re
   path=HERE/'first-callback.py';tree=ast.parse(path.read_bytes())
-  names={'_one','_prepare_tmp_reference'}
-  nodes=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name in names or isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='TMP_REFERENCE_INIT' for t in n.targets)]
+  names={'_one','_prepare_tmp_reference','_prepare_first_shift'}
+  nodes=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name in names or isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id in {'TMP_REFERENCE_INIT','FIRST_SHIFT_PREP'} for t in n.targets)]
   context={};exec(compile(ast.fix_missing_locations(ast.Module(body=nodes,type_ignores=[])),str(path),'exec'),context)
   anchor=b'        let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };\n'
   source=b'        let tmp = synthetic_read();\n'+anchor+b'        synthetic_next();\n'
@@ -60,7 +60,15 @@ class Tests(unittest.TestCase):
    with self.assertRaises(ValueError):context['_prepare_tmp_reference'](bad)
   prepare=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='prepare')
   branch=next(n for n in prepare.body if isinstance(n,ast.If) and ast.unparse(n.test)=='not prefix')
-  self.assertIn('_prepare_tmp_reference(_open_tail_read(verified))',ast.unparse(branch))
+  self.assertIn('_prepare_first_shift(_prepare_tmp_reference(_open_tail_read(verified)))',ast.unparse(branch))
+  loop_source=b'        synthetic_guard();\n        loop {\n            synthetic_copy();\n        }\n'
+  shifted=context['_prepare_first_shift'](loop_source)
+  self.assertEqual(re.sub(rb'^[ \t]*//@[^\n]*\n',b'',shifted,flags=re.M),loop_source)
+  self.assertIn(b'array_split::<u64>(begin, 1)',shifted)
+  self.assertIn(b'initialized_storage_alignment(sift)',shifted)
+  self.assertNotIn(b'assume',shifted)
+  for bad in (b'',loop_source+b'        loop {\n'):
+   with self.assertRaises(ValueError):context['_prepare_first_shift'](bad)
  def test_parent_environment_satisfies_actual_control_receipt_gate(self):
   import hashlib
   root=HERE.parents[3]; path=root/'research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py'

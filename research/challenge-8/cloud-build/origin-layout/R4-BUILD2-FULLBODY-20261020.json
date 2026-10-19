@@ -1,0 +1,153 @@
+{
+  "archive_sha256": "49e82b88923be53a0ecc2f9f99c005d33df68175f9193e7534335919d39893a0",
+  "build_id": "d43ddfb4-4b34-4503-b86c-9cbab437a291",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 20,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "92de6ec3e223362f51aea2b8cc39115cc6c5d03bbd4db225e49afe7e70412da2",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+  "file_sha256": "559f2119a05f902bb5db00b530dcafb6b2a81841916db301688471389eaff098",
+  "index_sha256": "b87494ac53bfa4339daccc8a79cd7952ed1acb4ddff634a79939fe4a298d2f72",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "559f2119a05f902bb5db00b530dcafb6b2a81841916db301688471389eaff098",
+    "file_id": "92de6ec3e223362f51aea2b8cc39115cc6c5d03bbd4db225e49afe7e70412da2",
+    "pointer": "/results/full_body"
+  },
+  "request_id": "7c7854ab10228e8e0d40c6f8f2886ea4a417792e2fb2c8ff4a5b3b90d0e33100",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/accepted",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/b2_achieved",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/results/full_body/classification",
+      "value": "INCONCLUSIVE"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/current_false_true_panic_proved",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "null",
+      "pointer": "/results/full_body/cut",
+      "value": null
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/results/full_body/first_error",
+      "value": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/std/lib.rsspec(627,143-145): error: Cannot prove condition. (Cannot prove %(get_pointer_address(ptr_add_(tail0, (0 - 1), uint64_t_typeid)), alignof(uint64_t_typeid)) = 0.)"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/full_insert_tail_proved",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/hrtb_registration_observed",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/intended_negative",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/results/full_body/limitations",
+      "value": "Prefix is partial. Registration/reached-call/refiner exit0 alone give no resource credit."
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/local_first_continue_observed",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "null",
+      "pointer": "/results/full_body/mutation",
+      "value": null
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/results/full_body/next_frontier",
+      "value": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/std/lib.rsspec(627,143-145): error: Cannot prove condition. (Cannot prove %(get_pointer_address(ptr_add_(tail0, (0 - 1), uint64_t_typeid)), alignof(uint64_t_typeid)) = 0.)"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/official_first_continue_qualified",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/prefix",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/proof_credit",
+      "value": false
+    },
+    {
+      "child_count": 7,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/results/full_body/runtime_frontiers"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/results/full_body/schema",
+      "value": "first-callback-result-v1"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/results/full_body/source_exact",
+      "value": true
+    },
+    {
+      "child_count": 4,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/results/full_body/stages"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}
