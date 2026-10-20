@@ -431,7 +431,8 @@ def run(evidence: Path, args, env: dict, base, positive_case: Path, execute_case
     if profile_label == V7_PROFILE:
         controls = V7_CONTROLS
     elif profile_label in (V8_PROFILE, "experimental-merge-guard-addressability-v1",
-                           "experimental-merge-guard-addressability-emitter-r5-v1"):
+                           "experimental-merge-guard-addressability-emitter-r5-v1",
+                           "experimental-merge-late-callback-recovery-r7-v1"):
         controls = {**V7_CONTROLS, **RETIREMENT_CONTROL}
     else:
         controls = {}

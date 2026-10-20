@@ -1,0 +1,76 @@
+{
+  "schema": "smallsort-targeted-array-control-observation-v1",
+  "build_id": "e8d17588-c7c6-439d-aa39-7703ce8a275c",
+  "source_revision": "1e93fe1a2867a864bbc2251dd73520ba15efc2aa",
+  "build_claim": {
+    "status": "FAILURE",
+    "build_seconds": 601,
+    "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+    "array_controls": "four INCONCLUSIVE",
+    "accepted": false,
+    "proof_credit": false,
+    "causal_status": "UNKNOWN",
+    "parser_input_binding": "NOT_ESTABLISHED"
+  },
+  "evidence_identity": {
+    "aggregate_file_id": "12372a912e8e4f70f3e1bbf8d78314102aa15c37164af262f8a035d4d0bea459",
+    "aggregate_sha256": "b5a82b249d5515857392b32acef1870324eefcfb4555d9cd0e0eefde5106f9ed",
+    "index_sha256": "dddc80f0f83a639748cc888646472af8924db21ee7299bf4fe9c088e42ebedba",
+    "archive_sha256": "3cc96454e6e793a00631642790d61e1bc6d72b18aaa83b2593d588c895f469ed",
+    "aggregate_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/guard-array-controls/aggregate.json"
+  },
+  "targeted_observations": {
+    "positive": {
+      "errors_pointer_request_id": "398338cc0b5ff16420ad2b320bc45ae4c8284b4ef1f00bee0c6084fa0e6f9fda",
+      "log_file_id": "6fac3253cc01ae8a7a5eab138da9f71af1ff78033cbec2d0bacb49c3ac42db99",
+      "log_sha256": "02e24aa1f9386a56ed3c5e8bb79cbbfd093cc9a2989e2eb55de500269bdfe46d",
+      "log_lines_request_id": "302afa3245c49f6305c291ddf538ab8982d4f58d88ebfcd3b5fcea6096f5e633",
+      "log_lines": [118, 123],
+      "source_file_id": "5a70797b6888cc0927afbf146f23e4fb9aed915ab65d1e9729bfc17fc1729eac",
+      "source_sha256": "04382a7dd9dac338a001a8809200a29001440f98c31e7899b952a3a3e137c891",
+      "source_lines_request_id": "867ea3bf71520d7ce1d14b311615c28d194bfc05d37d6aaec5b4e7fb9abfd4ee",
+      "observed_error": "prelude_core.rsspec(260,30-32): Cannot prove pointer_within_limits(p) <==> true",
+      "observed_location": "verified/lib.rs line 20 singleton close; the helper call was executed first"
+    },
+    "missing_physical_quarter": {
+      "errors_pointer_request_id": "6da1f39b71c04202db04972a0d4fc32ea99d0fc083674d218777039d0b64b5af",
+      "log_file_id": "d4b291d8947fe62edad73ae9d30a8c0df12c0b08dd0e96cff107f49b32cfe033",
+      "log_sha256": "2bf23e4e11d6a3250187adb66b805813fff18a260f933c386a0b19ea6209813b",
+      "log_lines_request_id": "31468ba72f4d32ba01b57d1f18ef5167682569181093b43a126a2dbfc5fc7444",
+      "log_lines": [115, 120],
+      "observed_error": "verified/lib.rs(5,9-10): No matching heap chunks: [_]points_to<u64>(p, _)",
+      "observed_location": "helper precondition at line 5 after target call line 19"
+    },
+    "wrong_referent": {
+      "errors_pointer_request_id": "c7855a7a1e2bfa279dd82bc47a2279d19ff2f2d988311a6f266b20dd9c6fc6ca",
+      "log_file_id": "cc9df1a782f99fb91a942c74da98eac96b91fff480cb572e832db1cad3519a2d",
+      "log_sha256": "c9b12529b8d98f4be825a22d2ce2566f81d8ab3044b5fc7718de5a30f07212bb",
+      "log_lines_request_id": "2fe721a7b7483a3e0f3bf39b18fc6fd1b5bcd967af5d336eea7b91346cb739",
+      "log_lines": [115, 120],
+      "observed_error": "verified/lib.rs(5,9-10): No matching heap chunks: [_]points_to<u64>(q, _)",
+      "observed_location": "helper precondition at line 5 after target call line 19"
+    },
+    "wrong_value": {
+      "errors_pointer_request_id": "5d768a7b63ae99152bd4747177bf8a46da2a6ba5887a0a98de9320e3519f715c",
+      "log_file_id": "7661dc6469d27ab1c71ce6fe234438568397029014292c6916dfeee69d94f374",
+      "log_sha256": "deeb4a31a4e072bbf9cd72d1129fd2d28d0e3b67e51c72c10b95afea96a22f57",
+      "log_lines_request_id": "826e4ecc9a037d67fd4d3c9ea0240ad7309484a67f07cbb5f7a1085b3fd43f96",
+      "log_lines": [118, 123],
+      "source_file_id": "f2f2c75787eef6899c7b79007c6aad0d6a23f294d84b1c072a3858d985515314",
+      "source_sha256": "6a99db9000aaae7b2318aab067ef60423c9d98119320d40fb4692928321d70fe",
+      "source_lines_request_id": "e9f1a8f100a62f8106ec704c28b9fc7b15c7273542ee0fd7e9499886ce05e65d",
+      "observed_error": "prelude_core.rsspec(260,30-32): Cannot prove pointer_within_limits(p) <==> true",
+      "observed_location": "verified/lib.rs line 20 wrong-value close; target statement executed",
+      "intended_wrong_value_rejection_observed": false,
+      "classification": "INCONCLUSIVE"
+    }
+  },
+  "interpretation": {
+    "bounded_finding": "The two helper-precondition controls produced the expected physical-chunk failures. The positive and wrong-value controls reached their singleton close statements but failed the prelude pointer bound at p.",
+    "control_change": "Carry pointer_within_limits(p) == true in the positive and wrong-value control preconditions so the close is tested past its observed geometry prerequisite.",
+    "wrong_value_limit": "Build 1 did not expose the intended wrong-value diagnostic. The control remains inconclusive for that diagnostic until a later exact target-local error is observed.",
+    "authority": "Targeted SmallSort Reader fields and selected source/log line windows only; this is a source-reported observation, not independent proof credit.",
+    "accepted": false,
+    "proof_credit": false
+  }
+}

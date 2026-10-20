@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cloud-only controls for the R5 address-taken continuation candidate.
+"""Cloud-only controls for the R5/R7 address-taken continuation candidates.
 
 This module prepares isolated source pairs and classifies receipts supplied by
 the authorized hosted runner. It never starts a compiler or verifier.
@@ -14,6 +14,8 @@ from pathlib import Path
 
 
 PROFILE = "experimental-merge-guard-addressability-emitter-r5-v1"
+R7_PROFILE = "experimental-merge-late-callback-recovery-r7-v1"
+SUPPORTED_PROFILES = (PROFILE, R7_PROFILE)
 CAMPAIGN = "r5-addressability-controls-v1"
 
 HEADER = "#![allow(dead_code)]\n"
@@ -86,9 +88,11 @@ def _unit(name: str, spec: dict) -> bytes:
     return source.encode()
 
 
-def prepare(evidence: Path) -> dict:
+def prepare(evidence: Path, *, profile: str = PROFILE) -> dict:
+    if profile not in SUPPORTED_PROFILES:
+        raise ValueError("unsupported R5/R7 addressability-control profile")
     if evidence.exists():
-        raise FileExistsError(f"refusing to reuse r4 evidence: {evidence}")
+        raise FileExistsError(f"refusing to reuse addressability-control evidence: {evidence}")
     evidence.mkdir(parents=True)
     rows = {}
     for name, spec in CASES.items():
@@ -120,7 +124,7 @@ def prepare(evidence: Path) -> dict:
             "expected_class": spec["class"], "locals": spec.get("locals", {}),
             "error_contains": spec.get("error_contains"),
         }
-    manifest = {"schema": CAMPAIGN, "profile": PROFILE, "accepted": False,
+    manifest = {"schema": CAMPAIGN, "profile": profile, "accepted": False,
                 "case_details": rows}
     (evidence / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
     return rows
@@ -238,8 +242,9 @@ def classify(name: str, case: Path, meta: dict, execution: dict) -> dict:
 def _receipt_gate(args, receipt: dict) -> dict:
     if not isinstance(receipt, dict):
         raise TypeError("validated_receipt must be a dictionary")
-    if getattr(args, "profile", None) != PROFILE or receipt.get("profile") != PROFILE:
-        raise RuntimeError("r4 addressability profile identity differs")
+    profile = getattr(args, "profile", None)
+    if profile not in SUPPORTED_PROFILES or receipt.get("profile") != profile:
+        raise RuntimeError("addressability profile identity differs")
     provider = receipt.get("provider")
     build_id = (provider.get("build_id") if isinstance(provider, dict) else None) or \
         receipt.get("build_id") or receipt.get("cloud_build_id")
@@ -260,7 +265,7 @@ def _receipt_gate(args, receipt: dict) -> dict:
         raise RuntimeError("experimental profile receipt must explicitly remain unaccepted")
     return {"build_id": build_id, "proof_sha": proof_sha,
             "profile_sha256": profile_sha, "tool_commit": tool_commit,
-            "verify_expr_sha256": verify_expr_sha, "profile": PROFILE}
+            "verify_expr_sha256": verify_expr_sha, "profile": profile}
 
 
 def _inconclusive_row(name: str, meta: dict, error: Exception) -> dict:
@@ -274,7 +279,7 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
     if not callable(execute_case):
         raise TypeError("hosted execute_case callback required")
     identity = _receipt_gate(args, validated_receipt)
-    rows = prepare(evidence / "r5-addressability")
+    rows = prepare(evidence / "r5-addressability", profile=identity["profile"])
     result_rows = {}
     for name, meta in rows.items():
         case = evidence / "r5-addressability" / name
@@ -290,7 +295,7 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
     all_matched = (set(controls) == set(required_names) and
                    all(controls[name] in {"PASS_CONTROL", "EXPECTED_REJECTION"}
                        for name in required_names))
-    aggregate = {"schema": CAMPAIGN, "profile": PROFILE, "accepted": False,
+    aggregate = {"schema": CAMPAIGN, "profile": identity["profile"], "accepted": False,
                  "proof_credit": False, "receipt_identity": identity,
                  "controls": controls, "cases": controls,
                  "case_details": result_rows, "all_matched": all_matched,

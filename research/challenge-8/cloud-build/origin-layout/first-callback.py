@@ -16,7 +16,8 @@ import sys
 HERE = Path(__file__).resolve().parent
 PROFILE = 'experimental-merge-guard-addressability-v1'
 R5_PROFILE = 'experimental-merge-guard-addressability-emitter-r5-v1'
-SUPPORTED_PROFILES = (PROFILE, R5_PROFILE)
+R7_PROFILE = 'experimental-merge-late-callback-recovery-r7-v1'
+SUPPORTED_PROFILES = (PROFILE, R5_PROFILE, R7_PROFILE)
 PREFIX_NAME = b'insert_tail_first_callback_prefix'
 CUT = b'        // SAFETY: after this read'
 
@@ -119,7 +120,14 @@ lem r7_guard_empty_tail(p: *u64)
 def _prepare_guard_empty_tail(source):
     anchor = b'        let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };\n'
     return _one(source, anchor, anchor +
-                b'        //@ r7_guard_empty_tail(gap_guard.src as *mut u64);\n',
+                b'        //@ r7_guard_empty_tail(gap_guard.src as *mut u64);\n'
+                b'        //@ initialized_storage_alignment(gap_guard.src as *mut u64);\n'
+                b'        //@ points_to_limits::<u64>(gap_guard.src as *mut u64);\n'
+                b'        //@ assert gap_guard.src as usize != 0;\n'
+                b'        //@ assert gap_guard.src as usize % std::mem::align_of::<u64>() == 0;\n'
+                b'        //@ assert object_pointer_within_limits(gap_guard.src, std::mem::size_of::<u64>()) == true;\n'
+                b'        //@ assert gap_guard.src as usize <= usize::MAX - std::mem::size_of::<u64>();\n'
+                b'        //@ assert (gap_guard.src as usize + std::mem::size_of::<u64>() <= begin as usize || begin as usize + 3 * std::mem::size_of::<u64>() <= gap_guard.src as usize);\n',
                 'checked empty array tail at original guard reference provenance')
 
 
@@ -229,6 +237,48 @@ def _prepare_late_references(source):
                 'checked fractional share and Args ownership before late comparator')
 
 
+# R7 explicit type-level scope starts after physical setup, so references,
+# semantic lifetime and exact coefficients remain in the outer environment.
+LATE_CLOSE = b"""            //@ merge_fractions lifetime_token(r5_late_k);
+            //@ assert [1/2]lifetime_token(r5_late_k);
+"""
+LATE_RECOVER = b"""            //@ assert lifetime_token(r5_late_k);
+            //@ end_lifetime(r5_late_k);
+            //@ borrow_end(r5_late_k, scaledp(r5_tmp_share, u64_full_borrow_content(t, r4_cmp_tmp_ref)));
+            //@ open scaledp(r5_tmp_share, u64_full_borrow_content(t, r4_cmp_tmp_ref))();
+            //@ open [r5_tmp_share]u64_full_borrow_content(t, r4_cmp_tmp_ref)();
+            //@ end_ref_readonly::<u64>(r4_cmp_tmp_ref);
+            //@ borrow_end(r5_late_k, scaledp(r5_sift_share, u64_full_borrow_content(t, r4_cmp_sift_ref)));
+            //@ open scaledp(r5_sift_share, u64_full_borrow_content(t, r4_cmp_sift_ref))();
+            //@ open [r5_sift_share]u64_full_borrow_content(t, r4_cmp_sift_ref)();
+            //@ end_ref_readonly::<u64>(r4_cmp_sift_ref);
+            //@ merge_fractions *sift |-> _;
+            //@ assert *sift |-> ?r7_sift_current;
+            //@ close array::<u64>(sift, 1, cons(r7_sift_current, nil));
+"""
+
+
+def _prepare_late_scope(source):
+    source = _one(source, b'        //@ let r5_late_k = begin_lifetime();\n',
+                  b'', 'move semantic lifetime begin to reached late preparation')
+    anchor = b'            //@ let r4_cmp_tmp_ref = precreate_ref::<u64>(&tmp);\n'
+    source = _one(source, anchor,
+                  b'            //@ let r5_late_k = begin_lifetime();\n'
+                  b'            //@ let r7_late_unwind = false;\n' + anchor,
+                  'fresh semantic lifetime and outcome flag outside late type binding')
+    anchor = b'            //@ r6_close_u64_share(r5_late_k, t, r4_cmp_tmp_ref);\n'
+    source = _one(source, anchor,
+                  b"            //@ late_callback_scope_begin::<'late>();\n" + anchor,
+                  'late type scope starts after physical variables are captured')
+    markers = (b"            /*@ { late_callback_close::<'late>(); " +
+               _commands(LATE_CLOSE) + b" } @*/\n" +
+               b"            //@ late_callback_scope_end::<'late>();\n" +
+               b"            /*@ { late_callback_recover::<'late>(); " +
+               _commands(LATE_RECOVER) + b" } @*/\n")
+    return _one(source, LATE_CALL, LATE_CALL + markers,
+                'actual late normal and Cleanup resource scope markers')
+
+
 def _commands(fragment):
     lines = fragment.splitlines()
     if any(not line.lstrip().startswith(b'//@ ') for line in lines):
@@ -324,6 +374,8 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
     if not prefix:
         verified = _prepare_late_references(_prepare_first_shift(_prepare_guard_empty_tail(
             _prepare_tmp_reference(_open_tail_read(verified)))))
+        if profile == R7_PROFILE:
+            verified = _prepare_late_scope(verified)
     # Strip the NEW ghost-only annotations and compare with inherited source.
     # Other original ghost commands were already checked by old._prepare.
     # Runtime comparison removes only comments and whitespace; the inherited
@@ -351,6 +403,7 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
                   source_relation='exact pre-cut runtime segment plus closing braces and renamed function/wrapper' if prefix else 'complete actual body; ghost-only annotation replacement',
                   final_posts_sha256=_sha(old.INSERT_CONTRACT),
                   callback_marker_sha256=_sha(markers),
+                  late_callback_scope_recovery_requested=(profile == R7_PROFILE and not prefix),
                   first_callback_unwind_recovery_qualified=False,
                   first_callback_unwind_status='NOT_RUN', proof_credit=False)
     record['actual_first_call_line'] = old._line(verified, call.rstrip(b'\n'))
@@ -492,6 +545,12 @@ def run(evidence, args, env, execute_case, validated_receipt):
                 execution['stage_receipt_gate'].get('admitted') is True)
             results[name] = classify(case, record, execution,
                                      baseline_positive=results.get('prefix', {}).get('current_false_true_panic_proved', False))
+        if selected_profile == R7_PROFILE:
+            late_controls = _load('r7_late_admission', HERE/'r7-late-admission-controls.py')
+            results['late_scope_admission_controls'] = late_controls.run(
+                evidence/'late-scope-admission-controls', args, env, execute_case,
+                evidence/'full_body/cases/actual_three_current_full_posts',
+                json.loads((evidence/'full_body/preparation.json').read_text()))
         if results['prefix']['current_false_true_panic_proved']:
             controls = _load('first_callback_admission', HERE/'first-callback-admission-controls.py')
             results['admission_controls'] = controls.run(

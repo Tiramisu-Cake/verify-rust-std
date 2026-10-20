@@ -65,7 +65,7 @@ class Tests(unittest.TestCase):
    with self.assertRaises(ValueError):context['_prepare_tmp_reference'](bad)
   prepare=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='prepare')
   branch=next(n for n in prepare.body if isinstance(n,ast.If) and ast.unparse(n.test)=='not prefix')
-  self.assertIn('_prepare_late_references(_prepare_first_shift(_prepare_tmp_reference(_open_tail_read(verified))))',ast.unparse(branch))
+  self.assertIn('_prepare_late_references(_prepare_first_shift(_prepare_guard_empty_tail(_prepare_tmp_reference(_open_tail_read(verified)))))',ast.unparse(branch))
   loop_source=b'        synthetic_guard();\n        loop {\n            synthetic_copy();\n        }\n'
   shifted=context['_prepare_first_shift'](loop_source)
   self.assertEqual(re.sub(rb'^[ \t]*//@[^\n]*\n',b'',re.sub(rb'/\*.*?\*/',b'',shifted,flags=re.S),flags=re.M).replace(b'            \n',b''),loop_source)
@@ -93,7 +93,7 @@ class Tests(unittest.TestCase):
   environment={'profile':card['profile'],'proof_sha':'a'*40,'provider':{'build_id':'synthetic-build'},'accepted':False}
   context={'args':args,'environment':environment,'profile_card':card,'Path':Path,'os':SimpleNamespace(environ={'SMALLSORT_MERGE_PROFILE':str(profile)}),'base':SimpleNamespace(file_sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest())}
   exec(compile(ast.fix_missing_locations(ast.Module(body=[block],type_ignores=[])),str(path),'exec'),context)
-  consumer='r5-addressability-controls.py' if card['profile']=='experimental-merge-guard-addressability-emitter-r5-v1' else 'r4-addressability-controls.py'
+  consumer='r5-addressability-controls.py' if card['profile'] in ('experimental-merge-guard-addressability-emitter-r5-v1','experimental-merge-late-callback-recovery-r7-v1') else 'r4-addressability-controls.py'
   spec=importlib.util.spec_from_file_location('current_inert_receipt_gate',HERE/consumer);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
   binding=m._receipt_gate(args,environment)
   self.assertEqual(binding['tool_commit'],card['effective_tool_commit'])

@@ -29,6 +29,7 @@ CASES = {
     req [1/4](*p |-> v);
     ens [1/4]array::<u64>(p,1,cons(v,nil));
 {
+    points_to_limits::<u64>(p);
     r7_guard_empty_tail(p); // TARGET: singleton helper call
     close [1/4]array::<u64>(p,1,cons(v,nil));
 }
@@ -44,7 +45,8 @@ CASES = {
 }
 """,
         "target": "missing physical quarter helper call", "class": "negative",
-        "error_at": "helper_req", "error_contains": "*p |->",
+        "error_at": "helper_req",
+        "error_contains": "No matching heap chunks: [_]points_to<u64>(p, _)",
     },
     "wrong_referent": {
         "lemma": b"""lem r7_wrong_referent(p: *u64, q: *u64, v: u64)
@@ -55,19 +57,22 @@ CASES = {
 }
 """,
         "target": "wrong referent helper call", "class": "negative",
-        "error_at": "helper_req", "error_contains": "*q |->",
+        "error_at": "helper_req",
+        "error_contains": "No matching heap chunks: [_]points_to<u64>(q, _)",
     },
     "wrong_value": {
         "lemma": b"""lem r7_wrong_value(p: *u64, v: u64, w: u64)
     req [1/4](*p |-> v) &*& v != w;
     ens true;
 {
+    points_to_limits::<u64>(p);
     r7_guard_empty_tail(p);
     close [1/4]array::<u64>(p,1,cons(w,nil)); // TARGET: wrong value singleton close
 }
 """,
         "target": "wrong value singleton close", "class": "negative",
-        "error_at": "target", "error_contains": "cons(w, nil)",
+        # Build 1 did not expose this target-local diagnostic; remain fail-closed.
+        "error_at": "target",
     },
 }
 

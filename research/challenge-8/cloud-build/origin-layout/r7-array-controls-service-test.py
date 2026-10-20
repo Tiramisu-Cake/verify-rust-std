@@ -35,6 +35,7 @@ def _callback(case, args, env, *, behavior="normal"):
         "raise": "missing_physical_quarter", "null": "wrong_referent",
         "partial": "wrong_value", "missing-receipt": "wrong_referent",
         "missing-artifact": "wrong_value", "wrong-error-location": "missing_physical_quarter",
+        "observed-wrong-value-prelude-error": "wrong_value",
     }
     name = case.name
     if behavior == "raise" and name == names[behavior]:
@@ -64,10 +65,17 @@ def _callback(case, args, env, *, behavior="normal"):
         log += "Executing return statement\nLeak check.\n0 errors found\n"
     else:
         log += f"verified/lib.rs({target},4): Executing statement R7 target\n"
-        error_line = meta["expected_error_line"]
-        if behavior == "wrong-error-location" and name == names[behavior]:
-            error_line = target
-        log += f"verified/lib.rs({error_line},4): error: No matching heap chunks: {meta['error_contains']}\n"
+        if behavior == "observed-wrong-value-prelude-error" and name == names[behavior]:
+            log += ("/workspace/bin/rust/prelude_core.rsspec(260,30-32): error: "
+                    "Cannot prove condition. (Cannot prove pointer_within_limits(p) <==> true.)\n")
+        else:
+            error_line = meta["expected_error_line"]
+            if behavior == "wrong-error-location" and name == names[behavior]:
+                error_line = target
+            if name == "wrong_value":
+                log += f"verified/lib.rs({error_line},4): error: synthetic target-local diagnostic\n"
+            else:
+                log += f"verified/lib.rs({error_line},4): error: {meta['error_contains']}\n"
     if behavior == "missing-artifact" and name == names[behavior]:
         (case / "verifast.log").unlink(missing_ok=True)
     else:
@@ -100,29 +108,37 @@ class R7ArrayControlsTests(unittest.TestCase):
             self.assertEqual(rows["wrong_value"]["expected_error_line"],
                              rows["wrong_value"]["target"]["line"])
 
-    def test_positive_and_all_three_intended_negatives_classify(self):
+    def test_positive_and_observed_helper_negatives_classify_wrong_value_stays_open(self):
         with tempfile.TemporaryDirectory() as temporary:
             result = controls.run(Path(temporary) / "controls", None, {},
                                   _callback, helper=HELPER)
-            self.assertTrue(result["all_matched"])
+            self.assertFalse(result["all_matched"])
+            self.assertEqual(result["classification"], "INCONCLUSIVE")
             self.assertFalse(result["accepted"])
             self.assertFalse(result["proof_credit"])
             self.assertEqual(result["cases"]["positive"], "PASS_CONTROL")
-            for name in ("missing_physical_quarter", "wrong_referent", "wrong_value"):
+            for name in ("missing_physical_quarter", "wrong_referent"):
                 row = result["case_details"][name]
                 self.assertEqual(row["classification"], "EXPECTED_REJECTION")
                 self.assertTrue(row["error_at_expected_line"])
                 self.assertTrue(row["error_match"])
                 self.assertTrue(row["target_executed"])
                 self.assertTrue(row["last_execution_is_target"])
+            wrong_value = result["case_details"]["wrong_value"]
+            self.assertEqual(wrong_value["classification"], "INCONCLUSIVE")
+            self.assertTrue(wrong_value["error_at_expected_line"])
+            self.assertFalse(wrong_value["error_match"])
+            self.assertTrue(wrong_value["target_executed"])
+            self.assertTrue(wrong_value["last_execution_is_target"])
 
     def test_execution_and_evidence_failures_are_inconclusive(self):
         scenarios = ("raise", "null", "partial", "missing-receipt", "missing-artifact",
-                     "wrong-error-location")
+                     "wrong-error-location", "observed-wrong-value-prelude-error")
         affected = {
             "raise": "missing_physical_quarter", "null": "wrong_referent",
             "partial": "wrong_value", "missing-receipt": "wrong_referent",
             "missing-artifact": "wrong_value", "wrong-error-location": "missing_physical_quarter",
+            "observed-wrong-value-prelude-error": "wrong_value",
         }
         for scenario in scenarios:
             with self.subTest(scenario=scenario), tempfile.TemporaryDirectory() as temporary:

@@ -1,7 +1,7 @@
 # MERGE — R7 ACTIVE / actual guard and CURRENT recovery
 
 T0/main/absolute UTC2026-10-20 14:33:33/16:33:33/17:03:33.
-Fresh3600Cloudseconds, separate R7 ledger, no R6 carry; no R7 Builds yet.
+Fresh3600Cloudseconds, separate R7 ledger, no R6 carry; Build1 terminalFAILURE601charged/600execution,2999remaining.
 Target exact implicit guard Drop packaging, then full late lifetime/loan/readonly
 normal Continue/break/unwind resource return. Baseline actual theorem/B2/credit0.
 [Задание](CURRENT-TASK.md), [session](cloud-build/origin-layout/SESSION.md).

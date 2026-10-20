@@ -276,7 +276,8 @@ def execute_case(case: Path, args, env: dict) -> dict:
     # The official refiner still exports and compares the source pair itself.
     original_stages = {}
     if args.profile in ("experimental-merge-actual-glue-body-v8", "experimental-merge-guard-addressability-v1",
-                           "experimental-merge-guard-addressability-emitter-r5-v1"):
+                           "experimental-merge-guard-addressability-emitter-r5-v1",
+                           "experimental-merge-late-callback-recovery-r7-v1"):
         original_export = base.run_stage(case, "original-exporter", [
             str(args.tool_home / "bin/vf-rust-mir-exporter"), "original/lib.rs",
             f"--sysroot={args.compiler_sysroot}", "--edition", "2021", "--crate-type", "lib",
@@ -568,7 +569,8 @@ def main() -> int:
                    "source_sha256": base.file_sha(prep.SOURCE),
                    "rustc_version": version, "rustc_toolchain": os.environ["RUSTUP_TOOLCHAIN"], "accepted": False}
     if args.profile in ("experimental-merge-guard-addressability-v1",
-                        "experimental-merge-guard-addressability-emitter-r5-v1"):
+                        "experimental-merge-guard-addressability-emitter-r5-v1",
+                        "experimental-merge-late-callback-recovery-r7-v1"):
         profile_path = Path(os.environ["SMALLSORT_MERGE_PROFILE"])
         environment.update(profile_sha256=base.file_sha(profile_path),
             tool_commit=profile_card["effective_tool_commit"],
@@ -603,14 +605,17 @@ def main() -> int:
         raise RuntimeError("combined candidate mandatory smoke did not pass; retain artifacts")
     r4_addressability = None
     if args.profile in ("experimental-merge-guard-addressability-v1",
-                        "experimental-merge-guard-addressability-emitter-r5-v1"):
+                        "experimental-merge-guard-addressability-emitter-r5-v1",
+                        "experimental-merge-late-callback-recovery-r7-v1"):
         control_root = args.evidence / "addressability-controls"
         try:
-            control_name = ("r5-addressability-controls.py" if args.profile ==
-                            "experimental-merge-guard-addressability-emitter-r5-v1" else
+            control_name = ("r5-addressability-controls.py" if args.profile in (
+                                "experimental-merge-guard-addressability-emitter-r5-v1",
+                                "experimental-merge-late-callback-recovery-r7-v1") else
                             "r4-addressability-controls.py")
-            r4_control = load("r5_addressability_controls" if args.profile ==
-                              "experimental-merge-guard-addressability-emitter-r5-v1" else
+            r4_control = load("r5_addressability_controls" if args.profile in (
+                              "experimental-merge-guard-addressability-emitter-r5-v1",
+                              "experimental-merge-late-callback-recovery-r7-v1") else
                               "r4_addressability_controls", HERE.parents[3] /
                               "cloud-build/origin-layout" / control_name)
             r4_addressability = r4_control.run(control_root, args, env, execute_case, environment)
@@ -653,7 +658,8 @@ def main() -> int:
         b2_mode = HERE.parents[3] / "cloud-build/origin-layout/B2-ACTUAL-CAMPAIGN.json"
         dispatch = None
         if args.profile in ("experimental-merge-guard-addressability-v1",
-                        "experimental-merge-guard-addressability-emitter-r5-v1"):
+                            "experimental-merge-guard-addressability-emitter-r5-v1",
+                            "experimental-merge-late-callback-recovery-r7-v1"):
             dispatch = load("first_comparator_dispatch_receipt", HERE.parents[3] /
                             "cloud-build/origin-layout/first-comparator-dispatch.py")
             profile_path = Path(os.environ["SMALLSORT_MERGE_PROFILE"])
@@ -684,7 +690,8 @@ def main() -> int:
                         binding=dispatch_binding, prerequisites=dispatch_prerequisites)
                 actual = load("actual_insert_tail_b2", HERE.parents[3] /
                               ("cloud-build/origin-layout/first-callback.py" if args.profile in ("experimental-merge-guard-addressability-v1",
-                                  "experimental-merge-guard-addressability-emitter-r5-v1") else
+                                  "experimental-merge-guard-addressability-emitter-r5-v1",
+                                  "experimental-merge-late-callback-recovery-r7-v1") else
                                "cloud-build/origin-layout/actual-insert-tail-b2.py"))
                 aggregate["actual_insert_tail_b2"] = actual.run(
                     args.evidence / "actual-insert-tail-b2", args, env,
