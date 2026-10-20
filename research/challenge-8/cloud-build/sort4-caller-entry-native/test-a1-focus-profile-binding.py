@@ -293,20 +293,11 @@ class FocusProfileBindingTests(unittest.TestCase):
         self.assertIn(R9, lane_script)
         self.assertIn(profile_rel, proof_paths)
         self.assertIn("A1_R9_PHASE", (repo_root / "research/challenge-8/cloud-build/control.py").read_text())
-        signature_manifest_path = HERE / "NATIVE-SMALL-SORT-IMPL-SIGNATURE-MANIFEST.json"
-        signature_manifest = json.loads(signature_manifest_path.read_text())
-        translator = "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
-        transition = signature_manifest["files"][translator]
-        self.assertEqual(signature_manifest["phase_id"], R9)
+        # Historical R9 source pins stay frozen as the active R10 overlay advances.
         self.assertEqual(profile["native_signature_manifest_sha256"],
-                         hashlib.sha256(signature_manifest_path.read_bytes()).hexdigest())
+                         "29b0bcc0b28034fdcf8997dddc07bc3b0365fbf074b6be096d07cdbc802eadb9")
         self.assertEqual(profile["native_signature_patch_sha256"],
-                         hashlib.sha256((HERE / "native-small-sort-impl-signature.patch").read_bytes()).hexdigest())
-        self.assertEqual(transition["base_sha256"], profile["r_representation_after"][translator])
-        self.assertEqual(transition["result_sha256"], profile["r_after"][translator])
-        self.assertEqual(profile["native_interface_reference"]["translator_sha256"], transition["result_sha256"])
-        self.assertEqual(profile["c_before"], profile["r_after"])
-        self.assertEqual(profile["c_after"][translator], transition["after_unchanged_c_patch_sha256"])
+                         "1c56d36e1feeb52112c4da0eb90c5985b548db7c4f836bb6971d1a826effd2a2")
 
     def test_published_r10_profile_is_bound_to_current_registration_closure(self):
         repo_root = HERE.parents[3]
@@ -354,6 +345,21 @@ class FocusProfileBindingTests(unittest.TestCase):
         self.assertIn(R10, lane_script)
         control = (repo_root / "research/challenge-8/cloud-build/control.py").read_text()
         self.assertIn("A1_R10_PHASE", control)
+
+        signature_manifest_path = HERE / "NATIVE-SMALL-SORT-IMPL-SIGNATURE-MANIFEST.json"
+        signature_manifest = json.loads(signature_manifest_path.read_text())
+        translator = "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
+        transition = signature_manifest["files"][translator]
+        self.assertEqual(signature_manifest["phase_id"], R10)
+        self.assertEqual(profile["native_signature_manifest_sha256"],
+                         hashlib.sha256(signature_manifest_path.read_bytes()).hexdigest())
+        self.assertEqual(profile["native_signature_patch_sha256"],
+                         hashlib.sha256((HERE / "native-small-sort-impl-signature.patch").read_bytes()).hexdigest())
+        self.assertEqual(transition["base_sha256"], profile["r_representation_after"][translator])
+        self.assertEqual(transition["result_sha256"], profile["r_after"][translator])
+        self.assertEqual(profile["native_interface_reference"]["translator_sha256"], transition["result_sha256"])
+        self.assertEqual(profile["c_before"], profile["r_after"])
+        self.assertEqual(profile["c_after"][translator], transition["after_unchanged_c_patch_sha256"])
 
     def test_rejects_unknown_or_cross_paired_authorization(self):
         for authorization in (

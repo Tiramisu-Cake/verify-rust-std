@@ -1,6 +1,7 @@
 """Isolated progress serialization checks using synthetic parser values only."""
 from importlib.util import module_from_spec, spec_from_file_location
 from dataclasses import dataclass
+import ast
 import json
 from pathlib import Path
 import shutil
@@ -105,6 +106,40 @@ class ProgressJsonTests(unittest.TestCase):
         self.assertNotIn("path", encoded["missing"]["artifact"])
         self.assertIsNone(encoded["partial"]["artifacts"]["stdout"]["path"])
         self.assertIsNone(encoded["null"])
+
+    def test_actual_progress_boundary_preserves_mappingproxy_and_partial_records(self):
+        tree = ast.parse((HERE / 'a1-runner.py').read_text())
+        run = next(node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == 'run')
+        persist = next(node for node in run.body if isinstance(node, ast.FunctionDef) and node.name == 'persist_progress')
+        original_provenance = MappingProxyType({'source_id': 'source-a', 'proof_credit': False})
+        result = {'accepted': False, 'case_status': {'P1': {'status': 'INCONCLUSIVE',
+                   'provenance': original_provenance}},
+                  'target_observed_records': [MappingProxyType({'unit_id': 'unit-a', 'proof_credit': False})]}
+        observations = {'P1': {'adapter_error': 'native refusal', 'proof_credit': False},
+                        'N-binding': {'status': 'NOT_RUN', 'artifact': None},
+                        'partial': {'artifacts': {'stderr': {'path': None}}},
+                        'typed': PARSER.Text('retained')}
+        positive = {'admission_gate': object(), 'certificate': object(),
+                    'positive_cases': MappingProxyType({'P0a': {'status': 'PARTIAL'}})}
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / 'progress.json'
+            namespace = dict(result=result, observations=observations,
+                             execution_events=[{'event': 'adapter_error', 'error': 'retained'}],
+                             positive_progress=positive, progress_path=path,
+                             _jsonable=RUNNER._jsonable, json=json)
+            exec(compile(ast.Module(body=[persist], type_ignores=[]), str(HERE / 'a1-runner.py'), 'exec'), namespace)
+            namespace['persist_progress']()
+            emitted = json.loads(path.read_text())
+        self.assertIs(result['case_status']['P1']['provenance'], original_provenance)
+        self.assertIsInstance(result['target_observed_records'][0], MappingProxyType)
+        self.assertEqual(emitted['case_status']['P1']['provenance'], dict(original_provenance))
+        self.assertEqual(emitted['target_observed_records'], [{'unit_id': 'unit-a', 'proof_credit': False}])
+        self.assertEqual(emitted['observation_details']['typed'], {'kind': 'Text', 'value': 'retained'})
+        self.assertEqual(emitted['observation_details']['partial']['artifacts']['stderr'], {'path': None})
+        self.assertEqual(emitted['observation_details']['N-binding'], {'status': 'NOT_RUN', 'artifact': None})
+        self.assertEqual(emitted['observation_details']['P1']['adapter_error'], 'native refusal')
+        self.assertNotIn('admission_gate', emitted['positive_lifecycle_progress'])
+        self.assertFalse(emitted['accepted'])
 
     def test_unknown_objects_and_wrong_parser_shapes_still_fail(self):
         class Unknown:

@@ -1,9 +1,11 @@
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-@@ -13025,28 +13025,54 @@
+@@ -13025,28 +13025,83 @@
                    in
                    (canonicalize_item_name trait_fn_name, specializer)))
  
+-  let compute_trait_impl_prototypes (adt_defs : Mir.adt_def_tr list)
+-      traits_and_body_decls trait_impls =
 +  let rec a1_contains_self_type_expr (te : Ast.type_expr) =
 +    match te with
 +    | Ast.IdentTypeExpr (_, None, "Self") -> true
@@ -32,8 +34,37 @@
 +          "A1 impl signature has Self in an unsupported type expression" None
 +    | _ -> te
 +
-   let compute_trait_impl_prototypes (adt_defs : Mir.adt_def_tr list)
-       traits_and_body_decls trait_impls =
++  type a1_body_origin = {
++    compiler_def_path : string;
++    body_loc : Ast.loc;
++    debug_id : Ast.loc;
++    imp_span : Ast.loc;
++    fn_sig_span : Ast.loc;
++    is_from_expansion : bool;
++  }
++
++  let a1_regular_span_contains outer inner =
++    let position_le (line1, col1) (line2, col2) =
++      line1 < line2 || (line1 = line2 && col1 <= col2)
++    in
++    let regular_range = function
++      | Ast.Lexed ((start_file, start_line, start_col),
++                   (end_file, end_line, end_col))
++        when start_file <> "" && start_file = end_file &&
++             start_line > 0 && start_col > 0 && end_line > 0 && end_col > 0 &&
++             position_le (start_line, start_col) (end_line, end_col) ->
++          Some (start_file, (start_line, start_col), (end_line, end_col))
++      | _ -> None
++    in
++    match regular_range outer, regular_range inner with
++    | Some (outer_file, outer_start, outer_end),
++      Some (inner_file, inner_start, inner_end) ->
++        outer_file = inner_file && position_le outer_start inner_start &&
++        position_le inner_end outer_end
++    | _ -> false
++
++  let compute_trait_impl_prototypes body_origins
++      (adt_defs : Mir.adt_def_tr list) traits_and_body_decls trait_impls =
      trait_impls
      |> Util.flatmap (fun { loc = limpl; of_trait; self_ty; items } ->
 -           let items =
@@ -62,7 +93,7 @@
                      let trait_fn_name = Printf.sprintf "%s::%s" of_trait item in
                      let impl_fn_name =
                        Printf.sprintf "<%s as %s>::%s" self_ty of_trait item
-@@ -13069,18 +13095,121 @@
+@@ -13069,18 +13124,168 @@
                                   false,
                                   [] )
                               when name = trait_fn_name ->
@@ -72,16 +103,6 @@
 +                               let tparams, rt, ps =
 +                                 if is_a1_small_sort then begin
 +                                   let actual_name = TrName.translate_def_path item_def_id in
-+                                   let actual =
-+                                     traits_and_body_decls
-+                                     |> List.filter_map (function
-+                                          | Ast.Func
-+                                              (_, Regular, actual_tparams, actual_rt,
-+                                               actual_name', actual_ps, _, _, _, _, Some _, _, _)
-+                                            when actual_name' = actual_name ->
-+                                              Some (actual_tparams, actual_rt, actual_ps)
-+                                          | _ -> None)
-+                                   in
 +                                   let fail detail =
 +                                     Ast.static_error limpl
 +                                       ("A1 small_sort implementation signature " ^ detail)
@@ -117,12 +138,69 @@
 +                                       !count (List.length !rows)
 +                                       (String.concat "; " (List.rev !rows))
 +                                   in
++                                   let origin_candidates =
++                                     body_origins
++                                     |> List.filter (fun origin ->
++                                          origin.compiler_def_path = item_def_id &&
++                                          not origin.is_from_expansion &&
++                                          origin.body_loc = origin.debug_id &&
++                                          a1_regular_span_contains limpl origin.body_loc &&
++                                          a1_regular_span_contains limpl origin.imp_span &&
++                                          a1_regular_span_contains limpl origin.fn_sig_span)
++                                   in
++                                   let origin =
++                                     match origin_candidates with
++                                     | [origin] -> origin
++                                     | [] -> fail ("compiler body origin missing or outside impl; " ^ candidate_summary ())
++                                     | _ -> fail ("compiler body origin is not unique in impl; " ^ candidate_summary ())
++                                   in
++                                   let actual =
++                                     traits_and_body_decls
++                                     |> List.filter_map (function
++                                          | Ast.Func
++                                              (candidate_loc, Regular, actual_tparams, actual_rt,
++                                               actual_name', actual_ps, _, _, _, _, Some _, _, _)
++                                            when actual_name' = actual_name &&
++                                                 candidate_loc = origin.body_loc ->
++                                              Some (actual_tparams, actual_rt, actual_ps)
++                                          | _ -> None)
++                                   in
 +                                   let actual_tparams, actual_rt, actual_ps =
 +                                     match actual with
 +                                     | [signature] -> signature
-+                                     | [] -> fail ("compiler item body missing; " ^ candidate_summary ())
-+                                     | _ -> fail ("compiler item body is not unique; " ^ candidate_summary ())
++                                     | [] -> fail ("compiler item body missing at exact origin; " ^ candidate_summary ())
++                                     | _ -> fail ("compiler item body is not unique at exact origin; " ^ candidate_summary ())
 +                                   in
++                                   let cap_field value =
++                                     if String.length value <= 160 then value
++                                     else String.sub value 0 157 ^ "..." in
++                                   let location_summary = function
++                                     | Ast.Lexed ((start_file, start_line, start_col),
++                                                  (end_file, end_line, end_col)) ->
++                                         Printf.sprintf "%S:%d:%d-%d:%d"
++                                           (cap_field start_file) start_line start_col
++                                           end_line end_col
++                                     | _ -> "<non-regular>" in
++                                   let origin_path_candidates =
++                                     List.length (List.filter
++                                       (fun candidate ->
++                                         candidate.compiler_def_path = item_def_id)
++                                       body_origins) in
++                                   let same_name_body_candidates =
++                                     List.fold_left (fun count -> function
++                                       | Ast.Func (_, _, _, _, candidate_name, _, _, _, _, _,
++                                                   Some _, _, _)
++                                         when candidate_name = actual_name -> count + 1
++                                       | _ -> count) 0 traits_and_body_decls in
++                                   Printf.eprintf
++                                     "A1-NATIVE-ORIGIN-SELECTOR: selected compiler_path=%S body_span=%S implementation_span=%S trait_impl_span=%S body_kind=Some origin_path_candidates=%d origin_in_impl_candidates=%d same_name_body_candidates=%d\n%!"
++                                     (cap_field item_def_id)
++                                     (location_summary origin.body_loc)
++                                     (location_summary origin.imp_span)
++                                     (location_summary limpl)
++                                     origin_path_candidates
++                                     (List.length origin_candidates)
++                                     same_name_body_candidates;
 +                                   let actual_names = List.map fst actual_tparams in
 +                                   let common_names = List.map fst tparams in
 +                                   let impl_type_bound =
@@ -186,3 +264,30 @@
                                       Ast.Sep
                                         ( lf,
                                           MatchAsn
+@@ -18076,6 +18281,26 @@
+       let body_sig_opts, body_decls, debug_infos =
+         ListAux.split3 bodies_tr_res
+       in
++      let* body_origins =
++        ListAux.try_map (fun (body_cpn, debug_info) ->
++          let* body_loc = translate_span_data (BodyRd.span_get body_cpn) in
++          let* imp_span = translate_span_data (BodyRd.imp_span_get body_cpn) in
++          let* fn_sig_span = translate_span_data (BodyRd.fn_sig_span_get body_cpn) in
++          if body_loc <> debug_info.VF0.id then
++            failwith "A1 small_sort implementation signature Body/debug origin mismatch";
++          Ok {
++            compiler_def_path = BodyRd.def_path_get body_cpn;
++            body_loc;
++            debug_id = debug_info.VF0.id;
++            imp_span;
++            fn_sig_span;
++            is_from_expansion = BodyRd.is_from_expansion_get body_cpn;
++          })
++          (List.combine bodies_cpn debug_infos)
++      in
++      let compute_trait_impl_prototypes =
++        compute_trait_impl_prototypes body_origins
++      in
+       if Sort4SelectedBranch.enabled () then
+         Sort4SelectedBranch.check_call_graph ();
+       let body_sigs = List.filter_map Fun.id body_sig_opts in

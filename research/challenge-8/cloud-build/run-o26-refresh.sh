@@ -739,13 +739,22 @@ if [[ "$sort4_mode" == 1 ]]; then
 fi
 
 if [[ "${LANE:-}" == o26-sort4-c1-current-recovery ]]; then
+  sort4_status=0
   stage sort4-c1-current-recovery bash "$cloud_dir/run-sort4-c1-current-recovery.sh" \
     --production-source "$source_home" --production-applied-patch "$ev/refreshed-applied.patch" \
     --stock-home "$stock_home" --compiler-sysroot "$compiler_sysroot" \
     --evidence "$ev/cases/sort4-c1-current-recovery" --deadline-epoch "$deadline" \
-    --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir"
-  cp "$ev/cases/sort4-c1-current-recovery/diagnostic-audit.json" "$evidence_root/proof-audit.json"
-  exit 0
+    --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir" || sort4_status=$?
+  if [[ -f "$ev/cases/sort4-c1-current-recovery/diagnostic-audit.json" ]]; then
+    if ! cp "$ev/cases/sort4-c1-current-recovery/diagnostic-audit.json" "$evidence_root/proof-audit.json"; then
+      printf 'recovery diagnostic audit copy failed\n' >&2
+      if (( sort4_status == 0 )); then sort4_status=1; fi
+    fi
+  elif (( sort4_status == 0 )); then
+    printf 'recovery stage omitted diagnostic-audit.json\n' >&2
+    sort4_status=1
+  fi
+  exit "$sort4_status"
 fi
 
 if [[ "${LANE:-}" == o26-compatible-strict-cut-test ]]; then

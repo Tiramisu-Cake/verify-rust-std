@@ -410,9 +410,23 @@ def publish_positive_threshold_receipt(a, *, tool: Path, tool_receipt: Mapping[s
     It cannot run without the complete 26-case expected input manifest and
     two current focused execution attestations.
     """
+    _need(isinstance(certificate, Mapping) and
+          isinstance(certificate.get("cases"), Mapping),
+          "certified source case metadata required")
+    certified_cases = certificate["cases"]
+    if pair_source_case == "P0a":
+        _need(receipt_case == "P0c", "positive receipt requires its P0c caller")
+        impl_source_cases = {"default16": "P0a", "freeze32": "P0b"}
+    elif pair_source_case == "N-false31":
+        _need(receipt_case == "N-false31",
+              "own-false31 receipt requires its own caller")
+        impl_source_cases = {"default16": "N-false31", "freeze32": "N-false31"}
+    else:
+        _need(False, "unsupported positive-receipt certified input pairing")
+        raise AssertionError("unreachable")
     _need(set(positive) == {"P0a", "P0b"} and
-          pair_source_case in certificate["cases"] and
-          receipt_case in certificate["cases"] and
+          set(impl_source_cases.values()).issubset(certified_cases) and
+          receipt_case in certified_cases and
           set(expected_cases) == set(CASE_ORDER),
           "both current impl runs and complete expected source IDs required")
     admission = helpers["a1-contract-admission.py"]
@@ -445,13 +459,25 @@ def publish_positive_threshold_receipt(a, *, tool: Path, tool_receipt: Mapping[s
             "proof_id": os.environ["PROOF_SHA"],
             "infra_id": os.environ["INFRA_SHA"],
             "target_id": receipts.TARGET}
+    impl_inputs = {}
+    for impl, case_id in impl_source_cases.items():
+        certified = certified_cases.get(case_id)
+        raw = positive["P0a" if impl == "default16" else "P0b"].get("raw")
+        _need(isinstance(certified, Mapping) and
+              isinstance(certified.get("source_id"), str) and
+              bool(certified["source_id"]) and
+              isinstance(certified.get("unit_id"), str) and
+              bool(certified["unit_id"]) and
+              isinstance(raw, Mapping) and
+              raw.get("source_id") == certified["source_id"] and
+              raw.get("unit_id") == certified["unit_id"],
+              f"{impl} raw source/unit identity does not match certified {case_id}")
+        impl_inputs[impl] = {"source_id": certified["source_id"],
+                             "unit_id": certified["unit_id"]}
     gate = admission.A1Admission(
         expected_inventory=expected_inventory,
         expected_run_pins=pins,
-        expected_impl_inputs={
-            impl: {"source_id": certificate["cases"][pair_source_case]["source_id"],
-                   "unit_id": certificate["cases"][pair_source_case]["unit_id"]}
-            for impl in ("default16", "freeze32")},
+        expected_impl_inputs=impl_inputs,
         expected_cases=expected_cases)
     source_pair_id = receipts.source_pair_id(hashes)
     inventory_rows = [{"impl": impl, **row}
@@ -477,8 +503,8 @@ def publish_positive_threshold_receipt(a, *, tool: Path, tool_receipt: Mapping[s
         record = {**pins, "build_id": raw["build_id"],
                   "record_kind": "runner_attestation", "proof_credit": False,
                   "impl": impl, "inventory": inventory_rows,
-                  "source_id": certificate["cases"][pair_source_case]["source_id"],
-                  "unit_id": certificate["cases"][pair_source_case]["unit_id"],
+                  "source_id": impl_inputs[impl]["source_id"],
+                  "unit_id": impl_inputs[impl]["unit_id"],
                   "source_pair_id": source_pair_id,
                   "proof_kind": "actual_body", "skipped": False,
                   "focus_mode": "actual-body-and-conformance",
@@ -2036,7 +2062,7 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
     progress_path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
 
     def persist_progress():
-        snapshot = deepcopy(result)
+        snapshot = _jsonable(result)
         snapshot["observation_details"] = _jsonable(observations)
         snapshot["execution_events"] = _jsonable(execution_events)
         snapshot["positive_lifecycle_progress"] = {
