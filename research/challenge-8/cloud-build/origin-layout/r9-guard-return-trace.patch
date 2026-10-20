@@ -1,8 +1,8 @@
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index 9813a884..1f119987 100644
+index 9813a884..82ebce92 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-@@ -1967,6 +1967,17 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -1967,18 +1967,37 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      late_recover_stmt : Ast.stmt;
    }
  
@@ -20,7 +20,16 @@ index 9813a884..1f119987 100644
    let fresh_first_callback_stmt = function
      | Ast.PureStmt (loc, Ast.BlockStmt (block_loc, decls, stmts, close_loc, _)) ->
          Ast.PureStmt (loc,
-@@ -1979,6 +1990,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+           Ast.BlockStmt (block_loc, decls, stmts, close_loc, ref []))
+     | _ -> invalid_arg "First callback command block has the wrong AST shape"
+ 
++  (* Shared by body-level admission and terminator translation. *)
++  let translate_basic_block_id (bblock_id_cpn : BasicBlockIdRd.t) =
++    Stdint.Uint32.to_string (BasicBlockIdRd.index_get bblock_id_cpn)
++
+   module TranslatorArgs = Args
+ 
+   module TrBody (Args : sig
      val var_id_trs_map_ref : var_id_trs_map ref
      val ghost_stmts : Ast.stmt list
      val body_imp_loc : Ast.loc
@@ -31,7 +40,7 @@ index 9813a884..1f119987 100644
      val body_tr_defs_ctx : body_tr_defs_ctx
      val is_generated_glue : bool
      val strict_lft_scope_ends : (Ast.loc * string) list
-@@ -1987,6 +2002,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -1987,6 +2006,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      val callback_scope_start : Ast.loc option
      val first_callback : first_callback_plan option
      val late_callback : late_callback_plan option
@@ -39,7 +48,7 @@ index 9813a884..1f119987 100644
    end) =
    struct
      type hrtb_callback_referent = HrtbParam of string | HrtbU64
-@@ -2002,6 +2018,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2002,6 +2022,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let callback_scope_start = Args.callback_scope_start
        let first_callback = Args.first_callback
        let late_callback = Args.late_callback
@@ -48,7 +57,7 @@ index 9813a884..1f119987 100644
        let first_callback_used = ref false
        let first_callback_call_loc = ref None
        let first_callback_normal_target = ref None
-@@ -2016,6 +2034,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2016,6 +2038,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let callback_unwind_label = "#merge_callback_unwind_epilogue"
        let selected_resume_targets : string list ref = ref []
        let translating_selected_resume = ref false
@@ -57,7 +66,17 @@ index 9813a884..1f119987 100644
        let generated_glue = Args.body_tr_defs_ctx.generated_glue
        let is_generated_glue = Args.is_generated_glue
        let hrtb_fnmut_output_bounds :
-@@ -3372,6 +3392,25 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2896,9 +2920,6 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       | _ ->
+           Error (`TrFnCallRExpr "Invalid function definition type translation")
+ 
+-    let translate_basic_block_id (bblock_id_cpn : BasicBlockIdRd.t) =
+-      Stdint.Uint32.to_string (BasicBlockIdRd.index_get bblock_id_cpn)
+-
+     let translate_unwind_action (unwind_action_cpn : UnwindActionRd.t)
+         (loc : Ast.loc) =
+       let open UnwindActionRd in
+@@ -3372,6 +3393,25 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                  ref [] ),
              targets )
  
@@ -83,7 +102,7 @@ index 9813a884..1f119987 100644
      let translate_terminator_kind (ret_place_id : string)
          (tkind_cpn : TerminatorKindRd.t) (loc : Ast.loc) =
        let open TerminatorKindRd in
-@@ -3394,7 +3433,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3394,7 +3434,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              else
                Ast.CallExpr (loc, "returning", [], [], [ LitPat result ], Static)
            in
@@ -93,7 +112,7 @@ index 9813a884..1f119987 100644
        | Unreachable ->
            Rocq_writer.rocq_print_ident TranslatorArgs.rocq_writer "Unreachable";
            Ok ([ Ast.Assert (loc, False loc) ], EncodedTerminator, [])
-@@ -3463,9 +3503,51 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3463,9 +3504,51 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                | Some key -> key | None -> selected_path in
              let selected_call = Ast.CallExpr (loc, call_name, [Ast.InferredTypeExpr loc], [],
                [Ast.LitPat receiver], Ast.Static) in
@@ -147,7 +166,7 @@ index 9813a884..1f119987 100644
              Ok ([ghost "close_points_to" [address];
                   Ast.DeclStmt (loc, [(loc, Some (Ast.PtrTypeExpr (loc,
                     Ast.StructTypeExpr (loc, Some guard_path, None, [], []))),
-@@ -3546,7 +3628,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3546,7 +3629,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
               direct qualified Drop cleanup uses the existing synthetic location. *)
            let stmt_loc = if !State.translating_selected_resume then Ast.DummyLoc else loc in
            Ok
@@ -156,7 +175,7 @@ index 9813a884..1f119987 100644
                  Ast.ReturnStmt
                    ( stmt_loc,
                      Some (Ast.CallExpr (loc, "unwinding", [], [], [], Static))
-@@ -4249,8 +4331,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4249,8 +4332,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          let* terminator_stmts, terminator, successors =
            Rocq_writer.rocq_print_big_record_field TranslatorArgs.rocq_writer "terminator" @@ fun () ->
              State.translating_selected_resume := List.mem id !State.selected_resume_targets;
@@ -169,7 +188,7 @@ index 9813a884..1f119987 100644
              result
          in
          let bblock : Mir.basic_block =
-@@ -5695,6 +5781,94 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5695,6 +5782,94 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        | _ -> None
      in
      let marked name = List.filter_map (block_marker name) ghost_stmts in
@@ -264,7 +283,7 @@ index 9813a884..1f119987 100644
      let scope_markers =
        List.filter_map (fun stmt ->
          match marker_stmt "callback_scope_end" stmt with
-@@ -6321,6 +6495,33 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6321,6 +6496,33 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        Ast.static_error fn_sig_loc
          "Late callback recovery requires the existing first callback protocol alone"
          None;
@@ -298,7 +317,7 @@ index 9813a884..1f119987 100644
      let late_strict_scope_ends =
        match late_callback with
        | Some plan -> [(plan.late_scope_end_loc, plan.late_lft)]
-@@ -6357,7 +6558,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6357,7 +6559,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      let ghost_stmts =
        let mapped = List.filter_map (fun stmt ->
          let l = Ast.stmt_loc stmt in
@@ -310,7 +329,7 @@ index 9813a884..1f119987 100644
              | Some plan -> l = plan.first_close_loc ||
                  block_marker "first_callback_recover" stmt <> None
              | None -> false) then Some (Ast.NoopStmt l)
-@@ -6481,6 +6685,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6481,6 +6686,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let var_id_trs_map_ref = var_id_trs_map_ref
        let ghost_stmts = ghost_stmts
        let body_imp_loc = imp_loc
@@ -321,7 +340,7 @@ index 9813a884..1f119987 100644
        let body_tr_defs_ctx = body_tr_defs_ctx
        let is_generated_glue = is_generated_glue
        let strict_lft_scope_ends = strict_lft_scope_ends
-@@ -6489,6 +6697,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6489,6 +6698,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let callback_scope_start = callback_scope_start
        let first_callback = first_callback
        let late_callback = late_callback
@@ -329,7 +348,7 @@ index 9813a884..1f119987 100644
      end) in
      let vdis_cpn = var_debug_info_get_list body_cpn in
      (* Since var id translation map is empty var debug info contains the plain Mir ids *)
-@@ -7510,6 +7719,15 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7510,6 +7720,15 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                         "Post-retirement generated Drop control found multiple qualified Drops" None)
                | _ -> vf_bblocks
              in

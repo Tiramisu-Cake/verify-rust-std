@@ -85,3 +85,10 @@ Candidate2 diagnostics also format existing predicate-constructor terms
 (own/foreach/type interpretation) rather than ignoring unknown predicate-family
 symbols. Bound48 chunks per event, shown/total explicit; input heap/env unchanged.
 This distinguishes physical fullarray from logical CURRENT owner reconstruction.
+
+Candidate3 compile-gate correction: Build2 tool899c9d7e could not compile because
+newbody-level admission called a helper defined insideTrBody. Share the identical
+BasicBlockIdReader.index->Uint32.to_string function at outerMake scope so original
+terminator and newadmission callers use sameimplementation. No resource/branch/
+model/controlchange. Independent localizedreview and exactpatch/profile closure
+then fullCloudgate again; no localactualcompiler.

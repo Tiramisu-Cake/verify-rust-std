@@ -36,7 +36,10 @@ physical `*p |-> value` chunks and provides checked `array_join`. Its join
 lemma combines adjacent ranges only when their coefficients agree. For either
 destination arm, the checked work is therefore:
 
-1. Open the normal Drop effect and bind its destination/current value. Prove
+1. Bind the already returned destination singleton/current value. Build1 shows
+   the effect representation already expanded, so do not open an absent folded
+   `CopyOnDrop_drop_effect`. If another exact edge retains a folded effect, its
+   checked open is a separate representation step. Prove
    the actual equality `dst == begin` or `dst == begin + 1` from the current
    MIR locals/guard fields. Keep the original `tail == begin + 2` fact separate.
 2. For each of the other two addresses, bind the value from its extant full

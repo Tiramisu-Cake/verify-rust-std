@@ -69,12 +69,13 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 ## Отчёт агента
 
 R9 ACTIVE. T0/main/absolute UTC2026-10-20 19:30:15/21:30:15/22:00:15.
-Fresh3600, used589execution588, remaining3011; R8closed/no carry.
-До: rootfree missinghalf, branchunknown. После Build1: exactnative cleanupDrop
-returningbb143→144Resume→free; tokenquarter+sourcequarter+originquarter remain.
-Proof всёещё rootfree missinghalf; fullCURRENTpostsOPEN, independentcredit0.
-Freshness2positive+6intendednegative source-classified, qualificationOPEN.
-Build1 0f7534de FAILURE589, exact1744fe39/ec985dea; setup/diagnostic work отдельно.
-Candidate2 checkedreturninghook разрабатывается; ownactive/unresolved0.
-[Результат](cloud-build/origin-layout/R9-BUILD1-RESULT-20261020.json),
-[сессия](cloud-build/origin-layout/R9-SESSION-20261020.md).
+Fresh3600, used984/982execution, remaining2616; R8closed/no carry.
+Build1 0f7534de FAILURE589: exactcleanupDrop returning143→144Resume→free,
+token/source/originquarters remain; rootfree missinghalf. Freshness2positive+6
+intendednegative sourceclassified, qualificationOPEN/credit0. Build2 c8b135e3
+FAILURE395, compiler unboundhelper5828, proof_attemptedfalse: no recoveryresult.
+Candidate3 toole035d339/profile4802cd76 movesidenticalblockIDhelper tosharedscope;
+LunaHIGHGO, source19patch/17pins/18basePASS. Nextfull1200/1260 fits2616.
+WholeCURRENTnormal/unwind/Continue/prefix/B2OPEN. Ownactive/unresolved0.
+[Сессия](cloud-build/origin-layout/R9-SESSION-20261020.md),
+[обязательства](cloud-build/origin-layout/R9-OBLIGATIONS-20261020.md).

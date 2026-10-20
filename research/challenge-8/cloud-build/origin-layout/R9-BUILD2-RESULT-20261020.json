@@ -1,0 +1,32 @@
+{
+  "schema": "merge-r9-build-result-v1",
+  "build_id": "c8b135e3-69b4-45bc-8b41-de7db56c607e",
+  "candidate": 2,
+  "type": "CHECKED_GUARD_RETURN_AND_CONTROLS",
+  "status": "FAILURE",
+  "source_sha": "6e5c56afc974e7b18d352797c5ae226ae484f3c1",
+  "tool_sha": "899c9d7e4ef8370e53926ee6813baa97bb71d701",
+  "profile_sha256": "8685a04dfdc2afba86994580ec55cf872da09b311534ff2d1fea22f35debc1a7",
+  "charged_seconds": 395,
+  "execution_seconds": 394,
+  "total_charged_seconds": 984,
+  "remaining_seconds": 2616,
+  "proof_attempted": false,
+  "compiler": "FAIL_OR_INCOMPLETE",
+  "observed_compiler_error": "Unbound value translate_basic_block_id at translator5828",
+  "archive_sha256": "216032df694866d662717b844ffb217ffa0ab22350facbc095b0ff1e17076d00",
+  "index_sha256": "59f301998a1ae693add3da5e356dcb6d31a33c372b70635c762ad0272410bbd9",
+  "file_id": "cc341914290c0f0e0581a43f0d5f3d36bf0dc12f46afcce4bb40c21fad809ae3",
+  "file_sha256": "bdc0b8b398a85a5c38c332abd042b880e578fac2fcfddbd0aef05cfdceee4b04",
+  "reader_requests": {
+    "info": "297772c833efd9fee9f9c3a4bec6dae7e36b8bef735199b041bb801df13c8fa3",
+    "lines1_4": "ff40daa002c4ce485e3cd5df831481b7751244e0887c0de3bec4d5737501a36f"
+  },
+  "coverage": "exact complete compiler fragment1..4, not full evidence causal ordering",
+  "actual_recovery": "NOT_ESTABLISHED_COMPILE_GATE",
+  "controls": "NOT_ESTABLISHED_COMPILE_GATE",
+  "next_fix": "move unchanged basic block ID helper from innerTrBody tosharedouterMake scope",
+  "proof_credit": 0,
+  "qualification": "OPEN",
+  "accepted": false
+}

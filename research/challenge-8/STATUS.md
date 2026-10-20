@@ -1,14 +1,14 @@
-# MERGE — R9 ACTIVE / checked guard return candidate2
+# MERGE — R9 ACTIVE / checked guard return compile fix
 
 T0/main/absolute UTC2026-10-20 19:30:15/21:30:15/22:00:15; fresh3600,
-used589/588execution, remaining3011; ownactive/unresolved0. R8closed/no carry.
-Build1 0f7534de FAILURE exact1744fe39/toolec985dea: native cleanupDrop returning
-bb143→144Resume→rootfree missinghalf. Originaltokenquarter + sourcequarterarray
-+originquarter observed. Freshness2positive+6intendednegative classified; profile
-qualificationOPEN/acceptedfalse/credit0. Checked returninghook candidate2 inwork;
-R8allocationpremise unchanged. FullCURRENTnormal/unwind/prefix/B2OPEN.
+used984/982execution, remaining2616, ownactive/unresolved0. R8closed/no carry.
+Build1 exactnativecleanupDrop returning143→144Resume→free missinghalf, 589charge;
+Build2 compilefailureunboundhelper5828,395charge, proof_attemptedfalse. Candidate3
+toole035d339/profile4802cd76 reviewedlocalizedscopefix, staticclosurePASS.
+FullCURRENTnormal/unwind/Continue/prefix/B2OPEN. FreshnessBuild1 all8classified;
+qualificationOPEN/acceptedfalse/credit0.
 [Task](CURRENT-TASK.md), [session](cloud-build/origin-layout/R9-SESSION-20261020.md),
-[Build1](cloud-build/origin-layout/R9-BUILD1-RESULT-20261020.json).
+[obligations](cloud-build/origin-layout/R9-OBLIGATIONS-20261020.md).
 
 Ниже исторические checkpoints; приоритет у текущего R9 задания.
 
