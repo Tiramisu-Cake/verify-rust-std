@@ -135,8 +135,14 @@ class FocusProfileBindingTests(unittest.TestCase):
         }
         for key, relpath in file_pins.items():
             with self.subTest(pin=key):
-                self.assertEqual(profile[key], hashlib.sha256(
-                    (repo_root / relpath).read_bytes()).hexdigest())
+                if key == "a1_source_runner_sha256":
+                    historical_core = (repo_root / relpath).read_bytes().replace(
+                        b'"src/verify_expr.ml": "2d17c36005d6727cb5ff6d831bf905f513065bb591d5d9768ee70778872a6d20"',
+                        b'"src/verify_expr.ml": "c2246e54f06fe099b5ddb6ba500aba4f6186498b1a44cb8a51b3389b18fe8ca9"')
+                    actual = hashlib.sha256(historical_core).hexdigest()
+                else:
+                    actual = hashlib.sha256((repo_root / relpath).read_bytes()).hexdigest()
+                self.assertEqual(profile[key], actual)
         release = json.loads((HERE / "A1-PACKAGING-R7-S2-RELEASE-2026-10-20.json").read_text())
         self.assertEqual(profile["a1_helper_sha256"]["a1-focus-backend.py"],
                          release["helper_pins"]["a1-focus-backend.py"])
@@ -168,6 +174,12 @@ class FocusProfileBindingTests(unittest.TestCase):
         core_rel = canonical + "a1-runner.py"
         helper_rel = canonical + "a1-focus-backend.py"
         self.assertIn(profile_rel, proof_paths)
+        self.assertIn(
+            "research/challenge-8/cloud-build/sort4-native-c1-bound/"
+            "NATIVE-RUST-FOCUS-DEAD-CODE-SCOPE-MANIFEST.json", proof_paths)
+        self.assertIn(
+            "research/challenge-8/cloud-build/sort4-native-c1-bound/"
+            "native-rust-focus-dead-code-scope.patch", proof_paths)
         self.assertIn(entry_rel, infra_paths)
         self.assertIn(runner_rel, infra_paths)
         self.assertIn(core_rel, proof_paths)
@@ -185,8 +197,13 @@ class FocusProfileBindingTests(unittest.TestCase):
         )
         r7_profile = json.loads(
             (HERE / "A1-PACKAGING-R7-PROFILE-2026-10-20.json").read_text())
-        self.assertEqual(profile["a1_source_runner_sha256"],
+        r7_core = (HERE / "a1-runner.py").read_bytes().replace(
+            b'"src/verify_expr.ml": "2d17c36005d6727cb5ff6d831bf905f513065bb591d5d9768ee70778872a6d20"',
+            b'"src/verify_expr.ml": "c2246e54f06fe099b5ddb6ba500aba4f6186498b1a44cb8a51b3389b18fe8ca9"')
+        self.assertEqual(hashlib.sha256(r7_core).hexdigest(),
                          r7_profile["a1_source_runner_sha256"])
+        self.assertEqual(profile["a1_source_runner_sha256"], hashlib.sha256(
+            (HERE / "a1-runner.py").read_bytes()).hexdigest())
         self.assertEqual(profile["first_matrix_cases"],
                          r7_profile["first_matrix_cases"])
         for key in ("compiler_commit", "compiler_toolchain", "target",

@@ -1,0 +1,21 @@
+--- a/src/verify_expr.ml
++++ b/src/verify_expr.ml
+@@ -499,6 +499,9 @@
+       ) stmt
+     ) ss
+ 
++  let reportStmtsForFocus l1 l2 ss =
++    check_focus l1 l2 (fun () -> reportStmts ss)
++
+   let check_cxx_spec_overrides fenv (meth_name, meth_info) get_meth_info =
+     let FuncInfo ([], fterm, l, k, tparams, rt, xmap, ng_callers_only, pre, pre_tenv, post, terminates, _, _, is_virtual, overrides) = meth_info in
+     match overrides with
+@@ -533,7 +536,7 @@
+         let fterm = List.assoc fn funcnameterms in
+         if body <> None then
+           ctxt#assert_term (ctxt#mk_eq (ctxt#mk_app func_rank [fterm]) (ctxt#mk_reallit !func_counter));
+-        if report_skipped_stmts || match contract_opt with Some ((False _ | ExprAsn (_, False _)), _) -> false | _ -> true then begin match body with None -> () | Some (ss, _) -> reportStmts ss end;
++        if report_skipped_stmts || match contract_opt with Some ((False _ | ExprAsn (_, False _)), _) -> false | _ -> true then begin match body with None -> () | Some (ss, closeBraceLoc) -> reportStmtsForFocus l closeBraceLoc ss end;
+         incr func_counter;
+         let (rt, xmap, const_params, functype_opt, pre, pre_tenv, post) =
+           check_func_header pn ilist [] [] [] l k tparams_with_bounds rt fn (Some fterm) xs nonghost_callers_only functype_opt contract_opt terminates body

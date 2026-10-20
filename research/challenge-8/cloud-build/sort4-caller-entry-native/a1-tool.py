@@ -26,6 +26,9 @@ KERNEL = "src/verifast.ml"
 R_PATCH = HERE / "required-item-representation-hir-partition-r2-2026-10-20.patch"
 C_PATCH = HERE / "checked-threshold-contract.patch"
 SELECTED = "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64"
+FOCUS_SCOPE_MANIFEST = C1 / "NATIVE-RUST-FOCUS-DEAD-CODE-SCOPE-MANIFEST.json"
+FOCUS_SCOPE_PATCH = C1 / "native-rust-focus-dead-code-scope.patch"
+FOCUS_SCOPE_FILE = "src/verify_expr.ml"
 
 
 def need(ok: bool, reason: str) -> None:
@@ -44,6 +47,116 @@ def pinned(path: Path, digest: str, label: str) -> None:
 def save(path: Path, value: object) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
+
+
+def classify_focus_dead_code_stage(stage: object, expected: str,
+                                   log_bytes: bytes | None) -> dict:
+    """Classify only the intended dead-code control, preserving incomplete stages."""
+    if not isinstance(stage, dict):
+        return {"classification": "INCONCLUSIVE_MALFORMED_STAGE", "proof_credit": False}
+    if stage.get("classification") != "TERMINAL":
+        return {"classification": str(stage.get("classification", "NOT_RUN")),
+                "proof_credit": False}
+    code = stage.get("exit")
+    if not isinstance(code, int) or isinstance(code, bool):
+        return {"classification": "INCONCLUSIVE_MISSING_EXIT", "proof_credit": False}
+    digest = stage.get("log_sha256")
+    if (not isinstance(digest, str) or len(digest) != 64 or
+            any(char not in "0123456789abcdef" for char in digest) or
+            log_bytes is None):
+        return {"classification": "INCONCLUSIVE_MISSING_LOG", "proof_credit": False}
+    if hashlib.sha256(log_bytes).hexdigest() != digest:
+        return {"classification": "INCONCLUSIVE_LOG_IDENTITY_MISMATCH",
+                "proof_credit": False}
+    log_text = log_bytes.decode("utf-8", errors="replace")
+    all_dead_code = [line for line in log_text.splitlines()
+                     if line.endswith(": dead code")]
+    diagnostics = [line for line in all_dead_code if expected in line]
+    if code == 1 and diagnostics:
+        return {"classification": "EXPECTED_DEAD_CODE_REJECTION",
+                "dead_code_diagnostics": diagnostics,
+                "all_dead_code_diagnostics": all_dead_code,
+                "proof_credit": False}
+    if code == 0 and not all_dead_code:
+        return {"classification": "PASS_NO_IN_SCOPE_DEAD_CODE",
+                "dead_code_diagnostics": [],
+                "all_dead_code_diagnostics": [], "proof_credit": False}
+    return {"classification": "INCONCLUSIVE_WRONG_PREDICATE_OR_EXIT",
+            "dead_code_diagnostics": diagnostics,
+            "all_dead_code_diagnostics": all_dead_code,
+            "proof_credit": False}
+
+
+def run_focus_dead_code_scope_regression(a, c4, tool: Path, profile: dict,
+                                        evidence: Path) -> dict:
+    """Run tiny C frontend controls before the P0a target stage."""
+    work = Path(a.work_root) / "a1-focus-dead-code-scope-regression"
+    need(not work.exists(), "focus dead-code regression work path already exists")
+    work.mkdir(parents=True)
+    source = work / "focus-dead-code.c"
+    source.write_text("""int dead_body(void)
+    //@ requires true;
+    //@ ensures result == 0;
+{
+    int x = 0;
+    return 0;
+    x = 1;
+}
+
+int clean_body(void)
+    //@ requires true;
+    //@ ensures result == 0;
+{
+    return 0;
+}
+""")
+    lines = source.read_text().splitlines()
+    dead_focus = next(i for i, line in enumerate(lines, 1)
+                      if line.startswith("int dead_body"))
+    clean_focus = next(i for i, line in enumerate(lines, 1)
+                       if line.startswith("int clean_body"))
+    dead_statement_line = next(i for i, line in enumerate(lines, 1)
+                               if line.strip() == "x = 1;")
+    expected_dead = f"{source.name}({dead_statement_line},"
+    env = c4.clean_env(a, tool)
+    console = tool / "bin/verifast"
+    controls = (
+        ("selected-dead-code-negative", [str(console), "-focus",
+         f"{source}:{dead_focus}", str(source)], "EXPECTED_DEAD_CODE_REJECTION"),
+        ("excluded-function-positive", [str(console), "-focus",
+         f"{source}:{clean_focus}", str(source)], "PASS_NO_IN_SCOPE_DEAD_CODE"),
+        ("no-focus-dead-code-negative", [str(console), str(source)],
+         "EXPECTED_DEAD_CODE_REJECTION"),
+    )
+    results = {}
+    stage_root = evidence / "focus-dead-code-scope-regression"
+    for name, argv, want in controls:
+        row = c4.stage(a, stage_root, name, argv, env, 45, cwd=work)
+        log_path = stage_root / f"{name}.log"
+        log_bytes = log_path.read_bytes() if log_path.is_file() else None
+        result = classify_focus_dead_code_stage(row, expected_dead, log_bytes)
+        result.update({"argv": argv, "expected_classification": want,
+                       "exit": row.get("exit") if isinstance(row, dict) else None,
+                       "stage_classification": row.get("classification")
+                       if isinstance(row, dict) else None,
+                       "log_sha256": row.get("log_sha256")
+                       if isinstance(row, dict) else None})
+        results[name] = result
+    receipt = {"classification": "FOCUS_DEAD_CODE_SCOPE_REGRESSION",
+               "controls": results,
+               "expected_dead_code_location_prefix": expected_dead,
+               "expected_dead_code_line": dead_statement_line,
+               "profile_accepted": False,
+               "profile_sha256": sha(Path(a.proof_root) / HERE /
+                                      "A1-POST-MIGRATION-R8-PROFILE-2026-10-20.json"),
+               "source_sha256": sha(source),
+               "tool_binary_sha256": sha(console),
+               "proof_credit": False}
+    save(evidence / "focus-dead-code-scope-regression-receipt.json", receipt)
+    need(all(results[name]["classification"] == want
+             for name, _, want in controls),
+         "focus dead-code registration regression controls")
+    return receipt
 
 
 def cloud_gate(a, profile: dict, manifest: dict) -> None:
@@ -181,6 +294,27 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
     need(pre_slice["critical"][TR] == manifest["c4_base_translator_sha256"],
          "pre-slice translator")
 
+    focus_scope_path = root / FOCUS_SCOPE_MANIFEST
+    pinned(focus_scope_path, profile["focus_dead_code_scope_manifest_sha256"],
+           "Rust focus dead-code scope manifest")
+    focus_scope = json.loads(focus_scope_path.read_text())
+    need(focus_scope["tool_head"] == manifest["tool_head"] and
+         focus_scope["kernel_sha256"] == manifest["kernel_sha256"] and
+         focus_scope["profile_accepted"] is False and
+         focus_scope["mode"] == "RUST_FUNCTION_FOCUS_SCOPED_DEAD_CODE_REGISTRATION" and
+         focus_scope["patch_sha256"] == profile["focus_dead_code_scope_patch_sha256"] and
+         focus_scope["files"][FOCUS_SCOPE_FILE]["result_sha256"] ==
+         profile["focus_dead_code_scope_result_sha256"] and
+         profile["a1_focus_semantics_sha256"][FOCUS_SCOPE_FILE] ==
+         profile["focus_dead_code_scope_result_sha256"],
+         "R8 Rust focus dead-code scope profile identity")
+    apply("a1-rust-focus-dead-code-scope", FOCUS_SCOPE_PATCH,
+          focus_scope["patch_sha256"], {FOCUS_SCOPE_FILE},
+          before={FOCUS_SCOPE_FILE:
+                  focus_scope["files"][FOCUS_SCOPE_FILE]["base_sha256"]},
+          after={FOCUS_SCOPE_FILE:
+                 focus_scope["files"][FOCUS_SCOPE_FILE]["result_sha256"]})
+
     threshold_path = root / HERE / "STABLE-THRESHOLD-BINDING-PINS.json"
     selected_path = root / HERE / "SELECTED-BRANCH-BINDING-PINS.json"
     pinned(threshold_path, profile["stable_threshold_pins_sha256"],
@@ -243,23 +377,33 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
         "exporter_source_sha256": r_after[EXPORTER],
         "exporter_binary_sha256": sha(tool / "bin/vf-rust-mir-exporter"),
         "r_patch_sha256": profile["r_patch_sha256"],
+        "focus_dead_code_scope_patch_sha256":
+            profile["focus_dead_code_scope_patch_sha256"],
+        "focus_dead_code_scope_source_sha256": sha(tool / FOCUS_SCOPE_FILE),
         "c_patch_applied": False,
         "build_id": os.environ["CLOUD_BUILD_ID"],
         "build_exit": reference_build["exit"], "proof_credit": False}
     save(evidence / "R-only-native-reference-receipt.json", native_reference)
     apply("a1-checked-threshold-C", C_PATCH, profile["c_patch_sha256"],
           {TR}, before={TR: c_before[TR]}, after={TR: c_after[TR]})
+
     before_build = audit.snapshot(tool, root)
+    focus_path = FOCUS_SCOPE_FILE
+    focus_result = profile["focus_dead_code_scope_result_sha256"]
     need(before_build["critical"][KERNEL] == manifest["kernel_sha256"] and
+         sha(tool / focus_path) == focus_result and
          all(before_build["critical"][key] == value for key, value in
-             expected["critical"].items() if key not in (TR, SCHEMA)) and
+             expected["critical"].items()
+             if key not in (TR, SCHEMA, focus_path)) and
          before_build["effective_rsspec"] == expected["effective_rsspec"] and
          before_build["proof_std"] == expected["proof_std"] and
          before_build["head"] == expected["head"] and
          set(before_build["modified_names"]) - set(expected["modified_names"]) <=
-             {TR, SCHEMA, EXPORTER} and
+             {TR, SCHEMA, EXPORTER, focus_path} and
          all(before_build["modified_hashes"][key] == value for key, value in
-             expected["modified_hashes"].items() if key not in (TR, SCHEMA, EXPORTER)),
+             expected["modified_hashes"].items()
+             if key not in (TR, SCHEMA, EXPORTER, focus_path)) and
+         before_build["modified_hashes"].get(focus_path) == focus_result,
          "R/C changed only certified source components")
     save(evidence / "patch-chain.json", chain)
     save(evidence / "pre-build-source-snapshot.json", before_build)
@@ -285,6 +429,8 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
              ("bin/verifast", "bin/vf-rust-mir-exporter")) and
          audit.snapshot(a.production_source, root) == production,
          "final source/binary freeze or production preservation")
+    focus_regression = run_focus_dead_code_scope_regression(
+        a, c4, tool, profile, evidence)
     receipt = {"classification": "A1_TOOL_BUILT_UNRUN_PROOF",
                "phase_id": PHASE, "tool_head": final["head"],
                "selected_base_translator_sha256": SELECTED,
@@ -295,6 +441,8 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
                "final_schema_sha256": final["critical"][SCHEMA],
                "final_exporter_sha256": sha(tool / EXPORTER),
                "final_kernel_sha256": final["critical"][KERNEL],
+               "rust_focus_dead_code_scope_sha256": focus_result,
+               "focus_dead_code_scope_regression": focus_regression,
                "exporter_binary_sha256": final["binaries"]["bin/vf-rust-mir-exporter"],
                "console_binary_sha256": final["binaries"]["bin/verifast"],
                "build_exit": build["exit"], "native_reference": native_reference,
