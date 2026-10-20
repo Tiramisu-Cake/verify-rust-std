@@ -1,0 +1,13 @@
+# R8 S3 bounded evidence coverage — 2026-10-20
+
+Build `6f352daa-5d92-4f3b-be15-6395ae48aa2c` ended `FAILURE` after 786 s. The Evidence Brief reported `VERIFIED_ARCHIVE_AND_INVENTORY`; this establishes archive/inventory integrity only. Source proof verdict is `NOT_ACCEPTED_AS_REPORTED`; source `matrix_complete`, `dispatch_ready`, `accepted`, and `diagnostic_complete` are all false. Independent proof credit remains 0.
+
+Proof-audit member `cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96` has SHA-256 `78d31f24449c4a70ea43cdf9b1d6f2e752b9a093e21392624bcaf01735a8178c` (2,603,702 bytes, one source line, 31 root children). Targeted Brief `--info` request `27b0e59f11c028c1390ba3ae938c21364b5cc9cdfd9c5ca3043c838c3a7afe04` verified the exact file identity. Archive/index SHA-256: `31100f095282463e434891b75a38a636f379646eb2e5e79b40adfaf3da87c069` / `c9c1446a31589b6efe6fb815bc3fb4a0bded8fd671b0e2537ad15815a42c94e1`. Named bounded JSON pointers were used; no inability to inspect the audit is inferred from projection limits.
+
+All 26 `/case_status/NAME` selectors were queried manually; each response was exact, complete, and had no continuation. Counts: 12 `INTENDED_CLASSIFIED`, 2 `INCONCLUSIVE`, 12 `NOT_RUN`. Every row records `proof_credit=false`; the full row values, per-pointer request IDs, reasons, outcomes, stages, and provenance are in the companion JSON. `NOT_RUN` and `INCONCLUSIVE` remain distinct.
+
+P0a and P0b source observations report a focused body/conformance attestation, preserved normal and unwind posts, and terminal verification exit 0. Their separate `proof_candidate` entries are explicitly runner-reported candidates with `proof_credit=false`; these records do not establish proof acceptance. P0a/P0b share source ID `925312cd19cb71d0c61a10eb179e13d5c0f0b711ccaef6986bc2136aba6ca6ee`, with distinct unit IDs and compiler items. The observed compiler item identities and exact function/MIR span coordinates are preserved in the JSON.
+
+Control receipt `13edfb02961b97b1505a2efedcce5b80fc4dfac390872db711d9e645b3275ffb` SHA-256 `a8ce92cdb1c56693af1c5fd914daccb1b1240e7205d3018c70bfa88f36ba66d7` was queried by three named pointers. The selected-dead-code negative and no-focus negative are source-classified expected rejections (exit 1); excluded-function positive is classified pass (exit 0). All control rows say `proof_credit=false`; they are control observations, not proof results.
+
+Reader transcript: `A1-POST-MIGRATION-R8-S3-MATRIX-READER-OBSERVATIONS-2026-10-20.json`. It contains the exact selectors, response request IDs, and completeness metadata. No raw logs or archives were read.

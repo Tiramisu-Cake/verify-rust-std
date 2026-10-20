@@ -33,7 +33,7 @@ BASE = r'''
         (alias = "__type_self", index = 0, defIndex = 100, name = "Self"),
         (alias = "__type_f", index = 1, defIndex = 101, name = "F")
       ],
-      hirGenerics = (params = [(name = "F", kind = type, index = 1, defIndex = 101)]),
+      hirGenerics = (params = [(name = (plain = (name = (name = "F"), span = (retained = true))), kind = (type = void)), (name = (fresh = (h = 0, l = 48)), kind = (lifetime = void), retained = true)]),
       generics = [(name = "F", kind = type, index = 1, defIndex = 101)],
       scopedRegions = [
         (alias = "r1", scope = "sig", depth = 0, index = 0, kind = "anon", elidedRole = true),
@@ -200,6 +200,15 @@ class SyntheticMutationsTests(unittest.TestCase):
         self.assertEqual(new_inputs, ["r2", "r1", "r3"])
         self.assertEqual(MODULE._one(old, "scopedRegions"), MODULE._one(new, "scopedRegions"))
 
+    def test_hir_name_rejects_flat_ambiguous_missing_and_unquoted_shapes(self):
+        for text in ('(name = "F")', '(name = (plain = (name = (name = "F")), fresh = 1))',
+                     '(name = (plain = (span = void)))', '(name = (plain = (name = (name = F))))',
+                     '(name = (fresh = 1))', '(name = (fresh = (h = 0, l = 48)), kind = (type = void))',
+                     '(name = (fresh = (h = 0, l = 18446744073709551616)), kind = (lifetime = void))',
+                     '(name = (fresh = (h = 0, l = 1, l = 2)), kind = (lifetime = void))'):
+            with self.subTest(text=text), self.assertRaises(MODULE.ShapeError):
+                MODULE._hir_param_name(MODULE.parse_records(text)[0])
+
     def test_missing_F_declaration_keeps_trait_impl_and_uses(self):
         rows, metadata = self.mutate("no_F")
         trait_rows = MODULE._records(MODULE._one(rows[0], "traits"), "traits")
@@ -209,11 +218,15 @@ class SyntheticMutationsTests(unittest.TestCase):
                         if MODULE._text(row, "name") == "small_sort")
         self.assertFalse(any(MODULE._text(row, "name") == "F"
                              for row in MODULE._records(MODULE._one(retained, "generics"), "generics")))
-        self.assertFalse(any(MODULE._text(row, "name") == "F"
+        self.assertFalse(any(MODULE._hir_param_name(row) == "F"
                              for row in MODULE._records(MODULE._one(MODULE._one(retained, "hirGenerics"), "params"),
                                                         "hirGenerics.params")))
         self.assertTrue(any(MODULE._text(row, "name") == "F"
                             for row in MODULE._records(MODULE._one(retained, "typeParams"), "typeParams")))
+        old_hir = MODULE._records(MODULE._one(MODULE._one(target(MODULE.parse_records(BASE)), "hirGenerics"), "params"), "params")
+        new_hir = MODULE._records(MODULE._one(MODULE._one(retained, "hirGenerics"), "params"), "params")
+        self.assertEqual(new_hir, (old_hir[1],))
+        self.assertIsNone(MODULE._hir_param_name(new_hir[0]))
         self.assertTrue(metadata["required_method_retained"])
         self.assertEqual(metadata["removed_generic"], "F")
         self.assertEqual(len(MODULE._records(MODULE._one(rows[0], "traitImpls"), "traitImpls")), 2)

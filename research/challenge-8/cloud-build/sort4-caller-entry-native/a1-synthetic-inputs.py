@@ -259,6 +259,37 @@ def _text(record: Record, key: str) -> str:
     return value.value
 
 
+def _hir_param_name(row: Record) -> str | None:
+    """Read Hir.GenericParam.ParamName.plain -> Ident -> Symbol -> Text."""
+    name = _one(row, "name")
+    if not isinstance(name, Record) or len(name.fields) != 1:
+        raise ShapeError("HIR parameter name must have exactly one union arm")
+    arm, value = name.fields[0]
+    if arm == "fresh":
+        kind = _one(row, "kind")
+        if not isinstance(kind, Record) or kind.fields != (("lifetime", Atom("void")),):
+            raise ShapeError("fresh HIR parameter must be an anonymous lifetime")
+        if not isinstance(value, Record) or sorted(k for k, _ in value.fields) != ["h", "l"]:
+            raise ShapeError("fresh HIR parameter must contain a UInt128")
+        for key in ("h", "l"):
+            half = _one(value, key)
+            if not isinstance(half, Number):
+                raise ShapeError("fresh HIR UInt128 halves must be numeric")
+            number = int(half.value, 16) if half.value.lower().startswith("0x") else int(half.value)
+            if not 0 <= number < 2 ** 64:
+                raise ShapeError("fresh HIR UInt128 half out of range")
+        return None
+    if arm != "plain":
+        raise ShapeError("unsupported HIR parameter name union arm")
+    ident = value
+    if not isinstance(ident, Record):
+        raise ShapeError("HIR plain parameter must contain an Ident")
+    symbol = _one(ident, "name")
+    if not isinstance(symbol, Record):
+        raise ShapeError("HIR Ident.name must contain a Symbol")
+    return _text(symbol, "name")
+
+
 def _indlist_entries(value: Value, field: str) -> tuple[tuple[Record, tuple[int, ...]], ...]:
     """Decode schema IndList(T) cons(h,t)/nil while retaining direct paths."""
     entries = []
@@ -663,7 +694,7 @@ def mutate_required_fn(decoded_text: str, mutation: str, *,
             raise ShapeError("target hirGenerics must be a record")
         hir_params = _records(_one(hir, "params"), "hirGenerics.params")
         generic_rows = [row for row in generics if _text(row, "name") == "F"]
-        hir_rows = [row for row in hir_params if _text(row, "name") == "F"]
+        hir_rows = [row for row in hir_params if _hir_param_name(row) == "F"]
         if len(generic_rows) != 1 or len(hir_rows) != 1:
             raise ShapeError("expected exactly one compiler and HIR generic F declaration")
         changed_hir = _replace_field(hir, "params", ListValue(
