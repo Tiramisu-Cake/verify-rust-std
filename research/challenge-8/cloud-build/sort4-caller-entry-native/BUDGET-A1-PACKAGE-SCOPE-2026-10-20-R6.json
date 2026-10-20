@@ -1,5 +1,5 @@
 {
-  "active_build": "0be85097-5764-4838-8e3b-fea09420213e",
+  "active_build": null,
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
   ],
@@ -59,11 +59,17 @@
       "submitted_config_sha256": "0a36a9706ea3215af0bc344c7b4e8606b517ed8f443e4d03831c5812b932cdd0",
       "reserved_seconds": 960,
       "timeout_seconds": 900,
-      "status": "QUEUED",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "b54e62456bd64b78bcabf12ffb940e595d3cd148ac5854970ce75b471e08ce0e",
-      "build_id": "0be85097-5764-4838-8e3b-fea09420213e"
+      "build_id": "0be85097-5764-4838-8e3b-fea09420213e",
+      "start_time": "2026-10-20T09:10:26.520777322Z",
+      "finish_time": "2026-10-20T09:20:29.354256Z",
+      "create_time": "2026-10-20T09:10:25.727764033Z",
+      "build_seconds": 604,
+      "accounted": true,
+      "execution_seconds": 603
     }
   ],
   "ceiling_build_seconds": 3600,
@@ -73,9 +79,21 @@
   "maximum_builds": null,
   "owner": "select-sort4",
   "phase": "SORT4-PACKAGE-SCOPE-NATIVE-PROOF-2026-10-20-R6",
-  "remaining_build_seconds": 2702,
+  "remaining_build_seconds": 2098,
   "schema": "smallsort-cloud-phase-account-v1",
   "start_utc": "2026-10-20T07:16:11Z",
-  "status": "AUTHORIZED",
-  "used_build_seconds": 898
+  "status": "CLOSED_MAIN_WINDOW",
+  "used_build_seconds": 1502,
+  "closed_utc": "2026-10-20T09:27:47.134480+00:00",
+  "end_utc": "2026-10-20T09:27:47.134480+00:00",
+  "retired_unused_build_seconds": 2098,
+  "no_carry": true,
+  "requests_withdrawn": true,
+  "own_reservations": 0,
+  "own_unresolved": 0,
+  "own_active": 0,
+  "own_requests": 0,
+  "wall_clock_seconds": 7896,
+  "active_agent_time": "NOT_MEASURED",
+  "closure_reason": "Main closed09:16:11Z; no new runtime changes/hypotheses/Builds after cutoff. Three terminal FAILURE Builds accounted. S3 Brief retry and catalogue HTTP404; final matrix UNKNOWN, no raw fallback/NOT_RUN inference/proof credit. Own request withdrawn and reservations/unresolved/active zero; unused seconds retired, no carry."
 }
