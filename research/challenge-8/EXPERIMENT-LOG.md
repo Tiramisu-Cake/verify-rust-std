@@ -7889,3 +7889,7 @@ R8 CLOSED checkpoint2026-10-20T16:35:06Z: S5 terminalFAILURE409s; R-onlymakeexit
 
 
 R9 T0 2026-10-20T17:07:04Z/main19:07:04Z/absolute19:37:04Z; fresh3600s/no R8carry. Goal actual P1 fullnativeinterface/equality/refinement thencompatible26/ownN-false31. Initial closedobligations0/independentcredit0. Existing Ast.sized qualified candidate NOT_RUN; new registration/dependentpins and LunaHIGHreview/exactpublishedclosure before coordinator. ITERATION-PROCESS accepted; existing Cloud compilepreflight retained, no local proofpreparation/compiler/verifier. Foreign dirty policy/evidence files preserved.
+
+R9 S1 Build2f7b5d56-f9b6-44d1-a1fd-89f7b79870a4 accepted through coordinator on c73930175ade6efffc82c6f70a5e2d803fdc872d, config3fef71ed3106d66f15c29011b6db2c8a6e6e4207f1d2c6e8407529ffb79674d9. CurrentregistrationLunaHIGHGO/exactclosure37infra114proofPASS. Mixed setup/proof: build qualifiedAst.sized then P1 nativeinterface/fullmatrix. Initialused0/envelope960, resultpending/noformalcredit.
+
+R9 S1 terminalFAILURE905s/remaining2695/ownactive0; Brief integrity/deliverycomplete, source runexit124. P0aP0b current source body+conformance intendedpass, independentcredit0/closedobligations0. Exact26progress snapshot11classified2inconclusive12notrun1observedR7. P1R-only errorcompileritembodyisnotunique; independentprepareadmission normal/readonlycallbindingmismatch. Ownfalse31 bodyeventsVF0/receiptmissing. S2 minimalSomebodyselector sourcepatch prepared, actualbinderrepresentationinvestigation/reviewongoing.

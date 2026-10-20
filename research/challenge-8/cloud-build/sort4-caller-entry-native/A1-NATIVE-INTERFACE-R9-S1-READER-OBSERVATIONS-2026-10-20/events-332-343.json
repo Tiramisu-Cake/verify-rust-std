@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "9dd3c632336f06fea6f89de157c528dbaa881fce54939cacb5db9f16c0427645",
+  "build_id": "2f7b5d56-f9b6-44d1-a1fd-89f7b79870a4",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 343,
+    "line_separator": "LF",
+    "source_lines": 358222,
+    "start": 332,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "b9e1ed31625a55134e02fbaa87cf4c5970ada5cfe7bfdf2bef12afc9daec74ca",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-lifecycle-progress.json",
+  "file_sha256": "837ecc07e6fa1e208d00325df80a904fd0355eb9df056a2ede57ca2507089f59",
+  "index_sha256": "0bdb68ca7959586bc238266e11d210c79caec1056772024780b6c1d95aadb58c",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 343,
+    "expected_sha256": "837ecc07e6fa1e208d00325df80a904fd0355eb9df056a2ede57ca2507089f59",
+    "file_id": "b9e1ed31625a55134e02fbaa87cf4c5970ada5cfe7bfdf2bef12afc9daec74ca",
+    "start": 332
+  },
+  "request_id": "2ff2b7b0b45ab128b30aede71e9c58b265dee7e2812231fa6be5abe7fd33de7a",
+  "requested_end": 343,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 332,
+      "text": "      \"event\": \"adapter_error\","
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 333,
+      "text": "      \"execution_started\": true,"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 334,
+      "text": "      \"stage\": \"prepare-admission-controls\""
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 335,
+      "text": "    },"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 336,
+      "text": "    {"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 337,
+      "text": "      \"case_id\": \"P1\","
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 338,
+      "text": "      \"event\": \"started\","
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 339,
+      "text": "      \"execution_started\": true"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 340,
+      "text": "    },"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 341,
+      "text": "    {"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 342,
+      "text": "      \"case_id\": \"P1\","
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 343,
+      "text": "      \"error\": \"RuntimeError: A1-RUNNER: R-only baseline did not preserve exact P1 source pair or emit its pre-verification AST\","
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

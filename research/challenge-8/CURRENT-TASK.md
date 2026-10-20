@@ -57,8 +57,12 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-R9 ACTIVE. T0 **2026-10-20T17:07:04Z**, main **19:07:04Z**, absolute **19:37:04Z**. Новый бюджет3600, used0; R8 не возобновлялась, carry0. Проверены branch/worktree/HEAD `be82ac4187cf313c7fa2ab0cc33022b16aadf85c`, origin нашего форка и fetch; исходные чужие dirty policy/evidence файлы сохраняются.
+R9 ACTIVE. T0 **2026-10-20T17:07:04Z**, main **19:07:04Z**, absolute **19:37:04Z**. Новый бюджет3600, **905spent/2695remaining**, carry0. Исходные чужие dirty policy/evidence файлы сохранены; R8 не возобновлялась.
 
-Цель: сборка исправленного native-signature кандидата → P1 full native interface/equality/refinement → совместимые26/own N-false31 lifecycle. Proof до→сейчас: 0→0 закрытых obligations, independent B1/B2 credit0; прежние source claims не переносятся. Обслуживание: новая branch-local R9 registration и exact closure в работе; actual compilation/export/extraction/verifier NOT_RUN. Существующий Cloud compile preflight сохраняется перед target; процесс ITERATION-PROCESS от2026-10-19 принят на безопасной границе. Независимый Luna HIGH review актуального diff обязателен до submit.
+Цель: полный P1 native-interface/equality/refinement → совместимые26/own N-false31 lifecycle. Proof до→сейчас: **0→0 закрытых obligations, independent B1/B2 credit0**. P0a/P0b на новых S1 identities имеют source NATIVE_INTENDED_PASS body+conformance; это не independent credit.
 
-Builds R9: нет; charge0, own submitted active/unresolved0. Session/provenance: [R9 session](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-SESSION-2026-10-20.md). Следующий gate: review регистрации и exact committed/published closure перед штатным coordinator admission.
+S1 `2f7b5d56-f9b6-44d1-a1fd-89f7b79870a4`, mixed: qualified Ast.sized → R-only/finalC compile → P1. Candidate `c73930175ade6efffc82c6f70a5e2d803fdc872d`, terminalFAILURE, runexit124, **905с**. Brief VERIFIED_ARCHIVE_AND_INVENTORY/outer evidence complete true; source progress26:11INTENDED_CLASSIFIED/2INCONCLUSIVE/12NOT_RUN/1OBSERVED(R7), не полная финальная классификация. [Evidence](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S1-EVIDENCE-2026-10-20.json), [26rows/provenance](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S1-MATRIX-2026-10-20.json).
+
+Обслуживание отдельно: новая R9 registration/exact published Git closure и actual buildability установлены как source claims; P1 R-only остановился на `compiler item body is not unique`, готовится reviewed body-presence selector. Независимо admission caller binding сообщает normal/readonly semantic mismatch — проверяется actual representation. Ownfalse31 body stage events VF0, receipt/callerassertion не достигнуты. Локально actual compiler/proof не запускались; existing Cloud preflight сохраняется.
+
+Ownactive/unresolved0; S2 ещё не отправлен. [Session](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-SESSION-2026-10-20.md). Следующее действие: source-applicable fixes с независимым Luna HIGH review/dependentpins, exactpublishedclosure, штатный Cloud.

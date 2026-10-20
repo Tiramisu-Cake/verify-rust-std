@@ -1,0 +1,606 @@
+{
+  "schema": "smallsort-r9-bounded-source-matrix-v1",
+  "build_id": "2f7b5d56-f9b6-44d1-a1fd-89f7b79870a4",
+  "candidate": "c73930175ade6efffc82c6f70a5e2d803fdc872d",
+  "source": "a1-lifecycle-progress.json case_status lines5-239",
+  "file_id": "b9e1ed31625a55134e02fbaa87cf4c5970ada5cfe7bfdf2bef12afc9daec74ca",
+  "file_sha256": "837ecc07e6fa1e208d00325df80a904fd0355eb9df056a2ede57ca2507089f59",
+  "index_sha256": "0bdb68ca7959586bc238266e11d210c79caec1056772024780b6c1d95aadb58c",
+  "archive_sha256": "9dd3c632336f06fea6f89de157c528dbaa881fce54939cacb5db9f16c0427645",
+  "classification_complete": false,
+  "source_snapshot_caveat": "Run exit124; R7 remains OBSERVED in saved progress. Source claims only; no independently established proof credit. NOT_RUN is classifier status and does not erase partial execution events.",
+  "source_counts": {
+    "NOT_RUN": 12,
+    "INTENDED_CLASSIFIED": 11,
+    "INCONCLUSIVE": 2,
+    "OBSERVED": 1
+  },
+  "cases": {
+    "N-alpha-valid": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "expected input identity or run pins unavailable",
+      "status": "NOT_RUN"
+    },
+    "N-binder-collapse": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "expected input identity or run pins unavailable",
+      "status": "NOT_RUN"
+    },
+    "N-binding": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "expected input identity or run pins unavailable",
+      "status": "NOT_RUN"
+    },
+    "N-clause-redirect": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "expected input identity or run pins unavailable",
+      "status": "NOT_RUN"
+    },
+    "N-clauses": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "expected input identity or run pins unavailable",
+      "status": "NOT_RUN"
+    },
+    "N-default-contract": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NEGATIVE_INTENDED",
+      "observed_stage": "impl-body-post",
+      "proof_credit": false,
+      "provenance": "compiler-derived-focused-verifier",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "N-duplicate": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "expected input identity or run pins unavailable",
+      "status": "NOT_RUN"
+    },
+    "N-false31": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "false31 caller receipt prerequisites were not established",
+      "status": "NOT_RUN"
+    },
+    "N-free-region": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "expected input identity or run pins unavailable",
+      "status": "NOT_RUN"
+    },
+    "N-freeze-contract": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NEGATIVE_INTENDED",
+      "observed_stage": "impl-body-post",
+      "proof_credit": false,
+      "provenance": "compiler-derived-focused-verifier",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "N-no-F": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "expected input identity or run pins unavailable",
+      "status": "NOT_RUN"
+    },
+    "N-region-swap": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "expected input identity or run pins unavailable",
+      "status": "NOT_RUN"
+    },
+    "N-source": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "expected input identity or run pins unavailable",
+      "status": "NOT_RUN"
+    },
+    "OFF": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "BASELINE_ONLY",
+      "observed_stage": "frontend",
+      "proof_credit": false,
+      "provenance": "default-off-baseline",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "P-dispatch": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "original common dispatch not observed in both trace and AST",
+      "status": "INCONCLUSIVE"
+    },
+    "P0a": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NATIVE_INTENDED_PASS",
+      "observed_stage": "impl-body-and-conformance",
+      "proof_credit": false,
+      "provenance": "compiler-derived-focused-verifier",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "P0b": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NATIVE_INTENDED_PASS",
+      "observed_stage": "impl-body-and-conformance",
+      "proof_credit": false,
+      "provenance": "compiler-derived-focused-verifier",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "P0c": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": null,
+      "status": "NOT_RUN"
+    },
+    "P1": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "current raw source observation missing",
+      "status": "INCONCLUSIVE"
+    },
+    "R1": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "POSITIVE_INTENDED",
+      "observed_stage": "NONE_OBSERVED",
+      "proof_credit": false,
+      "provenance": "fresh-final-tool-regression",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "R2": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "POSITIVE_INTENDED",
+      "observed_stage": "NONE_OBSERVED",
+      "proof_credit": false,
+      "provenance": "fresh-final-tool-regression",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "R3": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "POSITIVE_INTENDED",
+      "observed_stage": "NONE_OBSERVED",
+      "proof_credit": false,
+      "provenance": "fresh-final-tool-regression",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "R4": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NEGATIVE_INTENDED",
+      "observed_stage": "verification",
+      "proof_credit": false,
+      "provenance": "fresh-final-tool-regression",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "R5": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NEGATIVE_INTENDED",
+      "observed_stage": "verification",
+      "proof_credit": false,
+      "provenance": "fresh-final-tool-regression",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "R6": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NEGATIVE_INTENDED",
+      "observed_stage": "verification",
+      "proof_credit": false,
+      "provenance": "fresh-final-tool-regression",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "R7": {
+      "case_id": "R7",
+      "observed_outcome": "FRESH_VF0_CANDIDATE_RAW_REVIEW_REQUIRED",
+      "observed_stage": "NONE_OBSERVED",
+      "proof_credit": false,
+      "reason": null,
+      "status": "OBSERVED"
+    }
+  },
+  "reader_responses": [
+    {
+      "response": "events-242-253.json",
+      "request_id": "bf74bccec5f101f6d341bfb6dc02bad1f40abbbbe3e1006777bf5c8a42b22f8a",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 253,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 242,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "events-296-307.json",
+      "request_id": "7fd4bca3d04ce8f063658638ac106b29cc393ca36f8ccbf699d1d3b66f220629",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 307,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 296,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "events-308-319.json",
+      "request_id": "0f48146a4c31f39e3adb69916b45aeba36f0409ced3cb7e28c5b7ab790780480",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 319,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 308,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "events-320-331.json",
+      "request_id": "2d68398d1a2fef7e920208a16efee993d0c29baf2e4dbd6bdfa092e2978c2135",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 331,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 320,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "events-332-343.json",
+      "request_id": "2ff2b7b0b45ab128b30aede71e9c58b265dee7e2812231fa6be5abe7fd33de7a",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 343,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 332,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "events-344-355.json",
+      "request_id": "8155001adca4344587d4a660d17acb0f8f0c2c92293d87d7fc8f243b224a61bd",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 355,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 344,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "events-392-403.json",
+      "request_id": "55743884819e4dfa204c5370b7a56aa165f70ad2dc9d1f09ee209ae4abe3851e",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 403,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 392,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "events-404-415.json",
+      "request_id": "d6deeb998fc72f3abb95406f54cde7fdf3785aef651d115184f9b516c5a10d47",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 415,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 404,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "matrix-109-120-retry.json",
+      "request_id": "9a88f799fee0b5c927322ee893e29e80abf873833686314fc00e397c2b530bde",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 120,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 109,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "matrix-121-132-retry.json",
+      "request_id": "be7fdbba46a0ef6c8589b3cca52850616343f75f54c5c06f3e41ad66df42ceef",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 132,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 121,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "matrix-13-24-retry.json",
+      "request_id": "cda8fa962673271715d8c8d72de725504877dd9dcccf5cd1b75dce882e8e7872",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 24,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 13,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "matrix-133-144-retry.json",
+      "request_id": "8b55836030ff31d1e97fb40a2182322372e5f784bf97b5de351615b0e92e48d7",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 144,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 133,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "matrix-145-156-final.json",
+      "request_id": "cbd35a845cbb8b0bd07438275f0302b9e3ccc71ead94b2f36ee398c8e97dfda5",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 156,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 145,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "matrix-157-168-retry.json",
+      "request_id": "88210e3fe7ca2d6976d907d24e420758dd916372c382a62cb50005f973db9290",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 168,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 157,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "matrix-169-180-retry.json",
+      "request_id": "92266988f7b1f9393ef0c46299355c8f9277d58ab1227c379867c991136f5e3f",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 180,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 169,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "matrix-181-192-retry.json",
+      "request_id": "f165379bc486bfb9190045fb7344967e4657e0551b39f152715dd796fef09437",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 192,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 181,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "matrix-193-204-retry.json",
+      "request_id": "0525e4015d9599442b764c593893a71e738e294337a1050800528dab8e21bc42",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 204,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 193,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "matrix-205-216-retry.json",
+      "request_id": "97644ddb67c031b996378d5bf77f63cf51df16adee9f1ffdeb793891b537254c",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 216,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 205,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "matrix-217-228-retry.json",
+      "request_id": "be89e4d5de3112b774241f51c6165aa7275f3e02564fee68a785e8186f3a3536",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 228,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 217,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "matrix-229-240-retry.json",
+      "request_id": "980b5a85ffffea5cba1616c979812da2596934cc76364fc7220b0c4069307fb4",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 240,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 229,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "matrix-25-36-retry.json",
+      "request_id": "7f516c85ab3b77b1592ad79e046fe3372d24dd4d10ed4094d9efee66cffc30ea",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 36,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 25,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "matrix-37-48-retry.json",
+      "request_id": "1df65dfc441c0dc4d29434bca15d1e5c4c6a1d3e768b245e41a3661190e9e534",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 48,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 37,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "matrix-49-60-retry.json",
+      "request_id": "da59d708b9189c491793577a629da27e9275bc2bb8db822dc36336fbfd5d76ea",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 60,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 49,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "matrix-61-72-retry.json",
+      "request_id": "e2357112842f3541bc43a8f8f034ad0bb6b1b74da8b4fcd4ec978e7e0e272eb8",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 72,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 61,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "matrix-73-84-retry.json",
+      "request_id": "e17fd7e066d8ab74af266f3f4f1a1e935c441c547880ee7f9b24a44ff8caa0ad",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 84,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 73,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "matrix-85-96-retry.json",
+      "request_id": "84df64664be7fe6fdffefce1decf4850f7028a309ea8cce7e5f41b09c986bc7d",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 96,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 85,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "matrix-97-108-retry.json",
+      "request_id": "36a39a6995fa31ed1339b4e0a67f95bc9d6e9fd122ef7b8adb2d6c7d3729da08",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 108,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 97,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "positive-attestation.json",
+      "request_id": "675eb55dafd36ff15dabdfa22060d10f89345627042cff435af40899a0dbc31b",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 511,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 500,
+        "unit": "line"
+      }
+    },
+    {
+      "response": "progress-head.json",
+      "request_id": "71b0d0f6ae00436011d66cc1ce1a9f3a989e3b03c1380eb85374fdfc4d0b41b7",
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 12,
+        "line_separator": "LF",
+        "source_lines": 358222,
+        "start": 1,
+        "unit": "line"
+      }
+    }
+  ],
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "closed_obligations": 0
+}

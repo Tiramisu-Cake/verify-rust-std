@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "9dd3c632336f06fea6f89de157c528dbaa881fce54939cacb5db9f16c0427645",
+  "build_id": "2f7b5d56-f9b6-44d1-a1fd-89f7b79870a4",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 307,
+    "line_separator": "LF",
+    "source_lines": 358222,
+    "start": 296,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "b9e1ed31625a55134e02fbaa87cf4c5970ada5cfe7bfdf2bef12afc9daec74ca",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-lifecycle-progress.json",
+  "file_sha256": "837ecc07e6fa1e208d00325df80a904fd0355eb9df056a2ede57ca2507089f59",
+  "index_sha256": "0bdb68ca7959586bc238266e11d210c79caec1056772024780b6c1d95aadb58c",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 307,
+    "expected_sha256": "837ecc07e6fa1e208d00325df80a904fd0355eb9df056a2ede57ca2507089f59",
+    "file_id": "b9e1ed31625a55134e02fbaa87cf4c5970ada5cfe7bfdf2bef12afc9daec74ca",
+    "start": 296
+  },
+  "request_id": "7fd4bca3d04ce8f063658638ac106b29cc393ca36f8ccbf699d1d3b66f220629",
+  "requested_end": 307,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 296,
+      "text": "    {"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 297,
+      "text": "      \"candidate_classification\": \"FOCUSED_VF0_CANDIDATE\","
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 298,
+      "text": "      \"case_id\": \"P0b\","
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 299,
+      "text": "      \"event\": \"stage_observed\","
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 300,
+      "text": "      \"execution_started\": true,"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 301,
+      "text": "      \"raw_first_causal_stage\": null,"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 302,
+      "text": "      \"stage\": \"P0b-observed\","
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 303,
+      "text": "      \"verification_exit\": 0"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 304,
+      "text": "    },"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 305,
+      "text": "    {"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 306,
+      "text": "      \"case_id\": \"P0a\","
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 307,
+      "text": "      \"error\": \"CallBindingError: normal and readonly caller MIR semantic call bindings differ\","
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

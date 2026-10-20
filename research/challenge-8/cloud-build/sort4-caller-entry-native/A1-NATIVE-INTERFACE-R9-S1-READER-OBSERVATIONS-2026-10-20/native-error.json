@@ -1,0 +1,87 @@
+{
+  "archive_sha256": "9dd3c632336f06fea6f89de157c528dbaa881fce54939cacb5db9f16c0427645",
+  "build_id": "2f7b5d56-f9b6-44d1-a1fd-89f7b79870a4",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 26,
+    "line_separator": "LF",
+    "source_lines": 60,
+    "start": 19,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "be3dfcd08e58ba1ef6c68c29cb29e2b12605c57b62c9fdf12a0c9084aa00b216",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-native-reference/P1/r-only-native-reference.log",
+  "file_sha256": "4a12498af8d0f7cfa322f358d09a00b7ec85c45f46132aca2f5e35524f21d816",
+  "index_sha256": "0bdb68ca7959586bc238266e11d210c79caec1056772024780b6c1d95aadb58c",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 26,
+    "expected_sha256": "4a12498af8d0f7cfa322f358d09a00b7ec85c45f46132aca2f5e35524f21d816",
+    "file_id": "be3dfcd08e58ba1ef6c68c29cb29e2b12605c57b62c9fdf12a0c9084aa00b216",
+    "start": 19
+  },
+  "request_id": "a526cd61e41d8da125e6866529e90e8abd26ed863714877013eec81af9deadda",
+  "requested_end": 26,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 19,
+      "text": "WARNING: fn_specializer: rerouting call of StableSmallSortTypeImpl::small_sort_threshold to <T as StableSmallSortTypeImpl>::small_sort_threshold: ignoring clause (type) : std::marker::Sized<>"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 20,
+      "text": "WARNING: fn_specializer: rerouting call of StableSmallSortTypeImpl::small_sort_threshold to <T as StableSmallSortTypeImpl>::small_sort_threshold: ignoring clause (type) : FreezeMarker<>"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 21,
+      "text": "(type), (type)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 22,
+      "text": "WARNING: fn_specializer: rerouting call of StableSmallSortTypeImpl::small_sort to <T as StableSmallSortTypeImpl>::small_sort: ignoring clause (type) : std::marker::Sized<>"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 23,
+      "text": "WARNING: fn_specializer: rerouting call of StableSmallSortTypeImpl::small_sort to <T as StableSmallSortTypeImpl>::small_sort: ignoring clause (type) : FreezeMarker<>"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 24,
+      "text": "verified/lib.rs(42,1-59,2): error: A1 small_sort implementation signature compiler item body is not unique"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 25,
+      "text": "42 | impl<T> StableSmallSortTypeImpl for T {"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 26,
+      "text": "   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}
