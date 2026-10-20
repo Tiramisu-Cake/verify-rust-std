@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+from decimal import Decimal
 import json
 from pathlib import Path, PurePosixPath
 import re
@@ -14,6 +15,7 @@ import tarfile
 MAX_TEXT_CHUNK_BYTES = 8 * 1024 * 1024
 MAX_METADATA_BYTES = 8 * 1024 * 1024
 MAX_INVENTORY_BYTES = 8 * 1024 * 1024
+MAX_ORIGINAL_AUDIT_BYTES = 64 * 1024 * 1024
 
 
 ARCHIVE = "evidence.tar.gz"
@@ -39,6 +41,21 @@ def safe_name(name: str) -> str:
     if path.as_posix() != name:
         raise ValueError(f"non-canonical archive path: {name}")
     return path.as_posix()
+
+
+def audit_canonicalization_matches(original_bytes: bytes, canonical_bytes: bytes) -> bool:
+    def reject_constant(value):
+        raise ValueError(f"invalid JSON constant: {value}")
+    try:
+        original = json.loads(original_bytes, parse_constant=reject_constant)
+        canonical = json.loads(canonical_bytes, parse_constant=reject_constant)
+        return (isinstance(original, dict) and isinstance(original.get("accepted"), bool)
+                and json.loads(original_bytes, parse_float=Decimal, parse_int=Decimal) ==
+                    json.loads(canonical_bytes, parse_float=Decimal, parse_int=Decimal)
+                and canonical_bytes == (json.dumps(original, sort_keys=True,
+                    separators=(",", ":"), allow_nan=False) + "\n").encode("utf-8"))
+    except (ValueError, UnicodeDecodeError):
+        return False
 
 
 def main() -> int:
@@ -125,6 +142,57 @@ def main() -> int:
         for name, expected_hash in manifest.get("input_sha256", {}).items():
             if inventory.get(name) != expected_hash:
                 raise ValueError(f"input hash mismatch or input absent from inventory: {name}")
+        if "proof_audit_canonicalizations" in manifest:
+            canonicalizations = manifest["proof_audit_canonicalizations"]
+            if not isinstance(canonicalizations, list):
+                raise ValueError("proof-audit canonicalization descriptor must be a list")
+            seen_sources = set()
+            seen_companions = set()
+            for descriptor in canonicalizations:
+                if not isinstance(descriptor, dict):
+                    raise ValueError("invalid proof-audit canonicalization descriptor")
+                source_path = safe_name(descriptor.get("source_path", ""))
+                canonical_path = safe_name(descriptor.get("canonical_path", ""))
+                original_path = safe_name(descriptor.get("original_bytes_path", ""))
+                original_hash = descriptor.get("original_sha256")
+                canonical_hash = descriptor.get("canonical_sha256")
+                original_size = descriptor.get("original_size_bytes")
+                canonical_size = descriptor.get("canonical_size_bytes")
+                if (source_path != canonical_path or
+                        PurePosixPath(source_path).name != "proof-audit.json" or
+                        original_path != source_path + ".original-bytes" or
+                        source_path in seen_sources or original_path in seen_companions or
+                        descriptor.get("encoding") !=
+                        "UTF-8 JSON; sorted keys; compact separators; trailing LF" or
+                        not re.fullmatch(r"[0-9a-f]{64}", str(original_hash)) or
+                        not re.fullmatch(r"[0-9a-f]{64}", str(canonical_hash)) or
+                        not isinstance(original_size, int) or isinstance(original_size, bool) or
+                        original_size <= MAX_METADATA_BYTES or
+                        original_size > MAX_ORIGINAL_AUDIT_BYTES or
+                        not isinstance(canonical_size, int) or isinstance(canonical_size, bool) or
+                        canonical_size <= 0 or canonical_size > MAX_METADATA_BYTES or
+                        canonical_size >= original_size):
+                    raise ValueError(f"invalid proof-audit canonicalization descriptor: {source_path}")
+                seen_sources.add(source_path)
+                seen_companions.add(original_path)
+                if (inventory.get(source_path) != canonical_hash or
+                        members.get(source_path) != canonical_hash or
+                        member_sizes.get(source_path) != canonical_size or
+                        inventory.get(original_path) != original_hash or
+                        members.get(original_path) != original_hash or
+                        member_sizes.get(original_path) != original_size or
+                        source_path not in small_files):
+                    raise ValueError(f"proof-audit canonicalization path/hash/size mismatch: {source_path}")
+                with tarfile.open(archive, "r:gz") as canonical_archive:
+                    original_member = canonical_archive.getmember(original_path)
+                    original_stream = canonical_archive.extractfile(original_member)
+                    if original_stream is None:
+                        raise ValueError(f"cannot read original proof-audit bytes: {original_path}")
+                    original_bytes = original_stream.read(MAX_ORIGINAL_AUDIT_BYTES + 1)
+                if len(original_bytes) != original_size or sha(original_bytes) != original_hash:
+                    raise ValueError(f"proof-audit original bytes hash/size mismatch: {source_path}")
+                if not audit_canonicalization_matches(original_bytes, small_files[source_path]):
+                    raise ValueError(f"proof-audit canonicalization content/encoding mismatch: {source_path}")
         config_hash = sha(small_files["submitted-config.json"])
         if manifest.get("submitted_config_actual_sha256") != config_hash:
             raise ValueError("manifest actual submitted-config file hash mismatch")

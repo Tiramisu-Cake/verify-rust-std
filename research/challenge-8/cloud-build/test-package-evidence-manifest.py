@@ -24,7 +24,8 @@ def sha(data: bytes) -> str:
 
 
 def make_input(root: Path, *, large_audit: bool, include_audit: bool = True,
-               audit_payload_bytes: int = 0) -> dict[str, bytes]:
+               audit_payload_bytes: int = 0, pretty_audit: bool = False,
+               invalid_audit: bool = False, audit_companion_collision: bool = False) -> dict[str, bytes]:
     config = {
         "steps": [{"id": "execute", "name": "proof-image",
                    "env": ["LANE=stock", "INFRA_SHA=" + "1" * 40,
@@ -49,7 +50,11 @@ def make_input(root: Path, *, large_audit: bool, include_audit: bool = True,
         if audit_payload_bytes:
             audit["payload"] = "x" * audit_payload_bytes
         files["allprooflogs/proof-audit.json"] = (
-            json.dumps(audit, sort_keys=True, separators=(",", ":")) + "\n").encode()
+            b'{"accepted":false,"padding":"' + b"x" * (LIMIT + 1) if invalid_audit else
+            ((json.dumps(audit, sort_keys=True, indent=2) if pretty_audit else
+              json.dumps(audit, sort_keys=True, separators=(",", ":"))) + "\n").encode())
+    if audit_companion_collision:
+        files["allprooflogs/proof-audit.json.original-bytes"] = b"preexisting companion\n"
     for rel, data in files.items():
         target = root / rel
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -101,9 +106,9 @@ def reattest(out: Path, mutate_manifest) -> None:
     }))
 
 
-def verify(out: Path, manifest: dict) -> subprocess.CompletedProcess:
+def verify(out: Path, manifest: dict, verifier: Path | None = None) -> subprocess.CompletedProcess:
     return subprocess.run([
-        sys.executable, str(HERE / "verify-evidence.py"), "--directory", str(out),
+        sys.executable, str(verifier or HERE / "verify-evidence.py"), "--directory", str(out),
         "--expected-build-id", "synthetic-package-test", "--expected-lane", "stock",
         "--expected-infra-sha", "1" * 40, "--expected-proof-sha", "2" * 40,
         "--expected-config-sha", manifest["submitted_config_sha256"],
@@ -175,6 +180,80 @@ class ManifestPackagingTests(unittest.TestCase):
             legacy = verify(out, manifest)
             self.assertEqual(legacy.returncode, 0, legacy.stderr)
 
+    def test_oversized_pretty_audit_is_canonicalized_losslessly(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            evidence, out = root / "evidence", root / "out"
+            original = make_input(evidence, large_audit=True, pretty_audit=True)
+            original_audit = original["allprooflogs/proof-audit.json"]
+            self.assertGreater(len(original_audit), LIMIT)
+            result = package(evidence, out)
+            self.assertEqual(result.returncode, 0, result.stderr)
+
+            with tarfile.open(out / "evidence.tar.gz", "r:gz") as archive:
+                members = {member.name: archive.extractfile(member).read()
+                           for member in archive if member.isfile()}
+            manifest = json.loads(members["manifest.json"])
+            audit_path = "allprooflogs/proof-audit.json"
+            companion_path = audit_path + ".original-bytes"
+            canonical = members[audit_path]
+            descriptor, = manifest["proof_audit_canonicalizations"]
+            self.assertEqual(json.loads(canonical), json.loads(original_audit))
+            self.assertEqual(members[companion_path], original_audit)
+            self.assertLessEqual(len(canonical), LIMIT)
+            self.assertLess(len(canonical), len(original_audit))
+            self.assertEqual(descriptor, {
+                "source_path": audit_path,
+                "canonical_path": audit_path,
+                "original_bytes_path": companion_path,
+                "original_sha256": sha(original_audit),
+                "original_size_bytes": len(original_audit),
+                "canonical_sha256": sha(canonical),
+                "canonical_size_bytes": len(canonical),
+                "encoding": "UTF-8 JSON; sorted keys; compact separators; trailing LF",
+            })
+            self.assertFalse(manifest["verification_accepted"])
+            self.assertFalse(manifest["proof_audit"]["accepted"])
+            for name, data in original.items():
+                if name != audit_path:
+                    self.assertEqual(members[name], data, name)
+                    self.assertEqual(manifest["input_sha256"][name], sha(data), name)
+            self.assertEqual(manifest["input_sha256"][audit_path], sha(canonical))
+            self.assertEqual(manifest["input_sha256"][companion_path], sha(original_audit))
+            inventory = json.loads(members["files-sha256.json"])
+            self.assertEqual(set(inventory), set(members) - {"manifest.json", "files-sha256.json"})
+            self.assertEqual(inventory[audit_path], sha(canonical))
+            self.assertEqual(inventory[companion_path], sha(original_audit))
+
+            archive_hash = sha((out / "evidence.tar.gz").read_bytes())
+            (out / "archive.sha256").write_text(f"{archive_hash}  evidence.tar.gz\n")
+            (out / "upload-complete.json").write_text(json.dumps({
+                "uploaded": True, "archive_sha256": archive_hash,
+                "build_id": manifest["build_id"],
+                "text_logs_index_sha256": manifest["text_logs_index_sha256"],
+            }))
+            verified = verify(out, manifest)
+            self.assertEqual(verified.returncode, 0, verified.stderr)
+            self.assertIn('"integrity_verified": true', verified.stdout)
+
+            reattest(out, lambda value: value["proof_audit_canonicalizations"][0].update(
+                original_bytes_path="missing.original-bytes"))
+            tampered = verify(out, manifest)
+            self.assertEqual(tampered.returncode, 1)
+            self.assertIn("invalid proof-audit canonicalization descriptor", tampered.stderr)
+
+            # The established verifier ignores the additive descriptor and
+            # accepts the bounded canonical audit plus inventoried byte archive.
+            baseline = subprocess.run(
+                ["git", "show", "4017cc:research/challenge-8/cloud-build/verify-evidence.py"],
+                cwd=HERE.parents[2], capture_output=True, check=True)
+            old_verifier = root / "old-verify-evidence.py"
+            old_verifier.write_bytes(baseline.stdout)
+            reattest(out, lambda value: value["proof_audit_canonicalizations"].__setitem__(0, descriptor))
+            old_verified = verify(out, manifest, verifier=old_verifier)
+            self.assertEqual(old_verified.returncode, 0, old_verified.stderr)
+            self.assertIn('"integrity_verified": true', old_verified.stdout)
+
     def test_missing_audit_is_preserved_as_incomplete(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
@@ -212,15 +291,29 @@ class ManifestPackagingTests(unittest.TestCase):
             self.assertIn("largest_5_field_values_bytes=", result.stderr)
             self.assertFalse((out / "evidence.tar.gz").exists())
 
-    def test_raw_audit_above_verifier_limit_is_rejected(self):
+    def test_oversized_audit_rejects_invalid_or_unhelpful_canonicalization(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             evidence, out = root / "evidence", root / "out"
             make_input(evidence, large_audit=False, audit_payload_bytes=LIMIT)
             result = package(evidence, out)
             self.assertEqual(result.returncode, 1)
-            self.assertIn("oversized metadata entry: allprooflogs/proof-audit.json", result.stderr)
+            self.assertIn("no bounded size reduction", result.stderr)
+            self.assertIn("original_bytes=", result.stderr)
+            self.assertIn("canonical_bytes=", result.stderr)
+            self.assertIn("limit_bytes=8388608", result.stderr)
             self.assertFalse((out / "evidence.tar.gz").exists())
+
+            make_input(evidence / "invalid", large_audit=False, invalid_audit=True)
+            invalid = package(evidence / "invalid", out / "invalid-out")
+            self.assertEqual(invalid.returncode, 1)
+            self.assertIn("invalid JSON", invalid.stderr)
+
+            make_input(evidence / "collision", large_audit=True, pretty_audit=True,
+                       audit_companion_collision=True)
+            collision = package(evidence / "collision", out / "collision-out")
+            self.assertEqual(collision.returncode, 1)
+            self.assertIn("companion path collision", collision.stderr)
 
 
 if __name__ == "__main__":

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import hashlib
+from decimal import Decimal
 import json
 import os
 import argparse
@@ -21,6 +22,7 @@ ARCHIVE_NAME = "evidence.tar.gz"
 SHA_RE = re.compile(r"^(?:[0-9a-f]{40}|[0-9a-f]{64})$")
 TEXT_LOG_CHUNK_BYTES = 8 * 1024 * 1024
 METADATA_MAX_BYTES = 8 * 1024 * 1024
+ORIGINAL_AUDIT_MAX_BYTES = 64 * 1024 * 1024
 INVENTORY_MAX_BYTES = 8 * 1024 * 1024
 
 
@@ -37,7 +39,60 @@ def digest_file(path: Path) -> str:
 
 
 def compact_json_bytes(value: object) -> bytes:
-    return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n").encode("utf-8")
+
+
+def canonicalize_oversized_proof_audits(payload: dict[str, bytes]) -> list[dict[str, object]]:
+    descriptors = []
+    for source_path in sorted(payload):
+        original = payload[source_path]
+        if Path(source_path).name != "proof-audit.json" or len(original) <= METADATA_MAX_BYTES:
+            continue
+        if len(original) > ORIGINAL_AUDIT_MAX_BYTES:
+            fail(f"cannot canonicalize oversized proof audit {source_path}: original exceeds preservation bound; "
+                 f"original_bytes={len(original)} original_limit_bytes={ORIGINAL_AUDIT_MAX_BYTES} "
+                 f"metadata_limit_bytes={METADATA_MAX_BYTES}")
+        try:
+            parsed = json.loads(original, parse_constant=lambda value: fail(
+                f"invalid JSON constant in oversized proof audit {source_path}: {value}"))
+        except (ValueError, UnicodeDecodeError) as exc:
+            fail(f"cannot canonicalize oversized proof audit {source_path}: invalid JSON ({exc}); "
+                 f"original_bytes={len(original)} limit_bytes={METADATA_MAX_BYTES}")
+        if not isinstance(parsed, dict) or not isinstance(parsed.get("accepted"), bool):
+            fail(f"cannot canonicalize oversized proof audit {source_path}: expected object with boolean accepted; "
+                 f"original_bytes={len(original)} limit_bytes={METADATA_MAX_BYTES}")
+        try:
+            canonical = compact_json_bytes(parsed)
+            original_numbers = json.loads(original, parse_float=Decimal, parse_int=Decimal)
+            canonical_numbers = json.loads(canonical, parse_float=Decimal, parse_int=Decimal)
+            if original_numbers != canonical_numbers:
+                raise ValueError("JSON numeric values would change")
+        except ValueError as exc:
+            fail(f"cannot canonicalize oversized proof audit {source_path}: {exc}; "
+                 f"original_bytes={len(original)} limit_bytes={METADATA_MAX_BYTES}")
+        companion_path = source_path + ".original-bytes"
+        if any(path == companion_path or path.startswith(companion_path + "/")
+               or companion_path.startswith(path + "/") for path in payload):
+            fail(f"cannot canonicalize oversized proof audit {source_path}: companion path collision "
+                 f"at {companion_path}; original_bytes={len(original)} "
+                 f"canonical_bytes={len(canonical)} limit_bytes={METADATA_MAX_BYTES}")
+        if len(canonical) > METADATA_MAX_BYTES or len(canonical) >= len(original):
+            fail(f"cannot canonicalize oversized proof audit {source_path}: no bounded size reduction; "
+                 f"original_bytes={len(original)} canonical_bytes={len(canonical)} "
+                 f"limit_bytes={METADATA_MAX_BYTES}")
+        payload[companion_path] = original
+        payload[source_path] = canonical
+        descriptors.append({
+            "source_path": source_path,
+            "canonical_path": source_path,
+            "original_bytes_path": companion_path,
+            "original_sha256": digest(original),
+            "original_size_bytes": len(original),
+            "canonical_sha256": digest(canonical),
+            "canonical_size_bytes": len(canonical),
+            "encoding": "UTF-8 JSON; sorted keys; compact separators; trailing LF",
+        })
+    return descriptors
 
 
 def parse_json_or_none(value: bytes | None):
@@ -232,6 +287,7 @@ def main() -> int:
         metadata_valid = bool(build_id and lane and not invalid_pins)
 
         payload, artifact_exclusions = collect(args.evidence)
+        proof_audit_canonicalizations = canonicalize_oversized_proof_audits(payload)
         for reserved in ("summary.json", "manifest.json", "files-sha256.json", "text-logs-index.json"):
             if reserved in payload:
                 payload[f"input-{reserved}"] = payload.pop(reserved)
@@ -280,7 +336,8 @@ def main() -> int:
         proof_audit = None
         if audit_path is not None:
             if len(payload[audit_path]) > METADATA_MAX_BYTES:
-                fail(f"oversized metadata entry: {audit_path}")
+                fail(f"oversized metadata entry: {audit_path}; "
+                     f"size_bytes={len(payload[audit_path])} limit_bytes={METADATA_MAX_BYTES}")
             try:
                 proof_audit = json.loads(payload[audit_path])
             except (ValueError, UnicodeDecodeError):
@@ -400,6 +457,7 @@ def main() -> int:
             },
             "proof_audit": proof_audit,
             "proof_audit_path": audit_path,
+            "proof_audit_canonicalizations": proof_audit_canonicalizations,
             "proof_stage_artifacts": stage_artifacts,
             "smoke_scope": "infrastructure-probe-only" if smoke else None,
             "environment_sha256": (digest(payload["environment.txt"])
