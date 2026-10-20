@@ -1,13 +1,9 @@
 {
   "accepted": false,
   "archive_sha256": "c7ea76ae1a48b39f14462d9233ed06a41e42938a1e51e694ffd74092f7157ce7",
-  "brief_reported_source_status_counts": {
-    "INCONCLUSIVE": 8,
-    "INTENDED_CLASSIFIED": 18
-  },
   "build_id": "10354d5a-0d8d-4eab-a453-2351b9f8e9d6",
-  "case_query_count": 15,
-  "case_query_coverage": "15/26 exact complete per-case records; remaining 11 were not queried because Reader returned HTTP 429 and parent paused further requests",
+  "case_query_count": 26,
+  "case_query_coverage": "26/26 exact complete per-case records, seven exact status fields each; /case_status inventory explicitly followed server next_offset=20",
   "case_query_sources": {
     "N-alpha-valid": {
       "complete": true,
@@ -63,6 +59,15 @@
       "response_file": "case-N-default-contract.json",
       "selector": "/case_status/N-default-contract"
     },
+    "N-duplicate": {
+      "complete": true,
+      "exact": true,
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_sha256": "497441dbb8c5151ff3b84797e549085b49eb8468d342459e3115103891d0550f",
+      "request_id": "487ca5f026aaa51277fac26e935f6ee2ca589bfa050afd4e0519b4d5707ed13e",
+      "response_file": "case-N-duplicate.json",
+      "selector": "/case_status/N-duplicate"
+    },
     "N-false31": {
       "complete": true,
       "exact": true,
@@ -72,6 +77,15 @@
       "response_file": "case-N-false31.json",
       "selector": "/case_status/N-false31"
     },
+    "N-free-region": {
+      "complete": true,
+      "exact": true,
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_sha256": "497441dbb8c5151ff3b84797e549085b49eb8468d342459e3115103891d0550f",
+      "request_id": "d0d9384a96039616b817b239a40a1688aef672b8a820498e3dd34a2bf34976c2",
+      "response_file": "case-N-free-region.json",
+      "selector": "/case_status/N-free-region"
+    },
     "N-freeze-contract": {
       "complete": true,
       "exact": true,
@@ -80,6 +94,24 @@
       "request_id": "16fccf990680e24dc8bc2a38dd56b7b0c261e74bc467cef4d33121fa0f22f2d9",
       "response_file": "case-N-freeze-contract.json",
       "selector": "/case_status/N-freeze-contract"
+    },
+    "N-no-F": {
+      "complete": true,
+      "exact": true,
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_sha256": "497441dbb8c5151ff3b84797e549085b49eb8468d342459e3115103891d0550f",
+      "request_id": "f07472899e752889f49b3e945d24cb8b101fa6b0f7ad8a4c7ffa7cb0d17bf8fb",
+      "response_file": "case-N-no-F.json",
+      "selector": "/case_status/N-no-F"
+    },
+    "N-region-swap": {
+      "complete": true,
+      "exact": true,
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_sha256": "497441dbb8c5151ff3b84797e549085b49eb8468d342459e3115103891d0550f",
+      "request_id": "8cb96ec8b2f87e051da4d4c80b87b8bdd7a21280251d039d67667075d4a1707e",
+      "response_file": "case-N-region-swap.json",
+      "selector": "/case_status/N-region-swap"
     },
     "N-source": {
       "complete": true,
@@ -107,6 +139,24 @@
       "request_id": "f443cfe54b8cffb6e229819b4144f1ea454be52a077086efb122757d901224a5",
       "response_file": "case-P-dispatch.json",
       "selector": "/case_status/P-dispatch"
+    },
+    "P0a": {
+      "complete": true,
+      "exact": true,
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_sha256": "497441dbb8c5151ff3b84797e549085b49eb8468d342459e3115103891d0550f",
+      "request_id": "b6ff02d4614afc949a76e59be65b790e008076cd571a2b2664390bf9f30c1bc8",
+      "response_file": "case-P0a.json",
+      "selector": "/case_status/P0a"
+    },
+    "P0b": {
+      "complete": true,
+      "exact": true,
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_sha256": "497441dbb8c5151ff3b84797e549085b49eb8468d342459e3115103891d0550f",
+      "request_id": "8c8954d5d31759e2e734c04ae7fd06d5b9a41af2fd525aad492e3b8eeaf9fa0e",
+      "response_file": "case-P0b.json",
+      "selector": "/case_status/P0b"
     },
     "P0c": {
       "complete": true,
@@ -143,6 +193,51 @@
       "request_id": "2ab557b73e6cf5e7b8065dc1df5dd570312bd491a0d2e05c1a4bb351120d57dd",
       "response_file": "case-R2.json",
       "selector": "/case_status/R2"
+    },
+    "R3": {
+      "complete": true,
+      "exact": true,
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_sha256": "497441dbb8c5151ff3b84797e549085b49eb8468d342459e3115103891d0550f",
+      "request_id": "d6bdf9ee2a24bda8f3e5ef3983a5c7196fe468a1f00f505caf91b33d2fe14246",
+      "response_file": "case-R3.json",
+      "selector": "/case_status/R3"
+    },
+    "R4": {
+      "complete": true,
+      "exact": true,
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_sha256": "497441dbb8c5151ff3b84797e549085b49eb8468d342459e3115103891d0550f",
+      "request_id": "492532f79c2f2ef289da10eadfde1b1d866c16489ab2adc01288d9c0e11f060b",
+      "response_file": "case-R4.json",
+      "selector": "/case_status/R4"
+    },
+    "R5": {
+      "complete": true,
+      "exact": true,
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_sha256": "497441dbb8c5151ff3b84797e549085b49eb8468d342459e3115103891d0550f",
+      "request_id": "db790b18af61e64f278d141fc16a0874c80ba75941245134cf82cc00877b5122",
+      "response_file": "case-R5.json",
+      "selector": "/case_status/R5"
+    },
+    "R6": {
+      "complete": true,
+      "exact": true,
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_sha256": "497441dbb8c5151ff3b84797e549085b49eb8468d342459e3115103891d0550f",
+      "request_id": "995fddee5706caba35f006dd6cd532b866b4ef64e13c27b768e32a30fe7798f6",
+      "response_file": "case-R6.json",
+      "selector": "/case_status/R6"
+    },
+    "R7": {
+      "complete": true,
+      "exact": true,
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_sha256": "497441dbb8c5151ff3b84797e549085b49eb8468d342459e3115103891d0550f",
+      "request_id": "46fd93ae6f13ea622b0ffaf1f43727d8980c7fba63b08b0793e39801c266adc4",
+      "response_file": "case-R7.json",
+      "selector": "/case_status/R7"
     }
   },
   "cases": {
@@ -200,6 +295,15 @@
       "reason": "focused execution attestation missing",
       "status": "INCONCLUSIVE"
     },
+    "N-duplicate": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NEGATIVE_INTENDED",
+      "observed_stage": "inventory-admission",
+      "proof_credit": false,
+      "provenance": "synthetic-transport-control",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
     "N-false31": {
       "matrix_gate_passed": false,
       "observed_outcome": null,
@@ -209,6 +313,15 @@
       "reason": "false31 own-pair receipt ordering not established",
       "status": "INCONCLUSIVE"
     },
+    "N-free-region": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NEGATIVE_INTENDED",
+      "observed_stage": "well-scopedness",
+      "proof_credit": false,
+      "provenance": "synthetic-transport-control",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
     "N-freeze-contract": {
       "matrix_gate_passed": false,
       "observed_outcome": null,
@@ -217,6 +330,24 @@
       "provenance": null,
       "reason": "focused execution attestation missing",
       "status": "INCONCLUSIVE"
+    },
+    "N-no-F": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "synthetic translator stopped before intended gate or had another diagnostic",
+      "status": "INCONCLUSIVE"
+    },
+    "N-region-swap": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NEGATIVE_INTENDED",
+      "observed_stage": "call-binding-admission",
+      "proof_credit": false,
+      "provenance": "synthetic-admission-control",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
     },
     "N-source": {
       "matrix_gate_passed": true,
@@ -244,6 +375,24 @@
       "provenance": null,
       "reason": "original common dispatch not observed in both trace and AST",
       "status": "INCONCLUSIVE"
+    },
+    "P0a": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NATIVE_INTENDED_PASS",
+      "observed_stage": "impl-body-and-conformance",
+      "proof_credit": false,
+      "provenance": "compiler-derived-focused-verifier",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "P0b": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NATIVE_INTENDED_PASS",
+      "observed_stage": "impl-body-and-conformance",
+      "proof_credit": false,
+      "provenance": "compiler-derived-focused-verifier",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
     },
     "P0c": {
       "matrix_gate_passed": false,
@@ -273,6 +422,51 @@
       "status": "INTENDED_CLASSIFIED"
     },
     "R2": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "POSITIVE_INTENDED",
+      "observed_stage": "NONE_OBSERVED",
+      "proof_credit": false,
+      "provenance": "fresh-final-tool-regression",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "R3": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "POSITIVE_INTENDED",
+      "observed_stage": "NONE_OBSERVED",
+      "proof_credit": false,
+      "provenance": "fresh-final-tool-regression",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "R4": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NEGATIVE_INTENDED",
+      "observed_stage": "verification",
+      "proof_credit": false,
+      "provenance": "fresh-final-tool-regression",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "R5": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NEGATIVE_INTENDED",
+      "observed_stage": "verification",
+      "proof_credit": false,
+      "provenance": "fresh-final-tool-regression",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "R6": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NEGATIVE_INTENDED",
+      "observed_stage": "verification",
+      "proof_credit": false,
+      "provenance": "fresh-final-tool-regression",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "R7": {
       "matrix_gate_passed": true,
       "observed_outcome": "POSITIVE_INTENDED",
       "observed_stage": "NONE_OBSERVED",
@@ -316,20 +510,7 @@
   "source_evidence_class": "SOURCE_OBSERVATIONS_NOT_PROOF",
   "source_parser_input_binding": "NOT_ESTABLISHED",
   "source_status_counts": {
-    "INCONCLUSIVE": 7,
-    "INTENDED_CLASSIFIED": 8
-  },
-  "unqueried_cases": [
-    "N-duplicate",
-    "N-free-region",
-    "N-no-F",
-    "N-region-swap",
-    "P0a",
-    "P0b",
-    "R3",
-    "R4",
-    "R5",
-    "R6",
-    "R7"
-  ]
+    "INCONCLUSIVE": 8,
+    "INTENDED_CLASSIFIED": 18
+  }
 }

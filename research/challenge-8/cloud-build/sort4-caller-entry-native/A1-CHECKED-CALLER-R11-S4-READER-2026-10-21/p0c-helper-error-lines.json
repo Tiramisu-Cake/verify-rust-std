@@ -1,0 +1,57 @@
+{
+  "archive_sha256": "c7ea76ae1a48b39f14462d9233ed06a41e42938a1e51e694ffd74092f7157ce7",
+  "build_id": "10354d5a-0d8d-4eab-a453-2351b9f8e9d6",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 1079,
+    "line_separator": "LF",
+    "source_lines": 1079,
+    "start": 1077,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "4cda89f9dad84ef2c08ac87929cf6ff5fa5f526651fc24279e9de633c1f6c815",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0c/checked-cleanup-helper/checked-cleanup-helper.log",
+  "file_sha256": "726a9bda857d53379bca310b285c234aa208432a29ee18bc90e236e4acd162dd",
+  "index_sha256": "6e8c2cf10d7a0d428c8ecc52597d8eb959074aacb6eaff2edf71f503815f7176",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 1079,
+    "expected_sha256": "726a9bda857d53379bca310b285c234aa208432a29ee18bc90e236e4acd162dd",
+    "file_id": "4cda89f9dad84ef2c08ac87929cf6ff5fa5f526651fc24279e9de633c1f6c815",
+    "start": 1077
+  },
+  "request_id": "293397437666ffaad325fa4d367a6e035e47ccbc6f10c950736ce71203fd0121",
+  "requested_end": 1079,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1077,
+      "text": "verified/lib.rs(84,35-37): error: Not a constructor of type std::option::Option"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1078,
+      "text": "84 |         std::option::Option::None => {}"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1079,
+      "text": "   |                                   ^^"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

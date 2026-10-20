@@ -92,6 +92,28 @@
       "build_seconds": 954,
       "accounted": true,
       "execution_seconds": 953
+    },
+    {
+      "dispatch_token": "dispatch-553ad179d18a4c5e83cccad867a24788",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-CHECKED-CALLER-NATIVE-PROOF-2026-10-21-R11",
+      "infra_sha": "f0885963ab203a908811d41b88729fe9b1beebf5",
+      "proof_sha": "f0885963ab203a908811d41b88729fe9b1beebf5",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "60458a9cb2753fe7acc98cb13bfd0cf8a34cc5903f35ff4ad6e9ca688835f8aa",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "039e6eadfd375e3dcd17f441df91b81f719e9dec8f27d12f6954eb731397fc6a",
+      "build_id": "e69fa980-b390-4512-a1fb-0ad822beb27b",
+      "start_time": "2026-10-20T23:37:17.094544110Z",
+      "finish_time": "2026-10-20T23:44:31.365354Z",
+      "create_time": "2026-10-20T23:37:16.196693771Z",
+      "build_seconds": 436,
+      "accounted": true,
+      "execution_seconds": 435
     }
   ],
   "carry_forward_seconds": 0,
@@ -102,10 +124,12 @@
   "maximum_builds": null,
   "owner": "select-sort4",
   "phase": "SORT4-CHECKED-CALLER-NATIVE-PROOF-2026-10-21-R11",
-  "remaining_build_seconds": 1114,
+  "remaining_build_seconds": 678,
   "schema": "smallsort-cloud-phase-account-v1",
   "start_utc": "2026-10-20T21:41:43Z",
-  "status": "AUTHORIZED",
-  "unused_retired_seconds": 0,
-  "used_build_seconds": 2486
+  "status": "CLOSED",
+  "unused_retired_seconds": 678,
+  "used_build_seconds": 2922,
+  "closed_utc": "2026-10-20T23:45:55.589696Z",
+  "closure_reason": "Main window ended; all own Builds terminal/accounted and own active/unresolved/requests/reservations zero. Unused budget retired with no carry; remaining work is Evidence/report/checkpoint only."
 }

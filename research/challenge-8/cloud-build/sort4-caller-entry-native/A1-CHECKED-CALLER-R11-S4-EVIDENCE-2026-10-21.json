@@ -3,17 +3,24 @@
   "archive_sha256": "c7ea76ae1a48b39f14462d9233ed06a41e42938a1e51e694ffd74092f7157ce7",
   "audit_file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
   "audit_sha256": "497441dbb8c5151ff3b84797e549085b49eb8468d342459e3115103891d0550f",
+  "brief_failure_context": {
+    "bounded_diagnostic_sha256": "961444770a7bf9baa766a2419f9c391d98a31f0115f6fa9ddbd005a9db6aa02b",
+    "bounded_diagnostic_source": "allprooflogs/cases/sort4-c1-current-recovery/a1-off-observation/proof-ast-diagnostic.log",
+    "causal_status": "UNKNOWN",
+    "diagnostic_status": "SOURCE_REPORTED",
+    "runner_reported_blocker": "P0a / adapter_error: published common threshold caller was not verified on the exact pair",
+    "source_status_classification": "not a causal proof"
+  },
   "brief_processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
   "build_id": "10354d5a-0d8d-4eab-a453-2351b9f8e9d6",
   "build_seconds": 954,
   "create_time": "2026-10-20T23:12:07.573781425Z",
   "current_build_charge_seconds": 954,
-  "exact_status_records_captured": 15,
   "execution_seconds": 953,
   "findings": {
-    "brief": "S4 Brief source claim is NOT_ACCEPTED_AS_REPORTED; archive/inventory integrity and source run exit 0 are separate from proof acceptance. Runner reports 18 INTENDED_CLASSIFIED and 8 INCONCLUSIVE; do not infer NOT_RUN.",
-    "case_rows": "Among the 15 exact rows captured so far: 8 INTENDED_CLASSIFIED and 7 INCONCLUSIVE. These source classifications do not establish proof credit.",
-    "reader": "Exact per-case coverage is partial: 15/26 rows saved. Reader HTTP 429 at /case_status/N-duplicate; further targeted reads paused on parent instruction. The remaining 11 cases are not classified here."
+    "Brief": "Source-reported proof verdict is NOT_ACCEPTED_AS_REPORTED; source run exit 0 and VERIFIED_ARCHIVE_AND_INVENTORY are separate facts. Causality is UNKNOWN.",
+    "P0c": "Exact /case_status row: status=INCONCLUSIVE, reason='same-invocation AST missing', proof_credit=false. This is a source status only; it does not establish a causal stage or proof credit.",
+    "P1": "Exact /case_status row: status=INCONCLUSIVE, reason='same-invocation AST missing', proof_credit=false. This is a source status only; it does not establish parser-input binding or proof credit."
   },
   "finish_time": "2026-10-20T23:28:01.045779Z",
   "formal_obligations_closed": 0,
@@ -21,7 +28,7 @@
   "independent_B2_credit": 0,
   "index_sha256": "6e8c2cf10d7a0d428c8ecc52597d8eb959074aacb6eaff2edf71f503815f7176",
   "infra_sha": "9bd615670145c2dcb769a6c0fd9b0b6f34a2364d",
-  "limits": "No missing case is assumed NOT_RUN. 11 per-case records remain unqueried under explicit parent pause; reader throttling is not evidence absence. Source statuses are not proof credit; no raw archive, full audit, parser-input binding, or causal attribution is inferred.",
+  "limits": "Brief/index integrity and source case classifications do not establish proof credit. All 26 source status records are exact and complete; source parser-input binding and causality remain unestablished. No raw archive or full proof-audit was read.",
   "matrix_complete": false,
   "matrix_file": "A1-CHECKED-CALLER-R11-S4-MATRIX-2026-10-21.json",
   "observed_stage_seconds": {
@@ -100,6 +107,13 @@
     {
       "complete": true,
       "exact": true,
+      "request_id": "487ca5f026aaa51277fac26e935f6ee2ca589bfa050afd4e0519b4d5707ed13e",
+      "response_file": "case-N-duplicate.json",
+      "selector": "/case_status/N-duplicate"
+    },
+    {
+      "complete": true,
+      "exact": true,
       "request_id": "211fc7af594a342b4d3ac70f1e3897a2ba33616b5ec58ec00877c1984367783d",
       "response_file": "case-N-false31.json",
       "selector": "/case_status/N-false31"
@@ -107,9 +121,30 @@
     {
       "complete": true,
       "exact": true,
+      "request_id": "d0d9384a96039616b817b239a40a1688aef672b8a820498e3dd34a2bf34976c2",
+      "response_file": "case-N-free-region.json",
+      "selector": "/case_status/N-free-region"
+    },
+    {
+      "complete": true,
+      "exact": true,
       "request_id": "16fccf990680e24dc8bc2a38dd56b7b0c261e74bc467cef4d33121fa0f22f2d9",
       "response_file": "case-N-freeze-contract.json",
       "selector": "/case_status/N-freeze-contract"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "f07472899e752889f49b3e945d24cb8b101fa6b0f7ad8a4c7ffa7cb0d17bf8fb",
+      "response_file": "case-N-no-F.json",
+      "selector": "/case_status/N-no-F"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "8cb96ec8b2f87e051da4d4c80b87b8bdd7a21280251d039d67667075d4a1707e",
+      "response_file": "case-N-region-swap.json",
+      "selector": "/case_status/N-region-swap"
     },
     {
       "complete": true,
@@ -131,6 +166,20 @@
       "request_id": "f443cfe54b8cffb6e229819b4144f1ea454be52a077086efb122757d901224a5",
       "response_file": "case-P-dispatch.json",
       "selector": "/case_status/P-dispatch"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "b6ff02d4614afc949a76e59be65b790e008076cd571a2b2664390bf9f30c1bc8",
+      "response_file": "case-P0a.json",
+      "selector": "/case_status/P0a"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "8c8954d5d31759e2e734c04ae7fd06d5b9a41af2fd525aad492e3b8eeaf9fa0e",
+      "response_file": "case-P0b.json",
+      "selector": "/case_status/P0b"
     },
     {
       "complete": true,
@@ -161,20 +210,55 @@
       "selector": "/case_status/R2"
     },
     {
-      "exact_cli_error": "smallsort-brief: Reader HTTP request failed (HTTP 429)",
-      "request_id": null,
-      "response_file": "transient-429-main.json",
-      "selector": "/observation_details (main response)"
+      "complete": true,
+      "exact": true,
+      "request_id": "d6bdf9ee2a24bda8f3e5ef3983a5c7196fe468a1f00f505caf91b33d2fe14246",
+      "response_file": "case-R3.json",
+      "selector": "/case_status/R3"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "492532f79c2f2ef289da10eadfde1b1d866c16489ab2adc01288d9c0e11f060b",
+      "response_file": "case-R4.json",
+      "selector": "/case_status/R4"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "db790b18af61e64f278d141fc16a0874c80ba75941245134cf82cc00877b5122",
+      "response_file": "case-R5.json",
+      "selector": "/case_status/R5"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "995fddee5706caba35f006dd6cd532b866b4ef64e13c27b768e32a30fe7798f6",
+      "response_file": "case-R6.json",
+      "selector": "/case_status/R6"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "46fd93ae6f13ea622b0ffaf1f43727d8980c7fba63b08b0793e39801c266adc4",
+      "response_file": "case-R7.json",
+      "selector": "/case_status/R7"
     },
     {
       "exact_cli_error": "smallsort-brief: Reader HTTP request failed (HTTP 429)",
       "request_id": null,
+      "response_file": "transient-429-main.json",
+      "selector": "/observation_details (separate main attempt)"
+    },
+    {
+      "exact_cli_error": "smallsort-brief: Reader HTTP request failed (HTTP 429)",
+      "request_id": null,
+      "resolved_by_retry": true,
       "response_file": "transient-error-N-duplicate.json",
-      "selector": "/case_status/N-duplicate"
+      "selector": "/case_status/N-duplicate (first attempt; resolved by subsequent exact query)"
     }
   ],
   "remaining_build_seconds": 1114,
-  "reported_status_records_total": 26,
   "schema": "smallsort-r11-s4-bounded-source-evidence-v1",
   "source_input_sha256": "eb540b71940a0cd73f882e9cd8e3ac48c56bd54c9e77c334b8c1f9e32883b73b",
   "source_run_exit": 0,
@@ -182,10 +266,9 @@
     "INCONCLUSIVE": 8,
     "INTENDED_CLASSIFIED": 18
   },
-  "source_status_records_complete": false,
+  "source_status_records_complete": true,
   "start_time": "2026-10-20T23:12:08.310356280Z",
   "status": "FAILURE",
   "submitted_config_sha256": "489b67a1601b3c1c3db70d252caf787750866210c7a445a7687c4acda370f378",
-  "unqueried_status_records": 11,
   "used_total": 2486
 }

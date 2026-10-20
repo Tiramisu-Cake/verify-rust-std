@@ -1,0 +1,263 @@
+{
+  "accepted": false,
+  "archive_sha256": "31bd868a575d6ea905f39b2ce6ef0b29f8f23692d75cf8269037e5e9f8159a29",
+  "audit_file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+  "audit_sha256": "d3d0a3c8a6121c6a804d15d25e15b056870673a3a740ccb89ffe672f4c125aad",
+  "brief_failure_context": {
+    "causal_status": "UNKNOWN",
+    "diagnostic_status": "SOURCE_REPORTED",
+    "proof_audit_file_size_bytes": 75854,
+    "raw_audit_or_original_bytes_read": false,
+    "runner_reported_blocker": "P0a / adapter_error: actual default threshold body/native conformance not established",
+    "runner_reported_stage": "P0a-observed",
+    "saved_reader_info_source_bytes": 75854
+  },
+  "brief_processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "build_id": "e69fa980-b390-4512-a1fb-0ad822beb27b",
+  "build_seconds": 436,
+  "create_time": "2026-10-20T23:37:16.196693771Z",
+  "current_build_charge_seconds": 436,
+  "execution_seconds": 435,
+  "findings": {
+    "Brief": "Source proof verdict NOT_ACCEPTED_AS_REPORTED; run exit 0 and VERIFIED_ARCHIVE_AND_INVENTORY are separate source claims. Brief diagnostic stage causality is UNKNOWN.",
+    "P0a": "Exact /case_status row: status=INCONCLUSIVE, reason='target observation or exact input/run identities unavailable', proof_credit=false. This does not bind a parser input or establish causality.",
+    "P0c": "Exact /case_status row: status=NOT_RUN, reason='target observation or exact input/run identities unavailable', proof_credit=false.",
+    "P1": "Exact /case_status row: status=INCONCLUSIVE, reason='target observation or exact input/run identities unavailable', proof_credit=false."
+  },
+  "finish_time": "2026-10-20T23:44:31.365354Z",
+  "formal_obligations_closed": 0,
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "index_sha256": "605ed6839dc029a9aee291ce17057fa6f9297de39a201053373adecd54b8959d",
+  "infra_sha": "f0885963ab203a908811d41b88729fe9b1beebf5",
+  "limits": "Exact source rows provide status only; they do not independently establish proof credit or parser-input binding. No raw archive, full proof-audit, or original-bytes member was read.",
+  "matrix_complete": false,
+  "matrix_file": "A1-CHECKED-CALLER-R11-S5-MATRIX-2026-10-21.json",
+  "observed_stage_seconds": {
+    "execute": 366.289001,
+    "package_upload": 56.01245,
+    "verdict": 0.984712
+  },
+  "outer_evidence_complete_source_claim": true,
+  "package_upload": "SUCCESS",
+  "proof_credit": false,
+  "proof_sha": "f0885963ab203a908811d41b88729fe9b1beebf5",
+  "proof_verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+  "reader_directory": "A1-CHECKED-CALLER-R11-S5-READER-2026-10-21",
+  "reader_request_records": [
+    {
+      "request_id": "55d47768f94bc94f3e9339d5c0154a8e80eeae9d01ca0eae1d89cb9effbd8ac5",
+      "response_file": "audit-info.json",
+      "selector": "--info"
+    },
+    {
+      "next_offset": 20,
+      "offset": 0,
+      "request_id": "74c726f70e43fc3ffee731180f22221e4f4ab8158d999ce8997afcbc8b62b275",
+      "response_file": "case-status-first.json",
+      "selector": "/case_status"
+    },
+    {
+      "next_offset": null,
+      "offset": 20,
+      "request_id": "8d49ab7bde1d6af7bad5d989e3b7a79856315ce7f2aca32bebb27c733dfff247",
+      "response_file": "case-status-next.json",
+      "selector": "/case_status"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "4ad947c427932e4a62587639c577e886eb678f161ee93bb5ca322a925a838520",
+      "response_file": "case-N-alpha-valid.json",
+      "selector": "/case_status/N-alpha-valid"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "04d0f2193602367296d22f0e38cf476b7172d42aa75dd12e328094a61f0d4b7d",
+      "response_file": "case-N-binder-collapse.json",
+      "selector": "/case_status/N-binder-collapse"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "f19d48ad418408e1fa7850a2002c11c9e838c6dee5cca8aca0c963e785061fa1",
+      "response_file": "case-N-binding.json",
+      "selector": "/case_status/N-binding"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "dd9cfdaaf553963d0675fbaecb89caa5de9350afc5ad9ec5042e95f4998f4edd",
+      "response_file": "case-N-clause-redirect.json",
+      "selector": "/case_status/N-clause-redirect"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "4b3223c320673b984fd256bbd962541e720a95488d57c38c32a0974886539bcf",
+      "response_file": "case-N-clauses.json",
+      "selector": "/case_status/N-clauses"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "e3b6e41db2575385e971543f47f6aa062bb2a83952df7cffd5b86f8c2a334efc",
+      "response_file": "case-N-default-contract.json",
+      "selector": "/case_status/N-default-contract"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "c1baa09ef3ac78aa9e08860fa39a19ffc4ebb74be4ede15ebb307fc6d368005c",
+      "response_file": "case-N-duplicate.json",
+      "selector": "/case_status/N-duplicate"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "03ec1e9f603ba57910c2dc2ef4c7f82ddd04e23d2b6d61b0f82dc69fbb73b2a8",
+      "response_file": "case-N-false31.json",
+      "selector": "/case_status/N-false31"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "815e378ff69aca877ae99231195ea1856188e7c9df7e12d806541ad77e6b0581",
+      "response_file": "case-N-free-region.json",
+      "selector": "/case_status/N-free-region"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "88c498473316705172aca6e8a5ea1c0a4b16d441d5bd42015aedefab761369e0",
+      "response_file": "case-N-freeze-contract.json",
+      "selector": "/case_status/N-freeze-contract"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "2f51ff545ae139d58e15bb4489e34dc66ee1896ca01656365a7920386978b69b",
+      "response_file": "case-N-no-F.json",
+      "selector": "/case_status/N-no-F"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "07d3ec7def89f657808c99dcaea5a99bba43860404664f3b07947f23e167bdff",
+      "response_file": "case-N-region-swap.json",
+      "selector": "/case_status/N-region-swap"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "d519370abd6dbb307bef7f54f63b78cdb56596db2bd349ed1d052241326edee2",
+      "response_file": "case-N-source.json",
+      "selector": "/case_status/N-source"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "d9754b968d2e3620093fe921de87bd777d27a0c41851ee04102b49c89597f110",
+      "response_file": "case-OFF.json",
+      "selector": "/case_status/OFF"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "15e3e9bbab7a59f28c9a5e3bc7220f09a4d333d61bb74771d62011f045efe1bd",
+      "response_file": "case-P-dispatch.json",
+      "selector": "/case_status/P-dispatch"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "4149ef36d3f441441282f02d7a66d986c493095496ad4810b964640dcd663087",
+      "response_file": "case-P0a.json",
+      "selector": "/case_status/P0a"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "51ce2ae764fec31a520884710a24a30c5ed4bd91f5798c9b5335a49ec9694644",
+      "response_file": "case-P0b.json",
+      "selector": "/case_status/P0b"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "604bd3d52672141d5ebac68aff0e96f440eb498c0b2d76e3d9f4fd7180771e36",
+      "response_file": "case-P0c.json",
+      "selector": "/case_status/P0c"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "cf9539c17a02e02ce6492bdfc136071e3b809e1e47534afea69e97fe69c6fd51",
+      "response_file": "case-P1.json",
+      "selector": "/case_status/P1"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "0a118722d2f6577d241caa3ba87b0671f6e8052d01852453d330cbf547c47e94",
+      "response_file": "case-R1.json",
+      "selector": "/case_status/R1"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "a9d12015a9246247fe3aa1c9c4d70005473dc4061854c4232aefec85a201e4d9",
+      "response_file": "case-R2.json",
+      "selector": "/case_status/R2"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "370dccca2525368ad2c2aeac914b1e78560e2c02cc10e6052041c062d5d1f567",
+      "response_file": "case-R3.json",
+      "selector": "/case_status/R3"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "1978488295bedcab93f4c8ba8319352e0724c2139db1f4f2036b1006a684ae6a",
+      "response_file": "case-R4.json",
+      "selector": "/case_status/R4"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "2a535d620e83be4d4849569f9520cac4f4d27073c4a7076265559e5f38fd5d0d",
+      "response_file": "case-R5.json",
+      "selector": "/case_status/R5"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "356b213af5cf344676f457e7d8dc8fd839d607e6ddc52e22007a8ed4ce155974",
+      "response_file": "case-R6.json",
+      "selector": "/case_status/R6"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "476cb30027401ae113925fd338fea64457887e367a33323a9282df858ff67fbb",
+      "response_file": "case-R7.json",
+      "selector": "/case_status/R7"
+    }
+  ],
+  "remaining_build_seconds": 678,
+  "schema": "smallsort-r11-s5-bounded-source-evidence-v1",
+  "source_input_sha256": "039e6eadfd375e3dcd17f441df91b81f719e9dec8f27d12f6954eb731397fc6a",
+  "source_run_exit": 0,
+  "source_status_counts": {
+    "INCONCLUSIVE": 2,
+    "NOT_RUN": 24
+  },
+  "source_status_records_complete": true,
+  "start_time": "2026-10-20T23:37:17.094544110Z",
+  "status": "FAILURE",
+  "submitted_config_sha256": "60458a9cb2753fe7acc98cb13bfd0cf8a34cc5903f35ff4ad6e9ca688835f8aa",
+  "used_total": 2922
+}

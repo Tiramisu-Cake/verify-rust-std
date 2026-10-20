@@ -1,0 +1,75 @@
+{
+  "archive_sha256": "c7ea76ae1a48b39f14462d9233ed06a41e42938a1e51e694ffd74092f7157ce7",
+  "build_id": "10354d5a-0d8d-4eab-a453-2351b9f8e9d6",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 7,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+  "file_path": "proof-audit.json",
+  "file_sha256": "497441dbb8c5151ff3b84797e549085b49eb8468d342459e3115103891d0550f",
+  "index_sha256": "6e8c2cf10d7a0d428c8ecc52597d8eb959074aacb6eaff2edf71f503815f7176",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "497441dbb8c5151ff3b84797e549085b49eb8468d342459e3115103891d0550f",
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "pointer": "/case_status/N-free-region"
+  },
+  "request_id": "d0d9384a96039616b817b239a40a1688aef672b8a820498e3dd34a2bf34976c2",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/case_status/N-free-region/matrix_gate_passed",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/case_status/N-free-region/observed_outcome",
+      "value": "NEGATIVE_INTENDED"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/case_status/N-free-region/observed_stage",
+      "value": "well-scopedness"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/case_status/N-free-region/proof_credit",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/case_status/N-free-region/provenance",
+      "value": "synthetic-transport-control"
+    },
+    {
+      "exact": true,
+      "kind": "null",
+      "pointer": "/case_status/N-free-region/reason",
+      "value": null
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/case_status/N-free-region/status",
+      "value": "INTENDED_CLASSIFIED"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}
