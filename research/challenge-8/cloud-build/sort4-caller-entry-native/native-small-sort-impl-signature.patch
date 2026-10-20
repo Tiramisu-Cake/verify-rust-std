@@ -62,7 +62,7 @@
                      let trait_fn_name = Printf.sprintf "%s::%s" of_trait item in
                      let impl_fn_name =
                        Printf.sprintf "<%s as %s>::%s" self_ty of_trait item
-@@ -13069,18 +13095,93 @@
+@@ -13069,18 +13095,121 @@
                                   false,
                                   [] )
                               when name = trait_fn_name ->
@@ -89,11 +89,39 @@
 +                                   in
 +                                   if actual_name <> impl_fn_name then
 +                                     fail "compiler identity/name mismatch";
++                                   let candidate_summary () =
++                                     let cap_field value =
++                                       if String.length value <= 160 then value
++                                       else String.sub value 0 157 ^ "..." in
++                                     let count = ref 0 in
++                                     let rows = ref [] in
++                                     List.iter (function
++                                       | Ast.Func
++                                           (candidate_loc, _, _, _, candidate_name,
++                                            _, _, _, _, _, candidate_body, _, _)
++                                         when candidate_name = actual_name ->
++                                           incr count;
++                                           if !count <= 4 then begin
++                                             let (file, line, column), _ =
++                                               Ast.lexed_loc candidate_loc in
++                                             let body_kind = match candidate_body with
++                                               | Some _ -> "Some"
++                                               | None -> "None" in
++                                             rows := (Printf.sprintf "%S@%S:%d:%d/body=%s"
++                                               (cap_field candidate_name) (cap_field file)
++                                               line column body_kind) :: !rows
++                                           end
++                                       | _ -> ()) traits_and_body_decls;
++                                     Printf.sprintf
++                                       "same-name AST functions count=%d shown=%d [%s]"
++                                       !count (List.length !rows)
++                                       (String.concat "; " (List.rev !rows))
++                                   in
 +                                   let actual_tparams, actual_rt, actual_ps =
 +                                     match actual with
 +                                     | [signature] -> signature
-+                                     | [] -> fail "compiler item body missing"
-+                                     | _ -> fail "compiler item body is not unique"
++                                     | [] -> fail ("compiler item body missing; " ^ candidate_summary ())
++                                     | _ -> fail ("compiler item body is not unique; " ^ candidate_summary ())
 +                                   in
 +                                   let actual_names = List.map fst actual_tparams in
 +                                   let common_names = List.map fst tparams in

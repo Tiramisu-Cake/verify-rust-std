@@ -659,6 +659,8 @@ def observe(case_id: str, normal_decoded: str, readonly_decoded: str,
                 return region_aliases.get(value, value)
             if isinstance(value, list):
                 return [normalize(item) for item in value]
+            if isinstance(value, tuple):
+                return tuple(normalize(item) for item in value)
             if isinstance(value, dict):
                 return {key: normalize(item) for key, item in value.items()}
             return value

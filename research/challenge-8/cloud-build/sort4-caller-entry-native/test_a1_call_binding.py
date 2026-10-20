@@ -248,16 +248,24 @@ class CallBindingTests(unittest.TestCase):
                          ["StableSmallSortTypeImpl::small_sort_threshold"])
 
     def test_alpha_renamed_input_and_hrtb_regions_remain_equivalent(self):
-        normal = decoded("a1_guard_observer")
-        readonly = decoded("a1_guard_observer", tag="ro")
-        normal = rename_region_ids(normal, {
-            "a": "'__72", "b": "'__73", "p": "'__74", "c": "'__75",
-            "br1": "'__70", "br2": "'__71"})
-        readonly = rename_region_ids(readonly, {
-            "a": "'__67", "b": "'__68", "p": "'__69", "c": "'__70",
-            "br1": "'__65", "br2": "'__66"})
-        result = m.observe("P0c", normal, readonly, certificate(), SOURCE)
-        self.assertTrue(result["semantic_normal_readonly_equal"])
+        for case_id, caller_name in (("P0c", "a1_guard_observer"), ("P1", "quicksort")):
+            with self.subTest(case_id=case_id):
+                normal = decoded(caller_name)
+                readonly = decoded(caller_name, tag="ro")
+                normal = rename_region_ids(normal, {
+                    "a": "'__72", "b": "'__73", "p": "'__74", "c": "'__75",
+                    "br1": "'__70", "br2": "'__71"})
+                readonly = rename_region_ids(readonly, {
+                    "a": "'__67", "b": "'__68", "p": "'__69", "c": "'__70",
+                    "br1": "'__65", "br2": "'__66"})
+                result = m.observe(case_id, normal, readonly, certificate(), SOURCE)
+                self.assertTrue(result["semantic_normal_readonly_equal"])
+                if case_id == "P1":
+                    common = next(call for call in result["binding"]["calls"]
+                                  if call["callee"].endswith("::small_sort"))
+                    self.assertEqual(common["argument_roots"], ("v", "scratch", "is_less"))
+                    self.assertEqual(common["substs"], ("T", "F"))
+                    self.assertEqual(common["late_bound_lifetime_count"], 3)
 
     def test_semantic_mismatch_diagnostic_names_exact_field_and_path(self):
         normal = {"caller": "quicksort", "calls": [{"call_line": 5}]}
