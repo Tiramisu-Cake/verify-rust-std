@@ -273,6 +273,10 @@ class FocusProfileBindingTests(unittest.TestCase):
         self.assertEqual(hashlib.sha256(profile_path.read_bytes()).hexdigest(),
                          "a1be5bef10b27946185df84cf6b8fb7fde4417c05cf4bc08d0f75de1c8462f97")
         historically_advanced = {
+            "a1-ast-gates.py":
+                "917d51a52d9383beb56f52ff22415e62f81ee60a2a8a16ae40e08c17b36c2c58",
+            "a1-compiler-inventory.py":
+                "6394ec909e6d6a7e77988279c382d531d61b10c7ca02e23672291c4622fe95e5",
             "a1-focus-backend.py":
                 "6e3d5303500c0601dc4fc886bcdaaf78c911147d4fa90bc5eab2b768dc0d0a82",
             "a1-tool.py":

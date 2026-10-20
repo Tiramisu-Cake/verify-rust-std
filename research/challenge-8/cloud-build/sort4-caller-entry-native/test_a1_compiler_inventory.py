@@ -196,8 +196,30 @@ class InventoryTests(unittest.TestCase):
                          {"default16", "freeze32"})
         self.assertTrue(all(len(x["compiler_signature_digest"]) == 64
                             for x in result["inventory"]["impl_small_sort_identities"]))
+        identities = {x["impl"]: x for x in
+                      result["inventory"]["impl_small_sort_identities"]}
+        self.assertEqual(identities["default16"]["source_body_span"],
+                         (("verified/lib.rs", 6, 0), ("verified/lib.rs", 6, 60)))
+        self.assertEqual(identities["freeze32"]["source_body_span"],
+                         (("verified/lib.rs", 12, 0), ("verified/lib.rs", 12, 60)))
         with self.assertRaises(TypeError):
             result["proof_credit"] = True
+
+    def test_impl_small_sort_identity_retains_full_span_when_paths_repeat(self):
+        source = valid_source()
+        decoded = stream().replace(
+            "crate::freeze32::small_sort", "crate::default16::small_sort")
+        result = m.observe("P0a", decoded, decoded, certificate(source), source)
+        identities = {row["impl"]: row for row in
+                      result["inventory"]["impl_small_sort_identities"]}
+        self.assertEqual(identities["default16"]["item_def_id"],
+                         identities["freeze32"]["item_def_id"])
+        self.assertNotEqual(identities["default16"]["impl_def_index"],
+                            identities["freeze32"]["impl_def_index"])
+        self.assertNotEqual(identities["default16"]["item_def_index"],
+                            identities["freeze32"]["item_def_index"])
+        self.assertNotEqual(identities["default16"]["source_body_span"],
+                            identities["freeze32"]["source_body_span"])
 
     def test_required_small_sort_lost_F_rejected(self):
         source = valid_source()

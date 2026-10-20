@@ -295,6 +295,47 @@ def _source_line(location: Any) -> int:
     return int(match.group(1))
 
 
+def _source_span(location: Any) -> tuple[tuple[str, int, int], tuple[str, int, int]]:
+    """Decode the complete regular Lexed Func span in the canonical source."""
+    need(isinstance(location, tuple) and len(location) == 2 and
+         location[0] == "loc" and isinstance(location[1], str),
+         "Func source span")
+    match = re.fullmatch(
+        r"(verified/lib\.rs)\(([1-9][0-9]*),([0-9]+)-"
+        r"(?:([1-9][0-9]*),)?([0-9]+)\)", location[1])
+    need(match is not None, "Func must have a full regular verified/lib.rs span")
+    path, lo_line, lo_col, hi_line, hi_col = match.groups()
+    if hi_line is None:
+        hi_line = lo_line
+    lo = (path, int(lo_line), int(lo_col))
+    hi = (path, int(hi_line), int(hi_col))
+    need((hi[1], hi[2]) >= (lo[1], lo[2]),
+         "Func source span must be ordered")
+    return lo, hi
+
+
+def _compiler_source_span(value: Any) -> tuple[tuple[str, int, int], tuple[str, int, int]]:
+    """Require a complete regular MIR body span from the source inventory."""
+    need(isinstance(value, (tuple, list)) and len(value) == 2,
+         "compiler original impl Body.span missing")
+    points = []
+    for point in value:
+        need(isinstance(point, (tuple, list)) and len(point) == 3 and
+             point[0] == "verified/lib.rs" and type(point[1]) is int and
+             point[1] > 0 and type(point[2]) is int and point[2] >= 0,
+             "compiler original impl Body.span must be regular verified/lib.rs")
+        points.append((point[0], point[1], point[2]))
+    need((points[1][1], points[1][2]) >= (points[0][1], points[0][2]),
+         "compiler original impl Body.span must be ordered")
+    return points[0], points[1]
+
+
+def _compiler_source_span_as_ast(value: Any) -> tuple[tuple[str, int, int], tuple[str, int, int]]:
+    """Translate raw MIR CharPos columns to the AST's explicitly 1-based columns."""
+    span = _compiler_source_span(value)
+    return tuple((path, line, column + 1) for path, line, column in span)
+
+
 def _threshold_header(record: Mapping[str, Any], type_parameter: str) -> None:
     """Exact safe, zero-argument, usize function envelope of the pinned AST."""
     fs = record["fields"]
@@ -674,7 +715,10 @@ def _small_sort_impl_surface(record: Mapping[str, Any], identity: Mapping[str, A
     need(isinstance(item_path, str) and item_path and record.get("name") == item_path and
          record.get("kind") == "definition",
          label + " AST definition does not match its compiler item DefPath")
-    need(_source_line(record["fields"][0]) == identity.get("ast_body_line"),
+    source_body_span = _compiler_source_span(identity.get("source_body_span"))
+    need(_source_line(record["fields"][0]) == identity.get("ast_body_line") and
+         _source_span(record["fields"][0]) ==
+         _compiler_source_span_as_ast(source_body_span),
          label + " AST definition span differs from compiler Body.span")
     signature = identity.get("compiler_signature")
     need(isinstance(signature, Mapping) and
@@ -703,7 +747,8 @@ def _small_sort_impl_surface(record: Mapping[str, Any], identity: Mapping[str, A
             "compiler_positional_region_map": tuple(zip(ast_regions, compiler_regions)),
             "normalized_header": header, "normalized_native": native,
             "native_sha256": {key: digest(value) for key, value in native.items()},
-            "ast_body_line": identity["ast_body_line"]}
+            "ast_body_line": identity["ast_body_line"],
+            "source_body_span": source_body_span}
 
 
 def small_sort_native_baseline(ast: str, inventory: Mapping[str, Any], *,
@@ -760,21 +805,39 @@ def small_sort_native_baseline(ast: str, inventory: Mapping[str, Any], *,
     need(isinstance(impl_identities, (tuple, list)) and len(impl_identities) == 2,
          "compiler-bound original small_sort impl identities missing from R-only baseline")
     original_impls = {}
-    item_paths = set()
+    identity_keys = set()
+    impl_ids = set()
+    item_ids = set()
+    source_spans = set()
+    by_item_path: dict[str, list[Mapping[str, Any]]] = {}
     for identity in impl_identities:
         need(isinstance(identity, Mapping) and
              identity.get("impl") in ("default16", "freeze32") and
              identity["impl"] not in original_impls,
              "compiler original impl identity row is malformed or duplicated")
         item_path = identity.get("item_def_id")
-        need(isinstance(item_path, str) and item_path not in item_paths,
-             "compiler original impl item DefPath is missing or duplicated")
-        item_paths.add(item_path)
+        impl_id, item_id = identity.get("impl_def_index"), identity.get("item_def_index")
+        source_body_span = _compiler_source_span(identity.get("source_body_span"))
+        identity_key = (impl_id, item_id)
+        need(isinstance(item_path, str) and bool(item_path) and
+             type(impl_id) is int and impl_id > 0 and
+             type(item_id) is int and item_id > 0 and
+             identity_key not in identity_keys and impl_id not in impl_ids and
+             item_id not in item_ids,
+             "compiler original impl numeric identity is missing or duplicated")
+        need(source_body_span not in source_spans,
+             "compiler original impl Body.span is missing or duplicated")
+        identity_keys.add(identity_key)
+        impl_ids.add(impl_id)
+        item_ids.add(item_id)
+        source_spans.add(source_body_span)
+        by_item_path.setdefault(item_path, []).append(identity)
         matches = [row for row in fs if row["name"] == item_path and
                    row["kind"] == "definition" and
-                   _source_line(row["fields"][0]) == identity.get("ast_body_line")]
+                   _source_span(row["fields"][0]) ==
+                   _compiler_source_span_as_ast(source_body_span)]
         need(len(matches) == 1,
-             "R-only AST must contain one original impl definition by compiler DefPath and Body.span: " +
+             "R-only AST must contain one original impl definition by compiler DefPath and full Body.span: " +
              identity["impl"])
         surface = _small_sort_impl_surface(matches[0], identity,
                                            label="R-only " + identity["impl"])
@@ -785,6 +848,18 @@ def small_sort_native_baseline(ast: str, inventory: Mapping[str, Any], *,
              "unmodified R-only impl typed header differs from required common baseline: " +
              identity["impl"])
         original_impls[identity["impl"]] = surface
+    for item_path, identities in by_item_path.items():
+        path_definitions = [row for row in fs if row["name"] == item_path and
+                            row["kind"] == "definition"]
+        need(len(path_definitions) == len(identities),
+             "R-only AST DefPath has unbound or ambiguous original impl definitions: " +
+             item_path)
+        for row in path_definitions:
+            row_span = _source_span(row["fields"][0])
+            need(sum(_compiler_source_span_as_ast(identity["source_body_span"]) == row_span
+                     for identity in identities) == 1,
+                 "R-only AST original impl definition does not bind uniquely back to compiler Body.span: " +
+                 item_path)
     need(set(original_impls) == {"default16", "freeze32"},
          "R-only baseline must bind both original small_sort impl definitions")
     return {"schema": "a1-small-sort-native-baseline-v1",
@@ -915,7 +990,9 @@ def small_sort_interface(ast: str, inventory: Mapping[str, Any], *,
              original.get("item_def_id") == row.get("item_def_id") and
              original.get("compiler_impl_id") == row.get("impl_def_index") and
              original.get("compiler_item_id") == row.get("item_def_index") and
-             original.get("compiler_signature_digest") == row.get("compiler_signature_digest"),
+             original.get("compiler_signature_digest") == row.get("compiler_signature_digest") and
+             _compiler_source_span(original.get("source_body_span")) ==
+             _compiler_source_span(row.get("source_body_span")),
              "R-only original impl baseline is bound to another compiler item: " + row["impl"])
         alias = row.get("alias")
         need(isinstance(alias, str) and alias not in aliases and
@@ -947,7 +1024,9 @@ def small_sort_interface(ast: str, inventory: Mapping[str, Any], *,
         need(_small_sort_ast_return(fn) == "unit",
              "actual impl AST return type differs from compiler unit output")
         _small_sort_ast_bounds(fn)
-        need(_source_line(fn["fields"][0]) == row.get("ast_body_line"),
+        need(_source_line(fn["fields"][0]) == row.get("ast_body_line") and
+             _source_span(fn["fields"][0]) ==
+             _compiler_source_span_as_ast(row.get("source_body_span")),
              "small_sort implementation AST span differs from compiler Body.span")
         native = _small_sort_native(fn, alpha_impl)
         need(native == original["normalized_native"] and native == baseline_native,

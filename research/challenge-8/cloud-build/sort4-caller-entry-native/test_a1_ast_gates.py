@@ -19,8 +19,9 @@ runner_spec.loader.exec_module(runner)
 import test_a1_compiler_inventory as inventory_fixture
 
 
-def loc(line):
-    return f'loc "verified/lib.rs({line},1-1)"'
+def loc(line, *, endline=None, startcol=1, endcol=61):
+    endline = endline or line
+    return f'loc "verified/lib.rs({line},{startcol}-{endline},{endcol})"'
 
 
 def variable(line, name):
@@ -105,7 +106,7 @@ def small_sort_func(name, line, *, body=False, impl_self="Self",
                     drop_resource=False, drop_unwind=False, substitute=False,
                     mix_region=False, drop_outcome=False, return_substitute=False,
                     lifetime_bound_mutant=False, mix_native_fraction=False,
-                    wrong_maybeuninit=False):
+                    wrong_maybeuninit=False, source_location=None):
     binders = (impl_self, "F", "'a", "'b", "'c")
     params = "; ".join(f'("{x}", ({"true" if lifetime_bound_mutant and x.startswith(chr(39)) else ("false" if x.startswith(chr(39)) else "true")}))'
                         for x in binders)
@@ -146,31 +147,91 @@ def small_sort_func(name, line, *, body=False, impl_self="Self",
     return_ty = (f'Some (ConstructedTypeExpr ({loc(line)}, "fn_outcome", '
                  f'[ManifestTypeExpr ({loc(line)}, StructType ("{unit_name}", []))]))')
     body_field = f'Some (([], {loc(line)}))' if body else 'None'
-    return (f'Func ({loc(line)}, Regular, [{params}], {return_ty}, "{name}", '
+    return (f'Func ({source_location or loc(line)}, Regular, [{params}], {return_ty}, "{name}", '
             f'[{declarations}], false, (None, None), {spec}, false, {body_field}, false, [])')
 
 
-def p1_fixture(*, candidate_extra=True, **changes):
+def _thaw(value):
+    from collections.abc import Mapping
+    if isinstance(value, Mapping):
+        return {key: _thaw(item) for key, item in value.items()}
+    if isinstance(value, tuple):
+        return tuple(_thaw(item) for item in value)
+    if isinstance(value, list):
+        return [_thaw(item) for item in value]
+    return value
+
+
+def p1_fixture(*, candidate_extra=True, shared_r_only_defpath=False,
+               duplicate_r_only_ast=False, duplicate_r_only_numeric=False,
+               duplicate_r_only_impl_numeric=False,
+               duplicate_r_only_span=False, r_only_default_bad_span=False,
+               r_only_default_zero_based_span=False,
+               r_only_default_compact_span=False,
+               r_only_default_wrong_source=False,
+               r_only_ast_wrong_source=False,
+               r_only_default_prefixed_wrong_source=False,
+               candidate_default_prefixed_wrong_source=False,
+               candidate_default_compact_span=False, **changes):
     pair_hashes = {"verified": "a" * 64, "original": "b" * 64}
     actual_pair = hashlib.sha256(
         (pair_hashes["verified"] + ":" + pair_hashes["original"]).encode("ascii")
     ).hexdigest()
     source = inventory_fixture.valid_source()
     cert = inventory_fixture.certificate(source)
-    observation = inventory_fixture.m.observe("P0a", inventory_fixture.stream(),
-                                               inventory_fixture.stream(), cert, source)
+    compiler_dump = inventory_fixture.stream()
+    if shared_r_only_defpath:
+        compiler_dump = compiler_dump.replace(
+            "crate::freeze32::small_sort", "crate::default16::small_sort")
+    observation = inventory_fixture.m.observe("P0a", compiler_dump,
+                                               compiler_dump, cert, source)
+    if (duplicate_r_only_numeric or duplicate_r_only_impl_numeric or
+            duplicate_r_only_span or
+            r_only_default_wrong_source):
+        observation = _thaw(observation)
+        identities = list(observation["inventory"]["impl_small_sort_identities"])
+        observation["inventory"]["impl_small_sort_identities"] = identities
+        if duplicate_r_only_numeric:
+            identities[1]["item_def_index"] = identities[0]["item_def_index"]
+        if duplicate_r_only_impl_numeric:
+            identities[1]["impl_def_index"] = identities[0]["impl_def_index"]
+        if duplicate_r_only_span:
+            identities[1]["source_body_span"] = identities[0]["source_body_span"]
+        if r_only_default_wrong_source:
+            identities[0]["source_body_span"] = (("other.rs", 6, 0),
+                                                   identities[0]["source_body_span"][1])
     r_only_default_drop_resource = changes.pop("r_only_default_drop_resource", False)
     r_only_freeze_drop_outcome = changes.pop("r_only_freeze_drop_outcome", False)
-    native_ast = "\n".join((
+    default_path = "crate::default16::small_sort"
+    freeze_path = default_path if shared_r_only_defpath else "crate::freeze32::small_sort"
+    default_location = (loc(6, endcol=60) if r_only_default_bad_span else
+                        loc(6, startcol=0, endcol=60)
+                        if r_only_default_zero_based_span else
+                        'loc "verified/lib.rs(6,1-61)"'
+                        if r_only_default_compact_span else
+                        'loc "prefix/verified/lib.rs(6,1-6,61)"'
+                        if r_only_default_prefixed_wrong_source else
+                        'loc "other.rs(6,0-6,60)"'
+                        if r_only_default_wrong_source or r_only_ast_wrong_source else None)
+    native_rows = [
         small_sort_func("StableSmallSortTypeImpl::small_sort", 2),
-        small_sort_func("crate::default16::small_sort", 6, body=True, impl_self="T",
-                        drop_resource=r_only_default_drop_resource),
-        small_sort_func("crate::freeze32::small_sort", 12, body=True, impl_self="T",
-                        drop_outcome=r_only_freeze_drop_outcome)))
+        small_sort_func(default_path, 6, body=True, impl_self="T",
+                        drop_resource=r_only_default_drop_resource,
+                        source_location=default_location),
+        small_sort_func(freeze_path, 12, body=True, impl_self="T",
+                        drop_outcome=r_only_freeze_drop_outcome)]
+    if duplicate_r_only_ast:
+        native_rows.append(small_sort_func(default_path, 6, body=True, impl_self="T"))
+    native_ast = "\n".join(native_rows)
     global_return = changes.pop("all_return_substitute", False)
     candidate_first = small_sort_func("__a1_impl_1_item_12_small_sort", 6,
                                       body=True, impl_self="T",
-                                      return_substitute=global_return, **changes)
+                                      return_substitute=global_return,
+                                      source_location=('loc "prefix/verified/lib.rs(6,1-6,61)"'
+                                          if candidate_default_prefixed_wrong_source else
+                                          'loc "verified/lib.rs(6,1-61)"'
+                                          if candidate_default_compact_span else None),
+                                      **changes)
     candidate_ast = "\n".join((small_sort_func("StableSmallSortTypeImpl::small_sort", 2,
                                                 return_substitute=global_return),
                                 candidate_first,
@@ -327,6 +388,64 @@ class SyntheticAstGates(unittest.TestCase):
             with self.subTest(mutation=mutation):
                 with self.assertRaises(gate.AstGateError):
                     p1_fixture(**{mutation: True})
+
+    def test_r_only_shared_printed_defpath_binds_by_numeric_ids_and_full_spans(self):
+        ast, inventory, baseline, actual_pair = p1_fixture(
+            shared_r_only_defpath=True, r_only_default_compact_span=True,
+            candidate_default_compact_span=True)
+        self.assertEqual({row["item_def_id"] for row in
+                          baseline["normalized_impls"].values()},
+                         {"crate::default16::small_sort"})
+        self.assertNotEqual(
+            baseline["normalized_impls"]["default16"]["source_body_span"],
+            baseline["normalized_impls"]["freeze32"]["source_body_span"])
+        self.assertEqual(
+            baseline["normalized_impls"]["default16"]["source_body_span"],
+            (("verified/lib.rs", 6, 0), ("verified/lib.rs", 6, 60)),
+            "baseline preserves raw zero-based compiler source span")
+        result = gate.small_sort_interface(ast, inventory, baseline=baseline,
+                                           actual_source_pair_sha256=actual_pair)
+        self.assertTrue(result["structural_pass"])
+        self.assertEqual(set(result["impls"]), {"default16", "freeze32"})
+        self.assertTrue(all(result["impls"][name]["actual_definition_bound_to_compiler_item"]
+                            for name in ("default16", "freeze32")))
+
+    def test_r_only_rejects_duplicate_numeric_identity_or_body_span(self):
+        for mutation in ("duplicate_r_only_numeric", "duplicate_r_only_impl_numeric",
+                         "duplicate_r_only_span"):
+            with self.subTest(mutation=mutation), self.assertRaises(gate.AstGateError):
+                p1_fixture(shared_r_only_defpath=True, **{mutation: True})
+
+    def test_r_only_rejects_ambiguous_ast_and_full_span_mismatch(self):
+        for mutation in ("duplicate_r_only_ast", "r_only_default_bad_span",
+                         "r_only_default_zero_based_span"):
+            with self.subTest(mutation=mutation), self.assertRaises(gate.AstGateError):
+                p1_fixture(shared_r_only_defpath=True, **{mutation: True})
+
+    def test_r_only_rejects_wrong_compiler_or_ast_source_path(self):
+        for mutation in ("r_only_default_wrong_source", "r_only_ast_wrong_source",
+                         "r_only_default_prefixed_wrong_source"):
+            with self.subTest(mutation=mutation), self.assertRaises(gate.AstGateError):
+                p1_fixture(shared_r_only_defpath=True, **{mutation: True})
+
+    def test_candidate_rejects_prefixed_path_with_canonical_suffix(self):
+        ast, inventory, baseline, actual_pair = p1_fixture(
+            candidate_default_prefixed_wrong_source=True)
+        with self.assertRaises(gate.AstGateError):
+            gate.small_sort_interface(ast, inventory, baseline=baseline,
+                                      actual_source_pair_sha256=actual_pair)
+
+    def test_ast_location_parser_accepts_compact_same_line_range_only(self):
+        self.assertEqual(gate._source_span(
+            gate.tree('loc "verified/lib.rs(32,8-28)"')),
+            (("verified/lib.rs", 32, 8), ("verified/lib.rs", 32, 28)))
+        self.assertEqual(gate._source_span(
+            gate.tree('loc "verified/lib.rs(32,8-34,28)"')),
+            (("verified/lib.rs", 32, 8), ("verified/lib.rs", 34, 28)))
+        for value in ('verified/lib.rs(32,8)',
+                      'prefix/verified/lib.rs(32,8-28)'):
+            with self.subTest(value=value), self.assertRaises(gate.AstGateError):
+                gate._source_span(gate.tree(f'loc "{value}"'))
 
     def test_p1_rejects_self_or_unprovenanced_baseline(self):
         ast, inventory, baseline, actual_pair = p1_fixture()

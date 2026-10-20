@@ -1061,11 +1061,18 @@ def collect_native_reference_baseline(a, c4, *, tool: Path,
                "-rustc_args", "--edition 2021", "verified/lib.rs"]
     stage = c4.stage(a, root, "r-only-native-reference",
                      command, env, 240, cwd=fixture)
-    source_after = {name: _sha(fixture / name)
-                    for name in ("verified/lib.rs", "original/lib.rs")}
-    _need(source_after == p1_raw["source_pair_sha256"] and
-          ast_path.is_file(),
-          "R-only baseline did not preserve exact P1 source pair or emit its pre-verification AST")
+    source_paths = {"verified": "verified/lib.rs", "original": "original/lib.rs"}
+    source_after = {key: _sha(fixture / relative_path)
+                    for key, relative_path in source_paths.items()}
+    expected_source_pair = p1_raw["source_pair_sha256"]
+    changed_sources = [key for key in source_paths
+                       if source_after[key] != expected_source_pair[key]]
+    _need(not changed_sources,
+          "R-only baseline changed P1 source pair "
+          f"(files={','.join(changed_sources)}; "
+          f"expected={expected_source_pair}; observed={source_after})")
+    _need(ast_path.is_file(),
+          "R-only baseline did not emit its pre-verification AST")
     actual_source_pair_sha256 = hashlib.sha256(
         (source_after["verified"] + ":" + source_after["original"]).encode("ascii")
     ).hexdigest()

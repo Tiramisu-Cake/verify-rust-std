@@ -823,6 +823,8 @@ def _freeze_shape(root):
                                if item["name"] == "small_sort"),
           "ast_body_line": next(item["body"]["mir_span"][0][1] for item in row["items"]
                                 if item["name"] == "small_sort"),
+          "source_body_span": next(item["body"]["mir_span"] for item in row["items"]
+                                   if item["name"] == "small_sort"),
           "compiler_signature_digest": next(item["small_sort_signature"]["digest"]
                                              for item in row["items"]
                                              if item["name"] == "small_sort"),
