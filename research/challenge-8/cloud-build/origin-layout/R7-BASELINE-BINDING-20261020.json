@@ -1,0 +1,45 @@
+{
+  "schema": "merge-r7-bounded-binding-v1",
+  "build": "2168bb6c-6e0e-4701-9b24-664efab4768e",
+  "archive_sha256": "0d12b7769568b012991d51059fd37718d8b760dd0d8dd382fbc477790bc14acf",
+  "index_sha256": "82fca1c03020222307ec9a3a4b92f2f78d3d6e240266ded02dd8b86e462662aa",
+  "observations": [
+    {
+      "file_id": "2d78ebdaeb062e188723dd979753b6ca3c2142a8d584603f17f4536298dbcdd1",
+      "sha256": "8e1bac42dea835d026337d59354b26f2298d556f6d343136fac00fd620f4800a",
+      "lines": [
+        285,
+        296
+      ],
+      "request_id": "14ce2b9f7dc986d66f0d615d471b7b4248d40f64d264f6cccde459b44b2e8aa9",
+      "observed": "291 late typed FnMut; 295 closing brace"
+    },
+    {
+      "file_id": "7d457f18b4648275ca0a94b68859d4f392f468bfe2b5d791e28d96b664fe6209",
+      "sha256": "213621c2eedc7f3b0e80f7563e3d552b46e02c7ad48cc65a090f8b84771d621a",
+      "lines": [
+        1410,
+        1421
+      ],
+      "request_id": "67a6e740ffa15af51ecc52c734632367c64be15c48556ad7a114b95bed80455f",
+      "observed": "AST generated_drop_glue at verified295 receiver126 from create_ref_mut(&gap_guard)"
+    },
+    {
+      "file_id": "ba7c40032e998d5871061c660a28e8467a5cc16ca492125994ac0289346d98e5",
+      "sha256": "7d226593f40a0194a78aaad93a2b5703228b35f2f58fb8a8c032b7f90d0ce66a",
+      "pointer": "/source_before",
+      "request_id": "401dda479de210565734799f94c0eff22d4ae2847313f8f2839609bc0acd28d6",
+      "observed": {
+        "verified/lib.rs": "8e1bac42dea835d026337d59354b26f2298d556f6d343136fac00fd620f4800a",
+        "original/lib.rs": "d5a1f33a06115a3a23918afe054191227ca29d990fb199147d23ec4f6531bc26",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      }
+    }
+  ],
+  "exact": true,
+  "complete": false,
+  "stage_source_unchanged_as_reported": true,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causal_status": "UNKNOWN",
+  "independent_credit": 0
+}

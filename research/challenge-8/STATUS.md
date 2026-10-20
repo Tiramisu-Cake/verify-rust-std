@@ -1,3 +1,11 @@
+# MERGE — R7 ACTIVE / actual guard and CURRENT recovery
+
+T0/main/absolute UTC2026-10-20 14:33:33/16:33:33/17:03:33.
+Fresh3600Cloudseconds, separate R7 ledger, no R6 carry; no R7 Builds yet.
+Target exact implicit guard Drop packaging, then full late lifetime/loan/readonly
+normal Continue/break/unwind resource return. Baseline actual theorem/B2/credit0.
+[Задание](CURRENT-TASK.md), [session](cloud-build/origin-layout/SESSION.md).
+
 # MERGE — R7 READY / proof mission OPEN
 
 2026-10-20: [новая R7 явно разрешена](CURRENT-TASK.md): 120 минут основной работы + до30 минут завершения, новый отдельный бюджет3600 Cloud-секунд, без фиксированного лимита последовательных Builds. T0 устанавливает агент при фактическом старте R7. Приоритет — actual array/guard frontier verified295/prelude_core264 и checked CURRENT normal/unwind/lifetime/loan/readonly cleanup; задачи в миссии выбирать автономно. R6 CLOSED,464spent/3136retired, её счёт и время не возобновляются. Новый R7 ledger регистрируется отдельно; запусков R7 пока нет. Baseline e91e7036/tool45594fb8/profile13f0a97d, independent credit0. Прежние checkpoints ниже исторические; приоритет у нового задания.

@@ -7380,3 +7380,7 @@ Actual proof outcome UNKNOWN pending Brief; no raw fallback or proof credit.
 ## R6 closure after migration — 2026-10-20
 
 Original main expired; resumed only finishing before absolute14:26:46Z. No proof executions. Coordinator reconfirmed Build2168bb6c FAILURE,464charged/463execution;3136retired without carry; own requests/reservations/active/unresolved0. Brief available; old auth/UNKNOWN record superseded. Exact v0.11 lines1317–1322 with expected SHA44fb7568 show verified295/prelude_core264 missing quarter-share zero-length array; canonical representation is not full late-call/CURRENT theorem. Parser-input binding/causality unknown, independentcredit0; normal/unwind/guard/prefix/B2/qualification OPEN. See R6-FINAL-RESULT and exact frontier receipt. New window/budget needed for execution.
+
+## R7 candidate1 — checked original guard zero-tail packaging
+
+Fresh authorized T014:33:33Z/main16:33:33Z/absolute17:03:33Z,3600 budget. Exact baseline source291 late call and AST generated_drop_glue295 identify guard packaging at closing brace; missing quarter array(src+1,0) distinct from nonempty/loan recovery. Add checked physical-preserving empty-tail helper at originalguard initialization plus4 isolated controls and freshR7 registration. LunaHIGH independent GO, service6+4 PASS, no theorem/qualification credit. Existing full CURRENT normal/unwind and matrix retained; target next actual observation under unchanged tool45594fb8/profile13f0a97d.

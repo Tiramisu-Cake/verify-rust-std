@@ -2,7 +2,7 @@
 
 ## Задание и явная авторизация
 
-- **ID:** `merge-post-migration-current-recovery-autonomous-2026-10-20-r7`; **статус:** READY — новая сессия и actual Cloud execution разрешены в условиях ниже; T0 ещё не установлен.
+- **ID:** `merge-post-migration-current-recovery-autonomous-2026-10-20-r7`; **статус:** ACTIVE — T0 2026-10-20T14:33:33Z, main16:33:33Z, absolute17:03:33Z.
 - **Owner:** `merge`.
 - **Project worktree:** `/root/verify-rust-std-merge-origin`; **branch:** `merge/incoming-origin-20261009`; репозиторий `Tiramisu-Cake/verify-rust-std`.
 - **Tool worktree:** `/root/verifast-merge-actual-glue`; **branch:** `merge/actual-glue-instance-20261011`; baseline head **`45594fb821805f10c4e05f02912d1ea3bf920e62`**.
@@ -64,4 +64,4 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-Ожидается по завершении новой R7. T0 ещё не установлен; новых Builds этим поручением пока не запущено. R6 штатно закрыта,3136 секунд retired не используются; её запрет повторной активации не относится к новой отдельно разрешённой R7.
+R7 начата2026-10-20T14:33:33Z; main16:33:33Z/absolute17:03:33Z. Бюджет3600 новый, R6 retired3136 не используются. Цель: source-bound guard array packaging → exact late scope/loan/readonly normal/unwind recovery. Builds пока0, proof credit0.

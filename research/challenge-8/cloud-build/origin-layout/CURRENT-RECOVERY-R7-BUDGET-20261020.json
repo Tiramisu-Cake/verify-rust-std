@@ -1,0 +1,21 @@
+{
+  "phase": "MERGE-POST-MIGRATION-CURRENT-RECOVERY-R7-2026-10-20",
+  "owner": "merge",
+  "authorization_model": "bounded-cloud-budget",
+  "status": "AUTHORIZED",
+  "allowed_lanes": [
+    "merge"
+  ],
+  "ceiling_build_seconds": 3600,
+  "used_build_seconds": 0,
+  "remaining_build_seconds": 3600,
+  "builds": [],
+  "active_build": null,
+  "start_utc": "2026-10-20T14:33:33Z",
+  "main_deadline_utc": "2026-10-20T16:33:33Z",
+  "deadline_utc": "2026-10-20T17:03:33Z",
+  "max_timeout_seconds": 900,
+  "authorization": "Direct owner CURRENT-TASK R7 authorization; 120-minute main window plus 30-minute finishing window; fresh 3600 Cloud-second account; stable owner merge, merge lane, pinned objects; timeout 90..900 seconds; no new dispatch/request after main deadline; no carryover.",
+  "policy_revision": "2026-10-20 owner CURRENT-TASK R7 with Evidence v0.11 and ITERATION-PROCESS",
+  "carryover_allowed": false
+}

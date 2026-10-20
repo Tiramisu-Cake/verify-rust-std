@@ -761,3 +761,11 @@ Late call verified264 uses F, two shared u64 refs with the same 'late and method
 'late, runtime args $_141/$_142. This binds actual type shape, not parser-input
 identity (still NOT_ESTABLISHED) or proof acceptance. Existing typeid lifetime
 auto lemma is the checked equality needed for the type argument's lifetime.
+
+## R7 candidate1 rationale BEFORE implementation — 2026-10-20
+
+Actual source Reader receipt14ce2b9f (Build2168bb6c/index82fca1c0/archive0d12b776, file2d78ebda SHA8e1bac42) binds verified291 to late FnMut and verified295 to the closing brace. Exact typed AST lines1410–1421, receipt67a6e740, file7d457f18 SHA213621c2, show real generated Drop glue call at verified295 with receiver __vf_drop_receiver_126 from gap_guard. Exact trace1305–1322 binds the observed execution at295 to missing quarter array(src+1,0,_). Parser-input binding is NOT_ESTABLISHED by Reader; stage source hashes are checked separately, no AST causality theorem is claimed.
+
+Pinned prelude_core259–265 defines array(p,0,nil) by pointer_within_limits(p), without a physical cell. Actual original guard reference r4_tmp_ref has physical half-share at its fresh provenance, while late tmp reference uses half of the remaining original tmp fraction. The missing zero-tail is therefore a distinct packaging obligation; it does not establish return of either nonempty cell or any loan. Candidate1 explicitly obtains points_to_limits on guard.src as *mut u64 after guard initialization, asserts pointer_within_limits(src+1), and closes only quarter array(src+1,0,nil). This resource is framed across late callback and available to both real normal and cleanup generated Drop; existing full Drop preconditions, CURRENT posts and all nonempty ownership remain checked. No ownership derives from equality, no lifetime death inside binding, no type/model/kernel change.
+
+Controls use exact body-checked helper: positive quarter singleton packaging from matching physical quarter plus checked limits; missing-quarter, wrong referent, and mismatched value must fail at the singleton close. Empty-array creation alone cannot satisfy a nonempty owner. Actual run must report any next failure, without claiming full late call/cleanup acceptance. Source/drop/call semantics, HRTB gates and existing matrix remain unchanged.

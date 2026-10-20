@@ -101,6 +101,28 @@ TMP_REFERENCE_INIT = b"""        //@ let r4_tmp_ref = precreate_ref::<u64>(&tmp)
 """
 
 
+# Empty-tail folding follows the existing array definition and checks geometry.
+# This retains the actual physical fraction/value and returns no nonempty owner.
+GUARD_EMPTY_TAIL_HELPER = b"""/*@
+lem r7_guard_empty_tail(p: *u64)
+    req [?f](*p |-> ?v);
+    ens [f](*p |-> v) &*& [1/4]array::<u64>(p + 1, 0, nil);
+{
+    points_to_limits::<u64>(p);
+    assert pointer_within_limits(p + 1) == true;
+    close [1/4]array::<u64>(p + 1, 0, nil);
+}
+@*/
+"""
+
+
+def _prepare_guard_empty_tail(source):
+    anchor = b'        let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };\n'
+    return _one(source, anchor, anchor +
+                b'        //@ r7_guard_empty_tail(gap_guard.src as *mut u64);\n',
+                'checked empty array tail at original guard reference provenance')
+
+
 def _prepare_tmp_reference(source):
     anchor = b'        let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };\n'
     return _one(source, anchor, TMP_REFERENCE_INIT + anchor,
@@ -273,6 +295,9 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
     verified = (case / 'verified/lib.rs').read_bytes()
     full_original = original
     verified = _add_u64_share_representation(verified)
+    verified = _one(verified, U64_SHARE_REPRESENTATION,
+                    U64_SHARE_REPRESENTATION + GUARD_EMPTY_TAIL_HELPER,
+                    'checked guard empty-tail helper')
     verified = _add_singleton_facts(verified)
     verified = _one(verified,
                     old.B2_COMPARE_RECOVER.replace(b'        ', b'            '),
@@ -297,7 +322,8 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
                          'lost_current_f', 'lost_cell_owner'):
         raise ValueError('unknown first-comparator mutation')
     if not prefix:
-        verified = _prepare_late_references(_prepare_first_shift(_prepare_tmp_reference(_open_tail_read(verified))))
+        verified = _prepare_late_references(_prepare_first_shift(_prepare_guard_empty_tail(
+            _prepare_tmp_reference(_open_tail_read(verified)))))
     # Strip the NEW ghost-only annotations and compare with inherited source.
     # Other original ghost commands were already checked by old._prepare.
     # Runtime comparison removes only comments and whitespace; the inherited
@@ -441,6 +467,10 @@ def run(evidence, args, env, execute_case, validated_receipt):
     results = {'share_representation_controls': share_controls.run(
         evidence/'share-representation-controls', args, env, execute_case,
         representation=U64_SHARE_REPRESENTATION)}
+    array_controls = _load('r7_array_controls', HERE/'r7-array-controls.py')
+    results['guard_array_controls'] = array_controls.run(
+        evidence/'guard-array-controls', args, env, execute_case,
+        helper=GUARD_EMPTY_TAIL_HELPER)
     # Full-body case runs regardless of prefix failure, retaining the next real
     # resource frontier under unmodified final posts.
     cases = [('prefix', True, None), ('full_body', False, None)] + [
