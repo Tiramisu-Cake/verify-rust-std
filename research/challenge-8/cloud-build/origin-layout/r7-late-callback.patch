@@ -1,5 +1,5 @@
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index 8d6c7d75..d11e0ad6 100644
+index 8d6c7d75..9813a884 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -1956,6 +1956,17 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -377,9 +377,9 @@ index 8d6c7d75..d11e0ad6 100644
 +            (var_arg ref_name) in
 +          let merge_sift = function
 +            | Ast.MergeFractionsStmt (_, Ast.CallExpr
-+                (_, "points_to", [Ast.IdentTypeExpr (_, _, "u64")], [],
++                (_, "points_to", targs, [],
 +                 [Ast.LitPat (Ast.Var (_, "sift")); Ast.DummyPat],
-+                 Ast.Static)) -> true
++                 Ast.Static)) -> only_u64 targs
 +            | _ -> false in
 +          let assert_sift = function
 +            | Ast.Assert (_, Ast.PointsTo

@@ -7410,3 +7410,9 @@ actual late physical fractions/singleton rejoin target. Exact candidate unchange
 first experiment full900 envelope vs R7 short539 starvation hypothesis. New
 branch-local phase registration; six synthetic authorization tests and17patch/18base
 static composition PASS, no proof credit. Independent review before submit.
+
+R8 Build1 4952f684 terminalFAILURE631charged/631execution; compilerPASS setup
+maintenance, proofattemptedtrue but late matcher rejects before heap proof.
+2969remaining. Candidate2 exact primitive-u64 parser-shape correction only;
+[card](cloud-build/origin-layout/R8-SESSION-20261020.md), static17/18+service9PASS,
+review pending; CURRENT/B2/qualificationOPEN,credit0.

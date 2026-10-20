@@ -64,6 +64,10 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 R8 ACTIVE. T0/main/absolute UTC2026-10-20 17:11:30/19:11:30/19:41:30.
 Цель: actual physical fraction merge/singleton rejoin → original guard/CURRENT.
 Proof до→после: пока без изменения, B2/qualification OPEN, independent credit0.
-Обслуживание: новая отдельная регистрация/ledger; точный R7 кандидат сохранён.
-Builds0, charged0/3600; own active/unresolved0 на старте.
-[Рабочая карточка](cloud-build/origin-layout/R8-SESSION-20261020.md).
+Обслуживание: compiler exact47b80fad/profilee5ed4de5 прошёл; candidate2 устраняет
+несовпадение u64 parser shape в строгом late matcher, review перед submit.
+Build1 `4952f684-c062-4788-9666-77c21a42359c` FAILURE/source5967687f;
+631charged/631execution,2969remaining; frontendreject313 до resource proof.
+Own active/unresolved0 после terminal reconciliation; новых Builds пока нет.
+[Карточка](cloud-build/origin-layout/R8-SESSION-20261020.md),
+[Build1](cloud-build/origin-layout/R8-BUILD1-RESULT-20261020.json).

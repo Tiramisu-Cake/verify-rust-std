@@ -4,7 +4,10 @@ T0/main/absolute UTC2026-10-20 17:11:30/19:11:30/19:41:30; fresh3600 Cloud secon
 no R7 carry. [Task/report](CURRENT-TASK.md), [session](cloud-build/origin-layout/R8-SESSION-20261020.md).
 First hypothesis: R7 short539 envelope starves cold compilation; use900 via existing
 preflight, same reviewed tool47b80fad/profilee5ed4de5 and mandatory matrix.
-New phase registration/static6 authorization tests PASS; independent review pending.
+New phase registration/static6 authorization tests and independent Luna HIGH GO.
+Build1 4952f684 FAILURE631charged/631execution;2969remaining, own active0.
+Candidate2 tool43c1fdc2 corrects exact u64 AST type matcher; Luna HIGH deltaGO,
+static17patch/18base + service9PASS; next900 envelope through existing preflight.
 Actual physical merge/rejoin, CURRENT normal/unwind/originalguard/B2/qualification
 OPEN; independentcredit0. Foreign instruction changes preserved.
 

@@ -868,3 +868,14 @@ credit is authorized. Build6's bounded Brief/source identity and exact failure
 coordinates are recorded by the main agent; parser-input binding and causal
 attribution remain subject to that evidence's stated caveats. Static validation
 only; do not run a compiler or proof for this candidate.
+
+## R8 primitive matcher correction before candidate2
+
+Actual Build4952f684 on reviewed47b80fad compiled all candidate stages, then
+frontend rejected late recover313; fullCURRENT/B2 remainsOPEN,credit0.
+Rust ghost parser maps u64 to ManifestTypeExpr(unsigned,fixedrank3), while
+merge_sift expected IdentTypeExpr(u64). Reuse existing only_u64 on this exact
+merge predicate's type args; other shape/order/source/lifetime/targets unchanged.
+Checked physical assertion/singleton close and originalguard debt retained.
+No axioms/bridge/runtime/model/kernel change; static17patch/18base and service9
+PASS are not actual proof. Independent Luna HIGH review required before Build2.

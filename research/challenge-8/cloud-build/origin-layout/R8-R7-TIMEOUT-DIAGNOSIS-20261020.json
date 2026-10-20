@@ -1,0 +1,37 @@
+{
+  "schema": "merge-r8-bounded-timeout-diagnosis-v1",
+  "build": "55195571-1b4b-4c01-99b8-d613ec137594",
+  "archive_sha256": "caea40e1f3c602748b4c624cd9b953cfcf4ab1cb1dcdabe9940bed79afa8e5e2",
+  "index_sha256": "697c2671ed40d07607f70944f9d85aeb8d7863e7305b3a9203c72c673e6de390",
+  "observations": [
+    {
+      "file_id": "c5706e5cd2eebc603d03720128a38aa38a359ed3b3b07a67492418968d22d6a6",
+      "file_sha256": "468a3ec5af3baa0f995d8aeaa8eea2169a9898d02e8b73f77a53f0ee7e88eefe",
+      "file_path": "allprooflogs/compile-only-resources.txt",
+      "lines": [
+        1,
+        12
+      ],
+      "request_id": "225cc1a89345e9202f43dc3b7859022f25d1920929f9b06f1a450633633e71db",
+      "observed_outer_timeout_seconds": 203
+    },
+    {
+      "file_id": "36468dc6a7cd7526470ba9ca891bed25fa989d38b967e1dc4e1c75f789aa3fc6",
+      "file_sha256": "6550b949d6c3866887494b11ded73b4132eb1a4b7aac4e499f85d8024966adf4",
+      "file_path": "lane-work-budget.txt",
+      "lines": [
+        1,
+        4
+      ],
+      "request_id": "37f06b553baa55448a4d0aef8f3b5d260b4498e29009d8676f528ab337704c06",
+      "observed_lane_work_budget_seconds": 430
+    }
+  ],
+  "observation_reader": "independent Luna HIGH bounded explorer; expected SHA verified targeted requests",
+  "exact": true,
+  "complete": false,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causal_status": "UNKNOWN",
+  "interpretation": "Source formula matches outer203 cutoff while candidate exporter stage incomplete; missing/null stage records are not compiler failure. First900 envelope is distinguishing experiment.",
+  "independent_credit": 0
+}
