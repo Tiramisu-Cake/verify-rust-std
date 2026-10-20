@@ -214,6 +214,28 @@ def decoded(caller_name, *, wrong_callee=False, wrong_args=False,
     return "    " + capnp(record).replace("(defKind =", "( defKind =", 1) + "\n"
 
 
+def rename_region_ids(decoded_text, mapping):
+    functions = m._selected.decoded_mir_functions(decoded_text)
+    def visit(value):
+        if isinstance(value, dict):
+            result = {}
+            for key, item in value.items():
+                if key == "region" and isinstance(item, dict):
+                    region = dict(item)
+                    region["id"] = mapping.get(region.get("id"), region.get("id"))
+                    result[key] = visit(region)
+                elif key == "boundRegions" and isinstance(item, list):
+                    result[key] = [mapping.get(region, region) for region in item]
+                else:
+                    result[key] = visit(item)
+            return result
+        if isinstance(value, list):
+            return [visit(item) for item in value]
+        return value
+    return "".join("    " + capnp(visit(row)).replace("(defKind =", "( defKind =", 1) + "\n"
+                   for row in functions)
+
+
 class CallBindingTests(unittest.TestCase):
     def test_observer_threshold_only_and_quicksort_pair(self):
         result = m.observe("P0c", decoded("a1_guard_observer") + decoded("quicksort"),
@@ -224,6 +246,99 @@ class CallBindingTests(unittest.TestCase):
         self.assertEqual(caller["caller"], "a1_guard_observer")
         self.assertEqual([row["callee"] for row in caller["calls"]],
                          ["StableSmallSortTypeImpl::small_sort_threshold"])
+
+    def test_alpha_renamed_input_and_hrtb_regions_remain_equivalent(self):
+        normal = decoded("a1_guard_observer")
+        readonly = decoded("a1_guard_observer", tag="ro")
+        normal = rename_region_ids(normal, {
+            "a": "'__72", "b": "'__73", "p": "'__74", "c": "'__75",
+            "br1": "'__70", "br2": "'__71"})
+        readonly = rename_region_ids(readonly, {
+            "a": "'__67", "b": "'__68", "p": "'__69", "c": "'__70",
+            "br1": "'__65", "br2": "'__66"})
+        result = m.observe("P0c", normal, readonly, certificate(), SOURCE)
+        self.assertTrue(result["semantic_normal_readonly_equal"])
+
+    def test_semantic_mismatch_diagnostic_names_exact_field_and_path(self):
+        normal = {"caller": "quicksort", "calls": [{"call_line": 5}]}
+        readonly = {"caller": "quicksort", "calls": [{"call_line": 6}]}
+        normal_text = "normal decoded MIR private body"
+        readonly_text = "readonly decoded MIR private body"
+        message = m._semantic_mismatch_message(
+            "P1", normal, readonly, normal_text, readonly_text)
+        self.assertTrue(message.startswith(
+            "normal and readonly caller MIR semantic call bindings differ; diagnostic="))
+        diagnostic = json.loads(message.split("diagnostic=", 1)[1])
+        self.assertEqual(diagnostic["case_id"], "P1")
+        self.assertEqual(diagnostic["caller"], "quicksort")
+        self.assertEqual(diagnostic["differing_fields"], ["calls"])
+        self.assertEqual(diagnostic["first_differences"], [{
+            "path": "/calls/0/call_line", "normal": "5", "readonly": "6"}])
+        self.assertEqual(diagnostic["normal_decoded_sha256"],
+                         hashlib.sha256(normal_text.encode()).hexdigest())
+        self.assertEqual(diagnostic["readonly_decoded_sha256"],
+                         hashlib.sha256(readonly_text.encode()).hexdigest())
+        self.assertNotIn(normal_text, message)
+        self.assertNotIn(readonly_text, message)
+
+    def test_semantic_diagnostic_handles_missing_null_and_wrong_types(self):
+        message = m._semantic_mismatch_message(
+            "P1", {"caller": "quicksort", "nullable": None},
+            {"caller": "quicksort"}, "n", "r")
+        diagnostic = json.loads(message.split("diagnostic=", 1)[1])
+        self.assertEqual(diagnostic["differing_fields"], ["nullable"])
+        self.assertEqual(diagnostic["first_differences"], [{
+            "path": "/nullable", "normal": "None", "readonly": "<missing>"}])
+        wrong = m._semantic_mismatch_message("P1", None, [], "n", "r")
+        wrong_diagnostic = json.loads(wrong.split("diagnostic=", 1)[1])
+        self.assertEqual(wrong_diagnostic["differing_fields"], ["$"])
+        self.assertEqual(wrong_diagnostic["first_differences"][0]["normal"], "None")
+
+    def test_semantic_diagnostic_bounds_long_values_and_total_message(self):
+        long_value = "distinct-private-value-" * 4000
+        message = m._semantic_mismatch_message(
+            "P1", {"caller": "quicksort", "clauses": [long_value]},
+            {"caller": "quicksort", "clauses": ["readonly"]},
+            "n" * 5000, "r" * 5000)
+        self.assertLess(len(message), 3000)
+        self.assertNotIn(long_value[:100], message)
+        diagnostic = json.loads(message.split("diagnostic=", 1)[1])
+        self.assertEqual(diagnostic["differing_fields"], ["clauses"])
+        self.assertIn("sha256=", diagnostic["first_differences"][0]["normal"])
+        self.assertEqual(len(diagnostic["normal_decoded_sha256"]), 64)
+
+    def test_semantic_diagnostic_bounds_unicode_keys_and_deep_paths(self):
+        field = "界" * 12000
+        nested_normal = nested_readonly = {"leaf": 0}
+        for index in range(80):
+            nested_normal = {"層" * 80 + str(index): nested_normal}
+            nested_readonly = {"層" * 80 + str(index): nested_readonly}
+        nested_normal["値" * 12000] = "normal"
+        nested_readonly["値" * 12000] = "readonly"
+        message = m._semantic_mismatch_message(
+            "P1", {"caller": "quicksort", field: nested_normal},
+            {"caller": "quicksort", field: nested_readonly}, "normal", "readonly")
+        self.assertLessEqual(len(message.encode("utf-8")), 3000)
+        diagnostic = json.loads(message.split("diagnostic=", 1)[1])
+        self.assertEqual(len(diagnostic["normal_decoded_sha256"]), 64)
+        self.assertLessEqual(len(diagnostic["first_differences"][0]["path"]), 256)
+        self.assertIn("sha256=", diagnostic["first_differences"][0]["path"])
+
+    def test_observe_semantic_mismatch_reports_diagnostic_and_still_fails(self):
+        normal = decoded("quicksort")
+        row = body("quicksort", {"StableSmallSortTypeImpl::small_sort_threshold": 5,
+                                  "StableSmallSortTypeImpl::small_sort": 6},
+                   {"v": "_30ro", "scratch": "_31ro", "is_less": "_32ro"},
+                   locals_tag="ro")
+        row["clauses"][0], row["clauses"][1] = row["clauses"][1], row["clauses"][0]
+        readonly = "    " + capnp(row).replace("(defKind =", "( defKind =", 1) + "\n"
+        with self.assertRaises(m.CallBindingError) as caught:
+            m.observe("P1", normal, readonly, certificate(), SOURCE)
+        message = str(caught.exception)
+        self.assertIn("normal and readonly caller MIR semantic call bindings differ", message)
+        diagnostic = json.loads(message.split("diagnostic=", 1)[1])
+        self.assertEqual(diagnostic["differing_fields"], ["clauses"])
+        self.assertTrue(diagnostic["first_differences"][0]["path"].startswith("/clauses"))
 
     def test_p1_binds_both_original_quicksort_calls(self):
         result = m.observe("P1", decoded("quicksort"), decoded("quicksort", tag="ro"),

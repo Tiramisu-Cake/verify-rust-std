@@ -77,7 +77,7 @@
 +                                     |> List.filter_map (function
 +                                          | Ast.Func
 +                                              (_, Regular, actual_tparams, actual_rt,
-+                                               actual_name', actual_ps, _, _, _, _, _, _, _)
++                                               actual_name', actual_ps, _, _, _, _, Some _, _, _)
 +                                            when actual_name' = actual_name ->
 +                                              Some (actual_tparams, actual_rt, actual_ps)
 +                                          | _ -> None)

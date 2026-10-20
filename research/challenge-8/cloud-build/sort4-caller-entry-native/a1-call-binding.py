@@ -469,6 +469,174 @@ def _analyze_functions(case_id, functions, certificate, source):
             "input_shape": "unrestricted-original-T-F-FnMut-Output", "proof_credit": False}
 
 
+_DIAGNOSTIC_MISSING = object()
+_DIAGNOSTIC_MESSAGE_LIMIT = 3000
+
+
+def _diagnostic_text(value, *, limit=48):
+    """Keep labels readable when small and replace large/non-ASCII labels by hashes."""
+    if not isinstance(value, str):
+        return _diagnostic_value(value)
+    if len(value) <= limit and value.isascii():
+        return value
+    raw = value.encode("utf-8", errors="replace")
+    return f"<text chars={len(value)} bytes={len(raw)} sha256={hashlib.sha256(raw).hexdigest()}>"
+
+
+def _diagnostic_value(value):
+    """Summarize a mismatch leaf without copying large MIR values to an error."""
+    if value is _DIAGNOSTIC_MISSING:
+        return "<missing>"
+    if value is None or isinstance(value, (bool, int, float)):
+        return repr(value)
+    if isinstance(value, str):
+        encoded = value.encode("utf-8", errors="replace")
+        if len(value) <= 32 and value.isascii():
+            return repr(value)
+        return (f"<str chars={len(value)} bytes={len(encoded)} "
+                f"sha256={hashlib.sha256(encoded).hexdigest()}>")
+    if isinstance(value, Mapping):
+        return f"<{type(value).__name__} fields={len(value)}>"
+    if isinstance(value, (list, tuple)):
+        return f"<{type(value).__name__} items={len(value)}>"
+    return f"<{type(value).__name__}>"
+
+
+def _first_semantic_differences(left, right, *, limit=4):
+    """Return bounded JSON-pointer-like paths and values for unequal values."""
+    differences = []
+    remaining_nodes = [256]
+
+    def escape(part):
+        text = str(part).replace("~", "~0").replace("/", "~1")
+        return text if len(text) <= 48 and text.isascii() else _diagnostic_text(text)
+
+    def visit(a, b, path, depth):
+        if len(differences) >= limit:
+            return
+        remaining_nodes[0] -= 1
+        if remaining_nodes[0] < 0 or depth >= 12:
+            differences.append({"path": path or "/",
+                                "normal": _diagnostic_value(a),
+                                "readonly": _diagnostic_value(b),
+                                "note": "bounded traversal"})
+            return
+        if a is b:
+            return
+        if isinstance(a, Mapping) and isinstance(b, Mapping):
+            keys = sorted(set(a) | set(b), key=lambda key: str(key))
+            if len(keys) > 64:
+                differences.append({"path": path or "/",
+                                    "normal": _diagnostic_value(a),
+                                    "readonly": _diagnostic_value(b),
+                                    "note": "bounded key scan"})
+                return
+            for key in keys:
+                child = path + "/" + escape(key)
+                av = a.get(key, _DIAGNOSTIC_MISSING)
+                bv = b.get(key, _DIAGNOSTIC_MISSING)
+                if av is _DIAGNOSTIC_MISSING or bv is _DIAGNOSTIC_MISSING:
+                    differences.append({"path": child,
+                                        "normal": _diagnostic_value(av),
+                                        "readonly": _diagnostic_value(bv)})
+                else:
+                    visit(av, bv, child, depth + 1)
+                if len(differences) >= limit:
+                    break
+            return
+        if isinstance(a, (list, tuple)) and isinstance(b, (list, tuple)):
+            shared = min(len(a), len(b))
+            for index in range(shared):
+                visit(a[index], b[index], path + "/" + str(index), depth + 1)
+                if len(differences) >= limit:
+                    return
+            if len(a) != len(b) and len(differences) < limit:
+                differences.append({"path": (path or "") + "/length",
+                                    "normal": str(len(a)),
+                                    "readonly": str(len(b))})
+            return
+        if a != b:
+            differences.append({"path": path or "/",
+                                "normal": _diagnostic_value(a),
+                                "readonly": _diagnostic_value(b)})
+
+    visit(left, right, "", 0)
+    return differences
+
+
+def _semantic_mismatch_message(case_id, normal, readonly,
+                               normal_decoded, readonly_decoded):
+    """Build an error diagnostic capped below 3 KiB; never include MIR text."""
+    normal_hash = hashlib.sha256(normal_decoded.encode("utf-8")).hexdigest()
+    readonly_hash = hashlib.sha256(readonly_decoded.encode("utf-8")).hexdigest()
+    if not isinstance(normal, Mapping) or not isinstance(readonly, Mapping):
+        fields = ["$"]
+        differences = [{"path": "/",
+                        "normal": _diagnostic_value(normal),
+                        "readonly": _diagnostic_value(readonly)}]
+    else:
+        raw_fields = [key for key in sorted(set(normal) | set(readonly), key=lambda item: str(item))
+                      if key not in normal or key not in readonly or normal[key] != readonly[key]]
+        fields = [_diagnostic_text(str(key)) for key in raw_fields[:32]]
+        differences = []
+        for raw_field in raw_fields:
+            field = str(raw_field)
+            left = normal.get(raw_field, _DIAGNOSTIC_MISSING)
+            right = readonly.get(raw_field, _DIAGNOSTIC_MISSING)
+            path_prefix = "/" + field.replace("~", "~0").replace("/", "~1")
+            if len(path_prefix) > 96 or not path_prefix.isascii():
+                path_prefix = "/" + _diagnostic_text(field)
+            if left is _DIAGNOSTIC_MISSING or right is _DIAGNOSTIC_MISSING:
+                differences.append({"path": path_prefix,
+                                    "normal": _diagnostic_value(left),
+                                    "readonly": _diagnostic_value(right)})
+            else:
+                nested = _first_semantic_differences(left, right, limit=4 - len(differences))
+                for item in nested:
+                    item["path"] = path_prefix + (item["path"] if item["path"] != "/" else "")
+                    differences.append(item)
+            if len(differences) >= 4:
+                break
+
+    def render(payload):
+        return json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+
+    prefix = "normal and readonly caller MIR semantic call bindings differ; diagnostic="
+    payload = {
+        "case_id": _diagnostic_text(case_id),
+        "caller": _diagnostic_text(normal.get("caller") if isinstance(normal, Mapping) else None),
+        "readonly_caller": _diagnostic_text(readonly.get("caller") if isinstance(readonly, Mapping) else None),
+        "normal_decoded_sha256": normal_hash,
+        "readonly_decoded_sha256": readonly_hash,
+        "differing_fields": fields,
+        "first_differences": differences,
+    }
+    encoded = render(payload)
+    if len((prefix + encoded).encode("utf-8")) > _DIAGNOSTIC_MESSAGE_LIMIT:
+        payload = {
+            "case_id": _diagnostic_text(case_id, limit=24),
+            "caller": _diagnostic_text(normal.get("caller") if isinstance(normal, Mapping) else None,
+                                        limit=24),
+            "readonly_caller": _diagnostic_text(
+                readonly.get("caller") if isinstance(readonly, Mapping) else None, limit=24),
+            "normal_decoded_sha256": normal_hash,
+            "readonly_decoded_sha256": readonly_hash,
+            "differing_fields": fields[:8],
+            "first_differences": [],
+            "truncated": True,
+        }
+        encoded = render(payload)
+    if len((prefix + encoded).encode("utf-8")) > _DIAGNOSTIC_MESSAGE_LIMIT:
+        # Fixed-size final fallback preserves pair identity and exact decoded-input hashes.
+        payload = {"case_id": "<omitted>", "caller": "<omitted>",
+                   "readonly_caller": "<omitted>",
+                   "normal_decoded_sha256": normal_hash,
+                   "readonly_decoded_sha256": readonly_hash,
+                   "differing_fields": [], "first_differences": [], "truncated": True}
+        encoded = render(payload)
+    return prefix + encoded
+
+
 def observe(case_id: str, normal_decoded: str, readonly_decoded: str,
             source_certificate: dict[str, Any], generated_source: str):
     """Bind paired decoded caller MIRs to exact fixture source callsites."""
@@ -507,8 +675,11 @@ def observe(case_id: str, normal_decoded: str, readonly_decoded: str,
         normalized["clauses"] = tuple(json.dumps(normalize(json.loads(clause)), sort_keys=True)
                                       for clause in row["clauses"])
         return normalized
-    _need(semantic(normal) == semantic(readonly),
-          "normal and readonly caller MIR semantic call bindings differ")
+    normal_semantic = semantic(normal)
+    readonly_semantic = semantic(readonly)
+    if normal_semantic != readonly_semantic:
+        raise CallBindingError(_semantic_mismatch_message(
+            case_id, normal_semantic, readonly_semantic, normal_decoded, readonly_decoded))
     return _freeze({"schema": "a1-call-binding-observation-v1",
                     "provenance": "source-reported-MIR-call-binding-only",
                     "proof_credit": False, "native_contract_credit": False,
