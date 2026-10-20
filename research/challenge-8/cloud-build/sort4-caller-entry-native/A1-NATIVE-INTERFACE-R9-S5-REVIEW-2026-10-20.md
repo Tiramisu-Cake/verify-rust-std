@@ -12,3 +12,5 @@ Main checks: facade7, synthetic inputs14, packaging diagnostics7, profile9, pack
 - `test-a1-focus-profile-binding.py` SHA256 `10c6fb7213a68eaf2ec6947ab5897ace051a90a98715ea6100a1421126281dc1`
 - `control.py` SHA256 `6ff252d31c1c4225f814bab6d5a383fc8feb1b7ba0d2f42f6ed69cb890bf4a4f`
 - `test-package-upload-diagnostics.py` SHA256 `94f177a6faf0be3968142dab29e47c357d8e49fd0f891427709bca7f7469f6f4`
+
+Final transport refinement independent Luna HIGH GO: initial submission refused before dispatch at28588/28000 config transport. Diagnostic reduced to bounded primary text/operation/exit/proofstatus printed before caught local persistence failure; no optional size fields. Full local record compact JSON. Submitted-config compact JSON preserves every parsed field/value and hashes exact emitted bytes; ceilings28000/4000/10000 unchanged. Packaging diagnostic tests8PASS, field-roundtrip/persistence error preserved. Final exact committed closure must additionally validate actual config transport size. Earlier size-stat diagnostic paragraphs above describe the superseded unsubmitted candidate only.

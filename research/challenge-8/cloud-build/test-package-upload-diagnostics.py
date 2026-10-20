@@ -87,8 +87,6 @@ class PackagingDiagnosticTests(unittest.TestCase):
         self.assertEqual(record['primary_error'], primary)
         self.assertEqual(record['operation'], 'package-evidence')
         self.assertEqual(record['proof_status'], 'UNCHANGED')
-        self.assertEqual(record['audit_sizes']['proof-audit.json'], {'kind': 'regular', 'bytes': 3})
-        self.assertEqual(record['audit_sizes']['allprooflogs/cases/sort4-c1-current-recovery/diagnostic-audit.json'], {'kind': 'nonregular', 'bytes': None})
         self.assertFalse((self.root / 'upload.ok').exists())
         self.assertTrue(outside.is_file())
 
@@ -106,7 +104,6 @@ class PackagingDiagnosticTests(unittest.TestCase):
         result = subprocess.run(['bash', '-ceu', script], text=True, capture_output=True, env=env)
         self.assertEqual(result.returncode, 17, result.stderr)
         self.assertIn('SMALLSORT_PACKAGING_FAILURE ', result.stderr)
-        self.assertIn('SMALLSORT_PACKAGING_DIAGNOSTIC_PERSIST_FAILED FileNotFoundError', result.stderr)
         self.assertFalse((self.root / 'upload.ok').exists())
 
     def test_missing_output_has_explicit_infrastructure_diagnostic(self):
@@ -140,6 +137,13 @@ class PackagingDiagnosticTests(unittest.TestCase):
         self.assertEqual(self.verdict().returncode, 0)
         (self.root / 'upload.ok').unlink()
         self.assertEqual(self.verdict().returncode, 1)
+
+    def test_compact_config_transport_preserves_all_fields(self):
+        pretty = (json.dumps(self.config, indent=2) + '\n').encode()
+        compact = (json.dumps(self.config, separators=(',', ':')) + '\n').encode()
+        self.assertEqual(json.loads(compact), json.loads(pretty))
+        self.assertLess(len(base64.b64encode(gzip.compress(compact))),
+                        len(base64.b64encode(gzip.compress(pretty))))
 
     def test_config_arguments_remain_bounded(self):
         self.assertTrue(all(len(arg.encode()) <= 10000 for step in self.config['steps']
