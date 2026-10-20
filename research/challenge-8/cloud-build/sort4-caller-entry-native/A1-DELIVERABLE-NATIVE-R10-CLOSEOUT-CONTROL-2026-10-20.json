@@ -1,0 +1,87 @@
+{
+  "schema": "select-r10-closeout-control-v1",
+  "phase": "SORT4-DELIVERABLE-NATIVE-PROOF-2026-10-20-R10",
+  "owner": "select-sort4",
+  "closed_utc": "2026-10-20T21:28:00.919077Z",
+  "evidence_accounting_checked_utc": "2026-10-20T21:33:50.060111Z",
+  "start_utc": "2026-10-20T19:22:09Z",
+  "main_deadline_utc": "2026-10-20T21:22:09Z",
+  "absolute_deadline_utc": "2026-10-20T21:52:09Z",
+  "used_build_seconds": 2618,
+  "unused_retired_seconds": 982,
+  "carry_forward_seconds": 0,
+  "own_active": 0,
+  "own_unresolved": 0,
+  "own_requests": 0,
+  "own_reservations": 0,
+  "coordinator_check": "Read existing coordination.reservations under coordination.locked and own request path; no state mutation",
+  "all_builds_terminal_and_accounted": true,
+  "formal_obligations_closed": 0,
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "download_verified_set": false,
+  "raw_fallback_used": false,
+  "builds": [
+    {
+      "build_id": "86a0add5-eed4-4809-a530-1171e4268782",
+      "proof_sha": "0052d9d95acbbe4e531cc8a8a7822538773a59bf",
+      "infra_sha": "0052d9d95acbbe4e531cc8a8a7822538773a59bf",
+      "status": "FAILURE",
+      "build_seconds": 495,
+      "accounted": true,
+      "submitted_config_sha256": "709e0a44516650aee29398ad20e5d99add6c7db1c1f72a89524a75b5ad481e95",
+      "source_input_sha256": "26fed04082e82ef96041c713f3ac3377cf338e77b3f0f4e5bcb81d54ad0a3288",
+      "start_time": "2026-10-20T19:36:16.074980914Z",
+      "finish_time": "2026-10-20T19:44:29.750315Z"
+    },
+    {
+      "build_id": "85f29857-302d-4227-b50d-2b150e2f8ed2",
+      "proof_sha": "e339d5d51bbf152d913f330d3a1d5cbd08d5c8c9",
+      "infra_sha": "e339d5d51bbf152d913f330d3a1d5cbd08d5c8c9",
+      "status": "FAILURE",
+      "build_seconds": 510,
+      "accounted": true,
+      "submitted_config_sha256": "9003ae6715c2c4f81a5bd6dfbd405642e2be8b537fbfff622862956914cf5efc",
+      "source_input_sha256": "18fa83232a9dfa60d892aea27282a075521bd9dc454ed2dc5938a1b5c86237e5",
+      "start_time": "2026-10-20T20:11:02.117903960Z",
+      "finish_time": "2026-10-20T20:19:29.633797Z"
+    },
+    {
+      "build_id": "02154aa4-fbdd-4961-b0ce-cafc9316236f",
+      "proof_sha": "659509c0e3a2e1f51b73e5480dd8ea79746366a6",
+      "infra_sha": "659509c0e3a2e1f51b73e5480dd8ea79746366a6",
+      "status": "FAILURE",
+      "build_seconds": 1046,
+      "accounted": true,
+      "submitted_config_sha256": "ee2382ddcd3ae8217ac7df359295cf8513304fb3ee875c19a7a39cfbb82a1a2a",
+      "source_input_sha256": "31fc8ca7e524826a11788b0bd97e6503f56edbc7764ea31f65d1c73079c393ec",
+      "start_time": "2026-10-20T20:45:47.718014416Z",
+      "finish_time": "2026-10-20T21:03:12.562363Z"
+    },
+    {
+      "build_id": "205ff994-63f2-415b-abbe-f5f16858d751",
+      "proof_sha": "4987cf161af860208337980848e923effe744081",
+      "infra_sha": "4987cf161af860208337980848e923effe744081",
+      "status": "FAILURE",
+      "build_seconds": 567,
+      "accounted": true,
+      "submitted_config_sha256": "87cb9bac807c866f97b2213062ed4669e4f1f013f4fe85be18259c936711f0f0",
+      "source_input_sha256": "9dbf96ec7316ee3307b5f83c50c152d8df73db700c73bdbae3a6246bf4ed2c95",
+      "start_time": "2026-10-20T21:16:48.488464143Z",
+      "finish_time": "2026-10-20T21:26:13.873168Z"
+    }
+  ],
+  "latest_matrix_file": "A1-DELIVERABLE-NATIVE-R10-S4-MATRIX-2026-10-20.json",
+  "latest_matrix_sha256": "9b847f52890532b4ec54966a155dc2000def2f0d008a65d3e40baa0685a746ad",
+  "latest_source_counts": {
+    "NOT_RUN": 19,
+    "INTENDED_CLASSIFIED": 5,
+    "INCONCLUSIVE": 2
+  },
+  "next_blockers": [
+    "P1 AstGateError: package Func local name",
+    "P0c observer Option_own(left_ancestor_pivot) leak",
+    "Full compatible26 and ownfalse31 lifecycle not established"
+  ],
+  "no_new_builds_or_implementation_after_main": true
+}

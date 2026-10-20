@@ -1,0 +1,81 @@
+{
+  "schema": "select-r10-s4-evidence-v1",
+  "build_id": "205ff994-63f2-415b-abbe-f5f16858d751",
+  "proof_sha": "4987cf161af860208337980848e923effe744081",
+  "infra_sha": "4987cf161af860208337980848e923effe744081",
+  "submitted_config_sha256": "87cb9bac807c866f97b2213062ed4669e4f1f013f4fe85be18259c936711f0f0",
+  "source_input_sha256": "9dbf96ec7316ee3307b5f83c50c152d8df73db700c73bdbae3a6246bf4ed2c95",
+  "status": "FAILURE",
+  "charge_seconds": 567,
+  "used_total": 2618,
+  "unused_retired_seconds": 982,
+  "carry_forward_seconds": 0,
+  "source_run_exit": 0,
+  "package_upload": "SUCCESS",
+  "brief_processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "outer_evidence_complete_source_claim": true,
+  "proof_verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+  "start_time": "2026-10-20T21:16:48.488464143Z",
+  "finish_time": "2026-10-20T21:26:13.873168Z",
+  "observed_stage_seconds": {
+    "execute": 468.779243904,
+    "package_upload": 80.640581859,
+    "verdict": 1.125644982
+  },
+  "index_sha256": "9f6ddfa55d946301bd93a34b01cb5b0747d65c6411082ab636dc5b7cc5f08cbe",
+  "archive_sha256": "8f631c05b3bb96fb21b59744a68b5791bb85388f5cd4c413e2339c78578fc7f3",
+  "root_audit": {
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "sha256": "45b5c982e84f47f8433d642151156f85dad5f84d5be67f71bd82c9ae21dabd1f",
+    "bytes": 6763594,
+    "classification": "A1_NATIVE_P1_BOUNDED_TARGET_LIFECYCLE",
+    "final_target_classification_established": true,
+    "matrix_complete": false,
+    "accepted": false,
+    "admission_record_created": false,
+    "dispatch_ready": false,
+    "proof_credit": false,
+    "profile_sha256": "ff768636723ac86a20936bdd2cbddbec606184b0c75365cdb2c333b937af4686"
+  },
+  "source_counts": {
+    "NOT_RUN": 19,
+    "INTENDED_CLASSIFIED": 5,
+    "INCONCLUSIVE": 2
+  },
+  "bounded_source_findings": {
+    "P1": {
+      "error": "AstGateError: package Func local name",
+      "reader_response": "observation-P1.json",
+      "case_status": "INCONCLUSIVE",
+      "causal_status": "UNKNOWN"
+    },
+    "P0c": {
+      "error": "Function leaks heap chunks: Option_own(...)(_t, left_ancestor_pivot)",
+      "observer": "a1_guard_observer",
+      "source_location": "verified/lib.rs(139,1-2)",
+      "file_id": "edc4344315735b949d8cc08c7b2987a02755370189b812d0b03a29e1b2dffd15",
+      "sha256": "f40f7d8a125250351409567ffa2263d8c046333676f1ae094ab8484a36902dce",
+      "reader_response": "P0c-log-lines1866-1877.json",
+      "exact_window": [
+        1866,
+        1877
+      ],
+      "whole_file_complete": false,
+      "case_status": "INCONCLUSIVE"
+    },
+    "root_wrapper": "first_blocker case_id P0a / stage P0c-observed: published common threshold caller was not verified on the exact pair; wrapper label does not establish a P0a body failure"
+  },
+  "formal_obligations_before": 0,
+  "formal_obligations_after": 0,
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "source_claims_not_independent_proof": true,
+  "reader_responses_directory": "A1-DELIVERABLE-NATIVE-R10-S4-READER-OBSERVATIONS-2026-10-20",
+  "matrix_file": "A1-DELIVERABLE-NATIVE-R10-S4-MATRIX-2026-10-20.json",
+  "limitations": [
+    "Bounded target keeps all26 rows; 19 outside-scope cases are NOT_RUN. No full matrix admission.",
+    "Exact coordinates and matching hashes do not establish parser-input binding or causality.",
+    "Outer inventory integrity/evidence_complete and source run0 do not establish formal verification."
+  ],
+  "next": "New authorized session required: investigate exact P1 package Func local name and checked P0c observer resource cleanup; full26 and ownfalse31 remain open."
+}

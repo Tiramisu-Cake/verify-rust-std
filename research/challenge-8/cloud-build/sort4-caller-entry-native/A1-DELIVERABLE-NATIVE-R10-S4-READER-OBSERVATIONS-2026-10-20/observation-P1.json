@@ -1,0 +1,63 @@
+{
+  "archive_sha256": "8f631c05b3bb96fb21b59744a68b5791bb85388f5cd4c413e2339c78578fc7f3",
+  "build_id": "205ff994-63f2-415b-abbe-f5f16858d751",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 5,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+  "file_path": "proof-audit.json",
+  "file_sha256": "45b5c982e84f47f8433d642151156f85dad5f84d5be67f71bd82c9ae21dabd1f",
+  "index_sha256": "9f6ddfa55d946301bd93a34b01cb5b0747d65c6411082ab636dc5b7cc5f08cbe",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "45b5c982e84f47f8433d642151156f85dad5f84d5be67f71bd82c9ae21dabd1f",
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "pointer": "/observation_details/P1"
+  },
+  "request_id": "930afda5508e3dbe7fc427485c72c269534cb3aac11e3db60b3adb45b3e25aea",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/P1/adapter_error",
+      "value": "AstGateError: package Func local name"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/observation_details/P1/execution_started",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/P1/failed_stage",
+      "value": "P1"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/observation_details/P1/not_run",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/observation_details/P1/proof_credit",
+      "value": false
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

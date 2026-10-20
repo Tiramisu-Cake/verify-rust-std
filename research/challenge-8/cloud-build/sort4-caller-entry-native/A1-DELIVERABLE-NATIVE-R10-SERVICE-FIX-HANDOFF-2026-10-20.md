@@ -12,3 +12,6 @@ Validation boundary: S1 `86a0add5-eed4-4809-a530-1171e4268782` and S2 `85f29857-
 R10-only XZ restore-helper transport in659509c0 preserves complete exact helper bytes and unchanged source payload/hash checks; old phases keep their exact gzip representation. It fixes a concrete28004>28000 predispatch refusal without raising caps. Exact roundtrip/corruption/real-length token regressions passed and independent review GO; this transport is not an archive verification or proof result.
 
 Review/records: S2 review and progress rationale; S3 review/transport rationale; S1/S2 evidence, full26S2matrix and exact bounded Reader responses in this directory. All source verdicts remain claims; independent B1/B2credit and closed obligations remain0 at S3 admission.
+
+
+R10 final delivery validation: all4 package-upload stages SUCCESS. S4 retained final target audit6,763,594bytes and exact26source rows; package80.641s fits explicit240s reserve. S3 progress27,682,556bytes delivered after sourceexit124; finaltargetauditnotestablished. These observations validate delivery on these workloads only; formal obligations remain0. See R10 S4EVIDENCE and CLOSEOUT-CONTROL. Existing synthetic facade and emergency packaging failure regressions remain applicable; no mass symlink dereference.

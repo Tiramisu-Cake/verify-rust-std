@@ -1,0 +1,43 @@
+{
+  "archive_sha256": "8f631c05b3bb96fb21b59744a68b5791bb85388f5cd4c413e2339c78578fc7f3",
+  "build_id": "205ff994-63f2-415b-abbe-f5f16858d751",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "EMPTY_FILE": 104,
+      "JSON_EXCEEDS_SCAN_LIMIT": 4,
+      "PROJECTED": 395,
+      "UNSUPPORTED_FILE_TYPE": 63
+    },
+    "catalogue_complete": true,
+    "content_bytes": 1305942,
+    "content_files": 503,
+    "files": 566,
+    "source_scan_bytes": 4000767
+  },
+  "index_sha256": "9f6ddfa55d946301bd93a34b01cb5b0747d65c6411082ab636dc5b7cc5f08cbe",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "edc4344315735b949d8cc08c7b2987a02755370189b812d0b03a29e1b2dffd15",
+      "kind": "text",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0c/verification.log",
+      "path_sanitized": false,
+      "scanned_bytes": 65536,
+      "sha256": "f40f7d8a125250351409567ffa2263d8c046333676f1ae094ab8484a36902dce",
+      "size_bytes": 141404,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 566,
+    "files_with_incomplete_content": 379,
+    "matches_in_retained_data": 1,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

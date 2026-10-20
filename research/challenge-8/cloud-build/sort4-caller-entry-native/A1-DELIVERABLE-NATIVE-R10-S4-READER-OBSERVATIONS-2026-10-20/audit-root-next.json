@@ -1,0 +1,124 @@
+{
+  "archive_sha256": "8f631c05b3bb96fb21b59744a68b5791bb85388f5cd4c413e2339c78578fc7f3",
+  "build_id": "205ff994-63f2-415b-abbe-f5f16858d751",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 35,
+  "complete": false,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+  "file_path": "proof-audit.json",
+  "file_sha256": "45b5c982e84f47f8433d642151156f85dad5f84d5be67f71bd82c9ae21dabd1f",
+  "index_sha256": "9f6ddfa55d946301bd93a34b01cb5b0747d65c6411082ab636dc5b7cc5f08cbe",
+  "next_offset": null,
+  "offset": 20,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "45b5c982e84f47f8433d642151156f85dad5f84d5be67f71bd82c9ae21dabd1f",
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "offset": 20,
+    "pointer": ""
+  },
+  "request_id": "119bdc20af8db6bc1de5a39250cda29af7d5f77acfd29d5ab67e9d222c7af60f",
+  "results": [
+    {
+      "child_count": 26,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/observed_rows"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/phase_id",
+      "value": "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17"
+    },
+    {
+      "child_count": 26,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/planned_order"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/profile_accepted",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/profile_sha256",
+      "value": "ff768636723ac86a20936bdd2cbddbec606184b0c75365cdb2c333b937af4686"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/proof_credit",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/proof_sha",
+      "value": "4987cf161af860208337980848e923effe744081"
+    },
+    {
+      "exact": true,
+      "kind": "null",
+      "pointer": "/proof_verdict",
+      "value": null
+    },
+    {
+      "child_count": 3,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/report_serialization"
+    },
+    {
+      "child_count": 5,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/target_observed_records"
+    },
+    {
+      "child_count": 5,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/target_scope"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/tool_path",
+      "value": "/workspace/smallsort-work/a1-checked-trait-contract-isolated-source"
+    },
+    {
+      "child_count": 18,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/tool_receipt"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/tool_reconstructed",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/verification_accepted",
+      "value": false
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}
