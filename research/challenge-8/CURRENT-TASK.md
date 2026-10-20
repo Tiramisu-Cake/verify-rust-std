@@ -82,8 +82,9 @@ begin/count2, не автоматически с полным entry range3.
 | 80c749f2 | unchanged-model geometry probes | 5a78c5b7/tool43c1fdc2/profile845ea5a5 | INC inherited actual-only refiner flag; isolated copies fixed | 592 |
 | df53281d | reviewed allocation premise + corrected probes + target/matrix | c274d0f2/toolf2e92cec/profile838ade99 | compilerPASS; original Drop passes observed path; final tmp-half missing318; controlsINC | 404 |
 
-Всего2165charged/2163execution из3600;1435remaining. Own active/unresolved0;
-нет переноса или изменения окна. Candidate5 ready for independent delta review.
+Всего2755charged/2752execution из3600;845remaining. Own active/unresolved0. Build5 c2434c1b: compilerPASS, fullbodysetup anchor rejection;590charged.
+Candidate6 exact-wrapper anchor independently reviewed; checked commands unchanged.
+Последний submit планируется timeout780/envelope840 в остатке845. Окно прежнее.
 [Карточка](cloud-build/origin-layout/R8-SESSION-20261020.md),
 [обязательства](cloud-build/origin-layout/R8-OBLIGATIONS-20261020.md),
 [Build4](cloud-build/origin-layout/R8-BUILD4-RESULT-20261020.json),

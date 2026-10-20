@@ -893,3 +893,12 @@ CURRENT range, no owner/value/heap chunk created, hidden borrow/currentowner
 absence/type/count/root/defaultoff add no fact. No new layout/verifast1/prelude
 change; existing ManuallyDrop erasure reused. Trust premise explicitly new,
 profile acceptedfalse/qualificationOPEN; static review is not proof.
+
+R8 Build4/f2e92cec/profile838ade99 observed physical recovery and original Drop
+through root free_locals318, then missing originaltmphalf. New trusted allocation
+premise is expressly owner-authorized, reviewed and separately experimental;
+native receipt currentbegin/count2 vs incoming3. No full branch/CURRENT/B2 credit.
+Candidate5 adds checked post-Drop suffix from existing readonly token and matching
+Drop-effect quarter array, then endreadonly/originmerge. No earlier debt discharge,
+no weakened posts/runtime changes; unwind remains independent OPEN. Controls
+refinementRawPtr blocker corrected without skipping stage gates; Build5 pending.

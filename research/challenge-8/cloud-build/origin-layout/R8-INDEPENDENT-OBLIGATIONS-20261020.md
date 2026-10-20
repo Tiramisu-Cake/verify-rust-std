@@ -26,3 +26,14 @@ fails unbound-local, not physical heap refusal. LocalAddrTaken is not liveness;
 Rocq consumer ignores StorageLive/Dead. Relabeling an after-StorageLive uninitialized
 case would not close before-StorageLive obligation. No profile qualification or
 owner/Rocq credit from this investigation. Primary R8 late-rejoin target proceeds.
+
+Read-only cleanup placement follow-up (candidate5 pending): normal source suffix
+is bypassed by FnMut panic -> original Cleanup Drop -> Resume. Existing late
+recovery remains before actual Drop. A future checked frontend marker must bind
+the unique selected cleanup Drop by generatedbodykey/path/hash/guard, attach only
+to its normal DropData.target before exacttmp retirement/Resume, retain cleanup
+successors/Resume/on_unwind_ens and reject ambiguous target chains. Never attach
+to Drop's own unwind_action. Existing selected_resume_targets only marks direct
+UnwindResume locations for selected Drop unwind actions; it inserts no recovery.
+Translator loci3402-3468/3544-3556/7198-7215/7323-7388, core return3113-3118.
+No implementation, actual proof or credit from this design investigation.

@@ -1,16 +1,15 @@
-# MERGE — R8 ACTIVE / actual guard frontier advanced
+# MERGE — R8 ACTIVE / candidate6 exact placement
 
 T0/main/absolute UTC2026-10-20 17:11:30/19:11:30/19:41:30 unchanged.
-Four terminalFAILURE Builds2165charged/2163execution;1435remaining; ownactive0.
-Build4 df53281d exactc274d0f2/toolf2e92cec/profile838ade99: allcompilerstagesPASS,
-actualproof passes former guardspan/Drop barrier on observedpath, then rootfree318
-lacks half tmp points_to. Native freshnessreceipt current begin/count2, entrycount3.
-Owner-authorized experimentalrule remains separately unqualified; all8controlsINC
-(refinement RawPtr unsupported; verifier0 not credited). Candidate5 source-only
-checked post-Drop readonly recovery + controls supported address-taking underreview.
-Physical merge/full sift assertion/singleton observed Build2; normal/unwind/full
-CURRENT/B2/qualificationOPEN, independentcredit0. Prefix/BeforeLive OPEN.
-[Task/report](CURRENT-TASK.md), [Build4](cloud-build/origin-layout/R8-BUILD4-RESULT-20261020.json).
+Five terminalFAILURE Builds2755charged/2752execution;845remaining; ownactive0.
+Build5 c2434c1b compilerPASS, actualfullbodysetup rejects ambiguousbrace anchor;
+sourceaudit proof_attemptedTrue not fullbody credit. Candidate6 exactfollowingcaller
+anchor independently reviewed;2placement tests and static18patch/18base PASS.
+Nexttimeout780/envelope840 fits845. Toolf2e92cec/profile838ade99 unchanged.
+Last actual Build4 observed guardDrop to rootfree318 missinghalf tmp; nativefreshness
+currentbegin/count2 vs incoming3. Physicalmerge/fullassert/singleton Build2 observed.
+Fullnormal/unwind/CURRENT/B2/qualificationOPEN,credit0. Freshness8 unqualified;
+BeforeLive/prefix OPEN. [Task/report](CURRENT-TASK.md).
 
 
 # MERGE — R8 READY / proof mission OPEN

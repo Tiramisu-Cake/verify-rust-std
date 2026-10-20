@@ -271,10 +271,12 @@ GUARD_POST_DROP_RECOVERY = b"""    //@ assert ref_readonly_end_token::<u64>(?r8_
 """
 
 
-def _prepare_post_drop_recovery(source):
-    anchor = b'        }\n    }\n}\n\n'
+def _prepare_post_drop_recovery(source, old):
+    # Bind the closing sequence to the unique following actual caller, rather
+    # than matching identical nested braces in earlier checked helper bodies.
+    anchor = b'        }\n    }\n}\n\n' + old.WRAPPER_SIGNATURE
     return _one(source, anchor, b'        }\n    }\n' +
-                GUARD_POST_DROP_RECOVERY + b'}\n\n',
+                GUARD_POST_DROP_RECOVERY + b'}\n\n' + old.WRAPPER_SIGNATURE,
                 'checked original guard debt after branch Drop before function free')
 
 
@@ -397,7 +399,7 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
         if profile in (R7_PROFILE, R8_PROFILE):
             verified = _prepare_late_scope(verified)
         if profile == R8_PROFILE:
-            verified = _prepare_post_drop_recovery(verified)
+            verified = _prepare_post_drop_recovery(verified, old)
     # Strip the NEW ghost-only annotations and compare with inherited source.
     # Other original ghost commands were already checked by old._prepare.
     # Runtime comparison removes only comments and whitespace; the inherited
