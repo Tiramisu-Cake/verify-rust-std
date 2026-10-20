@@ -1,0 +1,25 @@
+{
+  "authorization_binding": "HISTORICAL_R6_RENDER_ONLY; fresh phase/profile required",
+  "config_arg_bounds": "PASS",
+  "dispatch": "NOT_ATTEMPTED",
+  "exact_restore": "PASS",
+  "formal_credit": false,
+  "git_stderr_observed": {
+    "message": "error: object fails fsck: gitmodulesMissing: unable to read .gitmodules blob",
+    "occurrences": 2,
+    "result": "all checked subprocesses returned 0; selected object OIDs/path bytes/root tree/closure checks passed; not a full repository fsck",
+    "source": "git hash-object during selected-object restore"
+  },
+  "historical_phase_profile_render": "PASS",
+  "infra_commit": "8e4da6f232ebdddd7419c2f83ee5c68eb74c2b03",
+  "proof_commit": "b6dfcb8e4a1149ef5b98901b690995453050a9a5",
+  "restored_paths": {
+    "infra": 33,
+    "proof": 107
+  },
+  "shared_objects": 166,
+  "source_payload_bytes": 539594,
+  "source_sha256": "ec716dfcae1735f834fe0f4e7eb8aeab57a8c76d874667d25fbdf5dcb7693e20",
+  "source_substitutions": 190,
+  "status": "STATIC_REVIEW_ONLY_NOT_AUTHORIZED"
+}

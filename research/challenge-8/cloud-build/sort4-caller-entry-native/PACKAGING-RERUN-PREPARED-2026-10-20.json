@@ -38,6 +38,13 @@
   ],
   "closed_R6_account_reopened": false,
   "cloud_builds_submitted_for_this_task": 0,
+  "independent_review": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "resolved_finding": "reject explicit null config_fields_reference; legacy key absence allowed",
+    "result": "NO_OUTSTANDING_FINDINGS",
+    "reviewer_confirmed_fix": true
+  },
   "lane": "o26-sort4-c1-current-recovery",
   "new_phase_required": true,
   "old_retired_seconds_reused": false,
@@ -48,8 +55,10 @@
   "proof_status_change": false,
   "proposed_phase_id": "SORT4-PACKAGING-RECOVERY-2026-10-20-R7",
   "purpose": "Reproduce original checked inputs after packaging-only and final-diagnostic fixes; no saved payload exists for package-only recovery.",
+  "reviewed_infra_candidate": "8e4da6f232ebdddd7419c2f83ee5c68eb74c2b03",
   "schema": "smallsort-packaging-rerun-plan-v1",
   "semantic_proof_input_changes": "NONE; retain actual std/compiler/tool/R2/C/domain/contracts/equality/normal+unwind checks and all 26 cases",
+  "source_closure_record": "PACKAGING-SOURCE-CLOSURE-2026-10-20.json",
   "source_mode": "pinned-objects",
   "status": "PREPARED_NOT_AUTHORIZED"
 }
