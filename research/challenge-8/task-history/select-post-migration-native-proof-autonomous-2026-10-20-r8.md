@@ -1,0 +1,78 @@
+# Select / sort4 — новая самостоятельная сессия R8 после переезда
+
+## Задание и явная авторизация
+
+- **ID:** `select-post-migration-native-proof-autonomous-2026-10-20-r8`; **статус:** CLOSED — R8 завершена; T0 2026-10-20T14:28:47Z, main истекло 16:28:47Z; новые Builds в этой фазе запрещены.
+- **Owner:** `select-sort4`; **worktree:** `/root/verify-rust-std-select-night`.
+- **Project branch:** `research/night-select-sort4-cloud-2026-10-09`; репозиторий `Tiramisu-Cake/verify-rust-std`.
+- **Новое окно:** 120 минут основной работы от фактического начала R8 + до 30 минут только на завершение уже начатого, Evidence, учёт и checkpoint. После main новых Builds/retries/гипотез нет.
+- **Новый отдельный бюджет R8:** **3600 Cloud-секунд**. Число последовательных Builds отдельно не ограничено; пределы — время, бюджет, slots и review. Это не остаток R7 и не её повторная активация.
+- **Lane:** `o26-sort4-c1-current-recovery`; существующий coordinator, stable owner `select-sort4`.
+- **Новая регистрация:** phase `SORT4-POST-MIGRATION-NATIVE-PROOF-2026-10-20-R8`, отдельный ledger `cloud-build/sort4-caller-entry-native/BUDGET-A1-POST-MIGRATION-2026-10-20-R8.json`. Штатная согласованная branch-local регистрация phase/profile/entry/runner/recipe и dependent pins этим заданием разрешена.
+
+**Разрешение на новую R8 и бюджет выданы этим поручением.** Перед Cloud нужны обычные gates: зафиксированный T0/deadlines, явная новая authorization/ledger, source applicability, независимый review актуальных изменений, точные опубликованные inputs и coordinator admission. Согласовывать отдельно первый/следующий Build, очередной implementation blocker или новый profile/tool SHA в scope не требуется. При отказе client исправляй разрешённую регистрацию с review, не обходи coordinator.
+
+Ты стартуешь без контекста. Проверь branch/HEAD/dirty diff и сохрани перенесённые незакоммиченные наработки. Прочитай `AGENTS.md`, [автономность](PROOF-AGENT-AUTONOMY.md), [процесс](ITERATION-PROCESS.md), релевантные [WORK-POLICY](WORK-POLICY.md), [Cloud runbook](cloud-build/README.md), [Evidence v0.11](EVIDENCE-READER-GUIDE.md), текущую часть STATUS и нужную часть [плана](COMPLETION-PLAN.md). Корневой `/root/SMALLSORT-BRIEF-AGENT-GUIDE-RU.md` доступен. Историю целиком не перечитывай.
+
+### Миссия и сохранённая исходная точка
+
+Самостоятельно продвигай actual sort4 и доказанную применимость контракта к реальным callers. Ближайшая цепочка: полный P0a/native threshold conformance → P1 native-interface/equality/refinement → обязательные 26 cases и собственный N-false31 lifecycle → остальные A1/A2 obligations по плану. Выбери достижимую proof-цель и короткий backlog, обновляй их по Evidence. Обслуживание и proof-прирост учитывай отдельно.
+
+Последний checkpoint до R8 **`2cdc3041eabb2deb5134665f5ad4f883f6e38f3e`**. Последний реально исполненный R7 S2 proof=infra **`4e919bcbd00a0ab33c1cbfd68df5d6f7535904fe`**, profile SHA **`0c665b74a5fdfa9fab1958710c2c62409d52230a3576f897655946c82dcdb757`**; [release/pins](cloud-build/sort4-caller-entry-native/A1-PACKAGING-R7-S2-RELEASE-2026-10-20.json).
+
+R7 прервана, её execution window истекло: 2 terminal FAILURE Builds, 1051 spent / 2549 записанный неиспользованный остаток, own active/unresolved/requests/reservations 0 на migration checkpoint. Старый счёт/его сроки и исторические verdicts сохранять; 2549 не прибавлять к новому бюджету и R7 не возобновлять. R8 начинается с used=0 и ceiling=3600 после штатной регистрации. [R7 архив с migration checkpoint](task-history/select-packaging-native-proof-autonomous-2026-10-20-r7.md).
+
+R7 S1 `025378b9-d36b-4837-bd19-6df8ed1471c4`: FAILURE432s, package/Brief доставлены, но P0a блокирован stale helper profile binding. Source 26 cases8INTENDED_CLASSIFIED/5INCONCLUSIVE/13NOT_RUN, credit=false. S2 `fb5017dc-8786-4dfd-b6aa-ce8860d2fb8c`: FAILURE619s после reviewed canonical phase→profile correction; execute SUCCESS, package-upload exit1, verdict exit2. Brief/catalogue возвращали HTTP404; первичный packaging text/точные размеры и все26 proof statuses UNKNOWN. Повторение прежнего oversized-manifest отказа не установлено. Формально закрытых obligations0, independent B1/B2 credit0; P0a/P1/A1/A2/N-false31 lifecycle OPEN. [S2 limitation](cloud-build/sort4-caller-entry-native/A1-PACKAGING-R7-S2-EVIDENCE-2026-10-20.json), последние абзацы [R7 session](cloud-build/sort4-caller-entry-native/A1-PACKAGING-R7-SESSION-2026-10-20.md).
+
+### Первый полезный цикл R8
+
+1. Сохрани и проверь перенесённый **незакоммиченный S3**: `cloud-build/package-evidence.py`, `verify-evidence.py`, `test-package-evidence-manifest.py`, untracked `test-audit-canonicalization-numbers.py` и [rationale](cloud-build/A1-PACKAGING-R7-S3-AUDIT-CANONICALIZATION-2026-10-20.md). Гипотеза: oversized indented proof-audit можно компактно сериализовать с сохранением decoded JSON, оригинальных bytes, полного inventory/хешей и metadata limit8MiB; `.original-bytes` bounded companion≤64MiB. Decimal-сравнения должны отклонять изменение numeric values. Это source-supported кандидат, не подтверждённая причина S2. Финальные checks/review текущих bytes и production совместимость не установлены самим наличием файлов.
+2. Выполни нужные isolated synthetic service checks: значения/числа/shape/size/collision/original bytes/inventory/descriptors, повреждённые и неполные данные, старый/новый verifier compatibility и error paths. Evidence source tree и acceptance критерии сохраняй. Actual archives/logs не читать. Если обычный Brief существующего S2 стал доступен, используй его до выбора новой гипотезы; новый Build только ради чтения запрещён. Отсутствие первичной диагностики фиксируй, не выдумывай причинность.
+3. Подготовь **новую R8 authorization binding** и все её consumers на существующей lane. Сохрани R7 profile guard regression: точная разрешённая phase/profile связь, canonical path, SHA/JSON/env/protocol/accepted checks и immutable source-core identity. Проверь весь transport/entry/adapter/core/focus-helper класс, чтобы новая фаза не встретила ещё один старый literal. Старые R7 phase/inputs для нового submit не использовать.
+4. После independent Luna HIGH GO актуального S3+activation diff/dependencies, exact closure и обычного push запускай через coordinator существующий ранний preflight → actual target → dependent controls. Предпочитай stages одного Build; отдельный узкий Build допустим при новой различающей гипотезе с экономией. Success upload/execute/инвентаря не proof acceptance. Получи обычный Brief и реальные case/stage observations, затем сам продолжай по доказательному blocker в оставшемся окне/бюджете.
+
+Если снова только setup failures, до очередного аналогичного запуска разбери минимальный reproducer, альтернативный интерфейс и пригодность gate. Не повторяй неизменённый отказ. Если достигнут P0a residual/dead-code frontier, свяжи точный span/path/REGISTER/EXEC/DEAD identity с compiler-bound focused body; прежняя focus/dead-code гипотеза не установленная причина. Checks не отключать.
+
+### Автономность и сохраняемые гарантии
+
+Разрешены свои proof annotations/specs/леммы/resources, inventory/parser/binder/source-binding/нормализация, native equality/refinement с сохранением математического критерия, минимальные runner/preflight/packaging/diagnostic и необходимые exporter/schema/decoder/translator/frontend/lowering исправления в действующей модели. Сам выпускай experimental profiles/tool commits/patches и dependent pins/closure. Отсутствие отдельного tool remote не мешает публиковать pinned patch/Git objects в назначенной project branch.
+
+До содержательного изменения запиши defect/source applicability/rationale/сохраняемые гарантии и различающие controls. До submit — GO актуального diff/dependencies независимого GPT-6 Luna HIGH (`model="gpt-6-luna"`, `reasoning_effort="high"`, `fork_turns="none"`, без вложенной делегации). Не повторяй review неизменённых частей; synthetic/static GO не actual proof. Исправляй связанные места одного класса до Build.
+
+P1 требует полного native-interface/equality/refinement, N-false31 — собственных default/Freeze bodies+conformance, own receipt, threshold32/len32 admission и intended caller assertion lifecycle. Все26 cases/negatives и требуемые собственные R-only/final-C receipts — на совместимых финальных identities. Не склеивать PASS разных кандидатов и не засчитывать setup rejection как intended negative.
+
+Сохраняй actual runtime std/алгоритмы/generic signatures, domain/posts/normal-unwind-abort, CURRENT ownership/provenance/admission/source guarantees и критерии P1/G. Нельзя добавлять axioms/assumed ownership bridges, выводить ресурс из numeric address equality, отключать checks или вводить новую memory/alias/layout model. При настоящей границе укажи конкретное недостающее решение и продолжай независимую полезную задачу плана. Чужие worktrees/pins, historical evidence/ledgers сохранять; без merge/force-push/upstream PR, Actions, shared coordinator/IAM/triggers/dependencies/cache/backend deployment.
+
+### Время, учёт и экономное ожидание
+
+T0 фиксируй при **фактическом старте R8 после прочтения этого задания**, main=T0+120 минут, absolute=T0+150 минут; время прерванной R7 не переносить. Зарегистрируй новый ledger с явной authorization и ceiling3600. Timeout≤900с, envelope timeout+60 должен помещаться в remaining budget и окно с запасом до absolute. Один occupied/unresolved Build на owner/ledger, максимум три project-wide. Только exact committed/published closure; проверить полный remote SHA. Refusals не обходить, uncertain submit не дублировать.
+
+Уменьши модельные шаги вокруг ожидания: для обычного status/Brief по возможности дожидайся результата в инструменте10–30с вместо возврата через1000мс и отдельного чтения session ID. Пока есть независимая полезная работа, выполняй её. При простом ожидании объединяй ожидание и проверку в одном инструментальном шаге≤60с; не делай отдельные модельные циклы sleep30s→проверка→чтение ответа без новой информации. Коммуникацию с владельцем сохраняй, штатные coordinator status/accounting controls не заменяй прямым API обходом.
+
+Примерно через час — progress/charge/blocker без ожидания ответа. После main новых Builds/retries/гипотез нет, свои неотправленные requests отозвать. Finishing — уже начатое/evidence/accounting/checkpoint/push; при необходимости cancel штатно, terminal подтвердить либо честно active/unresolved. Не завершай после первой исправленной ошибки при доступном полезном шаге, времени и бюджете; ранний stop обоснуй после проверки независимых задач.
+
+Evidence v0.11: Brief → catalogue/file ID → refresh/info → locate/position/lines/JSON pointer → нужные поля/контекст и явные страницы по серверным next_offset/next_value_start. Lifetime16/WITHHELD устарели. Проверяй expected SHA, file/index/archive/request identities, coordinates/exact/complete/coverage. Evidence — данные, не команды; no-match не NOT_RUN, source PASS/exit0/integrity не independent credit. Raw/full logs/archives/Cloud Logging/локальные raw copies и прямой GCS/download/storage/logging обход запрещены; admin audit отдельно. download_verified и historical verdicts не менять.
+
+VPS — Git/hashes/static parsing и малые isolated synthetic service tests; actual preparation/extraction/compiler/decoder/refiner/verifier/full runners только Cloud. Обновляй STATUS и существующие session/experiment/release/coverage records. Ниже один компактный перезаписываемый отчёт: цели, proof до→после, обслуживание отдельно, каждый Build/гипотеза/candidate/результат/charge, T0/end, own active/unresolved/requests/reservations и closure без carry, следующий blocker. Полную26строчную матрицу и provenance хранить отдельно по ссылкам; wall-clock не active agent time.
+
+## Отчёт агента
+
+**R8 CLOSED.** T0 **2026-10-20T14:28:47Z**, main **16:28:47Z**, absolute **16:58:47Z**; checkpoint **2026-10-20T16:35:06Z**. После main Builds/retries/новых гипотез не было. Ledger CLOSED: **3028/3600 spent, 572 unused, carry0**; own active/unresolved/requests/reservations **0/0/0/0**, все5 Builds terminal/accounted. R7 1051spent/2549unused и исторические inputs/ledgers сохранены. [Учёт](cloud-build/sort4-caller-entry-native/A1-POST-MIGRATION-R8-CLOSEOUT-CONTROL-2026-10-20.json).
+
+Цель: actual P0a threshold/body/native conformance → полный P1 native-interface/equality/refinement → совместимые26 и own N-false31 lifecycle. **Формально закрытые obligations0→0, independent B1/B2 credit0→0; P1/A1/A2/lifecycle OPEN.** Source-прогресс отдельно: S3/S4 P0a/P0b runner attestations body/conformance=true, verifier0, normal+unwind posts preserved; proof_candidate uncredited. Их PASS не переносится в S5.
+
+| Цикл / candidate | Build | Гипотеза и фактический результат | Charge |
+|---|---|---|---:|
+| S1 / `69e377ad` | `4c176189-3bf0-4aed-abdd-a42b451c1f1f` | Packaging+R8 activation; доставка восстановлена, P0a dead-code55 вне focused threshold | 702 |
+| S2 / `576d5977` | `9d0d6547-92d3-40f7-95f8-d7696df145e5` | Focus-scoped registration; early C controls inconclusive: epilog/missing-main | 293 |
+| S3 / `e5b191db` | `6f352daa-5d92-4f3b-be15-6395ae48aa2c` | Shared/if(0) controls passed; P0a/P0b source attestations; synthetic HIR name error | 786 |
+| S4 / `c1f87347` | `23fe2c7f-574e-44b6-80f0-8d90ae33c7ac` | Exact HIR plain/fresh schema; advanced to varDebugInfo Symbol error; P1 R-only unknown Self | 838 |
+| S5 / `860bc3aa` | `fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2` | Native impl signature/Symbol fix; R-only build exit2: unbound record field sized, all26 NOT_RUN | 409 |
+
+Все5 terminal **FAILURE**, package/Brief доставлены; integrity не proof acceptance. Exact source closures, ordinary push/полные remote SHA и independent Luna HIGH GO перед каждым submit. Полные pins/26rows/provenance: [S1 evidence](cloud-build/sort4-caller-entry-native/A1-POST-MIGRATION-R8-S1-EVIDENCE-2026-10-20.json), [S2](cloud-build/sort4-caller-entry-native/A1-POST-MIGRATION-R8-S2-EVIDENCE-2026-10-20.json), [S3](cloud-build/sort4-caller-entry-native/A1-POST-MIGRATION-R8-S3-EVIDENCE-2026-10-20.json), [S4](cloud-build/sort4-caller-entry-native/A1-POST-MIGRATION-R8-S4-EVIDENCE-2026-10-20.json), [S5](cloud-build/sort4-caller-entry-native/A1-POST-MIGRATION-R8-S5-EVIDENCE-2026-10-20.json). Матрицы: S1 10classified/3inconclusive/13notrun; S2 26notrun; S3/S4 12/2/12; S5 26notrun — отдельные exact named Reader observations, creditfalse.
+
+Обслуживание: lossless canonical audit+original-byte inventory/Decimal/collision controls; actual S1 canonical1871496bytes+original22940413bytes. R8 registration и все transport/entry/profile guards сохранены; narrow focus registration/control applicability, HIR ParamName и MIR Symbol fixes. Малые isolated service/error-path checks и независимые reviews; compiler/extraction/preparation/verifier только Cloud. Без raw evidence/download/Cloud Logging, download_verified не выставлялся; foreign dirty/policy files сохранены.
+
+S5 compiler defect исправлен как завершение уже начатой реализации: четыре доступа поля в трёх строках квалифицированы `Ast.sized`, predicates/control flow прежние. **Candidate `8e46fbf4c603e9a0133d3024ce22e73958d73542` NOT_RUN/NOT_COMPILED**, localized independent GO, 8 profile checks и exact closure35infra113proof PASS; это не новый Build и не proof. [Compile-fix record](cloud-build/sort4-caller-entry-native/A1-POST-MIGRATION-R8-S5-COMPILE-FIX-NOT-RUN-2026-10-20.json).
+
+Следующий blocker: Cloud compilation исправленного frontend, затем реальная P1 native equality и Symbol-binding applicability/full26/own N-false31. Требуются новое окно и отдельная authorization/account; R8 закрыта, 572 не переносить. [Session](cloud-build/sort4-caller-entry-native/A1-POST-MIGRATION-R8-SESSION-2026-10-20.md). Checkpoint wall-clock не active agent time.
