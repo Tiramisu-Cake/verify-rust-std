@@ -1,6 +1,6 @@
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-@@ -343,6 +343,187 @@
+@@ -343,6 +343,254 @@
    module VfMirCapnpAlias = Vf_mir_capnp_alias
    module VfMirRd = VfMirCapnpAlias.VfMirRd
    open VfMirCapnpAlias
@@ -46,6 +46,27 @@
 +               if focus_argument () <> "verified/lib.rs:0" then
 +                 reject "interface representation stage cannot verify a body"
 +           | Some "caller" -> ignore (focus_argument ())
++           | Some "checked-helper" ->
++               if Sys.getenv_opt "SORT4_A1_CHECKED_HELPER_NAME" <>
++                    Some "a1_cleanup_option_ref" then
++                 reject "checked helper name is not the pinned cleanup lemma";
++               let helper_hash name = match Sys.getenv_opt name with
++                 | Some value when String.length value = 64 &&
++                     String.for_all
++                       (function '0'..'9' | 'a'..'f' -> true | _ -> false) value -> value
++                 | _ -> reject ("missing or malformed helper SHA256: " ^ name) in
++               ignore (helper_hash "SORT4_A1_CHECKED_HELPER_SOURCE_SHA256");
++               ignore (helper_hash "SORT4_A1_CHECKED_HELPER_BLOCK_SHA256");
++               let body_start = Sys.getenv_opt
++                 "SORT4_A1_CHECKED_HELPER_BODY_START_LINE" in
++               (match body_start with
++                | Some line when line <> "" &&
++                    String.for_all (function '0'..'9' -> true | _ -> false) line &&
++                    focus_argument () = "verified/lib.rs:" ^ line -> ()
++                | _ -> reject "checked helper focus differs from certified body start");
++               (match Sys.getenv_opt "SORT4_A1_FORCE_LEGACY_REDIRECT" with
++                | None -> ()
++                | _ -> reject "checked helper stage forbids legacy redirect control")
 +           | _ -> reject "unknown summary publication stage");
 +          true
 +      | _ -> reject "malformed opt-in"
@@ -67,7 +88,7 @@
 +    let published_ids : (string * string * string * string) option ref = ref None
 +    let publication_requested () =
 +      match Sys.getenv_opt "SORT4_A1_STAGE" with
-+      | None | Some "bodies" | Some "interface" -> false
++      | None | Some "bodies" | Some "interface" | Some "checked-helper" -> false
 +      | Some "caller" -> true
 +      | _ -> reject "unknown summary publication stage"
 +    let required_env name = match Sys.getenv_opt name with
@@ -87,6 +108,52 @@
 +           (function '0'..'9' | 'a'..'f' -> true | _ -> false) hash) then
 +        reject "malformed SHA256 receipt input";
 +      hash
++    let helper_line_number name =
++      let value = required_env name in
++      try
++        let number = int_of_string value in
++        if number <= 0 || string_of_int number <> value then
++          reject ("malformed checked helper line: " ^ name);
++        number
++      with Failure _ -> reject ("malformed checked helper line: " ^ name)
++    let validate_checked_helper_source () =
++      if Sys.getenv_opt "SORT4_A1_STAGE" = Some "checked-helper" then begin
++        if digest_file "verified/lib.rs" <>
++             required_env "SORT4_A1_CHECKED_HELPER_SOURCE_SHA256" then
++          reject "checked helper full source SHA256 differs";
++        let ic = try open_in "verified/lib.rs" with Sys_error _ ->
++          reject "checked helper source unavailable" in
++        let lines = Fun.protect ~finally:(fun () -> close_in ic) (fun () ->
++          let rec read count acc =
++            match input_line ic with
++            | line ->
++                if count >= 1000000 then
++                  reject "checked helper source has too many lines";
++                read (count+1) (line :: acc)
++            | exception End_of_file -> List.rev acc in
++          read 0 []) in
++        let source_start = helper_line_number
++          "SORT4_A1_CHECKED_HELPER_SOURCE_START_LINE" in
++        let source_end = helper_line_number
++          "SORT4_A1_CHECKED_HELPER_SOURCE_END_LINE" in
++        let body_start = helper_line_number
++          "SORT4_A1_CHECKED_HELPER_BODY_START_LINE" in
++        let body_end = helper_line_number
++          "SORT4_A1_CHECKED_HELPER_BODY_END_LINE" in
++        if not (source_start <= body_start && body_start < body_end &&
++                body_end <= source_end && source_end <= List.length lines) then
++          reject "checked helper source/body line bounds differ";
++        let line number = List.nth lines (number - 1) |> String.trim in
++        if line source_start <> "/*@" || line source_end <> "@*/" ||
++           line body_start <> "lem a1_cleanup_option_ref<'a, T>(value: std::option::Option<&'a T>)" ||
++           line body_end <> "}" then
++          reject "checked helper source or lemma body boundary differs";
++        if List.length (List.filter (fun text ->
++             String.trim text =
++               "lem a1_cleanup_option_ref<'a, T>(value: std::option::Option<&'a T>)")
++             lines) <> 1 then
++          reject "checked helper declaration is not unique in source"
++      end
 +    let check_publication_receipt () =
 +      if not (publication_requested ()) then false else begin
 +        let path = "a1-threshold-summary.receipt" in
@@ -329,7 +396,7 @@
        let fn_specialisations_table = Hashtbl.create 10 in
        Hashtbl.add_seq fn_specialisations_table (List.to_seq fn_specialisations);
        let fn_specializer trait_fn substs =
-@@ -17622,13 +17887,118 @@
+@@ -17622,13 +17887,120 @@
        let* traits_cpn =
          CapnpAux.ind_list_get_list (VfMirRd.VfMir.traits_get vf_mir_cpn)
        in
@@ -339,6 +406,7 @@
 +         receipt-ID reconciliation still gate all later body/call translation. *)
 +      if Sort4A1Contract.enabled () then begin
 +        let open Sort4A1Contract in
++        validate_checked_helper_source ();
 +        observer_body_focus := None;
 +        published_ids := None;
 +        if publication_requested () then begin
@@ -421,7 +489,8 @@
 +             (List.map (fun row -> row.impl_index) !inventory)) <> 2 then
 +          reject "distinct compiler impl identities required";
 +        if not (publication_requested ()) &&
-+           Sys.getenv_opt "SORT4_A1_STAGE" <> Some "interface" then begin
++           Sys.getenv_opt "SORT4_A1_STAGE" <> Some "interface" &&
++           Sys.getenv_opt "SORT4_A1_STAGE" <> Some "checked-helper" then begin
 +          let allowed = bodies_cpn |> List.filter_map (fun body ->
 +            if not (threshold_body body) then None else
 +            let loc = Result.get_ok

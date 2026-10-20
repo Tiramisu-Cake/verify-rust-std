@@ -1,0 +1,95 @@
+# SmallSort Evidence Brief — 06362db8
+
+- Processing: **VERIFIED_ARCHIVE_AND_INVENTORY**
+- Build proof verdict (source claim): **NOT_ACCEPTED_AS_REPORTED**
+- Run exit (source claim): `0`; evidence complete: `True`
+
+## Further bounded evidence
+
+- Complete catalogue: 561 verified members; retained content: 501 files.
+- CLI: `smallsort-brief 06362db8-2b0a-45fd-a4d6-5e4d1dac8069 --catalogue`, `--search LITERAL`, `--file ID --pointer /key` (JSON), or `--file ID --start 1` (text). Requires the v0.8 client installed on the caller host.
+- Reader: `/builds/06362db8-2b0a-45fd-a4d6-5e4d1dac8069/catalogue?q=literal`, `/search?q=literal`, `/fragment?file_id=ID&start=1` (text) or `&pointer=/key` (JSON). Use the same /builds/UUID prefix for all routes. Search is over sanitized retained data only; inspect coverage and next_offset. No raw fallback or proof inference.
+
+## Failure diagnostics (verified archived sources)
+
+- Diagnostic status: **SOURCE_REPORTED**; causality: **UNKNOWN**
+- Runner-reported blocker: `P0a` / `adapter_error`; detail: RuntimeError: A1-RUNNER: published common threshold caller was not verified on the exact pair
+  - Source: `proof-audit.json` line UNKNOWN; SHA-256 `96b577b793726ed8b2fa83f80006158a2cf583ca06cd54b113d19c35b4338f8e`
+- Runner-reported causal stage: `P0c-observed` (source assertion)
+
+## Bounded diagnostic context (untrusted observations)
+
+- AVAILABLE; parser=NO_SUPPORTED_PARSER_CLASSIFICATION; selection=TAIL_OF_SCANNED_PREFIX_NO_MARKER
+  - Source: `allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression/no-focus-dead-code-negative.log` line UNKNOWN; SHA-256 `7e36ad5566afdeb9e06d2adcfa92a3fa7a2e89e8728675404a18cd5e4b16f889`
+> L5: AST_STMT list=1 ordinal=3 kind=If predecessor_label=?none? ?REDACTED_LONG_VALUE?.c(6,5-7)
+> L6: REGISTER 2 ?REDACTED_LONG_VALUE?.c(6,5-7)
+> L7: AST_STMT list=2 ordinal=4 kind=Return predecessor_label=?none? ?REDACTED_LONG_VALUE?.c(9,5-11)
+> L8: REGISTER 3 ?REDACTED_LONG_VALUE?.c(9,5-11)
+> L9: AST_STMT list=0 ordinal=0 kind=Return predecessor_label=?none? ?REDACTED_LONG_VALUE?.c(16,5-11)
+> L10: REGISTER 4 ?REDACTED_LONG_VALUE?.c(16,5-11)
+> L11: EXEC 0 ?REDACTED_LONG_VALUE?.c(5,11-12)
+> L12: EXEC 2 ?REDACTED_LONG_VALUE?.c(6,5-7)
+  - Scanned 1843/1843 bytes; scan limit reached=False; lines shown=8/12.
+- AVAILABLE; parser=NO_SUPPORTED_PARSER_CLASSIFICATION; selection=TAIL_OF_SCANNED_PREFIX_NO_MARKER
+  - Source: `allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression/selected-dead-code-negative.log` line UNKNOWN; SHA-256 `2d256abf7430453987a75a864715c65fd096119ce9f820d4fb548d10875ea940`
+> L2: REGISTER 0 ?REDACTED_LONG_VALUE?.c(5,11-12)
+> L3: AST_STMT list=1 ordinal=1 kind=Expr predecessor_label=?none? ?REDACTED_LONG_VALUE?.c(7,11-12)
+> L4: REGISTER 1 ?REDACTED_LONG_VALUE?.c(7,11-12)
+> L5: AST_STMT list=1 ordinal=3 kind=If predecessor_label=?none? ?REDACTED_LONG_VALUE?.c(6,5-7)
+> L6: REGISTER 2 ?REDACTED_LONG_VALUE?.c(6,5-7)
+> L7: AST_STMT list=2 ordinal=4 kind=Return predecessor_label=?none? ?REDACTED_LONG_VALUE?.c(9,5-11)
+> L8: REGISTER 3 ?REDACTED_LONG_VALUE?.c(9,5-11)
+> L9: EXEC 0 ?REDACTED_LONG_VALUE?.c(5,11-12)
+  - Scanned 1491/1491 bytes; scan limit reached=False; lines shown=8/12.
+- Up to 2 short windows shown; complete bounded context and availability counts are in evidence-index.json. Context does not establish causality.
+
+## Tool build milestones (individual observed records)
+
+- `translator-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `console-build`: EXIT_ZERO; exit=`0`; records=1; omitted=0
+  - Source: `allprooflogs/console-build-exit-code.txt` line UNKNOWN; SHA-256 `9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa`
+- `exporter-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `decoder-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `refiner-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `tracked-md-compile`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `tracked-md-preparation`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+
+## First comparator source results
+
+- Coverage: NO_SUPPORTED_SOURCE_RECORD_OR_NAMED_ARTIFACT; projected=0; omitted=0; scan_truncated=False; showing up to 6 records
+- A joint false/true/panic claim does not provide separate per-branch receipts; absent records do not establish NOT_RUN.
+
+## Stage observations (exit codes are not proof verdicts)
+
+- Record counts: EXIT_NONZERO=4, EXIT_ZERO=129; order=NOT_ESTABLISHED; last completed stage=UNKNOWN
+- `no-focus-dead-code-negative`: exit=`1`; linkage=`RECEIPT`; diagnostic=`NO_SUPPORTED_DIAGNOSTIC`
+  - Source: `allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression/no-focus-dead-code-negative-stage.json` line UNKNOWN; SHA-256 `a443e5b4c8cac86d64778029266782894741e23d999906bc74aa51ab30a8a2df`
+  - Context availability: {'status': 'AVAILABLE', 'context_id': 0}
+- `selected-dead-code-negative`: exit=`1`; linkage=`RECEIPT`; diagnostic=`NO_SUPPORTED_DIAGNOSTIC`
+  - Source: `allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression/selected-dead-code-negative-stage.json` line UNKNOWN; SHA-256 `a36235c573e2bc5f1683aafe48b0cf965a25c4c0b42d691f062532e5d647268f`
+  - Context availability: {'status': 'AVAILABLE', 'context_id': 1}
+- `checked-cleanup-helper`: exit=`2`; linkage=`RECEIPT`; diagnostic=`NO_SUPPORTED_DIAGNOSTIC`
+  - Source: `allprooflogs/cases/sort4-c1-current-recovery/focus/P0c/checked-cleanup-helper/checked-cleanup-helper-stage.json` line UNKNOWN; SHA-256 `18fcdde6430dd5c844318d45cce267780cb1f64dcbfefe14416d2f43f14f6df9`
+  - Context availability: {'status': 'AVAILABLE', 'context_id': 2}
+- `checked-cleanup-helper`: exit=`2`; linkage=`RECEIPT`; diagnostic=`NO_SUPPORTED_DIAGNOSTIC`
+  - Source: `allprooflogs/cases/sort4-c1-current-recovery/focus/P1/checked-cleanup-helper/checked-cleanup-helper-stage.json` line UNKNOWN; SHA-256 `77c1c1fe85ce48df3db5721416ebbdbd4fc3090bed6030a5143553d8905b6ee4`
+  - Context availability: {'status': 'AVAILABLE', 'context_id': 3}
+- Expected-control nonzero records (source-classified): 0; details in evidence-index.json.
+- Exit 0 observed: `console-build`, `synthetic-encode`, `synthetic-translator`, `a1-R-only-native-reference-build`, `a1-final-schema-exporter-console-build`, `excluded-function-positive`; references in evidence-index.json.
+- Coverage: {'candidate_records': 133, 'parsed_records': 133, 'not_captured': 0, 'invalid_records': 0, 'omitted_records': 0}; showing up to 4 nonzero and 6 zero records.
+- Runner-reported cases: 26; INCONCLUSIVE=2, INTENDED_CLASSIFIED=5, NOT_RUN=19
+- Missing/ambiguous diagnostics: VERIFIED_FAILED_LOG_WITHOUT_RECOGNIZED_COMPILER_DIAGNOSTIC, MULTIPLE_STAGE_FAILURES_CAUSALITY_UNKNOWN
+
+## Campaign aggregates (source claims)
+
+- No supported aggregate captured; absence from this section does not prove absence from archive.
+- Aggregate coverage: {'aggregate_candidates': 0, 'aggregates_captured': 0, 'stage_metadata_captured': 96, 'stage_summaries_retained': 133, 'context_logs_streamed': 4, 'diagnostic_logs_captured': 16, 'diagnostic_log_bytes': 557710, 'oversized_logs': 0, 'budget_omitted_logs': 121, 'aggregates_not_captured': 0}; showing up to 4.
+
+## Representative cases (source verdicts)
+
+- `allprooflogs/cases/sort4-c1-current-recovery`
+- Cases: 1; showing up to 4. More references and source claims in evidence-index.json.
+
+## Boundaries
+
+Source verdicts are claims; no PASS is inferred from exit 0. Stage order and first/last causal stage remain UNKNOWN without explicit evidence. No verifier is run by this processor. Remote text chunk bytes are not checked.

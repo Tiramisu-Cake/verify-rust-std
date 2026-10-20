@@ -135,9 +135,11 @@ class FakeStage:
         self.exit_code = exit_code
         self.after_stage = after_stage
         self.calls = 0
+        self.environments = []
 
-    def stage(self, _args, root, name, argv, _env, _cap, *, cwd):
+    def stage(self, _args, root, name, argv, env, _cap, *, cwd):
         self.calls += 1
+        self.environments.append(dict(env))
         root.mkdir(parents=True, exist_ok=True)
         ast_path = Path(argv[argv.index("-dump_ast_with_locs") + 1])
         if self.ast is not None:
@@ -186,7 +188,12 @@ class CheckedCleanupHelperGateTests(unittest.TestCase):
                         "exporter_binary_sha256": sha((self.tool / "bin/vf-rust-mir-exporter").read_bytes())}
         self.args = FakeArgs()
         self.stage = FakeStage(ast_text())
-        self.env = {"SORT4_A1_PROFILE_SHA256": PROFILE_SHA}
+        self.env = {"SMALLSORT_EXECUTION_PROVIDER": "cloud-build",
+                    "SORT4_A1_PHASE_ID": FOCUS.PHASE,
+                    "SORT4_A1_CHECKED_TRAIT_CONTRACT": "1",
+                    "SORT4_A1_STAGE": "caller",
+                    "SORT4_A1_PROFILE_SHA256": PROFILE_SHA,
+                    "CLOUD_BUILD_ID": BUILD_ID}
         self.root_evidence = self.root / "focus" / "P0c"
         self.root_evidence.mkdir(parents=True)
         self._env_patch = patch.dict(os.environ, {"CLOUD_BUILD_ID": BUILD_ID,
@@ -198,7 +205,7 @@ class CheckedCleanupHelperGateTests(unittest.TestCase):
         self.temp.cleanup()
 
     def collect(self, *, metadata_value=MISSING, profile=None, receipt="default",
-                stage=None, deadline=None):
+                stage=None, deadline=None, env=None):
         case = dict(self.case)
         if metadata_value is not MISSING:
             case["checked_cleanup_helper"] = metadata_value
@@ -208,7 +215,7 @@ class CheckedCleanupHelperGateTests(unittest.TestCase):
         args = self.args if deadline is None else type("Args", (), {"deadline_epoch": deadline})()
         return FOCUS._checked_cleanup_helper_proof(
             args, fake, self.tool, actual_receipt, prof, self.fixture,
-            self.root_evidence, self.env, self.source, case,
+            self.root_evidence, self.env if env is None else env, self.source, case,
             self.certificate_path, AST, RUNNER.select_checked_cleanup_helper_lemma)
 
     def test_success_produces_same_build_noncredit_record_and_core_accepts_it(self):
@@ -222,6 +229,7 @@ class CheckedCleanupHelperGateTests(unittest.TestCase):
         raw = {"checked_helper_required": True, "checked_helper_proof": record,
                "checked_helper_proof_path": str(self.root_evidence / "checked-cleanup-helper-proof.json"),
                "evidence_root": str(self.root_evidence), "build_id": BUILD_ID,
+               "focus_stage": "caller",
                "source_pair_sha256": record["source_pair_sha256"]}
         (self.root_evidence / "checked-cleanup-helper-proof.json").write_text(
             json.dumps(record, indent=2, sort_keys=True) + "\n")
@@ -229,7 +237,7 @@ class CheckedCleanupHelperGateTests(unittest.TestCase):
             raw, profile=self.profile, certificate_case=self.case,
             certificate_path=self.certificate_path, fixture=self.fixture,
             tool=self.tool, tool_receipt=self.receipt,
-            ast_gates=AST))
+            ast_gates=AST, expected_caller_env=self.env))
         for field, value in (("build_id", "other-build"),
                              ("profile_sha256", "b" * 64),
                              ("source_pair_sha256", {"verified/lib.rs": "0" * 64,
@@ -244,7 +252,7 @@ class CheckedCleanupHelperGateTests(unittest.TestCase):
                 raw, profile=self.profile, certificate_case=self.case,
                 certificate_path=self.certificate_path, fixture=self.fixture,
                 tool=self.tool, tool_receipt=self.receipt,
-                ast_gates=AST), field)
+                ast_gates=AST, expected_caller_env=self.env), field)
         raw["checked_helper_proof"] = record
         (self.root_evidence / "checked-cleanup-helper-proof.json").write_text(
             json.dumps(record, indent=2, sort_keys=True) + "\n")
@@ -255,7 +263,7 @@ class CheckedCleanupHelperGateTests(unittest.TestCase):
             raw, profile=self.profile, certificate_case=self.case,
             certificate_path=self.certificate_path, fixture=self.fixture,
             tool=self.tool, tool_receipt=self.receipt,
-            ast_gates=AST), "mutated AST bytes")
+            ast_gates=AST, expected_caller_env=self.env), "mutated AST bytes")
         ast_path.write_text(ast_contents)
         source_path = self.fixture / "verified/lib.rs"
         original_source = source_path.read_bytes()
@@ -264,13 +272,14 @@ class CheckedCleanupHelperGateTests(unittest.TestCase):
             raw, profile=self.profile, certificate_case=self.case,
             certificate_path=self.certificate_path, fixture=self.fixture,
             tool=self.tool, tool_receipt=self.receipt,
-            ast_gates=AST), "mutated source pair")
+            ast_gates=AST, expected_caller_env=self.env), "mutated source pair")
 
     def test_core_binds_receipt_to_active_tool_and_exact_stage_cwd(self):
         record = self.collect()
         raw = {"checked_helper_required": True, "checked_helper_proof": record,
                "checked_helper_proof_path": str(self.root_evidence / "checked-cleanup-helper-proof.json"),
                "evidence_root": str(self.root_evidence), "build_id": BUILD_ID,
+               "focus_stage": "caller",
                "source_pair_sha256": record["source_pair_sha256"]}
         record_path = self.root_evidence / "checked-cleanup-helper-proof.json"
         record_path.write_text(json.dumps(record, indent=2, sort_keys=True) + "\n")
@@ -278,7 +287,8 @@ class CheckedCleanupHelperGateTests(unittest.TestCase):
             return RUNNER.checked_helper_record_valid(
                 raw, profile=self.profile, certificate_case=self.case,
                 certificate_path=self.certificate_path, fixture=self.fixture,
-                tool=self.tool, tool_receipt=self.receipt, ast_gates=AST)
+                tool=self.tool, tool_receipt=self.receipt, ast_gates=AST,
+                expected_caller_env=self.env)
         self.assertTrue(valid())
 
         copied_tool = self.root / "copied-tool"
@@ -315,8 +325,27 @@ class CheckedCleanupHelperGateTests(unittest.TestCase):
         self.assertFalse(RUNNER.checked_helper_record_valid(
             raw, profile=self.profile, certificate_case=self.case,
             certificate_path=self.certificate_path, fixture=self.fixture,
-            tool=self.tool, tool_receipt=wrong_receipt, ast_gates=AST),
+            tool=self.tool, tool_receipt=wrong_receipt, ast_gates=AST,
+            expected_caller_env=self.env),
             "active tool receipt hash mismatch")
+
+        bad_environment = json.loads(json.dumps(record))
+        bad_environment["environment_identity"]["helper_a1"]["SORT4_A1_STAGE"] = "caller"
+        raw["checked_helper_proof"] = bad_environment
+        record_path.write_text(json.dumps(bad_environment, indent=2, sort_keys=True) + "\n")
+        self.assertFalse(valid(), "caller-only stage leaked into helper environment receipt")
+
+        bad_environment = json.loads(json.dumps(record))
+        bad_environment["environment_identity"]["caller_sha256"] = "f" * 64
+        raw["checked_helper_proof"] = bad_environment
+        record_path.write_text(json.dumps(bad_environment, indent=2, sort_keys=True) + "\n")
+        self.assertFalse(valid(), "substituted caller full-environment digest is rejected")
+
+        bad_environment = json.loads(json.dumps(record))
+        bad_environment["environment_identity"]["helper_sha256"] = "f" * 64
+        raw["checked_helper_proof"] = bad_environment
+        record_path.write_text(json.dumps(bad_environment, indent=2, sort_keys=True) + "\n")
+        self.assertFalse(valid(), "substituted helper full-environment digest is rejected")
 
     def test_source_pair_changed_during_helper_stage_is_blocked(self):
         source_path = self.fixture / "verified/lib.rs"
@@ -335,9 +364,12 @@ class CheckedCleanupHelperGateTests(unittest.TestCase):
         self.assertIn("final A1 tool file differs", record["error"])
 
     def test_nonzero_verifier_preserves_failure_and_never_reports_success(self):
-        record = self.collect(stage=FakeStage(ast_text(), exit_code=1))
+        fake = FakeStage(ast_text(), exit_code=1)
+        record = self.collect(stage=fake)
         self.assertEqual(record["status"], "HELPER_VERIFIER_FAILED")
         self.assertEqual(record["stage"]["exit"], 1)
+        self.assertEqual(fake.calls, 1)
+        self.assertEqual(fake.environments[0]["SORT4_A1_STAGE"], "checked-helper")
         self.assertFalse(record["proof_credit"])
 
     def test_success_exit_without_ast_is_blocked(self):
@@ -361,6 +393,51 @@ class CheckedCleanupHelperGateTests(unittest.TestCase):
         record = self.collect(metadata_value=None, profile=self.profile)
         self.assertEqual(record["status"], "BLOCKED_INVALID_SOURCE_CERTIFICATE_OR_PROFILE")
 
+    def test_helper_environment_isolated_and_original_caller_environment_restored(self):
+        caller_env = dict(self.env, SORT4_A1_FORCE_LEGACY_REDIRECT="1")
+        original = dict(caller_env)
+        fake = FakeStage(ast_text())
+        record = self.collect(stage=fake, env=caller_env)
+        self.assertEqual(record["status"], "HELPER_BODY_VERIFIED_SAME_BUILD")
+        helper_env = fake.environments[0]
+        self.assertEqual(helper_env["SORT4_A1_CHECKED_TRAIT_CONTRACT"], "1")
+        self.assertEqual(helper_env["SORT4_A1_STAGE"], "checked-helper")
+        self.assertNotIn("SORT4_A1_FORCE_LEGACY_REDIRECT", helper_env)
+        self.assertEqual(helper_env["SORT4_A1_CHECKED_HELPER_NAME"],
+                         "a1_cleanup_option_ref")
+        self.assertEqual(helper_env["SORT4_A1_CHECKED_HELPER_SOURCE_SHA256"],
+                         sha(self.source))
+        self.assertEqual(helper_env["SORT4_A1_CHECKED_HELPER_BLOCK_SHA256"],
+                         metadata(self.source)["source_sha256"])
+        self.assertEqual(caller_env, original)
+        identity = record["environment_identity"]
+        self.assertEqual(identity["caller_sha256"],
+                         FOCUS._stage_environment_sha256(original))
+        self.assertEqual(identity["helper_sha256"],
+                         FOCUS._stage_environment_sha256(helper_env))
+        self.assertEqual(identity["caller_a1"]["SORT4_A1_STAGE"], "caller")
+        self.assertEqual(identity["helper_a1"]["SORT4_A1_STAGE"], "checked-helper")
+        self.assertEqual(identity["helper_a1"]["SORT4_A1_CHECKED_TRAIT_CONTRACT"], "1")
+
+    def test_missing_or_wrong_caller_environment_blocks_before_stage(self):
+        for change in ({"SORT4_A1_CHECKED_TRAIT_CONTRACT": None},
+                       {"SORT4_A1_STAGE": "bodies"}):
+            with self.subTest(change=change):
+                caller_env = dict(self.env)
+                caller_env.update(change)
+                fake = FakeStage(ast_text())
+                record = self.collect(stage=fake, env=caller_env)
+                self.assertEqual(record["status"], "BLOCKED_CHECKED_HELPER_PREREQUISITE")
+                self.assertEqual(fake.calls, 0)
+
+    def test_interface_caller_environment_is_not_reused_for_helper_stage(self):
+        caller_env = dict(self.env, SORT4_A1_STAGE="interface")
+        fake = FakeStage(ast_text())
+        record = self.collect(stage=fake, env=caller_env)
+        self.assertEqual(record["status"], "HELPER_BODY_VERIFIED_SAME_BUILD")
+        self.assertEqual(record["environment_identity"]["caller_mode"], "interface")
+        self.assertEqual(fake.environments[0]["SORT4_A1_STAGE"], "checked-helper")
+        self.assertEqual(caller_env["SORT4_A1_STAGE"], "interface")
     def test_deadline_and_ambiguous_ast_skip_the_caller(self):
         record = self.collect(deadline=int(time.time()) + 100)
         self.assertEqual(record["status"], "NOT_RUN_DEADLINE")

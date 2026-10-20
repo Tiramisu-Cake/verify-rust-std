@@ -1,0 +1,55 @@
+{
+  "archive_sha256": "b5505a4b862dd3049ff5a02a9656231ad55ace41e2dea8009ff082fa21d135e6",
+  "build_id": "06362db8-2b0a-45fd-a4d6-5e4d1dac8069",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "EMPTY_FILE": 104,
+      "JSON_EXCEEDS_SCAN_LIMIT": 4,
+      "PROJECTED": 393,
+      "UNSUPPORTED_FILE_TYPE": 60
+    },
+    "catalogue_complete": true,
+    "content_bytes": 1310601,
+    "content_files": 501,
+    "files": 561,
+    "source_scan_bytes": 3899517
+  },
+  "index_sha256": "2d3eee01fd0acbdb7cc232f265b4d2a55491e229ae726622dc281cd5f961ac15",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "1eb19688402f09db20a216ea2f8ed083a9d37700174c9ad7385e8e68b69edcc1",
+      "kind": "json",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0c/checked-cleanup-helper/checked-cleanup-helper-stage.json",
+      "path_sanitized": false,
+      "scanned_bytes": 734,
+      "sha256": "18fcdde6430dd5c844318d45cce267780cb1f64dcbfefe14416d2f43f14f6df9",
+      "size_bytes": 734,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "e7b636fc338d25fbbf375d7f1571604a0c708d96428a5980194677269c62e28a",
+      "kind": "json",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P1/checked-cleanup-helper/checked-cleanup-helper-stage.json",
+      "path_sanitized": false,
+      "scanned_bytes": 732,
+      "sha256": "77c1c1fe85ce48df3db5721416ebbdbd4fc3090bed6030a5143553d8905b6ee4",
+      "size_bytes": 732,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 561,
+    "files_with_incomplete_content": 375,
+    "matches_in_retained_data": 2,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

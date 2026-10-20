@@ -53,6 +53,27 @@ LEGACY_FLAGS = (
     "SORT4_ACTUAL_CALLER_ENTRY_PHASE", "SORT4_NATIVE_C1_BOUND_PHASE",
     "SORT4_NATIVE_OPAQUE_PHASE", "SORT4_NATIVE_C1_ZST_REPAIR_PHASE",
 )
+A1_ENV_IDENTITY_KEYS = (
+    "SMALLSORT_EXECUTION_PROVIDER", "SORT4_A1_AUTHORIZATION_PHASE_ID",
+    "SORT4_A1_PHASE_ID", "SORT4_A1_CHECKED_TRAIT_CONTRACT",
+    "SORT4_A1_STAGE", "SORT4_A1_PROFILE_SHA256",
+    "SORT4_A1_FORCE_LEGACY_REDIRECT", "CLOUD_BUILD_ID", "PROOF_SHA",
+    "INFRA_SHA", "SORT4_A1_CHECKED_HELPER_NAME",
+    "SORT4_A1_CHECKED_HELPER_SOURCE_SHA256",
+    "SORT4_A1_CHECKED_HELPER_BLOCK_SHA256",
+    "SORT4_A1_CHECKED_HELPER_SOURCE_START_LINE",
+    "SORT4_A1_CHECKED_HELPER_SOURCE_END_LINE",
+    "SORT4_A1_CHECKED_HELPER_BODY_START_LINE",
+    "SORT4_A1_CHECKED_HELPER_BODY_END_LINE",
+)
+HELPER_ONLY_ENV_KEYS = (
+    "SORT4_A1_CHECKED_HELPER_NAME", "SORT4_A1_CHECKED_HELPER_SOURCE_SHA256",
+    "SORT4_A1_CHECKED_HELPER_BLOCK_SHA256",
+    "SORT4_A1_CHECKED_HELPER_SOURCE_START_LINE",
+    "SORT4_A1_CHECKED_HELPER_SOURCE_END_LINE",
+    "SORT4_A1_CHECKED_HELPER_BODY_START_LINE",
+    "SORT4_A1_CHECKED_HELPER_BODY_END_LINE",
+)
 
 
 def need(ok: bool, reason: str) -> None:
@@ -67,6 +88,44 @@ def _plain_json_value(value: Any) -> Any:
     if isinstance(value, (tuple, list)):
         return [_plain_json_value(item) for item in value]
     return value
+
+
+def _stage_environment_sha256(env: Mapping[str, Any]) -> str:
+    need(all(isinstance(key, str) and isinstance(value, str)
+             for key, value in env.items()),
+         "stage environment must contain string keys and values")
+    encoded = json.dumps(dict(env), sort_keys=True, separators=(",", ":"),
+                         ensure_ascii=True).encode("ascii")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def _a1_environment_projection(env: Mapping[str, Any]) -> dict[str, str | None]:
+    return {key: env.get(key) for key in A1_ENV_IDENTITY_KEYS}
+
+
+def _checked_helper_stage_environment(caller_env: Mapping[str, Any],
+                                     contract: Mapping[str, Any]) -> dict[str, str]:
+    need(all(isinstance(key, str) and isinstance(value, str)
+             for key, value in caller_env.items()),
+         "caller stage environment must be string-valued")
+    need(caller_env.get("SORT4_A1_CHECKED_TRAIT_CONTRACT") == "1" and
+         caller_env.get("SORT4_A1_PHASE_ID") == PHASE and
+         caller_env.get("SORT4_A1_STAGE") in ("caller", "interface") and
+         not any(key in caller_env for key in HELPER_ONLY_ENV_KEYS),
+         "checked helper requires a caller/interface environment with A1 contract enabled")
+    helper_env = dict(caller_env)
+    helper_env.pop("SORT4_A1_FORCE_LEGACY_REDIRECT", None)
+    helper_env["SORT4_A1_STAGE"] = "checked-helper"
+    helper_env.update({
+        "SORT4_A1_CHECKED_HELPER_NAME": str(contract["name"]),
+        "SORT4_A1_CHECKED_HELPER_SOURCE_SHA256": str(contract["generated_source_sha256"]),
+        "SORT4_A1_CHECKED_HELPER_BLOCK_SHA256": str(contract["source_sha256"]),
+        "SORT4_A1_CHECKED_HELPER_SOURCE_START_LINE": str(contract["source_start_line"]),
+        "SORT4_A1_CHECKED_HELPER_SOURCE_END_LINE": str(contract["source_end_line"]),
+        "SORT4_A1_CHECKED_HELPER_BODY_START_LINE": str(contract["body_start_line"]),
+        "SORT4_A1_CHECKED_HELPER_BODY_END_LINE": str(contract["body_end_line"]),
+    })
+    return helper_env
 
 
 def _source_bound_caller_focus_span(binding: Any) -> tuple[int, dict[str, Any]]:
@@ -322,6 +381,7 @@ def _checked_cleanup_helper_contract(source: bytes, case: Mapping[str, Any],
              rb"\s*lem\s+a1_cleanup_option_ref\b", line)) == 1,
          "checked cleanup helper declaration/body source identity")
     return {**dict(metadata), "source_bytes_sha256": expected,
+            "generated_source_sha256": case.get("generated_source_sha256"),
             "source_block_bytes": len(block), "proof_credit": False}
 
 
@@ -381,6 +441,17 @@ def _checked_cleanup_helper_proof(a, c4, tool: Path, receipt: Any,
              (tool / "bin/verifast").is_file() and
              sha(tool / "bin/verifast") == receipt["console_binary_sha256"],
              "checked cleanup helper requires the exact final tool receipt")
+        helper_env = _checked_helper_stage_environment(env, contract)
+        record["environment_identity"] = {
+            "caller_mode": env.get("SORT4_A1_STAGE"),
+            "helper_mode": helper_env.get("SORT4_A1_STAGE"),
+            "caller_sha256": _stage_environment_sha256(env),
+            "helper_sha256": _stage_environment_sha256(helper_env),
+            "caller_keys": sorted(env),
+            "helper_keys": sorted(helper_env),
+            "caller_a1": _a1_environment_projection(env),
+            "helper_a1": _a1_environment_projection(helper_env),
+        }
         need(source_bytes == (fixture / "verified/lib.rs").read_bytes() and
              source_pair["verified/lib.rs"] ==
              case.get("generated_source_sha256") and
@@ -405,7 +476,7 @@ def _checked_cleanup_helper_proof(a, c4, tool: Path, receipt: Any,
                    "verified/lib.rs"]
         record["focus"] = command[2]
         stage = c4.stage(a, helper_root, "checked-cleanup-helper",
-                         command, dict(env), 180, cwd=fixture)
+                         command, dict(helper_env), 180, cwd=fixture)
         record["stage"] = _plain_json_value(stage) if isinstance(stage, Mapping) else stage
         record["stage_log_path"] = str(helper_root / "checked-cleanup-helper.log")
         record["ast_artifact"] = _artifact(ast_path)

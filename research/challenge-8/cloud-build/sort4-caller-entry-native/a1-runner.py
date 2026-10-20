@@ -30,6 +30,27 @@ HERE = Path("research/challenge-8/cloud-build/sort4-caller-entry-native")
 PROFILE = HERE / "A1-SCOPE-S3-PROFILE-2026-10-20.json"
 HEX40 = re.compile(r"[0-9a-f]{40}\Z")
 HEX64 = re.compile(r"[0-9a-f]{64}\Z")
+A1_HELPER_ENV_KEYS = (
+    "SMALLSORT_EXECUTION_PROVIDER", "SORT4_A1_AUTHORIZATION_PHASE_ID",
+    "SORT4_A1_PHASE_ID", "SORT4_A1_CHECKED_TRAIT_CONTRACT",
+    "SORT4_A1_STAGE", "SORT4_A1_PROFILE_SHA256",
+    "SORT4_A1_FORCE_LEGACY_REDIRECT", "CLOUD_BUILD_ID", "PROOF_SHA",
+    "INFRA_SHA", "SORT4_A1_CHECKED_HELPER_NAME",
+    "SORT4_A1_CHECKED_HELPER_SOURCE_SHA256",
+    "SORT4_A1_CHECKED_HELPER_BLOCK_SHA256",
+    "SORT4_A1_CHECKED_HELPER_SOURCE_START_LINE",
+    "SORT4_A1_CHECKED_HELPER_SOURCE_END_LINE",
+    "SORT4_A1_CHECKED_HELPER_BODY_START_LINE",
+    "SORT4_A1_CHECKED_HELPER_BODY_END_LINE",
+)
+CHECKED_HELPER_ONLY_ENV = (
+    "SORT4_A1_CHECKED_HELPER_NAME", "SORT4_A1_CHECKED_HELPER_SOURCE_SHA256",
+    "SORT4_A1_CHECKED_HELPER_BLOCK_SHA256",
+    "SORT4_A1_CHECKED_HELPER_SOURCE_START_LINE",
+    "SORT4_A1_CHECKED_HELPER_SOURCE_END_LINE",
+    "SORT4_A1_CHECKED_HELPER_BODY_START_LINE",
+    "SORT4_A1_CHECKED_HELPER_BODY_END_LINE",
+)
 
 # Order is part of the first-matrix plan. OFF checks default-off behavior;
 # P0a/P0b are actual focused threshold bodies and native conformance, before
@@ -932,7 +953,9 @@ def collect_source_case(a, c4, ghost, *, tool: Path, tool_receipt: dict,
             raw, profile=profile, certificate_case=cert_case,
             certificate_path=certificate_path, fixture=fixture,
             tool=tool, tool_receipt=tool_receipt,
-            ast_gates=helpers["a1-ast-gates.py"]):
+            ast_gates=helpers["a1-ast-gates.py"],
+            expected_caller_env=_expected_a1_caller_environment(
+                a, c4, tool, raw.get("focus_stage"), control_env)):
         return {"classification": "BLOCKED_CHECKED_HELPER_PREREQUISITE",
                 "case_id": case_id, "focus_case_id": focus_case_id,
                 "raw": raw,
@@ -1163,7 +1186,9 @@ def collect_p1_interface_case(a, c4, ghost, *, tool: Path,
             raw, profile=profile, certificate_case=cert_case,
             certificate_path=certificate_path, fixture=fixture,
             tool=tool, tool_receipt=tool_receipt,
-            ast_gates=helpers["a1-ast-gates.py"]):
+            ast_gates=helpers["a1-ast-gates.py"],
+            expected_caller_env=_expected_a1_caller_environment(
+                a, c4, tool, raw.get("focus_stage"))):
         return {"classification": "P1_BLOCKED_CHECKED_HELPER_PREREQUISITE",
                 "raw": raw,
                 "checked_helper_proof": raw.get("checked_helper_proof"),
@@ -1483,7 +1508,8 @@ def checked_helper_record_valid(raw: Mapping[str, Any], *, profile: Mapping[str,
                                 certificate_case: Mapping[str, Any],
                                 certificate_path: Path, fixture: Path,
                                 tool: Path, tool_receipt: Mapping[str, Any],
-                                ast_gates) -> bool:
+                                ast_gates,
+                                expected_caller_env: Mapping[str, str]) -> bool:
     """Recheck a same-Build helper record before any caller classification."""
     try:
         record = raw.get("checked_helper_proof")
@@ -1530,6 +1556,71 @@ def checked_helper_record_valid(raw: Mapping[str, Any], *, profile: Mapping[str,
               expected_pair["verified/lib.rs"] ==
               certificate_case.get("generated_source_sha256"),
               "checked cleanup helper source pair identity")
+        environment_identity = record.get("environment_identity")
+        _need(isinstance(environment_identity, Mapping),
+              "checked cleanup helper environment receipt missing")
+        caller_env = environment_identity.get("caller_a1")
+        helper_env = environment_identity.get("helper_a1")
+        expected_caller_env = dict(expected_caller_env)
+        expected_helper_env_full = dict(expected_caller_env)
+        expected_helper_env_full.pop("SORT4_A1_FORCE_LEGACY_REDIRECT", None)
+        expected_helper_env_full["SORT4_A1_STAGE"] = "checked-helper"
+        expected_helper_env_full.update({
+            "SORT4_A1_CHECKED_HELPER_NAME": metadata["name"],
+            "SORT4_A1_CHECKED_HELPER_SOURCE_SHA256":
+                certificate_case["generated_source_sha256"],
+            "SORT4_A1_CHECKED_HELPER_BLOCK_SHA256": metadata["source_sha256"],
+            "SORT4_A1_CHECKED_HELPER_SOURCE_START_LINE":
+                str(metadata["source_start_line"]),
+            "SORT4_A1_CHECKED_HELPER_SOURCE_END_LINE":
+                str(metadata["source_end_line"]),
+            "SORT4_A1_CHECKED_HELPER_BODY_START_LINE":
+                str(metadata["body_start_line"]),
+            "SORT4_A1_CHECKED_HELPER_BODY_END_LINE":
+                str(metadata["body_end_line"]),
+        })
+        _need(isinstance(caller_env, Mapping) and isinstance(helper_env, Mapping) and
+              set(caller_env) == set(A1_HELPER_ENV_KEYS) and
+              set(helper_env) == set(A1_HELPER_ENV_KEYS) and
+              environment_identity.get("caller_mode") == raw.get("focus_stage") and
+              environment_identity.get("helper_mode") == "checked-helper" and
+              isinstance(environment_identity.get("caller_keys"), list) and
+              all(isinstance(key, str) for key in environment_identity["caller_keys"]) and
+              environment_identity["caller_keys"] ==
+                sorted(set(environment_identity["caller_keys"])) and
+              isinstance(environment_identity.get("helper_keys"), list) and
+              all(isinstance(key, str) for key in environment_identity["helper_keys"]) and
+              environment_identity["helper_keys"] ==
+                sorted(set(environment_identity["helper_keys"])) and
+              HEX64.fullmatch(str(environment_identity.get("caller_sha256", ""))) and
+              HEX64.fullmatch(str(environment_identity.get("helper_sha256", ""))) and
+              environment_identity.get("caller_keys") ==
+                sorted(expected_caller_env) and
+              environment_identity.get("helper_keys") ==
+                sorted(expected_helper_env_full) and
+              environment_identity.get("caller_sha256") ==
+                _environment_sha256(expected_caller_env) and
+              environment_identity.get("helper_sha256") ==
+                _environment_sha256(expected_helper_env_full) and
+              caller_env == {key: expected_caller_env.get(key)
+                             for key in A1_HELPER_ENV_KEYS} and
+              helper_env == {key: expected_helper_env_full.get(key)
+                             for key in A1_HELPER_ENV_KEYS},
+              "checked cleanup helper caller/helper environment identity")
+        _need(caller_env.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
+              caller_env.get("SORT4_A1_PHASE_ID") == PHASE and
+              caller_env.get("SORT4_A1_CHECKED_TRAIT_CONTRACT") == "1" and
+              caller_env.get("SORT4_A1_STAGE") in {"caller", "interface"} and
+              expected_caller_env.get("SORT4_A1_PROFILE_SHA256") ==
+                os.environ.get("SORT4_A1_PROFILE_SHA256") and
+              expected_caller_env.get("CLOUD_BUILD_ID") == build_id and
+              expected_caller_env.get("SORT4_A1_FORCE_LEGACY_REDIRECT") in (None, "1") and
+              set(environment_identity["helper_keys"]) ==
+                (set(environment_identity["caller_keys"]) -
+                 {"SORT4_A1_FORCE_LEGACY_REDIRECT"} |
+                 set(CHECKED_HELPER_ONLY_ENV)) and
+              all(key not in expected_caller_env for key in CHECKED_HELPER_ONLY_ENV),
+              "checked helper environment must strip caller-only controls and bind certified helper")
         stage = record.get("stage")
         _need(isinstance(stage, Mapping) and type(stage.get("exit")) is int and
               stage.get("exit") == 0 and
@@ -1610,6 +1701,32 @@ def body_entry_context(verifier_log: str, first_error: str, *,
                                                           "error:", "error["))]
     if len(errors) != 1 or lines[errors[0]] != first_error:
         return False
+
+
+def _expected_a1_caller_environment(a, c4, tool: Path, stage: str,
+                                    control_env: Mapping[str, str] | None = None
+                                    ) -> dict[str, str]:
+    """Rebuild the exact ordinary focused-stage environment without secrets in receipts."""
+    env = c4.clean_env(a, tool)
+    env.update(SORT4_A1_PHASE_ID=PHASE,
+               SORT4_A1_CHECKED_TRAIT_CONTRACT="1",
+               SORT4_A1_STAGE=stage,
+               SORT4_A1_PROFILE_SHA256=os.environ["SORT4_A1_PROFILE_SHA256"])
+    if control_env is not None:
+        _need(dict(control_env) == {"SORT4_A1_FORCE_LEGACY_REDIRECT": "1"} and
+              stage == "caller",
+              "only isolated caller legacy-redirect control is supported")
+        env.update(control_env)
+    return env
+
+
+def _environment_sha256(env: Mapping[str, str]) -> str:
+    _need(all(isinstance(key, str) and isinstance(value, str)
+              for key, value in env.items()),
+          "stage environment must contain string keys and values")
+    return hashlib.sha256(json.dumps(dict(env), sort_keys=True,
+                                     separators=(",", ":"),
+                                     ensure_ascii=True).encode("ascii")).hexdigest()
     note = re.compile(
         r"(?:.*/)?verified/lib\.rs\(" + str(body_line) +
         r",[0-9]+(?:-(?:[1-9][0-9]*,)?[0-9]+)?\): note: " +

@@ -366,7 +366,12 @@ class FocusProfileBindingTests(unittest.TestCase):
         self.assertEqual(transition["result_sha256"], profile["r_after"][translator])
         self.assertEqual(profile["native_interface_reference"]["translator_sha256"], transition["result_sha256"])
         self.assertEqual(profile["c_before"], profile["r_after"])
-        self.assertEqual(profile["c_after"][translator], transition["after_unchanged_c_patch_sha256"])
+        # R11 adds a checked-helper command stage after the historical R10 C
+        # overlay. The immutable native-signature manifest still describes R10.
+        self.assertEqual(profile["c_patch_sha256"], hashlib.sha256(
+            (HERE / "checked-threshold-contract.patch").read_bytes()).hexdigest())
+        self.assertEqual(profile["c_after"][translator],
+                         "9f065ebe4937cc08383ccd8791e956558202a5ab7a045f0bef74d229234a4a71")
 
     def test_rejects_unknown_or_cross_paired_authorization(self):
         for authorization in (

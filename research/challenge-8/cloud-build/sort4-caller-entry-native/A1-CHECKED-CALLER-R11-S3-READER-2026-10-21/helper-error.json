@@ -1,0 +1,99 @@
+{
+  "archive_sha256": "b5505a4b862dd3049ff5a02a9656231ad55ace41e2dea8009ff082fa21d135e6",
+  "build_id": "06362db8-2b0a-45fd-a4d6-5e4d1dac8069",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 112,
+    "line_separator": "LF",
+    "source_lines": 124,
+    "start": 103,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "4cda89f9dad84ef2c08ac87929cf6ff5fa5f526651fc24279e9de633c1f6c815",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0c/checked-cleanup-helper/checked-cleanup-helper.log",
+  "file_sha256": "33bf1ab3c61287100f934c33b05baff4112e94557ca7c123bc24018c399d98ed",
+  "index_sha256": "2d3eee01fd0acbdb7cc232f265b4d2a55491e229ae726622dc281cd5f961ac15",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 112,
+    "expected_sha256": "33bf1ab3c61287100f934c33b05baff4112e94557ca7c123bc24018c399d98ed",
+    "file_id": "4cda89f9dad84ef2c08ac87929cf6ff5fa5f526651fc24279e9de633c1f6c815",
+    "start": 103
+  },
+  "request_id": "2c62a4489c53ad402e7c103c308b8f7a6a33098620dd0417ac72deb10026b8bf",
+  "requested_end": 112,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 103,
+      "text": "  0.012849s:   Entering Redux.assume_with_implications(sizeof(double_typeid) = 8)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 104,
+      "text": "  0.012858s:   Exiting Redux.assume_with_implications"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 105,
+      "text": "  0.012866s: Exiting Redux.assert_term: 0.000018 seconds"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 106,
+      "text": "  0.012875s: Entering Redux.assert_term(sizeof(void_ptr_typeid) = 8)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 107,
+      "text": "  0.012882s:   Entering Redux.assume_with_implications(sizeof(void_ptr_typeid) = 8)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 108,
+      "text": "  0.012892s:   Exiting Redux.assume_with_implications"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 109,
+      "text": "  0.012900s: Exiting Redux.assert_term: 0.000018 seconds"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 110,
+      "text": "Fatal error: exception Failure(\"SORT4-A1-CONTRACT: caller summary is restricted to the actual compiler observer\")"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 111,
+      "text": "Raised at Stdlib.failwith in file \"stdlib.ml\", line 29, characters 17-33"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 112,
+      "text": "Called from Vf_mir_translator.Make.Sort4A1Contract.reject in file \"rust_frontend/vf_mir_translator/vf_mir_translator.ml\" (inlined), line 352, characters 21-59"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

@@ -22,6 +22,18 @@ wrong AST kind/name/span, ambiguous declaration, exhausted deadline, or source
 pair/tool identity change blocks caller verification and preserves the
 original prerequisite failure as an explicit partial/not-run result.
 
+The helper invocation uses the pinned contract's dedicated `checked-helper`
+stage. It keeps the contract macro and phase enabled so normal compiler
+prototype handling remains active, while removing the caller publication stage
+and forced-redirect control only from a private environment copy. That copy
+adds the certified helper name, full-source SHA-256, ghost-block SHA-256, and
+inclusive source/body line bounds. The actual caller environment remains
+unchanged for its later invocation. The raw prerequisite records both full
+environment hashes and the A1 control projection, and core revalidation checks
+that the helper projection is exactly the checked-helper form of the caller
+projection. This stage does not publish the caller summary or grant proof
+credit.
+
 The raw same-Build record binds Build ID, profile/helper pins, verified and
 original source pair hashes, focus line, verifier stage and AST artifact.
 That is a prerequisite record only: it does not supply independent proof
