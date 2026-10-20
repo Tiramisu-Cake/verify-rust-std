@@ -1,3 +1,15 @@
+# MERGE — R8 READY / proof mission OPEN
+
+2026-10-20: [новое самостоятельное задание R8](CURRENT-TASK.md) явно разрешает **120 минут + до30 минут завершения**, **3600 новых Cloud-секунд**, без отдельного лимита числа последовательных Builds. T0 устанавливает агент при фактическом старте; R7 CLOSED, её216retired не переносить.
+
+**Ближайшая цель:** actual physical fraction merge/singleton rejoin после late callback → original guard loan/Drop и CURRENT normal/unwind. Project worktree `/root/verify-rust-std-merge-origin`, branch `merge/incoming-origin-20261009`; tool worktree `/root/verifast-merge-actual-glue`, head `47b80fadab18df5819faefa8fbd759a95cac7801`. Агент самостоятельно уточняет backlog по миссии/плану.
+
+**Исходный proof-прогресс:** Build6 `6019f7c5` на source637cdf45/tool2883dbf5/profile96a0f198 достигает full token/lifetime end/обоих scaled loan и readonly ends на наблюдаемом пути; дальше merge assertion frontier. Полные CURRENT normal/unwind/guard/insert_tail/B2/qualification OPEN, independentcredit0. Финальный кандидат `c1fff41b7dca14f240e0917a95052ee79fc474a5`, tool47b80fad/profilee5ed4de5, exact points_to merge + matcher reviewed; Build7 compile-only124, source proof_attemptedfalse, actual candidate compilation/proof не подтверждены. Первый цикл R8: адресная диагностика timeout/stages → новая регистрация → existing compile preflight → actual target → совместимые controls/матрица.
+
+**R7 учёт:** checkpoint `03f7144b5bcf6224da7cf74fcacaeba557ae7fa6`; семь terminalFAILURE/accounted,3384charged/3380execution,216retired без carry; ownactive/unresolved/requests/reservations0 на closeout. [Архив R7 с отчётом/Builds](task-history/merge-post-migration-current-recovery-autonomous-2026-10-20-r7.md#отчёт-агента), [итог](cloud-build/origin-layout/R7-FINAL-RESULT-20261020.json), [обязательства](cloud-build/origin-layout/R7-OBLIGATIONS-20261020.md), [pins/reviewed release](cloud-build/origin-layout/R7-RELEASE-20261020.json).
+
+Ниже исторические checkpoints; прежние окна/разрешения не действуют. Приоритет у текущего R8 задания.
+
 # MERGE — R7 CLOSED / PARTIAL
 
 T0/main/absolute UTC2026-10-20 14:33:33/16:33:33/17:03:33; account closure16:36:37Z.
