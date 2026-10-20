@@ -1,0 +1,16 @@
+{
+  "schema": "merge-r5-build4-review-v1",
+  "reviewer": "/root/r5_candidate1_review",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "verdict": "GO_ONE_PINNED_DIAGNOSTIC_CONTROLS_BUILD",
+  "delta": "only production R5 control filename underscore\u2192hyphen, actual AST dispatch packaging regression",
+  "sha256": {
+    "prove.py": "3928f9c4d9b0d5a9a85143247637705dbf68a80433b6d0ace0cb2269ffb7432d",
+    "r5-emitter-service-test.py": "52532a69803b925344b80f65fbd5adfd4f8d64108269c6191e7aa15df9aa5816",
+    "merge.json": "c1043028789f3d3368015a26d4a91477204f8856a1251b4a210ea487d9591bde"
+  },
+  "validation": "independent actual AST dispatch path/file/recipe + existing R5 synthetic service checks PASS; diffcheck clean",
+  "unchanged": "tool/profile/ownership/model/primary proof semantics",
+  "limits": "no proof credit; same Rocq/storage qualification limitations; actual Cloud controls required"
+}

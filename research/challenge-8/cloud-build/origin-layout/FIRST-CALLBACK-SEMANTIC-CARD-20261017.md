@@ -631,3 +631,51 @@ Rocq consumer, whose StorageLive/Dead are currently ignored with a soundness
 warning. See R5-EMITTER-DESIGN correction. No Rocq proof/model acceptance or
 physical ownership credit is inferred from the emitted flag; native resource
 checks/matrix and all full posts retained. Profile remains experimental.
+
+
+### Conditional checked cleanup interface, recorded before R5 main deadline
+Actual late call owns only lifetime-bound Args; standard FnMut returns CURRENT
+F/self cell and thread on both outcomes, not Args own. Persistent share does
+not discharge the outstanding scaled borrow-end/readonly-end resources.
+The ordinary loop-body let_lft binding retains part of its token until the
+lexical edge; ending its lifetime inside the binding is invalid. A future
+source/body/span/Call-edge-bound checked scope protocol must recover the full
+local token after binding exit, end its exact lifetime, borrow_end each exact
+scaled FBC coefficient, open physical reference chunks, end_ref_readonly and
+merge original physical fractions. Normal Continue must do this before the
+next shift, normal break before guard Drop, and unwind before checked cleanup
+Drop. Current F/thread/frame and CURRENT cell values are carried, no snapshot
+rollback or purity/no-panic premise. Guard interface/Drop callee must be proved
+and applied at the same version; original guard readonly loan is a separate
+obligation. Existing first-callback shortened-scope engine is a candidate
+mechanism, not an admitted late-call rule. Its actual late CFG/binders/receipt
+and regressions need independent review before implementation. This is a
+conditional next interface design, no theorem or new trusted model/axiom.
+
+Build2 exact AST7850d637/index2833b497 locators824/1334 and latecall window
+request73ef64f5 show actual FnMut::call_mut at verified262 with F/stdtuple2 and
+adjacent Output=bool registration. Exact fragment is not parser-input binding
+or full semantic causality. Saved R5-BUILD2-AST-* retains identities/limits.
+
+Build2 AST lines1335–1338 exact requestfd3413b9 additionally confirms F,
+Args stdtuple2 of shared u64 with both 'late and method lifetime 'late;
+runtime operands $_139/$_140. Named lifetime correction is represented in
+actual AST, yet the checked physical coefficient still fails at FBC139.
+Thus placeholder spelling alone was not the remaining cause. Binding/
+full resource proof not inferred from text equality.
+
+
+### R5 candidate4 service-only correction BEFORE edit
+Build3 0b86c5ad/sourcef456fb1a terminalFAILURE: checked physical fractional
+FBC/borrow conversions proceed; first new error general195 missing abstract
+<u64>.share at close_ref_own. Raw frac_borrow is not yet the required canonical
+type-predicate share. No assumed equivalence or new model rule is admitted;
+actual late FnMut/full cleanup remain OPEN. Separate addressability aggregate
+reports INCONCLUSIVE_SERVICE_EXCEPTION with zero cases. Current actual driver
+selects r5_addressability_controls.py, while the committed recipe/module path
+is r5-addressability-controls.py. Correct this exact file-name dispatch only,
+leaving module alias/schema/oracles/resources unchanged. Test the actual AST
+dispatch assignment for both profiles against real recipe paths/module files,
+plus existing success/error/partial/null/missing service tests. Fresh reviewed
+Cloud candidate is for the lost independent controls, not an unchanged proof
+retry claim. Canonical-share bridge requires a separately checked derivation.

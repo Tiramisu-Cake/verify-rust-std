@@ -130,3 +130,21 @@ with tempfile.TemporaryDirectory(prefix="r5-emitter-service-") as temp:
         else:
             raise AssertionError("R5 identity gate admitted an old, missing, or null profile")
 print("R5 emitter synthetic service checks: PASS")
+
+# Exercise the production dispatch expression, so import aliases cannot be
+# confused with packaged module filenames. Do not execute hosted main().
+import ast
+ROOT = HERE.parents[3]
+production = ROOT / "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py"
+tree = ast.parse(production.read_bytes())
+assignment = next(node for node in ast.walk(tree) if isinstance(node, ast.Assign)
+    and any(isinstance(t, ast.Name) and t.id == "control_name" for t in node.targets))
+recipe = json.loads((ROOT / "research/challenge-8/cloud-build/recipes/merge.json").read_text())
+for active, expected in [("experimental-merge-guard-addressability-v1", "r4-addressability-controls.py"),
+                         ("experimental-merge-guard-addressability-emitter-r5-v1", "r5-addressability-controls.py")]:
+    namespace = {"args": SimpleNamespace(profile=active)}
+    exec(compile(ast.fix_missing_locations(ast.Module(body=[assignment], type_ignores=[])), str(production), "exec"), namespace)
+    module_path = HERE / namespace["control_name"]
+    assert module_path.name == expected and module_path.is_file()
+    assert str(module_path.relative_to(ROOT)) in recipe["proof_paths"]
+print("Production R4/R5 control dispatch packaging: PASS")

@@ -606,7 +606,7 @@ def main() -> int:
                         "experimental-merge-guard-addressability-emitter-r5-v1"):
         control_root = args.evidence / "addressability-controls"
         try:
-            control_name = ("r5_addressability_controls.py" if args.profile ==
+            control_name = ("r5-addressability-controls.py" if args.profile ==
                             "experimental-merge-guard-addressability-emitter-r5-v1" else
                             "r4-addressability-controls.py")
             r4_control = load("r5_addressability_controls" if args.profile ==
