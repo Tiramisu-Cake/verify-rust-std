@@ -1,0 +1,19 @@
+# R8 S4 matrix coverage
+
+This note records bounded, named status observations for S4 only. It does not claim proof acceptance.
+
+The Build is `23fe2c7f-574e-44b6-80f0-8d90ae33c7ac`. All case reads target `proof-audit.json` (file ID `cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96`, SHA-256 `c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b`). The targeted responses report index SHA-256 `1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf` and archive SHA-256 `4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962`. Each of the 26 named `/case_status/<case>` responses was `OK`, `exact=true`, and `complete=true`; the own query transcript is [S4 matrix observations](A1-POST-MIGRATION-R8-S4-MATRIX-READER-OBSERVATIONS-2026-10-20.json).
+
+| S4 status | Cases | Count |
+| --- | --- | ---: |
+| `INTENDED_CLASSIFIED` | `N-default-contract`, `N-freeze-contract`, `OFF`, `P0a`, `P0b`, `R1`, `R2`, `R3`, `R4`, `R5`, `R6`, `R7` | 12 |
+| `INCONCLUSIVE` | `P-dispatch`, `P1` | 2 |
+| `NOT_RUN` | `N-alpha-valid`, `N-binder-collapse`, `N-binding`, `N-clause-redirect`, `N-clauses`, `N-duplicate`, `N-false31`, `N-free-region`, `N-no-F`, `N-region-swap`, `N-source`, `P0c` | 12 |
+
+Observed intended classifications: `P0a` and `P0b` are `NATIVE_INTENDED_PASS`; `R1`–`R3` and `R7` are `POSITIVE_INTENDED`; `N-default-contract`, `N-freeze-contract`, and `R4`–`R6` are `NEGATIVE_INTENDED`; `OFF` is `BASELINE_ONLY`. The inconclusive dispatch row says the original common dispatch was not observed in both trace and AST; `P1` says the current raw source observation was missing. The NOT_RUN rows generally lack expected input identity or run pins; `N-false31` lacks its caller receipt prerequisites. `P0c` is NOT_RUN with no reason value in the observed row. All 26 rows report `proof_credit=false`.
+
+The current R8 profile identity used for this run is [R8 profile](A1-POST-MIGRATION-R8-PROFILE-2026-10-20.json), SHA-256 `a1cfba31dbdb45212ffd90c9d1a2be89ac19b3e958a3db0f74738bdf3ed16b5c`. Its pinned source/tool identities include tool HEAD `f76012fb518703b1d98e243ac4f487f16877cfcb`, R-only translator `22dfc0d35257510915676a6a6effbf64151423349811412428a2e69a463436b7`, final-C translator `f6907ef41aabeee273bc8ac8ae4e1e0d6c3dfd3111cc5b6a6b54de4873188860`, runner `36b79dab1be9439422d8b97ed36b25ade857ec08057f132bbb401fa71de735c8`, and source runner `776ccb08bdbc547c609549d126439f36477b964e830de10cfc203a1dcef90435`.
+
+Targeted S4 source observations for `P0a` and `P0b` report `RUNNER_REPORTED_FOCUSED_BODY_AND_CONFORMANCE`, body count 1, focused body reached and verified, conformance verified, and normal and unwind posts preserved. Both carry `proof_credit=false` and use the runner-inference assurance label. Their observed source ID is `925312cd19cb71d0c61a10eb179e13d5c0f0b711ccaef6986bc2136aba6ca6ee`; observed source SHA-256s are `original/lib.rs=e9fd760fa6b111691b94d44452a8350a41c9d60f8b9af2942dcb0513e4709885` and `verified/lib.rs=dbcc37321090ac46f90f8cce653e5ce28f6528dfc594bec23340ffd7ac91e2c7`. P0a's unit ID is `83875e833ea42fe793f78e5d97ee431074e0ddf3b906adee8056b4790a36175a`; P0b's is `e2d9423b13a9187d5fe873b594eec05297797fbb4a7b3cfe64c2a0a1b386eadb`. These are source/runner observations only, not independently established AST/MIR binding or proof credit. The exact targeted P0 observations are retained in the [S4 matrix transcript](A1-POST-MIGRATION-R8-S4-MATRIX-READER-OBSERVATIONS-2026-10-20.json) and the separate [S4 binding transcript](A1-POST-MIGRATION-R8-S4-BINDING-READER-OBSERVATIONS-2026-10-20.json).
+
+Evidence Brief classification remains `SOURCE_OBSERVATIONS_NOT_PROOF`; the reader responses explicitly report parser input binding `NOT_ESTABLISHED` and causal status `UNKNOWN`. No matrix row or source attestation is proof acceptance.
