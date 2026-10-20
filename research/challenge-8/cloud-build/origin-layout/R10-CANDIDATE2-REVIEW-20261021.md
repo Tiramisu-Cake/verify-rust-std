@@ -14,3 +14,8 @@ entry/preservation/exits. Reviewer questioned empty begin+1 array; this is the
 recursive tail of the immediately preceding checked first-singleton open,
 not a manufactured extra resource. Compiler/checker acceptance remains pending. All compilation/proof untested
 for this candidate; static/synthetic results carry no formal acceptance.
+
+Service-test ledger fix separately reviewed LunaHIGH GO: account history may
+be nonempty; budget conservation/list/active-ID consistency remain checked.
+Synthetic admission/window/invalid fields unchanged; production auth unchanged.
+All4 phase tests PASS after Build1 accounting.
