@@ -1,129 +1,67 @@
-# Select / sort4 — самостоятельная proof-сессия по плану
+# Select / sort4 — самостоятельная сессия R6
 
 ## Задание
 
-- **ID:** `select-native-interface-autonomous-2026-10-20-r5`; **статус:** READY, новая сессия ещё не начата.
+- **ID:** `select-package-scope-native-proof-2026-10-20-r6`; **статус:** READY, исполнение ещё не начато.
 - **Owner:** `select-sort4`.
 - **Worktree:** `/root/verify-rust-std-select-night`.
 - **Project branch:** `research/night-select-sort4-cloud-2026-10-09`, fork `Tiramisu-Cake/verify-rust-std`.
-- **Окно:** 120 минут основной работы от фактического T0 + до30 минут завершения без новых Builds. **Новый бюджет3600 Cloud секунд; число последовательных Builds отдельно не ограничено.** Старые счета закрыты.
-- **Поручение владельца:** самостоятельно выбирать и выполнять задачи своей миссии по плану. Отдельное разрешение на каждый blocker, inventory predicate, patch или profile identity не требуется. [Автономность](PROOF-AGENT-AUTONOMY.md) — часть задания; прежние R4 implementation allowlists/frozen predicate lists заменены разрешениями ниже.
+- **Окно:** 120 минут основной работы от фактического T0 + до30 минут завершения без новых Builds. **Новый бюджет3600 Cloud секунд; отдельного лимита последовательных Builds нет.** Старые счета закрыты.
+- **Полномочия:** сам выбирай задачи и эксперименты своей миссии по [плану](COMPLETION-PLAN.md) и [правилам автономности](PROOF-AGENT-AUTONOMY.md). Это самостоятельное продолжение к proof-цели, а не разрешение только на одну строку/guard. Каждый новый blocker, inventory predicate, tool/profile SHA отдельно согласовывать не нужно.
 
-Ты стартуешь без контекста. Проверь каталог/branch/HEAD/remotes/dirty diff, сохрани чужие изменения. Прочитай `AGENTS.md`, [автономность](PROOF-AGENT-AUTONOMY.md), [процесс](ITERATION-PROCESS.md), актуальные части [WORK-POLICY](WORK-POLICY.md), [плана](COMPLETION-PLAN.md), [Cloud runbook](cloud-build/README.md), [Evidence v0.11](EVIDENCE-READER-GUIDE.md). Затем STATUS, [R4 checkpoint](cloud-build/sort4-caller-entry-native/A1-UNION-CHECKPOINT-2026-10-20.md), [binder proposal](cloud-build/sort4-caller-entry-native/A1-IMPL-BINDER-PROPOSAL-2026-10-20.md) и [review](cloud-build/sort4-caller-entry-native/A1-IMPL-BINDER-REVIEW-2026-10-20.md). Всю историю и сохранённые evidence-файлы целиком не перечитывай.
+Ты стартуешь без контекста. Проверь branch/HEAD/remotes/dirty diff, сохрани чужие изменения. Прочитай `AGENTS.md`, [автономность](PROOF-AGENT-AUTONOMY.md), [процесс](ITERATION-PROCESS.md), релевантные [WORK-POLICY](WORK-POLICY.md), [Cloud runbook](cloud-build/README.md), [Evidence v0.11](EVIDENCE-READER-GUIDE.md), STATUS. Из прошлого нужны только [S5 evidence](cloud-build/sort4-caller-entry-native/A1-AUTO-S5-EVIDENCE-2026-10-20.json) по связанным полям, [S5 release/pins](cloud-build/sort4-caller-entry-native/A1-AUTO-S5-RELEASE-2026-10-20.json) и applicability correction в [S6 review](cloud-build/sort4-caller-entry-native/A1-AUTO-S6-REVIEW-2026-10-20.md). Полную историю/все evidence JSON/архивный отчёт не перечитывай.
 
 ### Миссия и исходная точка
 
-Продвинуть actual sort4 и применимость её контракта к реальным callers. Ближайший маршрут — native interface/equality/refinement P0a/P1, исходная26-строчная матрица и собственный N-false31 lifecycle, затем остающиеся A1/A2 caller obligations по зависимостям плана. Сам выбери достижимую proof-цель и короткий backlog; обновляй их по результатам. Обслуживание инструмента подчинено proof-цели. Если полезнее независимая задача своей миссии, выбери её с объяснением зависимости/ожидаемого evidence.
+Продвинуть actual sort4 и доказанную применимость контракта к реальным callers. Ближайшие зависимости — полный P0a/native threshold conformance → P1 native-interface/equality/refinement → исходная26-строчная матрица и собственный N-false31 lifecycle → остальные A1/A2 caller obligations по плану. Сам выбери достижимую proof-цель и краткий backlog, обновляй по результатам. Отдельно измеряй proof-прирост и обслуживающую работу; исправление parser/сборка не закрывает proof-задание.
 
-Исходный docs checkpoint **`2a63f3f72dbbe95efb8b51ea652458ae9d8e6385`**; последний исполненный proof=infra **`0d997b4ee54e893c0297972f74998e53525ada8b`**, Build **`4787c3e2-3d93-40fd-bff5-96a31fed062f`**. Docs HEAD может продвинуться, это не новый исполненный кандидат.
+**Docs checkpoint `760e2549f0bec6d4001e19557595de8aaeb8ec4e`.** Последний кандидат с полным evidence — **S5 `14a9d651bb09dd0b128525c0efbedbecd15ec082`**, Build **`56f4d389-8d6d-428b-8298-aa4c5e45073a`**. Рабочий HEAD также содержит S6 `bb51d0091decc996d141b8f34695fb5001935d42`: это отменённый неприменимый draft, не успешно проверенный baseline. Сравни только относящиеся к новому исправлению S5→S6 изменения, не делай reset/cherry-pick/переписывание истории.
 
-- Строгий MaybeUninit unionKind guard пройден на пути к следующему отказу; stale profile path исправлен. Свежие собственные R-only/final-C receipts имеют source-reported build_exit0; это не P1 proof.
-- Первый runner blocker: `InventoryError: impl small_sort Body FnMut/Output binders are merged or malformed`. Наблюдённый Body21 повторяет два локально различных имени между FnMut и Output clauses; код требует глобальной непересекаемости. Связь с конкретным failing call и единственный нарушенный conjunct отдельно не установлены.
-- P0a/P1 INCONCLUSIVE; P1 явно started. N-false31 явно NOT_RUN. Свежие26 source statuses:8 INTENDED_CLASSIFIED/5 INCONCLUSIVE/13 NOT_RUN. A1/A2 OPEN, нового independent B1/B2 credit нет.
-- R4 закрыта:2 terminal Builds/917 spent/2683 retired, own active/unresolved/reservations0. Её бюджет не возобновлять.
+- R5 использовала основное120-минутное окно, закрыта00:39:25Z:6 terminal Builds,2175spent/1425retired, own active/unresolved/reservations/requests0. Её бюджет не возобновлять.
+- Исправлены scoped Body binders, normal/readonly inventory representation и разделение early method F/late HIR metadata. S5 собственные R-only/final-C receipts source-reported build_exit0; compiler/exporter/schema/decoder/kernel не менялись. Это не P0a/P1 acceptance.
+- Подтверждённый S5 runner blocker: **`AstGateError: one common threshold prototype`**. В `a1-ast-gates.py::functions` теряется enclosing package path. S6 добавила ModuleDecl traversal, но реальный downstream dump содержит **PackageDecl**; applicability GO отозван, Build **`773189aa-30fb-43e3-b328-e7ee79224adc`** отменён, charge56s. Brief404, его execution/матрица UNKNOWN. Отсутствие Brief отменённого S6 не блокирует новую работу; не нужен raw audit или новый Build ради восстановления его отчётности.
+- S5: P0a/P1 INCONCLUSIVE, P1 execution_started=true/credit=false; N-false31 явно NOT_RUN. Все26 source statuses8INTENDED_CLASSIFIED/5INCONCLUSIVE/13NOT_RUN, independent credit0. A1/A2 OPEN; actual threshold/Instance transfer и caller applicability не доказаны.
 
-### Полномочия и первый полезный шаг
+### Первая гипотеза: scope фактического AST
 
-**Binder proposal разрешено исследовать, реализовать и проверить.** Это исходная гипотеза, а не единственная разрешённая правка. Обоснуй compiler-owned Body/clause/local-slot identity и разрешение ссылок внутри своей clause; не подменяй это удалением failing conjunct. Сохрани локальную различимость binder’ов, позиционное соответствие, input/free-region separation, F/T/mutability/arity/output, source/impl/compiler identities и admission. Если гипотеза неверна или полей недостаточно, уточни путь, не выдумывая binding.
+**Разрешено исправить reader для реального PackageDecl surface и продолжать через следующие blockers.** Не подставляй namespace глобально по bare leaf name. Связывай Func с фактическим enclosing package path и source span; сохраняй полные типы/header/native normal+unwind posts/equality и различимость common prototype/impl prototype/definition.
 
-Разрешены необходимые изменения своих inventory/parser/binder/source-binding/нормализации, proof annotations/specs/лемм/resources и branch-local runner/preflight/diagnostics. Реализацию native equality/refinement можно исправлять при сохранении математического критерия. Необходимые exporter/schema/decoder/translator/frontend/lowering исправления допускаются по правилам автономности: source semantics, действующая модель, rationale, independent review и actual regressions. Experimental profiles, dependent hashes/pins, tool patches/commits и source closure обновляй сам; отдельное согласование SHA не нужно.
+Уже проверенный через Brief v0.11 фрагмент S5: file ID **`af63a757967a7a14627a78ad0abec1cf0962f827e6eccd6058c1dc10474c03fd`**, `focus/P0a/proof-ast.ml`, SHA **`0a3e157e363c5cdd57a93699ce33526c361490ac9d15c8672c1f55b6f7699f9b`**, index `11d3cd9f8bc31cc889e12f1befdc321f8b18d2922930e7ab21f5359b3cbacc23`. Lines2–3: `PackageDecl (loc "<dummy location>", "", [], [])` и `PackageDecl (loc "verified/lib.rs(32,8-28)", "StableSmallSortTypeImpl", [], [`. Request **`2728ed01773fe1696248396eafaee9e5043ed9d5d7de858db930689b79a921f7`**, exact=true/complete=false; файл822lines. Поле `scope_correction` существующего S5 evidence содержит ответ. Координатор повторно подтвердил эти bytes; whole parser-input/AST↔MIR binding этим не установлен.
 
-До реализации семантического изменения запиши дефект/применимость/сохраняемые гарантии и различающие controls. До submit нужен GO актуального diff/dependencies одного независимого GPT-6 Luna HIGH (`model="gpt-6-luna"`, `reasoning_effort="high"`, `fork_turns="none"`, без вложенной делегации). Старый GO относится к proposal. Не повторяй review неизменённых частей. Synthetic/parser/service checks локально, actual compiler/exporter/verifier/tool regressions — Cloud-only.
+**До реализации и Cloud установи applicability:** какой stage/производитель/преобразование создаёт именно этот dump, какие узлы реально принимает потребитель и где теряется path. Используй bounded observations и pinned source, не только ранний AST type или предположение по строке Func. Передай reviewer короткий реальный фрагмент с identities плюс точный diff и synthetic controls; GO по искусственному ModuleDecl примеру без привязки к фактической стадии недостаточен. Новые неизвестные поля уточняй через Reader v0.11, не трать Build только для чтения уже сохранённых данных.
 
-Первичные controls: одинаковые имена в разных определённых scopes и независимые bijective alpha-renamings принимаются; local collapse, free/input capture, неверное позиционное соответствие, missing/ambiguous scope/reference, wrong F/T/output/mutability/arity и duplicate/redirected source/Body/impl identities отвергаются на intended checks. Проверяй высшие binding/admission validators отдельно. Исправляй связанные места одного класса до Build, включая потребителей профиля и error/partial/null/missing paths затронутого runner.
+Проверь весь связанный класс случаев до запуска: допустимый пустой root package, именованный/многосегментный canonical package path по pinned frontend, common prototype внутри правильного owner, top-level impl aliases, одинаковые leaf names в разных owners, duplicate/ambiguous target identity, перенаправленный owner/source span, malformed/truncated/null scope, кавычки/escapes и текст Func внутри строки. Повторные package containers не объявляй ошибкой лишь по совпадению имени, если формат допускает отдельные declaration groups: уникальна проверяемая функция/владелец по реальному контракту. Scope-нормализация не должна скрыть changed header/pre/native_returning/unwinding. ModuleDecl поддерживай только при обоснованном использовании на нужной стадии; универсальную AST-инфраструктуру вместо proof не строй. Локальные tests — hand-built synthetic fixtures наблюдённой формы; actual dump через pipeline/gate на VPS не replay.
 
-R4 baseline: полный R `d99a5ed229533132b8292c5fc70ea93dbe261e9f76c2a0fcc6d6723e796454ca`, C `e7cdc8a8504338ccaab760975c1a3f1a739211d7f8d531dd214babc2005d894e`, parser `92d4e5b336b4e6409da814523500978b56c52218a6289434b526929ae1275b27`, profile `b61a0376084aca32f50cd7ee5f2e438fd53e03c9087578b7871130e111dbdf73`. Это исходная версия, а не запрет следующего обоснованного кандидата. Union/string поведение сохраняй регрессиями. Runtime std/algorithm, целевой Rust compiler/toolchain и generic domain остаются прежними.
+### Самостоятельные исправления и проверка
 
-### Результат и настоящие границы
+Разрешены свои proof annotations/specs/леммы/resources, inventory/parser/binder/source-binding/нормализация, реализация native equality/refinement при сохранении математического критерия, минимальный runner/preflight/диагностика и необходимые exporter/schema/decoder/translator/frontend/lowering исправления в действующей модели. Новые experimental profiles, tool commits/patches и dependent pins/closure обновляй сам. До содержательной реализации — дефект/source applicability/rationale/сохраняемые гарантии/различающие controls; до submit — GO актуального diff/dependencies независимого GPT-6 Luna HIGH (`model="gpt-6-luna"`, `reasoning_effort="high"`, `fork_turns="none"`, без вложенной делегации). Не повторяй review неизменённых частей; synthetic/static GO не является actual proof.
 
-Для P1 нужен полный native-interface/equality/refinement результат. Для N-false31 — собственные default/Freeze bodies+conformance, own receipt, threshold32/len32 admission и intended caller assertion lifecycle. После prerequisites выполнить исходные26 cases на совместимых финальных identities; свои свежие R-only/final-C receipts связать с exact candidate. Предыдущие PASS/receipts или неудачный setup не заменяют lifecycle. Матрицу не сокращать; общий PASS из несовместимых профилей не собирать.
+Сохраняемый S5 baseline: полный R2 **`9cdca995bc926efe3275319dec345f4d70a2fec7fdc95781decb4e4c2df7c9c8`**, C **`e7cdc8a8504338ccaab760975c1a3f1a739211d7f8d531dd214babc2005d894e`**, profile **`d90dde221561e71328c870f6388ceda7eb7ad5126a1237543904406d89edb46d`**. Остальные exact identities — S5 release; не подставляй старые R1/R4 hashes. Это исходная версия, не запрет следующего обоснованного кандидата. Неожиданный hash не заменять без объяснения source provenance. Ранее полученные string/union/binder/HIR fixes и ошибочные представления должны иметь сохраняющиеся различающие controls.
 
-Конечные runtime/domain/contracts/posts, unwind/abort/ownership/provenance checks, source correspondence, admission guarantees, negative acceptance и математические критерии P1/G сохраняются. Реализацию проверок можно исправлять при обоснованном сохранении гарантий. Нельзя добавлять непроверенные axioms/borrow bridges, выводить ownership из равенства адресов или вводить новую memory/alias/layout model. Конкретное новое доверенное допущение вне метода — решение владельца; обычный implementation blocker таким решением не является. При настоящей границе продолжай доступные независимые задачи и сообщи недостающее решение.
+Cloud порядок: существующий ранний preflight → целевой positive proof → обязательные dependent controls/полная матрица по настоящим dependencies. Не запускать заведомо недостижимое, skip reason сохранять; независимые случаи не терять. Предпочитай stages одного Build. Отдельный узкий запуск допустим для новой гипотезы с обоснованной экономией; не повторяй холодный setup без причины. После результата выбери следующий полезный шаг. Если снова получаешь только setup failures, разбери минимальный reproducer, альтернативный интерфейс/способ проверки и пригодность текущего gate, затем сам выбери проверяемую гипотезу; не продолжай механическую серию однотипных запусков.
 
-Собственные tool изменения держи отдельно от чужих активных worktrees; при необходимости создай свой tool worktree. Публикации pinned patch/manifest в назначенной project branch достаточно при поддержке существующим Cloud transport; отдельный tool remote не обязателен. Передачу готового патча maintainer фиксировать с ownership. Без reset/force-push/merge/upstream PR и изменения чужих pins.
+Для итогового P1 требуется полный native-interface/equality/refinement результат. Для N-false31 — собственные default/Freeze bodies+conformance, own receipt, threshold32/len32 admission и intended caller assertion lifecycle. Все26 cases/negatives и свои R-only/final-C receipts на совместимых финальных identities сохраняются. Старые результаты, arbitrary len<=32/nonzero или setup rejection не заменяют proof/lifecycle. Не собирать общий PASS из несовместимых кандидатов.
 
-### Сессия, Cloud и Evidence
+Конечные runtime std/algorithm/compiler/toolchain/domain/contracts/posts/unwind/abort/ownership/provenance/admission/source guarantees и математические критерии P1/G не ослаблять. Исправлять реализацию проверок разрешено при сохранении этих гарантий. Новые axioms, assumed borrow bridges, ownership из равенства numeric addresses или новая memory/alias/layout model — за пределами этого поручения. При настоящей границе сообщи конкретное недостающее решение и продолжай независимые полезные задачи плана. Чужие активные worktrees/pins и historical verdicts сохранять; upstream PR/merge/force-push не разрешены. Tool remote не обязателен: поддерживаемые pinned patch/Git objects можно публиковать в назначенной project branch.
 
-T0 фиксируй при фактическом начале исполнения, не при чтении координатором. Main=T0+120мин, absolute=T0+150мин. Штатно зарегистрируй новую R5 phase/ledger/authorization в существующем механизме с ceiling3600; минимальные branch-local phase/recipe registrations и зависимые pins разрешены. Shared coordinator protocol/live state/IAM/triggers/dependencies/cache не менять, отказы не обходить.
+### Сессия, Evidence и завершение
 
-Lane `o26-sort4-c1-current-recovery`; прежние transport/envelope/charge rules. Один occupied/unresolved Build на stable owner/ledger; Select не более двух occupied project slots. Timeout≤900с и не больше оставшегося бюджета/окна с envelope. Не дублируй неизвестный submit. Exact commit/push в назначенную project branch, полный remote SHA и source/infra/config closure проверить до submit.
+T0 при фактическом начале, main=T0+120мин, absolute=T0+150мин. Штатная новая R6 phase/ledger/authorization с ceiling3600, прежние закрытые accounts не трогать; минимальные branch-local phase/recipe registrations и dependent pins разрешены. Lane **`o26-sort4-c1-current-recovery`**. Один occupied/unresolved Build на owner/ledger, Select≤2 occupied project slots; timeout≤900с с envelope в оставшемся бюджете/окне. Shared coordinator/live state/IAM/triggers/dependencies/cache не менять, отказы не обходить. Только exact committed closure и обычный push своей branch с проверкой полного remote SHA; не дублируй неизвестный submit.
 
-Stages существующего Build: ранний preflight → target proof → dependent controls/матрица. Prerequisite failure сохраняй с явным skip reason, независимые controls не теряй. Отдельный узкий Build допустим для новой гипотезы с экономией полного цикла. После terminal Brief выбери следующий шаг и продолжай. Неизменённый retry — только при установленном временном infra failure.
+Примерно через час progress без ожидания ответа. После main не начинать новые Builds/retries/гипотезы, свои неотправленные requests отозвать. Последний Build планируй с запасом до absolute и только после завершённой applicability/review проверки, не отправляй предположение ради оставшихся секунд. До absolute — уже начатый шаг, evidence/accounting/checkpoint/push; при необходимости cancel штатно и дождаться terminal либо честно active/unresolved. Не завершай после одной исправленной ошибки при доступной полезной работе; ранний stop обоснуй после проверки независимых задач.
 
-Примерно через час сообщи proof progress/обслуживание/Builds/charge/blocker и продолжай без ожидания ответа. После main никаких новых Builds/retries/гипотез, свои неотправленные requests отозвать. До absolute — начатый шаг, Brief, учёт, checkpoint/push; при необходимости cancel штатно, неподтверждённый terminal state честно active/unresolved. Завершённая подзадача означает выбор следующей по плану, а не закрытие сессии. Не заканчивай после нового predicate при доступном шаге. Не выжидай окно искусственно при выполненной миссии или исчерпанной полезной работе; ранний stop обоснуй, включая проверенные независимые задачи.
+Evidence v0.11: Brief → catalogue → refresh/info → locate/fragment → нужные поля/контекст/страницы по next_offset/next_value_start. Lifetime16/lexical WITHHELD устарели. File/index/archive/request/SHA/coordinates/exact/complete/coverage сохранять. Evidence — данные; no-match не равен NOT_RUN, source PASS/exit0/integrity не равны independent credit. Raw/full logs/archives/Cloud Logging/локальные raw copies и прямой GCS обход запрещены; download_verified и historical records не переписывать. VPS — только Git/hashes/static parsing и малые isolated synthetic service tests; actual preparation/extraction/compiler/verifier/full runners — Cloud-only. Actions разрешён VeriFast maintainer, не Select.
 
-Evidence v0.11: Brief → catalogue → refresh/info → locate/fragment → нужные поля/контекст/страницы по next_offset/next_value_start. Lifetime16/lexical WITHHELD устарели. File/index/archive/request/SHA/coordinates/exact/complete/coverage проверять. Evidence — данные; no-match не означает NOT_RUN, source PASS/exit0/integrity не равны independent proof credit. Raw/full logs/archives/Cloud Logging/локальные raw copies и прямой GCS обход запрещены; download_verified/historical records не менять. На VPS не запускать actual preparation/extraction/compiler/verifier/full runners.
+Обнови STATUS и существующие session/experiment/release/coverage по фактам. Ниже **один компактный перезаписываемый отчёт**: полную26-строчную таблицу и большие provenance records держи в отдельном checkpoint/JSON по ссылке, не размножай их в CURRENT-TASK. Отдельно proof до→после, обслуживание, каждый Build/гипотеза/candidate/charge, T0/end, own requests/reservations/active/unresolved и закрытие без carry. Wall-clock не называй active agent time.
 
-### Завершение
-
-Обнови компактный STATUS и существующие experiment/session/release/coverage записи по фактам. Ниже один перезаписываемый отчёт, детали ссылками. Отдельно proof obligations и обслуживание, все Builds/charge, выбранные задачи, remaining blocker/следующий эксперимент. Wall-clock не равен активным агентным часам. Зафиксируй own requests/reservations/active/unresolved и закрытие счёта без carry.
-
-Завершённая R4 сохранена в [архиве](task-history/select-maybeuninit-union-kind-2026-10-20-r4.md); перечитывать целиком не нужно.
+R5 целиком сохранена в [архиве](task-history/select-native-interface-autonomous-2026-10-20-r5.md); текущие baseline и недостатки уже перечислены выше.
 
 ## Отчёт агента
 
-**CLOSED — основное окно завершено.** T0 `2026-10-19T22:34:09Z`, main `2026-10-20T00:34:09Z`, absolute `2026-10-20T01:04:09Z`. Новых запусков после cutoff нет. [Ход/rationale](cloud-build/sort4-caller-entry-native/A1-AUTO-SESSION-2026-10-20.md).
-
-| Кандидат / runtime | Build | Terminal / charge |
-|---|---|---|
-| S1 `068dedb1e9eec50c49eafe93dd2062a671cd9c07` | `f581f16f-2268-4ff6-882e-b5c34e088d0f` | FAILURE459s |
-| S2 `7d3ab6c2215298201dbe475c1fb26194e03f2915` | `a62d316b-69d4-4ed6-acb2-7cbd38216a1d` | FAILURE407s |
-| S3 `e8279683b1b1546f38e9b9e770768cd2b7f532bf` | `53aeec23-552e-4f4c-8d94-a52bbdd8c0f3` | FAILURE447s |
-| S4 `d475c49e820640256355d6a45ec3379e86717ed1` | `0b0e6b2a-a13a-45c1-abf4-f4dc7e992e02` | FAILURE474s |
-| S5 `14a9d651bb09dd0b128525c0efbedbecd15ec082` | `56f4d389-8d6d-428b-8298-aa4c5e45073a` | FAILURE332s |
-| S6 `bb51d0091decc996d141b8f34695fb5001935d42` | `773189aa-30fb-43e3-b328-e7ee79224adc` | CANCELLED56s |
-
-**Proof и обслуживание.** Конечных proof obligations закрыто0; A1/A2 OPEN. S1–S4 исправили scoped Body binders и normal/readonly inventory representation; S4 дошёл до focused P0a translator. S5 разделяет early method F и late HIR metadata, сохраняя semantic lifetimes в checked FnSig. Его собственные свежие R-only/final-C receipts сообщают build_exit0 с exact R2/C identities: сборка tool подтверждена на уровне source-reported Cloud receipts. Ошибка D.Type не блокирует эти сборки; обе unused_mut правки сохранены. Это не proof credit и не вывод из количества нулевых stages. Full P0a conformance/native equality/refinement и P1 не установлены; P1 явно execution_started=true, proof_credit=false. N-false31 явно NOT_RUN; own-pair receipt/threshold32/len32/intended assertion lifecycle не завершён. A1 actual threshold/Instance transfer и A2 caller applicability не доказаны; supplied len<=32/nonzero не вводились.
-
-**Первый подтверждённый blocker S5:** `AstGateError: one common threshold prototype`. Fresh AST `PackageDecl(...,"StableSmallSortTypeImpl",[],[Func(...,"small_sort_threshold",...)])`; reader теряет enclosing package path. Source AST SHA `0a3e157e363c5cdd57a93699ce33526c361490ac9d15c8672c1f55b6f7699f9b`, lines2–3, request `2728ed01773fe1696248396eafaee9e5043ed9d5d7de858db930689b79a921f7`. S6 ошибочно исправлял ModuleDecl surface: после submit уточнён PackageDecl, кандидат штатно отменён, applicability GO отозван addendum. S6 создан00:34:02.440Z до cutoff, start00:34:03.223Z, finish00:34:58.185Z. Его матрица UNKNOWN: Brief HTTP404, NOT_RUN из отмены не выводится. В Brief S6 отсутствуют stage execution, собственные receipts и все26 source results; для их установления запрашивается отдельный административный аудит; raw fallback/новый Build для отчётности не выполнялись.
-
-**Review и validation.** Независимые Luna HIGH GO до каждого submit; S5 [GO](cloud-build/sort4-caller-entry-native/A1-AUTO-S5-REVIEW-2026-10-20.md), S6 [история GO и withdrawal](cloud-build/sort4-caller-entry-native/A1-AUTO-S6-REVIEW-2026-10-20.md). S5 synthetic controls7/24/23/5 PASS, S6 AST22/profile5 PASS; реальные compiler/extraction/decoder/refiner/verifier только Cloud. Exact source-only reconstruction полного R2→неизменённый C и selected-object closure33infra/107proof/160objects PASS. Partial Git fsck предупреждал .gitmodulesMissing; globally clean fsck не заявляется. S6 опубликован до submit: project checkpoint `eb74df260200bb0a289f01edcd835f7b24ea6c9c`, branch `research/night-select-sort4-cloud-2026-10-09`.
-
-| Identity | SHA-256 |
-|---|---|
-| Полный R2 | `9cdca995bc926efe3275319dec345f4d70a2fec7fdc95781decb4e4c2df7c9c8` |
-| C, побайтно прежний | `e7cdc8a8504338ccaab760975c1a3f1a739211d7f8d531dd214babc2005d894e` |
-| R-before translator, сохранён | `e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64` |
-| R-after / C-before translator | `9391bff0376ad008798a950d76dbaac095cacbe8fd5acf5b2ea4d336a759f33f` |
-| C-after translator | `8b98050f380729625b1ec766be6764af75e65d457c6b99f28a2a38d3a3676d7c` |
-| S5 profile, последний полный evidence | `d90dde221561e71328c870f6388ceda7eb7ad5126a1237543904406d89edb46d` |
-| S6 profile, отменённый draft | `099cf9cd5557b62a041efaa4fcbd528b569ea32026cc4ad187a480c676c43f32` |
-
-Compiler/exporter/schema/decoder/kernel и runtime/domain/contracts/posts/matrix/lifecycle сохранены; [все pins и source maps S5](cloud-build/sort4-caller-entry-native/A1-AUTO-S5-RELEASE-2026-10-20.json), [S6](cloud-build/sort4-caller-entry-native/A1-AUTO-S6-RELEASE-2026-10-20.json). Новые translator hashes объясняются R2 helper и двумя его consumers, не автоматической заменой неожиданного hash.
-
-**Все26 source statuses последнего полного evidence S5** (не результаты отменённого S6). Provenance каждого verdict: Build56f4d389, proof-audit.json SHA `9a6d89fa16a057fd9df017b9bc0dff83bbb7629037064ffb605224359ac9ed11`, pointer `/case_status/<case>/status`; полный inventory/request/index/archive provenance в [S5 evidence](cloud-build/sort4-caller-entry-native/A1-AUTO-S5-EVIDENCE-2026-10-20.json). NOT_RUN ниже явно записаны источником; независимого credit нет ни у одной строки.
-
-| Case | Source status | Execution provenance |
-|---|---|---|
-| OFF | INTENDED_CLASSIFIED | default-off-baseline |
-| P0a | INCONCLUSIVE | source provenance=null; полный результат отсутствует |
-| P0b | NOT_RUN | source NOT_RUN; execution provenance не установлен |
-| P0c | NOT_RUN | source NOT_RUN; execution provenance не установлен |
-| P-dispatch | INCONCLUSIVE | source provenance=null; полный результат отсутствует |
-| P1 | INCONCLUSIVE | source provenance=null; полный результат отсутствует |
-| N-default-contract | INCONCLUSIVE | source provenance=null; полный результат отсутствует |
-| N-freeze-contract | INCONCLUSIVE | source provenance=null; полный результат отсутствует |
-| N-alpha-valid | NOT_RUN | source NOT_RUN; execution provenance не установлен |
-| N-binder-collapse | NOT_RUN | source NOT_RUN; execution provenance не установлен |
-| N-binding | NOT_RUN | source NOT_RUN; execution provenance не установлен |
-| N-clause-redirect | NOT_RUN | source NOT_RUN; execution provenance не установлен |
-| N-clauses | NOT_RUN | source NOT_RUN; execution provenance не установлен |
-| N-duplicate | NOT_RUN | source NOT_RUN; execution provenance не установлен |
-| N-false31 | NOT_RUN | source NOT_RUN; execution provenance не установлен |
-| N-free-region | NOT_RUN | source NOT_RUN; execution provenance не установлен |
-| N-no-F | NOT_RUN | source NOT_RUN; execution provenance не установлен |
-| N-region-swap | NOT_RUN | source NOT_RUN; execution provenance не установлен |
-| N-source | NOT_RUN | source NOT_RUN; execution provenance не установлен |
-| R1 | INTENDED_CLASSIFIED | fresh-final-tool-regression |
-| R2 | INTENDED_CLASSIFIED | fresh-final-tool-regression |
-| R3 | INTENDED_CLASSIFIED | fresh-final-tool-regression |
-| R4 | INTENDED_CLASSIFIED | fresh-final-tool-regression |
-| R5 | INTENDED_CLASSIFIED | fresh-final-tool-regression |
-| R6 | INTENDED_CLASSIFIED | fresh-final-tool-regression |
-| R7 | INTENDED_CLASSIFIED | fresh-final-tool-regression |
-
-Aggregate8 INTENDED_CLASSIFIED/5 INCONCLUSIVE/13 NOT_RUN. Integrity VERIFIED_ARCHIVE_AND_INVENTORY; source verdict NOT_ACCEPTED_AS_REPORTED; stage order NOT_ESTABLISHED, causality UNKNOWN. Integrity не означает formal acceptance; independent AST↔MIR/parser-input binding этим чтением не установлен; download_verified не устанавливался.
-
-**Закрытие:**6 terminal Builds (5 FAILURE,1 CANCELLED), **2175/3600 Cloud seconds spent;1425 retired, no carry**. Own active/unresolved/reservations/requests=0; ledger CLOSED_MAIN_WINDOW. Старые accounts/evidence не переписаны. Активные агентные часы не измерялись; wall-clock записан отдельно. Завершение в пределах +30min.
-
-**Следующий шаг для нового задания:** reader должен учитывать реальный PackageDecl surface и canonical enclosing package path; сохранять source/header/native post/unwind equality, не принимать bare leaf name глобально. S6 остаётся отменённым draft, не принятым исправлением. В этой сессии дальнейших правок/запусков нет.
+- **Статус / T0/main/absolute/end:** NOT_STARTED / —.
+- **Самостоятельно выбранные цели / applicability фактическому stage / изменения плана:** —.
+- **Proof до→после / P0a/P1/26/N-false31/A1/A2 / B1/B2, ссылки:** —.
+- **Обслуживание / rationale/controls/review / source/tool/profile identities:** —.
+- **Build UUID → гипотеза → candidate → результат → charge:** —.
+- **Учёт/закрытие / own requests/reservations/active/unresolved / published checkpoint:** —.
+- **Первый remaining blocker / следующий эксперимент / точное решение владельца или ранний stop:** —.
