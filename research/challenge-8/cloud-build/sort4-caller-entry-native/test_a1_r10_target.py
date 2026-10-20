@@ -176,6 +176,12 @@ class NativeTargetSequenceTests(unittest.TestCase):
                 "authorization_phase_id": R10}
         plan = RUNNER.preflight_plan(base)
         self.assertEqual(plan["case_count"], 26)
+        full = RUNNER.preflight_plan({**base, "execution_mode": "full-matrix"})
+        self.assertEqual(full["case_count"], 26)
+        self.assertEqual(full["planned_order"], list(RUNNER.CASE_ORDER))
+        self.assertFalse(full["matrix_complete"])
+        self.assertFalse(full["dispatch_ready"])
+        self.assertFalse(full["proof_credit"])
         with self.assertRaisesRegex(RuntimeError, "R10-only"):
             RUNNER.preflight_plan({**base, "authorization_phase_id": R9})
 

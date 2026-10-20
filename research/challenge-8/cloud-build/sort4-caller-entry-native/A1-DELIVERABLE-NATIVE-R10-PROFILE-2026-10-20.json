@@ -12,7 +12,7 @@
     "a1-compiler-inventory.py": "6394ec909e6d6a7e77988279c382d531d61b10c7ca02e23672291c4622fe95e5",
     "a1-contract-admission.py": "0ac3b182a24ba3a8cfd21588dd393f652e864bf54593ac7f4a5caaa473927ad4",
     "a1-fixtures.py": "6d2cd0956ed5d9821be1dd32f731f201e5aea52ae4f06a676d8dfc5c17355d25",
-    "a1-focus-backend.py": "0884a2bc0a14f720a549c715e6d95c4fd72b7d82ce9c69f61f367b2a08d6e790",
+    "a1-focus-backend.py": "513ed36d7da00ae9bc9a3d23e1e69ae601ccc8cdc8dfe743eac1cbd93c46eb32",
     "a1-matrix-classifier.py": "e50dca88e41f41a1919db83412f5016ea19428b2c6b092bfe1c8cfc61c70b6a6",
     "a1-proof-classifier.py": "7a2070a3132bc7d4601565aebd25e0aea682520e3fbb32a6045ccdf276142a2e",
     "a1-summary-receipt.py": "bcc55360698346f0aa2dfb3858c6b555a9104db95308116d2c16c188a9b8a7dd",
@@ -28,7 +28,7 @@
   "base_translator_sha256": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64",
   "baseline_candidate_commit": "14a9d651bb09dd0b128525c0efbedbecd15ec082",
   "baseline_profile_sha256": "d90dde221561e71328c870f6388ceda7eb7ad5126a1237543904406d89edb46d",
-  "build_timeout_seconds": 1000,
+  "build_timeout_seconds": 1200,
   "c_after": {
     "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
     "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
@@ -48,7 +48,7 @@
   "compiler_toolchain": "nightly-2026-09-25",
   "deadline_utc": "2026-10-20T21:52:09Z",
   "dispatch_blockers": [],
-  "execution_mode": "native-p1-target",
+  "execution_mode": "full-matrix",
   "experiment_protocol_phase_id": "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17",
   "first_matrix_cases": {
     "N-alpha-valid": "NOT_RUN",
@@ -134,13 +134,13 @@
   "selected_base_translator_sha256": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64",
   "stable_threshold_pins_sha256": "6d1753038cb1fe9b6ce933f025e905d1776aca4a418f747285208f8a2f0625ed",
   "stage_budget_estimate": {
-    "build_timeout_seconds": 1000,
+    "build_timeout_seconds": 1200,
     "estimate_not_measured": true,
-    "execute_timeout_seconds": 760,
+    "execute_timeout_seconds": 960,
     "incomplete_rows": "NOT_RUN or INCONCLUSIVE; never full matrix acceptance",
     "inner_margin_seconds": 60,
     "maximum_build_timeout_seconds": 1200,
-    "nominal_work_deadline_seconds": 700,
+    "nominal_work_deadline_seconds": 900,
     "package_upload_verdict_reserve_seconds": 240,
     "queue_reserve_seconds": 60
   },

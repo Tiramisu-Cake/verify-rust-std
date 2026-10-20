@@ -1,0 +1,7 @@
+# R10 S3 — independent full-matrix progress with immutable caller span repair
+
+S2 delivered exact target audit and all26 source statuses:5 intended, P1 inconclusive,20NOT_RUN. Positive receipt issued but P0c focus rejected MappingProxyType under isinstance(dict); reviewed helper now accepts immutable Mapping under unchanged strict path/positive ordered line guards and losslessly copies span to JSON-compatible output. Real focused caller proof remains required.
+
+P1 R-only duplicate prototype and missing native AST remain an independent blocker. A full-matrix run now exercises existing independent dispatch, negative bodies, synthetic/legacy/OFF routes and own N-false31 lifecycle while native structural snapshot work proceeds. No target observation is imported, and matrix admission still requires all26 current classifications. Expected partial P1 is not acceptance. Mode is the existing full-matrix route; no core, source semantics, mathematics, dispatch/admission or checker changes are part of this switch.
+
+Timeout1200 is the authorized R10 maximum: work960/soft900/package-upload-verdict reserve240, queue reserve60;1260 fits2595remaining. Full workload fit is an estimate, not a measured guarantee. No new tool source change in S3; existing compile/focus gates remain mandatory. Fresh exact committed/published profile pins its own bytes; all initial26rows NOT_RUN, all acceptance/proof flags false. Local checks only plan/profile/immutable span serialization, not actual extraction or proof.

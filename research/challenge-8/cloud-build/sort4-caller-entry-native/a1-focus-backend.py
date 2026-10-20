@@ -58,6 +58,47 @@ def need(ok: bool, reason: str) -> None:
         raise RuntimeError("A1-FOCUS: " + reason)
 
 
+def _plain_json_value(value: Any) -> Any:
+    """Copy immutable observer containers into lossless JSON-compatible ones."""
+    if isinstance(value, Mapping):
+        return {key: _plain_json_value(item) for key, item in value.items()}
+    if isinstance(value, (tuple, list)):
+        return [_plain_json_value(item) for item in value]
+    return value
+
+
+def _source_bound_caller_focus_span(binding: Any) -> tuple[int, dict[str, Any]]:
+    """Read and copy a validated caller Body.span from the immutable result."""
+    caller_binding = binding.get("binding") if isinstance(binding, Mapping) else None
+    span = (caller_binding.get("mir_body_span")
+            if isinstance(caller_binding, Mapping) else None)
+    lo = span.get("lo") if isinstance(span, Mapping) else None
+    hi = span.get("hi") if isinstance(span, Mapping) else None
+    lo_line = lo.get("line") if isinstance(lo, Mapping) else None
+    hi_line = hi.get("line") if isinstance(hi, Mapping) else None
+    need(isinstance(span, Mapping) and
+         isinstance(lo, Mapping) and isinstance(hi, Mapping) and
+         lo.get("source_path") == "verified/lib.rs" and
+         hi.get("source_path") == "verified/lib.rs" and
+         isinstance(lo_line, int) and not isinstance(lo_line, bool) and
+         isinstance(hi_line, int) and not isinstance(hi_line, bool) and
+         lo_line > 0 and lo_line <= hi_line,
+         "source-bound caller MIR Body.span required before focus")
+    copied = _plain_json_value(span)
+    need(isinstance(copied, dict),
+         "source-bound caller MIR Body.span required before focus")
+    return lo_line, copied
+
+
+def _record_caller_focus_span(result: dict[str, Any], binding: Any) -> int:
+    """Bind focus and its JSON-safe observation to the validated caller span."""
+    line, span = _source_bound_caller_focus_span(binding)
+    result["focus"] = f"verified/lib.rs:{line}"
+    result["focus_source_line"] = line
+    result["compiler_caller_span_observed"] = span
+    return line
+
+
 def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -500,16 +541,7 @@ def collect_focus(a, c4, ghost, tool: Path, receipt: dict, profile: dict,
         elif case_id in CALLER_CASES:
             binding = call_binding_module.observe(
                 focus_case_id, normal_text, readonly_text, cert, source_text)
-            span = binding["binding"].get("mir_body_span")
-            need(isinstance(span, dict) and
-                 span.get("lo", {}).get("source_path") == "verified/lib.rs" and
-                 span.get("hi", {}).get("source_path") == "verified/lib.rs" and
-                 isinstance(span.get("lo", {}).get("line"), int) and
-                 span["lo"]["line"] > 0 and
-                 span["lo"]["line"] <= span["hi"]["line"],
-                 "source-bound caller MIR Body.span required before focus")
-            line = span["lo"]["line"]
-            result["compiler_caller_span_observed"] = span
+            line = _record_caller_focus_span(result, binding)
         result["focus"] = f"verified/lib.rs:{line}"
         result["focus_source_line"] = line
         ast_path = root / "proof-ast.ml"
