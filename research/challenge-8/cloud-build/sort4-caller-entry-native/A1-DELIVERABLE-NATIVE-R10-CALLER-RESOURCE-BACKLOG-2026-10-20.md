@@ -1,0 +1,11 @@
+# Source-only caller resource backlog before main deadline
+
+Actual S3 P0c verifier diagnostic is Option_own(...)(thread,left_ancestor_pivot) remaining at a1_guard_observer end139, exact bounded logline1870. This is a generated diagnostic observer failure, not evidence of a runtime heap leak in the full Rust quicksort algorithm. P0c verificationexit1; threshold receipt assures bodies/conformance only.
+
+Worker source audit (GPT-6 Luna HIGH, no edits/proof runs) found fixture a1-fixtures.py `_observer` around248–259 splices the original signature/guard prefix and appends return. left_ancestor_pivot is an arbitrary Option<&T> parameter there. The original quicksort assignment to None at source line72 is later on an equal-partition path; it does not establish None on this early return. Do not assume the leaked value is None.
+
+Pinned VeriFast f76012fb518703b1d98e243ac4f487f16877cfcb rust_parser.ml own_pred_decls_for_enum995–1019 generates enum ownership by constructor: field predicates fold from Emp. Option::None unfolds to Emp only with proved constructor evidence; Some carries the field own predicate. This provides a checked route for an established variant, not an ownership bridge for the arbitrary input.
+
+Pinned bin/rust/std/lib.rsspec414–416 has std::mem::drop<T>: thread_token(t) plus <T>.own(t,value), returns thread_token(t) normally and on unwind. Its checked consumption contract is a possible cleanup direction for arbitrary Option<&T>. Source inspection does not establish how an explicit call lowers ownership for a Copy value, or its compatibility with the active effective proof_std overlay. Both need future pinned Cloud proof/control evidence. std::mem::forget is not an appropriate destructor model substitute. end_ref_Option_None/Some1536–1542 applies to referenced places/end tokens and is not directly applicable to this by-value parameter.
+
+Next authorized proof work should establish a checked local cleanup or a precise faithful drop elaboration, preserving original source/domain/pre/normal/unwind/abort and compiler/source identities. No leak command, axiom, assumed None, numeric-address bridge, ownership-post weakening, or new memory model was added. No implementation or proof credit was produced by this audit. Main source investigation ends at21:22Z; later work is current Build evidence/accounting only.
