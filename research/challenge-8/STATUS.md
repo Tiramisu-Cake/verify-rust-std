@@ -1,10 +1,18 @@
-# MERGE — R6 ACTIVE / canonical share recovery
+# MERGE — R6 CLOSED / PARTIAL
 
-T0/main/absolute UTC2026-10-20 11:56:46/13:56:46/14:26:46.
-[Задание и текущий отчёт](CURRENT-TASK.md); новый отдельный budget3600, Builds0.
-Приоритет: exact checked canonical u64.share → actual late FnMut → полный
-CURRENT normal/unwind/loan/guard return. R5 baseline/pins/claims сохранены.
-Project83679b05, tool45594fb8 чистый; чужие dirty docs сохранены.
+После миграции исходные T0/main/absolute сохранены: 11:56:46/13:56:46/14:26:46 UTC.
+Единственный Build2168bb6c-6e0e-4701-9b24-664efab4768e terminal FAILURE;
+464/3600charged,463execution;3136retired без carry. Coordinator повторно сверён,
+requests/reservations/active/unresolved0; новых Builds/гипотез после main нет.
+[Итог](cloud-build/origin-layout/R6-FINAL-RESULT-20261020.json).
+Brief доступен: integrity VERIFIED_ARCHIVE_AND_INVENTORY, source NOT_ACCEPTED_AS_REPORTED.
+v0.11 exact lines1317–1322: verified/lib.rs295 / prelude_core.rsspec264,
+missing [1/4]array<u64>(...,1-1,_). Parser-input binding/causality не установлены.
+[Точный frontier](cloud-build/origin-layout/R6-BUILD1-EXACT-FRONTIER-20261020.json).
+Canonical representation helpers не устанавливают полную late-call theorem;
+CURRENT normal/unwind/guard, prefix, whole insert_tail/B2, qualification OPEN,
+independentcredit0. Следующее execution требует нового окна/бюджета владельца.
+Чужие dirty docs сохранены; tool45594fb8 чистый, executed proof=infrae91e7036.
 
 # MERGE — R5 CLOSED / PARTIAL
 

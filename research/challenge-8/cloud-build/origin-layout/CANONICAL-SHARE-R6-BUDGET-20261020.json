@@ -2,14 +2,37 @@
   "phase": "MERGE-CANONICAL-SHARE-R6-2026-10-20",
   "owner": "merge",
   "authorization_model": "bounded-cloud-budget",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "allowed_lanes": [
     "merge"
   ],
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 0,
-  "remaining_build_seconds": 3600,
-  "builds": [],
+  "used_build_seconds": 464,
+  "remaining_build_seconds": 0,
+  "builds": [
+    {
+      "dispatch_token": "dispatch-da22ba6d62f44e05bd7c50c1a7a6f111",
+      "owner": "merge",
+      "phase_id": "MERGE-CANONICAL-SHARE-R6-2026-10-20",
+      "infra_sha": "e91e70361c640d8b4f18618bc40573938b1e0272",
+      "proof_sha": "e91e70361c640d8b4f18618bc40573938b1e0272",
+      "lane": "merge",
+      "submitted_config_sha256": "df1ce8234552ea3c7bd6ed76c7fa3c0ded296c25f35d0b0651071c470efceaff",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "79c6ab41cd916525302b5206f26b34afd649e2a2bf3c28315dad2fbec8f5f8e6",
+      "build_id": "2168bb6c-6e0e-4701-9b24-664efab4768e",
+      "start_time": "2026-10-20T12:17:42.827471760Z",
+      "finish_time": "2026-10-20T12:25:25.397792Z",
+      "create_time": "2026-10-20T12:17:42.072163086Z",
+      "build_seconds": 464,
+      "accounted": true,
+      "execution_seconds": 463
+    }
+  ],
   "active_build": null,
   "start_utc": "2026-10-20T11:56:46Z",
   "main_deadline_utc": "2026-10-20T13:56:46Z",
@@ -17,5 +40,8 @@
   "max_timeout_seconds": 900,
   "authorization": "Direct owner CURRENT-TASK merge-canonical-share-current-recovery-autonomous-2026-10-20-r6; 120-minute main window plus 30-minute finishing window; fresh 3600 Cloud-second account; stable owner merge, merge lane, pinned objects; timeout 90..900 seconds; no new dispatch/request after main deadline; no carryover.",
   "policy_revision": "2026-10-20 owner CURRENT-TASK with Evidence v0.11 and ITERATION-PROCESS",
-  "carryover_allowed": false
+  "carryover_allowed": false,
+  "retired_unused_seconds": 3136,
+  "closed_utc": "2026-10-20T14:26:45.726464+00:00",
+  "closure_reason": "Main window expired during migration; finishing only, no renewed authorization; terminal build reconciled via coordinator."
 }

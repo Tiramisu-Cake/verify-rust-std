@@ -1,0 +1,20 @@
+{
+  "schema": "merge-r6-reader-observation-v1",
+  "build_id": "2168bb6c-6e0e-4701-9b24-664efab4768e",
+  "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+  "file_sha256": "44fb7568d4f1c5a02eda27ec31c483c60de89bb3f4e01c06097a8f8d96ad2983",
+  "archive_sha256": "0d12b7769568b012991d51059fd37718d8b760dd0d8dd382fbc477790bc14acf",
+  "index_sha256": "82fca1c03020222307ec9a3a4b92f2f78d3d6e240266ded02dd8b86e462662aa",
+  "request_id": "8834e19d9dcc37df359d9a670b8b48151ade8f025cb91cd6da86d650c8952757",
+  "start": 1317,
+  "end": 1322,
+  "exact": true,
+  "complete": false,
+  "content_filtered": false,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causal_status": "UNKNOWN",
+  "observed_call": "verified/lib.rs(295,37-38)",
+  "observed_error": "prelude_core.rsspec(264,27-32): No matching heap chunks: [1/4]array<u64>(ptr_add_(get_CopyOnDrop_src(mk_CopyOnDrop(fn_outcome_result(outcome5), ptr_add_(tail0, (0 - 1), uint64_t_typeid), 1)), 1, uint64_t_typeid), (1 - 1), _)",
+  "line1321": "264 |         *p |-> ?value &*& array(p + 1, count - 1, ?values0) &*& values == cons(value, values0)",
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF"
+}

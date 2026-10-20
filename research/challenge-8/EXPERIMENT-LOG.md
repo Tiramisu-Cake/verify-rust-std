@@ -7369,3 +7369,14 @@ Luna High definition review conditional GO (exact fractured-borrow body); final
 diff/dependencies review pending. Expected failure advances to a checked
 callback/loan/guard frontier or identifies precise representation mismatch;
 no unchanged general195 retry and no partial theorem upgraded.
+
+R6 Build1 terminal:2168bb6c-6e0e-4701-9b24-664efab4768e,
+source=infrae91e70361c640d8b4f18618bc40573938b1e0272, FAILURE12:25:25Z,
+464charged/463execution,3136remaining. Interruption/resume preserved T0.
+Reconciled existing dispatch, no retry/duplicate; own active/unresolved0.
+Brief token auth30s timeout; supported token-file same-authority retry pending.
+Actual proof outcome UNKNOWN pending Brief; no raw fallback or proof credit.
+
+## R6 closure after migration — 2026-10-20
+
+Original main expired; resumed only finishing before absolute14:26:46Z. No proof executions. Coordinator reconfirmed Build2168bb6c FAILURE,464charged/463execution;3136retired without carry; own requests/reservations/active/unresolved0. Brief available; old auth/UNKNOWN record superseded. Exact v0.11 lines1317–1322 with expected SHA44fb7568 show verified295/prelude_core264 missing quarter-share zero-length array; canonical representation is not full late-call/CURRENT theorem. Parser-input binding/causality unknown, independentcredit0; normal/unwind/guard/prefix/B2/qualification OPEN. See R6-FINAL-RESULT and exact frontier receipt. New window/budget needed for execution.
