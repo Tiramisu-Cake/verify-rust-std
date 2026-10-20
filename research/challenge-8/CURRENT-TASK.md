@@ -63,11 +63,20 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 R8 ACTIVE. T0/main/absolute UTC2026-10-20 17:11:30/19:11:30/19:41:30.
 Цель: actual physical fraction merge/singleton rejoin → original guard/CURRENT.
-Proof до→после: пока без изменения, B2/qualification OPEN, independent credit0.
-Обслуживание: compiler exact47b80fad/profilee5ed4de5 прошёл; candidate2 устраняет
-несовпадение u64 parser shape в строгом late matcher, review перед submit.
-Build1 `4952f684-c062-4788-9666-77c21a42359c` FAILURE/source5967687f;
-631charged/631execution,2969remaining; frontendreject313 до resource proof.
-Own active/unresolved0 после terminal reconciliation; новых Builds пока нет.
+Proof до→после: Build2 trace проходит physical merge/full sift assertion/singleton
+close; далее original guard Drop numeric span precondition101 OPEN. Полные
+normal Continue/break/unwind, CURRENT, B2/qualification OPEN, independent credit0.
+Обслуживание: exact compiler preflight подтверждён; narrow primitive-u64 matcher
+исправлен и reviewed. Model/trust extension не применено; владелец получил точный
+вопрос. Проверяются независимые prefix/BeforeLive и минимальный geometry reproducer.
+
+| Build | Hypothesis/type | Candidate | Result | Charged |
+| --- | --- | --- | --- | --- |
+| 4952f684 | full900 vs short203 wrapper; existing target/matrix | 5967687f/tool47b80fad/profilee5ed4de5 | compilerPASS, matcher313 reject before resource proof | 631 |
+| eaf02609 | exact u64 Manifest matcher; target/matrix | 1651614a/tool43c1fdc2/profile845ea5a5 | physical rejoin observed, guard numeric-span refusal101 | 538 |
+
+Всего1169charged/1169execution из3600;2431remaining. Own active/unresolved0 после
+terminal reconciliation; candidate3 geometry diagnostic в независимом review.
 [Карточка](cloud-build/origin-layout/R8-SESSION-20261020.md),
-[Build1](cloud-build/origin-layout/R8-BUILD1-RESULT-20261020.json).
+[обязательства](cloud-build/origin-layout/R8-OBLIGATIONS-20261020.md),
+[точная граница](cloud-build/origin-layout/R8-GEOMETRY-BOUNDARY-20261020.md).

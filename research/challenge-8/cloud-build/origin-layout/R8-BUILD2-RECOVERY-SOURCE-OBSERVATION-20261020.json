@@ -1,0 +1,93 @@
+{
+  "archive_sha256": "3d2f34b3483cbd148acc8c0456bccb423da33e83750e592487633242582c978f",
+  "build_id": "eaf02609-72ae-4cb7-b583-b6b7e1bc5565",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 318,
+    "line_separator": "LF",
+    "source_lines": 335,
+    "start": 310,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "2d78ebdaeb062e188723dd979753b6ca3c2142a8d584603f17f4536298dbcdd1",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verified/lib.rs",
+  "file_sha256": "dad3145c1164ac7a5f901ce6966200b4fbff6c39081f70bdae280d14903acea6",
+  "index_sha256": "d098ddd11ae1aa87958eb1f648a4239c6f2fb85b8cfcce311de1bbacd138e3d6",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 318,
+    "expected_sha256": "dad3145c1164ac7a5f901ce6966200b4fbff6c39081f70bdae280d14903acea6",
+    "file_id": "2d78ebdaeb062e188723dd979753b6ca3c2142a8d584603f17f4536298dbcdd1",
+    "start": 310
+  },
+  "request_id": "ce392c9e9f9c1ef82923372443b9c748eec71fbed8b4a8520af4ea15fab742d5",
+  "requested_end": 318,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 310,
+      "text": "            if !is_less/*@::<F, (&'late u64, &'late u64), 'late>@*/(&tmp, &*sift) {"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 311,
+      "text": "            /*@ { late_callback_close::<'late>(); merge_fractions lifetime_token(r5_late_k); assert [1/2]lifetime_token(r5_late_k); } @*/"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 312,
+      "text": "            //@ late_callback_scope_end::<'late>();"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 313,
+      "text": "            /*@ { late_callback_recover::<'late>(); assert lifetime_token(r5_late_k); end_lifetime(r5_late_k); borrow_end(r5_late_k, scaledp(r5_tmp_share, u64_full_borrow_content(t, r4_cmp_tmp_ref))); open scaledp(r5_tmp_share, u64_full_borrow_content(t, r4_cmp_tmp_ref))(); open [r5_tmp_share]u64_full_borrow_content(t, r4_cmp_tmp_ref)(); end_ref_readonly::<u64>(r4_cmp_tmp_ref); borrow_end(r5_late_k, scaledp(r5_sift_share, u64_full_borrow_content(t, r4_cmp_sift_ref))); open scaledp(r5_sift_share, u64_full_borrow_content(t, r4_cmp_sift_ref))(); open [r5_sift_share]u64_full_borrow_content(t, r4_cmp_sift_ref)(); end_ref_readonly::<u64>(r4_cmp_sift_ref); merge_fractions points_to::<u64>(sift, _); assert *sift |-> ?r7_sift_current; close array::<u64>(sift, 1, cons(r7_sift_current, nil)); } @*/"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 314,
+      "text": "                break;"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 315,
+      "text": "            }"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 316,
+      "text": "        }"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 317,
+      "text": "    }"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 318,
+      "text": "}"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

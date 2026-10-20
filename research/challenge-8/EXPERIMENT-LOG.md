@@ -7416,3 +7416,10 @@ maintenance, proofattemptedtrue but late matcher rejects before heap proof.
 2969remaining. Candidate2 exact primitive-u64 parser-shape correction only;
 [card](cloud-build/origin-layout/R8-SESSION-20261020.md), static17/18+service9PASS,
 review pending; CURRENT/B2/qualificationOPEN,credit0.
+
+R8 Build2 eaf02609 terminalFAILURE538charged/538execution; total1169/3600.
+Actual observed path passes checked physical merge/full sift assertion/singleton
+close at313; next original Drop numericspan pre101 cannot beproved. Full normal/
+unwind/CURRENT/B2/qualificationOPEN,credit0. Candidate3 adds only unchanged-model
+geometry eligibility probes; explicit newtrust/model question pending, no rule
+change. Prefix/BeforeLive boundary separately investigated, no claimed credit.

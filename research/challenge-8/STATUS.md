@@ -1,15 +1,14 @@
-# MERGE — R8 ACTIVE / actual late rejoin target
+# MERGE — R8 ACTIVE / observed physical rejoin, original guard geometry OPEN
 
-T0/main/absolute UTC2026-10-20 17:11:30/19:11:30/19:41:30; fresh3600 Cloud seconds,
-no R7 carry. [Task/report](CURRENT-TASK.md), [session](cloud-build/origin-layout/R8-SESSION-20261020.md).
-First hypothesis: R7 short539 envelope starves cold compilation; use900 via existing
-preflight, same reviewed tool47b80fad/profilee5ed4de5 and mandatory matrix.
-New phase registration/static6 authorization tests and independent Luna HIGH GO.
-Build1 4952f684 FAILURE631charged/631execution;2969remaining, own active0.
-Candidate2 tool43c1fdc2 corrects exact u64 AST type matcher; Luna HIGH deltaGO,
-static17patch/18base + service9PASS; next900 envelope through existing preflight.
-Actual physical merge/rejoin, CURRENT normal/unwind/originalguard/B2/qualification
-OPEN; independentcredit0. Foreign instruction changes preserved.
+T0/main/absolute UTC2026-10-20 17:11:30/19:11:30/19:41:30;1169/3600charged,
+2431remaining. Builds4952f684 FAILURE631 and eaf02609 FAILURE538 accounted, ownactive0.
+Latest source1651614a/tool43c1fdc2/profile845ea5a5: exact compilerPASS; trace passes
+physical merge/full-current sift/singleton close, then original generated Drop
+numeric span pre101 fails. Full normal/unwind/CURRENT/B2/qualificationOPEN,credit0.
+No new allocation/model assumption applied. Minimal unchanged-model entry-cell/
+entry-array/opened-array probes in review; exact newtrust question sent to owner.
+[Task/report](CURRENT-TASK.md), [boundary](cloud-build/origin-layout/R8-GEOMETRY-BOUNDARY-20261020.md).
+
 
 # MERGE — R8 READY / proof mission OPEN
 

@@ -545,6 +545,9 @@ def run(evidence, args, env, execute_case, validated_receipt):
             results[name] = classify(case, record, execution,
                                      baseline_positive=results.get('prefix', {}).get('current_false_true_panic_proved', False))
         if selected_profile == R7_PROFILE:
+            geometry_controls = _load('r8_geometry_controls', HERE/'r8-geometry-controls.py')
+            results['allocation_geometry_controls'] = geometry_controls.run(
+                evidence/'allocation-geometry-controls', args, env, execute_case)
             late_controls = _load('r7_late_admission', HERE/'r7-late-admission-controls.py')
             results['late_scope_admission_controls'] = late_controls.run(
                 evidence/'late-scope-admission-controls', args, env, execute_case,
