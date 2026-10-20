@@ -279,7 +279,24 @@ mkdir -p /workspace/cloudsdk/configurations
 printf '[core]\\nproject = smallsort-ci\\naccount = ACCOUNT\\n' > /workspace/cloudsdk/configurations/config_smallsort-ci
 export CLOUDSDK_CONFIG=/workspace/cloudsdk
 printf '%s' PACKAGE_B64 | base64 --decode | gzip --decompress > /workspace/package-evidence.py
-SDK_PYTHON /workspace/package-evidence.py --evidence /workspace/evidence --out /workspace/out
+rm -f /workspace/upload.ok /workspace/package-upload-error.json
+set +e
+SDK_PYTHON /workspace/package-evidence.py --evidence /workspace/evidence --out /workspace/out 2> /workspace/packaging-stderr.log
+packaging_status=$?
+set -e
+cat /workspace/packaging-stderr.log >&2
+if [ "$packaging_status" -ne 0 ]; then
+ SDK_PYTHON - "$packaging_status" <<'PACKAGING_FAILURE'
+import json,pathlib,sys
+root=pathlib.Path('/workspace')
+record={'schema_version':1,'stage':'package-upload','operation':'package-evidence',
+        'exit_code':int(sys.argv[1]),'failure_class':'packaging-failed',
+        'primary_error':(root/'packaging-stderr.log').read_text(errors='replace'),
+        'proof_status':'UNCHANGED'}
+(root/'package-upload-error.json').write_text(json.dumps(record,sort_keys=True,indent=2)+'\\n')
+PACKAGING_FAILURE
+ exit "$packaging_status"
+fi
 prefix="BUCKET/$CLOUD_BUILD_ID"
 for file in evidence.tar.gz archive.sha256 summary.json manifest.json files-sha256.json submitted-config.json text-logs-index.json; do
  gcloud --configuration=smallsort-ci --account=ACCOUNT --project=smallsort-ci storage cp --if-generation-match=0 "/workspace/out/$file" "$prefix/$file"
@@ -296,6 +313,20 @@ touch /workspace/upload.ok
 '''.replace('ACCOUNT',ACCOUNT).replace('SDK_PYTHON',SDK_PYTHON).replace('PACKAGE_B64','"$PACKAGER_BYTES"').replace('BUCKET',BUCKET).replace('$','$$')
  verdict='''import json,pathlib,sys
 p=pathlib.Path('/workspace/out')
+failure=pathlib.Path('/workspace/package-upload-error.json')
+if failure.exists():
+ try:
+  record=json.loads(failure.read_text())
+  if not isinstance(record,dict):raise ValueError('packaging failure record must be an object')
+ except Exception as e:
+  record={'stage':'package-upload','failure_class':'packaging-failed','proof_status':'UNCHANGED',
+          'diagnostic_error':type(e).__name__+': '+str(e)}
+ print('INCOMPLETE_EVIDENCE',json.dumps(record,sort_keys=True))
+ sys.exit(2)
+if not (p/'summary.json').is_file():
+ print('INCOMPLETE_EVIDENCE',json.dumps({'stage':'package-upload','failure_class':'missing-packaging-output',
+       'missing':['summary.json'],'proof_status':'UNCHANGED'},sort_keys=True))
+ sys.exit(2)
 try:
  s=json.loads((p/'summary.json').read_text())
  ok=pathlib.Path('/workspace/upload.ok').is_file() and ((s.get('verification_accepted') is True) or (s.get('smoke_success') is True) or (s.get('diagnostic_complete') is True))

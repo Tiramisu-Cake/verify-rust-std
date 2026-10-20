@@ -1,0 +1,55 @@
+{
+  "T0_utc": null,
+  "acceptance_checks": [
+    "existing Cloud source/tool preflight and unchanged target/matrix dependencies",
+    "packaging produces complete archive/hash inventory with bounded external manifest",
+    "unchanged Evidence v1 integrity checker accepts synthetic packaging format locally; actual production evidence must still be processed by Brief",
+    "all 26 statuses explicitly reported; unavailable inputs not passed",
+    "primary packaging failure retained in final diagnostic, no secondary FileNotFoundError masking"
+  ],
+  "activation_requirements": [
+    "explicit new session budget/window; do not submit using closed R6 phase",
+    "register fresh phase+profile/entry/runner authorization consistently, preserve experiment protocol",
+    "independent Luna HIGH review of activation diff and dependencies",
+    "publish exact committed source closure and verify complete remote SHAs",
+    "existing coordinator submission only; no automatic retry"
+  ],
+  "budget": {
+    "estimate_assumes_comparable_execute_duration": true,
+    "estimate_is_guarantee": false,
+    "estimated_charge_range_seconds": [
+      650,
+      800
+    ],
+    "maximum_builds_first_attempt": 1,
+    "measured_failed_packaging_seconds": 19.958209,
+    "measured_previous_execute_seconds": 571.438779,
+    "measured_previous_total_charge_seconds": 604,
+    "optional_second_attempt_requires_new_evidence_and_authorization": true,
+    "proof_completion_duration": "UNKNOWN; previous execute wrapper SUCCESS does not establish completed proof",
+    "queue_reserve_seconds": 60,
+    "required_new_ceiling_build_seconds": 960,
+    "successful_upload_time": "NOT_MEASURED",
+    "timeout_seconds": 900
+  },
+  "changes_allowed_for_activation": [
+    "fresh authorization/profile binding and dependent helper/service hashes",
+    "packaging/diagnostic fixes in reviewed infrastructure revision"
+  ],
+  "closed_R6_account_reopened": false,
+  "cloud_builds_submitted_for_this_task": 0,
+  "lane": "o26-sort4-c1-current-recovery",
+  "new_phase_required": true,
+  "old_retired_seconds_reused": false,
+  "original_build_id": "0be85097-5764-4838-8e3b-fea09420213e",
+  "original_profile_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-SCOPE-S3-PROFILE-2026-10-20.json",
+  "original_profile_sha256": "fa9e3ef41722448bfa1e71ca80c0d4012f677424c08df80ac7812cabbc8e597e",
+  "original_proof_candidate": "b6dfcb8e4a1149ef5b98901b690995453050a9a5",
+  "proof_status_change": false,
+  "proposed_phase_id": "SORT4-PACKAGING-RECOVERY-2026-10-20-R7",
+  "purpose": "Reproduce original checked inputs after packaging-only and final-diagnostic fixes; no saved payload exists for package-only recovery.",
+  "schema": "smallsort-packaging-rerun-plan-v1",
+  "semantic_proof_input_changes": "NONE; retain actual std/compiler/tool/R2/C/domain/contracts/equality/normal+unwind checks and all 26 cases",
+  "source_mode": "pinned-objects",
+  "status": "PREPARED_NOT_AUTHORIZED"
+}

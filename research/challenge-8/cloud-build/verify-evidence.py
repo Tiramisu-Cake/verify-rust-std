@@ -128,6 +128,11 @@ def main() -> int:
         config_hash = sha(small_files["submitted-config.json"])
         if manifest.get("submitted_config_actual_sha256") != config_hash:
             raise ValueError("manifest actual submitted-config file hash mismatch")
+        config_reference = manifest.get("config_fields_reference")
+        if "config_fields_reference" in manifest and config_reference != {
+                "path": "submitted-config.json", "sha256": config_hash,
+                "size_bytes": len(small_files["submitted-config.json"])}:
+            raise ValueError("manifest submitted-config reference/hash/size mismatch")
         try:
             config = json.loads(small_files["submitted-config.json"])
         except (ValueError, UnicodeDecodeError):

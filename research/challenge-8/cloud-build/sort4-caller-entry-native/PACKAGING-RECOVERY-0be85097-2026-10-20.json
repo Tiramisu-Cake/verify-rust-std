@@ -1,0 +1,115 @@
+{
+  "api_metadata_sha256": "e52b3f0229758d6121ace264935adad72e1f20e0c5349a7bae0c54c9d7cdaf62",
+  "api_status": "FAILURE",
+  "build_id": "0be85097-5764-4838-8e3b-fea09420213e",
+  "fix": {
+    "config_fields": "replaced by reference to complete canonical submitted-config.json with SHA256 and size",
+    "final_diagnostic": "PRIMARY_PACKAGING_STDERR_AND_EXIT_CODE_BEFORE_SUMMARY_READ",
+    "input_sha256": "FULL_RETAINED",
+    "manifest_encoding": "deterministic compact JSON",
+    "metadata_limit_changed": false,
+    "on_overflow": "FAIL_EXPLICITLY_WITH_SIZE_AND_LARGEST_FIELD_SIZES",
+    "proof_audit": "FULL_INLINE_RETAINED_FOR_SCHEMA_V1_COMPATIBILITY",
+    "schema_version": 1
+  },
+  "local_checks": {
+    "generated_packaging_and_verdict_tests": {
+      "cloud_calls": false,
+      "kind": "synthetic-only",
+      "passed": 5,
+      "proof_execution": false
+    },
+    "manifest_regressions": {
+      "actual_failed_build_field_sizes": "UNKNOWN_DATA_UNAVAILABLE",
+      "archive_members_and_hashes": "ALL_PRESERVED",
+      "compact_manifest_bytes": 5772401,
+      "indented_manifest_bytes": 14102858,
+      "kind": "synthetic-only",
+      "limit_bytes": 8388608,
+      "original_verifier_at_commit": "a96007ecc0ce892986e369d281338d6f0fb44d8d",
+      "original_verifier_result": "INTEGRITY_VERIFIED; verification_accepted=false",
+      "passed": 5,
+      "raw_audit_bytes": 5768948,
+      "updated_verifier": "PASS"
+    }
+  },
+  "original_infra_sha": "b6dfcb8e4a1149ef5b98901b690995453050a9a5",
+  "original_proof_sha": "b6dfcb8e4a1149ef5b98901b690995453050a9a5",
+  "primary_failure": {
+    "message": "external manifest exceeds 8 MiB",
+    "source": "user-provided administrative diagnosis",
+    "step": "package-upload"
+  },
+  "proof_status_change": false,
+  "proposed_run_budget": {
+    "build_timeout_seconds": 900,
+    "closed_R6_reused": false,
+    "estimate_assumes_comparable_execute_duration": true,
+    "estimate_is_not_guarantee": true,
+    "estimated_total_seconds": [
+      650,
+      800
+    ],
+    "new_authorization_required": true,
+    "new_build_ceiling_seconds": 960,
+    "observed_S3_execute_seconds": 571.438779,
+    "observed_failed_package_seconds": 19.958209,
+    "observed_total_charge_seconds": 604,
+    "observed_verdict_seconds": 1.078659,
+    "old_retired_seconds_reused": false,
+    "optional_retry_envelope_seconds": 960,
+    "proof_completion_duration": "UNKNOWN",
+    "queue_reserve_seconds": 60,
+    "retry_only_after_new_evidence_and_authorization": true,
+    "sequential_builds_authorized_now": 0,
+    "successful_packaging_and_upload_seconds": null
+  },
+  "reference": "https://docs.cloud.google.com/build/docs/api/reference/rest/v1/projects.builds#BuildStep",
+  "repeat_proof_submitted": false,
+  "retention": {
+    "actual_payload_available": false,
+    "actual_payload_test": "NOT_RUN_DATA_UNAVAILABLE",
+    "administrative_absence_confirmed_by_user": true,
+    "known_gcs_prefix_objects": 0,
+    "local_packaging_on_actual_results": "NOT_POSSIBLE_WITH_AVAILABLE_DATA",
+    "local_search": "only saved API metadata/config; no evidence directory, proof-audit or archive in known session/worktree paths",
+    "separate_export": "NONE_KNOWN",
+    "separate_republication": "NOT_POSSIBLE_NO_PAYLOAD",
+    "source": "user administrative check in current task",
+    "workspace_copy": "UNKNOWN_NONE_LOCATED"
+  },
+  "secondary_failure": {
+    "message": "FileNotFoundError for absent packaging summary",
+    "source": "user-provided administrative diagnosis",
+    "step": "verdict"
+  },
+  "steps": [
+    {
+      "exit_code": null,
+      "id": "execute",
+      "status": "SUCCESS",
+      "timing": {
+        "endTime": "2026-10-20T09:19:58.040024427Z",
+        "startTime": "2026-10-20T09:10:26.601245502Z"
+      }
+    },
+    {
+      "exit_code": 1,
+      "id": "package-upload",
+      "status": "FAILURE",
+      "timing": {
+        "endTime": "2026-10-20T09:20:17.999011225Z",
+        "startTime": "2026-10-20T09:19:58.040802506Z"
+      }
+    },
+    {
+      "exit_code": 2,
+      "id": "verdict",
+      "status": "FAILURE",
+      "timing": {
+        "endTime": "2026-10-20T09:20:19.078029121Z",
+        "startTime": "2026-10-20T09:20:17.999370640Z"
+      }
+    }
+  ]
+}

@@ -36,6 +36,10 @@ def digest_file(path: Path) -> str:
     return h.hexdigest()
 
 
+def compact_json_bytes(value: object) -> bytes:
+    return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
+
+
 def parse_json_or_none(value: bytes | None):
     if value is None:
         return None
@@ -275,6 +279,8 @@ def main() -> int:
                            if name in payload), None)
         proof_audit = None
         if audit_path is not None:
+            if len(payload[audit_path]) > METADATA_MAX_BYTES:
+                fail(f"oversized metadata entry: {audit_path}")
             try:
                 proof_audit = json.loads(payload[audit_path])
             except (ValueError, UnicodeDecodeError):
@@ -360,7 +366,11 @@ def main() -> int:
             "submitted_config_actual_sha256": digest(config_bytes),
             "proof_image": proof_image,
             "invalid_pins": invalid_pins,
-            "config_fields": config if isinstance(config, dict) else None,
+            "config_fields_reference": {
+                "path": "submitted-config.json",
+                "sha256": digest(config_bytes),
+                "size_bytes": len(config_bytes),
+            },
             "input_sha256": {p: digest(b) for p, b in sorted(payload.items())},
             "environment": {k: v for k, v in sorted(env.items())
                             if k.startswith("SMALLSORT_") and not any(
@@ -407,11 +417,21 @@ def main() -> int:
         if len(files["files-sha256.json"]) > INVENTORY_MAX_BYTES:
             fail("file hash inventory exceeds 8 MiB")
         manifest["files_inventory_sha256"] = digest(files["files-sha256.json"])
-        files["manifest.json"] = (json.dumps(manifest, sort_keys=True, indent=2) + "\n").encode()
+        # The manifest repeats parsed proof-audit and input-hash data that also
+        # live in canonical archive members. Keep the established schema and
+        # every value, but serialize without indentation so structural data
+        # does not consume the external 8 MiB metadata allowance twice over.
+        # verify-evidence.py compares decoded JSON values, not their whitespace.
+        files["manifest.json"] = compact_json_bytes(manifest)
         if len(files["summary.json"]) > METADATA_MAX_BYTES:
             fail("external summary exceeds 8 MiB")
         if len(files["manifest.json"]) > METADATA_MAX_BYTES:
-            fail("external manifest exceeds 8 MiB")
+            field_sizes = sorted(
+                ((key, len(compact_json_bytes(value)) - 1) for key, value in manifest.items()),
+                key=lambda item: (-item[1], item[0]))
+            largest = ",".join(f"{key}={size}" for key, size in field_sizes[:5])
+            fail(f"external manifest exceeds 8 MiB: encoded_bytes={len(files['manifest.json'])} "
+                 f"limit_bytes={METADATA_MAX_BYTES}; largest_5_field_values_bytes={largest}")
 
         archive = out / ARCHIVE_NAME
         with tempfile.NamedTemporaryFile(dir=out, prefix=".evidence-", delete=False) as tmp:

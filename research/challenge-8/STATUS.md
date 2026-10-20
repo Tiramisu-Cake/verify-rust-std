@@ -1,5 +1,7 @@
 # Select / sort4 — R6 CLOSED, proof mission OPEN
 
+2026-10-20 packaging follow-up: primary S3 failure established by owner's administrative diagnosis: external manifest exceeds 8 MiB; secondary missing-summary error masked it. Compact lossless manifest/config reference and primary-error verdict fix prepared; synthetic compatibility/service checks only, no new Build. Actual payload unavailable and GCS prefix empty per owner: real-data repackaging/republication impossible. All S3 proof statuses remain UNKNOWN, independent credit 0. Fresh proposed first-attempt budget 960 s, NOT AUTHORIZED; R6 stays closed. [Recovery report](cloud-build/sort4-caller-entry-native/PACKAGING-RECOVERY-2026-10-20.md).
+
 T0 2026-10-20T07:16:11Z; main09:16:11Z; absolute09:46:11Z; end2026-10-20T09:27:47.134480+00:00. Three terminalFAILUREBuilds;1502spent/2098retired of3600Cloudseconds, no carry. Ownrequests/reservations/active/unresolved0; R5closedaccount preserved.
 
 S1actualPackageDecl scope reader progresses to downstream typedinventory/reporting; S2typedJSON uses exactparserbytes/classidentity acrossinfra/proof; S3failedactions retain observations but returnNone to consumers. IndependentLunaHIGHGO percurrentdiff, synthetic/service/closure checksPASS; runtimefinalcandidateb6dfcb8e4a1149ef5b98901b690995453050a9a5 published. R2/C/compiler/exporter/schema/decoder/kernel/std/domain/contracts unchangedS5. No profilequalification or new proofcredit.
