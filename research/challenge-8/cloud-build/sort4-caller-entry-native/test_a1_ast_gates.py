@@ -292,6 +292,68 @@ class SyntheticAstGates(unittest.TestCase):
                          ["guard", "A::B::guard", "Other::guard", "A::B::other"])
         self.assertEqual(sum(row["raw"] == f for row in rows), 3)
 
+    def test_canonical_generic_impl_owner_preserves_duplicate_small_sort_functions(self):
+        owner = "<T as StableSmallSortTypeImpl>"
+        default = small_sort_func("small_sort", 6, body=True, impl_self="T")
+        freeze = small_sort_func("small_sort", 12, body=True, impl_self="T")
+        # R-only baseline has duplicate actual DefPaths, distinguished later
+        # by compiler IDs and full source spans; the candidate dump has the
+        # two compiler-generated local aliases under that same owner.
+        baseline = gate.functions("[" + self.package(owner, default, freeze) + "]")
+        rows = [row for row in baseline if row["name"] == owner + "::small_sort"]
+        self.assertEqual(len(rows), 2)
+        self.assertEqual([row["kind"] for row in rows], ["definition", "definition"])
+        self.assertEqual([row["package_name"] for row in rows], [owner, owner])
+        self.assertEqual([gate._source_span(row["fields"][0]) for row in rows],
+                         [gate._source_span(gate.node(gate.tree(default), "Func", 13)[0]),
+                          gate._source_span(gate.node(gate.tree(freeze), "Func", 13)[0])])
+        _, inventory_observation, _, _ = p1_fixture()
+        inventory_observation = _thaw(inventory_observation)
+        pair = inventory_observation["case_binding"]["source_pair_id"]
+        for identity in inventory_observation["inventory"]["impl_small_sort_identities"]:
+            identity["item_def_id"] = owner + "::small_sort"
+        common = small_sort_func("small_sort", 2, impl_self="Self")
+        native_ast = "[" + ";".join((
+            self.package("StableSmallSortTypeImpl", common),
+            self.package(owner, default, freeze))) + "]"
+        pair_hashes = {"verified": "a" * 64, "original": "b" * 64}
+        actual_pair = hashlib.sha256((pair_hashes["verified"] + ":" +
+                                      pair_hashes["original"]).encode()).hexdigest()
+        receipt = {"schema": "a1-r-only-native-reference-receipt-v1",
+                   "mode": "r-only-native-reference", "source_pair_id": pair,
+                   "reference_binary_sha256": "1" * 64,
+                   "reference_translator_sha256": "2" * 64,
+                   "source_pair_sha256": pair_hashes,
+                   "actual_source_pair_sha256": actual_pair,
+                   "build_id": "synthetic-package-owner-build", "observed_exit": 1,
+                   "proof_credit": False,
+                   "ast_sha256": hashlib.sha256(native_ast.encode()).hexdigest()}
+        native_baseline = gate.small_sort_native_baseline(
+            native_ast, inventory_observation, source_pair_id=pair,
+            reference_receipt=receipt)
+        self.assertFalse(native_baseline["proof_credit"])
+        self.assertEqual({row["item_def_id"] for row in
+                          native_baseline["normalized_impls"].values()},
+                         {owner + "::small_sort"})
+        self.assertEqual(len({row["source_body_span"] for row in
+                              native_baseline["normalized_impls"].values()}), 2)
+        candidate_ast = "[" + self.package(
+            owner,
+            small_sort_func("__a1_impl_11_item_13_small_sort", 6,
+                            body=True, impl_self="T"),
+            small_sort_func("__a1_impl_21_item_23_small_sort", 12,
+                            body=True, impl_self="T")) + "]"
+        candidate = [row for row in gate.functions(candidate_ast)
+                     if row["kind"] == "definition"]
+        self.assertEqual([row["name"] for row in candidate],
+                         [owner + "::__a1_impl_11_item_13_small_sort",
+                          owner + "::__a1_impl_21_item_23_small_sort"])
+        for invalid in ("<U as StableSmallSortTypeImpl>",
+                        "<T as OtherTrait>", "prefix/<T as StableSmallSortTypeImpl>",
+                        "<T as StableSmallSortTypeImpl>::nested"):
+            with self.subTest(invalid=invalid), self.assertRaises(gate.AstGateError):
+                gate.functions("[" + self.package(invalid, default) + "]")
+
     def test_wrong_owner_source_duplicate_and_missing_impl_identity_refused(self):
         common = func(20, gate.COMMON, False)
         short = common.replace(f'"{gate.COMMON}"', '"small_sort_threshold"')

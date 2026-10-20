@@ -252,9 +252,10 @@ def functions(source: str) -> list[dict[str, Any]]:
             name_value = tree(parts[1])
             need(name_value[0] == "str", "PackageDecl name string")
             owner = name_value[1]
-            need(owner == "" or re.fullmatch(
-                r"[A-Za-z_][A-Za-z_0-9]*(?:::[A-Za-z_][A-Za-z_0-9]*)*",
-                owner) is not None, "noncanonical PackageDecl path")
+            need(owner == "" or owner == "<T as StableSmallSortTypeImpl>" or
+                 re.fullmatch(
+                     r"[A-Za-z_][A-Za-z_0-9]*(?:::[A-Za-z_][A-Za-z_0-9]*)*",
+                     owner) is not None, "noncanonical PackageDecl path")
             items(tree(parts[2]))
             declarations = parts[3]
             need(declarations.startswith("[") and
