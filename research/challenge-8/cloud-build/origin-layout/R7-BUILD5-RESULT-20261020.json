@@ -1,0 +1,43 @@
+{
+  "schema": "merge-r7-build-result-v1",
+  "build": {
+    "dispatch_token": "dispatch-3dcd0e4ebf72486bab2b86fb124832a1",
+    "owner": "merge",
+    "phase_id": "MERGE-POST-MIGRATION-CURRENT-RECOVERY-R7-2026-10-20",
+    "infra_sha": "71aa4b67819c8649b0827b9c955c1a0926e945e6",
+    "proof_sha": "71aa4b67819c8649b0827b9c955c1a0926e945e6",
+    "lane": "merge",
+    "submitted_config_sha256": "ced7175ce9a48e5c4b1e6b89d5d06038438c03ed2b2f73ff3175f29cc849b5c2",
+    "reserved_seconds": 960,
+    "timeout_seconds": 900,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "b9eb6632aec258331d68082192d3ca2f67410992fdba02bb311ec7f1ace9ca25",
+    "build_id": "4bb2b951-80b1-4772-84ce-abd20a0ad7c2",
+    "start_time": "2026-10-20T15:56:43.658430208Z",
+    "finish_time": "2026-10-20T16:03:25.749106Z",
+    "create_time": "2026-10-20T15:56:42.891499306Z",
+    "build_seconds": 403,
+    "accounted": true,
+    "execution_seconds": 403
+  },
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "observed_frontier": "verified310 No such label after reached late FnMut and checked half-token close311; full-token/type-scope recovery not reached",
+  "independent_credit": 0,
+  "full_current_normal_unwind_proved": false,
+  "source_array_controls": "positive PASS_CONTROL +3 EXPECTED_REJECTION",
+  "source_late_admission_controls": "2 EXPECTED_REJECTION; no theorem/profile credit",
+  "total_charge": 2464,
+  "remaining_budget": 1136,
+  "observation": {
+    "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+    "file_sha256": "3ce55f34c1b5d011a0fbe3da65c8ee16ae7a470ddfdee99a8f3fd223d177470e",
+    "index_sha256": "ab624924ba60dd5d1bb7ab7cd812db7beedfb18d8034f195c7ecdbf080b75818",
+    "archive_sha256": "5d362f36734930c1a531d413fb7df0b12a78065cad4523cde7c0c33a238ca4a9",
+    "request_id": "0abcce634bbe265a40153018a3801d2466b6c55bc49a71d7514d8eec7b2cadf2",
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "causal_status": "UNKNOWN"
+  }
+}

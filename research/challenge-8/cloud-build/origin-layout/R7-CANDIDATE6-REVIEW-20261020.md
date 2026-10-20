@@ -1,0 +1,5 @@
+# R7 candidate6 independent delta review
+
+GPT-6 Luna HIGH, fork_turns=none, no children: GO. Both actual normal/unwind outcome arms retain ordinary flag assignment and same checked half-token close; removing their embedded Gotos lets the existing single MIR CFG successor lower through shared type-scope end/recover path without undefined labels. Outcome switch/forbidden-Goto structural admission guard retained. Full-token/loans/readonly recovery and original normal/Cleanup targets/posts unchanged. No kernel/model/prelude/runtime changes or assumed facts. Exact Build5 source/log/proofAST observations preserve UNKNOWN parser binding/causality limits.
+
+Tool 2883dbf5502512dc800f70e8496d674e44bba644; reviewed translator 6d62dff2d0ff05e388d174a5ad6918ee18c23c5d0baef46464e9a7ca94ea81f9; profile 96a0f198e6a5a0662a345bc42615a19d40aa753454a360197bbaa14d6eb0d384; late patch 983dd3a0d4f26a9b81120f68e2e961ff67a90b8400e8528d465e0668873556c6. Static17patch/18base source composition required before submit; no local compiler/proof. Actual full CURRENT/insert_tail/B2/qualification OPEN, independentcredit0.

@@ -1,0 +1,55 @@
+{
+  "schema": "r7-build4-prefix-unsize-observation-v1",
+  "build_id": "b360bb7a-0f3c-45ea-b993-332a4daa0d77",
+  "evidence_status": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "proof_credit": false,
+  "archive_sha256": "25489adc61916a1b58ef00fc3dce055b3ee225faa33f0c4b38e0635222c3003a",
+  "index_sha256": "98f77c32cc8249ca2bc137ff5dc9489783245a8f58124503ecaad554153d690f",
+  "brief": {
+    "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+    "build_verdict_claim": "NOT_ACCEPTED_AS_REPORTED",
+    "prefix_source_claim": "INCONCLUSIVE",
+    "prefix_current_normal_unwind_proved": false,
+    "brief_causality": "UNKNOWN"
+  },
+  "prefix_verifier_log": {
+    "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/prefix/cases/actual_three_current_full_posts/verifast.log",
+    "file_id": "baa9ca04b59da72f80201556fdc5b684518d04e601cda1e054fe4b8344911732",
+    "sha256": "3859142525600cd549c95ab1b3a5732078676127993f02e27f7f029742c68fca",
+    "line": 901,
+    "diagnostic": "verified/lib.rs(249,17-23): error: Placeholders are not allowed here",
+    "context_request_id": "b92e1fc0977995e59e4d41f33a695494a5f0d53449c3def81fca8acb20cebab2",
+    "error_literal_request_id": "b1381cc607a26f0541c4f0bc53579c44e331824e4593e213a7216984535c5f47",
+    "causality": "UNKNOWN"
+  },
+  "verified_source_observation": {
+    "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/prefix/cases/actual_three_current_full_posts/verified/lib.rs",
+    "file_id": "607839ba7f21c33ff3ad3e988fe0f260ff5dba89e277011f9a54a78b34b46872",
+    "sha256": "939181dcc4e10f02f3c3e4cd33e83b74be9b6e7487f132598d61d56d1348ba53",
+    "line_249": "let begin = values.as_mut_ptr();",
+    "line_250": "insert_tail_first_callback_prefix(begin, begin.add(2), is_less);",
+    "as_mut_ptr_coordinates": {
+      "line": 249,
+      "column": 24,
+      "end_column_exclusive": 34,
+      "request_id": "c73e28686c5264fafee91afc132c0c5bba1cb8122b7ad84f2d6eb3720b6525e8"
+    },
+    "lines_request_id": "ef666220513221c461a6c9382e996abb45ded3a69a435f60e506ec0761da7cda",
+    "parser_input_binding": "NOT_ESTABLISHED"
+  },
+  "stage_receipt": {
+    "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/prefix/cases/actual_three_current_full_posts/verifast-stage.json",
+    "file_id": "327d5976441a3a4db6b54939a967826a2f1e1330769270caa7f0bf53abe92b67",
+    "sha256": "93482e78f830857f97e4087787ede46df39a6839a18dceb484c5952842267bde",
+    "stage": "verifast",
+    "exit_code": 1,
+    "source_unchanged": true,
+    "source_before_verified_lib_rs_sha256": "939181dcc4e10f02f3c3e4cd33e83b74be9b6e7487f132598d61d56d1348ba53",
+    "stage_request_ids": [
+      "11796c595d5632445cf09b28a83dbaf4ff5f55e46477c42edc0808d89b9dd64f",
+      "f1800f708ee9382923cd6e16c602586cdf14a6cc8db9d277bc91ced5f92f3d79"
+    ],
+    "parser_input_binding": "NOT_ESTABLISHED"
+  },
+  "interpretation_boundary": "The logged placeholder failure is located at the values.as_mut_ptr() source expression. This supports a connection to the array-to-slice receiver/coercion path, but does not prove that the failing MIR node is the intended Unsize cast or establish parser-input identity. Build-level full-body failure is separate and not substituted for this prefix observation."
+}

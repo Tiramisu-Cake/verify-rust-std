@@ -800,4 +800,49 @@ Candidate3 related static encoding correction BEFORE edit: recovery's ordinary A
 
 Before implementation: Build4 b360bb7a/source5f2c0f24/tool1aa4795e passes tool compile/preparation; exact verified252 fails only the newly added early assertion of tmp source disjointness from the whole three-cell CURRENT interval. Checked emptytail, alignment, object bounds and no-overflow remain reached. Reader source/frontier/Drop-contract receipts preserve exact identities and UNKNOWN causal/parser binding limits. Existing kernel exclusion recognizes exact qualifying incoming physical chunks and checked live stack receipts; no applicable array/current transfer has been established. No new memory or alias rule is authorized or introduced.
 
+
 Hypothesis: the early full-interval assertion is stronger than the actual operational preconditions and preempts their useful diagnostic. Remove only that experiment-added assertion from fullbody preparation; do not assume its fact or remove any original operational gate. Preserve all original generated Drop/copy separation requirements, source/destination owners/fractions/values, original guard readonly debt, all other geometry assertions, runtime/CFG/signatures and full CURRENT normal/unwind posts. Build4's failure remains immutable evidence; a later result gives no global-disjointness credit. Candidate5 should reveal the next actually required resource/geometry obligation. Independent Luna HIGH design GO received; exact delta review required before submit.
+
+
+### R7 candidate6 — share the late-scope successor through CFG fallthrough
+
+Before implementation: Build5 4bb2b951/source71aa4b67/tool1aa4795e passes
+tool build and preparation. Exact Reader log (file8b18cdf0, SHA
+3ce55f34, indexab624924, archive5d362f36) reports at verified/lib.rs
+310: `No such label` after executing the checked close-half-token block at
+311. Exact source lines310–314 show the actual late FnMut call, close marker,
+scope-end marker, recovery marker, then original `break`. The source/stage
+identity is checked, but Reader states parser-input binding NOT_ESTABLISHED.
+The bounded proof AST (file7d457f18, SHA39b0b985, same index/archive) has
+exactly two occurrences of `#merge_late_callback_scope_end`, both arm-local
+GotoStmt nodes at proof-ast.ml lines1466/1474; it has a
+`#merge_late_callback_recover` LabelStmt at1479 but no scope-end LabelStmt.
+The failure is consistent with the lowering: both outcome-arm Gotos are
+embedded in SwitchStmt and do not contribute CFG predecessor counts, while
+the call block has one MIR successor. `translate_basic_blocks_to_stmts` may
+therefore inline that unique successor without emitting its label, leaving
+the embedded gotos undefined.
+
+Minimal semantic repair: keep both generated outcome-flag assignments and the
+same checked close-half-token statement in the returning and unwinding arms,
+but remove only their explicit GotoStmt to the shared scope-end label. Both
+arms then complete the SwitchStmt and take the existing call block's one
+Mir.GotoTerminator to the shared scope-end successor. Its lexical fallthrough
+performs one strict binding exit, then full-token/loan recovery, then selects
+the original normal or Cleanup target from the recorded outcome. Do not
+duplicate scope-end/recovery, synthesize another CFG edge, weaken actual
+Cleanup Drop/abort/resume, change source/runtime code, or alter kernel/model/
+prelude rules. This fixes control encoding only; Build5 shows that full-token
+recovery was not reached and grants no resource/proof credit.
+
+The structural regression should model a call SwitchStmt with returning and
+unwinding arms that each assign the generated flag and perform the checked
+close, plus one CFG successor shared by the call block. Emitted form must
+have no arm-local Goto to scope end, one shared scope-end/recovery path, and
+no undefined internal labels; original continuation targets remain selected
+only after checked recovery. Existing malformed-marker, unwind-target,
+recovery-shape, and default-off gates remain. If emitted AST cannot preserve
+the one checked scope exit with fallthrough, stop and report the CFG/lifetime
+incompatibility rather than adding a fake label or relaxing scope checks.
+Actual acceptance needs a separately reviewed Cloud run; Build5 is diagnostic
+only.

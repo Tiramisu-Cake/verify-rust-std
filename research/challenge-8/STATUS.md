@@ -1,14 +1,16 @@
 # MERGE — R7 ACTIVE / actual guard and CURRENT recovery
 
 T0/main/absolute UTC2026-10-20 14:33:33/16:33:33/17:03:33.
-Fresh3600Cloudseconds, separate R7 ledger, no R6 carry; Build1+2 terminalFAILURE,
-1170charged/2430remaining before Build3 accounting. Build3 e28eabe2 submitted,
-proof=infra cbeccadb0/tool e87b7648/profile7f532d68, reservation960.
-Build2 failed frontend source GhostCmd lookup before resource proof; candidate3
-independent LunaHIGH GO fixes exact placeholders and ordinary branch selector.
-Target exact implicit guard Drop packaging, then full late lifetime/loan/readonly
-normal Continue/break/unwind resource return. Baseline actual theorem/B2/credit0.
-[Задание](CURRENT-TASK.md), [session](cloud-build/origin-layout/SESSION.md).
+Fresh3600Cloudseconds, no R6 carry; Builds1–4 terminalFAILURE,
+2061charged/1539remaining before Build5 accounting. Build5 4bb2b951 submitted,
+proof=infra71aa4b67/tool1aa4795e; timeout900/reservation960.
+Build4 source compile/preparation7 EXIT_ZERO, actual first refusal verified252
+additional global src-vs-begin3 span assertion. Fresh array source1positive/3expected,
+late admission2expected, acceptedfalse. Candidate5 removes only the speculative
+assertion; original operational Drop/copy checks/fullCURRENT posts remain.
+Independent LunaHIGH GO, static/synthetic checksPASS; theorem/B2/qualification OPEN,
+independentcredit0. [Task/current report](CURRENT-TASK.md),
+[obligations](cloud-build/origin-layout/R7-OBLIGATIONS-20261020.md).
 
 # MERGE — R7 READY / proof mission OPEN
 

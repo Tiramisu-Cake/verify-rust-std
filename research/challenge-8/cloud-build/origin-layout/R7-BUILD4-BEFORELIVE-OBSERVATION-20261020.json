@@ -1,0 +1,64 @@
+{
+  "schema": "smallsort-targeted-addressability-observation-v1",
+  "build_id": "b360bb7a-0f3c-45ea-b993-332a4daa0d77",
+  "build_source": {
+    "infra_revision": "5f2c0f24d7cb199f39fe086fb1f9d3f7e4c71ae3",
+    "source_input_sha256": "ac0f3cfb0db84555df1ecf6ea0885f67e8f14c59e3e2218cd0c71ee7f2a8dafe",
+    "profile": "experimental-merge-late-callback-recovery-r7-v1"
+  },
+  "build_verdict": {
+    "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+    "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+    "accepted": false,
+    "proof_credit": false,
+    "causal_status": "UNKNOWN",
+    "parser_input_binding": "NOT_ESTABLISHED"
+  },
+  "evidence_identity": {
+    "aggregate_file_id": "bc49a4971ec7c7cc5e41f7a2d52faa2ffc2094adc64aaf145ad606cbaf5eb76b",
+    "aggregate_path": "allprooflogs/checked-minimal-bridge/addressability-controls/aggregate.json",
+    "aggregate_sha256": "9ab1878b9ad74edfe76ad5750de18e18e31184312857d00e27ab18edf80bf1a4",
+    "index_sha256": "98f77c32cc8249ca2bc137ff5dc9489783245a8f58124503ecaad554153d690f",
+    "archive_sha256": "25489adc61916a1b58ef00fc3dce055b3ee225faa33f0c4b38e0635222c3003a"
+  },
+  "reader_observations": {
+    "brief": "SmallSort Evidence Brief: VERIFIED_ARCHIVE_AND_INVENTORY; source verdict NOT_ACCEPTED_AS_REPORTED; exit 1; evidence complete.",
+    "aggregate_info_request_id": "15495e69b742b55ad94c4405f540e8bda969eb3be4e9ca8e4d8bce807da19cbe",
+    "aggregate_root_request_id": "83e35220cbe9bb8b04b2e469fc64717faeca21b3ee82443f0ebeb098e70648d6",
+    "case_names_request_id": "d8c9bed79b5f92bf8b63a08b3c93d86771ed513e2959a13a8ecc735aa665df65",
+    "case_first_page_request_id": "c091ed967a66cf1943cbb021e836404b7c1fe1a86564d1ad402f3da15d2c7e51",
+    "case_second_page_request_id": "239137781e4db09bd9c36b449b4052dd957d2e28b628b2848ff19de0272468f0",
+    "error_request_id": "d0ad09d678381767acca5801c21c5361536f65781853af51b104157b52d5c391",
+    "target_execution_request_id": "b7a8b26e9af4ee282db6d56ab62a9121f23d4e3ca1f284bae87d6f1b7d9adfba",
+    "target_line_request_id": "a19cc6eb5d8d438174788486fcc93d798d50451dfc114359223556efcf18f4e7",
+    "target_error_request_id": "15f03f1e49daf1c422379ce608e12f430ba9b2e070ae1e96bc33e38e5c593a4d",
+    "stage_values_request_id": "4e721be7b435fac62d310a8f34ec0d5bd1444d63a9958b1279178136931f60b5"
+  },
+  "before_storage_live": {
+    "classification": "INCONCLUSIVE",
+    "expected_class": "negative",
+    "target_line": 9,
+    "target_execution": true,
+    "target_error": true,
+    "expected_error_contains": "No matching heap chunks",
+    "observed_error": "verified/lib.rs(9,19-24): error: Unbound variable 'local'",
+    "error_match": false,
+    "source_sha256": "f6bff68608e39e8d11dabeed60e96f2948791e358d2eb04bdd5a159edbc92901",
+    "source_receipts_match": true,
+    "source_unchanged_at_every_stage": true,
+    "stage_receipts_match": true,
+    "stage_exit_codes": {
+      "exporter": 0,
+      "decode": 0,
+      "refinement": 0,
+      "verifast": 1
+    }
+  },
+  "assessment": {
+    "bounded_finding": "The control reaches its marked line with source and all four stage receipts matching, but the verifier reports the future local as unbound rather than reporting a missing heap chunk.",
+    "strict_oracle_option": "If this case is intended to test lexical inaccessibility before the local declaration, change only its exact expected diagnostic to `Unbound variable 'local'`, retaining the exact target-line, source-hash, and stage-receipt gates.",
+    "semantic_limit": "That matcher would classify a source-scope rejection; it would not establish allocation-addressability or a physical ownership refusal. If the intended claim specifically requires a heap-chunk refusal, this remains an unresolved control boundary.",
+    "accepted": false,
+    "proof_credit": false
+  }
+}

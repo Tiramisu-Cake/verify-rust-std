@@ -3,7 +3,7 @@
   "profile": "experimental-merge-late-callback-recovery-r7-v1",
   "verifast_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
   "baseline_translator_sha256": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
-  "translator_sha256": "2425571a5cc377a8faafe904beb0d48afe1dc2ee973f226fc92760ff9c9e35c9",
+  "translator_sha256": "6d62dff2d0ff05e388d174a5ad6918ee18c23c5d0baef46464e9a7ca94ea81f9",
   "patch_sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6",
   "historical_md_patch_sha256": "5500204aadd0ea0a2996d63d064160185457b6d337782aa4300c11272ab450cc",
   "kernel_sha256": "665d23dd04365123dbd3bbd2ea70653c824c43eeb2dff143f352ec3236dfa8e4",
@@ -104,7 +104,7 @@
     },
     {
       "path": "research/challenge-8/cloud-build/origin-layout/r7-late-callback.patch",
-      "sha256": "2b9b218b8f779edcf3d71d273ce6d8f1b8e89a7d6996f285ab85328c8cf41f37"
+      "sha256": "983dd3a0d4f26a9b81120f68e2e961ff67a90b8400e8528d465e0668873556c6"
     }
   ],
   "previous_selected_profile_sha256": "7e4f6088574056a0846aad2887895836b5e03edf06bb5a493d29daf44151cfff",
@@ -113,7 +113,7 @@
   "preserved_selected_profile_sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
   "glue_credit": "EXPERIMENTAL_NOT_PROVED",
   "semantic_delta": "Preserves all 15 baseline patches; adds the existing LocalAddrTaken event in deferred Rust declarations. Native verifier resource rules are unchanged. The generated tree is allocation input for the existing separate Rocq consumer, whose StorageLive/Dead limitation is not repaired or accepted. Flags are diagnostic observations in this native campaign, never live-owner or Rocq proof credit; strict gates/runtime/posts/model files remain unchanged.",
-  "effective_tool_commit": "1aa4795eeeb0450c724cbe078741fc60e8321a23",
+  "effective_tool_commit": "2883dbf5502512dc800f70e8496d674e44bba644",
   "previous_glue_observation_profile_sha256": "ede5bd5e338703a6c1f99e6ee0dfe422115241fef9a7a9fadc4a9f9e71f63e1b",
   "glue_body_tool_commit": "a158398e336edce9817f62a55733a3470a986d7b",
   "glue_body_patch_sha256": "0aad1332daa465a6c175c830c7caf561736c928d9169b5429b674a0b84c1e687",
@@ -135,7 +135,7 @@
   "deferred_local_emitter_patch_sha256": "28ec17cfc3823f1fd4e599c0ae54976b2662fb224b285e09fdcafbe0879307bc",
   "deferred_local_emitter_tool_commit": "45594fb821805f10c4e05f02912d1ea3bf920e62",
   "previous_glue_profile_sha256": "13f0a97def3835372eb5e31de1ddc02cd9768df4b95c93f8c1076e59e0596b92",
-  "late_callback_tool_commit": "1aa4795eeeb0450c724cbe078741fc60e8321a23",
-  "late_callback_patch_sha256": "2b9b218b8f779edcf3d71d273ce6d8f1b8e89a7d6996f285ab85328c8cf41f37",
+  "late_callback_tool_commit": "2883dbf5502512dc800f70e8496d674e44bba644",
+  "late_callback_patch_sha256": "983dd3a0d4f26a9b81120f68e2e961ff67a90b8400e8528d465e0668873556c6",
   "late_callback_scope": "opt-in complete insert_tail u64/F, exact late HRTB FnMut Cleanup, shared checked scope exit and original normal/Cleanup targets; no qualification"
 }

@@ -1,0 +1,105 @@
+{
+  "archive_sha256": "5d362f36734930c1a531d413fb7df0b12a78065cad4523cde7c0c33a238ca4a9",
+  "build_id": "4bb2b951-80b1-4772-84ce-abd20a0ad7c2",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 1395,
+    "line_separator": "LF",
+    "source_lines": 1395,
+    "start": 1385,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verifast.log",
+  "file_sha256": "3ce55f34c1b5d011a0fbe3da65c8ee16ae7a470ddfdee99a8f3fd223d177470e",
+  "index_sha256": "ab624924ba60dd5d1bb7ab7cd812db7beedfb18d8034f195c7ecdbf080b75818",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": true,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 1396,
+    "expected_sha256": "3ce55f34c1b5d011a0fbe3da65c8ee16ae7a470ddfdee99a8f3fd223d177470e",
+    "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+    "start": 1385
+  },
+  "request_id": "0abcce634bbe265a40153018a3801d2466b6c55bc49a71d7514d8eec7b2cadf2",
+  "requested_end": 1396,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1385,
+      "text": "  0.284786s: verified/lib.rs(310,17-82): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1386,
+      "text": "  0.284841s: verified/lib.rs(310,17-82): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1387,
+      "text": "  0.285023s: verified/lib.rs(310,17-82): Verifying call"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1388,
+      "text": "  0.285757s: verified/lib.rs(310,17-82): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1389,
+      "text": "  0.285781s: verified/lib.rs(311,13-138): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1390,
+      "text": "  0.285814s: verified/lib.rs(311,51-66): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1391,
+      "text": "  0.285992s: verified/lib.rs(311,94-100): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1392,
+      "text": "  0.286161s: verified/lib.rs(310,17-82): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1393,
+      "text": "verified/lib.rs(310,17-82): error: No such label."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1394,
+      "text": "310 |             if !is_less/*@::<F, (&'late u64, &'late u64), 'late>@*/(&tmp, &*sift) {"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1395,
+      "text": "    |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

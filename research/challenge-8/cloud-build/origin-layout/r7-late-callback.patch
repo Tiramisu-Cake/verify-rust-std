@@ -1,5 +1,5 @@
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index 8d6c7d75..e3e99b7f 100644
+index 8d6c7d75..dc9a2739 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -1956,6 +1956,17 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -115,7 +115,7 @@ index 8d6c7d75..e3e99b7f 100644
              Rocq_writer.rocq_print_application TranslatorArgs.rocq_writer "Some" begin fun () ->
                Rocq_writer.rocq_print_argument TranslatorArgs.rocq_writer begin fun () ->
                  Rocq_writer.rocq_print_string_literal TranslatorArgs.rocq_writer dst_bblock_id
-@@ -3090,33 +3162,54 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3090,33 +3162,73 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                                    [ LitPat (Var (loc, "__result")) ],
                                    Static ),
                                [ assignment (Ast.Var (loc, "__result")) ] @
@@ -128,8 +128,7 @@ index 8d6c7d75..e3e99b7f 100644
 +                                      (Ast.AssignExpr
 +                                        (loc, Ast.Var (loc, "__vf_late_callback_unwind"),
 +                                         Ast.Mutation, Ast.False loc));
-+                                    fresh_first_callback_stmt plan.late_close_stmt;
-+                                    Ast.GotoStmt (loc, "#merge_late_callback_scope_end")]
++                                    fresh_first_callback_stmt plan.late_close_stmt]
 +                               | None, Some s, None | None, None, Some s ->
                                     [fresh_first_callback_stmt s]
 -                               | None, None -> []
@@ -149,9 +148,7 @@ index 8d6c7d75..e3e99b7f 100644
 +                                      (Ast.AssignExpr
 +                                        (loc, Ast.Var (loc, "__vf_late_callback_unwind"),
 +                                         Ast.Mutation, Ast.True loc));
-+                                    fresh_first_callback_stmt plan.late_close_stmt;
-+                                    Ast.GotoStmt
-+                                      (loc, "#merge_late_callback_scope_end")]
++                                    fresh_first_callback_stmt plan.late_close_stmt]
 +                               | None, Some s, None ->
                                     [fresh_first_callback_stmt s;
                                      Ast.GotoStmt (loc, State.first_callback_unwind_label)]
@@ -165,9 +162,31 @@ index 8d6c7d75..e3e99b7f 100644
                                     Ast.static_error loc "Overlapping callback recovery markers" None) );
                          ] )
              in
++            (match late_callback_cleanup, call_stmt with
++             | Some _, Ast.SwitchStmt (_, _, clauses) ->
++                 if List.exists (function
++                      | Ast.SwitchStmtClause (_, _, branch_stmts) ->
++                          List.exists (function
++                            | Ast.GotoStmt (_, "#merge_late_callback_scope_end") -> true
++                            | _ -> false) branch_stmts
++                      | _ -> false) clauses
++                 then
++                   Ast.static_error loc
++                     "Late callback outcome arms must fall through to their single CFG successor"
++                     None
++             | Some _, _ ->
++                 Ast.static_error loc
++                   "Late callback recovery requires an outcome switch"
++                   None
++             | None, _ -> ());
              (match first_callback_cleanup with
               | Some _ -> State.first_callback_normal_target := Some dst_bblock_id
               | None -> ());
++            (* For late recovery, both outcome arms finish with the checked
++               close block and fall through to this one CFG successor. Do not
++               put arm-local Gotos in the SwitchStmt: its branches are not
++               separate CFG predecessors, so block lowering may inline the
++               single successor without emitting a label for it. *)
 +            let call_target =
 +              match late_callback_cleanup with
 +              | Some _ -> "#merge_late_callback_scope_end"
@@ -181,7 +200,7 @@ index 8d6c7d75..e3e99b7f 100644
          | Undefined _ -> Error (`TrFnCall "Unknown Option kind")
        in
        let full_call_stmts, targets =
-@@ -3135,12 +3228,21 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3135,12 +3247,21 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              in
              let phl = get_start_loc (Ast.lexed_loc call_loc) in
              let ghost_stmt =
@@ -206,7 +225,7 @@ index 8d6c7d75..e3e99b7f 100644
              in
              ([ ghost_stmt ], targets)
          | _ ->
-@@ -3154,7 +3256,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3154,7 +3275,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                         loc,
                         ref [] );
                   ]),
@@ -217,7 +236,7 @@ index 8d6c7d75..e3e99b7f 100644
        in
        let full_call_stmts = !State.pending_hrtb_projection_eq @ full_call_stmts in
        State.pending_hrtb_projection_eq := [];
-@@ -5968,27 +6072,294 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5968,27 +6091,294 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
            let loc = match ghost_stmts with stmt :: _ -> Ast.stmt_loc stmt | [] -> fn_sig_loc in
            Ast.static_error loc "Incomplete or ambiguous callback cleanup markers" None
      in
@@ -524,7 +543,7 @@ index 8d6c7d75..e3e99b7f 100644
      in
      let ghost_decl_block_start_stmts =
        ghost_decl_blocks
-@@ -6024,7 +6395,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6024,7 +6414,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
               | _ -> false) decls &&
             source_pos l < source_pos cut_l && source_pos cut_l < source_pos closeBraceLoc)
             strict_lft_scope_ends with
@@ -535,7 +554,7 @@ index 8d6c7d75..e3e99b7f 100644
               [Ast.NoopStmt cut_l; Ast.NoopStmt closeBraceLoc]
           | Some (cut_l, _) -> [end_stmt cut_l; Ast.NoopStmt closeBraceLoc]
           | None -> [end_stmt closeBraceLoc]
-@@ -6033,6 +6406,43 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6033,6 +6425,43 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        ListAux.try_map translate_loop_spec_block
          (loop_spec_blocks_get_list body_cpn)
      in
@@ -579,7 +598,7 @@ index 8d6c7d75..e3e99b7f 100644
      let stack_addr_occurrences =
        stack_addr_occurrences
        + List.fold_left
-@@ -6058,6 +6468,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6058,6 +6487,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let callback_recover = callback_recover
        let callback_scope_start = callback_scope_start
        let first_callback = first_callback
@@ -587,7 +606,7 @@ index 8d6c7d75..e3e99b7f 100644
      end) in
      let vdis_cpn = var_debug_info_get_list body_cpn in
      (* Since var id translation map is empty var debug info contains the plain Mir ids *)
-@@ -6745,6 +7156,24 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6745,6 +7175,24 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              let vf_local_decls =
                List.map (translate_to_vf_local_decl loc) (ret_place_decl :: local_decls)
              in
@@ -612,7 +631,7 @@ index 8d6c7d75..e3e99b7f 100644
              let bblocks_cpn = basic_blocks_get_list body_cpn in
              State.selected_resume_targets := List.filter_map (fun block ->
                match TerminatorKindRd.get (TerminatorRd.kind_get (BasicBlockRd.terminator_get block)) with
-@@ -6870,6 +7299,77 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6870,6 +7318,77 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                | _ -> Ast.static_error fn_sig_loc
                    "First callback recovery markers did not match a call" None
              in
