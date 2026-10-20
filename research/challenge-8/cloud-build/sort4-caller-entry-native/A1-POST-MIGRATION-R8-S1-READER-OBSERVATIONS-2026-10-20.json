@@ -1,0 +1,3165 @@
+{
+  "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+  "source_classification": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "queries": [
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "--pointer",
+        ""
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 31,
+        "complete": false,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "next_offset": 20,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": ""
+        },
+        "request_id": "e625f15ec6e2d24d3980342ec249bfd04ca808fcae13ccdf5a93207a42db5aad",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/accepted",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/admission_record_created",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/authorization_phase_id",
+            "value": "SORT4-POST-MIGRATION-NATIVE-PROOF-2026-10-20-R8"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/build_id",
+            "value": "4c176189-3bf0-4aed-abdd-a42b451c1f1f"
+          },
+          {
+            "child_count": 26,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/case_status"
+          },
+          {
+            "child_count": 26,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/cases"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/classification",
+            "value": "A1_RUNNER_OBSERVED_LIFECYCLE"
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/diagnostic_complete",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/dispatch_ready",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/evidence_complete",
+            "value": false
+          },
+          {
+            "child_count": 41,
+            "exact": true,
+            "kind": "array",
+            "pointer": "/execution_events"
+          },
+          {
+            "child_count": 5,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/first_blocker"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/first_causal_stage",
+            "value": "verification"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/first_missing_stage",
+            "value": "P0a"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/infra_sha",
+            "value": "69e377ad620808b0d314f8bdc5ae8c9de7ebb8a9"
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/matrix_complete",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/matrix_validation",
+            "value": "incomplete-or-inconclusive-observations"
+          },
+          {
+            "child_count": 18,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details"
+          },
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/observed_row_count",
+            "value": 10
+          },
+          {
+            "child_count": 26,
+            "exact": true,
+            "kind": "array",
+            "pointer": "/observed_rows"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "--pointer",
+        "",
+        "--offset",
+        "20"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 31,
+        "complete": false,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "next_offset": null,
+        "offset": 20,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "offset": 20,
+          "pointer": ""
+        },
+        "request_id": "110e0ef7471514031f07399ffe9589bf546b180cc6dfcc7692336ae4204d23e3",
+        "results": [
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/phase_id",
+            "value": "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17"
+          },
+          {
+            "child_count": 26,
+            "exact": true,
+            "kind": "array",
+            "pointer": "/planned_order"
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/profile_accepted",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/profile_sha256",
+            "value": "a4b458173313345fd92350722a7f3dca1d27e615f987451d0a73446c641ea0f9"
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/proof_sha",
+            "value": "69e377ad620808b0d314f8bdc5ae8c9de7ebb8a9"
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/proof_verdict",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/tool_path",
+            "value": "/workspace/smallsort-work/a1-checked-trait-contract-isolated-source"
+          },
+          {
+            "child_count": 16,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/tool_receipt"
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/tool_reconstructed",
+            "value": true
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/verification_accepted",
+            "value": false
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "--pointer",
+        "/observation_details/P0a"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 11,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a"
+        },
+        "request_id": "fd58ac0555c5d02393ad984115d08abd3c27a5f6f49f705bfa8a860f1e426510",
+        "results": [
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/case_id",
+            "value": "P0a"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/classification",
+            "value": "RAW_AND_STRUCTURE_ONLY_UNCLASSIFIED"
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/observation_details/P0a/execution_attestation",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/fixture_path",
+            "value": "/workspace/evidence/allprooflogs/cases/sort4-c1-current-recovery/a1-fixtures/P0a"
+          },
+          {
+            "child_count": 5,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/focus_interval"
+          },
+          {
+            "child_count": 2,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/observed_input_ids"
+          },
+          {
+            "child_count": 2,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/observed_input_sha256"
+          },
+          {
+            "child_count": 14,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/proof_candidate"
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/observation_details/P0a/proof_credit",
+            "value": false
+          },
+          {
+            "child_count": 22,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw"
+          },
+          {
+            "child_count": 11,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/structure"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "--expect-sha256",
+        "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "--info"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/verification.log",
+        "file_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "json_pointer_available": false,
+        "max_results": 20,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "preview_request": {
+          "end": 12,
+          "start": 1
+        },
+        "representation": "VERIFIED_FILE_OVERVIEW",
+        "request": {
+          "expected_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+          "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+          "info": true
+        },
+        "request_id": "3723c9a0751131559f5b8ab8b57b6e6671670cb9468df30abca9acfdc08410b2",
+        "response_limit_bytes": 12000,
+        "results": [],
+        "schema": "smallsort-targeted-observation-v2",
+        "selectors": [
+          "info",
+          "literal",
+          "lines",
+          "position",
+          "pointer"
+        ],
+        "source_bytes": 162830,
+        "source_codepoints": 162830,
+        "source_lines": 2136,
+        "status": "OK",
+        "utf8": true
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "--pointer",
+        "/observation_details/P0a/proof_candidate"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 14,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a/proof_candidate"
+        },
+        "request_id": "7ec7e86f51e1af05c7f7114e4c84cc4ce5de50f4a0438efade27fcd6a142e22a",
+        "results": [
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/proof_candidate/assurance",
+            "value": "runner-reported-candidate-only"
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/observation_details/P0a/proof_candidate/body_count",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/observation_details/P0a/proof_candidate/body_verified",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/observation_details/P0a/proof_candidate/candidate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/proof_candidate/case_id",
+            "value": "P0a"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/proof_candidate/classification",
+            "value": "INCONCLUSIVE"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/proof_candidate/first_causal_stage",
+            "value": "verification"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/proof_candidate/first_error",
+            "value": "verified/lib.rs(55,12-24): dead code"
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/observation_details/P0a/proof_candidate/intended_failure_observed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/observation_details/P0a/proof_candidate/native_conformance_verified",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/proof_candidate/predicate",
+            "value": "16<=result<=32"
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/observation_details/P0a/proof_candidate/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/proof_candidate/reason",
+            "value": "positive focused invocation did not finish VF0"
+          },
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/observation_details/P0a/proof_candidate/verifier_exit",
+            "value": 1
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "--pointer",
+        "/observation_details/P0a/focus_interval"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 5,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a/focus_interval"
+        },
+        "request_id": "43b8e1c3ab53eea0f9f1a4ea7b6622baab674f513901765c372aa104318e42ec",
+        "results": [
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/observation_details/P0a/focus_interval/body_count_from_intervals",
+            "value": 1
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/focus_interval/classification",
+            "value": "ONE_SOURCE_INTERVAL_SELECTED_STRUCTURE_ONLY"
+          },
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/observation_details/P0a/focus_interval/focus_line",
+            "value": 44
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/observation_details/P0a/focus_interval/proof_credit",
+            "value": false
+          },
+          {
+            "child_count": 3,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/focus_interval/selected"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "--expect-sha256",
+        "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "--locate",
+        "dead code"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinate_bases": {
+          "ends": "exclusive",
+          "line_separator": "LF",
+          "lines": 1,
+          "offsets": 0,
+          "unicode_columns": 1
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/verification.log",
+        "file_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "match_mode": "CASE_SENSITIVE_LITERAL",
+        "next_offset": 20,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "LITERAL_COORDINATES_ONLY",
+        "request": {
+          "expected_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+          "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+          "literal": "dead code"
+        },
+        "request_id": "8572c14993d5deae7039379d9e42146946613160e43aa94c7156b0b1ecb18aed",
+        "results": [
+          {
+            "column": 111,
+            "end_column_exclusive": 120,
+            "end_line": 2004,
+            "line": 2004,
+            "unicode_end_exclusive": 153709,
+            "unicode_start": 153700,
+            "utf8_byte_end_exclusive": 153709,
+            "utf8_byte_start": 153700
+          },
+          {
+            "column": 112,
+            "end_column_exclusive": 121,
+            "end_line": 2005,
+            "line": 2005,
+            "unicode_end_exclusive": 153830,
+            "unicode_start": 153821,
+            "utf8_byte_end_exclusive": 153830,
+            "utf8_byte_start": 153821
+          },
+          {
+            "column": 113,
+            "end_column_exclusive": 122,
+            "end_line": 2006,
+            "line": 2006,
+            "unicode_end_exclusive": 153952,
+            "unicode_start": 153943,
+            "utf8_byte_end_exclusive": 153952,
+            "utf8_byte_start": 153943
+          },
+          {
+            "column": 112,
+            "end_column_exclusive": 121,
+            "end_line": 2007,
+            "line": 2007,
+            "unicode_end_exclusive": 154073,
+            "unicode_start": 154064,
+            "utf8_byte_end_exclusive": 154073,
+            "utf8_byte_start": 154064
+          },
+          {
+            "column": 113,
+            "end_column_exclusive": 122,
+            "end_line": 2008,
+            "line": 2008,
+            "unicode_end_exclusive": 154195,
+            "unicode_start": 154186,
+            "utf8_byte_end_exclusive": 154195,
+            "utf8_byte_start": 154186
+          },
+          {
+            "column": 114,
+            "end_column_exclusive": 123,
+            "end_line": 2009,
+            "line": 2009,
+            "unicode_end_exclusive": 154318,
+            "unicode_start": 154309,
+            "utf8_byte_end_exclusive": 154318,
+            "utf8_byte_start": 154309
+          },
+          {
+            "column": 114,
+            "end_column_exclusive": 123,
+            "end_line": 2010,
+            "line": 2010,
+            "unicode_end_exclusive": 154441,
+            "unicode_start": 154432,
+            "utf8_byte_end_exclusive": 154441,
+            "utf8_byte_start": 154432
+          },
+          {
+            "column": 114,
+            "end_column_exclusive": 123,
+            "end_line": 2011,
+            "line": 2011,
+            "unicode_end_exclusive": 154564,
+            "unicode_start": 154555,
+            "utf8_byte_end_exclusive": 154564,
+            "utf8_byte_start": 154555
+          },
+          {
+            "column": 113,
+            "end_column_exclusive": 122,
+            "end_line": 2012,
+            "line": 2012,
+            "unicode_end_exclusive": 154686,
+            "unicode_start": 154677,
+            "utf8_byte_end_exclusive": 154686,
+            "utf8_byte_start": 154677
+          },
+          {
+            "column": 112,
+            "end_column_exclusive": 121,
+            "end_line": 2013,
+            "line": 2013,
+            "unicode_end_exclusive": 154807,
+            "unicode_start": 154798,
+            "utf8_byte_end_exclusive": 154807,
+            "utf8_byte_start": 154798
+          },
+          {
+            "column": 112,
+            "end_column_exclusive": 121,
+            "end_line": 2014,
+            "line": 2014,
+            "unicode_end_exclusive": 154928,
+            "unicode_start": 154919,
+            "utf8_byte_end_exclusive": 154928,
+            "utf8_byte_start": 154919
+          },
+          {
+            "column": 113,
+            "end_column_exclusive": 122,
+            "end_line": 2015,
+            "line": 2015,
+            "unicode_end_exclusive": 155050,
+            "unicode_start": 155041,
+            "utf8_byte_end_exclusive": 155050,
+            "utf8_byte_start": 155041
+          },
+          {
+            "column": 113,
+            "end_column_exclusive": 122,
+            "end_line": 2016,
+            "line": 2016,
+            "unicode_end_exclusive": 155172,
+            "unicode_start": 155163,
+            "utf8_byte_end_exclusive": 155172,
+            "utf8_byte_start": 155163
+          },
+          {
+            "column": 112,
+            "end_column_exclusive": 121,
+            "end_line": 2017,
+            "line": 2017,
+            "unicode_end_exclusive": 155293,
+            "unicode_start": 155284,
+            "utf8_byte_end_exclusive": 155293,
+            "utf8_byte_start": 155284
+          },
+          {
+            "column": 112,
+            "end_column_exclusive": 121,
+            "end_line": 2018,
+            "line": 2018,
+            "unicode_end_exclusive": 155414,
+            "unicode_start": 155405,
+            "utf8_byte_end_exclusive": 155414,
+            "utf8_byte_start": 155405
+          },
+          {
+            "column": 113,
+            "end_column_exclusive": 122,
+            "end_line": 2019,
+            "line": 2019,
+            "unicode_end_exclusive": 155536,
+            "unicode_start": 155527,
+            "utf8_byte_end_exclusive": 155536,
+            "utf8_byte_start": 155527
+          },
+          {
+            "column": 112,
+            "end_column_exclusive": 121,
+            "end_line": 2020,
+            "line": 2020,
+            "unicode_end_exclusive": 155657,
+            "unicode_start": 155648,
+            "utf8_byte_end_exclusive": 155657,
+            "utf8_byte_start": 155648
+          },
+          {
+            "column": 113,
+            "end_column_exclusive": 122,
+            "end_line": 2021,
+            "line": 2021,
+            "unicode_end_exclusive": 155779,
+            "unicode_start": 155770,
+            "utf8_byte_end_exclusive": 155779,
+            "utf8_byte_start": 155770
+          },
+          {
+            "column": 113,
+            "end_column_exclusive": 122,
+            "end_line": 2022,
+            "line": 2022,
+            "unicode_end_exclusive": 155901,
+            "unicode_start": 155892,
+            "utf8_byte_end_exclusive": 155901,
+            "utf8_byte_start": 155892
+          },
+          {
+            "column": 113,
+            "end_column_exclusive": 122,
+            "end_line": 2023,
+            "line": 2023,
+            "unicode_end_exclusive": 156023,
+            "unicode_start": 156014,
+            "utf8_byte_end_exclusive": 156023,
+            "utf8_byte_start": 156014
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "search_scope": {
+          "kind": "whole-file",
+          "unicode_end_exclusive": 162830,
+          "unicode_start": 0,
+          "utf8_byte_end_exclusive": 162830,
+          "utf8_byte_start": 0
+        },
+        "source_absence_established": false,
+        "source_bytes": 162830,
+        "source_codepoints": 162830,
+        "source_lines": 2136,
+        "status": "OK",
+        "truncated": true
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "--pointer",
+        "/observation_details/P0a/raw"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 22,
+        "complete": false,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "next_offset": 20,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a/raw"
+        },
+        "request_id": "8db612771fc50f55ea7fea19322358159a9742071d70b683958a3faf87f65d45",
+        "results": [
+          {
+            "child_count": 5,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/artifacts"
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/observation_details/P0a/raw/body_count_observed",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/build_id",
+            "value": "4c176189-3bf0-4aed-abdd-a42b451c1f1f"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/case_id",
+            "value": "P0a"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/classification",
+            "value": "RAW_FOCUSED_STAGE_UNCLASSIFIED"
+          },
+          {
+            "child_count": 5,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/compiler_item_identity_observed"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/evidence_root",
+            "value": "/workspace/evidence/allprooflogs/cases/sort4-c1-current-recovery/focus/P0a"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/focus",
+            "value": "verified/lib.rs:44"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/focus_case_id",
+            "value": "P0a"
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/observation_details/P0a/raw/focus_is_export_or_translation_filter",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/observation_details/P0a/raw/focus_source_line",
+            "value": 44
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/focus_stage",
+            "value": "bodies"
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/observation_details/P0a/raw/native_post_ast_equality_observed",
+            "value": null
+          },
+          {
+            "child_count": 5,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/paired_support"
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/observation_details/P0a/raw/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/source_certificate_sha256",
+            "value": "f9acf5daec7ddbf5b9604b826fa24d3467f0dc586a7c8a6ffa3835f973e7cd51"
+          },
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/observation_details/P0a/raw/source_declaration_line",
+            "value": 44
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/source_id",
+            "value": "925312cd19cb71d0c61a10eb179e13d5c0f0b711ccaef6986bc2136aba6ca6ee"
+          },
+          {
+            "child_count": 2,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/source_pair_sha256"
+          },
+          {
+            "child_count": 6,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/stages"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "--pointer",
+        "/observation_details/P0a/focus_interval/selected"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 3,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a/focus_interval/selected"
+        },
+        "request_id": "ba1cf50cefb6ac48e772ed1895ac6962662dca3b610a0f1a812f93b04d8bd3f3",
+        "results": [
+          {
+            "child_count": 2,
+            "exact": true,
+            "kind": "array",
+            "pointer": "/observation_details/P0a/focus_interval/selected/close_span"
+          },
+          {
+            "child_count": 2,
+            "exact": true,
+            "kind": "array",
+            "pointer": "/observation_details/P0a/focus_interval/selected/func_span"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/focus_interval/selected/name",
+            "value": "__a1_impl_18_item_20_small_sort_threshold"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "--expect-sha256",
+        "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "--start",
+        "2125",
+        "--end",
+        "2136"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinates": {
+          "base": 1,
+          "end_inclusive": 2136,
+          "line_separator": "LF",
+          "source_lines": 2136,
+          "start": 2125,
+          "unit": "line"
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/verification.log",
+        "file_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "range_clamped": false,
+        "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+        "request": {
+          "end": 2136,
+          "expected_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+          "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+          "start": 2125
+        },
+        "request_id": "086ddafca9568f76abbd6599c6d5ed5fccf523114ba91527ec144c5d5c5606b2",
+        "requested_end": 2136,
+        "results": [
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 2125,
+            "text": "/workspace/smallsort-work/a1-checked-trait-contract-isolated-source/bin/rust/std/lib.rsspec(451,9-14): dead code"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 2126,
+            "text": "/workspace/smallsort-work/a1-checked-trait-contract-isolated-source/bin/rust/std/lib.rsspec(453,26-31): dead code"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 2127,
+            "text": "/workspace/smallsort-work/a1-checked-trait-contract-isolated-source/bin/rust/std/lib.rsspec(455,9-14): dead code"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 2128,
+            "text": "/workspace/smallsort-work/a1-checked-trait-contract-isolated-source/bin/rust/std/lib.rsspec(466,9-13): dead code"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 2129,
+            "text": "/workspace/smallsort-work/a1-checked-trait-contract-isolated-source/bin/rust/std/lib.rsspec(467,9-13): dead code"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 2130,
+            "text": "/workspace/smallsort-work/a1-checked-trait-contract-isolated-source/bin/rust/std/lib.rsspec(468,9-14): dead code"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 2131,
+            "text": "/workspace/smallsort-work/a1-checked-trait-contract-isolated-source/bin/rust/std/lib.rsspec(470,26-30): dead code"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 2132,
+            "text": "/workspace/smallsort-work/a1-checked-trait-contract-isolated-source/bin/rust/std/lib.rsspec(472,9-14): dead code"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 2133,
+            "text": "/workspace/smallsort-work/a1-checked-trait-contract-isolated-source/bin/rust/std/lib.rsspec(474,26-30): dead code"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 2134,
+            "text": "/workspace/smallsort-work/a1-checked-trait-contract-isolated-source/bin/rust/std/lib.rsspec(476,9-11): dead code"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 2135,
+            "text": "/workspace/smallsort-work/a1-checked-trait-contract-isolated-source/bin/rust/std/lib.rsspec(477,53-54): dead code"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 2136,
+            "text": "/workspace/smallsort-work/a1-checked-trait-contract-isolated-source/bin/rust/std/lib.rsspec(479,53-54): dead code"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "--expect-sha256",
+        "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "--locate",
+        "verified/lib.rs(55,12-24)"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": true,
+        "content_filtered": false,
+        "coordinate_bases": {
+          "ends": "exclusive",
+          "line_separator": "LF",
+          "lines": 1,
+          "offsets": 0,
+          "unicode_columns": 1
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/verification.log",
+        "file_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "match_mode": "CASE_SENSITIVE_LITERAL",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "LITERAL_COORDINATES_ONLY",
+        "request": {
+          "expected_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+          "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+          "literal": "verified/lib.rs(55,12-24)"
+        },
+        "request_id": "85a4bcdf711a9b1675be048ab56762c8db6d9289d1eb87d999049b6f310cf730",
+        "results": [
+          {
+            "column": 63,
+            "end_column_exclusive": 88,
+            "end_line": 1131,
+            "line": 1131,
+            "unicode_end_exclusive": 92759,
+            "unicode_start": 92734,
+            "utf8_byte_end_exclusive": 92759,
+            "utf8_byte_start": 92734
+          },
+          {
+            "column": 13,
+            "end_column_exclusive": 38,
+            "end_line": 1132,
+            "line": 1132,
+            "unicode_end_exclusive": 92797,
+            "unicode_start": 92772,
+            "utf8_byte_end_exclusive": 92797,
+            "utf8_byte_start": 92772
+          },
+          {
+            "column": 65,
+            "end_column_exclusive": 90,
+            "end_line": 1133,
+            "line": 1133,
+            "unicode_end_exclusive": 92887,
+            "unicode_start": 92862,
+            "utf8_byte_end_exclusive": 92887,
+            "utf8_byte_start": 92862
+          },
+          {
+            "column": 13,
+            "end_column_exclusive": 38,
+            "end_line": 1134,
+            "line": 1134,
+            "unicode_end_exclusive": 92925,
+            "unicode_start": 92900,
+            "utf8_byte_end_exclusive": 92925,
+            "utf8_byte_start": 92900
+          },
+          {
+            "column": 65,
+            "end_column_exclusive": 90,
+            "end_line": 1135,
+            "line": 1135,
+            "unicode_end_exclusive": 93015,
+            "unicode_start": 92990,
+            "utf8_byte_end_exclusive": 93015,
+            "utf8_byte_start": 92990
+          },
+          {
+            "column": 13,
+            "end_column_exclusive": 38,
+            "end_line": 1136,
+            "line": 1136,
+            "unicode_end_exclusive": 93053,
+            "unicode_start": 93028,
+            "utf8_byte_end_exclusive": 93053,
+            "utf8_byte_start": 93028
+          },
+          {
+            "column": 61,
+            "end_column_exclusive": 86,
+            "end_line": 1137,
+            "line": 1137,
+            "unicode_end_exclusive": 93139,
+            "unicode_start": 93114,
+            "utf8_byte_end_exclusive": 93139,
+            "utf8_byte_start": 93114
+          },
+          {
+            "column": 13,
+            "end_column_exclusive": 38,
+            "end_line": 1138,
+            "line": 1138,
+            "unicode_end_exclusive": 93177,
+            "unicode_start": 93152,
+            "utf8_byte_end_exclusive": 93177,
+            "utf8_byte_start": 93152
+          },
+          {
+            "column": 9,
+            "end_column_exclusive": 34,
+            "end_line": 1923,
+            "line": 1923,
+            "unicode_end_exclusive": 150578,
+            "unicode_start": 150553,
+            "utf8_byte_end_exclusive": 150578,
+            "utf8_byte_start": 150553
+          },
+          {
+            "column": 9,
+            "end_column_exclusive": 34,
+            "end_line": 1924,
+            "line": 1924,
+            "unicode_end_exclusive": 150612,
+            "unicode_start": 150587,
+            "utf8_byte_end_exclusive": 150612,
+            "utf8_byte_start": 150587
+          },
+          {
+            "column": 1,
+            "end_column_exclusive": 26,
+            "end_line": 2035,
+            "line": 2035,
+            "unicode_end_exclusive": 157145,
+            "unicode_start": 157120,
+            "utf8_byte_end_exclusive": 157145,
+            "utf8_byte_start": 157120
+          },
+          {
+            "column": 1,
+            "end_column_exclusive": 26,
+            "end_line": 2036,
+            "line": 2036,
+            "unicode_end_exclusive": 157182,
+            "unicode_start": 157157,
+            "utf8_byte_end_exclusive": 157182,
+            "utf8_byte_start": 157157
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "search_scope": {
+          "kind": "whole-file",
+          "unicode_end_exclusive": 162830,
+          "unicode_start": 0,
+          "utf8_byte_end_exclusive": 162830,
+          "utf8_byte_start": 0
+        },
+        "source_absence_established": false,
+        "source_bytes": 162830,
+        "source_codepoints": 162830,
+        "source_lines": 2136,
+        "status": "OK",
+        "truncated": false
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "--pointer",
+        "/observation_details/P0a/raw/compiler_item_identity_observed"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 5,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a/raw/compiler_item_identity_observed"
+        },
+        "request_id": "2618d68a321b4847588022966669b6f4b35a2b9e25500f3b79d22641683a5914",
+        "results": [
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/compiler_item_identity_observed/compiler_impl_id",
+            "value": "18"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/compiler_item_identity_observed/compiler_item_id",
+            "value": "20"
+          },
+          {
+            "child_count": 2,
+            "exact": true,
+            "kind": "array",
+            "pointer": "/observation_details/P0a/raw/compiler_item_identity_observed/fn_sig_span"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/compiler_item_identity_observed/impl",
+            "value": "default16"
+          },
+          {
+            "child_count": 2,
+            "exact": true,
+            "kind": "array",
+            "pointer": "/observation_details/P0a/raw/compiler_item_identity_observed/mir_span"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "--expect-sha256",
+        "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "--start",
+        "1129",
+        "--end",
+        "1140"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinates": {
+          "base": 1,
+          "end_inclusive": 1140,
+          "line_separator": "LF",
+          "source_lines": 2136,
+          "start": 1129,
+          "unit": "line"
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/verification.log",
+        "file_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "range_clamped": false,
+        "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+        "request": {
+          "end": 1140,
+          "expected_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+          "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+          "start": 1129
+        },
+        "request_id": "edb4729d380bdd66617baf4de5a976338ad035abc70dc64fb9c6c84b2e9db3a5",
+        "requested_end": 1140,
+        "results": [
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1129,
+            "text": "AST_STMT list=9 ordinal=9 kind=Expr predecessor_label=0 loc=verified/lib.rs(55,12-19)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1130,
+            "text": "REGISTER 54 verified/lib.rs(55,12-19)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1131,
+            "text": "AST_STMT list=10 ordinal=10 kind=Expr predecessor_label=0 loc=verified/lib.rs(55,12-24)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1132,
+            "text": "REGISTER 55 verified/lib.rs(55,12-24)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1133,
+            "text": "AST_STMT list=11 ordinal=11 kind=Goto:2 predecessor_label=0 loc=verified/lib.rs(55,12-24)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1134,
+            "text": "REGISTER 56 verified/lib.rs(55,12-24)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1135,
+            "text": "AST_STMT list=11 ordinal=12 kind=Goto:4 predecessor_label=0 loc=verified/lib.rs(55,12-24)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1136,
+            "text": "REGISTER 56 verified/lib.rs(55,12-24)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1137,
+            "text": "AST_STMT list=11 ordinal=13 kind=If predecessor_label=0 loc=verified/lib.rs(55,12-24)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1138,
+            "text": "REGISTER 56 verified/lib.rs(55,12-24)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1139,
+            "text": "AST_STMT list=13 ordinal=15 kind=Goto:5 predecessor_label=4 loc=verified/lib.rs(55,9-57,10)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1140,
+            "text": "REGISTER 57 verified/lib.rs(55,9-57,10)"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "--expect-sha256",
+        "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "--start",
+        "1918",
+        "--end",
+        "1929"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinates": {
+          "base": 1,
+          "end_inclusive": 1929,
+          "line_separator": "LF",
+          "source_lines": 2136,
+          "start": 1918,
+          "unit": "line"
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/verification.log",
+        "file_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "range_clamped": false,
+        "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+        "request": {
+          "end": 1929,
+          "expected_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+          "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+          "start": 1918
+        },
+        "request_id": "1ed5d148f7798244d38eb10c2a5989f9b311bb08c6917b3aedc1f13dcdc1f5da",
+        "requested_end": 1929,
+        "results": [
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1918,
+            "text": "DEAD 47 /workspace/smallsort-work/a1-checked-trait-contract-isolated-source/bin/rust/std/lib.rsspec(479,53-54)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1919,
+            "text": "DEAD 48 /workspace/smallsort-work/a1-checked-trait-contract-isolated-source/bin/rust/std/lib.rsspec(476,9-11)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1920,
+            "text": "DEAD 52 verified/lib.rs(50,5-58,6)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1921,
+            "text": "DEAD 53 verified/lib.rs(55,12-13)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1922,
+            "text": "DEAD 54 verified/lib.rs(55,12-19)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1923,
+            "text": "DEAD 55 verified/lib.rs(55,12-24)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1924,
+            "text": "DEAD 56 verified/lib.rs(55,12-24)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1925,
+            "text": "DEAD 57 verified/lib.rs(55,9-57,10)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1926,
+            "text": "DEAD 58 verified/lib.rs(56,39-40)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1927,
+            "text": "DEAD 59 verified/lib.rs(56,45-52)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1928,
+            "text": "DEAD 60 verified/lib.rs(56,13-53)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1929,
+            "text": "DEAD 61 verified/lib.rs(55,9-57,10)"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "--pointer",
+        "/observation_details/P0a/focus_interval/selected/close_span"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 2,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a/focus_interval/selected/close_span"
+        },
+        "request_id": "eaae9bfae52230bee325a1ef817b961966fb812e60f03758c7dced8b5a2c7fbc",
+        "results": [
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/observation_details/P0a/focus_interval/selected/close_span/0",
+            "value": 47
+          },
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/observation_details/P0a/focus_interval/selected/close_span/1",
+            "value": 47
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "array",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "--pointer",
+        "/observation_details/P0a/raw/compiler_item_identity_observed/mir_span"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 2,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a/raw/compiler_item_identity_observed/mir_span"
+        },
+        "request_id": "64078d90ef51127a4da3a50bd0032620fa455cd560432401f4c771291f0f1288",
+        "results": [
+          {
+            "child_count": 3,
+            "exact": true,
+            "kind": "array",
+            "pointer": "/observation_details/P0a/raw/compiler_item_identity_observed/mir_span/0"
+          },
+          {
+            "child_count": 3,
+            "exact": true,
+            "kind": "array",
+            "pointer": "/observation_details/P0a/raw/compiler_item_identity_observed/mir_span/1"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "array",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "--expect-sha256",
+        "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "--locate",
+        "EXEC 55 "
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": true,
+        "content_filtered": false,
+        "coordinate_bases": {
+          "ends": "exclusive",
+          "line_separator": "LF",
+          "lines": 1,
+          "offsets": 0,
+          "unicode_columns": 1
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/verification.log",
+        "file_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "match_mode": "CASE_SENSITIVE_LITERAL",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "LITERAL_COORDINATES_ONLY",
+        "request": {
+          "expected_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+          "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+          "literal": "EXEC 55 "
+        },
+        "request_id": "177a46a80a93b1f1645142b1a212d99ea870ae725ad75fc6f755bb3f7983d959",
+        "results": [],
+        "schema": "smallsort-targeted-observation-v2",
+        "search_scope": {
+          "kind": "whole-file",
+          "unicode_end_exclusive": 162830,
+          "unicode_start": 0,
+          "utf8_byte_end_exclusive": 162830,
+          "utf8_byte_start": 0
+        },
+        "source_absence_established": false,
+        "source_bytes": 162830,
+        "source_codepoints": 162830,
+        "source_lines": 2136,
+        "status": "NO_MATCH_IN_SEARCH_SCOPE",
+        "truncated": false
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "--pointer",
+        "/observation_details/P0a/raw/source_pair_sha256"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 2,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a/raw/source_pair_sha256"
+        },
+        "request_id": "6bef8cc00fdae3de17dcf7d4e52154765a075bd8ad29b01d49b1eb680c2b4834",
+        "results": [
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/source_pair_sha256/original",
+            "value": "e9fd760fa6b111691b94d44452a8350a41c9d60f8b9af2942dcb0513e4709885"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/source_pair_sha256/verified",
+            "value": "dbcc37321090ac46f90f8cce653e5ce28f6528dfc594bec23340ffd7ac91e2c7"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--catalogue",
+        "a1-fixtures/P0a/verified/lib.rs"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+        "coverage": {
+          "availability_counts": {
+            "CONTENT_BUDGET_EXCEEDED": 156,
+            "EMPTY_FILE": 66,
+            "JSON_EXCEEDS_SCAN_LIMIT": 4,
+            "PROJECTED": 497,
+            "UNSUPPORTED_FILE_TYPE": 96
+          },
+          "catalogue_complete": true,
+          "content_bytes": 2095568,
+          "content_files": 567,
+          "files": 819,
+          "source_scan_bytes": 7111866
+        },
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "next_offset": null,
+        "report_schema": "smallsort-evidence-index-v8",
+        "results": [
+          {
+            "complete": false,
+            "id": "a65878d470b6cabb6ca470d38705cdddf745307c540ea30e880386672073a2f1",
+            "kind": "unsupported",
+            "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-fixtures/P0a/verified/lib.rs",
+            "path_sanitized": false,
+            "scanned_bytes": 0,
+            "sha256": "dbcc37321090ac46f90f8cce653e5ce28f6528dfc594bec23340ffd7ac91e2c7",
+            "size_bytes": 4754,
+            "status": "UNSUPPORTED_FILE_TYPE",
+            "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+          }
+        ],
+        "scope": {
+          "files_considered": 819,
+          "files_with_incomplete_content": 652,
+          "matches_in_retained_data": 1,
+          "source_absence_established": false
+        },
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "--pointer",
+        "/observation_details/P0a/raw/compiler_item_identity_observed/mir_span/0"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 3,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a/raw/compiler_item_identity_observed/mir_span/0"
+        },
+        "request_id": "e99182c0a0ebd40538f5d8b1716d005c5795ce67081376a4fbf99bf3869be5e0",
+        "results": [
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/compiler_item_identity_observed/mir_span/0/0",
+            "value": "verified/lib.rs"
+          },
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/observation_details/P0a/raw/compiler_item_identity_observed/mir_span/0/1",
+            "value": 44
+          },
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/observation_details/P0a/raw/compiler_item_identity_observed/mir_span/0/2",
+            "value": 4
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "array",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "--pointer",
+        "/observation_details/P0a/raw/compiler_item_identity_observed/mir_span/1"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 3,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a/raw/compiler_item_identity_observed/mir_span/1"
+        },
+        "request_id": "53c63838203f84108b976ac04543074c1890a8d66cd5ecea4228f3d9803eb548",
+        "results": [
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/compiler_item_identity_observed/mir_span/1/0",
+            "value": "verified/lib.rs"
+          },
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/observation_details/P0a/raw/compiler_item_identity_observed/mir_span/1/1",
+            "value": 47
+          },
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/observation_details/P0a/raw/compiler_item_identity_observed/mir_span/1/2",
+            "value": 5
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "array",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "a65878d470b6cabb6ca470d38705cdddf745307c540ea30e880386672073a2f1",
+        "--expect-sha256",
+        "dbcc37321090ac46f90f8cce653e5ce28f6528dfc594bec23340ffd7ac91e2c7",
+        "--info"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "file_id": "a65878d470b6cabb6ca470d38705cdddf745307c540ea30e880386672073a2f1",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-fixtures/P0a/verified/lib.rs",
+        "file_sha256": "dbcc37321090ac46f90f8cce653e5ce28f6528dfc594bec23340ffd7ac91e2c7",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "json_pointer_available": false,
+        "max_results": 20,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "preview_request": {
+          "end": 12,
+          "start": 1
+        },
+        "representation": "VERIFIED_FILE_OVERVIEW",
+        "request": {
+          "expected_sha256": "dbcc37321090ac46f90f8cce653e5ce28f6528dfc594bec23340ffd7ac91e2c7",
+          "file_id": "a65878d470b6cabb6ca470d38705cdddf745307c540ea30e880386672073a2f1",
+          "info": true
+        },
+        "request_id": "dfda7c653444b28e141effd573efca1232f9939b387a1d3cc424d5d7e21e6c87",
+        "response_limit_bytes": 12000,
+        "results": [],
+        "schema": "smallsort-targeted-observation-v2",
+        "selectors": [
+          "info",
+          "literal",
+          "lines",
+          "position",
+          "pointer"
+        ],
+        "source_bytes": 4754,
+        "source_codepoints": 4754,
+        "source_lines": 159,
+        "status": "OK",
+        "utf8": true
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "a65878d470b6cabb6ca470d38705cdddf745307c540ea30e880386672073a2f1",
+        "--expect-sha256",
+        "dbcc37321090ac46f90f8cce653e5ce28f6528dfc594bec23340ffd7ac91e2c7",
+        "--start",
+        "42",
+        "--end",
+        "53"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinates": {
+          "base": 1,
+          "end_inclusive": 53,
+          "line_separator": "LF",
+          "source_lines": 159,
+          "start": 42,
+          "unit": "line"
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "a65878d470b6cabb6ca470d38705cdddf745307c540ea30e880386672073a2f1",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-fixtures/P0a/verified/lib.rs",
+        "file_sha256": "dbcc37321090ac46f90f8cce653e5ce28f6528dfc594bec23340ffd7ac91e2c7",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "range_clamped": false,
+        "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+        "request": {
+          "end": 53,
+          "expected_sha256": "dbcc37321090ac46f90f8cce653e5ce28f6528dfc594bec23340ffd7ac91e2c7",
+          "file_id": "a65878d470b6cabb6ca470d38705cdddf745307c540ea30e880386672073a2f1",
+          "start": 42
+        },
+        "request_id": "ae0e69acb5fc04e511ab097874f67e2c2fe8367785ab40fba240d28b3e4a6104",
+        "requested_end": 53,
+        "results": [
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 42,
+            "text": "impl<T> StableSmallSortTypeImpl for T {"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 43,
+            "text": "    #[inline(always)]"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 44,
+            "text": "    default fn small_sort_threshold() -> usize {"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 45,
+            "text": "        // Optimal number of comparisons, and good perf."
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 46,
+            "text": "        SMALL_SORT_FALLBACK_THRESHOLD"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 47,
+            "text": "    }"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 48,
+            "text": ""
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 49,
+            "text": "    #[inline(always)]"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 50,
+            "text": "    default fn small_sort<F: FnMut(&T, &T) -> bool>("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 51,
+            "text": "        v: &mut [T],"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 52,
+            "text": "        _scratch: &mut [MaybeUninit<T>],"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 53,
+            "text": "        is_less: &mut F,"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "a65878d470b6cabb6ca470d38705cdddf745307c540ea30e880386672073a2f1",
+        "--expect-sha256",
+        "dbcc37321090ac46f90f8cce653e5ce28f6528dfc594bec23340ffd7ac91e2c7",
+        "--start",
+        "54",
+        "--end",
+        "61"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinates": {
+          "base": 1,
+          "end_inclusive": 61,
+          "line_separator": "LF",
+          "source_lines": 159,
+          "start": 54,
+          "unit": "line"
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "a65878d470b6cabb6ca470d38705cdddf745307c540ea30e880386672073a2f1",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-fixtures/P0a/verified/lib.rs",
+        "file_sha256": "dbcc37321090ac46f90f8cce653e5ce28f6528dfc594bec23340ffd7ac91e2c7",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "range_clamped": false,
+        "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+        "request": {
+          "end": 61,
+          "expected_sha256": "dbcc37321090ac46f90f8cce653e5ce28f6528dfc594bec23340ffd7ac91e2c7",
+          "file_id": "a65878d470b6cabb6ca470d38705cdddf745307c540ea30e880386672073a2f1",
+          "start": 54
+        },
+        "request_id": "fea2d00cd5aa7fcdef3bd6ff639e5c4bd62137f4eed05c4dd3425b9077837e5c",
+        "requested_end": 61,
+        "results": [
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 54,
+            "text": "    ) {"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 55,
+            "text": "        if v.len() >= 2 {"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 56,
+            "text": "            insertion_sort_shift_left(v, 1, is_less);"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 57,
+            "text": "        }"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 58,
+            "text": "    }"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 59,
+            "text": "}"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 60,
+            "text": ""
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 61,
+            "text": "impl<T: FreezeMarker> StableSmallSortTypeImpl for T {"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "--expect-sha256",
+        "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "--locate",
+        "__a1_impl_18_item_20_small_sort_threshold"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": true,
+        "content_filtered": false,
+        "coordinate_bases": {
+          "ends": "exclusive",
+          "line_separator": "LF",
+          "lines": 1,
+          "offsets": 0,
+          "unicode_columns": 1
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/verification.log",
+        "file_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "match_mode": "CASE_SENSITIVE_LITERAL",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "LITERAL_COORDINATES_ONLY",
+        "request": {
+          "expected_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+          "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+          "literal": "__a1_impl_18_item_20_small_sort_threshold"
+        },
+        "request_id": "9bca859ab98d107786d542e4f37876381fe730f6944130a2b78afe92b3974e41",
+        "results": [
+          {
+            "column": 51,
+            "end_column_exclusive": 92,
+            "end_line": 1099,
+            "line": 1099,
+            "unicode_end_exclusive": 90595,
+            "unicode_start": 90554,
+            "utf8_byte_end_exclusive": 90595,
+            "utf8_byte_start": 90554
+          },
+          {
+            "column": 66,
+            "end_column_exclusive": 107,
+            "end_line": 1100,
+            "line": 1100,
+            "unicode_end_exclusive": 90710,
+            "unicode_start": 90669,
+            "utf8_byte_end_exclusive": 90710,
+            "utf8_byte_start": 90669
+          },
+          {
+            "column": 52,
+            "end_column_exclusive": 93,
+            "end_line": 1505,
+            "line": 1505,
+            "unicode_end_exclusive": 118554,
+            "unicode_start": 118513,
+            "utf8_byte_end_exclusive": 118554,
+            "utf8_byte_start": 118513
+          },
+          {
+            "column": 62,
+            "end_column_exclusive": 103,
+            "end_line": 1589,
+            "line": 1589,
+            "unicode_end_exclusive": 123748,
+            "unicode_start": 123707,
+            "utf8_byte_end_exclusive": 123748,
+            "utf8_byte_start": 123707
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "search_scope": {
+          "kind": "whole-file",
+          "unicode_end_exclusive": 162830,
+          "unicode_start": 0,
+          "utf8_byte_end_exclusive": 162830,
+          "utf8_byte_start": 0
+        },
+        "source_absence_established": false,
+        "source_bytes": 162830,
+        "source_codepoints": 162830,
+        "source_lines": 2136,
+        "status": "OK",
+        "truncated": false
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--catalogue",
+        "manifest.json"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+        "coverage": {
+          "availability_counts": {
+            "CONTENT_BUDGET_EXCEEDED": 156,
+            "EMPTY_FILE": 66,
+            "JSON_EXCEEDS_SCAN_LIMIT": 4,
+            "PROJECTED": 497,
+            "UNSUPPORTED_FILE_TYPE": 96
+          },
+          "catalogue_complete": true,
+          "content_bytes": 2095568,
+          "content_files": 567,
+          "files": 819,
+          "source_scan_bytes": 7111866
+        },
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "next_offset": null,
+        "report_schema": "smallsort-evidence-index-v8",
+        "results": [],
+        "scope": {
+          "files_considered": 819,
+          "files_with_incomplete_content": 652,
+          "matches_in_retained_data": 0,
+          "source_absence_established": false
+        },
+        "status": "NO_MATCH_IN_RETAINED_PROJECTION"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "--expect-sha256",
+        "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "--start",
+        "1585",
+        "--end",
+        "1596"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinates": {
+          "base": 1,
+          "end_inclusive": 1596,
+          "line_separator": "LF",
+          "source_lines": 2136,
+          "start": 1585,
+          "unit": "line"
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/verification.log",
+        "file_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "range_clamped": false,
+        "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+        "request": {
+          "end": 1596,
+          "expected_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+          "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+          "start": 1585
+        },
+        "request_id": "8be9e79806979131c5ab71e0439ef37f16155a308d090a21f293ac08e358917c",
+        "requested_end": 1596,
+        "results": [
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1585,
+            "text": "  0.173839s:   Exiting splitting"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1586,
+            "text": "  0.173845s: Exiting Redux.query"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1587,
+            "text": "  0.173852s: verified/lib.rs(44,5-47,6): Cleaning up dummy fraction chunks and empty chunks"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1588,
+            "text": "  0.173858s: verified/lib.rs(44,5-47,6): Leak check."
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1589,
+            "text": "  0.173880s: verified/lib.rs(44,5-47,6): Verifying function '__a1_impl_18_item_20_small_sort_threshold'"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1590,
+            "text": "  0.173887s: verified/lib.rs(44,5-47): Producing assertion"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1591,
+            "text": "  0.173900s: verified/lib.rs(44,5-47): Producing assertion"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1592,
+            "text": "  0.173907s: Entering Redux.assume(_t = currentThread)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1593,
+            "text": "  0.173913s:   Entering Redux.assume_with_implications(_t = currentThread)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1594,
+            "text": "  0.173920s:   Exiting Redux.assume_with_implications"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1595,
+            "text": "  0.173927s: Exiting Redux.assume: 0.000013 seconds"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1596,
+            "text": "  0.173932s: verified/lib.rs(44,5-47): Producing assertion"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "--expect-sha256",
+        "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "--locate",
+        "EXEC 56 "
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": true,
+        "content_filtered": false,
+        "coordinate_bases": {
+          "ends": "exclusive",
+          "line_separator": "LF",
+          "lines": 1,
+          "offsets": 0,
+          "unicode_columns": 1
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/verification.log",
+        "file_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "match_mode": "CASE_SENSITIVE_LITERAL",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "LITERAL_COORDINATES_ONLY",
+        "request": {
+          "expected_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+          "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+          "literal": "EXEC 56 "
+        },
+        "request_id": "b3ea0e6858a1b77945043b80a36cb8008a1acc804eaf0c6f39bbae019761cedc",
+        "results": [],
+        "schema": "smallsort-targeted-observation-v2",
+        "search_scope": {
+          "kind": "whole-file",
+          "unicode_end_exclusive": 162830,
+          "unicode_start": 0,
+          "utf8_byte_end_exclusive": 162830,
+          "utf8_byte_start": 0
+        },
+        "source_absence_established": false,
+        "source_bytes": 162830,
+        "source_codepoints": 162830,
+        "source_lines": 2136,
+        "status": "NO_MATCH_IN_SEARCH_SCOPE",
+        "truncated": false
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "--pointer",
+        "/observation_details/P0a/raw/stages/verification"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 9,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a/raw/stages/verification"
+        },
+        "request_id": "00174fc44581258f523591ab82188102d3996d310cde1c847aa983887935bb67",
+        "results": [
+          {
+            "child_count": 10,
+            "exact": true,
+            "kind": "array",
+            "pointer": "/observation_details/P0a/raw/stages/verification/argv"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/stages/verification/classification",
+            "value": "TERMINAL"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/stages/verification/cwd",
+            "value": "/workspace/evidence/allprooflogs/cases/sort4-c1-current-recovery/a1-fixtures/P0a"
+          },
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/observation_details/P0a/raw/stages/verification/exit",
+            "value": 1
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/stages/verification/log_sha256",
+            "value": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135"
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/observation_details/P0a/raw/stages/verification/proof_verdict",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/stages/verification/resources",
+            "value": "verification-resources.txt"
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/observation_details/P0a/raw/stages/verification/stdout_sha256",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/observation_details/P0a/raw/stages/verification/timeout_seconds",
+            "value": 240
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "--pointer",
+        "/observation_details/P0a/raw/artifacts"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 5,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a/raw/artifacts"
+        },
+        "request_id": "27072042a77dd854d2b1fbb9d2297107a3f01eaf678273b9393b81bc4954c91f",
+        "results": [
+          {
+            "child_count": 3,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/artifacts/normal-mir.bin"
+          },
+          {
+            "child_count": 3,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/artifacts/normal-mir.txt"
+          },
+          {
+            "child_count": 3,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/artifacts/proof-ast.ml"
+          },
+          {
+            "child_count": 3,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/artifacts/readonly-mir.bin"
+          },
+          {
+            "child_count": 3,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/artifacts/readonly-mir.txt"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "--pointer",
+        "/observation_details/P0a/raw/stages/verification/argv"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 10,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a/raw/stages/verification/argv"
+        },
+        "request_id": "d0f1b2fc60ed5fc5a86283d28908a339f6066e8b296cfdd0a55f07f91cfbb559",
+        "results": [
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/stages/verification/argv/0",
+            "value": "/workspace/smallsort-work/a1-checked-trait-contract-isolated-source/bin/verifast"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/stages/verification/argv/1",
+            "value": "-focus"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/stages/verification/argv/2",
+            "value": "verified/lib.rs:44"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/stages/verification/argv/3",
+            "value": "-dump_ast_with_locs"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/stages/verification/argv/4",
+            "value": "/workspace/evidence/allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/proof-ast.ml"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/stages/verification/argv/5",
+            "value": "-rustc_args"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/stages/verification/argv/6",
+            "value": "--edition 2021"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/stages/verification/argv/7",
+            "value": "-verbose"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/stages/verification/argv/8",
+            "value": "6"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/stages/verification/argv/9",
+            "value": "verified/lib.rs"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "array",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "--pointer",
+        "/observation_details/P0a/raw/artifacts/proof-ast.ml"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+        "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 3,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+        "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a/raw/artifacts/proof-ast.ml"
+        },
+        "request_id": "a96070aaff2da3d98da3560c206acd40c0034ca72f9876ce14c1b48d4e3a1041",
+        "results": [
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/observation_details/P0a/raw/artifacts/proof-ast.ml/bytes",
+            "value": 172483
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/artifacts/proof-ast.ml/path",
+            "value": "/workspace/evidence/allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/proof-ast.ml"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/artifacts/proof-ast.ml/sha256",
+            "value": "0a3e157e363c5cdd57a93699ce33526c361490ac9d15c8672c1f55b6f7699f9b"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    }
+  ]
+}

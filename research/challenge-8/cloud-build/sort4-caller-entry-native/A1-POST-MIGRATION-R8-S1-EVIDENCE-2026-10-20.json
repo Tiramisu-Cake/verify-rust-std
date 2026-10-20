@@ -1,0 +1,70 @@
+{
+  "P0a": {
+    "compiler_impl": "18",
+    "compiler_item": "20",
+    "first_error": "verified/lib.rs(55,12-24): dead code",
+    "first_error_source_claim_request": "7ec7e86f51e1af05c7f7114e4c84cc4ce5de50f4a0438efade27fcd6a142e22a",
+    "focus": "verified/lib.rs:44",
+    "impl": "default16",
+    "mir_span": [
+      [
+        "verified/lib.rs",
+        44,
+        4
+      ],
+      [
+        "verified/lib.rs",
+        47,
+        5
+      ]
+    ],
+    "observed_registry_ids": {
+      "55": "REGISTER Expr at55:12-24; DEAD55; exact complete literal lookup EXEC55 has no match (not NOT_RUN inference)",
+      "56": "REGISTER Goto2/Goto4/If sharing physical loc at55:12-24; DEAD56; exact complete EXEC56 no match"
+    },
+    "proof_ast_sha256": "0a3e157e363c5cdd57a93699ce33526c361490ac9d15c8672c1f55b6f7699f9b",
+    "proof_credit": false,
+    "selected_name": "__a1_impl_18_item_20_small_sort_threshold",
+    "source_applicability": "same source hash has default threshold44-47 and separate small_sort body50-58, v.len>=2 at55; registration and DEAD are outside selected compiler span. Locations alone do not prove general AST/MIR semantics; source gates/selected function name/stage argv/log SHA corroborate this specific applicability.",
+    "source_original_sha256": "e9fd760fa6b111691b94d44452a8350a41c9d60f8b9af2942dcb0513e4709885",
+    "source_verified_sha256": "dbcc37321090ac46f90f8cce653e5ce28f6528dfc594bec23340ffd7ac91e2c7",
+    "verification_log_sha256": "608b9cc62db3f8956e7004bba3d69ac8319affeff0babf78f00e893c7615b135",
+    "verifier_exit": 1
+  },
+  "archive_sha256": "c836700b5cf14530824135426fcc83b0817610fa75910ee5cc78d65f9452af4e",
+  "audit_accepted": false,
+  "audit_evidence_complete": false,
+  "audit_matrix_complete": false,
+  "bounded_observations": "A1-POST-MIGRATION-R8-S1-READER-OBSERVATIONS-2026-10-20.json",
+  "brief_processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "build_id": "4c176189-3bf0-4aed-abdd-a42b451c1f1f",
+  "charge_seconds": 702,
+  "closed_obligations": 0,
+  "coverage": "A1-POST-MIGRATION-R8-S1-COVERAGE-2026-10-20.md",
+  "full26_matrix": "A1-POST-MIGRATION-R8-S1-MATRIX-2026-10-20.json",
+  "independent_B1_B2_credit": 0,
+  "index_sha256": "ff6deb69d99aa82fbdcc9b8e10fe8e293b5af97eaaafec33a8903978366426b1",
+  "infra_sha": "69e377ad620808b0d314f8bdc5ae8c9de7ebb8a9",
+  "next_hypothesis": "align statement registration with exact existing function focus predicate; selected/no-focus dead-code checks retained; independent review and Cloud controls before target",
+  "outer_evidence_complete": true,
+  "profile_sha256": "a4b458173313345fd92350722a7f3dca1d27e615f987451d0a73446c641ea0f9",
+  "proof_audit": {
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "original_bytes_file_id": "a00ef3d9f472ab40f4ee02953d93bc7a8358f0495cd5f29344da995f4efb4cbd",
+    "original_bytes_sha256": "0a67975bb71619e6931e8a662dde742c65dabf61724444e998de5b51daaaa49a",
+    "original_bytes_size": 22940413,
+    "sha256": "995548317f5a8823f66218d65211d053d11672598c53e3fe0fcb7099f217ebbe",
+    "size_bytes": 1871496
+  },
+  "proof_sha": "69e377ad620808b0d314f8bdc5ae8c9de7ebb8a9",
+  "proof_verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+  "raw_evidence_read": false,
+  "run_exit_source_claim": 0,
+  "schema": "smallsort-r8-source-evidence-v1",
+  "source_status_counts": {
+    "INCONCLUSIVE": 3,
+    "INTENDED_CLASSIFIED": 10,
+    "NOT_RUN": 13
+  },
+  "terminal_status": "FAILURE"
+}
