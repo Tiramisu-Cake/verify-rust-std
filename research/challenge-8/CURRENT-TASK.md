@@ -59,4 +59,6 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-R10 ещё не начата. T0/deadlines/authorization binding и новый ledger заполняет агент при фактическом старте. Cloud execution явно разрешено после обычных gates; дополнительного разрешения на первый/следующий Build в scope не требуется.
+R10 ACTIVE. T0 **2026-10-20T19:22:09Z**, main **21:22:09Z**, absolute **21:52:09Z**. Fresh **0/3600 spent**, max timeout1200, carry0; ownactive/unresolved0. Цель: доставляемый точный P1/native/tuple binding → совместимые26/ownlifecycle. Proof0→0, independentB1/B2credit0.
+
+Однократный S5 Brief сноваHTTP404, прежний bounded административный запрос сохранён; raw audit не разрешён/не использован. R10 registration готова, явный reporting reserve240 и soft deadline/teardown, короткий native-p1-target (полная26 сохраняется с explicit NOT_RUN внеscope, finalacceptancefalse). Current foreigndirty и historicalR9 сохранены. Independent LunaHIGH GO; exact committed closure PASS (39infra115proof174objects/config27972/28000), candidate0052d9d9; publication/coordinator admission перед submit.
