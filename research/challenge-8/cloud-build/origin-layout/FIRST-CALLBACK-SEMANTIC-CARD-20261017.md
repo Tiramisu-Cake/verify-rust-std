@@ -690,3 +690,5 @@ own/address-equality bridge is authorized. Scope/normal-unwind cleanup design
 above is conditional on that earlier premise. No bridge implementation or
 new proof hypothesis will start after main. Build4 is independent service
 recovery only, submitted7f6a7ef7/sourcea26df17b beforemain.
+
+R5 terminal accounting (2026-10-20T09:41:56.384236+00:00): final sourcea26df17b/Build7f6a7ef7 restores diagnostic controls (source5PASS_CONTROL/3EXPECTED_REJECTION/BeforeLiveINCONCLUSIVE), retains canonical-share proof refusal. All4FAILURE,2427charged/2424execution,1173retired; no actual theorem/B2/profile qualification or independent credit. R5-FINAL-RESULT-20261020.json records closure; earlier checked-interface/cleanup plan remains unresolved.

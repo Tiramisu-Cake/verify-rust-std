@@ -1,0 +1,73 @@
+{
+  "schema": "merge-r5-final-result-v1",
+  "status": "CLOSED_PARTIAL",
+  "recorded_end_utc": "2026-10-20T09:41:56.384236+00:00",
+  "start_utc": "2026-10-20T07:28:45Z",
+  "main_deadline_utc": "2026-10-20T09:28:45Z",
+  "absolute_deadline_utc": "2026-10-20T09:58:45Z",
+  "proof_source": "a26df17bfa741599a3eb92ac88e2e953ed2b5b9f",
+  "infra_source": "a26df17bfa741599a3eb92ac88e2e953ed2b5b9f",
+  "tool": "45594fb821805f10c4e05f02912d1ea3bf920e62",
+  "profile_sha256": "13f0a97def3835372eb5e31de1ddc02cd9768df4b95c93f8c1076e59e0596b92",
+  "builds": [
+    {
+      "id": "a63982e1-b460-4ae3-a32d-c8c3072694be",
+      "source": "0f7293e96a9c1fdadb1e42f275e9b4481bb38c6e",
+      "status": "FAILURE",
+      "charge_seconds": 564,
+      "execution_seconds": 563
+    },
+    {
+      "id": "05700561-bf2d-4355-bd83-f3c104783ed9",
+      "source": "ac027f37e693e4e93ff7b01809717f5bbc0e4b98",
+      "status": "FAILURE",
+      "charge_seconds": 632,
+      "execution_seconds": 632
+    },
+    {
+      "id": "0b86c5ad-2edd-464e-bed6-1ba19a435c3c",
+      "source": "f456fb1af4298e7de7cc78ef80daece3008ea550",
+      "status": "FAILURE",
+      "charge_seconds": 625,
+      "execution_seconds": 624
+    },
+    {
+      "id": "7f6a7ef7-86b2-4bbd-a991-3561e12beff9",
+      "source": "a26df17bfa741599a3eb92ac88e2e953ed2b5b9f",
+      "status": "FAILURE",
+      "charge_seconds": 606,
+      "execution_seconds": 605
+    }
+  ],
+  "charged_seconds": 2427,
+  "execution_seconds": 2424,
+  "retired_unused_seconds": 1173,
+  "carryover_allowed": false,
+  "own_active": null,
+  "own_unresolved": null,
+  "own_reservations": [],
+  "own_request": false,
+  "own_state_evidence": "R5-OWN-STATE-20261020.json",
+  "first_remaining_blocker": "general.rsspec195 canonical <u64>.share folding at verified/lib.rs261; raw frac_borrow does not establish canonical share",
+  "diagnostic_progress": "Scoped late lifetime and checked actual physical coefficients/scaled FBC path replace prior Args.own setup refusal; actual late call remains unproved",
+  "full_normal_unwind_proof": false,
+  "full_insert_tail_proved": false,
+  "b2_achieved": false,
+  "profile_qualified": false,
+  "independent_proof_credit": false,
+  "controls_source_cases": {
+    "address_after_merge": "PASS_CONTROL",
+    "address_before_merge": "PASS_CONTROL",
+    "address_in_merge_assertion": "PASS_CONTROL",
+    "address_normal_unwind": "PASS_CONTROL",
+    "after_storage_dead": "EXPECTED_REJECTION",
+    "before_storage_live": "INCONCLUSIVE",
+    "missing_physical_owner": "EXPECTED_REJECTION",
+    "multiple_merges_unrelated_local": "PASS_CONTROL",
+    "unsupported_address_operand": "EXPECTED_REJECTION"
+  },
+  "rocq_limit": "LocalAddrTaken affects allocation; consumer ignores StorageLive/Dead. No Rocq/liveness/owner acceptance.",
+  "next_proof": "Previously recorded checked canonical share interface, then exact CURRENT normal/unwind readonly-loan/token/lifetime cleanup before guard Drop",
+  "stage_time_allocation": "Not measured separately; wall-clock is not active agent time",
+  "background_continuation": false
+}

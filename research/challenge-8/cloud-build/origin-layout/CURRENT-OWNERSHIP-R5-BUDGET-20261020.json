@@ -2,13 +2,13 @@
   "phase": "MERGE-CURRENT-OWNERSHIP-R5-2026-10-20",
   "owner": "merge",
   "authorization_model": "bounded-cloud-budget",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "allowed_lanes": [
     "merge"
   ],
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 1821,
-  "remaining_build_seconds": 1779,
+  "used_build_seconds": 2427,
+  "remaining_build_seconds": 1173,
   "builds": [
     {
       "dispatch_token": "dispatch-c04102b8148e48ff9f8ffeaaace0ee4b",
@@ -86,22 +86,28 @@
       "submitted_config_sha256": "abc11151123bc0c398d54cd1e4df08df977e5423ce748d64d145d08cc5c7736c",
       "reserved_seconds": 960,
       "timeout_seconds": 900,
-      "status": "WORKING",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "e92c376e22ee92c452d6eca0d38d78dbf4f958136ed963703a4c46dc7abec713",
       "build_id": "7f6a7ef7-86b2-4bbd-a991-3561e12beff9",
       "start_time": "2026-10-20T09:25:58.180651069Z",
-      "finish_time": null,
-      "create_time": "2026-10-20T09:25:57.425812912Z"
+      "finish_time": "2026-10-20T09:36:02.896526Z",
+      "create_time": "2026-10-20T09:25:57.425812912Z",
+      "build_seconds": 606,
+      "accounted": true,
+      "execution_seconds": 605
     }
   ],
-  "active_build": "7f6a7ef7-86b2-4bbd-a991-3561e12beff9",
+  "active_build": null,
   "start_utc": "2026-10-20T07:28:45Z",
   "main_deadline_utc": "2026-10-20T09:28:45Z",
   "deadline_utc": "2026-10-20T09:58:45Z",
   "max_timeout_seconds": 900,
   "authorization": "Direct owner CURRENT-TASK merge-current-ownership-autonomous-2026-10-20-r5; 120-minute main window plus 30-minute finishing window; separate 3600 Cloud-second account; stable owner merge, merge lane, pinned objects; timeout 90..900 seconds; no new dispatch/request after main deadline.",
   "policy_revision": "2026-10-20 owner CURRENT-TASK with Evidence v0.11 and ITERATION-PROCESS",
-  "carryover_allowed": false
+  "carryover_allowed": false,
+  "closed_utc": "2026-10-20T09:41:56.384236+00:00",
+  "retired_unused_build_seconds": 1173,
+  "closure_reason": "Main window ended; all four builds terminal and accounted; unused balance retired without carryover."
 }

@@ -1,23 +1,23 @@
-# MERGE — R5 FINISHING / PARTIAL
+# MERGE — R5 CLOSED / PARTIAL
 
-T0/main/absolute UTC2026-10-20 07:28:45/09:28:45/09:58:45. Main закончено,
-новых гипотез/Builds/retries нет. Own request withdrawn09:29Z. Active final
-Build7f6a7ef7/source=infra a26df17b; timeout900/reserve960, terminal pending.
-Три terminalFAILURE charges564+632+625=1821/3600, execution1819.
+T0/main/absolute UTC2026-10-20 07:28:45/09:28:45/09:58:45; closure 2026-10-20T09:41:56.384236+00:00.
+Все4 Builds terminal FAILURE,2427/3600charged,2424execution;1173retired без carry.
+Own active/unresolved/reservations/request0; после main новых Builds/гипотез нет,
+фоновой работы нет. [Отчёт](CURRENT-TASK.md), [итог/identities](cloud-build/origin-layout/R5-FINAL-RESULT-20261020.json),
+[матрица](cloud-build/origin-layout/R5-OBLIGATIONS-20261020.md).
 
-[Полный компактный отчёт](CURRENT-TASK.md), [матрица](cloud-build/origin-layout/R5-OBLIGATIONS-20261020.md),
-[последний release](cloud-build/origin-layout/R5-BUILD4-RELEASE-20261020.json).
-Actual AST: F/two shared u64/method 'late; физические коэффициенты берутся
-из checked chunks. Новый frontier general195 canonical <u64>.share: raw
-frac_borrow недостаточен. Late FnMut/CURRENT normal-unwind/guard/prefix/B2 OPEN,
-independentcredit0. Build3 controls serviceexception; lastBuild исправляет
-только packaged filename, qualification не повышена.
+Последний executed proof=infra a26df17bfa741599a3eb92ac88e2e953ed2b5b9f,
+Build7f6a7ef7-86b2-4bbd-a991-3561e12beff9. Tool45594fb8/profile13f0a97d.
+Scoped late lifetime + actual physical fractions/scaled FBC достигают general195
+canonical <u64>.share folding refusal (verified261). Late FnMut/CURRENT normal-unwind/
+guard/prefix/whole insert_tail/B2 OPEN, independentcredit0. Raw frac_borrow не
+canonical share. Final controls source5PASS_CONTROL/3EXPECTED_REJECTION/
+BeforeLive INCONCLUSIVE; acceptedfalse, profile qualification OPEN.
 
-Tool45594fb8/profile13f0a97d,15patch baseline+18base сохранены + emitter.
-LocalAddrTaken имеет allocation смысл в отдельном Rocq consumer, StorageLive/
-Dead там игнорируются; нет Rocq/liveness/owner proof credit. Native posts/CFG/
-ресурсные проверки сохранены; independent LunaHigh GO/статические checks PASS.
-Finishing: конкретный active Build → Brief/targeted observations → учёт/close.
+15patch/18base baseline и полные native posts/CFG/resource gates сохранены.
+LocalAddrTaken влияет на allocation отдельного Rocq consumer, StorageLive/Dead
+там игнорируются; нет Rocq/liveness/owner credit. Source claims/Brief integrity
+не independent proof. Prefix-dependent NOT_RUN не negative PASS.
 
 Previous closed R4 checkpoint retained below.
 

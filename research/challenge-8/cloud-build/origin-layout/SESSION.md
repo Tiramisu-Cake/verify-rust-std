@@ -492,3 +492,5 @@ pinned preprocessor; LunaHigh deltaGO, syntheticwiring5PASS. SecondBuild
 proof/profile/tool unchanged except annotation placement; no duplicate submit.
 No lateArgs/fullnormalunwind proof credit yet. Remaining3036 before Build2
 accounting; no historical account or foreign worktree changes.
+
+R5 closure 2026-10-20T09:41:56.384236+00:00: all4 terminalFAILURE,2427charged/2424execution,1173retired; ledgerCLOSED, own active/unresolved/reservations/request0, no background continuation. Last executed sourcea26df17b/Build7f6a7ef7, tool45594fb8/profile13f0a97d. Checked actual physical fractions/scoped lifetime reach canonical u64.share refusal; lateFnMut/fullCURRENTnormal-unwind/B2OPEN, independentcredit0. Final controls source5PASS_CONTROL/3EXPECTED_REJECTION/BeforeLiveINCONCLUSIVE; no qualification/acceptance. Rocq allocation/liveness limits preserved. Full facts: R5-FINAL-RESULT-20261020.json and R5-OBLIGATIONS-20261020.md. No new hypothesis/Build after main.
