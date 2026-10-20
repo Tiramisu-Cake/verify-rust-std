@@ -5,6 +5,14 @@ set -euo pipefail
    "${LANE:-}" == o26-sort4-c1-current-recovery &&
    -z "${GITHUB_ACTIONS:-}" ]] || exit 2
 cloud_dir=${INFRA_CLOUD_DIR:-/workspace/infra/research/challenge-8/cloud-build}
+if [[ "${SORT4_A1_AUTHORIZATION_PHASE_ID:-}" == SORT4-DELIVERABLE-NATIVE-PROOF-2026-10-20-R10 ]]; then
+  [[ "${SORT4_A1_PHASE_ID:-}" == SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17 &&
+     "${SORT4_A1_CHECKED_TRAIT_CONTRACT:-}" == 1 &&
+     -z "${SORT4_ACTUAL_CALLER_ENTRY_PHASE:-}" &&
+     -z "${SORT4_NATIVE_C4_PHASE:-}" && -z "${SORT4_NATIVE_OPAQUE_PHASE:-}" &&
+     -z "${SORT4_NATIVE_C1_ZST_REPAIR_PHASE:-}" ]] || exit 2
+  exec python3 "$cloud_dir/sort4-caller-entry-native/a1-entry-r10.py" "$@"
+fi
 if [[ "${SORT4_A1_AUTHORIZATION_PHASE_ID:-}" == SORT4-NATIVE-INTERFACE-PROOF-2026-10-20-R9 ]]; then
   [[ "${SORT4_A1_PHASE_ID:-}" == SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17 &&
      "${SORT4_A1_CHECKED_TRAIT_CONTRACT:-}" == 1 &&
