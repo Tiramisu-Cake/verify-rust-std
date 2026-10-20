@@ -1,0 +1,41 @@
+{
+  "schema": "r8-experimental-freshness-qualification-v1",
+  "profile": "experimental-merge-owned-array-allocation-r8-v1",
+  "profile_sha256": "838ade9927ebba82b8df61283fdd8189e71b673ac91eadf897806d0bfaa80cc1",
+  "tool": "f2e92cecaf574d7970cc12d0cb1e75b2980b6aea",
+  "accepted": false,
+  "qualification": "OPEN",
+  "independent_credit": 0,
+  "owner_authorized_new_premise": true,
+  "independent_model_review": "R8-CANDIDATE4-MODEL-REVIEW-20261020.md",
+  "observations": [
+    {
+      "build_id": "eecf6525-7350-4410-b336-177185db019b",
+      "source_commit": "d3abd4c9dc0b036805dda6399e4370029e59fa2d",
+      "cases": {
+        "wholearray3": "PASS_CONTROL",
+        "currentprefix2": "PASS_CONTROL",
+        "numeric_same_address_no_owner": "EXPECTED_REJECTION_DIAGNOSTIC",
+        "default_off": "INCONCLUSIVE",
+        "missing_current_owner": "INCONCLUSIVE",
+        "wrong_element": "INCONCLUSIVE",
+        "wrong_entry_count": "INCONCLUSIVE",
+        "wrong_root": "INCONCLUSIVE"
+      },
+      "file_id": "3177de3caa3993017f98719ca5b1fc66b7d21b1c7d05c2396f7a9c2dc042da31",
+      "file_sha256": "5ff5d2562e92aa061bc9133d479a4d5f52a8fdd44b966a755c4ad474e6d9b530",
+      "request_id": "4a0dab75da660cec35eed240d6a29e29a885b99a96a961a508a8a4fd496175eb"
+    }
+  ],
+  "latest_classifier_review": "R8-CANDIDATE7-REVIEW-20261020.md",
+  "latest_build": "79d5a0e2-823a-43b9-8978-fdff30bcbd3a",
+  "latest_result": "COMPILE_ONLY124; proof_attempted=false; classifier actual qualification unconfirmed",
+  "boundaries": [
+    "two positive controls do not establish full profile qualification",
+    "five Build6 span diagnostics remain source-classified INCONCLUSIVE; do not rewrite historical verdicts",
+    "whole CURRENT normal/unwind and B2 open",
+    "native CURRENT count2 receipt is not whole entry count3 ownership",
+    "archive integrity is not independent proof acceptance"
+  ],
+  "session_status": "CLOSED_PARTIAL"
+}

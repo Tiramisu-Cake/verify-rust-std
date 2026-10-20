@@ -902,3 +902,10 @@ Candidate5 adds checked post-Drop suffix from existing readonly token and matchi
 Drop-effect quarter array, then endreadonly/originmerge. No earlier debt discharge,
 no weakened posts/runtime changes; unwind remains independent OPEN. Controls
 refinementRawPtr blocker corrected without skipping stage gates; Build5 pending.
+
+R8 closeout: Build6 rootfree324 still lacks tmp half; source normal suffix is not
+an established recovery or branch proof. Failed return/cleanup identity remains
+to bind before checked postDrop/pre-free/Resume restoration. Final classifier only
+change reviewed; Build7 compile-only124/proof_attemptedfalse. No new actualcredit.
+Freshness qualification separatelyOPEN, source2positive/1intendednegative/5INC.
+Accounting3379charged/3374exec,221retired,carryfalse; all7terminal/ownslots0.

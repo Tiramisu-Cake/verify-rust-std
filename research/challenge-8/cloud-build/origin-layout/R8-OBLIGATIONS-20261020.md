@@ -1,26 +1,23 @@
-# R8 obligations — ACTIVE
+# R8 obligations — CLOSED_PARTIAL
 
-No independent proof credit or accepted qualification. Compatible final identities
-are required; source controls on earlier candidates remain separately identified.
+Source claims/observed traces are separated from acceptance: independentcredit0,
+profile acceptedfalse/qualificationOPEN. No incompatible historical PASS carry.
 
-| Obligation | R8 observation | Remaining |
+| Obligation | R8 evidence | Remaining |
 | --- | --- | --- |
-| Exact compiler preflight | Build1/source5967687f/tool47b80fad/profilee5ed4de5: source all5candidate stages0 and postbuild hash0 | Build4 all stages/posthash PASS on f2e/838 |
-| Late scoped FnMut recovery admission | Build1 frontend matcher313 rejects primitive-u64 AST shape; candidate2 exact only_u64 correction reviewed | Build2 and Build4 proceed beyond scoped matcher; full branches OPEN |
-| Physical sift fraction merge/singleton | R7 observed path reached merge frontier; R8 Build1 fails before heap verification | Build2 observed exact physical merge/assert/close; full branch coverage OPEN |
-| Late lifetime/two loans/readonly ends | R7 partial trace retained as history | Compatible R8 normal Continue/break/unwind outcomes |
-| Original guard debt/Drop/CURRENT posts | OPEN, separate readonly debt retained | Build4 passes observed Drop to root free318 missing tmp half; checked readonly recovery and full array/F/token return OPEN |
-| Empty-tail controls | Build1 source positive PASS_CONTROL +3intended rejections | Final compatible controls; helper does not prove full guard |
-| Late admission controls | Build1 source baseline-not-admitted skip | Final intended predicate/location, no setup-as-negative credit |
-| Prefix/current/resource-loss/admission | Build1 prefix Placeholders-not-allowed; dependent resource/admission groups source NOT_RUN | Exact Unsize/lifetime/metadata/checked borrow bridge and full matrix |
-| B1/helper/ordinary normal-unwind | Build1 source all_matched/helpermatched/smoke; compiler0 is not proof | Compatible final identities, retain original controls |
-| Addressability | Build1 source5PASS_CONTROL/3EXPECTED_REJECTION/BeforeLiveINCONCLUSIVE | Physical BeforeLive refusal; no liveness/owner/Rocq credit |
-| CURRENT18/HRTB/projection/binder/lifetime/official first-unwind/lateCleanup/default-off/receiver/end/retirement | Original runners/gates retained | Full applicable matrix with exact source/stage/target receipts |
-| Whole insert_tail/caller/B2/profile qualification | OPEN | No combining incompatible historical candidates |
+| Exact tool/compiler closure | Build1/2/3/4/5/6 compilePASS; final Build7 compile-only124 | Final classifier actual execution unconfirmed |
+| Late callback exact matcher | primitive-u64 Manifest correction; Build2/4/6 pass matcher | Full branch coverage |
+| Physical sift rejoin | Build2 trace merge/full CURRENT assertion/singleton close | Normal Continue/break/unwind complete posts |
+| Lifetime/two scaled loans/readonly ends | Observed reached path before physical rejoin | Full branch-specific receipts, no Args/end-token fabrication |
+| Guard geometry/Drop | Owner-authorized new profile; Build4/6 native currentbegin2 receipt; observed Drop→rootfree | Qualified current subrange is not whole incoming3 owner |
+| Original tmp readonly debt | Normal checked source suffix added, exactcaller-bound | Build6 rootfree324 still missinghalf; suffix effectiveness/failing path not established; exact postDrop/pre-free/Resume recovery |
+| Full CURRENT array/F/thread/token posts | Contracts unchanged, no shortened body | OPEN |
+| Freshness qualification | Build6 two positives, numeric no-owner intended refusal; five spanINC | Final classifier actual proof absent after Build7 compile-only124; separate qualificationOPEN |
+| Empty-tail/admission controls | Build6 source helper positive/3intended refusals and late-admission2intended refusals | Diagnostic fragments, no whole guard credit |
+| Prefix/current/loss/HRTB/binder/lifetime/matrix | Retained strict runners; prefix Placeholders barrier and dependent NOT_RUN sourceclaims | Exact Unsize/metadata/lifetime/checkedborrow and compatible complete matrix |
+| Addressability/BeforeLive | Independent report retains lexical unbound-local limitation | Physical heap refusal, no Rocq/liveness/owner credit |
+| Whole insert_tail/caller/B2 | OPEN | Full resource/proof closure and separately qualified model |
 
-Independent prefix/BeforeLive investigation: [limits](R8-INDEPENDENT-OBLIGATIONS-20261020.md).
-Builds/charge and current session: [task/report](../../CURRENT-TASK.md), [card](R8-SESSION-20261020.md).
-
-Freshness profile qualification: Build4 all8 INC; source refinement prerequisite1
-on unsupported RawPtr. Verifier0 is not a qualified control. Separate current-prefix
-native receipt observed (count2), not whole-entry ownership or proof acceptance.
+[Final/accounting](R8-FINAL-RESULT-20261020.json),
+[freshness](R8-FRESHNESS-QUALIFICATION-20261020.json),
+[independent limits and cleanup placement](R8-INDEPENDENT-OBLIGATIONS-20261020.md).

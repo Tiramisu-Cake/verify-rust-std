@@ -1,15 +1,17 @@
-# MERGE — R8 ACTIVE / candidate6 exact placement
+# MERGE — R8 CLOSED_PARTIAL
 
-T0/main/absolute UTC2026-10-20 17:11:30/19:11:30/19:41:30 unchanged.
-Five terminalFAILURE Builds2755charged/2752execution;845remaining; ownactive0.
-Build5 c2434c1b compilerPASS, actualfullbodysetup rejects ambiguousbrace anchor;
-sourceaudit proof_attemptedTrue not fullbody credit. Candidate6 exactfollowingcaller
-anchor independently reviewed;2placement tests and static18patch/18base PASS.
-Nexttimeout780/envelope840 fits845. Toolf2e92cec/profile838ade99 unchanged.
-Last actual Build4 observed guardDrop to rootfree318 missinghalf tmp; nativefreshness
-currentbegin/count2 vs incoming3. Physicalmerge/fullassert/singleton Build2 observed.
-Fullnormal/unwind/CURRENT/B2/qualificationOPEN,credit0. Freshness8 unqualified;
-BeforeLive/prefix OPEN. [Task/report](CURRENT-TASK.md).
+2026-10-20 close19:12:21UTC. T017:11:30/main19:11:30/absolute19:41:30 unchanged.
+Seven terminalFAILURE/accounted;3379charged/3374execution,221retired,remaining0,
+carryfalse; ownactive/unresolved/requests/reservations0. Candidate2b01df36 published;
+lastactuald3abd4c9, toolf2e92cec/profile838ade99 acceptedfalse/qualificationOPEN.
+Build2 oldmodel observed physicalmerge/fullcell/singleton. Experimental Build4/6
+observed guardspan/Drop to rootfree; Build6 rootfree324 missing tmp half persists,
+normal suffix effectiveness/branchidentity OPEN. Full CURRENT normal/unwind/B2 OPEN,
+independentcredit0. Freshness Build6 2positive/1intendednegative/5INC; final classifier
+reviewed but Build7 compile-only124/proof_attemptedfalse. No historical verdict
+rewrites. Prefix/physicalBeforeLive OPEN. [Task/report](CURRENT-TASK.md),
+[final](cloud-build/origin-layout/R8-FINAL-RESULT-20261020.json),
+[qualification](cloud-build/origin-layout/R8-FRESHNESS-QUALIFICATION-20261020.json).
 
 
 # MERGE — R8 READY / proof mission OPEN

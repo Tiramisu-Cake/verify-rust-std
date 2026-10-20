@@ -1,0 +1,97 @@
+{
+  "schema": "merge-r8-final-result-v1",
+  "status": "CLOSED_PARTIAL",
+  "start_utc": "2026-10-20T17:11:30Z",
+  "main_deadline_utc": "2026-10-20T19:11:30Z",
+  "absolute_deadline_utc": "2026-10-20T19:41:30Z",
+  "closed_utc": "2026-10-20T19:12:21.535159+00:00",
+  "wall_clock_seconds": 7251,
+  "active_agent_time": "NOT_MEASURED",
+  "ceiling_build_seconds": 3600,
+  "charged_build_seconds": 3379,
+  "execution_seconds": 3374,
+  "retired_unused_seconds": 221,
+  "remaining_build_seconds": 0,
+  "carryover": false,
+  "own_active": 0,
+  "own_unresolved": 0,
+  "own_requests": 0,
+  "own_reservations": [],
+  "builds": [
+    {
+      "id": "4952f684-c062-4788-9666-77c21a42359c",
+      "source": "5967687f34f81040e1858d604215624b02481cec",
+      "status": "FAILURE",
+      "charged": 631,
+      "execution": 631
+    },
+    {
+      "id": "eaf02609-72ae-4cb7-b583-b6b7e1bc5565",
+      "source": "1651614ae9979e9dce9893e9b07842ee4a074175",
+      "status": "FAILURE",
+      "charged": 538,
+      "execution": 538
+    },
+    {
+      "id": "80c749f2-3516-4df0-9ee2-12332bdc3c9e",
+      "source": "5a78c5b70b592e006d6df1b5f5051fe1636c83df",
+      "status": "FAILURE",
+      "charged": 592,
+      "execution": 591
+    },
+    {
+      "id": "df53281d-1441-4ef0-a8f6-30f73af459f6",
+      "source": "c274d0f2bf7356e55e7eece2ac1e709f481fc7cf",
+      "status": "FAILURE",
+      "charged": 404,
+      "execution": 403
+    },
+    {
+      "id": "97dc4d26-e112-4691-b67a-65f21552c45e",
+      "source": "c2434c1b0ae0e7c837b3769c95e02996e2b22b31",
+      "status": "FAILURE",
+      "charged": 590,
+      "execution": 589
+    },
+    {
+      "id": "eecf6525-7350-4410-b336-177185db019b",
+      "source": "d3abd4c9dc0b036805dda6399e4370029e59fa2d",
+      "status": "FAILURE",
+      "charged": 384,
+      "execution": 383
+    },
+    {
+      "id": "79d5a0e2-823a-43b9-8978-fdff30bcbd3a",
+      "source": "2b01df369ac927f4df875249758e89a97020325f",
+      "status": "FAILURE",
+      "charged": 240,
+      "execution": 239
+    }
+  ],
+  "final_candidate_source": "2b01df369ac927f4df875249758e89a97020325f",
+  "last_actual_source": "d3abd4c9dc0b036805dda6399e4370029e59fa2d",
+  "tool": "f2e92cecaf574d7970cc12d0cb1e75b2980b6aea",
+  "profile": "experimental-merge-owned-array-allocation-r8-v1",
+  "profile_sha256": "838ade9927ebba82b8df61283fdd8189e71b673ac91eadf897806d0bfaa80cc1",
+  "accepted": false,
+  "qualification": "OPEN",
+  "independent_credit": 0,
+  "proof_delta": [
+    "Build2 old-model observed physical sift merge/current assertion/singleton close",
+    "Build4/6 authorized experimental allocation profile passes original guard span/Drop observed path to root free",
+    "Build6 root free324 missinghalf tmp remains; normal suffix effectiveness and branch identity not established"
+  ],
+  "separate_freshness_controls": "Build6 positive2 PASS_CONTROL; numeric no-owner expected diagnostic; span5 INCONCLUSIVE; Build7 classifier-only actual run not attempted",
+  "open": [
+    "exact failed normal/cleanup return binding and checked post-Drop tmp readonly restoration",
+    "full normal Continue/break/unwind CURRENT posts and guard ownership",
+    "exact prefix Unsize/metadata/lifetime/borrow bridge",
+    "physical BeforeLive negative",
+    "full compatible mandatory matrix",
+    "whole insert_tail/caller/B2 and separate experimental profile qualification"
+  ],
+  "validation": "Independent Luna HIGH reviews; static18patch/17sourcepins/18base/recipe closure; service5 freshness/4 geometry/2placement plus wiring; actual compilation/proof only Cloud",
+  "causal_status": "UNKNOWN",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "historical_and_foreign_changes_preserved": true
+}

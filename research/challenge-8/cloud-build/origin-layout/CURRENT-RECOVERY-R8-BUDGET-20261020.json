@@ -2,13 +2,13 @@
   "phase": "MERGE-LATE-RECOVERY-REJOIN-R8-2026-10-20",
   "owner": "merge",
   "authorization_model": "bounded-cloud-budget",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "allowed_lanes": [
     "merge"
   ],
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 3139,
-  "remaining_build_seconds": 461,
+  "used_build_seconds": 3379,
+  "remaining_build_seconds": 0,
   "builds": [
     {
       "dispatch_token": "dispatch-296787ac55e54f63876015b526cdaaf8",
@@ -141,6 +141,28 @@
       "build_seconds": 384,
       "accounted": true,
       "execution_seconds": 383
+    },
+    {
+      "dispatch_token": "dispatch-66dc460fdb594648b3d1e1fe811dc99e",
+      "owner": "merge",
+      "phase_id": "MERGE-LATE-RECOVERY-REJOIN-R8-2026-10-20",
+      "infra_sha": "2b01df369ac927f4df875249758e89a97020325f",
+      "proof_sha": "2b01df369ac927f4df875249758e89a97020325f",
+      "lane": "merge",
+      "submitted_config_sha256": "10ab079ec54b1ad5141d3877429278009ac9b6ff89413bfe13e185af3379e8aa",
+      "reserved_seconds": 460,
+      "timeout_seconds": 400,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "e1318a11db65e253b43230ef92f07b6241cdfab1ce18529b53f898b81d476c90",
+      "build_id": "79d5a0e2-823a-43b9-8978-fdff30bcbd3a",
+      "start_time": "2026-10-20T19:06:53.612996116Z",
+      "finish_time": "2026-10-20T19:10:52.117353Z",
+      "create_time": "2026-10-20T19:06:52.881158947Z",
+      "build_seconds": 240,
+      "accounted": true,
+      "execution_seconds": 239
     }
   ],
   "active_build": null,
@@ -150,5 +172,8 @@
   "max_timeout_seconds": 900,
   "authorization": "Direct owner CURRENT-TASK R8 authorization: 120-minute main + 30-minute finishing; fresh3600 Cloud seconds; merge owner/lane; exact published pinned objects; no new submit/request after main; no carryover.",
   "policy_revision": "2026-10-20 CURRENT-TASK R8 / Evidence v0.11 / ITERATION-PROCESS",
-  "carryover_allowed": false
+  "carryover_allowed": false,
+  "retired_unused_seconds": 221,
+  "closed_utc": "2026-10-20T19:12:21.535159+00:00",
+  "closure_reason": "Original main deadline passed; seven terminal builds reconciled; 221 unused seconds retired without carry; actual CURRENT/unwind/B2 and separate experimental qualification remain open."
 }

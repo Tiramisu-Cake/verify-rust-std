@@ -7439,3 +7439,13 @@ Freshness8INC due wholearray3 refinement1 RawPtrunsupported (verifier0 not credi
 Candidate5 checked ghost suffix afterbranchDrop selects actual existingreadonlytoken,
 requires samepointer Drop effect, opensquarter, endsreadonly and mergesorigin;
 no runtime/tool/posts change. Controls ordinary&mutcast, strictstages retained.
+
+R8 CLOSED_PARTIAL19:12:21UTC, seven terminalFAILURE/accounted;3379charged/3374exec,
+221retired/remaining0/carryfalse, ownactive/unresolved/requests/reservations0.
+Build5 broad suffixanchor setupfail590; Build6 exactcalleranchor compilerPASS/actual
+rootfree324 missingtmphalf384; controls2positive/1intendednegative/5spanINC.
+Build7 reviewed percase classifieronly short400 qualification probe compile-only124,
+proof_attemptedfalse240; no control/actual proof credit. Finalnextblocker exact
+failed return path and originalreadonly debt postDrop/pre-free/Resume; fullCURRENT/
+normal/unwind/B2 and experimentalqualificationOPEN. T0/window unchanged; foreign/
+historical records preserved. Result R8-FINAL-RESULT-20261020.json.

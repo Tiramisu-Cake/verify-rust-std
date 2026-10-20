@@ -1,3 +1,10 @@
+# R8 closeout — 2026-10-20
+
+CLOSED_PARTIAL19:12:21UTC;3379charged/3374execution,221retired/no carry;
+ownactive/unresolved/requests/reservations0. Full CURRENT/unwind/B2 and separate
+experimental qualificationOPEN,credit0. [Report](../../CURRENT-TASK.md),
+[final](R8-FINAL-RESULT-20261020.json). Prior session entries follow.
+
 # MERGE origin/layout session and policy ACK
 
 ACK policy `c7ca8c467aecf10a4b53039372ee97714f854ee3`, own adoption commit `1b9e3df3182d13e5adf7d2e5d04afcfbc1851f14`. Addressed docs copied only; previous branch-local general docs/STATUS/README preserved in archive/merge-adoption-2026-10-10. No foreign STATUS/checkpoint/ledger/executable infrastructure copied, no whole-main merge. Own README operating directions superseded by common-policy links. No authority deviations.

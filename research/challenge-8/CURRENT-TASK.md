@@ -61,31 +61,54 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-R8 ACTIVE. T0/main/absolute UTC2026-10-20 17:11:30/19:11:30/19:41:30.
-Цель: actual physical fraction merge/singleton rejoin → original guard/CURRENT.
-Proof до→после: Build2 trace проходит physical merge/full sift assertion/singleton
-close. Build4 с отдельно разрешённым experimental allocation profile проходит
-прежний guard numeric-span/Drop barrier до final Freeing locals318, где отсутствует
-[1/2]points_to(tmp_addr,_). Полные normal Continue/break/unwind, CURRENT, B2 и
-qualification OPEN, independent credit0. Native receipt связывает tmp с CURRENT
-begin/count2, не автоматически с полным entry range3.
-Обслуживание отдельно: compiler preflight PASS; exact primitive-u64 matcher;
-изолированные flags probes. Freshness8controls INCONCLUSIVE: wholearray3 refiner1
-(RawPtr unsupported), verifier0 не засчитан. Candidate5 заменяет адресный оператор
-в controls и добавляет обычное checked post-Drop readonly recovery, без tool change.
-Новый profile остаётся отдельно OPEN; prefix/BeforeLive OPEN.
+**R8 CLOSED_PARTIAL.** T0/main/absolute UTC2026-10-20
+17:11:30 / 19:11:30 / 19:41:30; закрытие19:12:21. Wall-clock не active agent time.
+Цель: actual physical merge/singleton rejoin → original guard/CURRENT normal/unwind.
 
-| Build | Hypothesis/type | Candidate | Result | Charged |
-| --- | --- | --- | --- | --- |
-| 4952f684 | full900 vs short203 wrapper; target/matrix | 5967687f/tool47b80fad/profilee5ed4de5 | compilerPASS, matcher313 reject before resource proof | 631 |
-| eaf02609 | exact u64 Manifest matcher; target/matrix | 1651614a/tool43c1fdc2/profile845ea5a5 | physical rejoin observed, guard numeric-span refusal101 | 538 |
-| 80c749f2 | unchanged-model geometry probes | 5a78c5b7/tool43c1fdc2/profile845ea5a5 | INC inherited actual-only refiner flag; isolated copies fixed | 592 |
-| df53281d | reviewed allocation premise + corrected probes + target/matrix | c274d0f2/toolf2e92cec/profile838ade99 | compilerPASS; original Drop passes observed path; final tmp-half missing318; controlsINC | 404 |
+Proof до→после: Build2 на прежней модели проходит physical sift merge, CURRENT
+cell assertion и singleton close на наблюдаемом пути. Build4/6 на отдельно
+разрешённом experimental allocation profile проходит прежний guard span/Drop
+barrier до root free; Build6 verified324 всё ещё требует отсутствующую половину
+points_to(tmp_addr,_). Эффективность normal suffix и точная ветка отказа не
+установлены. Полные Continue/break/unwind, CURRENT posts, caller/B2 OPEN; credit0.
 
-Всего2755charged/2752execution из3600;845remaining. Own active/unresolved0. Build5 c2434c1b: compilerPASS, fullbodysetup anchor rejection;590charged.
-Candidate6 exact-wrapper anchor independently reviewed; checked commands unchanged.
-Последний submit планируется timeout780/envelope840 в остатке845. Окно прежнее.
-[Карточка](cloud-build/origin-layout/R8-SESSION-20261020.md),
+Отдельная qualification: Build6 freshness wholearray3/currentprefix2 PASS_CONTROL,
+numeric-same-address/no-owner EXPECTED_REJECTION_DIAGNOSTIC; пять span-controls
+INCONCLUSIVE. Исправлен reviewed per-case diagnostic classifier; Build7 остановился
+на compile-only124, proof_attempted=false. Qualification OPEN, acceptedfalse.
+Native allocation receipt связывает tmp с CURRENT begin/count2, не целым entry3.
+Это новое trusted premise явно разрешено владельцем; не lemma прежней модели.
+
+Обслуживание отдельно: exact u64 AST matcher; compiler/pre/post source hashes;
+изолированные flags probes; RawPtr fixture correction; exact caller-bound suffix
+anchor; strict diagnostic classifier. Luna HIGH independent reviews, static18patch/
+17sourcepins/18base/recipe, service5freshness/4geometry/2placement и wiring PASS.
+
+| Build | Гипотеза / кандидат | Результат | Charged |
+| --- | --- | --- | --- |
+| 4952f684 | full900 compile; 5967687f/tool47b80fad/e5ed4de5 | compilerPASS, matcher313 отказ | 631 |
+| eaf02609 | exact u64 matcher;1651614a/tool43c1fdc2/845ea5a5 | physical rejoin, guard span101 OPEN | 538 |
+| 80c749f2 | unchanged-model geometry;5a78c5b7 | INC actual-only refiner flag; isolated copies fixed | 592 |
+| df53281d | reviewed allocation; c274d0f2/toolf2e92cec/838ade99 | compilerPASS, guardDrop→rootfree318; controlsRawPtrINC | 404 |
+| 97dc4d26 | normal readonly suffix + cast; c2434c1b | compilerPASS; fullbody setup ambiguous brace anchor | 590 |
+| eecf6525 | exact caller anchor; d3abd4c9 | compilerPASS/actual; rootfree324 tmp half; controls2positive/1negative/5INC | 384 |
+| 79d5a0e2 | classifier-only controls;2b01df36,timeout400 | compile-only124; proof_attemptedfalse, controls unconfirmed | 240 |
+
+Итого **3379charged / 3374execution**, **221retired**, remaining0, carry=false.
+Семь terminalFAILURE/accounted; own active/unresolved/requests/reservations **0**.
+После main новых Builds/гипотез нет; pending request отозван. Исходные T0/бюджет/
+границы сохранены, чужие dirty files и historical ledgers не изменены.
+
+Последний опубликованный proof candidate2b01df369ac927f4df875249758e89a97020325f;
+последний actual d3abd4c9dc0b036805dda6399e4370029e59fa2d; toolf2e92cec,
+profile838ade99. Следующий blocker: точно связать failed normal/Cleanup return и
+восстановить original tmp readonly debt после соответствующего guard Drop до
+free/Resume; затем полные CURRENT posts. Prefix exact coercion/borrow bridge и
+физический BeforeLive остаются независимыми OPEN. Maintainer не получает новый
+model/proof blocker вместо разработки Merge.
+
+[Итог/полные identities](cloud-build/origin-layout/R8-FINAL-RESULT-20261020.json),
 [обязательства](cloud-build/origin-layout/R8-OBLIGATIONS-20261020.md),
-[Build4](cloud-build/origin-layout/R8-BUILD4-RESULT-20261020.json),
-[граница модели](cloud-build/origin-layout/R8-GEOMETRY-BOUNDARY-20261020.md).
+[qualification](cloud-build/origin-layout/R8-FRESHNESS-QUALIFICATION-20261020.json),
+[карточка](cloud-build/origin-layout/R8-SESSION-20261020.md),
+[release](cloud-build/origin-layout/R8-RELEASE-20261020.json).
