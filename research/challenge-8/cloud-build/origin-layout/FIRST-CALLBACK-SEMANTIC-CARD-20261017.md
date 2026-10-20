@@ -846,3 +846,25 @@ the one checked scope exit with fallthrough, stop and report the CFG/lifetime
 incompatibility rather than adding a fake label or relaxing scope checks.
 Actual acceptance needs a separately reviewed Cloud run; Build5 is diagnostic
 only.
+
+## R7 candidate7 — merge the sift predicate fraction in a supported assertion shape
+
+Build6 6019f7c5 is reported by the Evidence Brief as reaching the exact late
+recovery after successful full-token restoration, lifetime end, both scaled
+borrow ends/opens, and both readonly-ref ends; verification then fails at
+`merge_fractions *sift |-> _` because the kernel supports only predicate
+assertions and field-points-to assertions for `merge_fractions`. This is an
+assertion-shape boundary, not evidence that the sift predicate fraction is
+absent. The narrow source-side correction is to assert the actual predicate
+chunk explicitly as `merge_fractions points_to::<u64>(sift, _);`, matching the
+existing explicit-predicate assertion form used by the R5 addressability
+controls. The translator's opt-in late-recovery matcher must admit only the
+exact `points_to<u64>` predicate assertion with `sift` and a dummy value, while
+retaining the exact recovery command order and all prior token/loan gates.
+
+No field-points-to fallback, new authority, altered coefficients, kernel or
+model rule, runtime/source CFG change, generic assertion admission, or proof
+credit is authorized. Build6's bounded Brief/source identity and exact failure
+coordinates are recorded by the main agent; parser-input binding and causal
+attribution remain subject to that evidence's stated caveats. Static validation
+only; do not run a compiler or proof for this candidate.

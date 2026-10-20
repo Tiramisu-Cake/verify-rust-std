@@ -251,7 +251,7 @@ LATE_RECOVER = b"""            //@ assert lifetime_token(r5_late_k);
             //@ open scaledp(r5_sift_share, u64_full_borrow_content(t, r4_cmp_sift_ref))();
             //@ open [r5_sift_share]u64_full_borrow_content(t, r4_cmp_sift_ref)();
             //@ end_ref_readonly::<u64>(r4_cmp_sift_ref);
-            //@ merge_fractions *sift |-> _;
+            //@ merge_fractions points_to::<u64>(sift, _);
             //@ assert *sift |-> ?r7_sift_current;
             //@ close array::<u64>(sift, 1, cons(r7_sift_current, nil));
 """

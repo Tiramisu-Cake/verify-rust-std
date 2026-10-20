@@ -1,0 +1,45 @@
+{
+  "schema": "r7-build5-bounded-label-observation-v1",
+  "build_id": "4bb2b951-80b1-4772-84ce-abd20a0ad7c2",
+  "archive_sha256": "5d362f36734930c1a531d413fb7df0b12a78065cad4523cde7c0c33a238ca4a9",
+  "index_sha256": "ab624924ba60dd5d1bb7ab7cd812db7beedfb18d8034f195c7ecdbf080b75818",
+  "evidence_status": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "causal_status": "UNKNOWN",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "observations": [
+    {
+      "file_id": "7d457f18b4648275ca0a94b68859d4f392f468bfe2b5d791e28d96b664fe6209",
+      "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/proof-ast.ml",
+      "file_sha256": "39b0b98540c3f43cb40b336b42ffd2f11a677008902d037fe2ca0bc46a12dd17",
+      "coordinates": {"unit": "line", "base": 1, "start": 1466, "end_inclusive": 1474},
+      "request_id": "ec3c5b6ac07144759567b905a471fe1934152f54af4bd11a34ea7606a49039bd",
+      "query": "locate literal #merge_late_callback_scope_end",
+      "complete": true,
+      "exact": true,
+      "result": "Exactly two occurrences, at lines 1466 and 1474; both are arm-local GotoStmt nodes. No LabelStmt occurrence was found."
+    },
+    {
+      "file_id": "7d457f18b4648275ca0a94b68859d4f392f468bfe2b5d791e28d96b664fe6209",
+      "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/proof-ast.ml",
+      "file_sha256": "39b0b98540c3f43cb40b336b42ffd2f11a677008902d037fe2ca0bc46a12dd17",
+      "coordinates": {"unit": "line", "base": 1, "start": 1464, "end_inclusive": 1475},
+      "request_id": "e5f9dacf7fcb92f256cd4c9b23d7c21ebeb481a4aa2e82e1bcc07466e7b0fe27",
+      "query": "read exact bounded AST context around both late outcome arms",
+      "complete": true,
+      "exact": true,
+      "result": "Returning and unwinding SwitchStmt clauses each assign the generated outcome flag, execute the checked close PureStmt, then contain a GotoStmt to #merge_late_callback_scope_end."
+    },
+    {
+      "file_id": "7d457f18b4648275ca0a94b68859d4f392f468bfe2b5d791e28d96b664fe6209",
+      "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/proof-ast.ml",
+      "file_sha256": "39b0b98540c3f43cb40b336b42ffd2f11a677008902d037fe2ca0bc46a12dd17",
+      "coordinates": {"unit": "line", "base": 1, "start": 1477, "end_inclusive": 1486},
+      "request_id": "3b54d13be15d1ac129966203d0162c9ceb2056ebbfa5a0669ba042a8da920481",
+      "query": "read exact bounded context around late recovery label and statements",
+      "complete": true,
+      "exact": true,
+      "result": "A GotoStmt to #merge_late_callback_recover occurs at line 1477; its LabelStmt occurs at 1479 before full-token recovery. No scope-end LabelStmt appears in the bounded full AST."
+    }
+  ],
+  "interpretation_boundary": "These archived AST text observations support the reported control-encoding diagnosis but do not establish that this AST was the parser input for the failing verifier run."
+}

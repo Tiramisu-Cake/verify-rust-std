@@ -1,0 +1,75 @@
+{
+  "archive_sha256": "5d362f36734930c1a531d413fb7df0b12a78065cad4523cde7c0c33a238ca4a9",
+  "build_id": "4bb2b951-80b1-4772-84ce-abd20a0ad7c2",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 7,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "ba7c40032e998d5871061c660a28e8467a5cc16ca492125994ac0289346d98e5",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verifast-stage.json",
+  "file_sha256": "9519e9fcbfe17ce569f9596e76ad2c8b81380b6d7e0beda18e55125b9951e0a2",
+  "index_sha256": "ab624924ba60dd5d1bb7ab7cd812db7beedfb18d8034f195c7ecdbf080b75818",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "9519e9fcbfe17ce569f9596e76ad2c8b81380b6d7e0beda18e55125b9951e0a2",
+    "file_id": "ba7c40032e998d5871061c660a28e8467a5cc16ca492125994ac0289346d98e5",
+    "pointer": ""
+  },
+  "request_id": "3a8b4ca5e4462cf0cac2cb9a60a1cea0f19aad8f8434c5c2b378623ac98777e9",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/stage",
+      "value": "verifast"
+    },
+    {
+      "child_count": 16,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/argv"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/exit_code",
+      "value": 1
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/elapsed_seconds",
+      "value_literal": "0.416"
+    },
+    {
+      "child_count": 3,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/source_before"
+    },
+    {
+      "child_count": 3,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/source_after"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/source_unchanged",
+      "value": true
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

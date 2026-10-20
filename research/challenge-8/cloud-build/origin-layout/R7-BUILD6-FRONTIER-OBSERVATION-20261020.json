@@ -1,0 +1,99 @@
+{
+  "archive_sha256": "3287bdbace849c881b736167c71a07113b9ea430da0bc13ab10e70a723a1126d",
+  "build_id": "6019f7c5-1c0a-44a8-87be-3513797fe416",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 1410,
+    "line_separator": "LF",
+    "source_lines": 1412,
+    "start": 1401,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verifast.log",
+  "file_sha256": "56aeb6bad1a33679394cddaca0af62e7e0655f9922a905916a7383045789acb6",
+  "index_sha256": "b1c7c238631f973b7b48ee83ac4c7fed780ef6c5aa4267a370508e09c755febb",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 1410,
+    "expected_sha256": "56aeb6bad1a33679394cddaca0af62e7e0655f9922a905916a7383045789acb6",
+    "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+    "start": 1401
+  },
+  "request_id": "34ca9e714add821001fddae6c2262d965477de718a014aee5d432b7e87fa6ce1",
+  "requested_end": 1410,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1401,
+      "text": "  0.398313s: verified/lib.rs(313,364-365): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1402,
+      "text": "  0.398439s: verified/lib.rs(313,364-365): Verifying call"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1403,
+      "text": "  0.398654s: verified/lib.rs(313,382-392): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1404,
+      "text": "  0.398965s: verified/lib.rs(313,382-392): Verifying call"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1405,
+      "text": "  0.399147s: verified/lib.rs(313,474-478): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1406,
+      "text": "  0.400164s: verified/lib.rs(313,550-554): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1407,
+      "text": "  0.400548s: verified/lib.rs(313,640-641): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1408,
+      "text": "  0.400655s: verified/lib.rs(313,640-641): Verifying call"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1409,
+      "text": "  0.401251s: verified/lib.rs(313,659-674): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1410,
+      "text": "verified/lib.rs(313,659-674): error: Only predicate assertions and field-points-to assertions are supported here at this time."
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

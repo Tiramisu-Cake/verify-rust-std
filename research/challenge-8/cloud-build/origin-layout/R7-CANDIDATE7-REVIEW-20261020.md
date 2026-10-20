@@ -1,0 +1,5 @@
+# R7 candidate7 independent delta review
+
+GPT-6 Luna HIGH, fork_turns=none, no children: GO. Sole source command replacement merge_fractions points_to::<u64>(sift, _) uses existing supported predicate chunk merge, preserving13command order and exact physical resource/fraction requirements. Translator admits only exact CallExpr(points_to,u64,[],[sift,Dummy],Static) parser shape. Following physical-cell assertion and singleton close remain checked. Source/runtime/contracts/posts, kernel/model/prelude unchanged; no ownership minted. Static parser source inspected; no local compiler/proof.
+
+Tool 47b80fadab18df5819faefa8fbd759a95cac7801; translator 472d39f0c0a7dd1ee5205d1da7faff9a8a3f9bf1cc1c956c6bea15dbe7d83517; first-callback.py cf4bb34e4a814de785ee6eafba2faa42bbc9abcc06f2a79fca98320e3b11689f; profile e5ed4de577fe682d748f4f6af4aab4af54ef36e77a19ccfeddc08a1ce9aae6aa; patch 81be1b7479ec31c91a162b7ff8577e7aaecf00eefa5b4b1ddb7acad3d5ea45f5. Static17patch/18base composition and service4+5PASS; actual proof pending. WholeCURRENT/B2/qualification OPEN,independentcredit0.

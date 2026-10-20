@@ -1,13 +1,14 @@
 # MERGE — R7 ACTIVE / actual guard and CURRENT recovery
 
 T0/main/absolute UTC2026-10-20 14:33:33/16:33:33/17:03:33.
-Fresh3600Cloudseconds, no R6 carry; Builds1–4 terminalFAILURE,
-2061charged/1539remaining before Build5 accounting. Build5 4bb2b951 submitted,
-proof=infra71aa4b67/tool1aa4795e; timeout900/reservation960.
-Build4 source compile/preparation7 EXIT_ZERO, actual first refusal verified252
-additional global src-vs-begin3 span assertion. Fresh array source1positive/3expected,
-late admission2expected, acceptedfalse. Candidate5 removes only the speculative
-assertion; original operational Drop/copy checks/fullCURRENT posts remain.
+Fresh3600Cloudseconds, no R6 carry; Builds1–5 terminalFAILURE,
+2464charged/1136remaining before Build6 accounting. Build6 6019f7c5 WORKING,
+proof=infra637cdf45/tool2883dbf5/profile96a0f198, timeout900/reservation960.
+Build5 source compile/preparation7 EXIT_ZERO, reached late FnMut and checked
+half-token close; No such label before shared scope exit/fulltoken recovery.
+Candidate6 reviewed repair uses sole CFGsuccessor after both outcome close blocks.
+Fresh array source1positive/3expected, late admission2expected, acceptedfalse.
+BeforeLive remainsINC (unbound local); prefix placeholder at as_mut_ptr remains.
 Independent LunaHIGH GO, static/synthetic checksPASS; theorem/B2/qualification OPEN,
 independentcredit0. [Task/current report](CURRENT-TASK.md),
 [obligations](cloud-build/origin-layout/R7-OBLIGATIONS-20261020.md).
