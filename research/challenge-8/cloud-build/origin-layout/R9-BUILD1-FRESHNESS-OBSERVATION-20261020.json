@@ -1,0 +1,118 @@
+{
+  "schema": "merge-r9-freshness-targeted-observation-v1",
+  "build_id": "0f7534de-90d6-4911-bc29-78c6a18c62d1",
+  "build_source_claim": {
+    "run_exit": 1,
+    "source_revision_prefix": "1744fe39",
+    "source_revision_sha256": null,
+    "note": "Revision prefix supplied by the coordinating agent; this targeted aggregate does not independently establish a full source revision SHA."
+  },
+  "tool": {
+    "effective_commit": "ec985deab9c58bd485c17e9542acee83062986e9",
+    "profile": "experimental-merge-guard-current-return-r9-v1",
+    "profile_sha256": "8e2486e0cc0ed324fba91fa94b04eda388d5823129ec09f3c7f3d3d2f0d9073a",
+    "profile_schema": "smallsort-tracked-md-profile-v1",
+    "profile_accepted": false
+  },
+  "evidence": {
+    "class": "SOURCE_OBSERVATIONS_NOT_PROOF",
+    "aggregate_classification": "DIAGNOSTIC_CONTROLS_CLASSIFIED",
+    "aggregate_accepted": false,
+    "proof_credit": false,
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "causal_status": "UNKNOWN",
+    "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/owned-array-allocation-freshness-controls/aggregate.json",
+    "file_id": "3177de3caa3993017f98719ca5b1fc66b7d21b1c7d05c2396f7a9c2dc042da31",
+    "file_sha256": "551f8ecebf0f7346a8d37416faa8e54883ed0905fd4c63bed7af1de5882a95c3",
+    "archive_sha256": "007ce77faf3c928be1ca5c35e484a6d7ccb58020a13a409111b5525cecc2bdea",
+    "index_sha256": "7492496b07b78759476e570027304bf148636f0c289067a8495421d958753d28",
+    "catalogue_coverage": {
+      "catalogue_complete": true,
+      "files": 2274,
+      "files_with_incomplete_content": 2190,
+      "source_absence_established": false
+    }
+  },
+  "reader_requests": {
+    "aggregate_root_pointer": "f20bca8838a0102847bdd2b439d3e651a297c0c443fd8fcac1bc89751b1d2b9d",
+    "cases_classifications": "2d7b85368aa520a302b69a6c2ea5b39a8d72521670b5d89bb9fc9cac027ed5a7",
+    "case_details_overview": "7e893603ed95108aef13fb9beff333d30f06a06678e60d42d70b9dc94ba0352f",
+    "default_off_details_page_1": "0cdc73b6ecade0c9147ab1e626956645de6e7d8276356fc160e4cd1268f1d6c2",
+    "default_off_details_page_2": "d0609218128fbf783ab9b02eca3f68caa242e06f0bb637ab455a412854521444",
+    "wholearray3_source_binding": "af7fa4a5d59ed7f464d9e854edbe88a77531673a545fd15246329f03be5a8ef8"
+  },
+  "cases": {
+    "all_classified": true,
+    "classification_counts": {
+      "PASS_CONTROL": 2,
+      "EXPECTED_REJECTION_DIAGNOSTIC": 6,
+      "INCONCLUSIVE": 0
+    },
+    "results": {
+      "currentprefix2": "PASS_CONTROL",
+      "default_off": "EXPECTED_REJECTION_DIAGNOSTIC",
+      "missing_current_owner": "EXPECTED_REJECTION_DIAGNOSTIC",
+      "numeric_same_address_no_owner": "EXPECTED_REJECTION_DIAGNOSTIC",
+      "wholearray3": "PASS_CONTROL",
+      "wrong_element": "EXPECTED_REJECTION_DIAGNOSTIC",
+      "wrong_entry_count": "EXPECTED_REJECTION_DIAGNOSTIC",
+      "wrong_root": "EXPECTED_REJECTION_DIAGNOSTIC"
+    },
+    "stage_gate_admitted": {
+      "currentprefix2": true,
+      "default_off": true,
+      "missing_current_owner": true,
+      "numeric_same_address_no_owner": true,
+      "wholearray3": true,
+      "wrong_element": true,
+      "wrong_entry_count": true,
+      "wrong_root": true
+    },
+    "stage_gate_request_ids": {
+      "currentprefix2": "56b9ffeb9b800566d8a666803b701cc938ee43ec715513ca69209e3a35fd2571",
+      "default_off": "b494110a8cb5713e990f69df4d73ec4ba7ca1a98e8bd8118be36e1dd1f1b4e3d",
+      "missing_current_owner": "365c65b0cc04bbb5d0a51aee2e8a7275d27b1feb0948728a47ab0e150e4ecad2",
+      "numeric_same_address_no_owner": "e3fd3175bac44b1c760333f78883ccce978f64ba8242ae98f81ee58ac48d84ad",
+      "wholearray3": "5502f6c57593d9a51c320a4133c8d17c8e64f30c1640fd5e2ccb56299d4868cd",
+      "wrong_element": "7df1fb4d3eb6660ab80c39c6cdf2539ba02d03f721f99bb483db5201ca12ec9b",
+      "wrong_entry_count": "eedcdf5cc871de9f683c1c3311fac4c10233dbe505633e0ac9bd5d4ea9810455",
+      "wrong_root": "8fa01893c330c6d6f295ddadadee16423b0dc672c532371a4721255d062cade2"
+    },
+    "source_gate_admitted": {
+      "currentprefix2": true,
+      "default_off": true,
+      "missing_current_owner": true,
+      "numeric_same_address_no_owner": true,
+      "wholearray3": true,
+      "wrong_element": true,
+      "wrong_entry_count": true,
+      "wrong_root": true
+    },
+    "source_unchanged_at_every_stage": {
+      "currentprefix2": true,
+      "default_off": true,
+      "missing_current_owner": true,
+      "numeric_same_address_no_owner": true,
+      "wholearray3": true,
+      "wrong_element": true,
+      "wrong_entry_count": true,
+      "wrong_root": true
+    },
+    "source_gate_request_ids": {
+      "currentprefix2": "143cbddb485fd842cbf0100a46f209a83ef76f38a450599606170983d5c8111d",
+      "default_off": "82fe17c614656b4ce9ce6b5aa6aa359bc9996a13e94a6a426c2f21bc179e6fd9",
+      "missing_current_owner": "12b679d579df60a1f0f00e911a8bfe33f325424c7d5174d28118fbf51f8040d2",
+      "numeric_same_address_no_owner": "6d933d8139035df0a1be1825e03ebd42c14b91a6a525a22b11af0c4c0dd02383",
+      "wholearray3": "6bf1f90b2965fe8f56713d70e5498032134b227d5e8e9278e75ad2cb31845daf",
+      "wrong_element": "b7d30ff49460e7b79d9dcd318b1330673d0b984aea1112a3eef3e9ddccb74480",
+      "wrong_entry_count": "6ffd436d551aa5bc41a232b923c48d470803a144c76b74ad836bb3469145ee9c",
+      "wrong_root": "a61eab21a021e29ec6fe679d8d3ddf90a43486a36276254d1f7dfcc00c54976b"
+    }
+  },
+  "interpretation": {
+    "qualification": "OPEN",
+    "accepted": false,
+    "proof_credit": 0,
+    "note": "Aggregate classified all eight controls; no case is INCONCLUSIVE. Classifications are observations from the archived aggregate, not independent proof acceptance. Targeted reader reports parser-input binding NOT_ESTABLISHED and causal status UNKNOWN."
+  }
+}

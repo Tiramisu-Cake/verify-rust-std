@@ -39,3 +39,49 @@ After observed path/resource binding, choose exact checked postDrop continuation
 marker and run its source-supplied commands through ordinary resource verification.
 Do not place recovery on Drop's own unwind action, retire tmp early, weaken posts,
 or reclassify R8 controls. New semantic premise outside existingR8scope not allowed.
+
+Read-only contract ledger while Build1 pending: checked concrete CopyOnDrop::drop
+normal post preserves sourcequarter and gives copied destinationsingleton/current
+owner; on_unwind_ens false. Generatedglue checked same exactselectedmethod/MIR
+and admitted compiler CFG. Ambient callbackpanic cleanup may call this Drop and
+return normally beforeResume; that successfulreturn is distinct from Drop-own
+unwind and is the only recovery candidate. Initial immutabletmp half split by
+originalreadonlyinit leavesquarter+quarter token; latecomparison further splits
+and rejoins origin fractions separately. End originalreadonly + mergeallactual
+origin fractions should restore requiredhalf, not fullphysicalpermission. The
+Drop destination is CURRENT gap_guard.dst (begin+1 orbegin), not necessarily the
+initial immutable Rustparam tail=begin+2; no assumed destination/tail equality.
+Currentarray rejoin must use exactfullpointer/currentvalues and preserve all3cells.
+
+## Candidate2 rationale recorded before implementation
+
+Build1 exact1744fe39/tool ec985dea observes selected Drop returning on cleanup
+bb143 -> bb144 Resume -> rootfree. Body fingerprint452b5ef250c63188, selected
+method hash11549365108250137374, same native body/target reader. Read-only heap
+shows originaltoken(r4_tmp_ref,tmp_addr,1/4), retained tmp quarter, expanded
+sourcequarter singleton/current and copied destination singleton/current. Thus
+old normal suffix does not execute on this observed cleanup continuation; its
+folded-effect open would also require a representation absent at this point.
+This is source observation, independent proof credit remains0.
+
+Checked repair: R9-only exact source command block marker, removed from ordinary
+end-of-body placement and cloned after qualified selectedDrop RETURNING receiver
+finish, before original target, on normal and cleanup edges. Keep own-unwinding
+arm unchanged. Commands assert existing originaltoken, open existing sourcequarter
+array and emptytail, end readonly, merge physical origin fractions, assert half.
+No effect predicate synthesized/opened, no ownership/values assumed. Exact body,
+generatedkey/path/hash/guard, baremutablelocal, replacefalse, first+latecallback
+qualification and sourceblock shape required; ambiguous/missingmatches refuse.
+All recovery commands use existing kernel checking. Unchanged R8/defaultoff.
+
+Controls before next submit: malformed/missing/duplicate marker, wrong source
+command shape or generatedbinding/target, missingtoken/fraction/wrongorigin,
+duplicate/omitted readonlyend, and marker misplaced/own-unwind separation. Native
+receipts must distinguish Drop returning recovery completion before Resume/free;
+then check full CURRENT normal/unwind posts and retained matrix. A later failure
+is evidence of progress only when exact checked commands/receipts establish it.
+
+Candidate2 diagnostics also format existing predicate-constructor terms
+(own/foreach/type interpretation) rather than ignoring unknown predicate-family
+symbols. Bound48 chunks per event, shown/total explicit; input heap/env unchanged.
+This distinguishes physical fullarray from logical CURRENT owner reconstruction.

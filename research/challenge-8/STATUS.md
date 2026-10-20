@@ -1,13 +1,14 @@
-# MERGE — R9 ACTIVE / native failed-return binding
+# MERGE — R9 ACTIVE / checked guard return candidate2
 
-T0/main/absolute UTC2026-10-20 19:30:15/21:30:15/22:00:15; fresh3600/used0;
-max_timeout1200. R8closed/221retired notcarried. Candidate1 toolec985dea,
-R9separateexperimentalprofile: read-only executedDrop/Return/Resume+tmpheap receipts;
-existingR8allocationrule unchanged. IndependentLunaHIGH registration/native/wiringGO;
-static19patch/17pins/18base and servicechecksPASS. Actualpending; wholeCURRENT/
-normal/unwind/B2/qualificationOPEN,credit0. Firsttimeout1200/envelope1260 with
-coldcompile+target+controls+evidence plan; sourceinputs publishedbeforecoordinator.
-[Task](CURRENT-TASK.md), [session](cloud-build/origin-layout/R9-SESSION-20261020.md).
+T0/main/absolute UTC2026-10-20 19:30:15/21:30:15/22:00:15; fresh3600,
+used589/588execution, remaining3011; ownactive/unresolved0. R8closed/no carry.
+Build1 0f7534de FAILURE exact1744fe39/toolec985dea: native cleanupDrop returning
+bb143→144Resume→rootfree missinghalf. Originaltokenquarter + sourcequarterarray
++originquarter observed. Freshness2positive+6intendednegative classified; profile
+qualificationOPEN/acceptedfalse/credit0. Checked returninghook candidate2 inwork;
+R8allocationpremise unchanged. FullCURRENTnormal/unwind/prefix/B2OPEN.
+[Task](CURRENT-TASK.md), [session](cloud-build/origin-layout/R9-SESSION-20261020.md),
+[Build1](cloud-build/origin-layout/R9-BUILD1-RESULT-20261020.json).
 
 Ниже исторические checkpoints; приоритет у текущего R9 задания.
 

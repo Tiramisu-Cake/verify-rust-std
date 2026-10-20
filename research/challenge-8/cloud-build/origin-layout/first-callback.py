@@ -19,6 +19,7 @@ R5_PROFILE = 'experimental-merge-guard-addressability-emitter-r5-v1'
 R7_PROFILE = 'experimental-merge-late-callback-recovery-r7-v1'
 R8_PROFILE = 'experimental-merge-owned-array-allocation-r8-v1'
 R9_PROFILE = 'experimental-merge-guard-current-return-r9-v1'
+R9_GUARD_RETURN_RECOVERY_ENV = 'SMALLSORT_R9_GUARD_RETURN_RECOVERY'
 SUPPORTED_PROFILES = (PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE)
 R9_GUARD_TRACE_ENV = 'SMALLSORT_R9_GUARD_TRACE'
 PREFIX_NAME = b'insert_tail_first_callback_prefix'
@@ -272,6 +273,17 @@ GUARD_POST_DROP_RECOVERY = b"""    //@ assert ref_readonly_end_token::<u64>(?r8_
     //@ merge_fractions points_to::<u64>(r8_tmp_origin, _);
 """
 
+R9_GUARD_RETURN_MARKER = b"""    /*@ {
+        guard_current_return_recover();
+        assert ref_readonly_end_token::<u64>(?r9_guard_ref, ?r9_tmp_origin, ?r9_tmp_share);
+        open [1/4]array::<u64>(r9_guard_ref, 1, ?r9_drop_current);
+        open [1/4]array::<u64>(r9_guard_ref + 1, 0, nil);
+        end_ref_readonly::<u64>(r9_guard_ref);
+        merge_fractions points_to::<u64>(r9_tmp_origin, _);
+        assert [1/2](*r9_tmp_origin |-> ?r9_tmp_current);
+    } @*/
+"""
+
 
 def _prepare_post_drop_recovery(source, old):
     # Bind the closing sequence to the unique following actual caller, rather
@@ -280,6 +292,16 @@ def _prepare_post_drop_recovery(source, old):
     return _one(source, anchor, b'        }\n    }\n' +
                 GUARD_POST_DROP_RECOVERY + b'}\n\n' + old.WRAPPER_SIGNATURE,
                 'checked original guard debt after branch Drop before function free')
+
+
+def _prepare_r9_guard_return_recovery(source, old):
+    # This marker is parsed and moved by the R9-only checked MIR hook. It
+    # remains ghost-only in Rust and is anchored to the one wrapper body.
+    anchor = b'        }\n    }\n}\n\n' + old.WRAPPER_SIGNATURE
+    return _one(source, anchor,
+                b'        }\n    }\n' + R9_GUARD_RETURN_MARKER + b'}\n\n' +
+                old.WRAPPER_SIGNATURE,
+                'R9 checked guard-return recovery marker')
 
 
 def _prepare_late_scope(source):
@@ -401,7 +423,10 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
         if profile in (R7_PROFILE, R8_PROFILE, R9_PROFILE):
             verified = _prepare_late_scope(verified)
         if profile in (R8_PROFILE, R9_PROFILE):
-            verified = _prepare_post_drop_recovery(verified, old)
+            if profile == R8_PROFILE:
+                verified = _prepare_post_drop_recovery(verified, old)
+            else:
+                verified = _prepare_r9_guard_return_recovery(verified, old)
     # Strip the NEW ghost-only annotations and compare with inherited source.
     # Other original ghost commands were already checked by old._prepare.
     # Runtime comparison removes only comments and whitespace; the inherited
@@ -430,6 +455,9 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
                   final_posts_sha256=_sha(old.INSERT_CONTRACT),
                   callback_marker_sha256=_sha(markers),
                   late_callback_scope_recovery_requested=(profile in (R7_PROFILE, R8_PROFILE, R9_PROFILE) and not prefix),
+                  guard_return_recovery_marker_sha256=(
+                      _sha(R9_GUARD_RETURN_MARKER) if profile == R9_PROFILE and not prefix else None),
+                  guard_return_recovery_requested=(profile == R9_PROFILE and not prefix),
                   first_callback_unwind_recovery_qualified=False,
                   first_callback_unwind_status='NOT_RUN', proof_credit=False)
     record['actual_first_call_line'] = old._line(verified, call.rstrip(b'\n'))
@@ -451,11 +479,13 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
 
 def _execute_case_with_r9_trace(execute_case, case, args, env, *, profile,
                                 prefix=False, actual_callback_case=False):
-    """Enable R9 native guard tracing only for its nonprefix callback case."""
+    """Enable R9-only native guard diagnostics and checked recovery."""
     case_env = dict(env)
     case_env.pop(R9_GUARD_TRACE_ENV, None)
+    case_env.pop(R9_GUARD_RETURN_RECOVERY_ENV, None)
     if profile == R9_PROFILE and not prefix and actual_callback_case:
         case_env[R9_GUARD_TRACE_ENV] = '1'
+        case_env[R9_GUARD_RETURN_RECOVERY_ENV] = '1'
     return execute_case(case, args, case_env)
 
 
@@ -543,6 +573,7 @@ def run(evidence, args, env, execute_case, validated_receipt):
         raise TypeError('hosted execute_case required')
     campaign_env = dict(env)
     campaign_env.pop(R9_GUARD_TRACE_ENV, None)
+    campaign_env.pop(R9_GUARD_RETURN_RECOVERY_ENV, None)
     selected_profile = getattr(args, 'profile', None)
     profile_path = os.environ.get('SMALLSORT_MERGE_PROFILE')
     if (selected_profile not in SUPPORTED_PROFILES or not profile_path or
@@ -606,7 +637,9 @@ def run(evidence, args, env, execute_case, validated_receipt):
             late_controls = _load('r7_late_admission', HERE/'r7-late-admission-controls.py')
             results['late_scope_admission_controls'] = late_controls.run(
                 evidence/'late-scope-admission-controls', args, campaign_env,
-                lambda case, case_args, case_env: dispatch(case, case_args, case_env),
+                lambda case, case_args, case_env: dispatch(
+                    case, case_args, case_env,
+                    actual_callback_case=(selected_profile == R9_PROFILE)),
                 evidence/'full_body/cases/actual_three_current_full_posts',
                 json.loads((evidence/'full_body/preparation.json').read_text()))
         if selected_profile in (R8_PROFILE, R9_PROFILE):
@@ -614,6 +647,18 @@ def run(evidence, args, env, execute_case, validated_receipt):
             results['owned_array_allocation_freshness_controls'] = freshness.run(
                 evidence/'owned-array-allocation-freshness-controls', args, campaign_env,
                 lambda case, case_args, case_env: dispatch(case, case_args, case_env))
+        if selected_profile == R9_PROFILE:
+            guard_controls = _load('r9_guard_return_controls', HERE/'r9-guard-return-controls.py')
+            args.r8_owned_array_allocation = True
+            try:
+                results['guard_return_recovery_controls'] = guard_controls.run(
+                    evidence/'guard-return-recovery-controls', args, campaign_env,
+                    lambda case, case_args, case_env: dispatch(
+                        case, case_args, case_env, actual_callback_case=True),
+                    evidence/'full_body/cases/actual_three_current_full_posts',
+                    json.loads((evidence/'full_body/preparation.json').read_text()))
+            finally:
+                args.r8_owned_array_allocation = False
         if results['prefix']['current_false_true_panic_proved']:
             controls = _load('first_callback_admission', HERE/'first-callback-admission-controls.py')
             results['admission_controls'] = controls.run(

@@ -119,6 +119,9 @@ def main() -> None:
         'research/challenge-8/cloud-build/origin-layout/R9-BASELINE-PROFILE-20261020.json',
         'research/challenge-8/cloud-build/origin-layout/r9-source-preflight.py',
         'research/challenge-8/cloud-build/origin-layout/r9-wiring-service-test.py',
+        'research/challenge-8/cloud-build/origin-layout/r9-marker-service-test.py',
+        'research/challenge-8/cloud-build/origin-layout/r9-guard-return-controls.py',
+        'research/challenge-8/cloud-build/origin-layout/r9-guard-return-controls-service-test.py',
         'research/challenge-8/cloud-build/origin-layout/r8-freshness-controls.py',
         'research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch',
     }

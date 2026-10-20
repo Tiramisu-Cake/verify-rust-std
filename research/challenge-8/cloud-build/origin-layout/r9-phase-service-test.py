@@ -70,10 +70,12 @@ class R9PhaseTests(unittest.TestCase):
         for key in (
             "phase", "owner", "authorization_model", "allowed_lanes",
             "ceiling_build_seconds", "start_utc", "main_deadline_utc", "deadline_utc",
-            "max_timeout_seconds", "status", "used_build_seconds", "remaining_build_seconds",
-            "builds", "active_build", "carryover_allowed",
+            "max_timeout_seconds", "status", "carryover_allowed",
         ):
             self.assertEqual(registered[key], synthetic[key])
+        self.assertEqual(registered["used_build_seconds"] + registered["remaining_build_seconds"],
+                         registered["ceiling_build_seconds"])
+        self.assertIsInstance(registered["builds"], list)
         self.assertEqual(authorize(args(), synthetic), control.datetime.datetime.fromisoformat(DEADLINE_UTC))
         self.assertEqual(authorize(args(timeout=999), synthetic), control.datetime.datetime.fromisoformat(DEADLINE_UTC))
         self.assertLessEqual(1200 + 60, 1800)

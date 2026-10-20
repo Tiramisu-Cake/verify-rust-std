@@ -69,9 +69,12 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 ## Отчёт агента
 
 R9 ACTIVE. T0/main/absolute UTC2026-10-20 19:30:15/21:30:15/22:00:15.
-Fresh3600, used0; max_timeout1200; R8closed/221retired не переносить.
-Цель: exact failedreturn/Drop binding → checked originaltmp recovery → CURRENT.
-До: R8Build6 rootfree324 missinghalf; suffix/path неизвестны. После: пока нет
-нового proof-result. Сначала targetedEvidence и registration1200+servicechecks;
-изменения tool/continuation только после rationale/review. QualificationOPEN,credit0.
-Ownactive/unresolved/requests/reservations0 на старте. [Карточка](cloud-build/origin-layout/R9-SESSION-20261020.md).
+Fresh3600, used589execution588, remaining3011; R8closed/no carry.
+До: rootfree missinghalf, branchunknown. После Build1: exactnative cleanupDrop
+returningbb143→144Resume→free; tokenquarter+sourcequarter+originquarter remain.
+Proof всёещё rootfree missinghalf; fullCURRENTpostsOPEN, independentcredit0.
+Freshness2positive+6intendednegative source-classified, qualificationOPEN.
+Build1 0f7534de FAILURE589, exact1744fe39/ec985dea; setup/diagnostic work отдельно.
+Candidate2 checkedreturninghook разрабатывается; ownactive/unresolved0.
+[Результат](cloud-build/origin-layout/R9-BUILD1-RESULT-20261020.json),
+[сессия](cloud-build/origin-layout/R9-SESSION-20261020.md).
