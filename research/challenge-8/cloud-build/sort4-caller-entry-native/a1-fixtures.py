@@ -65,14 +65,15 @@ SOURCE_FILES = {
 # is inferred from the source local at each ghost call, so the generated proof
 # never has to guess the rustc-elaborated lifetime identifier.
 OPTION_CLEANUP_LEMMA = b"""/*@
+use std::option::{Option, Option::None, Option::Some};
 lem a1_cleanup_option_ref<'a, T>(value: std::option::Option<&'a T>)
     req thread_token(?t) &*& std::option::Option_own::<&'a T>(t, value);
     ens thread_token(t);
 {
     open std::option::Option_own::<&'a T>(t, value);
     match value {
-        std::option::Option::None => {}
-        std::option::Option::Some(r) => {}
+        Option::None => {}
+        Option::Some(r) => {}
     }
 }
 @*/

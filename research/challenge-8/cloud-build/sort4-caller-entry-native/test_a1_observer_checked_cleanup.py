@@ -47,8 +47,11 @@ class ObserverCleanupConstructionTests(unittest.TestCase):
         self.assertIn(b"thread_token(?t)", lemma)
         self.assertIn(b"ens thread_token(t);", lemma)
         self.assertIn(b"open std::option::Option_own::<&'a T>(t, value);", lemma)
-        self.assertIn(b"std::option::Option::None => {}", lemma)
-        self.assertIn(b"std::option::Option::Some(r) => {}", lemma)
+        self.assertIn(b"use std::option::{Option, Option::None, Option::Some};", lemma)
+        self.assertIn(b"Option::None => {}", lemma)
+        self.assertIn(b"Option::Some(r) => {}", lemma)
+        self.assertNotIn(b"std::option::Option::None", lemma)
+        self.assertNotIn(b"std::option::Option::Some", lemma)
         self.assertNotIn(b"'_", lemma)
         self.assertNotIn(b"assume", lemma)
         self.assertNotIn(b"axiom", lemma)
@@ -75,7 +78,15 @@ class ObserverCleanupConstructionTests(unittest.TestCase):
             fixtures._checked_cleanup_helper_metadata(synthetic + fixtures.OPTION_CLEANUP_LEMMA)
         with self.assertRaises(fixtures.FixtureError):
             fixtures._checked_cleanup_helper_metadata(synthetic.replace(
-                b"Option::None", b"Option::Some", 1))
+                b"Option::None => {}", b"Option::Some => {}", 1))
+
+    def test_import_and_both_constructor_patterns_are_a_closed_source_form(self):
+        lemma = fixtures.OPTION_CLEANUP_LEMMA
+        self.assertEqual(lemma.count(b"use std::option::{Option, Option::None, Option::Some};"), 1)
+        self.assertEqual(lemma.count(b"Option::None => {}"), 1)
+        self.assertEqual(lemma.count(b"Option::Some(r) => {}"), 1)
+        self.assertNotIn(b"std::option::Option::None", lemma)
+        self.assertNotIn(b"std::option::Option::Some", lemma)
 
     def test_p0c_and_false31_keep_signature_and_guard_and_call_cleanup_each_exit(self):
         for false31, expected_assertion in ((False, b"assert len <= 32;"),

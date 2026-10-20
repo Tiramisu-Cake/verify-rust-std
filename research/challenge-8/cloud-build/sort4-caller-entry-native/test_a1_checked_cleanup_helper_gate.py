@@ -44,14 +44,15 @@ def sha(raw: bytes) -> str:
 def fixture_source() -> bytes:
     return (b"// fixture prefix\n"
             b"/*@\n"
+            b"use std::option::{Option, Option::None, Option::Some};\n"
             b"lem a1_cleanup_option_ref<'a, T>(value: std::option::Option<&'a T>)\n"
             b"    req thread_token(?t) &*& std::option::Option_own::<&'a T>(t, value);\n"
             b"    ens thread_token(t);\n"
             b"{\n"
             b"    open std::option::Option_own::<&'a T>(t, value);\n"
             b"    match value {\n"
-            b"        std::option::Option::None => {}\n"
-            b"        std::option::Option::Some(r) => {}\n"
+            b"        Option::None => {}\n"
+            b"        Option::Some(r) => {}\n"
             b"    }\n"
             b"}\n"
             b"@*/\n"
@@ -60,7 +61,7 @@ def fixture_source() -> bytes:
 
 def metadata(source: bytes) -> dict:
     lines = source.splitlines(keepends=True)
-    start, end, body_start, body_end = 2, 13, 3, 12
+    start, end, body_start, body_end = 2, 14, 4, 13
     block = b"".join(lines[start - 1:end])
     return {"name": "a1_cleanup_option_ref", "kind": "lemma",
             "source_start_line": start, "source_end_line": end,
@@ -69,7 +70,7 @@ def metadata(source: bytes) -> dict:
 
 
 def ast_text(*, duplicate=False, ambiguous=False, external=False,
-             kind="manual_lemma", span=(3, 12)) -> str:
+             kind="manual_lemma", span=(4, 13)) -> str:
     kind_node = {
         "manual_lemma": "Lemma (false, None)",
         "lemma_atom": "Lemma",
@@ -109,7 +110,7 @@ def runtime_func(name="caller", header=(20, 1, 30, 1), close=30) -> str:
             f'loc "verified/lib.rs({close},1)")), false, [])')
 
 
-def focused_ast(*, caller_span=(20, 30), ghost_span=(3, 12),
+def focused_ast(*, caller_span=(20, 30), ghost_span=(4, 13),
                 external=False) -> str:
     ghost = ('Func (loc "verified/lib.rs('
              f'{ghost_span[0]},5-26)", Lemma (false, None), [], None, '
@@ -484,13 +485,13 @@ class CheckedCleanupHelperGateTests(unittest.TestCase):
                 record = self.collect(stage=FakeStage(ast_text(kind=kind)))
                 self.assertEqual(record["status"],
                                  "BLOCKED_CHECKED_HELPER_PREREQUISITE")
-        record = self.collect(stage=FakeStage(ast_text(span=(3, 11))))
+        record = self.collect(stage=FakeStage(ast_text(span=(4, 12))))
         self.assertEqual(record["status"], "BLOCKED_CHECKED_HELPER_PREREQUISITE")
-        record = self.collect(stage=FakeStage(ast_text(span=(3, 2))))
+        record = self.collect(stage=FakeStage(ast_text(span=(4, 3))))
         self.assertEqual(record["status"], "BLOCKED_CHECKED_HELPER_PREREQUISITE")
 
     def test_duplicate_source_helper_is_rejected_before_verification(self):
-        block = b"".join(self.source.splitlines(keepends=True)[1:13])
+        block = b"".join(self.source.splitlines(keepends=True)[1:14])
         duplicate = self.source + block
         (self.fixture / "verified/lib.rs").write_bytes(duplicate)
         fake = FakeStage(ast_text())

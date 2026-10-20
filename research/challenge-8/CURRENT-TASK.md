@@ -64,7 +64,7 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-R11 ACTIVE. T0=2026-10-20T21:41:43Z, main23:41:43Z, absolute2026-10-21T00:11:43Z. Budget3600: S1charge531+S2charge511+S3charge490=1532, remaining2068, carry0. Все3 terminal/accounted, ownactive0; следующий submit только послеreview/pins/exactpublishedclosure/coordinator.
+R11 ACTIVE. T0=2026-10-20T21:41:43Z, main23:41:43Z, absolute2026-10-21T00:11:43Z. Budget3600: S1charge531+S2charge511+S3charge490=1532, remaining2068, carry0. S1–S3 terminal/accounted; S4active1, resultsPENDING.
 
 S1 `ec83aeb7-b15f-4bde-a95d-ccf7e1b58100`, candidate5fc6f44b: FAILURE/source0/packageSUCCESS, execute442.743/package68.915/verdict1.219s. P0c FAIL Option_own141 несмотря на directdrop; P1 INCONCLUSIVE ConstTypeExpr.
 
@@ -72,6 +72,6 @@ S2 `7aa3115e-571c-45d8-8142-4ee02db599f6`, candidate80e8d914: FAILURE/source0/pa
 
 S3 `06362db8-2b0a-45fd-a4d6-5e4d1dac8069`, candidate78c9f523: FAILURE/source0/packageSUCCESS, execute406.602/package67.471/verdict0.966s. Checked generic cleanup lemma с sameBuild helperproof prerequisite; обеhelperstageexit2 доAST: caller summary restrictedactualobserver. Это преждевременный profile focus rejection, не проверенный FAIL тела леммы. P0c/P1sourceINC/same-invocationASTmissing. Exact26 каждогоBuild:5INTENDED_CLASSIFIED/2INCONCLUSIVE/19NOT_RUN/allproofcreditfalse.
 
-S4 готовится: отдельный nonpublishing checked-helper toolstage с exactsourceSHA/focus/name/bounds + backendexactblock/ASTkind/span, полныеenvdigests сверяются с восстановленнымexpectedenv, caller/body/interface ограничения сохраняются. Нового trustaxiom/ownershipbridge нет. Full-matrix1200/work960/soft900/report240/envelope1260; fitUNESTABLISHED (historicalfull904.276 +4freshhelper checks), возможныpartial/source124. Все26/ownreceipts остаются обязательными втомжеBuild; reserve/margins неуменьшаются. Toolpatch compilegate включён в обычныйCloudpreflight.
+S4 `10354d5a-0d8d-4eab-a453-2351b9f8e9d6` accepted/WORKING, candidate `9bd615670145c2dcb769a6c0fd9b0b6f34a2364d`, independentGO/exactremoteclosure/coordinatoradmissionPASS. Гипотеза: отдельный nonpublishing checked-helper toolstage с exactsourceSHA/focus/name/bounds + backendexactblock/ASTkind/span, полныеenvdigests сверяются с восстановленнымexpectedenv, caller/body/interface ограничения сохраняются. Нового trustaxiom/ownershipbridge нет. Full-matrix1200/work960/soft900/report240/envelope1260; fitUNESTABLISHED (historicalfull904.276 +4freshhelper checks), возможныpartial/source124. Все26/ownreceipts остаются обязательными втомжеBuild; reserve/margins неуменьшаются. Toolpatch compilegate включён в обычныйCloudpreflight.
 
 (1) Source/toolbuild идоставкауспешны отдельно от(2) verifier fragment results выше;(3) formal obligations0→0/independentB1B2credit0, P1/A1/A2/fullmatrix/ownfalse31OPEN. [Session](cloud-build/sort4-caller-entry-native/A1-CHECKED-CALLER-R11-SESSION-2026-10-21.md), [S3 evidence](cloud-build/sort4-caller-entry-native/A1-CHECKED-CALLER-R11-S3-EVIDENCE-2026-10-21.json), [S3 exact26](cloud-build/sort4-caller-entry-native/A1-CHECKED-CALLER-R11-S3-MATRIX-2026-10-21.json). Чужие dirty docs сохранены; raw evidence не читались.

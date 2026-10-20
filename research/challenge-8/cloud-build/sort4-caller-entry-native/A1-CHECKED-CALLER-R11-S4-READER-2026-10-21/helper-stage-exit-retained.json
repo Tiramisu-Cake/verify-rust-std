@@ -1,0 +1,73 @@
+{
+  "archive_sha256": "c7ea76ae1a48b39f14462d9233ed06a41e42938a1e51e694ffd74092f7157ce7",
+  "build_id": "10354d5a-0d8d-4eab-a453-2351b9f8e9d6",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 185,
+      "EMPTY_FILE": 61,
+      "JSON_EXCEEDS_SCAN_LIMIT": 4,
+      "PROJECTED": 538,
+      "SCAN_BUDGET_EXCEEDED": 115,
+      "UNSUPPORTED_FILE_TYPE": 135
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2091472,
+    "content_files": 603,
+    "files": 1038,
+    "source_scan_bytes": 8388608
+  },
+  "file": {
+    "complete": false,
+    "id": "1eb19688402f09db20a216ea2f8ed083a9d37700174c9ad7385e8e68b69edcc1",
+    "kind": "json",
+    "path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0c/checked-cleanup-helper/checked-cleanup-helper-stage.json",
+    "path_sanitized": false,
+    "scanned_bytes": 734,
+    "sha256": "941a816750ed643625e8691b2f394d95639a8bb90da0afc77d99d9e6d8ac5df1",
+    "size_bytes": 734,
+    "status": "PROJECTED",
+    "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+  },
+  "index_sha256": "6e8c2cf10d7a0d428c8ecc52597d8eb959074aacb6eaff2edf71f503815f7176",
+  "next_offset": null,
+  "projection_coverage": {
+    "complete": false,
+    "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+    "omissions": {
+      "PRIVATE_OR_SANITIZED_KEY": 1,
+      "VALUE_TRANSFORMED": 1
+    },
+    "status": "PROJECTED",
+    "visited_nodes": 9
+  },
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "file": {
+        "complete": false,
+        "id": "1eb19688402f09db20a216ea2f8ed083a9d37700174c9ad7385e8e68b69edcc1",
+        "kind": "json",
+        "path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0c/checked-cleanup-helper/checked-cleanup-helper-stage.json",
+        "path_sanitized": false,
+        "scanned_bytes": 734,
+        "sha256": "941a816750ed643625e8691b2f394d95639a8bb90da0afc77d99d9e6d8ac5df1",
+        "size_bytes": 734,
+        "status": "PROJECTED",
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "observation": {
+        "pointer": "/exit",
+        "value": 1
+      }
+    }
+  ],
+  "scope": {
+    "files_considered": 1,
+    "files_with_incomplete_content": 1,
+    "matches_in_retained_data": 1,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

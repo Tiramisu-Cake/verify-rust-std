@@ -7927,3 +7927,5 @@ R11 S2 accepted7aa3115e-571c-45d8-8142-4ee02db599f6 on80e8d914a4fa186de288e7e911
 2026-10-21 Select-R11 S2 7aa3115e terminalFAILURE/source0/pkgSUCCESS, charge511 (total1042); native parser advanced ConstTypeExpr→scratch binding, P0c remainsINC. S3 checked generic cleanup helper+fresh same-Build proof prerequisite and strict native alpha-comparison prepared/reviewedGO; formal0/independentcredit0. See R11 session and exact S2 matrix.
 
 2026-10-21 Select-R11 S3 06362db8 terminalFAILURE/source0/pkgSUCCESS, charge490(total1532), exact26=5classified2INC19NOTRUN/credit0. Bothhelperstagesexit2 on callerprofilefocusrestriction beforeAST; nolemma bodyproof. Newexplicitchecked-helper mode with no summary publication and strictsource/focus/envbinding underreview.
+
+2026-10-21 Select-R11 S4full10354d5a terminalFAILURE/source0/pkgSUCCESS, charge954(total2486/rem1114). Full26aggregate18classified8INC, exactmatrixcheckpoint15/26pendingReader429. Helperactualstageexit1 constructor-resolutionstd::option::Option::None; checkedimport/Option::None-Some syntaxrepair prepared forS5target900. Formal0/credit0.

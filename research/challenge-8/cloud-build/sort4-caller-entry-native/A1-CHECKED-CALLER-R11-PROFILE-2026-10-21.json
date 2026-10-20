@@ -1,5 +1,5 @@
 {
-  "a1_checked_cleanup_helper_sha256": "cfae805f5c317e3e1d7180bd88e863c5b5f84a27fc10867dd2b762709e8bccaa",
+  "a1_checked_cleanup_helper_sha256": "79fd376df587e7b9f1756e1afe8f2f88f6d6aec874dbef97d8056607a6ef5494",
   "a1_entry_sha256": "dc1f2ae878d501f8b16e7fb2685bf27060a84b8a135c520ecf2f7992b69b1ab8",
   "a1_focus_semantics_sha256": {
     "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
@@ -12,7 +12,7 @@
     "a1-call-binding.py": "0e6d606bf434cee9973d2eb0c687e5942bd900e92f18976f5687c933cb2d6e74",
     "a1-compiler-inventory.py": "7cd0784df5637fbe6e06f1c887e13da83d4e5bd0ceb97724b0ad103e6eadaf48",
     "a1-contract-admission.py": "0ac3b182a24ba3a8cfd21588dd393f652e864bf54593ac7f4a5caaa473927ad4",
-    "a1-fixtures.py": "7179f3140000af36aa77f4df0155f07d077d5baf6b854bd063eca2d5f3a7b4ae",
+    "a1-fixtures.py": "9a19f4279174b5e4319c4eeb24d2eed3340607f37c6abb8c2538a17ca70884b2",
     "a1-focus-backend.py": "31f351b78267c659e3c751478ec0b6672c6b27016e86df97ccb75868c13b676a",
     "a1-matrix-classifier.py": "e50dca88e41f41a1919db83412f5016ea19428b2c6b092bfe1c8cfc61c70b6a6",
     "a1-proof-classifier.py": "7a2070a3132bc7d4601565aebd25e0aea682520e3fbb32a6045ccdf276142a2e",
@@ -29,7 +29,7 @@
   "base_translator_sha256": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64",
   "baseline_candidate_commit": "14a9d651bb09dd0b128525c0efbedbecd15ec082",
   "baseline_profile_sha256": "d90dde221561e71328c870f6388ceda7eb7ad5126a1237543904406d89edb46d",
-  "build_timeout_seconds": 1200,
+  "build_timeout_seconds": 900,
   "c_after": {
     "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
     "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
@@ -49,7 +49,7 @@
   "compiler_toolchain": "nightly-2026-09-25",
   "deadline_utc": "2026-10-21T00:11:43Z",
   "dispatch_blockers": [],
-  "execution_mode": "full-matrix",
+  "execution_mode": "native-p1-target",
   "experiment_protocol_phase_id": "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17",
   "first_matrix_cases": {
     "N-alpha-valid": "NOT_RUN",
@@ -108,7 +108,7 @@
   "phase": "SORT4-CHECKED-CALLER-NATIVE-PROOF-2026-10-21-R11",
   "phase_id": "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17",
   "pointer_width": 64,
-  "previous_build_id": "06362db8-2b0a-45fd-a4d6-5e4d1dac8069",
+  "previous_build_id": "10354d5a-0d8d-4eab-a453-2351b9f8e9d6",
   "profile_accepted": false,
   "profile_pin_source": "coordinator-environment",
   "proof_credit": false,
@@ -135,13 +135,13 @@
   "selected_base_translator_sha256": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64",
   "stable_threshold_pins_sha256": "6d1753038cb1fe9b6ce933f025e905d1776aca4a418f747285208f8a2f0625ed",
   "stage_budget_estimate": {
-    "build_timeout_seconds": 1200,
+    "build_timeout_seconds": 900,
     "estimate_not_measured": true,
-    "execute_timeout_seconds": 960,
+    "execute_timeout_seconds": 660,
     "incomplete_rows": "NOT_RUN or INCONCLUSIVE; never full matrix acceptance",
     "inner_margin_seconds": 60,
     "maximum_build_timeout_seconds": 1200,
-    "nominal_work_deadline_seconds": 900,
+    "nominal_work_deadline_seconds": 600,
     "package_upload_verdict_reserve_seconds": 240,
     "queue_reserve_seconds": 60
   },

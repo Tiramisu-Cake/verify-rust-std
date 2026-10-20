@@ -236,3 +236,33 @@ reject:
 Static review establishes the syntax-level applicability blocker and the
 `Copy` concern only. It provides no verifier result, exact-pair receipt, proof
 credit, or acceptance of the experimental profile.
+
+## S4 helper-stage syntax diagnosis
+
+The S4 build `10354d5a-0d8d-4eab-a453-2351b9f8e9d6` recorded the P0c focused
+helper stage as TERMINAL exit 1 at `verified/lib.rs:78`. Its checked helper
+proof record links to log file ID
+`4cda89f9dad84ef2c08ac87929cf6ff5fa5f526651fc24279e9de633c1f6c815`, SHA-256
+`726a9bda857d53379bca310b285c234aa208432a29ee18bc90e236e4acd162dd`. The
+bounded final log window reports at line 1077:
+
+```text
+verified/lib.rs(84,35-37): error: Not a constructor of type std::option::Option
+84 |         std::option::Option::None => {}
+```
+
+This localizes the first helper-stage failure to enum-constructor resolution in
+the match pattern; it does not test the lemma's ownership postcondition. The
+same pinned VeriFast source tree imports the Option variants with
+`//@ use std::option::{Option, Option::None, Option::Some};` and matches with
+`Option::None` / `Option::Some` in
+`tests/rust/safe_abstraction/linked_list/verified/linked_list.rs` (pinned Git
+blob `a4ab600d68ba1053741f4f982098b55b133d7b758a1194be088f8d25df7c2314`,
+lines 27 and 615–640). The fixture now uses that spelling in the helper ghost
+block. This model-preserving syntax repair leaves the helper signature,
+precondition, postcondition, predicate open, both variants, and observer calls
+unchanged. The synthetic control rejects the prior fully qualified patterns
+and requires exactly one import plus both imported match arms. The generated
+body line remains derived from the exact helper block, so the added import
+shifts focus metadata dynamically. Actual helper acceptance remains unknown
+until a new authorized Cloud run; no compiler or verifier was run locally.

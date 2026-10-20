@@ -1,0 +1,191 @@
+{
+  "accepted": false,
+  "archive_sha256": "c7ea76ae1a48b39f14462d9233ed06a41e42938a1e51e694ffd74092f7157ce7",
+  "audit_file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+  "audit_sha256": "497441dbb8c5151ff3b84797e549085b49eb8468d342459e3115103891d0550f",
+  "brief_processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "build_id": "10354d5a-0d8d-4eab-a453-2351b9f8e9d6",
+  "build_seconds": 954,
+  "create_time": "2026-10-20T23:12:07.573781425Z",
+  "current_build_charge_seconds": 954,
+  "exact_status_records_captured": 15,
+  "execution_seconds": 953,
+  "findings": {
+    "brief": "S4 Brief source claim is NOT_ACCEPTED_AS_REPORTED; archive/inventory integrity and source run exit 0 are separate from proof acceptance. Runner reports 18 INTENDED_CLASSIFIED and 8 INCONCLUSIVE; do not infer NOT_RUN.",
+    "case_rows": "Among the 15 exact rows captured so far: 8 INTENDED_CLASSIFIED and 7 INCONCLUSIVE. These source classifications do not establish proof credit.",
+    "reader": "Exact per-case coverage is partial: 15/26 rows saved. Reader HTTP 429 at /case_status/N-duplicate; further targeted reads paused on parent instruction. The remaining 11 cases are not classified here."
+  },
+  "finish_time": "2026-10-20T23:28:01.045779Z",
+  "formal_obligations_closed": 0,
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "index_sha256": "6e8c2cf10d7a0d428c8ecc52597d8eb959074aacb6eaff2edf71f503815f7176",
+  "infra_sha": "9bd615670145c2dcb769a6c0fd9b0b6f34a2364d",
+  "limits": "No missing case is assumed NOT_RUN. 11 per-case records remain unqueried under explicit parent pause; reader throttling is not evidence absence. Source statuses are not proof credit; no raw archive, full audit, parser-input binding, or causal attribution is inferred.",
+  "matrix_complete": false,
+  "matrix_file": "A1-CHECKED-CALLER-R11-S4-MATRIX-2026-10-21.json",
+  "observed_stage_seconds": {
+    "execute": 811.69425,
+    "package_upload": 126.601905,
+    "verdict": 1.096478
+  },
+  "outer_evidence_complete_source_claim": true,
+  "package_upload": "SUCCESS",
+  "proof_credit": false,
+  "proof_sha": "9bd615670145c2dcb769a6c0fd9b0b6f34a2364d",
+  "proof_verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+  "reader_directory": "A1-CHECKED-CALLER-R11-S4-READER-2026-10-21",
+  "reader_request_records": [
+    {
+      "request_id": "e18913b1e1135dc11bac13ec048114209e9e82b28fee8eb968c61889d0ac72b6",
+      "response_file": "audit-info.json",
+      "selector": "--info"
+    },
+    {
+      "next_offset": 20,
+      "offset": 0,
+      "request_id": "54944bf07370125d783c5be8721e82cbe39bd472d64c29f6dfb5f91f9228169a",
+      "response_file": "case-status-first.json",
+      "selector": "/case_status"
+    },
+    {
+      "next_offset": null,
+      "offset": 20,
+      "request_id": "2140d53a002c147d0be95fd91be11a3110271d7a6a9727bfc2be8493edf36255",
+      "response_file": "case-status-next.json",
+      "selector": "/case_status"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "143cf45e907345940bf58f93c08cc0c1dba8d9c0e55c509656669abca98433d3",
+      "response_file": "case-N-alpha-valid.json",
+      "selector": "/case_status/N-alpha-valid"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "32b8840a27fc8230ba4d38865171e2102151fe4af4b2498538e9f71b6ba4e149",
+      "response_file": "case-N-binder-collapse.json",
+      "selector": "/case_status/N-binder-collapse"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "643ac38c96aa60614f6909f88fac3aee12621cfe3e79417bb6bcddff16f2dd38",
+      "response_file": "case-N-binding.json",
+      "selector": "/case_status/N-binding"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "bcf530661d217f630935f30f542133a8e97ea9154cee7533c112ebbdd4423596",
+      "response_file": "case-N-clause-redirect.json",
+      "selector": "/case_status/N-clause-redirect"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "154df440465da14c4e92ebf98a870fa8afde0724e31847e2f6082dc32b6e9646",
+      "response_file": "case-N-clauses.json",
+      "selector": "/case_status/N-clauses"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "716d5731608f61ce8b0f1161b8a6133ef555b0e3d224641a6ae003a52a4bcda8",
+      "response_file": "case-N-default-contract.json",
+      "selector": "/case_status/N-default-contract"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "211fc7af594a342b4d3ac70f1e3897a2ba33616b5ec58ec00877c1984367783d",
+      "response_file": "case-N-false31.json",
+      "selector": "/case_status/N-false31"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "16fccf990680e24dc8bc2a38dd56b7b0c261e74bc467cef4d33121fa0f22f2d9",
+      "response_file": "case-N-freeze-contract.json",
+      "selector": "/case_status/N-freeze-contract"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "6331079551238f1f9751e1177820f19f18044ad58895aaf5a56f6b21923b80a4",
+      "response_file": "case-N-source.json",
+      "selector": "/case_status/N-source"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "cc7f5be40e86dd6e4e20a3f6910520ea9d98afa08299845704ecdc43749842d9",
+      "response_file": "case-OFF.json",
+      "selector": "/case_status/OFF"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "f443cfe54b8cffb6e229819b4144f1ea454be52a077086efb122757d901224a5",
+      "response_file": "case-P-dispatch.json",
+      "selector": "/case_status/P-dispatch"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "6ca739f78b20c1bd00d79a7cf8b7eeaf433c301ecf21ef44fd0d24c3246c7cb4",
+      "response_file": "case-P0c.json",
+      "selector": "/case_status/P0c"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "f53852a9e7a5ef007eb01ab236d6a5126b65d62f42ec35f4e03791031add6279",
+      "response_file": "case-P1.json",
+      "selector": "/case_status/P1"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "a77696b74bb2532829b2b4a764642d5187feeff1f70476db15484023208616da",
+      "response_file": "case-R1.json",
+      "selector": "/case_status/R1"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "request_id": "2ab557b73e6cf5e7b8065dc1df5dd570312bd491a0d2e05c1a4bb351120d57dd",
+      "response_file": "case-R2.json",
+      "selector": "/case_status/R2"
+    },
+    {
+      "exact_cli_error": "smallsort-brief: Reader HTTP request failed (HTTP 429)",
+      "request_id": null,
+      "response_file": "transient-429-main.json",
+      "selector": "/observation_details (main response)"
+    },
+    {
+      "exact_cli_error": "smallsort-brief: Reader HTTP request failed (HTTP 429)",
+      "request_id": null,
+      "response_file": "transient-error-N-duplicate.json",
+      "selector": "/case_status/N-duplicate"
+    }
+  ],
+  "remaining_build_seconds": 1114,
+  "reported_status_records_total": 26,
+  "schema": "smallsort-r11-s4-bounded-source-evidence-v1",
+  "source_input_sha256": "eb540b71940a0cd73f882e9cd8e3ac48c56bd54c9e77c334b8c1f9e32883b73b",
+  "source_run_exit": 0,
+  "source_status_counts": {
+    "INCONCLUSIVE": 8,
+    "INTENDED_CLASSIFIED": 18
+  },
+  "source_status_records_complete": false,
+  "start_time": "2026-10-20T23:12:08.310356280Z",
+  "status": "FAILURE",
+  "submitted_config_sha256": "489b67a1601b3c1c3db70d252caf787750866210c7a445a7687c4acda370f378",
+  "unqueried_status_records": 11,
+  "used_total": 2486
+}
