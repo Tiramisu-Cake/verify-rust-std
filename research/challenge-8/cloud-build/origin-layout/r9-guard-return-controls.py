@@ -21,6 +21,7 @@ _spec.loader.exec_module(_r7)
 
 
 CAMPAIGN = "r9-guard-return-controls-v1"
+R10_CAMPAIGN = "r10-guard-return-controls-v2"
 R9_PROFILE = "experimental-merge-guard-current-return-r9-v1"
 R10_PROFILE = "experimental-merge-moving-gap-r10-v1"
 SUPPORTED_PROFILES = (R9_PROFILE, R10_PROFILE)
@@ -33,7 +34,8 @@ SETUP_EXIT_CODES = {124, 125, 126, 127, 134, 137, 139}
 MARKER = b"guard_current_return_recover();"
 END_READONLY = b"end_ref_readonly::<u64>(r9_guard_ref);"
 WRONG_ORIGIN = b"assert [1/2](*r9_tmp_origin |-> ?r9_tmp_current);"
-WRONG_ORIGIN_MUTANT = b"assert [1/2](*begin |-> ?r9_tmp_current);"
+HISTORICAL_WRONG_ORIGIN_MUTANT = b"assert [1/2](*begin |-> ?r9_tmp_current);"
+WRONG_END_TOKEN_ORIGIN_V2 = b"end_ref_readonly::<u64>(begin);"
 HALF_ASSERT = WRONG_ORIGIN
 
 # Resource mappings are deliberately narrow. A case remains inconclusive until
@@ -56,9 +58,10 @@ CASES = {
     },
     "wrongorigin": {
         "kind": "resource",
-        "target_anchor": WRONG_ORIGIN_MUTANT,
+        "target_anchor": HISTORICAL_WRONG_ORIGIN_MUTANT,
         "expected_predicates": ("points_to", "*begin", "begin |->"),
         "expected_spec": None,
+        "mutant_version": "wrongorigin-v1",
     },
     "duplicate_marker": {
         "kind": "admission",
@@ -73,6 +76,15 @@ CASES = {
         "expected_error": "R9 guard-return recovery target body is missing its checked source marker",
     },
 }
+R10_CASES = {**CASES,
+    "wrongorigin": {
+        "kind": "resource",
+        "target_anchor": WRONG_END_TOKEN_ORIGIN_V2,
+        "expected_predicates": ("ref_readonly_end_token",),
+        "expected_spec": None,
+        "mutant_version": "wrongorigin-v2-end-token-origin",
+    },
+}
 
 EVENT_PREFIX = "R9_GUARD_EVENT "
 _EVENT_KEYS = ("function", "def_hash", "mir_fingerprint", "mir_phase", "body_span",
@@ -82,6 +94,7 @@ _EVENT_KEYS = ("function", "def_hash", "mir_fingerprint", "mir_phase", "body_spa
 _FIELD_START = re.compile(r"(?:^|\s)(" + "|".join(_EVENT_KEYS) + r")=")
 _ERROR = re.compile(r"^.*\berror:.*$", re.IGNORECASE | re.MULTILINE)
 _SRC_LOC = re.compile(r"verified/lib\.rs\((\d+),\d+(?:-\d+(?:,\d+)?)?\)")
+_SRC_SPAN = re.compile(r"verified/lib\.rs\((\d+),(\d+)-(\d+),(\d+)\)")
 _EXEC_LOC = re.compile(r"verified/lib\.rs\((\d+),\d+[^\n]*Executing statement")
 
 
@@ -269,8 +282,16 @@ def _marker_span(source: bytes) -> tuple[int, int, bytes]:
     return block_start, block_end, block
 
 
-def _mutate(name: str, source: bytes) -> tuple[bytes, int]:
-    spec = CASES[name]
+def _byte_line_col(source: bytes, offset: int) -> tuple[int, int]:
+    prefix = source[:offset]
+    line = prefix.count(b"\n") + 1
+    last_newline = prefix.rfind(b"\n")
+    return line, offset - last_newline
+
+
+def _mutate(name: str, source: bytes, cases: dict = CASES) -> tuple[bytes, int, tuple[int, int, int, int] | None]:
+    spec = cases[name]
+    expected_span = None
     if name in {"omit_end", "duplicate_end", "wrongorigin"}:
         start, end, block = _marker_span(source)
         if name == "omit_end":
@@ -282,10 +303,14 @@ def _mutate(name: str, source: bytes) -> tuple[bytes, int]:
                 raise ValueError("duplicate_end requires one original readonly end command")
             changed = block.replace(END_READONLY + b"\n",
                                     END_READONLY + b"\n        " + END_READONLY + b"\n", 1)
-        else:
+        elif name == "wrongorigin" and spec.get("mutant_version", "").startswith("wrongorigin-v2"):
+            if block.count(END_READONLY) != 1:
+                raise ValueError("wrongorigin-v2 requires one original readonly end command")
+            changed = block.replace(END_READONLY, WRONG_END_TOKEN_ORIGIN_V2, 1)
+        elif name == "wrongorigin":
             if block.count(WRONG_ORIGIN) != 1:
                 raise ValueError("wrongorigin requires one half-share assertion")
-            changed = block.replace(WRONG_ORIGIN, WRONG_ORIGIN_MUTANT, 1)
+            changed = block.replace(WRONG_ORIGIN, HISTORICAL_WRONG_ORIGIN_MUTANT, 1)
         mutated = source[:start] + changed + source[end:]
         target_anchor = spec["target_anchor"]
         occurrence = spec.get("target_occurrence", 1)
@@ -295,10 +320,24 @@ def _mutate(name: str, source: bytes) -> tuple[bytes, int]:
         pos = starts[occurrence - 1]
     elif name == "duplicate_marker":
         start, end, block = _marker_span(source)
-        mutated = source[:end] + b"\n" + block + source[end:]
+        line_start = source.rfind(b"\n", 0, start) + 1
+        indent = source[line_start:start]
+        if indent.strip(b" \t"):
+            raise ValueError("duplicate_marker outer statement indentation is not whitespace")
+        mutated = source[:end] + b"\n" + indent + block + source[end:]
         # StaticError is attached to the outer PureStmt location, not the
-        # marker invocation within that block.
-        pos = mutated.find(b"/*@ {")
+        # marker invocation within that block. Bind it to the inserted block.
+        inserted_start = mutated.find(b"/*@ {", end + 1)
+        if inserted_start < 0:
+            raise ValueError("duplicate_marker inserted outer statement is absent")
+        close_brace = block.rfind(b"} @*/")
+        if close_brace < 0:
+            raise ValueError("duplicate_marker cloned block has no closing brace")
+        start_line, start_col = _byte_line_col(mutated, inserted_start)
+        end_line, end_col = _byte_line_col(
+            mutated, inserted_start + close_brace + len(b"} @*/"))
+        expected_span = (start_line, start_col, end_line, end_col)
+        pos = inserted_start
     elif name == "missing_marker":
         start, end, block = _marker_span(source)
         if block.count(MARKER) != 1:
@@ -316,7 +355,7 @@ def _mutate(name: str, source: bytes) -> tuple[bytes, int]:
     else:
         raise ValueError(f"unsupported R9 guard-return control: {name}")
     line = mutated[:pos].count(b"\n") + 1
-    return mutated, line
+    return mutated, line, expected_span
 
 
 def _stage_gate(case: Path, execution, meta: dict) -> dict:
@@ -353,8 +392,8 @@ def _native_pre_binding(log: str, expected_binding=None) -> dict:
             "event": rows[0] if len(rows) == 1 else None}
 
 
-def _classify(name: str, case: Path, meta: dict, execution) -> dict:
-    spec = CASES[name]
+def _classify(name: str, case: Path, meta: dict, execution, cases: dict = CASES) -> dict:
+    spec = cases[name]
     if type(execution) is not dict:
         return _inconclusive(name, "execute_case returned a non-object",
                              expected_diagnostic=meta.get("expected_diagnostic"))
@@ -379,9 +418,15 @@ def _classify(name: str, case: Path, meta: dict, execution) -> dict:
                     "matched": False,
                     "reason": "admission diagnostic mapping is explicitly unset"}
         error_location = _SRC_LOC.search(errors[0]) if len(errors) == 1 else None
+        error_span = _SRC_SPAN.search(errors[0]) if len(errors) == 1 else None
+        expected_span = meta.get("expected_error_span")
+        location_matches = (error_span is not None and
+                            tuple(map(int, error_span.groups())) == tuple(expected_span)
+                            if expected_span is not None else
+                            error_location is not None and
+                            int(error_location.group(1)) == meta["expected_error_line"])
         exact = (len(errors) == 1 and expected_error in errors[0] and
-                 error_location is not None and
-                 int(error_location.group(1)) == meta["expected_error_line"] and
+                 location_matches and
                  type(stages) is dict and stages.get(stage) == 1)
         return {**base,
                 "classification": "EXPECTED_ADMISSION_REJECTION" if exact else "INCONCLUSIVE",
@@ -433,12 +478,15 @@ def run(evidence: Path, args, env: dict, execute_case, source_case: Path,
         source_record: dict) -> dict:
     """Run source-bound R9 recovery controls; never grant proof credit."""
     evidence = Path(evidence)
-    result = {"schema": CAMPAIGN, "profile": getattr(args, "profile", None),
+    profile = getattr(args, "profile", None)
+    is_r10 = profile == R10_PROFILE
+    result = {"schema": R10_CAMPAIGN if is_r10 else CAMPAIGN, "profile": profile,
               "accepted": False, "proof_credit": False, "all_matched": False,
               "classification": "INCONCLUSIVE", "cases": {}}
+    cases = R10_CASES if is_r10 else CASES
     if evidence.exists():
         reason = "refusing to reuse R9 guard-return control evidence directory"
-        result["cases"] = {name: _not_run(name, reason) for name in CASES}
+        result["cases"] = {name: _not_run(name, reason) for name in cases}
         return result
     try:
         evidence.mkdir(parents=True)
@@ -453,7 +501,7 @@ def run(evidence: Path, args, env: dict, execute_case, source_case: Path,
             raise ValueError("parent environment must be a dictionary")
     except Exception as error:
         reason = f"source/profile setup failed: {type(error).__name__}: {error}"
-        result["cases"] = {name: _not_run(name, reason) for name in CASES}
+        result["cases"] = {name: _not_run(name, reason) for name in cases}
         _write_receipt(evidence, result)
         return result
 
@@ -461,20 +509,20 @@ def run(evidence: Path, args, env: dict, execute_case, source_case: Path,
     result["baseline"] = baseline
     if not baseline["admitted"]:
         result["cases"] = {name: _not_run(name, "R9 fullbody baseline admission prerequisite failed",
-                                          baseline_admitted=False) for name in CASES}
+                                          baseline_admitted=False) for name in cases}
         result["blocker"] = baseline["reason"]
         _write_receipt(evidence, result)
         return result
     if not callable(execute_case):
         result["cases"] = {name: _not_run(name, "hosted execute_case callback is unavailable",
-                                          baseline_admitted=True) for name in CASES}
+                                          baseline_admitted=True) for name in cases}
         _write_receipt(evidence, result)
         return result
 
     results = {}
-    for name, spec in CASES.items():
+    for name, spec in cases.items():
         try:
-            mutant, expected_line = _mutate(name, verified)
+            mutant, expected_line, expected_span = _mutate(name, verified, cases)
             case = evidence / name
             (case / "original").mkdir(parents=True)
             (case / "verified").mkdir()
@@ -484,7 +532,9 @@ def run(evidence: Path, args, env: dict, execute_case, source_case: Path,
             expected_stages = {stage: (1 if stage == failure_stage else 0)
                                for stage in STAGES}
             meta = {"expected_error_line": expected_line,
+                    "expected_error_span": expected_span,
                     "case_name": name,
+                    "mutant_version": spec.get("mutant_version", name),
                     "baseline_drop_binding": baseline.get("selected_drop_binding"),
                     "expected_diagnostic": spec.get("expected_error"),
                     "expected_predicates": list(spec.get("expected_predicates", ())),
@@ -500,16 +550,18 @@ def run(evidence: Path, args, env: dict, execute_case, source_case: Path,
             case_env[TRACE_ENV] = "1"
             case_env[RECOVERY_ENV] = "1"
             execution = execute_case(case, args, case_env)
-            results[name] = _classify(name, case, meta, execution)
+            results[name] = _classify(name, case, meta, execution, cases)
         except Exception as error:
             results[name] = _inconclusive(name,
                 f"mutant setup/execution/classification failed: {type(error).__name__}: {error}",
                 baseline_admitted=True)
     result["cases"] = results
-    result["all_matched"] = (set(results) == set(CASES) and
+    result["all_matched"] = (set(results) == set(cases) and
                              all(row.get("matched") is True for row in results.values()))
-    result["classification"] = ("ALL_INTENDED_R9_GUARD_RETURN_CONTROLS_MATCHED"
-                                if result["all_matched"] else "INCONCLUSIVE")
+    result["classification"] = (
+        ("ALL_INTENDED_R10_GUARD_RETURN_CONTROLS_MATCHED" if is_r10 else
+         "ALL_INTENDED_R9_GUARD_RETURN_CONTROLS_MATCHED")
+        if result["all_matched"] else "INCONCLUSIVE")
     _write_receipt(evidence, result)
     return result
 

@@ -1,3 +1,18 @@
+# Merge-R10 ACTIVE — backedge resource inventory
+
+T0 UTC2026-10-20 21:48:01; main23:48:01; absolute2026-10-21 00:18:01.
+Fresh3600Cloud seconds, no R9carry. Build1 `403f96a0-a81a-4acd-81f5-8b7a9f11d840`
+WORKING at last status; timeout1200/reserve1260, used0 pending terminal.
+Published source `5f7139fa`, tool `07116a39`, profile `016ad1bf`.
+Read-only missing-invariant backedge heap/env diagnostic; unchanged actual CFG,
+R8 model/R9 checked cleanup/posts and matrix. Luna HIGH GO, static/source/service
+checks PASS; compilation/formal target pending. Invariant not yet implemented.
+[Session](cloud-build/origin-layout/R10-SESSION-20261021.md),
+[design](cloud-build/origin-layout/R10-INVARIANT-DESIGN-20261021.md),
+[review](cloud-build/origin-layout/R10-CANDIDATE1-REVIEW-20261021.md).
+B2/normal-unwind/qualification OPEN; acceptedfalse/independentcredit0.
+Foreign dirty docs preserved. Prior snapshots below are historical.
+
 # Merge-R10 READY — checked moving-gap invariant
 
 2026-10-21: [новое самостоятельное задание Merge-R10](CURRENT-TASK.md) явно разрешает **120мин + до30мин завершения, свежие3600 Cloud-секунд**, без отдельного лимита числа последовательных Builds; timeout90..1200/envelope+60. T0 при фактическом старте. R9 CLOSED/183retired не переносить. Worktrees `/root/verify-rust-std-merge-origin` и `/root/verifast-merge-actual-glue`, branch `merge/incoming-origin-20261009`, tool706e7c89.

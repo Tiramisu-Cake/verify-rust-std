@@ -1,5 +1,5 @@
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index 9813a884..fa0a0a04 100644
+index 9813a884..f900b60f 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -1967,18 +1967,37 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -188,7 +188,27 @@ index 9813a884..fa0a0a04 100644
              result
          in
          let bblock : Mir.basic_block =
-@@ -5695,6 +5782,114 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4465,6 +4552,19 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+             | None -> toplevel_blocks := bb :: !toplevel_blocks
+             | Some bb' -> bb'.children <- bb :: bb'.children)
+         | Walking (k', _) ->
++            (* R10 read-only binding receipt from the same decoded Body and
++               reconstructed CFG. This is discovery, not path execution. *)
++            if Sys.getenv_opt "SMALLSORT_R9_GUARD_TRACE" = Some "1" &&
++               State.first_callback <> None && State.late_callback <> None then begin
++              let from = match path with parent :: _ -> parent.id | [] -> "NONE" in
++              let head_loc = match bb.statements @ bb.terminator_stmts with
++                | stmt :: _ -> Ast.stmt_loc stmt | [] -> Args.body_imp_loc in
++              Printf.eprintf
++                "R10_LOOP_BINDING kind=reconstructed_cfg function=%s def_hash=%s mir_fingerprint=%s mir_phase=%s body_span=%s head=%s from=%s head_loc=%s\n%!"
++                Args.body_name Args.body_def_hash Args.body_mir_fingerprint
++                Args.body_mir_phase (Ast.string_of_loc Args.body_imp_loc)
++                bb.id from (Ast.string_of_loc head_loc)
++            end;
+             bb.internal_predecessor_count <- bb.internal_predecessor_count + 1;
+             (*Printf.printf "Found a loop with head at rank %d: %s\n" k' (String.concat " -> " (List.map (fun (bb: basic_block) -> bb.id) (List.rev (bb::path))));*)
+             bb.is_block_head <- true;
+@@ -5695,6 +5795,114 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        | _ -> None
      in
      let marked name = List.filter_map (block_marker name) ghost_stmts in
@@ -303,7 +323,7 @@ index 9813a884..fa0a0a04 100644
      let scope_markers =
        List.filter_map (fun stmt ->
          match marker_stmt "callback_scope_end" stmt with
-@@ -6321,6 +6516,33 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6321,6 +6529,33 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        Ast.static_error fn_sig_loc
          "Late callback recovery requires the existing first callback protocol alone"
          None;
@@ -337,7 +357,7 @@ index 9813a884..fa0a0a04 100644
      let late_strict_scope_ends =
        match late_callback with
        | Some plan -> [(plan.late_scope_end_loc, plan.late_lft)]
-@@ -6357,7 +6579,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6357,7 +6592,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      let ghost_stmts =
        let mapped = List.filter_map (fun stmt ->
          let l = Ast.stmt_loc stmt in
@@ -349,7 +369,7 @@ index 9813a884..fa0a0a04 100644
              | Some plan -> l = plan.first_close_loc ||
                  block_marker "first_callback_recover" stmt <> None
              | None -> false) then Some (Ast.NoopStmt l)
-@@ -6481,6 +6706,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6481,6 +6719,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let var_id_trs_map_ref = var_id_trs_map_ref
        let ghost_stmts = ghost_stmts
        let body_imp_loc = imp_loc
@@ -360,7 +380,7 @@ index 9813a884..fa0a0a04 100644
        let body_tr_defs_ctx = body_tr_defs_ctx
        let is_generated_glue = is_generated_glue
        let strict_lft_scope_ends = strict_lft_scope_ends
-@@ -6489,6 +6718,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6489,6 +6731,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let callback_scope_start = callback_scope_start
        let first_callback = first_callback
        let late_callback = late_callback
@@ -368,7 +388,7 @@ index 9813a884..fa0a0a04 100644
      end) in
      let vdis_cpn = var_debug_info_get_list body_cpn in
      (* Since var id translation map is empty var debug info contains the plain Mir ids *)
-@@ -7510,6 +7740,15 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7510,6 +7753,15 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                         "Post-retirement generated Drop control found multiple qualified Drops" None)
                | _ -> vf_bblocks
              in

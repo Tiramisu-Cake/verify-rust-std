@@ -131,16 +131,18 @@ def _execute(case, args, env, behavior=None):
 
     line = meta["expected_error_line"]
     if meta["case_name"] == "duplicate_marker":
-        source = (case / "verified/lib.rs").read_bytes()
-        line = next(index for index, row in enumerate(source.splitlines(), 1)
-                    if b"/*@ {" in row)
+        expected_span = meta["expected_error_span"]
+        line = expected_span[0]
     elif meta["case_name"] == "missing_marker":
         source = (case / "verified/lib.rs").read_bytes()
         line = next(index for index, row in enumerate(source.splitlines(), 1)
                     if b"unsafe fn insert_tail" in row)
     if behavior == "ambiguous_line":
         line += 1
-    target_line = f"verified/lib.rs({line},4): Executing statement\n"
+    execution_line = line
+    if behavior == "loop_refusal":
+        execution_line = max(2, line - 2)
+    target_line = f"verified/lib.rs({execution_line},4): Executing statement\n"
     before = _event("before") + "\n"
     if behavior == "no_binding":
         before = ""
@@ -153,7 +155,14 @@ def _execute(case, args, env, behavior=None):
     if meta.get("expected_diagnostic"):
         error = meta["expected_diagnostic"]
         error_line = line
-        log = f"verified/lib.rs({error_line},4): error: {error}\n"
+        if meta["case_name"] == "duplicate_marker":
+            start_line, start_col, end_line, end_col = meta["expected_error_span"]
+            if behavior == "wrong_span":
+                start_col += 1
+            log = (f"verified/lib.rs({start_line},{start_col}-{end_line},{end_col}): "
+                   f"error: {error}\n")
+        else:
+            log = f"verified/lib.rs({error_line},4): error: {error}\n"
     else:
         case_name = meta["case_name"]
         if case_name == "omit_end":
@@ -162,11 +171,18 @@ def _execute(case, args, env, behavior=None):
             message = "No matching heap chunks: ref_readonly_end_token"
             if behavior == "canonical_spec":
                 message = "bin/rust/aliasing.rsspec(50,1): No matching heap chunks: ref_readonly_end_token"
+        elif (case_name == "wrongorigin" and
+              meta.get("mutant_version") == "wrongorigin-v2-end-token-origin"):
+            message = "No matching heap chunks: ref_readonly_end_token(begin,_,_)"
         else:
             message = "Cannot prove condition points_to(begin,_)"
         if behavior == "wrong_predicate":
             message = "No matching heap chunks: unrelated_predicate"
-        log = f"verified/lib.rs({error_line if 'error_line' in locals() else line},4): error: {message}\n"
+        error_location = (execution_line - 1 if behavior == "loop_refusal" else
+                          error_line if 'error_line' in locals() else line)
+        if behavior == "loop_refusal":
+            message = "Loop invariant required."
+        log = f"verified/lib.rs({error_location},4): error: {message}\n"
         if behavior == "ambiguous_line":
             log += f"verified/lib.rs({line + 1},4): error: {message}\n"
     if behavior == "timeout":
@@ -223,7 +239,7 @@ class R9GuardReturnControlsTests(unittest.TestCase):
             output, calls = self._run(Path(temporary), profile=controls.R10_PROFILE,
                                       source_profile=controls.R10_PROFILE)
             self.assertTrue(output["all_matched"])
-            self.assertEqual(set(calls), set(controls.CASES))
+            self.assertEqual(set(calls), set(output["cases"]))
         for active, source in ((controls.R9_PROFILE, controls.R10_PROFILE),
                                (controls.R10_PROFILE, controls.R9_PROFILE)):
             with self.subTest(active=active), tempfile.TemporaryDirectory() as temporary:
@@ -249,6 +265,76 @@ class R9GuardReturnControlsTests(unittest.TestCase):
                              "EXPECTED_ADMISSION_REJECTION")
             self.assertEqual(output["cases"]["missing_marker"]["classification"],
                              "EXPECTED_ADMISSION_REJECTION")
+
+    def test_r10_wrongorigin_v2_is_exact_resource_control(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            mutants = {}
+
+            def execute(case, args, env):
+                mutants[case.name] = (case / "verified/lib.rs").read_bytes()
+                return _execute(case, args, env)
+
+            output, calls = self._run(Path(temporary), profile=controls.R10_PROFILE,
+                                      source_profile=controls.R10_PROFILE,
+                                      callback=execute)
+            self.assertTrue(output["all_matched"])
+            self.assertEqual(set(calls), set(controls.CASES))
+            self.assertEqual(set(output["cases"]), set(controls.CASES))
+            control = output["cases"]["wrongorigin"]
+            self.assertEqual(mutants["wrongorigin"].count(
+                controls.WRONG_END_TOKEN_ORIGIN_V2), 1)
+            self.assertEqual(mutants["wrongorigin"].count(
+                controls.END_READONLY), 0)
+            self.assertEqual(control["classification"], "EXPECTED_RESOURCE_REFUSAL")
+            self.assertTrue(control["error_at_target"])
+            self.assertTrue(control["target_line_executed"])
+            self.assertEqual(control["last_executed_line_before_error"],
+                             control["expected_error_line"])
+            self.assertEqual(control["expected_predicates"], ["ref_readonly_end_token"])
+
+    def test_r10_wrongorigin_v2_rejects_unrelated_or_early_diagnostics(self):
+        for behavior in ("wrong_predicate", "wrong_binding", "loop_refusal",
+                         "complete_before_error"):
+            with self.subTest(behavior=behavior), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+
+                def execute(case, args, env):
+                    return _execute(case, args, env,
+                                    behavior if case.name == "wrongorigin" else None)
+
+                output, _ = self._run(root, profile=controls.R10_PROFILE,
+                                      source_profile=controls.R10_PROFILE, callback=execute)
+                row = output["cases"]["wrongorigin"]
+                self.assertFalse(row["matched"])
+                self.assertEqual(row["classification"], "INCONCLUSIVE")
+
+    def test_duplicate_marker_binds_inserted_outer_statement_span(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source_case, record = _source_case(root)
+            _baseline(source_case, record)
+            calls = []
+            output = controls.run(root / "controls", SimpleNamespace(profile=controls.R9_PROFILE),
+                                  {}, lambda case, args, env: _execute(case, args, env),
+                                  source_case, record)
+            row = output["cases"]["duplicate_marker"]
+            self.assertTrue(row["matched"])
+            self.assertEqual(row["expected_error_span"], (12, 5, 20, 10))
+            with tempfile.TemporaryDirectory() as mismatch_temp:
+                mismatch_root = Path(mismatch_temp)
+                mismatch_source, mismatch_record = _source_case(mismatch_root)
+                _baseline(mismatch_source, mismatch_record)
+
+                def mismatch_execute(case, args, env):
+                    return _execute(case, args, env,
+                                    "wrong_span" if case.name == "duplicate_marker" else None)
+
+                mismatch = controls.run(
+                    mismatch_root / "controls", SimpleNamespace(profile=controls.R9_PROFILE),
+                    {}, mismatch_execute, mismatch_source, mismatch_record)
+                self.assertFalse(mismatch["cases"]["duplicate_marker"]["matched"])
+                self.assertEqual(mismatch["cases"]["duplicate_marker"]["classification"],
+                                 "INCONCLUSIVE")
 
     def test_baseline_requires_cleanup_return_and_completion_pair(self):
         for bad in ("missing", "wrong_cleanup", "wrong_outcome", "duplicate"):

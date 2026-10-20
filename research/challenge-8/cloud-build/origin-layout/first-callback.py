@@ -171,6 +171,75 @@ def _prepare_first_shift(source):
                 'CURRENT first shift and block-start late lifetime binding')
 
 
+# R10 concrete array3 invariant: all resources are consumed on entry and every
+# backedge by the ordinary LoopInv checker. The physical gap is optional at tail
+# initially; no complete initialized array or entry/current equality is stated.
+R10_MOVING_GAP_INVARIANT = b"""            /*@ inv thread_token(t) &*& t == currentThread &*&
+                lifetime_token(func_lft) &*& type_interp::<u64>() &*& type_interp::<F>() &*&
+                *is_less |-> ?r10_f &*& <F>.own(t, r10_f) &*&
+                foreach(?r10_previous_owners, own::<u64>(t)) &*&
+                tail == begin + 2 &*&
+                gap_guard.src |-> ?r10_src &*& gap_guard.dst |-> ?r10_dst &*&
+                gap_guard.len |-> 1 &*& struct_CopyOnDrop_padding(&gap_guard) &*&
+                r10_src as *mut u64 == r4_tmp_ref &*&
+                ref_readonly_end_token::<u64>(r4_tmp_ref, &tmp, 1/4) &*&
+                ref_initialized::<u64>(r4_tmp_ref) &*&
+                [1/4](*r4_tmp_ref |-> _) &*& [1/4]array::<u64>(r4_tmp_ref + 1, 0, nil) &*&
+                [1/4](*&tmp |-> _) &*&
+                array::<u64>(begin, 1, ?r10_first_current) &*&
+                *(begin + 1) |-> _ &*& array::<u64>(tail, 0, nil) &*&
+                array::<u64>(tail + 1, 0, nil) &*&
+                (sift == begin + 1 ?
+                    r10_dst == tail &*& *tail |-?-> _
+                : sift == begin &*& r10_dst == begin + 1 &*& *tail |-> _);
+            @*/
+"""
+
+R10_ITERATION_PREP = b"""            /*@ if sift == begin {
+                open array::<u64>(begin, 1, r10_first_current);
+                open array::<u64>(begin + 1, 0, nil);
+            } @*/
+            //@ initialized_storage_alignment(sift);
+            //@ points_to_limits::<u64>(sift);
+            //@ uninitialized_storage_alignment(gap_guard.dst);
+            //@ points_to__limits::<u64>(gap_guard.dst);
+            //@ assert sift as usize != 0;
+            //@ assert gap_guard.dst as usize != 0;
+            //@ assert sift as usize % std::mem::align_of::<u64>() == 0;
+            //@ assert gap_guard.dst as usize % std::mem::align_of::<u64>() == 0;
+            //@ assert object_pointer_within_limits(sift, std::mem::size_of::<u64>()) == true;
+            //@ assert object_pointer_within_limits(gap_guard.dst, std::mem::size_of::<u64>()) == true;
+            //@ assert sift as usize <= usize::MAX - std::mem::size_of::<u64>();
+            //@ assert gap_guard.dst as usize <= usize::MAX - std::mem::size_of::<u64>();
+            //@ assert sift as usize + std::mem::size_of::<u64>() <= gap_guard.dst as usize;
+"""
+
+# Only the sift==begin break has opened the first singleton. Normalize the
+# other current cell before the actual implicit Drop; the checked R9 post-Drop
+# hook can then join the same three current singleton resources on both exits.
+R10_BREAK_PREP = b"""        /*@ if gap_guard.dst == begin {
+            assert *(begin + 1) |-> ?r10_written_current;
+            close array::<u64>(begin + 1, 1, cons(r10_written_current, nil));
+        } @*/
+"""
+
+
+def _prepare_r10_moving_gap(source):
+    anchor = b"        loop {\n            /*@ let_lft 'late = r5_late_k; @*/\n"
+    source = _one(source, anchor,
+                  b"        //@ open array::<u64>(tail, 0, _);\n"
+                  b"        //@ close array::<u64>(tail, 0, nil);\n"
+                  b"        //@ open array::<u64>(tail + 1, 0, _);\n"
+                  b"        //@ close array::<u64>(tail + 1, 0, nil);\n"
+                  b"        loop {\n" + R10_MOVING_GAP_INVARIANT +
+                  R10_ITERATION_PREP + b"            /*@ let_lft 'late = r5_late_k; @*/\n",
+                  'checked moving-gap invariant first at actual loop head')
+    anchor = b"        }\n    }\n    /*@ {\n        guard_current_return_recover();"
+    return _one(source, anchor, b"        }\n" + R10_BREAK_PREP +
+                b"    }\n    /*@ {\n        guard_current_return_recover();",
+                'checked physical break normalization before original implicit Drop')
+
+
 # Concrete primitive representation missing from the pinned abstract .share.
 # It is an explicit specification definition using the existing physical borrow;
 # the body-checked bridge cannot establish share without that exact premise.
@@ -481,6 +550,8 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
                 verified = _prepare_post_drop_recovery(verified, old)
             else:
                 verified = _prepare_r9_guard_return_recovery(verified, old)
+        if profile == R10_PROFILE:
+            verified = _prepare_r10_moving_gap(verified)
     # Strip the NEW ghost-only annotations and compare with inherited source.
     # Other original ghost commands were already checked by old._prepare.
     # Runtime comparison removes only comments and whitespace; the inherited
