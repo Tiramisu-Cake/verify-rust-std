@@ -1,0 +1,38 @@
+{
+  "schema": "select-r9-evidence-boundary-v1",
+  "build_id": "0b3c2c0a-4b3f-4df6-8e58-8de4d346b08a",
+  "candidate": "a8bc59bef4bb494d5ad3ebd44f482c1264315d0f",
+  "terminal_status": "FAILURE",
+  "build_seconds": 647,
+  "finish_time": "2026-10-20T18:23:33.184323Z",
+  "public_metadata": {
+    "execute": "SUCCESS",
+    "package-upload": {
+      "status": "FAILURE",
+      "exit_code": 1
+    },
+    "verdict": {
+      "status": "FAILURE",
+      "exit_code": 2
+    }
+  },
+  "reader_observations": [
+    {
+      "request": "smallsort-brief BUILD_UUID",
+      "response": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)"
+    },
+    {
+      "request": "smallsort-brief BUILD_UUID --catalogue package-upload-error",
+      "response": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)"
+    }
+  ],
+  "file_index_archive_identities": null,
+  "proof_results": "UNKNOWN",
+  "package_failure_cause": "UNKNOWN",
+  "audit_sizes": null,
+  "formal_obligations_closed": 0,
+  "independent_b1_b2_credit": 0,
+  "download_verified": false,
+  "raw_fallback_used": false,
+  "next_data_needed": "bounded primary_error/operation and audit sizes via authorized administrative channel; no raw audit authorization inferred"
+}

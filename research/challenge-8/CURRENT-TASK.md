@@ -57,15 +57,18 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-R9 ACTIVE. T0 **2026-10-20T17:07:04Z**, main **19:07:04Z**, absolute **19:37:04Z**. **1768/3600spent,1832remaining**, carry0; ownactive/unresolved0. Чужие dirty policy/evidence файлы и historical R8 сохранены.
+R9 ACTIVE. T0 **2026-10-20T17:07:04Z**, main **19:07:04Z**, absolute **19:37:04Z**. **2415/3600 spent, 1185 remaining**, carry0; own active/unresolved0. Чужие dirty files и historical R8 сохранены.
 
-Цель: полный P1 native-interface/equality/refinement → совместимые26/own N-false31. Proof до→сейчас: **0→0 закрытых obligations, independent B1/B2credit0**. P0a/P0b имеют новые source NATIVE_INTENDED_PASS body+conformance; P1/caller/lifecycle OPEN.
+Цель: полный P1 native interface/equality/refinement → совместимые26/own N-false31. Proof до→сейчас: **0→0 закрытых obligations, independent B1/B2 credit0**. Новые source claims P0a/P0b body+conformance относятся к S1/S2; на S3 не перенесены. P1/A1/A2/lifecycle OPEN.
 
 | Build | Гипотеза/type/candidate | Результат | Charge |
 |---|---|---|---|
-| `2f7b5d56-f9b6-44d1-a1fd-89f7b79870a4` | Ast.sized compile→native P1; mixed; `c7393017` | FAILURE/run124; source26:11classified/2inconclusive/12notrun/1observed |905с|
-| `62675952-19c6-483b-8770-28992e68b640` | Some-definition selector→P1 + exact mismatch diagnostic; mixed; `38ad7980` | FAILURE/run0; source26:12classified/2inconclusive/12notrun |863с|
+| `2f7b5d56-f9b6-44d1-a1fd-89f7b79870a4` | Ast.sized compile→P1; mixed; `c7393017` | FAILURE/run124; source26:11classified/2inconclusive/12notrun/1observed |905с|
+| `62675952-19c6-483b-8770-28992e68b640` | Some selector + binding diagnostic; mixed; `38ad7980` | FAILURE/run0; source26:12classified/2inconclusive/12notrun |863с|
+| `0b3c2c0a-4b3f-4df6-8e58-8de4d346b08a` | Tuple alpha fix + bounded native collision diagnostic; mixed; `a8bc59be` | FAILURE; executeSUCCESS/package-upload exit1; Brief/catalogue HTTP404, all26 UNKNOWN |647с|
 
-Обслуживание отдельно: R9 registration/exact published closure; R-only/finalC buildability. Some-filter не устранил P1 nonunique body; source identities compiled, но native interface остаётся open. S2 fail-only diagnostic установил exact P1 quicksort tuple-slot lifetime mismatch на actual normal/readonly SHA. Подготовлен minimal tuple-preserving alpha fix (independent Luna HIGH GO,22synthetictests), actual acceptance NOT_RUN. Для native selection сохраняется fail-closed uniqueness; bounded count/name/location diagnostic в подготовке/review, без произвольного выбора signature/имени.
+Обслуживание отдельно: R9 registration/exact published closure, R-only/finalC buildability. Some-filter не устранил P1 nonunique body. S2 diagnostic установил actual P1 quicksort tuple lifetime mismatch; minimal tuple recursion reviewed/22syntheticPASS, actual S3 acceptance UNKNOWN. S3 package cause/sizes UNKNOWN; raw fallback не использован. Запрошены bounded primary_error/operation/audit sizes у владельца через административный канал.
 
-[Session](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-SESSION-2026-10-20.md), [S1 evidence](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S1-EVIDENCE-2026-10-20.json), [S2 evidence](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S2-EVIDENCE-2026-10-20.json), [S2 full26/provenance](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S2-MATRIX-2026-10-20.json). Brief integrity/delivery complete; source audit accepted/matrix/evidence_complete false не смешиваются с outerdelivery. Следующий шаг: finalized S3 pins/review/exactpublishedclosure → actual binding regression/P1 diagnostic через coordinator. Hourprogress:1768spent,0formalcredit; раннийstopнеобъявлен.
+S4 в подготовке: source-proven duplicated observations в final audit → lossless literal-R9-only row pointers к полной observation_details (включая nonmatrix keys). Proof/classification/in-memory/progress/caps/packager не меняются. Это не установленная причина S3. Serialization8/profile9/progress4/activation8/dispatch7/action3/lifecycle4/context4 PASS, независимый Luna HIGH review актуального diff GO. Оставшегося бюджета хватает на один900s Build с reserve960; exact closure PASS, публикация и coordinator admission перед Cloud.
+
+[Session](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-SESSION-2026-10-20.md), [S1 evidence](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S1-EVIDENCE-2026-10-20.json), [S2 evidence](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S2-EVIDENCE-2026-10-20.json), [S2 full26](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S2-MATRIX-2026-10-20.json), [S3 boundary](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S3-EVIDENCE-2026-10-20.json), [S3 UNKNOWN26](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S3-MATRIX-2026-10-20.json).

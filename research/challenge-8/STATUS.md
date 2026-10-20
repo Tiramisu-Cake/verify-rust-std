@@ -1,7 +1,9 @@
-# Select / sort4 — R9 ACTIVE, exact tuple blocker diagnosed
+# Select / sort4 — R9 ACTIVE, S3 Evidence unavailable
 
-T0 **17:07:04Z**, main **19:07:04Z**, absolute **19:37:04Z**, 2026-10-20. **1768/3600spent,1832remaining**, ownactive/unresolved0. [Текущий отчёт](CURRENT-TASK.md), [session](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-SESSION-2026-10-20.md).
+2026-10-20: T0 **17:07:04Z**, main **19:07:04Z**, absolute **19:37:04Z**. **2415/3600 spent,1185 remaining**, own active/unresolved0, carry0. [Отчёт](CURRENT-TASK.md), [session](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-SESSION-2026-10-20.md).
 
-S2 `62675952-19c6-483b-8770-28992e68b640` terminalFAILURE863s/run0; Brief integrity/delivery complete. Source26:12classified/2inconclusive/12notrun. **0 закрытых obligations, independent B1/B2credit0**. P0a/P0b sourcebody+conformance intendedpass; P1 Some-filter всё ещё nonunique body. Actual mismatch diagnostic привязал fullquicksort/P1 к lifetime slots внутри argument_region_roles tuples; минимальный recursive tuple alpha fix reviewed и22syntheticchecksPASS, actualbindingNOT_RUN.
+**0 закрытых obligations, independent B1/B2 credit0**. S2 source26:12classified/2inconclusive/12notrun; P0a/P0b source body+conformance intendedpass. Actual S2 P1 quicksort tuple lifetime mismatch установлен; Some selector оставил native body nonunique.
 
-S3: сохранить fail-closed nativeunique selector, добавить bounded candidatecount/name/location; tuple fix → actual binding/callerregressions, compatible26/ownfalse31. [S2 evidence](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S2-EVIDENCE-2026-10-20.json), [full26/provenance](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S2-MATRIX-2026-10-20.json). Исторические R8 и чужие dirty files сохранены; carry0.
+S3 `0b3c2c0a-4b3f-4df6-8e58-8de4d346b08a` FAILURE647s: executeSUCCESS/package-upload exit1/verdict exit2. Brief и catalogue HTTP404, все26 результатов UNKNOWN. Tuple acceptance/native collision details/audit sizes/package cause неизвестны; raw fallback не использован. [S3 boundary](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S3-EVIDENCE-2026-10-20.json).
+
+S4 готовится: lossless literal-R9-only report serialization устраняет source-proven duplicate observations, сохраняя полную observation_details/nonmatrix values и proof/control semantics. Сбой S3 этим не объяснён. Independent review/published closure перед последним доступным Build обязательны. Historical R8 и чужие dirty files сохранены.
