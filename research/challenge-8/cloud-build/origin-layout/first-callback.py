@@ -233,8 +233,9 @@ def _prepare_r10_moving_gap(source):
                   b"        //@ close array::<u64>(tail, 0, nil);\n"
                   b"        //@ open array::<u64>(tail + 1, 0, _);\n"
                   b"        //@ close array::<u64>(tail + 1, 0, nil);\n"
-                  b"        loop {\n" + R10_MOVING_GAP_INVARIANT +
-                  b"            /*@ let_lft 'late = r5_late_k; @*/\n" + R10_ITERATION_PREP,
+                  b"        loop {\n" +
+                  b"            /*@ let_lft 'late = r5_late_k; @*/\n" +
+                  R10_MOVING_GAP_INVARIANT + R10_ITERATION_PREP,
                   'checked moving-gap invariant first at actual loop head')
     anchor = b"        }\n    }\n    /*@ {\n        guard_current_return_recover();"
     return _one(source, anchor, b"        }\n" + R10_BREAK_PREP +

@@ -122,3 +122,9 @@ returns symexec_result. Source target NOT_RUN, no updated invariant/freshness
 outcomes. Candidate4 preserves exact SymExecSuccess result across stderr call,
 using actual type definition; independent LunaHIGH GO. All source annotations,
 posts/control matrix and model premise unchanged.
+
+Candidate5 correction: source let_lft must precede inv because it is a ghost
+declaration. Build4 parser296 exposed the earlier source-order error. The exact
+admitted relocated declaration Noop is normalized after the invariant solely
+for LoopInv reconstruction; retained first in checked body. No resource stmt
+is moved and no check is skipped. See candidate5 review.

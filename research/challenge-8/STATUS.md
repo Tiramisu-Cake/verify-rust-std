@@ -1,15 +1,18 @@
-# Merge-R10 ACTIVE — backedge resource inventory
+# Merge-R10 ACTIVE — checked moving-gap invariant
 
 T0 UTC2026-10-20 21:48:01; main23:48:01; absolute2026-10-21 00:18:01.
-Fresh3600Cloud seconds, no R9carry. Build1 `403f96a0-a81a-4acd-81f5-8b7a9f11d840`
-WORKING at last status; timeout1200/reserve1260, used0 pending terminal.
-Published source `5f7139fa`, tool `07116a39`, profile `016ad1bf`.
-Read-only missing-invariant backedge heap/env diagnostic; unchanged actual CFG,
-R8 model/R9 checked cleanup/posts and matrix. Luna HIGH GO, static/source/service
-checks PASS; compilation/formal target pending. Invariant not yet implemented.
+Fresh3600Cloud seconds; used1667/execution1665, remaining1933 before Build4
+reservation1260. Builds1/2/3 terminalFAILURE/accounted:644/599/424charged.
+Build4 `15c02b71-82e2-4116-b215-72e3358f20a6` is active on exactpublished
+`c1566a624dc6555bd5886a5ac0d580b72950ee8b`, toolf9361c7c; timeout1200.
+Build1 compilePASS and native backedge37heap/41env observed. Build2 compilePASS,
+source invariant parser failure290; Build3 toolconsolecompile failure, targetNOTRUN.
+Candidate4 restores symexec_result in read-only diagnostic; checked invariant,
+run-bound freshness and recovery controls reviewed LunaHIGH, synthetic/staticPASS.
+Entry/backedge/exits/current controls remain pending actual evidence.
 [Session](cloud-build/origin-layout/R10-SESSION-20261021.md),
-[design](cloud-build/origin-layout/R10-INVARIANT-DESIGN-20261021.md),
-[review](cloud-build/origin-layout/R10-CANDIDATE1-REVIEW-20261021.md).
+[obligations](cloud-build/origin-layout/R10-OBLIGATIONS-20261021.md),
+[Build3](cloud-build/origin-layout/R10-BUILD3-RESULT-20261021.json).
 B2/normal-unwind/qualification OPEN; acceptedfalse/independentcredit0.
 Foreign dirty docs preserved. Prior snapshots below are historical.
 

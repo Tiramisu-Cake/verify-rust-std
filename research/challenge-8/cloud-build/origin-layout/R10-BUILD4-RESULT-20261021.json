@@ -1,0 +1,64 @@
+{
+  "schema": "merge-r10-build-result-v1",
+  "candidate": 4,
+  "kind": "COMPILE_AND_FORMAL_PARSER_GATE",
+  "build_id": "15c02b71-82e2-4116-b215-72e3358f20a6",
+  "source_sha": "c1566a624dc6555bd5886a5ac0d580b72950ee8b",
+  "tool_sha": "f9361c7c25f8ca33f62bc16e730fe128ecf2318a",
+  "accounting": {
+    "dispatch_token": "dispatch-3e1bc8d0c3d84310adfdd4b2c5f176a1",
+    "owner": "merge",
+    "phase_id": "MERGE-MOVING-GAP-INVARIANT-R10-2026-10-21",
+    "infra_sha": "c1566a624dc6555bd5886a5ac0d580b72950ee8b",
+    "proof_sha": "c1566a624dc6555bd5886a5ac0d580b72950ee8b",
+    "lane": "merge",
+    "submitted_config_sha256": "864ce649de95b364184d971bdb79c1b093733c4cc2c211b0797a72316808b1ef",
+    "reserved_seconds": 1260,
+    "timeout_seconds": 1200,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "1ece04c92d240857adf68745d91c4c1d91ef20169b2841bb4f9995b0552ff2eb",
+    "build_id": "15c02b71-82e2-4116-b215-72e3358f20a6",
+    "start_time": "2026-10-20T22:52:44.366327757Z",
+    "finish_time": "2026-10-20T23:03:04.087586Z",
+    "create_time": "2026-10-20T22:52:43.592529422Z",
+    "build_seconds": 621,
+    "accounted": true,
+    "execution_seconds": 620
+  },
+  "budget_used": 2288,
+  "budget_remaining": 1312,
+  "compilation": "PASS: all seven observed milestones exit0",
+  "formal_actual_body_attempt": "INCONCLUSIVE: Rust annotation parser refuses non-leading let_lft verified/lib.rs296:17-24",
+  "entry_backedge_exit_gates": "NOT_ESTABLISHED",
+  "recovery_controls": "NOT_RUN_PREREQUISITE_AS_REPORTED",
+  "archive_sha256": "7bff01451063c9d36bc90f5078120fd065d3ee27a02cc705a40b9b5f469560eb",
+  "index_sha256": "a938c853ff7d6769345f05e03646fb43ab13ca5bbbdd0acbad8193c541bb62ed",
+  "files": {
+    "verified_source": {
+      "id": "2d78ebdaeb062e188723dd979753b6ca3c2142a8d584603f17f4536298dbcdd1",
+      "sha256": "667ae2b36c0d4cf22792453f3e8a62cc5fdf9cf378fd90df8984e42231d12324",
+      "info_request": "9ad804f882a96fe3660d4017eb634fce8b4a551a0f8b0e0824338e21c1296c10",
+      "lines287_298_request": "886ef9a9d2bd4a698caaffa13ac302203a1f5ba68d34454db67a4b8d2c0b1ba6"
+    },
+    "formal_log": {
+      "id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+      "sha256": "5f2eb7ecae7197bb6b69ae5d164f1dbce74562b2f06fc859c522065a40f80901",
+      "info_request": "228ff9fc9a3a4fc50f0a558f2cb798dbaeb523fcbbff33cda60f14ed8237f604",
+      "lines1_4_request": "0820293cf9e874a4cf88b9e5614174c3eb5ce096a48ee02bcde8bc293acebd74"
+    }
+  },
+  "coverage": {
+    "selected_source_lines": "287..298/435; exact=true complete=false",
+    "selected_log_lines": "1..4/4; exact=true complete=true",
+    "parsed_stage_records": 512,
+    "candidate_stage_records": 604,
+    "not_captured": 92
+  },
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causal_status": "UNKNOWN",
+  "qualification": "OPEN",
+  "accepted": false,
+  "independent_credit": 0
+}
