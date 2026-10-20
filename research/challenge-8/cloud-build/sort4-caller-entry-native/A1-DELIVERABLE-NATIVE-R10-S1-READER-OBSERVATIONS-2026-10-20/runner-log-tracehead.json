@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "cd74f2f721b4f78e538b94c78821ddf6f1da387ba98e27de5f8e5401613679a5",
+  "build_id": "86a0add5-eed4-4809-a530-1171e4268782",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 12,
+    "line_separator": "LF",
+    "source_lines": 34,
+    "start": 1,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "e1264daea17dd8a9c97be66c8aef6a9739b6b70ab1cf82980bc3740293818a43",
+  "file_path": "allprooflogs/sort4-c1-current-recovery.log",
+  "file_sha256": "c7d19ef32bd3034601de2e3f1517696ad486dfcadbcb98d324428613fb835499",
+  "index_sha256": "1f12296e4e59476924740c9990972ed43e5ccb18b592b179805197032093466a",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 12,
+    "expected_sha256": "c7d19ef32bd3034601de2e3f1517696ad486dfcadbcb98d324428613fb835499",
+    "file_id": "e1264daea17dd8a9c97be66c8aef6a9739b6b70ab1cf82980bc3740293818a43",
+    "start": 1
+  },
+  "request_id": "62a4053f26aeacbb060d5b88576a8fd21a821c12e3195a518cb1fe1c6b4eb974",
+  "requested_end": 12,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1,
+      "text": "Traceback (most recent call last):"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2,
+      "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/sort4-caller-entry-native/a1-entry-r10.py\", line 90, in <module>"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3,
+      "text": "    main()"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 4,
+      "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/sort4-caller-entry-native/a1-entry-r10.py\", line 80, in main"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 5,
+      "text": "    result = runner.run(a, c4=c4, audit=audit, driver=driver,"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 6,
+      "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/sort4-caller-entry-native/a1-runner-r10.py\", line 47, in run"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7,
+      "text": "    return module.run(a, c4=c4, audit=audit, driver=driver,"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 8,
+      "text": "  File \"/workspace/proof/research/challenge-8/cloud-build/sort4-caller-entry-native/a1-runner.py\", line 2443, in run"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 9,
+      "text": "    persist_progress()"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 10,
+      "text": "  File \"/workspace/proof/research/challenge-8/cloud-build/sort4-caller-entry-native/a1-runner.py\", line 2039, in persist_progress"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 11,
+      "text": "    snapshot = deepcopy(result)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 12,
+      "text": "  File \"/usr/lib/python3.10/copy.py\", line 146, in deepcopy"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

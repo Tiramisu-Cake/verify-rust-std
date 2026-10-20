@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "cd74f2f721b4f78e538b94c78821ddf6f1da387ba98e27de5f8e5401613679a5",
+  "build_id": "86a0add5-eed4-4809-a530-1171e4268782",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 34,
+    "line_separator": "LF",
+    "source_lines": 34,
+    "start": 23,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "e1264daea17dd8a9c97be66c8aef6a9739b6b70ab1cf82980bc3740293818a43",
+  "file_path": "allprooflogs/sort4-c1-current-recovery.log",
+  "file_sha256": "c7d19ef32bd3034601de2e3f1517696ad486dfcadbcb98d324428613fb835499",
+  "index_sha256": "1f12296e4e59476924740c9990972ed43e5ccb18b592b179805197032093466a",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 34,
+    "expected_sha256": "c7d19ef32bd3034601de2e3f1517696ad486dfcadbcb98d324428613fb835499",
+    "file_id": "e1264daea17dd8a9c97be66c8aef6a9739b6b70ab1cf82980bc3740293818a43",
+    "start": 23
+  },
+  "request_id": "5494dbc50244ac94f283920a60b4aca89cccd3465168f92c44b4fa70f9399cbc",
+  "requested_end": 34,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 23,
+      "text": "    y[deepcopy(key, memo)] = deepcopy(value, memo)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 24,
+      "text": "  File \"/usr/lib/python3.10/copy.py\", line 146, in deepcopy"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 25,
+      "text": "    y = copier(x, memo)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 26,
+      "text": "  File \"/usr/lib/python3.10/copy.py\", line 231, in _deepcopy_dict"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 27,
+      "text": "    y[deepcopy(key, memo)] = deepcopy(value, memo)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 28,
+      "text": "  File \"/usr/lib/python3.10/copy.py\", line 146, in deepcopy"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 29,
+      "text": "    y = copier(x, memo)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 30,
+      "text": "  File \"/usr/lib/python3.10/copy.py\", line 231, in _deepcopy_dict"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 31,
+      "text": "    y[deepcopy(key, memo)] = deepcopy(value, memo)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 32,
+      "text": "  File \"/usr/lib/python3.10/copy.py\", line 161, in deepcopy"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 33,
+      "text": "    rv = reductor(4)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 34,
+      "text": "TypeError: cannot pickle 'mappingproxy' object"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

@@ -1,0 +1,87 @@
+{
+  "archive_sha256": "cd74f2f721b4f78e538b94c78821ddf6f1da387ba98e27de5f8e5401613679a5",
+  "build_id": "86a0add5-eed4-4809-a530-1171e4268782",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 9,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "b9e1ed31625a55134e02fbaa87cf4c5970ada5cfe7bfdf2bef12afc9daec74ca",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-lifecycle-progress.json",
+  "file_sha256": "dd424067c133e9e2a8ac9082c76e2ecdf80e91c61ccf708613cb3c66679ba9cc",
+  "index_sha256": "1f12296e4e59476924740c9990972ed43e5ccb18b592b179805197032093466a",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "dd424067c133e9e2a8ac9082c76e2ecdf80e91c61ccf708613cb3c66679ba9cc",
+    "file_id": "b9e1ed31625a55134e02fbaa87cf4c5970ada5cfe7bfdf2bef12afc9daec74ca",
+    "pointer": "/observation_details/N-alpha-valid/messages/0/classifier"
+  },
+  "request_id": "ca3d4538f1d6d4d8f27524e8c608e2eb631f4533a421b90d57da250f0ceb56ff",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/N-alpha-valid/messages/0/classifier/ast_sha256",
+      "value": "0a3e157e363c5cdd57a93699ce33526c361490ac9d15c8672c1f55b6f7699f9b"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/N-alpha-valid/messages/0/classifier/classification",
+      "value": "SYNTHETIC_REPRESENTATION_ACCEPTED"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/observation_details/N-alpha-valid/messages/0/classifier/compiler_derived",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/observation_details/N-alpha-valid/messages/0/classifier/exit",
+      "value": 0
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/N-alpha-valid/messages/0/classifier/mutation",
+      "value": "alpha_valid"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/observation_details/N-alpha-valid/messages/0/classifier/proof_credit",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/observation_details/N-alpha-valid/messages/0/classifier/refinement_derived",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/N-alpha-valid/messages/0/classifier/stage",
+      "value": "interface"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/observation_details/N-alpha-valid/messages/0/classifier/summary_available",
+      "value": false
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

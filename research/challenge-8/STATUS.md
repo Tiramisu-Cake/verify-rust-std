@@ -1,9 +1,9 @@
-# Select / sort4 — R10 ACTIVE, bounded target ready
+# Select / sort4 — R10 ACTIVE, delivered native blocker
 
-T0 **2026-10-20T19:22:09Z**, main **21:22:09Z**, absolute **21:52:09Z**. Fresh **0/3600spent**, maxBuild1200, carry0; ownactive1/unresolved0. [Задание/отчёт](CURRENT-TASK.md), [session](cloud-build/sort4-caller-entry-native/A1-DELIVERABLE-NATIVE-R10-SESSION-2026-10-20.md).
+T0 **2026-10-20T19:22:09Z**, main **21:22:09Z**, absolute **21:52:09Z**. **495/3600spent,3105remaining**, ownactive/unresolved0, carry0. [Отчёт](CURRENT-TASK.md), [session](cloud-build/sort4-caller-entry-native/A1-DELIVERABLE-NATIVE-R10-SESSION-2026-10-20.md).
 
-Proof0→0/B1B2credit0; P1/A1/A2/ownNfalse31 OPEN. One S5 Briefretry404, exact bounded administrative request remains; norawfallback. R9 historical CLOSED3362spent238retiredcarry0 preserved.
+Proof0→0/B1B2credit0; P1/A1/A2/ownNfalse31 OPEN. S1 `86a0add5-eed4-4809-a530-1171e4268782` FAILURE495s, packageSUCCESS/Brief VERIFIED_ARCHIVE_AND_INVENTORY/outercomplete/run1. P0a/P0b sourcebody+conformance true; exact paired binding regression+two refusal controls and alphaaccepted observed. Native P1 bodycount2 exactname lines50/68, implspan42..59; TrName is identity.
 
-R10 S1 candidate0052d9d9: same frozen proof/tool semantics with native-p1-target ordering P0abc→P1→pairedbinding/regions→onlyalpha, all26 retained, skippedNOT_RUN/no finaladmission. New reserve: timeout1000/work760/soft700/report240. Mandatorycompile/focusdeadcode gates unchanged. IndependentLunaHIGHGO, isolatedservicechecksPASS, exactcommittedclosure39infra115proof174objects/config27972/28000PASS. Publication/admission beforeCloud; actualresultsNOT_RUN.
+Final target report lost to deepcopy(mappingproxy), progress+logs delivered/rootgenericfallback. Final26 UNKNOWN, sourceclaims separate. Receipt also rejects incorrect shared P0a unit for P0b. [S1 evidence](cloud-build/sort4-caller-entry-native/A1-DELIVERABLE-NATIVE-R10-S1-EVIDENCE-2026-10-20.json), [26 boundary](cloud-build/sort4-caller-entry-native/A1-DELIVERABLE-NATIVE-R10-S1-MATRIX-2026-10-20.json).
 
-S1 accepted `86a0add5-eed4-4809-a530-1171e4268782`, proof=infra0052d9d95acbbe4e531cc8a8a7822538773a59bf, config709e0a44516650aee29398ad20e5d99add6c7db1c1f72a89524a75b5ad481e95. Timeout1000/work760/soft700/report240; resultpending/credit0, terminalchargepending.
+S2 repairs: per-impl certificate units/unchanged admission, JSON snapshot/partial audit propagation preserving original exits, compiler Body-origin binding with unique AST join and impl containment. Main diff reviews GO; final native guard/trace/pins pending. No source proof acceptance before Cloud. Historical R9/foreign files unchanged, no raw fallback.

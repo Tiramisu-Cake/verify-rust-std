@@ -1,0 +1,57 @@
+{
+  "archive_sha256": "cd74f2f721b4f78e538b94c78821ddf6f1da387ba98e27de5f8e5401613679a5",
+  "build_id": "86a0add5-eed4-4809-a530-1171e4268782",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 26,
+    "line_separator": "LF",
+    "source_lines": 60,
+    "start": 24,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "be3dfcd08e58ba1ef6c68c29cb29e2b12605c57b62c9fdf12a0c9084aa00b216",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-native-reference/P1/r-only-native-reference.log",
+  "file_sha256": "5eccb9cb9bb003c45dd1e1a1cb8978f42afc2fb5513ee9b5e67e354d41d1a141",
+  "index_sha256": "1f12296e4e59476924740c9990972ed43e5ccb18b592b179805197032093466a",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 26,
+    "expected_sha256": "5eccb9cb9bb003c45dd1e1a1cb8978f42afc2fb5513ee9b5e67e354d41d1a141",
+    "file_id": "be3dfcd08e58ba1ef6c68c29cb29e2b12605c57b62c9fdf12a0c9084aa00b216",
+    "start": 24
+  },
+  "request_id": "1bd25387d90a02a4e673373b367e6b48420c6559cdab24c98ae3b714e4d66c17",
+  "requested_end": 26,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 24,
+      "text": "verified/lib.rs(42,1-59,2): error: A1 small_sort implementation signature compiler item body is not unique; same-name AST functions count=2 shown=2 [\"<T as StableSmallSortTypeImpl>::small_sort\"@\"verified/lib.rs\":50:5/body=Some; \"<T as StableSmallSortTypeImpl>::small_sort\"@\"verified/lib.rs\":68:5/body=Some]"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 25,
+      "text": "42 | impl<T> StableSmallSortTypeImpl for T {"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 26,
+      "text": "   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

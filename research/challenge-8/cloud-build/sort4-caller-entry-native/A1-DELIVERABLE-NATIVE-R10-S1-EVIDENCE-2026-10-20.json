@@ -1,0 +1,167 @@
+{
+  "schema": "smallsort-r10-bounded-source-evidence-v1",
+  "build_id": "86a0add5-eed4-4809-a530-1171e4268782",
+  "candidate": "0052d9d95acbbe4e531cc8a8a7822538773a59bf",
+  "config_sha256": "709e0a44516650aee29398ad20e5d99add6c7db1c1f72a89524a75b5ad481e95",
+  "type": "mixed",
+  "hypothesis": "short native P1 and tuple-alpha/binding target with explicit package reserve",
+  "terminal": "FAILURE",
+  "cloud_charge_seconds": 495,
+  "used_total": 495,
+  "remaining": 3105,
+  "create_time": "2026-10-20T19:36:15.163835379Z",
+  "finish_time": "2026-10-20T19:44:29.750315Z",
+  "public_step_timings": [
+    {
+      "id": "execute",
+      "status": "SUCCESS",
+      "exitCode": null,
+      "timing": {
+        "endTime": "2026-10-20T19:43:12.338268449Z",
+        "startTime": "2026-10-20T19:36:23.245229482Z"
+      }
+    },
+    {
+      "id": "package-upload",
+      "status": "SUCCESS",
+      "exitCode": null,
+      "timing": {
+        "endTime": "2026-10-20T19:44:18.201585744Z",
+        "startTime": "2026-10-20T19:43:12.338584967Z"
+      }
+    },
+    {
+      "id": "verdict",
+      "status": "FAILURE",
+      "exitCode": 1,
+      "timing": {
+        "endTime": "2026-10-20T19:44:19.495045169Z",
+        "startTime": "2026-10-20T19:44:18.201784025Z"
+      }
+    }
+  ],
+  "brief_processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "outer_evidence_complete": true,
+  "source_run_exit": 1,
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "target_final_audit_produced": false,
+  "root_audit": "generic INCONCLUSIVE fallback; not the target final audit",
+  "progress_identities": {
+    "file_id": "b9e1ed31625a55134e02fbaa87cf4c5970ada5cfe7bfdf2bef12afc9daec74ca",
+    "file_sha256": "dd424067c133e9e2a8ac9082c76e2ecdf80e91c61ccf708613cb3c66679ba9cc",
+    "index_sha256": "1f12296e4e59476924740c9990972ed43e5ccb18b592b179805197032093466a",
+    "archive_sha256": "cd74f2f721b4f78e538b94c78821ddf6f1da387ba98e27de5f8e5401613679a5"
+  },
+  "progress_bytes": 9182684,
+  "selected_source_observations": {
+    "P0a": {
+      "assurance": "runner-inference-from-pinned-kernel-order-and-current-VF-stage",
+      "body_count": 1,
+      "case_id": "P0a",
+      "classification": "RUNNER_REPORTED_FOCUSED_BODY_AND_CONFORMANCE",
+      "focus_body_reached": true,
+      "focus_body_verified": true,
+      "focus_conformance_verified": true,
+      "normal_posts_preserved": true,
+      "proof_credit": false,
+      "unwind_posts_preserved": true
+    },
+    "P0b": {
+      "assurance": "runner-inference-from-pinned-kernel-order-and-current-VF-stage",
+      "body_count": 1,
+      "case_id": "P0b",
+      "classification": "RUNNER_REPORTED_FOCUSED_BODY_AND_CONFORMANCE",
+      "focus_body_reached": true,
+      "focus_body_verified": true,
+      "focus_conformance_verified": true,
+      "normal_posts_preserved": true,
+      "proof_credit": false,
+      "unwind_posts_preserved": true
+    },
+    "N-binding": {
+      "case_id": "N-binding",
+      "classification": "CALL_BINDING_CLAIM_REFUSAL_OBSERVED",
+      "control_input_immutable": true,
+      "control_input_sha256": "494c23748e5afec86c1b9391a26817a11cb08eab33a4ba38dc917b744bde7232",
+      "error_type": "CallBindingError",
+      "input_identity_verified": true,
+      "input_sha256": "494c23748e5afec86c1b9391a26817a11cb08eab33a4ba38dc917b744bde7232",
+      "observed_error": "claim differs from the paired compiler caller MIR binding",
+      "proof_credit": false,
+      "source_id": "2df32fc33568a6b3f8a392acbbb4693a647ca1ad97257ecb1cceda1e25945a33",
+      "stage": "call-binding-admission",
+      "unit_id": "6c8b3a221fef12ba660233c5638d15af1b801b1989955f78c116df0413336b2d"
+    },
+    "N-region-swap": {
+      "case_id": "N-region-swap",
+      "classification": "INPUT_REGION_ROLE_REFUSAL_OBSERVED",
+      "control_input_immutable": true,
+      "control_input_sha256": "26c7c8816d3c8b54689005697f909ab692e7f9fe5d283cc9d55299df811fbcd5",
+      "error_type": "CallBindingError",
+      "input_identity_verified": true,
+      "input_sha256": "26c7c8816d3c8b54689005697f909ab692e7f9fe5d283cc9d55299df811fbcd5",
+      "observed_error": "claim input-region role map differs from compiler-derived call/input region map",
+      "proof_credit": false,
+      "source_id": "2df32fc33568a6b3f8a392acbbb4693a647ca1ad97257ecb1cceda1e25945a33",
+      "stage": "call-binding-admission",
+      "unit_id": "bd9490ea477a07ceb88129c366b194e97fada2eb38946543a00f60a6d17b138c"
+    },
+    "N-alpha-valid": {
+      "ast_sha256": "0a3e157e363c5cdd57a93699ce33526c361490ac9d15c8672c1f55b6f7699f9b",
+      "classification": "SYNTHETIC_REPRESENTATION_ACCEPTED",
+      "compiler_derived": false,
+      "exit": 0,
+      "mutation": "alpha_valid",
+      "proof_credit": false,
+      "refinement_derived": false,
+      "stage": "interface",
+      "summary_available": false
+    },
+    "P1": {
+      "adapter_error": "RuntimeError: A1-RUNNER: R-only baseline did not preserve exact P1 source pair or emit its pre-verification AST",
+      "execution_started": true,
+      "failed_stage": "P1",
+      "not_run": false,
+      "proof_credit": false
+    }
+  },
+  "native_failure": {
+    "log_file_id": "be3dfcd08e58ba1ef6c68c29cb29e2b12605c57b62c9fdf12a0c9084aa00b216",
+    "log_sha256": "5eccb9cb9bb003c45dd1e1a1cb8978f42afc2fb5513ee9b5e67e354d41d1a141",
+    "line": 24,
+    "error": "compiler item body is not unique",
+    "same_name_ast_functions_count": 2,
+    "exact_name": "<T as StableSmallSortTypeImpl>::small_sort",
+    "compiler_impl_span": "verified/lib.rs(42,1-59,2)",
+    "candidates": [
+      {
+        "file": "verified/lib.rs",
+        "line": 50,
+        "column": 5,
+        "body_kind": "Some"
+      },
+      {
+        "file": "verified/lib.rs",
+        "line": 68,
+        "column": 5,
+        "body_kind": "Some"
+      }
+    ]
+  },
+  "receipt_blocker": "AdmissionError: P0b must bind the actual freeze32 proof input",
+  "reporting_blocker": "persist_progress deepcopy(result) TypeError cannot pickle mappingproxy before diagnostic-audit write",
+  "tuple_regression": {
+    "normal_decoded_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+    "readonly_decoded_sha256": "d57caad6a69e35778ba32cedf37850b31f76da64d385c3a80d08da6181f1d05e",
+    "paired_control_preparation_succeeded": true,
+    "both_refusal_controls_identity_verified": true,
+    "assurance": "source observations with source/code linkage, not independent proof"
+  },
+  "formal_obligations_closed": 0,
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "download_verified_set": false,
+  "raw_fallback_used": false,
+  "reader_rate_boundary": "two case-status queries HTTP429; no absence or NOT_RUN inference, no raw bypass",
+  "reader_observations": "A1-DELIVERABLE-NATIVE-R10-S1-READER-OBSERVATIONS-2026-10-20"
+}

@@ -59,8 +59,18 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-R10 ACTIVE. T0 **2026-10-20T19:22:09Z**, main **21:22:09Z**, absolute **21:52:09Z**. Fresh **0/3600 spent**, max timeout1200, carry0; ownactive1/unresolved0. Цель: доставляемый точный P1/native/tuple binding → совместимые26/ownlifecycle. Proof0→0, independentB1/B2credit0.
+R10 ACTIVE. T0 **2026-10-20T19:22:09Z**, main **21:22:09Z**, absolute **21:52:09Z**. **495/3600 Cloud-секунд spent,3105 remaining**, max timeout1200/carry0; own active/unresolved0. Чужие dirty файлы и historical accounts сохранены.
 
-Однократный S5 Brief сноваHTTP404, прежний bounded административный запрос сохранён; raw audit не разрешён/не использован. R10 registration готова, явный reporting reserve240 и soft deadline/teardown, короткий native-p1-target (полная26 сохраняется с explicit NOT_RUN внеscope, finalacceptancefalse). Current foreigndirty и historicalR9 сохранены. Independent LunaHIGH GO; exact committed closure PASS (39infra115proof174objects/config27972/28000), candidate0052d9d9; publication/coordinator admission перед submit.
+Цель: доставляемый P1/native interface/equality/refinement → совместимые26/own N-false31. **Proof0→0, independent B1/B2credit0**; P1/A1/A2/lifecycle OPEN.
 
-S1 Build `86a0add5-eed4-4809-a530-1171e4268782` accepted; candidate0052d9d9, timeout1000/work760/soft700/report240. До terminal charge0/3600, active1, resultpending.
+| Build | Гипотеза/type/candidate | Результат | Charge |
+|---|---|---|---|
+| `86a0add5-eed4-4809-a530-1171e4268782` | Short P1+tuple/alpha + reporting reserve; mixed; `0052d9d9` | FAILURE/run1; packageSUCCESS, Brief integrity/outercomplete; точный blocker доставлен |495с|
+
+S1 source: P0a/P0b body+conformance normal/unwind true; same normal3bf1…/readonlyd57c… pair проходит strict binding, N-binding/N-region-swap дают intended identity-verified refusals; alpha SYNTHETIC_REPRESENTATION_ACCEPTED/exit0/proofcreditfalse. Positive receipt остановился: helper ошибочно присваивал P0b unit от P0a, gate правильно отказал. R-only P1: два exact same-name bodySome на строках50/68, current compiler impl42..59. TrName.translate_def_path identity, гипотеза о его lossy normalization отклонена.
+
+Финальный target audit не записан: progress deepcopy(mappingproxy) TypeError после classification. Доставлен progress9,182,684байт и bounded logs; root audit — generic INCONCLUSIVE fallback. **Финальная26 S1 UNKNOWN**, source observations отдельно; initial progress NOT_RUN не подменяет executed outcomes. Два HTTP429 case-status ответа сохранены без обхода/absence inference.
+
+Обслуживание отдельно: R10 registration/exact published closure, timeout1000/work760/soft700/report reserve240. Source/config caps сохранены (S1 config27972/28000). S2: recursive JSON snapshot и byte-preserving partial-audit copy с originalexit; per-impl certified receipt IDs (ownfalse31 сохраняет ownpair); compiler Body→debug/AST origin + impl containment + unique joins вместо одного неоднозначного DefPath. Reviewer LunaHIGH GO основных diff; финальные guard/trace hashes и dependent pins ещё завершаются перед новым exact closure/публикацией/Cloud. Actual acceptance S2 NOT_RUN.
+
+[Session](cloud-build/sort4-caller-entry-native/A1-DELIVERABLE-NATIVE-R10-SESSION-2026-10-20.md), [S1 evidence](cloud-build/sort4-caller-entry-native/A1-DELIVERABLE-NATIVE-R10-S1-EVIDENCE-2026-10-20.json), [S1 full26 boundary](cloud-build/sort4-caller-entry-native/A1-DELIVERABLE-NATIVE-R10-S1-MATRIX-2026-10-20.json). Однократный oldS5 Brief404/прежний bounded административный запрос сохранены; raw fallback/download_verified отсутствуют.

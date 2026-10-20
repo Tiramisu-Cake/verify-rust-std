@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "cd74f2f721b4f78e538b94c78821ddf6f1da387ba98e27de5f8e5401613679a5",
+  "build_id": "86a0add5-eed4-4809-a530-1171e4268782",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 13,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "b9e1ed31625a55134e02fbaa87cf4c5970ada5cfe7bfdf2bef12afc9daec74ca",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-lifecycle-progress.json",
+  "file_sha256": "dd424067c133e9e2a8ac9082c76e2ecdf80e91c61ccf708613cb3c66679ba9cc",
+  "index_sha256": "1f12296e4e59476924740c9990972ed43e5ccb18b592b179805197032093466a",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "dd424067c133e9e2a8ac9082c76e2ecdf80e91c61ccf708613cb3c66679ba9cc",
+    "file_id": "b9e1ed31625a55134e02fbaa87cf4c5970ada5cfe7bfdf2bef12afc9daec74ca",
+    "pointer": "/observation_details/N-binding"
+  },
+  "request_id": "97da3f6ec3e0daa044636918d6dc8ac586382c754c3c37398c0dcacee1443e49",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/N-binding/case_id",
+      "value": "N-binding"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/N-binding/classification",
+      "value": "CALL_BINDING_CLAIM_REFUSAL_OBSERVED"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/observation_details/N-binding/control_input_immutable",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/N-binding/control_input_sha256",
+      "value": "494c23748e5afec86c1b9391a26817a11cb08eab33a4ba38dc917b744bde7232"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/N-binding/error_type",
+      "value": "CallBindingError"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/observation_details/N-binding/input_identity_verified",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/N-binding/input_sha256",
+      "value": "494c23748e5afec86c1b9391a26817a11cb08eab33a4ba38dc917b744bde7232"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/N-binding/observed_error",
+      "value": "claim differs from the paired compiler caller MIR binding"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/observation_details/N-binding/observed_input_ids"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/observation_details/N-binding/proof_credit",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/N-binding/source_id",
+      "value": "2df32fc33568a6b3f8a392acbbb4693a647ca1ad97257ecb1cceda1e25945a33"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/N-binding/stage",
+      "value": "call-binding-admission"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/N-binding/unit_id",
+      "value": "6c8b3a221fef12ba660233c5638d15af1b801b1989955f78c116df0413336b2d"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

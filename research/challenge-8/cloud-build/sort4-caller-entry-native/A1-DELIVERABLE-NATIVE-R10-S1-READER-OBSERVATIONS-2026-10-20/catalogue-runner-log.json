@@ -1,0 +1,43 @@
+{
+  "archive_sha256": "cd74f2f721b4f78e538b94c78821ddf6f1da387ba98e27de5f8e5401613679a5",
+  "build_id": "86a0add5-eed4-4809-a530-1171e4268782",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "EMPTY_FILE": 101,
+      "JSON_EXCEEDS_SCAN_LIMIT": 2,
+      "PROJECTED": 374,
+      "UNSUPPORTED_FILE_TYPE": 58
+    },
+    "catalogue_complete": true,
+    "content_bytes": 1170437,
+    "content_files": 477,
+    "files": 535,
+    "source_scan_bytes": 3007367
+  },
+  "index_sha256": "1f12296e4e59476924740c9990972ed43e5ccb18b592b179805197032093466a",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "e1264daea17dd8a9c97be66c8aef6a9739b6b70ab1cf82980bc3740293818a43",
+      "kind": "text",
+      "path": "allprooflogs/sort4-c1-current-recovery.log",
+      "path_sanitized": false,
+      "scanned_bytes": 1943,
+      "sha256": "c7d19ef32bd3034601de2e3f1517696ad486dfcadbcb98d324428613fb835499",
+      "size_bytes": 1943,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 535,
+    "files_with_incomplete_content": 354,
+    "matches_in_retained_data": 1,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}
