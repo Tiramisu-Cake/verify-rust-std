@@ -1,7 +1,7 @@
-# Select / sort4 — R5 ACTIVE, HIR Fresh/input correspondence
+# Select / sort4 — R5 ACTIVE, S5 HIR method generics
 
-T0 `2026-10-19T22:34:09Z`; main `2026-10-20T00:34:09Z`; absolute `2026-10-20T01:04:09Z`. R5:3terminal Builds,1313/3600charged,2287remaining; own active/unresolved0. Older accounts closed without carry.
+T0 `2026-10-19T22:34:09Z`; main `2026-10-20T00:34:09Z`; absolute `2026-10-20T01:04:09Z`. Four terminal Builds,1787/3600charged,1813remaining before S5. Previous accounts closed without carry.
 
-S3 Build `53aeec23-552e-4f4c-8d94-a52bbdd8c0f3` FAILURE447s advances typed input/clause equality to HIR Fresh low-word mismatch. Pinned source and bounded fragments show Fresh.l53/48 corresponds to input '__53/'__48. Full inventory/source/native proof not yet established; P1started/creditfalse,Nfalse31explicitNOT_RUN;26sourceaggregate8/5/13. A1/A2OPEN/no newindependentcredit.
+S4 Build `0b0e6b2a-a13a-45c1-abf4-f4dc7e992e02` FAILURE474s passes full inventory/source binding; focused P0a frontend rejects HIR/compiler method generic mismatch. S5 runtime `14a9d651bb09dd0b128525c0efbedbecd15ec082` separates early F from validated HIR Fresh metadata; checked FnSig retains semantic lifetimes once. Full R2/C reconstruction, exact source closure, controls and independent Luna HIGH GO complete; published6a6a9ecabff8411698aa34a1b2a7a4902823c156 before submission. Compilation remains a Cloud question.
 
-S4 `d475c49e820640256355d6a45ec3379e86717ed1` validates exact ordered HIR Fresh→input binding, kinds/flags/range/uniqueness before alpha projection; other IDs/raw/unknown/source/contracts unchanged. LunaHIGHGO, HIR9/region7/admission23/profile5PASS; exactclosure/publication before Cloud. [Task/report](CURRENT-TASK.md), [session/rationale](cloud-build/sort4-caller-entry-native/A1-AUTO-SESSION-2026-10-20.md).
+Final proof obligations closed0; A1/A2 OPEN. S4 P1 started/creditfalse; Nfalse31 explicit NOT_RUN;26 source aggregate8/5/13. No independent B1/B2 credit. [Task/report](CURRENT-TASK.md), [session](cloud-build/sort4-caller-entry-native/A1-AUTO-SESSION-2026-10-20.md), [S5 exact release](cloud-build/sort4-caller-entry-native/A1-AUTO-S5-RELEASE-2026-10-20.json).

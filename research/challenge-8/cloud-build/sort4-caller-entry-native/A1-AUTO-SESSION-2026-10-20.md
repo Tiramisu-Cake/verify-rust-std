@@ -44,3 +44,5 @@ S5 rationale BEFORE implementation: translate_trait_required_fn compares complet
 
 ### S5 publication boundary, 00:16Z
 Runtime14a9d651bb09dd0b128525c0efbedbecd15ec082; Luna HIGH GO; full R2→unchanged C source composition PASS. Exact selected-object closure33infra/107proof/160objects PASS; partial Git fsck emitted .gitmodulesMissing warnings, no claim of globally clean fsck. Compiler/exporter/schema/decoder/kernel and contracts/matrix/lifecycle retained. Release root R/source maps refreshed to S5 profile, historical releases unchanged. Compilation remains untested until Cloud.
+
+S5 accepted Build `56f4d389-8d6d-428b-8298-aa4c5e45073a`, config `1bb5526cabaa99c7db22d0be9e7c8b8c36826422a720de6baa68f91556b9b637`, exact runtime14a9d651. Full900s timeout within1813 remaining and main window at submit; previous4terminal charged1787.

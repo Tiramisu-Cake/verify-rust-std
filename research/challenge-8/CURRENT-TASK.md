@@ -75,4 +75,4 @@ S5 runtime **`14a9d651bb09dd0b128525c0efbedbecd15ec082`**, profile **`d90dde2215
 
 **Proof:** новых конечных proof obligations закрыто0; A1/A2 OPEN. S4 P1 execution_started=true, credit=false; N-false31 явно NOT_RUN. Полный native/interface/equality/refinement proof не установлен. Свежий source aggregate26:8 INTENDED_CLASSIFIED/5 INCONCLUSIVE/13 NOT_RUN. Integrity VERIFIED; stage order NOT_ESTABLISHED; independent formal credit отсутствует. [S4 evidence](cloud-build/sort4-caller-entry-native/A1-AUTO-S4-EVIDENCE-2026-10-20.json).
 
-**Учёт:**4 terminal Builds;1787/3600spent,1813remaining; own active=null после S4 reconcile. Публикую S5 и запускаю полную конфигурацию. Старые ledgers/evidence сохранены без переноса.
+**Учёт:**4 terminal Builds;1787/3600spent,1813remaining; own active=null после S4 reconcile. S5 Build `56f4d389-8d6d-428b-8298-aa4c5e45073a` принят; terminal/charge ожидаются. Старые ledgers/evidence сохранены без переноса.
