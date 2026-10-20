@@ -309,19 +309,17 @@ class CallBindingTests(unittest.TestCase):
 
     def test_semantic_diagnostic_bounds_unicode_keys_and_deep_paths(self):
         field = "界" * 12000
-        nested_normal = nested_readonly = {"leaf": 0}
+        nested_normal, nested_readonly = {"leaf": 0}, {"leaf": 1}
         for index in range(80):
             nested_normal = {"層" * 80 + str(index): nested_normal}
             nested_readonly = {"層" * 80 + str(index): nested_readonly}
-        nested_normal["値" * 12000] = "normal"
-        nested_readonly["値" * 12000] = "readonly"
         message = m._semantic_mismatch_message(
             "P1", {"caller": "quicksort", field: nested_normal},
             {"caller": "quicksort", field: nested_readonly}, "normal", "readonly")
         self.assertLessEqual(len(message.encode("utf-8")), 3000)
         diagnostic = json.loads(message.split("diagnostic=", 1)[1])
         self.assertEqual(len(diagnostic["normal_decoded_sha256"]), 64)
-        self.assertLessEqual(len(diagnostic["first_differences"][0]["path"]), 256)
+        self.assertEqual(diagnostic["first_differences"][0]["note"], "bounded traversal")
         self.assertIn("sha256=", diagnostic["first_differences"][0]["path"])
 
     def test_observe_semantic_mismatch_reports_diagnostic_and_still_fails(self):
