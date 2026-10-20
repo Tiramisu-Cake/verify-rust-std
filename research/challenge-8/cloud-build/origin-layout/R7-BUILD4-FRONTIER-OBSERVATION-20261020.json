@@ -1,0 +1,105 @@
+{
+  "archive_sha256": "25489adc61916a1b58ef00fc3dce055b3ee225faa33f0c4b38e0635222c3003a",
+  "build_id": "b360bb7a-0f3c-45ea-b993-332a4daa0d77",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 1108,
+    "line_separator": "LF",
+    "source_lines": 1446,
+    "start": 1098,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verifast.log",
+  "file_sha256": "5e7f1690b820edb6f45caa9eb0024b8308cdf33c1d08a1ba312cabbf037a7b65",
+  "index_sha256": "98f77c32cc8249ca2bc137ff5dc9489783245a8f58124503ecaad554153d690f",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 1108,
+    "expected_sha256": "5e7f1690b820edb6f45caa9eb0024b8308cdf33c1d08a1ba312cabbf037a7b65",
+    "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+    "start": 1098
+  },
+  "request_id": "e15e68d3a1df9147be160516860edade4da169c7a142caf4fb4ef6d7ae8e3e57",
+  "requested_end": 1108,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1098,
+      "text": "  0.331331s: verified/lib.rs(251,40-41): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1099,
+      "text": "  0.331346s: verified/lib.rs(251,40-41): Freeing locals."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1100,
+      "text": "  0.331360s: verified/lib.rs(252,9-40): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1101,
+      "text": "  0.332445s: verified/lib.rs(252,9-253,1): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1102,
+      "text": "verified/lib.rs(252,91-93): error: Assertion might not hold. (Cannot prove (get_pointer_address(fn_outcome_result(outcome5)) + 8) <= get_pointer_address(begin) || (get_pointer_address(begin) + (3 * 8)) <= get_pointer_address(fn_outcome_result(outcome5)).)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1103,
+      "text": "252 |         //@ assert (gap_guard.src as usize + std::mem::size_of::<u64>() <= begin as usize || begin as usize + 3 * std::mem::size_of::<u64>() <= gap_guard.src as usize);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1104,
+      "text": "    |                                                                                           ^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1105,
+      "text": "verified/lib.rs(252,9-253,1): note: Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1106,
+      "text": "252 |         //@ assert (gap_guard.src as usize + std::mem::size_of::<u64>() <= begin as usize || begin as usize + 3 * std::mem::size_of::<u64>() <= gap_guard.src as usize);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1107,
+      "text": "    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1108,
+      "text": "253 | "
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

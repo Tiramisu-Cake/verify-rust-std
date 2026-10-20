@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "25489adc61916a1b58ef00fc3dce055b3ee225faa33f0c4b38e0635222c3003a",
+  "build_id": "b360bb7a-0f3c-45ea-b993-332a4daa0d77",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 99,
+    "line_separator": "LF",
+    "source_lines": 336,
+    "start": 88,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "2d78ebdaeb062e188723dd979753b6ca3c2142a8d584603f17f4536298dbcdd1",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verified/lib.rs",
+  "file_sha256": "61f4d03e3cbdf4bd68ac67bcd2928e11b6522c596197778ce4afa5c1f1681441",
+  "index_sha256": "98f77c32cc8249ca2bc137ff5dc9489783245a8f58124503ecaad554153d690f",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 99,
+    "expected_sha256": "61f4d03e3cbdf4bd68ac67bcd2928e11b6522c596197778ce4afa5c1f1681441",
+    "file_id": "2d78ebdaeb062e188723dd979753b6ca3c2142a8d584603f17f4536298dbcdd1",
+    "start": 88
+  },
+  "request_id": "2dd1fd4f9e4d440e13f9893e6d890b7b9d27b72f0e05d769715978e1f7300852",
+  "requested_end": 99,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 88,
+      "text": "    [1/4]src[..1] |-> cons(?current, nil) &*& dst[..1] |-> _ &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 89,
+      "text": "    <u64>.own(t, current) &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 90,
+      "text": "    0 < std::mem::size_of::<u64>() &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 91,
+      "text": "    std::mem::size_of::<u64>() <= isize::MAX &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 92,
+      "text": "    src as usize != 0 &*& dst as usize != 0 &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 93,
+      "text": "    src as usize % std::mem::align_of::<u64>() == 0 &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 94,
+      "text": "    dst as usize % std::mem::align_of::<u64>() == 0 &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 95,
+      "text": "    object_pointer_within_limits(src, std::mem::size_of::<u64>()) == true &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 96,
+      "text": "    object_pointer_within_limits(dst, std::mem::size_of::<u64>()) == true &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 97,
+      "text": "    src as usize <= usize::MAX - std::mem::size_of::<u64>() &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 98,
+      "text": "    dst as usize <= usize::MAX - std::mem::size_of::<u64>() &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 99,
+      "text": "    pointer_within_limits(src) == true &*& pointer_within_limits(src + 1) == true &*&"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

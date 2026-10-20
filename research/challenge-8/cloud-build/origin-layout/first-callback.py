@@ -126,8 +126,7 @@ def _prepare_guard_empty_tail(source):
                 b'        //@ assert gap_guard.src as usize != 0;\n'
                 b'        //@ assert gap_guard.src as usize % std::mem::align_of::<u64>() == 0;\n'
                 b'        //@ assert object_pointer_within_limits(gap_guard.src, std::mem::size_of::<u64>()) == true;\n'
-                b'        //@ assert gap_guard.src as usize <= usize::MAX - std::mem::size_of::<u64>();\n'
-                b'        //@ assert (gap_guard.src as usize + std::mem::size_of::<u64>() <= begin as usize || begin as usize + 3 * std::mem::size_of::<u64>() <= gap_guard.src as usize);\n',
+                b'        //@ assert gap_guard.src as usize <= usize::MAX - std::mem::size_of::<u64>();\n',
                 'checked empty array tail at original guard reference provenance')
 
 

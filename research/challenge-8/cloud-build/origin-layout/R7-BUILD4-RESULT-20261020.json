@@ -1,0 +1,43 @@
+{
+  "schema": "merge-r7-build-result-v1",
+  "build": {
+    "dispatch_token": "dispatch-f174f3d330074edc82ba4fad8cff0209",
+    "owner": "merge",
+    "phase_id": "MERGE-POST-MIGRATION-CURRENT-RECOVERY-R7-2026-10-20",
+    "infra_sha": "5f2c0f24d7cb199f39fe086fb1f9d3f7e4c71ae3",
+    "proof_sha": "5f2c0f24d7cb199f39fe086fb1f9d3f7e4c71ae3",
+    "lane": "merge",
+    "submitted_config_sha256": "1a422679bb0d16dce0d8a46bea200807e4af1f251adf785515e32871f1893879",
+    "reserved_seconds": 960,
+    "timeout_seconds": 900,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "ac0f3cfb0db84555df1ecf6ea0885f67e8f14c59e3e2218cd0c71ee7f2a8dafe",
+    "build_id": "b360bb7a-0f3c-45ea-b993-332a4daa0d77",
+    "start_time": "2026-10-20T15:39:17.271850782Z",
+    "finish_time": "2026-10-20T15:49:18.809660Z",
+    "create_time": "2026-10-20T15:39:16.520298429Z",
+    "build_seconds": 603,
+    "accounted": true,
+    "execution_seconds": 602
+  },
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "observed_frontier": "verified252: additional early global src-vs-entire-begin3 interval assertion not proved; bounds/alignment prior checks passed",
+  "independent_credit": 0,
+  "full_current_normal_unwind_proved": false,
+  "source_array_controls": "positive PASS_CONTROL +3 EXPECTED_REJECTION",
+  "source_late_admission_controls": "2 EXPECTED_REJECTION; no theorem/profile credit",
+  "total_charge": 2061,
+  "remaining_budget": 1539,
+  "observation": {
+    "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+    "file_sha256": "5e7f1690b820edb6f45caa9eb0024b8308cdf33c1d08a1ba312cabbf037a7b65",
+    "index_sha256": "98f77c32cc8249ca2bc137ff5dc9489783245a8f58124503ecaad554153d690f",
+    "archive_sha256": "25489adc61916a1b58ef00fc3dce055b3ee225faa33f0c4b38e0635222c3003a",
+    "request_id": "e15e68d3a1df9147be160516860edade4da169c7a142caf4fb4ef6d7ae8e3e57",
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "causal_status": "UNKNOWN"
+  }
+}
