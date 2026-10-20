@@ -1,5 +1,5 @@
 {
-  "active_build": "02154aa4-fbdd-4961-b0ce-cafc9316236f",
+  "active_build": "205ff994-63f2-415b-abbe-f5f16858d751",
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
   ],
@@ -59,14 +59,33 @@
       "submitted_config_sha256": "ee2382ddcd3ae8217ac7df359295cf8513304fb3ee875c19a7a39cfbb82a1a2a",
       "reserved_seconds": 1260,
       "timeout_seconds": 1200,
-      "status": "WORKING",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "31fc8ca7e524826a11788b0bd97e6503f56edbc7764ea31f65d1c73079c393ec",
       "build_id": "02154aa4-fbdd-4961-b0ce-cafc9316236f",
       "start_time": "2026-10-20T20:45:47.718014416Z",
-      "finish_time": null,
-      "create_time": "2026-10-20T20:45:46.939005761Z"
+      "finish_time": "2026-10-20T21:03:12.562363Z",
+      "create_time": "2026-10-20T20:45:46.939005761Z",
+      "build_seconds": 1046,
+      "accounted": true,
+      "execution_seconds": 1045
+    },
+    {
+      "dispatch_token": "dispatch-26a3313e34fb4872a0d2ab7a06302e9c",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-DELIVERABLE-NATIVE-PROOF-2026-10-20-R10",
+      "infra_sha": "4987cf161af860208337980848e923effe744081",
+      "proof_sha": "4987cf161af860208337980848e923effe744081",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "87cb9bac807c866f97b2213062ed4669e4f1f013f4fe85be18259c936711f0f0",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "QUEUED",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "9dbf96ec7316ee3307b5f83c50c152d8df73db700c73bdbae3a6246bf4ed2c95",
+      "build_id": "205ff994-63f2-415b-abbe-f5f16858d751"
     }
   ],
   "ceiling_build_seconds": 3600,
@@ -76,9 +95,9 @@
   "maximum_builds": null,
   "owner": "select-sort4",
   "phase": "SORT4-DELIVERABLE-NATIVE-PROOF-2026-10-20-R10",
-  "remaining_build_seconds": 2595,
+  "remaining_build_seconds": 1549,
   "schema": "smallsort-cloud-phase-account-v1",
   "start_utc": "2026-10-20T19:22:09Z",
   "status": "AUTHORIZED",
-  "used_build_seconds": 1005
+  "used_build_seconds": 2051
 }

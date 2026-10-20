@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "a30af03a378beb6ef10a8febc747cf783d2fe4f483b735d83e9a03a0c114b82d",
+  "build_id": "02154aa4-fbdd-4961-b0ce-cafc9316236f",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 101,
+    "line_separator": "LF",
+    "source_lines": 982,
+    "start": 90,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "241e38dedc8346d7fa96c58a11783b207ae082e6bab68ab831f08de28e0e8330",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-native-reference/P1/r-only-native-reference-ast.ml",
+  "file_sha256": "19f8ec9ecb14cd223b2088269d4efdd65fdd479ba55c4a6670db773bbb19cdcd",
+  "index_sha256": "934c652823d9d861d3f9526ecd09b417d7468efec23b03735eb90939cab443f0",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 101,
+    "expected_sha256": "19f8ec9ecb14cd223b2088269d4efdd65fdd479ba55c4a6670db773bbb19cdcd",
+    "file_id": "241e38dedc8346d7fa96c58a11783b207ae082e6bab68ab831f08de28e0e8330",
+    "start": 90
+  },
+  "request_id": "e78eb794b44ada415ce516b3e4ee3a7ae6160682409a32db45825fcac8d2f555",
+  "requested_end": 101,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 90,
+      "text": "    ], None)))), false, None, false, [])"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 91,
+      "text": "  ]);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 92,
+      "text": "  PackageDecl (loc \"<dummy location>\", \"\", [], []);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 93,
+      "text": "  PackageDecl (loc \"verified/lib.rs(32,8-28)\", \"<T as StableSmallSortTypeImpl>\", [], ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 94,
+      "text": "    Func (loc \"verified/lib.rs(32,8-28)\", Regular, [], Some (ConstructedTypeExpr (loc \"verified/lib.rs(32,8-28)\", \"fn_outcome\", [ManifestTypeExpr (loc \"verified/lib.rs(32,8-28)\", Int (Unsigned, PtrRank))])), \"small_sort_threshold\", [], false, (None, None), Some ((LetTypeAsn (loc \"verified/lib.rs(32,8-28)\", \"Self\", StructType (\"T\", []), Sep (loc \"verified/lib.rs(32,8-28)\", MatchAsn (loc \"verified/lib.rs(32,8-28)\", Typeid (loc \"verified/lib.rs(32,8-28)\", TypeExpr (ManifestTypeExpr (loc \"verified/lib.rs(32,8-28)\", StructType (\"T\", [])))), VarPat (loc \"verified/lib.rs(32,8-28)\", \"Self_typeid\")), Sep (loc \"verified/lib.rs(32,8-28)\", Sep (loc \"verified/lib.rs(32,8-28)\", Sep (loc \"verified/lib.rs(32,8-28)\", CallExpr (loc \"verified/lib.rs(32,8-28)\", \"thread_token\", [], [], [VarPat (loc \"verified/lib.rs(32,8-28)\", \"_t\")], Static), Operation (loc \"verified/lib.rs(32,8-28)\", Eq, [Var (loc \"verified/lib.rs(32,8-28)\", \"_t\"); Var (loc \"verified/lib.rs(32,8-28)\", \"currentThread\")])), EmpAsn (loc \"verified/lib.rs(32,8-28)\")), EnsuresAsn (loc \"verified/lib.rs(32,8-28)\", \"outcome\", SwitchExpr (loc \"verified/lib.rs(32,8-28)\", Var (loc \"verified/lib.rs(32,8-28)\", \"outcome\"), ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 95,
+      "text": "      SwitchExprClause (loc \"verified/lib.rs(32,8-28)\", \"returning\", [\"result\"], Sep (loc \"verified/lib.rs(32,8-28)\", CallExpr (loc \"verified/lib.rs(32,8-28)\", \"thread_token\", [], [], [LitPat (Var (loc \"verified/lib.rs(32,8-28)\", \"_t\"))], Static), True (loc \"verified/lib.rs(32,8-28)\")));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 96,
+      "text": "      SwitchExprClause (loc \"verified/lib.rs(32,8-28)\", \"unwinding\", [], Sep (loc \"verified/lib.rs(32,8-28)\", CallExpr (loc \"verified/lib.rs(32,8-28)\", \"thread_token\", [], [], [LitPat (Var (loc \"verified/lib.rs(32,8-28)\", \"_t\"))], Static), EmpAsn (loc \"verified/lib.rs(32,8-28)\")))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 97,
+      "text": "    ], None))))), (\"result\", EmpAsn (loc \"verified/lib.rs(32,8-28)\")))), false, None, false, [])"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 98,
+      "text": "  ]);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 99,
+      "text": "  PackageDecl (loc \"<dummy location>\", \"\", [], []);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 100,
+      "text": "  PackageDecl (loc \"verified/lib.rs(35,8-18)\", \"<T as StableSmallSortTypeImpl>\", [], ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 101,
+      "text": "    Func (loc \"verified/lib.rs(35,8-18)\", Regular, [(\"T\", (true)); (\"F\", (true)); (\"'__vf_req_r_16_sig_0_0_named\", (false)); (\"'__vf_req_r_16_sig_0_1_named\", (false)); (\"'__vf_req_r_16_sig_0_2_named\", (false))], Some (ConstructedTypeExpr (loc \"verified/lib.rs(35,8-18)\", \"fn_outcome\", [ManifestTypeExpr (loc \"verified/lib.rs(35,8-18)\", StructType (\"std_tuple_0_\", []))])), \"small_sort\", ["
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

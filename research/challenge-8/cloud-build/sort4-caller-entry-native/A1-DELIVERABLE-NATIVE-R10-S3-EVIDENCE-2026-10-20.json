@@ -1,0 +1,57 @@
+{
+  "build_id": "02154aa4-fbdd-4961-b0ce-cafc9316236f",
+  "proof_sha": "659509c0e3a2e1f51b73e5480dd8ea79746366a6",
+  "infra_sha": "659509c0e3a2e1f51b73e5480dd8ea79746366a6",
+  "status": "FAILURE",
+  "charge_seconds": 1046,
+  "used_total": 2051,
+  "remaining": 1549,
+  "source_run_exit": 124,
+  "package_upload": "SUCCESS",
+  "brief_processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "outer_evidence_complete_source_claim": true,
+  "proof_verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+  "observed_stage_seconds": {
+    "execute": 904.275891493,
+    "package_upload": 125.450712862,
+    "verdict": 1.075276351
+  },
+  "timeout_causality": "UNKNOWN; execute duration is near nominal inner900 horizon, not outer960; exact last stage not established",
+  "index_sha256": "934c652823d9d861d3f9526ecd09b417d7468efec23b03735eb90939cab443f0",
+  "archive_sha256": "a30af03a378beb6ef10a8febc747cf783d2fe4f483b735d83e9a03a0c114b82d",
+  "root_audit": {
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "sha256": "9b742baf64c39d2d4c6181e9012d93367ca81a9c4c0db65bb653c647439ca6cd",
+    "bytes": 5062,
+    "final_target_classification_established": false
+  },
+  "progress": {
+    "file_id": "b9e1ed31625a55134e02fbaa87cf4c5970ada5cfe7bfdf2bef12afc9daec74ca",
+    "sha256": "a4a9154a3da63f7a2d42fa22d11d0f9479b31cbdc08dca7339a633eba19bab7e",
+    "bytes": 27682556,
+    "structural_pointer_limit": "exceeds16MiB; targetedtextavailable",
+    "partial_not_final": true
+  },
+  "bounded_source_findings": {
+    "P1": "AstGateError: noncanonical PackageDecl path; actual native AST owner <T as StableSmallSortTypeImpl> confirmed by exact lines93/100",
+    "P0c": "Raw caller verification exit1; exact verified/lib.rs(139,1-2) error Function leaks heap chunks: Option_own(...)(_t, left_ancestor_pivot); threshold receipt only reports both-body/conformance assurance; caller proof OPEN",
+    "N-false31": "Root partial case_status INCONCLUSIVE/false31 own-pair receipt ordering not established; observations adapter error certified inclusive threshold guard and false31 assertion must be unique and ordered. Nested NEGATIVE_INTENDED/receipt_issued flags are source claims, not overriding root classification.",
+    "P1_owner_evidence": {
+      "file_id": "241e38dedc8346d7fa96c58a11783b207ae082e6bab68ab831f08de28e0e8330",
+      "sha256": "19f8ec9ecb14cd223b2088269d4efdd65fdd479ba55c4a6670db773bbb19cdcd",
+      "lines": [
+        93,
+        100,
+        101
+      ],
+      "owner": "<T as StableSmallSortTypeImpl>",
+      "reader_response": "native-ast-owner-lines-90-101.json",
+      "binding_credit": "source scope evidence only; no independent proof"
+    }
+  },
+  "reader_http429": "Exact CLI stderr preserved; no requestID exposed; no raw fallback or absence inference",
+  "formal_obligations_before": 0,
+  "formal_obligations_after": 0,
+  "independent_B1_B2_credit": 0,
+  "next": "S4shorttarget with exact canonical Rust impl owner parser repair after review; no unchanged full workload retry"
+}

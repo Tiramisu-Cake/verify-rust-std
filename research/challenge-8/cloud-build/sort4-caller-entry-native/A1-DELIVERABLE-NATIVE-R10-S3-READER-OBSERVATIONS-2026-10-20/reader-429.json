@@ -1,0 +1,23 @@
+{
+  "build_id": "02154aa4-fbdd-4961-b0ce-cafc9316236f",
+  "reader_client": "installed /usr/local/bin/smallsort-brief; project guide identifies current workflow as Evidence v0.11; CLI exposes no --version option",
+  "requests": [
+    {
+      "operation": "refresh-locate",
+      "file_id": "b9e1ed31625a55134e02fbaa87cf4c5970ada5cfe7bfdf2bef12afc9daec74ca",
+      "literal": "adapter_error",
+      "exit_code": 1,
+      "exact_cli_error": "smallsort-brief: Reader HTTP request failed (HTTP 429)",
+      "request_id": "not-exposed-by-cli"
+    },
+    {
+      "operation": "refresh-pointer",
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "pointer": "",
+      "exit_code": 1,
+      "exact_cli_error": "smallsort-brief: Reader HTTP request failed (HTTP 429)",
+      "request_id": "not-exposed-by-cli"
+    }
+  ],
+  "raw_fallback": false
+}

@@ -1,0 +1,75 @@
+{
+  "archive_sha256": "a30af03a378beb6ef10a8febc747cf783d2fe4f483b735d83e9a03a0c114b82d",
+  "build_id": "02154aa4-fbdd-4961-b0ce-cafc9316236f",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 18,
+    "line_separator": "LF",
+    "source_lines": 18,
+    "start": 13,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "b506481b148f4dea308e4324ee6dcb41985d07c52a8199d11fe14433c24d90a1",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-fixtures/P0c/a1-threshold-summary.receipt",
+  "file_sha256": "8d3ef5c0748393b86534817ca7f677a5f9bf7993b3aa17ec03acf83c696fac38",
+  "index_sha256": "934c652823d9d861d3f9526ecd09b417d7468efec23b03735eb90939cab443f0",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 18,
+    "expected_sha256": "8d3ef5c0748393b86534817ca7f677a5f9bf7993b3aa17ec03acf83c696fac38",
+    "file_id": "b506481b148f4dea308e4324ee6dcb41985d07c52a8199d11fe14433c24d90a1",
+    "start": 13
+  },
+  "request_id": "46d72e27229a6a179dde071f11a213d757a579242160611ae7f0a87c5901ffca",
+  "requested_end": 18,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 13,
+      "text": "schema_sha256=a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 14,
+      "text": "default_impl=18"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 15,
+      "text": "default_item=20"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 16,
+      "text": "freeze_impl=23"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 17,
+      "text": "freeze_item=25"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 18,
+      "text": "assurance=runner-reported-both-actual-bodies-and-native-conformance"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

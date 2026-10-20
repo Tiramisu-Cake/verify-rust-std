@@ -1,0 +1,87 @@
+{
+  "archive_sha256": "a30af03a378beb6ef10a8febc747cf783d2fe4f483b735d83e9a03a0c114b82d",
+  "build_id": "02154aa4-fbdd-4961-b0ce-cafc9316236f",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 9,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "478de1b1794ccd476897e18a755ed407b07fd48fa1aebefec9101d0b00f580b0",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0c/a1-focus-raw-observation.json",
+  "file_sha256": "af91245cd6d27cc3444039222ef3d14120027d32585bb70376f9ce85665517cd",
+  "index_sha256": "934c652823d9d861d3f9526ecd09b417d7468efec23b03735eb90939cab443f0",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "af91245cd6d27cc3444039222ef3d14120027d32585bb70376f9ce85665517cd",
+    "file_id": "478de1b1794ccd476897e18a755ed407b07fd48fa1aebefec9101d0b00f580b0",
+    "pointer": "/stages/verification"
+  },
+  "request_id": "c1aa3c8b0b72ba2c67a4891ae5533c1cd1c5345e9bbca78997821489fc63b5c8",
+  "results": [
+    {
+      "child_count": 10,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/stages/verification/argv"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/stages/verification/classification",
+      "value": "TERMINAL"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/stages/verification/cwd",
+      "value": "/workspace/evidence/allprooflogs/cases/sort4-c1-current-recovery/a1-fixtures/P0c"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/stages/verification/exit",
+      "value": 1
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/stages/verification/log_sha256",
+      "value": "cf1ffcdd31fc28aa3a0a8628746bbff2a8441dac1e4a15b84e36c82499a559b4"
+    },
+    {
+      "exact": true,
+      "kind": "null",
+      "pointer": "/stages/verification/proof_verdict",
+      "value": null
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/stages/verification/resources",
+      "value": "verification-resources.txt"
+    },
+    {
+      "exact": true,
+      "kind": "null",
+      "pointer": "/stages/verification/stdout_sha256",
+      "value": null
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/stages/verification/timeout_seconds",
+      "value": 240
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

@@ -1,0 +1,45 @@
+{
+  "archive_sha256": "a30af03a378beb6ef10a8febc747cf783d2fe4f483b735d83e9a03a0c114b82d",
+  "build_id": "02154aa4-fbdd-4961-b0ce-cafc9316236f",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 194,
+      "EMPTY_FILE": 62,
+      "JSON_EXCEEDS_SCAN_LIMIT": 2,
+      "PROJECTED": 544,
+      "SCAN_BUDGET_EXCEEDED": 100,
+      "UNSUPPORTED_FILE_TYPE": 134
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2085469,
+    "content_files": 608,
+    "files": 1036,
+    "source_scan_bytes": 8388608
+  },
+  "index_sha256": "934c652823d9d861d3f9526ecd09b417d7468efec23b03735eb90939cab443f0",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "b9e1ed31625a55134e02fbaa87cf4c5970ada5cfe7bfdf2bef12afc9daec74ca",
+      "kind": "json",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-lifecycle-progress.json",
+      "path_sanitized": false,
+      "scanned_bytes": 262144,
+      "sha256": "a4a9154a3da63f7a2d42fa22d11d0f9479b31cbdc08dca7339a633eba19bab7e",
+      "size_bytes": 27682556,
+      "status": "JSON_EXCEEDS_SCAN_LIMIT",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 1036,
+    "files_with_incomplete_content": 868,
+    "matches_in_retained_data": 1,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}
