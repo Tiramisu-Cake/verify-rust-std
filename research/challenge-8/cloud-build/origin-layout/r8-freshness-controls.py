@@ -10,6 +10,7 @@ import copy
 import hashlib
 import json
 import re
+import uuid
 from pathlib import Path
 
 
@@ -19,6 +20,7 @@ R9_PROFILE = "experimental-merge-guard-current-return-r9-v1"
 R10_PROFILE = "experimental-merge-moving-gap-r10-v1"
 SUPPORTED_PROFILES = (PROFILE, R9_PROFILE, R10_PROFILE)
 STAGES = ("exporter", "decode", "refinement", "verifast")
+R10_TOOL_KEYS = ("vf-rust-mir-exporter", "verifast", "refinement-checker")
 HEADER = "#![no_std]\n#![allow(dead_code)]\n"
 SPAN_DIAGNOSTIC = "Assertion might not hold."
 OWNER_DIAGNOSTIC = "No matching heap chunks"
@@ -246,12 +248,22 @@ def _source_gate(case: Path, meta: dict, execution: dict) -> dict:
             "source_unchanged_at_every_stage": execution.get("source_unchanged_at_every_stage")}
 
 
-def _stage_gate(case: Path, meta: dict, stages) -> dict:
+def _stage_gate(case: Path, meta: dict, stages, *, expected_run_identity=None,
+                original_export_stages=None, stage_receipt_sha256=None) -> dict:
     admitted = isinstance(stages, dict)
     stages = stages if isinstance(stages, dict) else {}
+    original_export_stages = (original_export_stages if isinstance(original_export_stages, dict)
+                              else {})
+    stage_receipt_sha256 = (stage_receipt_sha256 if isinstance(stage_receipt_sha256, dict)
+                            else {})
+    stage_names = (STAGES if expected_run_identity is None else
+                   ("exporter", "decode", "original-exporter", "original-decode",
+                    "refinement", "verifast"))
     details = {}
-    for stage in STAGES:
-        expected = meta["expected_stages"][stage]
+    for stage in stage_names:
+        expected = (meta["expected_stages"][stage] if stage in STAGES else 0)
+        callback_stages = (stages if stage in STAGES else original_export_stages)
+        callback_key = stage if stage in STAGES else stage.removeprefix("original-")
         path = case / f"{stage}-stage.json"
         row = {"admitted": False, "reason": "stage receipt is absent"}
         if path.is_file():
@@ -262,6 +274,10 @@ def _stage_gate(case: Path, meta: dict, stages) -> dict:
                 source_match = (isinstance(before, dict) and before == after and
                                 before.get("original/lib.rs") == meta["original_sha256"] and
                                 before.get("verified/lib.rs") == meta["verified_sha256"])
+                if expected_run_identity is not None:
+                    source_match = (source_match and
+                                    before.get("small_sort_source") ==
+                                    expected_run_identity.get("source_sha256"))
                 status = receipt.get("status") if isinstance(receipt, dict) else None
                 status_ok = (status is None or
                              (isinstance(status, str) and
@@ -269,14 +285,23 @@ def _stage_gate(case: Path, meta: dict, stages) -> dict:
                 code = receipt.get("exit_code") if isinstance(receipt, dict) else None
                 ok = (isinstance(receipt, dict) and receipt.get("stage") == stage and
                       type(code) is int and code == expected and
-                      type(stages.get(stage)) is int and stages.get(stage) == expected and
+                      type(callback_stages.get(callback_key)) is int and
+                      callback_stages.get(callback_key) == expected and
                       receipt.get("source_unchanged") is True and source_match and status_ok)
+                receipt_sha256 = _sha(path.read_bytes())
+                identity_match = (expected_run_identity is None or
+                                  (receipt.get("r10_run_identity") == expected_run_identity and
+                                   stage_receipt_sha256.get(stage) == receipt_sha256))
+                ok = ok and identity_match
                 row = {"admitted": ok, "exit_code": code,
-                       "callback_exit_code": stages.get(stage),
+                       "callback_exit_code": callback_stages.get(callback_key),
                        "source_identity_matches": source_match,
                        "source_unchanged": receipt.get("source_unchanged")
                        if isinstance(receipt, dict) else None,
                        "status": status, "status_matches": status_ok}
+                if expected_run_identity is not None:
+                    row["run_identity_matches"] = identity_match
+                    row["receipt_sha256"] = receipt_sha256
             except (OSError, json.JSONDecodeError, AttributeError) as error:
                 row = {"admitted": False, "reason": f"invalid stage receipt: {error}"}
         details[stage] = row
@@ -284,11 +309,14 @@ def _stage_gate(case: Path, meta: dict, stages) -> dict:
     return {"admitted": admitted, "stages": details}
 
 
-def classify(name: str, case: Path, meta: dict, execution) -> dict:
+def classify(name: str, case: Path, meta: dict, execution, *, expected_run_identity=None) -> dict:
     if not isinstance(execution, dict):
         execution = {"execution_receipt_error": "execute_case returned a non-object"}
     source_gate = _source_gate(case, meta, execution)
-    stage_gate = _stage_gate(case, meta, execution.get("stages"))
+    stage_gate = _stage_gate(case, meta, execution.get("stages"),
+                             expected_run_identity=expected_run_identity,
+                             original_export_stages=execution.get("original_export_stages"),
+                             stage_receipt_sha256=execution.get("r10_stage_receipt_sha256"))
     flag_ok = (type(execution.get("r8_owned_array_allocation")) is bool and
                execution.get("r8_owned_array_allocation") is meta["expected_flag"])
     service_errors = []
@@ -371,7 +399,88 @@ def _profile_binding(args, env: dict) -> dict:
             "profile_path": str(Path(profile_path).resolve())}
 
 
-def run(evidence: Path, args, env: dict, execute_case) -> dict:
+def _validated_r10_run_identity(validated_run, args, env: dict, binding: dict) -> dict:
+    if not isinstance(validated_run, dict):
+        raise ValueError("R10 validated parent run identity is required")
+    selected = getattr(args, "profile", None)
+    profile = validated_run.get("profile")
+    if profile != selected or profile not in SUPPORTED_PROFILES:
+        raise ValueError("R10 parent profile differs from the selected profile")
+    build_id = validated_run.get("cloud_build_id")
+    provider = validated_run.get("provider")
+    if not isinstance(build_id, str):
+        raise ValueError("R10 parent Cloud Build UUID is absent")
+    try:
+        if str(uuid.UUID(build_id)) != build_id:
+            raise ValueError
+    except (ValueError, AttributeError):
+        raise ValueError("R10 parent Cloud Build UUID is malformed") from None
+    if (not isinstance(provider, dict) or provider.get("provider") != "cloud-build" or
+            provider.get("build_id") != build_id or
+            not isinstance(provider.get("project"), str) or not provider["project"] or
+            not isinstance(provider.get("region"), str) or not provider["region"]):
+        raise ValueError("R10 parent provider identity differs from the Build UUID")
+    current_build = env.get("CLOUD_BUILD_ID")
+    current_proof = env.get("PROOF_SHA")
+    if current_build != build_id or current_proof != validated_run.get("proof_sha"):
+        raise ValueError("R10 parent Build/proof identity differs from current hosted environment")
+    if (provider.get("project") != env.get("CLOUD_BUILD_PROJECT_ID") or
+            provider.get("region") != env.get("CLOUD_BUILD_REGION")):
+        raise ValueError("R10 parent provider project/region differs from current hosted environment")
+    proof_sha = validated_run.get("proof_sha")
+    source_sha = validated_run.get("source_sha256")
+    profile_sha = validated_run.get("profile_sha256")
+    tool_commit = validated_run.get("tool_commit")
+    tool_hashes = validated_run.get("tool_sha256")
+    if not isinstance(proof_sha, str) or not re.fullmatch(r"[0-9a-f]{40}", proof_sha):
+        raise ValueError("R10 parent proof SHA is malformed")
+    if not isinstance(source_sha, str) or not re.fullmatch(r"[0-9a-f]{64}", source_sha):
+        raise ValueError("R10 parent source SHA is malformed")
+    if profile_sha != binding["profile_sha256"]:
+        raise ValueError("R10 parent profile SHA differs from current profile file")
+    if tool_commit != binding["effective_tool_commit"]:
+        raise ValueError("R10 parent effective tool commit differs from current profile")
+    if not isinstance(tool_hashes, dict) or set(tool_hashes) != set(R10_TOOL_KEYS) or any(
+            not isinstance(tool_hashes.get(key), str) or
+            not re.fullmatch(r"[0-9a-f]{64}", tool_hashes[key]) for key in R10_TOOL_KEYS):
+        raise ValueError("R10 parent tool binary SHA map is malformed or incomplete")
+    tool_home = getattr(args, "tool_home", None)
+    if tool_home is None:
+        raise ValueError("R10 current tool-home path is unavailable")
+    current_tool_hashes = {}
+    for name, relative in (("vf-rust-mir-exporter", "bin/vf-rust-mir-exporter"),
+                           ("verifast", "bin/verifast"),
+                           ("refinement-checker", "bin/refinement-checker")):
+        path = Path(tool_home) / relative
+        if not path.is_file():
+            raise ValueError(f"R10 current tool binary is missing: {name}")
+        current_tool_hashes[name] = _sha(path.read_bytes())
+    if current_tool_hashes != {key: tool_hashes[key] for key in R10_TOOL_KEYS}:
+        raise ValueError("R10 parent tool binary SHA map differs from current tool binaries")
+    return {"cloud_build_id": build_id, "proof_sha": proof_sha,
+            "source_sha256": source_sha, "profile": profile,
+            "profile_sha256": profile_sha, "tool_commit": tool_commit,
+            "tool_sha256": {key: tool_hashes[key] for key in R10_TOOL_KEYS},
+            "provider": {key: provider[key] for key in ("provider", "build_id", "project", "region")}}
+
+
+def _case_run_identity(run_identity: dict, name: str, meta: dict, case: Path) -> dict:
+    lines = (case / "verified/lib.rs").read_text().splitlines()
+    target_line = meta["target"]["line"]
+    identity = {**run_identity, "case": name,
+                "case_source_sha256": {
+                    "original/lib.rs": meta["original_sha256"],
+                    "verified/lib.rs": meta["verified_sha256"]},
+                "target": dict(meta["target"]),
+                "target_source_line": lines[target_line - 1],
+                "expected_class": meta["expected_class"],
+                "expected_error": meta.get("expected_error")}
+    identity["identity_sha256"] = _sha(json.dumps(
+        identity, sort_keys=True, separators=(",", ":")).encode())
+    return identity
+
+
+def run(evidence: Path, args, env: dict, execute_case, *, validated_run=None) -> dict:
     """Run all bounded controls through the hosted callback and classify receipts."""
     evidence = Path(evidence)
     try:
@@ -385,6 +494,15 @@ def run(evidence: Path, args, env: dict, execute_case) -> dict:
                 "classification": "INCONCLUSIVE", "cases": {
                     name: _inconclusive(name, "hosted execute_case callback is unavailable")
                     for name in CASES}}
+    run_identity = None
+    if getattr(args, "profile", None) == R10_PROFILE:
+        try:
+            run_identity = _validated_r10_run_identity(validated_run, args, env, binding)
+        except Exception as error:
+            return {"schema": CAMPAIGN, **binding, "accepted": False, "proof_credit": False,
+                    "classification": "INCONCLUSIVE", "r10_run_identity_error": str(error),
+                    "cases": {name: _inconclusive(name, "R10 run identity unavailable")
+                              for name in CASES}}
     try:
         rows = prepare(evidence)
     except Exception as error:
@@ -396,6 +514,16 @@ def run(evidence: Path, args, env: dict, execute_case) -> dict:
     try:
         manifest = json.loads(manifest_path.read_text())
         manifest.update(binding)
+        if run_identity is not None:
+            manifest["r10_run_identity"] = run_identity
+            case_identities = {}
+            for name, meta in rows.items():
+                case_identity = _case_run_identity(
+                    run_identity, name, meta, evidence / name)
+                case_identities[name] = case_identity
+                meta["r10_run_identity"] = case_identity
+                manifest["cases"][name]["r10_run_identity"] = case_identity
+            manifest["r10_case_run_identities"] = case_identities
         manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
         for meta in rows.values():
             meta["source_binding"] = binding
@@ -411,8 +539,13 @@ def run(evidence: Path, args, env: dict, execute_case) -> dict:
             child_args = copy.copy(args)
             child_args.r8_owned_array_allocation = meta["expected_flag"]
             child_args.first_fnmut_continue = False
+            case_identity = meta.get("r10_run_identity")
+            if case_identity is not None:
+                child_args.r10_run_identity = case_identity
+                meta["r10_run_identity"] = case_identity
             execution = execute_case(case, child_args, env)
-            results[name] = classify(name, case, meta, execution)
+            results[name] = classify(name, case, meta, execution,
+                                     expected_run_identity=case_identity)
         except Exception as error:
             results[name] = _inconclusive(name, f"execute_case/classification failed: {error}")
     classifications = {name: row["classification"] for name, row in results.items()}
@@ -424,6 +557,18 @@ def run(evidence: Path, args, env: dict, execute_case) -> dict:
                  "classification": "DIAGNOSTIC_CONTROLS_CLASSIFIED" if all_classified else "INCONCLUSIVE",
                  "cases": classifications, "case_details": results,
                  "evidence_class": "diagnostic controls for an unaccepted experimental profile"}
+    if run_identity is not None:
+        aggregate["r10_run_identity"] = run_identity
+        aggregate["r10_case_run_identities"] = {
+            name: results[name].get("r10_run_identity") for name in CASES}
+        aggregate["r10_receipt_scope"] = "SOURCE_REPORTED; no independent proof credit"
+        aggregate["all_r10_case_receipts_bound"] = (
+            set(aggregate["r10_case_run_identities"]) == set(CASES) and
+            all(isinstance(aggregate["r10_case_run_identities"][name], dict) and
+                results[name].get("stage_gate", {}).get("admitted") is True for name in CASES))
+        if not aggregate["all_r10_case_receipts_bound"]:
+            aggregate["all_classified"] = False
+            aggregate["classification"] = "INCONCLUSIVE"
     try:
         (evidence / "aggregate.json").write_text(json.dumps(aggregate, indent=2, sort_keys=True) + "\n")
     except OSError:

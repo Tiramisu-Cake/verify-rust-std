@@ -33,6 +33,10 @@ class Tests(unittest.TestCase):
         self.assertNotIn(b'note(sift == begin + 1)', m.R10_ITERATION_PREP)
         self.assertNotIn(b'array::<u64>(begin, 3,', m.R10_MOVING_GAP_INVARIANT)
         self.assertNotIn(b'begin_lifetime', m.R10_MOVING_GAP_INVARIANT)
+        self.assertIn(b'if sift == begin + 1 {', m.R10_MOVING_GAP_INVARIANT)
+        self.assertIn(b'} else {', m.R10_MOVING_GAP_INVARIANT)
+        self.assertNotIn(b' + 1 ?', m.R10_MOVING_GAP_INVARIANT)
+        self.assertLess(result.index(b"let_lft 'late"), result.index(m.R10_ITERATION_PREP))
         self.assertNotIn(b'assume', result)
         self.assertNotIn(b'leak', result)
     def test_missing_ambiguous_reentry_and_wrong_exit_fail_closed(self):

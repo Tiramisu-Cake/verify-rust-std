@@ -90,3 +90,29 @@ False comparator/late cleanup keep R9's original layout/recovery. Formal entry,
 preservation and all exits remain unverified until exact candidate Cloud run.
 Controls: intact original matrix, R10 versioned wrongorigin token mutant and
 source-exact duplicate-marker repair; no arbitrary-n/generic credit.
+
+Next read-only receipt gate: instrument ordinary LoopInv entry consume,
+production, and backedge consume/leak-check completion under existing R9 trace+
+R8 option. Emit bounded-row existing heap snapshots through the same formatter,
+without touching h/env, rules, branch scheduling or checks. `entry_consumed`
+is specifically assertion consumption, not full body proof. `backedge_checked`
+only follows successful invariant consumption, termination and leak checks;
+normal/unwind theorem remains separate. Native cycle receipt/source-stage hashes
+bind the loop location; a log marker alone never grants independent proof credit.
+
+## Build2 parse frontier and candidate3 correction
+
+Buildd4487296/sourceaada9d02/tool48ace768 compiled all seven milestones; target
+attempt stopped in annotation parsing at verified290:36–37/log2: C ternary `?`
+is not part of the pinned Rust annotation grammar. Exact source284–295 and
+complete log1–4 read via v0.11. Entry/preservation/exits NOT_ESTABLISHED, recovery
+controls prerequisite NOT_RUN; old proof claims not transferred.
+
+Use supported if-expression (`rust_parser.ml322–330`, as pinned array predicates)
+with the identical two branch assertions. Also batch related head ordering fix:
+keep invariant first, then original let_lft placeholder (translated Noop), then
+dynamic head preparation. Ordinary While rejects an immediate PureStmt as first
+body statement (`verifast.ml2155`); existing translator6617 preserves original
+late declaration location as a Noop while relocating actual type binding.
+The Noop is an existing compiler/source placeholder, not a new runtime statement
+or skipped check. No invariant resources/meaning/CFG/posts changed.

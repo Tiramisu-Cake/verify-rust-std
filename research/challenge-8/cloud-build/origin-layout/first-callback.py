@@ -189,9 +189,11 @@ R10_MOVING_GAP_INVARIANT = b"""            /*@ inv thread_token(t) &*& t == curr
                 array::<u64>(begin, 1, ?r10_first_current) &*&
                 *(begin + 1) |-> _ &*& array::<u64>(tail, 0, nil) &*&
                 array::<u64>(tail + 1, 0, nil) &*&
-                (sift == begin + 1 ?
+                if sift == begin + 1 {
                     r10_dst == tail &*& *tail |-?-> _
-                : sift == begin &*& r10_dst == begin + 1 &*& *tail |-> _);
+                } else {
+                    sift == begin &*& r10_dst == begin + 1 &*& *tail |-> _
+                };
             @*/
 """
 
@@ -232,7 +234,7 @@ def _prepare_r10_moving_gap(source):
                   b"        //@ open array::<u64>(tail + 1, 0, _);\n"
                   b"        //@ close array::<u64>(tail + 1, 0, nil);\n"
                   b"        loop {\n" + R10_MOVING_GAP_INVARIANT +
-                  R10_ITERATION_PREP + b"            /*@ let_lft 'late = r5_late_k; @*/\n",
+                  b"            /*@ let_lft 'late = r5_late_k; @*/\n" + R10_ITERATION_PREP,
                   'checked moving-gap invariant first at actual loop head')
     anchor = b"        }\n    }\n    /*@ {\n        guard_current_return_recover();"
     return _one(source, anchor, b"        }\n" + R10_BREAK_PREP +
@@ -769,9 +771,12 @@ def run(evidence, args, env, execute_case, validated_receipt):
                 json.loads((evidence/'full_body/preparation.json').read_text()))
         if selected_profile in (R8_PROFILE, R9_PROFILE, R10_PROFILE):
             freshness = _load('r8_freshness_controls', HERE/'r8-freshness-controls.py')
+            freshness_kwargs = ({'validated_run': validated_receipt}
+                                if selected_profile == R10_PROFILE else {})
             results['owned_array_allocation_freshness_controls'] = freshness.run(
                 evidence/'owned-array-allocation-freshness-controls', args, campaign_env,
-                lambda case, case_args, case_env: dispatch(case, case_args, case_env))
+                lambda case, case_args, case_env: dispatch(case, case_args, case_env),
+                **freshness_kwargs)
         if selected_profile in (R9_PROFILE, R10_PROFILE):
             guard_controls = _load('r9_guard_return_controls', HERE/'r9-guard-return-controls.py')
             args.r8_owned_array_allocation = True

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import importlib.util
 import json
 import os
@@ -263,13 +264,79 @@ def ast_gate(case: Path, metadata: dict) -> dict:
 
 def execute_case(case: Path, args, env: dict) -> dict:
     source_before = base.hashes(case)
-    exporter = base.run_stage(case, "exporter", [
+    r10_run_identity = getattr(args, "r10_run_identity", None)
+
+    if r10_run_identity is not None:
+        if not isinstance(r10_run_identity, dict) or r10_run_identity.get("case") != case.name:
+            raise RuntimeError("R10 case identity is absent or names a different case")
+        identity_body = {key: value for key, value in r10_run_identity.items()
+                         if key != "identity_sha256"}
+        identity_sha = hashlib.sha256(json.dumps(
+            identity_body, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+        if r10_run_identity.get("identity_sha256") != identity_sha:
+            raise RuntimeError("R10 case identity digest differs")
+        expected_sources = r10_run_identity.get("case_source_sha256")
+        actual_sources = {key: base.file_sha(case / key) for key in
+                          ("original/lib.rs", "verified/lib.rs")}
+        if expected_sources != actual_sources:
+            raise RuntimeError("R10 case input source hashes differ from current files")
+        if source_before.get("small_sort_source") != r10_run_identity.get("source_sha256"):
+            raise RuntimeError("R10 SmallSort source SHA differs from the validated parent run")
+        profile_path = Path(env.get("SMALLSORT_MERGE_PROFILE", ""))
+        if not profile_path.is_file():
+            raise RuntimeError("R10 selected profile file is unavailable to the stage runner")
+        profile_bytes = profile_path.read_bytes()
+        profile_card = json.loads(profile_bytes)
+        if (args.profile != r10_run_identity.get("profile") or
+                base.file_sha(profile_path) != r10_run_identity.get("profile_sha256") or
+                profile_card.get("effective_tool_commit") != r10_run_identity.get("tool_commit")):
+            raise RuntimeError("R10 profile or effective tool commit differs from run identity")
+        actual_tool_hashes = {
+            "vf-rust-mir-exporter": base.file_sha(args.tool_home / "bin/vf-rust-mir-exporter"),
+            "verifast": base.file_sha(args.tool_home / "bin/verifast"),
+            "refinement-checker": base.file_sha(args.tool_home / "bin/refinement-checker"),
+        }
+        if actual_tool_hashes != r10_run_identity.get("tool_sha256"):
+            raise RuntimeError("R10 actual tool binaries differ from run identity")
+        if (env.get("CLOUD_BUILD_ID") != r10_run_identity.get("cloud_build_id") or
+                env.get("PROOF_SHA") != r10_run_identity.get("proof_sha")):
+            raise RuntimeError("R10 hosted Build/proof identity differs from run identity")
+
+    def run_stage(stage, argv, stage_env, **kwargs):
+        receipt_path = case / f"{stage}-stage.json"
+        if r10_run_identity is not None and receipt_path.exists():
+            raise RuntimeError(f"refusing to reuse pre-existing R10 stage receipt: {stage}")
+        code = base.run_stage(case, stage, argv, stage_env, **kwargs)
+        if r10_run_identity is not None and code not in (124, 127) and receipt_path.is_file():
+            try:
+                receipt = json.loads(receipt_path.read_text())
+            except (OSError, json.JSONDecodeError):
+                receipt = None
+            if (isinstance(receipt, dict) and receipt.get("stage") == stage and
+                    type(receipt.get("exit_code")) is int and receipt["exit_code"] == code and
+                    receipt.get("status") not in {"NOT_RUN", "ERROR", "TIMEOUT",
+                                                   "FAILED_TO_START"} and
+                    receipt.get("error") in (None, "") and
+                    receipt.get("source_unchanged") is True and
+                    isinstance(receipt.get("source_before"), dict) and
+                    receipt.get("source_before") == receipt.get("source_after") and
+                    receipt["source_before"].get("original/lib.rs") ==
+                    r10_run_identity.get("case_source_sha256", {}).get("original/lib.rs") and
+                    receipt["source_before"].get("verified/lib.rs") ==
+                    r10_run_identity.get("case_source_sha256", {}).get("verified/lib.rs") and
+                    receipt["source_before"].get("small_sort_source") ==
+                    r10_run_identity.get("source_sha256")):
+                receipt["r10_run_identity"] = r10_run_identity
+                receipt_path.write_text(json.dumps(receipt, indent=2) + "\n")
+        return code
+
+    exporter = run_stage("exporter", [
         str(args.tool_home / "bin/vf-rust-mir-exporter"), "verified/lib.rs",
         f"--sysroot={args.compiler_sysroot}", "--edition", "2021", "--crate-type", "lib",
         ], env,
         timeout_seconds=args.stage_seconds, stdout_name="compiler-mir.bin")
     if exporter == 0:
-        decode = base.run_stage(case, "decode", ["capnp", "decode", "-I",
+        decode = run_stage("decode", ["capnp", "decode", "-I",
             str(args.schema.parent), str(args.schema), "VfMir"], env,
             timeout_seconds=args.stage_seconds, stdin=case / "compiler-mir.bin")
     else:
@@ -282,13 +349,13 @@ def execute_case(case: Path, args, env: dict) -> dict:
                            "experimental-merge-guard-addressability-emitter-r5-v1",
                            "experimental-merge-late-callback-recovery-r7-v1",
                            R8_PROFILE, R9_PROFILE, R10_PROFILE):
-        original_export = base.run_stage(case, "original-exporter", [
+        original_export = run_stage("original-exporter", [
             str(args.tool_home / "bin/vf-rust-mir-exporter"), "original/lib.rs",
             f"--sysroot={args.compiler_sysroot}", "--edition", "2021", "--crate-type", "lib",
             ], env, timeout_seconds=args.stage_seconds,
             stdout_name="original-compiler-mir.bin")
         if original_export == 0:
-            original_decode = base.run_stage(case, "original-decode", ["capnp", "decode", "-I",
+            original_decode = run_stage("original-decode", ["capnp", "decode", "-I",
                 str(args.schema.parent), str(args.schema), "VfMir"], env,
                 timeout_seconds=args.stage_seconds, stdin=case / "original-compiler-mir.bin")
         else:
@@ -325,7 +392,7 @@ def execute_case(case: Path, args, env: dict) -> dict:
             "source_sha256_before": source_sha_before,
         }
     vf_arguments.append("verified/lib.rs")
-    vf = base.run_stage(case, "verifast", vf_arguments, env, combine=True,
+    vf = run_stage("verifast", vf_arguments, env, combine=True,
         timeout_seconds=args.verifier_seconds)
     if extern_spec_binding is not None:
         source_sha_after = base.file_sha(extern_spec)
@@ -334,7 +401,7 @@ def execute_case(case: Path, args, env: dict) -> dict:
         receipt = json.loads(receipt_path.read_text())
         receipt["extern_spec_binding"] = extern_spec_binding
         receipt_path.write_text(json.dumps(receipt, indent=2) + "\n")
-    refinement = base.run_stage(case, "refinement", [
+    refinement = run_stage("refinement", [
         str(args.tool_home / "bin/refinement-checker"),
         *(["--check-first-fnmut-continue"] if getattr(args, "first_fnmut_continue", False) else []),
         "--rustc-args", "--edition 2021",
@@ -345,13 +412,20 @@ def execute_case(case: Path, args, env: dict) -> dict:
         json.loads(path.read_text()).get("source_unchanged") is True
         for path in case.glob("*-stage.json")
         if json.loads(path.read_text()).get("status") != "NOT_RUN")
-    return {"stages": {"exporter": exporter, "decode": decode,
+    result = {"stages": {"exporter": exporter, "decode": decode,
                        "verifast": vf, "refinement": refinement},
             "r8_owned_array_allocation": r8_option,
             "original_export_stages": original_stages,
             **({"extern_spec_binding": extern_spec_binding} if extern_spec_binding is not None else {}),
             "source_before": source_before, "source_after": source_after,
             "source_unchanged_at_every_stage": unchanged}
+    if r10_run_identity is not None:
+        result["r10_stage_receipt_sha256"] = {
+            stage: base.file_sha(case / f"{stage}-stage.json")
+            for stage in ("exporter", "decode", "original-exporter", "original-decode",
+                          "refinement", "verifast")
+            if (case / f"{stage}-stage.json").is_file()}
+    return result
 
 
 def classify_onecell(name: str, case: Path, meta: dict, execution: dict) -> dict:
