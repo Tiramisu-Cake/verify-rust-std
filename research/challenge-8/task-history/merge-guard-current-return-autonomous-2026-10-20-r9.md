@@ -1,0 +1,136 @@
+# Merge / insert_tail — самостоятельная сессия R9: guard/CURRENT return
+
+## Авторизация и место работы
+
+- **ID:** `merge-guard-current-return-autonomous-2026-10-20-r9`; **статус:** READY, T0 ещё не задан.
+- **Owner:** `merge`; **репозиторий:** `Tiramisu-Cake/verify-rust-std`.
+- **Project worktree:** `/root/verify-rust-std-merge-origin`; **branch:** `merge/incoming-origin-20261009`.
+- **Tool worktree:** `/root/verifast-merge-actual-glue`; **branch:** `merge/actual-glue-instance-20261011`; текущий head **`f2e92cecaf574d7970cc12d0cb1e75b2980b6aea`**.
+- **Новое окно:** 120 минут основной работы от фактического старта R9 + до30 минут завершения; после main никаких новых Builds/retries/гипотез.
+- **Новый бюджет:** **3600 Cloud-секунд**, начальный used=0; число последовательных Builds отдельно не ограничено.
+- **Build timeout:** **90..1200 секунд**, envelope timeout+60 в остатке и окне. Это новая граница только R9; прежние phase restrictions/ledgers не менять.
+- **Lane:** `merge`; существующий coordinator и stable owner.
+- **Новая phase:** `MERGE-GUARD-CURRENT-RETURN-R9-2026-10-20`; отдельный ledger `cloud-build/origin-layout/CURRENT-RECOVERY-R9-BUDGET-20261020.json`.
+
+**R9, её бюджет и Builds явно разрешены этим поручением.** Сам подготовь согласованную branch-local authorization/phase/profile/entry/runner/recipe регистрацию и dependent pins, включая проверку нового ceiling1200. Это в существующем общем client envelope; новые lane/shared coordinator/IAM не разрешены. До submit обязательны T0/deadlines, source applicability, независимый review актуальных изменений, точные опубликованные inputs и admission coordinator. Каждый implementation blocker, новый experimental profile/tool SHA или следующий Build в scope отдельно не согласовывать; отказы не обходить.
+
+Ты начинаешь без контекста. Проверь оба worktree/branch/HEAD/dirty diff и сохрани чужие изменения. Прочитай `AGENTS.md`, текущую часть [STATUS](STATUS.md), [полномочия](PROOF-AGENT-AUTONOMY.md), [процесс](ITERATION-PROCESS.md), релевантные [WORK-POLICY](WORK-POLICY.md), [Cloud runbook](cloud-build/README.md), [Evidence v0.11](EVIDENCE-READER-GUIDE.md) и нужную часть [плана](COMPLETION-PLAN.md). Историю целиком и большие evidence JSON не перечитывай.
+
+## Исходная точка и proof-цель
+
+Checkpoint R8: **`8725955ffc95d39dadfe804a374327016db8ffda`**. R8 CLOSED_PARTIAL: **3379charged/3374execution,221retired,remaining0,carry=false**, все7 terminalFAILURE/accounted, own active/unresolved/requests/reservations0 на closeout. Старую R8 и её221 секунд не возобновлять/переносить. [Архив задания/отчёта R8](task-history/merge-late-recovery-rejoin-autonomous-2026-10-20-r8.md), [итог](cloud-build/origin-layout/R8-FINAL-RESULT-20261020.json), [обязательства](cloud-build/origin-layout/R8-OBLIGATIONS-20261020.md).
+
+**Proof до R9:** на прежней модели Build2 проходит physical sift fraction merge, CURRENT cell assertion и singleton close на наблюдаемом пути. После отдельно разрешённого allocation extension Build4/6 проходит прежний guard span/Drop barrier до root free. Полные Continue/break/unwind, CURRENT posts, caller/whole insert_tail/B2 OPEN, independentcredit0. Не склеивай результаты разных models/candidates.
+
+Последний actual proof source **`d3abd4c9dc0b036805dda6399e4370029e59fa2d`**, Build **`eecf6525-7350-4410-b336-177185db019b`**: `free_locals` verified324 требует отсутствующую половину `points_to(tmp_addr,_)`. Normal checked post-Drop suffix уже добавлен и привязан к actual caller boundary, но эффективность suffix и точная ветка отказа не установлены. [Build6](cloud-build/origin-layout/R8-BUILD6-RESULT-20261020.json), [independent placement context](cloud-build/origin-layout/R8-INDEPENDENT-OBLIGATIONS-20261020.md).
+
+Последний опубликованный кандидат **`2b01df369ac927f4df875249758e89a97020325f`** изменил только strict per-case freshness diagnostic classifier. Build **`79d5a0e2-823a-43b9-8978-fdff30bcbd3a`** на timeout400 остановился с compile-only124/proof_attempted=false; actual результат нового classifier не подтверждён. Он не исправлял tmp resource frontier. [Review](cloud-build/origin-layout/R8-CANDIDATE7-REVIEW-20261020.md), [Build7](cloud-build/origin-layout/R8-BUILD7-RESULT-20261020.json), [release/pins](cloud-build/origin-layout/R8-RELEASE-20261020.json).
+
+Миссия — actual insert_tail/CopyOnDrop guard/CURRENT normal-unwind и далее merge/caller interfaces. Ближайшая proof-цель: **точно связать failed return edge и checked original tmp readonly/resource recovery после соответствующего Drop до free/Resume**, затем полные CURRENT posts и совместимые controls. Сам выбери достижимый этап и короткий backlog, уточняй по Evidence. Обслуживание и доказательный прирост учитывай отдельно.
+
+## Согласованный experimental model scope сохраняется
+
+Разрешено продолжать и проверять **уже согласованное узкое R8 правило**: tool **`f2e92cecaf574d7970cc12d0cb1e75b2980b6aea`**, profile `experimental-merge-owned-array-allocation-r8-v1`, SHA **`838ade9927ebba82b8df61283fdd8189e71b673ac91eadf897806d0bfaa80cc1`**. Предшествующая owner async authorization отражена в [R8 session](cloud-build/origin-layout/R8-SESSION-20261020.md) и [model review](cloud-build/origin-layout/R8-CANDIDATE4-MODEL-REVIEW-20261020.md); повторное разрешение на его использование/qualification не нужно.
+
+Scope: default-off native StorageLive fresh8-byte u64 allocation; CURRENT положительный canonical initialized array<u64> subrange, связанный full-pointer/provenance relation с positive incoming array exactly3 в той же функции, offset0/1/2 и0<count<=3-offset. ManuallyDrop<u64> использует существующее erasure/extent. Новое assume касается только interval exclusion текущего owned subrange; это trusted premise, не lemma прежней модели. CURRENT count2 receipt не устанавливает владение всем entry count3. Chunk/value/permission ownership не создаётся. Defaultoff/IDE/нецелевые profiles и Rocq семантика прежние.
+
+**Qualification OPEN, acceptedfalse, credit0.** Build6: wholearray3/currentprefix2 PASS_CONTROL, numeric-same-address/no-owner intended diagnostic, остальные5 span-controls INCONCLUSIVE. Старые verdicts не переписывать; исправленный classifier требует actual проверки и не заменяет full normal/unwind/Drop matrix. [Qualification](cloud-build/origin-layout/R8-FRESHNESS-QUALIFICATION-20261020.json). Новое семантическое расширение области этого trusted premise остаётся отдельным решением; обычные checked lemmas/frontend/source-binding/representation fixes в сохранённых границах разрешены самостоятельно.
+
+## Первый цикл и самостоятельное продолжение
+
+1. Через сохранённые bounded observations и при необходимости targeted Reader Build6 установи exact failed path: returning/Continue/break либо FnMut Cleanup, selected generated Drop bodykey/path/hash/guard, DropData.target, tmp StorageDead/root free/Resume и фактические surviving readonly tokens/chunks/fractions/values. Не объявляй причиной пропуск normal suffix только по одной строке. Уточни source/AST/MIR/receipt binding; file coordinates его автоматически не устанавливают.
+2. Разработай checked возврат original tmp readonly debt и физических долей после правильного Drop. Normal Continue — recovery до следующего shift, normal break/return — после соответствующего guard Drop до free, unwind — после успешного Cleanup Drop до retirement/Resume. Late comparator loans и original guard loan различны. Не возвращай token раньше нужного callee и не подставляй entry snapshot/purity/no-panic/static lifetime вместо CURRENT F/thread/values.
+3. Если необходим checked frontend marker/continuation hook, это разрешённая реализация в действующей модели: exact selected cleanup Drop, нормальный DropData.target, полный source/binder/target match, fail-closed ambiguity; все source-supplied recovery commands проверяются. Сохрани original cleanup/Resume/abort/on_unwind posts; Drop's own unwind_action не является успешным возвратом ресурса. Новый admitted resource rule/assumed bridge для обхода этих проверок не разрешён.
+4. После rationale, review нового diff/dependencies и exact source closure запускай existing compile gate → target path → freshness/обязательные dependent controls, предпочтительно stages одного Build. Проверяй distinct branch receipts и полные CURRENT posts. Новый classifier проверяй на intended error/predicate/location, а не просто nonzero. Если сначала нужен узкий target mode, сохрани полный итоговый suite и явно отмечай partial scope.
+5. После target продолжай до применимых исходных groups и qualification на совместимых финальных identities. Сам выбирай следующий полезный шаг; при настоящей границе остаются независимые prefix/BeforeLive задачи по [R8 investigation](cloud-build/origin-layout/R8-INDEPENDENT-OBLIGATIONS-20261020.md). Broad static-array/slice typeinterp или новая Rocq/storage model автоматически не разрешены; exact checked bridge существующей модели исследовать можно.
+
+Перед **каждым** submit оцени доступное рабочее время: cold compile/preparation + target + teardown/evidence/package/upload/verdict. Не повторяй короткий400s запуск, который оставляет compile-only124 без actual controls, только ради расходования остатка. Exit124 и HOME warnings сами по себе не устанавливают первичную причину. Выбери согласованные внутренние/общие deadlines и reserve, timeout≤1200; если полезный эксперимент не помещается, продолжай source/review/service работу и retire остаток. Новый межсессионный binary cache не разрешён. Минимальные branch-local preflight/result-shape/diagnostic изменения допустимы; общая унификация CI — отдельная инфраструктурная задача.
+
+## Сохраняемые гарантии и автономность
+
+Исходная матрица сохраняется: 4resource-loss; HRTB/Output/projection/binder/lifetime; official first-unwind mutant; late-Cleanup refusal;5CURRENT18 negatives; B1/helper/ordinary normal-unwind/generated Drop/default-off/receiver/end/retirement; addressability, actual prefix/fullbody и полные CURRENT posts. Empty-tail positive/три intended rejections и late-admission controls остаются source/stage/target-bound. Prerequisite skip/setup/lexical failure и no-match не intended negative PASS. BeforeLive требует физического heap refusal, LocalAddrTaken не owner/liveness; Rocq StorageLive/Dead отдельно. Prefix требует exact Unsize subtype/metadata/body/span/assignment/lifetime и checked borrow return, без blanket coercion/static fallback.
+
+Сам разрабатывай annotations/specs/леммы/resources, inventory/parser/binder/source-binding/нормализацию, необходимые exporter/schema/decoder/translator/frontend/lowering и минимальные runner/preflight/diagnostic fixes, сохраняющие source semantics/модель и согласованный narrow experimental scope. Сам выпускай experimental profiles/tool commits/patches и dependent closure. Baseline18patch/17sourcepins/18retainedbase — provenance, не запрет новых reviewed исправлений. Tool patches/Git objects публикуй в project branch; отдельный tool remote/push не обязателен. Maintainer принимает готовые патчи и не заменяет эту разработку.
+
+До содержательной реализации запиши defect/applicability/rationale/сохраняемые ресурсы/различающие controls. До submit — независимый **GPT-6 Luna HIGH** review актуального diff/dependencies (`model="gpt-6-luna"`, `reasoning_effort="high"`, `fork_turns="none"`, без вложенной делегации/дорогой автоматической замены). Конкретные soundness findings устранить; полный review неизменённых частей не повторять. Изменённый runner проверяй на success/error/partial/NOT_RUN/missing/null/wrong-type receipts/artifacts, wrong predicate/exit, timeout и branch-placement ambiguity. Synthetic/static GO не actual proof.
+
+Runtime std/алгоритмы/generic signatures/compiler baseline/actual CFG/domain/normal-unwind-abort posts/CURRENT ownership/provenance/admission/formal acceptance сохраняются. Нельзя добавлять новые axioms/assumed ownership bridges, выводить ownership из numeric address equality или отключать checks. Новое trust-допущение вне явно сохранённого allocation scope вынеси с точным вопросом. Чужие worktrees/pins и historical evidence/ledgers не менять. Без reset/force-push/merge/upstream PR/внешних комментариев/Actions, shared coordinator/IAM/triggers/dependencies/cache/backend deployment.
+
+## Время, Evidence и отчёт
+
+T0 зафиксируй **при фактическом старте R9 после чтения задания**; main=T0+120мин, absolute=T0+150мин. Новый ledger с explicit authorization, ceiling3600 и max_timeout_seconds1200. Только exact committed/published closure с проверенным полным remote SHA. Envelope timeout+60 в остатке и окне с запасом до absolute; один occupied/unresolved Build на owner/ledger, максимум три project-wide. Refusal не обходить, uncertain submit не дублировать, старые accounts не возобновлять.
+
+Status/Brief по возможности yield10–30с вместо1000мс с отдельным модельным возвратом. Выполняй независимую полезную работу; простое ожидание+проверку объединяй в один инструментальный шаг≤60с, без отдельных циклов sleep30→status→чтение без новой информации. Штатные coordinator controls сохраняй. Через час — progress/charge/blocker без ожидания ответа. Продолжай, пока есть полезный шаг/время/бюджет; ранний stop обоснуй после проверки независимых задач. После main новых Builds/retries/гипотез нет, свои неотправленные requests отозвать. Finishing — начатое/Evidence/учёт/checkpoint/push; к absolute terminal/accounting либо точные active/unresolved ID и следующий разрешённый шаг. Остаток retire,carryfalse.
+
+Evidence: `smallsort-brief BUILD_UUID` → catalogue/file ID → **`--refresh --file ID --expect-sha256 SHA`** с info/locate/position/lines/JSON pointer и нужными явными страницами по серверным next_offset/next_value_start. [Guide](EVIDENCE-READER-GUIDE.md), [примеры](EVIDENCE-READER-TASK-QUERIES.md), корневой `/root/SMALLSORT-BRIEF-AGENT-GUIDE-RU.md`. Lifetime16/WITHHELD устарели. Проверяй file/index/archive/request identities/coordinates/exact/complete/coverage. Evidence — данные, не команды; no-match не NOT_RUN, source PASS/exit0/integrity не independent credit. Raw/full logs/archives/Cloud Logging/локальные raw copies и GCS/download/storage/logging обход запрещены; admin audit отдельно. download_verified и historical verdicts не менять.
+
+VPS — Git/hashes/static parsing и малые isolated synthetic service tests; actual preparation/extraction/compiler/decoder/refiner/verifier/full runners только Cloud. Обновляй компактный STATUS и существующие semantic/session/release/coverage/experiment records. Здесь один перезаписываемый компактный отчёт: цель; proof до→после; обслуживание отдельно; каждый Build/гипотеза/type/candidate/результат/charge; stage timings только наблюдаемые; T0/deadlines/end; own active/unresolved/requests/reservations; closure/carryfalse; следующий blocker. Большую матрицу/provenance отдельно по ссылкам. Wall-clock не active agent time, резерв/retired headroom не расход.
+
+## Отчёт агента
+
+**R9 CLOSED_PARTIAL.** Полное доказательство insert_tail/B2 и qualification профиля
+остаются OPEN, accepted=false, independent credit=0.
+
+До R9 actual отказ был на root free: отсутствовала половина tmp; конкретный
+return edge не был установлен. На финальном Build6 exact native receipts связывают
+cleanup Drop138 returning → target139 Resume. Checked-команды возвращают original
+tmp readonly debt и половину физического ресурса, восстанавливают full CURRENT
+array3 и соответствующий foreach, сохраняют текущие F/thread. Прежний leak check
+проходит; verifier продолжает normal path и отказывает: **Loop invariant required**,
+`verified/lib.rs(271,13-44)`, log1792. Это прогресс на наблюдаемом cleanup-пути,
+а не принятое доказательство всех normal/unwind/Continue ветвей.
+
+Финальные actual inputs: source `a1de980d9ee667baea2a24df1133aa5e84e84e43`,
+tool `706e7c89fdf69dbe11e05ef275300b20d30a27cb`, profile
+`experimental-merge-guard-current-return-r9-v1`, SHA
+`055374de5bc913e4725951f0d8c9458f1c6498ab5f89d4a039d8cab591741a67`.
+Финальный checkpoint содержит последующий отчёт и учёт; он не выдаётся за built source.
+
+| Build / кандидат | Проверенная гипотеза или fix | Actual результат | Charge / execution |
+|---|---|---|---|
+| [1](cloud-build/origin-layout/R9-BUILD1-RESULT-20261020.json) / 1744fe39 | Native edge/heap trace | Compile PASS; cleanup return установлен, root free missing half | 589 / 588 |
+| [2](cloud-build/origin-layout/R9-BUILD2-RESULT-20261020.json) / 6e5c56af | Checked recovery hook | Translator compile refusal: helper вне области видимости; proof не запущен | 395 / 394 |
+| [3](cloud-build/origin-layout/R9-BUILD3-RESULT-20261020.json) / 91d1f52b | Shared helper scope fix | Compile PASS; tmp recovery проходит, panic CURRENT post требует array3 | 623 / 622 |
+| [4](cloud-build/origin-layout/R9-BUILD4-RESULT-20261020.json) / 995855a6 | CURRENT joins и u64 owner lemma | Compile PASS; lemma не закрывает generic own, caller не установлен | 555 / 554 |
+| [5](cloud-build/origin-layout/R9-BUILD5-RESULT-20261020.json) / 392278a3 | Explicit concrete u64 owner close | CURRENT array/foreach/F восстановлены; leak старого foreach | 634 / 633 |
+| [6](cloud-build/origin-layout/R9-BUILD6-RESULT-20261020.json) / a1de980d | Checked old→CURRENT owners | Compile PASS; прежний leak check проходит; normal backedge требует invariant | 621 / 621 |
+
+Build6 `776ec45f-d114-4914-bd12-792311b57ae1`: create21:25:20.602322912Z,
+start21:25:21.308441329Z, finish21:35:41.523965Z; timeout740/envelope800.
+Наблюдаемых отдельных длительностей compile/target/teardown нет. Все шесть Builds
+terminal FAILURE/accounted. Brief подтверждает archive/inventory integrity,
+source verdict NOT_ACCEPTED; stage coverage512/688, notcaptured176. Exact bounded
+fragments не устанавливают причинность либо parser/MIR binding сами по себе.
+
+Отдельное обслуживание: branch-local phase/authorization/profile registration;
+read-only native receipts; точный checked hook только после успешного selected
+Drop return; checked source lemmas; strict source/stage/diagnostic gates;
+защита service error path. Closure19patch/17pins/18base проверена. Актуальные
+изменения прошли независимый Luna HIGH review; marker и10control service checks
+PASS. Новых trusted premises сверх сохранённого R8 allocation scope не добавлено.
+Это обслуживание не считается закрытием полного proof obligation.
+
+Финальные recovery controls: omit_end/duplicate_end — expected resource refusal;
+missing_marker — expected admission rejection; duplicate_marker/wrongorigin —
+INCONCLUSIVE. Все пять source/stage gates admitted. У duplicate_marker совпал
+текст, но не ожидаемая строка; wrongorigin дошёл до loop-invariant refusal271,
+а не целевого predicate/error325. Эти два случая не получили negative credit.
+Final archived freshness aggregate содержит2positive/6intendednegative source
+classifications на final profile, byte-identical Build4; это не independent
+qualification и само по себе не устанавливает rerun/causality.
+[Точные controls](cloud-build/origin-layout/R9-BUILD6-CONTROL-OBSERVATION-20261020.json). Prefix, physical
+BeforeLive, Rocq StorageLive/Dead, normal Continue и полная совместимая матрица
+остаются OPEN. Ранее пропущенные dependent controls не объявлены negative PASS.
+Следующий шаг нового разрешённого окна — exact normal backedge resource inventory
+и checked-инвариант движущегося gap, затем полная final-identity qualification.
+
+T0/main/absolute UTC2026-10-20 **19:30:15 /21:30:15 /22:00:15**. После main
+новых гипотез/Builds/retries не было. Счёт закрыт21:39:24.777943Z:
+**3417charged/3412execution из3600;183retired;remaining0;carry=false**.
+Own active/unresolved/requests/reservations=0, проверено под coordinator lock;
+общий v3/max3 не менялся. R8 closed3379/3374/221retired сохранён без переноса.
+
+[Итог](cloud-build/origin-layout/R9-FINAL-RESULT-20261020.json) ·
+[Сессия](cloud-build/origin-layout/R9-SESSION-20261020.md) ·
+[Обязательства](cloud-build/origin-layout/R9-OBLIGATIONS-20261020.md) ·
+[Release](cloud-build/origin-layout/R9-RELEASE-20261020.json).

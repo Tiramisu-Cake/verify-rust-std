@@ -1,3 +1,15 @@
+# Merge-R10 READY — checked moving-gap invariant
+
+2026-10-21: [новое самостоятельное задание Merge-R10](CURRENT-TASK.md) явно разрешает **120мин + до30мин завершения, свежие3600 Cloud-секунд**, без отдельного лимита числа последовательных Builds; timeout90..1200/envelope+60. T0 при фактическом старте. R9 CLOSED/183retired не переносить. Worktrees `/root/verify-rust-std-merge-origin` и `/root/verifast-merge-actual-glue`, branch `merge/incoming-origin-20261009`, tool706e7c89.
+
+**Ближайшая proof-цель:** exact normal loop-head/backedge resource inventory и checked moving-gap invariant (init/preservation/exits), сохранение достигнутого cleanup recovery. R9 Build6 observed cleanup Drop138→139Resume, checked tmp readonly/half, full CURRENT array3/matching foreach/F/thread, prior leakcheck passes; следующий отказ **Loop invariant required** verified/lib.rs271/log1792. Это scoped cleanup progress, не full normal/unwind/Continue/generic insert_tail/B2. QualificationOPEN/acceptedfalse/independentcredit0.
+
+**Controls:** omit_end/duplicate_end intended resource refusal, missing_marker admission refusal; duplicate_marker/wrongorigin INC по location/predicate mismatch. Final freshness aggregate2positive/6intendednegative побайтно равен Build4, rerun/causality не установлены. Нужны actual current receipts, исторические verdicts сохранять. Продолжение узкого согласованного allocation profile и checked post-Drop hook разрешено; нового model scope нет.
+
+**Merge-R9 CLOSED_PARTIAL:** checkpoint `f8f6a81dd14d81c88350c6506f346510a3accc1f`; last actual source `a1de980d9ee667baea2a24df1133aa5e84e84e43`, tool `706e7c89fdf69dbe11e05ef275300b20d30a27cb`, profile055374de.3417charged/3412execution,183retired,remaining0/carryfalse,все6 terminalFAILURE/accounted,ownactive/unresolved/requests/reservations0. [Архив R9 с отчётом](task-history/merge-guard-current-return-autonomous-2026-10-20-r9.md#отчёт-агента), [итог](cloud-build/origin-layout/R9-FINAL-RESULT-20261020.json), [Build6](cloud-build/origin-layout/R9-BUILD6-RESULT-20261020.json), [обязательства](cloud-build/origin-layout/R9-OBLIGATIONS-20261020.md), [Continue note](cloud-build/origin-layout/R9-CONTINUE-NOTE-20261020.md).
+
+Ниже исторические checkpoints; прежние окна/разрешения не действуют. Приоритет у текущего Merge-R10 задания.
+
 # MERGE — R9 CLOSED_PARTIAL
 
 2026-10-20: T0/main/absolute19:30:15/21:30:15/22:00:15 UTC; account closed21:39:24Z.
