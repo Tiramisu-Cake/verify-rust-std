@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Isolated controls for focus dead-code stage classification and source pins."""
 import hashlib
+import ast
 import importlib.util
 import json
 from pathlib import Path
@@ -83,6 +84,33 @@ class FocusDeadCodeRegressionTests(unittest.TestCase):
             self.stage(1, log_sha="0" * 64), "fixture.c(7,", data)
         self.assertEqual(row["classification"], "INCONCLUSIVE_LOG_IDENTITY_MISMATCH")
         self.assertNotIn("dead_code_diagnostics", row)
+
+    def test_control_fixture_uses_constant_false_branch_and_shared_library_mode(self):
+        tree = ast.parse((HERE / "a1-tool.py").read_text())
+        run = next(node for node in tree.body
+                   if isinstance(node, ast.FunctionDef) and
+                   node.name == "run_focus_dead_code_scope_regression")
+        writes = [node for node in ast.walk(run)
+                  if isinstance(node, ast.Call) and
+                  isinstance(node.func, ast.Attribute) and
+                  node.func.attr == "write_text"]
+        self.assertEqual(len(writes), 1)
+        fixture = ast.literal_eval(writes[0].args[0])
+        lines = fixture.splitlines()
+        condition = lines.index("    if (0) {") + 1
+        dead_assignment = lines.index("        x = 1;") + 1
+        dead_return = lines.index("    return 0;", dead_assignment) + 1
+        close_branch = lines.index("    }", condition) + 1
+        self.assertLess(condition, dead_assignment)
+        self.assertLess(dead_assignment, close_branch)
+        self.assertLess(dead_assignment, dead_return)
+        self.assertEqual(sum(line.strip() == "x = 1;" for line in lines), 1)
+        self.assertIn("int clean_body(void)", fixture)
+        self.assertNotIn("int main", fixture)
+        source = (HERE / "a1-tool.py").read_text()
+        self.assertIn('str(console), "-shared", "-focus"', source)
+        self.assertIn('str(console), "-shared", str(source)', source)
+        self.assertEqual(source.count('"-shared"'), 3)
 
     def test_static_patch_and_core_pin_transition(self):
         manifest_path = HERE.parent / "sort4-native-c1-bound" / \

@@ -99,8 +99,10 @@ def run_focus_dead_code_scope_regression(a, c4, tool: Path, profile: dict,
     //@ ensures result == 0;
 {
     int x = 0;
+    if (0) {
+        x = 1;
+    }
     return 0;
-    x = 1;
 }
 
 int clean_body(void)
@@ -121,11 +123,11 @@ int clean_body(void)
     env = c4.clean_env(a, tool)
     console = tool / "bin/verifast"
     controls = (
-        ("selected-dead-code-negative", [str(console), "-focus",
+        ("selected-dead-code-negative", [str(console), "-shared", "-focus",
          f"{source}:{dead_focus}", str(source)], "EXPECTED_DEAD_CODE_REJECTION"),
-        ("excluded-function-positive", [str(console), "-focus",
+        ("excluded-function-positive", [str(console), "-shared", "-focus",
          f"{source}:{clean_focus}", str(source)], "PASS_NO_IN_SCOPE_DEAD_CODE"),
-        ("no-focus-dead-code-negative", [str(console), str(source)],
+        ("no-focus-dead-code-negative", [str(console), "-shared", str(source)],
          "EXPECTED_DEAD_CODE_REJECTION"),
     )
     results = {}
