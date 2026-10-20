@@ -1,10 +1,30 @@
 {
-  "active_build": null,
+  "active_build": "025378b9-d36b-4837-bd19-6df8ed1471c4",
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
   ],
   "authorization": "CURRENT-TASK select-packaging-native-proof-autonomous-2026-10-20-r7 at 8e4310116f7e6508347f9a80fe0383c59519a9f4; new session T0=2026-10-20T11:16:28Z; 120min main+30min finishing; new3600 Cloud seconds; independent LunaHIGH GO, exact published closure, existing lane/coordinator/preflight, preserved semantic guarantees; timeout<=900; no sequential Build count limit",
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-743b9b3c43634a0d96c9c607c7f90df8",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-PACKAGING-NATIVE-PROOF-2026-10-20-R7",
+      "infra_sha": "4017cc2052d35cda339e6e659fa01056543acbc4",
+      "proof_sha": "4017cc2052d35cda339e6e659fa01056543acbc4",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "a37318fad947b292626788d5e895407fe65f10f845dbe7dfc6227397e8187a51",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "WORKING",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "c34f3e3c42de00ce0a4f30067c39339b1f7d4eb7eef7501fe8b566212540a437",
+      "build_id": "025378b9-d36b-4837-bd19-6df8ed1471c4",
+      "start_time": "2026-10-20T11:26:41.766695987Z",
+      "finish_time": null,
+      "create_time": "2026-10-20T11:26:41.010945875Z"
+    }
+  ],
   "ceiling_build_seconds": 3600,
   "deadline_utc": "2026-10-20T13:46:28Z",
   "main_deadline_utc": "2026-10-20T13:16:28Z",
