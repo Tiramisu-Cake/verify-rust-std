@@ -33,6 +33,8 @@ PROFILE_BINDINGS = {
         "A1-NATIVE-INTERFACE-R9-PROFILE-2026-10-20.json",
     "SORT4-DELIVERABLE-NATIVE-PROOF-2026-10-20-R10":
         "A1-DELIVERABLE-NATIVE-R10-PROFILE-2026-10-20.json",
+    "SORT4-CHECKED-CALLER-NATIVE-PROOF-2026-10-21-R11":
+        "A1-CHECKED-CALLER-R11-PROFILE-2026-10-21.json",
 }
 TR = "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
 SCHEMA = "src/rust_frontend/vf_mir/vf_mir.capnp"

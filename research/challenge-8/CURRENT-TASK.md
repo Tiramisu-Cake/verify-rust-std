@@ -64,4 +64,8 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-Select-R11 ещё не начата. T0/deadlines/authorization binding и новый ledger заполняет агент при фактическом старте. Cloud execution явно разрешено после обычных gates; дополнительного разрешения на первый/следующий Build в scope не требуется.
+R11 ACTIVE. T0=2026-10-20T21:41:43Z, main23:41:43Z, absolute2026-10-21T00:11:43Z. Fresh budget3600, used0, Builds0; R10carry0. Initial source/tool identities и чужие dirty docs сохранены.
+
+Цели: checked P0c cleanup+own receipt; exact P1 native packaged identity; затем compatible26/ownfalse31. Новая регистрация/ledger/profile и все consumers подготовлены; independent registration GO. P0c explicit checked drop hypothesis и P1 narrow representation fix ожидают финального review/Cloud. Ownfalse31 source boundary ограничена compiler-bound observer и native AST span; исторический INCONCLUSIVE не изменён.
+
+До→после: formal obligations0→0; independent B1/B2credit0. Пока только serving/static/synthetic work, actual compiler/verifier не запускались. Session/rationales/reviews и новые pins: `cloud-build/sort4-caller-entry-native/*R11*`. Перед submit exact committed/published closure + coordinator admission; первый план timeout1000/work760/soft700/report240/envelope1060. Это target partial scope, полный26 suite остаётся обязательным.

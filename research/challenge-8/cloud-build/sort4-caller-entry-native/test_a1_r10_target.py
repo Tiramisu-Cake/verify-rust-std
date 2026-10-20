@@ -182,7 +182,7 @@ class NativeTargetSequenceTests(unittest.TestCase):
         self.assertFalse(full["matrix_complete"])
         self.assertFalse(full["dispatch_ready"])
         self.assertFalse(full["proof_credit"])
-        with self.assertRaisesRegex(RuntimeError, "R10-only"):
+        with self.assertRaisesRegex(RuntimeError, "R10/R11 authorization"):
             RUNNER.preflight_plan({**base, "authorization_phase_id": R9})
 
 

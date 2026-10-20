@@ -62,8 +62,8 @@ SOURCE_FILES = {
 }
 
 OBSERVER_SUFFIX = {
-    "P0c": """\n        //@ assert len <= 32;\n        let requirement = len + 16;\n        //@ assert requirement <= 48;\n        return;\n    }\n    // A1 diagnostic cut: non-base continuation is intentionally not present.\n    return;\n}\n}\n""",
-    "N-false31": """\n        //@ assert len <= 31;\n        let requirement = len + 16;\n        //@ assert requirement <= 48;\n        return;\n    }\n    // A1 diagnostic cut: non-base continuation is intentionally not present.\n    return;\n}\n}\n""",
+    "P0c": """\n        //@ assert len <= 32;\n        let requirement = len + 16;\n        //@ assert requirement <= 48;\n        core::mem::drop(left_ancestor_pivot);\n        return;\n    }\n    // A1 diagnostic cut: non-base continuation is intentionally not present.\n    core::mem::drop(left_ancestor_pivot);\n    return;\n}\n}\n""",
+    "N-false31": """\n        //@ assert len <= 31;\n        let requirement = len + 16;\n        //@ assert requirement <= 48;\n        core::mem::drop(left_ancestor_pivot);\n        return;\n    }\n    // A1 diagnostic cut: non-base continuation is intentionally not present.\n    core::mem::drop(left_ancestor_pivot);\n    return;\n}\n}\n""",
 }
 
 
@@ -262,7 +262,8 @@ def _observer(signature: bytes, guard: bytes, *, false31: bool = False) -> tuple
 def _p1_caller(signature: bytes, guard: bytes) -> bytes:
     _need(b"T::small_sort(v, scratch, is_less);" in guard, "P1 original small_sort call absent")
     return signature + guard + b"\n        // A1 diagnostic cut: non-base continuation after original call is absent.\n" \
-        b"        return;\n    }\n}\n"
+        b"        // A1 diagnostic cleanup hypothesis for the arbitrary Copy parameter.\n" \
+        b"        core::mem::drop(left_ancestor_pivot);\n        return;\n    }\n}\n"
 
 
 def _compose(items: dict[str, bytes], *, caller_kind: str, helper_cut: bytes,

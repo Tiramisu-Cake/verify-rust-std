@@ -337,6 +337,28 @@ class SyntheticAstGates(unittest.TestCase):
                          {owner + "::small_sort"})
         self.assertEqual(len({row["source_body_span"] for row in
                               native_baseline["normalized_impls"].values()}), 2)
+        # The source compiler may also emit those same canonical DefPaths as
+        # root-package Func locals. Keep that full identity intact so the
+        # existing inventory IDs and source-span joins still select each body.
+        root_native_ast = "[" + ";".join((
+            self.package("StableSmallSortTypeImpl",
+                         small_sort_func("small_sort", 2, impl_self="Self")),
+            self.package("",
+                         small_sort_func(owner + "::small_sort", 6,
+                                         body=True, impl_self="T"),
+                         small_sort_func(owner + "::small_sort", 12,
+                                         body=True, impl_self="T")))) + "]"
+        root_receipt = dict(receipt)
+        root_receipt["ast_sha256"] = hashlib.sha256(root_native_ast.encode()).hexdigest()
+        root_baseline = gate.small_sort_native_baseline(
+            root_native_ast, inventory_observation, source_pair_id=pair,
+            reference_receipt=root_receipt)
+        self.assertFalse(root_baseline["proof_credit"])
+        self.assertEqual({row["item_def_id"] for row in
+                          root_baseline["normalized_impls"].values()},
+                         {owner + "::small_sort"})
+        self.assertEqual(len({row["source_body_span"] for row in
+                              root_baseline["normalized_impls"].values()}), 2)
         candidate_ast = "[" + self.package(
             owner,
             small_sort_func("__a1_impl_11_item_13_small_sort", 6,
@@ -353,6 +375,51 @@ class SyntheticAstGates(unittest.TestCase):
                         "<T as StableSmallSortTypeImpl>::nested"):
             with self.subTest(invalid=invalid), self.assertRaises(gate.AstGateError):
                 gate.functions("[" + self.package(invalid, default) + "]")
+
+    def test_root_qualified_generic_impl_locals_keep_full_identity_and_duplicate_bodies(self):
+        threshold = "<T as StableSmallSortTypeImpl>::small_sort_threshold"
+        small_sort = "<T as StableSmallSortTypeImpl>::small_sort"
+        owner = ""
+        rows = gate.functions("[" + self.package(
+            owner,
+            small_sort_func(threshold, 44, body=True, impl_self="T"),
+            small_sort_func(small_sort, 50, body=True, impl_self="T"),
+            small_sort_func(small_sort, 68, body=True, impl_self="T")) + "]")
+        self.assertEqual([row["name"] for row in rows],
+                         [threshold, small_sort, small_sort])
+        self.assertEqual([row["fields"][4][1] for row in rows],
+                         [threshold, small_sort, small_sort])
+        self.assertEqual([gate._source_span(row["fields"][0]) for row in rows[1:]],
+                         [(('verified/lib.rs', 50, 1), ('verified/lib.rs', 50, 61)),
+                          (('verified/lib.rs', 68, 1), ('verified/lib.rs', 68, 61))])
+        for invalid_owner, invalid_local in (
+                ("<T as StableSmallSortTypeImpl>", small_sort),
+                ("Other", threshold),
+                ("", "OtherTrait::small_sort"),
+                ("", "<U as StableSmallSortTypeImpl>::small_sort")):
+            with self.subTest(owner=invalid_owner, local=invalid_local), \
+                    self.assertRaises(gate.AstGateError):
+                gate.functions("[" + self.package(
+                    invalid_owner,
+                    small_sort_func(invalid_local, 50, body=True, impl_self="T")) + "]")
+
+    def test_rejected_package_local_reports_bounded_exact_identity_context(self):
+        owner = "<T as StableSmallSortTypeImpl>"
+        local = "StableSmallSortTypeImpl::small_sort_threshold" + ("x" * 512)
+        source = "[" + self.package(
+            owner, func(32, local, False), location=loc(32)) + "]"
+        with self.assertRaises(gate.AstGateError) as raised:
+            gate.functions(source)
+        message = str(raised.exception)
+        self.assertIn("package Func local name", message)
+        self.assertIn("<T as StableSmallSortTypeImpl>", message)
+        self.assertIn("verified/lib.rs(32,1-32,61)", message)
+        self.assertIn("verified/lib.rs(32,1-32,61)", message)
+        self.assertIn("leaf_complete=False", message)
+        self.assertIn("leaf_chars=", message)
+        self.assertIn(hashlib.sha256(local.encode("utf-8")).hexdigest(), message)
+        self.assertLess(len(message), 1200)
+        self.assertNotIn("x" * 200, message)
 
     def test_wrong_owner_source_duplicate_and_missing_impl_identity_refused(self):
         common = func(20, gate.COMMON, False)

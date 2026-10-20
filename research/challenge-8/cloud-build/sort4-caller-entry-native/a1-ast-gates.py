@@ -17,6 +17,10 @@ MAX_SEGMENTS = 20000
 MAX_DEPTH = 128
 COMMON = "StableSmallSortTypeImpl::small_sort_threshold"
 SMALL_SORT = "StableSmallSortTypeImpl::small_sort"
+ROOT_QUALIFIED_FUNC_NAMES = frozenset((
+    "<T as StableSmallSortTypeImpl>::small_sort_threshold",
+    "<T as StableSmallSortTypeImpl>::small_sort",
+))
 
 
 class AstGateError(ValueError):
@@ -219,6 +223,38 @@ def _segments(source: str, ctor: str) -> list[str]:
     return [segment for _, _, segment in _segment_ranges(source, ctor)]
 
 
+def _bounded_field_diagnostic(value: Any, *, preview_chars: int = 160) -> str:
+    """Describe an unexpected AST field without echoing an unbounded value."""
+    rendered = repr(value)
+    encoded = rendered.encode("utf-8", errors="backslashreplace")
+    preview = rendered[:preview_chars]
+    return (f"repr={preview!r} repr_complete={len(rendered) <= preview_chars} "
+            f"repr_chars={len(rendered)} repr_utf8_bytes={len(encoded)} "
+            f"repr_sha256={hashlib.sha256(encoded).hexdigest()}")
+
+
+def _package_func_local_error(owner: str, package_location: Any,
+                              func_location: Any, local: Any) -> AstGateError:
+    if isinstance(local, tuple) and len(local) == 2 and local[0] == "str":
+        leaf = local[1]
+        if isinstance(leaf, str):
+            leaf_bytes = leaf.encode("utf-8")
+            leaf_summary = (f"leaf={leaf[:160]!r} "
+                            f"leaf_complete={len(leaf) <= 160} "
+                            f"leaf_chars={len(leaf)} leaf_utf8_bytes={len(leaf_bytes)} "
+                            f"leaf_sha256={hashlib.sha256(leaf_bytes).hexdigest()}")
+        else:
+            leaf_summary = "leaf=non-string " + _bounded_field_diagnostic(leaf)
+    else:
+        leaf_summary = "leaf=unavailable"
+    return AstGateError(
+        "package Func local name: "
+        f"owner={_bounded_field_diagnostic(owner)} "
+        f"package_location={_bounded_field_diagnostic(package_location)} "
+        f"func_location={_bounded_field_diagnostic(func_location)} "
+        f"local={_bounded_field_diagnostic(local)} {leaf_summary}")
+
+
 def functions(source: str) -> list[dict[str, Any]]:
     def row(fs: tuple[Any, ...], name: str, raw: str) -> dict[str, Any]:
         body = fs[10]
@@ -269,9 +305,20 @@ def functions(source: str) -> list[dict[str, Any]]:
                 if re.match(r"Func\b", declaration):
                     fs = node(tree(declaration), "Func", 13)
                     local = fs[4]
-                    need(local[0] == "str" and local[1] and "::" not in local[1],
-                         "package Func local name")
-                    name = (owner + "::" if owner else "") + local[1]
+                    if not (isinstance(local, tuple) and len(local) == 2 and
+                            local[0] == "str" and isinstance(local[1], str) and
+                            local[1]):
+                        raise _package_func_local_error(owner, location, fs[0], local)
+                    if "::" in local[1]:
+                        if owner != "" or local[1] not in ROOT_QUALIFIED_FUNC_NAMES:
+                            raise _package_func_local_error(owner, location,
+                                                            fs[0], local)
+                        # These two method names are already complete canonical
+                        # identities in the root PackageDecl emitted by this
+                        # translator path. Keep the exact string intact.
+                        name = local[1]
+                    else:
+                        name = (owner + "::" if owner else "") + local[1]
                     record = row(fs, name, declaration)
                     record.update(package_name=owner, package_location=location)
                     result.append(record)

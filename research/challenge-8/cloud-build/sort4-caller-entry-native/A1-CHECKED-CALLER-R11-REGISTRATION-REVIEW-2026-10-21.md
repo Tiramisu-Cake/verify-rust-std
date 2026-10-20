@@ -1,0 +1,11 @@
+# R11 registration review
+
+**Decision: GO.** I reviewed only the R11 registration surface. The earlier publication hold is resolved: the dependent source-runner pin now matches the current core bytes, and the full R11 profile closure is consistent.
+
+The new phase is independently keyed to the requested T0, main and absolute deadlines, 3600-second ceiling, `select-sort4` owner, existing recovery lane, sequential builds and 1200-second per-build cap. Admission rejects other account values, timeouts outside 90–1200 seconds, and submissions at or after either deadline; the main-window check is repeated after preflight before reservation. The account is separate and empty, and R10's profile and ledger are unchanged. Dispatch carries the R11 authorization ID separately from the unchanged A1 protocol ID, and both the lane and entry/runner adapters require that pairing and the profile SHA.
+
+The transport extension is phase-scoped to R10 and R11. It uses Python stdlib XZ/LZMA encode/decode for the source helper while retaining the prior gzip path for other phases. The generated decoder restores bytes directly; the archive's existing SHA check and restore path remain in place. The synthetic controls exercise exact bytes, decoder failure on corrupt input, the documented substitution/value/argument/config caps, and a full-length `dispatch-` plus 32-hex tag. The R11 budget keeps a 240-second package reserve when available and accounts for the 60-second queue envelope in admission. Historical R10 timing and transport behavior are asserted unchanged.
+
+The earlier stale-pin finding has cleared. [test-a1-focus-profile-binding.py](test-a1-focus-profile-binding.py:309) checks the current entry, adapter, source-runner and all helper hashes against the R11 profile; it passes. If the pending P1 diagnostic makes a further source edit, refresh the numerical pin and rerun this closure check before submission.
+
+Validation run: R11 dispatch controls (7 passed), time-budget/service-path controls (6 passed), transport controls (3 passed), activation controls (8 passed), registration controls (2 passed), focused-profile binding (10 passed), and core synthetic controls (3 passed). Static comparison found no changes to the R10 profile or R10 budget ledger.

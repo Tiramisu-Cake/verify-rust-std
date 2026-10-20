@@ -18,12 +18,14 @@ R7 = "SORT4-PACKAGING-NATIVE-PROOF-2026-10-20-R7"
 R8 = "SORT4-POST-MIGRATION-NATIVE-PROOF-2026-10-20-R8"
 R9 = "SORT4-NATIVE-INTERFACE-PROOF-2026-10-20-R9"
 R10 = "SORT4-DELIVERABLE-NATIVE-PROOF-2026-10-20-R10"
+R11 = "SORT4-CHECKED-CALLER-NATIVE-PROOF-2026-10-21-R11"
 PROFILE_NAMES = {
     R6: "A1-SCOPE-S3-PROFILE-2026-10-20.json",
     R7: "A1-PACKAGING-R7-PROFILE-2026-10-20.json",
     R8: "A1-POST-MIGRATION-R8-PROFILE-2026-10-20.json",
     R9: "A1-NATIVE-INTERFACE-R9-PROFILE-2026-10-20.json",
     R10: "A1-DELIVERABLE-NATIVE-R10-PROFILE-2026-10-20.json",
+    R11: "A1-CHECKED-CALLER-R11-PROFILE-2026-10-21.json",
 }
 
 
@@ -45,7 +47,7 @@ class FocusProfileBindingTests(unittest.TestCase):
         self.backend = load_backend()
         self.profile_dir = self.root / self.backend.HERE
         self.profile_dir.mkdir(parents=True)
-        self.profiles = {phase: self.make_profile(phase) for phase in (R6, R7, R8, R9, R10)}
+        self.profiles = {phase: self.make_profile(phase) for phase in (R6, R7, R8, R9, R10, R11)}
         self.write_all_profiles()
 
     @staticmethod
@@ -73,7 +75,7 @@ class FocusProfileBindingTests(unittest.TestCase):
         return path
 
     def write_all_profiles(self):
-        for authorization in (R6, R7, R8, R9, R10):
+        for authorization in (R6, R7, R8, R9, R10, R11):
             self.write_profile(authorization)
 
     def env_for(self, authorization, profile=None):
@@ -94,7 +96,7 @@ class FocusProfileBindingTests(unittest.TestCase):
         return self.backend.validate_profile_binding(self.root, profile, env)
 
     def test_exact_r6_r7_r8_r9_and_r10_bindings_select_their_canonical_profiles(self):
-        for authorization in (R6, R7, R8, R9, R10):
+        for authorization in (R6, R7, R8, R9, R10, R11):
             with self.subTest(authorization=authorization):
                 self.assertEqual(self.validate(authorization),
                                  self.profile_path(authorization))
@@ -273,6 +275,7 @@ class FocusProfileBindingTests(unittest.TestCase):
         self.assertEqual(hashlib.sha256(profile_path.read_bytes()).hexdigest(),
                          "a1be5bef10b27946185df84cf6b8fb7fde4417c05cf4bc08d0f75de1c8462f97")
         historically_advanced = {
+            "a1-fixtures.py": "6d2cd0956ed5d9821be1dd32f731f201e5aea52ae4f06a676d8dfc5c17355d25",
             "a1-ast-gates.py":
                 "917d51a52d9383beb56f52ff22415e62f81ee60a2a8a16ae40e08c17b36c2c58",
             "a1-compiler-inventory.py":
@@ -303,21 +306,21 @@ class FocusProfileBindingTests(unittest.TestCase):
         self.assertEqual(profile["native_signature_patch_sha256"],
                          "1c56d36e1feeb52112c4da0eb90c5985b548db7c4f836bb6971d1a826effd2a2")
 
-    def test_published_r10_profile_is_bound_to_current_registration_closure(self):
+    def test_published_r11_profile_is_bound_to_current_registration_closure(self):
         repo_root = HERE.parents[3]
-        profile_path = HERE / PROFILE_NAMES[R10]
+        profile_path = HERE / PROFILE_NAMES[R11]
         profile = json.loads(profile_path.read_text())
         env = {
-            "SORT4_A1_AUTHORIZATION_PHASE_ID": R10,
+            "SORT4_A1_AUTHORIZATION_PHASE_ID": R11,
             "SORT4_A1_PHASE_ID": PHASE,
             "SORT4_A1_PROFILE_SHA256": hashlib.sha256(profile_path.read_bytes()).hexdigest(),
         }
         self.assertEqual(self.backend.validate_profile_binding(repo_root, profile, env), profile_path)
         recipe = json.loads((repo_root / "research/challenge-8/cloud-build/recipes/o26-sort4-c1-current-recovery.json").read_text())
         canonical = "research/challenge-8/cloud-build/sort4-caller-entry-native/"
-        profile_rel = canonical + PROFILE_NAMES[R10]
-        entry_rel = canonical + "a1-entry-r10.py"
-        runner_rel = canonical + "a1-runner-r10.py"
+        profile_rel = canonical + PROFILE_NAMES[R11]
+        entry_rel = canonical + "a1-entry-r11.py"
+        runner_rel = canonical + "a1-runner-r11.py"
         core_rel = canonical + "a1-runner.py"
         self.assertEqual(recipe["entrypoint"], "research/challenge-8/cloud-build/run-o26-sort4-c1-current-recovery.sh")
         self.assertIn(profile_rel, recipe["proof_paths"])
@@ -331,7 +334,7 @@ class FocusProfileBindingTests(unittest.TestCase):
         for name, expected in profile["a1_helper_sha256"].items():
             with self.subTest(helper=name):
                 self.assertEqual(expected, hashlib.sha256((HERE / name).read_bytes()).hexdigest())
-        self.assertEqual(profile["authorization_phase_id"], R10)
+        self.assertEqual(profile["authorization_phase_id"], R11)
         self.assertEqual(profile["phase_id"], PHASE)
         self.assertEqual(profile["experiment_protocol_phase_id"], PHASE)
         self.assertEqual(profile["maximum_build_timeout_seconds"], 1200)
@@ -343,12 +346,12 @@ class FocusProfileBindingTests(unittest.TestCase):
         self.assertIsNotNone(tool_spec.loader)
         tool = importlib.util.module_from_spec(tool_spec)
         tool_spec.loader.exec_module(tool)
-        self.assertEqual(tool.FOCUS_PROFILE_NAMES[R10], PROFILE_NAMES[R10])
+        self.assertEqual(tool.FOCUS_PROFILE_NAMES[R11], PROFILE_NAMES[R11])
         lane_script = (repo_root / "research/challenge-8/cloud-build/run-sort4-c1-current-recovery.sh").read_text()
-        self.assertIn("a1-entry-r10.py", lane_script)
-        self.assertIn(R10, lane_script)
+        self.assertIn("a1-entry-r11.py", lane_script)
+        self.assertIn(R11, lane_script)
         control = (repo_root / "research/challenge-8/cloud-build/control.py").read_text()
-        self.assertIn("A1_R10_PHASE", control)
+        self.assertIn("A1_R11_PHASE", control)
 
         signature_manifest_path = HERE / "NATIVE-SMALL-SORT-IMPL-SIGNATURE-MANIFEST.json"
         signature_manifest = json.loads(signature_manifest_path.read_text())

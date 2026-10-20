@@ -1171,6 +1171,28 @@ def collect_p1_interface_case(a, c4, ghost, *, tool: Path,
                 "original/lib.rs": _sha(fixture / "original/lib.rs")}}
 
 
+def _false31_source_boundary(lines, binding):
+    """Find strict boundary order within the paired compiler-bound observer."""
+    _need(isinstance(binding, Mapping) and binding.get("caller") == "a1_guard_observer",
+          "false31 boundary requires the compiler-bound observer")
+    span = binding.get("mir_body_span")
+    _need(isinstance(span, Mapping), "false31 caller MIR Body.span missing")
+    lo, hi = span.get("lo"), span.get("hi")
+    _need(isinstance(lo, Mapping) and isinstance(hi, Mapping),
+          "false31 caller MIR Body.span endpoints missing")
+    start, end = lo.get("line"), hi.get("line")
+    _need(lo.get("source_path") == hi.get("source_path") == "verified/lib.rs" and
+          type(start) is int and type(end) is int and 1 <= start <= end <= len(lines),
+          "false31 caller MIR Body.span invalid")
+    guards = [i for i in range(start, end + 1)
+              if lines[i - 1].strip() == "if len <= T::small_sort_threshold() {"]
+    assertions = [i for i in range(start, end + 1)
+                  if lines[i - 1].strip() == "//@ assert len <= 31;"]
+    _need(len(guards) == len(assertions) == 1 and guards[0] < assertions[0],
+          "certified inclusive threshold guard and false31 assertion must be unique and ordered")
+    return guards[0], assertions[0], (start, end)
+
+
 def observe_false31_boundary(caller_case: Mapping[str, Any],
                              freeze_body_case: Mapping[str, Any],
                              certificate: Mapping[str, Any],
@@ -1202,18 +1224,13 @@ def observe_false31_boundary(caller_case: Mapping[str, Any],
           source_case["generated_source_sha256"],
           "boundary source bytes differ from N-false31 certificate")
     lines = source.read_text(encoding="utf-8").splitlines()
-    guard = "if len <= T::small_sort_threshold() {"
-    guards = [index for index, line in enumerate(lines, 1) if line.strip() == guard]
-    assertions = [index for index, line in enumerate(lines, 1)
-                  if line.strip() == "//@ assert len <= 31;"]
-    _need(len(guards) == len(assertions) == 1 and guards[0] < assertions[0],
-          "certified inclusive threshold guard and false31 assertion must be unique and ordered")
     binding = caller_structure["caller_calls"]["mir"]["binding"]
+    guard_line, assertion_line, caller_span = _false31_source_boundary(lines, binding)
     calls = binding.get("calls", [])
     threshold_calls = [row for row in calls
                        if row.get("callee") == "StableSmallSortTypeImpl::small_sort_threshold"]
     _need(len(threshold_calls) == 1 and
-          threshold_calls[0].get("call_line") == guards[0],
+          threshold_calls[0].get("call_line") == guard_line,
           "compiler MIR threshold call must bind to the certified inclusive guard line")
     # Use the actual N-false31 caller AST: unlike an impl-body focus, this
     # caller stage has passed the checked common native summary through its
@@ -1223,7 +1240,10 @@ def observe_false31_boundary(caller_case: Mapping[str, Any],
     common_spans = [span for name, span in inventory["required_method_spans"]
                     if name == "small_sort_threshold"]
     _need(len(common_spans) == 1, "one compiler required threshold span")
-    fs = ast_gates.functions(caller_ast.read_text(encoding="utf-8"))
+    caller_ast_text = caller_ast.read_text(encoding="utf-8")
+    select_focused_body(caller_ast_text, ast_gates, focus_line=caller_span[0],
+                        expected_name="a1_guard_observer", compiler_span=caller_span)
+    fs = ast_gates.functions(caller_ast_text)
     common = [row for row in fs if row["name"] == ast_gates.COMMON and
               row["kind"] == "prototype"]
     _need(len(common) == 1, "one compiler-bound checked common threshold AST prototype required")
@@ -1236,7 +1256,8 @@ def observe_false31_boundary(caller_case: Mapping[str, Any],
           "actual AST must retain the inclusive 16..32 common threshold contract")
     return {"classification": "LEN32_BOUNDARY_ADMISSIBLE_BY_CHECKED_INTERFACE_AND_GUARD",
             "source_pair_sha256": caller_raw["source_pair_sha256"],
-            "guard_source_line": guards[0], "assertion_source_line": assertions[0],
+            "guard_source_line": guard_line, "assertion_source_line": assertion_line,
+            "caller_source_span": list(caller_span),
             "guard_expression": "len <= T::small_sort_threshold()",
             "threshold_contract_ast_sha256": _sha(caller_ast),
             "threshold_upper_bound": 32, "boundary_len": 32,
@@ -1431,9 +1452,10 @@ def preflight_plan(profile: Mapping[str, Any], matrix: Mapping[str, Any] | None 
           {"parser-preflight", "full-matrix", "native-p1-target"},
           "recognized unaccepted A1 execution mode required")
     if profile.get("execution_mode") == "native-p1-target":
-        _need(profile.get("authorization_phase_id") ==
-              "SORT4-DELIVERABLE-NATIVE-PROOF-2026-10-20-R10",
-              "bounded native P1 target is R10-only")
+        _need(profile.get("authorization_phase_id") in
+              ("SORT4-DELIVERABLE-NATIVE-PROOF-2026-10-20-R10",
+               "SORT4-CHECKED-CALLER-NATIVE-PROOF-2026-10-21-R11"),
+              "bounded native P1 target requires R10/R11 authorization")
     cases = []
     for case_id in CASE_ORDER:
         source = ("a1-fixtures:" + SOURCE_CASE[case_id] if case_id in SOURCE_CASE else
@@ -1582,7 +1604,9 @@ def _report_value_for_disk(value, authorization_phase):
     """Replace duplicated authorized row observations with lossless local pointers."""
     r9_authorization_phase = "SORT4-NATIVE-INTERFACE-PROOF-2026-10-20-R9"
     r10_authorization_phase = "SORT4-DELIVERABLE-NATIVE-PROOF-2026-10-20-R10"
-    if (authorization_phase not in (r9_authorization_phase, r10_authorization_phase) or
+    r11_authorization_phase = "SORT4-CHECKED-CALLER-NATIVE-PROOF-2026-10-21-R11"
+    if (authorization_phase not in (r9_authorization_phase, r10_authorization_phase,
+                                    r11_authorization_phase) or
             not isinstance(value, Mapping) or
             value.get("authorization_phase_id") != authorization_phase):
         return value
