@@ -51,5 +51,31 @@
   "reader_limitations": [
     "/positive_lifecycle_progress pointer not found in final audit; final audit does not include progress-only key; no absence inference"
   ],
-  "next": "P0c immutable Mapping and JSON persistence fix; investigate native structural-only AST capture without changing dispatch semantics"
+  "next": "Combined S3 full-matrix with immutable caller span+JSON, canonical source keys, checked numeric identity/full AST span joins",
+  "r_only_ast_catalogue": {
+    "file_id": "241e38dedc8346d7fa96c58a11783b207ae082e6bab68ab831f08de28e0e8330",
+    "sha256": "19f8ec9ecb14cd223b2088269d4efdd65fdd479ba55c4a6670db773bbb19cdcd",
+    "size_bytes": 205796,
+    "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-native-reference/P1/r-only-native-reference-ast.ml",
+    "status": "UNSUPPORTED_FILE_TYPE",
+    "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER",
+    "content_read": false
+  },
+  "native_collector_cause_source_analysis": "Canonical source-pair key schema mismatch: poststage filepath keys versus expected verified/original short keys; the combined gate always refuses. No actual source-byte mutation established.",
+  "selector_source_observations": {
+    "reader": "native-selector-lines.json",
+    "exact_lines": [
+      1,
+      2
+    ],
+    "default16_body_span": "verified/lib.rs:50:5-58:6",
+    "freeze32_body_span": "verified/lib.rs:68:5-74:6",
+    "counts_each": {
+      "origin_path_candidates": 2,
+      "origin_in_impl_candidates": 1,
+      "same_name_body_candidates": 2
+    },
+    "body_kind": "Some",
+    "proof_credit": false
+  }
 }
