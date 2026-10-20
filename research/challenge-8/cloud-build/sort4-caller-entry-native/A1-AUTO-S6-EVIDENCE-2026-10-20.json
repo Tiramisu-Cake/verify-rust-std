@@ -1,0 +1,35 @@
+{
+  "administrative_audit": "Separate administrative audit required only if detailed S6 execution evidence is needed; no raw fallback or reporting-bypass Build authorized.",
+  "brief": {
+    "http_status": 404,
+    "message": "Reader report or query route is unavailable",
+    "queried_after_terminal": true,
+    "status": "UNAVAILABLE"
+  },
+  "build_id": "773189aa-30fb-43e3-b328-e7ee79224adc",
+  "coordinator_record": {
+    "accounted": true,
+    "build_id": "773189aa-30fb-43e3-b328-e7ee79224adc",
+    "build_seconds": 56,
+    "create_time": "2026-10-20T00:34:02.440553917Z",
+    "dispatch_token": "dispatch-fc395d9d684c429ab539ccf303c8f90f",
+    "execution_seconds": 55,
+    "finish_time": "2026-10-20T00:34:58.185599Z",
+    "infra_sha": "bb51d0091decc996d141b8f34695fb5001935d42",
+    "lane": "o26-sort4-c1-current-recovery",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-NATIVE-INTERFACE-AUTONOMOUS-2026-10-20-R5",
+    "proof_sha": "bb51d0091decc996d141b8f34695fb5001935d42",
+    "publish_text_logs": true,
+    "reserved_seconds": 960,
+    "source_input_sha256": "fcc4a51f2e969f27771ece6113037d9d8c33865c9ddaa8541ddcd4cfcc7f25e1",
+    "source_mode": "pinned-objects",
+    "start_time": "2026-10-20T00:34:03.223928723Z",
+    "status": "CANCELLED",
+    "submitted_config_sha256": "f5e23ec95fb29a7216318a0103b43fe5e7cfff96b27b7eb6a58dad203ad1d1bf",
+    "timeout_seconds": 900
+  },
+  "formal_credit": false,
+  "matrix_results": "UNKNOWN; no report; no NOT_RUN inference",
+  "reason_for_cancel": "Fresh S5 AST lines1-3 show PackageDecl; S6 handles ModuleDecl and cannot repair the observed scope loss."
+}

@@ -62,17 +62,68 @@ Evidence v0.11: Brief → catalogue → refresh/info → locate/fragment → н�
 
 ## Отчёт агента
 
-**ACTIVE.** T0 `2026-10-19T22:34:09Z`; main `2026-10-20T00:34:09Z`; absolute `2026-10-20T01:04:09Z`. Часовой progress update передан без ожидания ответа. [Ход и rationale](cloud-build/sort4-caller-entry-native/A1-AUTO-SESSION-2026-10-20.md).
+**CLOSED — основное окно завершено.** T0 `2026-10-19T22:34:09Z`, main `2026-10-20T00:34:09Z`, absolute `2026-10-20T01:04:09Z`. Новых запусков после cutoff нет. [Ход/rationale](cloud-build/sort4-caller-entry-native/A1-AUTO-SESSION-2026-10-20.md).
 
-| Кандидат | Build | Результат / charge | Продвижение / blocker |
-|---|---|---|---|
-| S1 `068dedb1` | `f581f16f-2268-4ff6-882e-b5c34e088d0f` | FAILURE /459s | Оба parse paths проходят scoped Body binders; normal/readonly inventory mismatch |
-| S2 `7d3ab6c2` | `a62d316b-69d4-4ed6-acb2-7cbd38216a1d` | FAILURE /407s | Operational lists отделены от inventory; first difference `Body.inputs`, разные печатные region IDs |
-| S3 `e8279683` | `53aeec23-552e-4f4c-8d94-a52bbdd8c0f3` | FAILURE /447s | Typed inputs/clauses проходят до следующего различия `hirGenerics.params[1].name.fresh.l` |
-| S4 `d475c49e820640256355d6a45ec3379e86717ed1` | `0b0e6b2a-a13a-45c1-abf4-f4dc7e992e02` | FAILURE /474s | Inventory/source binding пройдены; P0a frontend: A1 HIR/compiler method generic mismatch |
+| Кандидат / runtime | Build | Terminal / charge |
+|---|---|---|
+| S1 `068dedb1e9eec50c49eafe93dd2062a671cd9c07` | `f581f16f-2268-4ff6-882e-b5c34e088d0f` | FAILURE459s |
+| S2 `7d3ab6c2215298201dbe475c1fb26194e03f2915` | `a62d316b-69d4-4ed6-acb2-7cbd38216a1d` | FAILURE407s |
+| S3 `e8279683b1b1546f38e9b9e770768cd2b7f532bf` | `53aeec23-552e-4f4c-8d94-a52bbdd8c0f3` | FAILURE447s |
+| S4 `d475c49e820640256355d6a45ec3379e86717ed1` | `0b0e6b2a-a13a-45c1-abf4-f4dc7e992e02` | FAILURE474s |
+| S5 `14a9d651bb09dd0b128525c0efbedbecd15ec082` | `56f4d389-8d6d-428b-8298-aa4c5e45073a` | FAILURE332s |
+| S6 `bb51d0091decc996d141b8f34695fb5001935d42` | `773189aa-30fb-43e3-b328-e7ee79224adc` | CANCELLED56s |
 
-S5 runtime **`14a9d651bb09dd0b128525c0efbedbecd15ec082`**, profile **`d90dde221561e71328c870f6388ceda7eb7ad5126a1237543904406d89edb46d`**. Ранние method type parameters отделены от validated HIR Fresh metadata; semantic lifetimes остаются в checked FnSig. Новый полный R2 `9cdca995bc926efe3275319dec345f4d70a2fec7fdc95781decb4e4c2df7c9c8`; C побайтно прежний. [Luna HIGH GO](cloud-build/sort4-caller-entry-native/A1-AUTO-S5-REVIEW-2026-10-20.md), static controls7/24/23/5 PASS, exact source closure33infra/107proof/160objects PASS. Компиляция S5 ещё не проверена. [Точные identities](cloud-build/sort4-caller-entry-native/A1-AUTO-S5-RELEASE-2026-10-20.json).
+**Proof и обслуживание.** Конечных proof obligations закрыто0; A1/A2 OPEN. S1–S4 исправили scoped Body binders и normal/readonly inventory representation; S4 дошёл до focused P0a translator. S5 разделяет early method F и late HIR metadata, сохраняя semantic lifetimes в checked FnSig. Его собственные свежие R-only/final-C receipts сообщают build_exit0 с exact R2/C identities: сборка tool подтверждена на уровне source-reported Cloud receipts. Ошибка D.Type не блокирует эти сборки; обе unused_mut правки сохранены. Это не proof credit и не вывод из количества нулевых stages. Full P0a conformance/native equality/refinement и P1 не установлены; P1 явно execution_started=true, proof_credit=false. N-false31 явно NOT_RUN; own-pair receipt/threshold32/len32/intended assertion lifecycle не завершён. A1 actual threshold/Instance transfer и A2 caller applicability не доказаны; supplied len<=32/nonzero не вводились.
 
-**Proof:** новых конечных proof obligations закрыто0; A1/A2 OPEN. S4 P1 execution_started=true, credit=false; N-false31 явно NOT_RUN. Полный native/interface/equality/refinement proof не установлен. Свежий source aggregate26:8 INTENDED_CLASSIFIED/5 INCONCLUSIVE/13 NOT_RUN. Integrity VERIFIED; stage order NOT_ESTABLISHED; independent formal credit отсутствует. [S4 evidence](cloud-build/sort4-caller-entry-native/A1-AUTO-S4-EVIDENCE-2026-10-20.json).
+**Первый подтверждённый blocker S5:** `AstGateError: one common threshold prototype`. Fresh AST `PackageDecl(...,"StableSmallSortTypeImpl",[],[Func(...,"small_sort_threshold",...)])`; reader теряет enclosing package path. Source AST SHA `0a3e157e363c5cdd57a93699ce33526c361490ac9d15c8672c1f55b6f7699f9b`, lines2–3, request `2728ed01773fe1696248396eafaee9e5043ed9d5d7de858db930689b79a921f7`. S6 ошибочно исправлял ModuleDecl surface: после submit уточнён PackageDecl, кандидат штатно отменён, applicability GO отозван addendum. S6 создан00:34:02.440Z до cutoff, start00:34:03.223Z, finish00:34:58.185Z. Его матрица UNKNOWN: Brief HTTP404, NOT_RUN из отмены не выводится. В Brief S6 отсутствуют stage execution, собственные receipts и все26 source results; для их установления запрашивается отдельный административный аудит; raw fallback/новый Build для отчётности не выполнялись.
 
-**Учёт:**5 terminal Builds;2119/3600spent,1481remaining; own active=null после S5 reconcile. S5 Build `56f4d389-8d6d-428b-8298-aa4c5e45073a` FAILURE332s; source blocker `one common threshold prototype`. S6 runtime `bb51d009` восстанавливает enclosing ModuleDecl scope по структурному дереву и source intervals; AST22/profile5 PASS, closure/review перед submit. R2/C и math/contracts/lifecycle неизменны. Старые ledgers/evidence сохранены без переноса.
+**Review и validation.** Независимые Luna HIGH GO до каждого submit; S5 [GO](cloud-build/sort4-caller-entry-native/A1-AUTO-S5-REVIEW-2026-10-20.md), S6 [история GO и withdrawal](cloud-build/sort4-caller-entry-native/A1-AUTO-S6-REVIEW-2026-10-20.md). S5 synthetic controls7/24/23/5 PASS, S6 AST22/profile5 PASS; реальные compiler/extraction/decoder/refiner/verifier только Cloud. Exact source-only reconstruction полного R2→неизменённый C и selected-object closure33infra/107proof/160objects PASS. Partial Git fsck предупреждал .gitmodulesMissing; globally clean fsck не заявляется. S6 опубликован до submit: project checkpoint `eb74df260200bb0a289f01edcd835f7b24ea6c9c`, branch `research/night-select-sort4-cloud-2026-10-09`.
+
+| Identity | SHA-256 |
+|---|---|
+| Полный R2 | `9cdca995bc926efe3275319dec345f4d70a2fec7fdc95781decb4e4c2df7c9c8` |
+| C, побайтно прежний | `e7cdc8a8504338ccaab760975c1a3f1a739211d7f8d531dd214babc2005d894e` |
+| R-before translator, сохранён | `e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64` |
+| R-after / C-before translator | `9391bff0376ad008798a950d76dbaac095cacbe8fd5acf5b2ea4d336a759f33f` |
+| C-after translator | `8b98050f380729625b1ec766be6764af75e65d457c6b99f28a2a38d3a3676d7c` |
+| S5 profile, последний полный evidence | `d90dde221561e71328c870f6388ceda7eb7ad5126a1237543904406d89edb46d` |
+| S6 profile, отменённый draft | `099cf9cd5557b62a041efaa4fcbd528b569ea32026cc4ad187a480c676c43f32` |
+
+Compiler/exporter/schema/decoder/kernel и runtime/domain/contracts/posts/matrix/lifecycle сохранены; [все pins и source maps S5](cloud-build/sort4-caller-entry-native/A1-AUTO-S5-RELEASE-2026-10-20.json), [S6](cloud-build/sort4-caller-entry-native/A1-AUTO-S6-RELEASE-2026-10-20.json). Новые translator hashes объясняются R2 helper и двумя его consumers, не автоматической заменой неожиданного hash.
+
+**Все26 source statuses последнего полного evidence S5** (не результаты отменённого S6). Provenance каждого verdict: Build56f4d389, proof-audit.json SHA `9a6d89fa16a057fd9df017b9bc0dff83bbb7629037064ffb605224359ac9ed11`, pointer `/case_status/<case>/status`; полный inventory/request/index/archive provenance в [S5 evidence](cloud-build/sort4-caller-entry-native/A1-AUTO-S5-EVIDENCE-2026-10-20.json). NOT_RUN ниже явно записаны источником; независимого credit нет ни у одной строки.
+
+| Case | Source status | Execution provenance |
+|---|---|---|
+| OFF | INTENDED_CLASSIFIED | default-off-baseline |
+| P0a | INCONCLUSIVE | source provenance=null; полный результат отсутствует |
+| P0b | NOT_RUN | source NOT_RUN; execution provenance не установлен |
+| P0c | NOT_RUN | source NOT_RUN; execution provenance не установлен |
+| P-dispatch | INCONCLUSIVE | source provenance=null; полный результат отсутствует |
+| P1 | INCONCLUSIVE | source provenance=null; полный результат отсутствует |
+| N-default-contract | INCONCLUSIVE | source provenance=null; полный результат отсутствует |
+| N-freeze-contract | INCONCLUSIVE | source provenance=null; полный результат отсутствует |
+| N-alpha-valid | NOT_RUN | source NOT_RUN; execution provenance не установлен |
+| N-binder-collapse | NOT_RUN | source NOT_RUN; execution provenance не установлен |
+| N-binding | NOT_RUN | source NOT_RUN; execution provenance не установлен |
+| N-clause-redirect | NOT_RUN | source NOT_RUN; execution provenance не установлен |
+| N-clauses | NOT_RUN | source NOT_RUN; execution provenance не установлен |
+| N-duplicate | NOT_RUN | source NOT_RUN; execution provenance не установлен |
+| N-false31 | NOT_RUN | source NOT_RUN; execution provenance не установлен |
+| N-free-region | NOT_RUN | source NOT_RUN; execution provenance не установлен |
+| N-no-F | NOT_RUN | source NOT_RUN; execution provenance не установлен |
+| N-region-swap | NOT_RUN | source NOT_RUN; execution provenance не установлен |
+| N-source | NOT_RUN | source NOT_RUN; execution provenance не установлен |
+| R1 | INTENDED_CLASSIFIED | fresh-final-tool-regression |
+| R2 | INTENDED_CLASSIFIED | fresh-final-tool-regression |
+| R3 | INTENDED_CLASSIFIED | fresh-final-tool-regression |
+| R4 | INTENDED_CLASSIFIED | fresh-final-tool-regression |
+| R5 | INTENDED_CLASSIFIED | fresh-final-tool-regression |
+| R6 | INTENDED_CLASSIFIED | fresh-final-tool-regression |
+| R7 | INTENDED_CLASSIFIED | fresh-final-tool-regression |
+
+Aggregate8 INTENDED_CLASSIFIED/5 INCONCLUSIVE/13 NOT_RUN. Integrity VERIFIED_ARCHIVE_AND_INVENTORY; source verdict NOT_ACCEPTED_AS_REPORTED; stage order NOT_ESTABLISHED, causality UNKNOWN. Integrity не означает formal acceptance; independent AST↔MIR/parser-input binding этим чтением не установлен; download_verified не устанавливался.
+
+**Закрытие:**6 terminal Builds (5 FAILURE,1 CANCELLED), **2175/3600 Cloud seconds spent;1425 retired, no carry**. Own active/unresolved/reservations/requests=0; ledger CLOSED_MAIN_WINDOW. Старые accounts/evidence не переписаны. Активные агентные часы не измерялись; wall-clock записан отдельно. Завершение в пределах +30min.
+
+**Следующий шаг для нового задания:** reader должен учитывать реальный PackageDecl surface и canonical enclosing package path; сохранять source/header/native post/unwind equality, не принимать bare leaf name глобально. S6 остаётся отменённым draft, не принятым исправлением. В этой сессии дальнейших правок/запусков нет.

@@ -17,3 +17,9 @@ The worker reports **22 AST controls PASS** and **5 profile-gate controls PASS**
 No actual AST replay, MIR replay, compiler/toolchain, Cloud evidence, or raw logs were inspected. Cloud must establish whether the qualified common prototype is now found and continue unchanged P0a/P1 and full-matrix obligations. All matrix rows remain NOT_RUN, including `N-false31`; `proof_credit` remains false.
 
 Module-derived rows currently store the enclosing module source segment in their `raw` field; current gate decisions use the parsed function fields/name/kind, and I found no downstream use of that field. Treat it as diagnostic context, not as the exact raw Func slice.
+
+## Post-submission applicability correction — 2026-10-20
+
+**The GO above is withdrawn for the observed S6 failure path.** Fresh bounded root-AST observation `/tmp/select-auto-S5-root-header.json`, lines 2–3, shows `PackageDecl (dummy, "", [], [])` followed by `PackageDecl (verified32, "StableSmallSortTypeImpl", [], [`. The pinned `rust_parser.flatten_module_decls` converts `ModuleDecl` into `PackageDecl` before the translator's final AST dump. S6's new traversal handles `ModuleDecl` only, so it does not recover ownership from the actual `PackageDecl` surface at this downstream stage and cannot resolve the observed common-prototype lookup failure.
+
+The S6 Build `773189aa` was cancelled before the session cutoff; it terminated `CANCELLED` at 00:34:58Z after 56 charged seconds. Its Evidence Brief request returned HTTP 404. No matrix result or proof conclusion follows from cancellation. The earlier source review and GO remain in the record as historical review of the submitted code, but are not applicable approval for the observed dumped-AST path. No runtime or proof criteria were changed.

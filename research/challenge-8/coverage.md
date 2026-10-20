@@ -980,6 +980,6 @@ Sessionclosed1589/3600, unused2011retired, ownBuild/res/request/unresolvednone.
 See [checkpoint](cloud-build/sort4-caller-entry-native/END-CHECKPOINT-2026-10-11-CALLER-ENTRY.md).
 
 
-## 2026-10-20 R5 native interface progress (active)
+## 2026-10-20 R5 native interface checkpoint (closed)
 
-S1 Build f581f16f-2268-4ff6-882e-b5c34e088d0f advances both normal/readonly inventory parsing beyond Body FnMut/Output scope guard. Next interface inventory equality fails before native proof; P1started but full native/equality/refinement target not established, A1/A2 OPEN. No additional independent B1/B2 obligation closed. Scoped binding repair and local controls are representation work, not a caller proof. [Current session](cloud-build/sort4-caller-entry-native/A1-AUTO-SESSION-2026-10-20.md).
+S1–S4 advanced scoped Body inventory/source identity checks; S5 full R2/C native tools have fresh source-reported build_exit0 receipts. Native P0a/P1 conformance/equality/refinement remains unestablished: AST gate loses actual PackageDecl scope. S6 corrected the wrong ModuleDecl surface and was cancelled after diagnosis; Brief404 and no final-candidate results inferred. S5 source26:8 INTENDED_CLASSIFIED/5 INCONCLUSIVE/13 explicitNOT_RUN; P1started/creditfalse, Nfalse31own lifecycle notcompleted. A1/A2 OPEN; zero new independent B1/B2 obligations closed. Representation/build maintenance is separate from proof progress. Session2175/3600spent1425retired, no carry; ownactive/unresolved/reservations/requests0. [Final task/report](CURRENT-TASK.md).
