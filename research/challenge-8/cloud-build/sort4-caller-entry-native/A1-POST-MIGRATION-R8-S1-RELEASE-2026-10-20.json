@@ -1,0 +1,64 @@
+{
+  "C_sha256": "e7cdc8a8504338ccaab760975c1a3f1a739211d7f8d531dd214babc2005d894e",
+  "R_sha256": "9cdca995bc926efe3275319dec345f4d70a2fec7fdc95781decb4e4c2df7c9c8",
+  "authorization_phase_id": "SORT4-POST-MIGRATION-NATIVE-PROOF-2026-10-20-R8",
+  "build_id": null,
+  "closure": {
+    "commit": "69e377ad620808b0d314f8bdc5ae8c9de7ebb8a9",
+    "config_arg_bounds": "PASS",
+    "dispatch": "NOT_ATTEMPTED",
+    "exact_restore": "PASS",
+    "formal_credit": false,
+    "git_stderr_observed": {
+      "message": "error: object fails fsck: gitmodulesMissing: unable to read .gitmodules blob",
+      "occurrences": 2,
+      "result": "restore subprocesses exit0, selected objects/path bytes/closure checked; not full repository fsck"
+    },
+    "phase_profile_environment": "PASS",
+    "restored_paths": {
+      "infra": 35,
+      "proof": 109
+    },
+    "shared_objects": 164,
+    "source_payload_bytes": 521362,
+    "source_sha256": "854c7b412f48155b879e6078f78a5177ba4cd4e16b8a04842b75ab2bea800e19",
+    "source_substitutions": 175
+  },
+  "cycle": "S1",
+  "formal_credit": false,
+  "helper_pins": {
+    "a1-ast-gates.py": "917d51a52d9383beb56f52ff22415e62f81ee60a2a8a16ae40e08c17b36c2c58",
+    "a1-call-binding.py": "302a0ee3e2eb1950aa4bd42ac2c5cedbaabc97b114754f63421de8e0d1f9f0cb",
+    "a1-compiler-inventory.py": "6394ec909e6d6a7e77988279c382d531d61b10c7ca02e23672291c4622fe95e5",
+    "a1-contract-admission.py": "0ac3b182a24ba3a8cfd21588dd393f652e864bf54593ac7f4a5caaa473927ad4",
+    "a1-fixtures.py": "6d2cd0956ed5d9821be1dd32f731f201e5aea52ae4f06a676d8dfc5c17355d25",
+    "a1-focus-backend.py": "0f137982622cd51a4df3ca9a162139eb4b4db9f8fafbbf8633b06fa910323079",
+    "a1-matrix-classifier.py": "e50dca88e41f41a1919db83412f5016ea19428b2c6b092bfe1c8cfc61c70b6a6",
+    "a1-proof-classifier.py": "7a2070a3132bc7d4601565aebd25e0aea682520e3fbb32a6045ccdf276142a2e",
+    "a1-summary-receipt.py": "bcc55360698346f0aa2dfb3858c6b555a9104db95308116d2c16c188a9b8a7dd",
+    "a1-synthetic-backend.py": "4498e7dbcd4ffaaf4746bfee239e56a36f78e883da59937d9b48c1025e5b8feb",
+    "a1-synthetic-inputs.py": "92d4e5b336b4e6409da814523500978b56c52218a6289434b526929ae1275b27",
+    "a1-tool.py": "e9757012f782d6f166526bb5aeab503d90d214f721ecddb3f0a49e6fe72ddfb2",
+    "selected-proof.py": "3347ad41c0273ebf186dbcf0520182455b32a65ad9619f2b2c7d3d00c12a7d7f"
+  },
+  "independent_review": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "result": "GO_FINAL_S3_AND_ACTIVATION_DIFF_DEPENDENCIES"
+  },
+  "infra_sha": "69e377ad620808b0d314f8bdc5ae8c9de7ebb8a9",
+  "isolated_tests": {
+    "adapter": 6,
+    "authorized_phase_mutation_controls": 10,
+    "numbers_shapes_collisions": 5,
+    "packaging": 6,
+    "profile_transport": 8
+  },
+  "profile_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-POST-MIGRATION-R8-PROFILE-2026-10-20.json",
+  "profile_sha256": "a4b458173313345fd92350722a7f3dca1d27e615f987451d0a73446c641ea0f9",
+  "proof_sha": "69e377ad620808b0d314f8bdc5ae8c9de7ebb8a9",
+  "schema": "smallsort-a1-post-migration-release-v1",
+  "semantic_input_changes": "authorization bindings and delivery representation only; R7S2/S3 compiler/std/tool/R2/C/domain/contracts/equality/normal-unwind/26cases preserved",
+  "source_core_sha256": "f635fb5026e0f5a88b54366c155b8dc94eaa837200fa957b4641b1c5074a90bb",
+  "source_mode": "pinned-objects"
+}
