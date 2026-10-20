@@ -16,19 +16,25 @@ CONTROL=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(CONTROL)
 class Clock(datetime.datetime):
     @classmethod
     def now(cls,tz=None):
-        return cls.fromisoformat(CONTROL.A1_AUTO_START.replace('Z','+00:00')).astimezone(tz)
+        return cls.fromisoformat(CONTROL.A1_SCOPE_START.replace('Z','+00:00')).astimezone(tz)
 
 class ExactNewAuthorization(unittest.TestCase):
     def setUp(self):
         self.clock=patch.object(CONTROL.datetime,'datetime',Clock);self.clock.start();self.addCleanup(self.clock.stop)
-        self.ledger=dict(phase=CONTROL.A1_AUTO_PHASE,status='AUTHORIZED',authorization='synthetic test only',owner='select-sort4',ceiling_build_seconds=3600,remaining_build_seconds=3600,allowed_lanes=list(CONTROL.A1_LANES),start_utc=CONTROL.A1_AUTO_START,main_deadline_utc=CONTROL.A1_AUTO_MAIN_DEADLINE,deadline_utc=CONTROL.A1_AUTO_DEADLINE,maximum_builds=None,maximum_build_timeout_seconds=900,builds=[],active_build=None)
-        self.args=SimpleNamespace(phase_id=CONTROL.A1_AUTO_PHASE,owner='select-sort4',command='submit',lane='o26-sort4-c1-current-recovery',source_mode='pinned-objects',timeout=900)
+        self.ledger=dict(phase=CONTROL.A1_SCOPE_PHASE,status='AUTHORIZED',authorization='synthetic test only',owner='select-sort4',ceiling_build_seconds=3600,remaining_build_seconds=3600,allowed_lanes=list(CONTROL.A1_LANES),start_utc=CONTROL.A1_SCOPE_START,main_deadline_utc=CONTROL.A1_SCOPE_MAIN_DEADLINE,deadline_utc=CONTROL.A1_SCOPE_DEADLINE,maximum_builds=None,maximum_build_timeout_seconds=900,builds=[],active_build=None)
+        self.args=SimpleNamespace(phase_id=CONTROL.A1_SCOPE_PHASE,owner='select-sort4',command='submit',lane='o26-sort4-c1-current-recovery',source_mode='pinned-objects',timeout=900)
 
     def test_exact_account(self):
         CONTROL.authorized_phase(self.args,self.ledger)
 
+    def test_r5_registration_and_closed_account_are_preserved(self):
+        self.assertEqual(CONTROL.A1_AUTO_PHASE,'SORT4-NATIVE-INTERFACE-AUTONOMOUS-2026-10-20-R5')
+        self.assertIn('A1-AUTO-S6-PROFILE-2026-10-20.json',CONTROL.A1_AUTO_PROFILE)
+        old=Path(__file__).parent/'BUDGET-A1-AUTONOMOUS-2026-10-20.json'
+        self.assertEqual(json.loads(old.read_text())['status'],'CLOSED_MAIN_WINDOW')
+
     def test_wrong_account_refused(self):
-        for key,bad in [('owner','other'),('ceiling_build_seconds',7200),('maximum_builds',1),('maximum_build_timeout_seconds',901),('start_utc',CONTROL.A1_START),('deadline_utc',CONTROL.A1_AUTO_MAIN_DEADLINE),('main_deadline_utc',CONTROL.A1_MAIN_DEADLINE),('allowed_lanes',['smoke-success']),('status','CLOSED')]:
+        for key,bad in [('owner','other'),('ceiling_build_seconds',7200),('maximum_builds',1),('maximum_build_timeout_seconds',901),('start_utc',CONTROL.A1_AUTO_START),('deadline_utc',CONTROL.A1_SCOPE_MAIN_DEADLINE),('main_deadline_utc',CONTROL.A1_AUTO_MAIN_DEADLINE),('allowed_lanes',['smoke-success']),('status','CLOSED')]:
             with self.subTest(key=key),self.assertRaises(SystemExit):CONTROL.authorized_phase(self.args,dict(self.ledger,**{key:bad}))
 
     def test_wrong_timeout_before_request(self):
@@ -39,7 +45,7 @@ class ExactNewAuthorization(unittest.TestCase):
                     CONTROL.run_command(self.args,Path('/unused'),self.ledger,Path('/unused/ledger'))
 
     def test_main_and_absolute_deadlines(self):
-        for key in ('A1_AUTO_MAIN_DEADLINE', 'A1_AUTO_DEADLINE'):
+        for key in ('A1_SCOPE_MAIN_DEADLINE', 'A1_SCOPE_DEADLINE'):
             class EndClock(Clock):
                 @classmethod
                 def now(cls,tz=None):
@@ -48,21 +54,21 @@ class ExactNewAuthorization(unittest.TestCase):
                 CONTROL.run_command(self.args,Path('/unused'),self.ledger,Path('/unused/ledger'))
 
     def test_partial_null_missing_profile_remain_errors(self):
-        for payload in ({}, {'authorization_phase_id':CONTROL.A1_AUTO_PHASE}, None, [], {'authorization_phase_id':CONTROL.A1_AUTO_PHASE,'experiment_protocol_phase_id':None}):
+        for payload in ({}, {'authorization_phase_id':CONTROL.A1_SCOPE_PHASE}, None, [], {'authorization_phase_id':CONTROL.A1_SCOPE_PHASE,'experiment_protocol_phase_id':None}):
             with self.subTest(payload=payload), patch.object(CONTROL.subprocess,'check_output',return_value=json.dumps(payload).encode()), self.assertRaises((SystemExit,AttributeError)):
-                CONTROL.envs('a'*40,'b'*40,self.args.lane,CONTROL.A1_AUTO_PHASE)
+                CONTROL.envs('a'*40,'b'*40,self.args.lane,CONTROL.A1_SCOPE_PHASE)
 
     def test_preserved_protocol_and_new_authorization_profile(self):
-        payload=json.dumps(dict(authorization_phase_id=CONTROL.A1_AUTO_PHASE,experiment_protocol_phase_id=CONTROL.A1_PHASE)).encode()
+        payload=json.dumps(dict(authorization_phase_id=CONTROL.A1_SCOPE_PHASE,experiment_protocol_phase_id=CONTROL.A1_PHASE)).encode()
         with patch.object(CONTROL.subprocess,'check_output',return_value=payload) as git:
-            env=CONTROL.envs('a'*40,'b'*40,self.args.lane,CONTROL.A1_AUTO_PHASE)
-        self.assertEqual(git.call_args.args[0][-1],'b'*40+':'+CONTROL.A1_AUTO_PROFILE)
-        for value in ['SORT4_A1_PHASE_ID='+CONTROL.A1_PHASE,'SORT4_A1_AUTHORIZATION_PHASE_ID='+CONTROL.A1_AUTO_PHASE,'SORT4_A1_PROFILE_SHA256='+CONTROL.digest(payload)]:self.assertIn(value,env)
+            env=CONTROL.envs('a'*40,'b'*40,self.args.lane,CONTROL.A1_SCOPE_PHASE)
+        self.assertEqual(git.call_args.args[0][-1],'b'*40+':'+CONTROL.A1_SCOPE_PROFILE)
+        for value in ['SORT4_A1_PHASE_ID='+CONTROL.A1_PHASE,'SORT4_A1_AUTHORIZATION_PHASE_ID='+CONTROL.A1_SCOPE_PHASE,'SORT4_A1_PROFILE_SHA256='+CONTROL.digest(payload)]:self.assertIn(value,env)
         self.assertFalse(any(value.startswith('SORT4_ACTUAL_CALLER_ENTRY_PHASE=') for value in env))
 
     def test_wrong_profile_binding_refused(self):
-        for auth,protocol in [(CONTROL.A1_PHASE,CONTROL.A1_PHASE),(CONTROL.A1_AUTO_PHASE,CONTROL.A1_AUTO_PHASE)]:
+        for auth,protocol in [(CONTROL.A1_PHASE,CONTROL.A1_PHASE),(CONTROL.A1_SCOPE_PHASE,CONTROL.A1_SCOPE_PHASE)]:
             with self.subTest(auth=auth,protocol=protocol),patch.object(CONTROL.subprocess,'check_output',return_value=json.dumps(dict(authorization_phase_id=auth,experiment_protocol_phase_id=protocol)).encode()),self.assertRaises(SystemExit):
-                CONTROL.envs('a'*40,'b'*40,self.args.lane,CONTROL.A1_AUTO_PHASE)
+                CONTROL.envs('a'*40,'b'*40,self.args.lane,CONTROL.A1_SCOPE_PHASE)
 
 if __name__=='__main__':unittest.main()

@@ -1,0 +1,69 @@
+{
+  "archive_sha256": "20e1ab814a8cf784dd92485a57ecaed94fb718d094eb2518c88c6933d3d3fbb4",
+  "build_id": "56f4d389-8d6d-428b-8298-aa4c5e45073a",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 5,
+    "line_separator": "LF",
+    "source_lines": 822,
+    "start": 1,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "af63a757967a7a14627a78ad0abec1cf0962f827e6eccd6058c1dc10474c03fd",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/proof-ast.ml",
+  "file_sha256": "0a3e157e363c5cdd57a93699ce33526c361490ac9d15c8672c1f55b6f7699f9b",
+  "index_sha256": "11d3cd9f8bc31cc889e12f1befdc321f8b18d2922930e7ab21f5359b3cbacc23",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 5,
+    "expected_sha256": "0a3e157e363c5cdd57a93699ce33526c361490ac9d15c8672c1f55b6f7699f9b",
+    "file_id": "af63a757967a7a14627a78ad0abec1cf0962f827e6eccd6058c1dc10474c03fd",
+    "start": 1
+  },
+  "request_id": "c6ce4d032466d0e39814ac839a209e8daf55804c9b745d559a44ee80aee1478b",
+  "requested_end": 5,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1,
+      "text": "["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2,
+      "text": "  PackageDecl (loc \"<dummy location>\", \"\", [], []);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3,
+      "text": "  PackageDecl (loc \"verified/lib.rs(32,8-28)\", \"StableSmallSortTypeImpl\", [], ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 4,
+      "text": "    Func (loc \"verified/lib.rs(32,8-28)\", Regular, [(\"Self\", (true))], Some (ConstructedTypeExpr (loc \"verified/lib.rs(32,8-28)\", \"fn_outcome\", [ManifestTypeExpr (loc \"verified/lib.rs(32,8-28)\", Int (Unsigned, PtrRank))])), \"small_sort_threshold\", [], false, (None, None), Some ((Sep (loc \"verified/lib.rs(32,8-28)\", Sep (loc \"verified/lib.rs(32,8-28)\", CallExpr (loc \"verified/lib.rs(32,8-28)\", \"thread_token\", [], [], [VarPat (loc \"verified/lib.rs(32,8-28)\", \"_t\")], Static), Operation (loc \"verified/lib.rs(32,8-28)\", Eq, [Var (loc \"verified/lib.rs(32,8-28)\", \"_t\"); Var (loc \"verified/lib.rs(32,8-28)\", \"currentThread\")])), EmpAsn (loc \"verified/lib.rs(32,8-28)\")), (\"outcome\", SwitchExpr (loc \"verified/lib.rs(32,8-28)\", Var (loc \"verified/lib.rs(32,8-28)\", \"outcome\"), ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 5,
+      "text": "      SwitchExprClause (loc \"verified/lib.rs(32,8-28)\", \"returning\", [\"result\"], Sep (loc \"verified/lib.rs(32,8-28)\", CallExpr (loc \"verified/lib.rs(32,8-28)\", \"thread_token\", [], [], [LitPat (Var (loc \"verified/lib.rs(32,8-28)\", \"_t\"))], Static), True (loc \"verified/lib.rs(32,8-28)\")));"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

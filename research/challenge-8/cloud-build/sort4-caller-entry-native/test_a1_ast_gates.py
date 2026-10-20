@@ -196,48 +196,99 @@ def p1_fixture(*, candidate_extra=True, **changes):
 
 
 class SyntheticAstGates(unittest.TestCase):
-    def test_module_owned_short_function_name_is_qualified_structurally(self):
-        common = func(20, gate.COMMON, False)
-        short = common.replace(f'"{gate.COMMON}"', '"small_sort_threshold"')
-        module = f'ModuleDecl ({loc(20)}, "StableSmallSortTypeImpl", [], [{short}])'
-        ast = all_functions().replace(common, module, 1)
+    @staticmethod
+    def package(owner, *decls, location=None):
+        return f'PackageDecl ({location or loc(20)}, {json.dumps(owner)}, [], [' + ";\n".join(decls) + '])'
+
+    def packaged_threshold(self, *, owner="StableSmallSortTypeImpl", common=None):
+        original = func(20, gate.COMMON, False)
+        short = (common or original).replace(f'"{gate.COMMON}"', '"small_sort_threshold"')
+        aliases = all_functions().replace(original + "\n", "", 1).splitlines()
+        return '[\n' + ';\n'.join((self.package(""), self.package(owner, short),
+                                     self.package("", *aliases))) + '\n]'
+
+    def test_final_package_qualifies_common_and_preserves_aliases(self):
+        ast = self.packaged_threshold()
         rows = gate.functions(ast)
         selected = [row for row in rows if row["name"] == gate.COMMON]
         self.assertEqual(len(selected), 1)
-        params = gate.items(selected[0]["fields"][2])
-        self.assertEqual(gate.atom(gate.node(params[0], "tuple", 2)[0]), "Self")
+        self.assertEqual(selected[0]["package_name"], "StableSmallSortTypeImpl")
+        self.assertEqual(selected[0]["package_location"], gate.tree(loc(20)))
+        self.assertEqual(selected[0]["fields"], gate.node(gate.tree(
+            func(20, gate.COMMON, False).replace(f'"{gate.COMMON}"',
+                                                 '"small_sort_threshold"')), "Func", 13))
         result = gate.threshold_posts(ast, INVENTORY, stage="bodies", common_line=20)
         self.assertFalse(result["proof_credit"])
+        self.assertEqual(len(rows), 7)
 
-    def test_nested_module_paths_and_unscoped_functions_remain_distinct(self):
-        nested_func = func(75, "guard", True)
-        nested = (f'ModuleDecl ({loc(70)}, "Outer", [], '
-                  f'[ModuleDecl ({loc(71)}, "Inner", [], [{nested_func}])])')
-        # The byte-identical top-level record must not be mistaken for the
-        # nested record just because its text occurs inside the module.
-        bare = nested_func
-        rows = gate.functions(nested + "\n" + bare)
-        self.assertEqual({row["name"] for row in rows}, {"Outer::Inner::guard", "guard"})
-        self.assertEqual(sum(row["raw"] == nested_func for row in rows), 1)
+    def test_empty_multisegment_repeated_packages_and_distinct_leaves(self):
+        f = func(75, "guard", True)
+        ast = '[' + ';'.join((self.package("", f), self.package("A::B", f),
+                             self.package("Other", f), self.package("A::B"),
+                             self.package("A::B", func(76, "other", False)))) + ']'
+        rows = gate.functions(ast)
+        self.assertEqual([row["name"] for row in rows],
+                         ["guard", "A::B::guard", "Other::guard", "A::B::other"])
+        self.assertEqual(sum(row["raw"] == f for row in rows), 3)
 
-    def test_malformed_or_ambiguous_module_ownership_is_rejected(self):
-        f = func(20, "small_sort_threshold", False)
-        bad_modules = (
-            f'ModuleDecl ({loc(20)}, "", [], [{f}])',
-            f'ModuleDecl ({loc(20)}, 12, [], [{f}])',
-            f'ModuleDecl ({loc(20)}, "M", [{f}])',
-            f'ModuleDecl ({loc(20)}, "M", [], [{f}])\n'
-            f'ModuleDecl ({loc(21)}, "M", [], [{f.replace("20", "21")}])',
-        )
-        for ast in bad_modules:
-            with self.subTest(ast=ast[:100]), self.assertRaises(gate.AstGateError):
-                gate.functions(ast)
+    def test_wrong_owner_source_duplicate_and_missing_impl_identity_refused(self):
         common = func(20, gate.COMMON, False)
         short = common.replace(f'"{gate.COMMON}"', '"small_sort_threshold"')
-        duplicate = (f'ModuleDecl ({loc(20)}, "StableSmallSortTypeImpl", [], [{short}])\n'
-                     + common)
-        with self.assertRaises(gate.AstGateError):
-            gate.threshold_posts(duplicate, INVENTORY, stage="bodies", common_line=20)
+        ast = self.packaged_threshold()
+        alias = "__a1_impl_11_item_12_small_sort_threshold"
+        mutants = [self.packaged_threshold(owner="Wrong"),
+                   self.packaged_threshold(common=common.replace('lib.rs(20,', 'lib.rs(21,')),
+                   ast[:-1] + ';' + self.package("StableSmallSortTypeImpl", short) + ']',
+                   ast.replace('"' + alias + '"', '"wrong_alias"', 1),
+                   ast.replace(self.package(""), self.package("", func(30, alias, True)), 1),
+                   ast.replace('"' + alias + '"', '"Other::' + alias + '"', 1)]
+        for mutant in mutants:
+            with self.subTest(mutant=mutant[:120]), self.assertRaises(gate.AstGateError):
+                gate.threshold_posts(mutant, INVENTORY, stage="bodies", common_line=20)
+        # Equal leaf in another owner cannot shadow the real common prototype.
+        ast = ast[:-1] + ';' + self.package("Other", short) + ']'
+        gate.threshold_posts(ast, INVENTORY, stage="bodies", common_line=20)
+
+    def test_package_normalization_does_not_hide_header_or_native_changes(self):
+        ast = self.packaged_threshold()
+        mutants = [ast.replace('Regular', 'Lemma', 1),
+                   ast.replace('True (' + loc(20) + ')', 'False (' + loc(20) + ')', 1),
+                   ast.replace('"raw_rights"', '"lost_native_resource"', 1),
+                   ast.replace('"unwinding"', '"wrong_unwinding"', 1)]
+        for mutant in mutants:
+            with self.subTest(mutant=mutant[:120]), self.assertRaises(gate.AstGateError):
+                gate.threshold_posts(mutant, INVENTORY, stage="bodies", common_line=20)
+
+    def test_malformed_truncated_null_or_upstream_scope_refused(self):
+        f = func(20, "small_sort_threshold", False)
+        valid = '[' + self.package("Owner", f) + ']'
+        bad = [valid[:-2], valid + 'junk',
+               '[' + self.package("A::::B", f) + ']',
+               '[' + self.package("::A", f) + ']',
+               '[' + self.package("A::", f) + ']',
+               '[' + self.package('A"B', f) + ']',
+               valid.replace('"Owner"', 'null', 1),
+               valid.replace('"Owner"', '12', 1),
+               valid.replace(loc(20), 'None', 1),
+               valid.replace(', [], [', ', None, [', 1),
+               valid.replace(', [], [', ', [], None, [', 1),
+               '[PackageDecl null]', '[PackageDecl]',
+               'PackageDecl (' + loc(20) + ', "Owner", [], [' + f + '])',
+               '[ModuleDecl (' + loc(20) + ', "Owner", [], [' + f + '])]',
+               '[' + self.package("Owner", self.package("Inner", f)) + ']',
+               valid[:-1] + ';' + f + ']']
+        for mutant in bad:
+            with self.subTest(mutant=mutant[:120]), self.assertRaises(gate.AstGateError):
+                gate.functions(mutant)
+
+    def test_package_strings_cannot_create_functions_or_scopes(self):
+        f = func(20, "quoted", False)
+        decoy = json.dumps('escaped " quote\nFunc (bad)\nPackageDecl (bad)')
+        f = f.replace('"thread_token"', decoy)
+        ast = '[' + self.package("Owner", f) + ']'
+        rows = gate.functions(ast)
+        self.assertEqual([row["name"] for row in rows], ["Owner::quoted"])
+        self.assertIn('PackageDecl (bad)', rows[0]["raw"])
 
     def test_p1_binds_full_interface_and_native_triplet(self):
         ast, inventory, baseline, actual_pair = p1_fixture()

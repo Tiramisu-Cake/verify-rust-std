@@ -230,52 +230,59 @@ def functions(source: str) -> list[dict[str, Any]]:
         return {"name": name, "fields": fs, "raw": raw,
                 "kind": "prototype" if body == ("atom", "None") else "definition"}
 
+    need(len(source) <= MAX_TEXT, "AST dump size bound")
     result = []
-    module_ranges = _segment_ranges(source, "ModuleDecl")
-    # Nested ModuleDecl records also appear as line-start segments. Parse only
-    # outermost source intervals; their declaration lists retain ownership.
-    module_roots = [(start, end, segment) for start, end, segment in module_ranges
-                    if not any(other_start < start and end <= other_end
-                               for other_start, other_end, _ in module_ranges)]
-    module_functions: list[dict[str, Any]] = []
-    module_paths: set[str] = set()
-
-    def visit_module(value: Any, prefix: tuple[str, ...], raw: str) -> None:
-        location, module_name, imports, declarations = node(value, "ModuleDecl", 4)
-        need(isinstance(location, tuple) and location[0] == "loc",
-             "ModuleDecl source location")
-        name = atom(module_name)
-        need(re.fullmatch(r"[A-Za-z_][A-Za-z_0-9]*", name) is not None,
-             "malformed ModuleDecl name")
-        path = prefix + (name,)
-        qualified_path = "::".join(path)
-        need(qualified_path not in module_paths, "duplicate or ambiguous ModuleDecl path")
-        module_paths.add(qualified_path)
-        node(imports, "list")
-        decls = items(declarations)
-        for declaration in decls:
-            if isinstance(declaration, tuple) and declaration[0] == "ModuleDecl":
-                visit_module(declaration, path, raw)
-            elif isinstance(declaration, tuple) and declaration[0] == "Func":
-                fs = node(declaration, "Func", 13)
-                base_name = atom(fs[4])
-                need("::" not in base_name, "module Func name is already qualified")
-                module_functions.append(row(fs, qualified_path + "::" + base_name, raw))
-
-    for _, _, segment in module_roots:
-        value = tree(segment)
-        node(value, "ModuleDecl", 4)
-        visit_module(value, (), segment)
-
-    result.extend(module_functions)
-    for start, end, segment in _segment_ranges(source, "Func"):
-        if any(module_start <= start and end <= module_end
-               for module_start, module_end, _ in module_roots):
-            continue
-        value = tree(segment)
-        fs = node(value, "Func", 13)
-        name = atom(fs[4])
-        result.append(row(fs, name, segment))
+    # The final frontend dump is a list of PackageDecl chunks, after module
+    # flattening. A package name is already cumulative; repeated chunks are legal.
+    if source.lstrip().startswith("["):
+        text = source.strip()
+        need(balanced_end(text, 0) == len(text) - 1, "package list suffix")
+        packages = fields(text[1:-1], ";")
+        need(len(packages) <= MAX_SEGMENTS, "AST package count bound")
+        for package in packages:
+            match = re.match(r"PackageDecl\s*\(", package)
+            need(match is not None, "final AST requires PackageDecl")
+            opening = package.index("(")
+            need(balanced_end(package, opening) == len(package) - 1,
+                 "PackageDecl suffix")
+            parts = fields(package[opening + 1:-1])
+            need(len(parts) == 4, "PackageDecl arity")
+            location = tree(parts[0])
+            need(location[0] == "loc", "PackageDecl source location")
+            name_value = tree(parts[1])
+            need(name_value[0] == "str", "PackageDecl name string")
+            owner = name_value[1]
+            need(owner == "" or re.fullmatch(
+                r"[A-Za-z_][A-Za-z_0-9]*(?:::[A-Za-z_][A-Za-z_0-9]*)*",
+                owner) is not None, "noncanonical PackageDecl path")
+            items(tree(parts[2]))
+            declarations = parts[3]
+            need(declarations.startswith("[") and
+                 balanced_end(declarations, 0) == len(declarations) - 1,
+                 "PackageDecl declaration list")
+            decls = fields(declarations[1:-1], ";")
+            need(len(decls) <= MAX_SEGMENTS, "AST declaration count bound")
+            for declaration in decls:
+                need(re.match(r"(?:PackageDecl|ModuleDecl)\b", declaration) is None,
+                     "unexpected nested scope in final package")
+                if re.match(r"Func\b", declaration):
+                    fs = node(tree(declaration), "Func", 13)
+                    local = fs[4]
+                    need(local[0] == "str" and local[1] and "::" not in local[1],
+                         "package Func local name")
+                    name = (owner + "::" if owner else "") + local[1]
+                    record = row(fs, name, declaration)
+                    record.update(package_name=owner, package_location=location)
+                    result.append(record)
+    else:
+        # Legacy isolated service fixtures contain bare Func records. Never use
+        # this compatibility path to recover a malformed actual package dump.
+        masked = re.sub(r'"(?:[^"\\]|\\.)*"', '""', source, flags=re.S)
+        need(re.search(r"\b(?:PackageDecl|ModuleDecl)\b", masked) is None,
+             "scope requires complete final package list")
+        for _, _, segment in _segment_ranges(source, "Func"):
+            fs = node(tree(segment), "Func", 13)
+            result.append(row(fs, atom(fs[4]), segment))
     need(bool(result), "no Func records in AST")
     return result
 
