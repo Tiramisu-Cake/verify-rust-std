@@ -68,7 +68,8 @@ class Tests(unittest.TestCase):
   self.assertIn('_prepare_late_references(_prepare_first_shift(_prepare_tmp_reference(_open_tail_read(verified))))',ast.unparse(branch))
   loop_source=b'        synthetic_guard();\n        loop {\n            synthetic_copy();\n        }\n'
   shifted=context['_prepare_first_shift'](loop_source)
-  self.assertEqual(re.sub(rb'^[ \t]*//@[^\n]*\n',b'',shifted,flags=re.M),loop_source)
+  self.assertEqual(re.sub(rb'^[ \t]*//@[^\n]*\n',b'',re.sub(rb'/\*.*?\*/',b'',shifted,flags=re.S),flags=re.M).replace(b'            \n',b''),loop_source)
+  self.assertIn(b"loop {\n            /*@ let_lft 'late = r5_late_k; @*/\n",shifted)
   self.assertIn(b'array_split::<u64>(begin, 1)',shifted)
   self.assertIn(b'initialized_storage_alignment(sift)',shifted)
   self.assertNotIn(b'assume',shifted)

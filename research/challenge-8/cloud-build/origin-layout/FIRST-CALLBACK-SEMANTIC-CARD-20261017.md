@@ -592,3 +592,19 @@ actual call must pass Args.own and HRTB result constraints, fail honestly at
 any still-open obligation. Existing resource/admission/current18 and complete
 matrix retained, no skipped prerequisite counted as negative. Pinned tool
 a42d50be/profile77164792 unchanged; independent Luna High delta GO required.
+
+
+### R5 candidate2 annotation placement rationale BEFORE edit
+Build1 a63982e1/source0f7293e9 terminalFAILURE564s, all7toolmilestones0;
+fullbody parseerror248:17–24 before resource proof, no late Args credit.
+Pinned exporter preprocessor.rs315–338/546–565 classifies let_lft as
+BlockDecls ONLY as first ghost annotation immediately after a real block
+opening. Candidate1 put it after late setup statements: parsed as ordinary
+ghost statement instead. Proposed correction: begin r5_late_k before original
+loop, then put let_lft as the first ghost immediately after original loop
+opening; late fractions/share/own/call unchanged. Same actual runtime braces
+and full posts; lexical loop lifetime remains alive and resource cleanup
+still a subsequent checked obligation. No exporter/parser/model change.
+Test first-annotation placement on isolated synthetic loop, runtime stripping,
+missing/duplicate anchors and all related inert regressions; reviewer deltaGO
+and fresh compatible Cloud source required.

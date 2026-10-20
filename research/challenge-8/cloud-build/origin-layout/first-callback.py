@@ -129,8 +129,10 @@ FIRST_SHIFT_PREP = b"""        //@ note(sift == begin + 1);
 
 def _prepare_first_shift(source):
     anchor = b'        loop {\n'
-    return _one(source, anchor, FIRST_SHIFT_PREP + anchor,
-                'open CURRENT source singleton and prove initial copy geometry')
+    return _one(source, anchor, FIRST_SHIFT_PREP +
+                b'        //@ let r5_late_k = begin_lifetime();\n' + anchor +
+                b"            /*@ let_lft 'late = r5_late_k; @*/\n",
+                'CURRENT first shift and block-start late lifetime binding')
 
 
 LATE_REFERENCE_PREP = b"""            //@ let r4_cmp_tmp_ref = precreate_ref::<u64>(&tmp);
@@ -139,8 +141,6 @@ LATE_REFERENCE_PREP = b"""            //@ let r4_cmp_tmp_ref = precreate_ref::<u
             //@ open array::<u64>(sift, 1, r4_cmp_current);
             //@ let r4_cmp_sift_ref = precreate_ref::<u64>(sift);
             //@ init_ref_readonly::<u64>(r4_cmp_sift_ref, 1/2);
-            //@ let r5_late_k = begin_lifetime();
-            /*@ let_lft 'late = r5_late_k; @*/
             //@ close [1/4]u64_full_borrow_content(t, r4_cmp_tmp_ref)();
             //@ close scaledp(1/4, u64_full_borrow_content(t, r4_cmp_tmp_ref))();
             //@ borrow(r5_late_k, scaledp(1/4, u64_full_borrow_content(t, r4_cmp_tmp_ref)));
