@@ -1,0 +1,75 @@
+{
+  "C_sha256": "e7cdc8a8504338ccaab760975c1a3f1a739211d7f8d531dd214babc2005d894e",
+  "R_sha256": "9cdca995bc926efe3275319dec345f4d70a2fec7fdc95781decb4e4c2df7c9c8",
+  "S3_semantic_baseline": "b6dfcb8e4a1149ef5b98901b690995453050a9a5",
+  "authorization_phase_id": "SORT4-PACKAGING-NATIVE-PROOF-2026-10-20-R7",
+  "build_id": null,
+  "closure": {
+    "commit": "4017cc2052d35cda339e6e659fa01056543acbc4",
+    "config_arg_bounds": "PASS",
+    "dispatch": "NOT_ATTEMPTED",
+    "exact_restore": "PASS",
+    "formal_credit": false,
+    "git_stderr_observed": {
+      "message": "error: object fails fsck: gitmodulesMissing: unable to read .gitmodules blob",
+      "occurrences": 2,
+      "result": "checked subprocesses exit0, selected OIDs/root/tree/path/bytes/closure validated; not full-repository fsck"
+    },
+    "phase_profile_environment": "PASS",
+    "restored_paths": {
+      "infra": 33,
+      "proof": 108
+    },
+    "shared_objects": 161,
+    "source_payload_bytes": 518678,
+    "source_sha256": "c34f3e3c42de00ce0a4f30067c39339b1f7d4eb7eef7501fe8b566212540a437",
+    "source_substitutions": 183
+  },
+  "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+  "cycle": "S1",
+  "formal_credit": false,
+  "helper_pins": {
+    "a1-ast-gates.py": "917d51a52d9383beb56f52ff22415e62f81ee60a2a8a16ae40e08c17b36c2c58",
+    "a1-call-binding.py": "302a0ee3e2eb1950aa4bd42ac2c5cedbaabc97b114754f63421de8e0d1f9f0cb",
+    "a1-compiler-inventory.py": "6394ec909e6d6a7e77988279c382d531d61b10c7ca02e23672291c4622fe95e5",
+    "a1-contract-admission.py": "0ac3b182a24ba3a8cfd21588dd393f652e864bf54593ac7f4a5caaa473927ad4",
+    "a1-fixtures.py": "6d2cd0956ed5d9821be1dd32f731f201e5aea52ae4f06a676d8dfc5c17355d25",
+    "a1-focus-backend.py": "8ac0fc627646d80d32537f8c0ce2bb04f7f85d2dd995b82a10de1f3c7b6f43b1",
+    "a1-matrix-classifier.py": "e50dca88e41f41a1919db83412f5016ea19428b2c6b092bfe1c8cfc61c70b6a6",
+    "a1-proof-classifier.py": "7a2070a3132bc7d4601565aebd25e0aea682520e3fbb32a6045ccdf276142a2e",
+    "a1-summary-receipt.py": "bcc55360698346f0aa2dfb3858c6b555a9104db95308116d2c16c188a9b8a7dd",
+    "a1-synthetic-backend.py": "4498e7dbcd4ffaaf4746bfee239e56a36f78e883da59937d9b48c1025e5b8feb",
+    "a1-synthetic-inputs.py": "92d4e5b336b4e6409da814523500978b56c52218a6289434b526929ae1275b27",
+    "a1-tool.py": "e9757012f782d6f166526bb5aeab503d90d214f721ecddb3f0a49e6fe72ddfb2",
+    "selected-proof.py": "3347ad41c0273ebf186dbcf0520182455b32a65ad9619f2b2c7d3d00c12a7d7f"
+  },
+  "independent_review": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "result": "GO",
+    "scope": "new R7 activation diff and dependencies; unchanged packaging not re-reviewed"
+  },
+  "infra_sha": "4017cc2052d35cda339e6e659fa01056543acbc4",
+  "isolated_adapter_tests": 6,
+  "local_actual_proof_or_preparation": false,
+  "profile_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-PACKAGING-R7-PROFILE-2026-10-20.json",
+  "profile_sha256": "9beef339ba66c9cf0112d23631ff25ce18c159dca7fd8be7274ebb5207be7eb9",
+  "proof_sha": "4017cc2052d35cda339e6e659fa01056543acbc4",
+  "schema": "smallsort-a1-packaging-native-release-v1",
+  "semantic_input_changes": "NONE; new auth/profile/entry/runner-adapter binding; corrected packaging already reviewed",
+  "service_pins": {
+    "control.py": "7605560ee0efbfcc342b3988705b26d2900e548cd4725a38dec1b40a4585ec29",
+    "coordination.py": "49464b5a1078c99f8f44ef0bba06bb285c039ca0a0ab10d104bc7b54f32cb4bc",
+    "package-evidence.py": "4687f31cb55544653ec6b38efad138590e7329e1d0957d97f6c21e0036698f19",
+    "recipes/o26-sort4-c1-current-recovery.json": "93fbb18e4670bfc3f1456002075b8c07f4b49da1e08f16047fb29a3ccb203291",
+    "run-sort4-c1-current-recovery.sh": "d1eb8c33432bf682957ea46c642a362f3525268e8029b1b6425d4ed3c5e6e217",
+    "sort4-caller-entry-native/a1-entry-r7.py": "7c7d4c1290b4bb2e4594cc95d6b5f8777b24fe6c9077ccbc9d77b24de6350e3a",
+    "sort4-caller-entry-native/a1-runner-r7.py": "40f854f544aaf56810f53816b7d91cfe0f5ff714d2879bd35857fd846b97fdf8",
+    "sort4-caller-entry-native/a1-runner.py": "f635fb5026e0f5a88b54366c155b8dc94eaa837200fa957b4641b1c5074a90bb",
+    "source-input.py": "09b0b5b03f853ce354226e8e70f60233f24c3a829c38047c98a556dd2aa6534a",
+    "verify-evidence.py": "2ebcf57bb5aea7102bb3713e75c3c9f23e68223bfac29d350e544fa6c5f99131"
+  },
+  "source_mode": "pinned-objects",
+  "status": "PUBLISHED_READY_FOR_COORDINATED_SUBMIT",
+  "tool_head": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+}
