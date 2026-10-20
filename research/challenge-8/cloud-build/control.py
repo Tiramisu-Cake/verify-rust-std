@@ -446,6 +446,20 @@ def reconcile_reservation(record,caller_owner,caller_ledger):
  write(coordination.COORDINATION/'receipts'/(token+'.json'),receipt)
  coordination.clear(token)
 
+def status_summary(build):
+ # Keep status diagnostics bounded to public Build metadata. In particular,
+ # never print step args/env, commands, or log/archive payloads.
+ if not isinstance(build,dict):build={}
+ top=('id','status','createTime','startTime','finishTime','logUrl','failureInfo')
+ out={key:build.get(key) for key in top}
+ out['steps']=[]
+ steps=build.get('steps')
+ if isinstance(steps,list):
+  fields=('id','status','exitCode','timing')
+  out['steps']=[{key:step.get(key) for key in fields}
+                for step in steps if isinstance(step,dict)]
+ return out
+
 
 def authorized_phase(a,ledger):
  if not a.phase_id or not PHASE_PATTERN.fullmatch(a.phase_id) or ledger.get('phase')!=a.phase_id:raise SystemExit('Explicit phase ID must match the selected account')
@@ -690,7 +704,7 @@ def run_command(a,state,ledger,ledger_path):
   print(json.dumps({'build_id':b['id'],'config_sha256':h,'dispatch_token':token,'bucket_prefix':BUCKET+'/'+b['id']},indent=2))
  elif a.command=='status':
   if a.build_id:
-   b=invoke(['builds','describe',a.build_id,'--region=global','--format=json']);print(json.dumps({key:b.get(key) for key in ['id','status','createTime','startTime','finishTime','logUrl']},indent=2))
+   b=invoke(['builds','describe',a.build_id,'--region=global','--format=json']);print(json.dumps(status_summary(b),indent=2))
   else:print(json.dumps(ledger,indent=2))
  elif a.command=='cancel':
   active=coordination.active(a.owner)
