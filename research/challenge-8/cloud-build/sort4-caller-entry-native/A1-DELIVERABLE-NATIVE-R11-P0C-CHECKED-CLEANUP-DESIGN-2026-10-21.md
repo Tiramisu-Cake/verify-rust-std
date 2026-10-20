@@ -17,38 +17,126 @@ the prefix has not reached the later assignment `left_ancestor_pivot = None`
 at source line 72. Neither the source nor the current proof establishes that the
 parameter is `None`; both `None` and `Some(&T)` remain in scope.
 
-## Minimal checked cleanup candidate
+## Pinned source audit and checked cleanup routes
 
-The smallest checked ghost candidate is variant-aware elimination of the
-existing `Option_own` chunk: open it using the symbolic parameter value, then
-match `None` and `Some(r)` so the `Some` field is handled only on that branch.
-The pinned VeriFast source audit recorded in the R10 backlog says
-`rust_parser.ml::own_pred_decls_for_enum` (995–1019) generates enum ownership
-from the fields: `None` contributes `Emp`; `Some(r)` exposes the field's
-`<&T>.own`. This preserves arbitrary input and is sound as an unfold/match step;
-it does not itself dispose of the `Some` field permission.
+The pinned VeriFast tool commit is present in `/root/verifast/.git` as Git
+object `f76012fb518703b1d98e243ac4f487f16877cfcb`; its tree is
+`d7e55e183ecabfdb0a79cfe600fd0f2419124926` (parent
+`5ae8339482dea6ce3b382c58736560a635194277`). I read these immutable Git
+objects directly; I did not build, run, or edit that checkout. Relevant paths
+and exact Git blob IDs at this commit are:
 
-Two existing checked directions must be considered for that field. First,
-`std::mem::drop<T>` in the pinned `lib.rsspec` (R10 source lines 414–416)
-requires `thread_token(t) &*& <T>.own(t, value)` and returns the thread token
-on normal and unwind exits. A call on the `Some` field may consume that field,
-but the caller still must prove that its Option local was moved or otherwise
-discharged. Second, `end_ref_Option_None/Some` in the same source (1536–1542)
-is variant-aware, but the R10 audit identifies its interface as operating on a
-reference place/end token; it is not directly the contract for a by-value
-Option parameter.
+| Path at pinned commit | Git blob |
+| --- | --- |
+| `src/rust_frontend/vf_mir_translator/rust_parser.ml` | `e27eee316f6ba809ca6fe2111e42f217745e45bf` |
+| `src/rust_frontend/vf_mir_translator/vf_mir_translator.ml` | `4e237a61a7e4449735e53220114e57114b51e31a` |
+| `bin/rust/std/lib.rsspec` | `a5d925d67c7934105a7a95c532c84edee8f3afd4` |
+| `bin/rust/rust_belt/general.rsspec` | `6c60c0e942b441901741889309858185a5572ebe` |
+| `bin/rust/aliasing.rsspec` | `e9864ee0f618681a334d54c54a76b94fc438b912` |
 
-This route is **not established** for the current candidate. `Option<&T>` is
-`Copy`, so Rust evaluates a by-value use as a copy and leaves the original
-local available. A checked callee contract consuming ownership of the copied
-argument alone does not show that the caller's original `Option_own` is
-discharged. The R10 profile pins selected base `lib.rsspec` SHA
-`d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf` and the
-proof source `library/core/src/mem/mod.rs` SHA
-`b86a596a58dcb21a45e8b29b33327ca8c7bde708aa6fca158d4366e51403daf2`; R11's
-effective Cloud reconstruction is not available in this worktree. R10's
-source-only audit explicitly leaves the Copy-lowering and effective-overlay
-compatibility questions open.
+`rust_parser.ml:995–1015` synthesizes enum ownership from the constructor
+fields: its `SwitchExpr` gives `None` an empty assertion and `Some(x)` the
+field's `<FieldType>.own(t, x)`. Thus `Option<&'a T>.own(t, None)` is empty;
+`Option<&'a T>.own(t, Some(r))` contains `<&'a T>.own(t, r)`. The exact Rust
+std declaration is at `std/lib.rsspec:1500–1505`; `std/lib.rsspec:414–417`
+defines `drop<T>` with precondition `thread_token(?t) &*& <T>.own(t, value)`
+and normal/unwind postcondition `thread_token(t)`. This supplies an existing
+checked way to consume either a whole `Option_own` or, after variant-aware
+opening, a `Some` payload's `&T` own chunk.
+
+For shared references, `vf_mir_translator.ml:1558–1630` maps the shared `&T`
+ownership interpretation to the pointee's share predicate. The generic
+`shared_ref_own` constructor is defined as `[_]pointee_shr` in
+`rust_belt/general.rsspec:66–68`; `close_ref_own` at lines 194–196 goes from
+that persistent pointee share to `<&'a T>.own`. The pinned tree search found
+no separate `open_ref_own` or discard lemma. Semantically, opening
+`Option_own` exposes `<&'a T>.own`, which the existing generic `drop` contract
+can consume. That transition itself needs no axiom or assumption and covers
+both variants; however, current parser/checker syntax cannot express this
+generic open without a concrete lifetime/type argument. The exact applicability
+failure is recorded below.
+
+The explicit whole-value call remains the first and smallest Cloud hypothesis:
+`core::mem::drop(left_ancestor_pivot)` immediately before each observer exit.
+It preserves the original arbitrary parameter and relies directly on the
+existing `drop<Option<&T>>` contract. If Cloud shows the original
+`Option_own` remained in S1. The variant-aware form was then rejected by the
+static applicability audit below; do not send the attempted annotation to
+Cloud.
+
+`Option<&T>` is Rust `Copy`, so Rust semantics leave a source local usable after
+a by-value use. The pinned translator source does not establish how that
+availability maps to this ghost resource: `vf_mir_translator.ml:2242–2256`
+notes that MIR `Copy` and `Move` are represented separately, while
+`:2281–2286` erases both to the same AST operand expression. An explicit
+function call is a MIR `Call` and is translated through `translate_fn_call`;
+an implicit MIR `Drop` terminator is separately translated to
+`std::ptr::drop_in_place` at `:2916–2950`. This is source-level evidence for
+the checked-call route, not proof of actual Copy lowering or that rustc retains
+this explicit call in the Cloud pipeline. Cloud remains the falsifiable check.
+
+The historical R10 profile pins selected-base `lib.rsspec` SHA
+`d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf` and
+`library/core/src/mem/mod.rs` SHA
+`b86a596a58dcb21a45e8b29b33327ca8c7bde708aa6fca158d4366e51403daf2`.
+Finding the pinned tool source in Git objects corrects the earlier statement
+that the source commit was unavailable in this worktree. R11's final effective
+`proof_std`/overlay reconstruction against this object is still not established
+by this static audit.
+
+## S1 Cloud falsification
+
+The S1 Cloud attempt `ec83aeb7-b15f-4bde-a95d-ccf7e1b58100` falsified the
+whole-value `drop` candidate: the source-reported caller still exits with
+`Option_own(...)(_t, left_ancestor_pivot)` at `verified/lib.rs:141`, after the
+two observer `drop` calls. The paired Evidence Brief reader artifacts are
+`P0c-error-lines.json` (1925–1936) and source `source-cleanup` lines 130–141;
+file ID `edc4344315735b949d8cc08c7b2987a02755370189b812d0b03a29e1b2dffd15`,
+SHA-256 `4873a15c2b0bbae576815acae69fb6e3c9f0fe7be1daa8cce5f0c8a39289893c`,
+source ID `4d40abec9cab7cafa2f552ebd1b7d42d4b7f7479707033e4a1e9a057b211415c`,
+SHA-256 `c6b726448036d4a3d1f356bbd262de389664affec6931210986f5e08a5e0aa1d`.
+The source-bound paired normal MIR reader record is file ID
+`420a134958a20e7bba13f2c5ecf96a725bdd64bcc470bd84bcb9202f455a4422`,
+SHA-256 `3a53b6fb8dc3a5765582dd609a685720bb7880595ff31fa74111134c568132d1`;
+the supplied source/MIR locates place the observer at line 8084 and retained
+`mem::drop` calls at 9662, 10096, and 12574. These records show the explicit
+calls were present while the Option predicate still remained at the caller
+exit. This is a proof failure in the diagnostic body, not a runtime leak.
+
+## Pinned checker applicability finding
+
+The proposed next candidate was variant-aware: open the generated
+`Option_own`, match its value, and consume `Some(r)` with the existing
+`drop(r)` contract. Source inspection rules out the two syntax shortcuts that
+would avoid spelling the elided borrow lifetime. In the pinned
+`rust_parser.ml:515–533`, a type-predicate open on a constructed type forwards
+its type arguments as written. `Option_own(_t, value)` therefore has an empty
+type-argument list. In `verifast.ml:1400–1406`, the generated enum predicate is
+resolved as `PredCtorInfo`; the checker zips its generic parameters with those
+arguments and raises “Incorrect number of type arguments” when they are
+omitted. The earlier predicate-family branch (`verifast.ml:1364–1375`) does
+support inferred arguments, but generated enum ownership is a predicate
+constructor, not a predicate family.
+
+The annotation `<std::option::Option<&'_ T>>.own(...)` also cannot infer the
+input's elided borrow lifetime. `rust_parser.ml:41–108` requires a literal
+lifetime token after `&` and turns `'_` into the identifier `"'_"`.
+`verifast1.ml:2069–2138` resolves that identifier as a named type parameter or
+declared type; it does not bind it to the Rust local's inferred region. `T` in
+the generic source signature may likewise not be a ghost type parameter
+visible by that name at the inserted source location. This is a static
+applicability failure, not a semantic objection to opening the enum predicate.
+
+Consequently there is no verified variant-aware cleanup syntax available
+within this narrow generator-only change while preserving the existing
+signature and arbitrary `Option<&T>` input. Do not send the `'_` candidate to
+Cloud. The existing generated `drop(left_ancestor_pivot)` remains only as the
+S1-falsified fixture shape; S1 proves that it leaves `Option_own` at the
+observer return. This task does not claim a passing cleanup. A future attempt
+needs a source-bound lifetime/type name exposed without changing the proof
+contract, or an independently established checked mechanism for inferred
+generic predicate-constructor arguments. No new axiom, assumption, leak,
+`forget`, or runtime std change is an acceptable substitute.
 
 The project proof source illustrates both the positive construction and the
 missing end condition. In
@@ -74,46 +162,37 @@ dropping the field cannot stand in for those facts.
 
 ## Decision and controls
 
-The selected first Cloud hypothesis is the explicit existing checked contract
-call `core::mem::drop(left_ancestor_pivot)` immediately before both P0c
-observer returns. It preserves the arbitrary parameter and source guard. The
-same call is placed only in the P1 caller's separately labeled synthetic tail,
-after the exact source prefix, so the P1 body can reveal whether its diagnostic
-cut has the same cleanup requirement. No source quicksort return is rewritten.
-The exact question is whether the active Copy/MIR lowering and effective
-`proof_std` let that call consume the observer's local `Option_own` without
-leaving or duplicating it. A verifier failure there means P0c remains open and
-proof credit stays zero; it does not establish a runtime leak. No ghost
-unfold/match is included in this candidate, so its result will not be confused
-with a separate variant-aware model experiment.
+The direct whole-value drop was tested and left `Option_own` at the generated
+observer return. The variant-aware candidate is statically inapplicable with
+the current source syntax for the reasons above, so no second Cloud attempt is
+made from this worker. P0c remains open with proof credit zero; the failure is
+a proof obligation in the diagnostic body and does not establish a runtime
+leak.
 
 The R10 `a1-tool.py` reconstruction statically checks the selected baseline's
 `critical`, `effective_rsspec`, `proof_std`, and modified-file maps before
 building, and checks that effective spec/source identity is unchanged after
-each overlay (around lines 290–301 and 459–485). That supports a fail-closed
-Cloud identity check, but cannot establish R11's final maps locally because
-the pinned tool source commit is not present in this worktree. Do not widen
-scope to alter the active model or runtime std to make the diagnostic pass.
+each overlay (around lines 290–301 and 459–485). The pinned tool source commit
+is available as the Git object listed above; this does not by itself establish
+R11's final effective maps. Do not widen scope to alter the active model or
+runtime std to make the diagnostic pass.
 
-The implementation changes only generated diagnostic tails in
-`a1-fixtures.py`: the P0c and N-false31 observers each call checked `drop` at
-both early returns; the P1 source prefix is byte-for-byte retained and the
-candidate call appears only after a labeled diagnostic-cut comment. Two small
-import-inert synthetic tests check generated source shape, both observer
-variants/returns, exact source-prefix preservation, and the P1 tail boundary.
-They pass locally. These tests establish generation only; Cloud must verify the
-Copy/MIR contract correspondence, None and Some behavior, and all required
-posts/receipts. No proof credit or profile acceptance follows from the static
-and synthetic results. The distinguishing controls must preserve arbitrary
-inputs and reject:
+The fixture and synthetic tests retain the already falsified whole-value drop
+shape to avoid sending the statically invalid `'_` variant-aware annotation to
+Cloud. The tests establish only generation, signature/guard prefix retention,
+and P1 tail placement. They do not establish cleanup or verifier applicability.
+No proof credit or profile acceptance follows from the static/synthetic
+results. Any future source-bound candidate must preserve arbitrary inputs and
+reject:
 
 - `None`-only behavior masquerading as the general observer proof;
 - a `Some(&T)` path that leaks or duplicates the reference ownership;
 - cleanup that consumes the caller's unrelated resources or changes the
   comparator/guard obligations;
-- missing or altered `drop`/end-ref contract, wrong owner, or unsupported
-  lowering, without treating setup failure as an intended negative.
+- missing or altered Option/ref `own` or `drop` contract, wrong owner, or
+  unsupported lowering, without treating setup failure as an intended
+  negative.
 
-Static review establishes source applicability and the `Copy` concern only. It
-provides no verifier result, exact-pair receipt, proof credit, or acceptance of
-the experimental profile.
+Static review establishes the syntax-level applicability blocker and the
+`Copy` concern only. It provides no verifier result, exact-pair receipt, proof
+credit, or acceptance of the experimental profile.

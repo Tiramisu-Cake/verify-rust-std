@@ -116,6 +116,8 @@ def small_sort_func(name, line, *, body=False, impl_self="Self",
         return f'Var ({loc(line)}, "{value}")'
     def ref(lifetime, inner):
         return f'RustRefTypeExpr ({loc(line)}, {region(lifetime)}, Mutable, {inner})'
+    def const(inner):
+        return f'ConstTypeExpr ({loc(line)}, {inner})'
     slice_self = f'SliceTypeExpr ({loc(line)}, {ident(impl_self)})'
     maybe_name = "evil::mem::MaybeUninit" if wrong_maybeuninit else "std::mem::MaybeUninit"
     maybe = (f'StructTypeExpr ({loc(line)}, Some ("{maybe_name}"), '
@@ -125,9 +127,9 @@ def small_sort_func(name, line, *, body=False, impl_self="Self",
     region_scratch = "'a" if mix_region else "'b"
     region_v, region_cmp = "'a", "'c"
     declarations = "; ".join((
-        f'({ref(region_v, slice_self)}, "v")',
-        f'({ref(region_scratch, scratch_ty)}, "scratch")',
-        f'({ref(region_cmp, comparator)}, "is_less")'))
+        f'({const(ref(region_v, slice_self))}, "v")',
+        f'({const(ref(region_scratch, scratch_ty))}, "scratch")',
+        f'({const(ref(region_cmp, comparator))}, "is_less")'))
     token = f'CallExpr ({loc(line)}, "thread_token", [], [], [], Static)'
     rights = f'CallExpr ({loc(line)}, "raw_rights", [], [], [], Static)'
     native = rights if drop_resource else f'Sep ({loc(line)}, {token}, {rights})'
@@ -499,6 +501,51 @@ class SyntheticAstGates(unittest.TestCase):
                          "none; compiler-required interface is separately validated")
         self.assertEqual(result["body_count"], 0)
         self.assertFalse(result["proof_credit"])
+
+    def test_p1_signature_unwraps_one_outer_const_binding_marker_only(self):
+        source = small_sort_func("crate::default16::small_sort", 6,
+                                 body=True, impl_self="T")
+        record, = gate.functions(source)
+        alpha = gate._small_sort_alpha(record, self_name="T")
+        normalized = gate._small_sort_ast_signature(record, "T", alpha)
+        self.assertEqual(normalized[0],
+                         ("ref", "@input_0", True,
+                          ("slice", ("param", "@Self"))))
+
+        fields = list(record["fields"])
+        parameter_rows = list(gate.items(fields[5]))
+        first_type, first_name = gate.node(parameter_rows[0], "tuple", 2)
+        const_loc, inner = gate.node(first_type, "ConstTypeExpr", 2)
+        malformed_types = {
+            "nested binding marker": ("ConstTypeExpr", (const_loc, first_type)),
+            "empty binding location": ("ConstTypeExpr", ((), inner)),
+            "over-arity binding location":
+                ("ConstTypeExpr", (("loc", "x", "extra"), inner)),
+            "non-string binding location":
+                ("ConstTypeExpr", (("loc", 7), inner)),
+            "unlocated binding marker": ("ConstTypeExpr", (("atom", "None"), inner)),
+        }
+        # The already supported bare-type representation remains valid.
+        bare_rows = list(parameter_rows)
+        bare_rows[0] = ("tuple", (inner, first_name))
+        bare_fields = list(fields)
+        bare_fields[5] = ("list", tuple(bare_rows))
+        bare_record = dict(record, fields=tuple(bare_fields))
+        self.assertEqual(gate._small_sort_ast_signature(
+            bare_record, "T", gate._small_sort_alpha(bare_record, self_name="T")),
+            normalized)
+        # Header comparison still retains the raw AST binding marker.
+        self.assertNotEqual(gate._small_sort_ast_header(record, alpha),
+                            gate._small_sort_ast_header(bare_record, alpha))
+        for label, bad_type in malformed_types.items():
+            with self.subTest(mutant=label), self.assertRaises(gate.AstGateError):
+                bad_rows = list(parameter_rows)
+                bad_rows[0] = ("tuple", (bad_type, first_name))
+                bad_fields = list(fields)
+                bad_fields[5] = ("list", tuple(bad_rows))
+                bad_record = dict(record, fields=tuple(bad_fields))
+                gate._small_sort_ast_signature(
+                    bad_record, "T", gate._small_sort_alpha(bad_record, self_name="T"))
 
     def test_p1_rejects_lost_native_resource(self):
         ast, inventory, baseline, actual_pair = p1_fixture(drop_resource=True)

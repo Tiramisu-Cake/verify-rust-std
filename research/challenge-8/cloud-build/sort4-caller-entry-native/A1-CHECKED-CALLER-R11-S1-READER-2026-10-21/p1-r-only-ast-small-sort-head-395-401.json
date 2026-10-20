@@ -1,0 +1,81 @@
+{
+  "archive_sha256": "a312712fb8c9f766d48952c4542ae47fd9c5b16239df4d382e3a03b81c20c1fc",
+  "build_id": "ec83aeb7-b15f-4bde-a95d-ccf7e1b58100",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 401,
+    "line_separator": "LF",
+    "source_lines": 1015,
+    "start": 395,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "241e38dedc8346d7fa96c58a11783b207ae082e6bab68ab831f08de28e0e8330",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-native-reference/P1/r-only-native-reference-ast.ml",
+  "file_sha256": "8158cdbfabcc492d3a3f1fb0e53dfefd534ecab0dd7d2e294b8984ccf021c690",
+  "index_sha256": "02d1336b48932fdaa3581a7074949d3c1fb109e53588d9f27c4f7505842177fc",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 401,
+    "expected_sha256": "8158cdbfabcc492d3a3f1fb0e53dfefd534ecab0dd7d2e294b8984ccf021c690",
+    "file_id": "241e38dedc8346d7fa96c58a11783b207ae082e6bab68ab831f08de28e0e8330",
+    "start": 395
+  },
+  "request_id": "0ffd5116e58495b61dfe05892fa050343a2a840876e3c6c4f4b9888f84f70c83",
+  "requested_end": 401,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 395,
+      "text": "      ExprStmt (AssignExpr (loc \"verified/lib.rs(64,9-37)\", Var (loc \"verified/lib.rs(64,9-37)\", \"$_0\"), Mutation, CastExpr (loc \"verified/lib.rs(64,9-37)\", ManifestTypeExpr (loc \"verified/lib.rs(64,9-37)\", Int (Unsigned, PtrRank)), IntLit (loc \"verified/lib.rs(64,9-37)\", big_int_of_string \"32\", true, false, LLSuffix))));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 396,
+      "text": "      ReturnStmt (loc \"verified/lib.rs(65,6)\", Some (CallExpr (loc \"verified/lib.rs(65,6)\", \"returning\", [], [], [LitPat (Var (loc \"verified/lib.rs(65,6)\", \"$_0\"))], Static)))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 397,
+      "text": "    ], loc \"verified/lib.rs(65,5-6)\")), false, []);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 398,
+      "text": "    Func (loc \"verified/lib.rs(68,5-74,6)\", Regular, [(\"T\", (true)); (\"F\", (true)); (\"'__58\", (false)); (\"'__59\", (false)); (\"'__60\", (false))], Some (ConstructedTypeExpr (loc \"verified/lib.rs(72,6)\", \"fn_outcome\", [ManifestTypeExpr (loc \"verified/lib.rs(72,6)\", StructType (\"std_tuple_0_\", []))])), \"<T as StableSmallSortTypeImpl>::small_sort\", ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 399,
+      "text": "      (ConstTypeExpr (loc \"verified/lib.rs(69,9-10)\", RustRefTypeExpr (loc \"verified/lib.rs(69,9-10)\", IdentTypeExpr (loc \"verified/lib.rs(69,9-10)\", None, \"'__58\"), Mutable, SliceTypeExpr (loc \"verified/lib.rs(69,9-10)\", IdentTypeExpr (loc \"verified/lib.rs(69,9-10)\", None, \"T\")))), \"v\");"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 400,
+      "text": "      (ConstTypeExpr (loc \"verified/lib.rs(70,9-16)\", RustRefTypeExpr (loc \"verified/lib.rs(70,9-16)\", IdentTypeExpr (loc \"verified/lib.rs(70,9-16)\", None, \"'__59\"), Mutable, SliceTypeExpr (loc \"verified/lib.rs(70,9-16)\", StructTypeExpr (loc \"verified/lib.rs(70,9-16)\", Some (\"std::mem::MaybeUninit\"), None, [], [IdentTypeExpr (loc \"verified/lib.rs(70,9-16)\", None, \"T\")])))), \"scratch\");"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 401,
+      "text": "      (ConstTypeExpr (loc \"verified/lib.rs(71,9-16)\", RustRefTypeExpr (loc \"verified/lib.rs(71,9-16)\", IdentTypeExpr (loc \"verified/lib.rs(71,9-16)\", None, \"'__60\"), Mutable, IdentTypeExpr (loc \"verified/lib.rs(71,9-16)\", None, \"F\"))), \"is_less\")"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

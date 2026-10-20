@@ -685,6 +685,15 @@ def _small_sort_ast_signature(record: Mapping[str, Any], self_name: str,
     names, types = [], []
     for row in rows:
         typ, name = node(row, "tuple", 2)
+        # Some translator paths preserve immutable parameter bindings as one
+        # outer ConstTypeExpr; others emit the bare type. Normalize that
+        # binding marker only here. Do not unwrap constness inside references
+        # or other nested type constructors.
+        if isinstance(typ, tuple) and typ and typ[0] == "ConstTypeExpr":
+            _const_loc, typ = node(typ, "ConstTypeExpr", 2)
+            need(isinstance(_const_loc, tuple) and len(_const_loc) == 2 and
+                 _const_loc[0] == "loc" and isinstance(_const_loc[1], str),
+                 "small_sort AST parameter ConstTypeExpr location")
         types.append(_ast_ty(typ))
         names.append(atom(name))
     need(tuple(names) == ("v", "scratch", "is_less"),

@@ -1,0 +1,17 @@
+{
+  "schema": "r11-reader-transient-failure-record-v1",
+  "timestamp_utc": "not recorded at original attempt; preserved from agent session output",
+  "cli_path": "/usr/local/bin/smallsort-brief",
+  "cli_version": "not exposed by installed CLI; script sha256 recorded",
+  "cli_script_sha256": "0b14d80b3be5752aa20482df54981a1ef73b3afe7b362701e1e2f230021287ce",
+  "build_id": "ec83aeb7-b15f-4bde-a95d-ccf7e1b58100",
+  "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+  "expected_sha256": "d100412209d53fc6c277d61ae3d8ed225de02468d0ad7694a8c8901075e595e8",
+  "request": "/usr/local/bin/smallsort-brief ec83aeb7-b15f-4bde-a95d-ccf7e1b58100 --refresh --file cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96 --expect-sha256 d100412209d53fc6c277d61ae3d8ed225de02468d0ad7694a8c8901075e595e8 --pointer /case_status --offset 20",
+  "exit_code": 1,
+  "stderr_exact": "smallsort-brief: Reader rejected report integrity; no fallback permitted (HTTP 409)\n",
+  "resolution": "A later fresh Brief and exact v0.11 targeted reads using the authoritative b8 expected SHA succeeded. Original failed request/stderr remain preserved without overwrite.",
+  "fallback_used": false,
+  "interpretation": "Caller expected-SHA typo: this failed request used a SHA ending e8; the authoritative catalogue/info and successful pages report SHA ending b8. Do not interpret this response as a service integrity defect.",
+  "actual_retry_sha256": "d100412209d53fc6c277d61ae3d8ed225de02468d0ad7694a8c8901075e595b8"
+}

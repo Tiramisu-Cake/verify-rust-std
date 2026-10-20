@@ -34,9 +34,42 @@ class R11Registration(unittest.TestCase):
         self.assertEqual(ledger["owner"], "select-sort4")
         self.assertEqual(ledger["allowed_lanes"], ["o26-sort4-c1-current-recovery"])
         self.assertEqual(ledger["ceiling_build_seconds"], 3600)
-        self.assertEqual(ledger["remaining_build_seconds"], 3600)
-        self.assertEqual(ledger["builds"], [])
-        self.assertIsNone(ledger["active_build"])
+        self.assertEqual(ledger["start_utc"], "2026-10-20T21:41:43Z")
+        self.assertEqual(ledger["main_deadline_utc"], "2026-10-20T23:41:43Z")
+        self.assertEqual(ledger["deadline_utc"], "2026-10-21T00:11:43Z")
+        self.assertEqual(ledger["status"], "AUTHORIZED")
+        used = ledger["used_build_seconds"]
+        remaining = ledger["remaining_build_seconds"]
+        self.assertIs(type(used), int)
+        self.assertIs(type(remaining), int)
+        self.assertGreaterEqual(used, 0)
+        self.assertGreaterEqual(remaining, 0)
+        self.assertEqual(used + remaining, ledger["ceiling_build_seconds"])
+        builds = ledger["builds"]
+        self.assertIsInstance(builds, list)
+        for build in builds:
+            self.assertIsInstance(build, dict)
+            for key in ("dispatch_token", "owner", "phase_id", "lane",
+                        "reserved_seconds", "timeout_seconds", "status", "accounted"):
+                self.assertIn(key, build)
+            self.assertEqual(build["owner"], ledger["owner"])
+            self.assertEqual(build["phase_id"], PHASE)
+            self.assertIn(build["lane"], ledger["allowed_lanes"])
+            self.assertIs(type(build["reserved_seconds"]), int)
+            self.assertIs(type(build["timeout_seconds"]), int)
+            self.assertIsInstance(build["accounted"], bool)
+        active = ledger["active_build"]
+        self.assertTrue(active is None or isinstance(active, str))
+        unresolved = [
+            build for build in builds
+            if not build["accounted"]
+        ]
+        if active is None:
+            self.assertEqual(unresolved, [])
+        else:
+            self.assertEqual(len(unresolved), 1)
+            self.assertIn(active, (unresolved[0].get("build_id"),
+                                   unresolved[0]["dispatch_token"]))
         for key, filename in (("a1_entry_sha256", "a1-entry-r11.py"),
                               ("a1_runner_sha256", "a1-runner-r11.py"),
                               ("a1_source_runner_sha256", "a1-runner.py")):

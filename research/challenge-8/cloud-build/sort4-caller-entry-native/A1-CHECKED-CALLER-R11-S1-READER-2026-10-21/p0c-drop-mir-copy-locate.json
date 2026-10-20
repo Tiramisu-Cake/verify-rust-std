@@ -1,0 +1,65 @@
+{
+  "archive_sha256": "a312712fb8c9f766d48952c4542ae47fd9c5b16239df4d382e3a03b81c20c1fc",
+  "build_id": "ec83aeb7-b15f-4bde-a95d-ccf7e1b58100",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": true,
+  "content_filtered": false,
+  "coordinate_bases": {
+    "ends": "exclusive",
+    "line_separator": "LF",
+    "lines": 1,
+    "offsets": 0,
+    "unicode_columns": 1
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "420a134958a20e7bba13f2c5ecf96a725bdd64bcc470bd84bcb9202f455a4422",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0c/normal-mir.txt",
+  "file_sha256": "3a53b6fb8dc3a5765582dd609a685720bb7880595ff31fa74111134c568132d1",
+  "index_sha256": "02d1336b48932fdaa3581a7074949d3c1fb109e53588d9f27c4f7505842177fc",
+  "match_mode": "CASE_SENSITIVE_LITERAL",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "LITERAL_COORDINATES_ONLY",
+  "request": {
+    "expected_sha256": "3a53b6fb8dc3a5765582dd609a685720bb7880595ff31fa74111134c568132d1",
+    "file_id": "420a134958a20e7bba13f2c5ecf96a725bdd64bcc470bd84bcb9202f455a4422",
+    "literal": "copy =",
+    "near_position": 349452,
+    "unit": "unicode-codepoint"
+  },
+  "request_id": "ebfb492adbf904c723a075b43bd769c78625ca8209725941d86f7d398b2459e7",
+  "results": [
+    {
+      "column": 23,
+      "end_column_exclusive": 29,
+      "end_line": 9613,
+      "line": 9613,
+      "unicode_end_exclusive": 347613,
+      "unicode_start": 347607,
+      "utf8_byte_end_exclusive": 347613,
+      "utf8_byte_start": 347607
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "search_scope": {
+    "kind": "near-position",
+    "radius": 4096,
+    "requested_near_position": 349452,
+    "unicode_end_exclusive": 353548,
+    "unicode_start": 345356,
+    "unit": "unicode-codepoint",
+    "utf8_byte_end_exclusive": 353548,
+    "utf8_byte_start": 345356
+  },
+  "source_absence_established": false,
+  "source_bytes": 500921,
+  "source_codepoints": 500921,
+  "source_lines": 13736,
+  "status": "OK",
+  "truncated": false
+}

@@ -1,0 +1,495 @@
+{
+  "schema": "smallsort-r11-exact-source-case-status-matrix-v1",
+  "build_id": "ec83aeb7-b15f-4bde-a95d-ccf7e1b58100",
+  "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+  "file_sha256": "d100412209d53fc6c277d61ae3d8ed225de02468d0ad7694a8c8901075e595b8",
+  "index_sha256": "02d1336b48932fdaa3581a7074949d3c1fb109e53588d9f27c4f7505842177fc",
+  "archive_sha256": "a312712fb8c9f766d48952c4542ae47fd9c5b16239df4d382e3a03b81c20c1fc",
+  "representation": "EXACT_JSON_CHILDREN",
+  "source_evidence_class": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "source_parser_input_binding": "NOT_ESTABLISHED",
+  "page_reads": [
+    {
+      "response_file": "case-status-first.json",
+      "pointer": "/case_status",
+      "offset": 0,
+      "returned_children": 20,
+      "child_count": 26,
+      "next_offset": 20,
+      "exact": true,
+      "page_complete": false
+    },
+    {
+      "response_file": "case-status-next.json",
+      "pointer": "/case_status",
+      "offset": 20,
+      "returned_children": 6,
+      "child_count": 26,
+      "next_offset": null,
+      "exact": true,
+      "page_complete": false
+    }
+  ],
+  "case_query_count": 26,
+  "case_query_coverage": "26/26 distinct child records; every case was individually read by exact /case_status/<case> pointer with exact=true, complete=true, and all 7 fields exact=true",
+  "source_status_counts": {
+    "INTENDED_CLASSIFIED": 5,
+    "NOT_RUN": 19,
+    "INCONCLUSIVE": 2
+  },
+  "matrix_gate_passed_counts": {
+    "True": 5,
+    "False": 21
+  },
+  "final_matrix_complete": true,
+  "formal_obligations_closed": 0,
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "cases": {
+    "N-alpha-valid": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "REPRESENTATION_ONLY",
+      "observed_stage": "identity-validation",
+      "proof_credit": false,
+      "provenance": "synthetic-transport-control",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "N-binder-collapse": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "N-binding": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NEGATIVE_INTENDED",
+      "observed_stage": "call-binding-admission",
+      "proof_credit": false,
+      "provenance": "synthetic-admission-control",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "N-clause-redirect": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "N-clauses": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "N-default-contract": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "N-duplicate": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "N-false31": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "N-free-region": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "N-freeze-contract": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "N-no-F": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "N-region-swap": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NEGATIVE_INTENDED",
+      "observed_stage": "call-binding-admission",
+      "proof_credit": false,
+      "provenance": "synthetic-admission-control",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "N-source": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "OFF": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "P-dispatch": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "P0a": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NATIVE_INTENDED_PASS",
+      "observed_stage": "impl-body-and-conformance",
+      "proof_credit": false,
+      "provenance": "compiler-derived-focused-verifier",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "P0b": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NATIVE_INTENDED_PASS",
+      "observed_stage": "impl-body-and-conformance",
+      "proof_credit": false,
+      "provenance": "compiler-derived-focused-verifier",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "P0c": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "caller execution attestation missing",
+      "status": "INCONCLUSIVE"
+    },
+    "P1": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "current raw source observation missing",
+      "status": "INCONCLUSIVE"
+    },
+    "R1": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "R2": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "R3": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "R4": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "R5": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "R6": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "R7": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    }
+  },
+  "case_query_sources": {
+    "N-alpha-valid": {
+      "request_id": "d01297a11e37aeed1576709c667cf883f4b45e3e12c5a331de09d6ba46dafe8b",
+      "response_file": "matrix-case-N-alpha-valid.json",
+      "request_pointer": "/case_status/N-alpha-valid",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "N-binder-collapse": {
+      "request_id": "bc430874745811b0ee35e03f9a8893b28c090b31a3abff95c3524dcf89451ef5",
+      "response_file": "matrix-case-N-binder-collapse.json",
+      "request_pointer": "/case_status/N-binder-collapse",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "N-binding": {
+      "request_id": "6fc94a4f0ac2627bc5a12145edd6b73265d56ec7193838fa6345ff91ab4053e0",
+      "response_file": "matrix-case-N-binding.json",
+      "request_pointer": "/case_status/N-binding",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "N-clause-redirect": {
+      "request_id": "1938259a96958584a742a226f92f6d49219d9b3d6a65e5fc23b52b31f7b489c6",
+      "response_file": "matrix-case-N-clause-redirect.json",
+      "request_pointer": "/case_status/N-clause-redirect",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "N-clauses": {
+      "request_id": "b72f5e8d85ab859d84d753bb3bd0b1832a1e1a5b1a09ecbda568d34cc24dacb8",
+      "response_file": "matrix-case-N-clauses.json",
+      "request_pointer": "/case_status/N-clauses",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "N-default-contract": {
+      "request_id": "86e82bd9ae9bb3abc6638ffc9a3d674b2ac50ca37d6f98d53bec9dcaa8f22505",
+      "response_file": "matrix-case-N-default-contract.json",
+      "request_pointer": "/case_status/N-default-contract",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "N-duplicate": {
+      "request_id": "e86cbac54e79b96c80609239c68d40e1f3a4a45b4f5c7ba69aa050c7f60e44a6",
+      "response_file": "matrix-case-N-duplicate.json",
+      "request_pointer": "/case_status/N-duplicate",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "N-false31": {
+      "request_id": "742b84972d16400aad8e1ab389d23abf4d482ecb879fd330013721470c84a76d",
+      "response_file": "matrix-case-N-false31.json",
+      "request_pointer": "/case_status/N-false31",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "N-free-region": {
+      "request_id": "7b72cfe1fd51de5183b69bf3606ec5f02214bc92159d0d307d89e2599f4a8e50",
+      "response_file": "matrix-case-N-free-region.json",
+      "request_pointer": "/case_status/N-free-region",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "N-freeze-contract": {
+      "request_id": "d970e96c558b1112df749d2643a245828fd5e66a3896ee437fb9219065c53c52",
+      "response_file": "matrix-case-N-freeze-contract.json",
+      "request_pointer": "/case_status/N-freeze-contract",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "N-no-F": {
+      "request_id": "a8e4d258b6a5f8fba4765d5ce7e861d9e8e200597b6cd28fe7f9099d9f6ce14b",
+      "response_file": "matrix-case-N-no-F.json",
+      "request_pointer": "/case_status/N-no-F",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "N-region-swap": {
+      "request_id": "5fb47d337bda067e29321719a074e2121d02fa54d50a1b64c129e80c4aead90d",
+      "response_file": "matrix-case-N-region-swap.json",
+      "request_pointer": "/case_status/N-region-swap",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "N-source": {
+      "request_id": "2c0e122bd5ad7c41e48a3f4c09248a8abebff6edd5dc17eb83eacaab31eaa09e",
+      "response_file": "matrix-case-N-source.json",
+      "request_pointer": "/case_status/N-source",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "OFF": {
+      "request_id": "9d6116e28a50c7f4107fc236930d288dd715107fd10b8baf16e08c3a2a8513d3",
+      "response_file": "matrix-case-OFF.json",
+      "request_pointer": "/case_status/OFF",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "P-dispatch": {
+      "request_id": "36d211f46c2e63362f3baea712b75a59310664e083f0f8b2c01679bdece33fe4",
+      "response_file": "matrix-case-P-dispatch.json",
+      "request_pointer": "/case_status/P-dispatch",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "P0a": {
+      "request_id": "6965030bd28f4cf1ca21d537023e423188e1ef70ae7a34ba96c1a4ac638927b1",
+      "response_file": "matrix-case-P0a.json",
+      "request_pointer": "/case_status/P0a",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "P0b": {
+      "request_id": "467e8db9588ea64c600f72d4385d5f21f777bd24bbf35b651d457309b2ee8f92",
+      "response_file": "matrix-case-P0b.json",
+      "request_pointer": "/case_status/P0b",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "P0c": {
+      "request_id": "fa534c4284a6bc54dfcca4e917b4177f25d966ca9925c87b979179614b6fa7fe",
+      "response_file": "matrix-case-P0c.json",
+      "request_pointer": "/case_status/P0c",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "P1": {
+      "request_id": "f69467075e4b7200187561dfa91051e71211465f31d9de1a5bbdb3b3d3d75e93",
+      "response_file": "matrix-case-P1.json",
+      "request_pointer": "/case_status/P1",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "R1": {
+      "request_id": "c124c95762f08a6b84b5a20469762294f05bdb04c7c26a63832dda22ef09c397",
+      "response_file": "matrix-case-R1.json",
+      "request_pointer": "/case_status/R1",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "R2": {
+      "request_id": "38e6bebc3ef2fd26d5fab8982f605120ba8ac9829b4ce68a3b576f8edd662cff",
+      "response_file": "matrix-case-R2.json",
+      "request_pointer": "/case_status/R2",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "R3": {
+      "request_id": "0e50dd6205b5dea0e9bcb0375abd76a863f718e32f6c26ada421f6ac64352016",
+      "response_file": "matrix-case-R3.json",
+      "request_pointer": "/case_status/R3",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "R4": {
+      "request_id": "824925815411bf5ac98b48b6c8b345fab8075c880ded8166d4cad5751947ae12",
+      "response_file": "matrix-case-R4.json",
+      "request_pointer": "/case_status/R4",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "R5": {
+      "request_id": "2ad586e145ee12d6eee63a0625d4da509152992bec3d77c7c8c62ab40c637dda",
+      "response_file": "matrix-case-R5.json",
+      "request_pointer": "/case_status/R5",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "R6": {
+      "request_id": "2a551bb41944b5966aa873499d85f0f6c0c4f2951ad2a4da7fe62b90d9d4212e",
+      "response_file": "matrix-case-R6.json",
+      "request_pointer": "/case_status/R6",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    },
+    "R7": {
+      "request_id": "7282595d94c98977dee25f493077fba58156123516b82069fc95f14bebf59347",
+      "response_file": "matrix-case-R7.json",
+      "request_pointer": "/case_status/R7",
+      "exact": true,
+      "complete": true,
+      "returned_fields": 7
+    }
+  },
+  "caveat": "Completeness means every source case-status child and its seven exact fields were read. These are source claims in proof-audit.json; complete status coverage does not establish causal attribution, parser-input identity, AST/MIR semantics, or accepted proof. All proof_credit fields are source false and no proof credit is assigned."
+}

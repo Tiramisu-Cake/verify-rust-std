@@ -64,8 +64,10 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-R11 ACTIVE. T0=2026-10-20T21:41:43Z, main23:41:43Z, absolute2026-10-21T00:11:43Z. Fresh budget3600, used0, Builds0; R10carry0. Initial source/tool identities и чужие dirty docs сохранены.
+R11 ACTIVE. T0=2026-10-20T21:41:43Z, main23:41:43Z, absolute2026-10-21T00:11:43Z. Budget3600: S1charged531, remaining3069, carry0; ownactive0 после terminal.
 
-Цели: checked P0c cleanup+own receipt; exact P1 native packaged identity; затем compatible26/ownfalse31. Новая регистрация/ledger/profile и все consumers подготовлены; independent registration GO. P0c explicit checked drop hypothesis и P1 narrow representation fix ожидают финального review/Cloud. Ownfalse31 source boundary ограничена compiler-bound observer и native AST span; исторический INCONCLUSIVE не изменён.
+S1 `ec83aeb7-b15f-4bde-a95d-ccf7e1b58100`, candidate `5fc6f44b45d68a2b8b265a06d24efd3457fe64ee`: mixed proof/parser, FAILURE/source0/packageSUCCESS. Exact source26:5INTENDED_CLASSIFIED/2INCONCLUSIVE/19NOT_RUN, allproofcreditfalse. Execute442.743s/package68.915s/verdict1.219s. Инструменты собраны (source exit0); попытка формальной проверки observer P0c — FAIL на Option_own141, native P1 — INCONCLUSIVE на ConstTypeExpr, отдельный actual fragment PASS не заменяет закрытый target gate.
 
-До→после: formal obligations0→0; independent B1/B2credit0. Пока только serving/static/synthetic work, actual compiler/verifier не запускались. Session/rationales/reviews и новые pins: `cloud-build/sort4-caller-entry-native/*R11*`. Перед submit exact committed/published closure + coordinator admission; первый план timeout1000/work760/soft700/report240/envelope1060. Это target partial scope, полный26 suite остаётся обязательным.
+S2 готовится: независимая P1 signature representation гипотеза, сохранён raw header/native equality и весь compiler/source binding. P0c прежний FAIL; вариант с необъявленным `'_` отклонён статически и не опубликован как executable. Generic checked cleanup исследуется отдельно. До→после formal obligations0→0/independentB1B2credit0. Полная26/ownfalse31 остаются OPEN; совместимые PASS разных Builds не склеиваются.
+
+Учёт/матрица/observations: [session](cloud-build/sort4-caller-entry-native/A1-CHECKED-CALLER-R11-SESSION-2026-10-21.md), [S1 evidence](cloud-build/sort4-caller-entry-native/A1-CHECKED-CALLER-R11-S1-EVIDENCE-2026-10-21.json), [S1 matrix](cloud-build/sort4-caller-entry-native/A1-CHECKED-CALLER-R11-S1-MATRIX-2026-10-21.json). Чужие dirty docs сохранены; raw evidence не читались.

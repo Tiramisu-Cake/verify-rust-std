@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "a312712fb8c9f766d48952c4542ae47fd9c5b16239df4d382e3a03b81c20c1fc",
+  "build_id": "ec83aeb7-b15f-4bde-a95d-ccf7e1b58100",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 141,
+    "line_separator": "LF",
+    "source_lines": 163,
+    "start": 130,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "4d40abec9cab7cafa2f552ebd1b7d42d4b7f7479707033e4a1e9a057b211415c",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-fixtures/P0c/verified/lib.rs",
+  "file_sha256": "c6b726448036d4a3d1f356bbd262de389664affec6931210986f5e08a5e0aa1d",
+  "index_sha256": "02d1336b48932fdaa3581a7074949d3c1fb109e53588d9f27c4f7505842177fc",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 141,
+    "expected_sha256": "c6b726448036d4a3d1f356bbd262de389664affec6931210986f5e08a5e0aa1d",
+    "file_id": "4d40abec9cab7cafa2f552ebd1b7d42d4b7f7479707033e4a1e9a057b211415c",
+    "start": 130
+  },
+  "request_id": "ca786133eb969e55035d7e61f52ed87b3843d46412d7d22e252bda558dc0f4b1",
+  "requested_end": 141,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 130,
+      "text": ""
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 131,
+      "text": "        //@ assert len <= 32;"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 132,
+      "text": "        let requirement = len + 16;"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 133,
+      "text": "        //@ assert requirement <= 48;"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 134,
+      "text": "        core::mem::drop(left_ancestor_pivot);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 135,
+      "text": "        return;"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 136,
+      "text": "    }"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 137,
+      "text": "    // A1 diagnostic cut: non-base continuation is intentionally not present."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 138,
+      "text": "    core::mem::drop(left_ancestor_pivot);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 139,
+      "text": "    return;"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 140,
+      "text": "}"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 141,
+      "text": "}"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

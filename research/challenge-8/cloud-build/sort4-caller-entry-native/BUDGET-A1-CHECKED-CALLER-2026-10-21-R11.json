@@ -4,7 +4,30 @@
     "o26-sort4-c1-current-recovery"
   ],
   "authorization": "CURRENT-TASK Select-R11 explicitly authorizes a fresh 3600 Cloud-second phase; T0=2026-10-20T21:41:43Z, main deadline=2026-10-20T23:41:43Z, absolute deadline=2026-10-21T00:11:43Z; no R10 carry; 90..1200-second builds; existing lane only; queue envelope 60 seconds and package/verdict reserve 240 seconds.",
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-20dbdc545a1049b8a153cc8c865ea80e",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-CHECKED-CALLER-NATIVE-PROOF-2026-10-21-R11",
+      "infra_sha": "5fc6f44b45d68a2b8b265a06d24efd3457fe64ee",
+      "proof_sha": "5fc6f44b45d68a2b8b265a06d24efd3457fe64ee",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "d0906861c5204623b664dca6f90115d91b3b66accef5fe356c7bb6d379566cc9",
+      "reserved_seconds": 1060,
+      "timeout_seconds": 1000,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "dcda78e27ee5ae700c08db880976feb76ab68cf1f78db6e62b1ed1548ba1f4c3",
+      "build_id": "ec83aeb7-b15f-4bde-a95d-ccf7e1b58100",
+      "start_time": "2026-10-20T21:53:00.218822226Z",
+      "finish_time": "2026-10-20T22:01:49.718070Z",
+      "create_time": "2026-10-20T21:52:59.442926553Z",
+      "build_seconds": 531,
+      "accounted": true,
+      "execution_seconds": 530
+    }
+  ],
   "carry_forward_seconds": 0,
   "ceiling_build_seconds": 3600,
   "deadline_utc": "2026-10-21T00:11:43Z",
@@ -13,10 +36,10 @@
   "maximum_builds": null,
   "owner": "select-sort4",
   "phase": "SORT4-CHECKED-CALLER-NATIVE-PROOF-2026-10-21-R11",
-  "remaining_build_seconds": 3600,
+  "remaining_build_seconds": 3069,
   "schema": "smallsort-cloud-phase-account-v1",
   "start_utc": "2026-10-20T21:41:43Z",
   "status": "AUTHORIZED",
   "unused_retired_seconds": 0,
-  "used_build_seconds": 0
+  "used_build_seconds": 531
 }
