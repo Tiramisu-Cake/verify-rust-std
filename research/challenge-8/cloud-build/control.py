@@ -329,7 +329,28 @@ record={'schema_version':1,'stage':'package-upload','operation':'package-evidenc
         'exit_code':int(sys.argv[1]),'failure_class':'packaging-failed',
         'primary_error':(root/'packaging-stderr.log').read_text(errors='replace'),
         'proof_status':'UNCHANGED'}
-(root/'package-upload-error.json').write_text(json.dumps(record,sort_keys=True,indent=2)+'\\n')
+# Emit the primary failure even if the final verdict step cannot run. Do not
+# follow evidence links or change the package failure / proof verdict.
+import stat
+sizes={}
+for name in ('proof-audit.json','allprooflogs/cases/sort4-c1-current-recovery/diagnostic-audit.json'):
+ path=root/'evidence'/name
+ try:
+  metadata=path.lstat()
+  sizes[name]={'kind':'regular' if stat.S_ISREG(metadata.st_mode) else 'nonregular',
+               'bytes':metadata.st_size if stat.S_ISREG(metadata.st_mode) else None}
+ except FileNotFoundError:
+  sizes[name]={'kind':'missing','bytes':None}
+ except OSError as error:
+  sizes[name]={'kind':'unavailable','bytes':None,'error':type(error).__name__}
+view={key:record[key] for key in ('schema_version','stage','operation','exit_code','failure_class','proof_status')}
+view.update(primary_error=record['primary_error'][:4096],
+            primary_error_truncated=len(record['primary_error'])>4096,audit_sizes=sizes)
+print('SMALLSORT_PACKAGING_FAILURE',json.dumps(view,sort_keys=True),file=sys.stderr,flush=True)
+try:
+ (root/'package-upload-error.json').write_text(json.dumps(record,sort_keys=True,indent=2)+'\\n')
+except OSError as error:
+ print('SMALLSORT_PACKAGING_DIAGNOSTIC_PERSIST_FAILED',type(error).__name__,file=sys.stderr,flush=True)
 PACKAGING_FAILURE
  exit "$packaging_status"
 fi

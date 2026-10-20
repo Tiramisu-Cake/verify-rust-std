@@ -267,10 +267,10 @@ class FocusProfileBindingTests(unittest.TestCase):
             with self.subTest(pin=key):
                 self.assertEqual(profile[key], hashlib.sha256(
                     (repo_root / relpath).read_bytes()).hexdigest())
-        for name, relpath in (("a1-focus-backend.py", helper_rel),
-                               ("a1-tool.py", canonical + "a1-tool.py")):
-            self.assertEqual(profile["a1_helper_sha256"][name],
-                             hashlib.sha256((repo_root / relpath).read_bytes()).hexdigest())
+        for name, expected in profile["a1_helper_sha256"].items():
+            with self.subTest(active_r9_helper=name):
+                self.assertEqual(expected, hashlib.sha256(
+                    (HERE / name).read_bytes()).hexdigest())
         lane_script = (repo_root / "research/challenge-8/cloud-build/run-sort4-c1-current-recovery.sh").read_text()
         self.assertIn("a1-entry-r9.py", lane_script)
         self.assertIn(R9, lane_script)

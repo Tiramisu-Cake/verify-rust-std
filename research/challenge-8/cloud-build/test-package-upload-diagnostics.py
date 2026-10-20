@@ -65,6 +65,50 @@ class PackagingDiagnosticTests(unittest.TestCase):
             self.assertNotIn('FileNotFoundError', final.stdout)
             self.assertNotIn('SMALLSORT_FINAL_VERDICT', final.stdout)
 
+    def test_symlink_failure_is_emitted_without_final_verdict(self):
+        primary = "evidence packaging failed: symlink in evidence: case/synthetic-tool/.devcontainer\n"
+        source = 'import sys\nsys.stderr.write(' + repr(primary) + ')\nsys.exit(1)\n'
+        evidence = self.root / 'evidence'
+        evidence.mkdir()
+        (evidence / 'proof-audit.json').write_bytes(b'{}\n')
+        outside = self.root / 'outside-audit'
+        outside.write_bytes(b'not followed')
+        diagnostic = evidence / 'allprooflogs/cases/sort4-c1-current-recovery/diagnostic-audit.json'
+        diagnostic.parent.mkdir(parents=True)
+        diagnostic.symlink_to(outside)
+        script = self.config['steps'][1]['args'][1].replace('$$', '$').replace('/workspace', str(self.root))
+        env = dict(os.environ, PATH=str(self.bin) + os.pathsep + os.environ['PATH'],
+                   PACKAGER_BYTES=base64.b64encode(gzip.compress(source.encode())).decode())
+        result = subprocess.run(['bash', '-ceu', script], text=True, capture_output=True, env=env)
+        self.assertEqual(result.returncode, 1, result.stderr)
+        line = next(line for line in result.stderr.splitlines()
+                    if line.startswith('SMALLSORT_PACKAGING_FAILURE '))
+        record = json.loads(line.split(' ', 1)[1])
+        self.assertEqual(record['primary_error'], primary)
+        self.assertEqual(record['operation'], 'package-evidence')
+        self.assertEqual(record['proof_status'], 'UNCHANGED')
+        self.assertEqual(record['audit_sizes']['proof-audit.json'], {'kind': 'regular', 'bytes': 3})
+        self.assertEqual(record['audit_sizes']['allprooflogs/cases/sort4-c1-current-recovery/diagnostic-audit.json'], {'kind': 'nonregular', 'bytes': None})
+        self.assertFalse((self.root / 'upload.ok').exists())
+        self.assertTrue(outside.is_file())
+
+    def test_diagnostic_survives_error_record_persistence_failure(self):
+        primary = 'evidence packaging failed: symlink in evidence: synthetic-tool/.devcontainer\n'
+        source = 'import sys\nsys.stderr.write(' + repr(primary) + ')\nsys.exit(17)\n'
+        script = self.config['steps'][1]['args'][1].replace('$$', '$').replace('/workspace', str(self.root))
+        # Keep initial stale-record cleanup valid, then make the destination
+        # unwritable as a regular file at the exact persistence point.
+        old = "(root/'package-upload-error.json').write_text("
+        self.assertIn(old, script)
+        script = script.replace(old, "(root/'missing-parent'/'record.json').write_text(", 1)
+        env = dict(os.environ, PATH=str(self.bin) + os.pathsep + os.environ['PATH'],
+                   PACKAGER_BYTES=base64.b64encode(gzip.compress(source.encode())).decode())
+        result = subprocess.run(['bash', '-ceu', script], text=True, capture_output=True, env=env)
+        self.assertEqual(result.returncode, 17, result.stderr)
+        self.assertIn('SMALLSORT_PACKAGING_FAILURE ', result.stderr)
+        self.assertIn('SMALLSORT_PACKAGING_DIAGNOSTIC_PERSIST_FAILED FileNotFoundError', result.stderr)
+        self.assertFalse((self.root / 'upload.ok').exists())
+
     def test_missing_output_has_explicit_infrastructure_diagnostic(self):
         result = self.verdict()
         self.assertEqual(result.returncode, 2)

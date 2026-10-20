@@ -7,6 +7,7 @@ classify a translator refusal or admit a summary. Importing it is inert.
 from __future__ import annotations
 
 import hashlib
+import json
 import os
 from pathlib import Path
 import shutil
@@ -36,6 +37,95 @@ def _need(ok: bool, why: str) -> None:
 
 def _sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _archive_synthetic_tool_facade(root: Path, facade: Path,
+                                   console_sha256: str | None,
+                                   wrapper_sha256: str | None) -> Path:
+    """Record and unlink only generated facade symlinks; retain regular files."""
+    _need(facade.parent == root and facade.name == "synthetic-tool" and
+          not facade.is_symlink() and facade.is_dir(),
+          "expected generated synthetic tool facade")
+    links = []
+    directories = [facade]
+    bin_dir = facade / "bin"
+    for entry in sorted(facade.iterdir(), key=lambda path: path.name):
+        if entry.is_symlink():
+            links.append((entry, {"path": entry.relative_to(facade).as_posix(),
+                                  "target": os.readlink(entry), "kind": "symlink"}))
+        elif entry == bin_dir and entry.is_dir():
+            directories.append(bin_dir)
+    if bin_dir in directories:
+        for entry in sorted(bin_dir.iterdir(), key=lambda path: path.name):
+            if entry.is_symlink():
+                links.append((entry, {"path": entry.relative_to(facade).as_posix(),
+                                      "target": os.readlink(entry), "kind": "symlink"}))
+
+    def existing_file_hash(path):
+        if path.is_symlink() or not path.is_file():
+            return None
+        return _sha(path)
+
+    console = bin_dir / "verifast"
+    wrapper = bin_dir / "vf-rust-mir-exporter"
+    if bin_dir.is_symlink() or not bin_dir.is_dir():
+        actual_console_sha = actual_wrapper_sha = None
+    else:
+        actual_console_sha = existing_file_hash(console)
+        actual_wrapper_sha = existing_file_hash(wrapper)
+    manifest = {
+        "schema": "a1-synthetic-tool-facade-archive-v1",
+        "facade_path": "synthetic-tool",
+        "facade_retained": True,
+        "symlinks_removed_after_recording": False,
+        "symlinks": [row for _, row in links],
+        "console": {"path": "synthetic-tool/bin/verifast",
+                    "sha256": actual_console_sha,
+                    "expected_sha256": console_sha256},
+        "transport_wrapper": {"path": "synthetic-tool/bin/vf-rust-mir-exporter",
+                              "sha256": actual_wrapper_sha,
+                              "expected_sha256": wrapper_sha256},
+        "targets_dereferenced_for_archive": False,
+        "proof_credit": False,
+    }
+    manifest_path = root / "synthetic-tool-facade-manifest.json"
+    _need(not manifest_path.exists() and not manifest_path.is_symlink(),
+          "synthetic facade manifest destination already exists")
+    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+                             encoding="utf-8")
+
+    # Readlink targets remain data only; unlink links inside the facade, never follow them.
+    for path, row in links:
+        _need(path.is_symlink() and os.readlink(path) == row["target"],
+              "synthetic facade link changed before cleanup")
+        path.unlink()
+    manifest["symlinks_removed_after_recording"] = True
+    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+                             encoding="utf-8")
+    _need(console_sha256 is None or actual_console_sha == console_sha256,
+          "synthetic facade console changed during invocation")
+    _need(wrapper_sha256 is None or actual_wrapper_sha == wrapper_sha256,
+          "synthetic facade wrapper changed during invocation")
+    return manifest_path
+
+
+def _invoke_with_facade_cleanup(action, cleanup):
+    """Always archive after invocation and preserve a primary invocation error."""
+    invocation_error = None
+    try:
+        return action()
+    except BaseException as exc:
+        invocation_error = exc
+        raise
+    finally:
+        try:
+            cleanup()
+        except BaseException as cleanup_error:
+            if invocation_error is None:
+                raise
+            invocation_error.add_note(
+                f"synthetic facade cleanup also failed: {type(cleanup_error).__name__}: "
+                f"{cleanup_error}")
 
 
 def _workspace(path: Path) -> Path:
@@ -96,44 +186,60 @@ def inject(a, c4, mutator, *, tool: Path, fixture: Path, root: Path,
     _need(encoded.is_file() and encoded.stat().st_size > 0, "empty synthetic message")
 
     # rust_fe.run_vf_mir_exporter resolves a sibling of Sys.executable_name.
-    # Copy the console bytes, symlink its unchanged support tree, and place a
-    # bounded replay program only at that sibling in this disposable facade.
-    # Neither the built candidate exporter nor its production source is edited.
+    # Symlink its unchanged support tree only while the synthetic invocation runs;
+    # finalization records the links as data and removes links from this facade.
+    # Neither the candidate exporter nor its production source is edited.
     facade = root / "synthetic-tool"
-    facade.mkdir()
-    for entry in tool.iterdir():
-        if entry.name != "bin":
-            (facade / entry.name).symlink_to(entry, target_is_directory=entry.is_dir())
-    bin_dir = facade / "bin"
-    bin_dir.mkdir()
-    for entry in (tool / "bin").iterdir():
-        if entry.name not in {"verifast", "vf-rust-mir-exporter"}:
-            (bin_dir / entry.name).symlink_to(entry, target_is_directory=entry.is_dir())
-    console = bin_dir / "verifast"
-    shutil.copy2(tool / "bin/verifast", console)
+    facade_created = [False]
+    facade_manifest = []
     console_sha = _sha(tool / "bin/verifast")
-    _need(_sha(console) == console_sha, "synthetic console differs from candidate")
     message_sha = _sha(encoded)
-    wrapper = bin_dir / "vf-rust-mir-exporter"
-    # All interpolated values use Python repr in Python source, never shell code.
-    wrapper.write_text(
-        "#!/usr/bin/python3\nimport hashlib, pathlib, sys\n"
-        "if len(sys.argv)<2 or sys.argv[1]!='verified/lib.rs': sys.exit(91)\n"
-        "p=pathlib.Path(" + repr(str(encoded)) + ")\n"
-        "b=p.read_bytes()\n"
-        "if hashlib.sha256(b).hexdigest()!=" + repr(message_sha) + ": sys.exit(92)\n"
-        "sys.stdout.buffer.write(b)\n", encoding="ascii")
-    wrapper.chmod(0o755)
+    wrapper_sha = None
+    console = facade / "bin" / "verifast"
+    wrapper = facade / "bin" / "vf-rust-mir-exporter"
     argv = [str(console), "-focus", "verified/lib.rs:0", "-dump_ast_with_locs",
             str(root / "synthetic-ast.ml"), "-rustc_args", "--edition 2021",
             "verified/lib.rs"]
-    stages["synthetic-translator"] = c4.stage(
-        a, root, "synthetic-translator", argv, env, 60, cwd=fixture)
-    _need(_sha(console) == console_sha and _sha(tool / "bin/verifast") == console_sha and
-          _sha(encoded) == message_sha and _sha(decoded) == decoded_sha and
-          _sha(baseline_decoded) == baseline_sha256 and
-          all(_sha(path) == digest for path, digest in fixed.items()),
-          "synthetic invocation changed its source, tool, input or console")
+
+    def create_and_invoke_translator():
+        nonlocal wrapper_sha
+        facade.mkdir()
+        facade_created[0] = True
+        for entry in tool.iterdir():
+            if entry.name != "bin":
+                (facade / entry.name).symlink_to(entry, target_is_directory=entry.is_dir())
+        bin_dir = facade / "bin"
+        bin_dir.mkdir()
+        for entry in (tool / "bin").iterdir():
+            if entry.name not in {"verifast", "vf-rust-mir-exporter"}:
+                (bin_dir / entry.name).symlink_to(entry, target_is_directory=entry.is_dir())
+        shutil.copy2(tool / "bin/verifast", console)
+        _need(_sha(console) == console_sha, "synthetic console differs from candidate")
+        # All interpolated values use Python repr in Python source, never shell code.
+        wrapper.write_text(
+            "#!/usr/bin/python3\nimport hashlib, pathlib, sys\n"
+            "if len(sys.argv)<2 or sys.argv[1]!='verified/lib.rs': sys.exit(91)\n"
+            "p=pathlib.Path(" + repr(str(encoded)) + ")\n"
+            "b=p.read_bytes()\n"
+            "if hashlib.sha256(b).hexdigest()!=" + repr(message_sha) + ": sys.exit(92)\n"
+            "sys.stdout.buffer.write(b)\n", encoding="ascii")
+        wrapper.chmod(0o755)
+        wrapper_sha = _sha(wrapper)
+        stages["synthetic-translator"] = c4.stage(
+            a, root, "synthetic-translator", argv, env, 60, cwd=fixture)
+        _need(_sha(console) == console_sha and _sha(tool / "bin/verifast") == console_sha and
+              _sha(wrapper) == wrapper_sha and _sha(encoded) == message_sha and
+              _sha(decoded) == decoded_sha and _sha(baseline_decoded) == baseline_sha256 and
+              all(_sha(path) == digest for path, digest in fixed.items()),
+              "synthetic invocation changed its source, tool, input, console or wrapper")
+        return stages["synthetic-translator"]
+
+    def archive_facade():
+        if facade_created[0]:
+            facade_manifest.append(_archive_synthetic_tool_facade(
+                root, facade, console_sha, wrapper_sha))
+
+    _invoke_with_facade_cleanup(create_and_invoke_translator, archive_facade)
     return {"classification": "SYNTHETIC_TRANSLATOR_OBSERVATION_UNCLASSIFIED",
             "stages": stages, "mutation": metadata,
             "build_id": os.environ["CLOUD_BUILD_ID"],
@@ -143,7 +249,9 @@ def inject(a, c4, mutator, *, tool: Path, fixture: Path, root: Path,
             "source_pair_sha256": {
                 "verified": _sha(fixture / "verified/lib.rs"),
                 "original": _sha(fixture / "original/lib.rs")},
-            "console_sha256": console_sha, "transport_wrapper_sha256": _sha(wrapper),
+            "console_sha256": console_sha, "transport_wrapper_sha256": wrapper_sha,
+            "facade_manifest_path": str(facade_manifest[0]),
+            "facade_manifest_sha256": _sha(facade_manifest[0]),
             "ast_path": str(root / "synthetic-ast.ml"),
             "synthetic": True, "compiler_derived": False,
             "refinement_derived": False, "summary_available": False,
