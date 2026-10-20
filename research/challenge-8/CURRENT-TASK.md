@@ -57,4 +57,4 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-Ожидается по завершении новой R7 сессии. T0 пока не установлен; Builds этим поручением ещё не запущены.
+R7 ACTIVE. T0 2026-10-20T11:16:28Z; main13:16:28Z; absolute13:46:28Z. Новый бюджет3600, used0/remaining3600; старые счета закрыты. Цель P0a→P1→26/Nfalse31. Идёт новая branch-local регистрация перед независимым review/Cloud; proof credit0, сборок пока0. [Session](cloud-build/sort4-caller-entry-native/A1-PACKAGING-R7-SESSION-2026-10-20.md).
