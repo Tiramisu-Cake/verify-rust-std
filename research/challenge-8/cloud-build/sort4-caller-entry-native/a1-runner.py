@@ -1536,6 +1536,76 @@ def _jsonable(value: Any) -> Any:
     raise TypeError("unsupported progress value: " + type(value).__name__)
 
 
+def _report_value_for_disk(value, authorization_phase):
+    """Replace duplicated exact R9 row observations with lossless local pointers."""
+    r9_authorization_phase = "SORT4-NATIVE-INTERFACE-PROOF-2026-10-20-R9"
+    if (authorization_phase != r9_authorization_phase or not isinstance(value, Mapping) or
+            value.get("authorization_phase_id") != r9_authorization_phase):
+        return value
+    details = value.get("observation_details")
+    rows = value.get("observed_rows")
+    if (not isinstance(details, Mapping) or not isinstance(rows, list) or
+            "report_serialization" in value):
+        return value
+
+    def same_json_value(left, right):
+        # JSON distinguishes values such as true and 1 although Python equality
+        # does not; only replace a row when the serialized values are identical.
+        if type(left) is not type(right):
+            return False
+        if isinstance(left, Mapping):
+            return (left.keys() == right.keys() and
+                    all(same_json_value(left[key], right[key]) for key in left))
+        if isinstance(left, list):
+            return (len(left) == len(right) and
+                    all(same_json_value(a, b) for a, b in zip(left, right)))
+        return left == right
+
+    seen = set()
+    replacements = {}
+    for index, row in enumerate(rows):
+        if not isinstance(row, Mapping):
+            return value
+        case_id = row.get("case_id")
+        if not isinstance(case_id, str) or case_id in seen:
+            return value
+        seen.add(case_id)
+        if case_id not in details:
+            continue
+        row_observation = row.get("observation")
+        mapped_observation = details[case_id]
+        # Null, malformed, or disagreeing data stays inline; no synthetic
+        # reference can turn an incomplete/ambiguous report into a successful one.
+        if row_observation is None or mapped_observation is None:
+            continue
+        if not isinstance(row_observation, Mapping) or not isinstance(mapped_observation, Mapping):
+            continue
+        if not same_json_value(row_observation, mapped_observation):
+            return value
+        if "observation_ref" in row:
+            return value
+        escaped = case_id.replace("~", "~0").replace("/", "~1")
+        replacements[index] = {
+            "schema": "a1-observation-ref-v1",
+            "json_pointer": "/observation_details/" + escaped,
+        }
+    if not replacements:
+        return value
+
+    disk_value = dict(value)
+    disk_rows = list(rows)
+    for index, reference in replacements.items():
+        disk_row = dict(rows[index])
+        disk_row.pop("observation", None)
+        disk_row["observation_ref"] = reference
+        disk_rows[index] = disk_row
+    disk_value["observed_rows"] = disk_rows
+    disk_value["report_serialization"] = {
+        "kind": "row-pointer-v1", "lossless": True, "proof_credit": False,
+    }
+    return disk_value
+
+
 def _run_off_observation(a, c4, tool: Path, off_input: Mapping[str, Any],
                         selected_proof) -> dict:
     """Observe the selected positive fixture with the A1 opt-in absent."""
@@ -1929,7 +1999,8 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
                 next((event for event in execution_events if event.get("event") == "adapter_error"), None))
             persist_progress()
             target = Path(a.evidence) / "diagnostic-audit.json"
-            target.write_text(json.dumps(_jsonable(result), indent=2, sort_keys=True) + "\n")
+            target.write_text(json.dumps(_report_value_for_disk(
+                _jsonable(result), AUTHORIZATION_PHASE), indent=2, sort_keys=True) + "\n")
             return result
         legacy_prepared = action("prepare-legacy-fixtures", lambda:
             prepare_legacy_fixtures(a, driver, c4, ghost, dict(manifest)))
@@ -2500,5 +2571,6 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
     result["observation_details"] = observations
     path = Path(a.evidence) / "diagnostic-audit.json"
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(_jsonable(result), indent=2, sort_keys=True) + "\n")
+    path.write_text(json.dumps(_report_value_for_disk(
+        _jsonable(result), AUTHORIZATION_PHASE), indent=2, sort_keys=True) + "\n")
     return result
