@@ -2,7 +2,7 @@
 
 ## Задание и явная авторизация
 
-- **ID:** `merge-post-migration-current-recovery-autonomous-2026-10-20-r7`; **статус:** ACTIVE — T0 2026-10-20T14:33:33Z, main16:33:33Z, absolute17:03:33Z.
+- **ID:** `merge-post-migration-current-recovery-autonomous-2026-10-20-r7`; **статус:** CLOSED_PARTIAL — T0 2026-10-20T14:33:33Z, main16:33:33Z, absolute17:03:33Z.
 - **Owner:** `merge`.
 - **Project worktree:** `/root/verify-rust-std-merge-origin`; **branch:** `merge/incoming-origin-20261009`; репозиторий `Tiramisu-Cake/verify-rust-std`.
 - **Tool worktree:** `/root/verifast-merge-actual-glue`; **branch:** `merge/actual-glue-instance-20261011`; baseline head **`45594fb821805f10c4e05f02912d1ea3bf920e62`**.
@@ -64,20 +64,22 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-- R7 ACTIVE. T0 14:33:33Z, main16:33:33Z, absolute17:03:33Z; отдельный бюджет3600, без carry R6.
-- Цель: checked guard array/geometry → late lifetime/loan/readonly CURRENT normal Continue/break/unwind → original guard loan/Drop → merge/caller. Полная theorem/B2/qualification OPEN, independent credit0.
+- R7 CLOSED_PARTIAL. T0 14:33:33Z, main16:33:33Z, absolute17:03:33Z; закрытие счёта16:36:37Z. После main новых гипотез/Builds не было.
+- Цель: actual insert_tail/guard/CURRENT normal-unwind recovery. Полная theorem/B2/qualification OPEN, independent credit0.
 
-| Build / candidate | Наблюдение | Charged / execution |
+| Build / source | Результат / frontier | Charged / execution |
 | --- | --- | --- |
-| [1: e8d17588 / 1e93fe1a](cloud-build/origin-layout/R7-BUILD1-RESULT-20261020.json) | Checked emptytail → Drop alignment93; tool45594fb8; FAILURE | 601 / 600 |
-| [2: f580a235 / 63b28d89](cloud-build/origin-layout/R7-BUILD2-RESULT-20261020.json) | Translator-only late scope; frontend GhostCmd Not_found, до resource proof; FAILURE | 569 / 569 |
-| [3: e28eabe2 / cbeccadb](cloud-build/origin-layout/R7-BUILD3-RESULT-20261020.json) | Missing tuple parenthesis7174, actual proof not attempted; FAILURE | 288 / 288 |
-| [4: b360bb7a / 5f2c0f24](cloud-build/origin-layout/R7-BUILD4-RESULT-20261020.json) | Compile/prep7zero; добавленный early global-span assert252; FAILURE | 603 / 602 |
-| [5: 4bb2b951 / 71aa4b67](cloud-build/origin-layout/R7-BUILD5-RESULT-20261020.json) | Compile/prep7zero; late FnMut310 и half-token close311 → No such label; FAILURE | 403 / 403 |
+| [e8d17588 / 1e93fe1a](cloud-build/origin-layout/R7-BUILD1-RESULT-20261020.json) | FAILURE; Emptytail checked → Drop alignment93 | 601 / 600 |
+| [f580a235 / 63b28d89](cloud-build/origin-layout/R7-BUILD2-RESULT-20261020.json) | FAILURE; Frontend GhostCmd Not_found до resource proof | 569 / 569 |
+| [e28eabe2 / cbeccadb](cloud-build/origin-layout/R7-BUILD3-RESULT-20261020.json) | FAILURE; Translator syntax7174, proof не запускался | 288 / 288 |
+| [b360bb7a / 5f2c0f24](cloud-build/origin-layout/R7-BUILD4-RESULT-20261020.json) | FAILURE; Добавленный global-span assert252; array1positive/3expected, late-admission2expected | 603 / 602 |
+| [4bb2b951 / 71aa4b67](cloud-build/origin-layout/R7-BUILD5-RESULT-20261020.json) | FAILURE; Late FnMut/half-token close → undefined synthetic label | 403 / 403 |
+| [6019f7c5 / 637cdf45](cloud-build/origin-layout/R7-BUILD6-RESULT-20261020.json) | FAILURE; Scope-end/fulltoken/lifetime-end/оба loan-end/readonly-end → unsupported merge syntax | 537 / 536 |
+| [55195571 / c1fff41b](cloud-build/origin-layout/R7-BUILD7-RESULT-20261020.json) | FAILURE; Compile-only exit124; source proof_attempted=false, candidate compile/proof не подтверждены | 383 / 382 |
 
-- Все5 Builds terminal, used2464/3600, remaining1136; до Build6 own active/unresolved/reservations0 после штатного accounting. Окно/бюджет не продлены.
-- Последний executed proof=infra `71aa4b67819c8649b0827b9c955c1a0926e945e6`, tool1aa4795e/profile R7. Candidate5 удалил только дополнительный speculative global-span assert; исходные Drop/copy gates и full CURRENT posts сохранены, disjointness не предположена. Independent LunaHIGH GO; static17patch/18base и service checks PASS.
-- Proof-прирост: emptytail helper checked относительно существующего определения; actual late FnMut достигается и half-token close проверяется на наблюдаемом пути. Полный token/type-scope exit, borrow_end/readonly-end на обоих путях, original guard и финальный CURRENT остаются OPEN.
-- Обслуживание отдельно: R7 registration, source placeholders, ordinary outcome selector, strict source/stage/target control matchers. Свежие Build4/5 array source1positive/3expected и late-admission2expected, accepted=false; это не qualification или независимый theorem credit.
-- Независимые границы: BeforeLive lexical Unbound variable вместо физического heap refusal → INC; prefix placeholder при values.as_mut_ptr, exact Unsize parser-input binding не установлен. Быстрые ослабления не применялись.
-- Candidate6 `637cdf45e2a17814d5b6d2abadc5d572534f42ad` опубликован, tool`2883dbf5502512dc800f70e8496d674e44bba644`, profileSHA`96a0f198e6a5a0662a345bc42615a19d40aa753454a360197bbaa14d6eb0d384`; independent LunaHIGH GO/static17patch18base/service4PASS. Build6 `6019f7c5-1c0a-44a8-87be-3513797fe416` WORKING, timeout900/reservation960, own1occupied, uncertain submission0. Следующий шаг terminal→Brief→точный resource frontier в исходном окне/бюджете. [Обязательства](cloud-build/origin-layout/R7-OBLIGATIONS-20261020.md). Cloud ожидание не active agent time.
+- Итог:3384/3600charged,3380execution,216retired без carry. Ledger CLOSED; own active/unresolved/requests/reservations0, фоновой работы нет. [Итог/identities](cloud-build/origin-layout/R7-FINAL-RESULT-20261020.json).
+- Proof до→после: исходный missing quarter zero-tail array → checked emptytail helper; actual Build6 на наблюдаемом пути проходит late FnMut, half-token close, strict scope exit/full token, lifetime end, оба точных scaled borrow-end/open и readonly-end; далее physical merge/rejoin OPEN. Это не доказательство обоих путей или полного CURRENT.
+- Последний actual proof: source637cdf45/tool2883dbf5/profile96a0f198, Build6019f7c5. Финальный опубликованный кандидат `c1fff41b7dca14f240e0917a95052ee79fc474a5`, tool`47b80fadab18df5819faefa8fbd759a95cac7801`, profileSHA`e5ed4de577fe682d748f4f6af4aab4af54ef36e77a19ccfeddc08a1ce9aae6aa` заменяет только merge на явный points_to +exact matcher; actual proof в Build7 не запускался. Не склеивать старые PASS с финальными identities.
+- Обслуживание отдельно: R7 registration, ghost source placeholders, outcome selector/CFG fallthrough, строгие source/stage/target controls. Независимые LunaHIGH reviews; static17patch/18base и synthetic checks PASS, не formal acceptance. Runtime/kernel/model/prelude и исходные full posts/gates сохранены.
+- Матрица [обязательств](cloud-build/origin-layout/R7-OBLIGATIONS-20261020.md): original guard loan/Drop, CURRENT normal/unwind, prefix exact coercion/borrow bridge и применимые controls остаются OPEN. BeforeLive INC: lexical unbound local вместо физического heap refusal; исходное свойство не ослаблено.
+- Следующий execution требует нового окна/бюджета. Сначала existing final candidate compile preflight → actual merge/singleton rejoin → original guard/CURRENT/совместимая матрица. [Published diagnostic release](cloud-build/origin-layout/R7-RELEASE-20261020.json). Cloud ожидание не active agent time.

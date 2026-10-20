@@ -2,13 +2,13 @@
   "phase": "MERGE-POST-MIGRATION-CURRENT-RECOVERY-R7-2026-10-20",
   "owner": "merge",
   "authorization_model": "bounded-cloud-budget",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "allowed_lanes": [
     "merge"
   ],
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 3001,
-  "remaining_build_seconds": 599,
+  "used_build_seconds": 3384,
+  "remaining_build_seconds": 0,
   "builds": [
     {
       "dispatch_token": "dispatch-13d7e8c5474844868e2993949e763a58",
@@ -141,6 +141,28 @@
       "build_seconds": 537,
       "accounted": true,
       "execution_seconds": 536
+    },
+    {
+      "dispatch_token": "dispatch-71d40cf6803b4b7db1de98be2992523d",
+      "owner": "merge",
+      "phase_id": "MERGE-POST-MIGRATION-CURRENT-RECOVERY-R7-2026-10-20",
+      "infra_sha": "c1fff41b7dca14f240e0917a95052ee79fc474a5",
+      "proof_sha": "c1fff41b7dca14f240e0917a95052ee79fc474a5",
+      "lane": "merge",
+      "submitted_config_sha256": "e343806daebeb50a55ecb56384a52027d2f4dc732eb20292da49d61f0bc5d309",
+      "reserved_seconds": 599,
+      "timeout_seconds": 539,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "11da9f0810d33c7245d18d0c262263616d4d9c61873ad750179243d4d67a5040",
+      "build_id": "55195571-1b4b-4c01-99b8-d613ec137594",
+      "start_time": "2026-10-20T16:26:44.405470588Z",
+      "finish_time": "2026-10-20T16:33:06.305927Z",
+      "create_time": "2026-10-20T16:26:43.440243904Z",
+      "build_seconds": 383,
+      "accounted": true,
+      "execution_seconds": 382
     }
   ],
   "active_build": null,
@@ -150,5 +172,8 @@
   "max_timeout_seconds": 900,
   "authorization": "Direct owner CURRENT-TASK R7 authorization; 120-minute main window plus 30-minute finishing window; fresh 3600 Cloud-second account; stable owner merge, merge lane, pinned objects; timeout 90..900 seconds; no new dispatch/request after main deadline; no carryover.",
   "policy_revision": "2026-10-20 owner CURRENT-TASK R7 with Evidence v0.11 and ITERATION-PROCESS",
-  "carryover_allowed": false
+  "carryover_allowed": false,
+  "retired_unused_seconds": 216,
+  "closed_utc": "2026-10-20T16:36:37.437639+00:00",
+  "closure_reason": "Original main deadline passed; seven terminal builds reconciled; finishing only. Remaining seconds retired without carry."
 }

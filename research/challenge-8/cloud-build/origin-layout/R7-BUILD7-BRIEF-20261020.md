@@ -1,0 +1,91 @@
+# SmallSort Evidence Brief — 55195571
+
+- Processing: **VERIFIED_ARCHIVE_AND_INVENTORY**
+- Build proof verdict (source claim): **NOT_ACCEPTED_AS_REPORTED**
+- Run exit (source claim): `124`; evidence complete: `True`
+
+## Further bounded evidence
+
+- Complete catalogue: 142 verified members; retained content: 115 files.
+- CLI: `smallsort-brief 55195571-1b4b-4c01-99b8-d613ec137594 --catalogue`, `--search LITERAL`, `--file ID --pointer /key` (JSON), or `--file ID --start 1` (text). Requires the v0.8 client installed on the caller host.
+- Reader: `/builds/55195571-1b4b-4c01-99b8-d613ec137594/catalogue?q=literal`, `/search?q=literal`, `/fragment?file_id=ID&start=1` (text) or `&pointer=/key` (JSON). Use the same /builds/UUID prefix for all routes. Search is over sanitized retained data only; inspect coverage and next_offset. No raw fallback or proof inference.
+
+## Failure diagnostics (verified archived sources)
+
+- Diagnostic status: **OBSERVED**; causality: **UNKNOWN**
+- COMPILER_ERROR: $HOME differs from euid-obtained home directory: you may be using sudo
+  - Source: `full-stderr.log` line 3; SHA-256 `1421ef97c119a9ee9833afe3bb5a77e9a23a5731747d0291a3ae891cf5a453ff`
+- COMPILER_ERROR: $HOME directory: /builder/home
+  - Source: `full-stderr.log` line 4; SHA-256 `1421ef97c119a9ee9833afe3bb5a77e9a23a5731747d0291a3ae891cf5a453ff`
+- COMPILER_ERROR: euid-obtained home directory: /root
+  - Source: `full-stderr.log` line 5; SHA-256 `1421ef97c119a9ee9833afe3bb5a77e9a23a5731747d0291a3ae891cf5a453ff`
+
+## Bounded diagnostic context (untrusted observations)
+
+- AVAILABLE; parser=SUPPORTED_OBSERVATIONS; selection=FIRST_GENERIC_MARKER
+  - Source: `full-stderr.log` line UNKNOWN; SHA-256 `1421ef97c119a9ee9833afe3bb5a77e9a23a5731747d0291a3ae891cf5a453ff`
+> L1: debconf: delaying package configuration, since apt-utils is not installed
+> L2: debconf: delaying package configuration, since apt-utils is not installed
+> L3: error: $HOME differs from euid-obtained home directory: you may be using sudo
+> L4: error: $HOME directory: /builder/home
+> L5: error: euid-obtained home directory: /root
+> L6: info: profile set to 'minimal'
+> L7: info: default host triple is x86_64-unknown-linux-gnu
+> L8: info: skipping toolchain installation
+  - Scanned 1110/1110 bytes; scan limit reached=False; lines shown=8/12.
+- AVAILABLE; parser=NO_SUPPORTED_PARSER_CLASSIFICATION; selection=FIRST_GENERIC_MARKER
+  - Source: `allprooflogs/compile-only.log` line UNKNOWN; SHA-256 `002c965880982c0d1e6fb5edcf8f92a0fbc8312c75758db38a4a36885c5cb8eb`
+> L325: File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 285, characters 2-9:
+> L326: [WITHHELD: COMMAND_ENVIRONMENT_OR_ROLE_TEXT]
+> L327: ^^^^^^^
+> L328: Warning 30 ?duplicate-definitions?: the constructor Error is defined in both types const_kind and ty_kind.
+> L329: File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 288, characters 4-17:
+> L330: [WITHHELD: COMMAND_ENVIRONMENT_OR_ROLE_TEXT]
+> L331: ^^^^^^^^^^^^^
+> L332: Warning 30 ?duplicate-definitions?: the label kind is defined in both types hir_generics_generic_param and ty.
+  - Scanned 77084/77084 bytes; scan limit reached=False; lines shown=8/12.
+- Up to 2 short windows shown; complete bounded context and availability counts are in evidence-index.json. Context does not establish causality.
+
+## Tool build milestones (individual observed records)
+
+- `translator-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `console-build`: EXIT_ZERO; exit=`0`; records=1; omitted=0
+  - Source: `allprooflogs/build/console-build-exit-code.txt` line UNKNOWN; SHA-256 `9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa`
+- `exporter-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `decoder-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `refiner-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `tracked-md-compile`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `tracked-md-preparation`: EXIT_ZERO; exit=`0`; records=1; omitted=0
+  - Source: `allprooflogs/tracked-md-preparation-exit-code.txt` line UNKNOWN; SHA-256 `9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa`
+
+## First comparator source results
+
+- Coverage: NO_SUPPORTED_SOURCE_RECORD_OR_NAMED_ARTIFACT; projected=0; omitted=0; scan_truncated=False; showing up to 6 records
+- A joint false/true/panic claim does not provide separate per-branch receipts; absent records do not establish NOT_RUN.
+
+## Stage observations (exit codes are not proof verdicts)
+
+- Record counts: EXIT_NONZERO=1, EXIT_ZERO=24; order=NOT_ESTABLISHED; last completed stage=UNKNOWN
+- `compile-only`: exit=`124`; linkage=`PAIRED_FILENAME_ONLY`; diagnostic=`NO_SUPPORTED_DIAGNOSTIC`
+  - Source: `allprooflogs/compile-only-exit-code.txt` line UNKNOWN; SHA-256 `ca2ebdf97d7469496b1f4b78958f9dc8447efdcb623953fee7b6996b762f6fff`
+  - Context availability: {'status': 'AVAILABLE', 'context_id': 1}
+- Expected-control nonzero records (source-classified): 0; details in evidence-index.json.
+- Exit 0 observed: `console-build`, `tracked-md-preparation`, `callback-patch-apply`, `callback-patch-check`, `cleanup-patch-apply`, `cleanup-patch-check`; references in evidence-index.json.
+- Coverage: {'candidate_records': 25, 'parsed_records': 25, 'not_captured': 0, 'invalid_records': 0, 'omitted_records': 0}; showing up to 4 nonzero and 6 zero records.
+- Source assertions: {'proof_attempted': False, 'compiler_classification': 'FAIL_OR_INCOMPLETE'}
+  - Source: `proof-audit.json` line UNKNOWN; SHA-256 `0f1b30107cd4e2683004d606004667bc3276ca3ecc4face171769b2436c24c4e`
+- Missing/ambiguous diagnostics: VERIFIED_FAILED_LOG_WITHOUT_RECOGNIZED_COMPILER_DIAGNOSTIC
+
+## Campaign aggregates (source claims)
+
+- `allprooflogs/cases/selected-drop-minimal/aggregate.json`: classification=INCONCLUSIVE; accepted=False; 
+  - Source: `allprooflogs/cases/selected-drop-minimal/aggregate.json` line UNKNOWN; SHA-256 `5f46c92d98db7ac5f7015066c127f8533ec0d856435b4979d3a6537af6f49283`
+- Aggregate coverage: {'aggregate_candidates': 1, 'aggregates_captured': 1, 'stage_metadata_captured': 25, 'stage_summaries_retained': 25, 'context_logs_streamed': 2, 'diagnostic_logs_captured': 16, 'diagnostic_log_bytes': 149826, 'oversized_logs': 0, 'budget_omitted_logs': 11, 'aggregates_not_captured': 0}; showing up to 4.
+
+## Representative cases (source verdicts)
+
+- Cases: 0; showing up to 4. More references and source claims in evidence-index.json.
+
+## Boundaries
+
+Source verdicts are claims; no PASS is inferred from exit 0. Stage order and first/last causal stage remain UNKNOWN without explicit evidence. No verifier is run by this processor. Remote text chunk bytes are not checked.

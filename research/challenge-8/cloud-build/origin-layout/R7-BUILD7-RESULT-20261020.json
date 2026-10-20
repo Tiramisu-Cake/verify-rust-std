@@ -1,0 +1,51 @@
+{
+  "schema": "merge-r7-build-result-v1",
+  "build": {
+    "dispatch_token": "dispatch-71d40cf6803b4b7db1de98be2992523d",
+    "owner": "merge",
+    "phase_id": "MERGE-POST-MIGRATION-CURRENT-RECOVERY-R7-2026-10-20",
+    "infra_sha": "c1fff41b7dca14f240e0917a95052ee79fc474a5",
+    "proof_sha": "c1fff41b7dca14f240e0917a95052ee79fc474a5",
+    "lane": "merge",
+    "submitted_config_sha256": "e343806daebeb50a55ecb56384a52027d2f4dc732eb20292da49d61f0bc5d309",
+    "reserved_seconds": 599,
+    "timeout_seconds": 539,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "11da9f0810d33c7245d18d0c262263616d4d9c61873ad750179243d4d67a5040",
+    "build_id": "55195571-1b4b-4c01-99b8-d613ec137594",
+    "start_time": "2026-10-20T16:26:44.405470588Z",
+    "finish_time": "2026-10-20T16:33:06.305927Z",
+    "create_time": "2026-10-20T16:26:43.440243904Z",
+    "build_seconds": 383,
+    "accounted": true,
+    "execution_seconds": 382
+  },
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "run_exit_as_reported": 124,
+  "proof_attempted_as_reported": false,
+  "compiler_classification_as_reported": "FAIL_OR_INCOMPLETE",
+  "candidate_stage_exit_codes_as_reported": {
+    "console-build": null,
+    "decoder-build": null,
+    "exporter-build": null,
+    "refiner-build": null,
+    "translator-build": null
+  },
+  "observed_frontier": "compile-only exit124; source console helper completed; no candidate-stage proof result established",
+  "total_charge": 3384,
+  "retired_unused_seconds": 216,
+  "independent_credit": 0,
+  "full_current_normal_unwind_proved": false,
+  "observation": {
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "file_sha256": "0f1b30107cd4e2683004d606004667bc3276ca3ecc4face171769b2436c24c4e",
+    "index_sha256": "697c2671ed40d07607f70944f9d85aeb8d7863e7305b3a9203c72c673e6de390",
+    "archive_sha256": "caea40e1f3c602748b4c624cd9b953cfcf4ab1cb1dcdabe9940bed79afa8e5e2",
+    "request_id": "227fb51367d928bcfed0cd2faa46fc3670439ad66e2d00999471b19aba2dc602",
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "causal_status": "UNKNOWN"
+  }
+}

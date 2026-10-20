@@ -1,0 +1,96 @@
+{
+  "schema": "merge-r7-final-result-v1",
+  "status": "CLOSED_PARTIAL",
+  "recorded_end_utc": "2026-10-20T16:36:37.437639+00:00",
+  "start_utc": "2026-10-20T14:33:33Z",
+  "main_deadline_utc": "2026-10-20T16:33:33Z",
+  "absolute_deadline_utc": "2026-10-20T17:03:33Z",
+  "charged_seconds": 3384,
+  "execution_seconds": 3380,
+  "retired_unused_seconds": 216,
+  "carryover_allowed": false,
+  "own_active": 0,
+  "own_unresolved": 0,
+  "own_reservations": [],
+  "own_request": false,
+  "own_state_evidence": "Coordinator reconciled seven terminal builds; withdraw-request succeeded after main; shared reservations empty and own request absent. No shared state manually changed.",
+  "no_new_hypotheses_or_submissions_after_main": true,
+  "background_work": false,
+  "builds": [
+    {
+      "build_id": "e8d17588-c7c6-439d-aa39-7703ce8a275c",
+      "proof_sha": "1e93fe1a2867a864bbc2251dd73520ba15efc2aa",
+      "infra_sha": "1e93fe1a2867a864bbc2251dd73520ba15efc2aa",
+      "status": "FAILURE",
+      "build_seconds": 601,
+      "execution_seconds": 600
+    },
+    {
+      "build_id": "f580a235-3a7c-47e4-8567-568d0b73579c",
+      "proof_sha": "63b28d8975e96379ac3b5be58c7d58e04c94a48f",
+      "infra_sha": "63b28d8975e96379ac3b5be58c7d58e04c94a48f",
+      "status": "FAILURE",
+      "build_seconds": 569,
+      "execution_seconds": 569
+    },
+    {
+      "build_id": "e28eabe2-a8e3-41c9-a693-b3e031c6382d",
+      "proof_sha": "cbeccadb0f2d072d777b4a53e57f6ae327dd7719",
+      "infra_sha": "cbeccadb0f2d072d777b4a53e57f6ae327dd7719",
+      "status": "FAILURE",
+      "build_seconds": 288,
+      "execution_seconds": 288
+    },
+    {
+      "build_id": "b360bb7a-0f3c-45ea-b993-332a4daa0d77",
+      "proof_sha": "5f2c0f24d7cb199f39fe086fb1f9d3f7e4c71ae3",
+      "infra_sha": "5f2c0f24d7cb199f39fe086fb1f9d3f7e4c71ae3",
+      "status": "FAILURE",
+      "build_seconds": 603,
+      "execution_seconds": 602
+    },
+    {
+      "build_id": "4bb2b951-80b1-4772-84ce-abd20a0ad7c2",
+      "proof_sha": "71aa4b67819c8649b0827b9c955c1a0926e945e6",
+      "infra_sha": "71aa4b67819c8649b0827b9c955c1a0926e945e6",
+      "status": "FAILURE",
+      "build_seconds": 403,
+      "execution_seconds": 403
+    },
+    {
+      "build_id": "6019f7c5-1c0a-44a8-87be-3513797fe416",
+      "proof_sha": "637cdf45e2a17814d5b6d2abadc5d572534f42ad",
+      "infra_sha": "637cdf45e2a17814d5b6d2abadc5d572534f42ad",
+      "status": "FAILURE",
+      "build_seconds": 537,
+      "execution_seconds": 536
+    },
+    {
+      "build_id": "55195571-1b4b-4c01-99b8-d613ec137594",
+      "proof_sha": "c1fff41b7dca14f240e0917a95052ee79fc474a5",
+      "infra_sha": "c1fff41b7dca14f240e0917a95052ee79fc474a5",
+      "status": "FAILURE",
+      "build_seconds": 383,
+      "execution_seconds": 382
+    }
+  ],
+  "last_actual_proof_source": "637cdf45e2a17814d5b6d2abadc5d572534f42ad",
+  "last_actual_proof_build": "6019f7c5-1c0a-44a8-87be-3513797fe416",
+  "last_actual_tool": "2883dbf5502512dc800f70e8496d674e44bba644",
+  "last_actual_profile_sha256": "96a0f198e6a5a0662a345bc42615a19d40aa753454a360197bbaa14d6eb0d384",
+  "published_candidate_source": "c1fff41b7dca14f240e0917a95052ee79fc474a5",
+  "published_tool": "47b80fadab18df5819faefa8fbd759a95cac7801",
+  "published_profile_sha256": "e5ed4de577fe682d748f4f6af4aab4af54ef36e77a19ccfeddc08a1ce9aae6aa",
+  "last_build_proof_attempted_as_reported": false,
+  "last_build_compiler_status": "FAIL_OR_INCOMPLETE/exit124; candidate compile/proof not confirmed",
+  "observed_proof_progress": "Checked emptytail helper; Build6 observed late FnMut, checked half token, strict scope exit/full token, lifetime end, both exact scaled borrow-end/open and readonly-end; stops at unsupported pointer-points-to merge syntax. No complete normal/unwind path theorem.",
+  "first_remaining_proof_frontier": "Actual sift physical fraction merge and singleton rejoin; published explicit points_to form reviewed but not actual proof-tested in Build7. Then original guard loan/Drop/CURRENT and original full matrix remain open.",
+  "independent_credit": 0,
+  "full_normal_unwind_proof": false,
+  "full_insert_tail_proved": false,
+  "b2_achieved": false,
+  "profile_qualification": "OPEN",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causal_status": "UNKNOWN",
+  "next_step": "New owner window/budget required. First complete existing candidate compile preflight and actual targeted proof, then compatible controls/matrix. Do not infer proof acceptance from helper controls, compilation or archive integrity."
+}

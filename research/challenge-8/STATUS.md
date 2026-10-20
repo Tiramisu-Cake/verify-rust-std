@@ -1,17 +1,23 @@
-# MERGE — R7 ACTIVE / actual guard and CURRENT recovery
+# MERGE — R7 CLOSED / PARTIAL
 
-T0/main/absolute UTC2026-10-20 14:33:33/16:33:33/17:03:33.
-Fresh3600Cloudseconds, no R6 carry; Builds1–5 terminalFAILURE,
-2464charged/1136remaining before Build6 accounting. Build6 6019f7c5 WORKING,
-proof=infra637cdf45/tool2883dbf5/profile96a0f198, timeout900/reservation960.
-Build5 source compile/preparation7 EXIT_ZERO, reached late FnMut and checked
-half-token close; No such label before shared scope exit/fulltoken recovery.
-Candidate6 reviewed repair uses sole CFGsuccessor after both outcome close blocks.
-Fresh array source1positive/3expected, late admission2expected, acceptedfalse.
-BeforeLive remainsINC (unbound local); prefix placeholder at as_mut_ptr remains.
-Independent LunaHIGH GO, static/synthetic checksPASS; theorem/B2/qualification OPEN,
-independentcredit0. [Task/current report](CURRENT-TASK.md),
-[obligations](cloud-build/origin-layout/R7-OBLIGATIONS-20261020.md).
+T0/main/absolute UTC2026-10-20 14:33:33/16:33:33/17:03:33; account closure16:36:37Z.
+Seven terminalFAILURE Builds:3384charged/3380execution,216retired without carry.
+Own active/unresolved/requests/reservations0, no background continuation.
+No new hypotheses/submissions after main. [Final result](cloud-build/origin-layout/R7-FINAL-RESULT-20261020.json).
+
+Last actual proof637cdf45/tool2883dbf5/profile96a0f198 reaches scoped late
+full token/lifetime end/both scaled loan and readonly ends on the observed path,
+then unsupported merge assertion313. Published finalcandidate c1fff41b/tool47b80fad/
+profilee5ed4de5 changes only explicit points_to merge+exact matcher; Build7
+compile-only124 and source proof_attemptedfalse, so current compile/proof unconfirmed.
+
+Checked emptytail helper and frontend/control maintenance are distinct progress.
+Whole CURRENT normal/unwind/originalguard/insert_tail/B2/qualification OPEN,credit0.
+BeforeLive lexical error remainsINC; prefix exact Unsize/borrow bridge unresolved.
+No old source PASS transferred into final profile qualification.
+[Task/report](CURRENT-TASK.md), [obligations](cloud-build/origin-layout/R7-OBLIGATIONS-20261020.md),
+[published diagnostic release](cloud-build/origin-layout/R7-RELEASE-20261020.json).
+New execution requires a new owner window/budget. Historical checkpoints below.
 
 # MERGE — R7 READY / proof mission OPEN
 
