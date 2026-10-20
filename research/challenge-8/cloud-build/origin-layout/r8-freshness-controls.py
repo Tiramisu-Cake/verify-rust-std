@@ -15,6 +15,8 @@ from pathlib import Path
 
 CAMPAIGN = "r8-owned-array-freshness-controls-v1"
 PROFILE = "experimental-merge-owned-array-allocation-r8-v1"
+R9_PROFILE = "experimental-merge-guard-current-return-r9-v1"
+SUPPORTED_PROFILES = (PROFILE, R9_PROFILE)
 STAGES = ("exporter", "decode", "refinement", "verifast")
 HEADER = "#![no_std]\n#![allow(dead_code)]\n"
 SPAN_DIAGNOSTIC = "Assertion might not hold."
@@ -353,8 +355,8 @@ def _profile_binding(args, env: dict) -> dict:
     profile = json.loads(raw)
     if not isinstance(profile, dict):
         raise ValueError("R8 profile must be a JSON object")
-    if selected != PROFILE or profile.get("profile") != selected:
-        raise ValueError("selected profile differs from the owner-array R8 profile")
+    if selected not in SUPPORTED_PROFILES or profile.get("profile") != selected:
+        raise ValueError("selected profile differs from the supported owner-array profile")
     schema = profile.get("schema")
     if not isinstance(schema, str) or not schema:
         raise ValueError("R8 profile schema is absent")

@@ -1,14 +1,15 @@
-# MERGE — R9 READY / guard-CURRENT return target
+# MERGE — R9 ACTIVE / native failed-return binding
 
-2026-10-20: [новое самостоятельное задание R9](CURRENT-TASK.md) явно разрешает **120мин + до30мин завершения, свежие3600 Cloud-секунд**, без отдельного лимита числа последовательных Builds. T0 при фактическом старте. Новый timeout90..1200с/envelope+60 и явная оценка compile+target+report; R8 CLOSED/221retired не переносить. Worktrees `/root/verify-rust-std-merge-origin` и `/root/verifast-merge-actual-glue`, branch merge/incoming-origin-20261009, toolf2e92cec.
+T0/main/absolute UTC2026-10-20 19:30:15/21:30:15/22:00:15; fresh3600/used0;
+max_timeout1200. R8closed/221retired notcarried. Candidate1 toolec985dea,
+R9separateexperimentalprofile: read-only executedDrop/Return/Resume+tmpheap receipts;
+existingR8allocationrule unchanged. IndependentLunaHIGH registration/native/wiringGO;
+static19patch/17pins/18base and servicechecksPASS. Actualpending; wholeCURRENT/
+normal/unwind/B2/qualificationOPEN,credit0. Firsttimeout1200/envelope1260 with
+coldcompile+target+controls+evidence plan; sourceinputs publishedbeforecoordinator.
+[Task](CURRENT-TASK.md), [session](cloud-build/origin-layout/R9-SESSION-20261020.md).
 
-**Ближайшая proof-цель:** exact failed normal/Cleanup return binding и checked original tmp readonly/physical resource recovery после соответствующего Drop до free/Resume. R8 observed progress: old-model physicalmerge/fullcell/singleton; experimental allocation profile guardspan/Drop→rootfree. Build6 verified324 missinghalf points_to(tmp_addr,_); эффективность normal suffix/точная ветка отказа не установлены. Continue/break/unwind/CURRENT/caller/whole insert_tail/B2 OPEN,independentcredit0.
-
-**Согласованный model scope:** продолжение narrow default-off native owned-array allocation R8 profile разрешено; CURRENT owned subrange/count2 не весь entryarray3, только interval freshness, никакого нового ownership. Tool `f2e92cecaf574d7970cc12d0cb1e75b2980b6aea`, profile838ade99. QualificationOPEN/acceptedfalse: Build6 two positive/one intended diagnostic/fiveINC. Final classifier `2b01df369ac927f4df875249758e89a97020325f` reviewed; Build7 compile-only124/proof_attemptedfalse, actual control qualification не подтверждена. Исторические verdicts сохраняются.
-
-**R8 CLOSED_PARTIAL:** checkpoint `8725955ffc95d39dadfe804a374327016db8ffda`;3379charged/3374execution,221retired,carryfalse,семь terminalFAILURE/accounted,ownactive/unresolved/requests/reservations0. Последний actual source `d3abd4c9dc0b036805dda6399e4370029e59fa2d`. [Архив R8 с отчётом/Builds](task-history/merge-late-recovery-rejoin-autonomous-2026-10-20-r8.md#отчёт-агента), [итог](cloud-build/origin-layout/R8-FINAL-RESULT-20261020.json), [обязательства](cloud-build/origin-layout/R8-OBLIGATIONS-20261020.md), [qualification](cloud-build/origin-layout/R8-FRESHNESS-QUALIFICATION-20261020.json), [release](cloud-build/origin-layout/R8-RELEASE-20261020.json).
-
-Ниже исторические checkpoints; прежние окна/разрешения не действуют. Приоритет у текущего R9 задания.
+Ниже исторические checkpoints; приоритет у текущего R9 задания.
 
 # MERGE — R8 CLOSED_PARTIAL
 

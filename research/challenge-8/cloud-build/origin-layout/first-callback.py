@@ -18,7 +18,9 @@ PROFILE = 'experimental-merge-guard-addressability-v1'
 R5_PROFILE = 'experimental-merge-guard-addressability-emitter-r5-v1'
 R7_PROFILE = 'experimental-merge-late-callback-recovery-r7-v1'
 R8_PROFILE = 'experimental-merge-owned-array-allocation-r8-v1'
-SUPPORTED_PROFILES = (PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE)
+R9_PROFILE = 'experimental-merge-guard-current-return-r9-v1'
+SUPPORTED_PROFILES = (PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE)
+R9_GUARD_TRACE_ENV = 'SMALLSORT_R9_GUARD_TRACE'
 PREFIX_NAME = b'insert_tail_first_callback_prefix'
 CUT = b'        // SAFETY: after this read'
 
@@ -396,9 +398,9 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
     if not prefix:
         verified = _prepare_late_references(_prepare_first_shift(_prepare_guard_empty_tail(
             _prepare_tmp_reference(_open_tail_read(verified)))))
-        if profile in (R7_PROFILE, R8_PROFILE):
+        if profile in (R7_PROFILE, R8_PROFILE, R9_PROFILE):
             verified = _prepare_late_scope(verified)
-        if profile == R8_PROFILE:
+        if profile in (R8_PROFILE, R9_PROFILE):
             verified = _prepare_post_drop_recovery(verified, old)
     # Strip the NEW ghost-only annotations and compare with inherited source.
     # Other original ghost commands were already checked by old._prepare.
@@ -427,7 +429,7 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
                   source_relation='exact pre-cut runtime segment plus closing braces and renamed function/wrapper' if prefix else 'complete actual body; ghost-only annotation replacement',
                   final_posts_sha256=_sha(old.INSERT_CONTRACT),
                   callback_marker_sha256=_sha(markers),
-                  late_callback_scope_recovery_requested=(profile in (R7_PROFILE, R8_PROFILE) and not prefix),
+                  late_callback_scope_recovery_requested=(profile in (R7_PROFILE, R8_PROFILE, R9_PROFILE) and not prefix),
                   first_callback_unwind_recovery_qualified=False,
                   first_callback_unwind_status='NOT_RUN', proof_credit=False)
     record['actual_first_call_line'] = old._line(verified, call.rstrip(b'\n'))
@@ -445,6 +447,16 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
         record['true_frontier_line'] = old._line(verified, b'let tmp = ManuallyDrop::new(tail.read());')
     (evidence / 'preparation.json').write_text(json.dumps(record, indent=2, sort_keys=True)+'\n')
     return case, record
+
+
+def _execute_case_with_r9_trace(execute_case, case, args, env, *, profile,
+                                prefix=False, actual_callback_case=False):
+    """Enable R9 native guard tracing only for its nonprefix callback case."""
+    case_env = dict(env)
+    case_env.pop(R9_GUARD_TRACE_ENV, None)
+    if profile == R9_PROFILE and not prefix and actual_callback_case:
+        case_env[R9_GUARD_TRACE_ENV] = '1'
+    return execute_case(case, args, case_env)
 
 
 def classify(case, record, execution, *, baseline_positive=False):
@@ -529,6 +541,8 @@ def classify(case, record, execution, *, baseline_positive=False):
 def run(evidence, args, env, execute_case, validated_receipt):
     if not callable(execute_case):
         raise TypeError('hosted execute_case required')
+    campaign_env = dict(env)
+    campaign_env.pop(R9_GUARD_TRACE_ENV, None)
     selected_profile = getattr(args, 'profile', None)
     profile_path = os.environ.get('SMALLSORT_MERGE_PROFILE')
     if (selected_profile not in SUPPORTED_PROFILES or not profile_path or
@@ -540,13 +554,20 @@ def run(evidence, args, env, execute_case, validated_receipt):
     provider, proof_sha = proof.require_hosted_cloud()
     consumer._validate_receipt(args, validated_receipt, provider, proof_sha)
     evidence.mkdir(parents=True, exist_ok=False)
+    def dispatch(case, case_args, case_env=None, *, prefix=False, actual_callback_case=False):
+        return _execute_case_with_r9_trace(
+            execute_case, case, case_args, campaign_env if case_env is None else case_env,
+            profile=selected_profile,
+            prefix=prefix, actual_callback_case=actual_callback_case)
     share_controls = _load('r6_share_controls', HERE/'r6-share-controls.py')
     results = {'share_representation_controls': share_controls.run(
-        evidence/'share-representation-controls', args, env, execute_case,
+        evidence/'share-representation-controls', args, campaign_env,
+        lambda case, case_args, case_env: dispatch(case, case_args, case_env),
         representation=U64_SHARE_REPRESENTATION)}
     array_controls = _load('r7_array_controls', HERE/'r7-array-controls.py')
     results['guard_array_controls'] = array_controls.run(
-        evidence/'guard-array-controls', args, env, execute_case,
+        evidence/'guard-array-controls', args, campaign_env,
+        lambda case, case_args, case_env: dispatch(case, case_args, case_env),
         helper=GUARD_EMPTY_TAIL_HELPER)
     # Full-body case runs regardless of prefix failure, retaining the next real
     # resource frontier under unmodified final posts.
@@ -565,9 +586,10 @@ def run(evidence, args, env, execute_case, validated_receipt):
                 continue
             case, record = prepare(evidence/name, prefix=prefix, mutation=mutation, profile=selected_profile)
             before = consumer._hashes(case)
-            args.r8_owned_array_allocation = (selected_profile == R8_PROFILE and not prefix)
+            args.r8_owned_array_allocation = (selected_profile in (R8_PROFILE, R9_PROFILE) and not prefix)
             try:
-                execution = execute_case(case, args, env)
+                execution = dispatch(case, args, prefix=prefix,
+                                     actual_callback_case=(name == 'full_body'))
             finally:
                 args.r8_owned_array_allocation = False
             execution['stage_receipt_gate'] = consumer._stage_receipts(case, execution.get('stages', {}), before)
@@ -578,21 +600,25 @@ def run(evidence, args, env, execute_case, validated_receipt):
         if selected_profile == R7_PROFILE:
             geometry_controls = _load('r8_geometry_controls', HERE/'r8-geometry-controls.py')
             results['allocation_geometry_controls'] = geometry_controls.run(
-                evidence/'allocation-geometry-controls', args, env, execute_case)
-        if selected_profile in (R7_PROFILE, R8_PROFILE):
+                evidence/'allocation-geometry-controls', args, campaign_env,
+                lambda case, case_args, case_env: dispatch(case, case_args, case_env))
+        if selected_profile in (R7_PROFILE, R8_PROFILE, R9_PROFILE):
             late_controls = _load('r7_late_admission', HERE/'r7-late-admission-controls.py')
             results['late_scope_admission_controls'] = late_controls.run(
-                evidence/'late-scope-admission-controls', args, env, execute_case,
+                evidence/'late-scope-admission-controls', args, campaign_env,
+                lambda case, case_args, case_env: dispatch(case, case_args, case_env),
                 evidence/'full_body/cases/actual_three_current_full_posts',
                 json.loads((evidence/'full_body/preparation.json').read_text()))
-        if selected_profile == R8_PROFILE:
+        if selected_profile in (R8_PROFILE, R9_PROFILE):
             freshness = _load('r8_freshness_controls', HERE/'r8-freshness-controls.py')
             results['owned_array_allocation_freshness_controls'] = freshness.run(
-                evidence/'owned-array-allocation-freshness-controls', args, env, execute_case)
+                evidence/'owned-array-allocation-freshness-controls', args, campaign_env,
+                lambda case, case_args, case_env: dispatch(case, case_args, case_env))
         if results['prefix']['current_false_true_panic_proved']:
             controls = _load('first_callback_admission', HERE/'first-callback-admission-controls.py')
             results['admission_controls'] = controls.run(
-                evidence/'admission-controls', args, env, execute_case,
+                evidence/'admission-controls', args, campaign_env,
+                lambda case, case_args, case_env: dispatch(case, case_args, case_env),
                 evidence/'prefix/cases/actual_three_current_full_posts',
                 {**json.loads((evidence/'prefix/preparation.json').read_text()),
                  'full_body_case': str(evidence/'full_body/cases/actual_three_current_full_posts'),

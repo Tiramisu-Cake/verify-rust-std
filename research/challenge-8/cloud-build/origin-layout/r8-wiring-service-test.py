@@ -104,7 +104,7 @@ def main():
         {'network_sha': 'a' * 64}, R8)
     assert b'assert profile in ("experimental-merge-actual-glue-body-v8", "' + R8.encode() + b'")' in staged_run
     assert 'selected_profile == R7_PROFILE' in (HERE / 'first-callback.py').read_text()
-    assert "selected_profile == R8_PROFILE" in (HERE / 'first-callback.py').read_text()
+    assert "selected_profile in (R8_PROFILE, R9_PROFILE)" in (HERE / 'first-callback.py').read_text()
     print('R8 dispatch/CLI default-off/profile-binding synthetic tests PASS')
 
 

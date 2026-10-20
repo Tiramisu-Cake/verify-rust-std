@@ -68,4 +68,10 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-R9 ещё не начата. T0/deadlines/authorization binding и новый ledger заполняет агент при фактическом старте. Cloud execution и продолжение описанного experimental allocation profile явно разрешены после обычных gates; дополнительного разрешения на первый/следующий Build в scope не требуется.
+R9 ACTIVE. T0/main/absolute UTC2026-10-20 19:30:15/21:30:15/22:00:15.
+Fresh3600, used0; max_timeout1200; R8closed/221retired не переносить.
+Цель: exact failedreturn/Drop binding → checked originaltmp recovery → CURRENT.
+До: R8Build6 rootfree324 missinghalf; suffix/path неизвестны. После: пока нет
+нового proof-result. Сначала targetedEvidence и registration1200+servicechecks;
+изменения tool/continuation только после rationale/review. QualificationOPEN,credit0.
+Ownactive/unresolved/requests/reservations0 на старте. [Карточка](cloud-build/origin-layout/R9-SESSION-20261020.md).

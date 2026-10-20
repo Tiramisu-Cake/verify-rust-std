@@ -1,0 +1,175 @@
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+index 9813a884..1293a1db 100644
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -1979,6 +1979,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+     val var_id_trs_map_ref : var_id_trs_map ref
+     val ghost_stmts : Ast.stmt list
+     val body_imp_loc : Ast.loc
++    val body_name : string
++    val body_def_hash : string
++    val body_mir_fingerprint : string
++    val body_mir_phase : string
+     val body_tr_defs_ctx : body_tr_defs_ctx
+     val is_generated_glue : bool
+     val strict_lft_scope_ends : (Ast.loc * string) list
+@@ -2016,6 +2020,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       let callback_unwind_label = "#merge_callback_unwind_epilogue"
+       let selected_resume_targets : string list ref = ref []
+       let translating_selected_resume = ref false
++      let current_block = ref ""
++      let current_is_cleanup = ref false
+       let generated_glue = Args.body_tr_defs_ctx.generated_glue
+       let is_generated_glue = Args.is_generated_glue
+       let hrtb_fnmut_output_bounds :
+@@ -3372,6 +3378,25 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+                 ref [] ),
+             targets )
+ 
++    (* Diagnostic events are parser-inexpressible and execute through the
++       verifier on the selected path. They neither assume nor produce resources.
++       The exact same Body reader supplies the MIR binding and translated AST. *)
++    let r9_guard_trace loc details =
++      if Sys.getenv_opt "SMALLSORT_R9_GUARD_TRACE" = Some "1" &&
++         State.first_callback <> None && State.late_callback <> None then begin
++        if Args.body_def_hash = "" || Args.body_mir_fingerprint = "" ||
++           Args.body_mir_phase = "" || !State.current_block = "" then
++          Ast.static_error loc "R9 guard trace requires native body and MIR block identity" None;
++        let label = Printf.sprintf
++          "function=%s def_hash=%s mir_fingerprint=%s mir_phase=%s body_span=%s block=%s cleanup=%b at=%s %s"
++          Args.body_name Args.body_def_hash Args.body_mir_fingerprint
++          Args.body_mir_phase (Ast.string_of_loc Args.body_imp_loc)
++          !State.current_block !State.current_is_cleanup
++          (Ast.string_of_loc loc) details in
++        [Ast.PureStmt (loc, Ast.ExprStmt (Ast.CallExpr
++          (loc, "#r9_guard_event:" ^ label, [], [], [], Ast.Static)))]
++      end else []
++
+     let translate_terminator_kind (ret_place_id : string)
+         (tkind_cpn : TerminatorKindRd.t) (loc : Ast.loc) =
+       let open TerminatorKindRd in
+@@ -3394,7 +3419,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+             else
+               Ast.CallExpr (loc, "returning", [], [], [ LitPat result ], Static)
+           in
+-          Ok ([ Ast.ReturnStmt (loc, Some result) ], EncodedTerminator, [])
++          Ok (r9_guard_trace loc "kind=return outcome=returning" @
++              [Ast.ReturnStmt (loc, Some result)], EncodedTerminator, [])
+       | Unreachable ->
+           Rocq_writer.rocq_print_ident TranslatorArgs.rocq_writer "Unreachable";
+           Ok ([ Ast.Assert (loc, False loc) ], EncodedTerminator, [])
+@@ -3463,9 +3489,21 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+               | Some key -> key | None -> selected_path in
+             let selected_call = Ast.CallExpr (loc, call_name, [Ast.InferredTypeExpr loc], [],
+               [Ast.LitPat receiver], Ast.Static) in
++            let unwind_binding = match UnwindActionRd.get (unwind_action_get drop_data_cpn) with
++              | UnwindActionRd.Continue -> "continue"
++              | UnwindActionRd.Unreachable -> "unreachable"
++              | UnwindActionRd.Terminate -> "terminate"
++              | UnwindActionRd.Cleanup id -> "cleanup:" ^ translate_basic_block_id id
++              | _ -> "unsupported" in
++            let binding outcome = Printf.sprintf
++              "kind=selected_drop outcome=%s key=%s selected=%s selected_hash=%s guard=%s normal_target=%s unwind=%s receiver=%s"
++              outcome generated_body_key selected_path selected_hash guard_path
++              target unwind_binding receiver_name in
+             let call_stmt = Ast.SwitchStmt (loc, selected_call, [
+-              Ast.SwitchStmtClause (loc, call "returning" [Ast.Var (loc, "__result")], finish);
+-              Ast.SwitchStmtClause (loc, call "unwinding" [], finish @ unwind_stmts)]) in
++              Ast.SwitchStmtClause (loc, call "returning" [Ast.Var (loc, "__result")],
++                finish @ r9_guard_trace loc (binding "returning"));
++              Ast.SwitchStmtClause (loc, call "unwinding" [],
++                finish @ r9_guard_trace loc (binding "unwinding") @ unwind_stmts)]) in
+             Ok ([ghost "close_points_to" [address];
+                  Ast.DeclStmt (loc, [(loc, Some (Ast.PtrTypeExpr (loc,
+                    Ast.StructTypeExpr (loc, Some guard_path, None, [], []))),
+@@ -3546,7 +3584,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+              direct qualified Drop cleanup uses the existing synthetic location. *)
+           let stmt_loc = if !State.translating_selected_resume then Ast.DummyLoc else loc in
+           Ok
+-            ( [
++            ( r9_guard_trace loc "kind=resume outcome=unwinding" @ [
+                 Ast.ReturnStmt
+                   ( stmt_loc,
+                     Some (Ast.CallExpr (loc, "unwinding", [], [], [], Static))
+@@ -4249,8 +4287,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+         let* terminator_stmts, terminator, successors =
+           Rocq_writer.rocq_print_big_record_field TranslatorArgs.rocq_writer "terminator" @@ fun () ->
+             State.translating_selected_resume := List.mem id !State.selected_resume_targets;
++            State.current_block := id;
++            State.current_is_cleanup := is_cleanup_get bblock_cpn;
+             let result = translate_terminator ret_place_id terminator_cpn in
+             State.translating_selected_resume := false;
++            State.current_block := "";
++            State.current_is_cleanup := false;
+             result
+         in
+         let bblock : Mir.basic_block =
+@@ -6481,6 +6523,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       let var_id_trs_map_ref = var_id_trs_map_ref
+       let ghost_stmts = ghost_stmts
+       let body_imp_loc = imp_loc
++      let body_name = TrName.translate_def_path (def_path_get body_cpn)
++      let body_def_hash = def_path_hash_get body_cpn
++      let body_mir_fingerprint = captured_mir_hash_get body_cpn
++      let body_mir_phase = captured_mir_phase_get body_cpn
+       let body_tr_defs_ctx = body_tr_defs_ctx
+       let is_generated_glue = is_generated_glue
+       let strict_lft_scope_ends = strict_lft_scope_ends
+diff --git a/src/verifast.ml b/src/verifast.ml
+index d0d20748..a751ef06 100644
+--- a/src/verifast.ml
++++ b/src/verifast.ml
+@@ -182,6 +182,31 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+     if not (is_transparent_stmt s) then begin !stats#stmtExec l; reportStmtExec l end;
+     let break_label () = if pure then "#ghostBreak" else "#break" in
+     let continue_label () = if pure then "#ghostContinue" else "#continue" in
++    (* Read-only, bounded diagnostics for the opt-in R9 exact guard path.
++       Every continuation below receives the original h and env unchanged. *)
++    let r9_guard_state at h env label =
++      if dialect = Some Rust && options.option_rust_owned_array_allocation_r8 &&
++         Sys.getenv_opt "SMALLSORT_R9_GUARD_TRACE" = Some "1" then begin
++        let wanted name = List.exists (fun suffix -> String.ends_with ~suffix name)
++          ["ref_readonly_end_token"; "ref_initialized"; "points_to";
++           "points_to_"; "array"; "array_"; "CopyOnDrop_drop_effect"] in
++        let selected = List.filter_map (fun (Chunk ((g, _), ts, coef, args, _)) ->
++          match List.find_opt (fun (_, (_, _, _, _, symb, _, _)) -> g == symb) predfammap with
++          | Some (name, _) when wanted name -> Some (name, ts, coef, args)
++          | _ -> None) h in
++        let show = function Some value -> ctxt#pprint value | None -> "ABSENT" in
++        let tmp = try_assoc "tmp" env in
++        let live = try_assoc "$rust_storage_live$tmp" env in
++        Printf.eprintf
++          "R9_GUARD_EVENT at=%s %s tmp=%s storage_live=%s heap_total=%d selected_total=%d shown=%d\n%!"
++          (Ast.string_of_loc at) label (show tmp) (show live)
++          (List.length h) (List.length selected) (min 24 (List.length selected));
++        List.iteri (fun index (name, ts, coef, args) -> if index < 24 then
++          Printf.eprintf "R9_GUARD_CHUNK index=%d pred=%s types=%s coefficient=%s args=[%s]\n%!"
++            index name (String.concat "," (List.map string_of_type ts))
++            (ctxt#pprint coef) (String.concat ";" (List.map (fun t -> ctxt#pprint t) args))) selected
++      end
++    in
+     let free_locals closeBraceLoc h tenv env locals cont =
+       (* Any cleanup route retires the allocation receipt, including block and
+          loop cleanup that is not preceded by an explicit MIR StorageDead. *)
+@@ -205,6 +230,9 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+               consume_cxx_object closeBraceLoc coefpat addr t verify_dtor_call true h env @@ fun h env -> 
+               free_locals_core h locals
+       in
++      if List.mem_assoc "tmp" locals then
++        r9_guard_state closeBraceLoc h env
++          ("kind=pre_free tmp_required=" ^ (if List.assoc "tmp" locals then "1/2" else "1"));
+       match locals with
+         [] -> cont h env
+       | _ -> with_context (Executing (h, env, closeBraceLoc, "Freeing locals.")) (fun _ -> free_locals_core h locals)
+@@ -560,6 +588,11 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+         verify_stmt (pn,ilist) blocks_done lblenv tparams boxes false leminfo funcmap predinstmap sizemap tenv ghostenv h env s tcont return_cont econt
+       else
+         static_error l "Non-pure statements are not allowed here." None
++    | ExprStmt (CallExpr (l, name, [], [], [], Static))
++      when dialect = Some Rust && String.starts_with ~prefix:"#r9_guard_event:" name ->
++      require_pure ();
++      r9_guard_state l h env (String.sub name 16 (String.length name - 16));
++      cont h env
+     | ExprStmt (CallExpr (l, ("assume"|"#assume" as g), [], [], [LitPat e], Static)) when dialect = Some Rust ->
+       if not options.option_allow_assume && g = "assume" then static_error l "Specify -allow_assume on the command line to enable 'assume' statements." None;
+       require_pure ();

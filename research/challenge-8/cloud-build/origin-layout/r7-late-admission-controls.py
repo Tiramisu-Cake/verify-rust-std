@@ -11,7 +11,8 @@ import re
 CAMPAIGN = "r7-late-callback-admission-controls-v1"
 R7_PROFILE = "experimental-merge-late-callback-recovery-r7-v1"
 R8_PROFILE = "experimental-merge-owned-array-allocation-r8-v1"
-SUPPORTED_PROFILES = (R7_PROFILE, R8_PROFILE)
+R9_PROFILE = "experimental-merge-guard-current-return-r9-v1"
+SUPPORTED_PROFILES = (R7_PROFILE, R8_PROFILE, R9_PROFILE)
 STAGES = ("exporter", "decode", "refinement", "verifast")
 BASELINE_DIAGNOSTIC = "MERGE_LATE_CALLBACK_RECOVERY"
 CASES = {

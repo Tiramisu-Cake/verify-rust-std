@@ -16,7 +16,8 @@ from pathlib import Path
 PROFILE = "experimental-merge-guard-addressability-emitter-r5-v1"
 R7_PROFILE = "experimental-merge-late-callback-recovery-r7-v1"
 R8_PROFILE = "experimental-merge-owned-array-allocation-r8-v1"
-SUPPORTED_PROFILES = (PROFILE, R7_PROFILE, R8_PROFILE)
+R9_PROFILE = "experimental-merge-guard-current-return-r9-v1"
+SUPPORTED_PROFILES = (PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE)
 CAMPAIGN = "r5-addressability-controls-v1"
 
 HEADER = "#![allow(dead_code)]\n"

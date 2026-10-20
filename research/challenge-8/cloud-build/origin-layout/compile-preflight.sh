@@ -74,7 +74,8 @@ sources = {
  'bin/rust/prelude_core.rsspec':'prelude_sha256',
  'bin/rust/std/lib.rsspec':'stdlib_sha256',
 }
-if p['profile'] == 'experimental-merge-owned-array-allocation-r8-v1':
+if p['profile'] in ('experimental-merge-owned-array-allocation-r8-v1',
+                     'experimental-merge-guard-current-return-r9-v1'):
     sources.update({
         'src/frontend/verifast0.ml':'options_source_sha256',
         'src/vfconsole/vfconsole.ml':'console_source_sha256',
@@ -89,7 +90,8 @@ patches = [
  (origin_layout/'unit-layout.patch', 'unit_layout_patch_sha256'),
  (origin_layout/'guard-layout.patch', 'guard_layout_patch_sha256'),
 ]
-if p['profile'] == 'experimental-merge-owned-array-allocation-r8-v1':
+if p['profile'] in ('experimental-merge-owned-array-allocation-r8-v1',
+                     'experimental-merge-guard-current-return-r9-v1'):
     patches.append((origin_layout/'r8-owned-array-allocation.patch',
                     'owned_array_allocation_patch_sha256'))
 for path, key in patches:
@@ -184,7 +186,8 @@ sources = {
  'bin/rust/prelude_core.rsspec':'prelude_sha256',
  'bin/rust/std/lib.rsspec':'stdlib_sha256',
 }
-if p['profile'] == 'experimental-merge-owned-array-allocation-r8-v1':
+if p['profile'] in ('experimental-merge-owned-array-allocation-r8-v1',
+                     'experimental-merge-guard-current-return-r9-v1'):
     sources.update({
         'src/frontend/verifast0.ml':'options_source_sha256',
         'src/vfconsole/vfconsole.ml':'console_source_sha256',

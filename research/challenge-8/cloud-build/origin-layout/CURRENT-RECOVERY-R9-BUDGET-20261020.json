@@ -1,0 +1,21 @@
+{
+  "phase": "MERGE-GUARD-CURRENT-RETURN-R9-2026-10-20",
+  "owner": "merge",
+  "authorization_model": "bounded-cloud-budget",
+  "status": "AUTHORIZED",
+  "allowed_lanes": [
+    "merge"
+  ],
+  "ceiling_build_seconds": 3600,
+  "used_build_seconds": 0,
+  "remaining_build_seconds": 3600,
+  "builds": [],
+  "active_build": null,
+  "start_utc": "2026-10-20T19:30:15Z",
+  "main_deadline_utc": "2026-10-20T21:30:15Z",
+  "deadline_utc": "2026-10-20T22:00:15Z",
+  "max_timeout_seconds": 1200,
+  "authorization": "Direct owner CURRENT-TASK R9 authorization: fixed 2026-10-20T19:30:15Z T0; 120-minute main + 30-minute finishing; fresh3600 Cloud seconds; merge owner/lane; exact published pinned objects; no new submit/request after main; no carryover.",
+  "policy_revision": "2026-10-20 CURRENT-TASK R9 / Evidence v0.11 / ITERATION-PROCESS",
+  "carryover_allowed": false
+}
