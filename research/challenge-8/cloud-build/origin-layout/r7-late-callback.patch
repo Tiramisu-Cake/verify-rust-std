@@ -1,5 +1,5 @@
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index 8d6c7d75..4b468ded 100644
+index 8d6c7d75..e3e99b7f 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -1956,6 +1956,17 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -606,7 +606,7 @@ index 8d6c7d75..4b468ded 100644
 +                  Ast.DeclStmt
 +                    (loc,
 +                     [ (loc, Some (Ast.ManifestTypeExpr (loc, Ast.Bool)),
-+                       unwind_flag, Some (Ast.False loc), (ref false, ref None) ])
++                       unwind_flag, Some (Ast.False loc), (ref false, ref None)) ])
 +                    :: vf_local_decls
 +            in
              let bblocks_cpn = basic_blocks_get_list body_cpn in

@@ -1,7 +1,11 @@
 # MERGE — R7 ACTIVE / actual guard and CURRENT recovery
 
 T0/main/absolute UTC2026-10-20 14:33:33/16:33:33/17:03:33.
-Fresh3600Cloudseconds, separate R7 ledger, no R6 carry; Build1 terminalFAILURE601charged/600execution,2999remaining.
+Fresh3600Cloudseconds, separate R7 ledger, no R6 carry; Build1+2 terminalFAILURE,
+1170charged/2430remaining before Build3 accounting. Build3 e28eabe2 submitted,
+proof=infra cbeccadb0/tool e87b7648/profile7f532d68, reservation960.
+Build2 failed frontend source GhostCmd lookup before resource proof; candidate3
+independent LunaHIGH GO fixes exact placeholders and ordinary branch selector.
 Target exact implicit guard Drop packaging, then full late lifetime/loan/readonly
 normal Continue/break/unwind resource return. Baseline actual theorem/B2/credit0.
 [Задание](CURRENT-TASK.md), [session](cloud-build/origin-layout/SESSION.md).
