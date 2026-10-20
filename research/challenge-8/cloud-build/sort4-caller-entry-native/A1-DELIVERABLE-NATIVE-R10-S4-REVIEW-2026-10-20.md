@@ -1,0 +1,3 @@
+# R10 S4 profile-only independent review
+
+GPT-6 Luna HIGH /root/s2_independent_review: GO. Only execution_mode changes full-matrix→native-p1-target, retaining1200/work960/soft900/report240/queue60 and exactR10authorization. Profile3eabbfd11a82cf64173e15e946f846f6850659265937eaf93557141d0702c9c7/allentry/core/helperpinsmatch. Existing P0a/b/c→P1→binding/region/alpha controls run fresh; all26rows retained, outside scope NOT_RUN, matrix/admission/dispatch/acceptance/proof fieldsfalse. No S3outcomeimport. Target10/dispatch7/activation8PASS, diffcheckclean.1260envelopefits1549remaining; exactpublishedclosure/admissionstillrequired. Staticreviewnotactualproof.
