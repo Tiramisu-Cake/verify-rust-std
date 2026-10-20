@@ -1,0 +1,85 @@
+{
+  "C_sha256": "e7cdc8a8504338ccaab760975c1a3f1a739211d7f8d531dd214babc2005d894e",
+  "R_sha256": "9cdca995bc926efe3275319dec345f4d70a2fec7fdc95781decb4e4c2df7c9c8",
+  "authorization_phase_id": "SORT4-POST-MIGRATION-NATIVE-PROOF-2026-10-20-R8",
+  "build_id": null,
+  "c_after": {
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+    "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "f6907ef41aabeee273bc8ac8ae4e1e0d6c3dfd3111cc5b6a6b54de4873188860"
+  },
+  "c_before": {
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+    "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "22dfc0d35257510915676a6a6effbf64151423349811412428a2e69a463436b7"
+  },
+  "closure": {
+    "commit": "860bc3aa5c4410cf20dbc428516f80d6ae298124",
+    "config_arg_bounds": "PASS",
+    "dispatch": "NOT_ATTEMPTED",
+    "exact_restore": "PASS",
+    "formal_credit": false,
+    "git_stderr_observed": {
+      "message": "error: object fails fsck: gitmodulesMissing: unable to read .gitmodules blob",
+      "occurrences": 2,
+      "result": "restore subprocesses exit0, exact selected source closure PASS; not full-repo fsck"
+    },
+    "phase_profile_environment": "PASS",
+    "restored_paths": {
+      "infra": 35,
+      "proof": 113
+    },
+    "shared_objects": 168,
+    "source_payload_bytes": 527161,
+    "source_sha256": "128091ef938bb4e4f0929dd2719cfe3f33476a90b7825116c3e19c90d029a71b",
+    "source_substitutions": 177
+  },
+  "cycle": "S5",
+  "formal_credit": false,
+  "helper_pins": {
+    "a1-ast-gates.py": "917d51a52d9383beb56f52ff22415e62f81ee60a2a8a16ae40e08c17b36c2c58",
+    "a1-call-binding.py": "49f381a1ef79817515ab6dd80e9b83b245af929aead811012cb824bbff369fbc",
+    "a1-compiler-inventory.py": "6394ec909e6d6a7e77988279c382d531d61b10c7ca02e23672291c4622fe95e5",
+    "a1-contract-admission.py": "0ac3b182a24ba3a8cfd21588dd393f652e864bf54593ac7f4a5caaa473927ad4",
+    "a1-fixtures.py": "6d2cd0956ed5d9821be1dd32f731f201e5aea52ae4f06a676d8dfc5c17355d25",
+    "a1-focus-backend.py": "0f137982622cd51a4df3ca9a162139eb4b4db9f8fafbbf8633b06fa910323079",
+    "a1-matrix-classifier.py": "e50dca88e41f41a1919db83412f5016ea19428b2c6b092bfe1c8cfc61c70b6a6",
+    "a1-proof-classifier.py": "7a2070a3132bc7d4601565aebd25e0aea682520e3fbb32a6045ccdf276142a2e",
+    "a1-summary-receipt.py": "bcc55360698346f0aa2dfb3858c6b555a9104db95308116d2c16c188a9b8a7dd",
+    "a1-synthetic-backend.py": "4498e7dbcd4ffaaf4746bfee239e56a36f78e883da59937d9b48c1025e5b8feb",
+    "a1-synthetic-inputs.py": "dd737956cbff76a7e27abac0603b3a0cc4eeeae2aa7f7c0e1dddb914ac59bc3f",
+    "a1-tool.py": "74cbd0426a942abd3ef74178b24ae9db0ebe16441ce1e858fac7c9eee03f5188",
+    "selected-proof.py": "3347ad41c0273ebf186dbcf0520182455b32a65ad9619f2b2c7d3d00c12a7d7f"
+  },
+  "independent_review": {
+    "model": "gpt-6-luna",
+    "nonblocking_limit": "actual impl input count and first type checked; other types remain governed by source required signature, unchanged compiler/native/conformance gates",
+    "reasoning_effort": "high",
+    "result": "GO_CURRENT_FROZEN_DIFF_AND_DEPENDENCIES"
+  },
+  "infra_sha": "860bc3aa5c4410cf20dbc428516f80d6ae298124",
+  "isolated_tests": {
+    "adapter": 6,
+    "call_binding": 16,
+    "native_overlay_maps_error_paths": 5,
+    "profile_transport": 8
+  },
+  "native_signature_manifest_sha256": "cabd1c74d0b665234f01d7292f7d9761c0007a295db8ce251956ab0c16fa4526",
+  "native_signature_patch_sha256": "860334136cef5bec7d17c75b26849c6dcd30b72aefb51384d0ef8d64780a1a2f",
+  "profile_sha256": "a1cfba31dbdb45212ffd90c9d1a2be89ac19b3e958a3db0f74738bdf3ed16b5c",
+  "proof_sha": "860bc3aa5c4410cf20dbc428516f80d6ae298124",
+  "r_after": {
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+    "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "22dfc0d35257510915676a6a6effbf64151423349811412428a2e69a463436b7"
+  },
+  "r_representation_after": {
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+    "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "9391bff0376ad008798a950d76dbaac095cacbe8fd5acf5b2ea4d336a759f33f"
+  },
+  "schema": "smallsort-a1-post-migration-release-v1",
+  "source_core_sha256": "776ccb08bdbc547c609549d126439f36477b964e830de10cfc203a1dcef90435",
+  "source_mode": "pinned-objects",
+  "status": "PUBLISHED_CANDIDATE_BEFORE_SUBMIT"
+}
