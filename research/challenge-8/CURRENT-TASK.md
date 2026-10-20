@@ -57,7 +57,7 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-R9 ACTIVE. T0 **2026-10-20T17:07:04Z**, main **19:07:04Z**, absolute **19:37:04Z**. **2440/3600 spent, 1160 remaining**, carry0; own active/unresolved0. Чужие dirty files и historical R8 сохранены.
+R9 ACTIVE. T0 **2026-10-20T17:07:04Z**, main **19:07:04Z**, absolute **19:37:04Z**. **2440/3600 spent, 1160 remaining**, carry0; own active1/unresolved0. Чужие dirty files и historical R8 сохранены.
 
 Цель: полный P1 native interface/equality/refinement → совместимые26/own N-false31. Proof до→сейчас: **0→0 закрытых obligations, independent B1/B2 credit0**. Новые source claims P0a/P0b body+conformance относятся к S1/S2; на S3 не перенесены. P1/A1/A2/lifecycle OPEN.
 
@@ -70,8 +70,10 @@ R9 ACTIVE. T0 **2026-10-20T17:07:04Z**, main **19:07:04Z**, absolute **19:37:04Z
 
 Обслуживание отдельно: R9 registration/exact published closure, R-only/finalC buildability. Some-filter не устранил P1 nonunique body. S2 diagnostic установил actual P1 quicksort tuple lifetime mismatch; minimal tuple recursion reviewed/22syntheticPASS, actual S3 acceptance UNKNOWN. S3 owner сообщил rejected symlink synthetic-tool/.devcontainer; sizes UNKNOWN; raw fallback не использован. Запрошены bounded primary_error/operation/audit sizes у владельца через административный канал.
 
-S4 в подготовке: source-proven duplicated observations в final audit → lossless literal-R9-only row pointers к полной observation_details (включая nonmatrix keys). Proof/classification/in-memory/progress/caps/packager не меняются. Это не установленная причина S3. Serialization8/profile9/progress4/activation8/dispatch7/action3/lifecycle4/context4 PASS, независимый Luna HIGH review актуального diff GO. Оставшегося бюджета хватает на один900s Build с reserve960; exact closure PASS, публикация и coordinator admission перед Cloud.
+S4 сохранён в S5: source-proven duplicated observations в final audit → lossless literal-R9-only row pointers к полной observation_details (включая nonmatrix keys). Proof/classification/in-memory/progress/caps/packager не меняются. Это не установленная причина S3. Serialization8/profile9/progress4/activation8/dispatch7/action3/lifecycle4/context4 PASS, независимый Luna HIGH review актуального diff GO. Оставшегося бюджета хватает на один900s Build с reserve960; exact closure PASS, публикация и coordinator admission перед Cloud.
 
 [Session](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-SESSION-2026-10-20.md), [S1 evidence](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S1-EVIDENCE-2026-10-20.json), [S2 evidence](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S2-EVIDENCE-2026-10-20.json), [S2 full26](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S2-MATRIX-2026-10-20.json), [S3 boundary](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S3-EVIDENCE-2026-10-20.json), [S3 UNKNOWN26](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S3-MATRIX-2026-10-20.json).
 
 S4 terminal cancellation reconciled; S5 packaging fix/regression/emergency diagnostic complete, independent Luna HIGH GO, exact closure PASS; candidate1782879f. Remaining1160 permits reserve960.
+
+S5 Build `ac83fbc5-b1de-425f-a7c2-0b0e4a7f9a44` accepted, candidate `f508a56883395a4fa1f5d548bb7e65ee832009db`, config `ce812b5bcb6ce0aec31fd400747c42fa3feac82060f652b42fa8ccd1626716be`. Timeout900, reserve960, prior2440spent1160remaining, ownactive1. Initial transport refusal before dispatch fixed by same-value compact JSON, ceilings unchanged; final exact closure config27956/28000PASS, independent LunaHIGHGO. Actual results pending.
