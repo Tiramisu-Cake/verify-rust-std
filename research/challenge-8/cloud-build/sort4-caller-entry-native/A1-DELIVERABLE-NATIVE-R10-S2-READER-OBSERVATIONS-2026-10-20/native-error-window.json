@@ -1,0 +1,93 @@
+{
+  "archive_sha256": "14874905f8e29436d0ac345c6df6d734b82a054234c5993f44708c1eed58511d",
+  "build_id": "85f29857-302d-4227-b50d-2b150e2f8ed2",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 28,
+    "line_separator": "LF",
+    "source_lines": 28,
+    "start": 20,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "be3dfcd08e58ba1ef6c68c29cb29e2b12605c57b62c9fdf12a0c9084aa00b216",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-native-reference/P1/r-only-native-reference.log",
+  "file_sha256": "e40ec6c6dd64424caa1c47d124ec8fd10f6a711b3a1643e9abe1f4f03bf9470c",
+  "index_sha256": "275b9c4ee79316edb4ba0bad145a0c37bb73108b0b20f632a7b9b8b728dbd48d",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": true,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 30,
+    "expected_sha256": "e40ec6c6dd64424caa1c47d124ec8fd10f6a711b3a1643e9abe1f4f03bf9470c",
+    "file_id": "be3dfcd08e58ba1ef6c68c29cb29e2b12605c57b62c9fdf12a0c9084aa00b216",
+    "start": 20
+  },
+  "request_id": "4efa433810a3b9c74b79ce34701e8abaddaf71c3ba12a69b598151a457d75d71",
+  "requested_end": 30,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 20,
+      "text": "(type)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 21,
+      "text": "WARNING: fn_specializer: rerouting call of StableSmallSortTypeImpl::small_sort_threshold to <T as StableSmallSortTypeImpl>::small_sort_threshold: ignoring clause (type) : std::marker::Sized<>"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 22,
+      "text": "WARNING: fn_specializer: rerouting call of StableSmallSortTypeImpl::small_sort_threshold to <T as StableSmallSortTypeImpl>::small_sort_threshold: ignoring clause (type) : FreezeMarker<>"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 23,
+      "text": "(type), (type)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 24,
+      "text": "WARNING: fn_specializer: rerouting call of StableSmallSortTypeImpl::small_sort to <T as StableSmallSortTypeImpl>::small_sort: ignoring clause (type) : std::marker::Sized<>"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 25,
+      "text": "WARNING: fn_specializer: rerouting call of StableSmallSortTypeImpl::small_sort to <T as StableSmallSortTypeImpl>::small_sort: ignoring clause (type) : FreezeMarker<>"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 26,
+      "text": "verified/lib.rs(32,8-28): error: Duplicate function prototype."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 27,
+      "text": "32 |     fn small_sort_threshold() -> usize;"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 28,
+      "text": "   |        ^^^^^^^^^^^^^^^^^^^^"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

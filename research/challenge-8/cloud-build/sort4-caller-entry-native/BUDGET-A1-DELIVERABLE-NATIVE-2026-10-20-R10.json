@@ -1,5 +1,5 @@
 {
-  "active_build": "85f29857-302d-4227-b50d-2b150e2f8ed2",
+  "active_build": null,
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
   ],
@@ -37,11 +37,17 @@
       "submitted_config_sha256": "9003ae6715c2c4f81a5bd6dfbd405642e2be8b537fbfff622862956914cf5efc",
       "reserved_seconds": 1060,
       "timeout_seconds": 1000,
-      "status": "QUEUED",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "18fa83232a9dfa60d892aea27282a075521bd9dc454ed2dc5938a1b5c86237e5",
-      "build_id": "85f29857-302d-4227-b50d-2b150e2f8ed2"
+      "build_id": "85f29857-302d-4227-b50d-2b150e2f8ed2",
+      "start_time": "2026-10-20T20:11:02.117903960Z",
+      "finish_time": "2026-10-20T20:19:29.633797Z",
+      "create_time": "2026-10-20T20:11:00.106515456Z",
+      "build_seconds": 510,
+      "accounted": true,
+      "execution_seconds": 508
     }
   ],
   "ceiling_build_seconds": 3600,
@@ -51,9 +57,9 @@
   "maximum_builds": null,
   "owner": "select-sort4",
   "phase": "SORT4-DELIVERABLE-NATIVE-PROOF-2026-10-20-R10",
-  "remaining_build_seconds": 3105,
+  "remaining_build_seconds": 2595,
   "schema": "smallsort-cloud-phase-account-v1",
   "start_utc": "2026-10-20T19:22:09Z",
   "status": "AUTHORIZED",
-  "used_build_seconds": 495
+  "used_build_seconds": 1005
 }

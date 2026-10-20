@@ -1,9 +1,9 @@
-# Select / sort4 — R10 ACTIVE, delivered native blocker
+# Select / sort4 — R10 ACTIVE
 
-T0 **2026-10-20T19:22:09Z**, main **21:22:09Z**, absolute **21:52:09Z**. **495/3600spent,3105remaining**, ownactive/unresolved0, carry0. [Отчёт](CURRENT-TASK.md), [session](cloud-build/sort4-caller-entry-native/A1-DELIVERABLE-NATIVE-R10-SESSION-2026-10-20.md).
+T0 2026-10-20T19:22:09Z; main21:22:09Z, absolute21:52:09Z. Cloud1005/3600spent,2595remaining, carry0; ownactive/unresolved0. Formal obligations0→0, independentB1/B2credit0; P1/A1/A2/ownfalse31 OPEN.
 
-Proof0→0/B1B2credit0; P1/A1/A2/ownNfalse31 OPEN. S1 `86a0add5-eed4-4809-a530-1171e4268782` FAILURE495s, packageSUCCESS/Brief VERIFIED_ARCHIVE_AND_INVENTORY/outercomplete/run1. P0a/P0b sourcebody+conformance true; exact paired binding regression+two refusal controls and alphaaccepted observed. Native P1 bodycount2 exactname lines50/68, implspan42..59; TrName is identity.
+S1 86a0add5 FAILURE495: delivery restored, sourcebodyP0a/b intended, receipt identity+mappingproxyreporting errors. S2 85f29857 FAILURE510: packageSUCCESS, run0/sourceNOT_ACCEPTED, targetaudit4.5MB delivered; full26sourcecounts5INTENDED/1INCONCLUSIVE/20NOT_RUN, noacceptance. Currentcandidate e339d5d5; exact published closure/source/config identities recorded.
 
-Final target report lost to deepcopy(mappingproxy), progress+logs delivered/rootgenericfallback. Final26 UNKNOWN, sourceclaims separate. Receipt also rejects incorrect shared P0a unit for P0b. [S1 evidence](cloud-build/sort4-caller-entry-native/A1-DELIVERABLE-NATIVE-R10-S1-EVIDENCE-2026-10-20.json), [26 boundary](cloud-build/sort4-caller-entry-native/A1-DELIVERABLE-NATIVE-R10-S1-MATRIX-2026-10-20.json).
+Next S3: reviewed immutableMapping caller span+JSONcopy repair, existingfullmatrix mode/timeout1200 forindependent26/ownfalse31. P1nativeR-onlyduplicateprototype/missingAST unresolved; separate structural-only capture and strict numericID/fullspan binding work proceeds, no dispatchdedup/axioms/proofbypass. HistoricalR9closed/carry0, foreigndirty preserved, Brief-only/no rawfallback.
 
-S2 repairs: per-impl certificate units/unchanged admission, JSON snapshot/partial audit propagation preserving original exits, compiler Body-origin binding with unique AST join and impl containment. Main diff reviews GO; final native guard/trace/pins pending. No source proof acceptance before Cloud. Historical R9/foreign files unchanged, no raw fallback.
+[Current task](CURRENT-TASK.md), [session](cloud-build/sort4-caller-entry-native/A1-DELIVERABLE-NATIVE-R10-SESSION-2026-10-20.md), [S2 evidence](cloud-build/sort4-caller-entry-native/A1-DELIVERABLE-NATIVE-R10-S2-EVIDENCE-2026-10-20.json), [full26source matrix](cloud-build/sort4-caller-entry-native/A1-DELIVERABLE-NATIVE-R10-S2-MATRIX-2026-10-20.json).

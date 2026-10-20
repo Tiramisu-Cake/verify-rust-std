@@ -59,7 +59,7 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-R10 ACTIVE. T0 **2026-10-20T19:22:09Z**, main **21:22:09Z**, absolute **21:52:09Z**. **495/3600 Cloud-секунд spent,3105 remaining**, max timeout1200/carry0; own active/unresolved0. Чужие dirty файлы и historical accounts сохранены.
+R10 ACTIVE. T0 **2026-10-20T19:22:09Z**, main **21:22:09Z**, absolute **21:52:09Z**. **1005/3600 Cloud-секунд spent,2595 remaining**, max timeout1200/carry0; own active/unresolved0. Чужие dirty файлы и historical accounts сохранены.
 
 Цель: доставляемый P1/native interface/equality/refinement → совместимые26/own N-false31. **Proof0→0, independent B1/B2credit0**; P1/A1/A2/lifecycle OPEN.
 
@@ -71,6 +71,6 @@ S1 source: P0a/P0b body+conformance normal/unwind true; same normal3bf1…/reado
 
 Финальный target audit не записан: progress deepcopy(mappingproxy) TypeError после classification. Доставлен progress9,182,684байт и bounded logs; root audit — generic INCONCLUSIVE fallback. **Финальная26 S1 UNKNOWN**, source observations отдельно; initial progress NOT_RUN не подменяет executed outcomes. Два HTTP429 case-status ответа сохранены без обхода/absence inference.
 
-Обслуживание отдельно: R10 registration/exact published closure, timeout1000/work760/soft700/report reserve240. Source/config caps сохранены (S1 config27972/28000). S2: recursive JSON snapshot и byte-preserving partial-audit copy с originalexit; per-impl certified receipt IDs (ownfalse31 сохраняет ownpair); compiler Body→debug/AST origin + impl containment + unique joins вместо одного неоднозначного DefPath. Reviewer LunaHIGH GO основных diff; финальные guard/trace hashes и dependent pins ещё завершаются перед новым exact closure/публикацией/Cloud. Actual acceptance S2 NOT_RUN.
+Обслуживание отдельно: R10 registration/exact published closure, timeout1000/work760/soft700/report reserve240. Source/config caps сохранены (S1 config27972/28000). S2: recursive JSON snapshot и byte-preserving partial-audit copy с originalexit; per-impl certified receipt IDs (ownfalse31 сохраняет ownpair); compiler Body→debug/AST origin + impl containment + unique joins вместо одного неоднозначного DefPath. Reviewer LunaHIGH final GO; exact restore39/115/174objects/source18fa8323/config27984≤28000 PASS. S2 `85f29857-302d-4227-b50d-2b150e2f8ed2`, proof=infra `e339d5d51bbf152d913f330d3a1d5cbd08d5c8c9`, terminal FAILURE510; packageSUCCESS, run0/sourceNOT_ACCEPTED. Доставлен target audit4,523,001байт, полная26sourceматрица:5intended/1inconclusive/20NOT_RUN; acceptancefalse. P0c immutableMapping span fix+JSONcopy reviewedGO; S3existingfullmatrix/timeout1200 готовится для независимых26/ownfalse31, nativeASTblocker остаётся отдельно. Бюджет1005spent2595remaining, ownactive0.
 
 [Session](cloud-build/sort4-caller-entry-native/A1-DELIVERABLE-NATIVE-R10-SESSION-2026-10-20.md), [S1 evidence](cloud-build/sort4-caller-entry-native/A1-DELIVERABLE-NATIVE-R10-S1-EVIDENCE-2026-10-20.json), [S1 full26 boundary](cloud-build/sort4-caller-entry-native/A1-DELIVERABLE-NATIVE-R10-S1-MATRIX-2026-10-20.json). Однократный oldS5 Brief404/прежний bounded административный запрос сохранены; raw fallback/download_verified отсутствуют.
