@@ -92,3 +92,17 @@ BasicBlockIdReader.index->Uint32.to_string function at outerMake scope so origin
 terminator and newadmission callers use sameimplementation. No resource/branch/
 model/controlchange. Independent localizedreview and exactpatch/profile closure
 then fullCloudgate again; no localactualcompiler.
+
+Candidate4 rationale before implementation: Build3 native cleanup138 returning
+->139Resume executes originaltokenassert, sourcequarteropens, readonlyend, physical
+merge and halfassert; completion1521/pre-free1636 showhalf tmp, thenunchanged
+unwindpost165 refusesfullarraybegin3. Existingfullsingletons atbegin andcurrent
+guarddst=begin+1 plusfullphysicaltail are observed, withcurrentF/thread/type.
+Nextcheckedsourceblock closes tailzero/singleton fromactualtailvalue, joins
+begin+1 thenbegin with ordinaryarray_join and bindsresultingCURRENT list. A
+recursive sourcelemma withcheckedbody buildsforeach forconcreteu64own=True;
+notgenericownership, noentryxs substitution. Whitelist expands onlyordinary
+u64arrayClose and namedarray_join/checkedconcretelemma calls, noassume/leak.
+Originalsource/CFG/Dropownunwind/posts, lifetimeandguardrecovery unchanged.
+Retain5resource/admissioncontrols, freshness8 andoriginalmatrix. Independentreview
+exactdiff, sourceclosure andCloudcompile/actual required; fullproofnotclaimed.

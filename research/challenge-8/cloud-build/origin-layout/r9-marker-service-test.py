@@ -37,6 +37,37 @@ def main():
     assert b"leak" not in callback.R9_GUARD_RETURN_MARKER
     assert b"open [1/4]array::<u64>(r9_guard_ref, 1, ?r9_drop_current)" in r9
     assert b"open [1/4]array::<u64>(r9_guard_ref + 1, 0, nil)" in r9
+    rejoin = (
+        b"assert *tail |-> ?r9_tail_current;",
+        b"close array::<u64>(tail + 1, 0, nil);",
+        b"close array::<u64>(tail, 1, cons(r9_tail_current, nil));",
+        b"array_join::<u64>(begin + 1);",
+        b"array_join::<u64>(begin);",
+        b"assert array::<u64>(begin, 3, ?r9_current_values);",
+        b"r9_current_u64_owners(t, r9_current_values);",
+    )
+    positions = [callback.R9_GUARD_RETURN_MARKER.index(command) for command in rejoin]
+    assert positions == sorted(positions)
+    lemma = callback.R9_CURRENT_U64_OWNERS_LEMMA
+    assert r9.count(lemma) == 1
+    assert r9.index(lemma) < r9.index(old.WRAPPER_SIGNATURE)
+    for required in (b"lem r9_current_u64_owners", b"req true;",
+                     b"ens foreach(vs, own::<u64>(t));", b"match vs", b"nil =>",
+                     b"cons(v, rest) =>", b"r9_current_u64_owners(t, rest);",
+                     b"close own::<u64>(t)(v);",
+                     b"close foreach(vs, own::<u64>(t));"):
+        assert required in lemma
+    assert b"assume" not in lemma and b"leak" not in lemma
+
+    for bad_source in (
+            source.replace(b"pub unsafe fn wrapper(", b"pub unsafe fn other(", 1),
+            source.replace(anchor, anchor + callback.R9_GUARD_RETURN_MARKER, 1)):
+        try:
+            callback._prepare_r9_guard_return_recovery(bad_source, old)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("wrong wrapper anchor or duplicate R9 marker was accepted")
 
     case = {}
     def capture(_case, _args, env):
@@ -66,6 +97,9 @@ def main():
     returning = translator[returning_start:unwinding_start]
     unwinding = translator[unwinding_start:drop_end]
     assert "r9_guard_return_commands" in returning
+    assert "r9_array_u64_close" in translator
+    assert "r9_array_u64_join" in translator
+    assert "r9_current_owners_call" in translator
     assert "Ast.PureStmt (plan.r9_guard_return_loc" in returning
     assert "Ast.BlockStmt (plan.r9_guard_return_loc" in returning
     assert "r9_guard_return_commands" not in unwinding

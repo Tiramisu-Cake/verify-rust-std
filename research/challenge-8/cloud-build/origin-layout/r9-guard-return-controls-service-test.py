@@ -53,13 +53,16 @@ def _source_case(root):
               "profile": controls.R9_PROFILE, "prefix": False,
               "late_callback_scope_recovery_requested": True,
               "mutation": None, "original_sha256": _sha(original),
-              "verified_sha256": _sha(verified)}
+              "verified_sha256": _sha(verified),
+              "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"}
     return case, record
 
 
 def _write_stage(case, stage, code, original_sha, verified_sha,
-                 *, status=None, exit_override=None):
-    pair = {"original/lib.rs": original_sha, "verified/lib.rs": verified_sha}
+                 *, status=None, exit_override=None, source_sha=None):
+    pair = {"original/lib.rs": original_sha, "verified/lib.rs": verified_sha,
+            "small_sort_source": (source_sha or
+                "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1")}
     receipt = {"stage": stage,
                "exit_code": code if exit_override is None else exit_override,
                "source_unchanged": True,
@@ -92,7 +95,8 @@ def _baseline(case, record, *, events=True, bad_status=None, missing_stage=None)
         if bad_status and stage == bad_status[0]:
             status = bad_status[1]
         _write_stage(case, stage, code, record["original_sha256"],
-                     record["verified_sha256"], status=status)
+                     record["verified_sha256"], status=status,
+                     source_sha=record["source_sha256"])
     log = ""
     if events:
         log += _event("before") + "\n" + _event("complete") + "\n"
@@ -122,7 +126,8 @@ def _execute(case, args, env, behavior=None):
             status = "FAILED"
         exit_override = True if behavior == "bool_exit" and stage == "verifast" else None
         _write_stage(case, stage, code, original_sha, verified_sha,
-                     status=status, exit_override=exit_override)
+                     status=status, exit_override=exit_override,
+                     source_sha=meta["expected_source_hashes"]["small_sort_source"])
 
     line = meta["expected_error_line"]
     if meta["case_name"] == "duplicate_marker":
@@ -166,11 +171,13 @@ def _execute(case, args, env, behavior=None):
             log += f"verified/lib.rs({line + 1},4): error: {message}\n"
     if behavior == "timeout":
         stages["verifast"] = 124
-        _write_stage(case, "verifast", 124, original_sha, verified_sha, status="FAILED")
+        _write_stage(case, "verifast", 124, original_sha, verified_sha, status="FAILED",
+                     source_sha=meta["expected_source_hashes"]["small_sort_source"])
         log = "executor timed out\n"
     elif behavior == "wrong_exit":
         stages["verifast"] = 2
-        _write_stage(case, "verifast", 2, original_sha, verified_sha, status="FAILED")
+        _write_stage(case, "verifast", 2, original_sha, verified_sha, status="FAILED",
+                     source_sha=meta["expected_source_hashes"]["small_sort_source"])
     elif behavior == "partial_stages":
         stages.pop("decode")
     (case / "verifast.log").write_text(before + target_line + log)
@@ -281,7 +288,8 @@ class R9GuardReturnControlsTests(unittest.TestCase):
         scenarios = (("missing", None, None),
                      ("wrongstatus", ("verifast", "FAILED"), None),
                      ("setup_exit", None, 124),
-                     ("bool_exit", None, True))
+                     ("bool_exit", None, True),
+                     ("wrong_source_pin", None, None))
         for label, status, override in scenarios:
             with self.subTest(label=label), tempfile.TemporaryDirectory() as temporary:
                 root = Path(temporary)
@@ -294,10 +302,16 @@ class R9GuardReturnControlsTests(unittest.TestCase):
                     data = json.loads(path.read_text())
                     data["status"] = status[1]
                     path.write_text(json.dumps(data))
-                else:
+                elif label in ("setup_exit", "bool_exit"):
                     path = source_case / "verifast-stage.json"
                     data = json.loads(path.read_text())
                     data["exit_code"] = override
+                    path.write_text(json.dumps(data))
+                else:
+                    path = source_case / "verifast-stage.json"
+                    data = json.loads(path.read_text())
+                    data["source_before"]["small_sort_source"] = "0" * 64
+                    data["source_after"]["small_sort_source"] = "0" * 64
                     path.write_text(json.dumps(data))
                 output = controls.run(root / "controls", SimpleNamespace(profile=controls.R9_PROFILE),
                                       {}, lambda *args: self.fail("mutants must not run"),

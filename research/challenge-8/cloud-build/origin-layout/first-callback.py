@@ -281,7 +281,30 @@ R9_GUARD_RETURN_MARKER = b"""    /*@ {
         end_ref_readonly::<u64>(r9_guard_ref);
         merge_fractions points_to::<u64>(r9_tmp_origin, _);
         assert [1/2](*r9_tmp_origin |-> ?r9_tmp_current);
+        assert *tail |-> ?r9_tail_current;
+        close array::<u64>(tail + 1, 0, nil);
+        close array::<u64>(tail, 1, cons(r9_tail_current, nil));
+        array_join::<u64>(begin + 1);
+        array_join::<u64>(begin);
+        assert array::<u64>(begin, 3, ?r9_current_values);
+        r9_current_u64_owners(t, r9_current_values);
     } @*/
+"""
+
+R9_CURRENT_U64_OWNERS_LEMMA = b"""/*@ lem r9_current_u64_owners(t: thread_id_t, vs: list<u64>)
+    req true;
+    ens foreach(vs, own::<u64>(t));
+{
+    match vs {
+        nil => { close foreach(nil, own::<u64>(t)); }
+        cons(v, rest) => {
+            r9_current_u64_owners(t, rest);
+            close own::<u64>(t)(v);
+            close foreach(vs, own::<u64>(t));
+        }
+    }
+} @*/
+
 """
 
 
@@ -297,11 +320,17 @@ def _prepare_post_drop_recovery(source, old):
 def _prepare_r9_guard_return_recovery(source, old):
     # This marker is parsed and moved by the R9-only checked MIR hook. It
     # remains ghost-only in Rust and is anchored to the one wrapper body.
+    if (R9_GUARD_RETURN_MARKER in source or
+            R9_CURRENT_U64_OWNERS_LEMMA in source):
+        raise ValueError('R9 recovery marker or current-owner lemma already exists')
     anchor = b'        }\n    }\n}\n\n' + old.WRAPPER_SIGNATURE
-    return _one(source, anchor,
-                b'        }\n    }\n' + R9_GUARD_RETURN_MARKER + b'}\n\n' +
-                old.WRAPPER_SIGNATURE,
-                'R9 checked guard-return recovery marker')
+    source = _one(source, anchor,
+                  b'        }\n    }\n' + R9_GUARD_RETURN_MARKER + b'}\n\n' +
+                  old.WRAPPER_SIGNATURE,
+                  'R9 checked guard-return recovery marker')
+    return _one(source, old.WRAPPER_SIGNATURE,
+                R9_CURRENT_U64_OWNERS_LEMMA + old.WRAPPER_SIGNATURE,
+                'R9 concrete-u64 current owner lemma declaration and checked body')
 
 
 def _prepare_late_scope(source):

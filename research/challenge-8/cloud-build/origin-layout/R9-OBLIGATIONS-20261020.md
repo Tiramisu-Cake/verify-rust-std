@@ -1,8 +1,10 @@
 # R9 obligations and evidence boundary
 
-Current release: candidate2 source6e5c56af/tool899c9d7e/profile8685a04d, Build2
-c8b135e3-69b4-45bc-8b41-de7db56c607e pending. Candidate1 Build1 used589/588execution;
-full target failed at tmp half; candidate/model identities are not combined.
+Current actual release: candidate3 source91d1f52b/toole035d339/profile4802cd76,
+Build3e5cb8e3e terminalFAILURE623/622execution. Used1607/1604execution,remaining1993.
+Observedchecked originalreadonlyend/merge/halfassert oncleanup138→139Resume and
+half tmp beforefree; newpanicCURRENTpost165 missingarraybegin3. Candidate4inwork.
+Fullpost/normal/Continue/B2/qualificationOPEN,credit0; models/candidates notcombined.
 
 | Obligation | Candidate1 observed result | Candidate2 required evidence |
 |---|---|---|

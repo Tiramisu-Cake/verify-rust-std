@@ -109,8 +109,8 @@ def _source_pair(source_case: Path, source_record: dict) -> tuple[bytes, bytes]:
     return original, verified
 
 
-def _strict_stage_receipts(case: Path, stages, original_sha: str,
-                           verified_sha: str, expected_codes: dict,
+def _strict_stage_receipts(case: Path, stages, expected_sources: dict,
+                           expected_codes: dict,
                            *, allow_verifast_proof_failure: bool = False) -> dict:
     rows = {}
     all_ok = type(stages) is dict
@@ -122,12 +122,11 @@ def _strict_stage_receipts(case: Path, stages, original_sha: str,
                 receipt = json.loads(receipt_path.read_text())
                 code = receipt.get("exit_code") if type(receipt) is dict else None
                 status = receipt.get("status") if type(receipt) is dict else None
-                pair = {"original/lib.rs": original_sha,
-                        "verified/lib.rs": verified_sha}
                 source_before = receipt.get("source_before") if type(receipt) is dict else None
                 source_after = receipt.get("source_after") if type(receipt) is dict else None
-                source_ok = (type(source_before) is dict and source_before == pair and
-                             source_after == pair and receipt.get("source_unchanged") is True)
+                source_ok = (type(source_before) is dict and source_before == expected_sources and
+                             source_after == expected_sources and
+                             receipt.get("source_unchanged") is True)
                 code_ok = type(code) is int and type(stages) is dict and type(stages.get(name)) is int
                 expected = expected_codes.get(name)
                 if allow_verifast_proof_failure and name == "verifast":
@@ -164,6 +163,15 @@ def _source_intact(case: Path, original_sha: str, verified_sha: str,
     return {"admitted": ok, "hashes_after": hashes}
 
 
+def _expected_stage_sources(original_sha: str, verified_sha: str,
+                            source_record: dict) -> dict:
+    source_sha = source_record.get("source_sha256") if type(source_record) is dict else None
+    if type(source_sha) is not str or re.fullmatch(r"[0-9a-f]{64}", source_sha) is None:
+        raise ValueError("source_record lacks the exact pinned small-sort source SHA-256")
+    return {"original/lib.rs": original_sha, "verified/lib.rs": verified_sha,
+            "small_sort_source": source_sha}
+
+
 def _event_fields(line: str) -> dict:
     fields = {}
     payload = line[len(EVENT_PREFIX):] if line.startswith(EVENT_PREFIX) else line
@@ -191,8 +199,10 @@ def _qualified_event(line: str, recovery: str | None = None) -> bool:
     return True
 
 
-def _baseline_gate(source_case: Path, original: bytes, verified: bytes) -> dict:
+def _baseline_gate(source_case: Path, original: bytes, verified: bytes,
+                   source_record: dict) -> dict:
     original_sha, verified_sha = _sha(original), _sha(verified)
+    expected_sources = _expected_stage_sources(original_sha, verified_sha, source_record)
     exact_source = ((source_case / "original/lib.rs").is_file() and
                     (source_case / "verified/lib.rs").is_file() and
                     _sha((source_case / "original/lib.rs").read_bytes()) == original_sha and
@@ -206,8 +216,8 @@ def _baseline_gate(source_case: Path, original: bytes, verified: bytes) -> dict:
             stages[name] = None
     expected = {"exporter": 0, "decode": 0, "refinement": 0,
                 "verifast": stages["verifast"]}
-    receipts = _strict_stage_receipts(source_case, stages, original_sha, verified_sha,
-                                      expected, allow_verifast_proof_failure=True)
+    receipts = _strict_stage_receipts(source_case, stages, expected_sources, expected,
+                                      allow_verifast_proof_failure=True)
     log_path = source_case / "verifast.log"
     log = log_path.read_text(errors="replace") if log_path.is_file() else ""
     lines = log.splitlines()
@@ -313,8 +323,8 @@ def _stage_gate(case: Path, execution, meta: dict) -> dict:
     stages = execution.get("stages")
     expected = meta["expected_stages"]
     expected_codes = dict(expected)
-    receipts = _strict_stage_receipts(case, stages, meta["original_sha256"],
-                                     meta["verified_sha256"], expected_codes)
+    receipts = _strict_stage_receipts(case, stages, meta["expected_source_hashes"],
+                                     expected_codes)
     return receipts
 
 
@@ -442,7 +452,7 @@ def run(evidence: Path, args, env: dict, execute_case, source_case: Path,
         _write_receipt(evidence, result)
         return result
 
-    baseline = _baseline_gate(source_case, original, verified)
+    baseline = _baseline_gate(source_case, original, verified, source_record)
     result["baseline"] = baseline
     if not baseline["admitted"]:
         result["cases"] = {name: _not_run(name, "R9 fullbody baseline admission prerequisite failed",
@@ -475,6 +485,8 @@ def run(evidence: Path, args, env: dict, execute_case, source_case: Path,
                     "expected_predicates": list(spec.get("expected_predicates", ())),
                     "original_sha256": _sha(original),
                     "verified_sha256": _sha(mutant),
+                    "expected_source_hashes": _expected_stage_sources(
+                        _sha(original), _sha(mutant), source_record),
                     "baseline_verified_sha256": _sha(verified),
                     "expected_stages": expected_stages,
                     "proof_credit": False}

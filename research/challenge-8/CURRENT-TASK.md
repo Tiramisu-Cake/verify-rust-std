@@ -69,13 +69,13 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 ## Отчёт агента
 
 R9 ACTIVE. T0/main/absolute UTC2026-10-20 19:30:15/21:30:15/22:00:15.
-Fresh3600, used984/982execution, remaining2616; R8closed/no carry.
-Build1 0f7534de FAILURE589: exactcleanupDrop returning143→144Resume→free,
-token/source/originquarters remain; rootfree missinghalf. Freshness2positive+6
-intendednegative sourceclassified, qualificationOPEN/credit0. Build2 c8b135e3
-FAILURE395, compiler unboundhelper5828, proof_attemptedfalse: no recoveryresult.
-Candidate3 toole035d339/profile4802cd76 movesidenticalblockIDhelper tosharedscope;
-LunaHIGHGO, source19patch/17pins/18basePASS. Nextfull1200/1260 fits2616.
-WholeCURRENTnormal/unwind/Continue/prefix/B2OPEN. Ownactive/unresolved0.
-[Сессия](cloud-build/origin-layout/R9-SESSION-20261020.md),
-[обязательства](cloud-build/origin-layout/R9-OBLIGATIONS-20261020.md).
+Fresh3600, used1607/1604execution, remaining1993; R8closed/no carry.
+Build1FAILURE589 establishedcleanupreturnbinding+quarters; Build2FAILURE395
+compileunboundhelper/noactualproof. Build3e5cb8e3e FAILURE623 exact91d1f52b/
+toole035d339/profile4802cd76 compiles andobservescheckedoriginalreadonlyend,
+physicalmerge/halfassert, completionbeforeResume andhalf tmp atfree. Newfailure
+panicpost165 missingarray(begin,3,_). WholeCURRENT/normal/Continue/B2OPEN,credit0.
+Candidate4checkedphysicalarrayrejoin+concreteu64foreachBODY inwork. Guardcontrols
+5NOT_RUN baselinegate understrictdiagnosis; freshnessseparatequalificationOPEN.
+Ownactive/unresolved0. [Сессия](cloud-build/origin-layout/R9-SESSION-20261020.md),
+[Build3](cloud-build/origin-layout/R9-BUILD3-RESULT-20261020.json).

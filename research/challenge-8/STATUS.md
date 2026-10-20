@@ -1,14 +1,15 @@
-# MERGE — R9 ACTIVE / checked guard return compile fix
+# MERGE — R9 ACTIVE / tmp recovery observed, CURRENT rejoin
 
 T0/main/absolute UTC2026-10-20 19:30:15/21:30:15/22:00:15; fresh3600,
-used984/982execution, remaining2616, ownactive/unresolved0. R8closed/no carry.
-Build1 exactnativecleanupDrop returning143→144Resume→free missinghalf, 589charge;
-Build2 compilefailureunboundhelper5828,395charge, proof_attemptedfalse. Candidate3
-toole035d339/profile4802cd76 reviewedlocalizedscopefix, staticclosurePASS.
-FullCURRENTnormal/unwind/Continue/prefix/B2OPEN. FreshnessBuild1 all8classified;
-qualificationOPEN/acceptedfalse/credit0.
-[Task](CURRENT-TASK.md), [session](cloud-build/origin-layout/R9-SESSION-20261020.md),
-[obligations](cloud-build/origin-layout/R9-OBLIGATIONS-20261020.md).
+used1607/1604execution, remaining1993, ownactive/unresolved0. R8closed/no carry.
+Build3e5cb8e3e exact91d1f52b/e035d339/profile4802cd76: compilerPASS, native
+cleanup138returning→139Resume, checkedreadonlyend/merge/halfassert andhalf tmp
+atprefree. Failure nowpanicCURRENTpost165 missingarray(begin,3,_). Candidate4
+checkedphysicalCURRENTjoin+concreteu64foreachBODY inwork, modelunchanged.
+Fullnormal/unwind/Continue/prefix/B2 andqualificationOPEN,independentcredit0.
+Buildcharges589+395+623. [Task](CURRENT-TASK.md),
+[session](cloud-build/origin-layout/R9-SESSION-20261020.md),
+[result](cloud-build/origin-layout/R9-BUILD3-RESULT-20261020.json).
 
 Ниже исторические checkpoints; приоритет у текущего R9 задания.
 

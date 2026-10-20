@@ -1,0 +1,91 @@
+{
+  "schema": "r9-build3-control-observation-v1",
+  "build": {
+    "build_id": "e5cb8e3e-f071-4ef9-89c3-da08ef93f966",
+    "archive_sha256": "1262dc1298bb4f235e3ce8ea9e2c3781a7ee4bb500e88837b68c6322328c07e4",
+    "index_sha256": "93006c98b88f0d8cf63dae67e35b1712a59232e4def1d77e325b9ae13f6c4834",
+    "brief": {
+      "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+      "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+      "proof_attempted": true,
+      "run_exit_code": 1,
+      "causality": "UNKNOWN"
+    }
+  },
+  "actual_frontier_observation": {
+    "source": "Brief bounded context, full_body/actual_three_current_full_posts/verifast.log",
+    "source_sha256": "a4f188913e2e169b33a570b9c26eaadf0c2f2162964fd690e16d3d3296192413",
+    "line": 1682,
+    "diagnostic": "No matching heap chunks: array?u64?(begin, 3, _)",
+    "classification": "source observation only; no independent proof credit"
+  },
+  "guard_return_control_aggregate": {
+    "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/guard-return-recovery-controls/aggregate.json",
+    "file_id": "6a1265e818537cc1764b2d1b48d758ef7d037166f56da30c7b03e15ea94ba924",
+    "file_sha256": "dc669c2e9b0f877d65d04cce9e8e4c15427b86ba8ec5e6e1c1ea78c1b7adab6c",
+    "catalogue_index_sha256": "93006c98b88f0d8cf63dae67e35b1712a59232e4def1d77e325b9ae13f6c4834",
+    "refresh_info_request_id": "22df76df3e6bcc30c720bc21b0e11eaa5a75c9cef66fbc119402de9c8e8c4f82",
+    "root_pointer_request_id": "161a572c58044b053e6b5b71854c72441f1a8e20ea5a4f312bac4e4a02a9637b",
+    "baseline_pointer_request_id": "b4e05bbd52299c88121e91d4cfd5404916c1169ba17859c0641b1289480da959",
+    "stage_gate_pointer_request_id": "7d022618d8752ef8d243b2310d5081724bf1cb40a468c28e1c1ea78c1b7ad7cb7",
+    "stage_rows_pointer_request_id": "b2249a8413a3998777d23a599981d0d0aaa93f86fefc718a6e0056caadc06b85",
+    "baseline": {
+      "admitted": false,
+      "source_exact": true,
+      "return_binding_matches": true,
+      "selected_cleanup_return_before_count": 1,
+      "selected_cleanup_return_complete_count": 1,
+      "recovery_completion_observed": true,
+      "stage_receipt_gate_admitted": false,
+      "aggregate_classification": "INCONCLUSIVE",
+      "mutant_cases": "all five NOT_RUN"
+    },
+    "verifast_stage_receipt": {
+      "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verifast-stage.json",
+      "file_id": "ba7c40032e998d5871061c660a28e8467a5cc16ca492125994ac0289346d98e5",
+      "file_sha256": "f51e9799d6e7e2c96e05c9f5e1a3f651a6788c554d40f54310d884945fba6d59",
+      "refresh_info_request_id": "80638339d78337b37fce24466df047986e289ca6b67ef3ee6e9317d137e692c5",
+      "root_pointer_request_id": "230ab9b46d518d0e1ba16f5eb7200ec0431b1adfac84bead40f99e4c55c84158",
+      "source_before_request_id": "6446f6262742917acd8359daaeafaac92e3c4ca0c9ccca0b449b143280680d20",
+      "source_after_small_sort_source_request_id": "6b0d2e267af8a1f8a629d5b6fde0db0f106217a82b4a7df7e2e1c9c1c2bd6479",
+      "stage": "verifast",
+      "exit_code": 1,
+      "source_unchanged": true,
+      "source_before_and_after_fields": [
+        "original/lib.rs",
+        "verified/lib.rs",
+        "small_sort_source"
+      ],
+      "source_identity_matches_old_two_entry_gate": false,
+      "small_sort_source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+    },
+    "preparation_source_pin": {
+      "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/preparation.json",
+      "file_id": "b5c56fcc688c11a82524ac2156faaea2eafc0e7d8d135a26a2c4ea0ba598a122",
+      "file_sha256": "77f2d733819dfe34e6fbab4bce5318667d2d97ebe3629cb75a6fe482c533f716",
+      "refresh_info_request_id": "0158dd55e097c61cc10422c937f54e470fa3b0b2727946b225c155f1e5ef351d",
+      "source_sha256_pointer_request_id": "737463ae203de58e2c1c1e0ea6981de4f6e440cb45de2349afcee2f5b88e5666",
+      "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+    },
+    "diagnosis": "The baseline stage checker compared source_before/source_after to a dictionary containing only original/lib.rs and verified/lib.rs. The exact stage receipt contains those two case hashes plus small_sort_source; that third field matches the fullbody preparation source pin. The source equality check therefore rejected the valid three-entry receipt and prevented all five controls from running.",
+    "minimal_fix_contract": "Require exact original/lib.rs and verified/lib.rs hashes, require small_sort_source equal the exact preparation source_sha256, require source_before == source_after and source_unchanged == true. Do not accept arbitrary extra keys or weaken exit/status/Drop-event/error-target checks."
+  },
+  "late_scope_admission_controls": {
+    "aggregate_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+    "file_id": "92de6ec3e223362f51aea2b8cc39115cc6c5d03bbd4db225e49afe7e70412da2",
+    "file_sha256": "d30d90f604e2a04ed30d0f978e520f6da3c78ada0a76b22240a19cc531f01c0f",
+    "refresh_info_request_id": "5f8d3dce56a81cbcda56569259ceb8c3fb5bd2169209219fae9fe1e87e770e48",
+    "controls_pointer_request_id": "1a3a2f69fc7426263c2b7a83b322a6d911b598b13f471bb7a1bb3dca69bb1b38",
+    "profile": "experimental-merge-guard-current-return-r9-v1",
+    "all_matched": true,
+    "classification": "ALL_INTENDED_ADMISSION_REJECTIONS",
+    "accepted": false,
+    "proof_credit": false
+  },
+  "coverage_and_limits": {
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "raw_logs_or_archives_read": false,
+    "causality_claimed_from_Build_failure": false,
+    "proof_acceptance_claimed": false
+  }
+}

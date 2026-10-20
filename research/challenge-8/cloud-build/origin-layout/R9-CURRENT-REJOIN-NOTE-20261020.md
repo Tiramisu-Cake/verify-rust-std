@@ -91,3 +91,43 @@ insufficient for the full post; source-bound recovery must first identify the
 checked existing owner-return path. Do not solve that gap with entry-value
 equality, pointer-address assumptions, `assume`/`leak`, a new ownership rule,
 or weakened cleanup/unwind posts.
+
+## Concrete-u64 owner refinement while Build3 runs
+
+Static source check: `translate_u_int_ty` in translator defines `own tid vs =
+Ok (True loc)` for concrete u64; `rust_belt/general.rsspec:149` defines
+`own<T>(t)(v) = (<T>.own)(t,v)`. Consequently this exact concrete candidate may
+close `own::<u64>(t)(current_value)` through ordinary verification, as the existing
+CURRENT_OWNER_REJOIN already does. A checked recursive source lemma can build
+`foreach(current_values, own::<u64>(t))` from that concrete interpretation. This
+is not a generic ownership rule or physical-cell inference, and grants no actual
+proof credit before Cloud checks it. The actual current values must still come
+from the existing physical array/cells, never from entry snapshot `xs`.
+
+Candidate sequence after tmp recovery, if the exact next heap supports it:
+assert physicaltail current; close its fullsingleton using existingemptytail;
+join begin+1 thenbegin from matching existingfullsingletons; bind resulting3-cell
+CURRENT list; call the separately checked concrete-u64 foreach lemma. Existing
+F/thread/type obligations remain and later failures must be examined separately.
+Do not apply this as a source change until the actual frontier is observed.
+
+Checked-source lemma sketch (unexecuted, ordinary proof body required):
+
+```rust
+lem r9_current_u64_owners(t: thread_id_t, vs: list<u64>)
+    req true;
+    ens foreach(vs, own::<u64>(t));
+{
+    match vs {
+        nil => { close foreach(nil, own::<u64>(t)); }
+        cons(v, rest) => {
+            r9_current_u64_owners(t, rest);
+            close own::<u64>(t)(v);
+            close foreach(vs, own::<u64>(t));
+        }
+    }
+}
+```
+
+No lemma declaration without its checked body may be substituted. Any source
+fixture using it needs exact profile/source closure and compatible controls.
