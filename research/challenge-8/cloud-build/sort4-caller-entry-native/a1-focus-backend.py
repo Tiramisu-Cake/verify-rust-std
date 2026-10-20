@@ -27,6 +27,8 @@ PROFILE_BINDINGS = {
         "A1-SCOPE-S3-PROFILE-2026-10-20.json",
     "SORT4-PACKAGING-NATIVE-PROOF-2026-10-20-R7":
         "A1-PACKAGING-R7-PROFILE-2026-10-20.json",
+    "SORT4-POST-MIGRATION-NATIVE-PROOF-2026-10-20-R8":
+        "A1-POST-MIGRATION-R8-PROFILE-2026-10-20.json",
 }
 TR = "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
 SCHEMA = "src/rust_frontend/vf_mir/vf_mir.capnp"

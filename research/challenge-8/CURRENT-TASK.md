@@ -57,4 +57,8 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-Ожидается по завершении новой R8. T0 ещё не установлен; новых Builds этим поручением пока не запущено. R7 checkpoint сохранён в указанном архиве; её запрет повторной активации сохраняется и не относится к новой отдельно разрешённой R8.
+- **R8 ACTIVE:** T0 **2026-10-20T14:28:47Z**, main **16:28:47Z**, absolute **16:58:47Z**; новый ledger ceiling3600/used0, Builds0. R7 сроки/1051spent/2549unused сохранены без carry.
+- **План:** actual P0a native conformance → полный P1 → совместимые26/own N-false31. Сначала reviewed S3 packaging + полная новая R8 authorization/pin chain, exact published closure, existing preflight/target/controls; затем реальные Brief observations и следующий proof-blocker.
+- **Proof до→после:** closed obligations0, independent B1/B2 credit0; P0a/P1/A1/A2/N-false31 OPEN. R7 S2 все26 UNKNOWN; после миграции coordinator terminal FAILURE подтверждён, Brief HTTP404, причина/размеры не установлены.
+- **Обслуживание:** S3 commit `a6412ac4`, исправлены test fixtures и companion path ancestor/descendant collision; 5 numeric/shape/collision + 6 packaging/old-new compatibility tests PASS; independent Luna HIGH GO актуальных bytes. Это synthetic/source result, не actual Cloud acceptance. Новая R8 activation в работе; чужие policy dirty/untracked сохранены.
+- **Учёт:** новых Builds/charges0, local reservations0/own request отсутствовал при миграционной проверке; новые inputs ещё не отправлены. [R8 session](cloud-build/sort4-caller-entry-native/A1-POST-MIGRATION-R8-SESSION-2026-10-20.md). Следующий шаг: review activation/dependencies, точная опубликованная closure и первый actual Cloud Build через coordinator.

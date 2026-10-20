@@ -1,4 +1,4 @@
-"""Compatibility entrypoint for the current isolated R6/R7 profile gate."""
+"""Compatibility entrypoint for the current isolated R6/R7/R8 profile gate."""
 import importlib.util
 from pathlib import Path
 import unittest
