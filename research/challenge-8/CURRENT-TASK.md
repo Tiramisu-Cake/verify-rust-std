@@ -58,10 +58,9 @@ R5 целиком сохранена в [архиве](task-history/select-nativ
 
 ## Отчёт агента
 
-- **Статус / T0/main/absolute/end:** NOT_STARTED / —.
-- **Самостоятельно выбранные цели / applicability фактическому stage / изменения плана:** —.
-- **Proof до→после / P0a/P1/26/N-false31/A1/A2 / B1/B2, ссылки:** —.
-- **Обслуживание / rationale/controls/review / source/tool/profile identities:** —.
-- **Build UUID → гипотеза → candidate → результат → charge:** —.
-- **Учёт/закрытие / own requests/reservations/active/unresolved / published checkpoint:** —.
-- **Первый remaining blocker / следующий эксперимент / точное решение владельца или ранний stop:** —.
+- **Статус / T0/main/absolute/end:** IN_PROGRESS / 2026-10-20T07:16:11Z /09:16:11Z /09:46:11Z /—.
+- **Цель/applicability:** восстановить реальный PackageDecl scope → P0a/native → P1/equality/refinement → dependent26/N-false31. Pinned frontend flatten_module_decls создаёт именно PackageDecl chunks; empty root/repeated groups допустимы. [Rationale/session](cloud-build/sort4-caller-entry-native/A1-SCOPE-SESSION-2026-10-20.md).
+- **Proof до→после:** пока без прироста; исходные S5 P0a/P1INCONCLUSIVE, N-false31NOT_RUN, A1/A2OPEN; independentB1/B2credit0.
+- **Обслуживание:** S1 PackageDecl reader и отличающие synthetic controls;69testsPASS. [ReviewGO](cloud-build/sort4-caller-entry-native/A1-SCOPE-S1-REVIEW-2026-10-20.md); [release/closure](cloud-build/sort4-caller-entry-native/A1-SCOPE-S1-RELEASE-2026-10-20.json). Runtime candidate9c7ea5505d0e65a4e84e525458a32e1c289ae5a8 published/remoteSHA verified, R2/C/toolchain S5 unchanged.
+- **Build/учёт:** S1 Build53c85824-e4d3-4459-8760-c6dc0dace06f принят; новый отдельный R6 account3600; reservation960, actual charge pending. [Ledger](cloud-build/sort4-caller-entry-native/BUDGET-A1-PACKAGE-SCOPE-2026-10-20-R6.json).
+- **Следующий шаг:** мониторинг первого Build, Brief/targetedReader; последующее решение по actual evidence, без raw fallback.

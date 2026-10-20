@@ -1,7 +1,5 @@
-# Select / sort4 — R5 CLOSED, PackageDecl scope blocker
+# Select / sort4 — R6 IN_PROGRESS
 
-Six terminal Builds:5FAILURE+1CANCELLED;2175/3600Cloudseconds spent,1425retired/no carry. Main cutoff00:34:09Z; S6created00:34:02Z and cancelled00:34:58Z after its ModuleDecl diagnosis proved inapplicable to actual PackageDecl dump. Own active/unresolved/reservations/requests0.
+T0 2026-10-20T07:16:11Z; main09:16:11Z; absolute09:46:11Z. Новый R6 account3600Cloudseconds, R5 closed/no carry. Цель PackageDecl scope→P0a/native→P1→26/Nfalse31; actual caller applicability остаётся OPEN.
 
-Last full evidence S5 runtime14a9d651bb09dd0b128525c0efbedbecd15ec082, Build56f4d389-8d6d-428b-8298-aa4c5e45073a FAILURE332s. Fresh R-only/final-C receipts build_exit0 with new fullR2 and unchangedC; full native P0a/P1 conformance not established. First blocker AstGateError one common threshold prototype: AST-reader loses enclosing PackageDecl path. S6bb51d009 is a cancelled draft, applicability GO withdrawn; BriefHTTP404, resultsUNKNOWN.
-
-Proof obligations closed0; A1/A2OPEN, P1started creditfalse, Nfalse31explicitNOT_RUN in S5;26source8INTENDED_CLASSIFIED/5INCONCLUSIVE/13NOT_RUN. No independentB1/B2credit. Compiler/exporter/schema/decoder/kernel/runtime/domain/contracts/lifecycle/matrix retained. Next permitted work requires new task/session: proper PackageDecl scope reader, source/header/post equality controls, Cloud validation. [Full report+26rows](CURRENT-TASK.md), [session](cloud-build/sort4-caller-entry-native/A1-AUTO-SESSION-2026-10-20.md), [S5 evidence](cloud-build/sort4-caller-entry-native/A1-AUTO-S5-EVIDENCE-2026-10-20.json).
+S1 candidate9c7ea5505d0e65a4e84e525458a32e1c289ae5a8 published; independent Luna HIGH GO;69 isolated synthetic checks PASS; exact Git closure33infra/107proof PASS. Actual proof ещё не подтверждён; B1/B2independentcredit0. R2/C/toolchain сохраняют S5 identities. [Task](CURRENT-TASK.md), [session](cloud-build/sort4-caller-entry-native/A1-SCOPE-SESSION-2026-10-20.md), [release](cloud-build/sort4-caller-entry-native/A1-SCOPE-S1-RELEASE-2026-10-20.json). R5 baseline/history сохранены в прежней session/evidence и task archive.

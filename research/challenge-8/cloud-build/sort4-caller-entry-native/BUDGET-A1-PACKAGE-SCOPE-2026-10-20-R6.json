@@ -1,10 +1,30 @@
 {
-  "active_build": null,
+  "active_build": "53c85824-e4d3-4459-8760-c6dc0dace06f",
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
   ],
   "authorization": "CURRENT-TASK select-package-scope-native-proof-2026-10-20-r6; T0=2026-10-20T07:16:11Z; 120min main + 30min finishing; new 3600 Cloud seconds; full-matrix A1 package-scope native proof; existing lane/coordinator and proof guarantees; timeout<=900; no sequential Build count limit",
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-8a3dc8e1b794495982a265b6fb2a5c75",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-PACKAGE-SCOPE-NATIVE-PROOF-2026-10-20-R6",
+      "infra_sha": "9c7ea5505d0e65a4e84e525458a32e1c289ae5a8",
+      "proof_sha": "9c7ea5505d0e65a4e84e525458a32e1c289ae5a8",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "ef7d920b8fe5ec222a134b5b68665da3cad40cd4addb4185c88575218cb0e8d0",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "WORKING",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "6bfac85bac1bccbdab6595327acc7543d11c5ef038d0f163febc1629c455bfd2",
+      "build_id": "53c85824-e4d3-4459-8760-c6dc0dace06f",
+      "start_time": "2026-10-20T07:31:29.624399167Z",
+      "finish_time": null,
+      "create_time": "2026-10-20T07:31:28.853205274Z"
+    }
+  ],
   "ceiling_build_seconds": 3600,
   "deadline_utc": "2026-10-20T09:46:11Z",
   "main_deadline_utc": "2026-10-20T09:16:11Z",

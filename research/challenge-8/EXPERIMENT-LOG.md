@@ -7848,3 +7848,5 @@ S4 Build0b0e6b2a-a13a-45c1-abf4-f4dc7e992e02 FAILURE474s; inventory/source bindi
 
 ### 2026-10-20 R5 closing S5/S6
 S5 Build56f4d389 FAILURE332s; fresh own R-only/final-C tool receipts build_exit0, unchangedC/newR2 pins; P0a ASTgate one common threshold prototype. Exact bounded AST shows PackageDecl-qualified bareFunc, reader loses path. S6 ModuleDecl-only hypothesis passed synthetic/review but was diagnosed inapplicable after submit; Build773189aa createdbeforemaincutoff, cancelled56s, Brief404. No proofcredit or S6NOT_RUN inference. Sixterminal2175spent1425retired/no carry; ownslots/requests/unresolved0. All26 source statuses and exact provenance in CURRENT-TASK/S5evidence; no new B1/B2 obligation.
+
+R6 S1 2026-10-20: actual PackageDecl stage applicability established, reader owner recovery; independent LunaHIGHGO;69syntheticchecksPASS, no local actual replay/toolchain. Build53c85824-e4d3-4459-8760-c6dc0dace06f candidate9c7ea550, full matrix after existing preflight, resultpending. [Session](cloud-build/sort4-caller-entry-native/A1-SCOPE-SESSION-2026-10-20.md).
