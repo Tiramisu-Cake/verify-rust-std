@@ -1,15 +1,17 @@
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index 8d6c7d75..794ad890 100644
+index 8d6c7d75..4b468ded 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-@@ -1956,6 +1956,15 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -1956,6 +1956,17 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      first_recover_stmt : Ast.stmt;
    }
  
 +  type late_callback_plan = {
++    late_original_decl_loc : Ast.loc;
 +    late_begin_loc : Ast.loc;
 +    late_close_loc : Ast.loc;
 +    late_scope_end_loc : Ast.loc;
++    late_recover_loc : Ast.loc;
 +    late_lft : string;
 +    late_close_stmt : Ast.stmt;
 +    late_recover_stmt : Ast.stmt;
@@ -18,7 +20,7 @@ index 8d6c7d75..794ad890 100644
    let fresh_first_callback_stmt = function
      | Ast.PureStmt (loc, Ast.BlockStmt (block_loc, decls, stmts, close_loc, _)) ->
          Ast.PureStmt (loc,
-@@ -1975,6 +1984,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -1975,6 +1986,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      val callback_recover : Ast.stmt option
      val callback_scope_start : Ast.loc option
      val first_callback : first_callback_plan option
@@ -26,7 +28,7 @@ index 8d6c7d75..794ad890 100644
    end) =
    struct
      type hrtb_callback_referent = HrtbParam of string | HrtbU64
-@@ -1989,12 +1999,15 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -1989,12 +2001,15 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let callback_recover = Args.callback_recover
        let callback_scope_start = Args.callback_scope_start
        let first_callback = Args.first_callback
@@ -42,7 +44,7 @@ index 8d6c7d75..794ad890 100644
        let callback_used = ref false
        let callback_call_loc = ref None
        let fnmut_call_count = ref 0
-@@ -3035,6 +3048,59 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3035,6 +3050,59 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              else None
          | _ -> None
        in
@@ -102,7 +104,7 @@ index 8d6c7d75..794ad890 100644
        let* dst, dst_is_mutable =
          Rocq_writer.rocq_print_big_record_field TranslatorArgs.rocq_writer "destination" @@ fun () ->
          translate_place (destination_get fn_call_data_cpn) loc
-@@ -3057,6 +3123,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3057,6 +3125,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          | Something ptr_cpn ->
              let target_cpn = VfMirRd.of_pointer ptr_cpn in
              let dst_bblock_id = translate_basic_block_id target_cpn in
@@ -113,7 +115,7 @@ index 8d6c7d75..794ad890 100644
              Rocq_writer.rocq_print_application TranslatorArgs.rocq_writer "Some" begin fun () ->
                Rocq_writer.rocq_print_argument TranslatorArgs.rocq_writer begin fun () ->
                  Rocq_writer.rocq_print_string_literal TranslatorArgs.rocq_writer dst_bblock_id
-@@ -3090,33 +3160,54 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3090,33 +3162,54 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                                    [ LitPat (Var (loc, "__result")) ],
                                    Static ),
                                [ assignment (Ast.Var (loc, "__result")) ] @
@@ -122,10 +124,10 @@ index 8d6c7d75..794ad890 100644
 +                              (match late_callback_cleanup,
 +                                     first_callback_cleanup, callback_cleanup with
 +                               | Some (plan, _), None, None ->
-+                                   [Ast.PureStmt (loc, Ast.ExprStmt
++                                   [Ast.ExprStmt
 +                                      (Ast.AssignExpr
-+                                        (loc, Ast.Var (loc, "r7_late_unwind"),
-+                                         Ast.Mutation, Ast.False loc)));
++                                        (loc, Ast.Var (loc, "__vf_late_callback_unwind"),
++                                         Ast.Mutation, Ast.False loc));
 +                                    fresh_first_callback_stmt plan.late_close_stmt;
 +                                    Ast.GotoStmt (loc, "#merge_late_callback_scope_end")]
 +                               | None, Some s, None | None, None, Some s ->
@@ -143,10 +145,10 @@ index 8d6c7d75..794ad890 100644
 +                              (match late_callback_cleanup,
 +                                     first_callback_cleanup, callback_cleanup with
 +                               | Some (plan, _), None, None ->
-+                                   [Ast.PureStmt (loc, Ast.ExprStmt
++                                   [Ast.ExprStmt
 +                                      (Ast.AssignExpr
-+                                        (loc, Ast.Var (loc, "r7_late_unwind"),
-+                                         Ast.Mutation, Ast.True loc)));
++                                        (loc, Ast.Var (loc, "__vf_late_callback_unwind"),
++                                         Ast.Mutation, Ast.True loc));
 +                                    fresh_first_callback_stmt plan.late_close_stmt;
 +                                    Ast.GotoStmt
 +                                      (loc, "#merge_late_callback_scope_end")]
@@ -179,7 +181,32 @@ index 8d6c7d75..794ad890 100644
          | Undefined _ -> Error (`TrFnCall "Unknown Option kind")
        in
        let full_call_stmts, targets =
-@@ -3154,7 +3245,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3135,12 +3228,21 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+             in
+             let phl = get_start_loc (Ast.lexed_loc call_loc) in
+             let ghost_stmt =
+-              List.find
++              match List.find_opt
+                 (fun gs ->
+                   let gsl = get_start_loc Ast.(gs |> stmt_loc |> lexed_loc) in
+-                  let (gsl_l, gsl_c), (phl_l, phl_c) = (gsl, phl) in
++                  let gsl_l, _ = gsl in
++                  let phl_l, _ = phl in
+                   gsl_l = phl_l)
+-                !State.ghost_stmts
++                !State.ghost_stmts with
++              | Some stmt -> stmt
++              | None ->
++                  let line, column = phl in
++                  Ast.static_error call_loc
++                    (Printf.sprintf
++                      "No translated ghost statement matches compiler ghost command at source %d:%d"
++                      line column)
++                    None
+             in
+             ([ ghost_stmt ], targets)
+         | _ ->
+@@ -3154,7 +3256,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                         loc,
                         ref [] );
                   ]),
@@ -190,7 +217,7 @@ index 8d6c7d75..794ad890 100644
        in
        let full_call_stmts = !State.pending_hrtb_projection_eq @ full_call_stmts in
        State.pending_hrtb_projection_eq := [];
-@@ -5968,10 +6061,265 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5968,27 +6072,294 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
            let loc = match ghost_stmts with stmt :: _ -> Ast.stmt_loc stmt | [] -> fn_sig_loc in
            Ast.static_error loc "Incomplete or ambiguous callback cleanup markers" None
      in
@@ -379,11 +406,12 @@ index 8d6c7d75..794ad890 100644
 +                Ast.CallExpr (_, "typeid_of_lft", [], [], [k], Ast.Static))],
 +                [], _, _) when name = begin_lft && pvar "r5_late_k" k -> true
 +            | _ -> false) ghost_decl_blocks in
-+          (match bindings with
-+           | [_] -> ()
-+           | _ -> Ast.static_error begin_l
++          let original_decl_loc =
++            match bindings with
++            | [Ast.BlockStmt (start, _, _, _, _)] -> start
++            | _ -> Ast.static_error begin_l
 +               "Late callback scope requires one let_lft 'late = r5_late_k binding"
-+               None);
++               None in
 +          let outer_decl name init = function
 +            | Ast.DeclStmt (l, [(_, None, found, Some expr, _)])
 +            | Ast.PureStmt (l, Ast.DeclStmt (_, [(_, None, found, Some expr, _)]))
@@ -407,8 +435,10 @@ index 8d6c7d75..794ad890 100644
 +            Ast.BlockStmt (close_l, [], close_commands, close_end, ref [])) in
 +          let recover_stmt = Ast.PureStmt (recover_l,
 +            Ast.BlockStmt (recover_l, [], recover_commands, recover_end, ref [])) in
-+          Some {late_begin_loc = begin_l; late_close_loc = close_l;
-+                late_scope_end_loc = end_l; late_lft = begin_lft;
++          Some {late_original_decl_loc = original_decl_loc;
++                late_begin_loc = begin_l; late_close_loc = close_l;
++                late_scope_end_loc = end_l; late_recover_loc = recover_l;
++                late_lft = begin_lft;
 +                late_close_stmt = close_stmt; late_recover_stmt = recover_stmt}
 +      | _ ->
 +          let loc = match ghost_stmts with stmt :: _ -> Ast.stmt_loc stmt | [] -> fn_sig_loc in
@@ -455,12 +485,13 @@ index 8d6c7d75..794ad890 100644
 +          blocks
 +    in
      let ghost_stmts =
-       List.map (fun stmt ->
+-      List.map (fun stmt ->
++      let mapped = List.filter_map (fun stmt ->
          let l = Ast.stmt_loc stmt in
-@@ -5979,13 +6327,19 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+         if (match first_callback with
              | Some plan -> l = plan.first_close_loc ||
                  block_marker "first_callback_recover" stmt <> None
-             | None -> false) then Ast.NoopStmt l
+-            | None -> false) then Ast.NoopStmt l
 -        else match callback_close, callback_recover with
 -        | Some (close_l, _, _), Some recover_stmt when l = close_l -> Ast.NoopStmt l
 -        | Some _, Some recover_stmt ->
@@ -468,23 +499,32 @@ index 8d6c7d75..794ad890 100644
 -             | Some _ -> recover_stmt
 -             | None -> stmt)
 -        | _ -> stmt) ghost_stmts
+-      |> List.filter (fun stmt ->
++            | None -> false) then Some (Ast.NoopStmt l)
 +        else match late_callback with
-+        | Some plan when l = plan.late_begin_loc || l = plan.late_close_loc ||
-+                         l = plan.late_scope_end_loc ||
++        | Some plan when l = plan.late_begin_loc -> None
++        | Some plan when l = plan.late_close_loc || l = plan.late_scope_end_loc ||
 +                         block_marker "late_callback_recover" stmt <> None ->
-+            Ast.NoopStmt l
++            Some (Ast.NoopStmt l)
 +        | _ ->
 +            (match callback_close, callback_recover with
-+             | Some (close_l, _, _), Some _ when l = close_l -> Ast.NoopStmt l
++             | Some (close_l, _, _), Some _ when l = close_l -> Some (Ast.NoopStmt l)
 +             | Some _, Some recover_stmt ->
 +                 (match block_marker "callback_recover" stmt with
-+                  | Some _ -> recover_stmt
-+                  | None -> stmt)
-+             | _ -> stmt)) ghost_stmts
-       |> List.filter (fun stmt ->
++                  | Some _ -> Some recover_stmt
++                  | None -> Some stmt)
++             | _ -> Some stmt)) ghost_stmts in
++      let mapped = match late_callback with
++        | Some plan -> Ast.NoopStmt plan.late_original_decl_loc :: mapped
++        | None -> mapped in
++      List.filter (fun stmt ->
             not (List.exists (fun (cut_l, _) -> Ast.stmt_loc stmt = cut_l)
-                   strict_lft_scope_ends))
-@@ -6024,7 +6378,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+-                  strict_lft_scope_ends))
++                  strict_lft_scope_ends)) mapped
+     in
+     let ghost_decl_block_start_stmts =
+       ghost_decl_blocks
+@@ -6024,7 +6395,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
               | _ -> false) decls &&
             source_pos l < source_pos cut_l && source_pos cut_l < source_pos closeBraceLoc)
             strict_lft_scope_ends with
@@ -495,7 +535,51 @@ index 8d6c7d75..794ad890 100644
               [Ast.NoopStmt cut_l; Ast.NoopStmt closeBraceLoc]
           | Some (cut_l, _) -> [end_stmt cut_l; Ast.NoopStmt closeBraceLoc]
           | None -> [end_stmt closeBraceLoc]
-@@ -6058,6 +6414,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6033,6 +6406,43 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       ListAux.try_map translate_loop_spec_block
+         (loop_spec_blocks_get_list body_cpn)
+     in
++    (match late_callback with
++     | None -> ()
++     | Some plan ->
++         let source_line loc =
++           let ((_, line, _), _) = Ast.lexed_loc loc in line in
++         let candidate_stmts =
++           ghost_decl_block_start_stmts @ ghost_decl_block_end_stmts @
++           loop_spec_blocks @ ghost_stmts in
++         let candidate_count loc =
++           List.length (List.filter (fun stmt ->
++             source_line (Ast.stmt_loc stmt) = source_line loc) candidate_stmts) in
++         List.iter (fun (label, loc) ->
++           if candidate_count loc <> 1 then
++             Ast.static_error loc
++               (Printf.sprintf
++                 "Late callback source placeholder %s at line %d has %d translated candidates"
++                 label (source_line loc) (candidate_count loc))
++               None)
++           ["original let_lft start", plan.late_original_decl_loc;
++            "explicit binding start", plan.late_begin_loc;
++            "late close marker", plan.late_close_loc;
++            "strict binding end", plan.late_scope_end_loc;
++            "recovery marker", plan.late_recover_loc];
++         let binding_starts = List.filter (function
++           | Ast.BlockStmt (start, decls,
++               [Ast.ExprStmt (Ast.CallExpr (_, "#ghost_decl_block_start", [], [], [], Ast.Static))],
++               close, _) ->
++               source_line start = source_line plan.late_begin_loc &&
++               source_line close = source_line plan.late_scope_end_loc &&
++               List.exists (function
++                 | Ast.TypeWithTypeidDecl (_, name, _) -> name = plan.late_lft
++                 | _ -> false) decls
++           | _ -> false) ghost_decl_block_start_stmts in
++         if List.length binding_starts <> 1 then
++           Ast.static_error plan.late_begin_loc
++             "Late callback binding does not start exactly once at its explicit source marker"
++             None);
+     let stack_addr_occurrences =
+       stack_addr_occurrences
+       + List.fold_left
+@@ -6058,6 +6468,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let callback_recover = callback_recover
        let callback_scope_start = callback_scope_start
        let first_callback = first_callback
@@ -503,7 +587,32 @@ index 8d6c7d75..794ad890 100644
      end) in
      let vdis_cpn = var_debug_info_get_list body_cpn in
      (* Since var id translation map is empty var debug info contains the plain Mir ids *)
-@@ -6870,6 +7227,76 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6745,6 +7156,24 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+             let vf_local_decls =
+               List.map (translate_to_vf_local_decl loc) (ret_place_decl :: local_decls)
+             in
++            let vf_local_decls =
++              match late_callback with
++              | None -> vf_local_decls
++              | Some _ ->
++                  let unwind_flag = "__vf_late_callback_unwind" in
++                  if List.exists
++                       (fun ({ id; _ } : Mir.local_decl) -> id = unwind_flag)
++                       all_local_decls
++                  then
++                    Ast.static_error fn_sig_loc
++                      "Late callback internal unwind flag collides with a source local"
++                      None;
++                  Ast.DeclStmt
++                    (loc,
++                     [ (loc, Some (Ast.ManifestTypeExpr (loc, Ast.Bool)),
++                       unwind_flag, Some (Ast.False loc), (ref false, ref None) ])
++                    :: vf_local_decls
++            in
+             let bblocks_cpn = basic_blocks_get_list body_cpn in
+             State.selected_resume_targets := List.filter_map (fun block ->
+               match TerminatorKindRd.get (TerminatorRd.kind_get (BasicBlockRd.terminator_get block)) with
+@@ -6870,6 +7299,77 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                | _ -> Ast.static_error fn_sig_loc
                    "First callback recovery markers did not match a call" None
              in
@@ -563,7 +672,8 @@ index 8d6c7d75..794ad890 100644
 +                      statements = [plan.late_recover_stmt];
 +                      terminator_stmts =
 +                        [Ast.IfStmt
-+                          (call_loc, Ast.Var (call_loc, "r7_late_unwind"),
++                          (call_loc,
++                           Ast.Var (call_loc, "__vf_late_callback_unwind"),
 +                           [Ast.GotoStmt (call_loc, cleanup_target)],
 +                           [Ast.GotoStmt (call_loc, normal_target)])];
 +                      terminator = Mir.EncodedTerminator;

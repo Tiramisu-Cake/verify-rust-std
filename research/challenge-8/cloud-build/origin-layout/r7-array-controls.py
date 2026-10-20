@@ -71,8 +71,10 @@ CASES = {
 }
 """,
         "target": "wrong value singleton close", "class": "negative",
-        # Build 1 did not expose this target-local diagnostic; remain fail-closed.
-        "error_at": "target",
+        # Build 2 observed this exact prelude definition error after the target ran.
+        "error_at": "spec", "error_file": "prelude_core.rsspec",
+        "error_line": 264, "error_columns": "72-74",
+        "error_contains": "Cannot prove condition. (Cannot prove cons(w, nil) = cons(v, nil).)",
     },
 }
 
@@ -125,6 +127,9 @@ def prepare(evidence: Path, *, helper: bytes) -> dict:
             "target": {"line": target_lines[0], "marker": spec["target"]},
             "expected_error_line": (_helper_req_line(verified) if spec.get("error_at") == "helper_req"
                                      else target_lines[0] if spec.get("error_at") == "target" else None),
+            "expected_error_location": ({"file": spec["error_file"], "line": spec["error_line"],
+                                          "columns": spec["error_columns"]}
+                                         if spec.get("error_at") == "spec" else None),
             "helper_sha256": _sha(helper),
             "original_sha256": _sha(original), "verified_sha256": _sha(verified),
             "expected_stages": {stage: (1 if stage == "verifast" and spec["class"] == "negative" else 0)
@@ -210,8 +215,16 @@ def classify(name: str, case: Path, meta: dict, execution) -> dict:
     last_execution_is_target = (bool(pre_error_executed_lines) and
                                 pre_error_executed_lines[-1] == target_line)
     expected_error_line = meta.get("expected_error_line")
-    error_at_expected_line = (len(errors) == 1 and expected_error_line is not None and
-        re.search(rf"verified/lib\.rs\({expected_error_line},\d+(?:-\d+(?:,\d+)?)?\): error:", errors[0]) is not None)
+    spec_location = meta.get("expected_error_location")
+    if spec_location:
+        expected_file = re.escape(spec_location["file"])
+        expected_columns = re.escape(spec_location["columns"])
+        error_at_expected_line = (len(errors) == 1 and re.search(
+            rf"(?:^|/){expected_file}\({spec_location['line']},{expected_columns}\): error:",
+            errors[0]) is not None)
+    else:
+        error_at_expected_line = (len(errors) == 1 and expected_error_line is not None and
+            re.search(rf"verified/lib\.rs\({expected_error_line},\d+(?:-\d+(?:,\d+)?)?\): error:", errors[0]) is not None)
     error_match = bool(errors and meta.get("error_contains") and meta["error_contains"] in errors[0])
     stages = stages if isinstance(stages, dict) else {}
     common = source_gate["admitted"] and stage_gate["admitted"]

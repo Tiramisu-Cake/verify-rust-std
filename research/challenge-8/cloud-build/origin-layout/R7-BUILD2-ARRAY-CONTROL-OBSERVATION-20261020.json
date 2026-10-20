@@ -1,0 +1,51 @@
+{
+  "schema": "smallsort-targeted-array-control-observation-v1",
+  "build_id": "f580a235-3a7c-47e4-8567-568d0b73579c",
+  "source_revision": "63b28d8975e96379ac3b5be58c7d58e04c94a48f",
+  "source_input_sha256": "401997a1cad80a65dd67065cfc489280fe4fe6b12881740b447a5f082296ccc2",
+  "build_claim": {
+    "status": "FAILURE",
+    "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+    "array_control_summary": "positive plus two helper expected rejections; wrong-value previously inconclusive",
+    "accepted": false,
+    "proof_credit": false,
+    "causal_status": "UNKNOWN",
+    "parser_input_binding": "NOT_ESTABLISHED"
+  },
+  "evidence_identity": {
+    "aggregate_file_id": "12372a912e8e4f70f3e1bbf8d78314102aa15c37164af262f8a035d4d0bea459",
+    "aggregate_sha256": "aef4699fb770e712ae510cde5ac9ea1c057c70ffd8815030f3392f69036de5a4",
+    "index_sha256": "973e315c41da13d58aac520cee8458aa93f605850044de8cb295c22cd5e14ce6",
+    "archive_sha256": "a18cdffc0b215cf91c5e75352f6524ae1847a38fbb32a033a3e7dd89e9b28519"
+  },
+  "wrong_value_control": {
+    "error_pointer_request_id": "0959868a8aeb4a7ae3bd0574eb67ef9c359a5776fcf7e8bdbb116c1a1ce1ad18",
+    "exact_error": "/workspace/.../prelude_core.rsspec(264,72-74): error: Cannot prove condition. (Cannot prove cons(w, nil) = cons(v, nil).)",
+    "target_line": 21,
+    "target_executed_pointer_request_id": "0bedae9dd1210214c5f1766adec1752fa93f38d4a96f424fbc99182333ae8219",
+    "target_executed": true,
+    "last_execution_pointer_request_id": "987f6bc153d1a3cbb6952853a7fdeb3b0e6eed9c88775a3a443bdd8aaed7f09c",
+    "last_execution_is_target": true,
+    "source_gate_pointer_request_id": "7e55f12fc251e9b41f97e25e976465aca5446866e79e5791dff1ca93d1bfa0de",
+    "source_gate_admitted": true,
+    "stage_gate_pointer_request_id": "4092dbee04648c5fb840b3de7b4735b45e41affc9b539c9024c446e8e2e44f13",
+    "stage_gate_admitted": true,
+    "classification": "SOURCE_REPORTED_EXPECTED_REJECTION",
+    "accepted": false,
+    "proof_credit": false
+  },
+  "matcher_change": {
+    "error_file": "prelude_core.rsspec",
+    "error_line": 264,
+    "error_columns": "72-74",
+    "error_contains": "Cannot prove condition. (Cannot prove cons(w, nil) = cons(v, nil).)",
+    "required_gates": [
+      "exact target source line executed",
+      "last execution before the single error is the target statement",
+      "source identities unchanged across admitted stages",
+      "all four stage receipts match expected statuses and identities",
+      "one exact diagnostic at the pinned prelude definition coordinates"
+    ]
+  },
+  "bounded_observation": "This targeted source report supports the isolated wrong-value negative control only. It does not establish full proof acceptance, parser-input binding, or independent proof credit."
+}
