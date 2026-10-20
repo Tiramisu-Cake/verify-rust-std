@@ -105,10 +105,10 @@
 +                                            List.length required_lifetimes = 3 &&
 +                                            List.length (List.sort_uniq String.compare actual_names) = 5 &&
 +                                            List.length (List.sort_uniq String.compare common_names) = 4 &&
-+                                            actual_f_bound.sized = required_f_bound.sized &&
-+                                            List.for_all (fun (_, bound) -> not bound.sized)
++                                            actual_f_bound.Ast.sized = required_f_bound.Ast.sized &&
++                                            List.for_all (fun (_, bound) -> not bound.Ast.sized)
 +                                              actual_lifetimes &&
-+                                            List.for_all (fun (_, bound) -> not bound.sized)
++                                            List.for_all (fun (_, bound) -> not bound.Ast.sized)
 +                                              required_lifetimes ->
 +                                         ("T", t_bound)
 +                                     | _ -> fail "expected T, F, and three lifetime binders with matching roles"
