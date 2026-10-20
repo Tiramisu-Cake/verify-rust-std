@@ -64,19 +64,27 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 R8 ACTIVE. T0/main/absolute UTC2026-10-20 17:11:30/19:11:30/19:41:30.
 Цель: actual physical fraction merge/singleton rejoin → original guard/CURRENT.
 Proof до→после: Build2 trace проходит physical merge/full sift assertion/singleton
-close; далее original guard Drop numeric span precondition101 OPEN. Полные
-normal Continue/break/unwind, CURRENT, B2/qualification OPEN, independent credit0.
-Обслуживание: exact compiler preflight подтверждён; narrow primitive-u64 matcher
-исправлен и reviewed. Model/trust extension не применено; владелец получил точный
-вопрос. Проверяются независимые prefix/BeforeLive и минимальный geometry reproducer.
+close. Build4 с отдельно разрешённым experimental allocation profile проходит
+прежний guard numeric-span/Drop barrier до final Freeing locals318, где отсутствует
+[1/2]points_to(tmp_addr,_). Полные normal Continue/break/unwind, CURRENT, B2 и
+qualification OPEN, independent credit0. Native receipt связывает tmp с CURRENT
+begin/count2, не автоматически с полным entry range3.
+Обслуживание отдельно: compiler preflight PASS; exact primitive-u64 matcher;
+изолированные flags probes. Freshness8controls INCONCLUSIVE: wholearray3 refiner1
+(RawPtr unsupported), verifier0 не засчитан. Candidate5 заменяет адресный оператор
+в controls и добавляет обычное checked post-Drop readonly recovery, без tool change.
+Новый profile остаётся отдельно OPEN; prefix/BeforeLive OPEN.
 
 | Build | Hypothesis/type | Candidate | Result | Charged |
 | --- | --- | --- | --- | --- |
-| 4952f684 | full900 vs short203 wrapper; existing target/matrix | 5967687f/tool47b80fad/profilee5ed4de5 | compilerPASS, matcher313 reject before resource proof | 631 |
+| 4952f684 | full900 vs short203 wrapper; target/matrix | 5967687f/tool47b80fad/profilee5ed4de5 | compilerPASS, matcher313 reject before resource proof | 631 |
 | eaf02609 | exact u64 Manifest matcher; target/matrix | 1651614a/tool43c1fdc2/profile845ea5a5 | physical rejoin observed, guard numeric-span refusal101 | 538 |
+| 80c749f2 | unchanged-model geometry probes | 5a78c5b7/tool43c1fdc2/profile845ea5a5 | INC inherited actual-only refiner flag; isolated copies fixed | 592 |
+| df53281d | reviewed allocation premise + corrected probes + target/matrix | c274d0f2/toolf2e92cec/profile838ade99 | compilerPASS; original Drop passes observed path; final tmp-half missing318; controlsINC | 404 |
 
-Всего1169charged/1169execution из3600;2431remaining. Own active/unresolved0 после
-terminal reconciliation; candidate3 geometry diagnostic в независимом review.
+Всего2165charged/2163execution из3600;1435remaining. Own active/unresolved0;
+нет переноса или изменения окна. Candidate5 ready for independent delta review.
 [Карточка](cloud-build/origin-layout/R8-SESSION-20261020.md),
 [обязательства](cloud-build/origin-layout/R8-OBLIGATIONS-20261020.md),
-[точная граница](cloud-build/origin-layout/R8-GEOMETRY-BOUNDARY-20261020.md).
+[Build4](cloud-build/origin-layout/R8-BUILD4-RESULT-20261020.json),
+[граница модели](cloud-build/origin-layout/R8-GEOMETRY-BOUNDARY-20261020.md).

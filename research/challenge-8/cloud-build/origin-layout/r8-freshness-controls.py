@@ -157,7 +157,11 @@ def _source(name: str, *, verified: bool) -> bytes:
         "{\n"
         f"{setup}"
         "    let mut local = 19u64;\n"
-        "    let _address = &raw mut local;\n"
+        # RawPtr MIR statements are not supported by the refinement bridge.
+        # A normal mutable reference followed by Rust's pointer cast preserves
+        # the same runtime address-taking while staying in the supported MIR
+        # subset; it does not add a verifier premise or change ownership.
+        "    let _address = &mut local as *mut u64;\n"
         f"{target}"
         f"{restore}"
         "    local = local + 1;\n"

@@ -1,13 +1,16 @@
-# MERGE — R8 ACTIVE / observed physical rejoin, original guard geometry OPEN
+# MERGE — R8 ACTIVE / actual guard frontier advanced
 
-T0/main/absolute UTC2026-10-20 17:11:30/19:11:30/19:41:30;1169/3600charged,
-2431remaining. Builds4952f684 FAILURE631 and eaf02609 FAILURE538 accounted, ownactive0.
-Latest source1651614a/tool43c1fdc2/profile845ea5a5: exact compilerPASS; trace passes
-physical merge/full-current sift/singleton close, then original generated Drop
-numeric span pre101 fails. Full normal/unwind/CURRENT/B2/qualificationOPEN,credit0.
-No new allocation/model assumption applied. Minimal unchanged-model entry-cell/
-entry-array/opened-array probes in review; exact newtrust question sent to owner.
-[Task/report](CURRENT-TASK.md), [boundary](cloud-build/origin-layout/R8-GEOMETRY-BOUNDARY-20261020.md).
+T0/main/absolute UTC2026-10-20 17:11:30/19:11:30/19:41:30 unchanged.
+Four terminalFAILURE Builds2165charged/2163execution;1435remaining; ownactive0.
+Build4 df53281d exactc274d0f2/toolf2e92cec/profile838ade99: allcompilerstagesPASS,
+actualproof passes former guardspan/Drop barrier on observedpath, then rootfree318
+lacks half tmp points_to. Native freshnessreceipt current begin/count2, entrycount3.
+Owner-authorized experimentalrule remains separately unqualified; all8controlsINC
+(refinement RawPtr unsupported; verifier0 not credited). Candidate5 source-only
+checked post-Drop readonly recovery + controls supported address-taking underreview.
+Physical merge/full sift assertion/singleton observed Build2; normal/unwind/full
+CURRENT/B2/qualificationOPEN, independentcredit0. Prefix/BeforeLive OPEN.
+[Task/report](CURRENT-TASK.md), [Build4](cloud-build/origin-layout/R8-BUILD4-RESULT-20261020.json).
 
 
 # MERGE — R8 READY / proof mission OPEN

@@ -7423,3 +7423,19 @@ close at313; next original Drop numericspan pre101 cannot beproved. Full normal/
 unwind/CURRENT/B2/qualificationOPEN,credit0. Candidate3 adds only unchanged-model
 geometry eligibility probes; explicit newtrust/model question pending, no rule
 change. Prefix/BeforeLive boundary separately investigated, no claimed credit.
+
+R8 Build3 80c749f2 FAILURE592charged/591execution; total1761/3600. Geometry3INC
+because no-callback probes inherited actual-only refinerflag; isolated childargs
+fixed with defaultrefinementstillrequired, service4/5 and independentdeltaGO.
+Owner authorized narrow allocation model-design with separate profile; reviewed
+current-owned-subrange rule and explicitdefaultoffCLI,18patch/17pins/18base.
+Build4 df53281d submitted c274d0f2/toolf2e92cec/profile838ade99, reserve960;
+actualcompiler/guardtarget/8controls pending,qualificationOPEN,credit0.
+
+R8 Build4 df53281d terminal404charged/403exec, exactc274d0f2/f2e92cec/838ade99:
+compiler5stages/posthashPASS, actual passes originalguardspan/Drop observedpath,
+rootfree318 missinghalf tmp. Native rule receipt currentbegin2 vs incoming3.
+Freshness8INC due wholearray3 refinement1 RawPtrunsupported (verifier0 not credit).
+Candidate5 checked ghost suffix afterbranchDrop selects actual existingreadonlytoken,
+requires samepointer Drop effect, opensquarter, endsreadonly and mergesorigin;
+no runtime/tool/posts change. Controls ordinary&mutcast, strictstages retained.

@@ -1,0 +1,48 @@
+{
+  "schema": "merge-r8-build-result-v1",
+  "build_id": "df53281d-1441-4ef0-a8f6-30f73af459f6",
+  "source_commit": "c274d0f2bf7356e55e7eece2ac1e709f481fc7cf",
+  "tool": "f2e92cecaf574d7970cc12d0cb1e75b2980b6aea",
+  "profile_sha256": "838ade9927ebba82b8df61283fdd8189e71b673ac91eadf897806d0bfaa80cc1",
+  "terminal": "FAILURE",
+  "charged_seconds": 404,
+  "execution_seconds": 403,
+  "compiler": "PASS_ALL_CANDIDATE_STAGES_AND_POST_HASHES",
+  "actual_proof_attempted": true,
+  "frontier": "Function return/free_locals verified318 missing [1/2]points_to_<u64>(tmp_addr,_)",
+  "native_receipt": "R8_OWNED_ARRAY_ALLOCATION local=tmp loc=verified/lib.rs(241,13-16) entry=begin current=begin count=2 coefficient=1 offset=0 current_owner=true incoming_count=3",
+  "freshness_controls": "8 INCONCLUSIVE; wholearray3 refinement1 with verifier0; no prerequisite bypass",
+  "accepted": false,
+  "qualification": "OPEN",
+  "independent_credit": 0,
+  "archive_sha256": "4bb3beb29bfed7fc6be77a2f575b426aa40af66c9f0d7c5e6a351872ba8e8cef",
+  "index_sha256": "11745e1ed00d8b87b95446ea973651f34a255e6056efae83999655077f227787",
+  "log_file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+  "log_sha256": "1275aa73cacadcedb99353c6ca7d9f7b6ece5b00e3586e447fdf75b5321f7265",
+  "observations": [
+    {
+      "selector": "lines1448-1459",
+      "request_id": "8d33a4d2ef2c0919cb480ff9c0cb3252d40d5def463faef6920b7c2f6e9dacc4",
+      "exact": true,
+      "complete": false
+    },
+    {
+      "selector": "lines1026-1030",
+      "request_id": "d518953aae3be3f82cc1ce3b6e0c3be5ace743447526f36a908d76b6bb8a92ab",
+      "exact": true,
+      "complete": false
+    }
+  ],
+  "causal_status": "UNKNOWN",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "controls_refiner_observation": {
+    "file_id": "432d5b2e29624fc582f447610c4338fc5ecfb1c2554ea12a1ab5dd8081c3ba7f",
+    "file_sha256": "e1888224d7a45b580f280f9239173398cd99f106d0867d43a759f47797fcda26",
+    "request_id": "d8185168c511c7c23ee936616c889f23aa52704228aa8f02fa96866b1ee8",
+    "selector": "lines1-12",
+    "exact": true,
+    "line1": "ERROR: While checking that the command at 0:6 in the original program refines the command at 0:6 in the verified program: RawPtr: not yet supported",
+    "source_coordinate": "original/lib.rs:6:20-34",
+    "provenance": "Luna HIGH bounded worker read via same Build catalogue/refresh interface"
+  }
+}

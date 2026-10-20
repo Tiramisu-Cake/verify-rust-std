@@ -258,6 +258,26 @@ LATE_RECOVER = b"""            //@ assert lifetime_token(r5_late_k);
 """
 
 
+# The enclosing source branch retires the original guard before this suffix.
+# Recover only existing heap resources: the original readonly token selects its
+# actual reference, and the returned Drop effect must match that same pointer.
+# This is checked ghost code; no pointer, fraction or current value is assumed.
+GUARD_POST_DROP_RECOVERY = b"""    //@ assert ref_readonly_end_token::<u64>(?r8_guard_ref, ?r8_tmp_origin, ?r8_tmp_share);
+    //@ open CopyOnDrop_drop_effect(t, r8_guard_ref, ?r8_drop_dst, 1);
+    //@ open [1/4]array::<u64>(r8_guard_ref, 1, ?r8_drop_current);
+    //@ open [1/4]array::<u64>(r8_guard_ref + 1, 0, nil);
+    //@ end_ref_readonly::<u64>(r8_guard_ref);
+    //@ merge_fractions points_to::<u64>(r8_tmp_origin, _);
+"""
+
+
+def _prepare_post_drop_recovery(source):
+    anchor = b'        }\n    }\n}\n\n'
+    return _one(source, anchor, b'        }\n    }\n' +
+                GUARD_POST_DROP_RECOVERY + b'}\n\n',
+                'checked original guard debt after branch Drop before function free')
+
+
 def _prepare_late_scope(source):
     source = _one(source, b'        //@ let r5_late_k = begin_lifetime();\n',
                   b'', 'move semantic lifetime begin to reached late preparation')
@@ -376,6 +396,8 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
             _prepare_tmp_reference(_open_tail_read(verified)))))
         if profile in (R7_PROFILE, R8_PROFILE):
             verified = _prepare_late_scope(verified)
+        if profile == R8_PROFILE:
+            verified = _prepare_post_drop_recovery(verified)
     # Strip the NEW ghost-only annotations and compare with inherited source.
     # Other original ghost commands were already checked by old._prepare.
     # Runtime comparison removes only comments and whitespace; the inherited
