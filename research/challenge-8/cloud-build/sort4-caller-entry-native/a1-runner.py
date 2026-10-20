@@ -27,7 +27,7 @@ from typing import Any, Mapping
 PHASE = "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17"
 AUTHORIZATION_PHASE = "SORT4-PACKAGE-SCOPE-NATIVE-PROOF-2026-10-20-R6"
 HERE = Path("research/challenge-8/cloud-build/sort4-caller-entry-native")
-PROFILE = HERE / "A1-SCOPE-S2-PROFILE-2026-10-20.json"
+PROFILE = HERE / "A1-SCOPE-S3-PROFILE-2026-10-20.json"
 HEX40 = re.compile(r"[0-9a-f]{40}\Z")
 HEX64 = re.compile(r"[0-9a-f]{64}\Z")
 
@@ -1828,12 +1828,14 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
         action_event_start = len(execution_events)
         execution_events.append({"case_id": case_id, "event": "started",
                                  "execution_started": True})
+        failed = False
         try:
             value = thunk()
             observations[case_id] = value
             execution_events.append({"case_id": case_id, "event": "completed",
                                      "execution_started": True})
         except Exception as exc:
+            failed = True
             prior_stage = next((event.get("stage") for event in reversed(
                                 execution_events[action_event_start:])
                                 if event.get("event") == "stage_observed"), case_id)
@@ -1853,7 +1855,7 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
                                      "stage": prior_stage,
                                      "error": value["adapter_error"]})
         persist_progress()
-        return value
+        return None if failed else value
 
     def stage_progress(stage_name: str):
         case_key = stage_name.split("-observed", 1)[0]

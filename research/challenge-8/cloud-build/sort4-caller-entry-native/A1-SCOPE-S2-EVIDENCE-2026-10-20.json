@@ -1,0 +1,258 @@
+{
+  "A1": "OPEN",
+  "A2": "OPEN",
+  "N-false31": "UNKNOWN",
+  "P0a": "verification exit1; native full conformance NOT_ESTABLISHED",
+  "P1": "UNKNOWN",
+  "build_id": "f9baccc2-6576-4eca-8adc-a6b5d32b6c8c",
+  "candidate": "f2a5b8c2c2c2273da28c858745b7752f27881c8b",
+  "charge_seconds": 418,
+  "independent_B1_B2_credit": 0,
+  "matrix_status": "UNKNOWN_INCOMPLETE_FINAL_REPORT",
+  "observations": {
+    "catalogue": {
+      "archive_sha256": "41a318ee2a5f417095c3302fed8736ccfb20d550cea425931ab26a29fc51aa28",
+      "build_id": "f9baccc2-6576-4eca-8adc-a6b5d32b6c8c",
+      "causal_status": "UNKNOWN",
+      "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+      "coverage": {
+        "availability_counts": {
+          "EMPTY_FILE": 94,
+          "JSON_EXCEEDS_SCAN_LIMIT": 1,
+          "PROJECTED": 307,
+          "UNSUPPORTED_FILE_TYPE": 48
+        },
+        "catalogue_complete": true,
+        "content_bytes": 817214,
+        "content_files": 402,
+        "files": 450,
+        "source_scan_bytes": 1735532
+      },
+      "index_sha256": "f646f99113a21ce2410368376fdcefa41c1bbc137f6936c61c479a1153c8e3b0",
+      "next_offset": null,
+      "report_schema": "smallsort-evidence-index-v8",
+      "results": [
+        {
+          "complete": false,
+          "id": "31f10e550e28bec528d0d67ef7831e8041bd4c233d63efd8e90683ab5d3a8ae1",
+          "kind": "text",
+          "path": "full-stdout.log",
+          "path_sanitized": false,
+          "scanned_bytes": 65536,
+          "sha256": "7ff058ead75320b48a251dcfdb924c39ac1e032372837c859eedc4a50aea96f4",
+          "size_bytes": 150744,
+          "status": "PROJECTED",
+          "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+        }
+      ],
+      "scope": {
+        "files_considered": 450,
+        "files_with_incomplete_content": 281,
+        "matches_in_retained_data": 1,
+        "source_absence_established": false
+      },
+      "status": "OK"
+    },
+    "error_fragment": {
+      "archive_sha256": "41a318ee2a5f417095c3302fed8736ccfb20d550cea425931ab26a29fc51aa28",
+      "build_id": "f9baccc2-6576-4eca-8adc-a6b5d32b6c8c",
+      "causal_status": "UNKNOWN",
+      "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+      "complete": false,
+      "content_filtered": false,
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 2247,
+        "line_separator": "LF",
+        "source_lines": 2247,
+        "start": 2239,
+        "unit": "line"
+      },
+      "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+      "exact": true,
+      "file_id": "31f10e550e28bec528d0d67ef7831e8041bd4c233d63efd8e90683ab5d3a8ae1",
+      "file_path": "full-stdout.log",
+      "file_sha256": "7ff058ead75320b48a251dcfdb924c39ac1e032372837c859eedc4a50aea96f4",
+      "index_sha256": "f646f99113a21ce2410368376fdcefa41c1bbc137f6936c61c479a1153c8e3b0",
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "path_sanitized": false,
+      "policy": "economical-exact-v1",
+      "range_clamped": false,
+      "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+      "request": {
+        "end": 2247,
+        "expected_sha256": "7ff058ead75320b48a251dcfdb924c39ac1e032372837c859eedc4a50aea96f4",
+        "file_id": "31f10e550e28bec528d0d67ef7831e8041bd4c233d63efd8e90683ab5d3a8ae1",
+        "start": 2239
+      },
+      "request_id": "db7a02dec4630f13966a9d974c8760120fca75a82f41aae49c1ff98db6703187",
+      "requested_end": 2247,
+      "results": [
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2239,
+          "text": "Traceback (most recent call last):"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2240,
+          "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/sort4-caller-entry-native/a1-entry.py\", line 90, in <module>"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2241,
+          "text": "    main()"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2242,
+          "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/sort4-caller-entry-native/a1-entry.py\", line 80, in main"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2243,
+          "text": "    result = runner.run(a, c4=c4, audit=audit, driver=driver,"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2244,
+          "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/sort4-caller-entry-native/a1-runner.py\", line 2051, in run"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2245,
+          "text": "    for message in inputs[\"messages\"]:"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2246,
+          "text": "TypeError: string indices must be integers"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2247,
+          "text": "{\"classification\": \"INCONCLUSIVE\", \"diagnostic_complete\": false, \"verification_accepted\": false}"
+        }
+      ],
+      "schema": "smallsort-targeted-observation-v2",
+      "status": "OK"
+    },
+    "stdout_info": {
+      "archive_sha256": "41a318ee2a5f417095c3302fed8736ccfb20d550cea425931ab26a29fc51aa28",
+      "build_id": "f9baccc2-6576-4eca-8adc-a6b5d32b6c8c",
+      "causal_status": "UNKNOWN",
+      "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+      "content_filtered": false,
+      "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+      "file_id": "31f10e550e28bec528d0d67ef7831e8041bd4c233d63efd8e90683ab5d3a8ae1",
+      "file_path": "full-stdout.log",
+      "file_sha256": "7ff058ead75320b48a251dcfdb924c39ac1e032372837c859eedc4a50aea96f4",
+      "index_sha256": "f646f99113a21ce2410368376fdcefa41c1bbc137f6936c61c479a1153c8e3b0",
+      "json_pointer_available": false,
+      "max_results": 20,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "path_sanitized": false,
+      "policy": "economical-exact-v1",
+      "preview_request": {
+        "end": 12,
+        "start": 1
+      },
+      "representation": "VERIFIED_FILE_OVERVIEW",
+      "request": {
+        "expected_sha256": "7ff058ead75320b48a251dcfdb924c39ac1e032372837c859eedc4a50aea96f4",
+        "file_id": "31f10e550e28bec528d0d67ef7831e8041bd4c233d63efd8e90683ab5d3a8ae1",
+        "info": true
+      },
+      "request_id": "61b785c02a2d1684fba9a717bbd02f0aafd0d0ddb2394765b9c1c5db56dd85aa",
+      "response_limit_bytes": 12000,
+      "results": [],
+      "schema": "smallsort-targeted-observation-v2",
+      "selectors": [
+        "info",
+        "literal",
+        "lines",
+        "position",
+        "pointer"
+      ],
+      "source_bytes": 150744,
+      "source_codepoints": 150734,
+      "source_lines": 2247,
+      "status": "OK",
+      "utf8": true
+    },
+    "typeerror_locate": {
+      "archive_sha256": "41a318ee2a5f417095c3302fed8736ccfb20d550cea425931ab26a29fc51aa28",
+      "build_id": "f9baccc2-6576-4eca-8adc-a6b5d32b6c8c",
+      "causal_status": "UNKNOWN",
+      "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+      "complete": true,
+      "content_filtered": false,
+      "coordinate_bases": {
+        "ends": "exclusive",
+        "line_separator": "LF",
+        "lines": 1,
+        "offsets": 0,
+        "unicode_columns": 1
+      },
+      "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+      "exact": true,
+      "file_id": "31f10e550e28bec528d0d67ef7831e8041bd4c233d63efd8e90683ab5d3a8ae1",
+      "file_path": "full-stdout.log",
+      "file_sha256": "7ff058ead75320b48a251dcfdb924c39ac1e032372837c859eedc4a50aea96f4",
+      "index_sha256": "f646f99113a21ce2410368376fdcefa41c1bbc137f6936c61c479a1153c8e3b0",
+      "match_mode": "CASE_SENSITIVE_LITERAL",
+      "next_offset": null,
+      "offset": 0,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "path_sanitized": false,
+      "policy": "economical-exact-v1",
+      "representation": "LITERAL_COORDINATES_ONLY",
+      "request": {
+        "expected_sha256": "7ff058ead75320b48a251dcfdb924c39ac1e032372837c859eedc4a50aea96f4",
+        "file_id": "31f10e550e28bec528d0d67ef7831e8041bd4c233d63efd8e90683ab5d3a8ae1",
+        "literal": "TypeError"
+      },
+      "request_id": "9d83b0163dc8e821c2745e4783d4d38b01b42cbdc8f2a8b45330bedc08ca8e22",
+      "results": [
+        {
+          "column": 1,
+          "end_column_exclusive": 10,
+          "end_line": 2246,
+          "line": 2246,
+          "unicode_end_exclusive": 150603,
+          "unicode_start": 150594,
+          "utf8_byte_end_exclusive": 150613,
+          "utf8_byte_start": 150604
+        }
+      ],
+      "schema": "smallsort-targeted-observation-v2",
+      "search_scope": {
+        "kind": "whole-file",
+        "unicode_end_exclusive": 150734,
+        "unicode_start": 0,
+        "utf8_byte_end_exclusive": 150744,
+        "utf8_byte_start": 0
+      },
+      "source_absence_established": false,
+      "source_bytes": 150744,
+      "source_codepoints": 150734,
+      "source_lines": 2247,
+      "status": "OK",
+      "truncated": false
+    }
+  },
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "proof_obligations_closed": 0,
+  "source_build_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "source_run_exit": 1,
+  "terminal_status": "FAILURE"
+}

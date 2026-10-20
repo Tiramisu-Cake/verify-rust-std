@@ -133,7 +133,7 @@ def _cloud_gate(a, c4, ghost, tool: Path, receipt: dict,
          infra is not None and HEX40.fullmatch(infra) is not None and
          profile_hash is not None and HEX64.fullmatch(profile_hash) is not None,
          "full proof/infra/profile run pins")
-    profile_path = Path(a.proof_root) / HERE / "A1-SCOPE-S2-PROFILE-2026-10-20.json"
+    profile_path = Path(a.proof_root) / HERE / "A1-SCOPE-S3-PROFILE-2026-10-20.json"
     need(profile_path.is_file() and sha(profile_path) == profile_hash and
          json.loads(profile_path.read_text()) == profile and
          os.environ.get("SORT4_A1_AUTHORIZATION_PHASE_ID") == AUTHORIZATION_PHASE and
