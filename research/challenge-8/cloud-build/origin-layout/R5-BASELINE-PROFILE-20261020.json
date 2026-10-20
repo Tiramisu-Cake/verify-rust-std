@@ -1,0 +1,127 @@
+{
+  "schema": "smallsort-tracked-md-profile-v1",
+  "profile": "experimental-merge-guard-addressability-v1",
+  "verifast_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "baseline_translator_sha256": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
+  "translator_sha256": "2ff7b16f326f06da6f53f6ea9227c09de441dd2ac1ab7d7f3aa5c247d6c17de5",
+  "patch_sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6",
+  "historical_md_patch_sha256": "5500204aadd0ea0a2996d63d064160185457b6d337782aa4300c11272ab450cc",
+  "kernel_sha256": "f6395a07ce443a4c1a64e88965ae9321ff1c6648fe094f75da279914117e194f",
+  "parser_sha256": "8ed673086183323058aac5e0e21399e4532d1e74b97c5d41105827e8643107bd",
+  "prelude_sha256": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+  "stdlib_sha256": "d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227",
+  "refiner_sha256": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+  "accepted": false,
+  "z3_sha256": "1837668dc531d14b3a4fffc0b690b77929d29c41868f98a89686f5ff64da95ea",
+  "baseline_emitter_sha256": "898203bf8fe5802478fdfd41456b49ad07f1e6fedf0535c3d303d4ec2081c9ff",
+  "emitter_sha256": "3f94401e1430fc413e1a68ad8bae13ad718b63f83707e3804d579d6f7e4371ef",
+  "baseline_kernel_sha256": "100eebae92c770a0b8cd57e2639588761f881316dd522fc3b9a9b1ec6fd91cd6",
+  "allocation_span_patch_sha256": "603ab250705fa9d83c94631f7570bd3e1cc7fc06187c35e6ae8465fcb5efca1b",
+  "allocation_span_tool_commit": "6cb7b6736c4ef7978d2f3a80737952ac7148cccb",
+  "geometry_domain": "frozen scalar/pointer and exact compiler-qualified local concrete guard extent; RefType live allocation origin receipts, generic/ZST/arrays excluded",
+  "lifetime_boundary": "internal MIR-origin AST statements, original MIR span/local identity, path-local binding and surviving entry Chunk",
+  "ast_sha256": "380a0bd63476849138268eaf7f7c2f8563af4231dbd1ab61e86a00fd13688afe",
+  "sexpression_sha256": "4e99d9702ca691e498601ffeeccc930f465841404cde2a28e00eb196880352a7",
+  "verify_expr_sha256": "97f5e50cbba0423338b096410ecbcc77d541b73efce30ef15220c6485891a5cd",
+  "model_baseline_sha256": "b1b0ae618bbce1a0bce9714ce10a47dbeb855e919b980b7ce6a70108ff9b91d7",
+  "model_sha256": "c64e4d60631f42aacdf64b4529c992a856f60e2a37066d3209545cb384b10d3c",
+  "unit_layout_patch_sha256": "00c7f9310ca30e3403daabdfe8e7d4c8c13aa84e78434acade309c98faadc68a",
+  "layout_tool_commit": "8cb0121b03a5164495bf0d7c6c236ea9504d5ce4",
+  "layout_domain": "same-invocation rustc layout for exact concrete source guard, nominal DefId/source snippet/target64; shared sizeof/alignof/field-size/offset terms",
+  "baseline_exporter_sha256": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+  "guard_layout_patch_sha256": "16476ac7e615831bfd49cec3efdcefd1d76eab1a57f2df47b97f43fb8d6a1d74",
+  "guard_layout_tool_commit": "df6b3fbfcf4192d6b442d13e35dafe8477a3fe6f",
+  "exporter_source_sha256": "d8bca867798fd93ececcb5fd8db330d6d23d2f7b815009437bf4961b9fcd2f51",
+  "schema_sha256": "b6c63644e8926a207b4393b80bf27696838aa22fe9db33acecc9fefa68550750",
+  "selected_drop_patch_sha256": "57bab179dc11366369689c0980209c2e76acf82339a346b02e1cc99fdfbb610a",
+  "selected_drop_tool_commit": "8a3f63eabf18cc76cc9048c086dda95fbec84d03",
+  "preserved_profile_sha256": "0b8cf55b0e7b5a1d0e0595b1483726459cb1d2f40264311e2014d3580ad189b8",
+  "integration_status": "NOT_FOR_INTEGRATION",
+  "ordered_patch_chain": [
+    {
+      "path": "research/challenge-8/merge/overnight/wrapping.patch",
+      "sha256": "c7c776ff5aef2b8668aa2ed3d59b47109fce1d67a9dc2f2043fc2744dc0ed31e"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/callback.patch",
+      "sha256": "0a006df94f04d6425d70280967d6652bdd33ccb88ead4a44f02a2e36775aaa5e"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/copy.patch",
+      "sha256": "da167ee095e9fb5f425e2d604dd46a973a8c1e3a5121b2c87cc3546b0ec8e9a5"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/cleanup.patch",
+      "sha256": "94fe2cd69edc9da6907553961ca32f0557c338266d9e9472e577860a95887604"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/usize-multiple.patch",
+      "sha256": "ecdd1fd6fcc8d811f02fa308ddc533386e0031193d527ea6950a099f8ccccaa1"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/stack-address.patch",
+      "sha256": "f1444866322bf06b40e078a381a69acea7ccd92b613f7dc903d289044d8cba64"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/tracked-md.patch",
+      "sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/allocation-span.patch",
+      "sha256": "603ab250705fa9d83c94631f7570bd3e1cc7fc06187c35e6ae8465fcb5efca1b"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/unit-layout.patch",
+      "sha256": "00c7f9310ca30e3403daabdfe8e7d4c8c13aa84e78434acade309c98faadc68a"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/guard-layout.patch",
+      "sha256": "16476ac7e615831bfd49cec3efdcefd1d76eab1a57f2df47b97f43fb8d6a1d74"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/selected-drop.patch",
+      "sha256": "57bab179dc11366369689c0980209c2e76acf82339a346b02e1cc99fdfbb610a"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/glue-observation.patch",
+      "sha256": "82fff6af2b5e98d2a1a8b0dafd0d9951bbb103408967a95d22e3461b367421ea"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/glue-body.patch",
+      "sha256": "0aad1332daa465a6c175c830c7caf561736c928d9169b5429b674a0b84c1e687"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/first-callback.patch",
+      "sha256": "4aa84aa536e98bb3a728a966fb5159e3d66cbec844cfb6700e571ed7a57920e9"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/addressability-continuation.patch",
+      "sha256": "f17866533a1cce7365d432a0d66cbcd9472a87cc44b027d67a78aa46bbbfd3e6"
+    }
+  ],
+  "previous_selected_profile_sha256": "7e4f6088574056a0846aad2887895836b5e03edf06bb5a493d29daf44151cfff",
+  "glue_observation_tool_commit": "3c9d56980accd335586ca23ba6c1378a29c1819a",
+  "glue_observation_patch_sha256": "82fff6af2b5e98d2a1a8b0dafd0d9951bbb103408967a95d22e3461b367421ea",
+  "preserved_selected_profile_sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
+  "glue_credit": "EXPERIMENTAL_NOT_PROVED",
+  "semantic_delta": "Preserved first-callback CURRENT18 baseline; exactly resume stmt_mark_addr_taken after MergeFractionsStmt assertion scan, same locals once. Existing allocation/ownership/storage rules unchanged. Prefix erased lifetime and array-to-slice metadata lowering remain unsupported and frozen. Experimental qualification and actual-function proof are separate.",
+  "effective_tool_commit": "a42d50becbc84a45e33a58269358eee105f1fdcb",
+  "previous_glue_observation_profile_sha256": "ede5bd5e338703a6c1f99e6ee0dfe422115241fef9a7a9fadc4a9f9e71f63e1b",
+  "glue_body_tool_commit": "a158398e336edce9817f62a55733a3470a986d7b",
+  "glue_body_patch_sha256": "0aad1332daa465a6c175c830c7caf561736c928d9169b5429b674a0b84c1e687",
+  "baseline_refiner_binary_sha256": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+  "refiner_main_source_sha256": "a13ff238a13ccd886ab8570f8bfe79cb7911feb22cd0fbdf491bfbe212f14456",
+  "refiner_core_source_sha256": "d20a433c93563b87ff0a48241c94e366df06dba2f87b5e7f85ba47edb6980dd1",
+  "draft_status": "STATIC_CANDIDATE_NOT_BUILT",
+  "last_buildable_exporter_profile": "experimental-merge-actual-glue-body-v2",
+  "previous_body_profile_sha256": "eba00d6fa3ba916bf04c50b2879a466e1b8eb4598ae4b7daf5ae32223ea1d78d",
+  "preserved_v8_profile_sha256": "0e67b038f940a9892dcb840747fbcc340532a31649979601af545acc41a0c68b",
+  "previous_effective_tool_commit": "08d6a578e00d902cb9c99aad8d6ae2020c7d728a",
+  "first_callback_patch_sha256": "4aa84aa536e98bb3a728a966fb5159e3d66cbec844cfb6700e571ed7a57920e9",
+  "first_callback_tool_commit": "08d6a578e00d902cb9c99aad8d6ae2020c7d728a",
+  "review_status": "PENDING_INDEPENDENT_R4_DIFF_REVIEW",
+  "previous_first_callback_profile_sha256": "82973e1eb17f4383b02310611cee3f023f4aa5f0a619f228838674d85e41be59",
+  "build_candidate_revision": "owner-authorized-merge-fractions-continuation-r4-20261020",
+  "addressability_patch_sha256": "f17866533a1cce7365d432a0d66cbcd9472a87cc44b027d67a78aa46bbbfd3e6",
+  "baseline_verify_expr_sha256": "8883a76d802cca15bb362f251de683d2c8216c058c3aed98d6bec8aa471c6dd5"
+}

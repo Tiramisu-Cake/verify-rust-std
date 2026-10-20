@@ -93,7 +93,8 @@ class Tests(unittest.TestCase):
   environment={'profile':card['profile'],'proof_sha':'a'*40,'provider':{'build_id':'synthetic-build'},'accepted':False}
   context={'args':args,'environment':environment,'profile_card':card,'Path':Path,'os':SimpleNamespace(environ={'SMALLSORT_MERGE_PROFILE':str(profile)}),'base':SimpleNamespace(file_sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest())}
   exec(compile(ast.fix_missing_locations(ast.Module(body=[block],type_ignores=[])),str(path),'exec'),context)
-  spec=importlib.util.spec_from_file_location('r4_inert_receipt_gate',HERE/'r4-addressability-controls.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+  consumer='r5-addressability-controls.py' if card['profile']=='experimental-merge-guard-addressability-emitter-r5-v1' else 'r4-addressability-controls.py'
+  spec=importlib.util.spec_from_file_location('current_inert_receipt_gate',HERE/consumer);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
   binding=m._receipt_gate(args,environment)
   self.assertEqual(binding['tool_commit'],card['effective_tool_commit'])
   self.assertEqual(binding['profile_sha256'],hashlib.sha256(profile.read_bytes()).hexdigest())

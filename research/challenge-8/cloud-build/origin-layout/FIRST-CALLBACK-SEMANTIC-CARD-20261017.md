@@ -608,3 +608,26 @@ still a subsequent checked obligation. No exporter/parser/model change.
 Test first-annotation placement on isolated synthetic loop, runtime stripping,
 missing/duplicate anchors and all related inert regressions; reviewer deltaGO
 and fresh compatible Cloud source required.
+
+
+### R5 candidate3 physical fraction rationale BEFORE edit
+Build2 05700561/sourceac027f37 terminalFAILURE632s: parser/setup proceeds
+to checked u64FBC139, missing requested[1/4]points_to(r4_cmp_tmp_ref,_),
+verified249. This observation does not establish an alternative exact
+coefficient. Hardcoded late-share coefficient was unjustified: readonly
+initialization splits the available incoming fraction, including immutable
+local allocation fractions and prior guard loans. Next checked protocol binds
+[?r5_tmp_share] and [?r5_sift_share] from the actual post-init physical
+points-to chunks, closes exactly those fractional FBCs, and retains exactly
+the same coefficients in scaledp/borrow conversions. No ownership from empty
+u64.own, numeric equality, static lifetime, or an assumed incoming fraction.
+Missing chunks still fail at the checked assertion; normal/unwind/fullposts
+and outstanding end-token obligations unchanged. New emitter profile may be
+combined only after independent review of its exact consumers/closure.
+
+Emitter independent review correction: LocalAddrTaken is diagnostic output for
+this native campaign but executable allocation input for the separate pinned
+Rocq consumer, whose StorageLive/Dead are currently ignored with a soundness
+warning. See R5-EMITTER-DESIGN correction. No Rocq proof/model acceptance or
+physical ownership credit is inferred from the emitted flag; native resource
+checks/matrix and all full posts retained. Profile remains experimental.

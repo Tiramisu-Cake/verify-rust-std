@@ -26,6 +26,8 @@ PINNED_REFINER_SOURCE_SHA256_BY_PROFILE = {
         'e232312e5f24ca98e25fe32fe0be5300eca4deda69438af2ebf90985061b3dc8',
     'experimental-merge-guard-addressability-v1':
         'd20a433c93563b87ff0a48241c94e366df06dba2f87b5e7f85ba47edb6980dd1',
+    'experimental-merge-guard-addressability-emitter-r5-v1':
+        'd20a433c93563b87ff0a48241c94e366df06dba2f87b5e7f85ba47edb6980dd1',
 }
 LEGACY_DROP_DEFAULTS = (
     'kind=Drop {\n'

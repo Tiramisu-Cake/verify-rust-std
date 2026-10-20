@@ -61,7 +61,24 @@ def replace_once(data: bytes, old: bytes, new: bytes, path: str) -> bytes:
     return data.replace(old, new, 1)
 
 
-def transform(path: str, original: bytes, pins: dict[str, str] | None = None) -> bytes:
+BASELINE_PROFILE = "experimental-merge-guard-addressability-v1"
+R5_PROFILE = "experimental-merge-guard-addressability-emitter-r5-v1"
+SUPPORTED_PROFILES = {BASELINE_PROFILE, R5_PROFILE}
+
+
+def profile_identity(profile_card: dict) -> str:
+    if not isinstance(profile_card, dict):
+        raise SystemExit("merge profile card must be an object")
+    profile = profile_card.get("profile")
+    if profile not in SUPPORTED_PROFILES or profile_card.get("accepted") is not False:
+        raise SystemExit("unsupported or accepted merge profile")
+    return profile
+
+
+def transform(path: str, original: bytes, pins: dict[str, str] | None = None,
+              profile: str = BASELINE_PROFILE) -> bytes:
+    if profile not in SUPPORTED_PROFILES:
+        raise SystemExit("unsupported merge profile for provider overlay")
     data = original
     pins = pins or {}
     if path in ("research/challenge-8/merge/overnight/run.sh",
@@ -186,7 +203,7 @@ def transform(path: str, original: bytes, pins: dict[str, str] | None = None) ->
             # R4 keeps the baseline run.sh SHA strict; only the staged identity changes.
             data = replace_once(data,
                 b'experimental-merge-first-callback-u64-v1',
-                b'experimental-merge-guard-addressability-v1', path)
+                profile.encode(), path)
             data = replace_once(data,
                 b'run_one bidirectional-len23-diagnostic 400 python3',
                 b'run_one bidirectional-len23-diagnostic 760 python3', path)
@@ -402,6 +419,12 @@ def main() -> None:
     parser.add_argument("--proof-root", type=Path, required=True)
     parser.add_argument("--evidence", type=Path, required=True)
     args = parser.parse_args()
+    try:
+        profile_card = json.loads((args.proof_root /
+            "research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json").read_text())
+    except (OSError, json.JSONDecodeError) as error:
+        raise SystemExit(f"merge profile card is unavailable or invalid: {error}")
+    profile = profile_identity(profile_card)
     if args.evidence.exists():
         raise SystemExit("refusing to reuse provider overlay evidence")
     args.evidence.mkdir(parents=True)
@@ -421,17 +444,17 @@ def main() -> None:
     order = "research/challenge-8/merge/stock-26.10/order-prove.py"
     stock_run = "research/challenge-8/merge/stock-26.10/run.sh"
     overlays: dict[str, bytes] = {}
-    overlays[network] = transform(network, originals[network])
+    overlays[network] = transform(network, originals[network], profile=profile)
     pins = {"network_sha": sha(overlays[network])}
-    overlays[stock] = transform(stock, originals[stock], pins)
+    overlays[stock] = transform(stock, originals[stock], pins, profile)
     pins["prove_sha"] = sha(overlays[stock])
-    overlays[functional] = transform(functional, originals[functional], pins)
+    overlays[functional] = transform(functional, originals[functional], pins, profile)
     pins["functional_sha"] = sha(overlays[functional])
-    overlays[order] = transform(order, originals[order], pins)
-    overlays[stock_run] = transform(stock_run, originals[stock_run], pins)
+    overlays[order] = transform(order, originals[order], pins, profile)
+    overlays[stock_run] = transform(stock_run, originals[stock_run], pins, profile)
     for rel, original in originals.items():
         if rel not in overlays:
-            overlays[rel] = transform(rel, original, pins)
+            overlays[rel] = transform(rel, original, pins, profile)
 
     manifest = {"provider": "cloud-build", "hash_pins": {
         "network": {"base_sha256": FILES[network], "overlay_sha256": pins["network_sha"]},

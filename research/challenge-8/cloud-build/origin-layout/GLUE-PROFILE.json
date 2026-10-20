@@ -1,12 +1,12 @@
 {
   "schema": "smallsort-tracked-md-profile-v1",
-  "profile": "experimental-merge-guard-addressability-v1",
+  "profile": "experimental-merge-guard-addressability-emitter-r5-v1",
   "verifast_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
   "baseline_translator_sha256": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
   "translator_sha256": "2ff7b16f326f06da6f53f6ea9227c09de441dd2ac1ab7d7f3aa5c247d6c17de5",
   "patch_sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6",
   "historical_md_patch_sha256": "5500204aadd0ea0a2996d63d064160185457b6d337782aa4300c11272ab450cc",
-  "kernel_sha256": "f6395a07ce443a4c1a64e88965ae9321ff1c6648fe094f75da279914117e194f",
+  "kernel_sha256": "665d23dd04365123dbd3bbd2ea70653c824c43eeb2dff143f352ec3236dfa8e4",
   "parser_sha256": "8ed673086183323058aac5e0e21399e4532d1e74b97c5d41105827e8643107bd",
   "prelude_sha256": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
   "stdlib_sha256": "d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227",
@@ -97,6 +97,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/addressability-continuation.patch",
       "sha256": "f17866533a1cce7365d432a0d66cbcd9472a87cc44b027d67a78aa46bbbfd3e6"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/r5-deferred-local-emitter.patch",
+      "sha256": "28ec17cfc3823f1fd4e599c0ae54976b2662fb224b285e09fdcafbe0879307bc"
     }
   ],
   "previous_selected_profile_sha256": "7e4f6088574056a0846aad2887895836b5e03edf06bb5a493d29daf44151cfff",
@@ -104,8 +108,8 @@
   "glue_observation_patch_sha256": "82fff6af2b5e98d2a1a8b0dafd0d9951bbb103408967a95d22e3461b367421ea",
   "preserved_selected_profile_sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
   "glue_credit": "EXPERIMENTAL_NOT_PROVED",
-  "semantic_delta": "Preserved first-callback CURRENT18 baseline; exactly resume stmt_mark_addr_taken after MergeFractionsStmt assertion scan, same locals once. Existing allocation/ownership/storage rules unchanged. Prefix erased lifetime and array-to-slice metadata lowering remain unsupported and frozen. Experimental qualification and actual-function proof are separate.",
-  "effective_tool_commit": "a42d50becbc84a45e33a58269358eee105f1fdcb",
+  "semantic_delta": "Preserves all 15 baseline patches; adds the existing LocalAddrTaken event in deferred Rust declarations. Native verifier resource rules are unchanged. The generated tree is allocation input for the existing separate Rocq consumer, whose StorageLive/Dead limitation is not repaired or accepted. Flags are diagnostic observations in this native campaign, never live-owner or Rocq proof credit; strict gates/runtime/posts/model files remain unchanged.",
+  "effective_tool_commit": "45594fb821805f10c4e05f02912d1ea3bf920e62",
   "previous_glue_observation_profile_sha256": "ede5bd5e338703a6c1f99e6ee0dfe422115241fef9a7a9fadc4a9f9e71f63e1b",
   "glue_body_tool_commit": "a158398e336edce9817f62a55733a3470a986d7b",
   "glue_body_patch_sha256": "0aad1332daa465a6c175c830c7caf561736c928d9169b5429b674a0b84c1e687",
@@ -119,9 +123,12 @@
   "previous_effective_tool_commit": "08d6a578e00d902cb9c99aad8d6ae2020c7d728a",
   "first_callback_patch_sha256": "4aa84aa536e98bb3a728a966fb5159e3d66cbec844cfb6700e571ed7a57920e9",
   "first_callback_tool_commit": "08d6a578e00d902cb9c99aad8d6ae2020c7d728a",
-  "review_status": "PENDING_INDEPENDENT_R4_DIFF_REVIEW",
+  "review_status": "PENDING_INDEPENDENT_R5_EMITTER_DIFF_REVIEW",
   "previous_first_callback_profile_sha256": "82973e1eb17f4383b02310611cee3f023f4aa5f0a619f228838674d85e41be59",
-  "build_candidate_revision": "owner-authorized-merge-fractions-continuation-r4-20261020",
+  "build_candidate_revision": "owner-authorized-r5-deferred-local-emitter-diagnostic-20261020",
   "addressability_patch_sha256": "f17866533a1cce7365d432a0d66cbcd9472a87cc44b027d67a78aa46bbbfd3e6",
-  "baseline_verify_expr_sha256": "8883a76d802cca15bb362f251de683d2c8216c058c3aed98d6bec8aa471c6dd5"
+  "baseline_verify_expr_sha256": "8883a76d802cca15bb362f251de683d2c8216c058c3aed98d6bec8aa471c6dd5",
+  "deferred_local_emitter_patch_sha256": "28ec17cfc3823f1fd4e599c0ae54976b2662fb224b285e09fdcafbe0879307bc",
+  "deferred_local_emitter_tool_commit": "45594fb821805f10c4e05f02912d1ea3bf920e62",
+  "previous_glue_profile_sha256": "77164792cfca039fe8b2a993a198a545a74a074480371dba5f454a5e86709c66"
 }

@@ -70,7 +70,8 @@ NATURAL_FALSE = b"        //@ assert false; // TARGET: after natural Drop termin
 CALLER_READY_FALSE = b"        //@ assert false; // TARGET: caller direct Drop-pre entry\n"
 CALLER_SIGNATURE = b"unsafe fn natural_onecell(tail: *mut u64)"
 BODY_GLUE_PROFILE = "experimental-merge-actual-glue-body-v8"
-BODY_GLUE_PROFILES = (BODY_GLUE_PROFILE, "experimental-merge-guard-addressability-v1")
+BODY_GLUE_PROFILES = (BODY_GLUE_PROFILE, "experimental-merge-guard-addressability-v1",
+                      "experimental-merge-guard-addressability-emitter-r5-v1")
 GENERATED_GLUE_NAME = "__vf_generated_drop_glue"
 CANONICAL_METHOD_PROOF_STATEMENTS = [
     "Open", "Open", "Assert", "Assert", "ExprStmt", "ExprStmt", "Assert", "Assert",
@@ -1046,7 +1047,8 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
                             "experimental-merge-actual-glue-observation-v2",
                             "experimental-merge-actual-glue-observation-v3",
                             "experimental-merge-actual-glue-body-v8",
-                            "experimental-merge-guard-addressability-v1"):
+                            "experimental-merge-guard-addressability-v1",
+                            "experimental-merge-guard-addressability-emitter-r5-v1"):
         raise RuntimeError("selected Drop exact supported experimental profile required")
     consumer.PROFILE = args.profile
     receipt = consumer._validate_receipt(args, validated_receipt, provider, proof_sha)

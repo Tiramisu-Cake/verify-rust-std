@@ -15,6 +15,8 @@ import sys
 
 HERE = Path(__file__).resolve().parent
 PROFILE = 'experimental-merge-guard-addressability-v1'
+R5_PROFILE = 'experimental-merge-guard-addressability-emitter-r5-v1'
+SUPPORTED_PROFILES = (PROFILE, R5_PROFILE)
 PREFIX_NAME = b'insert_tail_first_callback_prefix'
 CUT = b'        // SAFETY: after this read'
 
@@ -141,16 +143,18 @@ LATE_REFERENCE_PREP = b"""            //@ let r4_cmp_tmp_ref = precreate_ref::<u
             //@ open array::<u64>(sift, 1, r4_cmp_current);
             //@ let r4_cmp_sift_ref = precreate_ref::<u64>(sift);
             //@ init_ref_readonly::<u64>(r4_cmp_sift_ref, 1/2);
-            //@ close [1/4]u64_full_borrow_content(t, r4_cmp_tmp_ref)();
-            //@ close scaledp(1/4, u64_full_borrow_content(t, r4_cmp_tmp_ref))();
-            //@ borrow(r5_late_k, scaledp(1/4, u64_full_borrow_content(t, r4_cmp_tmp_ref)));
-            //@ full_borrow_into_frac(r5_late_k, scaledp(1/4, u64_full_borrow_content(t, r4_cmp_tmp_ref)));
-            //@ frac_borrow_implies_scaled(r5_late_k, 1/4, u64_full_borrow_content(t, r4_cmp_tmp_ref));
-            //@ close [1/2]u64_full_borrow_content(t, r4_cmp_sift_ref)();
-            //@ close scaledp(1/2, u64_full_borrow_content(t, r4_cmp_sift_ref))();
-            //@ borrow(r5_late_k, scaledp(1/2, u64_full_borrow_content(t, r4_cmp_sift_ref)));
-            //@ full_borrow_into_frac(r5_late_k, scaledp(1/2, u64_full_borrow_content(t, r4_cmp_sift_ref)));
-            //@ frac_borrow_implies_scaled(r5_late_k, 1/2, u64_full_borrow_content(t, r4_cmp_sift_ref));
+            //@ assert [?r5_tmp_share](*r4_cmp_tmp_ref |-> ?r5_tmp_value);
+            //@ close [r5_tmp_share]u64_full_borrow_content(t, r4_cmp_tmp_ref)();
+            //@ close scaledp(r5_tmp_share, u64_full_borrow_content(t, r4_cmp_tmp_ref))();
+            //@ borrow(r5_late_k, scaledp(r5_tmp_share, u64_full_borrow_content(t, r4_cmp_tmp_ref)));
+            //@ full_borrow_into_frac(r5_late_k, scaledp(r5_tmp_share, u64_full_borrow_content(t, r4_cmp_tmp_ref)));
+            //@ frac_borrow_implies_scaled(r5_late_k, r5_tmp_share, u64_full_borrow_content(t, r4_cmp_tmp_ref));
+            //@ assert [?r5_sift_share](*r4_cmp_sift_ref |-> ?r5_sift_value);
+            //@ close [r5_sift_share]u64_full_borrow_content(t, r4_cmp_sift_ref)();
+            //@ close scaledp(r5_sift_share, u64_full_borrow_content(t, r4_cmp_sift_ref))();
+            //@ borrow(r5_late_k, scaledp(r5_sift_share, u64_full_borrow_content(t, r4_cmp_sift_ref)));
+            //@ full_borrow_into_frac(r5_late_k, scaledp(r5_sift_share, u64_full_borrow_content(t, r4_cmp_sift_ref)));
+            //@ frac_borrow_implies_scaled(r5_late_k, r5_sift_share, u64_full_borrow_content(t, r4_cmp_sift_ref));
             //@ close_ref_own::<'late, u64>(r4_cmp_tmp_ref);
             //@ close_ref_own::<'late, u64>(r4_cmp_sift_ref);
             //@ close <(&'late u64, &'late u64)>.own(t, std_tuple_2_::<&'late u64, &'late u64> { 0: r4_cmp_tmp_ref, 1: r4_cmp_sift_ref });
@@ -222,7 +226,7 @@ def _cut_prefix(source):
     return result
 
 
-def prepare(evidence, *, prefix=False, mutation=None):
+def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
     old = _load('first_callback_original_preparation', HERE / 'actual-insert-tail-b2.py')
     record = old._prepare(evidence)  # Cloud-only inherited actual-source binding.
     case = evidence / 'cases' / old.CASE
@@ -273,7 +277,7 @@ def prepare(evidence, *, prefix=False, mutation=None):
         raise ValueError('full CURRENT normal/unwind final posts changed')
     (case / 'original/lib.rs').write_bytes(original)
     (case / 'verified/lib.rs').write_bytes(verified)
-    record.update(schema='first-actual-callback-source-v1', profile=PROFILE,
+    record.update(schema='first-actual-callback-source-v1', profile=profile,
                   original_sha256=_sha(original), verified_sha256=_sha(verified),
                   full_specialized_original_sha256=_sha(full_original),
                   prefix=prefix, mutation=mutation,
@@ -382,9 +386,11 @@ def classify(case, record, execution, *, baseline_positive=False):
 def run(evidence, args, env, execute_case, validated_receipt):
     if not callable(execute_case):
         raise TypeError('hosted execute_case required')
+    selected_profile = getattr(args, 'profile', None)
     profile_path = os.environ.get('SMALLSORT_MERGE_PROFILE')
-    if not profile_path or json.loads(Path(profile_path).read_text()).get('profile') != PROFILE:
-        raise RuntimeError('first callback requires its new experimental profile')
+    if (selected_profile not in SUPPORTED_PROFILES or not profile_path or
+            json.loads(Path(profile_path).read_text()).get('profile') != selected_profile):
+        raise RuntimeError('first callback requires the exact supported experimental profile')
     proof = _load('first_callback_hosted_proof', HERE.parents[1] / 'merge/overnight/copy-on-drop-prove.py')
     proof.require_hosted_cloud()
     consumer = _load('first_callback_receipt', HERE/'concrete-consumer.py')
@@ -405,7 +411,7 @@ def run(evidence, args, env, execute_case, validated_receipt):
                 results[name] = dict(classification='NOT_RUN_PREFIX_PREREQUISITE_FAILED',
                                      intended_negative=False, proof_credit=False)
                 continue
-            case, record = prepare(evidence/name, prefix=prefix, mutation=mutation)
+            case, record = prepare(evidence/name, prefix=prefix, mutation=mutation, profile=selected_profile)
             before = consumer._hashes(case)
             execution = execute_case(case, args, env)
             execution['stage_receipt_gate'] = consumer._stage_receipts(case, execution.get('stages', {}), before)
@@ -426,7 +432,7 @@ def run(evidence, args, env, execute_case, validated_receipt):
                 classification='NOT_RUN_PREFIX_PREREQUISITE_FAILED', proof_credit=False)
     finally:
         args.first_fnmut_continue = previous_flag
-    aggregate = dict(schema='first-callback-campaign-v1', profile=PROFILE, accepted=False,
+    aggregate = dict(schema='first-callback-campaign-v1', profile=selected_profile, accepted=False,
                      results=results, b2_achieved=False,
                      prefix_current_normal_unwind_proved=results['prefix']['current_false_true_panic_proved'],
                      all_target_controls_matched=(

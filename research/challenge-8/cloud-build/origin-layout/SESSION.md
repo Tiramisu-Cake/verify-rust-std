@@ -481,3 +481,14 @@ independent credit0. First hypothesis must establish ownership from physically
 held fractions and actual lifetime/contract, not placeholder spelling alone.
 No semantics implementation yet. Fresh Brief obtained; one catalogue auth timeout
 then retry succeeded through existing client; no raw fallback.
+
+R5 progress: firstBuild a63982e1/source0f7293e9 terminalFAILURE564charged/563execution;
+all7toolmilestones sourceEXIT_ZERO, fullbody parseerror248let_lft before proof.
+Exact v0.11 verified-source fragment245–250 SHA3bf7d205/indexd54a9b08/
+archive9b2ad757/request975baaab confirms annotation placement. Correction
+begin lifetime beforeloop +firstghost binding inside original loop matches
+pinned preprocessor; LunaHigh deltaGO, syntheticwiring5PASS. SecondBuild
+05700561/source=infraac027f37 submitted via coordinator, reservation960,
+proof/profile/tool unchanged except annotation placement; no duplicate submit.
+No lateArgs/fullnormalunwind proof credit yet. Remaining3036 before Build2
+accounting; no historical account or foreign worktree changes.

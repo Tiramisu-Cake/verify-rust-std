@@ -1,0 +1,75 @@
+{
+  "archive_sha256": "9b2ad7572c9bbc06a55799f57f226c7555f790716f5d6c1ad718253d60c8e999",
+  "build_id": "a63982e1-b460-4ae3-a32d-c8c3072694be",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 250,
+    "line_separator": "LF",
+    "source_lines": 284,
+    "start": 245,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "2d78ebdaeb062e188723dd979753b6ca3c2142a8d584603f17f4536298dbcdd1",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verified/lib.rs",
+  "file_sha256": "3bf7d2059296362324250a8f883ff9b5ee76aa43e80057c857fb40f0342240ca",
+  "index_sha256": "d54a9b0835ed57db90365b50920f17a05cae134712b6693b222ca639ef3a20d6",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 250,
+    "expected_sha256": "3bf7d2059296362324250a8f883ff9b5ee76aa43e80057c857fb40f0342240ca",
+    "file_id": "2d78ebdaeb062e188723dd979753b6ca3c2142a8d584603f17f4536298dbcdd1",
+    "start": 245
+  },
+  "request_id": "975baaab172e32fec5ac2d7591796071de3ad67b6dc8deb93714b1ed0774f1b4",
+  "requested_end": 250,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 245,
+      "text": "            //@ let r4_cmp_sift_ref = precreate_ref::<u64>(sift);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 246,
+      "text": "            //@ init_ref_readonly::<u64>(r4_cmp_sift_ref, 1/2);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 247,
+      "text": "            //@ let r5_late_k = begin_lifetime();"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 248,
+      "text": "            /*@ let_lft 'late = r5_late_k; @*/"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 249,
+      "text": "            //@ close [1/4]u64_full_borrow_content(t, r4_cmp_tmp_ref)();"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 250,
+      "text": "            //@ close scaledp(1/4, u64_full_borrow_content(t, r4_cmp_tmp_ref))();"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}
