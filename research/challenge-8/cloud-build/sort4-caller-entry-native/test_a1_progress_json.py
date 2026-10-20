@@ -3,7 +3,9 @@ from importlib.util import module_from_spec, spec_from_file_location
 from dataclasses import dataclass
 import json
 from pathlib import Path
+import shutil
 import sys
+import tempfile
 from types import MappingProxyType
 import unittest
 
@@ -121,6 +123,32 @@ class ProgressJsonTests(unittest.TestCase):
                       SpoofText("spoofed")):
             with self.subTest(value_type=type(value).__name__), self.assertRaises(TypeError):
                 RUNNER._jsonable(value)
+
+    def test_identical_parser_source_in_another_checkout_is_accepted(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            copied = Path(temporary) / "proof" / "a1-synthetic-inputs.py"
+            copied.parent.mkdir()
+            shutil.copyfile(HERE / "a1-synthetic-inputs.py", copied)
+            proof_parser = load_module(copied, "separate_proof_parser_module")
+            value = proof_parser.Record((
+                ("owner", proof_parser.Text("StableSmallSortTypeImpl")),
+                ("number", proof_parser.Number("0x10")),
+            ))
+            self.assertEqual(RUNNER._jsonable(value), {
+                "kind": "Record",
+                "fields": [
+                    ["owner", {"kind": "Text", "value": "StableSmallSortTypeImpl"}],
+                    ["number", {"kind": "Number", "value": "0x10"}],
+                ],
+            })
+
+            altered = copied.with_name("altered") / "a1-synthetic-inputs.py"
+            altered.parent.mkdir()
+            shutil.copyfile(copied, altered)
+            altered.write_bytes(altered.read_bytes() + b"\n# different source bytes\n")
+            impostor = load_module(altered, "different_proof_parser_module")
+            with self.assertRaises(TypeError):
+                RUNNER._jsonable(impostor.Text("same class name, other source"))
 
 
 if __name__ == "__main__":

@@ -11,6 +11,7 @@ from __future__ import annotations
 import ast
 from copy import deepcopy
 from dataclasses import fields, is_dataclass
+from functools import lru_cache
 import hashlib
 import importlib.util
 import json
@@ -1477,6 +1478,15 @@ def _safe_action(rows: dict, case_id: str, action) -> Any:
         return None
 
 
+@lru_cache(maxsize=8)
+def _progress_source_sha256(path: str) -> str | None:
+    """Hash a parser source path once per bounded set of loaded modules."""
+    source = Path(path)
+    if not source.is_file():
+        return None
+    return hashlib.sha256(source.read_bytes()).hexdigest()
+
+
 def _jsonable(value: Any) -> Any:
     """Preserve progress values and the parser's explicit immutable node schema."""
     if isinstance(value, Mapping):
@@ -1493,8 +1503,13 @@ def _jsonable(value: Any) -> Any:
         parser_module = sys.modules.get(type(value).__module__)
         parser_source = getattr(parser_module, "__file__", None)
         expected_source = Path(__file__).with_name("a1-synthetic-inputs.py")
-        if (parser_source is None or
-                Path(parser_source).resolve() != expected_source.resolve() or
+        source_path = Path(parser_source) if isinstance(parser_source, str) else None
+        expected_key = str(expected_source.resolve())
+        source_key = str(source_path.resolve()) if source_path is not None else None
+        if (source_path is None or source_path.name != expected_source.name or
+                _progress_source_sha256(source_key) is None or
+                _progress_source_sha256(source_key) !=
+                _progress_source_sha256(expected_key) or
                 getattr(parser_module, kind, None) is not type(value)):
             raise TypeError("unsupported progress value: " + kind)
         names = tuple(field.name for field in fields(value))
