@@ -1,0 +1,51 @@
+{
+  "schema": "select-r9-evidence-boundary-v1",
+  "build_id": "ac83fbc5-b1de-425f-a7c2-0b0e4a7f9a44",
+  "candidate": "f508a56883395a4fa1f5d548bb7e65ee832009db",
+  "terminal_status": "TIMEOUT",
+  "cloud_charge_seconds": 922,
+  "create_time": "2026-10-20T18:48:27.191655349Z",
+  "finish_time": "2026-10-20T19:03:49.021694Z",
+  "config_sha256": "ce812b5bcb6ce0aec31fd400747c42fa3feac82060f652b42fa8ccd1626716be",
+  "public_steps": [
+    {
+      "id": "execute",
+      "status": "SUCCESS",
+      "exitCode": null,
+      "timing": {
+        "endTime": "2026-10-20T19:02:10.064316030Z",
+        "startTime": "2026-10-20T18:48:30.751752382Z"
+      }
+    },
+    {
+      "id": "package-upload",
+      "status": "CANCELLED",
+      "exitCode": 1,
+      "timing": {
+        "endTime": "2026-10-20T19:03:30.204743138Z",
+        "startTime": "2026-10-20T19:02:10.064628884Z"
+      }
+    },
+    {
+      "id": "verdict",
+      "status": "QUEUED",
+      "exitCode": null,
+      "timing": null
+    }
+  ],
+  "brief_response": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)",
+  "catalogue_response": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)",
+  "file_index_archive_identities": null,
+  "all_actual_proof_results": "UNKNOWN",
+  "source_run_exit": "UNKNOWN",
+  "audit_sizes": "UNKNOWN",
+  "package_failure_cause": "UNKNOWN",
+  "source_proof_credit": false,
+  "formal_obligations_closed": 0,
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "download_verified_set": false,
+  "raw_fallback_used": false,
+  "local_fixes_verified": "synthetic facade packager rejects before/accepts after accounting; not independently established actual Cloud delivery",
+  "next_data_needed": "bounded administrative packaging operation/primary_error, completion state, sizes and audit first_blocker"
+}

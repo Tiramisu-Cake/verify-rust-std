@@ -1,5 +1,5 @@
 {
-  "active_build": "ac83fbc5-b1de-425f-a7c2-0b0e4a7f9a44",
+  "active_build": null,
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
   ],
@@ -103,14 +103,17 @@
       "submitted_config_sha256": "ce812b5bcb6ce0aec31fd400747c42fa3feac82060f652b42fa8ccd1626716be",
       "reserved_seconds": 960,
       "timeout_seconds": 900,
-      "status": "WORKING",
+      "status": "TIMEOUT",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "27ada3cad143284083bfef77ab450ca94f4ff6388c2f5f0d5565f8d3c8541cda",
       "build_id": "ac83fbc5-b1de-425f-a7c2-0b0e4a7f9a44",
       "start_time": "2026-10-20T18:48:27.888109760Z",
-      "finish_time": null,
-      "create_time": "2026-10-20T18:48:27.191655349Z"
+      "finish_time": "2026-10-20T19:03:49.021694Z",
+      "create_time": "2026-10-20T18:48:27.191655349Z",
+      "build_seconds": 922,
+      "accounted": true,
+      "execution_seconds": 922
     }
   ],
   "ceiling_build_seconds": 3600,
@@ -120,9 +123,13 @@
   "maximum_builds": null,
   "owner": "select-sort4",
   "phase": "SORT4-NATIVE-INTERFACE-PROOF-2026-10-20-R9",
-  "remaining_build_seconds": 1160,
+  "remaining_build_seconds": 238,
   "schema": "smallsort-cloud-phase-account-v1",
   "start_utc": "2026-10-20T17:07:04Z",
-  "status": "AUTHORIZED",
-  "used_build_seconds": 2440
+  "status": "CLOSED",
+  "used_build_seconds": 3362,
+  "closed_utc": "2026-10-20T19:05:43.554176Z",
+  "unused_retired_seconds": 238,
+  "carry_forward_seconds": 0,
+  "closure_reason": "S5 terminal TIMEOUT; Reader HTTP404. Remaining238 permits timeout178 after60reserve, insufficient for observed819s execute plus packaging. No repeated unchanged failure/new Build solely reading old data. All own activity reconciled."
 }
