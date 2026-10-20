@@ -6,6 +6,7 @@ by the authorized hosted execute_case callback.
 """
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import re
@@ -290,7 +291,9 @@ def run(evidence: Path, args, env: dict, execute_case) -> dict:
     for name, meta in rows.items():
         case = evidence / name
         try:
-            execution = execute_case(case, args, env)
+            child_args = copy.copy(args)
+            child_args.first_fnmut_continue = False
+            execution = execute_case(case, child_args, env)
             results[name] = classify(name, case, meta, execution)
         except Exception as error:
             results[name] = _inconclusive(name, f"execute_case/classification failed: {error}")

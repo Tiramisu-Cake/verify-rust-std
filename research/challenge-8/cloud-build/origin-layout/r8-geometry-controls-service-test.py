@@ -137,7 +137,16 @@ class R8GeometryControlsServiceTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             args, env = self._profile(root)
-            result = controls.run(root / "controls", args, env, _callback)
+            args.first_fnmut_continue = True
+            child_values = []
+
+            def callback(case, child_args, child_env):
+                child_values.append(child_args.first_fnmut_continue)
+                return _callback(case, child_args, child_env)
+
+            result = controls.run(root / "controls", args, env, callback)
+            self.assertEqual(child_values, [False] * len(controls.CASES))
+            self.assertTrue(args.first_fnmut_continue)
             self.assertEqual(result["classification"], "DIAGNOSTIC_CONTROLS_CLASSIFIED")
             self.assertEqual(result["profile"], controls.PROFILE)
             self.assertEqual(result["tool_commit"], controls.TOOL_COMMIT)

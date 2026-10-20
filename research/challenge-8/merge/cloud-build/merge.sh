@@ -273,6 +273,10 @@ paths.extend([
   "research/challenge-8/merge/overnight/guard-ownership/drop-geometry/prove.py",
   "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prepare.py",
   "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py",
+  "research/challenge-8/cloud-build/origin-layout/r8-source-preflight.py",
+  "research/challenge-8/cloud-build/origin-layout/r8-wiring-service-test.py",
+  "research/challenge-8/cloud-build/origin-layout/r8-freshness-controls.py",
+  "research/challenge-8/cloud-build/origin-layout/r8-freshness-controls-service-test.py",
   "research/challenge-8/merge/cloud-build/guard-geometry-audit.py",
 ])
 for rel in paths:

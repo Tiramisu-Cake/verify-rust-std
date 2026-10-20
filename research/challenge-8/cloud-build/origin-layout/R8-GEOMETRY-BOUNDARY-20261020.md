@@ -51,3 +51,16 @@ preserves physical normal/unwind resources and runs only in Cloud. A diagnostic
 refusal is an observation, not a successful negative proof. Also retain the
 independent prefix bridge/BeforeLive investigation; neither justifies a new
 memory/storage model or a generic lifetime fallback.
+
+## Owner decision and experimental implementation
+
+Owner explicitly authorized the narrow research scope during R8: justification,
+independent review, separate experimental profile and positive/negative controls;
+original window/budget preserved and qualification separate. New candidate
+f2e92cec uses only CURRENT array subranges with entryarray3 binding; it never
+assumes the whole entry24-byte span when only prefix2 remains owned. Existing
+ManuallyDrop<u64> transparent lowering supplies u64 local representation; no new
+layout axiom. Default-off CLI/IDE behavior and exact profile/source pins are
+explicit. This adds the authorized trusted freshness premise, not a verified
+conversion lemma under the earlier model; no acceptance/qualification claimed.
+See [session rationale](R8-SESSION-20261020.md), [new controls](r8-freshness-controls.py).

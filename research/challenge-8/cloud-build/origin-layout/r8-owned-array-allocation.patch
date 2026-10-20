@@ -1,0 +1,116 @@
+diff --git a/src/frontend/verifast0.ml b/src/frontend/verifast0.ml
+index 65c5bc04..c1ffe3d2 100644
+--- a/src/frontend/verifast0.ml
++++ b/src/frontend/verifast0.ml
+@@ -480,6 +480,7 @@ type options = {
+   option_check_manifest: bool;
+   option_vroots: (string * string) list;
+   option_allow_assume: bool;
++  option_rust_owned_array_allocation_r8: bool;
+   option_provides: string list;
+   option_keep_provide_files: bool;
+   option_safe_mode: bool; (* for invocation through web interface *)
+diff --git a/src/verifast.ml b/src/verifast.ml
+index a186959a..d0d20748 100644
+--- a/src/verifast.ml
++++ b/src/verifast.ml
+@@ -1039,6 +1039,51 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+               exclude_allocation p tp $. fun () -> exclude_live rest k
+             | _ -> exclude_live rest k
+             end in
++          (* Owner-authorized R8 allocation premise, explicitly default-off.
++             Bind a CURRENT physical array subrange to a unique incoming array3
++             by full pointer equality, never by numeric address equality. This
++             adds no heap chunk and does not expose hidden borrow contents. *)
++          let r8_u64 tp = match unfold_inferred_type tp with
++            Int (Unsigned, FixedWidthRank 3) -> true | _ -> false in
++          let r8_positive coef =
++            not (is_dummy_frac_term coef) &&
++            ctxt#query (ctxt#mk_real_lt real_zero coef) in
++          let r8_root p count =
++            let matches = List.filter_map (function
++              | Chunk ((g, true), [tp], coef, [base; entry_count; _], _)
++                when g == array_symb () && r8_u64 tp && r8_positive coef &&
++                     ctxt#query (ctxt#mk_eq entry_count (ctxt#mk_intlit 3)) ->
++                  let offset = List.find_opt (fun offset ->
++                    let start = if offset = 0 then base else
++                      mk_ptr_add_ l env base (ctxt#mk_intlit offset) tp in
++                    ctxt#query (ctxt#mk_eq p start) &&
++                    ctxt#query (ctxt#mk_le count (ctxt#mk_intlit (3 - offset))))
++                    [0; 1; 2] in
++                  (match offset with Some offset -> Some (base, offset) | None -> None)
++              | _ -> None) incoming in
++            match matches with [root] -> Some root | _ -> None in
++          let rec exclude_r8_arrays chunks k = match chunks with
++            [] -> k ()
++          | Chunk ((g, true), [tp], coef, [p; count; _], _) :: rest
++            when options.option_rust_owned_array_allocation_r8 &&
++                 ptr_width = LitWidth 3 && r8_u64 t &&
++                 g == array_symb () && r8_u64 tp && r8_positive coef &&
++                 ctxt#query (ctxt#mk_lt int_zero_term count) ->
++              begin match r8_root p count with
++                None -> exclude_r8_arrays rest k
++              | Some (base, offset) ->
++                  let a = mk_ptr_address addr in let b = mk_ptr_address p in
++                  let n = sizeof_core l env t in
++                  let m = ctxt#mk_mul count (sizeof_core l env tp) in
++                  let apart = ctxt#mk_or (ctxt#mk_le (ctxt#mk_add a n) b)
++                    (ctxt#mk_le (ctxt#mk_add b m) a) in
++                  Printf.eprintf
++                    "R8_OWNED_ARRAY_ALLOCATION local=%s loc=%s entry=%s current=%s count=%s coefficient=%s offset=%d current_owner=true incoming_count=3\n%!"
++                    x (Ast.string_of_loc l) (ctxt#pprint base) (ctxt#pprint p)
++                    (ctxt#pprint count) (ctxt#pprint coef) offset;
++                  assume apart $. fun () -> exclude_r8_arrays rest k
++              end
++          | _ :: rest -> exclude_r8_arrays rest k in
+           let rec exclude_incoming chunks k = match chunks with
+             [] -> k ()
+           | (Chunk ((g, true), [tp], coef, [p; _], _) as chunk) :: rest
+@@ -1050,6 +1095,7 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+           | _ :: rest -> exclude_incoming rest k in
+           exclude_incoming h $. fun () ->
+           exclude_live deferred $. fun () ->
++          exclude_r8_arrays h $. fun () ->
+           let verify_ctor_call = verify_ctor_call (pn, ilist) leminfo funcmap predinstmap sizemap tenv ghostenv h env addr (Some x) in
+           produce_cxx_object l (if is_const then real_half else real_unit) addr t eval_h verify_ctor_call Uninitialized true true h env $. fun h env ->
+           cont h ((live_key x, addr) :: (x, addr) :: env)
+diff --git a/src/vfconsole/vfconsole.ml b/src/vfconsole/vfconsole.ml
+index c4c8f39d..efc69b5c 100644
+--- a/src/vfconsole/vfconsole.ml
++++ b/src/vfconsole/vfconsole.ml
+@@ -530,6 +530,7 @@ let _ =
+   let compileOnly = ref false in
+   let isLibrary = ref false in
+   let allowAssume = ref false in
++  let rustOwnedArrayAllocationR8 = ref false in
+   let allowShouldFail = ref false in
+   let emitManifest = ref false in
+   let checkManifest = ref false in
+@@ -596,6 +597,7 @@ let _ =
+             ; "-c", Set compileOnly, "Compile only, do not perform link checking."
+             ; "-shared", Set isLibrary, "The file is a library (i.e. no main function required)."
+             ; "-allow_assume", Set allowAssume, "Allow assume(expr) annotations."
++            ; "-rust_owned_array_allocation_r8", Set rustOwnedArrayAllocationR8, "Experimental R8: fresh u64 local versus current owned u64 subrange of an entry array3; default off."
+             ; "-breakpoint", String (fun path_loc -> let [path; loc_string] = String.split_on_char ':' path_loc in breakpoint := Some (path, int_of_string loc_string)), "-breakpoint myfile.c:123 causes symbolic execution to fail when it reaches line 123 of file myfile.c"
+             ; "-focus", String (fun path_loc -> let [path; loc_string] = String.split_on_char ':' path_loc in focus := Some (path, int_of_string loc_string)), "-focus myfile.c:123 causes VeriFast to verify only the function/method/constructor/destructor at the specified source line"
+             ; "-break_at_node", String (fun path -> targetPath := Some (path |> String.split_on_char ',' |> List.map int_of_string)), "Break when symbolic execution reaches the specified node in the execution tree."
+@@ -657,6 +659,7 @@ let _ =
+           option_check_manifest = !checkManifest;
+           option_vroots = !vroots;
+           option_allow_assume = !allowAssume;
++          option_rust_owned_array_allocation_r8 = !rustOwnedArrayAllocationR8;
+           option_provides = !provides;
+           option_keep_provide_files = !keepProvideFiles;
+           option_safe_mode = !safe_mode;
+diff --git a/src/vfide/vfide.ml b/src/vfide/vfide.ml
+index 3573cb28..787204b3 100644
+--- a/src/vfide/vfide.ml
++++ b/src/vfide/vfide.ml
+@@ -1703,6 +1703,7 @@ let show_ide initialPath prover codeFont traceFont vfbindings layout javaFronten
+                 option_check_manifest = false;
+                 option_vroots = [crt_vroot default_bindir];
+                 option_allow_assume = true;
++                option_rust_owned_array_allocation_r8 = false;
+                 option_provides = [];
+                 option_keep_provide_files = true;
+                 option_vfbindings = !vfbindings;

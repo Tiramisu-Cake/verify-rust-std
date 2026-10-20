@@ -879,3 +879,17 @@ merge predicate's type args; other shape/order/source/lifetime/targets unchanged
 Checked physical assertion/singleton close and originalguard debt retained.
 No axioms/bridge/runtime/model/kernel change; static17patch/18base and service9
 PASS are not actual proof. Independent Luna HIGH review required before Build2.
+
+## R8 authorized allocation premise (qualification OPEN)
+
+Owner approved narrow model-design/research, separate experimental profile,
+independent review and positives/negatives with original budget/window. New
+profile experimental-merge-owned-array-allocation-r8-v1 appends one patch to
+retained17; default-off -rust_owned_array_allocation_r8. Native realStorageLive
+u64 only, 64-bit, currentcanonical initialized positive array<u64> subrange,
+unique incoming positive canonical array<u64> count3, full-pointer equality
+to base+offset0/1/2 and 0<count<=3-offset. Fresh local is excluded only from
+CURRENT range, no owner/value/heap chunk created, hidden borrow/currentowner
+absence/type/count/root/defaultoff add no fact. No new layout/verifast1/prelude
+change; existing ManuallyDrop erasure reused. Trust premise explicitly new,
+profile acceptedfalse/qualificationOPEN; static review is not proof.

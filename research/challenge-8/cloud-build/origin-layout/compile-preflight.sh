@@ -74,6 +74,12 @@ sources = {
  'bin/rust/prelude_core.rsspec':'prelude_sha256',
  'bin/rust/std/lib.rsspec':'stdlib_sha256',
 }
+if p['profile'] == 'experimental-merge-owned-array-allocation-r8-v1':
+    sources.update({
+        'src/frontend/verifast0.ml':'options_source_sha256',
+        'src/vfconsole/vfconsole.ml':'console_source_sha256',
+        'src/vfide/vfide.ml':'ide_source_sha256',
+    })
 for rel, key in sources.items():
     actual = hashlib.sha256((home/rel).read_bytes()).hexdigest()
     assert actual == p[key], (rel, key, actual, p[key])
@@ -83,6 +89,9 @@ patches = [
  (origin_layout/'unit-layout.patch', 'unit_layout_patch_sha256'),
  (origin_layout/'guard-layout.patch', 'guard_layout_patch_sha256'),
 ]
+if p['profile'] == 'experimental-merge-owned-array-allocation-r8-v1':
+    patches.append((origin_layout/'r8-owned-array-allocation.patch',
+                    'owned_array_allocation_patch_sha256'))
 for path, key in patches:
     actual = hashlib.sha256(path.read_bytes()).hexdigest()
     assert actual == p[key], (str(path), key, actual, p[key])
@@ -175,6 +184,12 @@ sources = {
  'bin/rust/prelude_core.rsspec':'prelude_sha256',
  'bin/rust/std/lib.rsspec':'stdlib_sha256',
 }
+if p['profile'] == 'experimental-merge-owned-array-allocation-r8-v1':
+    sources.update({
+        'src/frontend/verifast0.ml':'options_source_sha256',
+        'src/vfconsole/vfconsole.ml':'console_source_sha256',
+        'src/vfide/vfide.ml':'ide_source_sha256',
+    })
 for rel, key in sources.items():
     actual = hashlib.sha256((home/rel).read_bytes()).hexdigest()
     assert actual == p[key], (rel, key, actual, p[key])

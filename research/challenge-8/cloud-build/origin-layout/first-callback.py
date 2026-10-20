@@ -17,7 +17,8 @@ HERE = Path(__file__).resolve().parent
 PROFILE = 'experimental-merge-guard-addressability-v1'
 R5_PROFILE = 'experimental-merge-guard-addressability-emitter-r5-v1'
 R7_PROFILE = 'experimental-merge-late-callback-recovery-r7-v1'
-SUPPORTED_PROFILES = (PROFILE, R5_PROFILE, R7_PROFILE)
+R8_PROFILE = 'experimental-merge-owned-array-allocation-r8-v1'
+SUPPORTED_PROFILES = (PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE)
 PREFIX_NAME = b'insert_tail_first_callback_prefix'
 CUT = b'        // SAFETY: after this read'
 
@@ -373,7 +374,7 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
     if not prefix:
         verified = _prepare_late_references(_prepare_first_shift(_prepare_guard_empty_tail(
             _prepare_tmp_reference(_open_tail_read(verified)))))
-        if profile == R7_PROFILE:
+        if profile in (R7_PROFILE, R8_PROFILE):
             verified = _prepare_late_scope(verified)
     # Strip the NEW ghost-only annotations and compare with inherited source.
     # Other original ghost commands were already checked by old._prepare.
@@ -402,7 +403,7 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
                   source_relation='exact pre-cut runtime segment plus closing braces and renamed function/wrapper' if prefix else 'complete actual body; ghost-only annotation replacement',
                   final_posts_sha256=_sha(old.INSERT_CONTRACT),
                   callback_marker_sha256=_sha(markers),
-                  late_callback_scope_recovery_requested=(profile == R7_PROFILE and not prefix),
+                  late_callback_scope_recovery_requested=(profile in (R7_PROFILE, R8_PROFILE) and not prefix),
                   first_callback_unwind_recovery_qualified=False,
                   first_callback_unwind_status='NOT_RUN', proof_credit=False)
     record['actual_first_call_line'] = old._line(verified, call.rstrip(b'\n'))
@@ -529,7 +530,9 @@ def run(evidence, args, env, execute_case, validated_receipt):
         (name, True, name) for name in ('lost_reference_fraction', 'lost_reference_token',
                                       'lost_current_f', 'lost_cell_owner')]
     previous_flag = getattr(args, 'first_fnmut_continue', False)
+    previous_r8_flag = getattr(args, 'r8_owned_array_allocation', False)
     args.first_fnmut_continue = True
+    args.r8_owned_array_allocation = False
     try:
         for name, prefix, mutation in cases:
             if mutation and not results['prefix']['current_false_true_panic_proved']:
@@ -538,7 +541,11 @@ def run(evidence, args, env, execute_case, validated_receipt):
                 continue
             case, record = prepare(evidence/name, prefix=prefix, mutation=mutation, profile=selected_profile)
             before = consumer._hashes(case)
-            execution = execute_case(case, args, env)
+            args.r8_owned_array_allocation = (selected_profile == R8_PROFILE and not prefix)
+            try:
+                execution = execute_case(case, args, env)
+            finally:
+                args.r8_owned_array_allocation = False
             execution['stage_receipt_gate'] = consumer._stage_receipts(case, execution.get('stages', {}), before)
             execution['source_unchanged_at_every_stage'] = (before == consumer._hashes(case) and
                 execution['stage_receipt_gate'].get('admitted') is True)
@@ -548,11 +555,16 @@ def run(evidence, args, env, execute_case, validated_receipt):
             geometry_controls = _load('r8_geometry_controls', HERE/'r8-geometry-controls.py')
             results['allocation_geometry_controls'] = geometry_controls.run(
                 evidence/'allocation-geometry-controls', args, env, execute_case)
+        if selected_profile in (R7_PROFILE, R8_PROFILE):
             late_controls = _load('r7_late_admission', HERE/'r7-late-admission-controls.py')
             results['late_scope_admission_controls'] = late_controls.run(
                 evidence/'late-scope-admission-controls', args, env, execute_case,
                 evidence/'full_body/cases/actual_three_current_full_posts',
                 json.loads((evidence/'full_body/preparation.json').read_text()))
+        if selected_profile == R8_PROFILE:
+            freshness = _load('r8_freshness_controls', HERE/'r8-freshness-controls.py')
+            results['owned_array_allocation_freshness_controls'] = freshness.run(
+                evidence/'owned-array-allocation-freshness-controls', args, env, execute_case)
         if results['prefix']['current_false_true_panic_proved']:
             controls = _load('first_callback_admission', HERE/'first-callback-admission-controls.py')
             results['admission_controls'] = controls.run(
@@ -566,6 +578,7 @@ def run(evidence, args, env, execute_case, validated_receipt):
                 classification='NOT_RUN_PREFIX_PREREQUISITE_FAILED', proof_credit=False)
     finally:
         args.first_fnmut_continue = previous_flag
+        args.r8_owned_array_allocation = previous_r8_flag
     aggregate = dict(schema='first-callback-campaign-v1', profile=selected_profile, accepted=False,
                      results=results, b2_achieved=False,
                      prefix_current_normal_unwind_proved=results['prefix']['current_false_true_panic_proved'],

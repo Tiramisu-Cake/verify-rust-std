@@ -10,6 +10,8 @@ import re
 
 CAMPAIGN = "r7-late-callback-admission-controls-v1"
 R7_PROFILE = "experimental-merge-late-callback-recovery-r7-v1"
+R8_PROFILE = "experimental-merge-owned-array-allocation-r8-v1"
+SUPPORTED_PROFILES = (R7_PROFILE, R8_PROFILE)
 STAGES = ("exporter", "decode", "refinement", "verifast")
 BASELINE_DIAGNOSTIC = "MERGE_LATE_CALLBACK_RECOVERY"
 CASES = {
@@ -44,7 +46,7 @@ def _source_pair(source_case: Path, source_record: dict) -> tuple[bytes, bytes]:
     if (_sha(original) != source_record.get("original_sha256") or
             _sha(verified) != source_record.get("verified_sha256")):
         raise ValueError("R7 fullbody source hashes do not match source_record")
-    if (source_record.get("profile") != R7_PROFILE or
+    if (source_record.get("profile") not in SUPPORTED_PROFILES or
             source_record.get("prefix") is not False or
             source_record.get("late_callback_scope_recovery_requested") is not True or
             source_record.get("mutation") is not None):
@@ -199,7 +201,7 @@ def run(evidence: Path, args, env: dict, execute_case, source_case: Path,
         source_record: dict) -> dict:
     """Run only exact-source R7 admission mutants in the hosted caller."""
     evidence = Path(evidence)
-    result = {"schema": CAMPAIGN, "profile": R7_PROFILE, "accepted": False,
+    result = {"schema": CAMPAIGN, "profile": getattr(args, "profile", R7_PROFILE), "accepted": False,
               "proof_credit": False, "all_matched": False,
               "classification": "INCONCLUSIVE", "cases": {}}
     if evidence.exists():
@@ -210,8 +212,8 @@ def run(evidence: Path, args, env: dict, execute_case, source_case: Path,
         evidence.mkdir(parents=True)
         source_case = Path(source_case)
         original, verified = _source_pair(source_case, source_record)
-        if getattr(args, "profile", None) != R7_PROFILE:
-            raise ValueError("active profile is not R7")
+        if getattr(args, "profile", None) not in SUPPORTED_PROFILES:
+            raise ValueError("active profile is not a supported late-recovery profile")
     except Exception as error:
         reason = f"source/profile setup failed: {type(error).__name__}: {error}"
         result["cases"] = {name: _not_run(name, reason) for name in CASES}
