@@ -506,6 +506,53 @@ def _canonical_small_sort_clause(shape, *, parent_trait=None):
     raise InventoryError("small_sort clause has an unexpected compiler DefId")
 
 
+def _required_hir_partition(method, early_type_names, fresh_lifetime_count):
+    """Validate optional HIR generic metadata without joining it to scoped lifetimes."""
+    fields = [value for key, value in method.fields if key == "hirGenerics"]
+    if not fields:
+        return
+    if len(fields) != 1 or not isinstance(fields[0], _parser.Record):
+        raise InventoryError("required method HIR generics must be one explicit record")
+    params = _list(_member(fields[0], "params"), "required method HIR parameters")
+    expected_count = len(early_type_names) + fresh_lifetime_count
+    if len(params) != expected_count:
+        raise InventoryError("required method HIR early types/Fresh lifetime partition has wrong length")
+    fresh_ids = set()
+    for position, param in enumerate(params):
+        if not isinstance(param, _parser.Record):
+            raise InventoryError("required method HIR parameter must be a record")
+        _span(_member(param, "span"))
+        if _member(param, "pureWrtDrop") != _parser.Atom("false") or \
+                _member(param, "bounds") != _parser.Atom("void"):
+            raise InventoryError("required method HIR parameter drop/bounds flags differ from source")
+        kind, kind_payload = _union(_member(param, "kind"),
+                                    "required method HIR parameter kind",
+                                    ("type", "lifetime", "const"))
+        if kind_payload != _parser.Atom("void"):
+            raise InventoryError("required method HIR parameter kind payload must be void")
+        name_tag, name_payload = _union(_member(param, "name"),
+                                        "required method HIR parameter name",
+                                        ("plain", "fresh"))
+        if position < len(early_type_names):
+            expected_name = early_type_names[position]
+            if kind != "type" or name_tag != "plain" or not isinstance(name_payload, _parser.Record):
+                raise InventoryError("required method HIR early parameter must be a plain type generic")
+            symbol = _member(name_payload, "name")
+            if not isinstance(symbol, _parser.Record) or \
+                    _text_atom(_member(symbol, "name"), "required method HIR type name") != expected_name:
+                raise InventoryError("required method HIR early type name differs from compiler generic")
+            continue
+        if kind != "lifetime" or name_tag != "fresh":
+            raise InventoryError("required method HIR late parameter must be a Fresh lifetime")
+        _exact_fields(name_payload, ("h", "l"), "required method HIR Fresh UInt128 identity")
+        high, low = _index(name_payload, "h"), _uint(name_payload, "l")
+        if high != 0 or low >= (1 << 64):
+            raise InventoryError("required method HIR Fresh identity is outside compiler index range")
+        if low in fresh_ids:
+            raise InventoryError("required method HIR Fresh identity is duplicated")
+        fresh_ids.add(low)
+
+
 def _required_small_sort(required):
     methods = [fn for fn in required if _text(fn, "name") == "small_sort"]
     if len(methods) != 1:
@@ -535,6 +582,7 @@ def _required_small_sort(required):
             _index(generic_rows[0], "index") != 1 or \
             _uint(generic_rows[0], "defIndex") != type_ids[1]:
         raise InventoryError("small_sort method generic table does not identify F")
+    _required_hir_partition(method, tuple(_text(row, "name") for row in generic_rows), 3)
 
     lifetime_params = tuple(_text_atom(x, "small_sort signature lifetime") for x in
                             _list(_member(method, "lifetimeParams"), "small_sort lifetimeParams"))

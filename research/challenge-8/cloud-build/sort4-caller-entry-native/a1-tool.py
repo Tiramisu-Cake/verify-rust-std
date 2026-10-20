@@ -23,7 +23,7 @@ TR = "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
 SCHEMA = "src/rust_frontend/vf_mir/vf_mir.capnp"
 EXPORTER = "src/rust_frontend/vf_mir_exporter/src/lib.rs"
 KERNEL = "src/verifast.ml"
-R_PATCH = HERE / "required-item-representation-buildability-r1-2026-10-18.patch"
+R_PATCH = HERE / "required-item-representation-hir-partition-r2-2026-10-20.patch"
 C_PATCH = HERE / "checked-threshold-contract.patch"
 SELECTED = "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64"
 
