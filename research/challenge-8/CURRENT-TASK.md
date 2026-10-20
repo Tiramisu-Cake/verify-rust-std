@@ -62,11 +62,11 @@ Evidence v0.11: Brief → catalogue → refresh/info → locate/fragment → н�
 
 ## Отчёт агента
 
-- **Статус / T0/main/absolute/end:** ACTIVE / 2026-10-20 07:28:45Z / 09:28:45Z / 09:58:45Z / —.
-- **Самостоятельно выбранные цели / actual-stage applicability / изменения плана:** —.
-- **Proof до→после:** late FnMut/CURRENT normal-unwind/guard lifecycle, prefix false-true-panic, insert_tail/B2 —.
-- **Квалификация controls/profile / исходная матрица / B1 и independent credit, ссылки:** —.
-- **Обслуживание / rationale/controls/review / exact source/tool/profile identities:** —.
-- **Build UUID → гипотеза → candidate → результат → charge:** —.
-- **Учёт/закрытие / own requests/reservations/active/unresolved / published checkpoint:** —.
-- **Первый remaining blocker / следующий эксперимент / точное решение владельца или ранний stop:** —.
+- **Статус / T0/main/absolute/end:** FINISHING / 2026-10-20 07:28:45Z / 09:28:45Z / 09:58:45Z / —. После main только monitoring/evidence/accounting/docs; новых гипотез/Builds нет.
+- **Самостоятельно выбранные цели / applicability:** late FnMut checked share/Args.own первым; затем независимое восстановление addressability observations. Actual AST подтверждает `F`, обе shared `u64`/method lifetime `'late`; raw frac-borrow и canonical share не объявлены эквивалентными.
+- **Proof до→после:** baseline Args.own refusal → scoped lifetime/actual physical coefficient extraction/scaled FBC path → canonical `<u64>.share` folding refusal. Late FnMut, CURRENT normal/unwind, guard lifecycle, prefix и insert_tail/B2 остаются OPEN; завершённых actual теорем0.
+- **Controls/profile / матрица / credit:** Build3 controls `INCONCLUSIVE_SERVICE_EXCEPTION`/zero cases; Build4 проверяет точный filename fix. Исходные gates/полные posts сохранены, prefix-dependent groups source NOT_RUN не negative PASS; [матрица](cloud-build/origin-layout/R5-OBLIGATIONS-20261020.md). Independent credit0, qualification OPEN. Rocq consumer использует flag как allocation input и игнорирует StorageLive/Dead; нет Rocq/liveness/owner credit.
+- **Обслуживание / review / identities:** независимые Luna HIGH GO перед каждым submit; [Build3 review](cloud-build/origin-layout/R5-BUILD3-REVIEW-20261020.json), [Build4 review](cloud-build/origin-layout/R5-BUILD4-REVIEW-20261020.json). Tool `45594fb821805f10c4e05f02912d1ea3bf920e62`, profile SHA `13f0a97def3835372eb5e31de1ddc02cd9768df4b95c93f8c1076e59e0596b92`, 15 patches/18 base pins сохранены + supplemental emitter. [Design/границы](cloud-build/origin-layout/R5-EMITTER-DESIGN-20261020.md), [preflight](cloud-build/origin-layout/R5-EMITTER-SOURCE-PREFLIGHT-20261020.json).
+- **Build UUID → гипотеза → candidate → результат → charge:** `a63982e1` → late scaled shares → `0f7293e9` → parse248 →564s; `05700561` → block-start binding → `ac027f37` → missing hardcoded fraction →632s; `0b86c5ad` → actual fractions + emitter → `f456fb1a` → canonical share/service filename →625s; `7f6a7ef7` → controls filename → `a26df17b` → active/reserve960s. [Последний release](cloud-build/origin-layout/R5-BUILD4-RELEASE-20261020.json).
+- **Учёт/закрытие / own state:** 1821/3600 charged,1819execution; fourth reservation960; own advisory request withdrawn09:29Z, один own active `7f6a7ef7-86b2-4bbd-a991-3561e12beff9`; terminal/remaining/retired pending. Старые счета/чужие правки сохранены, carry запрещён. Wall-clock не active agent time; stage allocation не измерена.
+- **Первый blocker / следующий шаг:** canonical share folding из фактического frac-borrow через существующий checked type_interp/ресурсный интерфейс; затем exact late normal/unwind scope/loan cleanup до guard Drop. Новая trusted memory/alias модель или axiom не добавлены. Новые execution после закрытия потребуют отдельного окна/счёта; согласование каждого обычного blocker не требуется.

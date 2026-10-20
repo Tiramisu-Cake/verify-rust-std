@@ -679,3 +679,14 @@ dispatch assignment for both profiles against real recipe paths/module files,
 plus existing success/error/partial/null/missing service tests. Fresh reviewed
 Cloud candidate is for the lost independent controls, not an unchanged proof
 retry claim. Canonical-share bridge requires a separately checked derivation.
+
+Before-main final proof frontier: scaled physical FBC borrowing does not by
+itself produce canonical `<u64>.share` required by close_ref_own general195.
+Translator's raw simple_shr form and abstract type-predicate share are not
+assumed interchangeable. Next checked proof must establish their actual
+primitive type_interp/share folding or a verified representation lemma with
+all physical and loan resources; no fresh trusted type-predicate axiom/empty
+own/address-equality bridge is authorized. Scope/normal-unwind cleanup design
+above is conditional on that earlier premise. No bridge implementation or
+new proof hypothesis will start after main. Build4 is independent service
+recovery only, submitted7f6a7ef7/sourcea26df17b beforemain.

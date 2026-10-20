@@ -1,14 +1,23 @@
-# MERGE — R5 ACTIVE / late Args ownership diagnostic
+# MERGE — R5 FINISHING / PARTIAL
 
-T0/main/absolute UTC2026-10-20 07:28:45/09:28:45/09:58:45; new3600Cloud
-account, stable merge owner/lane. [Task](CURRENT-TASK.md),
-[session](cloud-build/origin-layout/SESSION.md),
-[review](cloud-build/origin-layout/R5-BUILD1-REVIEW-20261020.json).
-Candidate uses checked scaled physical borrows to establish late-reference
-share/own/Args and explicit scoped HRTB lifetime. Full runtime/posts preserved,
-normal/unwind/guard/loan cleanup still OPEN. Toola42d50be/profile77164792
-unchanged. Static closure+18synthetic tests PASS; diagnostic reviewGO.
-Cloud input/run not yet executed; independent proof credit0/B2OPEN.
+T0/main/absolute UTC2026-10-20 07:28:45/09:28:45/09:58:45. Main закончено,
+новых гипотез/Builds/retries нет. Own request withdrawn09:29Z. Active final
+Build7f6a7ef7/source=infra a26df17b; timeout900/reserve960, terminal pending.
+Три terminalFAILURE charges564+632+625=1821/3600, execution1819.
+
+[Полный компактный отчёт](CURRENT-TASK.md), [матрица](cloud-build/origin-layout/R5-OBLIGATIONS-20261020.md),
+[последний release](cloud-build/origin-layout/R5-BUILD4-RELEASE-20261020.json).
+Actual AST: F/two shared u64/method 'late; физические коэффициенты берутся
+из checked chunks. Новый frontier general195 canonical <u64>.share: raw
+frac_borrow недостаточен. Late FnMut/CURRENT normal-unwind/guard/prefix/B2 OPEN,
+independentcredit0. Build3 controls serviceexception; lastBuild исправляет
+только packaged filename, qualification не повышена.
+
+Tool45594fb8/profile13f0a97d,15patch baseline+18base сохранены + emitter.
+LocalAddrTaken имеет allocation смысл в отдельном Rocq consumer, StorageLive/
+Dead там игнорируются; нет Rocq/liveness/owner proof credit. Native posts/CFG/
+ресурсные проверки сохранены; independent LunaHigh GO/статические checks PASS.
+Finishing: конкретный active Build → Brief/targeted observations → учёт/close.
 
 Previous closed R4 checkpoint retained below.
 
