@@ -1,4 +1,8 @@
-# Select / sort4 — R6 CLOSED, proof mission OPEN
+# Select / sort4 — R7 READY, proof mission OPEN
+
+2026-10-20: опубликовано [новое задание R7](CURRENT-TASK.md): 120 минут основной работы + до 30 минут завершения, новый бюджет 3600 Cloud-секунд, без фиксированного лимита последовательных Builds. T0 устанавливает агент при фактическом старте; запусков R7 пока нет. Первый прогон проверяет reviewed packaging fix на сохранённых semantic inputs S3, затем агент автономно продолжает proof-миссию. Это поручение заменяет ограничения подготовительного плана на один Build / 960 секунд; закрытый R6 account и его retired остаток не возобновляются.
+
+## Исторический checkpoint R6
 
 2026-10-20 packaging follow-up: primary S3 failure established by owner's administrative diagnosis: external manifest exceeds 8 MiB; secondary missing-summary error masked it. Compact lossless manifest/config reference and primary-error verdict fix prepared; synthetic compatibility/service checks only, no new Build. Actual payload unavailable and GCS prefix empty per owner: real-data repackaging/republication impossible. All S3 proof statuses remain UNKNOWN, independent credit 0. Fresh proposed first-attempt budget 960 s, NOT AUTHORIZED; R6 stays closed. [Recovery report](cloud-build/sort4-caller-entry-native/PACKAGING-RECOVERY-2026-10-20.md).
 
