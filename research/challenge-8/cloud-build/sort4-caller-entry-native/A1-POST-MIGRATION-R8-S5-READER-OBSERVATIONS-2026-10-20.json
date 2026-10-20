@@ -1,0 +1,275 @@
+{
+  "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+  "source_classification": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "queries": [
+    {
+      "args": [],
+      "exit_code": 0,
+      "response": "# SmallSort Evidence Brief — fbb9b98f\n\n- Processing: **VERIFIED_ARCHIVE_AND_INVENTORY**\n- Build proof verdict (source claim): **NOT_ACCEPTED_AS_REPORTED**\n- Run exit (source claim): `0`; evidence complete: `True`\n\n## Further bounded evidence\n\n- Complete catalogue: 370 verified members; retained content: 366 files.\n- CLI: `smallsort-brief fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2 --catalogue`, `--search LITERAL`, `--file ID --pointer /key` (JSON), or `--file ID --start 1` (text). Requires the v0.8 client installed on the caller host.\n- Reader: `/builds/fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2/catalogue?q=literal`, `/search?q=literal`, `/fragment?file_id=ID&start=1` (text) or `&pointer=/key` (JSON). Use the same /builds/UUID prefix for all routes. Search is over sanitized retained data only; inspect coverage and next_offset. No raw fallback or proof inference.\n\n## Failure diagnostics (verified archived sources)\n\n- Diagnostic status: **CORROBORATED**; causality: **CORROBORATED_SOURCE_REPORT**\n- Runner-reported blocker: `tool-reconstruction` / `adapter_error`; detail: RuntimeError: A1-TOOL: R-only native reference build\n  - Source: `proof-audit.json` line UNKNOWN; SHA-256 `55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e`\n- Runner-reported causal stage: `tool-reconstruction` (source assertion)\n- OCAML_COMPILER_ERROR: Unbound record field sized at `rust_frontend/vf_mir_translator/vf_mir_translator.ml:13138`\n  - Source: `allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log` line 1288; SHA-256 `6a3b875a06cbb500952888dc440c94076a49f42d2f86d74f0eecfb70fdb37f72`\n- MAKE_FAILURE_SUMMARY: make reported Error 1; child cause/status UNKNOWN\n  - Source: `allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log` line 1289; SHA-256 `6a3b875a06cbb500952888dc440c94076a49f42d2f86d74f0eecfb70fdb37f72`\n\n## Bounded diagnostic context (untrusted observations)\n\n- AVAILABLE; parser=SUPPORTED_OBSERVATIONS; selection=FIRST_GENERIC_MARKER\n  - Source: `allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log` line UNKNOWN; SHA-256 `6a3b875a06cbb500952888dc440c94076a49f42d2f86d74f0eecfb70fdb37f72`\n> L239: File \"rust_frontend/vf_mir_decoder/vf_mir_decoder.ml\", line 285, characters 2-9:\n> L240: [WITHHELD: COMMAND_ENVIRONMENT_OR_ROLE_TEXT]\n> L241: ^^^^^^^\n> L242: Warning 30 ?duplicate-definitions?: the constructor Error is defined in both types const_kind and ty_kind.\n> L243: File \"rust_frontend/vf_mir_decoder/vf_mir_decoder.ml\", line 288, characters 4-17:\n> L244: [WITHHELD: COMMAND_ENVIRONMENT_OR_ROLE_TEXT]\n> L245: ^^^^^^^^^^^^^\n> L246: Warning 30 ?duplicate-definitions?: the label kind is defined in both types hir_generics_generic_param and ty.\n  - Scanned 80924/80924 bytes; scan limit reached=False; lines shown=8/12.\n- Up to 2 short windows shown; complete bounded context and availability counts are in evidence-index.json. Context does not establish causality.\n\n## Tool build milestones (individual observed records)\n\n- `translator-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE\n- `console-build`: EXIT_ZERO; exit=`0`; records=1; omitted=0\n  - Source: `allprooflogs/console-build-exit-code.txt` line UNKNOWN; SHA-256 `9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa`\n- `exporter-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE\n- `decoder-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE\n- `refiner-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE\n- `tracked-md-compile`: NOT_PRESENT_IN_VERIFIED_ARCHIVE\n- `tracked-md-preparation`: NOT_PRESENT_IN_VERIFIED_ARCHIVE\n\n## First comparator source results\n\n- Coverage: NO_SUPPORTED_SOURCE_RECORD_OR_NAMED_ARTIFACT; projected=0; omitted=0; scan_truncated=False; showing up to 6 records\n- A joint false/true/panic claim does not provide separate per-branch receipts; absent records do not establish NOT_RUN.\n\n## Stage observations (exit codes are not proof verdicts)\n\n- Record counts: EXIT_NONZERO=1, EXIT_ZERO=105; order=NOT_ESTABLISHED; last completed stage=UNKNOWN\n- `a1-R-only-native-reference-build`: exit=`2`; linkage=`RECEIPT`; diagnostic=`OBSERVATIONS_EXTRACTED`\n  - Source: `allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build-stage.json` line UNKNOWN; SHA-256 `618c1bdb06f885c7553f9af15397a70f4029c379a7552410fd7e11614f6617a7`\n  - Context availability: {'status': 'AVAILABLE', 'context_id': 0}\n- Expected-control nonzero records (source-classified): 0; details in evidence-index.json.\n- Exit 0 observed: `console-build`, `apply`, `check`, `apply`, `check`, `apply`; references in evidence-index.json.\n- Coverage: {'candidate_records': 106, 'parsed_records': 106, 'not_captured': 0, 'invalid_records': 0, 'omitted_records': 0}; showing up to 4 nonzero and 6 zero records.\n- Runner-reported cases: 26; NOT_RUN=26\n\n## Campaign aggregates (source claims)\n\n- No supported aggregate captured; absence from this section does not prove absence from archive.\n- Aggregate coverage: {'aggregate_candidates': 0, 'aggregates_captured': 0, 'stage_metadata_captured': 96, 'stage_summaries_retained': 106, 'context_logs_streamed': 1, 'diagnostic_logs_captured': 16, 'diagnostic_log_bytes': 81068, 'oversized_logs': 0, 'budget_omitted_logs': 94, 'aggregates_not_captured': 0}; showing up to 4.\n\n## Representative cases (source verdicts)\n\n- `allprooflogs/cases/sort4-c1-current-recovery`\n- Cases: 1; showing up to 4. More references and source claims in evidence-index.json.\n\n## Boundaries\n\nSource verdicts are claims; no PASS is inferred from exit 0. Stage order and first/last causal stage remain UNKNOWN without explicit evidence. No verifier is run by this processor. Remote text chunk bytes are not checked.\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--catalogue",
+        "proof-audit.json"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+        "coverage": {
+          "availability_counts": {
+            "EMPTY_FILE": 95,
+            "PROJECTED": 271,
+            "UNSUPPORTED_FILE_TYPE": 4
+          },
+          "catalogue_complete": true,
+          "content_bytes": 645201,
+          "content_files": 366,
+          "files": 370,
+          "source_scan_bytes": 792340
+        },
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "report_schema": "smallsort-evidence-index-v8",
+        "results": [
+          {
+            "complete": false,
+            "id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+            "kind": "json",
+            "path": "proof-audit.json",
+            "path_sanitized": false,
+            "scanned_bytes": 26529,
+            "sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+            "size_bytes": 26529,
+            "status": "PROJECTED",
+            "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+          }
+        ],
+        "scope": {
+          "files_considered": 370,
+          "files_with_incomplete_content": 208,
+          "matches_in_retained_data": 1,
+          "source_absence_established": false
+        },
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--catalogue",
+        "a1-R-only-native-reference-build.log"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+        "coverage": {
+          "availability_counts": {
+            "EMPTY_FILE": 95,
+            "PROJECTED": 271,
+            "UNSUPPORTED_FILE_TYPE": 4
+          },
+          "catalogue_complete": true,
+          "content_bytes": 645201,
+          "content_files": 366,
+          "files": 370,
+          "source_scan_bytes": 792340
+        },
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "report_schema": "smallsort-evidence-index-v8",
+        "results": [
+          {
+            "complete": false,
+            "id": "a2eab57ef996656f094a761dcb8b44a70764a7dbc47a58ef5473b798996969cb",
+            "kind": "text",
+            "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+            "path_sanitized": false,
+            "scanned_bytes": 65536,
+            "sha256": "6a3b875a06cbb500952888dc440c94076a49f42d2f86d74f0eecfb70fdb37f72",
+            "size_bytes": 80924,
+            "status": "PROJECTED",
+            "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+          }
+        ],
+        "scope": {
+          "files_considered": 370,
+          "files_with_incomplete_content": 208,
+          "matches_in_retained_data": 1,
+          "source_absence_established": false
+        },
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "a2eab57ef996656f094a761dcb8b44a70764a7dbc47a58ef5473b798996969cb",
+        "--refresh",
+        "--info",
+        "--expect-sha256",
+        "6a3b875a06cbb500952888dc440c94076a49f42d2f86d74f0eecfb70fdb37f72"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "file_id": "a2eab57ef996656f094a761dcb8b44a70764a7dbc47a58ef5473b798996969cb",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+        "file_sha256": "6a3b875a06cbb500952888dc440c94076a49f42d2f86d74f0eecfb70fdb37f72",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "json_pointer_available": false,
+        "max_results": 20,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "preview_request": {
+          "end": 12,
+          "start": 1
+        },
+        "representation": "VERIFIED_FILE_OVERVIEW",
+        "request": {
+          "expected_sha256": "6a3b875a06cbb500952888dc440c94076a49f42d2f86d74f0eecfb70fdb37f72",
+          "file_id": "a2eab57ef996656f094a761dcb8b44a70764a7dbc47a58ef5473b798996969cb",
+          "info": true
+        },
+        "request_id": "fba6ee245aaf5879ff452599daaee1c351ef750456e53f9f36a64c84e5eb1061",
+        "response_limit_bytes": 12000,
+        "results": [],
+        "schema": "smallsort-targeted-observation-v2",
+        "selectors": [
+          "info",
+          "literal",
+          "lines",
+          "position",
+          "pointer"
+        ],
+        "source_bytes": 80924,
+        "source_codepoints": 80924,
+        "source_lines": 1290,
+        "status": "OK",
+        "utf8": true
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "a2eab57ef996656f094a761dcb8b44a70764a7dbc47a58ef5473b798996969cb",
+        "--refresh",
+        "--start",
+        "1282",
+        "--end",
+        "1290",
+        "--expect-sha256",
+        "6a3b875a06cbb500952888dc440c94076a49f42d2f86d74f0eecfb70fdb37f72"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinates": {
+          "base": 1,
+          "end_inclusive": 1290,
+          "line_separator": "LF",
+          "source_lines": 1290,
+          "start": 1282,
+          "unit": "line"
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "a2eab57ef996656f094a761dcb8b44a70764a7dbc47a58ef5473b798996969cb",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-R-only-native-reference-build.log",
+        "file_sha256": "6a3b875a06cbb500952888dc440c94076a49f42d2f86d74f0eecfb70fdb37f72",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "range_clamped": false,
+        "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+        "request": {
+          "end": 1290,
+          "expected_sha256": "6a3b875a06cbb500952888dc440c94076a49f42d2f86d74f0eecfb70fdb37f72",
+          "file_id": "a2eab57ef996656f094a761dcb8b44a70764a7dbc47a58ef5473b798996969cb",
+          "start": 1282
+        },
+        "request_id": "2502052574e0b874bb5293bf6cc4278fb7c6d104a2ab58ef5e57472ce4e9e57c",
+        "requested_end": 1290,
+        "results": [
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1282,
+            "text": "             ^^^^^^^^^^^^^^^"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1283,
+            "text": "Warning 23 [useless-record-with]: all the fields are explicitly listed in this record:"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1284,
+            "text": "the 'with' clause is useless."
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1285,
+            "text": "File \"rust_frontend/vf_mir_translator/vf_mir_translator.ml\", line 13138, characters 86-91:"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1286,
+            "text": "13138 |                                             List.for_all (fun (_, bound) -> not bound.sized)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1287,
+            "text": "                                                                                              ^^^^^"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1288,
+            "text": "Error: Unbound record field sized"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1289,
+            "text": "make: *** [GNUmakefile:506: _build/default/vfconsole/vfconsole.exe] Error 1"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 1290,
+            "text": "make: Leaving directory '/workspace/smallsort-work/a1-checked-trait-contract-isolated-source/src'"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "status": "OK"
+      },
+      "stderr": ""
+    }
+  ]
+}

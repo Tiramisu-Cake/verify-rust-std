@@ -1,0 +1,3056 @@
+{
+  "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+  "source_classification": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "queries": [
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "--info"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "hint": "Use pointer=\"\" for the first child page; follow next_offset explicitly.",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "json_child_count": 30,
+        "json_kind": "object",
+        "json_pointer_available": true,
+        "max_results": 20,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "preview_request": {
+          "end": 12,
+          "start": 1
+        },
+        "representation": "VERIFIED_FILE_OVERVIEW",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "info": true
+        },
+        "request_id": "4208c6fb9b9abe77f82491f64a392bbd4a06f69b1d39ea093dd0386f1b96ea03",
+        "response_limit_bytes": 12000,
+        "results": [],
+        "schema": "smallsort-targeted-observation-v2",
+        "selectors": [
+          "info",
+          "literal",
+          "lines",
+          "position",
+          "pointer"
+        ],
+        "source_bytes": 26529,
+        "source_codepoints": 26529,
+        "source_lines": 937,
+        "status": "OK",
+        "utf8": true
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/N-alpha-valid",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/N-alpha-valid"
+        },
+        "request_id": "7e3f16439a5c74c29dd3a65b42dd6395261669aaec22d4487350c1474307031e",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-alpha-valid/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-alpha-valid/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-alpha-valid/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-alpha-valid/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-alpha-valid/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-alpha-valid/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-alpha-valid/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/N-binder-collapse",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/N-binder-collapse"
+        },
+        "request_id": "759d0332304ddbb33525e895f40dbf30db7c52577b75bd3e890fe8fafaecdd4d",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-binder-collapse/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-binder-collapse/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-binder-collapse/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-binder-collapse/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-binder-collapse/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-binder-collapse/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-binder-collapse/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/N-binding",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/N-binding"
+        },
+        "request_id": "bab5c7f192caad8b101cf900db3fc8da8333755f79164af76bd1785413d72667",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-binding/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-binding/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-binding/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-binding/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-binding/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-binding/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-binding/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/N-clause-redirect",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/N-clause-redirect"
+        },
+        "request_id": "022d74134bc91691368ff7275cb47824264123bde418880db9d710e7f8ba724c",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-clause-redirect/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-clause-redirect/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-clause-redirect/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-clause-redirect/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-clause-redirect/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-clause-redirect/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-clause-redirect/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/N-clauses",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/N-clauses"
+        },
+        "request_id": "bceafc2e4e5c809189d2e0750a057ba4978a8d1f7138cdc42f9caba4e33560d2",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-clauses/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-clauses/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-clauses/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-clauses/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-clauses/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-clauses/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-clauses/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/N-default-contract",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/N-default-contract"
+        },
+        "request_id": "de1b281c6d354bf4f8617afb3ebc8334afee914f63de5d7785e91817e724e032",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-default-contract/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-default-contract/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-default-contract/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-default-contract/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-default-contract/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-default-contract/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-default-contract/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/N-duplicate",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/N-duplicate"
+        },
+        "request_id": "564bee11120e5fae871b514e024912ca13f53865b38d503ca79ec2f3cdb9a93a",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-duplicate/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-duplicate/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-duplicate/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-duplicate/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-duplicate/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-duplicate/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-duplicate/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/N-false31",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/N-false31"
+        },
+        "request_id": "32e8aea329d39d4846142d2e54e071ce18cf284cfebca67e772729c8d7d54bfe",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-false31/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-false31/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-false31/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-false31/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-false31/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-false31/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-false31/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/N-free-region",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/N-free-region"
+        },
+        "request_id": "d2de07c4c4b87d09fe7379c9dafd4ca9468a4838c249400d1bd6a44f32649ddb",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-free-region/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-free-region/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-free-region/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-free-region/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-free-region/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-free-region/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-free-region/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/N-freeze-contract",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/N-freeze-contract"
+        },
+        "request_id": "553aaf52e7b38ecc44d00f2a089f3c9ed204fec7b933397e32a95c1f655c0d98",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-freeze-contract/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-freeze-contract/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-freeze-contract/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-freeze-contract/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-freeze-contract/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-freeze-contract/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-freeze-contract/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/N-no-F",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/N-no-F"
+        },
+        "request_id": "bfef44ba62f5f766edac5f87be2ae5ffed4b051e554ad786b34e42bec6f30d7b",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-no-F/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-no-F/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-no-F/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-no-F/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-no-F/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-no-F/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-no-F/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/N-region-swap",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/N-region-swap"
+        },
+        "request_id": "0f12a7ac606e868152805a09cbd0c737f15be8b110863386688e7d9b32c17a6a",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-region-swap/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-region-swap/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-region-swap/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-region-swap/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-region-swap/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-region-swap/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-region-swap/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/N-source",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/N-source"
+        },
+        "request_id": "4490046e7cbf0b4873610e9c8e81f4d68a3020440612b4f25761f8a7de9ebd46",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-source/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-source/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-source/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-source/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-source/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-source/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-source/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/N-no-F",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/N-no-F"
+        },
+        "request_id": "bfef44ba62f5f766edac5f87be2ae5ffed4b051e554ad786b34e42bec6f30d7b",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-no-F/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-no-F/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-no-F/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-no-F/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-no-F/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-no-F/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-no-F/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/OFF",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/OFF"
+        },
+        "request_id": "f5702478fd81e02f812b35484d8f1a420eaacafeb66cfb2029060a69bfe7f206",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/OFF/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/OFF/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/OFF/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/OFF/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/OFF/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/OFF/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/OFF/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/N-region-swap",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/N-region-swap"
+        },
+        "request_id": "0f12a7ac606e868152805a09cbd0c737f15be8b110863386688e7d9b32c17a6a",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-region-swap/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-region-swap/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-region-swap/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-region-swap/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-region-swap/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-region-swap/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-region-swap/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/P-dispatch",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/P-dispatch"
+        },
+        "request_id": "a6d16cd6dd765875f686fd2d82923aa91f4e3308ab3608ce560ee657caff01d0",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/P-dispatch/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P-dispatch/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P-dispatch/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/P-dispatch/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P-dispatch/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/P-dispatch/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/P-dispatch/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/N-source",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/N-source"
+        },
+        "request_id": "4490046e7cbf0b4873610e9c8e81f4d68a3020440612b4f25761f8a7de9ebd46",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-source/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-source/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-source/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/N-source/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/N-source/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-source/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/N-source/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/P0a",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/P0a"
+        },
+        "request_id": "4e745e41545a0dda24f748e8ad30e08424a3b4e86fc8616ece0787884cd9a27a",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/P0a/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P0a/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P0a/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/P0a/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P0a/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/P0a/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/P0a/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/OFF",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/OFF"
+        },
+        "request_id": "f5702478fd81e02f812b35484d8f1a420eaacafeb66cfb2029060a69bfe7f206",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/OFF/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/OFF/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/OFF/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/OFF/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/OFF/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/OFF/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/OFF/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/P0b",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/P0b"
+        },
+        "request_id": "e4b4607e127444a3602944472d5684f74a92f2d9c62066c416b8f0d96d758ccd",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/P0b/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P0b/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P0b/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/P0b/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P0b/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/P0b/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/P0b/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/P-dispatch",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/P-dispatch"
+        },
+        "request_id": "a6d16cd6dd765875f686fd2d82923aa91f4e3308ab3608ce560ee657caff01d0",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/P-dispatch/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P-dispatch/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P-dispatch/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/P-dispatch/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P-dispatch/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/P-dispatch/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/P-dispatch/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/P0c",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/P0c"
+        },
+        "request_id": "d43a731e6be0686f2d73b32fab8a0ecc849443db0ec4ca012a46c1c48b5cfd4c",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/P0c/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P0c/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P0c/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/P0c/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P0c/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/P0c/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/P0c/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/P0a",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/P0a"
+        },
+        "request_id": "4e745e41545a0dda24f748e8ad30e08424a3b4e86fc8616ece0787884cd9a27a",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/P0a/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P0a/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P0a/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/P0a/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P0a/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/P0a/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/P0a/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/P1",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/P1"
+        },
+        "request_id": "46fd63bc2c1487bc7007ac3e8631fcd5497f63deb409737a941d2436310dd3a7",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/P1/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P1/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P1/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/P1/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P1/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/P1/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/P1/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/P0b",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/P0b"
+        },
+        "request_id": "e4b4607e127444a3602944472d5684f74a92f2d9c62066c416b8f0d96d758ccd",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/P0b/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P0b/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P0b/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/P0b/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P0b/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/P0b/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/P0b/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/R1",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/R1"
+        },
+        "request_id": "4b23a91246ff85ebfd47150ba3c71df522cb5905385d1ffdd89c4f9f74e9c403",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/R1/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R1/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R1/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/R1/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R1/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/R1/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/R1/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/P0c",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/P0c"
+        },
+        "request_id": "d43a731e6be0686f2d73b32fab8a0ecc849443db0ec4ca012a46c1c48b5cfd4c",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/P0c/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P0c/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P0c/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/P0c/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/P0c/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/P0c/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/P0c/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/R2",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/R2"
+        },
+        "request_id": "1d0f937ef2e724b75b574eda6f3220c9a5da2c4a526b7eac0f0e86a00ed5e584",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/R2/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R2/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R2/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/R2/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R2/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/R2/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/R2/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/R3",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/R3"
+        },
+        "request_id": "25f3acae2557dfb2de994e2dd30bbec2cadda247598d63a4c0e93cb97dee6be9",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/R3/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R3/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R3/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/R3/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R3/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/R3/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/R3/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/R4",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/R4"
+        },
+        "request_id": "b167928276fb37dcda53420190f98dbc2f34ff0439e90ba5bd13d1817781ba8e",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/R4/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R4/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R4/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/R4/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R4/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/R4/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/R4/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/R5",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/R5"
+        },
+        "request_id": "7681d1b4234a5364ce35d57a0187516d5cdb093d7b3ec623a09461d1f1f44c3e",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/R5/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R5/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R5/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/R5/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R5/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/R5/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/R5/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/R6",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/R6"
+        },
+        "request_id": "1047c3feb25927c70f06b2428b3b1bdd157483a83966c4429a586b9bea1dfd3c",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/R6/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R6/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R6/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/R6/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R6/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/R6/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/R6/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--refresh",
+        "--pointer",
+        "/case_status/R7",
+        "--expect-sha256",
+        "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+        "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 7,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+        "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/case_status/R7"
+        },
+        "request_id": "864fbe7dc59e89a92ddec7ccc2767cef61a25db634ef20c857ec819764636c12",
+        "results": [
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/R7/matrix_gate_passed",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R7/observed_outcome",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R7/observed_stage",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/case_status/R7/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/case_status/R7/provenance",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/R7/reason",
+            "value": "expected input identity or run pins unavailable"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/case_status/R7/status",
+            "value": "NOT_RUN"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    }
+  ]
+}

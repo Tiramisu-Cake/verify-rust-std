@@ -1,0 +1,32 @@
+{
+  "build_id": "6f352daa-5d92-4f3b-be15-6395ae48aa2c",
+  "source_classification": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "queries": [
+    {
+      "args": [
+        "--info"
+      ],
+      "exit_code": 2,
+      "response": "",
+      "stderr": "usage: smallsort-brief [-h] [--base-url BASE_URL] [--token-file TOKEN_FILE]\n                       [--impersonate-service-account IMPERSONATE_SERVICE_ACCOUNT]\n                       [--catalogue [LITERAL] | --search LITERAL | --file\n                       FILE_ID] [--refresh] [--targeted-url TARGETED_URL]\n                       [--info] [--value-start VALUE_START]\n                       [--position POSITION] [--locate LITERAL]\n                       [--near-position NEAR_POSITION] [--end END]\n                       [--radius RADIUS] [--expect-sha256 EXPECT_SHA256]\n                       [--unit {utf8-byte,unicode-codepoint}]\n                       [--within FILE_ID] [--pointer POINTER] [--start START]\n                       [--offset OFFSET]\n                       build_id\nsmallsort-brief: error: targeted options require --refresh\n"
+    },
+    {
+      "args": [
+        "--refresh",
+        "--info"
+      ],
+      "exit_code": 2,
+      "response": "",
+      "stderr": "usage: smallsort-brief [-h] [--base-url BASE_URL] [--token-file TOKEN_FILE]\n                       [--impersonate-service-account IMPERSONATE_SERVICE_ACCOUNT]\n                       [--catalogue [LITERAL] | --search LITERAL | --file\n                       FILE_ID] [--refresh] [--targeted-url TARGETED_URL]\n                       [--info] [--value-start VALUE_START]\n                       [--position POSITION] [--locate LITERAL]\n                       [--near-position NEAR_POSITION] [--end END]\n                       [--radius RADIUS] [--expect-sha256 EXPECT_SHA256]\n                       [--unit {utf8-byte,unicode-codepoint}]\n                       [--within FILE_ID] [--pointer POINTER] [--start START]\n                       [--offset OFFSET]\n                       build_id\nsmallsort-brief: error: --refresh requires --file and one selector, or --info\n"
+    },
+    {
+      "args": [
+        "--info",
+        "--refresh"
+      ],
+      "exit_code": 2,
+      "response": "",
+      "stderr": "usage: smallsort-brief [-h] [--base-url BASE_URL] [--token-file TOKEN_FILE]\n                       [--impersonate-service-account IMPERSONATE_SERVICE_ACCOUNT]\n                       [--catalogue [LITERAL] | --search LITERAL | --file\n                       FILE_ID] [--refresh] [--targeted-url TARGETED_URL]\n                       [--info] [--value-start VALUE_START]\n                       [--position POSITION] [--locate LITERAL]\n                       [--near-position NEAR_POSITION] [--end END]\n                       [--radius RADIUS] [--expect-sha256 EXPECT_SHA256]\n                       [--unit {utf8-byte,unicode-codepoint}]\n                       [--within FILE_ID] [--pointer POINTER] [--start START]\n                       [--offset OFFSET]\n                       build_id\nsmallsort-brief: error: --refresh requires --file and one selector, or --info\n"
+    }
+  ]
+}

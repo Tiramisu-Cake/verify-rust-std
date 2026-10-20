@@ -1,0 +1,49 @@
+{
+  "actual_Cloud_execution": "Requires a new explicitly authorized window/account; do not reuse R8 or carry572",
+  "closure": {
+    "commit": "8e46fbf4c603e9a0133d3024ce22e73958d73542",
+    "config_arg_bounds": "PASS",
+    "dispatch": "NOT_ATTEMPTED",
+    "exact_restore": "PASS",
+    "formal_credit": false,
+    "git_stderr_observed": {
+      "message": "error: object fails fsck: gitmodulesMissing: unable to read .gitmodules blob",
+      "occurrences": 2,
+      "result": "restore subprocesses exit0, exact selected source closure PASS; not full-repo fsck"
+    },
+    "phase_profile_environment": "PASS",
+    "restored_paths": {
+      "infra": 35,
+      "proof": 113
+    },
+    "shared_objects": 168,
+    "source_payload_bytes": 527522,
+    "source_sha256": "2f2e79faa04a6949639c786daedcc3209d89171c181fe4e1bb29800b4a267133",
+    "source_substitutions": 177
+  },
+  "commit": "8e46fbf4c603e9a0133d3024ce22e73958d73542",
+  "finishing_existing_S5_implementation": true,
+  "formal_credit": false,
+  "independent_review": {
+    "model": "gpt-6-luna",
+    "proof_acceptance": false,
+    "reasoning_effort": "high",
+    "result": "GO_LOCALIZED_FIX_AND_CURRENT_PINS"
+  },
+  "isolated_validation": {
+    "compiler_exporter_extraction_verifier": "NOT_RUN",
+    "profile_transport_tests": 8,
+    "result": "PASS"
+  },
+  "ledger_status": "CLOSED",
+  "main_deadline_utc": "2026-10-20T16:28:47Z",
+  "manifest_sha256": "4b1c5b3a51c5ecb10b8dc2445bfb98bfce615146c46ca872ef8d0793a0d177f2",
+  "new_cloud_build": false,
+  "new_hypothesis": false,
+  "patch_sha256": "89ad6a9dbe8501167c435e40250f1ad0757cd362342a1db6047b7297b3d27e77",
+  "profile_sha256": "c6d1a1d6d58145e16a3848cc6a580c4a0fcb8b9cf522883ca89f5833614f9f00",
+  "schema": "smallsort-r8-unexecuted-source-correction-v1",
+  "semantic_change": "Only qualify four existing sized record-field accesses in three lines with Ast namespace; predicates/control flow unchanged",
+  "source_core_sha256": "776ccb08bdbc547c609549d126439f36477b964e830de10cfc203a1dcef90435",
+  "status": "NOT_RUN_NOT_COMPILED"
+}

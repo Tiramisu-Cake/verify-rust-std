@@ -1,0 +1,49 @@
+{
+  "archive_sha256": "15c5c8176c0ce9c2d5b0184beda59e4b48c5bf307572c2a8be6550a37750477b",
+  "bounded_observations": "A1-POST-MIGRATION-R8-S5-READER-OBSERVATIONS-2026-10-20.json",
+  "brief_diagnostic_status": "CORROBORATED",
+  "brief_processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "brief_source_causal_status": "CORROBORATED_SOURCE_REPORT",
+  "build_id": "fbb9b98f-af8d-4b3d-abbf-4fd9a0adf2f2",
+  "carry_seconds": 0,
+  "charge_seconds": 409,
+  "closed_obligations": 0,
+  "coverage": "A1-POST-MIGRATION-R8-S5-COVERAGE-2026-10-20.md",
+  "independent_B1_B2_credit": 0,
+  "index_sha256": "5e5757d6ac667c6d39b4c4df2ee0bdca802dc52e5ea24f583c419b9c9440bfb6",
+  "infra_sha": "860bc3aa5c4410cf20dbc428516f80d6ae298124",
+  "matrix": "A1-POST-MIGRATION-R8-S5-MATRIX-2026-10-20.json",
+  "next_step": "New authorized session/window/account required to compile corrected already-begun S5 field qualification; P1/native26/lifecycle still open",
+  "outer_evidence_complete": true,
+  "outer_run_exit_source_claim": 0,
+  "primary_compiler_failure": {
+    "diagnostic": "Unbound record field sized",
+    "exact_log_lines": [
+      1285,
+      1286,
+      1287,
+      1288,
+      1289
+    ],
+    "log_file_id": "a2eab57ef996656f094a761dcb8b44a70764a7dbc47a58ef5473b798996969cb",
+    "log_sha256": "6a3b875a06cbb500952888dc440c94076a49f42d2f86d74f0eecfb70fdb37f72",
+    "source": "rust_frontend/vf_mir_translator/vf_mir_translator.ml",
+    "source_line": 13138,
+    "stage": "a1-R-only-native-reference-build",
+    "stage_exit": 2,
+    "window_request_id": "2502052574e0b874bb5293bf6cc4278fb7c6d104a2ab58ef5e57472ce4e9e57c"
+  },
+  "profile_sha256": "a1cfba31dbdb45212ffd90c9d1a2be89ac19b3e958a3db0f74738bdf3ed16b5c",
+  "proof_audit_sha256": "55a64d6afb5a2c32a8f108485dcab21acae31a74d24254893ba1788e38335e3e",
+  "proof_sha": "860bc3aa5c4410cf20dbc428516f80d6ae298124",
+  "proof_verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+  "raw_evidence_read": false,
+  "schema": "smallsort-r8-source-evidence-v1",
+  "session_remaining": 572,
+  "session_spent": 3028,
+  "source_status_counts": {
+    "NOT_RUN": 26
+  },
+  "target_result": "26 explicit NOT_RUN; no S3/S4 carry",
+  "terminal_status": "FAILURE"
+}
