@@ -1,0 +1,7 @@
+# R10 S3 transport refusal and lossless restore codec
+
+Actual coordinator pre-dispatch config was28004bytes>28000; static closure using a shorter artificial dispatch token measured27988. No Build/reservation/account entry was created. Do not retry random tokens or raise caps. Static closure must use a full-length representative token and retain headroom.
+
+Only R10 source-restore helper transport changes from gzip+base64 to standard-library XZ+base64. The complete exact source-input.py bytes remain encoded and decoded before the same Python restore invocation; no source objects, substitutions, args, hashes, manifests or input checks are removed. XZ is Python standard library lzma, not a new installed dependency; runtime uses the existing Python3. All historical phases retain byte-identical gzip codec and shell decoder. Source payload itself remains its existing gzip format, with unchanged SHA/restore checks.
+
+Synthetic controls decode actual exact helper bytes through both generated decoder commands without executing that helper, refuse corrupted data before a valid output, verify historical bytes/commands, and compare full config transport with real-length dispatch tokens. All caps remain200substitutions/4000pervalue/10000perarg/28000transport; restore behavior and proof criteria unchanged. New full exact committed/published closure and independent review required before retry.

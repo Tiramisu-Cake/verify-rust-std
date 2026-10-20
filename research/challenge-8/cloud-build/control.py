@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Lightweight VPS orchestration only. Never executes proof tools locally."""
-import argparse,base64,datetime,gzip,hashlib,importlib.util,json,math,os,re,subprocess,sys,uuid
+import argparse,base64,datetime,gzip,hashlib,importlib.util,json,lzma,math,os,re,subprocess,sys,uuid
 from pathlib import Path
 import coordination
 
@@ -270,6 +270,16 @@ def r10_time_budget(seconds):
  return {'package_reserve':reserve,'work_seconds':work,
          'soft_margin':min(60,max(15,work//2))}
 
+def source_restore_transport(source,phase_id):
+ if phase_id==A1_R10_PHASE:
+  encoded=base64.b64encode(lzma.compress(source,preset=6)).decode()
+  decoder="import base64,lzma,os,pathlib; pathlib.Path('/workspace/source-input.py').write_bytes(lzma.decompress(base64.b64decode(os.environ['SOURCE_RESTORE_BYTES'])))"
+  command=' python3 -c '+shquote(decoder)+'\n'
+ else:
+  encoded=base64.b64encode(gzip.compress(source,mtime=0)).decode()
+  command=" printf '%s' \"$SOURCE_RESTORE_BYTES\" | base64 --decode | gzip --decompress > /workspace/source-input.py\n"
+ return encoded,command
+
 def config(infra,proof,lane,seconds,token,source_payload=None,phase_id=None):
  budget=r10_time_budget(seconds) if phase_id==A1_R10_PHASE else {'work_seconds':seconds-70,'soft_margin':15}
  work_seconds=budget['work_seconds']
@@ -302,10 +312,10 @@ def config(infra,proof,lane,seconds,token,source_payload=None,phase_id=None):
   source_parts=[encoded[i:i+3990] for i in range(0,len(encoded),3990)]
   if len(source_parts)>191:raise SystemExit('Pinned source payload exceeds bounded transport; no dispatch')
   groups=[source_parts[i:i+10] for i in range(0,len(source_parts),10)]
-  restore=base64.b64encode(gzip.compress((DIR/'source-input.py').read_bytes(),mtime=0)).decode()
+  restore,restore_command=source_restore_transport((DIR/'source-input.py').read_bytes(),phase_id)
   replacement=("python3 -c "+shquote("import base64,os,pathlib; pathlib.Path('/workspace/source-inputs.json.gz').write_bytes(base64.b64decode(''.join(os.environ['SOURCE_GROUP_'+str(i)] for i in range("+str(len(groups))+"))))")+"\n"
    +" printf '%s  %s\\n' "+shquote(digest(source_payload))+" /workspace/source-inputs.json.gz | sha256sum -c -\n"
-   +" printf '%s' \"$SOURCE_RESTORE_BYTES\" | base64 --decode | gzip --decompress > /workspace/source-input.py\n"
+   +restore_command
    +" python3 /workspace/source-input.py restore --archive /workspace/source-inputs.json.gz --evidence /workspace/evidence\n")
   start=work.index(' checkout() {')
   end=work.index(' export EVIDENCE_ROOT',start)
