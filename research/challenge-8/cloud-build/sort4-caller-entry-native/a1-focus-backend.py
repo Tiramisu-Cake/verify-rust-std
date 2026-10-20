@@ -21,8 +21,13 @@ from typing import Any, Mapping
 
 
 PHASE = "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17"
-AUTHORIZATION_PHASE = "SORT4-PACKAGE-SCOPE-NATIVE-PROOF-2026-10-20-R6"
 HERE = Path("research/challenge-8/cloud-build/sort4-caller-entry-native")
+PROFILE_BINDINGS = {
+    "SORT4-PACKAGE-SCOPE-NATIVE-PROOF-2026-10-20-R6":
+        "A1-SCOPE-S3-PROFILE-2026-10-20.json",
+    "SORT4-PACKAGING-NATIVE-PROOF-2026-10-20-R7":
+        "A1-PACKAGING-R7-PROFILE-2026-10-20.json",
+}
 TR = "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
 SCHEMA = "src/rust_frontend/vf_mir/vf_mir.capnp"
 EXPORTER = "src/rust_frontend/vf_mir_exporter/src/lib.rs"
@@ -49,6 +54,40 @@ def need(ok: bool, reason: str) -> None:
 
 def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def validate_profile_binding(proof_root: Path, profile: Mapping[str, Any],
+                              env: Mapping[str, str]) -> Path:
+    """Validate the exact authorization-to-profile pair without Cloud tools."""
+    need(isinstance(profile, Mapping), "published A1 profile must be an object")
+    need(isinstance(env, Mapping), "A1 profile environment must be a mapping")
+    authorization = env.get("SORT4_A1_AUTHORIZATION_PHASE_ID")
+    need(isinstance(authorization, str), "unknown A1 authorization/profile binding")
+    profile_name = PROFILE_BINDINGS.get(authorization)
+    need(profile_name is not None, "unknown A1 authorization/profile binding")
+    profile_path = Path(proof_root) / HERE / profile_name
+    profile_hash = env.get("SORT4_A1_PROFILE_SHA256")
+    need(isinstance(profile_hash, str) and HEX64.fullmatch(profile_hash) is not None and
+         profile_path.is_file() and sha(profile_path) == profile_hash,
+         "published A1 profile file SHA")
+    try:
+        decoded_profile = json.loads(profile_path.read_text())
+    except (OSError, UnicodeError, json.JSONDecodeError):
+        need(False, "published A1 profile JSON")
+        raise AssertionError("unreachable")
+    need(isinstance(decoded_profile, dict) and decoded_profile == profile,
+         "published A1 decoded profile identity")
+    need(env.get("SORT4_A1_PHASE_ID") == PHASE and
+         profile.get("authorization_phase_id") == authorization and
+         profile.get("phase_id") == PHASE and
+         profile.get("experiment_protocol_phase_id") == PHASE and
+         profile.get("profile_pin_source") == "coordinator-environment" and
+         profile.get("proof_sha") in (None, "") and
+         profile.get("infra_sha") in (None, "") and
+         profile.get("cloud_build_enabled") is True and
+         profile.get("profile_accepted") is False,
+         "published A1 profile identity")
+    return profile_path
 
 
 def contained(path: Path, root: Path) -> bool:
@@ -133,18 +172,10 @@ def _cloud_gate(a, c4, ghost, tool: Path, receipt: dict,
          infra is not None and HEX40.fullmatch(infra) is not None and
          profile_hash is not None and HEX64.fullmatch(profile_hash) is not None,
          "full proof/infra/profile run pins")
-    profile_path = Path(a.proof_root) / HERE / "A1-SCOPE-S3-PROFILE-2026-10-20.json"
-    need(profile_path.is_file() and sha(profile_path) == profile_hash and
-         json.loads(profile_path.read_text()) == profile and
-         os.environ.get("SORT4_A1_AUTHORIZATION_PHASE_ID") == AUTHORIZATION_PHASE and
-         profile.get("authorization_phase_id") == AUTHORIZATION_PHASE and
-         profile.get("phase_id") == PHASE and
-         profile.get("profile_pin_source") == "coordinator-environment" and
-         profile.get("proof_sha") in (None, "") and
-         profile.get("infra_sha") in (None, "") and
-         profile.get("cloud_build_enabled") is True and
-         profile.get("profile_accepted") is False,
-         "published A1 profile identity")
+    need(os.environ.get("SORT4_A1_AUTHORIZATION_PHASE_ID") ==
+         env.get("SORT4_A1_AUTHORIZATION_PHASE_ID"),
+         "active authorization environment differs from focused-stage environment")
+    profile_path = validate_profile_binding(a.proof_root, profile, env)
     actual_proof = subprocess.check_output(
         ["git", "-C", str(a.proof_root), "rev-parse", "HEAD"], text=True).strip()
     need(actual_proof == proof, "proof checkout SHA differs")

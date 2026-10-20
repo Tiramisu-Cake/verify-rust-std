@@ -1,6 +1,6 @@
 # Select / sort4 — R7 ACTIVE, proof mission OPEN
 
-2026-10-20: опубликовано [новое задание R7](CURRENT-TASK.md): 120 минут основной работы + до 30 минут завершения, новый бюджет 3600 Cloud-секунд, без фиксированного лимита последовательных Builds. T0 2026-10-20T11:16:28Z; main13:16:28Z; absolute13:46:28Z; запусков R7 пока нет. Первый прогон проверяет reviewed packaging fix на сохранённых semantic inputs S3, затем агент автономно продолжает proof-миссию. Это поручение заменяет ограничения подготовительного плана на один Build / 960 секунд; закрытый R6 account и его retired остаток не возобновляются.
+2026-10-20: опубликовано [новое задание R7](CURRENT-TASK.md): 120 минут основной работы + до 30 минут завершения, новый бюджет 3600 Cloud-секунд, без фиксированного лимита последовательных Builds. T0 2026-10-20T11:16:28Z; main13:16:28Z; absolute13:46:28Z; S1Build025378b9 terminalFAILURE432s,3168remaining; packaging Brief integrity verified, source P0a profile-binding rejection; no independent proof credit. Идёт S2 canonical profile consumer correction. Первый прогон проверяет reviewed packaging fix на сохранённых semantic inputs S3, затем агент автономно продолжает proof-миссию. Это поручение заменяет ограничения подготовительного плана на один Build / 960 секунд; закрытый R6 account и его retired остаток не возобновляются.
 
 ## Исторический checkpoint R6
 

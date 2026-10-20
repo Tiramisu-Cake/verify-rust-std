@@ -4,6 +4,7 @@
   "S3_semantic_baseline": "b6dfcb8e4a1149ef5b98901b690995453050a9a5",
   "authorization_phase_id": "SORT4-PACKAGING-NATIVE-PROOF-2026-10-20-R7",
   "build_id": "025378b9-d36b-4837-bd19-6df8ed1471c4",
+  "charge_seconds": 432,
   "closure": {
     "commit": "4017cc2052d35cda339e6e659fa01056543acbc4",
     "config_arg_bounds": "PASS",
@@ -54,9 +55,30 @@
   "infra_sha": "4017cc2052d35cda339e6e659fa01056543acbc4",
   "isolated_adapter_tests": 6,
   "local_actual_proof_or_preparation": false,
+  "packaging_delivery": {
+    "archive_sha256": "5ca376510b641093d8ce8fc498442385338b6a078d97848c5785bac34d9f5e21",
+    "audit_bytes": 76929,
+    "brief_evidence_complete": true,
+    "index_sha256": "0ee96db82e2a0974b685496bd1cbd4c114e096f2315d0add224905f8f9c38591",
+    "original_oversize_payload_retested": false,
+    "processing": "VERIFIED_ARCHIVE_AND_INVENTORY"
+  },
   "profile_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-PACKAGING-R7-PROFILE-2026-10-20.json",
   "profile_sha256": "9beef339ba66c9cf0112d23631ff25ce18c159dca7fd8be7274ebb5207be7eb9",
+  "proof_obligations_closed": 0,
   "proof_sha": "4017cc2052d35cda339e6e659fa01056543acbc4",
+  "results": "source-reported P0a adapter profile identity rejection; matrix incomplete; no independent proof credit",
+  "runner_claims": {
+    "accepted": false,
+    "all26_aggregate": {
+      "INCONCLUSIVE": 5,
+      "INTENDED_CLASSIFIED": 8,
+      "NOT_RUN": 13
+    },
+    "evidence_complete": false,
+    "first_causal_stage": "UNESTABLISHED",
+    "matrix_complete": false
+  },
   "schema": "smallsort-a1-packaging-native-release-v1",
   "semantic_input_changes": "NONE; new auth/profile/entry/runner-adapter binding; corrected packaging already reviewed",
   "service_pins": {
@@ -72,6 +94,7 @@
     "verify-evidence.py": "2ebcf57bb5aea7102bb3713e75c3c9f23e68223bfac29d350e544fa6c5f99131"
   },
   "source_mode": "pinned-objects",
-  "status": "SUBMITTED_RESULT_PENDING",
+  "status": "TERMINAL_FAILURE_VERIFIED_DELIVERY",
+  "terminal_status": "FAILURE",
   "tool_head": "f76012fb518703b1d98e243ac4f487f16877cfcb"
 }
