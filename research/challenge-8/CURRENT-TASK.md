@@ -2,7 +2,7 @@
 
 ## Задание
 
-- **ID:** `merge-current-ownership-autonomous-2026-10-20-r5`; **статус:** READY, новая сессия ещё не начата.
+- **ID:** `merge-current-ownership-autonomous-2026-10-20-r5`; **статус:** ACTIVE, R5 начата 2026-10-20T07:28:45Z.
 - **Owner:** `merge`.
 - **Project worktree:** `/root/verify-rust-std-merge-origin`; **branch:** `merge/incoming-origin-20261009`, fork `Tiramisu-Cake/verify-rust-std`.
 - **Tool worktree:** `/root/verifast-merge-actual-glue`; **branch:** `merge/actual-glue-instance-20261011`; исходный tool head **`a42d50becbc84a45e33a58269358eee105f1fdcb`**.
@@ -62,7 +62,7 @@ Evidence v0.11: Brief → catalogue → refresh/info → locate/fragment → н�
 
 ## Отчёт агента
 
-- **Статус / T0/main/absolute/end:** NOT_STARTED / —.
+- **Статус / T0/main/absolute/end:** ACTIVE / 2026-10-20 07:28:45Z / 09:28:45Z / 09:58:45Z / —.
 - **Самостоятельно выбранные цели / actual-stage applicability / изменения плана:** —.
 - **Proof до→после:** late FnMut/CURRENT normal-unwind/guard lifecycle, prefix false-true-panic, insert_tail/B2 —.
 - **Квалификация controls/profile / исходная матрица / B1 и independent credit, ссылки:** —.

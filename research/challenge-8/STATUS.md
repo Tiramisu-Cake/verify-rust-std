@@ -1,3 +1,17 @@
+# MERGE — R5 ACTIVE / late Args ownership diagnostic
+
+T0/main/absolute UTC2026-10-20 07:28:45/09:28:45/09:58:45; new3600Cloud
+account, stable merge owner/lane. [Task](CURRENT-TASK.md),
+[session](cloud-build/origin-layout/SESSION.md),
+[review](cloud-build/origin-layout/R5-BUILD1-REVIEW-20261020.json).
+Candidate uses checked scaled physical borrows to establish late-reference
+share/own/Args and explicit scoped HRTB lifetime. Full runtime/posts preserved,
+normal/unwind/guard/loan cleanup still OPEN. Toola42d50be/profile77164792
+unchanged. Static closure+18synthetic tests PASS; diagnostic reviewGO.
+Cloud input/run not yet executed; independent proof credit0/B2OPEN.
+
+Previous closed R4 checkpoint retained below.
+
 # MERGE — R4 CLOSED / PARTIAL
 
 [CURRENT-TASK/отчёт](CURRENT-TASK.md),

@@ -551,3 +551,44 @@ R4 beforeLive diagnosis correction beforemain,23:19Z: targetedBuild3verifast108�
 
 ### Next actual proof proposal recorded beforemain,23:22Z (NOT IMPLEMENTED)
 Build4 2fbb0a99/source9473c146 passes both checkedreadonlyargumentinitializations and reacheslateactualFnMut247. Firstremainingerror frozenstd/lib.rsspec47:94–95 missing<Args>.own forstd_tuple_2 of twosharedrefs withplaceholderlifetimes. Nexttest: explicitlychecked scopedreference lifetimes/sharedownership forbothactualargs, closetupleown, preserveCURRENTF/thread/frame/cellowners, andderivecomplete normaltrue/false/Continue-unwind recovery includingallreadonly-end tokens. First proveapplicability ofexistingcheckedborrow/share/ref operations toactualphysicalfractions; do not assume a borrow bridge or static lifetime anddo notweakenFnMut/fullnormal-unwindposts. If existingprofilecannotderive canonicalownership, documentexactunmetresource/modelrule instead of addingaxiom. Samefirst-CURRENT18/admissiongatesremain; no matcher/tool/prefix/lateCleanup expansion inR4. No ready reviewed nextcandidate beforemain; finishcurrentevidence/account/report only.
+
+
+## R5 candidate1 BEFORE implementation — 2026-10-20
+
+Actual consumer unchanged late `is_less(&tmp, &*sift)` in complete insert_tail,
+R4 Build2fbb0a99/source9473c146: target247 executes, std47 missing Args.own.
+Fresh v0.11 catalogue/info/error1143–1149 confirms file SHA b14f6f29,
+index6f1fa831/archive2d20f49f/request70f833a3. Parser-input binding remains
+NOT_ESTABLISHED; source-exact receipt is a source claim, not independent credit.
+
+Defect: existing readonly initialization gives physical fractions and
+ref_initialized/end tokens, but no lifetime-bound share/reference/tuple own.
+Missing annotation additionally leaves both shared-reference Args lifetimes
+inferred. Neither defect alone explains all ownership obligations.
+
+Applicability: aliasing.rsspec45 splits actual tmp parent1/2 into1/4+1/4,
+and actual sift1 into1/2+1/2. For the post-init reference fractions, primitive
+u64 FBC is exactly the physical points-to predicate (general139). Existing
+borrow(k,scaledp(f,FBC)), full_borrow_into_frac and frac_borrow_implies_scaled
+produce the share required by close_ref_own, preserving borrow_end_token.
+Translator translate_u_int_ty/simple_shr uses precisely this fractured FBC;
+regular call ghost targs validate same F/u64 and source erased shared refs,
+with HRTB output=bool equality only under the existing exact checks. Use a
+fresh checked local let_lft and explicit late Args type; close tuple using
+the same existing generated tuple predicate as the already passing first call.
+No new spec axiom/tuple lemma is required.
+
+Candidate1 is a deliberately partial late-call diagnostic: retain complete
+actual CFG and original full CURRENT normal/unwind posts. Both readonly-end
+and scaled borrow-end obligations remain checked; no assumed cleanup/purity
+or entry F snapshot. Normal/unwind full-return not claimed if next frontier
+is loan lifetime/loop/guard cleanup. A subsequent checked scope/cleanup design
+must recover scaled fractions via borrow_end only after actual lifetime death,
+then end_ref_readonly, physical merges and CURRENT array/cell/F/thread return.
+
+Distinguishing tests: inert ghost-token transform/runtime equality and exact
+anchor rejection, malformed/missing anchors, no assume/leak in positive; Cloud
+actual call must pass Args.own and HRTB result constraints, fail honestly at
+any still-open obligation. Existing resource/admission/current18 and complete
+matrix retained, no skipped prerequisite counted as negative. Pinned tool
+a42d50be/profile77164792 unchanged; independent Luna High delta GO required.

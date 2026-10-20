@@ -139,13 +139,29 @@ LATE_REFERENCE_PREP = b"""            //@ let r4_cmp_tmp_ref = precreate_ref::<u
             //@ open array::<u64>(sift, 1, r4_cmp_current);
             //@ let r4_cmp_sift_ref = precreate_ref::<u64>(sift);
             //@ init_ref_readonly::<u64>(r4_cmp_sift_ref, 1/2);
+            //@ let r5_late_k = begin_lifetime();
+            /*@ let_lft 'late = r5_late_k; @*/
+            //@ close [1/4]u64_full_borrow_content(t, r4_cmp_tmp_ref)();
+            //@ close scaledp(1/4, u64_full_borrow_content(t, r4_cmp_tmp_ref))();
+            //@ borrow(r5_late_k, scaledp(1/4, u64_full_borrow_content(t, r4_cmp_tmp_ref)));
+            //@ full_borrow_into_frac(r5_late_k, scaledp(1/4, u64_full_borrow_content(t, r4_cmp_tmp_ref)));
+            //@ frac_borrow_implies_scaled(r5_late_k, 1/4, u64_full_borrow_content(t, r4_cmp_tmp_ref));
+            //@ close [1/2]u64_full_borrow_content(t, r4_cmp_sift_ref)();
+            //@ close scaledp(1/2, u64_full_borrow_content(t, r4_cmp_sift_ref))();
+            //@ borrow(r5_late_k, scaledp(1/2, u64_full_borrow_content(t, r4_cmp_sift_ref)));
+            //@ full_borrow_into_frac(r5_late_k, scaledp(1/2, u64_full_borrow_content(t, r4_cmp_sift_ref)));
+            //@ frac_borrow_implies_scaled(r5_late_k, 1/2, u64_full_borrow_content(t, r4_cmp_sift_ref));
+            //@ close_ref_own::<'late, u64>(r4_cmp_tmp_ref);
+            //@ close_ref_own::<'late, u64>(r4_cmp_sift_ref);
+            //@ close <(&'late u64, &'late u64)>.own(t, std_tuple_2_::<&'late u64, &'late u64> { 0: r4_cmp_tmp_ref, 1: r4_cmp_sift_ref });
 """
+LATE_CALL = b"            if !is_less/*@::<F, (&'late u64, &'late u64), 'late>@*/(&tmp, &*sift) {\n"
 
 
 def _prepare_late_references(source):
     anchor = b'            if !is_less(&tmp, &*sift) {\n'
-    return _one(source, anchor, LATE_REFERENCE_PREP + anchor,
-                'checked independent readonly setup before late actual comparator')
+    return _one(source, anchor, LATE_REFERENCE_PREP + LATE_CALL,
+                'checked fractional share and Args ownership before late comparator')
 
 
 def _commands(fragment):
@@ -273,7 +289,7 @@ def prepare(evidence, *, prefix=False, mutation=None):
         ('actual_guard_line', b'let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };'),
         ('actual_shift_line', b'ptr::copy_nonoverlapping(sift, gap_guard.dst, 1);'),
         ('actual_update_line', b'gap_guard.dst = sift;'),
-        ('actual_late_call_line', b'if !is_less(&tmp, &*sift) {')):
+        ('actual_late_call_line', LATE_CALL.strip())):
         record[key] = None if prefix else old._line(verified, anchor)
     record['false_return_line'] = old._line(verified, b'            return;')
     if prefix:

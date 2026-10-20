@@ -1,0 +1,81 @@
+{
+  "archive_sha256": "2d20f49f9cf9f382b1a5b9250ce247935d3e6596a9dfbca700fc09f2d16ff42a",
+  "build_id": "2fbb0a99-30ba-4ce7-bab6-e0fc5d5420c0",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 1149,
+    "line_separator": "LF",
+    "source_lines": 1427,
+    "start": 1143,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verifast.log",
+  "file_sha256": "b14f6f29c01aa790bc4ade3b03b97c92b07ec60c85e9f5aabd9cea30d13588d4",
+  "index_sha256": "6f1fa8314aac97b6c5484a64fec1913516017ca5d75b0456736ccf266c946a3f",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 1149,
+    "expected_sha256": "b14f6f29c01aa790bc4ade3b03b97c92b07ec60c85e9f5aabd9cea30d13588d4",
+    "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+    "start": 1143
+  },
+  "request_id": "70f833a39ebb25b3e1e1b8f9e0fd7e88e14cae9e7db5cb90a89c502ce385b88d",
+  "requested_end": 1149,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1143,
+      "text": "  0.320269s: verified/lib.rs(247,17-38): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1144,
+      "text": "  0.320288s: verified/lib.rs(247,17-38): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1145,
+      "text": "  0.320402s: verified/lib.rs(247,17-38): Verifying call"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1146,
+      "text": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/std/lib.rsspec(47,94-95): error: No matching heap chunks: own(std_tuple_2__type_info(ref_typeid(placeholder_23116_typeid, uint64_t_typeid), ref_typeid(placeholder_23117_typeid, uint64_t_typeid)))(t, mk_std_tuple_2_(fn_outcome_result(outcome9), fn_outcome_result(outcome11)))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1147,
+      "text": "47 |         //@ req thread_token(?t) &*& *self |-> ?self0 &*& <Self>.own(t, self0) &*& <Args>.own(t, args);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1148,
+      "text": "   |                                                                                              ^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1149,
+      "text": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/std/lib.rsspec(47,94-95): note: Consuming assertion"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

@@ -17,16 +17,21 @@ class Tests(unittest.TestCase):
  def test_exact_phase_account_refuses_malformed_or_changed_authorization(self):
   path=HERE/'GUARD-ADDRESSABILITY-R4-BUDGET-20261020.json'; good=json.loads(path.read_text())
   args=SimpleNamespace(phase_id=good['phase'],ledger=path,owner='merge',command='submit',timeout=900,lane='merge',source_mode='pinned-objects')
-  control.authorized_phase(args,good)
+  good['status']='AUTHORIZED'
+  real=control.datetime.datetime
+  class DuringR4(real):
+   @classmethod
+   def now(cls,tz=None):return real.fromisoformat('2026-10-19T22:00:00+00:00')
+  with patch.object(control.datetime,'datetime',DuringR4):control.authorized_phase(args,good)
   for key in ['owner','authorization_model','allowed_lanes','ceiling_build_seconds','start_utc','main_deadline_utc','deadline_utc','status']:
    for value in [None,{},'wrong']:
     bad=copy.deepcopy(good);bad[key]=value
-    with self.subTest(key=key,value=value),self.assertRaises(SystemExit):control.authorized_phase(args,bad)
+    with patch.object(control.datetime,'datetime',DuringR4),self.subTest(key=key,value=value),self.assertRaises(SystemExit):control.authorized_phase(args,bad)
    bad=copy.deepcopy(good);bad.pop(key)
-   with self.subTest(key=key,missing=True),self.assertRaises(SystemExit):control.authorized_phase(args,bad)
+   with patch.object(control.datetime,'datetime',DuringR4),self.subTest(key=key,missing=True),self.assertRaises(SystemExit):control.authorized_phase(args,bad)
   for key,value in [('timeout',89),('timeout',901),('lane','stock'),('source_mode','public-git'),('owner','other')]:
    bad=copy.copy(args);setattr(bad,key,value)
-   with self.subTest(key=key,value=value),self.assertRaises(SystemExit):control.authorized_phase(bad,good)
+   with patch.object(control.datetime,'datetime',DuringR4),self.subTest(key=key,value=value),self.assertRaises(SystemExit):control.authorized_phase(bad,good)
  def test_main_deadline_rechecked_for_submit_and_request(self):
   path=HERE/'GUARD-ADDRESSABILITY-R4-BUDGET-20261020.json';good=json.loads(path.read_text())
   real=control.datetime.datetime
@@ -48,7 +53,7 @@ class Tests(unittest.TestCase):
   import re
   path=HERE/'first-callback.py';tree=ast.parse(path.read_bytes())
   names={'_one','_prepare_tmp_reference','_prepare_first_shift','_prepare_late_references'}
-  nodes=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name in names or isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id in {'TMP_REFERENCE_INIT','FIRST_SHIFT_PREP','LATE_REFERENCE_PREP'} for t in n.targets)]
+  nodes=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name in names or isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id in {'TMP_REFERENCE_INIT','FIRST_SHIFT_PREP','LATE_REFERENCE_PREP','LATE_CALL'} for t in n.targets)]
   context={};exec(compile(ast.fix_missing_locations(ast.Module(body=nodes,type_ignores=[])),str(path),'exec'),context)
   anchor=b'        let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };\n'
   source=b'        let tmp = synthetic_read();\n'+anchor+b'        synthetic_next();\n'
@@ -71,7 +76,7 @@ class Tests(unittest.TestCase):
    with self.assertRaises(ValueError):context['_prepare_first_shift'](bad)
   late_source=b'            synthetic_sub();\n            if !is_less(&tmp, &*sift) {\n                break;\n            }\n'
   late=context['_prepare_late_references'](late_source)
-  self.assertEqual(re.sub(rb'^[ \t]*//@[^\n]*\n',b'',late,flags=re.M),late_source)
+  self.assertEqual(re.sub(rb'^[ \t]*//@[^\n]*\n',b'', re.sub(rb'/\*.*?\*/',b'',late,flags=re.S),flags=re.M).replace(b'            \n',b''),late_source)
   self.assertEqual(late.count(b'precreate_ref::<u64>(&tmp)'),1)
   self.assertEqual(late.count(b'precreate_ref::<u64>(sift)'),1)
   self.assertNotIn(b'assume',late)

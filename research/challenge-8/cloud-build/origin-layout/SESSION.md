@@ -459,3 +459,25 @@ no frozenmodel/exporter/schema/lateCleanup expansion. Independent LunaHigh GO
 before each diff dispatch;5syntheticwiring/classifier tests, strictstaticclosure
 checks separate from proof. Newpolicyread atsafe boundaries withoutT0/input
 reset. See R4-FINAL-RESULT/R4-OBLIGATIONS/CURRENT-TASK and exactReader fragments.
+
+
+## R5 current ownership autonomous — ACTIVE 2026-10-20
+
+Task merge-current-ownership-autonomous-2026-10-20-r5; T0 07:28:45Z,
+main09:28:45Z, absolute09:58:45Z; fresh ceiling3600Cloud seconds, owner merge,
+lane merge, existing v3 coordinator, no prior account carryover. Policy/source
+read at projectHEAD5120169652661d647ffff8c4fdd0ae499e8cb90a plus preserved
+user v0.11/iteration instructions. Project branch/remotes correct; dirty policy
+docs and untracked guides pre-existing and preserved, excluded from own commits.
+Tool branch merge/actual-glue-instance-20261011 clean at a42d50be.
+
+Selected backlog: (1) actual late FnMut Args.own applicability and checked scoped
+share/reference ownership; (2) normal/unwind loan and CURRENT resource closure;
+(3) independent addressability qualification diagnostic if primary proof exposes
+a real model limitation; prefix exact coercion remains separate dependency.
+Baseline last executed proof9473c146/Build2fbb0a99: source-exact path reaches
+late callback247 and rejects Args tuple at std47. Full theorem/profile/B2 open,
+independent credit0. First hypothesis must establish ownership from physically
+held fractions and actual lifetime/contract, not placeholder spelling alone.
+No semantics implementation yet. Fresh Brief obtained; one catalogue auth timeout
+then retry succeeded through existing client; no raw fallback.
