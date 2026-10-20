@@ -31,6 +31,16 @@ SELECTED = "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64"
 FOCUS_SCOPE_MANIFEST = C1 / "NATIVE-RUST-FOCUS-DEAD-CODE-SCOPE-MANIFEST.json"
 FOCUS_SCOPE_PATCH = C1 / "native-rust-focus-dead-code-scope.patch"
 FOCUS_SCOPE_FILE = "src/verify_expr.ml"
+FOCUS_PROFILE_NAMES = {
+    "SORT4-PACKAGE-SCOPE-NATIVE-PROOF-2026-10-20-R6":
+        "A1-SCOPE-S3-PROFILE-2026-10-20.json",
+    "SORT4-PACKAGING-NATIVE-PROOF-2026-10-20-R7":
+        "A1-PACKAGING-R7-PROFILE-2026-10-20.json",
+    "SORT4-POST-MIGRATION-NATIVE-PROOF-2026-10-20-R8":
+        "A1-POST-MIGRATION-R8-PROFILE-2026-10-20.json",
+    "SORT4-NATIVE-INTERFACE-PROOF-2026-10-20-R9":
+        "A1-NATIVE-INTERFACE-R9-PROFILE-2026-10-20.json",
+}
 
 
 def need(ok: bool, reason: str) -> None:
@@ -177,13 +187,15 @@ int clean_body(void)
                        "log_sha256": row.get("log_sha256")
                        if isinstance(row, dict) else None})
         results[name] = result
+    profile_name = FOCUS_PROFILE_NAMES.get(
+        os.environ.get("SORT4_A1_AUTHORIZATION_PHASE_ID"))
+    need(profile_name is not None, "focus dead-code authorization profile")
     receipt = {"classification": "FOCUS_DEAD_CODE_SCOPE_REGRESSION",
                "controls": results,
                "expected_dead_code_location_prefix": expected_dead,
                "expected_dead_code_line": dead_statement_line,
                "profile_accepted": False,
-               "profile_sha256": sha(Path(a.proof_root) / HERE /
-                                      "A1-POST-MIGRATION-R8-PROFILE-2026-10-20.json"),
+               "profile_sha256": sha(Path(a.proof_root) / HERE / profile_name),
                "source_sha256": sha(source),
                "tool_binary_sha256": sha(console),
                "proof_credit": False}
@@ -342,7 +354,7 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
          profile["focus_dead_code_scope_result_sha256"] and
          profile["a1_focus_semantics_sha256"][FOCUS_SCOPE_FILE] ==
          profile["focus_dead_code_scope_result_sha256"],
-         "R8 Rust focus dead-code scope profile identity")
+         "A1 Rust focus dead-code scope profile identity")
     apply("a1-rust-focus-dead-code-scope", FOCUS_SCOPE_PATCH,
           focus_scope["patch_sha256"], {FOCUS_SCOPE_FILE},
           before={FOCUS_SCOPE_FILE:

@@ -121,7 +121,7 @@ class FocusDeadCodeRegressionTests(unittest.TestCase):
             "NATIVE-DEAD-CODE-IDENTITY-DIAGNOSTIC-MANIFEST.json"
         diagnostic_patch_path = HERE.parent / "sort4-native-c1-bound" / \
             "native-dead-code-identity-diagnostic.patch"
-        profile_path = HERE / "A1-POST-MIGRATION-R8-PROFILE-2026-10-20.json"
+        profile_path = HERE / "A1-NATIVE-INTERFACE-R9-PROFILE-2026-10-20.json"
         manifest = json.loads(manifest_path.read_text())
         diagnostic = json.loads(diagnostic_manifest_path.read_text())
         profile = json.loads(profile_path.read_text())

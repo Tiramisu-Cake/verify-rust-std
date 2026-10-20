@@ -57,4 +57,8 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-R9 ещё не начата. T0/deadlines/authorization binding и новый ledger заполняет агент при фактическом старте. Этим заданием Cloud execution разрешено после обычных gates; дополнительных разрешений на первый/следующий Build в scope не требуется.
+R9 ACTIVE. T0 **2026-10-20T17:07:04Z**, main **19:07:04Z**, absolute **19:37:04Z**. Новый бюджет3600, used0; R8 не возобновлялась, carry0. Проверены branch/worktree/HEAD `be82ac4187cf313c7fa2ab0cc33022b16aadf85c`, origin нашего форка и fetch; исходные чужие dirty policy/evidence файлы сохраняются.
+
+Цель: сборка исправленного native-signature кандидата → P1 full native interface/equality/refinement → совместимые26/own N-false31 lifecycle. Proof до→сейчас: 0→0 закрытых obligations, independent B1/B2 credit0; прежние source claims не переносятся. Обслуживание: новая branch-local R9 registration и exact closure в работе; actual compilation/export/extraction/verifier NOT_RUN. Существующий Cloud compile preflight сохраняется перед target; процесс ITERATION-PROCESS от2026-10-19 принят на безопасной границе. Независимый Luna HIGH review актуального diff обязателен до submit.
+
+Builds R9: нет; charge0, own submitted active/unresolved0. Session/provenance: [R9 session](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-SESSION-2026-10-20.md). Следующий gate: review регистрации и exact committed/published closure перед штатным coordinator admission.
