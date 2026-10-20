@@ -1,0 +1,64 @@
+{
+  "archive_sha256": "1c003941ac4c899f77ef73b6412875f3b3aad9c9e4e8821b293b827b24d0a6b2",
+  "bounded_observations": "A1-POST-MIGRATION-R8-S2-READER-OBSERVATIONS-2026-10-20.json",
+  "brief_causal_status": "UNKNOWN",
+  "brief_processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "build_id": "9d0d6547-92d3-40f7-95f8-d7696df145e5",
+  "charge_seconds": 293,
+  "closed_obligations": 0,
+  "control_receipt": {
+    "controls": {
+      "excluded-function-positive": {
+        "classification": "INCONCLUSIVE_WRONG_PREDICATE_OR_EXIT",
+        "exit": 1,
+        "proof_credit": false
+      },
+      "no-focus-dead-code-negative": {
+        "classification": "INCONCLUSIVE_WRONG_PREDICATE_OR_EXIT",
+        "exit": 1,
+        "proof_credit": false
+      },
+      "selected-dead-code-negative": {
+        "classification": "INCONCLUSIVE_WRONG_PREDICATE_OR_EXIT",
+        "exit": 1,
+        "proof_credit": false
+      }
+    },
+    "file_id": "13edfb02961b97b1505a2efedcce5b80fc4dfac390872db711d9e645b3275ffb",
+    "profile_sha256": "095622fa30a55a71d3ba85fb9aa009a6a55ed2bbf196f0f5ef080f273574675e",
+    "sha256": "2d05e35d04d132ce94471a444672e9b50a0d639672a10aee08bd2675dd77211a",
+    "source_sha256": "6e18832a117bd6087661d5ade1bb150bbc513c0731256f9d46574c59dcc3e543",
+    "tool_binary_sha256": "7dd70bb3b11720b76de70bb0d2a87b73c1997923aa402f54e8f9d96d29b991bf"
+  },
+  "coverage": "A1-POST-MIGRATION-R8-S2-COVERAGE-2026-10-20.md",
+  "independent_B1_B2_credit": 0,
+  "index_sha256": "a02c7afe6d6a253da75a040fd3e45c4247e5f6ee9ab453bb2942d2a32ab12fa3",
+  "infra_sha": "576d59771c7c90b1a25cbc104dfa641cc3f3eae5",
+  "matrix": "A1-POST-MIGRATION-R8-S2-MATRIX-2026-10-20.json",
+  "next_hypothesis": "source-backed minimal fixture: shared library controls, unreachable if(0) assignment before return; unchanged scope patch/core/Rust target/acceptance; independent review and actual controls required",
+  "outer_evidence_complete": true,
+  "primary_control_defects": {
+    "excluded_positive": "body verification 0 errors; then missing main link error, -shared documented by CLI. Exact bounded log lines3-7; not accepted as positive.",
+    "selected_and_unfocused_negative": "focus-dead-code.c(7,7-8): error: An epilog statement must be a pure statement. Exact bounded verification.log lines7-10; source after-return assignment not intended dead-code negative."
+  },
+  "profile_sha256": "095622fa30a55a71d3ba85fb9aa009a6a55ed2bbf196f0f5ef080f273574675e",
+  "proof_audit_sha256": "6e3b3d5f152b413b88fedaecf2fd9744c04ba762ba58e5c3b28bc8ff028c9e21",
+  "proof_sha": "576d59771c7c90b1a25cbc104dfa641cc3f3eae5",
+  "proof_verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+  "raw_evidence_read": false,
+  "run_exit_source_claim": 0,
+  "schema": "smallsort-r8-source-evidence-v1",
+  "session_remaining": 2605,
+  "session_spent": 995,
+  "source_milestones": {
+    "R_only_native_reference_build_exit": 0,
+    "actual_target_proof_attempted": false,
+    "final_C_console_build_exit": 0,
+    "native_target_cases_source_status": "26 NOT_RUN (explicit Brief source aggregate; exact rows in separate matrix)",
+    "source_blocker": "tool-reconstruction / focus dead-code registration regression controls"
+  },
+  "source_status_counts": {
+    "NOT_RUN": 26
+  },
+  "terminal_status": "FAILURE"
+}

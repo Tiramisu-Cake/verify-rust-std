@@ -1,0 +1,965 @@
+{
+  "build_id": "9d0d6547-92d3-40f7-95f8-d7696df145e5",
+  "source_classification": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "queries": [
+    {
+      "args": [],
+      "exit_code": 0,
+      "response": "# SmallSort Evidence Brief — 9d0d6547\n\n- Processing: **VERIFIED_ARCHIVE_AND_INVENTORY**\n- Build proof verdict (source claim): **NOT_ACCEPTED_AS_REPORTED**\n- Run exit (source claim): `0`; evidence complete: `True`\n\n## Further bounded evidence\n\n- Complete catalogue: 386 verified members; retained content: 382 files.\n- CLI: `smallsort-brief 9d0d6547-92d3-40f7-95f8-d7696df145e5 --catalogue`, `--search LITERAL`, `--file ID --pointer /key` (JSON), or `--file ID --start 1` (text). Requires the v0.8 client installed on the caller host.\n- Reader: `/builds/9d0d6547-92d3-40f7-95f8-d7696df145e5/catalogue?q=literal`, `/search?q=literal`, `/fragment?file_id=ID&start=1` (text) or `&pointer=/key` (JSON). Use the same /builds/UUID prefix for all routes. Search is over sanitized retained data only; inspect coverage and next_offset. No raw fallback or proof inference.\n\n## Failure diagnostics (verified archived sources)\n\n- Diagnostic status: **SOURCE_REPORTED**; causality: **UNKNOWN**\n- Runner-reported blocker: `tool-reconstruction` / `adapter_error`; detail: RuntimeError: A1-TOOL: focus dead-code registration regression controls\n  - Source: `proof-audit.json` line UNKNOWN; SHA-256 `6e3b3d5f152b413b88fedaecf2fd9744c04ba762ba58e5c3b28bc8ff028c9e21`\n- Runner-reported causal stage: `tool-reconstruction` (source assertion)\n\n## Bounded diagnostic context (untrusted observations)\n\n- AVAILABLE; parser=NO_SUPPORTED_PARSER_CLASSIFICATION; selection=FIRST_GENERIC_MARKER\n  - Source: `allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression/excluded-function-positive.log` line UNKNOWN; SHA-256 `c4515d39b6c2bab1d9e74b17ad7b636af56ed17c811d4a18e8d0e5185bc4454a`\n> L3: EXEC 0 ?REDACTED_LONG_VALUE?.c(14,5-11)\n> L4: 0 errors found (0 statements verified)\n> L5: Linking...\n> L6: Program does not implement a function 'main' that implements function type 'main' or 'main_full' declared in prelude.h. Use the '-shared' option to suppress this error.\n> L7: 1 link errors\n  - Scanned 585/585 bytes; scan limit reached=False; lines shown=5/5.\n- AVAILABLE; parser=NO_SUPPORTED_PARSER_CLASSIFICATION; selection=FIRST_GENERIC_MARKER\n  - Source: `allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression/no-focus-dead-code-negative.log` line UNKNOWN; SHA-256 `62771f462d0ff35400e8c606c1bb045105c6fffa04a6e7ba1970332ca3701098`\n> L7: AST_STMT list=0 ordinal=0 kind=Return predecessor_label=?none? ?REDACTED_LONG_VALUE?.c(14,5-11)\n> L8: REGISTER 3 ?REDACTED_LONG_VALUE?.c(14,5-11)\n> L9: EXEC 0 ?REDACTED_LONG_VALUE?.c(5,11-12)\n> L10: ?REDACTED_LONG_VALUE?.c(7,7-8): error: An epilog statement must be a pure statement.\n> L11: [WITHHELD: COMMAND_ENVIRONMENT_OR_ROLE_TEXT]\n> L12: ? ^\n  - Scanned 1278/1278 bytes; scan limit reached=False; lines shown=6/6.\n- Up to 2 short windows shown; complete bounded context and availability counts are in evidence-index.json. Context does not establish causality.\n\n## Tool build milestones (individual observed records)\n\n- `translator-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE\n- `console-build`: EXIT_ZERO; exit=`0`; records=1; omitted=0\n  - Source: `allprooflogs/console-build-exit-code.txt` line UNKNOWN; SHA-256 `9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa`\n- `exporter-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE\n- `decoder-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE\n- `refiner-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE\n- `tracked-md-compile`: NOT_PRESENT_IN_VERIFIED_ARCHIVE\n- `tracked-md-preparation`: NOT_PRESENT_IN_VERIFIED_ARCHIVE\n\n## First comparator source results\n\n- Coverage: NO_SUPPORTED_SOURCE_RECORD_OR_NAMED_ARTIFACT; projected=0; omitted=0; scan_truncated=False; showing up to 6 records\n- A joint false/true/panic claim does not provide separate per-branch receipts; absent records do not establish NOT_RUN.\n\n## Stage observations (exit codes are not proof verdicts)\n\n- Record counts: EXIT_NONZERO=3, EXIT_ZERO=107; order=NOT_ESTABLISHED; last completed stage=UNKNOWN\n- `excluded-function-positive`: exit=`1`; linkage=`RECEIPT`; diagnostic=`NO_SUPPORTED_DIAGNOSTIC`\n  - Source: `allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression/excluded-function-positive-stage.json` line UNKNOWN; SHA-256 `ab1a299c055714adfe46c0ae9b745118385eff70989a213b87b48ecef90f114b`\n  - Context availability: {'status': 'AVAILABLE', 'context_id': 0}\n- `no-focus-dead-code-negative`: exit=`1`; linkage=`RECEIPT`; diagnostic=`NO_SUPPORTED_DIAGNOSTIC`\n  - Source: `allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression/no-focus-dead-code-negative-stage.json` line UNKNOWN; SHA-256 `5e077491be930d2aaf08e071c36439f541efbf27284fe0f3ba5b9908ef6fea11`\n  - Context availability: {'status': 'AVAILABLE', 'context_id': 1}\n- `selected-dead-code-negative`: exit=`1`; linkage=`RECEIPT`; diagnostic=`NO_SUPPORTED_DIAGNOSTIC`\n  - Source: `allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression/selected-dead-code-negative-stage.json` line UNKNOWN; SHA-256 `0dd3e54770ced3d48ad37892826be10dde4a724f6b174803e99fe9630d542c76`\n  - Context availability: {'status': 'AVAILABLE', 'context_id': 2}\n- Expected-control nonzero records (source-classified): 0; details in evidence-index.json.\n- Exit 0 observed: `console-build`, `a1-R-only-native-reference-build`, `a1-final-schema-exporter-console-build`, `apply`, `check`, `apply`; references in evidence-index.json.\n- Coverage: {'candidate_records': 110, 'parsed_records': 110, 'not_captured': 0, 'invalid_records': 0, 'omitted_records': 0}; showing up to 4 nonzero and 6 zero records.\n- Runner-reported cases: 26; NOT_RUN=26\n- Missing/ambiguous diagnostics: VERIFIED_FAILED_LOG_WITHOUT_RECOGNIZED_COMPILER_DIAGNOSTIC, MULTIPLE_STAGE_FAILURES_CAUSALITY_UNKNOWN\n\n## Campaign aggregates (source claims)\n\n- No supported aggregate captured; absence from this section does not prove absence from archive.\n- Aggregate coverage: {'aggregate_candidates': 0, 'aggregates_captured': 0, 'stage_metadata_captured': 96, 'stage_summaries_retained': 110, 'context_logs_streamed': 3, 'diagnostic_logs_captured': 16, 'diagnostic_log_bytes': 87071, 'oversized_logs': 0, 'budget_omitted_logs': 98, 'aggregates_not_captured': 0}; showing up to 4.\n\n## Representative cases (source verdicts)\n\n- `allprooflogs/cases/sort4-c1-current-recovery`\n- Cases: 1; showing up to 4. More references and source claims in evidence-index.json.\n\n## Boundaries\n\nSource verdicts are claims; no PASS is inferred from exit 0. Stage order and first/last causal stage remain UNKNOWN without explicit evidence. No verifier is run by this processor. Remote text chunk bytes are not checked.\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--catalogue",
+        "focus-dead-code-scope-regression-receipt"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "1c003941ac4c899f77ef73b6412875f3b3aad9c9e4e8821b293b827b24d0a6b2",
+        "build_id": "9d0d6547-92d3-40f7-95f8-d7696df145e5",
+        "causal_status": "UNKNOWN",
+        "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+        "coverage": {
+          "availability_counts": {
+            "EMPTY_FILE": 95,
+            "PROJECTED": 287,
+            "UNSUPPORTED_FILE_TYPE": 4
+          },
+          "catalogue_complete": true,
+          "content_bytes": 696535,
+          "content_files": 382,
+          "files": 386,
+          "source_scan_bytes": 830464
+        },
+        "index_sha256": "a02c7afe6d6a253da75a040fd3e45c4247e5f6ee9ab453bb2942d2a32ab12fa3",
+        "next_offset": null,
+        "report_schema": "smallsort-evidence-index-v8",
+        "results": [
+          {
+            "complete": false,
+            "id": "13edfb02961b97b1505a2efedcce5b80fc4dfac390872db711d9e645b3275ffb",
+            "kind": "json",
+            "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression-receipt.json",
+            "path_sanitized": false,
+            "scanned_bytes": 2603,
+            "sha256": "2d05e35d04d132ce94471a444672e9b50a0d639672a10aee08bd2675dd77211a",
+            "size_bytes": 2603,
+            "status": "PROJECTED",
+            "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+          }
+        ],
+        "scope": {
+          "files_considered": 386,
+          "files_with_incomplete_content": 224,
+          "matches_in_retained_data": 1,
+          "source_absence_established": false
+        },
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--catalogue",
+        "selected-dead-code-negative.log"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "1c003941ac4c899f77ef73b6412875f3b3aad9c9e4e8821b293b827b24d0a6b2",
+        "build_id": "9d0d6547-92d3-40f7-95f8-d7696df145e5",
+        "causal_status": "UNKNOWN",
+        "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+        "coverage": {
+          "availability_counts": {
+            "EMPTY_FILE": 95,
+            "PROJECTED": 287,
+            "UNSUPPORTED_FILE_TYPE": 4
+          },
+          "catalogue_complete": true,
+          "content_bytes": 696535,
+          "content_files": 382,
+          "files": 386,
+          "source_scan_bytes": 830464
+        },
+        "index_sha256": "a02c7afe6d6a253da75a040fd3e45c4247e5f6ee9ab453bb2942d2a32ab12fa3",
+        "next_offset": null,
+        "report_schema": "smallsort-evidence-index-v8",
+        "results": [
+          {
+            "complete": false,
+            "id": "9253c78633b12b928aaa5631489fab1178146e5a2ba4c33ce217aaf23fe86cc5",
+            "kind": "text",
+            "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression/selected-dead-code-negative.log",
+            "path_sanitized": false,
+            "scanned_bytes": 1022,
+            "sha256": "483e67c23fedd5cc38c7e644a636e9b9559889838d9007085ae4c94429dbdefe",
+            "size_bytes": 1022,
+            "status": "PROJECTED",
+            "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+          }
+        ],
+        "scope": {
+          "files_considered": 386,
+          "files_with_incomplete_content": 224,
+          "matches_in_retained_data": 1,
+          "source_absence_established": false
+        },
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "13edfb02961b97b1505a2efedcce5b80fc4dfac390872db711d9e645b3275ffb",
+        "--expect-sha256",
+        "2d05e35d04d132ce94471a444672e9b50a0d639672a10aee08bd2675dd77211a",
+        "--info"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "1c003941ac4c899f77ef73b6412875f3b3aad9c9e4e8821b293b827b24d0a6b2",
+        "build_id": "9d0d6547-92d3-40f7-95f8-d7696df145e5",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "file_id": "13edfb02961b97b1505a2efedcce5b80fc4dfac390872db711d9e645b3275ffb",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression-receipt.json",
+        "file_sha256": "2d05e35d04d132ce94471a444672e9b50a0d639672a10aee08bd2675dd77211a",
+        "hint": "Use pointer=\"\" for the first child page; follow next_offset explicitly.",
+        "index_sha256": "a02c7afe6d6a253da75a040fd3e45c4247e5f6ee9ab453bb2942d2a32ab12fa3",
+        "json_child_count": 9,
+        "json_kind": "object",
+        "json_pointer_available": true,
+        "max_results": 20,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "preview_request": {
+          "end": 12,
+          "start": 1
+        },
+        "representation": "VERIFIED_FILE_OVERVIEW",
+        "request": {
+          "expected_sha256": "2d05e35d04d132ce94471a444672e9b50a0d639672a10aee08bd2675dd77211a",
+          "file_id": "13edfb02961b97b1505a2efedcce5b80fc4dfac390872db711d9e645b3275ffb",
+          "info": true
+        },
+        "request_id": "69027da7ef8d6947f7e644a84908bc6edabe18701d1897c29ee87d2309cc6693",
+        "response_limit_bytes": 12000,
+        "results": [],
+        "schema": "smallsort-targeted-observation-v2",
+        "selectors": [
+          "info",
+          "literal",
+          "lines",
+          "position",
+          "pointer"
+        ],
+        "source_bytes": 2603,
+        "source_codepoints": 2603,
+        "source_lines": 58,
+        "status": "OK",
+        "utf8": true
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "13edfb02961b97b1505a2efedcce5b80fc4dfac390872db711d9e645b3275ffb",
+        "--expect-sha256",
+        "2d05e35d04d132ce94471a444672e9b50a0d639672a10aee08bd2675dd77211a",
+        "--pointer",
+        ""
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "1c003941ac4c899f77ef73b6412875f3b3aad9c9e4e8821b293b827b24d0a6b2",
+        "build_id": "9d0d6547-92d3-40f7-95f8-d7696df145e5",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 9,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "13edfb02961b97b1505a2efedcce5b80fc4dfac390872db711d9e645b3275ffb",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression-receipt.json",
+        "file_sha256": "2d05e35d04d132ce94471a444672e9b50a0d639672a10aee08bd2675dd77211a",
+        "index_sha256": "a02c7afe6d6a253da75a040fd3e45c4247e5f6ee9ab453bb2942d2a32ab12fa3",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "2d05e35d04d132ce94471a444672e9b50a0d639672a10aee08bd2675dd77211a",
+          "file_id": "13edfb02961b97b1505a2efedcce5b80fc4dfac390872db711d9e645b3275ffb",
+          "pointer": ""
+        },
+        "request_id": "dc78f7e0c46e0f75bee532b7bf03bcca541d4628c357d7a3472f22474d4f5736",
+        "results": [
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/classification",
+            "value": "FOCUS_DEAD_CODE_SCOPE_REGRESSION"
+          },
+          {
+            "child_count": 3,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/controls"
+          },
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/expected_dead_code_line",
+            "value": 7
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/expected_dead_code_location_prefix",
+            "value": "focus-dead-code.c(7,"
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/profile_accepted",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/profile_sha256",
+            "value": "095622fa30a55a71d3ba85fb9aa009a6a55ed2bbf196f0f5ef080f273574675e"
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/source_sha256",
+            "value": "6e18832a117bd6087661d5ade1bb150bbc513c0731256f9d46574c59dcc3e543"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/tool_binary_sha256",
+            "value": "7dd70bb3b11720b76de70bb0d2a87b73c1997923aa402f54e8f9d96d29b991bf"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "9253c78633b12b928aaa5631489fab1178146e5a2ba4c33ce217aaf23fe86cc5",
+        "--expect-sha256",
+        "483e67c23fedd5cc38c7e644a636e9b9559889838d9007085ae4c94429dbdefe",
+        "--info"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "1c003941ac4c899f77ef73b6412875f3b3aad9c9e4e8821b293b827b24d0a6b2",
+        "build_id": "9d0d6547-92d3-40f7-95f8-d7696df145e5",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "file_id": "9253c78633b12b928aaa5631489fab1178146e5a2ba4c33ce217aaf23fe86cc5",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression/selected-dead-code-negative.log",
+        "file_sha256": "483e67c23fedd5cc38c7e644a636e9b9559889838d9007085ae4c94429dbdefe",
+        "index_sha256": "a02c7afe6d6a253da75a040fd3e45c4247e5f6ee9ab453bb2942d2a32ab12fa3",
+        "json_pointer_available": false,
+        "max_results": 20,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "preview_request": {
+          "end": 10,
+          "start": 1
+        },
+        "representation": "VERIFIED_FILE_OVERVIEW",
+        "request": {
+          "expected_sha256": "483e67c23fedd5cc38c7e644a636e9b9559889838d9007085ae4c94429dbdefe",
+          "file_id": "9253c78633b12b928aaa5631489fab1178146e5a2ba4c33ce217aaf23fe86cc5",
+          "info": true
+        },
+        "request_id": "4466bc6d7a73bf9358a92f7b050b561c5610ae4e1cc74056ec7cb5e4d3b01ff6",
+        "response_limit_bytes": 12000,
+        "results": [],
+        "schema": "smallsort-targeted-observation-v2",
+        "selectors": [
+          "info",
+          "literal",
+          "lines",
+          "position",
+          "pointer"
+        ],
+        "source_bytes": 1022,
+        "source_codepoints": 1022,
+        "source_lines": 10,
+        "status": "OK",
+        "utf8": true
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "13edfb02961b97b1505a2efedcce5b80fc4dfac390872db711d9e645b3275ffb",
+        "--expect-sha256",
+        "2d05e35d04d132ce94471a444672e9b50a0d639672a10aee08bd2675dd77211a",
+        "--pointer",
+        "/controls/selected-dead-code-negative"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "1c003941ac4c899f77ef73b6412875f3b3aad9c9e4e8821b293b827b24d0a6b2",
+        "build_id": "9d0d6547-92d3-40f7-95f8-d7696df145e5",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 9,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "13edfb02961b97b1505a2efedcce5b80fc4dfac390872db711d9e645b3275ffb",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression-receipt.json",
+        "file_sha256": "2d05e35d04d132ce94471a444672e9b50a0d639672a10aee08bd2675dd77211a",
+        "index_sha256": "a02c7afe6d6a253da75a040fd3e45c4247e5f6ee9ab453bb2942d2a32ab12fa3",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "2d05e35d04d132ce94471a444672e9b50a0d639672a10aee08bd2675dd77211a",
+          "file_id": "13edfb02961b97b1505a2efedcce5b80fc4dfac390872db711d9e645b3275ffb",
+          "pointer": "/controls/selected-dead-code-negative"
+        },
+        "request_id": "c94c34a0df87cc23e5f04a6b2ddce5dc8d6327e06ae324a784d7d622ee464fe2",
+        "results": [
+          {
+            "child_count": 0,
+            "exact": true,
+            "kind": "array",
+            "pointer": "/controls/selected-dead-code-negative/all_dead_code_diagnostics"
+          },
+          {
+            "child_count": 4,
+            "exact": true,
+            "kind": "array",
+            "pointer": "/controls/selected-dead-code-negative/argv"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/controls/selected-dead-code-negative/classification",
+            "value": "INCONCLUSIVE_WRONG_PREDICATE_OR_EXIT"
+          },
+          {
+            "child_count": 0,
+            "exact": true,
+            "kind": "array",
+            "pointer": "/controls/selected-dead-code-negative/dead_code_diagnostics"
+          },
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/controls/selected-dead-code-negative/exit",
+            "value": 1
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/controls/selected-dead-code-negative/expected_classification",
+            "value": "EXPECTED_DEAD_CODE_REJECTION"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/controls/selected-dead-code-negative/log_sha256",
+            "value": "483e67c23fedd5cc38c7e644a636e9b9559889838d9007085ae4c94429dbdefe"
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/controls/selected-dead-code-negative/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/controls/selected-dead-code-negative/stage_classification",
+            "value": "TERMINAL"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "13edfb02961b97b1505a2efedcce5b80fc4dfac390872db711d9e645b3275ffb",
+        "--expect-sha256",
+        "2d05e35d04d132ce94471a444672e9b50a0d639672a10aee08bd2675dd77211a",
+        "--pointer",
+        "/controls/excluded-function-positive"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "1c003941ac4c899f77ef73b6412875f3b3aad9c9e4e8821b293b827b24d0a6b2",
+        "build_id": "9d0d6547-92d3-40f7-95f8-d7696df145e5",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 9,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "13edfb02961b97b1505a2efedcce5b80fc4dfac390872db711d9e645b3275ffb",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression-receipt.json",
+        "file_sha256": "2d05e35d04d132ce94471a444672e9b50a0d639672a10aee08bd2675dd77211a",
+        "index_sha256": "a02c7afe6d6a253da75a040fd3e45c4247e5f6ee9ab453bb2942d2a32ab12fa3",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "2d05e35d04d132ce94471a444672e9b50a0d639672a10aee08bd2675dd77211a",
+          "file_id": "13edfb02961b97b1505a2efedcce5b80fc4dfac390872db711d9e645b3275ffb",
+          "pointer": "/controls/excluded-function-positive"
+        },
+        "request_id": "bbcd213f4360c794b41b999cd78d76974e019347a0fe6e69e52d5a8fe20c453a",
+        "results": [
+          {
+            "child_count": 0,
+            "exact": true,
+            "kind": "array",
+            "pointer": "/controls/excluded-function-positive/all_dead_code_diagnostics"
+          },
+          {
+            "child_count": 4,
+            "exact": true,
+            "kind": "array",
+            "pointer": "/controls/excluded-function-positive/argv"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/controls/excluded-function-positive/classification",
+            "value": "INCONCLUSIVE_WRONG_PREDICATE_OR_EXIT"
+          },
+          {
+            "child_count": 0,
+            "exact": true,
+            "kind": "array",
+            "pointer": "/controls/excluded-function-positive/dead_code_diagnostics"
+          },
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/controls/excluded-function-positive/exit",
+            "value": 1
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/controls/excluded-function-positive/expected_classification",
+            "value": "PASS_NO_IN_SCOPE_DEAD_CODE"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/controls/excluded-function-positive/log_sha256",
+            "value": "c4515d39b6c2bab1d9e74b17ad7b636af56ed17c811d4a18e8d0e5185bc4454a"
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/controls/excluded-function-positive/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/controls/excluded-function-positive/stage_classification",
+            "value": "TERMINAL"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "13edfb02961b97b1505a2efedcce5b80fc4dfac390872db711d9e645b3275ffb",
+        "--expect-sha256",
+        "2d05e35d04d132ce94471a444672e9b50a0d639672a10aee08bd2675dd77211a",
+        "--pointer",
+        "/controls/no-focus-dead-code-negative"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "1c003941ac4c899f77ef73b6412875f3b3aad9c9e4e8821b293b827b24d0a6b2",
+        "build_id": "9d0d6547-92d3-40f7-95f8-d7696df145e5",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 9,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "13edfb02961b97b1505a2efedcce5b80fc4dfac390872db711d9e645b3275ffb",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression-receipt.json",
+        "file_sha256": "2d05e35d04d132ce94471a444672e9b50a0d639672a10aee08bd2675dd77211a",
+        "index_sha256": "a02c7afe6d6a253da75a040fd3e45c4247e5f6ee9ab453bb2942d2a32ab12fa3",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "2d05e35d04d132ce94471a444672e9b50a0d639672a10aee08bd2675dd77211a",
+          "file_id": "13edfb02961b97b1505a2efedcce5b80fc4dfac390872db711d9e645b3275ffb",
+          "pointer": "/controls/no-focus-dead-code-negative"
+        },
+        "request_id": "939ca13004ad81ecca2224d21c69a4ebc7101b3c922ada1e4bd04f795bbc7437",
+        "results": [
+          {
+            "child_count": 0,
+            "exact": true,
+            "kind": "array",
+            "pointer": "/controls/no-focus-dead-code-negative/all_dead_code_diagnostics"
+          },
+          {
+            "child_count": 2,
+            "exact": true,
+            "kind": "array",
+            "pointer": "/controls/no-focus-dead-code-negative/argv"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/controls/no-focus-dead-code-negative/classification",
+            "value": "INCONCLUSIVE_WRONG_PREDICATE_OR_EXIT"
+          },
+          {
+            "child_count": 0,
+            "exact": true,
+            "kind": "array",
+            "pointer": "/controls/no-focus-dead-code-negative/dead_code_diagnostics"
+          },
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/controls/no-focus-dead-code-negative/exit",
+            "value": 1
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/controls/no-focus-dead-code-negative/expected_classification",
+            "value": "EXPECTED_DEAD_CODE_REJECTION"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/controls/no-focus-dead-code-negative/log_sha256",
+            "value": "62771f462d0ff35400e8c606c1bb045105c6fffa04a6e7ba1970332ca3701098"
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/controls/no-focus-dead-code-negative/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/controls/no-focus-dead-code-negative/stage_classification",
+            "value": "TERMINAL"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "9253c78633b12b928aaa5631489fab1178146e5a2ba4c33ce217aaf23fe86cc5",
+        "--expect-sha256",
+        "483e67c23fedd5cc38c7e644a636e9b9559889838d9007085ae4c94429dbdefe",
+        "--locate",
+        "epilog statement"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "1c003941ac4c899f77ef73b6412875f3b3aad9c9e4e8821b293b827b24d0a6b2",
+        "build_id": "9d0d6547-92d3-40f7-95f8-d7696df145e5",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": true,
+        "content_filtered": false,
+        "coordinate_bases": {
+          "ends": "exclusive",
+          "line_separator": "LF",
+          "lines": 1,
+          "offsets": 0,
+          "unicode_columns": 1
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "9253c78633b12b928aaa5631489fab1178146e5a2ba4c33ce217aaf23fe86cc5",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression/selected-dead-code-negative.log",
+        "file_sha256": "483e67c23fedd5cc38c7e644a636e9b9559889838d9007085ae4c94429dbdefe",
+        "index_sha256": "a02c7afe6d6a253da75a040fd3e45c4247e5f6ee9ab453bb2942d2a32ab12fa3",
+        "match_mode": "CASE_SENSITIVE_LITERAL",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "LITERAL_COORDINATES_ONLY",
+        "request": {
+          "expected_sha256": "483e67c23fedd5cc38c7e644a636e9b9559889838d9007085ae4c94429dbdefe",
+          "file_id": "9253c78633b12b928aaa5631489fab1178146e5a2ba4c33ce217aaf23fe86cc5",
+          "literal": "epilog statement"
+        },
+        "request_id": "1c7c667ddd0c440b45be77eb8b6b9b6563fa767a10eb7180a7abe5c432090933",
+        "results": [
+          {
+            "column": 99,
+            "end_column_exclusive": 115,
+            "end_line": 8,
+            "line": 8,
+            "unicode_end_exclusive": 968,
+            "unicode_start": 952,
+            "utf8_byte_end_exclusive": 968,
+            "utf8_byte_start": 952
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "search_scope": {
+          "kind": "whole-file",
+          "unicode_end_exclusive": 1022,
+          "unicode_start": 0,
+          "utf8_byte_end_exclusive": 1022,
+          "utf8_byte_start": 0
+        },
+        "source_absence_established": false,
+        "source_bytes": 1022,
+        "source_codepoints": 1022,
+        "source_lines": 10,
+        "status": "OK",
+        "truncated": false
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "9253c78633b12b928aaa5631489fab1178146e5a2ba4c33ce217aaf23fe86cc5",
+        "--expect-sha256",
+        "483e67c23fedd5cc38c7e644a636e9b9559889838d9007085ae4c94429dbdefe",
+        "--start",
+        "7",
+        "--end",
+        "10"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "1c003941ac4c899f77ef73b6412875f3b3aad9c9e4e8821b293b827b24d0a6b2",
+        "build_id": "9d0d6547-92d3-40f7-95f8-d7696df145e5",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinates": {
+          "base": 1,
+          "end_inclusive": 10,
+          "line_separator": "LF",
+          "source_lines": 10,
+          "start": 7,
+          "unit": "line"
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "9253c78633b12b928aaa5631489fab1178146e5a2ba4c33ce217aaf23fe86cc5",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression/selected-dead-code-negative.log",
+        "file_sha256": "483e67c23fedd5cc38c7e644a636e9b9559889838d9007085ae4c94429dbdefe",
+        "index_sha256": "a02c7afe6d6a253da75a040fd3e45c4247e5f6ee9ab453bb2942d2a32ab12fa3",
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "range_clamped": false,
+        "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+        "request": {
+          "end": 10,
+          "expected_sha256": "483e67c23fedd5cc38c7e644a636e9b9559889838d9007085ae4c94429dbdefe",
+          "file_id": "9253c78633b12b928aaa5631489fab1178146e5a2ba4c33ce217aaf23fe86cc5",
+          "start": 7
+        },
+        "request_id": "d219c5ed78fdd3df9f83d43426efb92b05e23266727c6b4363dff0f3ce951e42",
+        "requested_end": 10,
+        "results": [
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 7,
+            "text": "EXEC 0 /workspace/smallsort-work/a1-focus-dead-code-scope-regression/focus-dead-code.c(5,11-12)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 8,
+            "text": "/workspace/smallsort-work/a1-focus-dead-code-scope-regression/focus-dead-code.c(7,7-8): error: An epilog statement must be a pure statement."
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 9,
+            "text": "7 |     x = 1;"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 10,
+            "text": "  |       ^"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--catalogue",
+        "excluded-function-positive.log"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "1c003941ac4c899f77ef73b6412875f3b3aad9c9e4e8821b293b827b24d0a6b2",
+        "build_id": "9d0d6547-92d3-40f7-95f8-d7696df145e5",
+        "causal_status": "UNKNOWN",
+        "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+        "coverage": {
+          "availability_counts": {
+            "EMPTY_FILE": 95,
+            "PROJECTED": 287,
+            "UNSUPPORTED_FILE_TYPE": 4
+          },
+          "catalogue_complete": true,
+          "content_bytes": 696535,
+          "content_files": 382,
+          "files": 386,
+          "source_scan_bytes": 830464
+        },
+        "index_sha256": "a02c7afe6d6a253da75a040fd3e45c4247e5f6ee9ab453bb2942d2a32ab12fa3",
+        "next_offset": null,
+        "report_schema": "smallsort-evidence-index-v8",
+        "results": [
+          {
+            "complete": false,
+            "id": "5bc124172cb172bcb5ea16723c9b9f3de5c5cbd7bd346e4adc7dda9ec4d47513",
+            "kind": "text",
+            "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression/excluded-function-positive.log",
+            "path_sanitized": false,
+            "scanned_bytes": 585,
+            "sha256": "c4515d39b6c2bab1d9e74b17ad7b636af56ed17c811d4a18e8d0e5185bc4454a",
+            "size_bytes": 585,
+            "status": "PROJECTED",
+            "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+          }
+        ],
+        "scope": {
+          "files_considered": 386,
+          "files_with_incomplete_content": 224,
+          "matches_in_retained_data": 1,
+          "source_absence_established": false
+        },
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "5bc124172cb172bcb5ea16723c9b9f3de5c5cbd7bd346e4adc7dda9ec4d47513",
+        "--expect-sha256",
+        "c4515d39b6c2bab1d9e74b17ad7b636af56ed17c811d4a18e8d0e5185bc4454a",
+        "--info"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "1c003941ac4c899f77ef73b6412875f3b3aad9c9e4e8821b293b827b24d0a6b2",
+        "build_id": "9d0d6547-92d3-40f7-95f8-d7696df145e5",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "file_id": "5bc124172cb172bcb5ea16723c9b9f3de5c5cbd7bd346e4adc7dda9ec4d47513",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression/excluded-function-positive.log",
+        "file_sha256": "c4515d39b6c2bab1d9e74b17ad7b636af56ed17c811d4a18e8d0e5185bc4454a",
+        "index_sha256": "a02c7afe6d6a253da75a040fd3e45c4247e5f6ee9ab453bb2942d2a32ab12fa3",
+        "json_pointer_available": false,
+        "max_results": 20,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "preview_request": {
+          "end": 7,
+          "start": 1
+        },
+        "representation": "VERIFIED_FILE_OVERVIEW",
+        "request": {
+          "expected_sha256": "c4515d39b6c2bab1d9e74b17ad7b636af56ed17c811d4a18e8d0e5185bc4454a",
+          "file_id": "5bc124172cb172bcb5ea16723c9b9f3de5c5cbd7bd346e4adc7dda9ec4d47513",
+          "info": true
+        },
+        "request_id": "2a995cc1397e55514bc42606bee1c9922512d8a0e7f60ea4b35821bbf466ef71",
+        "response_limit_bytes": 12000,
+        "results": [],
+        "schema": "smallsort-targeted-observation-v2",
+        "selectors": [
+          "info",
+          "literal",
+          "lines",
+          "position",
+          "pointer"
+        ],
+        "source_bytes": 585,
+        "source_codepoints": 585,
+        "source_lines": 7,
+        "status": "OK",
+        "utf8": true
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "5bc124172cb172bcb5ea16723c9b9f3de5c5cbd7bd346e4adc7dda9ec4d47513",
+        "--expect-sha256",
+        "c4515d39b6c2bab1d9e74b17ad7b636af56ed17c811d4a18e8d0e5185bc4454a",
+        "--start",
+        "3",
+        "--end",
+        "7"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "1c003941ac4c899f77ef73b6412875f3b3aad9c9e4e8821b293b827b24d0a6b2",
+        "build_id": "9d0d6547-92d3-40f7-95f8-d7696df145e5",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinates": {
+          "base": 1,
+          "end_inclusive": 7,
+          "line_separator": "LF",
+          "source_lines": 7,
+          "start": 3,
+          "unit": "line"
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "5bc124172cb172bcb5ea16723c9b9f3de5c5cbd7bd346e4adc7dda9ec4d47513",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/focus-dead-code-scope-regression/excluded-function-positive.log",
+        "file_sha256": "c4515d39b6c2bab1d9e74b17ad7b636af56ed17c811d4a18e8d0e5185bc4454a",
+        "index_sha256": "a02c7afe6d6a253da75a040fd3e45c4247e5f6ee9ab453bb2942d2a32ab12fa3",
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "range_clamped": false,
+        "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+        "request": {
+          "end": 7,
+          "expected_sha256": "c4515d39b6c2bab1d9e74b17ad7b636af56ed17c811d4a18e8d0e5185bc4454a",
+          "file_id": "5bc124172cb172bcb5ea16723c9b9f3de5c5cbd7bd346e4adc7dda9ec4d47513",
+          "start": 3
+        },
+        "request_id": "3ab586610b82c38377a895b4deabe58d9e248434810d7b2089c1eb40c97acae8",
+        "requested_end": 7,
+        "results": [
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 3,
+            "text": "EXEC 0 /workspace/smallsort-work/a1-focus-dead-code-scope-regression/focus-dead-code.c(14,5-11)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 4,
+            "text": "0 errors found (0 statements verified)"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 5,
+            "text": "Linking..."
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 6,
+            "text": "Program does not implement a function 'main' that implements function type 'main' or 'main_full' declared in prelude.h. Use the '-shared' option to suppress this error."
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 7,
+            "text": "1 link errors"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "status": "OK"
+      },
+      "stderr": ""
+    }
+  ]
+}
