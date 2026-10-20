@@ -7350,3 +7350,22 @@ Own requestwithdrawn, terminalreservationreconciled, noactive/unresolved.
 Finishing only evidence/account/docs; stage durationallocation not measured,
 wallclock includes dialogue/Cloud/Readerwait, not activeagenttime. See
 R4-FINAL-RESULT-20261020.json and R4-BUILD4 exacttargetedobservations.
+
+## Merge R6 candidate1 — 2026-10-20, before Cloud
+
+T0 11:56:46Z; main13:56:46Z/absolute14:26:46Z; fresh budget3600, ownermerge.
+Actual complete insert_tail<u64,F>, three CURRENT cells, unrestricted legal
+FnMut/panic and original full normal/unwind posts. R5 general195 blocked on
+canonical primitive share; pinned reference docs specify its missing meaning
+as the existing frac_borrow over u64FBC. Add explicit proof-side representation
+definition and body-checked folding/mono lemmas, from each actual physically
+derived scaled borrow; no new borrow/alias rule. Target both ref-own/Args-own
+and actual late call, honest next cleanup frontier. Exact rationale/constraints:
+[FIRST-CALLBACK semantic card](cloud-build/origin-layout/FIRST-CALLBACK-SEMANTIC-CARD-20261017.md), R6.
+New minimal representation controls: positive, missingborrow, wrongref/lifetime/
+thread with strict stage/target receipts; original controls/matrix retained.
+Tool45594fb8/profile13f0a97d unchanged; all preparation/verification Cloud-only.
+Luna High definition review conditional GO (exact fractured-borrow body); final
+diff/dependencies review pending. Expected failure advances to a checked
+callback/loan/guard frontier or identifies precise representation mismatch;
+no unchanged general195 retry and no partial theorem upgraded.

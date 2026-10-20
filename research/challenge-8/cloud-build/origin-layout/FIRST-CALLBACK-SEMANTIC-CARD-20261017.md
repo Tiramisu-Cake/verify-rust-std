@@ -692,3 +692,72 @@ new proof hypothesis will start after main. Build4 is independent service
 recovery only, submitted7f6a7ef7/sourcea26df17b beforemain.
 
 R5 terminal accounting (2026-10-20T09:41:56.384236+00:00): final sourcea26df17b/Build7f6a7ef7 restores diagnostic controls (source5PASS_CONTROL/3EXPECTED_REJECTION/BeforeLiveINCONCLUSIVE), retains canonical-share proof refusal. All4FAILURE,2427charged/2424execution,1173retired; no actual theorem/B2/profile qualification or independent credit. R5-FINAL-RESULT-20261020.json records closure; earlier checked-interface/cleanup plan remains unresolved.
+
+## R6 candidate1 rationale BEFORE implementation — 2026-10-20T12:05Z
+
+Target: same actual complete insert_tail<u64,F>, length3 and arbitrary legal
+FnMut state/panic; original full CURRENT normal/unwind posts/CFG retained.
+R5 final sourcea26df17b/tool45594fb8 reaches general195 requiring opaque
+share(uint64_t_typeid)('late,t,r4_cmp_tmp_ref). Source AST observation
+R5-BUILD2-AST-TYPES shows same named 'late for both shared u64 Args and method;
+this is exact text evidence, parser-input binding NOT_ESTABLISHED.
+
+Exact defect: general66 defines simple_share(FBC)(k,t,l)=frac_borrow(k,FBC(t,l));
+general139/186 define u64 physical FBC and its type predicate, but general147
+only declares .share. Translator579/693 emits raw primitive frac_borrow;
+unused simple_shr_pred597 constructs its transparent representation. Engine
+verifast1 TypePredExpr5375 and typepreddefmap4060 use only explicit definitions;
+produce_type_interp verifast792 only adds opaque type_interp, no equality.
+Thus raw borrow cannot imply opaque canonical share under the pinned definitions.
+
+Proposed narrow proof-side representation: declare transparent r6_u64_share
+with EXACT existing primitive fractured-borrow body, and define <u64>.share
+as this predicate using ordinary checked type_pred_def. Add a body-checked
+representation lemma (requires the actual fractured borrow, closes transparent
+predicate, returns canonical share), plus body-checked monotonicity control.
+No axiom/assume/empty-own/numeric ownership bridge, no tool/prelude/model edits.
+This specifies the missing representation of a primitive in terms of the
+existing model; it is not a theorem relating two previously distinct opaque
+predicates. Independent review must assess that distinction and applicability;
+if rejected, do not submit or claim derivation. Keep native u64 FBC, precision,
+thread/lifetime/ref identities and exact scaled borrow-end tokens unchanged.
+
+Both tmp and sift receive canonical share only from their existing persistent
+frac_borrow after exact physical [f]FBC/scaledp/borrow conversions, with same
+r5_late_k,t,ref,typeid. Existing lft_of_typeid_of_lft identifies the binding
+lifetime; no static or address equality substitution. Existing close_ref_own
+then packages each shared reference; tuple own/call uses original HRTB/binders.
+This remains a partial diagnostic until all scope/lifetime/readonly/guard loans
+return on normal Continue/break and unwind. No lifetime is ended inside binding.
+
+Distinguishing controls: checked representation positive from frac_borrow;
+resource-less/wrong-ref/wrong-lifetime share attempts must fail at source
+representation premise, plus unchanged original matrix and CURRENT posts.
+Annotation-only target uses same R5 tool/profile (15patch/18base baseline);
+preflight still required as existing dependency. Full qualification stays OPEN.
+If source definition is unsupported or actual call next fails, inspect exact
+new frontier; do not repeat unchanged general195 or weaken contract.
+
+R6 definition review: independent Luna High confirms pinned
+`docs/rust-reference/src/non-unsafe-funcs.md:68–78` explicitly specifies integer
+share as exactly frac_borrow(k,<T>.full_borrow_content(t,p)); translator matches.
+Use exact non-nested frac_borrow body, bind actual predicate coefficient before
+folding (Close requires expression coefficient, verifast1879). TypePredDef is
+the explicit representation definition; helper proves folding under it, not an
+equality theorem about an opaque symbol. No new ownership/borrow rule.
+
+Review localized correction: after closing the ordinary transparent share at
+its actual coefficient, explicitly persist ONLY that already fractured-borrow
+wrapper via `leak [coefficient]r6_u64_share`. This is the standard lem_aux
+u32_share persistent-wrapper convention, not loss of a physical cell, lifetime
+token, readonly-end token or scaled borrow-end obligation. Both physical/end
+resources stay outside the lemma contract. R6 representation controls isolate
+the bridge from unrelated mono; actual unit still checks both helper bodies.
+
+Latest baseline AST rechecked through v0.11 before Build: Build7f6a7ef7,
+filef280815d/indexfe170e52/archiveae5b172a, exact lines1342–1347
+requestd2958f36; [bounded observation](R6-BASELINE-LATE-AST-20261020.json).
+Late call verified264 uses F, two shared u64 refs with the same 'late and method
+'late, runtime args $_141/$_142. This binds actual type shape, not parser-input
+identity (still NOT_ESTABLISHED) or proof acceptance. Existing typeid lifetime
+auto lemma is the checked equality needed for the type argument's lifetime.

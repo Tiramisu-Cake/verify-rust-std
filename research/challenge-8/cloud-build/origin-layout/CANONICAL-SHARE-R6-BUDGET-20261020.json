@@ -1,0 +1,21 @@
+{
+  "phase": "MERGE-CANONICAL-SHARE-R6-2026-10-20",
+  "owner": "merge",
+  "authorization_model": "bounded-cloud-budget",
+  "status": "AUTHORIZED",
+  "allowed_lanes": [
+    "merge"
+  ],
+  "ceiling_build_seconds": 3600,
+  "used_build_seconds": 0,
+  "remaining_build_seconds": 3600,
+  "builds": [],
+  "active_build": null,
+  "start_utc": "2026-10-20T11:56:46Z",
+  "main_deadline_utc": "2026-10-20T13:56:46Z",
+  "deadline_utc": "2026-10-20T14:26:46Z",
+  "max_timeout_seconds": 900,
+  "authorization": "Direct owner CURRENT-TASK merge-canonical-share-current-recovery-autonomous-2026-10-20-r6; 120-minute main window plus 30-minute finishing window; fresh 3600 Cloud-second account; stable owner merge, merge lane, pinned objects; timeout 90..900 seconds; no new dispatch/request after main deadline; no carryover.",
+  "policy_revision": "2026-10-20 owner CURRENT-TASK with Evidence v0.11 and ITERATION-PROCESS",
+  "carryover_allowed": false
+}

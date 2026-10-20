@@ -1,0 +1,75 @@
+{
+  "archive_sha256": "ae5b172abae737737922eedce6a7f8f76796c33017e053da45b14a1edc856a44",
+  "build_id": "7f6a7ef7-86b2-4bbd-a991-3561e12beff9",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 1347,
+    "line_separator": "LF",
+    "source_lines": 1497,
+    "start": 1342,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "7d457f18b4648275ca0a94b68859d4f392f468bfe2b5d791e28d96b664fe6209",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/proof-ast.ml",
+  "file_sha256": "f280815d244327cb98331345c226b6e7142ab6537b32434877f7ae7975d7020c",
+  "index_sha256": "fe170e5253becf5f598bcfecd214c10f274facc10226c27773e3823168c28cdc",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 1347,
+    "expected_sha256": "f280815d244327cb98331345c226b6e7142ab6537b32434877f7ae7975d7020c",
+    "file_id": "7d457f18b4648275ca0a94b68859d4f392f468bfe2b5d791e28d96b664fe6209",
+    "start": 1342
+  },
+  "request_id": "d2958f3692b37460948c38a7f2d914051e352f6172fa5af71d322e38b42c7c06",
+  "requested_end": 1347,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1342,
+      "text": "          SwitchStmt (loc \"verified/lib.rs(264,17-82)\", CallExpr (loc \"verified/lib.rs(264,17-82)\", \"std::ops::FnMut::call_mut\", ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1343,
+      "text": "            IdentTypeExpr (loc \"verified/lib.rs(264,30-31)\", None, \"F\");"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1344,
+      "text": "            StructTypeExpr (loc \"verified/lib.rs(264,33-34)\", Some (\"std_tuple_2_\"), None, [], [RustRefTypeExpr (loc \"verified/lib.rs(264,34-35)\", IdentTypeExpr (loc \"verified/lib.rs(264,34-35)\", None, \"'late\"), Shared, ManifestTypeExpr (loc \"verified/lib.rs(264,41-44)\", Int (Unsigned, FixedWidthRank (3)))); RustRefTypeExpr (loc \"verified/lib.rs(264,46-47)\", IdentTypeExpr (loc \"verified/lib.rs(264,46-47)\", None, \"'late\"), Shared, ManifestTypeExpr (loc \"verified/lib.rs(264,53-56)\", Int (Unsigned, FixedWidthRank (3))))]);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1345,
+      "text": "            IdentTypeExpr (loc \"verified/lib.rs(264,59-64)\", None, \"'late\")"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1346,
+      "text": "          ], [], [LitPat (Var (loc \"verified/lib.rs(264,17-82)\", \"$_141\")); LitPat (Var (loc \"verified/lib.rs(264,17-82)\", \"$_142\"))], Static), ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1347,
+      "text": "            SwitchStmtClause (loc \"verified/lib.rs(264,17-82)\", CallExpr (loc \"verified/lib.rs(264,17-82)\", \"returning\", [], [], [LitPat (Var (loc \"verified/lib.rs(264,17-82)\", \"__result\"))], Static), [ExprStmt (AssignExpr (loc \"verified/lib.rs(264,17-82)\", Var (loc \"verified/lib.rs(264,17-82)\", \"$_140\"), Mutation, Var (loc \"verified/lib.rs(264,17-82)\", \"__result\")))]);"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

@@ -1,6 +1,10 @@
-# MERGE — R6 READY / proof mission OPEN
+# MERGE — R6 ACTIVE / canonical share recovery
 
-2026-10-20: опубликовано [новое самостоятельное задание R6](CURRENT-TASK.md): 120 минут основной работы + до 30 минут завершения, новый бюджет 3600 Cloud-секунд, без фиксированного лимита последовательных Builds. T0 устанавливается при фактическом старте; запусков R6 пока нет. Приоритет — checked canonical `<u64>.share` для actual late FnMut, затем полный CURRENT normal/unwind и loan/lifetime/guard cleanup; выбор следующих задач по миссии автономный. Baseline a26df17b/tool45594fb8/profile13f0a97d; закрытый R5 account не возобновляется. Ниже сохранён исторический checkpoint R5; его отдельное окно и бюджет завершены.
+T0/main/absolute UTC2026-10-20 11:56:46/13:56:46/14:26:46.
+[Задание и текущий отчёт](CURRENT-TASK.md); новый отдельный budget3600, Builds0.
+Приоритет: exact checked canonical u64.share → actual late FnMut → полный
+CURRENT normal/unwind/loan/guard return. R5 baseline/pins/claims сохранены.
+Project83679b05, tool45594fb8 чистый; чужие dirty docs сохранены.
 
 # MERGE — R5 CLOSED / PARTIAL
 

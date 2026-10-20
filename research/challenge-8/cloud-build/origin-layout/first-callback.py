@@ -137,6 +137,43 @@ def _prepare_first_shift(source):
                 'CURRENT first shift and block-start late lifetime binding')
 
 
+# Concrete primitive representation missing from the pinned abstract .share.
+# It is an explicit specification definition using the existing physical borrow;
+# the body-checked bridge cannot establish share without that exact premise.
+U64_SHARE_REPRESENTATION = b"""/*@
+pred r6_u64_share(k: lifetime_t, t: thread_id_t, p: *u64) =
+    frac_borrow(k, u64_full_borrow_content(t, p));
+type_pred_def <u64>.share = r6_u64_share;
+
+lem r6_close_u64_share(k: lifetime_t, t: thread_id_t, p: *u64)
+    req [_]frac_borrow(k, u64_full_borrow_content(t, p));
+    ens [_](<u64>.share)(k, t, p);
+{
+    assert [?r6_share_fraction]frac_borrow(k, u64_full_borrow_content(t, p));
+    close [r6_share_fraction]r6_u64_share(k, t, p);
+    leak [r6_share_fraction]r6_u64_share(k, t, p);
+}
+
+lem r6_u64_share_mono(k: lifetime_t, k1: lifetime_t, t: thread_id_t, p: *u64)
+    req [_](<u64>.share)(k, t, p) &*& lifetime_inclusion(k1, k) == true;
+    ens [_](<u64>.share)(k1, t, p);
+{
+    open [_]r6_u64_share(k, t, p);
+    frac_borrow_mono(k, k1, u64_full_borrow_content(t, p));
+    assert [?r6_mono_fraction]frac_borrow(k1, u64_full_borrow_content(t, p));
+    close [r6_mono_fraction]r6_u64_share(k1, t, p);
+    leak [r6_mono_fraction]r6_u64_share(k1, t, p);
+}
+@*/
+"""
+
+
+def _add_u64_share_representation(source):
+    anchor = b'use core::{mem::ManuallyDrop, ptr};\n'
+    return _one(source, anchor, anchor + U64_SHARE_REPRESENTATION,
+                'checked concrete u64 canonical share representation')
+
+
 LATE_REFERENCE_PREP = b"""            //@ let r4_cmp_tmp_ref = precreate_ref::<u64>(&tmp);
             //@ init_ref_readonly::<u64>(r4_cmp_tmp_ref, 1/2);
             //@ assert array::<u64>(sift, 1, ?r4_cmp_current);
@@ -155,7 +192,9 @@ LATE_REFERENCE_PREP = b"""            //@ let r4_cmp_tmp_ref = precreate_ref::<u
             //@ borrow(r5_late_k, scaledp(r5_sift_share, u64_full_borrow_content(t, r4_cmp_sift_ref)));
             //@ full_borrow_into_frac(r5_late_k, scaledp(r5_sift_share, u64_full_borrow_content(t, r4_cmp_sift_ref)));
             //@ frac_borrow_implies_scaled(r5_late_k, r5_sift_share, u64_full_borrow_content(t, r4_cmp_sift_ref));
+            //@ r6_close_u64_share(r5_late_k, t, r4_cmp_tmp_ref);
             //@ close_ref_own::<'late, u64>(r4_cmp_tmp_ref);
+            //@ r6_close_u64_share(r5_late_k, t, r4_cmp_sift_ref);
             //@ close_ref_own::<'late, u64>(r4_cmp_sift_ref);
             //@ close <(&'late u64, &'late u64)>.own(t, std_tuple_2_::<&'late u64, &'late u64> { 0: r4_cmp_tmp_ref, 1: r4_cmp_sift_ref });
 """
@@ -233,6 +272,7 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
     original = (case / 'original/lib.rs').read_bytes()
     verified = (case / 'verified/lib.rs').read_bytes()
     full_original = original
+    verified = _add_u64_share_representation(verified)
     verified = _add_singleton_facts(verified)
     verified = _one(verified,
                     old.B2_COMPARE_RECOVER.replace(b'        ', b'            '),
@@ -397,7 +437,10 @@ def run(evidence, args, env, execute_case, validated_receipt):
     provider, proof_sha = proof.require_hosted_cloud()
     consumer._validate_receipt(args, validated_receipt, provider, proof_sha)
     evidence.mkdir(parents=True, exist_ok=False)
-    results = {}
+    share_controls = _load('r6_share_controls', HERE/'r6-share-controls.py')
+    results = {'share_representation_controls': share_controls.run(
+        evidence/'share-representation-controls', args, env, execute_case,
+        representation=U64_SHARE_REPRESENTATION)}
     # Full-body case runs regardless of prefix failure, retaining the next real
     # resource frontier under unmodified final posts.
     cases = [('prefix', True, None), ('full_body', False, None)] + [
