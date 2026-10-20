@@ -61,4 +61,9 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-R8 ещё не начата. T0/deadlines/authorization binding и новый ledger заполняет агент при фактическом старте. Этим заданием Cloud execution разрешено после обычных gates; дополнительных разрешений на первый/следующий Build в scope не требуется.
+R8 ACTIVE. T0/main/absolute UTC2026-10-20 17:11:30/19:11:30/19:41:30.
+Цель: actual physical fraction merge/singleton rejoin → original guard/CURRENT.
+Proof до→после: пока без изменения, B2/qualification OPEN, independent credit0.
+Обслуживание: новая отдельная регистрация/ledger; точный R7 кандидат сохранён.
+Builds0, charged0/3600; own active/unresolved0 на старте.
+[Рабочая карточка](cloud-build/origin-layout/R8-SESSION-20261020.md).

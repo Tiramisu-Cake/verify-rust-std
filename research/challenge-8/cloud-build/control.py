@@ -410,6 +410,24 @@ def authorized_phase(a,ledger):
    raise SystemExit('Current-recovery R7 main window passed; no new dispatch/request')
   if a.command=='submit' and (not 90<=a.timeout<=900 or a.lane!='merge' or a.source_mode!='pinned-objects'):
    raise SystemExit('Current-recovery R7 requires pinned merge Build timeout90..900s')
+ if a.phase_id=='MERGE-LATE-RECOVERY-REJOIN-R8-2026-10-20':
+  expected_ledger=DIR/'origin-layout'/'CURRENT-RECOVERY-R8-BUDGET-20261020.json'
+  if (a.ledger.resolve()!=expected_ledger.resolve() or a.owner!='merge' or
+      ledger.get('owner')!='merge' or ledger.get('authorization_model')!='bounded-cloud-budget' or
+      ledger.get('ceiling_build_seconds')!=3600 or ledger.get('allowed_lanes')!=['merge'] or
+      ledger.get('start_utc')!='2026-10-20T17:11:30Z' or
+      ledger.get('main_deadline_utc')!='2026-10-20T19:11:30Z' or
+      ledger.get('deadline_utc')!='2026-10-20T19:41:30Z' or
+      ledger.get('max_timeout_seconds')!=900):
+   raise SystemExit('Late-recovery-rejoin R8 differs from owner time-window authorization')
+  cutoff=datetime.datetime.fromisoformat('2026-10-20T19:41:30+00:00')
+  now=datetime.datetime.now(datetime.timezone.utc)
+  if now<datetime.datetime.fromisoformat(ledger['start_utc'].replace('Z','+00:00')):
+   raise SystemExit('Late-recovery-rejoin R8 has not started')
+  if a.command in ('submit','request') and now>=datetime.datetime.fromisoformat(ledger['main_deadline_utc'].replace('Z','+00:00')):
+   raise SystemExit('Late-recovery-rejoin R8 main window passed; no new dispatch/request')
+  if a.command=='submit' and (not 90<=a.timeout<=900 or a.lane!='merge' or a.source_mode!='pinned-objects'):
+   raise SystemExit('Late-recovery-rejoin R8 requires pinned merge Build timeout90..900s')
  if a.phase_id=='CI-IAM-E2E-ONCE-2026-10-17':
   # Separate, explicitly activated account; never reuse a historical ledger.
   expected_ledger=DIR/'ci-iam-e2e-once-20261017'/'BUDGET.json'
@@ -746,7 +764,7 @@ def run_command(a,state,ledger,ledger_path):
   flags=state/(token+'-flags.json');write(flags,{'--substitutions':values})
   reservation={'dispatch_token':token,'owner':a.owner,'phase_id':a.phase_id,'ledger':str(ledger_path),'state_dir':str(state),'item':item,'build_id':None}
   # Recheck the time-window account after source/config preparation, before reserve.
-  if a.phase_id in ('MERGE-FIRST-COMPARATOR-R1-2026-10-18','MERGE-FIRST-COMPARATOR-R2-2026-10-19','MERGE-FIRST-COMPARATOR-R3-2026-10-19','MERGE-GUARD-ADDRESSABILITY-R4-2026-10-20','MERGE-CURRENT-OWNERSHIP-R5-2026-10-20','MERGE-CANONICAL-SHARE-R6-2026-10-20','MERGE-POST-MIGRATION-CURRENT-RECOVERY-R7-2026-10-20'):authorized_phase(a,ledger)
+  if a.phase_id in ('MERGE-FIRST-COMPARATOR-R1-2026-10-18','MERGE-FIRST-COMPARATOR-R2-2026-10-19','MERGE-FIRST-COMPARATOR-R3-2026-10-19','MERGE-GUARD-ADDRESSABILITY-R4-2026-10-20','MERGE-CURRENT-OWNERSHIP-R5-2026-10-20','MERGE-CANONICAL-SHARE-R6-2026-10-20','MERGE-POST-MIGRATION-CURRENT-RECOVERY-R7-2026-10-20','MERGE-LATE-RECOVERY-REJOIN-R8-2026-10-20'):authorized_phase(a,ledger)
   coordination.reserve(reservation)
   ledger['builds'].append(item);ledger['active_build']=token;write(ledger_path,ledger)
   cmd=['builds','submit','--no-source','--async','--region=global','--config='+str(path),'--flags-file='+str(flags),'--format=json','--quiet']

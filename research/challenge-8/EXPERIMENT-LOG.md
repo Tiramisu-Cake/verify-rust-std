@@ -7402,3 +7402,11 @@ R7 candidate6 independent LunaHIGH GO: remove only per-outcome synthetic scope-e
 R7 Build6 6019f7c5/source637cdf45 FAILURE16:21:52Z,537charged/536execution; total3001/3600,remaining599. Source compile/preparation7EXITZERO; actual observed path passes strictscopeend/fulltoken/end_lifetime/bothscaledborrowend/open/readonlyend, then refuses merge pointer-points-to syntax313,659. Candidate7 exact explicit predicate spelling fixes representation without changing requested resource; LunaHIGH review pending. Both outcome completeness/originalguard/fullCURRENT remainOPEN,credit0.
 
 R7 closure16:36:37Z: Build7 55195571/sourcec1fff41b terminalFAILURE383charged/382execution; compile-only124, sourceproof_attemptedfalse,candidatestagesnull. Sevenbuildtotal3384/3600charged,3380execution,216retirednocarry; ledgerCLOSED, ownactive/unresolved/request/reservation0. Originalmainexpired; no newhypotheses/Buildsaftermain. Lastactualproof637cdf45/tool2883dbf5 reaches recoverymerge syntax; final explicit points_to candidate47b80fad remains compile/proofunconfirmed. WholeCURRENT/B2/qualificationOPEN,independentcredit0; seeR7-FINAL-RESULT/RELEASE/OBLIGATIONS.
+
+## Merge R8 — 2026-10-20T17:11:30Z
+
+[Session](cloud-build/origin-layout/R8-SESSION-20261020.md): fresh120+30min/3600s,
+actual late physical fractions/singleton rejoin target. Exact candidate unchanged;
+first experiment full900 envelope vs R7 short539 starvation hypothesis. New
+branch-local phase registration; six synthetic authorization tests and17patch/18base
+static composition PASS, no proof credit. Independent review before submit.

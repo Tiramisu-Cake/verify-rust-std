@@ -1,3 +1,13 @@
+# MERGE — R8 ACTIVE / actual late rejoin target
+
+T0/main/absolute UTC2026-10-20 17:11:30/19:11:30/19:41:30; fresh3600 Cloud seconds,
+no R7 carry. [Task/report](CURRENT-TASK.md), [session](cloud-build/origin-layout/R8-SESSION-20261020.md).
+First hypothesis: R7 short539 envelope starves cold compilation; use900 via existing
+preflight, same reviewed tool47b80fad/profilee5ed4de5 and mandatory matrix.
+New phase registration/static6 authorization tests PASS; independent review pending.
+Actual physical merge/rejoin, CURRENT normal/unwind/originalguard/B2/qualification
+OPEN; independentcredit0. Foreign instruction changes preserved.
+
 # MERGE — R8 READY / proof mission OPEN
 
 2026-10-20: [новое самостоятельное задание R8](CURRENT-TASK.md) явно разрешает **120 минут + до30 минут завершения**, **3600 новых Cloud-секунд**, без отдельного лимита числа последовательных Builds. T0 устанавливает агент при фактическом старте; R7 CLOSED, её216retired не переносить.

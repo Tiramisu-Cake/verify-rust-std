@@ -517,3 +517,10 @@ R7 update16:16Z: candidate637cdf45/tool2883dbf5/profile96a0f198 published, indep
 R7 update16:28Z: Build6 terminalFAILURE537charged/536execution, total3001/3600,remaining599. Observed path passes scope exit/full token/lifetime end/both scaled loan and readonly ends; unsupported merge *sift syntax313. Candidate7 c1fff41b/tool47b80fad changes only explicit physical predicate merge and exact matcher, independent LunaHIGH GO/static17patch18base/service4+5PASS. Build7 55195571 submitted16:26:43Z, timeout539/reserve599; own1occupied. No new hypotheses/builds after main16:33:33; thereafter finishing only.
 
 R7 CLOSED_PARTIAL16:36:37Z: all7terminalFAILURE,3384charged/3380execution,216retired,carryfalse. Ownactive/unresolved/reservations/requests0; withdraw-request aftermain succeeded, no background work/new hypotheses/submissions after16:33:33. Build7 sourcec1fff41b/tool47b80fad/profilee5ed4de5 compile-only124, proof_attemptedfalse; no actual finalcandidate merge result. Last actual637cdf45/tool2883dbf5 reaches fulltoken/lifetimeend/bothscaledborrowends/readonlyends on observedpath then merge syntax313. WholeCURRENTnormal-unwind/originalguard/insert_tail/B2/qualificationOPEN,credit0. Exact finalcandidate first requires fresh authorized compilepreflight/targetproof thencompatiblematrix; no oldPASS transfer. Finalresult/release/obligations and CURRENTreport updated.
+
+## R8 ACTIVE — 2026-10-20T17:11:30Z
+
+New120+30min window,3600Cloud seconds, no carry; [R8 card](R8-SESSION-20261020.md).
+Target actual late physical merge/singleton rejoin then originalguard/CURRENT.
+Tool47b80fad/profilee5ed4de5 unchanged; first full900 envelope distinguishes short
+R7 compile timeout. B2/qualification OPEN, independentcredit0.
