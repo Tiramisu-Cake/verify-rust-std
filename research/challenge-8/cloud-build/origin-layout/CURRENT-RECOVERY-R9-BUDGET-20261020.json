@@ -2,13 +2,13 @@
   "phase": "MERGE-GUARD-CURRENT-RETURN-R9-2026-10-20",
   "owner": "merge",
   "authorization_model": "bounded-cloud-budget",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "allowed_lanes": [
     "merge"
   ],
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 2796,
-  "remaining_build_seconds": 804,
+  "used_build_seconds": 3417,
+  "remaining_build_seconds": 0,
   "builds": [
     {
       "dispatch_token": "dispatch-f4f9d602301c49dfb60a65a2f25c6c3e",
@@ -119,6 +119,28 @@
       "build_seconds": 634,
       "accounted": true,
       "execution_seconds": 633
+    },
+    {
+      "dispatch_token": "dispatch-8adf4ec4675f46ca9c72a7b8e9159bc3",
+      "owner": "merge",
+      "phase_id": "MERGE-GUARD-CURRENT-RETURN-R9-2026-10-20",
+      "infra_sha": "a1de980d9ee667baea2a24df1133aa5e84e84e43",
+      "proof_sha": "a1de980d9ee667baea2a24df1133aa5e84e84e43",
+      "lane": "merge",
+      "submitted_config_sha256": "e3195ba26ab098f74d7fa3b263e1d6d5eec283fc160b3c9368b2f482f4758d76",
+      "reserved_seconds": 800,
+      "timeout_seconds": 740,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "db712bc6abbe3c8fc5870d6a9795f4caf250c37f1e4147f268f51321ef27d18c",
+      "build_id": "776ec45f-d114-4914-bd12-792311b57ae1",
+      "start_time": "2026-10-20T21:25:21.308441329Z",
+      "finish_time": "2026-10-20T21:35:41.523965Z",
+      "create_time": "2026-10-20T21:25:20.602322912Z",
+      "build_seconds": 621,
+      "accounted": true,
+      "execution_seconds": 621
     }
   ],
   "active_build": null,
@@ -128,5 +150,8 @@
   "max_timeout_seconds": 1200,
   "authorization": "Direct owner CURRENT-TASK R9 authorization: fixed 2026-10-20T19:30:15Z T0; 120-minute main + 30-minute finishing; fresh3600 Cloud seconds; merge owner/lane; exact published pinned objects; no new submit/request after main; no carryover.",
   "policy_revision": "2026-10-20 CURRENT-TASK R9 / Evidence v0.11 / ITERATION-PROCESS",
-  "carryover_allowed": false
+  "carryover_allowed": false,
+  "retired_unused_seconds": 183,
+  "closed_utc": "2026-10-20T21:39:24.777943Z",
+  "closure_reason": "Main window ended; all six builds terminal/accounted; finishing evidence and checkpoint only; no carryover."
 }

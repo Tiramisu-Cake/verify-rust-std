@@ -1,0 +1,133 @@
+{
+  "schema": "r9-build5-control-observation-v1",
+  "build": {
+    "id": "0399617c-3930-49c3-90eb-25fdd14d0832",
+    "brief_processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+    "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+    "source_exit": 1,
+    "evidence_complete": true,
+    "archive_sha256": "28379a61a6c7a65d617a8a7a37a3ab6ed0942b4ed5109b5521f86d788a2667ea",
+    "index_sha256": "c2dca90e085ba3918517e400a19684e94c84faec87159200a7e66bd792d618f8",
+    "profile": "experimental-merge-guard-current-return-r9-v1",
+    "profile_sha256": "055374de5bc913e4725951f0d8c9458f1c6498ab5f89d4a039d8cab591741a67",
+    "accepted": false,
+    "proof_credit": false,
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "causality": "UNKNOWN",
+    "bounded_actual_verifast": {
+      "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verifast.log",
+      "sha256": "077f9a47a31e7d5d95e24be7789c1683f5d1e89df38c15520ea6a68cfac18169",
+      "line": 1721,
+      "source_location": "verified/lib.rs(334,1-2)",
+      "diagnostic": "Function leaks heap chunks: foreach<u64>(append(take(1, xs), append(cons(v0, nil), cons(v, nil))), own0(uint64_t_typeid, t))",
+      "scope": "Bounded Brief context only; source observation, no parser-input binding or proof credit."
+    }
+  },
+  "aggregate": {
+    "file_id": "6a1265e818537cc1764b2d1b48d758ef7d037166f56da30c7b03e15ea94ba924",
+    "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/guard-return-recovery-controls/aggregate.json",
+    "sha256": "83f1fcb1b5cd0f3623b6cf763b81da3c90592aa68d0f120f110415f8ad5438f2",
+    "classification": "INCONCLUSIVE",
+    "accepted": false,
+    "proof_credit": false,
+    "all_matched": false,
+    "baseline": {
+      "admitted": true,
+      "source_exact": true,
+      "return_binding_matches": true,
+      "selected_cleanup_return_before_count": 1,
+      "selected_cleanup_return_complete_count": 1,
+      "recovery_completion_observed": true,
+      "strict_stage_receipt_gate_admitted": true
+    },
+    "per_case_gate_summary": "All five case source_gate.admitted and stage_receipt_gate.admitted values are true."
+  },
+  "cases": {
+    "duplicate_end": {
+      "classification": "EXPECTED_RESOURCE_REFUSAL",
+      "matched": true,
+      "error_at_target": false,
+      "canonical_spec_error_last_at_target": true,
+      "last_executed_line_before_error": 324,
+      "proof_credit": false
+    },
+    "duplicate_marker": {
+      "classification": "INCONCLUSIVE",
+      "expected_frontend_error": "R9 guard-return marker is ambiguous",
+      "expected_error_line": 227,
+      "frontend_error_match": false,
+      "actual_error": "verified/lib.rs(318,5-333,10): error: R9 guard-return marker is ambiguous",
+      "reason": "exact mapped frontend error/stage was not observed",
+      "source_gate_admitted": true,
+      "stage_receipt_gate_admitted": true,
+      "proof_credit": false
+    },
+    "missing_marker": {
+      "classification": "EXPECTED_ADMISSION_REJECTION",
+      "expected_frontend_error": "R9 guard-return recovery target body is missing its checked source marker",
+      "frontend_error_match": true,
+      "matched": true,
+      "expected_error_line": 152,
+      "source_gate_admitted": true,
+      "stage_receipt_gate_admitted": true,
+      "proof_credit": false
+    },
+    "omit_end": {
+      "classification": "EXPECTED_RESOURCE_REFUSAL",
+      "matched": true,
+      "error_at_target": true,
+      "canonical_spec_error_last_at_target": false,
+      "expected_predicate_match": true,
+      "last_executed_line_before_error": 324,
+      "proof_credit": false
+    },
+    "wrongorigin": {
+      "classification": "INCONCLUSIVE",
+      "expected_error_line": 325,
+      "expected_predicate_match": false,
+      "error_at_target": false,
+      "last_executed_line_before_error": 152,
+      "target_line_executed": true,
+      "actual_error": "verified/lib.rs(334,1-2): error: Function leaks heap chunks: foreach<u64>(append(take(1, xs), append(cons(v0, nil), cons(v, nil))), own0(uint64_t_typeid, t))",
+      "reason": "requires exact cleanup-return binding, targeted predicate/spec error, and last execution at target",
+      "source_gate_admitted": true,
+      "stage_receipt_gate_admitted": true,
+      "recovery_completion_absent": false,
+      "proof_credit": false
+    }
+  },
+  "targeted_reader_provenance": {
+    "catalogue_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/guard-return-recovery-controls/aggregate.json",
+    "file_id": "6a1265e818537cc1764b2d1b48d758ef7d037166f56da30c7b03e15ea94ba924",
+    "file_sha256": "83f1fcb1b5cd0f3623b6cf763b81da3c90592aa68d0f120f110415f8ad5438f2",
+    "refresh_info_request_id": "7fdcf71a35335a4ca0628e55ded4aec63651892f0b698577db6f12ba58637c95",
+    "root_request_id": "2235b2becac4dec825f8c84c313ce8f386de815e82c222635f88fab5ab64b83c",
+    "cases_request_id": "c72ac084e5b583471b803feddc972efffe796ce4c70b387f100a5a90c18f977a",
+    "baseline_request_id": "c91741b3da42da9d72743cd2f732a9a6464e55aed07f06e8c952b885c504a26a",
+    "baseline_stage_gate_request_id": "4a5aef96303e9d39695f3b2b4e1a03230b39756da0ae3e309cbb44ffc934453b",
+    "case_detail_requests": {
+      "duplicate_end": "eb8b321d7cd0ec6e0ad1fdd0960c0dd899e66e4d1a4d632cd61aba941bd2464c",
+      "duplicate_marker": "42064510b69e0dbf8c5f9cde05cf2b59a2eddcc7b4a21df1698b41df8541c505",
+      "missing_marker": "8556d3b25e56ed462b334589c8a358d58368aedf7c35f3ef5a8a86cb9655e395",
+      "omit_end": "78c6129bad501179730dfe664d316572e775563ddc69a2bc561204777c05535c",
+      "wrongorigin": "b4dbed70f4ecbca6873c2b146536c56ac3bd78f8defdac7d0a253584fb6d7400"
+    },
+    "case_gate_request_ids": {
+      "duplicate_end": {"source": "9dcbe239299b53da70fafaf1db41da1b7061e55ef0e9778ad94a18d1012a7481", "stage": "822b1970d44499ad35c112d022b09daf121a10adc420791e6b49d7e269d5a91d"},
+      "duplicate_marker": {"source": "f91f91efdd8cbf43c2b8266fa17ebfda6c10a0794b7905da44736e35af66a947", "stage": "d5a7980abca3898b9172e704d891110f46138cdfdec401edd2f35fc28e1a9c4b"},
+      "missing_marker": {"source": "d222d4b6f49a0f0caa686e6072b25d01acda3fa9fa69835ae58c132fee790599", "stage": "e4ce472008ecd353cd7510157970ad0cf2a0e13ce0c9d7a1b848acf7ee58eb8c"},
+      "omit_end": {"source": "b75d6090b6f52f37f85c75fa49953fe951b6ff2ae8fa91f375f3256dc6ce2ca6", "stage": "a538683baf3d8f5ae29cc1b856ed608d13c3561a61c9d6deae4a76b01e723273"},
+      "wrongorigin": {"source": "880ccaf8a8837e0977e7f47577d95eea167573f90f26bcdc5c76f03786c04233", "stage": "34138af591682a0e554ab8bd4b6696f225b2dfcbd2c7c978255ee9c0e815583f"}
+    },
+    "inconclusive_error_requests": {
+      "duplicate_marker": "8f7d74cc08151ae906500bfb866c1095ed5a867c7bab38dc10143a84b5bf8acf",
+      "wrongorigin": "62f2fd1ba5aad28e3ec60dabebede0a812121c4ef038720670a6d9a9117d6640"
+    },
+    "offset20_requests": {
+      "duplicate_marker": "1b9e1ece48866f60aded90d634c2f1c72bddf0bd3cb47485248c982bf74d4ec6",
+      "wrongorigin": "fb9e237d43ab0b12a2672e3075e998d69980446d1401216d6059dcdce62e6f1d"
+    }
+  },
+  "coverage": "bounded targeted JSON and Brief observations only; no raw/full logs or GCS accessed",
+  "limits": ["source claims only", "no proof credit", "causality UNKNOWN", "parser-input binding NOT_ESTABLISHED"]
+}

@@ -1,0 +1,163 @@
+{
+  "schema": "merge-r9-final-result-v1",
+  "session_id": "merge-guard-current-return-autonomous-2026-10-20-r9",
+  "status": "CLOSED_PARTIAL",
+  "owner": "merge",
+  "lane": "merge",
+  "start_utc": "2026-10-20T19:30:15Z",
+  "main_deadline_utc": "2026-10-20T21:30:15Z",
+  "absolute_deadline_utc": "2026-10-20T22:00:15Z",
+  "account_closed_utc": "2026-10-20T21:39:24.777943Z",
+  "budget": {
+    "ceiling_seconds": 3600,
+    "charged_seconds": 3417,
+    "execution_seconds": 3412,
+    "retired_unused_seconds": 183,
+    "remaining_seconds": 0,
+    "carryover_allowed": false
+  },
+  "own_state_at_close": {
+    "active": 0,
+    "unresolved": 0,
+    "requests": 0,
+    "reservations": 0,
+    "coordination_schema": 3,
+    "shared_capacity": 3,
+    "checked_under_coordination_lock": true
+  },
+  "builds": [
+    {
+      "candidate": 1,
+      "build_id": "0f7534de-90d6-4911-bc29-78c6a18c62d1",
+      "source_sha": "1744fe3911b824f8ecd6f34f455b89c2ca1d0fc9",
+      "status": "FAILURE",
+      "charged_seconds": 589,
+      "execution_seconds": 588,
+      "accounted": true,
+      "result_record": "R9-BUILD1-RESULT-20261020.json"
+    },
+    {
+      "candidate": 2,
+      "build_id": "c8b135e3-69b4-45bc-8b41-de7db56c607e",
+      "source_sha": "6e5c56afc974e7b18d352797c5ae226ae484f3c1",
+      "status": "FAILURE",
+      "charged_seconds": 395,
+      "execution_seconds": 394,
+      "accounted": true,
+      "result_record": "R9-BUILD2-RESULT-20261020.json"
+    },
+    {
+      "candidate": 3,
+      "build_id": "e5cb8e3e-f071-4ef9-89c3-da08ef93f966",
+      "source_sha": "91d1f52ba8c7b90f16a6b301e711605ff1ba74a8",
+      "status": "FAILURE",
+      "charged_seconds": 623,
+      "execution_seconds": 622,
+      "accounted": true,
+      "result_record": "R9-BUILD3-RESULT-20261020.json"
+    },
+    {
+      "candidate": 4,
+      "build_id": "26345d10-edcf-4579-a496-f09bbeb40268",
+      "source_sha": "995855a663a292dfcf94e604a88d64a5495f2f64",
+      "status": "FAILURE",
+      "charged_seconds": 555,
+      "execution_seconds": 554,
+      "accounted": true,
+      "result_record": "R9-BUILD4-RESULT-20261020.json"
+    },
+    {
+      "candidate": 5,
+      "build_id": "0399617c-3930-49c3-90eb-25fdd14d0832",
+      "source_sha": "392278a39a30bb8c0e37339e8c9fffac4a1b8aaa",
+      "status": "FAILURE",
+      "charged_seconds": 634,
+      "execution_seconds": 633,
+      "accounted": true,
+      "result_record": "R9-BUILD5-RESULT-20261020.json"
+    },
+    {
+      "candidate": 6,
+      "build_id": "776ec45f-d114-4914-bd12-792311b57ae1",
+      "source_sha": "a1de980d9ee667baea2a24df1133aa5e84e84e43",
+      "status": "FAILURE",
+      "charged_seconds": 621,
+      "execution_seconds": 621,
+      "accounted": true,
+      "result_record": "R9-BUILD6-RESULT-20261020.json"
+    }
+  ],
+  "last_actual_source_sha": "a1de980d9ee667baea2a24df1133aa5e84e84e43",
+  "tool_sha": "706e7c89fdf69dbe11e05ef275300b20d30a27cb",
+  "profile": "experimental-merge-guard-current-return-r9-v1",
+  "profile_sha256": "055374de5bc913e4725951f0d8c9458f1c6498ab5f89d4a039d8cab591741a67",
+  "before": "R8 actual source d3abd4c9/tool f2e92cec/profile838ade99: root free requires missing tmp half; branch and normal suffix effectiveness unestablished",
+  "after_observed_in_build6": [
+    "same-body native metadata binds cleanup selected Drop138 returning to normal target139 Resume",
+    "ordinary checked original tmp readonly end and merge recover real half before free",
+    "checked current tail singleton and array joins restore full CURRENT array3, matching u64 foreach and current F/thread",
+    "checked old owner-list unfolding/rebuild passes previous function leakcheck1742",
+    "verifier continues into normal path then refuses source271: Loop invariant required"
+  ],
+  "limits": [
+    "one observed cleanup return, not complete normal/unwind/abort/late-cleanup matrix",
+    "normal backedge heap/invariant not established",
+    "full caller/insert_tail/B2 OPEN",
+    "prefix Unsize/checked mutable-borrow return OPEN; dependent original controls may be NOT_RUN",
+    "BeforeLive remains lexical/unbound-local INCONCLUSIVE, not physical refusal",
+    "Rocq StorageLive/Dead unchanged and unqualified",
+    "recovery controls contain 2 INCONCLUSIVE cases; no all-controls pass claim",
+    "source verdicts, exit codes and archive integrity are not independent proof acceptance",
+    "stage records512/688 parsed,176notcaptured; bounded fragments do not establish whole-file/parser/MIR causality"
+  ],
+  "maintenance_separate": [
+    "exact R9 authorization/phase/1200 boundary and3600 ledger registration",
+    "separate default-off experimental profile with unchanged R8 allocation premise",
+    "native read-only bounded trace and exact checked source recovery hook on successful selected Drop return",
+    "checked concrete u64 old-to-CURRENT logical owner lemmas; no ownership axiom",
+    "strict source/stage/diagnostic controls and invalid-receipt service error fix",
+    "19patch/17sourcepins/18retained-base closure; LunaHIGH independent reviews and targeted service checks"
+  ],
+  "qualification": "OPEN",
+  "accepted": false,
+  "independent_proof_credit": 0,
+  "B2": "OPEN",
+  "B1": "no new independently established credit",
+  "next_permitted_scope": "New authorized session: exact normal backedge resource inventory and checked moving-gap invariant; requalify complete compatible final control matrix. No implementation/build follows after R9 main.",
+  "input_manifest_semantics": "R9-INPUTS binds exact committed candidate source snapshot; live coordinator ledger and final report changes are not retrospectively built inputs.",
+  "historical_r8": "CLOSED,3379charged/3374execution,221retired; unchanged and no carryover",
+  "evidence_reading": "Evidence Brief v0.11 targeted selectors only; no raw/full archives/logs, no download_verified or historical verdict rewrite",
+  "reports": {
+    "session": "R9-SESSION-20261020.md",
+    "obligations": "R9-OBLIGATIONS-20261020.md",
+    "review": "R9-CANDIDATE6-REVIEW-20261020.md",
+    "last_build": "R9-BUILD6-RESULT-20261020.json",
+    "controls": "R9-BUILD6-CONTROL-OBSERVATION-20261020.json"
+  },
+  "control_observation_sha256": "ad9057cfd3d24759762886cc3b5b091b88ab8047d2e1c519cf409ea25c6a6002",
+  "final_controls": {
+    "record": "R9-BUILD6-CONTROL-OBSERVATION-20261020.json",
+    "sha256": "ad9057cfd3d24759762886cc3b5b091b88ab8047d2e1c519cf409ea25c6a6002",
+    "baseline_source_exact": true,
+    "baseline_return_binding_matches": true,
+    "baseline_recovery_completion": true,
+    "cleanup_before_complete_counts": [
+      1,
+      1
+    ],
+    "all_five_source_and_stage_gates_admitted": true,
+    "expected_resource_refusals": [
+      "omit_end",
+      "duplicate_end"
+    ],
+    "expected_admission_rejection": [
+      "missing_marker"
+    ],
+    "inconclusive": {
+      "duplicate_marker": "ambiguous marker actual318 versus expected227; no matched targeted rejection",
+      "wrongorigin": "loop invariant required271, not expected predicate/refusal325"
+    },
+    "proof_credit": false
+  },
+  "freshness": "Final archived source classifications2positive/6intendednegative, unchanged bytes relative Build4; independent qualification remains OPEN"
+}

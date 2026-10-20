@@ -1,0 +1,119 @@
+{
+  "schema": "merge-r9-build-result-v1",
+  "build_id": "776ec45f-d114-4914-bd12-792311b57ae1",
+  "candidate": 6,
+  "status": "FAILURE",
+  "type": "CHECKED_OLD_TO_CURRENT_U64_OWNERS",
+  "source_sha": "a1de980d9ee667baea2a24df1133aa5e84e84e43",
+  "tool_sha": "706e7c89fdf69dbe11e05ef275300b20d30a27cb",
+  "profile_sha256": "055374de5bc913e4725951f0d8c9458f1c6498ab5f89d4a039d8cab591741a67",
+  "timeout_seconds": 740,
+  "reserved_seconds": 800,
+  "charged_seconds": 621,
+  "execution_seconds": 621,
+  "total_charged_seconds": 3417,
+  "total_execution_seconds": 3412,
+  "retired_unused_seconds": 183,
+  "remaining_seconds": 0,
+  "carryover_allowed": false,
+  "create_time": "2026-10-20T21:25:20.602322912Z",
+  "start_time": "2026-10-20T21:25:21.308441329Z",
+  "finish_time": "2026-10-20T21:35:41.523965Z",
+  "proof_attempted": true,
+  "compiler": "PASS",
+  "verifier_exit_code": 1,
+  "observed_current_progress": "exact cleanup Drop138 returning to139 Resume: checked original tmp recovery and current array3/foreach/F/thread; prior old foreach leakcheck1742 passes, then normal backedge requires invariant1792",
+  "current_failure": {
+    "text": "Loop invariant required.",
+    "location": "verified/lib.rs(271,13-44)",
+    "log_line": 1792
+  },
+  "archive_sha256": "c6a4933a41d2027b52f035fee779d35e9fbc9df2d1c3809c5c1ce92030e39e62",
+  "index_sha256": "aa76b72c313e6101b49a8a3986c28757deeec59e6d3288f8e34ebbeaf1a2cfb0",
+  "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+  "file_sha256": "80dee703dec5e3e996546ebf50dfd4edadacb7839041678770fc1438606427b1",
+  "file_bytes": 175285,
+  "file_lines": 2256,
+  "reader_requests": {
+    "info": "2a63e214e53ae30b7601eba677180674191af8e6f698a4d471c1762e3f7dde83",
+    "native_events": "f46c5f2c7f6154d21b2e4195d4aefad03bb1a67855897fc0435fb56eaaf66abd",
+    "complete1588_1599": "6981d824282f2261ee2bc8c2560a24960e2c95b5c583ca466235b98d4724653f",
+    "physical1600_1606": "775ebfead8687748f0ea252a01647f38c1fd40925d1beeaf3aa9b918a4ff9e7c",
+    "thread1607_1618": "5f7104d1cbfe40c5fed3ccc21ad7f1d9a17d16b2ad0e6135fb6104faf533cff9",
+    "outer1619_1627": "aa4d723f91ec75ce39a5233178391d725f928794690c9e5ebdae58940033156f",
+    "pre_free1697_1708": "c957e66c0d4a029042bba271591e37499136d18537cbab04e5b9f9dbb4b720ef",
+    "leak_locate_page1": "94298b22c26e4e7c2c9b562eb6a1928482521eb09607be3d83456cca1b6554a3",
+    "leak_locate_page2": "3725e44b48a44f36b28243b236fa8d49fe5987fd8f4471a2fa95c8e963cec686",
+    "leak1733_1744": "16eb324cc74355b85665eabcba1ae306dfb92e87b1a43f613800f38facf8f402",
+    "error1782_1793": "b5898aea4439d6afb3771c7665b1874638777fe910e7d7b4aa39f4e734778165"
+  },
+  "observed_native_binding": {
+    "function": "insert_tail",
+    "def_hash": "DefPathHash(Fingerprint(12908149020305531562, 13981609308880448809))",
+    "mir_fingerprint": "6ac82b56f0e5c41a",
+    "fingerprint_kind": "Rust DefaultHasher diagnostic, not cryptographic source hash",
+    "phase": "Runtime(PostCleanup)",
+    "body_span": "verified/lib.rs(168,5-334,2)",
+    "block": 138,
+    "cleanup": true,
+    "outcome": "returning",
+    "normal_target": 139,
+    "selected_key": "__vf_generated_drop_glue",
+    "selected_path": "<CopyOnDrop as core::ops::Drop>::drop",
+    "selected_hash": "DefPathHash(Fingerprint(12908149020305531562, 11549365108250137374))",
+    "guard": "CopyOnDrop",
+    "recovery_complete_line": 1588,
+    "selected_heap_total": 34,
+    "shown": 34,
+    "tmp_half": true,
+    "full_current_array": "array<u64>(begin,3,append(cons(dummy54,nil),append(cons(current,nil),cons(value2,nil))))",
+    "matching_foreach": true,
+    "current_F": true,
+    "thread_token": true,
+    "leak_check_line": 1742,
+    "execution_continues_after_leakcheck": true
+  },
+  "controls": {
+    "record": "R9-BUILD6-CONTROL-OBSERVATION-20261020.json",
+    "sha256": "ad9057cfd3d24759762886cc3b5b091b88ab8047d2e1c519cf409ea25c6a6002",
+    "baseline_source_exact": true,
+    "baseline_return_binding_matches": true,
+    "baseline_recovery_completion": true,
+    "cleanup_before_complete_counts": [
+      1,
+      1
+    ],
+    "all_five_source_and_stage_gates_admitted": true,
+    "expected_resource_refusals": [
+      "omit_end",
+      "duplicate_end"
+    ],
+    "expected_admission_rejection": [
+      "missing_marker"
+    ],
+    "inconclusive": {
+      "duplicate_marker": "ambiguous marker actual318 versus expected227; no matched targeted rejection",
+      "wrongorigin": "loop invariant required271, not expected predicate/refusal325"
+    },
+    "proof_credit": false
+  },
+  "coverage": {
+    "candidate_stage_records": 688,
+    "parsed": 512,
+    "not_captured": 176,
+    "reader_fragments": "exact bounded windows; complete=false for partial file; coordinates alone not parser/MIR binding or causality"
+  },
+  "full_normal_unwind": "OPEN",
+  "normal_continue": "OPEN: actual invariant required; backedge resource inventory not established",
+  "prefix": "OPEN",
+  "qualification": "OPEN",
+  "accepted": false,
+  "independent_credit": 0,
+  "freshness": {
+    "classification": "DIAGNOSTIC_CONTROLS_CLASSIFIED",
+    "source_positive_controls": 2,
+    "source_intended_negative_controls": 6,
+    "qualified": false,
+    "note": "Build6 archive contains byte-identical aggregate to Build4; aggregate identity does not establish rerun/causal attribution or new qualification."
+  }
+}

@@ -68,14 +68,69 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-R9 ACTIVE. T0/main/absolute UTC2026-10-20 19:30:15/21:30:15/22:00:15.
-Fresh3600, used2796/2791execution, remaining804, R8closed/no carry.
-Builds1..5 terminalFAILURE charges589/395/623/555/634. Build3 checkedtmp-half
-recoverybeforeResume/free; Build5 exact392278a3/tool706e7c89/profile055374de
-observesfullCURRENTarray3+matchingforeach+F andpastpanicpost toleakoldforeach.
-Wholefunction/normal/Continue/prefix/B2OPEN,independentcredit0, qualificationOPEN.
-Candidate6 sourceonlycheckedoldforeach unfolding-to-emp + makeCURRENTowners,
-sametool/profile, LunaHIGHGO; 740/envelope800 fits804 vsobservedwhole634.
-Strictserviceerrorfix reviewed10testsPASS. Ownactive/unresolved0; nextsubmit
-beforemain. [Сессия](cloud-build/origin-layout/R9-SESSION-20261020.md),
-[Build5](cloud-build/origin-layout/R9-BUILD5-RESULT-20261020.json).
+**R9 CLOSED_PARTIAL.** Полное доказательство insert_tail/B2 и qualification профиля
+остаются OPEN, accepted=false, independent credit=0.
+
+До R9 actual отказ был на root free: отсутствовала половина tmp; конкретный
+return edge не был установлен. На финальном Build6 exact native receipts связывают
+cleanup Drop138 returning → target139 Resume. Checked-команды возвращают original
+tmp readonly debt и половину физического ресурса, восстанавливают full CURRENT
+array3 и соответствующий foreach, сохраняют текущие F/thread. Прежний leak check
+проходит; verifier продолжает normal path и отказывает: **Loop invariant required**,
+`verified/lib.rs(271,13-44)`, log1792. Это прогресс на наблюдаемом cleanup-пути,
+а не принятое доказательство всех normal/unwind/Continue ветвей.
+
+Финальные actual inputs: source `a1de980d9ee667baea2a24df1133aa5e84e84e43`,
+tool `706e7c89fdf69dbe11e05ef275300b20d30a27cb`, profile
+`experimental-merge-guard-current-return-r9-v1`, SHA
+`055374de5bc913e4725951f0d8c9458f1c6498ab5f89d4a039d8cab591741a67`.
+Финальный checkpoint содержит последующий отчёт и учёт; он не выдаётся за built source.
+
+| Build / кандидат | Проверенная гипотеза или fix | Actual результат | Charge / execution |
+|---|---|---|---|
+| [1](cloud-build/origin-layout/R9-BUILD1-RESULT-20261020.json) / 1744fe39 | Native edge/heap trace | Compile PASS; cleanup return установлен, root free missing half | 589 / 588 |
+| [2](cloud-build/origin-layout/R9-BUILD2-RESULT-20261020.json) / 6e5c56af | Checked recovery hook | Translator compile refusal: helper вне области видимости; proof не запущен | 395 / 394 |
+| [3](cloud-build/origin-layout/R9-BUILD3-RESULT-20261020.json) / 91d1f52b | Shared helper scope fix | Compile PASS; tmp recovery проходит, panic CURRENT post требует array3 | 623 / 622 |
+| [4](cloud-build/origin-layout/R9-BUILD4-RESULT-20261020.json) / 995855a6 | CURRENT joins и u64 owner lemma | Compile PASS; lemma не закрывает generic own, caller не установлен | 555 / 554 |
+| [5](cloud-build/origin-layout/R9-BUILD5-RESULT-20261020.json) / 392278a3 | Explicit concrete u64 owner close | CURRENT array/foreach/F восстановлены; leak старого foreach | 634 / 633 |
+| [6](cloud-build/origin-layout/R9-BUILD6-RESULT-20261020.json) / a1de980d | Checked old→CURRENT owners | Compile PASS; прежний leak check проходит; normal backedge требует invariant | 621 / 621 |
+
+Build6 `776ec45f-d114-4914-bd12-792311b57ae1`: create21:25:20.602322912Z,
+start21:25:21.308441329Z, finish21:35:41.523965Z; timeout740/envelope800.
+Наблюдаемых отдельных длительностей compile/target/teardown нет. Все шесть Builds
+terminal FAILURE/accounted. Brief подтверждает archive/inventory integrity,
+source verdict NOT_ACCEPTED; stage coverage512/688, notcaptured176. Exact bounded
+fragments не устанавливают причинность либо parser/MIR binding сами по себе.
+
+Отдельное обслуживание: branch-local phase/authorization/profile registration;
+read-only native receipts; точный checked hook только после успешного selected
+Drop return; checked source lemmas; strict source/stage/diagnostic gates;
+защита service error path. Closure19patch/17pins/18base проверена. Актуальные
+изменения прошли независимый Luna HIGH review; marker и10control service checks
+PASS. Новых trusted premises сверх сохранённого R8 allocation scope не добавлено.
+Это обслуживание не считается закрытием полного proof obligation.
+
+Финальные recovery controls: omit_end/duplicate_end — expected resource refusal;
+missing_marker — expected admission rejection; duplicate_marker/wrongorigin —
+INCONCLUSIVE. Все пять source/stage gates admitted. У duplicate_marker совпал
+текст, но не ожидаемая строка; wrongorigin дошёл до loop-invariant refusal271,
+а не целевого predicate/error325. Эти два случая не получили negative credit.
+Final archived freshness aggregate содержит2positive/6intendednegative source
+classifications на final profile, byte-identical Build4; это не independent
+qualification и само по себе не устанавливает rerun/causality.
+[Точные controls](cloud-build/origin-layout/R9-BUILD6-CONTROL-OBSERVATION-20261020.json). Prefix, physical
+BeforeLive, Rocq StorageLive/Dead, normal Continue и полная совместимая матрица
+остаются OPEN. Ранее пропущенные dependent controls не объявлены negative PASS.
+Следующий шаг нового разрешённого окна — exact normal backedge resource inventory
+и checked-инвариант движущегося gap, затем полная final-identity qualification.
+
+T0/main/absolute UTC2026-10-20 **19:30:15 /21:30:15 /22:00:15**. После main
+новых гипотез/Builds/retries не было. Счёт закрыт21:39:24.777943Z:
+**3417charged/3412execution из3600;183retired;remaining0;carry=false**.
+Own active/unresolved/requests/reservations=0, проверено под coordinator lock;
+общий v3/max3 не менялся. R8 closed3379/3374/221retired сохранён без переноса.
+
+[Итог](cloud-build/origin-layout/R9-FINAL-RESULT-20261020.json) ·
+[Сессия](cloud-build/origin-layout/R9-SESSION-20261020.md) ·
+[Обязательства](cloud-build/origin-layout/R9-OBLIGATIONS-20261020.md) ·
+[Release](cloud-build/origin-layout/R9-RELEASE-20261020.json).

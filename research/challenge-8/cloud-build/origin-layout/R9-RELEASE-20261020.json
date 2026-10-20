@@ -1,6 +1,6 @@
 {
   "schema": "merge-r9-release-v1",
-  "status": "CANDIDATE6_CHECKED_OLD_TO_CURRENT_U64_OWNERS_ACTUAL_PENDING",
+  "status": "CLOSED_PARTIAL_NOT_ACCEPTED",
   "tool": "706e7c89fdf69dbe11e05ef275300b20d30a27cb",
   "profile": "experimental-merge-guard-current-return-r9-v1",
   "profile_sha256": "055374de5bc913e4725951f0d8c9458f1c6498ab5f89d4a039d8cab591741a67",
@@ -14,5 +14,9 @@
   "source_pins": 17,
   "review": "R9-CANDIDATE6-REVIEW-20261020.md",
   "design": "R9-GUARD-RETURN-DESIGN-20261020.md",
-  "inputs": "R9-INPUTS-20261020.json"
+  "inputs": "R9-INPUTS-20261020.json",
+  "last_actual_source_sha": "a1de980d9ee667baea2a24df1133aa5e84e84e43",
+  "last_actual_build": "776ec45f-d114-4914-bd12-792311b57ae1",
+  "actual_result": "compiler PASS/proof attempted; observed cleanup recovery and leakcheck pass, normal backedge requires invariant",
+  "final_report": "R9-FINAL-RESULT-20261020.json"
 }

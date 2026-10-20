@@ -96,3 +96,13 @@ original tmp debt, leave the loop body unmodified and return that specific
 missing resource/transition as the blocker. The unchanged normal and unwind
 posts, current three-cell recovery, and R8/R9 profile boundaries remain in
 force.
+
+## Actual R9 Build6 frontier
+
+Build `776ec45f-d114-4914-bd12-792311b57ae1`, exact source `a1de980d`,
+tool `706e7c89`, profile `055374de`, reaches `Loop invariant required` at
+`verified/lib.rs(271,13-44)` (actual log1792) after prior cleanup leakcheck1742
+passes. See R9-BUILD6-RESULT for exact archive/index/file/request identities.
+This confirms the invariant blocker; the source sketch above still does not
+establish the normal backedge heap or a verified invariant. Main window ended;
+no implementation or new Build follows in R9.

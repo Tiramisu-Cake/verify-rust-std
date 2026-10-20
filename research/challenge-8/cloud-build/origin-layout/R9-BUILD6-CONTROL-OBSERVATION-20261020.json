@@ -1,0 +1,127 @@
+{
+  "schema": "r9-build6-control-observation-v1",
+  "build": {
+    "id": "776ec45f-d114-4914-bd12-792311b57ae1",
+    "source_commit": "a1de980d9ee667baea2a24df1133aa5e84e84e43",
+    "tool_commit": "706e7c89fdf69dbe11e05ef275300b20d30a27cb",
+    "profile": "experimental-merge-guard-current-return-r9-v1",
+    "profile_sha256": "055374de5bc913e4725951f0d8c9458f1c6498ab5f89d4a039d8cab591741a67",
+    "brief_processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+    "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+    "run_exit_source_claim": 1,
+    "proof_attempted_source_claim": true,
+    "compiler_classification_source_claim": "PASS",
+    "proof_credit": 0,
+    "archive_sha256": "c6a4933a41d2027b52f035fee779d35e9fbc9df2d1c3809c5c1ce92030e39e62",
+    "index_sha256": "aa76b72c313e6101b49a8a3986c28757deeec59e6d3288f8e34ebbeaf1a2cfb0",
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "causality": "UNKNOWN",
+    "bounded_actual_verifast": {
+      "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verifast.log",
+      "sha256": "80dee703dec5e3e996546ebf50dfd4edadacb7839041678770fc1438606427b1",
+      "line": 1792,
+      "source_location": "verified/lib.rs(271,13-44)",
+      "diagnostic": "Loop invariant required.",
+      "context": "preceded by freeing locals at source 316; bounded Brief context only"
+    }
+  },
+  "guard_return_recovery_controls": {
+    "file_id": "6a1265e818537cc1764b2d1b48d758ef7d037166f56da30c7b03e15ea94ba924",
+    "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/guard-return-recovery-controls/aggregate.json",
+    "sha256": "22729ec30d2eea4aa9692c8a1c39d6ac3b56a6be68fae84e659d6afa7b875237",
+    "classification": "INCONCLUSIVE",
+    "accepted": false,
+    "proof_credit": false,
+    "baseline": {
+      "admitted": true,
+      "source_exact": true,
+      "return_binding_matches": true,
+      "cleanup_return_before_count": 1,
+      "cleanup_return_complete_count": 1,
+      "recovery_completion_observed": true,
+      "verifast_log_sha256": "80dee703dec5e3e996546ebf50dfd4edadacb7839041678770fc1438606427b1"
+    },
+    "case_gate_summary": "Each of the five cases has source_gate.admitted=true and stage_receipt_gate.admitted=true.",
+    "cases": {
+      "duplicate_end": {"classification": "EXPECTED_RESOURCE_REFUSAL", "matched": true, "canonical_spec_error_last_at_target": true, "last_executed_line_before_error": 324, "proof_credit": false},
+      "duplicate_marker": {
+        "classification": "INCONCLUSIVE",
+        "expected_frontend_error": "R9 guard-return marker is ambiguous",
+        "expected_error_line": 227,
+        "frontend_error_match": false,
+        "actual_error": "verified/lib.rs(318,5-333,10): error: R9 guard-return marker is ambiguous",
+        "source_gate_admitted": true,
+        "stage_receipt_gate_admitted": true,
+        "proof_credit": false
+      },
+      "missing_marker": {"classification": "EXPECTED_ADMISSION_REJECTION", "frontend_error_match": true, "matched": true, "expected_error_line": 152, "proof_credit": false},
+      "omit_end": {"classification": "EXPECTED_RESOURCE_REFUSAL", "matched": true, "error_at_target": true, "expected_predicate_match": true, "proof_credit": false},
+      "wrongorigin": {
+        "classification": "INCONCLUSIVE",
+        "expected_error_line": 325,
+        "expected_predicate_match": false,
+        "error_at_target": false,
+        "last_executed_line_before_error": 270,
+        "actual_error": "verified/lib.rs(271,13-44): error: Loop invariant required.",
+        "source_gate_admitted": true,
+        "stage_receipt_gate_admitted": true,
+        "proof_credit": false
+      }
+    }
+  },
+  "freshness_controls": {
+    "file_id": "3177de3caa3993017f98719ca5b1fc66b7d21b1c7d05c2396f7a9c2dc042da31",
+    "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/owned-array-allocation-freshness-controls/aggregate.json",
+    "sha256": "972f7916440dc89b40f4bfc6890bc0638a573e8c23607adc8bfcd7ba9afb9c77",
+    "aggregate_index_sha256": "aa76b72c313e6101b49a8a3986c28757deeec59e6d3288f8e34ebbeaf1a2cfb0",
+    "profile": "experimental-merge-guard-current-return-r9-v1",
+    "profile_sha256": "055374de5bc913e4725951f0d8c9458f1c6498ab5f89d4a039d8cab591741a67",
+    "effective_tool_commit": "706e7c89fdf69dbe11e05ef275300b20d30a27cb",
+    "profile_accepted": false,
+    "proof_credit": false,
+    "all_classified": true,
+    "classification": "DIAGNOSTIC_CONTROLS_CLASSIFIED",
+    "cases": {
+      "currentprefix2": "PASS_CONTROL",
+      "wholearray3": "PASS_CONTROL",
+      "default_off": "EXPECTED_REJECTION_DIAGNOSTIC",
+      "missing_current_owner": "EXPECTED_REJECTION_DIAGNOSTIC",
+      "numeric_same_address_no_owner": "EXPECTED_REJECTION_DIAGNOSTIC",
+      "wrong_element": "EXPECTED_REJECTION_DIAGNOSTIC",
+      "wrong_entry_count": "EXPECTED_REJECTION_DIAGNOSTIC",
+      "wrong_root": "EXPECTED_REJECTION_DIAGNOSTIC"
+    },
+    "comparison": "Build6 archived freshness aggregate is byte-identical to Build4; the aggregate alone does not independently establish rerun/causal attribution or new qualification. Final Build6 source classifications are recorded without proof credit."
+  },
+  "targeted_reader_provenance": {
+    "guard_catalogue_file_id": "6a1265e818537cc1764b2d1b48d758ef7d037166f56da30c7b03e15ea94ba924",
+    "guard_catalogue_sha256": "22729ec30d2eea4aa9692c8a1c39d6ac3b56a6be68fae84e659d6afa7b875237",
+    "guard_refresh_info_request_id": "e07255ea1297d193327720f15921c8fe564f263776351f99c583f143e3c47b0c",
+    "guard_root_request_id": "8df5c0050a13d01f7ca2534409c06b9034b6dfaee4b9b0c693360ed612a04bf9",
+    "guard_baseline_request_id": "226f97ef22eaa787561e07d5bc545f6b13bc4afc5aac835af2633c5a0b06ccf6",
+    "case_details_request_ids": {
+      "duplicate_end": "5a4401fa365fb1d78ccc9e50fbd82cda7a92b3f9611e3adb0994a963f54f9bc5",
+      "duplicate_marker": "344c18a07a492261de2eb55ace8471f892fdacc4b8ff71e07c15af73b7c737cf",
+      "missing_marker": "a44c1d315bb4c984b8b8b80d1ef8e8c517fd516ed0ced1c63c27babe5ba96a3f",
+      "omit_end": "c5e65e0ba784aac30def452c368ed17c8ebbcf0fa36a8d5fbe63a0e32d33f591",
+      "wrongorigin": "d4c10d8f4f978d51c11e112e0f786925de1286ec4ac6c12a09a6a908d1b51e02"
+    },
+    "inconclusive_error_request_ids": {
+      "duplicate_marker": "8cbd807f9510ef519434f7937f4544a61f722ceca367367005c0c6393807dfe9",
+      "wrongorigin": "302b613c0c101f86698e43c21eab9a028af2da702f79f584092ccc96bbd12e9a"
+    },
+    "inconclusive_gate_request_ids": {
+      "duplicate_marker_source": "db5ebc07df5c618e344a2071575e5d9788e3124539dbc6723546d6fe1143b5d5",
+      "duplicate_marker_stage": "827e3600c9c8cb5013bc6625148bb790942032ef77dac2f1a07be62825c1d3d0",
+      "wrongorigin_source": "4227768e40afa09a6e9585214156975b2a7dd1b1e3a01961488474200ba830a2",
+      "wrongorigin_stage": "7c4489c4ecae41199c348f9ee1520e376a149bc2f143621c53d815c4092ea1e4"
+    },
+    "freshness_catalogue_file_id": "3177de3caa3993017f98719ca5b1fc66b7d21b1c7d05c2396f7a9c2dc042da31",
+    "freshness_catalogue_sha256": "972f7916440dc89b40f4bfc6890bc0638a573e8c23607adc8bfcd7ba9afb9c77",
+    "freshness_info_request_id": "c1651a8a853f033d62859d6872d4bfd9e0a63c03b129c8f4adc69c3ab5bdbebe",
+    "freshness_root_request_id": "4095567b6284c8d592b695dd5860767f3245bcd56ef61630ec9f6af81a7c097e",
+    "freshness_cases_request_id": "a749c05a0dd20dc9d3ae3cb1232f09326a6571a18a41c7590c25c9c4248cf851"
+  },
+  "coverage": "Brief plus bounded targeted JSON fields only; no raw/full logs or GCS accessed",
+  "limits": ["source claims only", "no proof credit", "parser-input binding NOT_ESTABLISHED", "causality UNKNOWN"]
+}

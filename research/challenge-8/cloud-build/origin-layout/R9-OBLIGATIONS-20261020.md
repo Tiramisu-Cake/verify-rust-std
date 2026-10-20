@@ -1,48 +1,48 @@
-# R9 obligations and evidence boundary
+# R9 final obligations and evidence boundary
 
-Current publishedcandidate5 source392278a3/tool706e7c89/profile055374de,
-Build5 0399617c WORKING. Used2162/2158execution beforeterminal, remaining1438.
-Last actualcallerprogress remains Build3 source91d1f52b/e035d339/profile4802cd76:
-checkedoriginalreadonlyend/merge/halfassert oncleanup138→139Resume andhalf tmp
-beforefree, thenpanicpost165 missingarraybegin3. Build4 compiled butcheckednew
-lemma failed genericownclose beforecaller. Candidate5 explicitlyclosesexisting
-u64_own first; no actualnewarrayrejoin claim. Fullproof/qualificationOPEN,credit0.
+R9 CLOSED_PARTIAL. Last actual source `a1de980d9ee667baea2a24df1133aa5e84e84e43`,
+Build `776ec45f-d114-4914-bd12-792311b57ae1`, tool `706e7c89`, profile `055374de`.
+The final checkpoint includes later reporting/accounting and is not the built source.
+All six builds terminal FAILURE/accounted;3417charged/3412execution,183retired,
+remaining0/carryfalse. Own active/unresolved/requests/reservations0 under lock.
+No new hypothesis/build/retry after main21:30:15Z; account closed21:39:24Z.
 
-| Obligation | Candidate1 observed result | Required compatible final evidence |
+| Obligation | Compatible final observation | Remaining requirement |
 |---|---|---|
-| Native failed return binding | cleanup143 selectedDrop returning->144Resume->free, exactsameBody metadata | updatednative identities, returning-before/complete receipts |
-| Original tmp readonly recovery | tokenquarter/sourcequarter/originquarter survive; rootfree missinghalf | ordinarychecked end_ref_readonly+physicalmerge+halfassert, thenfree |
-| Full CURRENT normal/unwind | OPEN | actual3 currentvalues/array/foreach/F/thread restored on all exits |
-| Continue/break and lateCleanup | no completeproof; oneobservedcleanup path | distinct executed branch receipts and checkedposts |
-| Recovery negatives | notpresent | omitend/duplicateend/wrongorigin kernelrefusal + missing/duplicatemarker admissionrefusal |
-| Allocation qualification | bothpositive+sixintendednegative sourceclassified, noINC | compatiblefinalidentities, remainingDrop/normal/unwindmatrix; qualificationOPEN |
-| Prefix Unsize/borrow return | sourceINCONCLUSIVE | exactsubtype/body/span/assignment/metadata/lifetime+checkedliveborrowreturn |
-| Four resource losses and HRTB/officialfirstunwind controls | sourceNOT_RUN_PREFIX_PREREQUISITE_FAILED | prefixprereq then exactintendeddiagnostics; setupskip is notnegativePASS |
-| Emptytail positive/three negatives | sourceDIAGNOSTIC_CONTROLS_CLASSIFIED | retainedunderfinalidentities, noindependentcredit |
-| Late admission controls | sourceALL_INTENDED_ADMISSION_REJECTIONS | R9fullsource marker environment restored; exactfinalcontrols |
-| CURRENT18/5 negatives, B1/helpers, defaultoff/receiver/end/retirement | retainedsuite, no newindependentqualification | exactfinalmatrix and source-stage-target gates |
-| BeforeLive | historicalunboundlocal lexicalrefusal INCONCLUSIVE | physicalheaprefusal beforeactualStorageLive; LocalAddrTaken notliveness |
-| Rocq StorageLive/Dead | OPEN, no credit | separateconsumersemantics decision/evidence |
-| Whole insert_tail/caller/B2 | OPEN, independentcredit0 | fullcompatibleproof, no sourcePASS/integrity promotion |
+| Native failed return binding | Same-body receipt: cleanup Drop138 returning→139 Resume; source/body/hash/key/guard metadata and before/complete1/1 | Distinct normal/other cleanup/Drop-own-unwind/abort receipts and applicable matrix |
+| Original tmp readonly recovery | Ordinary checked commands complete; real tmp half survives before free | All relevant exits, including normal Continue/break; no full-function acceptance |
+| CURRENT array/owner/F/thread | Full array3 and matching foreach CURRENT list, F/thread observed after successful cleanup Drop | All normal/unwind CURRENT posts on final identities |
+| Old logical u64 owners | Checked unfolding/rebuild; prior function leakcheck1742 passes and execution continues1743 | No generic owner bridge or value snapshot equality inferred |
+| Normal Continue | Actual verifier refuses source271: Loop invariant required | Exact normal backedge resource inventory and checked moving-gap invariant; source sketch is not a proof |
+| Recovery negative controls | omit_end/duplicate_end resource refusal; missing_marker admission refusal; all five source/stage gates admitted | duplicate_marker location mismatch and wrongorigin target-predicate mismatch remain INCONCLUSIVE |
+| Allocation profile | Final archive source-classifies two positive and six intended negative controls; byte-identical aggregate to Build4 | Complete final normal/unwind/Drop qualification; byte identity alone establishes no rerun/causality; qualification OPEN |
+| Prefix Unsize/borrow return | Retained prefix INCONCLUSIVE | Exact Unsize subtype/body/span/assignment/metadata/lifetime plus checked mutable-borrow return; raw slice metadata grants no reference authority |
+| Four resource losses/HRTB/official first-unwind | Source NOT_RUN_PREFIX_PREREQUISITE_FAILED | Prefix prerequisite and exact intended diagnostics; setup skip is not negative PASS |
+| Empty-tail/late admission/CURRENT18/receiver/end/retirement/default-off/B1 helpers | Retained suite/source observations, no new independent credit | Complete compatible final matrix and branch receipts; prefix-dependent routing remains a limitation |
+| BeforeLive | Lexical unbound-local refusal, still INCONCLUSIVE | Physical pre-StorageLive heap refusal with checked address binding; LocalAddrTaken is not liveness |
+| Rocq StorageLive/Dead | Unchanged semantics, no credit | Separate consumer-semantics decision/evidence |
+| Whole insert_tail/caller/B2 | OPEN; accepted=false; independent proof credit0 | Full compatible proof and independent acceptance |
 
-Maintenance: coordinatorphase1200boundary registered; read-only native events;
-checkedfrontend source-block transfer; strictclassifier/serviceerrors and exact
-19patch/17pins/18retainedbase closure. These are separate from closedproofobligations.
+The observed cleanup debt and old-foreach frontier have progressed, but this is
+not a numerical count of independently closed full proof obligations. Scope and
+source identities are kept together; earlier models/candidates are not combined
+into full acceptance. The R8 trusted allocation premise remains unchanged and
+its qualification remains separate. No new assumed ownership bridge was added.
 
-Evidence references: R9-BUILD1-RESULT-20261020.json and freshness observation preserve
-file/archive/index/request identities; coverage incompleteness retained. Coordinates
-alone do not establish parser/MIR binding or causality. No rawlogs/archive read,
-download_verified updates, historicalverdict rewrite or newallocationpremise.
+Maintenance is separate: R9 phase/profile/source closure, read-only native trace,
+checked exact post-Drop recovery hook, concrete source u64 lemmas, strict diagnostic
+and source/stage controls, invalid-receipt service fix. Luna HIGH independent
+reviews,19patch/17sourcepins/18retained-base closure and targeted service checks
+passed; they are not actual formal proof acceptance.
 
-Independent static checks during Build2: prefix bridge still requires exact
-Unsize metadata plus actual live-borrow return; rawslice constructor grants no
-authority. BeforeLive has no nativepreliveaddress in current interface; deferred
-DeclStmt has onlytypeinfo, StorageLive creates address thenownership/livereceipt.
-Neither lexicalrefusal nor earlierprinting withinsideStorageLive closesphysical
-BeforeLive. See R9-PREFIX-BRIDGE-NOTE and R9-BEFORELIVE-NOTE (20261020).
+Evidence: [Build6](R9-BUILD6-RESULT-20261020.json) records archive/index/file/request
+identities and exact bounded selectors; [controls](R9-BUILD6-CONTROL-OBSERVATION-20261020.json)
+records final case gates and caveats. Reader coordinates alone are not parser/MIR
+binding or causality. Stage coverage512/688,176notcaptured. No raw/full logs,
+archives, download_verified changes or historical verdict/ledger rewrites.
 
-Build4 earlylemma failure is setup/source-proof work, not additional closedcaller
-obligations. Source-onlycandidate5 keeps exacttool/profile andphysicalCURRENT
-commands; successmustbeestablished byBuild5. Newcontrolreceiptchecker requires
-original/verified/small_sort_source exactmap; no intendednegativecredit until
-targetandbaseline gates actuallymatch.
+Independent source investigations remain bounded and explicitly unproved:
+[R9-CONTINUE-NOTE](R9-CONTINUE-NOTE-20261020.md),
+[R9-PREFIX-BRIDGE-NOTE](R9-PREFIX-BRIDGE-NOTE-20261020.md),
+[R9-BEFORELIVE-NOTE](R9-BEFORELIVE-NOTE-20261020.md).
+They define the next authorized-session backlog, not further work inside R9.

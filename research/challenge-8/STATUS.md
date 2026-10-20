@@ -1,12 +1,21 @@
-# MERGE — R9 ACTIVE / CURRENT recovered on observed cleanup
+# MERGE — R9 CLOSED_PARTIAL
 
-T0/main/absolute UTC2026-10-20 19:30:15/21:30:15/22:00:15; used2796/2791execution,
-remaining804, ownactive/unresolved0. Build5 exact392278a3/706e7c89/profile055374de
-observeshalf tmp+fullCURRENTarray3/matchingforeach/currentF oncleanup return,
-pastpanicpost toleakoldforeach. Candidate6 checkedoldlogicalowners unfold-to-emp
-+ makeCURRENT sourceonlyreviewedGO; next740/800 fits804. Fullfunction/normal/
-Continue/prefix/B2/qualificationOPEN,credit0.
-[Task](CURRENT-TASK.md), [session](cloud-build/origin-layout/R9-SESSION-20261020.md).
+2026-10-20: T0/main/absolute19:30:15/21:30:15/22:00:15 UTC; account closed21:39:24Z.
+Six terminal FAILURE/accounted Builds; **3417charged/3412execution,183retired,
+remaining0,carryfalse**. Own active/unresolved/requests/reservations0 under lock.
+
+Last actual source `a1de980d`, tool `706e7c89`, profile `055374de`. Build6
+`776ec45f-d114-4914-bd12-792311b57ae1` compiles and checks original tmp recovery,
+CURRENT array3/matching foreach/F/thread after bound cleanup Drop138→139 Resume.
+Prior function leakcheck passes; next refusal: **Loop invariant required** at
+verified/lib.rs271, actual log1792. Normal backedge inventory/invariant remains
+OPEN; no full normal/unwind/Continue/insert_tail/B2 or independent proof credit.
+Qualification OPEN/acceptedfalse; recovery controls partial, prefix/BeforeLive
+and compatible full matrix OPEN. Separate checked frontend/source/service work
+reviewed Luna HIGH; model premise unchanged from authorized R8 scope.
+
+[Task/report](CURRENT-TASK.md) · [Final result](cloud-build/origin-layout/R9-FINAL-RESULT-20261020.json) ·
+[Obligations](cloud-build/origin-layout/R9-OBLIGATIONS-20261020.md).
 
 Ниже исторические checkpoints; приоритет у текущего R9 задания.
 
