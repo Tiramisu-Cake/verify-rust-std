@@ -81,7 +81,7 @@ def place(name, projection=None):
 
 
 def input_debug(mapping):
-    return [{"name": name, "value": {"place": place(local_name)}}
+    return [{"name": {"name": name}, "value": {"place": place(local_name)}}
             for name, local_name in mapping.items()]
 
 
@@ -148,7 +148,7 @@ def body(name, line_map, mapping, *, wrong_callee=False, wrong_args=False,
     blocks.extend({"statements": [], "terminator": {"kind": {"call": item}}} for item in calls)
     debug_rows = input_debug(mapping)
     if named_temp and not caller_is_observer:
-        debug_rows.append({"name": "named-temp", "value": {"place": place(temp_ids[0])}})
+        debug_rows.append({"name": {"name": "named-temp"}, "value": {"place": place(temp_ids[0])}})
     return {"defKind": {"fn": "void"}, "defPath": name,
             "fnSigSpan": {"regular": {"lo": {"line": 1}}},
             "span": body_span(),
@@ -390,6 +390,15 @@ class CallBindingTests(unittest.TestCase):
             m.observe("P1", decoded("quicksort"),
                       decoded("quicksort", wrong_lifetimes=True, tag="ro"),
                       certificate(), SOURCE)
+
+class DebugSymbolControls(unittest.TestCase):
+    def test_debug_name_malformed_shapes_fail_closed(self):
+        for invalid in (None, "v", {}, {"name": 1}, {"name": ""},
+                        {"name": {"name": "v"}}, {"name": "v", "extra": "v"}):
+            rows = input_debug({"v": "_1", "scratch": "_2", "is_less": "_3"})
+            rows[0]["name"] = invalid
+            with self.subTest(invalid=invalid), self.assertRaises(m.CallBindingError):
+                m._debug_input_roots({"varDebugInfo": rows})
 
 
 if __name__ == "__main__":

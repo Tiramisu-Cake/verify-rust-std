@@ -1,0 +1,7 @@
+# R8 S5: decoded MIR VarDebugInfo Symbol names
+
+Before implementation: S4 Build23fe2c7f-574e-44b6-80f0-8d90ae33c7ac root audit SHAc49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b /first_blocker exactcomplete requestb2827647823fa9aff53ef7246e4854980678efcc8e1b66b020c34a82c3630aef reports CallBindingError MIR varDebugInfo entry must have a textual name afterP0b-observed. Source vf_mir.capnp VarDebugInfo.name is Symbol; Symbol.name is Text. a1-call-binding._debug_input_roots wrongly expects a flat string, mirrored by its hand synthetic fixtures.
+
+Read exactly singleton Symbol{name:Text}, retaining strict nonempty textual names and all existing direct-local, unprojected-input, alias/uniqueness, callee, generic, source/span, lifetime-region, normal/readonly and claim gates. Do not stringify arbitrary structures or accept the false flattened schema. Tests use nested real schema throughout and reject flat/missing/extra/nested/numeric names. Actual paired MIR applicability must be confirmed with bounded Reader before Build; no credit from these synthetic controls.
+
+Observed applicability: exact bounded S4 P0a MIR SHA3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01 lines12059–12060 show varDebugInfo.name=(name="v"); lines12078–12081 bind value.place.local.name="_1" and projection=[]. Per-request IDs/exact/coverage are retained in S4-BINDING-READER-OBSERVATIONS.

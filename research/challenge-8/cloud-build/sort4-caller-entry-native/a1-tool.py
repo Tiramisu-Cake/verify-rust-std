@@ -25,6 +25,8 @@ EXPORTER = "src/rust_frontend/vf_mir_exporter/src/lib.rs"
 KERNEL = "src/verifast.ml"
 R_PATCH = HERE / "required-item-representation-hir-partition-r2-2026-10-20.patch"
 C_PATCH = HERE / "checked-threshold-contract.patch"
+NATIVE_SIGNATURE_PATCH = HERE / "native-small-sort-impl-signature.patch"
+NATIVE_SIGNATURE_MANIFEST = HERE / "NATIVE-SMALL-SORT-IMPL-SIGNATURE-MANIFEST.json"
 SELECTED = "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64"
 FOCUS_SCOPE_MANIFEST = C1 / "NATIVE-RUST-FOCUS-DEAD-CODE-SCOPE-MANIFEST.json"
 FOCUS_SCOPE_PATCH = C1 / "native-rust-focus-dead-code-scope.patch"
@@ -47,6 +49,37 @@ def pinned(path: Path, digest: str, label: str) -> None:
 def save(path: Path, value: object) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
+
+
+def native_signature_overlay_maps(profile: dict, manifest: dict) -> tuple[dict, dict, dict]:
+    """Validate the exact R2 -> native signature -> C source dependency chain."""
+    affected = {TR, SCHEMA, EXPORTER}
+    before = profile.get("r_representation_after")
+    after = profile.get("r_after")
+    need(isinstance(before, dict) and isinstance(after, dict) and
+         set(before) == set(after) == affected,
+         "native signature R representation/source maps")
+    need(isinstance(manifest, dict) and
+         manifest.get("mode") == "SCHEMA_BOUND_IMPL_SIGNATURE_SPECIALIZATION" and
+         isinstance(manifest.get("files"), dict) and
+         set(manifest["files"]) == {TR}, "native signature manifest shape/mode")
+    row = manifest["files"][TR]
+    need(isinstance(row, dict) and row.get("base_sha256") == before[TR] and
+         row.get("result_sha256") == after[TR] and before[TR] != after[TR] and
+         all(before[k] == after[k] for k in (SCHEMA, EXPORTER)) and
+         manifest.get("patch_sha256") == profile.get("native_signature_patch_sha256"),
+         "native signature exact overlay dependency pins")
+    need(profile.get("c_before") == after and
+         isinstance(profile.get("c_after"), dict) and
+         set(profile["c_after"]) == affected and
+         all(profile["c_after"][k] == after[k] for k in (SCHEMA, EXPORTER)),
+         "native signature C dependency/source maps")
+    digests = [*before.values(), *after.values(), *profile["c_after"].values(),
+               manifest.get("patch_sha256")]
+    need(all(isinstance(v, str) and len(v) == 64 and
+             all(c in "0123456789abcdef" for c in v) for v in digests),
+         "native signature malformed SHA256 dependency")
+    return before, {TR: before[TR]}, {TR: after[TR]}
 
 
 def classify_focus_dead_code_stage(stage: object, expected: str,
@@ -352,8 +385,17 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
          r_before[TR] == SELECTED and c_before == r_after and
          all(c_after[key] == c_before[key] for key in (SCHEMA, EXPORTER)),
          "R/C exact file-map shape and ordering")
+    signature_manifest_path = root / NATIVE_SIGNATURE_MANIFEST
+    pinned(signature_manifest_path, profile["native_signature_manifest_sha256"],
+           "native impl signature manifest")
+    signature_manifest = json.loads(signature_manifest_path.read_text())
+    representation_after, signature_before, signature_after = native_signature_overlay_maps(
+        profile, signature_manifest)
     apply("a1-required-item-R", R_PATCH, profile["r_patch_sha256"],
-          {TR, SCHEMA, EXPORTER}, before=r_before, after=r_after)
+          {TR, SCHEMA, EXPORTER}, before=r_before, after=representation_after)
+    apply("a1-native-impl-signature", NATIVE_SIGNATURE_PATCH,
+          profile["native_signature_patch_sha256"], {TR},
+          before=signature_before, after=signature_after)
     # Capture a separately built native-reference console before C/G exists.
     # R repairs representation only; this binary cannot add the checked
     # threshold contract or aliases supplied by C. Its AST is an independent
@@ -379,6 +421,8 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
         "exporter_source_sha256": r_after[EXPORTER],
         "exporter_binary_sha256": sha(tool / "bin/vf-rust-mir-exporter"),
         "r_patch_sha256": profile["r_patch_sha256"],
+        "native_signature_patch_sha256": profile["native_signature_patch_sha256"],
+        "native_signature_manifest_sha256": profile["native_signature_manifest_sha256"],
         "focus_dead_code_scope_patch_sha256":
             profile["focus_dead_code_scope_patch_sha256"],
         "focus_dead_code_scope_source_sha256": sha(tool / FOCUS_SCOPE_FILE),

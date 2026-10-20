@@ -1,0 +1,2821 @@
+{
+  "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+  "source_classification": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "queries": [
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+        "--info"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+        "hint": "Use pointer=\"\" for the first child page; follow next_offset explicitly.",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "json_child_count": 31,
+        "json_kind": "object",
+        "json_pointer_available": true,
+        "max_results": 20,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "preview_request": {
+          "end": 1,
+          "start": 1
+        },
+        "representation": "VERIFIED_FILE_OVERVIEW",
+        "request": {
+          "expected_sha256": "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "info": true
+        },
+        "request_id": "7a6ea7c3a036c05d38509f6472385ba8934243c123d313797a355a562770cb3e",
+        "response_limit_bytes": 12000,
+        "results": [],
+        "schema": "smallsort-targeted-observation-v2",
+        "selectors": [
+          "info",
+          "literal",
+          "lines",
+          "position",
+          "pointer"
+        ],
+        "source_bytes": 2603736,
+        "source_codepoints": 2603736,
+        "source_lines": 1,
+        "status": "OK",
+        "utf8": true
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+        "--pointer",
+        "/observation_details/P0a"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 11,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a"
+        },
+        "request_id": "62541c51ad8abbde8f02b5aea54590621cde1f35efbb06810187135a30efa2e8",
+        "results": [
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/case_id",
+            "value": "P0a"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/classification",
+            "value": "RAW_AND_STRUCTURE_ONLY_UNCLASSIFIED"
+          },
+          {
+            "child_count": 11,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/execution_attestation"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/fixture_path",
+            "value": "/workspace/evidence/allprooflogs/cases/sort4-c1-current-recovery/a1-fixtures/P0a"
+          },
+          {
+            "child_count": 5,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/focus_interval"
+          },
+          {
+            "child_count": 2,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/observed_input_ids"
+          },
+          {
+            "child_count": 2,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/observed_input_sha256"
+          },
+          {
+            "child_count": 13,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/proof_candidate"
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/observation_details/P0a/proof_credit",
+            "value": false
+          },
+          {
+            "child_count": 22,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw"
+          },
+          {
+            "child_count": 11,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/structure"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+        "--pointer",
+        "/observation_details/P0a/raw"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 22,
+        "complete": false,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "next_offset": 20,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a/raw"
+        },
+        "request_id": "d3d79ed0968c96fb2a2ff3e9857b04471148eed25ac7dcaa76ffc620c80a8aac",
+        "results": [
+          {
+            "child_count": 5,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/artifacts"
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/observation_details/P0a/raw/body_count_observed",
+            "value": null
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/build_id",
+            "value": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/case_id",
+            "value": "P0a"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/classification",
+            "value": "RAW_FOCUSED_STAGE_UNCLASSIFIED"
+          },
+          {
+            "child_count": 5,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/compiler_item_identity_observed"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/evidence_root",
+            "value": "/workspace/evidence/allprooflogs/cases/sort4-c1-current-recovery/focus/P0a"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/focus",
+            "value": "verified/lib.rs:44"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/focus_case_id",
+            "value": "P0a"
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/observation_details/P0a/raw/focus_is_export_or_translation_filter",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/observation_details/P0a/raw/focus_source_line",
+            "value": 44
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/focus_stage",
+            "value": "bodies"
+          },
+          {
+            "exact": true,
+            "kind": "null",
+            "pointer": "/observation_details/P0a/raw/native_post_ast_equality_observed",
+            "value": null
+          },
+          {
+            "child_count": 5,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/paired_support"
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/observation_details/P0a/raw/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/source_certificate_sha256",
+            "value": "f9acf5daec7ddbf5b9604b826fa24d3467f0dc586a7c8a6ffa3835f973e7cd51"
+          },
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/observation_details/P0a/raw/source_declaration_line",
+            "value": 44
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/raw/source_id",
+            "value": "925312cd19cb71d0c61a10eb179e13d5c0f0b711ccaef6986bc2136aba6ca6ee"
+          },
+          {
+            "child_count": 2,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/source_pair_sha256"
+          },
+          {
+            "child_count": 6,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/stages"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+        "--pointer",
+        "/observation_details/P0a/observed_input_ids"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 2,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a/observed_input_ids"
+        },
+        "request_id": "673bc37297334d34e6ca7cb81d554aa361f7a01e1e28e457384bd205f5a6e11f",
+        "results": [
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/observed_input_ids/source_id",
+            "value": "925312cd19cb71d0c61a10eb179e13d5c0f0b711ccaef6986bc2136aba6ca6ee"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/observed_input_ids/unit_id",
+            "value": "83875e833ea42fe793f78e5d97ee431074e0ddf3b906adee8056b4790a36175a"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+        "--pointer",
+        "/observation_details/P0a/observed_input_sha256"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 2,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a/observed_input_sha256"
+        },
+        "request_id": "73d50c586815c46f9034df96b697274078b17ebc26a1842ae92b42fc7a2e2b72",
+        "results": [
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/observed_input_sha256/original~1lib.rs",
+            "value": "e9fd760fa6b111691b94d44452a8350a41c9d60f8b9af2942dcb0513e4709885"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/observed_input_sha256/verified~1lib.rs",
+            "value": "dbcc37321090ac46f90f8cce653e5ce28f6528dfc594bec23340ffd7ac91e2c7"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+        "--pointer",
+        "/observation_details/P0a/raw/stages"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 6,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a/raw/stages"
+        },
+        "request_id": "c46fe7381b7e99e1ac16b569e31607e2dd5ec908c3195e66b3d5a52cdf9c1a77",
+        "results": [
+          {
+            "child_count": 9,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/stages/normal-decode"
+          },
+          {
+            "child_count": 9,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/stages/normal-export"
+          },
+          {
+            "child_count": 9,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/stages/readonly-decode"
+          },
+          {
+            "child_count": 9,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/stages/readonly-export"
+          },
+          {
+            "child_count": 9,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/stages/refinement"
+          },
+          {
+            "child_count": 9,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/raw/stages/verification"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "--expect-sha256",
+        "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+        "--pointer",
+        "/observation_details/P0a/execution_attestation"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "child_count": 11,
+        "complete": true,
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "EXACT_JSON_CHILDREN",
+        "request": {
+          "expected_sha256": "c49a2d2ccdab2eeaacdc8e8af466c3896f6704a818dbb2e5d3dc9c89933ab33b",
+          "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+          "pointer": "/observation_details/P0a/execution_attestation"
+        },
+        "request_id": "26c6085a1e5d9e54853041df2ac86e58d11792c0b91cb064e3ac51b113e9d3ec",
+        "results": [
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/execution_attestation/assurance",
+            "value": "runner-inference-from-pinned-kernel-order-and-current-VF-stage"
+          },
+          {
+            "exact": true,
+            "kind": "number",
+            "pointer": "/observation_details/P0a/execution_attestation/body_count",
+            "value": 1
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/execution_attestation/case_id",
+            "value": "P0a"
+          },
+          {
+            "exact": true,
+            "kind": "string",
+            "pointer": "/observation_details/P0a/execution_attestation/classification",
+            "value": "RUNNER_REPORTED_FOCUSED_BODY_AND_CONFORMANCE"
+          },
+          {
+            "child_count": 3,
+            "exact": true,
+            "kind": "object",
+            "pointer": "/observation_details/P0a/execution_attestation/compiler_identity"
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/observation_details/P0a/execution_attestation/focus_body_reached",
+            "value": true
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/observation_details/P0a/execution_attestation/focus_body_verified",
+            "value": true
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/observation_details/P0a/execution_attestation/focus_conformance_verified",
+            "value": true
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/observation_details/P0a/execution_attestation/normal_posts_preserved",
+            "value": true
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/observation_details/P0a/execution_attestation/proof_credit",
+            "value": false
+          },
+          {
+            "exact": true,
+            "kind": "boolean",
+            "pointer": "/observation_details/P0a/execution_attestation/unwind_posts_preserved",
+            "value": true
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "selected_kind": "object",
+        "source_absence_established": false,
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--info"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "content_filtered": false,
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/normal-mir.txt",
+        "file_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "json_pointer_available": false,
+        "max_results": 20,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "preview_request": {
+          "end": 12,
+          "start": 1
+        },
+        "representation": "VERIFIED_FILE_OVERVIEW",
+        "request": {
+          "expected_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+          "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+          "info": true
+        },
+        "request_id": "e0328b781a1b2cd9c21777984e8733d9819ecadead0f89c5ac1e7354053c8d71",
+        "response_limit_bytes": 12000,
+        "results": [],
+        "schema": "smallsort-targeted-observation-v2",
+        "selectors": [
+          "info",
+          "literal",
+          "lines",
+          "position",
+          "pointer"
+        ],
+        "source_bytes": 471894,
+        "source_codepoints": 471894,
+        "source_lines": 12974,
+        "status": "OK",
+        "utf8": true
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--locate",
+        "varDebugInfo"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": true,
+        "content_filtered": false,
+        "coordinate_bases": {
+          "ends": "exclusive",
+          "line_separator": "LF",
+          "lines": 1,
+          "offsets": 0,
+          "unicode_columns": 1
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/normal-mir.txt",
+        "file_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "match_mode": "CASE_SENSITIVE_LITERAL",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "LITERAL_COORDINATES_ONLY",
+        "request": {
+          "expected_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+          "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+          "literal": "varDebugInfo"
+        },
+        "request_id": "f08babd20d899795c62a9316282046e19c7d13d1491f894e565133dea40b7cdb",
+        "results": [
+          {
+            "column": 7,
+            "end_column_exclusive": 19,
+            "end_line": 151,
+            "line": 151,
+            "unicode_end_exclusive": 5045,
+            "unicode_start": 5033,
+            "utf8_byte_end_exclusive": 5045,
+            "utf8_byte_start": 5033
+          },
+          {
+            "column": 7,
+            "end_column_exclusive": 19,
+            "end_line": 1400,
+            "line": 1400,
+            "unicode_end_exclusive": 49981,
+            "unicode_start": 49969,
+            "utf8_byte_end_exclusive": 49981,
+            "utf8_byte_start": 49969
+          },
+          {
+            "column": 7,
+            "end_column_exclusive": 19,
+            "end_line": 1883,
+            "line": 1883,
+            "unicode_end_exclusive": 66339,
+            "unicode_start": 66327,
+            "utf8_byte_end_exclusive": 66339,
+            "utf8_byte_start": 66327
+          },
+          {
+            "column": 7,
+            "end_column_exclusive": 19,
+            "end_line": 2736,
+            "line": 2736,
+            "unicode_end_exclusive": 96480,
+            "unicode_start": 96468,
+            "utf8_byte_end_exclusive": 96480,
+            "utf8_byte_start": 96468
+          },
+          {
+            "column": 7,
+            "end_column_exclusive": 19,
+            "end_line": 6901,
+            "line": 6901,
+            "unicode_end_exclusive": 249490,
+            "unicode_start": 249478,
+            "utf8_byte_end_exclusive": 249490,
+            "utf8_byte_start": 249478
+          },
+          {
+            "column": 7,
+            "end_column_exclusive": 19,
+            "end_line": 7790,
+            "line": 7790,
+            "unicode_end_exclusive": 282616,
+            "unicode_start": 282604,
+            "utf8_byte_end_exclusive": 282616,
+            "utf8_byte_start": 282604
+          },
+          {
+            "column": 7,
+            "end_column_exclusive": 19,
+            "end_line": 9835,
+            "line": 9835,
+            "unicode_end_exclusive": 356075,
+            "unicode_start": 356063,
+            "utf8_byte_end_exclusive": 356075,
+            "utf8_byte_start": 356063
+          },
+          {
+            "column": 7,
+            "end_column_exclusive": 19,
+            "end_line": 12059,
+            "line": 12059,
+            "unicode_end_exclusive": 435480,
+            "unicode_start": 435468,
+            "utf8_byte_end_exclusive": 435480,
+            "utf8_byte_start": 435468
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "search_scope": {
+          "kind": "whole-file",
+          "unicode_end_exclusive": 471894,
+          "unicode_start": 0,
+          "utf8_byte_end_exclusive": 471894,
+          "utf8_byte_start": 0
+        },
+        "source_absence_established": false,
+        "source_bytes": 471894,
+        "source_codepoints": 471894,
+        "source_lines": 12974,
+        "status": "OK",
+        "truncated": false
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--locate",
+        "defPath = \"crate::StableSmallSortTypeImpl::small_sort\""
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": true,
+        "content_filtered": false,
+        "coordinate_bases": {
+          "ends": "exclusive",
+          "line_separator": "LF",
+          "lines": 1,
+          "offsets": 0,
+          "unicode_columns": 1
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/normal-mir.txt",
+        "file_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "match_mode": "CASE_SENSITIVE_LITERAL",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "LITERAL_COORDINATES_ONLY",
+        "request": {
+          "expected_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+          "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+          "literal": "defPath = \"crate::StableSmallSortTypeImpl::small_sort\""
+        },
+        "request_id": "8c5202e6ced7e35a8a6c3dc7affeb2ececa15f80478c5146abba63f10cda0088",
+        "results": [],
+        "schema": "smallsort-targeted-observation-v2",
+        "search_scope": {
+          "kind": "whole-file",
+          "unicode_end_exclusive": 471894,
+          "unicode_start": 0,
+          "utf8_byte_end_exclusive": 471894,
+          "utf8_byte_start": 0
+        },
+        "source_absence_established": false,
+        "source_bytes": 471894,
+        "source_codepoints": 471894,
+        "source_lines": 12974,
+        "status": "NO_MATCH_IN_SEARCH_SCOPE",
+        "truncated": false
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--locate",
+        "StableSmallSortTypeImpl"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": true,
+        "content_filtered": false,
+        "coordinate_bases": {
+          "ends": "exclusive",
+          "line_separator": "LF",
+          "lines": 1,
+          "offsets": 0,
+          "unicode_columns": 1
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/normal-mir.txt",
+        "file_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "match_mode": "CASE_SENSITIVE_LITERAL",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "LITERAL_COORDINATES_ONLY",
+        "request": {
+          "expected_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+          "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+          "literal": "StableSmallSortTypeImpl"
+        },
+        "request_id": "beed8009be22be7c379e6973325ec31c73b123166bea38f9764d7140e07a972b",
+        "results": [
+          {
+            "column": 24,
+            "end_column_exclusive": 47,
+            "end_line": 4,
+            "line": 4,
+            "unicode_end_exclusive": 114,
+            "unicode_start": 91,
+            "utf8_byte_end_exclusive": 114,
+            "utf8_byte_start": 91
+          },
+          {
+            "column": 24,
+            "end_column_exclusive": 47,
+            "end_line": 268,
+            "line": 268,
+            "unicode_end_exclusive": 8753,
+            "unicode_start": 8730,
+            "utf8_byte_end_exclusive": 8753,
+            "utf8_byte_start": 8730
+          },
+          {
+            "column": 24,
+            "end_column_exclusive": 47,
+            "end_line": 1736,
+            "line": 1736,
+            "unicode_end_exclusive": 61408,
+            "unicode_start": 61385,
+            "utf8_byte_end_exclusive": 61408,
+            "utf8_byte_start": 61385
+          },
+          {
+            "column": 24,
+            "end_column_exclusive": 47,
+            "end_line": 2006,
+            "line": 2006,
+            "unicode_end_exclusive": 70240,
+            "unicode_start": 70217,
+            "utf8_byte_end_exclusive": 70240,
+            "utf8_byte_start": 70217
+          },
+          {
+            "column": 41,
+            "end_column_exclusive": 64,
+            "end_line": 8930,
+            "line": 8930,
+            "unicode_end_exclusive": 322204,
+            "unicode_start": 322181,
+            "utf8_byte_end_exclusive": 322204,
+            "utf8_byte_start": 322181
+          },
+          {
+            "column": 41,
+            "end_column_exclusive": 64,
+            "end_line": 11179,
+            "line": 11179,
+            "unicode_end_exclusive": 402343,
+            "unicode_start": 402320,
+            "utf8_byte_end_exclusive": 402343,
+            "utf8_byte_start": 402320
+          },
+          {
+            "column": 41,
+            "end_column_exclusive": 64,
+            "end_line": 11561,
+            "line": 11561,
+            "unicode_end_exclusive": 416950,
+            "unicode_start": 416927,
+            "utf8_byte_end_exclusive": 416950,
+            "utf8_byte_start": 416927
+          },
+          {
+            "column": 18,
+            "end_column_exclusive": 41,
+            "end_line": 12467,
+            "line": 12467,
+            "unicode_end_exclusive": 449243,
+            "unicode_start": 449220,
+            "utf8_byte_end_exclusive": 449243,
+            "utf8_byte_start": 449220
+          },
+          {
+            "column": 26,
+            "end_column_exclusive": 49,
+            "end_line": 12471,
+            "line": 12471,
+            "unicode_end_exclusive": 449371,
+            "unicode_start": 449348,
+            "utf8_byte_end_exclusive": 449371,
+            "utf8_byte_start": 449348
+          },
+          {
+            "column": 26,
+            "end_column_exclusive": 49,
+            "end_line": 12474,
+            "line": 12474,
+            "unicode_end_exclusive": 449503,
+            "unicode_start": 449480,
+            "utf8_byte_end_exclusive": 449503,
+            "utf8_byte_start": 449480
+          },
+          {
+            "column": 18,
+            "end_column_exclusive": 41,
+            "end_line": 12507,
+            "line": 12507,
+            "unicode_end_exclusive": 450485,
+            "unicode_start": 450462,
+            "utf8_byte_end_exclusive": 450485,
+            "utf8_byte_start": 450462
+          },
+          {
+            "column": 26,
+            "end_column_exclusive": 49,
+            "end_line": 12511,
+            "line": 12511,
+            "unicode_end_exclusive": 450613,
+            "unicode_start": 450590,
+            "utf8_byte_end_exclusive": 450613,
+            "utf8_byte_start": 450590
+          },
+          {
+            "column": 26,
+            "end_column_exclusive": 49,
+            "end_line": 12514,
+            "line": 12514,
+            "unicode_end_exclusive": 450745,
+            "unicode_start": 450722,
+            "utf8_byte_end_exclusive": 450745,
+            "utf8_byte_start": 450722
+          },
+          {
+            "column": 21,
+            "end_column_exclusive": 44,
+            "end_line": 12562,
+            "line": 12562,
+            "unicode_end_exclusive": 452095,
+            "unicode_start": 452072,
+            "utf8_byte_end_exclusive": 452095,
+            "utf8_byte_start": 452072
+          },
+          {
+            "column": 28,
+            "end_column_exclusive": 51,
+            "end_line": 12590,
+            "line": 12590,
+            "unicode_end_exclusive": 453159,
+            "unicode_start": 453136,
+            "utf8_byte_end_exclusive": 453159,
+            "utf8_byte_start": 453136
+          },
+          {
+            "column": 34,
+            "end_column_exclusive": 57,
+            "end_line": 12630,
+            "line": 12630,
+            "unicode_end_exclusive": 454802,
+            "unicode_start": 454779,
+            "utf8_byte_end_exclusive": 454802,
+            "utf8_byte_start": 454779
+          },
+          {
+            "column": 34,
+            "end_column_exclusive": 57,
+            "end_line": 12637,
+            "line": 12637,
+            "unicode_end_exclusive": 455131,
+            "unicode_start": 455108,
+            "utf8_byte_end_exclusive": 455131,
+            "utf8_byte_start": 455108
+          },
+          {
+            "column": 32,
+            "end_column_exclusive": 55,
+            "end_line": 12704,
+            "line": 12704,
+            "unicode_end_exclusive": 458327,
+            "unicode_start": 458304,
+            "utf8_byte_end_exclusive": 458327,
+            "utf8_byte_start": 458304
+          },
+          {
+            "column": 38,
+            "end_column_exclusive": 61,
+            "end_line": 12960,
+            "line": 12960,
+            "unicode_end_exclusive": 471304,
+            "unicode_start": 471281,
+            "utf8_byte_end_exclusive": 471304,
+            "utf8_byte_start": 471281
+          },
+          {
+            "column": 38,
+            "end_column_exclusive": 61,
+            "end_line": 12967,
+            "line": 12967,
+            "unicode_end_exclusive": 471661,
+            "unicode_start": 471638,
+            "utf8_byte_end_exclusive": 471661,
+            "utf8_byte_start": 471638
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "search_scope": {
+          "kind": "whole-file",
+          "unicode_end_exclusive": 471894,
+          "unicode_start": 0,
+          "utf8_byte_end_exclusive": 471894,
+          "utf8_byte_start": 0
+        },
+        "source_absence_established": false,
+        "source_bytes": 471894,
+        "source_codepoints": 471894,
+        "source_lines": 12974,
+        "status": "OK",
+        "truncated": false
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--locate",
+        "small_sort"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinate_bases": {
+          "ends": "exclusive",
+          "line_separator": "LF",
+          "lines": 1,
+          "offsets": 0,
+          "unicode_columns": 1
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/normal-mir.txt",
+        "file_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "match_mode": "CASE_SENSITIVE_LITERAL",
+        "next_offset": 20,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "LITERAL_COORDINATES_ONLY",
+        "request": {
+          "expected_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+          "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+          "literal": "small_sort"
+        },
+        "request_id": "3cd07853ba4052e22c61c986186b53f163ac0c8d501e0c6087368ce589497a28",
+        "results": [
+          {
+            "column": 50,
+            "end_column_exclusive": 60,
+            "end_line": 4,
+            "line": 4,
+            "unicode_end_exclusive": 127,
+            "unicode_start": 117,
+            "utf8_byte_end_exclusive": 127,
+            "utf8_byte_start": 117
+          },
+          {
+            "column": 50,
+            "end_column_exclusive": 60,
+            "end_line": 268,
+            "line": 268,
+            "unicode_end_exclusive": 8766,
+            "unicode_start": 8756,
+            "utf8_byte_end_exclusive": 8766,
+            "utf8_byte_start": 8756
+          },
+          {
+            "column": 50,
+            "end_column_exclusive": 60,
+            "end_line": 1736,
+            "line": 1736,
+            "unicode_end_exclusive": 61421,
+            "unicode_start": 61411,
+            "utf8_byte_end_exclusive": 61421,
+            "utf8_byte_start": 61411
+          },
+          {
+            "column": 50,
+            "end_column_exclusive": 60,
+            "end_line": 2006,
+            "line": 2006,
+            "unicode_end_exclusive": 70253,
+            "unicode_start": 70243,
+            "utf8_byte_end_exclusive": 70253,
+            "utf8_byte_start": 70243
+          },
+          {
+            "column": 41,
+            "end_column_exclusive": 51,
+            "end_line": 2512,
+            "line": 2512,
+            "unicode_end_exclusive": 88259,
+            "unicode_start": 88249,
+            "utf8_byte_end_exclusive": 88259,
+            "utf8_byte_start": 88249
+          },
+          {
+            "column": 18,
+            "end_column_exclusive": 28,
+            "end_line": 3078,
+            "line": 3078,
+            "unicode_end_exclusive": 108080,
+            "unicode_start": 108070,
+            "utf8_byte_end_exclusive": 108080,
+            "utf8_byte_start": 108070
+          },
+          {
+            "column": 36,
+            "end_column_exclusive": 46,
+            "end_line": 6037,
+            "line": 6037,
+            "unicode_end_exclusive": 217205,
+            "unicode_start": 217195,
+            "utf8_byte_end_exclusive": 217205,
+            "utf8_byte_start": 217195
+          },
+          {
+            "column": 66,
+            "end_column_exclusive": 76,
+            "end_line": 8930,
+            "line": 8930,
+            "unicode_end_exclusive": 322216,
+            "unicode_start": 322206,
+            "utf8_byte_end_exclusive": 322216,
+            "utf8_byte_start": 322206
+          },
+          {
+            "column": 66,
+            "end_column_exclusive": 76,
+            "end_line": 11179,
+            "line": 11179,
+            "unicode_end_exclusive": 402355,
+            "unicode_start": 402345,
+            "utf8_byte_end_exclusive": 402355,
+            "utf8_byte_start": 402345
+          },
+          {
+            "column": 66,
+            "end_column_exclusive": 76,
+            "end_line": 11561,
+            "line": 11561,
+            "unicode_end_exclusive": 416962,
+            "unicode_start": 416952,
+            "utf8_byte_end_exclusive": 416962,
+            "utf8_byte_start": 416952
+          },
+          {
+            "column": 19,
+            "end_column_exclusive": 29,
+            "end_line": 12470,
+            "line": 12470,
+            "unicode_end_exclusive": 449310,
+            "unicode_start": 449300,
+            "utf8_byte_end_exclusive": 449310,
+            "utf8_byte_start": 449300
+          },
+          {
+            "column": 52,
+            "end_column_exclusive": 62,
+            "end_line": 12471,
+            "line": 12471,
+            "unicode_end_exclusive": 449384,
+            "unicode_start": 449374,
+            "utf8_byte_end_exclusive": 449384,
+            "utf8_byte_start": 449374
+          },
+          {
+            "column": 19,
+            "end_column_exclusive": 29,
+            "end_line": 12473,
+            "line": 12473,
+            "unicode_end_exclusive": 449452,
+            "unicode_start": 449442,
+            "utf8_byte_end_exclusive": 449452,
+            "utf8_byte_start": 449442
+          },
+          {
+            "column": 52,
+            "end_column_exclusive": 62,
+            "end_line": 12474,
+            "line": 12474,
+            "unicode_end_exclusive": 449516,
+            "unicode_start": 449506,
+            "utf8_byte_end_exclusive": 449516,
+            "utf8_byte_start": 449506
+          },
+          {
+            "column": 19,
+            "end_column_exclusive": 29,
+            "end_line": 12510,
+            "line": 12510,
+            "unicode_end_exclusive": 450552,
+            "unicode_start": 450542,
+            "utf8_byte_end_exclusive": 450552,
+            "utf8_byte_start": 450542
+          },
+          {
+            "column": 52,
+            "end_column_exclusive": 62,
+            "end_line": 12511,
+            "line": 12511,
+            "unicode_end_exclusive": 450626,
+            "unicode_start": 450616,
+            "utf8_byte_end_exclusive": 450626,
+            "utf8_byte_start": 450616
+          },
+          {
+            "column": 19,
+            "end_column_exclusive": 29,
+            "end_line": 12513,
+            "line": 12513,
+            "unicode_end_exclusive": 450694,
+            "unicode_start": 450684,
+            "utf8_byte_end_exclusive": 450694,
+            "utf8_byte_start": 450684
+          },
+          {
+            "column": 52,
+            "end_column_exclusive": 62,
+            "end_line": 12514,
+            "line": 12514,
+            "unicode_end_exclusive": 450758,
+            "unicode_start": 450748,
+            "utf8_byte_end_exclusive": 450758,
+            "utf8_byte_start": 450748
+          },
+          {
+            "column": 27,
+            "end_column_exclusive": 37,
+            "end_line": 12566,
+            "line": 12566,
+            "unicode_end_exclusive": 452207,
+            "unicode_start": 452197,
+            "utf8_byte_end_exclusive": 452207,
+            "utf8_byte_start": 452197
+          },
+          {
+            "column": 53,
+            "end_column_exclusive": 63,
+            "end_line": 12590,
+            "line": 12590,
+            "unicode_end_exclusive": 453171,
+            "unicode_start": 453161,
+            "utf8_byte_end_exclusive": 453171,
+            "utf8_byte_start": 453161
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "search_scope": {
+          "kind": "whole-file",
+          "unicode_end_exclusive": 471894,
+          "unicode_start": 0,
+          "utf8_byte_end_exclusive": 471894,
+          "utf8_byte_start": 0
+        },
+        "source_absence_established": false,
+        "source_bytes": 471894,
+        "source_codepoints": 471894,
+        "source_lines": 12974,
+        "status": "OK",
+        "truncated": true
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--locate",
+        "varDebugInfo"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": true,
+        "content_filtered": false,
+        "coordinate_bases": {
+          "ends": "exclusive",
+          "line_separator": "LF",
+          "lines": 1,
+          "offsets": 0,
+          "unicode_columns": 1
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/normal-mir.txt",
+        "file_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "match_mode": "CASE_SENSITIVE_LITERAL",
+        "next_offset": null,
+        "offset": 0,
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "representation": "LITERAL_COORDINATES_ONLY",
+        "request": {
+          "expected_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+          "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+          "literal": "varDebugInfo"
+        },
+        "request_id": "f08babd20d899795c62a9316282046e19c7d13d1491f894e565133dea40b7cdb",
+        "results": [
+          {
+            "column": 7,
+            "end_column_exclusive": 19,
+            "end_line": 151,
+            "line": 151,
+            "unicode_end_exclusive": 5045,
+            "unicode_start": 5033,
+            "utf8_byte_end_exclusive": 5045,
+            "utf8_byte_start": 5033
+          },
+          {
+            "column": 7,
+            "end_column_exclusive": 19,
+            "end_line": 1400,
+            "line": 1400,
+            "unicode_end_exclusive": 49981,
+            "unicode_start": 49969,
+            "utf8_byte_end_exclusive": 49981,
+            "utf8_byte_start": 49969
+          },
+          {
+            "column": 7,
+            "end_column_exclusive": 19,
+            "end_line": 1883,
+            "line": 1883,
+            "unicode_end_exclusive": 66339,
+            "unicode_start": 66327,
+            "utf8_byte_end_exclusive": 66339,
+            "utf8_byte_start": 66327
+          },
+          {
+            "column": 7,
+            "end_column_exclusive": 19,
+            "end_line": 2736,
+            "line": 2736,
+            "unicode_end_exclusive": 96480,
+            "unicode_start": 96468,
+            "utf8_byte_end_exclusive": 96480,
+            "utf8_byte_start": 96468
+          },
+          {
+            "column": 7,
+            "end_column_exclusive": 19,
+            "end_line": 6901,
+            "line": 6901,
+            "unicode_end_exclusive": 249490,
+            "unicode_start": 249478,
+            "utf8_byte_end_exclusive": 249490,
+            "utf8_byte_start": 249478
+          },
+          {
+            "column": 7,
+            "end_column_exclusive": 19,
+            "end_line": 7790,
+            "line": 7790,
+            "unicode_end_exclusive": 282616,
+            "unicode_start": 282604,
+            "utf8_byte_end_exclusive": 282616,
+            "utf8_byte_start": 282604
+          },
+          {
+            "column": 7,
+            "end_column_exclusive": 19,
+            "end_line": 9835,
+            "line": 9835,
+            "unicode_end_exclusive": 356075,
+            "unicode_start": 356063,
+            "utf8_byte_end_exclusive": 356075,
+            "utf8_byte_start": 356063
+          },
+          {
+            "column": 7,
+            "end_column_exclusive": 19,
+            "end_line": 12059,
+            "line": 12059,
+            "unicode_end_exclusive": 435480,
+            "unicode_start": 435468,
+            "utf8_byte_end_exclusive": 435480,
+            "utf8_byte_start": 435468
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "search_scope": {
+          "kind": "whole-file",
+          "unicode_end_exclusive": 471894,
+          "unicode_start": 0,
+          "utf8_byte_end_exclusive": 471894,
+          "utf8_byte_start": 0
+        },
+        "source_absence_established": false,
+        "source_bytes": 471894,
+        "source_codepoints": 471894,
+        "source_lines": 12974,
+        "status": "OK",
+        "truncated": false
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--start",
+        "12460",
+        "--end",
+        "12471"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinates": {
+          "base": 1,
+          "end_inclusive": 12471,
+          "line_separator": "LF",
+          "source_lines": 12974,
+          "start": 12460,
+          "unit": "line"
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/normal-mir.txt",
+        "file_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "range_clamped": false,
+        "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+        "request": {
+          "end": 12471,
+          "expected_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+          "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+          "start": 12460
+        },
+        "request_id": "ac9cf8cd479575819c2ade8871aaf64cec5dd5a27a77c7bcc6f30bda8f0b892f",
+        "requested_end": 12471,
+        "results": [
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12460,
+            "text": "            col = (pos = 1) ) ) ),"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12461,
+            "text": "      visibility = (public = void),"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12462,
+            "text": "      isFromExpansion = false,"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12463,
+            "text": "      loopSpecBlocks = [],"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12464,
+            "text": "      defIndex = 38 ) ],"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12465,
+            "text": "  ghostDeclBatches = [],"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12466,
+            "text": "  traitImpls = ["
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12467,
+            "text": "    ( ofTrait = \"StableSmallSortTypeImpl\","
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12468,
+            "text": "      selfTy = \"T\","
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12469,
+            "text": "      items = ["
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12470,
+            "text": "        ( name = \"small_sort_threshold\","
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12471,
+            "text": "          defId = \"<T as StableSmallSortTypeImpl>::small_sort_threshold\","
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--start",
+        "12469",
+        "--end",
+        "12480"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinates": {
+          "base": 1,
+          "end_inclusive": 12480,
+          "line_separator": "LF",
+          "source_lines": 12974,
+          "start": 12469,
+          "unit": "line"
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/normal-mir.txt",
+        "file_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "range_clamped": false,
+        "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+        "request": {
+          "end": 12480,
+          "expected_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+          "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+          "start": 12469
+        },
+        "request_id": "30b4fb211c4ed4faaf6b4bb6fbf17205c99f29f05d4c079cfcd53eb71b7c9db9",
+        "requested_end": 12480,
+        "results": [
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12469,
+            "text": "      items = ["
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12470,
+            "text": "        ( name = \"small_sort_threshold\","
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12471,
+            "text": "          defId = \"<T as StableSmallSortTypeImpl>::small_sort_threshold\","
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12472,
+            "text": "          defIndex = 20 ),"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12473,
+            "text": "        ( name = \"small_sort\","
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12474,
+            "text": "          defId = \"<T as StableSmallSortTypeImpl>::small_sort\","
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12475,
+            "text": "          defIndex = 21 ) ],"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12476,
+            "text": "      span = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12477,
+            "text": "        regular = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12478,
+            "text": "          lo = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12479,
+            "text": "            file = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12480,
+            "text": "              name = ("
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--start",
+        "12555",
+        "--end",
+        "12566"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinates": {
+          "base": 1,
+          "end_inclusive": 12566,
+          "line_separator": "LF",
+          "source_lines": 12974,
+          "start": 12555,
+          "unit": "line"
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/normal-mir.txt",
+        "file_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "range_clamped": false,
+        "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+        "request": {
+          "end": 12566,
+          "expected_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+          "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+          "start": 12555
+        },
+        "request_id": "ada2be7698b281e534cc104ab1c9b3f6282e5bc7fdc8411fb22bbebfb66348bc",
+        "requested_end": 12566,
+        "results": [
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12555,
+            "text": "    cons = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12556,
+            "text": "      h = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12557,
+            "text": "        name = \"FreezeMarker\","
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12558,
+            "text": "        requiredFns = (nil = void) ),"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12559,
+            "text": "      t = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12560,
+            "text": "        cons = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12561,
+            "text": "          h = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12562,
+            "text": "            name = \"StableSmallSortTypeImpl\","
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12563,
+            "text": "            requiredFns = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12564,
+            "text": "              cons = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12565,
+            "text": "                h = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12566,
+            "text": "                  name = \"small_sort_threshold\","
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--start",
+        "12624",
+        "--end",
+        "12635"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinates": {
+          "base": 1,
+          "end_inclusive": 12635,
+          "line_separator": "LF",
+          "source_lines": 12974,
+          "start": 12624,
+          "unit": "line"
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/normal-mir.txt",
+        "file_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "range_clamped": false,
+        "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+        "request": {
+          "end": 12635,
+          "expected_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+          "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+          "start": 12624
+        },
+        "request_id": "1bfee10dae275868f44a8c0a2ea20609733347167e5224e556bd5b25191b4dde",
+        "requested_end": 12635,
+        "results": [
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12624,
+            "text": "                          ( kind = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12625,
+            "text": "                              type = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12626,
+            "text": "                                kind = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12627,
+            "text": "                                  param = \"__vf_req_t_15_0\" ) ) ) ) ],"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12628,
+            "text": "                        boundRegions = [] ) ),"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12629,
+            "text": "                    ( trait = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12630,
+            "text": "                        defId = \"StableSmallSortTypeImpl\","
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12631,
+            "text": "                        args = ["
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12632,
+            "text": "                          ( kind = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12633,
+            "text": "                              type = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12634,
+            "text": "                                kind = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12635,
+            "text": "                                  param = \"__vf_req_t_15_0\" ) ) ) ) ],"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--start",
+        "12700",
+        "--end",
+        "12711"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinates": {
+          "base": 1,
+          "end_inclusive": 12711,
+          "line_separator": "LF",
+          "source_lines": 12974,
+          "start": 12700,
+          "unit": "line"
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/normal-mir.txt",
+        "file_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "range_clamped": false,
+        "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+        "request": {
+          "end": 12711,
+          "expected_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+          "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+          "start": 12700
+        },
+        "request_id": "189acda2f0ff9860cda5d2499d6ed2c6355783a0c0ddca2606a513e01874613e",
+        "requested_end": 12711,
+        "results": [
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12700,
+            "text": "                      lifetimeParams = ["
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12701,
+            "text": "                        \"\\'__vf_req_r_16_sig_0_0_named\","
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12702,
+            "text": "                        \"\\'__vf_req_r_16_sig_0_1_named\","
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12703,
+            "text": "                        \"\\'__vf_req_r_16_sig_0_2_named\" ],"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12704,
+            "text": "                      defId = \"StableSmallSortTypeImpl::small_sort\","
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12705,
+            "text": "                      defIndex = 16,"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12706,
+            "text": "                      hirGenerics = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12707,
+            "text": "                        params = ["
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12708,
+            "text": "                          ( name = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12709,
+            "text": "                              plain = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12710,
+            "text": "                                name = (name = \"F\"),"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12711,
+            "text": "                                span = ("
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--start",
+        "12954",
+        "--end",
+        "12965"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinates": {
+          "base": 1,
+          "end_inclusive": 12965,
+          "line_separator": "LF",
+          "source_lines": 12974,
+          "start": 12954,
+          "unit": "line"
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/normal-mir.txt",
+        "file_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "range_clamped": false,
+        "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+        "request": {
+          "end": 12965,
+          "expected_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+          "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+          "start": 12954
+        },
+        "request_id": "fefb80a02960d23b29439d3814e6d1e7206f1ca5ed4362fa54b8d52120cef291",
+        "requested_end": 12965,
+        "results": [
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12954,
+            "text": "                              ( kind = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12955,
+            "text": "                                  type = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12956,
+            "text": "                                    kind = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12957,
+            "text": "                                      param = \"__vf_req_t_16_0\" ) ) ) ) ],"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12958,
+            "text": "                            boundRegions = [] ) ),"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12959,
+            "text": "                        ( trait = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12960,
+            "text": "                            defId = \"StableSmallSortTypeImpl\","
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12961,
+            "text": "                            args = ["
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12962,
+            "text": "                              ( kind = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12963,
+            "text": "                                  type = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12964,
+            "text": "                                    kind = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12965,
+            "text": "                                      param = \"__vf_req_t_16_0\" ) ) ) ) ],"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--start",
+        "12055",
+        "--end",
+        "12065"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinates": {
+          "base": 1,
+          "end_inclusive": 12065,
+          "line_separator": "LF",
+          "source_lines": 12974,
+          "start": 12055,
+          "unit": "line"
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/normal-mir.txt",
+        "file_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "range_clamped": false,
+        "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+        "request": {
+          "end": 12065,
+          "expected_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+          "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+          "start": 12055
+        },
+        "request_id": "473701c1ac717c5d205e5ae967daedfb8fee5134d76473d17e11790d1440bbf1",
+        "requested_end": 12065,
+        "results": [
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12055,
+            "text": "                real = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12056,
+            "text": "                  localPath = \"verified/lib.rs\" ) ) ),"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12057,
+            "text": "            line = 159,"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12058,
+            "text": "            col = (pos = 1) ) ) ),"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12059,
+            "text": "      varDebugInfo = ["
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12060,
+            "text": "        ( name = (name = \"v\"),"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12061,
+            "text": "          sourceInfo = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12062,
+            "text": "            span = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12063,
+            "text": "              regular = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12064,
+            "text": "                lo = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12065,
+            "text": "                  file = ("
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--start",
+        "9828",
+        "--end",
+        "9845"
+      ],
+      "exit_code": 2,
+      "response": "",
+      "stderr": "usage: smallsort-brief [-h] [--base-url BASE_URL] [--token-file TOKEN_FILE]\n                       [--impersonate-service-account IMPERSONATE_SERVICE_ACCOUNT]\n                       [--catalogue [LITERAL] | --search LITERAL | --file\n                       FILE_ID] [--refresh] [--targeted-url TARGETED_URL]\n                       [--info] [--value-start VALUE_START]\n                       [--position POSITION] [--locate LITERAL]\n                       [--near-position NEAR_POSITION] [--end END]\n                       [--radius RADIUS] [--expect-sha256 EXPECT_SHA256]\n                       [--unit {utf8-byte,unicode-codepoint}]\n                       [--within FILE_ID] [--pointer POINTER] [--start START]\n                       [--offset OFFSET]\n                       build_id\nsmallsort-brief: error: --refresh --start requires --end and at most 12 inclusive lines\n"
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--start",
+        "6895",
+        "--end",
+        "6910"
+      ],
+      "exit_code": 2,
+      "response": "",
+      "stderr": "usage: smallsort-brief [-h] [--base-url BASE_URL] [--token-file TOKEN_FILE]\n                       [--impersonate-service-account IMPERSONATE_SERVICE_ACCOUNT]\n                       [--catalogue [LITERAL] | --search LITERAL | --file\n                       FILE_ID] [--refresh] [--targeted-url TARGETED_URL]\n                       [--info] [--value-start VALUE_START]\n                       [--position POSITION] [--locate LITERAL]\n                       [--near-position NEAR_POSITION] [--end END]\n                       [--radius RADIUS] [--expect-sha256 EXPECT_SHA256]\n                       [--unit {utf8-byte,unicode-codepoint}]\n                       [--within FILE_ID] [--pointer POINTER] [--start START]\n                       [--offset OFFSET]\n                       build_id\nsmallsort-brief: error: --refresh --start requires --end and at most 12 inclusive lines\n"
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--start",
+        "7785",
+        "--end",
+        "7800"
+      ],
+      "exit_code": 2,
+      "response": "",
+      "stderr": "usage: smallsort-brief [-h] [--base-url BASE_URL] [--token-file TOKEN_FILE]\n                       [--impersonate-service-account IMPERSONATE_SERVICE_ACCOUNT]\n                       [--catalogue [LITERAL] | --search LITERAL | --file\n                       FILE_ID] [--refresh] [--targeted-url TARGETED_URL]\n                       [--info] [--value-start VALUE_START]\n                       [--position POSITION] [--locate LITERAL]\n                       [--near-position NEAR_POSITION] [--end END]\n                       [--radius RADIUS] [--expect-sha256 EXPECT_SHA256]\n                       [--unit {utf8-byte,unicode-codepoint}]\n                       [--within FILE_ID] [--pointer POINTER] [--start START]\n                       [--offset OFFSET]\n                       build_id\nsmallsort-brief: error: --refresh --start requires --end and at most 12 inclusive lines\n"
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--start",
+        "1395",
+        "--end",
+        "1410"
+      ],
+      "exit_code": 2,
+      "response": "",
+      "stderr": "usage: smallsort-brief [-h] [--base-url BASE_URL] [--token-file TOKEN_FILE]\n                       [--impersonate-service-account IMPERSONATE_SERVICE_ACCOUNT]\n                       [--catalogue [LITERAL] | --search LITERAL | --file\n                       FILE_ID] [--refresh] [--targeted-url TARGETED_URL]\n                       [--info] [--value-start VALUE_START]\n                       [--position POSITION] [--locate LITERAL]\n                       [--near-position NEAR_POSITION] [--end END]\n                       [--radius RADIUS] [--expect-sha256 EXPECT_SHA256]\n                       [--unit {utf8-byte,unicode-codepoint}]\n                       [--within FILE_ID] [--pointer POINTER] [--start START]\n                       [--offset OFFSET]\n                       build_id\nsmallsort-brief: error: --refresh --start requires --end and at most 12 inclusive lines\n"
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--start",
+        "1878",
+        "--end",
+        "1893"
+      ],
+      "exit_code": 2,
+      "response": "",
+      "stderr": "usage: smallsort-brief [-h] [--base-url BASE_URL] [--token-file TOKEN_FILE]\n                       [--impersonate-service-account IMPERSONATE_SERVICE_ACCOUNT]\n                       [--catalogue [LITERAL] | --search LITERAL | --file\n                       FILE_ID] [--refresh] [--targeted-url TARGETED_URL]\n                       [--info] [--value-start VALUE_START]\n                       [--position POSITION] [--locate LITERAL]\n                       [--near-position NEAR_POSITION] [--end END]\n                       [--radius RADIUS] [--expect-sha256 EXPECT_SHA256]\n                       [--unit {utf8-byte,unicode-codepoint}]\n                       [--within FILE_ID] [--pointer POINTER] [--start START]\n                       [--offset OFFSET]\n                       build_id\nsmallsort-brief: error: --refresh --start requires --end and at most 12 inclusive lines\n"
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--start",
+        "2729",
+        "--end",
+        "2744"
+      ],
+      "exit_code": 2,
+      "response": "",
+      "stderr": "usage: smallsort-brief [-h] [--base-url BASE_URL] [--token-file TOKEN_FILE]\n                       [--impersonate-service-account IMPERSONATE_SERVICE_ACCOUNT]\n                       [--catalogue [LITERAL] | --search LITERAL | --file\n                       FILE_ID] [--refresh] [--targeted-url TARGETED_URL]\n                       [--info] [--value-start VALUE_START]\n                       [--position POSITION] [--locate LITERAL]\n                       [--near-position NEAR_POSITION] [--end END]\n                       [--radius RADIUS] [--expect-sha256 EXPECT_SHA256]\n                       [--unit {utf8-byte,unicode-codepoint}]\n                       [--within FILE_ID] [--pointer POINTER] [--start START]\n                       [--offset OFFSET]\n                       build_id\nsmallsort-brief: error: --refresh --start requires --end and at most 12 inclusive lines\n"
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--start",
+        "140",
+        "--end",
+        "156"
+      ],
+      "exit_code": 2,
+      "response": "",
+      "stderr": "usage: smallsort-brief [-h] [--base-url BASE_URL] [--token-file TOKEN_FILE]\n                       [--impersonate-service-account IMPERSONATE_SERVICE_ACCOUNT]\n                       [--catalogue [LITERAL] | --search LITERAL | --file\n                       FILE_ID] [--refresh] [--targeted-url TARGETED_URL]\n                       [--info] [--value-start VALUE_START]\n                       [--position POSITION] [--locate LITERAL]\n                       [--near-position NEAR_POSITION] [--end END]\n                       [--radius RADIUS] [--expect-sha256 EXPECT_SHA256]\n                       [--unit {utf8-byte,unicode-codepoint}]\n                       [--within FILE_ID] [--pointer POINTER] [--start START]\n                       [--offset OFFSET]\n                       build_id\nsmallsort-brief: error: --refresh --start requires --end and at most 12 inclusive lines\n"
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--start",
+        "12059",
+        "--end",
+        "12070"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinates": {
+          "base": 1,
+          "end_inclusive": 12070,
+          "line_separator": "LF",
+          "source_lines": 12974,
+          "start": 12059,
+          "unit": "line"
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/normal-mir.txt",
+        "file_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "range_clamped": false,
+        "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+        "request": {
+          "end": 12070,
+          "expected_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+          "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+          "start": 12059
+        },
+        "request_id": "6248b6aea3d9c212a542c0fbcbc8b933231e0f8971b5bff2087d3c4b8d97e301",
+        "requested_end": 12070,
+        "results": [
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12059,
+            "text": "      varDebugInfo = ["
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12060,
+            "text": "        ( name = (name = \"v\"),"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12061,
+            "text": "          sourceInfo = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12062,
+            "text": "            span = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12063,
+            "text": "              regular = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12064,
+            "text": "                lo = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12065,
+            "text": "                  file = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12066,
+            "text": "                    name = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12067,
+            "text": "                      real = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12068,
+            "text": "                        localPath = \"verified/lib.rs\" ) ) ),"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12069,
+            "text": "                  line = 142,"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12070,
+            "text": "                  col = (pos = 4) ),"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "status": "OK"
+      },
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--refresh",
+        "--file",
+        "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "--expect-sha256",
+        "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "--start",
+        "12071",
+        "--end",
+        "12082"
+      ],
+      "exit_code": 0,
+      "response": {
+        "archive_sha256": "4904d43ecdd15934c3b605005966a93330ff5062f06eefccc436af76561dd962",
+        "build_id": "23fe2c7f-574e-44b6-80f0-8d90ae33c7ac",
+        "causal_status": "UNKNOWN",
+        "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+        "complete": false,
+        "content_filtered": false,
+        "coordinates": {
+          "base": 1,
+          "end_inclusive": 12082,
+          "line_separator": "LF",
+          "source_lines": 12974,
+          "start": 12071,
+          "unit": "line"
+        },
+        "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+        "exact": true,
+        "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+        "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/normal-mir.txt",
+        "file_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+        "index_sha256": "1438e5547b2bc1de8c29dd0ac713b0f88779c2c09ce5dabba2c8009bb34e9bbf",
+        "parser_input_binding": "NOT_ESTABLISHED",
+        "path_sanitized": false,
+        "policy": "economical-exact-v1",
+        "range_clamped": false,
+        "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+        "request": {
+          "end": 12082,
+          "expected_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+          "file_id": "c42b1e8e4de1ca79b3a36b0f975a70cc604ce73ca1d541a7bad8971d2d64ffc2",
+          "start": 12071
+        },
+        "request_id": "611d23084adaaae286e56ebd2ad4d10743c2f554bfc5b84450c02e3a22c2af1e",
+        "requested_end": 12082,
+        "results": [
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12071,
+            "text": "                hi = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12072,
+            "text": "                  file = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12073,
+            "text": "                    name = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12074,
+            "text": "                      real = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12075,
+            "text": "                        localPath = \"verified/lib.rs\" ) ) ),"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12076,
+            "text": "                  line = 142,"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12077,
+            "text": "                  col = (pos = 9) ) ) ) ),"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12078,
+            "text": "          value = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12079,
+            "text": "            place = ("
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12080,
+            "text": "              local = (name = \"_1\"),"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12081,
+            "text": "              projection = [],"
+          },
+          {
+            "ending": "\n",
+            "exact": true,
+            "line": 12082,
+            "text": "              localIsMutable = true,"
+          }
+        ],
+        "schema": "smallsort-targeted-observation-v2",
+        "status": "OK"
+      },
+      "stderr": ""
+    }
+  ]
+}

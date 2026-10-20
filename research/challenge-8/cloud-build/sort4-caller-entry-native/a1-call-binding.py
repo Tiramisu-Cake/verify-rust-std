@@ -182,8 +182,12 @@ def _debug_input_roots(body):
     debug = body.get("varDebugInfo")
     _need(isinstance(debug, list), "MIR varDebugInfo list is required for input binding")
     for row in debug:
-        _need(isinstance(row, dict) and isinstance(row.get("name"), str),
-              "MIR varDebugInfo entry must have a textual name")
+        _need(isinstance(row, dict), "MIR varDebugInfo entry must be a record")
+        symbol = row.get("name")
+        _need(isinstance(symbol, dict) and set(symbol) == {"name"} and
+              isinstance(symbol["name"], str) and bool(symbol["name"]),
+              "MIR varDebugInfo name must be a Symbol with nonempty Text name")
+        name = symbol["name"]
         try:
             value = row["value"]
             if "const" in value:
@@ -196,9 +200,9 @@ def _debug_input_roots(body):
         except (KeyError, TypeError) as exc:
             raise CallBindingError("source input debug entry is not a direct MIR local") from exc
         _need(isinstance(local, str) and local, "debug input local name is empty")
-        debug_names_by_local.setdefault(local, []).append(row["name"])
-        if row["name"] in found:
-            found[row["name"]].append(local)
+        debug_names_by_local.setdefault(local, []).append(name)
+        if name in found:
+            found[name].append(local)
     if any(len(found[name]) != 1 for name in wanted):
         raise CallBindingError("v, scratch, and is_less must each map to one debug local")
     locals_ = [found[name][0] for name in wanted]

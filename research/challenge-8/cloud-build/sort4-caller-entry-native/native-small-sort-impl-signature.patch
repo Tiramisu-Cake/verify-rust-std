@@ -1,0 +1,160 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -13025,28 +13025,54 @@
+                   in
+                   (canonicalize_item_name trait_fn_name, specializer)))
+ 
++  let rec a1_contains_self_type_expr (te : Ast.type_expr) =
++    match te with
++    | Ast.IdentTypeExpr (_, None, "Self") -> true
++    | _ ->
++        Ast.type_expr_fold_open
++          (fun found child -> found || a1_contains_self_type_expr child)
++          false te
++
++  let rec a1_specialize_self_type_expr (te : Ast.type_expr) =
++    let open Ast in
++    match te with
++    | IdentTypeExpr (l, None, "Self") -> IdentTypeExpr (l, None, "T")
++    | RustRefTypeExpr (l, lft, kind, pointee) ->
++        RustRefTypeExpr (l, a1_specialize_self_type_expr lft, kind,
++                         a1_specialize_self_type_expr pointee)
++    | SliceTypeExpr (l, elem) ->
++        SliceTypeExpr (l, a1_specialize_self_type_expr elem)
++    | ConstructedTypeExpr (l, name, args) ->
++        ConstructedTypeExpr (l, name, List.map a1_specialize_self_type_expr args)
++    | StructTypeExpr (l, Some "std::mem::MaybeUninit", None, [], [elem]) ->
++        StructTypeExpr
++          (l, Some "std::mem::MaybeUninit", None, [],
++           [a1_specialize_self_type_expr elem])
++    | _ when a1_contains_self_type_expr te ->
++        Ast.static_error (Ast.type_expr_loc te)
++          "A1 impl signature has Self in an unsupported type expression" None
++    | _ -> te
++
+   let compute_trait_impl_prototypes (adt_defs : Mir.adt_def_tr list)
+       traits_and_body_decls trait_impls =
+     trait_impls
+     |> Util.flatmap (fun { loc = limpl; of_trait; self_ty; items } ->
+-           let items =
+-             List.map (fun ({ name } : D.trait_impl_item) -> name) items
+-           in
++           let item_names = List.map (fun ({ name } : D.trait_impl_item) -> name) items in
+            if of_trait = "std::ops::Drop" then (
+-             assert (items = [ "drop" ]);
++             assert (item_names = [ "drop" ]);
+              [] (* drop is safe *))
+            else if of_trait = "std::ops::Deref" then (
+-             assert (items = [ "Target"; "deref" ]);
++             assert (item_names = [ "Target"; "deref" ]);
+              [] (* Deref is safe *))
+            else if of_trait = "std::ops::DerefMut" then (
+-             assert (items = [ "deref_mut" ]);
++             assert (item_names = [ "deref_mut" ]);
+              [] (* DerefMut is safe *))
+            else if of_trait = "std::clone::Clone" then []
+              (* clone is safe *)
+              (* TODO: Support for traits from other crates. I think it is generally sound to ignore safe traits here *)
+            else
+              items
+-             |> Util.flatmap (fun item ->
++             |> Util.flatmap (fun ({ name = item; def_id = item_def_id } : D.trait_impl_item) ->
+                     let trait_fn_name = Printf.sprintf "%s::%s" of_trait item in
+                     let impl_fn_name =
+                       Printf.sprintf "<%s as %s>::%s" self_ty of_trait item
+@@ -13069,18 +13095,93 @@
+                                  false,
+                                  [] )
+                              when name = trait_fn_name ->
++                               let is_a1_small_sort =
++                                 of_trait = "StableSmallSortTypeImpl" && item = "small_sort"
++                               in
++                               let tparams, rt, ps =
++                                 if is_a1_small_sort then begin
++                                   let actual_name = TrName.translate_def_path item_def_id in
++                                   let actual =
++                                     traits_and_body_decls
++                                     |> List.filter_map (function
++                                          | Ast.Func
++                                              (_, Regular, actual_tparams, actual_rt,
++                                               actual_name', actual_ps, _, _, _, _, _, _, _)
++                                            when actual_name' = actual_name ->
++                                              Some (actual_tparams, actual_rt, actual_ps)
++                                          | _ -> None)
++                                   in
++                                   let fail detail =
++                                     Ast.static_error limpl
++                                       ("A1 small_sort implementation signature " ^ detail)
++                                       None
++                                   in
++                                   if actual_name <> impl_fn_name then
++                                     fail "compiler identity/name mismatch";
++                                   let actual_tparams, actual_rt, actual_ps =
++                                     match actual with
++                                     | [signature] -> signature
++                                     | [] -> fail "compiler item body missing"
++                                     | _ -> fail "compiler item body is not unique"
++                                   in
++                                   let actual_names = List.map fst actual_tparams in
++                                   let common_names = List.map fst tparams in
++                                   let impl_type_bound =
++                                     match actual_tparams, tparams with
++                                     | ("T", t_bound) :: ("F", actual_f_bound) :: actual_lifetimes,
++                                       ("F", required_f_bound) :: required_lifetimes
++                                       when List.length actual_lifetimes = 3 &&
++                                            List.length required_lifetimes = 3 &&
++                                            List.length (List.sort_uniq String.compare actual_names) = 5 &&
++                                            List.length (List.sort_uniq String.compare common_names) = 4 &&
++                                            actual_f_bound.sized = required_f_bound.sized &&
++                                            List.for_all (fun (_, bound) -> not bound.sized)
++                                              actual_lifetimes &&
++                                            List.for_all (fun (_, bound) -> not bound.sized)
++                                              required_lifetimes ->
++                                         ("T", t_bound)
++                                     | _ -> fail "expected T, F, and three lifetime binders with matching roles"
++                                   in
++                                   let actual_inputs = List.map fst actual_ps in
++                                   (match actual_inputs with
++                                    | Ast.ConstTypeExpr
++                                        (_, Ast.RustRefTypeExpr
++                                          (_, _, Ast.Mutable,
++                                           Ast.SliceTypeExpr
++                                             (_, Ast.IdentTypeExpr (_, None, "T")))) :: _ -> ()
++                                    | _ -> fail "first input is not const-wrapped &mut [T]");
++                                   if List.length actual_inputs <> 3 then
++                                     fail "expected exactly three inputs";
++                                   (match actual_rt with
++                                    | Some (Ast.ConstructedTypeExpr
++                                        (_, "fn_outcome",
++                                         [Ast.ManifestTypeExpr
++                                           (_, Ast.StructType (name, []))]))
++                                      when name = TrTyTuple.tuple0_name -> ()
++                                    | _ -> fail "implementation result is not fn_outcome<unit>");
++                                   let specialize = a1_specialize_self_type_expr in
++                                   let rt = Option.map specialize rt in
++                                   let ps = List.map
++                                     (fun (ty, arg) -> (specialize ty, arg)) ps in
++                                   ((impl_type_bound :: tparams), rt, ps)
++                                 end else (tparams, rt, ps)
++                               in
++                               let self_binding_type =
++                                 if is_a1_small_sort then Ast.RealTypeParam "T"
++                                 else Ast.StructType (self_ty, [])
++                               in
+                                let self_ty_typeid =
+                                  Ast.Typeid
+                                    ( lf,
+                                      Ast.TypeExpr
+                                        (Ast.ManifestTypeExpr
+-                                          (lf, Ast.StructType (self_ty, []))) )
++                                          (lf, self_binding_type)) )
+                                in
+                                let pre =
+                                  Ast.LetTypeAsn
+                                    ( lf,
+                                      "Self",
+-                                     Ast.StructType (self_ty, []),
++                                     self_binding_type,
+                                      Ast.Sep
+                                        ( lf,
+                                          MatchAsn

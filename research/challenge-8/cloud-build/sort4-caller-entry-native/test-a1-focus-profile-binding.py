@@ -208,10 +208,28 @@ class FocusProfileBindingTests(unittest.TestCase):
                          r7_profile["first_matrix_cases"])
         for key in ("compiler_commit", "compiler_toolchain", "target",
                     "std_source_sha256", "tool_head", "kernel_sha256",
-                    "r_patch_sha256", "c_patch_sha256", "native_interface_reference",
+                    "r_patch_sha256", "c_patch_sha256",
                     "pointer_width", "execution_mode"):
             with self.subTest(semantic_input=key):
                 self.assertEqual(profile[key], r7_profile[key])
+        native = dict(profile["native_interface_reference"])
+        native["translator_sha256"] = r7_profile["native_interface_reference"]["translator_sha256"]
+        self.assertEqual(native, r7_profile["native_interface_reference"])
+        signature_manifest_path = HERE / "NATIVE-SMALL-SORT-IMPL-SIGNATURE-MANIFEST.json"
+        signature_manifest = json.loads(signature_manifest_path.read_text())
+        translator = "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
+        transition = signature_manifest["files"][translator]
+        self.assertEqual(profile["native_signature_manifest_sha256"],
+                         hashlib.sha256(signature_manifest_path.read_bytes()).hexdigest())
+        self.assertEqual(profile["native_signature_patch_sha256"],
+                         hashlib.sha256((HERE / "native-small-sort-impl-signature.patch").read_bytes()).hexdigest())
+        self.assertEqual(transition["base_sha256"], profile["r_representation_after"][translator])
+        self.assertEqual(transition["result_sha256"], profile["r_after"][translator])
+        self.assertEqual(profile["native_interface_reference"]["translator_sha256"], transition["result_sha256"])
+        self.assertEqual(profile["c_before"], profile["r_after"])
+        self.assertEqual(profile["c_after"][translator], transition["after_unchanged_c_patch_sha256"])
+        for name in ("NATIVE-SMALL-SORT-IMPL-SIGNATURE-MANIFEST.json", "native-small-sort-impl-signature.patch"):
+            self.assertIn("research/challenge-8/cloud-build/sort4-caller-entry-native/" + name, proof_paths)
         lane_script = (repo_root / "research/challenge-8/cloud-build/run-sort4-c1-current-recovery.sh").read_text()
         self.assertIn("a1-entry-r8.py", lane_script)
         self.assertIn(R8, lane_script)

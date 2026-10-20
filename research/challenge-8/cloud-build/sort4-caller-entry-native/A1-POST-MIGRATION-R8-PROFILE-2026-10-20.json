@@ -8,7 +8,7 @@
   },
   "a1_helper_sha256": {
     "a1-ast-gates.py": "917d51a52d9383beb56f52ff22415e62f81ee60a2a8a16ae40e08c17b36c2c58",
-    "a1-call-binding.py": "302a0ee3e2eb1950aa4bd42ac2c5cedbaabc97b114754f63421de8e0d1f9f0cb",
+    "a1-call-binding.py": "49f381a1ef79817515ab6dd80e9b83b245af929aead811012cb824bbff369fbc",
     "a1-compiler-inventory.py": "6394ec909e6d6a7e77988279c382d531d61b10c7ca02e23672291c4622fe95e5",
     "a1-contract-admission.py": "0ac3b182a24ba3a8cfd21588dd393f652e864bf54593ac7f4a5caaa473927ad4",
     "a1-fixtures.py": "6d2cd0956ed5d9821be1dd32f731f201e5aea52ae4f06a676d8dfc5c17355d25",
@@ -18,7 +18,7 @@
     "a1-summary-receipt.py": "bcc55360698346f0aa2dfb3858c6b555a9104db95308116d2c16c188a9b8a7dd",
     "a1-synthetic-backend.py": "4498e7dbcd4ffaaf4746bfee239e56a36f78e883da59937d9b48c1025e5b8feb",
     "a1-synthetic-inputs.py": "dd737956cbff76a7e27abac0603b3a0cc4eeeae2aa7f7c0e1dddb914ac59bc3f",
-    "a1-tool.py": "dd5d1894bdbae10da91068944ffac1fef7b1a4da32f492db8ef8595ed7dd6bd9",
+    "a1-tool.py": "74cbd0426a942abd3ef74178b24ae9db0ebe16441ce1e858fac7c9eee03f5188",
     "selected-proof.py": "3347ad41c0273ebf186dbcf0520182455b32a65ad9619f2b2c7d3d00c12a7d7f"
   },
   "a1_runner_sha256": "36b79dab1be9439422d8b97ed36b25ade857ec08057f132bbb401fa71de735c8",
@@ -31,12 +31,12 @@
   "c_after": {
     "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
     "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
-    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "8b98050f380729625b1ec766be6764af75e65d457c6b99f28a2a38d3a3676d7c"
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "f6907ef41aabeee273bc8ac8ae4e1e0d6c3dfd3111cc5b6a6b54de4873188860"
   },
   "c_before": {
     "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
     "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
-    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "9391bff0376ad008798a950d76dbaac095cacbe8fd5acf5b2ea4d336a759f33f"
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "22dfc0d35257510915676a6a6effbf64151423349811412428a2e69a463436b7"
   },
   "c_patch_sha256": "e7cdc8a8504338ccaab760975c1a3f1a739211d7f8d531dd214babc2005d894e",
   "caller_driver_sha256": "75df07539721e16e2329f94ebe392f8f3626ca106be906cfc0cc61345db4797a",
@@ -95,8 +95,10 @@
     "kind": "separately-built-R-only-original-impl-native-AST",
     "proof_credit": false,
     "runtime_exit_is_proof": false,
-    "translator_sha256": "9391bff0376ad008798a950d76dbaac095cacbe8fd5acf5b2ea4d336a759f33f"
+    "translator_sha256": "22dfc0d35257510915676a6a6effbf64151423349811412428a2e69a463436b7"
   },
+  "native_signature_manifest_sha256": "cabd1c74d0b665234f01d7292f7d9761c0007a295db8ce251956ab0c16fa4526",
+  "native_signature_patch_sha256": "860334136cef5bec7d17c75b26849c6dcd30b72aefb51384d0ef8d64780a1a2f",
   "owner": "select-sort4",
   "packaging_candidate_commit": "8e4da6f232ebdddd7419c2f83ee5c68eb74c2b03",
   "packaging_candidate_rationale": "A1-POST-MIGRATION-R8-ACTIVATION-RATIONALE-2026-10-20.md",
@@ -111,7 +113,7 @@
   "r_after": {
     "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
     "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
-    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "9391bff0376ad008798a950d76dbaac095cacbe8fd5acf5b2ea4d336a759f33f"
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "22dfc0d35257510915676a6a6effbf64151423349811412428a2e69a463436b7"
   },
   "r_before": {
     "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
@@ -120,6 +122,11 @@
   },
   "r_patch_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/required-item-representation-hir-partition-r2-2026-10-20.patch",
   "r_patch_sha256": "9cdca995bc926efe3275319dec345f4d70a2fec7fdc95781decb4e4c2df7c9c8",
+  "r_representation_after": {
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+    "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "9391bff0376ad008798a950d76dbaac095cacbe8fd5acf5b2ea4d336a759f33f"
+  },
   "schema": "smallsort-a1-rcg-source-profile-v1",
   "selected_base_translator_sha256": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64",
   "stable_threshold_pins_sha256": "6d1753038cb1fe9b6ce933f025e905d1776aca4a418f747285208f8a2f0625ed",
