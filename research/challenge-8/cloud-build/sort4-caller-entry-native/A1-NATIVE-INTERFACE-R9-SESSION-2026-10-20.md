@@ -44,3 +44,6 @@ At activation, proofs remain at the R8 baseline: 0 formally closed obligations
 and 0 independent B1/B2 credit. Actual candidate compilation and verifier are
 NOT_RUN. Registration work, any later Build charge, and proof progress are to be
 reported separately. Historical R8 ledger and releases remain untouched.
+
+
+S1 candidate `c73930175ade6efffc82c6f70a5e2d803fdc872d`: independent GPT-6 Luna HIGH GO against be82ac4, no current registration/dependency findings. Synthetic checks: activation8/dispatch7/profile9/action3/progress4/focus7 PASS. Initial exact payload rejected unsorted recipe proof_paths before dispatch; canonical sort fixed and reviewed. Exact committed Git closure PASS:37infra/114proof/171shared objects,529005bytes,186config substitutions,sourceSHA185835f290f28cfd66a7cc0ee01f6fe9a1a2c678ff24930373e4b9701e014ddd. Profile ffdcf3f410055c4cf63ccd264d52dd3dd7a2df54383342ecdb9c833c097ad104. Two known gitmodulesMissing stderr observations with restore exit0; selected bytes/HEADs checked, no full-repository fsck claim. Mathematical source/compiler/std/tool/patch/core/matrix identities equal to R8 corrected candidate; actual compilation/target NOT_RUN until Cloud. Timeout900/envelope960 planned within fresh3600.
