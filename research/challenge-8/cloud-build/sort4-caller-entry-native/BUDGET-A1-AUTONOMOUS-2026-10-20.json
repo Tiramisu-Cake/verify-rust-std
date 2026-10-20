@@ -8,8 +8,8 @@
   "main_deadline_utc": "2026-10-20T00:34:09Z",
   "deadline_utc": "2026-10-20T01:04:09Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 1313,
-  "remaining_build_seconds": 2287,
+  "used_build_seconds": 1787,
+  "remaining_build_seconds": 1813,
   "maximum_build_timeout_seconds": 900,
   "maximum_builds": null,
   "allowed_lanes": [
@@ -82,6 +82,28 @@
       "build_seconds": 447,
       "accounted": true,
       "execution_seconds": 446
+    },
+    {
+      "dispatch_token": "dispatch-786a88b2e791429abaa86622c091ae85",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-NATIVE-INTERFACE-AUTONOMOUS-2026-10-20-R5",
+      "infra_sha": "d475c49e820640256355d6a45ec3379e86717ed1",
+      "proof_sha": "d475c49e820640256355d6a45ec3379e86717ed1",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "f67264e8326bccc366aefc3d69ff3ddd9bd63eaa63e90db596cf3d14cd4d4ff1",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "14831d400387271e1a08a7c7791baa5cece7720f97deab35ed33b2514231cdcc",
+      "build_id": "0b0e6b2a-a13a-45c1-abf4-f4dc7e992e02",
+      "start_time": "2026-10-19T23:49:30.466661370Z",
+      "finish_time": "2026-10-19T23:57:23.075286Z",
+      "create_time": "2026-10-19T23:49:29.719498497Z",
+      "build_seconds": 474,
+      "accounted": true,
+      "execution_seconds": 473
     }
   ]
 }
