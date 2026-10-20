@@ -54,6 +54,7 @@ def main():
     for required in (b"lem r9_current_u64_owners", b"req true;",
                      b"ens foreach(vs, own::<u64>(t));", b"match vs", b"nil =>",
                      b"cons(v, rest) =>", b"r9_current_u64_owners(t, rest);",
+                     b"close u64_own(t, v);",
                      b"close own::<u64>(t)(v);",
                      b"close foreach(vs, own::<u64>(t));"):
         assert required in lemma

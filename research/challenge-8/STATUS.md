@@ -1,15 +1,12 @@
-# MERGE — R9 ACTIVE / tmp recovery observed, CURRENT rejoin
+# MERGE — R9 ACTIVE / checked concrete owner close
 
-T0/main/absolute UTC2026-10-20 19:30:15/21:30:15/22:00:15; fresh3600,
-used1607/1604execution, remaining1993, ownactive/unresolved0. R8closed/no carry.
-Build3e5cb8e3e exact91d1f52b/e035d339/profile4802cd76: compilerPASS, native
-cleanup138returning→139Resume, checkedreadonlyend/merge/halfassert andhalf tmp
-atprefree. Failure nowpanicCURRENTpost165 missingarray(begin,3,_). Candidate4
-checkedphysicalCURRENTjoin+concreteu64foreachBODY inwork, modelunchanged.
-Fullnormal/unwind/Continue/prefix/B2 andqualificationOPEN,independentcredit0.
-Buildcharges589+395+623. [Task](CURRENT-TASK.md),
-[session](cloud-build/origin-layout/R9-SESSION-20261020.md),
-[result](cloud-build/origin-layout/R9-BUILD3-RESULT-20261020.json).
+T0/main/absolute UTC2026-10-20 19:30:15/21:30:15/22:00:15; used2162/2158execution,
+remaining1438, ownactive/unresolved0, R8closed/no carry. Build3 exactcaller
+readonlyend/merge/halfassert→Resume→tmpfree observed; fullpanicCURRENTarray3OPEN.
+Build4 source995855a6/tool706e7c89/profile055374de compiles, butnewsourcelemma
+earlygenericown closefails. Candidate5 sourceonly explicitu64_own close reviewedGO,
+markerchecksPASS. Fullnormal/unwind/Continue/prefix/B2/qualificationOPEN,credit0.
+[Task](CURRENT-TASK.md), [session](cloud-build/origin-layout/R9-SESSION-20261020.md).
 
 Ниже исторические checkpoints; приоритет у текущего R9 задания.
 

@@ -69,13 +69,12 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 ## Отчёт агента
 
 R9 ACTIVE. T0/main/absolute UTC2026-10-20 19:30:15/21:30:15/22:00:15.
-Fresh3600, used1607/1604execution, remaining1993; R8closed/no carry.
-Build1FAILURE589 establishedcleanupreturnbinding+quarters; Build2FAILURE395
-compileunboundhelper/noactualproof. Build3e5cb8e3e FAILURE623 exact91d1f52b/
-toole035d339/profile4802cd76 compiles andobservescheckedoriginalreadonlyend,
-physicalmerge/halfassert, completionbeforeResume andhalf tmp atfree. Newfailure
-panicpost165 missingarray(begin,3,_). WholeCURRENT/normal/Continue/B2OPEN,credit0.
-Candidate4checkedphysicalarrayrejoin+concreteu64foreachBODY inwork. Guardcontrols
-5NOT_RUN baselinegate understrictdiagnosis; freshnessseparatequalificationOPEN.
+Fresh3600, used2162/2158execution, remaining1438; R8closed/no carry.
+Builds1..4 terminalFAILURE, charges589/395/623/555. Build3 actual91d1f52b
+observescheckedoriginalreadonlyend/merge/halfassert→Resume→tmpfree, thenpanic
+CURRENTpost165 missingarray3. Build4 compiles butnewlemma fails genericown
+close beforecaller. Candidate5 explicitcloseexistingu64_own beforegenericown,
+same706e7c89/profile055374de, LunaHIGHGO; nextfull1200/1260 fitsremaining.
+FullCURRENTnormal/unwind/Continue/prefix/B2OPEN,credit0, qualificationOPEN.
 Ownactive/unresolved0. [Сессия](cloud-build/origin-layout/R9-SESSION-20261020.md),
-[Build3](cloud-build/origin-layout/R9-BUILD3-RESULT-20261020.json).
+[Build4](cloud-build/origin-layout/R9-BUILD4-RESULT-20261020.json).

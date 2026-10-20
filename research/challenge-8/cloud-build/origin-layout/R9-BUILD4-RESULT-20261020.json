@@ -1,0 +1,33 @@
+{
+  "schema": "merge-r9-build-result-v1",
+  "build_id": "26345d10-edcf-4579-a496-f09bbeb40268",
+  "candidate": 4,
+  "type": "CHECKED_CURRENT_ARRAY3_AND_OWNERS_LEMMA",
+  "status": "FAILURE",
+  "source_sha": "995855a663a292dfcf94e604a88d64a5495f2f64",
+  "tool_sha": "706e7c89fdf69dbe11e05ef275300b20d30a27cb",
+  "profile_sha256": "055374de5bc913e4725951f0d8c9458f1c6498ab5f89d4a039d8cab591741a67",
+  "charged_seconds": 555,
+  "execution_seconds": 554,
+  "total_charged_seconds": 2162,
+  "remaining_seconds": 1438,
+  "proof_attempted": true,
+  "compiler": "PASS",
+  "actual_caller": "NOT_ESTABLISHED_EARLY_SOURCE_LEMMA_FAILURE",
+  "failure": "general.rsspec149 missingown(uint64_t_typeid)(t,v), executednewlemma source344 closeown",
+  "archive_sha256": "d559008bfde0addb3aeff827bfff55c279ab95f3f3af2b244ffc20aeff46460e",
+  "index_sha256": "37e187dd4d79aab1c78a2c0e8d0035cec4f33ac756ef9d4de2bce7f13d7c896f",
+  "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+  "file_sha256": "caedbb2874e78fce60598f561ef3bd9ca899814210825d2cdc9e9c0494c885e3",
+  "reader_requests": {
+    "info": "cc72acef4755964e18a1a16062e68f74a444aa66782424988ae07688daa4995d",
+    "lines337_348": "bd53727f28d84f5c40f7f5332c87f89a656e4ce4eea6e75905c5ed6a3c692058"
+  },
+  "coverage": "exactbounded12-linefragment; source stagecoverage512/628 missing116 retained; no full-log read",
+  "guard_controls": "sourceNOT_RUN baselinegate; actualownlemmaearlyfail",
+  "next_fix": "ordinarycheckedclose concreteu64_own before genericownconstructor in sourcelemma body",
+  "model_unchanged": true,
+  "qualification": "OPEN",
+  "accepted": false,
+  "independent_credit": 0
+}

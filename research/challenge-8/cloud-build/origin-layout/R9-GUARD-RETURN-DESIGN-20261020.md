@@ -106,3 +106,12 @@ u64arrayClose and namedarray_join/checkedconcretelemma calls, noassume/leak.
 Originalsource/CFG/Dropownunwind/posts, lifetimeandguardrecovery unchanged.
 Retain5resource/admissioncontrols, freshness8 andoriginalmatrix. Independentreview
 exactdiff, sourceclosure andCloudcompile/actual required; fullproofnotclaimed.
+
+Candidate5 localizedsourcebodyfix rationale: Build4 compiles butnewlemmaproof
+fails atsource344 genericown close, general149 missingown(uint64_t_typeid).
+Existingprelude definesu64_own=true(121) andtype_pred_def<u64>.own=u64_own(165);
+verifast1 registersglobaltypepredterm==concretepredicate. Closeconcreteu64_own
+first, thenclosegenericown wrappingit, preservingcheckedrecursivebody/reqtrue.
+No newpredicateinterpretation/premise/axiom, no kernel/frontend/profilechange.
+The sourcelemma mustactuallyverifybeforecaller/controlscredit; exactdiffreview
+and fullCloudgate required. Allphysicalarray/current/F/thread/posts unchanged.

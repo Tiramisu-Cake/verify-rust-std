@@ -299,6 +299,7 @@ R9_CURRENT_U64_OWNERS_LEMMA = b"""/*@ lem r9_current_u64_owners(t: thread_id_t, 
         nil => { close foreach(nil, own::<u64>(t)); }
         cons(v, rest) => {
             r9_current_u64_owners(t, rest);
+            close u64_own(t, v);
             close own::<u64>(t)(v);
             close foreach(vs, own::<u64>(t));
         }

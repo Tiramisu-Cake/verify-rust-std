@@ -122,6 +122,7 @@ lem r9_current_u64_owners(t: thread_id_t, vs: list<u64>)
         nil => { close foreach(nil, own::<u64>(t)); }
         cons(v, rest) => {
             r9_current_u64_owners(t, rest);
+            close u64_own(t, v);
             close own::<u64>(t)(v);
             close foreach(vs, own::<u64>(t));
         }
@@ -131,3 +132,7 @@ lem r9_current_u64_owners(t: thread_id_t, vs: list<u64>)
 
 No lemma declaration without its checked body may be substituted. Any source
 fixture using it needs exact profile/source closure and compatible controls.
+
+Build4 checked the recursive lemma beforecaller and refusedgenericown close.
+The sketch now explicitly closes the existing concreteu64_own=True predicate
+beforegenericown. Source-onlycandidate5, no new trusted rule or toolchange.
