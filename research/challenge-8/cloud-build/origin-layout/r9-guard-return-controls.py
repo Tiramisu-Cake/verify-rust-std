@@ -442,6 +442,8 @@ def run(evidence: Path, args, env: dict, execute_case, source_case: Path,
         evidence.mkdir(parents=True)
         source_case = Path(source_case)
         original, verified = _source_pair(source_case, source_record)
+        # Validate the preparation pin inside the setup error boundary too.
+        _expected_stage_sources(_sha(original), _sha(verified), source_record)
         if getattr(args, "profile", None) != R9_PROFILE:
             raise ValueError("active profile is not the exact R9 guard-return profile")
         if type(env) is not dict:

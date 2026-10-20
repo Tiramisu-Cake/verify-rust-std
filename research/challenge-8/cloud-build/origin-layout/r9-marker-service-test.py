@@ -51,12 +51,18 @@ def main():
     lemma = callback.R9_CURRENT_U64_OWNERS_LEMMA
     assert r9.count(lemma) == 1
     assert r9.index(lemma) < r9.index(old.WRAPPER_SIGNATURE)
-    for required in (b"lem r9_current_u64_owners", b"req true;",
-                     b"ens foreach(vs, own::<u64>(t));", b"match vs", b"nil =>",
-                     b"cons(v, rest) =>", b"r9_current_u64_owners(t, rest);",
-                     b"close u64_own(t, v);",
+    for required in (b"lem r9_drop_u64_owners", b"req foreach(vs, own::<u64>(t));",
+                     b"ens true;", b"open foreach(vs, own::<u64>(t));",
+                     b"open own::<u64>(t)(v);", b"open u64_own(t, v);",
+                     b"r9_drop_u64_owners(t, rest);", b"lem r9_make_u64_owners",
+                     b"req true;", b"close u64_own(t, v);",
                      b"close own::<u64>(t)(v);",
-                     b"close foreach(vs, own::<u64>(t));"):
+                     b"close foreach(vs, own::<u64>(t));",
+                     b"lem r9_current_u64_owners",
+                     b"req foreach(?r9_previous, own::<u64>(t));",
+                     b"ens foreach(vs, own::<u64>(t));",
+                     b"r9_drop_u64_owners(t, r9_previous);",
+                     b"r9_make_u64_owners(t, vs);"):
         assert required in lemma
     assert b"assume" not in lemma and b"leak" not in lemma
 

@@ -69,12 +69,13 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 ## Отчёт агента
 
 R9 ACTIVE. T0/main/absolute UTC2026-10-20 19:30:15/21:30:15/22:00:15.
-Fresh3600, used2162/2158execution, remaining1438; R8closed/no carry.
-Builds1..4 terminalFAILURE, charges589/395/623/555. Build3 actual91d1f52b
-observescheckedoriginalreadonlyend/merge/halfassert→Resume→tmpfree, thenpanic
-CURRENTpost165 missingarray3. Build4 compiles butnewlemma fails genericown
-close beforecaller. Candidate5 explicitcloseexistingu64_own beforegenericown,
-same706e7c89/profile055374de, LunaHIGHGO; nextfull1200/1260 fitsremaining.
-FullCURRENTnormal/unwind/Continue/prefix/B2OPEN,credit0, qualificationOPEN.
-Ownactive/unresolved0. [Сессия](cloud-build/origin-layout/R9-SESSION-20261020.md),
-[Build4](cloud-build/origin-layout/R9-BUILD4-RESULT-20261020.json).
+Fresh3600, used2796/2791execution, remaining804, R8closed/no carry.
+Builds1..5 terminalFAILURE charges589/395/623/555/634. Build3 checkedtmp-half
+recoverybeforeResume/free; Build5 exact392278a3/tool706e7c89/profile055374de
+observesfullCURRENTarray3+matchingforeach+F andpastpanicpost toleakoldforeach.
+Wholefunction/normal/Continue/prefix/B2OPEN,independentcredit0, qualificationOPEN.
+Candidate6 sourceonlycheckedoldforeach unfolding-to-emp + makeCURRENTowners,
+sametool/profile, LunaHIGHGO; 740/envelope800 fits804 vsobservedwhole634.
+Strictserviceerrorfix reviewed10testsPASS. Ownactive/unresolved0; nextsubmit
+beforemain. [Сессия](cloud-build/origin-layout/R9-SESSION-20261020.md),
+[Build5](cloud-build/origin-layout/R9-BUILD5-RESULT-20261020.json).

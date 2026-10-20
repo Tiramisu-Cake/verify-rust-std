@@ -1,0 +1,113 @@
+{
+  "schema": "r9-build4-control-observation-v1",
+  "build": {
+    "id": "26345d10-edcf-4579-a496-f09bbeb40268",
+    "brief_processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+    "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+    "run_exit_source_claim": 1,
+    "evidence_complete": true,
+    "archive_sha256": "d559008bfde0addb3aeff827bfff55c279ab95f3f3af2b244ffc20aeff46460e",
+    "index_sha256": "37e187dd4d79aab1c78a2c0e8d0035cec4f33ac756ef9d4de2bce7f13d7c896f",
+    "tool_compile_source_claim": "listed milestones EXIT_ZERO including tracked-md-compile",
+    "actual_proof_source_claim": {"proof_attempted": true, "compiler_classification": "PASS", "proof_credit": 0},
+    "bounded_verifast_observation": {
+      "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verifast.log",
+      "sha256": "caedbb2874e78fce60598f561ef3bd9ca899814210825d2cdc9e9c0494c885e3",
+      "line": 341,
+      "source_location": "rsspec(149,51-52)",
+      "diagnostic": "No matching heap chunks: own(uint64_t_typeid)(t, v)",
+      "adjacent_context": "line 340 executes verified/lib.rs source line 344",
+      "interpretation": "bounded diagnostic/source context only; not independent proof or parser-input binding"
+    },
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "causality": "UNKNOWN"
+  },
+  "guard_return_recovery": {
+    "file_id": "6a1265e818537cc1764b2d1b48d758ef7d037166f56da30c7b03e15ea94ba924",
+    "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/guard-return-recovery-controls/aggregate.json",
+    "sha256": "af289f1e96857890fa0076c7527ec34c552733982a5199d465bd43bc8c8d8b51",
+    "source_exact": true,
+    "strict_stage_receipt_gate": {
+      "admitted": true,
+      "stages": {
+        "decode": {"admitted": true, "exit_code": 0, "exit_code_matches": true, "source_identity_matches": true, "status": null, "status_matches": true},
+        "exporter": {"admitted": true, "exit_code": 0, "exit_code_matches": true, "source_identity_matches": true, "status": null, "status_matches": true},
+        "refinement": {"admitted": true, "exit_code": 0, "exit_code_matches": true, "source_identity_matches": true, "status": null, "status_matches": true},
+        "verifast": {"admitted": true, "exit_code": 1, "exit_code_matches": true, "source_identity_matches": true, "status": null, "status_matches": true}
+      }
+    },
+    "native_cleanup_return": {
+      "selected_drop_binding": null,
+      "selected_cleanup_return_before_count": 0,
+      "selected_cleanup_return_complete_count": 0,
+      "return_binding_matches": false,
+      "recovery_completion_observed": false,
+      "baseline_admitted": false,
+      "reason": "exact fullbody source, strict stage receipts, cleanup returning event, and recovery completion are required"
+    },
+    "meaning": "source and stage gates admit; aggregate baseline is withheld because neither native cleanup-return event was observed. Zero event counts do not establish NOT_RUN."
+  },
+  "owned_array_allocation_freshness_controls": {
+    "file_id": "3177de3caa3993017f98719ca5b1fc66b7d21b1c7d05c2396f7a9c2dc042da31",
+    "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/owned-array-allocation-freshness-controls/aggregate.json",
+    "sha256": "972f7916440dc89b40f4bfc6890bc0638a573e8c23607adc8bfcd7ba9afb9c77",
+    "profile": "experimental-merge-guard-current-return-r9-v1",
+    "profile_sha256": "055374de5bc913e4725951f0d8c9458f1c6498ab5f89d4a039d8cab591741a67",
+    "effective_tool_commit": "706e7c89fdf69dbe11e05ef275300b20d30a27cb",
+    "accepted": false,
+    "proof_credit": false,
+    "all_classified": true,
+    "classification": "DIAGNOSTIC_CONTROLS_CLASSIFIED",
+    "case_gate_summary": "All eight case detail records show source_gate.admitted=true and stage_gate.admitted=true; every case says experimental allocation freshness control only, no proof credit.",
+    "cases": {
+      "currentprefix2": {"classification": "PASS_CONTROL", "shape": "u64 array length 3; current prefix length 2", "flag": true, "flag_receipt_matches": true, "target_executed": true, "error_at_target": false, "proof_credit": false},
+      "wholearray3": {"classification": "PASS_CONTROL", "shape": "u64 array length 3; current range length 3", "flag": true, "flag_receipt_matches": true, "target_executed": true, "error_at_target": false, "proof_credit": false},
+      "default_off": {"classification": "EXPECTED_REJECTION_DIAGNOSTIC", "expected_class": "span_refusal", "shape": "u64 length 3; current length 3", "flag": false, "flag_receipt_matches": true, "target_executed": true, "error_at_target": true, "diagnostic_matches": true, "proof_credit": false},
+      "missing_current_owner": {"classification": "EXPECTED_REJECTION_DIAGNOSTIC", "expected_class": "span_refusal", "shape": "u64 length 3 fully opened into cells before StorageLive", "flag": true, "flag_receipt_matches": true, "target_executed": true, "error_at_target": true, "diagnostic_matches": true, "proof_credit": false},
+      "numeric_same_address_no_owner": {"classification": "EXPECTED_REJECTION_DIAGNOSTIC", "expected_class": "missing_owner_refusal", "shape": "no incoming resource; p is only a raw pointer parameter", "flag": true, "flag_receipt_matches": true, "target_executed": true, "error_at_target": true, "diagnostic_matches": true, "proof_credit": false},
+      "wrong_element": {"classification": "EXPECTED_REJECTION_DIAGNOSTIC", "expected_class": "span_refusal", "shape": "i64 array length 3", "flag": true, "flag_receipt_matches": true, "target_executed": true, "error_at_target": true, "diagnostic_matches": true, "proof_credit": false},
+      "wrong_entry_count": {"classification": "EXPECTED_REJECTION_DIAGNOSTIC", "expected_class": "span_refusal", "shape": "u64 array length 2", "flag": true, "flag_receipt_matches": true, "target_executed": true, "error_at_target": true, "diagnostic_matches": true, "proof_credit": false},
+      "wrong_root": {"classification": "EXPECTED_REJECTION_DIAGNOSTIC", "expected_class": "span_refusal", "shape": "u64 array length 3 at p and separate u64 array length 1 at q", "flag": true, "flag_receipt_matches": true, "target_executed": true, "error_at_target": true, "diagnostic_matches": true, "proof_credit": false}
+    },
+    "interpretation": "Positive partial/full current-range cases classify as pass controls; disabled, ownerless, wrong-type, wrong-count, and wrong-root cases match expected diagnostics. This only classifies the experimental freshness mechanism and grants no proof credit."
+  },
+  "targeted_reader_provenance": {
+    "guard_return": {
+      "catalogue_file_id": "6a1265e818537cc1764b2d1b48d758ef7d037166f56da30c7b03e15ea94ba924",
+      "catalogue_sha256": "af289f1e96857890fa0076c7527ec34c552733982a5199d465bd43bc8c8d8b51",
+      "refresh_info_request_id": "8c9d4fc11a02fcb91202f054f539440537b25ed9b28e4dd33896b94149ce27f8",
+      "baseline_request_id": "14b6e2daa0fb00cb9b6e1104f859d01d6fbd946e4c90c5e8c824577ba55b8f31",
+      "stage_gate_admitted_request_id": "9f2c71f99864728cea235a4d91cf849131aa3914d09550fbf6714eaf66fa0902",
+      "stage_records_request_id": "8f9c0e3924b4c4772713060c332ab1ecd75aecce356b5c19b900c83d105e936e"
+    },
+    "freshness": {
+      "catalogue_file_id": "3177de3caa3993017f98719ca5b1fc66b7d21b1c7d05c2396f7a9c2dc042da31",
+      "catalogue_sha256": "972f7916440dc89b40f4bfc6890bc0638a573e8c23607adc8bfcd7ba9afb9c77",
+      "refresh_info_request_id": "58eeb922babaf805a17b225752b1731fedb2749ef743fda43a6bb24c2c18c2ae",
+      "aggregate_request_id": "62e1c70c218615fbb278daaf673157d354c1d037faf3488613b42239040f48c1",
+      "case_map_request_id": "dcece4b9b389061ab042e3bde51a93b9d0050e14264200a85bcb857fcae0cb",
+      "source_gate_admitted_requests": [
+        "c73fa460b2aeaff09ee052bf02857a8c4ab07a0867e47b405b31f364357c2a71",
+        "c712713f2956a264305a0f94adbda8e5842ef212e1073101068f335c76ec5ce1",
+        "5b2c20f37caa542f62396fbac81cc413b47d0533b387f49ab42acbf7105f9e50",
+        "62d4bc11246c2a805793572659f53d2f0091d244a15ae54be61ba7fcc7529a5f",
+        "f220361177b08c1fc839f9c1b1251cb348b8068b6924ee4f0017e3d78d87a299",
+        "5f013f2c34179b88b68c8399a258267da6ce2f63d224ede2629c7288529b12a1",
+        "f3a10faba8077352744366634e116d13f0a02cc4f5281f32d1344765f9044c94",
+        "530dfdebfe02c6e62e4eadc9e0dfc57f27228a39e2af7ae8d0249b8335b8dbd5"
+      ],
+      "stage_gate_admitted_requests": [
+        "0c1adaf738d6ced6e19084813f6e3c6686445d0fa65cafbff870c1b681aec42a",
+        "57f0d74ce60a65c4022c87cffc0d90de390c05616d3fed6906f58ec314c74627",
+        "4bde2867f5e9c7a52acb968914e47bc1e7d8ebf67ba0325cdf9a242e151ba8f5",
+        "ebc6683854eb6aaf77309d50c79bdc013f4ffa0df8ffd29b8d621c9ba4e68ab3",
+        "f7ff198e62690b47327c78857dfe0e53ecef1b34b4c957ca605c8119d1e970f3",
+        "1514adc3c95993af2c79b47979aa2f5d283f7ac540154edb470c140cf374f1fa",
+        "89457f09dc69ac0fe8d00ced3ed18af5ca18ee7d918b1ef109e3d1869872ab84",
+        "4812e1fb20873b7e5b76430d4d5f2d4f74b008cabcdfca60e36544a842ba81d7"
+      ]
+    }
+  },
+  "coverage": "bounded targeted JSON observations only; no raw/full logs, GCS, or local raw copies read",
+  "limits": ["source claims only", "no proof credit", "no parser-input or AST/MIR binding", "aggregate event absence is not NOT_RUN", "causality remains UNKNOWN"]
+}

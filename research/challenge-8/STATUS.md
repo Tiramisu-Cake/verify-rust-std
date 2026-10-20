@@ -1,11 +1,11 @@
-# MERGE — R9 ACTIVE / checked concrete owner close
+# MERGE — R9 ACTIVE / CURRENT recovered on observed cleanup
 
-T0/main/absolute UTC2026-10-20 19:30:15/21:30:15/22:00:15; used2162/2158execution,
-remaining1438, ownactive/unresolved0, R8closed/no carry. Build3 exactcaller
-readonlyend/merge/halfassert→Resume→tmpfree observed; fullpanicCURRENTarray3OPEN.
-Build4 source995855a6/tool706e7c89/profile055374de compiles, butnewsourcelemma
-earlygenericown closefails. Candidate5 sourceonly explicitu64_own close reviewedGO,
-markerchecksPASS. Fullnormal/unwind/Continue/prefix/B2/qualificationOPEN,credit0.
+T0/main/absolute UTC2026-10-20 19:30:15/21:30:15/22:00:15; used2796/2791execution,
+remaining804, ownactive/unresolved0. Build5 exact392278a3/706e7c89/profile055374de
+observeshalf tmp+fullCURRENTarray3/matchingforeach/currentF oncleanup return,
+pastpanicpost toleakoldforeach. Candidate6 checkedoldlogicalowners unfold-to-emp
++ makeCURRENT sourceonlyreviewedGO; next740/800 fits804. Fullfunction/normal/
+Continue/prefix/B2/qualificationOPEN,credit0.
 [Task](CURRENT-TASK.md), [session](cloud-build/origin-layout/R9-SESSION-20261020.md).
 
 Ниже исторические checkpoints; приоритет у текущего R9 задания.

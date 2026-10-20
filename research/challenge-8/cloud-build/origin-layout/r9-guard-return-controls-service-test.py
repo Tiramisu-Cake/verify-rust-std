@@ -319,6 +319,24 @@ class R9GuardReturnControlsTests(unittest.TestCase):
                 self.assertFalse(output["baseline"]["admitted"])
                 self.assertFalse(output["all_matched"])
 
+    def test_missing_null_and_invalid_preparation_source_pin_are_not_run(self):
+        for bad in ("missing", None, True, 7, [], {}, "bad-sha"):
+            with self.subTest(pin=bad), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                source_case, record = _source_case(root)
+                if bad == "missing":
+                    record.pop("source_sha256")
+                else:
+                    record["source_sha256"] = bad
+                output = controls.run(root / "controls", SimpleNamespace(profile=controls.R9_PROFILE),
+                                      {}, lambda *args: self.fail("invalid setup must not execute"),
+                                      source_case, record)
+                self.assertFalse(output["all_matched"])
+                self.assertNotIn("baseline", output)
+                self.assertTrue(all(row["classification"] == "NOT_RUN"
+                                    for row in output["cases"].values()))
+                self.assertTrue((root / "controls/aggregate.json").is_file())
+
     def test_baseline_rejects_nonproof_verifier_exit_codes(self):
         for code in (2, -9):
             with self.subTest(code=code), tempfile.TemporaryDirectory() as temporary:

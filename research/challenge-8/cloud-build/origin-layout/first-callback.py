@@ -291,19 +291,42 @@ R9_GUARD_RETURN_MARKER = b"""    /*@ {
     } @*/
 """
 
-R9_CURRENT_U64_OWNERS_LEMMA = b"""/*@ lem r9_current_u64_owners(t: thread_id_t, vs: list<u64>)
+R9_CURRENT_U64_OWNERS_LEMMA = b"""/*@ lem r9_drop_u64_owners(t: thread_id_t, vs: list<u64>)
+    req foreach(vs, own::<u64>(t));
+    ens true;
+{
+    open foreach(vs, own::<u64>(t));
+    match vs {
+        nil => { }
+        cons(v, rest) => {
+            open own::<u64>(t)(v);
+            open u64_own(t, v);
+            r9_drop_u64_owners(t, rest);
+        }
+    }
+}
+
+lem r9_make_u64_owners(t: thread_id_t, vs: list<u64>)
     req true;
     ens foreach(vs, own::<u64>(t));
 {
     match vs {
         nil => { close foreach(nil, own::<u64>(t)); }
         cons(v, rest) => {
-            r9_current_u64_owners(t, rest);
+            r9_make_u64_owners(t, rest);
             close u64_own(t, v);
             close own::<u64>(t)(v);
             close foreach(vs, own::<u64>(t));
         }
     }
+}
+
+lem r9_current_u64_owners(t: thread_id_t, vs: list<u64>)
+    req foreach(?r9_previous, own::<u64>(t));
+    ens foreach(vs, own::<u64>(t));
+{
+    r9_drop_u64_owners(t, r9_previous);
+    r9_make_u64_owners(t, vs);
 } @*/
 
 """

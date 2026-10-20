@@ -115,3 +115,16 @@ first, thenclosegenericown wrappingit, preservingcheckedrecursivebody/reqtrue.
 No newpredicateinterpretation/premise/axiom, no kernel/frontend/profilechange.
 The sourcelemma mustactuallyverifybeforecaller/controlscredit; exactdiffreview
 and fullCloudgate required. Allphysicalarray/current/F/thread/posts unchanged.
+
+Candidate6 rationale before implementation: Build5 source392278a3 compiles and
+newconcreteownerlemma verifies; actualunwind reachesleakcheck334 afterCURRENTpost
+consumption, leavingoldfirst-comparatorforeach list, nowstaleafterphysicalchanges.
+No leak/discard command permitted. Replaceownerhelper withcheckedoldforeach
+unfold-to-emp lemma (foreach->genericown->concreteu64_own=True recursively),
+existingcheckedmakelemma, andexistingtwo-argument namedwrapper whichrequiresone
+oldforeach andreturnslogicalownersofactualCURRENTlist. Thusoldlogicalempty
+representation is consumedbycheckeddefinitions, physical/F/thread state unchanged.
+No newtool/profile/whitelist/predicate rule; array/rawvalues remainexactcurrent.
+Controls strict source/stage/errorgates retained. Full740/envelope800 prospective
+fits804 remaining vsobservedBuild5total634, with106 headroom; compile+actualsuite
++teardown included. Needindependentreview/exactpublishedclosure beforemain.

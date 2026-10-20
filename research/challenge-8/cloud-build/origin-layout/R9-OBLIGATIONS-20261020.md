@@ -1,12 +1,14 @@
 # R9 obligations and evidence boundary
 
-Current actual release: candidate3 source91d1f52b/toole035d339/profile4802cd76,
-Build3e5cb8e3e terminalFAILURE623/622execution. Used1607/1604execution,remaining1993.
-Observedchecked originalreadonlyend/merge/halfassert oncleanup138→139Resume and
-half tmp beforefree; newpanicCURRENTpost165 missingarraybegin3. Candidate4inwork.
-Fullpost/normal/Continue/B2/qualificationOPEN,credit0; models/candidates notcombined.
+Current publishedcandidate5 source392278a3/tool706e7c89/profile055374de,
+Build5 0399617c WORKING. Used2162/2158execution beforeterminal, remaining1438.
+Last actualcallerprogress remains Build3 source91d1f52b/e035d339/profile4802cd76:
+checkedoriginalreadonlyend/merge/halfassert oncleanup138→139Resume andhalf tmp
+beforefree, thenpanicpost165 missingarraybegin3. Build4 compiled butcheckednew
+lemma failed genericownclose beforecaller. Candidate5 explicitlyclosesexisting
+u64_own first; no actualnewarrayrejoin claim. Fullproof/qualificationOPEN,credit0.
 
-| Obligation | Candidate1 observed result | Candidate2 required evidence |
+| Obligation | Candidate1 observed result | Required compatible final evidence |
 |---|---|---|
 | Native failed return binding | cleanup143 selectedDrop returning->144Resume->free, exactsameBody metadata | updatednative identities, returning-before/complete receipts |
 | Original tmp readonly recovery | tokenquarter/sourcequarter/originquarter survive; rootfree missinghalf | ordinarychecked end_ref_readonly+physicalmerge+halfassert, thenfree |
@@ -38,3 +40,9 @@ authority. BeforeLive has no nativepreliveaddress in current interface; deferred
 DeclStmt has onlytypeinfo, StorageLive creates address thenownership/livereceipt.
 Neither lexicalrefusal nor earlierprinting withinsideStorageLive closesphysical
 BeforeLive. See R9-PREFIX-BRIDGE-NOTE and R9-BEFORELIVE-NOTE (20261020).
+
+Build4 earlylemma failure is setup/source-proof work, not additional closedcaller
+obligations. Source-onlycandidate5 keeps exacttool/profile andphysicalCURRENT
+commands; successmustbeestablished byBuild5. Newcontrolreceiptchecker requires
+original/verified/small_sort_source exactmap; no intendednegativecredit until
+targetandbaseline gates actuallymatch.
