@@ -1,0 +1,68 @@
+{
+  "archive_sha256": "9dd3c632336f06fea6f89de157c528dbaa881fce54939cacb5db9f16c0427645",
+  "build_id": "2f7b5d56-f9b6-44d1-a1fd-89f7b79870a4",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 187,
+      "EMPTY_FILE": 65,
+      "JSON_EXCEEDS_SCAN_LIMIT": 2,
+      "PROJECTED": 515,
+      "UNSUPPORTED_FILE_TYPE": 101
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2091795,
+    "content_files": 582,
+    "files": 870,
+    "source_scan_bytes": 7561445
+  },
+  "index_sha256": "0bdb68ca7959586bc238266e11d210c79caec1056772024780b6c1d95aadb58c",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "c5615783f4f5b0860a204e0db078309abd0473345d0fcf5acdda711dc07a350f",
+      "kind": "json",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-final-schema-exporter-console-build-stage.json",
+      "path_sanitized": false,
+      "scanned_bytes": 579,
+      "sha256": "29d9e0fa6920fa219537b185da138d59dada71b31cf4e4c1bcfbcf86869a1ce1",
+      "size_bytes": 579,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "4a2948c3e26e0a0a9193a95311d582147f3fe80cd4be420f1155537fafc0a7d1",
+      "kind": "text",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-final-schema-exporter-console-build-resources.txt",
+      "path_sanitized": false,
+      "scanned_bytes": 931,
+      "sha256": "943de1ecc09d48c2410b1cc8695437d3def66ddd12e6f5d12bcdad1aea77e2c7",
+      "size_bytes": 931,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "4871764748e4767b37d8a5d27de5762a5256bb9b2b95b42adc1dcad8d580f7a7",
+      "kind": "text",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-final-schema-exporter-console-build.log",
+      "path_sanitized": false,
+      "scanned_bytes": 2506,
+      "sha256": "b781b4ed075e76e210b1be3ced88d5138227e50755cb13c74f613b0927bd0391",
+      "size_bytes": 2506,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 870,
+    "files_with_incomplete_content": 705,
+    "matches_in_retained_data": 3,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

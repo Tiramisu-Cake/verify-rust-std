@@ -1,0 +1,79 @@
+{
+  "build_id": "62675952-19c6-483b-8770-28992e68b640",
+  "candidate": "38ad79803c5e55bc12c3d848cdbf1ba3a889b39a",
+  "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+  "file_sha256": "0c0789d35675a8a24eeef4266d48f4a898a88f9a39368ad9917f8145ca600314",
+  "index_sha256": "6c08933b4473610df74bdd447e927843a4cc4bf11f845201a3ee1debcd8dc5d7",
+  "archive_sha256": "77abde42d28b7024716f0ee6563f15f40b9476276d60ba9d2da1d9df3fe17b66",
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "closed_obligations": 0,
+  "schema": "smallsort-r9-s2-evidence-v1",
+  "type": "mixed",
+  "hypothesis": "Exact compiler-bound body Some selector advances native P1; unchanged strict binding gains fail-only diagnostics",
+  "terminal": "FAILURE",
+  "create_time": "2026-10-20T17:49:01.673102824Z",
+  "finish_time": "2026-10-20T18:03:23.952078Z",
+  "cloud_charge_seconds": 863,
+  "used_total": 1768,
+  "remaining": 1832,
+  "brief_processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_run_exit": 0,
+  "outer_evidence_complete": true,
+  "source_audit_accepted": false,
+  "source_audit_evidence_complete": false,
+  "source_matrix_complete": false,
+  "matrix": "A1-NATIVE-INTERFACE-R9-S2-MATRIX-2026-10-20.json",
+  "native_result": "Some filter did not resolve uniqueness: exact same R-only baseline error message/log SHA4a12498a...; own buildreceipt confirms actual new translator894bfe... compiled exit0, c_patch_applied=false",
+  "binding_diagnostic": {
+    "caller": "quicksort",
+    "case_id": "P1",
+    "differing_fields": [
+      "calls"
+    ],
+    "first_differences": [
+      {
+        "normal": "\"'__78\"",
+        "path": "/calls/0/argument_region_roles/0/2",
+        "readonly": "\"'__73\""
+      },
+      {
+        "normal": "\"'__79\"",
+        "path": "/calls/0/argument_region_roles/1/2",
+        "readonly": "\"'__74\""
+      },
+      {
+        "normal": "\"'__81\"",
+        "path": "/calls/0/argument_region_roles/2/2",
+        "readonly": "\"'__76\""
+      }
+    ],
+    "normal_decoded_sha256": "3bf1b47d7e28be437c7f5288c31ad930a1219018fa1cbd035706a94e9a2e6a01",
+    "readonly_caller": "quicksort",
+    "readonly_decoded_sha256": "d57caad6a69e35778ba32cedf37850b31f76da64d385c3a80d08da6181f1d05e"
+  },
+  "binding_mechanism": "P1 quicksort argument_region_roles tuple values bypassed list/dict-only alpha normalization; actual diagnostic paths and exact decoded inputs match synthetic full-P1 reproducer",
+  "proof_before_after": {
+    "closed_obligations": [
+      0,
+      0
+    ],
+    "independent_B1_credit": [
+      0,
+      0
+    ],
+    "independent_B2_credit": [
+      0,
+      0
+    ]
+  },
+  "delivery": {
+    "canonical_audit_bytes": 2606668,
+    "original_companion_bytes": 32254654,
+    "proof_acceptance_inferred": false
+  },
+  "next": "S3 tuple-preserving alpha recursion with actual binding regressions; preserve native uniqueness and collect bounded candidate identity locations before any semantic selection change",
+  "own_active_unresolved": 0,
+  "reader_observations": "A1-NATIVE-INTERFACE-R9-S2-READER-OBSERVATIONS-2026-10-20",
+  "download_verified_set": false
+}

@@ -57,12 +57,15 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-R9 ACTIVE. T0 **2026-10-20T17:07:04Z**, main **19:07:04Z**, absolute **19:37:04Z**. Новый бюджет3600, **905spent/2695remaining**, carry0. Исходные чужие dirty policy/evidence файлы сохранены; R8 не возобновлялась.
+R9 ACTIVE. T0 **2026-10-20T17:07:04Z**, main **19:07:04Z**, absolute **19:37:04Z**. **1768/3600spent,1832remaining**, carry0; ownactive/unresolved0. Чужие dirty policy/evidence файлы и historical R8 сохранены.
 
-Цель: полный P1 native-interface/equality/refinement → совместимые26/own N-false31 lifecycle. Proof до→сейчас: **0→0 закрытых obligations, independent B1/B2 credit0**. P0a/P0b на новых S1 identities имеют source NATIVE_INTENDED_PASS body+conformance; это не independent credit.
+Цель: полный P1 native-interface/equality/refinement → совместимые26/own N-false31. Proof до→сейчас: **0→0 закрытых obligations, independent B1/B2credit0**. P0a/P0b имеют новые source NATIVE_INTENDED_PASS body+conformance; P1/caller/lifecycle OPEN.
 
-S1 `2f7b5d56-f9b6-44d1-a1fd-89f7b79870a4`, mixed: qualified Ast.sized → R-only/finalC compile → P1. Candidate `c73930175ade6efffc82c6f70a5e2d803fdc872d`, terminalFAILURE, runexit124, **905с**. Brief VERIFIED_ARCHIVE_AND_INVENTORY/outer evidence complete true; source progress26:11INTENDED_CLASSIFIED/2INCONCLUSIVE/12NOT_RUN/1OBSERVED(R7), не полная финальная классификация. [Evidence](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S1-EVIDENCE-2026-10-20.json), [26rows/provenance](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S1-MATRIX-2026-10-20.json).
+| Build | Гипотеза/type/candidate | Результат | Charge |
+|---|---|---|---|
+| `2f7b5d56-f9b6-44d1-a1fd-89f7b79870a4` | Ast.sized compile→native P1; mixed; `c7393017` | FAILURE/run124; source26:11classified/2inconclusive/12notrun/1observed |905с|
+| `62675952-19c6-483b-8770-28992e68b640` | Some-definition selector→P1 + exact mismatch diagnostic; mixed; `38ad7980` | FAILURE/run0; source26:12classified/2inconclusive/12notrun |863с|
 
-Обслуживание отдельно: новая R9 registration/exact published Git closure и actual buildability установлены как source claims; P1 R-only остановился на `compiler item body is not unique`, готовится reviewed body-presence selector. Независимо admission caller binding сообщает normal/readonly semantic mismatch — проверяется actual representation. Ownfalse31 body stage events VF0, receipt/callerassertion не достигнуты. Локально actual compiler/proof не запускались; existing Cloud preflight сохраняется.
+Обслуживание отдельно: R9 registration/exact published closure; R-only/finalC buildability. Some-filter не устранил P1 nonunique body; source identities compiled, но native interface остаётся open. S2 fail-only diagnostic установил exact P1 quicksort tuple-slot lifetime mismatch на actual normal/readonly SHA. Подготовлен minimal tuple-preserving alpha fix (independent Luna HIGH GO,22synthetictests), actual acceptance NOT_RUN. Для native selection сохраняется fail-closed uniqueness; bounded count/name/location diagnostic в подготовке/review, без произвольного выбора signature/имени.
 
-Ownactive/unresolved0; S2 ещё не отправлен. [Session](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-SESSION-2026-10-20.md). Следующее действие: source-applicable fixes с независимым Luna HIGH review/dependentpins, exactpublishedclosure, штатный Cloud.
+[Session](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-SESSION-2026-10-20.md), [S1 evidence](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S1-EVIDENCE-2026-10-20.json), [S2 evidence](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S2-EVIDENCE-2026-10-20.json), [S2 full26/provenance](cloud-build/sort4-caller-entry-native/A1-NATIVE-INTERFACE-R9-S2-MATRIX-2026-10-20.json). Brief integrity/delivery complete; source audit accepted/matrix/evidence_complete false не смешиваются с outerdelivery. Следующий шаг: finalized S3 pins/review/exactpublishedclosure → actual binding regression/P1 diagnostic через coordinator. Hourprogress:1768spent,0formalcredit; раннийstopнеобъявлен.

@@ -1,0 +1,44 @@
+{
+  "archive_sha256": "77abde42d28b7024716f0ee6563f15f40b9476276d60ba9d2da1d9df3fe17b66",
+  "build_id": "62675952-19c6-483b-8770-28992e68b640",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 186,
+      "EMPTY_FILE": 65,
+      "JSON_EXCEEDS_SCAN_LIMIT": 4,
+      "PROJECTED": 515,
+      "UNSUPPORTED_FILE_TYPE": 102
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2096408,
+    "content_files": 584,
+    "files": 872,
+    "source_scan_bytes": 8080528
+  },
+  "index_sha256": "6c08933b4473610df74bdd447e927843a4cc4bf11f845201a3ee1debcd8dc5d7",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "99bc6724cf3b0ce51007aa488a32402f5fa70dbddaa9a900bb21b837fe7438c1",
+      "kind": "json",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/R-only-native-reference-receipt.json",
+      "path_sanitized": false,
+      "scanned_bytes": 1284,
+      "sha256": "abff7d04f98be2a6dc6a2da806ac2738e298803f06cda72ef6fcd3fc03a9bdf3",
+      "size_bytes": 1284,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 872,
+    "files_with_incomplete_content": 707,
+    "matches_in_retained_data": 1,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

@@ -1,0 +1,41 @@
+{
+  "archive_sha256": "77abde42d28b7024716f0ee6563f15f40b9476276d60ba9d2da1d9df3fe17b66",
+  "build_id": "62675952-19c6-483b-8770-28992e68b640",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+  "file_path": "proof-audit.json",
+  "file_sha256": "0c0789d35675a8a24eeef4266d48f4a898a88f9a39368ad9917f8145ca600314",
+  "index_sha256": "6c08933b4473610df74bdd447e927843a4cc4bf11f845201a3ee1debcd8dc5d7",
+  "next_offset": null,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "0c0789d35675a8a24eeef4266d48f4a898a88f9a39368ad9917f8145ca600314",
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "pointer": "/first_blocker/error"
+  },
+  "request_id": "0da1abe72a49d4592ef30014465502bd380db4742b0fbdf6cb40ad1e65f9ea46",
+  "results": [
+    {
+      "exact": true,
+      "next_value_start": 512,
+      "pointer": "/first_blocker/error",
+      "value": "CallBindingError: normal and readonly caller MIR semantic call bindings differ; diagnostic={\"caller\":\"quicksort\",\"case_id\":\"P1\",\"differing_fields\":[\"calls\"],\"first_differences\":[{\"normal\":\"\\\"'__78\\\"\",\"path\":\"/calls/0/argument_region_roles/0/2\",\"readonly\":\"\\\"'__73\\\"\"},{\"normal\":\"\\\"'__79\\\"\",\"path\":\"/calls/0/argument_region_roles/1/2\",\"readonly\":\"\\\"'__74\\\"\"},{\"normal\":\"\\\"'__81\\\"\",\"path\":\"/calls/0/argument_region_roles/2/2\",\"readonly\":\"\\\"'__76\\\"\"}],\"normal_decoded_sha256\":\"3bf1b47d7e28be437c7f5288c31ad930a12190",
+      "value_complete": false,
+      "value_coordinate_unit": "decoded-unicode-codepoint",
+      "value_end_exclusive": 512,
+      "value_start": 0
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "string",
+  "source_absence_established": false,
+  "status": "OK"
+}
