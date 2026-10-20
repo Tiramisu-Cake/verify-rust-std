@@ -1,0 +1,464 @@
+{
+  "A1": "OPEN",
+  "A2": "OPEN",
+  "N-false31": "UNKNOWN",
+  "P0a": "verification exit1; scope no longer raised before structure return per pinned source chain; full conformance NOT_ESTABLISHED",
+  "P1": "UNKNOWN",
+  "build_id": "53c85824-e4d3-4459-8760-c6dc0dace06f",
+  "candidate": "9c7ea5505d0e65a4e84e525458a32e1c289ae5a8",
+  "charge_seconds": 480,
+  "independent_B1_B2_credit": 0,
+  "matrix_status": "UNKNOWN_INCOMPLETE_PROGRESS_NO_FINAL_REPORT",
+  "observations": {
+    "lifecycle_root": {
+      "archive_sha256": "ac43283e86465ef36da3d6e03376f2614648f5a3143477ec6432998eba705c85",
+      "build_id": "53c85824-e4d3-4459-8760-c6dc0dace06f",
+      "causal_status": "UNKNOWN",
+      "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+      "child_count": 20,
+      "complete": true,
+      "content_filtered": false,
+      "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+      "exact": true,
+      "file_id": "b9e1ed31625a55134e02fbaa87cf4c5970ada5cfe7bfdf2bef12afc9daec74ca",
+      "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-lifecycle-progress.json",
+      "file_sha256": "8bea7eb39ae6a0d59c7b0dc9964bff99ee4b738799dca9a6e3ff4f9932ac32e0",
+      "index_sha256": "6db304318602a98f9e703f77af41a8e52de482632d0c076519240b4751a4f6e1",
+      "next_offset": null,
+      "offset": 0,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "path_sanitized": false,
+      "policy": "economical-exact-v1",
+      "representation": "EXACT_JSON_CHILDREN",
+      "request": {
+        "expected_sha256": "8bea7eb39ae6a0d59c7b0dc9964bff99ee4b738799dca9a6e3ff4f9932ac32e0",
+        "file_id": "b9e1ed31625a55134e02fbaa87cf4c5970ada5cfe7bfdf2bef12afc9daec74ca",
+        "pointer": ""
+      },
+      "request_id": "8fa803ab15a26b9a4d78cd41a7157b7cabd3e4c9f4994744ecec35354b271fd8",
+      "results": [
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/admission_record_created",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/authorization_phase_id",
+          "value": "SORT4-PACKAGE-SCOPE-NATIVE-PROOF-2026-10-20-R6"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/build_id",
+          "value": "53c85824-e4d3-4459-8760-c6dc0dace06f"
+        },
+        {
+          "child_count": 26,
+          "exact": true,
+          "kind": "object",
+          "pointer": "/case_status"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/classification",
+          "value": "A1_RUNNER_OBSERVED_LIFECYCLE"
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/dispatch_ready",
+          "value": false
+        },
+        {
+          "child_count": 8,
+          "exact": true,
+          "kind": "array",
+          "pointer": "/execution_events"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/infra_sha",
+          "value": "9c7ea5505d0e65a4e84e525458a32e1c289ae5a8"
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/matrix_complete",
+          "value": false
+        },
+        {
+          "child_count": 2,
+          "exact": true,
+          "kind": "object",
+          "pointer": "/observation_details"
+        },
+        {
+          "child_count": 0,
+          "exact": true,
+          "kind": "array",
+          "pointer": "/observed_rows"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/phase_id",
+          "value": "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17"
+        },
+        {
+          "child_count": 26,
+          "exact": true,
+          "kind": "array",
+          "pointer": "/planned_order"
+        },
+        {
+          "child_count": 3,
+          "exact": true,
+          "kind": "object",
+          "pointer": "/positive_lifecycle_progress"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/profile_sha256",
+          "value": "4c7e0ad94109e265426c6a98aa51962c5087b3a68caa0478eb3012b26f77a08c"
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/proof_credit",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/proof_sha",
+          "value": "9c7ea5505d0e65a4e84e525458a32e1c289ae5a8"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/tool_path",
+          "value": "/workspace/smallsort-work/a1-checked-trait-contract-isolated-source"
+        },
+        {
+          "child_count": 16,
+          "exact": true,
+          "kind": "object",
+          "pointer": "/tool_receipt"
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/tool_reconstructed",
+          "value": true
+        }
+      ],
+      "schema": "smallsort-targeted-observation-v2",
+      "selected_kind": "object",
+      "source_absence_established": false,
+      "status": "OK"
+    },
+    "progress_error": {
+      "archive_sha256": "ac43283e86465ef36da3d6e03376f2614648f5a3143477ec6432998eba705c85",
+      "build_id": "53c85824-e4d3-4459-8760-c6dc0dace06f",
+      "causal_status": "UNKNOWN",
+      "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+      "complete": false,
+      "content_filtered": false,
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 2301,
+        "line_separator": "LF",
+        "source_lines": 2301,
+        "start": 2295,
+        "unit": "line"
+      },
+      "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+      "exact": true,
+      "file_id": "31f10e550e28bec528d0d67ef7831e8041bd4c233d63efd8e90683ab5d3a8ae1",
+      "file_path": "full-stdout.log",
+      "file_sha256": "19c32e63c6cc5b0fe59aaf417a351ab55f23e11b7dbf3367477850c27a8adeb8",
+      "index_sha256": "6db304318602a98f9e703f77af41a8e52de482632d0c076519240b4751a4f6e1",
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "path_sanitized": false,
+      "policy": "economical-exact-v1",
+      "range_clamped": false,
+      "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+      "request": {
+        "end": 2301,
+        "expected_sha256": "19c32e63c6cc5b0fe59aaf417a351ab55f23e11b7dbf3367477850c27a8adeb8",
+        "file_id": "31f10e550e28bec528d0d67ef7831e8041bd4c233d63efd8e90683ab5d3a8ae1",
+        "start": 2295
+      },
+      "request_id": "4d818c0f44e301b3ee458311d2c12ba7e5b10d1303c57bc866a3e956250f909b",
+      "requested_end": 2301,
+      "results": [
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2295,
+          "text": "    return {str(key): _jsonable(item) for key, item in value.items()"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2296,
+          "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/sort4-caller-entry-native/a1-runner.py\", line 1482, in <dictcomp>"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2297,
+          "text": "    return {str(key): _jsonable(item) for key, item in value.items()"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2298,
+          "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/sort4-caller-entry-native/a1-runner.py\", line 1490, in _jsonable"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2299,
+          "text": "    raise TypeError(\"unsupported progress value: \" + type(value).__name__)"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2300,
+          "text": "TypeError: unsupported progress value: Record"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2301,
+          "text": "{\"classification\": \"INCONCLUSIVE\", \"diagnostic_complete\": false, \"verification_accepted\": false}"
+        }
+      ],
+      "schema": "smallsort-targeted-observation-v2",
+      "status": "OK"
+    },
+    "trace": {
+      "archive_sha256": "ac43283e86465ef36da3d6e03376f2614648f5a3143477ec6432998eba705c85",
+      "build_id": "53c85824-e4d3-4459-8760-c6dc0dace06f",
+      "causal_status": "UNKNOWN",
+      "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+      "complete": false,
+      "content_filtered": false,
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 2250,
+        "line_separator": "LF",
+        "source_lines": 2301,
+        "start": 2239,
+        "unit": "line"
+      },
+      "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+      "exact": true,
+      "file_id": "31f10e550e28bec528d0d67ef7831e8041bd4c233d63efd8e90683ab5d3a8ae1",
+      "file_path": "full-stdout.log",
+      "file_sha256": "19c32e63c6cc5b0fe59aaf417a351ab55f23e11b7dbf3367477850c27a8adeb8",
+      "index_sha256": "6db304318602a98f9e703f77af41a8e52de482632d0c076519240b4751a4f6e1",
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "path_sanitized": false,
+      "policy": "economical-exact-v1",
+      "range_clamped": false,
+      "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+      "request": {
+        "end": 2250,
+        "expected_sha256": "19c32e63c6cc5b0fe59aaf417a351ab55f23e11b7dbf3367477850c27a8adeb8",
+        "file_id": "31f10e550e28bec528d0d67ef7831e8041bd4c233d63efd8e90683ab5d3a8ae1",
+        "start": 2239
+      },
+      "request_id": "36a102f543651f06ca5ca5459ae09d37bfddf3e8fd044d84f141ad55282a7339",
+      "requested_end": 2250,
+      "results": [
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2239,
+          "text": "Traceback (most recent call last):"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2240,
+          "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/sort4-caller-entry-native/a1-entry.py\", line 90, in <module>"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2241,
+          "text": "    main()"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2242,
+          "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/sort4-caller-entry-native/a1-entry.py\", line 80, in main"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2243,
+          "text": "    result = runner.run(a, c4=c4, audit=audit, driver=driver,"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2244,
+          "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/sort4-caller-entry-native/a1-runner.py\", line 1897, in run"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2245,
+          "text": "    draft = action(\"P0a\", lambda:"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2246,
+          "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/sort4-caller-entry-native/a1-runner.py\", line 1809, in action"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2247,
+          "text": "    persist_progress()"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2248,
+          "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/sort4-caller-entry-native/a1-runner.py\", line 1761, in persist_progress"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2249,
+          "text": "    progress_path.write_text(json.dumps(_jsonable(snapshot), indent=2,"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2250,
+          "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/sort4-caller-entry-native/a1-runner.py\", line 1482, in _jsonable"
+        }
+      ],
+      "schema": "smallsort-targeted-observation-v2",
+      "status": "OK"
+    },
+    "verifier_cannot_locate": {
+      "archive_sha256": "ac43283e86465ef36da3d6e03376f2614648f5a3143477ec6432998eba705c85",
+      "build_id": "53c85824-e4d3-4459-8760-c6dc0dace06f",
+      "causal_status": "UNKNOWN",
+      "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+      "complete": true,
+      "content_filtered": false,
+      "coordinate_bases": {
+        "ends": "exclusive",
+        "line_separator": "LF",
+        "lines": 1,
+        "offsets": 0,
+        "unicode_columns": 1
+      },
+      "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+      "exact": true,
+      "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+      "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/verification.log",
+      "file_sha256": "b2eb1c2f02ba9aa3d6384a395ea9e2f22e28d77fe79508f91eada0b5ce11d07c",
+      "index_sha256": "6db304318602a98f9e703f77af41a8e52de482632d0c076519240b4751a4f6e1",
+      "match_mode": "CASE_SENSITIVE_LITERAL",
+      "next_offset": null,
+      "offset": 0,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "path_sanitized": false,
+      "policy": "economical-exact-v1",
+      "representation": "LITERAL_COORDINATES_ONLY",
+      "request": {
+        "expected_sha256": "b2eb1c2f02ba9aa3d6384a395ea9e2f22e28d77fe79508f91eada0b5ce11d07c",
+        "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "literal": "Cannot"
+      },
+      "request_id": "20a785300c67fd847b058cb0e2d7c67ab616ebe05f8f68603c4765a7dda82fd1",
+      "results": [],
+      "schema": "smallsort-targeted-observation-v2",
+      "search_scope": {
+        "kind": "whole-file",
+        "unicode_end_exclusive": 162830,
+        "unicode_start": 0,
+        "utf8_byte_end_exclusive": 162830,
+        "utf8_byte_start": 0
+      },
+      "source_absence_established": false,
+      "source_bytes": 162830,
+      "source_codepoints": 162830,
+      "source_lines": 2136,
+      "status": "NO_MATCH_IN_SEARCH_SCOPE",
+      "truncated": false
+    },
+    "verifier_error_locate": {
+      "archive_sha256": "ac43283e86465ef36da3d6e03376f2614648f5a3143477ec6432998eba705c85",
+      "build_id": "53c85824-e4d3-4459-8760-c6dc0dace06f",
+      "causal_status": "UNKNOWN",
+      "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+      "complete": true,
+      "content_filtered": false,
+      "coordinate_bases": {
+        "ends": "exclusive",
+        "line_separator": "LF",
+        "lines": 1,
+        "offsets": 0,
+        "unicode_columns": 1
+      },
+      "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+      "exact": true,
+      "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+      "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0a/verification.log",
+      "file_sha256": "b2eb1c2f02ba9aa3d6384a395ea9e2f22e28d77fe79508f91eada0b5ce11d07c",
+      "index_sha256": "6db304318602a98f9e703f77af41a8e52de482632d0c076519240b4751a4f6e1",
+      "match_mode": "CASE_SENSITIVE_LITERAL",
+      "next_offset": null,
+      "offset": 0,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "path_sanitized": false,
+      "policy": "economical-exact-v1",
+      "representation": "LITERAL_COORDINATES_ONLY",
+      "request": {
+        "expected_sha256": "b2eb1c2f02ba9aa3d6384a395ea9e2f22e28d77fe79508f91eada0b5ce11d07c",
+        "file_id": "85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562",
+        "literal": "error:"
+      },
+      "request_id": "dc79e2f1d383fcfcbd6d9a9e3db960970f1c0d2ddc53217698806f31a1478d97",
+      "results": [],
+      "schema": "smallsort-targeted-observation-v2",
+      "search_scope": {
+        "kind": "whole-file",
+        "unicode_end_exclusive": 162830,
+        "unicode_start": 0,
+        "utf8_byte_end_exclusive": 162830,
+        "utf8_byte_start": 0
+      },
+      "source_absence_established": false,
+      "source_bytes": 162830,
+      "source_codepoints": 162830,
+      "source_lines": 2136,
+      "status": "NO_MATCH_IN_SEARCH_SCOPE",
+      "truncated": false
+    }
+  },
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "proof_obligations_closed": 0,
+  "reader_additional_attempt_metadata_text": "{\n  \"build_id\": \"53c85824-e4d3-4459-8760-c6dc0dace06f\",\n  \"file_id\": \"85b1b022b15ca5320cc5f1d5b6b2e852124c0e8c07b53f5658ba0b82b1151562\",\n  \"expected_sha256\": \"b2eb1c2f02ba9aa3d6384a395ea9e2f22e28d77fe79508f91eada0b5ce11d07c\",\n  \"selector\": {\n    \"start\": 2125,\n    \"end_inclusive\": 2136\n  },\n  \"attempts\": [\n    {\n      \"attempt\": 1,\n      \"exit_code\": 1,\n      \"client_error\": \"cannot obtain Reader identity token; check existing gcloud authentication or use an authorized proxy\",\n      \"reader_response_received\": false,\n      \"request_id\": null,\n      \"coordinates\": null,\n      \"exact\": null,\n      \"complete\": null\n    },\n    {\n      \"attempt\": 2,\n      \"exit_code\": 1,\n      \"client_error\": \"cannot obtain Reader identity token; check existing gcloud authentication or use an authorized proxy\",\n      \"reader_response_received\": false,\n      \"request_id\": null,\n      \"coordinates\": null,\n      \"exact\": null,\n      \"complete\": null\n    }\n  ],\n  \"status\": \"blocked_before_reader_response\"\n}\\n",
+  "reader_limitation": "Some target calls failed transient print-identity-token timeouts at client30s; one process-local auth-only timeout60s also failed; client/auth/IAM unchanged; no credentials output, raw fallback or proof inference.",
+  "source_build_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "source_run_exit": 1,
+  "terminal_status": "FAILURE"
+}

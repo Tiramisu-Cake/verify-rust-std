@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import ast
 from copy import deepcopy
+from dataclasses import fields, is_dataclass
 import hashlib
 import importlib.util
 import json
@@ -25,7 +26,7 @@ from typing import Any, Mapping
 PHASE = "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17"
 AUTHORIZATION_PHASE = "SORT4-PACKAGE-SCOPE-NATIVE-PROOF-2026-10-20-R6"
 HERE = Path("research/challenge-8/cloud-build/sort4-caller-entry-native")
-PROFILE = HERE / "A1-SCOPE-S1-PROFILE-2026-10-20.json"
+PROFILE = HERE / "A1-SCOPE-S2-PROFILE-2026-10-20.json"
 HEX40 = re.compile(r"[0-9a-f]{40}\Z")
 HEX64 = re.compile(r"[0-9a-f]{64}\Z")
 
@@ -1477,7 +1478,7 @@ def _safe_action(rows: dict, case_id: str, action) -> Any:
 
 
 def _jsonable(value: Any) -> Any:
-    """Preserve structural observations in progress JSON without repr fallbacks."""
+    """Preserve progress values and the parser's explicit immutable node schema."""
     if isinstance(value, Mapping):
         return {str(key): _jsonable(item) for key, item in value.items()
                 if key not in {"admission_gate", "support_cache", "certificate"}}
@@ -1487,6 +1488,36 @@ def _jsonable(value: Any) -> Any:
         return value
     if isinstance(value, Path):
         return str(value)
+    if is_dataclass(value) and not isinstance(value, type):
+        kind = type(value).__name__
+        parser_module = sys.modules.get(type(value).__module__)
+        parser_source = getattr(parser_module, "__file__", None)
+        expected_source = Path(__file__).with_name("a1-synthetic-inputs.py")
+        if (parser_source is None or
+                Path(parser_source).resolve() != expected_source.resolve() or
+                getattr(parser_module, kind, None) is not type(value)):
+            raise TypeError("unsupported progress value: " + kind)
+        names = tuple(field.name for field in fields(value))
+        if kind in {"Text", "Atom", "Number"} and names == ("value",):
+            scalar = value.value
+            if isinstance(scalar, str):
+                return {"kind": kind, "value": scalar}
+        elif kind == "Record" and names == ("fields",):
+            pairs = value.fields
+            if isinstance(pairs, tuple):
+                encoded = []
+                for pair in pairs:
+                    if (not isinstance(pair, tuple) or len(pair) != 2 or
+                            not isinstance(pair[0], str)):
+                        break
+                    encoded.append([pair[0], _jsonable(pair[1])])
+                else:
+                    return {"kind": "Record", "fields": encoded}
+        elif kind == "ListValue" and names == ("values",):
+            items = value.values
+            if isinstance(items, tuple):
+                return {"kind": "ListValue",
+                        "values": [_jsonable(item) for item in items]}
     raise TypeError("unsupported progress value: " + type(value).__name__)
 
 

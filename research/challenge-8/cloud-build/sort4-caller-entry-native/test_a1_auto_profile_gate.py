@@ -10,7 +10,7 @@ from types import SimpleNamespace
 import unittest
 
 HERE = Path(__file__).parent
-PROFILE = 'A1-SCOPE-S1-PROFILE-2026-10-20.json'
+PROFILE = 'A1-SCOPE-S2-PROFILE-2026-10-20.json'
 PATH = Path('research/challenge-8/cloud-build/sort4-caller-entry-native')
 TREE = ast.parse((HERE / 'a1-focus-backend.py').read_text())
 FUNCTION = next(n for n in TREE.body if isinstance(n, ast.FunctionDef) and n.name == '_cloud_gate')
@@ -118,7 +118,7 @@ class ProfileGateTests(unittest.TestCase):
         self.assertEqual(active['first_matrix_status'], 'NOT_RUN')
         self.assertFalse(active['profile_accepted'])
         self.assertFalse(active['proof_credit'])
-        self.assertEqual(active['status'], 'PACKAGE_SCOPE_S1_UNRUN')
+        self.assertEqual(active['status'], 'PACKAGE_SCOPE_S2_UNRUN')
 
 
 if __name__ == '__main__':
