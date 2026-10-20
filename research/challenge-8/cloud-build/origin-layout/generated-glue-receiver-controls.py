@@ -434,7 +434,8 @@ def run(evidence: Path, args, env: dict, base, positive_case: Path, execute_case
                            "experimental-merge-guard-addressability-emitter-r5-v1",
                            "experimental-merge-late-callback-recovery-r7-v1",
                            "experimental-merge-owned-array-allocation-r8-v1",
-                           "experimental-merge-guard-current-return-r9-v1"):
+                           "experimental-merge-guard-current-return-r9-v1",
+                           "experimental-merge-moving-gap-r10-v1"):
         controls = {**V7_CONTROLS, **RETIREMENT_CONTROL}
     else:
         controls = {}

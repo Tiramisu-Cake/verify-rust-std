@@ -35,6 +35,7 @@ mir = base.mir_helper
 PROFILE = concrete_consumer.PROFILE
 R8_PROFILE = "experimental-merge-owned-array-allocation-r8-v1"
 R9_PROFILE = "experimental-merge-guard-current-return-r9-v1"
+R10_PROFILE = "experimental-merge-moving-gap-r10-v1"
 CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
          "double_physical_fbc")
 CAMPAIGN = "incoming-origin-controls-only-v1"
@@ -280,7 +281,7 @@ def execute_case(case: Path, args, env: dict) -> dict:
     if args.profile in ("experimental-merge-actual-glue-body-v8", "experimental-merge-guard-addressability-v1",
                            "experimental-merge-guard-addressability-emitter-r5-v1",
                            "experimental-merge-late-callback-recovery-r7-v1",
-                           R8_PROFILE, R9_PROFILE):
+                           R8_PROFILE, R9_PROFILE, R10_PROFILE):
         original_export = base.run_stage(case, "original-exporter", [
             str(args.tool_home / "bin/vf-rust-mir-exporter"), "original/lib.rs",
             f"--sysroot={args.compiler_sysroot}", "--edition", "2021", "--crate-type", "lib",
@@ -300,7 +301,7 @@ def execute_case(case: Path, args, env: dict) -> dict:
     if getattr(args, "r4_addressability_rocq", False) is True:
         vf_arguments.append("-emit_rocq")
     r8_option = getattr(args, "r8_owned_array_allocation", False) is True
-    if r8_option and args.profile not in (R8_PROFILE, R9_PROFILE):
+    if r8_option and args.profile not in (R8_PROFILE, R9_PROFILE, R10_PROFILE):
         raise ValueError("R8 owned-array allocation option requires exact R8 profile or authorized R9 profile")
     if r8_option:
         vf_arguments.append("-rust_owned_array_allocation_r8")
@@ -512,7 +513,7 @@ def main() -> int:
                 "exporter_source_sha256", "schema_sha256", "guard_layout_patch_sha256", "refiner_main_source_sha256", "refiner_core_source_sha256", "z3_sha256"):
         if profile_build.get(key) != profile_card.get(key):
             raise RuntimeError(f"tracked MD profile pin differs: {key}")
-    if args.profile in (R8_PROFILE, R9_PROFILE):
+    if args.profile in (R8_PROFILE, R9_PROFILE, R10_PROFILE):
         for key in ("options_source_sha256", "console_source_sha256", "ide_source_sha256",
                     "owned_array_allocation_patch_sha256"):
             if profile_build.get(key) != profile_card.get(key):
@@ -529,7 +530,7 @@ def main() -> int:
                 chain[-1].get("path") != "research/challenge-8/cloud-build/origin-layout/r8-owned-array-allocation.patch" or
                 chain[-1].get("sha256") != profile_card.get("owned_array_allocation_patch_sha256")):
             raise RuntimeError("R8 owned-array patch/profile chain differs")
-    if args.profile == R9_PROFILE:
+    if args.profile in (R9_PROFILE, R10_PROFILE):
         r8_patch = HERE.parents[3] / "cloud-build/origin-layout/r8-owned-array-allocation.patch"
         baseline_path = HERE.parents[3] / "cloud-build/origin-layout/R9-BASELINE-PROFILE-20261020.json"
         if base.file_sha(baseline_path) != "838ade9927ebba82b8df61283fdd8189e71b673ac91eadf897806d0bfaa80cc1":
@@ -569,7 +570,7 @@ def main() -> int:
         "src/refinement_checker/main.ml": "refiner_main_source_sha256",
         "src/refinement_checker/refinement_checker.ml": "refiner_core_source_sha256",
     }
-    if args.profile in (R8_PROFILE, R9_PROFILE):
+    if args.profile in (R8_PROFILE, R9_PROFILE, R10_PROFILE):
         source_pins.update({
             "src/frontend/verifast0.ml": "options_source_sha256",
             "src/vfconsole/vfconsole.ml": "console_source_sha256",
@@ -613,7 +614,7 @@ def main() -> int:
                    "rustc_version": version, "rustc_toolchain": os.environ["RUSTUP_TOOLCHAIN"], "accepted": False}
     if args.profile in ("experimental-merge-guard-addressability-v1",
                         "experimental-merge-guard-addressability-emitter-r5-v1",
-                        "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE):
+                        "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE, R10_PROFILE):
         profile_path = Path(os.environ["SMALLSORT_MERGE_PROFILE"])
         environment.update(profile_sha256=base.file_sha(profile_path),
             tool_commit=profile_card["effective_tool_commit"],
@@ -649,16 +650,16 @@ def main() -> int:
     r4_addressability = None
     if args.profile in ("experimental-merge-guard-addressability-v1",
                         "experimental-merge-guard-addressability-emitter-r5-v1",
-                        "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE):
+                        "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE, R10_PROFILE):
         control_root = args.evidence / "addressability-controls"
         try:
             control_name = ("r5-addressability-controls.py" if args.profile in (
                                 "experimental-merge-guard-addressability-emitter-r5-v1",
-                                "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE) else
+                                "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE, R10_PROFILE) else
                             "r4-addressability-controls.py")
             r4_control = load("r5_addressability_controls" if args.profile in (
                               "experimental-merge-guard-addressability-emitter-r5-v1",
-                              "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE) else
+                              "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE, R10_PROFILE) else
                               "r4_addressability_controls", HERE.parents[3] /
                               "cloud-build/origin-layout" / control_name)
             r4_addressability = r4_control.run(control_root, args, env, execute_case, environment)
@@ -702,7 +703,7 @@ def main() -> int:
         dispatch = None
         if args.profile in ("experimental-merge-guard-addressability-v1",
                             "experimental-merge-guard-addressability-emitter-r5-v1",
-                            "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE):
+                            "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE, R10_PROFILE):
             dispatch = load("first_comparator_dispatch_receipt", HERE.parents[3] /
                             "cloud-build/origin-layout/first-comparator-dispatch.py")
             profile_path = Path(os.environ["SMALLSORT_MERGE_PROFILE"])
@@ -734,7 +735,7 @@ def main() -> int:
                 actual = load("actual_insert_tail_b2", HERE.parents[3] /
                               ("cloud-build/origin-layout/first-callback.py" if args.profile in ("experimental-merge-guard-addressability-v1",
                                   "experimental-merge-guard-addressability-emitter-r5-v1",
-                                  "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE) else
+                                  "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE, R10_PROFILE) else
                                "cloud-build/origin-layout/actual-insert-tail-b2.py"))
                 aggregate["actual_insert_tail_b2"] = actual.run(
                     args.evidence / "actual-insert-tail-b2", args, env,

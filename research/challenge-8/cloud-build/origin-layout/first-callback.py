@@ -19,8 +19,9 @@ R5_PROFILE = 'experimental-merge-guard-addressability-emitter-r5-v1'
 R7_PROFILE = 'experimental-merge-late-callback-recovery-r7-v1'
 R8_PROFILE = 'experimental-merge-owned-array-allocation-r8-v1'
 R9_PROFILE = 'experimental-merge-guard-current-return-r9-v1'
+R10_PROFILE = 'experimental-merge-moving-gap-r10-v1'
 R9_GUARD_RETURN_RECOVERY_ENV = 'SMALLSORT_R9_GUARD_RETURN_RECOVERY'
-SUPPORTED_PROFILES = (PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE)
+SUPPORTED_PROFILES = (PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE)
 R9_GUARD_TRACE_ENV = 'SMALLSORT_R9_GUARD_TRACE'
 PREFIX_NAME = b'insert_tail_first_callback_prefix'
 CUT = b'        // SAFETY: after this read'
@@ -473,9 +474,9 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
     if not prefix:
         verified = _prepare_late_references(_prepare_first_shift(_prepare_guard_empty_tail(
             _prepare_tmp_reference(_open_tail_read(verified)))))
-        if profile in (R7_PROFILE, R8_PROFILE, R9_PROFILE):
+        if profile in (R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE):
             verified = _prepare_late_scope(verified)
-        if profile in (R8_PROFILE, R9_PROFILE):
+        if profile in (R8_PROFILE, R9_PROFILE, R10_PROFILE):
             if profile == R8_PROFILE:
                 verified = _prepare_post_drop_recovery(verified, old)
             else:
@@ -507,10 +508,10 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
                   source_relation='exact pre-cut runtime segment plus closing braces and renamed function/wrapper' if prefix else 'complete actual body; ghost-only annotation replacement',
                   final_posts_sha256=_sha(old.INSERT_CONTRACT),
                   callback_marker_sha256=_sha(markers),
-                  late_callback_scope_recovery_requested=(profile in (R7_PROFILE, R8_PROFILE, R9_PROFILE) and not prefix),
+                  late_callback_scope_recovery_requested=(profile in (R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE) and not prefix),
                   guard_return_recovery_marker_sha256=(
-                      _sha(R9_GUARD_RETURN_MARKER) if profile == R9_PROFILE and not prefix else None),
-                  guard_return_recovery_requested=(profile == R9_PROFILE and not prefix),
+                      _sha(R9_GUARD_RETURN_MARKER) if profile in (R9_PROFILE, R10_PROFILE) and not prefix else None),
+                  guard_return_recovery_requested=(profile in (R9_PROFILE, R10_PROFILE) and not prefix),
                   first_callback_unwind_recovery_qualified=False,
                   first_callback_unwind_status='NOT_RUN', proof_credit=False)
     record['actual_first_call_line'] = old._line(verified, call.rstrip(b'\n'))
@@ -536,7 +537,7 @@ def _execute_case_with_r9_trace(execute_case, case, args, env, *, profile,
     case_env = dict(env)
     case_env.pop(R9_GUARD_TRACE_ENV, None)
     case_env.pop(R9_GUARD_RETURN_RECOVERY_ENV, None)
-    if profile == R9_PROFILE and not prefix and actual_callback_case:
+    if profile in (R9_PROFILE, R10_PROFILE) and not prefix and actual_callback_case:
         case_env[R9_GUARD_TRACE_ENV] = '1'
         case_env[R9_GUARD_RETURN_RECOVERY_ENV] = '1'
     return execute_case(case, args, case_env)
@@ -670,7 +671,7 @@ def run(evidence, args, env, execute_case, validated_receipt):
                 continue
             case, record = prepare(evidence/name, prefix=prefix, mutation=mutation, profile=selected_profile)
             before = consumer._hashes(case)
-            args.r8_owned_array_allocation = (selected_profile in (R8_PROFILE, R9_PROFILE) and not prefix)
+            args.r8_owned_array_allocation = (selected_profile in (R8_PROFILE, R9_PROFILE, R10_PROFILE) and not prefix)
             try:
                 execution = dispatch(case, args, prefix=prefix,
                                      actual_callback_case=(name == 'full_body'))
@@ -686,21 +687,21 @@ def run(evidence, args, env, execute_case, validated_receipt):
             results['allocation_geometry_controls'] = geometry_controls.run(
                 evidence/'allocation-geometry-controls', args, campaign_env,
                 lambda case, case_args, case_env: dispatch(case, case_args, case_env))
-        if selected_profile in (R7_PROFILE, R8_PROFILE, R9_PROFILE):
+        if selected_profile in (R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE):
             late_controls = _load('r7_late_admission', HERE/'r7-late-admission-controls.py')
             results['late_scope_admission_controls'] = late_controls.run(
                 evidence/'late-scope-admission-controls', args, campaign_env,
                 lambda case, case_args, case_env: dispatch(
                     case, case_args, case_env,
-                    actual_callback_case=(selected_profile == R9_PROFILE)),
+                    actual_callback_case=(selected_profile in (R9_PROFILE, R10_PROFILE))),
                 evidence/'full_body/cases/actual_three_current_full_posts',
                 json.loads((evidence/'full_body/preparation.json').read_text()))
-        if selected_profile in (R8_PROFILE, R9_PROFILE):
+        if selected_profile in (R8_PROFILE, R9_PROFILE, R10_PROFILE):
             freshness = _load('r8_freshness_controls', HERE/'r8-freshness-controls.py')
             results['owned_array_allocation_freshness_controls'] = freshness.run(
                 evidence/'owned-array-allocation-freshness-controls', args, campaign_env,
                 lambda case, case_args, case_env: dispatch(case, case_args, case_env))
-        if selected_profile == R9_PROFILE:
+        if selected_profile in (R9_PROFILE, R10_PROFILE):
             guard_controls = _load('r9_guard_return_controls', HERE/'r9-guard-return-controls.py')
             args.r8_owned_array_allocation = True
             try:

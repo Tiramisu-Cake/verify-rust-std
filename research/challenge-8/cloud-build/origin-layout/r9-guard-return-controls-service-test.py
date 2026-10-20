@@ -190,8 +190,10 @@ def _execute(case, args, env, behavior=None):
 
 class R9GuardReturnControlsTests(unittest.TestCase):
     def _run(self, root, *, behavior=None, baseline_events=True, baseline_status=None,
-             missing_baseline_stage=None, profile=None, callback=None):
+             missing_baseline_stage=None, profile=None, source_profile=None, callback=None):
         source_case, record = _source_case(root)
+        if source_profile is not None:
+            record["profile"] = source_profile
         _baseline(source_case, record, events=baseline_events,
                   bad_status=baseline_status, missing_stage=missing_baseline_stage)
         calls = []
@@ -215,6 +217,20 @@ class R9GuardReturnControlsTests(unittest.TestCase):
             source_case, record)
         self.assertEqual(parent_env, {controls.TRACE_ENV: "parent-trace", "KEEP": "parent"})
         return output, calls
+
+    def test_r10_profile_alias_and_cross_profile_refusal(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output, calls = self._run(Path(temporary), profile=controls.R10_PROFILE,
+                                      source_profile=controls.R10_PROFILE)
+            self.assertTrue(output["all_matched"])
+            self.assertEqual(set(calls), set(controls.CASES))
+        for active, source in ((controls.R9_PROFILE, controls.R10_PROFILE),
+                               (controls.R10_PROFILE, controls.R9_PROFILE)):
+            with self.subTest(active=active), tempfile.TemporaryDirectory() as temporary:
+                output, calls = self._run(Path(temporary), profile=active, source_profile=source)
+                self.assertEqual(calls, [])
+                self.assertTrue(all(row["classification"] == "NOT_RUN"
+                                    for row in output["cases"].values()))
 
     def test_exact_baseline_and_all_five_narrow_controls(self):
         with tempfile.TemporaryDirectory() as temporary:

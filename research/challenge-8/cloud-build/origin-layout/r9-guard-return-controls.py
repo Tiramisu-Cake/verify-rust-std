@@ -22,6 +22,8 @@ _spec.loader.exec_module(_r7)
 
 CAMPAIGN = "r9-guard-return-controls-v1"
 R9_PROFILE = "experimental-merge-guard-current-return-r9-v1"
+R10_PROFILE = "experimental-merge-moving-gap-r10-v1"
+SUPPORTED_PROFILES = (R9_PROFILE, R10_PROFILE)
 TRACE_ENV = "SMALLSORT_R9_GUARD_TRACE"
 RECOVERY_ENV = "SMALLSORT_R9_GUARD_RETURN_RECOVERY"
 STAGES = ("exporter", "decode", "refinement", "verifast")
@@ -99,7 +101,7 @@ def _inconclusive(name: str, reason: str, **fields) -> dict:
 
 def _source_pair(source_case: Path, source_record: dict) -> tuple[bytes, bytes]:
     original, verified = _r7._source_pair(source_case, source_record)
-    if (source_record.get("profile") != R9_PROFILE or
+    if (source_record.get("profile") not in SUPPORTED_PROFILES or
             source_record.get("prefix") is not False or
             source_record.get("late_callback_scope_recovery_requested") is not True or
             source_record.get("mutation") is not None):
@@ -444,7 +446,8 @@ def run(evidence: Path, args, env: dict, execute_case, source_case: Path,
         original, verified = _source_pair(source_case, source_record)
         # Validate the preparation pin inside the setup error boundary too.
         _expected_stage_sources(_sha(original), _sha(verified), source_record)
-        if getattr(args, "profile", None) != R9_PROFILE:
+        if (getattr(args, "profile", None) not in SUPPORTED_PROFILES or
+                args.profile != source_record.get("profile")):
             raise ValueError("active profile is not the exact R9 guard-return profile")
         if type(env) is not dict:
             raise ValueError("parent environment must be a dictionary")

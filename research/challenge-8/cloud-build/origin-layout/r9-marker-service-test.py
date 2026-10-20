@@ -12,6 +12,7 @@ VERIFIER = Path("/root/verifast-merge-actual-glue/src/verifast.ml")
 TRACE = "SMALLSORT_R9_GUARD_TRACE"
 RECOVERY = "SMALLSORT_R9_GUARD_RETURN_RECOVERY"
 R9 = "experimental-merge-guard-current-return-r9-v1"
+R10 = "experimental-merge-moving-gap-r10-v1"
 R8 = "experimental-merge-owned-array-allocation-r8-v1"
 
 
@@ -82,10 +83,12 @@ def main():
         return {"stage": 0}
 
     parent = {"KEEP": "yes", TRACE: "stale", RECOVERY: "stale"}
-    callback._execute_case_with_r9_trace(
-        capture, object(), object(), parent, profile=R9,
-        prefix=False, actual_callback_case=True)
-    assert case[TRACE] == "1" and case[RECOVERY] == "1"
+    for profile in (R9, R10):
+        case.clear()
+        callback._execute_case_with_r9_trace(
+            capture, object(), object(), parent, profile=profile,
+            prefix=False, actual_callback_case=True)
+        assert case[TRACE] == "1" and case[RECOVERY] == "1"
     assert parent == {"KEEP": "yes", TRACE: "stale", RECOVERY: "stale"}
     for profile, prefix in ((R9, True), (R8, False), ("baseline", False)):
         case.clear()

@@ -16,7 +16,8 @@ from pathlib import Path
 CAMPAIGN = "r8-owned-array-freshness-controls-v1"
 PROFILE = "experimental-merge-owned-array-allocation-r8-v1"
 R9_PROFILE = "experimental-merge-guard-current-return-r9-v1"
-SUPPORTED_PROFILES = (PROFILE, R9_PROFILE)
+R10_PROFILE = "experimental-merge-moving-gap-r10-v1"
+SUPPORTED_PROFILES = (PROFILE, R9_PROFILE, R10_PROFILE)
 STAGES = ("exporter", "decode", "refinement", "verifast")
 HEADER = "#![no_std]\n#![allow(dead_code)]\n"
 SPAN_DIAGNOSTIC = "Assertion might not hold."

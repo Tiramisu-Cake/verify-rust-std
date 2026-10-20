@@ -15,6 +15,7 @@ from unittest.mock import patch
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
 R9 = "experimental-merge-guard-current-return-r9-v1"
+R10 = "experimental-merge-moving-gap-r10-v1"
 R8 = "experimental-merge-owned-array-allocation-r8-v1"
 R7 = "experimental-merge-late-callback-recovery-r7-v1"
 TRACE = "SMALLSORT_R9_GUARD_TRACE"
@@ -56,7 +57,7 @@ def main():
     assert captured["KEEP"] == "yes"
     assert parent_env == {"KEEP": "yes", TRACE: "stale-parent-value"}
 
-    for profile, prefix in ((R9, True), (R8, False), (R7, False), ("baseline", False)):
+    for profile, prefix in ((R9, True), (R10, True), (R8, False), (R7, False), ("baseline", False)):
         captured.clear()
         callback._execute_case_with_r9_trace(
             capture, Path("case"), object(), parent_env, profile=profile,
@@ -88,6 +89,12 @@ def main():
         binding = freshness._profile_binding(SimpleNamespace(profile=R9),
                                               {"SMALLSORT_MERGE_PROFILE": str(profile_path)})
         assert binding["profile"] == R9 and binding["profile_accepted"] is False
+        profile_path.write_text(json.dumps({"profile": R10, "schema": "test-v1",
+                                           "accepted": False,
+                                           "effective_tool_commit": "b" * 40}))
+        binding = freshness._profile_binding(SimpleNamespace(profile=R10),
+                                              {"SMALLSORT_MERGE_PROFILE": str(profile_path)})
+        assert binding["profile"] == R10 and binding["profile_accepted"] is False
 
     parser_tree = ast.parse(PROVE.read_bytes())
     allocation_args = [node for node in ast.walk(parser_tree)
@@ -100,13 +107,13 @@ def main():
     assert isinstance(keywords.get("action"), ast.Constant) and keywords["action"].value == "store_true"
     assert isinstance(keywords.get("default"), ast.Constant) and keywords["default"].value is False
     source = ast.unparse(parser_tree)
-    assert "args.profile not in (R8_PROFILE, R9_PROFILE)" in source
+    assert "args.profile not in (R8_PROFILE, R9_PROFILE, R10_PROFILE)" in source
     baseline_path = HERE / "R9-BASELINE-PROFILE-20261020.json"
     baseline_raw = baseline_path.read_bytes()
     assert hashlib.sha256(baseline_raw).hexdigest() == (
         "838ade9927ebba82b8df61283fdd8189e71b673ac91eadf897806d0bfaa80cc1")
     baseline = json.loads(baseline_raw)
-    r9_profile = json.loads((HERE / "GLUE-PROFILE.json").read_text())
+    r9_profile = json.loads((HERE / "R10-BASELINE-PROFILE-20261021.json").read_text())
     assert r9_profile["profile"] == R9 and r9_profile["accepted"] is False
     assert r9_profile["ordered_patch_chain"][:-1] == baseline["ordered_patch_chain"]
     assert "R9-BASELINE-PROFILE-20261020.json" in (
@@ -133,6 +140,13 @@ def main():
         assert "-rust_owned_array_allocation_r8" in vf_command
         assert result["r8_owned_array_allocation"] is True
 
+        args.profile = R10
+        with patch.object(prove.base, "run_stage", side_effect=stage):
+            result = prove.execute_case(case, args, {})
+        vf_command = next(command for name, command in stage_calls if name == "verifast")
+        assert "-rust_owned_array_allocation_r8" in vf_command
+        assert result["r8_owned_array_allocation"] is True
+
         args.profile = R7
         with patch.object(prove.base, "run_stage", side_effect=stage):
             try:
@@ -153,7 +167,7 @@ def main():
         HERE.parent / "../merge/cloud-build/provider-overlays.py",
     )
     for path in consumers:
-        assert R9 in path.read_text(), (path, R9)
+        assert R9 in path.read_text() and R10 in path.read_text(), (path, R9, R10)
     print("R9 profile/default-off allocation/trace isolation synthetic checks PASS")
 
 

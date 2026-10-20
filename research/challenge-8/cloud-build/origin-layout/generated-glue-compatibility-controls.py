@@ -34,6 +34,8 @@ PINNED_REFINER_SOURCE_SHA256_BY_PROFILE = {
         'd20a433c93563b87ff0a48241c94e366df06dba2f87b5e7f85ba47edb6980dd1',
     'experimental-merge-guard-current-return-r9-v1':
         'd20a433c93563b87ff0a48241c94e366df06dba2f87b5e7f85ba47edb6980dd1',
+    'experimental-merge-moving-gap-r10-v1':
+        'd20a433c93563b87ff0a48241c94e366df06dba2f87b5e7f85ba47edb6980dd1',
 }
 LEGACY_DROP_DEFAULTS = (
     'kind=Drop {\n'
