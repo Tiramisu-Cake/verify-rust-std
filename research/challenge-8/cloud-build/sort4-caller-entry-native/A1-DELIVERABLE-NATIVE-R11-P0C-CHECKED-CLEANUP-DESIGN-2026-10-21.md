@@ -127,16 +127,55 @@ the generic source signature may likewise not be a ghost type parameter
 visible by that name at the inserted source location. This is a static
 applicability failure, not a semantic objection to opening the enum predicate.
 
-Consequently there is no verified variant-aware cleanup syntax available
-within this narrow generator-only change while preserving the existing
-signature and arbitrary `Option<&T>` input. Do not send the `'_` candidate to
-Cloud. The existing generated `drop(left_ancestor_pivot)` remains only as the
-S1-falsified fixture shape; S1 proves that it leaves `Option_own` at the
-observer return. This task does not claim a passing cleanup. A future attempt
-needs a source-bound lifetime/type name exposed without changing the proof
-contract, or an independently established checked mechanism for inferred
-generic predicate-constructor arguments. No new axiom, assumption, leak,
-`forget`, or runtime std change is an acceptable substitute.
+That rules out direct variant-aware `open` syntax with omitted type arguments
+and the literal `'_` annotation. A checked generic lemma provides a separate,
+source-bound route without changing the observer signature:
+
+```rust
+lem a1_cleanup_option_ref<'a, T>(value: std::option::Option<&'a T>)
+    req thread_token(?t) &*& std::option::Option_own::<&'a T>(t, value);
+    ens thread_token(t);
+{
+    open std::option::Option_own::<&'a T>(t, value);
+    match value {
+        std::option::Option::None => {}
+        std::option::Option::Some(r) => {}
+    }
+}
+```
+
+This helper uses explicit, in-scope `'a` and `T` in its own checked contract and
+body, while the ghost call at the observer supplies only
+`left_ancestor_pivot`. Unlike `open`, ordinary generic function calls infer
+omitted type arguments: `verifast1.ml:5066–5069` creates an `InferredType` for
+each callee parameter, and Rust mode enables strict type-parameter matching
+(`verifast1.ml:92`, `:3280–3306`). Strict unification recursively matches
+constructed `Option` arguments and `RustRefType` lifetimes/type arguments, so
+the call can bind the helper's lifetime from the local's actual translated
+region.
+
+The Some arm intentionally performs no raw-reference open or runtime drop.
+`vf_mir_translator.ml:1624` maps shared-reference `.own` to the pointee's
+`.share` assertion. The generic ADT `.share` builder at `:829–840` wraps that
+share in `CoefAsn(DummyPat, ...)`; `rustbelt.ml:9–14` describes this as
+duplicable share permission. Thus unfolding the generated Option predicate
+and selecting `Some(r)` leaves only a dummy-coefficient share, which the
+existing leak checker treats as leakable. `None` contributes `Emp` by
+`rust_parser.ml:995–1015`. The helper's only non-persistent resource is the
+thread token, which its postcondition returns. This is a checked disposal of
+the local predicate; it introduces no axiom, assumption, `leak`, `forget`, or
+runtime std change. The helper does not call `share_full_borrow`,
+`init_ref_share`, or another operation whose contract requires
+`type_interp<T>`; its precondition is exactly the existing `thread_token` and
+`Option_own` resources.
+
+The static route is viable but not yet proof evidence. Cloud must check the
+exact generic lemma declaration/call syntax, lifetime inference, Option enum
+pattern checking, and that the Some-arm residual is recognized as leakable in
+the selected effective specs. The S1 direct-drop fixture remains falsified;
+the generated candidate now calls this lemma instead. If any obligation fails,
+P0c remains open with zero proof credit. No hard-coded compiler region name is
+used.
 
 The project proof source illustrates both the positive construction and the
 missing end condition. In
@@ -163,11 +202,11 @@ dropping the field cannot stand in for those facts.
 ## Decision and controls
 
 The direct whole-value drop was tested and left `Option_own` at the generated
-observer return. The variant-aware candidate is statically inapplicable with
-the current source syntax for the reasons above, so no second Cloud attempt is
-made from this worker. P0c remains open with proof credit zero; the failure is
-a proof obligation in the diagnostic body and does not establish a runtime
-leak.
+observer return. The current candidate replaces that call with the checked
+generic ghost lemma above, called at both observer exits and the labeled P1
+tail. It retains arbitrary `None` and `Some(&T)` inputs. This is a falsifiable
+Cloud candidate, not an accepted proof; failure leaves P0c open with proof
+credit zero and does not establish a runtime leak.
 
 The R10 `a1-tool.py` reconstruction statically checks the selected baseline's
 `critical`, `effective_rsspec`, `proof_std`, and modified-file maps before
@@ -177,12 +216,13 @@ is available as the Git object listed above; this does not by itself establish
 R11's final effective maps. Do not widen scope to alter the active model or
 runtime std to make the diagnostic pass.
 
-The fixture and synthetic tests retain the already falsified whole-value drop
-shape to avoid sending the statically invalid `'_` variant-aware annotation to
-Cloud. The tests establish only generation, signature/guard prefix retention,
-and P1 tail placement. They do not establish cleanup or verifier applicability.
-No proof credit or profile acceptance follows from the static/synthetic
-results. Any future source-bound candidate must preserve arbitrary inputs and
+The fixture injects the generic lemma in a ghost block and replaces each
+whole-value runtime drop call with a ghost lemma call. Synthetic tests check the
+lemma's generic contract, both `Option` arms, absence of trust-changing
+constructs, observer signature/guard prefix retention, and P1 tail placement.
+They establish generation only; Cloud must verify the checked body, inferred
+lifetime, and required posts. No proof credit or profile acceptance follows
+from static/synthetic results. The controls must preserve arbitrary inputs and
 reject:
 
 - `None`-only behavior masquerading as the general observer proof;

@@ -1,0 +1,417 @@
+{
+  "schema": "smallsort-r11-source-case-status-matrix-v1",
+  "build_id": "7aa3115e-571c-45d8-8142-4ee02db599f6",
+  "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+  "file_sha256": "9ad4afb45cfb6a5ae8b7fdec2f85b0e719f435fb0f9b623336ef20c4e124fbd3",
+  "index_sha256": "b4e8c4948c039b69741d533fb335cfe962b57806052b173c6a1d122a77fabdce",
+  "archive_sha256": "6201095760ddf7e1774395f91a26028b00f5cc1200a487a7fd8a617482cb8e56",
+  "source_status_counts": {
+    "INTENDED_CLASSIFIED": 5,
+    "NOT_RUN": 19,
+    "INCONCLUSIVE": 2
+  },
+  "case_query_count": 26,
+  "case_query_coverage": "26/26 exact complete per-case records, seven exact status fields each; paginated child inventory explicitly followed server next_offset=20",
+  "cases": {
+    "N-alpha-valid": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "REPRESENTATION_ONLY",
+      "observed_stage": "identity-validation",
+      "proof_credit": false,
+      "provenance": "synthetic-transport-control",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "N-binder-collapse": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "N-binding": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NEGATIVE_INTENDED",
+      "observed_stage": "call-binding-admission",
+      "proof_credit": false,
+      "provenance": "synthetic-admission-control",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "N-clause-redirect": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "N-clauses": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "N-default-contract": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "N-duplicate": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "N-false31": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "N-free-region": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "N-freeze-contract": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "N-no-F": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "N-region-swap": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NEGATIVE_INTENDED",
+      "observed_stage": "call-binding-admission",
+      "proof_credit": false,
+      "provenance": "synthetic-admission-control",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "N-source": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "OFF": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "P-dispatch": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "P0a": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NATIVE_INTENDED_PASS",
+      "observed_stage": "impl-body-and-conformance",
+      "proof_credit": false,
+      "provenance": "compiler-derived-focused-verifier",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "P0b": {
+      "matrix_gate_passed": true,
+      "observed_outcome": "NATIVE_INTENDED_PASS",
+      "observed_stage": "impl-body-and-conformance",
+      "proof_credit": false,
+      "provenance": "compiler-derived-focused-verifier",
+      "reason": null,
+      "status": "INTENDED_CLASSIFIED"
+    },
+    "P0c": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "caller execution attestation missing",
+      "status": "INCONCLUSIVE"
+    },
+    "P1": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "current raw source observation missing",
+      "status": "INCONCLUSIVE"
+    },
+    "R1": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "R2": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "R3": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "R4": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "R5": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "R6": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    },
+    "R7": {
+      "matrix_gate_passed": false,
+      "observed_outcome": null,
+      "observed_stage": null,
+      "proof_credit": false,
+      "provenance": null,
+      "reason": "not run in bounded native-p1-target scope",
+      "status": "NOT_RUN"
+    }
+  },
+  "case_query_sources": {
+    "N-alpha-valid": {
+      "response_file": "matrix-N-alpha-valid.json",
+      "request_id": "fc983e2ce5c02d211d94a03bc03f80cda980ee4d7f76f96736c40ed4c85422d5",
+      "exact": true,
+      "complete": true
+    },
+    "N-binder-collapse": {
+      "response_file": "matrix-N-binder-collapse.json",
+      "request_id": "814b70e61439dbae7a37eab13e3f527dba2605f12233dfcfc54a4ccb7f374a83",
+      "exact": true,
+      "complete": true
+    },
+    "N-binding": {
+      "response_file": "matrix-N-binding.json",
+      "request_id": "2fde1ef2f8ee06f8e3af674157c901b1f8df978481f2b73712d936d7bbd338f1",
+      "exact": true,
+      "complete": true
+    },
+    "N-clause-redirect": {
+      "response_file": "matrix-N-clause-redirect.json",
+      "request_id": "eb7529c79c2ca0edd23d71c8a5b8818c8baddbf2c29f17cf6a0b8dbcd33b0b61",
+      "exact": true,
+      "complete": true
+    },
+    "N-clauses": {
+      "response_file": "matrix-N-clauses.json",
+      "request_id": "455588cc49f80bfe72585a2f5b3c0733faade874b35848dbc2cea049c2f273ba",
+      "exact": true,
+      "complete": true
+    },
+    "N-default-contract": {
+      "response_file": "matrix-N-default-contract.json",
+      "request_id": "ff76a26f79a491ec983a846131eb2c753469fb3403292a5d56d2649841cd190c",
+      "exact": true,
+      "complete": true
+    },
+    "N-duplicate": {
+      "response_file": "matrix-N-duplicate.json",
+      "request_id": "509de92c4dbaa77d365e449cc8ad18008aca74c7dbf61d416373ca627fc7b062",
+      "exact": true,
+      "complete": true
+    },
+    "N-false31": {
+      "response_file": "matrix-N-false31.json",
+      "request_id": "d68b2c654c66b5df94a7d893a521e532a5efce01951a4ef782cf708f65d80783",
+      "exact": true,
+      "complete": true
+    },
+    "N-free-region": {
+      "response_file": "matrix-N-free-region.json",
+      "request_id": "ca3f7f72703c1eb9a9f083596537155a158d8d43a7b781728e3a6630349f45ef",
+      "exact": true,
+      "complete": true
+    },
+    "N-freeze-contract": {
+      "response_file": "matrix-N-freeze-contract.json",
+      "request_id": "fb7fa8dd84b24274ed2b9da31209c21360c2660392476b1c8f721c64a8968e6e",
+      "exact": true,
+      "complete": true
+    },
+    "N-no-F": {
+      "response_file": "matrix-N-no-F.json",
+      "request_id": "8fc5eb57e4cf551efba8ffc792e7704828aff0020488b10b3f0739481031724d",
+      "exact": true,
+      "complete": true
+    },
+    "N-region-swap": {
+      "response_file": "matrix-N-region-swap.json",
+      "request_id": "048494326df9d0fb5ad2bcd4bf188b73513033e8369b6620beef4c8ff53f6821",
+      "exact": true,
+      "complete": true
+    },
+    "N-source": {
+      "response_file": "matrix-N-source.json",
+      "request_id": "ff3fb6f02780f5b0c4a1f1627bf98e02062d64cd986c8bff30fed04395c49ed4",
+      "exact": true,
+      "complete": true
+    },
+    "OFF": {
+      "response_file": "matrix-OFF.json",
+      "request_id": "6fca21c3eb3a5654f4554129b0702a6aa65b75b19e6bce304b17d8c6443178d9",
+      "exact": true,
+      "complete": true
+    },
+    "P-dispatch": {
+      "response_file": "matrix-P-dispatch.json",
+      "request_id": "784e1669dc2268604c5953e068f8b27baae2b1e3a39eb901107ad0b6704f501d",
+      "exact": true,
+      "complete": true
+    },
+    "P0a": {
+      "response_file": "matrix-P0a.json",
+      "request_id": "f93dc7565a3bffac608f886a8d062288e9b0fe2a5a9d018254e97141d0573d08",
+      "exact": true,
+      "complete": true
+    },
+    "P0b": {
+      "response_file": "matrix-P0b.json",
+      "request_id": "9c0c52c1fd4301b9c18e12e446e9bfeaffb0cf94f1fd8f07846319e1ec4569cd",
+      "exact": true,
+      "complete": true
+    },
+    "P0c": {
+      "response_file": "matrix-P0c.json",
+      "request_id": "9e21b9696fd203b1f91538b67d53438861e6b08e191433e24fc8b61c59062e9f",
+      "exact": true,
+      "complete": true
+    },
+    "P1": {
+      "response_file": "matrix-P1.json",
+      "request_id": "467caba5f81956bdcc20e586da807a606b03047bacf0c8473490e54e10f4c62c",
+      "exact": true,
+      "complete": true
+    },
+    "R1": {
+      "response_file": "matrix-R1.json",
+      "request_id": "d9c1fbdaa4ed7ff24ec7f73ed2e09b543310b445bcfbe28a873f00df603779d0",
+      "exact": true,
+      "complete": true
+    },
+    "R2": {
+      "response_file": "matrix-R2.json",
+      "request_id": "51b1bbb875e9423ec26b461fcbc621386e258f0858b6961a140cca17a4efca3d",
+      "exact": true,
+      "complete": true
+    },
+    "R3": {
+      "response_file": "matrix-R3.json",
+      "request_id": "cfdc4eccd96e85c79e8e20f2d78e109dab5aa1d87b54a33c4a9ae92a20476049",
+      "exact": true,
+      "complete": true
+    },
+    "R4": {
+      "response_file": "matrix-R4.json",
+      "request_id": "e8bdc35e151e319c50a68a50be46e6449c47cd5b4c4e558f232db0483eaac761",
+      "exact": true,
+      "complete": true
+    },
+    "R5": {
+      "response_file": "matrix-R5.json",
+      "request_id": "cedd70b916168738f1c5db651f173f85f58a54fa5906f1094e0dc67077521774",
+      "exact": true,
+      "complete": true
+    },
+    "R6": {
+      "response_file": "matrix-R6.json",
+      "request_id": "4a9ec34303504a0e4e80f3ef657edfa121789c0b5da5e1fe7098520f315f017f",
+      "exact": true,
+      "complete": true
+    },
+    "R7": {
+      "response_file": "matrix-R7.json",
+      "request_id": "901dc5968e72f8d07572b74812a4fa45f452f7bad2562344521c85494bb19d3d",
+      "exact": true,
+      "complete": true
+    }
+  },
+  "source_evidence_class": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "source_parser_input_binding": "NOT_ESTABLISHED",
+  "final_matrix_complete": false,
+  "accepted": false,
+  "proof_credit": false,
+  "formal_obligations_closed": 0,
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0
+}

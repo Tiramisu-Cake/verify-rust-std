@@ -61,9 +61,26 @@ SOURCE_FILES = {
     "std_freeze_declaration": "original std::marker::Freeze declaration provenance",
 }
 
+# A checked ghost lemma owns the Option predicate directly. Its named lifetime
+# is inferred from the source local at each ghost call, so the generated proof
+# never has to guess the rustc-elaborated lifetime identifier.
+OPTION_CLEANUP_LEMMA = b"""/*@
+lem a1_cleanup_option_ref<'a, T>(value: std::option::Option<&'a T>)
+    req thread_token(?t) &*& std::option::Option_own::<&'a T>(t, value);
+    ens thread_token(t);
+{
+    open std::option::Option_own::<&'a T>(t, value);
+    match value {
+        std::option::Option::None => {}
+        std::option::Option::Some(r) => {}
+    }
+}
+@*/
+"""
+
 OBSERVER_SUFFIX = {
-    "P0c": """\n        //@ assert len <= 32;\n        let requirement = len + 16;\n        //@ assert requirement <= 48;\n        core::mem::drop(left_ancestor_pivot);\n        return;\n    }\n    // A1 diagnostic cut: non-base continuation is intentionally not present.\n    core::mem::drop(left_ancestor_pivot);\n    return;\n}\n}\n""",
-    "N-false31": """\n        //@ assert len <= 31;\n        let requirement = len + 16;\n        //@ assert requirement <= 48;\n        core::mem::drop(left_ancestor_pivot);\n        return;\n    }\n    // A1 diagnostic cut: non-base continuation is intentionally not present.\n    core::mem::drop(left_ancestor_pivot);\n    return;\n}\n}\n""",
+    "P0c": """\n        //@ assert len <= 32;\n        let requirement = len + 16;\n        //@ assert requirement <= 48;\n        //@ a1_cleanup_option_ref(left_ancestor_pivot);\n        return;\n    }\n    // A1 diagnostic cut: non-base continuation is intentionally not present.\n    //@ a1_cleanup_option_ref(left_ancestor_pivot);\n    return;\n}\n}\n""",
+    "N-false31": """\n        //@ assert len <= 31;\n        let requirement = len + 16;\n        //@ assert requirement <= 48;\n        //@ a1_cleanup_option_ref(left_ancestor_pivot);\n        return;\n    }\n    // A1 diagnostic cut: non-base continuation is intentionally not present.\n    //@ a1_cleanup_option_ref(left_ancestor_pivot);\n    return;\n}\n}\n""",
 }
 
 
@@ -74,6 +91,45 @@ class FixtureError(ValueError):
 def _need(ok: bool, why: str) -> None:
     if not ok:
         raise FixtureError(why)
+
+
+def _checked_cleanup_helper_metadata(source: bytes) -> dict[str, Any]:
+    """Bind the focused helper gate to its exact source block and body lines."""
+    source_lines = source.splitlines(keepends=True)
+    helper_lines = OPTION_CLEANUP_LEMMA.splitlines(keepends=True)
+    matches = [
+        start for start in range(len(source_lines) - len(helper_lines) + 1)
+        if source_lines[start:start + len(helper_lines)] == helper_lines
+    ]
+    _need(len(matches) == 1,
+          "checked cleanup helper block must occur exactly once in constructed source")
+    start = matches[0]
+    exact_block = b"".join(source_lines[start:start + len(helper_lines)])
+    _need(exact_block == OPTION_CLEANUP_LEMMA,
+          "checked cleanup helper source bytes changed")
+    declaration = b"lem a1_cleanup_option_ref<'a, T>"
+    body_start_offsets = [i for i, line in enumerate(helper_lines)
+                          if line.startswith(declaration)]
+    body_end_offsets = [i for i, line in enumerate(helper_lines)
+                        if line.strip() == b"}"]
+    _need(len(body_start_offsets) == 1 and len(body_end_offsets) >= 1,
+          "checked cleanup helper declaration/body boundary is ambiguous")
+    body_start = body_start_offsets[0]
+    body_end = body_end_offsets[-1]
+    _need(body_start < body_end < len(helper_lines) - 1
+          and helper_lines[body_end + 1].strip() == b"@*/",
+          "checked cleanup helper body does not end at the ghost-block boundary")
+    source_start_line = start + 1
+    source_end_line = start + len(helper_lines)
+    return {
+        "name": "a1_cleanup_option_ref",
+        "kind": "lemma",
+        "source_start_line": source_start_line,
+        "source_end_line": source_end_line,
+        "source_sha256": _sha(exact_block),
+        "body_start_line": source_start_line + body_start,
+        "body_end_line": source_start_line + body_end,
+    }
 
 
 def _sha(raw: bytes) -> str:
@@ -262,8 +318,8 @@ def _observer(signature: bytes, guard: bytes, *, false31: bool = False) -> tuple
 def _p1_caller(signature: bytes, guard: bytes) -> bytes:
     _need(b"T::small_sort(v, scratch, is_less);" in guard, "P1 original small_sort call absent")
     return signature + guard + b"\n        // A1 diagnostic cut: non-base continuation after original call is absent.\n" \
-        b"        // A1 diagnostic cleanup hypothesis for the arbitrary Copy parameter.\n" \
-        b"        core::mem::drop(left_ancestor_pivot);\n        return;\n    }\n}\n"
+        b"        // A1 checked ghost cleanup for the arbitrary Option parameter.\n" \
+        b"        //@ a1_cleanup_option_ref(left_ancestor_pivot);\n        return;\n    }\n}\n"
 
 
 def _compose(items: dict[str, bytes], *, caller_kind: str, helper_cut: bytes,
@@ -272,7 +328,8 @@ def _compose(items: dict[str, bytes], *, caller_kind: str, helper_cut: bytes,
     mutation_cert = None
     if mutation is not None:
         selected, mutation_cert = _threshold_mutation(items, mutation)
-    prefix = _root_prefix(selected) + _diagnostic_cut_dependencies(helper_cut)
+    prefix = (_root_prefix(selected) + OPTION_CLEANUP_LEMMA +
+              _diagnostic_cut_dependencies(helper_cut))
     observer, rename = _observer(selected["quicksort_signature"],
                                  selected["quicksort_guard_and_call"],
                                  false31=caller_kind == "N-false31")
@@ -291,6 +348,7 @@ def _compose(items: dict[str, bytes], *, caller_kind: str, helper_cut: bytes,
         target = "default16" if mutation == "default16" else "freeze32"
         targets[caller_kind] = [f"{target}.small_sort_threshold"]
     target_list = targets[caller_kind]
+    checked_cleanup_helper = _checked_cleanup_helper_metadata(source)
     info = {
         "case_id": mutation_cert["mutation_id"] if mutation_cert else caller_kind,
         "source_id": source_id,
@@ -312,6 +370,7 @@ def _compose(items: dict[str, bytes], *, caller_kind: str, helper_cut: bytes,
         "required_prior_threshold_summaries": (["default16.small_sort_threshold", "freeze32.small_sort_threshold"]
                                                 if caller_kind == "P0c" and mutation is None else []),
         "P1_proof_credit": False,
+        "checked_cleanup_helper": checked_cleanup_helper,
         "common_contract_spec_injected": False,
         "compiler_impl_item_identity_bound": False,
         "executable_proof_ready": False,

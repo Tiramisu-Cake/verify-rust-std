@@ -696,7 +696,8 @@ def _small_sort_ast_signature(record: Mapping[str, Any], self_name: str,
                  "small_sort AST parameter ConstTypeExpr location")
         types.append(_ast_ty(typ))
         names.append(atom(name))
-    need(tuple(names) == ("v", "scratch", "is_less"),
+    need(tuple(names) in (("v", "scratch", "is_less"),
+                          ("v", "_scratch", "is_less")),
          "small_sort AST parameter order/name binding")
     normalized = []
     for typ in types:
@@ -715,6 +716,16 @@ def _small_sort_ast_signature(record: Mapping[str, Any], self_name: str,
     need(tuple(normalized) == expected,
          "small_sort AST typed parameters differ from compiler Self/F/input-region signature")
     return tuple(normalized)
+
+
+def _small_sort_ast_scratch_name(record: Mapping[str, Any]) -> str:
+    rows = items(record["fields"][5])
+    need(len(rows) == 3, "small_sort AST must retain exactly three typed parameters")
+    _typ, name = node(rows[1], "tuple", 2)
+    scratch_name = atom(name)
+    need(scratch_name in ("scratch", "_scratch"),
+         "small_sort AST scratch parameter name")
+    return scratch_name
 
 
 def _compiler_small_sort_type_to_ast(value: Any) -> Any:
@@ -748,6 +759,126 @@ def _small_sort_ast_header(record: Mapping[str, Any], alpha: Mapping[str, str]) 
     """Normalize complete regular/safe header fields retained by Func."""
     return tuple(normalize(record["fields"][index], alpha)
                  for index in (1, 2, 3, 5, 6, 7, 9, 11, 12))
+
+
+def _small_sort_ast_header_for_common_comparison(header: tuple[Any, ...]) -> tuple[Any, ...]:
+    """Project only the second binding label for trait-prototype/impl comparison.
+
+    Keep original parameter names in stored headers and same-body comparisons.
+    The blanket impl spells the unused second binding `_scratch`; its trait
+    prototype and Freeze impl spell it `scratch`.
+    """
+    need(isinstance(header, tuple) and len(header) == 9,
+         "small_sort AST normalized header shape")
+    parameters = list(items(header[3]))
+    need(len(parameters) == 3, "small_sort AST normalized parameter count")
+    parameter_types = [node(row, "tuple", 2)[0] for row in parameters]
+    parameter_names = [node(row, "tuple", 2)[1] for row in parameters]
+    need(parameter_names == [("str", "v"), ("str", "scratch"), ("str", "is_less")] or
+         parameter_names == [("str", "v"), ("str", "_scratch"), ("str", "is_less")],
+         "small_sort AST normalized parameter names")
+    parameters[1] = ("tuple", (parameter_types[1], ("str", "@scratch-binding")))
+    projected = list(header)
+    projected[3] = ("list", tuple(parameters))
+    return tuple(projected)
+
+
+def _small_sort_scratch_name_from_header(header: tuple[Any, ...]) -> str:
+    need(isinstance(header, tuple) and len(header) == 9,
+         "small_sort AST normalized header shape")
+    parameters = items(header[3])
+    need(len(parameters) == 3, "small_sort AST normalized parameter count")
+    _typ, name = node(parameters[1], "tuple", 2)
+    name = atom(name)
+    need(name in ("scratch", "_scratch"),
+         "small_sort AST normalized scratch parameter name")
+    return name
+
+
+def _small_sort_native_for_common_comparison(native: Mapping[str, Any],
+                                              scratch_name: str) -> dict[str, Any]:
+    """Alpha-rename only scratch Vars and its translator-generated fold binders.
+
+    Stored native trees and same-body comparisons remain raw. This view is only
+    for comparing trait and impl contracts whose source binding names differ.
+    """
+    need(scratch_name in ("scratch", "_scratch"),
+         "small_sort native comparison scratch parameter name")
+    need(isinstance(native, Mapping) and set(native) == {"pre", "returning", "unwind"},
+         "small_sort native comparison shape")
+    source_folds = {f"_v{index}_{scratch_name}": index for index in (0, 1)}
+    counts: dict[tuple[str, str], int] = {}
+    strings: set[str] = set()
+
+    def inspect(value: Any) -> None:
+        if isinstance(value, tuple) and len(value) == 2:
+            kind, data = value
+            if kind in ("Var", "VarPat"):
+                need(isinstance(data, tuple) and len(data) == 2 and
+                     isinstance(data[1], tuple) and len(data[1]) == 2 and
+                     data[1][0] == "str" and isinstance(data[1][1], str),
+                     "small_sort native variable node")
+                name = data[1][1]
+                strings.add(name)
+                if kind == "Var" and name == scratch_name:
+                    counts[(kind, name)] = counts.get((kind, name), 0) + 1
+                fold_match = re.fullmatch(r"_v([0-9]+)_" + re.escape(scratch_name), name)
+                if fold_match is not None:
+                    need(fold_match.group(1) in ("0", "1"),
+                         "unrecognized small_sort generated scratch fold binder")
+                    counts[(kind, name)] = counts.get((kind, name), 0) + 1
+            if kind == "str" and isinstance(data, str):
+                strings.add(data)
+            if isinstance(data, tuple):
+                for item in data:
+                    inspect(item)
+        elif isinstance(value, list):
+            for item in value:
+                inspect(item)
+        elif isinstance(value, dict):
+            for item in value.values():
+                inspect(item)
+
+    inspect(native)
+    generated = {name for _kind, name in counts if name in source_folds}
+    for name in generated:
+        need(counts.get(("VarPat", name), 0) > 0 and
+             counts.get(("Var", name), 0) > 0,
+             "small_sort generated scratch fold binder is unbound or unused")
+
+    def fresh(label: str) -> str:
+        stem = f"\x00a1-native-{label}"
+        candidate = stem + "\x00"
+        suffix = 0
+        while candidate in strings:
+            suffix += 1
+            candidate = f"{stem}-{suffix}\x00"
+        strings.add(candidate)
+        return candidate
+
+    replacements = {scratch_name: fresh("param-scratch")}
+    for name in generated:
+        replacements[name] = fresh(f"fold-{source_folds[name]}")
+
+    def rewrite(value: Any) -> Any:
+        if isinstance(value, tuple) and len(value) == 2:
+            kind, data = value
+            if kind in ("Var", "VarPat") and isinstance(data, tuple) and len(data) == 2:
+                name_node = data[1]
+                if (isinstance(name_node, tuple) and len(name_node) == 2 and
+                        name_node[0] == "str" and
+                        ((kind == "Var" and name_node[1] in replacements) or
+                         (kind == "VarPat" and name_node[1] in generated))):
+                    return (kind, (rewrite(data[0]), ("str", replacements[name_node[1]])))
+            return (kind, tuple(rewrite(item) for item in data)) \
+                if isinstance(data, tuple) else value
+        if isinstance(value, list):
+            return [rewrite(item) for item in value]
+        if isinstance(value, dict):
+            return {key: rewrite(item) for key, item in value.items()}
+        return value
+
+    return rewrite(dict(native))
 
 
 def _small_sort_ast_bounds(record: Mapping[str, Any]) -> tuple[bool, ...]:
@@ -857,6 +988,8 @@ def small_sort_native_baseline(ast: str, inventory: Mapping[str, Any], *,
     need(_source_line(common[0]["fields"][0]) == interface["source_span"][0][1],
          "R-only required small_sort AST location differs from compiler nameSpan")
     native = _small_sort_native(common[0], alpha)
+    common_native_projection = _small_sort_native_for_common_comparison(
+        native, _small_sort_ast_scratch_name(common[0]))
     common_header = _small_sort_ast_header(common[0], alpha)
     impl_identities = observed.get("impl_small_sort_identities")
     need(isinstance(impl_identities, (tuple, list)) and len(impl_identities) == 2,
@@ -898,10 +1031,14 @@ def small_sort_native_baseline(ast: str, inventory: Mapping[str, Any], *,
              identity["impl"])
         surface = _small_sort_impl_surface(matches[0], identity,
                                            label="R-only " + identity["impl"])
-        need(surface["normalized_native"] == native,
+        impl_native_projection = _small_sort_native_for_common_comparison(
+            surface["normalized_native"], _small_sort_ast_scratch_name(matches[0]))
+        need(impl_native_projection == common_native_projection,
              "unmodified R-only impl native contract differs from required common baseline: " +
              identity["impl"])
-        need(surface["normalized_header"] == common_header,
+        need(_small_sort_ast_header_for_common_comparison(
+                 surface["normalized_header"]) ==
+             _small_sort_ast_header_for_common_comparison(common_header),
              "unmodified R-only impl typed header differs from required common baseline: " +
              identity["impl"])
         original_impls[identity["impl"]] = surface
@@ -998,14 +1135,20 @@ def small_sort_interface(ast: str, inventory: Mapping[str, Any], *,
          {"default16", "freeze32"},
          "R-only baseline common/original-impl native receipts are incomplete")
     for impl_name, original in baseline_impls.items():
+        original_header = original.get("normalized_header")
+        original_native = original.get("normalized_native")
         need(isinstance(original, Mapping) and
-             isinstance(original.get("normalized_native"), Mapping) and
-             set(original["normalized_native"]) == {"pre", "returning", "unwind"} and
+             isinstance(original_native, Mapping) and
+             set(original_native) == {"pre", "returning", "unwind"} and
              isinstance(original.get("native_sha256"), Mapping) and
-             all(original["native_sha256"].get(key) == digest(original["normalized_native"][key])
+             all(original["native_sha256"].get(key) == digest(original_native[key])
                  for key in ("pre", "returning", "unwind")) and
-             original["normalized_native"] == baseline_native and
-             original.get("normalized_header") == tuple(baseline_header),
+             _small_sort_native_for_common_comparison(
+                 original_native, _small_sort_scratch_name_from_header(original_header)) ==
+             _small_sort_native_for_common_comparison(
+                 baseline_native, _small_sort_scratch_name_from_header(tuple(baseline_header))) and
+             _small_sort_ast_header_for_common_comparison(original_header) ==
+             _small_sort_ast_header_for_common_comparison(tuple(baseline_header)),
              "R-only original impl baseline is incomplete or differs from required common: " +
              impl_name)
 
@@ -1086,14 +1229,21 @@ def small_sort_interface(ast: str, inventory: Mapping[str, Any], *,
              _compiler_source_span_as_ast(row.get("source_body_span")),
              "small_sort implementation AST span differs from compiler Body.span")
         native = _small_sort_native(fn, alpha_impl)
-        need(native == original["normalized_native"] and native == baseline_native,
+        need(native == original["normalized_native"],
              "impl small_sort native pre/returning/unwind differs from its original R-only body: " + row["impl"])
+        need(_small_sort_native_for_common_comparison(
+                 native, _small_sort_ast_scratch_name(fn)) ==
+             _small_sort_native_for_common_comparison(
+                 baseline_native, _small_sort_scratch_name_from_header(tuple(baseline_header))),
+             "impl small_sort native contract differs from common under parameter binding alpha map: " +
+             row["impl"])
         impl_header = _small_sort_ast_header(fn, alpha_impl)
         need(impl_header == original["normalized_header"],
              "impl small_sort full typed/native header differs from its original R-only body: " +
              row["impl"])
-        need(_small_sort_ast_header(common[0], alpha_common) ==
-             impl_header,
+        need(_small_sort_ast_header_for_common_comparison(
+                 _small_sort_ast_header(common[0], alpha_common)) ==
+             _small_sort_ast_header_for_common_comparison(impl_header),
              "common and impl small_sort AST typed headers differ under positional alpha map")
         need(ast_signature == common_signature,
              "common and impl AST parameter signature differs under compiler positional map")

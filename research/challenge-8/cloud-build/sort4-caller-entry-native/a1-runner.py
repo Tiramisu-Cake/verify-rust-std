@@ -920,13 +920,33 @@ def collect_source_case(a, c4, ghost, *, tool: Path, tool_receipt: dict,
         certificate_path, fixture, case_id,
         inventory_module=helpers["a1-compiler-inventory.py"],
         call_binding_module=helpers["a1-call-binding.py"],
+        ast_gates_module=helpers["a1-ast-gates.py"],
+        checked_helper_selector=select_checked_cleanup_helper_lemma,
         focus_case_id=focus_case_id, support_cache=support_cache,
         evidence_id=evidence_id, control_env=control_env)
+    cert_case = certificate.get("cases", {}).get(case_id, {})
+    helper_expected = _checked_helper_expected(focus_case_id, profile, cert_case)
+    helper_present = helper_expected or raw.get("checked_helper_required") is True or \
+        "checked_helper_proof" in raw
+    if helper_present and not checked_helper_record_valid(
+            raw, profile=profile, certificate_case=cert_case,
+            certificate_path=certificate_path, fixture=fixture,
+            tool=tool, tool_receipt=tool_receipt,
+            ast_gates=helpers["a1-ast-gates.py"]):
+        return {"classification": "BLOCKED_CHECKED_HELPER_PREREQUISITE",
+                "case_id": case_id, "focus_case_id": focus_case_id,
+                "raw": raw,
+                "checked_helper_proof": raw.get("checked_helper_proof"),
+                "caller_verification_status": "NOT_RUN_CHECKED_HELPER_PREREQUISITE",
+                "proof_attempted": False, "proof_credit": False}
     if raw.get("paired_support", {}).get("paired_support_passed") is not True or \
             raw.get("artifacts", {}).get("proof-ast.ml", {}).get("sha256") is None:
-        return {"classification": "INCONCLUSIVE_CURRENT_STAGE",
-                "case_id": case_id, "raw": raw, "structure": None,
-                "proof_credit": False}
+        partial = {"classification": "INCONCLUSIVE_CURRENT_STAGE",
+                   "case_id": case_id, "raw": raw, "structure": None,
+                   "proof_credit": False}
+        if "checked_helper_proof" in raw:
+            partial["checked_helper_proof"] = raw["checked_helper_proof"]
+        return partial
     structure = observe_focused_structure(case_id, raw, fixture, certificate,
                                            helpers, native_baseline=native_baseline,
                                            focus_case_id=focus_case_id)
@@ -997,15 +1017,18 @@ def collect_source_case(a, c4, ghost, *, tool: Path, tool_receipt: dict,
                 raw=candidate_observation,
                 structure=structure, interval=interval, candidate=candidate,
                 verifier_log=verifier_log)
-    return {"classification": "RAW_AND_STRUCTURE_ONLY_UNCLASSIFIED",
-            "case_id": case_id, "raw": raw, "structure": structure,
-            "fixture_path": str(fixture),
-            "observed_input_ids": {"source_id": expected_case["source_id"],
-                                   "unit_id": expected_case["unit_id"]},
-            "observed_input_sha256": actual_pair,
-            "focus_interval": interval, "proof_candidate": candidate,
-            "execution_attestation": execution,
-            "proof_credit": False}
+    collected = {"classification": "RAW_AND_STRUCTURE_ONLY_UNCLASSIFIED",
+                 "case_id": case_id, "raw": raw, "structure": structure,
+                 "fixture_path": str(fixture),
+                 "observed_input_ids": {"source_id": expected_case["source_id"],
+                                        "unit_id": expected_case["unit_id"]},
+                 "observed_input_sha256": actual_pair,
+                 "focus_interval": interval, "proof_candidate": candidate,
+                 "execution_attestation": execution,
+                 "proof_credit": False}
+    if "checked_helper_proof" in raw:
+        collected["checked_helper_proof"] = raw["checked_helper_proof"]
+    return collected
 
 
 def collect_native_reference_baseline(a, c4, *, tool: Path,
@@ -1129,7 +1152,23 @@ def collect_p1_interface_case(a, c4, ghost, *, tool: Path,
         certificate_path, fixture, "P1",
         inventory_module=helpers["a1-compiler-inventory.py"],
         call_binding_module=helpers["a1-call-binding.py"],
+        ast_gates_module=helpers["a1-ast-gates.py"],
+        checked_helper_selector=select_checked_cleanup_helper_lemma,
         support_cache=support_cache)
+    cert_case = certificate.get("cases", {}).get("P1", {})
+    helper_expected = _checked_helper_expected("P1", profile, cert_case)
+    helper_present = helper_expected or raw.get("checked_helper_required") is True or \
+        "checked_helper_proof" in raw
+    if helper_present and not checked_helper_record_valid(
+            raw, profile=profile, certificate_case=cert_case,
+            certificate_path=certificate_path, fixture=fixture,
+            tool=tool, tool_receipt=tool_receipt,
+            ast_gates=helpers["a1-ast-gates.py"]):
+        return {"classification": "P1_BLOCKED_CHECKED_HELPER_PREREQUISITE",
+                "raw": raw,
+                "checked_helper_proof": raw.get("checked_helper_proof"),
+                "interface_verification_status": "NOT_RUN_CHECKED_HELPER_PREREQUISITE",
+                "proof_attempted": False, "proof_credit": False}
     _need(raw.get("case_id") == "P1" and raw.get("focus_case_id") == "P1" and
           raw.get("focus_stage") == "interface" and
           raw.get("focus") == "verified/lib.rs:0" and
@@ -1159,16 +1198,19 @@ def collect_p1_interface_case(a, c4, ghost, *, tool: Path,
           interface.get("compiler_interface_digest") ==
           reference["baseline"]["compiler_interface_digest"],
           "P1 full small_sort interface structural gate failed")
-    return {"classification": "P1_FULL_INTERFACE_OBSERVED",
-            "raw": raw, "inventory": inventory, "baseline": reference,
-            "structure": structure, "proof_credit": False,
-            "body_count": 0,
-            "observed_input_ids": {
-                "source_id": certificate["cases"]["P1"]["source_id"],
-                "unit_id": certificate["cases"]["P1"]["unit_id"]},
-            "observed_input_sha256": {
-                "verified/lib.rs": _sha(fixture / "verified/lib.rs"),
-                "original/lib.rs": _sha(fixture / "original/lib.rs")}}
+    result = {"classification": "P1_FULL_INTERFACE_OBSERVED",
+              "raw": raw, "inventory": inventory, "baseline": reference,
+              "structure": structure, "proof_credit": False,
+              "body_count": 0,
+              "observed_input_ids": {
+                  "source_id": certificate["cases"]["P1"]["source_id"],
+                  "unit_id": certificate["cases"]["P1"]["unit_id"]},
+              "observed_input_sha256": {
+                  "verified/lib.rs": _sha(fixture / "verified/lib.rs"),
+                  "original/lib.rs": _sha(fixture / "original/lib.rs")}}
+    if "checked_helper_proof" in raw:
+        result["checked_helper_proof"] = raw["checked_helper_proof"]
+    return result
 
 
 def _false31_source_boundary(lines, binding):
@@ -1283,6 +1325,22 @@ def _ast_source_span(location: Any) -> tuple[int, int] | None:
     return lo, hi
 
 
+def _ast_source_coordinates(location: Any) -> tuple[int, int, int, int] | None:
+    """Parse exact line/column bounds for a pinned verified-source location."""
+    if not isinstance(location, tuple) or len(location) != 2 or location[0] != "loc":
+        raise RuntimeError("A1-RUNNER: malformed location-bearing AST node")
+    match = re.fullmatch(
+        r"(?:.*/)?verified/lib\.rs\(([1-9][0-9]*),([1-9][0-9]*)"
+        r"(?:-(?:([1-9][0-9]*),)?([1-9][0-9]*))?\)", location[1])
+    if match is None:
+        return None
+    sl, sc = int(match.group(1)), int(match.group(2))
+    el = int(match.group(3)) if match.group(3) else sl
+    ec = int(match.group(4)) if match.group(4) else sc
+    _need((el, ec) >= (sl, sc), "AST source coordinate order")
+    return sl, sc, el, ec
+
+
 def select_focused_body(ast_text: str, ast_gates, *, focus_line: int,
                         expected_name: str,
                         compiler_span: tuple[int, int]) -> dict:
@@ -1304,11 +1362,27 @@ def select_focused_body(ast_text: str, ast_gates, *, focus_line: int,
         body, = ast_gates.node(row["fields"][10], "Some", 1)
         _, close = ast_gates.node(body, "tuple", 2)
         close_span = _ast_source_span(close)
-        _need(close_span is not None and close_span[0] == func_span[1],
-              "AST close brace differs from Func source span end")
-        if func_span[0] <= focus_line <= close_span[1]:
+        _need(close_span is not None,
+              "AST verified-source definition has an invalid close location")
+        is_manual_ghost_lemma = False
+        fields = row.get("fields")
+        if isinstance(fields, (list, tuple)) and len(fields) > 1 and \
+                isinstance(fields[1], tuple) and fields[1][0] == "Lemma":
+            auto, trigger = ast_gates.node(fields[1], "Lemma", 2)
+            is_manual_ghost_lemma = (ast_gates.atom(auto) == "false" and
+                                     trigger == ("atom", "None"))
+        point_lemma = is_manual_ghost_lemma and func_span[0] == func_span[1]
+        if point_lemma:
+            _need(close_span[0] >= func_span[0],
+                  "AST ghost lemma close precedes its header")
+        else:
+            _need(close_span[0] == func_span[1],
+                  "AST close brace differs from Func source span end")
+        effective = (func_span[0], close_span[1])
+        if effective[0] <= focus_line <= effective[1]:
             selected.append({"name": row["name"], "func_span": func_span,
-                             "close_span": close_span})
+                             "close_span": close_span,
+                             "effective_span": effective})
     _need(len(selected) == 1 and selected[0]["name"] == expected_name and
           selected[0]["func_span"] == compiler_span and
           selected[0]["close_span"][1] == compiler_span[1],
@@ -1316,6 +1390,204 @@ def select_focused_body(ast_text: str, ast_gates, *, focus_line: int,
     return {"classification": "ONE_SOURCE_INTERVAL_SELECTED_STRUCTURE_ONLY",
             "focus_line": focus_line, "body_count_from_intervals": 1,
             "selected": selected[0], "proof_credit": False}
+
+
+def select_checked_cleanup_helper_lemma(ast_text: str, ast_gates,
+                                        source_bytes: bytes,
+                                        metadata: Mapping[str, Any]) -> dict:
+    """Bind the checked helper AST to its exact certified source and lemma span."""
+    _need(isinstance(source_bytes, bytes) and isinstance(metadata, Mapping) and
+          metadata.get("name") == "a1_cleanup_option_ref" and
+          metadata.get("kind") == "lemma",
+          "checked cleanup helper source identity/type")
+    bounds = ("source_start_line", "source_end_line", "body_start_line",
+              "body_end_line")
+    _need(all(type(metadata.get(key)) is int and metadata[key] > 0
+              for key in bounds),
+          "checked cleanup helper source bounds")
+    lines = source_bytes.splitlines(keepends=True)
+    start, end = metadata["source_start_line"], metadata["source_end_line"]
+    body_start, body_end = metadata["body_start_line"], metadata["body_end_line"]
+    _need(1 <= start <= body_start < body_end <= end <= len(lines),
+          "checked cleanup helper source/body interval")
+    block = b"".join(lines[start - 1:end])
+    digest = hashlib.sha256(block).hexdigest()
+    _need(digest == metadata.get("source_sha256") ==
+          metadata.get("source_bytes_sha256") and
+          lines[start - 1].strip() == b"/*@" and
+          lines[end - 1].strip() == b"@*/",
+          "checked cleanup helper source block hash/boundaries")
+    matches = [index for index, line in enumerate(lines, 1)
+               if re.match(rb"\s*lem\s+a1_cleanup_option_ref\b", line)]
+    _need(matches == [body_start] and
+          lines[body_start - 1].startswith(b"lem a1_cleanup_option_ref<'a, T>") and
+          lines[body_end - 1].strip() == b"}",
+          "checked cleanup helper source declaration is missing or ambiguous")
+    rows = ast_gates.functions(ast_text)
+    named = [row for row in rows if row.get("name") == metadata["name"]]
+    _need(len(named) == 1, "one exact checked cleanup helper AST function required")
+    row = named[0]
+    _need(row.get("kind") == "definition",
+          "checked cleanup helper AST Func must be a definition")
+    lemma_auto, lemma_trigger = ast_gates.node(row["fields"][1], "Lemma", 2)
+    _need(ast_gates.atom(lemma_auto) == "false",
+          "checked cleanup helper AST lemma must be manual (auto=false)")
+    ast_gates.atom(lemma_trigger, "None")
+    func_span = _ast_source_span(row["fields"][0])
+    header_coords = _ast_source_coordinates(row["fields"][0])
+    body, = ast_gates.node(row["fields"][10], "Some", 1)
+    _, close = ast_gates.node(body, "tuple", 2)
+    close_span = _ast_source_span(close)
+    close_coords = _ast_source_coordinates(close)
+    name_bytes = metadata["name"].encode("ascii")
+    header = lines[body_start - 1]
+    name_col = header.find(name_bytes) + 1
+    close_col = lines[body_end - 1].find(b"}") + 1
+    _need(name_col > 0 and close_col > 0 and header_coords ==
+          (body_start, name_col, body_start, name_col + len(name_bytes)) and
+          func_span == (body_start, body_start) and
+          close_span is not None and close_span == (body_end, body_end) and
+          close_coords is not None and close_coords[0] == body_end and
+          close_coords[1] == close_col,
+          "checked cleanup helper AST header/close locations differ from certified body")
+    effective_span = (func_span[0], close_span[1])
+    selected = []
+    for candidate in rows:
+        if candidate.get("kind") != "definition":
+            continue
+        span = _ast_source_span(candidate["fields"][0])
+        if span is None:
+            continue
+        candidate_body, = ast_gates.node(candidate["fields"][10], "Some", 1)
+        _, candidate_close = ast_gates.node(candidate_body, "tuple", 2)
+        close = _ast_source_span(candidate_close)
+        _need(close is not None and close[1] >= span[0],
+              "AST definition effective interval is malformed")
+        effective = (span[0], close[1])
+        if effective[0] <= body_start <= effective[1]:
+            selected.append(candidate)
+    _need(len(selected) == 1 and selected[0] is row,
+          "helper focus line selects an ambiguous AST function interval")
+    return {"classification": "ONE_SOURCE_INTERVAL_SELECTED_CHECKED_LEMMA",
+            "focus_line": body_start, "body_count_from_intervals": 1,
+            "selected": {"name": row["name"], "kind": "lemma",
+                         "func_span": effective_span,
+                         "header_span": func_span, "close_span": close_span,
+                         "effective_span": effective_span,
+                         "header_coordinates": header_coords,
+                         "close_coordinates": close_coords},
+            "source_block_sha256": digest, "proof_credit": False}
+
+
+def checked_helper_record_valid(raw: Mapping[str, Any], *, profile: Mapping[str, Any],
+                                certificate_case: Mapping[str, Any],
+                                certificate_path: Path, fixture: Path,
+                                tool: Path, tool_receipt: Mapping[str, Any],
+                                ast_gates) -> bool:
+    """Recheck a same-Build helper record before any caller classification."""
+    try:
+        record = raw.get("checked_helper_proof")
+        pin = profile.get("a1_checked_cleanup_helper_sha256")
+        metadata = certificate_case.get("checked_cleanup_helper")
+        _need(raw.get("checked_helper_required") is True and
+              isinstance(record, Mapping) and
+              record.get("schema") == "a1-checked-cleanup-helper-prerequisite-v1" and
+              record.get("status") == "HELPER_BODY_VERIFIED_SAME_BUILD" and
+              record.get("proof_credit") is False and
+              isinstance(metadata, Mapping) and
+              metadata.get("source_sha256") == pin and
+              record.get("helper_source_sha256") == pin and
+              record.get("helper_source_start_line") == metadata.get("source_start_line") and
+              record.get("helper_source_end_line") == metadata.get("source_end_line") and
+              record.get("helper_body_start_line") == metadata.get("body_start_line") and
+              record.get("helper_body_end_line") == metadata.get("body_end_line") and
+              record.get("helper_name") == metadata.get("name") ==
+              "a1_cleanup_option_ref" and
+              record.get("helper_kind") == metadata.get("kind") == "lemma",
+              "checked cleanup helper proof record/pin missing or invalid")
+        active_console = (Path(tool).resolve() / "bin/verifast").resolve()
+        active_sha = tool_receipt.get("console_binary_sha256")
+        _need(tool_receipt.get("classification") == "A1_TOOL_BUILT_UNRUN_PROOF" and
+              tool_receipt.get("phase_id") == PHASE and
+              tool_receipt.get("proof_credit") is False and
+              isinstance(active_sha, str) and HEX64.fullmatch(active_sha) is not None and
+              active_console.is_file() and _sha(active_console) == active_sha,
+              "active helper verifier tool receipt/path identity")
+        build_id = raw.get("build_id")
+        _need(isinstance(build_id, str) and bool(build_id) and
+              record.get("build_id") == build_id ==
+              os.environ.get("CLOUD_BUILD_ID") and
+              record.get("profile_sha256") ==
+              os.environ.get("SORT4_A1_PROFILE_SHA256") and
+              record.get("source_certificate_sha256") == _sha(certificate_path) and
+              record.get("source_id") == certificate_case.get("source_id") and
+              record.get("unit_id") == certificate_case.get("unit_id"),
+              "checked cleanup helper Build/profile/certificate identity")
+        expected_pair = {"verified/lib.rs": _sha(fixture / "verified/lib.rs"),
+                         "original/lib.rs": _sha(fixture / "original/lib.rs")}
+        _need(record.get("source_pair_sha256") == expected_pair ==
+              raw.get("source_pair_sha256") and
+              expected_pair["verified/lib.rs"] ==
+              certificate_case.get("generated_source_sha256"),
+              "checked cleanup helper source pair identity")
+        stage = record.get("stage")
+        _need(isinstance(stage, Mapping) and type(stage.get("exit")) is int and
+              stage.get("exit") == 0 and
+              isinstance(stage.get("log_sha256"), str) and
+              re.fullmatch(r"[0-9a-f]{64}", stage["log_sha256"]) is not None,
+              "checked cleanup helper terminal verifier stage missing")
+        log_path = Path(record.get("stage_log_path", ""))
+        ast_artifact = record.get("ast_artifact")
+        evidence_root = Path(raw.get("evidence_root", "")).resolve()
+        helper_root = evidence_root / "checked-cleanup-helper"
+        record_path = Path(raw.get("checked_helper_proof_path", "")).resolve()
+        _need(evidence_root.is_dir() and log_path.resolve() ==
+              helper_root / "checked-cleanup-helper.log" and
+              record_path == evidence_root / "checked-cleanup-helper-proof.json" and
+              record_path.is_file() and json.loads(record_path.read_text()) ==
+              _jsonable(record),
+              "checked cleanup helper receipt path/record identity")
+        _need(log_path.is_file() and _sha(log_path) == stage["log_sha256"] and
+              isinstance(ast_artifact, Mapping) and
+              isinstance(ast_artifact.get("path"), str) and
+              isinstance(ast_artifact.get("sha256"), str),
+              "checked cleanup helper log/AST receipt missing")
+        ast_path = Path(ast_artifact["path"])
+        _need(ast_path.resolve() == helper_root / "proof-ast.ml" and
+              ast_path.is_file() and ast_path.stat().st_size > 0 and
+              _sha(ast_path) == ast_artifact["sha256"] and
+              ast_artifact["sha256"] == record.get("ast_sha256") and
+              isinstance(record.get("tool_binary_path"), str) and
+              Path(record["tool_binary_path"]).resolve() == active_console and
+              record.get("tool_binary_sha256") == active_sha and
+              _sha(active_console) == active_sha,
+              "checked cleanup helper AST artifact identity")
+        expected_argv = [str(active_console), "-focus",
+                         f"verified/lib.rs:{metadata['body_start_line']}",
+                         "-dump_ast_with_locs", str(ast_path),
+                         "-rustc_args", "--edition 2021", "-verbose", "6",
+                         "verified/lib.rs"]
+        _need(stage.get("argv") == expected_argv and
+              stage.get("cwd") == str(fixture) and
+              record.get("focus") == expected_argv[2],
+              "checked cleanup helper stage command/focus identity")
+        source = (fixture / "verified/lib.rs").read_bytes()
+        selection = select_checked_cleanup_helper_lemma(
+            ast_path.read_text(encoding="utf-8"), ast_gates, source,
+            {**dict(metadata), "source_bytes_sha256": pin})
+        _need(_jsonable(selection) == record.get("ast_selection") and
+              record.get("verifier_exit") == 0,
+              "checked cleanup helper selected AST receipt changed")
+        return True
+    except (OSError, UnicodeError, TypeError, ValueError, RuntimeError, KeyError):
+        return False
+
+
+def _checked_helper_expected(focus_case_id: str, profile: Mapping[str, Any],
+                             certificate_case: Mapping[str, Any]) -> bool:
+    return (focus_case_id in {"P0c", "N-false31", "P1"} and
+            ("a1_checked_cleanup_helper_sha256" in profile or
+             "checked_cleanup_helper" in certificate_case))
 
 
 def body_entry_context(verifier_log: str, first_error: str, *,

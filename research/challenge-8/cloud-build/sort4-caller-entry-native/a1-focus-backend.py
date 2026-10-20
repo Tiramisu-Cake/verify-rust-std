@@ -271,6 +271,191 @@ def _artifact(path: Path) -> dict[str, Any]:
             "bytes": path.stat().st_size if path.is_file() else None}
 
 
+def _checked_cleanup_helper_contract(source: bytes, case: Mapping[str, Any],
+                                     profile: Mapping[str, Any]) -> dict[str, Any] | None:
+    """Validate optional source-certificate/profile pin for the checked lemma.
+
+    Profiles/certificates predating this helper have neither declaration and
+    retain the old focus behavior. A one-sided or malformed declaration is a
+    prerequisite failure, never permission to run the caller focus.
+    """
+    pin_key = "a1_checked_cleanup_helper_sha256"
+    cert_key = "checked_cleanup_helper"
+    has_pin = pin_key in profile
+    has_metadata = cert_key in case
+    if not has_pin and not has_metadata:
+        return None
+    need(has_pin and has_metadata,
+         "checked cleanup helper profile pin and source certificate metadata must both be present")
+    metadata = case[cert_key]
+    need(isinstance(metadata, Mapping),
+         "checked cleanup helper certificate metadata must be an object")
+    expected = profile[pin_key]
+    need(isinstance(expected, str) and HEX64.fullmatch(expected) is not None and
+         metadata.get("source_sha256") == expected,
+         "checked cleanup helper source block does not match active profile pin")
+    need(metadata.get("name") == "a1_cleanup_option_ref" and
+         metadata.get("kind") == "lemma",
+         "checked cleanup helper name/kind")
+    for key in ("source_start_line", "source_end_line", "body_start_line",
+                "body_end_line"):
+        value = metadata.get(key)
+        need(type(value) is int and value > 0,
+             "checked cleanup helper source bounds")
+    start, end = metadata["source_start_line"], metadata["source_end_line"]
+    body_start, body_end = metadata["body_start_line"], metadata["body_end_line"]
+    lines = source.splitlines(keepends=True)
+    need(1 <= start <= body_start < body_end <= end <= len(lines),
+         "checked cleanup helper source/body interval")
+    block = b"".join(lines[start - 1:end])
+    need(hashlib.sha256(block).hexdigest() == expected and
+         lines[start - 1].strip() == b"/*@" and
+         lines[end - 1].strip() == b"@*/",
+         "checked cleanup helper exact ghost-block source bytes")
+    body = lines[body_start - 1:body_end]
+    declaration = b"lem a1_cleanup_option_ref<'a, T>"
+    need(len([line for line in lines
+              if re.match(rb"\s*lem\s+a1_cleanup_option_ref\b", line)]) == 1 and
+         lines[body_start - 1].startswith(declaration) and
+         lines[body_end - 1].strip() == b"}" and
+         sum(1 for line in body if re.match(
+             rb"\s*lem\s+a1_cleanup_option_ref\b", line)) == 1,
+         "checked cleanup helper declaration/body source identity")
+    return {**dict(metadata), "source_bytes_sha256": expected,
+            "source_block_bytes": len(block), "proof_credit": False}
+
+
+def _checked_cleanup_helper_proof(a, c4, tool: Path, receipt: Any,
+                                  profile: Mapping[str, Any], fixture: Path,
+                                  root: Path, env: Mapping[str, str],
+                                  source_bytes: bytes, case: Mapping[str, Any],
+                                  source_certificate: Path,
+                                  ast_gates_module: Any,
+                                  selector) -> dict[str, Any] | None:
+    """Freshly prove one certified lemma in this Build, then check its AST.
+
+    The caller passes the frozen AST selector from a1-runner.py. This function
+    records a bounded raw prerequisite only; it does not classify caller proof.
+    """
+    profile_hash = os.environ.get("SORT4_A1_PROFILE_SHA256")
+    source_pair = {name: sha(fixture / name)
+                   for name in ("verified/lib.rs", "original/lib.rs")}
+    try:
+        contract = _checked_cleanup_helper_contract(source_bytes, case, profile)
+    except Exception as exc:
+        if "checked_cleanup_helper" not in profile and \
+                "checked_cleanup_helper" not in case and \
+                "a1_checked_cleanup_helper_sha256" not in profile:
+            return None
+        return {"schema": "a1-checked-cleanup-helper-prerequisite-v1",
+                "status": "BLOCKED_INVALID_SOURCE_CERTIFICATE_OR_PROFILE",
+                "helper_name": "a1_cleanup_option_ref", "error": str(exc),
+                "build_id": os.environ.get("CLOUD_BUILD_ID"),
+                "profile_sha256": profile_hash,
+                "source_pair_sha256": source_pair, "proof_credit": False}
+    if contract is None:
+        return None
+    record: dict[str, Any] = {
+        "schema": "a1-checked-cleanup-helper-prerequisite-v1",
+        "status": "NOT_RUN", "helper_name": contract["name"],
+        "helper_kind": contract["kind"], "case_id": case.get("case_id"),
+        "source_id": case.get("source_id"), "unit_id": case.get("unit_id"),
+        "build_id": os.environ.get("CLOUD_BUILD_ID"),
+        "profile_sha256": profile_hash,
+        "source_certificate_sha256": sha(source_certificate),
+        "tool_binary_path": str(tool / "bin/verifast"),
+        "tool_binary_sha256": (receipt.get("console_binary_sha256")
+                               if isinstance(receipt, Mapping) else None),
+        "helper_source_sha256": contract["source_bytes_sha256"],
+        "helper_source_start_line": contract["source_start_line"],
+        "helper_source_end_line": contract["source_end_line"],
+        "helper_body_start_line": contract["body_start_line"],
+        "helper_body_end_line": contract["body_end_line"],
+        "source_pair_sha256": source_pair,
+        "proof_credit": False,
+    }
+    try:
+        need(isinstance(receipt, Mapping) and receipt.get("proof_credit") is False and
+             isinstance(receipt.get("console_binary_sha256"), str) and
+             HEX64.fullmatch(receipt["console_binary_sha256"]) is not None and
+             (tool / "bin/verifast").is_file() and
+             sha(tool / "bin/verifast") == receipt["console_binary_sha256"],
+             "checked cleanup helper requires the exact final tool receipt")
+        need(source_bytes == (fixture / "verified/lib.rs").read_bytes() and
+             source_pair["verified/lib.rs"] ==
+             case.get("generated_source_sha256") and
+             source_pair["original/lib.rs"] == sha(fixture / "original/lib.rs") and
+             os.environ.get("CLOUD_BUILD_ID") and
+             isinstance(profile_hash, str) and HEX64.fullmatch(profile_hash) is not None,
+             "checked cleanup helper source/Build/profile identity")
+        remaining = int(a.deadline_epoch) - int(time.time())
+        if remaining <= 120:
+            record.update(status="NOT_RUN_DEADLINE",
+                          error="shared Build deadline left no safe checked-helper stage budget",
+                          deadline_remaining_seconds=max(0, remaining))
+            return record
+        helper_root = root / "checked-cleanup-helper"
+        need(not helper_root.exists(),
+             "checked cleanup helper evidence path must be fresh")
+        ast_path = helper_root / "proof-ast.ml"
+        command = [str(tool / "bin/verifast"), "-focus",
+                   f"verified/lib.rs:{contract['body_start_line']}",
+                   "-dump_ast_with_locs", str(ast_path),
+                   "-rustc_args", "--edition 2021", "-verbose", "6",
+                   "verified/lib.rs"]
+        record["focus"] = command[2]
+        stage = c4.stage(a, helper_root, "checked-cleanup-helper",
+                         command, dict(env), 180, cwd=fixture)
+        record["stage"] = _plain_json_value(stage) if isinstance(stage, Mapping) else stage
+        record["stage_log_path"] = str(helper_root / "checked-cleanup-helper.log")
+        record["ast_artifact"] = _artifact(ast_path)
+        record["ast_sha256"] = record["ast_artifact"].get("sha256")
+        if isinstance(stage, Mapping) and stage.get("classification") == "NOT_RUN_DEADLINE":
+            record.update(status="NOT_RUN_DEADLINE",
+                          error=stage.get("reason", "helper stage not run before shared deadline"))
+            return record
+        need(isinstance(stage, Mapping) and type(stage.get("exit")) is int and
+             stage.get("argv") == command and stage.get("cwd") == str(fixture),
+             "checked cleanup helper stage command/result identity")
+        log_path = helper_root / "checked-cleanup-helper.log"
+        need(isinstance(stage.get("log_sha256"), str) and
+             HEX64.fullmatch(stage["log_sha256"]) is not None and
+             log_path.is_file() and sha(log_path) == stage["log_sha256"],
+             "checked cleanup helper verifier log receipt missing or changed")
+        record["source_pair_unchanged_after_stage"] = (
+            source_pair == {name: sha(fixture / name)
+                            for name in ("verified/lib.rs", "original/lib.rs")})
+        need(record["source_pair_unchanged_after_stage"],
+             "source pair changed during checked cleanup helper proof")
+        _tool_identity(tool, dict(receipt))
+        record["tool_identity_unchanged_after_stage"] = True
+        if stage.get("exit") != 0:
+            record.update(status="HELPER_VERIFIER_FAILED",
+                          error="checked cleanup helper verifier stage did not exit zero")
+            return record
+        need(ast_path.is_file() and ast_path.stat().st_size > 0,
+             "checked cleanup helper verifier AST artifact missing or empty")
+        selection = selector(ast_path.read_text(encoding="utf-8"),
+                             ast_gates_module, source_bytes, contract)
+        need(isinstance(selection, Mapping) and
+             selection.get("classification") ==
+             "ONE_SOURCE_INTERVAL_SELECTED_CHECKED_LEMMA" and
+             selection.get("proof_credit") is False and
+             selection.get("selected", {}).get("name") == contract["name"] and
+             selection.get("selected", {}).get("kind") == "lemma" and
+             selection.get("selected", {}).get("func_span") ==
+             (contract["body_start_line"], contract["body_end_line"]),
+             "checked cleanup helper AST selection incomplete")
+        record.update(status="HELPER_BODY_VERIFIED_SAME_BUILD",
+                      ast_selection=_plain_json_value(selection),
+                      verifier_exit=0)
+        return record
+    except Exception as exc:
+        record.update(status="BLOCKED_CHECKED_HELPER_PREREQUISITE",
+                      error=f"{type(exc).__name__}: {exc}")
+        return record
+
+
 def _support_cache_key(a, tool: Path, fixture: Path, env: Mapping[str, str],
                       receipt: Mapping[str, Any]) -> str:
     """Key only exact same-Build paired support bytes and execution config."""
@@ -382,6 +567,7 @@ def record_parser_diagnostic(exc, root: Path, evidence: Path) -> None:
 def collect_focus(a, c4, ghost, tool: Path, receipt: dict, profile: dict,
                   manifest: dict, source_certificate: Path, fixture: Path,
                   case_id: str, *, inventory_module, call_binding_module,
+                  ast_gates_module=None, checked_helper_selector=None,
                   focus_case_id: str | None = None,
                   support_cache: dict[str, dict] | None = None,
                   evidence_id: str | None = None,
@@ -483,6 +669,77 @@ def collect_focus(a, c4, ghost, tool: Path, receipt: dict, profile: dict,
         "native_post_ast_equality_observed": None,
         "verdict": "UNCLASSIFIED", "proof_credit": False,
     }
+    helper_applicable = (focus_case_id in CALLER_CASES or focus_case_id == "P1")
+    helper_declared = ("a1_checked_cleanup_helper_sha256" in profile or
+                       "checked_cleanup_helper" in case)
+    if helper_applicable and helper_declared:
+        result["checked_helper_required"] = True
+        if support.get("paired_support_passed") is not True:
+            helper_proof = {
+                "schema": "a1-checked-cleanup-helper-prerequisite-v1",
+                "status": "NOT_RUN_PAIRED_SOURCE_SUPPORT_FAILED",
+                "helper_name": "a1_cleanup_option_ref",
+                "error": "paired source support did not complete; caller focus skipped",
+                "build_id": os.environ.get("CLOUD_BUILD_ID"),
+                "profile_sha256": os.environ.get("SORT4_A1_PROFILE_SHA256"),
+                "source_pair_sha256": result["source_pair_sha256"],
+                "proof_credit": False,
+            }
+        elif ast_gates_module is None or not callable(checked_helper_selector):
+            helper_proof = {
+                "schema": "a1-checked-cleanup-helper-prerequisite-v1",
+                "status": "BLOCKED_CHECKED_HELPER_AST_GATE_UNAVAILABLE",
+                "helper_name": "a1_cleanup_option_ref",
+                "error": "pinned AST gate and checked helper selector are required",
+                "build_id": os.environ.get("CLOUD_BUILD_ID"),
+                "profile_sha256": os.environ.get("SORT4_A1_PROFILE_SHA256"),
+                "source_pair_sha256": result["source_pair_sha256"],
+                "proof_credit": False,
+            }
+        else:
+            helper_proof = _checked_cleanup_helper_proof(
+                a, c4, tool, receipt, profile, fixture, root, env,
+                verified.read_bytes(), case, source_certificate,
+                ast_gates_module, checked_helper_selector)
+        if helper_proof is None:
+            helper_proof = {
+                "schema": "a1-checked-cleanup-helper-prerequisite-v1",
+                "status": "BLOCKED_CHECKED_HELPER_METADATA_MISSING",
+                "helper_name": "a1_cleanup_option_ref",
+                "error": "helper declaration appeared but no validated prerequisite record was produced",
+                "build_id": os.environ.get("CLOUD_BUILD_ID"),
+                "profile_sha256": os.environ.get("SORT4_A1_PROFILE_SHA256"),
+                "source_pair_sha256": result["source_pair_sha256"],
+                "proof_credit": False,
+            }
+        result["checked_helper_proof"] = helper_proof
+        result["checked_helper_proof_path"] = str(root / "checked-cleanup-helper-proof.json")
+        (root / "checked-cleanup-helper-proof.json").write_text(
+            json.dumps(_plain_json_value(helper_proof), indent=2, sort_keys=True) + "\n")
+        if helper_proof.get("status") != "HELPER_BODY_VERIFIED_SAME_BUILD":
+            result["classification"] = "BLOCKED_CHECKED_HELPER_PREREQUISITE"
+            result["caller_verification_status"] = (
+                "NOT_RUN_DEADLINE" if "DEADLINE" in
+                str(helper_proof.get("status")) else
+                "NOT_RUN_CHECKED_HELPER_PREREQUISITE")
+            result["proof_attempted"] = False
+            result_path = root / "a1-focus-raw-observation.json"
+            with result_path.open("x") as output:
+                output.write(json.dumps(result, indent=2, sort_keys=True) + "\n")
+            return result
+        remaining = int(a.deadline_epoch) - int(time.time())
+        if remaining <= 120:
+            helper_proof["status"] = "HELPER_BODY_VERIFIED_CALLER_NOT_RUN_DEADLINE"
+            helper_proof["error"] = "shared Build deadline left no safe caller verification budget"
+            (root / "checked-cleanup-helper-proof.json").write_text(
+                json.dumps(_plain_json_value(helper_proof), indent=2, sort_keys=True) + "\n")
+            result["classification"] = "BLOCKED_CHECKED_HELPER_PREREQUISITE"
+            result["caller_verification_status"] = "NOT_RUN_DEADLINE"
+            result["proof_attempted"] = False
+            result_path = root / "a1-focus-raw-observation.json"
+            with result_path.open("x") as output:
+                output.write(json.dumps(result, indent=2, sort_keys=True) + "\n")
+            return result
     if support.get("paired_support_passed") is not True:
         result["classification"] = "BLOCKED_PREVERIFIER_STAGE"
         if parser_preflight:

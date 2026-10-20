@@ -1,0 +1,49 @@
+{
+  "build_id": "7aa3115e-571c-45d8-8142-4ee02db599f6",
+  "infra_sha": "80e8d914a4fa186de288e7e911fcf9d72cc2e41a",
+  "proof_sha": "80e8d914a4fa186de288e7e911fcf9d72cc2e41a",
+  "submitted_config_sha256": "b552c468f8c65b2613953ea00508ec7270ed413874a6905d3741eb9d6a08a3b5",
+  "source_input_sha256": "21d43947195d04e1a68f5ad1357580c084b671baea64ca93eea1958f67bd7bf2",
+  "start_time": "2026-10-20T22:16:41.160300175Z",
+  "finish_time": "2026-10-20T22:25:10.412798Z",
+  "create_time": "2026-10-20T22:16:40.380910815Z",
+  "build_seconds": 511,
+  "execution_seconds": 510,
+  "status": "FAILURE",
+  "schema": "smallsort-r11-s2-bounded-source-evidence-v1",
+  "used_total": 1042,
+  "remaining_build_seconds": 2558,
+  "observed_stage_seconds": {
+    "execute": 424.486717864,
+    "package_upload": 66.135561332,
+    "verdict": 1.254777357
+  },
+  "package_upload": "SUCCESS",
+  "brief_processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "outer_evidence_complete_source_claim": true,
+  "source_run_exit": 0,
+  "proof_verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+  "source_status_counts": {
+    "INTENDED_CLASSIFIED": 5,
+    "NOT_RUN": 19,
+    "INCONCLUSIVE": 2
+  },
+  "matrix_file": "A1-CHECKED-CALLER-R11-S2-MATRIX-2026-10-21.json",
+  "reader_directory": "A1-CHECKED-CALLER-R11-S2-READER-2026-10-21",
+  "index_sha256": "b4e8c4948c039b69741d533fb335cfe962b57806052b173c6a1d122a77fabdce",
+  "archive_sha256": "6201095760ddf7e1774395f91a26028b00f5cc1200a487a7fd8a617482cb8e56",
+  "audit_file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+  "audit_sha256": "9ad4afb45cfb6a5ae8b7fdec2f85b0e719f435fb0f9b623336ef20c4e124fbd3",
+  "source_status_records_complete": true,
+  "matrix_complete": false,
+  "accepted": false,
+  "proof_credit": false,
+  "formal_obligations_closed": 0,
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "findings": {
+    "P0c": "Unchanged explicit whole-value drop route still does not establish caller; source root INCONCLUSIVE. Prior S1 failure is not copied as a new proof result.",
+    "P1": "AstGateError: small_sort AST parameter order/name binding; exact archived default impl spells _scratch. Source/parser-input binding and causality remain NOT_ESTABLISHED."
+  },
+  "limits": "Integrity/source classifications are not independent proof credit; no raw evidence fallback or mixed-Build proof acceptance."
+}

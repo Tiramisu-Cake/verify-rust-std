@@ -103,6 +103,7 @@ def caller_func(name, line, call_line, *, small_sort=False, alias=False):
 
 
 def small_sort_func(name, line, *, body=False, impl_self="Self",
+                    scratch_name="scratch",
                     drop_resource=False, drop_unwind=False, substitute=False,
                     mix_region=False, drop_outcome=False, return_substitute=False,
                     lifetime_bound_mutant=False, mix_native_fraction=False,
@@ -128,7 +129,7 @@ def small_sort_func(name, line, *, body=False, impl_self="Self",
     region_v, region_cmp = "'a", "'c"
     declarations = "; ".join((
         f'({const(ref(region_v, slice_self))}, "v")',
-        f'({const(ref(region_scratch, scratch_ty))}, "scratch")',
+        f'({const(ref(region_scratch, scratch_ty))}, "{scratch_name}")',
         f'({const(ref(region_cmp, comparator))}, "is_less")'))
     token = f'CallExpr ({loc(line)}, "thread_token", [], [], [], Static)'
     rights = f'CallExpr ({loc(line)}, "raw_rights", [], [], [], Static)'
@@ -174,6 +175,7 @@ def p1_fixture(*, candidate_extra=True, shared_r_only_defpath=False,
                r_only_ast_wrong_source=False,
                r_only_default_prefixed_wrong_source=False,
                candidate_default_prefixed_wrong_source=False,
+               candidate_scratch_name="_scratch",
                candidate_default_compact_span=False, **changes):
     pair_hashes = {"verified": "a" * 64, "original": "b" * 64}
     actual_pair = hashlib.sha256(
@@ -218,6 +220,7 @@ def p1_fixture(*, candidate_extra=True, shared_r_only_defpath=False,
     native_rows = [
         small_sort_func("StableSmallSortTypeImpl::small_sort", 2),
         small_sort_func(default_path, 6, body=True, impl_self="T",
+                        scratch_name="_scratch",
                         drop_resource=r_only_default_drop_resource,
                         source_location=default_location),
         small_sort_func(freeze_path, 12, body=True, impl_self="T",
@@ -228,6 +231,7 @@ def p1_fixture(*, candidate_extra=True, shared_r_only_defpath=False,
     global_return = changes.pop("all_return_substitute", False)
     candidate_first = small_sort_func("__a1_impl_1_item_12_small_sort", 6,
                                       body=True, impl_self="T",
+                                      scratch_name=candidate_scratch_name,
                                       return_substitute=global_return,
                                       source_location=('loc "prefix/verified/lib.rs(6,1-6,61)"'
                                           if candidate_default_prefixed_wrong_source else
@@ -547,8 +551,98 @@ class SyntheticAstGates(unittest.TestCase):
                 gate._small_sort_ast_signature(
                     bad_record, "T", gate._small_sort_alpha(bad_record, self_name="T"))
 
+    def test_p1_signature_accepts_source_scratch_name_variants_without_header_erasure(self):
+        records = []
+        for scratch_name in ("scratch", "_scratch"):
+            source = small_sort_func("crate::default16::small_sort", 6,
+                                     body=True, impl_self="T",
+                                     scratch_name=scratch_name)
+            record, = gate.functions(source)
+            alpha = gate._small_sort_alpha(record, self_name="T")
+            records.append((record, alpha, gate._small_sort_ast_signature(
+                record, "T", alpha)))
+        self.assertEqual(records[0][2], records[1][2])
+        self.assertNotEqual(gate._small_sort_ast_header(records[0][0], records[0][1]),
+                            gate._small_sort_ast_header(records[1][0], records[1][1]))
+        self.assertEqual(
+            gate._small_sort_ast_header_for_common_comparison(
+                gate._small_sort_ast_header(records[0][0], records[0][1])),
+            gate._small_sort_ast_header_for_common_comparison(
+                gate._small_sort_ast_header(records[1][0], records[1][1])))
+
+        record = records[1][0]
+        fields = list(record["fields"])
+        parameter_rows = list(gate.items(fields[5]))
+        for names in (("v", "is_less", "scratch"),
+                      ("v", "scratch", "comparator")):
+            with self.subTest(names=names), self.assertRaises(gate.AstGateError):
+                bad_rows = [gate.node(row, "tuple", 2)[0] for row in parameter_rows]
+                bad_rows = [(bad_rows[index], ("str", names[index]))
+                            for index in range(len(names))]
+                bad_fields = list(fields)
+                bad_fields[5] = ("list", tuple(("tuple", row) for row in bad_rows))
+                bad_record = dict(record, fields=tuple(bad_fields))
+                gate._small_sort_ast_signature(
+                    bad_record, "T", gate._small_sort_alpha(bad_record, self_name="T"))
+
+    def test_p1_native_comparison_alpha_renames_only_bound_scratch_vars(self):
+        def native(scratch_name, *, resource="array", item_type="T", region="'a",
+                   unrelated_name=None,
+                   fold_indexes=(0, 1), fold_patterns=True, fold_uses=True):
+            fold_rows = []
+            for index in fold_indexes:
+                binder = f"_v{index}_{scratch_name}"
+                if fold_patterns:
+                    fold_rows.append(f'VarPat ({loc(1)}, "{binder}")')
+                if fold_uses:
+                    fold_rows.append(f'Var ({loc(1)}, "{binder}")')
+            args = [f'Var ({loc(1)}, "{scratch_name}")', *fold_rows,
+                    f'IdentTypeExpr ({loc(1)}, None, "{item_type}")',
+                    f'IdentTypeExpr ({loc(1)}, None, "{region}")']
+            if unrelated_name is not None:
+                args.append(f'IdentTypeExpr ({loc(1)}, None, "{unrelated_name}")')
+            args = "; ".join(args)
+            term = gate.normalize(gate.tree(
+                f'CallExpr ({loc(1)}, "{resource}", [], [], [{args}], Static)'))
+            return {key: term for key in ("pre", "returning", "unwind")}
+
+        default = native("_scratch")
+        canonical = native("scratch")
+        projected_default = gate._small_sort_native_for_common_comparison(
+            default, "_scratch")
+        projected_canonical = gate._small_sort_native_for_common_comparison(
+            canonical, "scratch")
+        self.assertEqual(projected_default, projected_canonical)
+        self.assertNotEqual(default, projected_default)
+        unrelated = gate._small_sort_native_for_common_comparison(
+            native("scratch", unrelated_name="scratch"), "scratch")
+        self.assertIn("('str', 'scratch')", repr(unrelated))
+        self.assertNotEqual(
+            projected_canonical,
+            gate._small_sort_native_for_common_comparison(
+                native("scratch", fold_indexes=(0,)), "scratch"))
+        for changed in (native("scratch", resource="different_resource"),
+                        native("scratch", item_type="U"),
+                        native("scratch", region="'b")):
+            with self.subTest(changed=changed):
+                self.assertNotEqual(
+                    projected_canonical,
+                    gate._small_sort_native_for_common_comparison(changed, "scratch"))
+        for malformed in (native("_scratch", fold_indexes=(2,)),
+                          native("_scratch", fold_patterns=True, fold_uses=False),
+                          native("_scratch", fold_patterns=False, fold_uses=True)):
+            with self.subTest(malformed=malformed), self.assertRaises(gate.AstGateError):
+                gate._small_sort_native_for_common_comparison(malformed, "_scratch")
+
     def test_p1_rejects_lost_native_resource(self):
         ast, inventory, baseline, actual_pair = p1_fixture(drop_resource=True)
+        with self.assertRaises(gate.AstGateError):
+            gate.small_sort_interface(ast, inventory, baseline=baseline,
+                                      actual_source_pair_sha256=actual_pair)
+
+    def test_p1_rejects_candidate_scratch_name_drift_from_same_r_only_body(self):
+        ast, inventory, baseline, actual_pair = p1_fixture(
+            candidate_scratch_name="scratch")
         with self.assertRaises(gate.AstGateError):
             gate.small_sort_interface(ast, inventory, baseline=baseline,
                                       actual_source_pair_sha256=actual_pair)
