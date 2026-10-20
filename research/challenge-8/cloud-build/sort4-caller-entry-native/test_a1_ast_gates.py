@@ -196,6 +196,49 @@ def p1_fixture(*, candidate_extra=True, **changes):
 
 
 class SyntheticAstGates(unittest.TestCase):
+    def test_module_owned_short_function_name_is_qualified_structurally(self):
+        common = func(20, gate.COMMON, False)
+        short = common.replace(f'"{gate.COMMON}"', '"small_sort_threshold"')
+        module = f'ModuleDecl ({loc(20)}, "StableSmallSortTypeImpl", [], [{short}])'
+        ast = all_functions().replace(common, module, 1)
+        rows = gate.functions(ast)
+        selected = [row for row in rows if row["name"] == gate.COMMON]
+        self.assertEqual(len(selected), 1)
+        params = gate.items(selected[0]["fields"][2])
+        self.assertEqual(gate.atom(gate.node(params[0], "tuple", 2)[0]), "Self")
+        result = gate.threshold_posts(ast, INVENTORY, stage="bodies", common_line=20)
+        self.assertFalse(result["proof_credit"])
+
+    def test_nested_module_paths_and_unscoped_functions_remain_distinct(self):
+        nested_func = func(75, "guard", True)
+        nested = (f'ModuleDecl ({loc(70)}, "Outer", [], '
+                  f'[ModuleDecl ({loc(71)}, "Inner", [], [{nested_func}])])')
+        # The byte-identical top-level record must not be mistaken for the
+        # nested record just because its text occurs inside the module.
+        bare = nested_func
+        rows = gate.functions(nested + "\n" + bare)
+        self.assertEqual({row["name"] for row in rows}, {"Outer::Inner::guard", "guard"})
+        self.assertEqual(sum(row["raw"] == nested_func for row in rows), 1)
+
+    def test_malformed_or_ambiguous_module_ownership_is_rejected(self):
+        f = func(20, "small_sort_threshold", False)
+        bad_modules = (
+            f'ModuleDecl ({loc(20)}, "", [], [{f}])',
+            f'ModuleDecl ({loc(20)}, 12, [], [{f}])',
+            f'ModuleDecl ({loc(20)}, "M", [{f}])',
+            f'ModuleDecl ({loc(20)}, "M", [], [{f}])\n'
+            f'ModuleDecl ({loc(21)}, "M", [], [{f.replace("20", "21")}])',
+        )
+        for ast in bad_modules:
+            with self.subTest(ast=ast[:100]), self.assertRaises(gate.AstGateError):
+                gate.functions(ast)
+        common = func(20, gate.COMMON, False)
+        short = common.replace(f'"{gate.COMMON}"', '"small_sort_threshold"')
+        duplicate = (f'ModuleDecl ({loc(20)}, "StableSmallSortTypeImpl", [], [{short}])\n'
+                     + common)
+        with self.assertRaises(gate.AstGateError):
+            gate.threshold_posts(duplicate, INVENTORY, stage="bodies", common_line=20)
+
     def test_p1_binds_full_interface_and_native_triplet(self):
         ast, inventory, baseline, actual_pair = p1_fixture()
         result = gate.small_sort_interface(ast, inventory, baseline=baseline,

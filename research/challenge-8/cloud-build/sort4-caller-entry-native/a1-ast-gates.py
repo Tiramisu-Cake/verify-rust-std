@@ -183,7 +183,7 @@ def normalize(value: Any, alpha: Mapping[str, str] | None = None) -> Any:
     return value
 
 
-def _segments(source: str, ctor: str) -> list[str]:
+def _segment_ranges(source: str, ctor: str) -> list[tuple[int, int, str]]:
     need(len(source) <= MAX_TEXT, "AST dump size bound")
     # A quoted source fragment may contain a line beginning with `Func (`.
     # Keep offsets, but blank all quoted characters before searching records.
@@ -210,25 +210,72 @@ def _segments(source: str, ctor: str) -> list[str]:
     for match in matches:
         begin = source.index("(", match.start())
         end = balanced_end(source, begin)
-        out.append(source[match.start():end + 1].strip())
+        start = match.start()
+        out.append((start, end + 1, source[start:end + 1].strip()))
     return out
 
 
+def _segments(source: str, ctor: str) -> list[str]:
+    return [segment for _, _, segment in _segment_ranges(source, ctor)]
+
+
 def functions(source: str) -> list[dict[str, Any]]:
-    result = []
-    for segment in _segments(source, "Func"):
-        value = tree(segment)
-        fs = node(value, "Func", 13)
-        name = atom(fs[4])
+    def row(fs: tuple[Any, ...], name: str, raw: str) -> dict[str, Any]:
         body = fs[10]
         need(body == ("atom", "None") or
              isinstance(body, tuple) and body[0] == "Some" and
              len(node(body, "Some", 1)) == 1 and
              len(node(node(body, "Some", 1)[0], "tuple", 2)) == 2,
              "Func body option")
-        result.append({"name": name, "fields": fs, "raw": segment,
-                       "kind": "prototype" if body == ("atom", "None")
-                       else "definition"})
+        return {"name": name, "fields": fs, "raw": raw,
+                "kind": "prototype" if body == ("atom", "None") else "definition"}
+
+    result = []
+    module_ranges = _segment_ranges(source, "ModuleDecl")
+    # Nested ModuleDecl records also appear as line-start segments. Parse only
+    # outermost source intervals; their declaration lists retain ownership.
+    module_roots = [(start, end, segment) for start, end, segment in module_ranges
+                    if not any(other_start < start and end <= other_end
+                               for other_start, other_end, _ in module_ranges)]
+    module_functions: list[dict[str, Any]] = []
+    module_paths: set[str] = set()
+
+    def visit_module(value: Any, prefix: tuple[str, ...], raw: str) -> None:
+        location, module_name, imports, declarations = node(value, "ModuleDecl", 4)
+        need(isinstance(location, tuple) and location[0] == "loc",
+             "ModuleDecl source location")
+        name = atom(module_name)
+        need(re.fullmatch(r"[A-Za-z_][A-Za-z_0-9]*", name) is not None,
+             "malformed ModuleDecl name")
+        path = prefix + (name,)
+        qualified_path = "::".join(path)
+        need(qualified_path not in module_paths, "duplicate or ambiguous ModuleDecl path")
+        module_paths.add(qualified_path)
+        node(imports, "list")
+        decls = items(declarations)
+        for declaration in decls:
+            if isinstance(declaration, tuple) and declaration[0] == "ModuleDecl":
+                visit_module(declaration, path, raw)
+            elif isinstance(declaration, tuple) and declaration[0] == "Func":
+                fs = node(declaration, "Func", 13)
+                base_name = atom(fs[4])
+                need("::" not in base_name, "module Func name is already qualified")
+                module_functions.append(row(fs, qualified_path + "::" + base_name, raw))
+
+    for _, _, segment in module_roots:
+        value = tree(segment)
+        node(value, "ModuleDecl", 4)
+        visit_module(value, (), segment)
+
+    result.extend(module_functions)
+    for start, end, segment in _segment_ranges(source, "Func"):
+        if any(module_start <= start and end <= module_end
+               for module_start, module_end, _ in module_roots):
+            continue
+        value = tree(segment)
+        fs = node(value, "Func", 13)
+        name = atom(fs[4])
+        result.append(row(fs, name, segment))
     need(bool(result), "no Func records in AST")
     return result
 

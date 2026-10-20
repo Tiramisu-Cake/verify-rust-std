@@ -1,0 +1,214 @@
+{
+  "C_sha256": "e7cdc8a8504338ccaab760975c1a3f1a739211d7f8d531dd214babc2005d894e",
+  "R_sha256": "9cdca995bc926efe3275319dec345f4d70a2fec7fdc95781decb4e4c2df7c9c8",
+  "S6_tool_sources": "Identical to S5 full R2/unchanged C; S6 changes AST evidence parser only",
+  "c_after": {
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+    "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "8b98050f380729625b1ec766be6764af75e65d457c6b99f28a2a38d3a3676d7c"
+  },
+  "c_before": {
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+    "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "9391bff0376ad008798a950d76dbaac095cacbe8fd5acf5b2ea4d336a759f33f"
+  },
+  "frozen_semantic_source_pins": {
+    "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+    "src/verifast1.ml": "bfbfb518fb9783afeeba9384e1431b6cd280c7da7713b9fdbfd15a8395b00207",
+    "src/verify_expr.ml": "c2246e54f06fe099b5ddb6ba500aba4f6186498b1a44cb8a51b3389b18fe8ca9",
+    "src/vfconsole/vfconsole.ml": "79179baa9ad9e9cb2ee5163f4c9528f665519d894c43093183fd8e9f31b06898"
+  },
+  "local_compiler_extraction_decoder_refiner_verifier": false,
+  "method": "Fresh source-only base f760 + all pinned pre-R patches; full new R2 check/apply; unchanged C check/apply; no compiler/extraction/decoder/refiner/verifier",
+  "old_R_sha256": "d99a5ed229533132b8292c5fc70ea93dbe261e9f76c2a0fcc6d6723e796454ca",
+  "pre_R_patch_chain": [
+    {
+      "path": "research/challenge-8/overnight-s6/verifast-s6-26.10-candidate.patch",
+      "sha256": "20f7d07ac9bdaca7c46f737b89925dfac3f4cef66c3f5d48aa9634ac949dbc1c"
+    },
+    {
+      "path": "research/challenge-8/verifast-manuallydrop-new-cfg-2610.patch",
+      "sha256": "593d09405379974ffbc475c2e0b65d648d8a6913f55b765dd0c3bebdc0922781"
+    },
+    {
+      "path": "research/challenge-8/overnight-helper/verifast-a1-assert-inhabited-26.10.patch",
+      "sha256": "b3fdae6588c5d88a5151f9b103b2f5ab6d2d58db880955a1b975a7f88ca2feb9"
+    },
+    {
+      "path": "research/challenge-8/overnight-helper/verifast-a1-pointer-transmute-26.10.patch",
+      "sha256": "44b460e64eede02bb7776ef36c6be12eb2bed2e5a4fd37ad9b733c7b5633c8ab"
+    },
+    {
+      "path": "research/challenge-8/overnight-callback/verifast-tuple2-own-26.10.patch",
+      "sha256": "84b58b71bfb65ac2bfac1a63d181239001cf0a7ffba3f8bfb5d5b0f1d3a640da"
+    },
+    {
+      "path": "research/challenge-8/overnight-helper/verifast-a1-transmute-linkage-26.10.patch",
+      "sha256": "40fb77888c9b907f150d32f9d85769512cad9c57bb0b14f9c9dbd593fc44c0e7"
+    },
+    {
+      "path": "research/challenge-8/overnight-guard/verifast-h2a-generic-guard-link-26.10.patch",
+      "sha256": "4a36239b68dade6aa486e4bccedf77e92f4104278456d1c568c58d28efa18a7a"
+    },
+    {
+      "path": "research/challenge-8/overnight-callback/verifast-callback-unwind-26.10.patch",
+      "sha256": "61d7525cc8ff3e6e9c736ea00178c002f071b521c78845bf68d0e4890e2be07a"
+    },
+    {
+      "path": "research/challenge-8/overnight-guard/verifast-h2b-nominal-drop-template-26.10.patch",
+      "sha256": "c9afb4bfd696efc38f2bc71e10463a34170d9d769e851a07388c01278e99b2ff"
+    },
+    {
+      "path": "research/challenge-8/overnight-guard/verifast-h2c-guard-source-admission-26.10.patch",
+      "sha256": "57b58e37b04c9d68aa930a6fca5a6637f5c7fe72d06cb4e8955918745f5701d7"
+    },
+    {
+      "path": "research/challenge-8/overnight-helper/verifast-g1-checked-forget-call-cfg-26.10.patch",
+      "sha256": "f402a7723b9b28e97d57254fd150f398f415f5d8076c315b3508958a86b7a9cd"
+    },
+    {
+      "path": "research/challenge-8/overnight-callback/verifast-fnmut-hrtb-26.10.patch",
+      "sha256": "cff0d5ab1798227c39029a5c18d06619ce7eece928be85f4b1c9f440307f5ece"
+    },
+    {
+      "path": "research/challenge-8/overnight-helper/verifast-actual-owner-fingerprint-probe-26.10.patch",
+      "sha256": "355eaa781d9857226f57fa32b03dc6725eb61196ac4e01d63c1c6e97c5653b5b"
+    },
+    {
+      "path": "research/challenge-8/overnight-helper/verifast-actual-owner-admission-26.10.patch",
+      "sha256": "f5e2c0735dcb02856a9e10e93d6b1e19095a96505058ffccf33c6bdc28e8bc80"
+    },
+    {
+      "path": "research/challenge-8/overnight-helper/verifast-actual-nested-ghost-scope-26.10.patch",
+      "sha256": "11cdb0da938ed277a542181dcee5ba939b4c8b2bf15f957c389313115aeed694"
+    },
+    {
+      "path": "research/challenge-8/overnight-guard-actual/verifast-nested-unit-fingerprint-probe-26.10.patch",
+      "sha256": "cfc6b057af14cb611f9984f4eb6ee0398e3d844acaecce56f85070c42884892c"
+    },
+    {
+      "path": "research/challenge-8/overnight-helper/verifast-actual-owner-nine-admission-26.10.patch",
+      "sha256": "bafb47128b7dd9e8c84cd3492a609f00bbac193759492524b12cda7ba54effcb"
+    },
+    {
+      "path": "research/challenge-8/overnight-helper/verifast-actual-nested-h2-26.10.patch",
+      "sha256": "07cc53e0823ae67ac6d53eb4e3add7bf7900261d3eb4528d6b20c3c1143bc0e1"
+    },
+    {
+      "path": "research/challenge-8/overnight-helper/verifast-actual-nine-safe-forget-owned-26.10.patch",
+      "sha256": "7cfa66625fdb6af94162e542b078c0a08ff07bac472a5d9643fea2d153842c44"
+    },
+    {
+      "path": "research/challenge-8/overnight-assume-actual/verifast-actual-nine-a1-26.10.patch",
+      "sha256": "a597d99a23895e02308f1f813c604a7dbc8235dbc3e04f3b08112087f6a572d4"
+    },
+    {
+      "path": "research/challenge-8/overnight-assume-actual/verifast-o26-owner-guard-literal-refresh-26.10.patch",
+      "sha256": "0a6ac67c31b785acd5b2ab5eb9eb0158e0b5603dafda05033b7c58a6ef941c54"
+    },
+    {
+      "path": "research/challenge-8/overnight-assume-actual/verifast-o26-a1-guard-literal-refresh-26.10.patch",
+      "sha256": "ad8aa43b85a58fa4b8894fed36816aba89a9abfb0f9b80cd9547e4454ff6fb75"
+    },
+    {
+      "path": "research/challenge-8/overnight-lifetime/verifast-strict-lft-cut-26.10.patch",
+      "sha256": "d557082b0c17771acd7386ad6caca7bc139877cf1ca513d9570da210b1b542d8"
+    },
+    {
+      "path": "research/challenge-8/overnight-lifetime/verifast-cut-relocate-callback-TESTONLY.patch",
+      "sha256": "e7189430eca9a48ed49d280131bd22987af8d05ed43a88f9c4a5c9767e57bb9e"
+    },
+    {
+      "path": "research/challenge-8/overnight-lifetime/verifast-cut-relocate-translated-ids-TEST.patch",
+      "sha256": "fa862fe86406d95eb921f2935b2e4f6cf048c5366ece8d8836e5fcd7b41a9145"
+    },
+    {
+      "path": "research/challenge-8/overnight-callback/verifast-actual-sort4-first-scope-TEST.patch",
+      "sha256": "5b9cac9657916aa00466440d3ad41a1724f96dbb613c6d7896d9448cddc9235f"
+    },
+    {
+      "path": "research/challenge-8/overnight-callback/verifast-actual-sort4-c1-output-eq-TEST.patch",
+      "sha256": "12f5266288f22dd6eb5591e6884bed7453c5211c99708baa10ed41f7735d1de8"
+    },
+    {
+      "path": "research/challenge-8/overnight-callback/verifast-actual-sort4-c1-debt-controls-TEST.patch",
+      "sha256": "97db86860f10878c6898fe32f33e171bf3bee2270077c70b796a481e9a557869"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/sort4-native-entry-c1/verifast-actual-c1-prefix-TEST.patch",
+      "sha256": "2e1621b735e9d8af1d7c73b29d09daf1cd576943307521f67096917d342130e0"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/sort4-native-entry-c1/verifast-actual-c2-discovery-TEST.patch",
+      "sha256": "2a1ffa0bb1b472869a7697eb93bc9c45d671870de930791b13e725baf67d9cc8"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/sort4-c2-bound-prefix/verifast-c2-bound-prefix-TEST.patch",
+      "sha256": "4851c87be76630a627ff04d351ba6146879568eb877a28235a95d4cbea913925"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/sort4-c3-bound-prefix/verifast-c3-capture-TEST.patch",
+      "sha256": "392042884052677d325d881c74d49b724649f21242f3d773906b3445a97104d0"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/sort4-c3-bound-prefix/verifast-c3-bound-prefix-TEST.patch",
+      "sha256": "d6165630a3a7e4452be49849557df2790368fd62773424c939fe98d0aec9177d"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/sort4-c4-bound-prefix/verifast-c4-capture-TEST.patch",
+      "sha256": "364b52d9291b06c9dbc8daa8ff5770bd08eb8171cc2c2d4ab28e8e5ac10adc60"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/sort4-c4-bound-prefix/verifast-c4-bound-prefix-TEST.patch",
+      "sha256": "3152f51e7362817bdeba326b7840092418d5a64e85fb851c51a91f5fd156ed3e"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/sort4-native-opaque/native-c1-capture-only.patch",
+      "sha256": "4a549366920559f7042e07bb54ad182568b5549c7c4e6dfd518312407b337def"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/sort4-native-c1-bound/native-c1-bound.patch",
+      "sha256": "eea19eda3723a0f60970df751c7600c326f98ad476d41f61e3f39442beb88693"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/sort4-native-c1-bound/native-c4-bound-combined.patch",
+      "sha256": "4599c1e74a60e61cc6f92c0892a1f855dbb7f163b4676bff975ef0221b902de2"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/sort4-native-c1-bound/rust-zst-size.patch",
+      "sha256": "19ee0d684e972f164f16f21926bde7d5d1edc1f9224a880c20120f9cb62f1074"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/sort4-native-c1-bound/native-dead-code-identity-diagnostic.patch",
+      "sha256": "fd4510d1d82ff0a50b2d528bd8c5f4554478b617d692c8ed1210b91bac598516"
+    },
+    {
+      "path": "research/challenge-8/caller-entry/verifast-slice-as-mut-ptr.patch",
+      "sha256": "f200a5812149bb2278ded1d1ccb27a104b3dec3c03c5e40c79e30409d0d06916"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/stable-threshold-binding.patch",
+      "sha256": "772971a43374422da2602d64c4c49649c8f989ef314fd6a7dfaad912b22845da"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/selected-branch-binding.patch",
+      "sha256": "09c988cf45585734e9e2f9f03d98a7f9123a518f877ce0c0d7aa32c032f8c56e"
+    }
+  ],
+  "pre_R_source_path_count": 2906,
+  "pre_R_source_sha256": "af533cb7c7da3edf06a5d28706bf2646af677e5d0815b72ef21faf34f88ad84d",
+  "r_after": {
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
+    "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "9391bff0376ad008798a950d76dbaac095cacbe8fd5acf5b2ea4d336a759f33f"
+  },
+  "r_before": {
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "src/rust_frontend/vf_mir_exporter/src/lib.rs": "11f1e10bb8e52a4950611f874b1123c11e2c87cbb1378c3f5060992f74425f00",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64"
+  },
+  "result": "PASS",
+  "source_directory": "/tmp/select-auto-S5-tool",
+  "tool_head": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "translator_change": "strict HIR early-type/late-Fresh metadata partition; scoped FnSig semantic binders unchanged; no exporter/schema change"
+}
