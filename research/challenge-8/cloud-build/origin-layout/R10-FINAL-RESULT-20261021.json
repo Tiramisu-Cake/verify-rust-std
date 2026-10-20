@@ -1,0 +1,90 @@
+{
+  "schema": "merge-r10-final-result-v1",
+  "status": "CLOSED_PARTIAL_NOT_ACCEPTED",
+  "t0_utc": "2026-10-20T21:48:01Z",
+  "main_deadline_utc": "2026-10-20T23:48:01Z",
+  "absolute_deadline_utc": "2026-10-21T00:18:01Z",
+  "account_closed_utc": "2026-10-20T23:27:49.827363Z",
+  "owner": "merge",
+  "lane": "merge",
+  "builds": [
+    {
+      "build_id": "403f96a0-a81a-4acd-81f5-8b7a9f11d840",
+      "source_sha": "5f7139fa4e43649d30f6d5a4fe0e7bcc8cfe9fac",
+      "status": "FAILURE",
+      "accounted": true,
+      "charged_seconds": 644,
+      "execution_seconds": 644
+    },
+    {
+      "build_id": "d4487296-23d6-40f8-9780-fa7a638758fa",
+      "source_sha": "aada9d025c7ac70741d508bbf2ae21d73a817867",
+      "status": "FAILURE",
+      "accounted": true,
+      "charged_seconds": 599,
+      "execution_seconds": 598
+    },
+    {
+      "build_id": "804d2851-99c1-49c1-a4d7-9c3e64639d11",
+      "source_sha": "b03508260a7372620bc15923b9234f0c64fb3ced",
+      "status": "FAILURE",
+      "accounted": true,
+      "charged_seconds": 424,
+      "execution_seconds": 423
+    },
+    {
+      "build_id": "15c02b71-82e2-4116-b215-72e3358f20a6",
+      "source_sha": "c1566a624dc6555bd5886a5ac0d580b72950ee8b",
+      "status": "FAILURE",
+      "accounted": true,
+      "charged_seconds": 621,
+      "execution_seconds": 620
+    },
+    {
+      "build_id": "0d17cca8-db8f-4088-bedb-719c2cd1a568",
+      "source_sha": "7d7d70d29f25882ef8c8c3f6177b86fa914b09bb",
+      "status": "FAILURE",
+      "accounted": true,
+      "charged_seconds": 577,
+      "execution_seconds": 576
+    }
+  ],
+  "accounting": {
+    "ceiling": 3600,
+    "charged": 2865,
+    "execution": 2861,
+    "retired_unused": 735,
+    "remaining": 0,
+    "carryover_allowed": false,
+    "own_active": 0,
+    "own_unresolved": 0,
+    "own_requests": 0,
+    "own_reservations": 0
+  },
+  "last_actual_source_sha": "7d7d70d29f25882ef8c8c3f6177b86fa914b09bb",
+  "last_actual_build": "0d17cca8-db8f-4088-bedb-719c2cd1a568",
+  "tool_sha": "bb557d43c4196694c7af50ff2150ce56a269e17d",
+  "profile_sha256": "c3f5d286777ffd388e1eb0894ad0ff9e8f1f87f72424291041cb800385f7c979",
+  "compilation": "PASS Build5/all seven observed milestones",
+  "formal_actual_body_attempt": "FAIL StorageDead276:44-45; source campaign INCONCLUSIVE",
+  "scoped_observations": [
+    "Build1 normal backedge37heap/41env observed before missing invariant refusal",
+    "Build5 checked label invariant consumption and leakcheck followed by production, then annotation-temp StorageDead refusal; only limited initial-path observation",
+    "Build5 freshness source claims2positive/6intendednegative and all8currentcasebindings; independent qualification remains OPEN"
+  ],
+  "closed_full_target_proof_gates": 0,
+  "implementation_validation": "Luna HIGH reviewed current semantic/runner/pin deltas; static19patch/17sourcepin/18base closure PASS; relevant synthetic service/error paths PASS. Separate from actual proof.",
+  "next_blocker": "Source-bound label-invariant reconstruction / unit MIR _117 annotation Live/Dead lifetime; preserve native storage and resource checks. See R10-LABEL-STORAGE-NOTE-20261021.md",
+  "independent_tasks": [
+    "R10-BEFORELIVE-NOTE-20261021.md",
+    "R10-PREFIX-BRIDGE-NOTE-20261021.md",
+    "R10-BUILD5-FRESHNESS-OBSERVATION-20261021.json"
+  ],
+  "no_sixth_build_reason": "All five builds terminal/accounted; remaining735 permits timeout675/work605/runnerdeadline590, insufficient safe observed cold compile+actual+teardown envelope. Independent BeforeLive/prefix/freshness tasks completed. Close partial without carryover; no sixth budget-probe build.",
+  "coverage": "Per-Build bounded Reader identities/coverage in R10-BUILD1..5-RESULT files; no raw evidence and no full independent audit",
+  "built_input_manifest": "7d7d70d29f25882ef8c8c3f6177b86fa914b09bb:R10-INPUTS-20261021.json; final ledger/docs checkpoint differs from built snapshot",
+  "accepted": false,
+  "b2_achieved": false,
+  "qualification": "OPEN",
+  "independent_credit": 0
+}

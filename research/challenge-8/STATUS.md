@@ -1,20 +1,21 @@
-# Merge-R10 ACTIVE — checked moving-gap invariant
+# Merge-R10 CLOSED_PARTIAL
 
-T0 UTC2026-10-20 21:48:01; main23:48:01; absolute2026-10-21 00:18:01.
-Fresh3600Cloud seconds; used1667/execution1665, remaining1933 before Build4
-reservation1260. Builds1/2/3 terminalFAILURE/accounted:644/599/424charged.
-Build4 `15c02b71-82e2-4116-b215-72e3358f20a6` is active on exactpublished
-`c1566a624dc6555bd5886a5ac0d580b72950ee8b`, toolf9361c7c; timeout1200.
-Build1 compilePASS and native backedge37heap/41env observed. Build2 compilePASS,
-source invariant parser failure290; Build3 toolconsolecompile failure, targetNOTRUN.
-Candidate4 restores symexec_result in read-only diagnostic; checked invariant,
-run-bound freshness and recovery controls reviewed LunaHIGH, synthetic/staticPASS.
-Entry/backedge/exits/current controls remain pending actual evidence.
-[Session](cloud-build/origin-layout/R10-SESSION-20261021.md),
-[obligations](cloud-build/origin-layout/R10-OBLIGATIONS-20261021.md),
-[Build3](cloud-build/origin-layout/R10-BUILD3-RESULT-20261021.json).
-B2/normal-unwind/qualification OPEN; acceptedfalse/independentcredit0.
-Foreign dirty docs preserved. Prior snapshots below are historical.
+2026-10-20 close23:27:49UTC; T021:48:01/main23:48:01/absolute00:18:01 unchanged.
+Five terminalFAILURE/accounted: **2865charged/2861execution,735retired,remaining0,
+carryfalse**; ownactive/unresolved/requests/reservations0 under coordinator lock.
+Last built source `7d7d70d2`, tool `bb557d43`, profile `c3f5d286` compiles and
+parses the checked two-position array3/u64 invariant. Label-invariant consume/
+leakcheck then production observed; actual fails **StorageDead276:44-45**, unit
+annotation temporary117. Continue/backedge/break/unwind theorem remainsOPEN;
+closed fulltarget proofgates0, B2/qualificationOPEN/acceptedfalse/credit0.
+Source freshness2positive/6intendednegative with8currentcasebindings; source
+recovery5NOTRUN prerequisite. No independent full audit or cross-Build PASS merge.
+No6: remaining envelope gives internal runner590, insufficient safe observed
+cold target margin. BeforeLive/prefix boundaries separately investigated.
+[Report](CURRENT-TASK.md#отчёт-агента) ·
+[Final result](cloud-build/origin-layout/R10-FINAL-RESULT-20261021.json) ·
+[Next blocker](cloud-build/origin-layout/R10-LABEL-STORAGE-NOTE-20261021.md).
+Foreign dirty docs preserved. Below are historical snapshots/authorizations.
 
 # Merge-R10 READY — checked moving-gap invariant
 

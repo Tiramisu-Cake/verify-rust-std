@@ -1,0 +1,82 @@
+{
+  "schema": "merge-r10-build-result-v1",
+  "candidate": 5,
+  "build_id": "0d17cca8-db8f-4088-bedb-719c2cd1a568",
+  "source_sha": "7d7d70d29f25882ef8c8c3f6177b86fa914b09bb",
+  "tool_sha": "bb557d43c4196694c7af50ff2150ce56a269e17d",
+  "accounting": {
+    "dispatch_token": "dispatch-e43ee3b10b3a4c139cca31ac529e8d03",
+    "owner": "merge",
+    "phase_id": "MERGE-MOVING-GAP-INVARIANT-R10-2026-10-21",
+    "infra_sha": "7d7d70d29f25882ef8c8c3f6177b86fa914b09bb",
+    "proof_sha": "7d7d70d29f25882ef8c8c3f6177b86fa914b09bb",
+    "lane": "merge",
+    "submitted_config_sha256": "03469b012ea17459c075509fb670f310bbcffd78cd25e1ae48003b69a6a0a312",
+    "reserved_seconds": 1260,
+    "timeout_seconds": 1200,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "f5f40d795751fdbd4effc5f4a9c2c8975518ca4dbbd5f3e6896c6b6c1c60beb9",
+    "build_id": "0d17cca8-db8f-4088-bedb-719c2cd1a568",
+    "start_time": "2026-10-20T23:09:34.534522953Z",
+    "finish_time": "2026-10-20T23:19:10.511390Z",
+    "create_time": "2026-10-20T23:09:33.742241128Z",
+    "build_seconds": 577,
+    "accounted": true,
+    "execution_seconds": 576
+  },
+  "budget_used": 2865,
+  "budget_remaining": 735,
+  "compilation": "PASS: all seven observed milestones exit0",
+  "formal_actual_body_attempt": "FAIL at StorageDead verified/lib.rs276:44-45; source full-body campaign INCONCLUSIVE",
+  "initial_invariant_consumption": "Consumption and leakcheck followed by production observed on label-invariant path; limited source observation, not complete entry/backedge theorem",
+  "preservation_break_unwind_gates": "OPEN; no complete current-configuration branch theorem",
+  "recovery_controls": "Five NOT_RUN_PREREQUISITE as source-reported",
+  "native_binding": {
+    "function": "insert_tail",
+    "def_hash": "DefPathHash(Fingerprint(12908149020305531562, 13981609308880448809))",
+    "mir_fingerprint": "e1f455a3ed9fb435",
+    "mir_phase": "Runtime(PostCleanup)",
+    "body_span": "verified/lib.rs(168,5-380,2)",
+    "cycle_head": "97",
+    "cycle_from": "151",
+    "head_loc": "verified/lib.rs(275,13-44)"
+  },
+  "archive_sha256": "c3de189b1abd6a872a03c4a23379dcae7a4959a31ee43dcbee2548051efaa7fd",
+  "index_sha256": "32057e17c66337f0034e9932e3732376a4a306d8190ac7c8fbbf4fec5fe912ca",
+  "files": {
+    "log": {
+      "id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+      "sha256": "e73265f06915936a0655a3ef0e55b94c6fda4c378d0d271b055202267b520774",
+      "info_request": "69c7d97828afb5036ee095155cbcb1949cd95f39b313e4273cc190424c5a3a33",
+      "binding_lines1_7": "c0b0d381b74c8146956cdc4f924fbf782e9ed663ec9a1084f2c3a2cc13cf8385",
+      "lines1310_1321": "0a11242e6aaa8f756036414b40e28790510c48a8e536997a04936f32ec384a96",
+      "lines1322_1333": "6c9a25559feb43db14f3f86ad22b44659d3209226fe7fd05e0726f088d6e6fce",
+      "lines1334_1339": "da0910c1aae46dbdb6020093772c6700191a780955cd985ff41153e17a75d80f",
+      "While_only_gate_literal_no_match": "0c750e63fd87f939b1db405585867457af9c7c77da6a5c2c5f86ea9776762700"
+    },
+    "decoded_mir": {
+      "id": "a80978fa9030b0b125eae0db867c108c8806314259d2fbb1eacbd519673ec270",
+      "sha256": "d3369028496b3660aad56b1703bba9555e2d247584ae6fb038961ad4a1aacb58",
+      "info_request": "d7547ab48dfcd80936cb98fa4cba5bf2eb421b028e0ab26e755d201b3ce0350a",
+      "tuple_unit_local117_lines3564_3575": "da55b4b3671d825868c3e0917bd4f148f5ebd42668ae40c7b99453ec587ffddc",
+      "local117_live_lines17318_17325": "72744985c59c98f8fca252b0fdf3e74d0dc0ddb765739e5165fa9a4ed05f87cb",
+      "ghost_command_lines17360_17371": "1613525128be79b249dc2c202dbc1ad8a17ffe0c08711d489003ccf4b8daff19",
+      "destination117_lines17374_17385": "97b4f7f5472429f51a09256370fce8c5846a05afb61546382bc04bfd722c013d",
+      "local117_dead_lines17410_17421": "6a9c6f88f91b8ecf0bca2ec533d537ae55de498b689b683d58e5acb138084e57"
+    }
+  },
+  "coverage": {
+    "selected_log_lines": "1..7 and1310..1339 of1339, exact=true complete=false",
+    "selected_MIR": "explicit bounded fragments of30986 lines, exact=true complete=false",
+    "stage_records_candidate": 628,
+    "stage_records_parsed": 512,
+    "not_captured": 116
+  },
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causal_status": "UNKNOWN",
+  "qualification": "OPEN",
+  "accepted": false,
+  "independent_credit": 0
+}

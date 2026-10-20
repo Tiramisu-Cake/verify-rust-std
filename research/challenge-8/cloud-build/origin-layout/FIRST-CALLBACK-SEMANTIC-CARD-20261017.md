@@ -911,16 +911,20 @@ Freshness qualification separatelyOPEN, source2positive/1intendednegative/5INC.
 Accounting3379charged/3374exec,221retired,carryfalse; all7terminal/ownslots0.
 
 
-## R10 checked moving-gap continuation — active2026-10-21
+## R10 checked moving-gap continuation — CLOSED_PARTIAL2026-10-21
 
-Current authorization/session is CURRENT-TASK R10, not the old window above.
-The approved R8 allocation premise and R9 checked returning-Drop hook remain
-unchanged. New source annotations use a two-position concrete array3/u64 LoopInv,
-exact original tmp token/quarters, current F/thread/physical segments and gap;
-no current/entry value equality, full-array-over-gap or generic transfer.
-Rustif/head-order correction and current-run freshness receipts are reviewed,
-not a proof result. Native diagnostic changes only format existing decoded
-Body/CFG and kernel h/env at the existing checks; no new axiom/ownership bridge,
-check removal or runtime CFG change. See R10-INVARIANT-DESIGN-20261021.md and
-R10-CANDIDATE1/2/3-REVIEW-20261021.md. Build1 inventory observed, Build2 parser
-refusal, Build3 active; full normal/unwind/CURRENT/B2/qualification OPEN/credit0.
+The owner-authorized R8 allocation premise and R9 checked returning-Drop hook
+remain unchanged. Concrete array3/u64 invariant preserves original tmp debt,
+CURRENT physical segments/gap and F/thread, without entry/current equality or
+full initialized ownership over the gap. Native read-only diagnostics, reviewed
+annotation ordering/exact lateNoop normalization and run-bound freshness receipts
+add no ownership/model assumption and do not weaken checks or runtime CFG.
+
+Build5 compilePASS/source actualFAIL at StorageDead276; initial label-invariant
+consumption/leakcheck then production observed, not full entry/preservation or
+normal/unwind theorem. Decoded unit117 is annotation call destination with
+Live/Dead; exact reconstruction/liveness is next obligation. No live receipt is
+fabricated and no storage check bypassed. R9 historical cleanup stays scoped.
+Full target proofgates0/B2/qualificationOPEN/acceptedfalse/credit0. Five Builds,
+2865charged/2861execution,735retired,carryfalse/ownslots0. Final coverage/result/
+release and bounded source identities are in R10 records; no6 budget probe.

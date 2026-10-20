@@ -62,29 +62,41 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-R10 ACTIVE. T0/main/absolute UTC2026-10-20 21:48:01 /23:48:01 /2026-10-21 00:18:01.
-Миссия: checked moving-gap invariant actual concrete u64/array3; generic T/B2,
-полная normal/unwind theorem и qualification OPEN, acceptedfalse/credit0.
+R10 **CLOSED_PARTIAL**, accepted=false, B2/qualification OPEN, independent credit0.
+T0/main/absolute UTC2026-10-20 21:48:01 /23:48:01 /2026-10-21 00:18:01;
+счёт закрыт2026-10-20 23:27:49.827363UTC. Цель: checked moving-gap invariant
+actual concrete u64/array3. Полный entry/Continue/break/unwind theorem не доказан.
 
-| Build | Гипотеза / exact candidate | Результат | charge |
+| Build | Гипотеза / exact source-tool | Результат | charge |
 | --- | --- | --- | --- |
-| `403f96a0` | source5f7139fa/tool07116a39, normal backedge inventory | compilePASS; full37heap/41env observed; invariant refusal271 |644 |
-| `d4487296` | sourceaada9d02/tool48ace768, checked two-position invariant | compilePASS; source290 Cternary parse error; entry/backedge not established |599 |
-| `804d2851` | sourceb0350826/tooldde5d090, Rustif/head-order + run-bound freshness | compileFAIL symexec_result/unit; actual targetNOT_RUN |424 |
-| `15c02b71` | sourcec1566a62/toolf9361c7c, checked result sequencing repair | compilePASS; let_lft parse296 |621 |
+| `403f96a0` |5f7139fa/07116a39, backedge inventory |compilePASS;37heap/41env; invariant refusal271 |644 |
+| `d4487296` |aada9d02/48ace768, two-position invariant |compilePASS; Cternary parse290 |599 |
+| `804d2851` |b0350826/dde5d090, grammar/gate receipts/freshness |compileFAIL symexec_result/unit; actualNOTRUN |424 |
+| `15c02b71` |c1566a62/f9361c7c, result sequencing repair |compilePASS; non-leading let_lft parse296 |621 |
+| `0d17cca8` |7d7d70d2/bb557d43, declaration order/exactNoop |compilePASS; actualFAIL StorageDead276; source campaignINC |577 |
 
-Used2288/3600 (execution2285), remaining1312; own active0.
-Candidate5 reviewedGO: declaration-first + exact lateNoop header reconstruction;
-next Build timeout1200/envelope1260 planned. Final coordinator/account closure pending.
-Чужие dirty docs и старые ledgers/verdicts сохранены. Exact inputs опубликованы
-и remoteSHA проверен. Checked source annotations, native read-only diagnostics,
-resource/admission control repairs и freshness stage identities прошли LunaHIGH
-review; service/staticPASS не заменяет proof. R9 scopedcleanup не перенесён
-автоматически на новую конфигурацию. Следующий gate — compile/parse/entry/backedge/exit
-receipts candidate5; затем точечный proof fix и совместимые controls по Evidence.
+**2865charged/2861execution,735retired,remaining0,carry=false**; все5 terminalFAILURE/
+accounted; own active/unresolved/requests/reservations0 под coordinator lock.
+Шестой Build не отправлен: остаток даёт timeout675/work605/runnerdeadline590,
+без надёжного запаса на наблюдаемый cold compile+target+teardown599/621/644
+(последний577). Независимые BeforeLive/prefix/freshness задачи проработаны.
 
-Подробности: [session](cloud-build/origin-layout/R10-SESSION-20261021.md),
-[obligations](cloud-build/origin-layout/R10-OBLIGATIONS-20261021.md),
-[design](cloud-build/origin-layout/R10-INVARIANT-DESIGN-20261021.md),
-[Build1](cloud-build/origin-layout/R10-BUILD1-RESULT-20261021.json),
-[Build2](cloud-build/origin-layout/R10-BUILD2-RESULT-20261021.json).
+Build5 показывает consume/leakcheck label-инварианта и последующее production,
+затем StorageDead до тела. Это ограниченное наблюдение initial path; полных
+целевых proof gates закрыто0. Native cycle97<-151/body fingerprint записаны;
+MIR unit `_117`: Live→VeriFast_ghost_command/destination117→Dead. Следующий blocker —
+source-bound placement/liveness annotation temporary при label-invariant
+abstraction; не ослаблять StorageDead и не создавать live/ownership receipts.
+
+Freshness Build5 source claims:2positive/6intendednegative,8 current case identities;
+qualification/per-case independent audit OPEN. Recovery5 controls NOT_RUN по
+source prerequisite. R9 scoped cleanup не переносится на текущую конфигурацию.
+LunaHIGH review/static/servicePASS отдельно от actual proof. Чужие dirty docs,
+старые accounts/verdicts сохранены. Последний built source `7d7d70d29f25882ef8c8c3f6177b86fa914b09bb`;
+финальный checkpoint документов/closed ledger — отдельный, без нового Build.
+
+[Итог](cloud-build/origin-layout/R10-FINAL-RESULT-20261021.json) ·
+[Build5](cloud-build/origin-layout/R10-BUILD5-RESULT-20261021.json) ·
+[Coverage](cloud-build/origin-layout/R10-OBLIGATIONS-20261021.md) ·
+[Следующий blocker](cloud-build/origin-layout/R10-LABEL-STORAGE-NOTE-20261021.md) ·
+[Release](cloud-build/origin-layout/R10-RELEASE-20261021.json).

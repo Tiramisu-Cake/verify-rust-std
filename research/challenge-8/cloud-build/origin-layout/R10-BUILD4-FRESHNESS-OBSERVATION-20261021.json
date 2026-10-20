@@ -1,0 +1,44 @@
+{
+  "schema": "merge-r10-freshness-observation-v1",
+  "build_id": "15c02b71-82e2-4116-b215-72e3358f20a6",
+  "source_sha": "c1566a624dc6555bd5886a5ac0d580b72950ee8b",
+  "tool_sha": "f9361c7c25f8ca33f62bc16e730fe128ecf2318a",
+  "archive_sha256": "7bff01451063c9d36bc90f5078120fd065d3ee27a02cc705a40b9b5f469560eb",
+  "index_sha256": "a938c853ff7d6769345f05e03646fb43ab13ca5bbbdd0acbad8193c541bb62ed",
+  "aggregate": {
+    "file_id": "3177de3caa3993017f98719ca5b1fc66b7d21b1c7d05c2396f7a9c2dc042da31",
+    "sha256": "234a5b1c4163e71137e4a394fb1f291054c69ed5d105d229b52bccba8165ca30",
+    "source_claims": {
+      "all_classified": true,
+      "all_r10_case_receipts_bound": true,
+      "positive": 2,
+      "intendednegative": 6,
+      "accepted": false,
+      "proof_credit": false
+    }
+  },
+  "reader_requests": {
+    "info": "596f6beaf9fdea4b1e3c03c4f05740fdf79b87d73964ea534cde06e2429a12b2",
+    "root": "c12ecc2d0d1042c23e6c234990d8fb3ab83a176e22ba3f6beaa5b0e7574eb44b",
+    "cases": "e9ddf5c48d1ffe063f5dbb33ecb316ba131f13f8e0d9174804b0d1e08259db6b",
+    "run_identity": "ae675e38e9d115a0866baefe460f1b5c3ba34000a41e9dc6bbb57a463b0f8b4b",
+    "currentprefix2_identity": "73901bcee966b492693219915b582b4c878d7614b1532a4b9ef1dd8e88aab156",
+    "currentprefix2_stage_hashes": "63e470a018a3052eccbf984c8a0b631c75d6a964653c2f9da7dda7b86eaeaf49"
+  },
+  "physical_receipt_spotcheck": {
+    "scope": "currentprefix2/verifast only; other per-case sixstage bindings source-reported by aggregate",
+    "file_id": "e3892d8f4c0dd5d0f3846e5a81b47cacb42204e72869c351d36bd6cf9fe803a9",
+    "sha256": "e5694dbd1b7462fc938dad52d979e24b5aa11d570e80a3974ba21fd626aabd9d",
+    "hash_matches_aggregate": true,
+    "root_request": "b1e7cc3a35ba9a893b424a2a7d1b2e362bf8cfa8b74e3e36af9e4207a9a0f011",
+    "exit_code": 0,
+    "source_unchanged": true,
+    "elapsed_seconds_as_reported": 0.216
+  },
+  "coverage": "Root, cases, global/case identities and selected hash map exact/complete; selected detail firstpage20 incomplete; one physical stage spotcheck. Not an independent full audit.",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causal_status": "UNKNOWN",
+  "qualification": "OPEN",
+  "accepted": false,
+  "independent_credit": 0
+}

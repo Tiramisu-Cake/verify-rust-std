@@ -7451,16 +7451,17 @@ normal/unwind/B2 and experimentalqualificationOPEN. T0/window unchanged; foreign
 historical records preserved. Result R8-FINAL-RESULT-20261020.json.
 
 
-## Merge-R10 — checked moving gap, active 2026-10-21
+## Merge-R10 — CLOSED_PARTIAL 2026-10-21
 
-Fresh owner-authorized3600/120+30min; T0UTC2026-10-20T21:48:01Z.
-R9 remainsCLOSED (3417charged/183retired/carryfalse); no account carry.
-Build403f96a0/source5f7139fa/tool07116a39 compiles,644charged: source-exact
-backedge inventory37heap/41env before invariant refusal271. Buildd4487296/
-sourceaada9d02/tool48ace768 compiles,599charged/598exec; annotation ternary parse
-refusal290, no invariant-entry/preservation credit. Candidateb0350826/tooldde5d090
-adds supported Rustif, oldlateNoop-beforeprep ordering, read-only checked-gate
-receipts and current-run freshness identities; Build804d2851 active.
-Independent LunaHIGH review/static/servicePASS; actual proof/qualificationOPEN,
-acceptedfalse/credit0. [R10 report](CURRENT-TASK.md#отчёт-агента),
-[obligations](cloud-build/origin-layout/R10-OBLIGATIONS-20261021.md).
+Five terminalFAILURE/accounted,2865charged/2861execution,735retired,carryfalse,
+ownactive/unresolved/requests/reservations0; closed23:27:49UTC. Build5 exactsource
+7d7d70d2/toolbb557d43/profilec3f5d286 compilePASS; checked label invariant consumes/
+leakchecks then body production reaches StorageDead276. Unit annotation local117
+Live/call/destination/Dead observed in bounded decoded MIR; parser binding and
+causality not established. Continue/branch/fullCURRENT/B2/qualificationOPEN,
+acceptedfalse/credit0; full target proofgates0. Build1 native backedge inventory
+37heap/41env. Intermediate grammar/compile errors and reviews preserved in results.
+Freshness5 source2positive/6intendednegative/current8bindings, not independent
+credit. Recovery5sourceNOTRUN. No6: insufficient safe cold target envelope;
+BeforeLive/prefix independent investigations done. See CURRENT-TASK report and
+R10-FINAL-RESULT/OBLIGATIONS/LABEL-STORAGE-NOTE; final docs checkpoint not built.

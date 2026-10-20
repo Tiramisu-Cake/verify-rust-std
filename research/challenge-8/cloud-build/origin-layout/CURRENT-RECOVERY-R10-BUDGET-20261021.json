@@ -2,13 +2,13 @@
   "phase": "MERGE-MOVING-GAP-INVARIANT-R10-2026-10-21",
   "owner": "merge",
   "authorization_model": "bounded-cloud-budget",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "allowed_lanes": [
     "merge"
   ],
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 2288,
-  "remaining_build_seconds": 1312,
+  "used_build_seconds": 2865,
+  "remaining_build_seconds": 0,
   "builds": [
     {
       "dispatch_token": "dispatch-f8c80b8ead0a476e8908d612336646b2",
@@ -97,6 +97,28 @@
       "build_seconds": 621,
       "accounted": true,
       "execution_seconds": 620
+    },
+    {
+      "dispatch_token": "dispatch-e43ee3b10b3a4c139cca31ac529e8d03",
+      "owner": "merge",
+      "phase_id": "MERGE-MOVING-GAP-INVARIANT-R10-2026-10-21",
+      "infra_sha": "7d7d70d29f25882ef8c8c3f6177b86fa914b09bb",
+      "proof_sha": "7d7d70d29f25882ef8c8c3f6177b86fa914b09bb",
+      "lane": "merge",
+      "submitted_config_sha256": "03469b012ea17459c075509fb670f310bbcffd78cd25e1ae48003b69a6a0a312",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "f5f40d795751fdbd4effc5f4a9c2c8975518ca4dbbd5f3e6896c6b6c1c60beb9",
+      "build_id": "0d17cca8-db8f-4088-bedb-719c2cd1a568",
+      "start_time": "2026-10-20T23:09:34.534522953Z",
+      "finish_time": "2026-10-20T23:19:10.511390Z",
+      "create_time": "2026-10-20T23:09:33.742241128Z",
+      "build_seconds": 577,
+      "accounted": true,
+      "execution_seconds": 576
     }
   ],
   "active_build": null,
@@ -108,5 +130,8 @@
   "policy_revision": "2026-10-21 CURRENT-TASK R10 / Evidence v0.11 / ITERATION-PROCESS",
   "carryover_allowed": false,
   "accepted": false,
-  "independent_credit": 0
+  "independent_credit": 0,
+  "retired_unused_seconds": 735,
+  "closed_utc": "2026-10-20T23:27:49.827363Z",
+  "closure_reason": "All five builds terminal/accounted; remaining735 permits timeout675/work605/runnerdeadline590, insufficient safe observed cold compile+actual+teardown envelope. Independent BeforeLive/prefix/freshness tasks completed. Close partial without carryover; no sixth budget-probe build."
 }
