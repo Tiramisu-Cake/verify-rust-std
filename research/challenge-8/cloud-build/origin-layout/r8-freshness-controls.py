@@ -17,7 +17,7 @@ CAMPAIGN = "r8-owned-array-freshness-controls-v1"
 PROFILE = "experimental-merge-owned-array-allocation-r8-v1"
 STAGES = ("exporter", "decode", "refinement", "verifast")
 HEADER = "#![no_std]\n#![allow(dead_code)]\n"
-SPAN_DIAGNOSTIC = "Cannot prove condition."
+SPAN_DIAGNOSTIC = "Assertion might not hold."
 OWNER_DIAGNOSTIC = "No matching heap chunks"
 SPAN_TOKENS = ("<=", "||")
 
@@ -174,7 +174,14 @@ def _source(name: str, *, verified: bool) -> bytes:
 def _expected_error(name: str) -> dict | None:
     expected_class = CASES[name]["class"]
     if expected_class == "span_refusal":
-        return {"contains": SPAN_DIAGNOSTIC, "tokens": list(SPAN_TOKENS)}
+        tokens = ["Cannot prove", *SPAN_TOKENS, "get_pointer_address(local_addr)"]
+        if name == "wrong_root":
+            tokens.append("get_pointer_address(q)")
+        else:
+            element_type = "int64_t_typeid" if name == "wrong_element" else "uint64_t_typeid"
+            tokens.append(f"ptr_add_(p, 1, {element_type})")
+        return {"contains": SPAN_DIAGNOSTIC,
+                "tokens": tokens}
     if expected_class == "missing_owner_refusal":
         return {"contains": OWNER_DIAGNOSTIC, "tokens": ["points_to"]}
     return None

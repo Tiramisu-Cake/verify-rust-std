@@ -1,0 +1,46 @@
+{
+  "schema": "merge-r8-build-result-v1",
+  "build_id": "eecf6525-7350-4410-b336-177185db019b",
+  "source_commit": "d3abd4c9dc0b036805dda6399e4370029e59fa2d",
+  "tool": "f2e92cecaf574d7970cc12d0cb1e75b2980b6aea",
+  "profile_sha256": "838ade9927ebba82b8df61283fdd8189e71b673ac91eadf897806d0bfaa80cc1",
+  "terminal": "FAILURE",
+  "charged_seconds": 384,
+  "execution_seconds": 383,
+  "compiler": "PASS",
+  "actual_proof_attempted": true,
+  "frontier": "root free_locals324 missinghalf tmp points_to; post-Drop suffix effectiveness/path coverage not established",
+  "archive_sha256": "2a79756b02d4ca6c7f8d8f1729c9e45f1556e79205f4d14798ac79d238f1d9dc",
+  "index_sha256": "8de03575b203c99dc54a9c28aacd5dd726259d7631d7c9d324be8a1b863887c8",
+  "log_file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+  "log_sha256": "e0e89399c6f5aaa152d2c9cf91e1f2f6206fb442e455d4f423b82fa322acb2eb",
+  "log_observations": [
+    {
+      "selector": "lines1448-1459",
+      "request_id": "4c0a2c92b0dd911d44ec2ed9162d38ff2d5a22f65d557c569558539474e9b0f4"
+    },
+    {
+      "selector": "lines1460-1471",
+      "request_id": "f18252100596858e9dd94e64d200cac44cdbd477cb8da16334c60c209a00865b"
+    }
+  ],
+  "freshness_file_id": "3177de3caa3993017f98719ca5b1fc66b7d21b1c7d05c2396f7a9c2dc042da31",
+  "freshness_sha256": "5ff5d2562e92aa061bc9133d479a4d5f52a8fdd44b966a755c4ad474e6d9b530",
+  "freshness_cases": {
+    "wholearray3": "PASS_CONTROL",
+    "currentprefix2": "PASS_CONTROL",
+    "numeric_same_address_no_owner": "EXPECTED_REJECTION_DIAGNOSTIC",
+    "default_off": "INCONCLUSIVE",
+    "missing_current_owner": "INCONCLUSIVE",
+    "wrong_element": "INCONCLUSIVE",
+    "wrong_entry_count": "INCONCLUSIVE",
+    "wrong_root": "INCONCLUSIVE"
+  },
+  "cases_request_id": "4a0dab75da660cec35eed240d6a29e29a885b99a96a961a508a8a4fd496175eb",
+  "default_off_error_request_id": "5436fd5f3cd929c04c437ccdaff2eac1950fcf88fda5eee72ef903bcfad7a60f",
+  "accepted": false,
+  "qualification": "OPEN",
+  "independent_credit": 0,
+  "causal_status": "UNKNOWN",
+  "parser_input_binding": "NOT_ESTABLISHED"
+}

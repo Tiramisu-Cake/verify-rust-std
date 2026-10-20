@@ -69,13 +69,17 @@ def _executor(case: Path, args, env: dict, *, behavior="normal"):
         stages.pop("decode")
     if case.name == "wrong_entry_count" and behavior == "notrun":
         stages["verifast"] = "NOT_RUN"
+    if case.name == "wrong_entry_count" and behavior == "wrong-refusal-stage":
+        stages["verifast"] = 2
     for stage in controls.STAGES:
         if case.name == "wrong_entry_count" and behavior == "missing-receipt" and stage == "decode":
             continue
         status = {"bad": "type"} if (
             case.name == "wrong_entry_count" and behavior == "malformed-status" and
             stage == "verifast") else "SUCCESS"
-        _receipt(case, meta, stage, meta["expected_stages"][stage], status=status)
+        code = (2 if stage == "verifast" and case.name == "wrong_entry_count" and
+                behavior == "wrong-refusal-stage" else meta["expected_stages"][stage])
+        _receipt(case, meta, stage, code, status=status)
     if meta["expected_class"] == "positive":
         target = meta["target"]["line"]
         log = (f"verified/lib.rs({target},4): Executing statement span assertion\n"
@@ -85,17 +89,24 @@ def _executor(case: Path, args, env: dict, *, behavior="normal"):
         if meta["expected_class"] == "missing_owner_refusal":
             diagnostic = "No matching heap chunks: [_]points_to<u64>(p, _)"
         else:
-            diagnostic = ("Cannot prove condition. ((addr(local) + 8 <= addr(p + 1)) || "
-                          "(addr(p + 1) + 8 <= addr(local)))")
+            if case.name == "wrong_root":
+                right_side = "get_pointer_address(q)"
+            else:
+                element_type = ("int64_t_typeid" if case.name == "wrong_element"
+                                else "uint64_t_typeid")
+                right_side = f"get_pointer_address(ptr_add_(p, 1, {element_type}))"
+            diagnostic = ("Assertion might not hold. (Cannot prove "
+                          "(get_pointer_address(local_addr) + 8) <= "
+                          f"{right_side} || "
+                          f"({right_side} + 8) <= "
+                          "get_pointer_address(local_addr).)")
         log = (f"verified/lib.rs({target},4): Executing statement intended target\n"
                f"verified/lib.rs({target},4): error: {diagnostic}\n")
     if behavior == "wrong-location" and case.name == "wrong_entry_count":
         log = log.replace(f"verified/lib.rs({target},4): error:",
                           f"verified/lib.rs({target + 1},4): error:")
     if behavior == "wrong-predicate" and case.name == "wrong_entry_count":
-        log = log.replace("Cannot prove condition. ((addr(local) + 8 <= addr(p + 1)) || "
-                          "(addr(p + 1) + 8 <= addr(local)))",
-                          "Cannot prove condition. (addr(p + 1) < addr(local))")
+        log = log.replace(" || ", " && ", 1)
     if behavior == "multiple-errors" and case.name == "wrong_entry_count":
         log += f"verified/lib.rs({target},4): error: second diagnostic\n"
     if behavior == "missing-artifact" and case.name == "wrong_entry_count":
@@ -218,6 +229,8 @@ class R8FreshnessControlsServiceTests(unittest.TestCase):
                 self.assertTrue(row["diagnostic_matches"])
                 self.assertFalse(row["accepted"])
                 self.assertFalse(row["proof_credit"])
+            self.assertEqual(controls._expected_error("default_off")["contains"],
+                             "Assertion might not hold.")
             self.assertFalse(result["case_details"]["default_off"]["expected_flag"])
 
     def test_tampered_source_wrong_predicate_location_and_flag_receipt_are_inconclusive(self):
@@ -225,6 +238,7 @@ class R8FreshnessControlsServiceTests(unittest.TestCase):
                                     ("wrong-shape", "wrong_entry_count"),
                                     ("source-mismatch", "wrong_entry_count"),
                                     ("wrong-predicate", "wrong_entry_count"),
+                                    ("wrong-refusal-stage", "wrong_entry_count"),
                                     ("wrong-location", "wrong_entry_count"),
                                     ("flag-mismatch", "currentprefix2")):
             with self.subTest(behavior=behavior), tempfile.TemporaryDirectory() as temporary:
