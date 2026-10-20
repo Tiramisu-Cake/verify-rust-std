@@ -116,3 +116,9 @@ body statement (`verifast.ml2155`); existing translator6617 preserves original
 late declaration location as a Noop while relocating actual type binding.
 The Noop is an existing compiler/source placeholder, not a new runtime statement
 or skipped check. No invariant resources/meaning/CFG/posts changed.
+
+Build3 compile gate refused diagnostic sequencing atverifast2229: check_leaks
+returns symexec_result. Source target NOT_RUN, no updated invariant/freshness
+outcomes. Candidate4 preserves exact SymExecSuccess result across stderr call,
+using actual type definition; independent LunaHIGH GO. All source annotations,
+posts/control matrix and model premise unchanged.

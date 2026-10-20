@@ -405,7 +405,7 @@ index 9813a884..f900b60f 100644
                match State.callback_close, State.callback_recover, !State.callback_call_loc with
                | None, None, None -> vf_bblocks
 diff --git a/src/verifast.ml b/src/verifast.ml
-index d0d20748..1bda2a93 100644
+index d0d20748..62ebace6 100644
 --- a/src/verifast.ml
 +++ b/src/verifast.ml
 @@ -182,6 +182,33 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
@@ -490,17 +490,19 @@ index d0d20748..1bda2a93 100644
        consume_asn rules [] h' env ghostenv env p true real_unit $. fun _ h''' _ env''' _ ->
        begin fun cont ->
        match (t_dec, dec) with
-@@ -2187,7 +2226,8 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+@@ -2187,7 +2226,10 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
          assert_term dec_check2 h' env''' (expr_loc dec) "Cannot prove that the loop measure remains non-negative." None;
          cont h'''
        end $. fun h''' ->
 -      check_leaks h''' env endBodyLoc "Loop leaks heap chunks"
-+      check_leaks h''' env endBodyLoc "Loop leaks heap chunks";
-+      r9_guard_state l h''' env "kind=loop_invariant gate=backedge_checked"
++      let SymExecSuccess =
++        check_leaks h''' env endBodyLoc "Loop leaks heap chunks" in
++      r9_guard_state l h''' env "kind=loop_invariant gate=backedge_checked";
++      SymExecSuccess
      | WhileStmt (l, e, Some (LoopSpec (pre, post)), dec, ss, final_ss) ->
        if not pure then begin
          match ss with PureStmt (lp, _)::_ -> static_error lp "Pure statement not allowed here." None | _ -> ()
-@@ -3046,7 +3086,28 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+@@ -3046,7 +3088,28 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
      begin
        match (List.memq block blocks_done, inv) with
          (true, _) when pure -> assert_false h env (l()) "Loops are not allowed in a pure context." None

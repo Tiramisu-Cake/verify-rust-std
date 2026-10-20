@@ -7449,3 +7449,18 @@ proof_attemptedfalse240; no control/actual proof credit. Finalnextblocker exact
 failed return path and originalreadonly debt postDrop/pre-free/Resume; fullCURRENT/
 normal/unwind/B2 and experimentalqualificationOPEN. T0/window unchanged; foreign/
 historical records preserved. Result R8-FINAL-RESULT-20261020.json.
+
+
+## Merge-R10 — checked moving gap, active 2026-10-21
+
+Fresh owner-authorized3600/120+30min; T0UTC2026-10-20T21:48:01Z.
+R9 remainsCLOSED (3417charged/183retired/carryfalse); no account carry.
+Build403f96a0/source5f7139fa/tool07116a39 compiles,644charged: source-exact
+backedge inventory37heap/41env before invariant refusal271. Buildd4487296/
+sourceaada9d02/tool48ace768 compiles,599charged/598exec; annotation ternary parse
+refusal290, no invariant-entry/preservation credit. Candidateb0350826/tooldde5d090
+adds supported Rustif, oldlateNoop-beforeprep ordering, read-only checked-gate
+receipts and current-run freshness identities; Build804d2851 active.
+Independent LunaHIGH review/static/servicePASS; actual proof/qualificationOPEN,
+acceptedfalse/credit0. [R10 report](CURRENT-TASK.md#отчёт-агента),
+[obligations](cloud-build/origin-layout/R10-OBLIGATIONS-20261021.md).

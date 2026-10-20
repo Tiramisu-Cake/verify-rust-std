@@ -909,3 +909,18 @@ to bind before checked postDrop/pre-free/Resume restoration. Final classifier on
 change reviewed; Build7 compile-only124/proof_attemptedfalse. No new actualcredit.
 Freshness qualification separatelyOPEN, source2positive/1intendednegative/5INC.
 Accounting3379charged/3374exec,221retired,carryfalse; all7terminal/ownslots0.
+
+
+## R10 checked moving-gap continuation — active2026-10-21
+
+Current authorization/session is CURRENT-TASK R10, not the old window above.
+The approved R8 allocation premise and R9 checked returning-Drop hook remain
+unchanged. New source annotations use a two-position concrete array3/u64 LoopInv,
+exact original tmp token/quarters, current F/thread/physical segments and gap;
+no current/entry value equality, full-array-over-gap or generic transfer.
+Rustif/head-order correction and current-run freshness receipts are reviewed,
+not a proof result. Native diagnostic changes only format existing decoded
+Body/CFG and kernel h/env at the existing checks; no new axiom/ownership bridge,
+check removal or runtime CFG change. See R10-INVARIANT-DESIGN-20261021.md and
+R10-CANDIDATE1/2/3-REVIEW-20261021.md. Build1 inventory observed, Build2 parser
+refusal, Build3 active; full normal/unwind/CURRENT/B2/qualification OPEN/credit0.

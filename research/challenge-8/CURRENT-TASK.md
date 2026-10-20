@@ -62,4 +62,27 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-Merge-R10 ещё не начата. T0/deadlines/authorization binding и новый ledger заполняет агент при фактическом старте. Cloud execution и продолжение описанного experimental profile явно разрешены после обычных gates; дополнительного разрешения на первый/следующий Build в scope не требуется.
+R10 ACTIVE. T0/main/absolute UTC2026-10-20 21:48:01 /23:48:01 /2026-10-21 00:18:01.
+Миссия: checked moving-gap invariant actual concrete u64/array3; generic T/B2,
+полная normal/unwind theorem и qualification OPEN, acceptedfalse/credit0.
+
+| Build | Гипотеза / exact candidate | Результат | charge |
+| --- | --- | --- | --- |
+| `403f96a0` | source5f7139fa/tool07116a39, normal backedge inventory | compilePASS; full37heap/41env observed; invariant refusal271 |644 |
+| `d4487296` | sourceaada9d02/tool48ace768, checked two-position invariant | compilePASS; source290 Cternary parse error; entry/backedge not established |599 |
+| `804d2851` | sourceb0350826/tooldde5d090, Rustif/head-order + run-bound freshness | ACTIVE, timeout1200/envelope1260 | pending |
+
+Used1243/3600 (execution1242), remaining2357 before active reservation;
+active own Build804d2851, reserve1260. Final coordinator/account closure pending.
+Чужие dirty docs и старые ledgers/verdicts сохранены. Exact inputs опубликованы
+и remoteSHA проверен. Checked source annotations, native read-only diagnostics,
+resource/admission control repairs и freshness stage identities прошли LunaHIGH
+review; service/staticPASS не заменяет proof. R9 scopedcleanup не перенесён
+автоматически на новую конфигурацию. Следующий gate — parse/entry/backedge/exit
+receipts Build3; затем точечный proof fix и совместимые controls по Evidence.
+
+Подробности: [session](cloud-build/origin-layout/R10-SESSION-20261021.md),
+[obligations](cloud-build/origin-layout/R10-OBLIGATIONS-20261021.md),
+[design](cloud-build/origin-layout/R10-INVARIANT-DESIGN-20261021.md),
+[Build1](cloud-build/origin-layout/R10-BUILD1-RESULT-20261021.json),
+[Build2](cloud-build/origin-layout/R10-BUILD2-RESULT-20261021.json).

@@ -6,7 +6,7 @@
   "translator_sha256": "171e4ac395cda8b5c449adf2f66475c4a7ad0862715e57bf11d7746e5b92f31c",
   "patch_sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6",
   "historical_md_patch_sha256": "5500204aadd0ea0a2996d63d064160185457b6d337782aa4300c11272ab450cc",
-  "kernel_sha256": "3a6f02943e391f99a2678960462c69f80c44fb4ab5efbab00ec641cc80029f60",
+  "kernel_sha256": "626d9ae9361334b38d413a78d50c9590441c602cdfb8b23a6abbcccd37017838",
   "parser_sha256": "8ed673086183323058aac5e0e21399e4532d1e74b97c5d41105827e8643107bd",
   "prelude_sha256": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
   "stdlib_sha256": "d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227",
@@ -112,7 +112,7 @@
     },
     {
       "path": "research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch",
-      "sha256": "596b2e44442a5e918249b3bea50d4467e665b6701035fc9190f928224135d8c8"
+      "sha256": "96fcbb5a7aca79157b017ef0db939a51a62d756f5b7c0660f11cb31c88365738"
     }
   ],
   "previous_selected_profile_sha256": "7e4f6088574056a0846aad2887895836b5e03edf06bb5a493d29daf44151cfff",
@@ -121,7 +121,7 @@
   "preserved_selected_profile_sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
   "glue_credit": "EXPERIMENTAL_NOT_PROVED",
   "semantic_delta": "Owner-authorized R8 experimental trusted allocation premise: default-off explicit flag, real Rust StorageLive u64 local only, 64-bit, CURRENT positive initialized canonical u64 array subrange nonempty and full-pointer-contained in a unique positive incoming array3. Excludes only CURRENT subrange numeric interval from fresh local; no heap chunks changed or ownership from numeric equality. Hidden borrow/absent current canonical owner/wrong type/count/root/default-off give no new fact. Existing scalar/local/points_to rule and runtime/posts/compiler/prelude/model file unchanged; no Rocq credit. Experimental profile unqualified.",
-  "effective_tool_commit": "dde5d0900054d3e9f0d5558deddec5741fb84613",
+  "effective_tool_commit": "f9361c7c25f8ca33f62bc16e730fe128ecf2318a",
   "previous_glue_observation_profile_sha256": "ede5bd5e338703a6c1f99e6ee0dfe422115241fef9a7a9fadc4a9f9e71f63e1b",
   "glue_body_tool_commit": "a158398e336edce9817f62a55733a3470a986d7b",
   "glue_body_patch_sha256": "0aad1332daa465a6c175c830c7caf561736c928d9169b5429b674a0b84c1e687",
@@ -135,7 +135,7 @@
   "previous_effective_tool_commit": "f2e92cecaf574d7970cc12d0cb1e75b2980b6aea",
   "first_callback_patch_sha256": "4aa84aa536e98bb3a728a966fb5159e3d66cbec844cfb6700e571ed7a57920e9",
   "first_callback_tool_commit": "08d6a578e00d902cb9c99aad8d6ae2020c7d728a",
-  "review_status": "R10 candidate3 Luna HIGH GO: Rust if/order correction, checked LoopInv gate diagnostics, strict six-stage freshness run identities; actual compile/proof pending",
+  "review_status": "R10 candidate4 Luna HIGH GO: preserve SymExecSuccess return; unchanged reviewed Rustif/head-order invariant and run-bound freshness; actual compile/proof pending",
   "previous_first_callback_profile_sha256": "82973e1eb17f4383b02310611cee3f023f4aa5f0a619f228838674d85e41be59",
   "build_candidate_revision": "r10-moving-gap-invariant-array3-u64-20261021",
   "addressability_patch_sha256": "f17866533a1cce7365d432a0d66cbcd9472a87cc44b027d67a78aa46bbbfd3e6",
@@ -155,9 +155,9 @@
   "qualification": "OPEN",
   "authorization": "Direct owner async reply during R8: narrow rule justification/model-design, independent review, separate experimental profile and positive/negative controls; original window and budget unchanged; qualification separate.",
   "previous_profile_sha256": "055374de5bc913e4725951f0d8c9458f1c6498ab5f89d4a039d8cab591741a67",
-  "guard_return_trace_patch_sha256": "596b2e44442a5e918249b3bea50d4467e665b6701035fc9190f928224135d8c8",
-  "guard_return_trace_tool_commit": "dde5d0900054d3e9f0d5558deddec5741fb84613",
-  "guard_return_trace_scope": "Existing R9 exact MIR Drop/Return/Resume bounded48 heap terms; R10 read-only missing-invariant bounded96heap/128env, reconstructed CFG Body identity and ordinary checked LoopInv entry/backedge receipts. No assumptions/resource/control changes.",
+  "guard_return_trace_patch_sha256": "96fcbb5a7aca79157b017ef0db939a51a62d756f5b7c0660f11cb31c88365738",
+  "guard_return_trace_tool_commit": "f9361c7c25f8ca33f62bc16e730fe128ecf2318a",
+  "guard_return_trace_scope": "Existing R9 exact MIR Drop/Return/Resume bounded48 heap terms; R10 read-only missing-invariant bounded96heap/128env, reconstructed CFG Body identity and ordinary checked LoopInv entry/backedge receipts. No assumptions/resource/control changes.; R10 missing-invariant backedge read-only inventory bounded96 chunks/128 env entries, then unchanged refusal",
   "guard_return_trace_activation_env": "SMALLSORT_R9_GUARD_TRACE=1; authorized R9/R10 nonprefix actual callback only",
   "guard_current_return_authorization": "Direct owner CURRENT-TASK R9: continue narrow R8 allocation premise unchanged; native diagnostics and checked frontend/source bindings allowed; fresh3600, timeout90..1200, fixed T0/window; independent review and actual controls required",
   "guard_return_recovery_scope": "Source-supplied ordinary checked commands, exact unique marker and selected generated key/path/hash/guard/local/block/normal-target/cleanup edge; cloned fresh pure block after returning receiver finish only; original targets/unwind/posts unchanged",
@@ -171,5 +171,5 @@
     "qualification": "OPEN",
     "independent_credit": 0
   },
-  "r10_candidate": 3
+  "r10_candidate": 4
 }
