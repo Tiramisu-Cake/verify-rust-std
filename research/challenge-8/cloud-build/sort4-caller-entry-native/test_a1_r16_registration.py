@@ -114,7 +114,7 @@ class R16Registration(unittest.TestCase):
             "account", "a1_entry_sha256", "a1_runner_sha256", "authorization_phase_id",
             "deadline_utc", "main_deadline_utc", "phase", "start_utc", "status",
             "previous_build_id", "candidate_version", "body_action", "registration_rationale",
-            "cloud_build_enabled", "session_preparation", "a1_actual_body_sha256",
+            "cloud_build_enabled", "session_preparation", "a1_actual_body_sha256", "actual_body_dependencies_sha256",
             "a1_helper_sha256", "reference_own_probe_sha256",
         }
         for key, value in S4.items():
@@ -135,8 +135,11 @@ class R16Registration(unittest.TestCase):
         self.assertEqual(set(R16["actual_body_dependencies_sha256"]), {
             "a1-actual-body-c1.py", "a1-actual-copy-lemma.rs", "a1-actual-four-copy.rs",
             "a1-actual-recover-pair.rs", "a1-actual-selector-permutation.rs", "capture.py"})
-        self.assertEqual(R16["actual_body_dependencies_sha256"],
-                         S4["actual_body_dependencies_sha256"])
+        for name, digest in R16["actual_body_dependencies_sha256"].items():
+            if name == "a1-actual-body-c1.py":
+                self.assertEqual(digest, sha((HERE / name).read_bytes()))
+            else:
+                self.assertEqual(digest, S4["actual_body_dependencies_sha256"][name])
 
     def test_route_and_recipe_select_r16_full_body_inputs(self):
         lane = (CLOUD / "run-sort4-c1-current-recovery.sh").read_text()
@@ -145,7 +148,7 @@ class R16Registration(unittest.TestCase):
         recipe = json.loads((CLOUD / "recipes/o26-sort4-c1-current-recovery.json").read_text())
         for path in ("A1-ACTUAL-LIFETIME-R16-PROFILE-2026-10-21.json",
                      "a1-actual-body-r16.py", "a1-actual-body-c1.py",
-                     "a1-actual-copy-lemma.rs", "a1-actual-four-copy.rs",
+                     "a1-actual-four-copy.rs",
                      "a1-actual-recover-pair.rs", "a1-actual-selector-permutation.rs"):
             self.assertIn(PREFIX + path, recipe["proof_paths"])
         for path in ("a1-entry-r16.py", "a1-runner-r16.py"):

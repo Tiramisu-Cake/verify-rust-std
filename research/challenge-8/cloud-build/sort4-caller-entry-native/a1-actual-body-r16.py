@@ -390,7 +390,9 @@ def run(a, *, c4, audit, driver, manifest, ghost):
                 pin or profile['a1_helper_sha256'][name], 'r16_' + name.replace('-', '_').replace('.', '_'))
         tool_mod = load('a1-tool.py')
         runner = pinned_load(root / HERE / 'a1-runner.py', profile['a1_source_runner_sha256'], 'r16_pinned_core')
-        helpers = runner.load_pinned_helpers(root, profile)
+        # Load the two helpers used by this full-body path; synthetic matrix
+        # producers are inert dependencies of other modes, outside this closure.
+        helpers = {name: load(name) for name in ('a1-fixtures.py', 'a1-ast-gates.py')}
         tool, receipt = tool_mod.reconstruct(a, c4, audit, driver, manifest, profile)
         result.update(tool_receipt=receipt, tool_reconstructed=True)
         checkpoint()
