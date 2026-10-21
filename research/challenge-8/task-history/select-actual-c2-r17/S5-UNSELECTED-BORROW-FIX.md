@@ -1,0 +1,9 @@
+# R17 S5: consume unselected full-borrow capabilities
+
+S4 actual-body verifier reaches a leak check with two remaining `full_borrow(cmp2_k, full_borrow_content(t,base+0/1))` chunks. c2 borrows all four source cells but calls `share_full_borrow` only for selected cells3/2. Ending the lifetime/consuming borrow-end tokens restores source owners but does not consume these two unused full-borrow capabilities.
+
+Pinned general.rsspec:225-228 defines `share_full_borrow<T>`: consumes exactly the full_borrow capability plus returns the same lifetime-token fraction and persistent shared permission. R16 c1 already applies that checked lemma to all four cells. Apply the same conversion to c2's unselected cells0/1 before preparing argument refs. Only cells3/2 receive precreated refs and actual FnMut arguments; the callback signature, ordered operands, four debt tokens, current-F/current-T normal and unwind recovery remain unchanged.
+
+This supersedes the draft protocol's suggestion to share only the two selected cells: Cloud exposed remaining affine capabilities in that suggested setup. The adjustment is within the same existing shared-borrow model, introduces no new premise/axiom/owner bridge, and uses no `leak` statement or relaxed leak check. All four original capabilities are consumed through the existing checked rule; all four current owners still must be restored. Runtime bytes and source CFG remain exact. Controls retain the missing-token, wrong-order/ref/index/debt/marker cases; a new missing-unselected-share control must reproduce the prior leak rather than be credited as successful proof.
+
+Also correct the stale diagnostic `inner_insertions=1` to print the existing checked insertion counter. The runtime guard already requires2 for the indexed c2 route and1 otherwise; no condition changes. This avoids misreporting successful scope-placement evidence.

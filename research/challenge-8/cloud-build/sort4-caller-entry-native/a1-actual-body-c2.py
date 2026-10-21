@@ -20,6 +20,8 @@ C2_HEADER_LIFETIMES = (
     b"    let_lft 'cmp2 = cmp2_k; @*/"
 )
 C2_SCOPE_MARKER = b"        //@ __vf_callback_scope2();\n"
+C2_UNSELECTED_SHARES = (b"        //@ share_full_borrow::<T>(cmp2_k, t, v_base);\n"
+                        b"        //@ share_full_borrow::<T>(cmp2_k, t, v_base + 1);\n")
 COMPARATOR_NAMES = ("interior_pointer_limits", "split_four_owned_cells",
                     "join_four_owned_cells", "recover_pair",
                     "recover_four_sources")
@@ -37,6 +39,8 @@ C2_SETUP = b'''        //@ let cmp2_k = begin_lifetime();
         //@ borrow(cmp2_k, <T>.full_borrow_content(t, v_base + 1));
         //@ borrow(cmp2_k, <T>.full_borrow_content(t, v_base + 2));
         //@ borrow(cmp2_k, <T>.full_borrow_content(t, v_base + 3));
+        //@ share_full_borrow::<T>(cmp2_k, t, v_base);
+        //@ share_full_borrow::<T>(cmp2_k, t, v_base + 1);
         //@ share_full_borrow::<T>(cmp2_k, t, v_base + 3);
         //@ share_full_borrow::<T>(cmp2_k, t, v_base + 2);
         //@ let left2_ref = precreate_ref::<T>(v_base + 3);
@@ -210,13 +214,19 @@ def resource_controls(verified: bytes, original: bytes, ghost,
                                  C2_TYPED_CALL + MARKER, 1)
     unrelated_borrow = b"        //@ borrow(cmp2_k, <T>.full_borrow_content(t, v_base));\n"
     need(verified.count(unrelated_borrow) == 1, "one unrelated base0 end-token producer")
-    missing_resource = verified.replace(unrelated_borrow, b"", 1)
+    need(verified.count(C2_UNSELECTED_SHARES) == 1,
+         "one checked conversion for both unselected full-borrow capabilities")
+    missing_shares = verified.replace(C2_UNSELECTED_SHARES, b"", 1)
+    missing_resource = verified.replace(unrelated_borrow, b"", 1).replace(
+        b"        //@ share_full_borrow::<T>(cmp2_k, t, v_base);\n", b"", 1)
     wrong_order = verified.replace(C2_LEFT_PRECREATE + C2_RIGHT_PRECREATE,
         b"        //@ let left2_ref = precreate_ref::<T>(v_base + 2);\n"
         b"        //@ let right2_ref = precreate_ref::<T>(v_base + 3);\n", 1)
 
 
     cases = (
+        ("c2-missing-unselected-share-negative", missing_shares,
+         "unused full_borrow capabilities for base0/1 remain at the leak check"),
         ("c2-missing-unrelated-end-token-negative", missing_resource,
          "no base0 borrow_end token exists to close normal or direct-unwind four-source debt"),
         ("c2-wrong-ordered-ref-pair-negative", wrong_order,

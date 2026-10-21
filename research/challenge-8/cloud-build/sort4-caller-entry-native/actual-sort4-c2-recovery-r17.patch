@@ -561,7 +561,7 @@
              end;
              let vf_local_decls =
                List.map (translate_to_vf_local_decl loc)
-@@ -9131,11 +9380,11 @@
+@@ -9131,17 +9380,17 @@
              let vf_bblocks, actual_deferred_wrapper =
                if actual_scope_relocate then
                  let relocated, wrapper =
@@ -575,6 +575,14 @@
                  Ast.static_error fn_sig_loc
                    "Strict relocation did not insert exactly one declaration set"
                    None;
+               Printf.eprintf
+-                "STRICT-RELOCATE outer_removed=%d inner_insertions=1\n%!"
+-                (List.length relocation_ids)
++                "STRICT-RELOCATE outer_removed=%d inner_insertions=%d\n%!"
++                (List.length relocation_ids) !State.strict_relocation_insertions
+             end;
+             if !State.pending_callback_unwind <> None then
+               State.fail_callback_unwind "marker has no matching following call";
 @@ -9171,6 +9420,7 @@
                 if actual_scope_relocate then begin
                   run_actual_cmp_scope_controls fn_sig_loc;
