@@ -70,7 +70,57 @@
   "final_matrix_complete": false,
   "step_timings_coordinator_metadata": {
     "execute_seconds": 905.082234302,
-    "package_upload_seconds": "terminal timing pending metadata reread",
-    "source": "existing coordinator own Build describe state; no raw/log fetch"
+    "package_upload_seconds": 129.362829211,
+    "source": "existing coordinator own Build describe state; no raw/log fetch",
+    "exact_step_timings": {
+      "execute": {
+        "endTime": "2026-10-21T07:59:10.217085606Z",
+        "startTime": "2026-10-21T07:44:05.134851304Z"
+      },
+      "package-upload": {
+        "endTime": "2026-10-21T08:01:19.580438981Z",
+        "startTime": "2026-10-21T07:59:10.217609770Z"
+      },
+      "verdict": {
+        "endTime": "2026-10-21T08:01:20.670820817Z",
+        "startTime": "2026-10-21T08:01:19.580715369Z"
+      }
+    }
+  },
+  "canonical_P0c_helper_source_observation": {
+    "file_id": "845fdfa2623e65b1a18786ce2d3dabe4cd0c35b0e1c650b5145dc41b06925ce0",
+    "sha256": "cfdd70b7d18ab9efaf6c5c1940570078028be3b966fa0e36b3aba8ce72b50a2c",
+    "info_request": "f778ae6c237157b112e8d769d63f052053401c36e555a08c5fd49a76fc39aac7",
+    "root_page_requests": [
+      "d0d120809f307540ecaba81cd40abd7aaf29e5b505514dec4b4c5e94bca379b5",
+      "8022ba93672279769068e436677dfd22cbe8d811b1cb9b75f076c4319f382517"
+    ],
+    "coverage": "exact root child pages0..19 and20..27, next_offsetnull; nested objects not read",
+    "status": "HELPER_VERIFIER_FAILED",
+    "error": "checked cleanup helper verifier stage did not exit zero",
+    "helper_source_sha256": "3f4eae4f218426635132fa69e88ba51df8bb8660ed42d4b45ed4b487bacd34cb",
+    "source_id": "925312cd19cb71d0c61a10eb179e13d5c0f0b711ccaef6986bc2136aba6ca6ee",
+    "unit_id": "eee00354b8c4b7a57554396f5f6d7749976870b4604f9c4bddf13962bea94df4",
+    "tool_binary_sha256": "5be9859d7bd020d6f34f952ca048264670a1c295d558af6df1a575b6cda153cf",
+    "proof_credit": false,
+    "source_pair_unchanged_after_stage": true,
+    "tool_identity_unchanged_after_stage": true,
+    "parser_input_binding_by_reader": "NOT_ESTABLISHED",
+    "diagnostic": {
+      "file_id": "4cda89f9dad84ef2c08ac87929cf6ff5fa5f526651fc24279e9de633c1f6c815",
+      "sha256": "e043108238829b4b10b4246d7e3761f29a9018cf7f7f2b80fb42b0de044e7319",
+      "info_request": "a4ba907d24e20d8514e94fda89e93294178a422088e1570858506dc1a7c1e42d",
+      "locate_request": "53494db301a273af8cad30c13d666409a4bc5015df330746aaab481d5534199f",
+      "lines_request": "7f8358709c0e736d2bcae2f0503a5a20eb236dfc66a543818a42606cbf96bd4a",
+      "lines": [
+        1185,
+        1196
+      ],
+      "exact": true,
+      "whole_file_complete": false,
+      "error": "verified/lib.rs(88,1-2): error: Function leaks heap chunks: own(ref_typeid('a_typeid, T_typeid))(t, 0)",
+      "function": "a1_cleanup_option_ref<'a, T>",
+      "interpretation": "Verifier helper-body refusal; not a Rust runtime leak claim or independent semantic proof"
+    }
   }
 }

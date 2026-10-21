@@ -1,0 +1,125 @@
+{
+  "schema": "select-r12-attempt-evidence-v1",
+  "attempt": "S4",
+  "type": "full26 same-Build; source-preserving dispatch owner/span join and early non-credit diagnostic",
+  "build": {
+    "dispatch_token": "dispatch-b4fa13c66a0b4ca1ae8fbc0c5999b938",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-CHECKED-HELPER-CALLER-2026-10-21-R12",
+    "infra_sha": "43978a2bc06e78e5f85b84474e91c9ac18e28593",
+    "proof_sha": "43978a2bc06e78e5f85b84474e91c9ac18e28593",
+    "lane": "o26-sort4-c1-current-recovery",
+    "submitted_config_sha256": "48c72b0285e0138af6298e2fdca141fabdb1f46f58943007cab2203b03af002a",
+    "reserved_seconds": 1160,
+    "timeout_seconds": 1100,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "d8e18207c621fae48413a0087bdc8f51e9241f52737d73021c189d40ddde61f6",
+    "build_id": "fbc0834a-760b-4f56-98fe-952714f36c6d",
+    "start_time": "2026-10-21T08:12:43.762387174Z",
+    "finish_time": "2026-10-21T08:28:25.385741Z",
+    "create_time": "2026-10-21T08:12:42.957788682Z",
+    "build_seconds": 943,
+    "accounted": true,
+    "execution_seconds": 942
+  },
+  "source_input_bytes": 564966,
+  "source_input_sha256": "d8e18207c621fae48413a0087bdc8f51e9241f52737d73021c189d40ddde61f6",
+  "closure": {
+    "infra_paths": 45,
+    "proof_paths": 118,
+    "objects": 181,
+    "selected_files_byte_equal_git": true,
+    "full_token_length": 41,
+    "max_config_transport_bytes": 27560,
+    "substitutions": 198,
+    "whole_repository_fsck_claim": false
+  },
+  "budget": {
+    "timeout": 1100,
+    "execute": 860,
+    "soft": 800,
+    "report_reserve": 240,
+    "envelope": 1160,
+    "available_before_submit": 1219,
+    "margin": 59,
+    "full_runtime_fit": "UNESTABLISHED"
+  },
+  "review": "A1-CHECKED-HELPER-R12-S4-INTEGRATION-REVIEW-2026-10-21.md",
+  "focused_tests_passed": 106,
+  "formal_target_gates_closed": 0,
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "matrix_admission": false,
+  "terminal_evidence": "BRIEF_AND_BOUNDED_FALLBACK_AUDIT_REVIEWED",
+  "download_verified": false,
+  "charge_seconds": 943,
+  "total_phase_charge_seconds": 3324,
+  "remaining_budget_seconds": 276,
+  "step_timings_coordinator_metadata": {
+    "execute": {
+      "status": "SUCCESS",
+      "timing": {
+        "endTime": "2026-10-21T08:26:10.266854966Z",
+        "startTime": "2026-10-21T08:12:46.796272971Z"
+      },
+      "exitCode": null
+    },
+    "package-upload": {
+      "status": "SUCCESS",
+      "timing": {
+        "endTime": "2026-10-21T08:28:14.191922372Z",
+        "startTime": "2026-10-21T08:26:10.267383493Z"
+      },
+      "exitCode": null
+    },
+    "verdict": {
+      "status": "FAILURE",
+      "timing": {
+        "endTime": "2026-10-21T08:28:15.154711985Z",
+        "startTime": "2026-10-21T08:28:14.192193755Z"
+      },
+      "exitCode": 1
+    }
+  },
+  "run_exit_source_claim": 124,
+  "final_matrix_complete": false,
+  "final_case_counts": "UNAVAILABLE: fallback INCONCLUSIVE, diagnostic_completefalse; no inferred NOT_RUN or cross-Build case stitching",
+  "evidence_brief": {
+    "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+    "proof_verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+    "archive_sha256": "a6ef54e1cdca03379d602c7fb01fd2834512ee3bd1e5362be72704374a387591",
+    "index_sha256": "bb237a6f2228cc0f7f486df05a330e31b27299f77868cbd3d6e87376d1bc458b",
+    "proof_audit_file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "proof_audit_sha256": "9b742baf64c39d2d4c6181e9012d93367ca81a9c4c0db65bb653c647439ca6cd",
+    "info_request": "2cd6c79fa366a14e21af8f8e559385b3925d2a201e4c8b60c8517107856445b2",
+    "root_first_page_request": "1a39168468a8a06affeacdaf0267e1aed2e5e0702bfab97ed2cee7d494c18f38",
+    "root_page_coverage": "first20of57 exact children, next_offset20 deliberately not followed; fallback classification/acceptedfalse/diagnosticfalse suffice",
+    "fallback_classification": "INCONCLUSIVE",
+    "accepted": false,
+    "diagnostic_complete": false,
+    "parser_input_binding_by_reader": "NOT_ESTABLISHED"
+  },
+  "dispatch_observation": {
+    "file_id": "ba8f2c2c1d9881a69e3ace3ce18a4c2be31674d5b1fc6ddd5fcf694f7b6f7746",
+    "file_sha256": "07a35ecda4a50f8fcd6164b1aaff505fa25864fa3410cde9662faa307cc059dc",
+    "info_request": "6ba7ca7f38f3836661d19febd6223e4554fc1e6ca2049bd53fbb097be13a1531",
+    "root_request": "5ffa67d3e27a875a0ebe7851a39f9717be8d6f00efec3e0e6a020eef3c6f75a7",
+    "classifier_request": "7a8812e3edd40e24a1c666fe9a74efd81a8e2682d691f817965009a2cb24c543",
+    "verification_request": "d0e30069c5e98665ccba26e77a314e7c81500c80aa3fa260319ef5d7575a5c89",
+    "coverage": "all14 root fields; complete3field classifier and2field verification; sourcepair object not read",
+    "classification": "INCONCLUSIVE_DISPATCH_OBSERVATION",
+    "reason": "source-derived caller call inventory differs",
+    "paired_support_passed": true,
+    "verification_exit": 0,
+    "verification_log_sha256": "473dd23906cb8d912f58e7eba2fbf4ab8e9dc9dd1678711f86b4b7a17e304d46",
+    "proof_credit": false,
+    "matrix_admission": false,
+    "caller_receipt": false,
+    "profile_sha256": "dcc4707f2913a876c53536f79cb85da15380634712ffb083f88dcdb8737a77cf",
+    "source_id": "925312cd19cb71d0c61a10eb179e13d5c0f0b711ccaef6986bc2136aba6ca6ee",
+    "unit_id": "6bb5b4f4eccd8c07a6e6e7c45d0476b442c033f8fae7fc8bc1a1184d20a52bff",
+    "parser_input_binding_by_reader": "NOT_ESTABLISHED"
+  }
+}
