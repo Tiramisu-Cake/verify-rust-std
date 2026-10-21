@@ -1,0 +1,88 @@
+{
+  "artifacts": [
+    {
+      "path": "research/challenge-8/task-history/select-actual-sort4-r15/NEXT-ACTUAL-OBLIGATION.md",
+      "sha256": "ab4f335d7702727836bac3a2a68a4b3564af69773dc0220e96301860a9d3484a"
+    }
+  ],
+  "assignment_sha256": "bc8b6f81858bdc46754d3f3db09aa9bfeb8fa5fbf04afe2966143154c972b64e",
+  "baseline": {
+    "profile_sha256": "de469095ad2ba4435b41bc0f114289cd12f4952f129e88fbcfb655cea6dca505",
+    "source_sha": "81226dafedd2e8d1dfb140ab0e4dd88556bfd7db",
+    "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+  },
+  "blocker": {
+    "build_id": "980fbc61-2d4c-43f3-9cac-c68db0b34c63",
+    "evidence": [
+      {
+        "path": "research/challenge-8/task-history/select-actual-sort4-r15/S4-evidence.json",
+        "sha256": "7f8547b408ae741a116156d9ecfd489baf80902b556982ab6ebd636e9e0b1ea4"
+      }
+    ],
+    "location": "verified/lib.rs(164,1-30)",
+    "summary": "S4 strict entry outer-type inference; S5 actual body NOT_RUN."
+  },
+  "confirmed": [
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R15 source-checked/unqualified: four-copy identity representations, Boolean selector32, c1/generic base4 recovery under supplied debt; mini7 and intended negatives. Actual body0, no native summary/independent credit.",
+      "evidence": [
+        {
+          "build_id": "980fbc61-2d4c-43f3-9cac-c68db0b34c63",
+          "path": "research/challenge-8/task-history/select-actual-sort4-r15/S4-evidence.json",
+          "sha256": "7f8547b408ae741a116156d9ecfd489baf80902b556982ab6ebd636e9e0b1ea4"
+        },
+        {
+          "build_id": "8d07c434-daff-412c-a214-0e91a521fec2",
+          "path": "research/challenge-8/task-history/select-actual-sort4-r15/S5-evidence.json",
+          "sha256": "ea7904a964f431bbc04c4e1ac6578578d895c2c3a8078a16e07d026dc25fd0f5"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R15 CLOSED:2255spent/1345retired/carry0,5 terminal/accounted, own active/unresolved/requests/reservations0. R15 full26 NOT_RUN; R14 unchanged.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-BODY-R15-RELEASE-2026-10-21.json",
+          "sha256": "e2ce4741cac9f1bdeed610403dec5f880ace7e4eead1e23a89711157b64d0db9"
+        }
+      ]
+    }
+  ],
+  "next_step": "Name unresolved outer MIR cells, fix source-preserving binding, then rerun full body plus controls.",
+  "open": [
+    "Full generic actual sort4 normal/unwind; actual callback debt and Boolean→pointer binding.",
+    "Independent B1/B2credit0; final qualification/full26 and stable Freeze caller OPEN.",
+    "Alias placement draft not Cloud-tested; ordering/stability/ZST/provenance claims remain separate."
+  ],
+  "owner": "select-sort4",
+  "phase": "SORT4-ACTUAL-LIFETIME-2026-10-21-R16",
+  "rejected": [
+    {
+      "approach": "Broad placeholder/static-lifetime acceptance or helper PASS as full body.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-actual-sort4-r15/NEXT-ACTUAL-OBLIGATION.md",
+          "sha256": "ab4f335d7702727836bac3a2a68a4b3564af69773dc0220e96301860a9d3484a"
+        }
+      ],
+      "reason": "Forbidden shortcuts: retain strict barrier and actual callback/resource binding."
+    }
+  ],
+  "schema": "smallsort-checkpoint-v1",
+  "session": {
+    "active_build_ids": [],
+    "budget_seconds": 3600,
+    "deadline_utc": null,
+    "main_deadline_utc": null,
+    "remaining_seconds": 3600,
+    "retired_seconds": 0,
+    "spent_seconds": 0,
+    "t0": null,
+    "unresolved_ids": []
+  },
+  "state": "NOT_STARTED",
+  "task_id": "select-actual-lifetime-autonomous-2026-10-21-r16",
+  "updated_utc": "2026-10-21T17:38:28Z"
+}
