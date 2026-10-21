@@ -6,6 +6,7 @@ import importlib.util
 import hashlib
 import json
 from pathlib import Path
+import subprocess
 import tempfile
 
 
@@ -166,12 +167,46 @@ def test_dispatcher_hash():
             MODULE.ROOT, MODULE.git, MODULE.DISPATCHER_SHA256 = original_root, original_git, original_hash
 
 
+def test_local_tests_are_committed_but_not_recipe_required():
+    with tempfile.TemporaryDirectory(prefix="r13-source-localtests-test-") as temp:
+        root = Path(temp)
+        original_root, original_git = MODULE.ROOT, MODULE.git
+        blobs = {}
+        try:
+            MODULE.ROOT = root
+            for index, relative in enumerate(sorted(MODULE.LOCAL_TEST_PATHS)):
+                target = root / relative
+                target.parent.mkdir(parents=True, exist_ok=True)
+                content = f"service fixture {index}\n".encode()
+                target.write_bytes(content)
+                blobs[relative] = content
+            MODULE.git = lambda *args: blobs[args[1].split(":", 1)[1]]
+            MODULE.validate_local_tests()
+            first = sorted(MODULE.LOCAL_TEST_PATHS)[0]
+            (root / first).write_bytes(b"modified\n")
+            check("changed local test", MODULE.validate_local_tests,
+                  "differs from selected commit")
+            (root / first).write_bytes(blobs[first])
+
+            def missing_git(*args):
+                path = args[1].split(":", 1)[1]
+                if path == first:
+                    raise subprocess.CalledProcessError(128, ["git", *args])
+                return blobs[path]
+            MODULE.git = missing_git
+            check("uncommitted local test", MODULE.validate_local_tests,
+                  "absent from selected commit")
+        finally:
+            MODULE.ROOT, MODULE.git = original_root, original_git
+
+
 def main():
     test_aggregate_order_and_refusal()
     test_mode_cards()
     test_recipe_allowlist()
     test_dispatcher_hash()
-    print("R13 source-preflight synthetic service checks PASS (4 groups)")
+    test_local_tests_are_committed_but_not_recipe_required()
+    print("R13 source-preflight synthetic service checks PASS (5 groups)")
 
 
 if __name__ == "__main__":

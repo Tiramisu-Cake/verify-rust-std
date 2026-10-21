@@ -26,16 +26,18 @@ MODE_PATH = "research/challenge-8/cloud-build/origin-layout/R13-UPLOAD-MODE-2026
 R13_ALLOWED = {
     MODE_PATH,
     "research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R13-UPLOAD-BUDGET-20261021.json",
-    "research/challenge-8/cloud-build/origin-layout/r13-phase-service-test.py",
     "research/challenge-8/cloud-build/origin-layout/r13-synthetic-upload.py",
-    "research/challenge-8/cloud-build/origin-layout/r13-synthetic-upload-service-test.py",
     "research/challenge-8/cloud-build/origin-layout/r13-archive-size-guard.py",
+    "research/challenge-8/cloud-build/origin-layout/r13-source-preflight.py",
+}
+REQUIRED_R13 = R13_ALLOWED
+LOCAL_TEST_PATHS = {
+    "research/challenge-8/cloud-build/origin-layout/r13-phase-service-test.py",
+    "research/challenge-8/cloud-build/origin-layout/r13-synthetic-upload-service-test.py",
     "research/challenge-8/cloud-build/origin-layout/r13-archive-size-guard-service-test.py",
     "research/challenge-8/cloud-build/origin-layout/r13-upload-config-service-test.py",
-    "research/challenge-8/cloud-build/origin-layout/r13-source-preflight.py",
     "research/challenge-8/cloud-build/origin-layout/r13-source-preflight-service-test.py",
 }
-REQUIRED_R13 = R13_ALLOWED - {"research/challenge-8/cloud-build/origin-layout/r13-source-preflight-service-test.py"}
 R12_ONLY = {
     "research/challenge-8/cloud-build/origin-layout/R12-UPLOAD-MODE-20261021.json",
     "research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R12-UPLOAD-BUDGET-20261021.json",
@@ -161,6 +163,18 @@ def validate_selected_additions(paths: list[str]) -> None:
             raise ValueError(f"R13 registered addition differs from selected committed source: {path}")
 
 
+def validate_local_tests() -> None:
+    """Require committed source for local service tests without bundling them."""
+    for path in sorted(LOCAL_TEST_PATHS):
+        try:
+            selected = git("show", f"HEAD:{path}")
+        except subprocess.CalledProcessError as error:
+            raise ValueError(f"R13 local service test is absent from selected commit: {path}") from error
+        current = read_worktree(path)
+        if selected != current:
+            raise ValueError(f"R13 local service test differs from selected commit: {path}")
+
+
 def validate_dispatcher() -> None:
     current = read_worktree(DISPATCHER_PATH)
     selected = git("show", f"HEAD:{DISPATCHER_PATH}")
@@ -198,6 +212,7 @@ def main() -> None:
         validate_mode()
         validate_recipe(paths)
         validate_selected_additions(paths)
+        validate_local_tests()
         validate_dispatcher()
         preflight = HERE / "r11-source-preflight.py"
         subprocess.run([sys.executable, str(preflight)], cwd=ROOT, check=True)
