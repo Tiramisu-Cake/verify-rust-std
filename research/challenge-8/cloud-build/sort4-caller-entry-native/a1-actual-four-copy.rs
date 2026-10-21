@@ -27,6 +27,9 @@ lem four_copy_optional_destination_limits<T>(base: *T, index: usize)
     req [?f]base[..4] |-?-> ?slots &*& 0 <= index &*& index < 4;
     ens [f]base[..4] |-?-> slots &*& pointer_within_limits(base + index) == true;
 {
+    open array_(base, 4, slots);
+    points_to__limits(base);
+    close [f]array_(base, 4, slots);
     note(0 <= std::mem::size_of::<T>());
     array__inv::<T>();
     mul_mono_l(0, index, std::mem::size_of::<T>());

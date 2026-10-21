@@ -11,8 +11,8 @@
   "main_deadline_utc": "2026-10-21T16:54:00Z",
   "deadline_utc": "2026-10-21T17:24:00Z",
   "ceiling_build_seconds": 3600,
-  "remaining_build_seconds": 3271,
-  "used_build_seconds": 329,
+  "remaining_build_seconds": 2769,
+  "used_build_seconds": 831,
   "carry_forward_seconds": 0,
   "maximum_build_timeout_seconds": 1200,
   "maximum_builds": null,
@@ -39,6 +39,28 @@
       "build_seconds": 329,
       "accounted": true,
       "execution_seconds": 329
+    },
+    {
+      "dispatch_token": "dispatch-1b7e3214e12b4a0189f09f66ac8d3a4c",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-ACTUAL-BODY-2026-10-21-R15",
+      "infra_sha": "56a1080501c746f40944b0a77ea7cebe7c5bae74",
+      "proof_sha": "56a1080501c746f40944b0a77ea7cebe7c5bae74",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "fabe2ce0e0651a31efcbb900695ea1116fac213b57b8ffcff807a6d0f1cbf411",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "4ec244d9167abecfe4fdc6ef9ff921783776b3ad0292d8fc24e2e4faa1bcc5c4",
+      "build_id": "b06e1738-89cb-467d-8f46-7ea26585fdb2",
+      "start_time": "2026-10-21T15:31:57.479389067Z",
+      "finish_time": "2026-10-21T15:40:18.394339Z",
+      "create_time": "2026-10-21T15:31:56.739339348Z",
+      "build_seconds": 502,
+      "accounted": true,
+      "execution_seconds": 501
     }
   ]
 }

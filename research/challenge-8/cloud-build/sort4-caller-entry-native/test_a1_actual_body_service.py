@@ -76,11 +76,13 @@ class FakeC4:
     def source_support(self, _a, _tool, fixture, _stage_root, _env, *, target):
         self.fixture = fixture
         self.source_support_targets.append(target)
+        self.support_env = dict(_env)
         return ({"source_support": "TERMINAL"},
                 {"paired_support_passed": self.support, "target": target})
 
     def stage(self, _a, stage_root, _name, command, _env, _timeout, *, cwd):
         self.stage_calls += 1
+        self.stage_env = dict(_env)
         self.stage_names.append(_name)
         if self.stage_error:
             raise RuntimeError("synthetic stage failure")
@@ -177,6 +179,33 @@ class ActualBodyServiceTests(unittest.TestCase):
             self.make_case(), gates or FakeGates(),
             grammar or FakeGrammar({"verifier": "old-tool"}),
             {"tool_hashes": {"verifier": "old-tool"}})
+
+    def test_c1_env_is_exact_and_does_not_mutate_shared_env(self):
+        case = self.make_case()
+        meta = dict(case[3], actual_c1_recovery=True,
+                    generated_source_sha256=sha(case[1]), first_comparator_line=7)
+        env = {"SMALLSORT_EXECUTION_PROVIDER": "cloud-build"}
+        c4 = FakeC4()
+        with tempfile.TemporaryDirectory() as temp:
+            BODY.run_case(None, c4, Path("/synthetic/tool"), env, Path(temp),
+                (*case[:3], meta), FakeGates(), FakeGrammar({"verifier": "old-tool"}),
+                {"tool_hashes": {"verifier": "old-tool"}})
+        self.assertEqual(c4.support_env["SORT4_ACTUAL_BODY_SOURCE_SHA256"], sha(case[1]))
+        self.assertEqual(c4.stage_env, c4.support_env)
+        self.assertEqual(c4.stage_env["SORT4_ACTUAL_BODY_FIRST_CALL_LINE"], "7")
+        self.assertEqual(c4.stage_env["SORT4_STRICT_LFT_CUT"], "1")
+        self.assertEqual(env, {"SMALLSORT_EXECUTION_PROVIDER": "cloud-build"})
+
+    def test_c1_bad_source_metadata_blocks_before_source_support(self):
+        case = self.make_case()
+        for digest, line in (("0" * 64, 7), (sha(case[1]), True), (sha(case[1]), 0)):
+            c4 = FakeC4()
+            meta = dict(case[3], actual_c1_recovery=True,
+                        generated_source_sha256=digest, first_comparator_line=line)
+            with tempfile.TemporaryDirectory() as temp, self.assertRaises(RuntimeError):
+                BODY.run_case(None, c4, Path("/synthetic/tool"), {}, Path(temp),
+                    (*case[:3], meta), FakeGates(), FakeGrammar({}), {"tool_hashes": {}})
+            self.assertEqual(c4.source_support_targets, [])
 
     def test_zero_exit_after_exact_synthetic_body_selection_is_unqualified(self):
         with tempfile.TemporaryDirectory() as temp:

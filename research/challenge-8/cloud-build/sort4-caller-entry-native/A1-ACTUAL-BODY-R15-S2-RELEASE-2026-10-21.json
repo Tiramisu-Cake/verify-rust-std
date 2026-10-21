@@ -1,0 +1,43 @@
+{
+  "build": {
+    "dispatch_token": "dispatch-1b7e3214e12b4a0189f09f66ac8d3a4c",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-ACTUAL-BODY-2026-10-21-R15",
+    "infra_sha": "56a1080501c746f40944b0a77ea7cebe7c5bae74",
+    "proof_sha": "56a1080501c746f40944b0a77ea7cebe7c5bae74",
+    "lane": "o26-sort4-c1-current-recovery",
+    "submitted_config_sha256": "fabe2ce0e0651a31efcbb900695ea1116fac213b57b8ffcff807a6d0f1cbf411",
+    "reserved_seconds": 1260,
+    "timeout_seconds": 1200,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "4ec244d9167abecfe4fdc6ef9ff921783776b3ad0292d8fc24e2e4faa1bcc5c4",
+    "build_id": "b06e1738-89cb-467d-8f46-7ea26585fdb2",
+    "start_time": "2026-10-21T15:31:57.479389067Z",
+    "finish_time": "2026-10-21T15:40:18.394339Z",
+    "create_time": "2026-10-21T15:31:56.739339348Z",
+    "build_seconds": 502,
+    "accounted": true,
+    "execution_seconds": 501
+  },
+  "type": "S2 checked dependencies, actual body explicitly NOT_RUN",
+  "profile_sha256": "6130b8ada0b8be52b77dd7f8e61db6be3776d7a8349b1c6803d6928588dc9596",
+  "brief_integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "archive_sha256": "901cc778acf31b1cf7af55778592ed7d2918135ce28a78ae1c203d5a014f8160",
+  "index_sha256": "574c65e2f337106e48cf4a78322bb0714188a10035ec39b2cfe37d5bc79c3b37",
+  "observations": {
+    "fourcopy_bounds": "checked prerequisite exit1, cannot prove nonnegative sizeof(T); consumer explicitly NOT_RUN",
+    "recovery_join": "verifier exit2 Failure TODO; bounded stack of_body_ss/of_decl diagnostic AST serializer; static matching constructor MergeFractionsStmt(_,_) TODO",
+    "tool_console_build": "exit0 observed; no independent proof inference"
+  },
+  "scientific_evidence_complete": false,
+  "actual_body_obligations_closed": 0,
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "proof_credit": false,
+  "accepted": false,
+  "profile_accepted": false,
+  "reader": "S2-reader; bounded fragment identities retained; HTTP429 retries and legacy NO_DISPLAYABLE_FRAGMENT do not establish absence/NOT_RUN"
+}

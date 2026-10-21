@@ -495,7 +495,46 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
     apply("a1-checked-threshold-C", C_PATCH, profile["c_patch_sha256"],
           {TR}, before={TR: c_before[TR]}, after={TR: c_after[TR]})
 
+    # R15 overlays are exact, separately pinned and applied after the R-only
+    # reference has been frozen. They never enter that reference binary.
+    if profile.get("body_action") == "full-body-c1-recovery":
+        need(profile.get("authorization_phase_id") == "SORT4-ACTUAL-BODY-2026-10-21-R15" and
+             all(isinstance(profile.get(key), dict) for key in (
+                 "actual_c1_recovery_overlay", "merge_fractions_ast_dump_overlay")),
+             "complete c1 candidate requires both exact R15 overlays")
+    r15_overlays = {}
+    overlay_names = set()
+    for key, stem, source in (
+        ("actual_c1_recovery_overlay", "ACTUAL-SORT4-C1-RECOVERY-R15-MANIFEST.json", TR),
+        ("merge_fractions_ast_dump_overlay", "MERGE-FRACTIONS-AST-DUMP-R15-MANIFEST.json",
+         "src/frontend/ocaml_expr_of_ast.ml"),
+    ):
+        declaration = profile.get(key)
+        if declaration is None:
+            continue
+        need(profile.get("authorization_phase_id") == "SORT4-ACTUAL-BODY-2026-10-21-R15" and
+             isinstance(declaration, dict), "R15 overlay authorization")
+        pinned(root / HERE / stem, declaration["manifest_sha256"], "R15 overlay manifest")
+        overlay = json.loads((root / HERE / stem).read_text())
+        need(overlay["source"] == source and overlay["new_axiom_or_assumed_lemma"] is False and
+             overlay["proof_credit"] is False and
+             overlay["patch_sha256"] == declaration["patch_sha256"] and
+             overlay["result_sha256"] == declaration["result_sha256"], "R15 exact overlay declaration")
+        if key == "actual_c1_recovery_overlay":
+            need(overlay["base_sha256"] == c_after[TR] and overlay["runtime_body_cut"] is False,
+                 "R15 complete-runtime translator applicability")
+        else:
+            need(overlay["proof_semantics_changed"] is False and
+                 overlay["constructor"] == "MergeFractionsStmt" and
+                 overlay["fields"] == ["of_loc l", "of_expr e"], "diagnostic serialization only")
+        apply(key, HERE / declaration["patch"], overlay["patch_sha256"], {source},
+              before={source: overlay["base_sha256"]}, after={source: overlay["result_sha256"]})
+        overlay_names.add(source)
+        r15_overlays[key] = overlay
+
     before_build = audit.snapshot(tool, root)
+    need(sha(tool / TR) == (r15_overlays.get("actual_c1_recovery_overlay", {}).get(
+         "result_sha256", c_after[TR])), "effective final translator identity")
     expected_specs = dict(expected["effective_rsspec"])
     normalized_names = set()
     if reference_own is not None:
@@ -515,10 +554,10 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
          before_build["proof_std"] == expected["proof_std"] and
          before_build["head"] == expected["head"] and
          set(before_build["modified_names"]) - set(expected["modified_names"]) <=
-             ({TR, SCHEMA, EXPORTER, focus_path} | normalized_names) and
+             ({TR, SCHEMA, EXPORTER, focus_path} | normalized_names | overlay_names) and
          all(before_build["modified_hashes"][key] == value for key, value in
              expected["modified_hashes"].items()
-             if key not in (TR, SCHEMA, EXPORTER, focus_path)) and
+             if key not in ({TR, SCHEMA, EXPORTER, focus_path} | overlay_names)) and
          before_build["modified_hashes"].get(focus_path) == focus_result,
          "R/C changed only certified source components")
     save(evidence / "patch-chain.json", chain)
@@ -564,6 +603,6 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
                "build_exit": build["exit"], "native_reference": native_reference,
                "shared_reference_own_normalization": reference_own,
                "ghost_call_lifetime_inference": lifetime_overlay,
-               "proof_credit": False}
+               "r15_overlays": r15_overlays, "proof_credit": False}
     save(evidence / "reconstruction-receipt.json", receipt)
     return tool, receipt

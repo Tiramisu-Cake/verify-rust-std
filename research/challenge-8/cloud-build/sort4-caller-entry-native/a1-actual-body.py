@@ -224,6 +224,26 @@ def classify(stage, log, *, selection, paired, immutable, negative=None, expecte
 
 def run_case(a, c4, tool, env, root, case, gates, grammar, identity, *, paired_required=True):
     name, verified, original, meta = case
+    env = dict(env)
+    if meta.get('actual_c1_recovery') is True:
+        need(meta.get('generated_source_sha256') == sha(verified) and
+             type(meta.get('first_comparator_line')) is int and
+             meta['first_comparator_line'] > 0, 'exact c1 source metadata')
+        env.update(SORT4_ACTUAL_BODY_C1_RECOVERY='1', SORT4_STRICT_LFT_CUT='1',
+            SORT4_ACTUAL_BODY_SOURCE_SHA256=sha(verified),
+            SORT4_ACTUAL_BODY_FIRST_CALL_LINE=str(meta['first_comparator_line']),
+            SORT4_A1_AUTHORIZATION_PHASE_ID=AUTH,
+            SORT4_A1_PHASE_ID='SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17')
+    control = meta.get('frontend_control')
+    if control is not None:
+        need(meta.get('actual_c1_recovery') is True and control in
+             ('wrong-source-sha', 'wrong-first-call-line', 'opt-in-off'), 'fixed c1 frontend control')
+        if control == 'wrong-source-sha':
+            env['SORT4_ACTUAL_BODY_SOURCE_SHA256'] = '0' * 64
+        elif control == 'wrong-first-call-line':
+            env['SORT4_ACTUAL_BODY_FIRST_CALL_LINE'] = str(meta['first_comparator_line'] + 1)
+        else:
+            env['SORT4_ACTUAL_BODY_C1_RECOVERY'] = '0'
     unit = root / name
     fixture = unit / 'fixture'
     for directory, raw in (('verified', verified), ('original', original)):
@@ -371,16 +391,39 @@ def run(a, *, c4, audit, driver, manifest, ghost):
                 type(row['verification'].get('exit')) is int
                 for row in result['checked_dependencies'].values())
             return result
-        need(profile.get('body_action') in (None, 'full-body'), 'unknown body action')
-        verified, original, meta = construct_actual(source, ghost, capture)
+        need(profile.get('body_action') in (None, 'full-body', 'full-body-c1-recovery'), 'unknown body action')
+        if profile.get('body_action') == 'full-body-c1-recovery':
+            constructor = load('a1-actual-body-c1.py', profile['actual_body_dependencies_sha256']['a1-actual-body-c1.py'])
+            recovery = root / HERE / 'a1-actual-recover-pair.rs'
+            need(sha(recovery.read_bytes()) == profile['actual_body_dependencies_sha256']['a1-actual-recover-pair.rs'],
+                 'exact recovery source')
+            verified, original, meta = constructor.construct(source, ghost, capture, recovery.read_bytes(),
+                construct_actual, lemma_metadata)
+        else:
+            verified, original, meta = construct_actual(source, ghost, capture)
         result['body_target'] = run_case(a, c4, tool, env, target_root,
             ('actual-sort4', verified, original, meta), helpers['a1-ast-gates.py'], grammar, identity)
         checkpoint()
-        lemma = root / HERE / 'a1-actual-copy-lemma.rs'
-        need(sha(lemma.read_bytes()) == profile['actual_body_dependencies_sha256']['a1-actual-copy-lemma.rs'], 'copy component source')
+        if profile.get('body_action') == 'full-body-c1-recovery':
+            result['c1_controls'] = {}
+            cases = constructor.resource_controls(verified, ghost, meta, lemma_metadata)
+            for variant in ('wrong-source-sha', 'wrong-first-call-line', 'opt-in-off'):
+                cases.append(('c1-' + variant + '-negative', verified, original,
+                    {**meta, 'required_lemmas': [], 'frontend_control': variant}))
+            for case in cases:
+                if int(a.deadline_epoch) - int(time.time()) < 100:
+                    row = {'status': 'NOT_RUN', 'reason': 'shared deadline reserve', 'proof_credit': False}
+                else:
+                    row = run_case(a, c4, tool, env, target_root, case,
+                        helpers['a1-ast-gates.py'], grammar, identity)
+                result['c1_controls'][case[0]] = row
+                checkpoint()
+        copy_name = ('a1-actual-four-copy.rs' if profile.get('body_action') == 'full-body-c1-recovery' else 'a1-actual-copy-lemma.rs')
+        lemma = root / HERE / copy_name
+        need(sha(lemma.read_bytes()) == profile['actual_body_dependencies_sha256'][copy_name], 'copy component source')
         # Independent ownership/representation components remain useful after a
         # body annotation/front-end refusal; they do not stand in for its proof.
-        for case in component_cases(lemma.read_bytes(), ghost):
+        for case in component_cases(lemma.read_bytes(), ghost, 2 if copy_name == 'a1-actual-four-copy.rs' else 4):
             if int(a.deadline_epoch) - int(time.time()) < 100:
                 result['copy_components'][case[0]] = {'status': 'NOT_RUN', 'reason': 'shared deadline reserve'}
             else:
@@ -391,7 +434,8 @@ def run(a, *, c4, audit, driver, manifest, ghost):
             isinstance(row, dict) and isinstance(row.get('verification'), dict) and
             row['verification'].get('classification') == 'TERMINAL' and
             type(row['verification'].get('exit')) is int
-            for row in [result['body_target'], *result['copy_components'].values()])
+            for row in [result['body_target'], *result['copy_components'].values(),
+                        *result.get('c1_controls', {}).values()])
         # Full resource/receipt/controls/matrix qualification is still open.
         result['evidence_complete'] = False
     except Exception as exc:

@@ -175,7 +175,8 @@ class R15Registration(unittest.TestCase):
                 self.assertEqual(R15[key], value)
         self.assertEqual(set(R15) - set(R14), {
             "a1_actual_body_sha256", "actual_body_dependencies_sha256",
-            "registration_rationale", "body_action", "candidate_version", "baseline_r15_profile_sha256"})
+            "registration_rationale", "body_action", "candidate_version", "baseline_r15_profile_sha256",
+            "actual_c1_recovery_overlay", "merge_fractions_ast_dump_overlay"})
         self.assertEqual(R15["a1_source_runner_sha256"], R14["a1_source_runner_sha256"])
 
     def test_r13_semantic_tool_and_ownership_chain_is_retained(self):

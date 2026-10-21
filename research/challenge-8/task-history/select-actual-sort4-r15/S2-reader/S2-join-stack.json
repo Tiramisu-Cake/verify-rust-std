@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "901cc778acf31b1cf7af55778592ed7d2918135ce28a78ae1c203d5a014f8160",
+  "build_id": "b06e1738-89cb-467d-8f46-7ea26585fdb2",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 122,
+    "line_separator": "LF",
+    "source_lines": 146,
+    "start": 111,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "071ff8d920520d4a643322a903f79fea94d730c8d47613026ae70cf935fff842",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/join_four_owned_cells-positive/stage/body-verification.log",
+  "file_sha256": "2e64235bf13271acebde4646a453d81123259cf3de1ee5aacad1d3968aefc68c",
+  "index_sha256": "574c65e2f337106e48cf4a78322bb0714188a10035ec39b2cfe37d5bc79c3b37",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 122,
+    "expected_sha256": "2e64235bf13271acebde4646a453d81123259cf3de1ee5aacad1d3968aefc68c",
+    "file_id": "071ff8d920520d4a643322a903f79fea94d730c8d47613026ae70cf935fff842",
+    "start": 111
+  },
+  "request_id": "172066497082c43f7bc580e537adc8758f31f4ecf84c826eaf00f1b6ac05ee35",
+  "requested_end": 122,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 111,
+      "text": "Fatal error: exception Failure(\"TODO\")"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 112,
+      "text": "Raised at Stdlib.failwith in file \"stdlib.ml\", line 29, characters 17-33"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 113,
+      "text": "Called from Stdlib__List.map in file \"list.ml\", line 92, characters 20-23"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 114,
+      "text": "Called from Stdlib__List.map in file \"list.ml\", line 92, characters 32-39"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 115,
+      "text": "Called from Stdlib__List.map in file \"list.ml\", line 92, characters 32-39"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 116,
+      "text": "Called from Stdlib__List.map in file \"list.ml\", line 92, characters 32-39"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 117,
+      "text": "Called from Stdlib__List.map in file \"list.ml\", line 92, characters 32-39"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 118,
+      "text": "Called from Stdlib__List.map in file \"list.ml\", line 92, characters 32-39"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 119,
+      "text": "Called from Ocaml_expr_of_ast.of_list in file \"frontend/ocaml_expr_of_ast.ml\" (inlined), line 4, characters 21-36"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 120,
+      "text": "Called from Ocaml_expr_of_ast.of_body_ss in file \"frontend/ocaml_expr_of_ast.ml\", line 1137, characters 4-22"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 121,
+      "text": "Called from Ocaml_expr_of_ast.of_option in file \"frontend/ocaml_expr_of_ast.ml\", line 9, characters 26-29"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 122,
+      "text": "Called from Ocaml_expr_of_ast.of_decl in file \"frontend/ocaml_expr_of_ast.ml\", line 1031, characters 4-29"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

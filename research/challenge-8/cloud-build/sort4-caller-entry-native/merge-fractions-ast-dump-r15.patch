@@ -1,0 +1,12 @@
+--- a/src/frontend/ocaml_expr_of_ast.ml
++++ b/src/frontend/ocaml_expr_of_ast.ml
+@@ -841,7 +841,8 @@
+   ])
+ | PerformActionStmt (_, _, _, _, _, _, _, _, _, _, _, _) -> failwith "TODO"
+ | SplitFractionStmt (_, _, _, _, _) -> failwith "TODO"
+-| MergeFractionsStmt (_, _) -> failwith "TODO"
++| MergeFractionsStmt (l, e) ->
++  C ("MergeFractionsStmt", [of_loc l; of_expr e])
+ | CreateBoxStmt (_, _, _, _, _, _, _) -> failwith "TODO"
+ | CreateHandleStmt (_, _, _, _, _) -> failwith "TODO"
+ | DisposeBoxStmt (_, _, _, _) -> failwith "TODO"

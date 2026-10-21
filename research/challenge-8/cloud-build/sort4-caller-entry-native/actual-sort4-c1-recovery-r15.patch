@@ -1,0 +1,72 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -4576,6 +4576,20 @@
+             let (_, call_line, _) = call_start_pos in
+             if marker_end_line + 1 <> call_line then
+               fail "marker is not immediately before the actual call span";
++            if Sys.getenv_opt "SORT4_ACTUAL_BODY_C1_RECOVERY" = Some "1" &&
++               State.body_name = "sort4_stable" then begin
++              let expected_line =
++                match Sys.getenv_opt "SORT4_ACTUAL_BODY_FIRST_CALL_LINE" with
++                | Some value ->
++                    (try let line = int_of_string value in
++                       if line <= 0 || string_of_int line <> value then
++                         fail "actual-body c1 source coordinate";
++                       line
++                     with Failure _ -> fail "actual-body c1 source coordinate")
++                | None -> fail "actual-body c1 source coordinate" in
++              if call_line <> expected_line || !State.callback_unwind_count <> 0 then
++                fail "actual-body marker does not bind the first source callback"
++            end;
+             let label =
+               Printf.sprintf "__vf_callback_unwind_recover_%d"
+                 !State.callback_unwind_count in
+@@ -8120,7 +8134,47 @@
+            ghost_stmts) in
+     if declared_callback_markers <> parsed_callback_markers then
+       State.fail_callback_unwind "malformed source marker";
+-    let callback_fixture =
++    (* R15: reuse the checked ghost unwind mechanism for one source-bound
++       c1 call in the COMPLETE actual body. No runtime AST is cut/replaced. *)
++    let actual_sort4_callback =
++      let requested =
++        match Sys.getenv_opt "SORT4_ACTUAL_BODY_C1_RECOVERY" with
++        | None | Some "0" -> false
++        | Some "1" -> true
++        | _ -> State.fail_callback_unwind "malformed actual-body opt-in" in
++      if not requested || State.body_name <> "sort4_stable" then false
++      else begin
++        let off name = match Sys.getenv_opt name with
++          | None | Some "0" -> true | _ -> false in
++        if Sys.getenv_opt "SORT4_A1_AUTHORIZATION_PHASE_ID" <>
++             Some "SORT4-ACTUAL-BODY-2026-10-21-R15" ||
++           Sys.getenv_opt "SORT4_A1_PHASE_ID" <>
++             Some "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17" ||
++           Sys.getenv_opt "SMALLSORT_EXECUTION_PROVIDER" <> Some "cloud-build" ||
++           Sys.getenv_opt "SORT4_STRICT_LFT_CUT" <> Some "1" ||
++           not (List.for_all off
++             ["SORT4_ACTUAL_AST_SCOPE_TEST"; "SORT4_STRICT_LFT_RELOCATE";
++              "SORT4_NATIVE_OPAQUE_C1_BOUND"; "SORT4_NATIVE_C4_BOUND";
++              "SORT4_ACTUAL_C1_PREFIX_TEST"; "SORT4_ACTUAL_C2_BOUND_PREFIX_TEST";
++              "SORT4_ACTUAL_C3_BOUND_PREFIX_TEST"; "SORT4_ACTUAL_C4_BOUND_PREFIX_TEST"])
++        then State.fail_callback_unwind "actual-body isolated R15 environment";
++        let (file, _, _), (last_file, _, _) = Ast.lexed_loc imp_loc in
++        if file <> "verified/lib.rs" || last_file <> file then
++          State.fail_callback_unwind "actual-body source path";
++        let expected = match Sys.getenv_opt "SORT4_ACTUAL_BODY_SOURCE_SHA256" with
++          | Some value when String.length value = 64 &&
++              String.for_all (function '0'..'9' | 'a'..'f' -> true | _ -> false) value -> value
++          | _ -> State.fail_callback_unwind "actual-body exact source SHA256" in
++        let ic = Unix.open_process_in "/usr/bin/sha256sum -- verified/lib.rs" in
++        let row = input_line ic in
++        let status = Unix.close_process_in ic in
++        if status <> Unix.WEXITED 0 || row <> expected ^ "  verified/lib.rs" then
++          State.fail_callback_unwind "actual-body verified source SHA256 differs";
++        if parsed_callback_markers <> 1 then
++          State.fail_callback_unwind "actual-body c1 requires one source marker";
++        true
++      end in
++    let callback_fixture = actual_sort4_callback ||
+       State.body_name = "callback_positive" ||
+       State.body_name = "callback_false_post" in
+     if (callback_fixture && parsed_callback_markers <> 1) ||
