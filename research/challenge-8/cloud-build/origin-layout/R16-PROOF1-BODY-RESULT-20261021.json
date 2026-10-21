@@ -1,0 +1,141 @@
+{
+  "archive_sha256": "2cb95b9af268b3ee439be0e54f6895e9ee21f6c68f9aa8f05b2eafdd2b26648f",
+  "build_id": "9487d6d1-14aa-4370-bc0b-7ac57279fb7b",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 18,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "e343709d199102e9ddc3dc4719f95cc02c2fad4dbc4f2c012d32b70f95b79461",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/body_isolation/cases/actual_insert_tail_body_isolated/classification.json",
+  "file_sha256": "b9dcb3096aba47e2bba3248e68f2a39f00e8dca4be7c8232ca4352830cd76118",
+  "index_sha256": "d5061e1aa5ebde7e935ba2c89d91ee961e66b08c1b59ccf2671606a9389853ab",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "b9dcb3096aba47e2bba3248e68f2a39f00e8dca4be7c8232ca4352830cd76118",
+    "file_id": "e343709d199102e9ddc3dc4719f95cc02c2fad4dbc4f2c012d32b70f95b79461",
+    "pointer": ""
+  },
+  "request_id": "fba191aa28f443f1f535a791c41bf42e522e659fec76334e20c883bbef2913e8",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/accepted",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/b2_achieved",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/body_bytes_preserved",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/caller_or_prefix_gate",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/classification",
+      "value": "BODY_UNIT_VERIFIER_EXIT0"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/full_target",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/independent_credit",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/phase",
+      "value": "classification"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/posts_preserved",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/proof_credit",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/qualification",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/reason",
+      "value": "complete isolated actual body reached typed verification with all required stages at exit 0"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/schema",
+      "value": "r16-actual-body-isolation-result-v1"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/source_exact",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/source_unchanged_at_every_stage",
+      "value": true
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/stage_receipt_gate"
+    },
+    {
+      "child_count": 4,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/stages"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/verifier_target_observed",
+      "value": true
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

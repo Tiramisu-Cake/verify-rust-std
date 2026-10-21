@@ -1,0 +1,39 @@
+{
+  "archive_sha256": "2cb95b9af268b3ee439be0e54f6895e9ee21f6c68f9aa8f05b2eafdd2b26648f",
+  "build_id": "9487d6d1-14aa-4370-bc0b-7ac57279fb7b",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 1,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "12372a912e8e4f70f3e1bbf8d78314102aa15c37164af262f8a035d4d0bea459",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/guard-array-controls/aggregate.json",
+  "file_sha256": "42591b03e5c34534808c4292dbbe019e61162a266a6c7391a3a0dfff9265009d",
+  "index_sha256": "d5061e1aa5ebde7e935ba2c89d91ee961e66b08c1b59ccf2671606a9389853ab",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "42591b03e5c34534808c4292dbbe019e61162a266a6c7391a3a0dfff9265009d",
+    "file_id": "12372a912e8e4f70f3e1bbf8d78314102aa15c37164af262f8a035d4d0bea459",
+    "pointer": "/case_details/array3_slice_full_borrow_roundtrip/errors"
+  },
+  "request_id": "be18b64a7ef8385bb4dca521a3906ff38a1239f7789fbc75246db7f7901973d7",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/case_details/array3_slice_full_borrow_roundtrip/errors/0",
+      "value": "verified/lib.rs(16,25-32): error: No matching heap chunks: foreach<u64>(Array_elems(uint64_t_typeid, const_of_int(3), Array_of_elems(uint64_t_typeid, const_of_int(3), elems)), own0(uint64_t_typeid, t))"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "array",
+  "source_absence_established": false,
+  "status": "OK"
+}

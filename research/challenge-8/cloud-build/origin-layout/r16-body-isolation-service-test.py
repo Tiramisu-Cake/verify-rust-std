@@ -62,6 +62,7 @@ class BodyIsolationTests(unittest.TestCase):
                              self.specialized_drop + b"\n" + self.insert_body)
         self.body_verified = (b"#![no_std]\nuse core::{mem::ManuallyDrop, ptr};\n\n" +
                               self.specialized_drop + b"\n" +
+                              campaign.R9_CURRENT_U64_OWNERS_LEMMA + b"\n" +
                               old.INSERT_CONTRACT + b"\n" + self.insert_body)
         original_suffix, verified_suffix = campaign._body_isolation_suffixes(self.body_source)
         self.parent_original = self.body_original + original_suffix
@@ -94,6 +95,12 @@ class BodyIsolationTests(unittest.TestCase):
         return campaign._prepare_body_isolation(
             self.evidence, self.parent_case, self.parent_record, self.body_source,
             self.parent_preparation_sha, True, {"admitted": True})
+
+    def raw_caller(self, stage_gate=None):
+        stage_gate = {"admitted": True, "stages": {"verifast": 1}} if stage_gate is None else stage_gate
+        return campaign._prepare_raw_local_caller(
+            self.evidence, self.parent_case, self.parent_record, self.body_source,
+            self.parent_preparation_sha, True, stage_gate)
 
     class Consumer:
         def _hashes(self, case):
@@ -420,6 +427,135 @@ class BodyIsolationTests(unittest.TestCase):
             self.successful_execution(), self.body_source, self.parent_preparation_sha)
         self.assertEqual(result["classification"], "INCONCLUSIVE")
         self.assertIn("target", result["reason"])
+
+    def test_raw_local_caller_suffix_and_body_are_exact_and_runtime_equivalent(self):
+        case, record = self.raw_caller()
+        original = (case / "original/lib.rs").read_bytes()
+        verified = (case / "verified/lib.rs").read_bytes()
+        self.assertEqual(original.count(b'let mut values = [10_u64, 20_u64, 5_u64];'), 1)
+        self.assertEqual(original.count(b'let begin = &raw mut values as *mut u64;'), 1)
+        self.assertNotIn(b'values.as_mut_ptr()', original)
+        self.assertEqual(original.count(b'insert_tail(begin, begin.add(2), is_less);'), 1)
+        self.assertEqual(original[:original.index(b'pub unsafe fn b2_three_from_local')].rstrip(b'\n'),
+                         self.body_original.rstrip(b'\n'))
+        self.assertTrue(campaign._raw_local_caller_source_gate(
+            case, self.parent_case, self.parent_record, record, self.body_source,
+            self.parent_preparation_sha, record['parent_stage_receipt_gate']))
+        self.assertTrue(campaign._body_runtime_equal(original, verified))
+        for key in ('accepted', 'proof_credit', 'b2_achieved', 'independent_credit'):
+            self.assertIs(record[key], False)
+
+    def test_raw_suffix_or_annotation_mutation_fails_closed(self):
+        case, record = self.raw_caller()
+        path = case / 'original/lib.rs'
+        path.write_bytes(path.read_bytes() + b'pub fn injected() {}\n')
+        self.assertFalse(campaign._raw_local_caller_source_gate(
+            case, self.parent_case, self.parent_record, record, self.body_source,
+            self.parent_preparation_sha, record['parent_stage_receipt_gate']))
+
+    def test_raw_candidate_rejects_parent_stage_receipt_mismatch(self):
+        stage_gate = {'admitted': True, 'stages': {'verifast': 1}}
+        case, record = self.raw_caller(stage_gate)
+        changed = {'admitted': True, 'stages': {'verifast': 0}}
+        self.assertFalse(campaign._raw_local_caller_source_gate(
+            case, self.parent_case, self.parent_record, record, self.body_source,
+            self.parent_preparation_sha, changed))
+
+    def test_raw_candidate_requires_existing_checked_owner_lemmas(self):
+        verified = (self.parent_case / 'verified/lib.rs').read_bytes()
+        (self.parent_case / 'verified/lib.rs').write_bytes(
+            verified.replace(campaign.R9_CURRENT_U64_OWNERS_LEMMA, b'', 1))
+        with self.assertRaises(ValueError):
+            self.raw_caller()
+
+    def test_raw_candidate_source_gate_failure_skips_dispatch(self):
+        calls = []
+        result = campaign._run_body_isolation_diagnostic(
+            self.evidence, self.parent_case, self.parent_record, self.body_source,
+            self.Consumer(), SimpleNamespace(r8_owned_array_allocation=False), campaign.R11_PROFILE,
+            lambda *a, **kw: calls.append('dispatch'),
+            parent_preparation_sha=self.parent_preparation_sha,
+            parent_source_unchanged=True, parent_stage_receipt_gate={'admitted': True},
+            prepare_fn=lambda *a: self.raw_caller(),
+            source_gate_fn=lambda *a: False,
+            classify_fn=lambda *a: {}, outcome_fn=campaign._raw_local_caller_outcome,
+            unit_label='raw local caller')
+        self.assertEqual(result['classification'], 'NOT_RUN')
+        self.assertEqual(calls, [])
+
+    def test_raw_positive_requires_both_actual_and_wrapper_targets(self):
+        case, record = self.raw_caller()
+        (case / 'verifast.log').write_text(
+            "Verifying function 'small_sort::insert_tail'\n"
+            "Verifying function 'small_sort::b2_three_from_local'\n")
+        execution = self.successful_execution()
+        result = campaign._classify_raw_local_caller(
+            case, self.parent_case, self.parent_record, record, execution,
+            self.body_source, self.parent_preparation_sha, record['parent_stage_receipt_gate'])
+        self.assertEqual(result['classification'], 'RAW_LOCAL_CALLER_BOTH_TARGETS_EXIT0')
+        for key in ('accepted', 'proof_credit', 'full_target', 'b2_achieved',
+                    'caller_or_prefix_gate', 'independent_credit', 'qualification'):
+            self.assertIs(result[key], False)
+
+    def test_raw_positive_refuses_missing_target_or_stage_failure(self):
+        case, record = self.raw_caller()
+        (case / 'verifast.log').write_text("Verifying function 'small_sort::insert_tail'\n")
+        result = campaign._classify_raw_local_caller(
+            case, self.parent_case, self.parent_record, record, self.successful_execution(),
+            self.body_source, self.parent_preparation_sha, record['parent_stage_receipt_gate'])
+        self.assertEqual(result['classification'], 'INCONCLUSIVE')
+        (case / 'verifast.log').write_text(
+            "Verifying function 'small_sort::insert_tail'\n"
+            "Verifying function 'small_sort::b2_three_from_local'\n"
+            "verified/lib.rs(5,1): error: Cannot prove\n")
+        result = campaign._classify_raw_local_caller(
+            case, self.parent_case, self.parent_record, record, self.successful_execution(),
+            self.body_source, self.parent_preparation_sha, record['parent_stage_receipt_gate'])
+        self.assertEqual(result['classification'], 'INCONCLUSIVE')
+
+    def test_raw_exception_timeout_partial_notrun_and_bad_shapes_are_inconclusive(self):
+        case, record = self.raw_caller()
+        gate = record['parent_stage_receipt_gate']
+        (case / 'verifast.log').write_text(
+            "Verifying function 'small_sort::insert_tail'\n"
+            "Verifying function 'small_sort::b2_three_from_local'\n")
+        cases = [
+            {'exception': {'type': 'RuntimeError', 'message': 'partial'}},
+            {'stages': {'exporter': 0, 'decode': 0, 'verifast': 124, 'refinement': 0}},
+            {'stages': {'exporter': 0, 'decode': 0}},
+            {'status': 'NOT_RUN'},
+            {'stages': None},
+            {'stages': {'exporter': 0, 'decode': 0, 'verifast': None, 'refinement': 0}},
+            {'stages': {'exporter': 0, 'decode': 0, 'verifast': '0', 'refinement': 0}},
+        ]
+        for overrides in cases:
+            execution = self.successful_execution(**overrides)
+            result = campaign._classify_raw_local_caller(
+                case, self.parent_case, self.parent_record, record, execution,
+                self.body_source, self.parent_preparation_sha, gate)
+            self.assertIn(result['classification'], ('INCONCLUSIVE', 'NOT_RUN'), overrides)
+
+    def test_raw_prepare_failure_preserves_details_and_allows_original_control(self):
+        class PrepareError(RuntimeError):
+            def __init__(self):
+                super().__init__('raw setup failed')
+                self.returncode = 18
+                self.last_snapshot = {'stage': 'exporter'}
+
+        calls = []
+        result = campaign._run_body_isolation_diagnostic(
+            self.evidence, self.parent_case, self.parent_record, self.body_source,
+            self.Consumer(), SimpleNamespace(r8_owned_array_allocation=False), campaign.R11_PROFILE,
+            lambda *a, **kw: calls.append('raw dispatch'),
+            parent_preparation_sha=self.parent_preparation_sha,
+            parent_source_unchanged=True, parent_stage_receipt_gate={'admitted': True},
+            prepare_fn=lambda *a: (_ for _ in ()).throw(PrepareError()),
+            outcome_fn=campaign._raw_local_caller_outcome, unit_label='raw local caller')
+        calls.append('mandatory original control')
+        self.assertEqual(result['classification'], 'INCONCLUSIVE')
+        self.assertEqual(result['exception']['returncode'], 18)
+        self.assertEqual(result['exception']['last_snapshot'], {'stage': 'exporter'})
+        self.assertEqual(calls, ['mandatory original control'])
 
 
 if __name__ == "__main__":

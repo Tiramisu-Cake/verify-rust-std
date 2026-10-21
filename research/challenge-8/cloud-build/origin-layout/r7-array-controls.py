@@ -133,7 +133,37 @@ CASES = {
         "target": "post-Drop array-three reconstruction", "class": "positive",
     },
     "array3_slice_full_borrow_roundtrip": {
-        "lemma": b"""pred_ctor r16_array3_content(t: thread_id_t, p: *[u64; 3])() =
+        "lemma": b"""lem r16_drop_u64_owners(t: thread_id_t, vs: list<u64>)
+    req foreach(vs, own::<u64>(t));
+    ens true;
+{
+    open foreach(vs, own::<u64>(t));
+    match vs {
+        nil => { }
+        cons(v, rest) => {
+            open own::<u64>(t)(v);
+            open u64_own(t, v);
+            r16_drop_u64_owners(t, rest);
+        }
+    }
+}
+
+lem r16_make_u64_owners(t: thread_id_t, vs: list<u64>)
+    req true;
+    ens foreach(vs, own::<u64>(t));
+{
+    match vs {
+        nil => { close foreach(nil, own::<u64>(t)); }
+        cons(v, rest) => {
+            r16_make_u64_owners(t, rest);
+            close u64_own(t, v);
+            close own::<u64>(t)(v);
+            close foreach(vs, own::<u64>(t));
+        }
+    }
+}
+
+pred_ctor r16_array3_content(t: thread_id_t, p: *[u64; 3])() =
     *p |-> ?current &*& foreach(Array_elems(current), own::<u64>(t));
 
 lem r16_array3_slice_full_borrow_roundtrip(k: lifetime_t, t: thread_id_t, p: *[u64; 3], s: *[u64])
@@ -147,7 +177,11 @@ lem r16_array3_slice_full_borrow_roundtrip(k: lifetime_t, t: thread_id_t, p: *[u
     }{
         produce_lem_ptr_chunk implies(slice_full_borrow_content::<u64>(t, s), r16_array3_content(t, p))(){
             open slice_full_borrow_content::<u64>(t, s)();
+            assert foreach(?r16_slice_current, own::<u64>(t));
+            r16_drop_u64_owners(t, r16_slice_current);
             array_to_Array(p);
+            assert *p |-> ?r16_array_current;
+            r16_make_u64_owners(t, Array_elems(r16_array_current));
             close r16_array3_content(t, p)();
         }{
             full_borrow_implies(k, r16_array3_content(t, p), slice_full_borrow_content::<u64>(t, s));
@@ -172,7 +206,7 @@ lem r16_array3_slice_wrong_metadata_length(k: lifetime_t, t: thread_id_t, p: *[u
 }
 """,
         "target": "reject array-three slice metadata length four", "class": "negative",
-        "error_at": "target", "error_contains": "Cannot prove condition.",
+        "error_at": "target", "error_contains": "Assertion might not hold. (Cannot prove ptr_len(s) = 3.)",
     },
     "nonempty_zero_witness": {
         "lemma": b"""lem r7_nonempty_zero_witness(p: *u64, v: u64)

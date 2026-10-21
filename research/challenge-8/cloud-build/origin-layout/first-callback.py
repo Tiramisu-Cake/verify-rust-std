@@ -26,6 +26,7 @@ R11_LABEL_TRACE_ENV = 'SMALLSORT_R11_LABEL_STORAGE_TRACE'
 R11_LABEL_PLACEMENT_ENV = 'SMALLSORT_R11_LABEL_STORAGE_PLACEMENT'
 R9_GUARD_RETURN_RECOVERY_ENV = 'SMALLSORT_R9_GUARD_RETURN_RECOVERY'
 BODY_ISOLATION_NAME = 'actual_insert_tail_body_isolated'
+RAW_LOCAL_CALLER_NAME = 'actual_three_from_local_raw'
 SUPPORTED_PROFILES = (PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE)
 R9_GUARD_TRACE_ENV = 'SMALLSORT_R9_GUARD_TRACE'
 PREFIX_NAME = b'insert_tail_first_callback_prefix'
@@ -688,6 +689,193 @@ def _body_isolation_suffixes(old):
     return old.WRAPPER_RUNTIME, verified_suffix
 
 
+def _raw_local_caller_suffixes(old):
+    """Exact runtime-equivalent raw-pointer wrapper, plus checked ghost setup."""
+    signature = old.WRAPPER_SIGNATURE
+    if (old.WRAPPER_RUNTIME.count(signature) != 1 or
+            old.WRAPPER_RUNTIME.count(b'let mut values = [10_u64, 20_u64, 5_u64];') != 1 or
+            old.WRAPPER_RUNTIME.count(b'let begin = values.as_mut_ptr();') != 1 or
+            old.WRAPPER_RUNTIME.count(b'insert_tail(begin, begin.add(2), is_less);') != 1 or
+            old.WRAPPER_RUNTIME.count(b'/*@') or old.WRAPPER_RUNTIME.count(b'//@')):
+        raise ValueError('canonical caller runtime suffix changed')
+    original = _one(old.WRAPPER_RUNTIME, b'let begin = values.as_mut_ptr();',
+                     b'let begin = &raw mut values as *mut u64;',
+                     'raw local array data-pointer derivation')
+    before_call = (b'    /*@ assert array::<u64>(begin, 3, ?r16_current);\n'
+                   b'        r9_make_u64_owners(t, r16_current);\n'
+                   b'        array_inv::<u64>(); @*/\n')
+    after_call = (b'    /*@ assert array::<u64>(begin, 3, ?r16_normal_current);\n'
+                  b'        r9_drop_u64_owners(t, r16_normal_current);\n'
+                  b'        array_to_array_(begin); @*/\n')
+    verified_runtime = _one(original, b'    insert_tail(begin, begin.add(2), is_less);\n',
+        before_call + b'    insert_tail(begin, begin.add(2), is_less);\n' + after_call,
+        'raw caller checked current ownership and normal local cleanup')
+    verified = _one(verified_runtime, signature,
+                    signature + old.WRAPPER_CONTRACT,
+                    'attached raw-wrapper contract')
+    return original, verified
+
+
+def _raw_parent_body(evidence, parent_case, parent_record, old,
+                     parent_preparation_sha, parent_source_unchanged,
+                     parent_stage_receipt_gate):
+    """Bind raw-wrapper preparation to the captured, canonical full-body parent."""
+    canonical = _pinned_actual_body_identities(old)
+    expected_parent = Path(evidence).resolve() / 'full_body' / 'cases' / 'actual_three_current_full_posts'
+    if (Path(parent_case).resolve() != expected_parent.resolve() or
+            type(parent_record) is not dict or parent_record.get('prefix') is not False or
+            parent_record.get('mutation') is not None or
+            parent_record.get('profile') not in SUPPORTED_PROFILES or
+            any(parent_record.get(key) != canonical[key] for key in (
+                'source_sha256', 'source_git_blob', 'actual_drop_sha256',
+                'actual_insert_tail_sha256', 'actual_insert_tail_bytes',
+                'mechanically_specialized_insert_sha256'))):
+        raise ValueError('raw caller requires the exact pinned unmutated full-body parent')
+    parent_original = (expected_parent / 'original/lib.rs').read_bytes()
+    parent_verified = (expected_parent / 'verified/lib.rs').read_bytes()
+    if (_sha(parent_original) != parent_record.get('original_sha256') or
+            _sha(parent_verified) != parent_record.get('verified_sha256')):
+        raise ValueError('captured parent source pair changed')
+    original_suffix, verified_suffix = _body_isolation_suffixes(old)
+    if not parent_original.endswith(original_suffix) or not parent_verified.endswith(verified_suffix):
+        raise ValueError('parent caller suffix is not the exact canonical wrapper')
+    original_body = parent_original[:-len(original_suffix)]
+    verified_body = parent_verified[:-len(verified_suffix)]
+    if (original_body != canonical['original_body'] or
+            not _body_runtime_equal(original_body, verified_body) or
+            original_body.count(old.INSERT_SIGNATURE) != 1 or
+            _sha(original_body[original_body.index(old.INSERT_SIGNATURE):]) !=
+                parent_record.get('mechanically_specialized_insert_sha256') or
+            verified_body.count(old.INSERT_CONTRACT) != 1 or
+            old.WRAPPER_CONTRACT in verified_body or
+            _sha(old.INSERT_CONTRACT) != parent_record.get('final_posts_sha256')):
+        raise ValueError('parent does not contain the exact pinned body and original posts')
+    if verified_body.count(R9_CURRENT_U64_OWNERS_LEMMA) != 1:
+        raise ValueError('raw caller requires the already checked current-u64 owner lemmas in the selected profile')
+    prep_path = Path(evidence) / 'full_body' / 'preparation.json'
+    prep_bytes = prep_path.read_bytes()
+    if _sha(prep_bytes) != parent_preparation_sha or json.loads(prep_bytes) != parent_record:
+        raise ValueError('captured parent preparation receipt changed')
+    if (parent_source_unchanged is not True or
+            type(parent_stage_receipt_gate) is not dict or
+            parent_stage_receipt_gate.get('admitted') is not True):
+        raise ValueError('captured parent source/stage gate did not admit the candidate')
+    return canonical, original_body, verified_body
+
+
+def _prepare_raw_local_caller(evidence, parent_case, parent_record, old,
+                              parent_preparation_sha, parent_source_unchanged,
+                              parent_stage_receipt_gate):
+    canonical, original_body, verified_body = _raw_parent_body(
+        evidence, parent_case, parent_record, old, parent_preparation_sha,
+        parent_source_unchanged, parent_stage_receipt_gate)
+    original_suffix, verified_suffix = _raw_local_caller_suffixes(old)
+    root = Path(evidence) / 'raw_local_caller'
+    case = root / 'cases' / RAW_LOCAL_CALLER_NAME
+    case.mkdir(parents=True, exist_ok=False)
+    (case / 'original').mkdir()
+    (case / 'verified').mkdir()
+    original = original_body + original_suffix
+    verified = verified_body + verified_suffix
+    (case / 'original/lib.rs').write_bytes(original)
+    (case / 'verified/lib.rs').write_bytes(verified)
+    record = {
+        'schema': 'r16-raw-local-caller-v1', 'profile': parent_record['profile'],
+        'case': RAW_LOCAL_CALLER_NAME, 'parent_case': str(Path(parent_case).resolve()),
+        'parent_preparation_sha256': parent_preparation_sha,
+        'parent_source_unchanged': True, 'parent_stage_receipt_gate': parent_stage_receipt_gate,
+        'parent_original_sha256': parent_record['original_sha256'],
+        'parent_verified_sha256': parent_record['verified_sha256'],
+        'source_sha256': parent_record['source_sha256'], 'source_git_blob': parent_record['source_git_blob'],
+        'actual_drop_sha256': parent_record['actual_drop_sha256'],
+        'actual_insert_tail_sha256': parent_record['actual_insert_tail_sha256'],
+        'actual_insert_tail_bytes': parent_record['actual_insert_tail_bytes'],
+        'mechanically_specialized_insert_sha256': parent_record['mechanically_specialized_insert_sha256'],
+        'mechanically_specialized_drop_sha256': canonical['mechanically_specialized_drop_sha256'],
+        'final_posts_sha256': _sha(old.INSERT_CONTRACT),
+        'original_parent_suffix_sha256': _sha(_body_isolation_suffixes(old)[0]),
+        'verified_parent_suffix_sha256': _sha(_body_isolation_suffixes(old)[1]),
+        'original_raw_suffix_sha256': _sha(original_suffix),
+        'verified_raw_suffix_sha256': _sha(verified_suffix),
+        'original_sha256': _sha(original), 'verified_sha256': _sha(verified),
+        'canonical_original_body_sha256': _sha(canonical['original_body']),
+        'caller_suffix_exact': True, 'body_bytes_preserved': True,
+        'posts_preserved': True, 'runtime_unchanged': True,
+        'same_local_values': True, 'same_comparator_and_callee_args': True,
+        'raw_pointer_wrapper_only': True, 'original_caller_prefix_gate_unchanged': True,
+        'accepted': False, 'proof_credit': False, 'b2_achieved': False,
+        'independent_credit': False,
+    }
+    (root / 'preparation.json').write_text(json.dumps(record, indent=2, sort_keys=True) + '\n')
+    return case, record
+
+
+def _raw_local_caller_source_gate(case, parent_case, parent_record, record, old,
+                                  parent_preparation_sha, captured_stage_receipt_gate):
+    try:
+        if (type(record) is not dict or type(captured_stage_receipt_gate) is not dict or
+                captured_stage_receipt_gate.get('admitted') is not True or
+                record.get('parent_stage_receipt_gate') != captured_stage_receipt_gate):
+            return False
+        canonical, original_body, verified_body = _raw_parent_body(
+            Path(case).resolve().parents[2], parent_case, parent_record, old,
+            parent_preparation_sha, True, captured_stage_receipt_gate)
+        evidence_root = Path(case).resolve().parents[2]
+        expected_case = evidence_root / 'raw_local_caller' / 'cases' / RAW_LOCAL_CALLER_NAME
+        expected_parent = evidence_root / 'full_body' / 'cases' / 'actual_three_current_full_posts'
+        if (record.get('schema') != 'r16-raw-local-caller-v1' or
+                Path(case).resolve() != expected_case.resolve() or
+                Path(parent_case).resolve() != expected_parent.resolve() or
+                record.get('case') != RAW_LOCAL_CALLER_NAME or
+                record.get('parent_case') != str(expected_parent.resolve()) or
+                record.get('profile') != parent_record.get('profile') or
+                record.get('parent_source_unchanged') is not True):
+            return False
+        original_suffix, verified_suffix = _raw_local_caller_suffixes(old)
+        original = (case / 'original/lib.rs').read_bytes()
+        verified = (case / 'verified/lib.rs').read_bytes()
+        parent_prep = (expected_parent.parent.parent / 'preparation.json').read_bytes()
+        isolated_prep = (expected_case.parent.parent / 'preparation.json').read_bytes()
+        if json.loads(parent_prep) != parent_record or json.loads(isolated_prep) != record:
+            return False
+        return (
+            _sha(parent_prep) == parent_preparation_sha and
+            record.get('parent_preparation_sha256') == parent_preparation_sha and
+            record.get('source_sha256') == canonical['source_sha256'] and
+            record.get('source_git_blob') == canonical['source_git_blob'] and
+            record.get('actual_drop_sha256') == canonical['actual_drop_sha256'] and
+            record.get('actual_insert_tail_sha256') == canonical['actual_insert_tail_sha256'] and
+            record.get('actual_insert_tail_bytes') == canonical['actual_insert_tail_bytes'] and
+            record.get('mechanically_specialized_insert_sha256') == parent_record.get('mechanically_specialized_insert_sha256') and
+            record.get('mechanically_specialized_drop_sha256') == canonical['mechanically_specialized_drop_sha256'] and
+            record.get('original_parent_suffix_sha256') == _sha(_body_isolation_suffixes(old)[0]) and
+            record.get('verified_parent_suffix_sha256') == _sha(_body_isolation_suffixes(old)[1]) and
+            record.get('original_raw_suffix_sha256') == _sha(original_suffix) and
+            record.get('verified_raw_suffix_sha256') == _sha(verified_suffix) and
+            record.get('parent_original_sha256') == _sha((expected_parent / 'original/lib.rs').read_bytes()) and
+            record.get('parent_verified_sha256') == _sha((expected_parent / 'verified/lib.rs').read_bytes()) and
+            original == original_body + original_suffix and
+            verified == verified_body + verified_suffix and
+            original.endswith(original_suffix) and verified.endswith(verified_suffix) and
+            original.count(b'let begin = &raw mut values as *mut u64;') == 1 and
+            b'let begin = values.as_mut_ptr();' not in original and
+            _body_runtime_equal(original, verified) and
+            record.get('original_sha256') == _sha(original) and
+            record.get('verified_sha256') == _sha(verified) and
+            record.get('canonical_original_body_sha256') == _sha(canonical['original_body']) and
+            record.get('final_posts_sha256') == _sha(old.INSERT_CONTRACT) and
+            record.get('caller_suffix_exact') is True and record.get('body_bytes_preserved') is True and
+            record.get('posts_preserved') is True and record.get('runtime_unchanged') is True and
+            record.get('raw_pointer_wrapper_only') is True and
+            record.get('same_local_values') is True and
+            record.get('same_comparator_and_callee_args') is True and
+            record.get('original_caller_prefix_gate_unchanged') is True and
+            record.get('accepted') is False and record.get('proof_credit') is False and
+            record.get('b2_achieved') is False and record.get('independent_credit') is False)
+    except (OSError, ValueError, KeyError, TypeError, IndexError):
+        return False
+
+
 def _prepare_body_isolation(evidence, parent_case, parent_record, old,
                             parent_preparation_sha, parent_source_unchanged,
                             parent_stage_receipt_gate):
@@ -883,7 +1071,8 @@ def _body_exception_record(error):
 
 def _body_isolation_outcome(classification, reason, *, evidence, case=None,
                             record=None, execution=None, phase=None, error=None,
-                            receipt_error=None, source_exact=None):
+                            receipt_error=None, source_exact=None,
+                            result_subdir='body_isolation'):
     execution = execution if type(execution) is dict else {}
     result = {
         'schema': 'r16-actual-body-isolation-result-v1',
@@ -915,7 +1104,7 @@ def _body_isolation_outcome(classification, reason, *, evidence, case=None,
         result['exception'] = _body_exception_record(error)
     if receipt_error is not None:
         result['receipt_exception'] = _body_exception_record(receipt_error)
-    destination = Path(case) / 'classification.json' if case is not None else Path(evidence) / 'body_isolation' / 'classification.json'
+    destination = Path(case) / 'classification.json' if case is not None else Path(evidence) / result_subdir / 'classification.json'
     try:
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_text(json.dumps(result, indent=2, sort_keys=True) + '\n')
@@ -928,11 +1117,13 @@ def _run_body_isolation_diagnostic(evidence, parent_case, parent_record, old,
                                   consumer, args, selected_profile, dispatch,
                                   *, parent_preparation_sha, parent_source_unchanged,
                                   parent_stage_receipt_gate, prepare_fn=None,
-                                  source_gate_fn=None, classify_fn=None):
+                                  source_gate_fn=None, classify_fn=None,
+                                  outcome_fn=None, unit_label='body-only'):
     """Run the diagnostic fail-closed while leaving the caller campaign runnable."""
     prepare_fn = _prepare_body_isolation if prepare_fn is None else prepare_fn
     source_gate_fn = _body_isolation_source_gate if source_gate_fn is None else source_gate_fn
     classify_fn = _classify_body_isolation if classify_fn is None else classify_fn
+    outcome_fn = _body_isolation_outcome if outcome_fn is None else outcome_fn
     body_case = None
     body_record = None
     body_execution = None
@@ -941,8 +1132,8 @@ def _run_body_isolation_diagnostic(evidence, parent_case, parent_record, old,
         if (parent_source_unchanged is not True or
                 type(parent_stage_receipt_gate) is not dict or
                 parent_stage_receipt_gate.get('admitted') is not True):
-            return _body_isolation_outcome(
-                'NOT_RUN', 'parent full-body source/stage receipt gate failed before isolated dispatch',
+            return outcome_fn(
+                'NOT_RUN', f'parent full-body source/stage receipt gate failed before {unit_label} dispatch',
                 evidence=evidence, phase='parent_stage_gate', source_exact=False)
         body_case, body_record = prepare_fn(
             evidence, parent_case, parent_record, old, parent_preparation_sha,
@@ -950,8 +1141,8 @@ def _run_body_isolation_diagnostic(evidence, parent_case, parent_record, old,
         phase = 'source_gate'
         if not source_gate_fn(body_case, parent_case, parent_record, body_record, old,
                               parent_preparation_sha):
-            return _body_isolation_outcome(
-                'NOT_RUN', 'source identity gate failed before body-only dispatch',
+            return outcome_fn(
+                'NOT_RUN', f'source identity gate failed before {unit_label} dispatch',
                 evidence=evidence, case=body_case, record=body_record, phase=phase,
                 source_exact=False)
         phase = 'source_hashes'
@@ -970,15 +1161,15 @@ def _run_body_isolation_diagnostic(evidence, parent_case, parent_record, old,
         finally:
             args.r8_owned_array_allocation = previous_r8
         if dispatch_error is not None:
-            return _body_isolation_outcome(
-                'INCONCLUSIVE', 'body-only dispatch raised an exception',
+            return outcome_fn(
+                'INCONCLUSIVE', f'{unit_label} dispatch raised an exception',
                 evidence=evidence, case=body_case, record=body_record,
                 execution=body_execution, phase=phase, error=dispatch_error,
                 source_exact=True)
         if type(body_execution) is not dict:
             phase = 'execution_shape'
-            return _body_isolation_outcome(
-                'INCONCLUSIVE', 'body-only execution result has the wrong type',
+            return outcome_fn(
+                'INCONCLUSIVE', f'{unit_label} execution result has the wrong type',
                 evidence=evidence, case=body_case, record=body_record,
                 phase=phase, source_exact=True)
         phase = 'source_hashes_after'
@@ -996,8 +1187,8 @@ def _run_body_isolation_diagnostic(evidence, parent_case, parent_record, old,
         except Exception as error:
             receipt_error = error
         if receipt_error is not None:
-            return _body_isolation_outcome(
-                'INCONCLUSIVE', 'body-only stage receipt classification raised an exception',
+            return outcome_fn(
+                'INCONCLUSIVE', f'{unit_label} stage receipt classification raised an exception',
                 evidence=evidence, case=body_case, record=body_record,
                 execution=body_execution, phase=phase, receipt_error=receipt_error,
                 source_exact=True)
@@ -1009,14 +1200,14 @@ def _run_body_isolation_diagnostic(evidence, parent_case, parent_record, old,
             result['phase'] = phase
             return result
         except Exception as error:
-            return _body_isolation_outcome(
-                'INCONCLUSIVE', 'body-only result classification raised an exception',
+            return outcome_fn(
+                'INCONCLUSIVE', f'{unit_label} result classification raised an exception',
                 evidence=evidence, case=body_case, record=body_record,
                 execution=body_execution, phase=phase, error=error,
                 source_exact=True)
     except Exception as error:
-        return _body_isolation_outcome(
-            'INCONCLUSIVE', 'body-only setup or source validation raised an exception',
+        return outcome_fn(
+            'INCONCLUSIVE', f'{unit_label} setup or source validation raised an exception',
             evidence=evidence, case=body_case, record=body_record,
             execution=body_execution, phase=phase, error=error,
             source_exact=False if phase == 'source_gate' else None)
@@ -1076,6 +1267,95 @@ def _classify_body_isolation(case, parent_case, parent_record, record, execution
         record=record, execution=execution, phase='classification',
         source_exact=source_exact)
     return result
+
+
+def _raw_local_caller_outcome(classification, reason, *, evidence, **kwargs):
+    result = _body_isolation_outcome(
+        classification, reason, evidence=evidence, result_subdir='raw_local_caller', **kwargs)
+    result['schema'] = 'r16-raw-local-caller-result-v1'
+    result['candidate'] = 'checked raw local-array caller adapter'
+    result['accepted'] = False
+    result['proof_credit'] = False
+    result['full_target'] = False
+    result['b2_achieved'] = False
+    result['caller_or_prefix_gate'] = False
+    result['independent_credit'] = False
+    result['qualification'] = False
+    destination = (Path(kwargs['case']) / 'classification.json' if kwargs.get('case') is not None
+                   else Path(evidence) / 'raw_local_caller' / 'classification.json')
+    try:
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_text(json.dumps(result, indent=2, sort_keys=True) + '\n')
+    except OSError as write_error:
+        result['result_write_exception'] = _body_exception_record(write_error)
+    return result
+
+
+def _classify_raw_local_caller(case, parent_case, parent_record, record, execution,
+                               old, parent_preparation_sha, captured_stage_receipt_gate):
+    if type(execution) is not dict:
+        execution = {'execution_type': type(execution).__name__}
+    stages = execution.get('stages')
+    source_gate = _raw_local_caller_source_gate(
+        case, parent_case, parent_record, record, old, parent_preparation_sha,
+        captured_stage_receipt_gate)
+    if execution.get('status') == 'NOT_RUN' or execution.get('classification') == 'NOT_RUN':
+        classification, reason = 'NOT_RUN', 'raw local caller was explicitly marked not run'
+    elif not source_gate:
+        classification, reason = 'INCONCLUSIVE', 'raw caller source/parent/stage identity did not match'
+    elif type(stages) is not dict:
+        classification, reason = 'INCONCLUSIVE', 'required stage result map is missing or has the wrong type'
+    elif any(type(stages.get(name)) is not int for name in ('exporter', 'decode', 'verifast', 'refinement')):
+        classification, reason = 'INCONCLUSIVE', 'required stage result is missing, null or has the wrong type'
+    elif execution.get('exception') is not None:
+        classification, reason = 'INCONCLUSIVE', 'raw local caller execution raised an exception'
+    elif execution.get('source_unchanged_at_every_stage') is not True or \
+            type(execution.get('stage_receipt_gate')) is not dict or \
+            execution['stage_receipt_gate'].get('admitted') is not True:
+        classification, reason = 'INCONCLUSIVE', 'exact raw-caller source/stage receipts were absent or mismatched'
+    else:
+        log_path = Path(case) / 'verifast.log'
+        log = log_path.read_text(errors='replace') if log_path.is_file() else ''
+        lines = log.splitlines()
+        errors = [line for line in lines if re.search(r'\berror:', line, re.I)]
+        dead = [line for line in lines if re.search(r'dead code', line, re.I)]
+        targets = set()
+        for line in lines:
+            match = re.search(r"Verifying function ['\"]([^'\"]+)['\"]", line)
+            if match:
+                targets.add(match.group(1).rsplit('::', 1)[-1])
+        both_targets = {'insert_tail', 'b2_three_from_local'} <= targets
+        if all(stages[name] == 0 for name in ('exporter', 'decode', 'verifast', 'refinement')) and both_targets and not errors and not dead:
+            classification = 'RAW_LOCAL_CALLER_BOTH_TARGETS_EXIT0'
+            reason = 'actual insert_tail and raw local caller targets reached typed verification with all required stages at exit 0'
+        elif 124 in stages.values():
+            classification, reason = 'INCONCLUSIVE', 'a required stage timed out'
+        elif 125 in stages.values():
+            classification, reason = 'INCONCLUSIVE', 'a required stage was skipped or setup did not complete'
+        else:
+            classification, reason = 'INCONCLUSIVE', ('both actual body and raw wrapper verifier targets were not established'
+                if not both_targets else 'a required stage failed, verifier reported an error, or source contained dead code')
+    return _raw_local_caller_outcome(
+        classification, reason, evidence=Path(case).parents[2], case=case, record=record,
+        execution=execution, phase='classification', source_exact=source_gate)
+
+
+def _run_raw_local_caller_diagnostic(evidence, parent_case, parent_record, old,
+                                     consumer, args, selected_profile, dispatch,
+                                     *, parent_preparation_sha, parent_source_unchanged,
+                                     parent_stage_receipt_gate):
+    source_gate = lambda case, pcase, prec, rec, module, prep: _raw_local_caller_source_gate(
+        case, pcase, prec, rec, module, prep, parent_stage_receipt_gate)
+    classify = lambda case, pcase, prec, rec, run, module, prep: _classify_raw_local_caller(
+        case, pcase, prec, rec, run, module, prep, parent_stage_receipt_gate)
+    return _run_body_isolation_diagnostic(
+        evidence, parent_case, parent_record, old, consumer, args, selected_profile, dispatch,
+        parent_preparation_sha=parent_preparation_sha,
+        parent_source_unchanged=parent_source_unchanged,
+        parent_stage_receipt_gate=parent_stage_receipt_gate,
+        prepare_fn=_prepare_raw_local_caller, source_gate_fn=source_gate,
+        classify_fn=classify, outcome_fn=_raw_local_caller_outcome,
+        unit_label='raw local caller')
 
 
 def _execute_case_with_r9_trace(execute_case, case, args, env, *, profile,
@@ -1320,6 +1600,30 @@ def run(evidence, args, env, execute_case, validated_receipt):
         except Exception as error:
             results['body_isolation'] = _body_isolation_outcome(
                 'INCONCLUSIVE', 'body-only parent identity setup raised an exception',
+                evidence=evidence, phase='parent_identity', error=error)
+        # Independent checked caller candidate; original/prefix/full-body results above
+        # remain untouched and this diagnostic cannot affect their gates.
+        try:
+            if (captured_parent_identity is None or
+                    captured_parent_identity.get('preparation_sha256') is None or
+                    full_body_execution_observation is None):
+                raise ValueError('pre-dispatch full-body identity/receipt capture is incomplete')
+            if captured_parent_identity.get('receipt_error') is not None:
+                results['raw_local_caller'] = _raw_local_caller_outcome(
+                    'INCONCLUSIVE', 'pre-dispatch full-body preparation receipt capture failed',
+                    evidence=evidence, phase='parent_identity',
+                    error=captured_parent_identity['receipt_error'])
+            else:
+                old_raw = _load('r16_raw_local_caller_source', HERE / 'actual-insert-tail-b2.py')
+                results['raw_local_caller'] = _run_raw_local_caller_diagnostic(
+                    evidence, parent_case, captured_parent_identity['record'], old_raw,
+                    consumer, args, selected_profile, dispatch,
+                    parent_preparation_sha=captured_parent_identity['preparation_sha256'],
+                    parent_source_unchanged=full_body_execution_observation.get('source_unchanged'),
+                    parent_stage_receipt_gate=full_body_execution_observation.get('stage_receipt_gate'))
+        except Exception as error:
+            results['raw_local_caller'] = _raw_local_caller_outcome(
+                'INCONCLUSIVE', 'raw local caller parent identity setup raised an exception',
                 evidence=evidence, phase='parent_identity', error=error)
         if selected_profile == R11_PROFILE:
             placement = _load('r11_storage_placement_controls', HERE/'r11-storage-placement-controls.py')

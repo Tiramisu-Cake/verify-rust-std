@@ -1,0 +1,121 @@
+# SmallSort Evidence Brief — 9487d6d1
+
+- Processing: **VERIFIED_ARCHIVE_AND_INVENTORY**
+- Build proof verdict (source claim): **NOT_ACCEPTED_AS_REPORTED**
+- Run exit (source claim): `1`; evidence complete: `True`
+
+## Further bounded evidence
+
+- Complete catalogue: 3687 verified members; retained content: 624 files.
+- CLI: `smallsort-brief 9487d6d1-14aa-4370-bc0b-7ac57279fb7b --catalogue`, `--search LITERAL`, `--file ID --pointer /key` (JSON), or `--file ID --start 1` (text). Requires the v0.8 client installed on the caller host.
+- Reader: `/builds/9487d6d1-14aa-4370-bc0b-7ac57279fb7b/catalogue?q=literal`, `/search?q=literal`, `/fragment?file_id=ID&start=1` (text) or `&pointer=/key` (JSON). Use the same /builds/UUID prefix for all routes. Search is over sanitized retained data only; inspect coverage and next_offset. No raw fallback or proof inference.
+
+## Failure diagnostics (verified archived sources)
+
+- Diagnostic status: **OBSERVED**; causality: **UNKNOWN**
+- COMPILER_ERROR: $HOME differs from euid-obtained home directory: you may be using sudo
+  - Source: `full-stderr.log` line 3; SHA-256 `1421ef97c119a9ee9833afe3bb5a77e9a23a5731747d0291a3ae891cf5a453ff`
+- COMPILER_ERROR: $HOME directory: /builder/home
+  - Source: `full-stderr.log` line 4; SHA-256 `1421ef97c119a9ee9833afe3bb5a77e9a23a5731747d0291a3ae891cf5a453ff`
+- COMPILER_ERROR: euid-obtained home directory: /root
+  - Source: `full-stderr.log` line 5; SHA-256 `1421ef97c119a9ee9833afe3bb5a77e9a23a5731747d0291a3ae891cf5a453ff`
+
+## Bounded diagnostic context (untrusted observations)
+
+- AVAILABLE; parser=SUPPORTED_OBSERVATIONS; selection=FIRST_GENERIC_MARKER
+  - Source: `full-stderr.log` line UNKNOWN; SHA-256 `1421ef97c119a9ee9833afe3bb5a77e9a23a5731747d0291a3ae891cf5a453ff`
+> L1: debconf: delaying package configuration, since apt-utils is not installed
+> L2: debconf: delaying package configuration, since apt-utils is not installed
+> L3: error: $HOME differs from euid-obtained home directory: you may be using sudo
+> L4: error: $HOME directory: /builder/home
+> L5: error: euid-obtained home directory: /root
+> L6: info: profile set to 'minimal'
+> L7: info: default host triple is x86_64-unknown-linux-gnu
+> L8: info: skipping toolchain installation
+  - Scanned 1110/1110 bytes; scan limit reached=False; lines shown=8/12.
+- AVAILABLE; parser=NO_SUPPORTED_PARSER_CLASSIFICATION; selection=FIRST_GENERIC_MARKER
+  - Source: `allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verifast.log` line UNKNOWN; SHA-256 `508abedf7a6d41983c73300feb56f9e5ff77a30d3a73fcf7b5efdad045a99ceb`
+> L3457: R11_EXEC function=b2_three_from_local at=verified/lib.rs(441,17-23) kind=storage action=Live phase=before mir_local=_5 local=$_5 mir_at=verified/lib.rs(441,17-23) binding=ABSENT receipt=ABSENT heap_total=10 env_total=10 live_total=1 live_sh
+> L3458: 1.850974s: verified/lib.rs(441,17-23): Executing statement
+> L3459: 1.850987s: verified/lib.rs(441,17-23): Executing statement
+> L3460: verified/lib.rs(441,17-23): error: Placeholders are not allowed here
+> L3461: [WITHHELD: COMMAND_ENVIRONMENT_OR_ROLE_TEXT]
+> L3462: ? ^^^^^^
+  - Scanned 413766/413766 bytes; scan limit reached=False; lines shown=6/6.
+- Up to 2 short windows shown; complete bounded context and availability counts are in evidence-index.json. Context does not establish causality.
+
+## Tool build milestones (individual observed records)
+
+- `translator-build`: EXIT_ZERO; exit=`0`; records=1; omitted=0
+  - Source: `allprooflogs/tracked-md-build/translator-build-exit-code.txt` line UNKNOWN; SHA-256 `9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa`
+- `console-build`: EXIT_ZERO; exit=`0`; records=2; omitted=0
+  - Source: `allprooflogs/build/console-build-exit-code.txt` line UNKNOWN; SHA-256 `9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa`
+- `exporter-build`: EXIT_ZERO; exit=`0`; records=1; omitted=0
+  - Source: `allprooflogs/tracked-md-build/exporter-build-exit-code.txt` line UNKNOWN; SHA-256 `9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa`
+- `decoder-build`: EXIT_ZERO; exit=`0`; records=1; omitted=0
+  - Source: `allprooflogs/tracked-md-build/decoder-build-exit-code.txt` line UNKNOWN; SHA-256 `9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa`
+- `refiner-build`: EXIT_ZERO; exit=`0`; records=1; omitted=0
+  - Source: `allprooflogs/tracked-md-build/refiner-build-exit-code.txt` line UNKNOWN; SHA-256 `9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa`
+- `tracked-md-compile`: EXIT_ZERO; exit=`0`; records=1; omitted=0
+  - Source: `allprooflogs/tracked-md-compile-exit-code.txt` line UNKNOWN; SHA-256 `9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa`
+- `tracked-md-preparation`: EXIT_ZERO; exit=`0`; records=1; omitted=0
+  - Source: `allprooflogs/tracked-md-preparation-exit-code.txt` line UNKNOWN; SHA-256 `9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa`
+
+## First comparator source results
+
+- Coverage: SOURCE_RECORDS_PROJECTED; projected=32; omitted=15; scan_truncated=False; showing up to 6 records
+- Source claim `/actual_insert_tail_b2`: {'classification': 'DIAGNOSTIC_ONLY_UNTIL_ALL_GATES_MATCH', 'prefix_current_normal_unwind_proved': False, 'b2_achieved': False}
+  - Source: `allprooflogs/cases/selected-drop-minimal/aggregate.json` line UNKNOWN; SHA-256 `8a43aba5ee39a0100cb53f480803200a74863da20cea586eda9fe5d915aef5b3`
+- Source claim `/actual_insert_tail_b2/results/full_body`: {'classification': 'INCONCLUSIVE', 'prefix': False, 'current_false_true_panic_proved': False, 'intended_negative': False, 'full_insert_tail_proved': False, 'b2_achieved': False, 'proof_credit': False}
+  - Source: `allprooflogs/cases/selected-drop-minimal/aggregate.json` line UNKNOWN; SHA-256 `8a43aba5ee39a0100cb53f480803200a74863da20cea586eda9fe5d915aef5b3`
+- Source claim `/actual_insert_tail_b2/results/prefix`: {'classification': 'INCONCLUSIVE', 'prefix': True, 'current_false_true_panic_proved': False, 'intended_negative': False, 'full_insert_tail_proved': False, 'b2_achieved': False, 'proof_credit': False}
+  - Source: `allprooflogs/cases/selected-drop-minimal/aggregate.json` line UNKNOWN; SHA-256 `8a43aba5ee39a0100cb53f480803200a74863da20cea586eda9fe5d915aef5b3`
+- Source claim `/actual_insert_tail_b2/results/admission_controls`: {'classification': 'NOT_RUN_PREFIX_PREREQUISITE_FAILED', 'proof_credit': False}
+  - Source: `allprooflogs/cases/selected-drop-minimal/aggregate.json` line UNKNOWN; SHA-256 `8a43aba5ee39a0100cb53f480803200a74863da20cea586eda9fe5d915aef5b3`
+- Source claim `/actual_insert_tail_b2/results/body_isolation`: {'classification': 'BODY_UNIT_VERIFIER_EXIT0', 'b2_achieved': False, 'proof_credit': False, 'reason': 'complete isolated actual body reached typed verification with all required stages at exit 0'}
+  - Source: `allprooflogs/cases/selected-drop-minimal/aggregate.json` line UNKNOWN; SHA-256 `8a43aba5ee39a0100cb53f480803200a74863da20cea586eda9fe5d915aef5b3`
+- Source claim `/actual_insert_tail_b2/results/guard_array_controls`: {'classification': 'INCONCLUSIVE', 'proof_credit': False}
+  - Source: `allprooflogs/cases/selected-drop-minimal/aggregate.json` line UNKNOWN; SHA-256 `8a43aba5ee39a0100cb53f480803200a74863da20cea586eda9fe5d915aef5b3`
+- A joint false/true/panic claim does not provide separate per-branch receipts; absent records do not establish NOT_RUN.
+
+## Stage observations (exit codes are not proof verdicts)
+
+- Record counts: EXIT_NONZERO=131, EXIT_ZERO=381; order=NOT_ESTABLISHED; last completed stage=UNKNOWN
+- `verifast`: exit=`1`; linkage=`PAIRED_FILENAME_ONLY`; diagnostic=`NO_SUPPORTED_DIAGNOSTIC`
+  - Source: `allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verifast-exit-code.txt` line UNKNOWN; SHA-256 `4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865`
+  - Context availability: {'status': 'AVAILABLE', 'context_id': 1}
+- `verifast`: exit=`1`; linkage=`RECEIPT`; diagnostic=`NO_SUPPORTED_DIAGNOSTIC`
+  - Source: `allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verifast-stage.json` line UNKNOWN; SHA-256 `6bdd9c29e6a5a5198f32607c1bad0b8408279f0a5221b4459d4dd3f4cf3c86ab`
+  - Context availability: {'status': 'AVAILABLE', 'context_id': 1}
+- `verifast`: exit=`1`; linkage=`PAIRED_FILENAME_ONLY`; diagnostic=`NO_SUPPORTED_DIAGNOSTIC`
+  - Source: `allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/guard-array-controls/array3_slice_full_borrow_roundtrip/verifast-exit-code.txt` line UNKNOWN; SHA-256 `4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865`
+  - Context availability: {'status': 'AVAILABLE', 'context_id': 2}
+- `verifast`: exit=`1`; linkage=`RECEIPT`; diagnostic=`NO_SUPPORTED_DIAGNOSTIC`
+  - Source: `allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/guard-array-controls/array3_slice_full_borrow_roundtrip/verifast-stage.json` line UNKNOWN; SHA-256 `26197c3f9e3d0417f3c94afe795ab1aed104ae98335d8d1d979f12dcccd76303`
+  - Context availability: {'status': 'AVAILABLE', 'context_id': 2}
+- Expected-control nonzero records (source-classified): 32; details in evidence-index.json.
+- Exit 0 observed: `console-build`, `console-build`, `decoder-build`, `exporter-build`, `refiner-build`, `translator-build`; references in evidence-index.json.
+- Coverage: {'candidate_records': 798, 'parsed_records': 512, 'not_captured': 286, 'invalid_records': 0, 'omitted_records': 0}; showing up to 4 nonzero and 6 zero records.
+- Source assertions: {'proof_attempted': True, 'compiler_classification': 'PASS'}
+  - Source: `proof-audit.json` line UNKNOWN; SHA-256 `3cd47419b7d005da2f2392d739a962f38caed9c32984bfca139dc306d61ee658`
+- Missing/ambiguous diagnostics: VERIFIED_FAILED_LOG_WITHOUT_RECOGNIZED_COMPILER_DIAGNOSTIC, STAGE_COVERAGE_INCOMPLETE_SEE_INDEX, MULTIPLE_STAGE_FAILURES_CAUSALITY_UNKNOWN
+
+## Campaign aggregates (source claims)
+
+- `allprooflogs/cases/selected-drop-minimal/aggregate.json`: classification=INCONCLUSIVE; accepted=False; cases: {'EXPECTED_CONTROL': 6, 'SOURCE_CLASSIFIED': 1} (total=7)
+  - Source: `allprooflogs/cases/selected-drop-minimal/aggregate.json` line UNKNOWN; SHA-256 `8a43aba5ee39a0100cb53f480803200a74863da20cea586eda9fe5d915aef5b3`
+- `allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json`: classification=DIAGNOSTIC_ONLY_UNTIL_ALL_GATES_MATCH; accepted=False; results: {'INCONCLUSIVE': 4, 'NOT_RUN': 5, 'SOURCE_CLASSIFIED': 5} (total=14)
+  - Source: `allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json` line UNKNOWN; SHA-256 `6f8eb7480ee3eb5f7d31187a8013c0e13064238dde9ae74e93ed5dadf4c41cb8`
+- `allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/guard-array-controls/aggregate.json`: classification=INCONCLUSIVE; accepted=False; proof_credit=False; cases: {'EXPECTED_CONTROL': 5, 'INCONCLUSIVE': 2, 'SOURCE_CLASSIFIED': 4} (total=11)
+  - Source: `allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/guard-array-controls/aggregate.json` line UNKNOWN; SHA-256 `42591b03e5c34534808c4292dbbe019e61162a266a6c7391a3a0dfff9265009d`
+- `allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/guard-return-recovery-controls/aggregate.json`: classification=ALL_INTENDED_R11_GUARD_RETURN_CONTROLS_MATCHED; accepted=False; proof_credit=False; cases: {'EXPECTED_CONTROL': 2, 'SOURCE_CLASSIFIED': 3} (total=5)
+  - Source: `allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/guard-return-recovery-controls/aggregate.json` line UNKNOWN; SHA-256 `2a2c3864c1fa295333352fe1171bf3ada465c05b8b72ecf567d4254975e844af`
+
+## Representative cases (source verdicts)
+
+
+[Additional detail omitted; consult evidence-index.json.]
+
+## Boundaries
+
+Source verdicts are claims; no PASS is inferred from exit 0. Stage order and first/last causal stage remain UNKNOWN without explicit evidence. No verifier is run by this processor. Remote text chunk bytes are not checked.
