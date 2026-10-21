@@ -162,7 +162,7 @@ def render_task(spec: dict[str, Any]) -> tuple[bytes, dict[str, Any]]:
         "", "## Mission", "",
         "This is a bounded continuation of the previous task under a newly authorized window.",
         "", f"This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), the compact root [AGENTS.md](../../AGENTS.md), and the persistent repo guidance.",
-        "The owner may proceed within this task and its bounds. Start with T0 NOT_SET; prepare fresh-session inputs with `/usr/local/bin/smallsort-session`, then obtain owner review and register the exact phase through the assigned branch client before proof work.",
+        "The owner may proceed within this task and its bounds. Start with T0 NOT_SET; prepare fresh-session inputs with `/usr/local/bin/smallsort-session`, then obtain the required independent review and register the exact phase through the assigned branch client before proof work.",
         "No previous budget, T0, ledger authorization, profile acceptance, or proof credit transfers.",
         "", "## Baseline and controls", "",
         f"Worktree `{spec['worktree']}` on branch `{spec['branch']}`; baseline `{spec['baseline_sha']}`; source `{spec['source_sha']}`.",
