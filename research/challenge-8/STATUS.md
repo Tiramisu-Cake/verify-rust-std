@@ -1,3 +1,15 @@
+# Merge-R11 READY — label invariant / annotation temporary
+
+2026-10-21: [новое самостоятельное задание Merge-R11](CURRENT-TASK.md): **120мин + до30мин завершения, свежие3600 Cloud-секунд, без лимита последовательных Builds**, timeout90..1200/envelope+60. T0 при фактическом старте; R10 CLOSED/735retired не переносить. Worktrees `/root/verify-rust-std-merge-origin` и `/root/verifast-merge-actual-glue`, branch `merge/incoming-origin-20261009`, toolbb557d43.
+
+Ближайшая цель: exact source/MIR/env/label-invariant consume/produce binding для annotation unit `_117` → source-preserving placement/lifetime repair при подтверждённой причине → checked invariant init/body/backedge/break/unwind. StorageDead check сохраняется; никаких synthetic live/owner receipts. Reconstructed CFG diagnostics не выдавать за symbolic execution. Продолжение прежнего narrow allocation premise разрешено, новая storage/memory model нет.
+
+R10 Build5 seven compile milestones PASS; limited initial-path label invariant consume/leakcheck then production; до тела actual failure StorageDead276:44-45. MIR117 Live→ghost-command/destination→Dead, cycle97←151/fingerprint recorded; причинность/parser-input binding не установлены. Full Continue/backedge/break/unwind/B2/qualificationOPEN/acceptedfalse/credit0. Freshness2positive/6intendednegative с8currentcasebindings — source claims, не independent qualification; recovery5 NOT_RUN prerequisite.
+
+R10 CLOSED checkpoint `ab8ca678db54ce46863eb234a8ffd3ea0753f82a`:2865charged/2861execution,735retired,remaining0/carryfalse,все5 terminal/accounted,own0/0/0/0. Last built `7d7d70d29f25882ef8c8c3f6177b86fa914b09bb`, tool `bb557d43c4196694c7af50ff2150ce56a269e17d`, profilec3f5d286. [Архив R10](task-history/merge-moving-gap-invariant-autonomous-2026-10-21-r10.md#отчёт-агента), [итог](cloud-build/origin-layout/R10-FINAL-RESULT-20261021.json), [Storage note](cloud-build/origin-layout/R10-LABEL-STORAGE-NOTE-20261021.md), [Build5](cloud-build/origin-layout/R10-BUILD5-RESULT-20261021.json), [release](cloud-build/origin-layout/R10-RELEASE-20261021.json).
+
+Ниже исторические checkpoints; прежние окна/разрешения не действуют. Приоритет у текущего Merge-R11 задания.
+
 # Merge-R10 CLOSED_PARTIAL
 
 2026-10-20 close23:27:49UTC; T021:48:01/main23:48:01/absolute00:18:01 unchanged.
