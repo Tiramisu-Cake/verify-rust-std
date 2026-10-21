@@ -254,6 +254,39 @@ def r12_upload_mode(proof_sha):
  return card['mode']
 
 
+def r12_runtime_inventory(commit):
+ # Resolve exactly the same closure as the pinned-object source transport.
+ spec=importlib.util.spec_from_file_location('r12_pinned_source',DIR/'source-input.py')
+ source=importlib.util.module_from_spec(spec);spec.loader.exec_module(source)
+ recipe=source.committed_recipe(ROOT,commit,'merge')
+ recipe_path='research/challenge-8/cloud-build/recipes/merge.json'
+ recipe_raw=subprocess.check_output(['git','show',commit+':'+recipe_path],cwd=ROOT)
+ allowed_mutable={
+  'research/challenge-8/cloud-build/origin-layout/R12-UPLOAD-MODE-20261021.json',
+  'research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R12-UPLOAD-BUDGET-20261021.json'}
+ proof_paths=[p for p in recipe['proof_paths'] if p not in allowed_mutable and not p.endswith('.md')]
+ paths=sorted(set(proof_paths+recipe['infra_paths']+source.infra_paths(ROOT,commit)+[recipe_path]))
+ raw=subprocess.check_output(['git','ls-tree','-r','-z',commit,'--',*paths],cwd=ROOT)
+ inventory={}
+ for record in raw.split(b'\0'):
+  if not record:continue
+  meta,path=record.split(b'\t',1);mode,kind,oid=meta.decode().split()
+  if mode not in ('100644','100755') or kind!='blob':
+   raise SystemExit('R12 runtime closure contains a non-regular source input')
+  inventory[path.decode()]=(mode,kind,oid)
+ if set(inventory)!=set(paths):raise SystemExit('R12 runtime closure is incomplete')
+ return recipe_raw,inventory
+
+
+def r12_validate_retry_sources(probe_sha,proof_sha):
+ # The explicit mode card must change commits. Everything it can execute,
+ # including the uploader and the recipe selection, must remain identical.
+ before_recipe,before=r12_runtime_inventory(probe_sha)
+ after_recipe,after=r12_runtime_inventory(proof_sha)
+ if before_recipe!=after_recipe or before!=after:
+  raise SystemExit('R12 proof retry differs from the synthetic-gated runtime/publication source closure')
+
+
 def authorized_phase(a,ledger):
  if not a.phase_id or not PHASE_PATTERN.fullmatch(a.phase_id) or ledger.get('phase')!=a.phase_id:raise SystemExit('Explicit phase ID must match the selected account')
  if a.phase_id=='CLOUD-BUILD-MIGRATION' or ledger.get('status')!='AUTHORIZED' or not isinstance(ledger.get('authorization'),str) or not ledger['authorization'].strip():raise SystemExit('Phase account is closed or has no explicit authorization')
@@ -613,6 +646,7 @@ def authorized_phase(a,ledger):
               x.get('submitted_config_sha256')==gate.get('submitted_config_sha256')]
     if len(matching)!=1 or r12_upload_mode(matching[0]['proof_sha'])!='synthetic-upload':
      raise SystemExit('R12 synthetic gate does not bind its successful accounted Build/source/config')
+    r12_validate_retry_sources(gate['proof_source_sha'],a.proof_sha)
  if a.phase_id=='CI-IAM-E2E-ONCE-2026-10-17':
   # Separate, explicitly activated account; never reuse a historical ledger.
   expected_ledger=DIR/'ci-iam-e2e-once-20261017'/'BUDGET.json'

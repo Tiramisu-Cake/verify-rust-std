@@ -97,11 +97,25 @@ class Tests(unittest.TestCase):
    @classmethod
    def now(cls,tz=None):return real.fromisoformat('2026-10-21T11:10:00+00:00')
   def mode(sha):return 'synthetic-upload' if sha=='b'*40 else 'proof-r11'
-  with patch.object(m.datetime,'datetime',Frozen),patch.object(m,'r12_upload_mode',side_effect=mode):
+  with patch.object(m.datetime,'datetime',Frozen),patch.object(m,'r12_upload_mode',side_effect=mode),patch.object(m,'r12_validate_retry_sources') as binding:
    m.authorized_phase(args(),d)
+   binding.assert_called_once_with('b'*40,'a'*40)
   for field,value in (('accounted',False),('proof_sha','e'*40),('submitted_config_sha256','e'*64)):
    bad=valid_proof_account();bad['builds'][0][field]=value
    with patch.object(m.datetime,'datetime',Frozen),patch.object(m,'r12_upload_mode',side_effect=mode),self.assertRaises(SystemExit):m.authorized_phase(args(),bad)
+
+ def test_mode_flip_allows_only_identical_runtime_and_publication_objects(self):
+  original={'proof.py':('100644','blob','a'*40),'control.py':('100644','blob','b'*40)}
+  def run(after,recipe=b'recipe'):
+   with patch.object(m,'r12_runtime_inventory',side_effect=[(b'recipe',original),(recipe,after)]):
+    m.r12_validate_retry_sources('b'*40,'a'*40)
+  run(dict(original))
+  for path in original:
+   for changed in (('100644','blob','c'*40),('100755','blob',original[path][2])):
+    after=dict(original);after[path]=changed
+    with self.subTest(path=path,changed=changed),self.assertRaises(SystemExit):run(after)
+  with self.assertRaises(SystemExit):run({'control.py':original['control.py']})
+  with self.assertRaises(SystemExit):run(dict(original),b'changed-recipe')
 
  def test_budget_and_pending_shapes_fail_closed(self):
   for field,value in (('used_build_seconds',True),('used_build_seconds',-1),('used_build_seconds',3601),('remaining_build_seconds',True),('remaining_build_seconds',3601),('remaining_build_seconds',3599),('builds',None),('builds',[None]),('active_build',False),('active_build','')):
@@ -114,7 +128,7 @@ class Tests(unittest.TestCase):
   authorize(d=d)
 
  def test_selected_commit_card_is_required_and_strict(self):
-  card=json.loads((HERE/'R12-UPLOAD-MODE-20261021.json').read_text())
+  card={'schema':'merge-r12-upload-mode-v1','mode':'synthetic-upload','payload_bytes':536870912,'threshold_bytes':157286400,'threshold_source':'https://docs.cloud.google.com/storage/docs/parallel-composite-uploads','proof_attempted':False}
   with patch.object(m.subprocess,'check_output',return_value=json.dumps(card).encode()):
    self.assertEqual(m.r12_upload_mode('a'*40),'synthetic-upload')
   for bad in (None,{},dict(schema='merge-r12-upload-mode-v1',mode='synthetic-upload'),dict(card,payload_bytes=1),dict(card,proof_attempted=True),dict(card,proof_attempted=0),dict(card,payload_bytes=536870912.0)):

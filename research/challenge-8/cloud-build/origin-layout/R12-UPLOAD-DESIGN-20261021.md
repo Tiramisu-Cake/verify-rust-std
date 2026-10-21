@@ -33,3 +33,17 @@ with accessible Brief and verified archive/inventory/publication identities.
 Normal R11 tool/model/std/spec/invariant/control/matrix bytes are frozen against
 source0c1d0d78. Synthetic diagnostic completion explicitly has proof_attempted=false,
 verification_accepted=false/credit0. No semantic/profile/tool fix is authorized.
+
+Source transport: first local candidate4edc7116 measured578838gzip/771784base64,
+194parts>191, rejected locally before any coordinator dispatch. Eleven historical
+Markdown documents outside R11 REQUIRED_PROOF_PATHS are omitted from runtime
+recipe only (exact paths recorded in session); no Python/shell consumer references
+them. All158 non-document/non-budget baseline proof inputs remain byte-identical.
+Caps, codec, SDK and algorithms remain unchanged.
+
+Mode transition changes the committed card, hence source SHA must differ between
+probe and proof. The client therefore binds both committed runtime closures by
+regular-file mode/type/blob OID, exact recipe selection, and all auto infrastructure
+inputs. Only the explicit R12 card, its mutable ledger and non-runtime Markdown
+may differ. Source/code/publication/recipe changes require a newly gated probe;
+source equality is not incorrectly required across the necessary mode flip.
