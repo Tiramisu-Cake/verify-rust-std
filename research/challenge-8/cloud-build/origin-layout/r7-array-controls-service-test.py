@@ -136,7 +136,7 @@ class R7ArrayControlsTests(unittest.TestCase):
             self.assertEqual(HELPER, controls.EXPECTED_HELPER)
             rows = controls.prepare(evidence, helper=HELPER)
             self.assertEqual(set(rows), set(controls.CASES))
-            self.assertEqual(sum(meta["class"] == "positive" for meta in controls.CASES.values()), 5)
+            self.assertEqual(sum(meta["class"] == "positive" for meta in controls.CASES.values()), 6)
             self.assertEqual(sum(meta["class"] == "negative" for meta in controls.CASES.values()), 6)
             manifest = json.loads((evidence / "manifest.json").read_text())
             self.assertFalse(manifest["accepted"])
@@ -151,6 +151,19 @@ class R7ArrayControlsTests(unittest.TestCase):
                 self.assertEqual(rows[name]["helper_sha256"], _sha(HELPER))
                 self.assertEqual(original.splitlines()[-1], b"pub fn r7_runtime_empty() {}")
                 self.assertEqual(verified.splitlines()[-1], b"pub fn r7_runtime_empty() {}")
+            lifecycle = controls.CASES["array3_borrow_lifecycle"]["runtime"]
+            original = (evidence / "array3_borrow_lifecycle/original/lib.rs").read_bytes()
+            verified = (evidence / "array3_borrow_lifecycle/verified/lib.rs").read_bytes()
+            target = b"let slice = core::ptr::slice_from_raw_parts_mut::<u64>(p as *mut u64, 3); // TARGET: construct exact mutable slice metadata"
+            self.assertEqual(original.count(target), 1)
+            self.assertEqual(verified.count(target), 1)
+            self.assertIn(b"//@ let k = begin_lifetime();", lifecycle)
+            self.assertIn(b"//@ borrow(k, r16_array3_content(default_tid(), p));", lifecycle)
+            self.assertIn(b"//@ end_lifetime(k);", lifecycle)
+            self.assertIn(b"//@ borrow_end(k, r16_array3_content(default_tid(), p));", lifecycle)
+            self.assertIn(b"full_borrow(?k, r16_array3_content(default_tid(), p))", lifecycle)
+            self.assertNotIn(b"create_ref_mut", lifecycle)
+            self.assertNotIn(b"assume", lifecycle)
             self.assertEqual(rows["positive"]["expected_stages"], {
                 "exporter": 0, "decode": 0, "refinement": 0, "verifast": 0})
             self.assertEqual(rows["wrong_value"]["expected_error_location"], {

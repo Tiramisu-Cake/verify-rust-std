@@ -238,15 +238,48 @@ lem r16_array3_slice_wrong_metadata_length(k: lifetime_t, t: thread_id_t, p: *[u
     },
 }
 
+# Exercise the checked bridge in an ordinary function. The Rust statement is
+# byte-identical on both sides; only the verified tree carries its ghost proof.
+ARRAY3_BORROW_LIFECYCLE = {
+    **CASES["array3_slice_full_borrow_roundtrip"],
+    "target": "construct exact mutable slice metadata",
+    "original_runtime": b"""pub unsafe fn r17_array3_slice_borrow_lifecycle(p: *mut [u64; 3]) -> *mut [u64] {
+    let slice = core::ptr::slice_from_raw_parts_mut::<u64>(p as *mut u64, 3); // TARGET: construct exact mutable slice metadata
+    slice
+}
+pub fn r7_runtime_empty() {}
+""",
+    "runtime": b"""pub unsafe fn r17_array3_slice_borrow_lifecycle(p: *mut [u64; 3]) -> *mut [u64]
+/*@ req *p |-> ?current &*& foreach(Array_elems(current), own::<u64>(default_tid()));
+    ens *p |-> current &*& foreach(Array_elems(current), own::<u64>(default_tid())) &*&
+        full_borrow(?k, r16_array3_content(default_tid(), p));
+@*/
+{
+    let slice = core::ptr::slice_from_raw_parts_mut::<u64>(p as *mut u64, 3); // TARGET: construct exact mutable slice metadata
+    //@ close r16_array3_content(default_tid(), p)();
+    //@ let k = begin_lifetime();
+    //@ borrow(k, r16_array3_content(default_tid(), p));
+    //@ r16_array3_slice_full_borrow_roundtrip(k, default_tid(), p, slice);
+    //@ end_lifetime(k);
+    //@ borrow_end(k, r16_array3_content(default_tid(), p));
+    //@ open r16_array3_content(default_tid(), p)();
+    slice
+}
+pub fn r7_runtime_empty() {}
+""",
+    "class": "positive",
+}
+CASES["array3_borrow_lifecycle"] = ARRAY3_BORROW_LIFECYCLE
+
 
 def _sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
 def _unit(spec: dict, helper: bytes, verified: bool) -> bytes:
-    runtime = b"pub fn r7_runtime_empty() {}\n"
+    runtime = spec.get("runtime", b"pub fn r7_runtime_empty() {}\n")
     if not verified:
-        return HEADER + runtime
+        return HEADER + spec.get("original_runtime", runtime)
     return HEADER + helper + b"\n/*@\n" + spec["lemma"] + b"@*/\n" + runtime
 
 
