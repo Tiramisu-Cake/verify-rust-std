@@ -25,6 +25,20 @@ R11_PROFILE = 'experimental-merge-label-storage-r11-v1'
 R11_LABEL_TRACE_ENV = 'SMALLSORT_R11_LABEL_STORAGE_TRACE'
 R11_LABEL_PLACEMENT_ENV = 'SMALLSORT_R11_LABEL_STORAGE_PLACEMENT'
 R9_GUARD_RETURN_RECOVERY_ENV = 'SMALLSORT_R9_GUARD_RETURN_RECOVERY'
+R17_PHASE_ID = 'MERGE-CALLER-REFINEMENT-R17-2026-10-21'
+R17_CANDIDATE_TOOL_COMMIT = 'a66c1d30214e463a16a325cdef30b0ec8555e0af'
+R17_PROFILE_REGISTRATION = {
+    'schema': 'merge-r17-profile-registration-v1',
+    'phase_id': R17_PHASE_ID,
+    'baseline_profile_path': 'research/challenge-8/cloud-build/origin-layout/R17-BASELINE-PROFILE-20261021.json',
+    'starting_tool_commit': '660b576b6b1608db913c51e0785b443a8733396f',
+    'starting_source_sha': '6fd50c699500cbac5c65912174d4aa49b49db19f',
+    'owner': 'merge', 'lane': 'merge',
+    'candidate_tool_commit': R17_CANDIDATE_TOOL_COMMIT,
+    'tool_source_paths': ['src/refinement_checker/refinement_checker.ml'],
+    'source_applicability': ('paired RawPtr bare local only; exact mutability/full MIR and decoded local type/place; '
+                             'existing equal-state allocation reconciliation; no borrow or memory authority'),
+}
 BODY_ISOLATION_NAME = 'actual_insert_tail_body_isolated'
 RAW_LOCAL_CALLER_NAME = 'actual_three_from_local_raw'
 SUPPORTED_PROFILES = (PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE)
@@ -74,6 +88,49 @@ def _load(name, path):
     sys.modules[name] = module
     spec.loader.exec_module(module)
     return module
+
+
+def _r17_registration_matches(profile_path, selected_profile, validated_receipt):
+    try:
+        profile = json.loads(Path(profile_path).read_text())
+        registration = profile.get('r17_registration')
+        return (selected_profile == R11_PROFILE and profile.get('profile') == R11_PROFILE and
+                type(validated_receipt) is dict and validated_receipt.get('profile') == R11_PROFILE and
+                type(registration) is dict and registration == R17_PROFILE_REGISTRATION and
+                profile.get('effective_tool_commit') == R17_CANDIDATE_TOOL_COMMIT)
+    except (OSError, json.JSONDecodeError, AttributeError, TypeError):
+        return False
+
+
+def _run_raw_local_caller_after_controls(controls_result, diagnostic):
+    result = diagnostic()
+    result['rawptr_controls'] = {
+        'classification': controls_result.get('classification') if type(controls_result) is dict else None,
+        'all_matched': type(controls_result) is dict and controls_result.get('all_matched') is True,
+        'proof_credit': False}
+    return result
+
+
+def _rawptr_controls_summary(controls_result):
+    return {'classification': controls_result.get('classification') if type(controls_result) is dict else None,
+            'all_matched': type(controls_result) is dict and controls_result.get('all_matched') is True,
+            'proof_credit': False}
+
+
+def _run_r17_controls_if_registered(enabled, captured, run):
+    if not enabled:
+        return dict(classification='NOT_APPLICABLE_R17_REGISTRATION_ABSENT',
+                    all_matched=False,
+                    reason='selected GLUE profile lacks the exact validated R17 registration',
+                    accepted=False, proof_credit=False, b2_achieved=False)
+    if (captured is None or captured.get('preparation_sha256') is None or
+            captured.get('full_body_execution_observation') is None):
+        raise ValueError('pre-dispatch full-body identity/receipt capture is incomplete')
+    if captured.get('receipt_error') is not None:
+        return dict(classification='INCONCLUSIVE', all_matched=False,
+                    reason='pre-dispatch full-body preparation receipt capture failed',
+                    accepted=False, proof_credit=False, b2_achieved=False)
+    return run()
 
 
 def _sha(data):
@@ -1519,6 +1576,8 @@ def run(evidence, args, env, execute_case, validated_receipt):
     consumer = _load('first_callback_receipt', HERE/'concrete-consumer.py')
     provider, proof_sha = proof.require_hosted_cloud()
     consumer._validate_receipt(args, validated_receipt, provider, proof_sha)
+    r17_controls_enabled = _r17_registration_matches(
+        profile_path, selected_profile, validated_receipt)
     evidence.mkdir(parents=True, exist_ok=False)
     def dispatch(case, case_args, case_env=None, *, prefix=False, actual_callback_case=False,
                  body_isolation_native=False):
@@ -1616,20 +1675,16 @@ def run(evidence, args, env, execute_case, validated_receipt):
         # RawPtr controls run before the raw caller target. Their result is a
         # separate diagnostic and cannot alter original/prefix/full-body gates.
         try:
-            if (captured_parent_identity is None or
-                    captured_parent_identity.get('preparation_sha256') is None or
-                    full_body_execution_observation is None):
-                raise ValueError('pre-dispatch full-body identity/receipt capture is incomplete')
-            if captured_parent_identity.get('receipt_error') is not None:
-                results['rawptr_controls'] = dict(
-                    classification='INCONCLUSIVE', all_matched=False,
-                    reason='pre-dispatch full-body preparation receipt capture failed',
-                    accepted=False, proof_credit=False, b2_achieved=False)
-            else:
+            control_identity = (dict(captured_parent_identity,
+                                     full_body_execution_observation=full_body_execution_observation)
+                                if captured_parent_identity is not None else None)
+            def run_rawptr_controls():
                 rawptr_controls = _load('r17_rawptr_controls', HERE / 'r17-rawptr-controls.py')
-                results['rawptr_controls'] = rawptr_controls.run(
+                return rawptr_controls.run(
                     evidence, args, campaign_env, dispatch, consumer, selected_profile,
                     source_sha256=captured_parent_identity['record'].get('source_sha256'))
+            results['rawptr_controls'] = _run_r17_controls_if_registered(
+                r17_controls_enabled, control_identity, run_rawptr_controls)
         except Exception as error:
             results['rawptr_controls'] = dict(
                 classification='INCONCLUSIVE', all_matched=False,
@@ -1650,22 +1705,24 @@ def run(evidence, args, env, execute_case, validated_receipt):
                     'INCONCLUSIVE', 'pre-dispatch full-body preparation receipt capture failed',
                     evidence=evidence, phase='parent_identity',
                     error=captured_parent_identity['receipt_error'])
+                results['raw_local_caller']['rawptr_controls'] = _rawptr_controls_summary(
+                    results.get('rawptr_controls'))
             else:
                 old_raw = _load('r16_raw_local_caller_source', HERE / 'actual-insert-tail-b2.py')
-                results['raw_local_caller'] = _run_raw_local_caller_diagnostic(
-                    evidence, parent_case, captured_parent_identity['record'], old_raw,
-                    consumer, args, selected_profile, dispatch,
-                    parent_preparation_sha=captured_parent_identity['preparation_sha256'],
-                    parent_source_unchanged=full_body_execution_observation.get('source_unchanged'),
-                    parent_stage_receipt_gate=full_body_execution_observation.get('stage_receipt_gate'))
-                results['raw_local_caller']['rawptr_controls'] = {
-                    'classification': results.get('rawptr_controls', {}).get('classification'),
-                    'all_matched': results.get('rawptr_controls', {}).get('all_matched') is True,
-                    'proof_credit': False}
+                results['raw_local_caller'] = _run_raw_local_caller_after_controls(
+                    results.get('rawptr_controls'),
+                    lambda: _run_raw_local_caller_diagnostic(
+                        evidence, parent_case, captured_parent_identity['record'], old_raw,
+                        consumer, args, selected_profile, dispatch,
+                        parent_preparation_sha=captured_parent_identity['preparation_sha256'],
+                        parent_source_unchanged=full_body_execution_observation.get('source_unchanged'),
+                        parent_stage_receipt_gate=full_body_execution_observation.get('stage_receipt_gate')))
         except Exception as error:
             results['raw_local_caller'] = _raw_local_caller_outcome(
                 'INCONCLUSIVE', 'raw local caller parent identity setup raised an exception',
                 evidence=evidence, phase='parent_identity', error=error)
+            results['raw_local_caller']['rawptr_controls'] = _rawptr_controls_summary(
+                results.get('rawptr_controls'))
         if selected_profile == R11_PROFILE:
             placement = _load('r11_storage_placement_controls', HERE/'r11-storage-placement-controls.py')
             positive_case = evidence/'full_body/cases/actual_three_current_full_posts'

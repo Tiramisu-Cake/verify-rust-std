@@ -17,6 +17,12 @@ if spec is None or spec.loader is None:
     raise RuntimeError("R17 RawPtr controls module is unavailable")
 controls = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(controls)
+callback_spec = importlib.util.spec_from_file_location(
+    "r17_first_callback", HERE / "first-callback.py")
+if callback_spec is None or callback_spec.loader is None:
+    raise RuntimeError("first-callback module is unavailable")
+callback = importlib.util.module_from_spec(callback_spec)
+callback_spec.loader.exec_module(callback)
 SOURCE_SHA = "a" * 64
 
 
@@ -94,7 +100,7 @@ class RawPtrControlsTests(unittest.TestCase):
         stage_map, hashes = self.write_stages(case, name, stages, statuses, missing)
         if diagnostic is not None:
             if name == "changed_local_contents":
-                line = ("ERROR: The states of the two locals values and begin whose address is taken are not equal\n")
+                line = f"ERROR: {diagnostic}\n"
             else:
                 detail = ("While checking that the command at bb0:0 in the original program refines "
                           "the command at bb1:0 in the verified program: " + diagnostic)
@@ -145,7 +151,7 @@ class RawPtrControlsTests(unittest.TestCase):
     def test_exact_refusals_require_function_and_command_target_context(self):
         diagnostics = {
             "mutability_mismatch": controls.DIAGNOSTICS["mutability_mismatch"],
-            "changed_local_contents": "The states of the two locals values and begin whose address is taken are not equal",
+            "changed_local_contents": controls.DIAGNOSTICS["changed_local_contents"],
             "unsupported_index_projection": controls.DIAGNOSTICS["unsupported_index_projection"],
             "raw_ref_cross_kind": controls.DIAGNOSTICS["raw_ref_cross_kind"],
         }
@@ -161,6 +167,9 @@ class RawPtrControlsTests(unittest.TestCase):
         unbound = self.classify("mutability_mismatch",
             controls.DIAGNOSTICS["mutability_mismatch"], target_context=False)
         self.assertFalse(unbound["matched"])
+        wrong_local_pair = self.classify("changed_local_contents",
+            "The states of the two locals values and begin whose address is taken are not equal")
+        self.assertFalse(wrong_local_pair["matched"])
 
     def test_timeout_partial_missing_null_and_wrong_type_fail_closed(self):
         timeout = self.classify("mutability_mismatch",
@@ -219,9 +228,6 @@ class RawPtrControlsTests(unittest.TestCase):
             if name != "identical_local_rawmut":
                 stages.update(refinement=1, verifast=1)
                 diagnostic = controls.DIAGNOSTICS.get(name)
-                if name == "changed_local_contents":
-                    diagnostic = ("The states of the two locals values and begin "
-                                  "whose address is taken are not equal")
                 body = (f"ERROR: While checking that command: {diagnostic}\n"
                         f"function={controls.CONTROL_FUNCTION}\n"
                         "======== Commands of basic block ========\nRawPtr\nRef\n")
@@ -259,6 +265,39 @@ class RawPtrControlsTests(unittest.TestCase):
                          {"type": "RuntimeError", "message": "dispatch sentinel"})
         self.assertEqual(first["execution_status"], "FAILED")
         self.assertFalse(result["all_matched"])
+
+    def test_first_callback_requires_exact_r17_registration_and_keeps_raw_frontier(self):
+        profile = {"profile": callback.R11_PROFILE,
+                   "effective_tool_commit": callback.R17_CANDIDATE_TOOL_COMMIT,
+                   "r17_registration": callback.R17_PROFILE_REGISTRATION}
+        path = self.root / "GLUE-PROFILE.json"
+        path.write_text(json.dumps(profile))
+        receipt = {"profile": callback.R11_PROFILE}
+        self.assertTrue(callback._r17_registration_matches(path, callback.R11_PROFILE, receipt))
+        del profile["r17_registration"]
+        path.write_text(json.dumps(profile))
+        self.assertFalse(callback._r17_registration_matches(path, callback.R11_PROFILE, receipt))
+        profile["r17_registration"] = dict(callback.R17_PROFILE_REGISTRATION,
+                                            candidate_tool_commit="0" * 40)
+        profile["effective_tool_commit"] = "0" * 40
+        path.write_text(json.dumps(profile))
+        self.assertFalse(callback._r17_registration_matches(path, callback.R11_PROFILE, receipt))
+        called_controls = []
+        skipped = callback._run_r17_controls_if_registered(
+            False, {"preparation_sha256": "b" * 64,
+                    "full_body_execution_observation": {},
+                    "record": {"source_sha256": SOURCE_SHA}},
+            lambda: (called_controls.append(True) or {}))
+        self.assertEqual(called_controls, [])
+        self.assertEqual(skipped["classification"], "NOT_APPLICABLE_R17_REGISTRATION_ABSENT")
+
+        called = []
+        raw = callback._run_raw_local_caller_after_controls(
+            {"classification": "INCONCLUSIVE", "all_matched": False},
+            lambda: (called.append(True) or {"classification": "RAW_CALLER_FRONTIER_REACHED"}))
+        self.assertEqual(called, [True])
+        self.assertEqual(raw["classification"], "RAW_CALLER_FRONTIER_REACHED")
+        self.assertFalse(raw["rawptr_controls"]["all_matched"])
 
 
 if __name__ == "__main__":

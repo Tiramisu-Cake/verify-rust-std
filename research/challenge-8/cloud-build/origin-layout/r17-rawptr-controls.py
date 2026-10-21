@@ -23,13 +23,11 @@ BASE = (b"#![no_std]\n"
         b"    begin\n}\n")
 DIAGNOSTICS = {
     "mutability_mismatch": "RawPtr: mutabilities do not match",
-    "changed_local_contents": None,
+    "changed_local_contents": (
+        "The states of the two locals values and values whose address is taken are not equal"),
     "unsupported_index_projection": "RawPtr: projected places are not supported",
     "raw_ref_cross_kind": "Command kinds do not match",
 }
-LOCAL_STATE_ERROR = re.compile(
-    r"The states of the two locals .+ whose address is taken are not equal"
-)
 CASES = ("identical_local_rawmut", "mutability_mismatch",
          "changed_local_contents", "unsupported_index_projection",
          "raw_ref_cross_kind")
@@ -82,14 +80,14 @@ def _target_binding(name: str, source: bytes, anchor: bytes, logs) -> dict:
     text = "\n".join(content for _, content in logs)
     expected = DIAGNOSTICS.get(name)
     if name == "changed_local_contents":
-        exact = [line for line in text.splitlines() if LOCAL_STATE_ERROR.search(line)]
-        local_names = bool(exact and "values" in exact[0] and "begin" in exact[0])
+        exact = [line for line in text.splitlines() if line.strip().endswith(expected)]
+        local_names = len(exact) == 1
         function_bound = local_names
         command_listing = True
         cross_kind_listing = True
     else:
         exact = [line for line in text.splitlines()
-                 if expected is not None and expected in line]
+                 if expected is not None and line.strip().endswith(expected)]
         function_bound = CONTROL_FUNCTION in text
         command_listing = ("Commands of basic block" in text and "RawPtr" in text)
         cross_kind_listing = name != "raw_ref_cross_kind" or "Ref" in text
