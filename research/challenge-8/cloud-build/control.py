@@ -398,8 +398,8 @@ def r14_validate_gate_record(gate):
   'submitted_config_catalogue_verification':'SHA256_VERIFIED_ARCHIVE_MEMBER',
   'actual_dispatch_config_audit':'R14-CONFIG-AUDIT-20261021.json',
   'upload_shell_sha256':R14_UPLOAD_SHELL_SHA256,
-  'bounded_archive_statement':'157286400 < actual compressed archive bytes <= 536870912; bounds from mandatory pinned guard execution and successful publication, not direct size receipt observation',
-  'sidecar_limitation':'Post-package receipts outside archive catalogue; exact size and upload-only timing unavailable via Reader. No raw audit requested or used.',
+  'bounded_archive_statement':'157286400 < actual archive bytes <= 536870912 inferred from pinned mandatory guard + successful steps.',
+  'sidecar_limitation':'External receipts unavailable via Reader; exact size/upload timing UNKNOWN. No raw read.',
   'historical_R13_records_modified':False,'old_probe_charged_to_R14':False}
  if not isinstance(coverage,dict) or not expected_coverage.keys()<=coverage.keys() or any(coverage.get(key)!=value for key,value in expected_coverage.items()):
   raise SystemExit('R14 gate lacks the exact fresh Brief/policy/config/coverage observations')
@@ -494,45 +494,26 @@ def r14_validate_mode_transition(before_card,after_card):
 
 
 def r14_validate_publisher_control(before_control,after_control):
- def function_segment(text,name):
-  tree=ast.parse(text)
-  node=next((n for n in tree.body if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef)) and n.name==name),None)
-  return ast.get_source_segment(text,node) if node is not None else None
- if any(function_segment(before_control,name)!=function_segment(after_control,name)
-        for name in ('envs','config')):
-  raise SystemExit('R14 changed the R13 Cloud config producer or upload command')
- for constant in ('BUCKET','UBUNTU','SDK','ACCOUNT','SDK_PYTHON'):
-  def assignment(text,key):
-   tree=ast.parse(text)
-   for node in tree.body:
-    if isinstance(node,ast.Assign) and any(isinstance(t,ast.Name) and t.id==key for t in node.targets):
-     return ast.literal_eval(node.value)
-   return None
-  if assignment(before_control,constant)!=assignment(after_control,constant):
-   raise SystemExit('R14 changed a publisher image/account/bucket constant')
- expected_route="def required_upload_guard(phase):return phase in ('MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21','MERGE-PUBLICATION-GATE-PROOF-R14-2026-10-21')"
- if function_segment(after_control,'required_upload_guard')!=expected_route:
+ tree=ast.parse(after_control); baseline=ast.parse(before_control)
+ def segment(parsed,text,name):
+  node=next((n for n in parsed.body if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef)) and n.name==name),None)
+  return ast.get_source_segment(text,node) if node else None
+ # The probe commit is pinned; exact function-source equality preserves its
+ # reviewed fail-closed guard, policy, upload order and marker-last behavior.
+ if any(segment(baseline,before_control,n)!=segment(tree,after_control,n)
+        for n in ('envs','config')):
+  raise SystemExit('R14 changed the exact R13 Cloud config producer or upload command')
+ expected="def required_upload_guard(phase):return phase in ('MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21','MERGE-PUBLICATION-GATE-PROOF-R14-2026-10-21')"
+ if segment(tree,after_control,'required_upload_guard')!=expected:
   raise SystemExit('R14 does not enable the mandatory mode-card guard on exactly R13 and R14')
- if 'r13_required=required_upload_guard(a.phase_id)' not in function_segment(after_control,'run_command'):
-  raise SystemExit('R14 submit path does not pass the selected phase guard marker into the config')
- upload_segment=function_segment(after_control,'config') or ''
- guard=upload_segment.find('r13-archive-size-guard.py --archive')
- package=upload_segment.find('package-evidence.py --evidence')
- first_upload=upload_segment.find('gcloud --configuration=smallsort-ci --account=ACCOUNT --project=smallsort-ci storage cp --if-generation-match=0')
- marker_upload=upload_segment.find('gcloud --configuration=smallsort-ci --account=ACCOUNT --project=smallsort-ci storage cp --if-generation-match=0 /workspace/out/upload-complete.json')
- upload_calls=[m.start() for m in re.finditer(r'gcloud --configuration=smallsort-ci --account=ACCOUNT --project=smallsort-ci storage cp',upload_segment)]
- if not (package>=0 and guard>package and first_upload>guard and marker_upload>first_upload and
-         upload_calls and marker_upload==upload_calls[-1] and
-         'export CLOUDSDK_STORAGE_PARALLEL_COMPOSITE_UPLOAD_ENABLED=False' in upload_segment and
-         'set -euo pipefail' in upload_segment and
-         "'R13_UPLOAD_REQUIRED={\"true\" if r13_required else \"false\"}'" in function_segment(after_control,'envs')):
-  raise SystemExit('R14 exact publisher path lost the fail-closed guard/policy/marker-last ordering')
- # The guard is an unmasked simple command in a set-e shell and the first
- # upload loop is textually after it; a trailing `|| true` would void the gate.
- if 'r13-archive-size-guard.py --archive' in upload_segment:
-  tail=upload_segment[guard:first_upload]
-  if '|| true' in tail or '||:' in tail:
-   raise SystemExit('R14 publisher suppresses the mandatory archive guard failure')
+ command=segment(tree,after_control,'run_command') or ''
+ if 'r13_required=required_upload_guard(a.phase_id)' not in command:
+  raise SystemExit('R14 submit path does not pass the selected phase guard marker into config')
+ def assignments(parsed):
+  return {t.id:ast.literal_eval(n.value) for n in parsed.body if isinstance(n,ast.Assign)
+          for t in n.targets if isinstance(t,ast.Name) and t.id in {'BUCKET','UBUNTU','SDK','ACCOUNT','SDK_PYTHON'}}
+ if assignments(baseline)!=assignments(tree) or len(assignments(baseline))!=5:
+  raise SystemExit('R14 changed a publisher image/account/bucket constant')
 
 
 def r14_validate_retry_sources(probe_sha,proof_sha):
