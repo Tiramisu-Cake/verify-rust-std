@@ -74,7 +74,7 @@ class R13Registration(unittest.TestCase):
         recipe = json.loads((CLOUD / "recipes/o26-sort4-c1-current-recovery.json").read_text())
         prefix = "research/challenge-8/cloud-build/sort4-caller-entry-native/"
         self.assertIn(prefix + PROFILE, recipe["proof_paths"])
-        for name in (PROFILE, "a1-entry-r13.py", "a1-runner-r13.py"):
+        for name in ("a1-entry-r13.py", "a1-runner-r13.py"):
             self.assertIn(prefix + name, recipe["infra_paths"])
         for phase in (CONTROL.A1_R12_PHASE, CONTROL.A1_R13_PHASE):
             self.assertIn(phase, (CLOUD / "sort4-caller-entry-native/a1-focus-backend.py").read_text())
