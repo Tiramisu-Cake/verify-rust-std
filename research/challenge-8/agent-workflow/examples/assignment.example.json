@@ -1,0 +1,41 @@
+{
+  "schema": "smallsort-assignment-v1",
+  "task_id": "example-next-session",
+  "previous_task_id": "example-closed-session",
+  "title": "Пример — заменить перед выдачей агенту",
+  "owner": "merge",
+  "worktree": "/root/verify-rust-std-merge-origin",
+  "branch": "merge/incoming-origin-20261009",
+  "baseline_sha": "0000000000000000000000000000000000000000",
+  "source_sha": "0000000000000000000000000000000000000000",
+  "tool_sha": "0000000000000000000000000000000000000000",
+  "tool_worktree": "/root/verifast-merge-actual-glue",
+  "tool_branch": "merge/actual-glue-instance-20261011",
+  "profile_path": "research/challenge-8/cloud-build/origin-layout/REPLACE-PROFILE.json",
+  "profile_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "phase": "EXAMPLE-NOT-AUTHORIZED",
+  "lane": "merge",
+  "ledger_path": "research/challenge-8/cloud-build/origin-layout/REPLACE-NEW-BUDGET.json",
+  "previous_ledger_path": "research/challenge-8/cloud-build/origin-layout/REPLACE-CLOSED-BUDGET.json",
+  "goal": "Заменить проверенными данными и конкретным обязательством; этот пример не является поручением.",
+  "steps": [
+    "Проверить последний exact checkpoint и выбрать фальсифицируемую гипотезу."
+  ],
+  "special_bounds": [
+    "Сохранить exact experimental profile bounds; добавить ссылку на их review."
+  ],
+  "references": [],
+  "handoff": {
+    "confirmed": [],
+    "open": [
+      "Нет проверенных данных в этом примере."
+    ],
+    "blocker": {
+      "summary": "UNKNOWN: заполнить из compact evidence.",
+      "evidence": []
+    },
+    "rejected": [],
+    "next_step": "Заполнить handoff по последнему отчёту.",
+    "artifacts": []
+  }
+}
