@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "a545e95da3447bbe65a5b10484b54c535235c69f8d5276b01388b4a9a1185586",
+  "build_id": "fa548e23-b533-4e27-adce-7a9736e072da",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 211,
+    "line_separator": "LF",
+    "source_lines": 214,
+    "start": 200,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "8b8a167c9fd64bac31467b378abdd1b2a0277dfbf94ed838bb92a48f890d2be3",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/checked-interior_pointer_limits/lemma-verification.log",
+  "file_sha256": "bf777f51587c7e6da77a928e4e0eff93c8efce25284036dad5b587adcf746258",
+  "index_sha256": "34cee9c0de6f43cb92714fb8ebca5e8349669a34d50852a06ec03d04853afae0",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 211,
+    "expected_sha256": "bf777f51587c7e6da77a928e4e0eff93c8efce25284036dad5b587adcf746258",
+    "file_id": "8b8a167c9fd64bac31467b378abdd1b2a0277dfbf94ed838bb92a48f890d2be3",
+    "start": 200
+  },
+  "request_id": "375c9a5ff4af933756951fca7559d01789f7e5789434a44ba4d045ab6bf9e136",
+  "requested_end": 211,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 200,
+      "text": "(type)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 201,
+      "text": "(type)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 202,
+      "text": "(type)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 203,
+      "text": ""
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 204,
+      "text": "verified/lib.rs(131,1-135,2): error: R16 full-body scope relocation refused: address-taken target local: $_38"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 205,
+      "text": "131 | pub unsafe fn sort4_stable<T, F: FnMut(&T, &T) -> bool>("
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 206,
+      "text": "    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 207,
+      "text": "132 |     v_base: *const T,"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 208,
+      "text": "    | ^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 209,
+      "text": "133 |     dst: *mut T,"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 210,
+      "text": "    | ^^^^^^^^^^^^^^^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 211,
+      "text": "134 |     is_less: &mut F,"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

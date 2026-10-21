@@ -1,0 +1,50 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -7735,6 +7735,8 @@
+        | Ast.WRead (_, _, _, _, _, _, _, true, _, _) ->
+            reject "unsupported static WRead may hide a candidate receiver"
+        | Ast.Var (_, id) | Ast.WVar (_, id, _) -> record_ref scope id
++       | Ast.AddressOf (_, Ast.Deref (_, (Ast.Var (_, id) | Ast.WVar (_, id, _))))
++           when target id -> ()
+        | Ast.AddressOf (_, inner) ->
+            Ast.expr_iter (function
+              | Ast.Var (_, id) | Ast.WVar (_, id, _) when target id ->
+@@ -8071,6 +8073,29 @@
+   let proof_wrapper = Ast.BlockStmt (loc, [], [decl; proof_in; ret], loc, ref []) in
+   begin match validate_actual_scope_relocation [] [id, Some ty] (Some proof_wrapper) [cmp; goto; label; proof_wrapper] with
+   | Ok () -> () | Error why -> failwith ("R16 proof-tuple positive control refused: " ^ why) end;
++  let referent_address = Ast.ExprStmt
++    (Ast.AddressOf (loc, Ast.Deref (loc, Ast.Var (loc, id)))) in
++  let referent_wrapper = Ast.BlockStmt (loc, [], [decl; referent_address; ret], loc, ref []) in
++  begin match validate_actual_scope_relocation [] [id, Some ty] (Some referent_wrapper)
++      [cmp; goto; label; referent_wrapper] with
++  | Ok () -> () | Error why -> failwith ("R16 exact reborrow positive control refused: " ^ why) end;
++  let direct_address = Ast.ExprStmt (Ast.AddressOf (loc, Ast.Var (loc, id))) in
++  let direct_wrapper = Ast.BlockStmt (loc, [], [decl; direct_address; ret], loc, ref []) in
++  ignore (refused "address-of-local" "address-taken target local:"
++    [cmp; goto; label; direct_wrapper] (Some direct_wrapper));
++  let field_address = Ast.ExprStmt
++    (Ast.AddressOf (loc, Ast.Select (loc, Ast.Var (loc, id), "field"))) in
++  let field_wrapper = Ast.BlockStmt (loc, [], [decl; field_address; ret], loc, ref []) in
++  ignore (refused "address-of-field" "address-taken target local:"
++    [cmp; goto; label; field_wrapper] (Some field_wrapper));
++  let nested_address = Ast.ExprStmt
++    (Ast.AddressOf (loc, Ast.Deref (loc, Ast.AddressOf (loc, Ast.Var (loc, id))))) in
++  let nested_wrapper = Ast.BlockStmt (loc, [], [decl; nested_address; ret], loc, ref []) in
++  ignore (refused "nested-address" "address-taken target local:"
++    [cmp; goto; label; nested_wrapper] (Some nested_wrapper));
++  let outside_reborrow_wrapper = Ast.BlockStmt (loc, [], [decl; ret], loc, ref []) in
++  ignore (refused "reborrow-outside-scope" "deferred local escaped normal suffix scope:"
++    [cmp; goto; label; outside_reborrow_wrapper; referent_address] (Some outside_reborrow_wrapper));
+   let runtime_op = Ast.ExprStmt (Ast.CallExpr (loc, "runtime_op", [], [], [], Ast.Static)) in
+   let before_labels = ref [] and before_gotos = ref [] in
+   List.iter (Ast.stmt_iter (function Ast.LabelStmt (_, n) -> before_labels := n :: !before_labels | Ast.GotoStmt (_, n) -> before_gotos := n :: !before_gotos | _ -> ())) [goto; label; runtime_op; ret];
+@@ -8082,7 +8107,7 @@
+   | [_; Ast.LabelStmt (_, "34"); (Ast.BlockStmt (_, [], [_; preserved_op; _], _, _) as w)]
+     when w == placed_wrapper && preserved_op == runtime_op -> ()
+   | _ -> failwith "R16 label or runtime-operation preservation control failed" end;
+-  Printf.eprintf "ACTUAL-SCOPE-RELOCATION deferred-controls=8 proof-tuple-controls=2 cfg-preservation=PASS\n%!"
++  Printf.eprintf "ACTUAL-SCOPE-RELOCATION deferred-controls=13 proof-tuple-controls=2 reborrow-controls=5 cfg-preservation=PASS\n%!"
+ 
+   let translate_body (body_tr_defs_ctx : body_tr_defs_ctx) (body_cpn : BodyRd.t)
+       =

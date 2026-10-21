@@ -12,15 +12,15 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "d1376298-d147-43b5-a0b7-e5832cb564b1",
+    "build_id": "fa548e23-b533-4e27-adce-7a9736e072da",
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S2-evidence.json",
-        "sha256": "a6ed06e09746fe8b5e5353eacc396bff269ad2e32fb243b487ef43eaa70aacd6"
+        "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S3-evidence.json",
+        "sha256": "ddff5d3430b49eea4e147fe8bd3e437b5965e3f0f13cf2dd4bf3438d2021114b"
       }
     ],
-    "location": "vf_mir_translator.ml:7852",
-    "summary": "S2 final OCaml tool build rejected shifted ProduceLemmaFunctionPointerChunkStmt tuple; scope fix unexecuted. Actual normal/unwind body remains OPEN; S1 identifies future24 outside c1 cut."
+    "location": "verified/lib.rs:131",
+    "summary": "supplemental scope address-exposure checker refuses $_38; exact S1 AST is AddressOf(Deref(Var $_38)) during reborrow_ref; actual body NOT_RUN at checked-lemma prerequisite barrier."
   },
   "confirmed": [
     {
@@ -50,7 +50,7 @@
       ]
     }
   ],
-  "next_step": "S3 checked six-c1 / twenty-four-deferred declaration scopes prepared; independent semantic review and Cloud final compiler/actual-body checks pending.",
+  "next_step": "Review and run S4 exact &*p referent-address recognition, retaining all local-storage escape refusals and kernel checks.",
   "open": [
     "Full generic actual sort4 normal/unwind; actual callback debt and Boolean\u2192pointer binding.",
     "Independent B1/B2credit0; final qualification/full26 and stable Freeze caller OPEN.",
@@ -76,13 +76,13 @@
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-21T20:20:34Z",
     "main_deadline_utc": "2026-10-21T19:50:34Z",
-    "remaining_seconds": 2670,
+    "remaining_seconds": 2358,
     "retired_seconds": 0,
-    "spent_seconds": 930,
+    "spent_seconds": 1242,
     "t0": "2026-10-21T17:50:34Z",
     "unresolved_ids": []
   },
   "state": "ACTIVE",
   "task_id": "select-actual-lifetime-autonomous-2026-10-21-r16",
-  "updated_utc": "2026-10-21T19:02:34.906066Z"
+  "updated_utc": "2026-10-21T19:14:54.187094Z"
 }

@@ -1,0 +1,68 @@
+{
+  "archive_sha256": "a545e95da3447bbe65a5b10484b54c535235c69f8d5276b01388b4a9a1185586",
+  "build_id": "fa548e23-b533-4e27-adce-7a9736e072da",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 73,
+      "EMPTY_FILE": 130,
+      "JSON_EXCEEDS_SCAN_LIMIT": 1,
+      "PROJECTED": 542,
+      "UNSUPPORTED_FILE_TYPE": 79
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2094202,
+    "content_files": 673,
+    "files": 825,
+    "source_scan_bytes": 6305231
+  },
+  "index_sha256": "34cee9c0de6f43cb92714fb8ebca5e8349669a34d50852a06ec03d04853afae0",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "kind": "json",
+      "path": "proof-audit.json",
+      "path_sanitized": false,
+      "scanned_bytes": 151463,
+      "sha256": "50654a85df7688fa58dc1eb1515d681e3b5764a3f1ff291dc818a12e2203a019",
+      "size_bytes": 151463,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "69392933f18fd828297d1865595841a0fcc6e7e7c2b475b4b129572dc5aade3d",
+      "kind": "json",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/diagnostic-audit.json",
+      "path_sanitized": false,
+      "scanned_bytes": 151463,
+      "sha256": "50654a85df7688fa58dc1eb1515d681e3b5764a3f1ff291dc818a12e2203a019",
+      "size_bytes": 151463,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "dcbbf5a140afd268fc0673c6c445efc38559f11f53475e39015e252912925389",
+      "kind": "json",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-reference-own-probe/probe-audit.json",
+      "path_sanitized": false,
+      "scanned_bytes": 21881,
+      "sha256": "60e67fcba23c59d4543674abc1f3756c0f1562ec27b4700f798f27ad2323798a",
+      "size_bytes": 21881,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 825,
+    "files_with_incomplete_content": 609,
+    "matches_in_retained_data": 3,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

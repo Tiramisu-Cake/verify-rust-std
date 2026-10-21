@@ -47,9 +47,9 @@ Next: Name unresolved outer MIR cells, fix source-preserving binding, then rerun
 ## Отчёт агента
 
 **select-actual-lifetime-autonomous-2026-10-21-r16 · select-sort4 · SORT4-ACTUAL-LIFETIME-2026-10-21-R16 · ACTIVE**
-Updated: 2026-10-21T19:02:34.906066Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `de469095ad2ba4435b41bc0f114289cd12f4952f129e88fbcfb655cea6dca505`.
-Dates: T0 `2026-10-21T17:50:34Z`; main `2026-10-21T19:50:34Z`; absolute `2026-10-21T20:20:34Z`. Budget 3600s: 930s spent, 0s retired, 2670s remaining including reservations.
+Updated: 2026-10-21T19:14:54.187094Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `de469095ad2ba4435b41bc0f114289cd12f4952f129e88fbcfb655cea6dca505`.
+Dates: T0 `2026-10-21T17:50:34Z`; main `2026-10-21T19:50:34Z`; absolute `2026-10-21T20:20:34Z`. Budget 3600s: 1242s spent, 0s retired, 2358s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: S2 final OCaml tool build rejected shifted ProduceLemmaFunctionPointerChunkStmt tuple; scope fix unexecuted. Actual normal/unwind body remains OPEN; S1 identifies future24 outside c1 cut. [Build `d1376298-d147-43b5-a0b7-e5832cb564b1`]
-Next: S3 checked six-c1 / twenty-four-deferred declaration scopes prepared; independent semantic review and Cloud final compiler/actual-body checks pending.
+Blocker: supplemental scope address-exposure checker refuses $_38; exact S1 AST is AddressOf(Deref(Var $_38)) during reborrow_ref; actual body NOT_RUN at checked-lemma prerequisite barrier. [Build `fa548e23-b533-4e27-adce-7a9736e072da`]
+Next: Review and run S4 exact &*p referent-address recognition, retaining all local-storage escape refusals and kernel checks.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

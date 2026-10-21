@@ -1,0 +1,47 @@
+{
+  "schema": "r16-actual-sort4-referent-address-allowance-v1",
+  "authorization_phase_id": "SORT4-ACTUAL-LIFETIME-2026-10-21-R16",
+  "source": "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml",
+  "sourceTR": {
+    "path": "verified/lib.rs",
+    "sha256": "c9a137d7abb2885f07dc5cf15b5772d4d5bddc0ecd0fcf2cda0c453cb1453905",
+    "source_binding": "not independently established",
+    "basis": "S1 exact AST excerpt 596-607 records legitimate reborrow_ref(AddressOf(Deref(Var _38))) and the corresponding _42 shape; this is an AST observation only"
+  },
+  "base_sha256": "dbbf95ff540ab8111fad7130e85e860c0cb0fbdaa7e94049cc4f34e3a4dbede4",
+  "result_sha256": "406ee00af924d91cd59b6db047e45a8755ae8779c789697c5b6e96d775b01da2",
+  "patch": "actual-sort4-referent-address-r16.patch",
+  "patch_sha256": "8d38d803098fd34c450031b723e1b48ea537dd5b4772e5ce596f264de0254894",
+  "new_axiom_or_assumed_lemma": false,
+  "proof_credit": false,
+  "declaration_only": true,
+  "runtime_operations_changed": false,
+  "kernel_checks_changed": false,
+  "allowance": {
+    "accepted_shape": "Ast.AddressOf(_, Ast.Deref(_, Ast.Var(_, target_id) | Ast.WVar(_, target_id, _)))",
+    "scope_requirement": "the generic expression traversal still visits the nested Var/WVar and enforces its existing cmp/deferred lexical scope",
+    "all_other_address_shapes": "retain existing deep rejection of target storage/address-taking",
+    "static_WRead": "still rejected, including beneath AddressOf"
+  },
+  "synthetic_controls": {
+    "runs_only_in_existing_guarded_actual_relocation_route": true,
+    "handwritten_ast_without_actual_state_mutation": true,
+    "positive_exact_reborrow_only_reference_in_authorized_scope": true,
+    "negative_address_of_local": true,
+    "negative_address_of_field": true,
+    "negative_nested_address_of_deref_address_of_local": true,
+    "negative_exact_reborrow_outside_authorized_scope": true,
+    "existing_static_WRead_and_wrapper_scope_controls_retained": true,
+    "count": 5
+  },
+  "validation": {
+    "source_only_git_apply_check": "passed against exact base translator SHA",
+    "applied_result_sha256": "406ee00af924d91cd59b6db047e45a8755ae8779c789697c5b6e96d775b01da2",
+    "compiler": "not run by bounded task",
+    "runner_or_cloud": "not run by bounded task"
+  },
+  "known_limits": [
+    "S1 AST structure does not independently establish source, parser-input, or MIR binding; acceptance is gated by the existing actual-callback certificate and the exact AST shape guard.",
+    "This overlay changes only address-exposure validation and isolated handwritten-AST controls; no AST rewrite, runtime operation, or kernel rule changes."
+  ]
+}

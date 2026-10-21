@@ -1,10 +1,10 @@
 # Agent checkpoint: select-actual-lifetime-autonomous-2026-10-21-r16
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-LIFETIME-2026-10-21-R16 | state: ACTIVE
-- Updated: 2026-10-21T19:02:34.906066Z
+- Updated: 2026-10-21T19:14:54.187094Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `de469095ad2ba4435b41bc0f114289cd12f4952f129e88fbcfb655cea6dca505`
 - Session dates: T0 `2026-10-21T17:50:34Z`; main deadline `2026-10-21T19:50:34Z`; absolute deadline `2026-10-21T20:20:34Z`
-- Budget: 3600s total; 930s spent; 0s retired; 2670s remaining including active reservations
+- Budget: 3600s total; 1242s spent; 0s retired; 2358s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
@@ -21,11 +21,11 @@
 - Broad placeholder/static-lifetime acceptance or helper PASS as full body. — Forbidden shortcuts: retain strict barrier and actual callback/resource binding.; [research/challenge-8/task-history/select-actual-sort4-r15/NEXT-ACTUAL-OBLIGATION.md](task-history/select-actual-sort4-r15/NEXT-ACTUAL-OBLIGATION.md) SHA `ab4f335d7702727836bac3a2a68a4b3564af69773dc0220e96301860a9d3484a`
 
 ## Blocker
-S2 final OCaml tool build rejected shifted ProduceLemmaFunctionPointerChunkStmt tuple; scope fix unexecuted. Actual normal/unwind body remains OPEN; S1 identifies future24 outside c1 cut. (vf_mir_translator.ml:7852) [Build `d1376298-d147-43b5-a0b7-e5832cb564b1`]
-- [research/challenge-8/task-history/select-actual-lifetime-r16/S2-evidence.json](task-history/select-actual-lifetime-r16/S2-evidence.json) SHA `a6ed06e09746fe8b5e5353eacc396bff269ad2e32fb243b487ef43eaa70aacd6`
+supplemental scope address-exposure checker refuses $_38; exact S1 AST is AddressOf(Deref(Var $_38)) during reborrow_ref; actual body NOT_RUN at checked-lemma prerequisite barrier. (verified/lib.rs:131) [Build `fa548e23-b533-4e27-adce-7a9736e072da`]
+- [research/challenge-8/task-history/select-actual-lifetime-r16/S3-evidence.json](task-history/select-actual-lifetime-r16/S3-evidence.json) SHA `ddff5d3430b49eea4e147fe8bd3e437b5965e3f0f13cf2dd4bf3438d2021114b`
 
 ## Next
-S3 checked six-c1 / twenty-four-deferred declaration scopes prepared; independent semantic review and Cloud final compiler/actual-body checks pending.
+Review and run S4 exact &*p referent-address recognition, retaining all local-storage escape refusals and kernel checks.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-actual-sort4-r15/NEXT-ACTUAL-OBLIGATION.md](task-history/select-actual-sort4-r15/NEXT-ACTUAL-OBLIGATION.md) — `ab4f335d7702727836bac3a2a68a4b3564af69773dc0220e96301860a9d3484a`

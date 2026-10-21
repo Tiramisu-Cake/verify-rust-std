@@ -571,6 +571,7 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
             ("strict_entry_diagnostic", "STRICT-ENTRY-DIAGNOSTIC-R16-MANIFEST.json", KERNEL, True),
             ("actual_scope_relocation", "ACTUAL-SORT4-SCOPE-RELOCATION-R16-MANIFEST.json", TR, False),
             ("actual_deferred_scope_relocation", "ACTUAL-SORT4-DEFERRED-SCOPE-R16-MANIFEST.json", TR, False),
+            ("actual_referent_address", "ACTUAL-SORT4-REFERENT-ADDRESS-R16-MANIFEST.json", TR, False),
         ):
             declaration = profile.get(key)
             if key == "actual_scope_relocation" and profile.get("actual_scope_relocation_enabled") is not True:
@@ -578,6 +579,9 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
                 continue
             if key == "actual_deferred_scope_relocation" and profile.get("actual_deferred_scope_relocation_enabled") is not True:
                 need(declaration is None, "inactive deferred candidate cannot declare an overlay")
+                continue
+            if key == "actual_referent_address" and profile.get("actual_referent_address_enabled") is not True:
+                need(declaration is None, "inactive referent-address candidate cannot declare an overlay")
                 continue
             need(isinstance(declaration, dict), "R16 exact overlay declaration required")
             pinned(root / HERE / stem, declaration["manifest_sha256"], "R16 overlay manifest")
@@ -604,7 +608,7 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
                      overlay["kernel_checks_changed"] is False and
                      overlay["declaration_only"] is True,
                      "R16 declaration-only exact-source relocation")
-            else:
+            elif key == "actual_deferred_scope_relocation":
                 need(key == "actual_deferred_scope_relocation" and
                      profile.get("actual_scope_relocation_enabled") is True and
                      overlay["base_sha256"] == r16_overlays["actual_scope_relocation"]["result_sha256"] and
@@ -613,6 +617,15 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
                      overlay["kernel_checks_changed"] is False and
                      overlay["declaration_only"] is True,
                      "R16 deferred declaration exact-source overlay")
+            else:
+                need(key == "actual_referent_address" and
+                     profile.get("actual_deferred_scope_relocation_enabled") is True and
+                     overlay["base_sha256"] == r16_overlays["actual_deferred_scope_relocation"]["result_sha256"] and
+                     overlay["authorization_phase_id"] == profile["authorization_phase_id"] and
+                     overlay["runtime_operations_changed"] is False and
+                     overlay["kernel_checks_changed"] is False and
+                     overlay["declaration_only"] is True,
+                     "R16 exact referent-address validation overlay")
             apply(key, HERE / declaration["patch"], overlay["patch_sha256"], {source},
                   before={source: overlay["base_sha256"]}, after={source: overlay["result_sha256"]})
             r16_overlays[key] = overlay
