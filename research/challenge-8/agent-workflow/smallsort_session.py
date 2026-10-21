@@ -17,8 +17,13 @@ HELP = """Usage: smallsort-session COMMAND [OPTIONS]
   review create|check ...         Exact committed diff/dependencies for review
   observations record|list|render|check ...
                                  Immutable, bounded Brief navigation records
+  watch arm|start|status|stop|ack ...
+                                 Opt-in Build status watcher and exact-thread wakeup
 
-No Cloud calls, registration, slot reservations, proof tools, commit or push.
+Preparation commands make no Cloud calls. watch uses the existing client's status
+and accounting path, then one Codex queue attempt. Guide:
+/root/verify-rust-std-evidence-brief/research/challenge-8/agent-workflow/WATCH.md
+No Build submission, registration, slot reservations, proof tools, commit or push.
 New session activation still requires the existing branch client admission.
 """
 
@@ -44,6 +49,9 @@ def main(argv=None):
     if command == "observations":
         import observations
         return observations.main(args)
+    if command == "watch":
+        import build_watch
+        return build_watch.main(args)
     print("Unknown command: " + command + "\n" + HELP, file=sys.stderr)
     return 2
 

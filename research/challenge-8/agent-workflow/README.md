@@ -1,6 +1,6 @@
 # Короткие задания, checkpoint и подготовка сессии
 
-Обязательное чтение — [CORE](CORE.md), CURRENT-TASK и CHECKPOINT/STATUS своей ветки. Здесь справка по конкретным действиям. Инструкции принимаются в **следующей** сессии; текущие T0/inputs/ledgers/client gates неизменны. Инструменты используют Python standard library и локальный Git; actual proof/toolchain и Cloud вызовов нет.
+Обязательное чтение — [CORE](CORE.md), CURRENT-TASK и CHECKPOINT/STATUS своей ветки. Здесь справка по конкретным действиям. Инструкции принимаются в **следующей** сессии; текущие T0/inputs/ledgers/client gates неизменны. Инструменты используют Python standard library и локальный Git. Подготовка не вызывает Cloud; отдельно включаемый watcher использует штатный Cloud status/accounting и одну попытку Codex queue. Actual proof/toolchain локально не запускается.
 
 ## 1. Координатор выдаёт короткое задание
 
@@ -77,7 +77,9 @@ Record — неизменяемый SHA-256-named JSON; повтор той же
 
 ## 6. Ожидание Build
 
-[Реальный queue experiment](WAIT-EXPERIMENT.md): новая Luna HIGH сессия оставалась idle30с без turns/изменения usage и сама продолжилась после одного `codex queue`; всего2turns. Это подтвердило wakeup на текущем Codex0.163.0, не production admission/deadline/dedup integration. Новый watcher не внедрён; существующие coordinator/status, owner/ledger параметры и интервалы ≤60с сохраняются. Probe явно запускает модель и не должен становиться повторным preflight. Выполнять независимую работу при ожидании; не добавлять пустые объяснения неизменного WORKING.
+Доступен `smallsort-session watch`: локальный процесс опрашивает существующий coordinator/status без модели и делает одну попытку уведомления exact thread. **Подключать в следующей сессии**, после HANDOFF checkpoint своего зарегистрированного Build; текущие задания не переключать. [WATCH](WATCH.md) читать при первом применении: arm → start/heartbeat → закончить turn WAITING → событие → ack до изменения checkpoint → Brief/продолжение в прежнем окне. Stop не отменяет Build; UNKNOWN не повторяется автоматически. При independent работе выполнить её до handoff, не добавлять пустые объяснения WORKING.
+
+[Реальный queue experiment](WAIT-EXPERIMENT.md) подтвердил idle wakeup на Codex0.163.0:30с без новых turns/изменения usage, затем один queue начал второй turn. Production binding/accounting/deadline/dedup проверены synthetic service tests; реальный Build с watcher в активные сессии не внедрялся. Процент экономии не заявляется; платный probe не повторять перед каждым Build.
 
 ## Установка и принятие
 

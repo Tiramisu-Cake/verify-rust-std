@@ -1,6 +1,6 @@
 # Ожидание Build: результат проверки протокола
 
-2026-10-21. **Текущее состояние: пробуждение через `codex queue` подтверждено на реальной изолированной Codex-сессии.** Production watcher ещё не установлен; работающие Select/Merge, Builds, accounts и deadlines не менялись. Исходный опыт с shell-loop ниже остаётся верным для обычного tool polling.
+2026-10-21. **Пробуждение через `codex queue` подтверждено на реальной изолированной Codex-сессии.** Затем реализован [watcher](WATCH.md), доступный через `smallsort-session watch` для следующих сессий. Его интеграция проверена synthetic tests; работающие Select/Merge, Builds, accounts и deadlines не менялись. Исходный опыт с shell-loop ниже остаётся верным для обычного tool polling.
 
 ## Реальный тест queue — PASS
 
@@ -22,11 +22,11 @@ python3 -B research/challenge-8/agent-workflow/experiments/queue_wakeup_probe.py
   --run-real-probe --out /tmp/NEW-QUEUE-PROBE-DIRECTORY --idle-seconds 30
 ```
 
-## Что остаётся для production
+## Production после эксперимента
 
-Технический wakeup подтверждён. Следующий небольшой компонент — процесс мониторинга **зарегистрированного собственного** Build через существующий coordinator/status плюс bounded event delivery в exact thread. Нужны persisted handoff/event identity и защита от duplicate/unknown delivery/restart, проверка owner/phase/ledger/dispatch/Build/thread, user-stop/main/absolute и запрет нового окна/бюджета/submit из уведомления. Само сообщение — технические данные; SUCCESS metadata не proof acceptance. После terminal агент использует Brief.
+Реализован процесс мониторинга **зарегистрированного собственного** Build через существующий coordinator/status плюс bounded event delivery в exact thread. Persisted handoff/event identity, duplicate/unknown delivery/restart, owner/phase/ledger/dispatch/Build/thread, stop/main/absolute и запрет нового окна/бюджета/submit покрыты synthetic tests. Само сообщение — технические данные; SUCCESS metadata не proof acceptance. После terminal агент использует Brief. Точные команды и ограничения — [WATCH](WATCH.md); review/хеши — [REVIEW](REVIEW.md) и [VALIDATED-SOURCES](VALIDATED-SOURCES.json).
 
-Агент должен завершать turn с незавершённым HANDOFF/active Build, не закрывая счёт, и продолжать тот же task/T0 после события. Сначала проверить это вместе с существующим admission/accounting и deadline handling; текущий тест не даёт права внедрять watcher в активные сессии. Новые сервисы GCP, IAM, hooks или polling-агент с отдельной моделью для этого опыта не нужны.
+Агент завершает turn с незавершённым HANDOFF/active Build, не закрывая счёт, и продолжает тот же task/T0 после подтверждения события. Первая разрешённая новая сессия даст эксплуатационную проверку с реальным Build; активные сессии не переключены. Новые сервисы GCP, IAM, hooks или polling-агент с отдельной моделью не добавлены.
 
 Официальные интерфейсы: [CLI queue](https://learn.chatgpt.com/docs/cli/reference#codex-queue), [app-server](https://learn.chatgpt.com/docs/app-server). Background hooks сами не начинают новый idle turn: [hooks](https://learn.chatgpt.com/docs/hooks#how-background-hooks-run).
 
@@ -50,6 +50,6 @@ python3 -B research/challenge-8/agent-workflow/experiments/queue_wakeup_probe.py
 
 Сохраняем существующий coordinator и прерываемые интервалы ≤60с. При наличии независимой работы агент выполняет её вместо пустых рассуждений о WORKING. Не добавляем ещё один wrapper с теми же пробуждениями и не удлиняем непрерываемые waits.
 
-На этом этапе требовался проверенный механизм уведомления о terminal/error/deadline, возвращающий управление агенту без участия модели в промежуточных опросах. Последующая queue-проба выше подтвердила wakeup, но не завершила production integration. Сохраняются owner/phase/slots/budget/deadlines, unknown-submit handling, accounting и Evidence Brief после terminal; metadata status не заменяет verification evidence.
+На этом этапе требовался проверенный механизм уведомления о terminal/error/deadline, возвращающий управление агенту без участия модели в промежуточных опросах. Последующая queue-проба подтвердила wakeup; нынешняя реализация добавила production integration с synthetic validation. Сохраняются owner/phase/slots/budget/deadlines, unknown-submit handling, accounting и Evidence Brief после terminal; metadata status не заменяет verification evidence.
 
 Сокращение стартового контекста, пакеты review и индекс Brief внедряются независимо от этого результата.
