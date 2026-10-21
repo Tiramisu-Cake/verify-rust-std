@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "ad70301daae5189ab88b0de60d1d55f0b48724ed48730a1d068b5671f7468a4a",
+  "build_id": "0c28f617-09b5-42ea-a89e-94783b4e1b49",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 1608,
+    "line_separator": "LF",
+    "source_lines": 1608,
+    "start": 1597,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "edc4344315735b949d8cc08c7b2987a02755370189b812d0b03a29e1b2dffd15",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0c/verification.log",
+  "file_sha256": "f08f475b53f122adab6ff5045dd99508b5981ec9244d3942513767ae30bb5cb7",
+  "index_sha256": "ceca9a13e739b505133e768e16015e1449ee6a5595044f43527b3bec23276b01",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 1608,
+    "expected_sha256": "f08f475b53f122adab6ff5045dd99508b5981ec9244d3942513767ae30bb5cb7",
+    "file_id": "edc4344315735b949d8cc08c7b2987a02755370189b812d0b03a29e1b2dffd15",
+    "start": 1597
+  },
+  "request_id": "9699addb6a4cefa8593cc51cabc7e75b22472fecb2517e85e31a859680869ba7",
+  "requested_end": 1608,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1597,
+      "text": "  0.183690s:     Redux: Axiom ptr_provenance_max_addr_limits triggered"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1598,
+      "text": "  0.183733s:   Exiting Redux.assume_with_implications"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1599,
+      "text": "  0.183741s: Exiting Redux.assert_term: 0.000076 seconds"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1600,
+      "text": "  0.183750s: Entering Redux.assert_term($_19_addr = pointer_ctor(get_pointer_provenance($_19_addr), get_pointer_address($_19_addr), pointer_metadata_none))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1601,
+      "text": "  0.183758s:   Entering Redux.assume_with_implications($_19_addr = pointer_ctor(get_pointer_provenance($_19_addr), get_pointer_address($_19_addr), pointer_metadata_none))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1602,
+      "text": "  0.183768s:   Exiting Redux.assume_with_implications"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1603,
+      "text": "  0.183776s: Exiting Redux.assert_term: 0.000019 seconds"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1604,
+      "text": "  0.183792s: verified/lib.rs(139,9-140,1): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1605,
+      "text": "EXEC 1 verified/lib.rs(139,13-34)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1606,
+      "text": "verified/lib.rs(139,13-34): error: Type argument for type parameter 'a must be a lifetime variable"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1607,
+      "text": "139 |         //@ a1_cleanup_option_ref(left_ancestor_pivot);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1608,
+      "text": "    |             ^^^^^^^^^^^^^^^^^^^^^"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

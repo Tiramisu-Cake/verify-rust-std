@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "9f9ce19169034371b60bbaf8a223a716c954deab3eb084312eaa98a11309307b",
+  "build_id": "b5a50b69-3fc1-4763-a2c8-25f01cf42710",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 1672,
+    "line_separator": "LF",
+    "source_lines": 1720,
+    "start": 1661,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "edc4344315735b949d8cc08c7b2987a02755370189b812d0b03a29e1b2dffd15",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0c/verification.log",
+  "file_sha256": "4275a48efc21e8d8cd40b582b2ca559a8504b6865f707351e9529e8daa1e7ff3",
+  "index_sha256": "3ba5a1b3f8ce3d6509fca2347698c7f957a18904983160c8fce617376f00b98a",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 1672,
+    "expected_sha256": "4275a48efc21e8d8cd40b582b2ca559a8504b6865f707351e9529e8daa1e7ff3",
+    "file_id": "edc4344315735b949d8cc08c7b2987a02755370189b812d0b03a29e1b2dffd15",
+    "start": 1661
+  },
+  "request_id": "53c0ab0346de1d63e0db0a1f143f3562cf7ef7189a0f5ae8d26d24c6b5b913ce",
+  "requested_end": 1672,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1661,
+      "text": "  0.210216s:   Exiting Redux.assume_with_implications"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1662,
+      "text": "  0.210222s: Exiting Redux.query"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1663,
+      "text": "  0.210227s: Entering Redux.query(std::option::Option_own(ref_typeid('static_typeid, T_typeid)) = lifetime_token)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1664,
+      "text": "  0.210234s:   Entering Redux.assume_with_implications(!(std::option::Option_own(ref_typeid('static_typeid, T_typeid)) = lifetime_token))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1665,
+      "text": "  0.210240s:   Exiting Redux.assume_with_implications"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1666,
+      "text": "  0.210245s: Exiting Redux.query"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1667,
+      "text": "verified/lib.rs(80,62-63): error: No matching heap chunks: std::option::Option_own(ref_typeid('static_typeid, T_typeid))(_t, left_ancestor_pivot)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1668,
+      "text": "80 |     req thread_token(?t) &*& std::option::Option_own::<&'a T>(t, value);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1669,
+      "text": "   |                                                              ^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1670,
+      "text": "verified/lib.rs(80,62-63): note: Consuming assertion"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1671,
+      "text": "80 |     req thread_token(?t) &*& std::option::Option_own::<&'a T>(t, value);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1672,
+      "text": "   |                                                              ^"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}
