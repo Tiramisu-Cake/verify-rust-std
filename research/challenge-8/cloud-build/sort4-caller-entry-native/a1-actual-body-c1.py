@@ -120,6 +120,7 @@ def resource_controls(verified, ghost, meta, lemma_metadata):
     """Pure source-only negative controls for the two c1 recovery obligations."""
     target = b'pub unsafe fn sort4_stable<'
     need(verified.count(target) == 1, 'one target for resource controls')
+    stripped = ghost.strip_ghost(verified)
     required = meta.get('required_lemmas')
     need(isinstance(required, list) and [row.get('name') for row in required] == [
         'interior_pointer_limits', 'split_four_owned_cells',
@@ -138,6 +139,7 @@ def resource_controls(verified, ghost, meta, lemma_metadata):
 
     missing_fourth = b'''/*@
 lem missing_fourth_end_token_negative<T>(left: *T, right: *T)
+    nonghost_callers_only
     req thread_token(?t) &*& type_interp::<T>() &*& left == right + 1 &*&
         comparison_debt_without_fourth::<T>(
             t, ?k, left, right, ?left_ref, ?right_ref,
@@ -156,6 +158,7 @@ lem missing_fourth_end_token_negative<T>(left: *T, right: *T)
     false_old_value = b'''/*@
 lem false_old_value_array_post_negative<T>(
     left: *T, right: *T, old_values: list<T>)
+    nonghost_callers_only
     req thread_token(?t) &*& type_interp::<T>() &*& left == right + 1 &*&
         comparison_debt::<T>(
             t, ?k, left, right, ?left_ref, ?right_ref,
@@ -177,6 +180,8 @@ lem false_old_value_array_post_negative<T>(
          'postcondition requires arbitrary old_values rather than recovered current values'),
     ):
         source = verified[:insertion] + block + verified[insertion:]
+        need(ghost.strip_ghost(source) == stripped,
+             'resource control must preserve exact actual runtime bytes')
         starts = [row for row in lemma_metadata(source)
                   if row['name'] in ('missing_fourth_end_token_negative',
                                      'false_old_value_array_post_negative')]
@@ -186,9 +191,20 @@ lem false_old_value_array_post_negative<T>(
         selected = [row for row in starts if row['name'] == wanted]
         need(len(selected) == 1, 'one exact negative lemma interval: ' + wanted)
         row = selected[0]
-        negative_meta = {**row, 'mir_target': 'sort4_stable',
+        first = [i for i, line in enumerate(source.splitlines(), 1)
+                 if b'let c1 = is_less/*@' in line]
+        need(len(first) == 1, 'one actual c1 coordinate after control insertion')
+        negative_meta = {**meta, **row, 'mir_target': 'sort4_stable',
+                         'focus_line': row['focus_line'],
+                         'end_line': row['end_line'],
+                         'first_comparator_line': first[0],
+                         'generated_source_sha256': hashlib.sha256(source).hexdigest(),
                          'required_lemmas': required,
                          'expected_rejection': expected,
+                         'control_scope': ('generic arbitrary old_values list postcondition; '
+                             'not evidence about concrete Cell mutation'
+                             if name.startswith('false-old-value') else
+                             'one missing right+3 borrow_end_token, rejected when closing full debt'),
                          'summary_eligible': False, 'proof_credit': False}
         cases.append((name, source, ghost.strip_ghost(source), negative_meta))
     return cases
