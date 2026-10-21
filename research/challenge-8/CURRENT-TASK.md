@@ -45,10 +45,10 @@ Next: Fix HRTB control routing; establish actual c2 resource/recovery gate and d
 
 ## Отчёт агента
 
-**select-actual-c2-autonomous-2026-10-21-r17 · select-sort4 · SORT4-ACTUAL-C2-2026-10-21-R17 · ACTIVE**
-Updated: 2026-10-21T20:49:38.429896+00:00. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24`.
+**select-actual-c2-autonomous-2026-10-21-r17 · select-sort4 · SORT4-ACTUAL-C2-2026-10-21-R17 · HANDOFF**
+Updated: 2026-10-21T20:52:31.231416+00:00. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24`.
 Dates: T0 `2026-10-21T20:06:19Z`; main `2026-10-21T22:06:19Z`; absolute `2026-10-21T22:36:19Z`. Budget 3600s: 987s spent, 0s retired, 2613s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
+Active Build IDs: 85dac5bf-ff84-4215-84c4-e08943bf882a; unresolved: none recorded.
 Blocker: OCaml compile: indexed local filter expects parameter quadruples after mapping to triples. [Build `3fd2796f-cf65-4737-b1ff-77818c0a1171`]
-Next: S3 exact triple-pattern fix has independent Luna HIGH delta GO; publish and submit with new exact profile/source/config pins. Historical S2 Build cannot establish S3 evidence. Continue existing R17 T0/window/account; full proof/controls/attribution OPEN.
+Next: WAITING: S3 Build 85dac5bf-ff84-4215-84c4-e08943bf882a. Arm exact-thread watcher; on event first ack before checkpoint mutation, then Evidence Brief and exact error/controls. Continue only existing R17 T0/account/window, main22:06:19Z absolute22:36:19Z. No proof credit from metadata.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

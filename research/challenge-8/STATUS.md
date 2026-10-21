@@ -1,11 +1,11 @@
 # Agent checkpoint: select-actual-c2-autonomous-2026-10-21-r17
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-C2-2026-10-21-R17 | state: ACTIVE
-- Updated: 2026-10-21T20:49:38.429896+00:00
+- Owner: select-sort4 | phase: SORT4-ACTUAL-C2-2026-10-21-R17 | state: HANDOFF
+- Updated: 2026-10-21T20:52:31.231416+00:00
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24`
 - Session dates: T0 `2026-10-21T20:06:19Z`; main deadline `2026-10-21T22:06:19Z`; absolute deadline `2026-10-21T22:36:19Z`
 - Budget: 3600s total; 987s spent; 0s retired; 2613s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 85dac5bf-ff84-4215-84c4-e08943bf882a
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -26,7 +26,7 @@ OCaml compile: indexed local filter expects parameter quadruples after mapping t
 - [research/challenge-8/task-history/select-actual-c2-r17/S2-evidence.json](task-history/select-actual-c2-r17/S2-evidence.json) SHA `7a1b4f8c2d939ca352117afccfa6aafc6d55f132798678346143aab1591b0024`
 
 ## Next
-S3 exact triple-pattern fix has independent Luna HIGH delta GO; publish and submit with new exact profile/source/config pins. Historical S2 Build cannot establish S3 evidence. Continue existing R17 T0/window/account; full proof/controls/attribution OPEN.
+WAITING: S3 Build 85dac5bf-ff84-4215-84c4-e08943bf882a. Arm exact-thread watcher; on event first ack before checkpoint mutation, then Evidence Brief and exact error/controls. Continue only existing R17 T0/account/window, main22:06:19Z absolute22:36:19Z. No proof credit from metadata.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-actual-lifetime-r16/NEXT-AFTER-S5.md](task-history/select-actual-lifetime-r16/NEXT-AFTER-S5.md) — `9b14da3d73b7fc52e5fc9fe91309495db285fd762844ebcaa7cacd41e639f55f`
@@ -34,4 +34,5 @@ S3 exact triple-pattern fix has independent Luna HIGH delta GO; publish and subm
 - [research/challenge-8/task-history/select-actual-c2-r17/S1-review.json](task-history/select-actual-c2-r17/S1-review.json) — `1eb072f1947446e6d0b4d72795728c433ba8c0a34768b96c670c51fe4b72db61`
 - [research/challenge-8/task-history/select-actual-c2-r17/S2-review.json](task-history/select-actual-c2-r17/S2-review.json) — `770271a4aeffdf5c7bf1187bc7d9ed904757f9e4417adaed8e30e2b52d7811db`
 - [research/challenge-8/task-history/select-actual-c2-r17/S2-evidence.json](task-history/select-actual-c2-r17/S2-evidence.json) — `7a1b4f8c2d939ca352117afccfa6aafc6d55f132798678346143aab1591b0024`
+- [research/challenge-8/task-history/select-actual-c2-r17/S3-review.json](task-history/select-actual-c2-r17/S3-review.json) — `bc4c2c00d9a8e5ba48aba88410e54e40e2bc283f2d047f46c186812233c2ba40`
 - [research/challenge-8/task-history/select-actual-c2-r17/S3-review.json](task-history/select-actual-c2-r17/S3-review.json) — `bc4c2c00d9a8e5ba48aba88410e54e40e2bc283f2d047f46c186812233c2ba40`
