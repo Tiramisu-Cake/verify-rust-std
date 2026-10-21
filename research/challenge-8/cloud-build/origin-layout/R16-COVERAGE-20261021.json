@@ -1,0 +1,69 @@
+{
+  "schema": "merge-r16-derived-coverage-v1",
+  "evidence_kind": "DERIVED_SUMMARY_NOT_SERVER_ENVELOPE",
+  "independent_credit": 0,
+  "accepted": false,
+  "rows": [
+    {
+      "goal": "actual_definition_only_u64_array3",
+      "source_result": "BODY_UNIT_VERIFIER_EXIT0",
+      "builds": [
+        "9487d6d1-14aa-4370-bc0b-7ac57279fb7b",
+        "3e0fba25-fc12-487d-8e38-520f2e02a4ea",
+        "e2c971ba-ab62-4cd9-a193-3d4f98797cd7"
+      ],
+      "domain": "actual mechanically specialized insert_tail/selected Drop; owned initialized3cells, tail=begin+2, arbitrary contract-compliant F; CURRENT normal/unwind posts; existing narrow R8 trusted allocation premise",
+      "bounded_observations": "Proof1 insert_tail target; cleanup160 selectedDropreturning/recoverycomplete -> Resume161; physicalarray and foreach share same CURRENT list; final0errors642statements",
+      "qualification": false
+    },
+    {
+      "goal": "checked_full_borrow_content_bridge",
+      "source_result": "PASS_CONTROL, four stages0, source unchanged, target executed",
+      "builds": [
+        "3e0fba25-fc12-487d-8e38-520f2e02a4ea",
+        "e2c971ba-ab62-4cd9-a193-3d4f98797cd7"
+      ],
+      "domain": "u64 array3/slice3, existing full_borrow(k,P), full pointer/provenance equality, len3; reverse u64 own bookkeeping checked; no array inverse equation assumed",
+      "creates_source_borrow_or_lifetime": false,
+      "qualification": false
+    },
+    {
+      "goal": "array_controls",
+      "source_result": "5positivePASS/6negativeEXPECTED in Proof2/3",
+      "count": 11,
+      "qualification": false
+    },
+    {
+      "goal": "R9_classifier_regressions",
+      "source_result": "all5 intended controls matched in Proof1/2/3; duplicate_marker admission rejection and wrongorigin resource refusal directly observed",
+      "qualification": false
+    },
+    {
+      "goal": "original_prefix_and_full_caller",
+      "source_result": "INCONCLUSIVE at values.as_mut_ptr placeholder full441/prefix249 in Proof1/2/3",
+      "status": "OPEN",
+      "qualification": false
+    },
+    {
+      "goal": "raw_local_caller",
+      "source_result": "Proof2 prepare refused exact-helper newline boundary; Proof3 source gate admitted, verifier Parseerror443 and independent RawPtr unsupported refiner; final syntax repair reviewed/38syntheticsPASS but Proof4 proof_attemptedfalse",
+      "status": "OPEN",
+      "qualification": false
+    },
+    {
+      "goal": "dependent_prefix_admission_controls",
+      "source_result": "NOT_RUN_PREFIX_PREREQUISITE_FAILED as reported in actual Proof1/2/3",
+      "qualification": false
+    },
+    {
+      "goal": "final_source_full_matrix",
+      "source_result": "Proof4 compile-only124/proof_attemptedfalse/cases0; not established; do not combine earlier Builds into final PASS",
+      "qualification": false
+    },
+    {
+      "goal": "B2_generic_arbitrary_n_sorting_independent_qualification",
+      "status": "OPEN",
+      "qualification": false
+    }
+  ]
+}

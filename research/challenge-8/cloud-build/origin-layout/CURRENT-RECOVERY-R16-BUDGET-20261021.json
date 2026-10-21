@@ -2,13 +2,13 @@
   "phase": "MERGE-CALLER-CURRENT-PROOF-R16-2026-10-21",
   "owner": "merge",
   "authorization_model": "bounded-cloud-budget",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "allowed_lanes": [
     "merge"
   ],
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 2548,
-  "remaining_build_seconds": 1052,
+  "used_build_seconds": 3042,
+  "remaining_build_seconds": 0,
   "max_builds": null,
   "max_timeout_seconds": 1200,
   "builds": [
@@ -77,6 +77,28 @@
       "build_seconds": 858,
       "accounted": true,
       "execution_seconds": 857
+    },
+    {
+      "dispatch_token": "dispatch-b19c6238c2be4bf48fe7cabd9c7361ff",
+      "owner": "merge",
+      "phase_id": "MERGE-CALLER-CURRENT-PROOF-R16-2026-10-21",
+      "infra_sha": "6fd50c699500cbac5c65912174d4aa49b49db19f",
+      "proof_sha": "6fd50c699500cbac5c65912174d4aa49b49db19f",
+      "lane": "merge",
+      "submitted_config_sha256": "eb5fec98090b22f4370942b0779370e1f6fadd4d4d76909bdbeb77339d16da6c",
+      "reserved_seconds": 1050,
+      "timeout_seconds": 990,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "8a3fb6a81d48de70625343c887a5d2e57cb8da3306f33d6eb27b5938973f36b5",
+      "build_id": "df4a5c35-b795-4493-9e9a-74edeb48f177",
+      "start_time": "2026-10-21T17:56:16.196855974Z",
+      "finish_time": "2026-10-21T18:04:28.476615Z",
+      "create_time": "2026-10-21T17:56:15.430414299Z",
+      "build_seconds": 494,
+      "accounted": true,
+      "execution_seconds": 493
     }
   ],
   "active_build": null,
@@ -87,5 +109,9 @@
   "publication_gate_path": "research/challenge-8/cloud-build/origin-layout/R14-PUBLICATION-GATE-20261021.json",
   "authorization": "CURRENT-TASK R16: autonomous source-preserving caller unsize/lifetime and actual insert_tail/CURRENT proof; independent Luna HIGH review and Cloud regressions; fresh3600 no carry.",
   "accepted": false,
-  "independent_credit": 0
+  "independent_credit": 0,
+  "retired_build_seconds": 558,
+  "carryover_build_seconds": 0,
+  "closed_utc": "2026-10-21T18:10:36Z",
+  "closure_reason": "Four terminal accounted Builds; main window ended; remaining558 below minimum R16 envelope570; no retry/carry; proof gaps remain OPEN."
 }
