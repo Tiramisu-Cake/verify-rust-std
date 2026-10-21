@@ -1,6 +1,6 @@
 --- a/src/verify_expr.ml
 +++ b/src/verify_expr.ml
-@@ -2205,6 +2205,79 @@
+@@ -2205,13 +2205,86 @@
        | Some tpenv -> tpenv
      in
      let tpenv = tpenv_with_bounds |> List.map @@ fun ((tp, {sized}), ta) -> (tp, ta) in
@@ -80,3 +80,12 @@
      if dialect = Some Rust then
        List.iter begin fun (x, tp) ->
          if String.starts_with ~prefix:"'" x then begin
+-          if not (is_lifetime tp || unify tp StaticLifetime) then
++          if not (is_lifetime (unfold_inferred_type tp) || unify tp StaticLifetime) then
+             static_error l (Printf.sprintf "Type argument for type parameter %s must be a lifetime variable" x) None
+         end else
+-          if is_lifetime tp then
++          if is_lifetime (unfold_inferred_type tp) then
+              static_error l (Printf.sprintf "Type argument for type parameter %s must not be a lifetime variable" x) None
+       end tpenv;
+     let ys: string list = List.map (function (p, t) -> p) ps in

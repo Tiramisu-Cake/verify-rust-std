@@ -76,6 +76,9 @@ class OverlayTests(unittest.TestCase):
         self.assertEqual(manifest['patch_sha256'], sha(PATCH.read_bytes()))
         self.assertFalse(manifest['new_axiom_or_assumed_lemma'])
         self.assertEqual(sha(source_after_overlay()), manifest['result_sha256'])
+        result = source_after_overlay()
+        self.assertIn(b'is_lifetime (unfold_inferred_type tp) || unify tp StaticLifetime', result)
+        self.assertIn(b'if is_lifetime (unfold_inferred_type tp) then', result)
 
     def test_only_unresolved_lifetime_leaf_is_proposed(self):
         formal = ('ind', 'Option', [('ref', ('cell', 'life-x'), 'shared', ('scalar', 'T'))])
