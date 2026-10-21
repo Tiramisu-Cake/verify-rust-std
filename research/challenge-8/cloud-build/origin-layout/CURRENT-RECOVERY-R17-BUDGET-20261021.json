@@ -1,5 +1,5 @@
 {
-  "active_build": "38fa5f6f-3263-404e-af55-48c47816a5cf",
+  "active_build": null,
   "allowed_lanes": [
     "merge"
   ],
@@ -17,14 +17,17 @@
       "submitted_config_sha256": "2b87c2f79582bf990d87343e9bd2e89440a02e2ce463fe4cf967f9400e5e6c0e",
       "reserved_seconds": 1260,
       "timeout_seconds": 1200,
-      "status": "WORKING",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "33e1fb7d09036e8d2120e004be5a5d93f727974cbfdcdb46bc9e5bdc7f9be5a7",
       "build_id": "38fa5f6f-3263-404e-af55-48c47816a5cf",
       "start_time": "2026-10-21T18:53:11.255267587Z",
-      "finish_time": null,
-      "create_time": "2026-10-21T18:53:10.470074276Z"
+      "finish_time": "2026-10-21T19:01:15.147851Z",
+      "create_time": "2026-10-21T18:53:10.470074276Z",
+      "build_seconds": 485,
+      "accounted": true,
+      "execution_seconds": 484
     }
   ],
   "carry_seconds": 0,
@@ -39,7 +42,7 @@
   "owner": "merge",
   "phase": "MERGE-CALLER-REFINEMENT-R17-2026-10-21",
   "phase_id": "MERGE-CALLER-REFINEMENT-R17-2026-10-21",
-  "remaining_build_seconds": 3600,
+  "remaining_build_seconds": 3115,
   "report_reserve_seconds": 420,
   "retired_seconds": 0,
   "schema": "smallsort-prepared-session-ledger-v1",
@@ -47,7 +50,7 @@
   "start_utc": "2026-10-21T18:33:50Z",
   "status": "AUTHORIZED",
   "task_id": "merge-caller-refinement-autonomous-2026-10-21-r17",
-  "used_build_seconds": 0,
+  "used_build_seconds": 485,
   "publication_gate_path": "research/challenge-8/cloud-build/origin-layout/R14-PUBLICATION-GATE-20261021.json",
   "profile_path": "research/challenge-8/cloud-build/origin-layout/R17-BASELINE-PROFILE-20261021.json",
   "baseline_profile_sha256": "eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375",

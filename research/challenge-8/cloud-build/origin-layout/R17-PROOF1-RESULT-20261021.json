@@ -1,0 +1,45 @@
+{
+  "schema": "merge-r17-terminal-result-v1",
+  "build_id": "38fa5f6f-3263-404e-af55-48c47816a5cf",
+  "source_sha": "c45ab3282f34e4d854e6ec03f62c80a106991836",
+  "status": "FAILURE",
+  "run_exit_source_reported": 2,
+  "compiler_source_reported": "PASS: all5 buildlegs exit0 including refiner",
+  "smoke_source_reported": "ordinary_call_normal_unwind PASS",
+  "campaign_source_reported": "INCONCLUSIVE; diagnostic_complete=false; proof_attempted=true",
+  "blocker": "hosted one-cell proof refused: R11 profile must retain the captured R10 chain except its regenerated cumulative diagnostic patch",
+  "blocker_location": "insertion-onecell/prove.py R11 captured-chain/effective trace-tool/source-pin validator before campaign targets",
+  "rawptr_controls": "NOT_ESTABLISHED",
+  "raw_caller_normal_unwind": "NOT_ESTABLISHED",
+  "original_caller": "OPEN",
+  "array_controls": "NOT_ESTABLISHED_IN_THIS_BUILD",
+  "bounded_body": "NOT_ESTABLISHED_IN_THIS_BUILD",
+  "qualification": "OPEN",
+  "b2_achieved": false,
+  "independent_credit": 0,
+  "charge_seconds": 485,
+  "remaining_seconds": 3115,
+  "active_build_ids": [],
+  "archive_sha256": "fe87daaed800da9321f4fa14633bf6a34deb7414d1624abbd21745531decc519",
+  "index_sha256": "62fdfdf6ec6aa26747df29b7ebda3d675d002fca7dbd8e09faaddbf0de0d6680",
+  "assurance": "SOURCE_REPORTED",
+  "next": "Review exact R17 profile extension through old R11 entry validator, then next full1200 plan with checked lifecycle component",
+  "evidence_refs": [
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R17-PROOF1-ENTRY-ERROR-20261021.json",
+      "sha256": "b962cb7e180629fb41e9ed45ecf351c0f9b4d4c4e72b7d960bcf95eb5b08f735"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R17-PROOF1-AUDIT-20261021.json",
+      "sha256": "3406cde4bcdf22cbd7ea59a1f2065d2e47815df8a59787ad709542c852494fea"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R17-PROOF1-MINIMAL-AGGREGATE-20261021.json",
+      "sha256": "9e96086cf41e080cec91883709a52c109fcf824bf5a1771ea956e84090d709f1"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R17-PROOF1-REFINER-BUILD-20261021.json",
+      "sha256": "50f0f87993efbd77583e5225e98a849df6b9fe3b27a9bb5ebe69d983c1fe268d"
+    }
+  ]
+}

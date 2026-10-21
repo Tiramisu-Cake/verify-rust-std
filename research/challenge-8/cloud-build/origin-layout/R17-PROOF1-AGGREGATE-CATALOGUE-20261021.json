@@ -1,0 +1,55 @@
+{
+  "archive_sha256": "fe87daaed800da9321f4fa14633bf6a34deb7414d1624abbd21745531decc519",
+  "build_id": "38fa5f6f-3263-404e-af55-48c47816a5cf",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "EMPTY_FILE": 21,
+      "NON_UTF8": 1,
+      "PROJECTED": 146,
+      "UNSUPPORTED_FILE_TYPE": 33
+    },
+    "catalogue_complete": true,
+    "content_bytes": 535648,
+    "content_files": 168,
+    "files": 201,
+    "source_scan_bytes": 841856
+  },
+  "index_sha256": "62fdfdf6ec6aa26747df29b7ebda3d675d002fca7dbd8e09faaddbf0de0d6680",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": true,
+      "id": "757898305761e24917d78e1acbc63e0bbcf4040fd4c4ae3a3c1b7771c655bada",
+      "kind": "json",
+      "path": "allprooflogs/checked-profile-smoke/aggregate.json",
+      "path_sanitized": false,
+      "scanned_bytes": 230,
+      "sha256": "fe1458dfa638b5c51e6f1b79cc01029d9c56ae8e6638de8609a4da798ced66b7",
+      "size_bytes": 230,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": true,
+      "id": "c19d1419c145a75f008aabc86713bf87cb81c7eb6ce5b226c9a4044bed5bdcd4",
+      "kind": "json",
+      "path": "allprooflogs/cases/selected-drop-minimal/aggregate.json",
+      "path_sanitized": false,
+      "scanned_bytes": 191,
+      "sha256": "6559d2f8305d765d481a415d4cb0a6a007122c1e8dbc9fe5c07587925c43691d",
+      "size_bytes": 191,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 201,
+    "files_with_incomplete_content": 121,
+    "matches_in_retained_data": 2,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

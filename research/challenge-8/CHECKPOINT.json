@@ -28,16 +28,16 @@
     "tool_sha": "660b576b6b1608db913c51e0785b443a8733396f"
   },
   "blocker": {
-    "build_id": "e2c971ba-ab62-4cd9-a193-3d4f98797cd7",
+    "summary": "R17 P1 entry rejects the reviewed refiner tool/profile pins; campaign targets not established.",
+    "location": "insertion-onecell/prove.py R11 profile validator",
+    "build_id": "38fa5f6f-3263-404e-af55-48c47816a5cf",
     "evidence": [
       {
-        "build_id": "e2c971ba-ab62-4cd9-a193-3d4f98797cd7",
-        "path": "research/challenge-8/cloud-build/origin-layout/R16-PROOF3-RESULT-20261021.json",
-        "sha256": "3723ac4a5baa3e4e5f7df16cb7e7ff41ad6f4741524056f0bc58784041e1c77b"
+        "path": "research/challenge-8/cloud-build/origin-layout/R17-PROOF1-ENTRY-ERROR-20261021.json",
+        "sha256": "b962cb7e180629fb41e9ed45ecf351c0f9b4d4c4e72b7d960bcf95eb5b08f735",
+        "build_id": "38fa5f6f-3263-404e-af55-48c47816a5cf"
       }
-    ],
-    "location": "refinement_checker.ml:2853; verified/lib.rs:443; original full441/prefix249",
-    "summary": "P3 raw caller: refiner RawPtr not yet supported; verifier Parseerror443. Syntaxfix at last source6fd50c6 is reviewed but P4 never reached proof. Original caller still rejects placeholders441/249."
+    ]
   },
   "confirmed": [
     {
@@ -81,9 +81,20 @@
           "sha256": "ce26690c1ce6a2fffa39d7cb18669f5303bb20a92541e170077559edb223c629"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R17 P1 tool compilation all5 legs0 incl changed refiner and smokePASS; entry R11 pin guard refuses before actual campaign; no target/control/B2/independent credit. Accounted485, remaining3115.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R17-PROOF1-RESULT-20261021.json",
+          "sha256": "15882947ba819444991af76c0ccd771ca11c47cd94cd548b15f3a1f066e28781",
+          "build_id": "38fa5f6f-3263-404e-af55-48c47816a5cf"
+        }
+      ]
     }
   ],
-  "next_step": "Observe first R17 Build via coordinator status then Evidence Brief; distinguish RawPtr controls, isolated body, raw caller normal/unwind and original prefix; continue checked fix within remaining window/budget.",
+  "next_step": "Review exact R17 profile admission; then Cloud1200 with lifecycle component.",
   "open": [
     "Original full/prefix as_mut_ptr borrow/unsize (placeholders441/249); dependent controls NOT_RUN_PREFIX_PREREQUISITE_FAILED.",
     "Raw caller normal/unwind: RawPtr refinement unsupported; ghost-block syntaxfix still unvalidated.",
@@ -115,19 +126,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "38fa5f6f-3263-404e-af55-48c47816a5cf"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-21T21:03:50Z",
     "main_deadline_utc": "2026-10-21T20:33:50Z",
-    "remaining_seconds": 3600,
+    "remaining_seconds": 3115,
     "retired_seconds": 0,
-    "spent_seconds": 0,
+    "spent_seconds": 485,
     "t0": "2026-10-21T18:33:50Z",
     "unresolved_ids": []
   },
   "state": "ACTIVE",
   "task_id": "merge-caller-refinement-autonomous-2026-10-21-r17",
-  "updated_utc": "2026-10-21T18:53:29Z"
+  "updated_utc": "2026-10-21T19:07:41Z"
 }
