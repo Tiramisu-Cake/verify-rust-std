@@ -45,9 +45,9 @@ Next: Fix HRTB control routing; establish actual c2 resource/recovery gate and d
 
 ## Отчёт агента
 
-**select-actual-c2-autonomous-2026-10-21-r17 · select-sort4 · SORT4-ACTUAL-C2-2026-10-21-R17 · NOT_STARTED**
-Updated: 2026-10-21T20:00:02Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24`.
-Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
+**select-actual-c2-autonomous-2026-10-21-r17 · select-sort4 · SORT4-ACTUAL-C2-2026-10-21-R17 · ACTIVE**
+Updated: 2026-10-21T20:06:42.790541Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24`.
+Dates: T0 `2026-10-21T20:06:19Z`; main `2026-10-21T22:06:19Z`; absolute `2026-10-21T22:36:19Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: Actual c2 missing precreated-ref token for base+3; required controls stopped by HRTB routing error. [Build `acd8e010-16b8-4b58-9501-083cb10b595f`]
 Next: Fix HRTB control routing; establish actual c2 resource/recovery gate and discriminating controls.
