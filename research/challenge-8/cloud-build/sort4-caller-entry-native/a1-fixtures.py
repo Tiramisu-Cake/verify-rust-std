@@ -64,8 +64,9 @@ SOURCE_FILES = {
 # A checked ghost lemma owns the Option predicate directly. Its named lifetime
 # is inferred from the source local at each ghost call, so the generated proof
 # never has to guess the rustc-elaborated lifetime identifier.
+OPTION_CLEANUP_IMPORT = b"//@ use std::option::{Option, Option::None, Option::Some};\n"
+
 OPTION_CLEANUP_LEMMA = b"""/*@
-use std::option::{Option, Option::None, Option::Some};
 lem a1_cleanup_option_ref<'a, T>(value: std::option::Option<&'a T>)
     req thread_token(?t) &*& std::option::Option_own::<&'a T>(t, value);
     ens thread_token(t);
@@ -95,7 +96,7 @@ def _need(ok: bool, why: str) -> None:
 
 
 def _checked_cleanup_helper_metadata(source: bytes) -> dict[str, Any]:
-    """Bind the focused helper gate to its exact source block and body lines."""
+    """Bind the helper block and adjacent module-level import to exact source."""
     source_lines = source.splitlines(keepends=True)
     helper_lines = OPTION_CLEANUP_LEMMA.splitlines(keepends=True)
     matches = [
@@ -108,6 +109,16 @@ def _checked_cleanup_helper_metadata(source: bytes) -> dict[str, Any]:
     exact_block = b"".join(source_lines[start:start + len(helper_lines)])
     _need(exact_block == OPTION_CLEANUP_LEMMA,
           "checked cleanup helper source bytes changed")
+    import_lines = OPTION_CLEANUP_IMPORT.splitlines(keepends=True)
+    import_matches = [i for i in range(len(source_lines) - len(import_lines) + 1)
+                      if source_lines[i:i + len(import_lines)] == import_lines]
+    _need(len(import_matches) == 1,
+          "checked cleanup module import must occur exactly once as a standalone annotation")
+    _need(import_matches[0] + len(import_lines) == start,
+          "checked cleanup import must be adjacent before the helper ghost block")
+    _need(not any(b"use std::option::{Option, Option::None, Option::Some};" in line
+                  for line in helper_lines),
+          "checked cleanup helper block must contain declarations only")
     declaration = b"lem a1_cleanup_option_ref<'a, T>"
     body_start_offsets = [i for i, line in enumerate(helper_lines)
                           if line.startswith(declaration)]
@@ -329,7 +340,7 @@ def _compose(items: dict[str, bytes], *, caller_kind: str, helper_cut: bytes,
     mutation_cert = None
     if mutation is not None:
         selected, mutation_cert = _threshold_mutation(items, mutation)
-    prefix = (_root_prefix(selected) + OPTION_CLEANUP_LEMMA +
+    prefix = (_root_prefix(selected) + OPTION_CLEANUP_IMPORT + OPTION_CLEANUP_LEMMA +
               _diagnostic_cut_dependencies(helper_cut))
     observer, rename = _observer(selected["quicksort_signature"],
                                  selected["quicksort_guard_and_call"],

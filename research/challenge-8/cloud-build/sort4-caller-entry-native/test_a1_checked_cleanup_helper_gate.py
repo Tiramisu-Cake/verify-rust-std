@@ -43,8 +43,8 @@ def sha(raw: bytes) -> str:
 
 def fixture_source() -> bytes:
     return (b"// fixture prefix\n"
+            b"//@ use std::option::{Option, Option::None, Option::Some};\n"
             b"/*@\n"
-            b"use std::option::{Option, Option::None, Option::Some};\n"
             b"lem a1_cleanup_option_ref<'a, T>(value: std::option::Option<&'a T>)\n"
             b"    req thread_token(?t) &*& std::option::Option_own::<&'a T>(t, value);\n"
             b"    ens thread_token(t);\n"
@@ -61,7 +61,7 @@ def fixture_source() -> bytes:
 
 def metadata(source: bytes) -> dict:
     lines = source.splitlines(keepends=True)
-    start, end, body_start, body_end = 2, 14, 4, 13
+    start, end, body_start, body_end = 3, 14, 4, 13
     block = b"".join(lines[start - 1:end])
     return {"name": "a1_cleanup_option_ref", "kind": "lemma",
             "source_start_line": start, "source_end_line": end,
@@ -491,7 +491,7 @@ class CheckedCleanupHelperGateTests(unittest.TestCase):
         self.assertEqual(record["status"], "BLOCKED_CHECKED_HELPER_PREREQUISITE")
 
     def test_duplicate_source_helper_is_rejected_before_verification(self):
-        block = b"".join(self.source.splitlines(keepends=True)[1:14])
+        block = b"".join(self.source.splitlines(keepends=True)[2:14])
         duplicate = self.source + block
         (self.fixture / "verified/lib.rs").write_bytes(duplicate)
         fake = FakeStage(ast_text())

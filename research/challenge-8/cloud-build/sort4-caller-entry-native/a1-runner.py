@@ -101,6 +101,8 @@ A1_HELPERS = (
     "a1-contract-admission.py", "a1-summary-receipt.py",
     "a1-proof-classifier.py", "a1-matrix-classifier.py", "selected-proof.py",
 )
+R12_AUTHORIZATION_PHASE = "SORT4-CHECKED-HELPER-CALLER-2026-10-21-R12"
+R12_GHOST_GRAMMAR_HELPER = "a1-ghost-grammar.py"
 FOCUS_SEMANTICS_PINS = {
     "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
     "src/verifast1.ml": "bfbfb518fb9783afeeba9384e1431b6cd280c7da7713b9fdbfd15a8395b00207",
@@ -155,6 +157,164 @@ def load_pinned_helpers(proof_root: Path, profile: Mapping[str, Any]) -> dict[st
               "A1 helper changed during import: " + filename)
         loaded[filename] = module
     return loaded
+
+
+def load_r12_ghost_grammar(proof_root: Path, profile: Mapping[str, Any]):
+    """Load the separately pinned R12 grammar preflight without changing the
+    historical exact A1_HELPERS set required by older profiles.
+    """
+    enabled = profile.get("ghost_grammar_preflight_enabled")
+    authorization = profile.get("authorization_phase_id")
+    if authorization != R12_AUTHORIZATION_PHASE:
+        _need(enabled is not True and "a1_ghost_grammar_sha256" not in profile,
+              "ghost grammar preflight is R12-only")
+        return None
+    _need(enabled is True, "R12 ghost grammar preflight must be enabled")
+    expected = profile.get("a1_ghost_grammar_sha256")
+    _need(isinstance(expected, str) and HEX64.fullmatch(expected) is not None,
+          "exact pinned R12 ghost grammar helper hash required")
+    path = (proof_root / HERE / R12_GHOST_GRAMMAR_HELPER).resolve()
+    _need(path.is_file() and _sha(path) == expected,
+          "pinned R12 ghost grammar helper differs")
+    name = "a1_runner_r12_ghost_grammar"
+    spec = importlib.util.spec_from_file_location(name, path)
+    _need(spec is not None and spec.loader is not None,
+          "R12 ghost grammar helper cannot be imported")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
+    spec.loader.exec_module(module)
+    _need(Path(module.__file__).resolve() == path and _sha(path) == expected,
+          "R12 ghost grammar helper changed during import")
+    return module
+
+
+def r12_ghost_grammar_passed(value: Any, *, build_id: str, project_id: str,
+                             profile_sha256: str,
+                             tool_receipt: Mapping[str, Any]) -> bool:
+    """Accept only the complete, identity-bound grammar preflight envelope."""
+    try:
+        _need(isinstance(value, Mapping) and
+              value.get("schema") == "a1-ghost-grammar-preflight-v1" and
+              value.get("status") == "GRAMMAR_PREFLIGHT_PASS" and
+              value.get("build_id") == build_id and
+              value.get("project_id") == project_id and
+              value.get("phase_id") == PHASE and
+              value.get("authorization_phase_id") == R12_AUTHORIZATION_PHASE and
+              value.get("profile_sha256") == profile_sha256 and
+              value.get("tool_binary_sha256") ==
+                tool_receipt.get("console_binary_sha256") and
+              value.get("proof_credit") is False and
+              value.get("caller_receipt") is False,
+              "R12 ghost grammar preflight identity/status/credit envelope")
+        variants = value.get("variants")
+        _need(isinstance(variants, Mapping) and set(variants) == {
+              "positive", "negative_fully_qualified",
+              "negative_import_inside_block"},
+              "R12 ghost grammar preflight requires all three variants")
+        source_identity = value.get("source_identity")
+        _need(isinstance(source_identity, Mapping) and
+              set(source_identity) == set(variants),
+              "R12 ghost grammar source identity manifest missing")
+        for variant in variants.values():
+            stage = variant.get("stage") if isinstance(variant, Mapping) else None
+            pair = variant.get("source_pair_sha256") if isinstance(variant, Mapping) else None
+            _need(isinstance(stage, Mapping) and
+                  stage.get("classification") == "TERMINAL" and
+                  type(stage.get("exit")) is int and
+                  isinstance(stage.get("log_sha256"), str) and
+                  HEX64.fullmatch(stage["log_sha256"]) is not None and
+                  isinstance(pair, Mapping) and
+                  set(pair) == {"verified/lib.rs", "original/lib.rs"} and
+                  all(isinstance(digest, str) and HEX64.fullmatch(digest)
+                      is not None for digest in pair.values()) and
+                  variant.get("tool_binary_sha256_after") ==
+                    value.get("tool_binary_sha256") and
+                  variant.get("tool_identity_sha256_after") ==
+                    value.get("tool_identity_sha256") and
+                  variant.get("same_active_tool_after_stage") is True,
+                  "R12 ghost grammar variant stage/source/tool receipt missing")
+        for name, variant in variants.items():
+            source_row = source_identity[name]
+            _need(isinstance(source_row, Mapping) and
+                  variant["source_pair_sha256"] ==
+                    source_row.get("source_pair_sha256") and
+                  variant.get("source_sha256") ==
+                    source_row.get("verified_source_sha256") and
+                  variant.get("original_sha256") ==
+                    source_row.get("original_source_sha256"),
+                  "R12 ghost grammar source pair differs from source manifest")
+        positive = variants["positive"]
+        selection = positive.get("ast_selection")
+        _need(positive.get("status") == "GRAMMAR_POSITIVE_PASS" and
+              positive["stage"].get("exit") == 0 and
+              isinstance(positive.get("ast_path"), str) and
+              isinstance(positive.get("ast_sha256"), str) and
+              HEX64.fullmatch(positive["ast_sha256"]) is not None and
+              isinstance(selection, Mapping) and
+              selection.get("classification") ==
+                "ONE_SOURCE_INTERVAL_SELECTED_CHECKED_LEMMA" and
+              selection.get("body_count_from_intervals") == 1 and
+              selection.get("proof_credit") is False and
+              isinstance(selection.get("selected"), Mapping) and
+              selection["selected"].get("name") == "a1_cleanup_option_ref" and
+              selection["selected"].get("kind") == "lemma",
+              "R12 positive ghost grammar verifier/AST receipt missing")
+        for key in ("negative_fully_qualified", "negative_import_inside_block"):
+            row = variants[key]
+            diagnostic = row.get("diagnostic_match")
+            _need(row.get("status") == "EXPECTED_GRAMMAR_REJECTION" and
+                  row["stage"].get("exit") != 0 and
+                  isinstance(diagnostic, Mapping) and
+                  diagnostic.get("matched") is True and
+                  isinstance(diagnostic.get("expected_diagnostic"), str) and
+                  isinstance(diagnostic.get("expected_source_line"), int) and
+                  isinstance(diagnostic.get("diagnostics"), list) and
+                  len(diagnostic["diagnostics"]) == 1,
+                  "R12 negative ghost grammar control did not match its diagnostic")
+        return True
+    except (KeyError, TypeError, ValueError, RuntimeError):
+        return False
+
+
+def r12_ghost_preflight_blocker(observation: Any, action_value: Any) -> Any:
+    """Retain a failed action's original structured error/artifact evidence."""
+    detail = observation if observation is not None else action_value
+    if detail is None:
+        return {"status": "GRAMMAR_PREFLIGHT_MISSING",
+                "reason": "preflight produced no result or stage observation",
+                "proof_credit": False}
+    return _jsonable(detail)
+
+
+def r12_stop_before_dependent_cases(result: dict[str, Any], *, detail: Any,
+                                    execution_events: list[dict[str, Any]],
+                                    observations: Mapping[str, Any]) -> dict[str, Any]:
+    """Fail closed with every dependent first-matrix row explicitly NOT_RUN."""
+    reason = "R12 ghost grammar preflight did not pass; all dependent cases remain NOT_RUN"
+    for case_id in CASE_ORDER:
+        result["case_status"][case_id].update(
+            status="NOT_RUN", reason=reason, proof_credit=False,
+            matrix_gate_passed=False)
+    result.update(
+        classification="A1_NATIVE_P1_BOUNDED_TARGET_LIFECYCLE",
+        target_scope={"mode": "native-p1-target",
+                      "case_ids": [case for case in CASE_ORDER
+                                   if case in NATIVE_TARGET_CASES],
+                      "matrix_admission_invoked": False,
+                      "matrix_admission_recorded": False,
+                      "proof_credit": False},
+        cases=result["case_status"], observed_rows=[], observed_row_count=0,
+        matrix_complete=False, matrix_validation="blocked-before-dependent-cases",
+        admission_record_created=False, dispatch_ready=False,
+        diagnostic_complete=False, evidence_complete=False,
+        verification_accepted=False, profile_accepted=False,
+        accepted=False, proof_verdict=None, proof_credit=False,
+        first_missing_stage="ghost-grammar-preflight",
+        first_causal_stage="ghost-grammar-preflight",
+        first_blocker=_jsonable(detail), execution_events=execution_events,
+        observation_details=_jsonable(observations),
+        ghost_grammar_preflight=_jsonable(detail))
+    return result
 
 
 def prepare_source_fixtures(a, helpers: Mapping[str, Any], ghost) -> tuple[Path, dict]:
@@ -1843,7 +2003,8 @@ def preflight_plan(profile: Mapping[str, Any], matrix: Mapping[str, Any] | None 
     if profile.get("execution_mode") == "native-p1-target":
         _need(profile.get("authorization_phase_id") in
               ("SORT4-DELIVERABLE-NATIVE-PROOF-2026-10-20-R10",
-               "SORT4-CHECKED-CALLER-NATIVE-PROOF-2026-10-21-R11"),
+               "SORT4-CHECKED-CALLER-NATIVE-PROOF-2026-10-21-R11",
+               "SORT4-CHECKED-HELPER-CALLER-2026-10-21-R12"),
               "bounded native P1 target requires R10/R11 authorization")
     cases = []
     for case_id in CASE_ORDER:
@@ -1994,8 +2155,9 @@ def _report_value_for_disk(value, authorization_phase):
     r9_authorization_phase = "SORT4-NATIVE-INTERFACE-PROOF-2026-10-20-R9"
     r10_authorization_phase = "SORT4-DELIVERABLE-NATIVE-PROOF-2026-10-20-R10"
     r11_authorization_phase = "SORT4-CHECKED-CALLER-NATIVE-PROOF-2026-10-21-R11"
+    r12_authorization_phase = "SORT4-CHECKED-HELPER-CALLER-2026-10-21-R12"
     if (authorization_phase not in (r9_authorization_phase, r10_authorization_phase,
-                                    r11_authorization_phase) or
+                                    r11_authorization_phase, r12_authorization_phase) or
             not isinstance(value, Mapping) or
             value.get("authorization_phase_id") != authorization_phase):
         return value
@@ -2433,6 +2595,15 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
           profile.get("authorization_phase_id") == AUTHORIZATION_PHASE and
           profile.get("experiment_protocol_phase_id") == PHASE,
           "exact authorization to preserved experiment protocol binding")
+    if AUTHORIZATION_PHASE == R12_AUTHORIZATION_PHASE:
+        _need(profile.get("ghost_grammar_preflight_enabled") is True and
+              isinstance(profile.get("a1_ghost_grammar_sha256"), str) and
+              HEX64.fullmatch(profile["a1_ghost_grammar_sha256"]) is not None,
+              "R12 requires its separately pinned ghost grammar preflight")
+    else:
+        _need(profile.get("ghost_grammar_preflight_enabled") is not True and
+              "a1_ghost_grammar_sha256" not in profile,
+              "ghost grammar preflight is authorized only for R12")
     plan = preflight_plan(profile, _admission_matrix(
         Path(a.proof_root) / HERE / "a1-contract-admission.py"))
     expected_manifest = Path(a.proof_root) / HERE / "CALLER-ENTRY-MANIFEST.json"
@@ -2626,6 +2797,54 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
     if helpers is not None and result.get("tool_reconstructed"):
         tool = Path(result["tool_path"])
         receipt = result["tool_receipt"]
+        if profile.get("ghost_grammar_preflight_enabled") is True:
+            def run_ghost_grammar_preflight():
+                grammar = load_r12_ghost_grammar(Path(a.proof_root), profile)
+                _need(grammar is not None and
+                      callable(getattr(grammar, "run", None)) and
+                      receipt.get("classification") == "A1_TOOL_BUILT_UNRUN_PROOF" and
+                      receipt.get("phase_id") == PHASE and
+                      receipt.get("proof_credit") is False and
+                      (tool.resolve() / "bin/verifast").is_file() and
+                      _sha(tool.resolve() / "bin/verifast") ==
+                        receipt.get("console_binary_sha256"),
+                      "R12 grammar preflight requires the exact reconstructed tool receipt")
+                return grammar.run(
+                    a, c4, tool, dict(receipt), profile,
+                    helpers["a1-fixtures.py"], ghost,
+                    helpers["a1-ast-gates.py"],
+                    select_checked_cleanup_helper_lemma)
+
+            grammar_result = action("ghost-grammar-preflight",
+                                    run_ghost_grammar_preflight,
+                                    minimum_remaining=120)
+            if not r12_ghost_grammar_passed(
+                    grammar_result, build_id=env["CLOUD_BUILD_ID"],
+                    project_id=env["CLOUD_BUILD_PROJECT_ID"],
+                    profile_sha256=profile_sha, tool_receipt=receipt):
+                detail = r12_ghost_preflight_blocker(
+                    observations.get("ghost-grammar-preflight"), grammar_result)
+                execution_events.append({
+                    "case_id": "ghost-grammar-preflight",
+                    "event": "blocking_preflight",
+                    "execution_started": isinstance(detail, Mapping) and
+                        detail.get("execution_started") is True,
+                    "error": (detail.get("adapter_error") if
+                              isinstance(detail, Mapping) else None),
+                    "preflight_status": (detail.get("status") if
+                                         isinstance(detail, Mapping) else None),
+                    "proof_credit": False})
+                r12_stop_before_dependent_cases(
+                    result, detail=detail, execution_events=execution_events,
+                    observations=observations)
+                persist_progress()
+                path = Path(a.evidence) / "diagnostic-audit.json"
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(json.dumps(_report_value_for_disk(
+                    _jsonable(result), AUTHORIZATION_PHASE), indent=2,
+                    sort_keys=True) + "\n")
+                return result
+            result["ghost_grammar_preflight"] = _jsonable(grammar_result)
         if profile.get("execution_mode") == "parser-preflight":
             def preflight():
                 certificate_path, certificate = prepare_source_fixtures(a, helpers, ghost)

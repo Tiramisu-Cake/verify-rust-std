@@ -51,4 +51,6 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-Select-R12 ещё не начата. T0/deadlines/новую authorization binding и ledger заполняет агент при фактическом старте. Дополнительного разрешения на первый/следующий Build в scope не требуется.
+R12 ACTIVE. T0 `2026-10-21T06:14:26Z`, main `08:14:26Z`, absolute `08:44:26Z`. Новый бюджет3600, used0, carry0; Builds пока нет. Initial HEAD `ce20166f07b6947686dfc85af86d3bb0b01b8059`; foreign dirty changes сохранены.
+
+Первый цикл: полный grammar/context audit exact pinned parser и минимального faithful helper блока; параллельно проверяется fixture dependency assembly и R12 authorization closure. Формальная цель helper→P0c own receipt→nativeP1, затем same-Build full26. Proof gates0/independent B1B2credit0; исторические R11 source rows не переносятся. [Session](cloud-build/sort4-caller-entry-native/A1-CHECKED-HELPER-R12-SESSION-2026-10-21.md).

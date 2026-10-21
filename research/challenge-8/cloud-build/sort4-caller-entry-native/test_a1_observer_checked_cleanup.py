@@ -40,6 +40,7 @@ CLEANUP = b"//@ a1_cleanup_option_ref(left_ancestor_pivot);"
 class ObserverCleanupConstructionTests(unittest.TestCase):
     def test_checked_ghost_lemma_is_generic_and_consumes_both_option_variants(self):
         lemma = fixtures.OPTION_CLEANUP_LEMMA
+        self.assertNotIn(b"use std::option", lemma)
         self.assertTrue(lemma.startswith(b"/*@\n"))
         self.assertTrue(lemma.endswith(b"@*/\n"))
         self.assertIn(b"lem a1_cleanup_option_ref<'a, T>", lemma)
@@ -47,7 +48,6 @@ class ObserverCleanupConstructionTests(unittest.TestCase):
         self.assertIn(b"thread_token(?t)", lemma)
         self.assertIn(b"ens thread_token(t);", lemma)
         self.assertIn(b"open std::option::Option_own::<&'a T>(t, value);", lemma)
-        self.assertIn(b"use std::option::{Option, Option::None, Option::Some};", lemma)
         self.assertIn(b"Option::None => {}", lemma)
         self.assertIn(b"Option::Some(r) => {}", lemma)
         self.assertNotIn(b"std::option::Option::None", lemma)
@@ -60,7 +60,8 @@ class ObserverCleanupConstructionTests(unittest.TestCase):
         self.assertNotIn(b"type_interp", lemma)
 
     def test_helper_gate_metadata_binds_exact_unique_source_and_body_lines(self):
-        synthetic = b"header one\nheader two\n" + fixtures.OPTION_CLEANUP_LEMMA + b"tail\n"
+        synthetic = (b"header one\nheader two\n" + fixtures.OPTION_CLEANUP_IMPORT +
+                     fixtures.OPTION_CLEANUP_LEMMA + b"tail\n")
         metadata = fixtures._checked_cleanup_helper_metadata(synthetic)
         lines = synthetic.splitlines(keepends=True)
         start = metadata["source_start_line"] - 1
@@ -73,20 +74,47 @@ class ObserverCleanupConstructionTests(unittest.TestCase):
                          b"lem a1_cleanup_option_ref<'a, T>(value: std::option::Option<&'a T>)")
         self.assertEqual(lines[metadata["body_end_line"] - 1].strip(), b"}")
         self.assertEqual(lines[metadata["source_end_line"] - 1].strip(), b"@*/")
+        self.assertEqual(lines[metadata["source_start_line"] - 2],
+                         fixtures.OPTION_CLEANUP_IMPORT)
+        self.assertNotEqual(metadata["source_sha256"],
+                            fixtures._sha(fixtures.OPTION_CLEANUP_IMPORT +
+                                          fixtures.OPTION_CLEANUP_LEMMA))
 
         with self.assertRaises(fixtures.FixtureError):
             fixtures._checked_cleanup_helper_metadata(synthetic + fixtures.OPTION_CLEANUP_LEMMA)
         with self.assertRaises(fixtures.FixtureError):
+            fixtures._checked_cleanup_helper_metadata(
+                b"header\n" + fixtures.OPTION_CLEANUP_LEMMA)
+        with self.assertRaises(fixtures.FixtureError):
             fixtures._checked_cleanup_helper_metadata(synthetic.replace(
                 b"Option::None => {}", b"Option::Some => {}", 1))
 
-    def test_import_and_both_constructor_patterns_are_a_closed_source_form(self):
+    def test_import_and_both_constructor_patterns_are_separate_closed_source_forms(self):
+        import_line = fixtures.OPTION_CLEANUP_IMPORT
         lemma = fixtures.OPTION_CLEANUP_LEMMA
-        self.assertEqual(lemma.count(b"use std::option::{Option, Option::None, Option::Some};"), 1)
+        self.assertEqual(import_line, b"//@ use std::option::{Option, Option::None, Option::Some};\n")
+        self.assertEqual(lemma.count(b"/*@"), 1)
+        self.assertEqual(lemma.count(b"@*/"), 1)
+        self.assertNotIn(b"use ", lemma)
         self.assertEqual(lemma.count(b"Option::None => {}"), 1)
         self.assertEqual(lemma.count(b"Option::Some(r) => {}"), 1)
         self.assertNotIn(b"std::option::Option::None", lemma)
         self.assertNotIn(b"std::option::Option::Some", lemma)
+        self.assertEqual((import_line + lemma).count(
+            b"use std::option::{Option, Option::None, Option::Some};"), 1)
+
+    def test_metadata_rejects_combined_batch_nonadjacent_or_duplicate_import(self):
+        helper = fixtures.OPTION_CLEANUP_LEMMA
+        standalone = fixtures.OPTION_CLEANUP_IMPORT
+        with self.assertRaises(fixtures.FixtureError):
+            fixtures._checked_cleanup_helper_metadata(
+                b"header\n" + helper.replace(b"/*@\n", b"/*@\n" + standalone, 1))
+        with self.assertRaises(fixtures.FixtureError):
+            fixtures._checked_cleanup_helper_metadata(
+                b"header\n" + standalone + b"\n" + helper)
+        with self.assertRaises(fixtures.FixtureError):
+            fixtures._checked_cleanup_helper_metadata(
+                b"header\n" + standalone + standalone + helper)
 
     def test_p0c_and_false31_keep_signature_and_guard_and_call_cleanup_each_exit(self):
         for false31, expected_assertion in ((False, b"assert len <= 32;"),

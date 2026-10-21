@@ -37,7 +37,7 @@ class R11Registration(unittest.TestCase):
         self.assertEqual(ledger["start_utc"], "2026-10-20T21:41:43Z")
         self.assertEqual(ledger["main_deadline_utc"], "2026-10-20T23:41:43Z")
         self.assertEqual(ledger["deadline_utc"], "2026-10-21T00:11:43Z")
-        self.assertEqual(ledger["status"], "AUTHORIZED")
+        self.assertEqual(ledger["status"], "CLOSED")
         used = ledger["used_build_seconds"]
         remaining = ledger["remaining_build_seconds"]
         self.assertIs(type(used), int)
@@ -71,9 +71,11 @@ class R11Registration(unittest.TestCase):
             self.assertIn(active, (unresolved[0].get("build_id"),
                                    unresolved[0]["dispatch_token"]))
         for key, filename in (("a1_entry_sha256", "a1-entry-r11.py"),
-                              ("a1_runner_sha256", "a1-runner-r11.py"),
-                              ("a1_source_runner_sha256", "a1-runner.py")):
+                              ("a1_runner_sha256", "a1-runner-r11.py")):
             self.assertEqual(profile[key], sha(HERE / filename), key)
+        self.assertEqual(profile["a1_source_runner_sha256"],
+                         "75e440c6616b9aa52fd766ba1f8b65d428d5557458cb182f58ce90ba5412cfc3")
+        self.assertNotEqual(profile["a1_source_runner_sha256"], sha(HERE / "a1-runner.py"))
 
     def test_recipe_and_lane_select_the_r11_adapter_without_replacing_history(self):
         recipe = json.loads((CLOUD / "recipes/o26-sort4-c1-current-recovery.json").read_text())
