@@ -3,12 +3,14 @@ import copy
 import importlib.util
 from pathlib import Path
 import unittest
+import test_a1_p1_producer_classifier as p1_producer
 
 SPEC = importlib.util.spec_from_file_location('a1_matrix_pure_test', Path(__file__).with_name('a1-matrix-classifier.py'))
 m = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(m)
 BUILD = '11111111-1111-4111-8111-111111111111'
-EXPECTED = {'source_id': 'a' * 64, 'unit_id': 'b' * 64}
+EXPECTED = {'source_id': 'f0b4d4a9fe0c3b9f6a6f477e4235e15d317f119531ed5ae861cf528d11d794aa',
+            'unit_id': 'b' * 64}
 PINS = {'tool_id': 'c' * 64, 'profile_id': 'd' * 64, 'proof_id': 'e' * 40,
         'infra_id': 'f' * 40, 'target_id': 'A1-FIRST-MATRIX-THRESHOLD-INTERFACE'}
 INVENTORY = {'default16': {'compiler_impl_id': '11', 'compiler_item_id': '12'},
@@ -72,9 +74,10 @@ def dispatch_gate(obs):
 
 
 class MatrixClassifier(unittest.TestCase):
-    def classify(self, case, obs, expected=None):
+    def classify(self, case, obs, expected=None, inventory=None):
         return m.classify_case(case, obs, expected_input=expected or EXPECTED,
-                              run_pins=PINS, build_id=BUILD, expected_inventory=INVENTORY)
+                              run_pins=PINS, build_id=BUILD,
+                              expected_inventory=inventory or INVENTORY)
 
     def test_absent_remains_not_run(self):
         self.assertEqual(self.classify('P1', None)['status'], 'NOT_RUN')
@@ -138,10 +141,10 @@ class MatrixClassifier(unittest.TestCase):
     def test_p1_requires_full_native_gate_without_body_credit(self):
         obs = source('P1')
         self.assertFalse(self.classify('P1', obs)['matrix_gate_passed'])
-        obs['structure']['small_sort_interface'] = {'structural_pass': True, 'body_count': 0,
-            'proof_credit': False, 'compiler_clauses_source_bound': True,
-            'impls': {impl: {'native_matches_r_only_baseline': True} for impl in INVENTORY}}
-        result = self.classify('P1', obs)
+        obs, p1_inventory, *_ = p1_producer.producer_case()
+        result = self.classify('P1', obs,
+                               expected=p1_producer.EXPECTED_INPUT,
+                               inventory=p1_inventory)
         self.assertTrue(result['matrix_gate_passed'])
         self.assertEqual(result['record']['body_count'], 0)
         self.assertFalse(result['record']['proof_credit'])
@@ -227,19 +230,19 @@ class MatrixClassifier(unittest.TestCase):
         spec.loader.exec_module(admission)
         expected, observations = {}, {}
         for case, values in admission.MATRIX.items():
-            expected[case] = {**EXPECTED, **dict(zip(
+            case_identity = (p1_producer.EXPECTED_INPUT if case == 'P1' else EXPECTED)
+            expected[case] = {**case_identity, **dict(zip(
                 ('stage', 'predicate', 'location', 'outcome', 'classification'), values))}
             if case in m.BODY:
                 expected[case]['focused_item_id'] = INVENTORY[m.BODY[case]]['compiler_item_id']
                 obs = body(case)
             elif case == 'P0c':
                 obs = source(case)
-            elif case in ('P1', 'P-dispatch'):
+            elif case == 'P1':
+                obs, p1_expected_inventory, *_ = p1_producer.producer_case()
+            elif case == 'P-dispatch':
                 obs = source(case)
                 dispatch_gate(obs)
-                obs['structure']['small_sort_interface'] = {'structural_pass': True, 'body_count': 0,
-                    'proof_credit': False, 'compiler_clauses_source_bound': True,
-                    'impls': {impl: {'native_matches_r_only_baseline': True} for impl in INVENTORY}}
             elif case in m.SYNTHETIC:
                 messages = []
                 for i, mutation in enumerate(m.SYNTHETIC[case]):
@@ -289,7 +292,8 @@ class MatrixClassifier(unittest.TestCase):
             observations[case] = obs
         records = []
         for case, obs in observations.items():
-            classified = self.classify(case, obs, expected[case])
+            classified = self.classify(case, obs, expected[case],
+                                       inventory=(p1_expected_inventory if case == 'P1' else INVENTORY))
             self.assertTrue(classified['matrix_gate_passed'], (case, classified))
             records.append(classified['record'])
         self.assertEqual(len(records), 26)

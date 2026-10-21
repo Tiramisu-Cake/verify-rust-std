@@ -40,12 +40,77 @@ def _valid_sha256(value: Any) -> bool:
     return isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value) is not None
 
 
+def _receipt_sha256(receipt: Mapping[str, Any]) -> str:
+    return hashlib.sha256(json.dumps(receipt, sort_keys=True, separators=(",", ":"),
+                                      ensure_ascii=False).encode("utf-8")).hexdigest()
+
+
 def _receipt_pair_sha256(receipt: Mapping[str, Any]) -> str | None:
     parts = receipt.get("source_pair_sha256")
     if not isinstance(parts, Mapping) or not all(
             _valid_sha256(parts.get(key)) for key in ("verified", "original")):
         return None
     return hashlib.sha256((parts["verified"] + ":" + parts["original"]).encode("ascii")).hexdigest()
+
+
+def _guard_r_only_reference_receipt(receipt: Mapping[str, Any], ast_sha256: str,
+                                    source_pair_id: str,
+                                    reference_source_text: str | None = None) -> None:
+    """Validate versioned R-only capture provenance and source-anchored status."""
+    need(isinstance(receipt, Mapping) and
+         receipt.get("schema") == "a1-r-only-native-reference-receipt-v2" and
+         receipt.get("mode") == "r-only-native-reference" and
+         receipt.get("source_pair_id") == source_pair_id and
+         receipt.get("stage_classification") == "TERMINAL" and
+         type(receipt.get("observed_exit")) is int and
+         all(_valid_sha256(receipt.get(key)) for key in (
+             "reference_binary_sha256", "reference_translator_sha256",
+             "profile_sha256", "ast_sha256", "actual_source_pair_sha256",
+             "stage_log_sha256")) and
+         _receipt_pair_sha256(receipt) == receipt.get("actual_source_pair_sha256") and
+         isinstance(receipt.get("build_id"), str) and bool(receipt["build_id"]) and
+         receipt.get("proof_credit") is False and
+         receipt.get("ast_sha256") == ast_sha256,
+         "R-only v2 capture receipt identity/hash/status is invalid")
+    exit_code = receipt["observed_exit"]
+    diagnostic = receipt.get("diagnostic")
+    if exit_code == 0:
+        need(receipt.get("capture_status") == "COMPLETE_NO_ERROR_EXIT0" and
+             diagnostic is None,
+             "R-only exit 0 capture status/diagnostic mismatch")
+    elif exit_code == 1:
+        need(receipt.get("capture_status") ==
+             "COMPLETE_EXPECTED_DUPLICATE_PROTOTYPE_EXIT1" and
+             isinstance(diagnostic, Mapping) and
+             diagnostic.get("kind") == "duplicate-function-prototype" and
+             diagnostic.get("source") == "verified/lib.rs" and
+             type(diagnostic.get("line")) is int and diagnostic["line"] > 0 and
+             type(diagnostic.get("start_column")) is int and diagnostic["start_column"] > 0 and
+             type(diagnostic.get("end_column")) is int and
+             diagnostic["end_column"] - diagnostic["start_column"] ==
+             len("small_sort_threshold") and
+             isinstance(diagnostic.get("declaration_text"), str) and
+             diagnostic["declaration_text"].strip() ==
+             "fn small_sort_threshold() -> usize;" and
+             _valid_sha256(diagnostic.get("declaration_sha256")) and
+             hashlib.sha256(diagnostic["declaration_text"].encode("utf-8")).hexdigest() ==
+             diagnostic["declaration_sha256"] and
+             diagnostic.get("count") == 1 and type(diagnostic.get("count")) is int,
+             "R-only exit 1 lacks the unique source-anchored duplicate-prototype receipt")
+        if reference_source_text is not None:
+            matching_lines = [(number, line) for number, line in
+                              enumerate(reference_source_text.splitlines(), 1)
+                              if line.strip() == "fn small_sort_threshold() -> usize;"]
+            need(len(matching_lines) == 1 and
+                 matching_lines[0][0] == diagnostic["line"] and
+                 matching_lines[0][1] == diagnostic["declaration_text"] and
+                 matching_lines[0][1].index("small_sort_threshold") + 1 ==
+                 diagnostic["start_column"] and
+                 diagnostic["end_column"] == diagnostic["start_column"] +
+                 len("small_sort_threshold"),
+                 "R-only diagnostic is not anchored to the unique source threshold declaration")
+    else:
+        need(False, "R-only capture receipt exit is not admitted")
 
 
 def balanced_end(source: str, opening: int) -> int:
@@ -973,7 +1038,8 @@ def _small_sort_impl_surface(record: Mapping[str, Any], identity: Mapping[str, A
 
 def small_sort_native_baseline(ast: str, inventory: Mapping[str, Any], *,
                                source_pair_id: str,
-                               reference_receipt: Mapping[str, Any]) -> dict[str, Any]:
+                               reference_receipt: Mapping[str, Any],
+                               reference_source_text: str) -> dict[str, Any]:
     """Extract native small_sort structure from the independently run R-only AST.
 
     The caller must label this result only after collecting the AST from a
@@ -988,21 +1054,9 @@ def small_sort_native_baseline(ast: str, inventory: Mapping[str, Any], *,
     case = inventory.get("case_binding", {})
     need(isinstance(case, Mapping) and case.get("source_pair_id") == source_pair_id,
          "R-only baseline source pair does not match compiler inventory")
-    need(isinstance(reference_receipt, Mapping) and
-         reference_receipt.get("schema") == "a1-r-only-native-reference-receipt-v1" and
-         reference_receipt.get("mode") == "r-only-native-reference" and
-         reference_receipt.get("source_pair_id") == source_pair_id and
-         all(isinstance(reference_receipt.get(key), str) and
-             re.fullmatch(r"[0-9a-f]{64}", reference_receipt[key]) is not None
-         for key in ("reference_binary_sha256", "reference_translator_sha256",
-                     "ast_sha256", "actual_source_pair_sha256")) and
-         _receipt_pair_sha256(reference_receipt) ==
-         reference_receipt.get("actual_source_pair_sha256") and
-         isinstance(reference_receipt.get("build_id"), str) and bool(reference_receipt["build_id"]) and
-         isinstance(reference_receipt.get("observed_exit"), int) and
-         reference_receipt.get("proof_credit") is False and
-         hashlib.sha256(ast.encode("utf-8")).hexdigest() == reference_receipt.get("ast_sha256"),
-         "separate R-only native-reference tool/AST receipt missing or mismatched")
+    _guard_r_only_reference_receipt(
+        reference_receipt, hashlib.sha256(ast.encode("utf-8")).hexdigest(),
+        source_pair_id, reference_source_text)
     fs = functions(ast)
     required_id = interface.get("required_def_id")
     common = [row for row in fs if row["name"] == required_id]
@@ -1096,6 +1150,7 @@ def small_sort_native_baseline(ast: str, inventory: Mapping[str, Any], *,
             "actual_source_pair_sha256": reference_receipt["actual_source_pair_sha256"],
             "compiler_interface_digest": interface["interface_digest"],
             "reference_receipt": dict(reference_receipt),
+            "reference_receipt_sha256": _receipt_sha256(reference_receipt),
             "ast_sha256": hashlib.sha256(ast.encode("utf-8")).hexdigest(),
             "normalized_header": common_header,
             "normalized_native": native,
@@ -1145,15 +1200,12 @@ def small_sort_interface(ast: str, inventory: Mapping[str, Any], *,
          "independent R-only native baseline missing or bound to another source/interface")
     receipt = baseline.get("reference_receipt")
     need(isinstance(receipt, Mapping) and
-         receipt.get("schema") == "a1-r-only-native-reference-receipt-v1" and
-         receipt.get("mode") == "r-only-native-reference" and
-         receipt.get("source_pair_id") == case["source_pair_id"] and
-         isinstance(actual_source_pair_sha256, str) and
-         re.fullmatch(r"[0-9a-f]{64}", actual_source_pair_sha256) is not None and
-         _receipt_pair_sha256(receipt) == actual_source_pair_sha256 and
-         receipt.get("actual_source_pair_sha256") == actual_source_pair_sha256 and
+         baseline.get("reference_receipt_sha256") == _receipt_sha256(receipt),
+         "R-only capture receipt changed after baseline extraction")
+    _guard_r_only_reference_receipt(
+        receipt, baseline.get("ast_sha256"), case["source_pair_id"])
+    need(receipt.get("actual_source_pair_sha256") == actual_source_pair_sha256 and
          receipt.get("ast_sha256") == baseline.get("ast_sha256") and
-         receipt.get("proof_credit") is False and
          hashlib.sha256(ast.encode("utf-8")).hexdigest() != baseline.get("ast_sha256"),
          "P1 baseline is candidate-self or lacks an independent R-only invocation identity")
     baseline_native = baseline.get("normalized_native")

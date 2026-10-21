@@ -109,7 +109,7 @@ def classify(stage, log, ast_selection, case):
 def run(a, c4, tool, receipt, profile, fixtures, ghost, ast_gates, selector,
         grammar, checkpoint):
     identity = grammar._profile_guard(a, profile, receipt, tool)
-    need(identity['authorization_phase_id'] == PHASE and profile.get('execution_mode') in ('reference-own-probe', 'native-p1-target', 'full-matrix'), 'exact diagnostic mode')
+    need(identity['authorization_phase_id'] in (PHASE, 'SORT4-NATIVE-P1-MATRIX-2026-10-21-R14') and profile.get('execution_mode') in ('reference-own-probe', 'native-p1-target', 'full-matrix'), 'exact diagnostic mode')
     normalization = profile.get('shared_reference_own_normalization')
     need(isinstance(normalization, dict) and normalization == receipt.get('shared_reference_own_normalization') and
          normalization.get('source') == SPEC and sha((tool / SPEC).read_bytes()) == normalization.get('result_sha256'),

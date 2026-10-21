@@ -1,0 +1,7 @@
+# R14 branch-local registration and preserved scope
+
+New authorization SORT4-NATIVE-P1-MATRIX-2026-10-21-R14 has T0=12:29:30Z/main14:29:30Z/absolute14:59:30Z, fresh3600seconds, max1200/envelope60/report240. Stableowner/lane/coordinator and historical experimental protocol remain. R13 effective patch/spec/compiler chain is unchanged; new profile pins only current code and exact adapters. Both tool/native reference retain shared-only ownership normalization and pure typed-variable lifetime inference.
+
+Extend only exact R14 phase routing/allowlists, not wildcard phases. Seven actual mini resource controls remain mandatory for target/full routes; R12 grammar-only behavior and older phase registrations unchanged. R14 uses the existing R13 probe implementation with an explicit two-phase allowlist; resource variants and verdicts unchanged. Profile/backend/source/tool hashes remain checked. First mode native-p1-target; full26 only after actual target prerequisites pass. No old receipts or charges carried forward.
+
+Current recipe replaces the inactive R13 profile selection with R14 and adds its entry/runner. Historical adapters/profiles remain in Git; only proven inactive runtime selections may be pruned if transport headroom requires it. No caps, codec, coordinator, IAM or backend changes. Preserve all proof/control inputs and restore committed byte closure before submit. Independent review and isolated service tests required; actual toolchain only Cloud.

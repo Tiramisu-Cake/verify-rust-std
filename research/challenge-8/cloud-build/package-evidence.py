@@ -19,11 +19,24 @@ import tempfile
 EVIDENCE = Path("/workspace/evidence")
 OUT = Path("/workspace/out")
 ARCHIVE_NAME = "evidence.tar.gz"
+ARCHIVE_MAX_BYTES = 536870912
 SHA_RE = re.compile(r"^(?:[0-9a-f]{40}|[0-9a-f]{64})$")
 TEXT_LOG_CHUNK_BYTES = 8 * 1024 * 1024
 METADATA_MAX_BYTES = 8 * 1024 * 1024
 ORIGINAL_AUDIT_MAX_BYTES = 64 * 1024 * 1024
 INVENTORY_MAX_BYTES = 8 * 1024 * 1024
+
+
+def check_archive_size(archive: Path, out: Path) -> None:
+    """Apply the processor cap to the complete compressed file before upload."""
+    size = archive.stat().st_size
+    if size > ARCHIVE_MAX_BYTES:
+        diagnostic = {"schema": "smallsort-compressed-archive-limit-v1",
+                      "archive_size_bytes": size, "limit_bytes": ARCHIVE_MAX_BYTES,
+                      "accepted": False, "artifacts_truncated": False}
+        (out / "archive-size-failure.json").write_bytes(compact_json_bytes(diagnostic))
+        fail(f"compressed evidence archive exceeds processor cap: "
+             f"archive_size_bytes={size} limit_bytes={ARCHIVE_MAX_BYTES}; artifacts not truncated")
 
 
 def digest(data: bytes) -> str:
@@ -505,6 +518,7 @@ def main() -> int:
             Path(temp_name).replace(archive)
         finally:
             Path(temp_name).unlink(missing_ok=True)
+        check_archive_size(archive, out)
         (out / "summary.json").write_bytes(files["summary.json"])
         (out / "manifest.json").write_bytes(files["manifest.json"])
         if config_bytes:

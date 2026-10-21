@@ -39,6 +39,8 @@ PROFILE_BINDINGS = {
         "A1-CHECKED-HELPER-R12-PROFILE-2026-10-21.json",
     "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13":
         "A1-REFERENCE-OWN-R13-PROFILE-2026-10-21.json",
+    "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14":
+        "A1-NATIVE-MATRIX-R14-PROFILE-2026-10-21.json",
 }
 TR = "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
 SCHEMA = "src/rust_frontend/vf_mir/vf_mir.capnp"
@@ -316,7 +318,7 @@ def _cloud_gate(a, c4, ghost, tool: Path, receipt: dict,
          receipt.get("final_exporter_sha256") == profile["c_after"][EXPORTER] and
          receipt.get("proof_credit") is False,
          "one final A1 tool reconstruction receipt")
-    if profile.get("authorization_phase_id") == "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13":
+    if profile.get("authorization_phase_id") in ("SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13", "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14"):
         need(receipt.get("shared_reference_own_normalization") ==
              profile.get("shared_reference_own_normalization") and
              isinstance(profile.get("shared_reference_own_normalization"), dict),

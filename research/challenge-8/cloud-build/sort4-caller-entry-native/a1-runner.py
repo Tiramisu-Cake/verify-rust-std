@@ -167,7 +167,7 @@ def load_r12_ghost_grammar(proof_root: Path, profile: Mapping[str, Any]):
     """
     enabled = profile.get("ghost_grammar_preflight_enabled")
     authorization = profile.get("authorization_phase_id")
-    if authorization not in (R12_AUTHORIZATION_PHASE, R13_AUTHORIZATION_PHASE):
+    if authorization not in (R12_AUTHORIZATION_PHASE, R13_AUTHORIZATION_PHASE, "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14"):
         _need(enabled is not True and "a1_ghost_grammar_sha256" not in profile,
               "ghost grammar preflight is authorized only for R12/R13")
         return None
@@ -202,7 +202,7 @@ def r12_ghost_grammar_passed(value: Any, *, build_id: str, project_id: str,
               value.get("build_id") == build_id and
               value.get("project_id") == project_id and
               value.get("phase_id") == PHASE and
-              authorization_phase in (R12_AUTHORIZATION_PHASE, R13_AUTHORIZATION_PHASE) and
+              authorization_phase in (R12_AUTHORIZATION_PHASE, R13_AUTHORIZATION_PHASE, "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14") and
               value.get("authorization_phase_id") == authorization_phase and
               value.get("profile_sha256") == profile_sha256 and
               value.get("tool_binary_sha256") ==
@@ -1375,6 +1375,58 @@ def collect_source_case(a, c4, ghost, *, tool: Path, tool_receipt: dict,
     return collected
 
 
+def _classify_r_only_ast_capture(stage: Mapping[str, Any], log_bytes: bytes,
+                                 source_text: str) -> dict:
+    """Admit only a complete AST capture with a recognized terminal outcome."""
+    _need(stage.get("classification") == "TERMINAL" and
+          type(stage.get("exit")) is int,
+          "R-only AST capture requires a terminal integer stage exit")
+    log_sha256 = stage.get("log_sha256")
+    _need(isinstance(log_sha256, str) and HEX64.fullmatch(log_sha256) and
+          hashlib.sha256(log_bytes).hexdigest() == log_sha256,
+          "R-only AST capture stage log missing or changed")
+    try:
+        log_text = log_bytes.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise RuntimeError("R-only AST capture stage log is not UTF-8") from exc
+    error_lines = [line for line in log_text.splitlines() if "error:" in line]
+    exit_code = stage["exit"]
+    if exit_code == 0:
+        _need(not error_lines,
+              "R-only AST capture exit 0 contains an error diagnostic")
+        return {"stage_classification": "TERMINAL",
+                "stage_log_sha256": log_sha256,
+                "capture_status": "COMPLETE_NO_ERROR_EXIT0",
+                "diagnostic": None}
+    _need(exit_code == 1,
+          "R-only AST capture stage exit is not an admitted structural outcome")
+    lines = source_text.splitlines()
+    declaration = "fn small_sort_threshold() -> usize;"
+    matching_lines = [(index, line) for index, line in enumerate(lines, 1)
+                      if line.strip() == declaration]
+    _need(len(matching_lines) == 1,
+          "R-only common threshold declaration is absent or ambiguous")
+    source_line, source_text_line = matching_lines[0]
+    name_start = source_text_line.index("small_sort_threshold") + 1
+    name_end = name_start + len("small_sort_threshold")
+    expected = (f"verified/lib.rs({source_line},{name_start}-{name_end}): "
+                "error: Duplicate function prototype.")
+    _need(len(error_lines) == 1 and error_lines[0] == expected,
+          "R-only exit 1 is not the unique source-anchored duplicate-prototype error")
+    return {"stage_classification": "TERMINAL",
+            "stage_log_sha256": log_sha256,
+            "capture_status": "COMPLETE_EXPECTED_DUPLICATE_PROTOTYPE_EXIT1",
+            "diagnostic": {"kind": "duplicate-function-prototype",
+                           "source": "verified/lib.rs",
+                           "line": source_line,
+                           "start_column": name_start,
+                           "end_column": name_end,
+                           "declaration_text": source_text_line,
+                           "declaration_sha256": hashlib.sha256(
+                               source_text_line.encode("utf-8")).hexdigest(),
+                           "count": 1}}
+
+
 def collect_native_reference_baseline(a, c4, *, tool: Path,
                                       tool_receipt: Mapping[str, Any],
                                       profile: Mapping[str, Any],
@@ -1438,6 +1490,15 @@ def collect_native_reference_baseline(a, c4, *, tool: Path,
           "R-only baseline changed P1 source pair "
           f"(files={','.join(changed_sources)}; "
           f"expected={expected_source_pair}; observed={source_after})")
+    stage_log_path = root / "r-only-native-reference.log"
+    _need(stage_log_path.is_file(),
+          "R-only AST capture stage log missing")
+    reference_source_bytes = (fixture / "verified/lib.rs").read_bytes()
+    _need(hashlib.sha256(reference_source_bytes).hexdigest() == source_after["verified"],
+          "R-only diagnostic source changed after source-pair capture")
+    reference_source_text = reference_source_bytes.decode("utf-8")
+    capture = _classify_r_only_ast_capture(
+        stage, stage_log_path.read_bytes(), reference_source_text)
     _need(ast_path.is_file(),
           "R-only baseline did not emit its pre-verification AST")
     actual_source_pair_sha256 = hashlib.sha256(
@@ -1446,9 +1507,11 @@ def collect_native_reference_baseline(a, c4, *, tool: Path,
     source_pair_id = p1_structure["inventory"]["case_binding"]["source_pair_id"]
     ast_gates = helpers["a1-ast-gates.py"]
     reference_observation = {
-        "schema": "a1-r-only-native-reference-receipt-v1",
+        "schema": "a1-r-only-native-reference-receipt-v2",
         "mode": "r-only-native-reference",
         "source_pair_id": source_pair_id,
+        "profile_sha256": os.environ["SORT4_A1_PROFILE_SHA256"],
+        **capture,
         "reference_binary_sha256": _sha(console),
         "reference_translator_sha256": reference["translator_sha256"],
         "ast_sha256": _sha(ast_path),
@@ -1465,7 +1528,8 @@ def collect_native_reference_baseline(a, c4, *, tool: Path,
     baseline = ast_gates.small_sort_native_baseline(
         ast_path.read_text(encoding="utf-8"), p1_structure["inventory"],
         source_pair_id=source_pair_id,
-        reference_receipt=reference_observation)
+        reference_receipt=reference_observation,
+        reference_source_text=reference_source_text)
     _need(baseline.get("schema") == "a1-small-sort-native-baseline-v1" and
           baseline.get("provenance") == "r-only-native-translation" and
           baseline.get("source_pair_id") == source_pair_id and
@@ -1481,6 +1545,30 @@ def collect_native_reference_baseline(a, c4, *, tool: Path,
                     "reference_observation_path": str(reference_receipt_path),
                     "build_id": os.environ["CLOUD_BUILD_ID"]},
             "baseline": baseline, "proof_credit": False}
+
+
+def p1_run_identity(tool_receipt, receipts, environment):
+    """Bind the structural P1 observation to the same final receipt/run pins."""
+    _need(isinstance(tool_receipt, Mapping) and
+          tool_receipt.get("classification") == "A1_TOOL_BUILT_UNRUN_PROOF" and
+          tool_receipt.get("phase_id") == PHASE and
+          type(tool_receipt.get("build_exit")) is int and
+          tool_receipt["build_exit"] == 0 and
+          tool_receipt.get("proof_credit") is False,
+          "P1 final tool receipt identity required")
+    hashes = {"verifier": tool_receipt.get("console_binary_sha256"),
+              "exporter": tool_receipt.get("exporter_binary_sha256"),
+              "schema": tool_receipt.get("final_schema_sha256")}
+    pins = {"profile_id": environment.get("SORT4_A1_PROFILE_SHA256"),
+            "proof_id": environment.get("PROOF_SHA"),
+            "infra_id": environment.get("INFRA_SHA")}
+    _need(all(isinstance(value, str) and HEX64.fullmatch(value) is not None
+              for value in [*hashes.values(), pins["profile_id"]]) and
+          all(isinstance(pins[key], str) and re.fullmatch(r"[0-9a-f]{40}", pins[key])
+              for key in ("proof_id", "infra_id")),
+          "P1 exact final tool/profile/source SHA identities required")
+    return {"tool_id": receipts.tool_id(hashes), **pins,
+            "target_id": receipts.TARGET}
 
 
 def collect_p1_interface_case(a, c4, ghost, *, tool: Path,
@@ -1545,6 +1633,8 @@ def collect_p1_interface_case(a, c4, ghost, *, tool: Path,
           reference["baseline"]["compiler_interface_digest"],
           "P1 full small_sort interface structural gate failed")
     result = {"classification": "P1_FULL_INTERFACE_OBSERVED",
+              "run_identity": p1_run_identity(
+                  tool_receipt, helpers["a1-summary-receipt.py"], os.environ),
               "raw": raw, "inventory": inventory, "baseline": reference,
               "structure": structure, "proof_credit": False,
               "body_count": 0,
@@ -2170,14 +2260,14 @@ def preflight_plan(profile: Mapping[str, Any], matrix: Mapping[str, Any] | None 
           {"parser-preflight", "full-matrix", "native-p1-target", "reference-own-probe"},
           "recognized unaccepted A1 execution mode required")
     if profile.get("execution_mode") == "reference-own-probe":
-        _need(profile.get("authorization_phase_id") == R13_AUTHORIZATION_PHASE,
+        _need(profile.get("authorization_phase_id") in (R13_AUTHORIZATION_PHASE, "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14"),
               "reference-own-probe requires R13 authorization")
     if profile.get("execution_mode") == "native-p1-target":
         _need(profile.get("authorization_phase_id") in
               ("SORT4-DELIVERABLE-NATIVE-PROOF-2026-10-20-R10",
                "SORT4-CHECKED-CALLER-NATIVE-PROOF-2026-10-21-R11",
                "SORT4-CHECKED-HELPER-CALLER-2026-10-21-R12",
-               R13_AUTHORIZATION_PHASE),
+               R13_AUTHORIZATION_PHASE, "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14"),
               "bounded native P1 target requires R10/R11/R12/R13 authorization")
     cases = []
     for case_id in CASE_ORDER:
@@ -2556,7 +2646,7 @@ def _report_value_for_disk(value, authorization_phase):
     r13_authorization_phase = "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13"
     if (authorization_phase not in (r9_authorization_phase, r10_authorization_phase,
                                     r11_authorization_phase, r12_authorization_phase,
-                                    r13_authorization_phase) or
+                                    r13_authorization_phase, "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14") or
             not isinstance(value, Mapping) or
             value.get("authorization_phase_id") != authorization_phase):
         return value
@@ -3080,7 +3170,7 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
           profile.get("authorization_phase_id") == AUTHORIZATION_PHASE and
           profile.get("experiment_protocol_phase_id") == PHASE,
           "exact authorization to preserved experiment protocol binding")
-    if AUTHORIZATION_PHASE in (R12_AUTHORIZATION_PHASE, R13_AUTHORIZATION_PHASE):
+    if AUTHORIZATION_PHASE in (R12_AUTHORIZATION_PHASE, R13_AUTHORIZATION_PHASE, "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14"):
         _need(profile.get("ghost_grammar_preflight_enabled") is True and
               isinstance(profile.get("a1_ghost_grammar_sha256"), str) and
               HEX64.fullmatch(profile["a1_ghost_grammar_sha256"]) is not None,
@@ -3089,7 +3179,7 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
         _need(profile.get("ghost_grammar_preflight_enabled") is not True and
               "a1_ghost_grammar_sha256" not in profile,
               "ghost grammar preflight is authorized only for R12")
-    if AUTHORIZATION_PHASE == R13_AUTHORIZATION_PHASE:
+    if AUTHORIZATION_PHASE in (R13_AUTHORIZATION_PHASE, "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14"):
         _need(profile.get("reference_own_preflight_enabled") is True,
               "R13 requires faithful reference-own body/control preflight")
     plan = preflight_plan(profile, _admission_matrix(
@@ -3286,7 +3376,7 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
     if helpers is not None and result.get("tool_reconstructed"):
         tool = Path(result["tool_path"])
         receipt = result["tool_receipt"]
-        if AUTHORIZATION_PHASE == R13_AUTHORIZATION_PHASE and profile.get("reference_own_preflight_enabled") is True:
+        if AUTHORIZATION_PHASE in (R13_AUTHORIZATION_PHASE, "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14") and profile.get("reference_own_preflight_enabled") is True:
             def run_reference_own_probe():
                 grammar = load_r12_ghost_grammar(Path(a.proof_root), profile)
                 path = Path(a.proof_root) / HERE / "a1-reference-own-probe.py"
@@ -3333,7 +3423,7 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
                 _atomic_json_write(partial_audit_path, _report_value_for_disk(
                     _jsonable(result), AUTHORIZATION_PHASE))
                 return result
-        if profile.get("ghost_grammar_preflight_enabled") is True and AUTHORIZATION_PHASE != R13_AUTHORIZATION_PHASE:
+        if profile.get("ghost_grammar_preflight_enabled") is True and AUTHORIZATION_PHASE not in (R13_AUTHORIZATION_PHASE, "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14"):
             def run_ghost_grammar_preflight():
                 grammar = load_r12_ghost_grammar(Path(a.proof_root), profile)
                 _need(grammar is not None and

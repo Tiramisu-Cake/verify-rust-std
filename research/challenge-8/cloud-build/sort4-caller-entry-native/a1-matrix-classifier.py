@@ -8,6 +8,8 @@ runner reports, never independent proof credit. No files or tools are read.
 from __future__ import annotations
 
 from collections.abc import Mapping
+import hashlib
+import re
 
 BODY = {'P0a': 'default16', 'P0b': 'freeze32',
         'N-default-contract': 'default16', 'N-freeze-contract': 'freeze32'}
@@ -86,6 +88,166 @@ def _source_observation(case, observation, expected_input, build_id):
     require(raw.get('artifacts', {}).get('proof-ast.ml', {}).get('sha256'),
             'same-invocation AST missing')
     return raw, _mapping(observation.get('structure'), 'source/AST structure gate')
+
+
+def _p1_interface_gate(gate, raw, structure, expected_inventory, run_pins,
+                       observation, expected_input):
+    """Validate the current producer's complete, non-credit P1 schema.
+
+    The per-implementation R-only comparison is deliberately not conflated
+    with the separate common-prototype comparison performed by the producer.
+    """
+    gate = _mapping(gate, 'full small_sort P1 gate')
+    top_keys = {
+        'schema', 'classification', 'source_pair_id',
+        'actual_source_pair_sha256', 'compiler_interface_digest',
+        'normalized_native', 'native_sha256', 'impls', 'structural_pass',
+        'compiler_clauses_source_bound', 'ast_clause_representation',
+        'compiler_clause_digest', 'positional_alpha_roles', 'body_count',
+        'proof_credit', 'conformance_credit', 'native_contract_credit',
+    }
+    require(set(gate) == top_keys,
+            'P1 gate does not have the exact current producer schema')
+    require(gate.get('schema') == 'a1-small-sort-interface-observation-v1' and
+            gate.get('classification') == 'INTERFACE_STRUCTURE_ONLY_UNRUN_PROOF',
+            'P1 gate schema/classification is stale or ambiguous')
+    require(gate.get('structural_pass') is True and
+            gate.get('compiler_clauses_source_bound') is True and
+            type(gate.get('body_count')) is int and gate['body_count'] == 0 and
+            gate.get('proof_credit') is False and
+            gate.get('conformance_credit') is False and
+            gate.get('native_contract_credit') is False and
+            gate.get('ast_clause_representation') ==
+            'none; compiler-required interface is separately validated',
+            'P1 structural-only/source-bound predicates incomplete')
+    ast_artifact = _mapping(raw.get('artifacts', {}).get('proof-ast.ml'),
+                            'P1 same-invocation proof AST artifact')
+    require(isinstance(ast_artifact.get('sha256'), str) and
+            re.fullmatch(r'[0-9a-f]{64}', ast_artifact['sha256']) is not None,
+            'P1 same-invocation proof AST identity is malformed')
+
+    observed_pins = _mapping(observation.get('run_identity'),
+                             'P1 same-run tool/profile identity')
+    pin_keys = {'tool_id', 'profile_id', 'proof_id', 'infra_id', 'target_id'}
+    expected_pins = _mapping(run_pins, 'current run pins')
+    require(set(observed_pins) == pin_keys and set(expected_pins) == pin_keys and
+            all(isinstance(observed_pins.get(key), str) and
+                observed_pins[key] == expected_pins.get(key)
+                for key in pin_keys - {'target_id'}) and
+            isinstance(observed_pins.get('target_id'), str) and
+            bool(observed_pins['target_id']) and
+            observed_pins['target_id'] == expected_pins.get('target_id') and
+            re.fullmatch(r'[0-9a-f]{64}', observed_pins['tool_id']) is not None and
+            re.fullmatch(r'[0-9a-f]{64}', observed_pins['profile_id']) is not None and
+            re.fullmatch(r'[0-9a-f]{40}', observed_pins['proof_id']) is not None and
+            re.fullmatch(r'[0-9a-f]{40}', observed_pins['infra_id']) is not None,
+            'P1 observation tool/profile/proof/infra/target pins differ from this run')
+
+    pair = _mapping(raw.get('source_pair_sha256'), 'P1 raw source-pair hashes')
+    require(set(pair) == {'verified', 'original'} and
+            all(isinstance(pair.get(key), str) and
+                re.fullmatch(r'[0-9a-f]{64}', pair[key]) is not None
+                for key in ('verified', 'original')),
+            'P1 raw source-pair hashes malformed')
+    actual_pair = hashlib.sha256(
+        (pair['verified'] + ':' + pair['original']).encode('ascii')).hexdigest()
+    inventory = _mapping(structure.get('inventory'), 'P1 compiler inventory')
+    case_binding = _mapping(inventory.get('case_binding'),
+                            'P1 compiler inventory source-pair binding')
+    inventory_payload = _mapping(inventory.get('inventory'),
+                                 'P1 compiler inventory payload')
+    required = _mapping(inventory_payload.get('required_small_sort'),
+                         'P1 required compiler interface')
+    generated_source = case_binding.get('generated_source_sha256')
+    require(isinstance(case_binding.get('source_pair_id'), str) and
+            bool(case_binding['source_pair_id']) and
+            case_binding.get('source_id') == expected_input.get('source_id') and
+            isinstance(generated_source, str) and
+            re.fullmatch(r'[0-9a-f]{64}', generated_source) is not None and
+            generated_source == case_binding.get('source_pair_id') == pair['verified'] and
+            gate.get('source_pair_id') == case_binding['source_pair_id'] and
+            gate.get('actual_source_pair_sha256') == actual_pair and
+            gate.get('compiler_interface_digest') == required.get('interface_digest') and
+            gate.get('compiler_clause_digest') ==
+            hashlib.sha256(repr(required.get('clauses')).encode()).hexdigest() and
+            gate.get('positional_alpha_roles') == required.get('alpha_roles'),
+            'P1 producer gate is stale or bound to another source pair')
+
+    native = _mapping(gate.get('normalized_native'), 'P1 common native clauses')
+    require(set(native) == {'pre', 'returning', 'unwind'},
+            'P1 common native pre/normal/unwind inventory incomplete')
+    native_hashes = _mapping(gate.get('native_sha256'), 'P1 common native hashes')
+    require(set(native_hashes) == {'pre', 'returning', 'unwind'} and
+            all(isinstance(native_hashes.get(key), str) and
+                re.fullmatch(r'[0-9a-f]{64}', native_hashes[key]) is not None and
+                native_hashes[key] == hashlib.sha256(repr(native[key]).encode()).hexdigest()
+                for key in ('pre', 'returning', 'unwind')),
+            'P1 common native clause hashes are stale or malformed')
+    for digest_key in ('compiler_interface_digest', 'compiler_clause_digest'):
+        require(isinstance(gate.get(digest_key), str) and
+                re.fullmatch(r'[0-9a-f]{64}', gate[digest_key]) is not None,
+                'P1 compiler digest is missing or malformed: ' + digest_key)
+
+    rows = _mapping(gate.get('impls'), 'P1 implementation rows')
+    require(set(rows) == {'default16', 'freeze32'},
+            'P1 implementation row inventory is not exact')
+    identities = inventory_payload.get('impl_small_sort_identities')
+    require(isinstance(identities, (tuple, list)) and len(identities) == 2 and
+            {row.get('impl') for row in identities if isinstance(row, Mapping)} ==
+            {'default16', 'freeze32'},
+            'P1 current compiler implementation identity inventory incomplete')
+    identities_by_impl = {row['impl']: row for row in identities}
+    row_keys = {
+        'alias', 'compiler_impl_id', 'compiler_item_id',
+        'compiler_signature_digest', 'positional_alpha_map',
+        'compiler_positional_region_map', 'native_sha256',
+        'actual_definition_bound_to_compiler_item',
+        'native_matches_r_only_original_impl',
+    }
+    for impl in ('default16', 'freeze32'):
+        row = _mapping(rows[impl], 'P1 ' + impl + ' row')
+        require(set(row) == row_keys,
+                'P1 ' + impl + ' row schema is stale, incomplete, or ambiguous')
+        expected = _mapping(expected_inventory.get(impl),
+                            'expected P1 ' + impl + ' compiler identity')
+        current_identity = _mapping(identities_by_impl.get(impl),
+                                    'current compiler ' + impl + ' identity')
+        impl_id, item_id = expected.get('compiler_impl_id'), expected.get('compiler_item_id')
+        require(isinstance(impl_id, str) and re.fullmatch(r'[1-9][0-9]*', impl_id) and
+                isinstance(item_id, str) and re.fullmatch(r'[1-9][0-9]*', item_id) and
+                str(current_identity.get('impl_def_index')) == impl_id and
+                str(current_identity.get('item_def_index')) == item_id and
+                row.get('compiler_impl_id') == impl_id and
+                row.get('compiler_item_id') == item_id and
+                row.get('alias') == f'__a1_impl_{impl_id}_item_{item_id}_small_sort' and
+                current_identity.get('alias') == row.get('alias') and
+                current_identity.get('compiler_signature_digest') ==
+                row.get('compiler_signature_digest') and
+                isinstance(row.get('compiler_signature_digest'), str) and
+                re.fullmatch(r'[0-9a-f]{64}', row['compiler_signature_digest']) is not None and
+                row.get('actual_definition_bound_to_compiler_item') is True and
+                row.get('native_matches_r_only_original_impl') is True,
+                'P1 ' + impl + ' original-impl comparison/compiler identity failed')
+        for map_key in ('positional_alpha_map', 'compiler_positional_region_map'):
+            value = row.get(map_key)
+            require(isinstance(value, (tuple, list)) and value and
+                    all(isinstance(pair_row, (tuple, list)) and len(pair_row) == 2 and
+                        all(isinstance(part, str) and part for part in pair_row)
+                        for pair_row in value) and
+                    len({pair_row[0] for pair_row in value}) == len(value) and
+                    (map_key != 'compiler_positional_region_map' or
+                     len({pair_row[1] for pair_row in value}) == len(value)),
+                    'P1 ' + impl + ' ' + map_key + ' malformed or non-injective region map')
+        row_hashes = _mapping(row.get('native_sha256'),
+                              'P1 ' + impl + ' native hashes')
+        require(set(row_hashes) == {'pre', 'returning', 'unwind'} and
+                all(row_hashes.get(key) == native_hashes[key]
+                    for key in ('pre', 'returning', 'unwind')),
+                'P1 ' + impl + ' native component hashes differ from common contract')
+    alpha_roles = gate.get('positional_alpha_roles')
+    require(isinstance(alpha_roles, (tuple, list)) and bool(alpha_roles) and
+            all(isinstance(role, str) and role for role in alpha_roles),
+            'P1 compiler positional alpha roles missing')
 
 
 def _body_case(case, observation, expected_input, expected_inventory, build_id):
@@ -234,12 +396,9 @@ def classify_case(case_id, observation, *, expected_input, run_pins, build_id, e
             require(raw.get('focus') == 'verified/lib.rs:0' and _stage_exit(raw, 'verification') == 0,
                     'interface translation did not complete cleanly')
             if case_id == 'P1':
-                gate = _mapping(structure.get('small_sort_interface'), 'full small_sort P1 gate')
-                require(gate.get('structural_pass') is True and gate.get('body_count') == 0 and
-                        gate.get('proof_credit') is False and set(gate.get('impls', {})) == {'default16', 'freeze32'} and
-                        gate.get('compiler_clauses_source_bound') is True and
-                        all(row.get('native_matches_r_only_baseline') is True for row in gate['impls'].values()),
-                        'full compiler-bound native P1 comparison incomplete')
+                _p1_interface_gate(structure.get('small_sort_interface'), raw,
+                                   structure, expected_inventory, run_pins,
+                                   observation, expected_input)
                 labels = dict(stage='export-decode-refinement', predicate='full-interface-shape',
                               location='small_sort interface', outcome='pass', classification='POSITIVE_INTENDED')
             else:

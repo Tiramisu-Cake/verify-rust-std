@@ -165,6 +165,35 @@ def _thaw(value):
     return value
 
 
+def r_only_receipt(pair, pair_hashes, actual_pair, ast, source_text):
+    declarations = [(number, line) for number, line in enumerate(source_text.splitlines(), 1)
+                    if line.strip() == "fn small_sort_threshold() -> usize;"]
+    assert len(declarations) == 1
+    line_number, line_text = declarations[0]
+    start_column = line_text.index("small_sort_threshold") + 1
+    end_column = start_column + len("small_sort_threshold")
+    return {"schema": "a1-r-only-native-reference-receipt-v2",
+            "mode": "r-only-native-reference", "source_pair_id": pair,
+            "reference_binary_sha256": "1" * 64,
+            "reference_translator_sha256": "2" * 64,
+            "profile_sha256": "3" * 64,
+            "source_pair_sha256": pair_hashes,
+            "actual_source_pair_sha256": actual_pair,
+            "build_id": "synthetic-r-only-build",
+            "stage_classification": "TERMINAL",
+            "stage_log_sha256": "4" * 64,
+            "capture_status": "COMPLETE_EXPECTED_DUPLICATE_PROTOTYPE_EXIT1",
+            "diagnostic": {"kind": "duplicate-function-prototype",
+                           "source": "verified/lib.rs", "line": line_number,
+                           "start_column": start_column, "end_column": end_column,
+                           "declaration_text": line_text,
+                           "declaration_sha256": hashlib.sha256(
+                               line_text.encode("utf-8")).hexdigest(),
+                           "count": 1},
+            "observed_exit": 1, "proof_credit": False,
+            "ast_sha256": hashlib.sha256(ast.encode()).hexdigest()}
+
+
 def p1_fixture(*, candidate_extra=True, shared_r_only_defpath=False,
                duplicate_r_only_ast=False, duplicate_r_only_numeric=False,
                duplicate_r_only_impl_numeric=False,
@@ -176,8 +205,12 @@ def p1_fixture(*, candidate_extra=True, shared_r_only_defpath=False,
                r_only_default_prefixed_wrong_source=False,
                candidate_default_prefixed_wrong_source=False,
                candidate_scratch_name="_scratch",
-               candidate_default_compact_span=False, **changes):
-    pair_hashes = {"verified": "a" * 64, "original": "b" * 64}
+               candidate_default_compact_span=False,
+               source_pair_sha256=None, **changes):
+    pair_hashes = ({"verified": "a" * 64, "original": "b" * 64}
+                   if source_pair_sha256 is None else dict(source_pair_sha256))
+    if set(pair_hashes) != {"verified", "original"}:
+        raise ValueError("source_pair_sha256 must contain exactly verified and original")
     actual_pair = hashlib.sha256(
         (pair_hashes["verified"] + ":" + pair_hashes["original"]).encode("ascii")
     ).hexdigest()
@@ -247,18 +280,13 @@ def p1_fixture(*, candidate_extra=True, shared_r_only_defpath=False,
     if candidate_extra:
         candidate_ast += "\n" + func(70, "r_only_extra", True)
     pair = observation["case_binding"]["source_pair_id"]
-    receipt = {"schema": "a1-r-only-native-reference-receipt-v1",
-               "mode": "r-only-native-reference", "source_pair_id": pair,
-               "reference_binary_sha256": "1" * 64,
-               "reference_translator_sha256": "2" * 64,
-               "source_pair_sha256": pair_hashes,
-               "actual_source_pair_sha256": actual_pair,
-               "build_id": "synthetic-r-only-build", "observed_exit": 1,
-               "proof_credit": False,
-               "ast_sha256": hashlib.sha256(native_ast.encode()).hexdigest()}
-    baseline = gate.small_sort_native_baseline(native_ast, observation,
-                                                source_pair_id=pair,
-                                                reference_receipt=receipt)
+    reference_source_text = (
+        "trait StableSmallSortTypeImpl {\n    fn small_sort_threshold() -> usize;\n}\n")
+    receipt = r_only_receipt(pair, pair_hashes, actual_pair, native_ast,
+                             reference_source_text)
+    baseline = gate.small_sort_native_baseline(
+        native_ast, observation, source_pair_id=pair,
+        reference_receipt=receipt, reference_source_text=reference_source_text)
     return candidate_ast, observation, baseline, actual_pair
 
 
@@ -325,18 +353,14 @@ class SyntheticAstGates(unittest.TestCase):
         pair_hashes = {"verified": "a" * 64, "original": "b" * 64}
         actual_pair = hashlib.sha256((pair_hashes["verified"] + ":" +
                                       pair_hashes["original"]).encode()).hexdigest()
-        receipt = {"schema": "a1-r-only-native-reference-receipt-v1",
-                   "mode": "r-only-native-reference", "source_pair_id": pair,
-                   "reference_binary_sha256": "1" * 64,
-                   "reference_translator_sha256": "2" * 64,
-                   "source_pair_sha256": pair_hashes,
-                   "actual_source_pair_sha256": actual_pair,
-                   "build_id": "synthetic-package-owner-build", "observed_exit": 1,
-                   "proof_credit": False,
-                   "ast_sha256": hashlib.sha256(native_ast.encode()).hexdigest()}
+        reference_source_text = (
+            "trait StableSmallSortTypeImpl {\n    fn small_sort_threshold() -> usize;\n}\n")
+        receipt = r_only_receipt(pair, pair_hashes, actual_pair, native_ast,
+                                 reference_source_text)
         native_baseline = gate.small_sort_native_baseline(
             native_ast, inventory_observation, source_pair_id=pair,
-            reference_receipt=receipt)
+            reference_receipt=receipt,
+            reference_source_text=reference_source_text)
         self.assertFalse(native_baseline["proof_credit"])
         self.assertEqual({row["item_def_id"] for row in
                           native_baseline["normalized_impls"].values()},
@@ -358,7 +382,8 @@ class SyntheticAstGates(unittest.TestCase):
         root_receipt["ast_sha256"] = hashlib.sha256(root_native_ast.encode()).hexdigest()
         root_baseline = gate.small_sort_native_baseline(
             root_native_ast, inventory_observation, source_pair_id=pair,
-            reference_receipt=root_receipt)
+            reference_receipt=root_receipt,
+            reference_source_text=reference_source_text)
         self.assertFalse(root_baseline["proof_credit"])
         self.assertEqual({row["item_def_id"] for row in
                           root_baseline["normalized_impls"].values()},
@@ -750,6 +775,50 @@ class SyntheticAstGates(unittest.TestCase):
         with self.assertRaises(gate.AstGateError):
             gate.small_sort_interface(ast, inventory, baseline=bad_pair_receipt,
                                       actual_source_pair_sha256=actual_pair)
+
+    def test_r_only_capture_receipt_v2_rejects_legacy_incomplete_and_bad_status(self):
+        ast, inventory, baseline, actual_pair = p1_fixture()
+        receipt = baseline["reference_receipt"]
+        mutants = [
+            {**receipt, "schema": "a1-r-only-native-reference-receipt-v1"},
+            {key: value for key, value in receipt.items() if key != "stage_log_sha256"},
+            {**receipt, "capture_status": "NOT_RUN"},
+            {**receipt, "capture_status": False},
+            {**receipt, "observed_exit": True},
+            {**receipt, "observed_exit": False},
+            {**receipt, "observed_exit": None},
+            {**receipt, "diagnostic": None},
+            {**receipt, "observed_exit": 124},
+            {**receipt, "diagnostic": {**receipt["diagnostic"], "line": 1}},
+            {**receipt, "diagnostic": {**receipt["diagnostic"], "count": 2}},
+            {**receipt, "diagnostic": {**receipt["diagnostic"],
+                                        "declaration_sha256": "bad"}},
+            {**receipt, "stage_classification": "RUNNING"},
+            {**receipt, "profile_sha256": None},
+        ]
+        for mutant in mutants:
+            with self.subTest(mutant=mutant), self.assertRaises(gate.AstGateError):
+                bad = {**baseline, "reference_receipt": mutant}
+                gate.small_sort_interface(ast, inventory, baseline=bad,
+                                          actual_source_pair_sha256=actual_pair)
+
+    def test_r_only_capture_receipt_rejects_truncated_ast_even_with_matching_hash(self):
+        _, inventory, baseline, _ = p1_fixture()
+        native_ast = "\n".join((
+            small_sort_func(gate.SMALL_SORT, 2),
+            small_sort_func("crate::default16::small_sort", 6,
+                            body=True, impl_self="T", scratch_name="_scratch"),
+            small_sort_func("crate::freeze32::small_sort", 12,
+                            body=True, impl_self="T")))
+        truncated = native_ast[:-1]
+        receipt = {**baseline["reference_receipt"],
+                   "ast_sha256": hashlib.sha256(truncated.encode()).hexdigest()}
+        with self.assertRaises(gate.AstGateError):
+            gate.small_sort_native_baseline(
+                truncated, inventory, source_pair_id=receipt["source_pair_id"],
+                reference_receipt=receipt,
+                reference_source_text=("trait StableSmallSortTypeImpl {\n"
+                                       "    fn small_sort_threshold() -> usize;\n}\n"))
 
     def test_p1_rejects_type_substitution_and_region_mixing(self):
         for changes in ({"substitute": True}, {"mix_region": True},

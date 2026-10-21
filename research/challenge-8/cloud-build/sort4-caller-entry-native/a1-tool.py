@@ -48,6 +48,8 @@ FOCUS_PROFILE_NAMES = {
         "A1-CHECKED-HELPER-R12-PROFILE-2026-10-21.json",
     "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13":
         "A1-REFERENCE-OWN-R13-PROFILE-2026-10-21.json",
+    "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14":
+        "A1-NATIVE-MATRIX-R14-PROFILE-2026-10-21.json",
 }
 
 
@@ -351,8 +353,8 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
 
     lifetime_overlay = profile.get("ghost_call_lifetime_inference")
     if lifetime_overlay is not None:
-        need(profile.get("authorization_phase_id") ==
-             "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13" and
+        need(profile.get("authorization_phase_id") in
+             ("SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13", "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14") and
              isinstance(lifetime_overlay, dict) and
              lifetime_overlay.get("source") == FOCUS_SCOPE_FILE and
              lifetime_overlay.get("base_sha256") ==
@@ -436,7 +438,7 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
           profile["native_signature_patch_sha256"], {TR},
           before=signature_before, after=signature_after)
     reference_own = None
-    if profile.get("authorization_phase_id") == "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13":
+    if profile.get("authorization_phase_id") in ("SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13", "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14"):
         reference_own = profile.get("shared_reference_own_normalization")
         need(isinstance(reference_own, dict) and reference_own.get("source") ==
              "bin/rust/rust_belt/general.rsspec" and

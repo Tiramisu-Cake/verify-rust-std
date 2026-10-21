@@ -2,7 +2,7 @@
 
 ## Авторизация и рабочее место
 
-- **ID:** `select-native-p1-matrix-autonomous-2026-10-21-r14`; **статус:** READY, T0 ещё не задан.
+- **ID:** `select-native-p1-matrix-autonomous-2026-10-21-r14`; **статус:** ACTIVE, T0=2026-10-21T12:29:30Z; main=14:29:30Z; absolute=14:59:30Z.
 - **Owner:** `select-sort4`; **worktree:** `/root/verify-rust-std-select-night`.
 - **Репозиторий:** `Tiramisu-Cake/verify-rust-std`; **branch:** `research/night-select-sort4-cloud-2026-10-09`.
 - **Новое окно:** 120 минут основной работы + до30 минут завершения. T0 при фактическом старте после чтения; main=T0+120мин, absolute=T0+150мин. Запиши session/новый ledger/текущий статус; сейчас окно не начинается.
@@ -61,4 +61,4 @@ VPS — чтение/правки/Git/hashes/static parsing и малые isolat
 
 ## Отчёт агента
 
-Не начато. При старте зафиксируй T0, выбранную ближайшую цель и план; по завершении замени этот раздел одним компактным итогом.
+ACTIVE. T0=2026-10-21T12:29:30Z; main=14:29:30Z; absolute=14:59:30Z. Fresh3600/used0/carry0. Сохраняю full effective R13 chain и 18 чужих файлов. Ближайшая цель: строгий P1 schema с producer→consumer tests и обоснованным structural R-only capture → actual native target → full26/actualPdispatch/ownNfalse31. Builds пока нет; admissionfalse/independentB1B2credit0.
