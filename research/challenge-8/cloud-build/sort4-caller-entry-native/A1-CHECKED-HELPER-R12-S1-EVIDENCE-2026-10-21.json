@@ -47,7 +47,24 @@
       "parser_input_binding": "NOT_ESTABLISHED by Reader; source joins separately in runner receipt"
     },
     "positive_ast_sha256": "1b567368fb4fe4c5cf47047418a8041f93ed0a3f8cc4a751701c3ef0df8686a5",
-    "active_binary_sha256": "5be9859d7bd020d6f34f952ca048264670a1c295d558af6df1a575b6cda153cf"
+    "active_binary_sha256": "5be9859d7bd020d6f34f952ca048264670a1c295d558af6df1a575b6cda153cf",
+    "positive_ast_bounded_observation": {
+      "file_id": "8fb313639c7d660099862ae042b0711e1de718be51b3dde41f63b11206eebc62",
+      "sha256": "1b567368fb4fe4c5cf47047418a8041f93ed0a3f8cc4a751701c3ef0df8686a5",
+      "request_info": "7bec1c923dd2741f40a9484962c282499f5862ff6c6456e8c0d366c3709bfeac",
+      "request_locate": "9da033837a6ab0c4fa0926cd49c0efbf63c4e3e561fc4dc0efd3593e9275183a",
+      "request_position": "bf9464014e03cfb8f2803c833a0fc6600a093ed63feb850ad35291044e7bf3c3",
+      "coordinates": {
+        "unit": "unicode-codepoint",
+        "start": 244,
+        "end_exclusive": 564,
+        "exact": true,
+        "complete": false
+      },
+      "observed": "Func verified/lib.rs(3,5-26), Lemma(false,None), lifetime and type parameters, name a1_cleanup_option_ref",
+      "causal_or_parser_input_binding_by_reader": "NOT_ESTABLISHED",
+      "canonical_selector_receipt": false
+    }
   },
   "download_verified": false,
   "finish_utc": "2026-10-21T06:43:03.966175Z",

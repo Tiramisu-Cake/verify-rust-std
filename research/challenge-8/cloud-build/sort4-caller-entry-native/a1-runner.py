@@ -980,6 +980,58 @@ def draft_false31_pair_stage(a, c4, ghost, *, tool: Path,
         progress["caller_case"] = caller
         if progress_hook is not None:
             progress_hook("N-false31-caller-raw-observed")
+    helper_blocked = (caller.get("classification") ==
+                      "BLOCKED_CHECKED_HELPER_PREREQUISITE")
+    if (helper_blocked or
+            not isinstance(caller.get("structure"), Mapping)):
+        caller_verification = caller.get("caller_verification_status")
+        reason = ("checked-helper prerequisite blocked the caller verifier"
+                  if helper_blocked else
+                  "caller observation returned without a structural result")
+        partial_classification = (
+            "FALSE31_OWN_PAIR_RECEIPT_ISSUED_CALLER_BLOCKED" if helper_blocked else
+            "FALSE31_OWN_PAIR_RECEIPT_ISSUED_CALLER_STRUCTURE_UNAVAILABLE")
+        caller_stage = {
+            "status": "NOT_RUN_CHECKED_HELPER_PREREQUISITE"
+                if helper_blocked else
+                "NOT_RUN_CALLER_STRUCTURE_UNAVAILABLE",
+            "execution_started": True,
+            "caller_verification_started": False if helper_blocked else None,
+            "caller_verification_status": caller_verification,
+            "proof_attempted": False if helper_blocked else None,
+            "reason": reason,
+            "proof_credit": False,
+        }
+        boundary_stage = {"status": "NOT_RUN",
+                          "execution_started": False,
+                          "reason": reason,
+                          "proof_credit": False}
+        if progress is not None:
+            progress.update(caller_stage=caller_stage,
+                            boundary_stage=boundary_stage,
+                            classification=partial_classification,
+                            proof_credit=False)
+        return {
+            "classification": partial_classification,
+            "not_run": False,
+            "execution_started": True,
+            "body_pair_attempted": True,
+            "source_pair_sha256": pair["P0a"]["raw"].get("source_pair_sha256"),
+            "observed_input_ids": {"source_id": false_case["source_id"],
+                                   "unit_id": false_case["unit_id"]},
+            "body_cases": pair,
+            "receipt_path": receipt_path,
+            "receipt_issued_after_both_bodies": True,
+            "receipt_stage": {"status": "ISSUED_AFTER_BOTH_OWN_BODIES",
+                              "execution_started": True,
+                              "receipt_path": receipt_path,
+                              "proof_credit": False},
+            "caller_case": caller,
+            "caller_stage": caller_stage,
+            "boundary_stage": boundary_stage,
+            "reason": reason,
+            "proof_credit": False,
+        }
     candidate = caller.get("proof_candidate")
     attestation = caller.get("execution_attestation")
     boundary = observe_false31_boundary(
@@ -1937,6 +1989,12 @@ def body_entry_context(verifier_log: str, first_error: str, *,
                                                           "error:", "error["))]
     if len(errors) != 1 or lines[errors[0]] != first_error:
         return False
+    note = re.compile(
+        r"(?:.*/)?verified/lib\.rs\(" + str(body_line) +
+        r",[0-9]+(?:-(?:[1-9][0-9]*,)?[0-9]+)?\): note: " +
+        re.escape("Verifying function '" + alias + "'") + r"\Z")
+    frames = [line for line in lines[errors[0] + 1:] if note.fullmatch(line)]
+    return len(frames) == 1
 
 
 def _expected_a1_caller_environment(a, c4, tool: Path, stage: str,
@@ -1963,12 +2021,6 @@ def _environment_sha256(env: Mapping[str, str]) -> str:
     return hashlib.sha256(json.dumps(dict(env), sort_keys=True,
                                      separators=(",", ":"),
                                      ensure_ascii=True).encode("ascii")).hexdigest()
-    note = re.compile(
-        r"(?:.*/)?verified/lib\.rs\(" + str(body_line) +
-        r",[0-9]+(?:-(?:[1-9][0-9]*,)?[0-9]+)?\): note: " +
-        re.escape("Verifying function '" + alias + "'") + r"\Z")
-    frames = [line for line in lines[errors[0] + 1:] if note.fullmatch(line)]
-    return len(frames) == 1
 
 
 def attest_focused_execution(case_id: str, *, tool: Path,

@@ -37,3 +37,16 @@ checks. The profile records full-matrix mode, 1200-second timeout, 960-second
 execute cap, 900-second nominal work deadline, and a 240-second report reserve;
 runtime fit remains an estimate, not a measured guarantee. No compiler,
 verifier, full runner, or Cloud Build was run for this review.
+
+## Immutable authorization-fixture follow-up
+
+The registration test now reads the initial authorization ledger from the
+immutable S1 candidate commit `f274662fc8f45ae1455bac141c8236f322ca2269`,
+avoiding assertions against accounting fields that legitimately change while
+a Build is active or at closeout. This fixture choice does not weaken runtime
+authorization checks: the separate coordinator test still loads the live R12
+ledger and calls `authorized_phase`, rejecting wrong owner, changed start,
+and wrong timeout; profile/environment routing checks remain present. The
+immutable commit exists and contains the expected fresh `AUTHORIZED`,
+zero-spend, 3600-second ledger snapshot. The revised registration test passes
+(7 tests). **GO remains unchanged.**

@@ -175,6 +175,12 @@ def classify_case(case_id, observation, *, expected_input, run_pins, build_id, e
         elif case_id == 'P0c':
             fields = _caller_case(case_id, observation, expected_input, build_id)
         elif case_id == 'N-false31':
+            if observation.get('classification') == 'FALSE31_OWN_PAIR_RECEIPT_ISSUED_CALLER_BLOCKED':
+                return {**result,
+                        'reason': 'false31 caller/checked-helper prerequisite incomplete'}
+            if observation.get('classification') == 'FALSE31_OWN_PAIR_RECEIPT_ISSUED_CALLER_STRUCTURE_UNAVAILABLE':
+                return {**result,
+                        'reason': 'false31 caller structure unavailable after own-pair receipt'}
             require(observation.get('classification') == 'FALSE31_OWN_PAIR_REPROVED_AND_CALLER_OBSERVED' and
                     observation.get('receipt_issued_after_both_bodies') is True,
                     'false31 own-pair receipt ordering not established')

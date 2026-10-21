@@ -41,7 +41,13 @@ def sha(path: Path) -> str:
 class R12Registration(unittest.TestCase):
     def test_fresh_account_profile_and_existing_history_are_separate(self):
         profile = json.loads((HERE / PROFILE_NAME).read_text())
-        ledger = json.loads((HERE / LEDGER_NAME).read_text())
+        # Authorization is an immutable published snapshot; the live ledger
+        # changes legitimately while Builds are active and after closeout.
+        initial_candidate = "f274662fc8f45ae1455bac141c8236f322ca2269"
+        ledger_path = (HERE / LEDGER_NAME).relative_to(ROOT).as_posix()
+        ledger = json.loads(subprocess.check_output(
+            ["git", "show", initial_candidate + ":" + ledger_path],
+            cwd=ROOT, text=True))
         self.assertEqual(profile["authorization_phase_id"], PHASE)
         self.assertEqual(profile["phase"], PHASE)
         self.assertEqual(profile["experiment_protocol_phase_id"], CONTROL.A1_PHASE)

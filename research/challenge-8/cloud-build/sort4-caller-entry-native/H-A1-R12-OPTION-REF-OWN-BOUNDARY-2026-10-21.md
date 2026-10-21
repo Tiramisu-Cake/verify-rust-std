@@ -47,7 +47,8 @@ pinned-source chain is:
    evaluate that node as the predicate symbol applied to the type ID. Lines
    599–604 and 6413–6416 construct shared-reference IDs as the uninterpreted
    `ref_typeid(lifetime_typeid, pointee_typeid)` term. Lines 7686–7711 install
-   equalities only for explicit type-predicate definitions.
+   equalities only for explicit type-predicate definitions: the generic case
+   creates an equality and installs it with `ctxt#assume_forall` (:7700–7711).
 3. `bin/rust/rust_belt/general.rsspec`, blob
    `6c60c0e942b441901741889309858185a5572ebe`, SHA-256
    `ef2ff16dffd472bbc5fd7fa17e7f13a03d83919520da5ce7e2d7095194790d1d`,

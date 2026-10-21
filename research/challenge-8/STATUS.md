@@ -1,4 +1,4 @@
-# Select-R12 READY — checked helper → P0c → P1
+# Select-R12 ACTIVE — grammar проверена, helper body blocker
 
 2026-10-21: [новое самостоятельное задание Select-R12](CURRENT-TASK.md): **120мин + до30мин завершения, свежие3600 Cloud-секунд, без лимита последовательных Builds**, timeout90..1200с/envelope+60/reportreserve240. T0 при фактическом старте; R11 CLOSED/678retired не переносить. Worktree `/root/verify-rust-std-select-night`, branch `research/night-select-sort4-cloud-2026-10-09`.
 
@@ -8,4 +8,4 @@ R11 S4 full source26:18INTENDED_CLASSIFIED/8INC, helper constructor None84 refus
 
 R11 CLOSED checkpoint `affb6ca479daf765d2fb25a3f145890d723e75ea`:2922/3600spent,678retired,carry0,все5 terminal/accounted,own0/0/0/0. [Архив R11](task-history/select-checked-caller-native-proof-autonomous-2026-10-21-r11.md#отчёт-агента), [session](cloud-build/sort4-caller-entry-native/A1-CHECKED-CALLER-R11-SESSION-2026-10-21.md), [S4 evidence](cloud-build/sort4-caller-entry-native/A1-CHECKED-CALLER-R11-S4-EVIDENCE-2026-10-21.json), [S5 evidence](cloud-build/sort4-caller-entry-native/A1-CHECKED-CALLER-R11-S5-EVIDENCE-2026-10-21.json), [closeout](cloud-build/sort4-caller-entry-native/A1-CHECKED-CALLER-R11-CLOSEOUT-CONTROL-2026-10-21.json).
 
-R12 ACTIVE: T0=2026-10-21T06:14:26Z, main08:14:26Z, absolute08:44:26Z. Fresh3600/used0/carry0. Grammar/contextsourceaudit завершён; standaloneghostimport ичистыйhelperblockprepared, отдельныйCloudminimalpreflight+negativecontrols иR12closure впроцессе. SamecallerpairP0a/P0b receipts сохраняются; minihelperPASSнеcallerreceipt. Formal0/B1B2credit0, Buildsпоканет.
+R12 ACTIVE: T0=2026-10-21T06:14:26Z, main08:14:26Z, absolute08:44:26Z. S1 Build7bb78480 terminal/accounted417spent, remaining3183/carry0: обаgrammarnegative intended; positivebody отказал leakcheck own(ref_typeid(...)), canonical26 NOT_RUN. S2 full26 Buildc08f6903-82db-43e4-91cb-fe7cfadca731, candidatebfb007021a05ca1700ae2f7789e231b8b0a9bef9, reviewed syntax/body split; timeout1200/report240. Mandatory samepairhelperproof beforecaller/P1 сохраняется. Formal0/B1B2credit0; дальнейшие результаты pending.

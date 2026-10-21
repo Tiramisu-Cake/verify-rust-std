@@ -1,0 +1,141 @@
+{
+  "schema": "select-r12-attempt-evidence-v1",
+  "attempt": "S2",
+  "type": "mandatory full26 same-Build diagnostic matrix with fresh canonical helper prerequisites",
+  "build": {
+    "dispatch_token": "dispatch-0458eaf5325b44ac9737be96ba5019c6",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-CHECKED-HELPER-CALLER-2026-10-21-R12",
+    "infra_sha": "bfb007021a05ca1700ae2f7789e231b8b0a9bef9",
+    "proof_sha": "bfb007021a05ca1700ae2f7789e231b8b0a9bef9",
+    "lane": "o26-sort4-c1-current-recovery",
+    "submitted_config_sha256": "0a2df694ea4daec4bf6fad90ea0ad6ee320289a54cb5983b4ff8ec4f54ea5f66",
+    "reserved_seconds": 1260,
+    "timeout_seconds": 1200,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "bff91934a3bd6ba86846bdb1c00d4d5e1ce9434b6a16c2e7783e2c9b457616a0",
+    "build_id": "c08f6903-82db-43e4-91cb-fe7cfadca731",
+    "start_time": "2026-10-21T07:00:27.274305768Z",
+    "finish_time": "2026-10-21T07:15:38.293522Z",
+    "create_time": "2026-10-21T07:00:26.403409726Z",
+    "build_seconds": 912,
+    "accounted": true,
+    "execution_seconds": 912
+  },
+  "source_input_bytes": 560557,
+  "source_input_sha256": "bff91934a3bd6ba86846bdb1c00d4d5e1ce9434b6a16c2e7783e2c9b457616a0",
+  "closure": {
+    "infra_paths": 45,
+    "proof_paths": 118,
+    "objects": 181,
+    "selected_files_byte_equal_git": true,
+    "full_token_length": 41,
+    "max_config_transport_bytes": 27552,
+    "substitutions": 197,
+    "whole_repository_fsck_claim": false
+  },
+  "budget": {
+    "timeout": 1200,
+    "execute": 960,
+    "soft": 900,
+    "report_reserve": 240,
+    "envelope": 1260
+  },
+  "formal_target_gates_closed": 0,
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "matrix_admission": false,
+  "evidence_brief": {
+    "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+    "archive_sha256": "33763699e2b6dc344f21c63f2c69811be1bd81a0ede61443c6e61cb80d44714b",
+    "index_sha256": "41aecd856fc2d402ad997af186add1dfa2bf99c46f0768a6ef770f21e99eca7d",
+    "proof_audit_file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "proof_audit_sha256": "73088ecc711c957d764fcb85254fdb1e9358dfb93281b5ef7b234b652ff6ac1d",
+    "info_request_id": "3fe06b1acddeb1d454c553331f37de43d7bce43edd8f2420a567f8789e0fffa8",
+    "parser_input_binding_by_reader": "NOT_ESTABLISHED",
+    "case_status_inventory_requests": [
+      "73cdfa5170796506a3a27a1cd5dfb9966c752b621e0b502a7af4f1b154a61435",
+      "9fc5821360a0b69281037d41ab79da2755ea10cc4cd84f53978974e8d39f4b89"
+    ]
+  },
+  "download_verified": false,
+  "status": "FAILURE",
+  "charge_seconds": 912,
+  "total_phase_charge_seconds": 1329,
+  "remaining_budget_seconds": 2271,
+  "build_verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+  "source_status_counts_brief": {
+    "INTENDED_CLASSIFIED": 18,
+    "INCONCLUSIVE": 8
+  },
+  "source_status_counts": {
+    "INTENDED_CLASSIFIED": 18,
+    "INCONCLUSIVE": 8
+  },
+  "source_status_records_complete": true,
+  "exact_case_records": 26,
+  "reader_directory": "A1-CHECKED-HELPER-R12-S2-READER-2026-10-21",
+  "matrix_file": "A1-CHECKED-HELPER-R12-S2-MATRIX-2026-10-21.json",
+  "bounded_followups": {
+    "false31_observation": {
+      "selector": "/observation_details/N-false31",
+      "request_id": "134728c35b6b933bb551e8b83db7bbff9a5fc198c95ac6f51f68eee1f787d60f",
+      "exact": true,
+      "complete": true,
+      "adapter_error": "KeyError: 'structure'",
+      "execution_started": true,
+      "failed_stage": "N-false31-caller-raw-observed"
+    },
+    "default_contract_candidate": {
+      "request_id": "9bbad2b36f448a39ba5e93b1903e759cd36875879f3d237c805803da81f42adb",
+      "candidate_passed": true,
+      "classification": "INTENDED_FOCUSED_FAILURE_CANDIDATE",
+      "first_error": "verified/lib.rs(44,5-47): error: Cannot prove condition. (Cannot prove result <= 32.)",
+      "exit": 1
+    },
+    "default_execution_null": {
+      "request_id": "c43dc877944cb4dcdf09eeb9339f3c71895d69dc29207b412fb1ecddfdb21d26",
+      "value": null
+    },
+    "freeze_contract_candidate": {
+      "request_id": "954d3eebd12f2431f9baa5b40be178e1133f6ebfab4d6e85028d77abc447e9d9",
+      "candidate_passed": true,
+      "classification": "INTENDED_FOCUSED_FAILURE_CANDIDATE",
+      "first_error": "verified/lib.rs(63,5-39): error: Cannot prove condition. (Cannot prove result <= 32.)",
+      "exit": 1
+    },
+    "false31_receipt": {
+      "file_id": "d32e3a08309f6cb5d9bca361c560d2b127d5a2722f371eda144e23797b26d4b4",
+      "sha256": "9207f0434427b3912eb8a861b62f85ab73edc640ad79d13976663b5e43a6c614",
+      "info_request": "f867b283a8ac968583d9ee6e29b3d0808774054859540180ea4ab2f11ebbdf1a",
+      "line_requests": [
+        "d830c2c20a32a8b8c51a15c51d75088a841638a6c55335b00c5256c6d16b3b00",
+        "4d93863d9c3ca4d32a5bd43ce57817204c5f635cf5a9817f286b1cd5497a8778"
+      ],
+      "line_coverage": [
+        [
+          1,
+          12
+        ],
+        [
+          13,
+          18
+        ]
+      ],
+      "build": "c08f6903-82db-43e4-91cb-fe7cfadca731",
+      "candidate": "bfb007021a05ca1700ae2f7789e231b8b0a9bef9",
+      "verified_sha256": "ad64622be1eeffc83d61200c4212cea31e70be7cb7a0cd3e516f1347b7c34f7d",
+      "original_sha256": "43238ed0c696584c97d26aa38027f5980602f081bf007791095b1bfccca2b518",
+      "assurance": "runner-reported-both-actual-bodies-and-native-conformance",
+      "independent_proof_credit": false
+    },
+    "invalid_progress_pointer": {
+      "request_id": "1d717bc09d91796b71fcd6b2f67329d5d482753cec056a7c68ae2a27960057f4",
+      "selector": "/stage_progress/positive_progress/false31",
+      "status": "POINTER_NOT_FOUND",
+      "absence_not_inferred": true
+    }
+  }
+}
