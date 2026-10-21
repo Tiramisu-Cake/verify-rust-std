@@ -72,3 +72,32 @@ class R16AdditionalStageControls(unittest.TestCase):
                 'name': selected, 'body_count_from_intervals': 1},
                 paired=True, immutable=True, expected_name='synthetic-body')
             self.assertFalse(row['passed'])
+
+class R16ScopeRouteControls(unittest.TestCase):
+    def test_scope_opt_in_is_source_bound_and_negative_switch_is_separate(self):
+        case = ActualBodyServiceTests().make_case()
+        base = dict(case[3], actual_c1_recovery=True,
+                    generated_source_sha256=sha(case[1]), first_comparator_line=7,
+                    actual_scope_relocation=True)
+        for control, expected in ((None, '1'), ('scope-opt-in-off', '0')):
+            c4 = FakeC4(support=False)
+            meta = dict(base, **({'frontend_control': control} if control else {}))
+            env = {'preserved': 'yes'}
+            with tempfile.TemporaryDirectory() as temp:
+                result = BODY.run_case(None, c4, Path('/synthetic/tool'), env, Path(temp),
+                    (*case[:3], meta), FakeGates(), FakeGrammar({}), {'tool_hashes': {}})
+            self.assertEqual(c4.support_env['SORT4_ACTUAL_BODY_SCOPE_RELOCATION'], expected)
+            self.assertEqual(c4.support_env['SORT4_ACTUAL_BODY_C1_RECOVERY'], '1')
+            self.assertEqual(c4.support_env['SORT4_ACTUAL_BODY_SOURCE_SHA256'], sha(case[1]))
+            self.assertEqual(env, {'preserved': 'yes'})
+            self.assertEqual(c4.stage_calls, 0)
+            self.assertFalse(result['proof_credit'])
+
+    def test_scope_opt_in_without_actual_source_metadata_refuses(self):
+        case = ActualBodyServiceTests().make_case()
+        c4 = FakeC4()
+        with tempfile.TemporaryDirectory() as temp, self.assertRaises(RuntimeError):
+            BODY.run_case(None, c4, Path('/synthetic/tool'), {}, Path(temp),
+                (*case[:3], dict(case[3], actual_scope_relocation=True)),
+                FakeGates(), FakeGrammar({}), {'tool_hashes': {}})
+        self.assertEqual(c4.source_support_targets, [])

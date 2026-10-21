@@ -1,0 +1,153 @@
+{
+  "archive_sha256": "58096d4a475bd836f01dfe7453706f0c09ac0495509b3c5a0438cc989706b855",
+  "build_id": "3a973f8c-b4c0-461b-8a2a-908b46c7ee35",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 21,
+  "complete": false,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "69392933f18fd828297d1865595841a0fcc6e7e7c2b475b4b129572dc5aade3d",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/diagnostic-audit.json",
+  "file_sha256": "ada14df510db6269dfa334ad4fdd3c32d9e87af52af57a3d56fd2f0d751a0d24",
+  "index_sha256": "cf7a312a00549b0bfe14fcb39b2f485eda09fce3c8735eff590483c9d9878c72",
+  "next_offset": 20,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "ada14df510db6269dfa334ad4fdd3c32d9e87af52af57a3d56fd2f0d751a0d24",
+    "file_id": "69392933f18fd828297d1865595841a0fcc6e7e7c2b475b4b129572dc5aade3d",
+    "pointer": "/body_target/metadata"
+  },
+  "request_id": "1f5a75bee13fe1af7198d2fe1377e5e48d9e4949e2f16766f1dd36c922f244f6",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/body_target/metadata/actual_c1_recovery",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/body_target/metadata/body_annotation_stage",
+      "value": "c1-all-four-borrow-and-unwind-recovery-v2"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/body_target/metadata/borrowed_source_cells",
+      "value": 4
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/body_target/metadata/domain",
+      "value": "generic T/F; separating initialized source4 ownership and writable optional destination4; caller transfer/ZST qualification open"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/body_target/metadata/end_line",
+      "value": 233
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/body_target/metadata/first_comparator_line",
+      "value": 198
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/body_target/metadata/focus_line",
+      "value": 131
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/body_target/metadata/generated_source_sha256",
+      "value": "c9a137d7abb2885f07dc5cf15b5772d4d5bddc0ecd0fcf2cda0c453cb1453905"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/body_target/metadata/name",
+      "value": "sort4_stable"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/body_target/metadata/normal",
+      "value": "current source4 with sole T own sequence; initialized dest4 shadows; current F/thread/typeinterp"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/body_target/metadata/proof_credit",
+      "value": false
+    },
+    {
+      "child_count": 4,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/body_target/metadata/required_lemmas"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/body_target/metadata/runtime_body_byteequal",
+      "value": true
+    },
+    {
+      "child_count": 3,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/body_target/metadata/runtime_call_counts"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/body_target/metadata/sortedness",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/body_target/metadata/stability",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/body_target/metadata/std_body_sha256",
+      "value": "0f165875115d19e78bf17b2d60f6807a423e713c1680e2f68311e606b3efe1de"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/body_target/metadata/std_source_sha256",
+      "value": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/body_target/metadata/std_span"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/body_target/metadata/summary_eligible",
+      "value": false
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

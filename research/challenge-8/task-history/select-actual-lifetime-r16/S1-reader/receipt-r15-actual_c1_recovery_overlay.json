@@ -1,0 +1,105 @@
+{
+  "archive_sha256": "58096d4a475bd836f01dfe7453706f0c09ac0495509b3c5a0438cc989706b855",
+  "build_id": "3a973f8c-b4c0-461b-8a2a-908b46c7ee35",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 12,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "69392933f18fd828297d1865595841a0fcc6e7e7c2b475b4b129572dc5aade3d",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/diagnostic-audit.json",
+  "file_sha256": "ada14df510db6269dfa334ad4fdd3c32d9e87af52af57a3d56fd2f0d751a0d24",
+  "index_sha256": "cf7a312a00549b0bfe14fcb39b2f485eda09fce3c8735eff590483c9d9878c72",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "ada14df510db6269dfa334ad4fdd3c32d9e87af52af57a3d56fd2f0d751a0d24",
+    "file_id": "69392933f18fd828297d1865595841a0fcc6e7e7c2b475b4b129572dc5aade3d",
+    "pointer": "/tool_receipt/r15_overlays/actual_c1_recovery_overlay"
+  },
+  "request_id": "5ad36de5fa722a8c7663643cc905d36e735cb9606e0356a571cb0b2ccdd81ed3",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/tool_receipt/r15_overlays/actual_c1_recovery_overlay/argument_call_guard",
+      "value": "exactly one typed const-pointer T add literal1 at pinned c1 source line; original translation and successors retained; then exact FnMut"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/tool_receipt/r15_overlays/actual_c1_recovery_overlay/base_sha256",
+      "value": "570b7ac92e4c7f0a63097d28ea018033da2f5afeb4a0f7206d20dc8a11a73a71"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/tool_receipt/r15_overlays/actual_c1_recovery_overlay/call_guard",
+      "value": "original FnMut two-reference same-T same-lifetime normal successor, Continue only, marker immediate and pinned first-call line"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/tool_receipt/r15_overlays/actual_c1_recovery_overlay/mode",
+      "value": "complete-runtime-body-one-c1-ghost-recovery"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/tool_receipt/r15_overlays/actual_c1_recovery_overlay/new_axiom_or_assumed_lemma",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/tool_receipt/r15_overlays/actual_c1_recovery_overlay/patch_sha256",
+      "value": "0ffb4fb9ea713ab58871ced508f537ba0ec7de01b7cca85fe41b7e327ebddeda"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/tool_receipt/r15_overlays/actual_c1_recovery_overlay/proof_credit",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/tool_receipt/r15_overlays/actual_c1_recovery_overlay/result_sha256",
+      "value": "9155f51bc421b74bb4736887f919087c37504969d3bd5b8e539f822daa9194d5"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/tool_receipt/r15_overlays/actual_c1_recovery_overlay/runtime_body_cut",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/tool_receipt/r15_overlays/actual_c1_recovery_overlay/schema",
+      "value": "r15-source-bound-first-callback-ghost-recovery-v2"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/tool_receipt/r15_overlays/actual_c1_recovery_overlay/source",
+      "value": "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/tool_receipt/r15_overlays/actual_c1_recovery_overlay/source_guard",
+      "value": "pinned full-body constructor bytes + exact generated source SHA under R15; exact sourcepair/MIR/refinement required in runner"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

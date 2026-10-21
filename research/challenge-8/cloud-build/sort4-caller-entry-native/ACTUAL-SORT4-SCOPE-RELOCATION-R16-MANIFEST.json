@@ -1,0 +1,106 @@
+{
+  "schema": "r16-actual-sort4-full-body-scope-relocation-v1",
+  "authorization_phase_id": "SORT4-ACTUAL-LIFETIME-2026-10-21-R16",
+  "source": "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml",
+  "base_sha256": "5b73b381fc1e96ac3e41b4eb29ff01f4747dc75ab6545dc6d840a7b42c492c3a",
+  "result_sha256": "5ba6b2a5fd431e22cee9c82aa793d9bd28feedbe26d4d00a06b3b0d3b314f46d",
+  "patch": "actual-sort4-scope-relocation-r16.patch",
+  "patch_sha256": "e1975f3ee503be913d33a1481c033db02872c2f5ed70955c0af9c15ed2d25126",
+  "source_tr": {
+    "path": "verified/lib.rs",
+    "sha256": "c9a137d7abb2885f07dc5cf15b5772d4d5bddc0ecd0fcf2cda0c453cb1453905",
+    "comparator_line": 198,
+    "strict_cmp_marker_line": 167,
+    "focus_lines": [
+      131,
+      233
+    ],
+    "binding_status": "source-reported; S1 parser-input binding not established"
+  },
+  "new_axiom_or_assumed_lemma": false,
+  "proof_credit": false,
+  "runtime_operations_changed": false,
+  "kernel_checks_changed": false,
+  "declaration_only": true,
+  "relocation": {
+    "opt_in": "SORT4_ACTUAL_BODY_SCOPE_RELOCATION=1",
+    "requires_existing_certificate": "actual_sort4_callback",
+    "requires_body": "sort4_stable",
+    "requires_full_unwind_body": true,
+    "cut": "the unique parsed #strict_lft_binding_scope<'cmp> corresponding to the source let_lft 'cmp marker",
+    "locals": [
+      "_35",
+      "_36",
+      "_37",
+      "_38",
+      "_41",
+      "_42",
+      "_47",
+      "_48",
+      "_49",
+      "_50",
+      "_53",
+      "_54",
+      "_78",
+      "_79",
+      "_80",
+      "_81",
+      "_82",
+      "_83",
+      "_85",
+      "_86",
+      "_87",
+      "_88",
+      "_89",
+      "_90",
+      "_114",
+      "_115",
+      "_116",
+      "_117",
+      "_118",
+      "_119"
+    ],
+    "type_groups_per_six": [
+      "&mut F",
+      "(&T, &T)",
+      "&T",
+      "&T",
+      "&T",
+      "&T"
+    ]
+  },
+  "static_invariants": [
+    "unique translated identifiers, unique MIR declarations and exact source MIR types",
+    "one strict cmp marker and exactly one insertion at its matching block cut",
+    "all target declarations have unchanged translated AST types, no initializer and no address-taken flag",
+    "complete composed normal and unwind body is traversed; every target reference must be lexically inside the strict cmp scope",
+    "address-of any target local, pattern shadowing, out-of-scope reference, duplicate/missing declaration, malformed/duplicate marker, wrong AST declaration type, unsupported block declaration, unknown statement, or unsupported expression refuses relocation",
+    "only target DeclStmt nodes are removed from the outer local declaration list and inserted after the strict scope marker; statements, calls, CFG, epilog, and kernel checks are otherwise untouched"
+  ],
+  "synthetic_controls": {
+    "runs_only_when_actual_relocation_opted_in": true,
+    "fresh_handwritten_ast_without_actual_state_mutation": true,
+    "cases": [
+      "positive in-scope declaration and use",
+      "outside use",
+      "AddressOf exposure",
+      "duplicate declaration",
+      "wrong declaration type",
+      "address-taken declaration flag",
+      "missing marker",
+      "duplicate marker",
+      "malformed marker",
+      "unsupported expression form"
+    ],
+    "unknown_statement_case": "No safe ordinary constructor exists for an unknown variant; statement fallback is fail-closed."
+  },
+  "validation": {
+    "source_only_git_apply_check": "passed against exact base translator SHA",
+    "applied_result_sha256": "a1d873cd431fa66c0ebea5942bf731b36543f5da1407256735e304060f67661e",
+    "local_compilation": "not run by bounded task"
+  },
+  "known_limits": [
+    "R16 S1 source metadata is source-reported and does not independently establish parser-input or MIR binding; activation remains gated by the existing runtime actual-callback source, call, marker, and SHA checks.",
+    "Synthetic controls are present in the guarded translator route but were not executed locally because compiler/preparer/runner use was out of scope."
+  ]
+}

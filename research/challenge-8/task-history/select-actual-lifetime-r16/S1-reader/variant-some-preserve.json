@@ -1,0 +1,117 @@
+{
+  "archive_sha256": "58096d4a475bd836f01dfe7453706f0c09ac0495509b3c5a0438cc989706b855",
+  "build_id": "3a973f8c-b4c0-461b-8a2a-908b46c7ee35",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 14,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "69392933f18fd828297d1865595841a0fcc6e7e7c2b475b4b129572dc5aade3d",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/diagnostic-audit.json",
+  "file_sha256": "ada14df510db6269dfa334ad4fdd3c32d9e87af52af57a3d56fd2f0d751a0d24",
+  "index_sha256": "cf7a312a00549b0bfe14fcb39b2f485eda09fce3c8735eff590483c9d9878c72",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "ada14df510db6269dfa334ad4fdd3c32d9e87af52af57a3d56fd2f0d751a0d24",
+    "file_id": "69392933f18fd828297d1865595841a0fcc6e7e7c2b475b4b129572dc5aade3d",
+    "pointer": "/reference_own_probe/variants/some-preserve"
+  },
+  "request_id": "17ff9ef9a31444d0757ea15519f4da7a29c8471578b080d35dcad19e4d2f7438",
+  "results": [
+    {
+      "child_count": 6,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/reference_own_probe/variants/some-preserve/ast_selection"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/reference_own_probe/variants/some-preserve/ast_sha256",
+      "value": "8de84eb157e51818c7c16b34e8c3531d51a77642e81bea5edabcdd550850c26e"
+    },
+    {
+      "child_count": 0,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/reference_own_probe/variants/some-preserve/diagnostics"
+    },
+    {
+      "exact": true,
+      "kind": "null",
+      "pointer": "/reference_own_probe/variants/some-preserve/expected_failure",
+      "value": null
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/reference_own_probe/variants/some-preserve/log_sha256",
+      "value": "7b80fb3df7ac5dbc19c9b955fc40f5c58bb1b21ceee0a0bd8d22d0e129576bbf"
+    },
+    {
+      "child_count": 8,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/reference_own_probe/variants/some-preserve/metadata"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/reference_own_probe/variants/some-preserve/observed_exit",
+      "value": 0
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/reference_own_probe/variants/some-preserve/original_sha256",
+      "value": "987322b0ff43302ecef3674c15c49b6f68fbc4eec89cb982bed7235473167e90"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/reference_own_probe/variants/some-preserve/passed",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/reference_own_probe/variants/some-preserve/proof_credit",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/reference_own_probe/variants/some-preserve/same_tool_after_stage",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/reference_own_probe/variants/some-preserve/source_sha256",
+      "value": "f552548ad4fce1150b9a9f09b5d42da99360a0ff6e411f20492687565709e6ba"
+    },
+    {
+      "child_count": 9,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/reference_own_probe/variants/some-preserve/stage"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/reference_own_probe/variants/some-preserve/status",
+      "value": "BODY_VERIFIED"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

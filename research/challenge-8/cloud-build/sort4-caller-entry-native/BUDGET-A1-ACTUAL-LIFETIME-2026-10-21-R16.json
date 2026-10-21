@@ -6,7 +6,30 @@
   "authorization": "CURRENT-TASK Select-R16 explicitly authorizes a fresh 3600 Cloud-second phase; T0=2026-10-21T17:50:34Z, main deadline=2026-10-21T19:50:34Z, absolute deadline=2026-10-21T20:20:34Z; no R15 carry; max 1200-second Builds; existing lane only.",
   "authorization_model": "bounded-cloud-budget",
   "baseline_sha": "55ce3dcb2a70cb9300d472cac3282daf7c7cdc52",
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-657efd17bee54fb7ae4d5f1dbb671f02",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-ACTUAL-LIFETIME-2026-10-21-R16",
+      "infra_sha": "0ac592624bd36f675a154f05119c3d4e4cb507bb",
+      "proof_sha": "0ac592624bd36f675a154f05119c3d4e4cb507bb",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "663d7c5c1fa02198e0122063ea7b647b71e68852797280fad318a3764c322c5a",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "73d445e07fddba411f1851eb922fd13a25aac952b1b5b7de2430cb30b8f86479",
+      "build_id": "3a973f8c-b4c0-461b-8a2a-908b46c7ee35",
+      "start_time": "2026-10-21T18:04:27.899853961Z",
+      "finish_time": "2026-10-21T18:12:47.394588Z",
+      "create_time": "2026-10-21T18:04:27.116213638Z",
+      "build_seconds": 501,
+      "accounted": true,
+      "execution_seconds": 500
+    }
+  ],
   "carry_forward_seconds": 0,
   "carry_seconds": 0,
   "carryover_allowed": false,
@@ -20,7 +43,7 @@
   "owner": "select-sort4",
   "phase": "SORT4-ACTUAL-LIFETIME-2026-10-21-R16",
   "phase_id": "SORT4-ACTUAL-LIFETIME-2026-10-21-R16",
-  "remaining_build_seconds": 3600,
+  "remaining_build_seconds": 3099,
   "report_reserve_seconds": 240,
   "retired_seconds": 0,
   "schema": "smallsort-cloud-phase-account-v1",
@@ -28,5 +51,5 @@
   "start_utc": "2026-10-21T17:50:34Z",
   "status": "AUTHORIZED",
   "task_id": "select-actual-lifetime-autonomous-2026-10-21-r16",
-  "used_build_seconds": 0
+  "used_build_seconds": 501
 }

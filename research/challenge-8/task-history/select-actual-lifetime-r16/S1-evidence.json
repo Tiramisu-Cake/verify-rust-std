@@ -1,0 +1,117 @@
+{
+  "build": {
+    "dispatch_token": "dispatch-657efd17bee54fb7ae4d5f1dbb671f02",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-ACTUAL-LIFETIME-2026-10-21-R16",
+    "infra_sha": "0ac592624bd36f675a154f05119c3d4e4cb507bb",
+    "proof_sha": "0ac592624bd36f675a154f05119c3d4e4cb507bb",
+    "lane": "o26-sort4-c1-current-recovery",
+    "submitted_config_sha256": "663d7c5c1fa02198e0122063ea7b647b71e68852797280fad318a3764c322c5a",
+    "reserved_seconds": 1260,
+    "timeout_seconds": 1200,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "73d445e07fddba411f1851eb922fd13a25aac952b1b5b7de2430cb30b8f86479",
+    "build_id": "3a973f8c-b4c0-461b-8a2a-908b46c7ee35",
+    "start_time": "2026-10-21T18:04:27.899853961Z",
+    "finish_time": "2026-10-21T18:12:47.394588Z",
+    "create_time": "2026-10-21T18:04:27.116213638Z",
+    "build_seconds": 501,
+    "accounted": true,
+    "execution_seconds": 500
+  },
+  "brief_integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "actual_body": {
+    "source_observed_exit": 1,
+    "location": "verified/lib.rs(167,1-30)",
+    "diagnostic": "Strict lifetime binding has unresolved inference in entry outer type",
+    "unresolved_reference_groups": {
+      "c1": [
+        "_35",
+        "_36",
+        "_37",
+        "_38",
+        "_41",
+        "_42"
+      ],
+      "c2": [
+        "_47",
+        "_48",
+        "_49",
+        "_50",
+        "_53",
+        "_54"
+      ],
+      "c3": [
+        "_78",
+        "_79",
+        "_80",
+        "_81",
+        "_82",
+        "_83"
+      ],
+      "c4": [
+        "_85",
+        "_86",
+        "_87",
+        "_88",
+        "_89",
+        "_90"
+      ],
+      "c5": [
+        "_114",
+        "_115",
+        "_116",
+        "_117",
+        "_118",
+        "_119"
+      ]
+    },
+    "trace_names": "compiler names raw_N mapped to TrName tagged $_N; tuple references and erased regions observed; no AST/MIR/parser-input binding inferred solely from coordinates",
+    "full_body_proved": false,
+    "independent_B1_credit": false,
+    "independent_B2_credit": false
+  },
+  "archive_sha256": "58096d4a475bd836f01dfe7453706f0c09ac0495509b3c5a0438cc989706b855",
+  "index_sha256": "cf7a312a00549b0bfe14fcb39b2f485eda09fce3c8735eff590483c9d9878c72",
+  "body_log_file_id": "4837c1e6aee68dba4774abb6b4a72bed061c54bcca0c4738fef5c0076b2f6943",
+  "body_log_sha256": "25424e5e04a425dc502a39fefb13f0ed1a23a6e3827d99d35c25b14adb482da1",
+  "next": "Checked declaration containment/def-use with unchanged kernel strict freezes; pending reviewed source-preserving lexical relocation, then full body rerun with controls.",
+  "source_reported_components": {
+    "checked_lemma_prerequisites": {
+      "count": 4,
+      "status": "SOURCE_REPORTED_BODY_CHECKED_UNQUALIFIED",
+      "observed_exit": 0,
+      "proof_credit": false
+    },
+    "mini7": {
+      "positive_body_verified": 4,
+      "expected_resource_rejection": 3,
+      "passed_as_source_classifier": true,
+      "proof_credit": false
+    },
+    "copy_identity_positive": {
+      "status": "SOURCE_REPORTED_BODY_CHECKED_UNQUALIFIED",
+      "observed_exit": 0,
+      "proof_credit": false
+    },
+    "selector_permutation_positive": {
+      "status": "SOURCE_REPORTED_BODY_CHECKED_UNQUALIFIED",
+      "observed_exit": 0,
+      "proof_credit": false
+    },
+    "negative_resource_controls": "SOURCE_OBSERVED_EXIT1_UNCLASSIFIED; intended locations not independently attested here",
+    "frontend_controls": "SOURCE_OBSERVED_EXIT2_INCONCLUSIVE; no proof acceptance"
+  },
+  "runtime_profile_sha256": "5b948a014c2147787bddceee61def408847ebe10fe6d96e2072a06ad38c8641f",
+  "generated_source_sha256": "c9a137d7abb2885f07dc5cf15b5772d4d5bddc0ecd0fcf2cda0c453cb1453905",
+  "source_observations": {
+    "first_comparator_line": 198,
+    "strict_marker_line": 167,
+    "focus_line": 131,
+    "end_line": 233,
+    "parser_input_binding": "NOT_ESTABLISHED"
+  }
+}

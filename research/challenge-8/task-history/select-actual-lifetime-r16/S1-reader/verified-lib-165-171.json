@@ -1,0 +1,81 @@
+{
+  "archive_sha256": "58096d4a475bd836f01dfe7453706f0c09ac0495509b3c5a0438cc989706b855",
+  "build_id": "3a973f8c-b4c0-461b-8a2a-908b46c7ee35",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 171,
+    "line_separator": "LF",
+    "source_lines": 233,
+    "start": 165,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "3bd75a6f330e11fc7fd23124790fb8ca961ac132660ef589b7d0750a36fa5e4a",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/fixture/verified/lib.rs",
+  "file_sha256": "c9a137d7abb2885f07dc5cf15b5772d4d5bddc0ecd0fcf2cda0c453cb1453905",
+  "index_sha256": "cf7a312a00549b0bfe14fcb39b2f485eda09fce3c8735eff590483c9d9878c72",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 171,
+    "expected_sha256": "c9a137d7abb2885f07dc5cf15b5772d4d5bddc0ecd0fcf2cda0c453cb1453905",
+    "file_id": "3bd75a6f330e11fc7fd23124790fb8ca961ac132660ef589b7d0750a36fa5e4a",
+    "start": 165
+  },
+  "request_id": "49fe0d0559b21cd11e2adfe4943e83830159bd5d91d8dc47075d37d10bd37b4a",
+  "requested_end": 171,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 165,
+      "text": "    //@ let cmp_k = begin_lifetime();"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 166,
+      "text": "    unsafe {"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 167,
+      "text": "/*@ let_lft 'cmp = cmp_k; @*/"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 168,
+      "text": "        // Stably create two pairs a <= b and c <= d."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 169,
+      "text": "        //@ split_four_owned_cells::<T>(v_base, t);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 170,
+      "text": "        //@ close_full_borrow_content::<T>(t, v_base + 1);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 171,
+      "text": "        //@ close_full_borrow_content::<T>(t, v_base);"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

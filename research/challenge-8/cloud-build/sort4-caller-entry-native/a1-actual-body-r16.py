@@ -281,14 +281,20 @@ def run_case(a, c4, tool, env, root, case, gates, grammar, identity, *, paired_r
             SORT4_ACTUAL_BODY_FIRST_CALL_LINE=str(meta['first_comparator_line']),
             SORT4_A1_AUTHORIZATION_PHASE_ID=AUTH,
             SORT4_A1_PHASE_ID='SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17')
+    if meta.get('actual_scope_relocation') is True:
+        need(meta.get('actual_c1_recovery') is True, 'scope relocation requires exact actual c1 source')
+        env['SORT4_ACTUAL_BODY_SCOPE_RELOCATION'] = '1'
     control = meta.get('frontend_control')
     if control is not None:
         need(meta.get('actual_c1_recovery') is True and control in
-             ('wrong-source-sha', 'wrong-first-call-line', 'opt-in-off'), 'fixed c1 frontend control')
+             ('wrong-source-sha', 'wrong-first-call-line', 'opt-in-off', 'scope-opt-in-off'), 'fixed c1 frontend control')
         if control == 'wrong-source-sha':
             env['SORT4_ACTUAL_BODY_SOURCE_SHA256'] = '0' * 64
         elif control == 'wrong-first-call-line':
             env['SORT4_ACTUAL_BODY_FIRST_CALL_LINE'] = str(meta['first_comparator_line'] + 1)
+        elif control == 'scope-opt-in-off':
+            need(meta.get('actual_scope_relocation') is True, 'scope control requires scope candidate')
+            env['SORT4_ACTUAL_BODY_SCOPE_RELOCATION'] = '0'
         else:
             env['SORT4_ACTUAL_BODY_C1_RECOVERY'] = '0'
     unit = root / name
@@ -457,13 +463,19 @@ def run(a, *, c4, audit, driver, manifest, ghost):
                 construct_actual, lemma_metadata)
         else:
             verified, original, meta = construct_actual(source, ghost, capture)
+        if profile.get('actual_scope_relocation_enabled') is True:
+            need(meta.get('actual_c1_recovery') is True, 'scope candidate must retain full actual c1 source')
+            meta = {**meta, 'actual_scope_relocation': True}
         result['body_target'] = run_case(a, c4, tool, env, target_root,
             ('actual-sort4', verified, original, meta), helpers['a1-ast-gates.py'], grammar, identity)
         checkpoint()
         if profile.get('body_action') == 'full-body-c1-recovery':
             result['c1_controls'] = {}
             cases = constructor.resource_controls(verified, ghost, meta, lemma_metadata)
-            for variant in ('wrong-source-sha', 'wrong-first-call-line', 'opt-in-off'):
+            variants = ['wrong-source-sha', 'wrong-first-call-line', 'opt-in-off']
+            if profile.get('actual_scope_relocation_enabled') is True:
+                variants.append('scope-opt-in-off')
+            for variant in variants:
                 cases.append(('c1-' + variant + '-negative', verified, original,
                     {**meta, 'required_lemmas': [], 'frontend_control': variant}))
             for case in cases:

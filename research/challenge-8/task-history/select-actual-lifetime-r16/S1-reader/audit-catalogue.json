@@ -1,0 +1,44 @@
+{
+  "archive_sha256": "58096d4a475bd836f01dfe7453706f0c09ac0495509b3c5a0438cc989706b855",
+  "build_id": "3a973f8c-b4c0-461b-8a2a-908b46c7ee35",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 79,
+      "EMPTY_FILE": 125,
+      "JSON_EXCEEDS_SCAN_LIMIT": 1,
+      "PROJECTED": 539,
+      "UNSUPPORTED_FILE_TYPE": 89
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2093583,
+    "content_files": 665,
+    "files": 833,
+    "source_scan_bytes": 6825454
+  },
+  "index_sha256": "cf7a312a00549b0bfe14fcb39b2f485eda09fce3c8735eff590483c9d9878c72",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "69392933f18fd828297d1865595841a0fcc6e7e7c2b475b4b129572dc5aade3d",
+      "kind": "json",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/diagnostic-audit.json",
+      "path_sanitized": false,
+      "scanned_bytes": 161297,
+      "sha256": "ada14df510db6269dfa334ad4fdd3c32d9e87af52af57a3d56fd2f0d751a0d24",
+      "size_bytes": 161297,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 833,
+    "files_with_incomplete_content": 623,
+    "matches_in_retained_data": 1,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

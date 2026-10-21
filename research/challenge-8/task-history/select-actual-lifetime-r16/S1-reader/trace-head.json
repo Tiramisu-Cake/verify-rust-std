@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "58096d4a475bd836f01dfe7453706f0c09ac0495509b3c5a0438cc989706b855",
+  "build_id": "3a973f8c-b4c0-461b-8a2a-908b46c7ee35",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 3904,
+    "line_separator": "LF",
+    "source_lines": 4055,
+    "start": 3893,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "4837c1e6aee68dba4774abb6b4a72bed061c54bcca0c4738fef5c0076b2f6943",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/body-verification.log",
+  "file_sha256": "25424e5e04a425dc502a39fefb13f0ed1a23a6e3827d99d35c25b14adb482da1",
+  "index_sha256": "cf7a312a00549b0bfe14fcb39b2f485eda09fce3c8735eff590483c9d9878c72",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 3904,
+    "expected_sha256": "25424e5e04a425dc502a39fefb13f0ed1a23a6e3827d99d35c25b14adb482da1",
+    "file_id": "4837c1e6aee68dba4774abb6b4a72bed061c54bcca0c4738fef5c0076b2f6943",
+    "start": 3893
+  },
+  "request_id": "97ecd8c5747f640f59acbeb98d95b33f7f72f635ce16f4f836361cee4650ae6b",
+  "requested_end": 3904,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3893,
+      "text": "STRICT-CUT-ENTRY name=cmp_k type=lifetime_t"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3894,
+      "text": "STRICT-CUT-ENTRY name=right type=*T"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3895,
+      "text": "STRICT-CUT-ENTRY name=left type=*T"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3896,
+      "text": "STRICT-CUT-ENTRY name=$_143 type=ref std_tuple_0_"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3897,
+      "text": "STRICT-CUT-ENTRY name=$_142 type=*T"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3898,
+      "text": "STRICT-CUT-ENTRY name=$_141 type=*T"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3899,
+      "text": "STRICT-CUT-ENTRY name=$_140 type=*T"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3900,
+      "text": "STRICT-CUT-ENTRY name=$_139 type=ref std_tuple_0_"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3901,
+      "text": "STRICT-CUT-ENTRY name=$_138 type=*T"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3902,
+      "text": "STRICT-CUT-ENTRY name=$_137 type=*T"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3903,
+      "text": "STRICT-CUT-ENTRY name=$_136 type=*T"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3904,
+      "text": "STRICT-CUT-ENTRY name=$_135 type=ref std_tuple_0_"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

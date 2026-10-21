@@ -1,0 +1,105 @@
+{
+  "archive_sha256": "58096d4a475bd836f01dfe7453706f0c09ac0495509b3c5a0438cc989706b855",
+  "build_id": "3a973f8c-b4c0-461b-8a2a-908b46c7ee35",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 12,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "69392933f18fd828297d1865595841a0fcc6e7e7c2b475b4b129572dc5aade3d",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/diagnostic-audit.json",
+  "file_sha256": "ada14df510db6269dfa334ad4fdd3c32d9e87af52af57a3d56fd2f0d751a0d24",
+  "index_sha256": "cf7a312a00549b0bfe14fcb39b2f485eda09fce3c8735eff590483c9d9878c72",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "ada14df510db6269dfa334ad4fdd3c32d9e87af52af57a3d56fd2f0d751a0d24",
+    "file_id": "69392933f18fd828297d1865595841a0fcc6e7e7c2b475b4b129572dc5aade3d",
+    "pointer": "/tool_receipt/r16_overlays/r16_c1_phase_binding"
+  },
+  "request_id": "d11e121668dc2bc792889cce687eaca061440d585ed72e7ba841e192bfdf017a",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/tool_receipt/r16_overlays/r16_c1_phase_binding/authorization_phase_id",
+      "value": "SORT4-ACTUAL-LIFETIME-2026-10-21-R16"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/tool_receipt/r16_overlays/r16_c1_phase_binding/base_sha256",
+      "value": "9155f51bc421b74bb4736887f919087c37504969d3bd5b8e539f822daa9194d5"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/tool_receipt/r16_overlays/r16_c1_phase_binding/change",
+      "value": "Authorization phase literal only; preserves source/line/opt-in/strict/provider gates and runtime CFG/ghost semantics."
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/tool_receipt/r16_overlays/r16_c1_phase_binding/effective_r15_input"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/tool_receipt/r16_overlays/r16_c1_phase_binding/new_axiom_or_assumed_lemma",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/tool_receipt/r16_overlays/r16_c1_phase_binding/patch",
+      "value": "r16-c1-phase-binding.patch"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/tool_receipt/r16_overlays/r16_c1_phase_binding/patch_sha256",
+      "value": "9e6204891dbe2523a3b08a9980c4f474ebd636835c8989d2ab63f173610d67d8"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/tool_receipt/r16_overlays/r16_c1_phase_binding/previous_authorization_phase_id",
+      "value": "SORT4-ACTUAL-BODY-2026-10-21-R15"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/tool_receipt/r16_overlays/r16_c1_phase_binding/proof_credit",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/tool_receipt/r16_overlays/r16_c1_phase_binding/result_sha256",
+      "value": "5b73b381fc1e96ac3e41b4eb29ff01f4747dc75ab6545dc6d840a7b42c492c3a"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/tool_receipt/r16_overlays/r16_c1_phase_binding/schema",
+      "value": "r16-source-bound-sort4-phase-binding-overlay-v1"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/tool_receipt/r16_overlays/r16_c1_phase_binding/source",
+      "value": "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}
