@@ -1,6 +1,6 @@
-# Select-R13 READY — checked reference ownership → caller
+# Select-R13 ACTIVE — checked reference ownership → caller
 
-Новое задание опубликовано, исполнение ещё не начато: [CURRENT-TASK](CURRENT-TASK.md). Worktree `/root/verify-rust-std-select-night`, branch `research/night-select-sort4-cloud-2026-10-09`, owner `select-sort4`. Новое окно120мин+30мин, бюджет3600 Cloud-секунд, без отдельного лимита числа Builds; T0 агент задаст при фактическом старте. После main новых Builds/retries/гипотез нет. Phase `SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13`, новый ledger `BUDGET-A1-REFERENCE-OWN-2026-10-21-R13.json`; старые счета закрыты.
+T0=2026-10-21T09:26:36Z; main=2026-10-21T11:26:36Z; absolute=2026-10-21T11:56:36Z. Исполнение начато: [CURRENT-TASK](CURRENT-TASK.md). Worktree `/root/verify-rust-std-select-night`, branch `research/night-select-sort4-cloud-2026-10-09`, owner `select-sort4`. Новое окно120мин+30мин, бюджет3600 Cloud-секунд, без отдельного лимита числа Builds; T0 агент задаст при фактическом старте. После main новых Builds/retries/гипотез нет. Phase `SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13`, новый ledger `BUDGET-A1-REFERENCE-OWN-2026-10-21-R13.json`; старые счета закрыты.
 
 Приоритет: checked generic Option<&T> cleanup helper в существующей модели → canonical P0c с собственным same-Build exact-pair receipt → native P1. До новой длинной кампании сохранить частичные результаты при timeout; параллельно доступна независимая диагностика P-dispatch inventory/owner/span binding. Mini probe и partial snapshot не дают matrix admission. Финальные26 обязательны в одном совместимом Build/run.
 

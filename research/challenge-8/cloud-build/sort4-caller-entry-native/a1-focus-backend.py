@@ -37,6 +37,8 @@ PROFILE_BINDINGS = {
         "A1-CHECKED-CALLER-R11-PROFILE-2026-10-21.json",
     "SORT4-CHECKED-HELPER-CALLER-2026-10-21-R12":
         "A1-CHECKED-HELPER-R12-PROFILE-2026-10-21.json",
+    "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13":
+        "A1-REFERENCE-OWN-R13-PROFILE-2026-10-21.json",
 }
 TR = "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
 SCHEMA = "src/rust_frontend/vf_mir/vf_mir.capnp"
@@ -314,6 +316,11 @@ def _cloud_gate(a, c4, ghost, tool: Path, receipt: dict,
          receipt.get("final_exporter_sha256") == profile["c_after"][EXPORTER] and
          receipt.get("proof_credit") is False,
          "one final A1 tool reconstruction receipt")
+    if profile.get("authorization_phase_id") == "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13":
+        need(receipt.get("shared_reference_own_normalization") ==
+             profile.get("shared_reference_own_normalization") and
+             isinstance(profile.get("shared_reference_own_normalization"), dict),
+             "R13 normalized spec receipt/profile binding")
     _tool_identity(tool, receipt)
 
 
@@ -325,6 +332,14 @@ def _tool_identity(tool: Path, receipt: dict) -> None:
                            ("bin/vf-rust-mir-exporter", receipt["exporter_binary_sha256"])):
         need((tool / name).is_file() and sha(tool / name) == expected,
              "final A1 tool file differs: " + name)
+
+    normalized = receipt.get("shared_reference_own_normalization")
+    if normalized is not None:
+        need(isinstance(normalized, dict) and normalized.get("source") ==
+             "bin/rust/rust_belt/general.rsspec" and normalized.get("shared_only") is True and
+             normalized.get("new_axiom_or_assumed_lemma") is False and
+             sha(tool / normalized["source"]) == normalized.get("result_sha256"),
+             "normalized shared-reference spec identity differs")
 
 
 def _artifact(path: Path) -> dict[str, Any]:

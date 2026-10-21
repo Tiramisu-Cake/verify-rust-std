@@ -64,4 +64,4 @@ Evidence: `smallsort-brief BUILD_UUID` → catalogue/file ID → `--refresh --fi
 
 ## Отчёт агента
 
-Не начато. При старте зафиксируй T0, выбранную минимальную proof-гипотезу и план; по завершении замени этот раздел одним компактным итогом.
+ACTIVE. T0=2026-10-21T09:26:36Z; main=2026-10-21T11:26:36Z; absolute=2026-10-21T11:56:36Z. Fresh3600 Cloud seconds, used0/carry0. Гипотеза: сохраняющая ресурсы нормализация enum-field predicate через существующую RustBelt интерпретацию shared reference. Сначала source rationale/controls → faithful mini helper Cloud probe; параллельно compact partial snapshot и exact P-dispatch binding. Formalgates0/B1B2credit0. [Session](cloud-build/sort4-caller-entry-native/A1-REFERENCE-OWN-R13-SESSION-2026-10-21.md).

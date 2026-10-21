@@ -1,0 +1,16 @@
+--- a/bin/rust/rust_belt/general.rsspec
++++ b/bin/rust/rust_belt/general.rsspec
+@@ -152,6 +152,13 @@
+ //TODO: How to deal with Rust type `char`? Distinct Rust types should be mapped to distinct VF types, with distinct typeids.
+ type_pred_def for <T> <*T>.own = raw_ptr_own::<T>;
+ 
++// Shared references have exactly the persistent pointee-share interpretation
++// used by translate_ref_ty(Mir.Not) and translate_param_ty.shr.
++pred_ctor shared_ref_type_own<'a, T>()(t: thread_id_t, r: &'a T) =
++    [_](<T>.share)('a, t, r);
++
++type_pred_def for <'a, T> <&'a T>.own = shared_ref_type_own::<'a, T>;
++
+ type_pred_def <i8>.own = i8_own;
+ type_pred_def <i16>.own = i16_own;
+ type_pred_def <i32>.own = i32_own;

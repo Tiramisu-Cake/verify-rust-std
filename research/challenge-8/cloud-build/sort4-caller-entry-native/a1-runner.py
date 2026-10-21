@@ -20,6 +20,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+import tempfile
 import time
 from typing import Any, Mapping
 
@@ -102,6 +103,7 @@ A1_HELPERS = (
     "a1-proof-classifier.py", "a1-matrix-classifier.py", "selected-proof.py",
 )
 R12_AUTHORIZATION_PHASE = "SORT4-CHECKED-HELPER-CALLER-2026-10-21-R12"
+R13_AUTHORIZATION_PHASE = "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13"
 R12_GHOST_GRAMMAR_HELPER = "a1-ghost-grammar.py"
 FOCUS_SEMANTICS_PINS = {
     "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
@@ -160,19 +162,19 @@ def load_pinned_helpers(proof_root: Path, profile: Mapping[str, Any]) -> dict[st
 
 
 def load_r12_ghost_grammar(proof_root: Path, profile: Mapping[str, Any]):
-    """Load the separately pinned R12 grammar preflight without changing the
-    historical exact A1_HELPERS set required by older profiles.
+    """Load the separately pinned R12/R13 grammar preflight without changing
+    the historical exact A1_HELPERS set required by older profiles.
     """
     enabled = profile.get("ghost_grammar_preflight_enabled")
     authorization = profile.get("authorization_phase_id")
-    if authorization != R12_AUTHORIZATION_PHASE:
+    if authorization not in (R12_AUTHORIZATION_PHASE, R13_AUTHORIZATION_PHASE):
         _need(enabled is not True and "a1_ghost_grammar_sha256" not in profile,
-              "ghost grammar preflight is R12-only")
+              "ghost grammar preflight is authorized only for R12/R13")
         return None
-    _need(enabled is True, "R12 ghost grammar preflight must be enabled")
+    _need(enabled is True, "R12/R13 ghost grammar preflight must be enabled")
     expected = profile.get("a1_ghost_grammar_sha256")
     _need(isinstance(expected, str) and HEX64.fullmatch(expected) is not None,
-          "exact pinned R12 ghost grammar helper hash required")
+          "exact pinned R12/R13 ghost grammar helper hash required")
     path = (proof_root / HERE / R12_GHOST_GRAMMAR_HELPER).resolve()
     _need(path.is_file() and _sha(path) == expected,
           "pinned R12 ghost grammar helper differs")
@@ -190,7 +192,8 @@ def load_r12_ghost_grammar(proof_root: Path, profile: Mapping[str, Any]):
 
 def r12_ghost_grammar_passed(value: Any, *, build_id: str, project_id: str,
                              profile_sha256: str,
-                             tool_receipt: Mapping[str, Any]) -> bool:
+                             tool_receipt: Mapping[str, Any],
+                             authorization_phase: str = R12_AUTHORIZATION_PHASE) -> bool:
     """Accept only the complete, identity-bound grammar preflight envelope."""
     try:
         _need(isinstance(value, Mapping) and
@@ -199,14 +202,15 @@ def r12_ghost_grammar_passed(value: Any, *, build_id: str, project_id: str,
               value.get("build_id") == build_id and
               value.get("project_id") == project_id and
               value.get("phase_id") == PHASE and
-              value.get("authorization_phase_id") == R12_AUTHORIZATION_PHASE and
+              authorization_phase in (R12_AUTHORIZATION_PHASE, R13_AUTHORIZATION_PHASE) and
+              value.get("authorization_phase_id") == authorization_phase and
               value.get("profile_sha256") == profile_sha256 and
               value.get("tool_binary_sha256") ==
                 tool_receipt.get("console_binary_sha256") and
               value.get("proof_credit") is False and
               value.get("caller_receipt") is False and
               value.get("body_verified") is False,
-              "R12 ghost grammar preflight identity/status/credit envelope")
+              "R12/R13 ghost grammar preflight identity/status/credit envelope")
         variants = value.get("variants")
         _need(isinstance(variants, Mapping) and set(variants) == {
               "positive", "negative_fully_qualified",
@@ -2155,14 +2159,18 @@ def preflight_plan(profile: Mapping[str, Any], matrix: Mapping[str, Any] | None 
           profile.get("first_matrix_status") == "NOT_RUN",
           "unaccepted exact A1 profile required")
     _need(profile.get("execution_mode") in
-          {"parser-preflight", "full-matrix", "native-p1-target"},
+          {"parser-preflight", "full-matrix", "native-p1-target", "reference-own-probe"},
           "recognized unaccepted A1 execution mode required")
+    if profile.get("execution_mode") == "reference-own-probe":
+        _need(profile.get("authorization_phase_id") == R13_AUTHORIZATION_PHASE,
+              "reference-own-probe requires R13 authorization")
     if profile.get("execution_mode") == "native-p1-target":
         _need(profile.get("authorization_phase_id") in
               ("SORT4-DELIVERABLE-NATIVE-PROOF-2026-10-20-R10",
                "SORT4-CHECKED-CALLER-NATIVE-PROOF-2026-10-21-R11",
-               "SORT4-CHECKED-HELPER-CALLER-2026-10-21-R12"),
-              "bounded native P1 target requires R10/R11 authorization")
+               "SORT4-CHECKED-HELPER-CALLER-2026-10-21-R12",
+               R13_AUTHORIZATION_PHASE),
+              "bounded native P1 target requires R10/R11/R12/R13 authorization")
     cases = []
     for case_id in CASE_ORDER:
         source = ("a1-fixtures:" + SOURCE_CASE[case_id] if case_id in SOURCE_CASE else
@@ -2308,6 +2316,165 @@ def _jsonable(value: Any) -> Any:
                         "values": [_jsonable(item) for item in items]}
     raise TypeError("unsupported progress value: " + type(value).__name__)
 
+
+def _atomic_json_write(path: Path, value: Mapping[str, Any]) -> None:
+    """Publish one complete JSON document with same-directory replacement."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = json.dumps(value, indent=2, sort_keys=True) + "\n"
+    temporary_path = None
+    try:
+        with tempfile.NamedTemporaryFile(
+                mode="w", encoding="utf-8", dir=path.parent,
+                prefix="." + path.name + ".", suffix=".tmp",
+                delete=False) as temporary:
+            temporary_path = Path(temporary.name)
+            temporary.write(payload)
+            temporary.flush()
+            os.fsync(temporary.fileno())
+        os.replace(temporary_path, path)
+        temporary_path = None
+    finally:
+        if temporary_path is not None:
+            try:
+                temporary_path.unlink()
+            except FileNotFoundError:
+                pass
+
+
+def _partial_progress_snapshot(result: Mapping[str, Any],
+                                observations: Mapping[str, Any],
+                                execution_events: list[dict[str, Any]],
+                                positive_progress: Mapping[str, Any]) -> dict[str, Any]:
+    """Summarize recorded lifecycle facts without retaining raw proof output."""
+    explicit_not_run = {
+        event.get("case_id"): event
+        for event in execution_events
+        if event.get("event") == "not_run" and isinstance(event.get("case_id"), str)
+    }
+    observed = {
+        event.get("case_id")
+        for event in execution_events
+        if event.get("event") in {"started", "completed", "adapter_error", "stage_observed"}
+        and isinstance(event.get("case_id"), str)
+    }
+    rows = {}
+    source_keys = ("source_id", "unit_id", "source_sha256", "source_pair_sha256",
+                   "source_block_sha256")
+    case_status = result.get("case_status")
+    case_status = case_status if isinstance(case_status, Mapping) else {}
+    for case_id in CASE_ORDER:
+        observation = observations.get(case_id)
+        recorded = case_status.get(case_id)
+        recorded = recorded if isinstance(recorded, Mapping) else {}
+        if case_id in explicit_not_run:
+            status = "NOT_RUN"
+            reason = explicit_not_run[case_id].get("reason")
+        elif case_id in observed:
+            status_value = recorded.get("status")
+            status = (status_value if isinstance(status_value, str) and
+                      status_value != "NOT_RUN" else "INCONCLUSIVE")
+            reason = recorded.get("reason")
+            if not isinstance(reason, str) and isinstance(observation, Mapping):
+                reason = observation.get("adapter_error")
+        else:
+            status = "UNKNOWN"
+            reason = None
+        row = {"status": status, "proof_credit": False}
+        if isinstance(reason, str):
+            row["reason"] = reason
+        observed_stage = recorded.get("observed_stage")
+        if isinstance(observed_stage, str):
+            row["observed_stage"] = observed_stage
+        identity = {}
+        if isinstance(observation, Mapping):
+            raw = observation.get("raw")
+            for source in (observation, raw if isinstance(raw, Mapping) else {}):
+                for key in source_keys:
+                    value = source.get(key)
+                    if isinstance(value, str):
+                        identity[key] = value
+        for key in source_keys:
+            value = recorded.get(key)
+            if isinstance(value, str):
+                identity[key] = value
+        if isinstance(observation, Mapping):
+            raw = observation.get("raw")
+            for source in (observation, raw if isinstance(raw, Mapping) else {}):
+                pair = source.get("source_pair_sha256")
+                if isinstance(pair, Mapping):
+                    bounded_pair = {key: value for key, value in pair.items()
+                        if key in ("original/lib.rs", "verified/lib.rs") and
+                        isinstance(value, str) and HEX64.fullmatch(value) is not None}
+                    if bounded_pair:
+                        identity["source_pair_sha256"] = bounded_pair
+        if identity:
+            row["source_identity"] = identity
+        rows[case_id] = row
+
+    tool_receipt = result.get("tool_receipt")
+    tool_identity = {}
+    if isinstance(tool_receipt, Mapping):
+        for key in ("classification", "tool_sha256", "tool_source_sha256",
+                    "console_binary_sha256", "exporter_binary_sha256",
+                    "decoder_binary_sha256", "refiner_binary_sha256",
+                    "final_schema_sha256", "tool_head", "final_translator_sha256",
+                    "final_exporter_sha256", "final_kernel_sha256"):
+            value = tool_receipt.get(key)
+            if isinstance(value, str):
+                tool_identity[key] = value
+    if isinstance(tool_receipt, Mapping):
+        normalized = tool_receipt.get("shared_reference_own_normalization")
+        if isinstance(normalized, Mapping):
+            tool_identity["normalized_spec"] = {key: normalized[key] for key in
+                ("source", "base_sha256", "result_sha256", "patch_sha256")
+                if isinstance(normalized.get(key), str)}
+    tool_path = result.get("tool_path")
+    if isinstance(tool_path, str):
+        tool_identity["path"] = tool_path
+
+    last_stage = next((event.get("stage") for event in reversed(execution_events)
+                       if event.get("event") == "stage_observed" and
+                       isinstance(event.get("stage"), str)), None)
+    snapshot = {
+        "schema": "a1-partial-progress-v1",
+        "classification": "A1_RUNNER_PARTIAL_PROGRESS",
+        "partial": True,
+        "case_status": rows,
+        "last_observed_stage": last_stage,
+        "admission_record_created": False,
+        "matrix_admission_invoked": False,
+        "matrix_admission_recorded": False,
+        "matrix_complete": False,
+        "dispatch_ready": False,
+        "diagnostic_complete": False,
+        "evidence_complete": False,
+        "accepted": False,
+        "proof_credit": False,
+        "proof_verdict": None,
+    }
+    for key in ("phase_id", "authorization_phase_id", "build_id", "proof_sha",
+                "infra_sha", "profile_sha256"):
+        value = result.get(key)
+        if isinstance(value, (str, int)):
+            snapshot[key] = value
+    if tool_identity:
+        snapshot["tool_identity"] = tool_identity
+    expected_ids = positive_progress.get("expected_case_ids")
+    if isinstance(expected_ids, Mapping):
+        source_ids = {}
+        for case_id, value in expected_ids.items():
+            if isinstance(case_id, str) and isinstance(value, Mapping):
+                source_id = value.get("source_id")
+                unit_id = value.get("unit_id")
+                identity = {key: item for key, item in
+                            (("source_id", source_id), ("unit_id", unit_id))
+                            if isinstance(item, str)}
+                if identity:
+                    source_ids[case_id] = identity
+        if source_ids:
+            snapshot["expected_source_identity"] = source_ids
+    return snapshot
+
 def persist_dispatch_join_diagnostic(raw: Mapping[str, Any],
                                     classifier: Mapping[str, Any], *,
                                     profile_sha256: str,
@@ -2378,8 +2545,10 @@ def _report_value_for_disk(value, authorization_phase):
     r10_authorization_phase = "SORT4-DELIVERABLE-NATIVE-PROOF-2026-10-20-R10"
     r11_authorization_phase = "SORT4-CHECKED-CALLER-NATIVE-PROOF-2026-10-21-R11"
     r12_authorization_phase = "SORT4-CHECKED-HELPER-CALLER-2026-10-21-R12"
+    r13_authorization_phase = "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13"
     if (authorization_phase not in (r9_authorization_phase, r10_authorization_phase,
-                                    r11_authorization_phase, r12_authorization_phase) or
+                                    r11_authorization_phase, r12_authorization_phase,
+                                    r13_authorization_phase) or
             not isinstance(value, Mapping) or
             value.get("authorization_phase_id") != authorization_phase):
         return value
@@ -2903,11 +3072,11 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
           profile.get("authorization_phase_id") == AUTHORIZATION_PHASE and
           profile.get("experiment_protocol_phase_id") == PHASE,
           "exact authorization to preserved experiment protocol binding")
-    if AUTHORIZATION_PHASE == R12_AUTHORIZATION_PHASE:
+    if AUTHORIZATION_PHASE in (R12_AUTHORIZATION_PHASE, R13_AUTHORIZATION_PHASE):
         _need(profile.get("ghost_grammar_preflight_enabled") is True and
               isinstance(profile.get("a1_ghost_grammar_sha256"), str) and
               HEX64.fullmatch(profile["a1_ghost_grammar_sha256"]) is not None,
-              "R12 requires its separately pinned ghost grammar preflight")
+              "R12/R13 require the separately pinned ghost grammar preflight")
     else:
         _need(profile.get("ghost_grammar_preflight_enabled") is not True and
               "a1_ghost_grammar_sha256" not in profile,
@@ -2958,17 +3127,19 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
             accepted=False, proof_verdict=None, proof_credit=False)
     progress_path = Path(a.evidence) / "a1-lifecycle-progress.json"
     progress_path.parent.mkdir(parents=True, exist_ok=True)
-    progress_path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
+    partial_audit_path = Path(a.evidence) / "diagnostic-audit.json"
 
     def persist_progress():
-        snapshot = _jsonable(result)
-        snapshot["observation_details"] = _jsonable(observations)
-        snapshot["execution_events"] = _jsonable(execution_events)
-        snapshot["positive_lifecycle_progress"] = {
-            key: value for key, value in positive_progress.items()
-            if key not in ("certificate", "admission_gate", "support_cache")}
-        progress_path.write_text(json.dumps(_jsonable(snapshot), indent=2,
-                                            sort_keys=True) + "\n")
+        snapshot = _partial_progress_snapshot(
+            result, observations, execution_events, positive_progress)
+        for target in (progress_path, partial_audit_path):
+            try:
+                _atomic_json_write(target, snapshot)
+            except Exception as exc:
+                # Reporting failure must not replace the stage's own result or
+                # exception. Keep the first write error in the in-memory report.
+                result.setdefault("progress_persist_error",
+                                  f"{type(exc).__name__}: {exc}")
 
     execution_events: list[dict[str, Any]] = []
 
@@ -3047,6 +3218,7 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
     helpers = None
     draft = None
     draft_succeeded = False
+    persist_progress()
     try:
         execution_events.append({"case_id": "tool-reconstruction", "event": "started",
                                  "execution_started": True})
@@ -3097,14 +3269,51 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
                                 if event.get("event") == "adapter_error"), None),
             execution_events=execution_events, observation_details=observations)
         persist_progress()
-        path = Path(a.evidence) / "diagnostic-audit.json"
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(_report_value_for_disk(
-            _jsonable(result), AUTHORIZATION_PHASE), indent=2, sort_keys=True) + "\n")
+        _atomic_json_write(partial_audit_path, _report_value_for_disk(
+            _jsonable(result), AUTHORIZATION_PHASE))
         return result
     if helpers is not None and result.get("tool_reconstructed"):
         tool = Path(result["tool_path"])
         receipt = result["tool_receipt"]
+        if profile.get("execution_mode") == "reference-own-probe":
+            def run_reference_own_probe():
+                grammar = load_r12_ghost_grammar(Path(a.proof_root), profile)
+                path = Path(a.proof_root) / HERE / "a1-reference-own-probe.py"
+                pin = profile.get("reference_own_probe_sha256")
+                _need(isinstance(pin, str) and HEX64.fullmatch(pin) is not None and
+                      path.is_file() and _sha(path) == pin,
+                      "exact R13 reference-own probe source pin")
+                spec = importlib.util.spec_from_file_location("a1_r13_reference_own_probe", path)
+                _need(spec is not None and spec.loader is not None, "reference-own probe import")
+                probe = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(probe)
+                _need(_sha(path) == pin, "probe changed during import")
+                return probe.run(a, c4, tool, dict(receipt), profile,
+                    helpers["a1-fixtures.py"], ghost, helpers["a1-ast-gates.py"],
+                    select_checked_cleanup_helper_lemma, grammar, stage_progress)
+            probe_result = action("reference-own-probe", run_reference_own_probe,
+                                  minimum_remaining=120)
+            result.update(classification="A1_REFERENCE_OWN_PROBE_ONLY",
+                reference_own_probe=_jsonable(probe_result),
+                reference_own_probe_passed=(isinstance(probe_result, Mapping) and
+                                          probe_result.get("passed") is True),
+                proof_attempted=True, accepted=False, verification_accepted=False,
+                matrix_complete=False, admission_record_created=False,
+                dispatch_ready=False, matrix_admission=False, proof_credit=False,
+                diagnostic_complete=isinstance(probe_result, Mapping) and
+                    isinstance(probe_result.get("variants"), Mapping) and
+                    len(probe_result["variants"]) == 7,
+                execution_events=execution_events, observation_details=observations)
+            for case_id in CASE_ORDER:
+                result["case_status"][case_id].update(status="NOT_RUN",
+                    reason="explicit reference-own probe mode; canonical matrix not executed")
+                execution_events.append({"case_id": case_id, "event": "not_run",
+                    "execution_started": False,
+                    "reason": "explicit reference-own probe mode; canonical matrix not executed"})
+            persist_progress()
+            _atomic_json_write(partial_audit_path, _report_value_for_disk(
+                _jsonable(result), AUTHORIZATION_PHASE))
+            return result
         if profile.get("ghost_grammar_preflight_enabled") is True:
             def run_ghost_grammar_preflight():
                 grammar = load_r12_ghost_grammar(Path(a.proof_root), profile)
@@ -3129,7 +3338,8 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
             if not r12_ghost_grammar_passed(
                     grammar_result, build_id=env["CLOUD_BUILD_ID"],
                     project_id=env["CLOUD_BUILD_PROJECT_ID"],
-                    profile_sha256=profile_sha, tool_receipt=receipt):
+                    profile_sha256=profile_sha, tool_receipt=receipt,
+                    authorization_phase=AUTHORIZATION_PHASE):
                 detail = r12_ghost_preflight_blocker(
                     observations.get("ghost-grammar-preflight"), grammar_result)
                 execution_events.append({
@@ -3149,9 +3359,8 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
                 persist_progress()
                 path = Path(a.evidence) / "diagnostic-audit.json"
                 path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_text(json.dumps(_report_value_for_disk(
-                    _jsonable(result), AUTHORIZATION_PHASE), indent=2,
-                    sort_keys=True) + "\n")
+                _atomic_json_write(path, _report_value_for_disk(
+                    _jsonable(result), AUTHORIZATION_PHASE))
                 return result
             result["ghost_grammar_preflight"] = _jsonable(grammar_result)
         if profile.get("execution_mode") == "parser-preflight":
@@ -3177,8 +3386,8 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
                 next((event for event in execution_events if event.get("event") == "adapter_error"), None))
             persist_progress()
             target = Path(a.evidence) / "diagnostic-audit.json"
-            target.write_text(json.dumps(_report_value_for_disk(
-                _jsonable(result), AUTHORIZATION_PHASE), indent=2, sort_keys=True) + "\n")
+            _atomic_json_write(target, _report_value_for_disk(
+                _jsonable(result), AUTHORIZATION_PHASE))
             return result
         # These fixture identities are required by the complete positive
         # receipt's all-26 expected-input manifest. The bounded R10 path retains
@@ -3417,8 +3626,8 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
             persist_progress()
             path = Path(a.evidence) / "diagnostic-audit.json"
             path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(json.dumps(_report_value_for_disk(
-                _jsonable(result), AUTHORIZATION_PHASE), indent=2, sort_keys=True) + "\n")
+            _atomic_json_write(path, _report_value_for_disk(
+                _jsonable(result), AUTHORIZATION_PHASE))
             return result
         if certificate is not None and certificate_path is not None:
             positive_cases = positive_progress.get("positive_cases", {})
@@ -3953,8 +4162,6 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
     result["diagnostic_complete"] = bool(all_rows_classified and result["matrix_complete"])
     result["execution_events"] = execution_events
     result["observation_details"] = observations
-    path = Path(a.evidence) / "diagnostic-audit.json"
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(_report_value_for_disk(
-        _jsonable(result), AUTHORIZATION_PHASE), indent=2, sort_keys=True) + "\n")
+    _atomic_json_write(partial_audit_path, _report_value_for_disk(
+        _jsonable(result), AUTHORIZATION_PHASE))
     return result

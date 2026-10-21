@@ -103,7 +103,8 @@ def fn_def(name, substs, late):
 
 def call(name, substs, late, line, args):
     return {"func": fn_def(name, substs, late), "args": args,
-            "callSpan": {"regular": {"lo": {"line": line}}},
+            "callSpan": {"regular": {"lo": source_location(line, 4),
+                                       "hi": source_location(line, 45)}},
             "destination": {"local": local("_result" + str(line)), "projection": []},
             "target": "bb1"}
 
@@ -193,7 +194,7 @@ def certificate():
             "cases": {case: {"generated_source_sha256": digest,
                              "source_pair_id": digest,
                              "diagnostic_rename": "quicksort -> a1_guard_observer (diagnostic item-name-only rename)"}
-                      for case in ("P0c", "N-false31", "P1")}}
+                      for case in ("P0c", "N-false31", "P1", "P-dispatch")}}
 
 
 def decoded(caller_name, *, wrong_callee=False, wrong_args=False,
@@ -237,6 +238,17 @@ def rename_region_ids(decoded_text, mapping):
 
 
 class CallBindingTests(unittest.TestCase):
+    def test_p_dispatch_mir_inventory_preserves_certified_source_order(self):
+        result = m.observe("P-dispatch", decoded("quicksort"),
+                           decoded("quicksort", tag="ro"), certificate(), SOURCE,
+                           caller_override="quicksort")
+        self.assertEqual([row["callee"] for row in result["binding"]["calls"]], [
+            "StableSmallSortTypeImpl::small_sort_threshold",
+            "StableSmallSortTypeImpl::small_sort",
+        ])
+        self.assertEqual([row["call_line"] for row in result["binding"]["calls"]], [5, 6])
+        self.assertTrue(result["semantic_normal_readonly_equal"])
+
     def test_observer_threshold_only_and_quicksort_pair(self):
         result = m.observe("P0c", decoded("a1_guard_observer") + decoded("quicksort"),
                            decoded("a1_guard_observer", tag="ro") + decoded("quicksort", tag="ro"),

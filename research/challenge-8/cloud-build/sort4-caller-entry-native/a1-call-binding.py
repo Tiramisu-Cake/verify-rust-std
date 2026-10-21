@@ -452,7 +452,13 @@ def _calls_for(body, caller_name, expected_lines, roots, debug_names_by_local,
             row["mir_call_span_ast"] = tuple((point[0], point[1], point[2] + 1)
                                                for point in span)
         observed.append(row)
-    return tuple(sorted(observed, key=lambda row: row["callee"]))
+    # Keep the source-certified call order.  Sorting by callee name puts
+    # `small_sort` before `small_sort_threshold`, even though quicksort's
+    # certified source inventory and AST are ordered threshold then sort.
+    # The dispatch join compares the complete MIR and AST inventories, so
+    # normalizing by source call line preserves the intended bijection.
+    source_order = {name: index for index, name in enumerate(expected_lines)}
+    return tuple(sorted(observed, key=lambda row: source_order[row["callee"]]))
 
 
 def _mir_call_span(call):

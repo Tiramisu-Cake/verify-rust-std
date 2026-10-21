@@ -46,6 +46,8 @@ FOCUS_PROFILE_NAMES = {
         "A1-CHECKED-CALLER-R11-PROFILE-2026-10-21.json",
     "SORT4-CHECKED-HELPER-CALLER-2026-10-21-R12":
         "A1-CHECKED-HELPER-R12-PROFILE-2026-10-21.json",
+    "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13":
+        "A1-REFERENCE-OWN-R13-PROFILE-2026-10-21.json",
 }
 
 
@@ -414,6 +416,23 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
     apply("a1-native-impl-signature", NATIVE_SIGNATURE_PATCH,
           profile["native_signature_patch_sha256"], {TR},
           before=signature_before, after=signature_after)
+    reference_own = None
+    if profile.get("authorization_phase_id") == "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13":
+        reference_own = profile.get("shared_reference_own_normalization")
+        need(isinstance(reference_own, dict) and reference_own.get("source") ==
+             "bin/rust/rust_belt/general.rsspec" and
+             reference_own.get("shared_only") is True and
+             reference_own.get("new_axiom_or_assumed_lemma") is False,
+             "exact R13 shared-reference normalization manifest required")
+        spec_path = reference_own["source"]
+        need(expected["effective_rsspec"].get(spec_path) == reference_own["base_sha256"],
+             "R13 normalization source applicability differs")
+        apply("a1-shared-reference-own-normalization",
+              HERE / "shared-reference-own-normalization-r13.patch",
+              reference_own["patch_sha256"], {spec_path},
+              before={spec_path: reference_own["base_sha256"]},
+              after={spec_path: reference_own["result_sha256"]})
+
     # Capture a separately built native-reference console before C/G exists.
     # R repairs representation only; this binary cannot add the checked
     # threshold contract or aliases supplied by C. Its AST is an independent
@@ -445,6 +464,7 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
             profile["focus_dead_code_scope_patch_sha256"],
         "focus_dead_code_scope_source_sha256": sha(tool / FOCUS_SCOPE_FILE),
         "c_patch_applied": False,
+        "shared_reference_own_normalization": reference_own,
         "build_id": os.environ["CLOUD_BUILD_ID"],
         "build_exit": reference_build["exit"], "proof_credit": False}
     save(evidence / "R-only-native-reference-receipt.json", native_reference)
@@ -452,6 +472,13 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
           {TR}, before={TR: c_before[TR]}, after={TR: c_after[TR]})
 
     before_build = audit.snapshot(tool, root)
+    expected_specs = dict(expected["effective_rsspec"])
+    normalized_names = set()
+    if reference_own is not None:
+        expected_specs[reference_own["source"]] = reference_own["result_sha256"]
+        normalized_names.add(reference_own["source"])
+        need(before_build["modified_hashes"].get(reference_own["source"]) ==
+             reference_own["result_sha256"], "R13 exact normalized spec hash")
     focus_path = FOCUS_SCOPE_FILE
     focus_result = profile["focus_dead_code_scope_result_sha256"]
     need(before_build["critical"][KERNEL] == manifest["kernel_sha256"] and
@@ -459,11 +486,11 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
          all(before_build["critical"][key] == value for key, value in
              expected["critical"].items()
              if key not in (TR, SCHEMA, focus_path)) and
-         before_build["effective_rsspec"] == expected["effective_rsspec"] and
+         before_build["effective_rsspec"] == expected_specs and
          before_build["proof_std"] == expected["proof_std"] and
          before_build["head"] == expected["head"] and
          set(before_build["modified_names"]) - set(expected["modified_names"]) <=
-             {TR, SCHEMA, EXPORTER, focus_path} and
+             ({TR, SCHEMA, EXPORTER, focus_path} | normalized_names) and
          all(before_build["modified_hashes"][key] == value for key, value in
              expected["modified_hashes"].items()
              if key not in (TR, SCHEMA, EXPORTER, focus_path)) and
@@ -510,6 +537,7 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
                "exporter_binary_sha256": final["binaries"]["bin/vf-rust-mir-exporter"],
                "console_binary_sha256": final["binaries"]["bin/verifast"],
                "build_exit": build["exit"], "native_reference": native_reference,
+               "shared_reference_own_normalization": reference_own,
                "proof_credit": False}
     save(evidence / "reconstruction-receipt.json", receipt)
     return tool, receipt

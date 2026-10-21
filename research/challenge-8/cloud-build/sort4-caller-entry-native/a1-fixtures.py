@@ -74,7 +74,7 @@ lem a1_cleanup_option_ref<'a, T>(value: std::option::Option<&'a T>)
     open std::option::Option_own::<&'a T>(t, value);
     match value {
         Option::None => {}
-        Option::Some(r) => {}
+        Option::Some(r) => { open shared_ref_type_own::<'a, T>()(t, r); }
     }
 }
 @*/
