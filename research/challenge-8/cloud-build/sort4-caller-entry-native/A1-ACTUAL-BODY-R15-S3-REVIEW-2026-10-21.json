@@ -1,0 +1,64 @@
+{
+  "schema": "a1-r15-s3-independent-review-v1",
+  "reviewed_commit": "81bedf5c0b5f9fce27eaedcd106a8d56aa6bf649",
+  "reviewed_worktree": "/root/verify-rust-std-select-night",
+  "reviewer": "independent Luna HIGH static review",
+  "disposition": "GO_TO_EXISTING_CLOUD_PREFLIGHT",
+  "scope": [
+    "source-bound actual c1 recovery translator overlay and manifest",
+    "MergeFractionsStmt diagnostic AST serialization overlay and manifest",
+    "R15 tool/runner integration and exact profile dependency pins",
+    "all-four source borrow/recovery annotations and resource controls",
+    "R15 proof/infra source transport dependency closure"
+  ],
+  "pins": {
+    "profile_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-BODY-R15-PROFILE-2026-10-21.json",
+    "profile_sha256": "a6802859742ae71ceb95406ba2d6539e81a9a20fb1d1ef8db0d7b63c5e2121eb",
+    "actual_body_runner_sha256": "fe1fe254e1728ef1a045560c1bfe405355f1ce9371db323b12190a8ef6339afd",
+    "actual_body_c1_constructor_sha256": "bbdb07c5d132ed23d83d751bf8ec87df3d67709ff207b1b2a8a94fe9878ea124",
+    "four_copy_dependency_sha256": "2d75609c0544774c759a9972396d7a1f645ff1d353e356979bed2dc210ad543a",
+    "recovery_dependency_sha256": "7a28ae5734c5288ff466764e6645eff236f30c097a7951ebd086f5bb7f5eff72",
+    "tool_helper_sha256": "ef811a6c22c128c6ec55343b4b4de8d67b9b91956aa771b1dc5123d2f299cdc4",
+    "c1_overlay_manifest_sha256": "36fc05392bfca79849d8315e254948c6df6be46addaba822b6bea9ed7d6342b9",
+    "c1_overlay_patch_sha256": "c891738e916b4195178e1408869010e10ce6436897c94923bdf39fda548b6031",
+    "c1_overlay_result_sha256": "d436d7017391fb77295e0d962a65cfc69ce22f8c465c5a24e77cef0f5eb9b9e8",
+    "merge_fractions_manifest_sha256": "c529a3a45dc78a3f6f914d55f4e2e6cca29b7383f69827db1e20904d2db4b43b",
+    "merge_fractions_patch_sha256": "f08f1c391aa62e6cbeb0ad80e73958b1b6dcfd38f40b3d7d87802d12c4a534ba",
+    "merge_fractions_result_sha256": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+    "recovery_recipe_sha256": "688a717e60e48b01a8fce6c1a9debfc65345ca9243e49dbbf97ac2cf34c770ad"
+  },
+  "review": {
+    "translator_overlay": "The patch reuses the existing checked Continue-only ghost unwind path. It is opt-in for R15, bound to the pinned verified source bytes, exact c1 call line, one marker, source path, and isolated environment. It does not replace or cut runtime AST/body content.",
+    "serializer_overlay": "The MergeFractionsStmt serializer emits its existing location and expression fields using the existing serializers; this is diagnostic AST serialization only and adds no proof rule or trusted lemma.",
+    "all_four_recovery": "The generated c1 wrapper has matching recover_pair(left,right) calls and contract, requires left == right + 1, opens and shares all four source-cell borrow contents at cmp_k, carries four matching end tokens, then restores current owners for all four cells before joining. It does not reuse saved third/fourth values or add a Freeze/no-alias/purity premise.",
+    "controls": "Two generic resource negatives target a missing right+3 end token and an arbitrary old_values array postcondition. Per-variant source hash and shifted c1 coordinate are recomputed, and the actual c1 frontend marker remains enabled for those fixtures. Three fixed frontend refusal controls cover wrong source hash, wrong first-call line, and opt-in off. All controls remain raw/unclassified; no PASS is inferred.",
+    "transport_closure": "The active R15 route uses a1-actual-four-copy.rs and does not call driver.make_fixture, driver.run, selected-proof.run, or the compiler-query session. Removed caller/threshold/selected-branch/compiler-query fixtures and evidence are not loaded by the R15 route. The legacy a1-actual-copy-lemma.rs profile pin remains metadata only for this body_action and its file is not opened.",
+    "tool_pins": "The R15 profile pins both required overlay manifests and patches; a1-tool requires both overlays for full-body-c1-recovery, checks base/result/final translator hashes, and keeps proof_credit false. Profile hashes for the reviewed runner, constructor, dependencies, manifests, and recipe matched the bytes in the reviewed checkout."
+  },
+  "transport_observation": {
+    "status": "PASS_REPORTED_BY_COORDINATOR",
+    "bytes": 568958,
+    "objects": 170,
+    "infra_paths": 20,
+    "proof_paths": 116,
+    "byte_equal_restore": true,
+    "token_configs": [27968, 27968, 27980],
+    "submissions": 200,
+    "source": "parent-provided S3 transport audit; not independently rerun in this review"
+  },
+  "service_and_registration_checks": {
+    "status": "PASS_REPORTED_BY_COORDINATOR",
+    "service_cases": 21,
+    "registration_cases": 10,
+    "source": "parent-provided test summary; not independently rerun in this review"
+  },
+  "remaining_limits": [
+    "This is static/preflight approval only; no compiler, proof, extraction, or build was run by this reviewer.",
+    "No Cloud Evidence Brief for the S3 candidate has been observed here, so no proof acceptance or credit is claimed.",
+    "The full sort4 body, remaining comparator calls, caller transfer, ZST/open-array qualification, and complete matrix remain unproved; profile proof_credit remains false.",
+    "The generic old_values control does not claim concrete Cell mutation semantics; the pinned Cell specification is opaque in this review checkout."
+  ],
+  "proof_credit": false,
+  "profile_accepted": false,
+  "verification_accepted": false
+}
