@@ -1,0 +1,105 @@
+{
+  "archive_sha256": "e858ab49b9e93eb5c46807705ece3f33d33efa3e0ceb51077ea60609df3a4a82",
+  "build_id": "3fd2796f-cf65-4737-b1ff-77818c0a1171",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 48,
+    "line_separator": "LF",
+    "source_lines": 49,
+    "start": 38,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "4871764748e4767b37d8a5d27de5762a5256bb9b2b95b42adc1dcad8d580f7a7",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-tool/a1-final-schema-exporter-console-build.log",
+  "file_sha256": "561f76658c8a88c349ec6c86a16fe7942b89f66c700046c7f097a86d5a9c51c1",
+  "index_sha256": "947a86792dc7da74939044cc248eb79436b6583bfe8436ceffdd10246a914087",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 48,
+    "expected_sha256": "561f76658c8a88c349ec6c86a16fe7942b89f66c700046c7f097a86d5a9c51c1",
+    "file_id": "4871764748e4767b37d8a5d27de5762a5256bb9b2b95b42adc1dcad8d580f7a7",
+    "start": 38
+  },
+  "request_id": "7a1cf6d73489a21cd83dc829f20827c6baf86afba342d03f6c7f58d6fad10800",
+  "requested_end": 48,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 38,
+      "text": "8001 |     | _ -> reject \"unknown statement constructor in candidate scope AST\""
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 39,
+      "text": "             ^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 40,
+      "text": "Warning 11 [redundant-case]: this match case is unused."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 41,
+      "text": "File \"rust_frontend/vf_mir_translator/vf_mir_translator.ml\", line 9200, characters 59-70:"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 42,
+      "text": "9200 |                         id = translate_local_decl_id_ raw) param_decls -> None"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 43,
+      "text": "                                                                  ^^^^^^^^^^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 44,
+      "text": "Error: This expression has type (Ast.loc * string * Mir.ty_info) list"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 45,
+      "text": "       but an expression was expected of type ('a * 'b * string * 'c) list"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 46,
+      "text": "       Type Ast.loc * string * Mir.ty_info is not compatible with type"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 47,
+      "text": "         'a * 'b * string * 'c "
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 48,
+      "text": "make: *** [GNUmakefile:506: _build/default/vfconsole/vfconsole.exe] Error 1"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

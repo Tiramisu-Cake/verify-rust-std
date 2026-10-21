@@ -1,0 +1,30 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "25762f6b9071ad32ba2beafdc40ae35c9c3f6c11",
+  "candidate_commit": "6f29d9225848b01c72332a63686433ff7e7e0dda",
+  "defect": "S2 OCaml compiler observes parameter triples after mapping; new c2 filter destructures quadruples.",
+  "applicability": "Single indexed MIR temporary parameter-exclusion pattern only; semantic candidate unchanged otherwise.",
+  "invariants": [
+    "No runtime/source algorithm/CFG/generic signature/normal-unwind post changes, no kernel/spec change or assumptions.",
+    "Exact indexed c1/c2 markers/call spans; checked receiver and ordered-ref equality assertions require existing kernel resources, grant no ownership.",
+    "Exact one receiver/one tuple/four ref cells per call from compiler decoded type/span; separate strict scopes for c1/c2 and complete-use containment/CFG-node conservation.",
+    "All unknown shapes/refusals remain failures; final proof credit and qualification remain false."
+  ],
+  "controls": [
+    "S2 compiler error from Evidence Brief; static source confirms mapping to (loc,id,ty_info).",
+    "Existing43 synthetic runner/registration checks unchanged; no Python behavior change.",
+    "Actual compile/constructor/equality/controls remain Cloud-only and OPEN."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-actual-body-c1.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-actual-recover-four.rs",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-reference-own-probe.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-ghost-grammar.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/ACTUAL-SORT4-REFERENT-ADDRESS-R16-MANIFEST.json"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Compile NOT_RUN for this fix. Full proof/control qualification and independent credit OPEN/0."
+  ]
+}

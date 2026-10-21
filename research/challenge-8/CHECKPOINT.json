@@ -15,6 +15,14 @@
     {
       "path": "research/challenge-8/task-history/select-actual-c2-r17/S2-review.json",
       "sha256": "770271a4aeffdf5c7bf1187bc7d9ed904757f9e4417adaed8e30e2b52d7811db"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S2-evidence.json",
+      "sha256": "7a1b4f8c2d939ca352117afccfa6aafc6d55f132798678346143aab1591b0024"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S3-review.json",
+      "sha256": "bc4c2c00d9a8e5ba48aba88410e54e40e2bc283f2d047f46c186812233c2ba40"
     }
   ],
   "assignment_sha256": "69b4eda8101c736cb0ba9d2bca26c5623b1866c3cf6ce5b503a18a6c962ce68b",
@@ -24,13 +32,13 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "5f703f60-c621-49fb-a5a0-c3bd762080fb",
-    "summary": "RuntimeError: A1-REFERENCE-OWN: exact diagnostic mode",
-    "location": "a1-reference-own-probe.py:112",
+    "build_id": "3fd2796f-cf65-4737-b1ff-77818c0a1171",
+    "summary": "OCaml compile: indexed local filter expects parameter quadruples after mapping to triples.",
+    "location": "vf_mir_translator.ml:9200",
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-actual-c2-r17/S1-evidence.json",
-        "sha256": "9e02ff66640dfb90532a457a05e83bdc2426b2a68e3e252449b080f74d3e9148"
+        "path": "research/challenge-8/task-history/select-actual-c2-r17/S2-evidence.json",
+        "sha256": "7a1b4f8c2d939ca352117afccfa6aafc6d55f132798678346143aab1591b0024"
       }
     ]
   },
@@ -65,9 +73,19 @@
           "sha256": "9e02ff66640dfb90532a457a05e83bdc2426b2a68e3e252449b080f74d3e9148"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R17 S2 terminal/accounted; final tool compile failed on parameter triple/quadruple pattern. Actual obligations closed0; credit0. Watcher event acknowledged CONTINUE_EXISTING_WINDOW.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-actual-c2-r17/S2-evidence.json",
+          "sha256": "7a1b4f8c2d939ca352117afccfa6aafc6d55f132798678346143aab1591b0024"
+        }
+      ]
     }
   ],
-  "next_step": "WAITING: S2 Build 3fd2796f-cf65-4737-b1ff-77818c0a1171. Transfer status waiting to smallsort-session watch targeting this thread. On technical event first watch ack before checkpoint change, then terminal Evidence Brief and exact failure/controls; continue existing R17 T0/account/window only. Main cutoff22:06:19Z; absolute22:36:19Z. No proof acceptance inferred from build metadata.",
+  "next_step": "S3 exact triple-pattern fix has independent Luna HIGH delta GO; publish and submit with new exact profile/source/config pins. Historical S2 Build cannot establish S3 evidence. Continue existing R17 T0/window/account; full proof/controls/attribution OPEN.",
   "open": [
     "Full actual sort4 normal/unwind; ordered c1–c5 attribution/current-owner recovery, selector-pointer/permutation/copy composition.",
     "Required HRTB-off/controls completion, final mini7/fresh26, qualification and stable Freeze caller; independent B1/B2 credit0."
@@ -83,21 +101,19 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "3fd2796f-cf65-4737-b1ff-77818c0a1171"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-21T22:36:19Z",
     "main_deadline_utc": "2026-10-21T22:06:19Z",
-    "remaining_seconds": 3126,
+    "remaining_seconds": 2613,
     "retired_seconds": 0,
-    "spent_seconds": 474,
+    "spent_seconds": 987,
     "t0": "2026-10-21T20:06:19Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-actual-c2-autonomous-2026-10-21-r17",
-  "updated_utc": "2026-10-21T20:38:21.453239+00:00",
+  "updated_utc": "2026-10-21T20:49:38.429896+00:00",
   "build_context": {
     "dispatch_token": "dispatch-3640d43c8ff34abda8e39a3034b45df9",
     "owner": "select-sort4",
@@ -115,7 +131,7 @@
     "build_id": "3fd2796f-cf65-4737-b1ff-77818c0a1171"
   },
   "handoff": {
-    "status": "WAITING_FOR_AUTHORIZED_BUILD",
+    "status": "ACKED_AND_RECONCILED",
     "thread_id": "01a15ffc-dbe5-7523-b5b1-d3dc37016e06",
     "worktree": "/root/verify-rust-std-select-night",
     "branch": "research/night-select-sort4-cloud-2026-10-09",
@@ -156,6 +172,8 @@
       "Full actual body/final mini7/fresh26/stable Freeze caller OPEN; independent B1/B2credit0."
     ],
     "window_preserved": true,
-    "no_budget_transfer": true
+    "no_budget_transfer": true,
+    "ack_event_id": "f762ec62-1308-4e7f-85ac-6074649061ff",
+    "note": "Historical acknowledged S2 snapshot only. Its old profile and Build identities do not describe the new unrun S3 candidate."
   }
 }

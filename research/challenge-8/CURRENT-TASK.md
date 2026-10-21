@@ -45,10 +45,10 @@ Next: Fix HRTB control routing; establish actual c2 resource/recovery gate and d
 
 ## Отчёт агента
 
-**select-actual-c2-autonomous-2026-10-21-r17 · select-sort4 · SORT4-ACTUAL-C2-2026-10-21-R17 · HANDOFF**
-Updated: 2026-10-21T20:38:21.453239+00:00. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24`.
-Dates: T0 `2026-10-21T20:06:19Z`; main `2026-10-21T22:06:19Z`; absolute `2026-10-21T22:36:19Z`. Budget 3600s: 474s spent, 0s retired, 3126s remaining including reservations.
-Active Build IDs: 3fd2796f-cf65-4737-b1ff-77818c0a1171; unresolved: none recorded.
-Blocker: RuntimeError: A1-REFERENCE-OWN: exact diagnostic mode [Build `5f703f60-c621-49fb-a5a0-c3bd762080fb`]
-Next: WAITING: S2 Build 3fd2796f-cf65-4737-b1ff-77818c0a1171. Transfer status waiting to smallsort-session watch targeting this thread. On technical event first watch ack before checkpoint change, then terminal Evidence Brief and exact failure/controls; continue existing R17 T0/account/window only. Main cutoff22:06:19Z; absolute22:36:19Z. No proof acceptance inferred from build metadata.
+**select-actual-c2-autonomous-2026-10-21-r17 · select-sort4 · SORT4-ACTUAL-C2-2026-10-21-R17 · ACTIVE**
+Updated: 2026-10-21T20:49:38.429896+00:00. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24`.
+Dates: T0 `2026-10-21T20:06:19Z`; main `2026-10-21T22:06:19Z`; absolute `2026-10-21T22:36:19Z`. Budget 3600s: 987s spent, 0s retired, 2613s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: OCaml compile: indexed local filter expects parameter quadruples after mapping to triples. [Build `3fd2796f-cf65-4737-b1ff-77818c0a1171`]
+Next: S3 exact triple-pattern fix has independent Luna HIGH delta GO; publish and submit with new exact profile/source/config pins. Historical S2 Build cannot establish S3 evidence. Continue existing R17 T0/window/account; full proof/controls/attribution OPEN.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

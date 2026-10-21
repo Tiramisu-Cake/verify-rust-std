@@ -1,0 +1,17 @@
+{
+  "reviewer": "independent GPT-6 Luna HIGH",
+  "nested_delegation": false,
+  "verdict": "GO_SOURCE_DELTA",
+  "candidate_commit": "6f29d9225848b01c72332a63686433ff7e7e0dda",
+  "baseline_commit": "25762f6b9071ad32ba2beafdc40ae35c9c3f6c11",
+  "packet_sha256": "bab4ae8fd41854c1b3177f5d76cea46c5e1a8a9c5ac6bd5a108d6b14e2469026",
+  "findings": [],
+  "basis": "Single tuple-pattern arity correction now matches compiler-observed and source-mapped parameter triples, retaining exact translated parameter-ID exclusion. Exact manifest/patch/result pins agree.",
+  "pins": {
+    "ACTUAL-SORT4-C2-RECOVERY-R17-MANIFEST.json": "8a9500bb1f0c105e4834fc1004d512bf0ed0c14d561f4aed22b8d2c51642e1a1",
+    "actual-sort4-c2-recovery-r17.patch": "0342433150e7c568af1dd92f149c53defc2dbfb058735b1785062527c0071228",
+    "A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json": "441e3de82ae436004604239f3d7c3747220e376623c2806a69431ea3e0ae87b3"
+  },
+  "attribution_caveat": "Old handoff Build3fd2796f is S2 only with profile22cb7c9d; not evidence for S3 profile441e3de8. Current checkpoint is ACTIVE and has no active Build after ack; historical S2 handoff retained. New S3 Build must carry new pins.",
+  "limits": "S3 uncompiled, required controls/actual attribution/full proof OPEN; independent credit0."
+}

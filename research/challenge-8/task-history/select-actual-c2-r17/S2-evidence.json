@@ -1,0 +1,57 @@
+{
+  "build": {
+    "dispatch_token": "dispatch-3640d43c8ff34abda8e39a3034b45df9",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-ACTUAL-C2-2026-10-21-R17",
+    "infra_sha": "25762f6b9071ad32ba2beafdc40ae35c9c3f6c11",
+    "proof_sha": "25762f6b9071ad32ba2beafdc40ae35c9c3f6c11",
+    "lane": "o26-sort4-c1-current-recovery",
+    "submitted_config_sha256": "cc28456e50459d876429e4c880216fa2bc953ca6d3e77520225c3156a1af916a",
+    "reserved_seconds": 1260,
+    "timeout_seconds": 1200,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "1f1682c4c0454d4b4ea714548085c7104ef59f204eca80a210cf289b1426a41c",
+    "build_id": "3fd2796f-cf65-4737-b1ff-77818c0a1171",
+    "start_time": "2026-10-21T20:37:40.732509873Z",
+    "finish_time": "2026-10-21T20:46:12.813526Z",
+    "create_time": "2026-10-21T20:37:39.940864690Z",
+    "build_seconds": 513,
+    "accounted": true,
+    "execution_seconds": 513
+  },
+  "archive_sha256": "e858ab49b9e93eb5c46807705ece3f33d33efa3e0ceb51077ea60609df3a4a82",
+  "index_sha256": "947a86792dc7da74939044cc248eb79436b6583bfe8436ceffdd10246a914087",
+  "integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "failure": {
+    "stage": "a1-final-schema-exporter-console-build",
+    "exit": 2,
+    "location": "vf_mir_translator.ml:9200",
+    "message": "Actual parameter triples (Ast.loc * string * Mir.ty_info) list; new filter expected quadruples."
+  },
+  "actual_body_obligations_closed": 0,
+  "proof_credit": false,
+  "assurance": "SOURCE_REPORTED",
+  "watcher": {
+    "job_id": "74498ade-ce7a-4046-82c1-3aa83e68ab15",
+    "event_id": "f762ec62-1308-4e7f-85ac-6074649061ff",
+    "ack_mode": "CONTINUE_EXISTING_WINDOW",
+    "ack_utc": "2026-10-21T20:47:00Z"
+  },
+  "fragments": [
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S2-brief/audit-root.json",
+      "sha256": "76178ee188a83e209cfcaedc7697be5efdc2acc06ff199a8ceb9ed4661b29b99"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S2-brief/brief.txt",
+      "sha256": "d1eb5a94f71bf80d9eeb5eed685d32f7510e25416e1b129542b9abb942a63a20"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S2-brief/compile-window.json",
+      "sha256": "18d88c2a8dbd635c9e5c7dd2a909708c2af76a286c60879515478b34dc9f655f"
+    }
+  ]
+}
