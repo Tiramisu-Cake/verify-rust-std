@@ -27,6 +27,14 @@
     {
       "path": "research/challenge-8/task-history/select-actual-c2-r17/S3-review.json",
       "sha256": "bc4c2c00d9a8e5ba48aba88410e54e40e2bc283f2d047f46c186812233c2ba40"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S3-evidence.json",
+      "sha256": "f00873db2149b0156ab4e20fce138f8364bccdede88e0c2db73b101a8572edbf"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S4-review.json",
+      "sha256": "52b489a57fa00efd4a176e346f7fbf2053560ac52cbbe36b724eaba6d03836bc"
     }
   ],
   "assignment_sha256": "69b4eda8101c736cb0ba9d2bca26c5623b1866c3cf6ce5b503a18a6c962ce68b",
@@ -36,13 +44,13 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "3fd2796f-cf65-4737-b1ff-77818c0a1171",
-    "summary": "OCaml compile: indexed local filter expects parameter quadruples after mapping to triples.",
-    "location": "vf_mir_translator.ml:9200",
+    "build_id": "85dac5bf-ff84-4215-84c4-e08943bf882a",
+    "summary": "Cannot read a ghost variable in a non-pure context.",
+    "location": "verified/lib.rs(245,18-89), actual c1",
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-actual-c2-r17/S2-evidence.json",
-        "sha256": "7a1b4f8c2d939ca352117afccfa6aafc6d55f132798678346143aab1591b0024"
+        "path": "research/challenge-8/task-history/select-actual-c2-r17/S3-evidence.json",
+        "sha256": "f00873db2149b0156ab4e20fce138f8364bccdede88e0c2db73b101a8572edbf"
       }
     ]
   },
@@ -87,9 +95,19 @@
           "sha256": "7a1b4f8c2d939ca352117afccfa6aafc6d55f132798678346143aab1591b0024"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R17 S3 new translator compiled; actual body fails at c1 injected equality ghost read in non-pure context. Source pair/tool immutable; exact30 containment and indexed scope7 source-reported PASS. No complete actual obligation/c2 control qualification/independent credit.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-actual-c2-r17/S3-evidence.json",
+          "sha256": "f00873db2149b0156ab4e20fce138f8364bccdede88e0c2db73b101a8572edbf"
+        }
+      ]
     }
   ],
-  "next_step": "WAITING: S3 Build 85dac5bf-ff84-4215-84c4-e08943bf882a. Arm exact-thread watcher; on event first ack before checkpoint mutation, then Evidence Brief and exact error/controls. Continue only existing R17 T0/account/window, main22:06:19Z absolute22:36:19Z. No proof credit from metadata.",
+  "next_step": "S4 same equality assertions wrapped PureStmt has independent Luna HIGH GO; publish and submit exact new pins in existing R17 account/window. No proof credit until Cloud evidence and required qualification.",
   "open": [
     "Full actual sort4 normal/unwind; ordered c1–c5 attribution/current-owner recovery, selector-pointer/permutation/copy composition.",
     "Required HRTB-off/controls completion, final mini7/fresh26, qualification and stable Freeze caller; independent B1/B2 credit0."
@@ -105,21 +123,19 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "85dac5bf-ff84-4215-84c4-e08943bf882a"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-21T22:36:19Z",
     "main_deadline_utc": "2026-10-21T22:06:19Z",
-    "remaining_seconds": 2613,
+    "remaining_seconds": 2130,
     "retired_seconds": 0,
-    "spent_seconds": 987,
+    "spent_seconds": 1470,
     "t0": "2026-10-21T20:06:19Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-actual-c2-autonomous-2026-10-21-r17",
-  "updated_utc": "2026-10-21T20:52:31.231416+00:00",
+  "updated_utc": "2026-10-21T21:03:48.720443+00:00",
   "build_context": {
     "dispatch_token": "dispatch-baa5711f37194eaf81129890d39187b9",
     "owner": "select-sort4",
@@ -137,7 +153,7 @@
     "build_id": "85dac5bf-ff84-4215-84c4-e08943bf882a"
   },
   "handoff": {
-    "status": "WAITING_FOR_AUTHORIZED_BUILD",
+    "status": "ACKED_AND_RECONCILED",
     "thread_id": "01a15ffc-dbe5-7523-b5b1-d3dc37016e06",
     "worktree": "/root/verify-rust-std-select-night",
     "branch": "research/night-select-sort4-cloud-2026-10-09",
@@ -179,6 +195,7 @@
       "Final mini7/fresh26/stable Freeze caller OPEN; independent B1/B2credit0."
     ],
     "window_preserved": true,
-    "no_budget_transfer": true
+    "no_budget_transfer": true,
+    "note": "Historical S3 snapshot only; current S4 source not yet run."
   }
 }

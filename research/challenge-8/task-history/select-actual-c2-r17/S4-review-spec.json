@@ -1,0 +1,30 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "13d65ceabf23758eecd25cdb1f7fd32a685755d7",
+  "candidate_commit": "bbfc948139cc161d9318725bc0b2f0acb86af4da",
+  "defect": "S3 checked callback equality Assert statements were bare and cannot read ghost refs in non-pure context.",
+  "applicability": "Same three new callback binding equality assertions only; wrap in PureStmt without changing conditions or call position.",
+  "invariants": [
+    "No runtime/source algorithm/CFG/generic signature/normal-unwind post changes, no kernel/spec change or assumptions.",
+    "Exact indexed c1/c2 markers/call spans; checked receiver and ordered-ref equality assertions require existing kernel resources, grant no ownership.",
+    "Exact one receiver/one tuple/four ref cells per call from compiler decoded type/span; separate strict scopes for c1/c2 and complete-use containment/CFG-node conservation.",
+    "All unknown shapes/refusals remain failures; final proof credit and qualification remain false."
+  ],
+  "controls": [
+    "S3 Brief actual-body diagnostic Cannot read a ghost variable in a non-pure context at c1 line245.",
+    "Existing runner/service behavior unchanged. Same checked assertions, kernel/spec/posts/CFG unchanged.",
+    "Cloud target/control/equality qualification remains OPEN."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-actual-body-c1.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-actual-recover-four.rs",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-reference-own-probe.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-ghost-grammar.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/ACTUAL-SORT4-REFERENT-ADDRESS-R16-MANIFEST.json"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "S4 uncompiled; full actual normal/unwind/call attribution/control qualification OPEN; independent credit0."
+  ]
+}

@@ -1,11 +1,11 @@
 # Agent checkpoint: select-actual-c2-autonomous-2026-10-21-r17
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-C2-2026-10-21-R17 | state: HANDOFF
-- Updated: 2026-10-21T20:52:31.231416+00:00
+- Owner: select-sort4 | phase: SORT4-ACTUAL-C2-2026-10-21-R17 | state: ACTIVE
+- Updated: 2026-10-21T21:03:48.720443+00:00
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24`
 - Session dates: T0 `2026-10-21T20:06:19Z`; main deadline `2026-10-21T22:06:19Z`; absolute deadline `2026-10-21T22:36:19Z`
-- Budget: 3600s total; 987s spent; 0s retired; 2613s remaining including active reservations
-- Active Build IDs: 85dac5bf-ff84-4215-84c4-e08943bf882a
+- Budget: 3600s total; 1470s spent; 0s retired; 2130s remaining including active reservations
+- Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -13,6 +13,7 @@
 - [SOURCE_REPORTED] R16 CLOSED: five terminal/accounted Builds, 2170s spent, 1430s retired, carry0; no active/unresolved. No complete actual obligation or independent credit. — [research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-LIFETIME-2026-10-21-R16.json](cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-LIFETIME-2026-10-21-R16.json) SHA `64819aa0be35fd1f84e6c90109c33cf944cbac9afcb26ca4598d066f18c4aa45`
 - [SOURCE_REPORTED] R17 S1 terminal/accounted; run_error at reference-own exact phase allowlist, body_target UNKNOWN; no actual obligation or control qualification. — [research/challenge-8/task-history/select-actual-c2-r17/S1-evidence.json](task-history/select-actual-c2-r17/S1-evidence.json) SHA `9e02ff66640dfb90532a457a05e83bdc2426b2a68e3e252449b080f74d3e9148`
 - [SOURCE_REPORTED] R17 S2 terminal/accounted; final tool compile failed on parameter triple/quadruple pattern. Actual obligations closed0; credit0. Watcher event acknowledged CONTINUE_EXISTING_WINDOW. — [research/challenge-8/task-history/select-actual-c2-r17/S2-evidence.json](task-history/select-actual-c2-r17/S2-evidence.json) SHA `7a1b4f8c2d939ca352117afccfa6aafc6d55f132798678346143aab1591b0024`
+- [SOURCE_REPORTED] R17 S3 new translator compiled; actual body fails at c1 injected equality ghost read in non-pure context. Source pair/tool immutable; exact30 containment and indexed scope7 source-reported PASS. No complete actual obligation/c2 control qualification/independent credit. — [research/challenge-8/task-history/select-actual-c2-r17/S3-evidence.json](task-history/select-actual-c2-r17/S3-evidence.json) SHA `f00873db2149b0156ab4e20fce138f8364bccdede88e0c2db73b101a8572edbf`
 
 ## Open
 - Full actual sort4 normal/unwind; ordered c1–c5 attribution/current-owner recovery, selector-pointer/permutation/copy composition.
@@ -22,11 +23,11 @@
 - Assumed/address-only resource bridge or helper PASS as full-body proof — Does not establish actual ordered callback resources or full normal/unwind posts.
 
 ## Blocker
-OCaml compile: indexed local filter expects parameter quadruples after mapping to triples. (vf_mir_translator.ml:9200) [Build `3fd2796f-cf65-4737-b1ff-77818c0a1171`]
-- [research/challenge-8/task-history/select-actual-c2-r17/S2-evidence.json](task-history/select-actual-c2-r17/S2-evidence.json) SHA `7a1b4f8c2d939ca352117afccfa6aafc6d55f132798678346143aab1591b0024`
+Cannot read a ghost variable in a non-pure context. (verified/lib.rs(245,18-89), actual c1) [Build `85dac5bf-ff84-4215-84c4-e08943bf882a`]
+- [research/challenge-8/task-history/select-actual-c2-r17/S3-evidence.json](task-history/select-actual-c2-r17/S3-evidence.json) SHA `f00873db2149b0156ab4e20fce138f8364bccdede88e0c2db73b101a8572edbf`
 
 ## Next
-WAITING: S3 Build 85dac5bf-ff84-4215-84c4-e08943bf882a. Arm exact-thread watcher; on event first ack before checkpoint mutation, then Evidence Brief and exact error/controls. Continue only existing R17 T0/account/window, main22:06:19Z absolute22:36:19Z. No proof credit from metadata.
+S4 same equality assertions wrapped PureStmt has independent Luna HIGH GO; publish and submit exact new pins in existing R17 account/window. No proof credit until Cloud evidence and required qualification.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-actual-lifetime-r16/NEXT-AFTER-S5.md](task-history/select-actual-lifetime-r16/NEXT-AFTER-S5.md) — `9b14da3d73b7fc52e5fc9fe91309495db285fd762844ebcaa7cacd41e639f55f`
@@ -36,3 +37,5 @@ WAITING: S3 Build 85dac5bf-ff84-4215-84c4-e08943bf882a. Arm exact-thread watcher
 - [research/challenge-8/task-history/select-actual-c2-r17/S2-evidence.json](task-history/select-actual-c2-r17/S2-evidence.json) — `7a1b4f8c2d939ca352117afccfa6aafc6d55f132798678346143aab1591b0024`
 - [research/challenge-8/task-history/select-actual-c2-r17/S3-review.json](task-history/select-actual-c2-r17/S3-review.json) — `bc4c2c00d9a8e5ba48aba88410e54e40e2bc283f2d047f46c186812233c2ba40`
 - [research/challenge-8/task-history/select-actual-c2-r17/S3-review.json](task-history/select-actual-c2-r17/S3-review.json) — `bc4c2c00d9a8e5ba48aba88410e54e40e2bc283f2d047f46c186812233c2ba40`
+- [research/challenge-8/task-history/select-actual-c2-r17/S3-evidence.json](task-history/select-actual-c2-r17/S3-evidence.json) — `f00873db2149b0156ab4e20fce138f8364bccdede88e0c2db73b101a8572edbf`
+- [research/challenge-8/task-history/select-actual-c2-r17/S4-review.json](task-history/select-actual-c2-r17/S4-review.json) — `52b489a57fa00efd4a176e346f7fbf2053560ac52cbbe36b724eaba6d03836bc`

@@ -1,0 +1,87 @@
+# SmallSort Evidence Brief — 85dac5bf
+
+- Processing: **VERIFIED_ARCHIVE_AND_INVENTORY**
+- Build proof verdict (source claim): **NOT_ACCEPTED_AS_REPORTED**
+- Run exit (source claim): `0`; evidence complete: `True`
+
+## Further bounded evidence
+
+- Complete catalogue: 1161 verified members; retained content: 752 files.
+- CLI: `smallsort-brief 85dac5bf-ff84-4215-84c4-e08943bf882a --catalogue`, `--search LITERAL`, `--file ID --pointer /key` (JSON), or `--file ID --start 1` (text). Requires the v0.8 client installed on the caller host.
+- Reader: `/builds/85dac5bf-ff84-4215-84c4-e08943bf882a/catalogue?q=literal`, `/search?q=literal`, `/fragment?file_id=ID&start=1` (text) or `&pointer=/key` (JSON). Use the same /builds/UUID prefix for all routes. Search is over sanitized retained data only; inspect coverage and next_offset. No raw fallback or proof inference.
+
+## Failure diagnostics (verified archived sources)
+
+- Diagnostic status: **OBSERVED**; causality: **UNKNOWN**
+
+## Bounded diagnostic context (untrusted observations)
+
+- AVAILABLE; parser=NO_SUPPORTED_PARSER_CLASSIFICATION; selection=FIRST_GENERIC_MARKER
+  - Source: `allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/body-verification.log` line UNKNOWN; SHA-256 `7a16d0c0e41b3393de1ba42f74acaa84d4242d831c288a9be3501c05fa3a2c0c`
+> L6595: 0.235025s: Exiting Redux.query
+> L6596: 0.235031s: verified/lib.rs(245,18-89): Executing statement
+> L6597: EXEC 40 verified/lib.rs(245,18-89)
+> L6598: verified/lib.rs(245,18-89): error: Cannot read a ghost variable in a non-pure context.
+> L6599: [WITHHELD: COMMAND_ENVIRONMENT_OR_ROLE_TEXT]
+> L6600: ? ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  - Scanned 473883/473883 bytes; scan limit reached=False; lines shown=6/6.
+- AVAILABLE; parser=NO_SUPPORTED_PARSER_CLASSIFICATION; selection=FIRST_GENERIC_MARKER
+  - Source: `allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/c1-hrtb-opt-in-off-negative/stage/body-verification.log` line UNKNOWN; SHA-256 `373733f3e61f6f9d29afbd757290f2d732af2b21960cff9d118013ece90d03d8`
+> L6584: 0.225413s: Exiting Redux.query
+> L6585: 0.225419s: verified/lib.rs(245,18-89): Executing statement
+> L6586: EXEC 40 verified/lib.rs(245,18-89)
+> L6587: verified/lib.rs(245,18-89): error: Cannot read a ghost variable in a non-pure context.
+> L6588: [WITHHELD: COMMAND_ENVIRONMENT_OR_ROLE_TEXT]
+> L6589: ? ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  - Scanned 473145/473145 bytes; scan limit reached=False; lines shown=6/6.
+- Up to 2 short windows shown; complete bounded context and availability counts are in evidence-index.json. Context does not establish causality.
+
+## Tool build milestones (individual observed records)
+
+- `translator-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `console-build`: EXIT_ZERO; exit=`0`; records=1; omitted=0
+  - Source: `allprooflogs/console-build-exit-code.txt` line UNKNOWN; SHA-256 `9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa`
+- `exporter-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `decoder-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `refiner-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `tracked-md-compile`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `tracked-md-preparation`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+
+## First comparator source results
+
+- Coverage: NO_SUPPORTED_SOURCE_RECORD_OR_NAMED_ARTIFACT; projected=0; omitted=0; scan_truncated=False; showing up to 6 records
+- A joint false/true/panic claim does not provide separate per-branch receipts; absent records do not establish NOT_RUN.
+
+## Stage observations (exit codes are not proof verdicts)
+
+- Record counts: EXIT_NONZERO=21, EXIT_ZERO=261; order=NOT_ESTABLISHED; last completed stage=UNKNOWN
+- `body-verification`: exit=`1`; linkage=`RECEIPT`; diagnostic=`NO_SUPPORTED_DIAGNOSTIC`
+  - Source: `allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/body-verification-stage.json` line UNKNOWN; SHA-256 `9120b08513e1a33993a4a3da059907c7d46c8d4cfe23564412824738ffa1e09f`
+  - Context availability: {'status': 'AVAILABLE', 'context_id': 0}
+- `body-verification`: exit=`1`; linkage=`RECEIPT`; diagnostic=`NO_SUPPORTED_DIAGNOSTIC`
+  - Source: `allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/c1-hrtb-opt-in-off-negative/stage/body-verification-stage.json` line UNKNOWN; SHA-256 `6d5d1203bbf7bac4ca3806e9886de65783ba4f36da9802e9e3e40a4f3d0e4f6e`
+  - Context availability: {'status': 'AVAILABLE', 'context_id': 1}
+- `body-verification`: exit=`2`; linkage=`RECEIPT`; diagnostic=`NO_SUPPORTED_DIAGNOSTIC`
+  - Source: `allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/c1-opt-in-off-negative/stage/body-verification-stage.json` line UNKNOWN; SHA-256 `18b5c9d6f14856f1c3b9f241ded9f5bb87f755f5c87ebf65e10ba42ee65ceb13`
+  - Context availability: {'status': 'AVAILABLE', 'context_id': 2}
+- `body-verification`: exit=`1`; linkage=`RECEIPT`; diagnostic=`NO_SUPPORTED_DIAGNOSTIC`
+  - Source: `allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/c1-scope-opt-in-off-negative/stage/body-verification-stage.json` line UNKNOWN; SHA-256 `8a0944ceb923c657cfb19dd1162cf3f9d2a4d566f84bf9db67ddaf65f1e6adaf`
+  - Context availability: {'status': 'AVAILABLE', 'context_id': 3}
+- Expected-control nonzero records (source-classified): 0; details in evidence-index.json.
+- Exit 0 observed: `console-build`, `lemma-verification`, `lemma-verification`, `lemma-verification`, `lemma-verification`, `lemma-verification`; references in evidence-index.json.
+- Coverage: {'candidate_records': 282, 'parsed_records': 282, 'not_captured': 0, 'invalid_records': 0, 'omitted_records': 0}; showing up to 4 nonzero and 6 zero records.
+- Missing/ambiguous diagnostics: STAGE_RECEIPTS_NOT_CAPTURED, VERIFIED_FAILED_LOG_WITHOUT_RECOGNIZED_COMPILER_DIAGNOSTIC, MULTIPLE_STAGE_FAILURES_CAUSALITY_UNKNOWN
+
+## Campaign aggregates (source claims)
+
+- No supported aggregate captured; absence from this section does not prove absence from archive.
+- Aggregate coverage: {'aggregate_candidates': 0, 'aggregates_captured': 0, 'stage_metadata_captured': 96, 'stage_summaries_retained': 282, 'context_logs_streamed': 8, 'diagnostic_logs_captured': 16, 'diagnostic_log_bytes': 3299204, 'oversized_logs': 2, 'budget_omitted_logs': 268, 'aggregates_not_captured': 0}; showing up to 4.
+
+## Representative cases (source verdicts)
+
+- `allprooflogs/cases/sort4-c1-current-recovery`
+- Cases: 1; showing up to 4. More references and source claims in evidence-index.json.
+
+## Boundaries
+
+Source verdicts are claims; no PASS is inferred from exit 0. Stage order and first/last causal stage remain UNKNOWN without explicit evidence. No verifier is run by this processor. Remote text chunk bytes are not checked.

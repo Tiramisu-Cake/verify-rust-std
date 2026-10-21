@@ -1,0 +1,68 @@
+{
+  "build": {
+    "dispatch_token": "dispatch-baa5711f37194eaf81129890d39187b9",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-ACTUAL-C2-2026-10-21-R17",
+    "infra_sha": "13d65ceabf23758eecd25cdb1f7fd32a685755d7",
+    "proof_sha": "13d65ceabf23758eecd25cdb1f7fd32a685755d7",
+    "lane": "o26-sort4-c1-current-recovery",
+    "submitted_config_sha256": "423a3e41bf78b94ce9aafa110dc903900ac80caa8b24e06acd4ec0d6870ebe7d",
+    "reserved_seconds": 1260,
+    "timeout_seconds": 1200,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "a94bb9d0a6766ee26d5efafc4295c48d900c3d52f22038818b5964de152c9222",
+    "build_id": "85dac5bf-ff84-4215-84c4-e08943bf882a",
+    "start_time": "2026-10-21T20:51:15.191777165Z",
+    "finish_time": "2026-10-21T20:59:17.253281Z",
+    "create_time": "2026-10-21T20:51:14.413481410Z",
+    "build_seconds": 483,
+    "accounted": true,
+    "execution_seconds": 483
+  },
+  "archive_sha256": "0928bfebc52df982effbe0b7d94716a71b4784bbe6fea9fc09456564cf7a4b00",
+  "index_sha256": "68542a1035e17b586774c3349e079f1942bf80a0f5812a7610a0fa7910bf41a0",
+  "integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "body_target": "BODY_PROOF_FAILED",
+  "body_observed_exit": 1,
+  "source_pair_immutable": true,
+  "tool_immutable": true,
+  "failure": {
+    "location": "verified/lib.rs(245,18-89), actual c1",
+    "message": "Cannot read a ghost variable in a non-pure context."
+  },
+  "source_reported_progress": [
+    "New translator built and reached actual body verification.",
+    "Exact30 local relocation full-body containment PASS, cmp6/deferred18; indexed-scope7 and previous scope controls source-reported PASS."
+  ],
+  "diagnostic_limit": "STRICT-RELOCATE log prints hardcoded inner_insertions=1; source guard for indexed c2 actually requires2. Do not interpret this stale printed field as independent insertion evidence.",
+  "control_qualification": "Target fails at c1 injected ghost equality before c2. c2 negative controls may share this earlier failure, so no discriminating resource/call attribution credit.",
+  "actual_body_obligations_closed": 0,
+  "independent_credit": false,
+  "assurance": "SOURCE_REPORTED",
+  "watcher": {
+    "job_id": "42808c2c-15fc-45d1-b877-824e53a00a0a",
+    "event_id": "31b8d6d9-3a9d-4abc-8986-16a7b12d7188",
+    "ack_mode": "CONTINUE_EXISTING_WINDOW"
+  },
+  "fragments": [
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S3-brief/body-root.json",
+      "sha256": "2d3b95412fe9069e50c8ef414dc3e0c97dbf7b8c48b4873fdd681a68473d29dc"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S3-brief/brief.txt",
+      "sha256": "2392692a7655e61f272a32f2f64582150a9344a682e9e9cf6fa86cbd9c9e46ff"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S3-brief/failure-window.json",
+      "sha256": "80490f7c289cf78673fa67418d17f1f540107450a918c6d5f7cf7eeb11a85000"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S3-brief/scope-window.json",
+      "sha256": "1860406e1b518a72a9bb53e734b0bdd099d16ae2cfa7478e4735e69ea51446bd"
+    }
+  ]
+}
