@@ -11,6 +11,10 @@ Record partial diagnostics and unexecuted stages explicitly.
 
 ## New records
 
+### 2026-10-21 — Select-R14 S1, native P1 runtime item identity mismatch
+
+Actual bounded Build `20433888-b550-4f9a-8f0c-c7063cb1f152`, exact source/infra `ee0fe34bacf278132ec67cd35e9081ab36a7ef4e`, unchanged effective R13 semantic chain; strict P1 schema/capturev2 hypothesis. Source6classified/1INC/19NOTRUN: capturev2/mini7/P0c accepted, P1structuraltrue but thresholditem20 incorrectly joined to small_sortitem21 by consumer. Fixtures had supplied P1 expectations rather than runner threshold expectations. No matrix admission or independent B1/B2 credit; no small_sort body theorem. PackageSUCCESS/Brief VERIFIED_ARCHIVE_AND_INVENTORY, overallFAILURE/verdict1; charge342, remaining3258, carry0. Next: named-method joins with runtime-shaped positive and distinguishing negatives, independent review, boundedS2 before full26. [Exact bounded evidence](cloud-build/sort4-caller-entry-native/A1-NATIVE-MATRIX-R14-S1-EVIDENCE-2026-10-21.json).
+
 ### 2026-10-06 — documentation/rules checkpoint, experiments still paused
 
 Based on stopped source checkpoint

@@ -191,12 +191,24 @@ def _p1_interface_gate(gate, raw, structure, expected_inventory, run_pins,
     rows = _mapping(gate.get('impls'), 'P1 implementation rows')
     require(set(rows) == {'default16', 'freeze32'},
             'P1 implementation row inventory is not exact')
+    compiler_impls = inventory_payload.get('impls')
+    require(isinstance(compiler_impls, (tuple, list)) and len(compiler_impls) == 2 and
+            all(isinstance(item, Mapping) for item in compiler_impls) and
+            {item.get('impl') for item in compiler_impls} == {'default16', 'freeze32'},
+            'P1 current compiler impl inventory is not exactly default16/freeze32')
+    compiler_impls_by_name = {item['impl']: item for item in compiler_impls}
     identities = inventory_payload.get('impl_small_sort_identities')
     require(isinstance(identities, (tuple, list)) and len(identities) == 2 and
             {row.get('impl') for row in identities if isinstance(row, Mapping)} ==
             {'default16', 'freeze32'},
             'P1 current compiler implementation identity inventory incomplete')
     identities_by_impl = {row['impl']: row for row in identities}
+    identity_keys = {
+        'alias', 'ast_body_line', 'compiler_signature', 'compiler_signature_digest',
+        'impl', 'impl_def_index', 'item_def_id', 'item_def_index',
+        'source_body_span', 'source_fn_sig_span',
+    }
+    seen_impl_ids, seen_item_ids = set(), set()
     row_keys = {
         'alias', 'compiler_impl_id', 'compiler_item_id',
         'compiler_signature_digest', 'positional_alpha_map',
@@ -212,12 +224,66 @@ def _p1_interface_gate(gate, raw, structure, expected_inventory, run_pins,
                             'expected P1 ' + impl + ' compiler identity')
         current_identity = _mapping(identities_by_impl.get(impl),
                                     'current compiler ' + impl + ' identity')
-        impl_id, item_id = expected.get('compiler_impl_id'), expected.get('compiler_item_id')
+        compiler_impl = compiler_impls_by_name[impl]
+        require(set(expected) == {'compiler_impl_id', 'compiler_item_id'},
+                'expected P1 ' + impl + ' threshold identity schema differs')
+        impl_id = expected.get('compiler_impl_id')
+        threshold_id = expected.get('compiler_item_id')
         require(isinstance(impl_id, str) and re.fullmatch(r'[1-9][0-9]*', impl_id) and
-                isinstance(item_id, str) and re.fullmatch(r'[1-9][0-9]*', item_id) and
-                str(current_identity.get('impl_def_index')) == impl_id and
-                str(current_identity.get('item_def_index')) == item_id and
-                row.get('compiler_impl_id') == impl_id and
+                isinstance(threshold_id, str) and
+                re.fullmatch(r'[1-9][0-9]*', threshold_id) and
+                set(current_identity) == identity_keys and
+                current_identity.get('impl') == impl and
+                type(current_identity.get('impl_def_index')) is int and
+                current_identity['impl_def_index'] > 0 and
+                type(current_identity.get('item_def_index')) is int and
+                current_identity['item_def_index'] > 0 and
+                current_identity['impl_def_index'] not in seen_impl_ids and
+                current_identity['item_def_index'] not in seen_item_ids and
+                str(current_identity['impl_def_index']) == impl_id and
+                type(compiler_impl.get('impl_def_index')) is int and
+                compiler_impl['impl_def_index'] > 0 and
+                compiler_impl.get('impl_def_index') == current_identity['impl_def_index'] and
+                isinstance(compiler_impl.get('items'), (tuple, list)) and
+                len(compiler_impl['items']) == 2 and
+                all(isinstance(item, Mapping) for item in compiler_impl['items']) and
+                {item.get('name') for item in compiler_impl['items']} ==
+                {'small_sort_threshold', 'small_sort'},
+                'P1 ' + impl + ' compiler impl/threshold inventory binding failed')
+        seen_impl_ids.add(current_identity['impl_def_index'])
+        compiler_items = {item['name']: item for item in compiler_impl['items']}
+        threshold_item = compiler_items['small_sort_threshold']
+        small_sort_item = compiler_items['small_sort']
+        require(all(set(item) == {'body', 'def_id', 'def_index', 'name',
+                                  'small_sort_signature'}
+                    for item in compiler_items.values()) and
+                all(type(item.get('def_index')) is int and item['def_index'] > 0 and
+                    isinstance(item.get('def_id'), str) and item['def_id']
+                    for item in compiler_items.values()) and
+                all(isinstance(item.get('body'), Mapping) and
+                    item['body'].get('def_path') == item['def_id']
+                    for item in compiler_items.values()) and
+                isinstance(small_sort_item.get('small_sort_signature'), Mapping) and
+                isinstance(small_sort_item['small_sort_signature'].get('digest'), str) and
+                re.fullmatch(r'[0-9a-f]{64}',
+                             small_sort_item['small_sort_signature']['digest']) is not None and
+                threshold_item.get('small_sort_signature') is None and
+                threshold_item['def_index'] != small_sort_item['def_index'] and
+                str(threshold_item['def_index']) == threshold_id and
+                threshold_item['def_index'] not in seen_item_ids and
+                small_sort_item['def_index'] not in seen_item_ids and
+                current_identity.get('item_def_index') == small_sort_item['def_index'] and
+                current_identity.get('item_def_id') == small_sort_item['def_id'] and
+                current_identity.get('compiler_signature_digest') ==
+                small_sort_item['small_sort_signature']['digest'] and
+                current_identity.get('source_body_span') ==
+                small_sort_item.get('body', {}).get('mir_span') and
+                current_identity.get('source_fn_sig_span') ==
+                small_sort_item.get('body', {}).get('fn_sig_span'),
+                'P1 ' + impl + ' named threshold/small_sort compiler item join failed')
+        seen_item_ids.update((threshold_item['def_index'], small_sort_item['def_index']))
+        item_id = str(small_sort_item['def_index'])
+        require(row.get('compiler_impl_id') == impl_id and
                 row.get('compiler_item_id') == item_id and
                 row.get('alias') == f'__a1_impl_{impl_id}_item_{item_id}_small_sort' and
                 current_identity.get('alias') == row.get('alias') and

@@ -4,7 +4,30 @@
     "o26-sort4-c1-current-recovery"
   ],
   "authorization": "CURRENT-TASK Select-R14 explicitly authorizes fresh3600 Cloudseconds; T0=2026-10-21T12:29:30Z/main14:29:30Z/absolute14:59:30Z; no carry, existing lane/coordinator, timeout90..1200/envelope60/report240.",
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-36fe210f762c48bfb901eae9ae171094",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14",
+      "infra_sha": "ee0fe34bacf278132ec67cd35e9081ab36a7ef4e",
+      "proof_sha": "ee0fe34bacf278132ec67cd35e9081ab36a7ef4e",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "67fa231ef0f46f7143ad719e9c7dbcb41f4c23794cce717f9dece74a16a7dbfb",
+      "reserved_seconds": 1060,
+      "timeout_seconds": 1000,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "e026b5f0fb432a771c8c00a69f9a1c02c85bcbb88090a912c14c6d1baab6ec7f",
+      "build_id": "20433888-b550-4f9a-8f0c-c7063cb1f152",
+      "start_time": "2026-10-21T12:54:59.883756054Z",
+      "finish_time": "2026-10-21T13:00:40.614421Z",
+      "create_time": "2026-10-21T12:54:58.930670176Z",
+      "build_seconds": 342,
+      "accounted": true,
+      "execution_seconds": 341
+    }
+  ],
   "carry_forward_seconds": 0,
   "ceiling_build_seconds": 3600,
   "deadline_utc": "2026-10-21T14:59:30Z",
@@ -13,9 +36,9 @@
   "maximum_builds": null,
   "owner": "select-sort4",
   "phase": "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14",
-  "remaining_build_seconds": 3600,
+  "remaining_build_seconds": 3258,
   "schema": "smallsort-cloud-phase-account-v1",
   "start_utc": "2026-10-21T12:29:30Z",
   "status": "AUTHORIZED",
-  "used_build_seconds": 0
+  "used_build_seconds": 342
 }

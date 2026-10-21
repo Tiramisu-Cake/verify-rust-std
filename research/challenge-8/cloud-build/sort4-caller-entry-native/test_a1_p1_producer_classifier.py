@@ -27,8 +27,24 @@ RUN_PINS = {'tool_id': 'c' * 64, 'profile_id': 'd' * 64,
             'target_id': 'A1-FIRST-MATRIX-THRESHOLD-INTERFACE'}
 
 
+def expected_threshold_inventory(inventory):
+    """Mirror runtime bound_impls: IDs come from named threshold items."""
+    rows = inventory['inventory']['impls']
+    result = {}
+    for compiler_impl in rows:
+        named = [item for item in compiler_impl['items']
+                 if item['name'] == 'small_sort_threshold']
+        if len(named) != 1:
+            raise AssertionError('fixture needs one compiler threshold item per impl')
+        result[compiler_impl['impl']] = {
+            'compiler_impl_id': str(compiler_impl['impl_def_index']),
+            'compiler_item_id': str(named[0]['def_index']),
+        }
+    return result
+
+
 def producer_case():
-    """Build a P1 observation from real synthetic compiler/AST fixture producers."""
+    """Build a runtime-shaped P1 observation from synthetic source/AST producers."""
     generated_source = _CERTIFICATE['cases']['P0a']['generated_source_sha256']
     raw_pair = {'verified': generated_source, 'original': 'b' * 64}
     ast, inventory, baseline, actual_pair = ast_fixtures.p1_fixture(
@@ -42,11 +58,11 @@ def producer_case():
         ast, inventory, baseline=baseline,
         actual_source_pair_sha256=actual_pair)
     impl_rows = inventory['inventory']['impl_small_sort_identities']
-    expected_inventory = {
-        row['impl']: {'compiler_impl_id': str(row['impl_def_index']),
-                      'compiler_item_id': str(row['item_def_index'])}
-        for row in impl_rows
-    }
+    expected_inventory = expected_threshold_inventory(inventory)
+    for impl, expected_row in expected_inventory.items():
+        small_sort_identity = next(row for row in impl_rows if row['impl'] == impl)
+        if expected_row['compiler_item_id'] == str(small_sort_identity['item_def_index']):
+            raise AssertionError('fixture must distinguish threshold and small_sort item IDs')
     obs = {
         'proof_credit': False,
         'run_identity': dict(RUN_PINS),
@@ -74,6 +90,14 @@ def classify(obs, expected_inventory):
         build_id=BUILD, expected_inventory=expected_inventory)
 
 
+def _swap_threshold_and_small_sort_ids(obs, _expected):
+    items = obs['structure']['inventory']['inventory']['impls'][0]['items']
+    threshold = next(row for row in items if row['name'] == 'small_sort_threshold')
+    small_sort = next(row for row in items if row['name'] == 'small_sort')
+    for key in ('def_index', 'def_id'):
+        threshold[key], small_sort[key] = small_sort[key], threshold[key]
+
+
 class P1ProducerConsumerSchema(unittest.TestCase):
     def test_current_producer_record_is_accepted_without_body_credit(self):
         obs, expected, *_ = producer_case()
@@ -83,6 +107,46 @@ class P1ProducerConsumerSchema(unittest.TestCase):
         self.assertFalse(result['record']['proof_credit'])
         self.assertEqual(result['record']['tool_id'], RUN_PINS['tool_id'])
         self.assertEqual(result['record']['profile_id'], RUN_PINS['profile_id'])
+
+    def test_threshold_and_small_sort_item_joins_are_distinct_and_source_bound(self):
+        mutations = (
+            lambda obs, expected: expected['default16'].__setitem__(
+                'compiler_item_id', '999'),
+            lambda obs, expected: obs['structure']['inventory']['inventory']['impls'][0]
+                ['items'][0].__setitem__('def_index', 999),
+            lambda obs, expected: obs['structure']['inventory']['inventory']['impls'][0]
+                ['items'][1].__setitem__('def_index', 999),
+            lambda obs, expected: obs['structure']['inventory']['inventory']['impl_small_sort_identities'][0]
+                .__setitem__('item_def_index', 999),
+            lambda obs, expected: obs['structure']['inventory']['inventory']['impls'][0]
+                ['items'][0].__setitem__('name', 'small_sort'),
+            lambda obs, expected: obs['structure']['inventory']['inventory']['impls'][0]
+                ['items'][1].__setitem__('name', 'small_sort_threshold'),
+            _swap_threshold_and_small_sort_ids,
+            lambda obs, expected: obs['structure']['inventory']['inventory']['impls'][1]
+                .__setitem__('impl', 'default16'),
+            lambda obs, expected: obs['structure']['inventory']['inventory']['impls'][0]
+                .__setitem__('items', obs['structure']['inventory']['inventory']['impls'][0]
+                             ['items'][:-1]),
+            lambda obs, expected: obs['structure']['inventory']['inventory']['impls'][0]
+                .__setitem__('items', obs['structure']['inventory']['inventory']['impls'][0]
+                    ['items'] + (copy.deepcopy(obs['structure']['inventory']['inventory']
+                        ['impls'][0]['items'][0]),)),
+            lambda obs, expected: obs['structure']['inventory']['inventory']['impl_small_sort_identities'][0]
+                .__setitem__('impl_def_index', 2),
+            lambda obs, expected: obs['structure']['inventory']['inventory']['impls'][0]
+                ['items'][1]['body'].__setitem__('mir_span', (('other.rs', 1, 0), ('other.rs', 2, 0))),
+            lambda obs, expected: obs['structure']['inventory']['inventory']['impls'][0]
+                ['items'][1]['small_sort_signature'].__setitem__('digest', '0' * 64),
+            lambda obs, expected: obs['structure']['inventory']['inventory']['impls'][0]
+                ['items'][0].__setitem__('small_sort_signature', {'digest': '0' * 64}),
+        )
+        for mutate in mutations:
+            with self.subTest(mutation=mutate):
+                obs, expected, *_ = producer_case()
+                obs = ast_fixtures._thaw(obs)
+                mutate(obs, expected)
+                self.assertFalse(classify(obs, expected)['matrix_gate_passed'])
 
     def test_missing_null_wrong_type_legacy_and_extra_schema_fail_closed(self):
         mutations = (

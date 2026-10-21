@@ -28,7 +28,6 @@ INVENTORY_MAX_BYTES = 8 * 1024 * 1024
 
 
 def check_archive_size(archive: Path, out: Path) -> None:
-    """Apply the processor cap to the complete compressed file before upload."""
     size = archive.stat().st_size
     if size > ARCHIVE_MAX_BYTES:
         diagnostic = {"schema": "smallsort-compressed-archive-limit-v1",

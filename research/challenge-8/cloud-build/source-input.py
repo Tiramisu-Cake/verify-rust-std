@@ -371,7 +371,7 @@ def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes
             "payload_xz_base64": base64.b64encode(lzma.compress(raw, format=lzma.FORMAT_XZ,
                                                                 filters=[{"id": lzma.FILTER_LZMA2,
                                                                           "preset": 6 | lzma.PRESET_EXTREME,
-                                                                          "pb": 0}])).decode("ascii"),
+                                                                          "pb": 0, "lc": 4}])).decode("ascii"),
         }
         raw = (json.dumps(envelope, sort_keys=True, separators=(",", ":")) + "\n").encode()
     buffer = io.BytesIO()
