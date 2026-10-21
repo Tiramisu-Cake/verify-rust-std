@@ -1,0 +1,63 @@
+{
+  "archive_sha256": "a83695592ea046faee5af7c1ce399ce02585fee2fb30a049b05b784cb863ebb2",
+  "build_id": "2b30e563-011a-4cfe-a739-187a9e612d07",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 5,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "69392933f18fd828297d1865595841a0fcc6e7e7c2b475b4b129572dc5aade3d",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/diagnostic-audit.json",
+  "file_sha256": "1773998d00d8940014aa11ed46830600b00288bf152e215c7d12df3edb486af0",
+  "index_sha256": "2fa20aed3dbf398166252a96754529a969087f4e2854598a42d698ac5b4ed01e",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "1773998d00d8940014aa11ed46830600b00288bf152e215c7d12df3edb486af0",
+    "file_id": "69392933f18fd828297d1865595841a0fcc6e7e7c2b475b4b129572dc5aade3d",
+    "pointer": "/observation_details/P1/run_identity"
+  },
+  "request_id": "027fb65d7793042f31159a0eb94dd7c39be8bd4e8da45685c082eebcb2d9e6c9",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/P1/run_identity/infra_id",
+      "value": "87243c09487007d0f2f9bf93327eb7ec6d45f5ca"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/P1/run_identity/profile_id",
+      "value": "2d8925e469e5f68dc1c298590a67e174dbf1a321def778a57794564393ccb81a"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/P1/run_identity/proof_id",
+      "value": "87243c09487007d0f2f9bf93327eb7ec6d45f5ca"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/P1/run_identity/target_id",
+      "value": "A1-FIRST-MATRIX-THRESHOLD-INTERFACE"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/P1/run_identity/tool_id",
+      "value": "19be51c5aff52a8ad109eed8bc63e50d9eab08892e2aecaa7fa59d28b99ca575"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

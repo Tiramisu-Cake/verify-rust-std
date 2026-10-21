@@ -11,6 +11,10 @@ Record partial diagnostics and unexecuted stages explicitly.
 
 ## New records
 
+### 2026-10-21 — Select-R14 S2 native target accepted
+
+Build `2b30e563-011a-4cfe-a739-187a9e612d07`, exactsource/infra `87243c09487007d0f2f9bf93327eb7ec6d45f5ca`: named-methodidentityjoinfixed, actual7targetclassified/mini7passed. P1structuralbody0, currentrunpinsverified; no small_sortbodytheorem/fulladmission/independentB1B2credit. Charge474/cumulative816/remaining2784; execute394.423/package66.056/verdict1.059, packageSUCCESS/Briefverified. NextfreshsameBuildfull26 withactualPdispatch/fullownNfalse31 andallcontrols; fullprofilemode/timeout1200reviewed, reportreserve240unchanged. [Evidence](task-history/select-native-p1-matrix-r14/S2-evidence.json).
+
 ### 2026-10-21 — Select-R14 S1, native P1 runtime item identity mismatch
 
 Actual bounded Build `20433888-b550-4f9a-8f0c-c7063cb1f152`, exact source/infra `ee0fe34bacf278132ec67cd35e9081ab36a7ef4e`, unchanged effective R13 semantic chain; strict P1 schema/capturev2 hypothesis. Source6classified/1INC/19NOTRUN: capturev2/mini7/P0c accepted, P1structuraltrue but thresholditem20 incorrectly joined to small_sortitem21 by consumer. Fixtures had supplied P1 expectations rather than runner threshold expectations. No matrix admission or independent B1/B2 credit; no small_sort body theorem. PackageSUCCESS/Brief VERIFIED_ARCHIVE_AND_INVENTORY, overallFAILURE/verdict1; charge342, remaining3258, carry0. Next: named-method joins with runtime-shaped positive and distinguishing negatives, independent review, boundedS2 before full26. [Exact bounded evidence](cloud-build/sort4-caller-entry-native/A1-NATIVE-MATRIX-R14-S1-EVIDENCE-2026-10-21.json).
