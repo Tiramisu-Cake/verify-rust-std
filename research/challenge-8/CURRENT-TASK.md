@@ -2,10 +2,10 @@
 
 ## Авторизация и рабочее место
 
-- **ID:** `select-reference-own-caller-autonomous-2026-10-21-r13`; **статус:** READY; T0 ещё не задан.
+- **ID:** `select-reference-own-caller-autonomous-2026-10-21-r13`; **статус:** ACTIVE; T0=2026-10-21T09:26:36Z; main=11:26:36Z; absolute=11:56:36Z.
 - **Owner:** `select-sort4`; **worktree:** `/root/verify-rust-std-select-night`.
 - **Репозиторий:** `Tiramisu-Cake/verify-rust-std`; **branch:** `research/night-select-sort4-cloud-2026-10-09`.
-- **Новое окно:** 120 минут основной работы + до30 минут завершения от фактического старта после чтения задания. Main=T0+120мин, absolute=T0+150мин. Запиши T0/deadlines в session, новый ledger и текущий статус задания; сейчас окно не начинается.
+- **Новое окно:** 120 минут основной работы + до30 минут завершения от фактического старта после чтения задания. Main=T0+120мин, absolute=T0+150мин. Запиши T0/deadlines в session, новый ledger и текущий статус задания; окно начато в указанное T0.
 - **Новый бюджет:** **3600 Cloud-секунд**, used=0, carry=0; отдельного ограничения числа последовательных Builds нет. Закрытые счета не возобновлять.
 - **Lane:** `o26-sort4-c1-current-recovery`; существующий coordinator и stable owner.
 - **Новая phase:** `SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13`.
@@ -64,4 +64,4 @@ Evidence: `smallsort-brief BUILD_UUID` → catalogue/file ID → `--refresh --fi
 
 ## Отчёт агента
 
-ACTIVE. T0=2026-10-21T09:26:36Z; main=2026-10-21T11:26:36Z; absolute=2026-10-21T11:56:36Z. Fresh3600 Cloud seconds, used0/carry0. Гипотеза: сохраняющая ресурсы нормализация enum-field predicate через существующую RustBelt интерпретацию shared reference. Сначала source rationale/controls → faithful mini helper Cloud probe; параллельно compact partial snapshot и exact P-dispatch binding. Formalgates0/B1B2credit0. [Session](cloud-build/sort4-caller-entry-native/A1-REFERENCE-OWN-R13-SESSION-2026-10-21.md).
+ACTIVE. T0=2026-10-21T09:26:36Z; main=2026-10-21T11:26:36Z; absolute=2026-10-21T11:56:36Z. Fresh3600 Cloud seconds, used0/carry0. Гипотеза: сохраняющая ресурсы нормализация enum-field predicate через существующую RustBelt интерпретацию shared reference. Сначала source rationale/controls → faithful mini helper Cloud probe; параллельно compact partial snapshot и exact P-dispatch binding. S1 Build `a442e8e7-0b2e-4ef0-a641-ec310f34d509`, exact candidate `630f3d154874fe348fbaa496e9891c9ae5c6c5d8`, minimal helper+controls, active/charge pending, reservation1060. Formalgates0/B1B2credit0. [Session](cloud-build/sort4-caller-entry-native/A1-REFERENCE-OWN-R13-SESSION-2026-10-21.md).
