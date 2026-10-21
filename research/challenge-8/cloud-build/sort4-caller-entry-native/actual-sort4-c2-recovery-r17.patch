@@ -482,7 +482,7 @@
 +                  let rows = State.local_decl_types |> List.filter_map (fun (raw, ty) ->
 +                    match shape (decode_ty ty) with
 +                    | None -> None
-+                    | Some _ when List.exists (fun (_, _, id, _) ->
++                    | Some _ when List.exists (fun (_, id, _) ->
 +                        id = translate_local_decl_id_ raw) param_decls -> None
 +                    | Some kind ->
 +                        let id = translate_local_decl_id_ raw in
