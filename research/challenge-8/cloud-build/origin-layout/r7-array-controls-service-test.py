@@ -162,6 +162,8 @@ class R7ArrayControlsTests(unittest.TestCase):
             self.assertIn(b"//@ end_lifetime(k);", lifecycle)
             self.assertIn(b"//@ borrow_end(k, r16_array3_content(default_tid(), p));", lifecycle)
             self.assertIn(b"full_borrow(?k, r16_array3_content(default_tid(), p))", lifecycle)
+            self.assertIn(b"ens *p |-> ?restored_current", lifecycle)
+            self.assertNotIn(b"ens *p |-> current", lifecycle)
             self.assertNotIn(b"create_ref_mut", lifecycle)
             self.assertNotIn(b"assume", lifecycle)
             self.assertEqual(rows["positive"]["expected_stages"], {

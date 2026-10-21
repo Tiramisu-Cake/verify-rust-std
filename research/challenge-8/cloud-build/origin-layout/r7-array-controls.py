@@ -251,7 +251,8 @@ pub fn r7_runtime_empty() {}
 """,
     "runtime": b"""pub unsafe fn r17_array3_slice_borrow_lifecycle(p: *mut [u64; 3]) -> *mut [u64]
 /*@ req *p |-> ?current &*& foreach(Array_elems(current), own::<u64>(default_tid()));
-    ens *p |-> current &*& foreach(Array_elems(current), own::<u64>(default_tid())) &*&
+    ens *p |-> ?restored_current &*&
+        foreach(Array_elems(restored_current), own::<u64>(default_tid())) &*&
         full_borrow(?k, r16_array3_content(default_tid(), p));
 @*/
 {
