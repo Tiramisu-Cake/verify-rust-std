@@ -110,7 +110,13 @@ FileNotFoundError и Brief HTTP404 были последствиями. Это o
 Регистрация прошла независимый Luna HIGH review GO; 7 новых phase tests,
 реальная локальная упаковка и полный static source/patch/pin/recipe preflight PASS.
 Перед dispatch оба SHA будут привязаны к одному опубликованному reviewed commit
-в новом live ledger под coordinator lock. Build ещё не отправлен.
+в новом live ledger под coordinator lock.
+Первый submit source`9b5e0eb6` отклонён до reserve/API: source payload193parts
+при max191 (575045gz/766728base64bytes). Build не создан, расход0. Для повтора
+из runtime recipe исключены только9исторических R10 Markdown docs; в Git они
+сохранены, runtime scripts/proof inputs/pins/patches/matrix неизменны.
+Static source/patch/pin/recipe preflight PASS. Новый reviewed source перед
+отправкой должен пройти локальный payload-fit и получить новую привязку SHA.
 Новые proof-гипотезы и семантические изменения в повтор не входят.
 Исходные tmp debt/CURRENT/F/thread/array/R9 returning hook и narrow R8 premise
 сохранены; StorageDead/invariant/resource checks не ослаблены. Address-taking и
