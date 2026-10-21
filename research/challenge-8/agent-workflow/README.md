@@ -85,6 +85,8 @@ Record — неизменяемый SHA-256-named JSON; повтор той же
 
 `/usr/local/bin/smallsort-session` указывает на [smallsort_session.py](smallsort_session.py) этого versioned пакета. У всех worktrees есть доступ к нему; `task install` переносит маленькое CORE/AGENTS только при выдаче новой сессии после closed check. Активные CURRENT/STATUS/recipes/ledgers этим обновлением не переписываются. Политика canonical worktree хранится в Git; полные старые инструкции сохранены в [legacy](legacy/AGENTS-before-v1.md).
 
+**Согласованная пауза 2026-10-21:** по отдельному поручению владельца Select/Merge завершили текущие turns с опубликованными HANDOFF, сохранив идущие Builds и прежние T0/счета. После паузы их чистые AGENTS/CORE обновлены; прежние policy blobs и точный checkpoint связаны в `research/challenge-8/WORKFLOW-ADOPTION.json`. Это разовое принятие docs по прямому поручению, не обход closed check для выдачи нового задания/бюджета. Для короткого входа подготовлены [Select](RESUME-SELECT.md) и [Merge](RESUME-MERGE.md), а в worktrees — `research/challenge-8/RESUME.md`. Новую сессию открывать непосредственно в assigned worktree: watcher проверяет thread cwd. Пауза не очищает историю старого чата и не останавливает deadline; возобновление только по поручению владельца. Actual pins, CHECKPOINT/task bytes и ledger этим принятием не менялись.
+
 ## Проверка инструментов
 
 ```bash
