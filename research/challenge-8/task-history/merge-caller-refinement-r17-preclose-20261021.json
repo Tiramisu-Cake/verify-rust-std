@@ -1,0 +1,204 @@
+{
+  "artifacts": [
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md",
+      "sha256": "6acfb36fa52b2e05eea0551dfb40033156b23ef8165dfa67f6309d0550e721eb"
+    }
+  ],
+  "assignment_sha256": "f6d1d84231f0bfe10b633bd8b0423b7c5a822318459a6bc47df07b7755b331db",
+  "baseline": {
+    "profile_sha256": "eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375",
+    "source_sha": "6fd50c699500cbac5c65912174d4aa49b49db19f",
+    "tool_sha": "660b576b6b1608db913c51e0785b443a8733396f"
+  },
+  "blocker": {
+    "summary": "P5 pending lifecycle parse/proof. Raw caller array_inv444 lacks array<u64>; RawPtr positive refinement2 diagnostic OPEN.",
+    "location": "P5 Cloud Build",
+    "build_id": "20e8009e-458e-45b1-9974-b0abfe716675",
+    "evidence": []
+  },
+  "confirmed": [
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R16 P1 body unit: four stages0, cleanup/Resume, 0errors/642statements. Boundedu64/array3/tail=begin+2/F/CURRENT; narrowR8. Source-only.",
+      "evidence": [
+        {
+          "build_id": "9487d6d1-14aa-4370-bc0b-7ac57279fb7b",
+          "path": "research/challenge-8/cloud-build/origin-layout/R16-PROOF1-RESULT-20261021.json",
+          "sha256": "03f14929b594cee4f1077f48e0dea5c26b4030e673162422776c17ae02f5f9cc"
+        },
+        {
+          "build_id": "9487d6d1-14aa-4370-bc0b-7ac57279fb7b",
+          "path": "research/challenge-8/cloud-build/origin-layout/R16-PROOF1-BODY-COMPLETION-LINES-20261021.json",
+          "sha256": "5ba6bcac18a7fec52ac8cbb9d59df7ab847282b9414216952e640e5e1b89597d"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R16 P2/P3 checked array3/slice3 full_borrow bridge;5positive/6negative array +5R9 controls matched. Existing borrow/len3/full-pointer equality required; no borrow creation.",
+      "evidence": [
+        {
+          "build_id": "e2c971ba-ab62-4cd9-a193-3d4f98797cd7",
+          "path": "research/challenge-8/cloud-build/origin-layout/R16-COVERAGE-20261021.json",
+          "sha256": "d9b55e8a8f2a88581de64d02f1b6b5b9534b58edacdd3d4d958c06dc1b5e8198"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R16 P4 compile124/proof_attemptedfalse/cases0; syntaxfix unvalidated. R16CLOSED:4builds/spent3042/retired558/carry0. No independentcredit.",
+      "evidence": [
+        {
+          "build_id": "df4a5c35-b795-4493-9e9a-74edeb48f177",
+          "path": "research/challenge-8/cloud-build/origin-layout/R16-PROOF4-AUDIT-20261021.json",
+          "sha256": "e3985545d0f28f89922988a48ed0e67cf6e64c8e76a8df6175d8ddbc930125b5"
+        },
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R16-RELEASE-20261021.json",
+          "sha256": "ce26690c1ce6a2fffa39d7cb18669f5303bb20a92541e170077559edb223c629"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R17 P1:5compilelegs0/smokePASS; staleR11pin blocks campaign. No target/control/independentcredit. Charged485.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R17-PROOF1-RESULT-20261021.json",
+          "sha256": "15882947ba819444991af76c0ccd771ca11c47cd94cd548b15f3a1f066e28781",
+          "build_id": "38fa5f6f-3263-404e-af55-48c47816a5cf"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P2 source pin refusal before compiler evidence; targets unverified. Charged99; total584/remaining3016/active0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R17-PROOF2-RESULT-20261021.json",
+          "sha256": "104ecabf904d6b3c63590210f315cb891544b9ee832a0209d3b565daa00cb1ae",
+          "build_id": "cccfd7c5-ee98-4549-8ecd-da2274e7c608"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P3 FAILURE/charged582; total1166/remaining2434/active0. CompilerPASS/proofattempted; stalecompatibilitypin blocks caller dispatch. No caller/RawPtr/lifecycle/B2/independentcredit.",
+      "evidence": [
+        {
+          "build_id": "f9e06ad1-d13e-4012-b1fc-be1d84c4aded",
+          "path": "research/challenge-8/observations/cc23e4589edf9b3b361b13953566574eaee3747fefd8edeff16eb1b5d090fbbb.json",
+          "sha256": "cc23e4589edf9b3b361b13953566574eaee3747fefd8edeff16eb1b5d090fbbb"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P4 charged945/total2111/rem1489. Isolated actual body allstages0/preserved posts; bounded only, no caller/B2/independentcredit.",
+      "evidence": [
+        {
+          "build_id": "2256a4c8-2a4d-4a5c-8b61-a252730eae70",
+          "path": "research/challenge-8/observations/411a84326e56fbb217641785f6dfc216e55558221600650cfda2db422d803791.json",
+          "sha256": "411a84326e56fbb217641785f6dfc216e55558221600650cfda2db422d803791"
+        }
+      ]
+    }
+  ],
+  "next_step": "WAITING via exact-thread watcher. Ack event before checkpoint edits; terminal Brief then closeout if main expired. Preserve pending ID after absolute; no budget/window renewal.",
+  "open": [
+    "Original full/prefix as_mut_ptr borrow/unsize (placeholders441/249); dependent controls NOT_RUN_PREFIX_PREREQUISITE_FAILED.",
+    "P4 raw caller3stages0/verifast1: array_inv at444 needs array<u64> (prelude274). RawPtr positive refinement2/verifast1 diagnostic OPEN. Lifecycle ens delimiterfix awaitsP5.",
+    "Full CURRENT/backedge and final compatible matrix, B2/generic/arbitrary-n/sorting/tool qualification and independent proof credit remain OPEN."
+  ],
+  "owner": "merge",
+  "phase": "MERGE-CALLER-REFINEMENT-R17-2026-10-21",
+  "rejected": [
+    {
+      "approach": "Broad placeholder/cast inference exemption or address-only borrow bridge",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R16-CALLER-DESIGN-20261021.md",
+          "sha256": "c1e8f851b5c0b18edf3ed5ac2b758a32daa0eda2f4ea88551b8e37e03288b940"
+        }
+      ],
+      "reason": "Does not establish slice metadata, valid lifetime/full_borrow or memory authority; original gate must remain."
+    },
+    {
+      "approach": "Short outer timeout990/execute570 chosen using prior whole-cycle timings",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md",
+          "sha256": "7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa"
+        }
+      ],
+      "reason": "Missed nested compile reserve140; P4 timed out before proof. Keep full1200 plan unless effective inner budget reviewed."
+    }
+  ],
+  "schema": "smallsort-checkpoint-v1",
+  "session": {
+    "active_build_ids": [
+      "20e8009e-458e-45b1-9974-b0abfe716675"
+    ],
+    "budget_seconds": 3600,
+    "deadline_utc": "2026-10-21T21:03:50Z",
+    "main_deadline_utc": "2026-10-21T20:33:50Z",
+    "remaining_seconds": 1489,
+    "retired_seconds": 0,
+    "spent_seconds": 2111,
+    "t0": "2026-10-21T18:33:50Z",
+    "unresolved_ids": []
+  },
+  "state": "HANDOFF",
+  "task_id": "merge-caller-refinement-autonomous-2026-10-21-r17",
+  "updated_utc": "2026-10-21T20:27:33Z",
+  "handoff": {
+    "reason": "P5 registered under unchanged R17 authority; exact-thread watcher wait. Previous P4 event acknowledged before updates.",
+    "worktree": "/root/verify-rust-std-merge-origin",
+    "branch": "merge/incoming-origin-20261009",
+    "owner": "merge",
+    "thread_id": "01a15ffd-66c3-7e82-bc08-e36ba747fac1",
+    "source_sha": "8432ff2b674d2401970987519ea9f1cb8a031bb5",
+    "tool_worktree": "/root/verifast-merge-actual-glue",
+    "tool_sha": "a66c1d30214e463a16a325cdef30b0ec8555e0af",
+    "profile_path": "research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json",
+    "profile_sha256": "947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d",
+    "config_sha256": "fc9ea50dc77226325374e8ffb59732f6df162508804767f68cd1dcb9fe48e8a6",
+    "source_input_sha256": "8c644c75819adf6927fe36938157de278b195e0c7b7df2b4058b68b57171abbd",
+    "build_id": "20e8009e-458e-45b1-9974-b0abfe716675",
+    "last_status": "QUEUED",
+    "dispatch_token": "dispatch-d47ba61039f64beda34887c266a871d5",
+    "state_dir": "/root/smallsort-merge-r17-20261021-state",
+    "ledger_path": "research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R17-BUDGET-20261021.json",
+    "plan_seconds": {
+      "outer": 1200,
+      "execute": 780,
+      "soft": 765,
+      "publication": 420,
+      "queue": 60,
+      "nested_compile_reserve": 140,
+      "active_reservation": 1260
+    },
+    "accounting": "P1=485/P2=99/P3=582/P4=945; spent2111/rem1489 includes active1260; AUTHORIZED/no retire/carry.",
+    "review_record": "research/challenge-8/cloud-build/origin-layout/R17-REVIEW-20261021.md",
+    "preflight_record": "research/challenge-8/cloud-build/origin-layout/R17-PROOF5-PREFLIGHT-20261021.json",
+    "tested": [
+      "Independent Luna HIGH lifecycle syntax GOa9fad5b and lossless writer GO8432ff2; array5synthetic checksPASS.",
+      "Exact8432remote full SHA checked;21providerpins/sourceclosure PASS; payload570202/config27292/191parts/200substitutions/maxarg5580.",
+      "Transport originalHEAD/15infra/167proofpaths/legacyv2 and offset/objecttamper/missingobject rejectionPASS."
+    ],
+    "unverified": [
+      "P5 lifecycle parse/proof after delimiterfix; no original borrow or caller success inferred.",
+      "Raw caller VeriFast1 and RawPtr positive refinement2/verifast1; original placeholders441/249; CURRENT/backedge/final compatible matrix/B2/generic/sorting/qualification/independentcredit OPEN."
+    ],
+    "on_resume": "Ack watcher event first, before changing CHECKPOINT; then compact Brief. Preserve T0/main20:33:50Z/absolute21:03:50Z. No raw/full-log/archive access.",
+    "foreign_changes": "Preserve pre-existing policy/runbook/Cloud README and untracked guides/role/history; excluded from commits.",
+    "watch_ack": {
+      "job_id": "754a3ba1-6967-45b1-bb29-4df8a7d11e6f",
+      "event_id": "d21e5624-063f-422f-81db-f89aa066dbb7",
+      "mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_utc": "2026-10-21T20:12:22Z"
+    },
+    "raw_caller_next": "P4 Brief request221163183f31c7da8d337cc266e0a032d601f36226b08d3f5932376d642f4a80: prelude274 No matching heap chunks array<u64>, callsiteverified444 array_inv::<u64>(). Exact file9f7eba375f6cf09267392128f733f3e3807dc27f51917c7cbd2bdf9185053952 SHA645318497a61747551d58679060df01a9f72fb4b4fe3fce0995bd422cee8aec7. Source-reported bounded window, not proof credit."
+  }
+}

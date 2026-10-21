@@ -1,0 +1,95 @@
+{
+  "schema": "merge-r17-release-v1",
+  "evidence_kind": "DERIVED_CLOSEOUT_NOT_SERVER_ENVELOPE",
+  "phase": "MERGE-CALLER-REFINEMENT-R17-2026-10-21",
+  "owner": "merge",
+  "status": "CLOSED",
+  "t0_utc": "2026-10-21T18:33:50Z",
+  "main_deadline_utc": "2026-10-21T20:33:50Z",
+  "absolute_deadline_utc": "2026-10-21T21:03:50Z",
+  "end_utc": "2026-10-21T20:42:27Z",
+  "budget": {
+    "ceiling_seconds": 3600,
+    "charged_seconds": 3011,
+    "execution_seconds": 3008,
+    "retired_seconds": 589,
+    "remaining_seconds": 0,
+    "carry_seconds": 0,
+    "carryover_allowed": false
+  },
+  "own_state": {
+    "active": 0,
+    "unresolved": 0,
+    "requests": 0,
+    "reservations": 0
+  },
+  "last_runtime_source_sha": "8432ff2b674d2401970987519ea9f1cb8a031bb5",
+  "tool_sha": "a66c1d30214e463a16a325cdef30b0ec8555e0af",
+  "profile_sha256": "947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d",
+  "runtime_std_or_trusted_premise_changed": false,
+  "builds": [
+    {
+      "build_id": "38fa5f6f-3263-404e-af55-48c47816a5cf",
+      "proof_sha": "c45ab3282f34e4d854e6ec03f62c80a106991836",
+      "infra_sha": "c45ab3282f34e4d854e6ec03f62c80a106991836",
+      "submitted_config_sha256": "2b87c2f79582bf990d87343e9bd2e89440a02e2ce463fe4cf967f9400e5e6c0e",
+      "build_seconds": 485,
+      "execution_seconds": 484,
+      "status": "FAILURE",
+      "accounted": true
+    },
+    {
+      "build_id": "cccfd7c5-ee98-4549-8ecd-da2274e7c608",
+      "proof_sha": "4c14e05f009a87a0b64ea17d27246dad5d16ad58",
+      "infra_sha": "4c14e05f009a87a0b64ea17d27246dad5d16ad58",
+      "submitted_config_sha256": "896df9da03bfaa1e0897cad26f0c9c02de8035b9ba77b49551d7c07bcac2d56f",
+      "build_seconds": 99,
+      "execution_seconds": 98,
+      "status": "FAILURE",
+      "accounted": true
+    },
+    {
+      "build_id": "f9e06ad1-d13e-4012-b1fc-be1d84c4aded",
+      "proof_sha": "224f8ee79b952e56a03f96fa8eaa7f54210001af",
+      "infra_sha": "224f8ee79b952e56a03f96fa8eaa7f54210001af",
+      "submitted_config_sha256": "a48fc6ba60324bd9ddcda8ea2482261bfa9921e6fade0262ec3708ee5a6439b7",
+      "build_seconds": 582,
+      "execution_seconds": 581,
+      "status": "FAILURE",
+      "accounted": true
+    },
+    {
+      "build_id": "2256a4c8-2a4d-4a5c-8b61-a252730eae70",
+      "proof_sha": "68113c964875a68a7e9fbb936959b2e67693300d",
+      "infra_sha": "68113c964875a68a7e9fbb936959b2e67693300d",
+      "submitted_config_sha256": "cc9b824c38547e9d37e3ff3616d67a8b01c7a17b06794d3b1271b25f6bfb93f5",
+      "build_seconds": 945,
+      "execution_seconds": 945,
+      "status": "FAILURE",
+      "accounted": true
+    },
+    {
+      "build_id": "20e8009e-458e-45b1-9974-b0abfe716675",
+      "proof_sha": "8432ff2b674d2401970987519ea9f1cb8a031bb5",
+      "infra_sha": "8432ff2b674d2401970987519ea9f1cb8a031bb5",
+      "submitted_config_sha256": "fc9ea50dc77226325374e8ffb59732f6df162508804767f68cd1dcb9fe48e8a6",
+      "build_seconds": 900,
+      "execution_seconds": 900,
+      "status": "FAILURE",
+      "accounted": true
+    }
+  ],
+  "accepted": false,
+  "b2_achieved": false,
+  "qualification": false,
+  "independent_credit": 0,
+  "proof_progress": "P5 source reports isolated actual body all4stages0, all12arraycontrols (6PASS_CONTROL including checked borrow lifecycle,6EXPECTED_REJECTION),5R9controls matched. Original/rawcaller and RawPtr required positive remain OPEN.",
+  "stop_reason": "Main expired; closeout only.589 retired, no carry.",
+  "next_experiment": "Only fresh owner-authorized session: raw caller array_inv resource frontier at444/prelude274; positiveRawPtr refinement2 exact diagnostic; preserve original as_mut_ptr/unsize/lifetime gate and CURRENT/normal-unwind/finalmatrix obligations.",
+  "watch_ack": {
+    "job_id": "dbcb8a45-f881-4012-a592-071c3c661c72",
+    "event_id": "172f2f38-a6b9-4348-b0be-2c41f7c78b15",
+    "mode": "CLOSEOUT_ONLY",
+    "acknowledged_utc": "2026-10-21T20:40:16Z"
+  }
+}

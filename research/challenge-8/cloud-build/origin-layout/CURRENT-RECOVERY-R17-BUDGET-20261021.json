@@ -1,5 +1,5 @@
 {
-  "active_build": "20e8009e-458e-45b1-9974-b0abfe716675",
+  "active_build": null,
   "allowed_lanes": [
     "merge"
   ],
@@ -105,11 +105,17 @@
       "submitted_config_sha256": "fc9ea50dc77226325374e8ffb59732f6df162508804767f68cd1dcb9fe48e8a6",
       "reserved_seconds": 1260,
       "timeout_seconds": 1200,
-      "status": "QUEUED",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "8c644c75819adf6927fe36938157de278b195e0c7b7df2b4058b68b57171abbd",
-      "build_id": "20e8009e-458e-45b1-9974-b0abfe716675"
+      "build_id": "20e8009e-458e-45b1-9974-b0abfe716675",
+      "start_time": "2026-10-21T20:24:37.982379480Z",
+      "finish_time": "2026-10-21T20:39:37.149819Z",
+      "create_time": "2026-10-21T20:24:37.188954288Z",
+      "build_seconds": 900,
+      "accounted": true,
+      "execution_seconds": 900
     }
   ],
   "carry_seconds": 0,
@@ -124,18 +130,24 @@
   "owner": "merge",
   "phase": "MERGE-CALLER-REFINEMENT-R17-2026-10-21",
   "phase_id": "MERGE-CALLER-REFINEMENT-R17-2026-10-21",
-  "remaining_build_seconds": 1489,
+  "remaining_build_seconds": 0,
   "report_reserve_seconds": 420,
-  "retired_seconds": 0,
+  "retired_seconds": 589,
   "schema": "smallsort-prepared-session-ledger-v1",
-  "spent_build_seconds": 2111,
+  "spent_build_seconds": 3011,
   "start_utc": "2026-10-21T18:33:50Z",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "task_id": "merge-caller-refinement-autonomous-2026-10-21-r17",
-  "used_build_seconds": 2111,
+  "used_build_seconds": 3011,
   "publication_gate_path": "research/challenge-8/cloud-build/origin-layout/R14-PUBLICATION-GATE-20261021.json",
   "profile_path": "research/challenge-8/cloud-build/origin-layout/R17-BASELINE-PROFILE-20261021.json",
   "baseline_profile_sha256": "eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375",
   "starting_source_sha": "6fd50c699500cbac5c65912174d4aa49b49db19f",
-  "starting_tool_commit": "660b576b6b1608db913c51e0785b443a8733396f"
+  "starting_tool_commit": "660b576b6b1608db913c51e0785b443a8733396f",
+  "retired_build_seconds": 589,
+  "carryover_build_seconds": 0,
+  "closed_utc": "2026-10-21T20:42:27Z",
+  "closure_reason": "Five terminal accounted Builds; main expired.589 seconds retired, carry0; proof gaps remain OPEN. No further Build authorization.",
+  "accepted": false,
+  "independent_credit": 0
 }
