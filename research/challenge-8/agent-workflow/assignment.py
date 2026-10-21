@@ -423,9 +423,15 @@ def _check_previous_task(root: Path, spec: dict[str, Any], old_phase: str) -> di
     task = _safe_path(root, "research/challenge-8/CURRENT-TASK.md", "current task")
     task_bytes = task.read_bytes()
     task_text = task_bytes.decode("utf-8", "strict")
-    for needle in (spec["previous_task_id"], old_phase, spec["previous_ledger_path"], OWNER_LABELS[spec["owner"]]):
+    for needle in (spec["previous_task_id"], old_phase):
         if needle not in task_text:
-            _err(f"CURRENT-TASK does not identify prior task/phase/ledger: {needle}")
+            _err(f"CURRENT-TASK does not identify prior task/phase: {needle}")
+    ledger_paths = (spec["previous_ledger_path"],
+                    PurePosixPath(spec["previous_ledger_path"]).relative_to("research/challenge-8").as_posix())
+    if not any(path in task_text for path in ledger_paths):
+        _err("CURRENT-TASK does not identify the exact prior ledger path")
+    if not any(owner in task_text for owner in (spec["owner"], OWNER_LABELS[spec["owner"]])):
+        _err("CURRENT-TASK does not identify the prior owner")
     preserved: dict[str, bytes] = {"CURRENT-TASK.md": task_bytes}
     for name in ("STATUS.md", "AGENTS-COMPACT.md", "CORE.md", "CHECKPOINT.json"):
         path = base / name

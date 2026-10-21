@@ -205,6 +205,24 @@ class AssignmentTests(unittest.TestCase):
         self.assertEqual((self.repo / "AGENTS.md").read_text(), (self.canonical / "AGENTS-COMPACT.md").read_text())
         self.assertEqual((history / f"ROOT-AGENTS.md.{manifest['files']['ROOT-AGENTS.md']}").read_bytes(), b"old root agents\n")
 
+    def test_legacy_relative_ledger_and_protocol_owner_keep_exact_binding(self):
+        (self.base / "CHECKPOINT.json").unlink()
+        task = self.base / "CURRENT-TASK.md"
+        relative = Path(self.previous_ledger_rel).relative_to("research/challenge-8").as_posix()
+        prefix = f"# Legacy task\nID {PREVIOUS}; owner {OWNER}; phase {OLD_PHASE}; ledger "
+        task.write_text(prefix + "other/BUDGET.json\n" + checkpoint.REPORT_MARKER + "\nCLOSED\n")
+        before = self.snapshot()
+        with self.assertRaisesRegex(assignment.AssignmentError, "exact prior ledger"):
+            assignment.install(self.spec_path, self.coordination)
+        self.assertEqual(self.snapshot(), before)
+        task.write_text(prefix + relative + "\n" + checkpoint.REPORT_MARKER + "\nCLOSED\n")
+        with patch.object(assignment, "CORE_DIR", self.canonical):
+            assignment.install(self.spec_path, self.coordination)
+        self.assertEqual(self.ledger.read_bytes(), self.ledger_bytes)
+        current = json.loads((self.base / "CHECKPOINT.json").read_text())
+        self.assertEqual(current["state"], "NOT_STARTED")
+        self.assertIsNone(current["session"]["t0"])
+
     def test_legacy_first_install_allows_absent_checkpoint(self):
         (self.base / "CHECKPOINT.json").unlink()
         self.write_spec()
