@@ -2,7 +2,7 @@
 
 ## Авторизация и рабочее место
 
-- **ID:** `merge-publication-gate-proof-retry-2026-10-21-r14`; **статус:** READY, T0 ещё не задан.
+- **ID:** `merge-publication-gate-proof-retry-2026-10-21-r14`; **статус:** RUNNING, T0 `2026-10-21T12:52:50Z`.
 - **Owner:** `merge`; **project worktree:** `/root/verify-rust-std-merge-origin`; **branch:** `merge/incoming-origin-20261009`; **репозиторий:** `Tiramisu-Cake/verify-rust-std`.
 - **Tool worktree:** `/root/verifast-merge-actual-glue`; branch `merge/actual-glue-instance-20261011`, expected head **`660b576b6b1608db913c51e0785b443a8733396f`**. Tool/model/spec/invariant сохраняются.
 - **Новое окно:** 120 минут основной работы + до30 минут завершения. T0 при фактическом старте после чтения; main=T0+120мин, absolute=T0+150мин. Запиши в session/новый ledger/текущий статус.
@@ -70,4 +70,9 @@ VPS — чтение/правки/Git/hashes/static parsing и малые isolat
 
 ## Отчёт агента
 
-Не начато. При старте зафиксируй T0 и план; по завершении замени раздел одним компактным итогом.
+T0 `2026-10-21T12:52:50Z`; main `14:52:50Z`; absolute `15:22:50Z`.
+Fresh3600/used0/carryfalse; R13/history unchanged. План: fresh Brief/policy +
+exact pinned fail-closed config audit → отдельный R14 gate с exact sizeUNKNOWN;
+узкий phase/source closure/service tests + Luna HIGH review → normal R11 Build,
+затем Brief/первый body refusal/controls и accounting. Нового synthetic нет.
+Fulltargetgates0/acceptedfalse/independentcredit0/B2/generic/qualificationOPEN.

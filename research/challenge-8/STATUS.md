@@ -1,6 +1,6 @@
-# Merge-R14 READY — reporting gate corrected → existing R11 proof
+# Merge-R14 RUNNING — reporting gate corrected → existing R11 proof
 
-[Новое задание](CURRENT-TASK.md): worktree `/root/verify-rust-std-merge-origin`, branch `merge/incoming-origin-20261009`, owner `merge`. T0 ещё не задан; свежие120мин+30мин/3600 Cloud-секунд, без отдельного лимита числа Builds; timeout90..1200/envelope+60. Phase `MERGE-PUBLICATION-GATE-PROOF-R14-2026-10-21`, новый ledger `CURRENT-RECOVERY-R14-PROOF-RETRY-BUDGET-20261021.json`. R13 и retired3506 не возобновлять, carry0.
+[Новое задание](CURRENT-TASK.md): worktree `/root/verify-rust-std-merge-origin`, branch `merge/incoming-origin-20261009`, owner `merge`. T0 2026-10-21T12:52:50Z, main14:52:50Z, absolute15:22:50Z; свежие120мин+30мин/3600 Cloud-секунд, без отдельного лимита числа Builds; timeout90..1200/envelope+60. Phase `MERGE-PUBLICATION-GATE-PROOF-R14-2026-10-21`, новый ledger `CURRENT-RECOVERY-R14-PROOF-RETRY-BUDGET-20261021.json`. R13 и retired3506 не возобновлять, carry0.
 
 Владелец разрешил принять existing synthetic probe `331fba31-4548-40e7-bb6d-1d225f590602` для publication prerequisite без нового synthetic Build и без exact-size sidecar. Основание: Brief VERIFIED_ARCHIVE_AND_INVENTORY; все3 Cloud stepsSUCCESS; source/config/archive/index bound; effective policyFalse; фактический configR13_UPLOAD_REQUIREDtrue и mandatory fail-closed size guard до uploads. Верхняя/нижняя границы установлены по pinned execution path, а не чтением receipt. Exact archive_size_bytes=null/exact_archive_size_observedfalse сохраняются; proof credit0.
 

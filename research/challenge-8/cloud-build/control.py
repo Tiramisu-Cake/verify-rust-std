@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Lightweight VPS orchestration only. Never executes proof tools locally."""
-import argparse,base64,datetime,gzip,hashlib,importlib.util,json,math,os,re,subprocess,sys,uuid
+import argparse,ast,base64,datetime,gzip,hashlib,importlib.util,json,math,os,re,subprocess,sys,uuid
 from pathlib import Path
 import coordination
 
@@ -12,6 +12,22 @@ UBUNTU='ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026
 SDK='gcr.io/google.com/cloudsdktool/google-cloud-cli@sha256:c631b05e8121048b29c9917bdc0a9fadd76d012f04f180a4409ec2ee534e832e'
 ACCOUNT='smallsort-builder@smallsort-ci.iam.gserviceaccount.com'
 SDK_PYTHON='/usr/lib/google-cloud-sdk/platform/bundledpythonunix/bin/python3'
+R14_PHASE='MERGE-PUBLICATION-GATE-PROOF-R14-2026-10-21'
+R14_PROBE_SOURCE='c9b5151735c352d212752c5fe644adcd3543b68d'
+R14_GATE_PATH='research/challenge-8/cloud-build/origin-layout/R14-PUBLICATION-GATE-20261021.json'
+R14_LEDGER_PATH='research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R14-PROOF-RETRY-BUDGET-20261021.json'
+R14_R13_LEDGER_PATH='research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R13-UPLOAD-BUDGET-20261021.json'
+R14_CLOSED_R13_CHECKPOINT='6ee5298e69dfe552487cd73cc7be04bae47dbf0f'
+R14_GATE_IDENTITIES={
+ 'build_id':'331fba31-4548-40e7-bb6d-1d225f590602',
+ 'proof_source_sha':'c9b5151735c352d212752c5fe644adcd3543b68d',
+ 'submitted_config_sha256':'da5162520a5fa2b96611a56f06a21ad8ae91843e214257c27ebac41051391ea0',
+ 'archive_sha256':'8ecf904c01ef647009619d7d445e13cb258c18a656dc65bc873756c610183efb',
+ 'index_sha256':'ad0e439b6d42371ade0c1db672f0f675e0eb6e209ca643e04b5b079d9a5a428e'}
+R14_POLICY_FILE_ID='0f66bbe9230a4472a9e913dca0daeb28ad99b4a96f7625f689ccb0c2b3561f97'
+R14_POLICY_FILE_SHA256='9883177b74ed1ede34b6498f363ce689b82c1beaee9211810179253aee8cc659'
+R14_UPLOAD_SHELL_SHA256='677740c98b0389c77c40804a825037b598c46c095fc0fecd9a30b80c5922ef64'
+R14_BRIEF_REQUEST_ID='da464eaaf9a99cba220d2226f40eea07121267e0ca1f12ae0775b1b3ee4e6d38'
 TERMINAL={'SUCCESS','FAILURE','INTERNAL_ERROR','TIMEOUT','CANCELLED','EXPIRED'}
 NIGHT_PHASE='NIGHT-SELECT-SORT4-CLOUD-2026-10-09'
 NIGHT_DEADLINE='2026-10-09T08:00:00Z'
@@ -29,6 +45,8 @@ def invoke(args):
  return json.loads(p.stdout) if p.stdout.strip() else None
 
 def envs(infra,proof,lane,r13_required=False):return [f'INFRA_SHA={infra}',f'PROOF_SHA={proof}',f'LANE={lane}',f'PROOF_IMAGE={UBUNTU}',f'R13_UPLOAD_REQUIRED={"true" if r13_required else "false"}','CLOUD_BUILD_ID=${BUILD_ID}','CLOUD_BUILD_PROJECT_ID=${PROJECT_ID}','CLOUD_BUILD_REGION=global','SMALLSORT_EXECUTION_PROVIDER=cloud-build','SUBMITTED_CONFIG_SHA=${_CONFIG_SHA}',] + [f'CONFIG_PART_{i}=${{_CONFIG_{i}}}' for i in range(8)]
+
+def required_upload_guard(phase):return phase in ('MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21','MERGE-PUBLICATION-GATE-PROOF-R14-2026-10-21')
 
 def config(infra,proof,lane,seconds,token,source_payload=None,r13_required=False):
  if type(r13_required) is not bool:raise ValueError('R13 upload-required selection must be boolean')
@@ -339,6 +357,249 @@ def r13_validate_retry_sources(probe_sha,proof_sha):
  after_recipe,after=r13_runtime_inventory(proof_sha)
  if before_recipe!=after_recipe or before!=after:
   raise SystemExit('R13 proof retry differs from the gated runtime/publication closure')
+
+
+def r14_validate_gate_record(gate):
+ required={
+  'schema':'merge-r14-publication-gate-v1',
+  'status':'ACCEPTED',
+  **R14_GATE_IDENTITIES,
+  'brief_request_id':R14_BRIEF_REQUEST_ID,
+  'archive_size_bytes':None,'exact_archive_size_observed':False,'sidecar_verified':False,
+  'archive_limit_bytes':536870912,'threshold_bytes':157286400,
+  'parallel_composite_upload_enabled':False,'proof_attempted':False,
+  'verification_accepted':False,'archive_inventory_verified':True,
+  'publication_verified':True,'independent_proof_credit':0,
+  'mandatory_guard_path_verified':True,
+  'size_bounds_basis':'EXACT_PINNED_FAIL_CLOSED_PATH_AND_SUCCESSFUL_CLOUD_STEPS'}
+ if not isinstance(gate,dict) or not required.keys()<=gate.keys() or any(gate.get(key)!=value for key,value in required.items()):
+  raise SystemExit('R14 prior-publication gate has missing or mismatched required fields')
+ for key in ('exact_archive_size_observed','sidecar_verified','parallel_composite_upload_enabled',
+             'proof_attempted','verification_accepted','archive_inventory_verified',
+             'publication_verified','mandatory_guard_path_verified'):
+  if type(gate.get(key)) is not bool:
+   raise SystemExit('R14 prior-publication gate has a non-boolean control field')
+ if type(gate.get('archive_size_bytes')) is not type(None) or type(gate.get('independent_proof_credit')) is not int:
+  raise SystemExit('R14 prior-publication gate has invalid unknown-size or credit typing')
+ if type(gate.get('archive_limit_bytes')) is not int or type(gate.get('threshold_bytes')) is not int:
+  raise SystemExit('R14 prior-publication gate has invalid size-bound typing')
+ steps=gate.get('cloud_steps_success')
+ if (not isinstance(steps,dict) or set(steps)!={'execute','package-upload','verdict'} or
+     any(value is not True for value in steps.values())):
+  raise SystemExit('R14 prior-publication gate does not bind success of all three Cloud steps')
+ coverage=gate.get('coverage')
+ expected_coverage={
+  'fresh_brief':'VERIFIED_ARCHIVE_AND_INVENTORY','catalogue_complete':True,'catalogue_members':15,
+  'policy_file_id':R14_POLICY_FILE_ID,'policy_file_sha256':R14_POLICY_FILE_SHA256,
+  'policy_selector':'pointer root','policy_exact':True,'policy_complete':True,'policy_next_offset':None,
+  'effective_enabled':'False','effective_threshold':'150M',
+  'policy_source_and_build_match':True,'archived_submitted_config_sha256_matches':True,
+  'submitted_config_file_id':'8a44769e28c1a68c618ab62b28eb20f29e1e29f8c2d06a136824a973717e1c9a',
+  'submitted_config_catalogue_verification':'SHA256_VERIFIED_ARCHIVE_MEMBER',
+  'actual_dispatch_config_audit':'R14-CONFIG-AUDIT-20261021.json',
+  'upload_shell_sha256':R14_UPLOAD_SHELL_SHA256,
+  'bounded_archive_statement':'157286400 < actual compressed archive bytes <= 536870912; bounds from mandatory pinned guard execution and successful publication, not direct size receipt observation',
+  'sidecar_limitation':'Post-package receipts outside archive catalogue; exact size and upload-only timing unavailable via Reader. No raw audit requested or used.',
+  'historical_R13_records_modified':False,'old_probe_charged_to_R14':False}
+ if not isinstance(coverage,dict) or not expected_coverage.keys()<=coverage.keys() or any(coverage.get(key)!=value for key,value in expected_coverage.items()):
+  raise SystemExit('R14 gate lacks the exact fresh Brief/policy/config/coverage observations')
+ for key in ('catalogue_complete','policy_exact','policy_complete','policy_source_and_build_match',
+             'archived_submitted_config_sha256_matches','historical_R13_records_modified','old_probe_charged_to_R14'):
+  if type(coverage.get(key)) is not bool:
+   raise SystemExit('R14 gate coverage contains a non-boolean identity claim')
+ if type(coverage.get('catalogue_members')) is not int:
+  raise SystemExit('R14 gate catalogue member count has invalid typing')
+ observed=coverage.get('observed_utc')
+ try:
+  observed_time=datetime.datetime.fromisoformat(observed.replace('Z','+00:00')) if isinstance(observed,str) else None
+ except ValueError:
+  observed_time=None
+ if (observed_time is None or observed_time.tzinfo is None or
+     observed_time<datetime.datetime.fromisoformat('2026-10-21T12:52:50+00:00') or
+     observed_time>datetime.datetime.now(datetime.timezone.utc)):
+  raise SystemExit('R14 gate coverage lacks a fresh post-T0 observation timestamp')
+
+
+def r14_read_selected_gate(proof_sha):
+ if not isinstance(proof_sha,str) or not re.fullmatch('[0-9a-f]{40}',proof_sha):
+  raise SystemExit('R14 proof source must be a full selected commit SHA')
+ try:
+  selected=subprocess.check_output(['git','show',proof_sha+':'+R14_GATE_PATH],cwd=ROOT,stderr=subprocess.PIPE)
+  target=ROOT/R14_GATE_PATH
+  if target.is_symlink() or not target.is_file():raise ValueError('publication gate is not a regular file')
+  worktree=target.read_bytes()
+  gate=json.loads(selected)
+ except (subprocess.CalledProcessError,OSError,ValueError,UnicodeDecodeError):
+  raise SystemExit('R14 selected source lacks a readable publication gate')
+ if selected!=worktree:
+  raise SystemExit('R14 publication gate differs from its selected committed source')
+ r14_validate_gate_record(gate)
+ return gate
+
+
+def r14_validate_runtime_maps(before,after,expected_additions):
+ if set(expected_additions)!={R14_GATE_PATH,R14_LEDGER_PATH,
+     'research/challenge-8/cloud-build/origin-layout/r14-source-preflight.py'}:
+  raise SystemExit('R14 registration allowlist differs from the reviewed path set')
+ ignore={R14_GATE_PATH,R14_LEDGER_PATH,
+         'research/challenge-8/cloud-build/origin-layout/r14-source-preflight.py',
+         R14_R13_LEDGER_PATH,
+         'research/challenge-8/cloud-build/origin-layout/R13-UPLOAD-MODE-20261021.json',
+         'research/challenge-8/cloud-build/recipes/merge.json'}
+ control_path='research/challenge-8/cloud-build/control.py'
+ before_paths=set(before)-ignore;after_paths=set(after)-ignore
+ if before_paths!=after_paths:
+  raise SystemExit('R14 changed or removed non-registration runtime closure paths')
+ for path in sorted(before_paths-{control_path}):
+  if before[path]!=after[path]:raise SystemExit('R14 changed a publisher/runtime input: '+path)
+ if control_path not in before_paths:
+  raise SystemExit('R14 source closure does not include control.py')
+ if before[control_path][:2]!=after[control_path][:2] or before[control_path][0] not in ('100644','100755'):
+  raise SystemExit('R14 control.py mode/kind changed outside the phase authorization delta')
+
+
+def r14_validate_historical_ledger(probe_entry,proof_entry,checkpoint_entry):
+ if (not all(isinstance(item,tuple) and len(item)==3 for item in (probe_entry,proof_entry,checkpoint_entry)) or
+     proof_entry!=checkpoint_entry or checkpoint_entry[:2]!=('100644','blob')):
+  raise SystemExit('R14 does not preserve the exact closed R13 account snapshot')
+
+
+def r14_validate_recipe_delta(before_recipe,after_recipe,expected_additions):
+ if not isinstance(before_recipe,dict) or not isinstance(after_recipe,dict):
+  raise SystemExit('R14 recipes must be JSON objects')
+ before_paths=before_recipe.get('proof_paths');after_paths=after_recipe.get('proof_paths')
+ if (not isinstance(before_paths,list) or not isinstance(after_paths,list) or
+     before_paths!=sorted(set(before_paths)) or after_paths!=sorted(set(after_paths))):
+  raise SystemExit('R14 proof recipe paths are not canonical')
+ before_body={key:value for key,value in before_recipe.items() if key!='proof_paths'}
+ after_body={key:value for key,value in after_recipe.items() if key!='proof_paths'}
+ if before_body!=after_body:
+  raise SystemExit('R14 changed a source-input recipe field outside proof_paths')
+ if set(after_paths)-set(before_paths)!=set(expected_additions) or set(before_paths)-set(after_paths):
+  raise SystemExit('R14 recipe delta differs from the exact registration paths')
+
+
+def r14_validate_mode_transition(before_card,after_card):
+ expected_before={'schema':'merge-r13-upload-mode-v1','mode':'synthetic-upload',
+  'payload_bytes':268435456,'threshold_bytes':157286400,'archive_limit_bytes':536870912,
+  'threshold_source':'https://docs.cloud.google.com/storage/docs/parallel-composite-uploads',
+  'proof_attempted':False}
+ expected_after={'schema':'merge-r13-upload-mode-v1','mode':'proof-r11','archive_limit_bytes':536870912}
+ if (not isinstance(before_card,dict) or not isinstance(after_card,dict) or
+     before_card!=expected_before or after_card!=expected_after or
+     any(type(before_card.get(k)) is not int for k in ('payload_bytes','threshold_bytes','archive_limit_bytes')) or
+     type(before_card.get('proof_attempted')) is not bool or
+     type(after_card.get('archive_limit_bytes')) is not int):
+  raise SystemExit('R14 mode transition must preserve the synthetic probe and select the exact proof-r11 card')
+
+
+def r14_validate_publisher_control(before_control,after_control):
+ def function_segment(text,name):
+  tree=ast.parse(text)
+  node=next((n for n in tree.body if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef)) and n.name==name),None)
+  return ast.get_source_segment(text,node) if node is not None else None
+ if any(function_segment(before_control,name)!=function_segment(after_control,name)
+        for name in ('envs','config')):
+  raise SystemExit('R14 changed the R13 Cloud config producer or upload command')
+ for constant in ('BUCKET','UBUNTU','SDK','ACCOUNT','SDK_PYTHON'):
+  def assignment(text,key):
+   tree=ast.parse(text)
+   for node in tree.body:
+    if isinstance(node,ast.Assign) and any(isinstance(t,ast.Name) and t.id==key for t in node.targets):
+     return ast.literal_eval(node.value)
+   return None
+  if assignment(before_control,constant)!=assignment(after_control,constant):
+   raise SystemExit('R14 changed a publisher image/account/bucket constant')
+ expected_route="def required_upload_guard(phase):return phase in ('MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21','MERGE-PUBLICATION-GATE-PROOF-R14-2026-10-21')"
+ if function_segment(after_control,'required_upload_guard')!=expected_route:
+  raise SystemExit('R14 does not enable the mandatory mode-card guard on exactly R13 and R14')
+ if 'r13_required=required_upload_guard(a.phase_id)' not in function_segment(after_control,'run_command'):
+  raise SystemExit('R14 submit path does not pass the selected phase guard marker into the config')
+ upload_segment=function_segment(after_control,'config') or ''
+ guard=upload_segment.find('r13-archive-size-guard.py --archive')
+ package=upload_segment.find('package-evidence.py --evidence')
+ first_upload=upload_segment.find('gcloud --configuration=smallsort-ci --account=ACCOUNT --project=smallsort-ci storage cp --if-generation-match=0')
+ marker_upload=upload_segment.find('gcloud --configuration=smallsort-ci --account=ACCOUNT --project=smallsort-ci storage cp --if-generation-match=0 /workspace/out/upload-complete.json')
+ upload_calls=[m.start() for m in re.finditer(r'gcloud --configuration=smallsort-ci --account=ACCOUNT --project=smallsort-ci storage cp',upload_segment)]
+ if not (package>=0 and guard>package and first_upload>guard and marker_upload>first_upload and
+         upload_calls and marker_upload==upload_calls[-1] and
+         'export CLOUDSDK_STORAGE_PARALLEL_COMPOSITE_UPLOAD_ENABLED=False' in upload_segment and
+         'set -euo pipefail' in upload_segment and
+         "'R13_UPLOAD_REQUIRED={\"true\" if r13_required else \"false\"}'" in function_segment(after_control,'envs')):
+  raise SystemExit('R14 exact publisher path lost the fail-closed guard/policy/marker-last ordering')
+ # The guard is an unmasked simple command in a set-e shell and the first
+ # upload loop is textually after it; a trailing `|| true` would void the gate.
+ if 'r13-archive-size-guard.py --archive' in upload_segment:
+  tail=upload_segment[guard:first_upload]
+  if '|| true' in tail or '||:' in tail:
+   raise SystemExit('R14 publisher suppresses the mandatory archive guard failure')
+
+
+def r14_validate_retry_sources(probe_sha,proof_sha):
+ """Require only the R14 registration delta around the exact R13 publisher."""
+ expected_additions={R14_GATE_PATH,R14_LEDGER_PATH,
+  'research/challenge-8/cloud-build/origin-layout/r14-source-preflight.py'}
+ recipe_path='research/challenge-8/cloud-build/recipes/merge.json'
+ mode_path='research/challenge-8/cloud-build/origin-layout/R13-UPLOAD-MODE-20261021.json'
+ try:
+  before_recipe_raw=subprocess.check_output(['git','show',probe_sha+':'+recipe_path],cwd=ROOT,stderr=subprocess.PIPE)
+  after_recipe_raw=subprocess.check_output(['git','show',proof_sha+':'+recipe_path],cwd=ROOT,stderr=subprocess.PIPE)
+  before_recipe=json.loads(before_recipe_raw);after_recipe=json.loads(after_recipe_raw)
+ except (subprocess.CalledProcessError,ValueError,UnicodeDecodeError):
+  raise SystemExit('R14 could not read the exact probe and proof recipes')
+ r14_validate_recipe_delta(before_recipe,after_recipe,expected_additions)
+ try:
+  before_card=json.loads(subprocess.check_output(['git','show',probe_sha+':'+mode_path],cwd=ROOT,stderr=subprocess.PIPE))
+  after_card=json.loads(subprocess.check_output(['git','show',proof_sha+':'+mode_path],cwd=ROOT,stderr=subprocess.PIPE))
+ except (subprocess.CalledProcessError,ValueError,UnicodeDecodeError):
+  raise SystemExit('R14 source lacks a readable mode card')
+ r14_validate_mode_transition(before_card,after_card)
+
+ def inventory(commit,recipe,recipe_raw):
+  spec=importlib.util.spec_from_file_location('r14_pinned_source',DIR/'source-input.py')
+  source=importlib.util.module_from_spec(spec);spec.loader.exec_module(source)
+  paths=sorted(set([p for p in recipe['proof_paths'] if not p.endswith('.md')]+
+                   recipe['infra_paths']+source.infra_paths(ROOT,commit)+[recipe_path]))
+  raw=subprocess.check_output(['git','ls-tree','-r','-z',commit,'--',*paths],cwd=ROOT,stderr=subprocess.PIPE)
+  found={}
+  for record in raw.split(b'\0'):
+   if not record:continue
+   meta,path=record.split(b'\t',1);mode,kind,oid=meta.decode().split()
+   if mode not in ('100644','100755') or kind!='blob':
+    raise SystemExit('R14 runtime closure contains a non-regular source input')
+   found[path.decode()]=(mode,kind,oid)
+  if set(found)!=set(paths):raise SystemExit('R14 runtime source closure is incomplete')
+  return found
+ before=inventory(probe_sha,before_recipe,before_recipe_raw)
+ after=inventory(proof_sha,after_recipe,after_recipe_raw)
+ if before.get(mode_path,('',))[0:2]!=('100644','blob') or after.get(mode_path,('',))[0:2]!=('100644','blob'):
+  raise SystemExit('R14 mode card must remain a regular non-executable source input')
+ checkpoint_raw=subprocess.check_output(['git','ls-tree','-r','-z',R14_CLOSED_R13_CHECKPOINT,'--',R14_R13_LEDGER_PATH],cwd=ROOT,stderr=subprocess.PIPE)
+ checkpoint_entries=[]
+ for record in checkpoint_raw.split(b'\0'):
+  if record:
+   meta,path=record.split(b'\t',1);mode,kind,oid=meta.decode().split()
+   checkpoint_entries.append((path.decode(),(mode,kind,oid)))
+ if len(checkpoint_entries)!=1 or checkpoint_entries[0][0]!=R14_R13_LEDGER_PATH:
+  raise SystemExit('R14 closed R13 checkpoint does not contain the exact account file')
+ r14_validate_historical_ledger(before.get(R14_R13_LEDGER_PATH),after.get(R14_R13_LEDGER_PATH),checkpoint_entries[0][1])
+ try:
+  current_historical=(ROOT/R14_R13_LEDGER_PATH).read_bytes()
+  checkpoint_historical=subprocess.check_output(['git','show',R14_CLOSED_R13_CHECKPOINT+':'+R14_R13_LEDGER_PATH],cwd=ROOT,stderr=subprocess.PIPE)
+ except (OSError,subprocess.CalledProcessError):
+  raise SystemExit('R14 cannot verify the read-only closed R13 account snapshot')
+ if current_historical!=checkpoint_historical:
+  raise SystemExit('R14 working tree changed the closed R13 account snapshot')
+ ignore={recipe_path,mode_path}|expected_additions
+ r14_validate_runtime_maps(before,after,expected_additions)
+ # The command generator is allowed to gain phase authorization, but the
+ # emitted Cloud config and its identity-bearing constants must remain exact.
+ control_path='research/challenge-8/cloud-build/control.py'
+ def git_bytes(commit,path):
+  return subprocess.check_output(['git','show',commit+':'+path],cwd=ROOT,stderr=subprocess.PIPE)
+ before_control=git_bytes(probe_sha,control_path).decode('utf-8')
+ after_control=git_bytes(proof_sha,control_path).decode('utf-8')
+ r14_validate_publisher_control(before_control,after_control)
 
 
 def authorized_phase(a,ledger):
@@ -758,6 +1019,47 @@ def authorized_phase(a,ledger):
     if len(matching)!=1 or r13_upload_mode(matching[0]['proof_sha'])!='synthetic-upload':
      raise SystemExit('R13 synthetic gate does not bind its successful accounted Build/source/config')
     r13_validate_retry_sources(gate['proof_source_sha'],a.proof_sha)
+ if a.phase_id==R14_PHASE:
+  expected_ledger=DIR/R14_LEDGER_PATH.removeprefix('research/challenge-8/cloud-build/')
+  if (a.ledger.resolve()!=expected_ledger.resolve() or a.owner!='merge' or
+      ledger.get('owner')!='merge' or ledger.get('authorization_model')!='bounded-cloud-budget' or
+      ledger.get('ceiling_build_seconds')!=3600 or ledger.get('allowed_lanes')!=['merge'] or
+      ledger.get('start_utc')!='2026-10-21T12:52:50Z' or
+      ledger.get('main_deadline_utc')!='2026-10-21T14:52:50Z' or
+      ledger.get('deadline_utc')!='2026-10-21T15:22:50Z' or
+      'max_builds' not in ledger or ledger.get('max_builds') is not None or
+      type(ledger.get('max_timeout_seconds')) is not int or ledger.get('max_timeout_seconds')!=1200 or
+      ledger.get('carryover_allowed') is not False or
+      ledger.get('publication_gate_path')!=R14_GATE_PATH or
+      type(ledger.get('used_build_seconds')) is not int or
+      type(ledger.get('remaining_build_seconds')) is not int or
+      not 0<=ledger.get('used_build_seconds')<=3600 or
+      ledger.get('used_build_seconds')+ledger.get('remaining_build_seconds')!=3600 or
+      type(ledger.get('builds')) is not list or
+      any(type(item) is not dict for item in ledger.get('builds')) or
+      any(item.get('build_id')==R14_GATE_IDENTITIES['build_id'] or
+          item.get('owner')!='merge' or item.get('phase_id')!=R14_PHASE
+          for item in ledger.get('builds')) or
+      'active_build' not in ledger or
+      (ledger.get('active_build') is not None and
+       (type(ledger.get('active_build')) is not str or not ledger.get('active_build')))):
+   raise SystemExit('R14 differs from its exact publication-gate proof authorization')
+  cutoff=datetime.datetime.fromisoformat('2026-10-21T15:22:50+00:00')
+  now=datetime.datetime.now(datetime.timezone.utc)
+  if now<datetime.datetime.fromisoformat(ledger['start_utc'].replace('Z','+00:00')):
+   raise SystemExit('R14 proof window has not started')
+  if a.command in ('submit','request') and now>=datetime.datetime.fromisoformat(ledger['main_deadline_utc'].replace('Z','+00:00')):
+   raise SystemExit('R14 main window passed; no new dispatch/request')
+  if a.command=='submit':
+   if (type(a.timeout) is not int or not 90<=a.timeout<=1200 or a.lane!='merge' or
+       a.source_mode!='pinned-objects' or a.infra_sha!=a.proof_sha):
+    raise SystemExit('R14 requires one exact pinned infra/proof source, merge lane, timeout90..1200')
+   if now+datetime.timedelta(seconds=a.timeout+60)>cutoff:
+    raise SystemExit('R14 Build plus queue reserve exceeds the absolute deadline')
+   if r13_upload_mode(a.proof_sha)!='proof-r11':
+    raise SystemExit('R14 proof retry requires the exact R11 normal-proof mode')
+   r14_read_selected_gate(a.proof_sha)
+   r14_validate_retry_sources(R14_PROBE_SOURCE,a.proof_sha)
  if a.phase_id=='CI-IAM-E2E-ONCE-2026-10-17':
   # Separate, explicitly activated account; never reuse a historical ledger.
   expected_ledger=DIR/'ci-iam-e2e-once-20261017'/'BUDGET.json'
@@ -1083,7 +1385,7 @@ def run_command(a,state,ledger,ledger_path):
    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
    source_payload=module.make_payload(ROOT,a.infra_sha,a.proof_sha,a.lane)
   cfg=config(a.infra_sha,a.proof_sha,a.lane,a.timeout,token,source_payload,
-             r13_required=(a.phase_id=='MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21'))
+             r13_required=required_upload_guard(a.phase_id))
   if any(len(arg.encode())>10000 for step in cfg['steps'] for arg in step.get('args',[])):raise SystemExit('Config argument exceeds Cloud Build 10000-byte limit; no dispatch')
   source_values={k:v for k,v in cfg['substitutions'].items() if k.startswith('_SOURCE_')}
   for key in source_values:cfg['substitutions'][key]='placeholder'
@@ -1095,7 +1397,7 @@ def run_command(a,state,ledger,ledger_path):
   flags=state/(token+'-flags.json');write(flags,{'--substitutions':values})
   reservation={'dispatch_token':token,'owner':a.owner,'phase_id':a.phase_id,'ledger':str(ledger_path),'state_dir':str(state),'item':item,'build_id':None}
   # Recheck the time-window account after source/config preparation, before reserve.
-  if a.phase_id in ('MERGE-FIRST-COMPARATOR-R1-2026-10-18','MERGE-FIRST-COMPARATOR-R2-2026-10-19','MERGE-FIRST-COMPARATOR-R3-2026-10-19','MERGE-GUARD-ADDRESSABILITY-R4-2026-10-20','MERGE-CURRENT-OWNERSHIP-R5-2026-10-20','MERGE-CANONICAL-SHARE-R6-2026-10-20','MERGE-POST-MIGRATION-CURRENT-RECOVERY-R7-2026-10-20','MERGE-LATE-RECOVERY-REJOIN-R8-2026-10-20','MERGE-GUARD-CURRENT-RETURN-R9-2026-10-20','MERGE-MOVING-GAP-INVARIANT-R10-2026-10-21','MERGE-LABEL-STORAGE-INVARIANT-R11-2026-10-21','MERGE-R11-EVIDENCE-RETRY-2026-10-21','MERGE-UPLOAD-NONCOMPOSITE-R12-2026-10-21','MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21'):authorized_phase(a,ledger)
+  if a.phase_id in ('MERGE-FIRST-COMPARATOR-R1-2026-10-18','MERGE-FIRST-COMPARATOR-R2-2026-10-19','MERGE-FIRST-COMPARATOR-R3-2026-10-19','MERGE-GUARD-ADDRESSABILITY-R4-2026-10-20','MERGE-CURRENT-OWNERSHIP-R5-2026-10-20','MERGE-CANONICAL-SHARE-R6-2026-10-20','MERGE-POST-MIGRATION-CURRENT-RECOVERY-R7-2026-10-20','MERGE-LATE-RECOVERY-REJOIN-R8-2026-10-20','MERGE-GUARD-CURRENT-RETURN-R9-2026-10-20','MERGE-MOVING-GAP-INVARIANT-R10-2026-10-21','MERGE-LABEL-STORAGE-INVARIANT-R11-2026-10-21','MERGE-R11-EVIDENCE-RETRY-2026-10-21','MERGE-UPLOAD-NONCOMPOSITE-R12-2026-10-21',R14_PHASE,'MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21'):authorized_phase(a,ledger)
   coordination.reserve(reservation)
   ledger['builds'].append(item);ledger['active_build']=token;write(ledger_path,ledger)
   cmd=['builds','submit','--no-source','--async','--region=global','--config='+str(path),'--flags-file='+str(flags),'--format=json','--quiet']
