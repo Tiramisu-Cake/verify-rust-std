@@ -1,0 +1,224 @@
+{
+  "artifacts": [
+    {
+      "path": "research/challenge-8/task-history/select-actual-sort4-r15/NEXT-ACTUAL-OBLIGATION.md",
+      "sha256": "ab4f335d7702727836bac3a2a68a4b3564af69773dc0220e96301860a9d3484a"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S5-review.json",
+      "sha256": "9a47dfd6c1bd26974956d58fcbc8b2d83cbb8653f8406f79e04faa53008a0311"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-lifetime-r16/NEXT-CALLBACK-PROTOCOL.md",
+      "sha256": "52ab17d8fc1da93b4b10e4e5be40dfd8455c761c4b1b09f88b0305464169e769"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-lifetime-r16/NEXT-AFTER-S5.md",
+      "sha256": "9b14da3d73b7fc52e5fc9fe91309495db285fd762844ebcaa7cacd41e639f55f"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-lifetime-r16/observations/04a69ab306b8fd4ff6039ff277caa157aebc6962ca2395c65a5509a06e8bffac.json",
+      "sha256": "04a69ab306b8fd4ff6039ff277caa157aebc6962ca2395c65a5509a06e8bffac"
+    }
+  ],
+  "assignment_sha256": "bc8b6f81858bdc46754d3f3db09aa9bfeb8fa5fbf04afe2966143154c972b64e",
+  "baseline": {
+    "profile_sha256": "de469095ad2ba4435b41bc0f114289cd12f4952f129e88fbcfb655cea6dca505",
+    "source_sha": "81226dafedd2e8d1dfb140ab0e4dd88556bfd7db",
+    "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+  },
+  "blocker": {
+    "build_id": "acd8e010-16b8-4b58-9501-083cb10b595f",
+    "location": "verified/lib.rs(202,26-41), aliasing.rsspec(88,9-29)",
+    "summary": "S5 reaches actual c2: missing ref_precreated_token for v_base+3. Required controls interrupted by strict HRTB routing RuntimeError; full actual normal/unwind OPEN.",
+    "evidence": [
+      {
+        "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S5-evidence.json",
+        "sha256": "209199ccfeef37d698b97216466b3f726d383358fa274e8e887f1ca5ead6ca51"
+      }
+    ]
+  },
+  "confirmed": [
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R15 source-checked/unqualified: four-copy identity representations, Boolean selector32, c1/generic base4 recovery under supplied debt; mini7 and intended negatives. Actual body0, no native summary/independent credit.",
+      "evidence": [
+        {
+          "build_id": "980fbc61-2d4c-43f3-9cac-c68db0b34c63",
+          "path": "research/challenge-8/task-history/select-actual-sort4-r15/S4-evidence.json",
+          "sha256": "7f8547b408ae741a116156d9ecfd489baf80902b556982ab6ebd636e9e0b1ea4"
+        },
+        {
+          "build_id": "8d07c434-daff-412c-a214-0e91a521fec2",
+          "path": "research/challenge-8/task-history/select-actual-sort4-r15/S5-evidence.json",
+          "sha256": "ea7904a964f431bbc04c4e1ac6578578d895c2c3a8078a16e07d026dc25fd0f5"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R15 CLOSED:2255spent/1345retired/carry0,5 terminal/accounted, own active/unresolved/requests/reservations0. R15 full26 NOT_RUN; R14 unchanged.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-BODY-R15-RELEASE-2026-10-21.json",
+          "sha256": "e2ce4741cac9f1bdeed610403dec5f880ace7e4eead1e23a89711157b64d0db9"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R16 S4: exact30 temporary local scope check passes (six cmp plus24 deferred); strict-entry setup barrier passed enough to reach actual c1, then associatedOutput/bool type mismatch. Complete actual normal/unwind obligations closed0; no independent credit.",
+      "evidence": [
+        {
+          "build_id": "4df683dc-41cb-4e4d-b1ce-d515e8f96b00",
+          "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S4-evidence.json",
+          "sha256": "c2cb4cf17ba35ed8e0b1eea7bd4a784012f03696f27d6218d6370cf12ac89150"
+        }
+      ]
+    },
+    {
+      "claim": "R16 S5 source-reported BODY_PROOF_FAILED at actual c2 missing ref_precreated_token(v_base+3). Controls interrupted by HRTB-route RuntimeError. R16 CLOSED: 2170spent/1430retired/carry0; all5 terminal/accounted, own active/unresolved/request/reservation0. No complete actual obligation or independent credit.",
+      "assurance": "SOURCE_REPORTED",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S5-evidence.json",
+          "sha256": "209199ccfeef37d698b97216466b3f726d383358fa274e8e887f1ca5ead6ca51"
+        }
+      ]
+    }
+  ],
+  "handoff": {
+    "account_preservation": {
+      "active_owner_request_and_reservation_left_intact": true,
+      "ledger_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-LIFETIME-2026-10-21-R16.json",
+      "ledger_sha256_at_handoff": "10353d519bd0c62ae96da2722cde535d765582a7ec9649acbd44b6e9cc3514c7",
+      "no_retirement_or_transfer": true,
+      "remaining_including_active_reservations_seconds": 1904,
+      "retired_seconds": 0,
+      "shared_coordinator_unchanged_except_one_normal_status": true,
+      "spent_accounted_seconds": 1696,
+      "status": "AUTHORIZED",
+      "t0_and_phase_unchanged": true
+    },
+    "branch": "research/night-select-sort4-cloud-2026-10-09",
+    "build": {
+      "build_id": "acd8e010-16b8-4b58-9501-083cb10b595f",
+      "create_time": "2026-10-21T19:31:50.105460875Z",
+      "dispatch_token": "dispatch-3e8cc84ec05c48e6b35250e2266a63aa",
+      "finish_time": null,
+      "infra_sha": "8d6fb4685bda418f76110ad097678d78a613f815",
+      "lane": "o26-sort4-c1-current-recovery",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-ACTUAL-LIFETIME-2026-10-21-R16",
+      "proof_sha": "8d6fb4685bda418f76110ad097678d78a613f815",
+      "publish_text_logs": true,
+      "reserved_seconds": 1260,
+      "source_input_sha256": "af7a2adc278f3a1de214bc97ddb77fb53049d6343750dc737a3fdc4e56b18e73",
+      "source_mode": "pinned-objects",
+      "start_time": "2026-10-21T19:31:50.829847145Z",
+      "status": "WORKING",
+      "submitted_config_sha256": "08a51de1d496be4bb5479219b05c825e08dbb2453c78ff5afaf0f6a644b6f859",
+      "timeout_seconds": 1200
+    },
+    "config": {
+      "closure_bytes": 2925904,
+      "closure_entries": 134,
+      "dispatch_token": "dispatch-3e8cc84ec05c48e6b35250e2266a63aa",
+      "recipe_path": "research/challenge-8/cloud-build/recipes/o26-sort4-c1-current-recovery.json",
+      "recipe_sha256": "21dfdf63ddd807b10be160d310411c00b0b5ec88a2f065d85084a53c8e771d65",
+      "reserved_seconds": 1260,
+      "source_closure_inventory_sha256": "cc032d5803a5ae9c4ebba51b9f80528301c431337a1503862d88974d558ff2e6",
+      "submitted_config_sha256": "08a51de1d496be4bb5479219b05c825e08dbb2453c78ff5afaf0f6a644b6f859",
+      "timeout_seconds": 1200
+    },
+    "effective_tool": {
+      "actual_body_runner_sha256": "892ce1a9c9f3e619e95a3ce41033639ee9cff9b99d13527fe6b867c87eb97acb",
+      "base_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+      "final_translator_sha256": "406ee00af924d91cd59b6db047e45a8755ae8779c789697c5b6e96d775b01da2",
+      "full_chain_profile_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-LIFETIME-R16-PROFILE-2026-10-21.json",
+      "full_chain_profile_sha256": "d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24",
+      "note": "Effective tool is full pinned overlay/spec/profile chain, not base commit alone. S5 changes only target-scoped existing checked HRTB environment; final tool binaries for S5 not inspected.",
+      "strict_diagnostic_kernel_sha256": "f2dded7a63f80a8da18bcb17dcc0e507c795373e3c6e3c402f1703ad2a8b8b42"
+    },
+    "last_status_observation": {
+      "cancellation": "NOT_REQUESTED",
+      "execute": "WORKING",
+      "further_polling": "NOT_STARTED",
+      "package_upload": "QUEUED",
+      "query_count_at_pause": 1,
+      "status": "WORKING",
+      "verdict": "QUEUED"
+    },
+    "paused_utc": "2026-10-21T19:36:20.326539Z",
+    "published_candidate_commit": "8d6fb4685bda418f76110ad097678d78a613f815",
+    "reason": "Coordinated pause to adopt context-saving tools/instructions; no new window or account closure.",
+    "resume_context": {
+      "canonical_core": "/root/verify-rust-std-evidence-brief/research/challenge-8/agent-workflow/CORE.md",
+      "client_state_dir": "/tmp/select-r16-cloud-state",
+      "evidence_reader": "smallsort-brief only, no raw archives/logs/GCS fallback",
+      "new_context_tools_commit": "86f9891dbc53d7d08fd55b1e3c343bbc573d57bb",
+      "next_after_resume": "First reconcile S5 terminal/accounting using existing assigned client, obtain compact Brief, inspect exact failure and HRTB-off contrast; do not infer acceptance from source PASS or exit0.",
+      "watcher": "NOT_STARTED; actual thread cwd=/root, exact assigned worktree required; owner resume required"
+    },
+    "source": {
+      "generated_original_source_sha256": "b4b0070e224cc60eba58a2116c0009fdda2e3ae599c67344194a709215a374db",
+      "generated_verified_source_sha256": "c9a137d7abb2885f07dc5cf15b5772d4d5bddc0ecd0fcf2cda0c453cb1453905",
+      "infra_sha": "8d6fb4685bda418f76110ad097678d78a613f815",
+      "proof_sha": "8d6fb4685bda418f76110ad097678d78a613f815",
+      "source_input_sha256": "af7a2adc278f3a1de214bc97ddb77fb53049d6343750dc737a3fdc4e56b18e73",
+      "source_mode": "pinned-objects",
+      "std_commit": "81226dafedd2e8d1dfb140ab0e4dd88556bfd7db",
+      "std_sort4_source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+    },
+    "status": "RECONCILED_AND_CLOSED",
+    "tested": [
+      "39 Python service/registration checks passed; no local compiler/exporter/preparer/verifier.",
+      "Independent Luna HIGH GO for exact S1 through S5 semantic candidates; S5 review is S5-review.json.",
+      "S4 Brief: complete-body containment6cmp+24deferred and controls source-reported PASS; actual body fails c1 associatedOutput/bool mismatch, source pair/tool immutable."
+    ],
+    "unverified": [
+      "S5 HRTB-on compiler/projection assertion, actual target normal/unwind and new HRTB-off control have no terminal evidence at pause.",
+      "Full actual body normal/unwind obligations closed0; source/MIR receipt, c2-c5 debts and Boolean-to-pointer/copy composition remain open.",
+      "Fresh26, final admission/summary/qualification and stable Freeze caller NOT_RUN/OPEN; independent B1/B2 credit0."
+    ],
+    "worktree": "/root/verify-rust-std-select-night",
+    "reconciled_utc": "2026-10-21T19:47:19.799986Z",
+    "resumed_thread_id": "01a15ffc-dbe5-7523-b5b1-d3dc37016e06",
+    "note": "Historical paused snapshot retained; current account/session above supersedes active-at-pause fields."
+  },
+  "next_step": "R16 CLOSED/carry0. New owner-authorized window required. First fix strict HRTB control metadata routing; then bind actual c2 ordered receiver/borrow/tuple/source resources using NEXT-AFTER-S5.md and NEXT-CALLBACK-PROTOCOL.md. Full actual normal/unwind, final controls/mini7/fresh26 and stable Freeze caller OPEN; independent credit0.",
+  "open": [
+    "Full generic actual sort4 normal/unwind; actual callback debt and Boolean→pointer binding.",
+    "Independent B1/B2credit0; final qualification/full26 and stable Freeze caller OPEN.",
+    "Actual current-owner callback debts c1–c5, selector-pointer/permutation composition, final qualification and stable caller remain open; S4 executed current alias/scope placement without full-body success."
+  ],
+  "owner": "select-sort4",
+  "phase": "SORT4-ACTUAL-LIFETIME-2026-10-21-R16",
+  "rejected": [
+    {
+      "approach": "Broad placeholder/static-lifetime acceptance or helper PASS as full body.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-actual-sort4-r15/NEXT-ACTUAL-OBLIGATION.md",
+          "sha256": "ab4f335d7702727836bac3a2a68a4b3564af69773dc0220e96301860a9d3484a"
+        }
+      ],
+      "reason": "Forbidden shortcuts: retain strict barrier and actual callback/resource binding."
+    }
+  ],
+  "schema": "smallsort-checkpoint-v1",
+  "session": {
+    "active_build_ids": [],
+    "budget_seconds": 3600,
+    "deadline_utc": "2026-10-21T20:20:34Z",
+    "main_deadline_utc": "2026-10-21T19:50:34Z",
+    "remaining_seconds": 0,
+    "retired_seconds": 1430,
+    "spent_seconds": 2170,
+    "t0": "2026-10-21T17:50:34Z",
+    "unresolved_ids": []
+  },
+  "state": "CLOSED",
+  "task_id": "select-actual-lifetime-autonomous-2026-10-21-r16",
+  "updated_utc": "2026-10-21T19:47:19.799986Z"
+}

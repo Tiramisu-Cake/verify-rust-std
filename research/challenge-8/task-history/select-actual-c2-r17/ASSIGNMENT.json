@@ -1,0 +1,99 @@
+{
+  "schema": "smallsort-assignment-v1",
+  "task_id": "select-actual-c2-autonomous-2026-10-21-r17",
+  "previous_task_id": "select-actual-lifetime-autonomous-2026-10-21-r16",
+  "title": "Select-R17 — actual c2 resources and sort4",
+  "owner": "select-sort4",
+  "worktree": "/root/verify-rust-std-select-night",
+  "branch": "research/night-select-sort4-cloud-2026-10-09",
+  "baseline_sha": "5dde9e6e71f5d4eadbbf2e32d4c17945b831f1f5",
+  "source_sha": "81226dafedd2e8d1dfb140ab0e4dd88556bfd7db",
+  "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "tool_worktree": "/root/verifast-select-sort4-c2-bind-20261010",
+  "tool_branch": "challenge8/select-sort4-c2-bound-20261010",
+  "profile_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-LIFETIME-R16-PROFILE-2026-10-21.json",
+  "profile_sha256": "d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24",
+  "phase": "SORT4-ACTUAL-C2-2026-10-21-R17",
+  "lane": "o26-sort4-c1-current-recovery",
+  "ledger_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C2-2026-10-21-R17.json",
+  "previous_ledger_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-LIFETIME-2026-10-21-R16.json",
+  "goal": "R17 и Builds разрешены. Автономно продвигай actual sort4 normal/unwind в рамках CORE; ближайшая цель — checked c2 resource recovery с controls и точной call-site attribution. Продолжай по миссии в оставшемся окне.",
+  "steps": [
+    "Repair HRTB routing for controls before Cloud: exact actual-body controls retain opt-in; unrelated helpers do not inherit it. Keep strict route guards, service failure cases, and HRTB-off contrast.",
+    "Bind c2 ordered operands (3,2) using fresh per-call lifetime, actual precreated refs, tuple/current-F and four-current-owner normal/direct-unwind recovery; preserve checked kernel binding. Reject wrong receiver/order/ref/index/debt/marker.",
+    "Advance c3–c5 and selector/copy composition when justified. After target gates pass, run required controls/mini7/fresh26 on final pins, then stable Freeze caller. Report partial progress without full-body credit."
+  ],
+  "special_bounds": [
+    "Effective tool is the full R16 overlay/spec/profile chain, not base SHA alone. Preserve R13 limits and strict entry/exit/escape/init/leak/unwind checks; keep all5 calls/8selects/4copies.",
+    "Tool WT contains foreign edits: use pinned Git objects; develop in project/isolated WT. Kernel resource equality may prove binding; independent receipt still attributes exact ordered calls. No address-only or assumed bridge."
+  ],
+  "references": [
+    {
+      "title": "S5 diagnosis / next experiment",
+      "path": "research/challenge-8/task-history/select-actual-lifetime-r16/NEXT-AFTER-S5.md"
+    },
+    {
+      "title": "Callback protocol and kernel binding qualification",
+      "path": "research/challenge-8/task-history/select-actual-lifetime-r16/NEXT-CALLBACK-PROTOCOL.md"
+    }
+  ],
+  "handoff": {
+    "confirmed": [
+      {
+        "claim": "R16 S5 reached actual c2; source-reported BODY_PROOF_FAILED on missing ref_precreated_token(v_base+3), immutable source/tool. c1 path progress is not complete normal/unwind proof; independent credit0.",
+        "assurance": "SOURCE_REPORTED",
+        "evidence": [
+          {
+            "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S5-evidence.json",
+            "sha256": "209199ccfeef37d698b97216466b3f726d383358fa274e8e887f1ca5ead6ca51",
+            "build_id": "acd8e010-16b8-4b58-9501-083cb10b595f"
+          }
+        ]
+      },
+      {
+        "claim": "R16 CLOSED: five terminal/accounted Builds, 2170s spent, 1430s retired, carry0; no active/unresolved. No complete actual obligation or independent credit.",
+        "assurance": "SOURCE_REPORTED",
+        "evidence": [
+          {
+            "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-LIFETIME-2026-10-21-R16.json",
+            "sha256": "64819aa0be35fd1f84e6c90109c33cf944cbac9afcb26ca4598d066f18c4aa45"
+          }
+        ]
+      }
+    ],
+    "open": [
+      "Full actual sort4 normal/unwind; ordered c1–c5 attribution/current-owner recovery, selector-pointer/permutation/copy composition.",
+      "Required HRTB-off/controls completion, final mini7/fresh26, qualification and stable Freeze caller; independent B1/B2 credit0."
+    ],
+    "blocker": {
+      "summary": "Actual c2 missing precreated-ref token for base+3; required controls stopped by HRTB routing error.",
+      "location": "verified/lib.rs:202; aliasing.rsspec:88",
+      "build_id": "acd8e010-16b8-4b58-9501-083cb10b595f",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S5-evidence.json",
+          "sha256": "209199ccfeef37d698b97216466b3f726d383358fa274e8e887f1ca5ead6ca51",
+          "build_id": "acd8e010-16b8-4b58-9501-083cb10b595f"
+        }
+      ]
+    },
+    "rejected": [
+      {
+        "approach": "Assumed/address-only resource bridge or helper PASS as full-body proof",
+        "reason": "Does not establish actual ordered callback resources or full normal/unwind posts.",
+        "evidence": []
+      }
+    ],
+    "next_step": "Fix HRTB control routing; establish actual c2 resource/recovery gate and discriminating controls.",
+    "artifacts": [
+      {
+        "path": "research/challenge-8/task-history/select-actual-lifetime-r16/NEXT-AFTER-S5.md",
+        "sha256": "9b14da3d73b7fc52e5fc9fe91309495db285fd762844ebcaa7cacd41e639f55f"
+      },
+      {
+        "path": "research/challenge-8/task-history/select-actual-lifetime-r16/NEXT-CALLBACK-PROTOCOL.md",
+        "sha256": "52ab17d8fc1da93b4b10e4e5be40dfd8455c761c4b1b09f88b0305464169e769"
+      }
+    ]
+  }
+}
