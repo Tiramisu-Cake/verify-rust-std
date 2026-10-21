@@ -196,6 +196,23 @@ class ActualBodyServiceTests(unittest.TestCase):
         self.assertEqual(c4.stage_env["SORT4_STRICT_LFT_CUT"], "1")
         self.assertEqual(env, {"SMALLSORT_EXECUTION_PROVIDER": "cloud-build"})
 
+    def test_c1_frontend_controls_change_only_the_intended_guard(self):
+        case = self.make_case()
+        for control, key, expected in (
+            ("wrong-source-sha", "SORT4_ACTUAL_BODY_SOURCE_SHA256", "0" * 64),
+            ("wrong-first-call-line", "SORT4_ACTUAL_BODY_FIRST_CALL_LINE", "8"),
+            ("opt-in-off", "SORT4_ACTUAL_BODY_C1_RECOVERY", "0")):
+            c4 = FakeC4(support=False)
+            meta = dict(case[3], actual_c1_recovery=True, frontend_control=control,
+                        generated_source_sha256=sha(case[1]), first_comparator_line=7)
+            with tempfile.TemporaryDirectory() as temp:
+                result = BODY.run_case(None, c4, Path("/synthetic/tool"), {}, Path(temp),
+                    (*case[:3], meta), FakeGates(), FakeGrammar({}), {"tool_hashes": {}})
+            self.assertEqual(c4.support_env[key], expected)
+            self.assertEqual(c4.stage_calls, 0)
+            self.assertFalse(result["proof_credit"])
+            self.assertEqual(result["status"], "SOURCE_PAIR_PREREQUISITE_FAILED")
+
     def test_c1_bad_source_metadata_blocks_before_source_support(self):
         case = self.make_case()
         for digest, line in (("0" * 64, 7), (sha(case[1]), True), (sha(case[1]), 0)):
