@@ -57,6 +57,48 @@ MD_CASES = (
 )
 
 
+def _r11_stamp_native_receipt(receipt, stage, code, source_before, output_path,
+                              run_identity, *, decode_input_before=None):
+    """Return a newly evidenced native-stage receipt, or None on any gap."""
+    if stage not in ("exporter", "decode") or code != 0 or type(receipt) is not dict:
+        return None
+    if (receipt.get("stage") != stage or type(receipt.get("exit_code")) is not int or
+            receipt.get("exit_code") != 0 or
+            receipt.get("status") not in (None, "SUCCESS", "SUCCEEDED", "COMPLETED") or
+            receipt.get("error") not in (None, "") or
+            receipt.get("source_unchanged") is not True or
+            receipt.get("source_before") != source_before or
+            receipt.get("source_after") != source_before):
+        return None
+    if stage == "decode":
+        if not isinstance(decode_input_before, bytes):
+            return None
+        receipt["input_path"] = "compiler-mir.bin"
+        receipt["input_sha256"] = hashlib.sha256(decode_input_before).hexdigest()
+    try:
+        data = output_path.read_bytes()
+    except OSError:
+        return None
+    if not data:
+        return None
+    receipt["output_path"] = "compiler-mir.bin" if stage == "exporter" else "decode.out"
+    receipt["output_sha256"] = hashlib.sha256(data).hexdigest()
+    receipt["output_size"] = len(data)
+    receipt["r11_run_identity"] = run_identity
+    return receipt
+
+
+def _r11_require_fresh_native_paths(case: Path, stage: str) -> Path:
+    if stage not in ("exporter", "decode"):
+        raise ValueError("R11 native provenance is limited to exporter/decode")
+    output_name = "compiler-mir.bin" if stage == "exporter" else "decode.out"
+    receipt_path = case / f"{stage}-stage.json"
+    output_path = case / output_name
+    if receipt_path.exists() or output_path.exists():
+        raise RuntimeError(f"refusing to reuse pre-existing R11 {stage} receipt or output")
+    return output_path
+
+
 def source_gate(case: Path, metadata: dict) -> dict:
     original = (case / "original/lib.rs").read_bytes()
     verified = (case / "verified/lib.rs").read_bytes()
@@ -266,6 +308,59 @@ def ast_gate(case: Path, metadata: dict) -> dict:
 def execute_case(case: Path, args, env: dict) -> dict:
     source_before = base.hashes(case)
     r10_run_identity = getattr(args, "r10_run_identity", None)
+    r11_native_raw = getattr(args, "r11_native_run", None)
+    r11_run_identity = None
+
+    if args.profile == R11_PROFILE and r11_native_raw is not None:
+        if not isinstance(r11_native_raw, dict) or r11_native_raw.get("profile") != R11_PROFILE:
+            raise RuntimeError("R11 callback parent receipt has wrong type or profile")
+        provider = r11_native_raw.get("provider")
+        build_id = r11_native_raw.get("cloud_build_id")
+        if build_id is None and isinstance(provider, dict):
+            build_id = provider.get("build_id")
+        profile_path = Path(env.get("SMALLSORT_MERGE_PROFILE", ""))
+        if not profile_path.is_file():
+            raise RuntimeError("R11 selected profile file is unavailable to the stage runner")
+        profile_bytes = profile_path.read_bytes()
+        profile_card = json.loads(profile_bytes)
+        profile_sha = hashlib.sha256(profile_bytes).hexdigest()
+        tool_commit = r11_native_raw.get(
+            "tool_commit", r11_native_raw.get("effective_tool_commit",
+                                              profile_card.get("effective_tool_commit")))
+        tool_hashes = r11_native_raw.get("tool_sha256", r11_native_raw.get("executable_hashes"))
+        source_sha = r11_native_raw.get("source_sha256")
+        proof_sha = r11_native_raw.get("proof_sha")
+        if (r11_native_raw.get("accepted") is not False or
+                profile_card.get("profile") != R11_PROFILE or
+                profile_card.get("accepted") is not False or
+                profile_sha != r11_native_raw.get("profile_sha256", profile_sha) or
+                tool_commit != profile_card.get("effective_tool_commit") or
+                not isinstance(source_sha, str) or not re.fullmatch(r"[0-9a-f]{64}", source_sha) or
+                not isinstance(proof_sha, str) or not re.fullmatch(r"[0-9a-f]{40}", proof_sha) or
+                not isinstance(provider, dict) or provider.get("provider") != "cloud-build" or
+                provider.get("build_id") != build_id or
+                provider.get("project") != env.get("CLOUD_BUILD_PROJECT_ID") or
+                provider.get("region") != env.get("CLOUD_BUILD_REGION") or
+                env.get("CLOUD_BUILD_ID") != build_id or env.get("PROOF_SHA") != proof_sha):
+            raise RuntimeError("R11 raw parent receipt does not bind current Build/profile/source")
+        expected_tool_hashes = {
+            "vf-rust-mir-exporter": base.file_sha(args.tool_home / "bin/vf-rust-mir-exporter"),
+            "verifast": base.file_sha(args.tool_home / "bin/verifast"),
+            "refinement-checker": base.file_sha(args.tool_home / "bin/refinement-checker"),
+        }
+        if tool_hashes != expected_tool_hashes:
+            raise RuntimeError("R11 raw parent tool binary hashes differ from current binaries")
+        if source_before.get("small_sort_source") != source_sha:
+            raise RuntimeError("R11 current case SmallSort source differs from parent receipt")
+        r11_run_identity = {
+            "cloud_build_id": build_id, "proof_sha": proof_sha,
+            "source_sha256": source_sha, "profile": R11_PROFILE,
+            "profile_sha256": profile_sha, "tool_commit": tool_commit,
+            "tool_sha256": expected_tool_hashes,
+            "provider": {key: provider[key] for key in ("provider", "build_id", "project", "region")},
+        }
+    elif r11_native_raw is not None:
+        raise RuntimeError("R11 parent receipt may only be supplied for the R11 profile")
 
     if r10_run_identity is not None:
         if not isinstance(r10_run_identity, dict) or r10_run_identity.get("case") != case.name:
@@ -305,9 +400,39 @@ def execute_case(case: Path, args, env: dict) -> dict:
 
     def run_stage(stage, argv, stage_env, **kwargs):
         receipt_path = case / f"{stage}-stage.json"
+        r11_output_name = {"exporter": "compiler-mir.bin", "decode": "decode.out"}.get(stage)
+        if r11_run_identity is not None and stage in ("exporter", "decode"):
+            output_path = _r11_require_fresh_native_paths(case, stage)
+            decode_input_before = None
+            if stage == "decode":
+                decode_input = case / "compiler-mir.bin"
+                if not decode_input.is_file():
+                    raise RuntimeError("R11 decode input artifact is missing")
+                decode_input_before = decode_input.read_bytes()
         if r10_run_identity is not None and receipt_path.exists():
             raise RuntimeError(f"refusing to reuse pre-existing R10 stage receipt: {stage}")
         code = base.run_stage(case, stage, argv, stage_env, **kwargs)
+        if r11_run_identity is not None and stage in ("exporter", "decode"):
+            try:
+                receipt = json.loads(receipt_path.read_text()) if receipt_path.is_file() else None
+                artifact = case / r11_output_name
+                input_unchanged = True
+                input_sha = None
+                if stage == "decode":
+                    decode_input = case / "compiler-mir.bin"
+                    input_now = decode_input.read_bytes() if decode_input.is_file() else None
+                    input_unchanged = input_now == decode_input_before
+                    input_sha = hashlib.sha256(decode_input_before).hexdigest()
+                if (source_before.get("small_sort_source") == r11_run_identity["source_sha256"] and
+                        input_unchanged and artifact.is_file()):
+                    stamped = _r11_stamp_native_receipt(
+                        receipt, stage, code, source_before, artifact, r11_run_identity,
+                        decode_input_before=decode_input_before)
+                    if stamped is not None:
+                        receipt_path.write_text(json.dumps(stamped, indent=2) + "\n")
+            except (OSError, json.JSONDecodeError, TypeError, ValueError):
+                # Do not turn partial or malformed stages into R11 provenance.
+                pass
         if r10_run_identity is not None and code not in (124, 127) and receipt_path.is_file():
             try:
                 receipt = json.loads(receipt_path.read_text())

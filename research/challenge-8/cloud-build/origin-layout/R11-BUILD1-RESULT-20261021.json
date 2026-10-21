@@ -1,0 +1,61 @@
+{
+  "schema": "merge-r11-build-result-v1",
+  "build_id": "acba1b21-10e9-4ffe-ae4f-a1eb93c109b2",
+  "source_commit": "5fdfaa634cfdf29b79d37d6e2b5c9d961d9810f8",
+  "tool_commit": "a3a22f98e0e48f25af6741f3291c31a6d96e5119",
+  "kind": "READ_ONLY_LABEL_STORAGE_EXECUTION_BINDING",
+  "status": "FAILURE",
+  "charged_seconds": 694,
+  "execution_seconds": 694,
+  "remaining_seconds": 2906,
+  "finish_time": "2026-10-21T06:39:20.435328Z",
+  "compilation": "seven observed milestones exit0",
+  "formal_attempt": "actual insert_tail rejected StorageDead verified/lib.rs276:44-45",
+  "source_campaign": "INCONCLUSIVE",
+  "recovery5": "NOT_RUN prerequisite",
+  "closed_target_gates": 0,
+  "accepted": false,
+  "independent_credit": 0,
+  "qualification": "OPEN",
+  "reader": {
+    "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+    "sha256": "c1e73628bd9d338972f35378417bda04d7810d7195fb5b26da920aca5c3687f5",
+    "archive_sha256": "9c9350aeaad11f52d2f769968c7270cbd5dd1e40c272c6493244738ced662281",
+    "index_sha256": "72ee4c29dd2f82cc9d3b4e843f0d6de40f57b01431409578d1d987c14aec9624",
+    "fragments": [
+      {
+        "lines": [
+          1,
+          4
+        ],
+        "request": "1d0d3fd230e094cee39e5b029caeca2aa8106ee531db02591a4b7f31866b30b0"
+      },
+      {
+        "lines": [
+          1728,
+          1739
+        ],
+        "request": "975e1119ec0bdcac34defb2f595661dbdd471dfe24bec823845042198a0b85c4"
+      },
+      {
+        "lines": [
+          1750,
+          1761
+        ],
+        "request": "0a72ca56f8f5f6655e2ca9a7409da9bdeda7ae39375af369252335220db2e5da"
+      },
+      {
+        "lines": [
+          1765,
+          1774
+        ],
+        "request": "608effc9a6a607aee85e88aad7a2a4e19c6ee02f1f5c6d68294f3096d59ac53a"
+      }
+    ],
+    "exact": true,
+    "complete": false,
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "causal_relation": "UNKNOWN"
+  },
+  "observation": "_117 Live receipt exists at initial consume/check; invariant production lacks it; Dead refuses missing binding/receipt. Source observation only."
+}

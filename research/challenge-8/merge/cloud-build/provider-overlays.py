@@ -20,6 +20,8 @@ import sys
 
 
 FILES = {
+    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "2739a58c55fa8b4b764b16b9df8dc40239c2f2a0335c134534e76c9559d81f27",
+    "research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py": "78fe84b302903be211d06c93dbb7bfc4f313306c910a4b08387d685c574d8e33",
     "research/challenge-8/merge/overnight/run.sh": "ae0aa063624630f651fc4b466bc2e39c0ad017be75652a43ae2130eea672ca54",
     "research/challenge-8/merge/overnight/build.sh": "dc6e30a5fb3aa24ff7f014910f3c54925fdde3e40f40ea8c1fcfcdafb89ae096",
     "research/challenge-8/merge/overnight/pointer-prove.py": "cb6d43c972d1c19f60b1cd355529f71fb6e68a9fa9242e4176814acbed8f8b96",

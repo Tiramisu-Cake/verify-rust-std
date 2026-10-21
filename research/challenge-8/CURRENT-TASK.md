@@ -58,13 +58,14 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-R11 ACTIVE. T0/main/absolute2026-10-21 06:14:39/08:14:39/08:44:39UTC.
-Новый ceiling3600/used0; старый R10CLOSED/735retired не переносится.
-Ближайшая цель: exact symbolic execution Live/Dead и label-invariant consume/
-produce/backedge, затем source-preserving placement fix только по Evidence.
-Candidate1 read-only diagnostics to a3a22f98; LunaHIGH GO после исправления
-передачи decoded block/cleanup metadata. State/resources/checks не меняются.
-Runner isolated env/partial/error tests5PASS; invariant assembly3PASS; phase/
-source closure registration проверяется. Actual compilation/formal gates pending.
-Own Build отсутствует; registration/request/submit только после exactpublished
-closure и полного review. Все proof/B2/qualificationOPEN,acceptedfalse/credit0.
+R11 ACTIVE. T0/main/absolute 2026-10-21 06:14:39/08:14:39/08:44:39UTC.
+Build1 acba1b21-10e9-4ffe-ae4f-a1eb93c109b2 terminal FAILURE/accounted,
+source5fdfaa63/tool a3a22f98: seven compilation milestones exit0; actual
+insert_tail StorageDead276:44-45 refused. Native execution has _117 at entry
+consume/check but no binding/receipt after invariant production. Source
+observation only, parser-input binding/causality not independently established.
+Used694/execution694/remaining2906, ownactive0. Candidate2 moves only the
+checked annotation cut past its exact retained Dead; strict source/Body/marker
+binding, current-native provenance controls and LunaHIGH review pending.
+Full target gates0; B2/generic/qualificationOPEN,acceptedfalse/independentcredit0.
+See R11-BUILD1-RESULT and R11-PLACEMENT-DESIGN; old R10 remains closed/no carry.

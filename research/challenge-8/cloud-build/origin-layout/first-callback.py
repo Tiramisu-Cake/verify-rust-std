@@ -22,6 +22,7 @@ R9_PROFILE = 'experimental-merge-guard-current-return-r9-v1'
 R10_PROFILE = 'experimental-merge-moving-gap-r10-v1'
 R11_PROFILE = 'experimental-merge-label-storage-r11-v1'
 R11_LABEL_TRACE_ENV = 'SMALLSORT_R11_LABEL_STORAGE_TRACE'
+R11_LABEL_PLACEMENT_ENV = 'SMALLSORT_R11_LABEL_STORAGE_PLACEMENT'
 R9_GUARD_RETURN_RECOVERY_ENV = 'SMALLSORT_R9_GUARD_RETURN_RECOVERY'
 SUPPORTED_PROFILES = (PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE)
 R9_GUARD_TRACE_ENV = 'SMALLSORT_R9_GUARD_TRACE'
@@ -608,18 +609,50 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
 
 
 def _execute_case_with_r9_trace(execute_case, case, args, env, *, profile,
-                                prefix=False, actual_callback_case=False):
+                                prefix=False, actual_callback_case=False,
+                                r11_native_fullbody=False, validated_receipt=None):
     """Enable R9-only native guard diagnostics and checked recovery."""
     case_env = dict(env)
     case_env.pop(R9_GUARD_TRACE_ENV, None)
     case_env.pop(R11_LABEL_TRACE_ENV, None)
+    case_env.pop(R11_LABEL_PLACEMENT_ENV, None)
     case_env.pop(R9_GUARD_RETURN_RECOVERY_ENV, None)
+    native_active = (profile == R11_PROFILE and r11_native_fullbody and
+                     not prefix and actual_callback_case)
     if profile in (R9_PROFILE, R10_PROFILE, R11_PROFILE) and not prefix and actual_callback_case:
         case_env[R9_GUARD_TRACE_ENV] = '1'
         if profile == R11_PROFILE:
             case_env[R11_LABEL_TRACE_ENV] = '1'
         case_env[R9_GUARD_RETURN_RECOVERY_ENV] = '1'
-    return execute_case(case, args, case_env)
+    if native_active:
+        case_env[R11_LABEL_PLACEMENT_ENV] = '1'
+        if not isinstance(validated_receipt, dict) or validated_receipt.get('profile') != R11_PROFILE:
+            raise RuntimeError('R11 fullbody native placement requires the validated current R11 receipt')
+    sentinel = object()
+    previous = getattr(args, 'r11_native_run', sentinel) if native_active else sentinel
+    if native_active:
+        args.r11_native_run = validated_receipt
+    try:
+        return execute_case(case, args, case_env)
+    finally:
+        if native_active:
+            if previous is sentinel:
+                delattr(args, 'r11_native_run')
+            else:
+                args.r11_native_run = previous
+
+
+def _r11_storage_placement_env(env):
+    scoped = dict(env)
+    scoped.pop(R11_LABEL_PLACEMENT_ENV, None)
+    scoped.pop(R11_LABEL_TRACE_ENV, None)
+    scoped.pop(R9_GUARD_TRACE_ENV, None)
+    scoped.pop(R9_GUARD_RETURN_RECOVERY_ENV, None)
+    scoped[R11_LABEL_PLACEMENT_ENV] = '1'
+    scoped[R11_LABEL_TRACE_ENV] = '1'
+    scoped[R9_GUARD_TRACE_ENV] = '1'
+    scoped[R9_GUARD_RETURN_RECOVERY_ENV] = '1'
+    return scoped
 
 
 def classify(case, record, execution, *, baseline_positive=False):
@@ -707,12 +740,17 @@ def run(evidence, args, env, execute_case, validated_receipt):
     campaign_env = dict(env)
     campaign_env.pop(R9_GUARD_TRACE_ENV, None)
     campaign_env.pop(R11_LABEL_TRACE_ENV, None)
+    campaign_env.pop(R11_LABEL_PLACEMENT_ENV, None)
     campaign_env.pop(R9_GUARD_RETURN_RECOVERY_ENV, None)
     selected_profile = getattr(args, 'profile', None)
     profile_path = os.environ.get('SMALLSORT_MERGE_PROFILE')
     if (selected_profile not in SUPPORTED_PROFILES or not profile_path or
             json.loads(Path(profile_path).read_text()).get('profile') != selected_profile):
         raise RuntimeError('first callback requires the exact supported experimental profile')
+    if selected_profile == R11_PROFILE and (
+            not isinstance(validated_receipt, dict) or
+            validated_receipt.get('profile') != R11_PROFILE):
+        raise RuntimeError('R11 first callback requires the validated current R11 receipt')
     proof = _load('first_callback_hosted_proof', HERE.parents[1] / 'merge/overnight/copy-on-drop-prove.py')
     proof.require_hosted_cloud()
     consumer = _load('first_callback_receipt', HERE/'concrete-consumer.py')
@@ -720,10 +758,15 @@ def run(evidence, args, env, execute_case, validated_receipt):
     consumer._validate_receipt(args, validated_receipt, provider, proof_sha)
     evidence.mkdir(parents=True, exist_ok=False)
     def dispatch(case, case_args, case_env=None, *, prefix=False, actual_callback_case=False):
+        case_path = Path(case)
         return _execute_case_with_r9_trace(
-            execute_case, case, case_args, campaign_env if case_env is None else case_env,
+            execute_case, case_path, case_args, campaign_env if case_env is None else case_env,
             profile=selected_profile,
-            prefix=prefix, actual_callback_case=actual_callback_case)
+            prefix=prefix, actual_callback_case=actual_callback_case,
+            r11_native_fullbody=(case_path.name == 'actual_three_current_full_posts' and
+                                 case_path.parent.name == 'cases' and
+                                 case_path.parent.parent.name == 'full_body'),
+            validated_receipt=validated_receipt)
     share_controls = _load('r6_share_controls', HERE/'r6-share-controls.py')
     results = {'share_representation_controls': share_controls.run(
         evidence/'share-representation-controls', args, campaign_env,
@@ -762,6 +805,19 @@ def run(evidence, args, env, execute_case, validated_receipt):
                 execution['stage_receipt_gate'].get('admitted') is True)
             results[name] = classify(case, record, execution,
                                      baseline_positive=results.get('prefix', {}).get('current_false_true_panic_proved', False))
+        if selected_profile == R11_PROFILE:
+            placement = _load('r11_storage_placement_controls', HERE/'r11-storage-placement-controls.py')
+            positive_case = evidence/'full_body/cases/actual_three_current_full_posts'
+            source_record = json.loads((evidence/'full_body/preparation.json').read_text())
+            placement_env = _r11_storage_placement_env(campaign_env)
+            previous_r11_r8 = getattr(args, 'r8_owned_array_allocation', False)
+            args.r8_owned_array_allocation = True
+            try:
+                results['storage_placement_controls'] = placement.run(
+                    evidence/'r11-storage-placement-controls', args, placement_env,
+                    positive_case, source_record, validated_run=validated_receipt)
+            finally:
+                args.r8_owned_array_allocation = previous_r11_r8
         if selected_profile == R7_PROFILE:
             geometry_controls = _load('r8_geometry_controls', HERE/'r8-geometry-controls.py')
             results['allocation_geometry_controls'] = geometry_controls.run(

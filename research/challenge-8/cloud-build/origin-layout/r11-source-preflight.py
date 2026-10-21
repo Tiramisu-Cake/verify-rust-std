@@ -17,7 +17,7 @@ PROFILE_NAME = "experimental-merge-label-storage-r11-v1"
 PHASE_ID = "MERGE-LABEL-STORAGE-INVARIANT-R11-2026-10-21"
 BASELINE_PATH = "research/challenge-8/cloud-build/origin-layout/R11-BASELINE-PROFILE-20261021.json"
 STARTING_TOOL_COMMIT = "bb557d43c4196694c7af50ff2150ce56a269e17d"
-CANDIDATE_TOOL_COMMIT = "a3a22f98e0e48f25af6741f3291c31a6d96e5119"
+CANDIDATE_TOOL_COMMIT = "ab4f72b86d8c427381cfc7e2b9190cfb4ffd35e8"
 BASELINE_SHA256 = "c3f5d286777ffd388e1eb0894ad0ff9e8f1f87f72424291041cb800385f7c979"
 R11_TOOL_PATHS = {
     "src/verifast.ml",
@@ -53,6 +53,12 @@ REQUIRED_PROOF_PATHS = {
     "research/challenge-8/cloud-build/origin-layout/r11-source-preflight.py",
     "research/challenge-8/cloud-build/origin-layout/r11-registration-service-test.py",
     "research/challenge-8/cloud-build/origin-layout/r11-trace-service-test.py",
+    'research/challenge-8/cloud-build/origin-layout/R11-BUILD1-RESULT-20261021.json',
+    'research/challenge-8/cloud-build/origin-layout/R11-PLACEMENT-DESIGN-20261021.md',
+    'research/challenge-8/cloud-build/origin-layout/R11-CANDIDATE2-REVIEW-20261021.md',
+    'research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py',
+    'research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls-service-test.py',
+    'research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/r11-native-receipt-service-test.py',
 }
 
 
@@ -91,7 +97,7 @@ def validate_profile(profile: dict, baseline: dict, baseline_sha: str,
     candidate = profile.get("effective_tool_commit")
     if (candidate != CANDIDATE_TOOL_COMMIT or current_tool_commit != candidate or
             profile.get("guard_return_trace_tool_commit") != candidate):
-        raise ValueError("R11 profile does not bind the exact reviewed two-file diagnostic tool commit")
+        raise ValueError("R11 profile does not bind the exact reviewed two-file R11 tool commit")
     chain = profile.get("ordered_patch_chain")
     baseline_chain = baseline.get("ordered_patch_chain")
     if (not isinstance(chain, list) or not isinstance(baseline_chain, list) or
@@ -107,7 +113,7 @@ def validate_profile(profile: dict, baseline: dict, baseline_sha: str,
 
 def validate_tool_checkout(profile: dict, baseline: dict, head: str) -> None:
     if git("diff", "--name-only", baseline["effective_tool_commit"], head).decode().splitlines() != sorted(R11_TOOL_PATHS):
-        raise ValueError("R11 tool delta must touch exactly the two reviewed diagnostic source files")
+        raise ValueError("R11 tool delta must touch exactly the two reviewed R11 source files")
     for relative, key in SOURCE_PINS.items():
         if sha(git("show", f"{head}:{relative}")) != profile.get(key):
             raise ValueError(f"R11 selected-tool source pin mismatch: {relative}")
@@ -159,8 +165,8 @@ def main() -> None:
                          if isinstance(node, ast.Assign) and
                          any(isinstance(target, ast.Name) and target.id == "FILES"
                              for target in node.targets))
-    if len(overlay_files) != 18:
-        raise ValueError("R11 provider overlay must retain exactly 18 source pins")
+    if len(overlay_files) != 20 or not {"research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py", "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py"} <= set(overlay_files):
+        raise ValueError("R11 provider overlay must retain 18 base pins plus R11 parent/control sources")
     for relative, expected in overlay_files.items():
         if sha((ROOT / relative).read_bytes()) != expected:
             raise ValueError(f"R11 provider overlay source pin mismatch: {relative}")
@@ -173,7 +179,7 @@ def main() -> None:
     for relative in proof_paths:
         if not (ROOT / relative).is_file():
             raise ValueError(f"R11 recipe references a missing path: {relative}")
-    print("R11 exact two-file source delta, 19-patch composition, 18-overlay and recipe closure PASS; no compiler/proof credit")
+    print("R11 exact two-file source delta, 19-patch composition, 18-base-plus-two-R11-overlay and recipe closure PASS; no compiler/proof credit")
 
 
 if __name__ == "__main__":

@@ -1,15 +1,18 @@
-# Merge-R11 ACTIVE — label storage execution binding
+# Merge-R11 ACTIVE — checked annotation placement
 
-T006:14:39/main08:14:39/absolute08:44:39UTC2026-10-21; new3600Cloud seconds,
-used0/no R10carry. Candidate1 toola3a22f98 adds read-only runtime storage and
-generic label invariant consume/check/produce receipts; native decoded plan is
-separate from execution. No storage check/resource/model/algorithm change.
-LunaHIGH tool+registration GO after metadata/label findings fixed; static closure
-and relevant isolated service gates PASS. First fullcompile+actualtarget Build
-plannedtimeout1200/reserve1260 after exactpublishedSHA. Proof/B2/qualificationOPEN,
-acceptedfalse/credit0. T0/newledger explicit; foreign dirty docs preserved.
-[Task](CURRENT-TASK.md), [design](cloud-build/origin-layout/R11-LABEL-STORAGE-DESIGN-20261021.md),
-[review](cloud-build/origin-layout/R11-CANDIDATE1-REVIEW-20261021.md).
+T0/main/absolute 2026-10-21 06:14:39/08:14:39/08:44:39UTC.
+Build1 acba1b21-10e9-4ffe-ae4f-a1eb93c109b2 terminal/accounted:
+694charged/694execution, remaining2906; seven compilation milestones exit0,
+actual insert_tail StorageDead276 refusal; no full target gate closed.
+Candidate2 tool ab4f72b8 moves the exact checked annotation invariant after
+its retained Dead, with unchanged storage checks/CFG/resources. LunaHIGH tool
+review GO; source-control parser finding corrected before submit. Current native
+exporter/decode provenance and isolated fullbody replay controls are included.
+18 base overlay pins retained plus two R11 parent/control pins. B2/generic/
+qualification OPEN, acceptedfalse/independentcredit0; ownactive0 before submit.
+[Task](CURRENT-TASK.md), [Build1](cloud-build/origin-layout/R11-BUILD1-RESULT-20261021.json),
+[design](cloud-build/origin-layout/R11-PLACEMENT-DESIGN-20261021.md),
+[review](cloud-build/origin-layout/R11-CANDIDATE2-REVIEW-20261021.md).
 Prior snapshots below are historical.
 
 # Merge-R11 READY — label invariant / annotation temporary
