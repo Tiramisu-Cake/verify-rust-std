@@ -1,0 +1,14 @@
+--- a/src/verifast.ml
++++ b/src/verifast.ml
+@@ -2579,6 +2579,11 @@
+            freeze_strict_type at context [] rhs)) bounds.eqs in
+         {bounds with eqs = eqs}
+       in
++      let () =
++        if strict_lft_scope <> None && Sys.getenv_opt "SORT4_STRICT_LFT_TRACE" = Some "1" then
++          List.iter (fun (name, tp) ->
++            Printf.eprintf "STRICT-CUT-ENTRY name=%s type=%s\n%!"
++              name (string_of_type tp)) outer_tenv in
+       let outer_tenv =
+         if strict_lft_scope = None then outer_tenv else
+           List.map (fun (name, tp) ->

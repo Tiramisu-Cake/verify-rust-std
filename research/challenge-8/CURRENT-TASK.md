@@ -46,9 +46,9 @@ Next: Name unresolved outer MIR cells, fix source-preserving binding, then rerun
 
 ## Отчёт агента
 
-**select-actual-lifetime-autonomous-2026-10-21-r16 · select-sort4 · SORT4-ACTUAL-LIFETIME-2026-10-21-R16 · NOT_STARTED**
-Updated: 2026-10-21T17:38:28Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `de469095ad2ba4435b41bc0f114289cd12f4952f129e88fbcfb655cea6dca505`.
-Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
+**select-actual-lifetime-autonomous-2026-10-21-r16 · select-sort4 · SORT4-ACTUAL-LIFETIME-2026-10-21-R16 · ACTIVE**
+Updated: 2026-10-21T17:54:06.837538Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `de469095ad2ba4435b41bc0f114289cd12f4952f129e88fbcfb655cea6dca505`.
+Dates: T0 `2026-10-21T17:50:34Z`; main `2026-10-21T19:50:34Z`; absolute `2026-10-21T20:20:34Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: S4 strict entry outer-type inference; S5 actual body NOT_RUN. [Build `980fbc61-2d4c-43f3-9cac-c68db0b34c63`]
 Next: Name unresolved outer MIR cells, fix source-preserving binding, then rerun full body plus controls.

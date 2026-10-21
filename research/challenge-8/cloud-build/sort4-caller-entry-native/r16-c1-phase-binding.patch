@@ -1,0 +1,11 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -8176,7 +8176,7 @@
+         let off name = match Sys.getenv_opt name with
+           | None | Some "0" -> true | _ -> false in
+         if Sys.getenv_opt "SORT4_A1_AUTHORIZATION_PHASE_ID" <>
+-             Some "SORT4-ACTUAL-BODY-2026-10-21-R15" ||
++             Some "SORT4-ACTUAL-LIFETIME-2026-10-21-R16" ||
+            Sys.getenv_opt "SORT4_A1_PHASE_ID" <>
+              Some "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17" ||
+            Sys.getenv_opt "SMALLSORT_EXECUTION_PROVIDER" <> Some "cloud-build" ||

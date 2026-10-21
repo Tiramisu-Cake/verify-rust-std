@@ -32,6 +32,8 @@ FOCUS_SCOPE_MANIFEST = C1 / "NATIVE-RUST-FOCUS-DEAD-CODE-SCOPE-MANIFEST.json"
 FOCUS_SCOPE_PATCH = C1 / "native-rust-focus-dead-code-scope.patch"
 FOCUS_SCOPE_FILE = "src/verify_expr.ml"
 FOCUS_PROFILE_NAMES = {
+    "SORT4-ACTUAL-LIFETIME-2026-10-21-R16":
+        "A1-ACTUAL-LIFETIME-R16-PROFILE-2026-10-21.json",
     "SORT4-ACTUAL-BODY-2026-10-21-R15":
         "A1-ACTUAL-BODY-R15-PROFILE-2026-10-21.json",
     "SORT4-PACKAGE-SCOPE-NATIVE-PROOF-2026-10-20-R6":
@@ -356,7 +358,7 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
     lifetime_overlay = profile.get("ghost_call_lifetime_inference")
     if lifetime_overlay is not None:
         need(profile.get("authorization_phase_id") in
-             ("SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13", "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14", "SORT4-ACTUAL-BODY-2026-10-21-R15") and
+             ("SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13", "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14", "SORT4-ACTUAL-BODY-2026-10-21-R15", "SORT4-ACTUAL-LIFETIME-2026-10-21-R16") and
              isinstance(lifetime_overlay, dict) and
              lifetime_overlay.get("source") == FOCUS_SCOPE_FILE and
              lifetime_overlay.get("base_sha256") ==
@@ -440,7 +442,7 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
           profile["native_signature_patch_sha256"], {TR},
           before=signature_before, after=signature_after)
     reference_own = None
-    if profile.get("authorization_phase_id") in ("SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13", "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14", "SORT4-ACTUAL-BODY-2026-10-21-R15"):
+    if profile.get("authorization_phase_id") in ("SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13", "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14", "SORT4-ACTUAL-BODY-2026-10-21-R15", "SORT4-ACTUAL-LIFETIME-2026-10-21-R16"):
         reference_own = profile.get("shared_reference_own_normalization")
         need(isinstance(reference_own, dict) and reference_own.get("source") ==
              "bin/rust/rust_belt/general.rsspec" and
@@ -498,7 +500,7 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
     # R15 overlays are exact, separately pinned and applied after the R-only
     # reference has been frozen. They never enter that reference binary.
     if profile.get("body_action") == "full-body-c1-recovery":
-        need(profile.get("authorization_phase_id") == "SORT4-ACTUAL-BODY-2026-10-21-R15" and
+        need(profile.get("authorization_phase_id") in ("SORT4-ACTUAL-BODY-2026-10-21-R15", "SORT4-ACTUAL-LIFETIME-2026-10-21-R16") and
              all(isinstance(profile.get(key), dict) for key in (
                  "actual_c1_recovery_overlay", "merge_fractions_ast_dump_overlay")),
              "complete c1 candidate requires both exact R15 overlays")
@@ -512,7 +514,7 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
         declaration = profile.get(key)
         if declaration is None:
             continue
-        need(profile.get("authorization_phase_id") == "SORT4-ACTUAL-BODY-2026-10-21-R15" and
+        need(profile.get("authorization_phase_id") in ("SORT4-ACTUAL-BODY-2026-10-21-R15", "SORT4-ACTUAL-LIFETIME-2026-10-21-R16") and
              isinstance(declaration, dict), "R15 overlay authorization")
         pinned(root / HERE / stem, declaration["manifest_sha256"], "R15 overlay manifest")
         overlay = json.loads((root / HERE / stem).read_text())
@@ -560,6 +562,36 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
              if key not in ({TR, SCHEMA, EXPORTER, focus_path} | overlay_names)) and
          before_build["modified_hashes"].get(focus_path) == focus_result,
          "R/C changed only certified source components")
+    # R16 changes are applied only after the complete historical R/C snapshot
+    # has passed unchanged. Each has its own exact source/base/result pin.
+    r16_overlays = {}
+    if profile.get("authorization_phase_id") == "SORT4-ACTUAL-LIFETIME-2026-10-21-R16":
+        for key, stem, source, diagnostic in (
+            ("r16_c1_phase_binding", "R16-C1-PHASE-BINDING-MANIFEST.json", TR, False),
+            ("strict_entry_diagnostic", "STRICT-ENTRY-DIAGNOSTIC-R16-MANIFEST.json", KERNEL, True),
+        ):
+            declaration = profile.get(key)
+            need(isinstance(declaration, dict), "R16 exact overlay declaration required")
+            pinned(root / HERE / stem, declaration["manifest_sha256"], "R16 overlay manifest")
+            overlay = json.loads((root / HERE / stem).read_text())
+            need(overlay["source"] == source and
+                 overlay["new_axiom_or_assumed_lemma"] is False and
+                 overlay["proof_credit"] is False and
+                 overlay["patch_sha256"] == declaration["patch_sha256"] and
+                 overlay["result_sha256"] == declaration["result_sha256"],
+                 "R16 exact overlay source/pins")
+            if diagnostic:
+                need(overlay["proof_semantics_changed"] is False and
+                     overlay["base_sha256"] == manifest["kernel_sha256"],
+                     "R16 unchanged strict freeze applicability")
+            else:
+                need(overlay["base_sha256"] == r15_overlays["actual_c1_recovery_overlay"]["result_sha256"] and
+                     overlay["authorization_phase_id"] == profile["authorization_phase_id"],
+                     "R16 exact c1 phase association")
+            apply(key, HERE / declaration["patch"], overlay["patch_sha256"], {source},
+                  before={source: overlay["base_sha256"]}, after={source: overlay["result_sha256"]})
+            r16_overlays[key] = overlay
+        before_build = audit.snapshot(tool, root)
     save(evidence / "patch-chain.json", chain)
     save(evidence / "pre-build-source-snapshot.json", before_build)
 
@@ -603,6 +635,6 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
                "build_exit": build["exit"], "native_reference": native_reference,
                "shared_reference_own_normalization": reference_own,
                "ghost_call_lifetime_inference": lifetime_overlay,
-               "r15_overlays": r15_overlays, "proof_credit": False}
+               "r15_overlays": r15_overlays, "r16_overlays": r16_overlays, "proof_credit": False}
     save(evidence / "reconstruction-receipt.json", receipt)
     return tool, receipt

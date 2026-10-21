@@ -1,0 +1,9 @@
+# Select R16 session
+
+T0 2026-10-21T17:50:34Z; main cutoff 19:50:34Z; absolute cutoff20:20:34Z. Fresh3600Cloudseconds, timeout<=1200, queue60, report reserve240. New exact phase SORT4-ACTUAL-LIFETIME-2026-10-21-R16, stable ownerselect-sort4, existing lane/coordinator. R15 CLOSED and all prior credit unchanged. Current project HEAD d398c394eaf02aa5158ebf8128361f15b87e6c79 contains assignment/doc handoff after specified baseline55ce3d; source/tool/profile identities verified. Foreign dirty docs preserved/excluded; tool WT only pinned Git objects read.
+
+smallsort-session prepare created review bundle; check succeeded against the original committed closure. Initial check attempts after implementation edits correctly refused changed selected paths; baseline bytes were temporarily restored for check and all five R16 working files restored exactly afterward. No proof/preparer/toolchain ran locally. New session registration, service checks, independent LunaHIGH review, publication/exact remote SHA and committed closure remain gates before dispatch.
+
+S1 defect: S4 strict entry freeze refuses unresolved outer MIR type. Diagnostic enumerates every outer name/type immediately before the existing freeze; changes no inference, initialization, lifetime, escape, leak or unwind rule. Source binding/def-use/liveness still required before any semantic repair. Source/line/provider/strict c1 association retained in R16-specific phase overlay. All5callbacks/8selects/4copies/full body and actual posts retained. Missing posts/binding/receipt remains INCONCLUSIVE; no independent credit.
+
+S1 full actual-body profile restores S4 checked prerequisite and control dependencies, includes the unrun alias declaration placement draft, and keeps mini7 prerequisites plus source-pair/MIR/refinement and checked-lemma gates. Full26/stableFreeze caller remain required for final qualification after a passing target; diagnostic/helper outcomes do not close them.

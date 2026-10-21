@@ -1,9 +1,9 @@
 # Agent checkpoint: select-actual-lifetime-autonomous-2026-10-21-r16
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-LIFETIME-2026-10-21-R16 | state: NOT_STARTED
-- Updated: 2026-10-21T17:38:28Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-LIFETIME-2026-10-21-R16 | state: ACTIVE
+- Updated: 2026-10-21T17:54:06.837538Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `de469095ad2ba4435b41bc0f114289cd12f4952f129e88fbcfb655cea6dca505`
-- Session dates: T0 `NOT_SET`; main deadline `NOT_SET`; absolute deadline `NOT_SET`
+- Session dates: T0 `2026-10-21T17:50:34Z`; main deadline `2026-10-21T19:50:34Z`; absolute deadline `2026-10-21T20:20:34Z`
 - Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
