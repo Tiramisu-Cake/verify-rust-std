@@ -1,0 +1,27 @@
+{
+  "build_id": "90e812ed-233d-4a3a-a836-ab544ce36ff5",
+  "evidence_class": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "causal_status": "UNKNOWN",
+  "archive_sha256": "c011d03b438da9d02a20c01701261b34a31375dc6b08a8fec3adbe32f31047db",
+  "index_sha256": "b4dee55530f70c793b7ad6fd2499394fb98941f232efb9ca4b7cb108855b06bf",
+  "catalogue_file_id": "34fa6a23f493df374e1b0261d2e907e5e0015d320ff572ed8cfab15ea3167dba",
+  "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/raw-four-copy-identity-positive/stage/body-verification.log",
+  "file_sha256": "e35b17e2d241d4d181492b15460fd3b59b3a982db2371f8aa654957a9a002c29",
+  "source_lines": 4024,
+  "requests": {
+    "info": "920bb9d43ce69845fd019aa157eee766596085d7ab6c174495b9516d0dfe0b2d",
+    "locate_error": "0757e83b35eae4f57dd22a39f64f1f53659e4f47c59a1c22f11ece9a47df4330",
+    "lines_3923_3934": "825f67b501157754ecf46ed9b2297178175a70b7c292dd6d9440e0fe34d9d602"
+  },
+  "first_diagnostic": {
+    "line": 3928,
+    "column": 28,
+    "text": "Cannot prove append(append(append(take(1, values), take(1, drop(1, values))), take(1, drop(1, drop(1, values)))), drop(1, drop(1, drop(1, values)))) == values",
+    "source_location": "verified/lib.rs(50,14-17)",
+    "context_request_lines": [3923, 3934]
+  },
+  "limitations": [
+    "Parser-input identity is not established.",
+    "This bounded observation does not establish proof acceptance or causality."
+  ]
+}

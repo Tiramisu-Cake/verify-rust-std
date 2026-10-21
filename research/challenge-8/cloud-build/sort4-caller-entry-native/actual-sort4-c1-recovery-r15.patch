@@ -1,6 +1,48 @@
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-@@ -4576,6 +4576,20 @@
+@@ -3256,6 +3256,7 @@
+       let pending_callback_unwind = ref None
+       let callback_unwind_recoveries = ref []
+       let callback_unwind_count = ref 0
++      let actual_c1_argument_calls = ref 0
+ 
+       let fail_callback_unwind why =
+         failwith ("CALLBACK-UNWIND: source/MIR certificate mismatch: " ^ why)
+@@ -4540,6 +4541,33 @@
+       let callback_unwind =
+         match !State.pending_callback_unwind with
+         | None -> None
++        | Some (marker_loc, _, _)
++          when Sys.getenv_opt "SORT4_ACTUAL_BODY_C1_RECOVERY" = Some "1" &&
++               State.body_name = "sort4_stable" &&
++               (match D.decode_operand func_cpn, fn_call_rexpr with
++                | Constant {const=Val {ty={kind=FnDef
++                    {id={name="std::ptr::const_ptr::<impl *const T>::add"};
++                     substs=[{kind=Type {kind=Param "T"}}]}}}},
++                  FnCallResult (Ast.Operation (_, Ast.Add,
++                    [_; Ast.CastExpr (_, _, Ast.IntLit (_, n, _, _, _))]))
++                    when Big_int.eq_big_int n Big_int.unit_big_int -> true
++                | _ -> false) ->
++            let fail = State.fail_callback_unwind in
++            let (_, line, _), _ = Ast.lexed_loc fn_loc in
++            let _, (_, marker_line, _) = Ast.lexed_loc marker_loc in
++            let expected = match Sys.getenv_opt "SORT4_ACTUAL_BODY_FIRST_CALL_LINE" with
++              | Some value when value = string_of_int line && line > 0 -> line
++              | _ -> fail "actual-body argument source coordinate" in
++            if marker_line + 1 <> expected || !State.actual_c1_argument_calls <> 0 ||
++               !State.callback_unwind_count <> 0 then
++              fail "actual-body requires one original c1 add argument call";
++            (match OptionRd.get (target_get fn_call_data_cpn) with
++             | OptionRd.Something _ -> ()
++             | _ -> fail "actual-body argument call has no normal successor");
++            incr State.actual_c1_argument_calls;
++            (* Leave pending debt untouched; emit the original add and every
++               existing normal/unwind statement and successor below. *)
++            None
+         | Some (marker_loc, debt, recover) ->
+             let fail = State.fail_callback_unwind in
+             (match fn_call_rexpr with
+@@ -4576,6 +4604,21 @@
              let (_, call_line, _) = call_start_pos in
              if marker_end_line + 1 <> call_line then
                fail "marker is not immediately before the actual call span";
@@ -15,13 +57,14 @@
 +                       line
 +                     with Failure _ -> fail "actual-body c1 source coordinate")
 +                | None -> fail "actual-body c1 source coordinate" in
-+              if call_line <> expected_line || !State.callback_unwind_count <> 0 then
++              if call_line <> expected_line || !State.callback_unwind_count <> 0 ||
++                 !State.actual_c1_argument_calls <> 1 then
 +                fail "actual-body marker does not bind the first source callback"
 +            end;
              let label =
                Printf.sprintf "__vf_callback_unwind_recover_%d"
                  !State.callback_unwind_count in
-@@ -8120,7 +8134,47 @@
+@@ -8120,7 +8163,47 @@
             ghost_stmts) in
      if declared_callback_markers <> parsed_callback_markers then
        State.fail_callback_unwind "malformed source marker";

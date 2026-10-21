@@ -1,0 +1,104 @@
+{
+  "archive_sha256": "c011d03b438da9d02a20c01701261b34a31375dc6b08a8fec3adbe32f31047db",
+  "build_id": "90e812ed-233d-4a3a-a836-ab544ce36ff5",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 13,
+      "EMPTY_FILE": 121,
+      "JSON_EXCEEDS_SCAN_LIMIT": 1,
+      "PROJECTED": 508,
+      "UNSUPPORTED_FILE_TYPE": 63
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2092280,
+    "content_files": 630,
+    "files": 706,
+    "source_scan_bytes": 5296468
+  },
+  "index_sha256": "b4dee55530f70c793b7ad6fd2499394fb98941f232efb9ca4b7cb108855b06bf",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "c05590816851dcbc0076086076ca8d564e870da6a04edbe021f9a0dc010a1ec9",
+      "kind": "text",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/normal-sort4_stable-full-mir.txt",
+      "path_sanitized": false,
+      "scanned_bytes": 65536,
+      "sha256": "a10a03a1ac6f77ca6817fb0faab3c022c390b5ba35906fc9d741261dfd0afa29",
+      "size_bytes": 663246,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "e75fcb8eea3490c77dd6937180b07a7d92cd415bd1056a602e8e3069e8662869",
+      "kind": "text",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/c1-opt-in-off-negative/stage/normal-sort4_stable-full-mir.txt",
+      "path_sanitized": false,
+      "scanned_bytes": 65536,
+      "sha256": "a10a03a1ac6f77ca6817fb0faab3c022c390b5ba35906fc9d741261dfd0afa29",
+      "size_bytes": 663246,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "1cb1e6050eb4e3da9d07723a0833de69ddaf04c9ce02c2ee8c70cde23584a2e6",
+      "kind": "text",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/c1-wrong-first-call-line-negative/stage/normal-sort4_stable-full-mir.txt",
+      "path_sanitized": false,
+      "scanned_bytes": 65536,
+      "sha256": "a10a03a1ac6f77ca6817fb0faab3c022c390b5ba35906fc9d741261dfd0afa29",
+      "size_bytes": 663246,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "7c7b4eb1739f6963f4ed76f7bf01eb012d90e60e7a0a8223578c3c048e103f8b",
+      "kind": "text",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/c1-wrong-source-sha-negative/stage/normal-sort4_stable-full-mir.txt",
+      "path_sanitized": false,
+      "scanned_bytes": 65536,
+      "sha256": "a10a03a1ac6f77ca6817fb0faab3c022c390b5ba35906fc9d741261dfd0afa29",
+      "size_bytes": 663246,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "5c2c164d3acd8db025b16c8818668c6b020233f37a194471933b384688fa767d",
+      "kind": "text",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/false-old-value-array-post-negative/stage/normal-sort4_stable-full-mir.txt",
+      "path_sanitized": false,
+      "scanned_bytes": 65536,
+      "sha256": "473381261db4262a46f7e5fc312394b029c076b603b685f8ab1e745f443740cb",
+      "size_bytes": 663246,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "65634c3c80437807419fca5022a2b2bbbca88cd56e9c8309f11c3c70e1830ec3",
+      "kind": "text",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/missing-fourth-end-token-negative/stage/normal-sort4_stable-full-mir.txt",
+      "path_sanitized": false,
+      "scanned_bytes": 65536,
+      "sha256": "923ba054a6be55432e6e413a8eb4e967683e5fb5240243d25735bf931304782c",
+      "size_bytes": 663246,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 706,
+    "files_with_incomplete_content": 502,
+    "matches_in_retained_data": 6,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

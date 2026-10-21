@@ -1,5 +1,5 @@
 {
-  "a1_actual_body_sha256": "fe1fe254e1728ef1a045560c1bfe405355f1ce9371db323b12190a8ef6339afd",
+  "a1_actual_body_sha256": "82f2b81027f890ca465e1ed54ca02ce720ad008675a82985f2678f98df44f2ad",
   "a1_checked_cleanup_helper_sha256": "a12ea01240b96555a3b74dc3ef4bdec5e581904c37f4377dc5b048a4db50abb8",
   "a1_checked_cleanup_import_sha256": "0ee7ebcc19c7a21bbe329d70e6e763ee43c7647b556ad6184982997ec4fa911f",
   "a1_entry_sha256": "8961bb009b08ad307a594bf573c1eb6f4810c019e1953ea3433d88433b486a45",
@@ -31,15 +31,16 @@
   "actual_body_dependencies_sha256": {
     "a1-actual-body-c1.py": "bbdb07c5d132ed23d83d751bf8ec87df3d67709ff207b1b2a8a94fe9878ea124",
     "a1-actual-copy-lemma.rs": "e839b8ab51c15a4d9789e96892db4c24d23c4c112ac8e19b81b77b0da6148edc",
-    "a1-actual-four-copy.rs": "2d75609c0544774c759a9972396d7a1f645ff1d353e356979bed2dc210ad543a",
+    "a1-actual-four-copy.rs": "7b81692132690c94e85e8062d1cf2e7565a35cecc29f2a21f5073bb4eb1d2e37",
     "a1-actual-recover-pair.rs": "7a28ae5734c5288ff466764e6645eff236f30c097a7951ebd086f5bb7f5eff72",
+    "a1-actual-selector-permutation.rs": "83a1dafde130f412e16235312481b338a419f73805d3ec300d559e8f25dc7aca",
     "capture.py": "0d993e8c36cb7684eb509e8efcfb9553b07e92e87885f4ae430269c4cb2a6060"
   },
   "actual_c1_recovery_overlay": {
-    "manifest_sha256": "36fc05392bfca79849d8315e254948c6df6be46addaba822b6bea9ed7d6342b9",
+    "manifest_sha256": "ef6c8a8cd352becac487c89a98569b6310c22c17b2fe083ba20417823c74f3ab",
     "patch": "actual-sort4-c1-recovery-r15.patch",
-    "patch_sha256": "c891738e916b4195178e1408869010e10ce6436897c94923bdf39fda548b6031",
-    "result_sha256": "d436d7017391fb77295e0d962a65cfc69ce22f8c465c5a24e77cef0f5eb9b9e8"
+    "patch_sha256": "0ffb4fb9ea713ab58871ced508f537ba0ec7de01b7cca85fe41b7e327ebddeda",
+    "result_sha256": "9155f51bc421b74bb4736887f919087c37504969d3bd5b8e539f822daa9194d5"
   },
   "authorization_phase_id": "SORT4-ACTUAL-BODY-2026-10-21-R15",
   "base_translator_sha256": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64",
@@ -61,7 +62,7 @@
   "c_patch_sha256": "3549e93e80aa20f3827c821db60d7ce366557155b8b203a8acaff552c04f5cb6",
   "caller_driver_sha256": "75df07539721e16e2329f94ebe392f8f3626ca106be906cfc0cc61345db4797a",
   "caller_manifest_sha256": "cea1daca656e641f083aabc1eb8c62784edde889ae01470b339c719e3ba3c8d2",
-  "candidate_version": "R15-S3-FULL-BODY-C1-RECOVERY",
+  "candidate_version": "R15-S4-C1-ARGUMENT-BINDING-AND-SELECTORS",
   "checkpoint_utc": "2026-10-21T12:29:30Z",
   "cloud_build_enabled": true,
   "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
@@ -145,7 +146,7 @@
   "phase": "SORT4-ACTUAL-BODY-2026-10-21-R15",
   "phase_id": "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17",
   "pointer_width": 64,
-  "previous_build_id": "b06e1738-89cb-467d-8f46-7ea26585fdb2",
+  "previous_build_id": "90e812ed-233d-4a3a-a836-ab544ce36ff5",
   "profile_accepted": false,
   "profile_pin_source": "coordinator-environment",
   "proof_credit": false,
@@ -202,7 +203,7 @@
     "queue_reserve_seconds": 60
   },
   "start_utc": "2026-10-21T14:54:00Z",
-  "status": "R15_S3_REVIEW_PENDING",
+  "status": "R15_S4_REVIEW_PENDING",
   "std_source_sha256": {
     "library/core/src/marker.rs": "f7e098f8b9ad1a6dded90b81fd943afbe6c8d60934354838998880fe05f80755",
     "library/core/src/slice/sort/shared/mod.rs": "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8",

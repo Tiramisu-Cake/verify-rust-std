@@ -138,16 +138,46 @@ def component_cases(source, ghost, expected_count=4):
 
 
 def lemma_metadata(source):
-    """Coordinates of these pinned, straight-line source-written ghost bodies."""
+    """Exact intervals of pinned ghost lemmas, including nested proof cases."""
     lines = source.splitlines()
     result = []
     for i, line in enumerate(lines):
-        match = re.match(rb'lem ([A-Za-z_0-9]+)<', line)
-        if match:
-            end = next(j for j in range(i + 1, len(lines)) if lines[j] == b'}')
-            result.append({'name': match[1].decode(), 'focus_line': i + 1,
-                           'end_line': end + 1})
+        match = re.match(rb'lem ([A-Za-z_0-9]+)(?:<|\()', line)
+        if not match:
+            continue
+        begin = next((j for j in range(i + 1, len(lines)) if lines[j] == b'{'), None)
+        need(begin is not None, 'ghost lemma body opening')
+        balance = 0
+        end = None
+        for j in range(begin, len(lines)):
+            # This pinned fixture grammar has no block comments/strings with
+            # braces in proof bodies. AST interval equality is checked later.
+            proof_line = lines[j].split(b'//', 1)[0]
+            balance += proof_line.count(b'{') - proof_line.count(b'}')
+            need(balance >= 0, 'ghost lemma brace balance')
+            if balance == 0:
+                end = j
+                break
+        need(end is not None, 'ghost lemma body closing')
+        result.append({'name': match[1].decode(), 'focus_line': i + 1,
+                       'end_line': end + 1})
     return result
+
+
+def selector_cases(source, ghost):
+    rows = lemma_metadata(source)
+    need([r['name'] for r in rows] == [
+        'selector_permutation', 'selector_wrong_minimum_post_negative'],
+        'exact pure selector positive/negative inventory')
+    common = {'mir_target': 'r15_selector_permutation_type_anchor',
+              'summary_eligible': False, 'proof_credit': False,
+              'scope': 'arbitrary Boolean indices only; actual pointer/source binding open'}
+    original = ghost.strip_ghost(source)
+    return [
+        ('selector-permutation-positive', source, original, {**common, **rows[0]}),
+        ('selector-wrong-minimum-negative', source, original,
+         {**common, **rows[1], 'required_lemmas': [rows[0]]}),
+    ]
 
 
 def recovery_cases(source, ghost):
@@ -430,12 +460,26 @@ def run(a, *, c4, audit, driver, manifest, ghost):
                 result['copy_components'][case[0]] = run_case(a, c4, tool, env, target_root,
                     case, helpers['a1-ast-gates.py'], grammar, identity)
             checkpoint()
+        if 'a1-actual-selector-permutation.rs' in profile['actual_body_dependencies_sha256']:
+            path = root / HERE / 'a1-actual-selector-permutation.rs'
+            need(sha(path.read_bytes()) == profile['actual_body_dependencies_sha256'][path.name],
+                 'exact pure selector dependency source')
+            result['selector_components'] = {}
+            for case in selector_cases(path.read_bytes(), ghost):
+                if int(a.deadline_epoch) - int(time.time()) < 100:
+                    row = {'status': 'NOT_RUN', 'reason': 'shared deadline reserve', 'proof_credit': False}
+                else:
+                    row = run_case(a, c4, tool, env, target_root, case,
+                        helpers['a1-ast-gates.py'], grammar, identity)
+                result['selector_components'][case[0]] = row
+                checkpoint()
         result['observation_complete'] = all(
             isinstance(row, dict) and isinstance(row.get('verification'), dict) and
             row['verification'].get('classification') == 'TERMINAL' and
             type(row['verification'].get('exit')) is int
             for row in [result['body_target'], *result['copy_components'].values(),
-                        *result.get('c1_controls', {}).values()])
+                        *result.get('c1_controls', {}).values(),
+                        *result.get('selector_components', {}).values()])
         # Full resource/receipt/controls/matrix qualification is still open.
         result['evidence_complete'] = False
     except Exception as exc:

@@ -84,6 +84,14 @@ ens thread_token(t) &*& t == currentThread &*& type_interp::<T>() &*&
     //@ array_join::<T>(src);
     //@ array_join::<T>(src);
     //@ array_join::<T>(src);
+    // array_join restores the cells as nested append(take/drop(...)) lists.
+    // Normalize that representation back to the original source sequence so
+    // the single source foreach owner remains indexed by exactly `values`.
+    //@ append_assoc::<T>(append(take(1, values), take(1, drop(1, values))), take(1, drop(1, drop(1, values))), drop(1, drop(1, drop(1, values))));
+    //@ append_assoc::<T>(take(1, values), take(1, drop(1, values)), append(take(1, drop(1, drop(1, values))), drop(1, drop(1, drop(1, values)))));
+    //@ append_take_drop_n::<T>(drop(1, drop(1, values)), 1);
+    //@ append_take_drop_n::<T>(drop(1, values), 1);
+    //@ append_take_drop_n::<T>(values, 1);
 }
 // CASE_END raw-four-copy-identity-positive
 
@@ -131,5 +139,10 @@ ens thread_token(t) &*& t == currentThread &*& type_interp::<T>() &*&
     //@ array_join::<T>(src);
     //@ array_join::<T>(src);
     //@ array_join::<T>(src);
+    //@ append_assoc::<T>(append(take(1, values), take(1, drop(1, values))), take(1, drop(1, drop(1, values))), drop(1, drop(1, drop(1, values))));
+    //@ append_assoc::<T>(take(1, values), take(1, drop(1, values)), append(take(1, drop(1, drop(1, values))), drop(1, drop(1, drop(1, values)))));
+    //@ append_take_drop_n::<T>(drop(1, drop(1, values)), 1);
+    //@ append_take_drop_n::<T>(drop(1, values), 1);
+    //@ append_take_drop_n::<T>(values, 1);
 }
 // CASE_END raw-four-copy-duplicate-owner-negative

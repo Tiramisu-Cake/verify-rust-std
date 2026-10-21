@@ -100,6 +100,16 @@ class FakeC4:
                 "log_sha256": sha(log)}
 
 
+class LemmaIntervalTests(unittest.TestCase):
+    def test_nested_nongeneric_proof_interval_includes_outer_close(self):
+        source = b"lem pure_case(x: bool)\n req true;\n ens true;\n{\nif (x) {\n} else {\n}\n}\n"
+        self.assertEqual(BODY.lemma_metadata(source), [{
+            "name": "pure_case", "focus_line": 1, "end_line": 8}])
+
+    def test_missing_body_closing_is_rejected(self):
+        with self.assertRaises(RuntimeError):
+            BODY.lemma_metadata(b"lem malformed<T>()\n{\nif (true) {\n}\n")
+
 class ActualBodyClassifierTests(unittest.TestCase):
     def setUp(self):
         self.log = b"verifier output\n"

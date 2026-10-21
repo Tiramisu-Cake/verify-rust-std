@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "c011d03b438da9d02a20c01701261b34a31375dc6b08a8fec3adbe32f31047db",
+  "build_id": "90e812ed-233d-4a3a-a836-ab544ce36ff5",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 7012,
+    "line_separator": "LF",
+    "source_lines": 18092,
+    "start": 7001,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "c05590816851dcbc0076086076ca8d564e870da6a04edbe021f9a0dc010a1ec9",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/normal-sort4_stable-full-mir.txt",
+  "file_sha256": "a10a03a1ac6f77ca6817fb0faab3c022c390b5ba35906fc9d741261dfd0afa29",
+  "index_sha256": "b4dee55530f70c793b7ad6fd2499394fb98941f232efb9ca4b7cb108855b06bf",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 7012,
+    "expected_sha256": "a10a03a1ac6f77ca6817fb0faab3c022c390b5ba35906fc9d741261dfd0afa29",
+    "file_id": "c05590816851dcbc0076086076ca8d564e870da6a04edbe021f9a0dc010a1ec9",
+    "start": 7001
+  },
+  "request_id": "84822a002ebbfdebc317608b182b37b38f8c8685ca4ed2cdc7fb95b7e4f32741",
+  "requested_end": 7012,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7001,
+      "text": "                          col = (pos = 74) ) ) ),"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7002,
+      "text": "                    const = ("
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7003,
+      "text": "                      val = ("
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7004,
+      "text": "                        constValue = (zeroSized = void),"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7005,
+      "text": "                        ty = ("
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7006,
+      "text": "                          kind = ("
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7007,
+      "text": "                            fnDef = ("
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7008,
+      "text": "                              id = ("
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7009,
+      "text": "                                name = \"std::ptr::const_ptr::<impl *const T>::add\" ),"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7010,
+      "text": "                              substs = ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7011,
+      "text": "                                ( kind = ("
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7012,
+      "text": "                                    type = (kind = (param = \"T\")) ) ) ],"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

@@ -1,0 +1,68 @@
+{
+  "archive_sha256": "c011d03b438da9d02a20c01701261b34a31375dc6b08a8fec3adbe32f31047db",
+  "build_id": "90e812ed-233d-4a3a-a836-ab544ce36ff5",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 13,
+      "EMPTY_FILE": 121,
+      "JSON_EXCEEDS_SCAN_LIMIT": 1,
+      "PROJECTED": 508,
+      "UNSUPPORTED_FILE_TYPE": 63
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2092280,
+    "content_files": 630,
+    "files": 706,
+    "source_scan_bytes": 5296468
+  },
+  "index_sha256": "b4dee55530f70c793b7ad6fd2499394fb98941f232efb9ca4b7cb108855b06bf",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "8f40609e83ddac56306dd0716c8b84003cd25f826b80598416d75d7076d6046a",
+      "kind": "json",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/checked-interior_pointer_limits/lemma-verification-stage.json",
+      "path_sanitized": false,
+      "scanned_bytes": 782,
+      "sha256": "44cde52851317f61ffe19c1204894c08f50ebaf55d003b50aeb413e51d9633a3",
+      "size_bytes": 782,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "2fe62dbd808be4474710a65f84b4af173e01aee37f47beb2521ead425f13828d",
+      "kind": "text",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/checked-interior_pointer_limits/lemma-verification-resources.txt",
+      "path_sanitized": false,
+      "scanned_bytes": 1125,
+      "sha256": "992988a6223409b95ab6cbb4826131340fb7e2e571c0bcef994e8910f6266b25",
+      "size_bytes": 1125,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "8b8a167c9fd64bac31467b378abdd1b2a0277dfbf94ed838bb92a48f890d2be3",
+      "kind": "text",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/checked-interior_pointer_limits/lemma-verification.log",
+      "path_sanitized": false,
+      "scanned_bytes": 13425,
+      "sha256": "702fabfaa1c66bc01756aa384fe28edd44484cc62f347b6fe723b02be1186fe1",
+      "size_bytes": 13425,
+      "status": "CONTENT_BUDGET_EXCEEDED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 706,
+    "files_with_incomplete_content": 502,
+    "matches_in_retained_data": 3,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}
