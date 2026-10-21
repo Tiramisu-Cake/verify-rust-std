@@ -1,11 +1,11 @@
 # Agent checkpoint: select-actual-c2-autonomous-2026-10-21-r17
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-C2-2026-10-21-R17 | state: ACTIVE
-- Updated: 2026-10-21T20:29:36.735891+00:00
+- Owner: select-sort4 | phase: SORT4-ACTUAL-C2-2026-10-21-R17 | state: HANDOFF
+- Updated: 2026-10-21T20:38:21.453239+00:00
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24`
 - Session dates: T0 `2026-10-21T20:06:19Z`; main deadline `2026-10-21T22:06:19Z`; absolute deadline `2026-10-21T22:36:19Z`
 - Budget: 3600s total; 474s spent; 0s retired; 3126s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 3fd2796f-cf65-4737-b1ff-77818c0a1171
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -25,9 +25,10 @@ RuntimeError: A1-REFERENCE-OWN: exact diagnostic mode (a1-reference-own-probe.py
 - [research/challenge-8/task-history/select-actual-c2-r17/S1-evidence.json](task-history/select-actual-c2-r17/S1-evidence.json) SHA `9e02ff66640dfb90532a457a05e83bdc2426b2a68e3e252449b080f74d3e9148`
 
 ## Next
-S2: add exact R17 probe allowlist; review source-preserving indexed c2 resource/strict-scope candidate, then Cloud preflight and required controls. All new c2 code unverified.
+WAITING: S2 Build 3fd2796f-cf65-4737-b1ff-77818c0a1171. Transfer status waiting to smallsort-session watch targeting this thread. On technical event first watch ack before checkpoint change, then terminal Evidence Brief and exact failure/controls; continue existing R17 T0/account/window only. Main cutoff22:06:19Z; absolute22:36:19Z. No proof acceptance inferred from build metadata.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-actual-lifetime-r16/NEXT-AFTER-S5.md](task-history/select-actual-lifetime-r16/NEXT-AFTER-S5.md) — `9b14da3d73b7fc52e5fc9fe91309495db285fd762844ebcaa7cacd41e639f55f`
 - [research/challenge-8/task-history/select-actual-lifetime-r16/NEXT-CALLBACK-PROTOCOL.md](task-history/select-actual-lifetime-r16/NEXT-CALLBACK-PROTOCOL.md) — `52ab17d8fc1da93b4b10e4e5be40dfd8455c761c4b1b09f88b0305464169e769`
 - [research/challenge-8/task-history/select-actual-c2-r17/S1-review.json](task-history/select-actual-c2-r17/S1-review.json) — `1eb072f1947446e6d0b4d72795728c433ba8c0a34768b96c670c51fe4b72db61`
+- [research/challenge-8/task-history/select-actual-c2-r17/S2-review.json](task-history/select-actual-c2-r17/S2-review.json) — `770271a4aeffdf5c7bf1187bc7d9ed904757f9e4417adaed8e30e2b52d7811db`
