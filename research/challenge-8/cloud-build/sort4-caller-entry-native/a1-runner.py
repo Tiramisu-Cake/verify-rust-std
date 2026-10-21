@@ -195,7 +195,7 @@ def r12_ghost_grammar_passed(value: Any, *, build_id: str, project_id: str,
     try:
         _need(isinstance(value, Mapping) and
               value.get("schema") == "a1-ghost-grammar-preflight-v1" and
-              value.get("status") == "GRAMMAR_PREFLIGHT_PASS" and
+              value.get("status") == "GRAMMAR_SYNTAX_PREFLIGHT_PASS" and
               value.get("build_id") == build_id and
               value.get("project_id") == project_id and
               value.get("phase_id") == PHASE and
@@ -204,7 +204,8 @@ def r12_ghost_grammar_passed(value: Any, *, build_id: str, project_id: str,
               value.get("tool_binary_sha256") ==
                 tool_receipt.get("console_binary_sha256") and
               value.get("proof_credit") is False and
-              value.get("caller_receipt") is False,
+              value.get("caller_receipt") is False and
+              value.get("body_verified") is False,
               "R12 ghost grammar preflight identity/status/credit envelope")
         variants = value.get("variants")
         _need(isinstance(variants, Mapping) and set(variants) == {
@@ -245,8 +246,13 @@ def r12_ghost_grammar_passed(value: Any, *, build_id: str, project_id: str,
                   "R12 ghost grammar source pair differs from source manifest")
         positive = variants["positive"]
         selection = positive.get("ast_selection")
-        _need(positive.get("status") == "GRAMMAR_POSITIVE_PASS" and
-              positive["stage"].get("exit") == 0 and
+        positive_exit = positive["stage"].get("exit")
+        _need(value.get("status") == "GRAMMAR_SYNTAX_PREFLIGHT_PASS" and
+              value.get("body_verified") is False and
+              value.get("body_probe_status") == positive.get("body_probe_status") and
+              positive.get("status") == "GRAMMAR_POSITIVE_PASS" and
+              positive.get("syntax_status") == "GRAMMAR_SYNTAX_PASS" and
+              positive.get("body_verified") is False and
               isinstance(positive.get("ast_path"), str) and
               isinstance(positive.get("ast_sha256"), str) and
               HEX64.fullmatch(positive["ast_sha256"]) is not None and
@@ -258,7 +264,27 @@ def r12_ghost_grammar_passed(value: Any, *, build_id: str, project_id: str,
               isinstance(selection.get("selected"), Mapping) and
               selection["selected"].get("name") == "a1_cleanup_option_ref" and
               selection["selected"].get("kind") == "lemma",
-              "R12 positive ghost grammar verifier/AST receipt missing")
+              "R12 positive ghost grammar syntax/AST receipt missing")
+        if positive_exit == 0:
+            _need(positive.get("body_probe_status") ==
+                  "MINI_UNIT_EXIT_ZERO_NOT_CANONICAL_PROOF",
+                  "R12 zero-exit mini unit must remain distinct from canonical body proof")
+        else:
+            diagnostic = positive.get("body_probe_diagnostic")
+            line = positive.get("helper_body_end_line")
+            _need(type(line) is int and line > 0 and
+                  positive.get("body_probe_status") == "KNOWN_BODY_LEAK_OBSERVED" and
+                  isinstance(diagnostic, Mapping) and
+                  diagnostic.get("matched") is True and
+                  diagnostic.get("expected_source_line") == line and
+                  isinstance(diagnostic.get("diagnostics"), list) and
+                  len(diagnostic["diagnostics"]) == 1 and
+                  re.fullmatch(r"verified/lib\.rs\(" + str(line) +
+                               r",[0-9]+(?:-[0-9]+)?\): error: "
+                               r"Function leaks heap chunks: own\(ref_typeid\('"
+                               r"[^)\r\n]*\)\)\([^)\r\n]*\)",
+                               diagnostic["diagnostics"][0]) is not None,
+                  "R12 nonzero grammar stage is not the exact known body leak")
         for key in ("negative_fully_qualified", "negative_import_inside_block"):
             row = variants[key]
             diagnostic = row.get("diagnostic_match")
@@ -288,23 +314,31 @@ def r12_ghost_preflight_blocker(observation: Any, action_value: Any) -> Any:
 
 def r12_stop_before_dependent_cases(result: dict[str, Any], *, detail: Any,
                                     execution_events: list[dict[str, Any]],
-                                    observations: Mapping[str, Any]) -> dict[str, Any]:
+                                    observations: Mapping[str, Any],
+                                    execution_mode: str = "native-p1-target") -> dict[str, Any]:
     """Fail closed with every dependent first-matrix row explicitly NOT_RUN."""
+    _need(execution_mode in {"native-p1-target", "full-matrix", "parser-preflight"},
+          "recognized execution mode required for blocked preflight report")
     reason = "R12 ghost grammar preflight did not pass; all dependent cases remain NOT_RUN"
     for case_id in CASE_ORDER:
         result["case_status"][case_id].update(
             status="NOT_RUN", reason=reason, proof_credit=False,
             matrix_gate_passed=False)
+    native_target = execution_mode == "native-p1-target"
     result.update(
-        classification="A1_NATIVE_P1_BOUNDED_TARGET_LIFECYCLE",
-        target_scope={"mode": "native-p1-target",
-                      "case_ids": [case for case in CASE_ORDER
-                                   if case in NATIVE_TARGET_CASES],
+        classification=("A1_NATIVE_P1_BOUNDED_TARGET_LIFECYCLE" if native_target else
+                        "A1_FULL_MATRIX_BLOCKED_LIFECYCLE"),
+        target_scope={"mode": execution_mode,
+                      "case_ids": ([case for case in CASE_ORDER
+                                    if case in NATIVE_TARGET_CASES] if native_target else
+                                   list(CASE_ORDER)),
                       "matrix_admission_invoked": False,
                       "matrix_admission_recorded": False,
                       "proof_credit": False},
         cases=result["case_status"], observed_rows=[], observed_row_count=0,
-        matrix_complete=False, matrix_validation="blocked-before-dependent-cases",
+        matrix_complete=False,
+        matrix_validation=("bounded-target-only-not-admitted" if native_target else
+                           "blocked-before-dependent-cases"),
         admission_record_created=False, dispatch_ready=False,
         diagnostic_complete=False, evidence_complete=False,
         verification_accepted=False, profile_accepted=False,
@@ -899,10 +933,24 @@ def draft_false31_pair_stage(a, c4, ghost, *, tool: Path,
           positive_native_baseline,
           "false31 source pair Freeze threshold body/conformance was not proved")
 
-    if not isinstance(expected_cases, Mapping):
-        return {"not_run": True, "execution_started": False,
-                "reason": "false31 own bodies observed; complete receipt input manifest unavailable",
-                "partial_body_cases": pair, "proof_credit": False}
+    manifest_complete, manifest_detail = _false31_manifest_status(expected_cases)
+    if not manifest_complete:
+        reason = "complete receipt input manifest unavailable after false31 own body pair"
+        receipt_stage = {"status": "NOT_RUN", "execution_started": False,
+                         "reason": reason, "proof_credit": False}
+        caller_stage = {"status": "NOT_RUN", "execution_started": False,
+                        "reason": "own-pair receipt was not issued", "proof_credit": False}
+        if progress is not None:
+            progress.update(receipt_path=None, receipt_issued_after_both_bodies=False,
+                            receipt_stage=receipt_stage, caller_stage=caller_stage)
+        return {"classification": "FALSE31_BODY_PAIR_OBSERVED_CALLER_RECEIPT_NOT_RUN",
+                "not_run": False, "execution_started": True,
+                "body_pair_attempted": True,
+                "reason": reason, "expected_case_manifest": manifest_detail,
+                "body_cases": pair,
+                "receipt_issued_after_both_bodies": False,
+                "receipt_stage": receipt_stage, "caller_stage": caller_stage,
+                "proof_credit": False}
 
     false_expected = deepcopy(dict(expected_cases))
     # A1Admission constructor requires one paired source/unit identity across
@@ -961,6 +1009,34 @@ def draft_false31_pair_stage(a, c4, ghost, *, tool: Path,
     if progress_hook is not None:
         progress_hook("N-false31-caller-observed")
     return observation
+
+
+def _false31_manifest_status(expected_cases: Any) -> tuple[bool, dict[str, Any]]:
+    """Accept receipt inputs only when all 26 exact IDs have object rows."""
+    if not isinstance(expected_cases, Mapping):
+        return False, {"classification": "EXPECTED_CASES_NOT_MAPPING",
+                       "observed_type": type(expected_cases).__name__,
+                       "case_count": None, "missing_case_ids": list(CASE_ORDER),
+                       "unexpected_case_ids": [], "malformed_case_ids": []}
+    keys = list(expected_cases.keys())
+    string_keys = {key for key in keys if isinstance(key, str)}
+    expected = set(CASE_ORDER)
+    missing = [case_id for case_id in CASE_ORDER if case_id not in string_keys]
+    unexpected = sorted(string_keys - expected)
+    malformed = [case_id for case_id in CASE_ORDER
+                 if case_id in expected_cases and
+                 not isinstance(expected_cases[case_id], Mapping)]
+    non_string_keys = sum(not isinstance(key, str) for key in keys)
+    complete = (not missing and not unexpected and not non_string_keys and
+                not malformed and len(keys) == len(CASE_ORDER))
+    return complete, {
+        "classification": "EXACT_26_CASE_MANIFEST" if complete else
+                          "INCOMPLETE_OR_MALFORMED_CASE_MANIFEST",
+        "case_count": len(keys), "missing_case_ids": missing,
+        "unexpected_case_ids": unexpected,
+        "malformed_case_ids": malformed,
+        "non_string_key_count": non_string_keys,
+    }
 
 
 def observe_focused_structure(case_id: str, raw: Mapping[str, Any],
@@ -2836,7 +2912,8 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
                     "proof_credit": False})
                 r12_stop_before_dependent_cases(
                     result, detail=detail, execution_events=execution_events,
-                    observations=observations)
+                    observations=observations,
+                    execution_mode=profile.get("execution_mode"))
                 persist_progress()
                 path = Path(a.evidence) / "diagnostic-audit.json"
                 path.parent.mkdir(parents=True, exist_ok=True)

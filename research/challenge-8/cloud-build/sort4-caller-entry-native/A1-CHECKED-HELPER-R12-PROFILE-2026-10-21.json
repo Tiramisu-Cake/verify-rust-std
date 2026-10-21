@@ -8,7 +8,7 @@
     "src/verify_expr.ml": "2d17c36005d6727cb5ff6d831bf905f513065bb591d5d9768ee70778872a6d20",
     "src/vfconsole/vfconsole.ml": "79179baa9ad9e9cb2ee5163f4c9528f665519d894c43093183fd8e9f31b06898"
   },
-  "a1_ghost_grammar_sha256": "89dc1fee3fb9b4f10615a435f336b3eb6c661708dbd01644241d19b59d05b122",
+  "a1_ghost_grammar_sha256": "603827833b3a5524fa35c1f6c924c2dfcab73ecdbe3a18daa2d249c0ef8e08ce",
   "a1_helper_sha256": {
     "a1-ast-gates.py": "a506747ed4a02ef3f791db74206f9e98c15c223a887ec5eab0730d83df20b465",
     "a1-call-binding.py": "0e6d606bf434cee9973d2eb0c687e5942bd900e92f18976f5687c933cb2d6e74",
@@ -25,13 +25,13 @@
     "selected-proof.py": "3347ad41c0273ebf186dbcf0520182455b32a65ad9619f2b2c7d3d00c12a7d7f"
   },
   "a1_runner_sha256": "066365860bb66d8d1b2ca39925d631650876c1db264f5e0004bdaf4242dd000a",
-  "a1_source_runner_sha256": "177e29dae7f12f38b8cd731ef41d2bf1de5c29752f9aeb89a85f0b8bcef29f64",
+  "a1_source_runner_sha256": "7fde0083f0f8eb0c806c0a05fbc4d93cf1efc288377a5785688694306f3a2fac",
   "account": "BUDGET-A1-CHECKED-HELPER-2026-10-21-R12.json",
   "authorization_phase_id": "SORT4-CHECKED-HELPER-CALLER-2026-10-21-R12",
   "base_translator_sha256": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64",
   "baseline_candidate_commit": "14a9d651bb09dd0b128525c0efbedbecd15ec082",
   "baseline_profile_sha256": "d90dde221561e71328c870f6388ceda7eb7ad5126a1237543904406d89edb46d",
-  "build_timeout_seconds": 1000,
+  "build_timeout_seconds": 1200,
   "c_after": {
     "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
     "src/rust_frontend/vf_mir_exporter/src/lib.rs": "c29d0d4692eab84257fe61036d6e41dbc11ee3ad999005df4ffb157bb8b463ad",
@@ -51,7 +51,7 @@
   "compiler_toolchain": "nightly-2026-09-25",
   "deadline_utc": "2026-10-21T08:44:26Z",
   "dispatch_blockers": [],
-  "execution_mode": "native-p1-target",
+  "execution_mode": "full-matrix",
   "experiment_protocol_phase_id": "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17",
   "first_matrix_cases": {
     "N-alpha-valid": "NOT_RUN",
@@ -138,13 +138,13 @@
   "selected_base_translator_sha256": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64",
   "stable_threshold_pins_sha256": "6d1753038cb1fe9b6ce933f025e905d1776aca4a418f747285208f8a2f0625ed",
   "stage_budget_estimate": {
-    "build_timeout_seconds": 1000,
+    "build_timeout_seconds": 1200,
     "estimate_not_measured": true,
-    "execute_timeout_seconds": 760,
+    "execute_timeout_seconds": 960,
     "incomplete_rows": "NOT_RUN or INCONCLUSIVE; never full matrix acceptance",
     "inner_margin_seconds": 60,
     "maximum_build_timeout_seconds": 1200,
-    "nominal_work_deadline_seconds": 700,
+    "nominal_work_deadline_seconds": 900,
     "package_upload_verdict_reserve_seconds": 240,
     "queue_reserve_seconds": 60
   },

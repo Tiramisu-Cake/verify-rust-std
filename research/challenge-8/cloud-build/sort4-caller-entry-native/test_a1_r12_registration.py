@@ -50,9 +50,10 @@ class R12Registration(unittest.TestCase):
                           profile["deadline_utc"]), (START, MAIN, DEADLINE))
         self.assertEqual(profile["status"], "R12_AUTHORIZED_NOT_RUN")
         self.assertFalse(profile["proof_credit"])
-        self.assertEqual(profile["build_timeout_seconds"], 1000)
-        self.assertEqual(profile["stage_budget_estimate"]["execute_timeout_seconds"], 760)
-        self.assertEqual(profile["stage_budget_estimate"]["nominal_work_deadline_seconds"], 700)
+        self.assertEqual(profile["execution_mode"], "full-matrix")
+        self.assertEqual(profile["build_timeout_seconds"], 1200)
+        self.assertEqual(profile["stage_budget_estimate"]["execute_timeout_seconds"], 960)
+        self.assertEqual(profile["stage_budget_estimate"]["nominal_work_deadline_seconds"], 900)
         self.assertEqual(ledger["phase"], PHASE)
         self.assertEqual(ledger["owner"], "select-sort4")
         self.assertEqual(ledger["allowed_lanes"], [LANE])
@@ -61,9 +62,15 @@ class R12Registration(unittest.TestCase):
         self.assertEqual((ledger["start_utc"], ledger["main_deadline_utc"],
                           ledger["deadline_utc"]), (START, MAIN, DEADLINE))
         self.assertEqual(ledger["status"], "AUTHORIZED")
-        self.assertEqual(ledger["used_build_seconds"], 0)
-        self.assertEqual(ledger["remaining_build_seconds"], 3600)
-        self.assertEqual(ledger["builds"], [])
+        self.assertEqual(ledger["carry_forward_seconds"], 0)
+        self.assertEqual(ledger["used_build_seconds"] + ledger["remaining_build_seconds"] +
+                         ledger["unused_retired_seconds"], 3600)
+        self.assertEqual(ledger["used_build_seconds"],
+                         sum(row["build_seconds"] for row in ledger["builds"]
+                             if row.get("accounted") is True))
+        self.assertTrue(all(row["phase_id"] == PHASE and
+                            row["owner"] == "select-sort4" and row["lane"] == LANE
+                            for row in ledger["builds"]))
         self.assertIsNone(ledger["active_build"])
 
         old_profile = json.loads((HERE / "A1-CHECKED-CALLER-R11-PROFILE-2026-10-21.json").read_text())
@@ -98,6 +105,8 @@ class R12Registration(unittest.TestCase):
         self.assertIn("a1-entry-r12.py", lane)
         self.assertIn("a1-entry-r11.py", lane)
         self.assertEqual(CONTROL.A1_R12_PROFILE, canonical + PROFILE_NAME)
+        self.assertEqual(CONTROL.r12_time_budget(1200), {
+            "package_reserve": 240, "work_seconds": 960, "soft_margin": 60})
         self.assertEqual(CONTROL.r12_time_budget(1000), {
             "package_reserve": 240, "work_seconds": 760, "soft_margin": 60})
         for invalid in (89, 1201, True, 1000.0):
@@ -134,7 +143,11 @@ class R12Registration(unittest.TestCase):
                    "tool_binary_sha256_after": tool_hash,
                    "tool_identity_sha256_after": tool_identity_hash,
                    "same_active_tool_after_stage": True}
-        positive = {**variant, "status": "GRAMMAR_POSITIVE_PASS", "ast_path": "/workspace/ast.ml",
+        positive = {**variant, "status": "GRAMMAR_POSITIVE_PASS",
+                    "syntax_status": "GRAMMAR_SYNTAX_PASS",
+                    "body_probe_status": "MINI_UNIT_EXIT_ZERO_NOT_CANONICAL_PROOF",
+                    "body_verified": False, "helper_body_end_line": 12,
+                    "ast_path": "/workspace/ast.ml",
                     "ast_sha256": "e" * 64,
                     "ast_selection": {"classification": "ONE_SOURCE_INTERVAL_SELECTED_CHECKED_LEMMA",
                                      "body_count_from_intervals": 1,
@@ -147,12 +160,13 @@ class R12Registration(unittest.TestCase):
                                          "expected_diagnostic": "expected error",
                                          "expected_source_line": 20,
                                          "diagnostics": ["verified/lib.rs(20,1): error: expected error"]}}
-        good = {"schema": "a1-ghost-grammar-preflight-v1", "status": "GRAMMAR_PREFLIGHT_PASS",
+        good = {"schema": "a1-ghost-grammar-preflight-v1", "status": "GRAMMAR_SYNTAX_PREFLIGHT_PASS",
                 "build_id": "build-r12", "project_id": "smallsort-ci",
                 "phase_id": "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17",
                 "authorization_phase_id": PHASE, "profile_sha256": "f" * 64,
                 "tool_binary_sha256": tool_hash, "tool_identity_sha256": tool_identity_hash,
-                "proof_credit": False, "caller_receipt": False,
+                "proof_credit": False, "caller_receipt": False, "body_verified": False,
+                "body_probe_status": "MINI_UNIT_EXIT_ZERO_NOT_CANONICAL_PROOF",
                 "source_identity": {key: {"verified_source_sha256": source_hash,
                                            "original_source_sha256": "d" * 64,
                                            "source_pair_sha256": pair}
@@ -177,6 +191,100 @@ class R12Registration(unittest.TestCase):
                         bad, build_id="build-r12", project_id="smallsort-ci",
                         profile_sha256="f" * 64,
                         tool_receipt=receipt))
+                detail = runner.r12_ghost_preflight_blocker(None, bad)
+                state = {"case_status": {case: {"status": "PLANNED"}
+                                         for case in runner.CASE_ORDER}}
+                stopped = runner.r12_stop_before_dependent_cases(
+                    state, detail=detail, execution_events=[], observations={})
+                self.assertEqual(stopped["first_causal_stage"],
+                                 "ghost-grammar-preflight")
+                self.assertEqual(len(stopped["case_status"]), 26)
+                self.assertTrue(all(row["status"] == "NOT_RUN"
+                                    for row in stopped["case_status"].values()))
+        known_leak = {**good, "body_probe_status": "KNOWN_BODY_LEAK_OBSERVED"}
+        leak_positive = {**positive, "stage": {"classification": "TERMINAL", "exit": 1,
+                                                 "log_sha256": log_hash},
+                         "body_probe_status": "KNOWN_BODY_LEAK_OBSERVED",
+                         "body_probe_diagnostic": {
+                             "matched": True, "expected_source_line": 12,
+                             "expected_diagnostic":
+                                 "Function leaks heap chunks: own(ref_typeid(...))(...)",
+                             "diagnostics": ["verified/lib.rs(12,1): error: "
+                                             "Function leaks heap chunks: "
+                                             "own(ref_typeid('a_typeid,T_typeid))(t,0)"]}}
+        known_leak["variants"] = {**good["variants"], "positive": leak_positive}
+        self.assertTrue(runner.r12_ghost_grammar_passed(
+            known_leak, build_id="build-r12", project_id="smallsort-ci",
+            profile_sha256="f" * 64, tool_receipt=receipt))
+        for bad_positive in (
+                {**leak_positive, "body_probe_diagnostic": {
+                    **leak_positive["body_probe_diagnostic"], "expected_source_line": 11}},
+                {**leak_positive, "body_probe_diagnostic": {
+                    "matched": True, "expected_source_line": 12,
+                    "diagnostics": ["verified/lib.rs(12,1): error: unrelated failure"]}},
+                {**leak_positive, "body_probe_diagnostic": {
+                    "matched": True, "expected_source_line": 12,
+                    "diagnostics": ["verified/lib.rs(12,1): error: Cannot prove "
+                                    "own(ref_typeid('a_typeid,T_typeid))(t,0)"]}},
+                {**leak_positive, "body_probe_diagnostic": {
+                    "matched": True, "expected_source_line": 12,
+                    "diagnostics": ["verified/lib.rs(12,1): error: unrelated; "
+                                    "Function leaks heap chunks: "
+                                    "own(ref_typeid('a_typeid,T_typeid))(t,0)"]}},
+                {**positive, "ast_path": None}):
+            rejected = {**good, "variants": {**good["variants"],
+                                               "positive": bad_positive}}
+            self.assertFalse(runner.r12_ghost_grammar_passed(
+                rejected, build_id="build-r12", project_id="smallsort-ci",
+                profile_sha256="f" * 64, tool_receipt=receipt))
+        body_error = {**leak_positive, "status": "GRAMMAR_POSITIVE_UNEXPECTED_ERROR",
+                      "syntax_status": "BLOCKED_UNCLASSIFIED_VERIFIER_ERROR",
+                      "body_probe_status": "UNEXPECTED_VERIFIER_ERROR",
+                      "body_probe_diagnostic": {"matched": False,
+                          "expected_source_line": 12,
+                          "diagnostics": ["verified/lib.rs(12,1): error: unrelated"]}}
+        invalid_positive = [
+            {**positive, "ast_path": None},
+            {**positive, "ast_selection": {**positive["ast_selection"],
+                                            "body_count_from_intervals": 2}},
+            {**positive, "source_pair_sha256": {**pair,
+                "verified/lib.rs": "0" * 64}},
+            {**positive, "tool_binary_sha256_after": "0" * 64},
+            body_error,
+            {**leak_positive, "body_probe_diagnostic": {
+                **leak_positive["body_probe_diagnostic"], "expected_source_line": 11}},
+            {**leak_positive, "body_probe_diagnostic": {
+                "matched": False, "expected_source_line": 12,
+                "diagnostics": ["verified/lib.rs(12,1): error: unrelated failure"]}},
+        ]
+        for bad_positive in invalid_positive:
+            base = (known_leak if bad_positive.get("body_probe_status") ==
+                    "KNOWN_BODY_LEAK_OBSERVED" else good)
+            rejected = {**base, "variants": {**base["variants"],
+                                                "positive": bad_positive}}
+            self.assertFalse(runner.r12_ghost_grammar_passed(
+                rejected, build_id="build-r12", project_id="smallsort-ci",
+                profile_sha256="f" * 64, tool_receipt=receipt))
+            detail = runner.r12_ghost_preflight_blocker(None, rejected)
+            state = {"case_status": {case: {"status": "PLANNED"}
+                                     for case in runner.CASE_ORDER}}
+            stopped = runner.r12_stop_before_dependent_cases(
+                state, detail=detail, execution_events=[], observations={})
+            self.assertEqual(stopped["first_causal_stage"], "ghost-grammar-preflight")
+            self.assertTrue(all(row["status"] == "NOT_RUN"
+                                for row in stopped["case_status"].values()))
+        full_state = {"case_status": {case: {"status": "PLANNED"}
+                                       for case in runner.CASE_ORDER}}
+        full_stopped = runner.r12_stop_before_dependent_cases(
+            full_state, detail={"status": "GRAMMAR_PREFLIGHT_BLOCKED"},
+            execution_events=[], observations={}, execution_mode="full-matrix")
+        self.assertEqual(full_stopped["classification"],
+                         "A1_FULL_MATRIX_BLOCKED_LIFECYCLE")
+        self.assertEqual(full_stopped["target_scope"]["mode"], "full-matrix")
+        self.assertEqual(full_stopped["target_scope"]["case_ids"],
+                         list(runner.CASE_ORDER))
+        self.assertEqual(full_stopped["matrix_validation"],
+                         "blocked-before-dependent-cases")
         original = {"adapter_error": "RuntimeError: expected diagnostic unavailable",
                     "failed_stage": "ghost-grammar", "stage": {"exit": 23},
                     "artifacts": {"log_sha256": log_hash}, "proof_credit": False}
@@ -317,10 +425,10 @@ class R12Registration(unittest.TestCase):
         for suffix in ("0" * 32, "f" * 32):
             token = "dispatch-" + suffix
             with patch.object(CONTROL.subprocess, "check_output", return_value=profile_bytes):
-                cfg = CONTROL.config(full_sha, full_sha, LANE, 1000, token,
+                cfg = CONTROL.config(full_sha, full_sha, LANE, 1200, token,
                                      b"x" * 540827, PHASE)
             self.assertIn(token, cfg["tags"])
-            self.assertEqual(cfg["timeout"], "1000s")
+            self.assertEqual(cfg["timeout"], "1200s")
             self.assertLessEqual(len(cfg["substitutions"]), 200)
             self.assertTrue(all(len(value.encode()) <= 4000
                                 for value in cfg["substitutions"].values()))
@@ -332,7 +440,7 @@ class R12Registration(unittest.TestCase):
                                if value.startswith("SOURCE_RESTORE_BYTES="))
             restored = lzma.decompress(base64.b64decode(restore_env.split("=", 1)[1]))
             self.assertEqual(restored, (CLOUD / "source-input.py").read_bytes())
-            self.assertIn("760 - 60", cfg["steps"][0]["args"][1])
+            self.assertIn("960 - 60", cfg["steps"][0]["args"][1])
             submitted = json.loads(json.dumps(cfg))
             for key in submitted["substitutions"]:
                 if key.startswith("_SOURCE_"):

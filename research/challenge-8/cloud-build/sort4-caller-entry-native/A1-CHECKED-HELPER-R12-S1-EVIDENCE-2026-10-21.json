@@ -1,0 +1,66 @@
+{
+  "schema": "select-r12-attempt-evidence-v1",
+  "attempt": "S1",
+  "type": "target-first grammar/helper/caller/native-P1",
+  "build_id": "7bb78480-bd16-4d5a-85e2-82875fbad808",
+  "candidate": "f274662fc8f45ae1455bac141c8236f322ca2269",
+  "config_sha256": "c80a5b55cc364a7db16cf4f147fc1e298c3b7f95a176a04c05d3ec4c79e7b4d1",
+  "source_input_sha256": "d714a29e0401ab787f8363a3ceeb205014f8415095aaa781a7fed8df775de27c",
+  "start_utc": "2026-10-21T06:36:08.027220431Z",
+  "timeout_seconds": 1000,
+  "execute_timeout_seconds": 760,
+  "nominal_work_deadline_seconds": 700,
+  "report_reserve_seconds": 240,
+  "status": "FAILURE",
+  "formal_target_gates_closed": 0,
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "matrix_admission": false,
+  "evidence_brief": {
+    "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+    "archive_sha256": "69b1338c039867f26e733d17d73c1eb02b77f761d047b8f6cc9a8bddbe5e1c63",
+    "index_sha256": "0dd1fe4ac28d36896d49b4f5ca1cc0fc4420df5dac5de233dbdc55a5cfd91927",
+    "proof_audit": {
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "sha256": "44117bd70d83c4438fb62b0e1134d2952f8c11b2058d3e9c3da77f248a40458f",
+      "requests": [
+        "306ae785806bdaf9eb453cf7c64c1ff41cc0ea92addad5efbf2f669b67ac866d",
+        "aca06e032ad08ea758f2046a353fbe0d0eb6032bb1a5b8b294aee9203d7d9322",
+        "d6bd8da234b1561139ae6c2fe2670e238ebdd500d8ab7cee808eb75806acd122",
+        "115bfce3a88606da6de286b68d5b85bca1047670a52dc3578788c64a00c1f1a6",
+        "6f1e8d0157cfaa6e3a3d8c45cfa0f8e6c74ff8ad2a1f9728d095b6ff9dbcdfc6"
+      ],
+      "coverage": "selected exact fields; parent positive variant22children first20 only, no claim wholeobjectread"
+    },
+    "positive_log": {
+      "file_id": "121a0129468674486eec98d3585083accd2bc4a732512857ab5cfc3406e9beec",
+      "sha256": "7f7ddeb7c4d908be0c7ebc410e30118f0b8d5f8f783f259b77beb5608c2a25b6",
+      "request_info": "102c759c00e72c354aa0e6a05991d1f41ac56c0758f5ce056ce3b2e6eac77a66",
+      "request_locate": "e068ee5ab179c44c07f252f0b958730fd40a527f9c231cd4d7b187ca7cde59d3",
+      "request_lines": "a23de975312445dc08f3e0cfab645d2e86fd499d275c2b443b1b8fb16c9ee735",
+      "lines": [
+        1131,
+        1142
+      ],
+      "exact": true,
+      "complete": false,
+      "parser_input_binding": "NOT_ESTABLISHED by Reader; source joins separately in runner receipt"
+    },
+    "positive_ast_sha256": "1b567368fb4fe4c5cf47047418a8041f93ed0a3f8cc4a751701c3ef0df8686a5",
+    "active_binary_sha256": "5be9859d7bd020d6f34f952ca048264670a1c295d558af6df1a575b6cda153cf"
+  },
+  "download_verified": false,
+  "finish_utc": "2026-10-21T06:43:03.966175Z",
+  "charge_seconds": 417,
+  "execution_seconds": 416,
+  "remaining_budget_seconds": 3183,
+  "build_verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+  "tool_build_source_claim": "console exit0; source tool receipt reconstructed",
+  "grammar_negative_fully_qualified": "EXPECTED_GRAMMAR_REJECTION",
+  "grammar_negative_import_inside_block": "EXPECTED_GRAMMAR_REJECTION",
+  "positive_result": "helper body verification attempted; failed leak check at verified/lib.rs(12,1-2)",
+  "positive_diagnostic": "Function leaks heap chunks: own(ref_typeid('a_typeid, T_typeid))(t, 0)",
+  "canonical_case_counts": {
+    "NOT_RUN": 26
+  }
+}

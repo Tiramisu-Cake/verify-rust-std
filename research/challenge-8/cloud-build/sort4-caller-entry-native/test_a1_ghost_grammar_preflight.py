@@ -67,6 +67,24 @@ class FakeC4:
             return {"classification": "TERMINAL", "exit": "0"}
         if self.scenario == "unexpected_negative_pass" and variant.startswith("negative"):
             code, log_text = 0, ""
+        elif variant == "positive" and self.scenario in {
+                "known_body_leak", "body_leak_wrong_line", "arbitrary_error_with_ast",
+                "unrelated_error_with_marker"}:
+            source = (Path(cwd) / "verified/lib.rs").read_bytes()
+            metadata = FIXTURES._checked_cleanup_helper_metadata(source)
+            line = metadata["body_end_line"]
+            if self.scenario == "body_leak_wrong_line":
+                line -= 1
+            if self.scenario == "unrelated_error_with_marker":
+                message = ("Unrelated body assertion failed; "
+                           "Function leaks heap chunks: "
+                           "own(ref_typeid('a_typeid,T_typeid))(t,0)")
+            elif self.scenario == "arbitrary_error_with_ast":
+                message = "Unrelated body assertion failed"
+            else:
+                message = ("Function leaks heap chunks: "
+                           "own(ref_typeid('a_typeid,T_typeid))(t,0)")
+            code, log_text = 1, f"verified/lib.rs({line},1): error: {message}\n"
         elif variant == "positive":
             code, log_text = 0, ""
         elif variant == "negative_fully_qualified":
@@ -90,7 +108,10 @@ class FakeC4:
         log = root / f"{name}.log"
         log.write_text(log_text)
         ast_path = Path(argv[argv.index("-dump_ast_with_locs") + 1])
-        if variant == "positive" and code == 0:
+        if variant == "positive" and (
+                (code == 0 and self.scenario != "exit0_missing_ast") or
+                self.scenario in {"known_body_leak", "body_leak_wrong_line",
+                                  "arbitrary_error_with_ast"}):
             ast_path.write_text("synthetic AST")
         row = {"classification": "TERMINAL", "exit": code,
                "log_sha256": sha(log.read_bytes())}
@@ -203,7 +224,7 @@ class GhostGrammarPreflightTests(unittest.TestCase):
 
     def test_three_controls_pass_with_exact_hashes_and_no_credit(self):
         result, c4 = self.run_preflight()
-        self.assertEqual(result["status"], "GRAMMAR_PREFLIGHT_PASS")
+        self.assertEqual(result["status"], "GRAMMAR_SYNTAX_PREFLIGHT_PASS")
         self.assertEqual(set(result["variants"]), set(GRAMMAR.VARIANTS))
         self.assertEqual(result["variants"]["positive"]["status"],
                          "GRAMMAR_POSITIVE_PASS")
@@ -214,6 +235,7 @@ class GhostGrammarPreflightTests(unittest.TestCase):
                          "EXPECTED_GRAMMAR_REJECTION")
         self.assertFalse(result["proof_credit"])
         self.assertFalse(result["caller_receipt"])
+        self.assertFalse(result["body_verified"])
         self.assertEqual(len(self.selector.calls), 1)
         self.assertEqual(len(c4.calls), 3)
         self.assertTrue(all(not any(k.startswith(("SORT4_A1_", "O26_WITH_"))
@@ -224,6 +246,29 @@ class GhostGrammarPreflightTests(unittest.TestCase):
             self.assertEqual(case["source_pair_sha256"]["original/lib.rs"],
                              case["original_sha256"])
             self.assertTrue(case["same_active_binary_after_stage"])
+
+    def test_known_body_leak_with_exact_ast_is_syntax_pass_not_body_proof(self):
+        result, _ = self.run_preflight(scenario="known_body_leak")
+        self.assertEqual(result["status"], "GRAMMAR_SYNTAX_PREFLIGHT_PASS")
+        positive = result["variants"]["positive"]
+        self.assertEqual(positive["stage"]["exit"], 1)
+        self.assertEqual(positive["syntax_status"], "GRAMMAR_SYNTAX_PASS")
+        self.assertEqual(positive["body_probe_status"], "KNOWN_BODY_LEAK_OBSERVED")
+        self.assertFalse(positive["body_verified"])
+        self.assertFalse(result["body_verified"])
+        self.assertTrue(positive["body_probe_diagnostic"]["matched"])
+        self.assertEqual(positive["body_probe_diagnostic"]["expected_source_line"],
+                         positive["helper_body_end_line"])
+
+    def test_wrong_line_arbitrary_error_and_missing_ast_do_not_pass(self):
+        for scenario in ("body_leak_wrong_line", "arbitrary_error_with_ast",
+                         "unrelated_error_with_marker",
+                         "exit0_missing_ast"):
+            with self.subTest(scenario=scenario):
+                result, _ = self.run_preflight(scenario=scenario)
+                self.assertEqual(result["status"], "GRAMMAR_PREFLIGHT_INCONCLUSIVE")
+                positive = result["variants"]["positive"]
+                self.assertNotEqual(positive.get("syntax_status"), "GRAMMAR_SYNTAX_PASS")
 
     def test_expected_negative_diagnostics_must_be_at_exact_source_line(self):
         result, _ = self.run_preflight(scenario="wrong_diagnostic")

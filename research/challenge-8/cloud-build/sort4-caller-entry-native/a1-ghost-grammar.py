@@ -157,6 +157,22 @@ def _diagnostic_lines(log_bytes: bytes) -> list[str]:
             "Parse error" in line or line.startswith(("Fatal error:", "error:", "error["))]
 
 
+def _matches_known_body_leak(log_bytes: bytes, body_end_line: int) -> dict[str, Any]:
+    """Recognize only the observed helper-body leak at its certified closing line."""
+    diagnostics = _diagnostic_lines(log_bytes)
+    # The complete error message must be the known S1 body leak. In
+    # particular, an unrelated prefix followed by the marker is not accepted.
+    line_pattern = re.compile(
+        r"verified/lib\.rs\(" + str(body_end_line) +
+        r",[0-9]+(?:-[0-9]+)?\): error: Function leaks heap chunks: "
+        r"own\(ref_typeid\('[^)\r\n]*\)\)\([^)\r\n]*\)")
+    matched = (len(diagnostics) == 1 and
+               line_pattern.fullmatch(diagnostics[0]) is not None)
+    return {"matched": matched, "expected_source_line": body_end_line,
+            "expected_diagnostic": "Function leaks heap chunks: own(ref_typeid(...))(...)",
+            "diagnostics": diagnostics}
+
+
 def _matches_expected_negative(case: Mapping[str, Any], log_bytes: bytes) -> dict[str, Any]:
     expected = case["expected_diagnostic"]
     needle = (b"std::option::Option::None" if case["expected_failure_kind"] == "constructor"
@@ -236,12 +252,16 @@ def _one_variant(a, c4, tool: Path, fixture_helper, ghost, ast_gates,
             result.update(status="INCONCLUSIVE_MISSING_OR_MISMATCHED_LOG",
                           error="terminal log missing or hash differs")
         elif name == "positive":
-            if stage["exit"] != 0 or not ast_path.is_file():
-                result.update(status="GRAMMAR_POSITIVE_FAILED",
-                              error="positive grammar stage did not exit zero with AST")
+            metadata = fixture_helper._checked_cleanup_helper_metadata(
+                case["verified"])
+            result["helper_body_end_line"] = metadata["body_end_line"]
+            if not ast_path.is_file():
+                result.update(status="GRAMMAR_POSITIVE_AST_MISSING",
+                              syntax_status="INCONCLUSIVE_MISSING_AST",
+                              body_probe_status="NOT_CLASSIFIED",
+                              body_verified=False,
+                              error="positive grammar stage did not emit AST")
             else:
-                metadata = fixture_helper._checked_cleanup_helper_metadata(
-                    case["verified"])
                 metadata["source_bytes_sha256"] = metadata["source_sha256"]
                 selection = checked_helper_selector(
                     ast_path.read_text(encoding="utf-8"), ast_gates,
@@ -255,8 +275,26 @@ def _one_variant(a, c4, tool: Path, fixture_helper, ghost, ast_gates,
                       selection.get("selected", {}).get("kind") == "lemma" and
                       selection.get("proof_credit") is False,
                       "positive AST did not select exactly the manual helper lemma")
-                result.update(status="GRAMMAR_POSITIVE_PASS",
-                              ast_selection=dict(selection))
+                result["ast_selection"] = dict(selection)
+                if stage["exit"] == 0:
+                    result.update(status="GRAMMAR_POSITIVE_PASS",
+                                  syntax_status="GRAMMAR_SYNTAX_PASS",
+                                  body_probe_status="MINI_UNIT_EXIT_ZERO_NOT_CANONICAL_PROOF",
+                                  body_verified=False)
+                else:
+                    known_leak = _matches_known_body_leak(
+                        log_bytes, metadata["body_end_line"])
+                    result["body_probe_diagnostic"] = known_leak
+                    if known_leak["matched"]:
+                        result.update(status="GRAMMAR_POSITIVE_PASS",
+                                      syntax_status="GRAMMAR_SYNTAX_PASS",
+                                      body_probe_status="KNOWN_BODY_LEAK_OBSERVED",
+                                      body_verified=False)
+                    else:
+                        result.update(status="GRAMMAR_POSITIVE_UNEXPECTED_ERROR",
+                                      syntax_status="BLOCKED_UNCLASSIFIED_VERIFIER_ERROR",
+                                      body_probe_status="UNEXPECTED_VERIFIER_ERROR",
+                                      body_verified=False)
         else:
             if stage["exit"] == 0:
                 result.update(status="GRAMMAR_NEGATIVE_UNEXPECTED_PASS",
@@ -303,6 +341,7 @@ def run(a, c4, tool, tool_receipt, profile, fixture_helper, ghost, ast_gates,
         "schema": "a1-ghost-grammar-preflight-v1",
         "status": "GRAMMAR_PREFLIGHT_INCONCLUSIVE",
         "proof_credit": False, "caller_receipt": False,
+        "body_verified": False,
         "variants": {}}
     try:
         identity = _profile_guard(a, profile, tool_receipt, Path(tool))
@@ -342,10 +381,13 @@ def run(a, c4, tool, tool_receipt, profile, fixture_helper, ghost, ast_gates,
             "negative_fully_qualified": "EXPECTED_GRAMMAR_REJECTION",
             "negative_import_inside_block": "EXPECTED_GRAMMAR_REJECTION",
         }
-        record["status"] = ("GRAMMAR_PREFLIGHT_PASS"
+        record["status"] = ("GRAMMAR_SYNTAX_PREFLIGHT_PASS"
                             if all(record["variants"].get(name, {}).get("status") == status
                                    for name, status in expected_status.items())
                             else "GRAMMAR_PREFLIGHT_INCONCLUSIVE")
+        positive = record["variants"].get("positive", {})
+        record["body_probe_status"] = positive.get("body_probe_status")
+        record["body_verified"] = False
         record["evidence_root"] = str(root)
         record["proof_credit"] = False
         record["caller_receipt"] = False
