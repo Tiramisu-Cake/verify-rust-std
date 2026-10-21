@@ -13,7 +13,7 @@ sys.dont_write_bytecode = True
 HERE = Path(__file__).resolve()
 REPO = HERE.parents[4]
 # Source contract of the failed Build, not a claim that this revision passed CI.
-PROOF_COMMIT = "08b61d8162b1c01c840ed573847622a004232a05"
+PROOF_COMMIT = "4c14e05f009a87a0b64ea17d27246dad5d16ad58"
 spec = importlib.util.spec_from_file_location("provider_base_pins", HERE.with_name("provider-overlays.py"))
 provider = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(provider)  # stdlib imports/constants/functions; main guarded

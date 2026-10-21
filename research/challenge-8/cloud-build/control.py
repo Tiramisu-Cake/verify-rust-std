@@ -44,6 +44,7 @@ R17_PROFILE_PATH='research/challenge-8/cloud-build/origin-layout/R17-BASELINE-PR
 R17_CONTROLS_PATH='research/challenge-8/cloud-build/origin-layout/r17-rawptr-controls.py'
 R17_PATCH_PATH='research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch'
 R17_PROFILE_REGISTRATION='r17_registration'
+R17_PROVIDER_OVERLAYS_PATH='research/challenge-8/merge/cloud-build/provider-overlays.py'
 R17_AUTHORIZATION=('CURRENT-TASK R17: actual Merge caller refinement/borrow and unsize; '
  'checked RawPtr matching with exact-origin controls; fresh3600/no carry; '
  'independent Luna HIGH review; Cloud-only preparation/compiler/proof.')
@@ -963,6 +964,53 @@ def r17_validate_historical_closure(paths,before,selected):
   raise SystemExit('R17 S7 historical ledger, R13 mode, or R14 gate changed')
 
 
+def r17_parse_provider_pin_tables(source):
+ """Parse only the two literal pin dictionaries; never import provider code."""
+ try:
+  if not isinstance(source,bytes):raise ValueError('not bytes')
+  module=ast.parse(source.decode('utf-8'))
+  tables={}
+  for node in module.body:
+   if isinstance(node,ast.Assign) and len(node.targets)==1 and isinstance(node.targets[0],ast.Name) and node.targets[0].id in ('FILES','R11_FILES'):
+    name=node.targets[0].id
+    if name in tables or not isinstance(node.value,ast.Dict):raise ValueError('duplicate or non-dict table')
+    keys=[];values=[]
+    for key,value in zip(node.value.keys,node.value.values):
+     if (not isinstance(key,ast.Constant) or type(key.value) is not str or
+         not isinstance(value,ast.Constant) or type(value.value) is not str):
+      raise ValueError('nonliteral path or digest')
+     keys.append(key.value);values.append(value.value)
+    if len(keys)!=len(set(keys)):raise ValueError('duplicate path')
+    table=ast.literal_eval(node.value)
+    if type(table) is not dict or len(table)!=len(keys):raise ValueError('invalid table')
+    if any(not re.fullmatch('[0-9a-f]{64}',digest) for digest in values):raise ValueError('invalid digest')
+    tables[name]=table
+  if set(tables)!= {'FILES','R11_FILES'} or len(tables['FILES'])!=18 or len(tables['R11_FILES'])!=2:
+   raise ValueError('wrong table schema/count')
+  if set(tables['FILES']) & set(tables['R11_FILES']):raise ValueError('overlapping tables')
+  return tables
+ except (SyntaxError,UnicodeDecodeError,ValueError,TypeError,RecursionError):
+  raise SystemExit('R17 S16 malformed provider pin tables')
+
+
+def r17_validate_provider_pin_tables(baseline_source,selected_source,closure_paths,read_selected_source):
+ """Validate both provider maps against the closed baseline and selected source blobs."""
+ baseline=r17_parse_provider_pin_tables(baseline_source)
+ selected=r17_parse_provider_pin_tables(selected_source)
+ if any(set(selected[name])!=set(baseline[name]) for name in ('FILES','R11_FILES')):
+  raise SystemExit('R17 S16 provider pin path set changed')
+ all_paths=set(selected['FILES'])|set(selected['R11_FILES'])
+ if R17_PROVIDER_OVERLAYS_PATH not in closure_paths or not all_paths.issubset(closure_paths):
+  raise SystemExit('R17 S16 provider pins absent from selected source closure')
+ for name in ('FILES','R11_FILES'):
+  for path,digest in selected[name].items():
+   try:data=read_selected_source(path)
+   except (OSError,subprocess.CalledProcessError,KeyError):
+    raise SystemExit('R17 S16 provider pin source unavailable: '+path)
+   if not isinstance(data,bytes) or hashlib.sha256(data).hexdigest()!=digest:
+    raise SystemExit('R17 S16 provider pin source mismatch: '+path)
+
+
 def r17_final_deadline_check(a,ledger):
  checked_at=datetime.datetime.now(datetime.timezone.utc)
  main_deadline=datetime.datetime.fromisoformat(ledger['main_deadline_utc'].replace('Z','+00:00'))
@@ -1045,6 +1093,14 @@ def r17_validate_sources(probe_sha,proof_sha):
   if mode not in ('100644','100755') or kind!='blob':raise SystemExit('R17 S12 nonregular source input')
   found[path.decode()]=(mode,kind,oid)
  if set(found)!=set(paths):raise SystemExit('R17 S13 incomplete selected source closure')
+ try:
+  provider_baseline=subprocess.check_output(['git','show',probe_sha+':'+R17_PROVIDER_OVERLAYS_PATH],cwd=ROOT,stderr=subprocess.PIPE)
+  provider_selected=subprocess.check_output(['git','show',proof_sha+':'+R17_PROVIDER_OVERLAYS_PATH],cwd=ROOT,stderr=subprocess.PIPE)
+  def read_pinned_source(path):
+   return subprocess.check_output(['git','show',proof_sha+':'+path],cwd=ROOT,stderr=subprocess.PIPE)
+  r17_validate_provider_pin_tables(provider_baseline,provider_selected,set(paths),read_pinned_source)
+ except (subprocess.CalledProcessError,OSError):
+  raise SystemExit('R17 S16 provider pin source unavailable')
  for path,(mode,kind,oid) in found.items():r17_validate_worktree_entry(path,mode,oid)
  payload=source.make_payload(ROOT,proof_sha,proof_sha,'merge')
  r15_validate_transport_size(len(payload))

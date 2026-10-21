@@ -2,15 +2,23 @@
 """Synthetic applicability checks for the two R11 identity overlays."""
 import importlib.util
 from pathlib import Path
+import subprocess
 import unittest
 
 HERE = Path(__file__).resolve().parent
 SPEC = importlib.util.spec_from_file_location("r11_provider_overlay", HERE / "provider-overlays.py")
 provider = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(provider)
+PROOF_COMMIT = "4c14e05f009a87a0b64ea17d27246dad5d16ad58"
+PROVE_PATH = "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py"
 
 
 class R11OverlayTests(unittest.TestCase):
+    def test_selected_r11_prove_pin_matches_selected_source(self):
+        source = subprocess.check_output(["git", "show", f"{PROOF_COMMIT}:{PROVE_PATH}"], cwd=HERE.parents[3])
+        self.assertEqual(provider.sha(source), provider.R11_FILES[PROVE_PATH])
+        self.assertEqual((HERE.parents[3] / PROVE_PATH).read_bytes(), source)
+
     def test_only_exact_r11_inputs_are_identity_overlays(self):
         self.assertEqual(len(provider.FILES), 18)
         self.assertEqual(len(provider.R11_FILES), 2)

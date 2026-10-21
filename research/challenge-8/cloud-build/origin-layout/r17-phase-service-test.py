@@ -289,6 +289,59 @@ class R17PhaseTests(unittest.TestCase):
         ).strip()
         m.r17_validate_historical_closure(paths, tree(m.R17_PROBE_SOURCE), tree(selected))
 
+    def test_provider_pin_gate_accepts_exact_selected_twenty_source_pins(self):
+        provider_path = m.R17_PROVIDER_OVERLAYS_PATH
+        baseline = subprocess.check_output(
+            ["git", "show", f"{m.R17_PROBE_SOURCE}:{provider_path}"], cwd=HERE.parents[3]
+        )
+        selected = (HERE.parents[3] / provider_path).read_bytes()
+        tables = m.r17_parse_provider_pin_tables(selected)
+        paths = {provider_path} | set(tables["FILES"]) | set(tables["R11_FILES"])
+
+        def read_source(path):
+            return subprocess.check_output(
+                ["git", "show", f"4c14e05f009a87a0b64ea17d27246dad5d16ad58:{path}"],
+                cwd=HERE.parents[3],
+            )
+
+        m.r17_validate_provider_pin_tables(baseline, selected, paths, read_source)
+        self.assertEqual(len(tables["FILES"]), 18)
+        self.assertEqual(len(tables["R11_FILES"]), 2)
+
+    def test_provider_pin_gate_rejects_malformed_r11_table_and_missing_closure(self):
+        provider_path = m.R17_PROVIDER_OVERLAYS_PATH
+        selected = (HERE.parents[3] / provider_path).read_bytes()
+        baseline = subprocess.check_output(
+            ["git", "show", f"{m.R17_PROBE_SOURCE}:{provider_path}"], cwd=HERE.parents[3]
+        )
+        malformed = selected.replace(b"R11_FILES = {", b"R11_FILES = [", 1)
+        with self.assertRaisesRegex(SystemExit, "malformed provider pin tables"):
+            m.r17_parse_provider_pin_tables(malformed)
+        tables = m.r17_parse_provider_pin_tables(selected)
+        paths = {provider_path} | set(tables["FILES"]) | set(tables["R11_FILES"])
+        paths.remove(next(iter(tables["R11_FILES"])))
+        with self.assertRaisesRegex(SystemExit, "absent from selected source closure"):
+            m.r17_validate_provider_pin_tables(baseline, selected, paths, lambda _path: b"")
+
+    def test_provider_pin_gate_rejects_source_byte_mismatch(self):
+        provider_path = m.R17_PROVIDER_OVERLAYS_PATH
+        selected = (HERE.parents[3] / provider_path).read_bytes()
+        baseline = subprocess.check_output(
+            ["git", "show", f"{m.R17_PROBE_SOURCE}:{provider_path}"], cwd=HERE.parents[3]
+        )
+        tables = m.r17_parse_provider_pin_tables(selected)
+        paths = {provider_path} | set(tables["FILES"]) | set(tables["R11_FILES"])
+
+        def mismatched_source(path):
+            data = subprocess.check_output(
+                ["git", "show", f"4c14e05f009a87a0b64ea17d27246dad5d16ad58:{path}"],
+                cwd=HERE.parents[3],
+            )
+            return data + b"changed" if path == next(iter(tables["R11_FILES"])) else data
+
+        with self.assertRaisesRegex(SystemExit, "provider pin source mismatch"):
+            m.r17_validate_provider_pin_tables(baseline, selected, paths, mismatched_source)
+
     def test_wrong_probe_source_and_worktree_blob_or_mode_refuse(self):
         with self.assertRaises(SystemExit): m.r17_validate_sources("f" * 40, "a" * 40)
         with self.assertRaises(SystemExit): m.r17_validate_profile_baseline(b"old", b"changed")
