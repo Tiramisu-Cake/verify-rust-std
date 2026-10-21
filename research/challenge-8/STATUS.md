@@ -1,7 +1,7 @@
 # Agent checkpoint: merge-caller-refinement-autonomous-2026-10-21-r17
 
 - Owner: merge | phase: MERGE-CALLER-REFINEMENT-R17-2026-10-21 | state: HANDOFF
-- Updated: 2026-10-21T20:25:22Z
+- Updated: 2026-10-21T20:27:33Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `660b576b6b1608db913c51e0785b443a8733396f`, profile `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375`
 - Session dates: T0 `2026-10-21T18:33:50Z`; main deadline `2026-10-21T20:33:50Z`; absolute deadline `2026-10-21T21:03:50Z`
 - Budget: 3600s total; 2111s spent; 0s retired; 1489s remaining including active reservations
@@ -19,7 +19,7 @@
 
 ## Open
 - Original full/prefix as_mut_ptr borrow/unsize (placeholders441/249); dependent controls NOT_RUN_PREFIX_PREREQUISITE_FAILED.
-- P4 raw caller source-exact: exporter/decode/refinement0/verifast1; RawPtr positive refinement2/verifast1. Lifecycle ens Parseerror; reviewed delimiters await P5.
+- P4 raw caller3stages0/verifast1: array_inv at444 needs array<u64> (prelude274). RawPtr positive refinement2/verifast1 diagnostic OPEN. Lifecycle ens delimiterfix awaitsP5.
 - Full CURRENT/backedge and final compatible matrix, B2/generic/arbitrary-n/sorting/tool qualification and independent proof credit remain OPEN.
 
 ## Rejected approaches
@@ -27,7 +27,7 @@
 - Short outer timeout990/execute570 chosen using prior whole-cycle timings — Missed nested compile reserve140; P4 timed out before proof. Keep full1200 plan unless effective inner budget reviewed.; [research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md](cloud-build/origin-layout/R16-REVIEW-20261021.md) SHA `7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa`
 
 ## Blocker
-P5 pending lifecycle syntax fix validation. Raw caller verifier1 and RawPtr positive refinement2 remain OPEN. (P5 Cloud Build) [Build `20e8009e-458e-45b1-9974-b0abfe716675`]
+P5 pending lifecycle parse/proof. Raw caller array_inv444 lacks array<u64>; RawPtr positive refinement2 diagnostic OPEN. (P5 Cloud Build) [Build `20e8009e-458e-45b1-9974-b0abfe716675`]
 
 ## Next
 WAITING via exact-thread watcher. Ack event before checkpoint edits; terminal Brief then closeout if main expired. Preserve pending ID after absolute; no budget/window renewal.

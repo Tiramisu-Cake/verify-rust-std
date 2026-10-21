@@ -48,9 +48,9 @@ Next: Register fresh R17 after effective-budget check; reviewed checked RawPtr m
 ## Отчёт агента
 
 **merge-caller-refinement-autonomous-2026-10-21-r17 · merge · MERGE-CALLER-REFINEMENT-R17-2026-10-21 · HANDOFF**
-Updated: 2026-10-21T20:25:22Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `660b576b6b1608db913c51e0785b443a8733396f` / `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375`.
+Updated: 2026-10-21T20:27:33Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `660b576b6b1608db913c51e0785b443a8733396f` / `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375`.
 Dates: T0 `2026-10-21T18:33:50Z`; main `2026-10-21T20:33:50Z`; absolute `2026-10-21T21:03:50Z`. Budget 3600s: 2111s spent, 0s retired, 1489s remaining including reservations.
 Active Build IDs: 20e8009e-458e-45b1-9974-b0abfe716675; unresolved: none recorded.
-Blocker: P5 pending lifecycle syntax fix validation. Raw caller verifier1 and RawPtr positive refinement2 remain OPEN. [Build `20e8009e-458e-45b1-9974-b0abfe716675`]
+Blocker: P5 pending lifecycle parse/proof. Raw caller array_inv444 lacks array<u64>; RawPtr positive refinement2 diagnostic OPEN. [Build `20e8009e-458e-45b1-9974-b0abfe716675`]
 Next: WAITING via exact-thread watcher. Ack event before checkpoint edits; terminal Brief then closeout if main expired. Preserve pending ID after absolute; no budget/window renewal.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
