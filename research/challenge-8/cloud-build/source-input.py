@@ -289,7 +289,7 @@ def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes
         stream_bytes = bytes(object_stream)
         compressed_streams = (
             ("gzip", gzip.compress(stream_bytes, compresslevel=9, mtime=0)),
-            ("xz", lzma.compress(stream_bytes, preset=6)),
+            ("xz", lzma.compress(stream_bytes, preset=6 | lzma.PRESET_EXTREME)),
         )
         encoding, packed_stream = min(compressed_streams, key=lambda item: len(item[1]))
         payload["object_stream"] = {
