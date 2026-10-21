@@ -1613,8 +1613,33 @@ def run(evidence, args, env, execute_case, validated_receipt):
             results['body_isolation'] = _body_isolation_outcome(
                 'INCONCLUSIVE', 'body-only parent identity setup raised an exception',
                 evidence=evidence, phase='parent_identity', error=error)
-        # Independent checked caller candidate; original/prefix/full-body results above
-        # remain untouched and this diagnostic cannot affect their gates.
+        # RawPtr controls run before the raw caller target. Their result is a
+        # separate diagnostic and cannot alter original/prefix/full-body gates.
+        try:
+            if (captured_parent_identity is None or
+                    captured_parent_identity.get('preparation_sha256') is None or
+                    full_body_execution_observation is None):
+                raise ValueError('pre-dispatch full-body identity/receipt capture is incomplete')
+            if captured_parent_identity.get('receipt_error') is not None:
+                results['rawptr_controls'] = dict(
+                    classification='INCONCLUSIVE', all_matched=False,
+                    reason='pre-dispatch full-body preparation receipt capture failed',
+                    accepted=False, proof_credit=False, b2_achieved=False)
+            else:
+                rawptr_controls = _load('r17_rawptr_controls', HERE / 'r17-rawptr-controls.py')
+                results['rawptr_controls'] = rawptr_controls.run(
+                    evidence, args, campaign_env, dispatch, consumer, selected_profile,
+                    source_sha256=captured_parent_identity['record'].get('source_sha256'))
+        except Exception as error:
+            results['rawptr_controls'] = dict(
+                classification='INCONCLUSIVE', all_matched=False,
+                reason='RawPtr control setup or dispatch raised an exception',
+                exception_type=type(error).__name__, exception=str(error),
+                accepted=False, proof_credit=False, b2_achieved=False)
+        # Independent checked caller candidate; its original/prefix/full-body
+        # results above remain untouched. Preserve this frontier even when a
+        # required RawPtr control is inconclusive, while keeping the control
+        # result attached to the raw-caller classification.
         try:
             if (captured_parent_identity is None or
                     captured_parent_identity.get('preparation_sha256') is None or
@@ -1633,6 +1658,10 @@ def run(evidence, args, env, execute_case, validated_receipt):
                     parent_preparation_sha=captured_parent_identity['preparation_sha256'],
                     parent_source_unchanged=full_body_execution_observation.get('source_unchanged'),
                     parent_stage_receipt_gate=full_body_execution_observation.get('stage_receipt_gate'))
+                results['raw_local_caller']['rawptr_controls'] = {
+                    'classification': results.get('rawptr_controls', {}).get('classification'),
+                    'all_matched': results.get('rawptr_controls', {}).get('all_matched') is True,
+                    'proof_credit': False}
         except Exception as error:
             results['raw_local_caller'] = _raw_local_caller_outcome(
                 'INCONCLUSIVE', 'raw local caller parent identity setup raised an exception',
@@ -1710,6 +1739,7 @@ def run(evidence, args, env, execute_case, validated_receipt):
                          all(results[name].get('intended_negative') is True for name in
                              ('lost_reference_fraction', 'lost_reference_token', 'lost_current_f', 'lost_cell_owner')) and
                          results['admission_controls'].get('all_matched') is True),
+                     rawptr_controls_matched=(results.get('rawptr_controls', {}).get('all_matched') is True),
                      classification='DIAGNOSTIC_ONLY_UNTIL_ALL_GATES_MATCH')
     (evidence/'aggregate.json').write_text(json.dumps(aggregate, indent=2, sort_keys=True)+'\n')
     return aggregate
