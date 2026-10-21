@@ -95,7 +95,16 @@ def annotate(base, recovery):
     aliases = b'        //@ let left = v_base + 1;\n        //@ let right = v_base;\n'
     split = b'        //@ split_four_owned_cells::<T>(v_base, t);\n'
     need(body.count(split) == 1, 'checked split before actual c1')
-    body = body.replace(split, split + aliases, 1)
+    # Recovery is a sibling of the strict lifetime scope on both normal and
+    # unwind paths, so aliases must dominate that scope at function root.
+    bounds = b'        //@ interior_pointer_limits::<T>(v_base, 4, 1);\n'
+    need(body.count(bounds) == 1, 'one checked source interior bounds step')
+    body = body.replace(bounds, b'', 1)
+    outer = b'    //@ let cmp_k = begin_lifetime();\n'
+    need(body.count(outer) == 1, 'one outer lifetime creation anchor')
+    outer_aliases = (b'    //@ interior_pointer_limits::<T>(v_base, 4, 1);\n' +
+                     aliases.replace(b'        //@', b'    //@'))
+    body = body.replace(outer, outer_aliases + outer, 1)
     share_anchor = b'        //@ share_full_borrow::<T>(cmp_k, t, v_base);\n'
     need(body.count(share_anchor) == 1, 'pair borrow/share setup before c1')
     body = body.replace(share_anchor, share_anchor + EXTRA_BORROWS, 1)

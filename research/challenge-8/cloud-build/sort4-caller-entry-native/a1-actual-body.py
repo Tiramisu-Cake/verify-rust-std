@@ -180,6 +180,23 @@ def selector_cases(source, ghost):
     ]
 
 
+def recovery_four_cases(source, ghost):
+    rows = lemma_metadata(source)
+    need([r['name'] for r in rows] == ['join_four_owned_cells',
+        'recover_four_sources', 'recover_four_missing_fourth_end_token_negative'],
+        'exact generic four-owner recovery inventory')
+    original = ghost.strip_ghost(source)
+    cases = []
+    for i, row in enumerate(rows):
+        name = ('generic-four-' + row['name'] + ('-negative' if i == 2 else '-positive'))
+        cases.append((name, source, original, {**row,
+            'mir_target': 'r15_recover_four_sources_type_anchor',
+            'required_lemmas': rows[:i],
+            'scope': 'checked debt recovery only; actual callback establishment open',
+            'summary_eligible': False, 'proof_credit': False}))
+    return cases
+
+
 def recovery_cases(source, ghost):
     original = ghost.strip_ghost(source)
     helpers = lemma_metadata(source)
@@ -396,16 +413,22 @@ def run(a, *, c4, audit, driver, manifest, ghost):
         source = (root / SOURCE).read_bytes()
         target_root = Path(a.evidence) / 'a1-actual-body'
         target_root.mkdir()
-        if profile.get('body_action') == 'checked-dependencies-after-S1':
+        if profile.get('body_action') in ('checked-dependencies-after-S1', 'checked-generic-four-recovery-after-S4'):
+            generic_four = profile.get('body_action') == 'checked-generic-four-recovery-after-S4'
             result['body_target'] = {'status': 'NOT_RUN', 'proof_credit': False,
-                'reason': 'S1 full-body unwind resource boundary unchanged; verify required checked dependencies before a new body candidate',
-                'prior_observation_build_id': '909fb226-b3c0-49f7-a882-2b634624ec3a'}
+                'reason': ('S4 strict lifetime entry outer-type inference boundary unchanged; verify generic base4 recovery needed for c2-c5 independently'
+                    if generic_four else 'S1 full-body unwind resource boundary unchanged; verify required checked dependencies before a new body candidate'),
+                'prior_observation_build_id': ('980fbc61-2d4c-43f3-9cac-c68db0b34c63'
+                    if generic_four else '909fb226-b3c0-49f7-a882-2b634624ec3a')}
             result['checked_dependencies'] = {}
-            for filename in ('a1-actual-four-copy.rs', 'a1-actual-recover-pair.rs'):
+            filenames = (('a1-actual-recover-four.rs',) if generic_four else
+                         ('a1-actual-four-copy.rs', 'a1-actual-recover-pair.rs'))
+            for filename in filenames:
                 path = root / HERE / filename
                 need(sha(path.read_bytes()) == profile['actual_body_dependencies_sha256'][filename],
                      'checked dependency source pin ' + filename)
-                cases = (component_cases(path.read_bytes(), ghost, 2) if 'four-copy' in filename else
+                cases = (recovery_four_cases(path.read_bytes(), ghost) if generic_four else
+                         component_cases(path.read_bytes(), ghost, 2) if 'four-copy' in filename else
                          recovery_cases(path.read_bytes(), ghost))
                 for case in cases:
                     if int(a.deadline_epoch) - int(time.time()) < 100:

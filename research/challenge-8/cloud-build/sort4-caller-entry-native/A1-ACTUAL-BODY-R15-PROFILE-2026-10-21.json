@@ -1,5 +1,5 @@
 {
-  "a1_actual_body_sha256": "82f2b81027f890ca465e1ed54ca02ce720ad008675a82985f2678f98df44f2ad",
+  "a1_actual_body_sha256": "b649203db6cf803e26d3a18b9f8444b12d3f152f40e72450f383bbcadffc299f",
   "a1_checked_cleanup_helper_sha256": "a12ea01240b96555a3b74dc3ef4bdec5e581904c37f4377dc5b048a4db50abb8",
   "a1_checked_cleanup_import_sha256": "0ee7ebcc19c7a21bbe329d70e6e763ee43c7647b556ad6184982997ec4fa911f",
   "a1_entry_sha256": "8961bb009b08ad307a594bf573c1eb6f4810c019e1953ea3433d88433b486a45",
@@ -29,11 +29,7 @@
   "a1_source_runner_sha256": "b55f3049f10fc551a1fec1b3f72ec7219d0240366bc37e2e89435709510c0411",
   "account": "BUDGET-A1-ACTUAL-BODY-2026-10-21-R15.json",
   "actual_body_dependencies_sha256": {
-    "a1-actual-body-c1.py": "bbdb07c5d132ed23d83d751bf8ec87df3d67709ff207b1b2a8a94fe9878ea124",
-    "a1-actual-copy-lemma.rs": "e839b8ab51c15a4d9789e96892db4c24d23c4c112ac8e19b81b77b0da6148edc",
-    "a1-actual-four-copy.rs": "7b81692132690c94e85e8062d1cf2e7565a35cecc29f2a21f5073bb4eb1d2e37",
-    "a1-actual-recover-pair.rs": "7a28ae5734c5288ff466764e6645eff236f30c097a7951ebd086f5bb7f5eff72",
-    "a1-actual-selector-permutation.rs": "83a1dafde130f412e16235312481b338a419f73805d3ec300d559e8f25dc7aca",
+    "a1-actual-recover-four.rs": "9637aee892e633c2521d8cef62770a6be0982a1835492b6afffafc97f9246d8b",
     "capture.py": "0d993e8c36cb7684eb509e8efcfb9553b07e92e87885f4ae430269c4cb2a6060"
   },
   "actual_c1_recovery_overlay": {
@@ -47,7 +43,7 @@
   "baseline_candidate_commit": "14a9d651bb09dd0b128525c0efbedbecd15ec082",
   "baseline_profile_sha256": "d90dde221561e71328c870f6388ceda7eb7ad5126a1237543904406d89edb46d",
   "baseline_r15_profile_sha256": "9e3d8d1a00334575a894ff37d22d6f7ea298c139cfce8d607f13b0c309c231f0",
-  "body_action": "full-body-c1-recovery",
+  "body_action": "checked-generic-four-recovery-after-S4",
   "build_timeout_seconds": 1200,
   "c_after": {
     "src/rust_frontend/vf_mir/vf_mir.capnp": "a7542ee05f1a9fdde34baa9ea73ddd939a2cbf2f197c0737941f9f0d957f969b",
@@ -62,7 +58,7 @@
   "c_patch_sha256": "3549e93e80aa20f3827c821db60d7ce366557155b8b203a8acaff552c04f5cb6",
   "caller_driver_sha256": "75df07539721e16e2329f94ebe392f8f3626ca106be906cfc0cc61345db4797a",
   "caller_manifest_sha256": "cea1daca656e641f083aabc1eb8c62784edde889ae01470b339c719e3ba3c8d2",
-  "candidate_version": "R15-S4-C1-ARGUMENT-BINDING-AND-SELECTORS",
+  "candidate_version": "R15-S5-GENERIC-FOUR-RECOVERY",
   "checkpoint_utc": "2026-10-21T12:29:30Z",
   "cloud_build_enabled": true,
   "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
@@ -146,7 +142,7 @@
   "phase": "SORT4-ACTUAL-BODY-2026-10-21-R15",
   "phase_id": "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17",
   "pointer_width": 64,
-  "previous_build_id": "90e812ed-233d-4a3a-a836-ab544ce36ff5",
+  "previous_build_id": "980fbc61-2d4c-43f3-9cac-c68db0b34c63",
   "profile_accepted": false,
   "profile_pin_source": "coordinator-environment",
   "proof_credit": false,
@@ -203,7 +199,7 @@
     "queue_reserve_seconds": 60
   },
   "start_utc": "2026-10-21T14:54:00Z",
-  "status": "R15_S4_REVIEW_PENDING",
+  "status": "R15_S5_REVIEW_PENDING",
   "std_source_sha256": {
     "library/core/src/marker.rs": "f7e098f8b9ad1a6dded90b81fd943afbe6c8d60934354838998880fe05f80755",
     "library/core/src/slice/sort/shared/mod.rs": "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8",
