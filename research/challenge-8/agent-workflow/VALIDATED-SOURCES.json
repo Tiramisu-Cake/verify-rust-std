@@ -1,10 +1,11 @@
 {
   "schema": "smallsort-workflow-validation-v1",
-  "tests": 67,
+  "tests": 74,
   "proof_credit": false,
   "files": {
     "assignment.py": "1c45c368355aa39fc3f64df4e6807fe8d11ca780241127dbb16a6d902090194f",
     "checkpoint.py": "ad6de7eeeb38ffe9be0010b155e4a5b427b3b216dd853fbf0561960dc4341a23",
+    "experiments/queue_wakeup_probe.py": "ed408a6a8814e297a9fc9dccf949a20748dc314e9b0263464ea0841302355e86",
     "observations.py": "b4aa7d72a60bf340b9e239f199b8e4fa6ea833406c900cba6a1b9cb2b3daf9cf",
     "review_packet.py": "34dca37270e91d87cd66bd0e7b33e2f86bf2eb208bd28d5373e3e26adf7be80f",
     "session_prepare.py": "fa55f8611b4919e76b826b55dbcb7043982ee0cc33a4bf0bbb0ad3d83ea4a471",
@@ -12,6 +13,7 @@
     "test_assignment.py": "85ff71228cdfbf24b85f94e585b0c92eda6c9f260daa0343fe7f497f835c0086",
     "test_checkpoint.py": "e27851ca2efd0d2837c335b64346aadd72f1ecb6e8c018580683f5e0a27fd5aa",
     "test_observations.py": "76328b968ca35b4a4bd8c0c7bc5bfa52914de6341a0baa125eb423d6050b6dd9",
+    "test_queue_wakeup_probe.py": "055e7b61bbb299d06eb8630e284ac9f7fbf1f8ebf9a1880446d038ac182696ad",
     "test_review_packet.py": "dd839c36ee3e5e2bb00e98713e016a0bc835a2775fb45ee5608df3492c053cb1",
     "test_session_prepare.py": "4b76e54f8ea478a5f659bef4d50c6345fd94eb8da56f6714367a1d31b0165814"
   },
@@ -22,5 +24,14 @@
       "review_packet.py": "34dca37270e91d87cd66bd0e7b33e2f86bf2eb208bd28d5373e3e26adf7be80f",
       "observations.py": "b4aa7d72a60bf340b9e239f199b8e4fa6ea833406c900cba6a1b9cb2b3daf9cf"
     }
+  },
+  "queue_experiment": {
+    "result": "PASS_FOR_SYNTHETIC_IDLE_WAKEUP_ONLY",
+    "report": "experiments/queue-wakeup-20261021.json",
+    "sha256": "63e1851009b902e5811c62a39689da0ec338fb48d1790892f9d34f83d78cc2f5",
+    "model": "gpt-6-luna",
+    "effort": "high",
+    "completed_turns": 2,
+    "production_watcher_deployed": false
   }
 }

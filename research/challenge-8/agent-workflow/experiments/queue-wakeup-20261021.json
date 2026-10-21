@@ -1,0 +1,98 @@
+{
+  "schema": "smallsort-synthetic-queue-probe-v1",
+  "synthetic": true,
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "cloud_calls": 0,
+  "proof_credit": 0,
+  "production_watcher_deployed": false,
+  "thread_id": "01a15fc9-4cb0-71f1-93a9-e8ec05a5bafb",
+  "initial_reply": "ARMED_FOR_SYNTHETIC_EVENT",
+  "idle": {
+    "observed_seconds": 30.008,
+    "status_before": {
+      "type": "idle"
+    },
+    "status_after": {
+      "type": "idle"
+    },
+    "extra_turns_started": 0,
+    "usage_changed": false
+  },
+  "queue_exit": 0,
+  "queue_output": "Queued message 01a15fc9-d537-74c3-b705-c276f6da6beb for thread 01a15fc9-4cb0-71f1-93a9-e8ec05a5bafb.",
+  "queue_alone_started_turn": true,
+  "explicit_queue_start_required": false,
+  "wake_reply": "SYNTHETIC_EVENT_RECEIVED",
+  "routing_guards": [
+    "DUPLICATE",
+    "STALE_IDENTITY",
+    "STALE_IDENTITY",
+    "STALE_IDENTITY",
+    "CLOSEOUT_ONLY",
+    "EXPIRED"
+  ],
+  "turns_started": 2,
+  "turns_completed": [
+    {
+      "id": "01a15fc9-4f88-71a3-ae18-b32629874fc2",
+      "status": "completed"
+    },
+    {
+      "id": "01a15fc9-d54f-7913-9dcc-9e2f0eb941ac",
+      "status": "completed"
+    }
+  ],
+  "usage": [
+    {
+      "total": {
+        "totalTokens": 16615,
+        "inputTokens": 16560,
+        "cachedInputTokens": 11520,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 55,
+        "reasoningOutputTokens": 41
+      },
+      "last": {
+        "totalTokens": 16615,
+        "inputTokens": 16560,
+        "cachedInputTokens": 11520,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 55,
+        "reasoningOutputTokens": 41
+      },
+      "modelContextWindow": 258400
+    },
+    {
+      "total": {
+        "totalTokens": 33394,
+        "inputTokens": 33315,
+        "cachedInputTokens": 23040,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 79,
+        "reasoningOutputTokens": 51
+      },
+      "last": {
+        "totalTokens": 16779,
+        "inputTokens": 16755,
+        "cachedInputTokens": 11520,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 24,
+        "reasoningOutputTokens": 10
+      },
+      "modelContextWindow": 258400
+    }
+  ],
+  "result": "PASS",
+  "only_created_test_thread_archived": true,
+  "probe_script_sha256": "ed408a6a8814e297a9fc9dccf949a20748dc314e9b0263464ea0841302355e86",
+  "postrun_item_types": [
+    "userMessage",
+    "reasoning",
+    "agentMessage",
+    "userMessage",
+    "reasoning",
+    "agentMessage"
+  ],
+  "postrun_items_complete": true
+}

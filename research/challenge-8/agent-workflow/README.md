@@ -77,7 +77,7 @@ Record — неизменяемый SHA-256-named JSON; повтор той же
 
 ## 6. Ожидание Build
 
-[Проверка механизма ожидания](WAIT-EXPERIMENT.md) показала: terminal-only вывод возможен, сокращение model resumptions отдельным shell-loop не установлено. Новый watcher не внедрён; существующие coordinator/status, owner/ledger параметры и интервалы ≤60с сохраняются. Выполнять независимую работу при ожидании; не добавлять пустые объяснения неизменного WORKING.
+[Реальный queue experiment](WAIT-EXPERIMENT.md): новая Luna HIGH сессия оставалась idle30с без turns/изменения usage и сама продолжилась после одного `codex queue`; всего2turns. Это подтвердило wakeup на текущем Codex0.163.0, не production admission/deadline/dedup integration. Новый watcher не внедрён; существующие coordinator/status, owner/ledger параметры и интервалы ≤60с сохраняются. Probe явно запускает модель и не должен становиться повторным preflight. Выполнять независимую работу при ожидании; не добавлять пустые объяснения неизменного WORKING.
 
 ## Установка и принятие
 
