@@ -73,6 +73,11 @@ class R17ProfileAdmissionTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             prove.admit_r17_profile_extension_if_present(self.profile, BASELINE_BYTES)
 
+    def test_final_patch_row_rejects_an_extra_nested_key(self):
+        self.profile["ordered_patch_chain"][-1]["unregistered"] = "extra"
+        with self.assertRaises(ValueError):
+            prove.admit_r17_profile_extension_if_present(self.profile, BASELINE_BYTES)
+
     def test_baseline_bytes_hash_mismatch_is_rejected(self):
         with self.assertRaises(ValueError):
             prove.admit_r17_profile_extension_if_present(self.profile, BASELINE_BYTES + b" ")

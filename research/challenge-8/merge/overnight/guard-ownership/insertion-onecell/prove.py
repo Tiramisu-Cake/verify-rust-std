@@ -90,12 +90,16 @@ def validate_r17_profile_extension(profile: object, baseline_bytes: object) -> N
         raise ValueError("R17 tool, core, cumulative patch, or historical tool pin differs")
     chain = profile.get("ordered_patch_chain")
     baseline_chain = baseline.get("ordered_patch_chain")
+    expected_final = None
+    if (type(baseline_chain) is list and len(baseline_chain) == 19 and
+            type(baseline_chain[-1]) is dict):
+        expected_final = dict(baseline_chain[-1])
+        expected_final["sha256"] = R17_PATCH_SHA256
     if (type(chain) is not list or type(baseline_chain) is not list or
             len(chain) != 19 or len(baseline_chain) != 19 or
             chain[:18] != baseline_chain[:18] or
             type(chain[-1]) is not dict or type(baseline_chain[-1]) is not dict or
-            chain[-1].get("path") != baseline_chain[-1].get("path") or
-            chain[-1].get("sha256") != R17_PATCH_SHA256):
+            expected_final is None or chain[-1] != expected_final):
         raise ValueError("R17 ordered patch chain is not the exact final cumulative extension")
 
 
