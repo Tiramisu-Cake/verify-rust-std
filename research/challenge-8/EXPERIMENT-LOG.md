@@ -7498,3 +7498,23 @@ Fresh R12 account CLOSED109charged/3491retired/remaining0/carryfalse, own0/0/0/0
 [Probe](cloud-build/origin-layout/R12-PROBE1-RESULT-20261021.json) ·
 [Reader coverage](cloud-build/origin-layout/R12-READER-COVERAGE-20261021.md).
 <!-- MERGE-R12-END -->
+
+<!-- MERGE-R14-BEGIN -->
+## Merge-R14 — publication recovery completed, 2026-10-21
+
+Prior exact probe331fba31 accepted under corrected identity-bound administrative
+ gate; exact compressed bytes remain UNKNOWN/null, no sidecar verification.
+No new synthetic or historical charge. Sourcebec0469f / tool660b576b / profileeb61e493,
+frozen158 R11 inputs unchanged; Luna HIGH review and phase/source/error-path tests.
+Normal Build23dc710b-07e5-43ff-b63b-febe4ddb19ca: FAILURE, execute/package-uploadSUCCESS,
+verdictFAILURE1; Brief VERIFIED_ARCHIVE_AND_INVENTORY. Compile source PASS/all5stages0,
+postbuild hash0. Actual full body INCONCLUSIVE: prelude_core.rsspec264 cannot prove
+cons(dummy55,nil)=cons(dummy55,values03), while closing singleton array(sift,1,...)
+after late-callback recovery (trace2252/2259). R11 required placement controls
+all_matchedtrue; optional extra-address-takenfalse; diagnostic only/creditfalse.
+No proof changes or unchanged rerun. Charged774/execution773/retired2826, remaining0,
+carryfalse; own0/0/0/0. Fulltargetgates0/acceptedfalse/independentcredit0/B2OPEN.
+[Result](cloud-build/origin-layout/R14-PROOF1-RESULT-20261021.json) ·
+[Body evidence](cloud-build/origin-layout/R14-BODY-EVIDENCE-20261021.json).
+Final report checkpoint is documentation/accounting and was not built.
+<!-- MERGE-R14-END -->

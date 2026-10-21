@@ -2,16 +2,39 @@
   "phase": "MERGE-PUBLICATION-GATE-PROOF-R14-2026-10-21",
   "owner": "merge",
   "authorization_model": "bounded-cloud-budget",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "allowed_lanes": [
     "merge"
   ],
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 0,
-  "remaining_build_seconds": 3600,
+  "used_build_seconds": 774,
+  "remaining_build_seconds": 0,
   "max_builds": null,
   "max_timeout_seconds": 1200,
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-6c7e449f6fe24e5193179b89870dca53",
+      "owner": "merge",
+      "phase_id": "MERGE-PUBLICATION-GATE-PROOF-R14-2026-10-21",
+      "infra_sha": "bec0469fe0d20c2d74775b0ba9e9920b11c13445",
+      "proof_sha": "bec0469fe0d20c2d74775b0ba9e9920b11c13445",
+      "lane": "merge",
+      "submitted_config_sha256": "5a9909ba3b877ac4a1c35a4d195fea619d171c16feece28586da51ee5dd83174",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "c52b11e9c9b167df618ceacc85cf72745cf62c4634f9c6324c1892725487bf88",
+      "build_id": "23dc710b-07e5-43ff-b63b-febe4ddb19ca",
+      "start_time": "2026-10-21T13:13:42.789747049Z",
+      "finish_time": "2026-10-21T13:26:35.232564Z",
+      "create_time": "2026-10-21T13:13:42.034957219Z",
+      "build_seconds": 774,
+      "accounted": true,
+      "execution_seconds": 773
+    }
+  ],
   "active_build": null,
   "start_utc": "2026-10-21T12:52:50Z",
   "main_deadline_utc": "2026-10-21T14:52:50Z",
@@ -20,5 +43,8 @@
   "publication_gate_path": "research/challenge-8/cloud-build/origin-layout/R14-PUBLICATION-GATE-20261021.json",
   "authorization": "CURRENT-TASK R14: identity-bound prior probe gate with unknown exact archive bytes; unchanged R11 normal proof and bounded result analysis; fresh3600/no carry; old accounts immutable.",
   "accepted": false,
-  "independent_credit": 0
+  "independent_credit": 0,
+  "retired_build_seconds": 2826,
+  "closed_utc": "2026-10-21T13:36:35.126927Z",
+  "closure_reason": "R14 mission achieved: exact prior publication prerequisite accepted; unchanged R11 normal proof published with verified Brief/inventory; specific body refusal retrieved. New proof development outside R14, no identical rerun. Finishing bounded evidence/report only."
 }

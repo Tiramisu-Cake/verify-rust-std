@@ -2,7 +2,7 @@
 
 ## Авторизация и рабочее место
 
-- **ID:** `merge-publication-gate-proof-retry-2026-10-21-r14`; **статус:** RUNNING, T0 `2026-10-21T12:52:50Z`.
+- **ID:** `merge-publication-gate-proof-retry-2026-10-21-r14`; **статус:** DONE; publication recovery завершён, proof остаётся OPEN. T0 `2026-10-21T12:52:50Z`.
 - **Owner:** `merge`; **project worktree:** `/root/verify-rust-std-merge-origin`; **branch:** `merge/incoming-origin-20261009`; **репозиторий:** `Tiramisu-Cake/verify-rust-std`.
 - **Tool worktree:** `/root/verifast-merge-actual-glue`; branch `merge/actual-glue-instance-20261011`, expected head **`660b576b6b1608db913c51e0785b443a8733396f`**. Tool/model/spec/invariant сохраняются.
 - **Новое окно:** 120 минут основной работы + до30 минут завершения. T0 при фактическом старте после чтения; main=T0+120мин, absolute=T0+150мин. Запиши в session/новый ledger/текущий статус.
@@ -70,9 +70,51 @@ VPS — чтение/правки/Git/hashes/static parsing и малые isolat
 
 ## Отчёт агента
 
-T0 `2026-10-21T12:52:50Z`; main `14:52:50Z`; absolute `15:22:50Z`.
-Fresh3600/used0/carryfalse; R13/history unchanged. План: fresh Brief/policy +
-exact pinned fail-closed config audit → отдельный R14 gate с exact sizeUNKNOWN;
-узкий phase/source closure/service tests + Luna HIGH review → normal R11 Build,
-затем Brief/первый body refusal/controls и accounting. Нового synthetic нет.
-Fulltargetgates0/acceptedfalse/independentcredit0/B2/generic/qualificationOPEN.
+T0 **2026-10-21T12:52:50Z**, main 14:52:50Z, absolute 15:22:50Z. Счёт закрыт
+**13:36:35Z**; end **2026-10-21T13:41:45.443908Z**.
+
+**Publication recovery выполнен.** Отдельный R14 gate принял только probe
+331fba31/c9b51517/config da516252/archive 8ecf904c/index ad0e439b: fresh Brief,
+verified inventory, policy False/150M и точный fail-closed config + три SUCCESS.
+Размерные границы установлены по mandatory guard path; `archive_size_bytes=null`,
+`exact_archive_size_observed=false`, `sidecar_verified=false` сохранены. Нового
+synthetic не было. R13/history/его 94 секунды не изменены и не перенесены.
+
+**Normal proof:** Build **23dc710b-07e5-43ff-b63b-febe4ddb19ca**, source/infra
+**bec0469fe0d20c2d74775b0ba9e9920b11c13445**, config
+`5a9909ba3b877ac4a1c35a4d195fea619d171c16feece28586da51ee5dd83174`.
+Tool 660b576b/profile eb61e493 и все 158 R11 proof inputs byte-equal baseline
+0c1d0d78. Luna HIGH review; phase 10/source 8 и uploader error paths PASS.
+Full closure/preflight PASS; source 571521 gzip/191 parts/200 substitutions,
+config preflight 26984/28000, actual dispatch 27012/28000 при timeout 1200. Локальные transport refusals не создали Builds.
+
+Build **FAILURE**: execute/package-upload SUCCESS, final verdict exit 1.
+Brief **VERIFIED_ARCHIVE_AND_INVENTORY**, evidence complete; archive
+`e16d6a942db63878e27f539eb2c2d01e86459f041dadbf23deffe0f246913024`, index
+`54a86d655622f1aabe70a921e3858ae2188f29015ee90825afb7a3da63df142c`.
+Compiler source PASS: exporter/decoder/translator/console/refiner exit 0,
+postbuild source hash exit 0. Execute 441.424 s, package+upload 314.819 s;
+это не измерение upload-only rate, exact archive size остаётся UNKNOWN.
+
+**Actual full body INCONCLUSIVE**, accepted/proof_credit false. Classification
+и exact trace 2252/2259 совпали: `prelude_core.rsspec(264,72–74)` не доказывает
+`cons(dummy55, nil) = cons(dummy55, values03)` при
+`close array::<u64>(sift, 1, cons(r7_sift_current, nil))` после late-callback recovery
+(`verified/lib.rs(357,737–742)`). Это новый доступный first-error frontier,
+а не перенос исторического dummy30/points_to_limits. R11 mandatory placement
+controls: source `all_matched=true`; optional extra-address-taken false;
+accepted/proof_credit false. Run identity связан с текущими UUID/source/tool/profile.
+Targeted audit: accepted=false, diagnostic_complete=false; full_transfer и whole-challenge theorem pointer не найдены, их значения UNKNOWN (не NOT_RUN). Full target gates **0**, accepted false, independent credit **0**;
+**B2/generic/qualification OPEN**. Никаких proof/model/spec/invariant изменений.
+
+Один новый Build, **774 charged / 773 execution / 2826 retired / remaining 0**,
+carry false; own active/unresolved/requests/reservations **0/0/0/0**.
+HTTP429 одного targeted query преодолён сериализацией; raw/GCS/logging обхода нет,
+log прочитан только bounded locator/window; no-match не трактовался как NOT_RUN.
+Задача завершена без лишнего повтора. Следующий proof blocker — факты хвоста
+нулевой длины при сворачивании singleton array после callback; разбор/исправление
+в следующем задании с сохранением ресурсов и критериев. Результаты:
+[R14 proof](cloud-build/origin-layout/R14-PROOF1-RESULT-20261021.json),
+[body/controls evidence](cloud-build/origin-layout/R14-BODY-EVIDENCE-20261021.json),
+[compile/audit](cloud-build/origin-layout/R14-COMPILE-AUDIT-EVIDENCE-20261021.json).
+Финальный docs/accounting checkpoint не запускался как Build.

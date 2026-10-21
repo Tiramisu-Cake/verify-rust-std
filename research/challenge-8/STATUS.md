@@ -1,11 +1,24 @@
-# Merge-R14 RUNNING — reporting gate corrected → existing R11 proof
+# Merge-R14 DONE — publication recovered; R11 body refusal available
 
-[Новое задание](CURRENT-TASK.md): worktree `/root/verify-rust-std-merge-origin`, branch `merge/incoming-origin-20261009`, owner `merge`. T0 2026-10-21T12:52:50Z, main14:52:50Z, absolute15:22:50Z; свежие120мин+30мин/3600 Cloud-секунд, без отдельного лимита числа Builds; timeout90..1200/envelope+60. Phase `MERGE-PUBLICATION-GATE-PROOF-R14-2026-10-21`, новый ledger `CURRENT-RECOVERY-R14-PROOF-RETRY-BUDGET-20261021.json`. R13 и retired3506 не возобновлять, carry0.
+Normal Build **23dc710b-07e5-43ff-b63b-febe4ddb19ca**, source `bec0469f`, tool
+`660b576b`, profile SHA `eb61e493`: FAILURE, package-upload SUCCESS, Brief
+**VERIFIED_ARCHIVE_AND_INVENTORY**. All 158 prior R11 proof inputs remain equal.
+Compiler stages/hash checks passed. Full body **INCONCLUSIVE**: prelude_core.rsspec
+264 cannot prove `cons(dummy55,nil)=cons(dummy55,values03)` while closing singleton
+`array(sift,1,cons(current,nil))` after late-callback cleanup, trace 2252/2259.
+R11 required placement controls source `all_matched=true`; optional extra-address
+control false; diagnostics only. Full target gates 0, accepted false, independent
+credit 0; **B2/generic/qualification OPEN**. Proof/model/spec/invariant unchanged.
 
-Владелец разрешил принять existing synthetic probe `331fba31-4548-40e7-bb6d-1d225f590602` для publication prerequisite без нового synthetic Build и без exact-size sidecar. Основание: Brief VERIFIED_ARCHIVE_AND_INVENTORY; все3 Cloud stepsSUCCESS; source/config/archive/index bound; effective policyFalse; фактический configR13_UPLOAD_REQUIREDtrue и mandatory fail-closed size guard до uploads. Верхняя/нижняя границы установлены по pinned execution path, а не чтением receipt. Exact archive_size_bytes=null/exact_archive_size_observedfalse сохраняются; proof credit0.
+R14 accepted only the existing exact probe through fresh Brief and pinned
+fail-closed publication path. Exact archive bytes remain null/unobserved; no
+sidecar verification or raw bypass. No new synthetic; old R13 ledger/history
+and retired3506 unchanged. New account CLOSED 2026-10-21T13:36:35Z: 774 charged,
+773 execution, 2826 retired, remaining0/carryfalse, own0/0/0/0. T0 12:52:50Z;
+main14:52:50Z/absolute15:22:50Z. Mission completed without redundant Build.
 
-Checkpoint `6ee5298e69dfe552487cd73cc7be04bae47dbf0f`; probe source `c9b5151735c352d212752c5fe644adcd3543b68d`, configda516252…; archive8ecf904c…, indexad0e439b…. [Архив R13](task-history/merge-archive-size-upload-recovery-2026-10-21-r13.md), [probe result](cloud-build/origin-layout/R13-PROBE1-RESULT-20261021.json). R13 исторически закрыта94charged/94execution/3506retired/remaining0/carryfalse, own0/0/0/0; historical gatePENDING не переписывать. Probe не включать в новый ledger.builds и94секунды повторно не списывать.
-
-Следующий шаг: узкая R14 validator/registration правка с review, immutable read-only previous-phase gate и mode proof-r11 → normal Build прежнего source0c1d0d78/tool660b576b/profileeb61e493,158 frozen proof files. Сохранить size guard<=536870912/False upload/create-only/marker-last и cross-mode correspondence. Новая tool/model/spec/invariant разработка не входит в R14; получить actual proof результат и точный следующий blocker.
-
-**Full target gates0/acceptedfalse/independentcredit0; B2/generic/qualificationOPEN.** Последний доступный body-фронтир R11 Build5: checkedLive/Dead117 → iterationprep301 points_to_limits/dummy30none; initialized-value invariant ещё без доступного formal result. Исправленный publication gate не меняет formal status.
+Next proof work: investigate the zero-length array tail fact at this singleton
+fold, preserving resources and semantics; outside R14. See [current report](CURRENT-TASK.md#отчёт-агента),
+[R14 result](cloud-build/origin-layout/R14-PROOF1-RESULT-20261021.json),
+[bounded body evidence](cloud-build/origin-layout/R14-BODY-EVIDENCE-20261021.json).
+Final documentation/accounting checkpoint was not built.

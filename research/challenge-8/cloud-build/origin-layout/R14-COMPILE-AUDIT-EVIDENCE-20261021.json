@@ -1,0 +1,146 @@
+{
+  "schema": "r14-compile-audit-evidence-v1",
+  "build_id": "23dc710b-07e5-43ff-b63b-febe4ddb19ca",
+  "evidence_brief": {
+    "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+    "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+    "run_exit_claim": 1,
+    "evidence_complete_claim": true,
+    "archive_sha256": "e16d6a942db63878e27f539eb2c2d01e86459f041dadbf23deffe0f246913024",
+    "index_sha256": "54a86d655622f1aabe70a921e3858ae2188f29015ee90825afb7a3da63df142c",
+    "members": 3133,
+    "brief_observed_at": "2026-10-21",
+    "scope_note": "Brief is a source report; archive/inventory integrity is not proof acceptance."
+  },
+  "reader_observations": [
+    {
+      "selector": "catalogue: allprooflogs/tracked-md-build/compile-preflight.json",
+      "request_id": "not exposed by catalogue response",
+      "file_id": "834aad957210986c71d986380f96fe080dbf875678aba74ae448b9e97f35be36",
+      "path": "allprooflogs/tracked-md-build/compile-preflight.json",
+      "file_sha256": "d2096133e51092274f4b4f83961d551627124246a26c3cd6f843af8f9a5600e7",
+      "size_bytes": 2625,
+      "catalogue_status": "PROJECTED",
+      "catalogue_complete": false,
+      "verified_member": true
+    },
+    {
+      "selector": "catalogue: proof-audit.json",
+      "request_id": "not exposed by catalogue response",
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "path": "proof-audit.json",
+      "file_sha256": "5f6e569bde5f414fa6447c20765afa073d28e83321b3bad739d5aa7384d071b6",
+      "size_bytes": 633250,
+      "catalogue_status": "JSON_EXCEEDS_SCAN_LIMIT",
+      "catalogue_complete": false,
+      "verified_member": true
+    },
+    {
+      "selector": "proof-audit.json#/compiler",
+      "request_id": "17b4affc2c0ce63394725378e9daca2249b399cdfc00f94218f4c11adef9a068",
+      "response_request_id": "17b4affc2c0ce63394725378e9daca2249b399cdfc00f94218f4c11adef9a068",
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_sha256": "5f6e569bde5f414fa6447c20765afa073d28e83321b3bad739d5aa7384d071b6",
+      "archive_sha256": "e16d6a942db63878e27f539eb2c2d01e86459f041dadbf23deffe0f246913024",
+      "index_sha256": "54a86d655622f1aabe70a921e3858ae2188f29015ee90825afb7a3da63df142c",
+      "pointer": "/compiler",
+      "exact": true,
+      "complete": true,
+      "offset": 0,
+      "next_offset": null,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "observed": {
+        "base_build_exit_code": 0,
+        "candidate_report": "allprooflogs/tracked-md-build/compile-preflight.json",
+        "classification": "PASS",
+        "postbuild_source_hash_exit_code": 0,
+        "candidate_stages_child_count": 5
+      }
+    },
+    {
+      "selector": "proof-audit.json#/compiler/candidate_stages",
+      "request_id": "0cd49f8dd2df0cb30e08e97b710fc2ca8a402fdad345ed9528cf9c26b215d892",
+      "response_request_id": "0cd49f8dd2df0cb30e08e97b710fc2ca8a402fdad345ed9528cf9c26b215d892",
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_sha256": "5f6e569bde5f414fa6447c20765afa073d28e83321b3bad739d5aa7384d071b6",
+      "archive_sha256": "e16d6a942db63878e27f539eb2c2d01e86459f041dadbf23deffe0f246913024",
+      "index_sha256": "54a86d655622f1aabe70a921e3858ae2188f29015ee90825afb7a3da63df142c",
+      "pointer": "/compiler/candidate_stages",
+      "exact": true,
+      "complete": true,
+      "offset": 0,
+      "next_offset": null,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "observed": {
+        "exporter-build": 0,
+        "decoder-build": 0,
+        "translator-build": 0,
+        "console-build": 0,
+        "refiner-build": 0
+      }
+    }
+  ],
+  "identity_checks": {
+    "expected_source_sha256": "bec0469fe0d20c2d74775b0ba9e9920b11c13445",
+    "observed_source_sha256": null,
+    "expected_config_sha256": "5a9909ba3b877ac4a1c35a4d195fea619d171c16feece28586da51ee5dd83174",
+    "observed_config_sha256": null,
+    "expected_tool_commit": "660b576b6b1608db913c51e0785b443a8733396f",
+    "observed_tool_commit": null,
+    "expected_profile": "experimental-merge-label-storage-r11-v1",
+    "expected_profile_sha256": "eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375",
+    "observed_profile": null,
+    "observed_profile_sha256": null
+  },
+  "full_gate_status": {
+    "source_file": {
+      "path": "proof-audit.json",
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_sha256": "5f6e569bde5f414fa6447c20765afa073d28e83321b3bad739d5aa7384d071b6",
+      "archive_sha256": "e16d6a942db63878e27f539eb2c2d01e86459f041dadbf23deffe0f246913024",
+      "index_sha256": "54a86d655622f1aabe70a921e3858ae2188f29015ee90825afb7a3da63df142c"
+    },
+    "observations": [
+      {
+        "pointer": "/accepted",
+        "request_id": "f84dbaf07b7aaa3a95b7d55bc70db743580a5a528321c84ffa497eee1e6473c7",
+        "exact": true,
+        "complete": true,
+        "value": false
+      },
+      {
+        "pointer": "/diagnostic_complete",
+        "request_id": "b7044918aa32427699a8c0ba9f5754fce9dc991c74a1a3965de7a1de9f753b89",
+        "exact": true,
+        "complete": true,
+        "value": false
+      },
+      {
+        "pointer": "/full_transfer",
+        "request_id": "cf6f10c4a472ce5dd13c21aa9587e21340115691655b33f513f0ee82c0b6735c",
+        "status": "POINTER_NOT_FOUND",
+        "source_absence_established": false
+      },
+      {
+        "pointer": "/theorem_statuses/whole_small_sort_challenge",
+        "request_id": "21e376a23641fec41f9d8151a0e372f4e4c3b89f7bc3168ecfb887aae7e63463",
+        "status": "POINTER_NOT_FOUND",
+        "source_absence_established": false
+      },
+      {
+        "literal": "whole_small_sort_challenge",
+        "request_id": "2bd52566b2b353adb98ff1fafce4461c2c11c9b004706b59fa41ccc29b366854",
+        "search_scope": "whole-file, exact UTF-8 byte interval [0,633250), no truncation",
+        "status": "NO_MATCH_IN_SEARCH_SCOPE",
+        "source_absence_established": false
+      }
+    ],
+    "interpretation": "The audit source exactly reports accepted=false and diagnostic_complete=false. Requested full_transfer and whole-challenge fields were not found by the bounded reader; no absence or NOT_RUN conclusion follows. The Brief reports archive/inventory verification and source verdict NOT_ACCEPTED_AS_REPORTED, not proof credit."
+  },
+  "limitations": [
+    "Reader work paused at parent request after HTTP 429 surfaced in a concurrent R11 identity query; no further queries were issued.",
+    "The Brief and targeted observations are bounded source observations. Parser-input binding is NOT_ESTABLISHED.",
+    "Source/config/tool/profile identities were not queried by this worker; parent reports the R11 run identity exact+complete for Build/source/tool/profile. Config digest remains unverified here.",
+    "Full-transfer and whole-challenge fields were not available through selected pointers/literal search; do not infer their value, NOT_RUN, or independent credit."
+  ]
+}

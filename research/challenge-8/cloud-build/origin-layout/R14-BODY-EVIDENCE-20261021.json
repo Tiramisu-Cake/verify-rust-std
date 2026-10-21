@@ -1,0 +1,480 @@
+{
+  "schema": "merge-r14-body-evidence-v1",
+  "build_id": "23dc710b-07e5-43ff-b63b-febe4ddb19ca",
+  "archive_sha256": "e16d6a942db63878e27f539eb2c2d01e86459f041dadbf23deffe0f246913024",
+  "index_sha256": "54a86d655622f1aabe70a921e3858ae2188f29015ee90825afb7a3da63df142c",
+  "classification": "INCONCLUSIVE",
+  "accepted": false,
+  "proof_credit": false,
+  "full_insert_tail_proved": false,
+  "current_false_true_panic_proved": false,
+  "first_error": "prelude_core.rsspec(264,72-74): Cannot prove cons(dummy55, nil) = cons(dummy55, values03).",
+  "executing_statement": "verified/lib.rs(357,737-742): close array::<u64>(sift, 1, cons(r7_sift_current, nil)) after late_callback_recover and readonly borrow cleanup",
+  "first_error_source_claim_and_trace_agree": true,
+  "placement_controls": {
+    "classification": "DIAGNOSTIC_CONTROLS_MATCHED",
+    "all_matched": true,
+    "mandatory_cases": 7,
+    "optional_extra_address_taken_control_matched": false,
+    "accepted": false,
+    "proof_credit": false
+  },
+  "current_run_identity": {
+    "proof_sha": "bec0469fe0d20c2d74775b0ba9e9920b11c13445",
+    "tool_commit": "660b576b6b1608db913c51e0785b443a8733396f",
+    "profile": "experimental-merge-label-storage-r11-v1",
+    "profile_sha256": "eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375",
+    "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "reader_observations": [
+    {
+      "file_id": "16921a0b32e5989de188e93902c6b999a969dfea13636a39ed9fa338097ffbe3",
+      "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/r11-storage-placement-controls/aggregate.json",
+      "file_sha256": "ba92145b68963299d377252ed8fb64038b4f88546091bb1d780d6c70ce51bb4d",
+      "archive_sha256": "e16d6a942db63878e27f539eb2c2d01e86459f041dadbf23deffe0f246913024",
+      "index_sha256": "54a86d655622f1aabe70a921e3858ae2188f29015ee90825afb7a3da63df142c",
+      "request_id": "dab2f2891d6c9d212254f5b2e18cd6c1b5b197bb3e85f7fe0d8d07a301e41dcf",
+      "request": {
+        "expected_sha256": "ba92145b68963299d377252ed8fb64038b4f88546091bb1d780d6c70ce51bb4d",
+        "file_id": "16921a0b32e5989de188e93902c6b999a969dfea13636a39ed9fa338097ffbe3",
+        "pointer": ""
+      },
+      "representation": "EXACT_JSON_CHILDREN",
+      "exact": true,
+      "complete": true,
+      "next_offset": null,
+      "results": [
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/accepted",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/all_matched",
+          "value": true
+        },
+        {
+          "child_count": 8,
+          "exact": true,
+          "kind": "object",
+          "pointer": "/cases"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/classification",
+          "value": "DIAGNOSTIC_CONTROLS_MATCHED"
+        },
+        {
+          "child_count": 5,
+          "exact": true,
+          "kind": "object",
+          "pointer": "/current_native_input_gate"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/effective_tool_commit",
+          "value": "660b576b6b1608db913c51e0785b443a8733396f"
+        },
+        {
+          "child_count": 5,
+          "exact": true,
+          "kind": "object",
+          "pointer": "/native_input"
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/optional_extra_address_taken_control_matched",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/profile",
+          "value": "experimental-merge-label-storage-r11-v1"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/profile_path",
+          "value": "/workspace/proof/research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/profile_sha256",
+          "value": "eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375"
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/proof_credit",
+          "value": false
+        },
+        {
+          "child_count": 8,
+          "exact": true,
+          "kind": "object",
+          "pointer": "/r11_run_identity"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/schema",
+          "value": "r11-storage-placement-controls-v1"
+        }
+      ]
+    },
+    {
+      "file_id": "c6a004582c6e2d16f220a34861a55b03543d670d001b4998af41c8cb0a9b2ef7",
+      "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/classification.json",
+      "file_sha256": "8ec6f6b1052de72fa98e04afbc551abec779a29740f3891f9e5d7340370a60ec",
+      "archive_sha256": "e16d6a942db63878e27f539eb2c2d01e86459f041dadbf23deffe0f246913024",
+      "index_sha256": "54a86d655622f1aabe70a921e3858ae2188f29015ee90825afb7a3da63df142c",
+      "request_id": "807d52ae13f46422f9e0c3e33741b1bb313eb0ab6924e74c67cbb6c03c362a0e",
+      "request": {
+        "expected_sha256": "8ec6f6b1052de72fa98e04afbc551abec779a29740f3891f9e5d7340370a60ec",
+        "file_id": "c6a004582c6e2d16f220a34861a55b03543d670d001b4998af41c8cb0a9b2ef7",
+        "pointer": ""
+      },
+      "representation": "EXACT_JSON_CHILDREN",
+      "exact": true,
+      "complete": true,
+      "next_offset": null,
+      "results": [
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/accepted",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/b2_achieved",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/classification",
+          "value": "INCONCLUSIVE"
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/current_false_true_panic_proved",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "null",
+          "pointer": "/cut",
+          "value": null
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/first_error",
+          "value": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/prelude_core.rsspec(264,72-74): error: Cannot prove condition. (Cannot prove cons(dummy55, nil) = cons(dummy55, values03).)"
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/full_insert_tail_proved",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/hrtb_registration_observed",
+          "value": true
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/intended_negative",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/limitations",
+          "value": "Prefix is partial. Registration/reached-call/refiner exit0 alone give no resource credit."
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/local_first_continue_observed",
+          "value": true
+        },
+        {
+          "exact": true,
+          "kind": "null",
+          "pointer": "/mutation",
+          "value": null
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/next_frontier",
+          "value": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/prelude_core.rsspec(264,72-74): error: Cannot prove condition. (Cannot prove cons(dummy55, nil) = cons(dummy55, values03).)"
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/official_first_continue_qualified",
+          "value": true
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/prefix",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/proof_credit",
+          "value": false
+        },
+        {
+          "child_count": 7,
+          "exact": true,
+          "kind": "object",
+          "pointer": "/runtime_frontiers"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/schema",
+          "value": "first-callback-result-v1"
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/source_exact",
+          "value": true
+        },
+        {
+          "child_count": 4,
+          "exact": true,
+          "kind": "object",
+          "pointer": "/stages"
+        }
+      ]
+    },
+    {
+      "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+      "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verifast.log",
+      "file_sha256": "a24e78cdcfe5efb3ad0356ac88ad3ac144abbb5f0fb56c90c8a22c36ed823052",
+      "archive_sha256": "e16d6a942db63878e27f539eb2c2d01e86459f041dadbf23deffe0f246913024",
+      "index_sha256": "54a86d655622f1aabe70a921e3858ae2188f29015ee90825afb7a3da63df142c",
+      "request_id": "44659beca27a3445a1f9aa08f113a54cc7562ba59737f4a36db4786d428c8b4b",
+      "request": {
+        "expected_sha256": "a24e78cdcfe5efb3ad0356ac88ad3ac144abbb5f0fb56c90c8a22c36ed823052",
+        "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+        "literal": "Cannot prove condition."
+      },
+      "representation": "LITERAL_COORDINATES_ONLY",
+      "exact": true,
+      "complete": true,
+      "next_offset": null,
+      "results": [
+        {
+          "column": 137,
+          "end_column_exclusive": 160,
+          "end_line": 2252,
+          "line": 2252,
+          "unicode_end_exclusive": 262730,
+          "unicode_start": 262707,
+          "utf8_byte_end_exclusive": 262730,
+          "utf8_byte_start": 262707
+        }
+      ]
+    },
+    {
+      "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+      "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verifast.log",
+      "file_sha256": "a24e78cdcfe5efb3ad0356ac88ad3ac144abbb5f0fb56c90c8a22c36ed823052",
+      "archive_sha256": "e16d6a942db63878e27f539eb2c2d01e86459f041dadbf23deffe0f246913024",
+      "index_sha256": "54a86d655622f1aabe70a921e3858ae2188f29015ee90825afb7a3da63df142c",
+      "request_id": "09750a3bd1912199f4ca233f82d04c9dd25bae69695f6dffb85b2166811bd6f3",
+      "request": {
+        "end": 2259,
+        "expected_sha256": "a24e78cdcfe5efb3ad0356ac88ad3ac144abbb5f0fb56c90c8a22c36ed823052",
+        "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+        "start": 2248
+      },
+      "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+      "exact": true,
+      "complete": false,
+      "results": [
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2248,
+          "text": "  0.952956s: verified/lib.rs(357,640-641): Verifying call"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2249,
+          "text": "  0.968024s: verified/lib.rs(357,659-674): Executing statement"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2250,
+          "text": "  0.972822s: verified/lib.rs(357,702-708): Executing statement"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2251,
+          "text": "  0.972951s: verified/lib.rs(357,737-742): Executing statement"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2252,
+          "text": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/prelude_core.rsspec(264,72-74): error: Cannot prove condition. (Cannot prove cons(dummy55, nil) = cons(dummy55, values03).)"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2253,
+          "text": "264 |         *p |-> ?value &*& array(p + 1, count - 1, ?values0) &*& values == cons(value, values0)"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2254,
+          "text": "    |                                                                        ^^"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2255,
+          "text": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/prelude_core.rsspec(264,72-74): note: Consuming assertion"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2256,
+          "text": "264 |         *p |-> ?value &*& array(p + 1, count - 1, ?values0) &*& values == cons(value, values0)"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2257,
+          "text": "    |                                                                        ^^"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2258,
+          "text": "verified/lib.rs(357,737-742): note: Executing statement"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2259,
+          "text": "357 |             /*@ { late_callback_recover::<'late>(); assert lifetime_token(r5_late_k); end_lifetime(r5_late_k); borrow_end(r5_late_k, scaledp(r5_tmp_share, u64_full_borrow_content(t, r4_cmp_tmp_ref))); open scaledp(r5_tmp_share, u64_full_borrow_content(t, r4_cmp_tmp_ref))(); open [r5_tmp_share]u64_full_borrow_content(t, r4_cmp_tmp_ref)(); end_ref_readonly::<u64>(r4_cmp_tmp_ref); borrow_end(r5_late_k, scaledp(r5_sift_share, u64_full_borrow_content(t, r4_cmp_sift_ref))); open scaledp(r5_sift_share, u64_full_borrow_content(t, r4_cmp_sift_ref))(); open [r5_sift_share]u64_full_borrow_content(t, r4_cmp_sift_ref)(); end_ref_readonly::<u64>(r4_cmp_sift_ref); merge_fractions points_to::<u64>(sift, _); assert *sift |-> ?r7_sift_current; close array::<u64>(sift, 1, cons(r7_sift_current, nil)); } @*/"
+        }
+      ]
+    },
+    {
+      "file_id": "16921a0b32e5989de188e93902c6b999a969dfea13636a39ed9fa338097ffbe3",
+      "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/r11-storage-placement-controls/aggregate.json",
+      "file_sha256": "ba92145b68963299d377252ed8fb64038b4f88546091bb1d780d6c70ce51bb4d",
+      "archive_sha256": "e16d6a942db63878e27f539eb2c2d01e86459f041dadbf23deffe0f246913024",
+      "index_sha256": "54a86d655622f1aabe70a921e3858ae2188f29015ee90825afb7a3da63df142c",
+      "request_id": "cfced6a5b9e478317e7f459635ae6144e7243210d02a3a3bd30cf306dfdcdab7",
+      "request": {
+        "expected_sha256": "ba92145b68963299d377252ed8fb64038b4f88546091bb1d780d6c70ce51bb4d",
+        "file_id": "16921a0b32e5989de188e93902c6b999a969dfea13636a39ed9fa338097ffbe3",
+        "pointer": "/r11_run_identity"
+      },
+      "representation": "EXACT_JSON_CHILDREN",
+      "exact": true,
+      "complete": true,
+      "next_offset": null,
+      "results": [
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/r11_run_identity/cloud_build_id",
+          "value": "23dc710b-07e5-43ff-b63b-febe4ddb19ca"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/r11_run_identity/profile",
+          "value": "experimental-merge-label-storage-r11-v1"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/r11_run_identity/profile_sha256",
+          "value": "eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/r11_run_identity/proof_sha",
+          "value": "bec0469fe0d20c2d74775b0ba9e9920b11c13445"
+        },
+        {
+          "child_count": 4,
+          "exact": true,
+          "kind": "object",
+          "pointer": "/r11_run_identity/provider"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/r11_run_identity/source_sha256",
+          "value": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/r11_run_identity/tool_commit",
+          "value": "660b576b6b1608db913c51e0785b443a8733396f"
+        },
+        {
+          "child_count": 3,
+          "exact": true,
+          "kind": "object",
+          "pointer": "/r11_run_identity/tool_sha256"
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "catalogue_complete": true,
+    "catalogue_members": 3133,
+    "retained_content_files": 548,
+    "source_scan_bytes": 8388608,
+    "targeted_refresh_for_scan_budget_exceeded_file_succeeded": true,
+    "body_log_size": 297532,
+    "log_read": "one exact locator and lines2248..2259 only",
+    "log_window_complete": false,
+    "source_absence_established": false,
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "whole_verifier_log_read": false
+  },
+  "transient_reader_error": {
+    "selector": "controls /r11_run_identity",
+    "response": "HTTP429",
+    "retry_after_serializing_requests": "SUCCESS exact/complete",
+    "global_budget_exhaustion_inferred": false
+  },
+  "proof_interpretation": "Verified file integrity and source observations, not independently established formal credit. New first-error frontier replaces unavailable prior result; no claim that all prior obligations or generic theorem are proved."
+}
