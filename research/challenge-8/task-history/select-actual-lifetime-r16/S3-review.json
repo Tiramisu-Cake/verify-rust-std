@@ -1,0 +1,40 @@
+{
+  "schema": "select-actual-lifetime-r16-s3-review-v1",
+  "disposition": "GO_FOR_CLOUD_COMPILER_PREFLIGHT",
+  "review_key": {
+    "patch": "actual-sort4-deferred-scope-r16.patch",
+    "patch_sha256": "93122bb6bb91ef091536b18bc611e076fe1419c05a8b5da5a2f396dd83792168",
+    "manifest": "ACTUAL-SORT4-DEFERRED-SCOPE-R16-MANIFEST.json",
+    "manifest_sha256": "ecb42bf3afd24c2c999a7255f15f8f1d611c2ebea09272a49305939a2df58ad3"
+  },
+  "parent_s2_result_sha256": "0bf113f31b92af87344dbbad9135f4dcf7c04ec15c9afb649d34b0843c0030f6",
+  "result_sha256": "dbbf95ff540ab8111fad7130e85e860c0cb0fbdaa7e94049cc4f34e3a4dbede4",
+  "result_source_sha256_verified": true,
+  "findings": [],
+  "reviewed_invariants": {
+    "cmp_six_locals_remain_in_exact_cmp_scope": true,
+    "deferred_24_locals_scope_is_exact_physical_normal_suffix_wrapper": true,
+    "complete_body_and_unwind_epilog_scanned": true,
+    "declarations_only_no_initializers_and_exact_types_checked": true,
+    "address_taken_pattern_shadow_and_out_of_scope_uses_refuse": true,
+    "wrapper_preserves_original_statement_nodes_and_order": true,
+    "outer_label_and_goto_multiset_preserved": true,
+    "suffix_labels_gotos_or_external_entry_refused": true,
+    "unwind_epilog_remains_outside_normal_suffix_wrapper": true,
+    "proof_tuple_expression_walker_controls_are_meaningful": true,
+    "no_axioms_or_trusted_premises_added": true,
+    "runtime_operations_and_kernel_checks_unchanged": true
+  },
+  "proof_tuple_controls": {
+    "outside_control_reuses_exact_wrapper_object_and_proof_argument_is_only_outside_use": true,
+    "inside_control_proof_argument_is_only_in_scope_use": true,
+    "tuple_field_order_matches_pinned_ast": true
+  },
+  "source_binding": "S1 source metadata is source-reported; parser-input/MIR binding is not established. Runtime activation retains the existing actual-callback certificate gates.",
+  "profile_pin_status_at_review": "Parent was refreshing profile pins concurrently; the reviewed profile snapshot still contained the prior S3 patch/result/manifest pins. Refresh and verify those pins before submission.",
+  "validation_limits": [
+    "No local compiler or Cloud build was run by this reviewer.",
+    "Compilation and runtime self-controls require parent-owned Cloud preflight.",
+    "No independent proof credit is claimed."
+  ]
+}
