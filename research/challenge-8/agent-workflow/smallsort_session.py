@@ -14,6 +14,9 @@ HELP = """Usage: smallsort-session COMMAND [OPTIONS]
   check --bundle DIR             Recheck prepared bundle against committed inputs
   closure --worktree DIR --commit SHA --recipe PATH
                                  Static Git mode/blob/byte closure inventory
+  review create|check ...         Exact committed diff/dependencies for review
+  observations record|list|render|check ...
+                                 Immutable, bounded Brief navigation records
 
 No Cloud calls, registration, slot reservations, proof tools, commit or push.
 New session activation still requires the existing branch client admission.
@@ -35,6 +38,12 @@ def main(argv=None):
     if command in ("prepare", "check", "closure"):
         import session_prepare
         return session_prepare.main([command, *args])
+    if command == "review":
+        import review_packet
+        return review_packet.main(args)
+    if command == "observations":
+        import observations
+        return observations.main(args)
     print("Unknown command: " + command + "\n" + HELP, file=sys.stderr)
     return 2
 

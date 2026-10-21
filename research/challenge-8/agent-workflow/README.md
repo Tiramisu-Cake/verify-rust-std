@@ -1,6 +1,6 @@
 # Короткие задания, checkpoint и подготовка сессии
 
-Обязательное чтение — [CORE](CORE.md), CURRENT-TASK и CHECKPOINT/STATUS своей ветки. Здесь справка по конкретным действиям. Редакция v1 применяется к **следующим** сессиям; текущие T0/inputs/ledgers/client gates неизменны. Три инструмента используют Python standard library и локальный Git; actual proof/toolchain и Cloud вызовов нет.
+Обязательное чтение — [CORE](CORE.md), CURRENT-TASK и CHECKPOINT/STATUS своей ветки. Здесь справка по конкретным действиям. Инструкции принимаются в **следующей** сессии; текущие T0/inputs/ledgers/client gates неизменны. Инструменты используют Python standard library и локальный Git; actual proof/toolchain и Cloud вызовов нет.
 
 ## 1. Координатор выдаёт короткое задание
 
@@ -43,6 +43,42 @@ smallsort-session closure --worktree /root/verify-rust-std-merge-origin \
 
 **Результат — PREPARED_NOT_REGISTERED.** У нынешних Select/Merge clients phase admission жёстко зарегистрирован в control.py; генератор его не обходит и не принимает произвольный manifest вместо owner authorization. По registration-plan агент делает узкую exact-phase регистрацию и необходимые environment/profile/entry bindings, получает review, проверяет shared static closure и затронутые service tests, публикует exact source. Только после этого используется прежний client request/submit. Готовый draft ledger намеренно не проходит существующие submit gates; перевод в разрешённое состояние — часть reviewed регистрации. Финальные encoded payload/config transport caps проверяет прежний client на committed candidate; один closure inventory их не устанавливает. Новые per-round source-preflight scripts для одинаковых проверок closure создавать не нужно: общий `closure` выполняет эту механическую часть, а особые proof gates остаются в своём клиенте.
 
+## 4. Готовить пакет независимого review
+
+Заполни [review.example.json](examples/review.example.json): exact baseline/candidate commits, defect/applicability, invariants, controls, explicit dependency paths, prior review references и limitations. Нулевые SHA/REPLACE — placeholders, не результат review. В packet входят полный committed diff, inventory всех changed paths, снимки явно выбранных dependencies и короткий reviewer.md. Dirty/untracked файлы не становятся candidate inputs. Зависимости перечисляет автор изменения: автоматический сборщик не доказывает полноту semantic dependencies.
+
+```bash
+smallsort-session review create --spec /tmp/review.json --out /tmp/review-packet
+smallsort-session review check --bundle /tmp/review-packet \
+  --expect-candidate FULL_CANDIDATE_SHA --expect-spec-sha256 SPEC_SHA256
+```
+
+Запиши выданные spec/packet digests вместе с exact candidate в задании reviewer; при проверке используй ожидаемые identities. Начинать с reviewer.md и metadata; diff/dependencies открывать по затронутым местам. Пакет не подменяет независимый Luna HIGH review и не выдаёт GO. Reviewer возвращает findings и решение, связанное с exact candidate/diff/dependencies; поправки передавать тому же reviewer как delta, если границы/гарантии не изменились. При смене существенных dependencies/модели расширить review. Прежний GO не распространяется автоматически на новый candidate. Bounded synthetic tests/compile/integrity и formal credit различать.
+
+`review check` повторно строит содержимое по Git и spec. Источник истины для поставленной reviewer задачи — переданные ему ожидаемые candidate/spec identities; самосогласованный переписанный пакет не доказывает, что это прежняя задача. Размеры ограничены, oversized diff/пакет отказывается без усечения. Разделить изменение по содержательным границам, сохраняя необходимые зависимости.
+
+## 5. Сохранить наблюдение Brief один раз
+
+После обычного `smallsort-brief` заполни [observation.example.json](examples/observation.example.json) реальными возвращёнными identities/selector/exact/complete/coverage. Пример synthetic, не real evidence. Неизвестные SHA — null, exact/complete — UNKNOWN; не придумывать значения. Сохраняются короткий факт, stage/target/status/exit если явно сообщены, SOURCE_REPORTED либо отдельно обоснованное INDEPENDENTLY_ESTABLISHED и ссылки. Evidence/receipt references — переданные автором path/SHA, их содержимое инструмент не проверяет; запись не устанавливает независимый proof credit.
+
+```bash
+smallsort-session observations record --spec /tmp/observation.json \
+  --store research/challenge-8/observations
+smallsort-session observations list --store research/challenge-8/observations \
+  --build BUILD_UUID --limit 5
+smallsort-session observations render --store research/challenge-8/observations \
+  --build BUILD_UUID --limit 5
+smallsort-session observations check --store research/challenge-8/observations
+```
+
+Record — неизменяемый SHA-256-named JSON; повтор той же записи не создаёт копию. Его path и digest подходят для evidence entries CHECKPOINT. `render` — генерируемая view для session/release/coverage, а не ещё одна ручная сводка; существующие receipts/ledgers и historical classifications не переписывать. CHECKPOINT хранит текущую сводку/OPEN/blocker и references на факты; STATUS/task итог по-прежнему строятся из него.
+
+Вывод ограничен 12000байт/20записей. Для продолжения брать только возвращённые `next_offset` и `records_snapshot_sha256`: передать `--offset NEXT_OFFSET --expect-snapshot-sha256 RECORDS_SNAPSHOT_SHA256`; при изменении выбранного набора начать новый просмотр. Фильтр `--index-sha256` отделяет наблюдения выбранного индекса, но не подтверждает его актуальность: latest identity уточняется обычным Brief. Отсутствие записи не NOT_RUN; старый индекс не делает историческое наблюдение ложным. Никакого автоматического скачивания страниц, raw payload, исполнения selector/commands либо прямого GCS.
+
+## 6. Ожидание Build
+
+[Проверка механизма ожидания](WAIT-EXPERIMENT.md) показала: terminal-only вывод возможен, сокращение model resumptions отдельным shell-loop не установлено. Новый watcher не внедрён; существующие coordinator/status, owner/ledger параметры и интервалы ≤60с сохраняются. Выполнять независимую работу при ожидании; не добавлять пустые объяснения неизменного WORKING.
+
 ## Установка и принятие
 
 `/usr/local/bin/smallsort-session` указывает на [smallsort_session.py](smallsort_session.py) этого versioned пакета. У всех worktrees есть доступ к нему; `task install` переносит маленькое CORE/AGENTS только при выдаче новой сессии после closed check. Активные CURRENT/STATUS/recipes/ledgers этим обновлением не переписываются. Политика canonical worktree хранится в Git; полные старые инструкции сохранены в [legacy](legacy/AGENTS-before-v1.md).
@@ -54,3 +90,5 @@ python3 -B -m unittest discover -s research/challenge-8/agent-workflow -p 'test_
 ```
 
 Tests используют маленькие synthetic Git repositories/files. Проверяют active refusal, provenance/paths/symlinks, budget/deadline/status согласованность, refreshed-inventory tampering, сохранение истории и views. Это service tests, не compiler/verifier и не formal credit. Сокращение текста можно измерить по размеру файлов; фактическую экономию токенов оценивать отдельно по данным сессий.
+
+Для сравнения нескольких сессий до/после фиксировать реальные model calls и input/output/cached tokens, отдельно reviewer usage, повторные чтения, долю подготовки и полученный proof-результат. RTK estimates, размер Markdown и число внутренних status queries не подменяют эти измерения. Новые инструменты не заявляют процент экономии без таких данных.
