@@ -1,0 +1,195 @@
+{
+  "schema": "smallsort-r14-bounded-build-evidence-v1",
+  "build_id": "26430454-03d6-494e-accd-cabea958df74",
+  "source_sha": "0e7a977d09b06e90800c6f734a5b9d26e3e26d68",
+  "profile_sha256": "e0fb397f59e68e47e2b47ebebf4d81e98d7d3737fba650a7fa2be94b45f665c2",
+  "config_sha256": "434bdcebd25d5be953e2cb4649feb05de02a21990e4ed5ac00c17fcc828b26d0",
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "archive_sha256": "8f48ccc9cbf98129524ee1ac81235901c62ba56998109a242a42f31ea71597c9",
+  "index_sha256": "d0f081aedf66e02c8fdcc8e12ead31e27d7bb275bb20b3e3a9980e2079e2dfe6",
+  "canonical_proof_audit_sha256": "d9a086a49ae55a2b11cefdfd61eb20d10751772a4038d1995bed9d11ce028dac",
+  "original_diagnostic_sha256": "1a0b81b040a480947f06ffa9668f22487ba26f46becd0b34ba595e9f30b5b8ee",
+  "canonicalization": "identical parsed JSON values; original bytes preserved",
+  "scope": "fresh full26",
+  "case_set": [
+    "N-alpha-valid",
+    "N-binder-collapse",
+    "N-binding",
+    "N-clause-redirect",
+    "N-clauses",
+    "N-default-contract",
+    "N-duplicate",
+    "N-false31",
+    "N-free-region",
+    "N-freeze-contract",
+    "N-no-F",
+    "N-region-swap",
+    "N-source",
+    "OFF",
+    "P-dispatch",
+    "P0a",
+    "P0b",
+    "P0c",
+    "P1",
+    "R1",
+    "R2",
+    "R3",
+    "R4",
+    "R5",
+    "R6",
+    "R7"
+  ],
+  "source_counts": {
+    "INTENDED_CLASSIFIED": 26
+  },
+  "matrix_complete": true,
+  "admission_record_created": true,
+  "source_matrix_validation": "all-26-runner-observations-validated",
+  "source_admission_state": "source-reported-common-summary-gate-satisfied-matrix-incomplete",
+  "source_final_profile_accepted": false,
+  "source_accepted": false,
+  "source_evidence_complete": false,
+  "source_diagnostic_complete": true,
+  "brief_top_level_evidence_complete": true,
+  "matrix_record_not_final_profile_acceptance": true,
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "actual_small_sort_sort4_body_obligations_closed": 0,
+  "charge_seconds": 451,
+  "cumulative_seconds": 1892,
+  "remaining_seconds": 1708,
+  "timings_seconds": {
+    "execute": 351.01457495,
+    "package_upload": 96.796387762,
+    "verdict": 0.818581795
+  },
+  "P1": {
+    "actual_source_pair_sha256": "48f33098b6091d0da3176dd71adb71cd7aff345595f1fce9feeac133611050b6",
+    "ast_clause_representation": "none; compiler-required interface is separately validated",
+    "body_count": 0,
+    "classification": "INTERFACE_STRUCTURE_ONLY_UNRUN_PROOF",
+    "compiler_clause_digest": "11e23c185c7053d6ed7dd1a4e68ed27f517e386f57f551c4d4d38c0934b962a2",
+    "compiler_clauses_source_bound": true,
+    "compiler_interface_digest": "3fd3ee01cb550ad041de7e3f97b8ffbf06cac58518bd81f83d2c4eebb95afc46",
+    "conformance_credit": false,
+    "native_contract_credit": false,
+    "proof_credit": false,
+    "schema": "a1-small-sort-interface-observation-v1",
+    "source_pair_id": "2a0fca395c7324627fa28c61a2cdcec068ed84b12fe695956c47845fa1855906",
+    "structural_pass": true
+  },
+  "run_pins": {
+    "infra_id": "0e7a977d09b06e90800c6f734a5b9d26e3e26d68",
+    "profile_id": "e0fb397f59e68e47e2b47ebebf4d81e98d7d3737fba650a7fa2be94b45f665c2",
+    "proof_id": "0e7a977d09b06e90800c6f734a5b9d26e3e26d68",
+    "target_id": "A1-FIRST-MATRIX-THRESHOLD-INTERFACE",
+    "tool_id": "19be51c5aff52a8ad109eed8bc63e50d9eab08892e2aecaa7fa59d28b99ca575"
+  },
+  "N_clause_redirect": {
+    "input_identity_verified": true,
+    "input_sha256": "200ecc84f5b50399a789811b4f09ada4e1c97c3653e7622ee13f1e876b5c0684",
+    "proof_credit": false,
+    "source_id": "b8e068dd22efca17a06e860fca613168d1697f84c5da8537f572d62101ebb29a",
+    "unit_id": "10dd8e08730935c9e898d9b74d34ca87643be7b1efbbf8957fae79e2df291937"
+  },
+  "N_false31": {
+    "lifecycle": {
+      "classification": "FALSE31_OWN_PAIR_REPROVED_AND_CALLER_OBSERVED",
+      "proof_credit": false,
+      "receipt_issued_after_both_bodies": true,
+      "receipt_path": "/workspace/evidence/allprooflogs/cases/sort4-c1-current-recovery/a1-fixtures/N-false31/a1-threshold-summary.receipt"
+    },
+    "default_body_attestation": {
+      "assurance": "runner-inference-from-pinned-kernel-order-and-current-VF-stage",
+      "body_count": 1,
+      "case_id": "P0a",
+      "classification": "RUNNER_REPORTED_FOCUSED_BODY_AND_CONFORMANCE",
+      "focus_body_reached": true,
+      "focus_body_verified": true,
+      "focus_conformance_verified": true,
+      "normal_posts_preserved": true,
+      "proof_credit": false,
+      "unwind_posts_preserved": true
+    },
+    "freeze_body_attestation": {
+      "assurance": "runner-inference-from-pinned-kernel-order-and-current-VF-stage",
+      "body_count": 1,
+      "case_id": "P0b",
+      "classification": "RUNNER_REPORTED_FOCUSED_BODY_AND_CONFORMANCE",
+      "focus_body_reached": true,
+      "focus_body_verified": true,
+      "focus_conformance_verified": true,
+      "normal_posts_preserved": true,
+      "proof_credit": false,
+      "unwind_posts_preserved": true
+    },
+    "boundary": {
+      "assertion_source_line": 145,
+      "assurance": "source-and-AST structural boundary observation",
+      "boundary_len": 32,
+      "boundary_satisfies_guard": true,
+      "classification": "LEN32_BOUNDARY_ADMISSIBLE_BY_CHECKED_INTERFACE_AND_GUARD",
+      "freeze_body_conformance_observed": true,
+      "guard_expression": "len <= T::small_sort_threshold()",
+      "guard_source_line": 143,
+      "proof_credit": false,
+      "threshold_contract_ast_sha256": "872822568cc2db217e66931eeb1141b79de1446c5b610f5160cd0fec318fa555",
+      "threshold_upper_bound": 32
+    },
+    "own_receipt_sha256": "f3a6d6353b072d72cc5713556618eab810d994bd65cfbcc4912f95f27821fbe6",
+    "receipt_first12_pins_read": true
+  },
+  "P_dispatch": {
+    "classifier": {
+      "classification": "ORIGINAL_COMMON_TRAIT_DISPATCH_OBSERVED",
+      "proof_credit": false,
+      "source_sha256": "2a0fca395c7324627fa28c61a2cdcec068ed84b12fe695956c47845fa1855906",
+      "verification_exit": 0
+    },
+    "trace_rows": [
+      {
+        "ast_call_span": "verified/lib.rs(143,19-44)",
+        "callee": "StableSmallSortTypeImpl::small_sort_threshold",
+        "mir_call_span": "verified/lib.rs(143,19-44)",
+        "original": "StableSmallSortTypeImpl::small_sort_threshold",
+        "owner": "a1_guard_observer",
+        "redirect": false,
+        "translated": "StableSmallSortTypeImpl::small_sort_threshold"
+      },
+      {
+        "ast_call_span": "verified/lib.rs(167,13-47)",
+        "callee": "StableSmallSortTypeImpl::small_sort",
+        "mir_call_span": "verified/lib.rs(167,13-47)",
+        "original": "StableSmallSortTypeImpl::small_sort",
+        "owner": "quicksort",
+        "redirect": false,
+        "translated": "StableSmallSortTypeImpl::small_sort"
+      },
+      {
+        "ast_call_span": "verified/lib.rs(166,19-44)",
+        "callee": "StableSmallSortTypeImpl::small_sort_threshold",
+        "mir_call_span": "verified/lib.rs(166,19-44)",
+        "original": "StableSmallSortTypeImpl::small_sort_threshold",
+        "owner": "quicksort",
+        "redirect": false,
+        "translated": "StableSmallSortTypeImpl::small_sort_threshold"
+      }
+    ],
+    "interpretation": "canonical source order quicksort threshold166 then small_sort167; observer threshold143; serialized rows are lexicographic, not chronology. AST/MIR ranges validated against own records separately."
+  },
+  "mini_controls": {
+    "passed": true,
+    "case_names": [
+      "generic-roundtrip",
+      "helper",
+      "negative-generic-erasure",
+      "negative-lifetime-redirect",
+      "negative-mutable-erasure",
+      "ref-roundtrip",
+      "some-preserve"
+    ]
+  },
+  "raw_evidence_downloaded": false,
+  "reader_limits": "Transient HTTP429 exact errors retained; sequential retry succeeded. POINTER_NOT_FOUND retained, no absence/proof inference.",
+  "next_actual_obligation": "ACTUAL-NEXT-OBLIGATION.md; design only; current diagnostic helper cuts cannot support actual helper/sort4 body proof"
+}

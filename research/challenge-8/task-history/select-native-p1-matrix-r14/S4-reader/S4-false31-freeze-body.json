@@ -1,0 +1,99 @@
+{
+  "archive_sha256": "8f48ccc9cbf98129524ee1ac81235901c62ba56998109a242a42f31ea71597c9",
+  "build_id": "26430454-03d6-494e-accd-cabea958df74",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 11,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+  "file_path": "proof-audit.json",
+  "file_sha256": "d9a086a49ae55a2b11cefdfd61eb20d10751772a4038d1995bed9d11ce028dac",
+  "index_sha256": "d0f081aedf66e02c8fdcc8e12ead31e27d7bb275bb20b3e3a9980e2079e2dfe6",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "d9a086a49ae55a2b11cefdfd61eb20d10751772a4038d1995bed9d11ce028dac",
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "pointer": "/observation_details/N-false31/body_cases/P0b/execution_attestation"
+  },
+  "request_id": "e3d9643bea4b727fc07ca6f5146bfcf9fa5eff8143b614e407bc498a966beb88",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/N-false31/body_cases/P0b/execution_attestation/assurance",
+      "value": "runner-inference-from-pinned-kernel-order-and-current-VF-stage"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/observation_details/N-false31/body_cases/P0b/execution_attestation/body_count",
+      "value": 1
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/N-false31/body_cases/P0b/execution_attestation/case_id",
+      "value": "P0b"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/N-false31/body_cases/P0b/execution_attestation/classification",
+      "value": "RUNNER_REPORTED_FOCUSED_BODY_AND_CONFORMANCE"
+    },
+    {
+      "child_count": 3,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/observation_details/N-false31/body_cases/P0b/execution_attestation/compiler_identity"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/observation_details/N-false31/body_cases/P0b/execution_attestation/focus_body_reached",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/observation_details/N-false31/body_cases/P0b/execution_attestation/focus_body_verified",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/observation_details/N-false31/body_cases/P0b/execution_attestation/focus_conformance_verified",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/observation_details/N-false31/body_cases/P0b/execution_attestation/normal_posts_preserved",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/observation_details/N-false31/body_cases/P0b/execution_attestation/proof_credit",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/observation_details/N-false31/body_cases/P0b/execution_attestation/unwind_posts_preserved",
+      "value": true
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

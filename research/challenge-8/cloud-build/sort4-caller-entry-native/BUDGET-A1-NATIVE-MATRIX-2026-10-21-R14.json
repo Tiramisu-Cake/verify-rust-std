@@ -70,6 +70,28 @@
       "build_seconds": 625,
       "accounted": true,
       "execution_seconds": 625
+    },
+    {
+      "dispatch_token": "dispatch-7fc5ca2639bf4581876fc63ff1775012",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14",
+      "infra_sha": "0e7a977d09b06e90800c6f734a5b9d26e3e26d68",
+      "proof_sha": "0e7a977d09b06e90800c6f734a5b9d26e3e26d68",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "434bdcebd25d5be953e2cb4649feb05de02a21990e4ed5ac00c17fcc828b26d0",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "b8477e182106802061f614956c6ce85768d7044b5330fed2e5a695e0a7d56c15",
+      "build_id": "26430454-03d6-494e-accd-cabea958df74",
+      "start_time": "2026-10-21T14:03:33.292191173Z",
+      "finish_time": "2026-10-21T14:11:03.182948Z",
+      "create_time": "2026-10-21T14:03:32.549261140Z",
+      "build_seconds": 451,
+      "accounted": true,
+      "execution_seconds": 450
     }
   ],
   "carry_forward_seconds": 0,
@@ -80,9 +102,12 @@
   "maximum_builds": null,
   "owner": "select-sort4",
   "phase": "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14",
-  "remaining_build_seconds": 2159,
+  "remaining_build_seconds": 1708,
   "schema": "smallsort-cloud-phase-account-v1",
   "start_utc": "2026-10-21T12:29:30Z",
-  "status": "AUTHORIZED",
-  "used_build_seconds": 1441
+  "status": "CLOSED",
+  "used_build_seconds": 1892,
+  "closed_utc": "2026-10-21T14:25:56.224099Z",
+  "unused_retired_seconds": 1708,
+  "closure_reason": "Fresh full26 S4 is terminal/accounted with26classified and validated matrix record. Independent useful-task audit completed: source-bound next actual-body design reviewed/corrected, current helper cuts explicitly non-summary and omit actual sort4 bodies/checked resource contracts. No already-runnable actual proof target closes that debt; no further full repeat without a new hypothesis. Close a few minutes before main after all useful independent checks; unused seconds retired without carry. Final profile/proof acceptance remains false."
 }
