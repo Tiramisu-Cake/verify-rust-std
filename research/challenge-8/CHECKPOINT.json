@@ -16,9 +16,9 @@
     "tool_sha": "660b576b6b1608db913c51e0785b443a8733396f"
   },
   "blocker": {
-    "summary": "P3 stale R11 compatibility refiner pin blocks caller dispatch; seven selected-Drop cases expected. Separate before_storage_live INCONCLUSIVE.",
-    "location": "proof-audit /bridge_diagnostic/selected_drop/generated_glue_compatibility_controls",
-    "build_id": "f9e06ad1-d13e-4012-b1fc-be1d84c4aded",
+    "summary": "P4 pending Cloud evidence after independently reviewed exact compatibility/provider-pin recovery. RawPtr/caller/lifecycle outcomes unverified.",
+    "location": "P4 Cloud Build",
+    "build_id": "2256a4c8-2a4d-4a5c-8b61-a252730eae70",
     "evidence": []
   },
   "confirmed": [
@@ -98,7 +98,7 @@
       ]
     }
   ],
-  "next_step": "Review exact compatibility/provider-pin delta; publish/preflight then admitted full1200 cycle inside R17 window. Keep controls and original borrow gate.",
+  "next_step": "WAITING via watcher in current thread. On technical event ack before CHECKPOINT changes; then Brief and next actual caller/borrow frontier within original R17 window. After main only closeout; absolute expiry preserves pending IDs.",
   "open": [
     "Original full/prefix as_mut_ptr borrow/unsize (placeholders441/249); dependent controls NOT_RUN_PREFIX_PREREQUISITE_FAILED.",
     "Current-tool RawPtr controls, raw caller normal/unwind, ghost syntaxfix and borrow-lifecycle proof await P3 evidence.",
@@ -130,7 +130,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "2256a4c8-2a4d-4a5c-8b61-a252730eae70"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-21T21:03:50Z",
     "main_deadline_utc": "2026-10-21T20:33:50Z",
@@ -140,26 +142,25 @@
     "t0": "2026-10-21T18:33:50Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "merge-caller-refinement-autonomous-2026-10-21-r17",
-  "updated_utc": "2026-10-21T19:48:35Z",
+  "updated_utc": "2026-10-21T19:56:12Z",
   "handoff": {
-    "reason": "Agreed owner/coordinator pause to adopt context-saving tools; not session closure or a new window.",
-    "resume_authority": "Explicit owner resumption required; no autonomous further work.",
+    "reason": "P4 registered; delegate status/accounting wait to smallsort-session watch. Owner explicitly resumed R17; no new window.",
     "worktree": "/root/verify-rust-std-merge-origin",
     "branch": "merge/incoming-origin-20261009",
     "owner": "merge",
-    "source_sha": "224f8ee79b952e56a03f96fa8eaa7f54210001af",
+    "thread_id": "01a15ffd-66c3-7e82-bc08-e36ba747fac1",
+    "source_sha": "68113c964875a68a7e9fbb936959b2e67693300d",
     "tool_worktree": "/root/verifast-merge-actual-glue",
     "tool_sha": "a66c1d30214e463a16a325cdef30b0ec8555e0af",
     "profile_path": "research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json",
     "profile_sha256": "947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d",
-    "config_sha256": "a48fc6ba60324bd9ddcda8ea2482261bfa9921e6fade0262ec3708ee5a6439b7",
-    "source_input_sha256": "4fade4efd7463bbf8ea006a38ebfd0756ab6372db7ba5b545f7dfd2817615649",
-    "build_id": "f9e06ad1-d13e-4012-b1fc-be1d84c4aded",
-    "last_status": "WORKING",
-    "last_status_observed_utc": "2026-10-21T19:35:58Z",
-    "dispatch_token": "dispatch-8944e48e829f43de841433f24ed532c3",
+    "config_sha256": "cc9b824c38547e9d37e3ff3616d67a8b01c7a17b06794d3b1271b25f6bfb93f5",
+    "source_input_sha256": "1bcb6a5b15b1e72232695e2ea33f15cd5a9d694ad8381a7a820254ecfc7688f1",
+    "build_id": "2256a4c8-2a4d-4a5c-8b61-a252730eae70",
+    "last_status": "QUEUED",
+    "dispatch_token": "dispatch-90a87cfd08464f31bb442d15f57a3ba5",
     "state_dir": "/root/smallsort-merge-r17-20261021-state",
     "ledger_path": "research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R17-BUDGET-20261021.json",
     "plan_seconds": {
@@ -171,30 +172,18 @@
       "nested_compile_reserve": 140,
       "active_reservation": 1260
     },
-    "accounting": "P1 charged485 + P2 charged99 =584; remaining3016 includes active reservation1260. Ledger AUTHORIZED; no retire/carry/account closure during pause.",
+    "accounting": "P1=485/P2=99/P3=582; spent1166/remaining2434 includes active reservation1260; AUTHORIZED/no retire/carry.",
+    "review_record": "research/challenge-8/cloud-build/origin-layout/R17-REVIEW-20261021.md",
+    "preflight_record": "research/challenge-8/cloud-build/origin-layout/R17-PROOF4-PREFLIGHT-20261021.json",
     "tested": [
-      "Independent Luna HIGH semantic GO for exact RawPtr tool a66c1d3, controls, checked borrow-lifecycle component, R17 proof admission, accounting fix, transport and exact provider-module pin delta.",
-      "P1 Cloud: all5 compiler legs exit0 including changed refiner; ordinary_call_normal_unwind smoke PASS. Actual campaign blocked by old R11 pin guard.",
-      "P2 Cloud: early stale provider prove.py hash refusal; no compiler or target proof evidence established.",
-      "Local isolated synthetic checks: RawPtr controls9; body isolation38; lifecycle5; admission11 and native receipts6; phase16, provider base pins3 and R11 overlay4 PASS.",
-      "Static19-patch reconstruction equals published tool; exact20 provider blobs and source closure PASS; Git transport roundtrip/corruption checks PASS.",
-      "Final P3 static preflight source224f8ee: payload570618 bytes/191parts, config27208 bytes/200substitutions/maxarg5580; full timeout plan fits admitted limits."
+      "Exact candidate68113c9 independent Luna HIGH GO; compatibility/phase16/provider5/R5dispatch synthetic checks PASS.",
+      "Exact remote full SHA confirmed; full source closure/21providerpins PASS, payload571282/config27192/191parts/200substitutions/maxarg5580."
     ],
     "unverified": [
-      "P3 current-tool raw controls, raw caller refinement/verifier normal+unwind, R16 ghost syntaxfix and checked borrow-lifecycle case; Build still active at handoff.",
-      "Original as_mut_ptr borrow/unsize gate, CURRENT/backedge/Drop/Resume final compatible matrix; no B2/generic sorting theorem or independent proof credit."
+      "P4 compatibility replay, RawPtr controls, actual raw caller normal/unwind, syntaxfix and borrow lifecycle.",
+      "Original as_mut_ptr/unsize gate; CURRENT/backedge/Drop/Resume compatible final matrix; B2/generic/sorting/independentcredit OPEN."
     ],
-    "review_record": "research/challenge-8/cloud-build/origin-layout/R17-REVIEW-20261021.md",
-    "preflight_record": "research/challenge-8/cloud-build/origin-layout/R17-PROOF3-PREFLIGHT-20261021.json",
-    "prior_terminal_builds": [
-      "38fa5f6f-3263-404e-af55-48c47816a5cf",
-      "cccfd7c5-ee98-4549-8ecd-da2274e7c608"
-    ],
-    "on_resume": "Check canonical CORE and owner compact entry first. In existing phase/window use existing control.py status for this Build, then smallsort-brief when terminal. Do not resubmit/cancel or infer outcomes from missing evidence. Watcher was not started; actual thread cwd was /root.",
-    "foreign_changes": "Pre-existing policy/runbook/Cloud README edits and evidence-reader/iteration/role/history untracked files excluded from commits; preserve them.",
-    "publication": "Source224f8ee and toola66c1d3 already published and full remote SHAs checked; handoff metadata commit follows.",
-    "resumed_utc": "2026-10-21T19:48:35Z",
-    "resumed_thread_id": "01a15ffd-66c3-7e82-bc08-e36ba747fac1",
-    "resume_status": "Owner resumed explicitly; P3 terminal accounted. Historical handoff fields preserved."
+    "on_resume": "Ack watcher event first, before changing CHECKPOINT; then compact Brief. Preserve T0/main20:33:50Z/absolute21:03:50Z. No raw/full-log/archive access.",
+    "foreign_changes": "Preserve pre-existing policy/runbook/Cloud README and untracked guides/role/history; excluded from commits."
   }
 }

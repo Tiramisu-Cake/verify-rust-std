@@ -1,11 +1,11 @@
 # Agent checkpoint: merge-caller-refinement-autonomous-2026-10-21-r17
 
-- Owner: merge | phase: MERGE-CALLER-REFINEMENT-R17-2026-10-21 | state: ACTIVE
-- Updated: 2026-10-21T19:48:35Z
+- Owner: merge | phase: MERGE-CALLER-REFINEMENT-R17-2026-10-21 | state: HANDOFF
+- Updated: 2026-10-21T19:56:12Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `660b576b6b1608db913c51e0785b443a8733396f`, profile `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375`
 - Session dates: T0 `2026-10-21T18:33:50Z`; main deadline `2026-10-21T20:33:50Z`; absolute deadline `2026-10-21T21:03:50Z`
 - Budget: 3600s total; 1166s spent; 0s retired; 2434s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 2256a4c8-2a4d-4a5c-8b61-a252730eae70
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -26,10 +26,10 @@
 - Short outer timeout990/execute570 chosen using prior whole-cycle timings — Missed nested compile reserve140; P4 timed out before proof. Keep full1200 plan unless effective inner budget reviewed.; [research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md](cloud-build/origin-layout/R16-REVIEW-20261021.md) SHA `7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa`
 
 ## Blocker
-P3 stale R11 compatibility refiner pin blocks caller dispatch; seven selected-Drop cases expected. Separate before_storage_live INCONCLUSIVE. (proof-audit /bridge_diagnostic/selected_drop/generated_glue_compatibility_controls) [Build `f9e06ad1-d13e-4012-b1fc-be1d84c4aded`]
+P4 pending Cloud evidence after independently reviewed exact compatibility/provider-pin recovery. RawPtr/caller/lifecycle outcomes unverified. (P4 Cloud Build) [Build `2256a4c8-2a4d-4a5c-8b61-a252730eae70`]
 
 ## Next
-Review exact compatibility/provider-pin delta; publish/preflight then admitted full1200 cycle inside R17 window. Keep controls and original borrow gate.
+WAITING via watcher in current thread. On technical event ack before CHECKPOINT changes; then Brief and next actual caller/borrow frontier within original R17 window. After main only closeout; absolute expiry preserves pending IDs.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md](cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md) — `6acfb36fa52b2e05eea0551dfb40033156b23ef8165dfa67f6309d0550e721eb`
