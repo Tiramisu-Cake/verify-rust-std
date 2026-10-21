@@ -23,7 +23,10 @@ INTENDED_DIAGNOSTICS = {
     "binder_collapse": ("A1 duplicate scoped region alias or identity",),
     "free_region_input": ("A1 free input region in", "A1 free required-item region"),
     "input_region_swap": ("A1 required item lost a distinct input borrow or F",),
-    "no_F": ("A1 HIR/compiler method generic mismatch",),
+    # Removing F from both compiler and HIR generic arrays while retaining it
+    # in typeParams now fails the stricter identity-table guard first.
+    "no_F": ("A1 HIR/compiler method generic mismatch",
+             "A1 type parameter identity table mismatch"),
     "remove_fnmut": ("A1 missing FnMut/Output clause pair",),
     "remove_output": ("A1 missing FnMut/Output clause pair",),
     "duplicate_impl_method": ("SORT4-A1-CONTRACT: full impl method inventory differs",),
@@ -282,9 +285,35 @@ def classify(observation: dict, *, mutation: str, verifier_log: str | None) -> d
         return {**result, "reason": "alpha-renamed interface did not translate successfully"}
     if verifier_log is None or not isinstance(verifier_log, str):
         return {**result, "reason": "translator diagnostic unavailable"}
-    first = next((line for line in verifier_log.splitlines()
-                  if "error:" in line or line.startswith(("Fatal error:", "error:"))), None)
+    diagnostics = [line for line in verifier_log.splitlines()
+                   if "error:" in line or line.startswith(("Fatal error:", "error:"))]
+    first = diagnostics[0] if diagnostics else None
     accepted = INTENDED_DIAGNOSTICS.get(mutation, ())
+    if mutation == "no_F":
+        # This mutation is classified only when the translator terminated at
+        # the interface stage and emitted one exact recognized refusal. A
+        # later unrelated diagnostic or a message that merely embeds the
+        # expected text must not turn another failure into the intended one.
+        if (translator.get("classification") != "TERMINAL" or
+                type(translator.get("exit")) is not int):
+            return {**result, "reason": "synthetic translator stage is not terminal",
+                    "stage": "interface", "exit": translator["exit"]}
+        if len(diagnostics) != 1:
+            return {**result, "reason": "expected exactly one no_F translator diagnostic",
+                    "stage": "interface", "exit": translator["exit"],
+                    "first_diagnostic": first, "diagnostic_count": len(diagnostics)}
+        match = (re.fullmatch(
+            r"verified/lib\.rs\([1-9][0-9]*,[1-9][0-9]*(?:-[1-9][0-9]*(?:,[1-9][0-9]*)?)?\): error: (.+)",
+            first) if first is not None else None)
+        message = match.group(1) if match else None
+        if translator["exit"] != 0 and message in accepted:
+            return {**result, "classification": "SYNTHETIC_REFUSAL_OBSERVED",
+                    "stage": "interface", "exit": translator["exit"],
+                    "first_diagnostic": first, "diagnostic_match": message,
+                    "summary_available": False}
+        return {**result, "reason": "observed terminal diagnostic differs from intended refusal",
+                "stage": "interface", "exit": translator["exit"],
+                "first_diagnostic": first}
     if translator["exit"] != 0 and first and any(text in first for text in accepted):
         return {**result, "classification": "SYNTHETIC_REFUSAL_OBSERVED",
                 "stage": "interface", "exit": translator["exit"],

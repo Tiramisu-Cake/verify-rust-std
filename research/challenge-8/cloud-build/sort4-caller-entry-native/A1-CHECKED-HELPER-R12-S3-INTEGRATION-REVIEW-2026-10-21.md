@@ -20,3 +20,19 @@ paths through the matrix and native-target classifiers, confirming
 `INCONCLUSIVE`, no record, no matrix pass, and no proof credit. The focused
 false31 lifecycle tests pass (4); the refreshed profile-binding tests pass
 (11); compilation and diff checks pass. **GO remains unchanged.**
+
+## N-no-F classifier follow-up
+
+The isolated `no_F` classifier now accepts only one terminal interface-stage
+diagnostic with an integer nonzero exit, an exact `verified/lib.rs` source
+locator, and a message equal to one of the two documented identity/generic
+guards. It rejects embedded or suffixed text, other paths, multiple errors,
+wrong stages, zero/bool exits, and use for a different mutation. The result
+remains `SYNTHETIC_REFUSAL_OBSERVED` with summary, compiler, refinement, and
+proof credit false. The S2 observation motivating the second exact guard is
+documented as a source-reported terminal translator refusal only; this change
+does not alter compiler inputs or claim parser-input binding. The current
+profile's synthetic-backend hash matches the reviewed module. The five
+synthetic controls pass; **GO remains unchanged**. P-dispatch is unaffected
+and remains independently inconclusive when its trace lacks the required
+owner/span evidence.
