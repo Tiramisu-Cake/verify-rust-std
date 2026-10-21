@@ -1,0 +1,69 @@
+{
+  "schema": "a1-r15-s4-independent-review-v1",
+  "reviewed_commit": "5fee780ca964a924b28d18605c14114b919ec678",
+  "reviewed_worktree": "/root/verify-rust-std-select-night",
+  "reviewer": "independent Luna HIGH static review",
+  "disposition": "GO_TO_EXISTING_CLOUD_PREFLIGHT",
+  "scope": [
+    "S4 profile and recipe dependency closure for the complete-body c1 recovery candidate",
+    "selector permutation source dependency and source-only negative control",
+    "source-bound const-pointer add deferral in the R15 translator overlay",
+    "four-copy source resource helper hash and selection",
+    "reviewed R15 tool and runner pins"
+  ],
+  "pins": {
+    "profile_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-BODY-R15-PROFILE-2026-10-21.json",
+    "profile_sha256": "a40e3b1724bc296330b239d53545b8bc6921b865285a0e20aad3ff8320ddab6c",
+    "recipe_path": "research/challenge-8/cloud-build/recipes/o26-sort4-c1-current-recovery.json",
+    "recipe_sha256": "9e02bc1ae940720d27f81d43e33fbe9e441e15c12332046f36d5832085c40117",
+    "actual_body_service_sha256": "82f2b81027f890ca465e1ed54ca02ce720ad008675a82985f2678f98df44f2ad",
+    "actual_body_c1_constructor_sha256": "bbdb07c5d132ed23d83d751bf8ec87df3d67709ff207b1b2a8a94fe9878ea124",
+    "four_copy_dependency_sha256": "7b81692132690c94e85e8062d1cf2e7565a35cecc29f2a21f5073bb4eb1d2e37",
+    "recovery_dependency_sha256": "7a28ae5734c5288ff466764e6645eff236f30c097a7951ebd086f5bb7f5eff72",
+    "selector_permutation_dependency_sha256": "83a1dafde130f412e16235312481b338a419f73805d3ec300d559e8f25dc7aca",
+    "tool_helper_sha256": "ef811a6c22c128c6ec55343b4b4de8d67b9b91956aa771b1dc5123d2f299cdc4",
+    "entry_sha256": "8961bb009b08ad307a594bf573c1eb6f4810c019e1953ea3433d88433b486a45",
+    "runner_sha256": "319642a716602fda8d5bc54864f1aa02bc275a9a659e9c9e58bdbed8de7f14e4",
+    "c1_overlay_manifest_sha256": "ef6c8a8cd352becac487c89a98569b6310c22c17b2fe083ba20417823c74f3ab",
+    "c1_overlay_patch_sha256": "0ffb4fb9ea713ab58871ced508f537ba0ec7de01b7cca85fe41b7e327ebddeda",
+    "c1_overlay_result_sha256": "9155f51bc421b74bb4736887f919087c37504969d3bd5b8e539f822daa9194d5",
+    "merge_fractions_manifest_sha256": "c529a3a45dc78a3f6f914d55f4e2e6cca29b7383f69827db1e20904d2db4b43b",
+    "merge_fractions_patch_sha256": "f08f1c391aa62e6cbeb0ad80e73958b1b6dcfd38f40b3d7d87802d12c4a534ba",
+    "merge_fractions_result_sha256": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94"
+  },
+  "review": {
+    "profile_and_recipe": "S4 profile pins the actual-body constructor, four-copy dependency, checked recovery dependency, selector permutation source, tool, both overlay manifests, and overlay patches. The recipe includes the selector source, four-copy source, recovery source, and both overlays. The runner chooses a1-actual-four-copy.rs for full-body-c1-recovery; the legacy a1-actual-copy-lemma.rs pin is not loaded by this action and is not transported.",
+    "selector_permutation": "Independent static enumeration confirms all 32 asserted Boolean cases agree with the lemma equations and yield a permutation of indices 0..3. The impossible imin==4 control has the positive lemma as a prerequisite. The lemma proves only arbitrary Boolean/index algebra; actual comparator branch, pointer, and source-index binding remains open.",
+    "translator_overlay": "The R15 opt-in defers the pending callback marker only for the exact typed const-pointer add operation with literal one, the pinned c1 source coordinate, and zero prior callback/add counts. It keeps the original add translation and successor handling; the original checked FnMut/Continue/normal-successor path then requires exactly one add. No runtime body cut or replacement was found. Exact compiler/MIR applicability still requires the authorized Cloud source-pair run.",
+    "four_copy": "The pinned resource helper includes the reviewed append_assoc and append_take_drop_n normalization sequence after array joins. Static algebra normalizes the nested take/drop list back to the source values. Runtime calls and owner contracts are unchanged; the duplicate-owner negative still requests an extra foreach owner.",
+    "tool_pins": "R15 tool requires both translator overlays for full-body-c1-recovery, pins their manifests, patches, and result hashes, and keeps proof_credit false. Profile and reviewed source dependency hashes match current bytes."
+  },
+  "transport_observation": {
+    "status": "PASS_REPORTED_BY_COORDINATOR",
+    "bytes": 570912,
+    "cap_bytes": 571567,
+    "objects": 171,
+    "infra_paths": 20,
+    "proof_paths": 117,
+    "byte_equal_restore": true,
+    "token_configs": [27964, 27964, 27980],
+    "submissions": 200,
+    "source": "parent-provided S4 transport audit; not independently rerun in this review"
+  },
+  "service_and_registration_checks": {
+    "status": "PASS_REPORTED_BY_COORDINATOR",
+    "service_cases": 23,
+    "registration_cases": 10,
+    "source": "parent-provided test summary; not independently rerun in this review"
+  },
+  "remaining_limits": [
+    "This is static preflight approval only; no compiler, exporter, proof, extraction, or build was run by this reviewer.",
+    "The const-pointer add function identity, MIR call shape, and pinned coordinate still require confirmation in the authorized Cloud source-pair/MIR run.",
+    "The selector lemma does not establish correspondence between its arbitrary Boolean/index variables and sort4_stable's actual comparator branches or pointers.",
+    "The full sort4 body and remaining comparator calls, caller transfer, ZST/open-array qualification, and complete matrix remain unproved.",
+    "Profile proof_credit remains false and profile_accepted remains false; this review does not claim proof acceptance or credit."
+  ],
+  "proof_credit": false,
+  "profile_accepted": false,
+  "verification_accepted": false
+}
