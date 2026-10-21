@@ -701,12 +701,12 @@ def _raw_local_caller_suffixes(old):
     original = _one(old.WRAPPER_RUNTIME, b'let begin = values.as_mut_ptr();',
                      b'let begin = &raw mut values as *mut u64;',
                      'raw local array data-pointer derivation')
-    before_call = (b'    /*@ assert array::<u64>(begin, 3, ?r16_current);\n'
+    before_call = (b'    /*@ { assert array::<u64>(begin, 3, ?r16_current);\n'
                    b'        r9_make_u64_owners(t, r16_current);\n'
-                   b'        array_inv::<u64>(); @*/\n')
-    after_call = (b'    /*@ assert array::<u64>(begin, 3, ?r16_normal_current);\n'
+                   b'        array_inv::<u64>(); } @*/\n')
+    after_call = (b'    /*@ { assert array::<u64>(begin, 3, ?r16_normal_current);\n'
                   b'        r9_drop_u64_owners(t, r16_normal_current);\n'
-                  b'        array_to_array_(begin); @*/\n')
+                  b'        array_to_array_(begin); } @*/\n')
     verified_runtime = _one(original, b'    insert_tail(begin, begin.add(2), is_less);\n',
         before_call + b'    insert_tail(begin, begin.add(2), is_less);\n' + after_call,
         'raw caller checked current ownership and normal local cleanup')

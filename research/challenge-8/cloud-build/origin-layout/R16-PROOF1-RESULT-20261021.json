@@ -47,7 +47,14 @@
     "R16-PROOF1-R9-CASES-20261021.json",
     "R16-PROOF1-R9-DUPLICATE-CLASS-20261021.json",
     "R16-PROOF1-R9-WRONGORIGIN-CLASS-20261021.json",
-    "R16-PROOF1-BODY-TARGET-LOCATE-20261021.json"
+    "R16-PROOF1-BODY-TARGET-LOCATE-20261021.json",
+    "R16-PROOF1-BODY-RESUME-LOCATE-20261021.json",
+    "R16-PROOF1-BODY-RESUME-LINES-20261021.json",
+    "R16-PROOF1-BODY-RESUME-ARRAY-LOCATE-20261021.json",
+    "R16-PROOF1-BODY-RESUME-ARRAY-LINE-20261021.json",
+    "R16-PROOF1-BODY-DROP-RECOVER-LOCATE-20261021.json",
+    "R16-PROOF1-BODY-DROP-RECOVER-LOCATE-FULLSCOPE-20261021.json",
+    "R16-PROOF1-BODY-DROP-CLEANUP-LINE-20261021.json"
   ],
   "body_unit_stage_receipts_admitted": true,
   "body_unit_completion_source": "0 errors found (642 statements verified) (target: x86_64-unknown-linux-gnu (LP64))",
@@ -55,5 +62,27 @@
   "r9_classifier_regression": {
     "duplicate_marker": "EXPECTED_ADMISSION_REJECTION",
     "wrongorigin": "EXPECTED_RESOURCE_REFUSAL"
+  },
+  "resume_observation": {
+    "function": "insert_tail",
+    "mir_phase": "Runtime(PostCleanup)",
+    "mir_fingerprint": "93444cb5ae5dc077",
+    "block": 161,
+    "cleanup": true,
+    "outcome": "unwinding",
+    "heap_at_resume": "foreach and physical array(begin,3) have identical CURRENT cons(value7,cons(value6,cons(r11_middle_current,nil)))",
+    "proof_scope": "SOURCE_OBSERVATIONS_NOT_INDEPENDENT_CREDIT"
+  },
+  "cleanup_selected_drop_observation": {
+    "block": 160,
+    "cleanup": true,
+    "outcome": "returning",
+    "recovery": "complete",
+    "normal_target": 161,
+    "unwind": "terminate",
+    "selected": "<CopyOnDrop as core::ops::Drop>::drop",
+    "selected_hash": "DefPathHash(Fingerprint(12908149020305531562, 11549365108250137374))",
+    "generated_key": "__vf_generated_drop_glue",
+    "scope": "exact source event, same def_hash/MIR fingerprint as Resume event; independent proof credit0"
   }
 }

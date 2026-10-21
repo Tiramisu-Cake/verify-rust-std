@@ -140,6 +140,19 @@ class BodyIsolationTests(unittest.TestCase):
         result.update(overrides)
         return result
 
+    def test_raw_caller_multi_command_annotations_are_explicit_ghost_blocks(self):
+        original, verified = campaign._raw_local_caller_suffixes(self.body_source)
+        before = (b'    /*@ { assert array::<u64>(begin, 3, ?r16_current);\n'
+                  b'        r9_make_u64_owners(t, r16_current);\n'
+                  b'        array_inv::<u64>(); } @*/\n')
+        after = (b'    /*@ { assert array::<u64>(begin, 3, ?r16_normal_current);\n'
+                 b'        r9_drop_u64_owners(t, r16_normal_current);\n'
+                 b'        array_to_array_(begin); } @*/\n')
+        self.assertEqual(verified.count(before), 1)
+        self.assertEqual(verified.count(after), 1)
+        self.assertIn(before + b'    insert_tail(begin, begin.add(2), is_less);\n' + after, verified)
+        self.assertTrue(campaign._body_runtime_equal(original, verified))
+
     def test_exact_suffix_removed_and_body_posts_preserved(self):
         case, record = self.isolate()
         self.assertEqual((case / "original/lib.rs").read_bytes(), self.body_original)

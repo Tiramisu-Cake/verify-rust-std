@@ -1,0 +1,76 @@
+{
+  "archive_sha256": "8517e659e1eab76137cc47d89476e318115eb49ecb1ebfabfad0b1917b7bd6e5",
+  "build_id": "3e0fba25-fc12-487d-8e38-520f2e02a4ea",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 27,
+  "complete": false,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "12372a912e8e4f70f3e1bbf8d78314102aa15c37164af262f8a035d4d0bea459",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/guard-array-controls/aggregate.json",
+  "file_sha256": "8504bd9de2eff0cd0484e3ad1faa90ac24063209b35de324533d01016a441c53",
+  "index_sha256": "ff6c56182d42279befbe8a1632b5270a79b2c62d86fee0a76db561520088cf50",
+  "next_offset": null,
+  "offset": 20,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "8504bd9de2eff0cd0484e3ad1faa90ac24063209b35de324533d01016a441c53",
+    "file_id": "12372a912e8e4f70f3e1bbf8d78314102aa15c37164af262f8a035d4d0bea459",
+    "offset": 20,
+    "pointer": "/case_details/array3_slice_full_borrow_roundtrip"
+  },
+  "request_id": "dd5f2f8d24e51f4347121b8f038997347c2e5d000819668496460501e00e46d9",
+  "results": [
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/case_details/array3_slice_full_borrow_roundtrip/source_gate"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/case_details/array3_slice_full_borrow_roundtrip/source_unchanged_at_every_stage",
+      "value": true
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/case_details/array3_slice_full_borrow_roundtrip/stage_gate"
+    },
+    {
+      "child_count": 4,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/case_details/array3_slice_full_borrow_roundtrip/stages"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/case_details/array3_slice_full_borrow_roundtrip/target"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/case_details/array3_slice_full_borrow_roundtrip/target_executed",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/case_details/array3_slice_full_borrow_roundtrip/verified_sha256",
+      "value": "3e2c4a19ad5241950cb1ea1ac6c8a67f957f8668af4c4ca1fd195b11ce7a99e5"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

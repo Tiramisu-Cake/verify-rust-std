@@ -1,0 +1,45 @@
+{
+  "archive_sha256": "37667122c4787b85897c3614df86f4eb06189a11eca299f1026326b4944d7fa2",
+  "build_id": "e2c971ba-ab62-4cd9-a193-3d4f98797cd7",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 640,
+      "EMPTY_FILE": 20,
+      "JSON_EXCEEDS_SCAN_LIMIT": 6,
+      "PROJECTED": 604,
+      "SCAN_BUDGET_EXCEEDED": 1022,
+      "UNSUPPORTED_FILE_TYPE": 1449
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2088938,
+    "content_files": 630,
+    "files": 3741,
+    "source_scan_bytes": 8388608
+  },
+  "index_sha256": "d09966cbe96ee752027ac828d9e94f02d0c7b29bc988f65d371941afe49cdbf3",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "9f7eba375f6cf09267392128f733f3e3807dc27f51917c7cbd2bdf9185053952",
+      "kind": "text",
+      "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/raw_local_caller/cases/actual_three_from_local_raw/verifast.log",
+      "path_sanitized": false,
+      "scanned_bytes": 0,
+      "sha256": "b4aef97e8f197027755c806539d0fffbea20bcb55c4a404031a1357fdfe0d8cc",
+      "size_bytes": 3027,
+      "status": "SCAN_BUDGET_EXCEEDED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 3741,
+    "files_with_incomplete_content": 3654,
+    "matches_in_retained_data": 1,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

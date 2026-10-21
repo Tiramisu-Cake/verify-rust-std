@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "37667122c4787b85897c3614df86f4eb06189a11eca299f1026326b4944d7fa2",
+  "build_id": "e2c971ba-ab62-4cd9-a193-3d4f98797cd7",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 12,
+    "line_separator": "LF",
+    "source_lines": 182,
+    "start": 1,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "f4b1360c907176219f34fdd6d700570c4865fe60a9b8ae38f9aaeb6770107101",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/raw_local_caller/cases/actual_three_from_local_raw/refinement.out",
+  "file_sha256": "759aa5639af52b0abdbef5e2e42441afc1346e80ad3d71fe47cbca0512b02e4f",
+  "index_sha256": "d09966cbe96ee752027ac828d9e94f02d0c7b29bc988f65d371941afe49cdbf3",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 12,
+    "expected_sha256": "759aa5639af52b0abdbef5e2e42441afc1346e80ad3d71fe47cbca0512b02e4f",
+    "file_id": "f4b1360c907176219f34fdd6d700570c4865fe60a9b8ae38f9aaeb6770107101",
+    "start": 1
+  },
+  "request_id": "b5b136414d978333f3e6e62d3543c55fa059a44aa8130b9d3ecdd6a4efddb74b",
+  "requested_end": 12,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1,
+      "text": "ERROR: While checking that the command at 0:10 in the original program refines the command at 0:10 in the verified program: RawPtr: not yet supported"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2,
+      "text": "======== Commands of basic block 0 of original program ========"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3,
+      "text": "  0: SourceInfo original/lib.rs:60:9-19"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 4,
+      "text": "  1: SourceInfo original/lib.rs:60:22-45"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 5,
+      "text": "  2: Constant 10u8"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 6,
+      "text": "  3: Constant 20u8"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7,
+      "text": "  4: Constant 5u8"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 8,
+      "text": "  5: Aggregate array(<ty>) 3"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 9,
+      "text": "  6: Store mut _2"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 10,
+      "text": "  7: SourceInfo original/lib.rs:61:9-14"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 11,
+      "text": "  8: SourceInfo original/lib.rs:61:17-32"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 12,
+      "text": "  9: SourceInfo original/lib.rs:61:17-32"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

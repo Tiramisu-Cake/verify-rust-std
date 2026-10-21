@@ -1,0 +1,80 @@
+{
+  "archive_sha256": "2cb95b9af268b3ee439be0e54f6895e9ee21f6c68f9aa8f05b2eafdd2b26648f",
+  "build_id": "9487d6d1-14aa-4370-bc0b-7ac57279fb7b",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": true,
+  "content_filtered": false,
+  "coordinate_bases": {
+    "ends": "exclusive",
+    "line_separator": "LF",
+    "lines": 1,
+    "offsets": 0,
+    "unicode_columns": 1
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "f73efa4580e7d906a140bf5d78522ad9b0057ab774688612851bf06c2e0883af",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/body_isolation/cases/actual_insert_tail_body_isolated/verifast.log",
+  "file_sha256": "19c3f0adaf227e71a64fa1d03b5880d446296c9e6d6543bd3efbe0efebc471b3",
+  "index_sha256": "d5061e1aa5ebde7e935ba2c89d91ee961e66b08c1b59ccf2671606a9389853ab",
+  "match_mode": "CASE_SENSITIVE_LITERAL",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "LITERAL_COORDINATES_ONLY",
+  "request": {
+    "expected_sha256": "19c3f0adaf227e71a64fa1d03b5880d446296c9e6d6543bd3efbe0efebc471b3",
+    "file_id": "f73efa4580e7d906a140bf5d78522ad9b0057ab774688612851bf06c2e0883af",
+    "literal": "kind=selected_drop outcome=returning recovery=complete"
+  },
+  "request_id": "b5bde9f0a76c14917066c2768d24eb492b9318bd82d59ce7d9fbe1c78f859667",
+  "results": [
+    {
+      "column": 301,
+      "end_column_exclusive": 355,
+      "end_line": 2369,
+      "line": 2369,
+      "unicode_end_exclusive": 276073,
+      "unicode_start": 276019,
+      "utf8_byte_end_exclusive": 276073,
+      "utf8_byte_start": 276019
+    },
+    {
+      "column": 302,
+      "end_column_exclusive": 356,
+      "end_line": 2762,
+      "line": 2762,
+      "unicode_end_exclusive": 324258,
+      "unicode_start": 324204,
+      "utf8_byte_end_exclusive": 324258,
+      "utf8_byte_start": 324204
+    },
+    {
+      "column": 302,
+      "end_column_exclusive": 356,
+      "end_line": 3212,
+      "line": 3212,
+      "unicode_end_exclusive": 382966,
+      "unicode_start": 382912,
+      "utf8_byte_end_exclusive": 382966,
+      "utf8_byte_start": 382912
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "search_scope": {
+    "kind": "whole-file",
+    "unicode_end_exclusive": 409796,
+    "unicode_start": 0,
+    "utf8_byte_end_exclusive": 409796,
+    "utf8_byte_start": 0
+  },
+  "source_absence_established": false,
+  "source_bytes": 409796,
+  "source_codepoints": 409796,
+  "source_lines": 3420,
+  "status": "OK",
+  "truncated": false
+}

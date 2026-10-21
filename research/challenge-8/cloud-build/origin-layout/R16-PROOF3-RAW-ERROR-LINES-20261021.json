@@ -1,0 +1,81 @@
+{
+  "archive_sha256": "37667122c4787b85897c3614df86f4eb06189a11eca299f1026326b4944d7fa2",
+  "build_id": "e2c971ba-ab62-4cd9-a193-3d4f98797cd7",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 164,
+    "line_separator": "LF",
+    "source_lines": 164,
+    "start": 158,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "9f7eba375f6cf09267392128f733f3e3807dc27f51917c7cbd2bdf9185053952",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/raw_local_caller/cases/actual_three_from_local_raw/verifast.log",
+  "file_sha256": "b4aef97e8f197027755c806539d0fffbea20bcb55c4a404031a1357fdfe0d8cc",
+  "index_sha256": "d09966cbe96ee752027ac828d9e94f02d0c7b29bc988f65d371941afe49cdbf3",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 164,
+    "expected_sha256": "b4aef97e8f197027755c806539d0fffbea20bcb55c4a404031a1357fdfe0d8cc",
+    "file_id": "9f7eba375f6cf09267392128f733f3e3807dc27f51917c7cbd2bdf9185053952",
+    "start": 158
+  },
+  "request_id": "6f3393501228f46b3aca7f40bc4f04be0d245fce2f8f44b36e9336801f4fb81f",
+  "requested_end": 164,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 158,
+      "text": ""
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 159,
+      "text": ""
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 160,
+      "text": ""
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 161,
+      "text": ""
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 162,
+      "text": "verified/lib.rs(443,9-27): error: Parse error: Parse error."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 163,
+      "text": "443 |         r9_make_u64_owners(t, r16_current);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 164,
+      "text": "    |         ^^^^^^^^^^^^^^^^^^"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

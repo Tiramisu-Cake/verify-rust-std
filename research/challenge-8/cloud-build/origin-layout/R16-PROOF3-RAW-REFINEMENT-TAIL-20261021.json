@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "37667122c4787b85897c3614df86f4eb06189a11eca299f1026326b4944d7fa2",
+  "build_id": "e2c971ba-ab62-4cd9-a193-3d4f98797cd7",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 182,
+    "line_separator": "LF",
+    "source_lines": 182,
+    "start": 171,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "f4b1360c907176219f34fdd6d700570c4865fe60a9b8ae38f9aaeb6770107101",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/raw_local_caller/cases/actual_three_from_local_raw/refinement.out",
+  "file_sha256": "759aa5639af52b0abdbef5e2e42441afc1346e80ad3d71fe47cbca0512b02e4f",
+  "index_sha256": "d09966cbe96ee752027ac828d9e94f02d0c7b29bc988f65d371941afe49cdbf3",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 182,
+    "expected_sha256": "759aa5639af52b0abdbef5e2e42441afc1346e80ad3d71fe47cbca0512b02e4f",
+    "file_id": "f4b1360c907176219f34fdd6d700570c4865fe60a9b8ae38f9aaeb6770107101",
+    "start": 171
+  },
+  "request_id": "8b1393f77f67bfbe461ad29d0d2dcff7edd3b07d04622319b362550776001b49",
+  "requested_end": 182,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 171,
+      "text": " 16: SourceInfo verified/lib.rs:441:43-44"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 172,
+      "text": " 17: SourceInfo verified/lib.rs:445:5-46"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 173,
+      "text": " 18: SourceInfo verified/lib.rs:445:17-22"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 174,
+      "text": " 19: SourceInfo verified/lib.rs:445:17-22"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 175,
+      "text": " 20: LoadLocal _3"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 176,
+      "text": " 21: Store mut _6"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 177,
+      "text": " 22: SourceInfo verified/lib.rs:445:24-36"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 178,
+      "text": " 23: SourceInfo verified/lib.rs:445:24-29"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 179,
+      "text": " 24: SourceInfo verified/lib.rs:445:24-29"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 180,
+      "text": " 25: LoadLocal _3"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 181,
+      "text": " 26: Store mut _8"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 182,
+      "text": ""
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

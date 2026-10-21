@@ -21,7 +21,7 @@
   "original_blocker": "Placeholders are not allowed here: original full441/prefix249 values.as_mut_ptr()",
   "r9_controls": "ALL_INTENDED_R11_GUARD_RETURN_CONTROLS_MATCHED",
   "array_controls": "5positivePASS/6negativeEXPECTED (11 total)",
-  "borrow_roundtrip": "checked u64 full_borrow content bridge positive passed as source-classified",
+  "borrow_roundtrip": "PASS_CONTROL; target_executed true; source_unchanged_at_every_stage true; existing lifetime/fullborrow authority required; no actual std proof credit",
   "raw_local_caller": "INCONCLUSIVE at phase prepare; verifier_target_observed false",
   "raw_exception": "ValueError: raw caller requires the already checked current-u64 owner lemmas in the selected profile",
   "raw_cause_hypothesis": "Confirmed exact boundary: wrapper suffix consumes one terminal newline of helper constant. Exact Reader lines426\u2013428 corroborate; corrected fixture/service gate independently reviewed.",
@@ -37,6 +37,16 @@
     "R16-PROOF2-RAW-EXCEPTION-20261021.json",
     "R16-PROOF2-PARENT-SOURCE-CATALOGUE-20261021.json",
     "R16-PROOF2-HELPER-BOUNDARY-LOCATE-20261021.json",
-    "R16-PROOF2-HELPER-BOUNDARY-LINES-20261021.json"
-  ]
+    "R16-PROOF2-HELPER-BOUNDARY-LINES-20261021.json",
+    "R16-PROOF2-ARRAY-CATALOGUE-20261021.json",
+    "R16-PROOF2-BORROW-POSITIVE-20261021.json",
+    "R16-PROOF2-BORROW-POSITIVE-PAGE2-20261021.json",
+    "R16-PROOF2-BORROW-STAGES-20261021.json"
+  ],
+  "borrow_roundtrip_stages": {
+    "exporter": 0,
+    "decode": 0,
+    "refinement": 0,
+    "verifast": 0
+  }
 }
