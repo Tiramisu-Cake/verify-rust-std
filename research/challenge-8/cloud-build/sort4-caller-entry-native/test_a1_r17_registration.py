@@ -119,6 +119,8 @@ class R17Registration(unittest.TestCase):
         self.assertLess(lane.index(PHASE), lane.index("SORT4-ACTUAL-LIFETIME-2026-10-21-R16"))
         self.assertIn("a1-entry-r17.py", lane)
         recipe = json.loads((CLOUD / "recipes/o26-sort4-c1-current-recovery.json").read_text())
+        for kind in ("proof_paths", "infra_paths"):
+            self.assertEqual(recipe[kind], sorted(set(recipe[kind])))
         for path in ("A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json",
                      "a1-actual-body-r17.py", "a1-actual-body-c1.py",
                      "a1-actual-four-copy.rs", "a1-actual-recover-pair.rs",
