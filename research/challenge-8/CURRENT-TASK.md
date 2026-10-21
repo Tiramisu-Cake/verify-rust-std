@@ -2,7 +2,7 @@
 
 ## Авторизация и рабочее место
 
-- **ID:** `merge-archive-size-upload-recovery-2026-10-21-r13`; **статус:** READY, T0 ещё не задан.
+- **ID:** `merge-archive-size-upload-recovery-2026-10-21-r13`; **статус:** RUNNING, T0 `2026-10-21T12:10:26Z`.
 - **Owner:** `merge`; **project worktree:** `/root/verify-rust-std-merge-origin`; **branch:** `merge/incoming-origin-20261009`; **репозиторий:** `Tiramisu-Cake/verify-rust-std`.
 - **Tool worktree:** `/root/verifast-merge-actual-glue`; branch `merge/actual-glue-instance-20261011`, expected head **`660b576b6b1608db913c51e0785b443a8733396f`**. Tool/model/spec/invariant этим заданием не меняются.
 - **Новое окно:** 120 минут основной работы + до30 минут завершения. T0 при фактическом старте после чтения; main=T0+120мин, absolute=T0+150мин. Запиши в session, новый ledger и текущий статус.
@@ -60,4 +60,10 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-Не начато. При старте зафиксируй T0 и план; по завершении замени этот раздел одним компактным итогом.
+T0 `2026-10-21T12:10:26Z`, main `14:10:26Z`, absolute `14:40:26Z`.
+Fresh3600/used0/carryfalse; прежние R12/R11/retry CLOSED не возобновляются.
+План: явно новый R13 producer256MiB + stat готового compressed archive до uploads;
+service границы/metadata/error-path checks; independent Luna HIGH review;
+отдельный syntheticCloud -> доступный Brief/inventory gate -> unchanged R11 normalretry.
+Tool660b/profileeb61 и исходные158 normal-proof files сохраняются.
+Builds0; fulltargetgates0/acceptedfalse/credit0/B2OPEN.

@@ -28,9 +28,10 @@ def invoke(args):
  if p.returncode:raise RuntimeError(p.stderr.strip())
  return json.loads(p.stdout) if p.stdout.strip() else None
 
-def envs(infra,proof,lane):return [f'INFRA_SHA={infra}',f'PROOF_SHA={proof}',f'LANE={lane}',f'PROOF_IMAGE={UBUNTU}','CLOUD_BUILD_ID=${BUILD_ID}','CLOUD_BUILD_PROJECT_ID=${PROJECT_ID}','CLOUD_BUILD_REGION=global','SMALLSORT_EXECUTION_PROVIDER=cloud-build','SUBMITTED_CONFIG_SHA=${_CONFIG_SHA}',] + [f'CONFIG_PART_{i}=${{_CONFIG_{i}}}' for i in range(8)]
+def envs(infra,proof,lane,r13_required=False):return [f'INFRA_SHA={infra}',f'PROOF_SHA={proof}',f'LANE={lane}',f'PROOF_IMAGE={UBUNTU}',f'R13_UPLOAD_REQUIRED={"true" if r13_required else "false"}','CLOUD_BUILD_ID=${BUILD_ID}','CLOUD_BUILD_PROJECT_ID=${PROJECT_ID}','CLOUD_BUILD_REGION=global','SMALLSORT_EXECUTION_PROVIDER=cloud-build','SUBMITTED_CONFIG_SHA=${_CONFIG_SHA}',] + [f'CONFIG_PART_{i}=${{_CONFIG_{i}}}' for i in range(8)]
 
-def config(infra,proof,lane,seconds,token,source_payload=None):
+def config(infra,proof,lane,seconds,token,source_payload=None,r13_required=False):
+ if type(r13_required) is not bool:raise ValueError('R13 upload-required selection must be boolean')
  work_seconds=seconds-70
  work='''set -euo pipefail
  export DEBIAN_FRONTEND=noninteractive
@@ -93,6 +94,18 @@ exit 0
  package=base64.b64encode(gzip.compress((DIR/'package-evidence.py').read_bytes(),mtime=0)).decode()
  upload='''set -euo pipefail
 export CLOUDSDK_STORAGE_PARALLEL_COMPOSITE_UPLOAD_ENABLED=False
+r13_required="${R13_UPLOAD_REQUIRED:-false}"
+r13_card=/workspace/proof/research/challenge-8/cloud-build/origin-layout/R13-UPLOAD-MODE-20261021.json
+if [[ "$r13_required" != true && "$r13_required" != false ]]; then
+ printf 'invalid R13 upload-required marker\\n' >&2
+ exit 2
+fi
+if [[ "$r13_required" == true ]]; then
+ [[ -f "$r13_card" && ! -L "$r13_card" ]] || {
+  printf 'R13 upload is required but its selected mode card is missing or unsafe\\n' >&2
+  exit 2
+ }
+fi
 mkdir -p /workspace/cloudsdk/configurations
 printf '[core]\\nproject = smallsort-ci\\naccount = ACCOUNT\\n' > /workspace/cloudsdk/configurations/config_smallsort-ci
 export CLOUDSDK_CONFIG=/workspace/cloudsdk
@@ -108,9 +121,14 @@ p=pathlib.Path('/workspace/evidence/allprooflogs');p.mkdir(parents=True,exist_ok
 POLICY
 printf '%s' PACKAGE_B64 | base64 --decode | gzip --decompress > /workspace/package-evidence.py
 SDK_PYTHON /workspace/package-evidence.py --evidence /workspace/evidence --out /workspace/out
+if [[ -e "$r13_card" || -L "$r13_card" ]]; then
+ SDK_PYTHON /workspace/proof/research/challenge-8/cloud-build/origin-layout/r13-archive-size-guard.py --archive /workspace/out/evidence.tar.gz --mode-card "$r13_card" --policy /workspace/evidence/allprooflogs/upload-policy.json --diagnostic /workspace/out/archive-size-check.json
+fi
 prefix="BUCKET/$CLOUD_BUILD_ID"
 export SMALLSORT_UPLOAD_STARTED_NS="$(date +%s%N)"
-for file in evidence.tar.gz archive.sha256 summary.json manifest.json files-sha256.json submitted-config.json text-logs-index.json; do
+publication_files=(evidence.tar.gz archive.sha256 summary.json manifest.json files-sha256.json submitted-config.json text-logs-index.json)
+if [[ -f /workspace/out/archive-size-check.json ]]; then publication_files+=(archive-size-check.json); fi
+for file in "${publication_files[@]}"; do
  if [[ "$file" == evidence.tar.gz ]]; then export SMALLSORT_ARCHIVE_UPLOAD_STARTED_NS="$(date +%s%N)"; fi
  gcloud --configuration=smallsort-ci --account=ACCOUNT --project=smallsort-ci storage cp --if-generation-match=0 "/workspace/out/$file" "$prefix/$file"
  if [[ "$file" == evidence.tar.gz ]]; then export SMALLSORT_ARCHIVE_UPLOAD_FINISHED_NS="$(date +%s%N)"; fi
@@ -122,7 +140,9 @@ p=pathlib.Path('/workspace/out')
 h=(p/'archive.sha256').read_text().split()[0]
 size=(p/'evidence.tar.gz').stat().st_size
 duration=(int(os.environ['SMALLSORT_ARCHIVE_UPLOAD_FINISHED_NS'])-int(os.environ['SMALLSORT_ARCHIVE_UPLOAD_STARTED_NS']))/1e9
-(p/'upload-complete.json').write_text(json.dumps({'build_id':os.environ['CLOUD_BUILD_ID'],'archive_sha256':h,'uploaded':True,'text_logs_index_sha256':__import__('hashlib').sha256((p/'text-logs-index.json').read_bytes()).hexdigest(),'archive_size_bytes':size,'archive_upload_seconds':duration,'archive_upload_bytes_per_second':size/duration if duration>0 else None,'pre_marker_upload_seconds':(time.time_ns()-int(os.environ['SMALLSORT_UPLOAD_STARTED_NS']))/1e9,'prerequisite_uploader_exit_code':0,'parallel_composite_upload_enabled':os.environ['CLOUDSDK_STORAGE_PARALLEL_COMPOSITE_UPLOAD_ENABLED']},indent=2)+'\\n')
+guard_path=p/'archive-size-check.json'
+guard=json.loads(guard_path.read_text()) if guard_path.is_file() else None
+(p/'upload-complete.json').write_text(json.dumps({'build_id':os.environ['CLOUD_BUILD_ID'],'archive_sha256':h,'uploaded':True,'text_logs_index_sha256':__import__('hashlib').sha256((p/'text-logs-index.json').read_bytes()).hexdigest(),'archive_size_bytes':size,'archive_upload_seconds':duration,'archive_upload_bytes_per_second':size/duration if duration>0 else None,'pre_marker_upload_seconds':(time.time_ns()-int(os.environ['SMALLSORT_UPLOAD_STARTED_NS']))/1e9,'prerequisite_uploader_exit_code':0,'parallel_composite_upload_enabled':os.environ['CLOUDSDK_STORAGE_PARALLEL_COMPOSITE_UPLOAD_ENABLED'],'archive_size_guard':guard,'archive_size_guard_sha256':__import__('hashlib').sha256(guard_path.read_bytes()).hexdigest() if guard_path.is_file() else None},indent=2)+'\\n')
 RECEIPT
 gcloud --configuration=smallsort-ci --account=ACCOUNT --project=smallsort-ci storage cp --if-generation-match=0 /workspace/out/upload-complete.json "$prefix/upload-complete.json"
 touch /workspace/upload.ok
@@ -137,7 +157,7 @@ try:
 except Exception as e:
  print('INCOMPLETE_EVIDENCE',type(e).__name__,str(e));sys.exit(2)
 '''
- return {'steps':[{'id':'execute','name':UBUNTU,'entrypoint':'bash','args':['-ceu',body],'env':envs(infra,proof,lane)+source_env,'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane)+['PACKAGER_BYTES='+package],'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':SDK_PYTHON,'args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':{'machineType':'E2_STANDARD_2','logging':'CLOUD_LOGGING_ONLY'},'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder',**{f'_CONFIG_{i}':'placeholder' for i in range(8)},**{f'_SOURCE_{i}':part for i,part in enumerate(source_parts)}}}
+ return {'steps':[{'id':'execute','name':UBUNTU,'entrypoint':'bash','args':['-ceu',body],'env':envs(infra,proof,lane,r13_required)+source_env,'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane,r13_required)+['PACKAGER_BYTES='+package],'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':SDK_PYTHON,'args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':{'machineType':'E2_STANDARD_2','logging':'CLOUD_LOGGING_ONLY'},'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder',**{f'_CONFIG_{i}':'placeholder' for i in range(8)},**{f'_SOURCE_{i}':part for i,part in enumerate(source_parts)}}}
 
 def reconcile(state,ledger,ledger_path):
  for item in ledger['builds']:
@@ -254,7 +274,7 @@ def r12_upload_mode(proof_sha):
  return card['mode']
 
 
-def r12_runtime_inventory(commit):
+def r12_runtime_inventory(commit,mutable_paths=None):
  # Resolve exactly the same closure as the pinned-object source transport.
  spec=importlib.util.spec_from_file_location('r12_pinned_source',DIR/'source-input.py')
  source=importlib.util.module_from_spec(spec);spec.loader.exec_module(source)
@@ -264,6 +284,7 @@ def r12_runtime_inventory(commit):
  allowed_mutable={
   'research/challenge-8/cloud-build/origin-layout/R12-UPLOAD-MODE-20261021.json',
   'research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R12-UPLOAD-BUDGET-20261021.json'}
+ if mutable_paths is not None:allowed_mutable=set(mutable_paths)
  proof_paths=[p for p in recipe['proof_paths'] if p not in allowed_mutable and not p.endswith('.md')]
  paths=sorted(set(proof_paths+recipe['infra_paths']+source.infra_paths(ROOT,commit)+[recipe_path]))
  raw=subprocess.check_output(['git','ls-tree','-r','-z',commit,'--',*paths],cwd=ROOT)
@@ -285,6 +306,39 @@ def r12_validate_retry_sources(probe_sha,proof_sha):
  after_recipe,after=r12_runtime_inventory(proof_sha)
  if before_recipe!=after_recipe or before!=after:
   raise SystemExit('R12 proof retry differs from the synthetic-gated runtime/publication source closure')
+
+
+def r13_upload_mode(proof_sha):
+ if not isinstance(proof_sha,str) or not re.fullmatch('[0-9a-f]{40}',proof_sha):
+  raise SystemExit('R13 requires a full selected source SHA')
+ try:
+  raw=subprocess.check_output(['git','show',proof_sha+':research/challenge-8/cloud-build/origin-layout/R13-UPLOAD-MODE-20261021.json'],cwd=ROOT,stderr=subprocess.PIPE)
+  card=json.loads(raw)
+ except (subprocess.CalledProcessError,ValueError,UnicodeDecodeError):
+  raise SystemExit('R13 selected source lacks a valid mode card')
+ if not isinstance(card,dict) or card.get('schema')!='merge-r13-upload-mode-v1':
+  raise SystemExit('R13 selected mode schema differs')
+ if card.get('mode')=='proof-r11':
+  if set(card)!={'schema','mode','archive_limit_bytes'} or type(card.get('archive_limit_bytes')) is not int or card['archive_limit_bytes']!=536870912:
+   raise SystemExit('R13 proof mode must preserve the exact archive cap')
+ elif card.get('mode')=='synthetic-upload':
+  expected={'schema':'merge-r13-upload-mode-v1','mode':'synthetic-upload','payload_bytes':268435456,'threshold_bytes':157286400,'archive_limit_bytes':536870912,'threshold_source':'https://docs.cloud.google.com/storage/docs/parallel-composite-uploads','proof_attempted':False}
+  if card!=expected or any(type(card.get(k)) is not int for k in ('payload_bytes','threshold_bytes','archive_limit_bytes')) or card.get('proof_attempted') is not False:
+   raise SystemExit('R13 synthetic mode differs from reviewed 256MiB payload/512MiB archive contract')
+ else:raise SystemExit('R13 selected mode is unknown')
+ return card['mode']
+
+
+def r13_runtime_inventory(commit):
+ mutable={'research/challenge-8/cloud-build/origin-layout/R13-UPLOAD-MODE-20261021.json','research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R13-UPLOAD-BUDGET-20261021.json'}
+ return r12_runtime_inventory(commit,mutable)
+
+
+def r13_validate_retry_sources(probe_sha,proof_sha):
+ before_recipe,before=r13_runtime_inventory(probe_sha)
+ after_recipe,after=r13_runtime_inventory(proof_sha)
+ if before_recipe!=after_recipe or before!=after:
+  raise SystemExit('R13 proof retry differs from the gated runtime/publication closure')
 
 
 def authorized_phase(a,ledger):
@@ -647,6 +701,63 @@ def authorized_phase(a,ledger):
     if len(matching)!=1 or r12_upload_mode(matching[0]['proof_sha'])!='synthetic-upload':
      raise SystemExit('R12 synthetic gate does not bind its successful accounted Build/source/config')
     r12_validate_retry_sources(gate['proof_source_sha'],a.proof_sha)
+ if a.phase_id=='MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21':
+  expected_ledger=DIR/'origin-layout'/'CURRENT-RECOVERY-R13-UPLOAD-BUDGET-20261021.json'
+  if (a.ledger.resolve()!=expected_ledger.resolve() or a.owner!='merge' or
+      ledger.get('owner')!='merge' or ledger.get('authorization_model')!='bounded-cloud-budget' or
+      ledger.get('ceiling_build_seconds')!=3600 or ledger.get('allowed_lanes')!=['merge'] or
+      ledger.get('start_utc')!='2026-10-21T12:10:26Z' or
+      ledger.get('main_deadline_utc')!='2026-10-21T14:10:26Z' or
+      ledger.get('deadline_utc')!='2026-10-21T14:40:26Z' or
+      'max_builds' not in ledger or ledger.get('max_builds') is not None or
+      type(ledger.get('max_timeout_seconds')) is not int or ledger.get('max_timeout_seconds')!=1200 or
+      ledger.get('carryover_allowed') is not False or
+      'synthetic_upload_gate' not in ledger or
+      type(ledger.get('used_build_seconds')) is not int or
+      type(ledger.get('remaining_build_seconds')) is not int or
+      not 0<=ledger.get('used_build_seconds')<=3600 or
+      not 0<=ledger.get('remaining_build_seconds')<=3600 or
+      ledger.get('used_build_seconds')+ledger.get('remaining_build_seconds')!=3600 or
+      type(ledger.get('builds')) is not list or
+      any(type(item) is not dict for item in ledger.get('builds')) or
+      'active_build' not in ledger or
+      (ledger.get('active_build') is not None and
+       (type(ledger.get('active_build')) is not str or not ledger.get('active_build')))):
+   raise SystemExit('R13 differs from its fresh non-composite upload authorization')
+  cutoff=datetime.datetime.fromisoformat('2026-10-21T14:40:26+00:00')
+  now=datetime.datetime.now(datetime.timezone.utc)
+  if now<datetime.datetime.fromisoformat(ledger['start_utc'].replace('Z','+00:00')):
+   raise SystemExit('R13 has not started')
+  if a.command in ('submit','request') and now>=datetime.datetime.fromisoformat(ledger['main_deadline_utc'].replace('Z','+00:00')):
+   raise SystemExit('R13 main window passed; no new dispatch/request')
+  if a.command=='submit':
+   if (type(a.timeout) is not int or not 90<=a.timeout<=1200 or a.lane!='merge' or
+       a.source_mode!='pinned-objects' or a.infra_sha!=a.proof_sha):
+    raise SystemExit('R13 requires one exact pinned infra/proof source, merge lane, timeout90..1200')
+   if now+datetime.timedelta(seconds=a.timeout+60)>cutoff:
+    raise SystemExit('R13 Build plus queue reserve exceeds the absolute deadline')
+   mode=r13_upload_mode(a.proof_sha)
+   if mode=='proof-r11':
+    gate=ledger.get('synthetic_upload_gate')
+    if (not isinstance(gate,dict) or gate.get('status')!='VERIFIED_SYNTHETIC_PUBLICATION' or
+        gate.get('upload_complete') is not True or gate.get('archive_inventory_verified') is not True or
+        gate.get('proof_attempted') is not False or gate.get('verification_accepted') is not False or
+        gate.get('parallel_composite_upload_enabled') is not False or
+        type(gate.get('archive_size_bytes')) is not int or
+        type(gate.get('threshold_bytes')) is not int or gate.get('threshold_bytes')<=0 or
+        gate.get('archive_size_bytes')<=gate.get('threshold_bytes') or
+        type(gate.get('archive_limit_bytes')) is not int or gate.get('archive_limit_bytes')!=536870912 or
+        gate.get('archive_size_bytes')>536870912 or
+        not isinstance(gate.get('brief_request_id'),str) or not gate.get('brief_request_id') or
+        not isinstance(gate.get('archive_sha256'),str) or not re.fullmatch('[0-9a-f]{64}',gate.get('archive_sha256'))):
+     raise SystemExit('R13 proof retry requires accessible verified synthetic publication gate')
+    matching=[x for x in ledger['builds'] if x.get('build_id')==gate.get('build_id') and
+              x.get('accounted') is True and x.get('status')=='SUCCESS' and
+              x.get('proof_sha')==gate.get('proof_source_sha') and
+              x.get('submitted_config_sha256')==gate.get('submitted_config_sha256')]
+    if len(matching)!=1 or r13_upload_mode(matching[0]['proof_sha'])!='synthetic-upload':
+     raise SystemExit('R13 synthetic gate does not bind its successful accounted Build/source/config')
+    r13_validate_retry_sources(gate['proof_source_sha'],a.proof_sha)
  if a.phase_id=='CI-IAM-E2E-ONCE-2026-10-17':
   # Separate, explicitly activated account; never reuse a historical ledger.
   expected_ledger=DIR/'ci-iam-e2e-once-20261017'/'BUDGET.json'
@@ -971,7 +1082,8 @@ def run_command(a,state,ledger,ledger_path):
    spec=importlib.util.spec_from_file_location('source_input',DIR/'source-input.py')
    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
    source_payload=module.make_payload(ROOT,a.infra_sha,a.proof_sha,a.lane)
-  cfg=config(a.infra_sha,a.proof_sha,a.lane,a.timeout,token,source_payload)
+  cfg=config(a.infra_sha,a.proof_sha,a.lane,a.timeout,token,source_payload,
+             r13_required=(a.phase_id=='MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21'))
   if any(len(arg.encode())>10000 for step in cfg['steps'] for arg in step.get('args',[])):raise SystemExit('Config argument exceeds Cloud Build 10000-byte limit; no dispatch')
   source_values={k:v for k,v in cfg['substitutions'].items() if k.startswith('_SOURCE_')}
   for key in source_values:cfg['substitutions'][key]='placeholder'
@@ -983,7 +1095,7 @@ def run_command(a,state,ledger,ledger_path):
   flags=state/(token+'-flags.json');write(flags,{'--substitutions':values})
   reservation={'dispatch_token':token,'owner':a.owner,'phase_id':a.phase_id,'ledger':str(ledger_path),'state_dir':str(state),'item':item,'build_id':None}
   # Recheck the time-window account after source/config preparation, before reserve.
-  if a.phase_id in ('MERGE-FIRST-COMPARATOR-R1-2026-10-18','MERGE-FIRST-COMPARATOR-R2-2026-10-19','MERGE-FIRST-COMPARATOR-R3-2026-10-19','MERGE-GUARD-ADDRESSABILITY-R4-2026-10-20','MERGE-CURRENT-OWNERSHIP-R5-2026-10-20','MERGE-CANONICAL-SHARE-R6-2026-10-20','MERGE-POST-MIGRATION-CURRENT-RECOVERY-R7-2026-10-20','MERGE-LATE-RECOVERY-REJOIN-R8-2026-10-20','MERGE-GUARD-CURRENT-RETURN-R9-2026-10-20','MERGE-MOVING-GAP-INVARIANT-R10-2026-10-21','MERGE-LABEL-STORAGE-INVARIANT-R11-2026-10-21','MERGE-R11-EVIDENCE-RETRY-2026-10-21','MERGE-UPLOAD-NONCOMPOSITE-R12-2026-10-21'):authorized_phase(a,ledger)
+  if a.phase_id in ('MERGE-FIRST-COMPARATOR-R1-2026-10-18','MERGE-FIRST-COMPARATOR-R2-2026-10-19','MERGE-FIRST-COMPARATOR-R3-2026-10-19','MERGE-GUARD-ADDRESSABILITY-R4-2026-10-20','MERGE-CURRENT-OWNERSHIP-R5-2026-10-20','MERGE-CANONICAL-SHARE-R6-2026-10-20','MERGE-POST-MIGRATION-CURRENT-RECOVERY-R7-2026-10-20','MERGE-LATE-RECOVERY-REJOIN-R8-2026-10-20','MERGE-GUARD-CURRENT-RETURN-R9-2026-10-20','MERGE-MOVING-GAP-INVARIANT-R10-2026-10-21','MERGE-LABEL-STORAGE-INVARIANT-R11-2026-10-21','MERGE-R11-EVIDENCE-RETRY-2026-10-21','MERGE-UPLOAD-NONCOMPOSITE-R12-2026-10-21','MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21'):authorized_phase(a,ledger)
   coordination.reserve(reservation)
   ledger['builds'].append(item);ledger['active_build']=token;write(ledger_path,ledger)
   cmd=['builds','submit','--no-source','--async','--region=global','--config='+str(path),'--flags-file='+str(flags),'--format=json','--quiet']

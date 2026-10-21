@@ -1,6 +1,6 @@
-# Merge-R13 READY — archive-size gate → Brief → R11 retry
+# Merge-R13 RUNNING — archive-size gate → Brief → R11 retry
 
-[Новое текущее задание](CURRENT-TASK.md): worktree `/root/verify-rust-std-merge-origin`, branch `merge/incoming-origin-20261009`, owner `merge`. T0 ещё не задан; свежие120мин+30мин/3600 Cloud-секунд, без лимита числа последовательных Builds; timeout90..1200/envelope+60. Phase `MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21`, новый ledger `CURRENT-RECOVERY-R13-UPLOAD-BUDGET-20261021.json`. Закрытые счета/3491retired не возобновлять, carry0.
+[Новое текущее задание](CURRENT-TASK.md): worktree `/root/verify-rust-std-merge-origin`, branch `merge/incoming-origin-20261009`, owner `merge`. T0 2026-10-21T12:10:26Z, main14:10:26Z, absolute14:40:26Z; свежие120мин+30мин/3600 Cloud-секунд, без лимита числа последовательных Builds; timeout90..1200/envelope+60. Phase `MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21`, новый ledger `CURRENT-RECOVERY-R13-UPLOAD-BUDGET-20261021.json`. Закрытые счета/3491retired не возобновлять, carry0.
 
 Owner/admin report для synthetic Build `68d2fe9c-bb4b-494e-844d-1a779d8d9f41`: финальный marker есть (11:17:34.761UTC), uploadedtrue/prerequisite exit0; archive537691281bytes > processor limit536870912bytes на820369bytes. Отчёта v8 нет. Код при превышении выдаёт archive too large/NOT_PUBLISHED_INVALID_EVIDENCE/422; получение события и фактическая первичная production-ошибка не подтверждены. Historical R12 records сохранены.
 

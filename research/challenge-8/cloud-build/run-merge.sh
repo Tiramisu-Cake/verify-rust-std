@@ -17,20 +17,31 @@ evidence_root=${EVIDENCE_ROOT:-/workspace/evidence}
   printf 'evidence root must stay inside /workspace\n' >&2
   exit 2
 }
-mode_card="$proof_root/research/challenge-8/cloud-build/origin-layout/R12-UPLOAD-MODE-20261021.json"
-synthetic_generator="$proof_root/research/challenge-8/cloud-build/origin-layout/r12-synthetic-upload.py"
+mode_card="$proof_root/research/challenge-8/cloud-build/origin-layout/R13-UPLOAD-MODE-20261021.json"
+synthetic_generator="$proof_root/research/challenge-8/cloud-build/origin-layout/r13-synthetic-upload.py"
 normal_merge="$proof_root/research/challenge-8/merge/cloud-build/merge.sh"
+r13_required=${R13_UPLOAD_REQUIRED:-false}
+[[ "$r13_required" == true || "$r13_required" == false ]] || {
+  printf 'invalid R13 upload-required marker\n' >&2
+  exit 2
+}
+if [[ "$r13_required" == true ]]; then
+  [[ -f "$mode_card" && ! -L "$mode_card" ]] || {
+    printf 'R13 upload is required but its selected mode card is missing or unsafe\n' >&2
+    exit 2
+  }
+fi
 if [[ -e "$mode_card" || -L "$mode_card" ]]; then
   [[ -f "$mode_card" && ! -L "$mode_card" ]] || {
-    printf 'R12 upload mode card must be a regular non-symlink file\n' >&2
+    printf 'R13 upload mode card must be a regular non-symlink file\n' >&2
     exit 2
   }
   [[ -f "$synthetic_generator" && ! -L "$synthetic_generator" ]] || {
-    printf 'R12 synthetic upload dispatcher is missing or unsafe\n' >&2
+    printf 'R13 synthetic upload dispatcher is missing or unsafe\n' >&2
     exit 2
   }
   mode=$(python3 "$synthetic_generator" mode "$mode_card") || {
-    printf 'R12 upload mode card validation failed\n' >&2
+    printf 'R13 upload mode card validation failed\n' >&2
     exit 2
   }
   case "$mode" in
@@ -41,7 +52,7 @@ if [[ -e "$mode_card" || -L "$mode_card" ]]; then
       exec bash "$normal_merge"
       ;;
     *)
-      printf 'unsupported R12 upload mode\n' >&2
+      printf 'unsupported R13 upload mode\n' >&2
       exit 2
       ;;
   esac
