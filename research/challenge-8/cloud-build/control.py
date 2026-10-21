@@ -482,6 +482,50 @@ def authorized_phase(a,ledger):
    raise SystemExit('Label-storage invariant R11 main window passed; no new dispatch/request')
   if a.command=='submit' and (not 90<=a.timeout<=1200 or a.lane!='merge' or a.source_mode!='pinned-objects'):
    raise SystemExit('Label-storage invariant R11 requires pinned merge Build timeout90..1200s')
+ if a.phase_id=='MERGE-R11-EVIDENCE-RETRY-2026-10-21':
+  expected_ledger=DIR/'origin-layout'/'R11-RETRY-BUDGET-20261021.json'
+  if (a.ledger.resolve()!=expected_ledger.resolve() or
+      a.owner!='merge' or ledger.get('owner')!='merge' or
+      ledger.get('authorization_model')!='bounded-cloud-budget' or
+      ledger.get('ceiling_build_seconds')!=1060 or ledger.get('allowed_lanes')!=['merge'] or
+      ledger.get('start_utc')!='2026-10-21T09:02:57Z' or
+      ledger.get('main_deadline_utc')!='2026-10-21T09:32:57Z' or
+      ledger.get('deadline_utc')!='2026-10-21T09:47:57Z' or
+      type(ledger.get('max_builds')) is not int or ledger.get('max_builds')!=1 or
+      type(ledger.get('max_timeout_seconds')) is not int or
+      ledger.get('max_timeout_seconds')!=1000 or
+      type(ledger.get('used_build_seconds')) is not int or
+      not 0<=ledger.get('used_build_seconds')<=1060 or
+      type(ledger.get('remaining_build_seconds')) is not int or
+      ledger.get('remaining_build_seconds')!=1060-ledger.get('used_build_seconds') or
+      type(ledger.get('builds')) is not list or len(ledger.get('builds'))>1 or
+      'active_build' not in ledger or
+      'authorized_source_sha' not in ledger or
+      (ledger.get('authorized_source_sha') is not None and
+       (not isinstance(ledger.get('authorized_source_sha'),str) or
+        not re.fullmatch(r'[0-9a-f]{40}',ledger.get('authorized_source_sha')))) or
+      ledger.get('carryover_allowed') is not False):
+   raise SystemExit('R11 evidence retry differs from exact one-Build owner authorization')
+  if a.command in ('submit','request') and (
+      ledger.get('builds') or ledger.get('active_build') is not None or
+      ledger.get('used_build_seconds')!=0 or ledger.get('remaining_build_seconds')!=1060):
+   raise SystemExit('R11 evidence retry Build/request already used; one-shot phase cannot be reused')
+  cutoff=datetime.datetime.fromisoformat('2026-10-21T09:47:57+00:00')
+  now=datetime.datetime.now(datetime.timezone.utc)
+  if now<datetime.datetime.fromisoformat(ledger['start_utc'].replace('Z','+00:00')):
+   raise SystemExit('R11 evidence retry has not started')
+  if a.command in ('submit','request') and now>=datetime.datetime.fromisoformat(ledger['main_deadline_utc'].replace('Z','+00:00')):
+   raise SystemExit('R11 evidence retry main window passed; no new dispatch/request')
+  if a.command=='submit' and (a.timeout!=1000 or a.lane!='merge' or a.source_mode!='pinned-objects'):
+   raise SystemExit('R11 evidence retry permits only the pinned merge lane at timeout 1000s')
+  if a.command=='submit' and now+datetime.timedelta(seconds=a.timeout+60)>cutoff:
+   raise SystemExit('R11 evidence retry Build plus queue reserve exceeds the absolute deadline')
+  if a.command=='submit' and (
+      not isinstance(ledger.get('authorized_source_sha'),str) or
+      not re.fullmatch(r'[0-9a-f]{40}',ledger.get('authorized_source_sha')) or
+      getattr(a,'infra_sha',None)!=ledger.get('authorized_source_sha') or
+      getattr(a,'proof_sha',None)!=ledger.get('authorized_source_sha')):
+   raise SystemExit('R11 evidence retry requires the single reviewed source SHA pinned in its fresh account')
  if a.phase_id=='CI-IAM-E2E-ONCE-2026-10-17':
   # Separate, explicitly activated account; never reuse a historical ledger.
   expected_ledger=DIR/'ci-iam-e2e-once-20261017'/'BUDGET.json'
@@ -818,7 +862,7 @@ def run_command(a,state,ledger,ledger_path):
   flags=state/(token+'-flags.json');write(flags,{'--substitutions':values})
   reservation={'dispatch_token':token,'owner':a.owner,'phase_id':a.phase_id,'ledger':str(ledger_path),'state_dir':str(state),'item':item,'build_id':None}
   # Recheck the time-window account after source/config preparation, before reserve.
-  if a.phase_id in ('MERGE-FIRST-COMPARATOR-R1-2026-10-18','MERGE-FIRST-COMPARATOR-R2-2026-10-19','MERGE-FIRST-COMPARATOR-R3-2026-10-19','MERGE-GUARD-ADDRESSABILITY-R4-2026-10-20','MERGE-CURRENT-OWNERSHIP-R5-2026-10-20','MERGE-CANONICAL-SHARE-R6-2026-10-20','MERGE-POST-MIGRATION-CURRENT-RECOVERY-R7-2026-10-20','MERGE-LATE-RECOVERY-REJOIN-R8-2026-10-20','MERGE-GUARD-CURRENT-RETURN-R9-2026-10-20','MERGE-MOVING-GAP-INVARIANT-R10-2026-10-21','MERGE-LABEL-STORAGE-INVARIANT-R11-2026-10-21'):authorized_phase(a,ledger)
+  if a.phase_id in ('MERGE-FIRST-COMPARATOR-R1-2026-10-18','MERGE-FIRST-COMPARATOR-R2-2026-10-19','MERGE-FIRST-COMPARATOR-R3-2026-10-19','MERGE-GUARD-ADDRESSABILITY-R4-2026-10-20','MERGE-CURRENT-OWNERSHIP-R5-2026-10-20','MERGE-CANONICAL-SHARE-R6-2026-10-20','MERGE-POST-MIGRATION-CURRENT-RECOVERY-R7-2026-10-20','MERGE-LATE-RECOVERY-REJOIN-R8-2026-10-20','MERGE-GUARD-CURRENT-RETURN-R9-2026-10-20','MERGE-MOVING-GAP-INVARIANT-R10-2026-10-21','MERGE-LABEL-STORAGE-INVARIANT-R11-2026-10-21','MERGE-R11-EVIDENCE-RETRY-2026-10-21'):authorized_phase(a,ledger)
   coordination.reserve(reservation)
   ledger['builds'].append(item);ledger['active_build']=token;write(ledger_path,ledger)
   cmd=['builds','submit','--no-source','--async','--region=global','--config='+str(path),'--flags-file='+str(flags),'--format=json','--quiet']

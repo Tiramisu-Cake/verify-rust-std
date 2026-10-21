@@ -1,0 +1,32 @@
+{
+  "phase": "MERGE-R11-EVIDENCE-RETRY-2026-10-21",
+  "owner": "merge",
+  "authorization_model": "bounded-cloud-budget",
+  "status": "AUTHORIZED",
+  "allowed_lanes": [
+    "merge"
+  ],
+  "ceiling_build_seconds": 1060,
+  "used_build_seconds": 0,
+  "remaining_build_seconds": 1060,
+  "max_builds": 1,
+  "max_timeout_seconds": 1000,
+  "builds": [],
+  "active_build": null,
+  "authorized_source_sha": null,
+  "start_utc": "2026-10-21T09:02:57Z",
+  "main_deadline_utc": "2026-10-21T09:32:57Z",
+  "deadline_utc": "2026-10-21T09:47:57Z",
+  "authorization": "User explicitly authorized one retry: «Давай повторим Build. Закончи предыдущую сессию, написав отчет в current-task.md». Fresh owner-authorized infrastructure retry only; no new proof hypothesis, semantic/tool/profile change, second Build, or carryover.",
+  "prior_session": {
+    "ledger": "CURRENT-RECOVERY-R11-BUDGET-20261021.json",
+    "status": "CLOSED",
+    "retired_unused_seconds": 576,
+    "carryover_allowed": false
+  },
+  "retry_scope": "Repeat the existing R11 evidence Build after reviewed general tool-evidence symlink staging repair; preserve source, tool, profile, and proof scope.",
+  "policy_revision": "2026-10-21 explicit one-Build R11 evidence retry / Evidence v0.11",
+  "carryover_allowed": false,
+  "accepted": false,
+  "independent_credit": 0
+}

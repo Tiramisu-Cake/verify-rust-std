@@ -1,0 +1,33 @@
+{
+  "schema": "merge-r11-evidence-retry-inputs-v1",
+  "authorization": "Direct user request: Давай повторим Build. Закончи предыдущую сессию, написав отчет в current-task.md",
+  "owner": "merge",
+  "phase": "MERGE-R11-EVIDENCE-RETRY-2026-10-21",
+  "repeat_of_build": "fbe79012-dd88-4a7f-b65b-9dcac32a4557",
+  "repeat_of_source": "0ab7fcab89c6a8721bcc8279cc3cdbd6634c45dd",
+  "service_fix_commit": "41c7c24c",
+  "tool_commit_expected": "660b576b6b1608db913c51e0785b443a8733396f",
+  "profile": "experimental-merge-label-storage-r11-v1",
+  "proof_scope": "unchanged R11 proof candidate; only evidence staging plus one-shot authorization and service preflight wiring",
+  "submit_timeout_seconds": 1000,
+  "fresh_ceiling_seconds": 1060,
+  "build_count_limit": 1,
+  "carryover_allowed": false,
+  "accepted": false,
+  "independent_credit": 0,
+  "proof_file_sha256": {
+    "research/challenge-8/cloud-build/origin-layout/first-callback-admission-controls.py": "a9c44353a61db8cf3b0ff1c8c60254e4c22c76a6f3bcd314eea70e9690da9df4",
+    "research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py": "0bea1e5390aa6297975552a9f29d600c8e7f9f6ab30caf26b07d27979cddf100",
+    "research/challenge-8/cloud-build/origin-layout/tool-evidence-staging-service-test.py": "1edf97b0116759449d8e4436d618fd0f9192120f7d82a1379356788a86ad7a13",
+    "research/challenge-8/merge/cloud-build/merge.sh": "a1cf09ba57026f796c4588e1fe5b2da34004fa962f0e606a4c6077c1a84fbaef",
+    "research/challenge-8/merge/cloud-build/provider-overlays.py": "4a26e0cecfeada10adc84fc93e0680d80da2a20f50d70ba18f248add182f3526",
+    "research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json": "eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375",
+    "research/challenge-8/cloud-build/origin-layout/R11-INPUTS-20261021.json": "b7c607d5b2cf89aa2f95b47a1c891b0279a53c96263b2723035505edd376b9a3",
+    "library/core/src/slice/sort/shared/mod.rs": "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8",
+    "library/core/src/slice/sort/shared/smallsort.rs": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+    "research/challenge-8/cloud-build/control.py": "7d3be57efc18f31faaef2d4dd958670fd3c101eb033e3a635add10f8f4673f86",
+    "research/challenge-8/cloud-build/origin-layout/r11-retry-phase-service-test.py": "477780c409adce168af3cd0a955ac9ec4a4cd4551a42f03cbe2390c6bbf9faba",
+    "research/challenge-8/cloud-build/recipes/merge.json": "35bf282a0128ea9ffb5038e69187e8c516cf0dceb8cc75f32cac63d326bb8f55"
+  },
+  "source_binding": "After review and publication, finalize authorized_source_sha in the new live ledger once under the coordinator lock; infra and proof SHA must both match before submit."
+}

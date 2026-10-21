@@ -2,7 +2,9 @@
 > больше не помещает symlink рабочего дерева в evidence. Оба известных случая
 > прошли реальную локальную упаковку; 7 новых service tests PASS, review GO.
 > [Изменение и проверки](cloud-build/origin-layout/TOOL-EVIDENCE-STAGING-20261021.md).
-> Новый Cloud Build не запускался; прежние proof-результаты и закрытый бюджет R11 сохранены.
+> Владелец разрешил один повтор: fresh1060, timeout1000; новая phase
+> `MERGE-R11-EVIDENCE-RETRY-2026-10-21`, review GO / phase tests7 PASS.
+> Прежние proof-результаты и закрытый бюджет R11 сохранены.
 
 # Merge-R11 CLOSED_PARTIAL_EVIDENCE_PENDING
 

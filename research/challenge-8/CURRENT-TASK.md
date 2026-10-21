@@ -2,7 +2,8 @@
 > больше не помещает symlink рабочего дерева в evidence. Оба известных случая
 > прошли реальную локальную упаковку; 7 новых service tests PASS, review GO.
 > [Изменение и проверки](cloud-build/origin-layout/TOOL-EVIDENCE-STAGING-20261021.md).
-> Новый Cloud Build не запускался; прежние proof-результаты и закрытый бюджет R11 сохранены.
+> Владелец разрешил один повтор Build после исправления; оформляется отдельный счёт.
+> Прежние proof-результаты и закрытый бюджет R11 сохранены.
 
 # Merge-R11 — label invariant и annotation temporary
 
@@ -90,7 +91,27 @@ Build5 exactsource trace показывает Live/Dead117 до invariantconsume
 не устанавливались; source PASS не переносится между Builds.
 
 **Full target gates0; acceptedfalse; independentcredit0; B2/generic/qualificationOPEN.**
-Текущий blocker: Build6 Evidence publication pending (first Brief HTTP404); do not infer current theorem.
+**Завершение предыдущей сессии:** Build6 завершился FAILURE. По сообщению владельца,
+упаковка отказала из-за symlink рабочего tool tree; upload не состоялся,
+FileNotFoundError и Brief HTTP404 были последствиями. Это owner-reported cause,
+а не независимое наблюдение proof-результата Build6: compiler/body/controls UNKNOWN.
+Общий producer исправлен в `41c7c24c`: обычные bin assets копируются,
+служебные поддеревья исключаются с manifest, symlink path/target — metadata без
+разыменования. Оба известных случая прошли настоящую локальную упаковку,
+7 новых service tests PASS; review Luna HIGH GO. Это обслуживание, не proof-прирост.
+
+**Новое поручение владельца:** «Давай повторим Build. Закончи предыдущую сессию,
+написав отчет в current-task.md». Разрешён один повтор того же proof-кандидата
+после исправления evidence, timeout1000/envelope1060, отдельный новый счёт без
+возобновления R11/переноса retired576. Новая phase `MERGE-R11-EVIDENCE-RETRY-2026-10-21`, T0 `09:02:57Z`, main
+`09:32:57Z`, absolute `09:47:57Z`; fresh ceiling1060, max1 Build.
+[Новый счёт](cloud-build/origin-layout/R11-RETRY-BUDGET-20261021.json),
+[inputs](cloud-build/origin-layout/R11-RETRY-INPUTS-20261021.json).
+Регистрация прошла независимый Luna HIGH review GO; 7 новых phase tests,
+реальная локальная упаковка и полный static source/patch/pin/recipe preflight PASS.
+Перед dispatch оба SHA будут привязаны к одному опубликованному reviewed commit
+в новом live ledger под coordinator lock. Build ещё не отправлен.
+Новые proof-гипотезы и семантические изменения в повтор не входят.
 Исходные tmp debt/CURRENT/F/thread/array/R9 returning hook и narrow R8 premise
 сохранены; StorageDead/invariant/resource checks не ослаблены. Address-taking и
 source-named unit empirical negatives остаются OPEN/NOT_RUN; прежняя полная
