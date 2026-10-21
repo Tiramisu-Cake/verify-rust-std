@@ -1,0 +1,32 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "a80c7e2196076a436a5460239dd67aea9626600c",
+  "candidate_commit": "cfae771f37b639382bc7767ac06ce28f91b604e7",
+  "defect": "Actual c2 lacks precreated-reference/current-owner recovery. R16 lexical placement only supports one cut and fixed MIR IDs. R17 probe phase allowlist missing, observed S1 abort.",
+  "applicability": "Exact R17 actual sort4_stable, source SHA/provider/strict/c1/scope/HRTB gates; new c2 opt-in only. New constructor and final translator overlay after exact historical chain.",
+  "invariants": [
+    "No runtime/source algorithm/CFG/generic signature/normal-unwind post changes, no kernel/spec change or assumptions.",
+    "Exact indexed c1/c2 markers/call spans; checked receiver and ordered-ref equality assertions require existing kernel resources, grant no ownership.",
+    "Exact one receiver/one tuple/four ref cells per call from compiler decoded type/span; separate strict scopes for c1/c2 and complete-use containment/CFG-node conservation.",
+    "All unknown shapes/refusals remain failures; final proof credit and qualification remain false."
+  ],
+  "controls": [
+    "43 isolated body-service/registration tests PASS; existing failure-state snapshots preserved.",
+    "Seven new indexed-scope AST controls execute only in Cloud; source negative variants wrong ref/order/index/debt/marker prepared but NOT_RUN.",
+    "S1 Brief: body_target UNKNOWN after reference-own phase allowlist error; exact new probe copy adds R17 only; seven existing probe controls unchanged."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-actual-body-c1.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-actual-recover-four.rs",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-reference-own-probe.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-ghost-grammar.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/ACTUAL-SORT4-REFERENT-ADDRESS-R16-MANIFEST.json"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "No local constructor/compiler/exporter/MIR/verifier executed; OCaml integration uncompiled.",
+    "Exact independent call attribution and full normal/unwind/caller/final matrix remain OPEN; equality assertion logging is a requirement, not a success receipt.",
+    "All claims depend on fresh Cloud evidence; no independent proof credit."
+  ]
+}

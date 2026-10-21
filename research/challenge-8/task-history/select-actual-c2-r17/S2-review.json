@@ -1,0 +1,30 @@
+{
+  "reviewer": "independent GPT-6 Luna HIGH",
+  "nested_delegation": false,
+  "candidate_commit": "cfae771f37b639382bc7767ac06ce28f91b604e7",
+  "baseline_commit": "a80c7e2196076a436a5460239dd67aea9626600c",
+  "tree": "8ec1f7425384d3e31a042c8328a0670c45f07907",
+  "verdict": "GO",
+  "findings": [],
+  "packet_sha256": "9de885326a756fd20971999dfb3881a0fa238c580ff33ae6387ec4e3eef6da95",
+  "diff_sha256": "44577a83333c4780182c290b6f7515483674f63332bbcf3eef1974581843647b",
+  "pins": {
+    "a1-actual-body-r17.py": "d89a01c22238e5729aaadfab276f6e0e362ca0bec6156f715f31ad292e85e861",
+    "a1-tool-r17.py": "6dcb27a503eb3e3f4daa93fb74dc3d82d83651e8d0c250d29c16659674d418e3",
+    "a1-actual-body-c2.py": "9ffd0cdba36ffc0ab5e79fb531676733927795afa89a55ebc24023bb53b7df3f",
+    "a1-reference-own-probe-r17.py": "ea4cb0d45a3da7060298978c01d9cbaab241a36907b7f1a56823162549d73d80",
+    "A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json": "22cb7c9df01f5f48482b0e42be68ccb6334960fd0be42c03568bf4fb4f6dcfbe",
+    "actual-sort4-c2-recovery-r17.patch": "2726536a0a04ca1ce2113b1c3c93e0bf7b1c25c3d7695bba6afc8d18d1b2297c"
+  },
+  "basis": [
+    "Exact full-body constructor runtime equality; fresh c2 ordered(3,2) resources and generic four-cell recovery.",
+    "Final manifest-pinned translator overlay adds indexed call/source checks and checked receiver/tuple/ref equalities; no kernel/spec or assumption changes.",
+    "Source-span/type exact30 partition, separate strict scopes, full-AST containment and original runtime node/CFG conservation remain enforced.",
+    "Scope-off c2 route fails closed at partition gate. Probe copy adds exact R17 phase only."
+  ],
+  "validation": "43 isolated synthetic body/registration tests PASS by parent; no proof toolchain execution locally.",
+  "limits": [
+    "Cloud equality assertions, source/MIR attribution and wrong-receiver/call-order qualification OPEN.",
+    "Full normal/unwind/final matrix/caller OPEN; independent credit0."
+  ]
+}
