@@ -19,3 +19,7 @@ During review I found two concrete negative-control defects and returned them to
 Validation passed: 11 grammar-preflight synthetic tests, 7 R12 registration/transport tests, 11 profile-binding tests, 6 observer-helper construction tests, 17 checked-helper receipt-gate tests, and 2 historical R11 registration tests. Python compilation, shell syntax, JSON parsing, and `git diff --check` also passed. The R12 profile’s entry, runner, source-runner, every ordinary helper, grammar module, helper block, and import pins matched current files. No compiler, extractor, preparer, verifier, full runner, or Cloud Build was invoked in this review.
 
 The bounded profile uses a 1000-second Build timeout, 760-second execute cap, 700-second nominal work deadline, 240-second report reserve, and 60-second inner margin. The 1060-second envelope fits the fresh phase budget. Prior target runtimes plus three grammar-stage caps do not establish execution fit; keep fit **UNESTABLISHED**. If the preflight or target cannot finish within the caps, preserve partial/`NOT_RUN`/`INCONCLUSIVE` outcomes and make no acceptance claim. The eventual 26-row matrix remains mandatory in one same-Build run after prerequisites pass.
+
+## Static-closure follow-up
+
+I reviewed the subsequent recipe-only closure delta. Both `infra_paths` and `proof_paths` retain their exact prior membership and counts (36 and 118); each list is now lexicographically sorted. This ordering-only change does not alter the R12 registration or evidence scope, and I see no new blocker.
