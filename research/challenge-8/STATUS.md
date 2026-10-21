@@ -1,4 +1,4 @@
-# Merge-R13 — synthetic publication verified; exact size receipt pending
+# Merge-R13 CLOSED — synthetic publication verified; size receipt unavailable
 
 [Новое текущее задание](CURRENT-TASK.md): worktree `/root/verify-rust-std-merge-origin`, branch `merge/incoming-origin-20261009`, owner `merge`. T0 2026-10-21T12:10:26Z, main14:10:26Z, absolute14:40:26Z; свежие120мин+30мин/3600 Cloud-секунд, без лимита числа последовательных Builds; timeout90..1200/envelope+60. Phase `MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21`, новый ledger `CURRENT-RECOVERY-R13-UPLOAD-BUDGET-20261021.json`. Закрытые счета/3491retired не возобновлять, carry0.
 
@@ -17,5 +17,6 @@ indexad0e439b6d42371ade0c1db672f0f675e0eb6e209ca643e04b5b079d9a5a428e.
 Payload268435456bytes; effective False/150M; exact source/config bound.
 Gate pending exact compressed archive size/guard sidecar receipt: Reader v0.11
 supports catalogue archive members only; owner requested supported route or
-admin metadata. No raw bypass, proof retry pending required gate. Account used94,
-remaining3506; own active/unresolved/requests/reservations0. See R13 probe/session.
+admin metadata. No raw bypass, proof retry pending required gate. Account CLOSED12:39:00Z, used94/retired3506/remaining0/carryfalse; own active/unresolved/requests/reservations0. See R13 probe/session.
+
+R13 CLOSED2026-10-21T12:39:00.159587Z:94charged/94execution/3506retired/remaining0; own0/0/0/0. Next: exact receipt or supported route and fresh explicit retry authorization; closed account not reopened.

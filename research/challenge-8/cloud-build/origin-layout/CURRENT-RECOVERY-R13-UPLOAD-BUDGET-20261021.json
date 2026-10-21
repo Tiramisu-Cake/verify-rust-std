@@ -2,13 +2,13 @@
   "phase": "MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21",
   "owner": "merge",
   "authorization_model": "bounded-cloud-budget",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "allowed_lanes": [
     "merge"
   ],
   "ceiling_build_seconds": 3600,
   "used_build_seconds": 94,
-  "remaining_build_seconds": 3506,
+  "remaining_build_seconds": 0,
   "max_builds": null,
   "max_timeout_seconds": 1200,
   "builds": [
@@ -43,5 +43,8 @@
   "carryover_allowed": false,
   "synthetic_upload_gate": null,
   "accepted": false,
-  "independent_credit": 0
+  "independent_credit": 0,
+  "retired_build_seconds": 3506,
+  "closed_utc": "2026-10-21T12:39:00.159587Z",
+  "closure_reason": "Verified synthetic publication; required exact compressed archive size and guard sidecar unavailable through supported Reader v0.11. Owner asked for bounded route or exact administrative metadata; no response before close. No raw bypass or ungated proof retry."
 }

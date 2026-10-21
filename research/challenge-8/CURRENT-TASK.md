@@ -2,7 +2,7 @@
 
 ## Авторизация и рабочее место
 
-- **ID:** `merge-archive-size-upload-recovery-2026-10-21-r13`; **статус:** RUNNING, T0 `2026-10-21T12:10:26Z`.
+- **ID:** `merge-archive-size-upload-recovery-2026-10-21-r13`; **статус:** CLOSED — reporting blocker, T0 `2026-10-21T12:10:26Z`.
 - **Owner:** `merge`; **project worktree:** `/root/verify-rust-std-merge-origin`; **branch:** `merge/incoming-origin-20261009`; **репозиторий:** `Tiramisu-Cake/verify-rust-std`.
 - **Tool worktree:** `/root/verifast-merge-actual-glue`; branch `merge/actual-glue-instance-20261011`, expected head **`660b576b6b1608db913c51e0785b443a8733396f`**. Tool/model/spec/invariant этим заданием не меняются.
 - **Новое окно:** 120 минут основной работы + до30 минут завершения. T0 при фактическом старте после чтения; main=T0+120мин, absolute=T0+150мин. Запиши в session, новый ledger и текущий статус.
@@ -84,6 +84,5 @@ archive limit536870912. Exact actual archive bytes/timing/guard receipt пока
 
 Gate pending exact size receipt; proof retry NOT_RUN_BY_REQUIRED_GATE, unchanged
 probe не повторяется. Own active/unresolved/requests/reservations0; used94,
-remaining3506/carryfalse, счёт пока AUTHORIZED. Fulltargetgates0/acceptedfalse/
-independentcredit0; B2/generic/qualificationOPEN. Следующий шаг после receipt —
-immutable gate, committed proof-r11 card и exact cross-mode closure → R11 retry.
+retired3506/remaining0/carryfalse, счёт CLOSED `2026-10-21T12:39:00.159587Z`. Fulltargetgates0/acceptedfalse/
+independentcredit0; B2/generic/qualificationOPEN. End `2026-10-21T12:39:00.159587Z`. Независимые разрешённые проверки выполнены; раннее завершение из-за конкретного interface blocker, owner request без ответа. Следующий шаг: exact receipt/поддержанный route и новая явная авторизация retry; closed R13 не возобновлять. Затем immutable gate, committed proof-r11 card и exact cross-mode closure → R11 retry.
