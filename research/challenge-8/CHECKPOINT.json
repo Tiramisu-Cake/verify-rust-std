@@ -35,6 +35,10 @@
     {
       "path": "research/challenge-8/task-history/select-actual-c2-r17/S4-review.json",
       "sha256": "52b489a57fa00efd4a176e346f7fbf2053560ac52cbbe36b724eaba6d03836bc"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S4-review.json",
+      "sha256": "52b489a57fa00efd4a176e346f7fbf2053560ac52cbbe36b724eaba6d03836bc"
     }
   ],
   "assignment_sha256": "69b4eda8101c736cb0ba9d2bca26c5623b1866c3cf6ce5b503a18a6c962ce68b",
@@ -107,7 +111,7 @@
       ]
     }
   ],
-  "next_step": "S4 same equality assertions wrapped PureStmt has independent Luna HIGH GO; publish and submit exact new pins in existing R17 account/window. No proof credit until Cloud evidence and required qualification.",
+  "next_step": "WAITING: S4 Build 27e8bfac-eb5f-4cf4-ae89-18bacd16eb90. Arm exact-thread watcher; on event first ack before checkpoint mutation, then Evidence Brief and exact target/control diagnostics. Existing R17 T0/account/window only, main22:06:19Z absolute22:36:19Z. No proof credit from metadata.",
   "open": [
     "Full actual sort4 normal/unwind; ordered c1–c5 attribution/current-owner recovery, selector-pointer/permutation/copy composition.",
     "Required HRTB-off/controls completion, final mini7/fresh26, qualification and stable Freeze caller; independent B1/B2 credit0."
@@ -123,7 +127,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "27e8bfac-eb5f-4cf4-ae89-18bacd16eb90"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-21T22:36:19Z",
     "main_deadline_utc": "2026-10-21T22:06:19Z",
@@ -133,69 +139,68 @@
     "t0": "2026-10-21T20:06:19Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-actual-c2-autonomous-2026-10-21-r17",
-  "updated_utc": "2026-10-21T21:03:48.720443+00:00",
+  "updated_utc": "2026-10-21T21:05:46.279159+00:00",
   "build_context": {
-    "dispatch_token": "dispatch-baa5711f37194eaf81129890d39187b9",
+    "dispatch_token": "dispatch-774eeb6818d045af9052d29f889c6a06",
     "owner": "select-sort4",
     "phase_id": "SORT4-ACTUAL-C2-2026-10-21-R17",
-    "infra_sha": "13d65ceabf23758eecd25cdb1f7fd32a685755d7",
-    "proof_sha": "13d65ceabf23758eecd25cdb1f7fd32a685755d7",
+    "infra_sha": "51c4368bd6a1187dbf1975b979cb27ad3b51966f",
+    "proof_sha": "51c4368bd6a1187dbf1975b979cb27ad3b51966f",
     "lane": "o26-sort4-c1-current-recovery",
-    "submitted_config_sha256": "423a3e41bf78b94ce9aafa110dc903900ac80caa8b24e06acd4ec0d6870ebe7d",
+    "submitted_config_sha256": "9d1b6964c42278774d370342e5536e54b93410cca27d4b32e319844e4c3af98d",
     "reserved_seconds": 1260,
     "timeout_seconds": 1200,
     "status": "QUEUED",
     "publish_text_logs": true,
     "source_mode": "pinned-objects",
-    "source_input_sha256": "a94bb9d0a6766ee26d5efafc4295c48d900c3d52f22038818b5964de152c9222",
-    "build_id": "85dac5bf-ff84-4215-84c4-e08943bf882a"
+    "source_input_sha256": "b5081dd281479774d4ad91b3b721aac04f75b6ffcdcfbf226f258efb540f9a06",
+    "build_id": "27e8bfac-eb5f-4cf4-ae89-18bacd16eb90"
   },
   "handoff": {
-    "status": "ACKED_AND_RECONCILED",
+    "status": "WAITING_FOR_AUTHORIZED_BUILD",
+    "stage": "S4",
     "thread_id": "01a15ffc-dbe5-7523-b5b1-d3dc37016e06",
     "worktree": "/root/verify-rust-std-select-night",
     "branch": "research/night-select-sort4-cloud-2026-10-09",
     "phase": "SORT4-ACTUAL-C2-2026-10-21-R17",
-    "stage": "S3-TYPED-PARAMETER-EXCLUSION",
     "build": {
-      "dispatch_token": "dispatch-baa5711f37194eaf81129890d39187b9",
+      "dispatch_token": "dispatch-774eeb6818d045af9052d29f889c6a06",
       "owner": "select-sort4",
       "phase_id": "SORT4-ACTUAL-C2-2026-10-21-R17",
-      "infra_sha": "13d65ceabf23758eecd25cdb1f7fd32a685755d7",
-      "proof_sha": "13d65ceabf23758eecd25cdb1f7fd32a685755d7",
+      "infra_sha": "51c4368bd6a1187dbf1975b979cb27ad3b51966f",
+      "proof_sha": "51c4368bd6a1187dbf1975b979cb27ad3b51966f",
       "lane": "o26-sort4-c1-current-recovery",
-      "submitted_config_sha256": "423a3e41bf78b94ce9aafa110dc903900ac80caa8b24e06acd4ec0d6870ebe7d",
+      "submitted_config_sha256": "9d1b6964c42278774d370342e5536e54b93410cca27d4b32e319844e4c3af98d",
       "reserved_seconds": 1260,
       "timeout_seconds": 1200,
       "status": "QUEUED",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
-      "source_input_sha256": "a94bb9d0a6766ee26d5efafc4295c48d900c3d52f22038818b5964de152c9222",
-      "build_id": "85dac5bf-ff84-4215-84c4-e08943bf882a"
+      "source_input_sha256": "b5081dd281479774d4ad91b3b721aac04f75b6ffcdcfbf226f258efb540f9a06",
+      "build_id": "27e8bfac-eb5f-4cf4-ae89-18bacd16eb90"
     },
     "ledger_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C2-2026-10-21-R17.json",
     "client_state_dir": "/tmp/select-r17-cloud-state",
-    "published_candidate_commit": "13d65ceabf23758eecd25cdb1f7fd32a685755d7",
+    "published_candidate_commit": "51c4368bd6a1187dbf1975b979cb27ad3b51966f",
     "effective_profile": {
       "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json",
-      "sha256": "441e3de82ae436004604239f3d7c3747220e376623c2806a69431ea3e0ae87b3"
+      "sha256": "53ecfe3cedeedbb89b44e7750260c51dfe2aa523bf0787040bc9b7d889c51ccb"
     },
-    "effective_tool": "Full R16 overlay/spec chain + R17 phase overlay + S3 typed-parameter-corrected c2 overlay result45a70c1d480a0d2d5bdbf919cd90192f89d24852d861a729aa10856c21e95303; base SHA alone insufficient.",
+    "effective_tool": "Full R16 overlay/spec chain + R17 phase overlay + exact c2 overlay from committed profile; base SHA alone insufficient.",
     "review": {
-      "path": "research/challenge-8/task-history/select-actual-c2-r17/S3-review.json",
-      "sha256": "bc4c2c00d9a8e5ba48aba88410e54e40e2bc283f2d047f46c186812233c2ba40",
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S4-review.json",
+      "sha256": "52b489a57fa00efd4a176e346f7fbf2053560ac52cbbe36b724eaba6d03836bc",
       "verdict": "GO_SOURCE_DELTA independent Luna HIGH"
     },
-    "tested": "Prior43 isolated body/registration service checks unchanged. S3 tuple-pattern fix statically source/pin checked; no local constructor/compiler/exporter/MIR/verifier.",
+    "tested": "Existing43 isolated synthetic body/registration checks; current OCaml delta requires fresh Cloud compile/target evidence. No local actual constructor/compiler/exporter/MIR/verifier.",
     "unverified": [
-      "S3 corrected tool compilation pending; S2 compile failed and is not S3 proof evidence.",
-      "C2 strict scope/equality/normal/direct-unwind/call-attribution and controls OPEN.",
-      "Final mini7/fresh26/stable Freeze caller OPEN; independent B1/B2credit0."
+      "Current delta compile/actual body assertions, normal/direct-unwind and call-site attribution pending Cloud.",
+      "Discriminating c2/receiver/order/ref/index/debt/marker controls and final mini7/fresh26/stable Freeze caller OPEN.",
+      "Full actual proof and independent B1/B2credit0; metadata/integrity/source progress are not proof acceptance."
     ],
     "window_preserved": true,
-    "no_budget_transfer": true,
-    "note": "Historical S3 snapshot only; current S4 source not yet run."
+    "no_budget_transfer": true
   }
 }

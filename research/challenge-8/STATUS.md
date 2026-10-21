@@ -1,11 +1,11 @@
 # Agent checkpoint: select-actual-c2-autonomous-2026-10-21-r17
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-C2-2026-10-21-R17 | state: ACTIVE
-- Updated: 2026-10-21T21:03:48.720443+00:00
+- Owner: select-sort4 | phase: SORT4-ACTUAL-C2-2026-10-21-R17 | state: HANDOFF
+- Updated: 2026-10-21T21:05:46.279159+00:00
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24`
 - Session dates: T0 `2026-10-21T20:06:19Z`; main deadline `2026-10-21T22:06:19Z`; absolute deadline `2026-10-21T22:36:19Z`
 - Budget: 3600s total; 1470s spent; 0s retired; 2130s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 27e8bfac-eb5f-4cf4-ae89-18bacd16eb90
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -27,7 +27,7 @@ Cannot read a ghost variable in a non-pure context. (verified/lib.rs(245,18-89),
 - [research/challenge-8/task-history/select-actual-c2-r17/S3-evidence.json](task-history/select-actual-c2-r17/S3-evidence.json) SHA `f00873db2149b0156ab4e20fce138f8364bccdede88e0c2db73b101a8572edbf`
 
 ## Next
-S4 same equality assertions wrapped PureStmt has independent Luna HIGH GO; publish and submit exact new pins in existing R17 account/window. No proof credit until Cloud evidence and required qualification.
+WAITING: S4 Build 27e8bfac-eb5f-4cf4-ae89-18bacd16eb90. Arm exact-thread watcher; on event first ack before checkpoint mutation, then Evidence Brief and exact target/control diagnostics. Existing R17 T0/account/window only, main22:06:19Z absolute22:36:19Z. No proof credit from metadata.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-actual-lifetime-r16/NEXT-AFTER-S5.md](task-history/select-actual-lifetime-r16/NEXT-AFTER-S5.md) — `9b14da3d73b7fc52e5fc9fe91309495db285fd762844ebcaa7cacd41e639f55f`
@@ -38,4 +38,5 @@ S4 same equality assertions wrapped PureStmt has independent Luna HIGH GO; publi
 - [research/challenge-8/task-history/select-actual-c2-r17/S3-review.json](task-history/select-actual-c2-r17/S3-review.json) — `bc4c2c00d9a8e5ba48aba88410e54e40e2bc283f2d047f46c186812233c2ba40`
 - [research/challenge-8/task-history/select-actual-c2-r17/S3-review.json](task-history/select-actual-c2-r17/S3-review.json) — `bc4c2c00d9a8e5ba48aba88410e54e40e2bc283f2d047f46c186812233c2ba40`
 - [research/challenge-8/task-history/select-actual-c2-r17/S3-evidence.json](task-history/select-actual-c2-r17/S3-evidence.json) — `f00873db2149b0156ab4e20fce138f8364bccdede88e0c2db73b101a8572edbf`
+- [research/challenge-8/task-history/select-actual-c2-r17/S4-review.json](task-history/select-actual-c2-r17/S4-review.json) — `52b489a57fa00efd4a176e346f7fbf2053560ac52cbbe36b724eaba6d03836bc`
 - [research/challenge-8/task-history/select-actual-c2-r17/S4-review.json](task-history/select-actual-c2-r17/S4-review.json) — `52b489a57fa00efd4a176e346f7fbf2053560ac52cbbe36b724eaba6d03836bc`
