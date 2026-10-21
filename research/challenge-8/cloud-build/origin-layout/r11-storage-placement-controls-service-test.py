@@ -224,6 +224,27 @@ class PlacementControlTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 m._run_identity(tuple_data, args, env, binding)
 
+    def test_hosted_provider_superset_matches_only_exact_required_identity(self):
+        expected = {"cloud_build_id": "12345678-1234-5678-1234-567812345678",
+                    "proof_sha": "a" * 40,
+                    "provider": {"provider": "cloud-build",
+                        "build_id": "12345678-1234-5678-1234-567812345678",
+                        "project": "project", "region": "region"}}
+        raw = {**expected["provider"], "execution_id": "extra", "metadata": {"x": 1}}
+        self.assertTrue(m._hosted_identity_matches(raw, expected["proof_sha"], expected))
+        mismatches = [
+            {key: value for key, value in raw.items() if key != "region"},
+            {**raw, "region": None},
+            {**raw, "project": 1},
+            {**raw, "provider": "other-provider"},
+            {**raw, "build_id": "87654321-4321-8765-4321-876543218765"},
+            None,
+            "wrong-type",
+        ]
+        for bad in mismatches:
+            self.assertFalse(m._hosted_identity_matches(bad, expected["proof_sha"], expected))
+        self.assertFalse(m._hosted_identity_matches(raw, "b" * 40, expected))
+
     def test_mutation_plan_fails_closed_on_missing_or_ambiguous_source_anchor(self):
         with self.assertRaises(ValueError):
             m._mutation_plan("", b"fn insert_tail() {}\n")

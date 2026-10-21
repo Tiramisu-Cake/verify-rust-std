@@ -60,6 +60,22 @@ def _inconclusive(name: str, reason: str, **extra) -> dict:
             "accepted": False, "proof_credit": False, "reason": reason, **extra}
 
 
+def _hosted_identity_matches(provider, proof_sha, run_identity: dict) -> bool:
+    """Compare the required hosted identity, allowing unrelated metadata."""
+    expected = run_identity.get("provider") if type(run_identity) is dict else None
+    keys = ("provider", "build_id", "project", "region")
+    if type(provider) is not dict or type(expected) is not dict:
+        return False
+    for key in keys:
+        actual_value = provider.get(key)
+        expected_value = expected.get(key)
+        if (type(actual_value) is not str or not actual_value or
+                type(expected_value) is not str or not expected_value or
+                actual_value != expected_value):
+            return False
+    return type(proof_sha) is str and proof_sha == run_identity.get("proof_sha")
+
+
 def _source_pair(case: Path, record: dict) -> tuple[bytes, bytes]:
     if type(record) is not dict or record.get("profile") != PROFILE or \
             record.get("prefix") is not False or record.get("mutation") is not None:
@@ -652,7 +668,7 @@ def run(evidence, args, env, positive_case, source_record, *, validated_run):
         proof = _load("r11_storage_hosted_gate", HERE.parents[1] /
                       "merge/overnight/copy-on-drop-prove.py")
         provider, proof_sha = proof.require_hosted_cloud()
-        if provider != run_identity["provider"] or proof_sha != run_identity["proof_sha"]:
+        if not _hosted_identity_matches(provider, proof_sha, run_identity):
             raise ValueError("hosted provider or proof identity differs from validated current run")
         positive_case = Path(positive_case)
         original, verified = _source_pair(positive_case, source_record)

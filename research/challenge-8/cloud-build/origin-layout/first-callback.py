@@ -611,21 +611,22 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
 def _execute_case_with_r9_trace(execute_case, case, args, env, *, profile,
                                 prefix=False, actual_callback_case=False,
                                 r11_native_fullbody=False, validated_receipt=None):
-    """Enable R9-only native guard diagnostics and checked recovery."""
+    """Scope R9 recovery and R11 placement diagnostics to actual body cases."""
     case_env = dict(env)
     case_env.pop(R9_GUARD_TRACE_ENV, None)
     case_env.pop(R11_LABEL_TRACE_ENV, None)
     case_env.pop(R11_LABEL_PLACEMENT_ENV, None)
     case_env.pop(R9_GUARD_RETURN_RECOVERY_ENV, None)
-    native_active = (profile == R11_PROFILE and r11_native_fullbody and
-                     not prefix and actual_callback_case)
+    placement_active = (profile == R11_PROFILE and not prefix and actual_callback_case)
+    native_active = placement_active and r11_native_fullbody
     if profile in (R9_PROFILE, R10_PROFILE, R11_PROFILE) and not prefix and actual_callback_case:
         case_env[R9_GUARD_TRACE_ENV] = '1'
         if profile == R11_PROFILE:
             case_env[R11_LABEL_TRACE_ENV] = '1'
         case_env[R9_GUARD_RETURN_RECOVERY_ENV] = '1'
-    if native_active:
+    if placement_active:
         case_env[R11_LABEL_PLACEMENT_ENV] = '1'
+    if native_active:
         if not isinstance(validated_receipt, dict) or validated_receipt.get('profile') != R11_PROFILE:
             raise RuntimeError('R11 fullbody native placement requires the validated current R11 receipt')
     sentinel = object()

@@ -59,15 +59,15 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 ## Отчёт агента
 
 R11 ACTIVE. T0/main/absolute 2026-10-21 06:14:39/08:14:39/08:44:39UTC.
-Build1 acba1b21: source5fdfaa63/tool a3a22f98,694charged/694execution;
-seven compilation milestones exit0, actual StorageDead276 refused. _117 receipt
-exists at invariant entry, absent after production: source observation only.
-Build2 92795836: sourcefc0e2c01/toolab4f72b8,89charged/88execution,
-setup overlay refusal; fixed selected R11 identity registration, LunaHIGH GO.
-Build3 fa3a26ec: source5a93a90c/toolab4f72b8,421charged/420execution,
-translator compile unit vs Mir.basic_block; plan function monomorphized.
-Data-only plan/helper-local type repair under LunaHIGH review before retry.
-Used1204/execution1202/remaining2396; all3 terminal/accounted, ownactive0.
-Placement retains checked invariant, storage checks, CFG and resources.
+Build1 acba1b21:694charged/694execution, seven compilation milestones exit0,
+actual StorageDead276 refused; _117 receipt absent after invariant production.
+Build2 92795836:89/88, setup overlay refusal; reviewed repair applied.
+Build3 fa3a26ec:421/420, translator compile type error; reviewed repair applied.
+Build4 25877672:670/669, seven compilation milestones exit0, actual frontend
+fatal structural AST comparison before logical body. Placement controls source
+INCONCLUSIVE rawprovider-vs-canonical-map mismatch. Current exporter run tuple
+observed. AST physical identity, provider-fourfield comparison and control
+routing fixes all independently LunaHIGH GO; fresh exacttool660b576b candidate.
+Used1874/execution1871/remaining1726; all4 terminal/accounted, ownactive0.
 Full target gates0; B2/generic/qualificationOPEN,acceptedfalse/independentcredit0.
-See R11-BUILD1..3-RESULT and R11-TYPE-REPAIR; R10 closed/no carry.
+R11-BUILD1..4-RESULT / AST-IDENTITY-REPAIR / CONTROL-ROUTING; R10 no carry.

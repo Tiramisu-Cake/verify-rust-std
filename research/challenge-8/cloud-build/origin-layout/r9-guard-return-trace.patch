@@ -1,5 +1,5 @@
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index 9813a884..af2ef02b 100644
+index 9813a884..0d47e871 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -1967,18 +1967,37 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -589,7 +589,7 @@ index 9813a884..af2ef02b 100644
              State.selected_resume_targets := List.filter_map (fun block ->
                match TerminatorKindRd.get (TerminatorRd.kind_get (BasicBlockRd.terminator_get block)) with
                | TerminatorKindRd.Drop data when List.mem
-@@ -7221,6 +7601,77 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7221,6 +7601,78 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                        translate_basic_block ret_place_id bblock_cpn)
                      bblocks_cpn
              in
@@ -603,7 +603,8 @@ index 9813a884..af2ef02b 100644
 +                  let unique id = match List.filter (fun (bb : Mir.basic_block) -> bb.id = id) bblocks with
 +                    | [one] -> one | _ -> fail "translated block binding is ambiguous" in
 +                  let call = unique call_id and target = unique target_id in
-+                  require (call.terminator_stmts = [invariant_stmt] && call.successors = [target_id] &&
++                  require ((match call.terminator_stmts with [stmt] -> stmt == invariant_stmt | _ -> false) &&
++                    call.successors = [target_id] &&
 +                    (match call.terminator with Mir.GotoTerminator (_, id) -> id = target_id | _ -> false))
 +                    "translated annotation call/edge differs";
 +                  require (List.map (fun (bb : Mir.basic_block) -> bb.id)
@@ -667,7 +668,7 @@ index 9813a884..af2ef02b 100644
              let bblocks =
                match State.first_callback, !State.first_callback_call_loc,
                      !State.first_callback_normal_target with
-@@ -7510,6 +7961,15 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7510,6 +7962,15 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                         "Post-retirement generated Drop control found multiple qualified Drops" None)
                | _ -> vf_bblocks
              in

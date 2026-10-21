@@ -1,0 +1,53 @@
+{
+  "schema": "merge-r11-build-result-v1",
+  "build_id": "25877672-1eb8-4043-94a9-b09f562ef8d0",
+  "source_commit": "f654e29cd4913cf8f9ac9cdc6795cb716bcfa87c",
+  "tool_commit": "5c80671711da1b43a7390f13431b7c51986b210d",
+  "status": "FAILURE",
+  "charged_seconds": 670,
+  "execution_seconds": 669,
+  "cumulative_charged_seconds": 1874,
+  "cumulative_execution_seconds": 1871,
+  "remaining_seconds": 1726,
+  "create_time": "2026-10-21T07:28:50.707002999Z",
+  "start_time": "2026-10-21T07:28:51.500843366Z",
+  "finish_time": "2026-10-21T07:40:00.338083Z",
+  "compilation": "seven observed milestones exit0",
+  "formal_attempt": "fullbody frontend fatal Invalid_argument(compare: abstract value), exit2, before logical body acceptance",
+  "placement_controls": "source INCONCLUSIVE; hosted provider whole-map vs canonical-map mismatch",
+  "closed_target_gates": 0,
+  "accepted": false,
+  "independent_credit": 0,
+  "qualification": "OPEN",
+  "reader": {
+    "archive_sha256": "a96b7fc21b2d73bcbb04c057c5ea9162cdaa6f1d01ed7dd7e338333623938fe1",
+    "index_sha256": "e2eba49bb3c7fd2cb752cf3475a7f55246aff5c98b30f678ebaa22f51dd2f1f8",
+    "log": {
+      "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+      "sha256": "265d68f928697285b83dc7c7d6a91ba629ab02be084c9350f22dd0b5cf63fdc5",
+      "lines": [
+        154,
+        159
+      ],
+      "request_id": "903495f5b19d6ddc6c62a01919e3d26078b736dadd9dce5c63ced4f131a2cfab",
+      "exact": true,
+      "complete": false
+    },
+    "controls": {
+      "file_id": "16921a0b32e5989de188e93902c6b999a969dfea13636a39ed9fa338097ffbe3",
+      "sha256": "3f95c618aada0e073f5b5aa739a10db3a18b4e3c0f7530d8b7b8d2e45d341a56",
+      "root_request_id": "398ee1d1df8814067dfd4300d74b6f6c56e1b205392b21242a61dfffe6807953",
+      "exact": true,
+      "complete": true
+    },
+    "exporter_receipt": {
+      "file_id": "08ff7916f75d90e3745bcd263bf57ff60eea471a1086f5db57c2f2fad451652c",
+      "sha256": "c961a49b640f4cce38bd70293906242e29fcd62a05e512cb28dd706b19208dc6",
+      "pointer": "/r11_run_identity",
+      "request_id": "6a598f8a759457949f20c3409fe0fb1f39eaaeaa8ab26c9c8702c0fdd5445678",
+      "observation": "current Build/source/profile/tool identity present, source hash85c75bc9; not full artifact/decode gate audit"
+    },
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "causal_status": "UNKNOWN"
+  }
+}

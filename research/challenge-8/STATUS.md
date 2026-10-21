@@ -1,18 +1,16 @@
-# Merge-R11 ACTIVE — checked annotation placement
+# Merge-R11 ACTIVE — placement actual frontend frontier
 
 T0/main/absolute 2026-10-21 06:14:39/08:14:39/08:44:39UTC.
-Build1 acba1b21-10e9-4ffe-ae4f-a1eb93c109b2 terminal/accounted:
-Build1 694charged/694execution; Build2 setup89/88; Build3 compile421/420; used1204/remaining2396; seven compilation milestones exit0,
-actual insert_tail StorageDead276 refusal; no full target gate closed.
-Placement tool5c806717 (type repair after Build3 compile refusal), originally ab4f72b8 moves the exact checked annotation invariant after
-its retained Dead, with unchanged storage checks/CFG/resources. LunaHIGH tool
-review GO; source-control parser finding corrected before submit. Current native
-exporter/decode provenance and isolated fullbody replay controls are included.
-18 base overlay pins retained plus two R11 parent/control pins. B2/generic/
-qualification OPEN, acceptedfalse/independentcredit0; ownactive0; Build4 reviewed type repair prepared; no current actual placement result.
-[Task](CURRENT-TASK.md), [Build1](cloud-build/origin-layout/R11-BUILD1-RESULT-20261021.json),
-[design](cloud-build/origin-layout/R11-PLACEMENT-DESIGN-20261021.md),
-[review](cloud-build/origin-layout/R11-CANDIDATE2-REVIEW-20261021.md).
+Four terminal/accounted Builds: charges694+89+421+670=1874, execution1871,
+remaining1726; ownactive0. Build1 StorageDead diagnosis; Build2 overlay and
+Build3 type setup failures repaired. Build4 seven compile milestones exit0,
+actual frontend fatal AST structural comparison, no logical body result.
+Next candidate tool660b576b uses exact parsed-node identity; scoped R11 control
+routing and provider-field comparison repaired, independent LunaHIGH GO.
+All storage/CFG/resource checks and R8 premise retained. Target fullgates0,
+acceptedfalse/independentcredit0, B2/generic/qualification OPEN.
+[Task](CURRENT-TASK.md), [Build4](cloud-build/origin-layout/R11-BUILD4-RESULT-20261021.json),
+[repair](cloud-build/origin-layout/R11-AST-IDENTITY-REPAIR-20261021.md).
 Prior snapshots below are historical.
 
 # Merge-R11 READY — label invariant / annotation temporary

@@ -1,0 +1,7 @@
+# R11 actual callback control routing
+
+Source audit found R11 placement flag tied to the exact positive fullbody path. R9 recovery and R7 late-admission controls also execute the fullbody source with the same invariant, but have different case paths. With placement disabled they may stop at old StorageDead before their intended diagnostic, which correctly cannot count as an intended negative.
+
+Split two gates: placement_active is R11 + nonprefix + actual_callback_case, exactly like existing R11/R9 tracing/recovery; native_active additionally requires exact r11_native_fullbody and retains parent tuple validation/transient receipt stamping only on the original positive. No other profile/prefix inherits placement, and mutated-tool controls do not acquire positive native provenance. Keep existing control classifiers exact: earlier R11 refusals remain INCONCLUSIVE. Source/default-off/kernel/storage/resource logic unchanged. Synthetic tests cover actual negative placement activation without native stamping, prefix/non-R11 isolation, exact positive and exception restore. Independent LunaHIGH review before next submit.
+
+Independent GPT-6 Luna HIGH reviewer r10_review GO on current split: actual negatives receive placement but no positive native provenance; exact positive tuple stamping/restoration and prefix/legacy isolation preserved. Synthetic trace10 plus existing R8/R9 wiring PASS. Actual controls remain pending next Cloud candidate; no new credit.

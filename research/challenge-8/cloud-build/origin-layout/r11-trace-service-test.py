@@ -36,11 +36,14 @@ class Tests(unittest.TestCase):
         for opts in ({'prefix':True},{'actual':False}):
             e=self.run_case(m.R11_PROFILE,**opts)
             self.assertNotIn(m.R11_LABEL_TRACE_ENV,e)
+            self.assertNotIn(m.R11_LABEL_PLACEMENT_ENV,e)
             self.assertNotIn(m.R9_GUARD_RETURN_RECOVERY_ENV,e)
     def test_legacy_profiles_never_enable_r11(self):
         for profile in m.SUPPORTED_PROFILES:
             if profile!=m.R11_PROFILE:
-                self.assertNotIn(m.R11_LABEL_TRACE_ENV,self.run_case(profile))
+                env=self.run_case(profile)
+                self.assertNotIn(m.R11_LABEL_TRACE_ENV,env)
+                self.assertNotIn(m.R11_LABEL_PLACEMENT_ENV,env)
     def test_errors_keep_original_exception(self):
         self.run_case(m.R11_PROFILE,error=RuntimeError('synthetic stage failure'))
         self.run_case(m.R11_PROFILE,error=TimeoutError('synthetic deadline'))
@@ -65,6 +68,23 @@ class Tests(unittest.TestCase):
         self.assertIs(seen[0][1],receipt)
         self.assertFalse(hasattr(args,'r11_native_run'))
         self.assertEqual(result['stages']['decode'],0)
+
+    def test_actual_negative_gets_placement_flag_without_native_tuple(self):
+        class Args: pass
+        args=Args()
+        seen=[]
+        def execute(case,got_args,env):
+            seen.append((env,hasattr(got_args,'r11_native_run')))
+            return {'stages':{'exporter':0,'decode':0,'verifast':1}}
+        result=m._execute_case_with_r9_trace(
+            execute,Path('evidence/guard-return-control/wrongorigin'),args,{},
+            profile=m.R11_PROFILE,actual_callback_case=True,r11_native_fullbody=False)
+        self.assertEqual(seen[0][0][m.R11_LABEL_PLACEMENT_ENV],'1')
+        self.assertEqual(seen[0][0][m.R11_LABEL_TRACE_ENV],'1')
+        self.assertEqual(seen[0][0][m.R9_GUARD_RETURN_RECOVERY_ENV],'1')
+        self.assertFalse(seen[0][1])
+        self.assertFalse(hasattr(args,'r11_native_run'))
+        self.assertEqual(result['stages']['verifast'],1)
 
     def test_native_context_restores_previous_value_on_exception(self):
         class Args: r11_native_run='old'
