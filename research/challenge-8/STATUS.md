@@ -1,11 +1,11 @@
 # Agent checkpoint: merge-caller-refinement-autonomous-2026-10-21-r17
 
-- Owner: merge | phase: MERGE-CALLER-REFINEMENT-R17-2026-10-21 | state: ACTIVE
-- Updated: 2026-10-21T20:16:04Z
+- Owner: merge | phase: MERGE-CALLER-REFINEMENT-R17-2026-10-21 | state: HANDOFF
+- Updated: 2026-10-21T20:25:22Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `660b576b6b1608db913c51e0785b443a8733396f`, profile `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375`
 - Session dates: T0 `2026-10-21T18:33:50Z`; main deadline `2026-10-21T20:33:50Z`; absolute deadline `2026-10-21T21:03:50Z`
 - Budget: 3600s total; 2111s spent; 0s retired; 1489s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 20e8009e-458e-45b1-9974-b0abfe716675
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -19,7 +19,7 @@
 
 ## Open
 - Original full/prefix as_mut_ptr borrow/unsize (placeholders441/249); dependent controls NOT_RUN_PREFIX_PREREQUISITE_FAILED.
-- Current-tool RawPtr controls, raw caller normal/unwind, ghost syntaxfix and borrow-lifecycle proof await P3 evidence.
+- P4 raw caller source-exact: exporter/decode/refinement0/verifast1; RawPtr positive refinement2/verifast1. Lifecycle ens Parseerror; reviewed delimiters await P5.
 - Full CURRENT/backedge and final compatible matrix, B2/generic/arbitrary-n/sorting/tool qualification and independent proof credit remain OPEN.
 
 ## Rejected approaches
@@ -27,10 +27,10 @@
 - Short outer timeout990/execute570 chosen using prior whole-cycle timings — Missed nested compile reserve140; P4 timed out before proof. Keep full1200 plan unless effective inner budget reviewed.; [research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md](cloud-build/origin-layout/R16-REVIEW-20261021.md) SHA `7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa`
 
 ## Blocker
-P4 lifecycle Parseerror76 ens; raw caller/controls under Brief investigation; original placeholders441/249 unchanged. (P4 actual campaign) [Build `2256a4c8-2a4d-4a5c-8b61-a252730eae70`]
+P5 pending lifecycle syntax fix validation. Raw caller verifier1 and RawPtr positive refinement2 remain OPEN. (P5 Cloud Build) [Build `20e8009e-458e-45b1-9974-b0abfe716675`]
 
 ## Next
-Review lifecycle clause delimiters and any exact raw blocker fix, then full1200 cycle if admitted before main. No proof credit.
+WAITING via exact-thread watcher. Ack event before checkpoint edits; terminal Brief then closeout if main expired. Preserve pending ID after absolute; no budget/window renewal.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md](cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md) — `6acfb36fa52b2e05eea0551dfb40033156b23ef8165dfa67f6309d0550e721eb`

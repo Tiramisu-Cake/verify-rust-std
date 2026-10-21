@@ -1,0 +1,57 @@
+{
+  "archive_sha256": "de57e0112f88085a9c4d409d00a456774d2f5de9b57b81937a0a948a17fa4f6b",
+  "build_id": "2256a4c8-2a4d-4a5c-8b61-a252730eae70",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 4,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+  "file_path": "proof-audit.json",
+  "file_sha256": "9a9fc5732f3fcd32bc2e5b3032138cba71794867b3a55fde0b70c2d2392b9fbf",
+  "index_sha256": "646f1a2d323c5689925c491c588851070b704111a3d5081bfc8854de1de0d218",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "9a9fc5732f3fcd32bc2e5b3032138cba71794867b3a55fde0b70c2d2392b9fbf",
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "pointer": "/bridge_diagnostic/actual_insert_tail_b2/results/raw_local_caller/stages"
+  },
+  "request_id": "e6fa4a05d8e512399c11db0d7fe48694dab51264c3c65dbcbd5f59b6823a9fdd",
+  "results": [
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/bridge_diagnostic/actual_insert_tail_b2/results/raw_local_caller/stages/decode",
+      "value": 0
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/bridge_diagnostic/actual_insert_tail_b2/results/raw_local_caller/stages/exporter",
+      "value": 0
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/bridge_diagnostic/actual_insert_tail_b2/results/raw_local_caller/stages/refinement",
+      "value": 0
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/bridge_diagnostic/actual_insert_tail_b2/results/raw_local_caller/stages/verifast",
+      "value": 1
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}
