@@ -1,0 +1,48 @@
+{
+  "build": {
+    "dispatch_token": "dispatch-8da47d4e719c49359d1a0dc89fda14ae",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-ACTUAL-C2-2026-10-21-R17",
+    "infra_sha": "a80c7e2196076a436a5460239dd67aea9626600c",
+    "proof_sha": "a80c7e2196076a436a5460239dd67aea9626600c",
+    "lane": "o26-sort4-c1-current-recovery",
+    "submitted_config_sha256": "8ebd12b876baf709e619f17a17e4b9858ceb583d4da70dc923fabb5289873b18",
+    "reserved_seconds": 1260,
+    "timeout_seconds": 1200,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "74130290cdb04104728859db7fe0c260e59ee12454c89d18f95e9380357a4e80",
+    "build_id": "5f703f60-c621-49fb-a5a0-c3bd762080fb",
+    "start_time": "2026-10-21T20:15:58.361895163Z",
+    "finish_time": "2026-10-21T20:23:50.929616Z",
+    "create_time": "2026-10-21T20:15:57.493290216Z",
+    "build_seconds": 474,
+    "accounted": true,
+    "execution_seconds": 473
+  },
+  "archive_sha256": "4df82413f66a353d7a0a13ea7aa09a63b1f3fc13ef3310db53b733bea5311c84",
+  "index_sha256": "8a2862853121f64a832b7ae756a20fe948faf04d27adc0f38b181ac99878eda4",
+  "integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "body_target": "UNKNOWN",
+  "failure": "RuntimeError: A1-REFERENCE-OWN: exact diagnostic mode",
+  "cause_source_audit": "Pinned reference-own helper allowlist contains R13-R16 but not R17. New isolated copy adds exact R17 only; variants/contracts/classifiers unchanged.",
+  "assurance": "SOURCE_REPORTED",
+  "closed_actual_obligations": 0,
+  "independent_credit": false,
+  "fragments": [
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S1-brief/body_target.json",
+      "sha256": "a2888bed362e1b67a526196cf59b8ae3b7e575531b94dd49da460557382c4561"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S1-brief/brief.txt",
+      "sha256": "195b309c3ff2f36d1a2f2b23e9e74510df2af9fc7ca2b06af756133bbf99cbd5"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S1-brief/run_error.json",
+      "sha256": "b362baaa897e400f0c7d1c6ff903d5c6643115e368609ea17c86726792d83d90"
+    }
+  ]
+}

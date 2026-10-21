@@ -1,5 +1,5 @@
 {
-  "a1_actual_body_sha256": "03bc9a095bc94335b6aaeb4625aca8be804fc2884fb0b34d6eac83a0378838bf",
+  "a1_actual_body_sha256": "d89a01c22238e5729aaadfab276f6e0e362ca0bec6156f715f31ad292e85e861",
   "a1_checked_cleanup_helper_sha256": "a12ea01240b96555a3b74dc3ef4bdec5e581904c37f4377dc5b048a4db50abb8",
   "a1_checked_cleanup_import_sha256": "0ee7ebcc19c7a21bbe329d70e6e763ee43c7647b556ad6184982997ec4fa911f",
   "a1_entry_sha256": "e1e23f086a38400262a23d7a922ae1d7e289a456b9033d21b6ef32f675959386",
@@ -22,7 +22,7 @@
     "a1-summary-receipt.py": "bcc55360698346f0aa2dfb3858c6b555a9104db95308116d2c16c188a9b8a7dd",
     "a1-synthetic-backend.py": "e16f7a825d07845b80128d7db671681bba4f8c9b70a323dcd9b705e499314316",
     "a1-synthetic-inputs.py": "dd737956cbff76a7e27abac0603b3a0cc4eeeae2aa7f7c0e1dddb914ac59bc3f",
-    "a1-tool-r17.py": "09c7642a6e0a512dd963ef83f508a09954993321f56fd39f14c511aba6350a0a",
+    "a1-tool-r17.py": "6dcb27a503eb3e3f4daa93fb74dc3d82d83651e8d0c250d29c16659674d418e3",
     "a1-tool.py": "40e56a9110f4cf2cace3a3e1e449ca1b56051faa8958b322a36713a1c1c31d00",
     "selected-proof.py": "3347ad41c0273ebf186dbcf0520182455b32a65ad9619f2b2c7d3d00c12a7d7f"
   },
@@ -32,8 +32,10 @@
   "account": "BUDGET-A1-ACTUAL-C2-2026-10-21-R17.json",
   "actual_body_dependencies_sha256": {
     "a1-actual-body-c1.py": "8af19b63552b7ef6e4b6026b4f188fa00c4344a4bb1b75848008e7b46141441e",
+    "a1-actual-body-c2.py": "9ffd0cdba36ffc0ab5e79fb531676733927795afa89a55ebc24023bb53b7df3f",
     "a1-actual-copy-lemma.rs": "e839b8ab51c15a4d9789e96892db4c24d23c4c112ac8e19b81b77b0da6148edc",
     "a1-actual-four-copy.rs": "7b81692132690c94e85e8062d1cf2e7565a35cecc29f2a21f5073bb4eb1d2e37",
+    "a1-actual-recover-four.rs": "9637aee892e633c2521d8cef62770a6be0982a1835492b6afffafc97f9246d8b",
     "a1-actual-recover-pair.rs": "7a28ae5734c5288ff466764e6645eff236f30c097a7951ebd086f5bb7f5eff72",
     "a1-actual-selector-permutation.rs": "83a1dafde130f412e16235312481b338a419f73805d3ec300d559e8f25dc7aca",
     "capture.py": "0d993e8c36cb7684eb509e8efcfb9553b07e92e87885f4ae430269c4cb2a6060"
@@ -43,6 +45,13 @@
     "patch": "actual-sort4-c1-recovery-r15.patch",
     "patch_sha256": "0ffb4fb9ea713ab58871ced508f537ba0ec7de01b7cca85fe41b7e327ebddeda",
     "result_sha256": "9155f51bc421b74bb4736887f919087c37504969d3bd5b8e539f822daa9194d5"
+  },
+  "actual_c2_recovery_enabled": true,
+  "actual_c2_recovery_overlay": {
+    "manifest_sha256": "7cfe3c969e54e234e39c57e454b5b607309b81fd33e7f4e381fd5940157246b7",
+    "patch": "actual-sort4-c2-recovery-r17.patch",
+    "patch_sha256": "2726536a0a04ca1ce2113b1c3c93e0bf7b1c25c3d7695bba6afc8d18d1b2297c",
+    "result_sha256": "bbef1858786129d3d31e14c7c45c0ade9c49a8eb9d67f791d1d66e568328b82b"
   },
   "actual_deferred_scope_relocation": {
     "manifest_sha256": "ecb42bf3afd24c2c999a7255f15f8f1d611c2ebea09272a49305939a2df58ad3",
@@ -88,7 +97,7 @@
   "c_patch_sha256": "3549e93e80aa20f3827c821db60d7ce366557155b8b203a8acaff552c04f5cb6",
   "caller_driver_sha256": "75df07539721e16e2329f94ebe392f8f3626ca106be906cfc0cc61345db4797a",
   "caller_manifest_sha256": "cea1daca656e641f083aabc1eb8c62784edde889ae01470b339c719e3ba3c8d2",
-  "candidate_version": "R17-S1-RESOURCE-CONTROL-ROUTING",
+  "candidate_version": "R17-S2-INDEXED-C2-RESOURCE-RECOVERY",
   "checkpoint_utc": "2026-10-21T12:29:30Z",
   "cloud_build_enabled": true,
   "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
@@ -212,7 +221,7 @@
     "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "9391bff0376ad008798a950d76dbaac095cacbe8fd5acf5b2ea4d336a759f33f"
   },
   "reference_own_preflight_enabled": true,
-  "reference_own_probe_sha256": "20929f5cf148fa8b05fc1d78e3593f286e77bfbfbbfe0bf51d03c398d2ebc5f0",
+  "reference_own_probe_sha256": "ea4cb0d45a3da7060298978c01d9cbaab241a36907b7f1a56823162549d73d80",
   "registration_rationale": "R17 is a fresh 3600-second Select window. S1 routes the unchanged full actual sort4 body and R16 effective semantic/tool profile through the R17 phase-bound adapters; c2 resource-recovery edits are owned by the parent and will be introduced in a later reviewed phase. Proof/profile acceptance and credit start false.",
   "schema": "smallsort-a1-rcg-source-profile-v1",
   "selected_base_translator_sha256": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64",

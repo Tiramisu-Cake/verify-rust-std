@@ -7,6 +7,10 @@
     {
       "path": "research/challenge-8/task-history/select-actual-lifetime-r16/NEXT-CALLBACK-PROTOCOL.md",
       "sha256": "52ab17d8fc1da93b4b10e4e5be40dfd8455c761c4b1b09f88b0305464169e769"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S1-review.json",
+      "sha256": "1eb072f1947446e6d0b4d72795728c433ba8c0a34768b96c670c51fe4b72db61"
     }
   ],
   "assignment_sha256": "69b4eda8101c736cb0ba9d2bca26c5623b1866c3cf6ce5b503a18a6c962ce68b",
@@ -16,16 +20,15 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "acd8e010-16b8-4b58-9501-083cb10b595f",
+    "build_id": "5f703f60-c621-49fb-a5a0-c3bd762080fb",
+    "summary": "RuntimeError: A1-REFERENCE-OWN: exact diagnostic mode",
+    "location": "a1-reference-own-probe.py:112",
     "evidence": [
       {
-        "build_id": "acd8e010-16b8-4b58-9501-083cb10b595f",
-        "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S5-evidence.json",
-        "sha256": "209199ccfeef37d698b97216466b3f726d383358fa274e8e887f1ca5ead6ca51"
+        "path": "research/challenge-8/task-history/select-actual-c2-r17/S1-evidence.json",
+        "sha256": "9e02ff66640dfb90532a457a05e83bdc2426b2a68e3e252449b080f74d3e9148"
       }
-    ],
-    "location": "verified/lib.rs:202; aliasing.rsspec:88",
-    "summary": "Actual c2 missing precreated-ref token for base+3; required controls stopped by HRTB routing error."
+    ]
   },
   "confirmed": [
     {
@@ -48,9 +51,19 @@
           "sha256": "64819aa0be35fd1f84e6c90109c33cf944cbac9afcb26ca4598d066f18c4aa45"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R17 S1 terminal/accounted; run_error at reference-own exact phase allowlist, body_target UNKNOWN; no actual obligation or control qualification.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-actual-c2-r17/S1-evidence.json",
+          "sha256": "9e02ff66640dfb90532a457a05e83bdc2426b2a68e3e252449b080f74d3e9148"
+        }
+      ]
     }
   ],
-  "next_step": "Fix HRTB control routing; establish actual c2 resource/recovery gate and discriminating controls.",
+  "next_step": "S2: add exact R17 probe allowlist; review source-preserving indexed c2 resource/strict-scope candidate, then Cloud preflight and required controls. All new c2 code unverified.",
   "open": [
     "Full actual sort4 normal/unwind; ordered c1–c5 attribution/current-owner recovery, selector-pointer/permutation/copy composition.",
     "Required HRTB-off/controls completion, final mini7/fresh26, qualification and stable Freeze caller; independent B1/B2 credit0."
@@ -70,13 +83,29 @@
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-21T22:36:19Z",
     "main_deadline_utc": "2026-10-21T22:06:19Z",
-    "remaining_seconds": 3600,
+    "remaining_seconds": 3126,
     "retired_seconds": 0,
-    "spent_seconds": 0,
+    "spent_seconds": 474,
     "t0": "2026-10-21T20:06:19Z",
     "unresolved_ids": []
   },
   "state": "ACTIVE",
   "task_id": "select-actual-c2-autonomous-2026-10-21-r17",
-  "updated_utc": "2026-10-21T20:06:42.790541Z"
+  "updated_utc": "2026-10-21T20:29:36.735891+00:00",
+  "build_context": {
+    "dispatch_token": "dispatch-8da47d4e719c49359d1a0dc89fda14ae",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-ACTUAL-C2-2026-10-21-R17",
+    "infra_sha": "a80c7e2196076a436a5460239dd67aea9626600c",
+    "proof_sha": "a80c7e2196076a436a5460239dd67aea9626600c",
+    "lane": "o26-sort4-c1-current-recovery",
+    "submitted_config_sha256": "8ebd12b876baf709e619f17a17e4b9858ceb583d4da70dc923fabb5289873b18",
+    "reserved_seconds": 1260,
+    "timeout_seconds": 1200,
+    "status": "QUEUED",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "74130290cdb04104728859db7fe0c260e59ee12454c89d18f95e9380357a4e80",
+    "build_id": "5f703f60-c621-49fb-a5a0-c3bd762080fb"
+  }
 }

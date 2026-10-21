@@ -46,9 +46,9 @@ Next: Fix HRTB control routing; establish actual c2 resource/recovery gate and d
 ## Отчёт агента
 
 **select-actual-c2-autonomous-2026-10-21-r17 · select-sort4 · SORT4-ACTUAL-C2-2026-10-21-R17 · ACTIVE**
-Updated: 2026-10-21T20:06:42.790541Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24`.
-Dates: T0 `2026-10-21T20:06:19Z`; main `2026-10-21T22:06:19Z`; absolute `2026-10-21T22:36:19Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
+Updated: 2026-10-21T20:29:36.735891+00:00. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24`.
+Dates: T0 `2026-10-21T20:06:19Z`; main `2026-10-21T22:06:19Z`; absolute `2026-10-21T22:36:19Z`. Budget 3600s: 474s spent, 0s retired, 3126s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Actual c2 missing precreated-ref token for base+3; required controls stopped by HRTB routing error. [Build `acd8e010-16b8-4b58-9501-083cb10b595f`]
-Next: Fix HRTB control routing; establish actual c2 resource/recovery gate and discriminating controls.
+Blocker: RuntimeError: A1-REFERENCE-OWN: exact diagnostic mode [Build `5f703f60-c621-49fb-a5a0-c3bd762080fb`]
+Next: S2: add exact R17 probe allowlist; review source-preserving indexed c2 resource/strict-scope candidate, then Cloud preflight and required controls. All new c2 code unverified.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

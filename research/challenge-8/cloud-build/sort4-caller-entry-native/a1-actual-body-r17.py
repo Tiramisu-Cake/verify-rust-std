@@ -289,6 +289,22 @@ def route_resource_control(case):
     return name, verified, original, routed
 
 
+def refresh_callback_coordinates(case):
+    name, verified, original, meta = case
+    need(meta.get('actual_c1_recovery') is True, 'actual callback coordinates require c1 source')
+    lines = verified.splitlines()
+    found = [[i for i, line in enumerate(lines, 1)
+              if re.search(rb'\blet c' + str(index).encode() + rb' = is_less(?:/\*@|\()', line)]
+             for index in range(1, 6)]
+    need(all(len(rows) == 1 for rows in found), 'exact five source comparator coordinates')
+    sites = [rows[0] for rows in found]
+    need(sites == sorted(set(sites)), 'ordered comparator source coordinates')
+    return name, verified, original, {**meta,
+        'generated_source_sha256': sha(verified),
+        'first_comparator_line': sites[0], 'c2_comparator_line': sites[1],
+        'callback_call_lines': sites}
+
+
 def run_case(a, c4, tool, env, root, case, gates, grammar, identity, *, paired_required=True):
     name, verified, original, meta = case
     env = dict(env)
@@ -301,6 +317,22 @@ def run_case(a, c4, tool, env, root, case, gates, grammar, identity, *, paired_r
             SORT4_ACTUAL_BODY_FIRST_CALL_LINE=str(meta['first_comparator_line']),
             SORT4_A1_AUTHORIZATION_PHASE_ID=AUTH,
             SORT4_A1_PHASE_ID='SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17')
+    for key in ('SORT4_ACTUAL_BODY_C2_RECOVERY', 'SORT4_ACTUAL_BODY_SECOND_CALL_LINE',
+                'SORT4_ACTUAL_BODY_CALL_LINES'):
+        env.pop(key, None)
+    if meta.get('actual_c2_recovery') is True:
+        sites = meta.get('callback_call_lines')
+        need(meta.get('actual_c1_recovery') is True and
+             meta.get('actual_scope_relocation') is True and
+             isinstance(sites, list) and len(sites) == 5 and
+             all(type(line) is int and line > 0 for line in sites) and
+             sites == sorted(set(sites)) and
+             sites[0] == meta['first_comparator_line'] and
+             sites[1] == meta.get('c2_comparator_line'),
+             'c2 requires exact source/scopes and five ordered call sites')
+        env.update(SORT4_ACTUAL_BODY_C2_RECOVERY='1',
+                   SORT4_ACTUAL_BODY_SECOND_CALL_LINE=str(sites[1]),
+                   SORT4_ACTUAL_BODY_CALL_LINES=','.join(map(str, sites)))
     if meta.get('actual_scope_relocation') is True:
         need(meta.get('actual_c1_recovery') is True, 'scope relocation requires exact actual c1 source')
         env['SORT4_ACTUAL_BODY_SCOPE_RELOCATION'] = '1'
@@ -440,7 +472,7 @@ def run(a, *, c4, audit, driver, manifest, ghost):
         result.update(tool_receipt=receipt, tool_reconstructed=True)
         checkpoint()
         grammar = load('a1-ghost-grammar.py', profile['a1_ghost_grammar_sha256'])
-        probe = load('a1-reference-own-probe.py', profile['reference_own_probe_sha256'])
+        probe = load('a1-reference-own-probe-r17.py', profile['reference_own_probe_sha256'])
         result['reference_own_probe'] = probe.run(a, c4, tool, receipt, profile,
             helpers['a1-fixtures.py'], ghost, helpers['a1-ast-gates.py'],
             runner.select_checked_cleanup_helper_lemma, grammar, checkpoint)
@@ -496,8 +528,20 @@ def run(a, *, c4, audit, driver, manifest, ghost):
             recovery = root / HERE / 'a1-actual-recover-pair.rs'
             need(sha(recovery.read_bytes()) == profile['actual_body_dependencies_sha256']['a1-actual-recover-pair.rs'],
                  'exact recovery source')
-            verified, original, meta = constructor.construct(source, ghost, capture, recovery.read_bytes(),
-                construct_actual, lemma_metadata)
+            c1_constructor = constructor
+            if profile.get('actual_c2_recovery_enabled') is True:
+                constructor = load('a1-actual-body-c2.py',
+                    profile['actual_body_dependencies_sha256']['a1-actual-body-c2.py'])
+                four_recovery = root / HERE / 'a1-actual-recover-four.rs'
+                need(sha(four_recovery.read_bytes()) ==
+                     profile['actual_body_dependencies_sha256']['a1-actual-recover-four.rs'],
+                     'exact generic four-source recovery dependency')
+                verified, original, meta = constructor.construct(source, ghost, capture,
+                    recovery.read_bytes(), four_recovery.read_bytes(), c1_constructor,
+                    construct_actual, lemma_metadata)
+            else:
+                verified, original, meta = constructor.construct(source, ghost, capture, recovery.read_bytes(),
+                    construct_actual, lemma_metadata)
         else:
             verified, original, meta = construct_actual(source, ghost, capture)
         if profile.get('actual_scope_relocation_enabled') is True:
@@ -508,21 +552,30 @@ def run(a, *, c4, audit, driver, manifest, ghost):
                  meta.get('actual_scope_relocation') is True and meta.get('name') == 'sort4_stable',
                  'HRTB output candidate must retain exact full actual c1 and scope source')
             meta = {**meta, 'actual_hrtb_output': True}
+        actual_case = refresh_callback_coordinates(('actual-sort4', verified, original, meta))
+        meta = actual_case[3]
         result['body_target'] = run_case(a, c4, tool, env, target_root,
-            ('actual-sort4', verified, original, meta), helpers['a1-ast-gates.py'], grammar, identity)
+            actual_case, helpers['a1-ast-gates.py'], grammar, identity)
         checkpoint()
         if profile.get('body_action') == 'full-body-c1-recovery':
             result['c1_controls'] = {}
-            cases = [route_resource_control(case) for case in
-                     constructor.resource_controls(verified, ghost, meta, lemma_metadata)]
+            c1_control_meta = {**meta, 'required_lemmas': [row for row in meta['required_lemmas']
+                if row['name'] != 'recover_four_sources']}
+            cases = [refresh_callback_coordinates(route_resource_control(case)) for case in
+                     c1_constructor.resource_controls(verified, ghost, c1_control_meta, lemma_metadata)]
+            if profile.get('actual_c2_recovery_enabled') is True:
+                cases.extend(refresh_callback_coordinates(case) for case in
+                    constructor.resource_controls(verified, original, ghost,
+                        four_recovery.read_bytes(), meta, lemma_metadata))
             variants = ['wrong-source-sha', 'wrong-first-call-line', 'opt-in-off']
             if profile.get('actual_scope_relocation_enabled') is True:
                 variants.append('scope-opt-in-off')
             if profile.get('actual_hrtb_output_enabled') is True:
                 variants.append('hrtb-opt-in-off')
             for variant in variants:
-                cases.append(('c1-' + variant + '-negative', verified, original,
-                    {**meta, 'required_lemmas': [], 'frontend_control': variant}))
+                cases.append(refresh_callback_coordinates(
+                    ('c1-' + variant + '-negative', verified, original,
+                     {**meta, 'required_lemmas': [], 'frontend_control': variant})))
             for case in cases:
                 if int(a.deadline_epoch) - int(time.time()) < 100:
                     row = {'status': 'NOT_RUN', 'reason': 'shared deadline reserve', 'proof_credit': False}

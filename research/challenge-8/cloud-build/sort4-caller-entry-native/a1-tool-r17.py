@@ -654,6 +654,35 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
               before={TR: overlay["base_sha256"]}, after={TR: overlay["result_sha256"]})
         r17_phase_overlay = overlay
         before_build = audit.snapshot(tool, root)
+    r17_c2_overlay = None
+    if profile.get("actual_c2_recovery_enabled") is True:
+        need(profile.get("authorization_phase_id") == "SORT4-ACTUAL-C2-2026-10-21-R17" and
+             isinstance(r17_phase_overlay, dict) and
+             profile.get("actual_scope_relocation_enabled") is True and
+             profile.get("actual_hrtb_output_enabled") is True,
+             "indexed c2 overlay requires exact R17 full c1/scope/HRTB route")
+        declaration = profile.get("actual_c2_recovery_overlay")
+        need(isinstance(declaration, dict), "R17 c2 overlay declaration required")
+        path = root / HERE / "ACTUAL-SORT4-C2-RECOVERY-R17-MANIFEST.json"
+        pinned(path, declaration["manifest_sha256"], "R17 c2 overlay manifest")
+        overlay = json.loads(path.read_text())
+        need(overlay.get("source") == TR and
+             overlay.get("authorization_phase_id") == profile["authorization_phase_id"] and
+             overlay.get("base_sha256") == r17_phase_overlay["result_sha256"] and
+             overlay.get("new_axiom_or_assumed_lemma") is False and
+             overlay.get("kernel_checks_changed") is False and
+             overlay.get("runtime_operations_changed") is False and
+             overlay.get("runtime_body_cut") is False and overlay.get("proof_credit") is False and
+             all(overlay.get(key) == declaration.get(key) for key in
+                 ("patch", "patch_sha256", "result_sha256")),
+             "R17 c2 exact source/dependency invariant")
+        apply("actual_c2_recovery_overlay", HERE / declaration["patch"], overlay["patch_sha256"], {TR},
+              before={TR: overlay["base_sha256"]}, after={TR: overlay["result_sha256"]})
+        r17_c2_overlay = overlay
+        before_build = audit.snapshot(tool, root)
+    else:
+        need(profile.get("actual_c2_recovery_overlay") is None,
+             "inactive c2 route cannot declare a semantic overlay")
     save(evidence / "patch-chain.json", chain)
     save(evidence / "pre-build-source-snapshot.json", before_build)
 
@@ -698,6 +727,6 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
                "shared_reference_own_normalization": reference_own,
                "ghost_call_lifetime_inference": lifetime_overlay,
                "r15_overlays": r15_overlays, "r16_overlays": r16_overlays,
-               "r17_phase_overlay": r17_phase_overlay, "proof_credit": False}
+               "r17_phase_overlay": r17_phase_overlay, "r17_c2_overlay": r17_c2_overlay, "proof_credit": False}
     save(evidence / "reconstruction-receipt.json", receipt)
     return tool, receipt

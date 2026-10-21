@@ -6,7 +6,30 @@
   "authorization": "CURRENT-TASK Select-R17 explicitly authorizes this fresh 3600-second Cloud phase; T0=2026-10-21T20:06:19Z, main deadline=2026-10-21T22:06:19Z, absolute deadline=2026-10-21T22:36:19Z; no R16 carry; max 1200-second Builds; existing lane only.",
   "authorization_model": "bounded-cloud-budget",
   "baseline_sha": "5dde9e6e71f5d4eadbbf2e32d4c17945b831f1f5",
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-8da47d4e719c49359d1a0dc89fda14ae",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-ACTUAL-C2-2026-10-21-R17",
+      "infra_sha": "a80c7e2196076a436a5460239dd67aea9626600c",
+      "proof_sha": "a80c7e2196076a436a5460239dd67aea9626600c",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "8ebd12b876baf709e619f17a17e4b9858ceb583d4da70dc923fabb5289873b18",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "74130290cdb04104728859db7fe0c260e59ee12454c89d18f95e9380357a4e80",
+      "build_id": "5f703f60-c621-49fb-a5a0-c3bd762080fb",
+      "start_time": "2026-10-21T20:15:58.361895163Z",
+      "finish_time": "2026-10-21T20:23:50.929616Z",
+      "create_time": "2026-10-21T20:15:57.493290216Z",
+      "build_seconds": 474,
+      "accounted": true,
+      "execution_seconds": 473
+    }
+  ],
   "carry_seconds": 0,
   "carryover_allowed": false,
   "ceiling_build_seconds": 3600,
@@ -19,7 +42,7 @@
   "owner": "select-sort4",
   "phase": "SORT4-ACTUAL-C2-2026-10-21-R17",
   "phase_id": "SORT4-ACTUAL-C2-2026-10-21-R17",
-  "remaining_build_seconds": 3600,
+  "remaining_build_seconds": 3126,
   "report_reserve_seconds": 240,
   "retired_seconds": 0,
   "schema": "smallsort-cloud-phase-account-v1",
@@ -27,5 +50,5 @@
   "start_utc": "2026-10-21T20:06:19Z",
   "status": "AUTHORIZED",
   "task_id": "select-actual-c2-autonomous-2026-10-21-r17",
-  "used_build_seconds": 0
+  "used_build_seconds": 474
 }

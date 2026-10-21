@@ -47,3 +47,62 @@ class R17ResourceHelperControls(unittest.TestCase):
                 BODY.route_resource_control((*case[:3], dict(case[3], **delta)))
         with self.assertRaises(RuntimeError):
             BODY.route_resource_control(('unknown', *case[1:]))
+
+class R17IndexedCallbackControls(unittest.TestCase):
+    def make_case(self, **delta):
+        case = R16HrtbOutputRouteControls().make_target_case()
+        meta = dict(case[3], actual_c2_recovery=True,
+                    callback_call_lines=[7,11,15,19,23], c2_comparator_line=11)
+        meta.update(delta)
+        return *case[:3], meta
+
+    def run_route(self, case):
+        c4 = FakeC4(support=False)
+        env = {'SORT4_ACTUAL_BODY_C2_RECOVERY':'ambient',
+               'SORT4_ACTUAL_BODY_SECOND_CALL_LINE':'ambient',
+               'SORT4_ACTUAL_BODY_CALL_LINES':'ambient'}
+        with tempfile.TemporaryDirectory() as temp:
+            row = BODY.run_case(None, c4, Path('/synthetic/tool'), env, Path(temp),
+                case, FakeGates(), FakeGrammar({}), {'tool_hashes':{}})
+            persisted = json.loads((Path(temp) / case[0] / 'body-result.json').read_text())
+        self.assertEqual(json.loads(json.dumps(row)), persisted)
+        self.assertEqual(env['SORT4_ACTUAL_BODY_C2_RECOVERY'],'ambient')
+        self.assertFalse(row['proof_credit'])
+        return c4
+
+    def test_exact_indexed_route_and_ambient_isolation(self):
+        c4 = self.run_route(self.make_case())
+        self.assertEqual(c4.support_env['SORT4_ACTUAL_BODY_C2_RECOVERY'],'1')
+        self.assertEqual(c4.support_env['SORT4_ACTUAL_BODY_SECOND_CALL_LINE'],'11')
+        self.assertEqual(c4.support_env['SORT4_ACTUAL_BODY_CALL_LINES'],'7,11,15,19,23')
+        c4 = self.run_route(ActualBodyServiceTests().make_case())
+        for key in ('SORT4_ACTUAL_BODY_C2_RECOVERY','SORT4_ACTUAL_BODY_SECOND_CALL_LINE',
+                    'SORT4_ACTUAL_BODY_CALL_LINES'):
+            self.assertNotIn(key,c4.support_env)
+
+    def test_bad_call_sites_or_missing_scope_refuse_before_stages(self):
+        for delta in ({'callback_call_lines':None},{'callback_call_lines':[]},
+                      {'callback_call_lines':'7,11,15,19,23'},
+                      {'callback_call_lines':[True,11,15,19,23]},
+                      {'callback_call_lines':[7,11,11,19,23]},
+                      {'callback_call_lines':[7,15,11,19,23]},
+                      {'c2_comparator_line':12},{'actual_scope_relocation':False},
+                      {'actual_c1_recovery':False}):
+            c4=FakeC4()
+            with self.subTest(delta=delta), tempfile.TemporaryDirectory() as temp:
+                with self.assertRaises(RuntimeError):
+                    BODY.run_case(None,c4,Path('/synthetic/tool'),{},Path(temp),
+                        self.make_case(**delta),FakeGates(),FakeGrammar({}),{'tool_hashes':{}})
+                self.assertEqual(c4.stage_calls,0)
+                self.assertEqual(list(Path(temp).iterdir()),[])
+
+    def test_coordinates_are_derived_from_five_handwritten_synthetic_lines(self):
+        # Arbitrary service data only; no actual std source constructor.
+        text=b'\n'.join(b'let c'+str(i).encode()+b' = is_less(fake);' for i in range(1,6))+b'\n'
+        case=('fake',text,text,{'actual_c1_recovery':True})
+        routed=BODY.refresh_callback_coordinates(case)
+        self.assertEqual(routed[3]['callback_call_lines'],[1,2,3,4,5])
+        self.assertEqual(routed[3]['generated_source_sha256'],sha(text))
+        for bad in (text.replace(b'c2',b'c1'),text.replace(b'let c3 = is_less(fake);\n',b'')):
+            with self.assertRaises(RuntimeError):
+                BODY.refresh_callback_coordinates(('fake',bad,bad,case[3]))
