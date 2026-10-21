@@ -12,11 +12,17 @@
     "submitted_config_sha256": "13b0b46e63cdbace2168ac09916d50821ba5b2ff142ddf44f71e8f80e316f715",
     "reserved_seconds": 1260,
     "timeout_seconds": 1200,
-    "status": "QUEUED",
+    "status": "FAILURE",
     "publish_text_logs": true,
     "source_mode": "pinned-objects",
     "source_input_sha256": "9270ff9a864d7eada793431a09b5697571e7c30ca46ce92a9435533d1dda8e9b",
-    "build_id": "173f94ec-e862-42ce-b2c1-ae729cb079c9"
+    "build_id": "173f94ec-e862-42ce-b2c1-ae729cb079c9",
+    "start_time": "2026-10-21T07:44:00.589147996Z",
+    "finish_time": "2026-10-21T08:01:30.933359Z",
+    "create_time": "2026-10-21T07:43:59.720848907Z",
+    "build_seconds": 1052,
+    "accounted": true,
+    "execution_seconds": 1051
   },
   "source_input_bytes": 561625,
   "source_input_sha256": "9270ff9a864d7eada793431a09b5697571e7c30ca46ce92a9435533d1dda8e9b",
@@ -41,6 +47,30 @@
   "independent_B1_credit": 0,
   "independent_B2_credit": 0,
   "matrix_admission": false,
-  "evidence_brief": null,
-  "download_verified": false
+  "evidence_brief": {
+    "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+    "archive_sha256": "df71c3da4c9142f2a58c3b1a7068b91c0ad0ec112325c331ce1c9854f678f509",
+    "index_sha256": "26f99c07aa3b55d5c48ac75d3deb55d60c0bb7bb31a44ff4926759d0440782eb",
+    "proof_audit_file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "proof_audit_sha256": "9b742baf64c39d2d4c6181e9012d93367ca81a9c4c0db65bb653c647439ca6cd",
+    "info_request": "fe0d9395111c08ecab90eafa945012ea6839f5100deb1164abe892af0178a924",
+    "root_first_page_request": "d5d8afec6dd366b0d7d7dca1c5241bee29682d1fc57e619dc893e4898feb4f0d",
+    "root_page_coverage": "first20of57 children; next_offset20 not requested because known fallback classification/acceptedfalse/diagnosticfalse sufficient",
+    "fallback_classification": "INCONCLUSIVE",
+    "accepted": false,
+    "diagnostic_complete": false,
+    "parser_input_binding_by_reader": "NOT_ESTABLISHED"
+  },
+  "download_verified": false,
+  "charge_seconds": 1052,
+  "total_phase_charge_seconds": 2381,
+  "remaining_budget_seconds": 1219,
+  "run_exit_source_claim": 124,
+  "final_case_counts": "UNAVAILABLE; fallback INCONCLUSIVE, no invented NOT_RUN matrix",
+  "final_matrix_complete": false,
+  "step_timings_coordinator_metadata": {
+    "execute_seconds": 905.082234302,
+    "package_upload_seconds": "terminal timing pending metadata reread",
+    "source": "existing coordinator own Build describe state; no raw/log fetch"
+  }
 }

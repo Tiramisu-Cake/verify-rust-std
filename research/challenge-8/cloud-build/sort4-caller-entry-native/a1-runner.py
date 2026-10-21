@@ -2267,6 +2267,8 @@ def _jsonable(value: Any) -> Any:
         return [_jsonable(item) for item in value]
     if isinstance(value, (str, int, float, bool)) or value is None:
         return value
+
+
     if isinstance(value, Path):
         return str(value)
     if is_dataclass(value) and not isinstance(value, type):
@@ -2305,6 +2307,69 @@ def _jsonable(value: Any) -> Any:
                 return {"kind": "ListValue",
                         "values": [_jsonable(item) for item in items]}
     raise TypeError("unsupported progress value: " + type(value).__name__)
+
+def persist_dispatch_join_diagnostic(raw: Mapping[str, Any],
+                                    classifier: Mapping[str, Any], *,
+                                    profile_sha256: str,
+                                    writer=None) -> dict:
+    """Persist a small non-credit P-dispatch join receipt before later stages."""
+    result = dict(classifier)
+    evidence_root = raw.get("evidence_root") if isinstance(raw, Mapping) else None
+    root = None
+    path = None
+    stages = raw.get("stages") if isinstance(raw, Mapping) else None
+    verification = stages.get("verification") if isinstance(stages, Mapping) else None
+    artifacts = raw.get("artifacts") if isinstance(raw, Mapping) else None
+    ast_artifact = artifacts.get("proof-ast.ml") if isinstance(artifacts, Mapping) else None
+    support = raw.get("paired_support") if isinstance(raw, Mapping) else None
+    payload = {
+        "schema": "a1-dispatch-join-observation-v1",
+        "case_id": raw.get("case_id"),
+        "build_id": raw.get("build_id"),
+        "profile_sha256": profile_sha256,
+        "source_id": raw.get("source_id"),
+        "unit_id": raw.get("unit_id"),
+        "source_pair_sha256": raw.get("source_pair_sha256"),
+        "paired_support_passed": (support.get("paired_support_passed")
+                                   if isinstance(support, Mapping) else None),
+        "verification": {
+            "exit": verification.get("exit") if isinstance(verification, Mapping) else None,
+            "log_sha256": verification.get("log_sha256")
+            if isinstance(verification, Mapping) else None},
+        "proof_ast_sha256": ast_artifact.get("sha256")
+        if isinstance(ast_artifact, Mapping) else None,
+        "dispatch_classifier": classifier,
+        "proof_credit": False,
+        "matrix_admission": False,
+        "caller_receipt": False,
+    }
+    try:
+        if not isinstance(evidence_root, str):
+            raise OSError("dispatch diagnostic root is missing or outside the evidence root")
+        root = Path(evidence_root).resolve()
+        path = root / "dispatch-join-observation.json"
+        if (not root.is_dir() or path.resolve().parent != root or
+                path.exists() or path.is_symlink()):
+            raise OSError("dispatch diagnostic target is not a new file in the evidence root")
+        serialized = json.dumps(_jsonable(payload), indent=2, sort_keys=True) + "\n"
+        if writer is not None:
+            writer(path, serialized)
+        else:
+            with path.open("x", encoding="utf-8") as stream:
+                stream.write(serialized)
+        result["diagnostic_artifact"] = {"persisted": True, "path": str(path),
+                                         "proof_credit": False}
+        return result
+    except Exception as exc:
+        return {**result,
+                "observed_classification": classifier.get("classification"),
+                "classification": "INCONCLUSIVE_DISPATCH_OBSERVATION",
+                "reason": "bounded dispatch diagnostic artifact could not be persisted",
+                "diagnostic_artifact": {"persisted": False,
+                                        "error_type": type(exc).__name__,
+                                        "error": str(exc)[:300],
+                                        "proof_credit": False},
+                "proof_credit": False}
 
 
 def _report_value_for_disk(value, authorization_phase):
@@ -3508,10 +3573,14 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
                     support_cache=support_cache))
             if dispatch is not None:
                 source_sha = certificate["cases"]["P-dispatch"]["generated_source_sha256"]
+                dispatch_classifier = classify_dispatch_observation(
+                    dispatch.get("raw", {}), expected_source_sha256=source_sha,
+                    structure=dispatch.get("structure", {}))
+                dispatch_classifier = persist_dispatch_join_diagnostic(
+                    dispatch.get("raw", {}), dispatch_classifier,
+                    profile_sha256=profile_sha)
                 observations["P-dispatch"] = {
-                    **dispatch, "dispatch_classifier": classify_dispatch_observation(
-                        dispatch.get("raw", {}), expected_source_sha256=source_sha,
-                        structure=dispatch.get("structure", {}))}
+                    **dispatch, "dispatch_classifier": dispatch_classifier}
                 persist_progress()
             p0a_native = first_structure.get("threshold_posts", {}).get("native")
             for case_id in ("N-default-contract", "N-freeze-contract"):
