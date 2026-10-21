@@ -11,6 +11,10 @@ Record partial diagnostics and unexecuted stages explicitly.
 
 ## New records
 
+### 2026-10-21 — Select-R14 S3 full26, 25 intended and one identity blocker
+
+Build `290e7dda-d75d-40b2-902d-d9ae93303608`, exactsource/infra `d1019ced20af2d0f345079db2647ab9bdcdf43b3`: all26 observed,25INTENDED_CLASSIFIED/1INCONCLUSIVE. Actual P-dispatch and own N-false31 lifecycle classified; exact bounded body/conformance/receipt/len32/source-order observations retained. N-clause-redirect observed intended fatal2 but collector’s pre-AST partial record lacked input identities. No matrix admission or independent B1/B2 credit; small_sort/sort4 body theorem remains open. PackageSUCCESS/Briefverified; execute473.811/package131.978/verdict1.301, charge625/cumulative1441/remaining2159. Next strict partial-record identity repair and fresh full26, with all old rows reexecuted. [Evidence](task-history/select-native-p1-matrix-r14/S3-evidence.json).
+
 ### 2026-10-21 — Select-R14 S2 native target accepted
 
 Build `2b30e563-011a-4cfe-a739-187a9e612d07`, exactsource/infra `87243c09487007d0f2f9bf93327eb7ec6d45f5ca`: named-methodidentityjoinfixed, actual7targetclassified/mini7passed. P1structuralbody0, currentrunpinsverified; no small_sortbodytheorem/fulladmission/independentB1B2credit. Charge474/cumulative816/remaining2784; execute394.423/package66.056/verdict1.059, packageSUCCESS/Briefverified. NextfreshsameBuildfull26 withactualPdispatch/fullownNfalse31 andallcontrols; fullprofilemode/timeout1200reviewed, reportreserve240unchanged. [Evidence](task-history/select-native-p1-matrix-r14/S2-evidence.json).

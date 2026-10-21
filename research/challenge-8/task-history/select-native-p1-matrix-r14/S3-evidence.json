@@ -1,0 +1,77 @@
+{
+  "N_clause_redirect": {
+    "cause": "positive collector pre-AST partial return omitted observed input IDs",
+    "first_diagnostic": "Fatal error: exception Failure(\"SORT4-A1-CONTRACT: legacy clause-ignoring redirect attempted at common call\")",
+    "input_identity_verified": false,
+    "observed_classifier": "LEGACY_REDIRECT_REFUSAL_OBSERVED",
+    "paired_support_passed": true,
+    "reason": "admission control input continuity missing",
+    "status": "INCONCLUSIVE",
+    "verification_exit": 2
+  },
+  "N_false31": {
+    "assertion_source_line": 145,
+    "both_own_bodies_and_conformance_source_verified": true,
+    "boundary_len": 32,
+    "classification": "FALSE31_OWN_PAIR_REPROVED_AND_CALLER_OBSERVED",
+    "guard_source_line": 143,
+    "intended_caller_assertion": "len<=31",
+    "normal_unwind_posts_preserved": true,
+    "own_receipt_sha256": "9e6068ca930881087ac26e05979d68c20bfbf98bec66cdb05c46570001558b75",
+    "receipt_issued_after_both_bodies": true,
+    "status": "INTENDED_CLASSIFIED",
+    "threshold_upper_bound": 32
+  },
+  "P_dispatch": {
+    "classification": "ORIGINAL_COMMON_TRAIT_DISPATCH_OBSERVED",
+    "join_artifact_sha256": "cd2eaef0b8e33010b196b485ed6e491ebf415f9345afcf75da66756894ebd3be",
+    "note": "validation checks source-bound per-owner sequence and separate AST/MIR records; archived trace_lines presentation is lexicographic, not temporal order",
+    "source_bound_sequence": [
+      {
+        "callee": "small_sort_threshold",
+        "owner": "quicksort",
+        "source_line": 166
+      },
+      {
+        "callee": "small_sort",
+        "owner": "quicksort",
+        "source_line": 167
+      },
+      {
+        "callee": "small_sort_threshold",
+        "owner": "a1_guard_observer",
+        "source_line": 143
+      }
+    ],
+    "source_sha256": "2a0fca395c7324627fa28c61a2cdcec068ed84b12fe695956c47845fa1855906",
+    "status": "INTENDED_CLASSIFIED"
+  },
+  "archive_sha256": "92eec8e1fd763c8e26944ede97b5445b264cf1217a1f0edfd69fb5331c9a4a39",
+  "build_id": "290e7dda-d75d-40b2-902d-d9ae93303608",
+  "canonical_proof_audit_sha256": "16877b52ac2dca2a9216059f1dc12bb0733ce25511af985546f3fb3d574228d7",
+  "canonicalization": "identical parsed JSON values; original bytes retained, no evidence truncated",
+  "charge_seconds": 625,
+  "cumulative_seconds": 1441,
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "index_sha256": "413591f7425275bcc71158d96976355f5af7a0ced56832c6699663e0eba1a11c",
+  "matrix_admission": false,
+  "next": "strict partial-record input identity fix then fresh full26; no 25-row carry into new run",
+  "original_diagnostic_sha256": "b7392d9db74060b57a31f5f9144621d928b1f2f4b7421281e2fabe8ea3943888",
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "raw_evidence_downloaded": false,
+  "remaining_seconds": 2159,
+  "schema": "smallsort-r14-bounded-build-evidence-v1",
+  "scope": "full26",
+  "small_sort_body_credit": false,
+  "source_counts": {
+    "INCONCLUSIVE": 1,
+    "INTENDED_CLASSIFIED": 25
+  },
+  "source_sha": "d1019ced20af2d0f345079db2647ab9bdcdf43b3",
+  "timings_seconds": {
+    "execute": 473.811347895,
+    "package_upload": 131.978484761,
+    "verdict": 1.300702219
+  }
+}

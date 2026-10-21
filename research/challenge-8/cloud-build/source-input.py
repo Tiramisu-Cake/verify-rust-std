@@ -346,7 +346,8 @@ def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes
             record["objects"] = [{"oid": item["oid"]} for item in record["objects"]]
         payload["schema"] = SHARED_SCHEMA
         payload["shared_objects"] = []
-        for oid in sorted(pool):
+        order = sorted(pool, key=lambda oid: (pool[oid]["type"], -pool[oid]["size"], oid)) if compact_transport else sorted(pool)
+        for oid in order:
             item = dict(pool[oid])
             raw_object = base64.b64decode(item["data_base64"], validate=True)
             if compact_transport and item["type"] == "blob":

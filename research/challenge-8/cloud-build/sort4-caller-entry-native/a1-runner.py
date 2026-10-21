@@ -1283,28 +1283,31 @@ def collect_source_case(a, c4, ghost, *, tool: Path, tool_receipt: dict,
                 "checked_helper_proof": raw.get("checked_helper_proof"),
                 "caller_verification_status": "NOT_RUN_CHECKED_HELPER_PREREQUISITE",
                 "proof_attempted": False, "proof_credit": False}
+    expected_case = certificate.get("cases", {}).get(case_id, {})
+    source_identity = _source_case_input_identity(
+        fixture, ghost, certificate_path=certificate_path,
+        certificate_case=expected_case, raw=raw)
     if raw.get("paired_support", {}).get("paired_support_passed") is not True or \
             raw.get("artifacts", {}).get("proof-ast.ml", {}).get("sha256") is None:
         partial = {"classification": "INCONCLUSIVE_CURRENT_STAGE",
                    "case_id": case_id, "raw": raw, "structure": None,
                    "proof_credit": False}
+        if source_identity is not None:
+            partial.update(observed_input_ids=source_identity["input_ids"],
+                           observed_input_sha256=source_identity["source_pair_sha256"],
+                           source_identity_verified=True)
+        else:
+            partial.update(observed_input_ids=None, observed_input_sha256=None,
+                           source_identity_verified=False)
         if "checked_helper_proof" in raw:
             partial["checked_helper_proof"] = raw["checked_helper_proof"]
         return partial
     structure = observe_focused_structure(case_id, raw, fixture, certificate,
                                            helpers, native_baseline=native_baseline,
                                            focus_case_id=focus_case_id)
-    expected_case = certificate["cases"][case_id]
-    actual_pair = {"verified/lib.rs": _sha(fixture / "verified/lib.rs"),
-                   "original/lib.rs": _sha(fixture / "original/lib.rs")}
-    expected_original_sha = hashlib.sha256(
-        ghost.strip_ghost((fixture / "verified/lib.rs").read_bytes())).hexdigest()
-    _need(actual_pair == {"verified/lib.rs": expected_case["generated_source_sha256"],
-                          "original/lib.rs": expected_original_sha} and
-          raw.get("source_pair_sha256") == {
-              "verified": actual_pair["verified/lib.rs"],
-              "original": actual_pair["original/lib.rs"]},
+    _need(source_identity is not None,
           "observed source fixture differs from its immutable constructor certificate")
+    actual_pair = source_identity["path_sha256"]
     ast_path = Path(raw["artifacts"]["proof-ast.ml"]["path"])
     interval = None
     if focus_case_id in {"P0a", "P0b", "P0c", "N-default-contract",
@@ -1373,6 +1376,98 @@ def collect_source_case(a, c4, ghost, *, tool: Path, tool_receipt: dict,
     if "checked_helper_proof" in raw:
         collected["checked_helper_proof"] = raw["checked_helper_proof"]
     return collected
+
+
+def _source_case_input_identity(fixture: Path, ghost, *,
+                                certificate_path: Path,
+                                certificate_case: Mapping[str, Any],
+                                raw: Mapping[str, Any]) -> dict[str, Any] | None:
+    """Bind raw producer IDs to the current certified verified/original bytes.
+
+    This is also used on intended pre-AST translator refusals: it establishes
+    input identity only and does not imply that translation or proof succeeded.
+    """
+    try:
+        source_file = certificate_case.get("source_file")
+        source_id = certificate_case.get("source_id")
+        unit_id = certificate_case.get("unit_id")
+        generated_sha = certificate_case.get("generated_source_sha256")
+        if (not isinstance(source_file, str) or not source_file or
+                not isinstance(source_id, str) or not HEX64.fullmatch(source_id) or
+                not isinstance(unit_id, str) or not HEX64.fullmatch(unit_id) or
+                not isinstance(generated_sha, str) or not HEX64.fullmatch(generated_sha) or
+                not certificate_path.is_file()):
+            return None
+        package_source = certificate_path.parent / source_file
+        verified = fixture / "verified/lib.rs"
+        original = fixture / "original/lib.rs"
+        if not package_source.is_file() or not verified.is_file() or not original.is_file():
+            return None
+        verified_bytes = verified.read_bytes()
+        original_bytes = original.read_bytes()
+        package_bytes = package_source.read_bytes()
+        stripped = ghost.strip_ghost(verified_bytes)
+        pair = {"verified": hashlib.sha256(verified_bytes).hexdigest(),
+                "original": hashlib.sha256(original_bytes).hexdigest()}
+        expected_pair = {"verified": generated_sha,
+                         "original": hashlib.sha256(stripped).hexdigest()}
+        raw_pair = raw.get("source_pair_sha256")
+        if (pair != expected_pair or package_bytes != verified_bytes or
+                original_bytes != stripped or
+                not isinstance(raw_pair, Mapping) or
+                set(raw_pair) != {"verified", "original"} or
+                dict(raw_pair) != pair or
+                raw.get("source_id") != source_id or
+                raw.get("unit_id") != unit_id or
+                raw.get("source_certificate_sha256") != _sha(certificate_path)):
+            return None
+        return {"input_ids": {"source_id": source_id, "unit_id": unit_id},
+                "source_pair_sha256": pair,
+                "path_sha256": {"verified/lib.rs": pair["verified"],
+                                "original/lib.rs": pair["original"]}}
+    except Exception:
+        return None
+
+
+def _redirect_caller_environment_verified(raw: Mapping[str, Any], *,
+                                          expected_source_id: str,
+                                          expected_unit_id: str,
+                                          expected_certificate_sha256: str,
+                                          expected_source_pair: Mapping[str, str],
+                                          expected_build_id: str,
+                                          expected_profile_sha256: str) -> bool:
+    """Require the already-validated checked-helper receipt for redirect env."""
+    proof = raw.get("checked_helper_proof")
+    if not isinstance(proof, Mapping):
+        return False
+    identity = proof.get("environment_identity")
+    caller = identity.get("caller_a1") if isinstance(identity, Mapping) else None
+    if (proof.get("schema") != "a1-checked-cleanup-helper-prerequisite-v1" or
+            proof.get("proof_credit") is not False or
+            not isinstance(caller, Mapping) or
+            set(caller) != set(A1_HELPER_ENV_KEYS) or
+            any(value is not None and not isinstance(value, str)
+                for value in caller.values())):
+        return False
+    return (
+        proof.get("status") == "HELPER_BODY_VERIFIED_SAME_BUILD" and
+        proof.get("case_id") == "P0c" and
+        proof.get("source_id") == expected_source_id and
+        proof.get("unit_id") == expected_unit_id and
+        proof.get("build_id") == expected_build_id and
+        proof.get("profile_sha256") == expected_profile_sha256 and
+        proof.get("source_certificate_sha256") == expected_certificate_sha256 and
+        proof.get("source_pair_sha256") == {
+            "verified/lib.rs": expected_source_pair.get("verified"),
+            "original/lib.rs": expected_source_pair.get("original")} and
+        identity.get("caller_mode") == "caller" and
+        caller.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
+        caller.get("SORT4_A1_PHASE_ID") == PHASE and
+        caller.get("SORT4_A1_CHECKED_TRAIT_CONTRACT") == "1" and
+        caller.get("SORT4_A1_STAGE") == "caller" and
+        caller.get("SORT4_A1_PROFILE_SHA256") == expected_profile_sha256 and
+        caller.get("SORT4_A1_FORCE_LEGACY_REDIRECT") == "1" and
+        caller.get("CLOUD_BUILD_ID") == expected_build_id)
 
 
 def _classify_r_only_ast_capture(stage: Mapping[str, Any], log_bytes: bytes,
@@ -2963,25 +3058,60 @@ def observe_admission_control(case_id: str, *, call_binding, compiler_inventory,
 
 
 def classify_redirect_observation(raw: Mapping[str, Any], *,
-                                  expected_source_sha256: str) -> dict:
-    """Require the forced legacy probe's own first translator refusal."""
+                                  expected_source_sha256: str,
+                                  expected_source_id: str,
+                                  expected_unit_id: str,
+                                  expected_build_id: str,
+                                  expected_evidence_root: Path,
+                                  input_identity_verified: bool) -> dict:
+    """Require the forced legacy probe's own exact, input-bound refusal."""
     result = {"classification": "INCONCLUSIVE_REDIRECT_CONTROL",
               "proof_credit": False}
-    stages = raw.get("stages", {})
-    if (raw.get("focus_case_id") != "P0c" or
-            raw.get("source_pair_sha256", {}).get("verified") != expected_source_sha256 or
-            raw.get("paired_support", {}).get("paired_support_passed") is not True or
+    if not isinstance(raw, Mapping):
+        return {**result, "reason": "forced redirect observation schema is invalid"}
+    stages = raw.get("stages")
+    raw_pair = raw.get("source_pair_sha256")
+    if (raw.get("case_id") != "P0c" or raw.get("focus_case_id") != "P0c" or
+            raw.get("source_id") != expected_source_id or
+            raw.get("unit_id") != expected_unit_id or
+            raw.get("build_id") != expected_build_id or
+            input_identity_verified is not True or
+            not isinstance(raw_pair, Mapping) or
+            set(raw_pair) != {"verified", "original"} or
+            raw_pair.get("verified") != expected_source_sha256 or
+            not isinstance(raw.get("paired_support"), Mapping) or
+            raw["paired_support"].get("paired_support_passed") is not True or
             not isinstance(stages, Mapping) or
-            stages.get("verification", {}).get("exit") in (None, 0)):
+            not isinstance(stages.get("verification"), Mapping) or
+            stages["verification"].get("classification") != "TERMINAL" or
+            type(stages["verification"].get("exit")) is not int or
+            stages["verification"].get("exit") != 2):
         return {**result, "reason": "forced redirect invocation did not reach failing translator"}
-    log = Path(raw.get("evidence_root", "")) / "verification.log"
-    if not log.is_file() or stages["verification"].get("log_sha256") != _sha(log):
+    evidence_root = raw.get("evidence_root")
+    try:
+        if (not isinstance(evidence_root, str) or not evidence_root or
+                Path(evidence_root).resolve() != expected_evidence_root.resolve()):
+            return {**result, "reason": "redirect evidence directory is not the fresh control stage"}
+        log = expected_evidence_root / "verification.log"
+    except (OSError, RuntimeError, TypeError, ValueError):
+        return {**result, "reason": "redirect evidence directory is not the fresh control stage"}
+    log_sha = stages["verification"].get("log_sha256")
+    try:
+        log_matches = (isinstance(log_sha, str) and HEX64.fullmatch(log_sha) is not None and
+                       log.is_file() and log_sha == _sha(log))
+    except Exception:
+        log_matches = False
+    if not log_matches:
         return {**result, "reason": "same-invocation redirect diagnostic unavailable"}
-    text = log.read_text(errors="replace")
-    first = next((line for line in text.splitlines()
+    try:
+        lines = log.read_text(encoding="utf-8").splitlines()
+    except (OSError, UnicodeDecodeError):
+        return {**result, "reason": "same-invocation redirect diagnostic unavailable"}
+    first = next((line for line in lines
                   if ": error:" in line or line.startswith(("Fatal error:", "error:"))), None)
-    intended = "SORT4-A1-CONTRACT: legacy clause-ignoring redirect attempted at common call"
-    if first is None or intended not in first:
+    intended = ('Fatal error: exception Failure("SORT4-A1-CONTRACT: '
+                'legacy clause-ignoring redirect attempted at common call")')
+    if first != intended:
         return {**result, "reason": "first diagnostic differs from intended legacy redirect refusal",
                 "first_diagnostic": first}
     return {"classification": "LEGACY_REDIRECT_REFUSAL_OBSERVED",
@@ -4004,25 +4134,59 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
                 redirect = action("N-clause-redirect", run_redirect_control)
                 if redirect is not None:
                     raw_redirect = redirect.get("raw", {})
+                    expected_redirect_case = certificate["cases"]["P0c"]
+                    current_source_identity = _source_case_input_identity(
+                        Path(a.evidence) / "a1-fixtures" / "P0c", ghost,
+                        certificate_path=certificate_path,
+                        certificate_case=expected_redirect_case,
+                        raw=raw_redirect if isinstance(raw_redirect, Mapping) else {})
+                    source_identity = redirect.get("observed_input_ids")
+                    control_sha = _sha(control_path)
+                    control_doc = json.loads(control_path.read_text(encoding="utf-8"))
+                    control_identity_verified = (
+                        redirect.get("control_input_sha256") == control_sha and
+                        control_sha == controls["N-clause-redirect"]["input_sha256"] and
+                        control_doc == {
+                            "SORT4_A1_FORCE_LEGACY_REDIRECT": "1",
+                            "SORT4_A1_CHECKED_TRAIT_CONTRACT": "1",
+                            "source_pair_sha256": expected_redirect_case[
+                                "generated_source_sha256"]})
+                    source_identity_verified = (
+                        current_source_identity is not None and
+                        redirect.get("source_identity_verified") is True and
+                        isinstance(source_identity, Mapping) and
+                        dict(source_identity) == current_source_identity["input_ids"] and
+                        redirect.get("observed_input_sha256") ==
+                            current_source_identity["source_pair_sha256"])
+                    environment_identity_verified = (
+                        current_source_identity is not None and
+                        isinstance(raw_redirect, Mapping) and
+                        _redirect_caller_environment_verified(
+                            raw_redirect,
+                            expected_source_id=expected_redirect_case["source_id"],
+                            expected_unit_id=expected_redirect_case["unit_id"],
+                            expected_certificate_sha256=_sha(certificate_path),
+                            expected_source_pair=current_source_identity[
+                                "source_pair_sha256"],
+                            expected_build_id=os.environ["CLOUD_BUILD_ID"],
+                            expected_profile_sha256=os.environ[
+                                "SORT4_A1_PROFILE_SHA256"]))
+                    input_identity_verified = (control_identity_verified and
+                                               source_identity_verified and
+                                               environment_identity_verified)
                     redirect_class = classify_redirect_observation(
                         raw_redirect,
                         expected_source_sha256=certificate["cases"]["P0c"]
-                            ["generated_source_sha256"])
-                    control_sha = _sha(control_path)
-                    control_doc = json.loads(control_path.read_text())
-                    source_identity = redirect.get("observed_input_ids")
-                    raw_pair = raw_redirect.get("source_pair_sha256", {})
+                            ["generated_source_sha256"],
+                        expected_source_id=expected_redirect_case["source_id"],
+                        expected_unit_id=expected_redirect_case["unit_id"],
+                        expected_build_id=os.environ["CLOUD_BUILD_ID"],
+                        expected_evidence_root=(Path(a.evidence) / "focus" /
+                                                "N-clause-redirect"),
+                        input_identity_verified=input_identity_verified)
                     observations["N-clause-redirect"] = {
                         "raw": raw_redirect, "classifier": redirect_class,
-                        "input_identity_verified": (
-                            redirect.get("control_input_sha256") == control_sha and
-                            control_sha == controls["N-clause-redirect"]["input_sha256"] and
-                            control_doc.get("SORT4_A1_FORCE_LEGACY_REDIRECT") == "1" and
-                            control_doc.get("SORT4_A1_CHECKED_TRAIT_CONTRACT") == "1" and
-                            control_doc.get("source_pair_sha256") == raw_pair.get("verified") and
-                            isinstance(source_identity, Mapping) and
-                            source_identity.get("source_id") == certificate["cases"]["P0c"]["source_id"] and
-                            source_identity.get("unit_id") == certificate["cases"]["P0c"]["unit_id"]),
+                        "input_identity_verified": input_identity_verified,
                         "input_sha256": control_sha,
                         "source_id": controls["N-clause-redirect"]["source_id"],
                         "unit_id": controls["N-clause-redirect"]["unit_id"],
