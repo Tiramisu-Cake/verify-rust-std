@@ -1,24 +1,13 @@
-# Merge-R14 DONE — publication recovered; R11 body refusal available
+# Merge-R15 READY — singleton array fold → actual proof development
 
-Normal Build **23dc710b-07e5-43ff-b63b-febe4ddb19ca**, source `bec0469f`, tool
-`660b576b`, profile SHA `eb61e493`: FAILURE, package-upload SUCCESS, Brief
-**VERIFIED_ARCHIVE_AND_INVENTORY**. All 158 prior R11 proof inputs remain equal.
-Compiler stages/hash checks passed. Full body **INCONCLUSIVE**: prelude_core.rsspec
-264 cannot prove `cons(dummy55,nil)=cons(dummy55,values03)` while closing singleton
-`array(sift,1,cons(current,nil))` after late-callback cleanup, trace 2252/2259.
-R11 required placement controls source `all_matched=true`; optional extra-address
-control false; diagnostics only. Full target gates 0, accepted false, independent
-credit 0; **B2/generic/qualification OPEN**. Proof/model/spec/invariant unchanged.
+[Новое задание](CURRENT-TASK.md): worktree `/root/verify-rust-std-merge-origin`, tool worktree `/root/verifast-merge-actual-glue`, project branch `merge/incoming-origin-20261009`, owner `merge`. Свежие120мин+30мин/3600 Cloud-секунд, без отдельного лимита числа Builds; timeout90..1200/envelope+60. T0 ещё не задан; phase `MERGE-SINGLETON-ARRAY-PROOF-R15-2026-10-21`, ledger `CURRENT-RECOVERY-R15-BUDGET-20261021.json`. R14/retired2826 не возобновлять, carry0.
 
-R14 accepted only the existing exact probe through fresh Brief and pinned
-fail-closed publication path. Exact archive bytes remain null/unobserved; no
-sidecar verification or raw bypass. No new synthetic; old R13 ledger/history
-and retired3506 unchanged. New account CLOSED 2026-10-21T13:36:35Z: 774 charged,
-773 execution, 2826 retired, remaining0/carryfalse, own0/0/0/0. T0 12:52:50Z;
-main14:52:50Z/absolute15:22:50Z. Mission completed without redundant Build.
+R15 возвращает автономную proof-разработку: checked annotations/lemmas/invariants и необходимые source-preserving frontend fixes/new experimental pins разрешены с rationale/review/controls. Ближайшая цель — происхождение values03 и singleton array close после callback; далее moving-gap/backedge/normal-unwind/CURRENT по плану. Прежнее ограничение unchanged repeat снято для новой R15; первый новый blocker не завершает сессию.
 
-Next proof work: investigate the zero-length array tail fact at this singleton
-fold, preserving resources and semantics; outside R14. See [current report](CURRENT-TASK.md#отчёт-агента),
-[R14 result](cloud-build/origin-layout/R14-PROOF1-RESULT-20261021.json),
-[bounded body evidence](cloud-build/origin-layout/R14-BODY-EVIDENCE-20261021.json).
-Final documentation/accounting checkpoint was not built.
+Baseline checkpoint `aabbaaed32e8d7710b59f9dfc22ceaac4a9cd070`; actual source `bec0469fe0d20c2d74775b0ba9e9920b11c13445`, Build `23dc710b-07e5-43ff-b63b-febe4ddb19ca`, tool `660b576b6b1608db913c51e0785b443a8733396f`, profileSHA `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375`. Actual bodyINCONCLUSIVE: prelude_core.rsspec264 не доказывает cons(dummy55,nil)=cons(dummy55,values03) при close array(sift,1,cons(current,nil)) после late-callback cleanup. Не считать nil хвост установленным без checked proof.
+
+[Архив R14](task-history/merge-publication-gate-proof-retry-2026-10-21-r14.md), [result](cloud-build/origin-layout/R14-PROOF1-RESULT-20261021.json), [body evidence](cloud-build/origin-layout/R14-BODY-EVIDENCE-20261021.json). R14 закрыта774charged/773execution/2826retired/remaining0/carryfalse, own0/0/0/0. Compiler/source checks exit0, packageSUCCESS и Brief VERIFIED_ARCHIVE_AND_INVENTORY; 7mandatory placement controls sourceall_matched, optional extra-address false, independent qualificationOPEN.
+
+Доставка восстановлена; synthetic probe/точный external size receipt заново не нужны при прежнем publisher. Сохранить False upload/size guard<=536870912/create-only/marker-last и accepted publication gate; unknown exact archive bytes не blocker. По факту package+upload314.819с: базовый reserve360с при timeout1200 либо новый измеримый план с review. Source transport близок к cap, новые proof inputs допустимы с точной closure, caps прежние.
+
+**Full target gates0/acceptedfalse/independentcredit0; full insert_tail/CURRENT false-true-panic/B2/generic/qualificationOPEN.** Сохранён narrow R8 allocation scope, новая memory/alias/layout model не разрешена. Actual compile/proof только Cloud, Evidencev0.11/raw запрет прежние.

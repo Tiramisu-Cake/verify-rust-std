@@ -1,120 +1,74 @@
-# Merge-R14 — принять доступный publication gate → прежний R11 proof
+# Merge-R15 — singleton array fold → дальнейшее actual insert_tail proof
 
 ## Авторизация и рабочее место
 
-- **ID:** `merge-publication-gate-proof-retry-2026-10-21-r14`; **статус:** DONE; publication recovery завершён, proof остаётся OPEN. T0 `2026-10-21T12:52:50Z`.
+- **ID:** `merge-singleton-array-autonomous-2026-10-21-r15`; **статус:** READY, T0 ещё не задан.
 - **Owner:** `merge`; **project worktree:** `/root/verify-rust-std-merge-origin`; **branch:** `merge/incoming-origin-20261009`; **репозиторий:** `Tiramisu-Cake/verify-rust-std`.
-- **Tool worktree:** `/root/verifast-merge-actual-glue`; branch `merge/actual-glue-instance-20261011`, expected head **`660b576b6b1608db913c51e0785b443a8733396f`**. Tool/model/spec/invariant сохраняются.
-- **Новое окно:** 120 минут основной работы + до30 минут завершения. T0 при фактическом старте после чтения; main=T0+120мин, absolute=T0+150мин. Запиши в session/новый ledger/текущий статус.
-- **Новый бюджет:** **3600 Cloud-секунд**, used0/carry0, без отдельного лимита числа последовательных Builds. R13/старые счета и retired3506 не возобновлять/переносить.
-- **Phase:** `MERGE-PUBLICATION-GATE-PROOF-R14-2026-10-21`; **ledger:** `cloud-build/origin-layout/CURRENT-RECOVERY-R14-PROOF-RETRY-BUDGET-20261021.json`.
-- **Bounds:** ceiling_build_seconds=3600, max_builds=null, max_timeout_seconds=1200, carryover_allowed=false; **lane:** существующая `merge`. Timeout90..1200с, envelope=timeout+60 в остатке/окне с запасом для package/upload/verdict.
+- **Tool worktree:** `/root/verifast-merge-actual-glue`; **branch:** `merge/actual-glue-instance-20261011`; исходный head **`660b576b6b1608db913c51e0785b443a8733396f`**. Проверь actual status и чужое сохрани; новые tool commits/pins в scope ниже разрешены.
+- **Новое окно:** 120 минут основной работы + до30 минут завершения. T0 при фактическом старте после чтения; main=T0+120мин, absolute=T0+150мин. Запиши session/новый ledger/текущий статус.
+- **Новый бюджет:** **3600 Cloud-секунд**, used0/carry0; без отдельного лимита числа последовательных Builds. R14/старые счета и retired2826 не возобновлять/переносить.
+- **Phase:** `MERGE-SINGLETON-ARRAY-PROOF-R15-2026-10-21`; **ledger:** `cloud-build/origin-layout/CURRENT-RECOVERY-R15-BUDGET-20261021.json`.
+- **Bounds:** ceiling_build_seconds=3600, max_builds=null, max_timeout_seconds=1200, carryover_allowed=false; **lane:** существующая `merge`, timeout90..1200с, envelope=timeout+60 в бюджете и absolute с запасом.
 
-**Владелец разрешил скорректировать избыточный publication gate и перейти к повтору прежнего R11 proof без нового synthetic Build.** Новое окно, бюджет, branch-local phase/ledger/gate/mode/recipe/pins регистрация и необходимые service tests явно разрешены. Публикационная проверка ниже заменяет требование точного sidecar receipt для этого уже успешного probe. Она не меняет proof acceptance и не даёт proof credit. Сам выбери implementation внутри указанного scope, каждый fix/Build/SHA отдельно не согласовывать.
+**Это возвращение к автономной proof-разработке.** Новая R15, окно, бюджет и Builds явно разрешены. Ограничение R14 «только неизменённый кандидат/новая разработка позже» не применяется к R15. Разрешены checked annotations/predicates/lemma bodies, инварианты и необходимые source-preserving parser/binder/translator/frontend/lowering fixes в существующей модели, новые experimental tool/profile/source identities и branch-local регистрация/pins с review. Сам ставь задачи по миссии Merge/insert_tail и [плану](COMPLETION-PLAN.md), исправляй связанные места одного класса и продолжай после первого результата; каждого blocker/SHA/Build отдельно не согласовывать.
 
-Ты начинаешь без контекста. Проверь обе worktrees/branch/HEAD/dirty diff и сохрани чужие изменения. Прочитай `AGENTS.md`, [STATUS](STATUS.md), [автономность](PROOF-AGENT-AUTONOMY.md), [процесс](ITERATION-PROCESS.md), нужные части [Cloud runbook](cloud-build/README.md), [WORK-POLICY](WORK-POLICY.md) и [Evidence guide](EVIDENCE-READER-GUIDE.md). Всю историю не перечитывай.
+Ты начинаешь без контекста. Проверь обе worktrees/branch/HEAD/dirty diff, сохрани чужие изменения. Прочитай `AGENTS.md`, [STATUS](STATUS.md), [полномочия](PROOF-AGENT-AUTONOMY.md), [процесс](ITERATION-PROCESS.md), нужные части [WORK-POLICY](WORK-POLICY.md), [Cloud runbook](cloud-build/README.md) и [Evidence guide](EVIDENCE-READER-GUIDE.md). Всю историю и большие evidence JSON перечитывать не требуется.
 
-## Исходная точка: Brief уже работает
+## Baseline и установленный proof-фронтир
 
-Checkpoint **`6ee5298e69dfe552487cd73cc7be04bae47dbf0f`**. R13 CLOSED: **94charged/94execution/3506retired/remaining0/carryfalse**, own active/unresolved/requests/reservations0; normal proof не запускался. [Архив R13](task-history/merge-archive-size-upload-recovery-2026-10-21-r13.md), [probe result](cloud-build/origin-layout/R13-PROBE1-RESULT-20261021.json), [release](cloud-build/origin-layout/R13-RELEASE-20261021.json).
+Checkpoint **`aabbaaed32e8d7710b59f9dfc22ceaac4a9cd070`**. Последний actual source/infra **`bec0469fe0d20c2d74775b0ba9e9920b11c13445`**, Build **`23dc710b-07e5-43ff-b63b-febe4ddb19ca`**, configSHA `5a9909ba3b877ac4a1c35a4d195fea619d171c16feece28586da51ee5dd83174`. Tool **`660b576b6b1608db913c51e0785b443a8733396f`**, profile `experimental-merge-label-storage-r11-v1`, SHA256 `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375` — starting baseline, не пожизненная заморозка R15.
 
-Проверенный synthetic probe:
+R14 DONE/CLOSED: **774charged/773execution/2826retired/remaining0/carryfalse**, own active/unresolved/requests/reservations0. [Архив задания и отчёта](task-history/merge-publication-gate-proof-retry-2026-10-21-r14.md), [точный результат](cloud-build/origin-layout/R14-PROOF1-RESULT-20261021.json), [body/controls evidence](cloud-build/origin-layout/R14-BODY-EVIDENCE-20261021.json), [release](cloud-build/origin-layout/R14-RELEASE-20261021.json).
 
-| Identity | Значение |
-| --- | --- |
-| Build | **`331fba31-4548-40e7-bb6d-1d225f590602`** |
-| Source/infra/proof | **`c9b5151735c352d212752c5fe644adcd3543b68d`** |
-| Submitted config SHA256 | `da5162520a5fa2b96611a56f06a21ad8ae91843e214257c27ebac41051391ea0` |
-| Archive SHA256 | `8ecf904c01ef647009619d7d445e13cb258c18a656dc65bc873756c610183efb` |
-| Index SHA256 | `ad0e439b6d42371ade0c1db672f0f675e0eb6e209ca643e04b5b079d9a5a428e` |
-| Build/steps | SUCCESS; execute/package-upload/verdict все SUCCESS |
-| Brief | **VERIFIED_ARCHIVE_AND_INVENTORY**, полный каталог15 members |
+**Публикация восстановлена:** package-uploadSUCCESS, Brief VERIFIED_ARCHIVE_AND_INVENTORY, compiler stages и postbuild source hashes exit0. Actual body classification **INCONCLUSIVE**, accepted/proof_creditfalse. Exact classification и bounded trace2252/2259 согласуются:
 
-Точное число compressed archive bytes и внешние `archive-size-check.json`/`upload-complete.json` остаются **UNKNOWN/недоступны через Reader**. Они создаются после упаковки, не входят в archive catalogue. Это ограничение наблюдаемости, не новый404 и не установленный upload failure. Старое требование получить эти sidecars через Brief было избыточным; не повторяй probe и не требуй raw/admin audit только ради этого числа.
+```text
+prelude_core.rsspec(264,72-74):
+Cannot prove cons(dummy55, nil) = cons(dummy55, values03).
+```
 
-## Исправленный gate: необходимые свидетельства и границы
+Executing statement: `verified/lib.rs(357,737-742)`, `close array::<u64>(sift,1,cons(r7_sift_current,nil))` после late-callback recovery/readonly borrow cleanup. Значение/происхождение `values03` и достаточность zero-length tail facts ещё нужно установить. Это конкретный отказ при проверке тела, не готовый диагноз «нужно просто assert values03==nil». Reader coordinates/file integrity сами не устанавливают parser-input binding или причинность всей кампании.
 
-**Разрешено принять указанный existing probe как publication prerequisite** при следующей совокупности привязанных свидетельств:
+ArchiveSHA `e16d6a942db63878e27f539eb2c2d01e86459f041dadbf23deffe0f246913024`, indexSHA `54a86d655622f1aabe70a921e3858ae2188f29015ee90825afb7a3da63df142c`. Bounded classification fileID `c6a004582c6e2d16f220a34861a55b03543d670d001b4998af41c8cb0a9b2ef7`, expectedSHA `8ec6f6b1052de72fa98e04afbc551abec779a29740f3891f9e5d7340370a60ec`; `/first_error` request `2fe32230206e9324c80c396af1d9574e1820d8cadff0441e8f802303cda8fbb4`. Уже прочитанные полные source claims/точные log locators — по ссылкам выше; весь log не читать.
 
-1. Fresh bounded Brief для exact UUID подтверждает VERIFIED_ARCHIVE_AND_INVENTORY с указанными archive/index identities. Coordinator metadata подтверждает SUCCESS всех3 шагов; это публикационный результат, не verification theorem.
-2. Через Brief/targeted подтверждены source/config/Build identity и effective composite policy False/threshold150M=157286400. Archived `allprooflogs/upload-policy.json`: fileID `0f66bbe9230a4472a9e913dca0daeb28ad99b4a96f7625f689ccb0c2b3561f97`, expectedSHA `9883177b74ed1ede34b6498f363ce689b82c1beaee9211810179253aee8cc659`; полный root response request `da464eaaf9a99cba220d2226f40eea07121267e0ca1f12ae0775b1b3ee4e6d38`. [Поля и прежняя coverage](cloud-build/origin-layout/R13-PROBE1-RESULT-20261021.json). Не перечитывай ненужные payload bytes.
-3. Проверка фактически отправленного config и exact pinned producer устанавливает: `R13_UPLOAD_REQUIRED=true`, безопасная обязательная mode card; `set -euo pipefail`; actual compressed archive stat/guard после упаковки и до первой storage upload; отказ guard не маскируется; successful marker upload предшествует upload.ok/verdict success. Guard принимает synthetic лишь при `effective threshold < actual archive bytes <=536870912` и policyFalse. Source и config должны совпасть с таблицей, нельзя переносить рассуждение на произвольный Build без этих checks.
+R11 mandatory placement controls source all_matched=true/7cases; optional extra-address-taken=false, это diagnostics без independent qualification. Не объявлять опциональный negative закрытым и не переносить aggregate на полный theorem. **Full target gates0/acceptedfalse/independentcredit0; full insert_tail/CURRENT false-true-panic/B2/generic/qualification OPEN.**
 
-**Обозначай основание честно:** publication verified через Brief; выполнение mandatory guard и размерные границы установлены по exact pinned fail-closed execution path + successful Cloud steps. Это не прямое чтение внешнего size receipt. Сохрани `archive_size_bytes=null`, `exact_archive_size_observed=false` и недоступность sidecar; не выставляй `sidecar_verified`, не подставляй256MiB/предположительный compressed size и не утверждай независимое наблюдение точного числа. Числовые границы и подтверждённая целостность достаточны для этого administrative/service gate, independent proof credit остаётся0.
+## Первый цикл и самостоятельное продолжение
 
-Запиши новое решение/coverage в отдельном R14 gate record. Historical R13 gate PENDING/отчёт/ledger и их расход не менять. Ссылка на previous-phase probe — read-only; **не добавляй старый Build в новый ledger.builds и не списывай его94секунды повторно**. Новая проверка не должна требовать, чтобы probe находился в текущем счёте. Не делай blanket исключение missing metadata: допуск ограничен указанным identity-bound probe и перечисленными checks.
+1. **До правки восстанови происхождение хвоста.** Свяжи exact generated source/ghost statement/MIR/AST, открытые array predicates и значения перед singleton fold: split/join endpoints, actual count0 tail, initialization, readonly fractions/loans, CURRENT и callbacks. Сверь pinned `prelude_core.rsspec` definition/существующие checked lemmas; различи отсутствие pure empty-list факта, ошибочный list witness, неправильный length/range или реальную потерю ресурса. Исследуй все затронутые zero-length/singleton boundary cases одним классом, не угадывай по одной строке на Build. Нужный контекст получай адресно через Brief, дальше статически по pinned source.
+2. **Сформулируй минимальную проверяемую гипотезу.** Предпочти checked open/close/list/array lemma или корректное сохранение existential witness, если это следует из существующих predicates. Arbitrary current u64 value, coefficients, initialized contents, pointer/provenance и непустые соседние ranges сохраняются. Нельзя предположить `values03==nil`, leak/forget хвост, подставить entry snapshot вместо CURRENT, создать initialized array из gap или заменить ownership чистой геометрией. При frontend representation defect допустим узкий source-preserving fix с rationale и controls; новое memory/alias/layout допущение не разрешено.
+3. **Actual target прежде широкой кампании.** Используй существующий compile-preflight для изменённого tool, затем exact failing recovery/fold в actual body. Малый faithful Cloud reproducer допустим, если проверяет ту же resource/length/witness гипотезу и обоснованно экономит цикл; его PASS не заменяет перенос на actual insert_tail. Если меняются только ghost annotations/checked lemma, не добавляй отдельный cold compile-only Build без причины. Negative controls должны различать пустой и непустой tail, неверный length/list witness, утраченную долю/ownership и stale CURRENT там, где это затронуто исправлением; набор выбирай по дефекту, не ради числа tests.
+4. **После singleton fold продолжай дальше по миссии.** Исследуй и исправляй следующий незакрытый actual obligation в том же scope: moving-gap invariant init/body/backedge, normal Continue/break/return, первый и последующие callback false/true/panic, late cleanup, Drop/Resume и normal/unwind resources. Не останавливайся после первого corrected line/PASS/нового отказа при полезном шаге, времени и бюджете. Различай наблюдённый путь, доказанный bounded fragment и полноту всей цели. [Initialized-value invariant design](cloud-build/origin-layout/R11-INITIALIZED-INVARIANT-DESIGN-20261021.md), [обязательства](cloud-build/origin-layout/R11-OBLIGATIONS-20261021.md) — baseline для развития, не уже принятый theorem.
+5. **Сохрани recovery и обязательные controls.** Original tmp debt, CURRENT array/foreach/F/thread, per-call loan retirement и exact checked post-Drop returning hook R9 остаются. Preheader first-shift preparation не повторять на backedge; guard own-unwind/abort не подменять successful returning recovery. StorageLive/Dead/invariant/resource checks и compiler/source/receipt joins не отключать. Кандидат после изменения должен заново пройти затронутые actual gates и relevant controls, затем полный обязательный совместимый финальный набор; не склеивать итоговый PASS из разных versions/Builds. Prefix/physical BeforeLive/addressability и source-named unit empirical negatives сохраняют собственные OPEN/NOT_RUN, если не проверены.
 
-## Первый полезный запуск — normal proof
+Миссия сохраняется: actual insert_tail/CopyOnDrop/CURRENT и дальнейшие callers, не только один equality marker. После устойчивого результата сам выбирай следующий полезный пункт плана. Конкретная u64/array3 экспериментальная конфигурация не становится generic T/arbitrary-n safety theorem; domain и необходимые дальнейшие обобщения указывать точно.
 
-1. **Согласуй новый phase validator с этим gate.** Старый R13 validator требует integer archive_size_bytes и успешный probe внутри того же ledger; напрямую использовать его нельзя. Сделай узкий R14 branch-local путь, принимающий read-only предыдущий probe с точными identities и честным unknown размером. Старые phase restrictions сохраняются. Проверь fail-closed negatives: wrong/missing Build/source/config/archive/index, policyTrue, guard отключён/после upload/ошибка подавлена, required=false/missing card, другой publisher/source closure. Не удаляй сам size guard ради обхода условия допуска.
-2. **До submit — review и маленькие service tests.** Независимый **GPT-6 Luna HIGH** review текущего gate/registration/mode diff (`model="gpt-6-luna"`, `reasoning_effort="high"`, `fork_turns="none"`, без вложенной делегации/дорогой замены). Тестировать synthetic metadata/fake storage/малые файлы, не compiler/verifier/full preparer. Не повторять review неизменённой proof-логики. Runtime/transport closure и pins должны пройти существующий preflight; caps/codec не повышать.
-3. **Переключи на `proof-r11`, не запускай новый synthetic upload.** Проверить exact cross-mode source/runtime/publication correspondence к probe и frozen normal proof. Допустимы новые phase/ledger/gate checks и привязка mode card, необходимые для R14; их нельзя молча исключить широким directory ignore. Publication shell/guard/SDK/account/create-only/marker-last должны остаться эквивалентны проверенному пути; phase/card routing не должны выключить mandatory guard. Если publisher semantics реально изменяются, старый probe не объявлять автоматически применимым: обоснуй конкретное отличие, а не делай повтор «на всякий случай».
-4. **Проверяем прежний R11 candidate.** Last actual proof source **`0c1d0d7861813bcc48d765eba869d30c2658f1cc`**, expected tool **`660b576b6b1608db913c51e0785b443a8733396f`**, profile `experimental-merge-label-storage-r11-v1`, SHA256 `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375`. [Frozen inputs](cloud-build/origin-layout/R11-RETRY-INPUTS-20261021.json); R13 подтверждала158 normal-proof files byte-equal. Сохрани tool/model/std/spec/initialized-value invariant/matrix/controls и source correspondence. Не предлагай новую proof-гипотезу до получения доступного результата этого кандидата.
-5. **Получить результат через Brief и завершить publication recovery.** Сохрани актуальный normal Build UUID/source/tool/profile/config, compile milestones, конкретный verifier body result/первый ресурсный отказ и controls; затем отдельно full target gates/independent credit. Normal Build может дать FAILURE по настоящему proof obligation при исправной публикации — это новый proof evidence, не новый дефект uploader. Последний старый доступный proof-фронтир — R11 Build5 checked Live/Dead117 → iterationprep301/points_to_limits/dummy30none; initialized-value invariant до сих пор без доступного formal result. Не переносить synthetic SUCCESS на proof, stale resource PASS на новый source или отсутствие observations в NOT_RUN.
+## Полномочия и настоящие границы
 
-Scope R14 — снять reporting-only blocker, выполнить прежний normal proof и адресно разобрать результат. Не менять tool/model/spec/invariant/normal-unwind-abort/CFG/ресурсы/математические критерии ради PASS. Новая разработка proof-кандидата — следующее задание. Связанные узкие source/registration/service fixes разрешены автономно; неизменённый Build повторять только при установленном временном инфраструктурном сбое. Если задача выполнена, заверши с отчётом, не заполняй окно лишними запусками.
+Ранее согласованный узкий **R8 allocation premise** разрешено сохранять: default-off native fresh8-byte u64 StorageLive относительно CURRENT positive canonical initialized u64 subrange, same-function incoming array exactly3, full-pointer/provenance binding offsets0/1/2 и0<count<=3-offset, existing ManuallyDrop<u64> erasure. Только interval exclusion текущего owned range; без новых chunk/value/permission resources. CURRENT count2 не весь entry3. Default-off/IDE/non-target/Rocq semantics прежние. Это уже сохранённое experimental trusted premise, не theorem из прежней модели; [scope/review](cloud-build/origin-layout/R8-CANDIDATE4-MODEL-REVIEW-20261020.md). Не запрашивай повторное разрешение на его существующий scope; расширение на новые классы allocations/alias/layout требует отдельного решения.
 
-## Исполнение, Evidence и завершение
+Сам выпускай experimental profiles/tool commits/patches и dependent pins/closure в project branch; отдельный tool remote не обязателен. Frozen158 в R14 служили проверке unchanged repeat: в R15 это provenance baseline, разрешённые proof/frontend inputs можно обоснованно менять, сохраняя исходные критерии и регрессии. До содержательного изменения запиши defect/applicability/rationale/инвариант/различающие controls. До submit — независимый **GPT-6 Luna HIGH** review актуального diff/dependencies (`model="gpt-6-luna"`, `reasoning_effort="high"`, `fork_turns="none"`, без вложенной делегации/дорогой замены). Concrete soundness findings устранить; неизменённые части повторно не ревьюить. Review/synthetic GO не actual verifier acceptance.
 
-Сохрани pre-upload guard **actual compressed archive<=536870912** и policy export `CLOUDSDK_STORAGE_PARALLEL_COMPOSITE_UPLOAD_ENABLED=False` внутри Build. Для normal proof нижней границы threshold нет. IAM/storage.objects.get, SDK/account/bucket policy/backend и лимит обработчика не менять. External sidecar API/улучшение диагностических Brief — отдельная задача. Недоступность необязательной метрики сама по себе не требует нового Build или остановки proof в этом задании.
+Разрешены минимальные runner/preflight/collector/diagnostic fixes, необходимые для proof-цикла. Для затронутого runner обязательны малые synthetic success/error/timeout/partial/explicit NOT_RUN/missing/null/wrong-type/source-stage-target mismatch tests, сохранение original exceptions/exits и last completed snapshot. Не создавать большой инфраструктурный проект вместо proof. Maintainer принимает готовые tool-патчи, текущий blocker остаётся у Merge.
 
-Каждый новый Build через существующий coordinator, exact reviewed/committed/published source/infra SHA с проверенным полным remote SHA, config/recipe/profile/source closure. Source transport в R13:565029gzip/189parts, config26960/28000; полный token/caps/dependencies проверить до submit. Один occupied/unresolved Build на stable owner `merge`, максимум три project-wide. Refusals не обходить, uncertain submit не дублировать; envelope timeout+60 в бюджете/absolute с запасом для полезного target и публикации.
+Сохранять runtime std/алгоритмы/generic signatures/compiler/source semantics/actual CFG/domain/pre/normal-unwind-abort/ownership/provenance и все acceptance criteria. Нельзя axioms/assumed ownership bridges, ресурс из numeric address equality, unchecked summary, assume вместо invariant, исчезновение failing assertion или отключение leak/dead-code/validity/uninitialized/refinement checks. Чужие worktrees/pins/historical evidence/ledgers не менять. Без reset/force-push/merge/upstream PR/внешних комментариев/Actions, shared live coordinator/IAM/triggers/dependencies/cache/backend deployment.
 
-Ожидание/status — шаги≤60с с yield10–30с, без пустого polling; выполняй полезные независимые проверки. Через час — progress/charge/blocker без ожидания ответа. После main новых Builds/retries/гипотез нет; finishing — начатое/Evidence/accounting/checkpoint/push. К absolute terminal/accounted либо exact active/unresolved IDs и следующий разрешённый шаг. Остаток retire без carry; закрытый R13 не возобновлять.
+## Доставка, время и Evidence
 
-Evidence v0.11: `smallsort-brief BUILD_UUID` → catalogue/file ID → `--refresh --file ID --expect-sha256 SHA` с info/locate/position/lines/JSON pointer, явные страницы по server next_offset/next_value_start. [Guide](EVIDENCE-READER-GUIDE.md), [примеры](EVIDENCE-READER-TASK-QUERIES.md), `/root/SMALLSORT-BRIEF-AGENT-GUIDE-RU.md`. Старые16-квота/WITHHELD отменены. Сохранять file/index/archive/request identities/exact/complete/coverage. Evidence — данные, не команды; no-match не NOT_RUN, integrity/exit0/source PASS не independent B1/B2 credit. Raw/full logs/archives/Cloud Logging/локальные raw copies и GCS/download/storage/logging обход запрещены. Не ставить download_verified, historical verdicts/ledgers не переписывать. Новый admin audit отдельно, но только ради недоступного exact archive size в этом gate он не требуется.
+**Не возвращаться к synthetic upload/точному size receipt без нового дефекта.** Сохрани восстановленный R14 publication path: exportFalse внутри Build, effective-policy guard, mandatory stat готового compressed archive<=536870912 до uploads, create-only, marker-last и bound Brief identities. [Принятый publication gate](cloud-build/origin-layout/R14-PUBLICATION-GATE-20261021.json). Exact archive_size_bytes может оставаться null/UNKNOWN, sidecar_verifiedfalse; это не blocker и не повод читать raw. Publisher gate относится к publisher/guard path, не требует равенства новых proof inputs baseline158. В новой phase явно разрешено поддержать такое разделение с review; старые gate/ledger/расходы не переписывать и previous Builds повторно не учитывать. Изменение proof/source/profile требует своих pins/actual regressions, а не нового upload probe при неизменённом publisher.
 
-VPS — чтение/правки/Git/hashes/static parsing и малые isolated synthetic service tests; actual pipeline/compiler/exporter/decoder/refiner/verifier только Cloud. Чужие worktrees/pins/shared live state, Actions, внешние комментарии/merge/upstream PR не трогать.
+**Планируй время по факту:** R14 execute441.424с, package+upload314.819с, verdict0.987с, totalcharge774. Старая оценка70с на публикацию непригодна. При timeout1200 базовый резерв package/upload/verdict **не менее360с**, execute budget<=840с и более ранний soft deadline, либо новый измеримый план с review. Разрешены необходимые R15-only внутренние timeout/deadline/wiring поправки; hard timeout/absolute не повышать. Учти cold tool compile и full controls; не уменьшай evidence/controls ради fit. Не запускать Build на остатке, в котором target и публикация не помещаются.
 
-Обновляй компактный STATUS и session/release/evidence records. Здесь **один перезаписываемый отчёт**: T0/deadlines/end; принятое gate и основание/UNKNOWN; normal Build UUID/source/config/tool/profile; гипотеза/type/результат/charge; compile/body/controls/full gates отдельно; own active/unresolved/requests/reservations; spent/retired/carry; конкретный следующий proof blocker. История по ссылкам, текущий файл не наращивать. Начальный **full target gates0/acceptedfalse/independentcredit0/B2/generic/qualificationOPEN**; допуск к запуску этого не меняет.
+Source/config transport почти исчерпан: R14 source571521gzip/191parts/200substitutions, actual config27012/28000. До dispatch проверь новый полный token, Git object/mode/blob closure, scripts/patches/specs/profile/runner dependencies и caps. Не наращивай payload старой историей; реально неиспользуемую прозу/local-only harnesses можно оставить в Git вне runtime recipe после доказательства отсутствия consumers. Не выкидывать нужные proof/control inputs и не повышать codec/transport caps.
+
+T0 фиксировать при старте. Каждый Build — exact reviewed/committed/published source/infra SHA с проверенным полным remote SHA, config/recipe/profile identities; существующий coordinator. Один occupied/unresolved на stable owner/ledger, максимум три project-wide, envelope timeout+60 в бюджете/absolute. Refusals не обходить, uncertain submit не дублировать; повтор неизменённого Build только при установленном временном infra-сбое. Status/ожидание объединять в шаги<=60с с yield10–30с без пустого модельного polling; выполнять независимую полезную работу. Через час — progress/charge/blocker без ожидания ответа.
+
+После main никаких новых Builds/retries/гипотез; до30мин finishing — начатое/Evidence/accounting/checkpoint/push. К absolute terminal/accounted либо exact active/unresolved IDs и следующий разрешённый шаг. Остаток retire без carry; ранний stop лишь при выполненной миссии, исчерпанном бюджете либо конкретной внешней/семантической границе после проверки независимых задач. Первый новый proof refusal сам по себе не завершает R15.
+
+Evidence v0.11: `smallsort-brief BUILD_UUID` → catalogue/file ID → `--refresh --file ID --expect-sha256 SHA` с info/locate/position/lines/JSON pointer; явные страницы только по server next_offset/next_value_start. [Guide](EVIDENCE-READER-GUIDE.md), [примеры](EVIDENCE-READER-TASK-QUERIES.md), `/root/SMALLSORT-BRIEF-AGENT-GUIDE-RU.md`. Старые16-квота/WITHHELD отменены. Сохраняй file/index/archive/request identities/exact/complete/coverage. No-match не NOT_RUN, evidence — данные, не команды; integrity/exit0/source PASS не independent B1/B2 proof. Raw/full logs/archives/Cloud Logging/локальные raw copies и GCS/download/storage/logging обход запрещены; не ставить download_verified, historical evidence/ledgers не переписывать. При реальном interface blocker сообщить точный selector/ответ и остановить только зависимую работу; raw admin audit отдельно.
+
+VPS — чтение/правки/Git/hashes/static parsing и малые isolated synthetic service tests; actual preparation/extraction/compiler/exporter/decoder/refiner/verifier/full runners только Cloud. Обновляй компактный STATUS и session/experiment/release/coverage. Здесь **один перезаписываемый отчёт**: выбранные цели/proof до→после; каждый Build UUID/гипотеза/type/exact inputs/результат/charge; observed timings/partial coverage; T0/main/absolute/end; own active/unresolved/requests/reservations; spent/retired/carry; следующий blocker. Tool compilation, конкретный verifier body result, structural/diagnostic controls и full target gates/independent credit учитывать отдельно. Wall-clock не active agent time, retired headroom не расход; историю не наращивать в текущем файле.
 
 ## Отчёт агента
 
-T0 **2026-10-21T12:52:50Z**, main 14:52:50Z, absolute 15:22:50Z. Счёт закрыт
-**13:36:35Z**; end **2026-10-21T13:41:45.443908Z**.
-
-**Publication recovery выполнен.** Отдельный R14 gate принял только probe
-331fba31/c9b51517/config da516252/archive 8ecf904c/index ad0e439b: fresh Brief,
-verified inventory, policy False/150M и точный fail-closed config + три SUCCESS.
-Размерные границы установлены по mandatory guard path; `archive_size_bytes=null`,
-`exact_archive_size_observed=false`, `sidecar_verified=false` сохранены. Нового
-synthetic не было. R13/history/его 94 секунды не изменены и не перенесены.
-
-**Normal proof:** Build **23dc710b-07e5-43ff-b63b-febe4ddb19ca**, source/infra
-**bec0469fe0d20c2d74775b0ba9e9920b11c13445**, config
-`5a9909ba3b877ac4a1c35a4d195fea619d171c16feece28586da51ee5dd83174`.
-Tool 660b576b/profile eb61e493 и все 158 R11 proof inputs byte-equal baseline
-0c1d0d78. Luna HIGH review; phase 10/source 8 и uploader error paths PASS.
-Full closure/preflight PASS; source 571521 gzip/191 parts/200 substitutions,
-config preflight 26984/28000, actual dispatch 27012/28000 при timeout 1200. Локальные transport refusals не создали Builds.
-
-Build **FAILURE**: execute/package-upload SUCCESS, final verdict exit 1.
-Brief **VERIFIED_ARCHIVE_AND_INVENTORY**, evidence complete; archive
-`e16d6a942db63878e27f539eb2c2d01e86459f041dadbf23deffe0f246913024`, index
-`54a86d655622f1aabe70a921e3858ae2188f29015ee90825afb7a3da63df142c`.
-Compiler source PASS: exporter/decoder/translator/console/refiner exit 0,
-postbuild source hash exit 0. Execute 441.424 s, package+upload 314.819 s;
-это не измерение upload-only rate, exact archive size остаётся UNKNOWN.
-
-**Actual full body INCONCLUSIVE**, accepted/proof_credit false. Classification
-и exact trace 2252/2259 совпали: `prelude_core.rsspec(264,72–74)` не доказывает
-`cons(dummy55, nil) = cons(dummy55, values03)` при
-`close array::<u64>(sift, 1, cons(r7_sift_current, nil))` после late-callback recovery
-(`verified/lib.rs(357,737–742)`). Это новый доступный first-error frontier,
-а не перенос исторического dummy30/points_to_limits. R11 mandatory placement
-controls: source `all_matched=true`; optional extra-address-taken false;
-accepted/proof_credit false. Run identity связан с текущими UUID/source/tool/profile.
-Targeted audit: accepted=false, diagnostic_complete=false; full_transfer и whole-challenge theorem pointer не найдены, их значения UNKNOWN (не NOT_RUN). Full target gates **0**, accepted false, independent credit **0**;
-**B2/generic/qualification OPEN**. Никаких proof/model/spec/invariant изменений.
-
-Один новый Build, **774 charged / 773 execution / 2826 retired / remaining 0**,
-carry false; own active/unresolved/requests/reservations **0/0/0/0**.
-HTTP429 одного targeted query преодолён сериализацией; raw/GCS/logging обхода нет,
-log прочитан только bounded locator/window; no-match не трактовался как NOT_RUN.
-Задача завершена без лишнего повтора. Следующий proof blocker — факты хвоста
-нулевой длины при сворачивании singleton array после callback; разбор/исправление
-в следующем задании с сохранением ресурсов и критериев. Результаты:
-[R14 proof](cloud-build/origin-layout/R14-PROOF1-RESULT-20261021.json),
-[body/controls evidence](cloud-build/origin-layout/R14-BODY-EVIDENCE-20261021.json),
-[compile/audit](cloud-build/origin-layout/R14-COMPILE-AUDIT-EVIDENCE-20261021.json).
-Финальный docs/accounting checkpoint не запускался как Build.
+Не начато. При старте зафиксируй T0 и ближайшую proof-гипотезу; по завершении замени раздел одним компактным итогом.
