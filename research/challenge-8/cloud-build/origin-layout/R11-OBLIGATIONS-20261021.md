@@ -15,3 +15,5 @@
 | accepted / independent credit / full target gates | false /0 /0 |
 
 Static/synthetic review and runner work are setup, counted separately from closed proof obligations. No historical source PASS is transferred to current identities. Evidence v0.11 bounded request identities and coverage are recorded in each Build result; no download_verified or historical evidence rewrite.
+
+Address-taking investigation (LunaHIGH read-only): source edits cannot reuse unchanged current-native receipts, and mir_stack_addr(unit destination) fails its existing materialized-struct admission before the R11 placement gate. A fresh genuine export/source binding is necessary for a meaningful independent negative; no retro-provenance or control credit was introduced.

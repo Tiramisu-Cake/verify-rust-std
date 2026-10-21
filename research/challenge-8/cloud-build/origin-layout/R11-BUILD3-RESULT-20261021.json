@@ -1,0 +1,46 @@
+{
+  "schema": "merge-r11-build-result-v1",
+  "build_id": "fa3a26ec-a699-4a91-ad8a-35eb45b24afa",
+  "source_commit": "5a93a90ced6bd90adaeff0222e6492deab1c26f3",
+  "tool_commit": "ab4f72b86d8c427381cfc7e2b9190cfb4ffd35e8",
+  "status": "FAILURE",
+  "kind": "PLACEMENT_WITH_OVERLAY_REPAIR",
+  "charged_seconds": 421,
+  "execution_seconds": 420,
+  "cumulative_charged_seconds": 1204,
+  "cumulative_execution_seconds": 1202,
+  "remaining_seconds": 2396,
+  "create_time": "2026-10-21T07:16:32.897149824Z",
+  "start_time": "2026-10-21T07:16:33.587936733Z",
+  "finish_time": "2026-10-21T07:23:33.535940Z",
+  "compilation": {
+    "translator": "exit1 unit expected Mir.basic_block line7610",
+    "console": "exit0",
+    "exporter": "exit0",
+    "decoder": "exit0",
+    "preparation": "exit0",
+    "refiner": "not present in verified archive"
+  },
+  "formal_attempt": "source proof_attempted=false; no current actual body result",
+  "closed_target_gates": 0,
+  "accepted": false,
+  "independent_credit": 0,
+  "qualification": "OPEN",
+  "reader": {
+    "file_id": "cc341914290c0f0e0581a43f0d5f3d36bf0dc12f46afcce4bb40c21fad809ae3",
+    "file_sha256": "648f634c4f039a3b473327f35d6d471c5b256ab164a48483c4b1f0db02c1599e",
+    "archive_sha256": "0afdd6290b936a3e9d1cb782fcb4a78c3f1ea4f4c1269d92d903fc41f995ca3a",
+    "index_sha256": "f949891e810590d268172c9721e7246c5b1dfe55617731bbf19205aec6d5988d",
+    "info_request": "53bf7414490b56882e406998a78779325a852d4d39f1afffe97ce861a297f94b",
+    "fragment_request": "4a6823ee62ce1b896d3bb11d276aabeed4ecca79ba088abce7cf6b4c29e052d2",
+    "lines": [
+      1,
+      5
+    ],
+    "exact": true,
+    "complete": true,
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "causal_status": "UNKNOWN"
+  },
+  "static_defect": "plan tuple monomorphizes exported fail helper; recreate helper after data-only plan match"
+}

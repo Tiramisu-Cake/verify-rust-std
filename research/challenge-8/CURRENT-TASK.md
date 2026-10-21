@@ -60,14 +60,14 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 R11 ACTIVE. T0/main/absolute 2026-10-21 06:14:39/08:14:39/08:44:39UTC.
 Build1 acba1b21: source5fdfaa63/tool a3a22f98,694charged/694execution;
-seven compilation milestones exit0, actual body StorageDead276 refused.
-Trace shows _117 receipt at invariant entry but absent after production;
-source observation, parser-input binding/causality not independently established.
-Build2 92795836: sourcefc0e2c01/toolab4f72b8,89charged/88execution;
-setup provider-overlay refusal before compilation. Two newly pinned files lack
-identity handlers; fix+synthetic applicability+LunaHIGH review before retry.
-Used783/execution782/remaining2817, bothterminal/accounted, ownactive0.
-Candidate2 source-bound placement tool reviewed GO, unchanged invariant/storage
-checks/CFG/resources; current native controls remain diagnostic-only.
+seven compilation milestones exit0, actual StorageDead276 refused. _117 receipt
+exists at invariant entry, absent after production: source observation only.
+Build2 92795836: sourcefc0e2c01/toolab4f72b8,89charged/88execution,
+setup overlay refusal; fixed selected R11 identity registration, LunaHIGH GO.
+Build3 fa3a26ec: source5a93a90c/toolab4f72b8,421charged/420execution,
+translator compile unit vs Mir.basic_block; plan function monomorphized.
+Data-only plan/helper-local type repair under LunaHIGH review before retry.
+Used1204/execution1202/remaining2396; all3 terminal/accounted, ownactive0.
+Placement retains checked invariant, storage checks, CFG and resources.
 Full target gates0; B2/generic/qualificationOPEN,acceptedfalse/independentcredit0.
-See R11-BUILD1/2-RESULT and R11-PLACEMENT-DESIGN; R10 closed/no carry.
+See R11-BUILD1..3-RESULT and R11-TYPE-REPAIR; R10 closed/no carry.

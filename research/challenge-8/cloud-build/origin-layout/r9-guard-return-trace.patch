@@ -1,5 +1,5 @@
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index 9813a884..9ebb6976 100644
+index 9813a884..af2ef02b 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -1967,18 +1967,37 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -584,19 +584,21 @@ index 9813a884..9ebb6976 100644
 +                  | _ -> ()) assertion;
 +                require (not !mentions) "invariant refers to the instrumentation local";
 +                Ok (Some (call_id, target_id, raw_id, local, live_at, dead_at,
-+                          invariant_stmt, inv_at, fail))
++                          invariant_stmt, inv_at))
 +            in
              State.selected_resume_targets := List.filter_map (fun block ->
                match TerminatorKindRd.get (TerminatorRd.kind_get (BasicBlockRd.terminator_get block)) with
                | TerminatorKindRd.Drop data when List.mem
-@@ -7221,6 +7601,75 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7221,6 +7601,77 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                        translate_basic_block ret_place_id bblock_cpn)
                      bblocks_cpn
              in
 +            let bblocks = match r11_cut_plan with
 +              | None -> bblocks
 +              | Some (call_id, target_id, raw_id, local, live_at, dead_at,
-+                      invariant_stmt, inv_at, fail) ->
++                      invariant_stmt, inv_at) ->
++                  let fail reason = Ast.static_error inv_at
++                    ("R11 invariant placement binding refused: " ^ reason) None in
 +                  let require condition reason = if not condition then fail reason in
 +                  let unique id = match List.filter (fun (bb : Mir.basic_block) -> bb.id = id) bblocks with
 +                    | [one] -> one | _ -> fail "translated block binding is ambiguous" in
@@ -665,7 +667,7 @@ index 9813a884..9ebb6976 100644
              let bblocks =
                match State.first_callback, !State.first_callback_call_loc,
                      !State.first_callback_normal_target with
-@@ -7510,6 +7959,15 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7510,6 +7961,15 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                         "Post-retirement generated Drop control found multiple qualified Drops" None)
                | _ -> vf_bblocks
              in
