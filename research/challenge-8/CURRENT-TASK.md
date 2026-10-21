@@ -47,10 +47,10 @@ Next: Register fresh R17 after effective-budget check; reviewed checked RawPtr m
 
 ## Отчёт агента
 
-**merge-caller-refinement-autonomous-2026-10-21-r17 · merge · MERGE-CALLER-REFINEMENT-R17-2026-10-21 · ACTIVE**
-Updated: 2026-10-21T19:32:22Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `660b576b6b1608db913c51e0785b443a8733396f` / `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375`.
+**merge-caller-refinement-autonomous-2026-10-21-r17 · merge · MERGE-CALLER-REFINEMENT-R17-2026-10-21 · HANDOFF**
+Updated: 2026-10-21T19:35:58Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `660b576b6b1608db913c51e0785b443a8733396f` / `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375`.
 Dates: T0 `2026-10-21T18:33:50Z`; main `2026-10-21T20:33:50Z`; absolute `2026-10-21T21:03:50Z`. Budget 3600s: 584s spent, 0s retired, 3016s remaining including reservations.
 Active Build IDs: f9e06ad1-d13e-4012-b1fc-be1d84c4aded; unresolved: none recorded.
-Blocker: P2 provider rejects stale prove.py base-source pin before compiler/campaign. [Build `cccfd7c5-ee98-4549-8ecd-da2274e7c608`]
-Next: Observe P3 Brief for current-tool controls, raw caller and borrow lifecycle.
+Blocker: PAUSED by owner/coordinator; P3 last status WORKING; no polling, watcher, new Builds/retries/hypotheses until owner resumes. P2 provider-pin fix reviewed, P3 proof results unverified. [Build `f9e06ad1-d13e-4012-b1fc-be1d84c4aded`]
+Next: Owner resume required. Read handoff below; retain T0/deadlines/inputs/ledger. Then existing coordinator status/accounting and compact Brief for P3; no proof completion claimed.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
