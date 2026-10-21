@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -109,6 +110,34 @@ class R17PhaseTests(unittest.TestCase):
         for phase in (m.R13_PHASE if hasattr(m, "R13_PHASE") else "MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21",
                       m.R14_PHASE, m.R15_PHASE, m.R16_PHASE):
             self.assertIs(m.required_upload_guard(phase), True)
+
+    def test_terminal_reconcile_syncs_r17_spent_alias_before_authorization(self):
+        ledger = account()
+        ledger["builds"] = [{
+            "dispatch_token": "dispatch-r17-test", "owner": "merge",
+            "phase_id": m.R17_PHASE, "build_id": "build-r17-test",
+            "reserved_seconds": 1260, "accounted": False,
+        }]
+        completed = {
+            "status": "FAILURE", "createTime": "2026-10-21T18:53:10Z",
+            "startTime": "2026-10-21T18:53:11Z", "finishTime": "2026-10-21T19:01:15Z",
+        }
+        with tempfile.TemporaryDirectory(prefix="r17-terminal-reconcile-") as temporary:
+            root = Path(temporary)
+            state = root / "state"
+            ledger_path = root / "R17-ledger.json"
+            coordinator = root / "coordinator"
+            with patch.object(m.coordination, "COORDINATION", coordinator), \
+                 patch.object(m, "invoke", return_value=completed):
+                m.reconcile(state, ledger, ledger_path)
+            self.assertEqual(ledger["used_build_seconds"], 485)
+            self.assertEqual(ledger["remaining_build_seconds"], 3115)
+            self.assertEqual(ledger["spent_build_seconds"], 485)
+            self.assertTrue(ledger["builds"][0]["accounted"])
+            m.authorized_phase(args(command="request"), ledger)
+            ledger["spent_build_seconds"] = 484
+            with self.assertRaises(SystemExit):
+                m.authorized_phase(args(command="request"), ledger)
 
     def test_account_identity_budget_and_phase_inputs_fail_closed(self):
         for field, value in (

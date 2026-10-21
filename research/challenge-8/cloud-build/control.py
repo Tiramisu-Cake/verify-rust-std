@@ -241,6 +241,8 @@ def reconcile(state,ledger,ledger_path):
     if b.get('startTime') and b.get('finishTime'):item['execution_seconds']=math.ceil((t(b['finishTime'])-t(b['startTime'])).total_seconds())
  ledger['used_build_seconds']=sum(x.get('build_seconds',0) for x in ledger['builds'])
  ledger['remaining_build_seconds']=ledger['ceiling_build_seconds']-ledger['used_build_seconds']
+ if ledger.get('phase')==R17_PHASE:
+  ledger['spent_build_seconds']=ledger['used_build_seconds']
  ledger['active_build']=next((x.get('build_id') or x['dispatch_token'] for x in ledger['builds'] if not x.get('accounted')),None)
  write(ledger_path,ledger)
 
