@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+"""R15 adapter for the separately pinned complete actual sort4 body runner."""
+from __future__ import annotations
+
+import hashlib
+import importlib.util
+import json
+import os
+from pathlib import Path
+import sys
+
+HERE = Path("research/challenge-8/cloud-build/sort4-caller-entry-native")
+PROFILE = HERE / "A1-ACTUAL-BODY-R15-PROFILE-2026-10-21.json"
+PHASE = "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17"
+AUTHORIZATION_PHASE = "SORT4-ACTUAL-BODY-2026-10-21-R15"
+ACTUAL_BODY = HERE / "a1-actual-body.py"
+
+
+def _sha(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def run(a, *, c4, audit, driver, manifest, ghost):
+    profile_path = Path(a.proof_root) / PROFILE
+    profile_sha = os.environ.get("SORT4_A1_PROFILE_SHA256")
+    if not profile_path.is_file() or not profile_sha or _sha(profile_path) != profile_sha:
+        raise RuntimeError("A1 R15 runner profile pin differs")
+    profile = json.loads(profile_path.read_text())
+    if not isinstance(profile, dict):
+        raise RuntimeError("A1 R15 runner profile must be an object")
+    if (profile.get("authorization_phase_id") != AUTHORIZATION_PHASE or
+            profile.get("experiment_protocol_phase_id") != PHASE or
+            profile.get("execution_mode") != "actual-sort4-body-v1"):
+        raise RuntimeError("A1 R15 runner authorization/protocol/body binding differs")
+    body = Path(a.proof_root) / ACTUAL_BODY
+    expected = profile.get("a1_actual_body_sha256")
+    if not isinstance(expected, str) or len(expected) != 64 or _sha(body) != expected:
+        raise RuntimeError("A1 R15 actual body implementation pin differs")
+    spec = importlib.util.spec_from_file_location("a1_r15_actual_body", body)
+    if spec is None or spec.loader is None:
+        raise RuntimeError("A1 R15 actual body implementation cannot load")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    if _sha(body) != expected:
+        raise RuntimeError("A1 R15 actual body implementation changed during import")
+    return module.run(a, c4=c4, audit=audit, driver=driver,
+                      manifest=manifest, ghost=ghost)

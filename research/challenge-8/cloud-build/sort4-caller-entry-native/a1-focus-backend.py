@@ -23,6 +23,8 @@ from typing import Any, Mapping
 PHASE = "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17"
 HERE = Path("research/challenge-8/cloud-build/sort4-caller-entry-native")
 PROFILE_BINDINGS = {
+    "SORT4-ACTUAL-BODY-2026-10-21-R15":
+        "A1-ACTUAL-BODY-R15-PROFILE-2026-10-21.json",
     "SORT4-PACKAGE-SCOPE-NATIVE-PROOF-2026-10-20-R6":
         "A1-SCOPE-S3-PROFILE-2026-10-20.json",
     "SORT4-PACKAGING-NATIVE-PROOF-2026-10-20-R7":
@@ -318,7 +320,7 @@ def _cloud_gate(a, c4, ghost, tool: Path, receipt: dict,
          receipt.get("final_exporter_sha256") == profile["c_after"][EXPORTER] and
          receipt.get("proof_credit") is False,
          "one final A1 tool reconstruction receipt")
-    if profile.get("authorization_phase_id") in ("SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13", "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14"):
+    if profile.get("authorization_phase_id") in ("SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13", "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14", "SORT4-ACTUAL-BODY-2026-10-21-R15"):
         need(receipt.get("shared_reference_own_normalization") ==
              profile.get("shared_reference_own_normalization") and
              isinstance(profile.get("shared_reference_own_normalization"), dict),

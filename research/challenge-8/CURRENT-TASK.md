@@ -55,4 +55,4 @@ VPS — чтение/правки/Git/hashes/static parsing и малые isolat
 
 ## Отчёт агента
 
-NOT_STARTED. Авторизация Select-R15 выдана; T0/deadlines/новый ledger устанавливаются агентом при фактическом старте. Расход новой сессии0/3600с; carry0. R14 остаётся CLOSED.
+ACTIVE. T0=2026-10-21T14:54:00Z; main=2026-10-21T16:54:00Z; absolute=2026-10-21T17:24:00Z. Spent0/3600с, carry0. Цель: full actual sort4_stable body/resource contract. Ветка/HEAD проверены; чужие18 файлов защищены snapshot. [Session](cloud-build/sort4-caller-entry-native/A1-ACTUAL-BODY-R15-SESSION-2026-10-21.md). Новых body obligations0; Cloud ещё не запущен.
