@@ -59,15 +59,18 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 ## Отчёт агента
 
 R11 ACTIVE. T0/main/absolute 2026-10-21 06:14:39/08:14:39/08:44:39UTC.
-Build1 acba1b21:694charged/694execution, seven compilation milestones exit0,
-actual StorageDead276 refused; _117 receipt absent after invariant production.
-Build2 92795836:89/88, setup overlay refusal; reviewed repair applied.
-Build3 fa3a26ec:421/420, translator compile type error; reviewed repair applied.
-Build4 25877672:670/669, seven compilation milestones exit0, actual frontend
-fatal structural AST comparison before logical body. Placement controls source
-INCONCLUSIVE rawprovider-vs-canonical-map mismatch. Current exporter run tuple
-observed. AST physical identity, provider-fourfield comparison and control
-routing fixes all independently LunaHIGH GO; fresh exacttool660b576b candidate.
-Used1874/execution1871/remaining1726; all4 terminal/accounted, ownactive0.
+Build1 acba1b21:694/694, seven compile milestones exit0, StorageDead276 refused.
+Build2 92795836:89/88, overlay setup refusal, repaired/reviewed.
+Build3 fa3a26ec:421/420, translator type error, repaired/reviewed.
+Build4 25877672:670/669, seven compile milestones exit0, frontend AST compare
+fatal; physicalidentity/provider/routing fixes reviewed/applied.
+Build5 feb5c44b:610/609, seven compile milestones exit0; checked Live/Dead117
+now precede invariantconsume and actual reaches iterationprep301, where
+points_to_limits fails dummy30none. Limited initial path, no backedge theorem.
+Controls INCONCLUSIVE ownid/nestedFnDefid parsing; exactcall/top-levelid fixes
+reviewed/service13PASS. R11-only initialized value/conditionalgap invariant
+reviewed LunaHIGH GO, synthetic4PASS; legacyR10 unchanged. Final planned Build6
+timeout1000/envelope1060 vs remaining1116; exact closure published before submit.
+Used2484/execution2480/remaining1116; all5terminal/accounted, ownactive0.
 Full target gates0; B2/generic/qualificationOPEN,acceptedfalse/independentcredit0.
-R11-BUILD1..4-RESULT / AST-IDENTITY-REPAIR / CONTROL-ROUTING; R10 no carry.
+R11-BUILD1..5-RESULT / INITIALIZED-INVARIANT-DESIGN; R10 no carry.

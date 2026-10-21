@@ -1,0 +1,67 @@
+{
+  "schema": "merge-r11-build-result-v1",
+  "build_id": "feb5c44b-a44f-4a12-9d12-00376906c8fc",
+  "source_commit": "1df9b8099d9393d3557c247bb1b79494bd94424b",
+  "tool_commit": "660b576b6b1608db913c51e0785b443a8733396f",
+  "status": "FAILURE",
+  "charged_seconds": 610,
+  "execution_seconds": 609,
+  "cumulative_charged_seconds": 2484,
+  "cumulative_execution_seconds": 2480,
+  "remaining_seconds": 1116,
+  "create_time": "2026-10-21T07:48:11.710887563Z",
+  "start_time": "2026-10-21T07:48:12.529939342Z",
+  "finish_time": "2026-10-21T07:58:20.819948Z",
+  "compilation": "seven observed milestones exit0",
+  "formal_attempt": "source-bound invariant cut emitted; actual execution passes retained Dead and reaches iteration preparation301; points_to_limits fails dummy30 none; fullbody exit1",
+  "placement_controls": "INCONCLUSIVE, id expectedonefield got2; source parser fixed top-level id and exact selected intrinsic among many",
+  "closed_full_target_gates": 0,
+  "limited_observation": "placement advances beyond oldDead into body; no backedge/exits theorem",
+  "accepted": false,
+  "independent_credit": 0,
+  "qualification": "OPEN",
+  "reader": {
+    "archive_sha256": "91084013f54e530a42343ea49fe076c1032bf6b01988bfff524a647d1f5c639c",
+    "index_sha256": "54d8ba5cf4fb3fffdb059cf327f6afba26fc5b91b37fd74f442ae450c5ca7b22",
+    "log": {
+      "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+      "sha256": "ae13a85a2c5b905a92e2e3d3da3492673896f3cee349c8e0a9b0cd72a9f3016a",
+      "info_request": "5c3ec52ba091d9310de93d6b03b7d2b8a238d3d292344db8323c86d6a85845ae",
+      "fragments": [
+        {
+          "lines": [
+            1,
+            6
+          ],
+          "request": "70cb7fe5fc1dab1220500d8a6a2b1161d2974ad0c6d189c3c99d28a0cc666ce0"
+        },
+        {
+          "lines": [
+            1780,
+            1791
+          ],
+          "request": "1b10c335ff47beab840ccd0e657329259a67e525e1acdb07917f8df2cdfda6cd"
+        },
+        {
+          "lines": [
+            1728,
+            1739
+          ],
+          "request": "462d2f28a3dc5eb4dbea465130019eb13fe20078737c4c3eee95b0397b2b0eff",
+          "observation": "Live117 checked, Dead117 checked and removes binding/receipt before invariantconsume; limitedinitialpath"
+        }
+      ],
+      "exact": true,
+      "complete": false
+    },
+    "control_error": {
+      "file_id": "16921a0b32e5989de188e93902c6b999a969dfea13636a39ed9fa338097ffbe3",
+      "sha256": "cf5780740ebcde8d048dd6aa2f200bed5cd7f0bb3f3ea8797ba18c22ba8e7c88",
+      "pointer": "/error",
+      "request": "8fbebc3ac640dd1b7d1152f33a60a3f097872214a618642dbfdb85e4a18504cc"
+    },
+    "reader_http429": "first log info attempt returned smallsort-brief: Reader HTTP request failed (HTTP 429); subsequent targeted reads sequential and succeeded",
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "causal_status": "UNKNOWN"
+  }
+}

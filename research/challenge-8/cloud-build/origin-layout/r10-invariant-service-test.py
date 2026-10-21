@@ -41,6 +41,24 @@ class Tests(unittest.TestCase):
         self.assertLess(result.index(m.R10_MOVING_GAP_INVARIANT), result.index(m.R10_ITERATION_PREP))
         self.assertNotIn(b'assume', result)
         self.assertNotIn(b'leak', result)
+    def test_r11_initialized_values_and_legacy_profile_isolation(self):
+        result = m._prepare_r10_moving_gap(SYNTHETIC, profile=m.R11_PROFILE)
+        self.assertEqual(runtime(result), runtime(SYNTHETIC))
+        self.assertEqual(result.count(m.R11_MOVING_GAP_INVARIANT), 1)
+        before, cases = m.R11_MOVING_GAP_INVARIANT.split(b'if sift == begin + 1 {')
+        initial, second = cases.split(b'} else {')
+        self.assertIn(b'*(begin + 1) |-> ?r11_middle_current', initial)
+        self.assertIn(b'*tail |-?-> _', initial)
+        self.assertIn(b'*(begin + 1) |-?-> _', second)
+        self.assertIn(b'*tail |-> ?r11_tail_current', second)
+        self.assertNotIn(b'*(begin + 1)', before)
+        self.assertIn(b'[1/4](*r4_tmp_ref |-> ?r11_ref_current)', before)
+        self.assertIn(b'[1/4](*&tmp |-> ?r11_tmp_current)', before)
+        self.assertNotIn(b'assume', result)
+        legacy = m._prepare_r10_moving_gap(SYNTHETIC, profile=m.R10_PROFILE)
+        self.assertEqual(legacy, m._prepare_r10_moving_gap(SYNTHETIC))
+        self.assertNotIn(b'r11_', legacy)
+
     def test_missing_ambiguous_reentry_and_wrong_exit_fail_closed(self):
         for bad in (b'', SYNTHETIC+SYNTHETIC, m._prepare_r10_moving_gap(SYNTHETIC),
                     SYNTHETIC.replace(b'guard_current_return_recover();', b'other();')):

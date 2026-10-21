@@ -1,16 +1,15 @@
-# Merge-R11 ACTIVE — placement actual frontend frontier
+# Merge-R11 ACTIVE — body reached after checked annotation lifetime
 
 T0/main/absolute 2026-10-21 06:14:39/08:14:39/08:44:39UTC.
-Four terminal/accounted Builds: charges694+89+421+670=1874, execution1871,
-remaining1726; ownactive0. Build1 StorageDead diagnosis; Build2 overlay and
-Build3 type setup failures repaired. Build4 seven compile milestones exit0,
-actual frontend fatal AST structural comparison, no logical body result.
-Next candidate tool660b576b uses exact parsed-node identity; scoped R11 control
-routing and provider-field comparison repaired, independent LunaHIGH GO.
-All storage/CFG/resource checks and R8 premise retained. Target fullgates0,
-acceptedfalse/independentcredit0, B2/generic/qualification OPEN.
-[Task](CURRENT-TASK.md), [Build4](cloud-build/origin-layout/R11-BUILD4-RESULT-20261021.json),
-[repair](cloud-build/origin-layout/R11-AST-IDENTITY-REPAIR-20261021.md).
+Five terminal/accounted Builds: used2484/execution2480/remaining1116, ownactive0.
+Build5 seven compile milestones exit0; Live117/Dead117 checked before invariant
+consume, reaches iterationprep301, points_to_limits fails dummy30none.
+Final candidate strengthens initialized-value bindings only in R11 checked
+invariant and repairs exactcall/top-levelid controls; independent LunaHIGH GO,
+static/synthetic PASS. Tool660b576b unchanged, runtime/R8/storage/CFG intact.
+Full target gates0, acceptedfalse/independentcredit0, B2/generic/qualificationOPEN.
+[Task](CURRENT-TASK.md), [Build5](cloud-build/origin-layout/R11-BUILD5-RESULT-20261021.json),
+[invariant](cloud-build/origin-layout/R11-INITIALIZED-INVARIANT-DESIGN-20261021.md).
 Prior snapshots below are historical.
 
 # Merge-R11 READY — label invariant / annotation temporary

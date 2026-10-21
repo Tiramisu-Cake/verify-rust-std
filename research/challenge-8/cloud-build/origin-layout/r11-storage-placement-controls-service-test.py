@@ -47,14 +47,20 @@ class PlacementControlTests(unittest.TestCase):
     (sourceInfo = (span = (regular = (lo = (line = 277), hi = (line = 277)))),
      kind = (nop = void))
    ], terminator = (sourceInfo = (span = (regular = (lo = (line = 277), hi = (line = 277)))),
-    kind = (call = (func = (constant = (function = "VeriFast_ghost_command")),
+    kind = (call = (func = (constant = (function = "VeriFast_ghost_command"),
+     fnDef = (id = (index = 99))),
      args = [], destination = (local = (name = "_7")),
      target = (something = (index = 1)), unwindAction = (cleanup = (index = 158)))))),
    (id = (index = 1), statements = [
     (sourceInfo = (span = (regular = (lo = (line = 277), hi = (line = 277)))),
      kind = (storageDead = (name = "_7")))
-   ], terminator = (sourceInfo = (span = (regular = (lo = (line = 278), hi = (line = 278)))),
-    kind = (return = void)))
+   ], terminator = (sourceInfo = (span = (regular = (lo = (line = 280), hi = (line = 280)))),
+    kind = (call = (func = (constant = (function = "VeriFast_ghost_command")),
+     args = [], destination = (local = (name = "_9")),
+     target = (something = (index = 2)), unwindAction = (cleanup = (index = 159)))))),
+   (id = (index = 2), statements = [],
+    terminator = (sourceInfo = (span = (regular = (lo = (line = 281), hi = (line = 281)))),
+     kind = (return = void)))
   ])
 ]'''
 
@@ -260,6 +266,11 @@ class PlacementControlTests(unittest.TestCase):
         self.assertEqual(plan["native_edges"]["target"], "(something = (index = 1))")
         self.assertEqual(plan["native_edges"]["unwindAction"],
                          "(cleanup = (index = 158))")
+        helper = m._load("r11_test_helpers", HERE / "first-callback-admission-controls.py")
+        nodes = m._locate_nodes(decoded, plan, helper)
+        self.assertEqual(nodes["term"], plan["call_text"])
+        self.assertIn('target = (something = (index = 2))', decoded)
+        self.assertIn('unwindAction = (cleanup = (index = 159))', decoded)
         wrong_dead = m._mutate_decoded(decoded, "wrong_dead_local", plan)
         self.assertIn('storageDead = (name = "_0")', wrong_dead)
         self.assertIn('target = (something = (index = 1))', wrong_dead)
@@ -269,11 +280,47 @@ class PlacementControlTests(unittest.TestCase):
                      "ordinary_non_unit_destination"):
             mutant = m._mutate_decoded(decoded, name, plan)
             self.assertNotEqual(mutant, decoded, name)
+            self.assertEqual(m._edge_signature(mutant, helper, "_7"),
+                             plan["native_edges"], name)
+            self.assertIn('target = (something = (index = 2))', mutant, name)
+            self.assertIn('unwindAction = (cleanup = (index = 159))', mutant, name)
         with self.assertRaisesRegex(ValueError, "no reviewed unique typed"):
             m._mutate_decoded(decoded, "extra_address_taken_use", plan)
         flat = decoded.replace("(something = (index = 1))", "(something = 1)")
         with self.assertRaises(ValueError):
             m._mutation_plan(flat, source)
+
+    def test_selected_ghost_call_must_be_unique_by_temp_destination(self):
+        helper = m._load("r11_test_edge_helpers", HERE / "first-callback-admission-controls.py")
+        decoded = self.mir_fixture()
+        self.assertEqual(m._edge_signature(decoded, helper, "_7"),
+                         {"target": "(something = (index = 1))",
+                          "unwindAction": "(cleanup = (index = 158))"})
+        without_selected = decoded.replace('destination = (local = (name = "_7"))',
+                                            'destination = (local = (name = "_6"))', 1)
+        with self.assertRaisesRegex(ValueError, "exactly one ghost-command terminator"):
+            m._edge_signature(without_selected, helper, "_7")
+        ambiguous = decoded.replace('destination = (local = (name = "_9"))',
+                                    'destination = (local = (name = "_7"))', 1)
+        source = b"\n" * 276 + b"    //@ inv thread_token(t);\n"
+        with self.assertRaisesRegex(ValueError, "exactly one ghost-command terminator"):
+            m._mutation_plan(ambiguous, source)
+
+    def test_block_index_uses_only_unique_top_level_basicblock_id(self):
+        helper = m._load("r11_test_block_helpers", HERE / "first-callback-admission-controls.py")
+        decoded = self.mir_fixture()
+        _, _, _, blocks = m._body_parts(decoded, helper)
+        self.assertEqual(m._block_index(blocks[0][2], helper), "0")
+        # This block's nested call FnDef carries an id too; it is not the
+        # BasicBlockId and must not make the selected block ambiguous.
+        self.assertIn('fnDef = (id = (index = 99))', blocks[0][2])
+        duplicate = blocks[0][2].replace('(id = (index = 0),',
+                                         '(id = (index = 0), id = (index = 3),', 1)
+        with self.assertRaisesRegex(ValueError, "exactly one top-level id"):
+            m._block_index(duplicate, helper)
+        missing = blocks[0][2].replace('(id = (index = 0), ', '(', 1)
+        with self.assertRaisesRegex(ValueError, "exactly one top-level id"):
+            m._block_index(missing, helper)
 
     def test_cut_parser_accepts_exact_inv_at_but_rejects_ambiguous_fields(self):
         line = self.target

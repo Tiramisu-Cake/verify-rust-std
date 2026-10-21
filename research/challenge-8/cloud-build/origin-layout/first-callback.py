@@ -200,6 +200,20 @@ R10_MOVING_GAP_INVARIANT = b"""            /*@ inv thread_token(t) &*& t == curr
             @*/
 """
 
+# Preserve initialized values explicitly across the R11 cut. DummyPat `_`
+# also admits maybe-uninitialized storage in the unchanged verifier.
+R11_MOVING_GAP_INVARIANT = (R10_MOVING_GAP_INVARIANT
+    .replace(b"[1/4](*r4_tmp_ref |-> _) ", b"[1/4](*r4_tmp_ref |-> ?r11_ref_current) ")
+    .replace(b"[1/4](*&tmp |-> _) ", b"[1/4](*&tmp |-> ?r11_tmp_current) ")
+    .replace(b"                *(begin + 1) |-> _ &*& array::<u64>(tail, 0, nil) &*&\n",
+             b"                array::<u64>(tail, 0, nil) &*&\n")
+    .replace(b"                    r10_dst == tail &*& *tail |-?-> _\n",
+             b"                    *(begin + 1) |-> ?r11_middle_current &*&\n"
+             b"                    r10_dst == tail &*& *tail |-?-> _\n")
+    .replace(b"                    sift == begin &*& r10_dst == begin + 1 &*& *tail |-> _\n",
+             b"                    sift == begin &*& r10_dst == begin + 1 &*&\n"
+             b"                    *(begin + 1) |-?-> _ &*& *tail |-> ?r11_tail_current\n"))
+
 R10_ITERATION_PREP = b"""            /*@ if sift == begin {
                 open array::<u64>(begin, 1, r10_first_current);
                 open array::<u64>(begin + 1, 0, nil);
@@ -229,7 +243,8 @@ R10_BREAK_PREP = b"""        /*@ if gap_guard.dst == begin {
 """
 
 
-def _prepare_r10_moving_gap(source):
+def _prepare_r10_moving_gap(source, *, profile=R10_PROFILE):
+    invariant = R11_MOVING_GAP_INVARIANT if profile == R11_PROFILE else R10_MOVING_GAP_INVARIANT
     anchor = b"        loop {\n            /*@ let_lft 'late = r5_late_k; @*/\n"
     source = _one(source, anchor,
                   b"        //@ open array::<u64>(tail, 0, _);\n"
@@ -238,7 +253,7 @@ def _prepare_r10_moving_gap(source):
                   b"        //@ close array::<u64>(tail + 1, 0, nil);\n"
                   b"        loop {\n" +
                   b"            /*@ let_lft 'late = r5_late_k; @*/\n" +
-                  R10_MOVING_GAP_INVARIANT + R10_ITERATION_PREP,
+                  invariant + R10_ITERATION_PREP,
                   'checked moving-gap invariant first at actual loop head')
     anchor = b"        }\n    }\n    /*@ {\n        guard_current_return_recover();"
     return _one(source, anchor, b"        }\n" + R10_BREAK_PREP +
@@ -557,7 +572,7 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
             else:
                 verified = _prepare_r9_guard_return_recovery(verified, old)
         if profile in (R10_PROFILE, R11_PROFILE):
-            verified = _prepare_r10_moving_gap(verified)
+            verified = _prepare_r10_moving_gap(verified, profile=profile)
     # Strip the NEW ghost-only annotations and compare with inherited source.
     # Other original ghost commands were already checked by old._prepare.
     # Runtime comparison removes only comments and whitespace; the inherited

@@ -223,7 +223,7 @@ def _mutation_plan(decoded: str, verified: bytes) -> dict:
         raise ValueError("ghost-call successor lacks one exact destination StorageDead")
     if source_text.count(b"inv thread_token(t)") != 1:
         raise ValueError("source invariant text is not unique on its line")
-    edges = _edge_signature(decoded, helper)
+    edges = _edge_signature(decoded, helper, temp)
     return {"source_line": source_line, "source_line_text": source_text.decode("utf-8", "replace"),
             "temp_local": temp, "body_start": decoded.find(body),
             "call_start": decoded.find(body) + start, "call_end": decoded.find(body) + start + len(call),
@@ -243,21 +243,36 @@ def _body_parts(decoded: str, helper):
     return body_start, body_end, body, blocks
 
 
-def _edge_signature(decoded: str, helper) -> dict:
+def _edge_signature(decoded: str, helper, temp_local: str) -> dict:
     _, _, _, blocks = _body_parts(decoded, helper)
     terms = []
     for _, _, block in blocks:
         term = helper._field_text(block, "terminator")
         if "VeriFast_ghost_command" in term:
-            terms.append(term)
+            if _destination_local(term, helper) == temp_local:
+                terms.append(term)
     if len(terms) != 1:
-        raise ValueError("selected MIR Body must contain one ghost-command terminator")
+        raise ValueError("selected temp destination must bind exactly one ghost-command terminator")
     return {"target": helper._field_text(terms[0], "target"),
             "unwindAction": helper._field_text(terms[0], "unwindAction")}
 
 
-def _preserve_edges(before: str, after: str, helper) -> str:
-    if _edge_signature(before, helper) != _edge_signature(after, helper):
+def _destination_local(terminator: str, helper) -> str | None:
+    destination = helper._field_text(terminator, "destination")
+    names = re.findall(r"\bname\s*=\s*\"([^\"]+)\"", destination)
+    return names[0] if len(names) == 1 else None
+
+
+def _terminator_source_line(terminator: str) -> int | None:
+    lines = re.findall(
+        r"\bsourceInfo\s*=\s*\(\s*span\s*=.*?\bline\s*=\s*(\d+)",
+        terminator, re.S)
+    return int(lines[0]) if len(lines) == 1 else None
+
+
+def _preserve_edges(before: str, after: str, helper, temp_local: str) -> str:
+    if (_edge_signature(before, helper, temp_local) !=
+            _edge_signature(after, helper, temp_local)):
         raise ValueError("MIR mutation changed the native call target or unwind cleanup edge")
     return after
 
@@ -279,7 +294,15 @@ def _option_block_index(terminator: str, helper) -> str:
 
 
 def _block_index(block: str, helper) -> str:
-    ident = helper._field_text(block, "id")
+    record = block.strip()
+    if (not record.startswith("(") or
+            helper._matching_end(record, 0, "(", ")") != len(record)):
+        raise ValueError("BasicBlock is not one balanced outer record")
+    fields = helper._split_items(record[1:-1])
+    id_fields = [item for item in fields if re.match(r"^\s*id\s*=", item)]
+    if len(id_fields) != 1:
+        raise ValueError("BasicBlock must have exactly one top-level id field")
+    ident = helper._field_text(id_fields[0], "id")
     indices = re.findall(r"\bindex\s*=\s*(\d+)\b", ident)
     if len(indices) != 1:
         raise ValueError("BasicBlock id has no unique BasicBlockId.index")
@@ -312,10 +335,10 @@ def _locate_nodes(decoded: str, plan: dict, helper) -> dict:
     for block_start, block_end, block in blocks:
         if "VeriFast_ghost_command" not in block:
             continue
-        if not re.search(rf"\bline\s*=\s*{plan['source_line']}\b", block):
-            continue
         term = helper._field_text(block, "terminator")
-        if "VeriFast_ghost_command" in term:
+        if ("VeriFast_ghost_command" in term and
+                _terminator_source_line(term) == plan["source_line"] and
+                _destination_local(term, helper) == local_name):
             candidates.append((block_start, block_end, block, term))
     if len(candidates) != 1:
         raise ValueError("invariant ghost call does not select one MIR basic block")
@@ -362,7 +385,7 @@ def _mutate_decoded(decoded: str, name: str, plan: dict) -> str:
         successor = _remove_statement(successor, dead[0], dead[1], helper)
         changed = (decoded[:nodes["successor_start"]] + successor +
                    decoded[nodes["successor_end"]:])
-        return _preserve_edges(original_decoded, changed, helper)
+        return _preserve_edges(original_decoded, changed, helper, nodes["temp_local"])
     elif name == "wrong_dead_local":
         if dead[2].count(nodes["temp_local"]) != 1:
             raise ValueError("dead local identifier is not uniquely writable")
@@ -377,7 +400,7 @@ def _mutate_decoded(decoded: str, name: str, plan: dict) -> str:
                      alternatives[0], 1) + successor[dead[1]:]
         changed = (decoded[:nodes["successor_start"]] + successor +
                    decoded[nodes["successor_end"]:])
-        return _preserve_edges(original_decoded, changed, helper)
+        return _preserve_edges(original_decoded, changed, helper, nodes["temp_local"])
     elif name == "duplicate_live":
         block = block[:live[1]] + ", " + live[2] + block[live[1]:]
     elif name == "target_span_mismatch":
@@ -404,7 +427,7 @@ def _mutate_decoded(decoded: str, name: str, plan: dict) -> str:
             raise ValueError("destination LocalDecl record is not unique in Body")
         body = body.replace(old_record, new_record, 1)
         decoded = decoded.replace(nodes["body"], body, 1)
-        return _preserve_edges(original_decoded, decoded, helper)
+        return _preserve_edges(original_decoded, decoded, helper, nodes["temp_local"])
     elif name == "extra_address_taken_use":
         # No second typed use is injected unless the exporter exposes an exact,
         # unique address-taking MIR place. This source currently has no reviewed
@@ -413,7 +436,7 @@ def _mutate_decoded(decoded: str, name: str, plan: dict) -> str:
     else:
         raise ValueError(f"unsupported R11 mutation {name}")
     changed = decoded[:nodes["block_start"]] + block + decoded[nodes["block_end"]:]
-    return _preserve_edges(original_decoded, changed, helper)
+    return _preserve_edges(original_decoded, changed, helper, nodes["temp_local"])
 
 
 def _stage_gate(case: Path, stage_result: dict, expected_sources: dict,
