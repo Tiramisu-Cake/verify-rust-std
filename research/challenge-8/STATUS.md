@@ -1,11 +1,11 @@
 # Agent checkpoint: merge-caller-refinement-autonomous-2026-10-21-r17
 
-- Owner: merge | phase: MERGE-CALLER-REFINEMENT-R17-2026-10-21 | state: HANDOFF
-- Updated: 2026-10-21T19:56:12Z
+- Owner: merge | phase: MERGE-CALLER-REFINEMENT-R17-2026-10-21 | state: ACTIVE
+- Updated: 2026-10-21T20:16:04Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `660b576b6b1608db913c51e0785b443a8733396f`, profile `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375`
 - Session dates: T0 `2026-10-21T18:33:50Z`; main deadline `2026-10-21T20:33:50Z`; absolute deadline `2026-10-21T21:03:50Z`
-- Budget: 3600s total; 1166s spent; 0s retired; 2434s remaining including active reservations
-- Active Build IDs: 2256a4c8-2a4d-4a5c-8b61-a252730eae70
+- Budget: 3600s total; 2111s spent; 0s retired; 1489s remaining including active reservations
+- Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -15,6 +15,7 @@
 - [SOURCE_REPORTED] R17 P1:5compilelegs0/smokePASS; staleR11pin blocks campaign. No target/control/independentcredit. Charged485. — [research/challenge-8/cloud-build/origin-layout/R17-PROOF1-RESULT-20261021.json](cloud-build/origin-layout/R17-PROOF1-RESULT-20261021.json) SHA `15882947ba819444991af76c0ccd771ca11c47cd94cd548b15f3a1f066e28781` Build `38fa5f6f-3263-404e-af55-48c47816a5cf`
 - [SOURCE_REPORTED] P2 source pin refusal before compiler evidence; targets unverified. Charged99; total584/remaining3016/active0. — [research/challenge-8/cloud-build/origin-layout/R17-PROOF2-RESULT-20261021.json](cloud-build/origin-layout/R17-PROOF2-RESULT-20261021.json) SHA `104ecabf904d6b3c63590210f315cb891544b9ee832a0209d3b565daa00cb1ae` Build `cccfd7c5-ee98-4549-8ecd-da2274e7c608`
 - [SOURCE_REPORTED] P3 FAILURE/charged582; total1166/remaining2434/active0. CompilerPASS/proofattempted; stalecompatibilitypin blocks caller dispatch. No caller/RawPtr/lifecycle/B2/independentcredit. — [research/challenge-8/observations/cc23e4589edf9b3b361b13953566574eaee3747fefd8edeff16eb1b5d090fbbb.json](observations/cc23e4589edf9b3b361b13953566574eaee3747fefd8edeff16eb1b5d090fbbb.json) SHA `cc23e4589edf9b3b361b13953566574eaee3747fefd8edeff16eb1b5d090fbbb` Build `f9e06ad1-d13e-4012-b1fc-be1d84c4aded`
+- [SOURCE_REPORTED] P4 charged945/total2111/rem1489. Isolated actual body allstages0/preserved posts; bounded only, no caller/B2/independentcredit. — [research/challenge-8/observations/411a84326e56fbb217641785f6dfc216e55558221600650cfda2db422d803791.json](observations/411a84326e56fbb217641785f6dfc216e55558221600650cfda2db422d803791.json) SHA `411a84326e56fbb217641785f6dfc216e55558221600650cfda2db422d803791` Build `2256a4c8-2a4d-4a5c-8b61-a252730eae70`
 
 ## Open
 - Original full/prefix as_mut_ptr borrow/unsize (placeholders441/249); dependent controls NOT_RUN_PREFIX_PREREQUISITE_FAILED.
@@ -26,11 +27,10 @@
 - Short outer timeout990/execute570 chosen using prior whole-cycle timings — Missed nested compile reserve140; P4 timed out before proof. Keep full1200 plan unless effective inner budget reviewed.; [research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md](cloud-build/origin-layout/R16-REVIEW-20261021.md) SHA `7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa`
 
 ## Blocker
-P4 pending Cloud evidence after independently reviewed exact compatibility/provider-pin recovery. RawPtr/caller/lifecycle outcomes unverified. (P4 Cloud Build) [Build `2256a4c8-2a4d-4a5c-8b61-a252730eae70`]
+P4 lifecycle Parseerror76 ens; raw caller/controls under Brief investigation; original placeholders441/249 unchanged. (P4 actual campaign) [Build `2256a4c8-2a4d-4a5c-8b61-a252730eae70`]
 
 ## Next
-WAITING via watcher in current thread. On technical event ack before CHECKPOINT changes; then Brief and next actual caller/borrow frontier within original R17 window. After main only closeout; absolute expiry preserves pending IDs.
+Review lifecycle clause delimiters and any exact raw blocker fix, then full1200 cycle if admitted before main. No proof credit.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md](cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md) — `6acfb36fa52b2e05eea0551dfb40033156b23ef8165dfa67f6309d0550e721eb`
-- [research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R16-BUDGET-20261021.json](cloud-build/origin-layout/CURRENT-RECOVERY-R16-BUDGET-20261021.json) — `4833fd3f002d173b93e344e25ee1349f7fe5c590740468df4804dcf546cc7dca`

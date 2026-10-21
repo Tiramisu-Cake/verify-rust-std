@@ -47,10 +47,10 @@ Next: Register fresh R17 after effective-budget check; reviewed checked RawPtr m
 
 ## Отчёт агента
 
-**merge-caller-refinement-autonomous-2026-10-21-r17 · merge · MERGE-CALLER-REFINEMENT-R17-2026-10-21 · HANDOFF**
-Updated: 2026-10-21T19:56:12Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `660b576b6b1608db913c51e0785b443a8733396f` / `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375`.
-Dates: T0 `2026-10-21T18:33:50Z`; main `2026-10-21T20:33:50Z`; absolute `2026-10-21T21:03:50Z`. Budget 3600s: 1166s spent, 0s retired, 2434s remaining including reservations.
-Active Build IDs: 2256a4c8-2a4d-4a5c-8b61-a252730eae70; unresolved: none recorded.
-Blocker: P4 pending Cloud evidence after independently reviewed exact compatibility/provider-pin recovery. RawPtr/caller/lifecycle outcomes unverified. [Build `2256a4c8-2a4d-4a5c-8b61-a252730eae70`]
-Next: WAITING via watcher in current thread. On technical event ack before CHECKPOINT changes; then Brief and next actual caller/borrow frontier within original R17 window. After main only closeout; absolute expiry preserves pending IDs.
+**merge-caller-refinement-autonomous-2026-10-21-r17 · merge · MERGE-CALLER-REFINEMENT-R17-2026-10-21 · ACTIVE**
+Updated: 2026-10-21T20:16:04Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `660b576b6b1608db913c51e0785b443a8733396f` / `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375`.
+Dates: T0 `2026-10-21T18:33:50Z`; main `2026-10-21T20:33:50Z`; absolute `2026-10-21T21:03:50Z`. Budget 3600s: 2111s spent, 0s retired, 1489s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: P4 lifecycle Parseerror76 ens; raw caller/controls under Brief investigation; original placeholders441/249 unchanged. [Build `2256a4c8-2a4d-4a5c-8b61-a252730eae70`]
+Next: Review lifecycle clause delimiters and any exact raw blocker fix, then full1200 cycle if admitted before main. No proof credit.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
