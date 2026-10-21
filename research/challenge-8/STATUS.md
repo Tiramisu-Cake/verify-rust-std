@@ -1,11 +1,11 @@
 # Agent checkpoint: merge-caller-refinement-autonomous-2026-10-21-r17
 
 - Owner: merge | phase: MERGE-CALLER-REFINEMENT-R17-2026-10-21 | state: ACTIVE
-- Updated: 2026-10-21T19:22:50Z
+- Updated: 2026-10-21T19:32:22Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `660b576b6b1608db913c51e0785b443a8733396f`, profile `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375`
 - Session dates: T0 `2026-10-21T18:33:50Z`; main deadline `2026-10-21T20:33:50Z`; absolute deadline `2026-10-21T21:03:50Z`
 - Budget: 3600s total; 584s spent; 0s retired; 3016s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: f9e06ad1-d13e-4012-b1fc-be1d84c4aded
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -29,7 +29,7 @@ P2 provider rejects stale prove.py base-source pin before compiler/campaign. (pr
 - [research/challenge-8/cloud-build/origin-layout/R17-PROOF2-SOURCE-ERROR-20261021.json](cloud-build/origin-layout/R17-PROOF2-SOURCE-ERROR-20261021.json) SHA `c292c0ef4a8fcdb32f8ffbe719d5e8215550a8547141c538526c3c7c04eb43b0` Build `cccfd7c5-ee98-4549-8ecd-da2274e7c608`
 
 ## Next
-Review exact provider pins and static closure check, then full1200 Cloud.
+Observe P3 Brief for current-tool controls, raw caller and borrow lifecycle.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md](cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md) — `6acfb36fa52b2e05eea0551dfb40033156b23ef8165dfa67f6309d0550e721eb`
