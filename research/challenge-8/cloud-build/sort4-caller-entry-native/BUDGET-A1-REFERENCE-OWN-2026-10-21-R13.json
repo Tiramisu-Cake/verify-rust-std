@@ -1,5 +1,5 @@
 {
-  "active_build": "ba7de205-b683-4517-a74f-cff4d53c482f",
+  "active_build": null,
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
   ],
@@ -103,14 +103,17 @@
       "submitted_config_sha256": "334548172203c22088b50962ce415899cce7347790bfd193374aa3f6166e55ac",
       "reserved_seconds": 1160,
       "timeout_seconds": 1100,
-      "status": "WORKING",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "c41a83566868e06831631bf2b9b848a3c18b0c75c8ac8f03da61b0800aa16966",
       "build_id": "ba7de205-b683-4517-a74f-cff4d53c482f",
       "start_time": "2026-10-21T11:24:59.166344375Z",
-      "finish_time": null,
-      "create_time": "2026-10-21T11:24:58.378591348Z"
+      "finish_time": "2026-10-21T11:32:27.958194Z",
+      "create_time": "2026-10-21T11:24:58.378591348Z",
+      "build_seconds": 450,
+      "accounted": true,
+      "execution_seconds": 449
     }
   ],
   "carry_forward_seconds": 0,
@@ -121,9 +124,12 @@
   "maximum_builds": null,
   "owner": "select-sort4",
   "phase": "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13",
-  "remaining_build_seconds": 1601,
+  "remaining_build_seconds": 1151,
   "schema": "smallsort-cloud-phase-account-v1",
   "start_utc": "2026-10-21T09:26:36Z",
-  "status": "AUTHORIZED",
-  "used_build_seconds": 1999
+  "status": "CLOSED",
+  "used_build_seconds": 2449,
+  "closed_utc": "2026-10-21T11:35:38.528677Z",
+  "unused_retired_seconds": 1151,
+  "closure_reason": "Main window ended at 11:26:36Z; final pre-main S5 is terminal/accounted and Evidence Brief reviewed. No new Builds or hypotheses after main. All own active/unresolved/requests/reservations zero. Unused seconds retired without carry; no matrix admission or independent B1/B2 credit."
 }

@@ -1,0 +1,87 @@
+{
+  "archive_sha256": "913abb6620515ce61ed6111964cceb55f6fff5f599aa2899e1608f200dd9640b",
+  "build_id": "ba7de205-b683-4517-a74f-cff4d53c482f",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 9,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+  "file_path": "proof-audit.json",
+  "file_sha256": "f425e3c3270544b6e4747e9cebec1a20e46bbef31792e5c4364ebee5830b8aad",
+  "index_sha256": "dee2ee784e1e689e9eb984e44fdc532d25a7c2fec24d258b6aa80f78f78d6813",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "f425e3c3270544b6e4747e9cebec1a20e46bbef31792e5c4364ebee5830b8aad",
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "pointer": "/observation_details/P1/structure/small_sort_interface/impls/freeze32"
+  },
+  "request_id": "b22198953d729b99460a5784618566dfdd2233b7138f9c4de88899df05977829",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/observation_details/P1/structure/small_sort_interface/impls/freeze32/actual_definition_bound_to_compiler_item",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/P1/structure/small_sort_interface/impls/freeze32/alias",
+      "value": "__a1_impl_23_item_26_small_sort"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/P1/structure/small_sort_interface/impls/freeze32/compiler_impl_id",
+      "value": "23"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/P1/structure/small_sort_interface/impls/freeze32/compiler_item_id",
+      "value": "26"
+    },
+    {
+      "child_count": 3,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/observation_details/P1/structure/small_sort_interface/impls/freeze32/compiler_positional_region_map"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation_details/P1/structure/small_sort_interface/impls/freeze32/compiler_signature_digest",
+      "value": "b8b9428d4f680cfc2d05f84ab6d25fd2a6f6d1790a0a61bac32fc2f51630bfc5"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/observation_details/P1/structure/small_sort_interface/impls/freeze32/native_matches_r_only_original_impl",
+      "value": true
+    },
+    {
+      "child_count": 3,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/observation_details/P1/structure/small_sort_interface/impls/freeze32/native_sha256"
+    },
+    {
+      "child_count": 12,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/observation_details/P1/structure/small_sort_interface/impls/freeze32/positional_alpha_map"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}
