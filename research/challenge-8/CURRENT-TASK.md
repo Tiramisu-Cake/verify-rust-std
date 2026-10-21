@@ -61,9 +61,29 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 ## Отчёт агента
 
 T0 `2026-10-21T12:10:26Z`, main `14:10:26Z`, absolute `14:40:26Z`.
-Fresh3600/used0/carryfalse; прежние R12/R11/retry CLOSED не возобновляются.
-План: явно новый R13 producer256MiB + stat готового compressed archive до uploads;
-service границы/metadata/error-path checks; independent Luna HIGH review;
-отдельный syntheticCloud -> доступный Brief/inventory gate -> unchanged R11 normalretry.
-Tool660b/profileeb61 и исходные158 normal-proof files сохраняются.
-Builds0; fulltargetgates0/acceptedfalse/credit0/B2OPEN.
+Код: e3fb3eac → selected/published **c9b5151735c352d212752c5fe644adcd3543b68d**.
+Реализованы новый R13 producer256MiB, strict mode, обязательный phase marker,
+stat compressed archive<=536870912 до uploads и synthetic>effective threshold;
+exportFalse/SDK/account/create-only/marker-last сохранены. Missing card failclosed.
+Локально phase9/synthetic7/guard6/preflight5 и actual generated upload error paths
+PASS; independent Luna HIGH GO. Frozen158/tool660b/profileeb61/composition PASS.
+Source565029gzip/753372base64/189parts; config26960/28000. Новые standalone local
+service harnesses committed/tested и проверяются HEAD/worktree, без Cloud consumers;
+из payload убраны только они и retired R12-only additions, baseline158 сохранён.
+
+Synthetic **331fba31-4548-40e7-bb6d-1d225f590602** SUCCESS; config
+`da5162520a5fa2b96611a56f06a21ad8ae91843e214257c27ebac41051391ea0`;
+94charged/94execution. Brief **VERIFIED_ARCHIVE_AND_INVENTORY**, archive SHA
+`8ecf904c01ef647009619d7d445e13cb258c18a656dc65bc873756c610183efb`.
+Reader confirmed payload268435456, effectiveFalse/150M=157286400, source/config;
+archive limit536870912. Exact actual archive bytes/timing/guard receipt пока UNKNOWN:
+внешние upload-complete/archive-size-check не входят в complete15-member catalogue,
+в v0.11 нет поддержанного sidecar selector. Owner requested bounded route либо
+конкретные admin metadata; raw fallback не использован. Один /payload query429
+записан без inference; размер/SHA payload получены из verified catalogue.
+
+Gate pending exact size receipt; proof retry NOT_RUN_BY_REQUIRED_GATE, unchanged
+probe не повторяется. Own active/unresolved/requests/reservations0; used94,
+remaining3506/carryfalse, счёт пока AUTHORIZED. Fulltargetgates0/acceptedfalse/
+independentcredit0; B2/generic/qualificationOPEN. Следующий шаг после receipt —
+immutable gate, committed proof-r11 card и exact cross-mode closure → R11 retry.

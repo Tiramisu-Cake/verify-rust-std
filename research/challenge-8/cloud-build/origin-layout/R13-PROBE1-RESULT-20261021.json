@@ -1,0 +1,105 @@
+{
+  "schema": "merge-r13-probe-result-v1",
+  "build_id": "331fba31-4548-40e7-bb6d-1d225f590602",
+  "source_sha": "c9b5151735c352d212752c5fe644adcd3543b68d",
+  "submitted_config_sha256": "da5162520a5fa2b96611a56f06a21ad8ae91843e214257c27ebac41051391ea0",
+  "status": "SUCCESS",
+  "charged_seconds": 94,
+  "execution_seconds": 94,
+  "payload_bytes": 268435456,
+  "archive_size_bytes": null,
+  "archive_sha256": "8ecf904c01ef647009619d7d445e13cb258c18a656dc65bc873756c610183efb",
+  "index_sha256": "ad0e439b6d42371ade0c1db672f0f675e0eb6e209ca643e04b5b079d9a5a428e",
+  "brief_processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "archive_limit_bytes": 536870912,
+  "effective_threshold": "150M",
+  "effective_threshold_bytes": 157286400,
+  "parallel_composite_upload_enabled_env": "False",
+  "parallel_composite_upload_enabled_effective": "False",
+  "archive_inventory_verified": true,
+  "proof_attempted": false,
+  "verification_accepted": false,
+  "independent_credit": 0,
+  "gate": "PENDING_EXACT_ARCHIVE_SIZE_RECEIPT",
+  "coverage": {
+    "catalogue_complete": true,
+    "catalogue_members": 15,
+    "retained_files": 13,
+    "source_absence_established": false
+  },
+  "reader_queries": [
+    {
+      "file": "allprooflogs/upload-policy.json",
+      "file_id": "0f66bbe9230a4472a9e913dca0daeb28ad99b4a96f7625f689ccb0c2b3561f97",
+      "file_sha256": "9883177b74ed1ede34b6498f363ce689b82c1beaee9211810179253aee8cc659",
+      "selector": "pointer root",
+      "request_id": "da464eaaf9a99cba220d2226f40eea07121267e0ca1f12ae0775b1b3ee4e6d38",
+      "exact": true,
+      "complete": true,
+      "next_offset": null
+    },
+    {
+      "file": "allprooflogs/cases/synthetic-upload/manifest.json",
+      "file_id": "15f93f5b3bb60983baf284a0f76ca070c08f1f8f9dd292c7f93601f744ce0c45",
+      "file_sha256": "06af2b62f89a71eec8c45d14e54b7fd1b65022aee2098dbaad92679edb529a36",
+      "selector": "pointer root",
+      "request_id": "57809b2b4f0d3b545df7d29869b9d9137145db3b286e5c1378ae8db82bec69c5",
+      "exact": true,
+      "complete": true,
+      "next_offset": null
+    },
+    {
+      "file": "allprooflogs/cases/synthetic-upload/manifest.json",
+      "selector": "pointer /source",
+      "request_id": "4d2894d276833387e043ea3ca0bc06b3042a02db6c6bff399c2e023589f675d4",
+      "exact": true,
+      "complete": true,
+      "next_offset": null
+    },
+    {
+      "file": "allprooflogs/cases/synthetic-upload/manifest.json",
+      "selector": "pointer /upload_size_contract",
+      "request_id": "fd3c9a4b0499bdaa651e9bcff3924e789f507abe32795c258edbaf2b6701c018",
+      "exact": true,
+      "complete": true,
+      "next_offset": null
+    }
+  ],
+  "limitation": "Complete catalogue lists archive members; post-package archive-size-check and upload-complete are external publication receipts, unavailable there. Owner asked for supported bounded Reader route or exact owner/admin metadata. No raw bypass.",
+  "payload_sha256": "a5d0541dc9f5d7336251be991a8ca959c1522462f164e6de2dec036e0a24e999",
+  "reader_transient_failures": [
+    {
+      "selector": "manifest /payload",
+      "response": "smallsort-brief: Reader HTTP request failed (HTTP 429)",
+      "data_claimed_from_failed_query": false
+    }
+  ],
+  "source_certificate_sha256": "e147564e3a0407e1c1d65416ce71fd8fba50e9ee76e7b2a6f5cb94b96cf4f26d",
+  "source_input_sha256": "2c2575bfe25894c9159cee666048698b4f575409cbb45384dcf5c67f297fdcad",
+  "coordinator_stage_metadata": [
+    {
+      "id": "execute",
+      "status": "SUCCESS",
+      "timing": {
+        "endTime": "2026-10-21T12:31:09.284160333Z",
+        "startTime": "2026-10-21T12:30:37.577776093Z"
+      }
+    },
+    {
+      "id": "package-upload",
+      "status": "SUCCESS",
+      "timing": {
+        "endTime": "2026-10-21T12:32:07.976609876Z",
+        "startTime": "2026-10-21T12:31:09.284394985Z"
+      }
+    },
+    {
+      "id": "verdict",
+      "status": "SUCCESS",
+      "timing": {
+        "endTime": "2026-10-21T12:32:08.980665162Z",
+        "startTime": "2026-10-21T12:32:07.976785157Z"
+      }
+    }
+  ]
+}
