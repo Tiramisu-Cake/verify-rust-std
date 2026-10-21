@@ -2,16 +2,39 @@
   "phase": "MERGE-UPLOAD-NONCOMPOSITE-R12-2026-10-21",
   "owner": "merge",
   "authorization_model": "bounded-cloud-budget",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "allowed_lanes": [
     "merge"
   ],
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 0,
-  "remaining_build_seconds": 3600,
+  "used_build_seconds": 109,
+  "remaining_build_seconds": 0,
   "max_builds": null,
   "max_timeout_seconds": 1200,
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-d86995870fdd42abae8e252efa055cc4",
+      "owner": "merge",
+      "phase_id": "MERGE-UPLOAD-NONCOMPOSITE-R12-2026-10-21",
+      "infra_sha": "1e33bd24e37d11cf4de4c2163be3925a6be0fbea",
+      "proof_sha": "1e33bd24e37d11cf4de4c2163be3925a6be0fbea",
+      "lane": "merge",
+      "submitted_config_sha256": "fd11a8ee39a0238d8c9d67e6857350beb77e66bdaeee617212097a925a40b621",
+      "reserved_seconds": 660,
+      "timeout_seconds": 600,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "caff55fc9116a939ffd26a87da95f1d0d4546612f01e48d8514eb0f458940631",
+      "build_id": "68d2fe9c-bb4b-494e-844d-1a779d8d9f41",
+      "start_time": "2026-10-21T11:15:49.627491780Z",
+      "finish_time": "2026-10-21T11:17:36.947706Z",
+      "create_time": "2026-10-21T11:15:48.871429551Z",
+      "build_seconds": 109,
+      "accounted": true,
+      "execution_seconds": 108
+    }
+  ],
   "active_build": null,
   "start_utc": "2026-10-21T10:53:30Z",
   "main_deadline_utc": "2026-10-21T12:53:30Z",
@@ -20,5 +43,8 @@
   "carryover_allowed": false,
   "synthetic_upload_gate": null,
   "accepted": false,
-  "independent_credit": 0
+  "independent_credit": 0,
+  "retired_unused_seconds": 3491,
+  "closed_utc": "2026-10-21T11:26:04.678822Z",
+  "closure_reason": "Synthetic Cloud probe SUCCESS/accounted; mandatory accessible Brief/catalogue remains HTTP404, so publication/inventory gate is not closed and proof retry is blocked. No unchanged probe rerun; unused headroom retired without carryover."
 }

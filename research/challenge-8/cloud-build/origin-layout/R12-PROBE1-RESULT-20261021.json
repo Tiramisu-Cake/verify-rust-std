@@ -1,0 +1,140 @@
+{
+  "schema": "merge-r12-synthetic-probe-result-v1",
+  "status": "CLOSED_PARTIAL_BRIEF_GATE_BLOCKED",
+  "purpose_type": "setup: actual large synthetic publication, no proof pipeline",
+  "build": {
+    "dispatch_token": "dispatch-d86995870fdd42abae8e252efa055cc4",
+    "owner": "merge",
+    "phase_id": "MERGE-UPLOAD-NONCOMPOSITE-R12-2026-10-21",
+    "infra_sha": "1e33bd24e37d11cf4de4c2163be3925a6be0fbea",
+    "proof_sha": "1e33bd24e37d11cf4de4c2163be3925a6be0fbea",
+    "lane": "merge",
+    "submitted_config_sha256": "fd11a8ee39a0238d8c9d67e6857350beb77e66bdaeee617212097a925a40b621",
+    "reserved_seconds": 660,
+    "timeout_seconds": 600,
+    "status": "SUCCESS",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "caff55fc9116a939ffd26a87da95f1d0d4546612f01e48d8514eb0f458940631",
+    "build_id": "68d2fe9c-bb4b-494e-844d-1a779d8d9f41",
+    "start_time": "2026-10-21T11:15:49.627491780Z",
+    "finish_time": "2026-10-21T11:17:36.947706Z",
+    "create_time": "2026-10-21T11:15:48.871429551Z",
+    "build_seconds": 109,
+    "accounted": true,
+    "execution_seconds": 108
+  },
+  "coordinator_step_metadata": [
+    {
+      "id": "execute",
+      "name": "ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401",
+      "status": "SUCCESS",
+      "exitCode": null,
+      "timing": {
+        "endTime": "2026-10-21T11:16:23.447623154Z",
+        "startTime": "2026-10-21T11:15:51.804064857Z"
+      },
+      "duration_seconds": 31.643559
+    },
+    {
+      "id": "package-upload",
+      "name": "gcr.io/google.com/cloudsdktool/google-cloud-cli@sha256:c631b05e8121048b29c9917bdc0a9fadd76d012f04f180a4409ec2ee534e832e",
+      "status": "SUCCESS",
+      "exitCode": null,
+      "timing": {
+        "endTime": "2026-10-21T11:17:35.513608073Z",
+        "startTime": "2026-10-21T11:16:23.447867464Z"
+      },
+      "duration_seconds": 72.065741
+    },
+    {
+      "id": "verdict",
+      "name": "gcr.io/google.com/cloudsdktool/google-cloud-cli@sha256:c631b05e8121048b29c9917bdc0a9fadd76d012f04f180a4409ec2ee534e832e",
+      "status": "SUCCESS",
+      "exitCode": null,
+      "timing": {
+        "endTime": "2026-10-21T11:17:36.521253520Z",
+        "startTime": "2026-10-21T11:17:35.513897963Z"
+      },
+      "duration_seconds": 1.007356
+    }
+  ],
+  "planned_payload_bytes": 536870912,
+  "documented_threshold_bytes": 157286400,
+  "threshold_source": "https://docs.cloud.google.com/storage/docs/parallel-composite-uploads",
+  "historical_archive_size_bytes": null,
+  "comparability": "Conservative >3x documented threshold; no established same-size comparison to prior archive",
+  "actual_payload_bytes": null,
+  "actual_archive_bytes": null,
+  "actual_archive_sha256": null,
+  "effective_sdk_policy_reader_observation": null,
+  "archive_upload_seconds": null,
+  "archive_upload_bytes_per_second": null,
+  "publication_claim": "Cloud package-upload and verdict SUCCESS; independent archive/marker verification unavailable until Brief",
+  "proof_attempted": false,
+  "proof_attempted_basis": "Exact committed synthetic mode dispatch bypasses all proof preparers/compiler/exporter/refiner/verifier",
+  "verification_accepted": false,
+  "independent_credit": 0,
+  "diagnostic_status": "SUCCESS from exact non-proof Build; accessible archive/inventory gate remains OPEN",
+  "evidence_interface": {
+    "default_brief_attempts": 2,
+    "catalogue_attempts": 2,
+    "catalogue_query": "upload-policy.json",
+    "status": "UNAVAILABLE_HTTP_404",
+    "last_observation": {
+      "started_utc": "2026-10-21T11:21:24.426734Z",
+      "finished_utc": "2026-10-21T11:21:28.611633Z",
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)\n"
+    },
+    "raw_fallback": false,
+    "last_catalogue_observation": {
+      "started_utc": "2026-10-21T11:24:49.286434Z",
+      "finished_utc": "2026-10-21T11:24:54.469844Z",
+      "selector": "catalogue manifest.json",
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)\n"
+    }
+  },
+  "upload_gate": false,
+  "proof_retry": "BLOCKED_BY_REQUIRED_ACCESSIBLE_BRIEF_GATE",
+  "next_blocker": "Available Brief/catalogue with bound upload receipt/archive integrity and real byte/timing fields; no unchanged Cloud retry justified.",
+  "accounting": {
+    "fresh_ceiling_seconds": 3600,
+    "charged_seconds": 109,
+    "execution_seconds": 108,
+    "retired_unused_seconds": 3491,
+    "remaining_seconds": 0,
+    "carryover_allowed": false,
+    "closed_utc": "2026-10-21T11:26:04.678822Z",
+    "own_active": 0,
+    "own_unresolved": 0,
+    "own_requests": 0,
+    "own_reservations": 0
+  },
+  "report_utc": "2026-10-21T11:27:21.342060Z",
+  "uploader_exit_code": 0,
+  "uploader_exit_basis": "Cloud package-upload SUCCESS; protobuf JSON omits default exitCode. Original metadata keeps that field null.",
+  "source_transport_fit": {
+    "source_sha": "1e33bd24e37d11cf4de4c2163be3925a6be0fbea",
+    "gzip_bytes": 569696,
+    "base64_bytes": 759596,
+    "source_parts": 191,
+    "max_source_parts": 191
+  },
+  "full_config_fit": {
+    "source_sha": "1e33bd24e37d11cf4de4c2163be3925a6be0fbea",
+    "full_source_config_transport": "PASS",
+    "substitutions": 200,
+    "max_arg_bytes": 4298,
+    "config_encoded_bytes": 26388,
+    "config_encoded_limit_bytes": 28000,
+    "probe_timeout_seconds": 600,
+    "envelope_seconds": 660,
+    "export_in_actual_package_step": true,
+    "scope": "static synthetic token; final digest recorded at coordinator dispatch"
+  },
+  "old_accounts_and_inputs_unchanged": true
+}

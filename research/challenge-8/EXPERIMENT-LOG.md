@@ -7482,3 +7482,19 @@ publication limitation are in R11-BUILD1..6-RESULT/FINAL/RELEASE/OBLIGATIONS.
 All substantive deltas independently LunaHIGH reviewed; static/synthetic work
 is setup, not theorem credit. Final ledger/docs checkpoint was not built.
 <!-- MERGE-R11-END -->
+
+<!-- MERGE-R12-BEGIN -->
+## Merge-R12 — non-composite upload probe, 2026-10-21
+
+Source1e33bd24/Build68d2fe9c: actual package-upload exports compositeFalse,
+SDK/account/IAM/bucket/preconditions unchanged.512MiB random Cloud-only probe
+uses normal packager/publication path; execute/package-upload/verdictSUCCESS,
+109charged/108execution; package-upload72.066s combined (not upload-only rate).
+Brief2/catalogue2 HTTP404 through11:24:54; archive bytes/SHA/marker/inventory
+unavailable, required gate OPEN, proof retry not launched. All158 original
+proof inputs/tool660b/profileeb61 unchanged; no new formal credit.
+Fresh R12 account CLOSED109charged/3491retired/remaining0/carryfalse, own0/0/0/0.
+[Current report](CURRENT-TASK.md#отчёт-агента) ·
+[Probe](cloud-build/origin-layout/R12-PROBE1-RESULT-20261021.json) ·
+[Reader coverage](cloud-build/origin-layout/R12-READER-COVERAGE-20261021.md).
+<!-- MERGE-R12-END -->

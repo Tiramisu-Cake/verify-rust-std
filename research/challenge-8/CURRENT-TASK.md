@@ -2,7 +2,7 @@
 
 ## Авторизация и рабочее место
 
-- **ID:** `merge-noncomposite-upload-recovery-2026-10-21-r12`; **статус:** RUNNING, T0 `2026-10-21T10:53:30Z`.
+- **ID:** `merge-noncomposite-upload-recovery-2026-10-21-r12`; **статус:** CLOSED_PARTIAL_BRIEF_GATE_BLOCKED, T0 `2026-10-21T10:53:30Z`.
 - **Owner:** `merge`; **project worktree:** `/root/verify-rust-std-merge-origin`; **branch:** `merge/incoming-origin-20261009` в `Tiramisu-Cake/verify-rust-std`.
 - **Tool worktree:** `/root/verifast-merge-actual-glue`; branch `merge/actual-glue-instance-20261011`, expected head **`660b576b6b1608db913c51e0785b443a8733396f`**. Проверить фактический status, чужое сохранить; tool-код этим заданием не меняется.
 - **Новое окно:** 120 минут основной работы + до30 минут завершения. T0 при фактическом старте после чтения; main=T0+120мин, absolute=T0+150мин. Записать в session/новый ledger/текущий статус.
@@ -57,11 +57,71 @@ Evidence v0.11: Brief → catalogue/file ID → `--refresh --file ID --expect-sh
 
 ## Отчёт агента
 
-T0 `2026-10-21T10:53:30Z`, main `12:53:30Z`, absolute `13:23:30Z`.
-Fresh ledger3600/used0/carryfalse; прежние R11/retry CLOSED не возобновляются.
-План: зафиксировать admin-reported диагноз отдельно от historical UNKNOWN;
-export в фактическом package-upload + service/error-path tests + Luna HIGH review;
-Cloud synthetic upload512MiB incompressible >150MiB threshold (уточнить в pinnedSDK);
-только после completed publication/Brief gate — unchanged R11 proof retry.
-Tool HEAD660b576b, branch/worktrees проверены; чужие dirty files сохранены.
-Builds пока0; independentcredit0/B2/qualificationOPEN.
+**CLOSED_PARTIAL_BRIEF_GATE_BLOCKED.** T0 `2026-10-21T10:53:30Z`, main
+`12:53:30Z`, absolute `13:23:30Z`; end/report `2026-10-21T11:27:21.342060Z`.
+Счёт закрыт `2026-10-21T11:26:04.678822Z`: **109charged /108execution /3491retired
+/remaining0 /carryfalse**, own active/unresolved/requests/reservations0.
+Прежние R11/retry счета, T0, inputs и historical UNKNOWN сохранены; admin-reported
+уточнение записано [отдельно](cloud-build/origin-layout/R12-OWNER-ADMIN-REPORT-20261021.json).
+
+| Build / type / hypothesis | Exact inputs | Результат | charged / execution |
+| --- | --- | --- | --- |
+| `68d2fe9c-bb4b-494e-844d-1a779d8d9f41` / setup / отключить automatic composite upload на крупном synthetic archive | infra=proof `1e33bd24e37d11cf4de4c2163be3925a6be0fbea`, config `fd11a8ee39a0238d8c9d67e6857350beb77e66bdaeee617212097a925a40b621` | Cloud SUCCESS; mandatory Brief gate BLOCKED, proof retry не запущен | 109 /108 |
+
+Create/start/finish: `11:15:48.871429551Z` / `11:15:49.627491780Z` /
+`11:17:36.947706Z`; timeout600/envelope660, dispatch
+`dispatch-d86995870fdd42abae8e252efa055cc4`. Remote fullSHA проверен до submit.
+Coordinator metadata: execute/package-upload/verdict все SUCCESS; интервалы
+31.644/72.066/1.007с соответственно. Package-upload завершён с успешным статусом
+(явный API exitCode отсутствует, protobuf default0); это не независимая проверка архива.
+
+**Реализовано и проверено:** export
+`CLOUDSDK_STORAGE_PARALLEL_COMPOSITE_UPLOAD_ENABLED=False` в начале фактического
+package-upload, до всех gcloud вызовов. Effective SDK policy проверяется fail-closed;
+SDK/account/bucket/create-only flags/ошибки/final-marker ordering сохранены, IAM не менялся.
+Фактический digest config и export перепроверены. Synthetic route использует
+штатный packager/upload/verdict; mode card исключает proof pipeline.
+
+Payload задан **536870912 bytes (512MiB)**, `os.urandom` в Cloud; documented
+composite threshold **157286400 bytes (150MiB)**. Historical archive size неизвестен:
+это проверка size-trigger class с >3x запасом, не доказанный равный размер.
+**Реальные payload/archive bytes, archive SHA, effective threshold, upload-only
+seconds/rate не получены через Reader:** они сохраняются в manifest/policy/marker,
+но недоступны; не заменяем их плановыми512MiB или полными72.066с package-upload.
+
+Brief2 и catalogue2 вернули `Reader report or query route is unavailable (HTTP 404)`;
+последний запрос catalogue `manifest.json` — `2026-10-21T11:24:54.469844Z`,
+более7мин после terminal. File/index/archive/request identities поэтому UNKNOWN.
+Нет independently verified upload-complete/inventory/archive gate; `synthetic_upload_gate=null`.
+**Proof retry BLOCKED по пункту5 задания**, не запускался; без новой гипотезы
+повторять SUCCESS probe нельзя. Raw/full-log/GCS/download обходов и нового admin audit не было.
+Запрошено уточнение процедуры индексации; ответа на момент отчёта нет.
+
+Локально: phase8 tests, generator/dispatcher7, actual generated upload shell с
+fake storage и tiny packager (success + query/archive/chunks/final-marker failures
+и wrong-effective fail-closed), source-preflight3 группы — PASS. Независимый
+Luna HIGH review GO. Full preflight: **158** прежних normal-proof файлов побайтно
+совпадают с0c1d0d78; tool660b576b/profileeb61/19patch/pins/normal graph сохранены.
+Будущий mode flip связан точной эквивалентностью182 runtime/publication Git objects
+(type/mode/blob) и recipe, с исключением только явных mutable card/ledger/Markdown.
+
+Full source/config transport fit PASS: **569696gzip/759596base64/191parts** —
+это source payload, **не размер evidence archive**;200 substitutions,
+maxarg4298bytes, config26388/28000bytes. Локальный oversized candidate194parts
+не отправлялся. Из runtime closure исключена только неиспользуемая historical
+проза и новый standalone local preflight service test; всё сохранено в Git,
+ни один исходный proof/control/pin/script из158 не удалён, caps/codec прежние.
+
+**Следующий blocker:** доступный Brief/каталог этого UUID и связанные receipts,
+чтобы установить bytes/SHA/effective setting и закрыть publication/integrity gate.
+Cloud SUCCESS не перенесён на proof. Compile/verifier body/full gates нового R11
+retry **NOT_RUN_BY_R12_GATE**; последний доступный proof-фронтир — прежний R11 Build5.
+Обслуживание продвинулось до успешных Cloud publication steps, proof-прироста0;
+**full target gates0/acceptedfalse/independentcredit0/B2/qualificationOPEN**.
+Wall-clock/ожидание не приравнивались к active agent time; retired/reserve не расход.
+
+[Точный probe result](cloud-build/origin-layout/R12-PROBE1-RESULT-20261021.json) ·
+[Session](cloud-build/origin-layout/R12-SESSION-20261021.md) ·
+[Design](cloud-build/origin-layout/R12-UPLOAD-DESIGN-20261021.md) ·
+[Release](cloud-build/origin-layout/R12-RELEASE-20261021.json) ·
+[Reader coverage](cloud-build/origin-layout/R12-READER-COVERAGE-20261021.md).
