@@ -37,7 +37,8 @@ R16_PROBE_SOURCE='a89d091c95e50d3aab961654f54668e0f631e3be'
 R16_LEDGER_PATH='research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R16-BUDGET-20261021.json'
 R16_PREFLIGHT_PATH='research/challenge-8/cloud-build/origin-layout/r16-source-preflight.py'
 R17_PHASE='MERGE-CALLER-REFINEMENT-R17-2026-10-21'
-R17_PROBE_SOURCE='6fd50c699500cbac5c65912174d4aa49b49db19f'
+R17_PROBE_SOURCE='137cbf8ed13653c83a56975449c544ed7b348365'
+R17_STARTING_SOURCE_SHA='6fd50c699500cbac5c65912174d4aa49b49db19f'
 R17_LEDGER_PATH='research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R17-BUDGET-20261021.json'
 R17_PROFILE_PATH='research/challenge-8/cloud-build/origin-layout/R17-BASELINE-PROFILE-20261021.json'
 R17_CONTROLS_PATH='research/challenge-8/cloud-build/origin-layout/r17-rawptr-controls.py'
@@ -917,7 +918,7 @@ def r17_validate_profile_delta(before,selected):
  registration=new.get(R17_PROFILE_REGISTRATION)
  expected={'schema':'merge-r17-profile-registration-v1','phase_id':R17_PHASE,
   'baseline_profile_path':R17_PROFILE_PATH,'starting_tool_commit':'660b576b6b1608db913c51e0785b443a8733396f',
-  'starting_source_sha':'6fd50c699500cbac5c65912174d4aa49b49db19f','owner':'merge','lane':'merge',
+  'starting_source_sha':R17_STARTING_SOURCE_SHA,'owner':'merge','lane':'merge',
   'tool_source_paths':['src/refinement_checker/refinement_checker.ml'],
   'source_applicability':'paired RawPtr bare local only; exact mutability/full MIR and decoded local type/place; existing equal-state allocation reconciliation; no borrow or memory authority'}
  if (type(registration) is not dict or set(registration)!=(set(expected)|{'candidate_tool_commit'}) or
@@ -1074,7 +1075,7 @@ def authorized_phase(a,ledger):
       ledger.get('carryover_allowed') is not False or ledger.get('carry_seconds')!=0 or
       ledger.get('publication_gate_path')!=R14_GATE_PATH or ledger.get('profile_path')!=R17_PROFILE_PATH or
       ledger.get('baseline_profile_sha256')!='eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375' or
-      ledger.get('starting_source_sha')!=R17_PROBE_SOURCE or
+      ledger.get('starting_source_sha')!=R17_STARTING_SOURCE_SHA or
       ledger.get('starting_tool_commit')!='660b576b6b1608db913c51e0785b443a8733396f' or
       type(ledger.get('used_build_seconds')) is not int or
       type(ledger.get('remaining_build_seconds')) is not int or

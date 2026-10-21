@@ -7,6 +7,7 @@ import hashlib
 import importlib.util
 import json
 from pathlib import Path
+import subprocess
 import sys
 import unittest
 from unittest.mock import patch
@@ -22,6 +23,7 @@ MAIN = "2026-10-21T20:33:50Z"
 END = "2026-10-21T21:03:50Z"
 PROFILE_HASH = "eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375"
 SOURCE = "6fd50c699500cbac5c65912174d4aa49b49db19f"
+SOURCE_PROBE = "137cbf8ed13653c83a56975449c544ed7b348365"
 TOOL = "660b576b6b1608db913c51e0785b443a8733396f"
 SOURCE_APPLICABILITY = (
     "paired RawPtr bare local only; exact mutability/full MIR and decoded local type/place; "
@@ -228,6 +230,35 @@ class R17PhaseTests(unittest.TestCase):
         with self.assertRaises(SystemExit): m.r17_validate_historical_closure(paths, baseline, changed)
         self.assertEqual(m.R14_UPLOAD_SHELL_SHA256,
                          "677740c98b0389c77c40804a825037b598c46c095fc0fecd9a30b80c5922ef64")
+
+    def test_closed_assignment_probe_matches_actual_historical_tree(self):
+        self.assertEqual(m.R17_PROBE_SOURCE, SOURCE_PROBE)
+        self.assertEqual(m.R17_STARTING_SOURCE_SHA, SOURCE)
+        recipe_path = "research/challenge-8/cloud-build/recipes/merge.json"
+        old_recipe = json.loads(subprocess.check_output(
+            ["git", "show", f"{m.R17_PROBE_SOURCE}:{recipe_path}"], cwd=HERE.parents[3]
+        ))
+        paths = {path for path in old_recipe["proof_paths"]
+                 if "BUDGET" in path.rsplit("/", 1)[-1].upper()}
+        paths.update({m.R13_MODE_PATH, m.R14_GATE_PATH})
+
+        def tree(commit):
+            raw = subprocess.check_output(
+                ["git", "ls-tree", "-r", "-z", commit, "--", *sorted(paths)],
+                cwd=HERE.parents[3],
+            )
+            result = {}
+            for record in raw.split(b"\0"):
+                if not record:
+                    continue
+                metadata, path = record.split(b"\t", 1)
+                result[path.decode()] = tuple(metadata.decode().split())
+            return result
+
+        selected = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=HERE.parents[3], text=True
+        ).strip()
+        m.r17_validate_historical_closure(paths, tree(m.R17_PROBE_SOURCE), tree(selected))
 
     def test_wrong_probe_source_and_worktree_blob_or_mode_refuse(self):
         with self.assertRaises(SystemExit): m.r17_validate_sources("f" * 40, "a" * 40)
