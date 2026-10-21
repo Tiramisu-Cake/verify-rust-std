@@ -2,7 +2,7 @@
 
 ## Авторизация и место работы
 
-- **ID:** `merge-label-storage-invariant-autonomous-2026-10-21-r11`; **статус:** READY, T0 ещё не задан.
+- **ID:** `merge-label-storage-invariant-autonomous-2026-10-21-r11`; **статус:** CLOSED_PARTIAL; T0 `2026-10-21T06:14:39Z`, main завершено `08:14:39Z`.
 - **Owner:** `merge`; **репозиторий:** `Tiramisu-Cake/verify-rust-std`.
 - **Project worktree:** `/root/verify-rust-std-merge-origin`; **branch:** `merge/incoming-origin-20261009`.
 - **Tool worktree:** `/root/verifast-merge-actual-glue`; **branch:** `merge/actual-glue-instance-20261011`; head **`bb557d43c4196694c7af50ff2150ce56a269e17d`**.
@@ -58,19 +58,41 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-R11 ACTIVE. T0/main/absolute 2026-10-21 06:14:39/08:14:39/08:44:39UTC.
-Build1 acba1b21:694/694, seven compile milestones exit0, StorageDead276 refused.
-Build2 92795836:89/88, overlay setup refusal, repaired/reviewed.
-Build3 fa3a26ec:421/420, translator type error, repaired/reviewed.
-Build4 25877672:670/669, seven compile milestones exit0, frontend AST compare
-fatal; physicalidentity/provider/routing fixes reviewed/applied.
-Build5 feb5c44b:610/609, seven compile milestones exit0; checked Live/Dead117
-now precede invariantconsume and actual reaches iterationprep301, where
-points_to_limits fails dummy30none. Limited initial path, no backedge theorem.
-Controls INCONCLUSIVE ownid/nestedFnDefid parsing; exactcall/top-levelid fixes
-reviewed/service13PASS. R11-only initialized value/conditionalgap invariant
-reviewed LunaHIGH GO, synthetic4PASS; legacyR10 unchanged. Final planned Build6
-timeout1000/envelope1060 vs remaining1116; exact closure published before submit.
-Used2484/execution2480/remaining1116; all5terminal/accounted, ownactive0.
-Full target gates0; B2/generic/qualificationOPEN,acceptedfalse/independentcredit0.
-R11-BUILD1..5-RESULT / INITIALIZED-INVARIANT-DESIGN; R10 no carry.
+**R11 CLOSED_PARTIAL_EVIDENCE_PENDING.** T0/main/absolute2026-10-21 06:14:39/08:14:39/08:44:39UTC;
+account closed08:21:05UTC; только finishing, новых Builds/гипотез послеmain нет.
+
+| Build | Candidate / result | charged / execution |
+| --- | --- | --- |
+| [1 acba1b21](cloud-build/origin-layout/R11-BUILD1-RESULT-20261021.json) | source5fdfaa63/tool a3a22f98; compile7exit0, StorageDead276 отказ | 694 /694 |
+| [2 92795836](cloud-build/origin-layout/R11-BUILD2-RESULT-20261021.json) | sourcefc0e2c01/toolab4f72b8; overlay setup отказ | 89 /88 |
+| [3 fa3a26ec](cloud-build/origin-layout/R11-BUILD3-RESULT-20261021.json) | source5a93a90c/toolab4f72b8; translator compile type error | 421 /420 |
+| [4 25877672](cloud-build/origin-layout/R11-BUILD4-RESULT-20261021.json) | sourcef654e29c/tool5c806717; compile7exit0, frontend AST compare fatal | 670 /669 |
+| [5 feb5c44b](cloud-build/origin-layout/R11-BUILD5-RESULT-20261021.json) | source1df9b809/tool660b576b; compile7exit0, checkedDead перед invariant, iterationprep301 points_to_limits/dummy30none отказ | 610 /609 |
+| [6 fbe79012](cloud-build/origin-layout/R11-BUILD6-RESULT-20261021.json) | source0ab7fcab/tool660b576b expected; terminalFAILURE, UNKNOWN: Brief/catalogue HTTP404 | 540 /539 |
+
+**3024charged /3019execution /576retired /remaining0 /carryfalse.**
+Все6terminal/accounted; ownactive/unresolved/requests/reservations0 под coordinator lock.
+Observed cold complete target610/670/694sec; final timeout1000/envelope1060
+помещался в1116remaining и absolute. Account retirement не расход/proof credit.
+
+Последний submittedsource `0ab7fcab89c6a8721bcc8279cc3cdbd6634c45dd`,
+Build `fbe79012-dd88-4a7f-b65b-9dcac32a4557`, tool `660b576b6b1608db913c51e0785b443a8733396f`.
+R11-only checked initialized-value invariant и exactcall/top-levelid controls
+прошли LunaHIGH review/static/synthetic; это отдельно от verifier acceptance.
+Build5 exactsource trace показывает Live/Dead117 до invariantconsume и вход вbody,
+не full backedge/exits theorem. Source/parser-input binding/causality по координатам
+не устанавливались; source PASS не переносится между Builds.
+
+**Full target gates0; acceptedfalse; independentcredit0; B2/generic/qualificationOPEN.**
+Текущий blocker: Build6 Evidence publication pending (first Brief HTTP404); do not infer current theorem.
+Исходные tmp debt/CURRENT/F/thread/array/R9 returning hook и narrow R8 premise
+сохранены; StorageDead/invariant/resource checks не ослаблены. Address-taking и
+source-named unit empirical negatives остаются OPEN/NOT_RUN; прежняя полная
+матрица, prefix/physical BeforeLive и normal/unwind exits — отдельные gates.
+
+[Итог](cloud-build/origin-layout/R11-FINAL-RESULT-20261021.json),
+[release](cloud-build/origin-layout/R11-RELEASE-20261021.json),
+[coverage](cloud-build/origin-layout/R11-OBLIGATIONS-20261021.md),
+[Reader](cloud-build/origin-layout/R11-READER-COVERAGE-20261021.md).
+Final ledger/docs checkpoint не является новым proof Build; immutable built inputs
+сохранены в source0ab7fcab:R11-INPUTS. R10/historical accounts и чужие dirty files не менялись.

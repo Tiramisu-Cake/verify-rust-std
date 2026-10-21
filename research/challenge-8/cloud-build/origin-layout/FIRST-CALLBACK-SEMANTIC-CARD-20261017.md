@@ -928,3 +928,24 @@ fabricated and no storage check bypassed. R9 historical cleanup stays scoped.
 Full target proofgates0/B2/qualificationOPEN/acceptedfalse/credit0. Five Builds,
 2865charged/2861execution,735retired,carryfalse/ownslots0. Final coverage/result/
 release and bounded source identities are in R10 records; no6 budget probe.
+
+<!-- MERGE-R11-BEGIN -->
+## R11 exact annotation lifetime cut — CLOSED_PARTIAL_EVIDENCE_PENDING
+
+Default-off R11 lowering moves only the same parsed checked invariant node past
+its source/native/AST-bound ghost-result StorageDead. Live/Dead, CFG edges,
+ordinary local use/address-taking checks, resource/invariant/leak checks remain.
+No live binding, owner receipt, assume, new allocation or model rule is added.
+R11 initialized-value binders and conditional middle/tail gap assertions are
+checked source proof assertions; original tmp debt and CURRENT/F/thread/array
+resources remain, without assuming a complete initialized array over the gap.
+R10 non-target source invariant and existing narrow R8 premise are unchanged.
+
+Build5 source trace observes checked Live/Dead before invariantconsume, followed
+by entry into body and points_to_limits failure; this is limited initial-path
+progress. Build6: UNKNOWN: Brief/catalogue HTTP404. Current backedge/normal/unwind/abort/current posts,
+complete matrix, generic T/arbitrary n, B2 and qualification remain OPEN.
+Source coordinates alone do not prove parser-input binding or causality.
+No source historical PASS transfer, acceptedfalse/independentcredit0.
+R11 final records bind exact submitted source/profile/tool and account closure.
+<!-- MERGE-R11-END -->

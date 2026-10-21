@@ -1,0 +1,97 @@
+{
+  "schema": "merge-r11-final-result-v1",
+  "status": "CLOSED_PARTIAL_EVIDENCE_PENDING",
+  "t0_utc": "2026-10-21T06:14:39Z",
+  "main_deadline_utc": "2026-10-21T08:14:39Z",
+  "absolute_deadline_utc": "2026-10-21T08:44:39Z",
+  "account_closed_utc": "2026-10-21T08:21:05Z",
+  "owner": "merge",
+  "lane": "merge",
+  "builds": [
+    {
+      "build_id": "acba1b21-10e9-4ffe-ae4f-a1eb93c109b2",
+      "source_sha": "5fdfaa634cfdf29b79d37d6e2b5c9d961d9810f8",
+      "status": "FAILURE",
+      "accounted": true,
+      "charged_seconds": 694,
+      "execution_seconds": 694
+    },
+    {
+      "build_id": "92795836-c8ac-42ea-8791-fc2ea94fbcad",
+      "source_sha": "fc0e2c011315e80b9556be559c734581346fe95f",
+      "status": "FAILURE",
+      "accounted": true,
+      "charged_seconds": 89,
+      "execution_seconds": 88
+    },
+    {
+      "build_id": "fa3a26ec-a699-4a91-ad8a-35eb45b24afa",
+      "source_sha": "5a93a90ced6bd90adaeff0222e6492deab1c26f3",
+      "status": "FAILURE",
+      "accounted": true,
+      "charged_seconds": 421,
+      "execution_seconds": 420
+    },
+    {
+      "build_id": "25877672-1eb8-4043-94a9-b09f562ef8d0",
+      "source_sha": "f654e29cd4913cf8f9ac9cdc6795cb716bcfa87c",
+      "status": "FAILURE",
+      "accounted": true,
+      "charged_seconds": 670,
+      "execution_seconds": 669
+    },
+    {
+      "build_id": "feb5c44b-a44f-4a12-9d12-00376906c8fc",
+      "source_sha": "1df9b8099d9393d3557c247bb1b79494bd94424b",
+      "status": "FAILURE",
+      "accounted": true,
+      "charged_seconds": 610,
+      "execution_seconds": 609
+    },
+    {
+      "build_id": "fbe79012-dd88-4a7f-b65b-9dcac32a4557",
+      "source_sha": "0ab7fcab89c6a8721bcc8279cc3cdbd6634c45dd",
+      "status": "FAILURE",
+      "accounted": true,
+      "charged_seconds": 540,
+      "execution_seconds": 539
+    }
+  ],
+  "accounting": {
+    "ceiling": 3600,
+    "charged": 3024,
+    "execution": 3019,
+    "retired_unused": 576,
+    "remaining": 0,
+    "carryover_allowed": false,
+    "own_active": 0,
+    "own_unresolved": 0,
+    "own_requests": 0,
+    "own_reservations": 0
+  },
+  "tool_sha": "660b576b6b1608db913c51e0785b443a8733396f",
+  "profile_sha256": "eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375",
+  "compilation": "Build5 seven observed milestones exit0; Build6 Brief pending",
+  "formal_actual_body_attempt": "Build5 passes retained Dead, reaches iterationprep301, fails points_to_limits on dummy30none; Build6 Brief pending",
+  "scoped_observations": [
+    "Build1 real runtime binding lost after original invariantproduction",
+    "Build5 exact Live117/Dead117 checked before invariantconsume; no storage bypass; progresses into body",
+    "R11-only initialized-value checked invariant and native exactcall/top-level-id controls reviewed and submitted Build6; acceptance pending"
+  ],
+  "closed_full_target_proof_gates": 0,
+  "accepted": false,
+  "b2_achieved": false,
+  "qualification": "OPEN",
+  "independent_credit": 0,
+  "implementation_validation": "Independent LunaHIGH reviews for every submitted substantive delta; static19patch/17sourcepins/18base+2R11 closure; invariant4/trace10/placement13/native6/overlay3/basepins3/registration5 synthetic checks PASS",
+  "next_blocker": "Build6 Evidence publication pending (first Brief HTTP404); do not infer current theorem",
+  "coverage": "Per-Build bounded Reader records; exact coordinates are source observations, parser-input binding NOT_ESTABLISHED, causal status UNKNOWN; no raw evidence or independent full audit",
+  "built_input_manifest": "0ab7fcab89c6a8721bcc8279cc3cdbd6634c45dd:research/challenge-8/cloud-build/origin-layout/R11-INPUTS-20261021.json",
+  "checkpoint_not_built": "Final ledger/docs checkpoint differs from the immutable submitted source; no new proof claim",
+  "last_submitted_source_sha": "0ab7fcab89c6a8721bcc8279cc3cdbd6634c45dd",
+  "last_submitted_build": "fbe79012-dd88-4a7f-b65b-9dcac32a4557",
+  "last_observed_actual_source_sha": "1df9b8099d9393d3557c247bb1b79494bd94424b",
+  "last_observed_actual_build": "feb5c44b-a44f-4a12-9d12-00376906c8fc",
+  "last_submitted_evidence": "Brief and catalogue HTTP404 asof08:24:55; compiler/body/controls unknown",
+  "final_wording_review": "Independent LunaHIGH r10_review: no accounting mismatch or proof overclaim; Build6 UNKNOWN is separate from terminal failure; full gates0/acceptedfalse/credit0/qualificationOPEN."
+}

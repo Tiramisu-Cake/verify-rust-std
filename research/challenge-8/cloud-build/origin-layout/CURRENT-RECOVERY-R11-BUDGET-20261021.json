@@ -2,13 +2,13 @@
   "phase": "MERGE-LABEL-STORAGE-INVARIANT-R11-2026-10-21",
   "owner": "merge",
   "authorization_model": "bounded-cloud-budget",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "allowed_lanes": [
     "merge"
   ],
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 2484,
-  "remaining_build_seconds": 1116,
+  "used_build_seconds": 3024,
+  "remaining_build_seconds": 0,
   "builds": [
     {
       "dispatch_token": "dispatch-583ffca4bd2942a0813cf98acbe2c3fd",
@@ -119,6 +119,28 @@
       "build_seconds": 610,
       "accounted": true,
       "execution_seconds": 609
+    },
+    {
+      "dispatch_token": "dispatch-00f235372dde454d829aaa8ab9c93cfb",
+      "owner": "merge",
+      "phase_id": "MERGE-LABEL-STORAGE-INVARIANT-R11-2026-10-21",
+      "infra_sha": "0ab7fcab89c6a8721bcc8279cc3cdbd6634c45dd",
+      "proof_sha": "0ab7fcab89c6a8721bcc8279cc3cdbd6634c45dd",
+      "lane": "merge",
+      "submitted_config_sha256": "8da4ca4df23cb8b306fe99c167e2809ca9a2f9118f2b17810bdc28f73820dbf0",
+      "reserved_seconds": 1060,
+      "timeout_seconds": 1000,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "06178648d18267e44d96ce339fdfd6d194b667d43e4a1869bbc4dff4ad15d1e1",
+      "build_id": "fbe79012-dd88-4a7f-b65b-9dcac32a4557",
+      "start_time": "2026-10-21T08:10:35.975112664Z",
+      "finish_time": "2026-10-21T08:19:34.938135Z",
+      "create_time": "2026-10-21T08:10:35.255261485Z",
+      "build_seconds": 540,
+      "accounted": true,
+      "execution_seconds": 539
     }
   ],
   "active_build": null,
@@ -130,5 +152,8 @@
   "policy_revision": "2026-10-21 CURRENT-TASK Merge-R11 / Evidence v0.11 / ITERATION-PROCESS",
   "carryover_allowed": false,
   "accepted": false,
-  "independent_credit": 0
+  "independent_credit": 0,
+  "retired_unused_seconds": 576,
+  "closed_utc": "2026-10-21T08:21:05Z",
+  "closure_reason": "Authorized main window ended; all six Builds terminal/accounted; unused Cloud headroom retired without carryover. No new Builds or hypotheses during finishing."
 }

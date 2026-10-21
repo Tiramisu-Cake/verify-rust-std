@@ -1,16 +1,16 @@
-# Merge-R11 ACTIVE — body reached after checked annotation lifetime
+# Merge-R11 CLOSED_PARTIAL_EVIDENCE_PENDING
 
-T0/main/absolute 2026-10-21 06:14:39/08:14:39/08:44:39UTC.
-Five terminal/accounted Builds: used2484/execution2480/remaining1116, ownactive0.
-Build5 seven compile milestones exit0; Live117/Dead117 checked before invariant
-consume, reaches iterationprep301, points_to_limits fails dummy30none.
-Final candidate strengthens initialized-value bindings only in R11 checked
-invariant and repairs exactcall/top-levelid controls; independent LunaHIGH GO,
-static/synthetic PASS. Tool660b576b unchanged, runtime/R8/storage/CFG intact.
-Full target gates0, acceptedfalse/independentcredit0, B2/generic/qualificationOPEN.
-[Task](CURRENT-TASK.md), [Build5](cloud-build/origin-layout/R11-BUILD5-RESULT-20261021.json),
-[invariant](cloud-build/origin-layout/R11-INITIALIZED-INVARIANT-DESIGN-20261021.md).
-Prior snapshots below are historical.
+Six terminalFAILURE/accounted Builds; **3024charged/3019execution/576retired,
+remaining0/carryfalse**; ownactive/unresolved/requests/reservations0, closed08:21:05UTC.
+Main ended08:14:39; absolute08:44:39; no new Builds/hypotheses aftermain.
+Last submittedsource0ab7fcab/tool660b576b/Buildfbe79012: UNKNOWN: Brief/catalogue HTTP404.
+Last observed Build5 compile7exit0, checkedLive/Dead117 before invariantconsume,
+reachesbody iterationprep301/points_to_limits dummy30none refusal. Full target
+gates0, acceptedfalse/credit0, B2/generic/qualificationOPEN. Original debt/CURRENT/
+storage/CFG/R8 premise retained; final checkpoint docs/accounting is not proof.
+[Report](CURRENT-TASK.md#отчёт-агента) · [Final](cloud-build/origin-layout/R11-FINAL-RESULT-20261021.json) ·
+[Coverage](cloud-build/origin-layout/R11-OBLIGATIONS-20261021.md).
+Below are historical authorizations; old windows/accounts do not reopen.
 
 # Merge-R11 READY — label invariant / annotation temporary
 

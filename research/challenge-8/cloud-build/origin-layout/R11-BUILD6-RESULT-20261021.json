@@ -1,0 +1,40 @@
+{
+  "schema": "merge-r11-build-result-v1",
+  "build_id": "fbe79012-dd88-4a7f-b65b-9dcac32a4557",
+  "source_commit": "0ab7fcab89c6a8721bcc8279cc3cdbd6634c45dd",
+  "tool_commit_expected": "660b576b6b1608db913c51e0785b443a8733396f",
+  "status": "FAILURE",
+  "charged_seconds": 540,
+  "execution_seconds": 539,
+  "cumulative_charged_seconds": 3024,
+  "cumulative_execution_seconds": 3019,
+  "retired_unused_seconds": 576,
+  "remaining_seconds": 0,
+  "create_time": "2026-10-21T08:10:35.255261485Z",
+  "start_time": "2026-10-21T08:10:35.975112664Z",
+  "finish_time": "2026-10-21T08:19:34.938135Z",
+  "compilation": "UNKNOWN_EVIDENCE_UNAVAILABLE",
+  "formal_attempt": "UNKNOWN_EVIDENCE_UNAVAILABLE; do not infer NOT_RUN or acceptance",
+  "placement_controls": "UNKNOWN_EVIDENCE_UNAVAILABLE",
+  "closed_full_target_gates": 0,
+  "accepted": false,
+  "independent_credit": 0,
+  "qualification": "OPEN",
+  "evidence_interface": {
+    "status": "PENDING_OR_UNAVAILABLE",
+    "brief_attempts_utc": [
+      "08:20:36",
+      "08:21:56",
+      "08:23:30"
+    ],
+    "catalogue_attempt_utc": "08:24:55",
+    "exact_response": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)",
+    "raw_fallback": false
+  },
+  "expected_inputs": {
+    "proof_sha": "0ab7fcab89c6a8721bcc8279cc3cdbd6634c45dd",
+    "config_sha256": "8da4ca4df23cb8b306fe99c167e2809ca9a2f9118f2b17810bdc28f73820dbf0",
+    "profile_sha256": "eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375"
+  },
+  "limits": "Cloud coordinator terminal/accounting is not formal verification evidence. Retry Brief only within finishing window; no compiler/body/negative-control result inferred."
+}

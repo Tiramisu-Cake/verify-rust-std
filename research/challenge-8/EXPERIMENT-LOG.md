@@ -7465,3 +7465,20 @@ Freshness5 source2positive/6intendednegative/current8bindings, not independent
 credit. Recovery5sourceNOTRUN. No6: insufficient safe cold target envelope;
 BeforeLive/prefix independent investigations done. See CURRENT-TASK report and
 R10-FINAL-RESULT/OBLIGATIONS/LABEL-STORAGE-NOTE; final docs checkpoint not built.
+
+<!-- MERGE-R11-BEGIN -->
+## Merge-R11 — CLOSED_PARTIAL_EVIDENCE_PENDING /2026-10-21
+
+T006:14:39/main08:14:39/absolute08:44:39UTC; account closed08:21:05.
+Six Builds terminalFAILURE/accounted:3024charged/3019execution/576retired,
+remaining0/carryfalse, ownactive/unresolved/requests/reservations0. Build1 runtime
+storage diagnosis; Builds2/3/4 setup/frontend defects repaired after review.
+Build5 compile7exit0, retained Live/Dead checked before invariantconsume and
+actual body reaches initialized-value blocker at301. R11-only value/conditional
+gap strengthening and exact-native controls submitted source0ab7fcab/tool660b576b.
+Build6 current result: UNKNOWN: Brief/catalogue HTTP404. No fulltarget gate closed/B2/generic qualification,
+acceptedfalse/independentcredit0. Final exact identities/Reader coverage and
+publication limitation are in R11-BUILD1..6-RESULT/FINAL/RELEASE/OBLIGATIONS.
+All substantive deltas independently LunaHIGH reviewed; static/synthetic work
+is setup, not theorem credit. Final ledger/docs checkpoint was not built.
+<!-- MERGE-R11-END -->
