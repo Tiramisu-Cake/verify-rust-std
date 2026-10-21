@@ -40,7 +40,20 @@
     "R16-PROOF1-BORROW-POSITIVE-ERRORS-20261021.json",
     "R16-PROOF1-BORROW-NEGATIVE-ERRORS-20261021.json",
     "R16-PROOF1-BRIEF-20261021.txt",
-    "R16-PROOF1-BODY-STAGE-GATE-20261021.json"
+    "R16-PROOF1-BODY-STAGE-GATE-20261021.json",
+    "R16-PROOF1-BODY-COMPLETION-LOCATE-20261021.json",
+    "R16-PROOF1-BODY-COMPLETION-LINES-20261021.json",
+    "R16-PROOF1-R9-CATALOGUE-20261021.json",
+    "R16-PROOF1-R9-CASES-20261021.json",
+    "R16-PROOF1-R9-DUPLICATE-CLASS-20261021.json",
+    "R16-PROOF1-R9-WRONGORIGIN-CLASS-20261021.json",
+    "R16-PROOF1-BODY-TARGET-LOCATE-20261021.json"
   ],
-  "body_unit_stage_receipts_admitted": true
+  "body_unit_stage_receipts_admitted": true,
+  "body_unit_completion_source": "0 errors found (642 statements verified) (target: x86_64-unknown-linux-gnu (LP64))",
+  "body_unit_domain": "mechanically specialized actual insert_tail and selected Drop; u64, incoming initialized3 cells, tail=begin+2, arbitrary F satisfying comparator contract; CURRENT normal/unwind ownership posts; existing bounded R8 trusted premise",
+  "r9_classifier_regression": {
+    "duplicate_marker": "EXPECTED_ADMISSION_REJECTION",
+    "wrongorigin": "EXPECTED_RESOURCE_REFUSAL"
+  }
 }

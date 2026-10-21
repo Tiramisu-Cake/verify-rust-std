@@ -62,8 +62,8 @@ class BodyIsolationTests(unittest.TestCase):
                              self.specialized_drop + b"\n" + self.insert_body)
         self.body_verified = (b"#![no_std]\nuse core::{mem::ManuallyDrop, ptr};\n\n" +
                               self.specialized_drop + b"\n" +
-                              campaign.R9_CURRENT_U64_OWNERS_LEMMA + b"\n" +
-                              old.INSERT_CONTRACT + b"\n" + self.insert_body)
+                              old.INSERT_CONTRACT + b"\n" + self.insert_body +
+                              campaign._raw_owner_lemma_body())
         original_suffix, verified_suffix = campaign._body_isolation_suffixes(self.body_source)
         self.parent_original = self.body_original + original_suffix
         self.parent_verified = self.body_verified + verified_suffix
@@ -101,6 +101,14 @@ class BodyIsolationTests(unittest.TestCase):
         return campaign._prepare_raw_local_caller(
             self.evidence, self.parent_case, self.parent_record, self.body_source,
             self.parent_preparation_sha, True, stage_gate)
+
+    def rewrite_parent_verified(self, content):
+        path = self.parent_case / 'verified/lib.rs'
+        path.write_bytes(content)
+        self.parent_record['verified_sha256'] = sha(content)
+        prep = self.evidence / 'full_body/preparation.json'
+        prep.write_text(json.dumps(self.parent_record, sort_keys=True) + '\n')
+        self.parent_preparation_sha = sha(prep.read_bytes())
 
     class Consumer:
         def _hashes(self, case):
@@ -442,6 +450,8 @@ class BodyIsolationTests(unittest.TestCase):
             case, self.parent_case, self.parent_record, record, self.body_source,
             self.parent_preparation_sha, record['parent_stage_receipt_gate']))
         self.assertTrue(campaign._body_runtime_equal(original, verified))
+        parent_suffix = campaign._body_isolation_suffixes(old)[1]
+        self.assertTrue(self.parent_verified[:-len(parent_suffix)].endswith(campaign._raw_owner_lemma_body()))
         for key in ('accepted', 'proof_credit', 'b2_achieved', 'independent_credit'):
             self.assertIs(record[key], False)
 
@@ -449,6 +459,20 @@ class BodyIsolationTests(unittest.TestCase):
         case, record = self.raw_caller()
         path = case / 'original/lib.rs'
         path.write_bytes(path.read_bytes() + b'pub fn injected() {}\n')
+        self.assertFalse(campaign._raw_local_caller_source_gate(
+            case, self.parent_case, self.parent_record, record, self.body_source,
+            self.parent_preparation_sha, record['parent_stage_receipt_gate']))
+
+    def test_raw_source_gate_rejects_relocated_helper_even_with_rewritten_isolated_receipt(self):
+        case, record = self.raw_caller()
+        path = case / 'verified/lib.rs'
+        source = path.read_bytes()
+        helper = campaign._raw_owner_lemma_body()
+        mutant = source.replace(helper, b'', 1) + helper
+        path.write_bytes(mutant)
+        record['verified_sha256'] = sha(mutant)
+        (self.evidence / 'raw_local_caller/preparation.json').write_text(
+            json.dumps(record, sort_keys=True) + '\n')
         self.assertFalse(campaign._raw_local_caller_source_gate(
             case, self.parent_case, self.parent_record, record, self.body_source,
             self.parent_preparation_sha, record['parent_stage_receipt_gate']))
@@ -463,10 +487,24 @@ class BodyIsolationTests(unittest.TestCase):
 
     def test_raw_candidate_requires_existing_checked_owner_lemmas(self):
         verified = (self.parent_case / 'verified/lib.rs').read_bytes()
-        (self.parent_case / 'verified/lib.rs').write_bytes(
-            verified.replace(campaign.R9_CURRENT_U64_OWNERS_LEMMA, b'', 1))
+        self.rewrite_parent_verified(verified.replace(campaign._raw_owner_lemma_body(), b'', 1))
         with self.assertRaises(ValueError):
             self.raw_caller()
+
+    def test_raw_candidate_rejects_changed_duplicate_or_misbounded_owner_helper(self):
+        helper = campaign._raw_owner_lemma_body()
+        verified = (self.parent_case / 'verified/lib.rs').read_bytes()
+        mutants = (
+            verified.replace(helper, helper.replace(b'r9_make_u64_owners', b'forged_owner_owners'), 1),
+            verified.replace(helper, helper + helper, 1),
+            verified.replace(helper, helper + b'\n', 1),
+            verified.replace(helper, b'', 1),
+        )
+        for mutant in mutants:
+            self.rewrite_parent_verified(mutant)
+            with self.assertRaises(ValueError):
+                self.raw_caller()
+            self.rewrite_parent_verified(verified)
 
     def test_raw_candidate_source_gate_failure_skips_dispatch(self):
         calls = []

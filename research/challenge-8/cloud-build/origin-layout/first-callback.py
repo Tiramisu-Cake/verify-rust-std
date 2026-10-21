@@ -716,6 +716,14 @@ def _raw_local_caller_suffixes(old):
     return original, verified
 
 
+def _raw_owner_lemma_body():
+    """Exact helper bytes left after the canonical wrapper suffix is cut."""
+    helper = R9_CURRENT_U64_OWNERS_LEMMA
+    if not helper.endswith(b'@*/\n\n'):
+        raise ValueError('checked current-u64 owner helper newline contract changed')
+    return helper[:-1]
+
+
 def _raw_parent_body(evidence, parent_case, parent_record, old,
                      parent_preparation_sha, parent_source_unchanged,
                      parent_stage_receipt_gate):
@@ -750,8 +758,10 @@ def _raw_parent_body(evidence, parent_case, parent_record, old,
             old.WRAPPER_CONTRACT in verified_body or
             _sha(old.INSERT_CONTRACT) != parent_record.get('final_posts_sha256')):
         raise ValueError('parent does not contain the exact pinned body and original posts')
-    if verified_body.count(R9_CURRENT_U64_OWNERS_LEMMA) != 1:
-        raise ValueError('raw caller requires the already checked current-u64 owner lemmas in the selected profile')
+    owner_helper_body = _raw_owner_lemma_body()
+    if (verified_body.count(owner_helper_body) != 1 or
+            not verified_body.endswith(owner_helper_body)):
+        raise ValueError('raw caller requires the exact checked current-u64 owner helper at the wrapper boundary')
     prep_path = Path(evidence) / 'full_body' / 'preparation.json'
     prep_bytes = prep_path.read_bytes()
     if _sha(prep_bytes) != parent_preparation_sha or json.loads(prep_bytes) != parent_record:
@@ -856,6 +866,8 @@ def _raw_local_caller_source_gate(case, parent_case, parent_record, record, old,
             record.get('parent_verified_sha256') == _sha((expected_parent / 'verified/lib.rs').read_bytes()) and
             original == original_body + original_suffix and
             verified == verified_body + verified_suffix and
+            verified_body.endswith(_raw_owner_lemma_body()) and
+            verified_body.count(_raw_owner_lemma_body()) == 1 and
             original.endswith(original_suffix) and verified.endswith(verified_suffix) and
             original.count(b'let begin = &raw mut values as *mut u64;') == 1 and
             b'let begin = values.as_mut_ptr();' not in original and

@@ -1,0 +1,105 @@
+{
+  "archive_sha256": "8517e659e1eab76137cc47d89476e318115eb49ecb1ebfabfad0b1917b7bd6e5",
+  "build_id": "3e0fba25-fc12-487d-8e38-520f2e02a4ea",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 431,
+    "line_separator": "LF",
+    "source_lines": 443,
+    "start": 421,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "2d78ebdaeb062e188723dd979753b6ca3c2142a8d584603f17f4536298dbcdd1",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verified/lib.rs",
+  "file_sha256": "dd845d1285d2445a2195faec8a8720cba1fe3371d5f81be482e62689706e8f43",
+  "index_sha256": "ff6c56182d42279befbe8a1632b5270a79b2c62d86fee0a76db561520088cf50",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 431,
+    "expected_sha256": "dd845d1285d2445a2195faec8a8720cba1fe3371d5f81be482e62689706e8f43",
+    "file_id": "2d78ebdaeb062e188723dd979753b6ca3c2142a8d584603f17f4536298dbcdd1",
+    "start": 421
+  },
+  "request_id": "10d5ae03b00355ae6b9c573568c64a2395e69c95e2c2229245152e73d4bd6525",
+  "requested_end": 431,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 421,
+      "text": "    req foreach(?r9_previous, own::<u64>(t));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 422,
+      "text": "    ens foreach(vs, own::<u64>(t));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 423,
+      "text": "{"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 424,
+      "text": "    r9_drop_u64_owners(t, r9_previous);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 425,
+      "text": "    r9_make_u64_owners(t, vs);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 426,
+      "text": "} @*/"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 427,
+      "text": ""
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 428,
+      "text": "pub unsafe fn b2_three_from_local<F: FnMut(&u64, &u64) -> bool>(is_less: &mut F)/*@"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 429,
+      "text": "req thread_token(?t) &*& t == currentThread &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 430,
+      "text": "    type_interp::<u64>() &*& type_interp::<F>() &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 431,
+      "text": "    *is_less |-> ?f0 &*& <F>.own(t, f0);"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

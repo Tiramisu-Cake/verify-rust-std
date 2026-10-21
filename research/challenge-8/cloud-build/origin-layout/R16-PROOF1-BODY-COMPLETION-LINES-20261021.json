@@ -1,0 +1,99 @@
+{
+  "archive_sha256": "2cb95b9af268b3ee439be0e54f6895e9ee21f6c68f9aa8f05b2eafdd2b26648f",
+  "build_id": "9487d6d1-14aa-4370-bc0b-7ac57279fb7b",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 3420,
+    "line_separator": "LF",
+    "source_lines": 3420,
+    "start": 3411,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "f73efa4580e7d906a140bf5d78522ad9b0057ab774688612851bf06c2e0883af",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/body_isolation/cases/actual_insert_tail_body_isolated/verifast.log",
+  "file_sha256": "19c3f0adaf227e71a64fa1d03b5880d446296c9e6d6543bd3efbe0efebc471b3",
+  "index_sha256": "d5061e1aa5ebde7e935ba2c89d91ee961e66b08c1b59ccf2671606a9389853ab",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 3420,
+    "expected_sha256": "19c3f0adaf227e71a64fa1d03b5880d446296c9e6d6543bd3efbe0efebc471b3",
+    "file_id": "f73efa4580e7d906a140bf5d78522ad9b0057ab774688612851bf06c2e0883af",
+    "start": 3411
+  },
+  "request_id": "5f78e8b55720b8d20fffb215df744dd832dba482f23de72a8f45ecf1e503e78d",
+  "requested_end": 3420,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3411,
+      "text": "R9_GUARD_CHUNK index=11 pred=array types=u64 coefficient=1 args=[begin;(1 + (1 + 1));append(take(1, xs), append(cons(v0, nil), cons(v, nil)))]"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3412,
+      "text": "R9_GUARD_CHUNK index=12 pred=share(uint64_t_typeid) types= coefficient=dummy6 args=[cmp_k;t;ptr_add_(tail0, (0 - 1), uint64_t_typeid)]"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3413,
+      "text": "R9_GUARD_CHUNK index=13 pred=share(uint64_t_typeid) types= coefficient=dummy16 args=[cmp_k;t;cmp_sift_ref]"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3414,
+      "text": "R9_GUARD_CHUNK index=14 pred=type_interp types=u64 coefficient=1 args=[]"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3415,
+      "text": "R9_GUARD_CHUNK index=15 pred=lifetime_token types= coefficient=1 args=[func_lft]"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3416,
+      "text": "  1.848602s: verified/lib.rs(388,1-2): Freeing locals."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3417,
+      "text": "  1.848709s: verified/lib.rs(152,1-388,2): Consuming function lifetime token"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3418,
+      "text": "  1.848857s: verified/lib.rs(388,1-2): Cleaning up dummy fraction chunks and empty chunks"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3419,
+      "text": "  1.848895s: verified/lib.rs(388,1-2): Leak check."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3420,
+      "text": "0 errors found (642 statements verified) (target: x86_64-unknown-linux-gnu (LP64))"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}
