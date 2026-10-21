@@ -3,9 +3,9 @@
   "authorization_phase_id": "SORT4-ACTUAL-LIFETIME-2026-10-21-R16",
   "source": "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml",
   "base_sha256": "5b73b381fc1e96ac3e41b4eb29ff01f4747dc75ab6545dc6d840a7b42c492c3a",
-  "result_sha256": "5ba6b2a5fd431e22cee9c82aa793d9bd28feedbe26d4d00a06b3b0d3b314f46d",
+  "result_sha256": "0bf113f31b92af87344dbbad9135f4dcf7c04ec15c9afb649d34b0843c0030f6",
   "patch": "actual-sort4-scope-relocation-r16.patch",
-  "patch_sha256": "e1975f3ee503be913d33a1481c033db02872c2f5ed70955c0af9c15ed2d25126",
+  "patch_sha256": "1c0cd05a411032f0a84cedca42b98692eb6c1b13c4737b22347921ef6bd877ea",
   "source_tr": {
     "path": "verified/lib.rs",
     "sha256": "c9a137d7abb2885f07dc5cf15b5772d4d5bddc0ecd0fcf2cda0c453cb1453905",
@@ -74,7 +74,7 @@
     "one strict cmp marker and exactly one insertion at its matching block cut",
     "all target declarations have unchanged translated AST types, no initializer and no address-taken flag",
     "complete composed normal and unwind body is traversed; every target reference must be lexically inside the strict cmp scope",
-    "address-of any target local, pattern shadowing, out-of-scope reference, duplicate/missing declaration, malformed/duplicate marker, wrong AST declaration type, unsupported block declaration, unknown statement, or unsupported expression refuses relocation",
+    "address-of any target local, pattern shadowing, out-of-scope reference, duplicate/missing declaration, malformed/duplicate marker, wrong AST declaration type, unsupported block declaration, unknown statement, unsupported expression, or static WRead form refuses relocation",
     "only target DeclStmt nodes are removed from the outer local declaration list and inserted after the strict scope marker; statements, calls, CFG, epilog, and kernel checks are otherwise untouched"
   ],
   "synthetic_controls": {
@@ -90,13 +90,16 @@
       "missing marker",
       "duplicate marker",
       "malformed marker",
-      "unsupported expression form"
+      "unsupported expression form",
+      "static WRead hidden receiver outside the cmp scope",
+      "static WRead receiver nested beneath AddressOf"
     ],
-    "unknown_statement_case": "No safe ordinary constructor exists for an unknown variant; statement fallback is fail-closed."
+    "unknown_statement_case": "No safe ordinary constructor exists for an unknown variant; statement fallback is fail-closed.",
+    "count": 12
   },
   "validation": {
     "source_only_git_apply_check": "passed against exact base translator SHA",
-    "applied_result_sha256": "a1d873cd431fa66c0ebea5942bf731b36543f5da1407256735e304060f67661e",
+    "applied_result_sha256": "0bf113f31b92af87344dbbad9135f4dcf7c04ec15c9afb649d34b0843c0030f6",
     "local_compilation": "not run by bounded task"
   },
   "known_limits": [

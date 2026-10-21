@@ -2,7 +2,7 @@ diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust
 index 0000000..0000000 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-@@ -7695,6 +7695,252 @@
+@@ -7695,6 +7695,264 @@
      end;
      requested
  
@@ -26,6 +26,8 @@ index 0000000..0000000 100644
 +  let rec scan_expr inside e =
 +    Ast.expr_iter (fun node ->
 +      (match node with
++       | Ast.WRead (_, _, _, _, _, _, _, true, _, _) ->
++           reject "unsupported static WRead may hide a candidate receiver"
 +       | Ast.Var (_, id) | Ast.WVar (_, id, _) -> record_ref inside id
 +       | Ast.AddressOf (_, inner) ->
 +           Ast.expr_iter (function
@@ -245,17 +247,27 @@ index 0000000..0000000 100644
 +         decl (Some ty) false; var]]);
 +    ("unsupported-expression", expect_unsupported_expr
 +       (inside [decl (Some ty) false;
-+         Ast.ExprStmt (Ast.CxxConstruct (loc, "synthetic", ty, []))]))
++         Ast.ExprStmt (Ast.CxxConstruct (loc, "synthetic", ty, []))]));
++    ("static-WRead-hidden-outside-use", expect_refusal "static-WRead-hidden-outside-use"
++       "unsupported static WRead"
++       [Ast.ExprStmt (Ast.WRead (loc, Ast.Var (loc, id), "C", [], "field",
++         Ast.Bool, [], true, ref None, Ast.Real))]);
++    ("static-WRead-address-exposure", expect_refusal "static-WRead-address-exposure"
++       "unsupported static WRead"
++       (inside [decl (Some ty) false;
++         Ast.ExprStmt (Ast.AddressOf (loc,
++           Ast.WRead (loc, Ast.Var (loc, id), "C", [], "field",
++             Ast.Bool, [], true, ref None, Ast.Real)))]))
 +  ] in
 +  List.iter (fun (name, passed) ->
 +    if not passed then failwith ("R16 scope validator synthetic control failed: " ^ name);
 +    Printf.eprintf "ACTUAL-SCOPE-RELOCATION control=%s status=PASS\n%!" name) cases;
-+  Printf.eprintf "ACTUAL-SCOPE-RELOCATION controls=10 status=PASS\n%!"
++  Printf.eprintf "ACTUAL-SCOPE-RELOCATION controls=12 status=PASS\n%!"
 +
    let translate_body (body_tr_defs_ctx : body_tr_defs_ctx) (body_cpn : BodyRd.t)
        =
      if Sort4StableCaller.enabled () then Sort4StableCaller.check_source ();
-@@ -8556,13 +8802,32 @@
+@@ -8556,13 +8814,32 @@
                        ],
                        closing_cbrace_loc )))
            else
@@ -293,7 +305,7 @@ index 0000000..0000000 100644
              let relocation_pairs =
                if relocate then
                  List.map (fun raw -> (raw, translate_local_decl_id_ raw))
-@@ -8570,34 +8835,51 @@
+@@ -8570,34 +8847,51 @@
                else [] in
              let translated_ids = List.map snd relocation_pairs in
              if relocate then begin
@@ -358,7 +370,7 @@ index 0000000..0000000 100644
                   List.exists (fun (raw, translated) ->
                     translated <> TrName.tag_internal raw) relocation_pairs ||
                   List.exists (fun (raw, translated) ->
-@@ -8625,7 +8907,13 @@
+@@ -8625,7 +8919,13 @@
                          if !taken then Ast.static_error fn_sig_loc
                            "Strict relocation address-taken local" None;
                          let shape =
@@ -373,7 +385,7 @@ index 0000000..0000000 100644
                            else if raw = "_28" then
                              "(&'<erased> T, &'<erased> T)"
                            else "&'<erased> T" in
-@@ -8636,7 +8924,7 @@
+@@ -8636,7 +8936,7 @@
                          "Strict relocation declaration shape changed" None
                      end;
                      stmt) in
@@ -382,7 +394,7 @@ index 0000000..0000000 100644
                  "Strict relocation declaration count changed" None;
                State.strict_relocated_decls := Some (cut_loc, moved)
              end;
-@@ -8665,7 +8953,8 @@
+@@ -8665,7 +8965,8 @@
                    "Strict relocation did not insert exactly one declaration set"
                    None;
                Printf.eprintf
@@ -392,7 +404,7 @@ index 0000000..0000000 100644
              end;
              if !State.pending_callback_unwind <> None then
                State.fail_callback_unwind "marker has no matching following call";
-@@ -8692,6 +8981,25 @@
+@@ -8692,6 +8993,25 @@
                (let original_body =
                   projection_clause_stmts @ vf_local_decls @ vf_bblocks
                   @ callback_unwind_epilog in
