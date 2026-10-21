@@ -385,12 +385,10 @@ def r15_time_budget(seconds):
          'soft_margin':min(60,max(15,work//2))}
 
 def r16_time_budget(seconds):
- if type(seconds) is not int or not 90<=seconds<=1200:
-  raise ValueError('R16 timeout must be90..1200 seconds')
- reserve=min(240,seconds-30)
- work=seconds-reserve
- return {'package_reserve':reserve,'work_seconds':work,
-         'soft_margin':min(60,max(15,work//2))}
+ if type(seconds) is not int or not 270<=seconds<=1200:
+  raise ValueError('R16 timeout must be270..1200 seconds with240s report reserve')
+ return {'package_reserve':240,'work_seconds':seconds-240,
+         'soft_margin':min(60,max(15,(seconds-240)//2))}
 
 def legacy_a1_occupied_limit(phase_id):
  """Return the historical local cap; R12 follows coordinator protocol v3."""

@@ -85,9 +85,9 @@ class R16Registration(unittest.TestCase):
     def test_time_budget_has_r15_reserve_bounds(self):
         self.assertEqual(CONTROL.r16_time_budget(1200),
                          {"package_reserve": 240, "work_seconds": 960, "soft_margin": 60})
-        self.assertEqual(CONTROL.r16_time_budget(90),
-                         {"package_reserve": 60, "work_seconds": 30, "soft_margin": 15})
-        for invalid in (89, 1201, True, 90.0):
+        self.assertEqual(CONTROL.r16_time_budget(270),
+                         {"package_reserve": 240, "work_seconds": 30, "soft_margin": 15})
+        for invalid in (89, 90, 269, 1201, True, 270.0):
             with self.subTest(seconds=invalid), self.assertRaises(ValueError):
                 CONTROL.r16_time_budget(invalid)
 
