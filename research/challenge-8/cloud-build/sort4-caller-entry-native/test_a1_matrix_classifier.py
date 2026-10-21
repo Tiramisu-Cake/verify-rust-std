@@ -40,6 +40,37 @@ def body(case):
     return obs
 
 
+def dispatch_gate(obs):
+    source_sha = obs['raw']['source_pair_sha256']['verified']
+    names = {'quicksort': ('StableSmallSortTypeImpl::small_sort_threshold',
+                           'StableSmallSortTypeImpl::small_sort'),
+             'a1_guard_observer': ('StableSmallSortTypeImpl::small_sort_threshold',)}
+    pair, rows = {}, []
+    for owner, callees in names.items():
+        mir_calls, ast_calls = [], []
+        for index, callee in enumerate(callees, 1):
+            loc = f'verified/lib.rs({10 + index},1-8)'
+            mir_calls.append({'callee': callee, 'call_line': 10 + index,
+                              'mir_call_span_ast': (('verified/lib.rs', 10 + index, 2),
+                                                    ('verified/lib.rs', 10 + index, 9))})
+            ast_calls.append({'callee': callee, 'ast_call_span': loc,
+                              'ast_call_span_bounds': (('verified/lib.rs', 10 + index, 1),
+                                                       ('verified/lib.rs', 10 + index, 8))})
+            rows.append({'owner': owner, 'callee': callee, 'ast_call_span': loc,
+                         'mir_call_span': f'verified/lib.rs({10 + index},2-9)',
+                         'original': callee, 'translated': callee, 'redirect': False})
+        pair[owner] = {'mir': {'binding': {'caller': owner, 'case_binding': {
+            'case_id': 'P-dispatch', 'generated_source_sha256': source_sha},
+            'proof_credit': False, 'calls': mir_calls}},
+            'ast': {'owner': owner, 'classification': 'CALL_AST_STRUCTURE_ONLY',
+                    'proof_credit': False, 'calls': ast_calls}}
+    obs['structure']['caller_calls'] = {'dispatch_pair': pair, 'proof_credit': False}
+    obs['dispatch_classifier'] = {'classification': 'ORIGINAL_COMMON_TRAIT_DISPATCH_OBSERVED',
+        'source_sha256': source_sha, 'verification_exit': 0, 'proof_credit': False,
+        'trace_lines': rows}
+    return obs
+
+
 class MatrixClassifier(unittest.TestCase):
     def classify(self, case, obs, expected=None):
         return m.classify_case(case, obs, expected_input=expected or EXPECTED,
@@ -86,8 +117,23 @@ class MatrixClassifier(unittest.TestCase):
     def test_dispatch_requires_independent_trace_classifier(self):
         obs = source('P-dispatch')
         self.assertFalse(self.classify('P-dispatch', obs)['matrix_gate_passed'])
-        obs['dispatch_classifier'] = {'classification': 'ORIGINAL_COMMON_TRAIT_DISPATCH_OBSERVED'}
+        dispatch_gate(obs)
         self.assertTrue(self.classify('P-dispatch', obs)['matrix_gate_passed'])
+
+    def test_dispatch_classifier_rejects_missing_duplicate_wrong_owner_and_source(self):
+        for mutation in ('missing', 'duplicate', 'owner', 'source'):
+            obs = dispatch_gate(source('P-dispatch'))
+            rows = obs['dispatch_classifier']['trace_lines']
+            if mutation == 'missing':
+                rows.pop()
+            elif mutation == 'duplicate':
+                rows.append(dict(rows[0]))
+            elif mutation == 'owner':
+                rows[0]['owner'] = 'unknown'
+            else:
+                obs['dispatch_classifier']['source_sha256'] = 'c' * 64
+            with self.subTest(mutation=mutation):
+                self.assertFalse(self.classify('P-dispatch', obs)['matrix_gate_passed'])
 
     def test_p1_requires_full_native_gate_without_body_credit(self):
         obs = source('P1')
@@ -190,7 +236,7 @@ class MatrixClassifier(unittest.TestCase):
                 obs = source(case)
             elif case in ('P1', 'P-dispatch'):
                 obs = source(case)
-                obs['dispatch_classifier'] = {'classification': 'ORIGINAL_COMMON_TRAIT_DISPATCH_OBSERVED'}
+                dispatch_gate(obs)
                 obs['structure']['small_sort_interface'] = {'structural_pass': True, 'body_count': 0,
                     'proof_credit': False, 'compiler_clauses_source_bound': True,
                     'impls': {impl: {'native_matches_r_only_baseline': True} for impl in INVENTORY}}

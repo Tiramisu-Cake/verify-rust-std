@@ -328,7 +328,7 @@ def _caller_clauses(body, input_regions):
     return clauses, tuple(hrtb_regions)
 
 
-def _source_functions(case_id, certificate, source):
+def _source_functions(case_id, certificate, source, caller_override=None):
     if not isinstance(certificate, dict) or not isinstance(source, str):
         raise CallBindingError("source certificate and generated source are required")
     cases = certificate.get("cases")
@@ -360,10 +360,15 @@ def _source_functions(case_id, certificate, source):
           "source certificate does not record the expected observer rename")
     if case_id in ("P0c", "N-false31"):
         selected_caller = "a1_guard_observer"
-    elif case_id == "P1":
+    elif case_id in ("P1", "P-dispatch"):
         selected_caller = "quicksort"
     else:
-        raise CallBindingError("call-binding gate only admits P0c, N-false31, and P1")
+        raise CallBindingError("call-binding gate admits P0c, N-false31, P1, and P-dispatch")
+    if caller_override is not None:
+        _need(case_id == "P-dispatch" and caller_override in
+              ("quicksort", "a1_guard_observer"),
+              "only P-dispatch admits its two certified callers")
+        selected_caller = caller_override
     return case, selected_caller
 
 
@@ -389,7 +394,8 @@ def _source_calls(source, caller_name):
             for name, expr in expressions}
 
 
-def _calls_for(body, caller_name, expected_lines, roots, debug_names_by_local):
+def _calls_for(body, caller_name, expected_lines, roots, debug_names_by_local,
+               *, exact_spans=False):
     calls = _selected._mir_calls(body)
     trait_calls = []
     for call in calls:
@@ -434,17 +440,47 @@ def _calls_for(body, caller_name, expected_lines, roots, debug_names_by_local):
                   "MIR arguments must be exact direct reborrows from named source inputs")
         else:
             _need(call.get("args") == [], "threshold trait call unexpectedly has arguments")
-        observed.append({"callee": name, "substs": ["T"] if not expected_args else ["T", "F"],
+        row = {"callee": name, "substs": ["T"] if not expected_args else ["T", "F"],
                          "late_bound_lifetime_count": expected_lifetimes,
                          "call_line": expected_lines[name], "argument_roots": expected_args,
                          "argument_mir_locals": temporaries if expected_args else [],
                          "expected_ast_arguments": ["$" + local for local in temporaries]
-                         if expected_args else []})
+                         if expected_args else []}
+        if exact_spans:
+            span = _mir_call_span(call)
+            row["mir_call_span"] = span
+            row["mir_call_span_ast"] = tuple((point[0], point[1], point[2] + 1)
+                                               for point in span)
+        observed.append(row)
     return tuple(sorted(observed, key=lambda row: row["callee"]))
 
 
-def _analyze_functions(case_id, functions, certificate, source):
-    case, caller_name = _source_functions(case_id, certificate, source)
+def _mir_call_span(call):
+    """Retain exact regular source bounds for the FnCallData call span."""
+    try:
+        span = call["callSpan"]["regular"]
+        points = {}
+        for endpoint in ("lo", "hi"):
+            loc = span[endpoint]
+            filename = loc["file"]["name"]["real"]
+            path = filename.get("localPath")
+            if not isinstance(path, str):
+                path = filename["remapped"]["virtualName"]
+            line, column = loc["line"], loc["col"]["pos"]
+            _need(path == "verified/lib.rs" and type(line) is int and line > 0 and
+                  type(column) is int and column >= 0,
+                  "MIR call span must be regular verified/lib.rs")
+            points[endpoint] = (path, line, column)
+        lo, hi = points["lo"], points["hi"]
+        _need(lo[0] == hi[0] and (hi[1], hi[2]) >= (lo[1], lo[2]),
+              "MIR call span must be ordered")
+        return (lo, hi)
+    except (KeyError, TypeError) as exc:
+        raise CallBindingError("MIR call span is missing or unrecognized") from exc
+
+
+def _analyze_functions(case_id, functions, certificate, source, caller_override=None):
+    case, caller_name = _source_functions(case_id, certificate, source, caller_override)
     caller = _one_function(functions, caller_name)
     _need(_selected._mir_input_shape(caller, 5),
           "source caller must retain the original unrestricted five-input signature")
@@ -453,7 +489,8 @@ def _analyze_functions(case_id, functions, certificate, source):
     clauses, hrtb_regions = _caller_clauses(caller, input_regions)
     expected_lines = _source_calls(source, caller_name)
     roots, debug_names_by_local = _debug_input_roots(caller)
-    calls = _calls_for(caller, caller_name, expected_lines, roots, debug_names_by_local)
+    calls = _calls_for(caller, caller_name, expected_lines, roots, debug_names_by_local,
+                       exact_spans=(case_id == "P-dispatch"))
     for call in calls:
         if call["callee"] == "StableSmallSortTypeImpl::small_sort":
             call["argument_region_roles"] = _argument_region_roles(call, input_regions)
@@ -638,15 +675,18 @@ def _semantic_mismatch_message(case_id, normal, readonly,
 
 
 def observe(case_id: str, normal_decoded: str, readonly_decoded: str,
-            source_certificate: dict[str, Any], generated_source: str):
+            source_certificate: dict[str, Any], generated_source: str,
+            *, caller_override=None):
     """Bind paired decoded caller MIRs to exact fixture source callsites."""
     try:
         normal_functions = _selected.decoded_mir_functions(normal_decoded)
         readonly_functions = _selected.decoded_mir_functions(readonly_decoded)
     except Exception as exc:
         raise CallBindingError(f"decoded MIR function parse failed: {exc}") from exc
-    normal = _analyze_functions(case_id, normal_functions, source_certificate, generated_source)
-    readonly = _analyze_functions(case_id, readonly_functions, source_certificate, generated_source)
+    normal = _analyze_functions(case_id, normal_functions, source_certificate, generated_source,
+                                caller_override)
+    readonly = _analyze_functions(case_id, readonly_functions, source_certificate, generated_source,
+                                  caller_override)
     _need(normal["mir_body_span"] == readonly["mir_body_span"],
           "normal and readonly caller MIR Body.span bounds differ")
     def semantic(row):

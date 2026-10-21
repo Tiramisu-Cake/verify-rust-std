@@ -295,7 +295,7 @@
          Ok (tmp_rvalue_binders, FnCallOutcome call_expr)
        in
        let* callee =
-@@ -3493,7 +3700,27 @@
+@@ -3493,7 +3700,28 @@
                    { kind = Lifetime { id = "'erased" } })
            in
            let fn_name, substs_cpn =
@@ -317,8 +317,9 @@
 +                  substs_cpn <> [{D.kind=D.Type {kind=D.Param "T"}}]) then
 +                Sort4A1Contract.reject "generic threshold call identity/arguments";
 +              Printf.printf
-+                "SORT4-A1-DISPATCH: original=%s translated=%s redirect=false\n%!"
-+                fn_name fn_name;
++                "SORT4-A1-DISPATCH: owner=%s ast_call=%s mir_call=%s original=%s translated=%s redirect=false\n%!"
++                State.body_name (Ast.string_of_loc call_loc)
++                (Ast.string_of_loc fn_loc) fn_name fn_name;
 +              fn_name, substs_cpn
 +            end else if Sort4SelectedBranch.enabled () then begin
                if fn_name = "StableSmallSortTypeImpl::small_sort_threshold" ||

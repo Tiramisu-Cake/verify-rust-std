@@ -52,6 +52,21 @@ def _mapping(value, label):
     return value
 
 
+def _source_bounds_text(bounds):
+    if (not isinstance(bounds, (tuple, list)) or len(bounds) != 2 or
+            any(not isinstance(point, (tuple, list)) or len(point) != 3
+                for point in bounds)):
+        return None
+    lo, hi = bounds
+    if (lo[0] != 'verified/lib.rs' or hi[0] != lo[0] or
+            type(lo[1]) is not int or lo[1] <= 0 or type(hi[1]) is not int or hi[1] <= 0 or
+            type(lo[2]) is not int or lo[2] < 0 or type(hi[2]) is not int or hi[2] < 0 or
+            (hi[1], hi[2]) < (lo[1], lo[2])):
+        return None
+    end = f'{hi[1]},{hi[2]}' if hi[1] != lo[1] else str(hi[2])
+    return f'{lo[0]}({lo[1]},{lo[2]}-{end})'
+
+
 def _stage_exit(raw, name):
     value = raw.get('stages', {}).get(name)
     return value.get('exit') if isinstance(value, Mapping) else value
@@ -228,10 +243,78 @@ def classify_case(case_id, observation, *, expected_input, run_pins, build_id, e
                 labels = dict(stage='export-decode-refinement', predicate='full-interface-shape',
                               location='small_sort interface', outcome='pass', classification='POSITIVE_INTENDED')
             else:
-                require(observation.get('dispatch_classifier', {}).get('classification') ==
+                dispatch = _mapping(observation.get('dispatch_classifier'),
+                                    'source-bound dispatch trace classifier')
+                require(dispatch.get('classification') ==
                         'ORIGINAL_COMMON_TRAIT_DISPATCH_OBSERVED' and
-                        structure.get('caller_calls', {}).get('ast', {}).get('classification') == 'CALL_AST_STRUCTURE_ONLY',
-                        'original common dispatch not observed in both trace and AST')
+                        dispatch.get('proof_credit') is False and
+                        dispatch.get('verification_exit') == 0 and
+                        dispatch.get('source_sha256') == raw.get('source_pair_sha256', {}).get('verified'),
+                        'original common dispatch trace identity is incomplete')
+                expected_calls = {
+                    ('quicksort', 'StableSmallSortTypeImpl::small_sort_threshold'),
+                    ('quicksort', 'StableSmallSortTypeImpl::small_sort'),
+                    ('a1_guard_observer', 'StableSmallSortTypeImpl::small_sort_threshold')}
+                trace_rows = dispatch.get('trace_lines')
+                require(isinstance(trace_rows, (tuple, list)) and len(trace_rows) == 3 and
+                        all(isinstance(row, Mapping) for row in trace_rows),
+                        'dispatch trace must retain all three joined owner/callee rows')
+                trace_keys = [(row.get('owner'), row.get('callee')) for row in trace_rows]
+                require(set(trace_keys) == expected_calls and len(set(trace_keys)) == 3 and
+                        all(row.get('original') == row.get('callee') and
+                            row.get('translated') == row.get('callee') and
+                            row.get('redirect') is False and
+                            isinstance(row.get('ast_call_span'), str) and
+                            isinstance(row.get('mir_call_span'), str)
+                            for row in trace_rows),
+                        'dispatch rows are not a unique exact owner/callee/span join')
+                trace_by_key = {(row.get('owner'), row.get('callee')): row
+                                for row in trace_rows}
+                caller_calls = _mapping(structure.get('caller_calls'),
+                                        'paired dispatch caller structure')
+                pair = _mapping(caller_calls.get('dispatch_pair'),
+                                'both certified dispatch owners')
+                require(set(pair) == {'quicksort', 'a1_guard_observer'},
+                        'dispatch caller owners are missing or ambiguous')
+                for owner in ('quicksort', 'a1_guard_observer'):
+                    entry = _mapping(pair.get(owner), owner + ' MIR/AST binding')
+                    mir = _mapping(entry.get('mir'), owner + ' compiler MIR binding')
+                    binding = _mapping(mir.get('binding'), owner + ' caller binding')
+                    ast = _mapping(entry.get('ast'), owner + ' AST call structure')
+                    calls = binding.get('calls')
+                    ast_calls = ast.get('calls')
+                    expected_names = (['StableSmallSortTypeImpl::small_sort_threshold',
+                                       'StableSmallSortTypeImpl::small_sort']
+                                      if owner == 'quicksort' else
+                                      ['StableSmallSortTypeImpl::small_sort_threshold'])
+                    case_binding = _mapping(binding.get('case_binding'),
+                                            owner + ' source-pair binding')
+                    require(binding.get('caller') == owner and
+                            case_binding.get('case_id') == 'P-dispatch' and
+                            case_binding.get('generated_source_sha256') == dispatch.get('source_sha256') and
+                            binding.get('proof_credit') is False and
+                            ast.get('owner') == owner and
+                            ast.get('classification') == 'CALL_AST_STRUCTURE_ONLY' and
+                            ast.get('proof_credit') is False and
+                            isinstance(calls, (tuple, list)) and
+                            [row.get('callee') for row in calls if isinstance(row, Mapping)] == expected_names and
+                            len(calls) == len(expected_names) and
+                            isinstance(ast_calls, (tuple, list)) and
+                            [row.get('callee') for row in ast_calls if isinstance(row, Mapping)] == expected_names and
+                            len(ast_calls) == len(expected_names),
+                            owner + ' dispatch source/MIR/AST join is incomplete')
+                    for mir_call, ast_call in zip(calls, ast_calls):
+                        joined = trace_by_key[(owner, mir_call['callee'])]
+                        mir_span = mir_call.get('mir_call_span_ast')
+                        ast_span = ast_call.get('ast_call_span_bounds')
+                        require(_source_bounds_text(mir_span) is not None and
+                                _source_bounds_text(ast_span) is not None and
+                                joined.get('ast_call_span') == ast_call.get('ast_call_span') and
+                                joined.get('mir_call_span') ==
+                                _source_bounds_text(mir_span) and
+                                ast_span[0][1] == mir_call.get('call_line') and
+                                mir_span[0][1] == mir_call.get('call_line'),
+                                owner + ' dispatch trace spans do not match their AST/MIR records')
                 labels = dict(stage='translated-call-gate', predicate='original-common-trait-item',
                               location='threshold/small_sort call AST', outcome='pass', classification='POSITIVE_INTENDED')
             fields = _interface(labels)

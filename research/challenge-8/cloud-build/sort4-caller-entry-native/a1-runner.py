@@ -1173,7 +1173,36 @@ def observe_focused_structure(case_id: str, raw: Mapping[str, Any],
                                       bound, stage=stage,
                                       baseline=native_baseline, common_line=common[0])
     calls = None
-    if focus_case_id in ("P0c", "N-false31", "P1"):
+    if focus_case_id == "P-dispatch":
+        ast_text = paths["proof-ast.ml"].read_text(encoding="utf-8")
+        per_owner = {}
+        for owner in ("quicksort", "a1_guard_observer"):
+            mir = helpers["a1-call-binding.py"].observe(
+                case_id, normal, readonly, dict(certificate), source,
+                caller_override=owner)
+            binding = mir["binding"]
+            marker = ("pub fn quicksort<" if owner == "quicksort" else
+                      "fn a1_guard_observer<")
+            owner_lines = [i for i, line in enumerate(source.splitlines(), 1)
+                           if marker in line]
+            _need(len(owner_lines) == 1, "one source-certified dispatch caller declaration")
+            body_span = binding["mir_body_span"]
+            source_line = body_span["lo"]["line"]
+            _need(body_span["lo"]["source_path"] == "verified/lib.rs" and
+                  body_span["hi"]["source_path"] == "verified/lib.rs" and
+                  source_line >= owner_lines[0],
+                  "dispatch caller AST location does not bind to compiler MIR body")
+            lines = dict(binding["source_call_lines"])
+            expected = ((gates.COMMON, gates.SMALL_SORT) if owner == "quicksort"
+                        else (gates.COMMON,))
+            operands = {call["callee"]: tuple(call["expected_ast_arguments"])
+                        for call in binding["calls"]}
+            ast = gates.caller_calls(
+                ast_text, owner=owner, expected=expected, source_line=source_line,
+                call_lines=lines, expected_arguments=operands)
+            per_owner[owner] = {"mir": mir, "ast": ast}
+        calls = {"dispatch_pair": per_owner, "proof_credit": False}
+    elif focus_case_id in ("P0c", "N-false31", "P1"):
         calls = helpers["a1-call-binding.py"].observe(
             case_id, normal, readonly, dict(certificate), source)
         binding = calls["binding"]
@@ -2418,8 +2447,9 @@ def _run_off_observation(a, c4, tool: Path, off_input: Mapping[str, Any],
 
 
 def classify_dispatch_observation(raw: Mapping[str, Any], *,
-                                  expected_source_sha256: str) -> dict:
-    """Classify translator dispatch from exact current full-unit trace lines."""
+                                  expected_source_sha256: str,
+                                  structure: Mapping[str, Any]) -> dict:
+    """Join every tagged dispatch line to one compiler- and AST-bound call."""
     result = {"classification": "INCONCLUSIVE_DISPATCH_OBSERVATION",
               "proof_credit": False}
     stages = raw.get("stages", {})
@@ -2432,25 +2462,110 @@ def classify_dispatch_observation(raw: Mapping[str, Any], *,
     log = Path(raw.get("evidence_root", "")) / "verification.log"
     if not log.is_file() or stages["verification"].get("log_sha256") != _sha(log):
         return {**result, "reason": "same-invocation translated-call trace unavailable"}
-    lines = log.read_text(errors="replace").splitlines()
+    rows = [line for line in log.read_text(errors="replace").splitlines()
+            if line.startswith("SORT4-A1-DISPATCH:")]
+    if len(rows) != 3:
+        return {**result, "reason": "exactly three tagged source-bound dispatch rows required",
+                "matched_lines": len(rows)}
+    pattern = re.compile(
+        r"SORT4-A1-DISPATCH: owner=([A-Za-z_][A-Za-z0-9_]*) "
+        r"ast_call=(verified/lib\.rs\([1-9][0-9]*,[0-9]+-(?:[1-9][0-9]*,)?[0-9]+\)) "
+        r"mir_call=(verified/lib\.rs\([1-9][0-9]*,[0-9]+-(?:[1-9][0-9]*,)?[0-9]+\)) "
+        r"original=(StableSmallSortTypeImpl::(?:small_sort_threshold|small_sort)) "
+        r"translated=(StableSmallSortTypeImpl::(?:small_sort_threshold|small_sort)) "
+        r"redirect=(true|false)")
+    expected = {}
+    caller_calls = structure.get("caller_calls")
+    pair = caller_calls.get("dispatch_pair") if isinstance(caller_calls, Mapping) else None
+    if not isinstance(pair, Mapping) or set(pair) != {"quicksort", "a1_guard_observer"}:
+        return {**result, "reason": "paired source caller MIR/AST bindings are missing"}
+    for owner, expected_callees in (
+            ("quicksort", ("StableSmallSortTypeImpl::small_sort_threshold",
+                            "StableSmallSortTypeImpl::small_sort")),
+            ("a1_guard_observer", ("StableSmallSortTypeImpl::small_sort_threshold",))):
+        entry = pair[owner]
+        mir_entry = entry.get("mir") if isinstance(entry, Mapping) else None
+        binding = mir_entry.get("binding") if isinstance(mir_entry, Mapping) else None
+        ast = entry.get("ast") if isinstance(entry, Mapping) else None
+        case_binding = binding.get("case_binding") if isinstance(binding, Mapping) else None
+        if (not isinstance(binding, Mapping) or binding.get("caller") != owner or
+                not isinstance(case_binding, Mapping) or
+                case_binding.get("case_id") != "P-dispatch" or
+                case_binding.get("generated_source_sha256") != expected_source_sha256 or
+                binding.get("proof_credit") is not False or
+                not isinstance(ast, Mapping) or ast.get("owner") != owner or
+                ast.get("classification") != "CALL_AST_STRUCTURE_ONLY" or
+                ast.get("proof_credit") is not False):
+            return {**result, "reason": "caller binding identity or structure-only gate missing"}
+        mir_calls = binding.get("calls")
+        ast_calls = ast.get("calls")
+        if (not isinstance(mir_calls, (tuple, list)) or
+                not isinstance(ast_calls, (tuple, list)) or
+                not all(isinstance(row, Mapping) for row in mir_calls) or
+                not all(isinstance(row, Mapping) for row in ast_calls) or
+                [row.get("callee") for row in mir_calls] != list(expected_callees) or
+                [row.get("callee") for row in ast_calls] != list(expected_callees)):
+            return {**result, "reason": "source-derived caller call inventory differs"}
+        for mir_call, ast_call in zip(mir_calls, ast_calls):
+            callee = mir_call["callee"]
+            ast_bounds = ast_call.get("ast_call_span_bounds")
+            mir_bounds = mir_call.get("mir_call_span_ast")
+            if (_dispatch_span_text(ast_bounds) is None or
+                    _dispatch_span_text(mir_bounds) is None):
+                return {**result, "reason": "malformed AST or MIR call span"}
+            key = (owner, callee)
+            if key in expected:
+                return {**result, "reason": "duplicate expected compiler caller owner/callee"}
+            expected_mir = _dispatch_span_text(mir_bounds)
+            if (not isinstance(ast_call.get("ast_call_span"), str) or
+                    expected_mir is None or ast_bounds[0][1] != mir_bounds[0][1] or
+                    ast_bounds[0][1] != mir_call["call_line"]):
+                return {**result, "reason": "AST/MIR call spans do not bind to one certified source call line"}
+            expected[key] = (ast_call["ast_call_span"],
+                             expected_mir,
+                             mir_call["call_line"], ast_bounds)
     observed = {}
-    for tag, name in (("SORT4-A1-DISPATCH", "StableSmallSortTypeImpl::small_sort_threshold"),
-                      ("SORT4-A1-DISPATCH", "StableSmallSortTypeImpl::small_sort")):
-        matches = [line for line in lines if line.startswith(tag + ":") and
-                   ("original=" + name) in line]
-        if len(matches) != 1:
-            return {**result, "reason": "unique original common dispatch trace missing",
-                    "matched_lines": len(matches)}
-        match = re.fullmatch(re.escape(tag) + r": original=" + re.escape(name) +
-                             r" translated=" + re.escape(name) + r" redirect=false", matches[0])
+    for line in rows:
+        match = pattern.fullmatch(line)
         if match is None:
-            return {**result, "reason": "translator redirected or changed original common call"}
-        observed[name] = matches[0]
+            return {**result, "reason": "malformed owner/span dispatch row"}
+        owner, ast_span, mir_span, original, translated, redirect = match.groups()
+        key = (owner, original)
+        if key not in expected or key in observed:
+            return {**result, "reason": "unknown or duplicate owner/callee dispatch row"}
+        expected_ast, expected_mir, call_line, bounds = expected[key]
+        if (redirect != "false" or translated != original or ast_span != expected_ast or
+                mir_span != expected_mir or bounds[0][1] != call_line):
+            return {**result, "reason": "dispatch owner, call span, source line, or target differs"}
+        observed[key] = {"ast_call_span": ast_span, "mir_call_span": mir_span,
+                         "original": original, "translated": translated,
+                         "redirect": False}
     if not raw.get("artifacts", {}).get("proof-ast.ml", {}).get("sha256"):
         return {**result, "reason": "same-unit AST missing"}
+    if set(observed) != set(expected):
+        return {**result, "reason": "dispatch trace is not a bijection with source caller calls"}
     return {"classification": "ORIGINAL_COMMON_TRAIT_DISPATCH_OBSERVED",
-            "trace_lines": observed, "source_sha256": expected_source_sha256,
+            "trace_lines": [{"owner": owner, "callee": callee, **observed[(owner, callee)]}
+                            for owner, callee in sorted(observed)],
+            "source_sha256": expected_source_sha256,
             "verification_exit": 0, "proof_credit": False}
+
+
+def _dispatch_span_text(bounds):
+    if (not isinstance(bounds, (tuple, list)) or len(bounds) != 2 or
+            any(not isinstance(point, (tuple, list)) or len(point) != 3
+                for point in bounds)):
+        return None
+    (lo_path, lo_line, lo_col), (hi_path, hi_line, hi_col) = bounds
+    if (lo_path != "verified/lib.rs" or hi_path != lo_path or
+            type(lo_line) is not int or lo_line <= 0 or
+            type(hi_line) is not int or hi_line <= 0 or
+            type(lo_col) is not int or lo_col < 0 or
+            type(hi_col) is not int or hi_col < 0 or
+            (hi_line, hi_col) < (lo_line, lo_col)):
+        return None
+    end = f"{hi_line},{hi_col}" if hi_line != lo_line else str(hi_col)
+    return f"{lo_path}({lo_line},{lo_col}-{end})"
 
 
 def observe_admission_control(case_id: str, *, call_binding, compiler_inventory,
@@ -3395,7 +3510,8 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
                 source_sha = certificate["cases"]["P-dispatch"]["generated_source_sha256"]
                 observations["P-dispatch"] = {
                     **dispatch, "dispatch_classifier": classify_dispatch_observation(
-                        dispatch.get("raw", {}), expected_source_sha256=source_sha)}
+                        dispatch.get("raw", {}), expected_source_sha256=source_sha,
+                        structure=dispatch.get("structure", {}))}
                 persist_progress()
             p0a_native = first_structure.get("threshold_posts", {}).get("native")
             for case_id in ("N-default-contract", "N-freeze-contract"):

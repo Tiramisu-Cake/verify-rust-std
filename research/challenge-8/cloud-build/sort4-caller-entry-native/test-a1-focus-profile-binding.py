@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import subprocess
 from pathlib import Path
 import tempfile
 import unittest
@@ -277,6 +278,8 @@ class FocusProfileBindingTests(unittest.TestCase):
         self.assertEqual(hashlib.sha256(profile_path.read_bytes()).hexdigest(),
                          "a1be5bef10b27946185df84cf6b8fb7fde4417c05cf4bc08d0f75de1c8462f97")
         historically_advanced = {
+            "a1-call-binding.py":
+                "0e6d606bf434cee9973d2eb0c687e5942bd900e92f18976f5687c933cb2d6e74",
             "a1-synthetic-backend.py":
                 "9c610e3b0e9cdfff4271e19c563bb84687ab731959cc53924be15a0028c0f4c6",
             "a1-matrix-classifier.py":
@@ -374,8 +377,12 @@ class FocusProfileBindingTests(unittest.TestCase):
         self.assertEqual(profile["c_before"], profile["r_after"])
         # R11 adds a checked-helper command stage after the historical R10 C
         # overlay. The immutable native-signature manifest still describes R10.
-        self.assertEqual(profile["c_patch_sha256"], hashlib.sha256(
-            (HERE / "checked-threshold-contract.patch").read_bytes()).hexdigest())
+        historical_patch = subprocess.check_output(
+            ["git", "show", "f0885963ab203a908811d41b88729fe9b1beebf5:" +
+             (HERE / "checked-threshold-contract.patch").relative_to(repo_root).as_posix()],
+            cwd=repo_root)
+        self.assertEqual(profile["c_patch_sha256"],
+                         hashlib.sha256(historical_patch).hexdigest())
         self.assertEqual(profile["c_after"][translator],
                          "9f065ebe4937cc08383ccd8791e956558202a5ab7a045f0bef74d229234a4a71")
 
