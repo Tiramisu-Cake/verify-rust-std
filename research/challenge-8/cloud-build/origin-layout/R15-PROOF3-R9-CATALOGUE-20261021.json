@@ -1,0 +1,45 @@
+{
+  "archive_sha256": "5591b364e4e6f9289772f53d15cdd4c044e9a6f23f17fb51230fe439bb64c0b5",
+  "build_id": "c923eac8-f511-4a1d-ac93-4785f511da5d",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 595,
+      "EMPTY_FILE": 20,
+      "JSON_EXCEEDS_SCAN_LIMIT": 6,
+      "PROJECTED": 580,
+      "SCAN_BUDGET_EXCEEDED": 955,
+      "UNSUPPORTED_FILE_TYPE": 1410
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2086429,
+    "content_files": 606,
+    "files": 3566,
+    "source_scan_bytes": 8388608
+  },
+  "index_sha256": "c9ef5c610bd21ad1fb2cb26bf8cd3825a7535a255563e9980a5b9cf2db132fc2",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "6a1265e818537cc1764b2d1b48d758ef7d037166f56da30c7b03e15ea94ba924",
+      "kind": "json",
+      "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/guard-return-recovery-controls/aggregate.json",
+      "path_sanitized": false,
+      "scanned_bytes": 21588,
+      "sha256": "49045ee412ce2d0e7b2b96a55b0206b0cfe7d8a2c740297fd96b0cef2bd1523f",
+      "size_bytes": 21588,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 3566,
+    "files_with_incomplete_content": 3481,
+    "matches_in_retained_data": 1,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

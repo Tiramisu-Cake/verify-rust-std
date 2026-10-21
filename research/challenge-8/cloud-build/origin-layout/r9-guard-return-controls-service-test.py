@@ -170,10 +170,19 @@ def _execute(case, args, env, behavior=None):
         elif case_name == "duplicate_end":
             message = "No matching heap chunks: ref_readonly_end_token"
             if behavior == "canonical_spec":
-                message = "bin/rust/aliasing.rsspec(50,1): No matching heap chunks: ref_readonly_end_token"
+                message = ("/workspace/merge-work/runner-temp/challenge8-merge-overnight/"
+                           "verifast-tracked-md-source/bin/rust/aliasing.rsspec(50,9-31): "
+                           "error: No matching heap chunks: ref_readonly_end_token")
         elif (case_name == "wrongorigin" and
               meta.get("mutant_version") == "wrongorigin-v2-end-token-origin"):
             message = "No matching heap chunks: ref_readonly_end_token(begin,_,_)"
+            if behavior == "canonical_spec":
+                message = ("/workspace/merge-work/runner-temp/challenge8-merge-overnight/"
+                           "verifast-tracked-md-source/bin/rust/aliasing.rsspec(50,9-31): "
+                           "error: No matching heap chunks: ref_readonly_end_token(begin,_,_)")
+            elif behavior == "wrong_spec":
+                message = ("bin/rust/aliasing.rsspec(51,1): No matching heap chunks: "
+                           "ref_readonly_end_token(begin,_,_)")
         else:
             message = "Cannot prove condition points_to(begin,_)"
         if behavior == "wrong_predicate":
@@ -182,7 +191,12 @@ def _execute(case, args, env, behavior=None):
                           error_line if 'error_line' in locals() else line)
         if behavior == "loop_refusal":
             message = "Loop invariant required."
-        log = f"verified/lib.rs({error_location},4): error: {message}\n"
+        if behavior == "canonical_spec":
+            log = f"{message}\n"
+        elif behavior == "wrong_spec":
+            log = f"{message}: error: diagnostic at the wrong spec location\n"
+        else:
+            log = f"verified/lib.rs({error_location},4): error: {message}\n"
         if behavior == "ambiguous_line":
             log += f"verified/lib.rs({line + 1},4): error: {message}\n"
     if behavior == "timeout":
@@ -308,6 +322,64 @@ class R9GuardReturnControlsTests(unittest.TestCase):
                              control["expected_error_line"])
             self.assertEqual(control["expected_predicates"], ["ref_readonly_end_token"])
 
+    def test_r10_wrongorigin_v2_accepts_canonical_spec_at_last_target(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output, _ = self._run(
+                Path(temporary), profile=controls.R10_PROFILE,
+                source_profile=controls.R10_PROFILE,
+                callback=lambda case, args, env: _execute(
+                    case, args, env,
+                    "canonical_spec" if case.name == "wrongorigin" else None))
+            row = output["cases"]["wrongorigin"]
+            self.assertTrue(row["matched"])
+            self.assertTrue(row["canonical_spec_error_last_at_target"])
+            self.assertFalse(row["error_at_target"])
+            self.assertTrue(row["native_pre_recovery_binding"]["admitted"])
+            self.assertTrue(row["target_line_executed"])
+            self.assertEqual(row["last_executed_line_before_error"],
+                             row["expected_error_line"])
+            self.assertTrue(row["recovery_completion_absent"])
+
+    def test_r10_wrongorigin_canonical_spec_still_requires_binding_and_stage_receipts(self):
+        for defect in ("missing_binding", "missing_stage_receipt"):
+            with self.subTest(defect=defect), tempfile.TemporaryDirectory() as temporary:
+                def execute(case, args, env):
+                    result = _execute(case, args, env,
+                                      "canonical_spec" if case.name == "wrongorigin" else None)
+                    if case.name == "wrongorigin":
+                        if defect == "missing_binding":
+                            log = case / "verifast.log"
+                            log.write_text(log.read_text().replace(_event("before") + "\n", "", 1))
+                        else:
+                            (case / "decode-stage.json").unlink()
+                    return result
+
+                output, _ = self._run(Path(temporary), profile=controls.R10_PROFILE,
+                                      source_profile=controls.R10_PROFILE, callback=execute)
+                row = output["cases"]["wrongorigin"]
+                self.assertFalse(row["matched"])
+                self.assertEqual(row["classification"], "INCONCLUSIVE")
+                if defect == "missing_binding":
+                    self.assertTrue(row["canonical_spec_error_last_at_target"])
+                    self.assertFalse(row["native_pre_recovery_binding"]["admitted"])
+                else:
+                    self.assertFalse(row["stage_receipt_gate"]["admitted"])
+
+    def test_r10_wrongorigin_v2_rejects_bad_receipt_binding_and_spec_location(self):
+        for behavior in ("wrong_spec", "missing_receipt", "wrong_status",
+                         "partial_stages", "mutated_source", "no_binding",
+                         "wrong_binding", "loop_refusal", "complete_before_error"):
+            with self.subTest(behavior=behavior), tempfile.TemporaryDirectory() as temporary:
+                output, _ = self._run(
+                    Path(temporary), profile=controls.R10_PROFILE,
+                    source_profile=controls.R10_PROFILE,
+                    callback=lambda case, args, env: _execute(
+                        case, args, env,
+                        behavior if case.name == "wrongorigin" else None))
+                row = output["cases"]["wrongorigin"]
+                self.assertFalse(row["matched"])
+                self.assertEqual(row["classification"], "INCONCLUSIVE")
+
     def test_r10_wrongorigin_v2_rejects_unrelated_or_early_diagnostics(self):
         for behavior in ("wrong_predicate", "wrong_binding", "loop_refusal",
                          "complete_before_error"):
@@ -324,7 +396,7 @@ class R9GuardReturnControlsTests(unittest.TestCase):
                 self.assertFalse(row["matched"])
                 self.assertEqual(row["classification"], "INCONCLUSIVE")
 
-    def test_duplicate_marker_binds_inserted_outer_statement_span(self):
+    def test_duplicate_marker_binds_first_outer_statement_span(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             source_case, record = _source_case(root)
@@ -335,7 +407,7 @@ class R9GuardReturnControlsTests(unittest.TestCase):
                                   source_case, record)
             row = output["cases"]["duplicate_marker"]
             self.assertTrue(row["matched"])
-            self.assertEqual(row["expected_error_span"], (12, 5, 20, 10))
+            self.assertEqual(row["expected_error_span"], (3, 5, 11, 10))
             with tempfile.TemporaryDirectory() as mismatch_temp:
                 mismatch_root = Path(mismatch_temp)
                 mismatch_source, mismatch_record = _source_case(mismatch_root)

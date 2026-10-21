@@ -1,0 +1,45 @@
+{
+  "archive_sha256": "5591b364e4e6f9289772f53d15cdd4c044e9a6f23f17fb51230fe439bb64c0b5",
+  "build_id": "c923eac8-f511-4a1d-ac93-4785f511da5d",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 2,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "6a1265e818537cc1764b2d1b48d758ef7d037166f56da30c7b03e15ea94ba924",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/guard-return-recovery-controls/aggregate.json",
+  "file_sha256": "49045ee412ce2d0e7b2b96a55b0206b0cfe7d8a2c740297fd96b0cef2bd1523f",
+  "index_sha256": "c9ef5c610bd21ad1fb2cb26bf8cd3825a7535a255563e9980a5b9cf2db132fc2",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "49045ee412ce2d0e7b2b96a55b0206b0cfe7d8a2c740297fd96b0cef2bd1523f",
+    "file_id": "6a1265e818537cc1764b2d1b48d758ef7d037166f56da30c7b03e15ea94ba924",
+    "pointer": "/cases/duplicate_marker/stage_receipt_gate"
+  },
+  "request_id": "33872577842d308893dcf9a86d0b61205d81abcda761682678c611446cdb4ed8",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/cases/duplicate_marker/stage_receipt_gate/admitted",
+      "value": true
+    },
+    {
+      "child_count": 4,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/cases/duplicate_marker/stage_receipt_gate/stages"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

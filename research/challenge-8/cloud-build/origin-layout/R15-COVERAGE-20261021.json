@@ -1,0 +1,52 @@
+{
+  "schema": "merge-r15-coverage-v1",
+  "latest_actual_build": "f89ce5ff-644e-46ef-90da-044c96931270",
+  "latest_actual_source_sha": "97a9766513d5567bd291d8e49b71240ce246c472",
+  "source_claims_only": true,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "full_target_gates": 0,
+  "accepted": false,
+  "independent_credit": 0,
+  "observed_progress": {
+    "late_singleton_fold": "prior refusal passed on observed actual path after checked empty-tail open/reclose",
+    "post_drop_array3": "prior count3 refusal passed after explicit fixed-count opens/closes of CURRENT initialized cells",
+    "invariant_produced_first_singleton": "prior count0 nil matching refusal passed after existential output open",
+    "latest_first_error": "b2_three_from_local verified/lib.rs(441,17-23) Placeholders are not allowed here"
+  },
+  "latest_array_controls": {
+    "classification": "DIAGNOSTIC_CONTROLS_CLASSIFIED",
+    "positive_pass": 4,
+    "negative_expected": 5,
+    "same_build": true,
+    "proof_credit": false
+  },
+  "latest_r9_controls": {
+    "classification": "INCONCLUSIVE",
+    "remaining_inconclusive": 2,
+    "new_expected_span_and_spec_correction": "Luna HIGH GO;18 synthetic tests PASS; not run in Cloud"
+  },
+  "open": [
+    "full insert_tail",
+    "independent backedge proof",
+    "CURRENT false/true/panic completeness",
+    "original prefix/local-array caller gate",
+    "physical BeforeLive/addressability and source-named unit empirical negatives as separately required",
+    "B2",
+    "generic T/arbitrary n",
+    "independent qualification"
+  ],
+  "unchanged": {
+    "tool": "660b576b6b1608db913c51e0785b443a8733396f",
+    "profile": "experimental-merge-label-storage-r11-v1",
+    "existing_R8_trusted_allocation_premise": "scope unchanged; not proved from old model",
+    "runtime_std_CFG": "unchanged",
+    "publisher": "accepted R14 path unchanged",
+    "historical_evidence_and_ledgers": "unchanged"
+  },
+  "evidence_source": [
+    "R15-PROOF4-BRIEF-20261021.txt",
+    "R15-PROOF4-BODY-CLASSIFICATION-20261021.json",
+    "R15-PROOF4-RESULT-20261021.json"
+  ],
+  "budget_stop": "910 remaining <1037 measured complete cycle requirement; retired without carry; no controls/evidence reduction"
+}

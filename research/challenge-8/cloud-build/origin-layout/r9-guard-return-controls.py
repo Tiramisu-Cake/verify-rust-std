@@ -83,7 +83,7 @@ R10_CASES = {**CASES,
         "kind": "resource",
         "target_anchor": WRONG_END_TOKEN_ORIGIN_V2,
         "expected_predicates": ("ref_readonly_end_token",),
-        "expected_spec": None,
+        "expected_spec": ("bin/rust/aliasing.rsspec(50,",),
         "mutant_version": "wrongorigin-v2-end-token-origin",
     },
 }
@@ -327,19 +327,15 @@ def _mutate(name: str, source: bytes, cases: dict = CASES) -> tuple[bytes, int, 
         if indent.strip(b" \t"):
             raise ValueError("duplicate_marker outer statement indentation is not whitespace")
         mutated = source[:end] + b"\n" + indent + block + source[end:]
-        # StaticError is attached to the outer PureStmt location, not the
-        # marker invocation within that block. Bind it to the inserted block.
+        # StaticError is attached to the first outer PureStmt location, not
+        # the marker invocation or cloned second block.
         inserted_start = mutated.find(b"/*@ {", end + 1)
         if inserted_start < 0:
             raise ValueError("duplicate_marker inserted outer statement is absent")
-        close_brace = block.rfind(b"} @*/")
-        if close_brace < 0:
-            raise ValueError("duplicate_marker cloned block has no closing brace")
-        start_line, start_col = _byte_line_col(mutated, inserted_start)
-        end_line, end_col = _byte_line_col(
-            mutated, inserted_start + close_brace + len(b"} @*/"))
+        start_line, start_col = _byte_line_col(mutated, start)
+        end_line, end_col = _byte_line_col(mutated, end)
         expected_span = (start_line, start_col, end_line, end_col)
-        pos = inserted_start
+        pos = start
     elif name == "missing_marker":
         start, end, block = _marker_span(source)
         if block.count(MARKER) != 1:

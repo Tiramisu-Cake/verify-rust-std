@@ -2,7 +2,7 @@
 
 ## Авторизация и рабочее место
 
-- **ID:** `merge-singleton-array-autonomous-2026-10-21-r15`; **статус:** READY, T0 ещё не задан.
+- **ID:** `merge-singleton-array-autonomous-2026-10-21-r15`; **статус:** CLOSED; T0 `2026-10-21T14:12:12Z`, account закрыт `2026-10-21T15:42:43Z`.
 - **Owner:** `merge`; **project worktree:** `/root/verify-rust-std-merge-origin`; **branch:** `merge/incoming-origin-20261009`; **репозиторий:** `Tiramisu-Cake/verify-rust-std`.
 - **Tool worktree:** `/root/verifast-merge-actual-glue`; **branch:** `merge/actual-glue-instance-20261011`; исходный head **`660b576b6b1608db913c51e0785b443a8733396f`**. Проверь actual status и чужое сохрани; новые tool commits/pins в scope ниже разрешены.
 - **Новое окно:** 120 минут основной работы + до30 минут завершения. T0 при фактическом старте после чтения; main=T0+120мин, absolute=T0+150мин. Запиши session/новый ledger/текущий статус.
@@ -71,4 +71,19 @@ VPS — чтение/правки/Git/hashes/static parsing и малые isolat
 
 ## Отчёт агента
 
-В работе. T0 2026-10-21T14:12:12Z; main16:12:12Z; absolute16:42:12Z. Proof1 e512d1a9 прошёл прежний singletonfold, отказалR9count3 (868charged). Proof2 818dfb01 EXPIREDqueue/130charged/execution0, BriefHTTP404. Unchanged proofretry Proof3 c923eac8/sourcecaa419b6 прошёл R9count3 на наблюдённом пути; новыйотказsource301 при openarray(begin+1,0,nil) после invariant-produced singleton open (793charged). Briefобоихproof VERIFIED_ARCHIVE_AND_INVENTORY; fullgates0/acceptedfalse/credit0. Spent1791/remaining1809/carryfalse, ownactive0/unresolved0. Следующий кандидат LunaHIGH GO: три count0 open с existentialoutput; fixedlist/scalar positivecontrol; tool/profile прежние, reserve420/execute780. Session/result под `cloud-build/origin-layout/R15-*`. Чужие изменения сохранены.
+R15 CLOSED. T0 **2026-10-21T14:12:12Z**, main16:12:12Z, absolute16:42:12Z; account закрыт15:42:43Z. Отчёт завершён 2026-10-21T15:49:15Z; checkpoint публикуется в текущей ветке. Goal: checked singleton fold, затем actual moving-gap/CURRENT. Baseline отказал на late singleton equality; последний прогон дошёл до caller `b2_three_from_local`, `verified/lib.rs(441,17-23): Placeholders are not allowed here`. Полный target **INCONCLUSIVE**, acceptedfalse, gates0, independentcredit0; backedge/CURRENT false-true-panic/B2/generic/qualification остаются OPEN.
+
+| Build UUID | Exact source=infra SHA | Гипотеза / результат | Charge / execution |
+|---|---|---|---|
+| e512d1a9-308c-4015-9e06-9b6d42a26bd4 | 5f9de86debac0aa569b045912ddce683a0474f1e | Checked empty-tail unfold/reclose; прежний singleton отказ пройден на наблюдённом пути, следующий R9 count3 refusal | 868 / 867 |
+| 818dfb01-0164-4494-a1ce-888031dbc821 | e503ddb677a87ca9d7b06890e775a6e4c225c60b | Explicit fixed-count CURRENT reassembly; EXPIRED в очереди, execution0, Brief HTTP404, proof result не получен | 130 / 0 |
+| c923eac8-f511-4a1d-ac93-4785f511da5d | caa419b67143af61220992ff26892c72a756d22c | Установленный transient infra retry, proof/runtime blobs прежние; R9 count3 пройден, count0 witness refusal на source301; новый control отвергнут из-за list/scalar type bug | 793 / 792 |
+| f89ce5ff-644e-46ef-90da-044c96931270 | 97a9766513d5567bd291d8e49b71240ce246c472 | Три existential count0 opens + scalar/list control fix; следующий refusal в caller441 | 899 / 898 |
+
+Для всех proof Builds package-uploadSUCCESS/Brief VERIFIED_ARCHIVE_AND_INVENTORY; это integrity, не формальное принятие. Exact config/recipe/profile/input identities и измерения: [Proof1](cloud-build/origin-layout/R15-PROOF1-RESULT-20261021.json), [Proof3](cloud-build/origin-layout/R15-PROOF3-RESULT-20261021.json), [Proof4](cloud-build/origin-layout/R15-PROOF4-RESULT-20261021.json), соответствующие `R15-PROOF*-INPUTS/PREFLIGHT` и [ledger](cloud-build/origin-layout/CURRENT-RECOVERY-R15-BUDGET-20261021.json). Latest execute541.144120s, package344.142971s, verdict1.068405s. Tool build milestones exit0 отдельно от verifier exit1.
+
+Proof4 array controls source classification: **4 positive PASS + 5 EXPECTED negatives**, все9 в одном Build; это diagnostic controls, не theorem. R9 controls старой версии: 2INCONCLUSIVE сохранены. Их source/stage/native binding evidence выявила неверный expected span первого marker и отсутствующий canonical spec selector wrongorigin. Исправленный classifier получил независимый **Luna HIGH GO**, 18 synthetic service tests PASS (standalone spec error, target/last-target/native/source/stage/no-completion gates, отрицательные случаи). Этот последний runner diff **Cloud-unverified**, в Proof4 его нет. Новых tool/model/runtime/CFG изменений нет; tool660b576b/profile прежние. Чужие изменения сохранены.
+
+**Бюджет:** spent2690 (execution2557), retired910, remaining0, carryfalse. Own active/unresolved/requests/reservations **0/0/0/0**, все4 Builds terminal/accounted. Остаток910 не вмещал измеренный execute541.145 + margin15 + publication420 + queue60 = ceil1037; controls/evidence не сокращены. [Release](cloud-build/origin-layout/R15-RELEASE-20261021.json), [session](cloud-build/origin-layout/R15-SESSION-20261021.md), [design](cloud-build/origin-layout/R15-SINGLETON-DESIGN-20261021.md), [review](cloud-build/origin-layout/R15-REVIEW-20261021.md).
+
+Следующий шаг: узкий source-preserving caller unsize/lifetime fix с сохранением slice metadata/borrow ownership либо checked equivalent caller adapter при сохранении оригинального обязательного gate; broad placeholder acceptance не обоснован. Нужен новый авторизованный бюджет для actual проверки caller и нового R9 classifier, затем всего совместимого обязательного набора. Parser-input binding прямым доказательством не установлен; raw evidence не читалось.

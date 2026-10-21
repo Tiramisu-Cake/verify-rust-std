@@ -1,0 +1,58 @@
+{
+  "schema": "merge-r15-proof-result-v1",
+  "build_id": "f89ce5ff-644e-46ef-90da-044c96931270",
+  "status": "FAILURE",
+  "charge": 899,
+  "execution_charge": 898,
+  "source_sha": "97a9766513d5567bd291d8e49b71240ce246c472",
+  "steps": [
+    {
+      "id": "execute",
+      "status": "SUCCESS",
+      "seconds": 541.14412
+    },
+    {
+      "id": "package-upload",
+      "status": "SUCCESS",
+      "seconds": 344.142972
+    },
+    {
+      "id": "verdict",
+      "status": "FAILURE",
+      "seconds": 1.068406
+    }
+  ],
+  "proof_result": "INCONCLUSIVE",
+  "accepted": false,
+  "independent_credit": 0,
+  "brief": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "archive_sha256": "bd8528d10cd844bcf6166bafbd23c71259e2d1bd93d44fb2b935c050407a8433",
+  "index_sha256": "ed45e6f8fc924180d47b5be4a3388b49ed26ea670d716e0fc50d193bbb80b1cb",
+  "first_error": "verified/lib.rs(441,17-23): Placeholders are not allowed here in b2_three_from_local",
+  "observed_frontier": "synthetic local-array caller; prior checked array recovery refusals passed on observed paths",
+  "full_insert_tail_proved": false,
+  "current_false_true_panic_proved": false,
+  "b2_achieved": false,
+  "backedge_independently_proved": false,
+  "proof_credit": false,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "array_controls_source_claim": {
+    "positive_pass": 4,
+    "negative_expected": 5,
+    "classification": "DIAGNOSTIC_CONTROLS_CLASSIFIED"
+  },
+  "r9_controls_source_claim": {
+    "inconclusive": 2,
+    "expected_control": 1,
+    "source_classified": 2
+  },
+  "r9_new_classifier": "Luna HIGH reviewed and18 synthetic tests PASS; not in this Build; Cloud unverified",
+  "reader_observations": [
+    "R15-PROOF4-BODY-CLASSIFICATION-20261021.json",
+    "R15-PROOF4-BODY-ENTRY-READER-20261021.json",
+    "R15-PROOF4-WRAPPER-SOURCE-READER-20261021.json",
+    "R15-PROOF4-AST-UNSIZE-READER-20261021.json",
+    "R15-PROOF4-ARRAY-POST-DROP-READER-20261021.json"
+  ],
+  "post_drop_array3_reconstruction_source_claim": "PASS_CONTROL"
+}
