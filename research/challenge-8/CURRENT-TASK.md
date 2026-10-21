@@ -58,4 +58,13 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 
 ## Отчёт агента
 
-Merge-R11 ещё не начата. T0/deadlines/новую authorization binding и ledger заполняет агент при фактическом старте. Дополнительного разрешения на первый/следующий Build в scope не требуется.
+R11 ACTIVE. T0/main/absolute2026-10-21 06:14:39/08:14:39/08:44:39UTC.
+Новый ceiling3600/used0; старый R10CLOSED/735retired не переносится.
+Ближайшая цель: exact symbolic execution Live/Dead и label-invariant consume/
+produce/backedge, затем source-preserving placement fix только по Evidence.
+Candidate1 read-only diagnostics to a3a22f98; LunaHIGH GO после исправления
+передачи decoded block/cleanup metadata. State/resources/checks не меняются.
+Runner isolated env/partial/error tests5PASS; invariant assembly3PASS; phase/
+source closure registration проверяется. Actual compilation/formal gates pending.
+Own Build отсутствует; registration/request/submit только после exactpublished
+closure и полного review. Все proof/B2/qualificationOPEN,acceptedfalse/credit0.

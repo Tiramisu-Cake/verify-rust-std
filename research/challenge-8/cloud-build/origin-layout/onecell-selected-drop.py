@@ -75,7 +75,8 @@ BODY_GLUE_PROFILES = (BODY_GLUE_PROFILE, "experimental-merge-guard-addressabilit
                       "experimental-merge-late-callback-recovery-r7-v1",
                       "experimental-merge-owned-array-allocation-r8-v1",
                       "experimental-merge-guard-current-return-r9-v1",
-                      "experimental-merge-moving-gap-r10-v1")
+                      "experimental-merge-moving-gap-r10-v1",
+                      "experimental-merge-label-storage-r11-v1")
 GENERATED_GLUE_NAME = "__vf_generated_drop_glue"
 CANONICAL_METHOD_PROOF_STATEMENTS = [
     "Open", "Open", "Assert", "Assert", "ExprStmt", "ExprStmt", "Assert", "Assert",
@@ -1056,7 +1057,8 @@ def run(evidence: Path, args, env: dict, execute_case, validated_receipt: dict) 
                             "experimental-merge-late-callback-recovery-r7-v1",
                             "experimental-merge-owned-array-allocation-r8-v1",
                             "experimental-merge-guard-current-return-r9-v1",
-                            "experimental-merge-moving-gap-r10-v1"):
+                            "experimental-merge-moving-gap-r10-v1",
+                            "experimental-merge-label-storage-r11-v1"):
         raise RuntimeError("selected Drop exact supported experimental profile required")
     consumer.PROFILE = args.profile
     receipt = consumer._validate_receipt(args, validated_receipt, provider, proof_sha)

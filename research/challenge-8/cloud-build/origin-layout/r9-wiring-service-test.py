@@ -107,7 +107,7 @@ def main():
     assert isinstance(keywords.get("action"), ast.Constant) and keywords["action"].value == "store_true"
     assert isinstance(keywords.get("default"), ast.Constant) and keywords["default"].value is False
     source = ast.unparse(parser_tree)
-    assert "args.profile not in (R8_PROFILE, R9_PROFILE, R10_PROFILE)" in source
+    assert "args.profile not in (R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE)" in source
     baseline_path = HERE / "R9-BASELINE-PROFILE-20261020.json"
     baseline_raw = baseline_path.read_bytes()
     assert hashlib.sha256(baseline_raw).hexdigest() == (

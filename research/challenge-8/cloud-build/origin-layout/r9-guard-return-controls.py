@@ -22,9 +22,11 @@ _spec.loader.exec_module(_r7)
 
 CAMPAIGN = "r9-guard-return-controls-v1"
 R10_CAMPAIGN = "r10-guard-return-controls-v2"
+R11_CAMPAIGN = "r11-guard-return-controls-v1"
 R9_PROFILE = "experimental-merge-guard-current-return-r9-v1"
 R10_PROFILE = "experimental-merge-moving-gap-r10-v1"
-SUPPORTED_PROFILES = (R9_PROFILE, R10_PROFILE)
+R11_PROFILE = "experimental-merge-label-storage-r11-v1"
+SUPPORTED_PROFILES = (R9_PROFILE, R10_PROFILE, R11_PROFILE)
 TRACE_ENV = "SMALLSORT_R9_GUARD_TRACE"
 RECOVERY_ENV = "SMALLSORT_R9_GUARD_RETURN_RECOVERY"
 STAGES = ("exporter", "decode", "refinement", "verifast")
@@ -480,10 +482,11 @@ def run(evidence: Path, args, env: dict, execute_case, source_case: Path,
     evidence = Path(evidence)
     profile = getattr(args, "profile", None)
     is_r10 = profile == R10_PROFILE
-    result = {"schema": R10_CAMPAIGN if is_r10 else CAMPAIGN, "profile": profile,
+    is_r11 = profile == R11_PROFILE
+    result = {"schema": R11_CAMPAIGN if is_r11 else R10_CAMPAIGN if is_r10 else CAMPAIGN, "profile": profile,
               "accepted": False, "proof_credit": False, "all_matched": False,
               "classification": "INCONCLUSIVE", "cases": {}}
-    cases = R10_CASES if is_r10 else CASES
+    cases = R10_CASES if (is_r10 or is_r11) else CASES
     if evidence.exists():
         reason = "refusing to reuse R9 guard-return control evidence directory"
         result["cases"] = {name: _not_run(name, reason) for name in cases}
@@ -559,7 +562,8 @@ def run(evidence: Path, args, env: dict, execute_case, source_case: Path,
     result["all_matched"] = (set(results) == set(cases) and
                              all(row.get("matched") is True for row in results.values()))
     result["classification"] = (
-        ("ALL_INTENDED_R10_GUARD_RETURN_CONTROLS_MATCHED" if is_r10 else
+        ("ALL_INTENDED_R11_GUARD_RETURN_CONTROLS_MATCHED" if is_r11 else
+         "ALL_INTENDED_R10_GUARD_RETURN_CONTROLS_MATCHED" if is_r10 else
          "ALL_INTENDED_R9_GUARD_RETURN_CONTROLS_MATCHED")
         if result["all_matched"] else "INCONCLUSIVE")
     _write_receipt(evidence, result)

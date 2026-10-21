@@ -1,3 +1,17 @@
+# Merge-R11 ACTIVE — label storage execution binding
+
+T006:14:39/main08:14:39/absolute08:44:39UTC2026-10-21; new3600Cloud seconds,
+used0/no R10carry. Candidate1 toola3a22f98 adds read-only runtime storage and
+generic label invariant consume/check/produce receipts; native decoded plan is
+separate from execution. No storage check/resource/model/algorithm change.
+LunaHIGH tool+registration GO after metadata/label findings fixed; static closure
+and relevant isolated service gates PASS. First fullcompile+actualtarget Build
+plannedtimeout1200/reserve1260 after exactpublishedSHA. Proof/B2/qualificationOPEN,
+acceptedfalse/credit0. T0/newledger explicit; foreign dirty docs preserved.
+[Task](CURRENT-TASK.md), [design](cloud-build/origin-layout/R11-LABEL-STORAGE-DESIGN-20261021.md),
+[review](cloud-build/origin-layout/R11-CANDIDATE1-REVIEW-20261021.md).
+Prior snapshots below are historical.
+
 # Merge-R11 READY — label invariant / annotation temporary
 
 2026-10-21: [новое самостоятельное задание Merge-R11](CURRENT-TASK.md): **120мин + до30мин завершения, свежие3600 Cloud-секунд, без лимита последовательных Builds**, timeout90..1200/envelope+60. T0 при фактическом старте; R10 CLOSED/735retired не переносить. Worktrees `/root/verify-rust-std-merge-origin` и `/root/verifast-merge-actual-glue`, branch `merge/incoming-origin-20261009`, toolbb557d43.

@@ -239,6 +239,9 @@ class R9GuardReturnControlsTests(unittest.TestCase):
             output, calls = self._run(Path(temporary), profile=controls.R10_PROFILE,
                                       source_profile=controls.R10_PROFILE)
             self.assertTrue(output["all_matched"])
+            self.assertEqual(output["classification"],
+                             "ALL_INTENDED_R10_GUARD_RETURN_CONTROLS_MATCHED")
+            self.assertFalse(output["proof_credit"])
             self.assertEqual(set(calls), set(output["cases"]))
         for active, source in ((controls.R9_PROFILE, controls.R10_PROFILE),
                                (controls.R10_PROFILE, controls.R9_PROFILE)):
@@ -248,11 +251,24 @@ class R9GuardReturnControlsTests(unittest.TestCase):
                 self.assertTrue(all(row["classification"] == "NOT_RUN"
                                     for row in output["cases"].values()))
 
+    def test_r11_profile_has_distinct_classification_without_proof_credit(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output, calls = self._run(Path(temporary), profile=controls.R11_PROFILE,
+                                      source_profile=controls.R11_PROFILE)
+            self.assertTrue(output["all_matched"])
+            self.assertEqual(output["classification"],
+                             "ALL_INTENDED_R11_GUARD_RETURN_CONTROLS_MATCHED")
+            self.assertFalse(output["accepted"])
+            self.assertFalse(output["proof_credit"])
+            self.assertEqual(set(calls), set(output["cases"]))
+
     def test_exact_baseline_and_all_five_narrow_controls(self):
         with tempfile.TemporaryDirectory() as temporary:
             output, calls = self._run(Path(temporary))
             self.assertTrue(output["baseline"]["admitted"])
             self.assertTrue(output["all_matched"])
+            self.assertEqual(output["classification"],
+                             "ALL_INTENDED_R9_GUARD_RETURN_CONTROLS_MATCHED")
             self.assertFalse(output["accepted"])
             self.assertFalse(output["proof_credit"])
             self.assertEqual(set(calls), set(controls.CASES))

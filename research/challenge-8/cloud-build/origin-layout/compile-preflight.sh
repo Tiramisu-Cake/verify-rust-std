@@ -76,7 +76,8 @@ sources = {
 }
 if p['profile'] in ('experimental-merge-owned-array-allocation-r8-v1',
                      'experimental-merge-guard-current-return-r9-v1',
-                     'experimental-merge-moving-gap-r10-v1'):
+                     'experimental-merge-moving-gap-r10-v1',
+                     'experimental-merge-label-storage-r11-v1'):
     sources.update({
         'src/frontend/verifast0.ml':'options_source_sha256',
         'src/vfconsole/vfconsole.ml':'console_source_sha256',
@@ -93,7 +94,8 @@ patches = [
 ]
 if p['profile'] in ('experimental-merge-owned-array-allocation-r8-v1',
                      'experimental-merge-guard-current-return-r9-v1',
-                     'experimental-merge-moving-gap-r10-v1'):
+                     'experimental-merge-moving-gap-r10-v1',
+                     'experimental-merge-label-storage-r11-v1'):
     patches.append((origin_layout/'r8-owned-array-allocation.patch',
                     'owned_array_allocation_patch_sha256'))
 for path, key in patches:
@@ -190,7 +192,8 @@ sources = {
 }
 if p['profile'] in ('experimental-merge-owned-array-allocation-r8-v1',
                      'experimental-merge-guard-current-return-r9-v1',
-                     'experimental-merge-moving-gap-r10-v1'):
+                     'experimental-merge-moving-gap-r10-v1',
+                     'experimental-merge-label-storage-r11-v1'):
     sources.update({
         'src/frontend/verifast0.ml':'options_source_sha256',
         'src/vfconsole/vfconsole.ml':'console_source_sha256',

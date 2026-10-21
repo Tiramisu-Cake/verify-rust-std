@@ -37,6 +37,7 @@ PROFILE = concrete_consumer.PROFILE
 R8_PROFILE = "experimental-merge-owned-array-allocation-r8-v1"
 R9_PROFILE = "experimental-merge-guard-current-return-r9-v1"
 R10_PROFILE = "experimental-merge-moving-gap-r10-v1"
+R11_PROFILE = "experimental-merge-label-storage-r11-v1"
 CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
          "double_physical_fbc")
 CAMPAIGN = "incoming-origin-controls-only-v1"
@@ -348,7 +349,7 @@ def execute_case(case: Path, args, env: dict) -> dict:
     if args.profile in ("experimental-merge-actual-glue-body-v8", "experimental-merge-guard-addressability-v1",
                            "experimental-merge-guard-addressability-emitter-r5-v1",
                            "experimental-merge-late-callback-recovery-r7-v1",
-                           R8_PROFILE, R9_PROFILE, R10_PROFILE):
+                           R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE):
         original_export = run_stage("original-exporter", [
             str(args.tool_home / "bin/vf-rust-mir-exporter"), "original/lib.rs",
             f"--sysroot={args.compiler_sysroot}", "--edition", "2021", "--crate-type", "lib",
@@ -368,7 +369,7 @@ def execute_case(case: Path, args, env: dict) -> dict:
     if getattr(args, "r4_addressability_rocq", False) is True:
         vf_arguments.append("-emit_rocq")
     r8_option = getattr(args, "r8_owned_array_allocation", False) is True
-    if r8_option and args.profile not in (R8_PROFILE, R9_PROFILE, R10_PROFILE):
+    if r8_option and args.profile not in (R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE):
         raise ValueError("R8 owned-array allocation option requires exact R8 profile or authorized R9 profile")
     if r8_option:
         vf_arguments.append("-rust_owned_array_allocation_r8")
@@ -587,7 +588,7 @@ def main() -> int:
                 "exporter_source_sha256", "schema_sha256", "guard_layout_patch_sha256", "refiner_main_source_sha256", "refiner_core_source_sha256", "z3_sha256"):
         if profile_build.get(key) != profile_card.get(key):
             raise RuntimeError(f"tracked MD profile pin differs: {key}")
-    if args.profile in (R8_PROFILE, R9_PROFILE, R10_PROFILE):
+    if args.profile in (R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE):
         for key in ("options_source_sha256", "console_source_sha256", "ide_source_sha256",
                     "owned_array_allocation_patch_sha256"):
             if profile_build.get(key) != profile_card.get(key):
@@ -617,6 +618,49 @@ def main() -> int:
                 chain[-2].get("path") != "research/challenge-8/cloud-build/origin-layout/r8-owned-array-allocation.patch" or
                 chain[-2].get("sha256") != profile_card.get("owned_array_allocation_patch_sha256")):
             raise RuntimeError("R9 patch chain must preserve the exact captured R8 baseline plus one extension")
+    if args.profile == R11_PROFILE:
+        baseline_path = HERE.parents[3] / "cloud-build/origin-layout/R11-BASELINE-PROFILE-20261021.json"
+        start_path = HERE.parents[3] / "cloud-build/origin-layout/R11-START-20261021.json"
+        trace_patch = HERE.parents[3] / "cloud-build/origin-layout/r9-guard-return-trace.patch"
+        start = json.loads(start_path.read_text())
+        baseline_sha = base.file_sha(baseline_path)
+        baseline_profile = json.loads(baseline_path.read_text())
+        chain = profile_card.get("ordered_patch_chain")
+        if (baseline_sha != start.get("baseline_profile_sha256") or
+                baseline_profile.get("effective_tool_commit") != start.get("starting_tool_commit") or
+                profile_card.get("previous_profile_sha256") != baseline_sha or
+                not isinstance(chain, list) or len(chain) != 19 or
+                chain[:-1] != baseline_profile.get("ordered_patch_chain", [])[:-1] or
+                chain[-1].get("path") != baseline_profile.get("ordered_patch_chain", [{}])[-1].get("path") or
+                chain[-1].get("sha256") != profile_card.get("guard_return_trace_patch_sha256") or
+                base.file_sha(trace_patch) != profile_card.get("guard_return_trace_patch_sha256") or
+                profile_card.get("effective_tool_commit") != profile_card.get("guard_return_trace_tool_commit")):
+            raise RuntimeError("R11 profile must retain the captured R10 chain except its regenerated cumulative diagnostic patch")
+        for relative, key in {
+            "src/verifast.ml": "kernel_sha256",
+            "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "translator_sha256",
+        }.items():
+            if not isinstance(profile_card.get(key), str) or len(profile_card[key]) != 64:
+                raise RuntimeError(f"R11 diagnostic source pin is malformed: {relative}")
+        for relative, key in {
+            "src/rust_frontend/vf_mir_exporter/src/lib.rs": "exporter_source_sha256",
+            "src/rust_frontend/vf_mir/vf_mir.capnp": "schema_sha256",
+            "src/refinement_checker/main.ml": "refiner_main_source_sha256",
+            "src/refinement_checker/refinement_checker.ml": "refiner_core_source_sha256",
+            "src/rust_frontend/vf_mir_translator/rust_parser.ml": "parser_sha256",
+            "src/frontend/ast.ml": "ast_sha256",
+            "src/frontend/ocaml_expr_of_ast.ml": "emitter_sha256",
+            "src/SExpressionEmitter.ml": "sexpression_sha256",
+            "src/verifast1.ml": "model_sha256",
+            "src/verify_expr.ml": "verify_expr_sha256",
+            "bin/rust/prelude_core.rsspec": "prelude_sha256",
+            "bin/rust/std/lib.rsspec": "stdlib_sha256",
+            "src/frontend/verifast0.ml": "options_source_sha256",
+            "src/vfconsole/vfconsole.ml": "console_source_sha256",
+            "src/vfide/vfide.ml": "ide_source_sha256",
+        }.items():
+            if profile_card.get(key) != baseline_profile.get(key):
+                raise RuntimeError(f"R11 changed a source pin outside its authorized two-file diagnostic delta: {relative}")
     if (base.file_sha(prep.ROOT / "research/challenge-8/verifast-tracked-manually-drop-regressions.rs")
             != CAMPAIGN_MD_SOURCE_SHA256):
         raise RuntimeError("geometry campaign tracked-MD baseline input identity differs")
@@ -644,7 +688,7 @@ def main() -> int:
         "src/refinement_checker/main.ml": "refiner_main_source_sha256",
         "src/refinement_checker/refinement_checker.ml": "refiner_core_source_sha256",
     }
-    if args.profile in (R8_PROFILE, R9_PROFILE, R10_PROFILE):
+    if args.profile in (R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE):
         source_pins.update({
             "src/frontend/verifast0.ml": "options_source_sha256",
             "src/vfconsole/vfconsole.ml": "console_source_sha256",
@@ -688,7 +732,7 @@ def main() -> int:
                    "rustc_version": version, "rustc_toolchain": os.environ["RUSTUP_TOOLCHAIN"], "accepted": False}
     if args.profile in ("experimental-merge-guard-addressability-v1",
                         "experimental-merge-guard-addressability-emitter-r5-v1",
-                        "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE, R10_PROFILE):
+                        "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE):
         profile_path = Path(os.environ["SMALLSORT_MERGE_PROFILE"])
         environment.update(profile_sha256=base.file_sha(profile_path),
             tool_commit=profile_card["effective_tool_commit"],
@@ -724,16 +768,16 @@ def main() -> int:
     r4_addressability = None
     if args.profile in ("experimental-merge-guard-addressability-v1",
                         "experimental-merge-guard-addressability-emitter-r5-v1",
-                        "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE, R10_PROFILE):
+                        "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE):
         control_root = args.evidence / "addressability-controls"
         try:
             control_name = ("r5-addressability-controls.py" if args.profile in (
                                 "experimental-merge-guard-addressability-emitter-r5-v1",
-                                "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE, R10_PROFILE) else
+                                "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE) else
                             "r4-addressability-controls.py")
             r4_control = load("r5_addressability_controls" if args.profile in (
                               "experimental-merge-guard-addressability-emitter-r5-v1",
-                              "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE, R10_PROFILE) else
+                              "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE) else
                               "r4_addressability_controls", HERE.parents[3] /
                               "cloud-build/origin-layout" / control_name)
             r4_addressability = r4_control.run(control_root, args, env, execute_case, environment)
@@ -777,7 +821,7 @@ def main() -> int:
         dispatch = None
         if args.profile in ("experimental-merge-guard-addressability-v1",
                             "experimental-merge-guard-addressability-emitter-r5-v1",
-                            "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE, R10_PROFILE):
+                            "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE):
             dispatch = load("first_comparator_dispatch_receipt", HERE.parents[3] /
                             "cloud-build/origin-layout/first-comparator-dispatch.py")
             profile_path = Path(os.environ["SMALLSORT_MERGE_PROFILE"])
@@ -809,7 +853,7 @@ def main() -> int:
                 actual = load("actual_insert_tail_b2", HERE.parents[3] /
                               ("cloud-build/origin-layout/first-callback.py" if args.profile in ("experimental-merge-guard-addressability-v1",
                                   "experimental-merge-guard-addressability-emitter-r5-v1",
-                                  "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE, R10_PROFILE) else
+                                  "experimental-merge-late-callback-recovery-r7-v1", R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE) else
                                "cloud-build/origin-layout/actual-insert-tail-b2.py"))
                 aggregate["actual_insert_tail_b2"] = actual.run(
                     args.evidence / "actual-insert-tail-b2", args, env,

@@ -37,6 +37,7 @@ def _profile_identity() -> str:
                        "experimental-merge-owned-array-allocation-r8-v1",
                        "experimental-merge-guard-current-return-r9-v1",
                        "experimental-merge-moving-gap-r10-v1",
+                       "experimental-merge-label-storage-r11-v1",
                        "experimental-merge-selected-drop-receiver-v4"):
         raise RuntimeError("unsupported caller-composition experimental profile identity")
     return profile

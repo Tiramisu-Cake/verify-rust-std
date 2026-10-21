@@ -18,7 +18,8 @@ R7_PROFILE = "experimental-merge-late-callback-recovery-r7-v1"
 R8_PROFILE = "experimental-merge-owned-array-allocation-r8-v1"
 R9_PROFILE = "experimental-merge-guard-current-return-r9-v1"
 R10_PROFILE = "experimental-merge-moving-gap-r10-v1"
-SUPPORTED_PROFILES = (PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE)
+R11_PROFILE = "experimental-merge-label-storage-r11-v1"
+SUPPORTED_PROFILES = (PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE)
 CAMPAIGN = "r5-addressability-controls-v1"
 
 HEADER = "#![allow(dead_code)]\n"

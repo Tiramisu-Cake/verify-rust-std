@@ -117,7 +117,7 @@ if [[ -n "${SMALLSORT_MERGE_PROFILE:-}" ]]; then
   python3 - "$SMALLSORT_MERGE_PROFILE" "$selected_patch" <<'SELECTEDPIN'
 import hashlib,json,pathlib,sys
 profile,patch=map(pathlib.Path,sys.argv[1:]);p=json.loads(profile.read_text())
-assert p['profile'] in ('experimental-merge-actual-glue-body-v8', 'experimental-merge-guard-addressability-v1', 'experimental-merge-guard-addressability-emitter-r5-v1', 'experimental-merge-late-callback-recovery-r7-v1', 'experimental-merge-owned-array-allocation-r8-v1', 'experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1') and p['accepted'] is False
+assert p['profile'] in ('experimental-merge-actual-glue-body-v8', 'experimental-merge-guard-addressability-v1', 'experimental-merge-guard-addressability-emitter-r5-v1', 'experimental-merge-late-callback-recovery-r7-v1', 'experimental-merge-owned-array-allocation-r8-v1', 'experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1', 'experimental-merge-label-storage-r11-v1') and p['accepted'] is False
 assert hashlib.sha256(patch.read_bytes()).hexdigest()==p['selected_drop_patch_sha256']
 SELECTEDPIN
   git -C "$new_home" apply --check "$selected_patch"
@@ -127,7 +127,7 @@ SELECTEDPIN
   python3 - "$SMALLSORT_MERGE_PROFILE" "$glue_patch" <<'GLUEPIN'
 import hashlib,json,pathlib,sys
 p=json.loads(pathlib.Path(sys.argv[1]).read_text());patch=pathlib.Path(sys.argv[2])
-assert p['profile'] in ('experimental-merge-actual-glue-body-v8', 'experimental-merge-guard-addressability-v1', 'experimental-merge-guard-addressability-emitter-r5-v1', 'experimental-merge-late-callback-recovery-r7-v1', 'experimental-merge-owned-array-allocation-r8-v1', 'experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1') and p['accepted'] is False
+assert p['profile'] in ('experimental-merge-actual-glue-body-v8', 'experimental-merge-guard-addressability-v1', 'experimental-merge-guard-addressability-emitter-r5-v1', 'experimental-merge-late-callback-recovery-r7-v1', 'experimental-merge-owned-array-allocation-r8-v1', 'experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1', 'experimental-merge-label-storage-r11-v1') and p['accepted'] is False
 assert hashlib.sha256(patch.read_bytes()).hexdigest()==p['glue_observation_patch_sha256']
 GLUEPIN
   git -C "$new_home" apply --check "$glue_patch"
@@ -137,7 +137,7 @@ GLUEPIN
   python3 - "$SMALLSORT_MERGE_PROFILE" "$body_patch" <<'BODYPIN'
 import hashlib,json,pathlib,sys
 p=json.loads(pathlib.Path(sys.argv[1]).read_text());patch=pathlib.Path(sys.argv[2])
-assert p['profile'] in ('experimental-merge-actual-glue-body-v8', 'experimental-merge-guard-addressability-v1', 'experimental-merge-guard-addressability-emitter-r5-v1', 'experimental-merge-owned-array-allocation-r8-v1', 'experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1') and p['accepted'] is False
+assert p['profile'] in ('experimental-merge-actual-glue-body-v8', 'experimental-merge-guard-addressability-v1', 'experimental-merge-guard-addressability-emitter-r5-v1', 'experimental-merge-owned-array-allocation-r8-v1', 'experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1', 'experimental-merge-label-storage-r11-v1') and p['accepted'] is False
 assert hashlib.sha256(patch.read_bytes()).hexdigest()==p['glue_body_patch_sha256']
 BODYPIN
   git -C "$new_home" apply --check "$body_patch"
@@ -149,7 +149,7 @@ if [[ -n "${SMALLSORT_MERGE_PROFILE:-}" ]]; then
   apply_first=$(python3 - "$SMALLSORT_MERGE_PROFILE" "$first_patch" <<'FIRSTPIN'
 import hashlib,json,pathlib,sys
 p=json.loads(pathlib.Path(sys.argv[1]).read_text())
-if p['profile'] in ('experimental-merge-guard-addressability-v1', 'experimental-merge-guard-addressability-emitter-r5-v1', 'experimental-merge-late-callback-recovery-r7-v1', 'experimental-merge-owned-array-allocation-r8-v1', 'experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1'):
+if p['profile'] in ('experimental-merge-guard-addressability-v1', 'experimental-merge-guard-addressability-emitter-r5-v1', 'experimental-merge-late-callback-recovery-r7-v1', 'experimental-merge-owned-array-allocation-r8-v1', 'experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1', 'experimental-merge-label-storage-r11-v1'):
     assert p['accepted'] is False
     assert hashlib.sha256(pathlib.Path(sys.argv[2]).read_bytes()).hexdigest()==p['first_callback_patch_sha256']
     print('yes')
@@ -170,9 +170,9 @@ import hashlib,json,pathlib,sys
 profile,patch,home=map(pathlib.Path,sys.argv[1:]);p=json.loads(profile.read_text())
 is_r5=p['profile']=='experimental-merge-guard-addressability-emitter-r5-v1'
 is_r7=p['profile']=='experimental-merge-late-callback-recovery-r7-v1'
-is_r9=p['profile'] in ('experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1')
+is_r9=p['profile'] in ('experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1', 'experimental-merge-label-storage-r11-v1')
 is_r8=p['profile']=='experimental-merge-owned-array-allocation-r8-v1'
-assert p['profile'] in ('experimental-merge-guard-addressability-v1','experimental-merge-guard-addressability-emitter-r5-v1','experimental-merge-late-callback-recovery-r7-v1','experimental-merge-owned-array-allocation-r8-v1','experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1') and p['accepted'] is False
+assert p['profile'] in ('experimental-merge-guard-addressability-v1','experimental-merge-guard-addressability-emitter-r5-v1','experimental-merge-late-callback-recovery-r7-v1','experimental-merge-owned-array-allocation-r8-v1','experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1', 'experimental-merge-label-storage-r11-v1') and p['accepted'] is False
 assert len(p['ordered_patch_chain'])==(19 if is_r9 else 18 if is_r8 else 17 if is_r7 else 16 if is_r5 else 15)
 address_index=-5 if is_r9 else -4 if is_r8 else -3 if is_r7 else -2 if is_r5 else -1
 assert p['ordered_patch_chain'][address_index]['sha256']==p['addressability_patch_sha256']
@@ -184,15 +184,15 @@ ADDRESSPIN
   git -C "$new_home" -c core.whitespace=cr-at-eol apply --check "$continuation_patch"
   git -C "$new_home" -c core.whitespace=cr-at-eol apply --whitespace=error "$continuation_patch"
   cp "$continuation_patch" "$evidence/addressability-continuation.patch"
-  if [[ "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-guard-addressability-emitter-r5-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-late-callback-recovery-r7-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-owned-array-allocation-r8-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-guard-current-return-r9-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-moving-gap-r10-v1 ]]; then
+  if [[ "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-guard-addressability-emitter-r5-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-late-callback-recovery-r7-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-owned-array-allocation-r8-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-guard-current-return-r9-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-moving-gap-r10-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-label-storage-r11-v1 ]]; then
     emitter_patch="$here/../../../../cloud-build/origin-layout/r5-deferred-local-emitter.patch"
     python3 - "$SMALLSORT_MERGE_PROFILE" "$emitter_patch" <<'EMITTERPIN'
 import hashlib,json,pathlib,sys
 profile,patch=map(pathlib.Path,sys.argv[1:]);p=json.loads(profile.read_text())
-is_r9=p['profile'] in ('experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1')
+is_r9=p['profile'] in ('experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1', 'experimental-merge-label-storage-r11-v1')
 is_r7=p['profile']=='experimental-merge-late-callback-recovery-r7-v1'
 is_r8=p['profile']=='experimental-merge-owned-array-allocation-r8-v1'
-assert p['profile'] in ('experimental-merge-guard-addressability-emitter-r5-v1','experimental-merge-late-callback-recovery-r7-v1','experimental-merge-owned-array-allocation-r8-v1','experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1') and p['accepted'] is False
+assert p['profile'] in ('experimental-merge-guard-addressability-emitter-r5-v1','experimental-merge-late-callback-recovery-r7-v1','experimental-merge-owned-array-allocation-r8-v1','experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1', 'experimental-merge-label-storage-r11-v1') and p['accepted'] is False
 assert len(p['ordered_patch_chain'])==(19 if is_r9 else 18 if is_r8 else 17 if is_r7 else 16)
 emitter_index=-4 if is_r9 else -3 if is_r8 else -2 if is_r7 else -1
 assert p['ordered_patch_chain'][emitter_index]['path']=='research/challenge-8/cloud-build/origin-layout/r5-deferred-local-emitter.patch'
@@ -204,13 +204,13 @@ EMITTERPIN
     cp "$emitter_patch" "$evidence/r5-deferred-local-emitter.patch"
   fi
 fi
-if [[ -n "${SMALLSORT_MERGE_PROFILE:-}" && ( "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-late-callback-recovery-r7-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-owned-array-allocation-r8-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-guard-current-return-r9-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-moving-gap-r10-v1 ) ]]; then
+if [[ -n "${SMALLSORT_MERGE_PROFILE:-}" && ( "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-late-callback-recovery-r7-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-owned-array-allocation-r8-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-guard-current-return-r9-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-moving-gap-r10-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-label-storage-r11-v1 ) ]]; then
   late_patch="$here/../../../../cloud-build/origin-layout/r7-late-callback.patch"
   python3 - "$SMALLSORT_MERGE_PROFILE" "$late_patch" <<'LATECALLBACKPIN'
 import hashlib,json,pathlib,sys
 profile,patch=map(pathlib.Path,sys.argv[1:]);p=json.loads(profile.read_text())
-assert p['profile'] in ('experimental-merge-late-callback-recovery-r7-v1','experimental-merge-owned-array-allocation-r8-v1','experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1') and p['accepted'] is False
-is_r9=p['profile'] in ('experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1')
+assert p['profile'] in ('experimental-merge-late-callback-recovery-r7-v1','experimental-merge-owned-array-allocation-r8-v1','experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1', 'experimental-merge-label-storage-r11-v1') and p['accepted'] is False
+is_r9=p['profile'] in ('experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1', 'experimental-merge-label-storage-r11-v1')
 is_r8=p['profile']=='experimental-merge-owned-array-allocation-r8-v1'
 assert len(p['ordered_patch_chain'])==(19 if is_r9 else 18 if is_r8 else 17)
 assert p['ordered_patch_chain'][-(5 if is_r9 else 4 if is_r8 else 3)]['path']=='research/challenge-8/cloud-build/origin-layout/addressability-continuation.patch'
@@ -225,13 +225,13 @@ LATECALLBACKPIN
   git -C "$new_home" -c core.whitespace=cr-at-eol apply --whitespace=error "$late_patch"
   cp "$late_patch" "$evidence/r7-late-callback.patch"
 fi
-if [[ -n "${SMALLSORT_MERGE_PROFILE:-}" && ( "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-owned-array-allocation-r8-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-guard-current-return-r9-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-moving-gap-r10-v1 ) ]]; then
+if [[ -n "${SMALLSORT_MERGE_PROFILE:-}" && ( "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-owned-array-allocation-r8-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-guard-current-return-r9-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-moving-gap-r10-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-label-storage-r11-v1 ) ]]; then
   owned_array_patch="$here/../../../../cloud-build/origin-layout/r8-owned-array-allocation.patch"
   python3 - "$SMALLSORT_MERGE_PROFILE" "$owned_array_patch" <<'R8OWNEDARRAYPIN'
 import hashlib,json,pathlib,sys
 profile,patch=map(pathlib.Path,sys.argv[1:]);p=json.loads(profile.read_text())
-is_r9=p['profile'] in ('experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1')
-assert p['profile'] in ('experimental-merge-owned-array-allocation-r8-v1','experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1') and p['accepted'] is False
+is_r9=p['profile'] in ('experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1', 'experimental-merge-label-storage-r11-v1')
+assert p['profile'] in ('experimental-merge-owned-array-allocation-r8-v1','experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1', 'experimental-merge-label-storage-r11-v1') and p['accepted'] is False
 assert len(p['ordered_patch_chain'])==(19 if is_r9 else 18)
 assert p['ordered_patch_chain'][-(3 if is_r9 else 2)]['path']=='research/challenge-8/cloud-build/origin-layout/r7-late-callback.patch'
 assert p['ordered_patch_chain'][-(3 if is_r9 else 2)]['sha256']==p['late_callback_patch_sha256']
@@ -243,12 +243,12 @@ R8OWNEDARRAYPIN
   git -C "$new_home" -c core.whitespace=cr-at-eol apply --whitespace=error "$owned_array_patch"
   cp "$owned_array_patch" "$evidence/r8-owned-array-allocation.patch"
 fi
-if [[ -n "${SMALLSORT_MERGE_PROFILE:-}" && ( "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-guard-current-return-r9-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-moving-gap-r10-v1 ) ]]; then
+if [[ -n "${SMALLSORT_MERGE_PROFILE:-}" && ( "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-guard-current-return-r9-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-moving-gap-r10-v1 || "$(python3 -c 'import json,os;print(json.load(open(os.environ["SMALLSORT_MERGE_PROFILE"]))["profile"])')" == experimental-merge-label-storage-r11-v1 ) ]]; then
   guard_trace_patch="$here/../../../../cloud-build/origin-layout/r9-guard-return-trace.patch"
   python3 - "$SMALLSORT_MERGE_PROFILE" "$guard_trace_patch" <<'R9GUARDTRACEPIN'
 import hashlib,json,pathlib,sys
 profile,patch=map(pathlib.Path,sys.argv[1:]);p=json.loads(profile.read_text())
-assert p['profile'] in ('experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1') and p['accepted'] is False
+assert p['profile'] in ('experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1', 'experimental-merge-label-storage-r11-v1') and p['accepted'] is False
 assert len(p['ordered_patch_chain'])==19
 baseline_path=patch.parent/'R9-BASELINE-PROFILE-20261020.json'
 assert hashlib.sha256(baseline_path.read_bytes()).hexdigest()=='838ade9927ebba82b8df61283fdd8189e71b673ac91eadf897806d0bfaa80cc1'
@@ -315,7 +315,7 @@ here,home,evidence,base_evidence=map(pathlib.Path,sys.argv[1:])
 pins=json.loads(pathlib.Path(os.environ.get('SMALLSORT_MERGE_PROFILE', str(here/'PROFILE.json'))).read_text())
 h=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 paths={'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml':'translator_sha256','src/verifast.ml':'kernel_sha256','src/verifast1.ml':'model_sha256','src/rust_frontend/vf_mir_translator/rust_parser.ml':'parser_sha256','bin/rust/prelude_core.rsspec':'prelude_sha256','bin/rust/std/lib.rsspec':'stdlib_sha256','src/rust_frontend/vf_mir_exporter/src/lib.rs':'exporter_source_sha256','src/rust_frontend/vf_mir/vf_mir.capnp':'schema_sha256','bin/refinement-checker':'refiner_sha256','bin/libz3.so':'z3_sha256','src/frontend/ocaml_expr_of_ast.ml':'emitter_sha256','src/frontend/ast.ml':'ast_sha256','src/SExpressionEmitter.ml':'sexpression_sha256','src/verify_expr.ml':'verify_expr_sha256'}
-if pins['profile'] in ('experimental-merge-owned-array-allocation-r8-v1','experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1'):
+if pins['profile'] in ('experimental-merge-owned-array-allocation-r8-v1','experimental-merge-guard-current-return-r9-v1', 'experimental-merge-moving-gap-r10-v1', 'experimental-merge-label-storage-r11-v1'):
  paths.update({'src/frontend/verifast0.ml':'options_source_sha256','src/vfconsole/vfconsole.ml':'console_source_sha256','src/vfide/vfide.ml':'ide_source_sha256'})
 for path,key in paths.items(): assert h(home/path)==pins[key],(path,key)
 pins.update(exporter_sha256=h(home/'bin/vf-rust-mir-exporter'),exporter_build_exit=0,console_sha256=h(home/'bin/verifast'),proof_sha=os.environ['PROOF_SHA'],baseline_build_manifest_sha256=h(base_evidence/'console-cache-profile.txt'),provider=runpy.run_path(os.environ['SMALLSORT_PROVIDER_FILE'])['require_supported_provider'](),build_exit=0)

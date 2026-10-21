@@ -18,7 +18,8 @@ CAMPAIGN = "r8-owned-array-freshness-controls-v1"
 PROFILE = "experimental-merge-owned-array-allocation-r8-v1"
 R9_PROFILE = "experimental-merge-guard-current-return-r9-v1"
 R10_PROFILE = "experimental-merge-moving-gap-r10-v1"
-SUPPORTED_PROFILES = (PROFILE, R9_PROFILE, R10_PROFILE)
+R11_PROFILE = "experimental-merge-label-storage-r11-v1"
+SUPPORTED_PROFILES = (PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE)
 STAGES = ("exporter", "decode", "refinement", "verifast")
 R10_TOOL_KEYS = ("vf-rust-mir-exporter", "verifast", "refinement-checker")
 HEADER = "#![no_std]\n#![allow(dead_code)]\n"
@@ -495,13 +496,15 @@ def run(evidence: Path, args, env: dict, execute_case, *, validated_run=None) ->
                     name: _inconclusive(name, "hosted execute_case callback is unavailable")
                     for name in CASES}}
     run_identity = None
-    if getattr(args, "profile", None) == R10_PROFILE:
+    if getattr(args, "profile", None) in (R10_PROFILE, R11_PROFILE):
         try:
             run_identity = _validated_r10_run_identity(validated_run, args, env, binding)
         except Exception as error:
+            error_field = "r11_run_identity_error" if args.profile == R11_PROFILE else "r10_run_identity_error"
+            label = "R11" if args.profile == R11_PROFILE else "R10"
             return {"schema": CAMPAIGN, **binding, "accepted": False, "proof_credit": False,
-                    "classification": "INCONCLUSIVE", "r10_run_identity_error": str(error),
-                    "cases": {name: _inconclusive(name, "R10 run identity unavailable")
+                    "classification": "INCONCLUSIVE", error_field: str(error),
+                    "cases": {name: _inconclusive(name, f"{label} run identity unavailable")
                               for name in CASES}}
     try:
         rows = prepare(evidence)
