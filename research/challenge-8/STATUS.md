@@ -1,9 +1,9 @@
 # Agent checkpoint: merge-caller-refinement-autonomous-2026-10-21-r17
 
-- Owner: merge | phase: MERGE-CALLER-REFINEMENT-R17-2026-10-21 | state: NOT_STARTED
-- Updated: 2026-10-21T18:22:15Z
+- Owner: merge | phase: MERGE-CALLER-REFINEMENT-R17-2026-10-21 | state: ACTIVE
+- Updated: 2026-10-21T18:51:50Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `660b576b6b1608db913c51e0785b443a8733396f`, profile `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375`
-- Session dates: T0 `NOT_SET`; main deadline `NOT_SET`; absolute deadline `NOT_SET`
+- Session dates: T0 `2026-10-21T18:33:50Z`; main deadline `2026-10-21T20:33:50Z`; absolute deadline `2026-10-21T21:03:50Z`
 - Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
@@ -27,7 +27,7 @@ P3 raw caller: refiner RawPtr not yet supported; verifier Parseerror443. Syntaxf
 - [research/challenge-8/cloud-build/origin-layout/R16-PROOF3-RESULT-20261021.json](cloud-build/origin-layout/R16-PROOF3-RESULT-20261021.json) SHA `3723ac4a5baa3e4e5f7df16cb7e7ff41ad6f4741524056f0bc58784041e1c77b` Build `e2c971ba-ab62-4cd9-a193-3d4f98797cd7`
 
 ## Next
-Register fresh R17 after effective-budget check; reviewed checked RawPtr matching/new pins and controls, then actual raw caller; retain and advance original reference/unsize gate.
+Reviewed R17 registered; publish exact full source, final closure/config audit, then Cloud1200 actual RawPtr controls and raw caller normal/unwind with unchanged original prefix gate.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R16-RELEASE-20261021.json](cloud-build/origin-layout/R16-RELEASE-20261021.json) — `ce26690c1ce6a2fffa39d7cb18669f5303bb20a92541e170077559edb223c629`

@@ -47,10 +47,10 @@ Next: Register fresh R17 after effective-budget check; reviewed checked RawPtr m
 
 ## Отчёт агента
 
-**merge-caller-refinement-autonomous-2026-10-21-r17 · merge · MERGE-CALLER-REFINEMENT-R17-2026-10-21 · NOT_STARTED**
-Updated: 2026-10-21T18:22:15Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `660b576b6b1608db913c51e0785b443a8733396f` / `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375`.
-Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
+**merge-caller-refinement-autonomous-2026-10-21-r17 · merge · MERGE-CALLER-REFINEMENT-R17-2026-10-21 · ACTIVE**
+Updated: 2026-10-21T18:51:50Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `660b576b6b1608db913c51e0785b443a8733396f` / `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375`.
+Dates: T0 `2026-10-21T18:33:50Z`; main `2026-10-21T20:33:50Z`; absolute `2026-10-21T21:03:50Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: P3 raw caller: refiner RawPtr not yet supported; verifier Parseerror443. Syntaxfix at last source6fd50c6 is reviewed but P4 never reached proof. Original caller still rejects placeholders441/249. [Build `e2c971ba-ab62-4cd9-a193-3d4f98797cd7`]
-Next: Register fresh R17 after effective-budget check; reviewed checked RawPtr matching/new pins and controls, then actual raw caller; retain and advance original reference/unsize gate.
+Next: Reviewed R17 registered; publish exact full source, final closure/config audit, then Cloud1200 actual RawPtr controls and raw caller normal/unwind with unchanged original prefix gate.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
