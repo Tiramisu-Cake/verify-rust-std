@@ -161,12 +161,17 @@ def main() -> None:
                 raise ValueError(f"R11 composed patch result differs from selected tool source: {relative}")
     overlay_path = ROOT / "research/challenge-8/merge/cloud-build/provider-overlays.py"
     overlay_tree = ast.parse(overlay_path.read_bytes())
-    overlay_files = next(ast.literal_eval(node.value) for node in overlay_tree.body
-                         if isinstance(node, ast.Assign) and
-                         any(isinstance(target, ast.Name) and target.id == "FILES"
-                             for target in node.targets))
-    if len(overlay_files) != 20 or not {"research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py", "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py"} <= set(overlay_files):
-        raise ValueError("R11 provider overlay must retain 18 base pins plus R11 parent/control sources")
+    def overlay_map(name):
+        return next(ast.literal_eval(node.value) for node in overlay_tree.body
+                    if isinstance(node, ast.Assign) and
+                    any(isinstance(target, ast.Name) and target.id == name
+                        for target in node.targets))
+    overlay_base, overlay_r11 = overlay_map("FILES"), overlay_map("R11_FILES")
+    expected_r11 = {"research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py",
+                    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py"}
+    if len(overlay_base) != 18 or set(overlay_r11) != expected_r11 or set(overlay_base) & expected_r11:
+        raise ValueError("R11 overlay must retain 18 base pins plus two isolated R11 sources")
+    overlay_files = {**overlay_base, **overlay_r11}
     for relative, expected in overlay_files.items():
         if sha((ROOT / relative).read_bytes()) != expected:
             raise ValueError(f"R11 provider overlay source pin mismatch: {relative}")

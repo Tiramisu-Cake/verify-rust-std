@@ -20,8 +20,6 @@ import sys
 
 
 FILES = {
-    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "2739a58c55fa8b4b764b16b9df8dc40239c2f2a0335c134534e76c9559d81f27",
-    "research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py": "78fe84b302903be211d06c93dbb7bfc4f313306c910a4b08387d685c574d8e33",
     "research/challenge-8/merge/overnight/run.sh": "ae0aa063624630f651fc4b466bc2e39c0ad017be75652a43ae2130eea672ca54",
     "research/challenge-8/merge/overnight/build.sh": "dc6e30a5fb3aa24ff7f014910f3c54925fdde3e40f40ea8c1fcfcdafb89ae096",
     "research/challenge-8/merge/overnight/pointer-prove.py": "cb6d43c972d1c19f60b1cd355529f71fb6e68a9fa9242e4176814acbed8f8b96",
@@ -40,6 +38,11 @@ FILES = {
     "research/challenge-8/merge/stock-26.10/functional-prove.py": "f513f2acd81ca21980acf56cfa47a41599cec4e3a4d6b1034ec8fadadcb00dd5",
     "research/challenge-8/merge/stock-26.10/order-prove.py": "9f685baa0c7b0893486f5838d7d89c664a747b3a8e3670692ec928da7f95db14",
     "research/challenge-8/merge/stock-26.10/run.sh": "449fc91c1610164d39b230c3b5cfdf41f8548de757cf33137407a95e759c5214",
+}
+
+R11_FILES = {
+    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "2739a58c55fa8b4b764b16b9df8dc40239c2f2a0335c134534e76c9559d81f27",
+    "research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py": "78fe84b302903be211d06c93dbb7bfc4f313306c910a4b08387d685c574d8e33",
 }
 
 PROVIDER_HELPER = '''\ndef _require_cloud_provider():
@@ -73,6 +76,12 @@ R11_PROFILE = "experimental-merge-label-storage-r11-v1"
 SUPPORTED_PROFILES = {BASELINE_PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE}
 
 
+def files_for_profile(profile: str) -> dict[str, str]:
+    if profile not in SUPPORTED_PROFILES:
+        raise SystemExit("unsupported merge profile for provider overlay")
+    return {**FILES, **R11_FILES} if profile == R11_PROFILE else dict(FILES)
+
+
 def profile_identity(profile_card: dict) -> str:
     if not isinstance(profile_card, dict):
         raise SystemExit("merge profile card must be an object")
@@ -86,6 +95,10 @@ def transform(path: str, original: bytes, pins: dict[str, str] | None = None,
               profile: str = BASELINE_PROFILE) -> bytes:
     if profile not in SUPPORTED_PROFILES:
         raise SystemExit("unsupported merge profile for provider overlay")
+    if path in R11_FILES:
+        if profile != R11_PROFILE:
+            raise SystemExit("R11 provider source is only valid for the selected R11 profile")
+        return original
     data = original
     pins = pins or {}
     if path in ("research/challenge-8/merge/overnight/run.sh",
@@ -437,8 +450,9 @@ def main() -> None:
     args.evidence.mkdir(parents=True)
     # Read and validate the complete original trust chain before mutating a
     # single source. Overlay pins are then recalculated in dependency order.
+    selected_files = files_for_profile(profile)
     originals: dict[str, bytes] = {}
-    for rel, expected in FILES.items():
+    for rel, expected in selected_files.items():
         original = (args.proof_root / rel).read_bytes()
         actual = sha(original)
         if actual != expected:
@@ -464,18 +478,18 @@ def main() -> None:
             overlays[rel] = transform(rel, original, pins, profile)
 
     manifest = {"provider": "cloud-build", "hash_pins": {
-        "network": {"base_sha256": FILES[network], "overlay_sha256": pins["network_sha"]},
-        "stock_prove": {"base_sha256": FILES[stock], "overlay_sha256": pins["prove_sha"]},
-        "functional_prove": {"base_sha256": FILES[functional], "overlay_sha256": pins["functional_sha"]},
-        "order_prove": {"base_sha256": FILES[order], "overlay_sha256": sha(overlays[order])},
-        "stock_run": {"base_sha256": FILES[stock_run], "overlay_sha256": sha(overlays[stock_run])},
+        "network": {"base_sha256": selected_files[network], "overlay_sha256": pins["network_sha"]},
+        "stock_prove": {"base_sha256": selected_files[stock], "overlay_sha256": pins["prove_sha"]},
+        "functional_prove": {"base_sha256": selected_files[functional], "overlay_sha256": pins["functional_sha"]},
+        "order_prove": {"base_sha256": selected_files[order], "overlay_sha256": sha(overlays[order])},
+        "stock_run": {"base_sha256": selected_files[stock_run], "overlay_sha256": sha(overlays[stock_run])},
     }, "files": []}
     for rel, original in originals.items():
         overlay = overlays[rel]
         path = args.proof_root / rel
         path.write_bytes(overlay)
         manifest["files"].append({
-            "path": rel, "base_sha256": FILES[rel], "overlay_sha256": sha(overlay),
+            "path": rel, "base_sha256": selected_files[rel], "overlay_sha256": sha(overlay),
             "diff": "".join(difflib.unified_diff(
                 original.decode().splitlines(True), overlay.decode().splitlines(True),
                 fromfile=rel + ".base", tofile=rel + ".cloud-build")),

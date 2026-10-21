@@ -44,6 +44,10 @@ class BasePins(unittest.TestCase):
                 target = root / path
                 target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_bytes(data)
+            profile_path = root / "research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json"
+            profile_path.parent.mkdir(parents=True, exist_ok=True)
+            profile_path.write_text(
+                '{"profile":"' + provider.BASELINE_PROFILE + '","accepted":false}\n')
             if corrupt is not None:
                 data = originals[corrupt]
                 changed = bytes([data[0] ^ 1]) + data[1:]

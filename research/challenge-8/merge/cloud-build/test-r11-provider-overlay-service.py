@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+"""Synthetic applicability checks for the two R11 identity overlays."""
+import importlib.util
+from pathlib import Path
+import unittest
+
+HERE = Path(__file__).resolve().parent
+SPEC = importlib.util.spec_from_file_location("r11_provider_overlay", HERE / "provider-overlays.py")
+provider = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(provider)
+
+
+class R11OverlayTests(unittest.TestCase):
+    def test_only_exact_r11_inputs_are_identity_overlays(self):
+        self.assertEqual(len(provider.FILES), 18)
+        self.assertEqual(len(provider.R11_FILES), 2)
+        self.assertEqual(set(provider.files_for_profile(provider.R11_PROFILE)),
+                         set(provider.FILES) | set(provider.R11_FILES))
+        for path in provider.R11_FILES:
+            with self.subTest(path=path):
+                original = b"synthetic exact R11 source\n"
+                self.assertIs(provider.transform(path, original,
+                    profile=provider.R11_PROFILE), original)
+                with self.assertRaisesRegex(SystemExit, "only valid for the selected R11"):
+                    provider.transform(path, original, profile=provider.R10_PROFILE)
+
+    def test_legacy_profile_retains_exact_old_pin_set(self):
+        self.assertEqual(provider.files_for_profile(provider.R10_PROFILE), provider.FILES)
+        self.assertEqual(provider.files_for_profile(provider.R9_PROFILE), provider.FILES)
+
+    def test_unknown_python_source_still_fails_closed(self):
+        with self.assertRaisesRegex(SystemExit, "unhandled provider overlay"):
+            provider.transform("research/challenge-8/cloud-build/origin-layout/not-known.py",
+                               b"synthetic", profile=provider.R11_PROFILE)
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
