@@ -37,7 +37,7 @@ def main():
     assert b"assume" not in callback.R9_GUARD_RETURN_MARKER
     assert b"leak" not in callback.R9_GUARD_RETURN_MARKER
     assert b"open [1/4]array::<u64>(r9_guard_ref, 1, ?r9_drop_current)" in r9
-    assert b"open [1/4]array::<u64>(r9_guard_ref + 1, 0, nil)" in r9
+    assert b"open [1/4]array::<u64>(r9_guard_ref + 1, 0, _)" in r9
     rejoin = (
         b"assert *tail |-> ?r9_tail_current;",
         b"close array::<u64>(tail + 1, 0, nil);",

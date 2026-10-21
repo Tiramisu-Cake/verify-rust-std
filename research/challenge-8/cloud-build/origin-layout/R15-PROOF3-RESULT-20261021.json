@@ -1,0 +1,50 @@
+{
+  "schema": "merge-r15-proof-result-v1",
+  "build_id": "c923eac8-f511-4a1d-ac93-4785f511da5d",
+  "status": "FAILURE",
+  "charge": 793,
+  "execution_charge": 792,
+  "source_sha": "caa419b67143af61220992ff26892c72a756d22c",
+  "steps": [
+    {
+      "id": "execute",
+      "status": "SUCCESS",
+      "seconds": 458.746109
+    },
+    {
+      "id": "package-upload",
+      "status": "SUCCESS",
+      "seconds": 319.837714
+    },
+    {
+      "id": "verdict",
+      "status": "FAILURE",
+      "seconds": 1.000911
+    }
+  ],
+  "proof_result": "INCONCLUSIVE",
+  "accepted": false,
+  "independent_credit": 0,
+  "brief": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "archive_sha256": "5591b364e4e6f9289772f53d15cdd4c044e9a6f23f17fb51230fe439bb64c0b5",
+  "index_sha256": "c9ef5c610bd21ad1fb2cb26bf8cd3825a7535a255563e9980a5b9cf2db132fc2",
+  "first_error": "verified/lib.rs(301,17-21): Cannot prove values03 == nil at open array(begin+1,0,nil)",
+  "observed_frontier": "invariant-produced sift==begin case at R10 iteration preparation",
+  "prior_R9_count3_refusal_passed_on_observed_path": true,
+  "backedge_proved": false,
+  "array_controls": {
+    "positive_pass": 3,
+    "negative_expected": 5,
+    "positive_inconclusive": 1,
+    "positive_error": "Type mismatch. Actual:list<u64>. Expected:u64; target not executed"
+  },
+  "full_insert_tail_proved": false,
+  "current_false_true_panic_proved": false,
+  "b2_achieved": false,
+  "proof_credit": false,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "reader_observations": [
+    "R15-PROOF3-BODY-TRACE-20261021.json",
+    "R15-PROOF3-ARRAY-POST-DROP-ERRORS-20261021.json"
+  ]
+}

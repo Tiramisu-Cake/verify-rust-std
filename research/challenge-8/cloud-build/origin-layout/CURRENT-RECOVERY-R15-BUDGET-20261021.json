@@ -7,8 +7,8 @@
     "merge"
   ],
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 998,
-  "remaining_build_seconds": 2602,
+  "used_build_seconds": 1791,
+  "remaining_build_seconds": 1809,
   "max_builds": null,
   "max_timeout_seconds": 1200,
   "builds": [
@@ -55,6 +55,28 @@
       "build_seconds": 130,
       "accounted": true,
       "execution_seconds": 0
+    },
+    {
+      "dispatch_token": "dispatch-18e737d150774a09b62de7c6e3143d3d",
+      "owner": "merge",
+      "phase_id": "MERGE-SINGLETON-ARRAY-PROOF-R15-2026-10-21",
+      "infra_sha": "caa419b67143af61220992ff26892c72a756d22c",
+      "proof_sha": "caa419b67143af61220992ff26892c72a756d22c",
+      "lane": "merge",
+      "submitted_config_sha256": "ceb5d6c7c0e835a7243e6637d794cbfad4414ba468840d9e101af589ddcdcf17",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "26155d85c47cf9959d9e81ecd86286c0ef35b1d2098af0b584450d8a3d4c55df",
+      "build_id": "c923eac8-f511-4a1d-ac93-4785f511da5d",
+      "start_time": "2026-10-21T14:59:44.875196815Z",
+      "finish_time": "2026-10-21T15:12:56.795880Z",
+      "create_time": "2026-10-21T14:59:43.820022369Z",
+      "build_seconds": 793,
+      "accounted": true,
+      "execution_seconds": 792
     }
   ],
   "active_build": null,

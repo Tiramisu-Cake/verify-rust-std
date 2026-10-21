@@ -161,9 +161,12 @@ class R7ArrayControlsTests(unittest.TestCase):
                 "file": "prelude_core.rsspec", "line": 264, "columns": "27-32"})
             post_drop = controls.CASES["post_drop_array3_reconstruction"]["lemma"]
             self.assertIn(b"array::<u64>(p + 2,1,?last)", post_drop)
-            self.assertIn(b"assert [1/4](*(p + 2) |-> last);", post_drop)
-            self.assertIn(b"assert [1/4](*(p + 1) |-> current);", post_drop)
-            self.assertIn(b"assert [1/4](*p |-> first);", post_drop)
+            self.assertIn(b"assert [1/4](*(p + 2) |-> ?r15_tail_current);", post_drop)
+            self.assertIn(b"assert [1/4](*(p + 1) |-> ?r15_middle_current);", post_drop)
+            self.assertIn(b"assert [1/4](*p |-> ?r15_first_current);", post_drop)
+            self.assertIn(b"array::<u64>(p,3,append(first,append(current,last)))", post_drop)
+            self.assertNotIn(b"cons(first,", post_drop)
+            self.assertNotIn(b"cons(current,", post_drop)
             self.assertIn(b"array::<u64>(p + 3,0,nil)", post_drop)
             self.assertNotIn(b"assume", post_drop)
             adjacent = controls.CASES["adjacent_nonempty_rejoin"]["lemma"]

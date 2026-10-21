@@ -110,24 +110,24 @@ CASES = {
     req [1/4]array::<u64>(p,1,?first) &*& [1/4]array::<u64>(p + 1,1,?current) &*&
         [1/4]array::<u64>(p + 2,1,?last) &*& [1/4]array::<u64>(p + 2,0,nil) &*&
         [1/4]array::<u64>(p + 3,0,nil);
-    ens [1/4]array::<u64>(p,3,cons(first,cons(current,cons(last,nil))));
+    ens [1/4]array::<u64>(p,3,append(first,append(current,last)));
 {
     open [1/4]array::<u64>(p + 2,1,last);
-    assert [1/4](*(p + 2) |-> last);
+    assert [1/4](*(p + 2) |-> ?r15_tail_current);
     open [1/4]array::<u64>(p + 3,0,_);
     close [1/4]array::<u64>(p + 3,0,nil);
-    close [1/4]array::<u64>(p + 2,1,last);
+    close [1/4]array::<u64>(p + 2,1,cons(r15_tail_current,nil));
     open [1/4]array::<u64>(p + 1,1,current);
-    assert [1/4](*(p + 1) |-> current);
+    assert [1/4](*(p + 1) |-> ?r15_middle_current);
     open [1/4]array::<u64>(p + 2,0,_);
     close [1/4]array::<u64>(p + 2,0,nil);
-    close [1/4]array::<u64>(p + 1,2,cons(current,cons(last,nil)));
+    close [1/4]array::<u64>(p + 1,2,cons(r15_middle_current,cons(r15_tail_current,nil)));
     open [1/4]array::<u64>(p,1,first);
-    assert [1/4](*p |-> first);
+    assert [1/4](*p |-> ?r15_first_current);
     open [1/4]array::<u64>(p + 1,0,_);
     close [1/4]array::<u64>(p + 1,0,nil);
-    close [1/4]array::<u64>(p,3,cons(first,cons(current,cons(last,nil)))); // TARGET: post-Drop array-three reconstruction
-    assert [1/4]array::<u64>(p,3,cons(first,cons(current,cons(last,nil))));
+    close [1/4]array::<u64>(p,3,cons(r15_first_current,cons(r15_middle_current,cons(r15_tail_current,nil)))); // TARGET: post-Drop array-three reconstruction
+    assert [1/4]array::<u64>(p,3,append(first,append(current,last)));
 }
 """,
         "target": "post-Drop array-three reconstruction", "class": "positive",

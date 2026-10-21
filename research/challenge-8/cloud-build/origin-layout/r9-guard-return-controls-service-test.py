@@ -28,7 +28,7 @@ unsafe fn insert_tail() {
         guard_current_return_recover();
         assert ref_readonly_end_token::<u64>(?r9_guard_ref, ?r9_tmp_origin, ?r9_tmp_share);
         open [1/4]array::<u64>(r9_guard_ref, 1, ?r9_drop_current);
-        open [1/4]array::<u64>(r9_guard_ref + 1, 0, nil);
+        open [1/4]array::<u64>(r9_guard_ref + 1, 0, _);
         end_ref_readonly::<u64>(r9_guard_ref);
         merge_fractions points_to::<u64>(r9_tmp_origin, _);
         assert [1/2](*r9_tmp_origin |-> ?r9_tmp_current);

@@ -216,7 +216,7 @@ R11_MOVING_GAP_INVARIANT = (R10_MOVING_GAP_INVARIANT
 
 R10_ITERATION_PREP = b"""            /*@ if sift == begin {
                 open array::<u64>(begin, 1, r10_first_current);
-                open array::<u64>(begin + 1, 0, nil);
+                open array::<u64>(begin + 1, 0, _);
             } @*/
             //@ initialized_storage_alignment(sift);
             //@ points_to_limits::<u64>(sift);
@@ -361,7 +361,7 @@ LATE_RECOVER = b"""            //@ assert lifetime_token(r5_late_k);
 GUARD_POST_DROP_RECOVERY = b"""    //@ assert ref_readonly_end_token::<u64>(?r8_guard_ref, ?r8_tmp_origin, ?r8_tmp_share);
     //@ open CopyOnDrop_drop_effect(t, r8_guard_ref, ?r8_drop_dst, 1);
     //@ open [1/4]array::<u64>(r8_guard_ref, 1, ?r8_drop_current);
-    //@ open [1/4]array::<u64>(r8_guard_ref + 1, 0, nil);
+    //@ open [1/4]array::<u64>(r8_guard_ref + 1, 0, _);
     //@ end_ref_readonly::<u64>(r8_guard_ref);
     //@ merge_fractions points_to::<u64>(r8_tmp_origin, _);
 """
@@ -370,7 +370,7 @@ R9_GUARD_RETURN_MARKER = b"""    /*@ {
         guard_current_return_recover();
         assert ref_readonly_end_token::<u64>(?r9_guard_ref, ?r9_tmp_origin, ?r9_tmp_share);
         open [1/4]array::<u64>(r9_guard_ref, 1, ?r9_drop_current);
-        open [1/4]array::<u64>(r9_guard_ref + 1, 0, nil);
+        open [1/4]array::<u64>(r9_guard_ref + 1, 0, _);
         end_ref_readonly::<u64>(r9_guard_ref);
         merge_fractions points_to::<u64>(r9_tmp_origin, _);
         assert [1/2](*r9_tmp_origin |-> ?r9_tmp_current);
