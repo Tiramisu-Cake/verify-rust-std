@@ -1,0 +1,54 @@
+{
+  "build_id": "909fb226-b3c0-49f7-a882-2b634624ec3a",
+  "source_infra": "764680290b1b40b52dc92ded63727ab46925d7b6",
+  "profile_sha256": "9e3d8d1a00334575a894ff37d22d6f7ea298c139cfce8d607f13b0c309c231f0",
+  "brief_integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_claim": "NOT_ACCEPTED_AS_REPORTED",
+  "archive_sha256": "6c2adf3eb7d94ba85741750e64c2a139f495a0d9d3efd3732ca0a43fa4e61363",
+  "index_sha256": "0b40d8174d73ae07b44e62870856a50dbf795a7b42b70d71eb4102d6f0f16c4f",
+  "body": {
+    "full_source_span": [
+      606,
+      652
+    ],
+    "source_calls": {
+      "comparators": 5,
+      "select": 8,
+      "copies": 4
+    },
+    "source_pair_support": "source-reported paired normal/readonly full MIR and refinement",
+    "same_tool_and_source": true,
+    "exit": 1,
+    "closed": 0,
+    "error": "verified/lib.rs(68,17-20): No matching heap chunks: array<T>(v_base, 4, _)",
+    "observed_path": "Reader exact log6428\u20136439 consumes unwind assertion; post line68 fails; first-callback recovery inferred from source annotation/order, not a parser-binding certificate"
+  },
+  "checked_components": {
+    "interior_pointer_limits": "source-reported exit0 exact focused lemma",
+    "split_four_owned_cells": "source-reported exit0 exact focused lemma",
+    "copy_one_raw_representation": "source-reported exit0 exact focused generic body; one source ownership sequence, initialized destination raw representation"
+  },
+  "controls": {
+    "mini7": "source-reported passedtrue",
+    "duplicate_owner": "source-observed intended foreach owner post refusal atverified17",
+    "missing_initialized_source": "source-observed points_to<T>(src,_) refusal prelude246",
+    "missing_destination": "source-observed array_<T>(dst,1,_) primitive pre refusal stdlib643"
+  },
+  "acceptance": {
+    "body": false,
+    "summary_eligible": false,
+    "profile": false,
+    "matrix": false,
+    "independent_B1_B2_credit": 0
+  },
+  "charge": 329,
+  "remaining": 3271,
+  "active": null,
+  "reader_limits": [
+    {
+      "request": "log locate unwinding",
+      "error": "HTTP429",
+      "resolution": "backoff exact same v0.11 query succeeded; no raw fallback"
+    }
+  ]
+}

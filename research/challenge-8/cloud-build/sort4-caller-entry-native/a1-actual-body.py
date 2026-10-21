@@ -120,7 +120,7 @@ def construct_actual(source, ghost, capture):
         'proof_credit': False, 'summary_eligible': False}
 
 
-def component_cases(source, ghost):
+def component_cases(source, ghost, expected_count=4):
     prefix = source.split(b'// CASE_BEGIN', 1)[0]
     cases = []
     for m in re.finditer(rb'// CASE_BEGIN ([^\n]+)\n(.*?)// CASE_END \1\n', source, re.S):
@@ -132,8 +132,42 @@ def component_cases(source, ghost):
         cases.append((name, verified, ghost.strip_ghost(verified), {
             'name': header[1].decode(), 'focus_line': focus,
             'end_line': len(verified.splitlines()), 'summary_eligible': False,
-            'proof_credit': False}))
-    need(len(cases) == 4 and len({c[0] for c in cases}) == 4, 'four copy resource cases')
+            'proof_credit': False, 'required_lemmas': lemma_metadata(prefix)}))
+    need(len(cases) == expected_count and len({c[0] for c in cases}) == expected_count, 'exact copy resource case inventory')
+    return cases
+
+
+def lemma_metadata(source):
+    """Coordinates of these pinned, straight-line source-written ghost bodies."""
+    lines = source.splitlines()
+    result = []
+    for i, line in enumerate(lines):
+        match = re.match(rb'lem ([A-Za-z_0-9]+)<', line)
+        if match:
+            end = next(j for j in range(i + 1, len(lines)) if lines[j] == b'}')
+            result.append({'name': match[1].decode(), 'focus_line': i + 1,
+                           'end_line': end + 1})
+    return result
+
+
+def recovery_cases(source, ghost):
+    original = ghost.strip_ghost(source)
+    helpers = lemma_metadata(source)
+    need([x['name'] for x in helpers] == ['recover_pair', 'join_four_owned_cells'],
+         'exact checked pair recovery/join helper inventory')
+    cases = []
+    for helper in helpers:
+        cases.append((helper['name'] + '-positive', source, original,
+            {**helper, 'mir_target': 'r15_recover_pair_type_anchor',
+             'summary_eligible': False, 'proof_credit': False}))
+    name = 'recover_pair_missing_reserved_half'
+    lines = source.splitlines()
+    start = next(i for i, line in enumerate(lines, 1) if line.startswith(b'pub unsafe fn ' + name.encode() + b'<'))
+    end = next(i for i in range(start + 1, len(lines) + 1) if lines[i - 1] == b'}')
+    cases.append(('recover-pair-missing-half-negative', source, original,
+        {'name': name, 'focus_line': start, 'end_line': end,
+         'required_lemmas': [helpers[0]], 'summary_eligible': False,
+         'proof_credit': False}))
     return cases
 
 
@@ -203,7 +237,7 @@ def run_case(a, c4, tool, env, root, case, gates, grammar, identity, *, paired_r
            'proof_credit': False, 'summary_eligible': False, 'passed': False}
     snapshot(unit / 'body-result.json', row)
     try:
-        stages, support = c4.source_support(a, tool, fixture, stage_root, env, target=meta['name'])
+        stages, support = c4.source_support(a, tool, fixture, stage_root, env, target=meta.get('mir_target', meta['name']))
         row.update(stages=stages, source_support=support)
         if support.get('paired_support_passed') is not True:
             row.update(status='SOURCE_PAIR_PREREQUISITE_FAILED', reason='dependent verifier explicitly NOT_RUN')
@@ -310,9 +344,35 @@ def run(a, *, c4, audit, driver, manifest, ghost):
         for rel, digest in profile['std_source_sha256'].items():
             need(sha((root / rel).read_bytes()) == digest, 'pinned std source identity ' + rel)
         source = (root / SOURCE).read_bytes()
-        verified, original, meta = construct_actual(source, ghost, capture)
         target_root = Path(a.evidence) / 'a1-actual-body'
         target_root.mkdir()
+        if profile.get('body_action') == 'checked-dependencies-after-S1':
+            result['body_target'] = {'status': 'NOT_RUN', 'proof_credit': False,
+                'reason': 'S1 full-body unwind resource boundary unchanged; verify required checked dependencies before a new body candidate',
+                'prior_observation_build_id': '909fb226-b3c0-49f7-a882-2b634624ec3a'}
+            result['checked_dependencies'] = {}
+            for filename in ('a1-actual-four-copy.rs', 'a1-actual-recover-pair.rs'):
+                path = root / HERE / filename
+                need(sha(path.read_bytes()) == profile['actual_body_dependencies_sha256'][filename],
+                     'checked dependency source pin ' + filename)
+                cases = (component_cases(path.read_bytes(), ghost, 2) if 'four-copy' in filename else
+                         recovery_cases(path.read_bytes(), ghost))
+                for case in cases:
+                    if int(a.deadline_epoch) - int(time.time()) < 100:
+                        row = {'status': 'NOT_RUN', 'reason': 'shared deadline reserve', 'proof_credit': False}
+                    else:
+                        row = run_case(a, c4, tool, env, target_root, case,
+                            helpers['a1-ast-gates.py'], grammar, identity)
+                    result['checked_dependencies'][case[0]] = row
+                    checkpoint()
+            result['observation_complete'] = all(
+                isinstance(row.get('verification'), dict) and
+                row['verification'].get('classification') == 'TERMINAL' and
+                type(row['verification'].get('exit')) is int
+                for row in result['checked_dependencies'].values())
+            return result
+        need(profile.get('body_action') in (None, 'full-body'), 'unknown body action')
+        verified, original, meta = construct_actual(source, ghost, capture)
         result['body_target'] = run_case(a, c4, tool, env, target_root,
             ('actual-sort4', verified, original, meta), helpers['a1-ast-gates.py'], grammar, identity)
         checkpoint()

@@ -29,8 +29,10 @@ class FakeGates:
         self.name = name
         self.focus = focus
         self.end = end
+        self.queried_names = []
 
     def functions(self, _ast_text):
+        self.queried_names.append(self.name)
         return [{"name": self.name, "kind": "definition",
                  "fields": [("start", self.focus)] + [None] * 9 + ["body"]}]
 
@@ -69,9 +71,11 @@ class FakeC4:
         self.lemma_exit = lemma_exit
         self.stage_calls = 0
         self.stage_names = []
+        self.source_support_targets = []
 
     def source_support(self, _a, _tool, fixture, _stage_root, _env, *, target):
         self.fixture = fixture
+        self.source_support_targets.append(target)
         return ({"source_support": "TERMINAL"},
                 {"paired_support_passed": self.support, "target": target})
 
@@ -225,6 +229,21 @@ class ActualBodyServiceTests(unittest.TestCase):
         self.assertFalse(result["passed"])
         self.assertFalse(result["proof_credit"])
 
+    def test_mir_support_target_override_keeps_original_body_focus(self):
+        c4 = FakeC4()
+        gates = FakeGates(name="recover_pair", focus=2, end=5)
+        base = self.make_case()
+        meta = dict(base[3], name="recover_pair", mir_target="r15_recover_pair_type_anchor")
+        case = (base[0], base[1], base[2], meta)
+        with tempfile.TemporaryDirectory() as temp:
+            result = BODY.run_case(None, c4, Path("/synthetic/tool"), {}, Path(temp),
+                case, gates, FakeGrammar({"verifier": "old-tool"}),
+                {"tool_hashes": {"verifier": "old-tool"}})
+        self.assertEqual(c4.source_support_targets, ["r15_recover_pair_type_anchor"])
+        self.assertEqual(gates.queried_names, ["recover_pair"])
+        self.assertEqual(result["body_selection"]["name"], "recover_pair")
+        self.assertTrue(result["passed"])
+
     def test_changed_source_pair_is_not_passed(self):
         with tempfile.TemporaryDirectory() as temp:
             result = self.run_case(temp, FakeC4(mutate_source=True))
@@ -253,6 +272,53 @@ class ActualBodyServiceTests(unittest.TestCase):
             self.assertEqual(FakeGhost.strip_ghost(verified), original)
             self.assertFalse(meta["proof_credit"])
             self.assertFalse(meta["summary_eligible"])
+
+    def test_lemma_metadata_finds_two_synthetic_manual_ghost_lemmas(self):
+        source = (b"// synthetic prefix\n"
+                  b"lem first<T>()\n{\n    checked_step();\n}\n"
+                  b"lem second<T>()\n{\n}\n")
+        rows = BODY.lemma_metadata(source)
+        self.assertEqual(rows, [
+            {"name": "first", "focus_line": 2, "end_line": 5},
+            {"name": "second", "focus_line": 6, "end_line": 8},
+        ])
+
+    def test_component_cases_accept_two_synthetic_markers_and_keep_prerequisites(self):
+        source = (b"// synthetic helpers\n"
+            b"lem helper_a<T>()\n{\n}\n"
+            b"lem helper_b<T>()\n{\n}\n"
+            b"// CASE_BEGIN small-a\nunsafe fn small_a<T>() {}\n// CASE_END small-a\n"
+            b"// CASE_BEGIN small-b\nunsafe fn small_b<T>() {}\n// CASE_END small-b\n")
+        cases = BODY.component_cases(source, FakeGhost(), expected_count=2)
+        self.assertEqual([case[0] for case in cases], ["small-a", "small-b"])
+        for _case_name, verified, _original, meta in cases:
+            self.assertTrue(verified.startswith(b"// synthetic helpers"))
+            self.assertEqual(meta["required_lemmas"], [
+                {"name": "helper_a", "focus_line": 2, "end_line": 4},
+                {"name": "helper_b", "focus_line": 5, "end_line": 7},
+            ])
+        with self.assertRaises(RuntimeError):
+            BODY.component_cases(source, FakeGhost())
+
+    def test_recovery_cases_discover_ghost_targets_anchor_and_negative(self):
+        source = (b"#![no_std]\n"
+            b"lem recover_pair<T>()\n{\n}\n"
+            b"lem join_four_owned_cells<T>()\n{\n}\n"
+            b"pub fn r15_recover_pair_type_anchor<T>() {}\n"
+            b"pub unsafe fn recover_pair_missing_reserved_half<T>() {\n"
+            b"    //@ recover_pair::<T>();\n}\n")
+        cases = BODY.recovery_cases(source, FakeGhost())
+        self.assertEqual([case[0] for case in cases], [
+            "recover_pair-positive", "join_four_owned_cells-positive",
+            "recover-pair-missing-half-negative"])
+        self.assertEqual([case[3]["name"] for case in cases[:2]],
+                         ["recover_pair", "join_four_owned_cells"])
+        self.assertTrue(all(case[3]["mir_target"] == "r15_recover_pair_type_anchor"
+                            for case in cases[:2]))
+        self.assertEqual(cases[2][3]["name"], "recover_pair_missing_reserved_half")
+        self.assertEqual([row["name"] for row in cases[2][3]["required_lemmas"]],
+                         ["recover_pair"])
+        self.assertFalse(any(case[3]["proof_credit"] for case in cases))
 
 
 if __name__ == "__main__":

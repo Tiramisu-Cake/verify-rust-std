@@ -165,7 +165,7 @@ class R15Registration(unittest.TestCase):
         mutable = {
             "account", "a1_entry_sha256", "a1_helper_sha256", "a1_runner_sha256",
             "reference_own_probe_sha256", "authorization_phase_id", "deadline_utc",
-            "execution_mode", "main_deadline_utc", "phase", "start_utc", "status",
+            "execution_mode", "main_deadline_utc", "phase", "start_utc", "status", "previous_build_id",
         }
         for key, value in R14.items():
             if key in mutable:
@@ -175,7 +175,7 @@ class R15Registration(unittest.TestCase):
                 self.assertEqual(R15[key], value)
         self.assertEqual(set(R15) - set(R14), {
             "a1_actual_body_sha256", "actual_body_dependencies_sha256",
-            "registration_rationale"})
+            "registration_rationale", "body_action", "candidate_version", "baseline_r15_profile_sha256"})
         self.assertEqual(R15["a1_source_runner_sha256"], R14["a1_source_runner_sha256"])
 
     def test_r13_semantic_tool_and_ownership_chain_is_retained(self):
