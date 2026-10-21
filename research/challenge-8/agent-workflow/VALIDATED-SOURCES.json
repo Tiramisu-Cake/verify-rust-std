@@ -1,9 +1,9 @@
 {
   "schema": "smallsort-workflow-validation-v1",
-  "tests": 129,
+  "tests": 131,
   "proof_credit": false,
   "files": {
-    "assignment.py": "1c45c368355aa39fc3f64df4e6807fe8d11ca780241127dbb16a6d902090194f",
+    "assignment.py": "67701a360b435d855fdbdaf6b4a6587422463f89544fa0538553e00618bc1478",
     "build_watch.py": "b2b94f545cfc61aea48b505b9a31b7864d52bd68d859922a49f7189fda67c54c",
     "checkpoint.py": "ad6de7eeeb38ffe9be0010b155e4a5b427b3b216dd853fbf0561960dc4341a23",
     "experiments/queue_wakeup_probe.py": "ed408a6a8814e297a9fc9dccf949a20748dc314e9b0263464ea0841302355e86",
@@ -11,7 +11,7 @@
     "review_packet.py": "34dca37270e91d87cd66bd0e7b33e2f86bf2eb208bd28d5373e3e26adf7be80f",
     "session_prepare.py": "fa55f8611b4919e76b826b55dbcb7043982ee0cc33a4bf0bbb0ad3d83ea4a471",
     "smallsort_session.py": "0684f409226cef149b94308d596734d287b484d6f48a6af9d15b30ee3d5b2c6c",
-    "test_assignment.py": "85ff71228cdfbf24b85f94e585b0c92eda6c9f260daa0343fe7f497f835c0086",
+    "test_assignment.py": "14b09e6b76c15b36d80544edc3dfa639be7786d47359ceabe8dc8fa9b5387d28",
     "test_build_watch.py": "2ca1421a0f1beec1a93103b88a78f908dd19c564a73d5d734f7da18ae2835cb5",
     "test_checkpoint.py": "e27851ca2efd0d2837c335b64346aadd72f1ecb6e8c018580683f5e0a27fd5aa",
     "test_observations.py": "76328b968ca35b4a4bd8c0c7bc5bfa52914de6341a0baa125eb423d6050b6dd9",
@@ -68,5 +68,14 @@
       "final_sha256": "e124ed0b189bdb1f984a433985b08e668e87c3b4dc3a536cf576bd04a652bb5b",
       "change": "Removed exactly one trailing blank-line byte; prior == final + newline was checked."
     }
+  },
+  "closed_account_reader_review": {
+    "reviewer": "GPT-6 Luna HIGH / watch_safety_review",
+    "decision": "GO_FOR_EXISTING_COORDINATOR_PRIMARY_COUNTER_AND_RENDERER_WORDING",
+    "files": {
+      "assignment.py": "67701a360b435d855fdbdaf6b4a6587422463f89544fa0538553e00618bc1478"
+    },
+    "historical_ledgers_rewritten": false,
+    "new_tests": 2
   }
 }

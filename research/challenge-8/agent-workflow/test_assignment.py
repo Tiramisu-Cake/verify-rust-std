@@ -251,6 +251,36 @@ class AssignmentTests(unittest.TestCase):
         with self.assertRaisesRegex(assignment.AssignmentError, "terminal accounting"):
             assignment._ledger_closed(self.repo, spec)
 
+    def test_closed_cloud_ledger_uses_primary_counter_without_rewriting_aliases(self):
+        ledger = json.loads(self.ledger_bytes)
+        ledger.update(spent_build_seconds=0, retired_seconds=1708)
+        raw = (json.dumps(ledger, sort_keys=True) + "\n").encode()
+        self.ledger.write_bytes(raw)
+        git(self.repo, "add", self.previous_ledger_rel)
+        git(self.repo, "commit", "-m", "closed coordinator ledger with stale alias")
+        self.assertEqual(assignment._ledger_closed(self.repo, self.spec), OLD_PHASE)
+        self.assertEqual(self.ledger.read_bytes(), raw)
+        # Installation and a new phase still require all ordinary gates.
+        with patch.object(assignment, "CORE_DIR", self.canonical):
+            assignment.install(self.spec_path, self.coordination)
+        self.assertEqual(self.ledger.read_bytes(), raw)
+        newcp = json.loads((self.base / "CHECKPOINT.json").read_text())
+        self.assertEqual(newcp["state"], "NOT_STARTED")
+        self.assertEqual(newcp["session"]["spent_seconds"], 0)
+        self.assertIsNone(newcp["session"]["t0"])
+
+    def test_invalid_primary_counter_never_falls_back_to_valid_alias(self):
+        for value in (None, True, -1, 1893):
+            ledger = json.loads(self.ledger_bytes)
+            ledger.update(used_build_seconds=value, spent_build_seconds=1892)
+            self.ledger.write_text(json.dumps(ledger))
+            git(self.repo, "add", self.previous_ledger_rel)
+            git(self.repo, "commit", "-m", "invalid primary counter fixture")
+            before = self.snapshot()
+            with self.subTest(value=value), self.assertRaises(assignment.AssignmentError):
+                assignment._ledger_closed(self.repo, self.spec)
+            self.assertEqual(self.snapshot(), before)
+
     def test_stale_profile_branch_and_history_conflict_fail_without_repo_writes(self):
         cases = []
         stale = copy.deepcopy(self.spec)

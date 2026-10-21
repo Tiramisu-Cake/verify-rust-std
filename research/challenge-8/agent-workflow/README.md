@@ -13,6 +13,8 @@ smallsort-session task install --spec /tmp/assignment.json
 
 `create` делает только новый reviewable draft. `install` проверяет assigned Git branch/fork, baseline/profile/tool identities, **закрытый** previous ledger и отсутствие own occupied/unresolved reservation под shared lock. Затем сохраняет прежние task/STATUS/instructions/checkpoint в task-history, устанавливает короткий AGENTS/CORE, новый CURRENT и NOT_STARTED checkpoint/views. T0 не устанавливает, новый live ledger/profile не создаёт, Git commit/push не выполняет. При active account, conflicting history, wrong SHA/branch или symlink отказывает до изменений. Координатор проверяет diff, коммитит и публикует только назначенные файлы. Не переносить чужую историю/whole branch ради инструкции.
 
+Cloud accounts читаются по поддерживаемому coordinator счётчику `used_build_seconds`: старый `spent_build_seconds` может остаться инициализационным alias. Закрытый ledger не переписывается ради совпадения aliases; committed bytes, terminal/accounted, retirement/carry и owner/phase gates сохраняются. T0 нового задания фиксируется при фактическом старте работы, включая подготовку, а не переносится на момент регистрации.
+
 ## 2. Агент поддерживает один checkpoint
 
 Формат `smallsort-checkpoint-v1` описан в [checkpoint.py](checkpoint.py), пример — в [tests](test_checkpoint.py). Это переданное состояние, **не самостоятельное evidence/admission**. `confirmed` требует assurance SOURCE_REPORTED или INDEPENDENTLY_ESTABLISHED и evidence path/SHA/Build ID. Unknown — null/UNKNOWN; source claim не превращается в independent proof. Для реальной scientific acceptance действуют прежние receipts/gates.

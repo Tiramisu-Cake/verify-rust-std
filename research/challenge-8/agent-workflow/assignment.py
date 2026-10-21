@@ -162,13 +162,13 @@ def render_task(spec: dict[str, Any]) -> tuple[bytes, dict[str, Any]]:
         "", "## Mission", "",
         "This is a bounded continuation of the previous task under a newly authorized window.",
         "", f"This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), the compact root [AGENTS.md](../../AGENTS.md), and the persistent repo guidance.",
-        "The owner may proceed within this task and its bounds. Start with T0 NOT_SET; prepare fresh-session inputs with `/usr/local/bin/smallsort-session`, then obtain the required independent review and register the exact phase through the assigned branch client before proof work.",
+        "The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. Prepare fresh-session inputs with `/usr/local/bin/smallsort-session`, obtain required independent review and register the exact phase through the assigned branch client before proof work. Registration does not restart the clock.",
         "No previous budget, T0, ledger authorization, profile acceptance, or proof credit transfers.",
         "", "## Baseline and controls", "",
         f"Worktree `{spec['worktree']}` on branch `{spec['branch']}`; baseline `{spec['baseline_sha']}`; source `{spec['source_sha']}`.",
         f"Tool worktree `{spec['tool_worktree']}` on `{spec['tool_branch']}` at `{spec['tool_sha']}`.",
         f"Profile `{spec['profile_path']}` SHA-256 `{spec['profile_sha256']}`. New ledger path: `{spec['ledger_path']}`; previous closed ledger: `{spec['previous_ledger_path']}`.",
-        f"Cloud budget: 3600 seconds. Wall window: 120 minutes main + 30 minutes closeout. Per-Build timeout ≤1200 seconds; report reserve ≥{420 if spec['owner'] == 'merge' else 240} seconds. T0 remains NOT_SET until the owner registers.",
+        f"Cloud budget: 3600 seconds. Wall window: 120 minutes main + 30 minutes closeout. Per-Build timeout ≤1200 seconds; report reserve ≥{420 if spec['owner'] == 'merge' else 240} seconds. T0 remains NOT_SET until actual work starts.",
         "", "## Goal and steps", "", spec["goal"], "",
     ]
     lines.extend(f"{i}. {item}" for i, item in enumerate(spec["steps"], 1))
@@ -394,7 +394,10 @@ def _ledger_closed(root: Path, spec: dict[str, Any]) -> str:
     if unresolved not in ([], None):
         _err("previous ledger has unresolved items")
     total = ledger.get("budget_seconds", ledger.get("ceiling_build_seconds", ledger.get("authorized_seconds")))
-    spent = ledger.get("spent_seconds", ledger.get("spent_build_seconds", ledger.get("used_seconds", ledger.get("used_build_seconds", ledger.get("used")))))
+    # Cloud status/accounting updates used_build_seconds; the preparation-time
+    # spent_build_seconds alias may remain zero in an otherwise closed account.
+    # Read the authoritative counter without rewriting historical ledger bytes.
+    spent = ledger.get("used_build_seconds", ledger.get("spent_seconds", ledger.get("spent_build_seconds", ledger.get("used_seconds", ledger.get("used")))))
     remaining = ledger.get("remaining_seconds", ledger.get("remaining_build_seconds", ledger.get("remaining")))
     retired = ledger.get("retired_seconds", ledger.get("retired_build_seconds", ledger.get("closed_seconds")))
     unused_retired = ledger.get("unused_retired_seconds")
