@@ -6,4 +6,4 @@
 
 Сохраняй чужие изменения и actual source/normal-unwind/ownership/controls. Actual toolchain только Cloud; обычное CI evidence только Evidence Brief v0.11, без raw/full-log/archive/Cloud Logging обхода. Миссии Select/Merge и роль VeriFast maintainer разделены. Review semantic diff — независимый Luna HIGH без nested delegation/дорогой замены. Точные ограничения — CORE.
 
-`/usr/local/bin/smallsort-session --help` — подготовка следующего задания, checkpoint views и static session preflight. Подготовленный пакет не разрешает submit, пока существующий branch client не зарегистрировал exact phase. Старые правила и история остаются справочными; старые бюджеты не действуют.
+`/usr/local/bin/smallsort-session --help` — подготовка, checkpoint, review/Brief records и ожидание Build через `watch` без model polling. Watcher принимать со следующей сессии по CORE/WATCH; он не открывает окно и не разрешает submit. Подготовленный пакет требует exact phase admission существующего client. Старые правила/история справочные; старые бюджеты не действуют.
