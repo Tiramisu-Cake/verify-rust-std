@@ -622,16 +622,16 @@ def r15_validate_transport_size(payload_bytes):
 
 
 def r15_set_execute_budget(cfg,timeout):
- """Keep the 1200s Build envelope while reserving 360s for publication."""
- if type(timeout) is not int or not 450<=timeout<=1200:
-  raise SystemExit('R15 requires timeout450..1200 to reserve 360s for publication')
+ """Keep the 1200s Build envelope while reserving 420s for publication."""
+ if type(timeout) is not int or not 510<=timeout<=1200:
+  raise SystemExit('R15 requires timeout510..1200 to reserve 420s for publication')
  steps=cfg.get('steps') if isinstance(cfg,dict) else None
  if not isinstance(steps,list) or not steps or not isinstance(steps[0],dict):
   raise SystemExit('R15 E1 generated execute step missing')
  args=steps[0].get('args')
  if not isinstance(args,list) or len(args)<2 or not isinstance(args[1],str):
   raise SystemExit('R15 E2 generated execute body missing')
- body=args[1];old=timeout-70;execute=timeout-360
+ body=args[1];old=timeout-70;execute=timeout-420
  deadline=f' + {old} - 15 '
  timeout_arg=f'"{old}s" bash'
  if body.count(deadline)!=1 or body.count(timeout_arg)!=1:
@@ -758,9 +758,9 @@ def authorized_phase(a,ledger):
   if a.command in ('submit','request') and now>=datetime.datetime.fromisoformat(ledger['main_deadline_utc'].replace('Z','+00:00')):
    raise SystemExit('R15 A3 main window expired')
   if a.command=='submit':
-   if (type(a.timeout) is not int or not 450<=a.timeout<=1200 or a.lane!='merge' or
+   if (type(a.timeout) is not int or not 510<=a.timeout<=1200 or a.lane!='merge' or
        a.source_mode!='pinned-objects' or a.infra_sha!=a.proof_sha):
-    raise SystemExit('R15 A4 requires one exact pinned source, merge lane, timeout450..1200')
+    raise SystemExit('R15 A4 requires one exact pinned source, merge lane, timeout510..1200')
    if now+datetime.timedelta(seconds=a.timeout+60)>cutoff:
     raise SystemExit('R15 A5 Build plus queue reserve exceeds absolute deadline')
    if r13_upload_mode(a.proof_sha)!='proof-r11':

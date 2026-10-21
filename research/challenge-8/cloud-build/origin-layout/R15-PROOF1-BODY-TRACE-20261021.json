@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "4ec310dba2048debfd070cb63d202109d719fb85a759d5bcedbdf6c89220921d",
+  "build_id": "e512d1a9-308c-4015-9e06-9b6d42a26bd4",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 2367,
+    "line_separator": "LF",
+    "source_lines": 2836,
+    "start": 2356,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verifast.log",
+  "file_sha256": "3d0927f752199ed912ca73a07787ce9523a18ff5a94fdd5da3f34cdc4f4afc96",
+  "index_sha256": "cfa090d5c3a0cef0cb91f7aa200f0f3906a266cfef761b8c26e66b582fbc1dcf",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 2367,
+    "expected_sha256": "3d0927f752199ed912ca73a07787ce9523a18ff5a94fdd5da3f34cdc4f4afc96",
+    "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+    "start": 2356
+  },
+  "request_id": "bc3e79558d2a29e7ac61ecd51fc304b1540f03e8c29f8ecf67dc23cdb8f7dd02",
+  "requested_end": 2367,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2356,
+      "text": "  1.139902s: verified/lib.rs(378,9-14): Producing predicate chunk"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2357,
+      "text": "  1.139923s: verified/lib.rs(379,26-27): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2358,
+      "text": "  1.140710s: verified/lib.rs(379,26-27): Verifying call"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2359,
+      "text": "  1.149732s: /workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/prelude_core.rsspec(295,12-17): Applying autolemma"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2360,
+      "text": "  1.149913s: verified/lib.rs(380,26-27): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2361,
+      "text": "  1.150696s: verified/lib.rs(380,26-27): Verifying call"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2362,
+      "text": "  1.152187s: /workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/prelude_core.rsspec(295,12-17): Applying autolemma"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2363,
+      "text": "  1.152313s: verified/lib.rs(381,9-15): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2364,
+      "text": "verified/lib.rs(381,28-29): error: No matching heap chunks: array<u64>(begin, 3, _)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2365,
+      "text": "381 |         assert array::<u64>(begin, 3, ?r9_current_values);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2366,
+      "text": "    |                            ^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2367,
+      "text": "verified/lib.rs(381,28-29): note: Consuming assertion"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

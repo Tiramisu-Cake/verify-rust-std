@@ -1,0 +1,75 @@
+{
+  "archive_sha256": "e16d6a942db63878e27f539eb2c2d01e86459f041dadbf23deffe0f246913024",
+  "build_id": "23dc710b-07e5-43ff-b63b-febe4ddb19ca",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 948,
+    "line_separator": "LF",
+    "source_lines": 977,
+    "start": 943,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "34ea04bf09c2f6022dac1c22a0444b4583420dfe82ec1865f5ac18b85f25039b",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/prefix/cases/actual_three_current_full_posts/proof-ast.ml",
+  "file_sha256": "1d742897a0fe102a114169d1254ec588923792489ca2ffb5e57e5378a86487dd",
+  "index_sha256": "54a86d655622f1aabe70a921e3858ae2188f29015ee90825afb7a3da63df142c",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 948,
+    "expected_sha256": "1d742897a0fe102a114169d1254ec588923792489ca2ffb5e57e5378a86487dd",
+    "file_id": "34ea04bf09c2f6022dac1c22a0444b4583420dfe82ec1865f5ac18b85f25039b",
+    "start": 943
+  },
+  "request_id": "d4b89b62e6d5dbb3fdd22d81e66c2a3f7be444b71ade2b4e04c075450690a868",
+  "requested_end": 948,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 943,
+      "text": "      RustStorageLiveStmt (loc \"verified/lib.rs(249,9-14)\", loc \"verified/lib.rs(249,9-14)\", \"_3\", \"begin\");"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 944,
+      "text": "      RustStorageLiveStmt (loc \"verified/lib.rs(249,17-23)\", loc \"verified/lib.rs(249,17-23)\", \"_4\", \"$_4\");"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 945,
+      "text": "      RustStorageLiveStmt (loc \"verified/lib.rs(249,17-23)\", loc \"verified/lib.rs(249,17-23)\", \"_5\", \"$_5\");"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 946,
+      "text": "      ExprStmt (AssignExpr (loc \"verified/lib.rs(249,17-23)\", Var (loc \"verified/lib.rs(249,17-23)\", \"$_5\"), Mutation, AddressOf (loc \"verified/lib.rs(249,17-23)\", Var (loc \"verified/lib.rs(249,17-23)\", \"values\"))));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 947,
+      "text": "      ExprStmt (AssignExpr (loc \"verified/lib.rs(249,17-23)\", Var (loc \"verified/lib.rs(249,17-23)\", \"$_4\"), Mutation, CastExpr (loc \"verified/lib.rs(249,17-23)\", RustRefTypeExpr (loc \"verified/lib.rs(249,17-23)\", InferredTypeExpr (loc \"verified/lib.rs(249,17-23)\"), Mutable, SliceTypeExpr (loc \"verified/lib.rs(249,17-23)\", ManifestTypeExpr (loc \"verified/lib.rs(249,17-23)\", Int (Unsigned, FixedWidthRank (3))))), Var (loc \"verified/lib.rs(249,17-23)\", \"$_5\"))));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 948,
+      "text": "      RustStorageDeadStmt (loc \"verified/lib.rs(249,22-23)\", loc \"verified/lib.rs(249,22-23)\", \"_5\", \"$_5\");"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

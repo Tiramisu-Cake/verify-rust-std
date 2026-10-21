@@ -105,6 +105,33 @@ CASES = {
 """,
         "target": "adjacent nonempty rejoin", "class": "positive",
     },
+    "post_drop_array3_reconstruction": {
+        "lemma": b"""lem r7_post_drop_array3_reconstruction(p: *u64)
+    req [1/4]array::<u64>(p,1,?first) &*& [1/4]array::<u64>(p + 1,1,?current) &*&
+        [1/4]array::<u64>(p + 2,1,?last) &*& [1/4]array::<u64>(p + 2,0,nil) &*&
+        [1/4]array::<u64>(p + 3,0,nil);
+    ens [1/4]array::<u64>(p,3,cons(first,cons(current,cons(last,nil))));
+{
+    open [1/4]array::<u64>(p + 2,1,last);
+    assert [1/4](*(p + 2) |-> last);
+    open [1/4]array::<u64>(p + 3,0,_);
+    close [1/4]array::<u64>(p + 3,0,nil);
+    close [1/4]array::<u64>(p + 2,1,last);
+    open [1/4]array::<u64>(p + 1,1,current);
+    assert [1/4](*(p + 1) |-> current);
+    open [1/4]array::<u64>(p + 2,0,_);
+    close [1/4]array::<u64>(p + 2,0,nil);
+    close [1/4]array::<u64>(p + 1,2,cons(current,cons(last,nil)));
+    open [1/4]array::<u64>(p,1,first);
+    assert [1/4](*p |-> first);
+    open [1/4]array::<u64>(p + 1,0,_);
+    close [1/4]array::<u64>(p + 1,0,nil);
+    close [1/4]array::<u64>(p,3,cons(first,cons(current,cons(last,nil)))); // TARGET: post-Drop array-three reconstruction
+    assert [1/4]array::<u64>(p,3,cons(first,cons(current,cons(last,nil))));
+}
+""",
+        "target": "post-Drop array-three reconstruction", "class": "positive",
+    },
     "nonempty_zero_witness": {
         "lemma": b"""lem r7_nonempty_zero_witness(p: *u64, v: u64)
     req pointer_within_limits(p) == true;
@@ -116,7 +143,7 @@ CASES = {
         "target": "reject nonempty count-zero witness", "class": "negative",
         # Count-zero array unfolding requires its value list to be nil.
         "error_at": "spec", "error_file": "prelude_core.rsspec",
-        "error_line": 262, "error_columns": "9-21",
+        "error_line": 262, "error_columns": "16-18",
         "error_contains": "Cannot prove condition. (Cannot prove cons(v, nil) = nil.)",
     },
     "wrong_length_fold": {
@@ -129,8 +156,9 @@ CASES = {
 }
 """,
         "target": "reject singleton folded at length two", "class": "negative",
-        "error_at": "target",
-        "error_contains": "No matching heap chunks: [_]array<u64>(p + 1, 1, _)",
+        "error_at": "spec", "error_file": "prelude_core.rsspec",
+        "error_line": 264, "error_columns": "27-32",
+        "error_contains": "No matching heap chunks: [1/4]array<u64>(ptr_add_(p, 1, uint64_t_typeid), (2 - 1), _)",
     },
 }
 

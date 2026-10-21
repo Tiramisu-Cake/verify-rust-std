@@ -1,0 +1,58 @@
+{
+  "schema": "merge-r15-proof-result-v1",
+  "build_id": "e512d1a9-308c-4015-9e06-9b6d42a26bd4",
+  "status": "FAILURE",
+  "charge": 868,
+  "execution_charge": 867,
+  "source_sha": "5f9de86debac0aa569b045912ddce683a0474f1e",
+  "steps": [
+    {
+      "id": "execute",
+      "status": "SUCCESS",
+      "seconds": 470.227626
+    },
+    {
+      "id": "package-upload",
+      "status": "SUCCESS",
+      "seconds": 383.822664
+    },
+    {
+      "id": "verdict",
+      "status": "FAILURE",
+      "seconds": 1.041706
+    }
+  ],
+  "proof_result": "INCONCLUSIVE",
+  "accepted": false,
+  "independent_credit": 0,
+  "brief": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "archive_sha256": "4ec310dba2048debfd070cb63d202109d719fb85a759d5bcedbdf6c89220921d",
+  "index_sha256": "cfa090d5c3a0cef0cb91f7aa200f0f3906a266cfef761b8c26e66b582fbc1dcf",
+  "first_error": "verified/lib.rs(381,28-29): No matching heap chunks: array<u64>(begin, 3, _)",
+  "observed_frontier": "R9 post-Drop returning recovery: both array_join calls returned, following count3 assertion failed",
+  "singleton_previous_refusal_passed_on_observed_path": true,
+  "array_control_cases": {
+    "adjacent_nonempty_rejoin": "PASS_CONTROL",
+    "fractional_singleton_roundtrip": "PASS_CONTROL",
+    "missing_physical_quarter": "EXPECTED_REJECTION",
+    "nonempty_zero_witness": "INCONCLUSIVE",
+    "positive": "PASS_CONTROL",
+    "wrong_length_fold": "INCONCLUSIVE",
+    "wrong_referent": "EXPECTED_REJECTION",
+    "wrong_value": "EXPECTED_REJECTION"
+  },
+  "prefix_error": "verified/lib.rs(249,17-23): Placeholders are not allowed here",
+  "full_insert_tail_proved": false,
+  "current_false_true_panic_proved": false,
+  "b2_achieved": false,
+  "proof_credit": false,
+  "reader_observations": [
+    "R15-PROOF1-BODY-TRACE-20261021.json",
+    "R15-PROOF1-RETURN-LOCATORS-20261021.json",
+    "R15-PROOF1-RETURN-HEAP-20261021.json",
+    "R15-PROOF1-RETURN-ARRAYS-20261021.json",
+    "R15-PROOF1-ARRAY-CASES-20261021.json"
+  ],
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "inferred_array_join_counts": "NOT_OBSERVED_HYPOTHESIS_ONLY"
+}

@@ -377,8 +377,12 @@ R9_GUARD_RETURN_MARKER = b"""    /*@ {
         assert *tail |-> ?r9_tail_current;
         close array::<u64>(tail + 1, 0, nil);
         close array::<u64>(tail, 1, cons(r9_tail_current, nil));
-        array_join::<u64>(begin + 1);
-        array_join::<u64>(begin);
+        open array::<u64>(begin + 1, 1, _);
+        assert *(begin + 1) |-> ?r15_middle_current;
+        close array::<u64>(begin + 1, 2, cons(r15_middle_current, cons(r9_tail_current, nil)));
+        open array::<u64>(begin, 1, _);
+        assert *begin |-> ?r15_first_current;
+        close array::<u64>(begin, 3, cons(r15_first_current, cons(r15_middle_current, cons(r9_tail_current, nil))));
         assert array::<u64>(begin, 3, ?r9_current_values);
         r9_current_u64_owners(t, r9_current_values);
     } @*/

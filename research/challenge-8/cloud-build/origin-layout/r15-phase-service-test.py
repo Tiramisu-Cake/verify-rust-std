@@ -73,10 +73,10 @@ class R15PhaseTests(unittest.TestCase):
         cfg = m.config("a" * 40, "a" * 40, "merge", 1200, "synthetic-test-token",
                        source_payload=None, r13_required=m.required_upload_guard(m.R15_PHASE))
         self.assertEqual(cfg["timeout"], "1200s")
-        self.assertEqual(m.r15_set_execute_budget(cfg, 1200), 840)
+        self.assertEqual(m.r15_set_execute_budget(cfg, 1200), 780)
         body = cfg["steps"][0]["args"][1]
-        self.assertIn('"840s" bash', body)
-        self.assertIn(" + 840 - 15 ", body)
+        self.assertIn('"780s" bash', body)
+        self.assertIn(" + 780 - 15 ", body)
 
     def test_account_registration_mismatches_refuse(self):
         for field, bad in (
@@ -155,9 +155,11 @@ class R15PhaseTests(unittest.TestCase):
             m.r14_validate_publisher_control(probe, mutated)
 
     def test_execute_budget_reserves_publication_and_refuses_bad_shapes(self):
-        for bad_timeout in (449, 1201, True, "1200"):
+        for bad_timeout in (449, 509, 1201, True, "1200"):
             with self.subTest(timeout=bad_timeout), self.assertRaises(SystemExit):
                 m.r15_set_execute_budget({}, bad_timeout)
+        minimum = m.config("a" * 40, "a" * 40, "merge", 510, "synthetic-minimum-token")
+        self.assertEqual(m.r15_set_execute_budget(minimum, 510), 90)
         cfg = m.config("a" * 40, "a" * 40, "merge", 1200, "synthetic-test-token")
         cfg["steps"][0]["args"][1] = cfg["steps"][0]["args"][1].replace('"1130s" bash', '"1129s" bash')
         with self.assertRaises(SystemExit):

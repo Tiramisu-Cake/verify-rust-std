@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "4ec310dba2048debfd070cb63d202109d719fb85a759d5bcedbdf6c89220921d",
+  "build_id": "e512d1a9-308c-4015-9e06-9b6d42a26bd4",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 2332,
+    "line_separator": "LF",
+    "source_lines": 2836,
+    "start": 2321,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/verifast.log",
+  "file_sha256": "3d0927f752199ed912ca73a07787ce9523a18ff5a94fdd5da3f34cdc4f4afc96",
+  "index_sha256": "cfa090d5c3a0cef0cb91f7aa200f0f3906a266cfef761b8c26e66b582fbc1dcf",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 2332,
+    "expected_sha256": "3d0927f752199ed912ca73a07787ce9523a18ff5a94fdd5da3f34cdc4f4afc96",
+    "file_id": "8b18cdf0291e7a05c66ac46da83fa93886bd0989a297249477b10b122920f520",
+    "start": 2321
+  },
+  "request_id": "9b393b172e6bf71526e64fdfa8ffed2ca9b360c962be97f6fc91b40f800d166e",
+  "requested_end": 2332,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2321,
+      "text": "R9_GUARD_CHUNK index=11 pred=ref_initialized types=u64 coefficient=1 args=[r4_tmp_ref]"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2322,
+      "text": "R9_GUARD_CHUNK index=12 pred=lifetime_token types= coefficient=1 args=[func_lft]"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2323,
+      "text": "R9_GUARD_CHUNK index=13 pred=points_to types=u64 coefficient=((1/2 * 1/4) + (1/4 * (1 - 1/2))) args=[tmp_addr;dummy52]"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2324,
+      "text": "R9_GUARD_CHUNK index=14 pred=array types=u64 coefficient=1 args=[ptr_add_(tail0, 1, uint64_t_typeid);0;nil]"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2325,
+      "text": "R9_GUARD_CHUNK index=15 pred=array types=u64 coefficient=1 args=[tail0;0;nil]"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2326,
+      "text": "R9_GUARD_CHUNK index=16 pred=frac_borrow types= coefficient=dummy31 args=[r5_late_k;scaledp((1/4 * 1/2), u64_full_borrow_content(t, r4_cmp_tmp_ref))]"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2327,
+      "text": "R9_GUARD_CHUNK index=17 pred=frac_borrow types= coefficient=dummy38 args=[r5_late_k;u64_full_borrow_content(t, r4_cmp_tmp_ref)]"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2328,
+      "text": "R9_GUARD_CHUNK index=18 pred=r6_u64_share types= coefficient=dummy41 args=[r5_late_k;t;r4_cmp_tmp_ref]"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2329,
+      "text": "R9_GUARD_CHUNK index=19 pred=frac_borrow types= coefficient=dummy35 args=[r5_late_k;scaledp((1 * 1/2), u64_full_borrow_content(t, r4_cmp_sift_ref))]"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2330,
+      "text": "R9_GUARD_CHUNK index=20 pred=struct_std_tuple_2__padding types=&? u64,&? u64 coefficient=1 args=[$_175_addr]"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2331,
+      "text": "R9_GUARD_CHUNK index=21 pred=array types=u64 coefficient=1 args=[ptr_add_(sift, (0 - 1), uint64_t_typeid);1;cons(dummy55, nil)]"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2332,
+      "text": "R9_GUARD_CHUNK index=22 pred=lifetime_dead_token types= coefficient=dummy54 args=[r5_late_k]"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

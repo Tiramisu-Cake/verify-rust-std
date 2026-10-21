@@ -40,6 +40,8 @@ def _callback(case, args, env, *, behavior="normal"):
         "wrong-value-spec-location": "wrong_value",
         "wrong-value-source-position": "wrong_value",
         "wrong-value-error-text": "wrong_value",
+        "wrong-length-spec-location": "wrong_length_fold",
+        "wrong-length-error-text": "wrong_length_fold",
         "explicit-not-run": "wrong_length_fold", "wrong-type-stage": "fractional_singleton_roundtrip",
         "source-mismatch": "adjacent_nonempty_rejoin", "stage-mismatch": "nonempty_zero_witness",
     }
@@ -105,6 +107,13 @@ def _callback(case, args, env, *, behavior="normal"):
             else:
                 diagnostic = "Cannot prove condition. (Cannot prove cons(w, nil) = cons(v, nil).)"
             log += f"/workspace/bin/rust/prelude_core.rsspec({spec_line},72-74): error: {diagnostic}\n"
+        elif name == "wrong_length_fold":
+            loc = meta["expected_error_location"]
+            spec_line = loc["line"] + 1 if behavior == "wrong-length-spec-location" else loc["line"]
+            diagnostic = ("No matching heap chunks: different recursive tail"
+                          if behavior == "wrong-length-error-text" else meta["error_contains"])
+            log += (f"/workspace/bin/rust/{loc['file']}({spec_line},{loc['columns']}): "
+                    f"error: {diagnostic}\n")
         elif meta.get("expected_error_location") is not None:
             loc = meta["expected_error_location"]
             log += f"/workspace/bin/rust/{loc['file']}({loc['line']},{loc['columns']}): error: {meta['error_contains']}\n"
@@ -127,7 +136,7 @@ class R7ArrayControlsTests(unittest.TestCase):
             self.assertEqual(HELPER, controls.EXPECTED_HELPER)
             rows = controls.prepare(evidence, helper=HELPER)
             self.assertEqual(set(rows), set(controls.CASES))
-            self.assertEqual(sum(meta["class"] == "positive" for meta in controls.CASES.values()), 3)
+            self.assertEqual(sum(meta["class"] == "positive" for meta in controls.CASES.values()), 4)
             self.assertEqual(sum(meta["class"] == "negative" for meta in controls.CASES.values()), 5)
             manifest = json.loads((evidence / "manifest.json").read_text())
             self.assertFalse(manifest["accepted"])
@@ -147,7 +156,16 @@ class R7ArrayControlsTests(unittest.TestCase):
             self.assertEqual(rows["wrong_value"]["expected_error_location"], {
                 "file": "prelude_core.rsspec", "line": 264, "columns": "72-74"})
             self.assertEqual(rows["nonempty_zero_witness"]["expected_error_location"], {
-                "file": "prelude_core.rsspec", "line": 262, "columns": "9-21"})
+                "file": "prelude_core.rsspec", "line": 262, "columns": "16-18"})
+            self.assertEqual(rows["wrong_length_fold"]["expected_error_location"], {
+                "file": "prelude_core.rsspec", "line": 264, "columns": "27-32"})
+            post_drop = controls.CASES["post_drop_array3_reconstruction"]["lemma"]
+            self.assertIn(b"array::<u64>(p + 2,1,?last)", post_drop)
+            self.assertIn(b"assert [1/4](*(p + 2) |-> last);", post_drop)
+            self.assertIn(b"assert [1/4](*(p + 1) |-> current);", post_drop)
+            self.assertIn(b"assert [1/4](*p |-> first);", post_drop)
+            self.assertIn(b"array::<u64>(p + 3,0,nil)", post_drop)
+            self.assertNotIn(b"assume", post_drop)
             adjacent = controls.CASES["adjacent_nonempty_rejoin"]["lemma"]
             self.assertIn(b"array_split::<u64>(p,1);", adjacent)
             self.assertIn(b"open [1/4]array::<u64>(p + 1,0,_);", adjacent)
@@ -181,7 +199,8 @@ class R7ArrayControlsTests(unittest.TestCase):
                      "source-mismatch", "stage-mismatch",
                      "wrong-error-location", "observed-wrong-value-geometry-error",
                      "wrong-value-spec-location", "wrong-value-source-position",
-                     "wrong-value-error-text")
+                     "wrong-value-error-text", "wrong-length-spec-location",
+                     "wrong-length-error-text")
         affected = {
             "raise": "missing_physical_quarter", "null": "wrong_referent",
             "error": "missing_physical_quarter", "timeout": "wrong_referent",
@@ -194,6 +213,8 @@ class R7ArrayControlsTests(unittest.TestCase):
             "wrong-value-spec-location": "wrong_value",
             "wrong-value-source-position": "wrong_value",
             "wrong-value-error-text": "wrong_value",
+            "wrong-length-spec-location": "wrong_length_fold",
+            "wrong-length-error-text": "wrong_length_fold",
         }
         for scenario in scenarios:
             with self.subTest(scenario=scenario), tempfile.TemporaryDirectory() as temporary:

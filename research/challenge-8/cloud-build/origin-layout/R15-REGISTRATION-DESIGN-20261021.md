@@ -40,3 +40,7 @@ This registration establishes source transport and bounded phase access only.
 It does not establish proof acceptance or independent proof credit. A review
 of the complete selected diff and its exact source closure remains required
 before any R15 Build submission.
+
+Proof1 measured execute470.227626s, package/upload383.822664s, verdict1.041706s, charge868. Before Proof2 raise the R15-only publication reserve360→420s and lower execute840→780s/soft765 at timeout1200. The measured publication+verdict384.864370s fits420 with35.1s margin; unchanged uploader/outer timeout/controls/evidence. This is a conservative deadline correction, not a new publication probe or semantic rule. Synthetic config checks must assert new budget markers and unchanged uploader.
+
+R15 minimum usable timeout becomes510s (90 execute +420 publication); authorized upper bound1200 and budget remain unchanged. Shorter dispatches would not fit this measured plan.

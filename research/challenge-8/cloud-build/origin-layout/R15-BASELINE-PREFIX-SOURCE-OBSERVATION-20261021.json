@@ -1,0 +1,87 @@
+{
+  "archive_sha256": "e16d6a942db63878e27f539eb2c2d01e86459f041dadbf23deffe0f246913024",
+  "build_id": "23dc710b-07e5-43ff-b63b-febe4ddb19ca",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 251,
+    "line_separator": "LF",
+    "source_lines": 251,
+    "start": 244,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "607839ba7f21c33ff3ad3e988fe0f260ff5dba89e277011f9a54a78b34b46872",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/prefix/cases/actual_three_current_full_posts/verified/lib.rs",
+  "file_sha256": "939181dcc4e10f02f3c3e4cd33e83b74be9b6e7487f132598d61d56d1348ba53",
+  "index_sha256": "54a86d655622f1aabe70a921e3858ae2188f29015ee90825afb7a3da63df142c",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": true,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 253,
+    "expected_sha256": "939181dcc4e10f02f3c3e4cd33e83b74be9b6e7487f132598d61d56d1348ba53",
+    "file_id": "607839ba7f21c33ff3ad3e988fe0f260ff5dba89e277011f9a54a78b34b46872",
+    "start": 244
+  },
+  "request_id": "4b3f8e3a57f4ec97f5d764b0e201c830f84f33ce7d9e5fc51df0f8ede2ac9c37",
+  "requested_end": 253,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 244,
+      "text": "on_unwind_ens thread_token(t) &*& type_interp::<u64>() &*& type_interp::<F>() &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 245,
+      "text": "    *is_less |-> ?panic_f &*& <F>.own(t, panic_f);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 246,
+      "text": "@*/"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 247,
+      "text": "{"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 248,
+      "text": "    let mut values = [10_u64, 20_u64, 5_u64];"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 249,
+      "text": "    let begin = values.as_mut_ptr();"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 250,
+      "text": "    insert_tail_first_callback_prefix(begin, begin.add(2), is_less);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 251,
+      "text": "}"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

@@ -71,4 +71,4 @@ VPS — чтение/правки/Git/hashes/static parsing и малые isolat
 
 ## Отчёт агента
 
-В работе. T0 2026-10-21T14:12:12Z; main16:12:12Z; absolute16:42:12Z. Новый ledger3600/used0/carryfalse. Ближайшая цель: установить происхождение existential count0 tail при late-callback singleton fold; гипотеза ещё проверяется. Session: cloud-build/origin-layout/R15-SESSION-20261021.md. Чужие изменения сохранены.
+В работе. T0 2026-10-21T14:12:12Z; main16:12:12Z; absolute16:42:12Z. Proof1 `e512d1a9-308c-4015-9e06-9b6d42a26bd4` на published `5f9de86debac0aa569b045912ddce683a0474f1e`: singleton fold прошёл на наблюдённом пути, новый отказ в R9 post-Drop `assert array(begin,3,_)` после обоих joins. Brief VERIFIED_ARCHIVE_AND_INVENTORY; full gates0/acceptedfalse/credit0. Charge868/execution867, remaining2732/carryfalse, ownactive0/unresolved0. Next: explicit checked count2/count3 reclose из CURRENT owned cells, nine compatible array controls, reserve420/execute780 приtimeout1200. Новый кандидат на review; tool/profile прежние. Session и Proof1 result: `cloud-build/origin-layout/R15-SESSION-20261021.md`, `R15-PROOF1-RESULT-20261021.json`. Чужие изменения сохранены.
