@@ -37,7 +37,7 @@ PINNED_REFINER_SOURCE_SHA256_BY_PROFILE = {
     'experimental-merge-moving-gap-r10-v1':
         'd20a433c93563b87ff0a48241c94e366df06dba2f87b5e7f85ba47edb6980dd1',
     'experimental-merge-label-storage-r11-v1':
-        'd20a433c93563b87ff0a48241c94e366df06dba2f87b5e7f85ba47edb6980dd1',
+        '48d02bf44f4a082709a427e3e0d78af5498c1f240082fb27c7891dc8a3a283b0',
 }
 LEGACY_DROP_DEFAULTS = (
     'kind=Drop {\n'

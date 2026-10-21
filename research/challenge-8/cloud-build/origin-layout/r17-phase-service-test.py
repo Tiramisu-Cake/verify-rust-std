@@ -289,7 +289,7 @@ class R17PhaseTests(unittest.TestCase):
         ).strip()
         m.r17_validate_historical_closure(paths, tree(m.R17_PROBE_SOURCE), tree(selected))
 
-    def test_provider_pin_gate_accepts_exact_selected_twenty_source_pins(self):
+    def test_provider_pin_gate_accepts_exact_selected_twenty_one_source_pins(self):
         provider_path = m.R17_PROVIDER_OVERLAYS_PATH
         baseline = subprocess.check_output(
             ["git", "show", f"{m.R17_PROBE_SOURCE}:{provider_path}"], cwd=HERE.parents[3]
@@ -299,6 +299,8 @@ class R17PhaseTests(unittest.TestCase):
         paths = {provider_path} | set(tables["FILES"]) | set(tables["R11_FILES"])
 
         def read_source(path):
+            if path == m.R17_PROVIDER_COMPAT_PATH:
+                return (HERE.parents[3] / path).read_bytes()
             return subprocess.check_output(
                 ["git", "show", f"4c14e05f009a87a0b64ea17d27246dad5d16ad58:{path}"],
                 cwd=HERE.parents[3],
@@ -306,7 +308,8 @@ class R17PhaseTests(unittest.TestCase):
 
         m.r17_validate_provider_pin_tables(baseline, selected, paths, read_source)
         self.assertEqual(len(tables["FILES"]), 18)
-        self.assertEqual(len(tables["R11_FILES"]), 2)
+        self.assertEqual(len(tables["R11_FILES"]), 3)
+        self.assertIn(m.R17_PROVIDER_COMPAT_PATH, tables["R11_FILES"])
 
     def test_provider_pin_gate_rejects_malformed_r11_table_and_missing_closure(self):
         provider_path = m.R17_PROVIDER_OVERLAYS_PATH
@@ -319,7 +322,7 @@ class R17PhaseTests(unittest.TestCase):
             m.r17_parse_provider_pin_tables(malformed)
         tables = m.r17_parse_provider_pin_tables(selected)
         paths = {provider_path} | set(tables["FILES"]) | set(tables["R11_FILES"])
-        paths.remove(next(iter(tables["R11_FILES"])))
+        paths.remove(m.R17_PROVIDER_COMPAT_PATH)
         with self.assertRaisesRegex(SystemExit, "absent from selected source closure"):
             m.r17_validate_provider_pin_tables(baseline, selected, paths, lambda _path: b"")
 
@@ -333,11 +336,13 @@ class R17PhaseTests(unittest.TestCase):
         paths = {provider_path} | set(tables["FILES"]) | set(tables["R11_FILES"])
 
         def mismatched_source(path):
+            if path == m.R17_PROVIDER_COMPAT_PATH:
+                return (HERE.parents[3] / path).read_bytes() + b"changed"
             data = subprocess.check_output(
                 ["git", "show", f"4c14e05f009a87a0b64ea17d27246dad5d16ad58:{path}"],
                 cwd=HERE.parents[3],
             )
-            return data + b"changed" if path == next(iter(tables["R11_FILES"])) else data
+            return data
 
         with self.assertRaisesRegex(SystemExit, "provider pin source mismatch"):
             m.r17_validate_provider_pin_tables(baseline, selected, paths, mismatched_source)
@@ -348,9 +353,16 @@ class R17PhaseTests(unittest.TestCase):
             ["git", "show", f"{m.R17_PROBE_SOURCE}:{provider_path}"], cwd=HERE.parents[3]
         )
         selected = (HERE.parents[3] / provider_path).read_bytes()
-        self.assertEqual(selected, baseline.replace(
-            m.R17_PROVIDER_OLD_PROVE_SHA256.encode(), m.R17_PROVIDER_NEW_PROVE_SHA256.encode(), 1
-        ))
+        expected = baseline.replace(m.R17_PROVIDER_OLD_PROVE_SHA256.encode(),
+                                    m.R17_PROVIDER_NEW_PROVE_SHA256.encode(), 1)
+        old_anchor = (b'    "research/challenge-8/cloud-build/origin-layout/'
+                      b'r11-storage-placement-controls.py": "0bea1e5390aa6297975552a9f29d600c8e7f9f6ab30caf26b07d27979cddf100",\n}')
+        new_anchor = (b'    "research/challenge-8/cloud-build/origin-layout/'
+                      b'r11-storage-placement-controls.py": "0bea1e5390aa6297975552a9f29d600c8e7f9f6ab30caf26b07d27979cddf100",\n'
+                      b'    "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py": '
+                      b'"2cedb29c2c0194e8e7f4eb254c9a5e27c8eb8b5faa864bc4bd60f3a37065b2c3",\n}')
+        self.assertEqual(expected.count(old_anchor), 1)
+        self.assertEqual(selected, expected.replace(old_anchor, new_anchor, 1))
         extra_mutations = (
             b"\nR11_FILES.update({'unexpected.py': '" + b"a" * 64 + b"'})\n",
             b"\nR11_FILES['unexpected.py'] = '" + b"a" * 64 + b"'\n",
@@ -368,6 +380,10 @@ class R17PhaseTests(unittest.TestCase):
         )
         with self.assertRaisesRegex(SystemExit, "provider module contains an unreviewed change"):
             m.r17_validate_provider_module_delta(baseline, changed_other_pin)
+        wrong_compat_pin = selected.replace(
+            m.R17_PROVIDER_NEW_COMPAT_SHA256.encode(), b"f" * 64, 1)
+        with self.assertRaisesRegex(SystemExit, "provider module contains an unreviewed change"):
+            m.r17_validate_provider_module_delta(baseline, wrong_compat_pin)
 
     def test_wrong_probe_source_and_worktree_blob_or_mode_refuse(self):
         with self.assertRaises(SystemExit): m.r17_validate_sources("f" * 40, "a" * 40)

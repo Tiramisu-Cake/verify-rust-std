@@ -11,6 +11,7 @@ provider = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(provider)
 PROOF_COMMIT = "4c14e05f009a87a0b64ea17d27246dad5d16ad58"
 PROVE_PATH = "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py"
+COMPAT_PATH = "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py"
 
 
 class R11OverlayTests(unittest.TestCase):
@@ -19,9 +20,15 @@ class R11OverlayTests(unittest.TestCase):
         self.assertEqual(provider.sha(source), provider.R11_FILES[PROVE_PATH])
         self.assertEqual((HERE.parents[3] / PROVE_PATH).read_bytes(), source)
 
+    def test_r17_compatibility_source_pin_matches_selected_source(self):
+        source = (HERE.parents[3] / COMPAT_PATH).read_bytes()
+        self.assertEqual(provider.sha(source), provider.R11_FILES[COMPAT_PATH])
+        self.assertEqual(provider.R11_FILES[COMPAT_PATH],
+                         "2cedb29c2c0194e8e7f4eb254c9a5e27c8eb8b5faa864bc4bd60f3a37065b2c3")
+
     def test_only_exact_r11_inputs_are_identity_overlays(self):
         self.assertEqual(len(provider.FILES), 18)
-        self.assertEqual(len(provider.R11_FILES), 2)
+        self.assertEqual(len(provider.R11_FILES), 3)
         self.assertEqual(set(provider.files_for_profile(provider.R11_PROFILE)),
                          set(provider.FILES) | set(provider.R11_FILES))
         for path in provider.R11_FILES:

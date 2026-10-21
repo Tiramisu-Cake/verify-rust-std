@@ -47,6 +47,8 @@ R17_PROFILE_REGISTRATION='r17_registration'
 R17_PROVIDER_OVERLAYS_PATH='research/challenge-8/merge/cloud-build/provider-overlays.py'
 R17_PROVIDER_OLD_PROVE_SHA256='2739a58c55fa8b4b764b16b9df8dc40239c2f2a0335c134534e76c9559d81f27'
 R17_PROVIDER_NEW_PROVE_SHA256='092669d3d8e619130c4afc36f8c3f73698f3d5f776ffbeb8fe1f566e313ec8aa'
+R17_PROVIDER_COMPAT_PATH='research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py'
+R17_PROVIDER_NEW_COMPAT_SHA256='2cedb29c2c0194e8e7f4eb254c9a5e27c8eb8b5faa864bc4bd60f3a37065b2c3'
 R17_AUTHORIZATION=('CURRENT-TASK R17: actual Merge caller refinement/borrow and unsize; '
  'checked RawPtr matching with exact-origin controls; fresh3600/no carry; '
  'independent Luna HIGH review; Cloud-only preparation/compiler/proof.')
@@ -987,7 +989,7 @@ def r17_parse_provider_pin_tables(source):
     if type(table) is not dict or len(table)!=len(keys):raise ValueError('invalid table')
     if any(not re.fullmatch('[0-9a-f]{64}',digest) for digest in values):raise ValueError('invalid digest')
     tables[name]=table
-  if set(tables)!= {'FILES','R11_FILES'} or len(tables['FILES'])!=18 or len(tables['R11_FILES'])!=2:
+  if set(tables)!= {'FILES','R11_FILES'} or len(tables['FILES'])!=18 or len(tables['R11_FILES']) not in (2,3):
    raise ValueError('wrong table schema/count')
   if set(tables['FILES']) & set(tables['R11_FILES']):raise ValueError('overlapping tables')
   return tables
@@ -996,12 +998,21 @@ def r17_parse_provider_pin_tables(source):
 
 
 def r17_validate_provider_module_delta(baseline_source,selected_source):
- """Permit exactly the reviewed R11 prove.py digest substitution in this module."""
- old=R17_PROVIDER_OLD_PROVE_SHA256.encode()
- new=R17_PROVIDER_NEW_PROVE_SHA256.encode()
+ """Permit the prove.py digest substitution and exact compatibility pin addition."""
+ old_prove=R17_PROVIDER_OLD_PROVE_SHA256.encode()
+ new_prove=R17_PROVIDER_NEW_PROVE_SHA256.encode()
+ new_compat=R17_PROVIDER_NEW_COMPAT_SHA256.encode()
+ compat_path=R17_PROVIDER_COMPAT_PATH.encode()
+ old_anchor=(b'    "research/challenge-8/cloud-build/origin-layout/'
+             b'r11-storage-placement-controls.py": "0bea1e5390aa6297975552a9f29d600c8e7f9f6ab30caf26b07d27979cddf100",\n}')
+ new_anchor=old_anchor[:-2]+b'\n    "'+compat_path+b'": "'+new_compat+b'",\n}'
  if (not isinstance(baseline_source,bytes) or not isinstance(selected_source,bytes) or
-     baseline_source.count(old)!=1 or baseline_source.count(new)!=0 or
-     selected_source!=baseline_source.replace(old,new,1)):
+     baseline_source.count(old_prove)!=1 or baseline_source.count(new_prove)!=0 or
+     baseline_source.count(new_compat)!=0 or
+     baseline_source.count(compat_path)!=0 or baseline_source.count(old_anchor)!=1):
+  raise SystemExit('R17 S16 provider module baseline differs from the reviewed source')
+ expected=baseline_source.replace(old_prove,new_prove,1).replace(old_anchor,new_anchor,1)
+ if selected_source!=expected:
   raise SystemExit('R17 S16 provider module contains an unreviewed change')
 
 
@@ -1010,7 +1021,8 @@ def r17_validate_provider_pin_tables(baseline_source,selected_source,closure_pat
  r17_validate_provider_module_delta(baseline_source,selected_source)
  baseline=r17_parse_provider_pin_tables(baseline_source)
  selected=r17_parse_provider_pin_tables(selected_source)
- if any(set(selected[name])!=set(baseline[name]) for name in ('FILES','R11_FILES')):
+ if (set(selected['FILES'])!=set(baseline['FILES']) or
+     set(selected['R11_FILES'])!=set(baseline['R11_FILES'])|{R17_PROVIDER_COMPAT_PATH}):
   raise SystemExit('R17 S16 provider pin path set changed')
  all_paths=set(selected['FILES'])|set(selected['R11_FILES'])
  if R17_PROVIDER_OVERLAYS_PATH not in closure_paths or not all_paths.issubset(closure_paths):

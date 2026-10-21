@@ -142,7 +142,11 @@ assignment = next(node for node in ast.walk(tree) if isinstance(node, ast.Assign
 recipe = json.loads((ROOT / "research/challenge-8/cloud-build/recipes/merge.json").read_text())
 for active, expected in [("experimental-merge-guard-addressability-v1", "r4-addressability-controls.py"),
                          ("experimental-merge-guard-addressability-emitter-r5-v1", "r5-addressability-controls.py")]:
-    namespace = {"args": SimpleNamespace(profile=active)}
+    namespace = {"args": SimpleNamespace(profile=active),
+        "R8_PROFILE": "experimental-merge-owned-array-allocation-r8-v1",
+        "R9_PROFILE": "experimental-merge-guard-current-return-r9-v1",
+        "R10_PROFILE": "experimental-merge-moving-gap-r10-v1",
+        "R11_PROFILE": "experimental-merge-label-storage-r11-v1"}
     exec(compile(ast.fix_missing_locations(ast.Module(body=[assignment], type_ignores=[])), str(production), "exec"), namespace)
     module_path = HERE / namespace["control_name"]
     assert module_path.name == expected and module_path.is_file()
