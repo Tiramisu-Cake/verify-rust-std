@@ -16,15 +16,15 @@
     "tool_sha": "660b576b6b1608db913c51e0785b443a8733396f"
   },
   "blocker": {
-    "summary": "PAUSED by owner/coordinator; P3 last status WORKING; no polling, watcher, new Builds/retries/hypotheses until owner resumes. P2 provider-pin fix reviewed, P3 proof results unverified.",
-    "location": "CHECKPOINT.json handoff",
+    "summary": "P3 stale R11 compatibility refiner pin blocks caller dispatch; seven selected-Drop cases expected. Separate before_storage_live INCONCLUSIVE.",
+    "location": "proof-audit /bridge_diagnostic/selected_drop/generated_glue_compatibility_controls",
     "build_id": "f9e06ad1-d13e-4012-b1fc-be1d84c4aded",
     "evidence": []
   },
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "R16 P1: actual insert_tail/selected Drop body unit reports4stages0, cleanup/Resume, 0errors/642statements. Boundedu64/initializedarray3/tail=begin+2/contractF/CURRENT posts; narrowR8 premise. Source-only.",
+      "claim": "R16 P1 body unit: four stages0, cleanup/Resume, 0errors/642statements. Boundedu64/array3/tail=begin+2/F/CURRENT; narrowR8. Source-only.",
       "evidence": [
         {
           "build_id": "9487d6d1-14aa-4370-bc0b-7ac57279fb7b",
@@ -40,7 +40,7 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "R16 P2/P3: checked array3/slice3 full_borrow bridge;5positive/6negative array controls and5R9 controls matched. Requires existing full_borrow(k,P), len3/full-pointer equality; no borrow/lifetime creation.",
+      "claim": "R16 P2/P3 checked array3/slice3 full_borrow bridge;5positive/6negative array +5R9 controls matched. Existing borrow/len3/full-pointer equality required; no borrow creation.",
       "evidence": [
         {
           "build_id": "e2c971ba-ab62-4cd9-a193-3d4f98797cd7",
@@ -51,7 +51,7 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "R16 P4 compileexit124/proof_attemptedfalse/cases0; ghost syntaxfix unvalidated. R16CLOSED4builds/spent3042/retired558/carry0/active0; no full acceptance/independentcredit.",
+      "claim": "R16 P4 compile124/proof_attemptedfalse/cases0; syntaxfix unvalidated. R16CLOSED:4builds/spent3042/retired558/carry0. No independentcredit.",
       "evidence": [
         {
           "build_id": "df4a5c35-b795-4493-9e9a-74edeb48f177",
@@ -66,7 +66,7 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "R17 P1 tool compilation all5 legs0 incl changed refiner and smokePASS; entry R11 pin guard refuses before actual campaign; no target/control/B2/independent credit. Accounted485, remaining3115.",
+      "claim": "R17 P1:5compilelegs0/smokePASS; staleR11pin blocks campaign. No target/control/independentcredit. Charged485.",
       "evidence": [
         {
           "path": "research/challenge-8/cloud-build/origin-layout/R17-PROOF1-RESULT-20261021.json",
@@ -85,9 +85,20 @@
           "build_id": "cccfd7c5-ee98-4549-8ecd-da2274e7c608"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P3 FAILURE/charged582; total1166/remaining2434/active0. CompilerPASS/proofattempted; stalecompatibilitypin blocks caller dispatch. No caller/RawPtr/lifecycle/B2/independentcredit.",
+      "evidence": [
+        {
+          "build_id": "f9e06ad1-d13e-4012-b1fc-be1d84c4aded",
+          "path": "research/challenge-8/observations/cc23e4589edf9b3b361b13953566574eaee3747fefd8edeff16eb1b5d090fbbb.json",
+          "sha256": "cc23e4589edf9b3b361b13953566574eaee3747fefd8edeff16eb1b5d090fbbb"
+        }
+      ]
     }
   ],
-  "next_step": "Owner resume required. Read handoff below; retain T0/deadlines/inputs/ledger. Then existing coordinator status/accounting and compact Brief for P3; no proof completion claimed.",
+  "next_step": "Review exact compatibility/provider-pin delta; publish/preflight then admitted full1200 cycle inside R17 window. Keep controls and original borrow gate.",
   "open": [
     "Original full/prefix as_mut_ptr borrow/unsize (placeholders441/249); dependent controls NOT_RUN_PREFIX_PREREQUISITE_FAILED.",
     "Current-tool RawPtr controls, raw caller normal/unwind, ghost syntaxfix and borrow-lifecycle proof await P3 evidence.",
@@ -119,21 +130,19 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "f9e06ad1-d13e-4012-b1fc-be1d84c4aded"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-21T21:03:50Z",
     "main_deadline_utc": "2026-10-21T20:33:50Z",
-    "remaining_seconds": 3016,
+    "remaining_seconds": 2434,
     "retired_seconds": 0,
-    "spent_seconds": 584,
+    "spent_seconds": 1166,
     "t0": "2026-10-21T18:33:50Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "merge-caller-refinement-autonomous-2026-10-21-r17",
-  "updated_utc": "2026-10-21T19:35:58Z",
+  "updated_utc": "2026-10-21T19:48:35Z",
   "handoff": {
     "reason": "Agreed owner/coordinator pause to adopt context-saving tools; not session closure or a new window.",
     "resume_authority": "Explicit owner resumption required; no autonomous further work.",
@@ -183,6 +192,9 @@
     ],
     "on_resume": "Check canonical CORE and owner compact entry first. In existing phase/window use existing control.py status for this Build, then smallsort-brief when terminal. Do not resubmit/cancel or infer outcomes from missing evidence. Watcher was not started; actual thread cwd was /root.",
     "foreign_changes": "Pre-existing policy/runbook/Cloud README edits and evidence-reader/iteration/role/history untracked files excluded from commits; preserve them.",
-    "publication": "Source224f8ee and toola66c1d3 already published and full remote SHAs checked; handoff metadata commit follows."
+    "publication": "Source224f8ee and toola66c1d3 already published and full remote SHAs checked; handoff metadata commit follows.",
+    "resumed_utc": "2026-10-21T19:48:35Z",
+    "resumed_thread_id": "01a15ffd-66c3-7e82-bc08-e36ba747fac1",
+    "resume_status": "Owner resumed explicitly; P3 terminal accounted. Historical handoff fields preserved."
   }
 }

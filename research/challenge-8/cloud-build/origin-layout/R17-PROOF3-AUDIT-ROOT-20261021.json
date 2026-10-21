@@ -1,0 +1,99 @@
+{
+  "archive_sha256": "f5af5361cf14568f4887d882dc205c55e9943316da74d32a95d83fc4e8e98c93",
+  "build_id": "f9e06ad1-d13e-4012-b1fc-be1d84c4aded",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 11,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+  "file_path": "proof-audit.json",
+  "file_sha256": "59249e2a23d30d410e947a70365e482c209165cb9558f14a71dab150e87941f6",
+  "index_sha256": "7b87aa4170c6263ac821862e9f87f16f9474743e4e834f343d5b1c223f504ff9",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "59249e2a23d30d410e947a70365e482c209165cb9558f14a71dab150e87941f6",
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "pointer": ""
+  },
+  "request_id": "b0cf41a9d2059c239a294c42e4d965e0aa2dc0d66a592dfb10f608bb3c8e2504",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/accepted",
+      "value": false
+    },
+    {
+      "child_count": 19,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/bridge_diagnostic"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/build_mode",
+      "value": "selected-drop-minimal"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/classification",
+      "value": "INCONCLUSIVE"
+    },
+    {
+      "child_count": 5,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/compiler"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/diagnostic_complete",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/exit_status",
+      "value": 1
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/lane",
+      "value": "merge"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/proof_attempted",
+      "value": true
+    },
+    {
+      "child_count": 4,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/retained_six_smoke"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/schema",
+      "value": "smallsort-merge-cloud-diagnostic-v1"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}
