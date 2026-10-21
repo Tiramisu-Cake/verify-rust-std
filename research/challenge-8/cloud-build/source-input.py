@@ -274,9 +274,14 @@ def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes
         payload["schema"] = SHARED_STREAM_SCHEMA
         payload["shared_objects"] = []
         object_stream = bytearray()
-        for oid in sorted(pool):
+        # Group similar bytes before compression.  Stream entry order is not a
+        # Git identity: offsets remain contiguous and the unchanged reader
+        # checks each object against its original OID and repository closure.
+        raw_objects = {oid: base64.b64decode(item["data_base64"], validate=True)
+                       for oid, item in pool.items()}
+        for oid in sorted(pool, key=lambda oid: (raw_objects[oid], oid)):
             item = dict(pool[oid])
-            raw_object = base64.b64decode(item["data_base64"], validate=True)
+            raw_object = raw_objects[oid]
             item.pop("data_base64")
             item["offset"] = len(object_stream)
             object_stream.extend(raw_object)
