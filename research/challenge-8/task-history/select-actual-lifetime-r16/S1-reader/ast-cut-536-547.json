@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "58096d4a475bd836f01dfe7453706f0c09ac0495509b3c5a0438cc989706b855",
+  "build_id": "3a973f8c-b4c0-461b-8a2a-908b46c7ee35",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 547,
+    "line_separator": "LF",
+    "source_lines": 831,
+    "start": 536,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "aa665cd7aa7c709b368209bcc86531f302dc90a3d8461f8a5cb97a909df767dc",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/proof-ast.ml",
+  "file_sha256": "24c66caa73e94cbac43911c51a37c8a41de7b30f3b304c5bae1c6bc13506ff3c",
+  "index_sha256": "cf7a312a00549b0bfe14fcb39b2f485eda09fce3c8735eff590483c9d9878c72",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 547,
+    "expected_sha256": "24c66caa73e94cbac43911c51a37c8a41de7b30f3b304c5bae1c6bc13506ff3c",
+    "file_id": "aa665cd7aa7c709b368209bcc86531f302dc90a3d8461f8a5cb97a909df767dc",
+    "start": 536
+  },
+  "request_id": "e8f41a07f34695f0841175d4e8be535fdce902abd241e1ed9bfc3a36ea0384d5",
+  "requested_end": 547,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 536,
+      "text": "        ], Static)));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 537,
+      "text": "        PureStmt (loc \"verified/lib.rs(177,9-178,1)\", ExprStmt (CallExpr (loc \"verified/lib.rs(177,43-44)\", \"close_full_borrow_content\", [IdentTypeExpr (loc \"verified/lib.rs(177,41-42)\", None, \"T\")], [], ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 538,
+      "text": "          LitPat (Var (loc \"verified/lib.rs(177,44-45)\", \"t\"));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 539,
+      "text": "          LitPat (Operation (loc \"verified/lib.rs(177,54-55)\", Add, [Var (loc \"verified/lib.rs(177,47-53)\", \"v_base\"); IntLit (loc \"verified/lib.rs(177,56-57)\", big_int_of_string \"3\", true, false, NoLSuffix)]))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 540,
+      "text": "        ], Static)));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 541,
+      "text": "        PureStmt (loc \"verified/lib.rs(178,9-179,1)\", ExprStmt (CallExpr (loc \"verified/lib.rs(178,13-19)\", \"borrow\", [], [], ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 542,
+      "text": "          LitPat (Var (loc \"verified/lib.rs(178,20-25)\", \"cmp_k\"));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 543,
+      "text": "          LitPat (ExprCallExpr (loc \"verified/lib.rs(178,50-51)\", TypePredExpr (loc \"verified/lib.rs(178,30-31)\", IdentTypeExpr (loc \"verified/lib.rs(178,28-29)\", None, \"T\"), \"full_borrow_content\"), ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 544,
+      "text": "            LitPat (Var (loc \"verified/lib.rs(178,51-52)\", \"t\"));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 545,
+      "text": "            LitPat (Operation (loc \"verified/lib.rs(178,61-62)\", Add, [Var (loc \"verified/lib.rs(178,54-60)\", \"v_base\"); IntLit (loc \"verified/lib.rs(178,63-64)\", big_int_of_string \"2\", true, false, NoLSuffix)]))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 546,
+      "text": "          ]))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 547,
+      "text": "        ], Static)));"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

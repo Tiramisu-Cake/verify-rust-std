@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "58096d4a475bd836f01dfe7453706f0c09ac0495509b3c5a0438cc989706b855",
+  "build_id": "3a973f8c-b4c0-461b-8a2a-908b46c7ee35",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 583,
+    "line_separator": "LF",
+    "source_lines": 831,
+    "start": 572,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "aa665cd7aa7c709b368209bcc86531f302dc90a3d8461f8a5cb97a909df767dc",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/proof-ast.ml",
+  "file_sha256": "24c66caa73e94cbac43911c51a37c8a41de7b30f3b304c5bae1c6bc13506ff3c",
+  "index_sha256": "cf7a312a00549b0bfe14fcb39b2f485eda09fce3c8735eff590483c9d9878c72",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 583,
+    "expected_sha256": "24c66caa73e94cbac43911c51a37c8a41de7b30f3b304c5bae1c6bc13506ff3c",
+    "file_id": "aa665cd7aa7c709b368209bcc86531f302dc90a3d8461f8a5cb97a909df767dc",
+    "start": 572
+  },
+  "request_id": "fe2d498df7846b2a01657585f755cf53a2cb8ff9cc55697de0d92a449da256d9",
+  "requested_end": 583,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 572,
+      "text": "        ]));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 573,
+      "text": "        PureStmt (loc \"verified/lib.rs(184,9-185,1)\", ExprStmt (CallExpr (loc \"verified/lib.rs(184,32-33)\", \"init_ref_share\", [IdentTypeExpr (loc \"verified/lib.rs(184,30-31)\", None, \"T\")], [], [LitPat (Var (loc \"verified/lib.rs(184,33-38)\", \"cmp_k\")); LitPat (Var (loc \"verified/lib.rs(184,40-41)\", \"t\")); LitPat (Var (loc \"verified/lib.rs(184,43-51)\", \"left_ref\"))], Static)));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 574,
+      "text": "        PureStmt (loc \"verified/lib.rs(185,9-186,1)\", ExprStmt (CallExpr (loc \"verified/lib.rs(185,32-33)\", \"init_ref_share\", [IdentTypeExpr (loc \"verified/lib.rs(185,30-31)\", None, \"T\")], [], [LitPat (Var (loc \"verified/lib.rs(185,33-38)\", \"cmp_k\")); LitPat (Var (loc \"verified/lib.rs(185,40-41)\", \"t\")); LitPat (Var (loc \"verified/lib.rs(185,43-52)\", \"right_ref\"))], Static)));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 575,
+      "text": "        PureStmt (loc \"verified/lib.rs(186,9-187,1)\", ExprStmt (CallExpr (loc \"verified/lib.rs(186,37-38)\", \"close_ref_own\", [IdentTypeExpr (loc \"verified/lib.rs(186,29-33)\", None, \"'cmp\"); IdentTypeExpr (loc \"verified/lib.rs(186,35-36)\", None, \"T\")], [], [LitPat (Var (loc \"verified/lib.rs(186,38-46)\", \"left_ref\"))], Static)));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 576,
+      "text": "        PureStmt (loc \"verified/lib.rs(187,9-188,1)\", ExprStmt (CallExpr (loc \"verified/lib.rs(187,37-38)\", \"close_ref_own\", [IdentTypeExpr (loc \"verified/lib.rs(187,29-33)\", None, \"'cmp\"); IdentTypeExpr (loc \"verified/lib.rs(187,35-36)\", None, \"T\")], [], [LitPat (Var (loc \"verified/lib.rs(187,38-47)\", \"right_ref\"))], Static)));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 577,
+      "text": "        PureStmt (loc \"verified/lib.rs(188,9-189,1)\", Close (loc \"verified/lib.rs(188,13-18)\", None, \"std_tuple_2__own\", [RustRefTypeExpr (loc \"verified/lib.rs(188,21-22)\", IdentTypeExpr (loc \"verified/lib.rs(188,21-22)\", None, \"'cmp\"), Shared, IdentTypeExpr (loc \"verified/lib.rs(188,27-28)\", None, \"T\")); RustRefTypeExpr (loc \"verified/lib.rs(188,30-31)\", IdentTypeExpr (loc \"verified/lib.rs(188,30-31)\", None, \"'cmp\"), Shared, IdentTypeExpr (loc \"verified/lib.rs(188,36-37)\", None, \"T\"))], [], ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 578,
+      "text": "          LitPat (Var (loc \"verified/lib.rs(188,44-45)\", \"t\"));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 579,
+      "text": "          LitPat (CastExpr (loc \"verified/lib.rs(188,47-59)\", StructTypeExpr (loc \"verified/lib.rs(188,47-59)\", Some (\"std_tuple_2_\"), None, [], [RustRefTypeExpr (loc \"verified/lib.rs(188,62-63)\", IdentTypeExpr (loc \"verified/lib.rs(188,62-63)\", None, \"'cmp\"), Shared, IdentTypeExpr (loc \"verified/lib.rs(188,68-69)\", None, \"T\")); RustRefTypeExpr (loc \"verified/lib.rs(188,71-72)\", IdentTypeExpr (loc \"verified/lib.rs(188,71-72)\", None, \"'cmp\"), Shared, IdentTypeExpr (loc \"verified/lib.rs(188,77-78)\", None, \"T\"))]), InitializerList (loc \"verified/lib.rs(188,47-59)\", [(Some ((loc \"verified/lib.rs(188,82-83)\", \"0\")), Var (loc \"verified/lib.rs(188,85-93)\", \"left_ref\")); (Some ((loc \"verified/lib.rs(188,95-96)\", \"1\")), Var (loc \"verified/lib.rs(188,98-107)\", \"right_ref\"))])))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 580,
+      "text": "        ], None));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 581,
+      "text": "        PureStmt (loc \"verified/lib.rs(189,9-190,1)\", ExprStmt (CallExpr (loc \"verified/lib.rs(189,13-29)\", \"open_frac_borrow\", [], [], ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 582,
+      "text": "          LitPat (Var (loc \"verified/lib.rs(189,30-35)\", \"cmp_k\"));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 583,
+      "text": "          LitPat (CallExpr (loc \"verified/lib.rs(189,37-53)\", \"ref_initialized_\", [], [], [LitPat (Var (loc \"verified/lib.rs(189,54-62)\", \"left_ref\"))], Static));"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

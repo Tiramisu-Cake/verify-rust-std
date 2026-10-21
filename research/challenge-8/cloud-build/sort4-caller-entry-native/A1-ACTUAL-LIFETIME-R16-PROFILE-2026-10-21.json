@@ -22,7 +22,7 @@
     "a1-summary-receipt.py": "bcc55360698346f0aa2dfb3858c6b555a9104db95308116d2c16c188a9b8a7dd",
     "a1-synthetic-backend.py": "e16f7a825d07845b80128d7db671681bba4f8c9b70a323dcd9b705e499314316",
     "a1-synthetic-inputs.py": "dd737956cbff76a7e27abac0603b3a0cc4eeeae2aa7f7c0e1dddb914ac59bc3f",
-    "a1-tool.py": "3f715b5a9ee65d6d034cc0ce3416213d0d80b4014a4b477908a90dc562042bc3",
+    "a1-tool.py": "8a9cb208089b4a051b107e99a010e0260e9e7c46a9862fe59642d820ffb639a7",
     "selected-proof.py": "3347ad41c0273ebf186dbcf0520182455b32a65ad9619f2b2c7d3d00c12a7d7f"
   },
   "a1_runner_sha256": "fbb892fdbceb6a7d90a6f23c0d85e2ea9400c3367cdf25ffa529d07be938930c",
@@ -42,6 +42,13 @@
     "patch_sha256": "0ffb4fb9ea713ab58871ced508f537ba0ec7de01b7cca85fe41b7e327ebddeda",
     "result_sha256": "9155f51bc421b74bb4736887f919087c37504969d3bd5b8e539f822daa9194d5"
   },
+  "actual_deferred_scope_relocation": {
+    "manifest_sha256": "ecb42bf3afd24c2c999a7255f15f8f1d611c2ebea09272a49305939a2df58ad3",
+    "patch": "actual-sort4-deferred-scope-r16.patch",
+    "patch_sha256": "93122bb6bb91ef091536b18bc611e076fe1419c05a8b5da5a2f396dd83792168",
+    "result_sha256": "dbbf95ff540ab8111fad7130e85e860c0cb0fbdaa7e94049cc4f34e3a4dbede4"
+  },
+  "actual_deferred_scope_relocation_enabled": true,
   "actual_scope_relocation": {
     "manifest_sha256": "6fa13f106345392bf7bd9e4e04177e478ab2b06d3b0f99d5aee2c03bfd4af5e5",
     "patch": "actual-sort4-scope-relocation-r16.patch",
@@ -71,7 +78,7 @@
   "c_patch_sha256": "3549e93e80aa20f3827c821db60d7ce366557155b8b203a8acaff552c04f5cb6",
   "caller_driver_sha256": "75df07539721e16e2329f94ebe392f8f3626ca106be906cfc0cc61345db4797a",
   "caller_manifest_sha256": "cea1daca656e641f083aabc1eb8c62784edde889ae01470b339c719e3ba3c8d2",
-  "candidate_version": "R16-S2-CHECKED-DECLARATION-SCOPE",
+  "candidate_version": "R16-S3-CHECKED-CMP-DEFERRED-SCOPE",
   "checkpoint_utc": "2026-10-21T12:29:30Z",
   "cloud_build_enabled": true,
   "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",

@@ -1,10 +1,10 @@
 # Agent checkpoint: select-actual-lifetime-autonomous-2026-10-21-r16
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-LIFETIME-2026-10-21-R16 | state: ACTIVE
-- Updated: 2026-10-21T18:19:13.321674Z
+- Updated: 2026-10-21T19:02:34.906066Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `de469095ad2ba4435b41bc0f114289cd12f4952f129e88fbcfb655cea6dca505`
 - Session dates: T0 `2026-10-21T17:50:34Z`; main deadline `2026-10-21T19:50:34Z`; absolute deadline `2026-10-21T20:20:34Z`
-- Budget: 3600s total; 501s spent; 0s retired; 3099s remaining including active reservations
+- Budget: 3600s total; 930s spent; 0s retired; 2670s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
@@ -21,11 +21,11 @@
 - Broad placeholder/static-lifetime acceptance or helper PASS as full body. — Forbidden shortcuts: retain strict barrier and actual callback/resource binding.; [research/challenge-8/task-history/select-actual-sort4-r15/NEXT-ACTUAL-OBLIGATION.md](task-history/select-actual-sort4-r15/NEXT-ACTUAL-OBLIGATION.md) SHA `ab4f335d7702727836bac3a2a68a4b3564af69773dc0220e96301860a9d3484a`
 
 ## Blocker
-S1 full actual body strict entry still refuses 30 unresolved erased-reference temporaries in c1-c5 groups; source-scoped declaration/def-use binding remains OPEN. (verified/lib.rs(167,1-30)) [Build `3a973f8c-b4c0-461b-8a2a-908b46c7ee35`]
-- [research/challenge-8/task-history/select-actual-lifetime-r16/S1-evidence.json](task-history/select-actual-lifetime-r16/S1-evidence.json) SHA `4ca1aa1ca1d7c018b5acc56ec0ffbaabcbf183f3af9741a55f4b002f892ee9f3`
+S2 final OCaml tool build rejected shifted ProduceLemmaFunctionPointerChunkStmt tuple; scope fix unexecuted. Actual normal/unwind body remains OPEN; S1 identifies future24 outside c1 cut. (vf_mir_translator.ml:7852) [Build `d1376298-d147-43b5-a0b7-e5832cb564b1`]
+- [research/challenge-8/task-history/select-actual-lifetime-r16/S2-evidence.json](task-history/select-actual-lifetime-r16/S2-evidence.json) SHA `a6ed06e09746fe8b5e5353eacc396bff269ad2e32fb243b487ef43eaa70aacd6`
 
 ## Next
-Read R16 S1 strict-entry outer MIR cells through Evidence Brief, then bind from exact def-use/liveness and rerun full actual body with controls.
+S3 checked six-c1 / twenty-four-deferred declaration scopes prepared; independent semantic review and Cloud final compiler/actual-body checks pending.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-actual-sort4-r15/NEXT-ACTUAL-OBLIGATION.md](task-history/select-actual-sort4-r15/NEXT-ACTUAL-OBLIGATION.md) — `ab4f335d7702727836bac3a2a68a4b3564af69773dc0220e96301860a9d3484a`

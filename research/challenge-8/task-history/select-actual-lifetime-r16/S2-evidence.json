@@ -1,0 +1,40 @@
+{
+  "build": {
+    "dispatch_token": "dispatch-2a986dfb493845de8c0f2d93a869023f",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-ACTUAL-LIFETIME-2026-10-21-R16",
+    "infra_sha": "ac6d5c943ade09a046a0fd64052cdf098e1daf67",
+    "proof_sha": "ac6d5c943ade09a046a0fd64052cdf098e1daf67",
+    "lane": "o26-sort4-c1-current-recovery",
+    "submitted_config_sha256": "0f1a79c9c8c29d134d1fdc08b472465d0eefb9d7762d751bd0e03e0559666c5f",
+    "reserved_seconds": 1260,
+    "timeout_seconds": 1200,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "0457a069037fd9a8b6f63e4f33beb8ad84168fb0216f132267dcbc2d255362ae",
+    "build_id": "d1376298-d147-43b5-a0b7-e5832cb564b1",
+    "start_time": "2026-10-21T18:39:52.522020517Z",
+    "finish_time": "2026-10-21T18:47:00.411179Z",
+    "create_time": "2026-10-21T18:39:51.660541439Z",
+    "build_seconds": 429,
+    "accounted": true,
+    "execution_seconds": 428
+  },
+  "brief_integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "archive_sha256": "ed8eea7aec11c9034f63980162ef646c63cf3b1a32c6a3200686463d1b920fc7",
+  "index_sha256": "4e3feb81b8ce67f548b440da65569b26e1f401a8db399ded81efb4a8f993fbe0",
+  "failure": {
+    "stage": "a1-final-schema-exporter-console-build",
+    "stage_exit": 2,
+    "file": "rust_frontend/vf_mir_translator/vf_mir_translator.ml",
+    "line": 7852,
+    "message": "ProduceLemmaFunctionPointerChunkStmt proof tuple fields are shifted; exact pinned Ast type supplies expr args at field3, params field4, location field5."
+  },
+  "actual_body_obligations_closed": 0,
+  "proof_credit": false,
+  "new_scope_validator_controls": "NOT_RUN: final tool compile barrier; original production console build exit0 is separate from this failed final tool",
+  "body_verifier": "NOT_RUN at this failed final-tool reconstruction barrier; raw report body_target status may remain UNKNOWN",
+  "next": "Fix typed tuple visitor and use exact S1 AST continuation boundary to retain c1 six inside cmp and defer future24 into checked normal suffix scope."
+}

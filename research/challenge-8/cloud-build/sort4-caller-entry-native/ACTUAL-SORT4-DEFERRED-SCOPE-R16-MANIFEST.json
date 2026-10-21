@@ -1,0 +1,106 @@
+{
+  "schema": "r16-actual-sort4-deferred-normal-suffix-scope-v1",
+  "authorization_phase_id": "SORT4-ACTUAL-LIFETIME-2026-10-21-R16",
+  "source": "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml",
+  "sourceTR": {
+    "path": "verified/lib.rs",
+    "sha256": "c9a137d7abb2885f07dc5cf15b5772d4d5bddc0ecd0fcf2cda0c453cb1453905",
+    "comparator_line": 198,
+    "strict_cmp_marker_line": 167,
+    "focus_lines": [
+      131,
+      233
+    ],
+    "binding_status": "source-reported; S1 parser-input binding not established"
+  },
+  "base_sha256": "0bf113f31b92af87344dbbad9135f4dcf7c04ec15c9afb649d34b0843c0030f6",
+  "result_sha256": "dbbf95ff540ab8111fad7130e85e860c0cb0fbdaa7e94049cc4f34e3a4dbede4",
+  "patch": "actual-sort4-deferred-scope-r16.patch",
+  "patch_sha256": "93122bb6bb91ef091536b18bc611e076fe1419c05a8b5da5a2f396dd83792168",
+  "new_axiom_or_assumed_lemma": false,
+  "proof_credit": false,
+  "runtime_operations_changed": false,
+  "kernel_checks_changed": false,
+  "declaration_only": true,
+  "relocation": {
+    "existing_opt_in": "SORT4_ACTUAL_BODY_SCOPE_RELOCATION=1",
+    "requires_existing_certificate": "actual_sort4_callback",
+    "requires_body": "sort4_stable",
+    "requires_full_unwind_body": true,
+    "cmp_locals": [
+      "_35",
+      "_36",
+      "_37",
+      "_38",
+      "_41",
+      "_42"
+    ],
+    "deferred_normal_suffix_locals": [
+      "_47",
+      "_48",
+      "_49",
+      "_50",
+      "_53",
+      "_54",
+      "_78",
+      "_79",
+      "_80",
+      "_81",
+      "_82",
+      "_83",
+      "_85",
+      "_86",
+      "_87",
+      "_88",
+      "_89",
+      "_90",
+      "_114",
+      "_115",
+      "_116",
+      "_117",
+      "_118",
+      "_119"
+    ],
+    "deferred_boundary": "the unique top-level continuation LabelStmt named 34 with exactly one incoming goto; preserve that label outside a plain BlockStmt containing the deferred declarations followed by the complete normal suffix through ReturnStmt",
+    "unwind_epilog": "remains outside the deferred normal-suffix block"
+  },
+  "static_invariants": [
+    "all 30 MIR local identifiers, declaration counts, translated types, no-initializer shape, and address-taken flags are checked",
+    "the six c1 locals are checked only inside the unique strict cmp marker scope; the other 24 are checked only inside the one physically identified deferred suffix wrapper",
+    "the complete composed body, including normal statements and callback unwind epilog, is scanned; every target use must occur in its authorized lexical scope",
+    "the wrapper must begin with exactly the deferred declaration set; nested labels or gotos are refused, so no external control-flow edge can enter its interior",
+    "the continuation label and its unique incoming goto remain outer siblings; suffix must be nonempty, end in ReturnStmt, and contain no labels or gotos",
+    "all label and goto targets are counted before and after suffix wrapping and must remain identical; the original suffix statement objects and order are retained",
+    "address-taking, pattern shadowing, unknown statement forms, unsupported expression forms, static WRead, malformed or duplicate markers, duplicate/missing declarations, wrong types, and out-of-scope uses refuse",
+    "a physical statement-node traversal before and after wrapping confirms all original statements and order are unchanged after removing only the wrapper and relocated declaration nodes"
+  ],
+  "synthetic_controls": {
+    "runs_only_when_existing_actual_relocation_is_opted_in": true,
+    "handwritten_ast_without_actual_state_mutation": true,
+    "cmp_controls": 12,
+    "deferred_and_cfg_controls": [
+      "valid deferred declaration and use",
+      "deferred use before the strict marker",
+      "deferred use outside the designated normal suffix",
+      "deferred use in the epilog region",
+      "wrong wrapper identity/boundary",
+      "nested label rejection for an external-entry attempt",
+      "address exposure refusal",
+      "ProduceLemmaFunctionPointerChunkStmt proof-tuple target reference outside scope",
+      "same proof-tuple expression accepted inside scope",
+      "preserved outer continuation label, goto multiset, and runtime operation node"
+    ],
+    "proof_tuple_uses_actual_ast_field_order": true,
+    "unexpected_exceptions_propagate": true
+  },
+  "validation": {
+    "source_only_git_apply_check": "passed against exact base translator SHA",
+    "applied_result_sha256": "dbbf95ff540ab8111fad7130e85e860c0cb0fbdaa7e94049cc4f34e3a4dbede4",
+    "local_compilation": "not run by bounded task",
+    "runner_or_cloud": "not run by bounded task"
+  },
+  "known_limits": [
+    "S1 AST observations identify candidate source structure but do not establish parser-input or MIR binding; runtime activation remains gated by the pre-existing actual-callback certificate and checks.",
+    "Compilation and service controls require the parent-owned Cloud preflight; this bounded task performed only a source-only exact-base patch-application check."
+  ]
+}

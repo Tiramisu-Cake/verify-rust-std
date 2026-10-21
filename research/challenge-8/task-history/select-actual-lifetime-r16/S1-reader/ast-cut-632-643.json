@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "58096d4a475bd836f01dfe7453706f0c09ac0495509b3c5a0438cc989706b855",
+  "build_id": "3a973f8c-b4c0-461b-8a2a-908b46c7ee35",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 643,
+    "line_separator": "LF",
+    "source_lines": 831,
+    "start": 632,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "aa665cd7aa7c709b368209bcc86531f302dc90a3d8461f8a5cb97a909df767dc",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/proof-ast.ml",
+  "file_sha256": "24c66caa73e94cbac43911c51a37c8a41de7b30f3b304c5bae1c6bc13506ff3c",
+  "index_sha256": "cf7a312a00549b0bfe14fcb39b2f485eda09fce3c8735eff590483c9d9878c72",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 643,
+    "expected_sha256": "24c66caa73e94cbac43911c51a37c8a41de7b30f3b304c5bae1c6bc13506ff3c",
+    "file_id": "aa665cd7aa7c709b368209bcc86531f302dc90a3d8461f8a5cb97a909df767dc",
+    "start": 632
+  },
+  "request_id": "11369ed6c62c354171b40b7f86952712ecca5b4139e16255f2622aa8f5573c47",
+  "requested_end": 643,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 632,
+      "text": "      ], Static)));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 633,
+      "text": "      ExprStmt (AssignExpr (loc \"verified/lib.rs(202,26-41)\", Var (loc \"verified/lib.rs(202,26-41)\", \"$_49\"), Mutation, CallExpr (loc \"verified/lib.rs(202,26-41)\", \"fn_outcome_result\", [], [], ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 634,
+      "text": "        LitPat (CallExpr (loc \"verified/lib.rs(202,26-41)\", \"reborrow_ref\", [], [], [LitPat (AddressOf (loc \"verified/lib.rs(202,26-41)\", Deref (loc \"verified/lib.rs(202,26-41)\", Var (loc \"verified/lib.rs(202,26-41)\", \"$_50\"))))], Static))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 635,
+      "text": "      ], Static)));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 636,
+      "text": "      ExprStmt (AssignExpr (loc \"verified/lib.rs(202,45-51)\", Var (loc \"verified/lib.rs(202,45-51)\", \"$_56\"), Mutation, Var (loc \"verified/lib.rs(202,45-51)\", \"v_base\")));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 637,
+      "text": "      ExprStmt (AssignExpr (loc \"verified/lib.rs(202,45-58)\", Var (loc \"verified/lib.rs(202,45-58)\", \"$_55\"), Initialization, Operation (loc \"verified/lib.rs(202,52-58)\", Add, [Var (loc \"verified/lib.rs(202,52-58)\", \"$_56\"); CastExpr (loc \"verified/lib.rs(202,56-57)\", ManifestTypeExpr (loc \"verified/lib.rs(202,56-57)\", Int (Unsigned, PtrRank)), IntLit (loc \"verified/lib.rs(202,56-57)\", big_int_of_string \"2\", true, false, LLSuffix))])));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 638,
+      "text": "      ExprStmt (AssignExpr (loc \"verified/lib.rs(202,43-58)\", Var (loc \"verified/lib.rs(202,43-58)\", \"$_54\"), Initialization, CallExpr (loc \"verified/lib.rs(202,43-58)\", \"fn_outcome_result\", [], [], ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 639,
+      "text": "        LitPat (CallExpr (loc \"verified/lib.rs(202,43-58)\", \"create_ref\", [], [], [LitPat (AddressOf (loc \"verified/lib.rs(202,43-58)\", Deref (loc \"verified/lib.rs(202,43-58)\", Var (loc \"verified/lib.rs(202,43-58)\", \"$_55\"))))], Static))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 640,
+      "text": "      ], Static)));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 641,
+      "text": "      ExprStmt (AssignExpr (loc \"verified/lib.rs(202,43-58)\", Var (loc \"verified/lib.rs(202,43-58)\", \"$_53\"), Mutation, CallExpr (loc \"verified/lib.rs(202,43-58)\", \"fn_outcome_result\", [], [], ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 642,
+      "text": "        LitPat (CallExpr (loc \"verified/lib.rs(202,43-58)\", \"reborrow_ref\", [], [], [LitPat (AddressOf (loc \"verified/lib.rs(202,43-58)\", Deref (loc \"verified/lib.rs(202,43-58)\", Var (loc \"verified/lib.rs(202,43-58)\", \"$_54\"))))], Static))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 643,
+      "text": "      ], Static)));"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

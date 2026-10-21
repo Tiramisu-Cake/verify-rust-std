@@ -47,9 +47,9 @@ Next: Name unresolved outer MIR cells, fix source-preserving binding, then rerun
 ## Отчёт агента
 
 **select-actual-lifetime-autonomous-2026-10-21-r16 · select-sort4 · SORT4-ACTUAL-LIFETIME-2026-10-21-R16 · ACTIVE**
-Updated: 2026-10-21T18:19:13.321674Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `de469095ad2ba4435b41bc0f114289cd12f4952f129e88fbcfb655cea6dca505`.
-Dates: T0 `2026-10-21T17:50:34Z`; main `2026-10-21T19:50:34Z`; absolute `2026-10-21T20:20:34Z`. Budget 3600s: 501s spent, 0s retired, 3099s remaining including reservations.
+Updated: 2026-10-21T19:02:34.906066Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `de469095ad2ba4435b41bc0f114289cd12f4952f129e88fbcfb655cea6dca505`.
+Dates: T0 `2026-10-21T17:50:34Z`; main `2026-10-21T19:50:34Z`; absolute `2026-10-21T20:20:34Z`. Budget 3600s: 930s spent, 0s retired, 2670s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: S1 full actual body strict entry still refuses 30 unresolved erased-reference temporaries in c1-c5 groups; source-scoped declaration/def-use binding remains OPEN. [Build `3a973f8c-b4c0-461b-8a2a-908b46c7ee35`]
-Next: Read R16 S1 strict-entry outer MIR cells through Evidence Brief, then bind from exact def-use/liveness and rerun full actual body with controls.
+Blocker: S2 final OCaml tool build rejected shifted ProduceLemmaFunctionPointerChunkStmt tuple; scope fix unexecuted. Actual normal/unwind body remains OPEN; S1 identifies future24 outside c1 cut. [Build `d1376298-d147-43b5-a0b7-e5832cb564b1`]
+Next: S3 checked six-c1 / twenty-four-deferred declaration scopes prepared; independent semantic review and Cloud final compiler/actual-body checks pending.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

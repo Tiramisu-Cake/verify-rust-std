@@ -1,0 +1,613 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -7695,93 +7695,121 @@
+     end;
+     requested
+ 
+-(* Fail-closed lexical-use validation for the R16 source-certified MIR
+-   declaration relocation. This walks every statement constructor emitted by
+-   this translator and delegates expression recursion to Ast.expr_iter (whose
+-   default branch is a static error). *)
+-let validate_actual_scope_relocation expected_types body =
+-  let ids = List.map fst expected_types in
++(* Fail-closed containment for the R16 cmp locals and deferred normal-suffix
++   locals. Expression recursion uses Ast.expr_iter; skipped branches are
++   checked explicitly and unsupported forms refuse. *)
++let validate_actual_scope_relocation cmp_expected deferred_expected deferred_wrapper body =
+   let exception Invalid of string in
+   let reject reason = raise (Invalid reason) in
++  let cmp_ids = List.map fst cmp_expected in
++  let deferred_ids = List.map fst deferred_expected in
++  let expected_types = cmp_expected @ deferred_expected in
++  let ids = List.map fst expected_types in
++  let intended_scope = Hashtbl.create 31 in
+   let refs = Hashtbl.create 31 in
+   let decls = Hashtbl.create 31 in
+-  List.iter (fun id -> Hashtbl.add refs id (ref 0); Hashtbl.add decls id (ref 0)) ids;
++  List.iter (fun id ->
++    if Hashtbl.mem intended_scope id then reject ("duplicate expected local: " ^ id);
++    Hashtbl.add intended_scope id (`Cmp);
++    Hashtbl.add refs id (ref 0); Hashtbl.add decls id (ref 0)) cmp_ids;
++  List.iter (fun id ->
++    if Hashtbl.mem intended_scope id then reject ("duplicate expected local: " ^ id);
++    Hashtbl.add intended_scope id (`Deferred);
++    Hashtbl.add refs id (ref 0); Hashtbl.add decls id (ref 0)) deferred_ids;
++  let target id = Hashtbl.mem intended_scope id in
+   let markers = ref 0 in
+-  let target id = Hashtbl.mem refs id in
+-  let record_ref inside id = if target id then begin
+-    if not inside then reject ("target reference outside cmp scope: " ^ id);
++  let deferred_wrappers = ref 0 in
++  let exception_scope id scope =
++    match Hashtbl.find_opt intended_scope id, scope with
++    | Some `Cmp, `Cmp | Some `Deferred, `Deferred -> ()
++    | Some `Cmp, _ -> reject ("cmp local escaped strict scope: " ^ id)
++    | Some `Deferred, _ -> reject ("deferred local escaped normal suffix scope: " ^ id)
++    | None, _ -> () in
++  let record_ref scope id = if target id then begin
++    exception_scope id scope;
+     incr (Hashtbl.find refs id)
+   end in
+-  let rec scan_expr inside e =
++  let rec scan_expr scope e =
+     Ast.expr_iter (fun node ->
+       (match node with
+        | Ast.WRead (_, _, _, _, _, _, _, true, _, _) ->
+            reject "unsupported static WRead may hide a candidate receiver"
+-       | Ast.Var (_, id) | Ast.WVar (_, id, _) -> record_ref inside id
++       | Ast.Var (_, id) | Ast.WVar (_, id, _) -> record_ref scope id
+        | Ast.AddressOf (_, inner) ->
+            Ast.expr_iter (function
+              | Ast.Var (_, id) | Ast.WVar (_, id, _) when target id ->
+                  reject ("address-taken target local: " ^ id)
++             | Ast.WRead (_, _, _, _, _, _, _, true, _, _) ->
++                 reject "unsupported static WRead may hide an address-taken receiver"
+              | _ -> ()) inner
+        | _ -> ());
+-      scan_expr_patterns inside node) e
+-  and scan_expr_patterns inside = function
+-    | Ast.SliceExpr (_, a, b) -> Option.iter (scan_pat inside) a; Option.iter (scan_pat inside) b
+-    | Ast.CallExpr (_, _, _, p0, ps, _) -> scan_pats inside (p0 @ ps)
+-    | Ast.ExprCallExpr (_, _, ps) -> scan_pats inside ps
++      scan_expr_patterns scope node) e
++  and scan_expr_patterns scope = function
++    | Ast.SliceExpr (_, a, b) -> Option.iter (scan_pat scope) a; Option.iter (scan_pat scope) b
++    | Ast.CallExpr (_, _, _, p0, ps, _) -> scan_pats scope (p0 @ ps)
++    | Ast.ExprCallExpr (_, _, ps) -> scan_pats scope ps
+     | Ast.SwitchExpr (_, _, clauses, _) ->
+         List.iter (function Ast.SwitchExprClause (_, _, names, _) ->
+           List.iter (fun id -> if target id then reject ("target local shadowed in switch expression: " ^ id)) names) clauses
+     | Ast.WSwitchExpr (_, _, _, _, clauses, _, _, _) ->
+         List.iter (function Ast.SwitchExprClause (_, _, names, _) ->
+           List.iter (fun id -> if target id then reject ("target local shadowed in switch expression: " ^ id)) names) clauses
+-    | Ast.PointsTo (_, _, _, pat) | Ast.WPointsTo (_, _, _, _, pat) -> scan_pat inside pat
++    | Ast.PointsTo (_, _, _, pat) | Ast.WPointsTo (_, _, _, _, pat) -> scan_pat scope pat
+     | Ast.PredAsn (_, _, _, indices, args, _) | Ast.WPredAsn (_, _, _, _, indices, args) ->
+-        scan_pats inside (indices @ args)
+-    | Ast.PredExprAsn (_, _, pats) | Ast.WPredExprAsn (_, _, _, _, pats) -> scan_pats inside pats
+-    | Ast.InstPredAsn (_, _, _, index, pats) -> scan_expr inside index; scan_pats inside pats
++        scan_pats scope (indices @ args)
++    | Ast.PredExprAsn (_, _, pats) | Ast.WPredExprAsn (_, _, _, _, pats) -> scan_pats scope pats
++    | Ast.InstPredAsn (_, _, _, index, pats) -> scan_expr scope index; scan_pats scope pats
+     | Ast.WInstPredAsn (_, eopt, _, _, _, _, index, pats) ->
+-        Option.iter (scan_expr inside) eopt; scan_expr inside index; scan_pats inside pats
+-    | Ast.MatchAsn (_, _, pat) | Ast.WMatchAsn (_, _, pat, _) -> scan_pat inside pat
+-    | Ast.CoefAsn (_, pat, _) -> scan_pat inside pat
++        Option.iter (scan_expr scope) eopt; scan_expr scope index; scan_pats scope pats
++    | Ast.MatchAsn (_, _, pat) | Ast.WMatchAsn (_, _, pat, _) -> scan_pat scope pat
++    | Ast.CoefAsn (_, pat, _) -> scan_pat scope pat
+     | Ast.WSwitchAsn (_, _, _, clauses) -> List.iter (function
+         | Ast.WSwitchAsnClause (_, _, _, names, _, body) ->
+             List.iter (Option.iter (fun id -> if target id then reject ("target local shadowed in switch assertion: " ^ id))) names;
+-            scan_expr inside body) clauses
++            scan_expr scope body) clauses
+     | Ast.ForallAsn (_, _, binder, e) ->
+         if target binder then reject ("target local shadowed by forall binder: " ^ binder);
+-        scan_expr inside e
++        scan_expr scope e
+     | Ast.LetTypeAsn (_, binder, _, body) ->
+         if target binder then reject ("target local shadowed by let-type binder: " ^ binder);
+-        scan_expr inside body
++        scan_expr scope body
+     | Ast.EnsuresAsn (_, binder, body) ->
+         if target binder then reject ("target local shadowed by ensures binder: " ^ binder);
+-        scan_expr inside body
++        scan_expr scope body
+     | _ -> ()
+-  and scan_pats inside ps = List.iter (scan_pat inside) ps
+-  and scan_pat inside = function
+-    | Ast.LitPat e -> scan_expr inside e
++  and scan_pats scope ps = List.iter (scan_pat scope) ps
++  and scan_pat scope = function
++    | Ast.LitPat e -> scan_expr scope e
+     | Ast.VarPat (_, id) when target id -> reject ("target local used as pattern binder: " ^ id)
+     | Ast.VarPat _ | Ast.DummyPat | Ast.DummyVarPat -> ()
+-    | Ast.CtorPat (_, _, ps) -> List.iter (scan_pat inside) ps
++    | Ast.CtorPat (_, _, ps) -> List.iter (scan_pat scope) ps
+     | Ast.WCtorPat (_, _, _, _, _, _, ps, eopt) ->
+-        List.iter (scan_pat inside) ps; Option.iter (scan_expr inside) eopt
++        List.iter (scan_pat scope) ps; Option.iter (scan_expr scope) eopt
+   in
+-  let rec scan_producing inside = function
+-    | Ast.BasicProducingHandlePredicate (_, _, es) -> List.iter (scan_expr inside) es
++  let rec scan_producing scope = function
++    | Ast.BasicProducingHandlePredicate (_, _, es) -> List.iter (scan_expr scope) es
+     | Ast.ConditionalProducingHandlePredicate (_, e, _, es, rest) ->
+-        scan_expr inside e; List.iter (scan_expr inside) es; scan_producing inside rest
++        scan_expr scope e; List.iter (scan_expr scope) es; scan_producing scope rest
+   in
+-  let scan_consuming inside (Ast.ConsumingHandlePredicate (_, _, ps)) = scan_pats inside ps in
++  let scan_consuming scope (Ast.ConsumingHandlePredicate (_, _, ps)) = scan_pats scope ps in
+   let is_scope_marker = function
+     | Ast.ExprStmt (Ast.CallExpr (_, "#strict_lft_binding_scope",
+         [Ast.IdentTypeExpr (_, None, "'cmp")], [], [], Ast.Static)) -> true
+-    | _ -> false
+-  in
++    | _ -> false in
+   let malformed_scope_marker = function
+     | Ast.ExprStmt (Ast.CallExpr (_, "#strict_lft_binding_scope", _, _, _, Ast.Static)) -> true
+-    | _ -> false
+-  in
++    | _ -> false in
++  let wrapper_has_control_transfer ss =
++    let found = ref false in
++    List.iter (Ast.stmt_iter (function
++      | Ast.LabelStmt _ | Ast.GotoStmt _ -> found := true
++      | _ -> ())) ss;
++    !found in
++  let wrapper_decl_ids ss =
++    let rec take n acc rest = if n = 0 then List.rev acc else match rest with
++      | Ast.DeclStmt (_, [(_, _, id, None, _)]) :: tail when List.mem id deferred_ids -> take (n - 1) (id :: acc) tail
++      | _ -> reject "deferred declarations are not a complete prefix of the wrapper" in
++    take (List.length deferred_ids) [] ss in
+   let rec scan_list inherited ss =
+     let active = ref inherited in
+     List.iter (fun s ->
+@@ -7789,94 +7817,167 @@
+         if not (is_scope_marker s) then reject "malformed strict lifetime marker";
+         incr markers;
+         if !markers <> 1 then reject "duplicate strict lifetime marker";
+-        active := true
++        if !active <> `Outside then reject "strict cmp marker nested in another relocation scope";
++        active := `Cmp
+       end;
+-      scan_stmt !active s) ss
+-  and scan_stmt inside s =
+-    let scan_opt_expr = Option.iter (scan_expr inside) in
++      match deferred_wrapper with
++      | Some wrapper when s == wrapper ->
++          if !active <> `Outside then reject "deferred scope nested in strict cmp scope";
++          incr deferred_wrappers;
++          if !deferred_wrappers <> 1 then reject "duplicate deferred scope wrapper";
++          begin match s with
++          | Ast.BlockStmt (_, [], inner, _, _) ->
++              if List.sort compare (wrapper_decl_ids inner) <> List.sort compare deferred_ids then
++                reject "deferred declaration order changed";
++              if wrapper_has_control_transfer inner then
++                reject "deferred scope contains a label or goto entry"
++          | _ -> reject "deferred scope wrapper has wrong AST shape"
++          end;
++          begin match s with Ast.BlockStmt (_, [], inner, _, _) -> scan_list `Deferred inner | _ -> assert false end
++      | _ -> scan_stmt !active s) ss
++  and scan_stmt scope s =
++    let scan_opt_expr = Option.iter (scan_expr scope) in
+     match s with
+-    | Ast.PureStmt (_, s) | Ast.NonpureStmt (_, _, s) -> scan_stmt inside s
++    | Ast.PureStmt (_, s) | Ast.NonpureStmt (_, _, s) -> scan_stmt scope s
+     | Ast.DeclStmt (_, ds) -> List.iter (fun (_, ty, id, init, (taken, _)) ->
+         if target id then begin
++          exception_scope id scope;
+           incr (Hashtbl.find decls id);
+-          if not inside then reject ("target declaration outside cmp scope: " ^ id);
+           if !taken then reject ("address-taken target declaration: " ^ id);
+           let expected = List.assoc_opt id expected_types in
+           if ty = None || init <> None || expected <> Some ty then
+             reject ("target declaration has wrong shape or type: " ^ id)
+         end;
+         scan_opt_expr init) ds
+-    | Ast.ExprStmt e -> scan_expr inside e
+-    | Ast.IfStmt (_, e, a, b) -> scan_expr inside e; scan_list inside a; scan_list inside b
++    | Ast.ExprStmt e -> scan_expr scope e
++    | Ast.IfStmt (_, e, a, b) -> scan_expr scope e; scan_list scope a; scan_list scope b
+     | Ast.SwitchStmt (_, e, cs) ->
+-        scan_expr inside e;
++        scan_expr scope e;
+         List.iter (function
+-          | Ast.SwitchStmtClause (_, e, ss) -> scan_expr inside e; scan_list inside ss
+-          | Ast.SwitchStmtDefaultClause (_, ss) -> scan_list inside ss) cs
+-    | Ast.Assert (_, a) | Ast.Leak (_, a) | Ast.InvariantStmt (_, a) -> scan_expr inside a
+-    | Ast.SpecStmt (_, a, b) -> scan_expr inside a; scan_expr inside b
++          | Ast.SwitchStmtClause (_, e, ss) -> scan_expr scope e; scan_list scope ss
++          | Ast.SwitchStmtDefaultClause (_, ss) -> scan_list scope ss) cs
++    | Ast.Assert (_, a) | Ast.Leak (_, a) | Ast.InvariantStmt (_, a) -> scan_expr scope a
++    | Ast.SpecStmt (_, a, b) -> scan_expr scope a; scan_expr scope b
+     | Ast.Open (_, e, _, _, indices, args, coef)
+     | Ast.Close (_, e, _, _, indices, args, coef) ->
+-        scan_opt_expr e; scan_pats inside indices; scan_pats inside args; Option.iter (scan_pat inside) coef
++        scan_opt_expr e; scan_pats scope indices; scan_pats scope args; Option.iter (scan_pat scope) coef
+     | Ast.ReturnStmt (_, e) -> scan_opt_expr e
+     | Ast.WhileStmt (_, e, spec, dec, ss, final_ss) ->
+-        scan_expr inside e;
+-        Option.iter (function Ast.LoopInv a -> scan_expr inside a | Ast.LoopSpec (a,b) -> scan_expr inside a; scan_expr inside b) spec;
+-        scan_opt_expr dec; scan_list inside ss; scan_list inside final_ss
++        scan_expr scope e;
++        Option.iter (function Ast.LoopInv a -> scan_expr scope a | Ast.LoopSpec (a,b) -> scan_expr scope a; scan_expr scope b) spec;
++        scan_opt_expr dec; scan_list scope ss; scan_list scope final_ss
+     | Ast.BlockStmt (_, ds, ss, _, _) ->
+         List.iter (function
+           | Ast.TypeWithTypeidDecl (_, name, e) ->
+               if target name then reject ("target local shadowed by type binder: " ^ name);
+-              scan_expr inside e
++              scan_expr scope e
+           | _ -> reject "unsupported declaration in candidate scope AST") ds;
+-        scan_list inside ss
++        scan_list scope ss
+     | Ast.PerformActionStmt (_, _, _, pats, consuming, _, _, args, ss, _, post, producing) ->
+-        scan_pats inside pats; List.iter (scan_consuming inside) consuming;
+-        List.iter (scan_expr inside) args; scan_list inside ss;
+-        Option.iter (fun (_, es) -> List.iter (scan_expr inside) es) post;
+-        List.iter (fun (_, p) -> scan_producing inside p) producing
+-    | Ast.SplitFractionStmt (_, _, _, pats, e) -> scan_pats inside pats; scan_opt_expr e
+-    | Ast.MergeFractionsStmt (_, a) -> scan_expr inside a
++        scan_pats scope pats; List.iter (scan_consuming scope) consuming;
++        List.iter (scan_expr scope) args; scan_list scope ss;
++        Option.iter (fun (_, es) -> List.iter (scan_expr scope) es) post;
++        List.iter (fun (_, p) -> scan_producing scope p) producing
++    | Ast.SplitFractionStmt (_, _, _, pats, e) -> scan_pats scope pats; scan_opt_expr e
++    | Ast.MergeFractionsStmt (_, a) -> scan_expr scope a
+     | Ast.CreateBoxStmt (_, _, _, args, lower, upper, handles) ->
+-        List.iter (scan_expr inside) (args @ lower @ upper);
+-        List.iter (fun (_, _, _, _, es) -> List.iter (scan_expr inside) es) handles
+-    | Ast.CreateHandleStmt (_, _, _, _, e) -> scan_expr inside e
++        List.iter (scan_expr scope) (args @ lower @ upper);
++        List.iter (fun (_, _, _, _, es) -> List.iter (scan_expr scope) es) handles
++    | Ast.CreateHandleStmt (_, _, _, _, e) -> scan_expr scope e
+     | Ast.DisposeBoxStmt (_, _, pats, handles) ->
+-        scan_pats inside pats; List.iter (fun (_, _, ps) -> scan_pats inside ps) handles
++        scan_pats scope pats; List.iter (fun (_, _, ps) -> scan_pats scope ps) handles
+     | Ast.LabelStmt _ | Ast.GotoStmt _ | Ast.NoopStmt _ | Ast.Break _ | Ast.Continue _ -> ()
+     | Ast.ProduceLemmaFunctionPointerChunkStmt (_, e, proof, nested) ->
+         scan_opt_expr e;
+-        Option.iter (fun (_, _, _, args, params, ss, _) ->
+-          List.iter (scan_expr inside) args;
++        Option.iter (fun (_, _, args, params, _, ss, _) ->
++          List.iter (scan_expr scope) args;
+           List.iter (fun (_, id) -> if target id then reject ("target local shadowed by lemma pointer binder: " ^ id)) params;
+-          scan_list inside ss) proof;
+-        Option.iter (scan_stmt inside) nested
+-    | Ast.DuplicateLemmaFunctionPointerChunkStmt (_, e) -> scan_expr inside e
++          scan_list scope ss) proof;
++        Option.iter (scan_stmt scope) nested
++    | Ast.DuplicateLemmaFunctionPointerChunkStmt (_, e) -> scan_expr scope e
+     | Ast.ProduceFunctionPointerChunkStmt (_, _, e, _, args, params, _, ss, _) ->
+-        scan_expr inside e; List.iter (scan_expr inside) args;
++        scan_expr scope e; List.iter (scan_expr scope) args;
+         List.iter (fun (_, id) -> if target id then reject ("target local shadowed by function pointer binder: " ^ id)) params;
+-        scan_list inside ss
+-    | Ast.Throw (_, e) -> scan_expr inside e
++        scan_list scope ss
++    | Ast.Throw (_, e) -> scan_expr scope e
+     | Ast.TryCatch (_, ss, catches) ->
+-        scan_list inside ss;
++        scan_list scope ss;
+         List.iter (fun (_, _, binder, body) ->
+           if target binder then reject ("target local shadowed by catch binder: " ^ binder);
+-          scan_list inside body) catches
+-    | Ast.TryFinally (_, body, _, final_body) -> scan_list inside body; scan_list inside final_body
+-    | Ast.SuperConstructorCall (_, es) -> List.iter (scan_expr inside) es
++          scan_list scope body) catches
++    | Ast.TryFinally (_, body, _, final_body) -> scan_list scope body; scan_list scope final_body
++    | Ast.SuperConstructorCall (_, es) -> List.iter (scan_expr scope) es
+     | _ -> reject "unknown statement constructor in candidate scope AST"
+   in
+   try
+-    scan_list false body;
++    scan_list `Outside body;
+     if !markers <> 1 then reject "strict cmp marker is not unique";
++    if List.length deferred_ids > 0 && !deferred_wrappers <> 1 then
++      reject "deferred scope wrapper is missing or not unique";
++    if deferred_ids = [] && !deferred_wrappers <> 0 then reject "unexpected deferred scope wrapper";
+     List.iter (fun id ->
+       if !(Hashtbl.find decls id) <> 1 then reject ("target declaration count is not one: " ^ id);
+       if !(Hashtbl.find refs id) = 0 then reject ("target has no complete-body use: " ^ id)) ids;
+     Ok ()
+   with Invalid why -> Error why
+ 
+-let run_actual_scope_relocation_controls loc =
+-  let id = "__r16_scope_validator_control" in
++
++(* Select only the normal continuation after label 34. Keep that label in the
++   outer list so every pre-existing goto still lands at the same statement. *)
++let wrap_actual_deferred_suffix loc decls stmts =
++  let labels = ref [] and gotos = ref [] in
++  List.iter (Ast.stmt_iter (function
++    | Ast.LabelStmt (_, id) -> labels := id :: !labels
++    | Ast.GotoStmt (_, id) -> gotos := id :: !gotos
++    | _ -> ())) stmts;
++  let label_count = List.length (List.filter ((=) "34") !labels) in
++  let goto_count = List.length (List.filter ((=) "34") !gotos) in
++  if label_count <> 1 || goto_count <> 1 then
++    Ast.static_error loc "R16 deferred suffix requires unique continuation label and incoming edge" None;
++  let rec split rev_prefix = function
++    | [] -> Ast.static_error loc "R16 normal continuation label is not a top-level statement" None
++    | (Ast.LabelStmt (_, "34") as label) :: tail ->
++        if tail = [] then Ast.static_error loc "R16 deferred normal suffix is empty" None;
++        let rec has_transfer ss = List.exists (fun stmt ->
++          let found = ref false in
++          Ast.stmt_iter (function Ast.LabelStmt _ | Ast.GotoStmt _ -> found := true | _ -> ()) stmt;
++          !found) ss in
++        if has_transfer tail then
++          Ast.static_error loc "R16 deferred suffix contains a control-flow entry or exit" None;
++        begin match List.rev tail with
++        | Ast.ReturnStmt _ :: _ -> ()
++        | _ -> Ast.static_error loc "R16 deferred normal suffix does not end in return" None
++        end;
++        let suffix_loc = Ast.stmt_loc (List.hd tail) in
++        let end_loc = Ast.stmt_loc (List.hd (List.rev tail)) in
++        let wrapper = Ast.BlockStmt (suffix_loc, [], decls @ tail, end_loc, ref []) in
++        let before_cfg = (List.sort compare !labels, List.sort compare !gotos) in
++        let collect_nodes statements =
++          let nodes = ref [] in
++          List.iter (Ast.stmt_iter (fun node -> nodes := node :: !nodes)) statements;
++          List.rev !nodes in
++        let before_nodes = collect_nodes stmts in
++        let result = List.rev rev_prefix @ [label; wrapper] in
++        let after_nodes = collect_nodes result in
++        let preserved_nodes = List.filter (fun node ->
++          node != wrapper && not (List.exists (fun added -> added == node) decls)) after_nodes in
++        if List.length before_nodes <> List.length preserved_nodes ||
++           not (List.for_all2 (==) before_nodes preserved_nodes) then
++          Ast.static_error loc "R16 deferred relocation changed an original statement node or order" None;
++        let after_labels = ref [] and after_gotos = ref [] in
++        List.iter (Ast.stmt_iter (function
++          | Ast.LabelStmt (_, id) -> after_labels := id :: !after_labels
++          | Ast.GotoStmt (_, id) -> after_gotos := id :: !after_gotos
++          | _ -> ())) result;
++        if before_cfg <> (List.sort compare !after_labels, List.sort compare !after_gotos) then
++          Ast.static_error loc "R16 deferred relocation changed the continuation CFG" None;
++        (result, wrapper)
++    | stmt :: tail -> split (stmt :: rev_prefix) tail
++  in
++  split [] stmts
++
++let run_actual_cmp_scope_controls loc =
++  let id = "__r16_cmp_control" in
+   let ty = Ast.IdentTypeExpr (loc, None, "i32") in
+   let expected = [id, Some ty] in
+   let marker = Ast.ExprStmt (Ast.CallExpr
+@@ -7886,72 +7987,102 @@
+     (loc, [(loc, ty, id, None, (ref taken, ref None))]) in
+   let var = Ast.ExprStmt (Ast.Var (loc, id)) in
+   let block ss = Ast.BlockStmt (loc, [], ss, loc, ref []) in
+-  let inside ss = [block (marker :: ss)] in
+-  let starts_with prefix text =
+-    String.length text >= String.length prefix &&
+-    String.sub text 0 (String.length prefix) = prefix in
+-  let expect_refusal name prefix body =
+-    match validate_actual_scope_relocation expected body with
+-    | Error reason when starts_with prefix reason -> true
+-    | Error reason -> failwith
+-        ("R16 scope validator control " ^ name ^ " refused for unexpected reason: " ^ reason)
+-    | Ok () -> failwith ("R16 scope validator control unexpectedly accepted: " ^ name)
+-  in
+-  let expect_unsupported_expr body =
++  let starts_with p s = String.length s >= String.length p && String.sub s 0 (String.length p) = p in
++  let refusal name prefix body = match validate_actual_scope_relocation expected [] None body with
++    | Error why when starts_with prefix why -> true
++    | Error why -> failwith ("R16 cmp control " ^ name ^ " refused unexpectedly: " ^ why)
++    | Ok () -> failwith ("R16 cmp control unexpectedly accepted: " ^ name) in
++  let positive = match validate_actual_scope_relocation expected [] None
++      [block [marker; decl (Some ty) false; var]] with
++    | Ok () -> true | Error why -> failwith ("R16 cmp positive control refused: " ^ why) in
++  ignore (refusal "outside-use" "cmp local escaped strict scope:"
++    [block [marker; decl (Some ty) false]; var]);
++  ignore (refusal "address-exposure" "address-taken target local:"
++    [block [marker; decl (Some ty) false; Ast.ExprStmt (Ast.AddressOf (loc, Ast.Var (loc, id)))]]);
++  ignore (refusal "duplicate-declaration" "target declaration count is not one:"
++    [block [marker; decl (Some ty) false; decl (Some ty) false; var]]);
++  ignore (refusal "wrong-type" "target declaration has wrong shape or type:"
++    [block [marker; decl (Some (Ast.IdentTypeExpr (loc, None, "u8"))) false; var]]);
++  ignore (refusal "taken-flag" "address-taken target declaration:"
++    [block [marker; decl (Some ty) true; var]]);
++  ignore (refusal "missing-marker" "cmp local escaped strict scope:"
++    [block [decl (Some ty) false; var]]);
++  ignore (refusal "duplicate-marker" "duplicate strict lifetime marker"
++    [block [marker; marker; decl (Some ty) false; var]]);
++  ignore (refusal "malformed-marker" "malformed strict lifetime marker"
++    [block [Ast.ExprStmt (Ast.CallExpr (loc, "#strict_lft_binding_scope",
++      [Ast.IdentTypeExpr (loc, None, "'wrong")], [], [], Ast.Static)); decl (Some ty) false; var]]);
++  ignore (refusal "static-WRead-hidden-outside-use" "unsupported static WRead"
++    [Ast.ExprStmt (Ast.WRead (loc, Ast.Var (loc, id), "C", [], "field", Ast.Bool, [], true, ref None, Ast.Real))]);
++  ignore (refusal "static-WRead-address-exposure" "unsupported static WRead"
++    [block [marker; decl (Some ty) false; Ast.ExprStmt (Ast.AddressOf (loc,
++      Ast.WRead (loc, Ast.Var (loc, id), "C", [], "field", Ast.Bool, [], true, ref None, Ast.Real)))]]);
++  let unsupported =
+     try
+-      match validate_actual_scope_relocation expected body with
+-      | Error reason -> failwith
+-          ("R16 unsupported-expression control refused for unexpected reason: " ^ reason)
++      match validate_actual_scope_relocation expected [] None
++        [block [marker; decl (Some ty) false; Ast.ExprStmt (Ast.CxxConstruct (loc, "synthetic", ty, []))]] with
++      | Error why -> failwith ("R16 unsupported-expression control refused unexpectedly: " ^ why)
+       | Ok () -> failwith "R16 unsupported-expression control unexpectedly accepted"
+-    with
+-    | Ast.StaticError (_, "This expression form is not allowed in this position.", _) -> true
+-  in
+-  let positive = match validate_actual_scope_relocation expected
+-      (inside [decl (Some ty) false; var]) with
+-    | Ok () -> true
+-    | Error reason -> failwith ("R16 positive scope control refused: " ^ reason) in
+-  let cases = [
+-    ("positive", positive);
+-    ("outside-use", expect_refusal "outside-use" "target reference outside cmp scope:"
+-       (inside [decl (Some ty) false] @ [var]));
+-    ("address-taken", expect_refusal "address-taken" "address-taken target local:"
+-       (inside [decl (Some ty) false;
+-         Ast.ExprStmt (Ast.AddressOf (loc, Ast.Var (loc, id)))]));
+-    ("duplicate-declaration", expect_refusal "duplicate-declaration"
+-       "target declaration count is not one:"
+-       (inside [decl (Some ty) false; decl (Some ty) false; var]));
+-    ("wrong-type", expect_refusal "wrong-type" "target declaration has wrong shape or type:"
+-       (inside [decl (Some (Ast.IdentTypeExpr (loc, None, "u8"))) false; var]));
+-    ("taken-flag", expect_refusal "taken-flag" "address-taken target declaration:"
+-       (inside [decl (Some ty) true; var]));
+-    ("missing-marker", expect_refusal "missing-marker" "strict cmp marker is not unique"
+-       [block [decl (Some ty) false; var]]);
+-    ("duplicate-marker", expect_refusal "duplicate-marker" "duplicate strict lifetime marker"
+-       [block [marker; marker; decl (Some ty) false; var]]);
+-    ("malformed-marker", expect_refusal "malformed-marker" "malformed strict lifetime marker"
+-       [block [
+-         Ast.ExprStmt (Ast.CallExpr
+-           (loc, "#strict_lft_binding_scope",
+-            [Ast.IdentTypeExpr (loc, None, "'wrong")], [], [], Ast.Static));
+-         decl (Some ty) false; var]]);
+-    ("unsupported-expression", expect_unsupported_expr
+-       (inside [decl (Some ty) false;
+-         Ast.ExprStmt (Ast.CxxConstruct (loc, "synthetic", ty, []))]));
+-    ("static-WRead-hidden-outside-use", expect_refusal "static-WRead-hidden-outside-use"
+-       "unsupported static WRead"
+-       [Ast.ExprStmt (Ast.WRead (loc, Ast.Var (loc, id), "C", [], "field",
+-         Ast.Bool, [], true, ref None, Ast.Real))]);
+-    ("static-WRead-address-exposure", expect_refusal "static-WRead-address-exposure"
+-       "unsupported static WRead"
+-       (inside [decl (Some ty) false;
+-         Ast.ExprStmt (Ast.AddressOf (loc,
+-           Ast.WRead (loc, Ast.Var (loc, id), "C", [], "field",
+-             Ast.Bool, [], true, ref None, Ast.Real)))]))
+-  ] in
+-  List.iter (fun (name, passed) ->
+-    if not passed then failwith ("R16 scope validator synthetic control failed: " ^ name);
+-    Printf.eprintf "ACTUAL-SCOPE-RELOCATION control=%s status=PASS\n%!" name) cases;
+-  Printf.eprintf "ACTUAL-SCOPE-RELOCATION controls=12 status=PASS\n%!"
++    with Ast.StaticError (_, "This expression form is not allowed in this position.", _) -> true in
++  if not positive || not unsupported then failwith "R16 cmp synthetic control failed";
++  Printf.eprintf "ACTUAL-SCOPE-RELOCATION cmp-controls=12 status=PASS\n%!"
++
++let run_actual_deferred_scope_controls loc =
++  let id = "__r16_deferred_control" in
++  let ty = Ast.IdentTypeExpr (loc, None, "i32") in
++  let marker = Ast.ExprStmt (Ast.CallExpr
++    (loc, "#strict_lft_binding_scope",
++     [Ast.IdentTypeExpr (loc, None, "'cmp")], [], [], Ast.Static)) in
++  let decl = Ast.DeclStmt (loc, [(loc, Some ty, id, None, (ref false, ref None))]) in
++  let read = Ast.ExprStmt (Ast.Var (loc, id)) in
++  let label = Ast.LabelStmt (loc, "34") in
++  let goto = Ast.GotoStmt (loc, "34") in
++  let ret = Ast.ReturnStmt (loc, None) in
++  let starts_with p s = String.length s >= String.length p && String.sub s 0 (String.length p) = p in
++  let refused name prefix body wrapper = match validate_actual_scope_relocation [] [id, Some ty] wrapper body with
++    | Error why when starts_with prefix why -> true
++    | Error why -> failwith ("R16 deferred control " ^ name ^ " refused unexpectedly: " ^ why)
++    | Ok () -> failwith ("R16 deferred control unexpectedly accepted: " ^ name) in
++  let cmp = Ast.BlockStmt (loc, [], [marker], loc, ref []) in
++  let valid_wrapper = Ast.BlockStmt (loc, [], [decl; read; ret], loc, ref []) in
++  let valid = [cmp; goto; label; valid_wrapper] in
++  begin match validate_actual_scope_relocation [] [id, Some ty] (Some valid_wrapper) valid with
++  | Ok () -> () | Error why -> failwith ("R16 deferred positive control refused: " ^ why) end;
++  let outside_wrapper = Ast.BlockStmt (loc, [], [decl; ret], loc, ref []) in
++  let outside = [cmp; goto; label; outside_wrapper; read] in
++  ignore (refused "deferred-outside-use" "deferred local escaped normal suffix scope:" outside (Some outside_wrapper));
++  let prefix_wrapper = Ast.BlockStmt (loc, [], [decl; read; ret], loc, ref []) in
++  ignore (refused "deferred-prefix-use" "deferred local escaped normal suffix scope:" [read; cmp; goto; label; prefix_wrapper] (Some prefix_wrapper));
++  let epilog_wrapper = Ast.BlockStmt (loc, [], [decl; read; ret], loc, ref []) in
++  ignore (refused "deferred-epilog-use" "deferred local escaped normal suffix scope:" [cmp; goto; label; epilog_wrapper; read] (Some epilog_wrapper));
++  let wrong_boundary = Ast.BlockStmt (loc, [], [decl; read; ret], loc, ref []) in
++  ignore (refused "wrong-boundary" "deferred local escaped normal suffix scope:" [cmp; goto; label; valid_wrapper] (Some wrong_boundary));
++  let entry_wrapper = Ast.BlockStmt (loc, [], [decl; Ast.LabelStmt (loc, "inside"); read; ret], loc, ref []) in
++  ignore (refused "external-entry" "deferred scope contains a label or goto entry" [cmp; goto; label; entry_wrapper] (Some entry_wrapper));
++  let address_wrapper = Ast.BlockStmt (loc, [], [decl; Ast.ExprStmt (Ast.AddressOf (loc, Ast.Var (loc, id))); ret], loc, ref []) in
++  ignore (refused "address-exposure" "address-taken target local:" [cmp; goto; label; address_wrapper] (Some address_wrapper));
++  let proof_out = Ast.ProduceLemmaFunctionPointerChunkStmt
++    (loc, None, Some ("synthetic", [], [Ast.Var (loc, id)], [], loc, [], loc), None) in
++  let proof_out_wrapper = Ast.BlockStmt (loc, [], [decl; ret], loc, ref []) in
++  ignore (refused "proof-tuple-outside-use" "deferred local escaped normal suffix scope:"
++    [cmp; goto; label; proof_out_wrapper; proof_out] (Some proof_out_wrapper));
++  let proof_in = Ast.ProduceLemmaFunctionPointerChunkStmt
++    (loc, None, Some ("synthetic", [], [Ast.Var (loc, id)], [], loc, [], loc), None) in
++  let proof_wrapper = Ast.BlockStmt (loc, [], [decl; proof_in; ret], loc, ref []) in
++  begin match validate_actual_scope_relocation [] [id, Some ty] (Some proof_wrapper) [cmp; goto; label; proof_wrapper] with
++  | Ok () -> () | Error why -> failwith ("R16 proof-tuple positive control refused: " ^ why) end;
++  let runtime_op = Ast.ExprStmt (Ast.CallExpr (loc, "runtime_op", [], [], [], Ast.Static)) in
++  let before_labels = ref [] and before_gotos = ref [] in
++  List.iter (Ast.stmt_iter (function Ast.LabelStmt (_, n) -> before_labels := n :: !before_labels | Ast.GotoStmt (_, n) -> before_gotos := n :: !before_gotos | _ -> ())) [goto; label; runtime_op; ret];
++  let placed, placed_wrapper = wrap_actual_deferred_suffix loc [decl] [goto; label; runtime_op; ret] in
++  let after_labels = ref [] and after_gotos = ref [] in
++  List.iter (Ast.stmt_iter (function Ast.LabelStmt (_, n) -> after_labels := n :: !after_labels | Ast.GotoStmt (_, n) -> after_gotos := n :: !after_gotos | _ -> ())) placed;
++  if List.sort compare !before_labels <> List.sort compare !after_labels || List.sort compare !before_gotos <> List.sort compare !after_gotos then failwith "R16 CFG preservation synthetic control failed";
++  begin match placed with
++  | [_; Ast.LabelStmt (_, "34"); (Ast.BlockStmt (_, [], [_; preserved_op; _], _, _) as w)]
++    when w == placed_wrapper && preserved_op == runtime_op -> ()
++  | _ -> failwith "R16 label or runtime-operation preservation control failed" end;
++  Printf.eprintf "ACTUAL-SCOPE-RELOCATION deferred-controls=8 proof-tuple-controls=2 cfg-preservation=PASS\n%!"
+ 
+   let translate_body (body_tr_defs_ctx : body_tr_defs_ctx) (body_cpn : BodyRd.t)
+       =
+@@ -8846,6 +8977,9 @@
+                   relocation_ids
+               else [] in
+             let translated_ids = List.map snd relocation_pairs in
++            let deferred_moved = ref [] in
++            let c1_raw_ids = ["_35"; "_36"; "_37"; "_38"; "_41"; "_42"] in
++            let c1_translated_ids = List.map translate_local_decl_id_ c1_raw_ids in
+             if relocate then begin
+               if not actual_scope_relocate then begin
+                 let (source_file, source_line, _) = fst (Ast.lexed_loc fn_sig_loc) in
+@@ -8938,7 +9072,17 @@
+                     stmt) in
+               if List.length moved <> List.length relocation_ids then Ast.static_error fn_sig_loc
+                 "Strict relocation declaration count changed" None;
+-              State.strict_relocated_decls := Some (cut_loc, moved)
++              let cmp_moved, deferred =
++                if actual_scope_relocate then
++                  List.partition (function
++                    | Ast.DeclStmt (_, [(_, _, id, _, _)]) -> List.mem id c1_translated_ids
++                    | _ -> false) moved
++                else moved, [] in
++              if actual_scope_relocate &&
++                 (List.length cmp_moved <> 6 || List.length deferred <> 24) then
++                Ast.static_error fn_sig_loc "R16 cmp/deferred declaration partition changed" None;
++              deferred_moved := deferred;
++              State.strict_relocated_decls := Some (cut_loc, cmp_moved)
+             end;
+             let vf_local_decls =
+               List.map (translate_to_vf_local_decl loc)
+@@ -8959,6 +9103,12 @@
+             let vf_bblocks =
+               translate_basic_blocks_to_stmts toplevel_blocks []
+             in
++            let vf_bblocks, actual_deferred_wrapper =
++              if actual_scope_relocate then
++                let relocated, wrapper =
++                  wrap_actual_deferred_suffix fn_sig_loc !deferred_moved vf_bblocks in
++                relocated, Some wrapper
++              else vf_bblocks, None in
+             if relocate then begin
+               if !State.strict_relocation_insertions <> 1 then
+                 Ast.static_error fn_sig_loc
+@@ -8994,7 +9144,8 @@
+                  projection_clause_stmts @ vf_local_decls @ vf_bblocks
+                  @ callback_unwind_epilog in
+                if actual_scope_relocate then begin
+-                 run_actual_scope_relocation_controls fn_sig_loc;
++                 run_actual_cmp_scope_controls fn_sig_loc;
++                 run_actual_deferred_scope_controls fn_sig_loc;
+                  let expected_types = List.map (fun id ->
+                    let d = match List.find_opt (fun (d : Mir.local_decl) -> d.id = id) local_decls with
+                      | Some d -> d
+@@ -9005,10 +9156,13 @@
+                    | _ -> Ast.static_error fn_sig_loc
+                        "R16 relocated local declaration shape changed" None)
+                    translated_ids in
+-                 match validate_actual_scope_relocation expected_types original_body with
++                 let cmp_expected, deferred_expected =
++                   List.partition (fun (id, _) -> List.mem id c1_translated_ids) expected_types in
++                 match validate_actual_scope_relocation
++                   cmp_expected deferred_expected actual_deferred_wrapper original_body with
+                  | Ok () -> Printf.eprintf
+-                     "ACTUAL-SCOPE-RELOCATION complete-body-use-containment=PASS locals=%d\n%!"
+-                     (List.length translated_ids)
++                     "ACTUAL-SCOPE-RELOCATION complete-body-use-containment=PASS cmp=%d deferred=%d\n%!"
++                     (List.length cmp_expected) (List.length deferred_expected)
+                  | Error why -> Ast.static_error fn_sig_loc
+                      ("R16 full-body scope relocation refused: " ^ why) None
+                end;

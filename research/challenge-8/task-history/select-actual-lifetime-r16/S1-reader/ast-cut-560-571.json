@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "58096d4a475bd836f01dfe7453706f0c09ac0495509b3c5a0438cc989706b855",
+  "build_id": "3a973f8c-b4c0-461b-8a2a-908b46c7ee35",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 571,
+    "line_separator": "LF",
+    "source_lines": 831,
+    "start": 560,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "aa665cd7aa7c709b368209bcc86531f302dc90a3d8461f8a5cb97a909df767dc",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/proof-ast.ml",
+  "file_sha256": "24c66caa73e94cbac43911c51a37c8a41de7b30f3b304c5bae1c6bc13506ff3c",
+  "index_sha256": "cf7a312a00549b0bfe14fcb39b2f485eda09fce3c8735eff590483c9d9878c72",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 571,
+    "expected_sha256": "24c66caa73e94cbac43911c51a37c8a41de7b30f3b304c5bae1c6bc13506ff3c",
+    "file_id": "aa665cd7aa7c709b368209bcc86531f302dc90a3d8461f8a5cb97a909df767dc",
+    "start": 560
+  },
+  "request_id": "10df2d0e4ccd4a748e986009f27ead751a9717e92eb63f3468de4eb31317958c",
+  "requested_end": 571,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 560,
+      "text": "        PureStmt (loc \"verified/lib.rs(181,9-182,1)\", ExprStmt (CallExpr (loc \"verified/lib.rs(181,35-36)\", \"share_full_borrow\", [IdentTypeExpr (loc \"verified/lib.rs(181,33-34)\", None, \"T\")], [], ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 561,
+      "text": "          LitPat (Var (loc \"verified/lib.rs(181,36-41)\", \"cmp_k\"));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 562,
+      "text": "          LitPat (Var (loc \"verified/lib.rs(181,43-44)\", \"t\"));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 563,
+      "text": "          LitPat (Operation (loc \"verified/lib.rs(181,53-54)\", Add, [Var (loc \"verified/lib.rs(181,46-52)\", \"v_base\"); IntLit (loc \"verified/lib.rs(181,55-56)\", big_int_of_string \"3\", true, false, NoLSuffix)]))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 564,
+      "text": "        ], Static)));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 565,
+      "text": "        PureStmt (loc \"verified/lib.rs(182,9-183,1)\", DeclStmt (loc \"verified/lib.rs(182,13-16)\", ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 566,
+      "text": "          (loc \"verified/lib.rs(182,17-25)\", None, \"left_ref\", Some (CallExpr (loc \"verified/lib.rs(182,28-41)\", \"precreate_ref\", [], [], ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 567,
+      "text": "            LitPat (Operation (loc \"verified/lib.rs(182,49-50)\", Add, [Var (loc \"verified/lib.rs(182,42-48)\", \"v_base\"); IntLit (loc \"verified/lib.rs(182,51-52)\", big_int_of_string \"1\", true, false, NoLSuffix)]))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 568,
+      "text": "          ], Static)), (ref (false), ref (None)))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 569,
+      "text": "        ]));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 570,
+      "text": "        PureStmt (loc \"verified/lib.rs(183,9-184,1)\", DeclStmt (loc \"verified/lib.rs(183,13-16)\", ["
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 571,
+      "text": "          (loc \"verified/lib.rs(183,17-26)\", None, \"right_ref\", Some (CallExpr (loc \"verified/lib.rs(183,29-42)\", \"precreate_ref\", [], [], [LitPat (Var (loc \"verified/lib.rs(183,43-49)\", \"v_base\"))], Static)), (ref (false), ref (None)))"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

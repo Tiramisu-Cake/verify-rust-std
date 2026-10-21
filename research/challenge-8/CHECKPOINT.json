@@ -12,15 +12,15 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "3a973f8c-b4c0-461b-8a2a-908b46c7ee35",
+    "build_id": "d1376298-d147-43b5-a0b7-e5832cb564b1",
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S1-evidence.json",
-        "sha256": "4ca1aa1ca1d7c018b5acc56ec0ffbaabcbf183f3af9741a55f4b002f892ee9f3"
+        "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S2-evidence.json",
+        "sha256": "a6ed06e09746fe8b5e5353eacc396bff269ad2e32fb243b487ef43eaa70aacd6"
       }
     ],
-    "location": "verified/lib.rs(167,1-30)",
-    "summary": "S1 full actual body strict entry still refuses 30 unresolved erased-reference temporaries in c1-c5 groups; source-scoped declaration/def-use binding remains OPEN."
+    "location": "vf_mir_translator.ml:7852",
+    "summary": "S2 final OCaml tool build rejected shifted ProduceLemmaFunctionPointerChunkStmt tuple; scope fix unexecuted. Actual normal/unwind body remains OPEN; S1 identifies future24 outside c1 cut."
   },
   "confirmed": [
     {
@@ -50,7 +50,7 @@
       ]
     }
   ],
-  "next_step": "Read R16 S1 strict-entry outer MIR cells through Evidence Brief, then bind from exact def-use/liveness and rerun full actual body with controls.",
+  "next_step": "S3 checked six-c1 / twenty-four-deferred declaration scopes prepared; independent semantic review and Cloud final compiler/actual-body checks pending.",
   "open": [
     "Full generic actual sort4 normal/unwind; actual callback debt and Boolean\u2192pointer binding.",
     "Independent B1/B2credit0; final qualification/full26 and stable Freeze caller OPEN.",
@@ -76,13 +76,13 @@
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-21T20:20:34Z",
     "main_deadline_utc": "2026-10-21T19:50:34Z",
-    "remaining_seconds": 3099,
+    "remaining_seconds": 2670,
     "retired_seconds": 0,
-    "spent_seconds": 501,
+    "spent_seconds": 930,
     "t0": "2026-10-21T17:50:34Z",
     "unresolved_ids": []
   },
   "state": "ACTIVE",
   "task_id": "select-actual-lifetime-autonomous-2026-10-21-r16",
-  "updated_utc": "2026-10-21T18:19:13.321674Z"
+  "updated_utc": "2026-10-21T19:02:34.906066Z"
 }
