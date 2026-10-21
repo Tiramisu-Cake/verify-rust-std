@@ -1,11 +1,11 @@
 # Agent checkpoint: merge-caller-refinement-autonomous-2026-10-21-r17
 
 - Owner: merge | phase: MERGE-CALLER-REFINEMENT-R17-2026-10-21 | state: ACTIVE
-- Updated: 2026-10-21T19:07:41Z
+- Updated: 2026-10-21T19:18:19Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `660b576b6b1608db913c51e0785b443a8733396f`, profile `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375`
 - Session dates: T0 `2026-10-21T18:33:50Z`; main deadline `2026-10-21T20:33:50Z`; absolute deadline `2026-10-21T21:03:50Z`
 - Budget: 3600s total; 485s spent; 0s retired; 3115s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: cccfd7c5-ee98-4549-8ecd-da2274e7c608
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -28,7 +28,7 @@ R17 P1 entry rejects the reviewed refiner tool/profile pins; campaign targets no
 - [research/challenge-8/cloud-build/origin-layout/R17-PROOF1-ENTRY-ERROR-20261021.json](cloud-build/origin-layout/R17-PROOF1-ENTRY-ERROR-20261021.json) SHA `b962cb7e180629fb41e9ed45ecf351c0f9b4d4c4e72b7d960bcf95eb5b08f735` Build `38fa5f6f-3263-404e-af55-48c47816a5cf`
 
 ## Next
-Review exact R17 profile admission; then Cloud1200 with lifecycle component.
+Observe R17 P2 via Brief: RawPtr controls/caller and borrow lifecycle; retain original gates.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R16-RELEASE-20261021.json](cloud-build/origin-layout/R16-RELEASE-20261021.json) — `ce26690c1ce6a2fffa39d7cb18669f5303bb20a92541e170077559edb223c629`
