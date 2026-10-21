@@ -1,11 +1,12 @@
-# Merge-R12 READY — non-composite upload → unchanged R11 retry
+# Merge-R12 RUNNING — non-composite upload gate
 
-[Новое текущее задание](CURRENT-TASK.md): worktree `/root/verify-rust-std-merge-origin`, branch `merge/incoming-origin-20261009`, owner `merge`. T0 ещё не задан; свежие120мин+30мин/3600 Cloud-секунд, без отдельного лимита числа Builds, timeout90..1200/envelope+60. Phase `MERGE-UPLOAD-NONCOMPOSITE-R12-2026-10-21`, новый ledger `CURRENT-RECOVERY-R12-UPLOAD-BUDGET-20261021.json`. Старые R11/retry счета закрыты, carry0.
-
-Административная диагностика, переданная владельцем: Build `484a4382-ea4f-4e1f-b5e4-363de2c61927` сформировал архив, но upload `evidence.tar.gz` получил HTTP403 на storage.objects.get для временного parallel composite upload. Run_exit_code1/upload_completefalse/verification_acceptedfalse/diagnostic_completefalse. Evidence_completetrue относится к локальному комплекту; proof acceptance не установлена. Это owner/admin report, historical records сохраняются.
-
-Следующий шаг: export `CLOUDSDK_STORAGE_PARALLEL_COMPOSITE_UPLOAD_ENABLED=False` внутри фактического package-upload; IAM не менять. Сначала отдельный Cloud synthetic upload сопоставимого размера тем же SDK/account/publication path, с доступным Brief и нулевым proof credit. Только после gate разрешён повтор неизменённого R11 proof-кандидата; новые proof/model изменения не входят в R12.
-
-Baseline checkpoint `ff1091005ee02906b0546179d59ea8e8f56aaca6`, actual source `0c1d0d7861813bcc48d765eba869d30c2658f1cc`, tool `660b576b6b1608db913c51e0785b443a8733396f`, profile `experimental-merge-label-storage-r11-v1`. [Точный архив прежнего задания и отчёта](task-history/merge-label-storage-invariant-autonomous-2026-10-21-r11.md), [retry inputs](cloud-build/origin-layout/R11-RETRY-INPUTS-20261021.json), [retry result](cloud-build/origin-layout/R11-RETRY-RESULT-20261021.json).
-
-R11 закрыта3024charged/3019execution/576retired; retry закрыт790charged/790execution/270retired, remaining0/carryfalse, own0/0/0/0. Brief404 на прежнем Build не устанавливает NOT_RUN. Последний доступный proof-фронтир — R11 Build5 checked Live/Dead117 → iterationprep301 points_to_limits/dummy30none; initialized-value invariant ещё без доступного formal result. **Full target gates0, acceptedfalse/independentcredit0; B2/generic/qualificationOPEN.**
+T0 `2026-10-21T10:53:30Z`, main12:53:30Z, absolute13:23:30Z.
+Fresh3600 Cloud seconds/used0; owner merge/lane merge; prior accounts CLOSED/carry0.
+Actual package-upload exportFalse implemented; actual effective SDK policy and
+archive upload bytes/timing receipts added. Local synthetic uploader/config,
+probe dispatch/generator and phase-gate checks precede Luna HIGH review/Cloud.
+Probe512MiB incompressible inCloud >documented150MiB composite threshold, actualSDK
+threshold recorded; no proof retry before successful publication + accessibleBrief.
+Tool660b576b/profileeb61/std/model/invariants unchanged; proofcredit0/B2OPEN.
+[Current task/report](CURRENT-TASK.md) · [Session](cloud-build/origin-layout/R12-SESSION-20261021.md) ·
+[Owner admin diagnosis](cloud-build/origin-layout/R12-OWNER-ADMIN-REPORT-20261021.json).

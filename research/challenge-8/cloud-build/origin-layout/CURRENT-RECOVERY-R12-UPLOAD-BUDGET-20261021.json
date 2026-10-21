@@ -1,0 +1,24 @@
+{
+  "phase": "MERGE-UPLOAD-NONCOMPOSITE-R12-2026-10-21",
+  "owner": "merge",
+  "authorization_model": "bounded-cloud-budget",
+  "status": "AUTHORIZED",
+  "allowed_lanes": [
+    "merge"
+  ],
+  "ceiling_build_seconds": 3600,
+  "used_build_seconds": 0,
+  "remaining_build_seconds": 3600,
+  "max_builds": null,
+  "max_timeout_seconds": 1200,
+  "builds": [],
+  "active_build": null,
+  "start_utc": "2026-10-21T10:53:30Z",
+  "main_deadline_utc": "2026-10-21T12:53:30Z",
+  "deadline_utc": "2026-10-21T13:23:30Z",
+  "authorization": "Direct owner CURRENT-TASK Merge-R12: fix package-upload to disable parallel composite upload, separately probe synthetic publication, then and only after accessible Brief/integrity gate repeat unchanged R11 candidate; fresh3600 Cloud seconds/120min main+30finishing, no carryover.",
+  "carryover_allowed": false,
+  "synthetic_upload_gate": null,
+  "accepted": false,
+  "independent_credit": 0
+}

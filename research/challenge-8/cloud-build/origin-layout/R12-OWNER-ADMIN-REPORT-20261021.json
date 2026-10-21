@@ -1,0 +1,28 @@
+{
+  "schema": "merge-r12-owner-admin-report-v1",
+  "reported_by": "owner; separate administrative GCP inspection, not agent raw audit",
+  "build_id": "484a4382-ea4f-4e1f-b5e4-363de2c61927",
+  "source_sha": "0c1d0d7861813bcc48d765eba869d30c2658f1cc",
+  "packaging": "succeeded per owner administrative report",
+  "upload_failure": "HTTP403 storage.objects.get for gcloud/tmp/parallel_composite_uploads; automatic parallel composite upload",
+  "run_exit_code": 1,
+  "upload_complete": false,
+  "verification_accepted": false,
+  "diagnostic_complete": false,
+  "evidence_complete": "true for local assembled set only; not completed publication",
+  "execute_step": "SUCCESS for wrapper only, not verifier acceptance",
+  "package_upload_step": {
+    "status": "FAILURE",
+    "exit_code": 1,
+    "start_utc": "2026-10-21T09:25:09Z",
+    "finish_utc": "2026-10-21T09:29:43Z"
+  },
+  "verdict_step": {
+    "status": "FAILURE",
+    "exit_code": 1
+  },
+  "remedy": "Export CLOUDSDK_STORAGE_PARALLEL_COMPOSITE_UPLOAD_ENABLED=False inside actual publication step; retain IAM and use separate large synthetic upload gate",
+  "own_raw_audit": false,
+  "historical_records_rewritten": false,
+  "archive_size_bytes": null
+}

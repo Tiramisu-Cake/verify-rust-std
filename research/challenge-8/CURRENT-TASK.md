@@ -2,7 +2,7 @@
 
 ## Авторизация и рабочее место
 
-- **ID:** `merge-noncomposite-upload-recovery-2026-10-21-r12`; **статус:** READY, T0 ещё не задан.
+- **ID:** `merge-noncomposite-upload-recovery-2026-10-21-r12`; **статус:** RUNNING, T0 `2026-10-21T10:53:30Z`.
 - **Owner:** `merge`; **project worktree:** `/root/verify-rust-std-merge-origin`; **branch:** `merge/incoming-origin-20261009` в `Tiramisu-Cake/verify-rust-std`.
 - **Tool worktree:** `/root/verifast-merge-actual-glue`; branch `merge/actual-glue-instance-20261011`, expected head **`660b576b6b1608db913c51e0785b443a8733396f`**. Проверить фактический status, чужое сохранить; tool-код этим заданием не меняется.
 - **Новое окно:** 120 минут основной работы + до30 минут завершения. T0 при фактическом старте после чтения; main=T0+120мин, absolute=T0+150мин. Записать в session/новый ledger/текущий статус.
@@ -57,4 +57,11 @@ Evidence v0.11: Brief → catalogue/file ID → `--refresh --file ID --expect-sh
 
 ## Отчёт агента
 
-Не начато. Зафиксируй T0 и план при старте; по завершении замени этот раздел одним компактным итогом.
+T0 `2026-10-21T10:53:30Z`, main `12:53:30Z`, absolute `13:23:30Z`.
+Fresh ledger3600/used0/carryfalse; прежние R11/retry CLOSED не возобновляются.
+План: зафиксировать admin-reported диагноз отдельно от historical UNKNOWN;
+export в фактическом package-upload + service/error-path tests + Luna HIGH review;
+Cloud synthetic upload512MiB incompressible >150MiB threshold (уточнить в pinnedSDK);
+только после completed publication/Brief gate — unchanged R11 proof retry.
+Tool HEAD660b576b, branch/worktrees проверены; чужие dirty files сохранены.
+Builds пока0; independentcredit0/B2/qualificationOPEN.

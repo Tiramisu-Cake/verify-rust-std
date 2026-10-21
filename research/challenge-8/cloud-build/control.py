@@ -92,25 +92,41 @@ exit 0
  body=body.replace('$','$$')
  package=base64.b64encode(gzip.compress((DIR/'package-evidence.py').read_bytes(),mtime=0)).decode()
  upload='''set -euo pipefail
+export CLOUDSDK_STORAGE_PARALLEL_COMPOSITE_UPLOAD_ENABLED=False
 mkdir -p /workspace/cloudsdk/configurations
 printf '[core]\\nproject = smallsort-ci\\naccount = ACCOUNT\\n' > /workspace/cloudsdk/configurations/config_smallsort-ci
 export CLOUDSDK_CONFIG=/workspace/cloudsdk
+SMALLSORT_UPLOAD_THRESHOLD="$(gcloud --configuration=smallsort-ci --account=ACCOUNT --project=smallsort-ci config get-value storage/parallel_composite_upload_threshold)"
+SMALLSORT_UPLOAD_COMPOSITE="$(gcloud --configuration=smallsort-ci --account=ACCOUNT --project=smallsort-ci config get-value storage/parallel_composite_upload_enabled)"
+export SMALLSORT_UPLOAD_THRESHOLD SMALLSORT_UPLOAD_COMPOSITE
+SDK_PYTHON - <<'POLICY'
+import json,os,pathlib
+if os.environ['SMALLSORT_UPLOAD_COMPOSITE'].strip().lower()!='false':
+ raise RuntimeError('SDK did not disable parallel composite upload')
+p=pathlib.Path('/workspace/evidence/allprooflogs');p.mkdir(parents=True,exist_ok=True)
+(p/'upload-policy.json').write_text(json.dumps({'schema':'smallsort-upload-policy-v1','sdk_image':'SDK_IMAGE','service_account':'ACCOUNT','bucket':'BUCKET','parallel_composite_upload_enabled_env':os.environ['CLOUDSDK_STORAGE_PARALLEL_COMPOSITE_UPLOAD_ENABLED'],'parallel_composite_upload_enabled_effective':os.environ['SMALLSORT_UPLOAD_COMPOSITE'],'parallel_composite_upload_threshold':os.environ['SMALLSORT_UPLOAD_THRESHOLD'],'proof_sha':os.environ['PROOF_SHA'],'infra_sha':os.environ['INFRA_SHA'],'build_id':os.environ['CLOUD_BUILD_ID']},indent=2)+'\\n')
+POLICY
 printf '%s' PACKAGE_B64 | base64 --decode | gzip --decompress > /workspace/package-evidence.py
 SDK_PYTHON /workspace/package-evidence.py --evidence /workspace/evidence --out /workspace/out
 prefix="BUCKET/$CLOUD_BUILD_ID"
+export SMALLSORT_UPLOAD_STARTED_NS="$(date +%s%N)"
 for file in evidence.tar.gz archive.sha256 summary.json manifest.json files-sha256.json submitted-config.json text-logs-index.json; do
+ if [[ "$file" == evidence.tar.gz ]]; then export SMALLSORT_ARCHIVE_UPLOAD_STARTED_NS="$(date +%s%N)"; fi
  gcloud --configuration=smallsort-ci --account=ACCOUNT --project=smallsort-ci storage cp --if-generation-match=0 "/workspace/out/$file" "$prefix/$file"
+ if [[ "$file" == evidence.tar.gz ]]; then export SMALLSORT_ARCHIVE_UPLOAD_FINISHED_NS="$(date +%s%N)"; fi
 done
 gcloud --configuration=smallsort-ci --account=ACCOUNT --project=smallsort-ci storage cp --recursive --if-generation-match=0 /workspace/out/text-logs "$prefix/"
 SDK_PYTHON - <<'RECEIPT'
-import json,os,pathlib
+import json,os,pathlib,time
 p=pathlib.Path('/workspace/out')
 h=(p/'archive.sha256').read_text().split()[0]
-(p/'upload-complete.json').write_text(json.dumps({'build_id':os.environ['CLOUD_BUILD_ID'],'archive_sha256':h,'uploaded':True,'text_logs_index_sha256':__import__('hashlib').sha256((p/'text-logs-index.json').read_bytes()).hexdigest()},indent=2)+'\\n')
+size=(p/'evidence.tar.gz').stat().st_size
+duration=(int(os.environ['SMALLSORT_ARCHIVE_UPLOAD_FINISHED_NS'])-int(os.environ['SMALLSORT_ARCHIVE_UPLOAD_STARTED_NS']))/1e9
+(p/'upload-complete.json').write_text(json.dumps({'build_id':os.environ['CLOUD_BUILD_ID'],'archive_sha256':h,'uploaded':True,'text_logs_index_sha256':__import__('hashlib').sha256((p/'text-logs-index.json').read_bytes()).hexdigest(),'archive_size_bytes':size,'archive_upload_seconds':duration,'archive_upload_bytes_per_second':size/duration if duration>0 else None,'pre_marker_upload_seconds':(time.time_ns()-int(os.environ['SMALLSORT_UPLOAD_STARTED_NS']))/1e9,'prerequisite_uploader_exit_code':0,'parallel_composite_upload_enabled':os.environ['CLOUDSDK_STORAGE_PARALLEL_COMPOSITE_UPLOAD_ENABLED']},indent=2)+'\\n')
 RECEIPT
 gcloud --configuration=smallsort-ci --account=ACCOUNT --project=smallsort-ci storage cp --if-generation-match=0 /workspace/out/upload-complete.json "$prefix/upload-complete.json"
 touch /workspace/upload.ok
-'''.replace('ACCOUNT',ACCOUNT).replace('SDK_PYTHON',SDK_PYTHON).replace('PACKAGE_B64','"$PACKAGER_BYTES"').replace('BUCKET',BUCKET).replace('$','$$')
+'''.replace('ACCOUNT',ACCOUNT).replace('SDK_PYTHON',SDK_PYTHON).replace('SDK_IMAGE',SDK).replace('PACKAGE_B64','"$PACKAGER_BYTES"').replace('BUCKET',BUCKET).replace('$','$$')
  verdict='''import json,pathlib,sys
 p=pathlib.Path('/workspace/out')
 try:
@@ -219,6 +235,23 @@ def reconcile_reservation(record,caller_owner,caller_ledger):
           'validation_rejection':False}
  write(coordination.COORDINATION/'receipts'/(token+'.json'),receipt)
  coordination.clear(token)
+
+
+def r12_upload_mode(proof_sha):
+ if not isinstance(proof_sha,str) or not re.fullmatch('[0-9a-f]{40}',proof_sha):
+  raise SystemExit('R12 requires a full selected proof source SHA')
+ try:
+  raw=subprocess.check_output(['git','show',proof_sha+':research/challenge-8/cloud-build/origin-layout/R12-UPLOAD-MODE-20261021.json'],cwd=ROOT,stderr=subprocess.PIPE)
+  card=json.loads(raw)
+ except (subprocess.CalledProcessError,ValueError,UnicodeDecodeError):
+  raise SystemExit('R12 selected committed source lacks a valid upload mode card')
+ if not isinstance(card,dict) or card.get('schema')!='merge-r12-upload-mode-v1' or card.get('mode') not in ('synthetic-upload','proof-r11'):
+  raise SystemExit('R12 selected source mode is not an authorized upload/proof mode')
+ if card['mode']=='proof-r11' and set(card)!={'schema','mode'}:
+  raise SystemExit('R12 proof mode card has unexpected fields')
+ if card['mode']=='synthetic-upload' and (type(card.get('payload_bytes')) is not int or type(card.get('threshold_bytes')) is not int or card.get('proof_attempted') is not False or card!={'schema':'merge-r12-upload-mode-v1','mode':'synthetic-upload','payload_bytes':536870912,'threshold_bytes':157286400,'threshold_source':'https://docs.cloud.google.com/storage/docs/parallel-composite-uploads','proof_attempted':False}):
+  raise SystemExit('R12 synthetic mode card differs from the reviewed large random payload')
+ return card['mode']
 
 
 def authorized_phase(a,ledger):
@@ -526,6 +559,60 @@ def authorized_phase(a,ledger):
       getattr(a,'infra_sha',None)!=ledger.get('authorized_source_sha') or
       getattr(a,'proof_sha',None)!=ledger.get('authorized_source_sha')):
    raise SystemExit('R11 evidence retry requires the single reviewed source SHA pinned in its fresh account')
+ if a.phase_id=='MERGE-UPLOAD-NONCOMPOSITE-R12-2026-10-21':
+  expected_ledger=DIR/'origin-layout'/'CURRENT-RECOVERY-R12-UPLOAD-BUDGET-20261021.json'
+  if (a.ledger.resolve()!=expected_ledger.resolve() or a.owner!='merge' or
+      ledger.get('owner')!='merge' or ledger.get('authorization_model')!='bounded-cloud-budget' or
+      ledger.get('ceiling_build_seconds')!=3600 or ledger.get('allowed_lanes')!=['merge'] or
+      ledger.get('start_utc')!='2026-10-21T10:53:30Z' or
+      ledger.get('main_deadline_utc')!='2026-10-21T12:53:30Z' or
+      ledger.get('deadline_utc')!='2026-10-21T13:23:30Z' or
+      'max_builds' not in ledger or ledger.get('max_builds') is not None or
+      type(ledger.get('max_timeout_seconds')) is not int or ledger.get('max_timeout_seconds')!=1200 or
+      ledger.get('carryover_allowed') is not False or
+      'synthetic_upload_gate' not in ledger or
+      type(ledger.get('used_build_seconds')) is not int or
+      type(ledger.get('remaining_build_seconds')) is not int or
+      not 0<=ledger.get('used_build_seconds')<=3600 or
+      not 0<=ledger.get('remaining_build_seconds')<=3600 or
+      ledger.get('used_build_seconds')+ledger.get('remaining_build_seconds')!=3600 or
+      type(ledger.get('builds')) is not list or
+      any(type(item) is not dict for item in ledger.get('builds')) or
+      'active_build' not in ledger or
+      (ledger.get('active_build') is not None and
+       (type(ledger.get('active_build')) is not str or not ledger.get('active_build')))):
+   raise SystemExit('R12 differs from its fresh non-composite upload authorization')
+  cutoff=datetime.datetime.fromisoformat('2026-10-21T13:23:30+00:00')
+  now=datetime.datetime.now(datetime.timezone.utc)
+  if now<datetime.datetime.fromisoformat(ledger['start_utc'].replace('Z','+00:00')):
+   raise SystemExit('R12 has not started')
+  if a.command in ('submit','request') and now>=datetime.datetime.fromisoformat(ledger['main_deadline_utc'].replace('Z','+00:00')):
+   raise SystemExit('R12 main window passed; no new dispatch/request')
+  if a.command=='submit':
+   if (type(a.timeout) is not int or not 90<=a.timeout<=1200 or a.lane!='merge' or
+       a.source_mode!='pinned-objects' or a.infra_sha!=a.proof_sha):
+    raise SystemExit('R12 requires one exact pinned infra/proof source, merge lane, timeout90..1200')
+   if now+datetime.timedelta(seconds=a.timeout+60)>cutoff:
+    raise SystemExit('R12 Build plus queue reserve exceeds the absolute deadline')
+   mode=r12_upload_mode(a.proof_sha)
+   if mode=='proof-r11':
+    gate=ledger.get('synthetic_upload_gate')
+    if (not isinstance(gate,dict) or gate.get('status')!='VERIFIED_SYNTHETIC_PUBLICATION' or
+        gate.get('upload_complete') is not True or gate.get('archive_inventory_verified') is not True or
+        gate.get('proof_attempted') is not False or gate.get('verification_accepted') is not False or
+        gate.get('parallel_composite_upload_enabled') is not False or
+        type(gate.get('archive_size_bytes')) is not int or
+        type(gate.get('threshold_bytes')) is not int or gate.get('threshold_bytes')<=0 or
+        gate.get('archive_size_bytes')<=gate.get('threshold_bytes') or
+        not isinstance(gate.get('brief_request_id'),str) or not gate.get('brief_request_id') or
+        not isinstance(gate.get('archive_sha256'),str) or not re.fullmatch('[0-9a-f]{64}',gate.get('archive_sha256'))):
+     raise SystemExit('R12 proof retry requires accessible verified synthetic publication gate')
+    matching=[x for x in ledger['builds'] if x.get('build_id')==gate.get('build_id') and
+              x.get('accounted') is True and x.get('status')=='SUCCESS' and
+              x.get('proof_sha')==gate.get('proof_source_sha') and
+              x.get('submitted_config_sha256')==gate.get('submitted_config_sha256')]
+    if len(matching)!=1 or r12_upload_mode(matching[0]['proof_sha'])!='synthetic-upload':
+     raise SystemExit('R12 synthetic gate does not bind its successful accounted Build/source/config')
  if a.phase_id=='CI-IAM-E2E-ONCE-2026-10-17':
   # Separate, explicitly activated account; never reuse a historical ledger.
   expected_ledger=DIR/'ci-iam-e2e-once-20261017'/'BUDGET.json'
@@ -862,7 +949,7 @@ def run_command(a,state,ledger,ledger_path):
   flags=state/(token+'-flags.json');write(flags,{'--substitutions':values})
   reservation={'dispatch_token':token,'owner':a.owner,'phase_id':a.phase_id,'ledger':str(ledger_path),'state_dir':str(state),'item':item,'build_id':None}
   # Recheck the time-window account after source/config preparation, before reserve.
-  if a.phase_id in ('MERGE-FIRST-COMPARATOR-R1-2026-10-18','MERGE-FIRST-COMPARATOR-R2-2026-10-19','MERGE-FIRST-COMPARATOR-R3-2026-10-19','MERGE-GUARD-ADDRESSABILITY-R4-2026-10-20','MERGE-CURRENT-OWNERSHIP-R5-2026-10-20','MERGE-CANONICAL-SHARE-R6-2026-10-20','MERGE-POST-MIGRATION-CURRENT-RECOVERY-R7-2026-10-20','MERGE-LATE-RECOVERY-REJOIN-R8-2026-10-20','MERGE-GUARD-CURRENT-RETURN-R9-2026-10-20','MERGE-MOVING-GAP-INVARIANT-R10-2026-10-21','MERGE-LABEL-STORAGE-INVARIANT-R11-2026-10-21','MERGE-R11-EVIDENCE-RETRY-2026-10-21'):authorized_phase(a,ledger)
+  if a.phase_id in ('MERGE-FIRST-COMPARATOR-R1-2026-10-18','MERGE-FIRST-COMPARATOR-R2-2026-10-19','MERGE-FIRST-COMPARATOR-R3-2026-10-19','MERGE-GUARD-ADDRESSABILITY-R4-2026-10-20','MERGE-CURRENT-OWNERSHIP-R5-2026-10-20','MERGE-CANONICAL-SHARE-R6-2026-10-20','MERGE-POST-MIGRATION-CURRENT-RECOVERY-R7-2026-10-20','MERGE-LATE-RECOVERY-REJOIN-R8-2026-10-20','MERGE-GUARD-CURRENT-RETURN-R9-2026-10-20','MERGE-MOVING-GAP-INVARIANT-R10-2026-10-21','MERGE-LABEL-STORAGE-INVARIANT-R11-2026-10-21','MERGE-R11-EVIDENCE-RETRY-2026-10-21','MERGE-UPLOAD-NONCOMPOSITE-R12-2026-10-21'):authorized_phase(a,ledger)
   coordination.reserve(reservation)
   ledger['builds'].append(item);ledger['active_build']=token;write(ledger_path,ledger)
   cmd=['builds','submit','--no-source','--async','--region=global','--config='+str(path),'--flags-file='+str(flags),'--format=json','--quiet']
