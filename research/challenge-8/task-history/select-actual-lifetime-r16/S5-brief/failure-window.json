@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "eeda9b42313ac968508da13e8ca819a5bdb2519c65f9799570e5d0fb6b33a499",
+  "build_id": "acd8e010-16b8-4b58-9501-083cb10b595f",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 7662,
+    "line_separator": "LF",
+    "source_lines": 7872,
+    "start": 7651,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "4837c1e6aee68dba4774abb6b4a72bed061c54bcca0c4738fef5c0076b2f6943",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/body-verification.log",
+  "file_sha256": "7a1ef1d07427af244d47bba5cd161d172431f75da8e23a09a67ac6a5ef124641",
+  "index_sha256": "3063f6379598de15aba1f4a4ef5728f715a7df0a948b0930eee592bbe4fbd96b",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 7662,
+    "expected_sha256": "7a1ef1d07427af244d47bba5cd161d172431f75da8e23a09a67ac6a5ef124641",
+    "file_id": "4837c1e6aee68dba4774abb6b4a72bed061c54bcca0c4738fef5c0076b2f6943",
+    "start": 7651
+  },
+  "request_id": "7e8896b2adc3bc30034a202100350d07f5f9e673a08013a6907a139109579376",
+  "requested_end": 7662,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7651,
+      "text": "  0.262126s:   Exiting Redux.assume_with_implications"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7652,
+      "text": "  0.262148s: Exiting Redux.query"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7653,
+      "text": "  0.262154s: Entering Redux.query(ref_precreated_token = share(T_typeid))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7654,
+      "text": "  0.262161s:   Entering Redux.assume_with_implications(!(ref_precreated_token = share(T_typeid)))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7655,
+      "text": "  0.262167s:   Exiting Redux.assume_with_implications"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7656,
+      "text": "  0.262172s: Exiting Redux.query"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7657,
+      "text": "/workspace/smallsort-work/a1-checked-trait-contract-isolated-source/bin/rust/aliasing.rsspec(88,9-29): error: No matching heap chunks: ref_precreated_token<T>(ptr_add_(v_base, 3, T_typeid), _)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7658,
+      "text": "88 | //@ req ref_precreated_token(x, ?p) &*& [?f]ref_initialized(p);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7659,
+      "text": "   |         ^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7660,
+      "text": "/workspace/smallsort-work/a1-checked-trait-contract-isolated-source/bin/rust/aliasing.rsspec(88,9-29): note: Consuming assertion"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7661,
+      "text": "88 | //@ req ref_precreated_token(x, ?p) &*& [?f]ref_initialized(p);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7662,
+      "text": "   |         ^^^^^^^^^^^^^^^^^^^^"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

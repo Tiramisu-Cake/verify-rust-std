@@ -1,5 +1,5 @@
 {
-  "active_build": "acd8e010-16b8-4b58-9501-083cb10b595f",
+  "active_build": null,
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
   ],
@@ -105,14 +105,17 @@
       "submitted_config_sha256": "08a51de1d496be4bb5479219b05c825e08dbb2453c78ff5afaf0f6a644b6f859",
       "reserved_seconds": 1260,
       "timeout_seconds": 1200,
-      "status": "WORKING",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "af7a2adc278f3a1de214bc97ddb77fb53049d6343750dc737a3fdc4e56b18e73",
       "build_id": "acd8e010-16b8-4b58-9501-083cb10b595f",
       "start_time": "2026-10-21T19:31:50.829847145Z",
-      "finish_time": null,
-      "create_time": "2026-10-21T19:31:50.105460875Z"
+      "finish_time": "2026-10-21T19:39:43.823773Z",
+      "create_time": "2026-10-21T19:31:50.105460875Z",
+      "build_seconds": 474,
+      "accounted": true,
+      "execution_seconds": 473
     }
   ],
   "carry_forward_seconds": 0,
@@ -128,13 +131,16 @@
   "owner": "select-sort4",
   "phase": "SORT4-ACTUAL-LIFETIME-2026-10-21-R16",
   "phase_id": "SORT4-ACTUAL-LIFETIME-2026-10-21-R16",
-  "remaining_build_seconds": 1904,
+  "remaining_build_seconds": 1430,
   "report_reserve_seconds": 240,
-  "retired_seconds": 0,
+  "retired_seconds": 1430,
   "schema": "smallsort-cloud-phase-account-v1",
   "spent_build_seconds": 0,
   "start_utc": "2026-10-21T17:50:34Z",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "task_id": "select-actual-lifetime-autonomous-2026-10-21-r16",
-  "used_build_seconds": 1696
+  "used_build_seconds": 2170,
+  "closed_utc": "2026-10-21T19:47:19.799986Z",
+  "unused_retired_seconds": 1430,
+  "closure_reason": "Early closeout: fewer than five main-window minutes remain; c2 resource binding implementation + independent semantic review + measured ~474s Cloud envelope and required controls cannot fit before main admission cutoff. All five Builds terminal/accounted; own active/unresolved/request/reservation0. Full proof OPEN. Unused budget retired, carry0."
 }

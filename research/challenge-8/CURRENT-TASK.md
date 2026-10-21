@@ -46,10 +46,10 @@ Next: Name unresolved outer MIR cells, fix source-preserving binding, then rerun
 
 ## Отчёт агента
 
-**select-actual-lifetime-autonomous-2026-10-21-r16 · select-sort4 · SORT4-ACTUAL-LIFETIME-2026-10-21-R16 · HANDOFF**
-Updated: 2026-10-21T19:36:20.326539Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `de469095ad2ba4435b41bc0f114289cd12f4952f129e88fbcfb655cea6dca505`.
-Dates: T0 `2026-10-21T17:50:34Z`; main `2026-10-21T19:50:34Z`; absolute `2026-10-21T20:20:34Z`. Budget 3600s: 1696s spent, 0s retired, 1904s remaining including reservations.
-Active Build IDs: acd8e010-16b8-4b58-9501-083cb10b595f; unresolved: none recorded.
-Blocker: Actual body now reaches c1; FnOnce Output projection does not reduce to bool while existing narrow HRTB mode is disabled. Full actual normal/unwind remains OPEN. [Build `4df683dc-41cb-4e4d-b1ce-d515e8f96b00`]
-Next: PAUSED by explicit owner instruction. No work until owner resumes. On authorized resume, read compact updated CORE/instructions and this checkpoint; use existing phase/T0/account, reconcile active S5 once, then Evidence Brief after terminal. No new Build/retry/hypothesis authorized by this pause; deadlines continue.
+**select-actual-lifetime-autonomous-2026-10-21-r16 · select-sort4 · SORT4-ACTUAL-LIFETIME-2026-10-21-R16 · CLOSED**
+Updated: 2026-10-21T19:47:19.799986Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `de469095ad2ba4435b41bc0f114289cd12f4952f129e88fbcfb655cea6dca505`.
+Dates: T0 `2026-10-21T17:50:34Z`; main `2026-10-21T19:50:34Z`; absolute `2026-10-21T20:20:34Z`. Budget 3600s: 2170s spent, 1430s retired, 0s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: S5 reaches actual c2: missing ref_precreated_token for v_base+3. Required controls interrupted by strict HRTB routing RuntimeError; full actual normal/unwind OPEN. [Build `acd8e010-16b8-4b58-9501-083cb10b595f`]
+Next: R16 CLOSED/carry0. New owner-authorized window required. First fix strict HRTB control metadata routing; then bind actual c2 ordered receiver/borrow/tuple/source resources using NEXT-AFTER-S5.md and NEXT-CALLBACK-PROTOCOL.md. Full actual normal/unwind, final controls/mini7/fresh26 and stable Freeze caller OPEN; independent credit0.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

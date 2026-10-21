@@ -11,6 +11,14 @@
     {
       "path": "research/challenge-8/task-history/select-actual-lifetime-r16/NEXT-CALLBACK-PROTOCOL.md",
       "sha256": "52ab17d8fc1da93b4b10e4e5be40dfd8455c761c4b1b09f88b0305464169e769"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-lifetime-r16/NEXT-AFTER-S5.md",
+      "sha256": "9b14da3d73b7fc52e5fc9fe91309495db285fd762844ebcaa7cacd41e639f55f"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-lifetime-r16/observations/04a69ab306b8fd4ff6039ff277caa157aebc6962ca2395c65a5509a06e8bffac.json",
+      "sha256": "04a69ab306b8fd4ff6039ff277caa157aebc6962ca2395c65a5509a06e8bffac"
     }
   ],
   "assignment_sha256": "bc8b6f81858bdc46754d3f3db09aa9bfeb8fa5fbf04afe2966143154c972b64e",
@@ -20,15 +28,15 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "4df683dc-41cb-4e4d-b1ce-d515e8f96b00",
+    "build_id": "acd8e010-16b8-4b58-9501-083cb10b595f",
+    "location": "verified/lib.rs(202,26-41), aliasing.rsspec(88,9-29)",
+    "summary": "S5 reaches actual c2: missing ref_precreated_token for v_base+3. Required controls interrupted by strict HRTB routing RuntimeError; full actual normal/unwind OPEN.",
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S4-evidence.json",
-        "sha256": "c2cb4cf17ba35ed8e0b1eea7bd4a784012f03696f27d6218d6370cf12ac89150"
+        "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S5-evidence.json",
+        "sha256": "209199ccfeef37d698b97216466b3f726d383358fa274e8e887f1ca5ead6ca51"
       }
-    ],
-    "location": "verified/lib.rs(198,18-89)",
-    "summary": "Actual body now reaches c1; FnOnce Output projection does not reduce to bool while existing narrow HRTB mode is disabled. Full actual normal/unwind remains OPEN."
+    ]
   },
   "confirmed": [
     {
@@ -65,6 +73,16 @@
           "build_id": "4df683dc-41cb-4e4d-b1ce-d515e8f96b00",
           "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S4-evidence.json",
           "sha256": "c2cb4cf17ba35ed8e0b1eea7bd4a784012f03696f27d6218d6370cf12ac89150"
+        }
+      ]
+    },
+    {
+      "claim": "R16 S5 source-reported BODY_PROOF_FAILED at actual c2 missing ref_precreated_token(v_base+3). Controls interrupted by HRTB-route RuntimeError. R16 CLOSED: 2170spent/1430retired/carry0; all5 terminal/accounted, own active/unresolved/request/reservation0. No complete actual obligation or independent credit.",
+      "assurance": "SOURCE_REPORTED",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S5-evidence.json",
+          "sha256": "209199ccfeef37d698b97216466b3f726d383358fa274e8e887f1ca5ead6ca51"
         }
       ]
     }
@@ -152,7 +170,7 @@
       "std_commit": "81226dafedd2e8d1dfb140ab0e4dd88556bfd7db",
       "std_sort4_source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
     },
-    "status": "PAUSED_BY_OWNER",
+    "status": "RECONCILED_AND_CLOSED",
     "tested": [
       "39 Python service/registration checks passed; no local compiler/exporter/preparer/verifier.",
       "Independent Luna HIGH GO for exact S1 through S5 semantic candidates; S5 review is S5-review.json.",
@@ -163,13 +181,16 @@
       "Full actual body normal/unwind obligations closed0; source/MIR receipt, c2-c5 debts and Boolean-to-pointer/copy composition remain open.",
       "Fresh26, final admission/summary/qualification and stable Freeze caller NOT_RUN/OPEN; independent B1/B2 credit0."
     ],
-    "worktree": "/root/verify-rust-std-select-night"
+    "worktree": "/root/verify-rust-std-select-night",
+    "reconciled_utc": "2026-10-21T19:47:19.799986Z",
+    "resumed_thread_id": "01a15ffc-dbe5-7523-b5b1-d3dc37016e06",
+    "note": "Historical paused snapshot retained; current account/session above supersedes active-at-pause fields."
   },
-  "next_step": "PAUSED by explicit owner instruction. No work until owner resumes. On authorized resume, read compact updated CORE/instructions and this checkpoint; use existing phase/T0/account, reconcile active S5 once, then Evidence Brief after terminal. No new Build/retry/hypothesis authorized by this pause; deadlines continue.",
+  "next_step": "R16 CLOSED/carry0. New owner-authorized window required. First fix strict HRTB control metadata routing; then bind actual c2 ordered receiver/borrow/tuple/source resources using NEXT-AFTER-S5.md and NEXT-CALLBACK-PROTOCOL.md. Full actual normal/unwind, final controls/mini7/fresh26 and stable Freeze caller OPEN; independent credit0.",
   "open": [
-    "Full generic actual sort4 normal/unwind; actual callback debt and Boolean\u2192pointer binding.",
+    "Full generic actual sort4 normal/unwind; actual callback debt and Boolean→pointer binding.",
     "Independent B1/B2credit0; final qualification/full26 and stable Freeze caller OPEN.",
-    "Actual current-owner callback debts c1\u2013c5, selector-pointer/permutation composition, final qualification and stable caller remain open; S4 executed current alias/scope placement without full-body success."
+    "Actual current-owner callback debts c1–c5, selector-pointer/permutation composition, final qualification and stable caller remain open; S4 executed current alias/scope placement without full-body success."
   ],
   "owner": "select-sort4",
   "phase": "SORT4-ACTUAL-LIFETIME-2026-10-21-R16",
@@ -187,19 +208,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "acd8e010-16b8-4b58-9501-083cb10b595f"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-21T20:20:34Z",
     "main_deadline_utc": "2026-10-21T19:50:34Z",
-    "remaining_seconds": 1904,
-    "retired_seconds": 0,
-    "spent_seconds": 1696,
+    "remaining_seconds": 0,
+    "retired_seconds": 1430,
+    "spent_seconds": 2170,
     "t0": "2026-10-21T17:50:34Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "CLOSED",
   "task_id": "select-actual-lifetime-autonomous-2026-10-21-r16",
-  "updated_utc": "2026-10-21T19:36:20.326539Z"
+  "updated_utc": "2026-10-21T19:47:19.799986Z"
 }

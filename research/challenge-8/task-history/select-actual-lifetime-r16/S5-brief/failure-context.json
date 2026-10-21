@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "eeda9b42313ac968508da13e8ca819a5bdb2519c65f9799570e5d0fb6b33a499",
+  "build_id": "acd8e010-16b8-4b58-9501-083cb10b595f",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 7674,
+    "line_separator": "LF",
+    "source_lines": 7872,
+    "start": 7663,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "4837c1e6aee68dba4774abb6b4a72bed061c54bcca0c4738fef5c0076b2f6943",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/body-verification.log",
+  "file_sha256": "7a1ef1d07427af244d47bba5cd161d172431f75da8e23a09a67ac6a5ef124641",
+  "index_sha256": "3063f6379598de15aba1f4a4ef5728f715a7df0a948b0930eee592bbe4fbd96b",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 7674,
+    "expected_sha256": "7a1ef1d07427af244d47bba5cd161d172431f75da8e23a09a67ac6a5ef124641",
+    "file_id": "4837c1e6aee68dba4774abb6b4a72bed061c54bcca0c4738fef5c0076b2f6943",
+    "start": 7663
+  },
+  "request_id": "dc49bae6bd78dc8d74a8ecd227c0777babec6d40148fd7c8c4497c64b3a2bb56",
+  "requested_end": 7674,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7663,
+      "text": "verified/lib.rs(202,26-41): note: Verifying call"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7664,
+      "text": "202 |         let c2 = is_less(&*v_base.add(3), &*v_base.add(2));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7665,
+      "text": "    |                          ^^^^^^^^^^^^^^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7666,
+      "text": "verified/lib.rs(131,1-233,2): note: Verifying function 'sort4_stable'"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7667,
+      "text": "131 | pub unsafe fn sort4_stable<T, F: FnMut(&T, &T) -> bool>("
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7668,
+      "text": "    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7669,
+      "text": "132 |     v_base: *const T,"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7670,
+      "text": "    | ^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7671,
+      "text": "133 |     dst: *mut T,"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7672,
+      "text": "    | ^^^^^^^^^^^^^^^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7673,
+      "text": "134 |     is_less: &mut F,"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7674,
+      "text": "    | ^^^^^^^^^^^^^^^^^^^^"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

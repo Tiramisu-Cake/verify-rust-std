@@ -1,3 +1,15 @@
+# Select R16 закрыт после возобновления
+
+2026-10-21: переданный S5 `acd8e010-16b8-4b58-9501-083cb10b595f` terminal FAILURE, штатно учтён. R16 CLOSED: 2170s spent, 1430s retired, carry0, active/unresolved0. Старое окно не возобновлять.
+
+Начать с CORE.md → CURRENT-TASK.md → CHECKPOINT.json. Следующая навигация: task-history/select-actual-lifetime-r16/NEXT-AFTER-S5.md. Actual c2 missing ref_precreated_token(v_base+3); controls прерваны строгим HRTB route error. Полный normal/unwind proof OPEN, independent credit0.
+
+Для новых Builds требуется новое явное поручение владельца с окном/бюджетом и штатный exact phase admission. Этот файл их не выдаёт.
+
+Ниже сохранена историческая инструкция передачи паузы; она уже выполнена и не открывает новую сессию.
+
+---
+
 # Продолжить Select после согласованной паузы
 
 Запусти новую Codex-сессию с рабочим каталогом **`/root/verify-rust-std-select-night`**; одного `cd` внутри tool недостаточно для thread cwd. Модель/effort — по выбору владельца, этот файл их не меняет. Возобновление выполняется по следующему поручению владельца, не автоматически из этого файла.

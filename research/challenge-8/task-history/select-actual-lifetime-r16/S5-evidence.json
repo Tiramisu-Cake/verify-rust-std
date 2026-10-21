@@ -1,0 +1,71 @@
+{
+  "build": {
+    "dispatch_token": "dispatch-3e8cc84ec05c48e6b35250e2266a63aa",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-ACTUAL-LIFETIME-2026-10-21-R16",
+    "infra_sha": "8d6fb4685bda418f76110ad097678d78a613f815",
+    "proof_sha": "8d6fb4685bda418f76110ad097678d78a613f815",
+    "lane": "o26-sort4-c1-current-recovery",
+    "submitted_config_sha256": "08a51de1d496be4bb5479219b05c825e08dbb2453c78ff5afaf0f6a644b6f859",
+    "reserved_seconds": 1260,
+    "timeout_seconds": 1200,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "af7a2adc278f3a1de214bc97ddb77fb53049d6343750dc737a3fdc4e56b18e73",
+    "build_id": "acd8e010-16b8-4b58-9501-083cb10b595f",
+    "start_time": "2026-10-21T19:31:50.829847145Z",
+    "finish_time": "2026-10-21T19:39:43.823773Z",
+    "create_time": "2026-10-21T19:31:50.105460875Z",
+    "build_seconds": 474,
+    "accounted": true,
+    "execution_seconds": 473
+  },
+  "archive_sha256": "eeda9b42313ac968508da13e8ca819a5bdb2519c65f9799570e5d0fb6b33a499",
+  "index_sha256": "3063f6379598de15aba1f4a4ef5728f715a7df0a948b0930eee592bbe4fbd96b",
+  "integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "assurance": "SOURCE_REPORTED",
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "body_target": "BODY_PROOF_FAILED",
+  "body_observed_exit": 1,
+  "source_pair_immutable": true,
+  "tool_immutable": true,
+  "failure": {
+    "location": "verified/lib.rs(202,26-41), aliasing.rsspec(88,9-29)",
+    "message": "No matching heap chunks: ref_precreated_token<T>(ptr_add_(v_base, 3, T_typeid), _)",
+    "context": "Actual c2 is_less(&*v_base.add(3), &*v_base.add(2))."
+  },
+  "control_limitation": "diagnostic-audit /c1_controls is empty. /run_error reports RuntimeError: R16-ACTUAL-BODY: HRTB output opt-in requires the exact full sort4_stable c1 and scope route. HRTB-off contrast and required control completion UNESTABLISHED; no no-match inference.",
+  "closed_actual_obligations": 0,
+  "independent_credit": false,
+  "fragments": [
+    {
+      "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S5-brief/controls.json",
+      "sha256": "0434ee9446a346acabd44a69051a8f3d3938cdaa851c511e920b479b6893af22"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S5-brief/diagnostics.json",
+      "sha256": "bd36e212c86fa5207b55222412b6498189cf32edd44213dc9538b9d33bbfc19b"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S5-brief/failure-context.json",
+      "sha256": "da65f0458b4c483b849fcd1e3c19ec2045cdecd45f593ae4f5366bb8ad8af81c"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S5-brief/failure-window.json",
+      "sha256": "a69aa228b54a2b7400a34e28d1602dc4c3fd2ec74b24ad3947b8299c261d1dff"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S5-brief/result-root.json",
+      "sha256": "6149c1c98731aee7c7536e9b5e42cf4126823c51c276885079aef09d40232317"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S5-brief/run-error.json",
+      "sha256": "507de875f360f8847542b6b99abece2b5e5bf02f5805b92b21402dbddea2a533"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S5-brief/summary.json",
+      "sha256": "919481692d835c8cdbd6536feadd6bde6e2e96bf7380a7fd7d9e06c7b5c8e786"
+    }
+  ]
+}
