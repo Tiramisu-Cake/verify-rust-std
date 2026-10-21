@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "a19fd005a8a28b469bb67f6eaee21106b2b5d7e48f9ce0f33435963ae9af5c9e",
+  "build_id": "4df683dc-41cb-4e4d-b1ce-d515e8f96b00",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 150,
+    "line_separator": "LF",
+    "source_lines": 6575,
+    "start": 139,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "4837c1e6aee68dba4774abb6b4a72bed061c54bcca0c4738fef5c0076b2f6943",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/body-verification.log",
+  "file_sha256": "e858862c254c7e3f30d13ceb9022bc21649d2ed229781bfb88936795433db961",
+  "index_sha256": "01648f6be67d2e1977e88095624ce991a703db3d18f651dd72ed03115b035b5c",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 150,
+    "expected_sha256": "e858862c254c7e3f30d13ceb9022bc21649d2ed229781bfb88936795433db961",
+    "file_id": "4837c1e6aee68dba4774abb6b4a72bed061c54bcca0c4738fef5c0076b2f6943",
+    "start": 139
+  },
+  "request_id": "2e9fc5400cde52f14409c146e9a7e2a4fdf88f4ec3db266bfa2a51b4a38473d7",
+  "requested_end": 150,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 139,
+      "text": "STRICT-RELOCATE inner=_119 translated=$_119 type=&'<erased> T addresstaken=false"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 140,
+      "text": "STRICT-RELOCATE outer_removed=30 inner_insertions=1"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 141,
+      "text": "ACTUAL-SCOPE-RELOCATION cmp-controls=12 status=PASS"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 142,
+      "text": "ACTUAL-SCOPE-RELOCATION deferred-controls=13 proof-tuple-controls=2 reborrow-controls=5 cfg-preservation=PASS"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 143,
+      "text": "ACTUAL-SCOPE-RELOCATION complete-body-use-containment=PASS cmp=6 deferred=24"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 144,
+      "text": ""
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 145,
+      "text": ""
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 146,
+      "text": ""
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 147,
+      "text": ""
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 148,
+      "text": ""
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 149,
+      "text": ""
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 150,
+      "text": ""
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

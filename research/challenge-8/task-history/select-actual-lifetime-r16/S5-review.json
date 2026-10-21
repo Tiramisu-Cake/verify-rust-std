@@ -1,0 +1,23 @@
+{
+  "review": "S5 HRTB FnMut output opt-in semantic review",
+  "disposition": "GO",
+  "scope": "Static review of the final R16 actual-body runner/profile route and existing R13 translator HRTB projection path. No compiler, Cloud build, raw evidence, or proof-credit claims were used.",
+  "identities": {
+    "actual_body_sha256": "892ce1a9c9f3e619e95a3ce41033639ee9cff9b99d13527fe6b867c87eb97acb",
+    "service_tests_sha256": "dbdf137c633bf42ba58a1559ea1a935c6d95024d146e23c167b56d011bc67558",
+    "profile_sha256": "d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24",
+    "translator_reviewed_sha256": "6ae99d9d55527c1e28a3575534d7fbec8d1b30e2295c678df16a7b4438a45651",
+    "profile_translator_pin": "570b7ac92e4c7f0a63097d28ea018033da2f5afeb4a0f7206d20dc8a11a73a71"
+  },
+  "findings": [],
+  "basis": [
+    "The profile body pin matches the reviewed R16 body bytes and enables HRTB output only alongside the exact full-body c1 recovery and deferred-scope route. The runner adds metadata only after checking those conditions and the exact sort4_stable body name.",
+    "run_case requires c1 recovery, scope relocation, and sort4_stable before setting SORT4_HRTB_OUTPUT=1 and SORT4_HRTB_OUTPUT_TARGETS=sort4_stable. It removes both variables for other bodies, and the dedicated hrtb-opt-in-off control removes both while retaining c1 and scope opt-ins. Service tests cover this routing, ambient-variable isolation, and refusal when route prerequisites are absent; parent reports 39 tests passing (8 registration, 31 service).",
+    "Translator target parsing is fail-closed for malformed/duplicate targets. HRTB bounds are extracted only from compiler-origin clauses matching FnOnce::Output over two distinct bound regions and the matching FnMut trait clause, with the same type parameter in both references and Bool output. Emission further requires the exact compiler FnMut::call_mut source and translated item, two call arguments, matching source substitutions/type arguments, one shared call-site lifetime, and exactly one matching extracted (F,T) bound.",
+    "The emitted projection equality is a verifier assertion through #register_type_projection_equality; it does not introduce an assumed lemma or alter the kernel. Existing actual-source, strict-scope, c1, deferred-scope, referent-address, and exact-body guards remain prerequisites. The opt-in is isolated from diagnostic/native routes, whose environment guards reject this HRTB setting."
+  ],
+  "limits": [
+    "This is a semantic source/wiring review, not execution evidence. The final HRTB-enabled Cloud preflight remains necessary to check compiled integration and report the exact body/control statuses.",
+    "No source-reported failure or negative-control observation establishes proof success. Independent proof credit remains zero until the authorized Brief establishes it."
+  ]
+}
