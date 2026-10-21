@@ -71,4 +71,4 @@ VPS — чтение/правки/Git/hashes/static parsing и малые isolat
 
 ## Отчёт агента
 
-Не начато. При старте зафиксируй T0 и ближайшую proof-гипотезу; по завершении замени раздел одним компактным итогом.
+В работе. T0 2026-10-21T14:12:12Z; main16:12:12Z; absolute16:42:12Z. Новый ledger3600/used0/carryfalse. Ближайшая цель: установить происхождение existential count0 tail при late-callback singleton fold; гипотеза ещё проверяется. Session: cloud-build/origin-layout/R15-SESSION-20261021.md. Чужие изменения сохранены.

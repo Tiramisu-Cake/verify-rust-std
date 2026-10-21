@@ -28,6 +28,23 @@ R14_POLICY_FILE_ID='0f66bbe9230a4472a9e913dca0daeb28ad99b4a96f7625f689ccb0c2b356
 R14_POLICY_FILE_SHA256='9883177b74ed1ede34b6498f363ce689b82c1beaee9211810179253aee8cc659'
 R14_UPLOAD_SHELL_SHA256='677740c98b0389c77c40804a825037b598c46c095fc0fecd9a30b80c5922ef64'
 R14_BRIEF_REQUEST_ID='da464eaaf9a99cba220d2226f40eea07121267e0ca1f12ae0775b1b3ee4e6d38'
+R15_PHASE='MERGE-SINGLETON-ARRAY-PROOF-R15-2026-10-21'
+R15_PROBE_SOURCE='c4e989d7113f525244dfcd2a6e1689e4eda4c69d'
+R15_LEDGER_PATH='research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R15-BUDGET-20261021.json'
+R15_PREFLIGHT_PATH='research/challenge-8/cloud-build/origin-layout/r15-source-preflight.py'
+R14_PREFLIGHT_PATH='research/challenge-8/cloud-build/origin-layout/r14-source-preflight.py'
+R11_SESSION_PATH='research/challenge-8/cloud-build/origin-layout/R11-SESSION-20261021.md'
+R13_MODE_PATH='research/challenge-8/cloud-build/origin-layout/R13-UPLOAD-MODE-20261021.json'
+R15_RECIPE_REMOVALS={R14_PREFLIGHT_PATH,'research/challenge-8/cloud-build/origin-layout/r13-source-preflight.py',
+ R11_SESSION_PATH,'research/challenge-8/cloud-build/origin-layout/R11-CANDIDATE2-REVIEW-20261021.md',
+ 'research/challenge-8/cloud-build/origin-layout/R11-LABEL-STORAGE-DESIGN-20261021.md',
+ 'research/challenge-8/cloud-build/origin-layout/R11-PLACEMENT-DESIGN-20261021.md',
+ 'research/challenge-8/cloud-build/origin-layout/r11-phase-service-test.py',
+ 'research/challenge-8/cloud-build/origin-layout/r11-registration-service-test.py',
+ 'research/challenge-8/cloud-build/origin-layout/r11-retry-phase-service-test.py',
+ 'research/challenge-8/cloud-build/origin-layout/r11-source-preflight.py',
+ 'research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls-service-test.py',
+ 'research/challenge-8/cloud-build/origin-layout/r11-trace-service-test.py'}
 TERMINAL={'SUCCESS','FAILURE','INTERNAL_ERROR','TIMEOUT','CANCELLED','EXPIRED'}
 NIGHT_PHASE='NIGHT-SELECT-SORT4-CLOUD-2026-10-09'
 NIGHT_DEADLINE='2026-10-09T08:00:00Z'
@@ -46,7 +63,7 @@ def invoke(args):
 
 def envs(infra,proof,lane,r13_required=False):return [f'INFRA_SHA={infra}',f'PROOF_SHA={proof}',f'LANE={lane}',f'PROOF_IMAGE={UBUNTU}',f'R13_UPLOAD_REQUIRED={"true" if r13_required else "false"}','CLOUD_BUILD_ID=${BUILD_ID}','CLOUD_BUILD_PROJECT_ID=${PROJECT_ID}','CLOUD_BUILD_REGION=global','SMALLSORT_EXECUTION_PROVIDER=cloud-build','SUBMITTED_CONFIG_SHA=${_CONFIG_SHA}',] + [f'CONFIG_PART_{i}=${{_CONFIG_{i}}}' for i in range(8)]
 
-def required_upload_guard(phase):return phase in ('MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21','MERGE-PUBLICATION-GATE-PROOF-R14-2026-10-21')
+def required_upload_guard(phase):return phase in ('MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21','MERGE-PUBLICATION-GATE-PROOF-R14-2026-10-21','MERGE-SINGLETON-ARRAY-PROOF-R15-2026-10-21')
 
 def config(infra,proof,lane,seconds,token,source_payload=None,r13_required=False):
  if type(r13_required) is not bool:raise ValueError('R13 upload-required selection must be boolean')
@@ -502,7 +519,7 @@ def r14_validate_publisher_control(before_control,after_control):
  if any(segment(baseline,before_control,n)!=segment(tree,after_control,n)
         for n in ('envs','config')):
   raise SystemExit('R14 C12 publisher config changed')
- expected="def required_upload_guard(phase):return phase in ('MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21','MERGE-PUBLICATION-GATE-PROOF-R14-2026-10-21')"
+ expected="def required_upload_guard(phase):return phase in ('MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21','MERGE-PUBLICATION-GATE-PROOF-R14-2026-10-21','MERGE-SINGLETON-ARRAY-PROOF-R15-2026-10-21')"
  if segment(tree,after_control,'required_upload_guard')!=expected:
   raise SystemExit('R14 C13 guard route')
  command=segment(tree,after_control,'run_command') or ''
@@ -581,6 +598,126 @@ def r14_validate_retry_sources(probe_sha,proof_sha):
  r14_validate_publisher_control(before_control,after_control)
 
 
+def r15_validate_recipe_delta(before,selected):
+ if (not isinstance(before,dict) or not isinstance(selected,dict) or
+     {key:value for key,value in before.items() if key!='proof_paths'} !=
+     {key:value for key,value in selected.items() if key!='proof_paths'}):
+  raise SystemExit('R15 S3 recipe metadata changed')
+ old_paths=before.get('proof_paths');new_paths=selected.get('proof_paths')
+ required_additions={R15_LEDGER_PATH}
+ required_removals=R15_RECIPE_REMOVALS
+ if (not isinstance(old_paths,list) or not isinstance(new_paths,list) or
+     old_paths!=sorted(set(old_paths)) or new_paths!=sorted(set(new_paths)) or
+     set(new_paths)-set(old_paths)!=required_additions or
+     set(old_paths)-set(new_paths)!=required_removals):
+  raise SystemExit('R15 S4 recipe path closure/registration mismatch')
+
+
+def r15_validate_transport_size(payload_bytes):
+ if type(payload_bytes) is not int or payload_bytes<0:
+  raise SystemExit('R15 S16 invalid source payload size')
+ encoded_size=4*((payload_bytes+2)//3)
+ if encoded_size>191*3990:raise SystemExit('R15 S16 source payload exceeds existing bounded transport')
+ return encoded_size
+
+
+def r15_set_execute_budget(cfg,timeout):
+ """Keep the 1200s Build envelope while reserving 360s for publication."""
+ if type(timeout) is not int or not 450<=timeout<=1200:
+  raise SystemExit('R15 requires timeout450..1200 to reserve 360s for publication')
+ steps=cfg.get('steps') if isinstance(cfg,dict) else None
+ if not isinstance(steps,list) or not steps or not isinstance(steps[0],dict):
+  raise SystemExit('R15 E1 generated execute step missing')
+ args=steps[0].get('args')
+ if not isinstance(args,list) or len(args)<2 or not isinstance(args[1],str):
+  raise SystemExit('R15 E2 generated execute body missing')
+ body=args[1];old=timeout-70;execute=timeout-360
+ deadline=f' + {old} - 15 '
+ timeout_arg=f'"{old}s" bash'
+ if body.count(deadline)!=1 or body.count(timeout_arg)!=1:
+  raise SystemExit('R15 E3 generated execute budget markers differ')
+ body=body.replace(deadline,f' + {execute} - 15 ',1).replace(timeout_arg,f'"{execute}s" bash',1)
+ args[1]=body
+ return execute
+
+
+def r15_validate_sources(probe_sha,proof_sha):
+ """Bind reviewed R15 inputs to the complete committed source-input closure."""
+ if probe_sha!=R15_PROBE_SOURCE or not isinstance(proof_sha,str) or not re.fullmatch('[0-9a-f]{40}',proof_sha):
+  raise SystemExit('R15 S1 source identity')
+ recipe_path='research/challenge-8/cloud-build/recipes/merge.json'
+ try:
+  before_raw=subprocess.check_output(['git','show',probe_sha+':'+recipe_path],cwd=ROOT,stderr=subprocess.PIPE)
+  selected_raw=subprocess.check_output(['git','show',proof_sha+':'+recipe_path],cwd=ROOT,stderr=subprocess.PIPE)
+  before=json.loads(before_raw);selected=json.loads(selected_raw)
+ except (subprocess.CalledProcessError,ValueError,UnicodeDecodeError):
+  raise SystemExit('R15 S2 recipe unavailable')
+ r15_validate_recipe_delta(before,selected)
+ old_paths=before['proof_paths'];new_paths=selected['proof_paths']
+ # Keep every historical R13/R14 and prior budget record byte-identical.
+ check_paths={path for path in old_paths
+              if 'BUDGET' in path.rsplit('/',1)[-1].upper() and path!=R15_LEDGER_PATH}
+ check_paths.update({R14_GATE_PATH,R13_MODE_PATH})
+ def tree_map(commit,paths):
+  raw=subprocess.check_output(['git','ls-tree','-r','-z',commit,'--',*sorted(paths)],cwd=ROOT,stderr=subprocess.PIPE)
+  found={}
+  for record in raw.split(b'\0'):
+   if record:
+    meta,path=record.split(b'\t',1);mode,kind,oid=meta.decode().split()
+    found[path.decode()]=(mode,kind,oid)
+  return found
+ try:
+  old_map=tree_map(probe_sha,check_paths);new_map=tree_map(proof_sha,check_paths)
+ except (subprocess.CalledProcessError,ValueError,UnicodeDecodeError):
+  raise SystemExit('R15 S5 historical tree unavailable')
+ if (set(old_map)!=check_paths or new_map!=old_map or
+     any(value[:2]!=('100644','blob') for value in new_map.values())):
+  raise SystemExit('R15 S6 historical ledger or R14 gate changed')
+ try:
+  gate_selected=subprocess.check_output(['git','show',proof_sha+':'+R14_GATE_PATH],cwd=ROOT,stderr=subprocess.PIPE)
+  gate_probe=subprocess.check_output(['git','show',probe_sha+':'+R14_GATE_PATH],cwd=ROOT,stderr=subprocess.PIPE)
+  gate_current=(ROOT/R14_GATE_PATH).read_bytes()
+  r14_validate_gate_record(json.loads(gate_selected))
+ except (subprocess.CalledProcessError,OSError,ValueError,UnicodeDecodeError):
+  raise SystemExit('R15 S7 accepted R14 publication gate unavailable')
+ if gate_selected!=gate_probe or gate_current!=gate_selected:
+  raise SystemExit('R15 S8 R14 publication gate bytes changed')
+ # The accepted R14 publisher and its fail-closed upload guard remain fixed.
+ try:
+  before_control=subprocess.check_output(['git','show',R14_PROBE_SOURCE+':research/challenge-8/cloud-build/control.py'],cwd=ROOT,stderr=subprocess.PIPE).decode()
+  selected_control=subprocess.check_output(['git','show',proof_sha+':research/challenge-8/cloud-build/control.py'],cwd=ROOT,stderr=subprocess.PIPE).decode()
+ except (subprocess.CalledProcessError,UnicodeDecodeError):
+  raise SystemExit('R15 S9 publisher control unavailable')
+ r14_validate_publisher_control(before_control,selected_control)
+ # Reconstruct the same recipe and automatically discovered Python infra set
+ # used by source-input.py, then require exact committed/worktree identity.
+ source_spec=importlib.util.spec_from_file_location('r15_pinned_source',DIR/'source-input.py')
+ source=importlib.util.module_from_spec(source_spec);source_spec.loader.exec_module(source)
+ try:
+  infra_paths=source.infra_paths(ROOT,proof_sha)
+  paths=sorted(set(new_paths+selected['infra_paths']+infra_paths+[recipe_path]))
+  raw=subprocess.check_output(['git','ls-tree','-r','-z',proof_sha,'--',*paths],cwd=ROOT,stderr=subprocess.PIPE)
+ except (subprocess.CalledProcessError,KeyError,TypeError,ValueError,UnicodeDecodeError,SystemExit):
+  raise SystemExit('R15 S10 selected source closure unavailable')
+ found={}
+ for record in raw.split(b'\0'):
+  if not record:continue
+  meta,path=record.split(b'\t',1);mode,kind,oid=meta.decode().split()
+  if mode not in ('100644','100755') or kind!='blob':raise SystemExit('R15 S11 nonregular source input')
+  found[path.decode()]=(mode,kind,oid)
+ if set(found)!=set(paths):raise SystemExit('R15 S12 incomplete selected source closure')
+ for path,(mode,kind,oid) in found.items():
+  target=ROOT/path
+  if target.is_symlink() or not target.is_file():raise SystemExit('R15 S13 source input missing: '+path)
+  data=target.read_bytes()
+  if hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()!=oid:
+   raise SystemExit('R15 S14 worktree bytes differ from selected source: '+path)
+  executable=bool(target.stat().st_mode & 0o111)
+  if executable!=(mode=='100755'):raise SystemExit('R15 S15 worktree mode differs from selected source: '+path)
+ payload=source.make_payload(ROOT,proof_sha,proof_sha,'merge')
+ r15_validate_transport_size(len(payload))
+
+
 def authorized_phase(a,ledger):
  if not a.phase_id or not PHASE_PATTERN.fullmatch(a.phase_id) or ledger.get('phase')!=a.phase_id:raise SystemExit('Explicit phase ID must match the selected account')
  if a.phase_id=='CLOUD-BUILD-MIGRATION' or ledger.get('status')!='AUTHORIZED' or not isinstance(ledger.get('authorization'),str) or not ledger['authorization'].strip():raise SystemExit('Phase account is closed or has no explicit authorization')
@@ -591,6 +728,45 @@ def authorized_phase(a,ledger):
  try:deadline=datetime.datetime.fromisoformat(ledger['deadline_utc'].replace('Z','+00:00'))
  except (KeyError,AttributeError,ValueError) as error:raise SystemExit('Invalid phase deadline') from error
  cutoff=datetime.datetime.fromisoformat(NIGHT_DEADLINE.replace('Z','+00:00'))
+ if a.phase_id==R15_PHASE:
+  expected_ledger=DIR/R15_LEDGER_PATH.removeprefix('research/challenge-8/cloud-build/')
+  if (a.ledger.resolve()!=expected_ledger.resolve() or a.owner!='merge' or
+      ledger.get('owner')!='merge' or ledger.get('authorization_model')!='bounded-cloud-budget' or
+      ledger.get('ceiling_build_seconds')!=3600 or ledger.get('allowed_lanes')!=['merge'] or
+      ledger.get('start_utc')!='2026-10-21T14:12:12Z' or
+      ledger.get('main_deadline_utc')!='2026-10-21T16:12:12Z' or
+      ledger.get('deadline_utc')!='2026-10-21T16:42:12Z' or
+      'max_builds' not in ledger or ledger.get('max_builds') is not None or
+      type(ledger.get('max_timeout_seconds')) is not int or ledger.get('max_timeout_seconds')!=1200 or
+      ledger.get('carryover_allowed') is not False or
+      ledger.get('publication_gate_path')!=R14_GATE_PATH or
+      type(ledger.get('used_build_seconds')) is not int or
+      type(ledger.get('remaining_build_seconds')) is not int or
+      not 0<=ledger.get('used_build_seconds')<=3600 or
+      ledger.get('used_build_seconds')+ledger.get('remaining_build_seconds')!=3600 or
+      type(ledger.get('builds')) is not list or
+      any(type(item) is not dict or item.get('owner')!='merge' or item.get('phase_id')!=R15_PHASE
+          for item in ledger.get('builds')) or
+      'active_build' not in ledger or
+      (ledger.get('active_build') is not None and
+       (type(ledger.get('active_build')) is not str or not ledger.get('active_build')))):
+   raise SystemExit('R15 A1 account authorization mismatch')
+  cutoff=datetime.datetime.fromisoformat('2026-10-21T16:42:12+00:00')
+  now=datetime.datetime.now(datetime.timezone.utc)
+  if now<datetime.datetime.fromisoformat(ledger['start_utc'].replace('Z','+00:00')):
+   raise SystemExit('R15 A2 window not started')
+  if a.command in ('submit','request') and now>=datetime.datetime.fromisoformat(ledger['main_deadline_utc'].replace('Z','+00:00')):
+   raise SystemExit('R15 A3 main window expired')
+  if a.command=='submit':
+   if (type(a.timeout) is not int or not 450<=a.timeout<=1200 or a.lane!='merge' or
+       a.source_mode!='pinned-objects' or a.infra_sha!=a.proof_sha):
+    raise SystemExit('R15 A4 requires one exact pinned source, merge lane, timeout450..1200')
+   if now+datetime.timedelta(seconds=a.timeout+60)>cutoff:
+    raise SystemExit('R15 A5 Build plus queue reserve exceeds absolute deadline')
+   if r13_upload_mode(a.proof_sha)!='proof-r11':
+    raise SystemExit('R15 A6 proof mode')
+   r14_read_selected_gate(a.proof_sha)
+   r15_validate_sources(R15_PROBE_SOURCE,a.proof_sha)
  if a.phase_id=='MERGE-FIRST-CALLBACK-CLOUD-2026-10-17':
   expected_ledger=DIR/'origin-layout'/'FIRST-CALLBACK-BUDGET-20261017.json'
   if (a.ledger.resolve()!=expected_ledger.resolve() or
@@ -1365,6 +1541,7 @@ def run_command(a,state,ledger,ledger_path):
    source_payload=module.make_payload(ROOT,a.infra_sha,a.proof_sha,a.lane)
   cfg=config(a.infra_sha,a.proof_sha,a.lane,a.timeout,token,source_payload,
              r13_required=required_upload_guard(a.phase_id))
+  if a.phase_id==R15_PHASE:r15_set_execute_budget(cfg,a.timeout)
   if any(len(arg.encode())>10000 for step in cfg['steps'] for arg in step.get('args',[])):raise SystemExit('Config argument exceeds Cloud Build 10000-byte limit; no dispatch')
   source_values={k:v for k,v in cfg['substitutions'].items() if k.startswith('_SOURCE_')}
   for key in source_values:cfg['substitutions'][key]='placeholder'
@@ -1376,7 +1553,7 @@ def run_command(a,state,ledger,ledger_path):
   flags=state/(token+'-flags.json');write(flags,{'--substitutions':values})
   reservation={'dispatch_token':token,'owner':a.owner,'phase_id':a.phase_id,'ledger':str(ledger_path),'state_dir':str(state),'item':item,'build_id':None}
   # Recheck the time-window account after source/config preparation, before reserve.
-  if a.phase_id in ('MERGE-FIRST-COMPARATOR-R1-2026-10-18','MERGE-FIRST-COMPARATOR-R2-2026-10-19','MERGE-FIRST-COMPARATOR-R3-2026-10-19','MERGE-GUARD-ADDRESSABILITY-R4-2026-10-20','MERGE-CURRENT-OWNERSHIP-R5-2026-10-20','MERGE-CANONICAL-SHARE-R6-2026-10-20','MERGE-POST-MIGRATION-CURRENT-RECOVERY-R7-2026-10-20','MERGE-LATE-RECOVERY-REJOIN-R8-2026-10-20','MERGE-GUARD-CURRENT-RETURN-R9-2026-10-20','MERGE-MOVING-GAP-INVARIANT-R10-2026-10-21','MERGE-LABEL-STORAGE-INVARIANT-R11-2026-10-21','MERGE-R11-EVIDENCE-RETRY-2026-10-21','MERGE-UPLOAD-NONCOMPOSITE-R12-2026-10-21',R14_PHASE,'MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21'):authorized_phase(a,ledger)
+  if a.phase_id in ('MERGE-FIRST-COMPARATOR-R1-2026-10-18','MERGE-FIRST-COMPARATOR-R2-2026-10-19','MERGE-FIRST-COMPARATOR-R3-2026-10-19','MERGE-GUARD-ADDRESSABILITY-R4-2026-10-20','MERGE-CURRENT-OWNERSHIP-R5-2026-10-20','MERGE-CANONICAL-SHARE-R6-2026-10-20','MERGE-POST-MIGRATION-CURRENT-RECOVERY-R7-2026-10-20','MERGE-LATE-RECOVERY-REJOIN-R8-2026-10-20','MERGE-GUARD-CURRENT-RETURN-R9-2026-10-20','MERGE-MOVING-GAP-INVARIANT-R10-2026-10-21','MERGE-LABEL-STORAGE-INVARIANT-R11-2026-10-21','MERGE-R11-EVIDENCE-RETRY-2026-10-21','MERGE-UPLOAD-NONCOMPOSITE-R12-2026-10-21',R14_PHASE,R15_PHASE,'MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21'):authorized_phase(a,ledger)
   coordination.reserve(reservation)
   ledger['builds'].append(item);ledger['active_build']=token;write(ledger_path,ledger)
   cmd=['builds','submit','--no-source','--async','--region=global','--config='+str(path),'--flags-file='+str(flags),'--format=json','--quiet']

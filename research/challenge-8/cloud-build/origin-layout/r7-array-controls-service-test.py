@@ -33,16 +33,24 @@ def _sha(data):
 def _callback(case, args, env, *, behavior="normal"):
     names = {
         "raise": "missing_physical_quarter", "null": "wrong_referent",
+        "error": "missing_physical_quarter", "timeout": "wrong_referent",
         "partial": "wrong_value", "missing-receipt": "wrong_referent",
         "missing-artifact": "wrong_value", "wrong-error-location": "missing_physical_quarter",
         "observed-wrong-value-geometry-error": "wrong_value",
         "wrong-value-spec-location": "wrong_value",
         "wrong-value-source-position": "wrong_value",
         "wrong-value-error-text": "wrong_value",
+        "explicit-not-run": "wrong_length_fold", "wrong-type-stage": "fractional_singleton_roundtrip",
+        "source-mismatch": "adjacent_nonempty_rejoin", "stage-mismatch": "nonempty_zero_witness",
     }
     name = case.name
-    if behavior == "raise" and name == names[behavior]:
-        raise RuntimeError("synthetic hosted execution failure")
+    if behavior in {"raise", "error", "timeout"} and name == names[behavior]:
+        error_type = TimeoutError if behavior == "timeout" else RuntimeError
+        error = error_type("synthetic hosted execution failure")
+        error.exit_code = 124 if behavior == "timeout" else 23
+        error.last_snapshot = {"stage": "decode", "exit_code": 0,
+                               "source_unchanged": True, "case": name}
+        raise error
     if behavior == "null" and name == names[behavior]:
         return None
     meta = json.loads((case.parent / "manifest.json").read_text())["cases"][name]
@@ -51,19 +59,37 @@ def _callback(case, args, env, *, behavior="normal"):
     stages = dict(meta["expected_stages"])
     if behavior == "partial" and name == names[behavior]:
         stages.pop("decode")
+    if behavior == "explicit-not-run" and name == names[behavior]:
+        stages["verifast"] = None
     for stage in controls.STAGES:
         if behavior == "missing-receipt" and name == names[behavior] and stage == "refinement":
             continue
         code = meta["expected_stages"][stage]
-        receipt = {"stage": stage, "exit_code": code, "source_unchanged": True,
+        receipt_stage = stage
+        receipt_code = code
+        status = "SUCCESS"
+        if behavior == "explicit-not-run" and name == names[behavior] and stage == "verifast":
+            status = "NOT_RUN"
+            receipt_code = None
+        if behavior == "wrong-type-stage" and name == names[behavior] and stage == "decode":
+            receipt_code = str(code)
+        if behavior == "stage-mismatch" and name == names[behavior] and stage == "verifast":
+            receipt_stage = "decode"
+        receipt = {"stage": receipt_stage, "exit_code": receipt_code, "status": status,
+                   "source_unchanged": True,
                    "source_before": before, "source_after": before}
+        if behavior == "source-mismatch" and name == names[behavior] and stage == "refinement":
+            receipt["source_after"] = dict(before)
+            receipt["source_after"]["verified/lib.rs"] = "0" * 64
         (case / f"{stage}-stage.json").write_text(json.dumps(receipt))
 
     target = meta["target"]["line"]
     log = ""
-    if name == "positive":
+    if behavior == "explicit-not-run" and name == names[behavior]:
+        log += "verifier target NOT_RUN after explicit stage skip\n"
+    elif meta["expected_class"] == "positive":
         close_line = target + 1
-        log += f"verified/lib.rs({target},4): Executing statement r7_guard_empty_tail\n"
+        log += f"verified/lib.rs({target},4): Executing statement {meta['target']['marker']}\n"
         log += f"verified/lib.rs({close_line},4): Executing statement close array singleton\n"
         log += "Executing return statement\nLeak check.\n0 errors found\n"
     else:
@@ -79,6 +105,9 @@ def _callback(case, args, env, *, behavior="normal"):
             else:
                 diagnostic = "Cannot prove condition. (Cannot prove cons(w, nil) = cons(v, nil).)"
             log += f"/workspace/bin/rust/prelude_core.rsspec({spec_line},72-74): error: {diagnostic}\n"
+        elif meta.get("expected_error_location") is not None:
+            loc = meta["expected_error_location"]
+            log += f"/workspace/bin/rust/{loc['file']}({loc['line']},{loc['columns']}): error: {meta['error_contains']}\n"
         else:
             error_line = meta["expected_error_line"]
             if behavior == "wrong-error-location" and name == names[behavior]:
@@ -98,6 +127,8 @@ class R7ArrayControlsTests(unittest.TestCase):
             self.assertEqual(HELPER, controls.EXPECTED_HELPER)
             rows = controls.prepare(evidence, helper=HELPER)
             self.assertEqual(set(rows), set(controls.CASES))
+            self.assertEqual(sum(meta["class"] == "positive" for meta in controls.CASES.values()), 3)
+            self.assertEqual(sum(meta["class"] == "negative" for meta in controls.CASES.values()), 5)
             manifest = json.loads((evidence / "manifest.json").read_text())
             self.assertFalse(manifest["accepted"])
             self.assertFalse(manifest["proof_credit"])
@@ -115,8 +146,18 @@ class R7ArrayControlsTests(unittest.TestCase):
                 "exporter": 0, "decode": 0, "refinement": 0, "verifast": 0})
             self.assertEqual(rows["wrong_value"]["expected_error_location"], {
                 "file": "prelude_core.rsspec", "line": 264, "columns": "72-74"})
+            self.assertEqual(rows["nonempty_zero_witness"]["expected_error_location"], {
+                "file": "prelude_core.rsspec", "line": 262, "columns": "9-21"})
+            adjacent = controls.CASES["adjacent_nonempty_rejoin"]["lemma"]
+            self.assertIn(b"array_split::<u64>(p,1);", adjacent)
+            self.assertIn(b"open [1/4]array::<u64>(p + 1,0,_);", adjacent)
+            self.assertIn(b"close [1/4]array::<u64>(p,1,take(1,vs));", adjacent)
+            self.assertNotIn(b"assert *p |->", adjacent)
+            wrong_length = controls.CASES["wrong_length_fold"]["lemma"]
+            self.assertLess(wrong_length.index(b"points_to_limits::<u64>(p);"),
+                            wrong_length.index(b"TARGET: reject singleton folded at length two"))
 
-    def test_positive_and_all_observed_negative_controls_classify(self):
+    def test_all_positive_and_expected_negative_controls_classify_by_metadata(self):
         with tempfile.TemporaryDirectory() as temporary:
             result = controls.run(Path(temporary) / "controls", None, {},
                                   _callback, helper=HELPER)
@@ -124,24 +165,31 @@ class R7ArrayControlsTests(unittest.TestCase):
             self.assertEqual(result["classification"], "DIAGNOSTIC_CONTROLS_CLASSIFIED")
             self.assertFalse(result["accepted"])
             self.assertFalse(result["proof_credit"])
-            self.assertEqual(result["cases"]["positive"], "PASS_CONTROL")
-            for name in ("missing_physical_quarter", "wrong_referent", "wrong_value"):
+            for name, meta in controls.CASES.items():
                 row = result["case_details"][name]
-                self.assertEqual(row["classification"], "EXPECTED_REJECTION")
-                self.assertTrue(row["error_at_expected_line"])
-                self.assertTrue(row["error_match"])
-                self.assertTrue(row["target_executed"])
-                self.assertTrue(row["last_execution_is_target"])
+                expected = "PASS_CONTROL" if meta["class"] == "positive" else "EXPECTED_REJECTION"
+                self.assertEqual(row["classification"], expected)
+                if meta["class"] == "negative":
+                    self.assertTrue(row["error_at_expected_line"])
+                    self.assertTrue(row["error_match"])
+                    self.assertTrue(row["target_executed"])
+                    self.assertTrue(row["last_execution_is_target"])
 
     def test_execution_and_evidence_failures_are_inconclusive(self):
-        scenarios = ("raise", "null", "partial", "missing-receipt", "missing-artifact",
+        scenarios = ("raise", "error", "timeout", "null", "partial", "explicit-not-run",
+                     "missing-receipt", "missing-artifact", "wrong-type-stage",
+                     "source-mismatch", "stage-mismatch",
                      "wrong-error-location", "observed-wrong-value-geometry-error",
                      "wrong-value-spec-location", "wrong-value-source-position",
                      "wrong-value-error-text")
         affected = {
             "raise": "missing_physical_quarter", "null": "wrong_referent",
+            "error": "missing_physical_quarter", "timeout": "wrong_referent",
             "partial": "wrong_value", "missing-receipt": "wrong_referent",
+            "explicit-not-run": "wrong_length_fold",
             "missing-artifact": "wrong_value", "wrong-error-location": "missing_physical_quarter",
+            "wrong-type-stage": "fractional_singleton_roundtrip",
+            "source-mismatch": "adjacent_nonempty_rejoin", "stage-mismatch": "nonempty_zero_witness",
             "observed-wrong-value-geometry-error": "wrong_value",
             "wrong-value-spec-location": "wrong_value",
             "wrong-value-source-position": "wrong_value",
@@ -158,6 +206,26 @@ class R7ArrayControlsTests(unittest.TestCase):
                                  "INCONCLUSIVE")
                 self.assertFalse(result["accepted"])
                 self.assertFalse(result["proof_credit"])
+                self.assertFalse(result["all_matched"])
+                if scenario in {"error", "timeout"}:
+                    failure = result["case_details"][affected[scenario]]["execution_failure"]
+                    self.assertEqual(failure["exit_code"], 124 if scenario == "timeout" else 23)
+                    self.assertEqual(failure["last_snapshot"]["stage"], "decode")
+                    self.assertIn("synthetic hosted execution failure", failure["repr"])
+
+    def test_source_stage_and_target_mismatches_cannot_match(self):
+        for scenario, case_name in (("source-mismatch", "adjacent_nonempty_rejoin"),
+                                    ("stage-mismatch", "nonempty_zero_witness"),
+                                    ("wrong-value-source-position", "wrong_value")):
+            with self.subTest(scenario=scenario), tempfile.TemporaryDirectory() as temporary:
+                result = controls.run(Path(temporary) / "controls", None,
+                                      {"scenario": scenario},
+                                      lambda case, args, env: _callback(
+                                          case, args, env, behavior=scenario),
+                                      helper=HELPER)
+                row = result["case_details"][case_name]
+                self.assertEqual(row["classification"], "INCONCLUSIVE")
+                self.assertFalse(result["all_matched"])
 
     def test_wrong_helper_and_absent_executor_fail_closed(self):
         with tempfile.TemporaryDirectory() as temporary:

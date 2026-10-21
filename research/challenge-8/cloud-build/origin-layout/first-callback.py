@@ -302,6 +302,8 @@ LATE_REFERENCE_PREP = b"""            //@ let r4_cmp_tmp_ref = precreate_ref::<u
             //@ init_ref_readonly::<u64>(r4_cmp_tmp_ref, 1/2);
             //@ assert array::<u64>(sift, 1, ?r4_cmp_current);
             //@ open array::<u64>(sift, 1, r4_cmp_current);
+            //@ open array::<u64>(sift + 1, 0, _);
+            //@ close array::<u64>(sift + 1, 0, nil);
             //@ let r4_cmp_sift_ref = precreate_ref::<u64>(sift);
             //@ init_ref_readonly::<u64>(r4_cmp_sift_ref, 1/2);
             //@ assert [?r5_tmp_share](*r4_cmp_tmp_ref |-> ?r5_tmp_value);

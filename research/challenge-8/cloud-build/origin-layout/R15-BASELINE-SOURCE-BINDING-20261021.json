@@ -1,0 +1,51 @@
+{
+  "archive_sha256": "e16d6a942db63878e27f539eb2c2d01e86459f041dadbf23deffe0f246913024",
+  "build_id": "23dc710b-07e5-43ff-b63b-febe4ddb19ca",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 3,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "08ff7916f75d90e3745bcd263bf57ff60eea471a1086f5db57c2f2fad451652c",
+  "file_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/full_body/cases/actual_three_current_full_posts/exporter-stage.json",
+  "file_sha256": "2173d311d07f8c48f6bbd523804f40d51fdc66403cdd91fdf9548e4175d7acb6",
+  "index_sha256": "54a86d655622f1aabe70a921e3858ae2188f29015ee90825afb7a3da63df142c",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "2173d311d07f8c48f6bbd523804f40d51fdc66403cdd91fdf9548e4175d7acb6",
+    "file_id": "08ff7916f75d90e3745bcd263bf57ff60eea471a1086f5db57c2f2fad451652c",
+    "pointer": "/source_before"
+  },
+  "request_id": "9c548a7f4d8b884fdadb87a39a8f223fc45bfcbdeae562031c1de1300d5b14d7",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source_before/original~1lib.rs",
+      "value": "d5a1f33a06115a3a23918afe054191227ca29d990fb199147d23ec4f6531bc26"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source_before/verified~1lib.rs",
+      "value": "d592ab83354422169aaf4e75fc8d94c2db8eb5e00b29c6ed95275e161399cbab"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source_before/small_sort_source",
+      "value": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

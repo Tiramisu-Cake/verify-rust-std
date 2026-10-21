@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Four isolated Cloud-only controls for folding a singleton u64 array."""
+"""Cloud-only controls for singleton u64 array witness normalization."""
 from __future__ import annotations
 
 import hashlib
@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 
 
-CAMPAIGN = "r7-singleton-array-controls-v1"
+CAMPAIGN = "r7-singleton-array-controls-v2"
 HEADER = b"#![no_std]\n#![allow(dead_code)]\n"
 STAGES = ("exporter", "decode", "refinement", "verifast")
 EXPECTED_HELPER = b"""/*@
@@ -75,6 +75,62 @@ CASES = {
         "error_at": "spec", "error_file": "prelude_core.rsspec",
         "error_line": 264, "error_columns": "72-74",
         "error_contains": "Cannot prove condition. (Cannot prove cons(w, nil) = cons(v, nil).)",
+    },
+    "fractional_singleton_roundtrip": {
+        "lemma": b"""lem r7_fractional_singleton_roundtrip(p: *u64)
+    req [1/4]array::<u64>(p,1,?vs);
+    ens [1/4]array::<u64>(p,1,vs);
+{
+    open [1/4]array::<u64>(p,1,vs);
+    open [1/4]array::<u64>(p + 1,0,?rest);
+    close [1/4]array::<u64>(p + 1,0,nil);
+    close [1/4]array::<u64>(p,1,vs); // TARGET: fractional singleton rejoin
+}
+""",
+        "target": "fractional singleton rejoin", "class": "positive",
+    },
+    "adjacent_nonempty_rejoin": {
+        "lemma": b"""lem r7_adjacent_nonempty_rejoin(p: *u64)
+    req [1/4]array::<u64>(p,2,?vs);
+    ens [1/4]array::<u64>(p,2,vs);
+{
+    array_split::<u64>(p,1);
+    open [1/4]array::<u64>(p,1,take(1,vs));
+    open [1/4]array::<u64>(p + 1,0,_);
+    close [1/4]array::<u64>(p + 1,0,nil);
+    close [1/4]array::<u64>(p,1,take(1,vs));
+    array_join::<u64>(p);
+    assert [1/4]array::<u64>(p,2,vs); // TARGET: adjacent nonempty rejoin
+}
+""",
+        "target": "adjacent nonempty rejoin", "class": "positive",
+    },
+    "nonempty_zero_witness": {
+        "lemma": b"""lem r7_nonempty_zero_witness(p: *u64, v: u64)
+    req pointer_within_limits(p) == true;
+    ens true;
+{
+    close [1/4]array::<u64>(p,0,cons(v,nil)); // TARGET: reject nonempty count-zero witness
+}
+""",
+        "target": "reject nonempty count-zero witness", "class": "negative",
+        # Count-zero array unfolding requires its value list to be nil.
+        "error_at": "spec", "error_file": "prelude_core.rsspec",
+        "error_line": 262, "error_columns": "9-21",
+        "error_contains": "Cannot prove condition. (Cannot prove cons(v, nil) = nil.)",
+    },
+    "wrong_length_fold": {
+        "lemma": b"""lem r7_wrong_length_fold(p: *u64, v: u64)
+    req [1/4](*p |-> v) &*& [1/4]array::<u64>(p + 1,0,nil);
+    ens true;
+{
+    points_to_limits::<u64>(p);
+    close [1/4]array::<u64>(p,2,cons(v,nil)); // TARGET: reject singleton folded at length two
+}
+""",
+        "target": "reject singleton folded at length two", "class": "negative",
+        "error_at": "target",
+        "error_contains": "No matching heap chunks: [_]array<u64>(p + 1, 1, _)",
     },
 }
 
@@ -246,10 +302,28 @@ def classify(name: str, case: Path, meta: dict, execution) -> dict:
             "evidence_class": "isolated array control only; no actual std proof credit"}
 
 
-def _inconclusive(name: str, reason: str) -> dict:
-    return {"case": name, "classification": "INCONCLUSIVE", "accepted": False,
-            "proof_credit": False, "reason": reason,
-            "evidence_class": "setup/execution failure is not an intended negative"}
+def _inconclusive(name: str, reason: str, *, execution_failure=None) -> dict:
+    row = {"case": name, "classification": "INCONCLUSIVE", "accepted": False,
+           "proof_credit": False, "reason": reason,
+           "evidence_class": "setup/execution failure is not an intended negative"}
+    if execution_failure is not None:
+        row["execution_failure"] = execution_failure
+    return row
+
+
+def _execution_failure(error: Exception) -> dict:
+    """Retain the original hosted exception summary and any last receipt snapshot."""
+    failure = {"type": f"{type(error).__module__}.{type(error).__qualname__}",
+               "repr": repr(error), "args_repr": [repr(arg) for arg in error.args]}
+    for name in ("exit_code", "returncode", "last_snapshot", "last_completed_snapshot"):
+        if hasattr(error, name):
+            value = getattr(error, name)
+            try:
+                json.dumps(value)
+                failure[name] = value
+            except (TypeError, ValueError):
+                failure[name] = repr(value)
+    return failure
 
 
 def run(evidence: Path, args, env: dict, execute_case, *, helper: bytes) -> dict:
@@ -273,11 +347,14 @@ def run(evidence: Path, args, env: dict, execute_case, *, helper: bytes) -> dict
             execution = execute_case(case, args, env)
             results[name] = classify(name, case, meta, execution)
         except Exception as error:
-            results[name] = _inconclusive(name, f"execute_case/classification failed: {error}")
+            results[name] = _inconclusive(
+                name, f"execute_case/classification failed: {error}",
+                execution_failure=_execution_failure(error))
     classifications = {name: row["classification"] for name, row in results.items()}
     all_matched = (set(results) == set(CASES) and all(
-        classifications[name] == ("PASS_CONTROL" if CASES[name]["class"] == "positive"
-                                   else "EXPECTED_REJECTION") for name in CASES))
+        classifications[name] == ("PASS_CONTROL" if meta["class"] == "positive"
+                                   else "EXPECTED_REJECTION")
+        for name, meta in CASES.items()))
     aggregate = {"schema": CAMPAIGN, "accepted": False, "proof_credit": False,
                  "helper_sha256": _sha(helper), "all_matched": all_matched,
                  "classification": "DIAGNOSTIC_CONTROLS_CLASSIFIED" if all_matched else "INCONCLUSIVE",

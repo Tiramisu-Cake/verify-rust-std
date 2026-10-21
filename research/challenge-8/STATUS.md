@@ -1,6 +1,6 @@
-# Merge-R15 READY — singleton array fold → actual proof development
+# Merge-R15 ACTIVE — checked singleton tail normalization
 
-[Новое задание](CURRENT-TASK.md): worktree `/root/verify-rust-std-merge-origin`, tool worktree `/root/verifast-merge-actual-glue`, project branch `merge/incoming-origin-20261009`, owner `merge`. Свежие120мин+30мин/3600 Cloud-секунд, без отдельного лимита числа Builds; timeout90..1200/envelope+60. T0 ещё не задан; phase `MERGE-SINGLETON-ARRAY-PROOF-R15-2026-10-21`, ledger `CURRENT-RECOVERY-R15-BUDGET-20261021.json`. R14/retired2826 не возобновлять, carry0.
+[Новое задание](CURRENT-TASK.md): worktree `/root/verify-rust-std-merge-origin`, tool worktree `/root/verifast-merge-actual-glue`, project branch `merge/incoming-origin-20261009`, owner `merge`. Свежие120мин+30мин/3600 Cloud-секунд, без отдельного лимита числа Builds; timeout90..1200/envelope+60. T0 2026-10-21T14:12:12Z, main16:12:12Z/absolute16:42:12Z; phase `MERGE-SINGLETON-ARRAY-PROOF-R15-2026-10-21`, ledger `CURRENT-RECOVERY-R15-BUDGET-20261021.json`. R14/retired2826 не возобновлять, carry0.
 
 R15 возвращает автономную proof-разработку: checked annotations/lemmas/invariants и необходимые source-preserving frontend fixes/new experimental pins разрешены с rationale/review/controls. Ближайшая цель — происхождение values03 и singleton array close после callback; далее moving-gap/backedge/normal-unwind/CURRENT по плану. Прежнее ограничение unchanged repeat снято для новой R15; первый новый blocker не завершает сессию.
 
@@ -11,3 +11,5 @@ Baseline checkpoint `aabbaaed32e8d7710b59f9dfc22ceaac4a9cd070`; actual source `b
 Доставка восстановлена; synthetic probe/точный external size receipt заново не нужны при прежнем publisher. Сохранить False upload/size guard<=536870912/create-only/marker-last и accepted publication gate; unknown exact archive bytes не blocker. По факту package+upload314.819с: базовый reserve360с при timeout1200 либо новый измеримый план с review. Source transport близок к cap, новые proof inputs допустимы с точной closure, caps прежние.
 
 **Full target gates0/acceptedfalse/independentcredit0; full insert_tail/CURRENT false-true-panic/B2/generic/qualificationOPEN.** Сохранён narrow R8 allocation scope, новая memory/alias/layout model не разрешена. Actual compile/proof только Cloud, Evidencev0.11/raw запрет прежние.
+
+Текущий кандидат: checked open/close array(sift+1,0,nil) сразу после LATE_REFERENCE_PREP singleton open. Exact archived source333/AST1509/decoded annotation28006 согласуются; parser-input binding отдельно не объявлен. Tool/profile прежние. Локально invariant4/late-admission4/trace10 PASS. Независимый LunaHIGH review и новые boundary Cloud controls готовятся; Cloud Builds0, used0/remaining3600. [Design](cloud-build/origin-layout/R15-SINGLETON-DESIGN-20261021.md), [session](cloud-build/origin-layout/R15-SESSION-20261021.md).
