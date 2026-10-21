@@ -1,0 +1,117 @@
+{
+  "archive_sha256": "f99561ddd4dacdbdeea5b7f352eeddcb28d634e8e033fd700ccb1c52e0ebd877",
+  "build_id": "a442e8e7-0b2e-4ef0-a641-ec310f34d509",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 14,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "dcbbf5a140afd268fc0673c6c445efc38559f11f53475e39015e252912925389",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-reference-own-probe/probe-audit.json",
+  "file_sha256": "420a2983e012d6b49b50a24ff1c813c6563f32e9b20f9ffc6e29efbd08521ca0",
+  "index_sha256": "7b40b62b1c95135fd90f5db22a58578596182764992acc2ec4b1d1b8779c46cf",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "420a2983e012d6b49b50a24ff1c813c6563f32e9b20f9ffc6e29efbd08521ca0",
+    "file_id": "dcbbf5a140afd268fc0673c6c445efc38559f11f53475e39015e252912925389",
+    "pointer": "/variants/negative-mutable-erasure"
+  },
+  "request_id": "605d589bfd74b3efd26b271de8f74fddb048d1861f383534ee62528affe1b91f",
+  "results": [
+    {
+      "child_count": 6,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/variants/negative-mutable-erasure/ast_selection"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/variants/negative-mutable-erasure/ast_sha256",
+      "value": "dcfc17732f714debe5792fe5e9c2900c3077bd88a36ca992727c24253a93904c"
+    },
+    {
+      "child_count": 1,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/variants/negative-mutable-erasure/diagnostics"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/variants/negative-mutable-erasure/expected_failure",
+      "value": "Function leaks heap chunks: own(ref_mut_typeid("
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/variants/negative-mutable-erasure/log_sha256",
+      "value": "daa1511a481ed12d742c815204b6874b434a110c44ea3fb6582c94335a4a1d03"
+    },
+    {
+      "child_count": 8,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/variants/negative-mutable-erasure/metadata"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/variants/negative-mutable-erasure/observed_exit",
+      "value": 1
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/variants/negative-mutable-erasure/original_sha256",
+      "value": "849d6c5b52f04f852b0f4f0524de4a0596524d8bc89252359eac747ee7e1e2e0"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/variants/negative-mutable-erasure/passed",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/variants/negative-mutable-erasure/proof_credit",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/variants/negative-mutable-erasure/same_tool_after_stage",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/variants/negative-mutable-erasure/source_sha256",
+      "value": "97f9afd5b9787f4464186ce63f98be3c2547e281f17f31e843f0b262a682cb4c"
+    },
+    {
+      "child_count": 9,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/variants/negative-mutable-erasure/stage"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/variants/negative-mutable-erasure/status",
+      "value": "EXPECTED_RESOURCE_REJECTION"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

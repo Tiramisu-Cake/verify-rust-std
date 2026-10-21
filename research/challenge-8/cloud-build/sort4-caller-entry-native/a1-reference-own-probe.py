@@ -58,7 +58,7 @@ def variants(fixtures, ghost):
             'Function leaks heap chunks: own(ref_mut_typeid('),
         'negative-lifetime-redirect': (block("(r: &'a T)", some_pre,
             "thread_token(t) &*& [_](<T>.share)('static, t, r)", some_body), 'ref',
-            'No matching heap chunks: share(T_typeid)'),
+            "No matching heap chunks: [_]share(T_typeid)(lft_of('static_typeid), t, r)"),
     }
     result = {}
     for name, (lemma, kind, failure) in sources.items():
@@ -109,7 +109,7 @@ def classify(stage, log, ast_selection, case):
 def run(a, c4, tool, receipt, profile, fixtures, ghost, ast_gates, selector,
         grammar, checkpoint):
     identity = grammar._profile_guard(a, profile, receipt, tool)
-    need(identity['authorization_phase_id'] == PHASE and profile.get('execution_mode') == 'reference-own-probe', 'exact diagnostic mode')
+    need(identity['authorization_phase_id'] == PHASE and profile.get('execution_mode') in ('reference-own-probe', 'native-p1-target', 'full-matrix'), 'exact diagnostic mode')
     normalization = profile.get('shared_reference_own_normalization')
     need(isinstance(normalization, dict) and normalization == receipt.get('shared_reference_own_normalization') and
          normalization.get('source') == SPEC and sha((tool / SPEC).read_bytes()) == normalization.get('result_sha256'),

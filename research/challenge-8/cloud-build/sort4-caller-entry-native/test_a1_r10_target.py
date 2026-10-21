@@ -170,7 +170,7 @@ class NativeTargetSequenceTests(unittest.TestCase):
         self.assertEqual(len(rows), 26)
         self.assertEqual(statuses["P1"]["status"], "NOT_RUN")
 
-    def test_target_mode_is_r10_only_and_preserves_the_26_row_plan(self):
+    def test_target_mode_rejects_unsupported_authorization_and_preserves_26_rows(self):
         base = {"phase_id": RUNNER.PHASE, "profile_accepted": False,
                 "first_matrix_status": "NOT_RUN", "execution_mode": "native-p1-target",
                 "authorization_phase_id": R10}
@@ -182,7 +182,7 @@ class NativeTargetSequenceTests(unittest.TestCase):
         self.assertFalse(full["matrix_complete"])
         self.assertFalse(full["dispatch_ready"])
         self.assertFalse(full["proof_credit"])
-        with self.assertRaisesRegex(RuntimeError, "R10/R11 authorization"):
+        with self.assertRaisesRegex(RuntimeError, "R10/R11/R12/R13 authorization"):
             RUNNER.preflight_plan({**base, "authorization_phase_id": R9})
 
 

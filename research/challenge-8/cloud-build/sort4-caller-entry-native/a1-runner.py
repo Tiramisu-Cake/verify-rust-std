@@ -3081,6 +3081,9 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
         _need(profile.get("ghost_grammar_preflight_enabled") is not True and
               "a1_ghost_grammar_sha256" not in profile,
               "ghost grammar preflight is authorized only for R12")
+    if AUTHORIZATION_PHASE == R13_AUTHORIZATION_PHASE:
+        _need(profile.get("reference_own_preflight_enabled") is True,
+              "R13 requires faithful reference-own body/control preflight")
     plan = preflight_plan(profile, _admission_matrix(
         Path(a.proof_root) / HERE / "a1-contract-admission.py"))
     expected_manifest = Path(a.proof_root) / HERE / "CALLER-ENTRY-MANIFEST.json"
@@ -3275,7 +3278,7 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
     if helpers is not None and result.get("tool_reconstructed"):
         tool = Path(result["tool_path"])
         receipt = result["tool_receipt"]
-        if profile.get("execution_mode") == "reference-own-probe":
+        if AUTHORIZATION_PHASE == R13_AUTHORIZATION_PHASE and profile.get("reference_own_preflight_enabled") is True:
             def run_reference_own_probe():
                 grammar = load_r12_ghost_grammar(Path(a.proof_root), profile)
                 path = Path(a.proof_root) / HERE / "a1-reference-own-probe.py"
@@ -3293,28 +3296,36 @@ def run(a, *, c4, audit, driver, manifest: Mapping[str, Any], ghost) -> dict:
                     select_checked_cleanup_helper_lemma, grammar, stage_progress)
             probe_result = action("reference-own-probe", run_reference_own_probe,
                                   minimum_remaining=120)
-            result.update(classification="A1_REFERENCE_OWN_PROBE_ONLY",
-                reference_own_probe=_jsonable(probe_result),
-                reference_own_probe_passed=(isinstance(probe_result, Mapping) and
-                                          probe_result.get("passed") is True),
-                proof_attempted=True, accepted=False, verification_accepted=False,
-                matrix_complete=False, admission_record_created=False,
-                dispatch_ready=False, matrix_admission=False, proof_credit=False,
-                diagnostic_complete=isinstance(probe_result, Mapping) and
-                    isinstance(probe_result.get("variants"), Mapping) and
-                    len(probe_result["variants"]) == 7,
-                execution_events=execution_events, observation_details=observations)
-            for case_id in CASE_ORDER:
-                result["case_status"][case_id].update(status="NOT_RUN",
-                    reason="explicit reference-own probe mode; canonical matrix not executed")
-                execution_events.append({"case_id": case_id, "event": "not_run",
-                    "execution_started": False,
-                    "reason": "explicit reference-own probe mode; canonical matrix not executed"})
-            persist_progress()
-            _atomic_json_write(partial_audit_path, _report_value_for_disk(
-                _jsonable(result), AUTHORIZATION_PHASE))
-            return result
-        if profile.get("ghost_grammar_preflight_enabled") is True:
+            result["reference_own_probe"] = _jsonable(probe_result)
+            probe_variants = probe_result.get("variants") if isinstance(probe_result, Mapping) else None
+            probe_variants = probe_variants if isinstance(probe_variants, Mapping) else {}
+            probe_terminals = sum(isinstance(row, Mapping) and isinstance(row.get("stage"), Mapping) and
+                row["stage"].get("classification") == "TERMINAL" and
+                type(row["stage"].get("exit")) is int for row in probe_variants.values())
+            result["reference_own_probe_passed"] = (isinstance(probe_result, Mapping) and
+                probe_result.get("passed") is True and len(probe_variants) == probe_terminals == 7)
+            if (profile.get("execution_mode") == "reference-own-probe" or
+                    not result["reference_own_probe_passed"]):
+                result.update(classification="A1_REFERENCE_OWN_PROBE_ONLY",
+                    reference_own_probe=_jsonable(probe_result),
+                    reference_own_probe_passed=result["reference_own_probe_passed"],
+                    proof_attempted=True if probe_terminals else None,
+                    accepted=False, verification_accepted=False,
+                    matrix_complete=False, admission_record_created=False,
+                    dispatch_ready=False, matrix_admission=False, proof_credit=False,
+                    diagnostic_complete=probe_terminals == 7,
+                    execution_events=execution_events, observation_details=observations)
+                for case_id in CASE_ORDER:
+                    result["case_status"][case_id].update(status="NOT_RUN",
+                        reason="reference-own diagnostic scope or failed preflight; canonical matrix not executed")
+                    execution_events.append({"case_id": case_id, "event": "not_run",
+                        "execution_started": False,
+                        "reason": "reference-own diagnostic scope or failed preflight; canonical matrix not executed"})
+                persist_progress()
+                _atomic_json_write(partial_audit_path, _report_value_for_disk(
+                    _jsonable(result), AUTHORIZATION_PHASE))
+                return result
+        if profile.get("ghost_grammar_preflight_enabled") is True and AUTHORIZATION_PHASE != R13_AUTHORIZATION_PHASE:
             def run_ghost_grammar_preflight():
                 grammar = load_r12_ghost_grammar(Path(a.proof_root), profile)
                 _need(grammar is not None and

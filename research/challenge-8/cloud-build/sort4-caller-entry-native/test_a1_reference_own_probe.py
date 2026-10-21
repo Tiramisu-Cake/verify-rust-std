@@ -46,6 +46,14 @@ class ProbeService(unittest.TestCase):
             self.assertFalse(PROBE.classify(stage, b'', SELECTED, row)['passed'])
         for log, selection in ((None, SELECTED), (b'changed', SELECTED), (b'', None), (b'', {})):
             self.assertFalse(PROBE.classify(self.stage(), log, selection, row)['passed'])
+    def test_observed_persistent_lifetime_diagnostic_and_wrong_lifetime(self):
+        row = self.cases['negative-lifetime-redirect']
+        log = b"verified/lib.rs(5,29-30): error: No matching heap chunks: [_]share(T_typeid)(lft_of('static_typeid), t, r)\n"
+        self.assertTrue(PROBE.classify(self.stage(log, 1), log, SELECTED, row)['passed'])
+        for bad in (log.replace(b"'static_typeid", b"'a_typeid"),
+                    log.replace(b'[_]', b'[1]'), log.replace(b'T_typeid', b'U_typeid'),
+                    log.replace(b': error: No', b': error: unrelated No')):
+            self.assertFalse(PROBE.classify(self.stage(bad, 1), bad, SELECTED, row)['passed'])
     def test_negative_resource_and_location(self):
         for name, row in self.cases.items():
             if row['expected_failure'] is None:

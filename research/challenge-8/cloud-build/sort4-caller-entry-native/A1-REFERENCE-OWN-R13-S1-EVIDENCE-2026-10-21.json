@@ -1,0 +1,167 @@
+{
+  "attempt": "S1",
+  "build": {
+    "accounted": true,
+    "build_id": "a442e8e7-0b2e-4ef0-a641-ec310f34d509",
+    "build_seconds": 467,
+    "create_time": "2026-10-21T09:51:56.201374587Z",
+    "dispatch_token": "dispatch-12ebefccd5864509a4107a5c6a4a92c0",
+    "execution_seconds": 466,
+    "finish_time": "2026-10-21T09:59:42.739636Z",
+    "infra_sha": "630f3d154874fe348fbaa496e9891c9ae5c6c5d8",
+    "lane": "o26-sort4-c1-current-recovery",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13",
+    "proof_sha": "630f3d154874fe348fbaa496e9891c9ae5c6c5d8",
+    "publish_text_logs": true,
+    "reserved_seconds": 1060,
+    "source_input_sha256": "1617a1642784c1d1469e246d0eb9e6928d4afcfb0b156984614fe2e29daef595",
+    "source_mode": "pinned-objects",
+    "start_time": "2026-10-21T09:51:56.991696924Z",
+    "status": "SUCCESS",
+    "submitted_config_sha256": "13c2d8081368aba3d7c58d6778b5b96478f1cdbb9ba91afb1f150643e8676b31",
+    "timeout_seconds": 1000
+  },
+  "caller_receipt": false,
+  "canonical_rows": {
+    "NOT_RUN": 26
+  },
+  "charge_seconds": 467,
+  "coverage": "selected exact probe variant root fields, helper AST/metadata, normalization and lifetime diagnostic; not whole logs/AST",
+  "download_verified": false,
+  "evidence_brief": {
+    "archive_sha256": "f99561ddd4dacdbdeea5b7f352eeddcb28d634e8e033fd700ccb1c52e0ebd877",
+    "index_sha256": "7b40b62b1c95135fd90f5db22a58578596182764992acc2ec4b1d1b8779c46cf",
+    "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+    "run_exit": 0,
+    "source_claim": "NOT_ACCEPTED_AS_REPORTED"
+  },
+  "expected_negative_controls_source_classified": 2,
+  "formal_target_gates_closed": 0,
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "lifetime_negative": "actual intended resource refusal observed but source classifier INCONCLUSIVE because persistent coefficient prefix omitted from expected spelling; immutable S1 passed=false",
+  "matrix_admission": false,
+  "mini_positive_bodies_source_verified": 4,
+  "probe_file": {
+    "id": "dcbbf5a140afd268fc0673c6c445efc38559f11f53475e39015e252912925389",
+    "passed": false,
+    "root_request_id": "cb384cce24f91374539c3dd8a82e21122b1046a10795619cb1d771f947af0ac6",
+    "sha256": "420a2983e012d6b49b50a24ff1c813c6563f32e9b20f9ffc6e29efbd08521ca0"
+  },
+  "remaining_budget_seconds": 3133,
+  "requests": {
+    "S1-generic-roundtrip": "69849f859b9769b037979a9948819243a91d069c3b4d41102005a7e9d4430e23",
+    "S1-helper": "39bad7333120fdae66bb5925d9f6cd1afe087fe227d0199964786fcf29379916",
+    "S1-helper-ast": "490a446c46d4437cffa8264bc6eb95113865827933469f42a1872d9499f50753",
+    "S1-helper-metadata": "9f7d7d61b5f3fdaee7f4247b945510d965e573e05d83ad6489ced14f2a88f3e3",
+    "S1-lifetime-diagnostics": "0545ea4077bb4591355ddbef3605abf2f65d3995f2d124af040e84de1b01a64f",
+    "S1-negative-generic-erasure": "55c0af7a0670ccd1668df3b53113b978ce5e0ef25bd1a771e83ab92eece3373b",
+    "S1-negative-lifetime-redirect": "fd284cc8bbd614dca63c1f28cc1a066c267d79c06589a7ec556da5de660f4a2d",
+    "S1-negative-mutable-erasure": "605d589bfd74b3efd26b271de8f74fddb048d1861f383534ee62528affe1b91f",
+    "S1-normalization": "dcd31307389512bdff14552f49eac48c26954bde8b2c47b4b61f1fd2999443e6",
+    "S1-ref-roundtrip": "b66aad0503016bb55ff521ccfb574e15d2dd8d1ead70eea33145cfc39d569757",
+    "S1-some-preserve": "d3ab27a863b9250cc33f82a9be42a970f50b1c92a50688c554fa2b2d7767e628"
+  },
+  "schema": "select-r13-attempt-evidence-v1",
+  "step_timings_seconds": {
+    "execute": 399.635120963,
+    "package_upload": 63.266657868,
+    "verdict": 1.153221488
+  },
+  "tool_build": {
+    "binary_sha256": "523f6c831194e92309bd92fbfcdc83489af01e99e722739c055076000ae0339a",
+    "build_exit": 0,
+    "classification": "A1_TOOL_BUILT_UNRUN_PROOF",
+    "receipt_file_id": "ac89cf4fd6fa9e866371df6a27b5730b5cd9538d4bc430361ba70de6027404c2",
+    "receipt_sha256": "cbb4bf1242e592c6443feced37ca6f6b5a4b5cc6c21d3ff1de648b18bbad86d2",
+    "root_request_id": "842308029a73e0c1064e5f50ac1c772c46da70691656d53eb82a54fade04a509"
+  },
+  "type": "mixed: minimal faithful helper + resource controls; nonadmitting",
+  "variants": {
+    "generic-roundtrip": {
+      "ast_sha256": "f5a8b55dadeef60dc3c64561c8938a81b104b0ca20db9838e6b07a397f055751",
+      "expected_failure": null,
+      "log_sha256": "77ad0028df5929b1cfc7ea6a6ea721346ab82528dedaef4863c45c4acb4646bb",
+      "observed_exit": 0,
+      "original_sha256": "b152ffd4f87b3defe3b85bf0e5e6f4303a315c634c6674073b34345939b45219",
+      "passed": true,
+      "proof_credit": false,
+      "same_tool_after_stage": true,
+      "source_sha256": "1a64e3f50e8851d793127e7ae66f2debdaf2c4aa3f533b0854644a537acc95a3",
+      "status": "BODY_VERIFIED"
+    },
+    "helper": {
+      "ast_sha256": "34c76a5eaf204f38b972721ed99160ef1cf6ed8e422382a9fc0e7c23598383d1",
+      "expected_failure": null,
+      "log_sha256": "9d3056e3ddcd1aac6fd56efb634e4da9d993e55e9bed929121fcf3d2c7e90f7b",
+      "observed_exit": 0,
+      "original_sha256": "987322b0ff43302ecef3674c15c49b6f68fbc4eec89cb982bed7235473167e90",
+      "passed": true,
+      "proof_credit": false,
+      "same_tool_after_stage": true,
+      "source_sha256": "064fb94e732ddd930b4a1a71c9405eccb2a71626b3c1a3fce83d6ab4bbe4bf0a",
+      "status": "BODY_VERIFIED"
+    },
+    "negative-generic-erasure": {
+      "ast_sha256": "3294ff8386e16a147c59c40754ed06b0fe99644ff7a69f60b6836743c3837874",
+      "expected_failure": "Function leaks heap chunks: own(T_typeid)",
+      "log_sha256": "8190e079a7be71fbebb4b7e4210b2208c8e04e359f6c9adab7e47575735ab559",
+      "observed_exit": 1,
+      "original_sha256": "b152ffd4f87b3defe3b85bf0e5e6f4303a315c634c6674073b34345939b45219",
+      "passed": true,
+      "proof_credit": false,
+      "same_tool_after_stage": true,
+      "source_sha256": "bbd0c69f5a14cd4240d29b18fd0ecc5c63449b2aa49dc7de8da819f612c48d7a",
+      "status": "EXPECTED_RESOURCE_REJECTION"
+    },
+    "negative-lifetime-redirect": {
+      "ast_sha256": "d586df0c827a9ab94c6c821871dfbea19643d75ad3fa9bc901f7e00bb83daee4",
+      "expected_failure": "No matching heap chunks: share(T_typeid)",
+      "log_sha256": "eb8b049239289e6d88847e15b9dcde31f7e6fd7f9db6349392c65df81265c216",
+      "observed_exit": 1,
+      "original_sha256": "987322b0ff43302ecef3674c15c49b6f68fbc4eec89cb982bed7235473167e90",
+      "passed": false,
+      "proof_credit": false,
+      "same_tool_after_stage": true,
+      "source_sha256": "8cf43a42204aa5a7bd7df50d5d32b146d10075dcda8c734706f9e5b203d00f8f",
+      "status": "INCONCLUSIVE"
+    },
+    "negative-mutable-erasure": {
+      "ast_sha256": "dcfc17732f714debe5792fe5e9c2900c3077bd88a36ca992727c24253a93904c",
+      "expected_failure": "Function leaks heap chunks: own(ref_mut_typeid(",
+      "log_sha256": "daa1511a481ed12d742c815204b6874b434a110c44ea3fb6582c94335a4a1d03",
+      "observed_exit": 1,
+      "original_sha256": "849d6c5b52f04f852b0f4f0524de4a0596524d8bc89252359eac747ee7e1e2e0",
+      "passed": true,
+      "proof_credit": false,
+      "same_tool_after_stage": true,
+      "source_sha256": "97f9afd5b9787f4464186ce63f98be3c2547e281f17f31e843f0b262a682cb4c",
+      "status": "EXPECTED_RESOURCE_REJECTION"
+    },
+    "ref-roundtrip": {
+      "ast_sha256": "8dae0c47159c66c4d4410417165b9ab6b8207f9992384da7f846c8e538499401",
+      "expected_failure": null,
+      "log_sha256": "931e94790355c6f3e07cf4c752146ecd57a83975744893e0d4701e5d9b3ea957",
+      "observed_exit": 0,
+      "original_sha256": "987322b0ff43302ecef3674c15c49b6f68fbc4eec89cb982bed7235473167e90",
+      "passed": true,
+      "proof_credit": false,
+      "same_tool_after_stage": true,
+      "source_sha256": "281152d6c6b8f280aea06d958c085f1a3e181b0df59923d2d9fb65e2097a948f",
+      "status": "BODY_VERIFIED"
+    },
+    "some-preserve": {
+      "ast_sha256": "8de84eb157e51818c7c16b34e8c3531d51a77642e81bea5edabcdd550850c26e",
+      "expected_failure": null,
+      "log_sha256": "980113bf8d5e593e272f293497a5141cec01cc9edddbf30e0b1de5eff5ae447c",
+      "observed_exit": 0,
+      "original_sha256": "987322b0ff43302ecef3674c15c49b6f68fbc4eec89cb982bed7235473167e90",
+      "passed": true,
+      "proof_credit": false,
+      "same_tool_after_stage": true,
+      "source_sha256": "f552548ad4fce1150b9a9f09b5d42da99360a0ff6e411f20492687565709e6ba",
+      "status": "BODY_VERIFIED"
+    }
+  }
+}

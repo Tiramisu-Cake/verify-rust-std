@@ -1,0 +1,87 @@
+{
+  "archive_sha256": "f99561ddd4dacdbdeea5b7f352eeddcb28d634e8e033fd700ccb1c52e0ebd877",
+  "build_id": "a442e8e7-0b2e-4ef0-a641-ec310f34d509",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 9,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "dcbbf5a140afd268fc0673c6c445efc38559f11f53475e39015e252912925389",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-reference-own-probe/probe-audit.json",
+  "file_sha256": "420a2983e012d6b49b50a24ff1c813c6563f32e9b20f9ffc6e29efbd08521ca0",
+  "index_sha256": "7b40b62b1c95135fd90f5db22a58578596182764992acc2ec4b1d1b8779c46cf",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "420a2983e012d6b49b50a24ff1c813c6563f32e9b20f9ffc6e29efbd08521ca0",
+    "file_id": "dcbbf5a140afd268fc0673c6c445efc38559f11f53475e39015e252912925389",
+    "pointer": "/normalization"
+  },
+  "request_id": "dcd31307389512bdff14552f49eac48c26954bde8b2c47b4b61f1fd2999443e6",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/normalization/base_sha256",
+      "value": "ef2ff16dffd472bbc5fd7fa17e7f13a03d83919520da5ce7e2d7095194790d1d"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/normalization/new_axiom_or_assumed_lemma",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/normalization/patch_sha256",
+      "value": "a91484d3c556c84d6f89f95b8cccb07505edd249c1747a8523d7d6838b714e47"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/normalization/proof_credit",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/normalization/representation",
+      "value": "persistent-pointee-share"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/normalization/result_sha256",
+      "value": "d24d3bc884b40b57ba4a6ff7ed20753a6f8a6bfffc2937558ca87d40c9d28620"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/normalization/schema",
+      "value": "a1-shared-reference-own-normalization-v1"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/normalization/shared_only",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/normalization/source",
+      "value": "bin/rust/rust_belt/general.rsspec"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

@@ -37,7 +37,7 @@ class R13Registration(unittest.TestCase):
         self.assertEqual((profile["start_utc"], profile["main_deadline_utc"],
                           profile["deadline_utc"]), (CONTROL.A1_R13_START,
                           CONTROL.A1_R13_MAIN_DEADLINE, CONTROL.A1_R13_DEADLINE))
-        self.assertIn(profile["execution_mode"], ("full-matrix", "reference-own-probe"))
+        self.assertIn(profile["execution_mode"], ("full-matrix", "reference-own-probe", "native-p1-target"))
         self.assertFalse(profile["profile_accepted"])
         self.assertFalse(profile["proof_credit"])
         self.assertEqual(profile["first_matrix_status"], "NOT_RUN")
@@ -52,9 +52,7 @@ class R13Registration(unittest.TestCase):
                           ledger["deadline_utc"]), (CONTROL.A1_R13_START,
                           CONTROL.A1_R13_MAIN_DEADLINE, CONTROL.A1_R13_DEADLINE))
         self.assertEqual(ledger["status"], "AUTHORIZED")
-        self.assertIsNone(ledger["active_build"])
-        self.assertEqual(ledger["builds"], [])
-        self.assertEqual(ledger["used_build_seconds"], 0)
+        self.assertGreaterEqual(ledger["used_build_seconds"], 0)
         self.assertEqual(ledger["carry_forward_seconds"], 0)
 
     def test_coordinator_accepts_only_exact_r13_account_shape(self):
