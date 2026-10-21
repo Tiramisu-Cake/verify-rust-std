@@ -17,3 +17,23 @@ full-matrix timeout/work budget and validate the live ledger's accounting
 invariants instead of assuming its pre-build state. Focused grammar, core,
 coordinator-budget, and transport tests pass. Profile source pins still need
 the coordinating refresh before the registration pin test can pass.
+
+## Independent final re-review
+
+The final matcher is anchored from `verified/lib.rs(line,column): error: `
+through the constrained `Function leaks heap chunks: own(ref_typeid(...))(...)`
+message, and the core uses the same anchored shape. The new module and core
+controls reject an unrelated prefix followed by the former marker; the exact
+known diagnostic at the certified line remains accepted as syntax-only, with
+all body/credit/receipt flags false. I found no remaining issue in this narrow
+delta. **Final decision: GO for the R12 S2 full-matrix attempt, with proof
+acceptance still dependent on the canonical same-Build checks and full-matrix
+admission.**
+
+The refreshed R12 profile pins match the current R12 runner, source runner,
+and grammar module. Profile-binding tests pass (11); the focused grammar,
+registration, and false31 lifecycle tests pass (22), as do Python compilation
+checks. The profile records full-matrix mode, 1200-second timeout, 960-second
+execute cap, 900-second nominal work deadline, and a 240-second report reserve;
+runtime fit remains an estimate, not a measured guarantee. No compiler,
+verifier, full runner, or Cloud Build was run for this review.
