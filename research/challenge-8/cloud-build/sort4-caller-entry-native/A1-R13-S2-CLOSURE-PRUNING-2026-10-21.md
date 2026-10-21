@@ -17,3 +17,5 @@ codec/chunk/argument/substitution cap changes, and no coordinator/backend change
 The current R13 closure must be statically restored and every selected path
 compared byte-for-byte to its committed source before submit. Historical Builds
 retain their original committed recipes and object closures.
+
+The duplicate-only closure at09f2ec06f7048be8db7e3019894743c4e653c42c remains571771bytes, still over the unchanged bound. The current R13 recipe additionally omits the two unconsumed R11/R12 profile blobs from its proof selection. Their only runtime reads are the closed R11/R12 authorization routes (and corresponding dynamic profile-table entries); R13 selects its own exact profile at every entry, core, tool and focus gate. Both historical profile files and their earlier committed recipes/closures remain unchanged in Git. This current recipe is for the authorized R13 execution; it is not a retrofit of old Build inputs. Keep older baseline/experimental patch profiles actually used by reconstruction.
