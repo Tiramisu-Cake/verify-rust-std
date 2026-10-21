@@ -132,6 +132,48 @@ CASES = {
 """,
         "target": "post-Drop array-three reconstruction", "class": "positive",
     },
+    "array3_slice_full_borrow_roundtrip": {
+        "lemma": b"""pred_ctor r16_array3_content(t: thread_id_t, p: *[u64; 3])() =
+    *p |-> ?current &*& foreach(Array_elems(current), own::<u64>(t));
+
+lem r16_array3_slice_full_borrow_roundtrip(k: lifetime_t, t: thread_id_t, p: *[u64; 3], s: *[u64])
+    req full_borrow(k, r16_array3_content(t, p)) &*& s.len() == 3 &*& s as *u64 == p as *u64;
+    ens full_borrow(k, r16_array3_content(t, p));
+{
+    produce_lem_ptr_chunk implies(r16_array3_content(t, p), slice_full_borrow_content::<u64>(t, s))(){
+        open r16_array3_content(t, p)();
+        Array_to_array(p);
+        close slice_full_borrow_content::<u64>(t, s)();
+    }{
+        produce_lem_ptr_chunk implies(slice_full_borrow_content::<u64>(t, s), r16_array3_content(t, p))(){
+            open slice_full_borrow_content::<u64>(t, s)();
+            array_to_Array(p);
+            close r16_array3_content(t, p)();
+        }{
+            full_borrow_implies(k, r16_array3_content(t, p), slice_full_borrow_content::<u64>(t, s));
+            assert full_borrow(k, slice_full_borrow_content::<u64>(t, s));
+            full_borrow_implies(k, slice_full_borrow_content::<u64>(t, s), r16_array3_content(t, p));
+            assert full_borrow(k, r16_array3_content(t, p)); // TARGET: array-three slice full-borrow roundtrip
+        }
+    }
+}
+""",
+        "target": "array-three slice full-borrow roundtrip", "class": "positive",
+    },
+    "array3_slice_wrong_metadata_length": {
+        "lemma": b"""pred_ctor r16_array3_content(t: thread_id_t, p: *[u64; 3])() =
+    *p |-> ?current &*& foreach(Array_elems(current), own::<u64>(t));
+
+lem r16_array3_slice_wrong_metadata_length(k: lifetime_t, t: thread_id_t, p: *[u64; 3], s: *[u64])
+    req full_borrow(k, r16_array3_content(t, p)) &*& s.len() == 4 &*& s as *u64 == p as *u64;
+    ens full_borrow(k, r16_array3_content(t, p));
+{
+    assert s.len() == 3; // TARGET: reject array-three slice metadata length four
+}
+""",
+        "target": "reject array-three slice metadata length four", "class": "negative",
+        "error_at": "target", "error_contains": "Cannot prove condition.",
+    },
     "nonempty_zero_witness": {
         "lemma": b"""lem r7_nonempty_zero_witness(p: *u64, v: u64)
     req pointer_within_limits(p) == true;

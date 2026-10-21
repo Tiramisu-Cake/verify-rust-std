@@ -2,7 +2,7 @@
 
 ## Авторизация и рабочее место
 
-- **ID:** `merge-caller-current-autonomous-2026-10-21-r16`; **статус:** AUTHORIZED / NOT_STARTED. T0/deadlines ещё не установлены.
+- **ID:** `merge-caller-current-autonomous-2026-10-21-r16`; **статус:** ACTIVE. T0 `2026-10-21T16:08:24Z`; main18:08:24Z; absolute18:38:24Z.
 - **Owner:** `merge`; **project worktree:** `/root/verify-rust-std-merge-origin`; **branch:** `merge/incoming-origin-20261009`; **репозиторий:** `Tiramisu-Cake/verify-rust-std`.
 - **Tool worktree:** `/root/verifast-merge-actual-glue`; **branch:** `merge/actual-glue-instance-20261011`; исходный head **`660b576b6b1608db913c51e0785b443a8733396f`**. Сохрани чужие изменения; новые разрешённые tool commits/pins возможны.
 - **Новое окно:** 120мин основной работы + до30мин завершения. T0 при фактическом старте после чтения; main=T0+120мин, absolute=T0+150мин. Запиши новую session card/ledger/STATUS; публикация задания окно не запускает.
@@ -56,4 +56,4 @@ VPS — чтение/правки/Git/hashes/static parsing и малые isolat
 
 ## Отчёт агента
 
-NOT_STARTED. Авторизация Merge-R16 выдана; T0/deadlines/новый ledger устанавливаются при фактическом старте. Расход0/3600с, carry0; R15 остаётся CLOSED.
+В работе. T0 2026-10-21T16:08:24Z; main18:08:24Z; absolute18:38:24Z. Fresh3600/used0/carryfalse, active0. Установлены missing lifetime/borrow/metadata части original caller path; broad placeholder exemption не реализован. Первый кандидат: originalprefix/fullcaller и mandatory controls сохранены; отдельная exact-source actual-definition diagnostic единица, actual R9 classifier regression из da54, исходные9 array controls + checked array/slice full-borrow roundtrip и wrong-length negative. Registration/body/borrow delta независимо Luna HIGH GO; mainphase9/source3/body26/array5 syntheticsPASS. Оригинальный caller/полный target/B2/qualification OPEN, credit0. Следующий шаг: commit/publish/fullclosure+transportpreflight и первый Cloud target+matrix на exact inputs.

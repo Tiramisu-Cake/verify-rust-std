@@ -6,6 +6,7 @@ in for the complete actual insert_tail. Full-body final posts stay unchanged.
 """
 from __future__ import annotations
 import hashlib
+import copy
 import importlib.util
 import json
 import os
@@ -24,6 +25,7 @@ R11_PROFILE = 'experimental-merge-label-storage-r11-v1'
 R11_LABEL_TRACE_ENV = 'SMALLSORT_R11_LABEL_STORAGE_TRACE'
 R11_LABEL_PLACEMENT_ENV = 'SMALLSORT_R11_LABEL_STORAGE_PLACEMENT'
 R9_GUARD_RETURN_RECOVERY_ENV = 'SMALLSORT_R9_GUARD_RETURN_RECOVERY'
+BODY_ISOLATION_NAME = 'actual_insert_tail_body_isolated'
 SUPPORTED_PROFILES = (PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE)
 R9_GUARD_TRACE_ENV = 'SMALLSORT_R9_GUARD_TRACE'
 PREFIX_NAME = b'insert_tail_first_callback_prefix'
@@ -629,6 +631,453 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
     return case, record
 
 
+def _pinned_actual_body_identities(old):
+    """Verify pinned source bytes, then derive canonical specialized body hashes."""
+    raw = old.SOURCE.read_bytes()
+    if (_sha(raw) != old.PINNED_SOURCE_SHA256 or
+            old._git_blob(raw) != old.PINNED_SOURCE_BLOB):
+        raise ValueError('pinned SmallSort source identity changed')
+    drop_raw = old._extract(raw, old.DROP_START, old.DROP_END, b'}\n\n')
+    insert_raw = old._extract(raw, old.INSERT_START, old.INSERT_END, b'\n}\n')
+    if (_sha(drop_raw) != old.PINNED_DROP_SHA256 or
+            len(drop_raw) != old.PINNED_DROP_BYTES or
+            _sha(insert_raw) != old.PINNED_INSERT_SHA256 or
+            len(insert_raw) != old.PINNED_INSERT_BYTES):
+        raise ValueError('pinned Drop/insert source extraction changed')
+    specialized_drop = old._specialize_drop(drop_raw)
+    specialized_insert = old._specialize_insert(insert_raw)
+    if specialized_insert.count(old.INSERT_SIGNATURE) != 1:
+        raise ValueError('pinned specialized insert signature is not unique')
+    return {
+        'source_sha256': old.PINNED_SOURCE_SHA256,
+        'source_git_blob': old.PINNED_SOURCE_BLOB,
+        'actual_drop_sha256': old.PINNED_DROP_SHA256,
+        'actual_insert_tail_sha256': old.PINNED_INSERT_SHA256,
+        'actual_insert_tail_bytes': old.PINNED_INSERT_BYTES,
+        'mechanically_specialized_drop_sha256': _sha(specialized_drop),
+        'mechanically_specialized_insert_sha256': _sha(specialized_insert),
+        'specialized_drop': specialized_drop,
+        'specialized_insert': specialized_insert,
+        'original_body': (b'#![no_std]\nuse core::{mem::ManuallyDrop, ptr};\n\n' +
+                          specialized_drop + b'\n' + specialized_insert),
+    }
+
+def _body_runtime_equal(original, verified):
+    strip_comments = lambda data: re.sub(rb'/\*.*?\*/|//[^\n]*', b'', data, flags=re.S)
+    original_runtime = strip_comments(original)
+    verified_runtime = strip_comments(verified)
+    if original_runtime == verified_runtime:
+        return True
+    nonempty_lines = lambda data: b'\n'.join(
+        line.strip() for line in data.splitlines() if line.strip())
+    return nonempty_lines(original_runtime) == nonempty_lines(verified_runtime)
+
+
+def _body_isolation_suffixes(old):
+    """Return the exact appended wrapper suffixes accepted by the isolator."""
+    signature = old.WRAPPER_SIGNATURE
+    if (old.WRAPPER_RUNTIME.count(signature) != 1 or
+            old.WRAPPER_RUNTIME.count(b'let mut values = [10_u64, 20_u64, 5_u64];') != 1 or
+            old.WRAPPER_RUNTIME.count(b'let begin = values.as_mut_ptr();') != 1 or
+            old.WRAPPER_RUNTIME.count(b'insert_tail(begin, begin.add(2), is_less);') != 1 or
+            old.WRAPPER_RUNTIME.count(b'/*@') or old.WRAPPER_RUNTIME.count(b'//@')):
+        raise ValueError('synthetic caller runtime suffix changed')
+    verified_suffix = _one(old.WRAPPER_RUNTIME, signature,
+                           signature + old.WRAPPER_CONTRACT,
+                           'attached synthetic caller contract')
+    return old.WRAPPER_RUNTIME, verified_suffix
+
+
+def _prepare_body_isolation(evidence, parent_case, parent_record, old,
+                            parent_preparation_sha, parent_source_unchanged,
+                            parent_stage_receipt_gate):
+    """Copy the exact actual body/posts into a diagnostic case without the caller."""
+    canonical = _pinned_actual_body_identities(old)
+    expected_parent = Path(evidence).resolve() / 'full_body' / 'cases' / 'actual_three_current_full_posts'
+    if (Path(parent_case).resolve() != expected_parent.resolve() or
+            type(parent_record) is not dict or parent_record.get('prefix') is not False or
+            parent_record.get('mutation') is not None or
+            parent_record.get('profile') not in SUPPORTED_PROFILES or
+            any(parent_record.get(key) != canonical[key] for key in (
+                'source_sha256', 'source_git_blob', 'actual_drop_sha256',
+                'actual_insert_tail_sha256', 'actual_insert_tail_bytes',
+                'mechanically_specialized_insert_sha256')) or
+            type(parent_record.get('mechanically_specialized_insert_sha256')) is not str):
+        raise ValueError('body isolation requires the exact pinned unmutated full-body preparation')
+    parent_original = (parent_case / 'original/lib.rs').read_bytes()
+    parent_verified = (parent_case / 'verified/lib.rs').read_bytes()
+    if (_sha(parent_original) != parent_record.get('original_sha256') or
+            _sha(parent_verified) != parent_record.get('verified_sha256')):
+        raise ValueError('full-body source pair differs from its preparation record')
+    original_suffix, verified_suffix = _body_isolation_suffixes(old)
+    if (not parent_original.endswith(original_suffix) or
+            not parent_verified.endswith(verified_suffix)):
+        raise ValueError('caller suffix is not the exact appended original/verified wrapper')
+    original_body = parent_original[:-len(original_suffix)]
+    verified_body = parent_verified[:-len(verified_suffix)]
+    if (original_body != canonical['original_body'] or
+            not verified_body or
+            not _body_runtime_equal(original_body, verified_body) or
+            original_body.count(old.INSERT_SIGNATURE) != 1):
+        raise ValueError('prepared original body differs from the pinned definition, Drop, or runtime')
+    specialized_start = old.INSERT_SIGNATURE
+    if (not original_body or original_body.count(specialized_start) != 1 or
+            _sha(original_body[original_body.index(specialized_start):]) !=
+            parent_record.get('mechanically_specialized_insert_sha256') or
+            not verified_body or parent_verified.count(old.INSERT_CONTRACT) != 1 or
+            old.INSERT_CONTRACT not in verified_body or
+            old.WRAPPER_CONTRACT in verified_body):
+        raise ValueError('body/posts boundary or wrapper-contract removal is ambiguous')
+    if _sha(old.INSERT_CONTRACT) != parent_record.get('final_posts_sha256'):
+        raise ValueError('full actual normal/unwind posts differ from preparation identity')
+
+    parent_prep = Path(evidence) / 'full_body' / 'preparation.json'
+    parent_prep_bytes = parent_prep.read_bytes()
+    if (_sha(parent_prep_bytes) != parent_preparation_sha or
+            json.loads(parent_prep_bytes) != parent_record):
+        raise ValueError('full-body preparation receipt changed since pre-dispatch capture')
+    if (parent_source_unchanged is not True or
+            type(parent_stage_receipt_gate) is not dict or
+            parent_stage_receipt_gate.get('admitted') is not True):
+        raise ValueError('full-body source/stage receipts did not admit the pre-dispatch source')
+    parent_prep_sha = parent_preparation_sha
+    root = Path(evidence) / 'body_isolation'
+    case = root / 'cases' / BODY_ISOLATION_NAME
+    case.mkdir(parents=True, exist_ok=False)
+    (case / 'original').mkdir()
+    (case / 'verified').mkdir()
+    (case / 'original/lib.rs').write_bytes(original_body)
+    (case / 'verified/lib.rs').write_bytes(verified_body)
+    record = {
+        'schema': 'r16-actual-body-isolation-v1',
+        'profile': parent_record['profile'],
+        'case': BODY_ISOLATION_NAME,
+        'parent_case': str(Path(parent_case).resolve()),
+        'parent_preparation_sha256': parent_prep_sha,
+        'parent_source_unchanged': True,
+        'parent_stage_receipt_gate': parent_stage_receipt_gate,
+        'parent_original_sha256': parent_record['original_sha256'],
+        'parent_verified_sha256': parent_record['verified_sha256'],
+        'source_sha256': parent_record.get('source_sha256'),
+        'actual_drop_sha256': parent_record.get('actual_drop_sha256'),
+        'actual_insert_tail_sha256': parent_record.get('actual_insert_tail_sha256'),
+        'actual_insert_tail_bytes': parent_record.get('actual_insert_tail_bytes'),
+        'source_git_blob': parent_record.get('source_git_blob'),
+        'mechanically_specialized_drop_sha256': canonical['mechanically_specialized_drop_sha256'],
+        'mechanically_specialized_insert_sha256': parent_record.get('mechanically_specialized_insert_sha256'),
+        'original_removed_suffix_sha256': _sha(original_suffix),
+        'verified_removed_suffix_sha256': _sha(verified_suffix),
+        'original_removed_suffix_bytes': len(original_suffix),
+        'verified_removed_suffix_bytes': len(verified_suffix),
+        'original_sha256': _sha(original_body),
+        'verified_sha256': _sha(verified_body),
+        'original_body_sha256': _sha(original_body),
+        'canonical_original_body_sha256': _sha(canonical['original_body']),
+        'verified_body_sha256': _sha(verified_body),
+        'final_posts_sha256': parent_record['final_posts_sha256'],
+        'caller_suffix_exact': True,
+        'body_bytes_preserved': True,
+        'posts_preserved': True,
+        'runtime_unchanged': True,
+        'target': 'complete concrete-u64 insert_tail definition and selected Drop only',
+        'caller_prefix_full_b2_independent_credit': False,
+        'accepted': False,
+        'proof_credit': False,
+    }
+    (root / 'preparation.json').write_text(json.dumps(record, indent=2, sort_keys=True) + '\n')
+    return case, record
+
+
+def _body_isolation_source_gate(case, parent_case, parent_record, record, old,
+                                parent_preparation_sha):
+    """Recheck parent lineage, exact removed suffixes, body bytes and posts."""
+    try:
+        if (type(record) is not dict or record.get('schema') != 'r16-actual-body-isolation-v1' or
+                type(parent_record) is not dict or record.get('profile') != parent_record.get('profile') or
+                record.get('case') != BODY_ISOLATION_NAME or
+                record.get('caller_prefix_full_b2_independent_credit') is not False or
+                record.get('parent_source_unchanged') is not True or
+                type(record.get('parent_stage_receipt_gate')) is not dict or
+                record['parent_stage_receipt_gate'].get('admitted') is not True):
+            return False
+        canonical = _pinned_actual_body_identities(old)
+        evidence_root = Path(case).resolve().parents[2]
+        expected_case = evidence_root / 'body_isolation' / 'cases' / BODY_ISOLATION_NAME
+        expected_parent = evidence_root / 'full_body' / 'cases' / 'actual_three_current_full_posts'
+        if (Path(case).resolve() != expected_case.resolve() or
+                Path(parent_case).resolve() != expected_parent.resolve() or
+                record.get('parent_case') != str(expected_parent.resolve()) or
+                any(parent_record.get(key) != canonical[key] for key in (
+                    'source_sha256', 'source_git_blob', 'actual_drop_sha256',
+                    'actual_insert_tail_sha256', 'actual_insert_tail_bytes',
+                    'mechanically_specialized_insert_sha256')) or
+                any(record.get(key) != canonical[key] for key in (
+                    'source_sha256', 'source_git_blob', 'actual_drop_sha256',
+                    'actual_insert_tail_sha256', 'actual_insert_tail_bytes',
+                    'mechanically_specialized_insert_sha256',
+                    'mechanically_specialized_drop_sha256'))):
+            return False
+        original = (case / 'original/lib.rs').read_bytes()
+        verified = (case / 'verified/lib.rs').read_bytes()
+        parent_original = (parent_case / 'original/lib.rs').read_bytes()
+        parent_verified = (parent_case / 'verified/lib.rs').read_bytes()
+        prep_path = Path(parent_case).parent.parent / 'preparation.json'
+        prep_bytes = prep_path.read_bytes()
+        if json.loads(prep_bytes) != parent_record:
+            return False
+        isolated_prep = (Path(case).parent.parent / 'preparation.json').read_bytes()
+        if json.loads(isolated_prep) != record:
+            return False
+        original_suffix, verified_suffix = _body_isolation_suffixes(old)
+        return (
+            record.get('parent_original_sha256') == parent_record.get('original_sha256') == _sha(parent_original) and
+            record.get('parent_verified_sha256') == parent_record.get('verified_sha256') == _sha(parent_verified) and
+            record.get('parent_preparation_sha256') == parent_preparation_sha == _sha(prep_bytes) and
+            parent_record.get('prefix') is False and parent_record.get('mutation') is None and
+            parent_original.endswith(original_suffix) and parent_verified.endswith(verified_suffix) and
+            original == parent_original[:-len(original_suffix)] == canonical['original_body'] and
+            verified == parent_verified[:-len(verified_suffix)] and
+            record.get('canonical_original_body_sha256') == _sha(canonical['original_body']) and
+            original.count(old.INSERT_SIGNATURE) == 1 and
+            _sha(original[original.index(old.INSERT_SIGNATURE):]) ==
+                parent_record['mechanically_specialized_insert_sha256'] and
+            record.get('original_removed_suffix_sha256') == _sha(original_suffix) and
+            record.get('verified_removed_suffix_sha256') == _sha(verified_suffix) and
+            record.get('original_sha256') == record.get('original_body_sha256') == _sha(original) and
+            record.get('verified_sha256') == record.get('verified_body_sha256') == _sha(verified) and
+            record.get('final_posts_sha256') == parent_record.get('final_posts_sha256') == _sha(old.INSERT_CONTRACT) and
+            _body_runtime_equal(original, verified) and
+            verified.count(old.INSERT_CONTRACT) == 1 and
+            old.WRAPPER_CONTRACT not in verified and
+            record.get('caller_suffix_exact') is True and record.get('body_bytes_preserved') is True and
+            record.get('posts_preserved') is True and record.get('runtime_unchanged') is True)
+    except (OSError, ValueError, KeyError, TypeError, IndexError):
+        return False
+
+
+def _body_json_safe(value, *, depth=0):
+    if depth > 6:
+        return repr(value)[:2000]
+    if value is None or type(value) in (bool, int, float, str):
+        return value if type(value) is not str else value[:10000]
+    if type(value) in (list, tuple):
+        return [_body_json_safe(item, depth=depth + 1) for item in value[:128]]
+    if type(value) is dict:
+        return {str(key)[:200]: _body_json_safe(item, depth=depth + 1)
+                for key, item in list(value.items())[:128]}
+    return repr(value)[:2000]
+
+
+def _body_exception_record(error):
+    attrs = vars(error) if hasattr(error, '__dict__') else {}
+    return {
+        'type': type(error).__name__,
+        'message': str(error)[:10000],
+        'args_repr': repr(error.args)[:10000],
+        'attributes': _body_json_safe(attrs),
+        'returncode': _body_json_safe(getattr(error, 'returncode', None)),
+        'last_snapshot': _body_json_safe(getattr(error, 'last_snapshot', None)),
+        'snapshots': _body_json_safe(getattr(error, 'snapshots', None)),
+    }
+
+
+def _body_isolation_outcome(classification, reason, *, evidence, case=None,
+                            record=None, execution=None, phase=None, error=None,
+                            receipt_error=None, source_exact=None):
+    execution = execution if type(execution) is dict else {}
+    result = {
+        'schema': 'r16-actual-body-isolation-result-v1',
+        'classification': classification,
+        'reason': reason,
+        'phase': phase,
+        'source_exact': source_exact,
+        'verifier_target_observed': classification == 'BODY_UNIT_VERIFIER_EXIT0',
+        'body_bytes_preserved': record.get('body_bytes_preserved') is True if type(record) is dict else False,
+        'posts_preserved': record.get('posts_preserved') is True if type(record) is dict else False,
+        'accepted': False,
+        'proof_credit': False,
+        'full_target': False,
+        'b2_achieved': False,
+        'caller_or_prefix_gate': False,
+        'independent_credit': False,
+        'qualification': False,
+    }
+    for source_key, output_key in (
+            ('stages', 'stages'), ('status', 'execution_status'),
+            ('classification', 'execution_classification'),
+            ('last_snapshot', 'last_snapshot'), ('snapshots', 'snapshots'),
+            ('stage_receipt_gate', 'stage_receipt_gate'),
+            ('source_unchanged_at_every_stage', 'source_unchanged_at_every_stage'),
+            ('exception', 'exception')):
+        if source_key in execution:
+            result[output_key] = _body_json_safe(execution[source_key])
+    if error is not None:
+        result['exception'] = _body_exception_record(error)
+    if receipt_error is not None:
+        result['receipt_exception'] = _body_exception_record(receipt_error)
+    destination = Path(case) / 'classification.json' if case is not None else Path(evidence) / 'body_isolation' / 'classification.json'
+    try:
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_text(json.dumps(result, indent=2, sort_keys=True) + '\n')
+    except OSError as write_error:
+        result['result_write_exception'] = _body_exception_record(write_error)
+    return result
+
+
+def _run_body_isolation_diagnostic(evidence, parent_case, parent_record, old,
+                                  consumer, args, selected_profile, dispatch,
+                                  *, parent_preparation_sha, parent_source_unchanged,
+                                  parent_stage_receipt_gate, prepare_fn=None,
+                                  source_gate_fn=None, classify_fn=None):
+    """Run the diagnostic fail-closed while leaving the caller campaign runnable."""
+    prepare_fn = _prepare_body_isolation if prepare_fn is None else prepare_fn
+    source_gate_fn = _body_isolation_source_gate if source_gate_fn is None else source_gate_fn
+    classify_fn = _classify_body_isolation if classify_fn is None else classify_fn
+    body_case = None
+    body_record = None
+    body_execution = None
+    phase = 'prepare'
+    try:
+        if (parent_source_unchanged is not True or
+                type(parent_stage_receipt_gate) is not dict or
+                parent_stage_receipt_gate.get('admitted') is not True):
+            return _body_isolation_outcome(
+                'NOT_RUN', 'parent full-body source/stage receipt gate failed before isolated dispatch',
+                evidence=evidence, phase='parent_stage_gate', source_exact=False)
+        body_case, body_record = prepare_fn(
+            evidence, parent_case, parent_record, old, parent_preparation_sha,
+            parent_source_unchanged, parent_stage_receipt_gate)
+        phase = 'source_gate'
+        if not source_gate_fn(body_case, parent_case, parent_record, body_record, old,
+                              parent_preparation_sha):
+            return _body_isolation_outcome(
+                'NOT_RUN', 'source identity gate failed before body-only dispatch',
+                evidence=evidence, case=body_case, record=body_record, phase=phase,
+                source_exact=False)
+        phase = 'source_hashes'
+        body_before = consumer._hashes(body_case)
+        phase = 'dispatch'
+        previous_r8 = getattr(args, 'r8_owned_array_allocation', False)
+        args.r8_owned_array_allocation = selected_profile in (
+            R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE)
+        native_body = selected_profile == R11_PROFILE
+        dispatch_error = None
+        try:
+            body_execution = dispatch(body_case, args, actual_callback_case=True,
+                                      body_isolation_native=native_body)
+        except Exception as error:
+            dispatch_error = error
+        finally:
+            args.r8_owned_array_allocation = previous_r8
+        if dispatch_error is not None:
+            return _body_isolation_outcome(
+                'INCONCLUSIVE', 'body-only dispatch raised an exception',
+                evidence=evidence, case=body_case, record=body_record,
+                execution=body_execution, phase=phase, error=dispatch_error,
+                source_exact=True)
+        if type(body_execution) is not dict:
+            phase = 'execution_shape'
+            return _body_isolation_outcome(
+                'INCONCLUSIVE', 'body-only execution result has the wrong type',
+                evidence=evidence, case=body_case, record=body_record,
+                phase=phase, source_exact=True)
+        phase = 'source_hashes_after'
+        body_after = consumer._hashes(body_case)
+        body_execution['source_unchanged_at_every_stage'] = body_before == body_after
+        phase = 'stage_receipts'
+        receipt_error = None
+        try:
+            stage_map = body_execution.get('stages')
+            body_execution['stage_receipt_gate'] = consumer._stage_receipts(
+                body_case, stage_map if type(stage_map) is dict else {}, body_before)
+            body_execution['source_unchanged_at_every_stage'] = (
+                body_execution['source_unchanged_at_every_stage'] and
+                body_execution['stage_receipt_gate'].get('admitted') is True)
+        except Exception as error:
+            receipt_error = error
+        if receipt_error is not None:
+            return _body_isolation_outcome(
+                'INCONCLUSIVE', 'body-only stage receipt classification raised an exception',
+                evidence=evidence, case=body_case, record=body_record,
+                execution=body_execution, phase=phase, receipt_error=receipt_error,
+                source_exact=True)
+        phase = 'classification'
+        try:
+            result = classify_fn(
+                body_case, parent_case, parent_record, body_record, body_execution, old,
+                parent_preparation_sha)
+            result['phase'] = phase
+            return result
+        except Exception as error:
+            return _body_isolation_outcome(
+                'INCONCLUSIVE', 'body-only result classification raised an exception',
+                evidence=evidence, case=body_case, record=body_record,
+                execution=body_execution, phase=phase, error=error,
+                source_exact=True)
+    except Exception as error:
+        return _body_isolation_outcome(
+            'INCONCLUSIVE', 'body-only setup or source validation raised an exception',
+            evidence=evidence, case=body_case, record=body_record,
+            execution=body_execution, phase=phase, error=error,
+            source_exact=False if phase == 'source_gate' else None)
+
+def _classify_body_isolation(case, parent_case, parent_record, record, execution, old, parent_preparation_sha):
+    """Classify a component-only body run; never affect caller/full-target gates."""
+    if type(execution) is not dict:
+        execution = {'execution_type': type(execution).__name__}
+    stages = execution.get('stages')
+    if execution.get('status') == 'NOT_RUN' or execution.get('classification') == 'NOT_RUN':
+        classification = 'NOT_RUN'
+        reason = 'body-only diagnostic was explicitly marked not run'
+    elif not _body_isolation_source_gate(case, parent_case, parent_record, record, old, parent_preparation_sha):
+        classification = 'INCONCLUSIVE'
+        reason = 'body-only source, suffix, post or parent-stage identity did not match'
+    elif type(stages) is not dict:
+        classification = 'INCONCLUSIVE'
+        reason = 'required stage result map is missing or has the wrong type'
+    elif any(type(stages.get(name)) is not int for name in ('exporter', 'decode', 'verifast', 'refinement')):
+        classification = 'INCONCLUSIVE'
+        reason = 'required stage result is missing, null or has the wrong type'
+    elif execution.get('exception') is not None:
+        classification = 'INCONCLUSIVE'
+        reason = 'body-only execution raised an exception'
+    elif execution.get('source_unchanged_at_every_stage') is not True or \
+            type(execution.get('stage_receipt_gate')) is not dict or \
+            execution['stage_receipt_gate'].get('admitted') is not True:
+        classification = 'INCONCLUSIVE'
+        reason = 'exact source/stage receipts were absent, stale or mismatched'
+    else:
+        log_path = case / 'verifast.log'
+        log = log_path.read_text(errors='replace') if log_path.is_file() else ''
+        errors = [line for line in log.splitlines() if re.search(r'\berror:', line, re.I)]
+        dead = [line for line in log.splitlines() if re.search(r'dead code', line, re.I)]
+        target_verified = any(
+            (match := re.search(r"Verifying function ['\"]([^'\"]+)['\"]", line)) and
+            match.group(1).rsplit('::', 1)[-1] == 'insert_tail'
+            for line in log.splitlines())
+        stage_zero = all(stages[name] == 0 for name in ('exporter', 'decode', 'verifast', 'refinement'))
+        if stage_zero and target_verified and not errors and not dead:
+            classification = 'BODY_UNIT_VERIFIER_EXIT0'
+            reason = 'complete isolated actual body reached typed verification with all required stages at exit 0'
+        elif 124 in stages.values():
+            classification = 'INCONCLUSIVE'
+            reason = 'a required stage timed out'
+        elif 125 in stages.values():
+            classification = 'INCONCLUSIVE'
+            reason = 'a required stage was skipped or setup did not complete'
+        else:
+            classification = 'INCONCLUSIVE'
+            reason = ('actual insert_tail verifier target was not established' if not target_verified else
+                      'a required stage failed, verifier reported an error, or source contained dead code')
+    source_exact = _body_isolation_source_gate(
+        case, parent_case, parent_record, record, old, parent_preparation_sha)
+    result = _body_isolation_outcome(
+        classification, reason, evidence=Path(case).parents[2], case=case,
+        record=record, execution=execution, phase='classification',
+        source_exact=source_exact)
+    return result
+
+
 def _execute_case_with_r9_trace(execute_case, case, args, env, *, profile,
                                 prefix=False, actual_callback_case=False,
                                 r11_native_fullbody=False, validated_receipt=None):
@@ -779,15 +1228,19 @@ def run(evidence, args, env, execute_case, validated_receipt):
     provider, proof_sha = proof.require_hosted_cloud()
     consumer._validate_receipt(args, validated_receipt, provider, proof_sha)
     evidence.mkdir(parents=True, exist_ok=False)
-    def dispatch(case, case_args, case_env=None, *, prefix=False, actual_callback_case=False):
+    def dispatch(case, case_args, case_env=None, *, prefix=False, actual_callback_case=False,
+                 body_isolation_native=False):
         case_path = Path(case)
+        if body_isolation_native and (selected_profile != R11_PROFILE or not actual_callback_case):
+            raise RuntimeError('R11 body-isolation native placement requires current R11 actual-body scope')
         return _execute_case_with_r9_trace(
             execute_case, case_path, case_args, campaign_env if case_env is None else case_env,
             profile=selected_profile,
             prefix=prefix, actual_callback_case=actual_callback_case,
-            r11_native_fullbody=(case_path.name == 'actual_three_current_full_posts' and
-                                 case_path.parent.name == 'cases' and
-                                 case_path.parent.parent.name == 'full_body'),
+            r11_native_fullbody=(
+                (case_path.name == 'actual_three_current_full_posts' and
+                 case_path.parent.name == 'cases' and
+                 case_path.parent.parent.name == 'full_body') or body_isolation_native),
             validated_receipt=validated_receipt)
     share_controls = _load('r6_share_controls', HERE/'r6-share-controls.py')
     results = {'share_representation_controls': share_controls.run(
@@ -808,6 +1261,8 @@ def run(evidence, args, env, execute_case, validated_receipt):
     previous_r8_flag = getattr(args, 'r8_owned_array_allocation', False)
     args.first_fnmut_continue = True
     args.r8_owned_array_allocation = False
+    captured_parent_identity = None
+    full_body_execution_observation = None
     try:
         for name, prefix, mutation in cases:
             if mutation and not results['prefix']['current_false_true_panic_proved']:
@@ -815,6 +1270,16 @@ def run(evidence, args, env, execute_case, validated_receipt):
                                      intended_negative=False, proof_credit=False)
                 continue
             case, record = prepare(evidence/name, prefix=prefix, mutation=mutation, profile=selected_profile)
+            if name == 'full_body':
+                captured_parent_identity = {'record': copy.deepcopy(record), 'preparation_sha256': None,
+                                            'receipt_error': None}
+                try:
+                    prep_bytes = (evidence/'full_body/preparation.json').read_bytes()
+                    if json.loads(prep_bytes) != record:
+                        raise ValueError('full-body preparation receipt did not match prepared record')
+                    captured_parent_identity['preparation_sha256'] = _sha(prep_bytes)
+                except Exception as error:
+                    captured_parent_identity['receipt_error'] = error
             before = consumer._hashes(case)
             args.r8_owned_array_allocation = (selected_profile in (R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE) and not prefix)
             try:
@@ -825,8 +1290,37 @@ def run(evidence, args, env, execute_case, validated_receipt):
             execution['stage_receipt_gate'] = consumer._stage_receipts(case, execution.get('stages', {}), before)
             execution['source_unchanged_at_every_stage'] = (before == consumer._hashes(case) and
                 execution['stage_receipt_gate'].get('admitted') is True)
+            if name == 'full_body':
+                full_body_execution_observation = {
+                    'source_unchanged': execution.get('source_unchanged_at_every_stage'),
+                    'stage_receipt_gate': copy.deepcopy(execution.get('stage_receipt_gate')),
+                }
             results[name] = classify(case, record, execution,
                                      baseline_positive=results.get('prefix', {}).get('current_false_true_panic_proved', False))
+        # This diagnostic is fail-closed and cannot interrupt the original control graph.
+        parent_case = evidence/'full_body/cases/actual_three_current_full_posts'
+        try:
+            old_body = _load('r16_body_isolation_source', HERE / 'actual-insert-tail-b2.py')
+            if (captured_parent_identity is None or
+                    captured_parent_identity.get('preparation_sha256') is None or
+                    full_body_execution_observation is None):
+                raise ValueError('pre-dispatch full-body identity/receipt capture is incomplete')
+            if captured_parent_identity.get('receipt_error') is not None:
+                results['body_isolation'] = _body_isolation_outcome(
+                    'INCONCLUSIVE', 'pre-dispatch full-body preparation receipt capture failed',
+                    evidence=evidence, phase='parent_identity',
+                    error=captured_parent_identity['receipt_error'])
+            else:
+                results['body_isolation'] = _run_body_isolation_diagnostic(
+                    evidence, parent_case, captured_parent_identity['record'], old_body,
+                    consumer, args, selected_profile, dispatch,
+                    parent_preparation_sha=captured_parent_identity['preparation_sha256'],
+                    parent_source_unchanged=full_body_execution_observation.get('source_unchanged'),
+                    parent_stage_receipt_gate=full_body_execution_observation.get('stage_receipt_gate'))
+        except Exception as error:
+            results['body_isolation'] = _body_isolation_outcome(
+                'INCONCLUSIVE', 'body-only parent identity setup raised an exception',
+                evidence=evidence, phase='parent_identity', error=error)
         if selected_profile == R11_PROFILE:
             placement = _load('r11_storage_placement_controls', HERE/'r11-storage-placement-controls.py')
             positive_case = evidence/'full_body/cases/actual_three_current_full_posts'
@@ -891,6 +1385,9 @@ def run(evidence, args, env, execute_case, validated_receipt):
         args.r8_owned_array_allocation = previous_r8_flag
     aggregate = dict(schema='first-callback-campaign-v1', profile=selected_profile, accepted=False,
                      results=results, b2_achieved=False,
+                     body_only_component_observation=(
+                         results.get('body_isolation', {}).get('classification') ==
+                         'BODY_UNIT_VERIFIER_EXIT0'),
                      prefix_current_normal_unwind_proved=results['prefix']['current_false_true_panic_proved'],
                      all_target_controls_matched=(
                          results['prefix']['current_false_true_panic_proved'] and
