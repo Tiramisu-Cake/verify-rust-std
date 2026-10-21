@@ -133,8 +133,8 @@
 +                      Ast.LitPat (Ast.Var (_, tuple))], Ast.Static)) ->
 +                    let left = if index = 1 then "left_ref" else "left2_ref" in
 +                    let right = if index = 1 then "right_ref" else "right2_ref" in
-+                    let checked_equal a b = Ast.Assert (fn_loc,
-+                      Ast.Operation (fn_loc, Ast.Eq, [a; b])) in
++                    let checked_equal a b = Ast.PureStmt (fn_loc, Ast.Assert (fn_loc,
++                      Ast.Operation (fn_loc, Ast.Eq, [a; b]))) in
 +                    callback_binding_assertions := [
 +                      checked_equal (Ast.Var (fn_loc, receiver)) (Ast.Var (fn_loc, "is_less"));
 +                      checked_equal (Ast.Select (fn_loc, Ast.Var (fn_loc, tuple), "0"))
