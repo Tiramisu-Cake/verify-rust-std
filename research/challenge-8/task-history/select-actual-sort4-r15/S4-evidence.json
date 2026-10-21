@@ -1,0 +1,348 @@
+{
+  "build": {
+    "dispatch_token": "dispatch-d6d030d26dc6426ea74514f2e6f06dfb",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-ACTUAL-BODY-2026-10-21-R15",
+    "infra_sha": "8bf480eac8273511137e8abc8dde8f4cb991ee6a",
+    "proof_sha": "8bf480eac8273511137e8abc8dde8f4cb991ee6a",
+    "lane": "o26-sort4-c1-current-recovery",
+    "submitted_config_sha256": "ef56fa84df2fded7d5dbeb5f23ca6d9d000f753ca58fa1371ace502b7ea401a6",
+    "reserved_seconds": 1260,
+    "timeout_seconds": 1200,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "d59d325d259b07d512b1b4f58f9617e930b38e8ae70ab89f5f5390e3f86dd1ab",
+    "build_id": "980fbc61-2d4c-43f3-9cac-c68db0b34c63",
+    "start_time": "2026-10-21T16:33:23.208543433Z",
+    "finish_time": "2026-10-21T16:41:16.932641Z",
+    "create_time": "2026-10-21T16:33:22.385074957Z",
+    "build_seconds": 475,
+    "accounted": true,
+    "execution_seconds": 474
+  },
+  "type": "S4 complete actual sort4 attempt + checked resource and Boolean components",
+  "profile_sha256": "a40e3b1724bc296330b239d53545b8bc6921b865285a0e20aad3ff8320ddab6c",
+  "brief_integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "archive_sha256": "0f165eba4a708586c9c7defcc386028fcf824b9ffeefa66b8bc3b47b9623c42f",
+  "index_sha256": "7be9bdbe8ae47cf524f48b1c9c33aaf03d31349a961159606619b5d9e36b4ca1",
+  "actual_body": {
+    "observed_exit": 1,
+    "location": "verified/lib.rs164,1-30",
+    "diagnostic": "Strict lifetime binding has unresolved inference in entry outer type",
+    "runtime_scope": "complete source-bound generic sort4_stable, five callbacks/four copies, separating source4 owners/destination4 optional slots; no runtime cut",
+    "normal": "current source4 sole T owners, destination4 representations, current F/thread/typeinterp",
+    "unwind": "current source4 sole T owners, unchanged optional destination4, current F/thread/typeinterp",
+    "checked_prerequisites_before_target": 4,
+    "source_body_acceptance": false
+  },
+  "source_reported_checked_unqualified": {
+    "fourcopy_identity": {
+      "file_id": "e8ae44325dcdcf3b54a20a43afd3607c4a8538c68d7fd3ea50b505af9ed7e1d2",
+      "file_sha256": "412bfbf1c6cb3cfb508658e51bcd917f671ad7b826231a4753176a5749f48745",
+      "index_sha256": "7be9bdbe8ae47cf524f48b1c9c33aaf03d31349a961159606619b5d9e36b4ca1",
+      "archive_sha256": "0f165eba4a708586c9c7defcc386028fcf824b9ffeefa66b8bc3b47b9623c42f",
+      "request_id": "f97f223847d4c3da934653af447d157efb0ce1826ce1b2d4ee38b65b73dd77bf",
+      "exact": true,
+      "complete": true,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "source_fields": [
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/ast_sha256",
+          "value": "732c5806f686043d35a4b323ac16dbda11ba782693e968a07c8f22d3d922eed2"
+        },
+        {
+          "exact": true,
+          "kind": "number",
+          "pointer": "/observed_exit",
+          "value": 0
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/passed",
+          "value": true
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/proof_credit",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/source_pair_immutable",
+          "value": true
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/status",
+          "value": "SOURCE_REPORTED_BODY_CHECKED_UNQUALIFIED"
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/summary_eligible",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/tool_immutable",
+          "value": true
+        }
+      ]
+    },
+    "boolean_selector_permutation": {
+      "file_id": "14f2b98306020e0eb44b97c2fd5dcdb1724ff59de9ca072ab8ec427f9ef7d6f6",
+      "file_sha256": "172692954f164f570e6bc2bb312ffbb9bc7968cd73e7c630cc70839cbef91b00",
+      "index_sha256": "7be9bdbe8ae47cf524f48b1c9c33aaf03d31349a961159606619b5d9e36b4ca1",
+      "archive_sha256": "0f165eba4a708586c9c7defcc386028fcf824b9ffeefa66b8bc3b47b9623c42f",
+      "request_id": "44ab8871a736920dba61885a2e771c76be078bb22962c9ffd9612711bd1c87a2",
+      "exact": true,
+      "complete": true,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "source_fields": [
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/ast_sha256",
+          "value": "fe0541b61455c063c5cbe1e51f088dac9f26235e1a52742b6e558e0cde10c1ca"
+        },
+        {
+          "exact": true,
+          "kind": "number",
+          "pointer": "/observed_exit",
+          "value": 0
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/passed",
+          "value": true
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/proof_credit",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/source_pair_immutable",
+          "value": true
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/status",
+          "value": "SOURCE_REPORTED_BODY_CHECKED_UNQUALIFIED"
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/summary_eligible",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/tool_immutable",
+          "value": true
+        }
+      ]
+    },
+    "same_unit_c1_current_owner_recovery": {
+      "file_id": "155002b081a5f71e922512e148d715eebbb25cea30a549dc189dd69c4b561c44",
+      "file_sha256": "901e6de3c3f7cf2c09e99a0ad9a78f95c10b979b782100ab1bc765dc8fa16ea8",
+      "index_sha256": "7be9bdbe8ae47cf524f48b1c9c33aaf03d31349a961159606619b5d9e36b4ca1",
+      "archive_sha256": "0f165eba4a708586c9c7defcc386028fcf824b9ffeefa66b8bc3b47b9623c42f",
+      "request_id": "0af23e8cd0723af19246f67f6b680fad7148548c4abd8510da1b4b44bf825a69",
+      "exact": true,
+      "complete": true,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "source_fields": [
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/checked_lemma_prerequisites/recover_pair/ast_sha256",
+          "value": "70b6ff01f80100413ae8eb59185bfd0f5297187c363aaf2d55461884f5cc49df"
+        },
+        {
+          "exact": true,
+          "kind": "number",
+          "pointer": "/checked_lemma_prerequisites/recover_pair/observed_exit",
+          "value": 0
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/checked_lemma_prerequisites/recover_pair/passed",
+          "value": true
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/checked_lemma_prerequisites/recover_pair/proof_credit",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/checked_lemma_prerequisites/recover_pair/status",
+          "value": "SOURCE_REPORTED_BODY_CHECKED_UNQUALIFIED"
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/checked_lemma_prerequisites/recover_pair/summary_eligible",
+          "value": false
+        }
+      ]
+    },
+    "mini7": {
+      "file_id": "69392933f18fd828297d1865595841a0fcc6e7e7c2b475b4b129572dc5aade3d",
+      "file_sha256": "bf79526d08e3257063f6c76c5e4f94779d5ee4fb244b041dd614d3cf6679f028",
+      "index_sha256": "7be9bdbe8ae47cf524f48b1c9c33aaf03d31349a961159606619b5d9e36b4ca1",
+      "archive_sha256": "0f165eba4a708586c9c7defcc386028fcf824b9ffeefa66b8bc3b47b9623c42f",
+      "request_id": "d81a3991f31a60f6a6d0239632f04c1b3d2b3f9f955ff178c2943f6729f89c83",
+      "exact": true,
+      "complete": true,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "source_fields": [
+        {
+          "exact": true,
+          "pointer": "/reference_own_probe/passed",
+          "value": true
+        }
+      ]
+    }
+  },
+  "new_controls": {
+    "c1-opt-in-off-negative": {
+      "classification": "OBSERVED_INTENDED_REFUSAL_UNQUALIFIED",
+      "description": "frontend marker forbidden without opt-in",
+      "file_id": "1616921b0b50e13c5fb7edd5ea5efa86c50456c9ae4ea910d578d05b9fecd770",
+      "file_sha256": "735c54a1003a95bfc79f0c99d9dbf1c63e6263d79264abff89cf42e0384214af",
+      "index_sha256": "7be9bdbe8ae47cf524f48b1c9c33aaf03d31349a961159606619b5d9e36b4ca1",
+      "archive_sha256": "0f165eba4a708586c9c7defcc386028fcf824b9ffeefa66b8bc3b47b9623c42f",
+      "request_id": "7acb935a04a1a277cb4e565f3261661b059a05d34b3f1def5e2598670ed0e99e",
+      "exact": true,
+      "complete": false,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "context_response": "research/challenge-8/task-history/select-actual-sort4-r15/S4-reader/c1-opt-in-off-negative-context.json",
+      "proof_credit": false
+    },
+    "c1-wrong-first-call-line-negative": {
+      "classification": "OBSERVED_INTENDED_REFUSAL_UNQUALIFIED",
+      "description": "frontend actual-body argument source coordinate",
+      "file_id": "e1254b33146daaabb443fcb545fd1662f1b11bfab2f3e2e9424791d518d4f7c5",
+      "file_sha256": "808ea2e31d9184c7ee7fd6dc56ec068f19483d5c45e76bcbb49117dc21dcd5a7",
+      "index_sha256": "7be9bdbe8ae47cf524f48b1c9c33aaf03d31349a961159606619b5d9e36b4ca1",
+      "archive_sha256": "0f165eba4a708586c9c7defcc386028fcf824b9ffeefa66b8bc3b47b9623c42f",
+      "request_id": "796a05578a78ec9f00e37012195e28eee7dc55db56143d9e2220718fd6436cc9",
+      "exact": true,
+      "complete": false,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "context_response": "research/challenge-8/task-history/select-actual-sort4-r15/S4-reader/c1-wrong-first-call-line-negative-context.json",
+      "proof_credit": false
+    },
+    "c1-wrong-source-sha-negative": {
+      "classification": "OBSERVED_INTENDED_REFUSAL_UNQUALIFIED",
+      "description": "frontend verified source SHA256 differs",
+      "file_id": "7c0ab64456896a4773be5ca2cbee6b1ccfa4f3baf11fb9258c998c7049d6fe1f",
+      "file_sha256": "0616e7732abe2d7d65d471c68560ac9d15563309c38f33dc8670fab7cc526fb1",
+      "index_sha256": "7be9bdbe8ae47cf524f48b1c9c33aaf03d31349a961159606619b5d9e36b4ca1",
+      "archive_sha256": "0f165eba4a708586c9c7defcc386028fcf824b9ffeefa66b8bc3b47b9623c42f",
+      "request_id": "6699751902ccb781903dd87076b34db0c4b1eedb631b4109d2abc9bc04e5bdec",
+      "exact": true,
+      "complete": false,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "context_response": "research/challenge-8/task-history/select-actual-sort4-r15/S4-reader/c1-wrong-source-sha-negative-context.json",
+      "proof_credit": false
+    },
+    "false-old-value-array-post-negative": {
+      "classification": "OBSERVED_INTENDED_REFUSAL_UNQUALIFIED",
+      "description": "verified/lib.rs141: current != arbitrary old_values; array old-value post rejected; no concrete Cell claim",
+      "file_id": "c741fba900b8b86bdfab4881de72f89cae9cb5f00717fc6bdf8db28390abe96e",
+      "file_sha256": "9c40e60d4beed40e8f1821ab54d7a12a235cf4e1396f8a579b3236bce6815798",
+      "index_sha256": "7be9bdbe8ae47cf524f48b1c9c33aaf03d31349a961159606619b5d9e36b4ca1",
+      "archive_sha256": "0f165eba4a708586c9c7defcc386028fcf824b9ffeefa66b8bc3b47b9623c42f",
+      "request_id": "7c9a84850aa5f45d263123ce77e79c5daea147d316888150aaed8c92d82aa62f",
+      "exact": true,
+      "complete": false,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "context_response": "research/challenge-8/task-history/select-actual-sort4-r15/S4-reader/false-old-value-array-post-negative-context.json",
+      "proof_credit": false
+    },
+    "missing-fourth-end-token-negative": {
+      "classification": "OBSERVED_INTENDED_REFUSAL_UNQUALIFIED",
+      "description": "verified/lib.rs62: missing borrow_end_token at right+3 while closing full debt",
+      "file_id": "b573015b0e98478dfbade9893fc925b825606e4fa1d5d13551908f5256bd47d3",
+      "file_sha256": "ddcce95aa5f669c98d7ae8da8d7e7ce17f3db89fccb050993b286015b38901ee",
+      "index_sha256": "7be9bdbe8ae47cf524f48b1c9c33aaf03d31349a961159606619b5d9e36b4ca1",
+      "archive_sha256": "0f165eba4a708586c9c7defcc386028fcf824b9ffeefa66b8bc3b47b9623c42f",
+      "request_id": "2f099cffd94cc9fcd03bd17b95984c0433254469bec2cae0673b8a4c87f06458",
+      "exact": true,
+      "complete": false,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "context_response": "research/challenge-8/task-history/select-actual-sort4-r15/S4-reader/missing-fourth-end-token-negative-context.json",
+      "proof_credit": false
+    },
+    "raw-four-copy-duplicate-owner-negative": {
+      "classification": "OBSERVED_INTENDED_REFUSAL_UNQUALIFIED",
+      "description": "verified/lib.rs51: missing additional foreach<T>(values,own0(T_typeid,t))",
+      "file_id": "7d5affe4511de8739270709e660b2c416f0bc20f84503af6284ae5086341ce7d",
+      "file_sha256": "301f6ac8aac8536e99482fafb248dd4086f8d981e2b65a279c9cf5a2c205eca4",
+      "index_sha256": "7be9bdbe8ae47cf524f48b1c9c33aaf03d31349a961159606619b5d9e36b4ca1",
+      "archive_sha256": "0f165eba4a708586c9c7defcc386028fcf824b9ffeefa66b8bc3b47b9623c42f",
+      "request_id": "b563fcacc0aaed6e92375ee87f86da0d94eb92cea6b23529f7a81b594e6a06bc",
+      "exact": true,
+      "complete": false,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "context_response": "research/challenge-8/task-history/select-actual-sort4-r15/S4-reader/raw-four-copy-duplicate-owner-negative-context.json",
+      "proof_credit": false
+    },
+    "selector-wrong-minimum-negative": {
+      "classification": "OBSERVED_INTENDED_REFUSAL_UNQUALIFIED",
+      "description": "verified/lib.rs276: cannot prove imin=4",
+      "file_id": "dfd758c4feca3c8660dc777a0fb7e49058e6b087b3bb719a2aa0ae8c49cb634e",
+      "file_sha256": "a467b69811c7de4ce135fc1bb7678701f1f37291159e8a0b5ef0b0fa8023bcab",
+      "index_sha256": "7be9bdbe8ae47cf524f48b1c9c33aaf03d31349a961159606619b5d9e36b4ca1",
+      "archive_sha256": "0f165eba4a708586c9c7defcc386028fcf824b9ffeefa66b8bc3b47b9623c42f",
+      "request_id": "4ab9f6af5f2296be0c081e859af306f372618bcc3fcdce4cf6f805588b7f418d",
+      "exact": true,
+      "complete": false,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "context_response": "research/challenge-8/task-history/select-actual-sort4-r15/S4-reader/selector-wrong-minimum-negative-context.json",
+      "proof_credit": false
+    }
+  },
+  "source_reported_component_scope_limits": [
+    "fourcopy is identity-order raw representations, not actual sorted pointer composition",
+    "selector is Boolean/index algebra for all32tuples, not actual pointer/call binding",
+    "recovery assumes established comparison_debt; does not prove actual callback establishment",
+    "mini7 is source preflight only"
+  ],
+  "actual_body_obligations_closed": 0,
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "proof_credit": false,
+  "accepted": false,
+  "profile_accepted": false,
+  "scientific_evidence_complete": false,
+  "final26_matrix": "NOT_RUN; qualification open",
+  "upper_packaging_evidence_complete": true,
+  "budget": {
+    "used": 1810,
+    "remaining_before_S5_charge": 1790,
+    "carry": 0
+  },
+  "next": "S5 independently checks generic base4 debt recovery; actualbody explicitNOTRUN at unchanged strict binding boundary"
+}

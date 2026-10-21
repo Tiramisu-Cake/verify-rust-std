@@ -1,0 +1,60 @@
+{
+  "archive_sha256": "0f165eba4a708586c9c7defcc386028fcf824b9ffeefa66b8bc3b47b9623c42f",
+  "build_id": "980fbc61-2d4c-43f3-9cac-c68db0b34c63",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": true,
+  "content_filtered": false,
+  "coordinate_bases": {
+    "ends": "exclusive",
+    "line_separator": "LF",
+    "lines": 1,
+    "offsets": 0,
+    "unicode_columns": 1
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "1616921b0b50e13c5fb7edd5ea5efa86c50456c9ae4ea910d578d05b9fecd770",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/c1-opt-in-off-negative/stage/body-verification.log",
+  "file_sha256": "735c54a1003a95bfc79f0c99d9dbf1c63e6263d79264abff89cf42e0384214af",
+  "index_sha256": "7be9bdbe8ae47cf524f48b1c9c33aaf03d31349a961159606619b5d9e36b4ca1",
+  "match_mode": "CASE_SENSITIVE_LITERAL",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "LITERAL_COORDINATES_ONLY",
+  "request": {
+    "expected_sha256": "735c54a1003a95bfc79f0c99d9dbf1c63e6263d79264abff89cf42e0384214af",
+    "file_id": "1616921b0b50e13c5fb7edd5ea5efa86c50456c9ae4ea910d578d05b9fecd770",
+    "literal": "Fatal error:"
+  },
+  "request_id": "dfc183ddf8c03b3aafda33a84c535389e009d2d211e19a81d6a611cde870d9ed",
+  "results": [
+    {
+      "column": 1,
+      "end_column_exclusive": 13,
+      "end_line": 110,
+      "line": 110,
+      "unicode_end_exclusive": 7195,
+      "unicode_start": 7183,
+      "utf8_byte_end_exclusive": 7195,
+      "utf8_byte_start": 7183
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "search_scope": {
+    "kind": "whole-file",
+    "unicode_end_exclusive": 9794,
+    "unicode_start": 0,
+    "utf8_byte_end_exclusive": 9794,
+    "utf8_byte_start": 0
+  },
+  "source_absence_established": false,
+  "source_bytes": 9794,
+  "source_codepoints": 9794,
+  "source_lines": 132,
+  "status": "OK",
+  "truncated": false
+}

@@ -1,0 +1,67 @@
+{
+  "archive_sha256": "bb4b8da80005318f6c24fdde95572000ac537a4daab0cb49cdec4d163e99043f",
+  "build_id": "8d07c434-daff-412c-a214-0e91a521fec2",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "EMPTY_FILE": 111,
+      "JSON_EXCEEDS_SCAN_LIMIT": 1,
+      "PROJECTED": 408,
+      "UNSUPPORTED_FILE_TYPE": 43
+    },
+    "catalogue_complete": true,
+    "content_bytes": 1428747,
+    "content_files": 520,
+    "files": 563,
+    "source_scan_bytes": 2177946
+  },
+  "index_sha256": "286f989bf934172a20da257109ae27f3e5acf2ec9e4fb5b76658900e8f453b13",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "74a56cdc934cc02c3e28c4d91efe5b5a2b4f146ae59b4c2a571df6115dd24540",
+      "kind": "json",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/generic-four-join_four_owned_cells-positive/body-result.json",
+      "path_sanitized": false,
+      "scanned_bytes": 6931,
+      "sha256": "e777c36be08ca280367ff4a5def32458729a8f91f766bb187e584f82da2906b0",
+      "size_bytes": 6931,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "0cd389dd8110583bd6718bdf18f69b7df128e95c993491d5dfec6cebfc9e6d6c",
+      "kind": "json",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/generic-four-recover_four_missing_fourth_end_token_negative-negative/body-result.json",
+      "path_sanitized": false,
+      "scanned_bytes": 12218,
+      "sha256": "ccca94a4c5d0632b515c522efba843cc3b6e7f48cbc329f5d8972a883f7c02b0",
+      "size_bytes": 12218,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "87ce2d5649c08cc366f1c2f81acce277d2cd912f836a47af1dcc13889d28b79d",
+      "kind": "json",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/generic-four-recover_four_sources-positive/body-result.json",
+      "path_sanitized": false,
+      "scanned_bytes": 9278,
+      "sha256": "bfc2f6cd05a139cf1cff3b67bd51206918df6d6f86e79e0e2ad01d57abf25497",
+      "size_bytes": 9278,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 563,
+    "files_with_incomplete_content": 379,
+    "matches_in_retained_data": 3,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

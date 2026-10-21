@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "bb4b8da80005318f6c24fdde95572000ac537a4daab0cb49cdec4d163e99043f",
+  "build_id": "8d07c434-daff-412c-a214-0e91a521fec2",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 1109,
+    "line_separator": "LF",
+    "source_lines": 1112,
+    "start": 1098,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "1a18b82e2fcf2b6cd4a8b284c6db4525bdeba454f768fe4f9de4ee67a5c90336",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/generic-four-recover_four_missing_fourth_end_token_negative-negative/stage/body-verification.log",
+  "file_sha256": "98356f9c7703dbcb3ea5165b3ac4c7b11c6a5e9fd7ecc966fb123118358585ab",
+  "index_sha256": "286f989bf934172a20da257109ae27f3e5acf2ec9e4fb5b76658900e8f453b13",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 1109,
+    "expected_sha256": "98356f9c7703dbcb3ea5165b3ac4c7b11c6a5e9fd7ecc966fb123118358585ab",
+    "file_id": "1a18b82e2fcf2b6cd4a8b284c6db4525bdeba454f768fe4f9de4ee67a5c90336",
+    "start": 1098
+  },
+  "request_id": "f8554d349942a5975effc891a778e03e6d08f8593ac220a48391203b922362de",
+  "requested_end": 1109,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1098,
+      "text": "  0.143787s: verified/lib.rs(55,5-21): Consuming assertion"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1099,
+      "text": "  0.143810s: Redux: Axiom ptr_add_ triggered"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1100,
+      "text": "  0.143872s: Consuming chunk borrow_end_token(k, @(@(full_borrow_content(T_typeid), t), ptr_add_(base, 3, T_typeid)))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1101,
+      "text": "verified/lib.rs(55,5-21): error: No matching heap chunks: borrow_end_token(k, @(@(full_borrow_content(T_typeid), t), ptr_add_(base, 3, T_typeid)))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1102,
+      "text": "55 |     borrow_end_token(k, <T>.full_borrow_content(t, base + 3));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1103,
+      "text": "   |     ^^^^^^^^^^^^^^^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1104,
+      "text": "verified/lib.rs(55,5-21): note: Consuming assertion"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1105,
+      "text": "55 |     borrow_end_token(k, <T>.full_borrow_content(t, base + 3));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1106,
+      "text": "   |     ^^^^^^^^^^^^^^^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1107,
+      "text": "verified/lib.rs(122,5-10): note: Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1108,
+      "text": "122 |     close callback_four_debt::<T>("
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1109,
+      "text": "    |     ^^^^^"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

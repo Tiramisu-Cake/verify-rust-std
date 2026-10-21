@@ -1,0 +1,46 @@
+{
+  "archive_sha256": "0f165eba4a708586c9c7defcc386028fcf824b9ffeefa66b8bc3b47b9623c42f",
+  "build_id": "980fbc61-2d4c-43f3-9cac-c68db0b34c63",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 0,
+    "end_exclusive": 87324,
+    "requested_position": 87068,
+    "source_units": 87566,
+    "start": 86812,
+    "unicode_end_exclusive": 87324,
+    "unicode_start": 86812,
+    "unit": "utf8-byte",
+    "utf8_byte_end_exclusive": 87324,
+    "utf8_byte_start": 86812
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "c741fba900b8b86bdfab4881de72f89cae9cb5f00717fc6bdf8db28390abe96e",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/false-old-value-array-post-negative/stage/body-verification.log",
+  "file_sha256": "9c40e60d4beed40e8f1821ab54d7a12a235cf4e1396f8a579b3236bce6815798",
+  "index_sha256": "7be9bdbe8ae47cf524f48b1c9c33aaf03d31349a961159606619b5d9e36b4ca1",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "LOSSLESS_UTF8_TEXT_JSON_ESCAPED",
+  "request": {
+    "expected_sha256": "9c40e60d4beed40e8f1821ab54d7a12a235cf4e1396f8a579b3236bce6815798",
+    "file_id": "c741fba900b8b86bdfab4881de72f89cae9cb5f00717fc6bdf8db28390abe96e",
+    "position": 87068,
+    "unit": "utf8-byte"
+  },
+  "request_id": "7c9a84850aa5f45d263123ce77e79c5daea147d316888150aaed8c92d82aa62f",
+  "results": [
+    {
+      "exact": true,
+      "text": ".query\n  0.163360s: Entering Redux.query(old_values = current)\n  0.163366s:   Entering Redux.assume_with_implications(!(old_values = current))\n  0.163374s:   Exiting Redux.assume_with_implications\n  0.163380s: Exiting Redux.query\nverified/lib.rs(141,20-23): error: Cannot prove current == old_values\n141 |         right[..4] |-> old_values &*& foreach(old_values, own::<T>(t));\n    |                    ^^^\nverified/lib.rs(141,20-23): note: Consuming assertion\n141 |         right[..4] |-> old_values &*& foreach",
+      "utf8_hex": "2e71756572790a2020302e313633333630733a20456e746572696e672052656475782e7175657279286f6c645f76616c756573203d2063757272656e74290a2020302e313633333636733a202020456e746572696e672052656475782e617373756d655f776974685f696d706c69636174696f6e732821286f6c645f76616c756573203d2063757272656e7429290a2020302e313633333734733a20202045786974696e672052656475782e617373756d655f776974685f696d706c69636174696f6e730a2020302e313633333830733a2045786974696e672052656475782e71756572790a76657269666965642f6c69622e7273283134312c32302d3233293a206572726f723a2043616e6e6f742070726f76652063757272656e74203d3d206f6c645f76616c7565730a313431207c20202020202020202072696768745b2e2e345d207c2d3e206f6c645f76616c75657320262a2620666f7265616368286f6c645f76616c7565732c206f776e3a3a3c543e287429293b0a202020207c20202020202020202020202020202020202020205e5e5e0a76657269666965642f6c69622e7273283134312c32302d3233293a206e6f74653a20436f6e73756d696e6720617373657274696f6e0a313431207c20202020202020202072696768745b2e2e345d207c2d3e206f6c645f76616c75657320262a2620666f7265616368"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

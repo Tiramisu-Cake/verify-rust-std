@@ -1,0 +1,70 @@
+{
+  "schema": "a1-r15-s5-independent-review-v1",
+  "reviewed_commit": "81226dafedd2e8d1dfb140ab0e4dd88556bfd7db",
+  "reviewed_worktree": "/root/verify-rust-std-select-night",
+  "reviewer": "independent Luna HIGH static review",
+  "disposition": "GO_TO_EXISTING_CLOUD_PREFLIGHT",
+  "scope": [
+    "S5 body action and strict-entry NOT_RUN boundary",
+    "generic four-source recovery dependency and missing-token negative",
+    "same-fixture checked prerequisite chain",
+    "S5 profile pins and proof/infra recipe dependency closure"
+  ],
+  "pins": {
+    "profile_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-BODY-R15-PROFILE-2026-10-21.json",
+    "profile_sha256": "de469095ad2ba4435b41bc0f114289cd12f4952f129e88fbcfb655cea6dca505",
+    "recipe_path": "research/challenge-8/cloud-build/recipes/o26-sort4-c1-current-recovery.json",
+    "recipe_sha256": "5e8b06b66035c4db76d72db31277e9a953700f0ff5649fe59dd9331ac1a49b00",
+    "actual_body_service_sha256": "b649203db6cf803e26d3a18b9f8444b12d3f152f40e72450f383bbcadffc299f",
+    "generic_four_recovery_sha256": "9637aee892e633c2521d8cef62770a6be0982a1835492b6afffafc97f9246d8b",
+    "capture_sha256": "0d993e8c36cb7684eb509e8efcfb9553b07e92e87885f4ae430269c4cb2a6060",
+    "tool_helper_sha256": "ef811a6c22c128c6ec55343b4b4de8d67b9b91956aa771b1dc5123d2f299cdc4",
+    "entry_sha256": "8961bb009b08ad307a594bf573c1eb6f4810c019e1953ea3433d88433b486a45",
+    "runner_sha256": "319642a716602fda8d5bc54864f1aa02bc275a9a659e9c9e58bdbed8de7f14e4",
+    "c1_overlay_manifest_sha256": "ef6c8a8cd352becac487c89a98569b6310c22c17b2fe083ba20417823c74f3ab",
+    "c1_overlay_patch_sha256": "0ffb4fb9ea713ab58871ced508f537ba0ec7de01b7cca85fe41b7e327ebddeda",
+    "merge_fractions_manifest_sha256": "c529a3a45dc78a3f6f914d55f4e2e6cca29b7383f69827db1e20904d2db4b43b",
+    "merge_fractions_patch_sha256": "f08f1c391aa62e6cbeb0ad80e73958b1b6dcfd38f40b3d7d87802d12c4a534ba"
+  },
+  "review": {
+    "body_action": "checked-generic-four-recovery-after-S4",
+    "body_target": "The runner records the actual full body as NOT_RUN with the unchanged S4 strict lifetime-entry inference boundary. It returns from this dependency-only branch before actual-body construction, c1 env opt-in, copy-component, selector, or c1-control paths.",
+    "recovery_dependency": "The generic debt has two reference fractional debts and exactly four source borrow-end tokens. Recovery consumes them, closes/merges fractions, ends the lifetime, retrieves each current slot owner, and joins a four-slot current array with one foreach owner sequence. No saved pre-callback values, alias/noalias premise, reference-to-slot mapping, Copy, Freeze, size, purity, ordering, or concrete callback assumption is added.",
+    "negative_control": "The third focus item supplies only base through base+2 end tokens and attempts to close the full four-token debt; its intended rejection is the missing base+3 token.",
+    "checked_prerequisites": "recovery_four_cases requires rows[:i]: join_four_owned_cells before recover_four_sources, then both positive lemmas before the missing-token negative. run_case enforces source-pair support first and verifies every prerequisite with the same fixture/tool before it runs the dependent focus; failed prerequisites stop the dependent case. The helper metadata targets the generic anchor and retains exact lemma intervals.",
+    "environment_and_scope": "These helper cases do not set actual_c1_recovery metadata, so run_case does not add SORT4_ACTUAL_BODY_C1_RECOVERY or source-line env vars. The S4 outer-alias draft is excluded from this S5 profile/recipe and not used.",
+    "recipe_closure": "The profile pins only capture.py and a1-actual-recover-four.rs as actual-body dependencies. The recipe includes both, the active R15 service/tool chain, and the preserved S4 translator/AST overlays. It omits now-inactive c1 constructor, four-copy, pair-recovery, and selector fixtures; the S5 branch returns before those loaders. Current dependency, service, tool, entry, runner, profile, and recipe hashes match their pins."
+  },
+  "transport_observation": {
+    "status": "PASS_REPORTED_BY_COORDINATOR",
+    "bytes": 567623,
+    "objects": 168,
+    "infra_paths": 20,
+    "proof_paths": 114,
+    "byte_equal_restore": true,
+    "token_configs": [27952, 27952, 27964],
+    "submissions": 199,
+    "source": "parent-provided S5 transport audit; not independently rerun in this review"
+  },
+  "service_and_registration_checks": {
+    "status": "PASS_REPORTED_BY_COORDINATOR",
+    "service_cases": 23,
+    "registration_cases": 10,
+    "recovery_case_inventory": "[0,1,2] PASS reported by coordinator",
+    "source": "parent-provided S5 test summary; not independently rerun in this review"
+  },
+  "observed_prior_blocker": {
+    "build_id": "980fbc61-2d4c-43f3-9cac-c68db0b34c63",
+    "stage": "S4 full actual body",
+    "observation": "Verifier exit 1: strict lifetime binding has unresolved inference in entry outer type. Same-build checked helper lemmas exited 0.",
+    "handling": "S5 preserves the strict guard and records the actual body NOT_RUN; it does not weaken the check or claim to resolve the blocker."
+  },
+  "remaining_limits": [
+    "This review is static/preflight approval for the dependency-only S5 candidate. No compiler, exporter, verifier, extraction, or build was run by this reviewer.",
+    "Successful helper checks, if observed in Cloud, would not establish the actual callback's source-address binding or the full sort4 body.",
+    "The strict lifetime-entry inference blocker remains unresolved; no actual-body run, full theorem, caller-transfer qualification, ZST/open-array qualification, sortedness/stability proof, or complete matrix is claimed."
+  ],
+  "proof_credit": false,
+  "profile_accepted": false,
+  "verification_accepted": false
+}

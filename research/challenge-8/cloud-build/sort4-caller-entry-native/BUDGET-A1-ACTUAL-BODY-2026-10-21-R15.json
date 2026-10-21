@@ -2,7 +2,7 @@
   "schema": "smallsort-cloud-phase-account-v1",
   "phase": "SORT4-ACTUAL-BODY-2026-10-21-R15",
   "owner": "select-sort4",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "authorization": "CURRENT-TASK Select-R15 explicitly authorizes fresh3600 Cloudseconds; 120min main +30min finishing, existing coordinator/lane; no carry",
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
@@ -11,8 +11,8 @@
   "main_deadline_utc": "2026-10-21T16:54:00Z",
   "deadline_utc": "2026-10-21T17:24:00Z",
   "ceiling_build_seconds": 3600,
-  "remaining_build_seconds": 1790,
-  "used_build_seconds": 1810,
+  "remaining_build_seconds": 1345,
+  "used_build_seconds": 2255,
   "carry_forward_seconds": 0,
   "maximum_build_timeout_seconds": 1200,
   "maximum_builds": null,
@@ -105,6 +105,31 @@
       "build_seconds": 475,
       "accounted": true,
       "execution_seconds": 474
+    },
+    {
+      "dispatch_token": "dispatch-e407810b2fa4432f9d68b773f9b402e1",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-ACTUAL-BODY-2026-10-21-R15",
+      "infra_sha": "81226dafedd2e8d1dfb140ab0e4dd88556bfd7db",
+      "proof_sha": "81226dafedd2e8d1dfb140ab0e4dd88556bfd7db",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "ac516145ce9dbb4e9c016d3f7e2ac3c0124c2fcd4f9ae646e1a1a8210e773ef9",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "353ab7c6c1a6723c7dd42e70ae0229e57b12e2ba6f69d34217f91a4cdf37d6cc",
+      "build_id": "8d07c434-daff-412c-a214-0e91a521fec2",
+      "start_time": "2026-10-21T16:49:25.378676490Z",
+      "finish_time": "2026-10-21T16:56:48.858775Z",
+      "create_time": "2026-10-21T16:49:24.476031179Z",
+      "build_seconds": 445,
+      "accounted": true,
+      "execution_seconds": 444
     }
-  ]
+  ],
+  "closed_utc": "2026-10-21T17:03:49.841016Z",
+  "unused_retired_seconds": 1345,
+  "closure_reason": "Main window ended16:54; S5 started before main and finished/accounted in finishing window. All5 Builds terminal/accounted, own active/unresolved/request/reservation0. Actualbody remains blocked by strict lifetime entry outer-type inference; source-reported resource/permutation dependencies checked without final qualification. Unused1345 seconds retired, carry0; no new Build/retry/hypothesis after main."
 }

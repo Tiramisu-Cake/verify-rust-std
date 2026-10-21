@@ -1,0 +1,46 @@
+{
+  "archive_sha256": "0f165eba4a708586c9c7defcc386028fcf824b9ffeefa66b8bc3b47b9623c42f",
+  "build_id": "980fbc61-2d4c-43f3-9cac-c68db0b34c63",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 0,
+    "end_exclusive": 419928,
+    "requested_position": 419672,
+    "source_units": 420069,
+    "start": 419416,
+    "unicode_end_exclusive": 419928,
+    "unicode_start": 419416,
+    "unit": "utf8-byte",
+    "utf8_byte_end_exclusive": 419928,
+    "utf8_byte_start": 419416
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "dfd758c4feca3c8660dc777a0fb7e49058e6b087b3bb719a2aa0ae8c49cb634e",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/selector-wrong-minimum-negative/stage/body-verification.log",
+  "file_sha256": "a467b69811c7de4ce135fc1bb7678701f1f37291159e8a0b5ef0b0fa8023bcab",
+  "index_sha256": "7be9bdbe8ae47cf524f48b1c9c33aaf03d31349a961159606619b5d9e36b4ca1",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "LOSSLESS_UTF8_TEXT_JSON_ESCAPED",
+  "request": {
+    "expected_sha256": "a467b69811c7de4ce135fc1bb7678701f1f37291159e8a0b5ef0b0fa8023bcab",
+    "file_id": "dfd758c4feca3c8660dc777a0fb7e49058e6b087b3bb719a2aa0ae8c49cb634e",
+    "position": 419672,
+    "unit": "utf8-byte"
+  },
+  "request_id": "4ab9f6af5f2296be0c081e859af306f372618bcc3fcdce4cf6f805588b7f418d",
+  "results": [
+    {
+      "exact": true,
+      "text": "g splitting\n  0.159505s:           Exiting splitting\n  0.159511s:         Exiting splitting\n  0.159518s:       Exiting splitting\n  0.159523s:     Exiting splitting\n  0.159530s:   Exiting splitting\n  0.159536s: Exiting Redux.query\nverified/lib.rs(276,17-19): error: Assertion might not hold. (Cannot prove imin = 4.)\n276 |     assert imin == 4;\n    |                 ^^\nverified/lib.rs(276,5-11): note: Executing statement\n276 |     assert imin == 4;\n    |     ^^^^^^\nverified/lib.rs(254,5-41): note: Verifying fu",
+      "utf8_hex": "672073706c697474696e670a2020302e313539353035733a202020202020202020202045786974696e672073706c697474696e670a2020302e313539353131733a20202020202020202045786974696e672073706c697474696e670a2020302e313539353138733a2020202020202045786974696e672073706c697474696e670a2020302e313539353233733a202020202045786974696e672073706c697474696e670a2020302e313539353330733a20202045786974696e672073706c697474696e670a2020302e313539353336733a2045786974696e672052656475782e71756572790a76657269666965642f6c69622e7273283237362c31372d3139293a206572726f723a20417373657274696f6e206d69676874206e6f7420686f6c642e202843616e6e6f742070726f766520696d696e203d20342e290a323736207c202020202061737365727420696d696e203d3d20343b0a202020207c20202020202020202020202020202020205e5e0a76657269666965642f6c69622e7273283237362c352d3131293a206e6f74653a20457865637574696e672073746174656d656e740a323736207c202020202061737365727420696d696e203d3d20343b0a202020207c20202020205e5e5e5e5e5e0a76657269666965642f6c69622e7273283235342c352d3431293a206e6f74653a20566572696679696e67206675"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

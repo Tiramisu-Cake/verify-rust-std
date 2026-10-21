@@ -1,0 +1,46 @@
+{
+  "archive_sha256": "0f165eba4a708586c9c7defcc386028fcf824b9ffeefa66b8bc3b47b9623c42f",
+  "build_id": "980fbc61-2d4c-43f3-9cac-c68db0b34c63",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 0,
+    "end_exclusive": 87564,
+    "requested_position": 87308,
+    "source_units": 87981,
+    "start": 87052,
+    "unicode_end_exclusive": 87564,
+    "unicode_start": 87052,
+    "unit": "utf8-byte",
+    "utf8_byte_end_exclusive": 87564,
+    "utf8_byte_start": 87052
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "b573015b0e98478dfbade9893fc925b825606e4fa1d5d13551908f5256bd47d3",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/missing-fourth-end-token-negative/stage/body-verification.log",
+  "file_sha256": "ddcce95aa5f669c98d7ae8da8d7e7ce17f3db89fccb050993b286015b38901ee",
+  "index_sha256": "7be9bdbe8ae47cf524f48b1c9c33aaf03d31349a961159606619b5d9e36b4ca1",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "LOSSLESS_UTF8_TEXT_JSON_ESCAPED",
+  "request": {
+    "expected_sha256": "ddcce95aa5f669c98d7ae8da8d7e7ce17f3db89fccb050993b286015b38901ee",
+    "file_id": "b573015b0e98478dfbade9893fc925b825606e4fa1d5d13551908f5256bd47d3",
+    "position": 87308,
+    "unit": "utf8-byte"
+  },
+  "request_id": "2f099cffd94cc9fcd03bd17b95984c0433254469bec2cae0673b8a4c87f06458",
+  "results": [
+    {
+      "exact": true,
+      "text": "ux.query\n  0.159236s: verified/lib.rs(62,5-21): Consuming assertion\n  0.159252s: Redux: Axiom ptr_add_ triggered\n  0.159311s: Consuming chunk borrow_end_token(k, @(@(full_borrow_content(T_typeid), t), ptr_add_(right, 3, T_typeid)))\nverified/lib.rs(62,5-21): error: No matching heap chunks: borrow_end_token(k, @(@(full_borrow_content(T_typeid), t), ptr_add_(right, 3, T_typeid)))\n62 |     borrow_end_token(k, <T>.full_borrow_content(t, right + 3));\n   |     ^^^^^^^^^^^^^^^^\nverified/lib.rs(62,5-21): note: Consu",
+      "utf8_hex": "75782e71756572790a2020302e313539323336733a2076657269666965642f6c69622e72732836322c352d3231293a20436f6e73756d696e6720617373657274696f6e0a2020302e313539323532733a2052656475783a204178696f6d207074725f6164645f207472696767657265640a2020302e313539333131733a20436f6e73756d696e67206368756e6b20626f72726f775f656e645f746f6b656e286b2c204028402866756c6c5f626f72726f775f636f6e74656e7428545f747970656964292c2074292c207074725f6164645f2872696768742c20332c20545f7479706569642929290a76657269666965642f6c69622e72732836322c352d3231293a206572726f723a204e6f206d61746368696e672068656170206368756e6b733a20626f72726f775f656e645f746f6b656e286b2c204028402866756c6c5f626f72726f775f636f6e74656e7428545f747970656964292c2074292c207074725f6164645f2872696768742c20332c20545f7479706569642929290a3632207c2020202020626f72726f775f656e645f746f6b656e286b2c203c543e2e66756c6c5f626f72726f775f636f6e74656e7428742c207269676874202b203329293b0a2020207c20202020205e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e0a76657269666965642f6c69622e72732836322c352d3231293a206e6f74653a20436f6e7375"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

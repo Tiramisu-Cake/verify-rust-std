@@ -1,0 +1,310 @@
+{
+  "build": {
+    "dispatch_token": "dispatch-e407810b2fa4432f9d68b773f9b402e1",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-ACTUAL-BODY-2026-10-21-R15",
+    "infra_sha": "81226dafedd2e8d1dfb140ab0e4dd88556bfd7db",
+    "proof_sha": "81226dafedd2e8d1dfb140ab0e4dd88556bfd7db",
+    "lane": "o26-sort4-c1-current-recovery",
+    "submitted_config_sha256": "ac516145ce9dbb4e9c016d3f7e2ac3c0124c2fcd4f9ae646e1a1a8210e773ef9",
+    "reserved_seconds": 1260,
+    "timeout_seconds": 1200,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "353ab7c6c1a6723c7dd42e70ae0229e57b12e2ba6f69d34217f91a4cdf37d6cc",
+    "build_id": "8d07c434-daff-412c-a214-0e91a521fec2",
+    "start_time": "2026-10-21T16:49:25.378676490Z",
+    "finish_time": "2026-10-21T16:56:48.858775Z",
+    "create_time": "2026-10-21T16:49:24.476031179Z",
+    "build_seconds": 445,
+    "accounted": true,
+    "execution_seconds": 444
+  },
+  "type": "S5 independent generic base4 resource recovery dependency",
+  "brief_integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "archive_sha256": "bb4b8da80005318f6c24fdde95572000ac537a4daab0cb49cdec4d163e99043f",
+  "index_sha256": "286f989bf934172a20da257109ae27f3e5acf2ec9e4fb5b76658900e8f453b13",
+  "observations": {
+    "join": {
+      "file_id": "74a56cdc934cc02c3e28c4d91efe5b5a2b4f146ae59b4c2a571df6115dd24540",
+      "file_sha256": "e777c36be08ca280367ff4a5def32458729a8f91f766bb187e584f82da2906b0",
+      "index_sha256": "286f989bf934172a20da257109ae27f3e5acf2ec9e4fb5b76658900e8f453b13",
+      "archive_sha256": "bb4b8da80005318f6c24fdde95572000ac537a4daab0cb49cdec4d163e99043f",
+      "request_id": "6beb96b2d4d42b99c46f54eb5c78d9c95731581860be7e9a8afadcc0c965d0e0",
+      "exact": true,
+      "complete": true,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "source_fields": [
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/ast_sha256",
+          "value": "d7ef37a2ea48531196bc6db67b95228404557a8cf153d13ed653171b5ecde731"
+        },
+        {
+          "exact": true,
+          "kind": "number",
+          "pointer": "/observed_exit",
+          "value": 0
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/passed",
+          "value": true
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/proof_credit",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/source_pair_immutable",
+          "value": true
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/status",
+          "value": "SOURCE_REPORTED_BODY_CHECKED_UNQUALIFIED"
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/summary_eligible",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/tool_immutable",
+          "value": true
+        }
+      ]
+    },
+    "recover": {
+      "file_id": "87ce2d5649c08cc366f1c2f81acce277d2cd912f836a47af1dcc13889d28b79d",
+      "file_sha256": "bfc2f6cd05a139cf1cff3b67bd51206918df6d6f86e79e0e2ad01d57abf25497",
+      "index_sha256": "286f989bf934172a20da257109ae27f3e5acf2ec9e4fb5b76658900e8f453b13",
+      "archive_sha256": "bb4b8da80005318f6c24fdde95572000ac537a4daab0cb49cdec4d163e99043f",
+      "request_id": "6ecf353b2d06b4a7b45e3942e4752e57ca8ea58232bb2c6de8ccbf8b7c794be9",
+      "exact": true,
+      "complete": true,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "source_fields": [
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/ast_sha256",
+          "value": "d7ef37a2ea48531196bc6db67b95228404557a8cf153d13ed653171b5ecde731"
+        },
+        {
+          "exact": true,
+          "kind": "number",
+          "pointer": "/observed_exit",
+          "value": 0
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/passed",
+          "value": true
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/proof_credit",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/source_pair_immutable",
+          "value": true
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/status",
+          "value": "SOURCE_REPORTED_BODY_CHECKED_UNQUALIFIED"
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/summary_eligible",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/tool_immutable",
+          "value": true
+        }
+      ]
+    },
+    "negative": {
+      "file_id": "0cd389dd8110583bd6718bdf18f69b7df128e95c993491d5dfec6cebfc9e6d6c",
+      "file_sha256": "ccca94a4c5d0632b515c522efba843cc3b6e7f48cbc329f5d8972a883f7c02b0",
+      "index_sha256": "286f989bf934172a20da257109ae27f3e5acf2ec9e4fb5b76658900e8f453b13",
+      "archive_sha256": "bb4b8da80005318f6c24fdde95572000ac537a4daab0cb49cdec4d163e99043f",
+      "request_id": "2556626d54e745e9439d31ec6583f8e80158d4167a5ba75516f5ebddd6bcd450",
+      "exact": true,
+      "complete": true,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "source_fields": [
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/ast_sha256",
+          "value": "d7ef37a2ea48531196bc6db67b95228404557a8cf153d13ed653171b5ecde731"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/expected_control",
+          "value": "generic-four-recover_four_missing_fourth_end_token_negative-negative"
+        },
+        {
+          "exact": true,
+          "kind": "number",
+          "pointer": "/observed_exit",
+          "value": 1
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/passed",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/proof_credit",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/source_pair_immutable",
+          "value": true
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/status",
+          "value": "RESOURCE_CONTROL_OBSERVED_UNCLASSIFIED"
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/summary_eligible",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/tool_immutable",
+          "value": true
+        }
+      ]
+    },
+    "body-target": {
+      "file_id": "69392933f18fd828297d1865595841a0fcc6e7e7c2b475b4b129572dc5aade3d",
+      "file_sha256": "d124f7415a4eca122177c196a3cc8a42f46c6bd758664aaebc4b47110b37b45a",
+      "index_sha256": "286f989bf934172a20da257109ae27f3e5acf2ec9e4fb5b76658900e8f453b13",
+      "archive_sha256": "bb4b8da80005318f6c24fdde95572000ac537a4daab0cb49cdec4d163e99043f",
+      "request_id": "53c13efc05cbc9b170aab40924f228c47a4136ee97c1a6d2a0f59fca66c30565",
+      "exact": true,
+      "complete": true,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "source_fields": [
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/body_target/prior_observation_build_id",
+          "value": "980fbc61-2d4c-43f3-9cac-c68db0b34c63"
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/body_target/proof_credit",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/body_target/reason",
+          "value": "S4 strict lifetime entry outer-type inference boundary unchanged; verify generic base4 recovery needed for c2-c5 independently"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/body_target/status",
+          "value": "NOT_RUN"
+        }
+      ]
+    },
+    "mini7": {
+      "file_id": "69392933f18fd828297d1865595841a0fcc6e7e7c2b475b4b129572dc5aade3d",
+      "file_sha256": "d124f7415a4eca122177c196a3cc8a42f46c6bd758664aaebc4b47110b37b45a",
+      "index_sha256": "286f989bf934172a20da257109ae27f3e5acf2ec9e4fb5b76658900e8f453b13",
+      "archive_sha256": "bb4b8da80005318f6c24fdde95572000ac537a4daab0cb49cdec4d163e99043f",
+      "request_id": "0e5681b360b2fbce5274bbd0cc6133107e4cb17e54c8d35142e10b77a299cf0b",
+      "exact": true,
+      "complete": true,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "source_fields": [
+        {
+          "exact": true,
+          "pointer": "/reference_own_probe/passed",
+          "value": true
+        }
+      ]
+    },
+    "scientific-completion": {
+      "file_id": "69392933f18fd828297d1865595841a0fcc6e7e7c2b475b4b129572dc5aade3d",
+      "file_sha256": "d124f7415a4eca122177c196a3cc8a42f46c6bd758664aaebc4b47110b37b45a",
+      "index_sha256": "286f989bf934172a20da257109ae27f3e5acf2ec9e4fb5b76658900e8f453b13",
+      "archive_sha256": "bb4b8da80005318f6c24fdde95572000ac537a4daab0cb49cdec4d163e99043f",
+      "request_id": "e5880c60f51cc7aa391dc73969f63e2a1f104f74543492c1ac3339c9b6e8417c",
+      "exact": true,
+      "complete": true,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "source_fields": [
+        {
+          "exact": true,
+          "pointer": "/evidence_complete",
+          "value": false
+        }
+      ]
+    }
+  },
+  "negative": {
+    "classification": "OBSERVED_INTENDED_REFUSAL_UNQUALIFIED",
+    "location": "verified/lib.rs55,5-21",
+    "predicate": "borrow_end_token(k, full_borrow_content(T,t,base+3))",
+    "file_id": "1a18b82e2fcf2b6cd4a8b284c6db4525bdeba454f768fe4f9de4ee67a5c90336",
+    "file_sha256": "98356f9c7703dbcb3ea5165b3ac4c7b11c6a5e9fd7ecc966fb123118358585ab",
+    "index_sha256": "286f989bf934172a20da257109ae27f3e5acf2ec9e4fb5b76658900e8f453b13",
+    "archive_sha256": "bb4b8da80005318f6c24fdde95572000ac537a4daab0cb49cdec4d163e99043f",
+    "request_id": "f8554d349942a5975effc891a778e03e6d08f8593ac220a48391203b922362de",
+    "exact": true,
+    "complete": false,
+    "parser_input_binding": "NOT_ESTABLISHED"
+  },
+  "scope": "assumed established generic callback_four_debt and half lifetime token; current base4 owner recovery only; no actual callback/source binding",
+  "actual_body": "explicit NOT_RUN, S4 strict entry inference boundary unchanged",
+  "proof_credit": false,
+  "accepted": false,
+  "profile_accepted": false,
+  "actual_body_obligations_closed": 0,
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "scientific_evidence_complete": false,
+  "upper_packaging_evidence_complete": true
+}
