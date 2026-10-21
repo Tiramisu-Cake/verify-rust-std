@@ -1,5 +1,5 @@
 {
-  "active_build": null,
+  "active_build": "b5a50b69-3fc1-4763-a2c8-25f01cf42710",
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
   ],
@@ -26,6 +26,47 @@
       "build_seconds": 467,
       "accounted": true,
       "execution_seconds": 466
+    },
+    {
+      "dispatch_token": "dispatch-c794598d529842ca88990eb8036393b7",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13",
+      "infra_sha": "59bcb806cdf3523f06f53bedc1c6830ba6c5aaa7",
+      "proof_sha": "59bcb806cdf3523f06f53bedc1c6830ba6c5aaa7",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "2aaee5fdcfdeaf5d7735adbe4997bd46ac0d3e69ee23f47ceb376ced4bfc321e",
+      "reserved_seconds": 1160,
+      "timeout_seconds": 1100,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "50a541940baaa766438ba583939704fbfaa97fa600085253d0ec04bf5ce169e0",
+      "build_id": "854632fd-0419-4cca-aa96-2f15c47612c7",
+      "start_time": "2026-10-21T10:22:46.652425637Z",
+      "finish_time": "2026-10-21T10:30:09.414275Z",
+      "create_time": "2026-10-21T10:22:45.859276637Z",
+      "build_seconds": 444,
+      "accounted": true,
+      "execution_seconds": 443
+    },
+    {
+      "dispatch_token": "dispatch-7e7a499b0f314d71b5f37caca96dfcac",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13",
+      "infra_sha": "f0be40162fd4cad17d6973be7a46a5bf8617290b",
+      "proof_sha": "f0be40162fd4cad17d6973be7a46a5bf8617290b",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "90852d315ee30c35172298ee8dae5458242831dabacce637351446eac0d1e8c0",
+      "reserved_seconds": 1160,
+      "timeout_seconds": 1100,
+      "status": "WORKING",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "1cbeff6fa6c98606c1e716c6181347318234a313ab931c9fb6cc81eafc987ab6",
+      "build_id": "b5a50b69-3fc1-4763-a2c8-25f01cf42710",
+      "start_time": "2026-10-21T10:44:42.247652179Z",
+      "finish_time": null,
+      "create_time": "2026-10-21T10:44:41.453823676Z"
     }
   ],
   "carry_forward_seconds": 0,
@@ -36,9 +77,9 @@
   "maximum_builds": null,
   "owner": "select-sort4",
   "phase": "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13",
-  "remaining_build_seconds": 3133,
+  "remaining_build_seconds": 2689,
   "schema": "smallsort-cloud-phase-account-v1",
   "start_utc": "2026-10-21T09:26:36Z",
   "status": "AUTHORIZED",
-  "used_build_seconds": 467
+  "used_build_seconds": 911
 }

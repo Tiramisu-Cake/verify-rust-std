@@ -1,0 +1,40 @@
+{
+  "schema": "select-r13-release-v1",
+  "phase": "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13",
+  "status": "ACTIVE_S3_IMMUTABLE_INPUTS",
+  "source_candidate": "f0be40162fd4cad17d6973be7a46a5bf8617290b",
+  "profile_sha256": "414bcbd611310f5f34f63f4ca37408b675957fcb567603f92af061bac189d480",
+  "tool_base": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "effective_tool_patch_chain": "A1-REFERENCE-OWN-R13-PROFILE-2026-10-21.json; preserve all R/C/native/focus patches plus shared-reference normalization",
+  "normalization": {
+    "schema": "a1-shared-reference-own-normalization-v1",
+    "source": "bin/rust/rust_belt/general.rsspec",
+    "base_sha256": "ef2ff16dffd472bbc5fd7fa17e7f13a03d83919520da5ce7e2d7095194790d1d",
+    "result_sha256": "d24d3bc884b40b57ba4a6ff7ed20753a6f8a6bfffc2937558ca87d40c9d28620",
+    "patch_sha256": "a91484d3c556c84d6f89f95b8cccb07505edd249c1747a8523d7d6838b714e47",
+    "representation": "persistent-pointee-share",
+    "shared_only": true,
+    "new_axiom_or_assumed_lemma": false,
+    "proof_credit": false
+  },
+  "reviews": [
+    "A1-R13-SEMANTIC-PROBE-REVIEW-2026-10-21.md",
+    "A1-R13-DISPATCH-REVIEW-2026-10-21.md",
+    "A1-R13-REGISTRATION-REVIEW-2026-10-21.md",
+    "A1-R13-S2-REVIEW-2026-10-21.md",
+    "A1-R13-S3-PAIR-REVIEW-2026-10-21.md",
+    "A1-R13-S3-ENTRY-REVIEW-2026-10-21.md",
+    "A1-R13-FALSE31-REPORTING-REVIEW-2026-10-21.md"
+  ],
+  "evidence": [
+    "A1-REFERENCE-OWN-R13-S1-EVIDENCE-2026-10-21.json",
+    "A1-REFERENCE-OWN-R13-S2-EVIDENCE-2026-10-21.json"
+  ],
+  "active_build": "b5a50b69-3fc1-4763-a2c8-25f01cf42710",
+  "formal_target_gates_closed": 0,
+  "independent_B1_credit": 0,
+  "independent_B2_credit": 0,
+  "matrix_admission": false,
+  "profile_accepted": false,
+  "download_verified": false
+}

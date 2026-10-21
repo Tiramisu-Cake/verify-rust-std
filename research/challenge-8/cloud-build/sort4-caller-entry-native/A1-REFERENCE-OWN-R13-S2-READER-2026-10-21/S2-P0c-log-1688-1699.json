@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "3f96664086d00e7763712c0729e36671d8913c765540f01449d17e448c02c055",
+  "build_id": "854632fd-0419-4cca-aa96-2f15c47612c7",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 1699,
+    "line_separator": "LF",
+    "source_lines": 1965,
+    "start": 1688,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "edc4344315735b949d8cc08c7b2987a02755370189b812d0b03a29e1b2dffd15",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0c/verification.log",
+  "file_sha256": "cf8038f2f136cbd5699bc4c6c08e5043553e985aca3a9e3e2b2e507c92a2f0d9",
+  "index_sha256": "2ee5ce0f742616321f8946eb444884cd703e9cbce7b355d3a7b00e3f407c27ee",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 1699,
+    "expected_sha256": "cf8038f2f136cbd5699bc4c6c08e5043553e985aca3a9e3e2b2e507c92a2f0d9",
+    "file_id": "edc4344315735b949d8cc08c7b2987a02755370189b812d0b03a29e1b2dffd15",
+    "start": 1688
+  },
+  "request_id": "8653c356d58ec2a92391f6bd23dab6bdc5b94736a2faa92ff33b15825a72f875",
+  "requested_end": 1699,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1688,
+      "text": "  0.160111s: verified/lib.rs(32,8-28): Producing assertion"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1689,
+      "text": "  0.160125s: Entering Redux.assert_term(0 <= __result && __result <= 18446744073709551615)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1690,
+      "text": "  0.160133s:   Entering Redux.assume_with_implications(0 <= __result && __result <= 18446744073709551615)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1691,
+      "text": "  0.160144s:   Exiting Redux.assume_with_implications"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1692,
+      "text": "  0.160157s: Exiting Redux.assert_term: 0.000025 seconds"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1693,
+      "text": "  0.160170s: Entering Redux.assume(outcome0 = returning(__result))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1694,
+      "text": "  0.160176s:   Entering Redux.assume_with_implications(outcome0 = returning(__result))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1695,
+      "text": "  0.160182s:   Exiting Redux.assume_with_implications"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1696,
+      "text": "  0.160188s: Exiting Redux.assume: 0.000011 seconds"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1697,
+      "text": "  0.160200s: Entering Redux.assume(outcome0 = unwinding)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1698,
+      "text": "  0.160206s:   Entering Redux.assume_with_implications(outcome0 = unwinding)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1699,
+      "text": "  0.160211s:   Exiting Redux.assume_with_implications"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

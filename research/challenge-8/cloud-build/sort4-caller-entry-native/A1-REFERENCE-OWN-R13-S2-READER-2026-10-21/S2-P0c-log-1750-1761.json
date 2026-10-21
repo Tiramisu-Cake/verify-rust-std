@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "3f96664086d00e7763712c0729e36671d8913c765540f01449d17e448c02c055",
+  "build_id": "854632fd-0419-4cca-aa96-2f15c47612c7",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 1761,
+    "line_separator": "LF",
+    "source_lines": 1965,
+    "start": 1750,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "edc4344315735b949d8cc08c7b2987a02755370189b812d0b03a29e1b2dffd15",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/focus/P0c/verification.log",
+  "file_sha256": "cf8038f2f136cbd5699bc4c6c08e5043553e985aca3a9e3e2b2e507c92a2f0d9",
+  "index_sha256": "2ee5ce0f742616321f8946eb444884cd703e9cbce7b355d3a7b00e3f407c27ee",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 1761,
+    "expected_sha256": "cf8038f2f136cbd5699bc4c6c08e5043553e985aca3a9e3e2b2e507c92a2f0d9",
+    "file_id": "edc4344315735b949d8cc08c7b2987a02755370189b812d0b03a29e1b2dffd15",
+    "start": 1750
+  },
+  "request_id": "e1cc9e114f206fe2cb1315a76837023eabf3770e1779ccd13286facb19ba4817",
+  "requested_end": 1761,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1750,
+      "text": "  0.160615s:   Exiting Redux.assume_with_implications"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1751,
+      "text": "  0.160620s: Exiting Redux.query"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1752,
+      "text": "  0.160636s: Entering Redux.query(lft_of('__72_typeid) = lft_of('__72_typeid))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1753,
+      "text": "  0.160642s:   Entering Redux.assume_with_implications(!(lft_of('__72_typeid) = lft_of('__72_typeid)))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1754,
+      "text": "  0.160647s:   Exiting Redux.assume_with_implications"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1755,
+      "text": "  0.160657s: Exiting Redux.query"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1756,
+      "text": "  0.160663s: verified/lib.rs(132,1-138,2): Consuming assertion"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1757,
+      "text": "  0.160684s: Consuming chunk [_q___73]lifetime_token(lft_of('__73_typeid))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1758,
+      "text": "  0.160689s: Entering Redux.query(lifetime_token = own(F_typeid))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1759,
+      "text": "  0.160695s:   Entering Redux.assume_with_implications(!(lifetime_token = own(F_typeid)))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1760,
+      "text": "  0.160700s:   Exiting Redux.assume_with_implications"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1761,
+      "text": "  0.160713s: Exiting Redux.query"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}
