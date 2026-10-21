@@ -1,9 +1,8 @@
-> **Локальное исправление evidence staging, 2026-10-21:** общий `_tool_tree`
-> больше не помещает symlink рабочего дерева в evidence. Оба известных случая
-> прошли реальную локальную упаковку; 7 новых service tests PASS, review GO.
-> [Изменение и проверки](cloud-build/origin-layout/TOOL-EVIDENCE-STAGING-20261021.md).
-> Владелец разрешил один повтор Build после исправления; оформляется отдельный счёт.
-> Прежние proof-результаты и закрытый бюджет R11 сохранены.
+> **Итог повтора, 2026-10-21:** Build `484a4382-ea4f-4e1f-b5e4-363de2c61927`
+> завершён FAILURE; Brief и каталог возвращают HTTP404, текущие proof/controls UNKNOWN.
+> Счёт повтора CLOSED: **790charged/790execution/270retired/remaining0/carryfalse**.
+> [Отчёт ниже](#отчёт-агента) · [Точный результат](cloud-build/origin-layout/R11-RETRY-RESULT-20261021.json).
+> Предыдущий R11 счёт и его T0/inputs/результаты сохранены.
 
 # Merge-R11 — label invariant и annotation temporary
 
@@ -68,21 +67,22 @@ VPS — Git/hashes/static parsing и малые isolated synthetic service tests
 **R11 CLOSED_PARTIAL_EVIDENCE_PENDING.** T0/main/absolute2026-10-21 06:14:39/08:14:39/08:44:39UTC;
 account closed08:21:05UTC; только finishing, новых Builds/гипотез послеmain нет.
 
-| Build | Candidate / result | charged / execution |
-| --- | --- | --- |
-| [1 acba1b21](cloud-build/origin-layout/R11-BUILD1-RESULT-20261021.json) | source5fdfaa63/tool a3a22f98; compile7exit0, StorageDead276 отказ | 694 /694 |
-| [2 92795836](cloud-build/origin-layout/R11-BUILD2-RESULT-20261021.json) | sourcefc0e2c01/toolab4f72b8; overlay setup отказ | 89 /88 |
-| [3 fa3a26ec](cloud-build/origin-layout/R11-BUILD3-RESULT-20261021.json) | source5a93a90c/toolab4f72b8; translator compile type error | 421 /420 |
-| [4 25877672](cloud-build/origin-layout/R11-BUILD4-RESULT-20261021.json) | sourcef654e29c/tool5c806717; compile7exit0, frontend AST compare fatal | 670 /669 |
-| [5 feb5c44b](cloud-build/origin-layout/R11-BUILD5-RESULT-20261021.json) | source1df9b809/tool660b576b; compile7exit0, checkedDead перед invariant, iterationprep301 points_to_limits/dummy30none отказ | 610 /609 |
-| [6 fbe79012](cloud-build/origin-layout/R11-BUILD6-RESULT-20261021.json) | source0ab7fcab/tool660b576b expected; terminalFAILURE, UNKNOWN: Brief/catalogue HTTP404 | 540 /539 |
+| Build | Тип | Candidate / result | charged / execution |
+| --- | --- | --- | --- |
+| [1 acba1b21](cloud-build/origin-layout/R11-BUILD1-RESULT-20261021.json) | mixed | source5fdfaa63/tool a3a22f98; compile7exit0, StorageDead276 отказ | 694 /694 |
+| [2 92795836](cloud-build/origin-layout/R11-BUILD2-RESULT-20261021.json) | setup | sourcefc0e2c01/toolab4f72b8; overlay setup отказ | 89 /88 |
+| [3 fa3a26ec](cloud-build/origin-layout/R11-BUILD3-RESULT-20261021.json) | setup/compile | source5a93a90c/toolab4f72b8; translator compile type error | 421 /420 |
+| [4 25877672](cloud-build/origin-layout/R11-BUILD4-RESULT-20261021.json) | mixed | sourcef654e29c/tool5c806717; compile7exit0, frontend AST compare fatal | 670 /669 |
+| [5 feb5c44b](cloud-build/origin-layout/R11-BUILD5-RESULT-20261021.json) | proof/runner | source1df9b809/tool660b576b; compile7exit0, checkedDead перед invariant, iterationprep301 points_to_limits/dummy30none отказ | 610 /609 |
+| [6 fbe79012](cloud-build/origin-layout/R11-BUILD6-RESULT-20261021.json) | fixture/runner | source0ab7fcab/tool660b576b expected; terminalFAILURE, UNKNOWN: Brief/catalogue HTTP404 | 540 /539 |
+| [Повтор 484a4382](cloud-build/origin-layout/R11-RETRY-RESULT-20261021.json) | fixture/runner | source0c1d0d78/tool660b576b expected; FAILURE, Brief/catalogue HTTP404, proof/controls UNKNOWN | 790 /790 (отдельный счёт) |
 
 **3024charged /3019execution /576retired /remaining0 /carryfalse.**
 Все6terminal/accounted; ownactive/unresolved/requests/reservations0 под coordinator lock.
 Observed cold complete target610/670/694sec; final timeout1000/envelope1060
 помещался в1116remaining и absolute. Account retirement не расход/proof credit.
 
-Последний submittedsource `0ab7fcab89c6a8721bcc8279cc3cdbd6634c45dd`,
+В исходной сессии R11 последний submittedsource `0ab7fcab89c6a8721bcc8279cc3cdbd6634c45dd`,
 Build `fbe79012-dd88-4a7f-b65b-9dcac32a4557`, tool `660b576b6b1608db913c51e0785b443a8733396f`.
 R11-only checked initialized-value invariant и exactcall/top-levelid controls
 прошли LunaHIGH review/static/synthetic; это отдельно от verifier acceptance.
@@ -111,12 +111,38 @@ FileNotFoundError и Brief HTTP404 были последствиями. Это o
 реальная локальная упаковка и полный static source/patch/pin/recipe preflight PASS.
 Перед dispatch оба SHA будут привязаны к одному опубликованному reviewed commit
 в новом live ledger под coordinator lock.
-Первый submit source`9b5e0eb6` отклонён до reserve/API: source payload193parts
-при max191 (575045gz/766728base64bytes). Build не создан, расход0. Для повтора
-из runtime recipe исключены только9исторических R10 Markdown docs; в Git они
-сохранены, runtime scripts/proof inputs/pins/patches/matrix неизменны.
-Static source/patch/pin/recipe preflight PASS. Новый reviewed source перед
-отправкой должен пройти локальный payload-fit и получить новую привязку SHA.
+Предварительный submit source`9b5e0eb6` отклонён до reserve/API: source payload193parts
+при max191, Build не создан/расход0. Из runtime recipe исключены только9исторических
+R10 Markdown docs; код/proof inputs/pins/patches/matrix сохранены.
+Published replacement **`0c1d0d7861813bcc48d765eba869d30c2658f1cc`** прошёл
+локальный fit189/191parts, fullstaticpreflight и финальный независимый review GO;
+точные infra/proof SHA закреплены в новом ledger под coordinator lock.
+
+Единственный повтор создан: **`484a4382-ea4f-4e1f-b5e4-363de2c61927`**,
+config `b965d38b24602c60055b460d5b8f2f950298cf2dce57e1daf3c16e732ad88bcf`,
+dispatch `dispatch-096587c3b802439b9e3934664940200a`, timeout1000/envelope1060.
+**FAILURE**, create/start/finish `09:16:44.637500350Z` / `09:16:45.414243065Z` /
+`09:29:54.472588Z`; coordinator accounted **790charged/790execution**.
+Новый счёт закрыт `2026-10-21T09:31:27.233752Z`: **270retired/remaining0/carryfalse**,
+ownactive/unresolved/requests/reservations0; второй Build не разрешён.
+
+Три Brief и каталог `tool-staging.json` вернули `Reader report or query route is
+unavailable (HTTP 404)`; последняя проверка `2026-10-21T09:33:52.364763Z`.
+**Компиляция, конкретная formal attempt, placement controls и Cloud packaging/upload — UNKNOWN.**
+Локальная упаковка обоих известных случаев прошла, но публикация Cloud архива
+этим не установлена. Причину нынешнего FAILURE по HTTP404 не выводим; прежнюю
+owner-reported symlink причину Build6 на повтор автоматически не переносим.
+Новых независимо установленных полных target gates0, acceptedfalse/credit0,
+B2/generic/qualificationOPEN. Raw/log/archive обходов не было.
+
+**Следующий blocker:** получить доступный Brief/каталог этого UUID и связанные
+receipts, затем отделить publication/setup от текущего proof-blocker. Последний
+наблюдённый proof-фронтир остаётся Build5; UNKNOWN повтора не означает NOT_RUN.
+Обслуживание этой части: общий staging, локальные service/error-path checks,
+source transport fit и one-shot registration; новый proof-прирост не установлен.
+Старая main-сессия завершена, разрешённый повтор завершён; report `2026-10-21T09:35:06.815895Z`.
+Wall-clock/ожидание CI не приравнены к активному агентному времени; stage timings
+без Evidence не устанавливаются, reserve/retired headroom не являются расходом.
 Новые proof-гипотезы и семантические изменения в повтор не входят.
 Исходные tmp debt/CURRENT/F/thread/array/R9 returning hook и narrow R8 premise
 сохранены; StorageDead/invariant/resource checks не ослаблены. Address-taking и

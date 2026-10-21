@@ -2,22 +2,45 @@
   "phase": "MERGE-R11-EVIDENCE-RETRY-2026-10-21",
   "owner": "merge",
   "authorization_model": "bounded-cloud-budget",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "allowed_lanes": [
     "merge"
   ],
   "ceiling_build_seconds": 1060,
-  "used_build_seconds": 0,
-  "remaining_build_seconds": 1060,
+  "used_build_seconds": 790,
+  "remaining_build_seconds": 0,
   "max_builds": 1,
   "max_timeout_seconds": 1000,
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-096587c3b802439b9e3934664940200a",
+      "owner": "merge",
+      "phase_id": "MERGE-R11-EVIDENCE-RETRY-2026-10-21",
+      "infra_sha": "0c1d0d7861813bcc48d765eba869d30c2658f1cc",
+      "proof_sha": "0c1d0d7861813bcc48d765eba869d30c2658f1cc",
+      "lane": "merge",
+      "submitted_config_sha256": "b965d38b24602c60055b460d5b8f2f950298cf2dce57e1daf3c16e732ad88bcf",
+      "reserved_seconds": 1060,
+      "timeout_seconds": 1000,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "10a002b9a3ca6e178f2ecb77939a738316c7cf1074916798d900fd05e9d0c03f",
+      "build_id": "484a4382-ea4f-4e1f-b5e4-363de2c61927",
+      "start_time": "2026-10-21T09:16:45.414243065Z",
+      "finish_time": "2026-10-21T09:29:54.472588Z",
+      "create_time": "2026-10-21T09:16:44.637500350Z",
+      "build_seconds": 790,
+      "accounted": true,
+      "execution_seconds": 790
+    }
+  ],
   "active_build": null,
-  "authorized_source_sha": null,
+  "authorized_source_sha": "0c1d0d7861813bcc48d765eba869d30c2658f1cc",
   "start_utc": "2026-10-21T09:02:57Z",
   "main_deadline_utc": "2026-10-21T09:32:57Z",
   "deadline_utc": "2026-10-21T09:47:57Z",
-  "authorization": "User explicitly authorized one retry: «Давай повторим Build. Закончи предыдущую сессию, написав отчет в current-task.md». Fresh owner-authorized infrastructure retry only; no new proof hypothesis, semantic/tool/profile change, second Build, or carryover.",
+  "authorization": "User explicitly authorized one retry: \u00ab\u0414\u0430\u0432\u0430\u0439 \u043f\u043e\u0432\u0442\u043e\u0440\u0438\u043c Build. \u0417\u0430\u043a\u043e\u043d\u0447\u0438 \u043f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0443\u044e \u0441\u0435\u0441\u0441\u0438\u044e, \u043d\u0430\u043f\u0438\u0441\u0430\u0432 \u043e\u0442\u0447\u0435\u0442 \u0432 current-task.md\u00bb. Fresh owner-authorized infrastructure retry only; no new proof hypothesis, semantic/tool/profile change, second Build, or carryover.",
   "prior_session": {
     "ledger": "CURRENT-RECOVERY-R11-BUDGET-20261021.json",
     "status": "CLOSED",
@@ -28,5 +51,25 @@
   "policy_revision": "2026-10-21 explicit one-Build R11 evidence retry / Evidence v0.11",
   "carryover_allowed": false,
   "accepted": false,
-  "independent_credit": 0
+  "independent_credit": 0,
+  "source_authorized_utc": "2026-10-21T09:15:44.441760Z",
+  "superseded_pre_dispatch_sources": [
+    {
+      "source_sha": "9b5e0eb637589ac81aaf22b03b8367f0c6464f4c",
+      "reason": "Pinned source payload exceeds bounded transport; no dispatch",
+      "build_created": false,
+      "reservation_created": false,
+      "charged_seconds": 0
+    }
+  ],
+  "source_payload_fit": {
+    "source_sha": "0c1d0d7861813bcc48d765eba869d30c2658f1cc",
+    "compressed_bytes": 564460,
+    "base64_bytes": 752616,
+    "source_parts": 189,
+    "max_source_parts": 191
+  },
+  "retired_unused_seconds": 270,
+  "closed_utc": "2026-10-21T09:31:27.233752Z",
+  "closure_reason": "The single owner-authorized retry is terminal/accounted; unused fresh headroom retired, no carryover and no second Build."
 }

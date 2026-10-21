@@ -1,10 +1,16 @@
-> **Локальное исправление evidence staging, 2026-10-21:** общий `_tool_tree`
-> больше не помещает symlink рабочего дерева в evidence. Оба известных случая
-> прошли реальную локальную упаковку; 7 новых service tests PASS, review GO.
-> [Изменение и проверки](cloud-build/origin-layout/TOOL-EVIDENCE-STAGING-20261021.md).
-> Владелец разрешил один повтор: fresh1060, timeout1000; новая phase
-> `MERGE-R11-EVIDENCE-RETRY-2026-10-21`, review GO / phase tests7 PASS.
-> Прежние proof-результаты и закрытый бюджет R11 сохранены.
+# R11 и разрешённый повтор закрыты
+
+Повтор Build `484a4382-ea4f-4e1f-b5e4-363de2c61927` / source `0c1d0d78` /
+expected tool `660b576b`: **FAILURE**, 09:16:44..09:29:54UTC.
+Brief3/catalogue1: HTTP404; compile/formal/control/Cloud publication UNKNOWN.
+Fresh account **790charged/790execution/270retired/remaining0/carryfalse**,
+CLOSED09:31:27UTC; ownactive/unresolved/requests/reservations0; no further Build.
+Local general staging/package7 and retry-phase7 service tests PASS, reviewGO.
+Это обслуживание, нового independent proof credit нет; B2/qualificationOPEN.
+[Полный компактный отчёт](CURRENT-TASK.md#отчёт-агента) ·
+[Точные данные повтора](cloud-build/origin-layout/R11-RETRY-RESULT-20261021.json).
+
+Предыдущая сессия R11 и её счёт сохранены:
 
 # Merge-R11 CLOSED_PARTIAL_EVIDENCE_PENDING
 

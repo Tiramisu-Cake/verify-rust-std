@@ -1,0 +1,97 @@
+{
+  "schema": "merge-r11-evidence-retry-result-v1",
+  "status": "CLOSED_FAILURE_EVIDENCE_UNAVAILABLE",
+  "authorization": "Direct owner request for one repeated Build and final CURRENT-TASK report",
+  "phase": "MERGE-R11-EVIDENCE-RETRY-2026-10-21",
+  "owner": "merge",
+  "lane": "merge",
+  "t0_utc": "2026-10-21T09:02:57Z",
+  "main_deadline_utc": "2026-10-21T09:32:57Z",
+  "absolute_deadline_utc": "2026-10-21T09:47:57Z",
+  "account_closed_utc": "2026-10-21T09:31:27.233752Z",
+  "report_utc": "2026-10-21T09:35:06.815895Z",
+  "build": {
+    "dispatch_token": "dispatch-096587c3b802439b9e3934664940200a",
+    "owner": "merge",
+    "phase_id": "MERGE-R11-EVIDENCE-RETRY-2026-10-21",
+    "infra_sha": "0c1d0d7861813bcc48d765eba869d30c2658f1cc",
+    "proof_sha": "0c1d0d7861813bcc48d765eba869d30c2658f1cc",
+    "lane": "merge",
+    "submitted_config_sha256": "b965d38b24602c60055b460d5b8f2f950298cf2dce57e1daf3c16e732ad88bcf",
+    "reserved_seconds": 1060,
+    "timeout_seconds": 1000,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "10a002b9a3ca6e178f2ecb77939a738316c7cf1074916798d900fd05e9d0c03f",
+    "build_id": "484a4382-ea4f-4e1f-b5e4-363de2c61927",
+    "start_time": "2026-10-21T09:16:45.414243065Z",
+    "finish_time": "2026-10-21T09:29:54.472588Z",
+    "create_time": "2026-10-21T09:16:44.637500350Z",
+    "build_seconds": 790,
+    "accounted": true,
+    "execution_seconds": 790
+  },
+  "tool_commit_expected": "660b576b6b1608db913c51e0785b443a8733396f",
+  "profile": "experimental-merge-label-storage-r11-v1",
+  "profile_sha256": "eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375",
+  "purpose_type": "fixture/runner: repeat unchanged R11 proof candidate after reviewed evidence staging repair",
+  "compilation": "UNKNOWN_EVIDENCE_UNAVAILABLE",
+  "formal_attempt": "UNKNOWN_EVIDENCE_UNAVAILABLE; terminal FAILURE does not establish formal rejection or NOT_RUN",
+  "placement_controls": "UNKNOWN_EVIDENCE_UNAVAILABLE",
+  "cloud_packaging_upload": "UNKNOWN_EVIDENCE_UNAVAILABLE; local synthetic packaging passes do not establish Cloud archive publication",
+  "new_independently_established_full_target_gates": 0,
+  "accepted": false,
+  "independent_credit": 0,
+  "qualification": "OPEN",
+  "evidence_interface": {
+    "status": "UNAVAILABLE_HTTP_404",
+    "default_brief_attempts": 3,
+    "catalogue_attempts": 1,
+    "catalogue_query": "tool-staging.json",
+    "last_observation": {
+      "started_utc": "2026-10-21T09:33:49.054240Z",
+      "finished_utc": "2026-10-21T09:33:52.364763Z",
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)\n"
+    },
+    "file_index_archive_identities": null,
+    "raw_fallback": false
+  },
+  "local_validation": {
+    "tool_evidence_staging_service_tests": "7 PASS incl actual synthetic packaging of both known cases",
+    "retry_phase_service_tests": "7 PASS before dispatch; full source/19-patch/overlay/recipe closure PASS",
+    "independent_review": "GPT-6 Luna HIGH GO incl exact published replacement source and unused account pin"
+  },
+  "pre_dispatch_rejection": [
+    {
+      "source_sha": "9b5e0eb637589ac81aaf22b03b8367f0c6464f4c",
+      "reason": "Pinned source payload exceeds bounded transport; no dispatch",
+      "build_created": false,
+      "reservation_created": false,
+      "charged_seconds": 0
+    }
+  ],
+  "payload_fit": {
+    "source_sha": "0c1d0d7861813bcc48d765eba869d30c2658f1cc",
+    "compressed_bytes": 564460,
+    "base64_bytes": 752616,
+    "source_parts": 189,
+    "max_source_parts": 191
+  },
+  "accounting": {
+    "fresh_ceiling_seconds": 1060,
+    "charged_seconds": 790,
+    "execution_seconds": 790,
+    "retired_unused_seconds": 270,
+    "remaining_seconds": 0,
+    "carryover_allowed": false,
+    "own_active": 0,
+    "own_unresolved": 0,
+    "own_requests": 0,
+    "own_reservations": 0,
+    "prior_r11_account": "unchanged CLOSED: 3024 charged / 3019 execution / 576 retired / remaining0"
+  },
+  "next_blocker": "Obtain available Brief/catalogue for this Build before attributing failure, confirming Cloud packaging, or assessing current formal/control results. No further Build authorized."
+}
