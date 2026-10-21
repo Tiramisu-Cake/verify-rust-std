@@ -1,10 +1,10 @@
 # Agent checkpoint: select-actual-lifetime-autonomous-2026-10-21-r16
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-LIFETIME-2026-10-21-R16 | state: ACTIVE
-- Updated: 2026-10-21T19:14:54.187094Z
+- Updated: 2026-10-21T19:27:51.211091Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `de469095ad2ba4435b41bc0f114289cd12f4952f129e88fbcfb655cea6dca505`
 - Session dates: T0 `2026-10-21T17:50:34Z`; main deadline `2026-10-21T19:50:34Z`; absolute deadline `2026-10-21T20:20:34Z`
-- Budget: 3600s total; 1242s spent; 0s retired; 2358s remaining including active reservations
+- Budget: 3600s total; 1696s spent; 0s retired; 1904s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
@@ -21,11 +21,11 @@
 - Broad placeholder/static-lifetime acceptance or helper PASS as full body. — Forbidden shortcuts: retain strict barrier and actual callback/resource binding.; [research/challenge-8/task-history/select-actual-sort4-r15/NEXT-ACTUAL-OBLIGATION.md](task-history/select-actual-sort4-r15/NEXT-ACTUAL-OBLIGATION.md) SHA `ab4f335d7702727836bac3a2a68a4b3564af69773dc0220e96301860a9d3484a`
 
 ## Blocker
-supplemental scope address-exposure checker refuses $_38; exact S1 AST is AddressOf(Deref(Var $_38)) during reborrow_ref; actual body NOT_RUN at checked-lemma prerequisite barrier. (verified/lib.rs:131) [Build `fa548e23-b533-4e27-adce-7a9736e072da`]
-- [research/challenge-8/task-history/select-actual-lifetime-r16/S3-evidence.json](task-history/select-actual-lifetime-r16/S3-evidence.json) SHA `ddff5d3430b49eea4e147fe8bd3e437b5965e3f0f13cf2dd4bf3438d2021114b`
+Actual body now reaches c1; FnOnce Output projection does not reduce to bool while existing narrow HRTB mode is disabled. Full actual normal/unwind remains OPEN. (verified/lib.rs(198,18-89)) [Build `4df683dc-41cb-4e4d-b1ce-d515e8f96b00`]
+- [research/challenge-8/task-history/select-actual-lifetime-r16/S4-evidence.json](task-history/select-actual-lifetime-r16/S4-evidence.json) SHA `c2cb4cf17ba35ed8e0b1eea7bd4a784012f03696f27d6218d6370cf12ac89150`
 
 ## Next
-Review and run S4 exact &*p referent-address recognition, retaining all local-storage escape refusals and kernel checks.
+Enable existing narrow compiler-origin HRTB output projection only for actual source-bound target; paired opt-in-off control, no new equality assumptions.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-actual-sort4-r15/NEXT-ACTUAL-OBLIGATION.md](task-history/select-actual-sort4-r15/NEXT-ACTUAL-OBLIGATION.md) — `ab4f335d7702727836bac3a2a68a4b3564af69773dc0220e96301860a9d3484a`

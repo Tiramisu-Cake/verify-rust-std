@@ -1,0 +1,40 @@
+{
+  "build": {
+    "dispatch_token": "dispatch-578f02e432e34f4da0b30a3fbf9727c1",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-ACTUAL-LIFETIME-2026-10-21-R16",
+    "infra_sha": "02abd3d0bd62d4ecc9addd894f8cf03d41ff03ce",
+    "proof_sha": "02abd3d0bd62d4ecc9addd894f8cf03d41ff03ce",
+    "lane": "o26-sort4-c1-current-recovery",
+    "submitted_config_sha256": "c270a74e82930677abd4b4b93212a6c0a558b15a3e8eb3e3d8f015d784ebd61e",
+    "reserved_seconds": 1260,
+    "timeout_seconds": 1200,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "8c42b8385e5ecc4edf016a3166a5e5222476e86466eaf1ddc291f01bb380beb8",
+    "build_id": "4df683dc-41cb-4e4d-b1ce-d515e8f96b00",
+    "start_time": "2026-10-21T19:16:43.241380384Z",
+    "finish_time": "2026-10-21T19:24:15.681048Z",
+    "create_time": "2026-10-21T19:16:42.418536531Z",
+    "build_seconds": 454,
+    "accounted": true,
+    "execution_seconds": 453
+  },
+  "archive_sha256": "a19fd005a8a28b469bb67f6eaee21106b2b5d7e48f9ce0f33435963ae9af5c9e",
+  "index_sha256": "01648f6be67d2e1977e88095624ce991a703db3d18f651dd72ed03115b035b5c",
+  "integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "body_target": "BODY_PROOF_FAILED",
+  "body_observed_exit": 1,
+  "source_pair_immutable": true,
+  "tool_immutable": true,
+  "failure": {
+    "location": "verified/lib.rs(198,18-89)",
+    "message": "Type mismatch. Actual: <F as std::ops::FnOnce<std_tuple_2_<&'cmp T, &'cmp T>>>::Output. Expected: bool."
+  },
+  "setup_progress": "Scope relocation complete-body checks passed; target entered real c1 callback path. This does not close a complete actual normal/unwind obligation.",
+  "closed_actual_obligations": 0,
+  "independent_credit": false,
+  "next": "Enable existing narrow compiler-origin HRTB output projection only for actual source-bound target; paired opt-in-off control, no new equality assumptions."
+}

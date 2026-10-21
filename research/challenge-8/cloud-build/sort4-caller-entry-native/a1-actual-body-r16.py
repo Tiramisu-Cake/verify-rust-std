@@ -284,10 +284,21 @@ def run_case(a, c4, tool, env, root, case, gates, grammar, identity, *, paired_r
     if meta.get('actual_scope_relocation') is True:
         need(meta.get('actual_c1_recovery') is True, 'scope relocation requires exact actual c1 source')
         env['SORT4_ACTUAL_BODY_SCOPE_RELOCATION'] = '1'
+    if meta.get('actual_hrtb_output') is True:
+        need(meta.get('actual_c1_recovery') is True and
+             meta.get('actual_scope_relocation') is True and
+             meta.get('name') == 'sort4_stable',
+             'HRTB output opt-in requires the exact full sort4_stable c1 and scope route')
+        env['SORT4_HRTB_OUTPUT'] = '1'
+        env['SORT4_HRTB_OUTPUT_TARGETS'] = 'sort4_stable'
+    else:
+        env.pop('SORT4_HRTB_OUTPUT', None)
+        env.pop('SORT4_HRTB_OUTPUT_TARGETS', None)
     control = meta.get('frontend_control')
     if control is not None:
         need(meta.get('actual_c1_recovery') is True and control in
-             ('wrong-source-sha', 'wrong-first-call-line', 'opt-in-off', 'scope-opt-in-off'), 'fixed c1 frontend control')
+             ('wrong-source-sha', 'wrong-first-call-line', 'opt-in-off', 'scope-opt-in-off',
+              'hrtb-opt-in-off'), 'fixed c1 frontend control')
         if control == 'wrong-source-sha':
             env['SORT4_ACTUAL_BODY_SOURCE_SHA256'] = '0' * 64
         elif control == 'wrong-first-call-line':
@@ -295,6 +306,12 @@ def run_case(a, c4, tool, env, root, case, gates, grammar, identity, *, paired_r
         elif control == 'scope-opt-in-off':
             need(meta.get('actual_scope_relocation') is True, 'scope control requires scope candidate')
             env['SORT4_ACTUAL_BODY_SCOPE_RELOCATION'] = '0'
+        elif control == 'hrtb-opt-in-off':
+            need(meta.get('actual_hrtb_output') is True and
+                 meta.get('actual_scope_relocation') is True,
+                 'HRTB negative control requires the exact target route')
+            env.pop('SORT4_HRTB_OUTPUT', None)
+            env.pop('SORT4_HRTB_OUTPUT_TARGETS', None)
         else:
             env['SORT4_ACTUAL_BODY_C1_RECOVERY'] = '0'
     unit = root / name
@@ -466,6 +483,11 @@ def run(a, *, c4, audit, driver, manifest, ghost):
         if profile.get('actual_scope_relocation_enabled') is True:
             need(meta.get('actual_c1_recovery') is True, 'scope candidate must retain full actual c1 source')
             meta = {**meta, 'actual_scope_relocation': True}
+        if profile.get('actual_hrtb_output_enabled') is True:
+            need(meta.get('actual_c1_recovery') is True and
+                 meta.get('actual_scope_relocation') is True and meta.get('name') == 'sort4_stable',
+                 'HRTB output candidate must retain exact full actual c1 and scope source')
+            meta = {**meta, 'actual_hrtb_output': True}
         result['body_target'] = run_case(a, c4, tool, env, target_root,
             ('actual-sort4', verified, original, meta), helpers['a1-ast-gates.py'], grammar, identity)
         checkpoint()
@@ -475,6 +497,8 @@ def run(a, *, c4, audit, driver, manifest, ghost):
             variants = ['wrong-source-sha', 'wrong-first-call-line', 'opt-in-off']
             if profile.get('actual_scope_relocation_enabled') is True:
                 variants.append('scope-opt-in-off')
+            if profile.get('actual_hrtb_output_enabled') is True:
+                variants.append('hrtb-opt-in-off')
             for variant in variants:
                 cases.append(('c1-' + variant + '-negative', verified, original,
                     {**meta, 'required_lemmas': [], 'frontend_control': variant}))

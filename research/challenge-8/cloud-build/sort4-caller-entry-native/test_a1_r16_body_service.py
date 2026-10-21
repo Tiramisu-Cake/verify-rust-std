@@ -101,3 +101,66 @@ class R16ScopeRouteControls(unittest.TestCase):
                 (*case[:3], dict(case[3], actual_scope_relocation=True)),
                 FakeGates(), FakeGrammar({}), {'tool_hashes': {}})
         self.assertEqual(c4.source_support_targets, [])
+
+class R16HrtbOutputRouteControls(unittest.TestCase):
+    def make_target_case(self, **metadata):
+        base = ActualBodyServiceTests().make_case()
+        meta = dict(base[3], name='sort4_stable', actual_c1_recovery=True,
+                    generated_source_sha256=sha(base[1]), first_comparator_line=7,
+                    actual_scope_relocation=True, actual_hrtb_output=True)
+        meta.update(metadata)
+        return ('actual-sort4', base[1], base[2], meta)
+
+    def run_route(self, case):
+        c4 = FakeC4(support=False)
+        env = {'preserved': 'yes', 'SORT4_HRTB_OUTPUT': 'ambient',
+               'SORT4_HRTB_OUTPUT_TARGETS': 'ambient-target'}
+        with tempfile.TemporaryDirectory() as temp:
+            result = BODY.run_case(None, c4, Path('/synthetic/tool'), env, Path(temp),
+                case, FakeGates(), FakeGrammar({}), {'tool_hashes': {}})
+        self.assertEqual(env, {'preserved': 'yes', 'SORT4_HRTB_OUTPUT': 'ambient',
+                               'SORT4_HRTB_OUTPUT_TARGETS': 'ambient-target'})
+        self.assertEqual(c4.stage_calls, 0)
+        self.assertFalse(result['proof_credit'])
+        return c4
+
+    def test_full_target_enables_both_hrtb_keys_and_existing_controls_inherit_them(self):
+        for control in (None, 'wrong-source-sha', 'wrong-first-call-line',
+                        'opt-in-off', 'scope-opt-in-off'):
+            with self.subTest(control=control):
+                meta = {} if control is None else {'frontend_control': control}
+                enabled = self.run_route(self.make_target_case(**meta))
+                self.assertEqual(enabled.support_env['SORT4_HRTB_OUTPUT'], '1')
+                self.assertEqual(enabled.support_env['SORT4_HRTB_OUTPUT_TARGETS'], 'sort4_stable')
+                self.assertEqual(enabled.support_env['SORT4_ACTUAL_BODY_C1_RECOVERY'],
+                                 '0' if control == 'opt-in-off' else '1')
+                self.assertEqual(enabled.support_env['SORT4_ACTUAL_BODY_SCOPE_RELOCATION'],
+                                 '0' if control == 'scope-opt-in-off' else '1')
+
+        disabled = self.run_route(self.make_target_case(frontend_control='hrtb-opt-in-off'))
+        self.assertNotIn('SORT4_HRTB_OUTPUT', disabled.support_env)
+        self.assertNotIn('SORT4_HRTB_OUTPUT_TARGETS', disabled.support_env)
+        self.assertEqual(disabled.support_env['SORT4_ACTUAL_BODY_C1_RECOVERY'], '1')
+        self.assertEqual(disabled.support_env['SORT4_ACTUAL_BODY_SCOPE_RELOCATION'], '1')
+
+        # Other mini/helper bodies cannot inherit the two opt-in keys.
+        baseline = self.run_route(ActualBodyServiceTests().make_case())
+        self.assertNotIn('SORT4_HRTB_OUTPUT', baseline.support_env)
+        self.assertNotIn('SORT4_HRTB_OUTPUT_TARGETS', baseline.support_env)
+
+    def test_missing_actual_source_or_scope_refuses_before_source_mutation(self):
+        cases = (
+            self.make_target_case(generated_source_sha256=None),
+            self.make_target_case(actual_scope_relocation=False),
+        )
+        for case in cases:
+            with self.subTest(meta=case[3]), tempfile.TemporaryDirectory() as temp:
+                c4 = FakeC4()
+                env = {'preserved': 'yes'}
+                with self.assertRaises(RuntimeError):
+                    BODY.run_case(None, c4, Path('/synthetic/tool'), env, Path(temp),
+                        case, FakeGates(), FakeGrammar({}), {'tool_hashes': {}})
+                self.assertEqual(c4.source_support_targets, [])
+                self.assertEqual(c4.stage_calls, 0)
+                self.assertEqual(env, {'preserved': 'yes'})
+                self.assertEqual(list(Path(temp).iterdir()), [])

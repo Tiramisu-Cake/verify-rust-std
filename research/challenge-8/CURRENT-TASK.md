@@ -47,9 +47,9 @@ Next: Name unresolved outer MIR cells, fix source-preserving binding, then rerun
 ## Отчёт агента
 
 **select-actual-lifetime-autonomous-2026-10-21-r16 · select-sort4 · SORT4-ACTUAL-LIFETIME-2026-10-21-R16 · ACTIVE**
-Updated: 2026-10-21T19:14:54.187094Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `de469095ad2ba4435b41bc0f114289cd12f4952f129e88fbcfb655cea6dca505`.
-Dates: T0 `2026-10-21T17:50:34Z`; main `2026-10-21T19:50:34Z`; absolute `2026-10-21T20:20:34Z`. Budget 3600s: 1242s spent, 0s retired, 2358s remaining including reservations.
+Updated: 2026-10-21T19:27:51.211091Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `de469095ad2ba4435b41bc0f114289cd12f4952f129e88fbcfb655cea6dca505`.
+Dates: T0 `2026-10-21T17:50:34Z`; main `2026-10-21T19:50:34Z`; absolute `2026-10-21T20:20:34Z`. Budget 3600s: 1696s spent, 0s retired, 1904s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: supplemental scope address-exposure checker refuses $_38; exact S1 AST is AddressOf(Deref(Var $_38)) during reborrow_ref; actual body NOT_RUN at checked-lemma prerequisite barrier. [Build `fa548e23-b533-4e27-adce-7a9736e072da`]
-Next: Review and run S4 exact &*p referent-address recognition, retaining all local-storage escape refusals and kernel checks.
+Blocker: Actual body now reaches c1; FnOnce Output projection does not reduce to bool while existing narrow HRTB mode is disabled. Full actual normal/unwind remains OPEN. [Build `4df683dc-41cb-4e4d-b1ce-d515e8f96b00`]
+Next: Enable existing narrow compiler-origin HRTB output projection only for actual source-bound target; paired opt-in-off control, no new equality assumptions.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

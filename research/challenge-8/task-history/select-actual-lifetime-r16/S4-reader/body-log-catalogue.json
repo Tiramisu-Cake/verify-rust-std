@@ -1,0 +1,44 @@
+{
+  "archive_sha256": "a19fd005a8a28b469bb67f6eaee21106b2b5d7e48f9ce0f33435963ae9af5c9e",
+  "build_id": "4df683dc-41cb-4e4d-b1ce-d515e8f96b00",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 104,
+      "EMPTY_FILE": 130,
+      "JSON_EXCEEDS_SCAN_LIMIT": 1,
+      "PROJECTED": 554,
+      "UNSUPPORTED_FILE_TYPE": 94
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2081393,
+    "content_files": 685,
+    "files": 883,
+    "source_scan_bytes": 7379010
+  },
+  "index_sha256": "01648f6be67d2e1977e88095624ce991a703db3d18f651dd72ed03115b035b5c",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "4837c1e6aee68dba4774abb6b4a72bed061c54bcca0c4738fef5c0076b2f6943",
+      "kind": "text",
+      "path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/body-verification.log",
+      "path_sanitized": false,
+      "scanned_bytes": 65536,
+      "sha256": "e858862c254c7e3f30d13ceb9022bc21649d2ed229781bfb88936795433db961",
+      "size_bytes": 472536,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 883,
+    "files_with_incomplete_content": 668,
+    "matches_in_retained_data": 1,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

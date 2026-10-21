@@ -186,3 +186,42 @@ pointer values). Also bind the first argument's source expression to
 `v_base+1` and the second to `v_base`. Only after a positive and wrong-receiver,
 wrong-operand-order, wrong-ref, and displaced-marker controls pass should the
 consumer generalize to indexed c2–c5 markers and selector-derived referents.
+
+### Kernel binding qualification
+
+The preceding certificate gap concerns an independently inspectable
+source/MIR receipt; it is **not** evidence that the verifier lacks a semantic
+resource bridge. Pinned `bin/rust/aliasing.rsspec` at the same tool commit
+provides:
+
+```text
+lem precreate_ref<T>(x: *T) -> *T;
+  req true;
+  ens ref_precreated_token(x, result) &*& ref_init_perm(result, x);
+
+fn create_ref<T>(x: *T) -> *T;
+  req ref_precreated_token(x, ?p) &*& [?f]ref_initialized(p);
+  ens [f]ref_initialized(p) &*& result == p &*&
+      ref_origin(result) == ref_origin(x);
+  on_unwind_ens false;
+
+fn reborrow_ref<T>(x: *T) -> *T;
+  req [?f]ref_initialized(x);
+  ens [f]ref_initialized(x) &*& result == x;
+  on_unwind_ens false;
+```
+
+`reborrow_ref_<T>(x)` is the ghost shared-reference case: it preserves
+`[f]ref_initialized(x)` and adds `ref_precreated_token(x,x)`.
+
+In particular, a successful actual-body proof that consumes the
+`ref_precreated_token`/`ref_init_perm` for a ghost-created argument ref can
+establish equality with the kernel-created ref; this is not a new axiom or
+unchecked bridge. Keep the two claims separate: the kernel's verified resource
+flow may prove semantic equality inside the proof, while a fresh independent
+source/MIR receipt is still needed to show which actual callback/ordered
+operand sites consumed those resources. Do not require an AST local-name match
+as a prerequisite for sound verification if the checked kernel proof already
+establishes the equality; use the receipt/control gate for inspectable
+call-site attribution and reject any path where the actual proof does not
+consume the intended precreated-ref resources.

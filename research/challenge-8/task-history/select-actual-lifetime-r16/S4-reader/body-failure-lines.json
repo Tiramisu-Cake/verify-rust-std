@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "a19fd005a8a28b469bb67f6eaee21106b2b5d7e48f9ce0f33435963ae9af5c9e",
+  "build_id": "4df683dc-41cb-4e4d-b1ce-d515e8f96b00",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 6575,
+    "line_separator": "LF",
+    "source_lines": 6575,
+    "start": 6564,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "4837c1e6aee68dba4774abb6b4a72bed061c54bcca0c4738fef5c0076b2f6943",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/body-verification.log",
+  "file_sha256": "e858862c254c7e3f30d13ceb9022bc21649d2ed229781bfb88936795433db961",
+  "index_sha256": "01648f6be67d2e1977e88095624ce991a703db3d18f651dd72ed03115b035b5c",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 6575,
+    "expected_sha256": "e858862c254c7e3f30d13ceb9022bc21649d2ed229781bfb88936795433db961",
+    "file_id": "4837c1e6aee68dba4774abb6b4a72bed061c54bcca0c4738fef5c0076b2f6943",
+    "start": 6564
+  },
+  "request_id": "377419107eb9a4afaee3f3011891032a6b12aa82b63f61cf371ef3cea3582a6a",
+  "requested_end": 6575,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 6564,
+      "text": "  0.215264s: Exiting Redux.assume: 0.000016 seconds"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 6565,
+      "text": "  0.215271s: /workspace/smallsort-work/a1-checked-trait-contract-isolated-source/bin/rust/std/lib.rsspec(48,68-69): Producing assertion"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 6566,
+      "text": "  0.215279s: /workspace/smallsort-work/a1-checked-trait-contract-isolated-source/bin/rust/std/lib.rsspec(48,130-131): Producing assertion"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 6567,
+      "text": "  0.215325s: Entering Redux.assume(outcome3 = returning(__result))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 6568,
+      "text": "  0.215332s:   Entering Redux.assume_with_implications(outcome3 = returning(__result))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 6569,
+      "text": "  0.215342s:   Exiting Redux.assume_with_implications"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 6570,
+      "text": "  0.215348s: Exiting Redux.assume: 0.000017 seconds"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 6571,
+      "text": "  0.215354s: verified/lib.rs(198,18-89): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 6572,
+      "text": "EXEC 40 verified/lib.rs(198,18-89)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 6573,
+      "text": "verified/lib.rs(198,18-89): error: Type mismatch. Actual: <F as std::ops::FnOnce<std_tuple_2_<&'cmp T, &'cmp T>>>::Output. Expected: bool."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 6574,
+      "text": "198 |         let c1 = is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(&*v_base.add(1), &*v_base);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 6575,
+      "text": "    |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}
