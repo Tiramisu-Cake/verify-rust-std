@@ -1,0 +1,54 @@
+# SmallSort Evidence Brief — cccfd7c5
+
+- Processing: **VERIFIED_ARCHIVE_AND_INVENTORY**
+- Build proof verdict (source claim): **NOT_ACCEPTED_AS_REPORTED**
+- Run exit (source claim): `1`; evidence complete: `False`
+
+## Further bounded evidence
+
+- Complete catalogue: 13 verified members; retained content: 12 files.
+- CLI: `smallsort-brief cccfd7c5-ee98-4549-8ecd-da2274e7c608 --catalogue`, `--search LITERAL`, `--file ID --pointer /key` (JSON), or `--file ID --start 1` (text). Requires the v0.8 client installed on the caller host.
+- Reader: `/builds/cccfd7c5-ee98-4549-8ecd-da2274e7c608/catalogue?q=literal`, `/search?q=literal`, `/fragment?file_id=ID&start=1` (text) or `&pointer=/key` (JSON). Use the same /builds/UUID prefix for all routes. Search is over sanitized retained data only; inspect coverage and next_offset. No raw fallback or proof inference.
+
+## Failure diagnostics (verified archived sources)
+
+- Diagnostic status: **OBSERVED**; causality: **UNKNOWN**
+- **Base source SHA-256 mismatch**: `research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py`; observed SHA-256 `092669d3d8e619130c4afc36f8c3f73698f3d5f776ffbeb8fe1f566e313ec8aa`
+  - Source: `full-stderr.log` line 2; SHA-256 `89364e364c75f9123f991b310d6c9524a99ca35259625dd1ddaccab3e6776d35`
+
+## Bounded diagnostic context (untrusted observations)
+
+- AVAILABLE; parser=SUPPORTED_OBSERVATIONS; selection=TAIL_OF_SCANNED_PREFIX_NO_MARKER
+  - Source: `full-stderr.log` line UNKNOWN; SHA-256 `89364e364c75f9123f991b310d6c9524a99ca35259625dd1ddaccab3e6776d35`
+> L1: debconf: delaying package configuration, since apt-utils is not installed
+> L2: base source hash mismatch for ?REDACTED_LONG_VALUE?.py: ?REDACTED_LONG_VALUE?
+  - Scanned 250/250 bytes; scan limit reached=False; lines shown=2/2.
+- Up to 2 short windows shown; complete bounded context and availability counts are in evidence-index.json. Context does not establish causality.
+
+## Tool build milestones (individual observed records)
+
+- `translator-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `console-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `exporter-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `decoder-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `refiner-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `tracked-md-compile`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `tracked-md-preparation`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+
+## First comparator source results
+
+- Coverage: NO_SUPPORTED_SOURCE_RECORD_OR_NAMED_ARTIFACT; projected=0; omitted=0; scan_truncated=False; showing up to 6 records
+- A joint false/true/panic claim does not provide separate per-branch receipts; absent records do not establish NOT_RUN.
+
+## Campaign aggregates (source claims)
+
+- No supported aggregate captured; absence from this section does not prove absence from archive.
+- Aggregate coverage: {'aggregate_candidates': 0, 'aggregates_captured': 0, 'stage_metadata_captured': 0, 'stage_summaries_retained': 0, 'context_logs_streamed': 1, 'diagnostic_logs_captured': 1, 'diagnostic_log_bytes': 250, 'oversized_logs': 0, 'budget_omitted_logs': 0, 'aggregates_not_captured': 0}; showing up to 4.
+
+## Representative cases (source verdicts)
+
+- Cases: 0; showing up to 4. More references and source claims in evidence-index.json.
+
+## Boundaries
+
+Source verdicts are claims; no PASS is inferred from exit 0. Stage order and first/last causal stage remain UNKNOWN without explicit evidence. No verifier is run by this processor. Remote text chunk bytes are not checked.

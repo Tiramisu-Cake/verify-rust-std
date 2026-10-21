@@ -1,18 +1,19 @@
 # Agent checkpoint: merge-caller-refinement-autonomous-2026-10-21-r17
 
 - Owner: merge | phase: MERGE-CALLER-REFINEMENT-R17-2026-10-21 | state: ACTIVE
-- Updated: 2026-10-21T19:18:19Z
+- Updated: 2026-10-21T19:22:50Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `660b576b6b1608db913c51e0785b443a8733396f`, profile `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375`
 - Session dates: T0 `2026-10-21T18:33:50Z`; main deadline `2026-10-21T20:33:50Z`; absolute deadline `2026-10-21T21:03:50Z`
-- Budget: 3600s total; 485s spent; 0s retired; 3115s remaining including active reservations
-- Active Build IDs: cccfd7c5-ee98-4549-8ecd-da2274e7c608
+- Budget: 3600s total; 584s spent; 0s retired; 3016s remaining including active reservations
+- Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
-- [SOURCE_REPORTED] R16 P1 actual insert_tail/selected Drop body unit: 4 stages0; target/cleanup/Resume and final 0 errors (642 statements) reported. Domain u64, owned initialized array3, tail=begin+2, contract-compliant F, CURRENT posts; existing narrow R8 premise. Bounded/source only. — [research/challenge-8/cloud-build/origin-layout/R16-PROOF1-RESULT-20261021.json](cloud-build/origin-layout/R16-PROOF1-RESULT-20261021.json) SHA `03f14929b594cee4f1077f48e0dea5c26b4030e673162422776c17ae02f5f9cc` Build `9487d6d1-14aa-4370-bc0b-7ac57279fb7b`; [research/challenge-8/cloud-build/origin-layout/R16-PROOF1-BODY-COMPLETION-LINES-20261021.json](cloud-build/origin-layout/R16-PROOF1-BODY-COMPLETION-LINES-20261021.json) SHA `5ba6bcac18a7fec52ac8cbb9d59df7ab847282b9414216952e640e5e1b89597d` Build `9487d6d1-14aa-4370-bc0b-7ac57279fb7b`
-- [SOURCE_REPORTED] P2/P3 report checked array3/slice3 full_borrow bridge and 5 positive/6 negative array controls plus all5 R9 intended controls. Requires existing full_borrow(k,P), exact len3 and full pointer/provenance equality; creates no borrow/lifetime. — [research/challenge-8/cloud-build/origin-layout/R16-COVERAGE-20261021.json](cloud-build/origin-layout/R16-COVERAGE-20261021.json) SHA `d9b55e8a8f2a88581de64d02f1b6b5b9534b58edacdd3d4d958c06dc1b5e8198` Build `e2c971ba-ab62-4cd9-a193-3d4f98797cd7`
-- [SOURCE_REPORTED] P4 compile-only exit124, proof_attempted=false/cases0; final ghost-block syntaxfix not actual-validated. R16 CLOSED: 4 accounted Builds, spent3042/retired558/carry0; active/unresolved0. No full acceptance or independent credit. — [research/challenge-8/cloud-build/origin-layout/R16-PROOF4-AUDIT-20261021.json](cloud-build/origin-layout/R16-PROOF4-AUDIT-20261021.json) SHA `e3985545d0f28f89922988a48ed0e67cf6e64c8e76a8df6175d8ddbc930125b5` Build `df4a5c35-b795-4493-9e9a-74edeb48f177`; [research/challenge-8/cloud-build/origin-layout/R16-RELEASE-20261021.json](cloud-build/origin-layout/R16-RELEASE-20261021.json) SHA `ce26690c1ce6a2fffa39d7cb18669f5303bb20a92541e170077559edb223c629`
+- [SOURCE_REPORTED] R16 P1: actual insert_tail/selected Drop body unit reports4stages0, cleanup/Resume, 0errors/642statements. Boundedu64/initializedarray3/tail=begin+2/contractF/CURRENT posts; narrowR8 premise. Source-only. — [research/challenge-8/cloud-build/origin-layout/R16-PROOF1-RESULT-20261021.json](cloud-build/origin-layout/R16-PROOF1-RESULT-20261021.json) SHA `03f14929b594cee4f1077f48e0dea5c26b4030e673162422776c17ae02f5f9cc` Build `9487d6d1-14aa-4370-bc0b-7ac57279fb7b`; [research/challenge-8/cloud-build/origin-layout/R16-PROOF1-BODY-COMPLETION-LINES-20261021.json](cloud-build/origin-layout/R16-PROOF1-BODY-COMPLETION-LINES-20261021.json) SHA `5ba6bcac18a7fec52ac8cbb9d59df7ab847282b9414216952e640e5e1b89597d` Build `9487d6d1-14aa-4370-bc0b-7ac57279fb7b`
+- [SOURCE_REPORTED] R16 P2/P3: checked array3/slice3 full_borrow bridge;5positive/6negative array controls and5R9 controls matched. Requires existing full_borrow(k,P), len3/full-pointer equality; no borrow/lifetime creation. — [research/challenge-8/cloud-build/origin-layout/R16-COVERAGE-20261021.json](cloud-build/origin-layout/R16-COVERAGE-20261021.json) SHA `d9b55e8a8f2a88581de64d02f1b6b5b9534b58edacdd3d4d958c06dc1b5e8198` Build `e2c971ba-ab62-4cd9-a193-3d4f98797cd7`
+- [SOURCE_REPORTED] R16 P4 compileexit124/proof_attemptedfalse/cases0; ghost syntaxfix unvalidated. R16CLOSED4builds/spent3042/retired558/carry0/active0; no full acceptance/independentcredit. — [research/challenge-8/cloud-build/origin-layout/R16-PROOF4-AUDIT-20261021.json](cloud-build/origin-layout/R16-PROOF4-AUDIT-20261021.json) SHA `e3985545d0f28f89922988a48ed0e67cf6e64c8e76a8df6175d8ddbc930125b5` Build `df4a5c35-b795-4493-9e9a-74edeb48f177`; [research/challenge-8/cloud-build/origin-layout/R16-RELEASE-20261021.json](cloud-build/origin-layout/R16-RELEASE-20261021.json) SHA `ce26690c1ce6a2fffa39d7cb18669f5303bb20a92541e170077559edb223c629`
 - [SOURCE_REPORTED] R17 P1 tool compilation all5 legs0 incl changed refiner and smokePASS; entry R11 pin guard refuses before actual campaign; no target/control/B2/independent credit. Accounted485, remaining3115. — [research/challenge-8/cloud-build/origin-layout/R17-PROOF1-RESULT-20261021.json](cloud-build/origin-layout/R17-PROOF1-RESULT-20261021.json) SHA `15882947ba819444991af76c0ccd771ca11c47cd94cd548b15f3a1f066e28781` Build `38fa5f6f-3263-404e-af55-48c47816a5cf`
+- [SOURCE_REPORTED] P2 source pin refusal before compiler evidence; targets unverified. Charged99; total584/remaining3016/active0. — [research/challenge-8/cloud-build/origin-layout/R17-PROOF2-RESULT-20261021.json](cloud-build/origin-layout/R17-PROOF2-RESULT-20261021.json) SHA `104ecabf904d6b3c63590210f315cb891544b9ee832a0209d3b565daa00cb1ae` Build `cccfd7c5-ee98-4549-8ecd-da2274e7c608`
 
 ## Open
 - Original full/prefix as_mut_ptr borrow/unsize (placeholders441/249); dependent controls NOT_RUN_PREFIX_PREREQUISITE_FAILED.
@@ -24,15 +25,12 @@
 - Short outer timeout990/execute570 chosen using prior whole-cycle timings — Missed nested compile reserve140; P4 timed out before proof. Keep full1200 plan unless effective inner budget reviewed.; [research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md](cloud-build/origin-layout/R16-REVIEW-20261021.md) SHA `7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa`
 
 ## Blocker
-R17 P1 entry rejects the reviewed refiner tool/profile pins; campaign targets not established. (insertion-onecell/prove.py R11 profile validator) [Build `38fa5f6f-3263-404e-af55-48c47816a5cf`]
-- [research/challenge-8/cloud-build/origin-layout/R17-PROOF1-ENTRY-ERROR-20261021.json](cloud-build/origin-layout/R17-PROOF1-ENTRY-ERROR-20261021.json) SHA `b962cb7e180629fb41e9ed45ecf351c0f9b4d4c4e72b7d960bcf95eb5b08f735` Build `38fa5f6f-3263-404e-af55-48c47816a5cf`
+P2 provider rejects stale prove.py base-source pin before compiler/campaign. (provider-overlays.py R11_FILES) [Build `cccfd7c5-ee98-4549-8ecd-da2274e7c608`]
+- [research/challenge-8/cloud-build/origin-layout/R17-PROOF2-SOURCE-ERROR-20261021.json](cloud-build/origin-layout/R17-PROOF2-SOURCE-ERROR-20261021.json) SHA `c292c0ef4a8fcdb32f8ffbe719d5e8215550a8547141c538526c3c7c04eb43b0` Build `cccfd7c5-ee98-4549-8ecd-da2274e7c608`
 
 ## Next
-Observe R17 P2 via Brief: RawPtr controls/caller and borrow lifecycle; retain original gates.
+Review exact provider pins and static closure check, then full1200 Cloud.
 
 ## Artifacts
-- [research/challenge-8/cloud-build/origin-layout/R16-RELEASE-20261021.json](cloud-build/origin-layout/R16-RELEASE-20261021.json) — `ce26690c1ce6a2fffa39d7cb18669f5303bb20a92541e170077559edb223c629`
-- [research/challenge-8/cloud-build/origin-layout/R16-COVERAGE-20261021.json](cloud-build/origin-layout/R16-COVERAGE-20261021.json) — `d9b55e8a8f2a88581de64d02f1b6b5b9534b58edacdd3d4d958c06dc1b5e8198`
 - [research/challenge-8/cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md](cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md) — `6acfb36fa52b2e05eea0551dfb40033156b23ef8165dfa67f6309d0550e721eb`
-- [research/challenge-8/cloud-build/origin-layout/R16-CALLER-DESIGN-20261021.md](cloud-build/origin-layout/R16-CALLER-DESIGN-20261021.md) — `c1e8f851b5c0b18edf3ed5ac2b758a32daa0eda2f4ea88551b8e37e03288b940`
 - [research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R16-BUDGET-20261021.json](cloud-build/origin-layout/CURRENT-RECOVERY-R16-BUDGET-20261021.json) — `4833fd3f002d173b93e344e25ee1349f7fe5c590740468df4804dcf546cc7dca`
