@@ -1,0 +1,5 @@
+# S5 independent common-header projection review
+
+Reviewer registration, GPT-6 Luna HIGH, independent of implementation author root: GO for the bounded projection. One direct outer ConstTypeExpr may be removed only in common-vs-impl comparison; normalized location shape and direct inner RustRefTypeExpr are required. Three parameter labels/order, reference mutability/lifetimes/pointees and all other header constructors remain exact. Original raw normalized_header and same-body equality are unprojected. Known second scratch binding alpha projection remains exact.
+
+The caller first checks _small_sort_ast_signature, including original binding marker location and exact compiler signature. Normalization's source-location-value erasure therefore cannot bypass the upstream malformed/nonstring location rejection. Nested and malformed markers remain rejected. Reviewer ran all38 AST tests successfully; main ran40AST/identity/diagnostic and7registration/route tests successfully. No local compiler, preparer or proof execution. Actual Cloud target/matrix remains required; no proof credit or admission is established by this review.

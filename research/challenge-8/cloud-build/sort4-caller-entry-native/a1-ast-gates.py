@@ -762,7 +762,7 @@ def _small_sort_ast_header(record: Mapping[str, Any], alpha: Mapping[str, str]) 
 
 
 def _small_sort_ast_header_for_common_comparison(header: tuple[Any, ...]) -> tuple[Any, ...]:
-    """Project only the second binding label for trait-prototype/impl comparison.
+    """Project outer binding markers and the second label for common comparison.
 
     Keep original parameter names in stored headers and same-body comparisons.
     The blanket impl spells the unused second binding `_scratch`; its trait
@@ -777,7 +777,18 @@ def _small_sort_ast_header_for_common_comparison(header: tuple[Any, ...]) -> tup
     need(parameter_names == [("str", "v"), ("str", "scratch"), ("str", "is_less")] or
          parameter_names == [("str", "v"), ("str", "_scratch"), ("str", "is_less")],
          "small_sort AST normalized parameter names")
-    parameters[1] = ("tuple", (parameter_types[1], ("str", "@scratch-binding")))
+    for index, typ in enumerate(parameter_types):
+        if isinstance(typ, tuple) and typ and typ[0] == "ConstTypeExpr":
+            binding_loc, typ = node(typ, "ConstTypeExpr", 2)
+            need(isinstance(binding_loc, tuple) and len(binding_loc) == 2 and
+                 binding_loc[0] == "loc" and isinstance(binding_loc[1], str),
+                 "small_sort AST header parameter binding marker location")
+            # Only an outer immutable binding marker is a representation choice.
+            # Nested constness and the reference's own mutability stay exact.
+            node(typ, "RustRefTypeExpr", 4)
+        parameters[index] = ("tuple", (typ, parameter_names[index]))
+    parameters[1] = ("tuple", (node(parameters[1], "tuple", 2)[0],
+                                ("str", "@scratch-binding")))
     projected = list(header)
     projected[3] = ("list", tuple(parameters))
     return tuple(projected)

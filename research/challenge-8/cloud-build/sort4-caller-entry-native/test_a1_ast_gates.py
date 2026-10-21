@@ -541,6 +541,10 @@ class SyntheticAstGates(unittest.TestCase):
         # Header comparison still retains the raw AST binding marker.
         self.assertNotEqual(gate._small_sort_ast_header(record, alpha),
                             gate._small_sort_ast_header(bare_record, alpha))
+        self.assertEqual(gate._small_sort_ast_header_for_common_comparison(
+            gate._small_sort_ast_header(record, alpha)),
+            gate._small_sort_ast_header_for_common_comparison(
+                gate._small_sort_ast_header(bare_record, alpha)))
         for label, bad_type in malformed_types.items():
             with self.subTest(mutant=label), self.assertRaises(gate.AstGateError):
                 bad_rows = list(parameter_rows)
@@ -550,6 +554,12 @@ class SyntheticAstGates(unittest.TestCase):
                 bad_record = dict(record, fields=tuple(bad_fields))
                 gate._small_sort_ast_signature(
                     bad_record, "T", gate._small_sort_alpha(bad_record, self_name="T"))
+            # Source location values are deliberately erased by normalize;
+            # the preceding signature gate rejects the non-string source loc.
+            if label != "non-string binding location":
+                with self.subTest(header_mutant=label), self.assertRaises(gate.AstGateError):
+                    gate._small_sort_ast_header_for_common_comparison(
+                        gate._small_sort_ast_header(bad_record, alpha))
 
     def test_p1_signature_accepts_source_scratch_name_variants_without_header_erasure(self):
         records = []
