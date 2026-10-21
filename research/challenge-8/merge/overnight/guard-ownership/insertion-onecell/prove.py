@@ -38,6 +38,75 @@ R8_PROFILE = "experimental-merge-owned-array-allocation-r8-v1"
 R9_PROFILE = "experimental-merge-guard-current-return-r9-v1"
 R10_PROFILE = "experimental-merge-moving-gap-r10-v1"
 R11_PROFILE = "experimental-merge-label-storage-r11-v1"
+R17_BASELINE_RELATIVE = "research/challenge-8/cloud-build/origin-layout/R17-BASELINE-PROFILE-20261021.json"
+R17_BASELINE_SHA256 = "eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375"
+R17_TOOL_COMMIT = "a66c1d30214e463a16a325cdef30b0ec8555e0af"
+R17_REFINER_CORE_SHA256 = "48d02bf44f4a082709a427e3e0d78af5498c1f240082fb27c7891dc8a3a283b0"
+R17_PATCH_SHA256 = "8d38122260e868351c8a245c5775d14d705a688cf5814512013ad9d33bb6e953"
+R17_REGISTRATION = {
+    "schema": "merge-r17-profile-registration-v1",
+    "phase_id": "MERGE-CALLER-REFINEMENT-R17-2026-10-21",
+    "baseline_profile_path": R17_BASELINE_RELATIVE,
+    "starting_tool_commit": "660b576b6b1608db913c51e0785b443a8733396f",
+    "starting_source_sha": "6fd50c699500cbac5c65912174d4aa49b49db19f",
+    "owner": "merge",
+    "lane": "merge",
+    "candidate_tool_commit": R17_TOOL_COMMIT,
+    "tool_source_paths": ["src/refinement_checker/refinement_checker.ml"],
+    "source_applicability": "paired RawPtr bare local only; exact mutability/full MIR and decoded local type/place; existing equal-state allocation reconciliation; no borrow or memory authority",
+}
+R17_PROFILE_CHANGED_KEYS = frozenset({
+    "effective_tool_commit", "refiner_core_source_sha256",
+    "guard_return_trace_patch_sha256", "ordered_patch_chain",
+})
+
+
+def validate_r17_profile_extension(profile: object, baseline_bytes: object) -> None:
+    """Fail closed unless profile is the one exact registered R17 delta."""
+    if not isinstance(profile, dict):
+        raise ValueError("R17 profile must be a JSON object")
+    if not isinstance(baseline_bytes, bytes):
+        raise ValueError("R17 baseline bytes are missing or malformed")
+    if hashlib.sha256(baseline_bytes).hexdigest() != R17_BASELINE_SHA256:
+        raise ValueError("R17 baseline profile bytes do not match the committed identity")
+    try:
+        baseline = json.loads(baseline_bytes)
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise ValueError("R17 baseline profile is not valid JSON") from exc
+    if not isinstance(baseline, dict):
+        raise ValueError("R17 baseline profile must be a JSON object")
+    registration = profile.get("r17_registration")
+    if type(registration) is not dict or registration != R17_REGISTRATION:
+        raise ValueError("R17 registration is malformed or not the exact candidate")
+    if set(profile) != set(baseline) | {"r17_registration"}:
+        raise ValueError("R17 profile has missing or unexpected top-level fields")
+    changed = {key for key in baseline if profile[key] != baseline[key]}
+    if changed != R17_PROFILE_CHANGED_KEYS:
+        raise ValueError("R17 profile changes fields outside its exact source/tool/patch delta")
+    if (profile.get("effective_tool_commit") != R17_TOOL_COMMIT or
+            profile.get("refiner_core_source_sha256") != R17_REFINER_CORE_SHA256 or
+            profile.get("guard_return_trace_patch_sha256") != R17_PATCH_SHA256 or
+            profile.get("guard_return_trace_tool_commit") != R17_REGISTRATION["starting_tool_commit"]):
+        raise ValueError("R17 tool, core, cumulative patch, or historical tool pin differs")
+    chain = profile.get("ordered_patch_chain")
+    baseline_chain = baseline.get("ordered_patch_chain")
+    if (type(chain) is not list or type(baseline_chain) is not list or
+            len(chain) != 19 or len(baseline_chain) != 19 or
+            chain[:18] != baseline_chain[:18] or
+            type(chain[-1]) is not dict or type(baseline_chain[-1]) is not dict or
+            chain[-1].get("path") != baseline_chain[-1].get("path") or
+            chain[-1].get("sha256") != R17_PATCH_SHA256):
+        raise ValueError("R17 ordered patch chain is not the exact final cumulative extension")
+
+
+def admit_r17_profile_extension_if_present(profile: object, baseline_bytes: object) -> bool:
+    """Leave legacy profiles on their existing route; validate any R17 claim."""
+    if not isinstance(profile, dict):
+        raise ValueError("profile must be a JSON object")
+    if "r17_registration" not in profile:
+        return False
+    validate_r17_profile_extension(profile, baseline_bytes)
+    return True
 CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
          "double_physical_fbc")
 CAMPAIGN = "incoming-origin-controls-only-v1"
@@ -747,6 +816,9 @@ def main() -> int:
         baseline_path = HERE.parents[3] / "cloud-build/origin-layout/R11-BASELINE-PROFILE-20261021.json"
         start_path = HERE.parents[3] / "cloud-build/origin-layout/R11-START-20261021.json"
         trace_patch = HERE.parents[3] / "cloud-build/origin-layout/r9-guard-return-trace.patch"
+        r17_baseline_path = HERE.parents[3] / "cloud-build/origin-layout/R17-BASELINE-PROFILE-20261021.json"
+        is_r17_extension = admit_r17_profile_extension_if_present(
+            profile_card, r17_baseline_path.read_bytes() if "r17_registration" in profile_card else None)
         start = json.loads(start_path.read_text())
         baseline_sha = base.file_sha(baseline_path)
         baseline_profile = json.loads(baseline_path.read_text())
@@ -759,7 +831,8 @@ def main() -> int:
                 chain[-1].get("path") != baseline_profile.get("ordered_patch_chain", [{}])[-1].get("path") or
                 chain[-1].get("sha256") != profile_card.get("guard_return_trace_patch_sha256") or
                 base.file_sha(trace_patch) != profile_card.get("guard_return_trace_patch_sha256") or
-                profile_card.get("effective_tool_commit") != profile_card.get("guard_return_trace_tool_commit")):
+                (not is_r17_extension and
+                 profile_card.get("effective_tool_commit") != profile_card.get("guard_return_trace_tool_commit"))):
             raise RuntimeError("R11 profile must retain the captured R10 chain except its regenerated cumulative diagnostic patch")
         for relative, key in {
             "src/verifast.ml": "kernel_sha256",
@@ -784,6 +857,8 @@ def main() -> int:
             "src/vfconsole/vfconsole.ml": "console_source_sha256",
             "src/vfide/vfide.ml": "ide_source_sha256",
         }.items():
+            if is_r17_extension and key == "refiner_core_source_sha256":
+                continue
             if profile_card.get(key) != baseline_profile.get(key):
                 raise RuntimeError(f"R11 changed a source pin outside its authorized two-file diagnostic delta: {relative}")
     if (base.file_sha(prep.ROOT / "research/challenge-8/verifast-tracked-manually-drop-regressions.rs")
