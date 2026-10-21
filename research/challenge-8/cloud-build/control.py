@@ -373,20 +373,20 @@ def r14_validate_gate_record(gate):
   'mandatory_guard_path_verified':True,
   'size_bounds_basis':'EXACT_PINNED_FAIL_CLOSED_PATH_AND_SUCCESSFUL_CLOUD_STEPS'}
  if not isinstance(gate,dict) or not required.keys()<=gate.keys() or any(gate.get(key)!=value for key,value in required.items()):
-  raise SystemExit('R14 prior-publication gate has missing or mismatched required fields')
+  raise SystemExit('R14 G1 gate fields missing/mismatch')
  for key in ('exact_archive_size_observed','sidecar_verified','parallel_composite_upload_enabled',
              'proof_attempted','verification_accepted','archive_inventory_verified',
              'publication_verified','mandatory_guard_path_verified'):
   if type(gate.get(key)) is not bool:
-   raise SystemExit('R14 prior-publication gate has a non-boolean control field')
+   raise SystemExit('R14 G2 control flag type')
  if type(gate.get('archive_size_bytes')) is not type(None) or type(gate.get('independent_proof_credit')) is not int:
-  raise SystemExit('R14 prior-publication gate has invalid unknown-size or credit typing')
+  raise SystemExit('R14 G3 size/credit type')
  if type(gate.get('archive_limit_bytes')) is not int or type(gate.get('threshold_bytes')) is not int:
-  raise SystemExit('R14 prior-publication gate has invalid size-bound typing')
+  raise SystemExit('R14 G4 bound type')
  steps=gate.get('cloud_steps_success')
  if (not isinstance(steps,dict) or set(steps)!={'execute','package-upload','verdict'} or
      any(value is not True for value in steps.values())):
-  raise SystemExit('R14 prior-publication gate does not bind success of all three Cloud steps')
+  raise SystemExit('R14 G5 Cloud step matrix')
  coverage=gate.get('coverage')
  expected_coverage={
   'fresh_brief':'VERIFIED_ARCHIVE_AND_INVENTORY','catalogue_complete':True,'catalogue_members':15,
@@ -402,13 +402,13 @@ def r14_validate_gate_record(gate):
   'sidecar_limitation':'External receipts unavailable via Reader; exact size/upload timing UNKNOWN. No raw read.',
   'historical_R13_records_modified':False,'old_probe_charged_to_R14':False}
  if not isinstance(coverage,dict) or not expected_coverage.keys()<=coverage.keys() or any(coverage.get(key)!=value for key,value in expected_coverage.items()):
-  raise SystemExit('R14 gate lacks the exact fresh Brief/policy/config/coverage observations')
+  raise SystemExit('R14 G6 coverage identity')
  for key in ('catalogue_complete','policy_exact','policy_complete','policy_source_and_build_match',
              'archived_submitted_config_sha256_matches','historical_R13_records_modified','old_probe_charged_to_R14'):
   if type(coverage.get(key)) is not bool:
-   raise SystemExit('R14 gate coverage contains a non-boolean identity claim')
+   raise SystemExit('R14 G7 coverage flag type')
  if type(coverage.get('catalogue_members')) is not int:
-  raise SystemExit('R14 gate catalogue member count has invalid typing')
+  raise SystemExit('R14 G8 catalogue count type')
  observed=coverage.get('observed_utc')
  try:
   observed_time=datetime.datetime.fromisoformat(observed.replace('Z','+00:00')) if isinstance(observed,str) else None
@@ -417,12 +417,12 @@ def r14_validate_gate_record(gate):
  if (observed_time is None or observed_time.tzinfo is None or
      observed_time<datetime.datetime.fromisoformat('2026-10-21T12:52:50+00:00') or
      observed_time>datetime.datetime.now(datetime.timezone.utc)):
-  raise SystemExit('R14 gate coverage lacks a fresh post-T0 observation timestamp')
+  raise SystemExit('R14 G9 observation time')
 
 
 def r14_read_selected_gate(proof_sha):
  if not isinstance(proof_sha,str) or not re.fullmatch('[0-9a-f]{40}',proof_sha):
-  raise SystemExit('R14 proof source must be a full selected commit SHA')
+  raise SystemExit('R14 S1 source SHA')
  try:
   selected=subprocess.check_output(['git','show',proof_sha+':'+R14_GATE_PATH],cwd=ROOT,stderr=subprocess.PIPE)
   target=ROOT/R14_GATE_PATH
@@ -430,9 +430,9 @@ def r14_read_selected_gate(proof_sha):
   worktree=target.read_bytes()
   gate=json.loads(selected)
  except (subprocess.CalledProcessError,OSError,ValueError,UnicodeDecodeError):
-  raise SystemExit('R14 selected source lacks a readable publication gate')
+  raise SystemExit('R14 S2 selected gate unreadable')
  if selected!=worktree:
-  raise SystemExit('R14 publication gate differs from its selected committed source')
+  raise SystemExit('R14 S3 gate differs from selected bytes')
  r14_validate_gate_record(gate)
  return gate
 
@@ -440,7 +440,7 @@ def r14_read_selected_gate(proof_sha):
 def r14_validate_runtime_maps(before,after,expected_additions):
  if set(expected_additions)!={R14_GATE_PATH,R14_LEDGER_PATH,
      'research/challenge-8/cloud-build/origin-layout/r14-source-preflight.py'}:
-  raise SystemExit('R14 registration allowlist differs from the reviewed path set')
+  raise SystemExit('R14 C1 registration allowlist')
  ignore={R14_GATE_PATH,R14_LEDGER_PATH,
          'research/challenge-8/cloud-build/origin-layout/r14-source-preflight.py',
          R14_R13_LEDGER_PATH,
@@ -449,34 +449,34 @@ def r14_validate_runtime_maps(before,after,expected_additions):
  control_path='research/challenge-8/cloud-build/control.py'
  before_paths=set(before)-ignore;after_paths=set(after)-ignore
  if before_paths!=after_paths:
-  raise SystemExit('R14 changed or removed non-registration runtime closure paths')
+  raise SystemExit('R14 C2 runtime paths changed')
  for path in sorted(before_paths-{control_path}):
-  if before[path]!=after[path]:raise SystemExit('R14 changed a publisher/runtime input: '+path)
+  if before[path]!=after[path]:raise SystemExit('R14 C3 changed input: '+path)
  if control_path not in before_paths:
-  raise SystemExit('R14 source closure does not include control.py')
+  raise SystemExit('R14 C4 control.py absent')
  if before[control_path][:2]!=after[control_path][:2] or before[control_path][0] not in ('100644','100755'):
-  raise SystemExit('R14 control.py mode/kind changed outside the phase authorization delta')
+  raise SystemExit('R14 C5 control.py mode')
 
 
 def r14_validate_historical_ledger(probe_entry,proof_entry,checkpoint_entry):
  if (not all(isinstance(item,tuple) and len(item)==3 for item in (probe_entry,proof_entry,checkpoint_entry)) or
      proof_entry!=checkpoint_entry or checkpoint_entry[:2]!=('100644','blob')):
-  raise SystemExit('R14 does not preserve the exact closed R13 account snapshot')
+  raise SystemExit('R14 C6 R13 account snapshot')
 
 
 def r14_validate_recipe_delta(before_recipe,after_recipe,expected_additions):
  if not isinstance(before_recipe,dict) or not isinstance(after_recipe,dict):
-  raise SystemExit('R14 recipes must be JSON objects')
+  raise SystemExit('R14 C7 recipe object')
  before_paths=before_recipe.get('proof_paths');after_paths=after_recipe.get('proof_paths')
  if (not isinstance(before_paths,list) or not isinstance(after_paths,list) or
      before_paths!=sorted(set(before_paths)) or after_paths!=sorted(set(after_paths))):
-  raise SystemExit('R14 proof recipe paths are not canonical')
+  raise SystemExit('R14 C8 recipe paths noncanonical')
  before_body={key:value for key,value in before_recipe.items() if key!='proof_paths'}
  after_body={key:value for key,value in after_recipe.items() if key!='proof_paths'}
  if before_body!=after_body:
-  raise SystemExit('R14 changed a source-input recipe field outside proof_paths')
+  raise SystemExit('R14 C9 recipe metadata changed')
  if set(after_paths)-set(before_paths)!=set(expected_additions) or set(before_paths)-set(after_paths):
-  raise SystemExit('R14 recipe delta differs from the exact registration paths')
+  raise SystemExit('R14 C10 recipe path delta')
 
 
 def r14_validate_mode_transition(before_card,after_card):
@@ -490,7 +490,7 @@ def r14_validate_mode_transition(before_card,after_card):
      any(type(before_card.get(k)) is not int for k in ('payload_bytes','threshold_bytes','archive_limit_bytes')) or
      type(before_card.get('proof_attempted')) is not bool or
      type(after_card.get('archive_limit_bytes')) is not int):
-  raise SystemExit('R14 mode transition must preserve the synthetic probe and select the exact proof-r11 card')
+  raise SystemExit('R14 C11 mode transition')
 
 
 def r14_validate_publisher_control(before_control,after_control):
@@ -498,26 +498,24 @@ def r14_validate_publisher_control(before_control,after_control):
  def segment(parsed,text,name):
   node=next((n for n in parsed.body if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef)) and n.name==name),None)
   return ast.get_source_segment(text,node) if node else None
- # The probe commit is pinned; exact function-source equality preserves its
- # reviewed fail-closed guard, policy, upload order and marker-last behavior.
+ # Exact source equality preserves the pinned publisher behavior.
  if any(segment(baseline,before_control,n)!=segment(tree,after_control,n)
         for n in ('envs','config')):
-  raise SystemExit('R14 changed the exact R13 Cloud config producer or upload command')
+  raise SystemExit('R14 C12 publisher config changed')
  expected="def required_upload_guard(phase):return phase in ('MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21','MERGE-PUBLICATION-GATE-PROOF-R14-2026-10-21')"
  if segment(tree,after_control,'required_upload_guard')!=expected:
-  raise SystemExit('R14 does not enable the mandatory mode-card guard on exactly R13 and R14')
+  raise SystemExit('R14 C13 guard route')
  command=segment(tree,after_control,'run_command') or ''
  if 'r13_required=required_upload_guard(a.phase_id)' not in command:
-  raise SystemExit('R14 submit path does not pass the selected phase guard marker into config')
+  raise SystemExit('R14 C14 guard marker not routed')
  def assignments(parsed):
   return {t.id:ast.literal_eval(n.value) for n in parsed.body if isinstance(n,ast.Assign)
           for t in n.targets if isinstance(t,ast.Name) and t.id in {'BUCKET','UBUNTU','SDK','ACCOUNT','SDK_PYTHON'}}
  if assignments(baseline)!=assignments(tree) or len(assignments(baseline))!=5:
-  raise SystemExit('R14 changed a publisher image/account/bucket constant')
+  raise SystemExit('R14 C15 publisher identity changed')
 
 
 def r14_validate_retry_sources(probe_sha,proof_sha):
- """Require only the R14 registration delta around the exact R13 publisher."""
  expected_additions={R14_GATE_PATH,R14_LEDGER_PATH,
   'research/challenge-8/cloud-build/origin-layout/r14-source-preflight.py'}
  recipe_path='research/challenge-8/cloud-build/recipes/merge.json'
@@ -527,13 +525,13 @@ def r14_validate_retry_sources(probe_sha,proof_sha):
   after_recipe_raw=subprocess.check_output(['git','show',proof_sha+':'+recipe_path],cwd=ROOT,stderr=subprocess.PIPE)
   before_recipe=json.loads(before_recipe_raw);after_recipe=json.loads(after_recipe_raw)
  except (subprocess.CalledProcessError,ValueError,UnicodeDecodeError):
-  raise SystemExit('R14 could not read the exact probe and proof recipes')
+  raise SystemExit('R14 R1 recipe unreadable')
  r14_validate_recipe_delta(before_recipe,after_recipe,expected_additions)
  try:
   before_card=json.loads(subprocess.check_output(['git','show',probe_sha+':'+mode_path],cwd=ROOT,stderr=subprocess.PIPE))
   after_card=json.loads(subprocess.check_output(['git','show',proof_sha+':'+mode_path],cwd=ROOT,stderr=subprocess.PIPE))
  except (subprocess.CalledProcessError,ValueError,UnicodeDecodeError):
-  raise SystemExit('R14 source lacks a readable mode card')
+  raise SystemExit('R14 R2 mode card unreadable')
  r14_validate_mode_transition(before_card,after_card)
 
  def inventory(commit,recipe,recipe_raw):
@@ -547,14 +545,14 @@ def r14_validate_retry_sources(probe_sha,proof_sha):
    if not record:continue
    meta,path=record.split(b'\t',1);mode,kind,oid=meta.decode().split()
    if mode not in ('100644','100755') or kind!='blob':
-    raise SystemExit('R14 runtime closure contains a non-regular source input')
+    raise SystemExit('R14 R3 nonregular runtime input')
    found[path.decode()]=(mode,kind,oid)
-  if set(found)!=set(paths):raise SystemExit('R14 runtime source closure is incomplete')
+  if set(found)!=set(paths):raise SystemExit('R14 R4 incomplete runtime closure')
   return found
  before=inventory(probe_sha,before_recipe,before_recipe_raw)
  after=inventory(proof_sha,after_recipe,after_recipe_raw)
  if before.get(mode_path,('',))[0:2]!=('100644','blob') or after.get(mode_path,('',))[0:2]!=('100644','blob'):
-  raise SystemExit('R14 mode card must remain a regular non-executable source input')
+  raise SystemExit('R14 R5 mode card type')
  checkpoint_raw=subprocess.check_output(['git','ls-tree','-r','-z',R14_CLOSED_R13_CHECKPOINT,'--',R14_R13_LEDGER_PATH],cwd=ROOT,stderr=subprocess.PIPE)
  checkpoint_entries=[]
  for record in checkpoint_raw.split(b'\0'):
@@ -562,15 +560,15 @@ def r14_validate_retry_sources(probe_sha,proof_sha):
    meta,path=record.split(b'\t',1);mode,kind,oid=meta.decode().split()
    checkpoint_entries.append((path.decode(),(mode,kind,oid)))
  if len(checkpoint_entries)!=1 or checkpoint_entries[0][0]!=R14_R13_LEDGER_PATH:
-  raise SystemExit('R14 closed R13 checkpoint does not contain the exact account file')
+  raise SystemExit('R14 R6 checkpoint ledger missing')
  r14_validate_historical_ledger(before.get(R14_R13_LEDGER_PATH),after.get(R14_R13_LEDGER_PATH),checkpoint_entries[0][1])
  try:
   current_historical=(ROOT/R14_R13_LEDGER_PATH).read_bytes()
   checkpoint_historical=subprocess.check_output(['git','show',R14_CLOSED_R13_CHECKPOINT+':'+R14_R13_LEDGER_PATH],cwd=ROOT,stderr=subprocess.PIPE)
  except (OSError,subprocess.CalledProcessError):
-  raise SystemExit('R14 cannot verify the read-only closed R13 account snapshot')
+  raise SystemExit('R14 R7 checkpoint unreadable')
  if current_historical!=checkpoint_historical:
-  raise SystemExit('R14 working tree changed the closed R13 account snapshot')
+  raise SystemExit('R14 R8 working tree changed R13 ledger')
  ignore={recipe_path,mode_path}|expected_additions
  r14_validate_runtime_maps(before,after,expected_additions)
  # The command generator is allowed to gain phase authorization, but the
@@ -1024,21 +1022,21 @@ def authorized_phase(a,ledger):
       'active_build' not in ledger or
       (ledger.get('active_build') is not None and
        (type(ledger.get('active_build')) is not str or not ledger.get('active_build')))):
-   raise SystemExit('R14 differs from its exact publication-gate proof authorization')
+   raise SystemExit('R14 A1 account authorization mismatch')
   cutoff=datetime.datetime.fromisoformat('2026-10-21T15:22:50+00:00')
   now=datetime.datetime.now(datetime.timezone.utc)
   if now<datetime.datetime.fromisoformat(ledger['start_utc'].replace('Z','+00:00')):
-   raise SystemExit('R14 proof window has not started')
+   raise SystemExit('R14 A2 window not started')
   if a.command in ('submit','request') and now>=datetime.datetime.fromisoformat(ledger['main_deadline_utc'].replace('Z','+00:00')):
-   raise SystemExit('R14 main window passed; no new dispatch/request')
+   raise SystemExit('R14 A3 main window expired')
   if a.command=='submit':
    if (type(a.timeout) is not int or not 90<=a.timeout<=1200 or a.lane!='merge' or
        a.source_mode!='pinned-objects' or a.infra_sha!=a.proof_sha):
-    raise SystemExit('R14 requires one exact pinned infra/proof source, merge lane, timeout90..1200')
+    raise SystemExit('R14 A4 submit pins/timeout')
    if now+datetime.timedelta(seconds=a.timeout+60)>cutoff:
-    raise SystemExit('R14 Build plus queue reserve exceeds the absolute deadline')
+    raise SystemExit('R14 A5 deadline reserve')
    if r13_upload_mode(a.proof_sha)!='proof-r11':
-    raise SystemExit('R14 proof retry requires the exact R11 normal-proof mode')
+    raise SystemExit('R14 A6 proof mode')
    r14_read_selected_gate(a.proof_sha)
    r14_validate_retry_sources(R14_PROBE_SOURCE,a.proof_sha)
  if a.phase_id=='CI-IAM-E2E-ONCE-2026-10-17':
