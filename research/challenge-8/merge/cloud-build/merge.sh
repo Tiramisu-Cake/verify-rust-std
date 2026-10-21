@@ -293,6 +293,8 @@ if manifest.get("component") != "MIR-OR-JOIN-LIVENESS":
     raise SystemExit("MIR-OR-JOIN manifest component identity mismatch")
 print("JSON OK MIR-OR-JOIN manifest; admission state remains enforced by pinned component scripts")
 ORJOINJSON
+  SMALLSORT_TEST_PACKAGER="$cloud_dir/package-evidence.py" \
+    python3 "$proof_root/research/challenge-8/cloud-build/origin-layout/tool-evidence-staging-service-test.py"
   bash -n "$proof_root/research/challenge-8/merge/overnight/run.sh"
   bash -n "$proof_root/research/challenge-8/merge/overnight/build.sh"
   bash -n "$proof_root/research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/build-profile.sh"

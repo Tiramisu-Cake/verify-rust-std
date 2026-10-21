@@ -591,15 +591,15 @@ def _run_replay(case: Path, name: str, mutation: str, raw: Path,
                      "verified/lib.rs": _sha(source_pair[1]),
                      "small_sort_source": expected_source_sha}
     identity = _case_identity(run_identity, name, mutation, source_hashes, target)
-    bin_dir, child_env = _load("r11_capnp_text_helpers_tools", HERE /
-        "first-callback-admission-controls.py")._tool_tree(Path(args.tool_home), case, env)
+    helper = _load("r11_capnp_text_helpers_tools", HERE /
+        "first-callback-admission-controls.py")
+    bin_dir, child_env = helper._tool_tree(Path(args.tool_home), case, env)
     real_verifast = Path(args.tool_home) / "bin/verifast"
     local_verifast = bin_dir / "verifast"
-    shutil.copy2(real_verifast, local_verifast)
+    helper._copy_tool_file(real_verifast, local_verifast)
     local_verifast.chmod(local_verifast.stat().st_mode | 0o111)
     if _file_sha(local_verifast) != run_identity["tool_sha256"]["verifast"]:
         raise ValueError("copied verifier differs from current validated binary")
-    helper = _load("r11_capnp_text_helpers_wrapper", HERE / "first-callback-admission-controls.py")
     wrapper, wrapper_sha = helper._exporter_wrapper(
         bin_dir, Path(args.tool_home) / "bin/vf-rust-mir-exporter", replay=raw)
     command = [str(local_verifast), "-rustc_args", "--edition 2021",

@@ -16,6 +16,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import stat
 import subprocess
 import sys
 
@@ -448,23 +449,93 @@ def _decode(raw: Path, schema: Path, include_dirs: list[Path], cwd: Path,
     return result.stdout.decode("utf-8")
 
 
+def _copy_tool_file(source: Path, destination: Path) -> None:
+    """Copy a regular runtime file without following a source or destination link."""
+    with os.fdopen(os.open(source, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK), "rb") as src:
+        info = os.fstat(src.fileno())
+        if not stat.S_ISREG(info.st_mode):
+            raise ValueError(f"tool runtime asset is not a regular file: {source}")
+        with destination.open("xb") as dst:
+            shutil.copyfileobj(src, dst)
+        destination.chmod(stat.S_IMODE(info.st_mode))
+
+
 def _tool_tree(tool_home: Path, case: Path,
                env: dict[str, str]) -> tuple[Path, dict[str, str]]:
-    """Create a copied executable directory with all other pinned assets linked."""
+    """Stage regular bin assets, not the tool worktree, into evidence.
+
+    Root subtrees outside bin are not runtime inputs. Symlinks (including
+    dangling/cyclic links) are metadata only; never traverse or copy targets.
+    The caller installs its hash-checked entrypoint and exporter wrapper later.
+    A COMPLETE manifest describes staging only, not tool execution or proof.
+    """
     root = case / "tool"
     bin_dir = root / "bin"
-    bin_dir.mkdir(parents=True)
-    for child in tool_home.iterdir():
-        if child.name == "bin":
-            continue
-        link = root / child.name
-        if not link.exists():
-            link.symlink_to(child, target_is_directory=child.is_dir())
-    source_bin = tool_home / "bin"
-    for child in source_bin.iterdir():
-        if child.name in ("verifast", "refinement-checker", "vf-rust-mir-exporter"):
-            continue
-        (bin_dir / child.name).symlink_to(child, target_is_directory=child.is_dir())
+    manifest_path = case / "tool-staging.json"
+    # Refuse retries into an existing/partial destination, including dangling links.
+    if os.path.lexists(root) or os.path.lexists(manifest_path):
+        raise FileExistsError(f"tool staging destination already exists: {root}")
+    manifest = {
+        "schema": "smallsort-tool-evidence-staging-v1", "status": "FAILED",
+        "tool_home": str(tool_home), "destination": "tool",
+        "policy": "regular bin assets only; no symlink traversal; excluded directories cover entire subtrees",
+        "caller_managed": ["bin/verifast", "bin/refinement-checker", "bin/vf-rust-mir-exporter"],
+        "included": [], "excluded": [],
+    }
+
+    def exclude(path: Path, kind: str, reason: str) -> None:
+        entry = {"path": path.relative_to(tool_home).as_posix(),
+                 "kind": kind, "reason": reason}
+        if kind == "symlink":
+            entry["target"] = os.readlink(path)
+        manifest["excluded"].append(entry)
+
+    def stage(source: Path, destination: Path) -> None:
+        mode = source.lstat().st_mode
+        if stat.S_ISLNK(mode):
+            exclude(source, "symlink", "metadata only; symlink targets are never copied")
+        elif stat.S_ISDIR(mode):
+            destination.mkdir()
+            for child in sorted(source.iterdir()):
+                stage(child, destination / child.name)
+        elif stat.S_ISREG(mode):
+            _copy_tool_file(source, destination)
+            manifest["included"].append({
+                "path": source.relative_to(tool_home).as_posix(),
+                "sha256": _sha(destination), "size_bytes": destination.stat().st_size})
+        else:
+            raise ValueError(f"unsupported tool runtime entry: {source}")
+
+    try:
+        if not stat.S_ISDIR(tool_home.lstat().st_mode):
+            raise ValueError("tool_home must be a real directory")
+        source_bin = tool_home / "bin"
+        if not stat.S_ISDIR(source_bin.lstat().st_mode):
+            raise ValueError("tool bin must be a real directory")
+        bin_dir.mkdir(parents=True)
+        for child in sorted(tool_home.iterdir()):
+            if child.name == "bin":
+                continue
+            mode = child.lstat().st_mode
+            kind = ("symlink" if stat.S_ISLNK(mode) else
+                    "directory" if stat.S_ISDIR(mode) else
+                    "regular-file" if stat.S_ISREG(mode) else "special")
+            exclude(child, kind, "outside bin runtime assets; entire subtree excluded")
+        for child in sorted(source_bin.iterdir()):
+            if "bin/" + child.name in manifest["caller_managed"]:
+                # Record symlink entrypoints as metadata too; the strict caller
+                # copy refuses them rather than silently dereferencing them.
+                if child.is_symlink():
+                    exclude(child, "symlink", "caller-managed entrypoint; symlink copy forbidden")
+                continue
+            stage(child, bin_dir / child.name)
+        manifest["status"] = "COMPLETE"
+    except Exception as error:
+        manifest["error"] = f"{type(error).__name__}: {error}"
+        raise
+    finally:
+        with manifest_path.open("x", encoding="utf-8") as output:
+            output.write(json.dumps(manifest, sort_keys=True, indent=2) + "\n")
     child_env = dict(env)
     child_env["PATH"] = str(bin_dir) + os.pathsep + child_env.get("PATH", "")
     lib_path = child_env.get("LD_LIBRARY_PATH", "")
@@ -518,7 +589,7 @@ def _run_verifast(label: str, evidence: Path, args, env: dict[str, str], base,
     bin_dir, child_env = _tool_tree(Path(args.tool_home), case, env)
     real_vf = Path(args.tool_home) / "bin/verifast"
     local_vf = bin_dir / "verifast"
-    shutil.copy2(real_vf, local_vf)
+    _copy_tool_file(real_vf, local_vf)
     local_vf.chmod(local_vf.stat().st_mode | 0o111)
     vf_hash = _sha(real_vf)
     if _sha(local_vf) != vf_hash:
@@ -806,7 +877,7 @@ def _legacy_regression_controls(evidence: Path, args, env: dict[str, str], base,
         shutil.copy2(source, source_dir / "original/lib.rs")
         bin_dir, child_env = _tool_tree(Path(args.tool_home), case, env)
         local_vf = bin_dir / "verifast"
-        shutil.copy2(Path(args.tool_home) / "bin/verifast", local_vf)
+        _copy_tool_file(Path(args.tool_home) / "bin/verifast", local_vf)
         local_vf.chmod(local_vf.stat().st_mode | 0o111)
         vf_sha = _sha(Path(args.tool_home) / "bin/verifast")
         if _sha(local_vf) != vf_sha:
@@ -894,7 +965,7 @@ def _refiner_capture(evidence: Path, args, env: dict[str, str], base,
     bin_dir, child_env = _tool_tree(Path(args.tool_home), case, env)
     real_refiner = Path(args.tool_home) / "bin/refinement-checker"
     local_refiner = bin_dir / "refinement-checker"
-    shutil.copy2(real_refiner, local_refiner)
+    _copy_tool_file(real_refiner, local_refiner)
     local_refiner.chmod(local_refiner.stat().st_mode | 0o111)
     refiner_sha = _sha(real_refiner)
     if _sha(local_refiner) != refiner_sha:
@@ -958,7 +1029,7 @@ def _run_refiner_replay(label: str, evidence: Path, args, env: dict[str, str], b
     bin_dir, child_env = _tool_tree(Path(args.tool_home), case, env)
     real_refiner = Path(args.tool_home) / "bin/refinement-checker"
     local_refiner = bin_dir / "refinement-checker"
-    shutil.copy2(real_refiner, local_refiner)
+    _copy_tool_file(real_refiner, local_refiner)
     local_refiner.chmod(local_refiner.stat().st_mode | 0o111)
     refiner_sha = _sha(real_refiner)
     if _sha(local_refiner) != refiner_sha:

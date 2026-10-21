@@ -1,3 +1,9 @@
+> **Локальное исправление evidence staging, 2026-10-21:** общий `_tool_tree`
+> больше не помещает symlink рабочего дерева в evidence. Оба известных случая
+> прошли реальную локальную упаковку; 7 новых service tests PASS, review GO.
+> [Изменение и проверки](cloud-build/origin-layout/TOOL-EVIDENCE-STAGING-20261021.md).
+> Новый Cloud Build не запускался; прежние proof-результаты и закрытый бюджет R11 сохранены.
+
 # Merge-R11 — label invariant и annotation temporary
 
 ## Авторизация и место работы
