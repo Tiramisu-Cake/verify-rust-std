@@ -342,6 +342,33 @@ class R17PhaseTests(unittest.TestCase):
         with self.assertRaisesRegex(SystemExit, "provider pin source mismatch"):
             m.r17_validate_provider_pin_tables(baseline, selected, paths, mismatched_source)
 
+    def test_provider_pin_gate_rejects_any_other_module_mutation(self):
+        provider_path = m.R17_PROVIDER_OVERLAYS_PATH
+        baseline = subprocess.check_output(
+            ["git", "show", f"{m.R17_PROBE_SOURCE}:{provider_path}"], cwd=HERE.parents[3]
+        )
+        selected = (HERE.parents[3] / provider_path).read_bytes()
+        self.assertEqual(selected, baseline.replace(
+            m.R17_PROVIDER_OLD_PROVE_SHA256.encode(), m.R17_PROVIDER_NEW_PROVE_SHA256.encode(), 1
+        ))
+        extra_mutations = (
+            b"\nR11_FILES.update({'unexpected.py': '" + b"a" * 64 + b"'})\n",
+            b"\nR11_FILES['unexpected.py'] = '" + b"a" * 64 + b"'\n",
+            b"\nFILES |= {'unexpected.py': '" + b"a" * 64 + b"'}\n",
+        )
+        for mutation in extra_mutations:
+            with self.subTest(mutation=mutation), self.assertRaisesRegex(
+                SystemExit, "provider module contains an unreviewed change"
+            ):
+                m.r17_validate_provider_module_delta(baseline, selected + mutation)
+        changed_other_pin = selected.replace(
+            b"ae0aa063624630f651fc4b466bc2e39c0ad017be75652a43ae2130eea672ca54",
+            b"be0aa063624630f651fc4b466bc2e39c0ad017be75652a43ae2130eea672ca54",
+            1,
+        )
+        with self.assertRaisesRegex(SystemExit, "provider module contains an unreviewed change"):
+            m.r17_validate_provider_module_delta(baseline, changed_other_pin)
+
     def test_wrong_probe_source_and_worktree_blob_or_mode_refuse(self):
         with self.assertRaises(SystemExit): m.r17_validate_sources("f" * 40, "a" * 40)
         with self.assertRaises(SystemExit): m.r17_validate_profile_baseline(b"old", b"changed")

@@ -45,6 +45,8 @@ R17_CONTROLS_PATH='research/challenge-8/cloud-build/origin-layout/r17-rawptr-con
 R17_PATCH_PATH='research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch'
 R17_PROFILE_REGISTRATION='r17_registration'
 R17_PROVIDER_OVERLAYS_PATH='research/challenge-8/merge/cloud-build/provider-overlays.py'
+R17_PROVIDER_OLD_PROVE_SHA256='2739a58c55fa8b4b764b16b9df8dc40239c2f2a0335c134534e76c9559d81f27'
+R17_PROVIDER_NEW_PROVE_SHA256='092669d3d8e619130c4afc36f8c3f73698f3d5f776ffbeb8fe1f566e313ec8aa'
 R17_AUTHORIZATION=('CURRENT-TASK R17: actual Merge caller refinement/borrow and unsize; '
  'checked RawPtr matching with exact-origin controls; fresh3600/no carry; '
  'independent Luna HIGH review; Cloud-only preparation/compiler/proof.')
@@ -993,8 +995,19 @@ def r17_parse_provider_pin_tables(source):
   raise SystemExit('R17 S16 malformed provider pin tables')
 
 
+def r17_validate_provider_module_delta(baseline_source,selected_source):
+ """Permit exactly the reviewed R11 prove.py digest substitution in this module."""
+ old=R17_PROVIDER_OLD_PROVE_SHA256.encode()
+ new=R17_PROVIDER_NEW_PROVE_SHA256.encode()
+ if (not isinstance(baseline_source,bytes) or not isinstance(selected_source,bytes) or
+     baseline_source.count(old)!=1 or baseline_source.count(new)!=0 or
+     selected_source!=baseline_source.replace(old,new,1)):
+  raise SystemExit('R17 S16 provider module contains an unreviewed change')
+
+
 def r17_validate_provider_pin_tables(baseline_source,selected_source,closure_paths,read_selected_source):
  """Validate both provider maps against the closed baseline and selected source blobs."""
+ r17_validate_provider_module_delta(baseline_source,selected_source)
  baseline=r17_parse_provider_pin_tables(baseline_source)
  selected=r17_parse_provider_pin_tables(selected_source)
  if any(set(selected[name])!=set(baseline[name]) for name in ('FILES','R11_FILES')):
