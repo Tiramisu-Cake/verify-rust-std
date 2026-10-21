@@ -166,6 +166,8 @@ class False31PartialLifecycleTests(unittest.TestCase):
         boundary.assert_not_called()
         self.assertEqual(observed["classification"],
                          "FALSE31_OWN_PAIR_RECEIPT_ISSUED_CALLER_STRUCTURE_UNAVAILABLE")
+        self.assertEqual(observed["caller_stage"]["status"],
+                         "INCONCLUSIVE_CALLER_STRUCTURE_UNAVAILABLE")
         self.assertIsNone(observed["caller_stage"]["caller_verification_started"])
         self.assertIsNone(observed["caller_stage"]["proof_attempted"])
         self.assertIs(observed["proof_credit"], False)

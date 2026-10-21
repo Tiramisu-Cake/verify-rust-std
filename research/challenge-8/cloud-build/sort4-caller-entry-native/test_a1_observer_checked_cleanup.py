@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import importlib.util
 from pathlib import Path
+import sys
 import unittest
 
 
@@ -13,6 +14,13 @@ SPEC = importlib.util.spec_from_file_location("a1_fixtures_cleanup", HERE / "a1-
 assert SPEC is not None and SPEC.loader is not None
 fixtures = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(fixtures)
+GHOST_SPEC = importlib.util.spec_from_file_location(
+    "a1_observer_cleanup_ghost_strip",
+    HERE.parent / "sort4-native-c1-bound" / "ghost-strip.py")
+assert GHOST_SPEC is not None and GHOST_SPEC.loader is not None
+ghost = importlib.util.module_from_spec(GHOST_SPEC)
+sys.modules[GHOST_SPEC.name] = ghost
+GHOST_SPEC.loader.exec_module(ghost)
 
 
 SIGNATURE = b"""pub fn quicksort<T, F: FnMut(&T, &T) -> bool>(
@@ -49,7 +57,8 @@ class ObserverCleanupConstructionTests(unittest.TestCase):
         self.assertIn(b"ens thread_token(t);", lemma)
         self.assertIn(b"open std::option::Option_own::<&'a T>(t, value);", lemma)
         self.assertIn(b"Option::None => {}", lemma)
-        self.assertIn(b"Option::Some(r) => {}", lemma)
+        self.assertIn(b"Option::Some(r) => { open shared_ref_type_own::<'a, T>()(t, r); }", lemma)
+        self.assertNotIn(b"Option::Some(r) => {}", lemma)
         self.assertNotIn(b"std::option::Option::None", lemma)
         self.assertNotIn(b"std::option::Option::Some", lemma)
         self.assertNotIn(b"'_", lemma)
@@ -97,7 +106,9 @@ class ObserverCleanupConstructionTests(unittest.TestCase):
         self.assertEqual(lemma.count(b"@*/"), 1)
         self.assertNotIn(b"use ", lemma)
         self.assertEqual(lemma.count(b"Option::None => {}"), 1)
-        self.assertEqual(lemma.count(b"Option::Some(r) => {}"), 1)
+        self.assertEqual(lemma.count(
+            b"Option::Some(r) => { open shared_ref_type_own::<'a, T>()(t, r); }"), 1)
+        self.assertNotIn(b"Option::Some(r) => {}", lemma)
         self.assertNotIn(b"std::option::Option::None", lemma)
         self.assertNotIn(b"std::option::Option::Some", lemma)
         self.assertEqual((import_line + lemma).count(
@@ -116,40 +127,56 @@ class ObserverCleanupConstructionTests(unittest.TestCase):
             fixtures._checked_cleanup_helper_metadata(
                 b"header\n" + standalone + standalone + helper)
 
-    def test_p0c_and_false31_keep_signature_and_guard_and_call_cleanup_each_exit(self):
+    def test_p0c_and_false31_cleanup_once_at_entry_before_runtime_calls(self):
         for false31, expected_assertion in ((False, b"assert len <= 32;"),
                                              (True, b"assert len <= 31;")):
             with self.subTest(false31=false31):
                 generated, _ = fixtures._observer(SIGNATURE, GUARD, false31=false31)
                 renamed = SIGNATURE.replace(b"pub fn quicksort<",
                                             b"fn a1_guard_observer<", 1)
+                entry = b"        //@ a1_cleanup_option_ref(left_ancestor_pivot);\n"
                 source_prefix = GUARD[:GUARD.index(
                     b"            T::small_sort(v, scratch, is_less);")]
-                self.assertTrue(generated.startswith(renamed + source_prefix))
+                self.assertTrue(generated.startswith(renamed + entry + source_prefix))
                 self.assertIn(expected_assertion, generated)
-                self.assertEqual(generated.count(CLEANUP), 2)
+                self.assertEqual(generated.count(CLEANUP), 1)
                 self.assertEqual(generated.count(b"return;"), 2)
                 self.assertNotIn(b"core::mem::drop(left_ancestor_pivot)", generated)
-                first_cleanup = generated.index(CLEANUP)
+                cleanup_at = generated.index(CLEANUP)
+                for runtime_call in (b"v.len();", b"T::small_sort_threshold()"):
+                    self.assertLess(cleanup_at, generated.index(runtime_call))
                 self.assertLess(generated.index(b"T::small_sort_threshold()"),
                                 generated.index(expected_assertion))
                 self.assertLess(generated.index(b"assert requirement <= 48;"),
-                                first_cleanup)
-                self.assertEqual(generated.count(CLEANUP + b"\n        return;"), 1)
-                self.assertEqual(generated.count(CLEANUP + b"\n    return;"), 1)
+                                generated.index(b"return;"))
                 self.assertNotIn(b"left_ancestor_pivot = None", generated)
+                expected_runtime = renamed + source_prefix + \
+                    b"\n        let requirement = len + 16;\n        return;\n    }\n" \
+                    b"    // A1 diagnostic cut: non-base continuation is intentionally not present.\n" \
+                    b"    return;\n}\n}\n"
+                self.assertEqual(ghost.strip_ghost(generated), expected_runtime)
 
-    def test_p1_original_prefix_unchanged_and_cleanup_is_labeled_diagnostic_tail(self):
+    def test_p1_cleanup_once_at_entry_and_runtime_bytes_unchanged_after_ghost_strip(self):
         generated = fixtures._p1_caller(SIGNATURE, GUARD)
-        prefix = SIGNATURE + GUARD
+        entry = b"        //@ a1_cleanup_option_ref(left_ancestor_pivot);\n"
+        prefix = SIGNATURE + entry + GUARD
         self.assertTrue(generated.startswith(prefix))
         tail = generated[len(prefix):]
         self.assertIn(b"A1 diagnostic cut: non-base continuation", tail)
         self.assertIn(b"A1 checked ghost cleanup", tail)
-        self.assertEqual(tail.count(CLEANUP), 1)
+        self.assertEqual(tail.count(CLEANUP), 0)
+        self.assertEqual(generated.count(CLEANUP), 1)
         self.assertNotIn(b"core::mem::drop(left_ancestor_pivot)", tail)
         self.assertEqual(tail.count(b"return;"), 1)
-        self.assertLess(tail.index(CLEANUP), tail.index(b"return;"))
+        cleanup_at = generated.index(CLEANUP)
+        for runtime_call in (b"v.len();", b"T::small_sort_threshold()",
+                             b"T::small_sort(v, scratch, is_less);"):
+            self.assertLess(cleanup_at, generated.index(runtime_call))
+        runtime_before = SIGNATURE + GUARD + \
+            b"\n        // A1 diagnostic cut: non-base continuation after original call is absent.\n" \
+            b"        // A1 checked ghost cleanup for the arbitrary Option parameter.\n" \
+            b"        return;\n    }\n}\n"
+        self.assertEqual(ghost.strip_ghost(generated), runtime_before)
 
 
 if __name__ == "__main__":

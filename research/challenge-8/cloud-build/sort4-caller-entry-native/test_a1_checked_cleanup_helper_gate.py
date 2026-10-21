@@ -231,7 +231,7 @@ class CheckedCleanupHelperGateTests(unittest.TestCase):
                "checked_helper_proof_path": str(self.root_evidence / "checked-cleanup-helper-proof.json"),
                "evidence_root": str(self.root_evidence), "build_id": BUILD_ID,
                "focus_stage": "caller",
-               "source_pair_sha256": record["source_pair_sha256"]}
+               "source_pair_sha256": {"verified": sha(self.source), "original": sha(self.source)}}
         (self.root_evidence / "checked-cleanup-helper-proof.json").write_text(
             json.dumps(record, indent=2, sort_keys=True) + "\n")
         self.assertTrue(RUNNER.checked_helper_record_valid(
@@ -239,6 +239,20 @@ class CheckedCleanupHelperGateTests(unittest.TestCase):
             certificate_path=self.certificate_path, fixture=self.fixture,
             tool=self.tool, tool_receipt=self.receipt,
             ast_gates=AST, expected_caller_env=self.env))
+        actual_pair = dict(raw["source_pair_sha256"])
+        for malformed in (None, {}, record["source_pair_sha256"],
+                          {"verified": sha(self.source)},
+                          dict(actual_pair, extra=sha(self.source)),
+                          dict(actual_pair, verified="0" * 64),
+                          dict(actual_pair, verified=None),
+                          dict(actual_pair, original="wrong")):
+            raw["source_pair_sha256"] = malformed
+            self.assertFalse(RUNNER.checked_helper_record_valid(
+                raw, profile=self.profile, certificate_case=self.case,
+                certificate_path=self.certificate_path, fixture=self.fixture,
+                tool=self.tool, tool_receipt=self.receipt,
+                ast_gates=AST, expected_caller_env=self.env), malformed)
+        raw["source_pair_sha256"] = actual_pair
         for field, value in (("build_id", "other-build"),
                              ("profile_sha256", "b" * 64),
                              ("source_pair_sha256", {"verified/lib.rs": "0" * 64,
@@ -281,7 +295,7 @@ class CheckedCleanupHelperGateTests(unittest.TestCase):
                "checked_helper_proof_path": str(self.root_evidence / "checked-cleanup-helper-proof.json"),
                "evidence_root": str(self.root_evidence), "build_id": BUILD_ID,
                "focus_stage": "caller",
-               "source_pair_sha256": record["source_pair_sha256"]}
+               "source_pair_sha256": {"verified": sha(self.source), "original": sha(self.source)}}
         record_path = self.root_evidence / "checked-cleanup-helper-proof.json"
         record_path.write_text(json.dumps(record, indent=2, sort_keys=True) + "\n")
         def valid():

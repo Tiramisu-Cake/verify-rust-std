@@ -81,8 +81,8 @@ lem a1_cleanup_option_ref<'a, T>(value: std::option::Option<&'a T>)
 """
 
 OBSERVER_SUFFIX = {
-    "P0c": """\n        //@ assert len <= 32;\n        let requirement = len + 16;\n        //@ assert requirement <= 48;\n        //@ a1_cleanup_option_ref(left_ancestor_pivot);\n        return;\n    }\n    // A1 diagnostic cut: non-base continuation is intentionally not present.\n    //@ a1_cleanup_option_ref(left_ancestor_pivot);\n    return;\n}\n}\n""",
-    "N-false31": """\n        //@ assert len <= 31;\n        let requirement = len + 16;\n        //@ assert requirement <= 48;\n        //@ a1_cleanup_option_ref(left_ancestor_pivot);\n        return;\n    }\n    // A1 diagnostic cut: non-base continuation is intentionally not present.\n    //@ a1_cleanup_option_ref(left_ancestor_pivot);\n    return;\n}\n}\n""",
+    "P0c": """\n        //@ assert len <= 32;\n        let requirement = len + 16;\n        //@ assert requirement <= 48;\n        return;\n    }\n    // A1 diagnostic cut: non-base continuation is intentionally not present.\n    return;\n}\n}\n""",
+    "N-false31": """\n        //@ assert len <= 31;\n        let requirement = len + 16;\n        //@ assert requirement <= 48;\n        return;\n    }\n    // A1 diagnostic cut: non-base continuation is intentionally not present.\n    return;\n}\n}\n""",
 }
 
 
@@ -319,19 +319,22 @@ def _observer(signature: bytes, guard: bytes, *, false31: bool = False) -> tuple
     renamed = signature.replace(b"pub fn quicksort<", b"fn a1_guard_observer<", 1)
     _need(renamed != signature, "diagnostic observer rename did not match source")
     if false31:
-        body = renamed + guard[:guard.index(b"            T::small_sort(v, scratch, is_less);")] + \
-            OBSERVER_SUFFIX["N-false31"].encode()
+        suffix = OBSERVER_SUFFIX["N-false31"].encode()
     else:
-        body = renamed + guard[:guard.index(b"            T::small_sort(v, scratch, is_less);")] + \
-            OBSERVER_SUFFIX["P0c"].encode()
+        suffix = OBSERVER_SUFFIX["P0c"].encode()
+    entry_cleanup = b"        //@ a1_cleanup_option_ref(left_ancestor_pivot);\n"
+    body = renamed + entry_cleanup + \
+        guard[:guard.index(b"            T::small_sort(v, scratch, is_less);")] + suffix
     return body, "quicksort -> a1_guard_observer (diagnostic item-name-only rename)"
 
 
 def _p1_caller(signature: bytes, guard: bytes) -> bytes:
     _need(b"T::small_sort(v, scratch, is_less);" in guard, "P1 original small_sort call absent")
-    return signature + guard + b"\n        // A1 diagnostic cut: non-base continuation after original call is absent.\n" \
+    entry_cleanup = b"        //@ a1_cleanup_option_ref(left_ancestor_pivot);\n"
+    return signature + entry_cleanup + guard + \
+        b"\n        // A1 diagnostic cut: non-base continuation after original call is absent.\n" \
         b"        // A1 checked ghost cleanup for the arbitrary Option parameter.\n" \
-        b"        //@ a1_cleanup_option_ref(left_ancestor_pivot);\n        return;\n    }\n}\n"
+        b"        return;\n    }\n}\n"
 
 
 def _compose(items: dict[str, bytes], *, caller_kind: str, helper_cut: bytes,

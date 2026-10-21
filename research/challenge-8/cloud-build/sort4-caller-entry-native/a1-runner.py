@@ -998,7 +998,7 @@ def draft_false31_pair_stage(a, c4, ghost, *, tool: Path,
         caller_stage = {
             "status": "NOT_RUN_CHECKED_HELPER_PREREQUISITE"
                 if helper_blocked else
-                "NOT_RUN_CALLER_STRUCTURE_UNAVAILABLE",
+                "INCONCLUSIVE_CALLER_STRUCTURE_UNAVAILABLE",
             "execution_started": True,
             "caller_verification_started": False if helper_blocked else None,
             "caller_verification_status": caller_verification,
@@ -1872,8 +1872,16 @@ def checked_helper_record_valid(raw: Mapping[str, Any], *, profile: Mapping[str,
               "checked cleanup helper Build/profile/certificate identity")
         expected_pair = {"verified/lib.rs": _sha(fixture / "verified/lib.rs"),
                          "original/lib.rs": _sha(fixture / "original/lib.rs")}
+        raw_pair = raw.get("source_pair_sha256")
+        _need(isinstance(raw_pair, Mapping) and
+              set(raw_pair) == {"verified", "original"} and
+              all(isinstance(value, str) and HEX64.fullmatch(value) is not None
+                  for value in raw_pair.values()),
+              "checked cleanup helper raw source pair schema")
+        normalized_raw_pair = {name + "/lib.rs": value
+                               for name, value in raw_pair.items()}
         _need(record.get("source_pair_sha256") == expected_pair ==
-              raw.get("source_pair_sha256") and
+              normalized_raw_pair and
               expected_pair["verified/lib.rs"] ==
               certificate_case.get("generated_source_sha256"),
               "checked cleanup helper source pair identity")
