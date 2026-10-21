@@ -783,6 +783,27 @@ def _small_sort_ast_header_for_common_comparison(header: tuple[Any, ...]) -> tup
     return tuple(projected)
 
 
+def _bounded_header_difference(actual: Any, expected: Any) -> str:
+    """Report at most three differing leaves without serializing AST bodies."""
+    rows = []
+
+    def visit(left, right, path):
+        if len(rows) >= 3 or left == right:
+            return
+        if (type(left) is type(right) and isinstance(left, (tuple, list)) and
+                len(left) == len(right)):
+            for index, (a, b) in enumerate(zip(left, right)):
+                visit(a, b, path + "/" + str(index))
+                if len(rows) >= 3:
+                    break
+        else:
+            rows.append(path + ": actual=" + repr(left)[:160] +
+                        "; expected=" + repr(right)[:160])
+
+    visit(actual, expected, "header")
+    return " | ".join(rows)
+
+
 def _small_sort_scratch_name_from_header(header: tuple[Any, ...]) -> str:
     need(isinstance(header, tuple) and len(header) == 9,
          "small_sort AST normalized header shape")
@@ -1036,11 +1057,13 @@ def small_sort_native_baseline(ast: str, inventory: Mapping[str, Any], *,
         need(impl_native_projection == common_native_projection,
              "unmodified R-only impl native contract differs from required common baseline: " +
              identity["impl"])
-        need(_small_sort_ast_header_for_common_comparison(
-                 surface["normalized_header"]) ==
-             _small_sort_ast_header_for_common_comparison(common_header),
+        compared_header = _small_sort_ast_header_for_common_comparison(
+            surface["normalized_header"])
+        expected_header = _small_sort_ast_header_for_common_comparison(common_header)
+        need(compared_header == expected_header,
              "unmodified R-only impl typed header differs from required common baseline: " +
-             identity["impl"])
+             identity["impl"] + "; " +
+             _bounded_header_difference(compared_header, expected_header))
         original_impls[identity["impl"]] = surface
     for item_path, identities in by_item_path.items():
         path_definitions = [row for row in fs if row["name"] == item_path and

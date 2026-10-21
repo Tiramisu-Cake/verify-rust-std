@@ -1,0 +1,11 @@
+{
+  "schema": "a1-ghost-call-lifetime-inference-r13-v1",
+  "tool_head": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "source": "src/verify_expr.ml",
+  "base_sha256": "2d17c36005d6727cb5ff6d831bf905f513065bb591d5d9768ee70778872a6d20",
+  "result_sha256": "03d7499a7e3e0c90ded5023b4241c02ecd8585262657235facf354569c3259a0",
+  "patch_sha256": "c1d9ef211ff4891a38a2358a914dcb49bde9a80946aab5fb79982ae647b64eea",
+  "new_axiom_or_assumed_lemma": false,
+  "scope": "pure Rust calls; bare typed variable actuals; unresolved lifetime cells only",
+  "application_order": "after native-rust-focus-dead-code-scope.patch"
+}

@@ -108,7 +108,7 @@ R12_GHOST_GRAMMAR_HELPER = "a1-ghost-grammar.py"
 FOCUS_SEMANTICS_PINS = {
     "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
     "src/verifast1.ml": "bfbfb518fb9783afeeba9384e1431b6cd280c7da7713b9fdbfd15a8395b00207",
-    "src/verify_expr.ml": "2d17c36005d6727cb5ff6d831bf905f513065bb591d5d9768ee70778872a6d20",
+    "src/verify_expr.ml": "03d7499a7e3e0c90ded5023b4241c02ecd8585262657235facf354569c3259a0",
     "src/vfconsole/vfconsole.ml": "79179baa9ad9e9cb2ee5163f4c9528f665519d894c43093183fd8e9f31b06898",
 }
 

@@ -349,6 +349,17 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
     need(pre_slice["critical"][TR] == manifest["c4_base_translator_sha256"],
          "pre-slice translator")
 
+    lifetime_overlay = profile.get("ghost_call_lifetime_inference")
+    if lifetime_overlay is not None:
+        need(profile.get("authorization_phase_id") ==
+             "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13" and
+             isinstance(lifetime_overlay, dict) and
+             lifetime_overlay.get("source") == FOCUS_SCOPE_FILE and
+             lifetime_overlay.get("base_sha256") ==
+             profile["focus_dead_code_scope_result_sha256"] and
+             lifetime_overlay.get("new_axiom_or_assumed_lemma") is False,
+             "exact R13 ghost-call lifetime overlay required")
+
     focus_scope_path = root / FOCUS_SCOPE_MANIFEST
     pinned(focus_scope_path, profile["focus_dead_code_scope_manifest_sha256"],
            "Rust focus dead-code scope manifest")
@@ -361,7 +372,8 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
          focus_scope["files"][FOCUS_SCOPE_FILE]["result_sha256"] ==
          profile["focus_dead_code_scope_result_sha256"] and
          profile["a1_focus_semantics_sha256"][FOCUS_SCOPE_FILE] ==
-         profile["focus_dead_code_scope_result_sha256"],
+         (lifetime_overlay["result_sha256"] if lifetime_overlay is not None else
+          profile["focus_dead_code_scope_result_sha256"]),
          "A1 Rust focus dead-code scope profile identity")
     apply("a1-rust-focus-dead-code-scope", FOCUS_SCOPE_PATCH,
           focus_scope["patch_sha256"], {FOCUS_SCOPE_FILE},
@@ -369,6 +381,13 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
                   focus_scope["files"][FOCUS_SCOPE_FILE]["base_sha256"]},
           after={FOCUS_SCOPE_FILE:
                  focus_scope["files"][FOCUS_SCOPE_FILE]["result_sha256"]})
+
+    if lifetime_overlay is not None:
+        apply("a1-ghost-call-lifetime-inference",
+              HERE / "ghost-call-lifetime-inference-r13.patch",
+              lifetime_overlay["patch_sha256"], {FOCUS_SCOPE_FILE},
+              before={FOCUS_SCOPE_FILE: lifetime_overlay["base_sha256"]},
+              after={FOCUS_SCOPE_FILE: lifetime_overlay["result_sha256"]})
 
     threshold_path = root / HERE / "STABLE-THRESHOLD-BINDING-PINS.json"
     selected_path = root / HERE / "SELECTED-BRANCH-BINDING-PINS.json"
@@ -465,6 +484,7 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
         "focus_dead_code_scope_source_sha256": sha(tool / FOCUS_SCOPE_FILE),
         "c_patch_applied": False,
         "shared_reference_own_normalization": reference_own,
+        "ghost_call_lifetime_inference": lifetime_overlay,
         "build_id": os.environ["CLOUD_BUILD_ID"],
         "build_exit": reference_build["exit"], "proof_credit": False}
     save(evidence / "R-only-native-reference-receipt.json", native_reference)
@@ -480,7 +500,8 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
         need(before_build["modified_hashes"].get(reference_own["source"]) ==
              reference_own["result_sha256"], "R13 exact normalized spec hash")
     focus_path = FOCUS_SCOPE_FILE
-    focus_result = profile["focus_dead_code_scope_result_sha256"]
+    focus_result = (lifetime_overlay["result_sha256"] if lifetime_overlay is not None
+                    else profile["focus_dead_code_scope_result_sha256"])
     need(before_build["critical"][KERNEL] == manifest["kernel_sha256"] and
          sha(tool / focus_path) == focus_result and
          all(before_build["critical"][key] == value for key, value in
@@ -538,6 +559,7 @@ def reconstruct(a, c4, audit, driver, manifest: dict, profile: dict) -> tuple[Pa
                "console_binary_sha256": final["binaries"]["bin/verifast"],
                "build_exit": build["exit"], "native_reference": native_reference,
                "shared_reference_own_normalization": reference_own,
+               "ghost_call_lifetime_inference": lifetime_overlay,
                "proof_credit": False}
     save(evidence / "reconstruction-receipt.json", receipt)
     return tool, receipt

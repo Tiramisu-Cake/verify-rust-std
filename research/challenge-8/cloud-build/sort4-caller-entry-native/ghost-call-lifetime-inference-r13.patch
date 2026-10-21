@@ -1,0 +1,82 @@
+--- a/src/verify_expr.ml
++++ b/src/verify_expr.ml
+@@ -2205,6 +2205,79 @@
+       | Some tpenv -> tpenv
+     in
+     let tpenv = tpenv_with_bounds |> List.map @@ fun ((tp, {sized}), ta) -> (tp, ta) in
++    (* Infer only unresolved Rust call lifetime arguments from compiler-typed
++       bare variable arguments. Shape checking is completed before mutation. *)
++    let infer_rust_call_lifetimes_from_typed_variables () =
++      if dialect <> Some Rust || not pure then ()
++      else
++        let proposals = ref [] in
++        let is_lifetime_name name = String.starts_with ~prefix:"'" name && name <> "'_" in
++        let is_rigid_lifetime = function
++          | StaticLifetime -> true
++          | GhostTypeParam name when is_lifetime_name name -> true
++          | _ -> false
++        in
++        let same_cell cell1 cell2 =
++          match cell1, cell2 with
++          | InferredType (_, state1), InferredType (_, state2) -> state1 == state2
++          | _ -> false
++        in
++        let add_proposal cell actual =
++          match List.find_opt (fun (old_cell, _) -> same_cell old_cell cell) !proposals with
++          | Some (_, old_actual) -> old_actual = actual
++          | None -> proposals := (cell, actual) :: !proposals; true
++        in
++        let rec match_lifetime formal actual =
++          let formal =
++            match formal with
++            | GhostTypeParam name when is_lifetime_name name ->
++                (match List.assoc_opt name tpenv with Some tp -> tp | None -> formal)
++            | _ -> formal
++          in
++          let formal = unfold_inferred_type formal in
++          let actual = unfold_inferred_type actual in
++          match formal with
++          | (InferredType (_, state) as cell) ->
++              (match !state with
++               | Unconstrained when is_rigid_lifetime actual -> add_proposal cell actual
++               | _ -> formal = actual)
++          | _ -> formal = actual
++        and match_type formal actual =
++          let formal = unfold_inferred_type formal in
++          let actual = unfold_inferred_type actual in
++          match formal, actual with
++          | RustRefType (fl, fk, fp), RustRefType (al, ak, ap) ->
++              fk = ak && match_lifetime fl al && match_type fp ap
++          | InductiveType (fn, fargs), InductiveType (an, aargs)
++          | StructType (fn, fargs), StructType (an, aargs)
++          | ObjType (fn, fargs), ObjType (an, aargs) ->
++              fn = an && List.length fargs = List.length aargs && List.for_all2 match_type fargs aargs
++          | PtrType ft, PtrType at | ArrayType ft, ArrayType at | Slice ft, Slice at -> match_type ft at
++          | StaticArrayType (ft, fs), StaticArrayType (at, ars) -> match_type ft at && match_type fs ars
++          | PureFuncType (fa, fr), PureFuncType (aa, ar) -> match_type fa aa && match_type fr ar
++          | InlineFuncType ft, InlineFuncType at -> match_type ft at
++          | ProjectionType (ft, fn, fargs, fa), ProjectionType (at, an, aargs, aa) ->
++              fn = an && fa = aa && match_type ft at && List.length fargs = List.length aargs && List.for_all2 match_type fargs aargs
++          | _ -> formal = actual
++        in
++        let rec preflight pats params =
++          match pats, params with
++          | [], [] -> true
++          | SrcPat (LitPat (Var (_, name))) :: pats, (_, formal_type) :: params
++          | SrcPat (LitPat (WVar (_, name, _))) :: pats, (_, formal_type) :: params ->
++              (match List.assoc_opt name tenv with
++               | Some actual_type -> match_type formal_type actual_type && preflight pats params
++               | None -> false)
++          | _ :: pats, _ :: params -> preflight pats params
++          | _ -> true
++        in
++        if preflight pats ps then
++          List.iter (fun (cell, actual) ->
++            if not (unify_strict cell actual) then
++              static_error l "Could not infer Rust call lifetime from typed variable argument" None)
++            (List.rev !proposals)
++    in
++    infer_rust_call_lifetimes_from_typed_variables ();
+     if dialect = Some Rust then
+       List.iter begin fun (x, tp) ->
+         if String.starts_with ~prefix:"'" x then begin

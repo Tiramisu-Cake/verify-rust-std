@@ -321,6 +321,10 @@ def _cloud_gate(a, c4, ghost, tool: Path, receipt: dict,
              profile.get("shared_reference_own_normalization") and
              isinstance(profile.get("shared_reference_own_normalization"), dict),
              "R13 normalized spec receipt/profile binding")
+    if profile.get("ghost_call_lifetime_inference") is not None:
+        need(receipt.get("ghost_call_lifetime_inference") ==
+             profile["ghost_call_lifetime_inference"],
+             "R13 ghost-call lifetime overlay receipt/profile binding")
     _tool_identity(tool, receipt)
 
 
@@ -332,6 +336,15 @@ def _tool_identity(tool: Path, receipt: dict) -> None:
                            ("bin/vf-rust-mir-exporter", receipt["exporter_binary_sha256"])):
         need((tool / name).is_file() and sha(tool / name) == expected,
              "final A1 tool file differs: " + name)
+
+    lifetime_overlay = receipt.get("ghost_call_lifetime_inference")
+    if lifetime_overlay is not None:
+        need(isinstance(lifetime_overlay, dict) and
+             lifetime_overlay.get("source") == "src/verify_expr.ml" and
+             lifetime_overlay.get("new_axiom_or_assumed_lemma") is False and
+             sha(tool / lifetime_overlay["source"]) ==
+             lifetime_overlay.get("result_sha256"),
+             "ghost-call lifetime overlay source identity differs")
 
     normalized = receipt.get("shared_reference_own_normalization")
     if normalized is not None:
