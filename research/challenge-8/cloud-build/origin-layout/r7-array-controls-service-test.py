@@ -163,6 +163,7 @@ class R7ArrayControlsTests(unittest.TestCase):
             self.assertIn(b"//@ borrow_end(k, r16_array3_content(default_tid(), p));", lifecycle)
             self.assertIn(b"full_borrow(?k, r16_array3_content(default_tid(), p))", lifecycle)
             self.assertIn(b"ens *p |-> ?restored_current", lifecycle)
+            self.assertIn(b"default_tid())); @*/\n/*@ ens *p |-> ?restored_current", lifecycle)
             self.assertNotIn(b"ens *p |-> current", lifecycle)
             self.assertNotIn(b"create_ref_mut", lifecycle)
             self.assertNotIn(b"assume", lifecycle)
