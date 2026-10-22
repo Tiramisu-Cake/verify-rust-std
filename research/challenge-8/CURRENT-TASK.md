@@ -50,9 +50,9 @@ Next: Шаг 1: adoption и перевод на shared baseline, затем ка
 ## Отчёт агента
 
 **network-bootstrap-2026-10-22-n1 · network · NETWORK-BOOTSTRAP-2026-10-22-N1 · ACTIVE**
-Updated: 2026-10-22T15:22:00Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `UNKNOWN`.
+Updated: 2026-10-22T15:42:00Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `UNKNOWN`.
 Dates: T0 `2026-10-22T15:07:38Z`; main `2026-10-22T17:07:38Z`; absolute `2026-10-22T17:37:38Z`. Budget 0s: 0s spent, 0s retired, 0s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: У network нет Cloud lane (coordinator v3 V3_OWNERS, нет branch client); source certificates на старом SmallSort blob.
-Next: Шаг 1: adoption и перевод на shared baseline, затем кандидат R4 и пакет Cloud-готовности.
+Blocker: R4 proof blocked on Select layer: no checked select_unpredictable callee (S2 Build 8916761a: No such function std::hint::select_unpredictable) and overlay admits pair markers only for sort4/fixtures; Network has no Cloud lane (v3 V3_OWNERS).
+Next: Review of a693a4c4 → fix findings → HANDOFF; then P1/P2 requests to Select and owner decision on v4 migration.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

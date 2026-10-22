@@ -1,0 +1,35 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-networks",
+  "baseline_commit": "931f81bb93d6f47dcee686ef901caff86212266d",
+  "candidate_commit": "a693a4c4e2268ae04c7cf200850b35ef5b74e4c0",
+  "defect": "No proof route exists for the actual std swap_if_less (smallsort.rs blob 40939f92, lines 380-412), and the new Network owner has no Cloud client/coordinator admission. Candidate (a) R4: a generator that inserts only ghost text into the exact actual body, consuming Select's c1 pair callback layer (a1-actual-recover-pair.rs blob a29ad254, capture.py strip regexes blob a7775d93, c1 marker/normal protocol blob fd036cc0, on origin/research/night-select-sort4-cloud-2026-10-09 at 10e13a41) with a safety/ownership contract for distinct positions, plus documented layer gates P1/P2/P3. Candidate (b) Cloud readiness: a v4 coordinator candidate derived from deployed v3 blob 1fd8b97b (owners v3 + network, cap 3, owner check in request), a local transition helper, and a Network client derived from Select control.py blob b8f88ce8 with an empty phase-registration table.",
+  "applicability": "R4 applies only to the actual swap_if_less at the pinned blob; contract domain a_pos != b_pos (all sort9/sort13 call sites), generic T/F, ZST admitted. Status PREPARED/UNVERIFIED: no VeriFast/compile/Cloud run; select_unpredictable at *mut T has no checked callee (gate P2); the callback-unwind overlay does not admit body swap_if_less (gate P1). Cloud-readiness files are outside cloud-build/ and nothing is registered or deployed; budget 0.",
+  "invariants": [
+    "strip_ghost(generated crate) ends with the exact actual body bytes; runtime body, generics, signature and CFG unchanged",
+    "no Copy/Freeze/purity/no-panic/ordering premise; no 0 < size_of::<T>() premise; no assumed spec for select_unpredictable or any callee",
+    "callback protocol identical in shape and names to Select c1 (comparison_debt/recover_pair, __vf_callback_unwind_pair marker on the line before the call); normal and unwind posts both return both cells with own and current F",
+    "ptr::copy handled only via stock to_u8s_/from_u8s_ and the stock byte-level spec; no new trusted lemma",
+    "coordinator: v3 semantics unchanged for v3 envelopes; v4 keeps max 3; unknown owners refused in reservations/save/require_capacity/request; deployed v3 clients fail closed on a v4 envelope; migration requires all four owner ACKs bound to the candidate SHA and preserves reservations",
+    "client: only owner network and phases in NETWORK_PHASES admitted; inherited Select clauses unreachable; empty table committed; submit window/timeout/profile SHA gates"
+  ],
+  "controls": [
+    "R4 service tests (test_swap_if_less_body.py, 7 PASS on VPS): positive strip, Select regex equality, marker placement, wrong-source SHA refusal, wrong layer blob refusal, moved anchor refusal, select spec SHA binding",
+    "R4 proof controls listed in r4/DESIGN.md (marker-off, unwind-no-recover, swapped-roles, copy-offset, own-drop, equal-pos, ordering): NOT_RUN (no Cloud lane)",
+    "coordinator-v4n-test.py 6 PASS; test_network_control.py 7 PASS (local unittest, no Cloud)"
+  ],
+  "dependencies": [
+    "library/core/src/slice/sort/shared/smallsort.rs",
+    "research/challenge-8/networks/SWAP-CONTRACT.md",
+    "research/challenge-8/networks/SOURCE-MAP.md",
+    "research/challenge-8/network/BOOTSTRAP-2026-10-22.md"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "UNVERIFIED: no proof tool run; ghost tail steps 4-6 in r4/DESIGN.md are the expected repair frontier",
+    "equal positions (a_pos == b_pos) OPEN (P3); compare-exchange functional post OPEN (D5); caller in-bounds is a W8 integration obligation",
+    "Select layer files are read from origin/research/night-select-sort4-cloud-2026-10-09 (not in this tree); the stock VeriFast specs are in /root/verifast-network at f76012fb",
+    "Common runner files (run-proof.sh, package-evidence.py, source-input.py, recipes) are not yet copied into the Network client; session-tool changes are requests only",
+    "no formal proof credit"
+  ]
+}
