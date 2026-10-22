@@ -74,9 +74,20 @@
           "build_id": "f090a976-7d8b-4d2d-b919-e308aca41886"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R20 S2b (729474f9): merged repair fingerprint intended; SHA 28b8e5ef, unit 6a588c53, body-7 99fcb96e; MIR inventory unchanged (10 edges->24). credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-callee-r20/S2b-evidence.json",
+          "sha256": "7dc8577da8468633ee549c28bacfcd3a2296f7c993ffe0ec58f4ef5e7a370be3",
+          "build_id": "729474f9-3acf-4d52-a04d-9ffb16e1fb5a"
+        }
+      ]
     }
   ],
-  "next_step": "Wait R20 S2b Build 729474f9 (merged-variant fingerprint, pins 912b3f4e); ack; take SHA/unit/body-7 and MIR counts; S3 certificate refresh (draft ready).",
+  "next_step": "Review S3 candidate 57bde10e (opt-in certificate refresh 0862e635->5ed3398f + proof stage); submit S3 on callee lane before 17:41.",
   "open": [
     "Callee: run nine-body unit on separate lane o26-select-callee-r20 (baseline + ghost repair variants); then normal/unwind/nested-Drop completion and matrix; *mut",
     "Recovery lane transport: 192/191 chunks after R20 client lines (control.py is in every lane's infra core); prune closed routes separately before c5 (34e37669)/s",
@@ -103,19 +114,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "729474f9-3acf-4d52-a04d-9ffb16e1fb5a"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T18:11:28Z",
     "main_deadline_utc": "2026-10-22T17:41:28Z",
-    "remaining_seconds": 2862,
+    "remaining_seconds": 2440,
     "retired_seconds": 0,
-    "spent_seconds": 738,
+    "spent_seconds": 1160,
     "t0": "2026-10-22T15:41:28Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-actual-callee-autonomous-2026-10-22-r20",
-  "updated_utc": "2026-10-22T16:49:00Z"
+  "updated_utc": "2026-10-22T17:00:00Z"
 }

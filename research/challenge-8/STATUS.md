@@ -1,11 +1,11 @@
 # Agent checkpoint: select-actual-callee-autonomous-2026-10-22-r20
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-22-R20 | state: HANDOFF
-- Updated: 2026-10-22T16:49:00Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-22-R20 | state: ACTIVE
+- Updated: 2026-10-22T17:00:00Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-22T15:41:28Z`; main deadline `2026-10-22T17:41:28Z`; absolute deadline `2026-10-22T18:11:28Z`
-- Budget: 3600s total; 738s spent; 0s retired; 2862s remaining including active reservations
-- Active Build IDs: 729474f9-3acf-4d52-a04d-9ffb16e1fb5a
+- Budget: 3600s total; 1160s spent; 0s retired; 2440s remaining including active reservations
+- Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -13,6 +13,7 @@
 - [SOURCE_REPORTED] R19 CLOSED early (real boundary: selector callee): 2 Builds terminal/accounted 1264s, 2336s retired, carry0; own active/request 0. c5 candidate 34e37669 carried. credit0. — [research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json](cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json) SHA `43938f12bb12264b19b9b414d91130753de5d441bde857217da2cffea43efd13`
 - [SOURCE_REPORTED] R20 S1 (callee lane, pins a5705fa0) FAILURE 345s: pipeline complete; pinned source pair/MIR match; baseline nine-body proof exit1 at final MaybeUninit select: missing MaybeUninit_pointer_own(t, new(payload)) for arg a (lib.rsspec:462 via lib.rs:223). credit0. — [research/challenge-8/task-history/select-callee-r20/S1-evidence.json](task-history/select-callee-r20/S1-evidence.json) SHA `7bf8d229919ffb0eb7fa49ede13b0b516b472df432c769badbdb0f4f1f997123` Build `2d562718-c166-4ab5-bba3-bf9136bd56b7`
 - [SOURCE_REPORTED] R20 S2 (retry f090a976; 00c136dd EXPIRED 92s) 301s: location control reproduces pins; repaired unit fingerprint intended, SHA 910bb778; only unit+body-7 change; cleanup 24->26, edges 10->12. credit0. — [research/challenge-8/task-history/select-callee-r20/S2-evidence.json](task-history/select-callee-r20/S2-evidence.json) SHA `2f39bdc6a04250fbe511b9d5cc340909afeeee01bfa5bf8eaa783cf3e8b0ec2a` Build `f090a976-7d8b-4d2d-b919-e308aca41886`
+- [SOURCE_REPORTED] R20 S2b (729474f9): merged repair fingerprint intended; SHA 28b8e5ef, unit 6a588c53, body-7 99fcb96e; MIR inventory unchanged (10 edges->24). credit0. — [research/challenge-8/task-history/select-callee-r20/S2b-evidence.json](task-history/select-callee-r20/S2b-evidence.json) SHA `7dc8577da8468633ee549c28bacfcd3a2296f7c993ffe0ec58f4ef5e7a370be3` Build `729474f9-3acf-4d52-a04d-9ffb16e1fb5a`
 
 ## Open
 - Callee: run nine-body unit on separate lane o26-select-callee-r20 (baseline + ghost repair variants); then normal/unwind/nested-Drop completion and matrix; *mut
@@ -28,7 +29,7 @@ Missing MaybeUninit_pointer_own(t, new(payload)) for select arg a; repair needs 
 - [research/challenge-8/task-history/select-callee-r20/S1-evidence.json](task-history/select-callee-r20/S1-evidence.json) SHA `7bf8d229919ffb0eb7fa49ede13b0b516b472df432c769badbdb0f4f1f997123` Build `2d562718-c166-4ab5-bba3-bf9136bd56b7`
 
 ## Next
-Wait R20 S2b Build 729474f9 (merged-variant fingerprint, pins 912b3f4e); ack; take SHA/unit/body-7 and MIR counts; S3 certificate refresh (draft ready).
+Review S3 candidate 57bde10e (opt-in certificate refresh 0862e635->5ed3398f + proof stage); submit S3 on callee lane before 17:41.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r20/CALLEE-ROUTE-DESIGN.md](task-history/select-callee-r20/CALLEE-ROUTE-DESIGN.md) — `b547eaaed39a31a29a16383aa0d72d1a0e9666ccac987ae0571b5f94305f5632`

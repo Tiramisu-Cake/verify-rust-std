@@ -60,5 +60,17 @@
       "Build evidence decides multi-statement ghost acceptance and unchanged MIR inventory"
     ]
   },
-  "submit_basis_commit_s2b": "081dbb98e10926e5640fb727c71b5f162be35991"
+  "submit_basis_commit_s2b": "081dbb98e10926e5640fb727c71b5f162be35991",
+  "s3": {
+    "verdict": "GO_WITH_NITS",
+    "range": "912b3f4e9d6811eb89be20633f083896cb7bd3de..57bde10e9b4ee663fa2dfe80631ae0ac45c0bc65",
+    "basis": "Opt-in certificate refresh (patch 31aaef1d, 0862e635->5ed3398f) admits only the exact merged source (SHA 28b8e5ef, unit 6a588c53, body-7 99fcb96e, exact reconstructed text and ghost list); default route unchanged; repair calls only the checked S6 lemma; flag scoped per call.",
+    "open": [
+      "SHOULD-FIX: proof rows not classified; judge positive (exit0, source unchanged, no ERR) and controls (exact SHA-certificate refusal text) from logs via Brief.",
+      "Opt-in branches beyond SHA pin exercised only by the positive.",
+      "Add runner-level guard refusing ambient SORT4_R20_FINAL_SELECT_REPAIR.",
+      "A positive establishes only the final-select obligation for *const Element; callee acceptance needs normal/unwind/nested-Drop matrix and controls."
+    ]
+  },
+  "submit_basis_commit_s3": "57bde10e9b4ee663fa2dfe80631ae0ac45c0bc65"
 }
