@@ -125,17 +125,25 @@ class RepairStage(unittest.TestCase):
                 CALLEE.load(bad, "bad_pin", CALLEE.REPAIR_SHA256)
 
 
+_rspec = importlib.util.spec_from_file_location("r20_refresh_pins_test", HERE / "o26-refresh-recipe.py")
+_refresh = importlib.util.module_from_spec(_rspec); _rspec.loader.exec_module(_refresh)
+PINNED = {"unit": _refresh.UNIT, **{f"body-{i}": h for i, h in enumerate(_refresh.BODIES)}}
+
+
 class FakeCap:
-    def __init__(self, classification):
+    def __init__(self, classification, reproduce=True):
         self.classification, self.calls, self.cleared = classification, [], 0
+        self.reproduce = reproduce
 
     def clear_semantic_opt_ins(self):
         self.cleared += 1
 
     def refusal_fingerprint(self, case, source, args):
-        self.calls.append((case, source, (case / "verified/lib.rs").read_bytes(),
-                           args.tool_home, args.deadline_epoch))
-        return {"classification": self.classification, "snapshots": {"unit": {"sha256": "u"}}}
+        data = (case / "verified/lib.rs").read_bytes()
+        self.calls.append((case, source, data, args.tool_home, args.deadline_epoch))
+        snaps = PINNED if b"close_MaybeUninit_pointer_own" not in data and self.reproduce else {"unit": "new"}
+        return {"classification": self.classification,
+                "snapshots": {k: {"sha256": v} for k, v in snaps.items()}}
 
 
 class FakeO26Capture:
@@ -147,7 +155,7 @@ class FakeO26Capture:
 
 
 class RepairedFingerprint(unittest.TestCase):
-    def run_fp(self, cap, deadline_offset=3600, env=ENV):
+    def run_fp(self, cap, deadline_offset=3600, env=ENV, mir_exit=0):
         real_load = CALLEE.load
         fake = FakeO26Capture(cap)
         def load(path, name, expected=None):
@@ -158,7 +166,7 @@ class RepairedFingerprint(unittest.TestCase):
             make_case(root)
             code = None
             def export_decode(case, out, args):
-                return {"export": {"status": "RAN", "exit": 0}, "decode": {"status": "RAN", "exit": 0}}
+                return {"export": {"status": "RAN", "exit": mir_exit}, "decode": {"status": "RAN", "exit": 0}}
             with patch.dict(os.environ, env, clear=True), patch.object(CALLEE, "load", load), \
                     patch.object(CALLEE, "export_decode", export_decode):
                 try:
@@ -174,16 +182,28 @@ class RepairedFingerprint(unittest.TestCase):
         code, saved, base = self.run_fp(cap)
         self.assertIsNone(code)
         self.assertEqual(base, UNIT)
-        self.assertEqual(len(cap.calls), 1)
-        case, source, repaired, _, _ = cap.calls[0]
+        self.assertEqual(len(cap.calls), 2)
+        self.assertEqual(cap.calls[0][2], UNIT)
+        self.assertEqual(cap.calls[0][1]["verified_sha256"], CALLEE.sha(UNIT))
+        self.assertIs(saved["location_control"]["reproduces_pinned"], True)
+        case, source, repaired, _, _ = cap.calls[1]
         self.assertEqual(repaired.count(b"close_MaybeUninit_pointer_own"), 2)
         self.assertEqual(source["verified_sha256"], CALLEE.sha(repaired))
         self.assertEqual(saved["verified_sha256"], CALLEE.sha(repaired))
         self.assertEqual(saved["base_verified_sha256"], CALLEE.sha(UNIT))
         self.assertIs(saved["complete"], True)
         self.assertFalse(saved["proof_credit"])
-        self.assertEqual(cap.cleared, 1)
+        self.assertEqual(cap.cleared, 2)
         self.assertEqual(saved["normal_mir"]["decode"]["exit"], 0)
+
+    def test_location_drift_or_mir_failure_makes_record_incomplete(self):
+        code, saved, _ = self.run_fp(FakeCap("INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE", reproduce=False))
+        self.assertEqual(code, 4)
+        self.assertIs(saved["location_control"]["reproduces_pinned"], False)
+        self.assertIs(saved["complete"], False)
+        code, saved, _ = self.run_fp(FakeCap("INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE"), mir_exit=1)
+        self.assertEqual(code, 4)
+        self.assertIs(saved["mir_complete"], False)
 
     def test_inconclusive_or_deadline_exit_nonzero_and_incomplete(self):
         code, saved, _ = self.run_fp(FakeCap("INCONCLUSIVE_FINGERPRINT"))

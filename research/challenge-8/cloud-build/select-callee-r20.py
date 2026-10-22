@@ -138,12 +138,15 @@ def fingerprint(a) -> dict:
     verified = (base / "verified/lib.rs").read_bytes()
     original = (base / "original/lib.rs").read_bytes()
     root = a.evidence / "cases/r20-fingerprint"
-    case = root / "both" / CASE
-    (case / "original").mkdir(parents=True)
-    (case / "verified").mkdir()
     repaired = transform.repair(verified, "both")
-    (case / "original/lib.rs").write_bytes(original)
-    (case / "verified/lib.rs").write_bytes(repaired)
+    cases = {}
+    for variant, data in (("none", verified), ("both", repaired)):
+        case = cases[variant] = root / variant / CASE
+        (case / "original").mkdir(parents=True)
+        (case / "verified").mkdir()
+        (case / "original/lib.rs").write_bytes(original)
+        (case / "verified/lib.rs").write_bytes(data)
+    case = cases["both"]
     record = {"classification": "R20_REPAIRED_UNIT_FINGERPRINT", "complete": False,
               "variant": "both", "verified_sha256": sha(repaired),
               "original_sha256": sha(original), "base_verified_sha256": sha(verified),
@@ -156,13 +159,29 @@ def fingerprint(a) -> dict:
     record["normal_mir"] = export_decode(case, root / "both-mir", a)
     write(root / "r20-fingerprint.json", record)
     cap = o26.load_capture(a.repo, "r20_fingerprint")
-    cap.clear_semantic_opt_ins()
     args = argparse.Namespace(tool_home=a.tool_home, schema=a.schema,
                               compiler_sysroot=str(a.compiler_sysroot),
                               deadline_epoch=a.deadline_epoch)
+    # Location control: the unrepaired copy in the same parent must reproduce
+    # the pinned baseline unit/body snapshots, else the new pins are unusable.
+    refresh = load(a.cloud_dir / "o26-refresh-recipe.py", "r20_o26_refresh_pins")
+    pinned = {"unit": refresh.UNIT, **{f"body-{i}": h for i, h in enumerate(refresh.BODIES)}}
+    cap.clear_semantic_opt_ins()
+    control = cap.refusal_fingerprint(cases["none"], {"verified_sha256": sha(verified)}, args)
+    observed = {k: (v or {}).get("sha256") for k, v in control.get("snapshots", {}).items()}
+    record["location_control"] = {"fingerprint": control, "pinned": pinned,
+                                  "reproduces_pinned": observed == pinned}
+    write(root / "r20-fingerprint.json", record)
+    cap.clear_semantic_opt_ins()
     result = cap.refusal_fingerprint(case, {"verified_sha256": sha(repaired)}, args)
-    record.update(fingerprint=result,
-                  complete=result.get("classification") == "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE")
+    intended = "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE"
+    mir = record["normal_mir"]
+    mir_complete = all(mir.get(k, {}).get("status") == "RAN" and mir[k].get("exit") == 0
+                       for k in ("export", "decode"))
+    record.update(fingerprint=result, mir_complete=mir_complete,
+                  complete=(result.get("classification") == intended and
+                            control.get("classification") == intended and
+                            record["location_control"]["reproduces_pinned"] and mir_complete))
     write(root / "r20-fingerprint.json", record)
     print(json.dumps({"classification": result.get("classification"),
                       "verified_sha256": record["verified_sha256"]}))
