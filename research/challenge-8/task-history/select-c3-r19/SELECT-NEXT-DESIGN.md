@@ -12,6 +12,8 @@ S2 (Build `8916761a`, pins `3af7d37d`, profile `c7bbbc46`): the actual sort4 bod
 
 ## Recorded callee blocker (historical S6/S7 pipeline; status under the current R17 tool chain UNKNOWN)
 
+Current evidence under the R17 chain is S2 itself (Build `8916761a`, `lib.rs:371`, "No such function: std::hint::select_unpredictable"). The historical blocker below applies to the callee proof that would supply that function.
+
 `SORT4-SELECT-FORGET-RESULTS.md` § "Precise next blocker":
 - The actual select prefix (run37656621026) passes pointer drop 60 and closes 61/62, then stops at `forget` 63: `std/lib.rsspec:420` requires `<DropOnPanic<*const Element>>.own(t, guard)`, which is absent.
 - Independent acceptance of the auxiliary nominal-forget body is blocked by the frozen global dead-code gate (`vfconsole.ml:265–282`).
@@ -28,7 +30,7 @@ Until one of these lands, c5 (prepared and reviewed, candidate `6f76ab3b`), the 
 
 ## Carried candidate and transport
 
-- Candidate `6f76ab3b` (count-5 overlay, result `df541233`; c5 layer for `unknown_right`/`unknown_left`; profile `5a15addd`) is reviewed GO_WITH_NITS. Its precondition (S2 reaching c5) is **not met**, so it was not submitted. It becomes useful once the selectors verify.
+- Candidate `34e37669` (count-5 overlay with 17 synthetic scope controls, result `b5ea96a1`; c5 layer for `unknown_right`/`unknown_left`; profile `d4b1b735`; first reviewed as `6f76ab3b`) is reviewed GO_WITH_NITS. Its precondition (S2 reaching c5) is **not met**, so it was not submitted. It becomes useful once the selectors verify.
 - The pinned source transport is at its cap: S1 used 191/191 chunks, and S2 fit only after the R16-route-only files were dropped. `6f76ab3b` needs 192. Dropping the closed R17 profile from the recipe measured 191 chunks with 882 bytes spare (not committed). Selector work will add more and will need a transport plan (closure pruning of closed routes, or an owner decision on the transport cap).
 
 ## Controls to carry

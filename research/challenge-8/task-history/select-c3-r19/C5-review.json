@@ -19,5 +19,22 @@
     "Positive progress needs a checked select_unpredictable callee."
   ],
   "basis": "Overlay patch 2b7b1b43 -> df541233 from 6c04f608; N=5 wrapper skip type/precedence correct and only at actual_c2_enabled && N=5; validator path with no deferred ids sound; c5 layer pure rename, operands are program locals; c5 controls discriminate on all four (c3,c4) rows; pins match.",
-  "not_run": "OCaml compile, VeriFast, Cloud, payload measurement."
+  "not_run": "OCaml compile, VeriFast, Cloud, payload measurement.",
+  "five_group_controls_delta": {
+    "verdict": "GO_WITH_NITS",
+    "range": "42bd9f1543cd86566f81c7f6bbd607290da803cf..34e37669ba138e3a815465bf06704bcf0f905413",
+    "basis": "Patch 4aa15fdc -> b5ea96a1 from 6c04f608; only run_actual_indexed_scope_controls changed (17 controls); each negative rejected by exception_scope for the stated reason; pins d4b1b735 consistent.",
+    "findings": [
+      {
+        "severity": "should-fix (planning)",
+        "summary": "S2 stops at the min selector before c5; a Build of this candidate would fail at lib.rs:371 for the positive and all c5 resource controls.",
+        "resolution": "Candidate carried; no Build until a separately reviewed select_unpredictable callee route lands."
+      }
+    ],
+    "nits": [
+      "Record S2 (Build 8916761a) as the current selector-blocker evidence in SELECT-NEXT-DESIGN.md (done).",
+      "Re-check transport cap before any future Build."
+    ]
+  },
+  "carried_candidate_commit": "34e37669ba138e3a815465bf06704bcf0f905413"
 }

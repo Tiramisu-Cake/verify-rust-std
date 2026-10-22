@@ -10,11 +10,11 @@
     },
     {
       "path": "research/challenge-8/task-history/select-c3-r19/SELECT-NEXT-DESIGN.md",
-      "sha256": "42154dff02534e92136af5ea37bfd91942ffa4438d61777be22c22668790ca89"
+      "sha256": "53e10daddc177ce73f4b6e4daba33fc23026270d31764dcb62d08605bb9c2057"
     },
     {
       "path": "research/challenge-8/task-history/select-c3-r19/C5-review.json",
-      "sha256": "d342d3391dbef6b08b1c3d2467b929622223bb9395b6e8fac095b38a5309b9ed"
+      "sha256": "fbd3501fbc505f539fdd3b0b741bce56c510ec9ce3a0c1ccdb098e7109fb5f08"
     }
   ],
   "assignment_sha256": "a136a43709832cd06bd249b46baf8fdfc275f74271e9566a18686e4182222e1a",
@@ -107,9 +107,19 @@
           "build_id": "8916761a-a0a7-428a-b853-187e45ef4dfa"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R19 CLOSED early (real boundary: selector callee): 2 Builds terminal/accounted 1264s, 2336s retired, carry0; own active/request 0. c5 candidate 34e37669 carried. credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json",
+          "sha256": "43938f12bb12264b19b9b414d91130753de5d441bde857217da2cffea43efd13"
+        }
+      ]
     }
   ],
-  "next_step": "Close the actual select_unpredictable callee (S7) or owner-chosen route; then c5 candidate 6f76ab3b with transport fix (drop closed R17 profile: 191 chunks).",
+  "next_step": "Owner/next task: checked actual select_unpredictable callee route (SELECT-NEXT-DESIGN.md); then c5 candidate 34e37669 with a transport-cap plan.",
   "open": [
     "Checked actual select_unpredictable::<*const T> callee + route into actual body (SELECT-NEXT-DESIGN.md); transport cap plan.",
     "c5 (candidate 6f76ab3b reviewed, unsubmitted), copies, full normal/unwind on all paths; count-independent c3/c4 control re-qualification; mini7/fresh26, Freeze caller; credit0."
@@ -129,13 +139,13 @@
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T16:20:26Z",
     "main_deadline_utc": "2026-10-22T15:50:26Z",
-    "remaining_seconds": 2336,
-    "retired_seconds": 0,
+    "remaining_seconds": 0,
+    "retired_seconds": 2336,
     "spent_seconds": 1264,
     "t0": "2026-10-22T13:50:26Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "CLOSED",
   "task_id": "select-c3-callback-autonomous-2026-10-22-r19",
-  "updated_utc": "2026-10-22T15:20:00Z"
+  "updated_utc": "2026-10-22T15:19:34Z"
 }
