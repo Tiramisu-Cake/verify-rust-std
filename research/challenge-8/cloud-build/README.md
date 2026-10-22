@@ -1,3 +1,5 @@
+> **Evidence v0.11 — приоритет:** [краткий guide](../EVIDENCE-READER-GUIDE.md). Brief → catalogue → refresh/info → locate/fragment → нужные страницы по next_offset/next_value_start. Пожизненной16-квоты и прежних лексических WITHHELD больше нет; соседний контекст/argv/environment читаются как данные. Не выгружать автоматически всё. Proof scope, T0, окна/бюджеты и coordinator сохраняются.
+
 # Cloud Build: действующая процедура Challenge 8
 
 Это общий runbook для назначенных рабочих веток. В main здесь только docs;
@@ -90,9 +92,9 @@ infra/profile, а не копия digest в документации.
 ## Evidence и verdict
 
 Packaging/upload и внутренний final verdict — backend responsibilities.
-Обычный агент использует только compact Evidence Brief и отражает его ограничения.
+Обычный агент использует Brief/Reader и targeted v0.11 по guide, уточняя контекст/поля/страницы и отражая реальные ограничения.
 `VERIFIED_ARCHIVE_AND_INVENTORY` подтверждает целостность архива/inventory, не
-успешную formal verification. При missing/incomplete/insufficient Brief сообщить
+успешную formal verification. При missing/incomplete/insufficient Brief использовать targeted v0.11, уточнение контекста/полей и явные страницы; при оставшемся format/resource ограничении сообщить
 об ограничении; не выводить proof acceptance и не обращаться к raw evidence.
 Для raw audit запросить отдельно разрешённый administrative audit.
 Новые cache/preflight/replay lanes поставлены в [отдельном задании](../INFRASTRUCTURE-TASK.md).

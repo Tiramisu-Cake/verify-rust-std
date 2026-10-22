@@ -1,3 +1,11 @@
+> **Короткий старт новых Select/Merge сессий (2026-10-21):** обязательное [CORE](agent-workflow/CORE.md) + своё CURRENT-TASK + CHECKPOINT/STATUS. Этот документ — подробный справочник: открывай нужные разделы, без полного перечитывания. Legacy active sessions сохраняют свои inputs/T0/счета. [Инструменты и порядок](agent-workflow/README.md).
+
+> **Автономность proof-агентов, 2026-10-20:** Select/Merge сами ставят задачи по миссии и плану; исправления inventory/binder/frontend и новые experimental profiles не требуют отдельного согласования каждого blocker при сохранении гарантий, review и controls. [Полномочия](PROOF-AGENT-AUTONOMY.md). Новые задания задают окно/бюджет; активные inputs/T0/явные границы и роль maintainer сохраняются.
+
+> **Evidence v0.11 — приоритет:** [краткий guide](EVIDENCE-READER-GUIDE.md). Brief → catalogue → refresh/info → locate/fragment → нужные страницы по next_offset/next_value_start. Пожизненной16-квоты и прежних лексических WITHHELD больше нет; соседний контекст/argv/environment читаются как данные. Не выгружать автоматически всё. Proof scope, T0, окна/бюджеты и coordinator сохраняются.
+
+> **Процесс итераций, 2026-10-19:** [ранние checks → целевой proof → полная матрица](ITERATION-PROCESS.md). Service error-path tests обязательны для затронутого runner; использовать существующий Cloud preflight. Принять на безопасной границе без изменения активных inputs/T0. Измерять закрытые proof obligations отдельно от setup-работы.
+
 # Challenge 8: единая процедура работы
 
 Нормативные границы, миссии и режим сессий — в [WORK-POLICY](WORK-POLICY.md);
@@ -61,7 +69,7 @@ Actions-примеры, ветки, бюджеты и stop-условия без
 2. Commit и обычный push в собственную назначенную ветку форка. Проверить полный
    remote SHA. Proof и infrastructure SHAs могут различаться; оба опубликованы.
    Рабочее дерево не является Cloud input.
-3. Сверить свой ledger/deadline/allowlist и v2 capacity. Если есть подходящий
+3. Сверить свой ledger/deadline/allowlist и v3 capacity. Если есть подходящий
    active/unresolved Build, разрешить/мониторить его вместо дубликата. Submit
    выполнять по [Cloud runbook](cloud-build/README.md) с exact SHAs и recipe.
 4. Записать token, Build ID, inputs/config hashes. Неизвестный ответ API остаётся
@@ -72,7 +80,8 @@ Actions-примеры, ветки, бюджеты и stop-условия без
    дать короткий отчёт по [режиму сессии](WORK-POLICY.md#1-миссия-полномочия-и-сессия),
    затем продолжать в scope. Сборка/очередь сама по себе не повод закрыть сессию.
 6. После terminal status получить отчёт командой `smallsort-brief BUILD_UUID`.
-   Следовать [Evidence Brief policy](EVIDENCE-BRIEF.md); при недостатке отчёта
+   Следовать [Evidence Brief policy](EVIDENCE-BRIEF.md): при недостатке отчёта
+   использовать адресное чтение v0.11 (info/locate/fragment, нужные страницы/поля) по guide; при реальном оставшемся ограничении
    зафиксировать ограничение и запросить отдельно разрешённый administrative audit.
    Не читать raw evidence. NOT_RUN не считать PASS.
 7. По Brief классифицировать blocker: setup/build, frontend/export/decode,
