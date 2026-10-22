@@ -1,11 +1,11 @@
 # Agent checkpoint: select-c3-callback-autonomous-2026-10-22-r19
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-C3-2026-10-22-R19 | state: ACTIVE
-- Updated: 2026-10-22T14:43:00Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-C3-2026-10-22-R19 | state: HANDOFF
+- Updated: 2026-10-22T15:00:30Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `87a0bfe586b40a33bdf840164aec8748872c8fdd11b3faad421d3860d1f2a091`
 - Session dates: T0 `2026-10-22T13:50:26Z`; main deadline `2026-10-22T15:50:26Z`; absolute deadline `2026-10-22T16:20:26Z`
 - Budget: 3600s total; 652s spent; 0s retired; 2948s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 8916761a-a0a7-428a-b853-187e45ef4dfa
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -27,7 +27,7 @@ c4 has no callback setup: No matching heap chunks ref_precreated_token<T>(ptr_ad
 - [research/challenge-8/task-history/select-c3-r19/S1-evidence.json](task-history/select-c3-r19/S1-evidence.json) SHA `e95e4c0d1cc9ea49414cb71048d3bc8122a0afd634749c2a08a94be8980ca8f2` Build `2b55f6a5-076a-4fd6-92e9-c42aae9ba500`
 
 ## Next
-S2: count-4 overlay + c4 layer (operands d,b) + c4 controls; delta review; Cloud c4.
+Wait S2 Build 8916761a (c4, pins 3af7d37d) via smallsort-session wait; ack; Brief: c4 and controls by name/message/location; c5 draft ready (scratch).
 
 ## Artifacts
 - [research/challenge-8/task-history/select-s5-r18/S5-evidence.json](task-history/select-s5-r18/S5-evidence.json) — `724da794e6172fe2000fbeb81406fd83fe68df29ffdc00cde35933ac0c414cda`
