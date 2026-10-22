@@ -19,6 +19,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R20-FINAL-ADOPTION-REVIEW-20261023.json",
       "sha256": "d842a8f96a7d752686e4505b42fc20df79d08186018ba5a616e1e967376f9fd1"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R20-HANDOFF-REVIEWS-20261023.json",
+      "sha256": "840f697189cef868679e44a98674f0d80550f17988e156a0feebfbb61866ad91"
     }
   ],
   "assignment_sha256": "4b7e4a5f9a3e01462783b3a6c6b73afd2cdf453b832d336fac9fac34287e6b88",
@@ -28,12 +32,11 @@
     "tool_sha": "39f6b0cacd00575c8ca2d39e9f15632723bf1227"
   },
   "blocker": {
-    "summary": "P4 no proof: lane budget exhausted. Tool578/helper/controls require fresh CI; original caller OPEN.",
+    "summary": "Original caller/F5/state/index/CURRENT OPEN; tool578 HANDOFF needs fresh Cloud admission.",
     "evidence": [
       {
-        "build_id": "0d3e7c6d-dfe4-4dbb-b5da-f0169d92ff53",
-        "path": "research/challenge-8/cloud-build/origin-layout/R20-PROOF4-RESULT-20261023.json",
-        "sha256": "a3c652fc9cae3486d3dc9351017027f950b75d82850ebc829f380942cc3180ed"
+        "path": "research/challenge-8/cloud-build/origin-layout/R20-CLOSEOUT-20261023.json",
+        "sha256": "1c661431cec942ad4781a1013a86c5d835a965a4500c4631b329d4b5ae57476a"
       }
     ]
   },
@@ -86,7 +89,7 @@
       ]
     }
   ],
-  "next_step": "Review lane timing metadata; exact source/cap gate and HANDOFF.",
+  "next_step": "Fresh task/ledger; build reviewed tool578/profile9496 HANDOFF.",
   "open": [
     "Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.",
     "Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.",
@@ -124,13 +127,13 @@
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T22:38:00Z",
     "main_deadline_utc": "2026-10-22T22:08:00Z",
-    "remaining_seconds": 763,
-    "retired_seconds": 0,
+    "remaining_seconds": 0,
+    "retired_seconds": 763,
     "spent_seconds": 2837,
     "t0": "2026-10-22T20:08:00Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "CLOSED",
   "task_id": "merge-unwind-acceptance-autonomous-2026-10-23-r20",
-  "updated_utc": "2026-10-22T22:00:15Z"
+  "updated_utc": "2026-10-22T22:03:28Z"
 }

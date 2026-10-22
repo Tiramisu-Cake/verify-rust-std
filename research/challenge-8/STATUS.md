@@ -1,10 +1,10 @@
 # Agent checkpoint: merge-unwind-acceptance-autonomous-2026-10-23-r20
 
-- Owner: merge | phase: MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23 | state: ACTIVE
-- Updated: 2026-10-22T22:00:15Z
+- Owner: merge | phase: MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23 | state: CLOSED
+- Updated: 2026-10-22T22:03:28Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `39f6b0cacd00575c8ca2d39e9f15632723bf1227`, profile `1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb`
 - Session dates: T0 `2026-10-22T20:08:00Z`; main deadline `2026-10-22T22:08:00Z`; absolute deadline `2026-10-22T22:38:00Z`
-- Budget: 3600s total; 2837s spent; 0s retired; 763s remaining including active reservations
+- Budget: 3600s total; 2837s spent; 763s retired; 0s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
@@ -25,11 +25,11 @@
 - Short outer timeout990/execute570 chosen using prior whole-cycle timings — Missed nested compile reserve140; P4 timed out before proof. Keep full1200 plan unless effective inner budget reviewed.; [research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md](cloud-build/origin-layout/R16-REVIEW-20261021.md) SHA `7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa`
 
 ## Blocker
-P4 no proof: lane budget exhausted. Tool578/helper/controls require fresh CI; original caller OPEN.
-- [research/challenge-8/cloud-build/origin-layout/R20-PROOF4-RESULT-20261023.json](cloud-build/origin-layout/R20-PROOF4-RESULT-20261023.json) SHA `a3c652fc9cae3486d3dc9351017027f950b75d82850ebc829f380942cc3180ed` Build `0d3e7c6d-dfe4-4dbb-b5da-f0169d92ff53`
+Original caller/F5/state/index/CURRENT OPEN; tool578 HANDOFF needs fresh Cloud admission.
+- [research/challenge-8/cloud-build/origin-layout/R20-CLOSEOUT-20261023.json](cloud-build/origin-layout/R20-CLOSEOUT-20261023.json) SHA `1c661431cec942ad4781a1013a86c5d835a965a4500c4631b329d4b5ae57476a`
 
 ## Next
-Review lane timing metadata; exact source/cap gate and HANDOFF.
+Fresh task/ledger; build reviewed tool578/profile9496 HANDOFF.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R19-UNWIND-CLEANUP-DESIGN-20261022.md](cloud-build/origin-layout/R19-UNWIND-CLEANUP-DESIGN-20261022.md) — `571f1acd4a0ad8f86c7fe2bfa95e9a5a80450cbe0a5dc84c81fe5f8309ad857e`
@@ -37,3 +37,4 @@ Review lane timing metadata; exact source/cap gate and HANDOFF.
 - [research/challenge-8/cloud-build/origin-layout/R20-CALLER-AND-CONTROL-FRONTIER-20261023.md](cloud-build/origin-layout/R20-CALLER-AND-CONTROL-FRONTIER-20261023.md) — `d08d28d9859bfa6b319ceb99c22aade95e0f54efa02c27db93d44af4aca2f0f8`
 - [research/challenge-8/cloud-build/origin-layout/R20-STATE-CONTROL-REVIEW-20261023.json](cloud-build/origin-layout/R20-STATE-CONTROL-REVIEW-20261023.json) — `c2050c3cde4909c2c2c631dc2ead4659753c6bbb00629b76726765fc5df9ba50`
 - [research/challenge-8/cloud-build/origin-layout/R20-FINAL-ADOPTION-REVIEW-20261023.json](cloud-build/origin-layout/R20-FINAL-ADOPTION-REVIEW-20261023.json) — `d842a8f96a7d752686e4505b42fc20df79d08186018ba5a616e1e967376f9fd1`
+- [research/challenge-8/cloud-build/origin-layout/R20-HANDOFF-REVIEWS-20261023.json](cloud-build/origin-layout/R20-HANDOFF-REVIEWS-20261023.json) — `840f697189cef868679e44a98674f0d80550f17988e156a0feebfbb61866ad91`

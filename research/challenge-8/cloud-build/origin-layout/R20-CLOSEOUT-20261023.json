@@ -1,0 +1,70 @@
+{
+  "schema": "merge-r20-session-closeout-v1",
+  "task_id": "merge-unwind-acceptance-autonomous-2026-10-23-r20",
+  "phase": "MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23",
+  "closed_utc": "2026-10-22T22:03:28Z",
+  "t0": "2026-10-22T20:08:00Z",
+  "main_deadline_utc": "2026-10-22T22:08:00Z",
+  "absolute_deadline_utc": "2026-10-22T22:38:00Z",
+  "budget_seconds": 3600,
+  "spent_seconds": 2837,
+  "retired_seconds": 763,
+  "remaining_seconds": 0,
+  "carry_seconds": 0,
+  "builds": [
+    {
+      "id": "196e1b52-23bf-47e8-bf0a-72caa5c1bbf2",
+      "charge_seconds": 938
+    },
+    {
+      "id": "17095248-45ee-433d-83d1-66679a8a1db5",
+      "charge_seconds": 934
+    },
+    {
+      "id": "7384d743-24dd-4b4d-ae27-9b6af7f111c2",
+      "charge_seconds": 235
+    },
+    {
+      "id": "0d3e7c6d-dfe4-4dbb-b5da-f0169d92ff53",
+      "charge_seconds": 730
+    }
+  ],
+  "active_ids": [],
+  "unresolved_ids": [],
+  "closure_reason": [
+    {
+      "task": "Raw caller normal/unwind acceptance and controls",
+      "boundary": "P1 bounded source-reported BOTH_TARGETS_EXIT0 plus five R19 controls; F5 resource and state/index binding gaps remain. P2 new controls INCONCLUSIVE. P3 compile101, P4 proof_attemptedfalse/budget exhaustion. No successful compatible full target/control matrix."
+    },
+    {
+      "task": "Original as_mut_ptr/unsize caller",
+      "boundary": "Typed metadata transport and checked resource-conversion prerequisites prepared; actual source-bound borrow lifecycle remains absent. Active exporter has no NLL live-point facts/phase map. Owned fact-capture contract recorded; no inferred lifetime or ownership bridge permitted."
+    },
+    {
+      "task": "CURRENT/backedge/false/true/panic/Drop/Resume",
+      "boundary": "Original caller/lifecycle and compatible final toolchain/target gate OPEN. No independent branch/proof credit inferred."
+    },
+    {
+      "task": "Source-preserving compiler/decoder/refiner/runner defects",
+      "boundary": "Metadata transport, unused_mut fix, state diagnostic, closedusize interpretation, decoder synthetic-record compatibility and readonly lane timing prepared and independently reviewed. 92 synthetic tests plus shell syntax pass; exact new candidate Cloud UNVERIFIED."
+    },
+    {
+      "task": "Next authorized Cloud cycle",
+      "boundary": "763 seconds left is below reviewed1200+60 envelope. Exact reviewed HANDOFF prepared; no shorter speculative retry, cap increase or carry. Fresh task/window/ledger required."
+    }
+  ],
+  "handoff": {
+    "code_candidate": "41d449f3243a021efdf8ab1581f8bc8bd2fb2e6a",
+    "tool": "578120769161e217e53bd569bafdccbd4b2e020e",
+    "profile_sha256": "949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301",
+    "review_record": "research/challenge-8/cloud-build/origin-layout/R20-HANDOFF-REVIEWS-20261023.json",
+    "actual_compile_target_controls": "Cloud UNVERIFIED",
+    "new_schema_wire_incompatible": "Fresh exporter/schema/decoder tuple required; no old serialized MIR reuse.",
+    "next": "Fresh admission, exact source/cap/config check, Cloud preflight then target/controls and original borrow lifecycle; retain all obligations."
+  },
+  "accepted": false,
+  "b2_achieved": false,
+  "independent_proof_credit": false,
+  "download_verified_set": false,
+  "evidence_interface": "Evidence Brief only; historical source claims/ledgers preserved."
+}

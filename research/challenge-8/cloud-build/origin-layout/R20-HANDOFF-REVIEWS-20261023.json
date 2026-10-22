@@ -1,0 +1,40 @@
+{
+  "schema": "merge-r20-handoff-review-chain-v1",
+  "reviewer": "independent Luna HIGH /root/r20_review",
+  "compatibility_adoption": {
+    "candidate": "c883b0f0c5c4c4512ffe4564b751a39f21951714",
+    "verdict": "GO",
+    "spec_sha256": "5b92e88b9f37469e4498e1a9449b480f75b306f059abaf1cbf1dbf0dea1a7708",
+    "packet_sha256": "e693c7c2789adf0bb5436cc25d5272f72f7b6755beed7d65c3b3f818c2b18abe"
+  },
+  "cap_prune": {
+    "candidate": "954a3d1804b950eae28bb8c4f7527755104ec009",
+    "verdict": "GO",
+    "spec_sha256": "03d37229b7be3e4e266b4cd27cc67da9e6aea2a3f0e9e4464f3a3ea075c40952",
+    "packet_sha256": "0c9c3a5f153b3da05e18e439d5d1b0656ba2bad7d9652292e2d3125541d108d2"
+  },
+  "initial_timing_review": {
+    "candidate": "f0d612698c91096c9a77aae8006ce75445c79563",
+    "verdict": "NO_GO",
+    "reason": "TSV extension not exposed by ordinary Brief text chunks",
+    "packet_sha256": "e080075084959587f9a7d7c979b6c1d48fc9e46acde064e1c8b7f401ab4b34d5"
+  },
+  "timing_fixed": {
+    "candidate": "41d449f3243a021efdf8ab1581f8bc8bd2fb2e6a",
+    "verdict": "GO",
+    "spec_sha256": "96369899323af91c6dde837accef4d69e0989f4cd838299da8cddd898232d56a",
+    "packet_sha256": "6f401d4ef982433de59b6ff1fde9d7584d5f51aa06829ce134fdc6158ac11e7f",
+    "fix": "Reader-supported .txt; identical tab-separated samples and unchanged budget/status logic"
+  },
+  "service_tests_pass": {
+    "metadata": 7,
+    "R20_phase": 11,
+    "R19_phase": 13,
+    "rawptr": 10,
+    "body_receipts": 39,
+    "unwind": 12
+  },
+  "bash_syntax": "PASS",
+  "cloud_compatibility": "UNVERIFIED",
+  "proof_credit": false
+}
