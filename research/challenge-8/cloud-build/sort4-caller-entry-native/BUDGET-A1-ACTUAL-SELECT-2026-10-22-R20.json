@@ -1,12 +1,29 @@
 {
-  "active_build": null,
+  "active_build": "2d562718-c166-4ab5-bba3-bf9136bd56b7",
   "allowed_lanes": [
     "o26-select-callee-r20"
   ],
   "authorization": "CURRENT-TASK Select-R20 explicitly authorizes this fresh 3600-second Cloud phase; T0=2026-10-22T15:41:28Z, main deadline=2026-10-22T17:41:28Z, absolute deadline=2026-10-22T18:11:28Z; no R19 carry; max 1200-second Builds; 240-second report reserve. Owner-directed separate callee lane o26-select-callee-r20 with minimal nine-body closure (no actual-body route); public-git and the transport cap unchanged.",
   "authorization_model": "bounded-cloud-budget",
   "baseline_sha": "10e13a414a1b6f0efafdee36eea733c91df1ee6b",
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-63e5b140291d4920a0ca8c9ba4098647",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-ACTUAL-SELECT-2026-10-22-R20",
+      "infra_sha": "a5705fa028d6b0fa7247cdf7be5f978deaac0fff",
+      "proof_sha": "a5705fa028d6b0fa7247cdf7be5f978deaac0fff",
+      "lane": "o26-select-callee-r20",
+      "submitted_config_sha256": "9f88a7c711306acbbdfb9ebab5c1b6a140f89c64f5caefae089148e4f474fdbc",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "QUEUED",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "cd41c6a897594fe7d72d5985720db2792e03b42676060e730a4eb133235bb84f",
+      "build_id": "2d562718-c166-4ab5-bba3-bf9136bd56b7"
+    }
+  ],
   "carry_seconds": 0,
   "carryover_allowed": false,
   "ceiling_build_seconds": 3600,

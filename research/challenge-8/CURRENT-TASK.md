@@ -49,10 +49,10 @@ Next: Перепроверить forget guard-own на текущей цепоч
 
 ## Отчёт агента
 
-**select-actual-callee-autonomous-2026-10-22-r20 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-22-R20 · ACTIVE**
-Updated: 2026-10-22T16:10:00Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+**select-actual-callee-autonomous-2026-10-22-r20 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-22-R20 · HANDOFF**
+Updated: 2026-10-22T16:17:30Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-22T15:41:28Z`; main `2026-10-22T17:41:28Z`; absolute `2026-10-22T18:11:28Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
+Active Build IDs: 2d562718-c166-4ab5-bba3-bf9136bd56b7; unresolved: none recorded.
 Blocker: No such function: std::hint::select_unpredictable; actual callee proof (S7 select thread) not accepted, so no summary allowed. [Build `8916761a-a0a7-428a-b853-187e45ef4dfa`]
-Next: Independent review of callee lane candidate 11f8e1c2; push; register/submit R20 S1 on o26-select-callee-r20; read baseline and repair variants in Brief.
+Next: Wait R20 S1 Build 2d562718 (baseline nine-body callee diagnostic, lane o26-select-callee-r20, pins a5705fa0); ack; Brief: stage exits, preflight/compare, baseline proof first error.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

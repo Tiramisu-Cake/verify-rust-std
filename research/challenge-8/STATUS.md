@@ -1,11 +1,11 @@
 # Agent checkpoint: select-actual-callee-autonomous-2026-10-22-r20
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-22-R20 | state: ACTIVE
-- Updated: 2026-10-22T16:10:00Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-22-R20 | state: HANDOFF
+- Updated: 2026-10-22T16:17:30Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-22T15:41:28Z`; main deadline `2026-10-22T17:41:28Z`; absolute deadline `2026-10-22T18:11:28Z`
 - Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 2d562718-c166-4ab5-bba3-bf9136bd56b7
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -27,7 +27,7 @@ No such function: std::hint::select_unpredictable; actual callee proof (S7 selec
 - [research/challenge-8/task-history/select-c3-r19/S2-evidence.json](task-history/select-c3-r19/S2-evidence.json) SHA `f2f0561d8e77f3fc5890dfc848cc0e08907cd743dda6211f5fd6298e0912286f` Build `8916761a-a0a7-428a-b853-187e45ef4dfa`
 
 ## Next
-Independent review of callee lane candidate 11f8e1c2; push; register/submit R20 S1 on o26-select-callee-r20; read baseline and repair variants in Brief.
+Wait R20 S1 Build 2d562718 (baseline nine-body callee diagnostic, lane o26-select-callee-r20, pins a5705fa0); ack; Brief: stage exits, preflight/compare, baseline proof first error.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r20/CALLEE-ROUTE-DESIGN.md](task-history/select-callee-r20/CALLEE-ROUTE-DESIGN.md) — `b547eaaed39a31a29a16383aa0d72d1a0e9666ccac987ae0571b5f94305f5632`
