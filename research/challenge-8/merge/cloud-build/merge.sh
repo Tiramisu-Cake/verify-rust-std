@@ -57,11 +57,11 @@ lane_available=$((SMALLSORT_DEADLINE_EPOCH - $(date +%s)))
   exit 2
 }
 (( lane_available >= lane_work_budget_seconds )) || lane_work_budget_seconds=$lane_available
-printf 'stage\telapsed_seconds\tremaining_lane_seconds\tguard_seconds\n' > "$evidence_root/lane-stage-budget.tsv"
+printf 'stage\telapsed_seconds\tremaining_lane_seconds\tguard_seconds\n' > "$evidence_root/lane-stage-budget.txt"
 record_lane_budget() {
   local budget_elapsed=$((SECONDS - lane_started))
   printf '%s\t%s\t%s\t140\n' "$1" "$budget_elapsed" \
-    "$((lane_work_budget_seconds - budget_elapsed))" >> "$evidence_root/lane-stage-budget.tsv"
+    "$((lane_work_budget_seconds - budget_elapsed))" >> "$evidence_root/lane-stage-budget.txt"
 }
 record_lane_budget lane_entry
 [[ -f "$cloud_dir/provider.py" && -f "$overlay_tool" ]] || {

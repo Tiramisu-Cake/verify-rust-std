@@ -5,7 +5,7 @@ because its budget was exhausted. Static merge.sh subtracts the existing
 140-second guard and preflight elapsed time before admitting compile-only.
 The setup stage responsible for the lost outer budget remains UNKNOWN.
 
-Add a small TSV evidence record at lane entry, compile gate and compile finish:
+Add a small TSV-formatted .txt evidence record at lane entry, compile gate and compile finish:
 stage, one sampled elapsed value, remaining lane budget and existing guard140.
 This measures the current runner; it changes no timeout, reserve, deadline,
 command arguments, proof mode, compile admission condition, matrix/control,
