@@ -21,7 +21,9 @@ prior R19 tuple and accepts this exact registered tuple only.
 P3's dispatched source/profile/ledger records remain historical and unchanged.
 This integration does not edit proof inputs, caller bodies, posts, runtime,
 CFG, ownership rules, lifetimes, translator acceptance, memory model, or
-trusted premises. The checked slice-content helper remains a distinct proof
+trusted premises. The recipe also removes the dormant r9-wiring-service-test.py input (8,325 bytes). An exact-path search found no invocation in run-proof.sh, run-merge.sh, merge.sh, first-callback.py, onecell prove.py, or control.py; active merge.sh explicitly invokes and retains the R8 wiring/freshness and tool-evidence service tests. The removed file remains in the repository.
+
+The checked slice-content helper remains a distinct proof
 input behind its exact hash; the existing parent raw body binding remains
 unchanged.
 
