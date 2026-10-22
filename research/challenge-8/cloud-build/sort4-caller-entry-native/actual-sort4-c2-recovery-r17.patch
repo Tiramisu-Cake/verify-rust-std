@@ -272,7 +272,7 @@
 -    | (Ast.LabelStmt (_, "34") as label) :: tail ->
 +    | (Ast.LabelStmt (_, name) as label) :: tail when name = continuation ->
          if tail = [] then Ast.static_error loc "R16 deferred normal suffix is empty" None;
-@@ -8031,2 +8168,44 @@
+@@ -8031,2 +8168,60 @@
  
 +let run_actual_indexed_scope_controls loc =
 +  let ty = Ast.IdentTypeExpr (loc, None, "i32") in
@@ -314,10 +314,26 @@
 +  negative3 "unexpected-fourth-marker" [first; second; third;
 +    block [marker "'cmp4"; decl "__r19_fourth"; use "__r19_fourth"]];
 +  negative "third-marker-with-two-calls" [first; second; third];
-+  Printf.eprintf "ACTUAL-INDEXED-SCOPE controls=13 status=PASS\n%!"
++  (* Five indexed groups: no deferred locals and no deferred wrapper. *)
++  let d = "__r19_group4" and e = "__r19_group5" in
++  let fourth = block [marker "'cmp4"; decl d; use d] in
++  let fifth = block [marker "'cmp5"; decl e; use e] in
++  let check5 body = validate_actual_scope_relocation
++    ~indexed_expected:["'cmp2", [b, Some ty]; "'cmp3", [c, Some ty];
++                       "'cmp4", [d, Some ty]; "'cmp5", [e, Some ty]]
++    [a, Some ty] [] None body in
++  (match check5 [first; second; third; fourth; fifth] with Ok () -> ()
++   | Error why -> failwith ("R19 indexed five-call positive failed: " ^ why));
++  let negative5 name body = match check5 body with
++    | Error _ -> () | Ok () -> failwith ("R19 indexed control accepted: " ^ name) in
++  negative5 "fifth-call-escape" [first; second; third; fourth; fifth; use e];
++  negative5 "missing-fifth-marker" [first; second; third; fourth; block [decl e; use e]];
++  negative5 "fifth-reads-fourth" [first; second; third; fourth;
++    block [marker "'cmp5"; decl e; use e; use d]];
++  Printf.eprintf "ACTUAL-INDEXED-SCOPE controls=17 status=PASS\n%!"
 +
  let run_actual_deferred_scope_controls loc =
-@@ -8389,2 +8568,71 @@
+@@ -8389,2 +8584,71 @@
      in
 +    let ghost_decl_blocks, ghost_stmts, indexed_extra_cuts =
 +      if Sys.getenv_opt "SORT4_ACTUAL_BODY_C2_RECOVERY" <> Some "1" ||
@@ -389,25 +405,25 @@
 +        blocks, statements, List.map2 (fun name c -> (c, c, name)) lfts indexed_cuts
 +      end in
      let markers, ghost_stmts =
-@@ -8491,2 +8739,3 @@
+@@ -8491,2 +8755,3 @@
      in
 +    let strict_lft_scope_ends = strict_lft_scope_ends @ indexed_extra_cuts in
      List.iter (fun (original_close, marker_loc, _) ->
-@@ -8524,2 +8773,3 @@
+@@ -8524,2 +8789,3 @@
             strict_lft_scope_ends with
 +         | Some (_, new_close, _) when new_close = closeBraceLoc -> [end_stmt new_close]
           | Some (_, new_close, _) -> [end_stmt new_close; Ast.NoopStmt closeBraceLoc]
-@@ -8542,3 +8792,3 @@
+@@ -8542,3 +8808,3 @@
      in
 -    let strict_relocated_decls = ref None in
 +    let strict_relocated_decls = ref [] in
      let strict_relocation_insertions = ref 0 in
-@@ -8558,3 +8808,3 @@
+@@ -8558,3 +8824,3 @@
      end) in
 -    let callback_marker_name = "__vf_callback_unwind_pair" in
 +    let callback_marker_name = "__vf_callback_unwind_" in
      let mentions_callback_marker raw =
-@@ -8615,4 +8865,5 @@
+@@ -8615,4 +8881,5 @@
            State.fail_callback_unwind "actual-body verified source SHA256 differs";
 -        if parsed_callback_markers <> 1 then
 -          State.fail_callback_unwind "actual-body c1 requires one source marker";
@@ -415,14 +431,14 @@
 +        if parsed_callback_markers <> expected_markers then
 +          State.fail_callback_unwind "actual-body indexed marker inventory differs";
          true
-@@ -8622,3 +8873,5 @@
+@@ -8622,3 +8889,5 @@
        State.body_name = "callback_false_post" in
 -    if (callback_fixture && parsed_callback_markers <> 1) ||
 +    let expected_callback_markers =
 +      if actual_sort4_callback && State.actual_c2_enabled then State.actual_indexed_calls else 1 in
 +    if (callback_fixture && parsed_callback_markers <> expected_callback_markers) ||
         (not callback_fixture && parsed_callback_markers <> 0) then
-@@ -8990,3 +9243,49 @@
+@@ -8990,3 +9259,49 @@
              let relocate = actual_scope_relocate || fixture_relocate in
 +            let indexed_local_groups =
 +              if not State.actual_c2_enabled then [] else begin
@@ -472,7 +488,7 @@
              let relocation_ids =
 +              if State.actual_c2_enabled then List.concat indexed_local_groups else
                if actual_scope_relocate then
-@@ -9005,3 +9304,9 @@
+@@ -9005,3 +9320,9 @@
              let deferred_moved = ref [] in
 -            let c1_raw_ids = ["_35"; "_36"; "_37"; "_38"; "_41"; "_42"] in
 +            let c1_raw_ids = if State.actual_c2_enabled then List.nth indexed_local_groups 0
@@ -483,16 +499,16 @@
 +                 List.map translate_local_decl_id_ (List.nth indexed_local_groups (i + 1))))
 +              else [] in
              let c1_translated_ids = List.map translate_local_decl_id_ c1_raw_ids in
-@@ -9021,2 +9326,4 @@
+@@ -9021,2 +9342,4 @@
                  match State.strict_lft_scope_ends with
 +                | (cut_loc, "'cmp") :: rest when State.actual_c2_enabled &&
 +                    List.map snd rest = List.map fst indexed_translated_groups -> cut_loc
                  | [(cut_loc, "'cmp")] -> cut_loc
-@@ -9046,2 +9353,3 @@
+@@ -9046,2 +9369,3 @@
                  let ty = decode_ty (List.assoc id State.local_decl_types) in
 +                if State.actual_c2_enabled then List.mem id relocation_ids else
                  if actual_scope_relocate then actual_type id ty else
-@@ -9108,4 +9416,23 @@
+@@ -9108,4 +9432,23 @@
                  Ast.static_error fn_sig_loc "R16 cmp/deferred declaration partition changed" None;
 -              deferred_moved := deferred;
 -              State.strict_relocated_decls := Some (cut_loc, cmp_moved)
@@ -518,7 +534,7 @@
 +                State.strict_relocated_decls := [(cut_loc, cmp_moved)]
 +              end
              end;
-@@ -9131,5 +9458,13 @@
+@@ -9131,5 +9474,13 @@
              let vf_bblocks, actual_deferred_wrapper =
 +              (* R19: with all five calls indexed no deferred locals remain, so
 +                 there is no normal suffix scope to create. *)
@@ -533,24 +549,24 @@
 -                  wrap_actual_deferred_suffix fn_sig_loc !deferred_moved vf_bblocks in
 +                  wrap_actual_deferred_suffix ~indexed:State.actual_c2_enabled fn_sig_loc !deferred_moved vf_bblocks in
                  relocated, Some wrapper
-@@ -9137,3 +9472,4 @@
+@@ -9137,3 +9488,4 @@
              if relocate then begin
 -              if !State.strict_relocation_insertions <> 1 then
 +              if !State.strict_relocation_insertions <>
 +                 (if State.actual_c2_enabled then State.actual_indexed_calls else 1) then
                  Ast.static_error fn_sig_loc
-@@ -9142,4 +9478,4 @@
+@@ -9142,4 +9494,4 @@
                Printf.eprintf
 -                "STRICT-RELOCATE outer_removed=%d inner_insertions=1\n%!"
 -                (List.length relocation_ids)
 +                "STRICT-RELOCATE outer_removed=%d inner_insertions=%d\n%!"
 +                (List.length relocation_ids) !State.strict_relocation_insertions
              end;
-@@ -9173,2 +9509,3 @@
+@@ -9173,2 +9525,3 @@
                   run_actual_deferred_scope_controls fn_sig_loc;
 +                 if State.actual_c2_enabled then run_actual_indexed_scope_controls fn_sig_loc;
                   let expected_types = List.map (fun id ->
-@@ -9183,5 +9520,11 @@
+@@ -9183,5 +9536,11 @@
                     translated_ids in
 -                 let cmp_expected, deferred_expected =
 +                 let cmp_expected, remaining_expected =

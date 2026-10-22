@@ -10,6 +10,15 @@ S2 (Build `8916761a`, pins `3af7d37d`, profile `c7bbbc46`): the actual sort4 bod
 - The actual callee thread (`SORT4-SELECT-CALLEE.md`, `SORT4-SELECT-POINTER-RESULTS.md`) is open. S6v4 accepted only components; S7b did not accept the auxiliary generic body or the actual linkage, and the last actual run stops at forget guard-own (`std/lib.rsspec:420`). The translator still contains that route (`Sort4SelectIntrinsic`, activated only by `SORT4_SELECT_INTRINSIC_REPO_ROOT` with its own helper and probe inventory), but the R17-chain actual-body route does not enable it.
 - `a1-actual-selector-permutation.rs` is a checked pure selector/permutation component. It does not replace the callee proof.
 
+## Recorded callee blocker (historical S6/S7 pipeline; status under the current R17 tool chain UNKNOWN)
+
+`SORT4-SELECT-FORGET-RESULTS.md` § "Precise next blocker":
+- The actual select prefix (run37656621026) passes pointer drop 60 and closes 61/62, then stops at `forget` 63: `std/lib.rsspec:420` requires `<DropOnPanic<*const Element>>.own(t, guard)`, which is absent.
+- Independent acceptance of the auxiliary nominal-forget body is blocked by the frozen global dead-code gate (`vfconsole.ml:265–282`).
+- No guard-own=true, broad forget summary or dead-code exemption was admitted.
+
+Any new route has to resolve both points under the current tool chain.
+
 ## Options (owner/mission choice)
 
 1. **Close the actual callee first (Select mission, W1).** Finish the S7 `select_unpredictable::<*const T>` proof: forget guard-own, then the actual linkage. After that, include the actual hint body and intrinsic chain in the sort4 crate with checked callee specs, and expose it to the actual-body route under an explicit opt-in with source/MIR certification. This is a new overlay/profile, so it needs review.
