@@ -6,7 +6,11 @@
     },
     {
       "path": "research/challenge-8/network/coordinator-v4-adoption-20261022/REVIEW.md",
-      "sha256": "f090f75d28ecc4727edf733f1420ffae6037c18a6e2ba29e3a015d50dd20affb"
+      "sha256": "1ed1bbe78809988402b74d18d256fdaa4273f14148a9412d13294deaefe74797"
+    },
+    {
+      "path": "research/challenge-8/network/cloud-readiness/PAYLOAD-SOURCE-PIN-DESIGN.md",
+      "sha256": "6b3e57f3328fbee00910c3c537986e4d6caa29fa8fbbd8c17fe2a9fba22cf1be"
     }
   ],
   "assignment_sha256": "b66b1d400b5a440d349854e50008d61aead788f0a19709b2e1bb32423050acf5",
@@ -31,7 +35,7 @@
       "evidence": [
         {
           "path": "research/challenge-8/network/coordinator-v4-adoption-20261022/REVIEW.md",
-          "sha256": "f090f75d28ecc4727edf733f1420ffae6037c18a6e2ba29e3a015d50dd20affb"
+          "sha256": "1ed1bbe78809988402b74d18d256fdaa4273f14148a9412d13294deaefe74797"
         },
         {
           "path": "research/challenge-8/network/cloud-readiness/PLAN.md",
@@ -41,11 +45,21 @@
     },
     {
       "assurance": "INDEPENDENTLY_ESTABLISHED",
-      "claim": "smallsort-session (evidence-brief branch, committed, NOT pushed): 895c2648 network in CLOUD_OWNERS/OWNER_REPOS and envelope v4/cap 3 in install guard + watcher (GO_WITH_NITS); 9f152efe network first-session prepare without old ledger/profile, strict watcher envelope types (GO_WITH_NITS); 176/176 tests; merge bundles byte-identical.",
+      "claim": "smallsort-session published on docs/evidence-brief-policy-20261017 at 929fe0a9: network in CLOUD_OWNERS/OWNER_REPOS, envelope v4/cap 3 in install guard + watcher (895c2648), network first-session prepare without old ledger/profile with enforced recipe references, strict watcher envelope types (9f152efe, 929fe0a9); all reviews GO_WITH_NITS; 177/177 tests; merge bundles byte-identical.",
       "evidence": [
         {
           "path": "research/challenge-8/network/coordinator-v4-adoption-20261022/REVIEW.md",
-          "sha256": "f090f75d28ecc4727edf733f1420ffae6037c18a6e2ba29e3a015d50dd20affb"
+          "sha256": "1ed1bbe78809988402b74d18d256fdaa4273f14148a9412d13294deaefe74797"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "PREPARED_NOT_REGISTERED design: pinned-source fetch (recipe source_pin, blob-ID + SHA-256 check, no fallback) for the 14 library/core files identical to source cd371e03 in all three branches; ≈276 KB gz+b64 ≈70 chunks saved for Select c1, 68 for caller-entry, 47 for r20, 3 for Merge merge.json.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/cloud-readiness/PAYLOAD-SOURCE-PIN-DESIGN.md",
+          "sha256": "6b3e57f3328fbee00910c3c537986e4d6caa29fa8fbbd8c17fe2a9fba22cf1be"
         }
       ]
     },
@@ -63,9 +77,9 @@
   "next_step": "With owner permission: commit identical coordination.py (only that path) in select-night and merge-origin, ff-push them plus networks 4876c66f and evidence-brief 9f152efe, write three ACKs {owner,branch,coordination_sha256,control_sha256,infra_commit,baseline_control_commit}, run coordination-v4-transition.py audit then migrate, readback {4,3} per client.",
   "open": [
     "Live switch NOT performed: committing coordination.py into select-night was refused by the session permission classifier; no Select/Merge commit, push, ACK, audit or migrate. active.json still v3/cap 3/empty.",
-    "Published: networks d9091c58 (includes adoption commit 4876c66f, baseline b55a9e59, only cloud-build/{control.py,coordination.py}); evidence-brief 9f152efe. Select/Merge untouched.",
-    "Review nits open: first-session recipe not forced to reference generated ledger/profile; drop network from FIRST_SESSION_OWNERS / add to CLOUD_HISTORY_OWNERS once it has a Cloud ledger; v3 request() can still write a request file under v4.",
-    "PREPARED_NOT_REGISTERED design for moving the 14 unchanged library/core files out of the pinned-objects payload: NOT_STARTED.",
+    "Published: networks (adoption commit 4876c66f, baseline b55a9e59, only cloud-build/{control.py,coordination.py}); evidence-brief 929fe0a9. Select/Merge untouched.",
+    "Review nits open: drop network from FIRST_SESSION_OWNERS / add to CLOUD_HISTORY_OWNERS once it has a Cloud ledger; v3 request() can still write a request file under v4; transition timeouts raise TimeoutExpired (aborts before write).",
+    "Payload source-pin design is PREPARED_NOT_REGISTERED; implementation needs a separate reviewed task (shared control.py/source-input.py).",
     "R4/W7 proofs NOT_RUN; Select P2/P1/P3; N13 adapter; W8."
   ],
   "owner": "network",
@@ -96,5 +110,5 @@
   },
   "state": "ACTIVE",
   "task_id": "network-coordinator-v4-2026-10-22-n2",
-  "updated_utc": "2026-10-22T19:03:00Z"
+  "updated_utc": "2026-10-22T19:10:00Z"
 }

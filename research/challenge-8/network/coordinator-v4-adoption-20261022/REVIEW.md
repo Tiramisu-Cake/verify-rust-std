@@ -14,6 +14,7 @@ Reviewer: `claude-subagent:smallsort-reviewer` (Opus 5.5, effort high, separate 
 ## R3 — smallsort-session first-session prepare (continuation of R2)
 
 - Packet `scratchpad/rev3/packet` SHA-256 `03736e9987527657d88081210f5ee0b800bb33d1728d38b5cffc4da5e4eb3c29`, spec `b23177b15f80fe5ce5ec0026d7b082d4a99633228de89ef8f338e7f5cbbd2881`, candidate `9f152efe26902c5b2265e2d7622fcac2e91580a9` (delta from `895c2648`): **GO_WITH_NITS**, 176/176 from a clean export; candidate tests against baseline code: 3 failures + 2 errors on the new cases only. Merge/Select paths unchanged by static trace (author byte comparison: merge draft/reuse bundles identical). Open nits: first-session recipe is not forced to reference the generated ledger/profile; `FIRST_SESSION_OWNERS`/`CLOUD_HISTORY_OWNERS` must drop/add network once it has a Cloud ledger; network `wait`/prepare need the client at `cloud-build/` (adoption commit `4876c66f`, not yet published).
+- Delta `9f152efe..929fe0a9f5411438348c5cb56a201abf7caf6c5e` (same reviewer, continuation): **GO_WITH_NITS**; nit 1 resolved (first-session recipe must reference generated ledger/profile, enforced in prepare and check), 177/177 from a clean export, new controls fail on `9f152efe`. Carried should-fix (client at `cloud-build/`) is satisfied by published Network commit `4876c66f`. Published: evidence-brief `929fe0a9`.
 
 ## Live switch status
 
