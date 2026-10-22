@@ -1,7 +1,7 @@
 # Agent checkpoint: network-coordinator-v4-2026-10-22-n2
 
 - Owner: network | phase: NETWORK-COORDINATOR-V4-2026-10-22-N2 | state: ACTIVE
-- Updated: 2026-10-22T18:46:00Z
+- Updated: 2026-10-22T19:01:07Z
 - Baseline: source `cd371e035c7e573760c43bf934d53e8118ee3e7d`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `UNKNOWN`
 - Session dates: T0 `2026-10-22T18:43:36Z`; main deadline `2026-10-22T20:43:36Z`; absolute deadline `2026-10-22T21:13:36Z`
 - Budget: 0s total; 0s spent; 0s retired; 0s remaining including active reservations
@@ -9,23 +9,27 @@
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
-- [INDEPENDENTLY_ESTABLISHED] Cloud readiness PREPARED_NOT_REGISTERED (N1, GO_WITH_NITS): v4 candidate (v3 owners + network, cap 3), transition helper, Network client with empty phase table; tests 6/6, 8/8. Owner list must now drop verifast. — [research/challenge-8/network/cloud-readiness/PLAN.md](network/cloud-readiness/PLAN.md) SHA `e276d747af9637f0db131bb08bedd0f6a8ef0835f08990c89f83cb8dfe72e895`
+- [INDEPENDENTLY_ESTABLISHED] Coordinator v4 final (0f5928b5, GO_WITH_NITS x2): owners exactly select-sort4/merge/network (verifast refused), cap 3, owner check in request(); transition audit/migrate/rollback with pinned client roots/branches, --no-renames, publication via ls-remote, idle check under the flock (no reservation/request/ongoing Build), bounded commands; coordination.py sha256 2fa7affd54b63cf6eea3924bc69f8a9db63b8c1b29a092cddfcfbbacc4616bc3; tests 8/8 + 8/8. — [research/challenge-8/network/coordinator-v4-adoption-20261022/REVIEW.md](network/coordinator-v4-adoption-20261022/REVIEW.md) SHA `f090f75d28ecc4727edf733f1420ffae6037c18a6e2ba29e3a015d50dd20affb`; [research/challenge-8/network/cloud-readiness/PLAN.md](network/cloud-readiness/PLAN.md) SHA `83495d774464b2bb32c3e9dec7866415cf641d3ec29786f33f07997647d3c0a7`
+- [INDEPENDENTLY_ESTABLISHED] smallsort-session (evidence-brief branch, committed, NOT pushed): 895c2648 network in CLOUD_OWNERS/OWNER_REPOS and envelope v4/cap 3 in install guard + watcher (GO_WITH_NITS); 9f152efe network first-session prepare without old ledger/profile, strict watcher envelope types (GO_WITH_NITS); 176/176 tests; merge bundles byte-identical. — [research/challenge-8/network/coordinator-v4-adoption-20261022/REVIEW.md](network/coordinator-v4-adoption-20261022/REVIEW.md) SHA `f090f75d28ecc4727edf733f1420ffae6037c18a6e2ba29e3a015d50dd20affb`
 - [INDEPENDENTLY_ESTABLISHED] N1 CLOSED: R4 347a69a9, W7 50ac9ac9, P1 c760fa3b, runner 0591b066 reviewed and UNVERIFIED, credit 0; Select requests P1-P3 filed. — [research/challenge-8/task-history/network-n1/CLOSEOUT.md](task-history/network-n1/CLOSEOUT.md) SHA `1a91ccf332d53f0342dd79e3432e8ea4fb24659c7ff6dd41a2a9bcc6cbd137f0`
 
 ## Open
-- Coordinator v4 not adopted; live active.json schema 3; clients select-night/merge-origin on v3 blob 1fd8b97b.
-- smallsort-session lacks network Cloud support (CLOUD_OWNERS, prepare, wait).
+- Live switch NOT performed: committing coordination.py into select-night was refused by the session permission classifier; no Select/Merge commit, push, ACK, audit or migrate. active.json still v3/cap 3/empty.
+- Network adoption commit 4876c66f (cloud-build/{control.py,coordination.py}, baseline b55a9e59) local only; evidence-brief 895c2648/9f152efe not pushed.
+- Review nits open: first-session recipe not forced to reference generated ledger/profile; drop network from FIRST_SESSION_OWNERS / add to CLOUD_HISTORY_OWNERS once it has a Cloud ledger; v3 request() can still write a request file under v4.
+- PREPARED_NOT_REGISTERED design for moving the 14 unchanged library/core files out of the pinned-objects payload: NOT_STARTED.
 - R4/W7 proofs NOT_RUN; Select P2/P1/P3; N13 adapter; W8.
 
 ## Rejected approaches
 - Собственная параллельная реализация pointer-select/callback слоя — Divergent trusted profiles; W10 integration debt.; [research/challenge-8/network/BOOTSTRAP-2026-10-22.md](network/BOOTSTRAP-2026-10-22.md) SHA `1b219aee9b85b36d65a20e50b473cb54b14f544f6ac2703a8517283a13972712`
 
 ## Blocker
-Network has no Cloud lane until coordinator v4 and smallsort-session support.
-- [research/challenge-8/network/cloud-readiness/PLAN.md](network/cloud-readiness/PLAN.md) SHA `e276d747af9637f0db131bb08bedd0f6a8ef0835f08990c89f83cb8dfe72e895`
+Live v4 switch needs commits/pushes in select-night and merge-origin and a migrate on /root/smallsort-ci-coordination; the session permission classifier refuses these (Modify Shared Resources). Owner must grant permission or run step 3.
+- [research/challenge-8/network/coordinator-v4-adoption-20261022/REVIEW.md](network/coordinator-v4-adoption-20261022/REVIEW.md) SHA `f090f75d28ecc4727edf733f1420ffae6037c18a6e2ba29e3a015d50dd20affb`
 
 ## Next
-Step 1: finalize v4 for three owners, then smallsort-session support, then the live switch.
+With owner permission: commit identical coordination.py (only that path) in select-night and merge-origin, ff-push them plus networks 4876c66f and evidence-brief 9f152efe, write three ACKs {owner,branch,coordination_sha256,control_sha256,infra_commit,baseline_control_commit}, run coordination-v4-transition.py audit then migrate, readback {4,3} per client.
 
 ## Artifacts
-- [research/challenge-8/network/cloud-readiness/PLAN.md](network/cloud-readiness/PLAN.md) — `e276d747af9637f0db131bb08bedd0f6a8ef0835f08990c89f83cb8dfe72e895`
+- [research/challenge-8/network/cloud-readiness/PLAN.md](network/cloud-readiness/PLAN.md) — `83495d774464b2bb32c3e9dec7866415cf641d3ec29786f33f07997647d3c0a7`
+- [research/challenge-8/network/coordinator-v4-adoption-20261022/REVIEW.md](network/coordinator-v4-adoption-20261022/REVIEW.md) — `f090f75d28ecc4727edf733f1420ffae6037c18a6e2ba29e3a015d50dd20affb`

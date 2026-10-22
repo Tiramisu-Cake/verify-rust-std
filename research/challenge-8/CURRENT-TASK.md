@@ -48,9 +48,9 @@ Next: Step 1: finalize v4 for three owners, then smallsort-session support, then
 ## Отчёт агента
 
 **network-coordinator-v4-2026-10-22-n2 · network · NETWORK-COORDINATOR-V4-2026-10-22-N2 · ACTIVE**
-Updated: 2026-10-22T18:46:00Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `UNKNOWN`.
+Updated: 2026-10-22T19:01:07Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `UNKNOWN`.
 Dates: T0 `2026-10-22T18:43:36Z`; main `2026-10-22T20:43:36Z`; absolute `2026-10-22T21:13:36Z`. Budget 0s: 0s spent, 0s retired, 0s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Network has no Cloud lane until coordinator v4 and smallsort-session support.
-Next: Step 1: finalize v4 for three owners, then smallsort-session support, then the live switch.
+Blocker: Live v4 switch needs commits/pushes in select-night and merge-origin and a migrate on /root/smallsort-ci-coordination; the session permission classifier refuses these (Modify Shared Resources). Owner must grant permission or run step 3.
+Next: With owner permission: commit identical coordination.py (only that path) in select-night and merge-origin, ff-push them plus networks 4876c66f and evidence-brief 9f152efe, write three ACKs {owner,branch,coordination_sha256,control_sha256,infra_commit,baseline_control_commit}, run coordination-v4-transition.py audit then migrate, readback {4,3} per client.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
