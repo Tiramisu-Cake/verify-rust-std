@@ -11,7 +11,7 @@ infra_root=${INFRA_ROOT:-/workspace/infra}
 proof_root=${PROOF_ROOT:-/workspace/proof}
 work_root=${WORK_ROOT:-/workspace/smallsort-work/network-n13}
 evidence_root=${EVIDENCE_ROOT:-/workspace/evidence}
-runner_evidence="$evidence_root/network-n13"
+runner_evidence="$evidence_root/allprooflogs/cases"
 profile="$infra_root/research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json"
 tool_parent="$work_root/tool"
 archive="$work_root/verifast-26.09-linux.tar.gz"
@@ -39,7 +39,15 @@ root=pathlib.Path(sys.argv[1]); stage=sys.argv[2]; status=int(sys.argv[3])
 (root/'proof-audit.json').write_text(json.dumps({
   'accepted':False,'classification':'INCONCLUSIVE','diagnostic_complete':False,
   'proof_credit':False,'lane':'network-n13','stage':stage,
-  'stage_exit_status':status,'failed_stage':'cloud-setup','evidence_root':'allprooflogs'
+  'stage_exit_status':status,'failed_stage':'cloud-setup','evidence_root':'allprooflogs',
+  'archive_layout':{
+    'schema':'network-n13-direct-case-artifacts-v1',
+    'runner_evidence':'allprooflogs/cases',
+    'results_path':'allprooflogs/cases/results.json',
+    'case_artifact_root':'allprooflogs/cases',
+    'case_files_copied':False,'results_sha256':None,
+    'mapped_case_count':0,'unmapped_case_rows':0,'cases':[]
+  }
 },indent=2,sort_keys=True)+'\n')
 (root/'network-n13-stage.log').write_text('Network N13 Cloud setup or runner failed before a complete stage result.\n')
 (root/'network-n13-stage-exit-code.txt').write_text(str(status)+'\n')
@@ -89,34 +97,63 @@ set -e
 cat "$runner_log"
 
 python3 - "$evidence_root" "$runner_evidence" "$work_root" "$stage" "$runner_status" <<'EVIDENCE'
-import json,pathlib,shutil,sys
+import hashlib,json,pathlib,shutil,sys
+
 evidence,runner_evidence,work=map(pathlib.Path,sys.argv[1:4])
 stage=sys.argv[4]
 status=int(sys.argv[5])
-results=runner_evidence/'results.json'
+results_path=runner_evidence/'results.json'
+results_bytes=None
 summary={}
 try:
-    value=json.loads(results.read_text())
+    results_bytes=results_path.read_bytes()
+    value=json.loads(results_bytes)
     if isinstance(value,dict): summary=value
 except (OSError,ValueError):
     pass
 cases_dir=evidence/'allprooflogs'/'cases'
 cases_dir.mkdir(parents=True,exist_ok=True)
-case_rows=summary.get('cases') if isinstance(summary.get('cases'),list) else []
+case_value=summary.get('cases')
+case_rows=case_value if isinstance(case_value,list) else []
+case_artifacts=[]
+unmapped_rows=0
 for row in case_rows:
-    if not isinstance(row,dict) or not isinstance(row.get('name'),str): continue
+    if not isinstance(row,dict) or not isinstance(row.get('name'),str):
+        unmapped_rows+=1
+        continue
     name=row['name']
-    for suffix in ('.c','.log'):
-        source=runner_evidence/(name+suffix)
-        if source.is_file() and not source.is_symlink():
-            shutil.copyfile(source,cases_dir/(name+suffix))
+    if not name or any(ch not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-' for ch in name):
+        unmapped_rows+=1
+        continue
+    result=row.get('result') if isinstance(row.get('result'),dict) else {}
+    source=cases_dir/(name+'.c')
+    log=cases_dir/(name+'.log')
+    case_artifacts.append({
+        'case':name,
+        'state':row.get('state') if isinstance(row.get('state'),str) else None,
+        'exit':result.get('exit') if type(result.get('exit')) is int else row.get('exit') if type(row.get('exit')) is int else None,
+        'source_path':'allprooflogs/cases/'+name+'.c',
+        'source_present':source.is_file() and not source.is_symlink(),
+        'source_sha256':result.get('source_sha256') if isinstance(result.get('source_sha256'),str) else row.get('generated_sha256') if isinstance(row.get('generated_sha256'),str) else None,
+        'log_path':'allprooflogs/cases/'+name+'.log',
+        'log_present':log.is_file() and not log.is_symlink(),
+        'log_sha256':result.get('log_sha256') if isinstance(result.get('log_sha256'),str) else None,
+    })
 stage_dir=evidence/'allprooflogs'
+stage_dir.mkdir(parents=True,exist_ok=True)
 (stage_dir/'network-n13-stage.log').write_text((work/'network-n13-runner.log').read_text(errors='replace'))
 (stage_dir/'network-n13-stage-exit-code.txt').write_text(str(status)+'\n')
 for name in ('provider.json','verifast-archive-sha256.txt','verifast-console-sha256.txt'):
     source=work/name
     if source.is_file(): shutil.copyfile(source,evidence/name)
-complete=(status==0 and summary.get('complete') is True and isinstance(summary.get('cases'),list))
+identities_complete=all(
+    item['source_present'] and item['log_present'] and
+    isinstance(item['source_sha256'],str) and len(item['source_sha256'])==64 and
+    isinstance(item['log_sha256'],str) and len(item['log_sha256'])==64
+    for item in case_artifacts)
+complete=(status==0 and summary.get('complete') is True and isinstance(case_value,list) and
+          bool(case_rows) and unmapped_rows==0 and len(case_artifacts)==len(case_rows) and
+          identities_complete)
 audit={
   'accepted':False,
   'classification':'NETWORK_N13_STAGE_COMPLETE' if complete else 'INCONCLUSIVE',
@@ -127,9 +164,18 @@ audit={
   'stage_exit_status':status,
   'case_count':len(case_rows),
   'evidence_root':'allprooflogs',
+  'archive_layout':{
+    'schema':'network-n13-direct-case-artifacts-v1',
+    'runner_evidence':'allprooflogs/cases',
+    'results_path':'allprooflogs/cases/results.json',
+    'case_artifact_root':'allprooflogs/cases',
+    'case_files_copied':False,
+    'results_sha256':hashlib.sha256(results_bytes).hexdigest() if results_bytes is not None else None,
+    'mapped_case_count':len(case_artifacts),
+    'unmapped_case_rows':unmapped_rows,
+    'cases':case_artifacts,
+  },
 }
 (stage_dir/'proof-audit.json').write_text(json.dumps(audit,indent=2,sort_keys=True)+'\n')
-if not case_rows:
-    (cases_dir/'runner-result.json').write_text(json.dumps(summary,indent=2,sort_keys=True)+'\n')
 EVIDENCE
 exit "$runner_status"
