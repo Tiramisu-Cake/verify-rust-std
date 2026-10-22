@@ -4,7 +4,23 @@ Our own specifications and proofs for the actual Rust SmallSort implementation.
 Other solutions may inform requirements/review concerns, but their proof code is
 not imported. Runtime algorithms and generic signatures must remain unchanged.
 
-## Start here
+## Start here (Network owner, adopted 2026-10-22)
+
+Shared rules: [CORE](agent-workflow/CORE.md) → runtime profile
+([Claude](agent-workflow/RUNTIME-CLAUDE.md) / [Codex](agent-workflow/RUNTIME-CODEX.md))
+→ [CURRENT-TASK](CURRENT-TASK.md) → [CHECKPOINT](CHECKPOINT.json)/[STATUS](STATUS.md).
+Policy references (adopted from `9c96a5dd`): [WORK-POLICY](WORK-POLICY.md),
+[COMPLETION-PLAN](COMPLETION-PLAN.md), [PROOF-AGENT-AUTONOMY](PROOF-AGENT-AUTONOMY.md),
+[VERIFAST-ROLE](VERIFAST-ROLE.md), [ADOPTION](ADOPTION.md).
+Network mission (W7→W8): [bootstrap](network/BOOTSTRAP-2026-10-22.md),
+[swap_if_less contract](networks/SWAP-CONTRACT.md), [source map](networks/SOURCE-MAP.md),
+[integration](networks/INTEGRATION.md), [networks status 2026-10-07](networks/STATUS.md).
+Superseded branch-local onboarding/PLAN/runbook:
+[archive/network-adoption-2026-10-22](archive/network-adoption-2026-10-22/README.md).
+
+## Historical research index (inherited from the Select research branch)
+
+Entries below are historical; they are not current operating instructions or authority.
 
 **Current: [pointer select completion](SORT4-SELECT-POINTER-PHASE.md), IN PROGRESS.**
 [Design/dependency map](SORT4-SELECT-POINTER-DESIGN.md),

@@ -1,163 +1,136 @@
+> **Короткий старт новых Select/Merge сессий (2026-10-21):** обязательное [CORE](agent-workflow/CORE.md) + своё CURRENT-TASK + CHECKPOINT/STATUS. Этот документ — подробный справочник: открывай нужные разделы, без полного перечитывания. Legacy active sessions сохраняют свои inputs/T0/счета. [Инструменты и порядок](agent-workflow/README.md).
+
 > **Автономность proof-агентов, 2026-10-20:** Select/Merge сами ставят задачи по миссии и плану; исправления inventory/binder/frontend и новые experimental profiles не требуют отдельного согласования каждого blocker при сохранении гарантий, review и controls. [Полномочия](PROOF-AGENT-AUTONOMY.md). Новые задания задают окно/бюджет; активные inputs/T0/явные границы и роль maintainer сохраняются.
 
 > **Evidence v0.11 — приоритет:** [краткий guide](EVIDENCE-READER-GUIDE.md). Brief → catalogue → refresh/info → locate/fragment → нужные страницы по next_offset/next_value_start. Пожизненной16-квоты и прежних лексических WITHHELD больше нет; соседний контекст/argv/environment читаются как данные. Не выгружать автоматически всё. Proof scope, T0, окна/бюджеты и coordinator сохраняются.
 
 > **Процесс итераций, 2026-10-19:** [ранние checks → целевой proof → полная матрица](ITERATION-PROCESS.md). Service error-path tests обязательны для затронутого runner; использовать существующий Cloud preflight. Принять на безопасной границе без изменения активных inputs/T0. Измерять закрытые proof obligations отдельно от setup-работы.
 
-> Текущее правило чтения CI evidence: [Evidence Brief](EVIDENCE-BRIEF.md) (2026-10-17). Оно отменяет указания ниже читать/скачивать полные logs или raw archives, включая старые CLI-примеры. Использовать `smallsort-brief BUILD_UUID`; отсутствие Brief не разрешает raw fallback.
+# Challenge 8: единая процедура работы
 
-# Challenge 8 operating runbook
+Нормативные границы, миссии и режим сессий — в [WORK-POLICY](WORK-POLICY.md);
+правила proof integrity — в [AGENTS](../../AGENTS.md). Этот файл задаёт процесс,
+[Cloud runbook](cloud-build/README.md) — команды и учёт,
+[COMPLETION-PLAN](COMPLETION-PLAN.md) — конечные обязательства.
+[SmallSort Evidence Brief](EVIDENCE-BRIEF.md) задаёт приоритетный порядок
+получения и интерпретации результатов CI.
+[Архив](archive/team-procedure-2026-10-10/README-ARCHIVE.md) сохраняет прежние
+Actions-примеры, ветки, бюджеты и stop-условия без действующей авторизации.
 
-This is an operating procedure, not a progress log. Read [AGENTS.md](../../AGENTS.md)
-and [STATUS.md](STATUS.md) first, followed by [PLAN.md](PLAN.md) and the phase
-document linked from STATUS. The current authorization state and phase there
-override historical instructions. The pre-reorganization runbook is preserved
-verbatim in [the archive](AGENT-RUNBOOK-ARCHIVE-2026-10-06.md).
+## Вход в работу
 
-## Working context
+1. Проверить `git status --short`, remotes, branch, HEAD, `git worktree list`,
+   отдельные git-dir/index. Работать в назначенном worktree; не переключать чужой.
+   Выполнить `git fetch origin`; проверить, что origin — наш форк. Не сбрасывать
+   локальные правки и не объединять исследовательские истории ради docs.
+2. Прочитать общие правила и записать policy revision (полный commit прочитанной
+   редакции) в существующей session card/checkpoint. Принять docs по
+   [ADOPTION](ADOPTION.md) на безопасной границе, сохранив inputs активного Build.
+3. Прочитать STATUS своей ветки и самый свежий checkpoint/evidence/ledger.
+   Хронологически новый заголовок не заменяет точные source/tool/run identities.
+   При устаревшем STATUS или ledger с истёкшим deadline не предполагать живую
+   авторизацию: зафиксировать расхождение, не переносить остаток.
+4. Сверить действующее поручение: миссия, конкретный scope/tool profile,
+   patch authority, lanes, owner/ledger/state, начало, main/absolute deadlines
+   и Cloud ceiling. Docs-only/status запрос не возобновляет stop.
+   В новом режиме миссия продолжается между отдельно разрешёнными сессиями;
+   старые закрытые phase cards остаются историей.
+5. Для proof-работы проверить доступ к существующему dispatcher и собственные
+   active/unresolved Build IDs. Использовать разрешённые эквивалентные клиенты
+   при проблемах доступа, не заменять Cloud локальной verification.
 
-- Fork: `Tiramisu-Cake/verify-rust-std`; branch: `challenge-8/research`.
-- Upstream: `model-checking/verify-rust-std`; no external publication authorized.
-- Source: `library/core/src/slice/sort/shared/smallsort.rs`.
-- Workflow: `.github/workflows/smallsort-research.yml` (SmallSort research).
-- Requirements: [Challenge 8](../../doc/src/challenges/0008-smallsort.md) and
-  [general rules](../../doc/src/general-rules.md).
-- Current evidence: [STATUS.md](STATUS.md), [coverage](coverage.md),
-  [experiment log](EXPERIMENT-LOG.md). Topic notes are indexed in [README](README.md).
+## Experiment card до реализации и запуска
 
-The server only edits/orchestrates. No compiler, verifier, executable tests,
-extractors, research runners or build dependencies there, including containers.
-Read-only GitHub access and non-executing static checks are allowed.
+Дополнить существующий EXPERIMENT-LOG/phase card; не вводить второй параллельный
+журнал. Записать:
 
-## Session entry and stop handling
+- Actual std function/source и обязательство; caller и источник каждой premise.
+- Фальсифицируемую гипотезу и отличие от последнего эксперимента.
+- Точный domain, safety resources и полные target normal/unwind/abort posts;
+  partial diagnostic явно отделить от конечного контракта.
+- Tool/compiler/spec/patch/profile identities, разрешённую область изменения,
+  semantic rationale и trust/admission/regression gates для патча.
+- Positive cases и каждый negative: expected stage, predicate и location.
+  Изолировать baseline от unrelated failing helpers.
+- Source/ghost-strip/MIR/AST/refinement, actual callee/caller execution,
+  nonvacuity, leak/unwind, covers/UB и full unit exit checks, которые нужны claim.
+- Решение для каждого исхода: рутинный fix, следующий шаг миссии или запрос
+  владельцу при выходе за разрешённые границы; reviewed lane и доступный бюджет.
 
-Inspect local changes, remotes, current branch, remote heads and active research
-runs before acting. Preserve user changes. In a clean clone with the fork as origin:
+Нельзя выводить pointee права из равных numeric addresses или ownership bridge
+из `slice.share`. Setup/frontend/unsupported-operation failure до target не
+является intended negative. Повторный отказ без новой информации требует
+переоценки, а не ещё одного такого же запуска.
 
-~~~bash
-git status --short
-git remote -v
-git fetch origin
-git switch challenge-8/research
-git pull --ff-only origin challenge-8/research
-gh auth status
-~~~
+## Edit → publish → Cloud → evidence → следующий шаг
 
-Create a tracking branch if absent; do not blindly change an existing remote.
-Check push AND workflow-dispatch access without exposing credentials. Use an
-already authorized equivalent GitHub client if needed; otherwise ask for missing
-access. Never replace unavailable Actions with server-side verification.
+1. Сделать минимальное изменение внутри миссии/allowlist. Проверить diff и
+   разрешённые static/service checks. Proof/extraction/build локально не запускать.
+2. Commit и обычный push в собственную назначенную ветку форка. Проверить полный
+   remote SHA. Proof и infrastructure SHAs могут различаться; оба опубликованы.
+   Рабочее дерево не является Cloud input.
+3. Сверить свой ledger/deadline/allowlist и v3 capacity. Если есть подходящий
+   active/unresolved Build, разрешить/мониторить его вместо дубликата. Submit
+   выполнять по [Cloud runbook](cloud-build/README.md) с exact SHAs и recipe.
+4. Записать token, Build ID, inputs/config hashes. Неизвестный ответ API остаётся
+   unresolved; отсутствие ID не разрешает повторный submit. Не обходить лимит
+   owner alias или ручным удалением reservation.
+5. Следить за конкретным Build в активной сессии: короткие poll/wait, обычно
+   примерно раз в минуту; не отдавать мониторинг владельцу. Примерно через час
+   дать короткий отчёт по [режиму сессии](WORK-POLICY.md#1-миссия-полномочия-и-сессия),
+   затем продолжать в scope. Сборка/очередь сама по себе не повод закрыть сессию.
+6. После terminal status получить отчёт командой `smallsort-brief BUILD_UUID`.
+   Следовать [Evidence Brief policy](EVIDENCE-BRIEF.md): при недостатке отчёта
+   использовать адресное чтение v0.11 (info/locate/fragment, нужные страницы/поля) по guide; при реальном оставшемся ограничении
+   зафиксировать ограничение и запросить отдельно разрешённый administrative audit.
+   Не читать raw evidence. NOT_RUN не считать PASS.
+7. По Brief классифицировать blocker: setup/build, frontend/export/decode,
+   unsupported operation, resource/post proof, refinement, timeout/OOM или infra.
+   Если причинность не установлена отчётом, оставить её неподтверждённой; первое
+   наблюдаемое сообщение об ошибке само по себе не доказывает causal blocker.
+   Рутинный fix внутри scope и промежуточный PASS не требуют остановки при наличии
+   времени/бюджета. Новая trust/architecture область требует отдельного решения.
+8. После изменения source/proof/profile нужен новый exact-SHA proof run. Для
+   classifier/parser-only fix допустимы малые синтетические service tests по
+   WORK-POLICY §4. Полный raw-evidence replay требует отдельно разрешённого
+   administrative audit. Прежний verdict сохранять отдельно.
+9. Обновить компактный STATUS и существующий evidence record. Выбрать следующий
+   actual шаг миссии. За main deadline не начинать новый Build/эксперимент;
+   до absolute deadline — только начатый шаг, evidence, учёт и checkpoint.
 
-If STATUS is paused, a request to inspect/edit docs alone does not resume
-experiments. Explicit owner approval of a named next phase is authorization:
-record the instruction and boundary in STATUS before proof edits or dispatch.
-If that approval is already recorded as READY, a continuation agent starts the
-named phase without requesting the same permission again. A documentation-only
-approval checkpoint need not dispatch a run. A stop cancels authorization for
-further implementation/dispatch; identify any running job and report its state.
-Save a minimal checkpoint when permitted; never apply an unfinished draft as part
-of "checkpointing". This runbook is not a daemon or permission to work after stop.
+## Компактный STATUS и существующая отчётность
 
-## Experiment card: prepare before implementation/dispatch
+STATUS своей рабочей ветки содержит один текущий блок, обычно до одной страницы:
+миссия/owner; авторизация текущей сессии; последнее проверенное обязательство
+с точным domain/profile; первый blocker; следующий шаг; ссылки на evidence и
+checkpoint. Main содержит краткий индекс состояния команды и датированный
+snapshot, а не авторизацию или копию чужих рабочих STATUS.
 
-Append a compact card to EXPERIMENT-LOG; keep only its current decision in STATUS:
+Предыдущий блок сохранять до замены: в существующем датированном checkpoint,
+EXPERIMENT-LOG или архиве STATUS. Не удалять исторические run IDs, failures,
+verdicts и retired budgets. coverage/design обновлять только если изменился claim.
+Phase cards с прошедшими сроками — evidence; их старые «next» не инструкции.
 
-- Actual std source path/function and the obligation this experiment advances.
-- One falsifiable hypothesis; why the latest evidence supports testing it.
-- Exact input domain, resources, safety premises and full normal/unwind target
-  posts; distinguish a deliberately partial fixture from the final contract.
-- Allowed tool/pin/patch profile and hashes; any unresolved trust/admissibility
-  assumptions. Do not quietly add a patch to the chain.
-- Cases: positive outcomes and each negative's expected stage, predicate and
-  source location. Baseline controls must not import an unrelated failing helper.
-- Acceptance evidence: actual helper/callee/caller bodies, source/ghost-strip,
-  MIR/AST, refinement, leak/unwind and relevant covers/UB checks.
-- Decision for each plausible outcome: routine within-phase fix, advance to an
-  already agreed step, or STOP for a new semantic/trust/architecture decision.
-- Exact workflow selection, total budget and stop boundary.
+В существующей session card/checkpoint записывать следующие поля рядом с уже
+имеющимися результатами, без нового обязательного machine schema:
 
-For a memory-safety claim, retain unrestricted target types/comparator behavior;
-state ordering assumptions separately. Match pointer provenance and ownership,
-not just equal numeric addresses. A compiler, refiner or unrelated helper failure
-does not test the intended resource hypothesis.
+| Поле | Что фиксировать |
+| --- | --- |
+| Actual caller progress | Какой caller теперь устанавливает/использует какие premises; что пока supplied или не достигнуто |
+| Target reached by run | Build ID → actual obligation, entry/target/post reached, verdict; new proof / replay / NOT_RUN раздельно |
+| Время | Подготовка/dependencies/verifier build; extraction/refinement/proof; packaging/upload/hash/Evidence Brief analysis отдельно |
+| Учёт | Wall-clock начало/main/absolute/end; conservative Cloud charge, remaining/retired, active/unresolved IDs |
+| Общий blocker | Одна причинная формулировка, затронутые select/merge/maintainer и ссылки; fixes и trust debt раздельно |
+| Следующий шаг | Одно полезное действие в миссии и нужная будущая авторизация, если сессия закрыта |
 
-## Authorized edit → push → dispatch → inspect loop
+Использовать существующие ledger API timestamps, stage resource/time files,
+summary/classifier/receipts. Не считать create→finish временем proof: это charge
+с queue/setup/upload. Неизмеренные интервалы отметить «нет данных»; ручные оценки
+пометить. Автоматические данные не переписывать ради формы отчёта.
 
-Use this loop only for the recorded approved phase. On beginning a READY phase,
-record IN PROGRESS and the selected within-phase step in STATUS.
-
-1. Make the smallest evidence-backed change within its allowlist. Inspect the
-   diff; use only allowed static checks locally. Do not run proof scripts.
-2. Commit intended files and push normally. Confirm the remote matches the full
-   source SHA before dispatch:
-
-~~~bash
-git push origin HEAD:refs/heads/challenge-8/research
-git rev-parse HEAD
-git ls-remote origin refs/heads/challenge-8/research
-~~~
-
-3. List relevant runs before dispatch. Monitor an applicable active run instead
-   of duplicating it; record the existing IDs and time:
-
-~~~bash
-gh run list --repo Tiramisu-Cake/verify-rust-std \
-  --workflow smallsort-research.yml --branch challenge-8/research \
-  --event workflow_dispatch --limit 20 \
-  --json databaseId,url,headSha,headBranch,status,conclusion,createdAt
-~~~
-
-4. Set `proof_selection` and `budget_minutes` from the authorized experiment
-   card, not an old example or the workflow's default. These are placeholders,
-   not instructions to run the historical bootstrap:
-
-~~~bash
-gh workflow run smallsort-research.yml \
-  --repo Tiramisu-Cake/verify-rust-std --ref challenge-8/research \
-  -f proof="$proof_selection" -f budget_minutes="$budget_minutes"
-~~~
-
-5. Resolve the new run by workflow, branch, event, full head SHA, creation time
-   and logged selection. Do not blindly select the latest repository run. If
-   listing is delayed, poll; do not dispatch a duplicate. Record its ID/URL.
-   Do not push another proof change before resolving this dispatch to its SHA.
-6. After the authorized Cloud Build reaches terminal status, obtain
-   `smallsort-brief BUILD_UUID`. Do not read or download full logs or archives.
-   For a missing or incomplete Brief, report the limitation and request a
-   separately authorized administrative audit; do not infer acceptance.
-
-7. Check source/tool/profile hashes, requested case counts, actual named body
-   execution, normal/unwind posts, intended negative diagnostics, covers and
-   unwinding assertions, refinement and whole-unit exit codes. Trace duplicates
-   and a green badge are not proof. Record "not run" separately from "passed".
-8. Classify the FIRST causal failure: setup/build; frontend/export/decode;
-   unsupported operation; resource/postcondition proof; refinement; timeout/OOM;
-   infrastructure. Fix only within the existing phase and frozen trust boundary.
-   A new semantic change or insufficient source applicability requires STOP.
-9. After source edits, dispatch a NEW exact-SHA run. An old-run rerun checks the
-   old commit. On success, advance only to the next agreed within-phase step.
-   At the phase boundary checkpoint and seek the owner's next decision.
-
-Default total budget is 90 minutes, including setup/build; supported choices
-are 30/60/90/120. A retry at 120 is justified only by a measured budget bottleneck
-within the authorized phase. Keep `--jobs 1` for the initial Kani experiments.
-No blind unchanged retries, speculative jobs, self-hosted or paid-compute fallback.
-
-## Workflow and checkpoint discipline
-
-The research trigger stays `workflow_dispatch` only. New selections must remain
-inside the authorized phase; semantic tool changes require a separate decision.
-If exposing an authorized selection requires a default-branch workflow update,
-make only that reviewed workflow change on main. Never merge/fast-forward all
-research history into main just to expose a choice.
-
-After each meaningful result, update STATUS's latest run, evidence boundary,
-blocker and permitted next action; append the full result to EXPERIMENT-LOG.
-Record source SHA, run ID/URL, selection/budget, tool/patch hashes, domain/posts,
-case/cover/check outcomes and cost (verification versus setup, time/RSS).
-Update coverage/design claims when they change. Preserve historical failures.
-Do not add another chronological handoff block to this runbook.
-
-Documentation-only changes need static review, not a cold verification run.
-On interruption record any active run and unapplied drafts without overstating
-what was verified. Stopped experiments resume only by explicit owner instruction.
+На закрытии сверить accounted terminal Builds, integrity, собственные unresolved
+и draft state; убрать только свой stale ready request через client, если разрешено.
+При активном/unresolved Build записать ID/token и следующий reconciliation action;
+не удалять состояние ради чистого checkpoint и не обещать работу после окна.
+Остаток закрытого счёта retired, миссия сохранена. Documentation-only changes
+требуют diff/link review, без proof build.

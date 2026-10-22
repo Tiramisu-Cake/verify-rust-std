@@ -49,9 +49,9 @@ Next: Шаг 1: adoption и перевод на shared baseline, затем ка
 
 ## Отчёт агента
 
-**network-bootstrap-2026-10-22-n1 · network · NETWORK-BOOTSTRAP-2026-10-22-N1 · NOT_STARTED**
-Updated: 2026-10-22T15:00:22Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `UNKNOWN`.
-Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 0s: 0s spent, 0s retired, 0s remaining including reservations.
+**network-bootstrap-2026-10-22-n1 · network · NETWORK-BOOTSTRAP-2026-10-22-N1 · ACTIVE**
+Updated: 2026-10-22T15:08:30Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `UNKNOWN`.
+Dates: T0 `2026-10-22T15:07:38Z`; main `2026-10-22T17:07:38Z`; absolute `2026-10-22T17:37:38Z`. Budget 0s: 0s spent, 0s retired, 0s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: У network нет Cloud lane (coordinator v3 V3_OWNERS, нет branch client); source certificates на старом SmallSort blob.
 Next: Шаг 1: adoption и перевод на shared baseline, затем кандидат R4 и пакет Cloud-готовности.

@@ -1,9 +1,9 @@
 # Agent checkpoint: network-bootstrap-2026-10-22-n1
 
-- Owner: network | phase: NETWORK-BOOTSTRAP-2026-10-22-N1 | state: NOT_STARTED
-- Updated: 2026-10-22T15:00:22Z
+- Owner: network | phase: NETWORK-BOOTSTRAP-2026-10-22-N1 | state: ACTIVE
+- Updated: 2026-10-22T15:08:30Z
 - Baseline: source `cd371e035c7e573760c43bf934d53e8118ee3e7d`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `UNKNOWN`
-- Session dates: T0 `NOT_SET`; main deadline `NOT_SET`; absolute deadline `NOT_SET`
+- Session dates: T0 `2026-10-22T15:07:38Z`; main deadline `2026-10-22T17:07:38Z`; absolute deadline `2026-10-22T17:37:38Z`
 - Budget: 0s total; 0s spent; 0s retired; 0s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
