@@ -33,7 +33,7 @@ UNIT = b'synthetic unit mode9 bytes'
 BODIES = [f'synthetic mode9 body {i}'.encode() for i in range(9)]
 OPT_IN = 'SORT4_R21_FRACTIONAL_TEST'
 PHASE_KEY = 'SORT4_R20_CALLEE_PHASE_ID'
-PHASE_VALUE = 'SORT4-ACTUAL-SELECT-2026-10-23-R21'
+PHASE_VALUE = 'SORT4-ACTUAL-SELECT-2026-10-23-R22'
 
 
 def digest(raw: bytes) -> str:

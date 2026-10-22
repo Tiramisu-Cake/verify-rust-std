@@ -27,7 +27,8 @@ R20_AUDIT_HELPER_SHA256 = '83d2d0940fcb255a58b97db8d6161ec3b39660a62905f89a33f92
 BASE_VERIFIED_SHA256 = '1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6'
 ORIGINAL_SHA256 = '466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5'
 CASE = 'nine-body-a1-owned-forget'
-PHASE = 'SORT4-ACTUAL-SELECT-2026-10-23-R21'
+# R22 renews this exact route under its fresh window; R21 is closed.
+PHASE = 'SORT4-ACTUAL-SELECT-2026-10-23-R22'
 PHASE_ENV = 'SORT4_R20_CALLEE_PHASE_ID'
 R20_OPT_IN = 'SORT4_R20_FINAL_SELECT_REPAIR'
 FRACTIONAL_PREFIX = 'SORT4_R21_FRACTIONAL'
@@ -76,7 +77,7 @@ def load(path: Path, name: str, expected: str | None = None):
 def require_cloud(env: dict[str, str]) -> None:
     need(env.get('SMALLSORT_EXECUTION_PROVIDER') == 'cloud-build' and
          env.get(PHASE_ENV) == PHASE and not env.get('GITHUB_ACTIONS'),
-         'fresh R21 Cloud callee phase required')
+         'fresh R22 Cloud callee phase required')
     need(R20_OPT_IN not in env and
          not any(key.startswith(FRACTIONAL_PREFIX) for key in env),
          'ambient R20/R21 fractional semantic opt-in refused')
