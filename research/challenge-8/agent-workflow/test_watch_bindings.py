@@ -146,7 +146,8 @@ class BindingTests(unittest.TestCase):
     def test_envelope_v3_or_v4_with_three_slots_only(self):
         active = self.f.coord / "active.json"
         envelope = json.loads(active.read_text())
-        for version, cap, accepted in ((4, 3, True), (3, 3, True), (4, 4, False), (2, 2, False), (5, 3, False)):
+        for version, cap, accepted in ((4, 3, True), (3, 3, True), (4, 4, False), (2, 2, False), (5, 3, False),
+                                       ([4], 3, False), (4.0, 3, False), (True, 3, False), (4, {}, False)):
             active.write_text(json.dumps(dict(envelope, schema_version=version, max_active=cap)))
             with self.subTest(version=version, cap=cap):
                 if accepted:

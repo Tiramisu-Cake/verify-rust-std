@@ -133,6 +133,63 @@ class SessionPrepareTests(unittest.TestCase):
         self.assertEqual(json.loads((bundle / "bundle.json").read_text())["selected_head"], self.fx.head)
         self.assertIn("authorized_phase", (bundle / "registration-plan.md").read_text())
 
+    def first_session(self, **overrides):
+        """Network first Cloud session: no old ledger; recipe names the new files directly."""
+        parent = self.parent / f"first-{len(list(self.parent.glob('first-*')))}"
+        parent.mkdir()
+        self.fx = Fixture(parent, recipe_proof_paths=[
+            "research/challenge-8/cloud-build/new/BUDGET.json", "research/challenge-8/cloud-build/new/PROFILE.json",
+            "research/challenge-8/proof.py"])
+        self.out = parent / "bundle"
+        spec = dict(self.fx.spec, owner="network", task_id="network-first-cloud", phase="NETWORK-R4-2026-10-23",
+                    old_ledger_path=None, profile_path=None, report_reserve_seconds=240,
+                    profile_updates={"/phase": "NETWORK-R4-2026-10-23", "/target": "r4"})
+        spec.update(overrides)
+        return spec
+
+    def test_network_first_session_without_old_ledger_or_profile(self):
+        before = git(self.fx.root, "status", "--porcelain")
+        bundle = self.prepare(self.first_session())
+        self.assertEqual(git(self.fx.root, "status", "--porcelain"), before)
+        self.assertEqual(module.check(bundle)["owner"], "network")
+        names = {p.name for p in bundle.iterdir()}
+        self.assertNotIn("old_ledger.raw.json", names)
+        self.assertNotIn("source_profile.raw.json", names)
+        self.assertEqual(json.loads((bundle / "source_profile.json").read_text()), {})
+        profile = json.loads((bundle / "profile.json").read_text())
+        self.assertEqual((profile["status"], profile["cloud_build_enabled"], profile["target"]), ("DRAFT", False, "r4"))
+        self.assertEqual(json.loads((bundle / "ledger.json").read_text())["owner"], "network")
+        plan = (bundle / "registration-plan.md").read_text()
+        self.assertIn("from an empty object (first Cloud session; no source profile)", plan)
+        self.assertIn("- Previous ledger: none (first Cloud session of this owner)\n\n## Required", plan)
+        closure = {e["path"]: e["state"] for e in json.loads((bundle / "closure.json").read_text())["entries"]}
+        self.assertEqual(closure["research/challenge-8/cloud-build/new/BUDGET.json"], "generated_pending_commit")
+        (bundle / "old_ledger.raw.json").write_text("{}", encoding="utf-8")
+        self.refresh_inventory(bundle)
+        with self.assertRaisesRegex(module.PrepareError, "file set differs"):
+            module.check(bundle)
+
+    def test_network_first_session_with_committed_source_profile(self):
+        spec = self.first_session(profile_path="research/challenge-8/cloud-build/profile.json")
+        self.fx.spec["profile_path"] = spec["profile_path"]
+        bundle = self.prepare(spec)
+        self.assertEqual(module.check(bundle)["state"], "PREPARED_NOT_REGISTERED")
+        self.assertTrue((bundle / "source_profile.raw.json").exists())
+        self.assertFalse((bundle / "old_ledger.raw.json").exists())
+        self.assertFalse(json.loads((bundle / "profile.json").read_text())["proof_credit"])
+
+    def test_first_session_refusals(self):
+        for overrides, message in (
+                ({"owner": "merge", "report_reserve_seconds": 420}, "profile_path must be a non-empty"),
+                ({"owner": "select-sort4", "profile_path": "research/challenge-8/cloud-build/profile.json"},
+                 "old_ledger_path must be a non-empty"),
+                ({"new_profile_path": None, "profile_updates": {}}, "requires new_profile_path"),
+                ({"owner": "verifast"}, "owner must be merge, select-sort4 or network")):
+            with self.subTest(overrides=overrides):
+                with self.assertRaisesRegex(module.PrepareError, message):
+                    self.prepare(self.first_session(**overrides))
+                self.assertFalse(self.out.exists())
+
     def reuse(self, profile=REUSED_PROFILE, recipe_proof_paths=None):
         """Fresh fixture whose pinned profile is committed before the baseline."""
         parent = self.parent / f"reuse-{len(list(self.parent.glob('reuse-*')))}"

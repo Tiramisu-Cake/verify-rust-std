@@ -165,7 +165,8 @@ def _identity(item):
 def _reservation(owner, ledger_path, item, must_have):
     envelope = _load(COORDINATION / "active.json")
     records = envelope.get("reservations")
-    if (envelope.get("schema_version"), envelope.get("max_active")) not in ENVELOPES or not isinstance(records, list) or len(records) > 3:
+    version, capacity = envelope.get("schema_version"), envelope.get("max_active")
+    if type(version) is not int or type(capacity) is not int or (version, capacity) not in ENVELOPES or not isinstance(records, list) or len(records) > 3:
         raise BindingError("unsupported coordinator envelope")
     matches = [r for r in records if isinstance(r, dict) and r.get("owner") == owner]
     expected = {"owner": owner, "ledger": str(ledger_path), "dispatch_token": item["dispatch_token"], "phase_id": item["phase_id"], "build_id": item["build_id"]}

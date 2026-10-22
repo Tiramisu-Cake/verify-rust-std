@@ -35,6 +35,8 @@ PROTECTED_PROFILE_KEYS = {
     "admitted", "admission_record_created", "formal_verification_passed",
     "cloud_build_enabled",
 }
+# Owners whose first Cloud session may be prepared without an old ledger/profile.
+FIRST_SESSION_OWNERS = {"network"}
 TERMINAL_STATES = {"SUCCESS", "FAILURE", "INTERNAL_ERROR", "TIMEOUT", "CANCELLED", "EXPIRED"}
 
 
@@ -94,8 +96,8 @@ def _validate_spec(spec: Any) -> dict[str, Any]:
         raise PrepareError("task_id contains unsafe characters")
     if not PHASE_RE.fullmatch(s["phase"]):
         raise PrepareError("phase must be an uppercase phase identifier")
-    if s["owner"] not in ("merge", "select-sort4"):
-        raise PrepareError("owner must be merge or select-sort4")
+    if s["owner"] not in ("merge", "select-sort4", "network"):
+        raise PrepareError("owner must be merge, select-sort4 or network")
     if not LANE_RE.fullmatch(s["lane"]):
         raise PrepareError("lane contains unsafe characters")
     if not isinstance(s["worktree"], str) or not s["worktree"]:
@@ -124,6 +126,14 @@ def _validate_spec(spec: Any) -> dict[str, Any]:
     t0 = _parse_utc(s["t0"], "t0")
     s["_t0"] = t0
     keys = ["profile_path", "recipe_path", "old_ledger_path", "new_ledger_path"]
+    # First Cloud session of an owner without Cloud history: no old ledger, and optionally
+    # no source profile (the draft profile then starts from an empty object plus updates).
+    if s["owner"] in FIRST_SESSION_OWNERS and s["old_ledger_path"] is None:
+        keys.remove("old_ledger_path")
+        if s["profile_path"] is None:
+            if s["new_profile_path"] is None:
+                raise PrepareError("a first session without a source profile requires new_profile_path")
+            keys.remove("profile_path")
     # new_profile_path null reuses the pinned profile_path unchanged: no draft profile, no updates.
     if s["new_profile_path"] is not None:
         keys.append("new_profile_path")
@@ -396,7 +406,8 @@ def _generated_paths(s: dict[str, Any]) -> list[str]:
 
 
 def _replaced_paths(s: dict[str, Any]) -> set[str]:
-    return {s["old_ledger_path"]} | ({s["profile_path"]} if s["new_profile_path"] is not None else set())
+    replaced = {s["old_ledger_path"]} | ({s["profile_path"]} if s["new_profile_path"] is not None else set())
+    return replaced - {None}
 
 
 def _pending(s: dict[str, Any], ledger: dict[str, Any], profile: dict[str, Any] | None) -> dict[str, bytes]:
@@ -408,8 +419,8 @@ def _pending(s: dict[str, Any], ledger: dict[str, Any], profile: dict[str, Any] 
 
 def _substitute_recipe(recipe: dict[str, Any], s: dict[str, Any]) -> dict[str, Any]:
     result = copy.deepcopy(recipe)
-    replacements = {s["old_ledger_path"]: s["new_ledger_path"]}
-    if s["new_profile_path"] is not None:
+    replacements = {s["old_ledger_path"]: s["new_ledger_path"]} if s["old_ledger_path"] is not None else {}
+    if s["new_profile_path"] is not None and s["profile_path"] is not None:
         replacements[s["profile_path"]] = s["new_profile_path"]
     found = set()
     for key in ("infra_paths", "proof_paths"):
@@ -441,6 +452,8 @@ def _profile_object(profile_raw: bytes) -> dict[str, Any]:
 def _assert_history_unchanged(root: Path, s: dict[str, Any], head: str) -> None:
     # Compare committed blobs only, so this fires before any worktree comparison.
     for path in (s["profile_path"], s["old_ledger_path"]):
+        if path is None:
+            continue
         if _committed_file(root, s["baseline_sha"], path, check_worktree=False)[2] != _committed_file(root, head, path, check_worktree=False)[2]:
             raise PrepareError("historical ledger/profile bytes changed after the closed-session baseline")
 
@@ -540,11 +553,13 @@ def _registration_plan(s: dict[str, Any], control_path: str, hooks: dict[str, in
     absolute = (s["_t0"] + dt.timedelta(minutes=s["main_minutes"] + s["finish_minutes"])).strftime("%Y-%m-%dT%H:%M:%SZ")
     literal_status = "already appears in the client source; its gates still require review" if phase_literal else "is absent from the selected client source"
     hook_lines = ", ".join(f"`{name}()` line {line}" for name, line in hooks.items())
-    profile_line = (f"new draft `{s['new_profile_path']}` from `{s['profile_path']}`" if s["new_profile_path"] is not None
+    profile_line = (f"new draft `{s['new_profile_path']}` from an empty object (first Cloud session; no source profile)" if s["profile_path"] is None
+                    else f"new draft `{s['new_profile_path']}` from `{s['profile_path']}`" if s["new_profile_path"] is not None
                     else f"reuse pinned `{s['profile_path']}` unchanged (no draft profile; bytes must equal the baseline commit; it keeps its own phase/authorization fields and cloud flag, so the client registration must bind its exact SHA-256)")
     consumed = "prepared ledger, the prepared profile and recipe" if s["new_profile_path"] is not None else "prepared ledger and recipe and the pinned profile"
+    first_session_line = ("- Previous ledger: none (first Cloud session of this owner)\n" if s["old_ledger_path"] is None else "")
     transport_note = "The shared closure inventory proves committed file identities and bytes, but cannot establish that the final encoded payload/configuration fits transport caps. The existing committed-source client preflight must check those final caps.\n\n"
-    return transport_note + f"""# Registration plan — {s['phase']}\n\nThis bundle is **PREPARED_NOT_REGISTERED**. It does not authorize or dispatch a Cloud Build.\n\n- Owner/task: `{s['owner']}` / `{s['task_id']}`\n- Branch and selected HEAD: `{s['branch']}` / see `bundle.json`\n- Baseline checkpoint: `{s['baseline_sha']}`\n- Window: T0 `{s['_t0'].strftime('%Y-%m-%dT%H:%M:%SZ')}`, main deadline `{main}`, absolute deadline `{absolute}`\n- Budget: `{s['cloud_seconds']}` Cloud seconds, max timeout `{s['max_timeout_seconds']}`, report reserve `{s['report_reserve_seconds']}`\n- Lane: `{s['lane']}`\n- Profile: {profile_line}\n\n## Required branch-client registration\n\nThe selected client remains authoritative at `{control_path}`. The phase ID `{s['phase']}` {literal_status}. Existing client hooks found by static source inspection: {hook_lines}. Review/add exact phase-specific checks in `authorized_phase` (account/owner/lane/window/deadline and timeout), profile/environment binding in `envs`, source/recipe checks in `config` or source preparation, and final authorization before reservation in `run_command`. The branch lane entrypoint must consume the {consumed}. Add matching synthetic registration and service error-path tests.\n\nThe generated ledger's draft status intentionally fails current submission gates. The session preparer does not create permissive client hooks, alter the live coordinator, or decide trusted proof/profile semantics. Commit the reviewed generated files and client registration on the assigned branch, then run the branch's static preflight and synthetic service tests before any separately authorized use.\n"""
+    return transport_note + f"""# Registration plan — {s['phase']}\n\nThis bundle is **PREPARED_NOT_REGISTERED**. It does not authorize or dispatch a Cloud Build.\n\n- Owner/task: `{s['owner']}` / `{s['task_id']}`\n- Branch and selected HEAD: `{s['branch']}` / see `bundle.json`\n- Baseline checkpoint: `{s['baseline_sha']}`\n- Window: T0 `{s['_t0'].strftime('%Y-%m-%dT%H:%M:%SZ')}`, main deadline `{main}`, absolute deadline `{absolute}`\n- Budget: `{s['cloud_seconds']}` Cloud seconds, max timeout `{s['max_timeout_seconds']}`, report reserve `{s['report_reserve_seconds']}`\n- Lane: `{s['lane']}`\n- Profile: {profile_line}\n{first_session_line}\n## Required branch-client registration\n\nThe selected client remains authoritative at `{control_path}`. The phase ID `{s['phase']}` {literal_status}. Existing client hooks found by static source inspection: {hook_lines}. Review/add exact phase-specific checks in `authorized_phase` (account/owner/lane/window/deadline and timeout), profile/environment binding in `envs`, source/recipe checks in `config` or source preparation, and final authorization before reservation in `run_command`. The branch lane entrypoint must consume the {consumed}. Add matching synthetic registration and service error-path tests.\n\nThe generated ledger's draft status intentionally fails current submission gates. The session preparer does not create permissive client hooks, alter the live coordinator, or decide trusted proof/profile semantics. Commit the reviewed generated files and client registration on the assigned branch, then run the branch's static preflight and synthetic service tests before any separately authorized use.\n"""
 
 
 def prepare(spec_path: Path, out_path: Path) -> dict[str, Any]:
@@ -568,13 +583,16 @@ def prepare(spec_path: Path, out_path: Path) -> dict[str, Any]:
     if ancestor.returncode != 0:
         raise PrepareError("baseline_sha is not an ancestor of the selected HEAD")
     for path in (s["profile_path"], s["recipe_path"], s["old_ledger_path"]):
-        _committed_file(root, head, path)
-    _, _, old_raw = _committed_file(root, head, s["old_ledger_path"])
-    _load_old_ledger(old_raw, s["phase"], s["owner"])
+        if path is not None:
+            _committed_file(root, head, path)
+    old_raw = None
+    if s["old_ledger_path"] is not None:
+        _, _, old_raw = _committed_file(root, head, s["old_ledger_path"])
+        _load_old_ledger(old_raw, s["phase"], s["owner"])
     for path in _generated_paths(s):
         if _git_blob(root, head, path) is not None or (root / path).exists() or (root / path).is_symlink():
             raise PrepareError(f"new target path already exists: {path}")
-    _, _, profile_raw = _committed_file(root, head, s["profile_path"])
+    profile_raw = _committed_file(root, head, s["profile_path"])[2] if s["profile_path"] is not None else None
     _, _, recipe_raw = _committed_file(root, head, s["recipe_path"])
     try:
         old_recipe = json.loads(recipe_raw)
@@ -583,9 +601,9 @@ def prepare(spec_path: Path, out_path: Path) -> dict[str, Any]:
     if not isinstance(old_recipe, dict) or old_recipe.get("lane") != s["lane"]:
         raise PrepareError("recipe lane must exactly match spec lane")
     _assert_history_unchanged(root, s, head)
-    source_profile = _profile_object(profile_raw)
+    source_profile = _profile_object(profile_raw if profile_raw is not None else b"{}")
     ledger = _fresh_ledger(s)
-    profile = _profile(profile_raw, s) if s["new_profile_path"] is not None else None
+    profile = _profile(_json_bytes(source_profile) if profile_raw is None else profile_raw, s) if s["new_profile_path"] is not None else None
     recipe = _substitute_recipe(old_recipe, s)
     if profile is None:
         _check_reused_profile(source_profile, recipe, s)
@@ -609,8 +627,10 @@ def prepare(spec_path: Path, out_path: Path) -> dict[str, Any]:
     }
     for name, value in generated.items():
         (bundle / name).write_bytes(_json_bytes(value))
-    (bundle / "source_profile.raw.json").write_bytes(profile_raw)
-    (bundle / "old_ledger.raw.json").write_bytes(old_raw)
+    if profile_raw is not None:
+        (bundle / "source_profile.raw.json").write_bytes(profile_raw)
+    if old_raw is not None:
+        (bundle / "old_ledger.raw.json").write_bytes(old_raw)
     plan = _registration_plan(s, control_path, hooks, phase_literal)
     (bundle / "registration-plan.md").write_text(plan, encoding="utf-8")
     bundle_meta = {
@@ -639,6 +659,10 @@ def _validate_bundle_contract(bundle: Path) -> dict[str, Any]:
     expected_files = {"spec.json", "ledger.json", "profile.json", "source_profile.json", "source_profile.raw.json",
                       "old_ledger.raw.json", "recipe.json", "source_recipe.json", "closure.json",
                       "bundle.json", "registration-plan.md", "inventory.json"} - ({"profile.json"} if reuse_profile else set())
+    if spec["profile_path"] is None:
+        expected_files.discard("source_profile.raw.json")
+    if spec["old_ledger_path"] is None:
+        expected_files.discard("old_ledger.raw.json")
     found_files = {p.relative_to(bundle).as_posix() for p in bundle.rglob("*") if p.is_file()}
     if found_files != expected_files:
         raise PrepareError("bundle file set differs from prepared format")
@@ -658,13 +682,15 @@ def _validate_bundle_contract(bundle: Path) -> dict[str, Any]:
     if not all(isinstance(v, dict) for v in (ledger, profile, recipe, meta, closure)):
         raise PrepareError("bundle documents must be JSON objects")
     try:
-        raw_source_profile = json.loads((bundle / "source_profile.raw.json").read_text(encoding="utf-8"))
-        old_ledger_raw = (bundle / "old_ledger.raw.json").read_bytes()
+        raw_source_profile = (json.loads((bundle / "source_profile.raw.json").read_text(encoding="utf-8"))
+                              if spec["profile_path"] is not None else {})
+        old_ledger_raw = (bundle / "old_ledger.raw.json").read_bytes() if spec["old_ledger_path"] is not None else None
     except (OSError, json.JSONDecodeError, UnicodeDecodeError) as exc:
         raise PrepareError(f"historical source snapshots invalid: {exc}") from None
     if raw_source_profile != source_profile:
         raise PrepareError("source profile parsed snapshot differs from preserved original bytes")
-    _load_old_ledger(old_ledger_raw, spec["phase"], spec["owner"])
+    if old_ledger_raw is not None:
+        _load_old_ledger(old_ledger_raw, spec["phase"], spec["owner"])
     if meta.get("schema") != "smallsort-session-bundle-v1" or meta.get("state") != "PREPARED_NOT_REGISTERED" or ledger.get("status") != "PREPARED_NOT_REGISTERED":
         raise PrepareError("bundle must remain PREPARED_NOT_REGISTERED")
     if (meta.get("phase") != spec["phase"] or meta.get("owner") != spec["owner"] or
@@ -746,18 +772,22 @@ def _check_closure_and_sources(bundle: Path, spec: dict[str, Any], meta: dict[st
     if ancestry.returncode != 0:
         raise PrepareError("bundle baseline is not an ancestor of selected HEAD")
     _assert_history_unchanged(root, spec, selected_head)
-    _, _, head_profile_raw = _committed_file(root, selected_head, spec["profile_path"])
-    _, _, head_ledger_raw = _committed_file(root, selected_head, spec["old_ledger_path"])
+    head_profile_raw = (_committed_file(root, selected_head, spec["profile_path"])[2]
+                        if spec["profile_path"] is not None else None)
+    head_ledger_raw = (_committed_file(root, selected_head, spec["old_ledger_path"])[2]
+                       if spec["old_ledger_path"] is not None else None)
     _, _, head_recipe_raw = _committed_file(root, selected_head, spec["recipe_path"])
-    if (head_profile_raw != (bundle / "source_profile.raw.json").read_bytes() or
-            head_ledger_raw != (bundle / "old_ledger.raw.json").read_bytes()):
+    if ((head_profile_raw is not None and head_profile_raw != (bundle / "source_profile.raw.json").read_bytes()) or
+            (head_ledger_raw is not None and head_ledger_raw != (bundle / "old_ledger.raw.json").read_bytes())):
         raise PrepareError("preserved historical input bytes differ from selected Git files")
     try:
-        if json.loads(head_profile_raw) != source_profile or json.loads(head_recipe_raw) != source_recipe:
+        head_profile = json.loads(head_profile_raw) if head_profile_raw is not None else {}
+        if head_profile != source_profile or json.loads(head_recipe_raw) != source_recipe:
             raise PrepareError("source profile/recipe snapshots differ from selected Git files")
     except (json.JSONDecodeError, UnicodeDecodeError) as exc:
         raise PrepareError(f"selected source profile/recipe JSON invalid: {exc}") from None
-    _load_old_ledger(head_ledger_raw, spec["phase"], spec["owner"])
+    if head_ledger_raw is not None:
+        _load_old_ledger(head_ledger_raw, spec["phase"], spec["owner"])
     control_path = "research/challenge-8/cloud-build/control.py"
     hooks, phase_literal = _client_hooks(root, selected_head, control_path, spec["phase"])
     expected_meta = {
