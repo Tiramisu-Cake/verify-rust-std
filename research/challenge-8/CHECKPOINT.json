@@ -13,14 +13,13 @@
       "sha256": "45d49e95c92fa99ec89167ce8d5ae907f7b839ccda4318af2ccaa59e26b66ee3"
     }
   ],
-  "assignment_sha256": "ffb6e526c208f5dbfb85f0251b63fc6d307499f4b61aa63c7e7b1b02bae64135",
+  "assignment_sha256": "a415194cb0874b93d0ce784f55d9af63e5a045ce19ed8acbdc47277ce09c40a3",
   "baseline": {
     "profile_sha256": "d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622",
     "source_sha": "81226dafedd2e8d1dfb140ab0e4dd88556bfd7db",
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "edb9fb81-29e8-4103-9fbe-1a7731233b43",
     "evidence": [
       {
         "build_id": "edb9fb81-29e8-4103-9fbe-1a7731233b43",
@@ -28,39 +27,17 @@
         "sha256": "c4404beae1edc4f9972851fb5c85daeb4936fa0e09d099dd0d05fbd96037e863"
       }
     ],
-    "location": "std/lib.rsspec(462) via nine-body verified/lib.rs:227 final MaybeUninit select",
     "summary": "Wrapper own closed for new(true_payload) but selected cell holds new(selected_payload) after guard re-open."
   },
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "R19 S1 (pins 67d472cd) FAILURE 652s: overlay compiled; actual body passes c3 (first path) and fails only at c4 lib.rs:335 (token d=v_base+2+0). 4 c3 resource controls designed; credit0.",
-      "evidence": [
-        {
-          "build_id": "2b55f6a5-076a-4fd6-92e9-c42aae9ba500",
-          "path": "research/challenge-8/task-history/select-c3-r19/S1-evidence.json",
-          "sha256": "e95e4c0d1cc9ea49414cb71048d3bc8122a0afd634749c2a08a94be8980ca8f2"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R19 CLOSED early (real boundary: selector callee): 2 Builds terminal/accounted 1264s, 2336s retired, carry0; own active/request 0. c5 candidate 34e37669 carried. credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json",
-          "sha256": "43938f12bb12264b19b9b414d91130753de5d441bde857217da2cffea43efd13"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
       "claim": "R20 S3 (cd3e6cae): refreshed certificate admits exact merged unit (owner-nine/H2/forget-own/A1-nine); verifier Parse error lib.rs:219 (2nd ghost stmt after if/else); controls refused at owner SHA pin. credit0.",
       "evidence": [
         {
+          "build_id": "cd3e6cae-721f-45d8-ae82-5e198e00312b",
           "path": "research/challenge-8/task-history/select-callee-r20/S3-evidence.json",
-          "sha256": "baf76fb258ea30dc3b5e4a46da56d82e920bc25216db283072543da6fa1e8eb5",
-          "build_id": "cd3e6cae-721f-45d8-ae82-5e198e00312b"
+          "sha256": "baf76fb258ea30dc3b5e4a46da56d82e920bc25216db283072543da6fa1e8eb5"
         }
       ]
     },
@@ -69,9 +46,9 @@
       "claim": "R20 S3b (edb9fb81): branch refresh admits+executes unit; controls refused at pin; positive fails lib.rsspec:462 (selected payload fresh after guard re-open). R20 CLOSED, 7 Builds 2200s, carry0. credit0.",
       "evidence": [
         {
+          "build_id": "edb9fb81-29e8-4103-9fbe-1a7731233b43",
           "path": "research/challenge-8/task-history/select-callee-r20/S3b-evidence.json",
-          "sha256": "c4404beae1edc4f9972851fb5c85daeb4936fa0e09d099dd0d05fbd96037e863",
-          "build_id": "edb9fb81-29e8-4103-9fbe-1a7731233b43"
+          "sha256": "c4404beae1edc4f9972851fb5c85daeb4936fa0e09d099dd0d05fbd96037e863"
         },
         {
           "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-22-R20.json",
@@ -83,10 +60,11 @@
   "next_step": "New window: build HANDOFF 0f37a0df S2d fingerprint on o26-select-callee-r20; then branch-selected refresh + classified proof.",
   "open": [
     "HANDOFF 0f37a0df (unbuilt, reviewed GO_WITH_NITS): S2d fingerprint -> branch-selected refresh patch -> runner proof -> delta review -> Build.",
-    "Callee acceptance: normal/unwind/nested-Drop matrix; *mut T/generic gap. Recovery lane 192/191 chunks: prune before c5/selector."
+    "Callee acceptance: normal/unwind/nested-Drop matrix; *mut T/generic gap. Recovery lane 192/191 chunks: prune before c5/selector.",
+    "Network SELECT-REQUESTS P1 (candidate c760fa3b/c14d8f8a), P2 (= *mut T callee), P3 unanswered."
   ],
   "owner": "select-sort4",
-  "phase": "SORT4-ACTUAL-SELECT-2026-10-22-R20",
+  "phase": "SORT4-ACTUAL-SELECT-2026-10-23-R21",
   "rejected": [
     {
       "approach": "Assumed/address-only resource bridge or helper PASS as full-body proof",
@@ -94,29 +72,29 @@
       "reason": "Does not establish actual ordered callback resources or full normal/unwind posts."
     },
     {
-      "approach": "\u0417\u0430\u043a\u0440\u044b\u0432\u0430\u0442\u044c \u0441\u0435\u0441\u0441\u0438\u044e \u0434\u043e\u0441\u0440\u043e\u0447\u043d\u043e, \u043a\u043e\u0433\u0434\u0430 \u043d\u0435\u0442 \u0434\u043e\u043f\u0443\u0441\u0442\u0438\u043c\u043e\u0433\u043e Build",
+      "approach": "Закрывать сессию досрочно, когда нет допустимого Build",
       "evidence": [
         {
           "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json",
           "sha256": "43938f12bb12264b19b9b414d91130753de5d441bde857217da2cffea43efd13"
         }
       ],
-      "reason": "R18 \u0438 R19 \u0437\u0430\u043a\u0440\u044b\u0442\u044b \u0434\u043e\u0441\u0440\u043e\u0447\u043d\u043e, \u0445\u043e\u0442\u044f \u0432 \u043c\u0438\u0441\u0441\u0438\u0438 \u043e\u0441\u0442\u0430\u0432\u0430\u043b\u0430\u0441\u044c \u0440\u0430\u0431\u043e\u0442\u0430 \u0431\u0435\u0437 Cloud (callee proof, transport); \u044d\u0442\u043e \u043f\u0440\u043e\u0442\u0438\u0432\u043e\u0440\u0435\u0447\u0438\u0442 CORE \u0438 \u043e\u0441\u043e\u0431\u043e\u0439 \u0433\u0440\u0430\u043d\u0438\u0446\u0435 \u0437\u0430\u0434\u0430\u043d\u0438\u044f."
+      "reason": "R18 и R19 закрыты досрочно, хотя в миссии оставалась работа без Cloud (callee proof, transport); это противоречит CORE и особой границе задания."
     }
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
     "active_build_ids": [],
     "budget_seconds": 3600,
-    "deadline_utc": "2026-10-22T18:11:28Z",
-    "main_deadline_utc": "2026-10-22T17:41:28Z",
-    "remaining_seconds": 0,
-    "retired_seconds": 1400,
-    "spent_seconds": 2200,
-    "t0": "2026-10-22T15:41:28Z",
+    "deadline_utc": null,
+    "main_deadline_utc": null,
+    "remaining_seconds": 3600,
+    "retired_seconds": 0,
+    "spent_seconds": 0,
+    "t0": null,
     "unresolved_ids": []
   },
-  "state": "CLOSED",
-  "task_id": "select-actual-callee-autonomous-2026-10-22-r20",
-  "updated_utc": "2026-10-22T17:36:03Z"
+  "state": "NOT_STARTED",
+  "task_id": "select-callee-acceptance-autonomous-2026-10-23-r21",
+  "updated_utc": "2026-10-22T19:29:55Z"
 }
