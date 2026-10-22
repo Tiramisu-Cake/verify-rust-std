@@ -25,7 +25,8 @@ BASE = (b"#![no_std]\n"
 DIAGNOSTICS = {
     "mutability_mismatch": "RawPtr: mutabilities do not match",
     "changed_local_contents": (
-        "The states of the two locals values and values whose address is taken are not equal"),
+        "the values [ScalarInt U64Value 10; ScalarInt U64Value 20; ScalarInt U64Value 5] and "
+        "[ScalarInt U64Value 11; ScalarInt U64Value 20; ScalarInt U64Value 5] are not equal"),
     "unsupported_index_projection": "RawPtr: projected places are not supported",
     "raw_ref_cross_kind": "Command kinds do not match",
 }
@@ -80,22 +81,12 @@ def _run_logs(case: Path) -> list[tuple[str, str]]:
 def _target_binding(name: str, source: bytes, anchor: bytes, logs) -> dict:
     text = "\n".join(content for _, content in logs)
     expected = DIAGNOSTICS.get(name)
-    if name == "changed_local_contents":
-        exact = [line for line in text.splitlines() if line.strip().endswith(expected)]
-        local_names = len(exact) == 1
-        function_bound = local_names
-        command_listing = True
-        cross_kind_listing = True
-    else:
-        exact = [line for line in text.splitlines()
-                 if expected is not None and line.strip().endswith(expected)]
-        function_bound = CONTROL_FUNCTION in text
-        command_listing = ("Commands of basic block" in text and "RawPtr" in text)
-        cross_kind_listing = name != "raw_ref_cross_kind" or "Ref" in text
-    # The refiner reports MIR basic-block command coordinates, not Rust source
-    # line numbers. Bind the exact source/hash to its sole RawPtr expression,
-    # then require the diagnostic block for this isolated function to expose
-    # the corresponding command listing. Missing context remains inconclusive.
+    exact = sorted({line.strip().removeprefix("ERROR: ") for line in text.splitlines()
+                    if expected is not None and line.strip().endswith(expected)})
+    function_bound = CONTROL_FUNCTION in text
+    command_listing = ("Commands of basic block" in text and "RawPtr" in text)
+    cross_kind_listing = name != "raw_ref_cross_kind" or (
+        " 10: RawPtr mut _1" in text and " 10: &mut '<erased> mut _1" in text)
     admitted = (len(exact) == 1 and function_bound and command_listing and
                 cross_kind_listing and _line(source, anchor) > 0)
     return {"admitted": admitted, "function": CONTROL_FUNCTION,
@@ -104,7 +95,6 @@ def _target_binding(name: str, source: bytes, anchor: bytes, logs) -> dict:
             "source_target_unique": source.count(anchor) == 1,
             "exact_diagnostic_count": len(exact),
             "function_context_present": function_bound,
-            "local_names_bound": (local_names if name == "changed_local_contents" else None),
             "command_listing_present": command_listing,
             "cross_kind_listing_present": cross_kind_listing,
             "diagnostic_lines": exact,

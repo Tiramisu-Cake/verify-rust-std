@@ -100,20 +100,18 @@ class RawPtrControlsTests(unittest.TestCase):
         case, source = self.make_case(name, source)
         stage_map, hashes = self.write_stages(case, name, stages, statuses, missing)
         if diagnostic is not None:
-            if name == "changed_local_contents":
-                line = f"ERROR: {diagnostic}\n"
-            else:
-                detail = ("While checking that the command at bb0:0 in the original program refines "
-                          "the command at bb1:0 in the verified program: " + diagnostic)
-                if target_context:
-                    detail += (f"\nfunction={controls.CONTROL_FUNCTION}\n"
-                               "======== Commands of basic block bb0 of original program ========\n"
-                               "0: RawPtr(place=values)\n"
-                               "======== Commands of basic block bb1 of verified program ========\n"
-                               "0: RawPtr(place=values)\n")
-                    if name == "raw_ref_cross_kind":
-                        detail += "1: Ref(place=values)\n"
-                line = "ERROR: " + detail + "\n"
+            detail = ("While checking that the command at bb0:0 in the original program refines "
+                      "the command at bb1:0 in the verified program: " + diagnostic)
+            if target_context:
+                detail += (f"\nfunction={controls.CONTROL_FUNCTION}\n"
+                           "======== Commands of basic block bb0 of original program ========\n"
+                           " 10: RawPtr mut _1\n"
+                           "======== Commands of basic block bb1 of verified program ========\n"
+                           " 10: RawPtr mut _1\n")
+                if name == "raw_ref_cross_kind":
+                    detail += " 10: &mut '<erased> mut _1\n"
+            # The refiner repeats the same diagnostic without the ERROR prefix.
+            line = "ERROR: " + detail + "\n" + detail + "\n"
             (case / "refinement.out1").write_text(line)
         if source_mutation:
             with (case / "verified/lib.rs").open("ab") as stream:
@@ -169,8 +167,17 @@ class RawPtrControlsTests(unittest.TestCase):
             controls.DIAGNOSTICS["mutability_mismatch"], target_context=False)
         self.assertFalse(unbound["matched"])
         wrong_local_pair = self.classify("changed_local_contents",
-            "The states of the two locals values and begin whose address is taken are not equal")
+            controls.DIAGNOSTICS["changed_local_contents"].replace("U64Value 11", "U64Value 12"))
         self.assertFalse(wrong_local_pair["matched"])
+        no_ref_listing = self.classify("raw_ref_cross_kind",
+            controls.DIAGNOSTICS["raw_ref_cross_kind"], target_context=False)
+        self.assertFalse(no_ref_listing["matched"])
+        binding = controls._target_binding("mutability_mismatch", b"x", b"x", [("refinement.out", (
+            "ERROR: a: " + controls.DIAGNOSTICS["mutability_mismatch"] + "\nb: " +
+            controls.DIAGNOSTICS["mutability_mismatch"] + "\n" + controls.CONTROL_FUNCTION +
+            "\nCommands of basic block\n 10: RawPtr mut _1\n"))])
+        self.assertEqual(binding["exact_diagnostic_count"], 2)
+        self.assertFalse(binding["admitted"])
 
     def test_timeout_partial_missing_null_and_wrong_type_fail_closed(self):
         timeout = self.classify("mutability_mismatch",
@@ -234,9 +241,8 @@ class RawPtrControlsTests(unittest.TestCase):
                 diagnostic = controls.DIAGNOSTICS.get(name)
                 body = (f"ERROR: While checking that command: {diagnostic}\n"
                         f"function={controls.CONTROL_FUNCTION}\n"
-                        "======== Commands of basic block ========\nRawPtr\nRef\n")
-                if name == "changed_local_contents":
-                    body = "ERROR: " + diagnostic + "\n"
+                        "======== Commands of basic block ========\n 10: RawPtr mut _1\n"
+                        " 10: &mut '<erased> mut _1\n")
                 (case / "refinement.out1").write_text(body)
             hashes = self.consumer._hashes(case)
             for stage in controls.STAGES:
