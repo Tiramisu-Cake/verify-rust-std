@@ -1,0 +1,24 @@
+{
+  "schema": "merge-r20-successor-reviews-v1",
+  "prepared_diagnostic_adoption": {
+    "candidate": "b4e831d51da16b80b81e927fa8c9b4d43bb423e3",
+    "verdict": "GO",
+    "spec_sha256": "cf83ca509575cb33f8465147132acec91b05a929db0337856c3b86111841b64d",
+    "packet_sha256": "70a4150e0dc7c73235d228a2d1a2ef22ca2ec6b9d086dd66cf3d61841b01763b",
+    "source_gate": "PASS payload570547 cap571567",
+    "tool": "37b834280a3910d58c46ea4b1c6e73265287ff3e",
+    "profile_sha256": "82e4ab21b06f419be9dd19f842a2eb8e13d80a2e9b1a0ddc3bf14ca403dcf1fb"
+  },
+  "closed_usize_tool_delta": {
+    "candidate": "6eb7e5bb1df4aa7e831218ff7153ed5cbd912a1c",
+    "baseline": "37b834280a3910d58c46ea4b1c6e73265287ff3e",
+    "verdict": "GO",
+    "spec_sha256": "065dcf7765ee98fd47beac4a6cd1fa6aa3b2b6ea34dabdaa4a2d4c9d99bc3cf6",
+    "packet_sha256": "4002c0c6dc0dd063443a7a2ead412b41532052deb797ef89ee2b0d1aee1373d9",
+    "boundary": "ClosedValue/Leaf UIntPtrWidth, matchingtypes,size1..8bitsfit, exactUSizeValue(size,bits). Unsupportedfailclosed. No localcompile/refiner; intendedRawPtrgateCloudUNVERIFIED."
+  },
+  "reviewer": "independent Luna HIGH /root/r20_review",
+  "proof_credit": false,
+  "independent_proof_credit": false,
+  "adoption_of_6eb7": "PENDING exact integration review"
+}

@@ -1,0 +1,9 @@
+# R18 closed usize TyConst support design (before edit)
+
+Observed failure: P2 Evidence Brief `unsupported_index_projection/refinement.log` line 1 reports `Using typesystem constant expressions as MIR constant operands is not yet supported`; stack enters `eval_mir_const`. The raw-pointer indexed-place control uses a closed literal index, so it fails before the intended RawPtr projected-place gate.
+
+Exporter contract: `encode_const` emits `mir::Const::Ty(ty, ty_const)` as both an outer MIR type and a `TyConst`; `encode_const_kind` encodes `ConstKind::Value` with its own type and `ValTree`; `ValTree::Leaf` stores a `ScalarInt` whose `size` and `to_bits_unchecked()` are exported. This is compile-time data, not a runtime-derived value.
+
+Bounded accepted case: require outer MIR type and embedded value type to decode identically; accept only `ConstKind::Value` + `ValTree::Leaf` + decoded `UInt PtrWidth`; require scalar byte size in 1..=8 and require all bits above that declared size to be zero before converting to the existing `USizeValue(size, uint64)` representation. This preserves exact type-width/value identity for the refiner's structural scalar comparison. Reject parameters, branches, non-usize scalar values, wider values, type disagreement, and all other TyConst kinds. No provenance, pointer, ownership, or runtime semantics are introduced.
+
+Expected control: source-pinned indexed RawPtr case may advance beyond the generic Ty-operand fatal. Closing the control still requires the exact `RawPtr: projected places are not supported` diagnostic with function, command and typed source/stage bindings. A different `PlaceElement::Index not supported` or setup refusal remains INCONCLUSIVE. No verifier/compiler run is authorized here; this is implementation scope only, not proof credit.
