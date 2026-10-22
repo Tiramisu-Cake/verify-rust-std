@@ -29,7 +29,7 @@ SOURCE_BLOB = "40939f922bcb6fdc7ee0d30427fa861827043827"
 TOOL_SHA256 = "dc672335da76fe1bb06cf7ebca916185c34edb65466df0a937645a437c7f0ecc"
 TOOL_ARCHIVE_SHA256 = "da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa"
 CALL_COUNTS = {9: 25, 13: 45}
-STAGES = ("preflight", "exact", "controls", "regressions")
+STAGES = ("preflight", "exact", "controls", "controls-order", "regressions")
 SHA_RE = re.compile(r"[0-9a-f]{64}\Z")
 
 
@@ -153,18 +153,20 @@ def matrix(stage: str, prove, ranks, pairs: list[tuple[int, int]]) -> list[dict[
         add("network13_generic_swo_bridge", ranks.generic_bridge(), "generic-swo-bridge", 180)
         add("network13_domain13_members", ranks.domain13_members(), "domain13-members", 180)
     elif stage == "exact":
-        add("network13_finite_swo_order", ranks.composition(13, pairs, True), "exact-n13-full-post", 300)
+        add("network13_finite_swo_order", ranks.composition(13, pairs, True), "exact-n13-full-post", 420)
     elif stage == "controls":
         source, metadata = ranks.negative_missing_equiv_trans()
         add("network13_negative_missing_equiv_trans", source, "missing-equiv-trans", 180, metadata)
-        for kind in ("membership", "order"):
-            source, metadata = ranks.negative_exact_post(kind, pairs)
-            add(f"network13_negative_exact_{kind}", source, f"exact-n13-{kind}-post", 300, metadata)
+        source, metadata = ranks.negative_exact_post("membership", pairs)
+        add("network13_negative_exact_membership", source, "exact-n13-membership-post", 420, metadata)
+    elif stage == "controls-order":
+        source, metadata = ranks.negative_exact_post("order", pairs)
+        add("network13_negative_exact_order", source, "exact-n13-order-post", 420, metadata)
     elif stage == "regressions":
         pairs9, _lines9 = prove.extract(9)
         add("network9_finite_swo_order", ranks.composition(9, pairs9, True), "exact-n9-regression", 180)
         add("network13_symbolic_swo_composition", ranks.composition(13, pairs, False),
-            "universal-n13-regression", 240)
+            "universal-n13-regression", 360)
     else:
         raise RuntimeError(f"unknown stage: {stage}")
     return cases
@@ -298,7 +300,7 @@ def main(argv: list[str] | None = None, environ: dict[str, str] | None = None,
         specs = matrix(args.stage, prove, ranks, pairs)
         expected_targets = stage_profile.get("targets")
         actual_targets = [s["target"] for s in specs]
-        if args.stage == "controls":
+        if args.stage in ("controls", "controls-order"):
             actual_targets.append("classifier-reject-controls-7")
         summary["cases"] = [{"name": spec["name"], "target": spec["target"],
                              "generated_sha256": digest(spec["source"].encode()),
@@ -309,14 +311,17 @@ def main(argv: list[str] | None = None, environ: dict[str, str] | None = None,
                 row["reason"] = "execution profile target list mismatch"
             raise RuntimeError("execution profile target list mismatch")
         limit = stage_profile.get("timeout_seconds")
-        if type(limit) is not int or sum(s["timeout_seconds"] for s in specs) > limit or limit > 1200:
+        build_limit = stage_profile.get("build_timeout_seconds")
+        case_sum = sum(s["timeout_seconds"] for s in specs)
+        if (type(limit) is not int or limit != case_sum or
+                type(build_limit) is not int or build_limit != limit + 375 or build_limit > 1200):
             for row in summary["cases"]:
-                row["reason"] = "stage case timeout envelope is invalid"
-            raise RuntimeError("stage case timeout envelope is invalid")
+                row["reason"] = "stage case/build timeout envelope is invalid"
+            raise RuntimeError("stage case/build timeout envelope is invalid")
         summary["targets"] = [{"name": s["name"], "target": s["target"],
                                "generated_sha256": digest(s["source"].encode()),
                                "timeout_seconds": s["timeout_seconds"]} for s in specs]
-        if args.stage == "controls":
+        if args.stage in ("controls", "controls-order"):
             summary["targets"].append({
                 "name": "classifier-reject-controls-7", "target": "classifier-reject-controls-7",
                 "controls": ["other_line", "other_predicate", "no_body_execution",
@@ -327,6 +332,7 @@ def main(argv: list[str] | None = None, environ: dict[str, str] | None = None,
                 "timeout_seconds": 0,
             })
         summary["stage_timeout_seconds"] = limit
+        summary["build_timeout_seconds"] = build_limit
         save()
         for spec, row in zip(specs, summary["cases"]):
             row.pop("reason", None)

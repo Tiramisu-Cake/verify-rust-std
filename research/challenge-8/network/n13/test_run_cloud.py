@@ -154,7 +154,7 @@ class RunCloudTests(unittest.TestCase):
     def prepare_profile(self, stage, targets=None):
         specs = runner.matrix(stage, self.fake_prove, self.fake_ranks, PAIR13)
         expected = [s["target"] for s in specs]
-        if stage == "controls":
+        if stage in ("controls", "controls-order"):
             expected.append("classifier-reject-controls-7")
         self.profile = {
             "schema": "smallsort-network-n13-execution-profile-v1",
@@ -163,7 +163,8 @@ class RunCloudTests(unittest.TestCase):
                        "path": str(runner.SOURCE_RELATIVE), "sha256": runner.SOURCE_SHA256,
                        "git_blob": runner.SOURCE_BLOB, "sort9_calls": 25, "sort13_calls": 45},
             "stages": {stage: {"targets": targets if targets is not None else expected,
-                               "timeout_seconds": sum(s["timeout_seconds"] for s in specs)}},
+                               "timeout_seconds": sum(s["timeout_seconds"] for s in specs),
+                               "build_timeout_seconds": sum(s["timeout_seconds"] for s in specs) + 375}},
         }
 
     def invoke(self, stage="exact"):
@@ -256,9 +257,34 @@ class RunCloudTests(unittest.TestCase):
         self.prepare_profile("controls")
         code, _evidence, summary = self.invoke("controls")
         self.assertEqual(code, 0)
-        self.assertEqual(len(summary["cases"]), 3)
+        self.assertEqual(len(summary["cases"]), 2)
         self.assertTrue(all(case["result"]["exit"] == 1 for case in summary["cases"]))
         self.assertTrue(all(case["gate"] is True for case in summary["cases"]))
+        self.assertIn("classifier-reject-controls-7", [t["target"] for t in summary["targets"]])
+
+    def test_order_control_runs_in_its_own_stage(self):
+        self.prepare_profile("controls-order")
+        code, _evidence, summary = self.invoke("controls-order")
+        self.assertEqual(code, 0)
+        self.assertEqual([row["target"] for row in summary["cases"]], ["exact-n13-order-post"])
+        self.assertIn("classifier-reject-controls-7", [t["target"] for t in summary["targets"]])
+        controls = summary["cases"][0]["result"]["classifier_rejection_controls"]
+        self.assertEqual(len(controls), 7)
+        self.assertTrue(all(value is True for value in controls.values()))
+
+    def test_revised_stage_matrix_and_case_limits(self):
+        expected = {
+            "preflight": (["generic-swo-bridge", "domain13-members"], [180, 180]),
+            "exact": (["exact-n13-full-post"], [420]),
+            "controls": (["missing-equiv-trans", "exact-n13-membership-post"], [180, 420]),
+            "controls-order": (["exact-n13-order-post"], [420]),
+            "regressions": (["exact-n9-regression", "universal-n13-regression"], [180, 360]),
+        }
+        for stage, (targets, limits) in expected.items():
+            with self.subTest(stage=stage):
+                cases = runner.matrix(stage, self.fake_prove, self.fake_ranks, PAIR13)
+                self.assertEqual([case["target"] for case in cases], targets)
+                self.assertEqual([case["timeout_seconds"] for case in cases], limits)
 
 
 if __name__ == "__main__":
