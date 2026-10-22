@@ -74,7 +74,7 @@ R19_BASELINE_SHA='17fe08b5b4ed5b09c1d08bf56537c3d474c4ed05'
 R19_STARTING_SOURCE_SHA=R18_STARTING_SOURCE_SHA
 R19_LEDGER_PATH='research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R19-BUDGET-20261022.json'
 R19_ADDED_PATHS={R19_LEDGER_PATH,'research/challenge-8/cloud-build/origin-layout/r19-unwind-controls.py'}
-R19_REMOVED_PATHS={'research/challenge-8/cloud-build/origin-layout/R11-RETRY-INPUTS-20261021.json'}
+R19_REMOVED_PATHS={'research/challenge-8/cloud-build/origin-layout/R11-RETRY-INPUTS-20261021.json','research/challenge-8/cloud-build/origin-layout/R11-RETRY-BUDGET-20261021.json'}
 R19_PROFILE_PATH=R18_PROFILE_PATH
 R19_BASELINE_PROFILE_SHA256=R18_PROFILE_SHA256
 R19_PROFILE_SHA256='1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb'
@@ -1344,7 +1344,7 @@ def r19_validate_sources(probe_sha,proof_sha):
   raise SystemExit('R19 S4 recipe unavailable')
  r19_validate_recipe_delta(before,selected)
  check_paths={path for path in before['proof_paths']
-              if 'BUDGET' in path.rsplit('/',1)[-1].upper()}
+              if 'BUDGET' in path.rsplit('/',1)[-1].upper()}-R19_REMOVED_PATHS
  check_paths.update({R13_MODE_PATH,R14_GATE_PATH,R17_PROFILE_PATH})
  def tree_map(commit,paths):
   raw=subprocess.check_output(['git','ls-tree','-r','-z',commit,'--',*sorted(paths)],cwd=ROOT,stderr=subprocess.PIPE)
