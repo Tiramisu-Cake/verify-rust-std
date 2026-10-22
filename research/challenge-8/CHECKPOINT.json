@@ -24,12 +24,12 @@
     "tool_sha": "39f6b0cacd00575c8ca2d39e9f15632723bf1227"
   },
   "blocker": {
-    "summary": "P3 active on metadata191/profile0428; F5/state controls and original caller remain OPEN.",
+    "summary": "P3 exporter unused_mut; proof not attempted. Fix/pins review pending; original caller OPEN.",
     "evidence": [
       {
-        "build_id": "17095248-45ee-433d-83d1-66679a8a1db5",
-        "path": "research/challenge-8/cloud-build/origin-layout/R20-PROOF2-RESULT-20261023.json",
-        "sha256": "2ae30e48c2f9114a3323966d64dee8333752446986b3a32c139bc74e33a03ca5"
+        "build_id": "7384d743-24dd-4b4d-ae27-9b6af7f111c2",
+        "path": "research/challenge-8/cloud-build/origin-layout/R20-PROOF3-RESULT-20261023.json",
+        "sha256": "6ebf0b29b6d1bfb56b44dce32a27fb05289a1f35a384ddcac24926f3a496e41a"
       }
     ]
   },
@@ -82,7 +82,7 @@
       ]
     }
   ],
-  "next_step": "Prepare diagnostic-context HANDOFF candidate while P3 runs; after terminal use Evidence Brief.",
+  "next_step": "Review pins; source gate; publish/dispatch if full cycle fits.",
   "open": [
     "Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.",
     "Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.",
@@ -116,19 +116,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "7384d743-24dd-4b4d-ae27-9b6af7f111c2"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T22:38:00Z",
     "main_deadline_utc": "2026-10-22T22:08:00Z",
-    "remaining_seconds": 1728,
+    "remaining_seconds": 1493,
     "retired_seconds": 0,
-    "spent_seconds": 1872,
+    "spent_seconds": 2107,
     "t0": "2026-10-22T20:08:00Z",
     "unresolved_ids": []
   },
   "state": "ACTIVE",
   "task_id": "merge-unwind-acceptance-autonomous-2026-10-23-r20",
-  "updated_utc": "2026-10-22T21:24:14Z"
+  "updated_utc": "2026-10-22T21:37:58Z"
 }

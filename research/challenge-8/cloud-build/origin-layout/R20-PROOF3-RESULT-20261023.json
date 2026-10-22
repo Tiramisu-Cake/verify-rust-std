@@ -1,0 +1,42 @@
+{
+  "schema": "merge-r20-build-result-v1",
+  "build_id": "7384d743-24dd-4b4d-ae27-9b6af7f111c2",
+  "proof_sha": "f639dc77ff7a87ac3a84c024a81f59c5072af91a",
+  "tool_sha": "191a5cd86745a84fbbc7b202661ad664b3cb272e",
+  "profile_sha256": "042870351c957d6f3c06e3ff3f3de2e65e7287b5e0c5abfcf710933e265b0e04",
+  "config_sha256": "62020289506a6bb515d05936e6619678baadd967067a5d79dbddb6565991bef2",
+  "status": "FAILURE",
+  "assurance": "SOURCE_REPORTED",
+  "brief_integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "run_exit": 101,
+  "proof_attempted_source_claim": false,
+  "compiler_source_claim": "FAIL_OR_INCOMPLETE",
+  "exporter_exit": 101,
+  "console_exit": 0,
+  "other_build_legs": "NOT_PRESENT_IN_VERIFIED_ARCHIVE; no proof success inferred",
+  "charge_seconds": 235,
+  "spent_total_seconds": 2107,
+  "remaining_seconds": 1493,
+  "diagnostic": "unused_mut at exporter src/lib.rs:2536:25; remove mut from identity builder",
+  "receipt": {
+    "archive_sha256": "62cb049aa500f48fe1427d9d0aef00f5b896f5578e4dbd6f3a1ba9b5fa9ea0c4",
+    "index_sha256": "34794146aa9b665ae4c27f64cb8710daf96c5eeb717fa6902c2758fef96ea791",
+    "file_id": "09c84eb67408f263ae1e1bbb7cceccf31bf8511634f315df79528d1e2449e8ca",
+    "file_sha256": "3caa127f57dc72f00e5dc5983e95a39f0aa700d7f6b80aa7906b0767a4f832a5",
+    "request_id": "6e0228a91b6df64c425947b3777fa0dcd77b73d53a89c84b9e659627cf00d9e3",
+    "selector": {
+      "start": 66,
+      "end": 77
+    },
+    "exact": true,
+    "complete": false,
+    "coverage": "12 of108 lines, no content filtering",
+    "locator_request_id": "9a5f965eeae4b3e75795ab7fabbbc02c353747ca90e4454abcbd5a2cefe07104",
+    "locator": "literalerror: at66 and108; wholefilecomplete/no_truncation"
+  },
+  "fix_tool": "1fec4ffa55703fc571c6eb82d96072596325d647",
+  "fix_status": "STATIC_ONLY pending exact adoption and Cloud",
+  "accepted": false,
+  "proof_credit": false,
+  "independent_credit": false
+}

@@ -1,11 +1,11 @@
 # Agent checkpoint: merge-unwind-acceptance-autonomous-2026-10-23-r20
 
 - Owner: merge | phase: MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23 | state: ACTIVE
-- Updated: 2026-10-22T21:24:14Z
+- Updated: 2026-10-22T21:37:58Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `39f6b0cacd00575c8ca2d39e9f15632723bf1227`, profile `1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb`
 - Session dates: T0 `2026-10-22T20:08:00Z`; main deadline `2026-10-22T22:08:00Z`; absolute deadline `2026-10-22T22:38:00Z`
-- Budget: 3600s total; 1872s spent; 0s retired; 1728s remaining including active reservations
-- Active Build IDs: 7384d743-24dd-4b4d-ae27-9b6af7f111c2
+- Budget: 3600s total; 2107s spent; 0s retired; 1493s remaining including active reservations
+- Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -25,11 +25,11 @@
 - Short outer timeout990/execute570 chosen using prior whole-cycle timings — Missed nested compile reserve140; P4 timed out before proof. Keep full1200 plan unless effective inner budget reviewed.; [research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md](cloud-build/origin-layout/R16-REVIEW-20261021.md) SHA `7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa`
 
 ## Blocker
-P3 active on metadata191/profile0428; F5/state controls and original caller remain OPEN.
-- [research/challenge-8/cloud-build/origin-layout/R20-PROOF2-RESULT-20261023.json](cloud-build/origin-layout/R20-PROOF2-RESULT-20261023.json) SHA `2ae30e48c2f9114a3323966d64dee8333752446986b3a32c139bc74e33a03ca5` Build `17095248-45ee-433d-83d1-66679a8a1db5`
+P3 exporter unused_mut; proof not attempted. Fix/pins review pending; original caller OPEN.
+- [research/challenge-8/cloud-build/origin-layout/R20-PROOF3-RESULT-20261023.json](cloud-build/origin-layout/R20-PROOF3-RESULT-20261023.json) SHA `6ebf0b29b6d1bfb56b44dce32a27fb05289a1f35a384ddcac24926f3a496e41a` Build `7384d743-24dd-4b4d-ae27-9b6af7f111c2`
 
 ## Next
-Prepare diagnostic-context HANDOFF candidate while P3 runs; after terminal use Evidence Brief.
+Review pins; source gate; publish/dispatch if full cycle fits.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R19-UNWIND-CLEANUP-DESIGN-20261022.md](cloud-build/origin-layout/R19-UNWIND-CLEANUP-DESIGN-20261022.md) — `571f1acd4a0ad8f86c7fe2bfa95e9a5a80450cbe0a5dc84c81fe5f8309ad857e`
