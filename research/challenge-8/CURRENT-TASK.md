@@ -5,6 +5,8 @@ Owner: **Select/sort4**. Phase: `SORT4-ACTUAL-C2-2026-10-21-R17`. Lane: `o26-sor
 
 ## Завершение R17 — поручение владельца 2026-10-22 (приоритетно)
 
+Runtime: Claude Code. Вход — `CLAUDE.md` этого worktree; профиль [RUNTIME-CLAUDE](agent-workflow/RUNTIME-CLAUDE.md). Review и ожидание Build в этом closeout не нужны.
+
 Сессия R17 прервалась около 21:18Z; main `22:06:19Z` и absolute `22:36:19Z` 2026-10-21 истекли. Это поручение — **только closeout R17**: Cloud budget 0s, окно до 30 минут wall от начала работы. Новых Builds/request/submit/cancel/retry, review новых кандидатов и новых гипотез нет. Разделы Goal/Special bounds ниже — история R17, не разрешение.
 
 Состояние, прочитанное владельцем (проверь сам, расхождение — UNKNOWN):
@@ -14,7 +16,7 @@ Owner: **Select/sort4**. Phase: `SORT4-ACTUAL-C2-2026-10-21-R17`. Lane: `o26-sor
 - CHECKPOINT ещё HANDOFF/WAITING S4; S4 evidence/Brief records не сохранены.
 
 Шаги:
-1. Проверь thread cwd/branch/HEAD/dirty; если для старого thread `01a15ffc-dbe5-7523-b5b1-d3dc37016e06` armed watcher — `watch status`, затем `stop` (Build не отменяет).
+1. Проверь thread cwd/branch/HEAD/dirty; если для старого Codex thread `01a15ffc-dbe5-7523-b5b1-d3dc37016e06` есть armed watcher job — `smallsort-session watch status`, затем `watch stop` (команды от среды не зависят; Build не отменяют).
 2. Один штатный own `control.py status 27e8bfac-eb5f-4cf4-ae89-18bacd16eb90` с R17 phase/ledger/state-dir `/tmp/select-r17-cloud-state`: подтверди terminal/accounting и освобождение own reservation. Live `active.json` вручную не править; при отказе — точный ответ и UNKNOWN.
 3. `smallsort-brief` по S4: сохрани `S4-evidence.json`/S4-brief/observations с file/index SHA и coverage. Подтверди или уточни leak base0/1 `full_borrow` из `S5-UNSELECTED-BORROW-FIX.md`; без raw logs/archives.
 4. Закрой ledger по образцу R16: CLOSED, `closed_utc`, retired 1605 (retired = remaining после accounting), carry0, closure_reason «interrupted, absolute expired». Spent/used не переписывать.
