@@ -1,11 +1,11 @@
 # Agent checkpoint: network-n13-exact-cloud-2026-10-23-n3
 
-- Owner: network | phase: NETWORK-N13-EXACT-2026-10-23-N3 | state: ACTIVE
-- Updated: 2026-10-22T22:08:06Z
+- Owner: network | phase: NETWORK-N13-EXACT-2026-10-23-N3 | state: HANDOFF
+- Updated: 2026-10-22T22:08:47Z
 - Baseline: source `cd371e035c7e573760c43bf934d53e8118ee3e7d`, tool `809de4596839b739dd999f9e462242c835e3af46`, profile `77df69ccd018f5cbd7a73fdc20f562db1f006d2d696818fae3fee3aa8dab0286`
 - Session dates: T0 `2026-10-22T20:43:40Z`; main deadline `2026-10-22T22:43:40Z`; absolute deadline `2026-10-22T23:13:40Z`
 - Budget: 3600s total; 1757s spent; 0s retired; 1843s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 3f978369-2435-4a16-86cb-c461e786f2df
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -19,7 +19,7 @@
 - [SOURCE_REPORTED] Shape2 Build0eef66e7: setup exit124, evidence incomplete; theorem NOT_OBSERVED. Charge624s. — [research/challenge-8/observations/3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7.json](observations/3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7.json) SHA `3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7`
 
 ## Open
-- Shape2 reviewed, not observed; bootstrap deadline fix in progress.
+- Shape2 exact Build3f978369 active at69d51ac9; full exact/controls/regressions OPEN.
 - Full exact H1 adapter/posts, negatives and compatible final regressions OPEN.
 - R4/W7 blocked by inactive Select P1 and pending P2; W8 depends on Merge.
 - Workflow-owner FIRST_SESSION/CLOUD_HISTORY follow-up recorded; shared changes outside N3.
@@ -29,11 +29,11 @@
 - Universal N13 PASS or timeout/setup refusal counted as exact adapter acceptance — Exact full posts and intended controls on compatible source/tool identities are required.; [research/challenge-8/networks/RANK-RESULTS.md](networks/RANK-RESULTS.md) SHA `c76848727b3f62acd5c9b49ea4133c236db3f4d4a903bc42d5b8c159b215f2ca`
 
 ## Blocker
-Bootstrap fix reviewed; shape2 exact unobserved.
+Reviewed shape2 exact420 Build3f978369 active; acceptance OPEN.
 - [research/challenge-8/observations/3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7.json](observations/3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7.json) SHA `3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7`
 
 ## Next
-Submit reviewed69d51ac9 exact420; Brief then controls.
+Watcher ack, then Brief and required controls.
 
 ## Artifacts
 - [research/challenge-8/network/n13/N3-SCOPE-20261023.md](network/n13/N3-SCOPE-20261023.md) — `0ff306d681bab5fb9997ebb53bb9fe9df9e58d93f1b20e030a263c72aeb79e78`

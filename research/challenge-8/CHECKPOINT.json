@@ -20,7 +20,7 @@
     "tool_sha": "809de4596839b739dd999f9e462242c835e3af46"
   },
   "blocker": {
-    "summary": "Bootstrap fix reviewed; shape2 exact unobserved.",
+    "summary": "Reviewed shape2 exact420 Build3f978369 active; acceptance OPEN.",
     "evidence": [
       {
         "path": "research/challenge-8/observations/3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7.json",
@@ -118,9 +118,9 @@
       ]
     }
   ],
-  "next_step": "Submit reviewed69d51ac9 exact420; Brief then controls.",
+  "next_step": "Watcher ack, then Brief and required controls.",
   "open": [
-    "Shape2 reviewed, not observed; bootstrap deadline fix in progress.",
+    "Shape2 exact Build3f978369 active at69d51ac9; full exact/controls/regressions OPEN.",
     "Full exact H1 adapter/posts, negatives and compatible final regressions OPEN.",
     "R4/W7 blocked by inactive Select P1 and pending P2; W8 depends on Merge.",
     "Workflow-owner FIRST_SESSION/CLOUD_HISTORY follow-up recorded; shared changes outside N3."
@@ -151,7 +151,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "3f978369-2435-4a16-86cb-c461e786f2df"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T23:13:40Z",
     "main_deadline_utc": "2026-10-22T22:43:40Z",
@@ -161,7 +163,7 @@
     "t0": "2026-10-22T20:43:40Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "network-n13-exact-cloud-2026-10-23-n3",
-  "updated_utc": "2026-10-22T22:08:06Z"
+  "updated_utc": "2026-10-22T22:08:47Z"
 }
