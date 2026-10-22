@@ -1134,7 +1134,6 @@ def r17_validate_sources(probe_sha,proof_sha):
 
 
 def r18_validate_recipe_delta(before,selected):
- """Keep the historical recipe and add only the R18 account."""
  if (not isinstance(before,dict) or not isinstance(selected,dict) or
      {key:value for key,value in before.items() if key!='proof_paths'} !=
      {key:value for key,value in selected.items() if key!='proof_paths'}):
@@ -1165,7 +1164,6 @@ def r18_final_deadline_check(a,ledger):
 
 
 def r18_validate_sources(probe_sha,proof_sha):
- """Require the R18 account-only recipe delta, unchanged pinned profile/provider tables and history."""
  if probe_sha!=R18_PROBE_SOURCE or not isinstance(proof_sha,str) or not re.fullmatch('[0-9a-f]{40}',proof_sha):
   raise SystemExit('R18 S1 source identity')
  recipe_path='research/challenge-8/cloud-build/recipes/merge.json'

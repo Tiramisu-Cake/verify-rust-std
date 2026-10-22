@@ -772,8 +772,6 @@ def _raw_local_caller_suffixes(old):
     original = _one(old.WRAPPER_RUNTIME, b'let begin = values.as_mut_ptr();',
                      b'let begin = &raw mut values as *mut u64;',
                      'raw local array data-pointer derivation')
-    # An assert only matches its auto-closed chunk; the checked lemma call
-    # with explicit p/count leaves the closed array chunk and its bounds.
     before_call = (b'    /*@ { r18_u64_array_inv(begin, 3);\n'
                    b'        assert array::<u64>(begin, 3, ?r16_current);\n'
                    b'        r9_make_u64_owners(t, r16_current); } @*/\n')
