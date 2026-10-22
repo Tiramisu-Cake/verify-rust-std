@@ -49,10 +49,10 @@ Next: Перепроверить forget guard-own на текущей цепоч
 
 ## Отчёт агента
 
-**select-actual-callee-autonomous-2026-10-22-r20 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-22-R20 · ACTIVE**
-Updated: 2026-10-22T16:47:00Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+**select-actual-callee-autonomous-2026-10-22-r20 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-22-R20 · HANDOFF**
+Updated: 2026-10-22T16:49:00Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-22T15:41:28Z`; main `2026-10-22T17:41:28Z`; absolute `2026-10-22T18:11:28Z`. Budget 3600s: 738s spent, 0s retired, 2862s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
+Active Build IDs: 729474f9-3acf-4d52-a04d-9ffb16e1fb5a; unresolved: none recorded.
 Blocker: Missing MaybeUninit_pointer_own(t, new(payload)) for select arg a; repair needs certificate-refresh tool patch. [Build `2d562718-c166-4ab5-bba3-bf9136bd56b7`]
-Next: S3: opt-in certificate refresh (SHA 910bb778, unit 5051bbff, body-7 b917af17, ghost list/body text, outer-body inventories) on O26 translator; review; Cloud proof of repaired unit.
+Next: Wait R20 S2b Build 729474f9 (merged-variant fingerprint, pins 912b3f4e); ack; take SHA/unit/body-7 and MIR counts; S3 certificate refresh (draft ready).
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
