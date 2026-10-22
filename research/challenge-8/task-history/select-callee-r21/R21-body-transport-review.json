@@ -1,0 +1,40 @@
+{
+  "schema": "smallsort-independent-review-v1",
+  "reviewer": "Codex independent reviewer",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "nested_delegation": false,
+  "verdict": "GO_WITH_NITS",
+  "candidate_commit": "ebf14315c11af6f68aed14ac7f626220f7ddbfa7",
+  "candidate_tree": "cb22f6c94c1e23c3ff5f62a4fbc99bb61db7ad19",
+  "baseline_commit": "7033ff9997cf2a38660b3407542a938927f3fd99",
+  "diff_sha256": "a07d2cb2c5f93926c7bb501aabda607132964ea53c51e31311591861a2bb6538",
+  "packet_sha256": "e729fa6d88f27c41539e361daaff32894a93ed64bb1cb40f005f70a3c2a39498",
+  "spec_sha256": "8c16c94b9505c2d617b0f9e763e8515e0252b8f17fd36f9d922f5b75ed48a026",
+  "scope": "Static semantic review of the inactive R21 body transport lane, route bindings, source closure, audit behavior, and preserved resource gates.",
+  "basis": [
+    "The profile and route require the fresh R21 lane/phase, Cloud provider, expected R17 backend protocol, exact proof/infra pins, and explicit false acceptance/admission/credit fields. The shell rejects ambient unrelated A1/actual route markers, validates proof and infra checkout heads, and dispatches only the R21 entrypoint. The recipe and closure distinguish proof-root and infra-root dependencies, including dynamic profile/source reads; the extracted cleanup helper is pinned in the proof root.",
+    "The new body/tool path retains the R17 full-body source/MIR certification and the 5 comparison, 8 select_unpredictable, and 4 copy_nonoverlapping gates. Static source comparison found no semantic relaxation of body proof/resource/leak checks. Audit parsing preserves non-credit status and treats absent, null, malformed, partial, wrong-stage/target, and failed outcomes as non-accepted; runner exit status is preserved.",
+    "This candidate is explicitly inactive: profile cloud_build_enabled is false and no client registration/admission is added. Its source and closure design can be reviewed, but this does not establish actual packaged payload savings, Cloud buildability, compiler/verifier acceptance, or proof credit."
+  ],
+  "findings": [],
+  "nits": [
+    {
+      "location": "research/challenge-8/cloud-build/run-o26-sort4-body-r21.sh:124-177",
+      "finding": "Several direct fail-fast guards between stage() calls do not update current_stage. If one fails, the EXIT audit records the preceding stage (for example, a frozen manifest, checksum, cmp, or diff assertion can be reported as patch-20-apply).",
+      "impact": "The runner still exits with the original failure and does not grant acceptance or credit, but failed_stage can be inaccurate for diagnosis.",
+      "suggestion": "Set current_stage before each direct guard group or route those checks through a stage-aware helper."
+    }
+  ],
+  "validation": {
+    "packet_identities": "MATCH (spec, diff, and inventory hashes verified)",
+    "candidate_tree": "MATCH",
+    "source_route_recipe_and_closure_review": "PASS (static)",
+    "resource_and_leak_gate_comparison": "PASS (static comparison with R17 full-body path)",
+    "synthetic_tests": "PACKET-REPORTED 28 PASS; not executed",
+    "shell_syntax": "PACKET-REPORTED bash -n PASS",
+    "compiler_exporter_verifier_or_build": "NOT_RUN",
+    "formal_proof_credit": "NONE"
+  },
+  "limitations": "GO_WITH_NITS applies only to the exact inactive source candidate. Same-site omission controls and the complete normal/unwind/nested matrix remain open; the review makes no claim of actual buildability, route admission, proof acceptance, payload reduction, or formal proof credit."
+}

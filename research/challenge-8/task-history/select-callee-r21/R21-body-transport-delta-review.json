@@ -1,0 +1,28 @@
+{
+  "schema": "smallsort-independent-review-v1",
+  "reviewer": "Codex independent reviewer",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "nested_delegation": false,
+  "verdict": "GO",
+  "candidate_commit": "9b45337e0a81f33b90f924602e9966fa0ad47979",
+  "candidate_tree": "6e32e7346b855f93e62ea05c45933f4ef2b71e1b",
+  "baseline_commit": "ebf14315c11af6f68aed14ac7f626220f7ddbfa7",
+  "scope": "Narrow delta review of diagnostic MIR output validation, shell-closure pinning, and whitespace cleanup; no active Build or implementation-route change.",
+  "basis": [
+    "validate_export_decode now requires both expected MIR outputs to exist, be nonempty, and match the reported SHA-256. The added synthetic test constructs empty files with matching empty-file hashes and verifies that the result remains incomplete, closing the false-completion case without broadening acceptance.",
+    "BODY-ROUTE-CLOSURE.json now records the runner shell SHA-256, and the recipe test recomputes the hash from the selected entrypoint and requires exact equality. This binds the staged closure record to the shell content; JSON remains valid.",
+    "The delta has no active route/profile/admission changes. The exact `git diff --check` between parent and candidate is clean. The prior body-transport review's failed-stage audit nit is unchanged and is outside this narrow delta."
+  ],
+  "findings": [],
+  "validation": {
+    "commit_and_tree_identities": "MATCH",
+    "parent_identity": "MATCH",
+    "diff_check": "PASS",
+    "validator_and_test_review": "PASS (static; synthetic test change inspected)",
+    "closure_shell_hash_binding": "PASS (static; recorded hash matches committed runner content)",
+    "actual_build_or_formal_proof_credit": "NOT RUN / NONE",
+    "active_build_uses_delta": "NO (main reports Build 471c5af3 is pinned to earlier candidate 7033ff)"
+  },
+  "limitations": "GO applies only to this source-only diagnostic/closure delta. It does not establish buildability, proof acceptance, actual-callee acceptance, or proof credit, and does not supersede the separate body-transport review or its localized audit-stage nit."
+}

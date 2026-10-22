@@ -1,0 +1,40 @@
+{
+  "schema": "smallsort-independent-review-v1",
+  "reviewer": "Codex independent reviewer",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "nested_delegation": false,
+  "verdict": "GO_WITH_NITS",
+  "candidate_commit": "c9feaf4f6315f06aff9e7c91a7e9bdb426fff6f7",
+  "candidate_tree": "df7f19619afadf9d00c91d7d6afc77ed677b6d43",
+  "baseline_commit": "3d727e060db77a24773d52f8d494937978947558",
+  "diff_sha256": "291c1fb0d3bb82273d101e738504625825bfd5130bc7e1ea058d04c2f84f1290",
+  "packet_sha256": "01913b7a5462c98156aa145a896f832df100840da34606be5025f8fd2b28adc2",
+  "spec_sha256": "d3131f11f310e4bd66332cdd8a4b086104e570c214e18a61fabccc5aabd12d9f",
+  "scope": "Narrow static review of the R21 fingerprint retry's binding between committed capture bytes, the O26 provider overlay receipt/current bytes, and source-only preflight pair.",
+  "basis": [
+    "The exact O26 recipe, refresh recipe, and provider modules are loaded by pinned SHA. The overlay validator checks the provider module file and receipt pins, receipt proof checkout SHA, the complete ordered five-path overlay inventory, exact row keys and guard_only flag, each committed blob hash, and the committed capture.py hash against CAPTURE_SHA256.",
+    "For every receipt row it independently recomputes the one permitted guard replacement plus helper insertion from committed UTF-8 bytes, syntax-checks the resulting Python source, compares full current worktree bytes and their digest to the receipt, and recomputes/compares the unified diff. This rejects post-receipt mutations and extra source rewrites while matching the pinned O26 overlay implementation.",
+    "The source-preflight record must be the expected source-only classification, complete, explicitly compiler/verifier-not-invoked, ghost-strip identity true, and contain nine unique source-order entries. Its original and verified SHA-256 values must equal the pinned refresh pair, and the exact evidence files must hash to those values with paths confined beneath the evidence root. The fingerprint entry now requires the evidence directory and runs this validation before loading the overlaid capture module and starting diagnostic stages.",
+    "The diff changes only the fingerprint diagnostic module and its synthetic tests; it introduces no proof rule or fractional acceptance. It retains explicit accepted/proof_credit false fields. The receipt mutation test exercises an actual O26 guard-only overlay in an isolated tiny Git repository, while packet reports ten synthetic tests passing; tests were not executed during this review."
+  ],
+  "findings": [],
+  "nits": [
+    {
+      "location": "research/challenge-8/cloud-build/select-callee-r21-fractional.py:225",
+      "finding": "validate_o26_provider_overlay returns the receipt/preflight hashes and validated per-file identities, but pinned_dependencies discards that result; those identity hashes are therefore not duplicated into the fractional fingerprint record's dependencies field.",
+      "impact": "The checks are enforced before fingerprinting and the receipt/preflight remain separate evidence artifacts, so this is not an admission or soundness blocker. It makes the diagnostic record less self-contained if the associated evidence artifacts are later separated.",
+      "suggestion": "For a later bookkeeping delta, include the validator result (or at least both receipt hashes and overlay file identities) in the fingerprint record dependencies."
+    }
+  ],
+  "validation": {
+    "packet_identities": "MATCH (spec, diff, and inventory hashes verified)",
+    "candidate_tree": "MATCH",
+    "overlay_and_preflight_binding_review": "PASS (static source review)",
+    "failure_behavior": "FAIL-CLOSED for missing/malformed receipts, provider mismatch, inventory/row mismatch, committed/current/diff mismatch, malformed source preflight, hash mismatch, and evidence paths escaping the root",
+    "synthetic_controls": "PACKET-REPORTED 10 PASS, including real O26 guard overlay on isolated tiny Git repository and postreceipt mutation rejection; not executed",
+    "actual preparation/compiler/exporter/verifier/build": "NOT RUN",
+    "formal proof credit": "NONE"
+  },
+  "limitations": "GO_WITH_NITS applies only to the diagnostic fingerprint retry binding in this exact candidate. It does not establish successful retry/buildability, proof acceptance, fractional proof validity, actual callee acceptance, or proof credit."
+}

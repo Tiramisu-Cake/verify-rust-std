@@ -1,11 +1,11 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-23-r21
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R21 | state: HANDOFF
-- Updated: 2026-10-22T20:58:50Z
+- Updated: 2026-10-22T21:09:45Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-22T19:54:55Z`; main deadline `2026-10-22T21:54:55Z`; absolute deadline `2026-10-22T22:24:55Z`
-- Budget: 3600s total; 673s spent; 0s retired; 2927s remaining including active reservations
-- Active Build IDs: 471c5af3-c73a-443c-ac61-cd85764e7bb9
+- Budget: 3600s total; 974s spent; 0s retired; 2626s remaining including active reservations
+- Active Build IDs: 7cd83dd2-f0e9-41e8-85ef-589447085239
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -17,19 +17,19 @@
 ## Open
 - Callee acceptance: normal/unwind/nested-Drop matrix; *mut T/generic gap. Recovery lane 192/191 chunks: prune before c5/selector.
 - Network P1 candidate accepted for integration only (inactive/unbuilt); P3 grammar chosen but unimplemented. P2 checked mutable-pointer callee remains pending; pin NETWORK-SELECT-RESPONSE.md and reviews.
-- Fractional fingerprints Build471c5af3 pending on7033ff99; eight candidate/control variants. No fractional proof yet.
-- New inactive body route ebf14315:502227bytes/168parts below191;28 synthetic tests pass; independent review pending.
+- Fractional retry Build7cd83dd2 on c9feaf4f pending; overlay binding independently reviewed,10synthetic testsPASS.
+- Inactive body route168/191parts; review GO_WITH_NITS and failed-stage labels fixed. Fractional proofhelper/CLI prepared.
 
 ## Rejected approaches
 - Assumed/address-only resource bridge or helper PASS as full-body proof — Does not establish actual ordered callback resources or full normal/unwind posts.
 - Закрывать сессию досрочно, когда нет допустимого Build — R18 и R19 закрыты досрочно, хотя в миссии оставалась работа без Cloud (callee proof, transport); это противоречит CORE и особой границе задания.; [research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json](cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json) SHA `43938f12bb12264b19b9b414d91130753de5d441bde857217da2cffea43efd13`
 
 ## Blocker
-Checked forget returns guard-own but loses selected payload equality; fractional candidate approved, unproved.
-- [research/challenge-8/task-history/select-callee-r21/S3-branch-selected-evidence.json](task-history/select-callee-r21/S3-branch-selected-evidence.json) SHA `b0795f640400066ebc2af1b3faa0a8b27ffb41cb70e442a50656605f2d527d9d` Build `1bbfc87e-8b0a-4042-b54f-71acb3690dd6`
+Fractional fingerprints stopped at committed/Cloud-overlay hash mismatch; exact overlay-binding fix under review.
+- [research/challenge-8/task-history/select-callee-r21/FRACTIONAL-FINGERPRINT-FAILURE.json](task-history/select-callee-r21/FRACTIONAL-FINGERPRINT-FAILURE.json) SHA `f0a1dc478ee2de8eb1c13114113a2f4b92bb546e62f9292cbad11ee765a2d019` Build `471c5af3-c73a-443c-ac61-cd85764e7bb9`
 
 ## Next
-Brief fractional fingerprints; bind exact certificates and checked proof/controls in the same R21 window.
+Brief retry fingerprints; then exact reviewed fractional certificates and checked proof/controls, same R21 window.
 
 ## Artifacts
-- [research/challenge-8/task-history/select-callee-r21/ARTIFACT-INDEX.json](task-history/select-callee-r21/ARTIFACT-INDEX.json) — `790aa0008c0a520d4d851b3f5a615ae35a9b5d8cd3eeb8d323c5efbcfcafc5a7`
+- [research/challenge-8/task-history/select-callee-r21/ARTIFACT-INDEX.json](task-history/select-callee-r21/ARTIFACT-INDEX.json) — `d0b354c626bf795a5986d36e33ce29b2860944f3d06e1ae3cb7bccafa7008f63`

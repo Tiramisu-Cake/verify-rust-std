@@ -1,0 +1,34 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "3d727e060db77a24773d52f8d494937978947558",
+  "candidate_commit": "c9feaf4f6315f06aff9e7c91a7e9bdb426fff6f7",
+  "defect": "Fingerprint Build471c5af3 failed beforebatch because it checked committed capture SHA after the permitted O26 Cloud guardoverlay.",
+  "applicability": "Exact committed capture and pinned O26 guardtransform/receipt binding only; no new proof rule.",
+  "invariants": [
+    "All original source/provider/recipe pins and guard-only byte rewrite are checked; existing sourcepreflight matched exact refresh source pair.",
+    "No actual tools locally; acceptance/proofcredit false."
+  ],
+  "controls": [
+    "10synthetic tests PASS including real guard-only overlay in tiny Git repo and postreceipt mutation rejection."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/o26-recipe.py",
+    "research/challenge-8/cloud-build/o26-refresh-recipe.py",
+    "research/challenge-8/cloud-build/provider.py",
+    "research/challenge-8/overnight-assume-actual/capture.py"
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r21/R21-fractional-review.json",
+      "sha256": "4ce2013c001015762ff6cf6a5307e1d3722abaac7437ee0f6063de6ab7207887"
+    },
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r21/R21-body-transport-delta-review.json",
+      "sha256": "4fd08e12b7975cb445a1b32e3e05c77f06411cbcc016ef7ac35cb64d1d820c04"
+    }
+  ],
+  "known_limitations": [
+    "Retryfingerprintonly; nopins or fractionalproofyet."
+  ]
+}

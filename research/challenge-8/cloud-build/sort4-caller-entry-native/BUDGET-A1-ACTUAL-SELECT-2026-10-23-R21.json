@@ -1,5 +1,5 @@
 {
-  "active_build": "471c5af3-c73a-443c-ac61-cd85764e7bb9",
+  "active_build": "7cd83dd2-f0e9-41e8-85ef-589447085239",
   "allowed_lanes": [
     "o26-select-callee-r20"
   ],
@@ -61,11 +61,33 @@
       "submitted_config_sha256": "c9bb1e2a4a605f88595f118167a63cf1bbe6408c7b9e6956953bb9805068cd10",
       "reserved_seconds": 1260,
       "timeout_seconds": 1200,
-      "status": "QUEUED",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "3dd1d4b778d78edae04c1142281f18a0165db55118a7d3626c99b6c8aa07aaa5",
-      "build_id": "471c5af3-c73a-443c-ac61-cd85764e7bb9"
+      "build_id": "471c5af3-c73a-443c-ac61-cd85764e7bb9",
+      "start_time": "2026-10-22T20:56:22.505761669Z",
+      "finish_time": "2026-10-22T21:01:22.569861Z",
+      "create_time": "2026-10-22T20:56:21.650538336Z",
+      "build_seconds": 301,
+      "accounted": true,
+      "execution_seconds": 301
+    },
+    {
+      "dispatch_token": "dispatch-7525c96445a142e0968882880f5ee6a6",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-ACTUAL-SELECT-2026-10-23-R21",
+      "infra_sha": "c9feaf4f6315f06aff9e7c91a7e9bdb426fff6f7",
+      "proof_sha": "c9feaf4f6315f06aff9e7c91a7e9bdb426fff6f7",
+      "lane": "o26-select-callee-r20",
+      "submitted_config_sha256": "628577cedf7a23b3b969076d786607d5f986c1b820c8a6fd0ff0c47607a4480c",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "QUEUED",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "6e0a45fc807c2c4a213a1e6258f71c725fd3e351772c05db0e2fbb2d3730ebf6",
+      "build_id": "7cd83dd2-f0e9-41e8-85ef-589447085239"
     }
   ],
   "carry_seconds": 0,
@@ -80,7 +102,7 @@
   "owner": "select-sort4",
   "phase": "SORT4-ACTUAL-SELECT-2026-10-23-R21",
   "phase_id": "SORT4-ACTUAL-SELECT-2026-10-23-R21",
-  "remaining_build_seconds": 2927,
+  "remaining_build_seconds": 2626,
   "report_reserve_seconds": 240,
   "retired_seconds": 0,
   "schema": "smallsort-cloud-phase-account-v1",
@@ -88,5 +110,5 @@
   "start_utc": "2026-10-22T19:54:55Z",
   "status": "AUTHORIZED",
   "task_id": "select-callee-acceptance-autonomous-2026-10-23-r21",
-  "used_build_seconds": 673
+  "used_build_seconds": 974
 }
