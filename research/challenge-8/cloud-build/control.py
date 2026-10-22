@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Lightweight VPS orchestration only. Never executes proof tools locally."""
-import argparse,ast,base64,datetime,gzip,hashlib,importlib.util,json,math,os,re,subprocess,sys,uuid
+import argparse,ast,base64,copy,datetime,gzip,hashlib,importlib.util,json,math,os,re,subprocess,sys,uuid
 from pathlib import Path
 import coordination
 
@@ -92,18 +92,44 @@ R20_PROBE_SOURCE='e278869253e5a1e553d0ac0c1bc7adb5221b681e'
 R20_BASELINE_SHA=R20_PROBE_SOURCE
 R20_STARTING_SOURCE_SHA='6fd50c699500cbac5c65912174d4aa49b49db19f'
 R20_LEDGER_PATH='research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R20-BUDGET-20261023.json'
-R20_ADDED_PATHS={R20_LEDGER_PATH}
+R20_METADATA_TEST_PATH='research/challenge-8/cloud-build/origin-layout/r20-metadata-admission-service-test.py'
+R20_ARRAY_SLICE_HELPER_PATH='research/challenge-8/cloud-build/origin-layout/r20-array-slice-content.rs'
+R20_ADDED_PATHS={R20_LEDGER_PATH,R20_METADATA_TEST_PATH,R20_ARRAY_SLICE_HELPER_PATH}
 R20_REMOVED_PATHS={
- 'research/challenge-8/cloud-build/origin-layout/r9-guard-return-controls-service-test.py'}
+ 'research/challenge-8/cloud-build/origin-layout/r9-guard-return-controls-service-test.py',
+ 'research/challenge-8/cloud-build/origin-layout/r5-emitter-service-test.py',
+ 'research/challenge-8/cloud-build/origin-layout/r9-phase-service-test.py'}
 R20_PROFILE_PATH=R19_PROFILE_PATH
 R20_PROFILE_SHA256='1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb'
+R20_STARTING_TOOL_COMMIT='39f6b0cacd00575c8ca2d39e9f15632723bf1227'
 R20_PATCH_SHA256=R19_PATCH_SHA256
 R20_PROVIDER_SHA256='2bed7d32a35ac10121820ffdf8a6dbcb645f5eefb838c9bb0d89915086a34ef3'
 R20_PROVIDER_PROVE_SHA256=R19_PROVIDER_NEW_PROVE_SHA256
+R20_METADATA_TOOL_COMMIT='191a5cd86745a84fbbc7b202661ad664b3cb272e'
+R20_METADATA_PROFILE_SHA256='042870351c957d6f3c06e3ff3f3de2e65e7287b5e0c5abfcf710933e265b0e04'
+R20_METADATA_EXPORTER_SHA256='2a0d66e6b3a76627643e93a8a8124859f33967e61375ba1a3f6e332d02b67673'
+R20_METADATA_SCHEMA_SHA256='c4ba15bb820c6d394ad1b5257755e5bad571d9389ee7daec5bccabc53dddb7cc'
+R20_METADATA_PATCH_SHA256='cd951347b78f44bce7dcf91bf6d3be86c5766de25dacf45893c0c5a23f30f14f'
+R20_METADATA_PROVIDER_SHA256='fe8165f17ad891f329160f06b9d1e7dcbfb1f786b62f4f3e72c48952d87523d7'
+R20_METADATA_PROVIDER_PROVE_SHA256='90988c77177cb17dac440249adde02a1367557d67b1a7ceb99acb3198b563bfd'
+R20_R19_EXPORTER_SHA256='d8bca867798fd93ececcb5fd8db330d6d23d2f7b815009437bf4961b9fcd2f51'
+R20_R19_SCHEMA_SHA256='b6c63644e8926a207b4393b80bf27696838aa22fe9db33acecc9fefa68550750'
+R20_METADATA_REGISTRATION={
+ 'schema':'merge-r20-source-preserving-metadata-registration-v1',
+ 'phase_id':R20_PHASE,
+ 'baseline_profile_sha256':R20_PROFILE_SHA256,
+ 'starting_tool_commit':R20_STARTING_TOOL_COMMIT,
+ 'starting_source_sha':R20_STARTING_SOURCE_SHA,
+ 'owner':'merge','lane':'merge',
+ 'candidate_tool_commit':R20_METADATA_TOOL_COMMIT,
+ 'tool_source_paths':['src/rust_frontend/vf_mir/vf_mir.capnp',
+                      'src/rust_frontend/vf_mir_exporter/src/lib.rs'],
+ 'source_applicability':('source-preserving MIR metadata only: exact pointer-coercion subtype and source, cast source/target types, '
+                         'body-scoped ReVar/ReErased identity; no translator acceptance, resource/borrow/lifetime premise, '
+                         'runtime, CFG or postcondition change')}
 R20_START='2026-10-22T20:08:00Z'
 R20_MAIN_DEADLINE='2026-10-22T22:08:00Z'
 R20_DEADLINE='2026-10-22T22:38:00Z'
-R20_STARTING_TOOL_COMMIT='39f6b0cacd00575c8ca2d39e9f15632723bf1227'
 R20_TASK_ID='merge-unwind-acceptance-autonomous-2026-10-23-r20'
 R20_AUTHORIZATION=('CURRENT-TASK R20: accept checked raw caller unwind cleanup with normal/unwind controls, then '
  'original as_mut_ptr/unsize borrow lifecycle and CURRENT matrix; fresh3600/no carry; '
@@ -1510,24 +1536,69 @@ def r20_validate_recipe_delta(before,selected):
   raise SystemExit('R20 S3 recipe path closure/registration mismatch')
 
 
-def r20_validate_historical_closure(paths,before,selected):
+def r20_validate_historical_closure(paths,before,selected,metadata_extension=False):
  required={R19_LEDGER_PATH,R18_LEDGER_PATH,R17_LEDGER_PATH,R16_LEDGER_PATH,
            R13_MODE_PATH,R14_GATE_PATH,R17_PROFILE_PATH,R20_PROFILE_PATH}
  if (not required.issubset(paths) or set(before)!=set(paths) or set(selected)!=set(paths) or
-     selected!=before or any(value[:2]!=('100644','blob') for value in selected.values())):
+     any(value[:2]!=('100644','blob') for value in selected.values())):
   raise SystemExit('R20 S7 historical R19 closure, profile, mode, or gate changed')
+ differences={path for path in paths if before[path]!=selected[path]}
+ expected={R20_PROFILE_PATH} if metadata_extension else set()
+ if differences!=expected:
+  raise SystemExit('R20 S7 historical closure changed outside the checked metadata profile extension')
+
+
+def r20_validate_metadata_profile_extension(baseline_profile,selected_profile):
+ try:
+  old=json.loads(baseline_profile);new=json.loads(selected_profile)
+ except (ValueError,TypeError,UnicodeDecodeError):
+  raise SystemExit('R20 S6 metadata profile JSON unavailable')
+ if (type(old) is not dict or type(new) is not dict or
+     hashlib.sha256(baseline_profile).hexdigest()!=R20_PROFILE_SHA256 or
+     new.get('r20_metadata_registration')!=R20_METADATA_REGISTRATION):
+  raise SystemExit('R20 S6 metadata profile registration/baseline mismatch')
+ baseline=copy.deepcopy(new)
+ baseline.pop('r20_metadata_registration',None)
+ baseline['effective_tool_commit']=R20_STARTING_TOOL_COMMIT
+ baseline['exporter_source_sha256']=R20_R19_EXPORTER_SHA256
+ baseline['schema_sha256']=R20_R19_SCHEMA_SHA256
+ baseline['guard_return_trace_patch_sha256']=R20_PATCH_SHA256
+ chain=baseline.get('ordered_patch_chain')
+ if type(chain) is not list or len(chain)!=19 or type(chain[-1]) is not dict:
+  raise SystemExit('R20 S6 metadata profile cumulative chain malformed')
+ chain[-1]['sha256']=R20_PATCH_SHA256
+ reverted=(json.dumps(baseline,indent=2)+'\n').encode()
+ if hashlib.sha256(reverted).hexdigest()!=R20_PROFILE_SHA256:
+  raise SystemExit('R20 S6 metadata profile changes fields outside the exact exporter/schema/tool/patch delta')
+ if (hashlib.sha256(selected_profile).hexdigest()!=R20_METADATA_PROFILE_SHA256 or
+     new.get('effective_tool_commit')!=R20_METADATA_TOOL_COMMIT or
+     new.get('exporter_source_sha256')!=R20_METADATA_EXPORTER_SHA256 or
+     new.get('schema_sha256')!=R20_METADATA_SCHEMA_SHA256 or
+     new.get('guard_return_trace_patch_sha256')!=R20_METADATA_PATCH_SHA256 or
+     new.get('ordered_patch_chain')[-1].get('sha256')!=R20_METADATA_PATCH_SHA256):
+  raise SystemExit('R20 S6 metadata candidate pins differ')
 
 
 def r20_validate_candidate_pins(baseline_profile,selected_profile,current_profile,selected_patch,
                                 baseline_provider,selected_provider,current_provider):
  if (hashlib.sha256(baseline_profile).hexdigest()!=R20_PROFILE_SHA256 or
-     hashlib.sha256(selected_profile).hexdigest()!=R20_PROFILE_SHA256 or current_profile!=selected_profile or
-     hashlib.sha256(selected_patch).hexdigest()!=R20_PATCH_SHA256):
-  raise SystemExit('R20 S6 pinned profile or cumulative patch differs from reviewed R19 candidate')
- if (hashlib.sha256(baseline_provider).hexdigest()!=R20_PROVIDER_SHA256 or
-     selected_provider!=baseline_provider or current_provider!=selected_provider or
-     baseline_provider.count(R20_PROVIDER_PROVE_SHA256.encode())!=1):
-  raise SystemExit('R20 S6 provider module differs from exact published R19 pin')
+     hashlib.sha256(baseline_provider).hexdigest()!=R20_PROVIDER_SHA256 or
+     current_profile!=selected_profile or current_provider!=selected_provider):
+  raise SystemExit('R20 S6 baseline/current profile or provider bytes differ')
+ profile_sha=hashlib.sha256(selected_profile).hexdigest()
+ patch_sha=hashlib.sha256(selected_patch).hexdigest()
+ if profile_sha==R20_PROFILE_SHA256:
+  if (patch_sha!=R20_PATCH_SHA256 or selected_provider!=baseline_provider or
+      baseline_provider.count(R20_PROVIDER_PROVE_SHA256.encode())!=1):
+   raise SystemExit('R20 S6 legacy R19 profile/provider/patch tuple differs')
+  return False
+ if profile_sha!=R20_METADATA_PROFILE_SHA256 or patch_sha!=R20_METADATA_PATCH_SHA256:
+  raise SystemExit('R20 S6 selected profile or cumulative patch is unregistered')
+ r20_validate_metadata_profile_extension(baseline_profile,selected_profile)
+ if (hashlib.sha256(selected_provider).hexdigest()!=R20_METADATA_PROVIDER_SHA256 or
+     selected_provider.count(R20_METADATA_PROVIDER_PROVE_SHA256.encode())!=1):
+  raise SystemExit('R20 S6 metadata provider/prove pin differs')
+ return True
 
 
 def r20_final_deadline_check(a,ledger):
@@ -1564,7 +1635,6 @@ def r20_validate_sources(probe_sha,proof_sha):
   old_map=tree_map(probe_sha,check_paths);new_map=tree_map(proof_sha,check_paths)
  except (subprocess.CalledProcessError,ValueError,UnicodeDecodeError):
   raise SystemExit('R20 S5 baseline/current historical tree unavailable')
- r20_validate_historical_closure(check_paths,old_map,new_map)
  try:
   selected_profile=subprocess.check_output(['git','show',proof_sha+':'+R20_PROFILE_PATH],cwd=ROOT,stderr=subprocess.PIPE)
   baseline_profile=subprocess.check_output(['git','show',probe_sha+':'+R20_PROFILE_PATH],cwd=ROOT,stderr=subprocess.PIPE)
@@ -1575,8 +1645,9 @@ def r20_validate_sources(probe_sha,proof_sha):
   current_provider=(ROOT/R17_PROVIDER_OVERLAYS_PATH).read_bytes()
  except (subprocess.CalledProcessError,OSError):
   raise SystemExit('R20 S6 pinned profile, patch, or provider unavailable')
- r20_validate_candidate_pins(baseline_profile,selected_profile,current_profile,selected_patch,
-                             baseline_provider,selected_provider,current_provider)
+ metadata_extension=r20_validate_candidate_pins(baseline_profile,selected_profile,current_profile,selected_patch,
+                                                baseline_provider,selected_provider,current_provider)
+ r20_validate_historical_closure(check_paths,old_map,new_map,metadata_extension)
  try:
   gate_selected=subprocess.check_output(['git','show',proof_sha+':'+R14_GATE_PATH],cwd=ROOT,stderr=subprocess.PIPE)
   gate_current=(ROOT/R14_GATE_PATH).read_bytes()

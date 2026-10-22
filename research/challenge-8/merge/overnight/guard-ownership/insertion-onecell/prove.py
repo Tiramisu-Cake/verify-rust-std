@@ -121,6 +121,36 @@ R19_REGISTRATION = {
     "tool_source_paths": ["src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"],
     "source_applicability": "one marked checked ghost block after the single insert_tail call in b2_three_from_local, also on its Continue unwind edge; no posts, runtime, CFG or trusted premise change",
 }
+R19_SELECTED_PROFILE_SHA256 = "1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb"
+R19_EXPORTER_SHA256 = "d8bca867798fd93ececcb5fd8db330d6d23d2f7b815009437bf4961b9fcd2f51"
+R19_SCHEMA_SHA256 = "b6c63644e8926a207b4393b80bf27696838aa22fe9db33acecc9fefa68550750"
+R20_TOOL_COMMIT = "191a5cd86745a84fbbc7b202661ad664b3cb272e"
+R20_EXPORTER_SHA256 = "2a0d66e6b3a76627643e93a8a8124859f33967e61375ba1a3f6e332d02b67673"
+R20_SCHEMA_SHA256 = "c4ba15bb820c6d394ad1b5257755e5bad571d9389ee7daec5bccabc53dddb7cc"
+R20_PATCH_SHA256 = "cd951347b78f44bce7dcf91bf6d3be86c5766de25dacf45893c0c5a23f30f14f"
+R20_PROFILE_CHANGED_KEYS = frozenset({
+    "effective_tool_commit", "exporter_source_sha256", "schema_sha256",
+    "guard_return_trace_patch_sha256", "ordered_patch_chain",
+})
+R20_REGISTRATION = {
+    "schema": "merge-r20-source-preserving-metadata-registration-v1",
+    "phase_id": "MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23",
+    "baseline_profile_sha256": R19_SELECTED_PROFILE_SHA256,
+    "starting_tool_commit": R19_TOOL_COMMIT,
+    "starting_source_sha": "6fd50c699500cbac5c65912174d4aa49b49db19f",
+    "owner": "merge",
+    "lane": "merge",
+    "candidate_tool_commit": R20_TOOL_COMMIT,
+    "tool_source_paths": [
+        "src/rust_frontend/vf_mir/vf_mir.capnp",
+        "src/rust_frontend/vf_mir_exporter/src/lib.rs",
+    ],
+    "source_applicability": (
+        "source-preserving MIR metadata only: exact pointer-coercion subtype and source, cast source/target types, "
+        "body-scoped ReVar/ReErased identity; no translator acceptance, resource/borrow/lifetime premise, "
+        "runtime, CFG or postcondition change"
+    ),
+}
 
 
 def r19_baseline_profile(profile: dict) -> dict:
@@ -152,10 +182,49 @@ def validate_r19_profile_extension(profile: object, r17_baseline_bytes: object) 
     validate_r17_profile_extension(baseline, r17_baseline_bytes)
 
 
+def r20_r19_baseline_profile(profile: dict) -> dict:
+    """Revert exactly R20's source/schema/tool/cumulative-patch extension."""
+    baseline = copy.deepcopy(profile)
+    del baseline["r20_metadata_registration"]
+    baseline["effective_tool_commit"] = R19_TOOL_COMMIT
+    baseline["exporter_source_sha256"] = R19_EXPORTER_SHA256
+    baseline["schema_sha256"] = R19_SCHEMA_SHA256
+    baseline["guard_return_trace_patch_sha256"] = R19_PATCH_SHA256
+    baseline["ordered_patch_chain"][-1]["sha256"] = R19_PATCH_SHA256
+    return baseline
+
+
+def validate_r20_profile_extension(profile: object, r17_baseline_bytes: object) -> None:
+    """Revert the exact metadata pins, hash to R19, then run unchanged R19 validation."""
+    if not isinstance(profile, dict) or profile.get("r20_metadata_registration") != R20_REGISTRATION:
+        raise ValueError("R20 metadata registration is malformed or not the exact candidate")
+    chain = profile.get("ordered_patch_chain")
+    if (profile.get("effective_tool_commit") != R20_TOOL_COMMIT or
+            profile.get("exporter_source_sha256") != R20_EXPORTER_SHA256 or
+            profile.get("schema_sha256") != R20_SCHEMA_SHA256 or
+            profile.get("guard_return_trace_patch_sha256") != R20_PATCH_SHA256 or
+            type(chain) is not list or len(chain) != 19 or type(chain[-1]) is not dict or
+            chain[-1].get("sha256") != R20_PATCH_SHA256):
+        raise ValueError("R20 tool, exporter, schema, or cumulative patch pin differs")
+    baseline = r20_r19_baseline_profile(profile)
+    if set(profile) != set(baseline) | {"r20_metadata_registration"}:
+        raise ValueError("R20 profile has missing or unexpected top-level fields")
+    changed = {key for key in baseline if profile[key] != baseline[key]}
+    if changed != R20_PROFILE_CHANGED_KEYS:
+        raise ValueError("R20 profile changes fields outside its exact metadata/tool/patch delta")
+    baseline_bytes = (json.dumps(baseline, indent=2) + "\n").encode()
+    if hashlib.sha256(baseline_bytes).hexdigest() != R19_SELECTED_PROFILE_SHA256:
+        raise ValueError("R20 profile changes fields outside the exact R19 baseline")
+    validate_r19_profile_extension(baseline, r17_baseline_bytes)
+
+
 def admit_r17_profile_extension_if_present(profile: object, baseline_bytes: object) -> bool:
     """Leave legacy profiles on their existing route; validate any R17/R19 claim."""
     if not isinstance(profile, dict):
         raise ValueError("profile must be a JSON object")
+    if "r20_metadata_registration" in profile:
+        validate_r20_profile_extension(profile, baseline_bytes)
+        return True
     if "r19_registration" in profile:
         validate_r19_profile_extension(profile, baseline_bytes)
         return True

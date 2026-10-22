@@ -20,6 +20,7 @@ spec.loader.exec_module(m)
 START = "2026-10-22T16:08:18Z"
 MAIN = "2026-10-22T18:08:18Z"
 END = "2026-10-22T18:38:18Z"
+R19_CANDIDATE_FIXTURE = "d631dd927ba84c1b035b06f0a0e5312f81deae07"
 
 
 def account():
@@ -229,7 +230,7 @@ class R19PhaseTests(unittest.TestCase):
             with self.assertRaises(SystemExit):
                 m.r19_validate_historical_closure(check, before, selected)
 
-    def test_committed_probe_matches_r18_profile_ledger_and_current_pins(self):
+    def test_committed_probe_and_r19_candidate_fixture_match_historical_pins(self):
         probe = m.R19_PROBE_SOURCE
         root = HERE.parents[2]
         profile = subprocess_show(root, probe, m.R19_PROFILE_PATH)
@@ -240,16 +241,20 @@ class R19PhaseTests(unittest.TestCase):
         self.assertFalse(m.R19_ADDED_PATHS & set(recipe["proof_paths"]))
         r18 = json.loads(subprocess_show(root, probe, m.R18_LEDGER_PATH))
         self.assertIsNone(r18.get("active_build"))
-        repo = root.parent
-        current = (repo / m.R19_PROFILE_PATH).read_bytes()
+        # Keep the R19-era pin assertions tied to the immutable R19 candidate
+        # snapshot. The working tree now carries the separately admitted R20
+        # metadata extension, which intentionally changes these current pins.
+        current = subprocess_show(root, R19_CANDIDATE_FIXTURE, m.R19_PROFILE_PATH)
         self.assertEqual(hashlib.sha256(current).hexdigest(), m.R19_PROFILE_SHA256)
-        patch_bytes = (repo / m.R17_PATCH_PATH).read_bytes()
+        patch_bytes = subprocess_show(root, R19_CANDIDATE_FIXTURE, m.R17_PATCH_PATH)
         self.assertEqual(hashlib.sha256(patch_bytes).hexdigest(), m.R19_PATCH_SHA256)
-        provider = (repo / m.R17_PROVIDER_OVERLAYS_PATH).read_bytes()
+        provider = subprocess_show(root, R19_CANDIDATE_FIXTURE, m.R17_PROVIDER_OVERLAYS_PATH)
         old_provider = subprocess_show(root, probe, m.R17_PROVIDER_OVERLAYS_PATH)
         self.assertEqual(provider, old_provider.replace(m.R19_PROVIDER_OLD_PROVE_SHA256.encode(),
                                                         m.R19_PROVIDER_NEW_PROVE_SHA256.encode(), 1))
-        prove = (repo / "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py").read_bytes()
+        prove = subprocess_show(
+            root, R19_CANDIDATE_FIXTURE,
+            "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py")
         self.assertEqual(hashlib.sha256(prove).hexdigest(), m.R19_PROVIDER_NEW_PROVE_SHA256)
         with self.assertRaises(SystemExit):
             m.r19_validate_sources("0" * 40, "a" * 40)

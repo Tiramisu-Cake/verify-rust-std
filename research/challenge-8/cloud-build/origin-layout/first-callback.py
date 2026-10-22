@@ -54,6 +54,25 @@ R19_PROFILE_REGISTRATION = {
                              'b2_three_from_local, also on its Continue unwind edge; no posts, '
                              'runtime, CFG or trusted premise change'),
 }
+R20_METADATA_TOOL_COMMIT = '191a5cd86745a84fbbc7b202661ad664b3cb272e'
+R20_METADATA_PROFILE_SHA256 = '042870351c957d6f3c06e3ff3f3de2e65e7287b5e0c5abfcf710933e265b0e04'
+R20_METADATA_EXPORTER_SHA256 = '2a0d66e6b3a76627643e93a8a8124859f33967e61375ba1a3f6e332d02b67673'
+R20_METADATA_SCHEMA_SHA256 = 'c4ba15bb820c6d394ad1b5257755e5bad571d9389ee7daec5bccabc53dddb7cc'
+R20_METADATA_PATCH_SHA256 = 'cd951347b78f44bce7dcf91bf6d3be86c5766de25dacf45893c0c5a23f30f14f'
+R20_METADATA_REGISTRATION = {
+    'schema': 'merge-r20-source-preserving-metadata-registration-v1',
+    'phase_id': 'MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23',
+    'baseline_profile_sha256': '1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb',
+    'starting_tool_commit': R19_CANDIDATE_TOOL_COMMIT,
+    'starting_source_sha': '6fd50c699500cbac5c65912174d4aa49b49db19f',
+    'owner': 'merge', 'lane': 'merge',
+    'candidate_tool_commit': R20_METADATA_TOOL_COMMIT,
+    'tool_source_paths': ['src/rust_frontend/vf_mir/vf_mir.capnp',
+                          'src/rust_frontend/vf_mir_exporter/src/lib.rs'],
+    'source_applicability': ('source-preserving MIR metadata only: exact pointer-coercion subtype and source, '
+                             'cast source/target types, body-scoped ReVar/ReErased identity; no translator '
+                             'acceptance, resource/borrow/lifetime premise, runtime, CFG or postcondition change'),
+}
 BODY_ISOLATION_NAME = 'actual_insert_tail_body_isolated'
 RAW_LOCAL_CALLER_NAME = 'actual_three_from_local_raw'
 SUPPORTED_PROFILES = (PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE)
@@ -112,7 +131,8 @@ def _r17_registration_matches(profile_path, selected_profile, validated_receipt)
                 type(registration) is dict and registration == R17_PROFILE_REGISTRATION and
                 (profile.get('effective_tool_commit') == R17_CANDIDATE_TOOL_COMMIT or
                  (profile.get('effective_tool_commit') == R19_CANDIDATE_TOOL_COMMIT and
-                  profile.get('r19_registration') == R19_PROFILE_REGISTRATION)))
+                  profile.get('r19_registration') == R19_PROFILE_REGISTRATION) or
+                 _r20_metadata_registration_matches(profile_path, selected_profile, profile)))
     except (OSError, json.JSONDecodeError, AttributeError, TypeError):
         return False
 
@@ -122,7 +142,30 @@ def _r19_registration_matches(profile_path, selected_profile):
         profile = json.loads(Path(profile_path).read_text())
         return (selected_profile == R11_PROFILE and profile.get('profile') == R11_PROFILE and
                 profile.get('r19_registration') == R19_PROFILE_REGISTRATION and
-                profile.get('effective_tool_commit') == R19_CANDIDATE_TOOL_COMMIT)
+                (profile.get('effective_tool_commit') == R19_CANDIDATE_TOOL_COMMIT or
+                 _r20_metadata_registration_matches(profile_path, selected_profile, profile)))
+    except (OSError, json.JSONDecodeError, AttributeError, TypeError):
+        return False
+
+
+def _r20_metadata_registration_matches(profile_path, selected_profile, profile=None):
+    try:
+        raw = Path(profile_path).read_bytes()
+        if _sha(raw) != R20_METADATA_PROFILE_SHA256:
+            return False
+        if profile is None:
+            profile = json.loads(raw)
+        chain = profile.get('ordered_patch_chain')
+        return (selected_profile == R11_PROFILE and profile.get('profile') == R11_PROFILE and
+                profile.get('r19_registration') == R19_PROFILE_REGISTRATION and
+                profile.get('r20_metadata_registration') == R20_METADATA_REGISTRATION and
+                profile.get('effective_tool_commit') == R20_METADATA_TOOL_COMMIT and
+                profile.get('exporter_source_sha256') == R20_METADATA_EXPORTER_SHA256 and
+                profile.get('schema_sha256') == R20_METADATA_SCHEMA_SHA256 and
+                profile.get('guard_return_trace_patch_sha256') == R20_METADATA_PATCH_SHA256 and
+                type(chain) is list and len(chain) == 19 and type(chain[-1]) is dict and
+                chain[-1].get('path') == 'research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch' and
+                chain[-1].get('sha256') == R20_METADATA_PATCH_SHA256)
     except (OSError, json.JSONDecodeError, AttributeError, TypeError):
         return False
 
@@ -751,6 +794,7 @@ lem r18_u64_array_inv(p: *u64, count: usize)
 
 @*/
 '''
+R20_ARRAY_SLICE_CONTENT_SHA256 = 'f333ab38af041cb3e67c2713a7ca5a86d73f16c7e41cebe69ace71481b0e3b17'
 
 
 def _raw_local_caller_suffixes(old):
@@ -779,7 +823,10 @@ def _raw_local_caller_suffixes(old):
                     'attached raw-wrapper contract')
     if not verified.startswith(b'\n') or verified.count(RAW_ARRAY_INV_LEMMA) != 0:
         raise ValueError('raw-wrapper suffix boundary changed')
-    return original, b'\n' + RAW_ARRAY_INV_LEMMA + verified
+    content_lemmas = (HERE / 'r20-array-slice-content.rs').read_bytes()
+    if _sha(content_lemmas) != R20_ARRAY_SLICE_CONTENT_SHA256:
+        raise ValueError('checked array3/slice content helper pin mismatch')
+    return original, b'\n' + RAW_ARRAY_INV_LEMMA + content_lemmas + verified
 
 
 def _raw_owner_lemma_body():
@@ -1346,6 +1393,7 @@ def _raw_local_caller_outcome(classification, reason, *, evidence, **kwargs):
         classification, reason, evidence=evidence, result_subdir='raw_local_caller', **kwargs)
     result['schema'] = 'r16-raw-local-caller-result-v1'
     result['candidate'] = 'checked raw local-array caller adapter'
+    result['verifier_target_observed'] = classification == 'RAW_LOCAL_CALLER_BOTH_TARGETS_EXIT0'
     result['accepted'] = False
     result['proof_credit'] = False
     result['full_target'] = False

@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 from types import SimpleNamespace
 
 HERE = Path(__file__).resolve().parent
@@ -154,11 +155,21 @@ class BodyIsolationTests(unittest.TestCase):
         self.assertIn(before + b'    insert_tail(begin, begin.add(2), is_less);\n' + after, verified)
         # The checked explicit-input lemma precedes the wrapper exactly once; the
         # unchecked all-unknown array_inv call is no longer used in the caller.
-        self.assertTrue(verified.startswith(b'\n' + campaign.RAW_ARRAY_INV_LEMMA + b'\npub unsafe fn'))
+        content_lemmas = (HERE / 'r20-array-slice-content.rs').read_bytes()
+        self.assertTrue(verified.startswith(b'\n' + campaign.RAW_ARRAY_INV_LEMMA + content_lemmas + b'\npub unsafe fn'))
         self.assertEqual(verified.count(b'lem r18_u64_array_inv('), 1)
         self.assertEqual(verified.count(b'array_inv::<u64>();'), 1)
         self.assertNotIn(b'r18_u64_array_inv', original)
         self.assertTrue(campaign._body_runtime_equal(original, verified))
+
+    def test_raw_suffix_rejects_changed_checked_content_helper_before_dispatch(self):
+        read_bytes = Path.read_bytes
+        helper_path = HERE / 'r20-array-slice-content.rs'
+        def changed(path):
+            data = read_bytes(path)
+            return data + b'\n' if path == helper_path else data
+        with patch.object(Path, 'read_bytes', changed), self.assertRaisesRegex(ValueError, 'helper pin mismatch'):
+            campaign._raw_local_caller_suffixes(self.body_source)
 
     def test_exact_suffix_removed_and_body_posts_preserved(self):
         case, record = self.isolate()
@@ -551,6 +562,7 @@ class BodyIsolationTests(unittest.TestCase):
             case, self.parent_case, self.parent_record, record, execution,
             self.body_source, self.parent_preparation_sha, record['parent_stage_receipt_gate'])
         self.assertEqual(result['classification'], 'RAW_LOCAL_CALLER_BOTH_TARGETS_EXIT0')
+        self.assertIs(result['verifier_target_observed'], True)
         for key in ('accepted', 'proof_credit', 'full_target', 'b2_achieved',
                     'caller_or_prefix_gate', 'independent_credit', 'qualification'):
             self.assertIs(result[key], False)
@@ -562,6 +574,7 @@ class BodyIsolationTests(unittest.TestCase):
             case, self.parent_case, self.parent_record, record, self.successful_execution(),
             self.body_source, self.parent_preparation_sha, record['parent_stage_receipt_gate'])
         self.assertEqual(result['classification'], 'INCONCLUSIVE')
+        self.assertIs(result['verifier_target_observed'], False)
         (case / 'verifast.log').write_text(
             "Verifying function 'small_sort::insert_tail'\n"
             "Verifying function 'small_sort::b2_three_from_local'\n"

@@ -41,7 +41,7 @@ FILES = {
 }
 
 R11_FILES = {
-    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "8b708283a27f7bacbeb827e579203116ec942c4c06de438fde0a584d447e0749",
+    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "90988c77177cb17dac440249adde02a1367557d67b1a7ceb99acb3198b563bfd",
     "research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py": "0bea1e5390aa6297975552a9f29d600c8e7f9f6ab30caf26b07d27979cddf100",
     "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py": "2cedb29c2c0194e8e7f4eb254c9a5e27c8eb8b5faa864bc4bd60f3a37065b2c3",
 }

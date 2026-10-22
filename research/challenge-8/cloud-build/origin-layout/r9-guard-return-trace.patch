@@ -63,6 +63,189 @@ index eade1c64..b20610d4 100644
 -      check_basic_block_refines_basic_block env0 (basic_block_info_of root_genv0 (Array.of_list body0.basic_blocks) [] 0) env1 (basic_block_info_of root_genv1 (Array.of_list body1.basic_blocks) [] 0)
 +      check_basic_block_refines_basic_block env0 (basic_block_info_of root_genv0 locals0 (Array.of_list body0.basic_blocks) [] 0) env1 (basic_block_info_of root_genv1 locals1 (Array.of_list body1.basic_blocks) [] 0)
      with LocalAddressTaken (x0, x1) ->
+diff --git a/src/rust_frontend/vf_mir/vf_mir.capnp b/src/rust_frontend/vf_mir/vf_mir.capnp
+index 86c298fc..51d6f69a 100644
+--- a/src/rust_frontend/vf_mir/vf_mir.capnp
++++ b/src/rust_frontend/vf_mir/vf_mir.capnp
+@@ -197,2 +197,15 @@ struct Region {
+     id @0: Text;
++    identity @1: Option(Identity);
++
++    struct Identity {
++        union {
++            inferenceVariable @0: InferenceVariable;
++            erased @1: Void;
++        }
++    }
++
++    struct InferenceVariable {
++        scopeId @0: Text; # Empty means the body scope was unavailable; not usable as identity.
++        variableId @1: UInt32;
++    }
+ }
+@@ -614,2 +627,25 @@ struct CastKind {
+ 
++struct PointerCoercionData {
++    kind @0: Kind;
++    coercionSource @1: CoercionSource;
++
++    struct Kind {
++        union {
++            reifyFnPointer @0: Unsafety;
++            unsafeFnPointer @1: Void;
++            closureFnPointer @2: Unsafety;
++            mutToConstPointer @3: Void;
++            arrayToPointer @4: Void;
++            unsize @5: Void;
++        }
++    }
++
++    struct CoercionSource {
++        union {
++            asCast @0: Void;
++            implicit @1: Void;
++        }
++    }
++}
++
+ struct RuntimeChecks {
+@@ -692,2 +728,4 @@ struct Rvalue {
+         ty @1: Ty;
++        sourceTy @3: Ty;
++        pointerCoercionData @4: Option(PointerCoercionData);
+     }
+@@ -918,2 +956,3 @@ struct Body {
+     capturedMirPhase @29: Text;
++    regionScopeId @30: Text; # Scope for Region.inferenceVariable IDs in this body only.
+     visibility @22: Visibility;
+diff --git a/src/rust_frontend/vf_mir_exporter/src/lib.rs b/src/rust_frontend/vf_mir_exporter/src/lib.rs
+index 684d3f76..08a4f4f8 100644
+--- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
++++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
+@@ -637,2 +637,3 @@ use rustc_span::RemapPathScopeComponents;
+         generated_raw_callee: Option<rustc_hir::def_id::DefId>,
++        region_scope_id: Option<String>,
+     }
+@@ -653,2 +654,3 @@ use rustc_span::RemapPathScopeComponents;
+                 generated_raw_callee: None,
++                region_scope_id: None,
+             }
+@@ -1020,2 +1022,8 @@ use rustc_span::RemapPathScopeComponents;
+             output.set_captured_mir_phase(&format!("{:?}", body.phase));
++            ctx.region_scope_id = Some(format!(
++                "{:?}:{}",
++                tcx.def_path_hash(g.instance.def_id()),
++                Self::captured_mir_hash(body),
++            ));
++            output.set_region_scope_id(ctx.region_scope_id.as_deref().unwrap());
+             for field in [0, 1, 2] {
+@@ -1611,4 +1619,4 @@ use rustc_span::RemapPathScopeComponents;
+                     let mut outlives_cpn = clause_cpn.init_outlives();
+-                    Self::encode_region(enc_ctx.tcx, outlives_clause.0, outlives_cpn.reborrow().init_region1());
+-                    Self::encode_region(enc_ctx.tcx, outlives_clause.1, outlives_cpn.reborrow().init_region2());
++                    Self::encode_region(enc_ctx.tcx, enc_ctx, outlives_clause.0, outlives_cpn.reborrow().init_region1());
++                    Self::encode_region(enc_ctx.tcx, enc_ctx, outlives_clause.1, outlives_cpn.reborrow().init_region2());
+                 }
+@@ -1741,3 +1749,10 @@ use rustc_span::RemapPathScopeComponents;
+             body_cpn.set_def_path(&def_path);
+-            body_cpn.set_def_path_hash(&format!("{:?}", tcx.def_path_hash(def_id)));
++            let def_path_hash = format!("{:?}", tcx.def_path_hash(def_id));
++            body_cpn.set_def_path_hash(&def_path_hash);
++            enc_ctx.region_scope_id = Some(format!(
++                "{}:{}",
++                def_path_hash,
++                Self::captured_mir_hash(body),
++            ));
++            body_cpn.set_region_scope_id(enc_ctx.region_scope_id.as_deref().unwrap());
+ 
+@@ -1965,2 +1980,27 @@ use rustc_span::RemapPathScopeComponents;
+ 
++        fn encode_pointer_coercion(
++            coercion: ty::adjustment::PointerCoercion,
++            source: mir::CoercionSource,
++            mut output: pointer_coercion_data_cpn::Builder<'_>,
++        ) {
++            let mut kind = output.reborrow().init_kind();
++            match coercion {
++                ty::adjustment::PointerCoercion::ReifyFnPointer(safety) => {
++                    Self::encode_unsafety(safety, kind.init_reify_fn_pointer());
++                }
++                ty::adjustment::PointerCoercion::UnsafeFnPointer => kind.set_unsafe_fn_pointer(()),
++                ty::adjustment::PointerCoercion::ClosureFnPointer(safety) => {
++                    Self::encode_unsafety(safety, kind.init_closure_fn_pointer());
++                }
++                ty::adjustment::PointerCoercion::MutToConstPointer => kind.set_mut_to_const_pointer(()),
++                ty::adjustment::PointerCoercion::ArrayToPointer => kind.set_array_to_pointer(()),
++                ty::adjustment::PointerCoercion::Unsize => kind.set_unsize(()),
++            }
++            let mut coercion_source = output.init_coercion_source();
++            match source {
++                mir::CoercionSource::AsCast => coercion_source.set_as_cast(()),
++                mir::CoercionSource::Implicit => coercion_source.set_implicit(()),
++            }
++        }
++
+         fn encode_hir_generics(
+@@ -2426,3 +2466,3 @@ use rustc_span::RemapPathScopeComponents;
+             let region_cpn = ref_ty_cpn.reborrow().init_region();
+-            Self::encode_region(tcx, region, region_cpn);
++            Self::encode_region(tcx, enc_ctx, region, region_cpn);
+             let ty_cpn = ref_ty_cpn.reborrow().init_ty();
+@@ -2457,3 +2497,8 @@ use rustc_span::RemapPathScopeComponents;
+ 
+-        fn encode_region(tcx: TyCtxt<'tcx>, region: ty::Region<'tcx>, mut region_cpn: region_cpn::Builder<'_>) {
++        fn encode_region(
++            tcx: TyCtxt<'tcx>,
++            enc_ctx: &EncCtx<'tcx, 'a>,
++            region: ty::Region<'tcx>,
++            mut region_cpn: region_cpn::Builder<'_>,
++        ) {
+             debug!("Encoding region {:?}", region);
+@@ -2488,6 +2533,16 @@ use rustc_span::RemapPathScopeComponents;
+                 ty::RegionKind::ReStatic => region_cpn.set_id("'static"),
+-                ty::RegionKind::ReVar(_) | ty::RegionKind::ReErased => {
+-                    // Todo @Nima: We should find a mapping of `RegionVid`s and lifetime variable names at `hir`
++                ty::RegionKind::ReVar(variable_id) => {
++                    let identity_option = region_cpn.reborrow().init_identity();
++                    let mut identity = identity_option.init_something();
++                    let mut inference_variable = identity.init_inference_variable();
++                    inference_variable.set_scope_id(enc_ctx.region_scope_id.as_deref().unwrap_or(""));
++                    inference_variable.set_variable_id(variable_id.as_u32());
++                    // Keep the legacy projection for compatibility. The new typed
++                    // identity is authoritative only within its nonempty body scope.
+                     region_cpn.set_id(/*&format!("{:?}", region)*/ "'<erased>");
+                 }
++                ty::RegionKind::ReErased => {
++                    region_cpn.init_identity().init_something().set_erased(());
++                    region_cpn.set_id("'<erased>");
++                }
+                 ty::RegionKind::RePlaceholder(_placeholder_region) => bug!(),
+@@ -2509,3 +2564,3 @@ use rustc_span::RemapPathScopeComponents;
+                     let region_cpn = kind_cpn.init_lifetime();
+-                    Self::encode_region(tcx, region, region_cpn);
++                    Self::encode_region(tcx, enc_ctx, region, region_cpn);
+                 }
+@@ -2693,3 +2748,3 @@ use rustc_span::RemapPathScopeComponents;
+                     let region_cpn = ref_data_cpn.reborrow().init_region();
+-                    Self::encode_region(enc_ctx.tcx, *region, region_cpn);
++                    Self::encode_region(enc_ctx.tcx, enc_ctx, *region, region_cpn);
+                     let bor_kind_cpn = ref_data_cpn.reborrow().init_bor_kind();
+@@ -2723,3 +2778,8 @@ use rustc_span::RemapPathScopeComponents;
+                         mir::CastKind::PointerWithExposedProvenance => cast_kind_cpn.set_pointer_with_exposed_provenance(()),
+-                        mir::CastKind::PointerCoercion { .. } => cast_kind_cpn.set_pointer_coercion(()),
++                        mir::CastKind::PointerCoercion(coercion, source) => {
++                            cast_kind_cpn.set_pointer_coercion(());
++                            let pointer_coercion_option = cast_data_cpn.reborrow().init_pointer_coercion_data();
++                            let pointer_coercion_cpn = pointer_coercion_option.init_something();
++                            Self::encode_pointer_coercion(*coercion, *source, pointer_coercion_cpn);
++                        }
+                         mir::CastKind::IntToInt => cast_kind_cpn.set_int_to_int(()),
+@@ -2737,2 +2797,5 @@ use rustc_span::RemapPathScopeComponents;
+                     Self::encode_operand(tcx, enc_ctx, operand, operand_cpn);
++                    let source_ty = operand.ty(&enc_ctx.body().local_decls, tcx);
++                    let source_ty_cpn = cast_data_cpn.reborrow().init_source_ty();
++                    Self::encode_ty(tcx, enc_ctx, source_ty, source_ty_cpn);
+                     let ty_cpn = cast_data_cpn.init_ty();
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 index 9813a884..84fceba5 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml

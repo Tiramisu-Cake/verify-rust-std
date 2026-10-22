@@ -1,0 +1,33 @@
+{
+  "baseline_commit": "39f6b0cacd00575c8ca2d39e9f15632723bf1227",
+  "candidate_commit": "191a5cd86745a84fbbc7b202661ad664b3cb272e",
+  "decision": "GO",
+  "findings": [],
+  "independent_credit": false,
+  "limitations": [
+    "Exporter/rustc and generated Capnp/decoder APIs Cloud-UNVERIFIED.",
+    "Additional source-type traversal can expose unsupported types as fail-closed exporter errors.",
+    "ReVar identity scoped to body hash; absent scope unbound; ReErased not recovered.",
+    "No original-caller proof or independent credit."
+  ],
+  "model": "gpt-6-luna",
+  "packet_sha256": "585aed097afc64a87ebae3f06eb55822e3fe53e152b8d6c9424c90ea1b78e8a0",
+  "proof_credit": false,
+  "publication": {
+    "remote_branch": "merge/actual-glue-instance-20261011",
+    "verified_full_sha": "191a5cd86745a84fbbc7b202661ad664b3cb272e"
+  },
+  "reasoning_effort": "high",
+  "reviewer": "codex-subagent:r20_review",
+  "schema": "merge-r20-metadata-tool-review-v1",
+  "scope": "Additive exporter/schema metadata only. Existing translator/refiner ignore new fields; no semantic acceptance, lifetime, provenance or memory authority.",
+  "source_api_review": {
+    "RegionVid_as_u32": "API assumption pending Cloud compile",
+    "manifest_commit_source_reported": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+    "operand_ty_static_existing_uses": [
+      849,
+      994
+    ]
+  },
+  "spec_sha256": "a9b02584f60375b6fa9e9bf826bbfccd42c3f58ab7ef6e844f903b836e32ff40"
+}
