@@ -163,7 +163,7 @@ index 86c298fc..51d6f69a 100644
 +    regionScopeId @30: Text; # Scope for Region.inferenceVariable IDs in this body only.
      visibility @22: Visibility;
 diff --git a/src/rust_frontend/vf_mir_exporter/src/lib.rs b/src/rust_frontend/vf_mir_exporter/src/lib.rs
-index 684d3f76..08a4f4f8 100644
+index 684d3f76..1b8db820 100644
 --- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
 +++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
 @@ -637,2 +637,3 @@ use rustc_span::RemapPathScopeComponents;
@@ -251,7 +251,7 @@ index 684d3f76..08a4f4f8 100644
 -                    // Todo @Nima: We should find a mapping of `RegionVid`s and lifetime variable names at `hir`
 +                ty::RegionKind::ReVar(variable_id) => {
 +                    let identity_option = region_cpn.reborrow().init_identity();
-+                    let mut identity = identity_option.init_something();
++                    let identity = identity_option.init_something();
 +                    let mut inference_variable = identity.init_inference_variable();
 +                    inference_variable.set_scope_id(enc_ctx.region_scope_id.as_deref().unwrap_or(""));
 +                    inference_variable.set_variable_id(variable_id.as_u32());

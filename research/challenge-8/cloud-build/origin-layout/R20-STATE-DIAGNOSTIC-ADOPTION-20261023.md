@@ -1,7 +1,7 @@
 # R20 exact state-diagnostic adoption
 
-Tool revision 6eb7e5bb1df4aa7e831218ff7153ed5cbd912a1c supersedes the
-37b83428 candidate for the next exact R20 source tuple. It retains the
+Tool revision 1fec4ffa55703fc571c6eb82d96072596325d647 supersedes the
+6eb7e5bb candidate for the next exact R20 source tuple. It retains the
 source-preserving MIR metadata and diagnostic-only context for the existing
 unequal LocalAddressTaken refusal. That context carries the function identity,
 paired original/verified block and command positions, complete command
@@ -16,11 +16,13 @@ unproven and other index cases remain unsupported/inconclusive. This does not
 add pointer, resource, lifetime, provenance, or memory-model rules.
 
 The exact R20 registration names the refinement-checker source together with
-the MIR schema and exporter. The profile pins the refinement-checker source
+the MIR schema and exporter. The final tool revision also removes an unused
+mutable binding in the exporter; this is a compile-warning correction with no
+serialized or semantic change. The profile pins the refinement-checker source
 hash. Reverting the R20 registration and tool, core, exporter, schema, and
 cumulative-patch pins must reproduce the immutable R19 profile bytes and then
 pass the unchanged R19/R17 validators. The final ordered patch slot stays in
-place and contains the exact git diff -U1 f2e92cec..6eb7e5bb artifact. The
+place and contains the exact git diff -U1 f2e92cec..1fec4ffa artifact. The
 provider changes only its exact onecell prove.py hash. The client keeps the
 prior R19 tuple and accepts this exact registered tuple only.
 
