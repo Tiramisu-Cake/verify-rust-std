@@ -40,11 +40,10 @@ OTHER_FUNCTION = (b"\npub unsafe fn r19_other_function()\n"
 OTHER_MARKER = b"\n{\n    /*@ { r19_insert_tail_unwind_cleanup();\n"
 DIAGNOSTICS = {
     "missing_marker": "No matching heap chunks: array_<u64>(values_addr, 3, _)",
-    "displaced_marker": "R19 unwind cleanup marker did not follow the insert_tail call",
-    "other_function": "R19 unwind cleanup marker is allowed only in b2_three_from_local",
-    "cleanup_edge": "R19 unwind cleanup requires the single insert_tail call with a Continue unwind edge",
-    "missing_owner_drop": ("R19 unwind cleanup requires exactly assert array::<u64>(begin, _, ?c), "
-                           "r9_drop_u64_owners(t, c) and array_to_array_(begin)"),
+    "displaced_marker": "R19 cleanup marker did not follow insert_tail",
+    "other_function": "R19 cleanup marker outside b2_three_from_local",
+    "cleanup_edge": "R19 cleanup needs a Continue insert_tail call",
+    "missing_owner_drop": "R19 cleanup block shape mismatch",
 }
 CASES = tuple(DIAGNOSTICS)
 

@@ -40,7 +40,7 @@ R17_PROFILE_REGISTRATION = {
                              'existing equal-state allocation reconciliation; no borrow or memory authority'),
 }
 R19_PHASE_ID = 'MERGE-UNWIND-CLEANUP-R19-2026-10-22'
-R19_CANDIDATE_TOOL_COMMIT = 'd2c8d6d085c4d5887a3b4eafa0eb1ed77e3c1728'
+R19_CANDIDATE_TOOL_COMMIT = '39f6b0cacd00575c8ca2d39e9f15632723bf1227'
 R19_PROFILE_REGISTRATION = {
     'schema': 'merge-r19-profile-registration-v1',
     'phase_id': R19_PHASE_ID,
