@@ -11,7 +11,7 @@ import unittest
 HERE = Path(__file__).resolve().parent
 ORIGIN = HERE.parents[3] / "cloud-build/origin-layout"
 BASELINE_BYTES = (ORIGIN / "R17-BASELINE-PROFILE-20261021.json").read_bytes()
-PROFILE = json.loads((ORIGIN / "R19-BASELINE-PROFILE-20261022.json").read_text())
+PROFILE = None
 
 
 def load_prove():
@@ -25,6 +25,7 @@ def load_prove():
 
 
 prove = load_prove()
+PROFILE = prove.r19_baseline_profile(json.loads((ORIGIN / "GLUE-PROFILE.json").read_text()))
 
 
 class R17ProfileAdmissionTests(unittest.TestCase):

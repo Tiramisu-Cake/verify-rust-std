@@ -11,7 +11,6 @@ import unittest
 HERE = Path(__file__).resolve().parent
 ORIGIN = HERE.parents[3] / "cloud-build/origin-layout"
 R17_BASELINE_BYTES = (ORIGIN / "R17-BASELINE-PROFILE-20261021.json").read_bytes()
-R19_BASELINE_BYTES = (ORIGIN / "R19-BASELINE-PROFILE-20261022.json").read_bytes()
 PROFILE = json.loads((ORIGIN / "GLUE-PROFILE.json").read_text())
 
 
@@ -32,28 +31,33 @@ class R19ProfileAdmissionTests(unittest.TestCase):
     def setUp(self):
         self.profile = copy.deepcopy(PROFILE)
 
-    def admit(self, profile=None, r17=R17_BASELINE_BYTES, r19=R19_BASELINE_BYTES):
+    def admit(self, profile=None, r17=R17_BASELINE_BYTES):
         return prove.admit_r17_profile_extension_if_present(
-            self.profile if profile is None else profile, r17, r19)
+            self.profile if profile is None else profile, r17)
 
     def test_selected_profile_is_the_exact_r19_extension(self):
         self.assertTrue(self.admit())
 
-    def test_r19_baseline_alone_keeps_the_r17_route(self):
-        baseline = json.loads(R19_BASELINE_BYTES)
+    def test_reverted_baseline_is_the_committed_r18_profile(self):
+        baseline = prove.r19_baseline_profile(self.profile)
+        data = (json.dumps(baseline, indent=2) + "\n").encode()
+        self.assertEqual(prove.hashlib.sha256(data).hexdigest(), prove.R19_BASELINE_SHA256)
         self.assertTrue(prove.admit_r17_profile_extension_if_present(baseline, R17_BASELINE_BYTES))
-
-    def test_missing_r19_baseline_is_rejected(self):
-        with self.assertRaises(ValueError):
-            self.admit(r19=None)
+        self.assertNotIn("r19_registration", baseline)
+        self.assertIn("r19_registration", self.profile)
 
     def test_missing_r17_baseline_is_rejected(self):
         with self.assertRaises(ValueError):
             self.admit(r17=None)
 
-    def test_r19_baseline_hash_mismatch_is_rejected(self):
+    def test_r17_baseline_hash_mismatch_is_rejected(self):
         with self.assertRaises(ValueError):
-            self.admit(r19=R19_BASELINE_BYTES + b" ")
+            self.admit(r17=R17_BASELINE_BYTES + b" ")
+
+    def test_missing_registration_falls_back_to_r17_and_is_rejected(self):
+        self.profile.pop("r19_registration")
+        with self.assertRaises(ValueError):
+            self.admit()
 
     def test_unknown_candidate_is_rejected(self):
         self.profile["r19_registration"]["candidate_tool_commit"] = "1" * 40

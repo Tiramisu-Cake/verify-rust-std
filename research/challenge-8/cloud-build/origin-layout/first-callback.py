@@ -44,7 +44,7 @@ R19_CANDIDATE_TOOL_COMMIT = 'd2c8d6d085c4d5887a3b4eafa0eb1ed77e3c1728'
 R19_PROFILE_REGISTRATION = {
     'schema': 'merge-r19-profile-registration-v1',
     'phase_id': R19_PHASE_ID,
-    'baseline_profile_path': 'research/challenge-8/cloud-build/origin-layout/R19-BASELINE-PROFILE-20261022.json',
+    'baseline_profile_sha256': '947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d',
     'starting_tool_commit': R17_CANDIDATE_TOOL_COMMIT,
     'starting_source_sha': '6fd50c699500cbac5c65912174d4aa49b49db19f',
     'owner': 'merge', 'lane': 'merge',
