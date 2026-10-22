@@ -1,0 +1,16 @@
+{
+  "reviewer": "claude-subagent:smallsort-reviewer (continued via SendMessage)",
+  "model": "claude-opus-5-5 (agent definition: Opus 5.5, effort high)",
+  "scope": "delta c1c76fe0..390921db (R4 control matrix)",
+  "candidate_commit": "390921db7eb8ee4456616c67a6143c48869b8129",
+  "decision": "NO_GO",
+  "findings": [
+    "1 positive/caller-zst PASS would not prove satisfiability (inconsistent caller state, esp. ZST two chunks at one address) — fixed in 347a69a9: four reachability controls (assert false before/after the call, generic and ZST)",
+    "2 equal-pos is not ghost-only (synthetic caller argument) — wording fixed",
+    "3 unwind-no-recover expectation too narrow — widened",
+    "4 own-drop failure site depends on verification order — runs without caller",
+    "5 stale files in reused OUT_DIR — CLI refuses an existing directory; subprocess test"
+  ],
+  "sound_per_reviewer": ["each negative one mutation, std body exact", "synthetic callers add no premise or trusted step", "caller unwind post honest", "anchor uniqueness enforced"],
+  "proof_credit": false
+}
