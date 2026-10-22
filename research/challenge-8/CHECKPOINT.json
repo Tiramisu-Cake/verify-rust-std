@@ -1,25 +1,21 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/task-history/select-s5-r18/S5-evidence.json",
-      "sha256": "724da794e6172fe2000fbeb81406fd83fe68df29ffdc00cde35933ac0c414cda"
-    },
-    {
-      "path": "research/challenge-8/task-history/select-c3-r19/C3-IMPLEMENTATION.md",
-      "sha256": "52d510ded9d4c5d03c9cded0eee690d6b05340b4b3899e71ff8dd8bbb29a9dec"
-    },
-    {
       "path": "research/challenge-8/task-history/select-c3-r19/SELECT-NEXT-DESIGN.md",
       "sha256": "53e10daddc177ce73f4b6e4daba33fc23026270d31764dcb62d08605bb9c2057"
     },
     {
       "path": "research/challenge-8/task-history/select-c3-r19/C5-review.json",
       "sha256": "fbd3501fbc505f539fdd3b0b741bce56c510ec9ce3a0c1ccdb098e7109fb5f08"
+    },
+    {
+      "path": "research/challenge-8/SORT4-SELECT-FORGET-RESULTS.md",
+      "sha256": "05a71ad7915ff97c2bd4207e267475f1296c13cf644f62106239b073c72048d8"
     }
   ],
-  "assignment_sha256": "a136a43709832cd06bd249b46baf8fdfc275f74271e9566a18686e4182222e1a",
+  "assignment_sha256": "ffb6e526c208f5dbfb85f0251b63fc6d307499f4b61aa63c7e7b1b02bae64135",
   "baseline": {
-    "profile_sha256": "87a0bfe586b40a33bdf840164aec8748872c8fdd11b3faad421d3860d1f2a091",
+    "profile_sha256": "d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622",
     "source_sha": "81226dafedd2e8d1dfb140ab0e4dd88556bfd7db",
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
@@ -38,62 +34,12 @@
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "R17 closed: S1-S4 terminal/accounted (S4 FAILURE: c2 unselected full_borrow leak), carry0, credit0.",
-      "evidence": [
-        {
-          "build_id": "27e8bfac-eb5f-4cf4-ae89-18bacd16eb90",
-          "path": "research/challenge-8/task-history/select-actual-c2-r17/S4-evidence.json",
-          "sha256": "c6cfa91918fd3f75732510638ac2aa41c8a7c38c84f195a86cd907f9bc4765c9"
-        },
-        {
-          "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C2-2026-10-21-R17.json",
-          "sha256": "5c857f5ef31b2fa45910bb3f11ad505dd0506a78fdcd6412bec8c9aa7d74bb46"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R18 S5 (a6550c20; pins 1e92d32b) FAILURE 576s: actual body passes c2 without leak error; first failure c3 lib.rs:299 missing ref_precreated_token(v_base+2+1). c2 resource controls fail as designed (message/location). Causality UNKNOWN; credit0.",
-      "evidence": [
-        {
-          "build_id": "0ee7f658-50fe-4928-a7c9-3da5e56c95f2",
-          "path": "research/challenge-8/task-history/select-s5-r18/S5-evidence.json",
-          "sha256": "724da794e6172fe2000fbeb81406fd83fe68df29ffdc00cde35933ac0c414cda"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R18 CLOSED early: one Build terminal/accounted 576s, 3024s retired, carry0; own active/request/reservation0. credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C2-2026-10-22-R18.json",
-          "sha256": "69a9ca981bba6e6dcdceaf7c17a24a161aa07e376635a2c29ef8d74567368075"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R19 c3 candidate de2a2c69+f1fbef3c: N in {2,3} overlay, c3 layer (all four shares; refs for c/a), 8 c3 + count-off controls, profile 36bed85d by SHA allowlist. Review GO_WITH_NITS (+delta). Unverified; credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/task-history/select-c3-r19/C3-review.json",
-          "sha256": "37ae0f830af3fc6c672c804826d68a0342eee5cab1fc22fadfb40c87d0f1f14f"
-        },
-        {
-          "path": "research/challenge-8/task-history/select-c3-r19/C3-IMPLEMENTATION.md",
-          "sha256": "52d510ded9d4c5d03c9cded0eee690d6b05340b4b3899e71ff8dd8bbb29a9dec"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
       "claim": "R19 S1 (pins 67d472cd) FAILURE 652s: overlay compiled; actual body passes c3 (first path) and fails only at c4 lib.rs:335 (token d=v_base+2+0). 4 c3 resource controls designed; credit0.",
       "evidence": [
         {
+          "build_id": "2b55f6a5-076a-4fd6-92e9-c42aae9ba500",
           "path": "research/challenge-8/task-history/select-c3-r19/S1-evidence.json",
-          "sha256": "e95e4c0d1cc9ea49414cb71048d3bc8122a0afd634749c2a08a94be8980ca8f2",
-          "build_id": "2b55f6a5-076a-4fd6-92e9-c42aae9ba500"
+          "sha256": "e95e4c0d1cc9ea49414cb71048d3bc8122a0afd634749c2a08a94be8980ca8f2"
         }
       ]
     },
@@ -102,9 +48,9 @@
       "claim": "R19 S2 (pins 3af7d37d) FAILURE 612s: actual body passes c4 (first path); sole error at first selector lib.rs:371: no function std::hint::select_unpredictable. 4 c4 resource controls designed; credit0.",
       "evidence": [
         {
+          "build_id": "8916761a-a0a7-428a-b853-187e45ef4dfa",
           "path": "research/challenge-8/task-history/select-c3-r19/S2-evidence.json",
-          "sha256": "f2f0561d8e77f3fc5890dfc848cc0e08907cd743dda6211f5fd6298e0912286f",
-          "build_id": "8916761a-a0a7-428a-b853-187e45ef4dfa"
+          "sha256": "f2f0561d8e77f3fc5890dfc848cc0e08907cd743dda6211f5fd6298e0912286f"
         }
       ]
     },
@@ -119,33 +65,43 @@
       ]
     }
   ],
-  "next_step": "Owner/next task: checked actual select_unpredictable callee route (SELECT-NEXT-DESIGN.md); then c5 candidate 34e37669 with a transport-cap plan.",
+  "next_step": "Перепроверить forget guard-own на текущей цепочке, спроектировать путь callee без исключения из gate; параллельно — план transport.",
   "open": [
-    "Checked actual select_unpredictable::<*const T> callee + route into actual body (SELECT-NEXT-DESIGN.md); transport cap plan.",
-    "c5 (candidate 6f76ab3b reviewed, unsubmitted), copies, full normal/unwind on all paths; count-independent c3/c4 control re-qualification; mini7/fresh26, Freeze caller; credit0."
+    "Checked actual select_unpredictable callee (generic по T; минимум *const T) и маршрут в actual тело; план transport (c5 требует 192 чанка из 191).",
+    "c5 (кандидат 34e37669 прошёл review, не отправлялся), копирования, полные normal/unwind на всех путях c1..c4; перепроверка controls c3/c4 независимо от count; mini7/fresh26, Freeze caller; credit0."
   ],
   "owner": "select-sort4",
-  "phase": "SORT4-ACTUAL-C3-2026-10-22-R19",
+  "phase": "SORT4-ACTUAL-SELECT-2026-10-22-R20",
   "rejected": [
     {
       "approach": "Assumed/address-only resource bridge or helper PASS as full-body proof",
       "evidence": [],
       "reason": "Does not establish actual ordered callback resources or full normal/unwind posts."
+    },
+    {
+      "approach": "Закрывать сессию досрочно, когда нет допустимого Build",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json",
+          "sha256": "43938f12bb12264b19b9b414d91130753de5d441bde857217da2cffea43efd13"
+        }
+      ],
+      "reason": "R18 и R19 закрыты досрочно, хотя в миссии оставалась работа без Cloud (callee proof, transport); это противоречит CORE и особой границе задания."
     }
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
     "active_build_ids": [],
     "budget_seconds": 3600,
-    "deadline_utc": "2026-10-22T16:20:26Z",
-    "main_deadline_utc": "2026-10-22T15:50:26Z",
-    "remaining_seconds": 0,
-    "retired_seconds": 2336,
-    "spent_seconds": 1264,
-    "t0": "2026-10-22T13:50:26Z",
+    "deadline_utc": null,
+    "main_deadline_utc": null,
+    "remaining_seconds": 3600,
+    "retired_seconds": 0,
+    "spent_seconds": 0,
+    "t0": null,
     "unresolved_ids": []
   },
-  "state": "CLOSED",
-  "task_id": "select-c3-callback-autonomous-2026-10-22-r19",
-  "updated_utc": "2026-10-22T15:19:34Z"
+  "state": "NOT_STARTED",
+  "task_id": "select-actual-callee-autonomous-2026-10-22-r20",
+  "updated_utc": "2026-10-22T15:35:29Z"
 }
