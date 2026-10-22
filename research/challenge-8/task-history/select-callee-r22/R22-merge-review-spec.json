@@ -1,0 +1,26 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "665d773063bef6c076691a0bdeea6c74e963b315",
+  "candidate_commit": "363d7752a54ca2dbc6b164f2511d18397825fb72",
+  "defect": "Build cfc83426: positive and three controls stop at verified/lib.rs(212,14-29) because merge_fractions does not accept the deref points-to `*saved_guard.inner |-> _`.",
+  "applicability": "One ghost statement (RETURNED_GUARD_HALF) of the owner-approved fractional transform, present in all eight rows; R22 callee lane fingerprint-only Build.",
+  "invariants": [
+    "Replacement `merge_fractions points_to::<*Element>(saved_guard.inner, _);` names the same precise chunk that Rust `*p |-> v` produces; no new ownership, predicate, lemma or axiom; all other source/ghost/contract text unchanged.",
+    "Transform/helper SHA cascade exact; runner final stage is the R21 c9feaf4f mode-9 fingerprint stage with the fractional helper audit; no proof entry runs; tool chain (O26, branch, fractional e1f98deb, parser dfdaff60) unchanged."
+  ],
+  "controls": [
+    "Synthetic transform/fingerprint/proof/entry/runner tests; transport computed by client payload builder.",
+    "Cloud: fingerprint must complete for all 8 variants with the location control; later proof run must show positive past line 212 and the controls listed in MERGE-FRACTIONS-REPAIR-DESIGN.md."
+  ],
+  "dependencies": [
+    "research/challenge-8/task-history/select-callee-r22/FRACTIONAL-PROOF-MERGE-EVIDENCE.json",
+    "research/challenge-8/task-history/select-callee-r22/MERGE-FRACTIONS-REPAIR-DESIGN.md",
+    "research/challenge-8/overnight-assume-actual/verifast-r21-fractional-forget-26.10.patch",
+    "research/challenge-8/cloud-build/select-callee-r21-fractional-proof.py"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "No local verifier; verifier semantics (verifast.ml MergeFractionsStmt, assertions.ml produce_chunk, verifast1.ml generic_points_to_symb) can be read in the read-only scratch tree /tmp/claude-0/-root-verify-rust-std-select-night/a72d40b8-bb07-4787-b626-0608db33c14c/scratchpad/vfsrc/src. Fingerprint only; no proof credit."
+  ]
+}

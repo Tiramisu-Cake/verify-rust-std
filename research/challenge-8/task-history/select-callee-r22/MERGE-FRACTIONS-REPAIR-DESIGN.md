@@ -12,7 +12,7 @@
 
 **Invariant.** The runtime source, all other ghost text, the callee contracts, the R20 repair and the control transforms are unchanged. No new predicate, lemma, axiom or ownership bridge is added. Line structure is unchanged; only columns move on line 212.
 
-**Consequence.** The verified source of every fractional row changes, so the exact source/unit/body pins in `verifast-r21-fractional-forget-26.10.patch` (`fractional_rows`) and `FRACTIONAL-FINGERPRINT-INPUT.json` are stale.
+**Consequence.** The verified source of every fractional row changes, so the exact source/unit/body pins in `verifast-r21-fractional-forget-26.10.patch` (`fractional_rows`) and `FRACTIONAL-FINGERPRINT-INPUT.json` are stale. The same patch also hard-codes the old `merge_fractions *saved_guard.inner |-> _;` literal twice: in the `open_owner` certificate text and in the expected `ghost_stmts` list (review R22-merge-review.json). The proof revision must replace both and test that they byte-equal `RETURNED_GUARD_HALF`.
 - This candidate runs only the mode-9 fingerprint stage, as R21 did in `c9feaf4f`, on the current tool chain: O26, branch, fractional and parser patches. No proof is attempted.
 - The next candidate binds the new pins in a fractional patch revision and restores the proof stage.
 

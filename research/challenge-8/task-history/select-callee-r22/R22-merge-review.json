@@ -1,0 +1,43 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "claude-subagent:smallsort-reviewer",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "candidate_commit": "363d7752a54ca2dbc6b164f2511d18397825fb72",
+  "baseline_commit": "665d773063bef6c076691a0bdeea6c74e963b315",
+  "spec_sha256": "1c64658adfd221077ee30d567a93f934e8e20b34212fadbe50832278b25210f4",
+  "packet_sha256": "9909ec91d0b2db2ac4cbd29f6061f1c833e719a7b7a32e5ab8050d45143abc32",
+  "decision": "GO_WITH_NITS",
+  "scope": "fingerprint-only Build",
+  "findings": [
+    {
+      "severity": "should-fix-before-proof",
+      "summary": "verifast-r21-fractional-forget-26.10.patch hard-codes the old merge_fractions literal at patch lines 114 (open_owner certificate) and 159 (expected ghost_stmts); next patch revision must replace both and test byte-equality with RETURNED_GUARD_HALF."
+    },
+    {
+      "severity": "nit",
+      "summary": "runner header comment stale (R20/no actual-body)."
+    }
+  ],
+  "verified": [
+    "MergeFractionsStmt rejects deref points-to; Rust *p |-> v is precise points_to::<T>(p,v); type arg *Element correct",
+    "merge_fractions cannot create/lose ownership",
+    "SHA cascade 391b065d/111bf21a consistent",
+    "fingerprint-only runner = c9feaf4f + fractional/parser steps; mode-9 capture reproduced on current chain",
+    "audit wiring as c9feaf4f"
+  ],
+  "tests_run": [
+    "test_r21_fractional_forget 5 OK",
+    "test_select_callee_r20 22 OK",
+    "test_select_callee_r21_fractional 10 OK",
+    "test_select_callee_r21_fractional_proof 10 OK",
+    "test_select_callee_r21_fractional_proof_entry 7 OK",
+    "test_a1_r22_registration 9 OK"
+  ],
+  "not_run": [
+    "type-check/symbolic execution of new statement",
+    "definitely_equal between saved_guard.inner and guard",
+    "client transport preflight"
+  ],
+  "proof_credit": 0
+}
