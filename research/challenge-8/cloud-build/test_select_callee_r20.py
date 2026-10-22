@@ -370,9 +370,9 @@ class RunnerAndRecipe(unittest.TestCase):
         self.assertIn('"${SORT4_R20_CALLEE_PHASE_ID:-}" == SORT4-ACTUAL-SELECT-2026-10-22-R20', RUNNER)
         self.assertIn('"${SORT4_R20_CALLEE_PHASE_ID:-}" == SORT4-ACTUAL-SELECT-2026-10-23-R21', RUNNER)
         order = ["stage provider-overlays", "stage source-preflight", "stage package-index",
-                 "stage branch-refresh-apply", "stage console-build",
+                 "stage branch-refresh-apply", "stage fractional-refresh-apply", "stage console-build",
                  "stage candidate-capture", "stage candidate-source-compare",
-                 "stage candidate-proof", "stage r21-fractional-fingerprint"]
+                 "stage candidate-proof", "stage r21-fractional-proof"]
         self.assertIn("606235c66c76412d2fdcef5f30436c342771ad5a087b343f618cfb7c8a2344d2", RUNNER)
         self.assertIn("78079210a5548fee87e200996920bfb012bcb0cd17b0b574eb926806a46e7ab6", RUNNER)
         patch_path = ROOT / "research/challenge-8/overnight-assume-actual/verifast-r21-final-select-branch-selected-26.10.patch"
@@ -382,6 +382,11 @@ class RunnerAndRecipe(unittest.TestCase):
         self.assertIn("b9430169d01a2eca19728c38d05da818bdfc4e05561671c33ed95eb5830de45d", patch_text)
         self.assertIn("b8d367293b9d1ae8af186edeee0817f1b8bfe04250462fe75386fcd288e214eb", patch_text)
         self.assertIn("selected_payload", patch_text)
+        fractional_patch = ROOT / "research/challenge-8/overnight-assume-actual/verifast-r21-fractional-forget-26.10.patch"
+        self.assertIn(hashlib.sha256(fractional_patch.read_bytes()).hexdigest(), RUNNER)
+        self.assertNotIn("PENDING_R21_", RUNNER)
+        self.assertIn('"$cloud_dir/select-callee-r21-fractional-proof-entry.py"', RUNNER)
+        self.assertIn('"$cloud_dir/select-callee-r21-proof-audit.py"', RUNNER)
         self.assertNotIn("stage r20-repair-fingerprint", RUNNER)
         self.assertIn('[[ -z "${SORT4_R20_FINAL_SELECT_REPAIR:-}" ]] || exit 2', RUNNER)
         positions = [RUNNER.index(x) for x in order]

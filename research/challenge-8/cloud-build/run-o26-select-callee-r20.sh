@@ -35,7 +35,7 @@ mkdir "$ev"
 mkdir "$ev/cases"
 current_stage=provider
 audit_result() {
-  python3 "$cloud_dir/select-callee-r21-fractional.py" audit --evidence "$ev" \
+  python3 "$cloud_dir/select-callee-r21-proof-audit.py" --evidence "$ev" \
     --output "$evidence_root/proof-audit.json" \
     --runner-exit "$1" --failed-stage "$2"
 }
@@ -186,6 +186,12 @@ branch_patch="$proof_root/research/challenge-8/overnight-assume-actual/verifast-
 stage branch-refresh-check git -C "$source_home" apply --check "$branch_patch"
 stage branch-refresh-apply git -C "$source_home" apply "$branch_patch"
 [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 606235c66c76412d2fdcef5f30436c342771ad5a087b343f618cfb7c8a2344d2 ]] || exit 2
+fractional_patch="$proof_root/research/challenge-8/overnight-assume-actual/verifast-r21-fractional-forget-26.10.patch"
+current_stage=fractional-patch-identity
+[[ "$(sha256sum "$fractional_patch" | cut -d' ' -f1)" == 0a446349d3c4eb223f00b4ebf4a4bf5d5fd0bd4a5b9424fcac4c8beef6a6cc8a ]] || exit 2
+stage fractional-refresh-check git -C "$source_home" apply --check "$fractional_patch"
+stage fractional-refresh-apply git -C "$source_home" apply "$fractional_patch"
+[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == be8b620a15a5fff1ac6567bae693b739580e7ddfd5cd7f300e8e835850e4ed1b ]] || exit 2
 
 
 deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"
@@ -241,11 +247,12 @@ stage candidate-proof python3 "$cloud_dir/o26-refresh-recipe.py" proof \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
-# Owner-approved half-ownership candidate: mode-9 fingerprints only. The
-# current translator admits no fractional summary; obtain exact pins first.
-stage r21-fractional-fingerprint python3 "$cloud_dir/select-callee-r21-fractional.py" fingerprint \
+# Exact prior Cloud fingerprints bind this same-unit checked proof matrix.
+# Unpinned control diagnostics stay inconclusive; the audit never grants credit.
+stage r21-fractional-proof python3 "$cloud_dir/select-callee-r21-fractional-proof-entry.py" \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
+  --pins-json "$proof_root/research/challenge-8/task-history/select-callee-r21/FRACTIONAL-FINGERPRINT-INPUT.json" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
 
 current_stage=audit

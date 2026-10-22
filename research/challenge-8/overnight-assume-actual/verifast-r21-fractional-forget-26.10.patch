@@ -1,0 +1,233 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -674,6 +674,29 @@
+       "/*@\nens thread_token(tid) &*& <T>.own(tid, t);\n@*/";
+       "/*@\non_unwind_ens false;\n@*/"
+     ]
++    let fractional_rows = [
++      ("positive", "daa0ceb9e187adb62ec52319fc6ac9d1a0d15d0604a9e04b8c763ffad4a8cd8b", "15206a96e20e8c68cb41f1f2cbfe06fa5f782bd2c5a02689d43dcdd06cfa2508", "2a8da55d5d6e36a12070400fb3ed0aa5426f5002d3177306cd547bedcb6a1a5d", "7748360f9af0ecbe615e5d0d6696550f1e1ec25029c6825fa608d25699e30bd0");
++      ("omit-selected-own", "7a97646e5cf60c9e7da909417c57c54a120aca2b9c59fd7c70ecf05cc4a0247b", "15206a96e20e8c68cb41f1f2cbfe06fa5f782bd2c5a02689d43dcdd06cfa2508", "07b5e8145a37a2747290dbc98a8c6c50b24a53d4cac6f2aee72ea70429d6e92c", "2d754f4aa1a05830b155245b2a280f146a54ed0325323da9d265297a93afc668");
++      ("omit-unselected-own", "1b3015db1ebcd053e60f22b2a26a8d53a1d1d03180bbb5a5940b8f357ec96545", "15206a96e20e8c68cb41f1f2cbfe06fa5f782bd2c5a02689d43dcdd06cfa2508", "aacb495c04348c1a64e8b0e5e4e92274008b080075207d29f98e3e6bce05fc1f", "5d3e54c3c04e29bfd9884faf4b1d3dd5f647142924be4d66f35bc48989ca63d5");
++      ("no-retained-half", "102a96d16f08da77b22a9f4fe4c8b405377db4c59201e4820bd26ba1f0e355be", "15206a96e20e8c68cb41f1f2cbfe06fa5f782bd2c5a02689d43dcdd06cfa2508", "6ada1b1ec7b5afb5c42132c12fd11fd1c9f45da7522164727abcde465da05214", "2ff43b8557652e062f7e1bdfe1cda28edd689f35afa5440b6f5f55caff152b70");
++      ("callee-false-normal", "23b4c35d3dd4696eba44706ac616d4bdaad80ab398ff2d235256eae1abe17b96", "c7def4ad41fe178290132f45588139d0f9fb4dc609f134795cca13c29ba12ea3", "2a8da55d5d6e36a12070400fb3ed0aa5426f5002d3177306cd547bedcb6a1a5d", "8dcd2855d8f9f690cb85fbddba14a42dd632f1005624effda29c21f61968e7aa");
++      ("callee-owner-duplicate", "7077c0510ef7c2098424203a5ff6f704c17376a5805828099ac076ff038ad602", "a4dd9afa84a8e1a8be570f170105cc74fae01b1c58c3da85d956b484fbfb31a7", "2a8da55d5d6e36a12070400fb3ed0aa5426f5002d3177306cd547bedcb6a1a5d", "824fb1e76e1409c02b3438211a613acaabd948b3df745a5dc19090b885dad52b");
++      ("callee-owner-loss", "7296d749fddae750766247327278462d18aae6c36104f4699f1f00bf2153742c", "cff7f2aaa833d59ce70bc890edabed08ddd49119cef8548be4612ee79347fe12", "2a8da55d5d6e36a12070400fb3ed0aa5426f5002d3177306cd547bedcb6a1a5d", "f9520a7013807c3c13ed2840b4ee256e56a851dc31bdb74ae6ee48cfd7cd94e4");
++      ("callee-thread-duplicate", "53542ef024415cdb5b6b29e52280167fc1d1a76e5ae18ef5884818484d1a1ada", "4df4def10d1ef425aca43bda49d07a6916d385207c32e066a17121b67defc442", "2a8da55d5d6e36a12070400fb3ed0aa5426f5002d3177306cd547bedcb6a1a5d", "58919e9da666ef645fb75424e09278f7544a9fe034dfee026a870c02028b88fc")
++    ]
++    let fractional_row variant =
++      match List.find_opt (fun (name,_,_,_,_) -> name = variant) fractional_rows with
++      | Some (_,source,body6,body7,unit) -> source,body6,body7,unit
++      | None -> failwith "SORT4-ACTUAL-FORGET-OWN: certificate mismatch: fractional variant"
++    let fractional_annotations variant =
++      let req = "/*@\nreq thread_token(?tid) &*& tid == currentThread &*& [1/2] <T>.own(tid, t);\n@*/" in
++      let ens = match variant with
++        | "callee-false-normal" -> "/*@\nens thread_token(tid) &*& [1/2] <T>.own(tid, t) &*& false;\n@*/"
++        | "callee-owner-duplicate" -> "/*@\nens thread_token(tid) &*& [1/2] <T>.own(tid, t) &*& [1/2] <T>.own(tid, t);\n@*/"
++        | "callee-owner-loss" -> "/*@\nens thread_token(tid);\n@*/"
++        | "callee-thread-duplicate" -> "/*@\nens thread_token(tid) &*& thread_token(tid) &*& [1/2] <T>.own(tid, t);\n@*/"
++        | _ -> "/*@\nens thread_token(tid) &*& [1/2] <T>.own(tid, t);\n@*/" in
++      [req;ens;"/*@\non_unwind_ens false;\n@*/"]
+     let reject why =
+       failwith ("SORT4-ACTUAL-FORGET-OWN: certificate mismatch: " ^ why)
+   end
+@@ -12507,6 +12530,17 @@
+       | None -> false
+       | Some "1" when nine -> true
+       | Some _ -> reject "R20 final-select repair requires exact nine-body admission" in
++    let fractional, fractional_variant =
++      match Sys.getenv_opt "SORT4_R21_FRACTIONAL_FORGET",
++            Sys.getenv_opt "SORT4_R21_FRACTIONAL_VARIANT" with
++      | None, None -> false, None
++      | None, Some _ -> reject "R21 fractional variant requires exact fractional opt-in"
++      | Some "1", Some variant when nine && r20 &&
++          Sys.getenv_opt "SORT4_R20_CALLEE_PHASE_ID" =
++            Some "SORT4-ACTUAL-SELECT-2026-10-23-R21" ->
++          ignore (Sort4ActualForgetOwn.fractional_row variant);
++          true, Some variant
++      | Some _, _ -> reject "R21 fractional mode requires exact branch-selected nine-body R21 admission" in
+     let names = if nine then [
+       "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new";
+       "sort4_checked_as_mut_ptr"; "sort4_checked_pointer_drop";
+@@ -12521,6 +12555,9 @@
+       "select_unpredictable";
+       "<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop"
+     ] in
++    let fractional_body6, fractional_body7 = match fractional_variant with
++      | Some variant -> let _,body6,body7,_ = Sort4ActualForgetOwn.fractional_row variant in body6,body7
++      | None -> "", "" in
+     let body_hashes = if nine then [
+       "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc";
+       "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562";
+@@ -12528,8 +12565,8 @@
+       "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951";
+       "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed";
+       "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6";
+-      "e8dd503c0bf832081e71dcc9d115c2a07e9349ff746ec7e7cce132edf63f4137";
+-      (if r20 then "60861a6280f06196e3cab9e366ba8d5ade71d58d0aa29a79a90ed73ecc301094" else
++      (if fractional then fractional_body6 else "e8dd503c0bf832081e71dcc9d115c2a07e9349ff746ec7e7cce132edf63f4137");
++      (if fractional then fractional_body7 else if r20 then "60861a6280f06196e3cab9e366ba8d5ade71d58d0aa29a79a90ed73ecc301094" else
+        "9577c64905c4a45eecc4aab506f6276fea076f8a7a18d2f7ca0304cf70205b86");
+       "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+     ] else [
+@@ -12550,11 +12587,12 @@
+           Filename.check_suffix path "verified/lib.rs" -> path
+       | _ -> reject "owner actual source path" in
+     let source = Sort4MaybeUninit.read_file path in
+-    if sort4_actual_owner_sha256 source <>
+-         (if r20 then "b9430169d01a2eca19728c38d05da818bdfc4e05561671c33ed95eb5830de45d" else if nine then
+-            "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
+-          else
+-            "595e93c5c08ebd61a6ab4b7f7b98ed2f2d6765dbb8d903509a53391ea9a2b5b3") then
++    let expected_source_sha = match fractional_variant with
++      | Some variant -> let source,_,_,_ = Sort4ActualForgetOwn.fractional_row variant in source
++      | None -> if r20 then "b9430169d01a2eca19728c38d05da818bdfc4e05561671c33ed95eb5830de45d" else if nine then
++          "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
++        else "595e93c5c08ebd61a6ab4b7f7b98ed2f2d6765dbb8d903509a53391ea9a2b5b3" in
++    if sort4_actual_owner_sha256 source <> expected_source_sha then
+       reject "owner exact verified source SHA256";
+     if nine then (
+       let original = Filename.concat
+@@ -12603,7 +12641,15 @@
+       "    /*@ std::mem::open_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>); @*/\n" ^
+       "    /*@ assert *true_ptr |-> ?true_payload; @*/\n" ^
+       "    /*@ assert *false_ptr |-> ?false_payload; @*/\n" in
+-    let owner = if nine then
++    let owner = if fractional && fractional_variant <> Some "no-retained-half" then
++      "        /*@ if (condition) {\n" ^
++      "                 close [1/2] raw_ptr_own::<Element>()(t, true_payload);\n" ^
++      "                 close [1/2] <select_unpredictable::DropOnPanic<*Element>>.own(t, select_unpredictable::DropOnPanic::<*Element> { inner: guard });\n" ^
++      "             } else {\n" ^
++      "                 close [1/2] raw_ptr_own::<Element>()(t, false_payload);\n" ^
++      "                 close [1/2] <select_unpredictable::DropOnPanic<*Element>>.own(t, select_unpredictable::DropOnPanic::<*Element> { inner: guard });\n" ^
++      "             } @*/\n"
++      else if nine then
+       "        /*@ if (condition) {\n" ^
+       "                 close raw_ptr_own::<Element>()(t, true_payload);\n" ^
+       "                 close <select_unpredictable::DropOnPanic<*Element>>.own(t, select_unpredictable::DropOnPanic::<*Element> { inner: guard });\n" ^
+@@ -12625,7 +12671,12 @@
+       "             } else {\n" ^
+       "                 std::mem::close_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>);\n" ^
+       "             } @*/\n" in
+-    let open_owner = if nine then
++    let open_owner = if fractional then
++      "        /*@ { open [1/2] <select_unpredictable::DropOnPanic<*Element>>.own(t, saved_guard);\n" ^
++      "             merge_fractions *saved_guard.inner |-> _; } @*/\n" ^
++      "        /*@ assert *saved_guard.inner |-> ?selected_payload; @*/\n" ^
++      "        /*@ open [1/2] raw_ptr_own::<Element>()(t, selected_payload); @*/\n"
++      else if nine then
+       "        /*@ open <select_unpredictable::DropOnPanic<*Element>>.own(t, saved_guard); @*/\n" ^
+       "        /*@ assert *saved_guard.inner |-> ?selected_payload; @*/\n" ^
+       "        /*@ open raw_ptr_own::<Element>()(t, selected_payload); @*/\n"
+@@ -12633,7 +12684,9 @@
+       "        /*@ open <select_unpredictable::DropOnPanic<*Element>>.own(t, guard); @*/\n" ^
+       "        /*@ assert *guard.inner |-> ?selected_payload; @*/\n" ^
+       "        /*@ open raw_ptr_own::<Element>()(t, selected_payload); @*/\n" in
+-    let saved_guard =
++    let saved_guard = if fractional then
++      "        /*@ assert [1/2] <select_unpredictable::DropOnPanic<*Element>>.own(t, ?saved_guard); @*/\n"
++      else
+       "        /*@ assert <select_unpredictable::DropOnPanic<*Element>>.own(t, ?saved_guard); @*/\n" in
+     let selected =
+       if r20 then
+@@ -12641,12 +12694,16 @@
+          branch blocks of the same ghost statement; no new MIR block. *)
+       "        /*@ if (condition) {\n" ^
+       "                 std::mem::close_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>);\n" ^
+-      "                 std::mem::close_MaybeUninit_pointer_own::<Element>(t, std::mem::MaybeUninit::new::<*Element>(selected_payload));\n" ^
+-      "                 std::mem::close_MaybeUninit_pointer_own::<Element>(t, std::mem::MaybeUninit::new::<*Element>(false_payload));\n" ^
++      (if fractional_variant = Some "omit-selected-own" then "" else
++       "                 std::mem::close_MaybeUninit_pointer_own::<Element>(t, std::mem::MaybeUninit::new::<*Element>(selected_payload));\n") ^
++      (if fractional_variant = Some "omit-unselected-own" then "" else
++       "                 std::mem::close_MaybeUninit_pointer_own::<Element>(t, std::mem::MaybeUninit::new::<*Element>(false_payload));\n") ^
+       "             } else {\n" ^
+       "                 std::mem::close_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>);\n" ^
+-      "                 std::mem::close_MaybeUninit_pointer_own::<Element>(t, std::mem::MaybeUninit::new::<*Element>(true_payload));\n" ^
+-      "                 std::mem::close_MaybeUninit_pointer_own::<Element>(t, std::mem::MaybeUninit::new::<*Element>(selected_payload));\n" ^
++      (if fractional_variant = Some "omit-unselected-own" then "" else
++       "                 std::mem::close_MaybeUninit_pointer_own::<Element>(t, std::mem::MaybeUninit::new::<*Element>(true_payload));\n") ^
++      (if fractional_variant = Some "omit-selected-own" then "" else
++       "                 std::mem::close_MaybeUninit_pointer_own::<Element>(t, std::mem::MaybeUninit::new::<*Element>(selected_payload));\n") ^
+       "             } @*/\n"
+       else
+       "        /*@ if (condition) {\n" ^
+@@ -12742,14 +12799,18 @@
+       String.trim owner; String.trim unselected
+     ] @
+     (if nine then [String.trim saved_guard] else []) @
+-    (if nine then [
++    (if fractional then [
++      "/*@ { open [1/2] <select_unpredictable::DropOnPanic<*Element>>.own(t, saved_guard);\n             merge_fractions *saved_guard.inner |-> _; } @*/";
++      "/*@ assert *saved_guard.inner |-> ?selected_payload; @*/"
++    ] else if nine then [
+       "/*@ open <select_unpredictable::DropOnPanic<*Element>>.own(t, saved_guard); @*/";
+       "/*@ assert *saved_guard.inner |-> ?selected_payload; @*/"
+     ] else [
+       "/*@ open <select_unpredictable::DropOnPanic<*Element>>.own(t, guard); @*/";
+       "/*@ assert *guard.inner |-> ?selected_payload; @*/"
+     ]) @ [
+-      "/*@ open raw_ptr_own::<Element>()(t, selected_payload); @*/";
++      (if fractional then "/*@ open [1/2] raw_ptr_own::<Element>()(t, selected_payload); @*/"
++       else "/*@ open raw_ptr_own::<Element>()(t, selected_payload); @*/");
+       String.trim selected
+     ] in
+     if List.map AnnotationRd.raw_get (BodyRd.ghost_stmts_get_list body) <>
+@@ -12768,11 +12829,12 @@
+     let* () = sort4_select_check_actual_guard_adt vf_mir body in
+     let unit_digest = sort4_actual_owner_sha256
+       (Marshal.to_string (D.decode_vf_mir vf_mir) [Marshal.No_sharing]) in
+-    if unit_digest <>
+-         (if r20 then "b8d367293b9d1ae8af186edeee0817f1b8bfe04250462fe75386fcd288e214eb" else if nine then
+-            "10cf6e4d2a462082d456135078a77ea6670358f1ad15e0d81901104e8a102b43"
+-          else
+-            "3075b627aab5c0548f6f30a3727af5215bc6859a446009263de718b20a18d66e") then
++    let expected_unit_digest = match fractional_variant with
++      | Some variant -> let _,_,_,unit = Sort4ActualForgetOwn.fractional_row variant in unit
++      | None -> if r20 then "b8d367293b9d1ae8af186edeee0817f1b8bfe04250462fe75386fcd288e214eb" else if nine then
++          "10cf6e4d2a462082d456135078a77ea6670358f1ad15e0d81901104e8a102b43"
++        else "3075b627aab5c0548f6f30a3727af5215bc6859a446009263de718b20a18d66e" in
++    if unit_digest <> expected_unit_digest then
+       reject "owner complete decoded unit SHA256";
+     List.iter2 (fun b expected ->
+       let actual = sort4_actual_owner_sha256
+@@ -13393,12 +13455,19 @@
+           path
+       | _ -> reject "A1/outer source spans" in
+     let path = source_path transmute_loc in
++    let expected_source_sha = match Sys.getenv_opt "SORT4_R21_FRACTIONAL_FORGET",
++                                    Sys.getenv_opt "SORT4_R21_FRACTIONAL_VARIANT" with
++      | Some "1",Some variant
++          when Sys.getenv_opt "SORT4_R20_CALLEE_PHASE_ID" =
++            Some "SORT4-ACTUAL-SELECT-2026-10-23-R21" &&
++            Sys.getenv_opt "SORT4_R20_FINAL_SELECT_REPAIR" = Some "1" ->
++          let source,_,_,_ = fractional_row variant in source
++      | None,None when Sys.getenv_opt "SORT4_R20_FINAL_SELECT_REPAIR" = Some "1" ->
++          "b9430169d01a2eca19728c38d05da818bdfc4e05561671c33ed95eb5830de45d"
++      | None,None -> "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
++      | _ -> reject "exact R21 fractional source opt-in required" in
+     if source_path method_loc <> path || source_path outer_loc <> path ||
+-       sort4_actual_owner_sha256 (Sort4MaybeUninit.read_file path) <>
+-         (if Sys.getenv_opt "SORT4_R20_FINAL_SELECT_REPAIR" = Some "1" then
+-            "b9430169d01a2eca19728c38d05da818bdfc4e05561671c33ed95eb5830de45d"
+-          else
+-            "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6")
++       sort4_actual_owner_sha256 (Sort4MaybeUninit.read_file path) <> expected_source_sha
+     then reject "exact nine-body verified source unit";
+     if not (Sort4A1Link.local_shape transmute &&
+             Sort4A1Link.local_shape method_body) then
+@@ -13510,6 +13579,16 @@
+   let certify_sort4_actual_forget_own
+       (vf_mir : VfMirRd.VfMir.t) root =
+     let open Sort4ActualForgetOwn in
++    let annotations = match Sys.getenv_opt "SORT4_R21_FRACTIONAL_FORGET",
++                             Sys.getenv_opt "SORT4_R21_FRACTIONAL_VARIANT" with
++      | None,None -> annotations
++      | Some "1",Some variant
++          when Sys.getenv_opt "SORT4_R20_CALLEE_PHASE_ID" =
++            Some "SORT4-ACTUAL-SELECT-2026-10-23-R21" &&
++            Sys.getenv_opt "SORT4_R20_FINAL_SELECT_REPAIR" = Some "1" &&
++            Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" = Some "1" ->
++          fractional_annotations variant
++      | _ -> reject "exact R21 fractional contract opt-in required" in
+     active := false; redirected := 0; projected := 0;
+     if not !Sort4SelectIntrinsic.actual_nine_admitted ||
+        Sys.getenv_opt "SORT4_ACTUAL_OWNER_REPO_ROOT" <> Some root ||
