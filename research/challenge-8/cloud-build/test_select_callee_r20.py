@@ -125,6 +125,79 @@ class RepairStage(unittest.TestCase):
                 CALLEE.load(bad, "bad_pin", CALLEE.REPAIR_SHA256)
 
 
+class FakeCap:
+    def __init__(self, classification):
+        self.classification, self.calls, self.cleared = classification, [], 0
+
+    def clear_semantic_opt_ins(self):
+        self.cleared += 1
+
+    def refusal_fingerprint(self, case, source, args):
+        self.calls.append((case, source, (case / "verified/lib.rs").read_bytes(),
+                           args.tool_home, args.deadline_epoch))
+        return {"classification": self.classification, "snapshots": {"unit": {"sha256": "u"}}}
+
+
+class FakeO26Capture:
+    def __init__(self, cap):
+        self.cap = cap
+
+    def load_capture(self, repo, label):
+        return self.cap
+
+
+class RepairedFingerprint(unittest.TestCase):
+    def run_fp(self, cap, deadline_offset=3600, env=ENV):
+        real_load = CALLEE.load
+        fake = FakeO26Capture(cap)
+        def load(path, name, expected=None):
+            return fake if path.name == "o26-recipe.py" else real_load(path, name, expected)
+        import time
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            make_case(root)
+            code = None
+            with patch.dict(os.environ, env, clear=True), patch.object(CALLEE, "load", load):
+                try:
+                    CALLEE.fingerprint(Args(root, int(time.time()) + deadline_offset))
+                except SystemExit as exit_:
+                    code = exit_.code
+            saved = json.loads((root / "cases/r20-fingerprint/r20-fingerprint.json").read_text())
+            base = (root / "cases/candidate/capture" / CALLEE.CASE / "verified/lib.rs").read_bytes()
+        return code, saved, base
+
+    def test_intended_refusal_records_repaired_sha_and_snapshots(self):
+        cap = FakeCap("INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE")
+        code, saved, base = self.run_fp(cap)
+        self.assertIsNone(code)
+        self.assertEqual(base, UNIT)
+        self.assertEqual(len(cap.calls), 1)
+        case, source, repaired, _, _ = cap.calls[0]
+        self.assertEqual(repaired.count(b"close_MaybeUninit_pointer_own"), 2)
+        self.assertEqual(source["verified_sha256"], CALLEE.sha(repaired))
+        self.assertEqual(saved["verified_sha256"], CALLEE.sha(repaired))
+        self.assertEqual(saved["base_verified_sha256"], CALLEE.sha(UNIT))
+        self.assertIs(saved["complete"], True)
+        self.assertFalse(saved["proof_credit"])
+        self.assertEqual(cap.cleared, 1)
+
+    def test_inconclusive_or_deadline_exit_nonzero_and_incomplete(self):
+        code, saved, _ = self.run_fp(FakeCap("INCONCLUSIVE_FINGERPRINT"))
+        self.assertEqual(code, 4)
+        self.assertIs(saved["complete"], False)
+        cap = FakeCap("INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE")
+        code, saved, _ = self.run_fp(cap, deadline_offset=60)
+        self.assertEqual(code, 3)
+        self.assertEqual(cap.calls, [])
+        self.assertEqual(saved["fingerprint"]["status"], "NOT_RUN")
+
+    def test_refuses_outside_r20_cloud(self):
+        for env in ({}, {**ENV, "GITHUB_ACTIONS": "true"},
+                    {**ENV, "SORT4_R20_CALLEE_PHASE_ID": "x"}):
+            with self.subTest(env=env), self.assertRaises(RuntimeError):
+                self.run_fp(FakeCap("x"), env=env)
+
+
 class Audit(unittest.TestCase):
     def test_audit_records_missing_partial_and_wrong_type_inputs(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -166,7 +239,7 @@ class RunnerAndRecipe(unittest.TestCase):
         self.assertIn('"${SORT4_R20_CALLEE_PHASE_ID:-}" == SORT4-ACTUAL-SELECT-2026-10-22-R20', RUNNER)
         order = ["stage provider-overlays", "stage source-preflight", "stage package-index",
                  "stage console-build", "stage candidate-capture", "stage candidate-source-compare",
-                 "stage candidate-proof"]
+                 "stage candidate-proof", "stage r20-repair-fingerprint"]
         positions = [RUNNER.index(x) for x in order]
         self.assertEqual(positions, sorted(positions))
         self.assertNotIn("o26-refresh-audit.py", RUNNER)

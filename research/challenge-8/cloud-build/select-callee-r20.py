@@ -93,6 +93,54 @@ def repair(a) -> dict:
     return record
 
 
+def fingerprint(a) -> dict:
+    """Fingerprint the 'both'-repaired unit under the existing intended refusal.
+
+    Records the repaired verified SHA and the ten unit/body snapshot hashes a
+    later reviewed certificate-refresh patch must pin. No proof is attempted.
+    """
+    need(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
+         os.environ.get("SORT4_R20_CALLEE_PHASE_ID") == "SORT4-ACTUAL-SELECT-2026-10-22-R20" and
+         not os.environ.get("GITHUB_ACTIONS"), "authorized R20 Cloud callee lane")
+    transform = load(a.repo / REPAIR_REL, "r20_final_select_repair", REPAIR_SHA256)
+    o26 = load(a.cloud_dir / "o26-recipe.py", "r20_o26_recipe_fp")
+    base = a.evidence / "cases/candidate/capture" / CASE
+    need((base / "verified/lib.rs").is_file() and (base / "original/lib.rs").is_file(),
+         "captured nine-body case")
+    verified = (base / "verified/lib.rs").read_bytes()
+    original = (base / "original/lib.rs").read_bytes()
+    root = a.evidence / "cases/r20-fingerprint"
+    case = root / "both" / CASE
+    (case / "original").mkdir(parents=True)
+    (case / "verified").mkdir()
+    repaired = transform.repair(verified, "both")
+    (case / "original/lib.rs").write_bytes(original)
+    (case / "verified/lib.rs").write_bytes(repaired)
+    record = {"classification": "R20_REPAIRED_UNIT_FINGERPRINT", "complete": False,
+              "variant": "both", "verified_sha256": sha(repaired),
+              "original_sha256": sha(original), "base_verified_sha256": sha(verified),
+              "accepted": False, "proof_credit": False}
+    write(root / "r20-fingerprint.json", record)
+    if a.deadline_epoch - int(time.time()) < STAGE_RESERVE_SECONDS:
+        record["fingerprint"] = {"status": "NOT_RUN", "reason": "shared deadline reserve"}
+        write(root / "r20-fingerprint.json", record)
+        raise SystemExit(3)
+    cap = o26.load_capture(a.repo, "r20_fingerprint")
+    cap.clear_semantic_opt_ins()
+    args = argparse.Namespace(tool_home=a.tool_home, schema=a.schema,
+                              compiler_sysroot=str(a.compiler_sysroot),
+                              deadline_epoch=a.deadline_epoch)
+    result = cap.refusal_fingerprint(case, {"verified_sha256": sha(repaired)}, args)
+    record.update(fingerprint=result,
+                  complete=result.get("classification") == "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE")
+    write(root / "r20-fingerprint.json", record)
+    print(json.dumps({"classification": result.get("classification"),
+                      "verified_sha256": record["verified_sha256"]}))
+    if not record["complete"]:
+        raise SystemExit(4)
+    return record
+
+
 def audit(a) -> dict:
     ev = a.evidence
 
@@ -116,6 +164,7 @@ def audit(a) -> dict:
               "capture_compare": read("cases/candidate/capture-compare.json"),
               "baseline_proof": read("cases/candidate/proof-stage.json"),
               "repair_variants": read("cases/r20-repair/r20-repair.json"),
+              "repaired_fingerprint": read("cases/r20-fingerprint/r20-fingerprint.json"),
               "accepted": False, "verification_accepted": False,
               "proof_credit": False}
     baseline = record["baseline_proof"]
@@ -134,13 +183,17 @@ def main() -> None:
     for name in ("repo", "cloud-dir", "evidence", "tool-home", "schema", "compiler-sysroot"):
         r.add_argument("--" + name, type=Path, required=True)
     r.add_argument("--deadline-epoch", type=int, required=True)
+    f = sub.add_parser("fingerprint")
+    for name in ("repo", "cloud-dir", "evidence", "tool-home", "schema", "compiler-sysroot"):
+        f.add_argument("--" + name, type=Path, required=True)
+    f.add_argument("--deadline-epoch", type=int, required=True)
     d = sub.add_parser("audit")
     d.add_argument("--evidence", type=Path, required=True)
     d.add_argument("--output", type=Path, required=True)
     d.add_argument("--runner-exit", type=int, required=True)
     d.add_argument("--failed-stage", required=True)
     a = p.parse_args()
-    repair(a) if a.mode == "repair" else audit(a)
+    {"repair": repair, "fingerprint": fingerprint, "audit": audit}[a.mode](a)
 
 
 if __name__ == "__main__":

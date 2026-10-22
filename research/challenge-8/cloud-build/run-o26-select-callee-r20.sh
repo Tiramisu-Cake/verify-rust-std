@@ -231,6 +231,12 @@ stage candidate-proof python3 "$cloud_dir/o26-refresh-recipe.py" proof \
 # Repair variants are not run here: the pinned nine-body certificates fix the
 # exact verified source SHA and ghost list, so ghost-repaired copies would be
 # refused before the final select. They need a reviewed certificate refresh.
+# Fingerprint the 'both'-repaired unit (intended refusal, no proof) to obtain
+# the exact pins a reviewed certificate-refresh patch must carry.
+stage r20-repair-fingerprint python3 "$cloud_dir/select-callee-r20.py" fingerprint \
+  --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+  --tool-home "$source_home" --schema "$schema" \
+  --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
 
 current_stage=audit
 audit_result 0 complete
