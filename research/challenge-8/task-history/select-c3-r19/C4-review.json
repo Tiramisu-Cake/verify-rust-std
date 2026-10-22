@@ -18,5 +18,17 @@
   ],
   "basis": "Two literal overlay edits (result 586a162c reproduced from base 6c04f608); count-dependent sites scale with N; c4 layer is a pure rename of reviewed c3 templates with strip_ghost equality; only d/b precreated; c4 resource controls discriminate on the first path; client pins bab8b5ca and requires count in {3,4}.",
   "not_run": "OCaml compile, VeriFast, Cloud.",
-  "limits": "c4 unverified pending Cloud; c5 OPEN; credit0."
+  "limits": "c4 unverified pending Cloud; c5 OPEN; credit0.",
+  "transport_cap_delta": {
+    "verdict": "GO_WITH_NITS",
+    "range": "fc936be0f7820096eae3762a45e55a17363a70e8..cfb50a1428e3238c908108084ad2ff7996151883",
+    "reason": "Client refused S2 before dispatch: pinned source payload needed 192 of 191 transport chunks (S1 used 191).",
+    "basis": "U1 patch 63fdfc86 gives the same result 586a162c on base 6c04f608; parameterised c3/c4 control builder byte-equivalent (c3 labels unchanged, c4 labels shortened); net recipe change removes four R16-route-only files (R14/R15 precedent), R17+R19 profiles kept; pins: c2 1d2d167f, manifest af34762f, profile c7bbbc46.",
+    "intended_submit_note": "Commits 768aa637/5a539325/cfb50a14 are labelled 'trial'; their net recipe change (minus a1-entry-r16.py, a1-runner-r16.py, a1-actual-body-r16.py, A1-ACTUAL-LIFETIME-R16-PROFILE) is the intended submitted state.",
+    "nits": [
+      "Read c4 controls by name+message+location (short labels).",
+      "Lane script R16 branch now routes to an untransported entry (fails closed; R16 closed).",
+      "test_a1_r16_registration recipe test now fails (historical class)."
+    ]
+  }
 }
