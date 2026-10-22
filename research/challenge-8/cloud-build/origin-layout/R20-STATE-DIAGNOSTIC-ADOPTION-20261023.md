@@ -27,12 +27,13 @@ exact registered tuple only.
 
 P3's dispatched source/profile/ledger records remain historical and unchanged.
 The integration does not edit caller bodies, posts, runtime, CFG, ownership
-rules, lifetimes, or trusted premises. The recipe removes the dormant
-r9-wiring-service-test.py input (8,325 bytes). An exact-path search found no
-invocation in run-proof.sh, run-merge.sh, merge.sh, first-callback.py, onecell
-prove.py, or control.py; active merge.sh explicitly invokes and retains the R8
-wiring/freshness and tool-evidence service tests. The removed file remains in
-the repository. The checked slice-content helper remains a separate proof
+rules, lifetimes, or trusted premises. The recipe removes two uninvoked service-test inputs: r9-wiring-service-test.py
+(8,325 bytes) and r11-native-receipt-service-test.py (4,698 bytes). Exact-path
+searches found no invocation in run-proof.sh, run-merge.sh, merge.sh,
+first-callback.py, onecell prove.py, or control.py. The active R8 wiring, R8
+freshness, and tool-evidence tests remain. The R11 source-preflight and its
+historical R11-INPUTS inventory remain unchanged; both removed test files
+remain in the repository. The checked slice-content helper remains a separate proof
 input behind its exact hash, and the parent raw-body binding remains unchanged.
 
 Validation is synthetic profile-reversion, exact provider/pin, callback, and
