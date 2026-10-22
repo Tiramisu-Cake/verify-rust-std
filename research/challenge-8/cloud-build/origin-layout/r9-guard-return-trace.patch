@@ -1,5 +1,5 @@
 diff --git a/src/refinement_checker/refinement_checker.ml b/src/refinement_checker/refinement_checker.ml
-index eade1c64..5e7a1ca0 100644
+index eade1c64..00433b38 100644
 --- a/src/refinement_checker/refinement_checker.ml
 +++ b/src/refinement_checker/refinement_checker.ml
 @@ -374,3 +374,22 @@ let eval_mir_const genv mir_const_cpn =
@@ -26,29 +26,94 @@ index eade1c64..5e7a1ca0 100644
 +    | _ -> failwith "Only closed usize typesystem MIR constants are supported"
 +    end
    | Val mir_val_const_cpn ->
-@@ -1732,2 +1751,3 @@ type basic_block_info = <
+@@ -450,3 +469,3 @@ let fns_to_be_inlined: (string * body) list =
+         {id={name="contents_ptr"}; ty={kind=RawPtr {mutability=Not; ty={kind=Param "T"}}}; mutability=Not; source_info={span}};
+-        {id={name="ref_self"}; ty={kind=Ref {region={id="'<erased>"}; mutability=Mut; ty={kind=Adt {id={name="std::boxed::Box"}; kind=StructKind; substs=[{kind=Type {kind=Param "T"}}; {kind=Type {kind=Param "A"}}]}}}}; mutability=Not; source_info={span}};
++        {id={name="ref_self"}; ty={kind=Ref {region={id="'<erased>"; identity=Nothing}; mutability=Mut; ty={kind=Adt {id={name="std::boxed::Box"}; kind=StructKind; substs=[{kind=Type {kind=Param "T"}}; {kind=Type {kind=Param "A"}}]}}}}; mutability=Not; source_info={span}};
+         {id={name="drop_result"}; ty={kind=Tuple []}; mutability=Not; source_info={span}};
+@@ -473,3 +492,5 @@ let fns_to_be_inlined: (string * body) list =
+                   };
+-                  ty={kind=RawPtr {mutability=Not; ty={kind=Param "T"}}}
++                  ty={kind=RawPtr {mutability=Not; ty={kind=Param "T"}}};
++                source_ty=Nothing;
++                pointer_coercion_data=Nothing
+                 }
+@@ -503,3 +524,5 @@ let fns_to_be_inlined: (string * body) list =
+                   };
+-                  ty={kind=RawPtr {mutability=Not; ty={kind=Param "T"}}}
++                  ty={kind=RawPtr {mutability=Not; ty={kind=Param "T"}}};
++                source_ty=Nothing;
++                pointer_coercion_data=Nothing
+                 }
+@@ -512,3 +535,3 @@ let fns_to_be_inlined: (string * body) list =
+                 rhs_rvalue=Ref {
+-                  region={id="'<erased>"};
++                  region={id="'<erased>"; identity=Nothing};
+                   bor_kind=Mut;
+@@ -649,2 +672,3 @@ let fns_to_be_inlined: (string * body) list =
+       captured_mir_phase="";
++      region_scope_id="";
+       visibility=Public;
+@@ -663,3 +687,3 @@ let fns_to_be_inlined: (string * body) list =
+       {id={name="result"}; ty={kind=RawPtr {mutability=Not; ty={kind=Param "T"}}}; mutability=Not; source_info={span}};
+-      {id={name="self"}; ty={kind=Ref {region={id="'<erased>"}; mutability=Not; ty={kind=Adt {id={name="std::boxed::Box"}; kind=StructKind; substs=[{kind=Type {kind=Param "T"}}]}}}}; mutability=Not; source_info={span}};
++      {id={name="self"}; ty={kind=Ref {region={id="'<erased>"; identity=Nothing}; mutability=Not; ty={kind=Adt {id={name="std::boxed::Box"}; kind=StructKind; substs=[{kind=Type {kind=Param "T"}}]}}}}; mutability=Not; source_info={span}};
+       {id={name="b"}; ty={kind=Adt {id={name="std::boxed::Box"}; kind=StructKind; substs=[{kind=Type {kind=Param "T"}}]}}; mutability=Not; source_info={span}};
+@@ -697,3 +721,5 @@ let fns_to_be_inlined: (string * body) list =
+                 };
+-                ty={kind=RawPtr {mutability=Not; ty={kind=Param "T"}}}
++                ty={kind=RawPtr {mutability=Not; ty={kind=Param "T"}}};
++                source_ty=Nothing;
++                pointer_coercion_data=Nothing
+               }
+@@ -716,3 +742,3 @@ let fns_to_be_inlined: (string * body) list =
+     inputs=[
+-      {kind=Ref {region={id="'<erased>"}; mutability=Not; ty={kind=Adt {id={name="std::boxed::Box"}; kind=StructKind; substs=[{kind=Type {kind=Param "T"}}]}}}};
++      {kind=Ref {region={id="'<erased>"; identity=Nothing}; mutability=Not; ty={kind=Adt {id={name="std::boxed::Box"}; kind=StructKind; substs=[{kind=Type {kind=Param "T"}}]}}}};
+     ];
+@@ -750,2 +776,3 @@ let fns_to_be_inlined: (string * body) list =
+       captured_mir_phase="";
++      region_scope_id="";
+     visibility=Public;
+@@ -993,2 +1020,3 @@ let fns_to_be_inlined: (string * body) list =
+       captured_mir_phase="";
++      region_scope_id="";
+     visibility=Public;
+@@ -1235,2 +1263,3 @@ let fns_to_be_inlined: (string * body) list =
+       captured_mir_phase="";
++      region_scope_id="";
+     visibility=Public;
+@@ -1455,2 +1484,3 @@ let fns_to_be_inlined: (string * body) list =
+       captured_mir_phase="";
++      region_scope_id="";
+     visibility=Public;
+@@ -1639,2 +1669,3 @@ let fns_to_be_inlined: (string * body) list =
+       captured_mir_phase="";
++      region_scope_id="";
+     visibility=Public;
+@@ -1732,2 +1763,3 @@ type basic_block_info = <
    genv: generic_env;
 +  locals: local_decl array;
    statements: statement list;
-@@ -1740,3 +1760,3 @@ type basic_block_info = <
+@@ -1740,3 +1772,3 @@ type basic_block_info = <
  
 -let rec basic_block_info_of genv bbs predecessors bb_idx: basic_block_info =
 +let rec basic_block_info_of genv locals bbs predecessors bb_idx: basic_block_info =
    let bb = bbs.(bb_idx) in
-@@ -1748,2 +1768,3 @@ let rec basic_block_info_of genv bbs predecessors bb_idx: basic_block_info =
+@@ -1748,2 +1780,3 @@ let rec basic_block_info_of genv bbs predecessors bb_idx: basic_block_info =
      method genv = genv
 +    method locals = locals
      method statements = bb.statements
-@@ -1752,3 +1773,3 @@ let rec basic_block_info_of genv bbs predecessors bb_idx: basic_block_info =
+@@ -1752,3 +1785,3 @@ let rec basic_block_info_of genv bbs predecessors bb_idx: basic_block_info =
      method to_string = string_of_basic_block_path id
 -    method sibling i = basic_block_info_of genv bbs (bb_idx::predecessors) i
 +    method sibling i = basic_block_info_of genv locals bbs (bb_idx::predecessors) i
      method caller = None
-@@ -1843,2 +1864,3 @@ let rec process_commands bodies (env: env) opnds (i_bb: basic_block_info) i_s (s
+@@ -1843,2 +1876,3 @@ let rec process_commands bodies (env: env) opnds (i_bb: basic_block_info) i_s (s
        method genv = genv
 +      method locals = locals
        method statements = bbs.(i).statements
-@@ -2852,3 +2874,32 @@ let check_body_refines_body bodies0 bodies1 def_path body0 body1 =
+@@ -2852,3 +2886,32 @@ let check_body_refines_body bodies0 bodies1 def_path body0 body1 =
              end
 -        | RawPtr raw_ptr_data_cpn0, RawPtr raw_ptr_data_cpn1 -> error "RawPtr: not yet supported"
 +        | RawPtr raw0, RawPtr raw1 ->
@@ -82,7 +147,7 @@ index eade1c64..5e7a1ca0 100644
 +            | _ -> error "RawPtr: projected places are not supported"
 +            end
          | Cast ty0, Cast ty1 ->
-@@ -2927,3 +2978,18 @@ let check_body_refines_body bodies0 bodies1 def_path body0 body1 =
+@@ -2927,3 +2990,18 @@ let check_body_refines_body bodies0 bodies1 def_path body0 body1 =
          with LocalAddressTaken (x0, x1) ->
 -          if List.assoc x0 env0 <> List.assoc x1 env1 then failwith (Printf.sprintf "The states of the two locals %s and %s whose address is taken are not equal" (string_of_lv_path x0) (string_of_lv_path x1));
 +          if List.assoc x0 env0 <> List.assoc x1 env1 then begin
@@ -102,13 +167,13 @@ index eade1c64..5e7a1ca0 100644
 +            failwith diagnostic
 +          end;
            if !verbosity >= verbosity_basic_block then Printf.printf "Caught LocalAddressTaken (%s, %s); restarting codepos check\n" (string_of_lv_path x0) (string_of_lv_path x1);
-@@ -2937,3 +3003,3 @@ let check_body_refines_body bodies0 bodies1 def_path body0 body1 =
+@@ -2937,3 +3015,3 @@ let check_body_refines_body bodies0 bodies1 def_path body0 body1 =
      try
 -      check_basic_block_refines_basic_block env0 (basic_block_info_of root_genv0 (Array.of_list body0.basic_blocks) [] 0) env1 (basic_block_info_of root_genv1 (Array.of_list body1.basic_blocks) [] 0)
 +      check_basic_block_refines_basic_block env0 (basic_block_info_of root_genv0 locals0 (Array.of_list body0.basic_blocks) [] 0) env1 (basic_block_info_of root_genv1 locals1 (Array.of_list body1.basic_blocks) [] 0)
      with LocalAddressTaken (x0, x1) ->
 diff --git a/src/rust_frontend/vf_mir/vf_mir.capnp b/src/rust_frontend/vf_mir/vf_mir.capnp
-index 86c298fc..51d6f69a 100644
+index 86c298fc..49cd46c8 100644
 --- a/src/rust_frontend/vf_mir/vf_mir.capnp
 +++ b/src/rust_frontend/vf_mir/vf_mir.capnp
 @@ -197,2 +197,15 @@ struct Region {
@@ -155,7 +220,7 @@ index 86c298fc..51d6f69a 100644
  struct RuntimeChecks {
 @@ -692,2 +728,4 @@ struct Rvalue {
          ty @1: Ty;
-+        sourceTy @3: Ty;
++        sourceTy @3: Option(Ty);
 +        pointerCoercionData @4: Option(PointerCoercionData);
      }
 @@ -918,2 +956,3 @@ struct Body {
@@ -163,7 +228,7 @@ index 86c298fc..51d6f69a 100644
 +    regionScopeId @30: Text; # Scope for Region.inferenceVariable IDs in this body only.
      visibility @22: Visibility;
 diff --git a/src/rust_frontend/vf_mir_exporter/src/lib.rs b/src/rust_frontend/vf_mir_exporter/src/lib.rs
-index 684d3f76..1b8db820 100644
+index 684d3f76..3f45c136 100644
 --- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
 +++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
 @@ -637,2 +637,3 @@ use rustc_span::RemapPathScopeComponents;
@@ -284,10 +349,11 @@ index 684d3f76..1b8db820 100644
 +                            Self::encode_pointer_coercion(*coercion, *source, pointer_coercion_cpn);
 +                        }
                          mir::CastKind::IntToInt => cast_kind_cpn.set_int_to_int(()),
-@@ -2737,2 +2797,5 @@ use rustc_span::RemapPathScopeComponents;
+@@ -2737,2 +2797,6 @@ use rustc_span::RemapPathScopeComponents;
                      Self::encode_operand(tcx, enc_ctx, operand, operand_cpn);
 +                    let source_ty = operand.ty(&enc_ctx.body().local_decls, tcx);
-+                    let source_ty_cpn = cast_data_cpn.reborrow().init_source_ty();
++                    let source_ty_option = cast_data_cpn.reborrow().init_source_ty();
++                    let source_ty_cpn = source_ty_option.init_something();
 +                    Self::encode_ty(tcx, enc_ctx, source_ty, source_ty_cpn);
                      let ty_cpn = cast_data_cpn.init_ty();
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml

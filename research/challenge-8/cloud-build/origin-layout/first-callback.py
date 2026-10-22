@@ -54,12 +54,12 @@ R19_PROFILE_REGISTRATION = {
                              'b2_three_from_local, also on its Continue unwind edge; no posts, '
                              'runtime, CFG or trusted premise change'),
 }
-R20_METADATA_TOOL_COMMIT = '1fec4ffa55703fc571c6eb82d96072596325d647'
-R20_METADATA_PROFILE_SHA256 = 'e3258b779634aa8a510412bfbb83f847ba9e2b8fbbfa6d1d3dff72aed05119df'
-R20_METADATA_EXPORTER_SHA256 = '5199ef38e0d935d6b6e2dd4c71485f061bd5215891f3fa3f9afeb138f601be31'
-R20_METADATA_SCHEMA_SHA256 = 'c4ba15bb820c6d394ad1b5257755e5bad571d9389ee7daec5bccabc53dddb7cc'
-R20_METADATA_REFINER_CORE_SHA256 = '082b32db3d69f335c1e97ef454e98a536e941b20f9f9f119a5ef220232dd793d'
-R20_METADATA_PATCH_SHA256 = '7297b37b64f1abb95ab2805b66ac6ceb7b29810ef12f262e2208923619e29a31'
+R20_METADATA_TOOL_COMMIT = '578120769161e217e53bd569bafdccbd4b2e020e'
+R20_METADATA_PROFILE_SHA256 = '949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301'
+R20_METADATA_EXPORTER_SHA256 = '8bcb126ea684d1c671b96425940b0d24904fdaa3beb69a09316bd222316fca42'
+R20_METADATA_SCHEMA_SHA256 = 'a894cfc85246c0c33b239c0ee5b729762475f79f46931546937f082e1a6ad7c5'
+R20_METADATA_REFINER_CORE_SHA256 = '7be8a6f16ce45173866bddcc6b6d606ac4ef2a6748885eca1fc982611c753614'
+R20_METADATA_PATCH_SHA256 = '3112458ee12910ea17f69465a271d2cda848c7e50223a4b0c2b30c5e892ea33b'
 R20_METADATA_REGISTRATION = {
     'schema': 'merge-r20-source-preserving-metadata-registration-v1',
     'phase_id': 'MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23',
@@ -71,7 +71,7 @@ R20_METADATA_REGISTRATION = {
     'tool_source_paths': ['src/refinement_checker/refinement_checker.ml',
                           'src/rust_frontend/vf_mir/vf_mir.capnp',
                           'src/rust_frontend/vf_mir_exporter/src/lib.rs'],
-    'source_applicability': 'source-preserving MIR metadata only: exact pointer-coercion subtype and source, cast source/target types, body-scoped ReVar/ReErased identity; diagnostic-only context for the existing unequal LocalAddressTaken refusal (function, paired block/command positions and full listings, same standalone fatal diagnostic); plus one fail-closed closed-usize typesystem constant case (Value/Leaf, UIntPtrWidth outer/value type match, scalar size 1..8 and bits fit); strict RawPtr projected-place classifier unchanged, other index cases unsupported/inconclusive; no pointer, resource, lifetime or memory-model rule',
+    'source_applicability': 'source-preserving MIR metadata: real CastData.sourceTy is encoded as Some(exact operand type); the schema permits None, and synthetic built-in Cast fixtures explicitly use None. Pointer-coercion metadata remains exact when present. Inference-region identity remains body-scoped; synthetic fixture regions use identity None and empty region_scope_id, never an inferred identity. Retains diagnostic-only context for the existing unequal LocalAddressTaken refusal (function, paired block/command positions and full listings, same standalone fatal diagnostic) and the prior closed-usize Value/Leaf interpreter case (UIntPtrWidth outer/value type match, scalar size 1..8 and bits fit). Strict RawPtr projected-place classifier unchanged; other index cases unsupported/inconclusive; no pointer, resource, lifetime or memory-model rule.',
 }
 BODY_ISOLATION_NAME = 'actual_insert_tail_body_isolated'
 RAW_LOCAL_CALLER_NAME = 'actual_three_from_local_raw'

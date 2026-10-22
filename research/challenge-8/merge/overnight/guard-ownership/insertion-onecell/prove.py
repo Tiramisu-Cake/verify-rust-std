@@ -125,11 +125,11 @@ R19_SELECTED_PROFILE_SHA256 = "1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf0238
 R19_EXPORTER_SHA256 = "d8bca867798fd93ececcb5fd8db330d6d23d2f7b815009437bf4961b9fcd2f51"
 R19_SCHEMA_SHA256 = "b6c63644e8926a207b4393b80bf27696838aa22fe9db33acecc9fefa68550750"
 R19_REFINER_CORE_SHA256 = "48d02bf44f4a082709a427e3e0d78af5498c1f240082fb27c7891dc8a3a283b0"
-R20_TOOL_COMMIT = "1fec4ffa55703fc571c6eb82d96072596325d647"
-R20_REFINER_CORE_SHA256 = "082b32db3d69f335c1e97ef454e98a536e941b20f9f9f119a5ef220232dd793d"
-R20_EXPORTER_SHA256 = "5199ef38e0d935d6b6e2dd4c71485f061bd5215891f3fa3f9afeb138f601be31"
-R20_SCHEMA_SHA256 = "c4ba15bb820c6d394ad1b5257755e5bad571d9389ee7daec5bccabc53dddb7cc"
-R20_PATCH_SHA256 = "7297b37b64f1abb95ab2805b66ac6ceb7b29810ef12f262e2208923619e29a31"
+R20_TOOL_COMMIT = "578120769161e217e53bd569bafdccbd4b2e020e"
+R20_REFINER_CORE_SHA256 = "7be8a6f16ce45173866bddcc6b6d606ac4ef2a6748885eca1fc982611c753614"
+R20_EXPORTER_SHA256 = "8bcb126ea684d1c671b96425940b0d24904fdaa3beb69a09316bd222316fca42"
+R20_SCHEMA_SHA256 = "a894cfc85246c0c33b239c0ee5b729762475f79f46931546937f082e1a6ad7c5"
+R20_PATCH_SHA256 = "3112458ee12910ea17f69465a271d2cda848c7e50223a4b0c2b30c5e892ea33b"
 R20_PROFILE_CHANGED_KEYS = frozenset({
     "effective_tool_commit", "refiner_core_source_sha256", "exporter_source_sha256", "schema_sha256",
     "guard_return_trace_patch_sha256", "ordered_patch_chain",
@@ -148,7 +148,7 @@ R20_REGISTRATION = {
         "src/rust_frontend/vf_mir/vf_mir.capnp",
         "src/rust_frontend/vf_mir_exporter/src/lib.rs",
     ],
-    "source_applicability": "source-preserving MIR metadata only: exact pointer-coercion subtype and source, cast source/target types, body-scoped ReVar/ReErased identity; diagnostic-only context for the existing unequal LocalAddressTaken refusal (function, paired block/command positions and full listings, same standalone fatal diagnostic); plus one fail-closed closed-usize typesystem constant case (Value/Leaf, UIntPtrWidth outer/value type match, scalar size 1..8 and bits fit); strict RawPtr projected-place classifier unchanged, other index cases unsupported/inconclusive; no pointer, resource, lifetime or memory-model rule",
+    "source_applicability": "source-preserving MIR metadata: real CastData.sourceTy is encoded as Some(exact operand type); the schema permits None, and synthetic built-in Cast fixtures explicitly use None. Pointer-coercion metadata remains exact when present. Inference-region identity remains body-scoped; synthetic fixture regions use identity None and empty region_scope_id, never an inferred identity. Retains diagnostic-only context for the existing unequal LocalAddressTaken refusal (function, paired block/command positions and full listings, same standalone fatal diagnostic) and the prior closed-usize Value/Leaf interpreter case (UIntPtrWidth outer/value type match, scalar size 1..8 and bits fit). Strict RawPtr projected-place classifier unchanged; other index cases unsupported/inconclusive; no pointer, resource, lifetime or memory-model rule.",
 }
 
 
