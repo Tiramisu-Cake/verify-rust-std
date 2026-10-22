@@ -244,7 +244,7 @@ class R17PhaseTests(unittest.TestCase):
         baseline_path = HERE / "R17-BASELINE-PROFILE-20261021.json"
         selected_path = HERE / "GLUE-PROFILE.json"
         baseline = baseline_path.read_bytes()
-        selected = selected_path.read_bytes()
+        selected = r18_closed(selected_path)
         self.assertEqual(hashlib.sha256(baseline).hexdigest(), PROFILE_HASH)
         if selected == baseline:
             self.assertEqual(hashlib.sha256(selected).hexdigest(), PROFILE_HASH)
@@ -294,13 +294,13 @@ class R17PhaseTests(unittest.TestCase):
         baseline = subprocess.check_output(
             ["git", "show", f"{m.R17_PROBE_SOURCE}:{provider_path}"], cwd=HERE.parents[3]
         )
-        selected = (HERE.parents[3] / provider_path).read_bytes()
+        selected = r18_closed(HERE.parents[3] / provider_path)
         tables = m.r17_parse_provider_pin_tables(selected)
         paths = {provider_path} | set(tables["FILES"]) | set(tables["R11_FILES"])
 
         def read_source(path):
             if path == m.R17_PROVIDER_COMPAT_PATH:
-                return (HERE.parents[3] / path).read_bytes()
+                return r18_closed(HERE.parents[3] / path)
             return subprocess.check_output(
                 ["git", "show", f"4c14e05f009a87a0b64ea17d27246dad5d16ad58:{path}"],
                 cwd=HERE.parents[3],
@@ -313,7 +313,7 @@ class R17PhaseTests(unittest.TestCase):
 
     def test_provider_pin_gate_rejects_malformed_r11_table_and_missing_closure(self):
         provider_path = m.R17_PROVIDER_OVERLAYS_PATH
-        selected = (HERE.parents[3] / provider_path).read_bytes()
+        selected = r18_closed(HERE.parents[3] / provider_path)
         baseline = subprocess.check_output(
             ["git", "show", f"{m.R17_PROBE_SOURCE}:{provider_path}"], cwd=HERE.parents[3]
         )
@@ -328,7 +328,7 @@ class R17PhaseTests(unittest.TestCase):
 
     def test_provider_pin_gate_rejects_source_byte_mismatch(self):
         provider_path = m.R17_PROVIDER_OVERLAYS_PATH
-        selected = (HERE.parents[3] / provider_path).read_bytes()
+        selected = r18_closed(HERE.parents[3] / provider_path)
         baseline = subprocess.check_output(
             ["git", "show", f"{m.R17_PROBE_SOURCE}:{provider_path}"], cwd=HERE.parents[3]
         )
@@ -337,7 +337,7 @@ class R17PhaseTests(unittest.TestCase):
 
         def mismatched_source(path):
             if path == m.R17_PROVIDER_COMPAT_PATH:
-                return (HERE.parents[3] / path).read_bytes() + b"changed"
+                return r18_closed(HERE.parents[3] / path) + b"changed"
             data = subprocess.check_output(
                 ["git", "show", f"4c14e05f009a87a0b64ea17d27246dad5d16ad58:{path}"],
                 cwd=HERE.parents[3],
@@ -352,7 +352,7 @@ class R17PhaseTests(unittest.TestCase):
         baseline = subprocess.check_output(
             ["git", "show", f"{m.R17_PROBE_SOURCE}:{provider_path}"], cwd=HERE.parents[3]
         )
-        selected = (HERE.parents[3] / provider_path).read_bytes()
+        selected = r18_closed(HERE.parents[3] / provider_path)
         expected = baseline.replace(m.R17_PROVIDER_OLD_PROVE_SHA256.encode(),
                                     m.R17_PROVIDER_NEW_PROVE_SHA256.encode(), 1)
         old_anchor = (b'    "research/challenge-8/cloud-build/origin-layout/'
@@ -388,6 +388,14 @@ class R17PhaseTests(unittest.TestCase):
     def test_wrong_probe_source_and_worktree_blob_or_mode_refuse(self):
         with self.assertRaises(SystemExit): m.r17_validate_sources("f" * 40, "a" * 40)
         with self.assertRaises(SystemExit): m.r17_validate_profile_baseline(b"old", b"changed")
+
+
+def r18_closed(path):
+    """Selected R17-era bytes as committed at the closed R18 baseline."""
+    import subprocess
+    repo = HERE.parents[3]
+    rel = Path(path).resolve().relative_to(repo.resolve())
+    return subprocess.check_output(["git", "show", f"17fe08b5b4ed5b09c1d08bf56537c3d474c4ed05:{rel}"], cwd=repo)
 
 
 if __name__ == "__main__":

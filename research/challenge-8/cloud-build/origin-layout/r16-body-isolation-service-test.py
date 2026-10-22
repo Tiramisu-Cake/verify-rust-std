@@ -145,7 +145,8 @@ class BodyIsolationTests(unittest.TestCase):
         before = (b'    /*@ { r18_u64_array_inv(begin, 3);\n'
                   b'        assert array::<u64>(begin, 3, ?r16_current);\n'
                   b'        r9_make_u64_owners(t, r16_current); } @*/\n')
-        after = (b'    /*@ { assert array::<u64>(begin, 3, ?r16_normal_current);\n'
+        after = (b'    /*@ { r19_insert_tail_unwind_cleanup();\n'
+                 b'        assert array::<u64>(begin, 3, ?r16_normal_current);\n'
                  b'        r9_drop_u64_owners(t, r16_normal_current);\n'
                  b'        array_to_array_(begin); } @*/\n')
         self.assertEqual(verified.count(before), 1)
