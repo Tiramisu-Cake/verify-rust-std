@@ -158,3 +158,13 @@ universal body in the same unit can supply that component coverage, per
 N3-SCOPE's explicit no-duplicate-checked-dependency rule. With an unaccepted
 exact case, N9-only does not close universal or exact acceptance. All controls
 remain required; this stage adds no proof credit or unchecked callee summary.
+
+## Bootstrap command boundary correction
+
+Build3f978369 reports FAILED base-apt-install, original exit100 and explicit
+runner_state NOT_REACHED. Charge67s; total1824s, remaining1776s. Shape2 remains
+unobserved. Static generated-config inspection identifies a missing trailing
+newline in the bootstrap insertion: final apt install and pinned source restore
+were concatenated. Isolated helper tests passed but missed this integration
+boundary. Add a newline and a synthetic assembled-config command/argv check;
+no source/tool/profile/stage/budget change. Independently review before retry.

@@ -20,11 +20,11 @@
     "tool_sha": "809de4596839b739dd999f9e462242c835e3af46"
   },
   "blocker": {
-    "summary": "Reviewed shape2 exact420 Build3f978369 active; acceptance OPEN.",
+    "summary": "Bootstrap command boundary defect; theorem unobserved.",
     "evidence": [
       {
-        "path": "research/challenge-8/observations/3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7.json",
-        "sha256": "3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7"
+        "path": "research/challenge-8/observations/2c0be67e1938d2706a303739ea35d5dfa833ec2e553a27c5e26118cb73e6449f.json",
+        "sha256": "2c0be67e1938d2706a303739ea35d5dfa833ec2e553a27c5e26118cb73e6449f"
       }
     ]
   },
@@ -109,18 +109,22 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "Shape2 Build0eef66e7: setup exit124, evidence incomplete; theorem NOT_OBSERVED. Charge624s.",
+      "claim": "Shape2 setup failures:0eef timeout124/624s;3f978 apt100/67s, explicit NOT_REACHED. No theorem checked.",
       "evidence": [
         {
           "path": "research/challenge-8/observations/3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7.json",
           "sha256": "3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7"
+        },
+        {
+          "path": "research/challenge-8/observations/2c0be67e1938d2706a303739ea35d5dfa833ec2e553a27c5e26118cb73e6449f.json",
+          "sha256": "2c0be67e1938d2706a303739ea35d5dfa833ec2e553a27c5e26118cb73e6449f"
         }
       ]
     }
   ],
-  "next_step": "Watcher ack, then Brief and required controls.",
+  "next_step": "Review newline fix and assembled-config test; retry exact.",
   "open": [
-    "Shape2 exact Build3f978369 active at69d51ac9; full exact/controls/regressions OPEN.",
+    "Shape2 theorem unobserved; bootstrap newline correction in progress.",
     "Full exact H1 adapter/posts, negatives and compatible final regressions OPEN.",
     "R4/W7 blocked by inactive Select P1 and pending P2; W8 depends on Merge.",
     "Workflow-owner FIRST_SESSION/CLOUD_HISTORY follow-up recorded; shared changes outside N3."
@@ -151,19 +155,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "3f978369-2435-4a16-86cb-c461e786f2df"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T23:13:40Z",
     "main_deadline_utc": "2026-10-22T22:43:40Z",
-    "remaining_seconds": 1843,
+    "remaining_seconds": 1776,
     "retired_seconds": 0,
-    "spent_seconds": 1757,
+    "spent_seconds": 1824,
     "t0": "2026-10-22T20:43:40Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "network-n13-exact-cloud-2026-10-23-n3",
-  "updated_utc": "2026-10-22T22:08:47Z"
+  "updated_utc": "2026-10-22T22:11:48Z"
 }
