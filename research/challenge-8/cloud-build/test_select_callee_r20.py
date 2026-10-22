@@ -355,9 +355,9 @@ class RunnerAndRecipe(unittest.TestCase):
         order = ["stage provider-overlays", "stage source-preflight", "stage package-index",
                  "stage r20-refresh-apply", "stage console-build",
                  "stage candidate-capture", "stage candidate-source-compare",
-                 "stage candidate-proof", "stage r20-repair-proof"]
+                 "stage candidate-proof", "stage r20-repair-fingerprint"]
         self.assertIn("82741fb5bce3ee1ec46ebfad55dc0d1b743c2fd68917f20381dbd66553092b5f", RUNNER)
-        self.assertNotIn("stage r20-repair-fingerprint", RUNNER)
+        self.assertNotIn("stage r20-repair-proof", RUNNER)
         self.assertIn('[[ -z "${SORT4_R20_FINAL_SELECT_REPAIR:-}" ]] || exit 2', RUNNER)
         positions = [RUNNER.index(x) for x in order]
         self.assertEqual(positions, sorted(positions))

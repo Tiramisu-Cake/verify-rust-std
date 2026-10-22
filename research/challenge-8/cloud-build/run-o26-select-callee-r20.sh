@@ -240,10 +240,10 @@ stage candidate-proof python3 "$cloud_dir/o26-refresh-recipe.py" proof \
 # Repair variants are not run here: the pinned nine-body certificates fix the
 # exact verified source SHA and ghost list, so ghost-repaired copies would be
 # refused before the final select. They need a reviewed certificate refresh.
-# S3b: proof of the branch-repaired unit under the opt-in refreshed certificate,
-# plus refusal controls (no opt-in; opt-in without repair), classified per row.
-# The baseline candidate-proof runs on the patched translator with opt-in off.
-stage r20-repair-proof python3 "$cloud_dir/select-callee-r20.py" proof \
+# S2d (next window): fingerprint the branch-selected repaired unit for the pins
+# of its certificate refresh. The branch refresh patch stays applied (opt-in
+# off); the baseline candidate-proof remains the default-route regression.
+stage r20-repair-fingerprint python3 "$cloud_dir/select-callee-r20.py" fingerprint \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
