@@ -98,7 +98,9 @@ R20_ADDED_PATHS={R20_LEDGER_PATH,R20_METADATA_TEST_PATH,R20_ARRAY_SLICE_HELPER_P
 R20_REMOVED_PATHS={
  'research/challenge-8/cloud-build/origin-layout/r9-guard-return-controls-service-test.py',
  'research/challenge-8/cloud-build/origin-layout/r5-emitter-service-test.py',
- 'research/challenge-8/cloud-build/origin-layout/r9-phase-service-test.py'}
+ 'research/challenge-8/cloud-build/origin-layout/r9-phase-service-test.py',
+ 'research/challenge-8/cloud-build/origin-layout/r10-invariant-service-test.py',
+ 'research/challenge-8/cloud-build/origin-layout/r10-phase-service-test.py'}
 R20_PROFILE_PATH=R19_PROFILE_PATH
 R20_PROFILE_SHA256='1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb'
 R20_STARTING_TOOL_COMMIT='39f6b0cacd00575c8ca2d39e9f15632723bf1227'

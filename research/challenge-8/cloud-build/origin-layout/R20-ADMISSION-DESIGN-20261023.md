@@ -34,19 +34,17 @@ R20 compares historical closure from baseline
 `e278869253e5a1e553d0ac0c1bc7adb5221b681e` to the selected R20 source. That
 baseline already contains the R19 closed ledger, so the closure check preserves
 that exact closed record instead of comparing against R19's older open account.
-The recipe adds only the R20 ledger and removes one service-test input to make
-room under the existing 571,567-byte payload cap. The final source preflight
-recomputes the selected commit's encoded payload before any reservation:
-
-- `r9-guard-return-controls-service-test.py` (31,882 bytes)
-
-The file remains in the repository and historical input records. The R9 test's
-references are limited to local source-preflight/test inventories and review
-notes; neither `run-merge.sh` nor `merge.sh` invokes it. The R8 freshness
-service test remains in the recipe because `merge.sh` includes it in its
-Cloud static preflight at line 279. The recipe change does not delete files or
-remove runtime proof controls. The R20 admission test is a local synthetic
-service test and is not added to the Cloud recipe.
+The exact recipe delta from this closed baseline adds the R20 ledger, metadata
+admission test, and checked-content helper. It omits five dormant synthetic
+test inputs: `r9-guard-return-controls-service-test.py` (31,882 bytes),
+`r5-emitter-service-test.py` (8,201), `r9-phase-service-test.py` (7,345),
+`r10-invariant-service-test.py` (3,552), and `r10-phase-service-test.py`
+(7,035). This changes recipe inclusion only; all files remain in the repository
+and historical input records. The active `merge.sh` preflight retains its R8
+wiring, R8 freshness, and tool-evidence service tests. No runtime controls or
+source-preflight fixtures are deleted. The source preflight recomputes the
+selected commit's encoded payload against the unchanged 571,567-byte cap
+before reservation.
 
 The client checks account identity/status, owner/lane, exact ledger path,
 budget arithmetic and terminal accounting, exact start/main/absolute windows,
