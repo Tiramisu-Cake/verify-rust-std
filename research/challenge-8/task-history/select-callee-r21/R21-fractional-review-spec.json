@@ -1,0 +1,40 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "aba0d37365aba04305b95341b6acf19d7c2d3897",
+  "candidate_commit": "7033ff9997cf2a38660b3407542a938927f3fd99",
+  "defect": "Branch-selected callee reaches normal result post but loses selected-input payload identity through existential guard-own. Owner explicitly approved a narrow half-owner caller-frame candidate.",
+  "applicability": "This commit only fingerprints eight exact fractional candidate/control units under existing mode9 refusal; it admits no new proof rule or fractional summary. Same source/tool base and R21 callee lane, original window/budget.",
+  "invariants": [
+    "Global SAFE forget summary, guard-own definition, std runtime/generic signatures, CFG/domain and validity/leak/refinement controls unchanged.",
+    "Half actual selected cell is retained BEFORE nominal guard predicate close. Checked generic adapter req/ens halfown is a proposed annotation, not a proven or exposed actual summary.",
+    "All source/MIR pins must come from Cloud; exact baseline source1798/original4668 enforced. Diagnostic exit2/exactargv/source snapshots/gates/log and fresh snapshot bytes are bound; default location control must reproduce pins.",
+    "Original exceptions/exits/snapshots and partial records preserved; audit accepted/proof_credit always false, completeness requires complete batch."
+  ],
+  "controls": [
+    "New13 synthetic tests PASS (8fingerprint/audit+5transform); existingcallee22PASS afterstagewiring; source-only code no actual prep/compiler/verifier locally.",
+    "Variants positive, two wrapper-own omissions, no-retained-half, and four callee false/duplicate/loss/thread controls, all fingerprint-only."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/select-callee-r20.py",
+    "research/challenge-8/cloud-build/o26-recipe.py",
+    "research/challenge-8/cloud-build/o26-refresh-recipe.py",
+    "research/challenge-8/overnight-assume-actual/capture.py",
+    "research/challenge-8/overnight-assume-actual/r20_final_select_repair.py",
+    "research/challenge-8/overnight-assume-actual/r21_final_select_controls.py",
+    "research/challenge-8/overnight-helper/prepare-actual-owner-projection.py",
+    "research/challenge-8/overnight-forget-own/prepare.py",
+    "research/challenge-8/overnight-helper/verifast-actual-nine-safe-forget-owned-26.10.patch",
+    "research/challenge-8/overnight-linkage/check-intrinsic-drop-linkage.py"
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r21/R21-branch-selected-review.json",
+      "sha256": "bf7e76122d9540e4423fa90f46e326dd5828509c18db95d39ef8ba3d0c327d38"
+    }
+  ],
+  "known_limitations": [
+    "Only fingerprints, no actual fractional callee proof. Next requires exact reviewed tool certificates and complete positive/negative/unwind/nested-Drop acceptance.",
+    "Newbodytransport code remains uncommitted/inactive and outside this candidate."
+  ]
+}

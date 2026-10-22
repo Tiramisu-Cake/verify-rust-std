@@ -1,0 +1,31 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "7033ff9997cf2a38660b3407542a938927f3fd99",
+  "candidate_commit": "ebf14315c11af6f68aed14ac7f626220f7ddbfa7",
+  "defect": "Existing recovery transport exceeds191 parts and imports254KB generic runner; task authorizes separate minimal actual-body lane.",
+  "applicability": "Inactive unregistered new o26-sort4-body-r21 transport only. No proof admission, no Cloud authorization change.",
+  "invariants": [
+    "Profile cloud_build_enabled remains false; phase/ledger/window unchanged.",
+    "Retain full actual-source/MIR certification and 5 comparison/8 select/4 copy resource/leak gates. No semantic relaxation.",
+    "Source closure covers imports and dynamic profile reads; infra/proof roles must match call sites and hashes.",
+    "Actual prep/compiler/exporter/verifier only Cloud."
+  ],
+  "controls": [
+    "28 isolated synthetic/static tests PASS; bash-n PASS.",
+    "Review missing/null/wrongtype/partial/error/timeout/stage-target source binding."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/source-input.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-actual-body-r17.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-tool-r17.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-cleanup-helper.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/driver.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/selected-runtime.py"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Inactive route, no actual body proof or new client registration.",
+    "Real committed payload measurement follows; source-byte saving alone is not encoded transport saving."
+  ]
+}

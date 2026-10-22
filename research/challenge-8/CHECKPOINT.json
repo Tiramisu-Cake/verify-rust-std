@@ -2,7 +2,7 @@
   "artifacts": [
     {
       "path": "research/challenge-8/task-history/select-callee-r21/ARTIFACT-INDEX.json",
-      "sha256": "ae86156e733be5ba1a6184ba9b8cc07378624922800c1652d86d7b1794eaac7c"
+      "sha256": "790aa0008c0a520d4d851b3f5a615ae35a9b5d8cd3eeb8d323c5efbcfcafc5a7"
     }
   ],
   "assignment_sha256": "018ffe56c8c4386b472f53c6a0ce9c01d6368972400c6eb64fa4b6fbbed9c745",
@@ -71,12 +71,12 @@
       ]
     }
   ],
-  "next_step": "Review and build fractional fingerprints; then exact certificates and checked proof/controls, same R21 window.",
+  "next_step": "Brief fractional fingerprints; bind exact certificates and checked proof/controls in the same R21 window.",
   "open": [
     "Callee acceptance: normal/unwind/nested-Drop matrix; *mut T/generic gap. Recovery lane 192/191 chunks: prune before c5/selector.",
     "Network P1 candidate accepted for integration only (inactive/unbuilt); P3 grammar chosen but unimplemented. P2 checked mutable-pointer callee remains pending; pin NETWORK-SELECT-RESPONSE.md and reviews.",
-    "Branch-selected classified proof Build1bbfc87e pending on a1be60b6. Same-site omit-selected/omit-unselected transforms prepared/tested but inactive; need exact source/body/unit pins and same-site failures.",
-    "Transport: recovery payload still192/191 (572389bytes); duplicate infra selected-proof reference removed, proof blob preserved. Inactive6.6KB cleanup helper9af1324a extracted with parity tests/review; new route/import/profile/closure integration remains."
+    "Fractional fingerprints Build471c5af3 pending on7033ff99; eight candidate/control variants. No fractional proof yet.",
+    "New inactive body route ebf14315:502227bytes/168parts below191;28 synthetic tests pass; independent review pending."
   ],
   "owner": "select-sort4",
   "phase": "SORT4-ACTUAL-SELECT-2026-10-23-R21",
@@ -87,19 +87,21 @@
       "reason": "Does not establish actual ordered callback resources or full normal/unwind posts."
     },
     {
-      "approach": "Закрывать сессию досрочно, когда нет допустимого Build",
+      "approach": "\u0417\u0430\u043a\u0440\u044b\u0432\u0430\u0442\u044c \u0441\u0435\u0441\u0441\u0438\u044e \u0434\u043e\u0441\u0440\u043e\u0447\u043d\u043e, \u043a\u043e\u0433\u0434\u0430 \u043d\u0435\u0442 \u0434\u043e\u043f\u0443\u0441\u0442\u0438\u043c\u043e\u0433\u043e Build",
       "evidence": [
         {
           "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json",
           "sha256": "43938f12bb12264b19b9b414d91130753de5d441bde857217da2cffea43efd13"
         }
       ],
-      "reason": "R18 и R19 закрыты досрочно, хотя в миссии оставалась работа без Cloud (callee proof, transport); это противоречит CORE и особой границе задания."
+      "reason": "R18 \u0438 R19 \u0437\u0430\u043a\u0440\u044b\u0442\u044b \u0434\u043e\u0441\u0440\u043e\u0447\u043d\u043e, \u0445\u043e\u0442\u044f \u0432 \u043c\u0438\u0441\u0441\u0438\u0438 \u043e\u0441\u0442\u0430\u0432\u0430\u043b\u0430\u0441\u044c \u0440\u0430\u0431\u043e\u0442\u0430 \u0431\u0435\u0437 Cloud (callee proof, transport); \u044d\u0442\u043e \u043f\u0440\u043e\u0442\u0438\u0432\u043e\u0440\u0435\u0447\u0438\u0442 CORE \u0438 \u043e\u0441\u043e\u0431\u043e\u0439 \u0433\u0440\u0430\u043d\u0438\u0446\u0435 \u0437\u0430\u0434\u0430\u043d\u0438\u044f."
     }
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "471c5af3-c73a-443c-ac61-cd85764e7bb9"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T22:24:55Z",
     "main_deadline_utc": "2026-10-22T21:54:55Z",
@@ -109,7 +111,7 @@
     "t0": "2026-10-22T19:54:55Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-23-r21",
-  "updated_utc": "2026-10-22T20:50:26Z"
+  "updated_utc": "2026-10-22T20:58:50Z"
 }

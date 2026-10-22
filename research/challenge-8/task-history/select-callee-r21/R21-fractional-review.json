@@ -1,0 +1,45 @@
+{
+  "schema": "smallsort-independent-review-v1",
+  "reviewer": "Codex independent reviewer",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "nested_delegation": false,
+  "verdict": "GO_WITH_NITS",
+  "candidate_commit": "7033ff9997cf2a38660b3407542a938927f3fd99",
+  "candidate_tree": "551bcaeb97b8a618ef18ea6ffa800cc485f8c2bd",
+  "baseline_commit": "aba0d37365aba04305b95341b6acf19d7c2d3897",
+  "diff_sha256": "4084a13bb69addf87fb9b3bdd5710d0daeecbaa2e53b54149a11a0deb44e11c8",
+  "packet_sha256": "1fd9d52c9a113778f92069c10efc9ed8657afd3b1be9b124734ba6894a68974c",
+  "spec_sha256": "cd7cb68f22523a978b50e1c9d8e53aca89876626062265af5d3a490e51c22200",
+  "scope": "Independent static review of the eight fractional source variants, Cloud-only fingerprint runner, route guards, and audit composition. Diagnostic Build recommendation only.",
+  "basis": [
+    "The source transform pins its repair/control modules, replaces only exact ghost-annotation byte anchors, and composes the existing branch-selected final-select repair. The forget Rust signature/body, runtime call, and source CFG remain textually untouched; the proposed half-owner contract is only a transformed annotation and is not admitted by the pinned 606235 translator. The fingerprint helper first requires the exact Cloud-captured original and owner-projection source hashes, then copies the original into each variant and retains the base copy.",
+    "The eight variants are exact and ordered: positive; omission of each wrapper-own branch; full-close/no-retained-half; and four malformed forget posts. Variant completion requires normal MIR export/decode checks, source-stable diagnostic refusal with exact verifier argv/log target/gates, and ten fresh snapshot files matching the default pinned unit/body hashes. The unmodified location control must reproduce the same pins. Partial, exception, NOT_RUN, deadline, wrong-type, source mismatch, snapshot mismatch, and wrong exit states remain incomplete; stage results/exceptions are retained. The CLI exposes fingerprint and audit only; every record and final audit sets accepted/proof_credit false and body_proof_run false. The shell rejects ambient R20/R21 opt-ins, invokes the fingerprint stage instead of the old R20 repair-proof stage, and keeps the baseline candidate-proof stage before it.",
+    "Recipe additions include the exact new infra helper and proof-side transform/control dependencies. Static inspection found no change to the global SAFE forget summary, guard-own predicate, runtime/generic signature, default proof gates, or actual body route. The transform is fingerprint-only and does not establish fractional soundness or actual callee acceptance."
+  ],
+  "findings": [],
+  "nits": [
+    {
+      "location": "research/challenge-8/cloud-build/select-callee-r21-fractional.py:130-141",
+      "finding": "validate_export_decode accepts an empty output file when its recorded SHA-256 matches, since it checks file existence and digest but not positive size.",
+      "impact": "A pathological zero-byte exporter/decoder output with exit 0 could still be classified as a complete normal-MIR fingerprint.",
+      "suggestion": "Consider requiring nonempty output bytes before marking the MIR stage complete."
+    },
+    {
+      "location": "research/challenge-8/overnight-assume-actual/test_r21_fractional_forget.py:110",
+      "finding": "The candidate diff has trailing whitespace on this assertion line; git diff --check reports it.",
+      "impact": "Style-only; it does not affect the source transform or diagnostic route.",
+      "suggestion": "Trim the trailing space when next touching the test."
+    }
+  ],
+  "validation": {
+    "packet_identities": "MATCH (spec, diff, inventory hashes verified)",
+    "candidate_tree": "MATCH",
+    "static_semantic_review": "PASS",
+    "git_diff_check": "FAIL (one trailing whitespace in new test)",
+    "packet_reported_synthetic_tests": "NOT_INDEPENDENTLY_RUN (packet prohibits executing its source/evidence)",
+    "actual_preparation_exporter_compiler_verifier_reconstruction_or_build": "NOT_RUN",
+    "formal_proof_credit": "NONE"
+  },
+  "limitations": "This is a GO_WITH_NITS for the fingerprint-only diagnostic Build in the exact candidate. It does not authorize or establish the fractional proof rule, actual callee acceptance, or proof credit; any later proof candidate requires exact independently reviewed certificates and the full required controls/matrix."
+}
