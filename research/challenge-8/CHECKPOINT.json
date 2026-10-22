@@ -55,17 +55,6 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "R20 S2b (729474f9): merged repair fingerprint intended; SHA 28b8e5ef, unit 6a588c53, body-7 99fcb96e; MIR inventory unchanged (10 edges->24). credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/task-history/select-callee-r20/S2b-evidence.json",
-          "sha256": "7dc8577da8468633ee549c28bacfcd3a2296f7c993ffe0ec58f4ef5e7a370be3",
-          "build_id": "729474f9-3acf-4d52-a04d-9ffb16e1fb5a"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
       "claim": "R20 S3 (cd3e6cae): refreshed certificate admits exact merged unit (owner-nine/H2/forget-own/A1-nine); verifier Parse error lib.rs:219 (2nd ghost stmt after if/else); controls refused at owner SHA pin. credit0.",
       "evidence": [
         {
@@ -74,9 +63,20 @@
           "build_id": "cd3e6cae-721f-45d8-ae82-5e198e00312b"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R20 S2c (36f6c053): branch repair fingerprint intended; SHA 47856983, unit e6395c8a, body-7 315594a2; MIR unchanged; default route on refreshed translator reproduces S1. credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-callee-r20/S2c-evidence.json",
+          "sha256": "34edf919c6c478db8a7f3f3177a969aa189f28ce71b660eb52bb8893b47499fd",
+          "build_id": "36f6c053-0c43-4e83-b73f-4dab633b31fa"
+        }
+      ]
     }
   ],
-  "next_step": "Wait R20 S2c Build 36f6c053 (branch-variant fingerprint, pins 31dde148); ack; record pins; branch refresh patch + proof next window.",
+  "next_step": "Review S3b 00f85081 (branch refresh 0862e635->82741fb5 + classified proof); submit before 17:41 or carry as reviewed HANDOFF.",
   "open": [
     "Callee: run nine-body unit on separate lane o26-select-callee-r20 (baseline + ghost repair variants); then normal/unwind/nested-Drop completion and matrix; *mut",
     "Recovery lane transport: 192/191 chunks after R20 client lines (control.py is in every lane's infra core); prune closed routes separately before c5 (34e37669)/s",
@@ -103,19 +103,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "36f6c053-0c43-4e83-b73f-4dab633b31fa"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T18:11:28Z",
     "main_deadline_utc": "2026-10-22T17:41:28Z",
-    "remaining_seconds": 2086,
+    "remaining_seconds": 1746,
     "retired_seconds": 0,
-    "spent_seconds": 1514,
+    "spent_seconds": 1854,
     "t0": "2026-10-22T15:41:28Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-actual-callee-autonomous-2026-10-22-r20",
-  "updated_utc": "2026-10-22T17:15:00Z"
+  "updated_utc": "2026-10-22T17:24:00Z"
 }
