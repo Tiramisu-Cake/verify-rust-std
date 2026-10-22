@@ -57,3 +57,24 @@ indices): a same-cell variant — one full borrow shared to two precreated refs,
 its own debt/recover names admitted by the overlay. Keying the existing
 `comparison_debt` on pointer equality is rejected: distinct ZST cells are
 pointer-equal and the sort4 ZST route would change meaning.
+
+Design constraint found while preparing R4: the helper has **one** comparator
+call site, so a single static marker must cover both cases at runtime. A
+same-cell marker alone is not enough; the overlay would have to admit a marker
+whose debt/recovery branch on a logical ghost flag, e.g.
+
+```
+/*@ {
+    __vf_callback_unwind_pair_or_same();
+    { if same { close comparison_debt_same::<T>(t, cmp_k, left, left_ref, right_ref, left_fraction, right_fraction); }
+      else { close comparison_debt::<T>(t, cmp_k, left, right, left_ref, right_ref, left_fraction, right_fraction); } }
+    { if same { recover_same::<T>(left); } else { recover_pair::<T>(left, right); } }
+} @*/
+```
+
+with `same == (a_pos == b_pos)` a ghost value fixed before the call (logical
+positions, never pointer equality), `comparison_debt_same` holding one
+`borrow_end_token` and both ref tokens, and `recover_same` a checked lemma. The
+R4 contract would then become `if a_pos == b_pos { one owned cell } else { two }`.
+Exact marker grammar is Select's choice; Network adapts its generator to it.
+
