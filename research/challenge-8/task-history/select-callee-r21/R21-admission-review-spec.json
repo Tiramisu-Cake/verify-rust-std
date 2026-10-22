@@ -1,0 +1,34 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "fffb4d475acaccf71432cc513f886f372fde145b",
+  "candidate_commit": "6701d8a829d5f590d8567fc323467de42c222d77",
+  "defect": "Fresh owner-authorized R21 needs exact admission rather than expired R20 account; callee runner must consume exact R21 marker.",
+  "applicability": "Only fresh Select R21 on o26-select-callee-r20, same S2d fingerprint candidate and source/tool/profile pins. Prepared profile artifact is DRAFT only; minimal recipe has no A1 profile activation.",
+  "invariants": [
+    "R20 historical gates and ledger unchanged; exact separate R21 owner/lane/window/3600 ceiling/270..1200 timeout/240 reserve.",
+    "No coordinator change, pinned-object transport cap unchanged, no tool/spec/transform/proof-credit change.",
+    "Provider and phase guards preserved; use only pinned tool objects, never foreign dirty tool-worktree files."
+  ],
+  "controls": [
+    "Synthetic registration tests: exact account and refusals, both deadline gates, transport/config/env.",
+    "Existing callee service tests and repair transform tests; first Cloud S2d fingerprint unrun."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/coordination.py",
+    "research/challenge-8/cloud-build/recipes/o26-select-callee-r20.json",
+    "research/challenge-8/cloud-build/o26-recipe.py",
+    "research/challenge-8/cloud-build/o26-refresh-recipe.py",
+    "research/challenge-8/overnight-assume-actual/r20_final_select_repair.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json"
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r20/R20-review.json",
+      "sha256": "8f2a40d50e46efbca07e086f615735f321002d53f88705c71771da7dbfbf2ff5"
+    }
+  ],
+  "known_limitations": [
+    "No actual compiler/verifier run locally; no formal credit. S2d fingerprint must precede branch-selected certificate refresh and classified proof."
+  ]
+}

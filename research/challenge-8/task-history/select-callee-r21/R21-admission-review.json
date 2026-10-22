@@ -1,0 +1,46 @@
+{
+  "schema": "smallsort-independent-review-v1",
+  "reviewer": "Codex independent reviewer",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "nested_delegation": false,
+  "verdict": "GO_WITH_NITS",
+  "candidate_commit": "6701d8a829d5f590d8567fc323467de42c222d77",
+  "candidate_tree": "57034e759e323fb2fc28822047af7ea49e56b905",
+  "baseline_commit": "fffb4d475acaccf71432cc513f886f372fde145b",
+  "diff_sha256": "3a3058d4a3cc798061d1f3394ed9222e5cfdcd83c35382d6794e90aba8051617",
+  "packet_sha256": "ca5109e08f3cc59093bc9328520ae2743717be1a42685a3f745eb87fd8ea4eff",
+  "spec_sha256": "3f877ed31943e267d59482433d1e1d339ab707abfa87185007941da9d85c3d0e",
+  "scope": "R21 client admission and reuse of the existing o26-select-callee-r20 runner route, with the exact R21 marker. No tool/spec/transform/proof change.",
+  "basis": [
+    "R21 has separate exact phase, start/main/absolute deadlines, owner, single lane, 3600-second ceiling, sequential account, 1200-second timeout cap, and 240-second report reserve; historical R20 constants remain intact.",
+    "The phase is carried through the client's environment binding, source transport, timeout budget, both main-window checks, exact-deadline gate, and timeout range checks. The lane marker in the existing runner and callee helper accepts R21 alongside R20, while provider, GitHub, and ambient-opt-in guards remain present.",
+    "The minimal lane recipe stays profile-free; R21 does not activate the draft A1 profile. The helper continues to pin the transform and uses the same diagnostic fingerprint path; no proof acceptance or credit is claimed."
+  ],
+  "findings": [],
+  "nits": [
+    {
+      "location": "research/challenge-8/task-history/select-callee-r21/preparation-registration-plan.md and preparation-spec.json",
+      "finding": "The preparation notes still name a new R21 profile destination that is absent from the candidate and say the client must consume a prepared profile. This conflicts with SESSION-DESIGN.md and the actual profile-free recipe/environment, where the draft profile is intentionally not activated.",
+      "impact": "Documentation ambiguity only; the reviewed client and runner do not consume that profile.",
+      "suggestion": "Align the preparation plan/spec with the profile-free lane, or explicitly label the profile path as unused draft metadata."
+    },
+    {
+      "location": "research/challenge-8/cloud-build/control.py:authorized_phase and test_a1_r21_registration.py:test_exact_fresh_account_required",
+      "finding": "The canonical ledger phase field is checked against the requested phase, but the duplicate phase_id field is not checked or covered by a mismatch control.",
+      "impact": "No phase bypass was found because authorization and downstream routing use the checked phase field and CLI phase; contradictory ledger metadata could still be accepted.",
+      "suggestion": "Consider requiring ledger.phase_id == requested phase, or document that phase_id is informational and remove it from the exact-account assertion."
+    }
+  ],
+  "validation": {
+    "packet_identities": "MATCH",
+    "synthetic_r21_registration": "PASS (7 tests)",
+    "existing_callee_service_tests": "PASS (22 tests)",
+    "git_diff_check": "PASS",
+    "cloud_build": "NOT_RUN",
+    "compiler_or_verifier": "NOT_RUN",
+    "buildability": "NOT_ESTABLISHED",
+    "formal_proof_credit": "NONE"
+  },
+  "limitations": "S2d Cloud fingerprint, MIR export/decode, and subsequent proof work remain unrun; this review grants admission readiness only and establishes no buildability or formal proof credit."
+}

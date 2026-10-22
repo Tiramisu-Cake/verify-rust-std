@@ -1,0 +1,69 @@
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+index d099f6f..720b361 100644
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -4674,6 +4674,24 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+             let (_, call_line, _) = call_start_pos in
+             if marker_end_line + 1 <> call_line then
+               fail "marker is not immediately before the actual call span";
++            (* Network P1 candidate: the single pair marker of the complete
++               actual swap_if_less binds exactly the opted-in source call line. *)
++            if State.body_name = "swap_if_less" then begin
++              if Sys.getenv_opt "NETWORK_SWAP_IF_LESS_CALLBACK" <> Some "1" then
++                fail "swap_if_less marker without its exact opt-in";
++              let expected_line =
++                match Sys.getenv_opt "NETWORK_SWAP_IF_LESS_CALL_LINE" with
++                | Some value ->
++                    (try let line = int_of_string value in
++                       if line <= 0 || string_of_int line <> value then
++                         fail "swap_if_less source coordinate";
++                       line
++                     with Failure _ -> fail "swap_if_less source coordinate")
++                | None -> fail "swap_if_less source coordinate" in
++              if call_line <> expected_line || index <> 1 ||
++                 !State.callback_unwind_count <> 0 then
++                fail "swap_if_less marker does not bind the source callback"
++            end;
+             if Sys.getenv_opt "SORT4_ACTUAL_BODY_C1_RECOVERY" = Some "1" &&
+                State.body_name = "sort4_stable" then begin
+               let line_value =
+@@ -8884,7 +8902,38 @@ let run_actual_deferred_scope_controls loc =
+           State.fail_callback_unwind "actual-body indexed marker inventory differs";
+         true
+       end in
+-    let callback_fixture = actual_sort4_callback ||
++    (* Network P1 candidate: one source-bound pair marker in the COMPLETE
++       actual swap_if_less, under its own exact opt-in, path and SHA256. It is
++       exclusive with the sort4 route and admits no other body. *)
++    let network_swap_callback =
++      let requested =
++        match Sys.getenv_opt "NETWORK_SWAP_IF_LESS_CALLBACK" with
++        | None | Some "0" -> false
++        | Some "1" -> true
++        | _ -> State.fail_callback_unwind "malformed swap_if_less opt-in" in
++      if not requested || State.body_name <> "swap_if_less" then false
++      else begin
++        if Sys.getenv_opt "SMALLSORT_EXECUTION_PROVIDER" <> Some "cloud-build" ||
++           Sys.getenv_opt "SORT4_ACTUAL_BODY_C1_RECOVERY" = Some "1" ||
++           Sys.getenv_opt "SORT4_ACTUAL_BODY_C2_RECOVERY" = Some "1" then
++          State.fail_callback_unwind "swap_if_less isolated environment";
++        let (file, _, _), (last_file, _, _) = Ast.lexed_loc imp_loc in
++        if file <> "verified/lib.rs" || last_file <> file then
++          State.fail_callback_unwind "swap_if_less source path";
++        let expected = match Sys.getenv_opt "NETWORK_SWAP_IF_LESS_SOURCE_SHA256" with
++          | Some value when String.length value = 64 &&
++              String.for_all (function '0'..'9' | 'a'..'f' -> true | _ -> false) value -> value
++          | _ -> State.fail_callback_unwind "swap_if_less exact source SHA256" in
++        let ic = Unix.open_process_in "/usr/bin/sha256sum -- verified/lib.rs" in
++        let row = input_line ic in
++        let status = Unix.close_process_in ic in
++        if status <> Unix.WEXITED 0 || row <> expected ^ "  verified/lib.rs" then
++          State.fail_callback_unwind "swap_if_less verified source SHA256 differs";
++        if parsed_callback_markers <> 1 then
++          State.fail_callback_unwind "swap_if_less requires exactly one source marker";
++        true
++      end in
++    let callback_fixture = actual_sort4_callback || network_swap_callback ||
+       State.body_name = "callback_positive" ||
+       State.body_name = "callback_false_post" in
+     let expected_callback_markers =
