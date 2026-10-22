@@ -30,5 +30,24 @@
     ]
   },
   "submit_basis_commit": "341dc82a98babe08f66736f22a363ecd9039de72",
-  "not_run": "Cloud, runner execution, OCaml/VeriFast."
+  "not_run": "Cloud, runner execution, OCaml/VeriFast.",
+  "s2": {
+    "verdict": "GO_WITH_NITS",
+    "ranges": [
+      "a5705fa028d6b0fa7247cdf7be5f978deaac0fff..45b68a155dd6eec0b7389fa20500cb97e4f31b50",
+      "45b68a155dd6eec0b7389fa20500cb97e4f31b50..e9708a96474e11ba4b9ca19cfc916e202a644a49"
+    ],
+    "scope": "Diagnostic fingerprint Build only: unrepaired location control + 'both'-repaired unit fingerprint (mode-9 intended refusal) + NORMAL MIR export/decode of the repaired copy. No proof, admission or repair credit.",
+    "fixed_nits": [
+      "complete folds mir_complete",
+      "location control reproduces pinned UNIT/BODIES"
+    ],
+    "open_nits": [
+      "late-start NOT_RUN_DEADLINE shows exit 4 not 3",
+      "exit 137 recorded as RAN (mir_complete requires exit 0)",
+      "stdout summary omits reproduces_pinned",
+      "S3 refresh also needs structural ghost-list/body-text changes"
+    ]
+  },
+  "submit_basis_commit_s2": "e9708a96474e11ba4b9ca19cfc916e202a644a49"
 }
