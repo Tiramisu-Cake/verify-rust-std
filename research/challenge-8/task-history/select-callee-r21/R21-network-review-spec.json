@@ -1,0 +1,24 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "6701d8a829d5f590d8567fc323467de42c222d77",
+  "candidate_commit": "e1956119b2a93ae9ecdfa7ba1daef3d5d81d631b",
+  "defect": "Network P1/P2/P3 request requires an exact source-pinned Select answer without inventing runtime admission or proof.",
+  "applicability": "Published response and vendored inactive P1 candidate only; no executable route/profile change.",
+  "invariants": [
+    "No proof credit or active P1 tool release; no new Cloud lane for Network.",
+    "P2 remains pending actual checked mutable-pointer callee; P3 uses logical index equality and checked recovery."
+  ],
+  "controls": [
+    "Static source/patch/dependency review only; candidate patch remains unbuilt and inactive."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/actual-sort4-c2-recovery-r17.patch",
+    "research/challenge-8/overnight-callback/verifast-callback-unwind-26.10.patch",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "P1 copied verbatim from c760fa3b; no integration/build/proof; P3 design grammar not yet admitted."
+  ]
+}

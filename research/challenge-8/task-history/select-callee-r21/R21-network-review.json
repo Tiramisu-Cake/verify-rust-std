@@ -1,0 +1,46 @@
+{
+  "schema": "smallsort-independent-review-v1",
+  "reviewer": "Codex independent reviewer",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "nested_delegation": false,
+  "verdict": "GO_WITH_NITS",
+  "candidate_commit": "e1956119b2a93ae9ecdfa7ba1daef3d5d81d631b",
+  "candidate_tree": "020945e567f5b73506e8f0406614020263441ce2",
+  "baseline_commit": "6701d8a829d5f590d8567fc323467de42c222d77",
+  "diff_sha256": "9ebab71c7e1ef6e25754102aaf104d418ca9a64ba5ebac4cf2677e9774a1d41a",
+  "packet_sha256": "d5202b8a402c2930a41671b25135a746bd6e540166f73e35762d17fd48358ee3",
+  "spec_sha256": "2c35e351142d0112100e743d63073494d3f1303a189aeeb8c0682227826bed84",
+  "scope": "Static review of the vendored, inactive Network P1 translator candidate, the Select response, and its P1/P2/P3 source-grounded rationale.",
+  "basis": [
+    "The vendored P1 patch is byte-pinned and adds only a translator admission path. It requires the named swap_if_less body, Cloud provider, verified/lib.rs input path and SHA-256 comparison, exactly one parsed marker, source call-line match, marker index 1, and no prior callback marker. Existing FnMut two-argument, Continue-unwind, normal-successor, adjacency, marker-count and non-target-body checks remain in the referenced translator chain.",
+    "P1 does not establish ownership or verify swap_if_less or select_unpredictable. The response leaves the actual *mut T callee as P2 pending a checked matching-version proof with conditional result and unwind post; it rejects an inferred summary.",
+    "The P3 design does not reuse the distinct-cell comparison_debt/recover_pair protocol for equal logical positions. It requires a ghost equality bound to a_pos == b_pos, a single-cell debt and checked recover_same, while retaining the pair route for distinct indices. It correctly warns that pointer equality cannot define logical sameness for ZSTs and states that this grammar is not yet parsed or admitted.",
+    "The candidate changes documentation and adds a vendored patch/manifest only. It does not activate a runner, tool profile, Cloud lane, proof rule, or proof credit."
+  ],
+  "findings": [],
+  "nits": [
+    {
+      "location": "research/challenge-8/task-history/select-callee-r21/P1-MANIFEST.json: patch",
+      "finding": "The manifest points to research/challenge-8/network/p1/network-swap-if-less-admission.patch, while this candidate vendors the patch at research/challenge-8/task-history/select-callee-r21/network-swap-if-less-admission.patch.",
+      "impact": "The identity remains clear from the recorded SHA-256 and response, but tooling that follows the manifest path cannot find the vendored file.",
+      "suggestion": "Point the manifest at the vendored path or state that it names the upstream Network path and add a separate vendored_path field."
+    },
+    {
+      "location": "NETWORK-SELECT-RESPONSE.md P1 environment pins",
+      "finding": "The P1 translator compares the file SHA against NETWORK_SWAP_IF_LESS_SOURCE_SHA256 supplied by the caller; it does not contain a tool-level allowlist of authorized crate SHAs.",
+      "impact": "This is consistent with the inactive candidate design, but the env value alone is not provenance or authorization for a future active route.",
+      "suggestion": "When integrating, bind this value to the exact generated crate/profile manifest and retain the stated source/tool identity checks."
+    }
+  ],
+  "validation": {
+    "packet_identities": "MATCH",
+    "vendored_patch_sha256": "MATCH",
+    "dependency_hashes": "MATCH",
+    "diff_check": "PASS",
+    "compiler_or_verifier": "NOT_RUN",
+    "cloud_build": "NOT_RUN",
+    "formal_proof_credit": "NONE"
+  },
+  "limitations": "Static review only. The vendored P1 patch is unbuilt and inactive; P3 remains an unparsed grammar design; P2 remains pending checked actual-callee evidence."
+}

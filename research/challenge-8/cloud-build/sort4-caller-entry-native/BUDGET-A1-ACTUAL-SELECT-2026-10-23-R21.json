@@ -1,12 +1,29 @@
 {
-  "active_build": null,
+  "active_build": "79ba86f3-200c-4678-b9b2-80450b0be061",
   "allowed_lanes": [
     "o26-select-callee-r20"
   ],
   "authorization": "CURRENT-TASK Select-R21 and owner instruction authorize the fresh Codex session, 3600 Cloud seconds, callee lane only; T0 2026-10-22T19:54:55Z, main 21:54:55Z, absolute 22:24:55Z; no carry, exact client registration and independent review required before submit.",
   "authorization_model": "bounded-cloud-budget",
   "baseline_sha": "44bfbdecdd61c96059fe76d8b8bff690e15dd5d6",
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-3bc5b2a461a5401e809d1954a9a82b4b",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-ACTUAL-SELECT-2026-10-23-R21",
+      "infra_sha": "6701d8a829d5f590d8567fc323467de42c222d77",
+      "proof_sha": "6701d8a829d5f590d8567fc323467de42c222d77",
+      "lane": "o26-select-callee-r20",
+      "submitted_config_sha256": "70cfa4194b3b2d6c35c9179d98b2b7975985c4a84e55092244da60362599f9db",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "QUEUED",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "3f43da3c21a6210ce58b52782fff11eb8786bbc7d1975008f877099b3e42dba0",
+      "build_id": "79ba86f3-200c-4678-b9b2-80450b0be061"
+    }
+  ],
   "carry_seconds": 0,
   "carryover_allowed": false,
   "ceiling_build_seconds": 3600,

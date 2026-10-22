@@ -11,6 +11,18 @@
     {
       "path": "research/challenge-8/cloud-build/recipes/o26-select-callee-r20.json",
       "sha256": "45d49e95c92fa99ec89167ce8d5ae907f7b839ccda4318af2ccaa59e26b66ee3"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r21/R21-admission-review.json",
+      "sha256": "2ff2076e9daa26891d90d89e0905c100987af7c3bea2aea5fdb47c0f436e1a39"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r21/R21-network-review.json",
+      "sha256": "ec03b9747d810b2e49c87c6e8eb18d40fffc127c8de486aaeed5aa982f6c3d48"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r21/NETWORK-SELECT-RESPONSE.md",
+      "sha256": "91f67646a11b8e7ec898f12bd62ded81d784b4f3a096d6e67ed5d197870cceeb"
     }
   ],
   "assignment_sha256": "018ffe56c8c4386b472f53c6a0ce9c01d6368972400c6eb64fa4b6fbbed9c745",
@@ -57,11 +69,11 @@
       ]
     }
   ],
-  "next_step": "New window: build HANDOFF 0f37a0df S2d fingerprint on o26-select-callee-r20; then branch-selected refresh + classified proof.",
+  "next_step": "Await S2d Build 79ba86f3-200c-4678-b9b2-80450b0be061 via Codex watcher; ack before checkpoint edits, then Brief fingerprint pins -> branch-selected certificate refresh -> classified proof and same-site controls. Original R21 window/budget remain in force.",
   "open": [
     "HANDOFF 0f37a0df (unbuilt, reviewed GO_WITH_NITS): S2d fingerprint -> branch-selected refresh patch -> runner proof -> delta review -> Build.",
     "Callee acceptance: normal/unwind/nested-Drop matrix; *mut T/generic gap. Recovery lane 192/191 chunks: prune before c5/selector.",
-    "Network SELECT-REQUESTS P1 (candidate c760fa3b/c14d8f8a), P2 (= *mut T callee), P3 unanswered."
+    "Network P1 candidate accepted for integration only (inactive/unbuilt); P3 grammar chosen but unimplemented. P2 checked mutable-pointer callee remains pending; pin NETWORK-SELECT-RESPONSE.md and reviews."
   ],
   "owner": "select-sort4",
   "phase": "SORT4-ACTUAL-SELECT-2026-10-23-R21",
@@ -84,7 +96,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "79ba86f3-200c-4678-b9b2-80450b0be061"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T22:24:55Z",
     "main_deadline_utc": "2026-10-22T21:54:55Z",
@@ -94,7 +108,7 @@
     "t0": "2026-10-22T19:54:55Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-23-r21",
-  "updated_utc": "2026-10-22T19:54:55Z"
+  "updated_utc": "2026-10-22T20:03:25Z"
 }
