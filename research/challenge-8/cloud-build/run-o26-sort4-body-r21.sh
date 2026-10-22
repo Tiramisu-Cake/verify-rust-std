@@ -111,6 +111,7 @@ source_home="$task_temp/source"
 schema="$source_home/src/rust_frontend/vf_mir/vf_mir.capnp"
 manifest="$proof_root/research/challenge-8/overnight-linkage/O26-PROFILE-MANIFEST.json"
 
+current_stage=frozen-manifest
 python3 - "$manifest" "$proof_root" "$ev" <<'INPUTS'
 import hashlib,json,pathlib,sys
 m=pathlib.Path(sys.argv[1]); proof,ev=map(pathlib.Path,sys.argv[2:])
@@ -132,27 +133,32 @@ stage packages-install apt-get install --yes --no-install-recommends \
   libgomp1 libffi8 libncurses6 libtinfo6 zlib1g libz3-4 libgtk-3-0 libgtksourceview-4-0
 stage download curl -fL --retry 2 -o "$stock_archive" \
   https://github.com/verifast/verifast/releases/download/26.10/verifast-26.10-linux.tar.gz
+current_stage=stock-archive-checksum
 printf '%s  %s\n' 5ad2a65997457fd5996a27f93107ef7e52c90c0d12b63b6e67f7acbc73e90efd \
   "$stock_archive" | sha256sum -c - > "$ev/archive-sha256.log"
 stage extract tar -xzf "$stock_archive" -C "$task_temp"
 stage source-checkout git clone --depth 1 --branch 26.10 \
   https://github.com/verifast/verifast.git "$source_home"
+current_stage=tool-source-identity
 [[ "$(git -C "$source_home" rev-parse HEAD)" == f76012fb518703b1d98e243ac4f487f16877cfcb ]] || exit 2
 [[ "$(sha256sum "$schema" | cut -d' ' -f1)" == f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469 ]] || exit 2
 rustup_init="$work_root/rustup-init-1.28.2"
 stage rustup-init-download curl -fL --retry 2 -o "$rustup_init" \
   https://static.rust-lang.org/rustup/archive/1.28.2/x86_64-unknown-linux-gnu/rustup-init
+current_stage=rustup-init-checksum
 printf '%s  %s\n' 20a06e644b0d9bd2fbdbfd52d42540bdde820ea7df86e92e533c073da0cdd43c \
   "$rustup_init" | sha256sum -c - > "$ev/rustup-init-sha256.log"
 chmod +x "$rustup_init"
 stage rustup-init "$rustup_init" -y --no-modify-path --default-toolchain none --profile minimal
 stage compiler rustup toolchain install "$RUSTUP_TOOLCHAIN" --profile minimal \
   --component rustc-dev --component llvm-tools-preview --component rust-src
+current_stage=compiler-identity
 compiler_sysroot=$(rustc --print sysroot)
 rustc --version --verbose > "$ev/compiler-version.txt"
 rg -q '^commit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f$' "$ev/compiler-version.txt"
 export LD_LIBRARY_PATH="$compiler_sysroot/lib:$stock_home/bin:${LD_LIBRARY_PATH:-}"
 
+current_stage=frozen-patch-inventory
 mapfile -t patch_rows < <(python3 - "$manifest" <<'PATCHES'
 import json,sys
 for row in json.load(open(sys.argv[1]))['patches_in_application_order']:
@@ -162,10 +168,12 @@ PATCHES
 for row in "${patch_rows[@]}"; do
   read -r number relative expected <<< "$row"
   patch="$proof_root/research/challenge-8/$relative"
+  current_stage="patch-$number-identity"
   [[ "$(sha256sum "$patch" | cut -d' ' -f1)" == "$expected" ]] || exit 2
   stage "patch-$number-check" git -C "$source_home" apply --check "$patch"
   stage "patch-$number-apply" git -C "$source_home" apply "$patch"
 done
+current_stage=frozen-applied-identity
 git -C "$source_home" diff --name-only > "$ev/modified-files.txt"
 python3 - "$manifest" "$ev/modified-files.txt" <<'NAMES'
 import json,pathlib,sys
@@ -176,6 +184,7 @@ git -C "$source_home" diff > "$ev/applied.patch"
 [[ "$(sha256sum "$ev/applied.patch" | cut -d' ' -f1)" == 6c4c5a7708af3bdec585abd308d37383a7de522a1aaecf2c01e1f94181324c25 ]] || exit 2
 cp "$ev/applied.patch" "$ev/frozen20-applied.patch"
 profile="$proof_root/research/challenge-8/overnight-assume-actual/O26-REFRESH-PROFILE.json"
+current_stage=refresh-manifest
 python3 - "$profile" "$proof_root" "$ev" <<'REFRESH'
 import hashlib,json,pathlib,sys
 m=json.load(open(sys.argv[1]));root=pathlib.Path(sys.argv[2]);ev=pathlib.Path(sys.argv[3])
@@ -196,10 +205,12 @@ PATCHES
 for row in "${refresh_rows[@]}"; do
   read -r number relative expected <<< "$row"
   patch="$proof_root/research/challenge-8/$relative"
+  current_stage="patch-$number-identity"
   [[ "$(sha256sum "$patch" | cut -d' ' -f1)" == "$expected" ]] || exit 2
   stage "refresh-$number-check" git -C "$source_home" apply --check "$patch"
   stage "refresh-$number-apply" git -C "$source_home" apply "$patch"
 done
+current_stage=refreshed-source-identity
 git -C "$source_home" diff --name-only > "$ev/refreshed-modified-files.txt"
 cmp "$ev/modified-files.txt" "$ev/refreshed-modified-files.txt"
 git -C "$source_home" diff > "$ev/refreshed-applied.patch"
@@ -208,9 +219,11 @@ git -C "$source_home" diff > "$ev/refreshed-applied.patch"
 deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"
 stage deps-download curl -fL --retry 2 -o "$deps_archive" \
   https://github.com/verifast/vfdeps/releases/download/25.01/vfdeps-adf88dc-linux.txz
+current_stage=deps-archive-checksum
 printf '%s  %s\n' 8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580 \
   "$deps_archive" | sha256sum -c - > "$ev/deps-sha256.log"
 stage deps-extract tar -xjf "$deps_archive" -C "$work_root"
+current_stage=deps-layout
 deps_home="$work_root/vfdeps-adf88dc"
 [[ -d "$deps_home" ]] || exit 2
 for prefix in /vfdeps-adf88dc /tmp/vfdeps-adf88dc; do
@@ -225,6 +238,7 @@ stage decoder-install cargo install --locked --git \
   --rev 2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2
 stage console-build make -C "$source_home/src" ../bin/verifast \
   WITHOUT_LABLGTK=yes VERBOSE=yes
+current_stage=stock-binary-identity
 cp -an "$stock_home/bin/." "$source_home/bin/"
 if [[ -d "$stock_home/lib" ]]; then
   mkdir -p "$source_home/lib"
@@ -233,6 +247,7 @@ fi
 for binary in vf-rust-mir-exporter refinement-checker vf-cxx-ast-exporter libz3.so; do
   cmp "$stock_home/bin/$binary" "$source_home/bin/$binary"
 done
+current_stage=tool-spec-identity
 python3 - "$manifest" "$source_home" "$ev/profile-hashes.json" <<'HASHES'
 import hashlib,json,pathlib,sys
 m=json.load(open(sys.argv[1])); root=pathlib.Path(sys.argv[2]); out=pathlib.Path(sys.argv[3])
@@ -243,6 +258,7 @@ for path in rows:
 out.write_text(json.dumps({'actual':rows,'historical':m['hosted_profile_hashes'],
  'console_byte_identical':rows['bin/verifast']==m['hosted_profile_hashes']['bin/verifast']},indent=2)+'\n')
 HASHES
+current_stage=console-linkage
 ldd "$source_home/bin/verifast" > "$ev/console-ldd.txt"
 ! rg -q 'not found' "$ev/console-ldd.txt"
 
