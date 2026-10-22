@@ -1,0 +1,11 @@
+{
+  "reviewer": "claude-subagent:smallsort-reviewer (continued via SendMessage)",
+  "model": "claude-opus-5-5 (agent definition: Opus 5.5, effort high)",
+  "scope": "delta 4ae17a49..50ac9ac9 against review-5 findings 1-4",
+  "candidate_commit": "50ac9ac901af79e208454b2c49419719179ee253",
+  "decision": "GO_WITH_NITS",
+  "resolved": ["1 intrinsics import (verified vs Select a1-fixtures 797e3d11)", "2 index-0 deviation stated", "3 join one-past limit (verified vs stock pred array)", "4 W7 control matrix (verified by line diff)"],
+  "remaining_nits": ["no #![allow(dead_code,...)] in W7_PREFIX: matters only if the runner denies warnings; decide at recipe pin", "import test is textual"],
+  "tests_run_by_reviewer": {"w7": "6/6"},
+  "proof_credit": false
+}
