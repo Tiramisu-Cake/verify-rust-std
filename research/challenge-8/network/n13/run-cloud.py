@@ -29,7 +29,7 @@ SOURCE_BLOB = "40939f922bcb6fdc7ee0d30427fa861827043827"
 TOOL_SHA256 = "dc672335da76fe1bb06cf7ebca916185c34edb65466df0a937645a437c7f0ecc"
 TOOL_ARCHIVE_SHA256 = "da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa"
 CALL_COUNTS = {9: 25, 13: 45}
-STAGES = ("preflight", "exact", "controls", "controls-order", "regressions")
+STAGES = ("preflight", "exact", "controls", "controls-order", "regressions", "regressions-n9")
 SHA_RE = re.compile(r"[0-9a-f]{64}\Z")
 
 
@@ -167,6 +167,9 @@ def matrix(stage: str, prove, ranks, pairs: list[tuple[int, int]]) -> list[dict[
         add("network9_finite_swo_order", ranks.composition(9, pairs9, True), "exact-n9-regression", 180)
         add("network13_symbolic_swo_composition", ranks.composition(13, pairs, False),
             "universal-n13-regression", 360)
+    elif stage == "regressions-n9":
+        pairs9, _lines9 = prove.extract(9)
+        add("network9_finite_swo_order", ranks.composition(9, pairs9, True), "exact-n9-regression", 180)
     else:
         raise RuntimeError(f"unknown stage: {stage}")
     return cases

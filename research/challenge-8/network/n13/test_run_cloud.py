@@ -28,6 +28,8 @@ CLOUD = {
 
 
 class FakeRanks:
+    composition_calls = []
+
     @staticmethod
     def generic_bridge():
         return "generic bridge source"
@@ -38,6 +40,7 @@ class FakeRanks:
 
     @staticmethod
     def composition(n, pairs, exact=True):
+        FakeRanks.composition_calls.append((n, exact))
         return f"composition {n} exact={exact} pairs={len(pairs)}"
 
     @staticmethod
@@ -105,6 +108,7 @@ class RunCloudTests(unittest.TestCase):
         self.mode = "success"
         self.generated = []
         self.profile = {}
+        FakeRanks.composition_calls.clear()
 
         def run_case(tool, evidence, name, source, negative=None):
             case = {"name": name, "source": source, "negative": negative}
@@ -279,12 +283,36 @@ class RunCloudTests(unittest.TestCase):
             "controls": (["missing-equiv-trans", "exact-n13-membership-post"], [180, 420]),
             "controls-order": (["exact-n13-order-post"], [420]),
             "regressions": (["exact-n9-regression", "universal-n13-regression"], [180, 360]),
+            "regressions-n9": (["exact-n9-regression"], [180]),
         }
         for stage, (targets, limits) in expected.items():
             with self.subTest(stage=stage):
                 cases = runner.matrix(stage, self.fake_prove, self.fake_ranks, PAIR13)
                 self.assertEqual([case["target"] for case in cases], targets)
                 self.assertEqual([case["timeout_seconds"] for case in cases], limits)
+
+    def test_n9_only_regression_runs_without_generating_universal_case_or_credit(self):
+        self.prepare_profile("regressions-n9")
+        FakeRanks.composition_calls.clear()
+        code, _evidence, summary = self.invoke("regressions-n9")
+        self.assertEqual(code, 0)
+        self.assertTrue(summary["complete"])
+        self.assertFalse(summary["proof_credit"])
+        self.assertEqual([row["target"] for row in summary["cases"]], ["exact-n9-regression"])
+        self.assertEqual((summary["stage_timeout_seconds"], summary["build_timeout_seconds"]), (180, 555))
+        self.assertEqual(FakeRanks.composition_calls, [(9, True)])
+        self.assertEqual([row["name"] for row in self.generated], ["network9_finite_swo_order"])
+
+    def test_n9_only_build_timeout_mismatch_stays_not_run(self):
+        self.prepare_profile("regressions-n9")
+        self.profile["stages"]["regressions-n9"]["build_timeout_seconds"] = 554
+        FakeRanks.composition_calls.clear()
+        code, _evidence, summary = self.invoke("regressions-n9")
+        self.assertEqual(code, 2)
+        self.assertIn("case/build timeout envelope", summary["errors"][0]["message"])
+        self.assertEqual(summary["cases"][0]["state"], "NOT_RUN")
+        self.assertEqual(FakeRanks.composition_calls, [(9, True)])
+        self.assertEqual(self.generated, [])
 
 
 if __name__ == "__main__":
