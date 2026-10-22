@@ -50,11 +50,41 @@
           "sha256": "df51fee152cb8469541af601eb04c840275c80976d68a630275a0a97524dcfa2"
         }
       ]
+    },
+    {
+      "assurance": "INDEPENDENTLY_ESTABLISHED",
+      "claim": "Shared docs adopted from policy 9c96a5dd6c7c1b5ae479d42124cb024065af186c (published) in a8a24c34; branch-local README/PLAN/AGENT-RUNBOOK/PROOF-AGENT-AUTONOMY archived; compact AGENTS.md entry kept (deviation recorded). Docs only.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/archive/network-adoption-2026-10-22/README.md",
+          "sha256": "587e8bd14430e7a8d63204d74a74744b57dcca295e8d66b5b075d8fb60f6e141"
+        }
+      ]
+    },
+    {
+      "assurance": "INDEPENDENTLY_ESTABLISHED",
+      "claim": "Library on shared baseline: upstream cd371e03 merged conflict-free as 722320d3 (pushed with [skip ci] head); smallsort.rs blob 40939f92, file SHA256 85c75bc9; library tree equal to cd371e03.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/networks/SOURCE-MAP.md",
+          "sha256": "cc02e08fb7f95d250ca3e86eaa1a891bcb58ea4bd2c4cf3b057d6795ffe1e5ad"
+        }
+      ]
+    },
+    {
+      "assurance": "INDEPENDENTLY_ESTABLISHED",
+      "claim": "Static Git/text re-check e555fce4→40939f92: swap_if_less body (380–412) byte-identical; sort9/sort13 bodies byte-identical with same 25/45 ordered pairs, rows −6 lines; small_sort_network region/merge construction changed to slice::from_raw_parts_mut (W8 note). No compile/extraction/proof.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/networks/SOURCE-MAP.md",
+          "sha256": "cc02e08fb7f95d250ca3e86eaa1a891bcb58ea4bd2c4cf3b057d6795ffe1e5ad"
+        }
+      ]
     }
   ],
   "next_step": "Шаг 1: adoption и перевод на shared baseline, затем кандидат R4 и пакет Cloud-готовности.",
   "open": [
-    "Adoption общих docs и перевод library на shared baseline 40939f92; SOURCE-MAP закреплён на старом файле.",
+    "Adoption ACK для владельца (policy 9c96a5dd, local a8a24c34); hosted gate prove.py/run.sh всё ещё пинует старый file SHA 32574fd0 (historical lane).",
     "R4 actual swap_if_less: proof NOT_RUN; зависит от слоя Select (callback, select_unpredictable<*mut T>).",
     "N13 exact adapter; sort9/sort13 Rust-интеграция и network caller (W8); Cloud lane/клиент владельца network."
   ],
@@ -86,5 +116,5 @@
   },
   "state": "ACTIVE",
   "task_id": "network-bootstrap-2026-10-22-n1",
-  "updated_utc": "2026-10-22T15:08:30Z"
+  "updated_utc": "2026-10-22T15:22:00Z"
 }
