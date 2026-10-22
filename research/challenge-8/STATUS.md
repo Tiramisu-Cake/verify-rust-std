@@ -1,7 +1,7 @@
 # Agent checkpoint: network-n13-exact-cloud-2026-10-23-n3
 
 - Owner: network | phase: NETWORK-N13-EXACT-2026-10-23-N3 | state: ACTIVE
-- Updated: 2026-10-22T22:06:20Z
+- Updated: 2026-10-22T22:08:06Z
 - Baseline: source `cd371e035c7e573760c43bf934d53e8118ee3e7d`, tool `809de4596839b739dd999f9e462242c835e3af46`, profile `77df69ccd018f5cbd7a73fdc20f562db1f006d2d696818fae3fee3aa8dab0286`
 - Session dates: T0 `2026-10-22T20:43:40Z`; main deadline `2026-10-22T22:43:40Z`; absolute deadline `2026-10-22T23:13:40Z`
 - Budget: 3600s total; 1757s spent; 0s retired; 1843s remaining including active reservations
@@ -29,13 +29,13 @@
 - Universal N13 PASS or timeout/setup refusal counted as exact adapter acceptance — Exact full posts and intended controls on compatible source/tool identities are required.; [research/challenge-8/networks/RANK-RESULTS.md](networks/RANK-RESULTS.md) SHA `c76848727b3f62acd5c9b49ea4133c236db3f4d4a903bc42d5b8c159b215f2ca`
 
 ## Blocker
-Setup INCONCLUSIVE; shape2 unobserved, exact acceptance OPEN.
+Bootstrap fix reviewed; shape2 exact unobserved.
 - [research/challenge-8/observations/3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7.json](observations/3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7.json) SHA `3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7`
 
 ## Next
-Review bootstrap fix, then retry same shape2 exact420.
+Submit reviewed69d51ac9 exact420; Brief then controls.
 
 ## Artifacts
 - [research/challenge-8/network/n13/N3-SCOPE-20261023.md](network/n13/N3-SCOPE-20261023.md) — `0ff306d681bab5fb9997ebb53bb9fe9df9e58d93f1b20e030a263c72aeb79e78`
-- [research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json](cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json) — `99963f22466a4e771c18a1abed01c6c838dfd36b3eea06a41379d023e7444806`
-- [research/challenge-8/network/n13/REVIEW-SHAPE2-N3.md](network/n13/REVIEW-SHAPE2-N3.md) — `96b7d60de456e812d898ebc477c2335c2869f6678242f3289d72227c856ee938`
+- [research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json](cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json) — `528f0797927fc0720a17087324a70eeb1fd61be4884a7414ed506056a9db64c6`
+- [research/challenge-8/network/n13/REVIEW-BOOTSTRAP-N3.md](network/n13/REVIEW-BOOTSTRAP-N3.md) — `6c6df578f83192a1b9d62660d5b2b25032b6cb365d518c7b42bb02533ad11a71`
