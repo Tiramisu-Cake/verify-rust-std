@@ -53,6 +53,6 @@ Next: At actual T0 prepare/register R20; Cloud preflight, then the published raw
 Updated: 2026-10-22T21:18:59Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `39f6b0cacd00575c8ca2d39e9f15632723bf1227` / `1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb`.
 Dates: T0 `2026-10-22T20:08:00Z`; main `2026-10-22T22:08:00Z`; absolute `2026-10-22T22:38:00Z`. Budget 3600s: 1872s spent, 0s retired, 1728s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: P2 F5 and state binding INCONCLUSIVE; metadata/helper reviewed, F5 route review pending; original caller OPEN.
-Next: Review F5 route delta; exact source/cap/config gate; publish and dispatch metadata191/profile0428 cycle.
+Blocker: F5 and state binding INCONCLUSIVE; metadata/helper plus F5 route reviewed GO, awaiting Cloud; original caller OPEN.
+Next: Exact source/cap/config gate; publish and dispatch metadata191/profile0428 cycle.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
