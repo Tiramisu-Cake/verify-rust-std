@@ -1,0 +1,60 @@
+{
+  "schema": "merge-r18-terminal-result-v1",
+  "build_id": "08bd6e03-a320-4e03-b5d3-21b051204b3e",
+  "status": "FAILURE",
+  "assurance": "SOURCE_REPORTED",
+  "source_sha": "72f72bb35aa04f630fb6a1bae7ab20e6d67b918d",
+  "reviewed_candidate": "55666e3eae5ab2a6502c893d991889b3e3dc40af",
+  "tool_sha": "a66c1d30214e463a16a325cdef30b0ec8555e0af",
+  "config_sha256": "1112803d3e1e8c40ccdb9b3096b42e745cd516f5edd30d3821527a0bb65df193",
+  "charge_seconds": 906,
+  "used_seconds": 1821,
+  "remaining_seconds": 1779,
+  "proof_audit": {
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "file_sha256": "18b6ea8e6b58fbc6966c14699afb4e90016e547314c6776a898e5b1843f53fcc"
+  },
+  "rawptr_controls": {
+    "identical_local_rawmut": [
+      "RAW_LOCAL_RAWMUT_MATCHED",
+      "33f19171c7b97d8e"
+    ],
+    "mutability_mismatch": [
+      "EXPECTED_REFINER_REFUSAL",
+      "40dc49b080e822e3"
+    ],
+    "changed_local_contents": [
+      "EXPECTED_REFINER_REFUSAL (aggregate-value lockstep; LocalAddressTaken state branch NOT exercised, OPEN)",
+      "41388a13aa5f52f5"
+    ],
+    "unsupported_index_projection": [
+      "INCONCLUSIVE (refiner typesystem-constant operand limitation)",
+      "11c5b604785d03d4"
+    ],
+    "raw_ref_cross_kind": [
+      "EXPECTED_REFINER_REFUSAL",
+      "324b7ec6e4d62742"
+    ],
+    "all_matched": false
+  },
+  "raw_caller": {
+    "stages": {
+      "exporter": 0,
+      "decode": 0,
+      "refinement": 0,
+      "verifast": 1
+    },
+    "request": "a82a1a846601b483",
+    "frontier": "unchanged from P1 (free_locals array_ at unwind presumed); not re-read"
+  },
+  "accepted": false,
+  "b2_achieved": false,
+  "qualification": false,
+  "independent_credit": 0,
+  "watch": {
+    "job": "23390e2d-dc3e-4c62-968f-7cad98f36657",
+    "event": "3e201d43-bb75-4620-bfe3-ea9a34c5b17e",
+    "mode": "CONTINUE_EXISTING_WINDOW",
+    "note": "delivered without monitor_error after committing reconciled WORKING ledger before arm"
+  }
+}

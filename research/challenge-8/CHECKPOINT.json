@@ -82,12 +82,23 @@
           "sha256": "d0b75917c6865ce64ecad4da12beaa96a8ad293ff97c051af411e0a0d2141008"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P2: RawPtr controls 4/5 matched (positive, mutability, changed contents via aggregate refusal, raw/ref); index projection INCONCLUSIVE refiner limitation. No credit.",
+      "evidence": [
+        {
+          "build_id": "08bd6e03-a320-4e03-b5d3-21b051204b3e",
+          "path": "research/challenge-8/cloud-build/origin-layout/R18-PROOF2-RESULT-20261022.json",
+          "sha256": "18e233643f84376bc6103ee9df537bb917f3b9d2bdc454537fca86c404114ab3"
+        }
+      ]
     }
   ],
-  "next_step": "Ack P2 08bd6e03 watcher; Brief RawPtr negatives; closeout; next window: checked unwind cleanup for raw caller.",
+  "next_step": "Next window: checked unwind cleanup hook for raw wrapper insert_tail edge (design in R18-RAW-CALLER-DESIGN), then original borrow/unsize and CURRENT/final matrix.",
   "open": [
     "Original as_mut_ptr/unsize, source-bound metadata, real borrow/reference lifecycle and caller normal/unwind remain OPEN; isolated lifecycle does not close them.",
-    "Raw caller unwind free_locals needs array_ for initialized local (VeriFast core); RawPtr negatives classifier fix 55666e3e under review.",
+    "Raw caller unwind free_locals needs checked source-bound cleanup (tool); RawPtr LocalAddressTaken negative and index projection control OPEN.",
     "CURRENT/backedge/false/true/panic/Drop/Resume compatible final matrix; B2/generic/arbitrary-n/sorting/tool qualification/independent proof credit remain OPEN."
   ],
   "owner": "merge",
@@ -116,19 +127,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "08bd6e03-a320-4e03-b5d3-21b051204b3e"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T16:38:51Z",
     "main_deadline_utc": "2026-10-22T16:08:51Z",
-    "remaining_seconds": 2685,
+    "remaining_seconds": 1779,
     "retired_seconds": 0,
-    "spent_seconds": 915,
+    "spent_seconds": 1821,
     "t0": "2026-10-22T14:08:51Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "merge-raw-caller-frontier-autonomous-2026-10-22-r18",
-  "updated_utc": "2026-10-22T15:19:00Z"
+  "updated_utc": "2026-10-22T15:38:00Z"
 }
