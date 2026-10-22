@@ -15,6 +15,7 @@ import ast
 import datetime
 import hashlib
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -29,6 +30,13 @@ COORDINATION = 'research/challenge-8/cloud-build/coordination.py'
 # is the reviewed prepared client, installed byte-identically.
 BASELINE_CONTROL = {'network': 'research/challenge-8/network/cloud-readiness/client/control.py'}
 OWNERS = coordination.V4_OWNERS
+# The actual dispatcher worktrees and branches of the v4 owners.
+EXPECTED_CLIENTS = {
+    'select-sort4': (Path('/root/verify-rust-std-select-night'), 'research/night-select-sort4-cloud-2026-10-09'),
+    'merge': (Path('/root/verify-rust-std-merge-origin'), 'merge/incoming-origin-20261009'),
+    'network': (Path('/root/verify-rust-std-networks'), 'challenge-8/networks'),
+}
+COMMAND_SECONDS = 60
 GCLOUD = ['gcloud', '--configuration=smallsort-ci',
           '--account=smallsort-dispatcher@smallsort-ci.iam.gserviceaccount.com',
           '--project=smallsort-ci']
@@ -50,8 +58,14 @@ def mapping(values, label):
     return result
 
 
-def git(root, *args):
-    return subprocess.check_output(['git', '-C', str(root), *args])
+def git(root, *args, check=True):
+    # Bounded and non-interactive: some calls run while the shared flock is held.
+    env = dict(os.environ, GIT_TERMINAL_PROMPT='0')
+    result = subprocess.run(['git', '-C', str(root), *args], stdout=subprocess.PIPE,
+                            stderr=subprocess.DEVNULL, env=env, timeout=COMMAND_SECONDS)
+    if check and result.returncode != 0:
+        raise RuntimeError('git ' + args[0] + ' failed in ' + str(root))
+    return result.stdout if check else result.returncode == 0
 
 
 def full_sha(value):
@@ -77,8 +91,12 @@ def verify_clients(clients, acks):
         raise RuntimeError('Transition requires all three v4 owners')
     expected = digest((HERE / 'coordination.py').read_bytes())
     for owner in sorted(OWNERS):
-        root = Path(clients[owner])
+        root = Path(clients[owner]).resolve()
+        if root != EXPECTED_CLIENTS[owner][0]:
+            raise RuntimeError('Client root is not the dispatcher worktree of ' + owner)
         ack = json.loads(Path(acks[owner]).read_text())
+        if not isinstance(ack, dict):
+            raise RuntimeError('ACK must be a JSON object: ' + owner)
         source = (root / COORDINATION).read_bytes()
         control = (root / CONTROL).read_bytes()
         if (ack.get('owner') != owner or ack.get('coordination_sha256') != expected or
@@ -87,14 +105,14 @@ def verify_clients(clients, acks):
         baseline, adopted, branch = ack.get('baseline_control_commit'), ack.get('infra_commit'), ack.get('branch')
         if not full_sha(baseline) or not full_sha(adopted) or baseline == adopted:
             raise RuntimeError('ACK needs distinct full baseline and infra commits: ' + owner)
-        if not isinstance(branch, str) or not branch:
-            raise RuntimeError('ACK needs the published branch: ' + owner)
+        if branch != EXPECTED_CLIENTS[owner][1]:
+            raise RuntimeError('ACK branch is not the dispatcher branch of ' + owner)
         if git(root, 'symbolic-ref', '--short', 'HEAD').decode().strip() != branch:
             raise RuntimeError('Client worktree is not on the acknowledged branch: ' + owner)
-        if subprocess.run(['git', '-C', str(root), 'merge-base', '--is-ancestor', baseline, adopted],
-                          check=False).returncode != 0:
+        if not git(root, 'merge-base', '--is-ancestor', baseline, adopted, check=False):
             raise RuntimeError('Baseline is not an ancestor of adoption: ' + owner)
-        changed = set(git(root, 'diff', '--name-only', baseline, adopted).decode().split())
+        # --no-renames: a rename onto a client path must still show its deleted source.
+        changed = set(git(root, 'diff', '--no-renames', '--name-only', '-z', baseline, adopted).decode().split('\0')) - {''}
         if not changed <= {COORDINATION, CONTROL}:
             raise RuntimeError('Adoption changed paths beyond the client: ' + owner)
         if (git(root, 'show', adopted + ':' + COORDINATION) != source or
@@ -104,15 +122,17 @@ def verify_clients(clients, acks):
         check_dispatcher(control)
         remote = git(root, 'ls-remote', 'origin', 'refs/heads/' + branch).decode().split()
         if (len(remote) != 2 or not full_sha(remote[0]) or
-                subprocess.run(['git', '-C', str(root), 'merge-base', '--is-ancestor', adopted, remote[0]],
-                               check=False).returncode != 0):
+                not git(root, 'merge-base', '--is-ancestor', adopted, remote[0], check=False)):
             raise RuntimeError('Adoption commit is not published on the branch: ' + owner)
     return expected
 
 
 def ongoing_builds():
-    output = subprocess.check_output(GCLOUD + ['builds', 'list', '--region=global', '--ongoing', '--format=json'])
-    builds = json.loads(output or b'[]')
+    output = subprocess.check_output(GCLOUD + ['builds', 'list', '--region=global', '--ongoing', '--format=json'],
+                                     timeout=COMMAND_SECONDS)
+    if not output.strip():
+        raise RuntimeError('Empty Cloud Build inventory output')
+    builds = json.loads(output)
     if not isinstance(builds, list):
         raise RuntimeError('Unexpected Cloud Build inventory')
     return builds

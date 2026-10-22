@@ -123,7 +123,13 @@ class CoordinatorV4Tests(Base):
 
 
 class TransitionTests(Base):
-    def make_client(self, owner, control=DISPATCHER, extra=None, coord=None, push=True):
+    def setUp(self):
+        super().setUp()
+        old = transition.EXPECTED_CLIENTS
+        transition.EXPECTED_CLIENTS = {o: ((self.root / o).resolve(), 'branch-' + o) for o in coordination.V4_OWNERS}
+        self.addCleanup(setattr, transition, 'EXPECTED_CLIENTS', old)
+
+    def make_client(self, owner, control=DISPATCHER, extra=None, coord=None, push=True, moved=None):
         origin = self.root / (owner + '-origin.git')
         root = self.root / owner
         subprocess.check_call(['git', 'init', '-q', '--bare', str(origin)])
@@ -135,6 +141,9 @@ class TransitionTests(Base):
         base_control.write_bytes(control)
         if owner != 'network':
             (root / transition.COORDINATION).write_bytes(b'# v3\n')
+        if moved:
+            (root / moved).parent.mkdir(parents=True, exist_ok=True)
+            (root / moved).write_bytes((HERE / 'coordination.py').read_bytes())
         run(root, 'add', '-A'); run(root, 'commit', '-qm', 'baseline')
         baseline = run(root, 'rev-parse', 'HEAD')
         installed = root / transition.COORDINATION
@@ -143,6 +152,8 @@ class TransitionTests(Base):
         (root / transition.CONTROL).write_bytes(DISPATCHER)
         if extra:
             (root / extra).write_text('x')
+        if moved:
+            (root / moved).unlink()
         run(root, 'add', '-A'); run(root, 'commit', '-qm', 'adopt')
         adopted = run(root, 'rev-parse', 'HEAD')
         if push:
@@ -196,6 +207,7 @@ class TransitionTests(Base):
     def test_migration_refuses_unpublished_or_changed_clients(self):
         cases = [({'merge': {'push': False}}, 'not published'),
                  ({'select-sort4': {'extra': 'research/x.txt'}}, 'beyond the client'),
+                 ({'network': {'moved': 'research/old/coordination.py'}}, 'beyond the client'),
                  ({'network': {'control': DISPATCHER + b'#'}}, 'dispatcher changed'),
                  ({'merge': {'coord': b'# other\n'}}, 'differs'),
                  ({'select-sort4': {'control': b'import coordination\n'}}, 'dispatcher changed')]
@@ -222,9 +234,26 @@ class TransitionTests(Base):
                 with self.assertRaises(RuntimeError):
                     transition.migrate(clients, acks, list)
         Path(acks['network']).write_text(json.dumps(good))
+        swapped = dict(clients, merge=clients['select-sort4'])
+        with self.assertRaisesRegex(RuntimeError, 'dispatcher worktree'):
+            transition.migrate(swapped, acks, list)
+        merge_ack = Path(acks['merge']).read_text()
+        Path(acks['merge']).write_text('[]')
+        with self.assertRaisesRegex(RuntimeError, 'JSON object'):
+            transition.migrate(clients, acks, list)
+        Path(acks['merge']).write_text(merge_ack)
         with coordination.locked():
             self.assertEqual(coordination.protocol(), (3, 3))
         transition.migrate(clients, acks, list)
+
+    def test_inventory_output_empty_or_not_list_refused(self):
+        from unittest.mock import patch
+        for output in (b'', b'  \n', b'{}'):
+            with self.subTest(output=output), patch.object(transition.subprocess, 'check_output', return_value=output):
+                with self.assertRaises(RuntimeError):
+                    transition.ongoing_builds()
+        with patch.object(transition.subprocess, 'check_output', return_value=b'[]'):
+            self.assertEqual(transition.ongoing_builds(), [])
 
     def test_rollback_only_without_network(self):
         with coordination.locked():
