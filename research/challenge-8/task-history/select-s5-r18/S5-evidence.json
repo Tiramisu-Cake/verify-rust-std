@@ -1,0 +1,95 @@
+{
+  "build": {
+    "dispatch_token": "dispatch-1923bfb294da44a48f76a7066163151e",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-ACTUAL-C2-2026-10-22-R18",
+    "infra_sha": "1e92d32b365a099959982e445bebc41b12e1419f",
+    "proof_sha": "1e92d32b365a099959982e445bebc41b12e1419f",
+    "lane": "o26-sort4-c1-current-recovery",
+    "submitted_config_sha256": "74c50975027940468789f0cfa1d218b9a79e0c879d99f57eb140f2aaffebc43b",
+    "reserved_seconds": 1260,
+    "timeout_seconds": 1200,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "ee4cdf493a7f9118c2d383dcd37f9d305c0d9264b09a7464c11accd83bfd6f6e",
+    "build_id": "0ee7f658-50fe-4928-a7c9-3da5e56c95f2",
+    "start_time": "2026-10-22T12:47:23.164918022Z",
+    "finish_time": "2026-10-22T12:56:58.192663Z",
+    "create_time": "2026-10-22T12:47:22.385344743Z",
+    "build_seconds": 576,
+    "accounted": true,
+    "execution_seconds": 576
+  },
+  "archive_sha256": "6ab348777da9474d1f92fb8523adbcc48340ceae2423792687fe62e72ceb98d0",
+  "index_sha256": "af22895359d4b6ab31888f2375994a5f8705839e7cdcee7ecc9999d95ff1fe2d",
+  "integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "watch": {
+    "job_id": "4a0fc9d4-8c86-4a34-a82e-db5ffcf3e83a",
+    "event_id": "4e1d99a8-85e8-442d-8629-3be869854c72",
+    "mode": "CONTINUE_EXISTING_WINDOW",
+    "acked": "2026-10-22T12:58:12Z",
+    "model_turns_while_waiting": 0
+  },
+  "body_target": "BODY_PROOF_FAILED",
+  "body_observed_exit": 1,
+  "failure": {
+    "location": "aliasing.rsspec(88,9-29) consuming ref_precreated_token; call verified/lib.rs(299,26-29) `let c3 = is_less(&*c, &*a);`",
+    "message": "No matching heap chunks: ref_precreated_token<T>(ptr_add_(v_base, (2 + 1), T_typeid), _)",
+    "file_id": "4837c1e6aee68dba4774abb6b4a72bed061c54bcca0c4738fef5c0076b2f6943",
+    "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/body-verification.log",
+    "file_sha256": "e135ed8bc0d0171c551ce46eecc040407afa7c940dce834ba58e7ac235c63748",
+    "coverage": {
+      "start": 13100,
+      "end_inclusive": 13171,
+      "source_lines": 13434,
+      "unit": "line"
+    },
+    "exact": true,
+    "complete": false,
+    "note": "Only error located in the file (locate \": error:\"-equivalent literal \"No matching heap chunks\" single match at byte 954287)."
+  },
+  "source_reported_progress": [
+    "Actual body first failure moved from S4 function-end leak (two unselected c2 full_borrows) to the c3 call at lib.rs:299 (missing precreated ref token for selected c=v_base+2+1); no leak error is reported in the actual-body log.",
+    "The missing-unselected-share control (S4 setup bytes) still fails at the function-end leak check lib.rs(314) with exactly the S4 leak, before reaching c3, so the same exploration order reaches the leak check first; in the actual body that check no longer fails. Causality formally UNKNOWN; credit0."
+  ],
+  "control_observations": [
+    {
+      "control": "c2-missing-unselected-share-negative",
+      "file_id": "adc3798f6e1973c66d4761c0735c13d39beb2cdd43c5c6383ba88254014b94f2",
+      "file_sha256": null,
+      "line": 11277,
+      "message": "Function leaks heap chunks: full_borrow(cmp2_k, ...ptr_add_(v_base, 1)), full_borrow(cmp2_k, ...v_base)",
+      "location": "verified/lib.rs(314,1-2) leak check"
+    },
+    {
+      "control": "c2-missing-unrelated-end-token-negative",
+      "file_id": "d91318f45179c1f4b56116045304c6fc352d9863261e6755430728ffbe992bb6",
+      "file_sha256": null,
+      "line": 10949,
+      "message": "No matching heap chunks: borrow_end_token(cmp2_k, full_borrow_content(T,t)(v_base))",
+      "location": "lib.rs(142) consumed while closing callback_four_debt at lib.rs:277"
+    },
+    {
+      "control": "c2-wrong-ordered-ref-pair-negative",
+      "file_id": "50b1c4284131e6836ef3a7a87c18d4241cef55455822979e991c561f5663b5c0",
+      "file_sha256": null,
+      "line": 10665,
+      "message": "Assertion might not hold. (Cannot prove fn_outcome_result(outcome5) = left2_ref.)",
+      "location": "lib.rs(282,18-99) c2 call"
+    },
+    {
+      "control": "c2-wrong-ref-resource-negative",
+      "file_id": "c125702e830fa293a2361d4540c7c4b1ffce59dbeeb8d7f4133216ca05044020",
+      "file_sha256": null,
+      "line": 10197,
+      "message": "No matching heap chunks: ref_precreated_token<T>(ptr_add_(v_base, 3), _)",
+      "location": "aliasing.rsspec(88) via lib.rs(282,66-81) c2 argument"
+    },
+    "c2-displaced-marker / c2-missing-fourth-debt-token / c2-wrong-marker-index: CHECKED_LEMMA_PREREQUISITE_FAILED, actual body explicitly NOT_RUN (frontend refusal; message not further inspected).",
+    "c1 HRTB/scope off contrasts: exit1 RESOURCE_CONTROL_OBSERVED_UNCLASSIFIED; c1-opt-in-off, wrong-first-call-line, wrong-source-sha: INCONCLUSIVE exit2 identity gate absent."
+  ],
+  "control_qualification": "All four c2 resource controls fail with the designed diagnostic at the designed location (read by message/location, not exit only). Not a qualification of the full matrix; actual body still fails at c3; credit0.",
+  "proof_credit": 0
+}

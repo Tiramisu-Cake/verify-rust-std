@@ -72,9 +72,11 @@ class R18Registration(unittest.TestCase):
         ledger = json.loads(LEDGER.read_text())
         self.assertEqual((ledger["phase"], ledger["phase_id"], ledger["status"]),
                          (PHASE, PHASE, "AUTHORIZED"))
-        self.assertEqual((ledger["remaining_build_seconds"], ledger["spent_build_seconds"],
-                          ledger["carry_seconds"], ledger["builds"], ledger["active_build"]),
-                         (3600, 0, 0, [], None))
+        self.assertEqual((ledger["ceiling_build_seconds"], ledger["carry_seconds"]), (3600, 0))
+        used = sum(b["build_seconds"] for b in ledger["builds"] if b.get("accounted"))
+        self.assertEqual(ledger["used_build_seconds"], used)
+        self.assertEqual(ledger["remaining_build_seconds"] + used, 3600)
+        self.assertTrue(all(b["phase_id"] == PHASE for b in ledger["builds"]))
         for key, value in authorized_ledger().items():
             if key not in ("authorization",):
                 self.assertEqual(ledger[key], value, key)
@@ -150,6 +152,37 @@ class R18Registration(unittest.TestCase):
         with patch.object(CONTROL.subprocess, "check_output", return_value=raw):
             env = CONTROL.envs("a" * 40, "b" * 40, LANE, ROUTING)
         self.assertIn("SORT4_A1_AUTHORIZATION_PHASE_ID=" + ROUTING, env)
+
+    def test_submit_main_deadline_and_timeout_refuse_before_dispatch(self):
+        import datetime as real
+
+        def clock(text):
+            fixed = real.datetime.fromisoformat(text.replace("Z", "+00:00"))
+
+            class Fixed(real.datetime):
+                @classmethod
+                def now(cls, tz=None):
+                    return fixed
+            return SimpleNamespace(datetime=Fixed, timezone=real.timezone,
+                                   timedelta=real.timedelta)
+
+        def forbidden(*_args, **_kwargs):
+            raise AssertionError("Cloud/coordinator reached")
+
+        cases = (("2026-10-22T14:12:06Z", 1200, "main window ended"),
+                 ("2026-10-22T14:30:00Z", 600, "main window ended"),
+                 ("2026-10-22T13:00:00Z", 269, "timeout must be270..1200"),
+                 ("2026-10-22T13:00:00Z", 1201, "timeout must be270..1200"))
+        for now, timeout, reason in cases:
+            args = SimpleNamespace(command="submit", phase_id=PHASE, owner="select-sort4",
+                                   timeout=timeout, lane=LANE, source_mode="pinned-objects",
+                                   infra_sha="a" * 40, proof_sha="a" * 40)
+            with self.subTest(now=now, timeout=timeout), \
+                    patch.object(CONTROL, "datetime", clock(now)), \
+                    patch.object(CONTROL, "invoke", forbidden), \
+                    patch.object(CONTROL.coordination, "request", forbidden), \
+                    self.assertRaisesRegex(SystemExit, reason):
+                CONTROL.run_command(args, None, authorized_ledger(), None)
 
     def test_lane_route_accepts_routing_key(self):
         lane = (CLOUD / "run-sort4-c1-current-recovery.sh").read_text()

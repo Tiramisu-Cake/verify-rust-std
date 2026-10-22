@@ -1,14 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/task-history/select-actual-c2-r17/S4-evidence.json",
-      "sha256": "c6cfa91918fd3f75732510638ac2aa41c8a7c38c84f195a86cd907f9bc4765c9"
-    },
-    {
-      "path": "research/challenge-8/task-history/select-actual-c2-r17/S5-UNSELECTED-BORROW-FIX.md",
-      "sha256": "f7b9e8522fc7cf08a15011682c7368bc0cc8673df3f54f6dbbc438274ef3dca4"
-    },
-    {
       "path": "research/challenge-8/task-history/select-s5-r18/S5-review.json",
       "sha256": "26099067fcc01c07ba31d5e0e016dd3c5685fab65fb009a2ae91f6ef201e4085"
     },
@@ -19,6 +11,14 @@
     {
       "path": "research/challenge-8/task-history/select-s5-r18/R18-client-review.json",
       "sha256": "6530c5b6b221a352c43aaa0144d99d0154294b32f378c78360da1b1d8b97b9fd"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-s5-r18/S5-evidence.json",
+      "sha256": "724da794e6172fe2000fbeb81406fd83fe68df29ffdc00cde35933ac0c414cda"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-s5-r18/C3-NEXT-DESIGN.md",
+      "sha256": "783591a28b6a0e4ae2073223e55528a2aa33d31237c96d12bb0fa9b29d06276e"
     }
   ],
   "assignment_sha256": "939352c79c6da9f8296196b10d8f03ad6faaabce41b9e2849177efd8a711f52b",
@@ -28,16 +28,16 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "27e8bfac-eb5f-4cf4-ae89-18bacd16eb90",
+    "build_id": "0ee7f658-50fe-4928-a7c9-3da5e56c95f2",
     "evidence": [
       {
-        "build_id": "27e8bfac-eb5f-4cf4-ae89-18bacd16eb90",
-        "path": "research/challenge-8/task-history/select-actual-c2-r17/S4-evidence.json",
-        "sha256": "c6cfa91918fd3f75732510638ac2aa41c8a7c38c84f195a86cd907f9bc4765c9"
+        "build_id": "0ee7f658-50fe-4928-a7c9-3da5e56c95f2",
+        "path": "research/challenge-8/task-history/select-s5-r18/S5-evidence.json",
+        "sha256": "724da794e6172fe2000fbeb81406fd83fe68df29ffdc00cde35933ac0c414cda"
       }
     ],
-    "location": "verified/lib.rs(314,1-2), actual body leak check",
-    "summary": "Function leaks heap chunks: unselected c2 full_borrow(cmp2_k, full_borrow_content(T,t)) at v_base+1 and v_base; full actual normal/unwind OPEN."
+    "location": "aliasing.rsspec(88,9-29) via verified/lib.rs(299,26-29) c3 call",
+    "summary": "c3 has no callback setup: No matching heap chunks ref_precreated_token<T>(ptr_add_(v_base,2+1)); translator overlay supports indices 1/2 only."
   },
   "confirmed": [
     {
@@ -103,14 +103,23 @@
           "sha256": "5c857f5ef31b2fa45910bb3f11ad505dd0506a78fdcd6412bec8c9aa7d74bb46"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R18 S5 (a6550c20, pins 1e92d32b) terminal FAILURE 576s: actual body passes c2, no leak error; first failure at c3 lib.rs:299 missing ref_precreated_token(v_base+2+1). Four c2 resource controls fail with designed message/location; missing-unselected-share reproduces S4 leak. Causality UNKNOWN; credit0.",
+      "evidence": [
+        {
+          "build_id": "0ee7f658-50fe-4928-a7c9-3da5e56c95f2",
+          "path": "research/challenge-8/task-history/select-s5-r18/S5-evidence.json",
+          "sha256": "724da794e6172fe2000fbeb81406fd83fe68df29ffdc00cde35933ac0c414cda"
+        }
+      ]
     }
   ],
-  "next_step": "WAITING S5 Build 0ee7f658 via wait; ack, then Brief: c2 leak check and controls by message/location.",
+  "next_step": "Implement C3-NEXT-DESIGN: generalise indexed overlay to N calls, c3 constructor sharing all four borrows; review; Cloud.",
   "open": [
-    "S5 a6550c20: reviewer GO_WITH_NITS; Cloud Build 0ee7f658 (pins 1e92d32b) pending; credit0.",
-    "Read each S5 control diagnostic/location in Brief (qualification checks only exit).",
-    "Full actual sort4 normal/unwind; ordered c1–c5 attribution/current-owner recovery, selector-pointer/permutation/copy composition.",
-    "Required HRTB-off/controls completion, final mini7/fresh26, qualification and stable Freeze caller; independent B1/B2 credit0."
+    "c3-c5 setup + translator index generalisation (C3-NEXT-DESIGN.md); new profile/review required.",
+    "Full actual sort4 normal/unwind; selector/permutation/copy composition; controls/mini7/fresh26, Freeze caller; credit0."
   ],
   "owner": "select-sort4",
   "phase": "SORT4-ACTUAL-C2-2026-10-22-R18",
@@ -123,19 +132,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "0ee7f658-50fe-4928-a7c9-3da5e56c95f2"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T14:42:06Z",
     "main_deadline_utc": "2026-10-22T14:12:06Z",
-    "remaining_seconds": 3600,
+    "remaining_seconds": 3024,
     "retired_seconds": 0,
-    "spent_seconds": 0,
+    "spent_seconds": 576,
     "t0": "2026-10-22T12:12:06Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-s5-unselected-borrow-autonomous-2026-10-22-r18",
-  "updated_utc": "2026-10-22T12:50:00Z"
+  "updated_utc": "2026-10-22T13:08:00Z"
 }
