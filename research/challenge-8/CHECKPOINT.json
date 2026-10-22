@@ -2,7 +2,7 @@
   "artifacts": [
     {
       "path": "research/challenge-8/task-history/select-callee-r21/ARTIFACT-INDEX.json",
-      "sha256": "c4d067a8ebb604e0cf89db908558193711730107fc87f45390cbe1160019686d"
+      "sha256": "0b3556e9553dee8fe2a17b92ed737cefff908caec5f39822658e297c5a7ab00a"
     }
   ],
   "assignment_sha256": "018ffe56c8c4386b472f53c6a0ce9c01d6368972400c6eb64fa4b6fbbed9c745",
@@ -12,12 +12,12 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "summary": "Fractional proof retry fe704af2 pending after qualified translator lookup; callee diagnostic controls still unpinned.",
+    "summary": "Actual fractional callee proof UNKNOWN: corrected retry exited124 with incomplete stage evidence; acceptance and controls remain open.",
     "evidence": [
       {
-        "build_id": "62a50e23-ef7f-4778-a7e3-69dd12a04b9b",
-        "path": "research/challenge-8/task-history/select-callee-r21/FRACTIONAL-PROOF-COMPILE-FAILURE.json",
-        "sha256": "fd272735c58f1bd11b3a7781ccb50e439d35e65543cf9fd146b1a20199554530"
+        "build_id": "fe704af2-e671-4153-9246-299f057e27ad",
+        "path": "research/challenge-8/task-history/select-callee-r21/FRACTIONAL-PROOF-RETRY-TIMEOUT.json",
+        "sha256": "b67f9b2557ba3130fb1635ac0d095c9048e706b56608b061efc4768a49fcb913"
       }
     ]
   },
@@ -82,12 +82,12 @@
       ]
     }
   ],
-  "next_step": "Brief corrected fractional proof; prepare exact next-step fix/targets before main deadline, otherwise closeout only.",
+  "next_step": "New authorized window/ledger: use NEXT-WINDOW-HANDOFF; recheck288fa7cd, then checked fractional proof and exact controls.",
   "open": [
-    "Callee acceptance: normal/unwind/nested-Drop matrix; *mut T/generic gap. Recovery lane 192/191 chunks: prune before c5/selector.",
-    "Network P1 candidate accepted for integration only (inactive/unbuilt); P3 grammar chosen but unimplemented. P2 checked mutable-pointer callee remains pending; pin NETWORK-SELECT-RESPONSE.md and reviews.",
-    "Retryfe704af2 on288fa7cd (600s,240sreportreserve); priorconsolecompile failed unqualifiedlookup. Noactualproofcredit.",
-    "Inactive body route168/191 alreadycount5/5-8-4wired; BODY-C5-NEXT and MUTABLE-CALLEE-NEXT record remaining admission work."
+    "Actual fractional callee positive and normal/unwind/nested-Drop matrix remain unaccepted; *mut T/generic P2 remains open.",
+    "Network P1 accepted for integration only, P3 grammar decided; no mutable/generic callee summary or proof credit.",
+    "Corrected candidate288fa7cd reviewed GO,113parts; compiler/proof UNKNOWN after retry124. Callee diagnostic targets unpinned.",
+    "Inactive body lane168/191, count5/5-8-4 gates prepared/reviewed; requires actual callee acceptance/linkage and control requalification."
   ],
   "owner": "select-sort4",
   "phase": "SORT4-ACTUAL-SELECT-2026-10-23-R21",
@@ -110,19 +110,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "fe704af2-e671-4153-9246-299f057e27ad"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T22:24:55Z",
     "main_deadline_utc": "2026-10-22T21:54:55Z",
-    "remaining_seconds": 2022,
-    "retired_seconds": 0,
-    "spent_seconds": 1578,
+    "remaining_seconds": 0,
+    "retired_seconds": 1606,
+    "spent_seconds": 1994,
     "t0": "2026-10-22T19:54:55Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "CLOSED",
   "task_id": "select-callee-acceptance-autonomous-2026-10-23-r21",
-  "updated_utc": "2026-10-22T21:45:36Z"
+  "updated_utc": "2026-10-22T21:55:34Z"
 }
