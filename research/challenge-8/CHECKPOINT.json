@@ -1,8 +1,16 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/network/BOOTSTRAP-2026-10-22.md",
-      "sha256": "1b219aee9b85b36d65a20e50b473cb54b14f544f6ac2703a8517283a13972712"
+      "path": "research/challenge-8/task-history/network-n1/CLOSEOUT.md",
+      "sha256": "1a91ccf332d53f0342dd79e3432e8ea4fb24659c7ff6dd41a2a9bcc6cbd137f0"
+    },
+    {
+      "path": "research/challenge-8/network/r4/SELECT-REQUESTS.md",
+      "sha256": "62c51e4ca6296ccdffae5c27d40570aa1ca5c6371785d0f5b5e92be261991d87"
+    },
+    {
+      "path": "research/challenge-8/network/cloud-readiness/PLAN.md",
+      "sha256": "e276d747af9637f0db131bb08bedd0f6a8ef0835f08990c89f83cb8dfe72e895"
     }
   ],
   "assignment_sha256": "87ef9c6906c7aa4262399a5c99a2ba42cba8ca81e51f78543645c22834156adb",
@@ -20,6 +28,7 @@
     ],
     "summary": "R4 blocked on Select layer: P2 (no checked select_unpredictable callee) and P1 adoption; no Network Cloud lane."
   },
+  "closure_reason": "Goal steps 1-3 done; remaining mission tasks need Cloud lane/budget, Select layer (P1 adoption, P2, P3), Merge proofs (W8) or owner v4 decision — see task-history/network-n1/CLOSEOUT.md.",
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
@@ -90,14 +99,24 @@
           "sha256": "5c4f1d1b7c53f50480e26f643a37b57fb04f3d19bc85e9ffb8dbcd896453d457"
         }
       ]
+    },
+    {
+      "assurance": "INDEPENDENTLY_ESTABLISHED",
+      "claim": "Runner core 0591b066 (Cloud-only, unwired): runs R4/W7 controls under P1 opt-in, observations only, TIMEOUT/NOT_RUN/ERROR explicit. Review GO_WITH_NITS. Tests 9/9.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/runner/network-run.py",
+          "sha256": "42b07105e1f579c029a1c1384cddb2b207a157f9e52525347dc8118b5c2cfc1f"
+        }
+      ]
     }
   ],
-  "next_step": "Owner: pass SELECT-REQUESTS (P1 candidate, P2) to Select; decide v4 migration. First Network Cloud task: build P1 on the reproduced base, then R4 matrix; W7 after R4 acceptance.",
+  "next_step": "Owner: pass SELECT-REQUESTS (P1 candidate, P2, P3) to Select; decide v4 migration. First Network Cloud task: build P1 on the reproduced base, run R4 matrix; W7 after R4 acceptance.",
   "open": [
-    "R4 proof NOT_RUN; P1 patch candidate offered to Select (unbuilt); P2 (checked select_unpredictable incl. *mut T) is Select's S7 blocker; P3 equal positions; D5 CE post.",
-    "W7 proof NOT_RUN; gates: as_mut_ptr projection pin, intrinsics::abort spec, safe-fn spec, index-0 ptr_add_.",
-    "Cloud lane: owner decision on v4 migration; common runner files; smallsort-session network support.",
-    "N13 exact adapter; W8 small_sort_network caller; hosted prove.py pins old SHA 32574fd0 (historical)."
+    "R4/W7 proofs NOT_RUN: Select P1 adoption (candidate ready), P2 checked select_unpredictable incl. *mut T, P3; D5 CE post.",
+    "W7 gates: as_mut_ptr pin, intrinsics::abort spec, safe-fn spec, index-0 ptr_add_.",
+    "Cloud lane: owner v4 decision, common runner files + recipe, smallsort-session network support.",
+    "N13 exact adapter; W8 caller (Merge deps); hosted prove.py pins old SHA (historical)."
   ],
   "owner": "network",
   "phase": "NETWORK-BOOTSTRAP-2026-10-22-N1",
@@ -125,7 +144,7 @@
     "t0": "2026-10-22T15:07:38Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "CLOSED",
   "task_id": "network-bootstrap-2026-10-22-n1",
-  "updated_utc": "2026-10-22T16:13:26Z"
+  "updated_utc": "2026-10-22T16:23:26Z"
 }

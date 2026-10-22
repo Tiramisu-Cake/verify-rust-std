@@ -1,7 +1,7 @@
 # Agent checkpoint: network-bootstrap-2026-10-22-n1
 
-- Owner: network | phase: NETWORK-BOOTSTRAP-2026-10-22-N1 | state: ACTIVE
-- Updated: 2026-10-22T16:13:26Z
+- Owner: network | phase: NETWORK-BOOTSTRAP-2026-10-22-N1 | state: CLOSED
+- Updated: 2026-10-22T16:23:26Z
 - Baseline: source `cd371e035c7e573760c43bf934d53e8118ee3e7d`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `UNKNOWN`
 - Session dates: T0 `2026-10-22T15:07:38Z`; main deadline `2026-10-22T17:07:38Z`; absolute deadline `2026-10-22T17:37:38Z`
 - Budget: 0s total; 0s spent; 0s retired; 0s remaining including active reservations
@@ -16,12 +16,13 @@
 - [INDEPENDENTLY_ESTABLISHED] Cloud readiness PREPARED_NOT_REGISTERED (GO_WITH_NITS at 1c6cc2fe): v4 coordinator candidate (4 owners, cap 3), transition helper, Network client (empty phase table). Tests 6/6, 8/8. Nothing registered. — [research/challenge-8/network/cloud-readiness/PLAN.md](network/cloud-readiness/PLAN.md) SHA `f88dce59884705cf02f92a8ca943142a4af2b9dbdee162aed38d56bed4266666`
 - [INDEPENDENTLY_ESTABLISHED] W7 candidate 50ac9ac9 (UNVERIFIED, credit 0): ghost-only sort9/sort13 over in-crate R4 helper, split/join lemmas, controls. Review NO_GO→GO_WITH_NITS. Tests 6/6. — [research/challenge-8/network/w7/DESIGN.md](network/w7/DESIGN.md) SHA `30ad8094dc2952b24310d81647f8daa315b176e9ccffe68d9c4a080cd85c7821`
 - [INDEPENDENTLY_ESTABLISHED] P1 candidate c760fa3b (UNBUILT, credit 0): Select A1 base reproduced by git apply (61 steps, translator b5ea96a1); overlay patch b5ea96a1→c14d8f8a admits one pair marker in swap_if_less. Review GO. — [research/challenge-8/network/p1/P1-MANIFEST.json](network/p1/P1-MANIFEST.json) SHA `5c4f1d1b7c53f50480e26f643a37b57fb04f3d19bc85e9ffb8dbcd896453d457`
+- [INDEPENDENTLY_ESTABLISHED] Runner core 0591b066 (Cloud-only, unwired): runs R4/W7 controls under P1 opt-in, observations only, TIMEOUT/NOT_RUN/ERROR explicit. Review GO_WITH_NITS. Tests 9/9. — [research/challenge-8/network/runner/network-run.py](network/runner/network-run.py) SHA `42b07105e1f579c029a1c1384cddb2b207a157f9e52525347dc8118b5c2cfc1f`
 
 ## Open
-- R4 proof NOT_RUN; P1 patch candidate offered to Select (unbuilt); P2 (checked select_unpredictable incl. *mut T) is Select's S7 blocker; P3 equal positions; D5 CE post.
-- W7 proof NOT_RUN; gates: as_mut_ptr projection pin, intrinsics::abort spec, safe-fn spec, index-0 ptr_add_.
-- Cloud lane: owner decision on v4 migration; common runner files; smallsort-session network support.
-- N13 exact adapter; W8 small_sort_network caller; hosted prove.py pins old SHA 32574fd0 (historical).
+- R4/W7 proofs NOT_RUN: Select P1 adoption (candidate ready), P2 checked select_unpredictable incl. *mut T, P3; D5 CE post.
+- W7 gates: as_mut_ptr pin, intrinsics::abort spec, safe-fn spec, index-0 ptr_add_.
+- Cloud lane: owner v4 decision, common runner files + recipe, smallsort-session network support.
+- N13 exact adapter; W8 caller (Merge deps); hosted prove.py pins old SHA (historical).
 
 ## Rejected approaches
 - Собственная параллельная реализация pointer-select/callback слоя — Divergent trusted profiles; W10 integration debt.; [research/challenge-8/network/BOOTSTRAP-2026-10-22.md](network/BOOTSTRAP-2026-10-22.md) SHA `1b219aee9b85b36d65a20e50b473cb54b14f544f6ac2703a8517283a13972712`
@@ -31,7 +32,9 @@ R4 blocked on Select layer: P2 (no checked select_unpredictable callee) and P1 a
 - [research/challenge-8/network/r4/DESIGN.md](network/r4/DESIGN.md) SHA `c703f18f8d8b485e822b8bda4b2ff00d165d8e88729b0b64127cff46af30bdab`
 
 ## Next
-Owner: pass SELECT-REQUESTS (P1 candidate, P2) to Select; decide v4 migration. First Network Cloud task: build P1 on the reproduced base, then R4 matrix; W7 after R4 acceptance.
+Owner: pass SELECT-REQUESTS (P1 candidate, P2, P3) to Select; decide v4 migration. First Network Cloud task: build P1 on the reproduced base, run R4 matrix; W7 after R4 acceptance.
 
 ## Artifacts
-- [research/challenge-8/network/BOOTSTRAP-2026-10-22.md](network/BOOTSTRAP-2026-10-22.md) — `1b219aee9b85b36d65a20e50b473cb54b14f544f6ac2703a8517283a13972712`
+- [research/challenge-8/task-history/network-n1/CLOSEOUT.md](task-history/network-n1/CLOSEOUT.md) — `1a91ccf332d53f0342dd79e3432e8ea4fb24659c7ff6dd41a2a9bcc6cbd137f0`
+- [research/challenge-8/network/r4/SELECT-REQUESTS.md](network/r4/SELECT-REQUESTS.md) — `62c51e4ca6296ccdffae5c27d40570aa1ca5c6371785d0f5b5e92be261991d87`
+- [research/challenge-8/network/cloud-readiness/PLAN.md](network/cloud-readiness/PLAN.md) — `e276d747af9637f0db131bb08bedd0f6a8ef0835f08990c89f83cb8dfe72e895`
