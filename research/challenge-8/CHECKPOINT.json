@@ -76,7 +76,7 @@
       ]
     }
   ],
-  "next_step": "Wait R20 S2 Build 00c136dd (location control + repaired-unit fingerprint + MIR, pins 74fc220f); ack; Brief r20-fingerprint.json; then S3 certificate refresh.",
+  "next_step": "Wait R20 S2 retry Build f090a976 (00c136dd EXPIRED in queue, 92s accounted); ack; Brief r20-fingerprint.json; then S3 certificate refresh.",
   "open": [
     "Callee: run nine-body unit on separate lane o26-select-callee-r20 (baseline + ghost repair variants); then normal/unwind/nested-Drop completion and matrix; *mut",
     "Recovery lane transport: 192/191 chunks after R20 client lines (control.py is in every lane's infra core); prune closed routes separately before c5 (34e37669)/s",
@@ -104,7 +104,7 @@
   "schema": "smallsort-checkpoint-v1",
   "session": {
     "active_build_ids": [
-      "00c136dd-96d6-4e81-a3f3-7b1c113b8691"
+      "f090a976-7d8b-4d2d-b919-e308aca41886"
     ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T18:11:28Z",
@@ -117,5 +117,5 @@
   },
   "state": "HANDOFF",
   "task_id": "select-actual-callee-autonomous-2026-10-22-r20",
-  "updated_utc": "2026-10-22T16:33:30Z"
+  "updated_utc": "2026-10-22T16:37:00Z"
 }
