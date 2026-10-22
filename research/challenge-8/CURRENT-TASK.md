@@ -1,11 +1,11 @@
-# Network N1: запуск направления, перепривязка сетей и кандидат actual swap_if_less
+# Network N2: миграция coordinator v4 и поддержка network в smallsort-session
 
-Task ID: `network-bootstrap-2026-10-22-n1`; previous task: `networks-iteration-2026-10-07`.
-Owner: **Network**. Phase: `NETWORK-BOOTSTRAP-2026-10-22-N1`. Lane: `network`.
+Task ID: `network-coordinator-v4-2026-10-22-n2`; previous task: `network-bootstrap-2026-10-22-n1`.
+Owner: **Network**. Phase: `NETWORK-COORDINATOR-V4-2026-10-22-N2`. Lane: `network`.
 
 ## Mission
 
-This is the first task of a newly established owner. The worktree's prior research iteration is archived under `task-history/networks-iteration-2026-10-07`; its claims keep their own dated scope.
+This is a bounded continuation of the previous task under a newly authorized window.
 
 Runtime: Claude Code. This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), the runtime profile [`RUNTIME-CLAUDE.md`](agent-workflow/RUNTIME-CLAUDE.md), the compact root [CLAUDE.md](../../CLAUDE.md), and the persistent repo guidance. Review executor and Build waiting follow that profile only.
 The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. This task has no Cloud lane: no coordinator request, phase registration, Build submission or proof execution. Commit reviewed candidates and handoff inputs for a later, separately authorized Cloud task.
@@ -13,46 +13,44 @@ No previous budget, T0, ledger authorization, profile acceptance, or proof credi
 
 ## Baseline and controls
 
-Worktree `/root/verify-rust-std-networks` on branch `challenge-8/networks`; baseline `52fea043c313e3f93ee831e612afa7aa0c7002e4`; source `cd371e035c7e573760c43bf934d53e8118ee3e7d`.
+Worktree `/root/verify-rust-std-networks` on branch `challenge-8/networks`; baseline `71b4bdef37f17e7f03dea5756ade9107fd76842f`; source `cd371e035c7e573760c43bf934d53e8118ee3e7d`.
 Tool worktree `/root/verifast-network` on `challenge8/network-20261022` at `f76012fb518703b1d98e243ac4f487f16877cfcb`.
-Profile: none (no Cloud lane). New ledger path: none; previous closed ledger: none (bootstrap).
+Profile: none (no Cloud lane). New ledger path: none; previous closed ledger: none (closed zero-budget task).
 Cloud budget: 0 seconds (no Cloud lane). Wall window: 120 minutes main + 30 minutes closeout. T0 remains NOT_SET until actual work starts.
 
 ## Goal and steps
 
-Запустить направление Network (W7→W8): принять общие правила, перепривязать доказанную математику сетей к shared std baseline и подготовить reviewed кандидат actual swap_if_less (R4) плюс пакет Cloud-готовности для первого Cloud-задания. Контекст и границы — BOOTSTRAP-2026-10-22.
+Owner-authorized: перевести live coordinator на v4 с владельцами select-sort4/merge/network (verifast выведен из Cloud решением владельца 2026-10-22), cap 3; установить клиент в Select/Merge/Network и добавить network в smallsort-session, чтобы следующее задание Network могло получить Cloud budget. Ни одного Build.
 
-1. Адресно принять общие docs по ADOPTION (из /root/verify-rust-std-evidence-brief, branch-local PLAN/README/RUNBOOK архивировать), затем перевести library на shared baseline cd371e03 (SmallSort blob 40939f92) и статически перепроверить SOURCE-MAP: тело swap_if_less, порядок/индексы 25/45 вызовов sort9/sort13.
-2. По SWAP-CONTRACT и актуальному опубликованному callback/pointer-select слою Select подготовить кандидат actual swap_if_less: generic T/F, normal/unwind, равные индексы, ZST, ManuallyDrop/read/copy ресурсы, select_unpredictable<*mut T>; required controls/negatives; независимое review; commit с HANDOFF для Cloud.
-3. Подготовить Cloud-готовность как reviewed PREPARED_NOT_REGISTERED пакет: свой branch client (на базе клиента Select), phase registration и план миграции coordinator на четырёх владельцев с service tests. Ничего не регистрировать и не запускать.
+1. Finalize cloud-readiness: v4 owners exactly {select-sort4, merge, network} (verifast refused in v4), cap 3, owner check in request(), transition needs three ACKs plus an idle check (no reservations/requests/unresolved submits/active Builds) and a rollback path. Service tests, independent review on the exact commit.
+2. smallsort-session (/root/verify-rust-std-evidence-brief, own branch docs/evidence-brief-policy-20261017 only): network in CLOUD_OWNERS, session_prepare (first Cloud session without previous ledger/profile), watch_bindings OWNER_REPOS; accept envelope v4/cap 3 in assignment._coordination_guard and watch_bindings (now v3-only), landed before step 3. Select/Merge behaviour and default render byte-identical; all tests pass; review. Also adopt ITERATION-PROCESS.md byte-identical from that worktree.
+3. Live switch at a quiet boundary: confirm no agent runs in select-night/merge-origin and coordinator idle. Commit the identical coordination.py (only that path) into cloud-build of Select and Merge, and the Network client into its cloud-build; fast-forward push each; ACKs. Then audit, migrate, readback {4,3}, one status per client. Record before/after/READBACK/REVIEW like coordinator-v3-adoption-20261012. Remaining time: PREPARED_NOT_REGISTERED design moving the 14 unchanged library/core files out of the pinned-objects payload (pinned fetch, blob-ID check), chunk estimate per lane.
 
 ## Special bounds
 
-- Бюджет Cloud 0: без Builds, coordinator request, правок active.json и чужих клиентов/веток/ledgers; без GitHub Actions и локальных rustc/Cargo/VeriFast/Kani.
-- Callback/pointer-select — потребитель слоя Select без параллельной реализации; нужное изменение — reviewed patch-кандидат на точном commit. Прежние claims сетей (stock VF 26.09, Actions) сохраняют свой scope и не дают кредита Rust R4.
-- Tool-изменения только в /root/verifast-network; maintainer получает лишь готовые опубликованные патчи.
+- Budget 0: no Build/submit/request/reservation/phase registration. Exception: active.json only via the reviewed transition after the idle check; on any doubt stop before migrate.
+- In select-night/merge-origin touch only cloud-build/coordination.py; foreign dirty files, ledgers, checkpoints and control.py stay. Merge push includes its local R19 commits (owner decision 2026-10-22), no submit. If v4 needs a control.py change, stop and report.
+- verifast worktrees untouched; its v3 client fails closed. Push as a standalone fast-forward command, never force. No local rustc/Cargo/VeriFast/Kani, no GitHub Actions.
 
 ## Starting checkpoint
 
 Read [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for the exact claims, assurance, evidence, open and rejected items, and artifact identities. UNKNOWN remains UNKNOWN.
 
-Blocker: У network нет Cloud lane (coordinator v3 V3_OWNERS, нет branch client); source certificates на старом SmallSort blob.
-Next: Шаг 1: adoption и перевод на shared baseline, затем кандидат R4 и пакет Cloud-готовности.
+Blocker: Network has no Cloud lane until coordinator v4 and smallsort-session support.
+Next: Step 1: finalize v4 for three owners, then smallsort-session support, then the live switch.
 
 ## References
 
+- [Cloud readiness plan](network/cloud-readiness/PLAN.md)
+- [N1 closeout](task-history/network-n1/CLOSEOUT.md)
 - [Bootstrap Network 2026-10-22](network/BOOTSTRAP-2026-10-22.md)
-- [swap_if_less contract](networks/SWAP-CONTRACT.md)
-- [Integration obligations](networks/INTEGRATION.md)
-- [Source map 9/13](networks/SOURCE-MAP.md)
-- [Networks status 2026-10-07](networks/STATUS.md)
 
 ## Отчёт агента
 
-**network-bootstrap-2026-10-22-n1 · network · NETWORK-BOOTSTRAP-2026-10-22-N1 · CLOSED**
-Updated: 2026-10-22T16:23:26Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `UNKNOWN`.
-Dates: T0 `2026-10-22T15:07:38Z`; main `2026-10-22T17:07:38Z`; absolute `2026-10-22T17:37:38Z`. Budget 0s: 0s spent, 0s retired, 0s remaining including reservations.
+**network-coordinator-v4-2026-10-22-n2 · network · NETWORK-COORDINATOR-V4-2026-10-22-N2 · NOT_STARTED**
+Updated: 2026-10-22T18:34:06Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `UNKNOWN`.
+Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 0s: 0s spent, 0s retired, 0s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: R4 blocked on Select layer: P2 (no checked select_unpredictable callee) and P1 adoption; no Network Cloud lane.
-Next: Owner: pass SELECT-REQUESTS (P1 candidate, P2, P3) to Select; decide v4 migration. First Network Cloud task: build P1 on the reproduced base, run R4 matrix; W7 after R4 acceptance.
+Blocker: Network has no Cloud lane until coordinator v4 and smallsort-session support.
+Next: Step 1: finalize v4 for three owners, then smallsort-session support, then the live switch.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
