@@ -31,6 +31,7 @@ class W7Tests(unittest.TestCase):
             self.assertIn(('lem split_owned_cells%d<T>' % n).encode(), crate)
             self.assertIn(('lem join_owned_cells%d<T>' % n).encode(), crate)
             self.assertFalse(meta['proof_credit'])
+            self.assertTrue(crate.split(b'\n')[meta['crate_call_line'] - 1].startswith(b'        let should_swap = is_less/*@'))
             for forbidden in (b'assume', b'CASE_BEGIN'):
                 self.assertNotIn(forbidden, crate)
 

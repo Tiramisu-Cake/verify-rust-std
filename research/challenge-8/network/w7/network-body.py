@@ -119,7 +119,11 @@ def construct(std, recover_pair_rs, n):
     need(helper.startswith(r4.PREFIX), 'R4 crate prefix changed')
     crate = W7_PREFIX + helper[len(r4.PREFIX):] + (split_lemma(n) + join_lemma(n)).encode() + v
     need(strip_ghost(crate).endswith(body), 'crate tail is not the exact actual body')
+    call_lines = [i + 1 for i, line in enumerate(crate.split(b'\n'))
+                  if line.startswith(b'        let should_swap = is_less/*@')]
+    need(len(call_lines) == 1, 'comparator call line in the W7 crate')
     meta = {'schema': 'network-w7-candidate-v1', 'status': 'PREPARED_UNVERIFIED', 'name': name,
+            'crate_call_line': call_lines[0],  # NETWORK_SWAP_IF_LESS_CALL_LINE for this crate
             'std_source_sha256': r4.SOURCE_SHA256, 'std_span': list(NETWORKS[n][1]),
             'std_body_sha256': sha(body), 'helper': 'R4 swap_if_less in the same crate (verified there, not assumed)',
             'calls': NETWORKS[n][2], 'domain': 'generic T/F; v.len() >= n normal path; v.len() < n aborts',
@@ -169,7 +173,12 @@ def main():
         meta['controls'] = {}
         for label, crate in sorted(variants.items()):
             (out / f'sort{n}-{label}.rs').write_bytes(crate)
-            meta['controls'][label] = {'crate_sha256': sha(crate), 'expected': EXPECTED[label]}
+            lines = [i + 1 for i, line in enumerate(crate.split(b'\n'))
+                     if line.startswith(b'        let should_swap = is_less/*@')]
+            need(lines == [meta['crate_call_line']], 'control shifts the comparator call line: ' + label)
+            # P1 opt-in per variant: NETWORK_SWAP_IF_LESS_SOURCE_SHA256 = crate_sha256, CALL_LINE = crate_call_line.
+            meta['controls'][label] = {'crate_sha256': sha(crate), 'crate_call_line': lines[0],
+                                       'expected': EXPECTED[label]}
         meta['crate_sha256'] = meta['controls']['positive']['crate_sha256']
         metas[f'sort{n}'] = meta
     (out / 'meta.json').write_text(json.dumps(metas, indent=2, sort_keys=True) + '\n')

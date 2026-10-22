@@ -32,6 +32,9 @@ TR = 'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml'
 KERNEL = 'src/verifast.ml'
 SELECTED = 'e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64'
 PROFILE = 'A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json'
+# Hard pins of the reproduced endpoint (Select 10e13a41); must equal P1-MANIFEST base.
+PROFILE_SHA256 = 'd4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622'
+FINAL_TRANSLATOR = 'b5ea96a19481383a2cbc82fb8f479095d9fdabeecd531b3a2e02cb1b59ba180d'
 HERE = Path(__file__).resolve().parent
 
 
@@ -126,7 +129,9 @@ def main():
         apply(patch_rel, legacy['patch_sha256'], allowed,
               {path: legacy['files'][path]['base_sha256'] for path in allowed},
               {path: legacy['files'][path]['result_sha256'] for path in allowed})
-    profile = json.loads(show(native_dir + PROFILE))
+    profile_raw = show(native_dir + PROFILE)
+    need(hashlib.sha256(profile_raw).hexdigest() == PROFILE_SHA256, 'Select profile bytes differ from the pinned endpoint')
+    profile = json.loads(profile_raw)
     focus = 'src/verify_expr.ml'
     focus_manifest_raw = show(c1 + 'NATIVE-RUST-FOCUS-DEAD-CODE-SCOPE-MANIFEST.json')
     need(hashlib.sha256(focus_manifest_raw).hexdigest() == profile['focus_dead_code_scope_manifest_sha256'], 'focus manifest pin')
@@ -194,7 +199,9 @@ def main():
     if profile.get('actual_c2_recovery_enabled') is True:
         overlay('actual_c2_recovery_overlay', 'ACTUAL-SORT4-C2-RECOVERY-R17-MANIFEST.json', TR)
     translator = filesha(TR)
-    need(translator == profile['actual_c2_recovery_overlay']['result_sha256'], 'final translator = R19 c2-overlay result')
+    need(translator == profile['actual_c2_recovery_overlay']['result_sha256'] == FINAL_TRANSLATOR, 'final translator = R19 c2-overlay result')
+    p1 = json.loads((HERE / 'P1-MANIFEST.json').read_text())
+    need(p1['base_sha256'] == FINAL_TRANSLATOR, 'P1-MANIFEST base differs from the reproduced endpoint')
     rows.append({'checkpoint': '3c', 'translator_sha256': translator})
     record = {'tool': TOOL, 'select_commit': select, 'patches': rows, 'frozen20_diff_sha256': FROZEN20,
               'refreshed_translator_sha256': REFRESHED_TRANSLATOR, 'c4_base_translator_sha256': c4_base,

@@ -1,0 +1,11 @@
+{
+  "reviewer": "claude-subagent:smallsort-reviewer (continued via SendMessage)",
+  "model": "claude-opus-5-5 (agent definition: Opus 5.5, effort high)",
+  "scope": "p1 base reproduction + P1 overlay patch candidate + R4 crate_call_line, diff 022aa43f..a66fb6bd",
+  "candidate_commit": "a66fb6bd87c204c02404596459ed5773e608fec2",
+  "decision": "GO_WITH_NITS",
+  "verified_by_reviewer": ["reproduce-base.py rerun: 61 steps, final translator b5ea96a1 = profile c2 result", "patch applies to b5ea96a1 -> c14d8f8a", "existing fail-closed checks run first; no other body admitted; no trusted premise"],
+  "nits": ["W7 crates need their own crate_call_line and per-variant source SHA (fixed after review)", "p1/README out of date (fixed)", "script endpoints not hard-pinned (fixed: profile SHA d4b1b735 + final b5ea96a1 + P1-MANIFEST base)", "exclusivity one-directional (documented; mutual would edit Select's route)"],
+  "not_run": ["OCaml build", "translator execution", "VeriFast", "Cloud"],
+  "proof_credit": false
+}

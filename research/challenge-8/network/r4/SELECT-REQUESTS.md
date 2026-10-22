@@ -42,6 +42,12 @@ Network's generator emits the c1 protocol unchanged
 right_ref, left_fraction, right_fraction`). Whether Select's scope/referent
 relocation overlays are also needed for this body is unknown until a run.
 
+**Candidate (2026-10-22):** `../p1/network-swap-if-less-admission.patch` on the
+exact base reproduced by `../p1/reproduce-base.py` from this Select commit and
+profile (translator `b5ea96a1…` → `c14d8f8a…`); independent review GO_WITH_NITS,
+not built. Offered to Select for adoption into its chain; Network will pin
+whatever Select publishes.
+
 ## P3 — same-cell callback variant (equal positions)
 
 For `a_pos == b_pos` both comparator arguments are the same owned cell; the
