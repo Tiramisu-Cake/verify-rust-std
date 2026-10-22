@@ -3,15 +3,22 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import re
+import sys
 
 
 STAGES = ("exporter", "decode", "refinement", "verifast")
 SETUP_CODES = {124, 125, 126, 127, 134, 137, 139}
 CAMPAIGN = "r19-unwind-controls-v1"
 RESULT_SCHEMA = "r19-unwind-controls-result-v1"
+SYNTHETIC_CASE = "synthetic_unwind_resource"
+SYNTHETIC_DIAGNOSTIC = "No matching heap chunks for array<u64> of length 4"
+SYNTHETIC_TRACE_RE = re.compile(
+    r"^\s*\d+(?:\.\d+)?s: [^\s(]+\([0-9]+,[0-9]+"
+    r"(?:-[0-9]+(?:,[0-9]+)?)?\): Verifying function '([^']+)'$", re.M)
 CALL = b"    insert_tail(begin, begin.add(2), is_less);\n"
 R19_AFTER = (b"    /*@ { r19_insert_tail_unwind_cleanup();\n"
              b"        assert array::<u64>(begin, 3, ?r16_normal_current);\n"
@@ -46,6 +53,76 @@ DIAGNOSTICS = {
     "missing_owner_drop": "R19 cleanup block shape mismatch",
 }
 CASES = tuple(DIAGNOSTICS)
+
+
+def _load_module(name: str, path: Path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"missing pinned source helper: {path}")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+def _parent_raw_preparation(raw_case: Path, callback) -> tuple[dict | None, str | None]:
+    prep_path = raw_case.parents[1] / "preparation.json"
+    try:
+        data = prep_path.read_bytes()
+        record = json.loads(data)
+        original = (raw_case / "original/lib.rs").read_bytes()
+        verified = (raw_case / "verified/lib.rs").read_bytes()
+        if (type(record) is not dict or record.get("case") != callback.RAW_LOCAL_CALLER_NAME or
+                record.get("original_sha256") != _sha(original) or
+                record.get("verified_sha256") != _sha(verified)):
+            return None, None
+        return record, _sha(data)
+    except (OSError, ValueError, KeyError, TypeError):
+        return None, None
+
+
+def _synthetic_unwind_pair(callback, body) -> tuple[bytes, bytes, dict]:
+    """Build a proof-only always-panicking callee and an exact R19 caller."""
+    original_suffix, verified_suffix = callback._raw_local_caller_suffixes(body)
+    synthetic_after = R19_AFTER.replace(b"array::<u64>(begin, 3,", b"array::<u64>(begin, 4,")
+    if synthetic_after == R19_AFTER or verified_suffix.count(CALL + R19_AFTER) != 1:
+        raise ValueError("synthetic unwind fixture lost the exact R19 marker anchor")
+    verified_suffix = _replace(verified_suffix, CALL + R19_AFTER, CALL + synthetic_after)
+
+    signature = (b"unsafe fn insert_tail<F: FnMut(&u64, &u64) -> bool>"
+                 b"(begin: *mut u64, tail: *mut u64, is_less: &mut F)")
+    contract = (b"/*@\n"
+                b"req thread_token(?t) &*& t == currentThread &*&\n"
+                b"    type_interp::<u64>() &*& type_interp::<F>() &*&\n"
+                b"    begin[..3] |-> ?xs &*& length(xs) == 3 &*&\n"
+                b"    foreach(xs, own::<u64>(t)) &*& tail == begin + 2 &*&\n"
+                b"    *is_less |-> ?f0 &*& <F>.own(t, f0);\n"
+                b"@*//*@\nens false;\n@*//*@\n"
+                b"on_unwind_ens thread_token(t) &*& type_interp::<u64>() &*&\n"
+                b"    type_interp::<F>() &*& begin[..3] |-> ?panic_current &*&\n"
+                b"    length(panic_current) == 3 &*&\n"
+                b"    foreach(panic_current, own::<u64>(t)) &*&\n"
+                b"    tail == begin + 2 &*& *is_less |-> ?panic_f &*&\n"
+                b"    <F>.own(t, panic_f);\n@*/\n")
+    callee_original = signature + b"\n{\n    core::panic!();\n}\n\n"
+    callee_verified = signature + b"\n" + contract + b"{\n    core::panic!();\n}\n\n"
+
+    helper = callback._raw_owner_lemma_body()
+    wrapper_at = verified_suffix.index(body.WRAPPER_SIGNATURE)
+    verified_suffix = (verified_suffix[:wrapper_at] + helper + verified_suffix[wrapper_at:])
+    original = b"#![no_std]\n" + callee_original + original_suffix
+    verified = b"#![no_std]\n" + callee_verified + verified_suffix
+    call_line = _line_at(verified, _unique_offset(verified, CALL))
+    marker_assert = b"        assert array::<u64>(begin, 4, ?r16_normal_current);"
+    marker_line = _line_at(verified, _unique_offset(verified, marker_assert))
+    panic_line = _line_at(verified, _unique_offset(verified, b"    core::panic!();"))
+    if callback._body_runtime_equal(original, verified) is not True:
+        raise ValueError("synthetic source pair changes runtime behavior")
+    if (b"ens false;" not in verified or b"on_unwind_ens thread_token(t)" not in verified or
+            b"assume" in verified or b"leak" in verified):
+        raise ValueError("synthetic callee contract or checked-source gate changed")
+    return original, verified, {"call_line": call_line, "marker_line": marker_line,
+                                "panic_line": panic_line}
 
 
 def _sha(data: bytes) -> str:
@@ -154,6 +231,101 @@ def _classify(case: Path, name: str, expected_hashes: dict, execution, line: int
                     source_hashes=actual_hashes)
 
 
+def _synthetic_trace(log: str, function: str) -> list[tuple[int, int, str]]:
+    headers = list(SYNTHETIC_TRACE_RE.finditer(log))
+    found = []
+    for index, header in enumerate(headers):
+        if header.group(1) == function:
+            end = headers[index + 1].start() if index + 1 < len(headers) else len(log)
+            found.append((header.start(), end, log[header.start():end]))
+    return found
+
+
+def _classify_synthetic(case: Path, expected_hashes: dict, execution: object,
+                        lines: dict, consumer) -> dict:
+    name = SYNTHETIC_CASE
+    if type(execution) is not dict:
+        return _outcome(name, "INCONCLUSIVE", "executor returned the wrong type",
+                        execution_type=type(execution).__name__)
+    if execution.get("exception") is not None:
+        return _outcome(name, "INCONCLUSIVE", "executor raised an exception",
+                        execution_exception=execution.get("exception"),
+                        execution_status=execution.get("status"))
+    if execution.get("status") == "NOT_RUN" or execution.get("classification") == "NOT_RUN":
+        return _outcome(name, "NOT_RUN", "executor explicitly marked the control NOT_RUN",
+                        execution_status=execution.get("status"))
+    stages = execution.get("stages")
+    if type(stages) is not dict or any(type(stages.get(stage)) is not int or
+                                       type(stages.get(stage)) is bool for stage in STAGES):
+        return _outcome(name, "INCONCLUSIVE", "typed stage result map is missing or malformed",
+                        stages=stages if type(stages) is dict else None)
+    actual_hashes = consumer._hashes(case)
+    if any(actual_hashes.get(key) != value for key, value in expected_hashes.items()):
+        return _outcome(name, "INCONCLUSIVE", "synthetic source hashes changed or mismatched",
+                        source_hashes=actual_hashes)
+    gate = execution.get("stage_receipt_gate")
+    if (execution.get("source_unchanged_at_every_stage") is not True or type(gate) is not dict or
+            gate.get("admitted") is not True):
+        return _outcome(name, "INCONCLUSIVE", "typed source/stage receipts did not match",
+                        stages=stages, source_hashes=actual_hashes)
+    parent_gate = execution.get("parent_raw_preparation_gate")
+    if type(parent_gate) is not dict or parent_gate.get("admitted") is not True:
+        return _outcome(name, "INCONCLUSIVE", "parent raw-caller preparation identity changed",
+                        stages=stages, source_hashes=actual_hashes,
+                        parent_raw_preparation_gate=parent_gate)
+    if any(code in SETUP_CODES for code in stages.values()):
+        return _outcome(name, "INCONCLUSIVE", "a stage timed out, was skipped or failed setup",
+                        stages=stages)
+
+    log_path = case / "verifast.log"
+    log = log_path.read_text(errors="replace") if log_path.is_file() else ""
+    errors = [entry for entry in log.splitlines()
+              if re.search(r"\berror:", entry, re.I)]
+    dead = [entry for entry in log.splitlines()
+            if re.search(r"dead code", entry, re.I)]
+    callee = _synthetic_trace(log, "insert_tail")
+    caller = _synthetic_trace(log, "b2_three_from_local")
+    caller_segment = caller[0][2] if len(caller) == 1 else ""
+    callee_segment = callee[0][2] if len(callee) == 1 else ""
+    ordered_headers = (len(callee) == 1 and len(caller) == 1 and
+                       callee[0][0] < caller[0][0])
+
+    target_line = lines["marker_line"]
+    target_errors = [entry for entry in errors if
+                     re.search(rf"verified/lib\.rs\({target_line},\d+(?:-\d+)?\): error:", entry)]
+    resource_message = (len(target_errors) == 1 and
+                        "No matching heap chunks" in target_errors[0] and
+                        re.search(r"array(?:::<u64>|<u64>)?\([^\n]*,\s*4,\s*_\)",
+                                  target_errors[0]) is not None)
+    callee_called = (re.search(rf"verified/lib\.rs\({lines['panic_line']},\d+[^\n]*"
+                               r"(?:Executing statement|Verifying function call)",
+                               callee_segment) is not None)
+    caller_call = (re.search(rf"verified/lib\.rs\({lines['call_line']},\d+[^\n]*"
+                             r"Verifying function call", caller_segment) is not None)
+    target_trace_count = len(re.findall(
+        rf"verified/lib\.rs\({target_line},\d+[^\n]*\): (?:note: )?Executing statement",
+        caller_segment))
+    target_executed = target_trace_count >= 1
+    only_target_error = (len(errors) == 1 and len(target_errors) == 1 and
+                         errors[0] == target_errors[0] and
+                         target_errors[0] in caller_segment and target_errors[0] not in callee_segment)
+    matched = (stages["exporter"] == 0 and stages["decode"] == 0 and
+               stages["refinement"] == 0 and stages["verifast"] != 0 and
+               ordered_headers and not dead and only_target_error and resource_message and
+               callee_called and caller_call and target_executed)
+    reason = ("callee and caller traces reached the exact synthetic unwind resource refusal"
+              if matched else
+              "the callee proof, wrapper unwind trace, exact resource diagnostic, or stage gate did not match")
+    return _outcome(name, "EXPECTED_SYNTHETIC_RESOURCE_REFUSAL" if matched else "INCONCLUSIVE",
+                    reason, matched=matched, stages=stages, source_hashes=actual_hashes,
+                    verifier_errors=errors, verifier_dead_code=dead,
+                    callee_header_count=len(callee), caller_header_count=len(caller),
+                    callee_body_trace=callee_called, caller_call_trace=caller_call,
+                    target_line=target_line, target_executed=target_executed,
+                    target_trace_count=target_trace_count,
+                    target_error_count=len(target_errors), resource_message=resource_message)
+
+
 def run(evidence, raw_case, args, dispatch, consumer, selected_profile, *, source_sha256):
     root = Path(evidence) / "r19-unwind-controls"
     root.mkdir(parents=True, exist_ok=False)
@@ -202,10 +374,114 @@ def run(evidence, raw_case, args, dispatch, consumer, selected_profile, *, sourc
         (case / "classification.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
         results[name] = result
     all_matched = all(result.get("matched") is True for result in results.values())
+
+    synthetic_root = root / SYNTHETIC_CASE
+    synthetic_case = synthetic_root / "cases" / SYNTHETIC_CASE
+    synthetic_setup_error = None
+    try:
+        callback = _load_module("r19_synthetic_callback", Path(__file__).with_name("first-callback.py"))
+        body = _load_module("r19_synthetic_b2", Path(__file__).with_name("actual-insert-tail-b2.py"))
+        parent_record, parent_preparation_sha = _parent_raw_preparation(raw_case, callback)
+    except Exception as error:
+        synthetic_setup_error = {"type": type(error).__name__, "message": str(error)}
+        parent_record = parent_preparation_sha = None
+    (synthetic_case / "original").mkdir(parents=True)
+    (synthetic_case / "verified").mkdir()
+    if synthetic_setup_error is not None:
+        synthetic_result = _outcome(
+            SYNTHETIC_CASE, "INCONCLUSIVE",
+            "synthetic control setup/import raised an exception",
+            setup_exception=synthetic_setup_error,
+            parent_raw_caller_case=str(Path(raw_case).resolve()))
+        (synthetic_case / "classification.json").write_text(
+            json.dumps(synthetic_result, indent=2, sort_keys=True) + "\n")
+        lines = None
+        original = verified = b""
+    elif parent_record is None or parent_preparation_sha is None:
+        synthetic_result = _outcome(
+            SYNTHETIC_CASE, "INCONCLUSIVE",
+            "matching actual raw-caller preparation record is absent or changed",
+            parent_raw_caller_case=str(Path(raw_case).resolve()))
+        (synthetic_case / "classification.json").write_text(
+            json.dumps(synthetic_result, indent=2, sort_keys=True) + "\n")
+        lines = None
+        original = verified = b""
+    else:
+        try:
+            original, verified, lines = _synthetic_unwind_pair(callback, body)
+        except Exception as error:
+            synthetic_result = _outcome(
+                SYNTHETIC_CASE, "INCONCLUSIVE",
+                "synthetic source fixture could not be constructed",
+                construction_error={"type": type(error).__name__, "message": str(error)},
+                parent_raw_caller_case=str(Path(raw_case).resolve()))
+            (synthetic_case / "classification.json").write_text(
+                json.dumps(synthetic_result, indent=2, sort_keys=True) + "\n")
+            original = verified = b""
+            lines = None
+        if lines is None:
+            pass
+        else:
+            (synthetic_case / "original/lib.rs").write_bytes(original)
+            (synthetic_case / "verified/lib.rs").write_bytes(verified)
+            source_hashes = {"original/lib.rs": _sha(original),
+                             "verified/lib.rs": _sha(verified),
+                             "small_sort_source": source_sha256}
+            case_record = {
+                "schema": "r19-synthetic-unwind-resource-v1",
+                "profile": selected_profile,
+                "case": SYNTHETIC_CASE,
+                "control_kind": "synthetic_always_panicking_callee_resource_negative",
+                "actual_raw_caller_case": str(Path(raw_case).resolve()),
+                "actual_raw_caller_preparation_sha256": parent_preparation_sha,
+                "actual_raw_caller_preparation_case": parent_record.get("case"),
+                "actual_raw_caller_original_sha256": parent_record.get("original_sha256"),
+                "actual_raw_caller_verified_sha256": parent_record.get("verified_sha256"),
+                "source_hashes": source_hashes,
+                "call_line": lines["call_line"], "marker_line": lines["marker_line"],
+                "panic_line": lines["panic_line"],
+                "expected_diagnostic": SYNTHETIC_DIAGNOSTIC,
+                "accepted": False, "proof_credit": False, "b2_achieved": False,
+            }
+            (synthetic_case / "case.json").write_text(
+                json.dumps(case_record, indent=2, sort_keys=True) + "\n")
+            before = consumer._hashes(synthetic_case)
+            previous_r8 = getattr(args, "r8_owned_array_allocation", False)
+            args.r8_owned_array_allocation = True
+            try:
+                execution = dispatch(synthetic_case, args, actual_callback_case=True,
+                                     body_isolation_native=True)
+            except Exception as error:
+                execution = {"exception": {"type": type(error).__name__, "message": str(error)},
+                             "status": "FAILED", "stages": None}
+            finally:
+                args.r8_owned_array_allocation = previous_r8
+            if type(execution) is dict:
+                stages = execution.get("stages")
+                execution["stage_receipt_gate"] = consumer._stage_receipts(
+                    synthetic_case, stages if type(stages) is dict else {}, before)
+                execution["source_unchanged_at_every_stage"] = (
+                    before == consumer._hashes(synthetic_case) and
+                    execution["stage_receipt_gate"].get("admitted") is True)
+                current_record, current_sha = _parent_raw_preparation(raw_case, callback)
+                execution["parent_raw_preparation_gate"] = {
+                    "admitted": current_record == parent_record and
+                               current_sha == parent_preparation_sha,
+                    "preparation_sha256": current_sha,
+                    "case": current_record.get("case") if current_record else None,
+                }
+            (synthetic_case / "execution.json").write_text(
+                json.dumps(execution, indent=2, sort_keys=True, default=str) + "\n")
+            synthetic_result = _classify_synthetic(
+                synthetic_case, source_hashes, execution, lines, consumer)
+            (synthetic_case / "classification.json").write_text(
+                json.dumps(synthetic_result, indent=2, sort_keys=True) + "\n")
+
     aggregate = {"schema": RESULT_SCHEMA, "campaign": CAMPAIGN, "profile": selected_profile,
                  "cases": results, "all_matched": all_matched,
                  "classification": "ALL_R19_UNWIND_CONTROLS_MATCHED" if all_matched else
                                    "R19_UNWIND_CONTROLS_INCONCLUSIVE",
+                 "synthetic_unwind_resource": synthetic_result,
                  "accepted": False, "proof_credit": False, "b2_achieved": False,
                  "independent_credit": False}
     (root / "result.json").write_text(json.dumps(aggregate, indent=2, sort_keys=True) + "\n")
