@@ -1,0 +1,36 @@
+# Agent checkpoint: select-callee-acceptance-autonomous-2026-10-23-r21
+
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R21 | state: CLOSED
+- Updated: 2026-10-22T21:55:34Z
+- Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
+- Session dates: T0 `2026-10-22T19:54:55Z`; main deadline `2026-10-22T21:54:55Z`; absolute deadline `2026-10-22T22:24:55Z`
+- Budget: 3600s total; 1994s spent; 1606s retired; 0s remaining including active reservations
+- Active Build IDs: none recorded
+- Unresolved IDs: none recorded
+
+## Confirmed claims
+- [SOURCE_REPORTED] R20 S3 (cd3e6cae): refreshed certificate admits exact merged unit (owner-nine/H2/forget-own/A1-nine); verifier Parse error lib.rs:219 (2nd ghost stmt after if/else); controls refused at owner SHA pin. credit0. — [research/challenge-8/task-history/select-callee-r20/S3-evidence.json](task-history/select-callee-r20/S3-evidence.json) SHA `baf76fb258ea30dc3b5e4a46da56d82e920bc25216db283072543da6fa1e8eb5` Build `cd3e6cae-721f-45d8-ae82-5e198e00312b`
+- [SOURCE_REPORTED] R20 S3b (edb9fb81): branch refresh admits+executes unit; controls refused at pin; positive fails lib.rsspec:462 (selected payload fresh after guard re-open). R20 CLOSED, 7 Builds 2200s, carry0. credit0. — [research/challenge-8/task-history/select-callee-r20/S3b-evidence.json](task-history/select-callee-r20/S3b-evidence.json) SHA `c4404beae1edc4f9972851fb5c85daeb4936fa0e09d099dd0d05fbd96037e863` Build `edb9fb81-29e8-4103-9fbe-1a7731233b43`; [research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-22-R20.json](cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-22-R20.json) SHA `61a12011d011eed7515fe8cea0d16cd24041f0b0e0e12fba2dd2b52b831619cf`
+- [SOURCE_REPORTED] R21 S2d fingerprint complete: branch-selected source b9430169, all ten snapshots, normal MIR export/decode and location-control reproduction. No body proof run; credit0. Build charged322s, remaining3278s. — [research/challenge-8/task-history/select-callee-r21/S2d-evidence.json](task-history/select-callee-r21/S2d-evidence.json) SHA `33818a756c6ddd2f5d1cc2bc35f30621b3bc675641d1a8c0ca0c2073441ead35` Build `79ba86f3-200c-4678-b9b2-80450b0be061`
+- [SOURCE_REPORTED] R21 branch-selected actual proof admits source and reaches normal result post; positive exit1 cannot prove result equals selected input (lib.rs143), both certificate controls intended. No callee acceptance; credit0. Used673s, remaining2927s. — [research/challenge-8/task-history/select-callee-r21/S3-branch-selected-evidence.json](task-history/select-callee-r21/S3-branch-selected-evidence.json) SHA `b0795f640400066ebc2af1b3faa0a8b27ffb41cb70e442a50656605f2d527d9d` Build `1bbfc87e-8b0a-4042-b54f-71acb3690dd6`
+- [SOURCE_REPORTED] R21 fractional fingerprints complete for8variants, all source/unit/body pins distinct as observed; baseline location control reproduced. No body proof, credit0. Used1297s, remaining2303s. — [research/challenge-8/task-history/select-callee-r21/FRACTIONAL-FINGERPRINT-EVIDENCE.json](task-history/select-callee-r21/FRACTIONAL-FINGERPRINT-EVIDENCE.json) SHA `e001b299c13fd7d9e2d54d6718e8f472c9bbb58273ab52a4bbaceddcf0d7dbaf` Build `7cd83dd2-f0e9-41e8-85ef-589447085239`
+
+## Open
+- Actual fractional callee positive and normal/unwind/nested-Drop matrix remain unaccepted; *mut T/generic P2 remains open.
+- Network P1 accepted for integration only, P3 grammar decided; no mutable/generic callee summary or proof credit.
+- Corrected candidate288fa7cd reviewed GO,113parts; compiler/proof UNKNOWN after retry124. Callee diagnostic targets unpinned.
+- Inactive body lane168/191, count5/5-8-4 gates prepared/reviewed; requires actual callee acceptance/linkage and control requalification.
+
+## Rejected approaches
+- Assumed/address-only resource bridge or helper PASS as full-body proof — Does not establish actual ordered callback resources or full normal/unwind posts.
+- Закрывать сессию досрочно, когда нет допустимого Build — R18 и R19 закрыты досрочно, хотя в миссии оставалась работа без Cloud (callee proof, transport); это противоречит CORE и особой границе задания.; [research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json](cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json) SHA `43938f12bb12264b19b9b414d91130753de5d441bde857217da2cffea43efd13`
+
+## Blocker
+Actual fractional callee proof UNKNOWN: corrected retry exited124 with incomplete stage evidence; acceptance and controls remain open.
+- [research/challenge-8/task-history/select-callee-r21/FRACTIONAL-PROOF-RETRY-TIMEOUT.json](task-history/select-callee-r21/FRACTIONAL-PROOF-RETRY-TIMEOUT.json) SHA `b67f9b2557ba3130fb1635ac0d095c9048e706b56608b061efc4768a49fcb913` Build `fe704af2-e671-4153-9246-299f057e27ad`
+
+## Next
+New authorized window/ledger: use NEXT-WINDOW-HANDOFF; recheck288fa7cd, then checked fractional proof and exact controls.
+
+## Artifacts
+- [research/challenge-8/task-history/select-callee-r21/ARTIFACT-INDEX.json](task-history/select-callee-r21/ARTIFACT-INDEX.json) — `0b3556e9553dee8fe2a17b92ed737cefff908caec5f39822658e297c5a7ab00a`

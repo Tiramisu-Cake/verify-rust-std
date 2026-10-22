@@ -1,10 +1,10 @@
-# Agent checkpoint: select-callee-acceptance-autonomous-2026-10-23-r21
+# Agent checkpoint: select-callee-acceptance-autonomous-2026-10-23-r22
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R21 | state: CLOSED
-- Updated: 2026-10-22T21:55:34Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R22 | state: NOT_STARTED
+- Updated: 2026-10-22T22:15:42Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
-- Session dates: T0 `2026-10-22T19:54:55Z`; main deadline `2026-10-22T21:54:55Z`; absolute deadline `2026-10-22T22:24:55Z`
-- Budget: 3600s total; 1994s spent; 1606s retired; 0s remaining including active reservations
+- Session dates: T0 `NOT_SET`; main deadline `NOT_SET`; absolute deadline `NOT_SET`
+- Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 

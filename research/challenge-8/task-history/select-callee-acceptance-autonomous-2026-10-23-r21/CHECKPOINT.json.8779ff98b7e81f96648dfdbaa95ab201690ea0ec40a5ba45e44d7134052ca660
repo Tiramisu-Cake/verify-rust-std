@@ -1,0 +1,126 @@
+{
+  "artifacts": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r21/ARTIFACT-INDEX.json",
+      "sha256": "0b3556e9553dee8fe2a17b92ed737cefff908caec5f39822658e297c5a7ab00a"
+    }
+  ],
+  "assignment_sha256": "018ffe56c8c4386b472f53c6a0ce9c01d6368972400c6eb64fa4b6fbbed9c745",
+  "baseline": {
+    "profile_sha256": "d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622",
+    "source_sha": "81226dafedd2e8d1dfb140ab0e4dd88556bfd7db",
+    "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+  },
+  "blocker": {
+    "summary": "Actual fractional callee proof UNKNOWN: corrected retry exited124 with incomplete stage evidence; acceptance and controls remain open.",
+    "evidence": [
+      {
+        "build_id": "fe704af2-e671-4153-9246-299f057e27ad",
+        "path": "research/challenge-8/task-history/select-callee-r21/FRACTIONAL-PROOF-RETRY-TIMEOUT.json",
+        "sha256": "b67f9b2557ba3130fb1635ac0d095c9048e706b56608b061efc4768a49fcb913"
+      }
+    ]
+  },
+  "confirmed": [
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R20 S3 (cd3e6cae): refreshed certificate admits exact merged unit (owner-nine/H2/forget-own/A1-nine); verifier Parse error lib.rs:219 (2nd ghost stmt after if/else); controls refused at owner SHA pin. credit0.",
+      "evidence": [
+        {
+          "build_id": "cd3e6cae-721f-45d8-ae82-5e198e00312b",
+          "path": "research/challenge-8/task-history/select-callee-r20/S3-evidence.json",
+          "sha256": "baf76fb258ea30dc3b5e4a46da56d82e920bc25216db283072543da6fa1e8eb5"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R20 S3b (edb9fb81): branch refresh admits+executes unit; controls refused at pin; positive fails lib.rsspec:462 (selected payload fresh after guard re-open). R20 CLOSED, 7 Builds 2200s, carry0. credit0.",
+      "evidence": [
+        {
+          "build_id": "edb9fb81-29e8-4103-9fbe-1a7731233b43",
+          "path": "research/challenge-8/task-history/select-callee-r20/S3b-evidence.json",
+          "sha256": "c4404beae1edc4f9972851fb5c85daeb4936fa0e09d099dd0d05fbd96037e863"
+        },
+        {
+          "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-22-R20.json",
+          "sha256": "61a12011d011eed7515fe8cea0d16cd24041f0b0e0e12fba2dd2b52b831619cf"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R21 S2d fingerprint complete: branch-selected source b9430169, all ten snapshots, normal MIR export/decode and location-control reproduction. No body proof run; credit0. Build charged322s, remaining3278s.",
+      "evidence": [
+        {
+          "build_id": "79ba86f3-200c-4678-b9b2-80450b0be061",
+          "path": "research/challenge-8/task-history/select-callee-r21/S2d-evidence.json",
+          "sha256": "33818a756c6ddd2f5d1cc2bc35f30621b3bc675641d1a8c0ca0c2073441ead35"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R21 branch-selected actual proof admits source and reaches normal result post; positive exit1 cannot prove result equals selected input (lib.rs143), both certificate controls intended. No callee acceptance; credit0. Used673s, remaining2927s.",
+      "evidence": [
+        {
+          "build_id": "1bbfc87e-8b0a-4042-b54f-71acb3690dd6",
+          "path": "research/challenge-8/task-history/select-callee-r21/S3-branch-selected-evidence.json",
+          "sha256": "b0795f640400066ebc2af1b3faa0a8b27ffb41cb70e442a50656605f2d527d9d"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R21 fractional fingerprints complete for8variants, all source/unit/body pins distinct as observed; baseline location control reproduced. No body proof, credit0. Used1297s, remaining2303s.",
+      "evidence": [
+        {
+          "build_id": "7cd83dd2-f0e9-41e8-85ef-589447085239",
+          "path": "research/challenge-8/task-history/select-callee-r21/FRACTIONAL-FINGERPRINT-EVIDENCE.json",
+          "sha256": "e001b299c13fd7d9e2d54d6718e8f472c9bbb58273ab52a4bbaceddcf0d7dbaf"
+        }
+      ]
+    }
+  ],
+  "next_step": "New authorized window/ledger: use NEXT-WINDOW-HANDOFF; recheck288fa7cd, then checked fractional proof and exact controls.",
+  "open": [
+    "Actual fractional callee positive and normal/unwind/nested-Drop matrix remain unaccepted; *mut T/generic P2 remains open.",
+    "Network P1 accepted for integration only, P3 grammar decided; no mutable/generic callee summary or proof credit.",
+    "Corrected candidate288fa7cd reviewed GO,113parts; compiler/proof UNKNOWN after retry124. Callee diagnostic targets unpinned.",
+    "Inactive body lane168/191, count5/5-8-4 gates prepared/reviewed; requires actual callee acceptance/linkage and control requalification."
+  ],
+  "owner": "select-sort4",
+  "phase": "SORT4-ACTUAL-SELECT-2026-10-23-R21",
+  "rejected": [
+    {
+      "approach": "Assumed/address-only resource bridge or helper PASS as full-body proof",
+      "evidence": [],
+      "reason": "Does not establish actual ordered callback resources or full normal/unwind posts."
+    },
+    {
+      "approach": "\u0417\u0430\u043a\u0440\u044b\u0432\u0430\u0442\u044c \u0441\u0435\u0441\u0441\u0438\u044e \u0434\u043e\u0441\u0440\u043e\u0447\u043d\u043e, \u043a\u043e\u0433\u0434\u0430 \u043d\u0435\u0442 \u0434\u043e\u043f\u0443\u0441\u0442\u0438\u043c\u043e\u0433\u043e Build",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json",
+          "sha256": "43938f12bb12264b19b9b414d91130753de5d441bde857217da2cffea43efd13"
+        }
+      ],
+      "reason": "R18 \u0438 R19 \u0437\u0430\u043a\u0440\u044b\u0442\u044b \u0434\u043e\u0441\u0440\u043e\u0447\u043d\u043e, \u0445\u043e\u0442\u044f \u0432 \u043c\u0438\u0441\u0441\u0438\u0438 \u043e\u0441\u0442\u0430\u0432\u0430\u043b\u0430\u0441\u044c \u0440\u0430\u0431\u043e\u0442\u0430 \u0431\u0435\u0437 Cloud (callee proof, transport); \u044d\u0442\u043e \u043f\u0440\u043e\u0442\u0438\u0432\u043e\u0440\u0435\u0447\u0438\u0442 CORE \u0438 \u043e\u0441\u043e\u0431\u043e\u0439 \u0433\u0440\u0430\u043d\u0438\u0446\u0435 \u0437\u0430\u0434\u0430\u043d\u0438\u044f."
+    }
+  ],
+  "schema": "smallsort-checkpoint-v1",
+  "session": {
+    "active_build_ids": [],
+    "budget_seconds": 3600,
+    "deadline_utc": "2026-10-22T22:24:55Z",
+    "main_deadline_utc": "2026-10-22T21:54:55Z",
+    "remaining_seconds": 0,
+    "retired_seconds": 1606,
+    "spent_seconds": 1994,
+    "t0": "2026-10-22T19:54:55Z",
+    "unresolved_ids": []
+  },
+  "state": "CLOSED",
+  "task_id": "select-callee-acceptance-autonomous-2026-10-23-r21",
+  "updated_utc": "2026-10-22T21:55:34Z"
+}

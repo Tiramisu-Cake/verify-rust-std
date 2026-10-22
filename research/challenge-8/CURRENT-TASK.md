@@ -1,57 +1,55 @@
-# Select-R21 — accept the actual select_unpredictable callee, *mut T, then the sort4 route
+# Select-R22 — fractional callee 288fa7cd, controls/matrix, *mut T, маршрут в sort4
 
-Task ID: `select-callee-acceptance-autonomous-2026-10-23-r21`; previous task: `select-actual-callee-autonomous-2026-10-22-r20`.
-Owner: **Select/sort4**. Phase: `SORT4-ACTUAL-SELECT-2026-10-23-R21`. Lane: `o26-select-callee-r20`.
+Task ID: `select-callee-acceptance-autonomous-2026-10-23-r22`; previous task: `select-callee-acceptance-autonomous-2026-10-23-r21`.
+Owner: **Select/sort4**. Phase: `SORT4-ACTUAL-SELECT-2026-10-23-R22`. Lane: `o26-select-callee-r20`.
 
 ## Mission
 
 This is a bounded continuation of the previous task under a newly authorized window.
 
-Runtime: Codex. This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), the runtime profile [`RUNTIME-CODEX.md`](agent-workflow/RUNTIME-CODEX.md), the compact root [AGENTS.md](../../AGENTS.md), and the persistent repo guidance. Review executor and Build waiting follow that profile only.
+Runtime: Claude Code. This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), the runtime profile [`RUNTIME-CLAUDE.md`](agent-workflow/RUNTIME-CLAUDE.md), the compact root [CLAUDE.md](../../CLAUDE.md), and the persistent repo guidance. Review executor and Build waiting follow that profile only.
 The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. Prepare fresh-session inputs with `/usr/local/bin/smallsort-session`, obtain required independent review and register the exact phase through the assigned branch client before proof work. Registration does not restart the clock.
 No previous budget, T0, ledger authorization, profile acceptance, or proof credit transfers.
 
 ## Baseline and controls
 
-Worktree `/root/verify-rust-std-select-night` on branch `research/night-select-sort4-cloud-2026-10-09`; baseline `44bfbdecdd61c96059fe76d8b8bff690e15dd5d6`; source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`.
+Worktree `/root/verify-rust-std-select-night` on branch `research/night-select-sort4-cloud-2026-10-09`; baseline `f8ef054f4c31e3edeb1a5ea76c8f3adbf48fbb6b`; source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`.
 Tool worktree `/root/verifast-select-sort4-c2-bind-20261010` on `challenge8/select-sort4-c2-bound-20261010` at `f76012fb518703b1d98e243ac4f487f16877cfcb`.
-Profile `research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json` SHA-256 `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`. New ledger path: `research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-23-R21.json`; previous closed ledger: `research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-22-R20.json`.
+Profile `research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json` SHA-256 `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`. New ledger path: `research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-23-R22.json`; previous closed ledger: `research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-23-R21.json`.
 Cloud budget: 3600 seconds. Wall window: 120 minutes main + 30 minutes closeout. Per-Build timeout ≤1200 seconds; report reserve ≥240 seconds. T0 remains NOT_SET until actual work starts.
 
 ## Goal and steps
 
-R21 и Builds разрешены. Цель — приёмка checked actual callee core::hint::select_unpredictable (W1): positive за lib.rsspec:462, controls, normal/unwind/nested-Drop; затем *mut T/generic (P2 для Network) и маршрут в actual sort4 (c5, селекторы, копирования).
+R22 и Builds разрешены. Цель — приёмка checked actual callee select_unpredictable (W1) через одобренный fractional-кандидат 288fa7cd: positive, controls, normal/unwind/nested-Drop; затем *mut T (P2 для Network) и маршрут в sort4. Закрыв план или упёршись в границу, агент сам ставит следующие задачи по миссии.
 
-1. Build HANDOFF 0f37a0df (S2d fingerprint) on o26-select-callee-r20, then the branch-selected refresh and classified proof. Fix the payload identity lost on guard re-open (own(t,g) has no payload) by a checked step; each repair close needs a control failing at the same site. Then the callee matrix normal/unwind/nested-Drop.
-2. *mut T: the same unit at *mut T or a generic proof (ACTUAL-GENERIC-SELECT-GAP). Answer Network SELECT-REQUESTS (branch challenge-8/networks): adopt or reject P1 (c760fa3b, overlay c14d8f8a) with reasons, decide the P3 marker grammar; commit the answer as a file Network can pin.
-3. Transport: each new route gets its own lane with a minimal closure inventory; shrink a1-runner.py and drop the duplicate selected-proof.py recipe path. Then the opt-in route into the actual sort4 body with source/MIR certification, Cloud c5 (34e37669), selectors, copies.
+1. Statically recheck 288fa7cd (patch, translator pins, 113-part transport) per NEXT-WINDOW-HANDOFF, register R22, then early one full-envelope Build of the fractional positive and eight-row matrix. Optionally first: reviewed bootstrap stage receipts in control.py::config so a timeout shows its stage.
+2. By result: pin callee control targets (site, message, stage, fields; now TARGET_UNPINNED), then normal/unwind/nested-Drop, ownership, leak/refinement and same-site omission controls. In parallel without Cloud: *mut T/generic unit (MUTABLE-CALLEE-NEXT) and a pinnable P2 answer for Network.
+3. Then the dormant body route (BODY-C5-NEXT, 168/191) after callee acceptance/linkage and count-five control requalification. When the plan is done or blocked, pick next obligations yourself from COMPLETION-PLAN/mission (W1/W4), recording choice and reason in CHECKPOINT; else prepare a reviewed HANDOFF.
 
 ## Special bounds
 
-- Keep the R16/R17/R19/R20 chain and strict R13 checks (5 calls/8 selects/4 copies, no leak relaxation). Callee summary only from a checked actual callee of the same version; gate exemption, guard-own=true or a broad forget summary need an owner decision. No cap change: the transport limit is the Cloud Build API (191 parts).
-- Tool WT has foreign edits: pinned Git objects, isolated WT. Operands: checked equality or checked case split, never an address-only bridge. cloud-build/coordination.py is the owner-adopted v4 client: do not edit it.
+- Proof Builds use timeout 1200; never shorten it to fit the remaining window: if the full envelope does not fit main, no Build. A compile error or a run without proof stage is fixed statically first; never repeat the same config. No new Build/retry after main; the 30 min only for started Builds, evidence, accounting, checkpoint, push. No cap change.
+- Keep R16-R21 chain and strict R13 checks (5 calls/8 selects/4 copies, no leak relaxation). Beyond the owner-approved fractional candidate, any gate exemption, guard-own=true or broad forget summary needs an owner decision. No address-only bridge. Tool WT: pinned Git objects. coordination.py (v4) read-only.
 - Use the whole main window; no admissible Build is not a boundary. An early stop lists each checked independent task and why it is unavailable in closure_reason.
 
 ## Starting checkpoint
 
 Read [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for the exact claims, assurance, evidence, open and rejected items, and artifact identities. UNKNOWN remains UNKNOWN.
 
-Blocker: Wrapper own closed for new(true_payload) but selected cell holds new(selected_payload) after guard re-open.
-Next: New window: build HANDOFF 0f37a0df S2d fingerprint on o26-select-callee-r20; then branch-selected refresh + classified proof.
+Blocker: Actual fractional callee proof UNKNOWN: corrected retry exited124 with incomplete stage evidence; acceptance and controls remain open.
+Next: New authorized window/ledger: use NEXT-WINDOW-HANDOFF; recheck288fa7cd, then checked fractional proof and exact controls.
 
 ## References
 
-- [Callee route design (R20)](task-history/select-callee-r20/CALLEE-ROUTE-DESIGN.md)
-- [S3b Cloud evidence](task-history/select-callee-r20/S3b-evidence.json)
-- [R20 review](task-history/select-callee-r20/R20-review.json)
-- [Generic select gap](overnight-assume-actual/ACTUAL-GENERIC-SELECT-GAP-2026-10-09.md)
-- [c5 candidate review](task-history/select-c3-r19/C5-review.json)
+- [R21 next-window handoff](task-history/select-callee-r21/NEXT-WINDOW-HANDOFF.md)
+- [Fractional forget proposal (owner-approved)](task-history/select-callee-r21/FRACTIONAL-FORGET-PROPOSAL.md)
+- [Completion plan](COMPLETION-PLAN.md)
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-23-r21 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R21 · CLOSED**
-Updated: 2026-10-22T21:55:34Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
-Dates: T0 `2026-10-22T19:54:55Z`; main `2026-10-22T21:54:55Z`; absolute `2026-10-22T22:24:55Z`. Budget 3600s: 1994s spent, 1606s retired, 0s remaining including reservations.
+**select-callee-acceptance-autonomous-2026-10-23-r22 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R22 · NOT_STARTED**
+Updated: 2026-10-22T22:15:42Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: Actual fractional callee proof UNKNOWN: corrected retry exited124 with incomplete stage evidence; acceptance and controls remain open.
 Next: New authorized window/ledger: use NEXT-WINDOW-HANDOFF; recheck288fa7cd, then checked fractional proof and exact controls.
