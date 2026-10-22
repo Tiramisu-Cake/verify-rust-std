@@ -298,6 +298,37 @@ def construct_c3(source: bytes, ghost, capture, pair_recovery: bytes,
     return _layer_c3(verified_c2, original, c2_meta, ghost, lemma_metadata)
 
 
+def _indexed_control_rows(cases, verified, original, ghost, meta, lemma_metadata, index):
+    """Shared c3/c4 control metadata; every case keeps exact runtime bytes."""
+    output = []
+    for name, candidate, expected in cases:
+        need(candidate != verified, name + " changes the annotations")
+        need(ghost.strip_ghost(candidate) == original,
+             name + " must preserve exact runtime bytes")
+        candidate_lines = candidate.splitlines()
+        focus_lines = [i for i, line in enumerate(candidate_lines, 1)
+                       if line.startswith(TARGET)]
+        candidate_lemmas = [row for row in lemma_metadata(candidate)
+                            if row["name"] in COMPARATOR_NAMES]
+        need(len(focus_lines) == 1, name + " has one exact actual body")
+        need(tuple(row["name"] for row in candidate_lemmas) == COMPARATOR_NAMES,
+             name + " retains exact five required comparator dependencies")
+        output.append((name, candidate, original, {
+            **meta,
+            "name": "sort4_stable",
+            "focus_line": focus_lines[0],
+            "end_line": len(candidate_lines),
+            "required_lemmas": candidate_lemmas,
+            index + "_control": name,
+            "expected_rejection": expected,
+            index + "_marker_callsite_attribution": "OPEN",
+            "generated_source_sha256": hashlib.sha256(candidate).hexdigest(),
+            "summary_eligible": False,
+            "proof_credit": False,
+        }))
+    return output
+
+
 def resource_controls_c3(verified: bytes, original: bytes, ghost,
                          four_recovery: bytes, meta: dict, lemma_metadata):
     """Return annotation-only c3 negative controls; no result is proof credit."""
@@ -360,33 +391,7 @@ def resource_controls_c3(verified: bytes, original: bytes, ghost,
         ("c3-index-overflow-marker-negative", overflow,
          "index-4 marker with no matching indexed call when the explicit count is 3"),
     )
-    output = []
-    for name, candidate, expected in cases:
-        need(candidate != verified, name + " changes the annotations")
-        need(ghost.strip_ghost(candidate) == original,
-             name + " must preserve exact runtime bytes")
-        candidate_lines = candidate.splitlines()
-        focus_lines = [i for i, line in enumerate(candidate_lines, 1)
-                       if line.startswith(TARGET)]
-        candidate_lemmas = [row for row in lemma_metadata(candidate)
-                            if row["name"] in COMPARATOR_NAMES]
-        need(len(focus_lines) == 1, name + " has one exact actual body")
-        need(tuple(row["name"] for row in candidate_lemmas) == COMPARATOR_NAMES,
-             name + " retains exact five required comparator dependencies")
-        output.append((name, candidate, original, {
-            **meta,
-            "name": "sort4_stable",
-            "focus_line": focus_lines[0],
-            "end_line": len(candidate_lines),
-            "required_lemmas": candidate_lemmas,
-            "c3_control": name,
-            "expected_rejection": expected,
-            "c3_marker_callsite_attribution": "OPEN",
-            "generated_source_sha256": hashlib.sha256(candidate).hexdigest(),
-            "summary_eligible": False,
-            "proof_credit": False,
-        }))
-    return output
+    return _indexed_control_rows(cases, verified, original, ghost, meta, lemma_metadata, "c3")
 
 
 # R19 c4 layer: the same checked pattern for call 4 with selected operands
@@ -530,25 +535,7 @@ def resource_controls_c4(verified: bytes, original: bytes, ghost,
         ("c4-index-overflow-marker-negative", overflow,
          "frontend: index-5 marker with explicit count 4 is unparsed; inventory refuses"),
     )
-    output = []
-    for name, candidate, expected in cases:
-        need(candidate != verified, name + " changes the annotations")
-        need(ghost.strip_ghost(candidate) == original, name + " must preserve exact runtime bytes")
-        candidate_lines = candidate.splitlines()
-        focus_lines = [i for i, line in enumerate(candidate_lines, 1) if line.startswith(TARGET)]
-        candidate_lemmas = [row for row in lemma_metadata(candidate) if row["name"] in COMPARATOR_NAMES]
-        need(len(focus_lines) == 1, name + " has one exact actual body")
-        need(tuple(row["name"] for row in candidate_lemmas) == COMPARATOR_NAMES,
-             name + " retains exact five required comparator dependencies")
-        output.append((name, candidate, original, {
-            **meta, "name": "sort4_stable", "focus_line": focus_lines[0],
-            "end_line": len(candidate_lines), "required_lemmas": candidate_lemmas,
-            "c4_control": name, "expected_rejection": expected,
-            "c4_marker_callsite_attribution": "OPEN",
-            "generated_source_sha256": hashlib.sha256(candidate).hexdigest(),
-            "summary_eligible": False, "proof_credit": False,
-        }))
-    return output
+    return _indexed_control_rows(cases, verified, original, ghost, meta, lemma_metadata, "c4")
 
 
 def construct(source: bytes, ghost, capture, pair_recovery: bytes,

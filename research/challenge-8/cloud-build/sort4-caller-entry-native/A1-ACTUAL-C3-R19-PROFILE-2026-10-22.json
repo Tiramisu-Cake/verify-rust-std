@@ -32,7 +32,7 @@
   "account": "BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json",
   "actual_body_dependencies_sha256": {
     "a1-actual-body-c1.py": "8af19b63552b7ef6e4b6026b4f188fa00c4344a4bb1b75848008e7b46141441e",
-    "a1-actual-body-c2.py": "1e52aad197bc6afdaecd17ddd6a1bde798040f216c35d9b8acde5a4e0911c43f",
+    "a1-actual-body-c2.py": "4941cc854296f0608b95792c4dc4fc9c4bcaf1063aaf0b70a0aa6573c688977c",
     "a1-actual-copy-lemma.rs": "e839b8ab51c15a4d9789e96892db4c24d23c4c112ac8e19b81b77b0da6148edc",
     "a1-actual-four-copy.rs": "7b81692132690c94e85e8062d1cf2e7565a35cecc29f2a21f5073bb4eb1d2e37",
     "a1-actual-recover-four.rs": "9637aee892e633c2521d8cef62770a6be0982a1835492b6afffafc97f9246d8b",
@@ -223,7 +223,7 @@
   },
   "reference_own_preflight_enabled": true,
   "reference_own_probe_sha256": "ea4cb0d45a3da7060298978c01d9cbaab241a36907b7f1a56823162549d73d80",
-  "registration_rationale": "R19 is a fresh 3600-second Select window. It keeps the R17 routing key and adapters (R18 precedent), which now select this profile by exact coordinator SHA from an explicit {R17, R19} allowlist. The R17-chain translator overlay gains an explicit indexed-call count (3) and the constructor adds the c3 callback layer and controls; see task-history/select-c3-r19/C3-IMPLEMENTATION.md. No proof credit.",
+  "registration_rationale": "R19: R17 routing key; profile selected by exact SHA from the {R17,R19} allowlist; see task-history/select-c3-r19.",
   "schema": "smallsort-a1-rcg-source-profile-v1",
   "selected_base_translator_sha256": "e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64",
   "session_preparation": {
