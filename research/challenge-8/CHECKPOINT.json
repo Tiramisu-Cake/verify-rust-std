@@ -24,19 +24,19 @@
     "tool_sha": "39f6b0cacd00575c8ca2d39e9f15632723bf1227"
   },
   "blocker": {
+    "summary": "F5 and state binding INCONCLUSIVE; metadata/helper plus F5 route reviewed GO, awaiting Cloud; original caller OPEN.",
     "evidence": [
       {
         "build_id": "17095248-45ee-433d-83d1-66679a8a1db5",
-        "path": "research/challenge-8/cloud-build/origin-layout/R20-PROOF2-START-20261023.json",
-        "sha256": "1c3b4033c9428e4ace5a75e12a6f25adf7b460309bd501dbf2f297d8db00f05b"
+        "path": "research/challenge-8/cloud-build/origin-layout/R20-PROOF2-RESULT-20261023.json",
+        "sha256": "2ae30e48c2f9114a3323966d64dee8333752446986b3a32c139bc74e33a03ca5"
       }
-    ],
-    "summary": "P2 active: F5/resource and state controls pending; original caller OPEN."
+    ]
   },
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "P1: RawPtr positive identical_local_rawmut refinement0 MATCHED; raw caller passed array_inv444/insert_tail call, new frontier free_locals array_ at 461 (unwind presumed). Bounded only; no credit.",
+      "claim": "R18 P1: RawPtr identical-local positive matched; old rawcaller frontier free_locals array_. Credit0.",
       "evidence": [
         {
           "build_id": "e70d2723-f49d-4a8f-847e-f8da1106d36f",
@@ -47,7 +47,7 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "P2: RawPtr controls 4/5 matched (positive, mutability, changed contents via aggregate refusal, raw/ref); index projection INCONCLUSIVE refiner limitation. No credit.",
+      "claim": "R18 P2: four RawPtr controls matched; index projection INCONCLUSIVE. Credit0.",
       "evidence": [
         {
           "build_id": "08bd6e03-a320-4e03-b5d3-21b051204b3e",
@@ -58,7 +58,7 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "R19 cleanup tool 39f6b0ca / proof candidate 3a587cb7 reviewed GO_WITH_NITS x2; Cloud compile/proof/controls NOT_RUN, credit0. Publication confirmed in closeout.",
+      "claim": "R19 candidate/tool independently reviewed GO_WITH_NITS; then Cloud UNVERIFIED, credit0.",
       "evidence": [
         {
           "path": "research/challenge-8/cloud-build/origin-layout/R19-REVIEW-20261022.md",
@@ -91,15 +91,36 @@
           "sha256": "91dbaddf063900fe558593f5aeb413f306f4b691cd07575d77416e026cdb657a"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R20 P2: five R19 controls MATCHED; synthetic F5 failed callback/invariant setup gates, state fatal diagnostic lacks target context; both INCONCLUSIVE, credit0.",
+      "evidence": [
+        {
+          "build_id": "17095248-45ee-433d-83d1-66679a8a1db5",
+          "path": "research/challenge-8/cloud-build/origin-layout/R20-PROOF2-RESULT-20261023.json",
+          "sha256": "2ae30e48c2f9114a3323966d64dee8333752446986b3a32c139bc74e33a03ca5"
+        },
+        {
+          "build_id": "17095248-45ee-433d-83d1-66679a8a1db5",
+          "path": "research/challenge-8/observations/a848fcdc9a71e422dfc38da4c6e0454afe7d8eb5e6b6c7fd0c5d944c904909c6.json",
+          "sha256": "a848fcdc9a71e422dfc38da4c6e0454afe7d8eb5e6b6c7fd0c5d944c904909c6"
+        },
+        {
+          "build_id": "17095248-45ee-433d-83d1-66679a8a1db5",
+          "path": "research/challenge-8/observations/3c8c597476cc7dffd9fa35d51249e8805b4e2301ff7e9209df1c20b7dfb1a323.json",
+          "sha256": "3c8c597476cc7dffd9fa35d51249e8805b4e2301ff7e9209df1c20b7dfb1a323"
+        }
+      ]
     }
   ],
-  "next_step": "Finish metadata profile candidate/review; read P2 Brief; next Cloud cycle on exact pins.",
+  "next_step": "Exact source/cap/config gate; publish and dispatch metadata191/profile0428 cycle.",
   "open": [
-    "Original as_mut_ptr/unsize, source-bound metadata, real borrow/reference lifecycle and caller normal/unwind remain OPEN; isolated lifecycle does not close them.",
-    "Raw caller has bounded source-reported exit0; LocalAddressTaken new control and index-projection intended gate remain Cloud-UNVERIFIED.",
-    "CURRENT/backedge/false/true/panic/Drop/Resume compatible final matrix; B2/generic/arbitrary-n/sorting/tool qualification/independent proof credit remain OPEN.",
-    "F5 missing_owner_drop is STATIC_SHAPE_REFUSAL. Separate synthetic unwind-only resource control is being prepared; no actual-callee acceptance transfer.",
-    "P2 includes reviewed F5/state controls; results pending. Metadata tool191a5cd reviewed GO; exporter/decoder compile and original caller remain OPEN."
+    "Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.",
+    "Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.",
+    "F5 separate synthetic resource negative INCONCLUSIVE; actual missing-owner control is static shape refusal.",
+    "Metadata tool191/profile0428 compile, checked content lemmas and final CURRENT/backedge/false/true/panic/Drop/Resume matrix OPEN.",
+    "No B2/generic/arbitrary-n/sorting/tool qualification/independent credit."
   ],
   "owner": "merge",
   "phase": "MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23",
@@ -127,19 +148,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "17095248-45ee-433d-83d1-66679a8a1db5"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T22:38:00Z",
     "main_deadline_utc": "2026-10-22T22:08:00Z",
-    "remaining_seconds": 2662,
+    "remaining_seconds": 1728,
     "retired_seconds": 0,
-    "spent_seconds": 938,
+    "spent_seconds": 1872,
     "t0": "2026-10-22T20:08:00Z",
     "unresolved_ids": []
   },
   "state": "ACTIVE",
   "task_id": "merge-unwind-acceptance-autonomous-2026-10-23-r20",
-  "updated_utc": "2026-10-22T20:55:09Z"
+  "updated_utc": "2026-10-22T21:18:59Z"
 }

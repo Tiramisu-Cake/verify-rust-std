@@ -1,0 +1,205 @@
+{
+  "schema": "merge-r20-proof2-result-v1",
+  "build_id": "17095248-45ee-433d-83d1-66679a8a1db5",
+  "status": "FAILURE",
+  "assurance": "SOURCE_REPORTED",
+  "brief_integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "proof_sha": "8b5cc1201684bbc29b2f7e027ba7019fe0ff1fc3",
+  "tool_sha": "39f6b0cacd00575c8ca2d39e9f15632723bf1227",
+  "profile_sha256": "1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb",
+  "config_sha256": "b0ac47ac1ff0e5e06eb8ad0bff4d900096198f8ad23c2c1a0651088dc289923a",
+  "charge_seconds": 934,
+  "spent_total_seconds": 1872,
+  "remaining_seconds": 1728,
+  "observations": {
+    "p2-r19-summary": {
+      "values": {
+        "/accepted": false,
+        "/all_matched": true,
+        "/b2_achieved": false,
+        "/campaign": "r19-unwind-controls-v1",
+        "/cases": {
+          "child_count": 5
+        },
+        "/classification": "ALL_R19_UNWIND_CONTROLS_MATCHED",
+        "/independent_credit": false,
+        "/profile": "experimental-merge-label-storage-r11-v1",
+        "/proof_credit": false,
+        "/schema": "r19-unwind-controls-result-v1",
+        "/synthetic_unwind_resource": {
+          "child_count": 21
+        }
+      },
+      "receipt": {
+        "request_id": "6a5d07f5d2999bd90946bd7e00064409e5ebff7a9504e0fcd7c89a540c00999d",
+        "archive_sha256": "39bc89a862751c18b74cc6bb28370fab08653222ed41fef16bd154d1121f7550",
+        "index_sha256": "ffe7416b88e88511c2b2324db97ee1b5c595f4dee91311c3095f56d8ca713592",
+        "file_id": "53062662a993659bac257a20c2f554e322a8d8675a5394271df103b663f36dce",
+        "file_sha256": "b114b0bc604278ebacf9d93717144aae94bb2ed486094e42e7c099338943b74a",
+        "exact": true,
+        "complete": true,
+        "next_offset": null,
+        "request": {
+          "expected_sha256": "b114b0bc604278ebacf9d93717144aae94bb2ed486094e42e7c099338943b74a",
+          "file_id": "53062662a993659bac257a20c2f554e322a8d8675a5394271df103b663f36dce",
+          "pointer": ""
+        }
+      }
+    },
+    "p2-f5-stages": {
+      "values": {
+        "/synthetic_unwind_resource/stages/decode": 0,
+        "/synthetic_unwind_resource/stages/exporter": 0,
+        "/synthetic_unwind_resource/stages/refinement": 2,
+        "/synthetic_unwind_resource/stages/verifast": 1
+      },
+      "receipt": {
+        "request_id": "df849f2be119e772fc62db60d072bae3aa2c296c1127f1c44e8b09202703c940",
+        "archive_sha256": "39bc89a862751c18b74cc6bb28370fab08653222ed41fef16bd154d1121f7550",
+        "index_sha256": "ffe7416b88e88511c2b2324db97ee1b5c595f4dee91311c3095f56d8ca713592",
+        "file_id": "53062662a993659bac257a20c2f554e322a8d8675a5394271df103b663f36dce",
+        "file_sha256": "b114b0bc604278ebacf9d93717144aae94bb2ed486094e42e7c099338943b74a",
+        "exact": true,
+        "complete": true,
+        "next_offset": null,
+        "request": {
+          "expected_sha256": "b114b0bc604278ebacf9d93717144aae94bb2ed486094e42e7c099338943b74a",
+          "file_id": "53062662a993659bac257a20c2f554e322a8d8675a5394271df103b663f36dce",
+          "pointer": "/synthetic_unwind_resource/stages"
+        }
+      }
+    },
+    "p2-f5-errors": {
+      "values": {
+        "/synthetic_unwind_resource/verifier_errors/0": "verified/lib.rs(2,1-102): error: R11 invariant placement binding refused: missing or ambiguous source invariant"
+      },
+      "receipt": {
+        "request_id": "18c2236a54c1ae93a8105420cc48bbdd79dd40839d392ec6665b353ed6131072",
+        "archive_sha256": "39bc89a862751c18b74cc6bb28370fab08653222ed41fef16bd154d1121f7550",
+        "index_sha256": "ffe7416b88e88511c2b2324db97ee1b5c595f4dee91311c3095f56d8ca713592",
+        "file_id": "53062662a993659bac257a20c2f554e322a8d8675a5394271df103b663f36dce",
+        "file_sha256": "b114b0bc604278ebacf9d93717144aae94bb2ed486094e42e7c099338943b74a",
+        "exact": true,
+        "complete": true,
+        "next_offset": null,
+        "request": {
+          "expected_sha256": "b114b0bc604278ebacf9d93717144aae94bb2ed486094e42e7c099338943b74a",
+          "file_id": "53062662a993659bac257a20c2f554e322a8d8675a5394271df103b663f36dce",
+          "pointer": "/synthetic_unwind_resource/verifier_errors"
+        }
+      }
+    },
+    "p2-state": {
+      "values": {
+        "/accepted": false,
+        "/b2_achieved": false,
+        "/case": "unequal_address_taken_state",
+        "/classification": "INCONCLUSIVE",
+        "/matched": false,
+        "/proof_credit": false,
+        "/reason": "diagnostic, command target, or typed stage identity did not match",
+        "/schema": "r17-rawptr-controls-result-v1",
+        "/source_hashes": {
+          "child_count": 3
+        },
+        "/stage_receipt_gate": {
+          "child_count": 3
+        },
+        "/stages": {
+          "child_count": 4
+        },
+        "/target_binding": {
+          "child_count": 12
+        }
+      },
+      "receipt": {
+        "request_id": "e09c378c6708b01ee403d74fe82273e4563d7a0ca23ee0271608216ab161a910",
+        "archive_sha256": "39bc89a862751c18b74cc6bb28370fab08653222ed41fef16bd154d1121f7550",
+        "index_sha256": "ffe7416b88e88511c2b2324db97ee1b5c595f4dee91311c3095f56d8ca713592",
+        "file_id": "e20b1507166467116d9b0bb2b95808df3a92cf26579bb7782c97b69642308c6a",
+        "file_sha256": "075f9f50c7522eb7399a7e6fdb4dd2e9dad33c07509d68f5a6650c5cb589b929",
+        "exact": true,
+        "complete": true,
+        "next_offset": null,
+        "request": {
+          "expected_sha256": "075f9f50c7522eb7399a7e6fdb4dd2e9dad33c07509d68f5a6650c5cb589b929",
+          "file_id": "e20b1507166467116d9b0bb2b95808df3a92cf26579bb7782c97b69642308c6a",
+          "pointer": ""
+        }
+      }
+    },
+    "p2-state-binding": {
+      "values": {
+        "/target_binding/admitted": false,
+        "/target_binding/command_listing_present": false,
+        "/target_binding/cross_kind_listing_present": true,
+        "/target_binding/diagnostic_files": {
+          "child_count": 2
+        },
+        "/target_binding/diagnostic_lines": {
+          "child_count": 0
+        },
+        "/target_binding/exact_diagnostic_count": 0,
+        "/target_binding/function": "r17_rawptr_control",
+        "/target_binding/function_context_present": false,
+        "/target_binding/source_target_anchor": "let begin = &raw mut other_values as *mut [u64; 3];",
+        "/target_binding/source_target_line": 6,
+        "/target_binding/source_target_unique": true,
+        "/target_binding/state_local_pair_listing_present": false
+      },
+      "receipt": {
+        "request_id": "ff8c1ff72b9063cf27ae62a3b7ca5a2cdaa6a1e1e359cccdb10f133d58653ae7",
+        "archive_sha256": "39bc89a862751c18b74cc6bb28370fab08653222ed41fef16bd154d1121f7550",
+        "index_sha256": "ffe7416b88e88511c2b2324db97ee1b5c595f4dee91311c3095f56d8ca713592",
+        "file_id": "e20b1507166467116d9b0bb2b95808df3a92cf26579bb7782c97b69642308c6a",
+        "file_sha256": "075f9f50c7522eb7399a7e6fdb4dd2e9dad33c07509d68f5a6650c5cb589b929",
+        "exact": true,
+        "complete": true,
+        "next_offset": null,
+        "request": {
+          "expected_sha256": "075f9f50c7522eb7399a7e6fdb4dd2e9dad33c07509d68f5a6650c5cb589b929",
+          "file_id": "e20b1507166467116d9b0bb2b95808df3a92cf26579bb7782c97b69642308c6a",
+          "pointer": "/target_binding"
+        }
+      }
+    }
+  },
+  "diagnostics": {
+    "synthetic_verifier": "R11 invariant placement binding refused: missing or ambiguous source invariant",
+    "synthetic_refiner": "--check-first-fnmut-continue original source admission: source body is missing if !is_less",
+    "synthetic_refiner_evidence": {
+      "file_id": "967f88909fd81d877eb2e42250800dd8f7f122a6ef29361a1e8b53fd12945fb2",
+      "sha256": "97e17725a8bc110228961cb41b2eb99d30cbc3229b32a43ab5b785f0d92973c7",
+      "request_id": "cbb81e60a7f7d23a221a10259a0cfdf48b35aa9fd97f279a2c5a2d370b1290dc",
+      "lines": [
+        1,
+        4
+      ],
+      "exact": true,
+      "complete": true
+    },
+    "state_refiner": "Fatal exception contains exact LocalAddressTaken unequal-states diagnostic but lacks function/basic-block/RawPtr pair context; strict binding remains false.",
+    "state_refiner_evidence": {
+      "file_id": "c4d5ee37a1b4095975c0bc6d72a7e04d334c752e70a692c970a21935d828f0e3",
+      "sha256": "987a8e10c807620d0f944c76918904c04ea95d5aaab5c24baae75ba95c5ec42a",
+      "request_id": "5addeda7db97b2656f1c781ba9e09f2ebb4e78462e73ecb6d6b94a9f6bd4376f",
+      "lines": [
+        1,
+        10
+      ],
+      "exact": true,
+      "complete": true
+    }
+  },
+  "compile": "Brief source reports exporter/decoder/translator/console/refiner exit0 on old tool39; new191 tool not in P2.",
+  "accepted": false,
+  "proof_credit": false,
+  "independent_credit": false,
+  "b2_achieved": false,
+  "open": [
+    "F5 target resource refusal (P2 INCONCLUSIVE; separate synthetic route fix prepared)",
+    "LocalAddressTaken target binding (P2 INCONCLUSIVE despite fatal diagnostic)",
+    "Original borrow/unsize/reference lifecycle",
+    "Compatible CURRENT/normal/unwind final matrix"
+  ]
+}

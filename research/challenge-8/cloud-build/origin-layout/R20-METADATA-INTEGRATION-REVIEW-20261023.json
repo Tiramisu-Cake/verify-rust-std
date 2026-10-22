@@ -1,0 +1,25 @@
+{
+  "schema": "merge-r20-review-record-v1",
+  "verdict": "GO",
+  "candidate": "93101a92575f89c592d79b7085f17cdb1b4b6912",
+  "spec_sha256": "7326d5533827f59b4e595d6e11795a784fbfd444ffd6c4e9b5da9f9ebf7c2354",
+  "packet_sha256": "b759b297eb4b327d21087e0b6146cfce3b949d5aabc86b2a950b9645ab0c85f5",
+  "reviewer": "independent Luna HIGH /root/r20_review",
+  "f5_delta": {
+    "candidate": "6eb6b5859db4b97be6a5752468119bde4fa76c95",
+    "verdict": "GO",
+    "spec_sha256": "c91b55427e3526481e6f3627eac66eedf87c02134900db0ecca40e9a9a02af08",
+    "packet_sha256": "f3055c6783a9db918848630d240258bee9b17b18b53a3efe575b38035761997a",
+    "limitation": "Synthetic route record is declared/copied after dispatch, not independent runtime evidence; actual argv available in stage receipts. Static callchain verified."
+  },
+  "tests": {
+    "metadata": 7,
+    "R20_phase": 11,
+    "R19_phase": 13,
+    "body_receipts": 39,
+    "unwind": 12
+  },
+  "source_gate": "PASS on6eb6b58, payload570864 cap571567",
+  "actual_compile_helper_lifecycle": "Cloud UNVERIFIED",
+  "proof_credit": false
+}
