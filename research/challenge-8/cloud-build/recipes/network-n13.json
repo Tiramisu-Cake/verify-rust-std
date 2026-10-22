@@ -1,0 +1,21 @@
+{
+  "schema": "smallsort-cloud-recipe-v1",
+  "lane": "network-n13",
+  "entrypoint": "research/challenge-8/cloud-build/network-n13/run.sh",
+  "infra_transport": "exact-recipe-v1",
+  "network_stages": ["controls", "exact", "preflight", "regressions"],
+  "proof_paths": [
+    "library/core/src/slice/sort/shared/smallsort.rs",
+    "research/challenge-8/network/n13/run-cloud.py",
+    "research/challenge-8/networks/SOURCE-MAP.md",
+    "research/challenge-8/networks/prove-ranks.py",
+    "research/challenge-8/networks/prove.py",
+    "research/challenge-8/networks/run-ranks.sh",
+    "research/challenge-8/networks/swo-rank.c"
+  ],
+  "infra_paths": [
+    "research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json",
+    "research/challenge-8/cloud-build/network-n13/run.sh",
+    "research/challenge-8/cloud-build/provider.py"
+  ]
+}
