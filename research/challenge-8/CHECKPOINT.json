@@ -45,17 +45,6 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "R19 S2 (pins 3af7d37d) FAILURE 612s: actual body passes c4 (first path); sole error at first selector lib.rs:371: no function std::hint::select_unpredictable. 4 c4 resource controls designed; credit0.",
-      "evidence": [
-        {
-          "build_id": "8916761a-a0a7-428a-b853-187e45ef4dfa",
-          "path": "research/challenge-8/task-history/select-c3-r19/S2-evidence.json",
-          "sha256": "f2f0561d8e77f3fc5890dfc848cc0e08907cd743dda6211f5fd6298e0912286f"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
       "claim": "R19 CLOSED early (real boundary: selector callee): 2 Builds terminal/accounted 1264s, 2336s retired, carry0; own active/request 0. c5 candidate 34e37669 carried. credit0.",
       "evidence": [
         {
@@ -74,9 +63,20 @@
           "build_id": "2d562718-c166-4ab5-bba3-bf9136bd56b7"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R20 S2 (retry f090a976; 00c136dd EXPIRED 92s) 301s: location control reproduces pins; repaired unit fingerprint intended, SHA 910bb778; only unit+body-7 change; cleanup 24->26, edges 10->12. credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-callee-r20/S2-evidence.json",
+          "sha256": "2f39bdc6a04250fbe511b9d5cc340909afeeee01bfa5bf8eaa783cf3e8b0ec2a",
+          "build_id": "f090a976-7d8b-4d2d-b919-e308aca41886"
+        }
+      ]
     }
   ],
-  "next_step": "Wait R20 S2 retry Build f090a976 (00c136dd EXPIRED in queue, 92s accounted); ack; Brief r20-fingerprint.json; then S3 certificate refresh.",
+  "next_step": "S3: opt-in certificate refresh (SHA 910bb778, unit 5051bbff, body-7 b917af17, ghost list/body text, outer-body inventories) on O26 translator; review; Cloud proof of repaired unit.",
   "open": [
     "Callee: run nine-body unit on separate lane o26-select-callee-r20 (baseline + ghost repair variants); then normal/unwind/nested-Drop completion and matrix; *mut",
     "Recovery lane transport: 192/191 chunks after R20 client lines (control.py is in every lane's infra core); prune closed routes separately before c5 (34e37669)/s",
@@ -103,19 +103,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "f090a976-7d8b-4d2d-b919-e308aca41886"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T18:11:28Z",
     "main_deadline_utc": "2026-10-22T17:41:28Z",
-    "remaining_seconds": 3255,
+    "remaining_seconds": 2862,
     "retired_seconds": 0,
-    "spent_seconds": 345,
+    "spent_seconds": 738,
     "t0": "2026-10-22T15:41:28Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-actual-callee-autonomous-2026-10-22-r20",
-  "updated_utc": "2026-10-22T16:37:00Z"
+  "updated_utc": "2026-10-22T16:47:00Z"
 }
