@@ -50,9 +50,9 @@ Next: At actual T0 prepare/register R20; Cloud preflight, then the published raw
 ## Отчёт агента
 
 **merge-unwind-acceptance-autonomous-2026-10-23-r20 · merge · MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23 · ACTIVE**
-Updated: 2026-10-22T20:47:17Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `39f6b0cacd00575c8ca2d39e9f15632723bf1227` / `1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb`.
+Updated: 2026-10-22T20:55:09Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `39f6b0cacd00575c8ca2d39e9f15632723bf1227` / `1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb`.
 Dates: T0 `2026-10-22T20:08:00Z`; main `2026-10-22T22:08:00Z`; absolute `2026-10-22T22:38:00Z`. Budget 3600s: 938s spent, 0s retired, 2662s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Raw caller exit0 and5R19 controls matched; F5 resource negative/original caller OPEN.
-Next: Review/run F5 and state controls; preserve pins; then original caller metadata/lifetime.
+Active Build IDs: 17095248-45ee-433d-83d1-66679a8a1db5; unresolved: none recorded.
+Blocker: P2 active: F5/resource and state controls pending; original caller OPEN.
+Next: Finish metadata profile candidate/review; read P2 Brief; next Cloud cycle on exact pins.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

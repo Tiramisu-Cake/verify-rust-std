@@ -1,11 +1,11 @@
 # Agent checkpoint: merge-unwind-acceptance-autonomous-2026-10-23-r20
 
 - Owner: merge | phase: MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23 | state: ACTIVE
-- Updated: 2026-10-22T20:47:17Z
+- Updated: 2026-10-22T20:55:09Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `39f6b0cacd00575c8ca2d39e9f15632723bf1227`, profile `1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb`
 - Session dates: T0 `2026-10-22T20:08:00Z`; main deadline `2026-10-22T22:08:00Z`; absolute deadline `2026-10-22T22:38:00Z`
 - Budget: 3600s total; 938s spent; 0s retired; 2662s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 17095248-45ee-433d-83d1-66679a8a1db5
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -20,18 +20,18 @@
 - Raw caller has bounded source-reported exit0; LocalAddressTaken new control and index-projection intended gate remain Cloud-UNVERIFIED.
 - CURRENT/backedge/false/true/panic/Drop/Resume compatible final matrix; B2/generic/arbitrary-n/sorting/tool qualification/independent proof credit remain OPEN.
 - F5 missing_owner_drop is STATIC_SHAPE_REFUSAL. Separate synthetic unwind-only resource control is being prepared; no actual-callee acceptance transfer.
-- Next control7caf717 reviewed Luna HIGH GO;10synthetic testsPASS. Actual LocalAddressTaken handler remains Cloud-UNVERIFIED; new control absent from P1.
+- P2 includes reviewed F5/state controls; results pending. Metadata tool191a5cd reviewed GO; exporter/decoder compile and original caller remain OPEN.
 
 ## Rejected approaches
 - Broad placeholder/cast inference exemption or address-only borrow bridge — Does not establish slice metadata, valid lifetime/full_borrow or memory authority; original gate must remain.; [research/challenge-8/cloud-build/origin-layout/R16-CALLER-DESIGN-20261021.md](cloud-build/origin-layout/R16-CALLER-DESIGN-20261021.md) SHA `c1e8f851b5c0b18edf3ed5ac2b758a32daa0eda2f4ea88551b8e37e03288b940`
 - Short outer timeout990/execute570 chosen using prior whole-cycle timings — Missed nested compile reserve140; P4 timed out before proof. Keep full1200 plan unless effective inner budget reviewed.; [research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md](cloud-build/origin-layout/R16-REVIEW-20261021.md) SHA `7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa`
 
 ## Blocker
-Raw caller exit0 and5R19 controls matched; F5 resource negative/original caller OPEN.
-- [research/challenge-8/cloud-build/origin-layout/R20-PROOF1-RESULT-20261023.json](cloud-build/origin-layout/R20-PROOF1-RESULT-20261023.json) SHA `976fb9283e104d67586e429b66e47f30066ad2e4ae168f972c09663f1dd81ddb` Build `196e1b52-23bf-47e8-bf0a-72caa5c1bbf2`
+P2 active: F5/resource and state controls pending; original caller OPEN.
+- [research/challenge-8/cloud-build/origin-layout/R20-PROOF2-START-20261023.json](cloud-build/origin-layout/R20-PROOF2-START-20261023.json) SHA `1c3b4033c9428e4ace5a75e12a6f25adf7b460309bd501dbf2f297d8db00f05b` Build `17095248-45ee-433d-83d1-66679a8a1db5`
 
 ## Next
-Review/run F5 and state controls; preserve pins; then original caller metadata/lifetime.
+Finish metadata profile candidate/review; read P2 Brief; next Cloud cycle on exact pins.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R19-UNWIND-CLEANUP-DESIGN-20261022.md](cloud-build/origin-layout/R19-UNWIND-CLEANUP-DESIGN-20261022.md) — `571f1acd4a0ad8f86c7fe2bfa95e9a5a80450cbe0a5dc84c81fe5f8309ad857e`

@@ -26,12 +26,12 @@
   "blocker": {
     "evidence": [
       {
-        "build_id": "196e1b52-23bf-47e8-bf0a-72caa5c1bbf2",
-        "path": "research/challenge-8/cloud-build/origin-layout/R20-PROOF1-RESULT-20261023.json",
-        "sha256": "976fb9283e104d67586e429b66e47f30066ad2e4ae168f972c09663f1dd81ddb"
+        "build_id": "17095248-45ee-433d-83d1-66679a8a1db5",
+        "path": "research/challenge-8/cloud-build/origin-layout/R20-PROOF2-START-20261023.json",
+        "sha256": "1c3b4033c9428e4ace5a75e12a6f25adf7b460309bd501dbf2f297d8db00f05b"
       }
     ],
-    "summary": "Raw caller exit0 and5R19 controls matched; F5 resource negative/original caller OPEN."
+    "summary": "P2 active: F5/resource and state controls pending; original caller OPEN."
   },
   "confirmed": [
     {
@@ -93,13 +93,13 @@
       ]
     }
   ],
-  "next_step": "Review/run F5 and state controls; preserve pins; then original caller metadata/lifetime.",
+  "next_step": "Finish metadata profile candidate/review; read P2 Brief; next Cloud cycle on exact pins.",
   "open": [
     "Original as_mut_ptr/unsize, source-bound metadata, real borrow/reference lifecycle and caller normal/unwind remain OPEN; isolated lifecycle does not close them.",
     "Raw caller has bounded source-reported exit0; LocalAddressTaken new control and index-projection intended gate remain Cloud-UNVERIFIED.",
     "CURRENT/backedge/false/true/panic/Drop/Resume compatible final matrix; B2/generic/arbitrary-n/sorting/tool qualification/independent proof credit remain OPEN.",
     "F5 missing_owner_drop is STATIC_SHAPE_REFUSAL. Separate synthetic unwind-only resource control is being prepared; no actual-callee acceptance transfer.",
-    "Next control7caf717 reviewed Luna HIGH GO;10synthetic testsPASS. Actual LocalAddressTaken handler remains Cloud-UNVERIFIED; new control absent from P1."
+    "P2 includes reviewed F5/state controls; results pending. Metadata tool191a5cd reviewed GO; exporter/decoder compile and original caller remain OPEN."
   ],
   "owner": "merge",
   "phase": "MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23",
@@ -127,7 +127,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "17095248-45ee-433d-83d1-66679a8a1db5"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T22:38:00Z",
     "main_deadline_utc": "2026-10-22T22:08:00Z",
@@ -139,5 +141,5 @@
   },
   "state": "ACTIVE",
   "task_id": "merge-unwind-acceptance-autonomous-2026-10-23-r20",
-  "updated_utc": "2026-10-22T20:47:17Z"
+  "updated_utc": "2026-10-22T20:55:09Z"
 }
