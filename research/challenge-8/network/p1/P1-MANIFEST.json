@@ -1,0 +1,18 @@
+{
+  "schema": "network-p1-overlay-candidate-v1",
+  "status": "PREPARED_UNREVIEWED_UNBUILT",
+  "purpose": "admit exactly one __vf_callback_unwind_pair marker in the complete actual swap_if_less under an exact opt-in (r4/SELECT-REQUESTS.md P1)",
+  "patch": "research/challenge-8/network/p1/network-swap-if-less-admission.patch",
+  "patch_sha256": "6e4dc240ec01c6f85f81ce8a5802a701983fd43910993467dcbd5b08c35c1b77",
+  "source": "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml",
+  "base_sha256": "b5ea96a19481383a2cbc82fb8f479095d9fdabeecd531b3a2e02cb1b59ba180d",
+  "result_sha256": "c14d8f8ad07b22b74a5aba45fa97fa38ec17b7ddb6e8904c32001c658d3823d7",
+  "base_reproduction": "p1/reproduce-base.py on Select 10e13a414a1b6f0efafdee36eea733c91df1ee6b chain (61 steps) with profile A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json",
+  "opt_in_env": {"NETWORK_SWAP_IF_LESS_CALLBACK": "1", "NETWORK_SWAP_IF_LESS_CALL_LINE": "r4 meta crate_call_line", "NETWORK_SWAP_IF_LESS_SOURCE_SHA256": "sha256 of verified/lib.rs", "SMALLSORT_EXECUTION_PROVIDER": "cloud-build"},
+  "excludes": ["SORT4_ACTUAL_BODY_C1_RECOVERY=1", "SORT4_ACTUAL_BODY_C2_RECOVERY=1"],
+  "new_axiom_or_assumed_lemma": false,
+  "runtime_operations_changed": false,
+  "kernel_checks_changed": false,
+  "proof_credit": false,
+  "owner_of_layer": "select-sort4 (request; Network does not fork the chain)"
+}

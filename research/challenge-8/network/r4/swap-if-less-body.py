@@ -192,8 +192,12 @@ def construct(std, recover_pair_rs, select_spec=None):
     need(strip_ghost(v) == body, 'ghost stripping does not restore the exact actual body')
     crate = PREFIX + layer + b'\n' + v
     need(strip_ghost(crate).endswith(body), 'crate tail is not the exact actual body')
+    call_lines = [i + 1 for i, line in enumerate(crate.split(b'\n'))
+                  if line.startswith(b'        let should_swap = is_less/*@')]
+    need(len(call_lines) == 1, 'comparator call line in the generated crate')
     meta = {
         'schema': 'network-r4-swap-if-less-candidate-v1', 'status': 'PREPARED_UNVERIFIED',
+        'crate_call_line': call_lines[0],  # NETWORK_SWAP_IF_LESS_CALL_LINE for the P1 overlay
         'name': 'swap_if_less', 'std_source_sha256': SOURCE_SHA256, 'std_span': list(STD_SPAN),
         'std_body_sha256': sha(body), 'runtime_body_byteequal': True,
         'select_recover_pair_blob': SELECT_RECOVER_PAIR_BLOB,

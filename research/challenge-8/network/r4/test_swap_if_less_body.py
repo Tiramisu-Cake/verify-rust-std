@@ -30,6 +30,8 @@ class R4CandidateTests(unittest.TestCase):
         self.assertEqual(crate.count(b'__vf_callback_unwind_pair();'), 1)
         self.assertEqual(crate.count(b'lem recover_pair<T>'), 1)
         self.assertFalse(meta['proof_credit'])
+        lines = crate.split(b'\n')
+        self.assertTrue(lines[meta['crate_call_line'] - 1].startswith(b'        let should_swap = is_less/*@'))
 
     def test_ghost_regexes_equal_select_capture(self):
         namespace = {}
