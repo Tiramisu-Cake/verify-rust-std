@@ -1,12 +1,29 @@
 {
-  "active_build": null,
+  "active_build": "2b55f6a5-076a-4fd6-92e9-c42aae9ba500",
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
   ],
   "authorization": "CURRENT-TASK Select-R19 explicitly authorizes this fresh 3600-second Cloud phase; T0=2026-10-22T13:50:26Z, main deadline=2026-10-22T15:50:26Z, absolute deadline=2026-10-22T16:20:26Z; no R18 carry; max 1200-second Builds; 240-second report reserve; existing lane only. Builds pass SORT4_A1_AUTHORIZATION_PHASE_ID=SORT4-ACTUAL-C2-2026-10-21-R17 as the tool routing key (R18 precedent) over the reviewed R19 profile A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json pinned in control.py, and are accounted only in this ledger.",
   "authorization_model": "bounded-cloud-budget",
   "baseline_sha": "69a54645a7f63cdd26b931b69956b99f09b4efd3",
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-e4da42d98751491cbceee3ae9ac5c834",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-ACTUAL-C3-2026-10-22-R19",
+      "infra_sha": "67d472cdf35e1e0c1fc9679e5a2d9caa33a9dcb1",
+      "proof_sha": "67d472cdf35e1e0c1fc9679e5a2d9caa33a9dcb1",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "1d2547e5d00aa3f10d770395cbb84367ccd6143c8ce11e57ce3fc3793063e707",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "QUEUED",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "d7910e439b5a6a142d6918a1b6f30cb02b1c41b8cd3d2764ad6e23fbcc67fbb2",
+      "build_id": "2b55f6a5-076a-4fd6-92e9-c42aae9ba500"
+    }
+  ],
   "carry_seconds": 0,
   "carryover_allowed": false,
   "ceiling_build_seconds": 3600,

@@ -1,11 +1,11 @@
 # Agent checkpoint: select-c3-callback-autonomous-2026-10-22-r19
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-C3-2026-10-22-R19 | state: ACTIVE
-- Updated: 2026-10-22T14:22:00Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-C3-2026-10-22-R19 | state: HANDOFF
+- Updated: 2026-10-22T14:24:30Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `87a0bfe586b40a33bdf840164aec8748872c8fdd11b3faad421d3860d1f2a091`
 - Session dates: T0 `2026-10-22T13:50:26Z`; main deadline `2026-10-22T15:50:26Z`; absolute deadline `2026-10-22T16:20:26Z`
 - Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 2b55f6a5-076a-4fd6-92e9-c42aae9ba500
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -26,7 +26,7 @@ c3 has no callback setup: No matching heap chunks ref_precreated_token<T>(ptr_ad
 - [research/challenge-8/task-history/select-s5-r18/S5-evidence.json](task-history/select-s5-r18/S5-evidence.json) SHA `724da794e6172fe2000fbeb81406fd83fe68df29ffdc00cde35933ac0c414cda` Build `0ee7f658-50fe-4928-a7c9-3da5e56c95f2`
 
 ## Next
-Push; submit S1 (c3) on exact pins; wait; read c3 and controls by message/location in Brief; then c4/c5.
+Wait S1 Build 2b55f6a5 (c3, pins 67d472cd) via smallsort-session wait; ack; Brief: c3 result and controls by message/location; then c4/c5.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-s5-r18/S5-evidence.json](task-history/select-s5-r18/S5-evidence.json) — `724da794e6172fe2000fbeb81406fd83fe68df29ffdc00cde35933ac0c414cda`
