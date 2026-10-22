@@ -78,8 +78,8 @@ class R20MetadataAdmissionTests(unittest.TestCase):
         self.assertNotIn("r20_metadata_registration", self.old_profile)
 
     def test_profile_changes_only_registered_pins_and_registration(self):
-        for key in ("effective_tool_commit", "exporter_source_sha256", "schema_sha256",
-                    "guard_return_trace_patch_sha256"):
+        for key in ("effective_tool_commit", "refiner_core_source_sha256", "exporter_source_sha256",
+                    "schema_sha256", "guard_return_trace_patch_sha256"):
             bad = copy.deepcopy(self.profile)
             bad[key] = "0" * (40 if key == "effective_tool_commit" else 64)
             with self.subTest(key=key), self.assertRaises(ValueError):

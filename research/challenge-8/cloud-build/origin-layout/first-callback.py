@@ -54,11 +54,12 @@ R19_PROFILE_REGISTRATION = {
                              'b2_three_from_local, also on its Continue unwind edge; no posts, '
                              'runtime, CFG or trusted premise change'),
 }
-R20_METADATA_TOOL_COMMIT = '191a5cd86745a84fbbc7b202661ad664b3cb272e'
-R20_METADATA_PROFILE_SHA256 = '042870351c957d6f3c06e3ff3f3de2e65e7287b5e0c5abfcf710933e265b0e04'
+R20_METADATA_TOOL_COMMIT = '37b834280a3910d58c46ea4b1c6e73265287ff3e'
+R20_METADATA_PROFILE_SHA256 = '82e4ab21b06f419be9dd19f842a2eb8e13d80a2e9b1a0ddc3bf14ca403dcf1fb'
 R20_METADATA_EXPORTER_SHA256 = '2a0d66e6b3a76627643e93a8a8124859f33967e61375ba1a3f6e332d02b67673'
 R20_METADATA_SCHEMA_SHA256 = 'c4ba15bb820c6d394ad1b5257755e5bad571d9389ee7daec5bccabc53dddb7cc'
-R20_METADATA_PATCH_SHA256 = 'cd951347b78f44bce7dcf91bf6d3be86c5766de25dacf45893c0c5a23f30f14f'
+R20_METADATA_REFINER_CORE_SHA256 = 'd838cfe1e596a36d55b217a32d2a986206b4561553320fe2b005310d76aa2d78'
+R20_METADATA_PATCH_SHA256 = '1114acf23fed7e371c9971b291caf8df6d2e7ff50bb38677152e558f56d3c205'
 R20_METADATA_REGISTRATION = {
     'schema': 'merge-r20-source-preserving-metadata-registration-v1',
     'phase_id': 'MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23',
@@ -67,11 +68,14 @@ R20_METADATA_REGISTRATION = {
     'starting_source_sha': '6fd50c699500cbac5c65912174d4aa49b49db19f',
     'owner': 'merge', 'lane': 'merge',
     'candidate_tool_commit': R20_METADATA_TOOL_COMMIT,
-    'tool_source_paths': ['src/rust_frontend/vf_mir/vf_mir.capnp',
+    'tool_source_paths': ['src/refinement_checker/refinement_checker.ml',
+                          'src/rust_frontend/vf_mir/vf_mir.capnp',
                           'src/rust_frontend/vf_mir_exporter/src/lib.rs'],
     'source_applicability': ('source-preserving MIR metadata only: exact pointer-coercion subtype and source, '
-                             'cast source/target types, body-scoped ReVar/ReErased identity; no translator '
-                             'acceptance, resource/borrow/lifetime premise, runtime, CFG or postcondition change'),
+                             'cast source/target types, body-scoped ReVar/ReErased identity; plus diagnostic-only context '
+                             'for the existing unequal LocalAddressTaken refusal (function, paired block/command positions '
+                             'and full listings, same standalone fatal diagnostic); no translator acceptance, resource/borrow/lifetime '
+                             'premise, runtime, CFG or postcondition change'),
 }
 BODY_ISOLATION_NAME = 'actual_insert_tail_body_isolated'
 RAW_LOCAL_CALLER_NAME = 'actual_three_from_local_raw'
@@ -162,6 +166,7 @@ def _r20_metadata_registration_matches(profile_path, selected_profile, profile=N
                 profile.get('effective_tool_commit') == R20_METADATA_TOOL_COMMIT and
                 profile.get('exporter_source_sha256') == R20_METADATA_EXPORTER_SHA256 and
                 profile.get('schema_sha256') == R20_METADATA_SCHEMA_SHA256 and
+                profile.get('refiner_core_source_sha256') == R20_METADATA_REFINER_CORE_SHA256 and
                 profile.get('guard_return_trace_patch_sha256') == R20_METADATA_PATCH_SHA256 and
                 type(chain) is list and len(chain) == 19 and type(chain[-1]) is dict and
                 chain[-1].get('path') == 'research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch' and

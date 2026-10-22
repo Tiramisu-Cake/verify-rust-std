@@ -1,5 +1,5 @@
 diff --git a/src/refinement_checker/refinement_checker.ml b/src/refinement_checker/refinement_checker.ml
-index eade1c64..b20610d4 100644
+index eade1c64..87cef668 100644
 --- a/src/refinement_checker/refinement_checker.ml
 +++ b/src/refinement_checker/refinement_checker.ml
 @@ -1732,2 +1732,3 @@ type basic_block_info = <
@@ -58,7 +58,27 @@ index eade1c64..b20610d4 100644
 +            | _ -> error "RawPtr: projected places are not supported"
 +            end
          | Cast ty0, Cast ty1 ->
-@@ -2937,3 +2969,3 @@ let check_body_refines_body bodies0 bodies1 def_path body0 body1 =
+@@ -2927,3 +2959,18 @@ let check_body_refines_body bodies0 bodies1 def_path body0 body1 =
+         with LocalAddressTaken (x0, x1) ->
+-          if List.assoc x0 env0 <> List.assoc x1 env1 then failwith (Printf.sprintf "The states of the two locals %s and %s whose address is taken are not equal" (string_of_lv_path x0) (string_of_lv_path x1));
++          if List.assoc x0 env0 <> List.assoc x1 env1 then begin
++            let diagnostic = Printf.sprintf "The states of the two locals %s and %s whose address is taken are not equal" (string_of_lv_path x0) (string_of_lv_path x1) in
++            let command_listing program block =
++              let lines = List.mapi (fun i command ->
++                Printf.sprintf "%3d: %s" i (string_of_command command)) block#commands in
++              Printf.sprintf "======== Commands of basic block %s of %s program ========\n%s"
++                block#to_string program (String.concat "\n" lines)
++            in
++            Printf.printf "In function %s, unequal address-taken state at original command %d of basic block %s and verified command %d of basic block %s\n%s\n%s\n%s\n"
++              def_path i_s0 i_bb0#to_string i_s1 i_bb1#to_string
++              (command_listing "original" i_bb0)
++              (command_listing "verified" i_bb1)
++              diagnostic;
++            flush stdout;
++            failwith diagnostic
++          end;
+           if !verbosity >= verbosity_basic_block then Printf.printf "Caught LocalAddressTaken (%s, %s); restarting codepos check\n" (string_of_lv_path x0) (string_of_lv_path x1);
+@@ -2937,3 +2984,3 @@ let check_body_refines_body bodies0 bodies1 def_path body0 body1 =
      try
 -      check_basic_block_refines_basic_block env0 (basic_block_info_of root_genv0 (Array.of_list body0.basic_blocks) [] 0) env1 (basic_block_info_of root_genv1 (Array.of_list body1.basic_blocks) [] 0)
 +      check_basic_block_refines_basic_block env0 (basic_block_info_of root_genv0 locals0 (Array.of_list body0.basic_blocks) [] 0) env1 (basic_block_info_of root_genv1 locals1 (Array.of_list body1.basic_blocks) [] 0)

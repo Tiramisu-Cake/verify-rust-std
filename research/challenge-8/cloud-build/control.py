@@ -108,15 +108,17 @@ R20_STARTING_TOOL_COMMIT='39f6b0cacd00575c8ca2d39e9f15632723bf1227'
 R20_PATCH_SHA256=R19_PATCH_SHA256
 R20_PROVIDER_SHA256='2bed7d32a35ac10121820ffdf8a6dbcb645f5eefb838c9bb0d89915086a34ef3'
 R20_PROVIDER_PROVE_SHA256=R19_PROVIDER_NEW_PROVE_SHA256
-R20_METADATA_TOOL_COMMIT='191a5cd86745a84fbbc7b202661ad664b3cb272e'
-R20_METADATA_PROFILE_SHA256='042870351c957d6f3c06e3ff3f3de2e65e7287b5e0c5abfcf710933e265b0e04'
+R20_METADATA_TOOL_COMMIT='37b834280a3910d58c46ea4b1c6e73265287ff3e'
+R20_METADATA_PROFILE_SHA256='82e4ab21b06f419be9dd19f842a2eb8e13d80a2e9b1a0ddc3bf14ca403dcf1fb'
 R20_METADATA_EXPORTER_SHA256='2a0d66e6b3a76627643e93a8a8124859f33967e61375ba1a3f6e332d02b67673'
 R20_METADATA_SCHEMA_SHA256='c4ba15bb820c6d394ad1b5257755e5bad571d9389ee7daec5bccabc53dddb7cc'
-R20_METADATA_PATCH_SHA256='cd951347b78f44bce7dcf91bf6d3be86c5766de25dacf45893c0c5a23f30f14f'
-R20_METADATA_PROVIDER_SHA256='fe8165f17ad891f329160f06b9d1e7dcbfb1f786b62f4f3e72c48952d87523d7'
-R20_METADATA_PROVIDER_PROVE_SHA256='90988c77177cb17dac440249adde02a1367557d67b1a7ceb99acb3198b563bfd'
+R20_METADATA_PATCH_SHA256='1114acf23fed7e371c9971b291caf8df6d2e7ff50bb38677152e558f56d3c205'
+R20_METADATA_PROVIDER_SHA256='5ca8de45d8f824cf2dbc21d3c261037cda6bc2f2cd64351f895eb4c30c911e5b'
+R20_METADATA_PROVIDER_PROVE_SHA256='1a5058ce180623b1bc96de0e375d299eccd11ff996799828ca8603f4c31205c1'
 R20_R19_EXPORTER_SHA256='d8bca867798fd93ececcb5fd8db330d6d23d2f7b815009437bf4961b9fcd2f51'
 R20_R19_SCHEMA_SHA256='b6c63644e8926a207b4393b80bf27696838aa22fe9db33acecc9fefa68550750'
+R20_R19_REFINER_CORE_SHA256='48d02bf44f4a082709a427e3e0d78af5498c1f240082fb27c7891dc8a3a283b0'
+R20_METADATA_REFINER_CORE_SHA256='d838cfe1e596a36d55b217a32d2a986206b4561553320fe2b005310d76aa2d78'
 R20_METADATA_REGISTRATION={
  'schema':'merge-r20-source-preserving-metadata-registration-v1',
  'phase_id':R20_PHASE,
@@ -125,11 +127,13 @@ R20_METADATA_REGISTRATION={
  'starting_source_sha':R20_STARTING_SOURCE_SHA,
  'owner':'merge','lane':'merge',
  'candidate_tool_commit':R20_METADATA_TOOL_COMMIT,
- 'tool_source_paths':['src/rust_frontend/vf_mir/vf_mir.capnp',
+ 'tool_source_paths':['src/refinement_checker/refinement_checker.ml',
+                      'src/rust_frontend/vf_mir/vf_mir.capnp',
                       'src/rust_frontend/vf_mir_exporter/src/lib.rs'],
  'source_applicability':('source-preserving MIR metadata only: exact pointer-coercion subtype and source, cast source/target types, '
-                         'body-scoped ReVar/ReErased identity; no translator acceptance, resource/borrow/lifetime premise, '
-                         'runtime, CFG or postcondition change')}
+                         'body-scoped ReVar/ReErased identity; plus diagnostic-only context for the existing unequal LocalAddressTaken refusal '
+                         '(function, paired block/command positions and full listings, same standalone fatal diagnostic); no translator '
+                         'acceptance, resource/borrow/lifetime premise, runtime, CFG or postcondition change')}
 R20_START='2026-10-22T20:08:00Z'
 R20_MAIN_DEADLINE='2026-10-22T22:08:00Z'
 R20_DEADLINE='2026-10-22T22:38:00Z'
@@ -1563,6 +1567,7 @@ def r20_validate_metadata_profile_extension(baseline_profile,selected_profile):
  baseline=copy.deepcopy(new)
  baseline.pop('r20_metadata_registration',None)
  baseline['effective_tool_commit']=R20_STARTING_TOOL_COMMIT
+ baseline['refiner_core_source_sha256']=R20_R19_REFINER_CORE_SHA256
  baseline['exporter_source_sha256']=R20_R19_EXPORTER_SHA256
  baseline['schema_sha256']=R20_R19_SCHEMA_SHA256
  baseline['guard_return_trace_patch_sha256']=R20_PATCH_SHA256
@@ -1572,9 +1577,10 @@ def r20_validate_metadata_profile_extension(baseline_profile,selected_profile):
  chain[-1]['sha256']=R20_PATCH_SHA256
  reverted=(json.dumps(baseline,indent=2)+'\n').encode()
  if hashlib.sha256(reverted).hexdigest()!=R20_PROFILE_SHA256:
-  raise SystemExit('R20 S6 metadata profile changes fields outside the exact exporter/schema/tool/patch delta')
+  raise SystemExit('R20 S6 metadata profile changes fields outside the exact core/exporter/schema/tool/patch delta')
  if (hashlib.sha256(selected_profile).hexdigest()!=R20_METADATA_PROFILE_SHA256 or
      new.get('effective_tool_commit')!=R20_METADATA_TOOL_COMMIT or
+     new.get('refiner_core_source_sha256')!=R20_METADATA_REFINER_CORE_SHA256 or
      new.get('exporter_source_sha256')!=R20_METADATA_EXPORTER_SHA256 or
      new.get('schema_sha256')!=R20_METADATA_SCHEMA_SHA256 or
      new.get('guard_return_trace_patch_sha256')!=R20_METADATA_PATCH_SHA256 or

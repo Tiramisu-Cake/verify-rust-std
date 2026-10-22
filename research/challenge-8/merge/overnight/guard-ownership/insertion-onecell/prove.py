@@ -124,12 +124,14 @@ R19_REGISTRATION = {
 R19_SELECTED_PROFILE_SHA256 = "1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb"
 R19_EXPORTER_SHA256 = "d8bca867798fd93ececcb5fd8db330d6d23d2f7b815009437bf4961b9fcd2f51"
 R19_SCHEMA_SHA256 = "b6c63644e8926a207b4393b80bf27696838aa22fe9db33acecc9fefa68550750"
-R20_TOOL_COMMIT = "191a5cd86745a84fbbc7b202661ad664b3cb272e"
+R19_REFINER_CORE_SHA256 = "48d02bf44f4a082709a427e3e0d78af5498c1f240082fb27c7891dc8a3a283b0"
+R20_TOOL_COMMIT = "37b834280a3910d58c46ea4b1c6e73265287ff3e"
+R20_REFINER_CORE_SHA256 = "d838cfe1e596a36d55b217a32d2a986206b4561553320fe2b005310d76aa2d78"
 R20_EXPORTER_SHA256 = "2a0d66e6b3a76627643e93a8a8124859f33967e61375ba1a3f6e332d02b67673"
 R20_SCHEMA_SHA256 = "c4ba15bb820c6d394ad1b5257755e5bad571d9389ee7daec5bccabc53dddb7cc"
-R20_PATCH_SHA256 = "cd951347b78f44bce7dcf91bf6d3be86c5766de25dacf45893c0c5a23f30f14f"
+R20_PATCH_SHA256 = "1114acf23fed7e371c9971b291caf8df6d2e7ff50bb38677152e558f56d3c205"
 R20_PROFILE_CHANGED_KEYS = frozenset({
-    "effective_tool_commit", "exporter_source_sha256", "schema_sha256",
+    "effective_tool_commit", "refiner_core_source_sha256", "exporter_source_sha256", "schema_sha256",
     "guard_return_trace_patch_sha256", "ordered_patch_chain",
 })
 R20_REGISTRATION = {
@@ -142,13 +144,15 @@ R20_REGISTRATION = {
     "lane": "merge",
     "candidate_tool_commit": R20_TOOL_COMMIT,
     "tool_source_paths": [
+        "src/refinement_checker/refinement_checker.ml",
         "src/rust_frontend/vf_mir/vf_mir.capnp",
         "src/rust_frontend/vf_mir_exporter/src/lib.rs",
     ],
     "source_applicability": (
         "source-preserving MIR metadata only: exact pointer-coercion subtype and source, cast source/target types, "
-        "body-scoped ReVar/ReErased identity; no translator acceptance, resource/borrow/lifetime premise, "
-        "runtime, CFG or postcondition change"
+        "body-scoped ReVar/ReErased identity; plus diagnostic-only context for the existing unequal LocalAddressTaken refusal "
+        "(function, paired block/command positions and full listings, same standalone fatal diagnostic); no translator "
+        "acceptance, resource/borrow/lifetime premise, runtime, CFG or postcondition change"
     ),
 }
 
@@ -187,6 +191,7 @@ def r20_r19_baseline_profile(profile: dict) -> dict:
     baseline = copy.deepcopy(profile)
     del baseline["r20_metadata_registration"]
     baseline["effective_tool_commit"] = R19_TOOL_COMMIT
+    baseline["refiner_core_source_sha256"] = R19_REFINER_CORE_SHA256
     baseline["exporter_source_sha256"] = R19_EXPORTER_SHA256
     baseline["schema_sha256"] = R19_SCHEMA_SHA256
     baseline["guard_return_trace_patch_sha256"] = R19_PATCH_SHA256
@@ -200,12 +205,13 @@ def validate_r20_profile_extension(profile: object, r17_baseline_bytes: object) 
         raise ValueError("R20 metadata registration is malformed or not the exact candidate")
     chain = profile.get("ordered_patch_chain")
     if (profile.get("effective_tool_commit") != R20_TOOL_COMMIT or
+            profile.get("refiner_core_source_sha256") != R20_REFINER_CORE_SHA256 or
             profile.get("exporter_source_sha256") != R20_EXPORTER_SHA256 or
             profile.get("schema_sha256") != R20_SCHEMA_SHA256 or
             profile.get("guard_return_trace_patch_sha256") != R20_PATCH_SHA256 or
             type(chain) is not list or len(chain) != 19 or type(chain[-1]) is not dict or
             chain[-1].get("sha256") != R20_PATCH_SHA256):
-        raise ValueError("R20 tool, exporter, schema, or cumulative patch pin differs")
+        raise ValueError("R20 tool, core refiner, exporter, schema, or cumulative patch pin differs")
     baseline = r20_r19_baseline_profile(profile)
     if set(profile) != set(baseline) | {"r20_metadata_registration"}:
         raise ValueError("R20 profile has missing or unexpected top-level fields")
