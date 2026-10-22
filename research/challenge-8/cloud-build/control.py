@@ -265,7 +265,6 @@ def reconcile(state,ledger,ledger_path):
 
 
 def reconcile_global(caller_owner,caller_ledger):
- """Reconcile both slots without editing another owner's ledger or state."""
  for record in coordination.reservations():
   reconcile_reservation(record,caller_owner,caller_ledger)
 
@@ -653,7 +652,6 @@ def r15_validate_transport_size(payload_bytes):
 
 
 def r15_set_execute_budget(cfg,timeout):
- """Keep the 1200s Build envelope while reserving 420s for publication."""
  if type(timeout) is not int or not 510<=timeout<=1200:
   raise SystemExit('R15 requires timeout510..1200 to reserve 420s for publication')
  steps=cfg.get('steps') if isinstance(cfg,dict) else None
@@ -673,7 +671,6 @@ def r15_set_execute_budget(cfg,timeout):
 
 
 def r15_validate_sources(probe_sha,proof_sha):
- """Bind reviewed R15 inputs to the complete committed source-input closure."""
  if probe_sha!=R15_PROBE_SOURCE or not isinstance(proof_sha,str) or not re.fullmatch('[0-9a-f]{40}',proof_sha):
   raise SystemExit('R15 S1 source identity')
  recipe_path='research/challenge-8/cloud-build/recipes/merge.json'
@@ -758,7 +755,6 @@ def r16_validate_recipe_delta(before,selected):
 
 
 def r16_validate_execute_budget(cfg,timeout):
- """Reserve 420s for publication and keep a 15s soft-deadline margin."""
  if type(timeout) is not int or not 510<=timeout<=1200:
   raise SystemExit('R16 requires timeout510..1200 with publication reserve')
  steps=cfg.get('steps') if isinstance(cfg,dict) else None
@@ -807,7 +803,6 @@ def r16_final_deadline_check(a,ledger):
 
 
 def r16_validate_sources(probe_sha,proof_sha):
- """Require exact R16 registration and committed runtime closure."""
  if probe_sha!=R16_PROBE_SOURCE or not isinstance(proof_sha,str) or not re.fullmatch('[0-9a-f]{40}',proof_sha):
   raise SystemExit('R16 S1 source identity')
  recipe_path='research/challenge-8/cloud-build/recipes/merge.json'
@@ -871,7 +866,6 @@ def r16_validate_sources(probe_sha,proof_sha):
 
 
 def r17_validate_recipe_delta(before,selected):
- """Keep the historical recipe and add only the R17 account/profile."""
  if (not isinstance(before,dict) or not isinstance(selected,dict) or
      {key:value for key,value in before.items() if key!='proof_paths'} !=
      {key:value for key,value in selected.items() if key!='proof_paths'}):
@@ -885,7 +879,6 @@ def r17_validate_recipe_delta(before,selected):
 
 
 def r17_validate_execute_budget(cfg,timeout):
- """Reserve 420 seconds for publication and retain a 15-second soft margin."""
  if type(timeout) is not int or not 510<=timeout<=1200:
   raise SystemExit('R17 requires timeout510..1200 with publication reserve')
  steps=cfg.get('steps') if isinstance(cfg,dict) else None
@@ -904,13 +897,11 @@ def r17_validate_execute_budget(cfg,timeout):
 
 
 def r17_validate_profile_baseline(baseline,selected):
- """Require the recipe's R17 baseline profile to preserve its selected source."""
  if not isinstance(baseline,bytes) or not isinstance(selected,bytes) or baseline!=selected:
   raise SystemExit('R17 S6 baseline profile bytes differ from the selected starting profile')
 
 
 def r17_validate_profile_delta(before,selected):
- """Permit only the reviewed refiner-core pin, patch hash, and R17 record."""
  try:
   old=json.loads(before);new=json.loads(selected)
  except (ValueError,TypeError,UnicodeDecodeError):
@@ -971,7 +962,6 @@ def r17_validate_historical_closure(paths,before,selected):
 
 
 def r17_parse_provider_pin_tables(source):
- """Parse only the two literal pin dictionaries; never import provider code."""
  try:
   if not isinstance(source,bytes):raise ValueError('not bytes')
   module=ast.parse(source.decode('utf-8'))
@@ -1000,7 +990,6 @@ def r17_parse_provider_pin_tables(source):
 
 
 def r17_validate_provider_module_delta(baseline_source,selected_source):
- """Permit the prove.py digest substitution and exact compatibility pin addition."""
  old_prove=R17_PROVIDER_OLD_PROVE_SHA256.encode()
  new_prove=R17_PROVIDER_NEW_PROVE_SHA256.encode()
  new_compat=R17_PROVIDER_NEW_COMPAT_SHA256.encode()
@@ -1019,7 +1008,6 @@ def r17_validate_provider_module_delta(baseline_source,selected_source):
 
 
 def r17_validate_provider_pin_tables(baseline_source,selected_source,closure_paths,read_selected_source):
- """Validate both provider maps against the closed baseline and selected source blobs."""
  r17_validate_provider_module_delta(baseline_source,selected_source)
  baseline=r17_parse_provider_pin_tables(baseline_source)
  selected=r17_parse_provider_pin_tables(selected_source)
@@ -1049,7 +1037,6 @@ def r17_final_deadline_check(a,ledger):
 
 
 def r17_validate_sources(probe_sha,proof_sha):
- """Require exact R17 recipe/profile closure and preserve all prior accounts."""
  if probe_sha!=R17_PROBE_SOURCE or not isinstance(proof_sha,str) or not re.fullmatch('[0-9a-f]{40}',proof_sha):
   raise SystemExit('R17 S1 source identity')
  recipe_path='research/challenge-8/cloud-build/recipes/merge.json'
