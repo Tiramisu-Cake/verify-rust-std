@@ -1,44 +1,8 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/task-history/select-callee-r20/CALLEE-ROUTE-DESIGN.md",
-      "sha256": "0375a0fcbeff758544fdb7f483b4ac9e70dc50b48caab89c64e7671f0985fa2c"
-    },
-    {
-      "path": "research/challenge-8/task-history/select-callee-r20/R20-review.json",
-      "sha256": "8f2a40d50e46efbca07e086f615735f321002d53f88705c71771da7dbfbf2ff5"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/recipes/o26-select-callee-r20.json",
-      "sha256": "45d49e95c92fa99ec89167ce8d5ae907f7b839ccda4318af2ccaa59e26b66ee3"
-    },
-    {
-      "path": "research/challenge-8/task-history/select-callee-r21/R21-admission-review.json",
-      "sha256": "2ff2076e9daa26891d90d89e0905c100987af7c3bea2aea5fdb47c0f436e1a39"
-    },
-    {
-      "path": "research/challenge-8/task-history/select-callee-r21/R21-network-review.json",
-      "sha256": "ec03b9747d810b2e49c87c6e8eb18d40fffc127c8de486aaeed5aa982f6c3d48"
-    },
-    {
-      "path": "research/challenge-8/task-history/select-callee-r21/NETWORK-SELECT-RESPONSE.md",
-      "sha256": "91f67646a11b8e7ec898f12bd62ded81d784b4f3a096d6e67ed5d197870cceeb"
-    },
-    {
-      "path": "research/challenge-8/task-history/select-callee-r21/R21-branch-selected-review.json",
-      "sha256": "bf7e76122d9540e4423fa90f46e326dd5828509c18db95d39ef8ba3d0c327d38"
-    },
-    {
-      "path": "research/challenge-8/task-history/select-callee-r21/R21-transport-review.json",
-      "sha256": "61781cd8c0150c32001df2abdbfbd4c7db893829bd1efcaad161cbb9bf2d3ee2"
-    },
-    {
-      "path": "research/challenge-8/task-history/select-callee-r21/RECOVERY-DUPLICATE-PATH-PREFLIGHT.json",
-      "sha256": "65d9dc30fa7fa1400b6f8b3380388a6cbf41587b7ef6af0fc4df42af46993a3d"
-    },
-    {
-      "path": "research/challenge-8/task-history/select-callee-r21/SAME-SITE-CONTROL-TRANSFORMS.md",
-      "sha256": "2f8be90fe4bc940f4d9c00d7ff2606756d3beab66e56a24bb31ab9eca3a1a748"
+      "path": "research/challenge-8/task-history/select-callee-r21/ARTIFACT-INDEX.json",
+      "sha256": "ae86156e733be5ba1a6184ba9b8cc07378624922800c1652d86d7b1794eaac7c"
     }
   ],
   "assignment_sha256": "018ffe56c8c4386b472f53c6a0ce9c01d6368972400c6eb64fa4b6fbbed9c745",
@@ -96,7 +60,7 @@
       ]
     }
   ],
-  "next_step": "Await Build1bbfc87e through watcher; ack before CHECKPOINT changes. Brief positive/control rows -> next checked repair or exact same-site control fingerprint/certificate. Full normal/unwind/nested-Drop and *mut P2 remain open. T0/budget/window unchanged.",
+  "next_step": "Ack watcher for Build1bbfc87e, then Brief rows -> checked repair/controls; same R21 window. See task-history/select-callee-r21.",
   "open": [
     "Callee acceptance: normal/unwind/nested-Drop matrix; *mut T/generic gap. Recovery lane 192/191 chunks: prune before c5/selector.",
     "Network P1 candidate accepted for integration only (inactive/unbuilt); P3 grammar chosen but unimplemented. P2 checked mutable-pointer callee remains pending; pin NETWORK-SELECT-RESPONSE.md and reviews.",
