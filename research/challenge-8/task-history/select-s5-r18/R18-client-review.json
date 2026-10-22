@@ -1,0 +1,23 @@
+{
+  "reviewer": "claude-subagent:smallsort-reviewer",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "nested_delegation": false,
+  "verdict": "GO_WITH_NITS",
+  "candidate_commit": "3cf14d745df40466c46eab2ea739b9848d5d1c0d",
+  "candidate_tree": "9ab62340c4af345188fc6ecc07d78ca31f2d273b",
+  "baseline_commit": "4ed8819635d501c69624f5eff030b453072f5fe1",
+  "packet_sha256": "5cff8fbf1e600cee449f5fcc51767eda6e5641b1a5657d856d080f466b3d89b3",
+  "packet_spec_sha256": "f07f1d41556f3d92249c23c0d4ab27e1d3d8f28c8bed5a2bd5d807d554b6b3b6",
+  "repo_spec_sha256": "0dc0fa4013f9191b73fa5bdfdabebb74c7684c0d78f73030dd8bdf6ebd31f249",
+  "findings": [],
+  "nits": [
+    "R18 main-deadline/timeout checks in run_command (control.py:822-828, 921-924) not covered by a synthetic run_command test; code correct.",
+    "test_exact_account_required is clock-dependent (fails loudly after 14:42:06Z), as R16/R17.",
+    "envs field check (control.py:356) shadowed by SHA pin in tests; pin covers it.",
+    "Cloud records carry the R17 routing key; distinguish R18 Builds by R18 ledger/dispatch token."
+  ],
+  "basis": "Exact admission/window/budget/reserve/lane/owner; profile SHA pin before parse; R17 routing env matches lane script and a1-entry-r17.py; other phases byte-identical; reviewer mutation tests on scratch copies made the R18 tests fail for disabled admission, budget and pin.",
+  "not_run": "Cloud/coordinator commands; remote adapters other than entry/lane script; S5 proof content.",
+  "limits": "Registration only; no proof credit."
+}

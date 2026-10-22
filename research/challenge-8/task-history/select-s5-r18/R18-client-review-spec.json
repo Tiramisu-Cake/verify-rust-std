@@ -1,0 +1,29 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "4ed8819635d501c69624f5eff030b453072f5fe1",
+  "candidate_commit": "3cf14d745df40466c46eab2ea739b9848d5d1c0d",
+  "defect": "Branch client has no R18 phase; R17 registration's window expired, and Cloud adapters/translator overlay accept only the R17 authorization literal with the pinned R17 profile.",
+  "applicability": "Owner-approved: R18 is a new account/window (exact ledger) over exact pinned R17 profile bytes 87a0bfe5; Builds pass SORT4_A1_AUTHORIZATION_PHASE_ID=R17 as tool routing key and are accounted only in the R18 ledger.",
+  "invariants": [
+    "R18 admission requires exact phase/owner/lane/start/main/absolute deadline, 3600 ceiling, null build count, 1200 max timeout, 240 reserve; absolute deadline equals R18 cutoff; main-deadline enforced pre-submit and post-preflight.",
+    "R18 envs refuses unless the profile at the proof SHA has exact SHA-256 pin and R17 authorization/protocol/mode/body fields; no other phase's routing, ledger or window changes.",
+    "R18 uses the R17 270..1200s timeout budget with 240s reserve and compressed source restore; no proof/tool/runtime/profile byte changes.",
+    "Closed R17 ledger untouched; R18 ledger fresh 3600s, no carry."
+  ],
+  "controls": [
+    "Synthetic test_a1_r18_registration.py: single-field ledger mutations, old R17 window, wrong owner/phase/status refused; profile byte/field changes refused; timeout 269/1201 refused; routing key emitted; R17 constants unchanged.",
+    "No Cloud, compiler, exporter, verifier or proof execution in registration."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/run-sort4-c1-current-recovery.sh",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-entry-r17.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/test_a1_r17_registration.py",
+    "research/challenge-8/CURRENT-TASK.md"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Registration only; no proof credit. Historical R16/R17 registration tests now fail only on expired windows."
+  ]
+}
