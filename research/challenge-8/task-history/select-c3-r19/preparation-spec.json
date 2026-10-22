@@ -12,7 +12,45 @@
   "owner": "select-sort4",
   "phase": "SORT4-ACTUAL-C3-2026-10-22-R19",
   "profile_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json",
-  "profile_updates": {},
+  "profile_updates": {
+    "a1_actual_body_sha256": "1124b30339de8975118b8c9e1ee1cfda03667b303649b2ffdde4587ec322a7cc",
+    "a1_entry_sha256": "fa9b109e91e2a91296d80c541b0710b3e4b445a64e7e63be1638480956f31bd4",
+    "a1_helper_sha256": {
+      "a1-ast-gates.py": "c3089e41380b5ec2fb71c03126c23e537dfbb740de3bb5b9695567b0ec579c44",
+      "a1-call-binding.py": "78481196a0637ebaaae151eb01d5fcc2a4a30826fca8c03cf01c7624251498ef",
+      "a1-compiler-inventory.py": "7cd0784df5637fbe6e06f1c887e13da83d4e5bd0ceb97724b0ad103e6eadaf48",
+      "a1-contract-admission.py": "0ac3b182a24ba3a8cfd21588dd393f652e864bf54593ac7f4a5caaa473927ad4",
+      "a1-fixtures.py": "573aa6f371a444cc6891fa02702184460609e1b97d69f748b9473d2d188a71ee",
+      "a1-focus-backend.py": "c137a6b9218cf4ea6cb9ff8158c390caea5d326049af7fc068b967aee6254cba",
+      "a1-matrix-classifier.py": "69e9d5f192efd6b3807c7b812448823e356f74eb71679e988d206afc7e6113ca",
+      "a1-proof-classifier.py": "7a2070a3132bc7d4601565aebd25e0aea682520e3fbb32a6045ccdf276142a2e",
+      "a1-summary-receipt.py": "bcc55360698346f0aa2dfb3858c6b555a9104db95308116d2c16c188a9b8a7dd",
+      "a1-synthetic-backend.py": "e16f7a825d07845b80128d7db671681bba4f8c9b70a323dcd9b705e499314316",
+      "a1-synthetic-inputs.py": "dd737956cbff76a7e27abac0603b3a0cc4eeeae2aa7f7c0e1dddb914ac59bc3f",
+      "a1-tool-r17.py": "dbbb1f7a5e9a15322347e7c66cb53f73d0936de58d804f64c9e81fe78890d6b6",
+      "a1-tool.py": "40e56a9110f4cf2cace3a3e1e449ca1b56051faa8958b322a36713a1c1c31d00",
+      "selected-proof.py": "3347ad41c0273ebf186dbcf0520182455b32a65ad9619f2b2c7d3d00c12a7d7f"
+    },
+    "a1_runner_sha256": "9a7e955d05dadd4a429c1127a5dce19a8f5c80f703691aae73be78cdc4cdd2fa",
+    "actual_body_dependencies_sha256": {
+      "a1-actual-body-c1.py": "8af19b63552b7ef6e4b6026b4f188fa00c4344a4bb1b75848008e7b46141441e",
+      "a1-actual-body-c2.py": "85b1598c896ba66d3807c91365a32595bf2ba292c6639864f6684463ce1e1048",
+      "a1-actual-copy-lemma.rs": "e839b8ab51c15a4d9789e96892db4c24d23c4c112ac8e19b81b77b0da6148edc",
+      "a1-actual-four-copy.rs": "7b81692132690c94e85e8062d1cf2e7565a35cecc29f2a21f5073bb4eb1d2e37",
+      "a1-actual-recover-four.rs": "9637aee892e633c2521d8cef62770a6be0982a1835492b6afffafc97f9246d8b",
+      "a1-actual-recover-pair.rs": "7a28ae5734c5288ff466764e6645eff236f30c097a7951ebd086f5bb7f5eff72",
+      "a1-actual-selector-permutation.rs": "83a1dafde130f412e16235312481b338a419f73805d3ec300d559e8f25dc7aca",
+      "capture.py": "0d993e8c36cb7684eb509e8efcfb9553b07e92e87885f4ae430269c4cb2a6060"
+    },
+    "actual_c2_recovery_overlay": {
+      "manifest_sha256": "c603d82ac556fcfb818683b74264815f655f60a2d442d7c220541454cec4500f",
+      "patch": "actual-sort4-c2-recovery-r17.patch",
+      "patch_sha256": "6c90540e1956f530126178dbb1246cafeecd2dcf9a0db315efd94b44d5b5a8c1",
+      "result_sha256": "c5253a3c88b6acf8285ac73f4c6dbb6071a1e99065036317440d8ed6f067685e"
+    },
+    "actual_indexed_calls": 3,
+    "candidate_version": "R19-C3-INDEXED-CALLBACK-RECOVERY"
+  },
   "recipe_path": "research/challenge-8/cloud-build/recipes/o26-sort4-c1-current-recovery.json",
   "report_reserve_seconds": 240,
   "schema": "smallsort-session-spec-v1",
