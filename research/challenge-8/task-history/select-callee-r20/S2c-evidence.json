@@ -1,0 +1,59 @@
+{
+ "build": {
+  "dispatch_token": "dispatch-11c453950c574951a2cfa6d980e01134",
+  "owner": "select-sort4",
+  "phase_id": "SORT4-ACTUAL-SELECT-2026-10-22-R20",
+  "infra_sha": "31dde1484124aaca744d7be01fe85e91409a19ff",
+  "proof_sha": "31dde1484124aaca744d7be01fe85e91409a19ff",
+  "lane": "o26-select-callee-r20",
+  "submitted_config_sha256": "8c2fa16137f81065d5c527cf9ed939c6582202574d9d96691074818702fce182",
+  "reserved_seconds": 1260,
+  "timeout_seconds": 1200,
+  "status": "FAILURE",
+  "publish_text_logs": true,
+  "source_mode": "pinned-objects",
+  "source_input_sha256": "06a0ee7c34420e9a41570c35f10edfae928361ec0a4bea525ebb497b36a5b576",
+  "build_id": "36f6c053-0c43-4e83-b73f-4dab633b31fa",
+  "start_time": "2026-10-22T17:14:34.707360531Z",
+  "finish_time": "2026-10-22T17:20:13.111115Z",
+  "create_time": "2026-10-22T17:14:33.986901433Z",
+  "build_seconds": 340,
+  "accounted": true,
+  "execution_seconds": 339
+ },
+ "variant": "branch",
+ "fingerprint_record": {
+  "file_id": "0700a36e2e5ea1cafe52a07a048e5158fd2915f020fbdef9be6d6e23cc94f95a",
+  "sha256": "7132a9c4cde2df39650ac1b2ae5a6c63717eff3459451e6884d9f5614a70c68d",
+  "complete": true,
+  "location_control_reproduces_pinned": true,
+  "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+  "mir_complete": true,
+  "repaired_verified_sha256": "478569831d2f688b249c8dc389a27609599fda67b83129ec0f7ca40ab8d64711"
+ },
+ "repaired_snapshots": {
+  "unit": "e6395c8a52377c0cac2431fd6e0e6e6c7a930c948d616f1ad946333032d8bdaf",
+  "body-0": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc",
+  "body-1": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562",
+  "body-2": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182",
+  "body-3": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951",
+  "body-4": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed",
+  "body-5": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6",
+  "body-6": "e8dd503c0bf832081e71dcc9d115c2a07e9349ff746ec7e7cce132edf63f4137",
+  "body-7": "315594a267bd9fdc261804c5d067469cb9e9f7793188da804e247a11d1dcd3b9",
+  "body-8": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+ },
+ "changed_vs_pinned": [
+  "unit",
+  "body-7"
+ ],
+ "mir_inventory": "10 cleanup edges to block 24, none to 26 (unchanged)",
+ "regression": "baseline candidate-proof on patched translator 5ed3398f (opt-in off) reproduces S1 exactly: single error lib.rsspec(462,47-48) via verified/lib.rs(223) line 552",
+ "derived_tool_patch": {
+  "path": "research/challenge-8/overnight-assume-actual/verifast-r20-final-select-branch-26.10.patch",
+  "sha256": "74077492696785f0bdfaf4a74101356aa13d45034f8616591693f6d5d089831c",
+  "base_translator": "0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a",
+  "result_translator": "82741fb5bce3ee1ec46ebfad55dc0d1b743c2fd68917f20381dbd66553092b5f"
+ },
+ "proof_credit": 0
+}

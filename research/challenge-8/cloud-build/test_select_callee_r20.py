@@ -284,6 +284,21 @@ class RepairProof(unittest.TestCase):
         self.assertEqual(seen[0][2].count(b"close_MaybeUninit_pointer_own"), 4)
         self.assertIs(saved["complete"], True)
         self.assertFalse(saved["proof_credit"])
+        self.assertEqual(saved["rows"]["merged-optin"]["verdict"], "POSITIVE_FAILED")
+        self.assertEqual(saved["rows"]["merged-no-optin"]["verdict"], "UNEXPECTED_CONTROL_OUTCOME")
+        self.assertIs(saved["controls_intended"], False)
+
+    def test_row_classification(self):
+        ok = {"status": "RAN", "exit": 0, "source_unchanged": True}
+        self.assertEqual(CALLEE.classify_row("merged-optin", ok, "fine\n"), "POSITIVE_VERIFIED_SOURCE_REPORTED")
+        self.assertEqual(CALLEE.classify_row("merged-optin", ok, "x: error: y"), "POSITIVE_FAILED")
+        self.assertEqual(CALLEE.classify_row("merged-optin", dict(ok, source_unchanged=False), ""), "POSITIVE_FAILED")
+        bad = {"status": "RAN", "exit": 2}
+        self.assertEqual(CALLEE.classify_row("merged-no-optin", bad, "Fatal error: owner exact verified source SHA256"),
+                         "INTENDED_CERTIFICATE_REFUSAL")
+        self.assertEqual(CALLEE.classify_row("unrepaired-optin", bad, "Parse error"), "UNEXPECTED_CONTROL_OUTCOME")
+        self.assertEqual(CALLEE.classify_row("unrepaired-optin", {"status": "NOT_RUN_DEADLINE", "exit": None}, ""),
+                         "NOT_RUN_OR_INCONCLUSIVE")
 
     def test_ambient_opt_in_or_wrong_env_refused(self):
         for env in ({**ENV, CALLEE.R20_FLAG: "1"}, {}, {**ENV, "GITHUB_ACTIONS": "1"}):
@@ -339,9 +354,9 @@ class RunnerAndRecipe(unittest.TestCase):
         order = ["stage provider-overlays", "stage source-preflight", "stage package-index",
                  "stage r20-refresh-apply", "stage console-build",
                  "stage candidate-capture", "stage candidate-source-compare",
-                 "stage candidate-proof", "stage r20-repair-fingerprint"]
-        self.assertIn("5ed3398f75c79c70c878d982b5fca58e8c255e9d7e23876d8dff8b705e106bdf", RUNNER)
-        self.assertNotIn("stage r20-repair-proof", RUNNER)
+                 "stage candidate-proof", "stage r20-repair-proof"]
+        self.assertIn("82741fb5bce3ee1ec46ebfad55dc0d1b743c2fd68917f20381dbd66553092b5f", RUNNER)
+        self.assertNotIn("stage r20-repair-fingerprint", RUNNER)
         self.assertIn('[[ -z "${SORT4_R20_FINAL_SELECT_REPAIR:-}" ]] || exit 2', RUNNER)
         positions = [RUNNER.index(x) for x in order]
         self.assertEqual(positions, sorted(positions))

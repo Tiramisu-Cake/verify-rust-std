@@ -193,6 +193,21 @@ def fingerprint(a) -> dict:
 
 
 R20_FLAG = "SORT4_R20_FINAL_SELECT_REPAIR"
+CERT_REFUSAL = "owner exact verified source SHA256"
+
+
+def classify_row(name: str, stage: dict, log_text: str) -> str:
+    """Per-row verdict from exit, source identity and log text (not exit alone)."""
+    if not isinstance(stage, dict) or stage.get("status") != "RAN" or type(stage.get("exit")) is not int:
+        return "NOT_RUN_OR_INCONCLUSIVE"
+    if name == "merged-optin":
+        ok = (stage["exit"] == 0 and stage.get("source_unchanged") is True and
+              ": error:" not in log_text and "Fatal error" not in log_text)
+        return "POSITIVE_VERIFIED_SOURCE_REPORTED" if ok else "POSITIVE_FAILED"
+    ok = stage["exit"] != 0 and CERT_REFUSAL in log_text
+    return "INTENDED_CERTIFICATE_REFUSAL" if ok else "UNEXPECTED_CONTROL_OUTCOME"
+
+
 PROOF_CASES = (
     # (name, repaired?, opt-in flag?, intent)
     ("merged-optin", True, True, "positive: checked repair under the refreshed certificate"),
@@ -238,13 +253,17 @@ def proof(a) -> dict:
                                      a.deadline_epoch, "r20-" + name, "refresh")
         finally:
             os.environ.pop(R20_FLAG, None)
+        log_path = case / ("r20-" + name + ".log")
+        log_text = log_path.read_text(errors="replace") if log_path.is_file() else ""
         rows[name] = {"intent": intent, "opt_in": flag, "repaired": use_repair,
                       "verified_sha256": sha(repaired if use_repair else verified),
-                      "stage": result,
+                      "stage": result, "verdict": classify_row(name, result, log_text),
                       "log": str((case / ("r20-" + name + ".log")).relative_to(a.evidence))}
         write(root / "r20-proof.json", record)
-    record["complete"] = all(isinstance(r.get("stage"), dict) and r["stage"].get("status") == "RAN"
-                             and type(r["stage"].get("exit")) is int for r in rows.values())
+    record["complete"] = all(r.get("verdict") not in (None, "NOT_RUN_OR_INCONCLUSIVE")
+                             for r in rows.values())
+    record["controls_intended"] = all(rows.get(n, {}).get("verdict") == "INTENDED_CERTIFICATE_REFUSAL"
+                                      for n in ("merged-no-optin", "unrepaired-optin"))
     write(root / "r20-proof.json", record)
     print(json.dumps({k: (v.get("stage") or {}).get("exit") for k, v in rows.items()}))
     if not record["complete"]:
