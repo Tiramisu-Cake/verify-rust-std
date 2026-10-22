@@ -1,0 +1,16 @@
+{
+  "reviewer": "claude-subagent:smallsort-reviewer (continued via SendMessage)",
+  "model": "claude-opus-5-5 (agent definition: Opus 5.5, effort high)",
+  "scope": "runner core, diff 9fd840fb..cf463179",
+  "candidate_commit": "cf463179a27146f2c2f7218d7717b275399c5b09",
+  "decision": "NO_GO",
+  "findings": [
+    "1 timed-out control counted as complete with exit 0 — fixed: TIMEOUT classification, complete excludes it, counts, exit 2, test",
+    "2 summary lacked matrix identity — fixed: meta_sha256 and label list",
+    "3 no summary on crash; unbounded in-memory capture — fixed: incremental summary (complete false until the end), output streamed to files",
+    "4 timeout killed only the child — fixed: new session + killpg",
+    "5 unvalidated control names — fixed: safe-label regex + test"
+  ],
+  "sound_per_reviewer": ["never classifies a proof result", "P1 opt-ins exact per control, sort4 opt-ins removed", "error-path refusals"],
+  "proof_credit": false
+}

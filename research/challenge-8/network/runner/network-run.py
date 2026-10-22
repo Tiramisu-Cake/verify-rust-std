@@ -12,11 +12,14 @@ import argparse
 import hashlib
 import json
 import os
+import re
+import signal
 import subprocess
 import sys
 from pathlib import Path
 
 SCHEMA = 'network-run-v1'
+NAME = re.compile(r'[a-z0-9]+(?:-[a-z0-9]+)*\Z')
 
 
 def sha(data):
@@ -50,6 +53,7 @@ def load_matrix(controls):
             line = row.get('crate_call_line', default_line)
             need(type(line) is int and line > 0, 'control call line missing: ' + label)
             name = f'{prefix}-{label}' if prefix else label
+            need(NAME.fullmatch(name) is not None, 'control name is not a safe label: ' + repr(name))
             rows.append((name, controls / (name + '.rs'), row['crate_sha256'], line))
     need(len({r[0] for r in rows}) == len(rows), 'duplicate control names')
     return rows
@@ -76,19 +80,24 @@ def run_one(tool, name, path, crate_sha, call_line, work, evidence, timeout, bas
     argv = [str(tool / 'bin' / 'verifast'), '-rustc_args', '--edition 2021', '-verbose', '6', 'verified/lib.rs']
     row['argv'] = argv
     out_path, err_path = evidence / (name + '.stdout'), evidence / (name + '.stderr')
-    try:
-        proc = subprocess.run(argv, cwd=fixture, env=env, capture_output=True, timeout=timeout)
-        stdout, stderr = proc.stdout, proc.stderr
-        row.update(exit=proc.returncode, classification='OBSERVED_UNCLASSIFIED')
-    except subprocess.TimeoutExpired as exc:
-        stdout, stderr = exc.stdout or b'', exc.stderr or b''
-        row.update(timed_out=True, classification='OBSERVED_UNCLASSIFIED', reason='timeout')
-    except OSError as exc:
-        stdout, stderr = b'', b''
-        row.update(classification='ERROR', reason=f'{type(exc).__name__}: {exc}')
-    out_path.write_bytes(stdout)
-    err_path.write_bytes(stderr)
-    row.update(stdout_sha256=sha(stdout), stderr_sha256=sha(stderr))
+    with out_path.open('wb') as out, err_path.open('wb') as err:
+        try:
+            proc = subprocess.Popen(argv, cwd=fixture, env=env, stdout=out, stderr=err,
+                                    start_new_session=True)
+        except OSError as exc:
+            row.update(classification='ERROR', reason=f'{type(exc).__name__}: {exc}')
+            proc = None
+        if proc is not None:
+            try:
+                row.update(exit=proc.wait(timeout=timeout), classification='OBSERVED_UNCLASSIFIED')
+            except subprocess.TimeoutExpired:
+                try:
+                    os.killpg(proc.pid, signal.SIGKILL)  # verifast and any rustc/exporter children
+                except ProcessLookupError:
+                    pass
+                proc.wait()
+                row.update(timed_out=True, classification='TIMEOUT', reason='timeout')
+    row.update(stdout_sha256=sha(out_path.read_bytes()), stderr_sha256=sha(err_path.read_bytes()))
     return row
 
 
@@ -107,11 +116,27 @@ def main(argv=None, environ=None):
     rows = load_matrix(a.controls)
     a.work.mkdir(parents=True)
     a.evidence.mkdir(parents=True)
-    results = [run_one(a.tool, *r, a.work, a.evidence, a.timeout, environ) for r in rows]
-    summary = {'schema': SCHEMA, 'controls': results, 'proof_credit': False,
-               'complete': all(r['classification'] == 'OBSERVED_UNCLASSIFIED' for r in results)}
-    (a.evidence / 'summary.json').write_text(json.dumps(summary, indent=2, sort_keys=True) + '\n')
-    print('NETWORK_RUN_SUMMARY', json.dumps({'controls': len(results), 'complete': summary['complete']}))
+    summary = {'schema': SCHEMA, 'proof_credit': False, 'complete': False,
+               'meta_sha256': sha((a.controls / 'meta.json').read_bytes()),
+               'labels': [r[0] for r in rows], 'controls': []}
+
+    def save():
+        counts = {}
+        for r in summary['controls']:
+            counts[r['classification']] = counts.get(r['classification'], 0) + 1
+        summary['counts'] = counts
+        (a.evidence / 'summary.json').write_text(json.dumps(summary, indent=2, sort_keys=True) + '\n')
+
+    save()  # an interrupted run leaves complete: false
+    for r in rows:
+        summary['controls'].append(run_one(a.tool, *r, a.work, a.evidence, a.timeout, environ))
+        save()
+    summary['complete'] = (len(summary['controls']) == len(rows) and
+                           all(r['classification'] == 'OBSERVED_UNCLASSIFIED' and not r['timed_out']
+                               for r in summary['controls']))
+    save()
+    print('NETWORK_RUN_SUMMARY', json.dumps({'controls': len(rows), 'complete': summary['complete'],
+                                             'counts': summary['counts']}))
     return 0 if summary['complete'] else 2
 
 

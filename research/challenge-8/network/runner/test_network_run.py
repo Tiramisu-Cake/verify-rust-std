@@ -63,6 +63,9 @@ class NetworkRunTests(unittest.TestCase):
             out = (self.d / 'eva' / (r['control'] + '.stdout')).read_text()
             self.assertIn(f"ENV {meta['controls'][r['control']]['crate_call_line']} {meta['controls'][r['control']]['crate_sha256']} None", out)
         self.assertFalse(s['proof_credit'])
+        self.assertTrue(s['complete'])
+        self.assertEqual(s['meta_sha256'], nr.sha((self.controls / 'meta.json').read_bytes()))
+        self.assertEqual(sorted(s['labels']), sorted(meta['controls']))
         self.assertNotIn('PASS', json.dumps(s))
 
     def test_error_exit_preserved(self):
@@ -73,9 +76,12 @@ class NetworkRunTests(unittest.TestCase):
         meta = json.loads((self.controls / 'meta.json').read_text())
         meta['controls'] = {'positive': meta['controls']['positive']}
         (self.controls / 'meta.json').write_text(json.dumps(meta))
-        self.assertEqual(self.run_main(self.controls, {'FAKE_MODE': 'sleep'}, timeout='30'), 0)
-        r = self.summary()['controls'][0]
-        self.assertEqual((r['timed_out'], r['exit'], r['classification']), (True, None, 'OBSERVED_UNCLASSIFIED'))
+        self.assertEqual(self.run_main(self.controls, {'FAKE_MODE': 'sleep'}, timeout='30'), 2)
+        s = self.summary()
+        r = s['controls'][0]
+        self.assertEqual((r['timed_out'], r['exit'], r['classification']), (True, None, 'TIMEOUT'))
+        self.assertEqual((s['complete'], s['counts']), (False, {'TIMEOUT': 1}))
+        self.assertEqual(s['labels'], ['positive'])
 
     def test_missing_and_wrong_sha_are_explicit_not_run(self):
         (self.controls / 'own-drop.rs').unlink()
@@ -108,6 +114,13 @@ class NetworkRunTests(unittest.TestCase):
                 self.run_main(self.controls, tag=str(len(json.dumps(bad))))
         with self.assertRaisesRegex(SystemExit, 'timeout'):
             self.run_main(self.controls, timeout='5', tag='t')
+
+    def test_unsafe_label_refused(self):
+        meta = json.loads((self.controls / 'meta.json').read_text())
+        meta['controls']['../escape'] = meta['controls']['positive']
+        (self.controls / 'meta.json').write_text(json.dumps(meta))
+        with self.assertRaisesRegex(SystemExit, 'safe label'):
+            self.run_main(self.controls)
 
     def test_existing_output_refused(self):
         (self.d / 'eva').mkdir()
