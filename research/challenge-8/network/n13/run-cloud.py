@@ -83,8 +83,9 @@ def load_profile(environ: dict[str, str]) -> tuple[dict[str, Any], dict[str, str
     require(isinstance(profile, dict), "execution profile must be an object")
     require(profile.get("schema") == "smallsort-network-n13-execution-profile-v1",
             "unexpected execution profile schema")
-    require(profile.get("status") == "REVIEWED_PINNED", "execution profile is not reviewed and pinned")
-    require(profile.get("accepted") is True and profile.get("proof_credit") is False,
+    require(profile.get("status") == "EXECUTION_CANDIDATE_PINNED",
+            "execution profile is not the pinned N3 candidate")
+    require(profile.get("accepted") is False and profile.get("proof_credit") is False,
             "execution profile admission fields are invalid")
     return profile, {"path": str(path), "sha256": actual_sha}
 
@@ -169,7 +170,8 @@ def matrix(stage: str, prove, ranks, pairs: list[tuple[int, int]]) -> list[dict[
     return cases
 
 
-def validate_result(result: Any, spec: dict[str, Any], source_sha: str) -> tuple[bool, dict[str, Any]]:
+def validate_result(result: Any, spec: dict[str, Any], source_sha: str,
+                    evidence: Path) -> tuple[bool, dict[str, Any]]:
     """Fail closed on malformed run_case results while retaining their raw fields."""
     if not isinstance(result, dict):
         return False, {"runner_error": "run_case result must be an object", "raw_result_type": type(result).__name__}
@@ -181,14 +183,32 @@ def validate_result(result: Any, spec: dict[str, Any], source_sha: str) -> tuple
         observed["runner_error"] = "run_case result missing fields: " + ", ".join(missing)
         return False, observed
     if (result["case"] != spec["name"] or result["negative"] != spec["negative"] or
-            type(result["exit"]) is not int or result["source_sha256"] != source_sha or
-            not isinstance(result["log_sha256"], str) or SHA_RE.fullmatch(result["log_sha256"]) is None or
+            type(result["exit"]) is not int or
+            not isinstance(result["source_sha256"], str) or
+            not isinstance(result["log_sha256"], str) or
             type(result["source_unchanged"]) is not bool or type(result["accepted"]) is not bool or
             not isinstance(result["expected_bodies"], list) or
             not isinstance(result["visited_bodies"], list) or
             not isinstance(result["errors"], list) or type(result["leak_checks"]) is not int or
             type(result["return_checks"]) is not int):
         observed["runner_error"] = "run_case result contains null or wrong-typed fields"
+        return False, observed
+    if (result["source_sha256"] != source_sha or SHA_RE.fullmatch(result["log_sha256"]) is None):
+        observed["runner_error"] = "run_case returned an invalid source or log identity"
+        return False, observed
+    source_path = evidence / f"{spec['name']}.c"
+    log_path = evidence / f"{spec['name']}.log"
+    if (source_path.is_symlink() or log_path.is_symlink() or not source_path.is_file() or
+            not log_path.is_file()):
+        observed["runner_error"] = "generated source or verifier log is missing or not a regular file"
+        return False, observed
+    source_bytes = source_path.read_bytes()
+    log_bytes = log_path.read_bytes()
+    if digest(source_bytes) != source_sha or digest(log_bytes) != result["log_sha256"]:
+        observed["runner_error"] = "saved source or verifier log identity differs from run_case result"
+        return False, observed
+    if result.get("log") != str(log_path):
+        observed["runner_error"] = "run_case log path does not identify the saved verifier log"
         return False, observed
     bodies = result["expected_bodies"]
     visited = result["visited_bodies"]
@@ -252,9 +272,15 @@ def main(argv: list[str] | None = None, environ: dict[str, str] | None = None,
         require(isinstance(provider_identity, dict) and provider_identity.get("provider") == "cloud-build",
                 "Cloud Build provider required")
         profile, profile_identity = load_profile(environ)
-        require(profile.get("source", {}).get("sha256") == SOURCE_SHA256,
+        source_profile = profile.get("source")
+        require(isinstance(source_profile, dict) and
+                source_profile.get("commit") == "cd371e035c7e573760c43bf934d53e8118ee3e7d" and
+                source_profile.get("path") == str(SOURCE_RELATIVE) and
+                source_profile.get("sort9_calls") == 25 and source_profile.get("sort13_calls") == 45,
+                "execution profile source record mismatch")
+        require(source_profile.get("sha256") == SOURCE_SHA256,
                 "execution profile source SHA256 mismatch")
-        require(profile.get("source", {}).get("git_blob") == SOURCE_BLOB,
+        require(source_profile.get("git_blob") == SOURCE_BLOB,
                 "execution profile source blob mismatch")
         summary["execution_profile"] = profile_identity
         summary["provider"] = provider_identity
@@ -312,7 +338,7 @@ def main(argv: list[str] | None = None, environ: dict[str, str] | None = None,
                 prove.TIMEOUT_SECONDS = spec["timeout_seconds"]
                 result = prove.run_case((args.tool_home.resolve() / "bin/verifast").resolve(), evidence,
                                         spec["name"], spec["source"], spec["negative"])
-                valid, result_record = validate_result(result, spec, row["generated_sha256"])
+                valid, result_record = validate_result(result, spec, row["generated_sha256"], evidence)
                 row["result"] = result_record
                 row["state"] = "OBSERVED_VALID" if valid else "INCONCLUSIVE"
                 row["gate"] = valid

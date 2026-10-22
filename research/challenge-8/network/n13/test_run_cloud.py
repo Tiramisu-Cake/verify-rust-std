@@ -63,7 +63,7 @@ class FakeProve:
         return (PAIR13, LINES13) if n == 13 else (PAIR9, LINES9)
 
 
-def fake_result(spec, sha, result_overrides=None):
+def fake_result(spec, sha, log_sha, log_path, result_overrides=None):
     negative = spec["negative"]
     bodies = negative.get("expected_bodies", ["positive_body"]) if negative else ["positive_body"]
     result = {
@@ -71,7 +71,8 @@ def fake_result(spec, sha, result_overrides=None):
         "negative": negative,
         "exit": 1 if negative else 0,
         "source_sha256": sha,
-        "log_sha256": "b" * 64,
+        "log_sha256": log_sha,
+        "log": str(log_path),
         "source_unchanged": True,
         "accepted": True,
         "expected_bodies": bodies,
@@ -110,20 +111,28 @@ class RunCloudTests(unittest.TestCase):
             self.generated.append(case)
             spec = {"name": name, "negative": negative}
             source_sha = runner.digest(source.encode())
+            source_path = evidence / f"{name}.c"
+            log_path = evidence / f"{name}.log"
+            source_path.write_text(source)
+            log_path.write_text("synthetic verifier log")
+            log_sha = runner.digest(log_path.read_bytes())
             if self.mode == "timeout":
-                (evidence / f"{name}.c").write_text(source)
-                (evidence / f"{name}.log").write_text("partial verifier output")
+                log_path.write_text("partial verifier output")
                 raise TimeoutError("synthetic verifier timeout")
             if self.mode == "error-exit":
-                return fake_result(spec, source_sha, {"exit": 1, "accepted": False,
-                                                       "errors": ["verifier error"]})
+                return fake_result(spec, source_sha, log_sha, log_path,
+                                   {"exit": 1, "accepted": False, "errors": ["verifier error"]})
             if self.mode == "missing":
                 return {"exit": 0, "source_sha256": source_sha}
             if self.mode == "null":
-                return fake_result(spec, source_sha, {"log_sha256": None})
+                return fake_result(spec, source_sha, log_sha, log_path, {"log_sha256": None})
             if self.mode == "wrong-type":
-                return fake_result(spec, source_sha, {"return_checks": "one"})
-            return fake_result(spec, source_sha)
+                return fake_result(spec, source_sha, log_sha, log_path, {"return_checks": "one"})
+            if self.mode == "bad-source-identity":
+                return fake_result(spec, source_sha, log_sha, log_path, {"source_sha256": "c" * 64})
+            if self.mode == "bad-log-identity":
+                return fake_result(spec, source_sha, log_sha, log_path, {"log_sha256": "d" * 64})
+            return fake_result(spec, source_sha, log_sha, log_path)
 
         self.fake_prove = types.SimpleNamespace(TIMEOUT_SECONDS=180, extract=FakeProve.extract,
                                                 run_case=run_case)
@@ -149,8 +158,10 @@ class RunCloudTests(unittest.TestCase):
             expected.append("classifier-reject-controls-7")
         self.profile = {
             "schema": "smallsort-network-n13-execution-profile-v1",
-            "status": "REVIEWED_PINNED", "accepted": True, "proof_credit": False,
-            "source": {"sha256": runner.SOURCE_SHA256, "git_blob": runner.SOURCE_BLOB},
+            "status": "EXECUTION_CANDIDATE_PINNED", "accepted": False, "proof_credit": False,
+            "source": {"commit": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+                       "path": str(runner.SOURCE_RELATIVE), "sha256": runner.SOURCE_SHA256,
+                       "git_blob": runner.SOURCE_BLOB, "sort9_calls": 25, "sort13_calls": 45},
             "stages": {stage: {"targets": targets if targets is not None else expected,
                                "timeout_seconds": sum(s["timeout_seconds"] for s in specs)}},
         }
@@ -208,6 +219,15 @@ class RunCloudTests(unittest.TestCase):
                 code, _evidence, summary = self.invoke()
                 self.assertEqual(code, 2)
                 self.assertIn(expected, summary["cases"][0]["result"]["runner_error"])
+
+    def test_saved_source_and_log_hashes_must_match_reported_identities(self):
+        self.prepare_profile("exact")
+        for mode in ("bad-source-identity", "bad-log-identity"):
+            with self.subTest(mode=mode):
+                self.mode = mode
+                code, _evidence, summary = self.invoke()
+                self.assertEqual(code, 2)
+                self.assertIn("identity", summary["cases"][0]["result"]["runner_error"])
 
     def test_source_stage_and_target_mismatches_refuse_before_case(self):
         self.prepare_profile("preflight")
