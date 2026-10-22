@@ -45,15 +45,35 @@ class AuditTests(unittest.TestCase):
             path.parent.mkdir(parents=True)
             proof = {'schema': 'r21-fractional-classified-proof-v1',
                      'complete': True, 'accepted': False, 'proof_credit': False,
+                     'body_proof_run': True, 'variant_order': list(MODULE.VARIANTS),
                      'rows': {'positive': {'stage': {'status': 'RAN', 'exit': 0}}}}
             path.write_text(json.dumps(proof))
             args = argparse.Namespace(evidence=root, output=root/'audit.json')
             for complete in (False, True):
                 result = MODULE.audit(args, base_audit=lambda _: {
                     'schema': 'base', 'evidence_complete': complete})
-                self.assertIs(result['evidence_complete'], complete)
+                self.assertIs(result['evidence_complete'], False)
                 self.assertEqual(result['fractional_proof'], proof)
                 self.assertIs(result['verification_accepted'], False)
+            for variant in MODULE.VARIANTS:
+                proof['rows'][variant] = {
+                    'status': 'COMPLETE', 'source_intact_after_stages': True,
+                    'normal_unwind_nested_drop_gates': True,
+                    'stage': {'status': 'RAN', 'exit': 0 if variant == 'positive' else 1},
+                    'preflight_capture_check': {'complete': True},
+                    'postflight_capture_check': {'complete': True},
+                    'classification': ('POSITIVE_VERIFIED_SOURCE_REPORTED'
+                        if variant == 'positive' else
+                        'EXPECTED_CALLEE_CONTRACT_REJECTION'
+                        if variant.startswith('callee-') else
+                        'EXPECTED_SAME_SITE_FINAL_SELECT_FAILURE')}
+            self.assertTrue(MODULE.complete_matrix(proof))
+            for variant in MODULE.VARIANTS:
+                proof['rows'][variant]['status'] = 'NOT_RUN'
+                self.assertFalse(MODULE.complete_matrix(proof))
+                proof['rows'][variant]['status'] = 'COMPLETE'
+            proof['rows']['callee-owner-loss']['classification'] = 'TARGET_UNPINNED'
+            self.assertFalse(MODULE.complete_matrix(proof))
 
 
 if __name__ == '__main__':

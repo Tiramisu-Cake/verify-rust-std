@@ -184,6 +184,9 @@ class FractionalProofTests(unittest.TestCase):
             'stderr': 'r20-merged-optin.log'}
 
     def test_positive_and_same_site_controls_classify_but_callee_targets_stay_unpinned(self):
+        self.assertEqual(TARGET.FINAL_SELECT_MESSAGE,
+            'error: Cannot prove condition. '
+            '(Cannot prove result6 = (condition ? true_val : false_val).)')
         record = self.run_batch()
         self.assertFalse(record['complete'])
         self.assertIs(record['accepted'], False)

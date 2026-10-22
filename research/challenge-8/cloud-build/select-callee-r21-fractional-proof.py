@@ -28,8 +28,8 @@ EXPECTED_REFUSAL = 'INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE'
 FINAL_SELECT_CALL = (b'        crate::intrinsics::select_unpredictable(condition, true_val, false_val)'
                      b'.assume_init()\n')
 FINAL_SELECT_COLUMNS = (45, 47)
-FINAL_SELECT_MESSAGE = ('Cannot prove condition. Cannot prove result6 = '
-                        '(condition ? true_val : false_val).')
+FINAL_SELECT_MESSAGE = ('error: Cannot prove condition. '
+                        '(Cannot prove result6 = (condition ? true_val : false_val).)')
 R20_OPT_IN = 'SORT4_R20_FINAL_SELECT_REPAIR'
 FRACTIONAL_PREFIX = 'SORT4_R21_FRACTIONAL_'
 STAGE_RESERVE_SECONDS = 150

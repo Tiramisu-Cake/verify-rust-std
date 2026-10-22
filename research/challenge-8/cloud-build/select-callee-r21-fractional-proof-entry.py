@@ -20,7 +20,7 @@ from typing import Any
 
 CASE = 'nine-body-a1-owned-forget'
 FINGERPRINT_HELPER_SHA256 = '85e7772170bb5e6f0f65bcf64a001340f1f283d659521f31582c5e4fe0cb778a'
-PROOF_HELPER_SHA256 = '2266c57c23d816aac258c2c31330c1e967f329202667c9e841776401c1320ffe'
+PROOF_HELPER_SHA256 = 'c1c63258681fb0bec9ed39c33fd986e27bf42c59230a7b7985ad75fcb840a933'
 R20_HELPER_SHA256 = '83d2d0940fcb255a58b97db8d6161ec3b39660a62905f89a33f926a96d3099ba'
 O26_RECIPE_SHA256 = '464eef45b08b8724eba949289eff9cd745f48d65d0031ffae5675738856d562c'
 O26_REFRESH_SHA256 = '2cd963cc3d28c69370260cd2154e7284e189fea953928c3fc829f2fd53766af3'
@@ -28,6 +28,7 @@ TRANSFORM_SHA256 = 'f7f8fdb9d9e6767741399b8716ff4d28cd388e6870e7d5d468c929a507d1
 REPAIR_SHA256 = '3646b05602b7dce35cd4b2ab8f74d8cfe280d65df2637ac4f6cc0a128dd7e2a3'
 CONTROLS_SHA256 = '533c3d9be5249a40b2f0ad701cfaff6e95e688ecfb5b9c024c5dd2a56dc5124d'
 CAPTURE_SHA256 = 'ffc3653263e86c5afa4f82440f10a2207e75ad8083bdad5f784597fe0dbaa84f'
+PROVIDER_SHA256 = '771970340f4fa928063cfa25db451535eb60ee1b246ef63c3cda4689842be616'
 OPT_IN_KEY = 'SORT4_R21_FRACTIONAL_FORGET'
 VARIANT_KEY = 'SORT4_R21_FRACTIONAL_VARIANT'
 R20_OPT_IN_KEY = 'SORT4_R20_FINAL_SELECT_REPAIR'
@@ -62,6 +63,10 @@ def load(path: Path, name: str, expected_sha256: str):
 
 def load_runtime(repo: Path, cloud_dir: Path, evidence: Path):
     """Load the exact fingerprint/proof adapters and their pinned O26 base."""
+    provider = load(cloud_dir / 'provider.py', 'r21_fractional_proof_entry_provider',
+                    PROVIDER_SHA256)
+    need(callable(getattr(provider, 'require_supported_provider', None)),
+         'pinned provider module lacks its Cloud check')
     fractional = load(cloud_dir / 'select-callee-r21-fractional.py',
                       'r21_fractional_proof_entry_fingerprint',
                       FINGERPRINT_HELPER_SHA256)
@@ -85,7 +90,7 @@ def load_runtime(repo: Path, cloud_dir: Path, evidence: Path):
          callable(getattr(o26, 'proof_stage', None)) and
          callable(getattr(transform, 'transform', None)),
          'pinned proof services are incomplete')
-    return {'fractional': fractional, 'proof': proof, 'transform': transform,
+    return {'provider': provider, 'fractional': fractional, 'proof': proof, 'transform': transform,
             'r20': r20, 'o26': o26, 'refresh': refresh, 'capture': capture}
 
 
@@ -144,6 +149,13 @@ def run(args, *, runtime_loader=load_runtime,
          not any(key.startswith('SORT4_R21_FRACTIONAL_') for key in selected_env),
          'proof opt-ins and variant must not be ambient')
     runtime = runtime_loader(args.repo, args.cloud_dir, args.evidence)
+    provider = runtime.get('provider')
+    need(callable(getattr(provider, 'require_supported_provider', None)),
+         'pinned provider checker is required')
+    provider_record = provider.require_supported_provider()
+    need(isinstance(provider_record, dict) and
+         provider_record.get('provider') == 'cloud-build',
+         'actual supported Cloud Build provider required')
     fractional = runtime['fractional']
     proof = runtime['proof']
     capture = runtime['capture']
@@ -196,6 +208,8 @@ def run(args, *, runtime_loader=load_runtime,
         'o26_recipe_sha256': O26_RECIPE_SHA256,
         'o26_refresh_sha256': O26_REFRESH_SHA256,
         'capture_sha256': CAPTURE_SHA256,
+        'provider_sha256': PROVIDER_SHA256,
+        'provider_record': provider_record,
         'pins_json_sha256': sha(pin_bytes),
     }
 

@@ -131,6 +131,16 @@ class FakeO26:
         return {'status': 'RAN', 'exit': 2}
 
 
+class FakeProvider:
+    def __init__(self, provider='cloud-build'):
+        self.calls = 0
+        self.provider = provider
+
+    def require_supported_provider(self):
+        self.calls += 1
+        return {'provider': self.provider}
+
+
 class EntryTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
@@ -152,6 +162,7 @@ class EntryTests(unittest.TestCase):
         self.capture = FakeCapture()
         self.o26 = FakeO26()
         self.proof = FakeProof()
+        self.provider = FakeProvider()
         self.runtime = {'fractional': SimpleNamespace(
                 require_cloud=lambda env: TARGET.need(
                     env.get('SMALLSORT_EXECUTION_PROVIDER') == 'cloud-build' and
@@ -168,7 +179,7 @@ class EntryTests(unittest.TestCase):
             'r20': SimpleNamespace(), 'o26': self.o26,
             'refresh': SimpleNamespace(UNIT=digest(UNIT),
                 BODIES=tuple(digest(data) for data in BODIES)),
-            'capture': self.capture}
+            'capture': self.capture, 'provider': self.provider}
 
     def tearDown(self):
         self.temp.cleanup()
@@ -182,6 +193,7 @@ class EntryTests(unittest.TestCase):
 
     def test_adapter_sets_per_call_optins_and_archives_fresh_capture_outputs(self):
         record = self.run_entry()
+        self.assertEqual(self.provider.calls, 1)
         self.assertFalse(record['complete'])
         self.assertIs(record['accepted'], False)
         self.assertIs(record['proof_credit'], False)
@@ -199,6 +211,15 @@ class EntryTests(unittest.TestCase):
         archived = record['capture_archive_records'][0]
         self.assertEqual(archived['files']['unit']['sha256'], digest(b'synthetic-unit'))
         self.assertIsNone(record['capture_archive_records'][1]['files']['body-1']['sha256'])
+
+    def test_non_cloud_provider_is_rejected_before_capture_or_proof(self):
+        self.provider = FakeProvider('github-hosted')
+        self.runtime['provider'] = self.provider
+        with self.assertRaisesRegex(RuntimeError, 'actual supported Cloud Build provider'):
+            self.run_entry()
+        self.assertEqual(self.provider.calls, 1)
+        self.assertEqual(self.capture.calls, 0)
+        self.assertEqual(self.o26.calls, [])
 
     def test_original_proof_exception_is_preserved_and_record_remains_unaccepted(self):
         with self.assertRaisesRegex(LookupError, 'synthetic original proof failure'):
