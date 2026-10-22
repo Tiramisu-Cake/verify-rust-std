@@ -21,23 +21,23 @@
       "sha256": "52ab17d8fc1da93b4b10e4e5be40dfd8455c761c4b1b09f88b0305464169e769"
     }
   ],
-  "assignment_sha256": "688caa25c3af093a52bd0aac07e4277d091006400005b5f7540176333ce30ddb",
+  "assignment_sha256": "939352c79c6da9f8296196b10d8f03ad6faaabce41b9e2849177efd8a711f52b",
   "baseline": {
-    "profile_sha256": "d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24",
+    "profile_sha256": "87a0bfe586b40a33bdf840164aec8748872c8fdd11b3faad421d3860d1f2a091",
     "source_sha": "81226dafedd2e8d1dfb140ab0e4dd88556bfd7db",
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
     "build_id": "27e8bfac-eb5f-4cf4-ae89-18bacd16eb90",
-    "summary": "Function leaks heap chunks: unselected c2 full_borrow(cmp2_k, full_borrow_content(T,t)) at v_base+1 and v_base; full actual normal/unwind OPEN.",
-    "location": "verified/lib.rs(314,1-2), actual body leak check",
     "evidence": [
       {
         "build_id": "27e8bfac-eb5f-4cf4-ae89-18bacd16eb90",
         "path": "research/challenge-8/task-history/select-actual-c2-r17/S4-evidence.json",
         "sha256": "c6cfa91918fd3f75732510638ac2aa41c8a7c38c84f195a86cd907f9bc4765c9"
       }
-    ]
+    ],
+    "location": "verified/lib.rs(314,1-2), actual body leak check",
+    "summary": "Function leaks heap chunks: unselected c2 full_borrow(cmp2_k, full_borrow_content(T,t)) at v_base+1 and v_base; full actual normal/unwind OPEN."
   },
   "confirmed": [
     {
@@ -105,14 +105,14 @@
       ]
     }
   ],
-  "next_step": "R17 CLOSED/carry0. New owner-authorized R18 window required: independent review of S5 a6550c20 (S5-review-spec.json), then Cloud S5 with missing-unselected-share control. Full actual normal/unwind, controls/mini7/fresh26 and stable Freeze caller OPEN; independent credit0.",
+  "next_step": "Review S5 a6550c20 with smallsort-reviewer, register R18, then Cloud S5 with missing-unselected-share control; Brief on the c2 leak check.",
   "open": [
     "S5 a6550c20 (checked share_full_borrow of unselected c2 cells0/1): artifact unverified, unreviewed; no Cloud evidence; credit0.",
-    "Full actual sort4 normal/unwind; ordered c1\u2013c5 attribution/current-owner recovery, selector-pointer/permutation/copy composition.",
+    "Full actual sort4 normal/unwind; ordered c1–c5 attribution/current-owner recovery, selector-pointer/permutation/copy composition.",
     "Required HRTB-off/controls completion, final mini7/fresh26, qualification and stable Freeze caller; independent B1/B2 credit0."
   ],
   "owner": "select-sort4",
-  "phase": "SORT4-ACTUAL-C2-2026-10-21-R17",
+  "phase": "SORT4-ACTUAL-C2-2026-10-22-R18",
   "rejected": [
     {
       "approach": "Assumed/address-only resource bridge or helper PASS as full-body proof",
@@ -124,78 +124,15 @@
   "session": {
     "active_build_ids": [],
     "budget_seconds": 3600,
-    "deadline_utc": "2026-10-21T22:36:19Z",
-    "main_deadline_utc": "2026-10-21T22:06:19Z",
-    "remaining_seconds": 0,
-    "retired_seconds": 1605,
-    "spent_seconds": 1995,
-    "t0": "2026-10-21T20:06:19Z",
+    "deadline_utc": null,
+    "main_deadline_utc": null,
+    "remaining_seconds": 3600,
+    "retired_seconds": 0,
+    "spent_seconds": 0,
+    "t0": null,
     "unresolved_ids": []
   },
-  "state": "CLOSED",
-  "task_id": "select-actual-c2-autonomous-2026-10-21-r17",
-  "updated_utc": "2026-10-22T11:47:55.286200+00:00",
-  "build_context": null,
-  "handoff": {
-    "status": "RECONCILED_AND_CLOSED",
-    "stage": "S4",
-    "thread_id": "01a15ffc-dbe5-7523-b5b1-d3dc37016e06",
-    "worktree": "/root/verify-rust-std-select-night",
-    "branch": "research/night-select-sort4-cloud-2026-10-09",
-    "phase": "SORT4-ACTUAL-C2-2026-10-21-R17",
-    "build": {
-      "dispatch_token": "dispatch-774eeb6818d045af9052d29f889c6a06",
-      "owner": "select-sort4",
-      "phase_id": "SORT4-ACTUAL-C2-2026-10-21-R17",
-      "infra_sha": "51c4368bd6a1187dbf1975b979cb27ad3b51966f",
-      "proof_sha": "51c4368bd6a1187dbf1975b979cb27ad3b51966f",
-      "lane": "o26-sort4-c1-current-recovery",
-      "submitted_config_sha256": "9d1b6964c42278774d370342e5536e54b93410cca27d4b32e319844e4c3af98d",
-      "reserved_seconds": 1260,
-      "timeout_seconds": 1200,
-      "status": "FAILURE",
-      "publish_text_logs": true,
-      "source_mode": "pinned-objects",
-      "source_input_sha256": "b5081dd281479774d4ad91b3b721aac04f75b6ffcdcfbf226f258efb540f9a06",
-      "build_id": "27e8bfac-eb5f-4cf4-ae89-18bacd16eb90",
-      "start_time": "2026-10-21T21:05:09.696550707Z",
-      "finish_time": "2026-10-21T21:13:53.543224Z",
-      "create_time": "2026-10-21T21:05:08.917737938Z",
-      "build_seconds": 525,
-      "accounted": true,
-      "execution_seconds": 524
-    },
-    "ledger_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C2-2026-10-21-R17.json",
-    "client_state_dir": "/tmp/select-r17-cloud-state",
-    "published_candidate_commit": "51c4368bd6a1187dbf1975b979cb27ad3b51966f",
-    "effective_profile": {
-      "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json",
-      "sha256": "53ecfe3cedeedbb89b44e7750260c51dfe2aa523bf0787040bc9b7d889c51ccb"
-    },
-    "effective_tool": "Full R16 overlay/spec chain + R17 phase overlay + exact c2 overlay from committed profile; base SHA alone insufficient.",
-    "review": {
-      "path": "research/challenge-8/task-history/select-actual-c2-r17/S4-review.json",
-      "sha256": "52b489a57fa00efd4a176e346f7fbf2053560ac52cbbe36b724eaba6d03836bc",
-      "verdict": "GO_SOURCE_DELTA independent Luna HIGH"
-    },
-    "tested": "Existing43 isolated synthetic body/registration checks; current OCaml delta requires fresh Cloud compile/target evidence. No local actual constructor/compiler/exporter/MIR/verifier.",
-    "unverified": [
-      "Current delta compile/actual body assertions, normal/direct-unwind and call-site attribution pending Cloud.",
-      "Discriminating c2/receiver/order/ref/index/debt/marker controls and final mini7/fresh26/stable Freeze caller OPEN.",
-      "Full actual proof and independent B1/B2credit0; metadata/integrity/source progress are not proof acceptance."
-    ],
-    "window_preserved": true,
-    "no_budget_transfer": true,
-    "reconciled_utc": "2026-10-22T11:47:55.286200+00:00",
-    "closeout": {
-      "assignment": "Owner closeout 2026-10-22, Runtime Claude Code, Cloud budget 0s; no new Builds/request/submit/cancel/retry/review/hypotheses.",
-      "watcher": "Old Codex thread 01a15ffc jobs 42808c2c/74498ade/df7ee4ab all ACKED; none armed, no stop needed.",
-      "status_calls": "One own control.py status 27e8bfac: FAILURE 21:05:08.9Z->21:13:53.5Z; accounting unchanged (525s); own reservation dispatch-774eeb68 released from active.json.",
-      "s5_candidate": {
-        "commit": "a6550c20",
-        "state": "artifact unverified, unreviewed; proof credit0"
-      }
-    },
-    "note": "Historical S4 handoff snapshot retained; session/blocker/next above supersede waiting fields."
-  }
+  "state": "NOT_STARTED",
+  "task_id": "select-s5-unselected-borrow-autonomous-2026-10-22-r18",
+  "updated_utc": "2026-10-22T12:00:14Z"
 }

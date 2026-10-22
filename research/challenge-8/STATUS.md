@@ -1,10 +1,10 @@
-# Agent checkpoint: select-actual-c2-autonomous-2026-10-21-r17
+# Agent checkpoint: select-s5-unselected-borrow-autonomous-2026-10-22-r18
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-C2-2026-10-21-R17 | state: CLOSED
-- Updated: 2026-10-22T11:47:55.286200+00:00
-- Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24`
-- Session dates: T0 `2026-10-21T20:06:19Z`; main deadline `2026-10-21T22:06:19Z`; absolute deadline `2026-10-21T22:36:19Z`
-- Budget: 3600s total; 1995s spent; 1605s retired; 0s remaining including active reservations
+- Owner: select-sort4 | phase: SORT4-ACTUAL-C2-2026-10-22-R18 | state: NOT_STARTED
+- Updated: 2026-10-22T12:00:14Z
+- Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `87a0bfe586b40a33bdf840164aec8748872c8fdd11b3faad421d3860d1f2a091`
+- Session dates: T0 `NOT_SET`; main deadline `NOT_SET`; absolute deadline `NOT_SET`
+- Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
@@ -28,7 +28,7 @@ Function leaks heap chunks: unselected c2 full_borrow(cmp2_k, full_borrow_conten
 - [research/challenge-8/task-history/select-actual-c2-r17/S4-evidence.json](task-history/select-actual-c2-r17/S4-evidence.json) SHA `c6cfa91918fd3f75732510638ac2aa41c8a7c38c84f195a86cd907f9bc4765c9` Build `27e8bfac-eb5f-4cf4-ae89-18bacd16eb90`
 
 ## Next
-R17 CLOSED/carry0. New owner-authorized R18 window required: independent review of S5 a6550c20 (S5-review-spec.json), then Cloud S5 with missing-unselected-share control. Full actual normal/unwind, controls/mini7/fresh26 and stable Freeze caller OPEN; independent credit0.
+Review S5 a6550c20 with smallsort-reviewer, register R18, then Cloud S5 with missing-unselected-share control; Brief on the c2 leak check.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-actual-c2-r17/S4-review.json](task-history/select-actual-c2-r17/S4-review.json) — `52b489a57fa00efd4a176e346f7fbf2053560ac52cbbe36b724eaba6d03836bc`

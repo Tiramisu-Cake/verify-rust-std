@@ -1,0 +1,201 @@
+{
+  "artifacts": [
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S4-review.json",
+      "sha256": "52b489a57fa00efd4a176e346f7fbf2053560ac52cbbe36b724eaba6d03836bc"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S4-evidence.json",
+      "sha256": "c6cfa91918fd3f75732510638ac2aa41c8a7c38c84f195a86cd907f9bc4765c9"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S5-UNSELECTED-BORROW-FIX.md",
+      "sha256": "f7b9e8522fc7cf08a15011682c7368bc0cc8673df3f54f6dbbc438274ef3dca4"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S5-review-spec.json",
+      "sha256": "66b18ce60ba30a59fc81d9da77f63d6d7b8ed004fdb6e23fff654b97fabf4590"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-lifetime-r16/NEXT-CALLBACK-PROTOCOL.md",
+      "sha256": "52ab17d8fc1da93b4b10e4e5be40dfd8455c761c4b1b09f88b0305464169e769"
+    }
+  ],
+  "assignment_sha256": "688caa25c3af093a52bd0aac07e4277d091006400005b5f7540176333ce30ddb",
+  "baseline": {
+    "profile_sha256": "d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24",
+    "source_sha": "81226dafedd2e8d1dfb140ab0e4dd88556bfd7db",
+    "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+  },
+  "blocker": {
+    "build_id": "27e8bfac-eb5f-4cf4-ae89-18bacd16eb90",
+    "summary": "Function leaks heap chunks: unselected c2 full_borrow(cmp2_k, full_borrow_content(T,t)) at v_base+1 and v_base; full actual normal/unwind OPEN.",
+    "location": "verified/lib.rs(314,1-2), actual body leak check",
+    "evidence": [
+      {
+        "build_id": "27e8bfac-eb5f-4cf4-ae89-18bacd16eb90",
+        "path": "research/challenge-8/task-history/select-actual-c2-r17/S4-evidence.json",
+        "sha256": "c6cfa91918fd3f75732510638ac2aa41c8a7c38c84f195a86cd907f9bc4765c9"
+      }
+    ]
+  },
+  "confirmed": [
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R16 S5 reached actual c2; source-reported missing ref_precreated_token(v_base+3). credit0.",
+      "evidence": [
+        {
+          "build_id": "acd8e010-16b8-4b58-9501-083cb10b595f",
+          "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S5-evidence.json",
+          "sha256": "209199ccfeef37d698b97216466b3f726d383358fa274e8e887f1ca5ead6ca51"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R16 CLOSED: five Builds terminal/accounted, 2170s spent, 1430s retired, carry0. credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-LIFETIME-2026-10-21-R16.json",
+          "sha256": "64819aa0be35fd1f84e6c90109c33cf944cbac9afcb26ca4598d066f18c4aa45"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R17 S1-S3 terminal/accounted: S1 phase-allowlist run_error; S2 tool compile failure; S3 actual body c1 non-pure ghost read. Actual obligations closed0; credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-actual-c2-r17/S1-evidence.json",
+          "sha256": "9e02ff66640dfb90532a457a05e83bdc2426b2a68e3e252449b080f74d3e9148"
+        },
+        {
+          "path": "research/challenge-8/task-history/select-actual-c2-r17/S2-evidence.json",
+          "sha256": "7a1b4f8c2d939ca352117afccfa6aafc6d55f132798678346143aab1591b0024"
+        },
+        {
+          "path": "research/challenge-8/task-history/select-actual-c2-r17/S3-evidence.json",
+          "sha256": "f00873db2149b0156ab4e20fce138f8364bccdede88e0c2db73b101a8572edbf"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R17 S4 (candidate 51c4368b) terminal/accounted FAILURE 525s; actual body passes S3 c1 ghost-read and fails function-end leak check: unselected c2 full_borrow(cmp2_k) at v_base+0/+1, matching S5-UNSELECTED-BORROW-FIX.md. Causality UNKNOWN; actual obligations closed0; no control qualification; credit0.",
+      "evidence": [
+        {
+          "build_id": "27e8bfac-eb5f-4cf4-ae89-18bacd16eb90",
+          "path": "research/challenge-8/task-history/select-actual-c2-r17/S4-evidence.json",
+          "sha256": "c6cfa91918fd3f75732510638ac2aa41c8a7c38c84f195a86cd907f9bc4765c9"
+        },
+        {
+          "path": "research/challenge-8/task-history/select-actual-c2-r17/observations/1568767949f9cb2325075a4b28c38d740e4c1d8755e9114723d84287ebbe5081.json",
+          "sha256": "1568767949f9cb2325075a4b28c38d740e4c1d8755e9114723d84287ebbe5081"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R17 CLOSED (interrupted, absolute expired): four terminal/accounted Builds, 1995s used, 1605s retired, carry0; own active/unresolved/request/reservation0 after own status. No complete actual obligation or independent credit.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C2-2026-10-21-R17.json",
+          "sha256": "5c857f5ef31b2fa45910bb3f11ad505dd0506a78fdcd6412bec8c9aa7d74bb46"
+        }
+      ]
+    }
+  ],
+  "next_step": "R17 CLOSED/carry0. New owner-authorized R18 window required: independent review of S5 a6550c20 (S5-review-spec.json), then Cloud S5 with missing-unselected-share control. Full actual normal/unwind, controls/mini7/fresh26 and stable Freeze caller OPEN; independent credit0.",
+  "open": [
+    "S5 a6550c20 (checked share_full_borrow of unselected c2 cells0/1): artifact unverified, unreviewed; no Cloud evidence; credit0.",
+    "Full actual sort4 normal/unwind; ordered c1\u2013c5 attribution/current-owner recovery, selector-pointer/permutation/copy composition.",
+    "Required HRTB-off/controls completion, final mini7/fresh26, qualification and stable Freeze caller; independent B1/B2 credit0."
+  ],
+  "owner": "select-sort4",
+  "phase": "SORT4-ACTUAL-C2-2026-10-21-R17",
+  "rejected": [
+    {
+      "approach": "Assumed/address-only resource bridge or helper PASS as full-body proof",
+      "evidence": [],
+      "reason": "Does not establish actual ordered callback resources or full normal/unwind posts."
+    }
+  ],
+  "schema": "smallsort-checkpoint-v1",
+  "session": {
+    "active_build_ids": [],
+    "budget_seconds": 3600,
+    "deadline_utc": "2026-10-21T22:36:19Z",
+    "main_deadline_utc": "2026-10-21T22:06:19Z",
+    "remaining_seconds": 0,
+    "retired_seconds": 1605,
+    "spent_seconds": 1995,
+    "t0": "2026-10-21T20:06:19Z",
+    "unresolved_ids": []
+  },
+  "state": "CLOSED",
+  "task_id": "select-actual-c2-autonomous-2026-10-21-r17",
+  "updated_utc": "2026-10-22T11:47:55.286200+00:00",
+  "build_context": null,
+  "handoff": {
+    "status": "RECONCILED_AND_CLOSED",
+    "stage": "S4",
+    "thread_id": "01a15ffc-dbe5-7523-b5b1-d3dc37016e06",
+    "worktree": "/root/verify-rust-std-select-night",
+    "branch": "research/night-select-sort4-cloud-2026-10-09",
+    "phase": "SORT4-ACTUAL-C2-2026-10-21-R17",
+    "build": {
+      "dispatch_token": "dispatch-774eeb6818d045af9052d29f889c6a06",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-ACTUAL-C2-2026-10-21-R17",
+      "infra_sha": "51c4368bd6a1187dbf1975b979cb27ad3b51966f",
+      "proof_sha": "51c4368bd6a1187dbf1975b979cb27ad3b51966f",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "9d1b6964c42278774d370342e5536e54b93410cca27d4b32e319844e4c3af98d",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "b5081dd281479774d4ad91b3b721aac04f75b6ffcdcfbf226f258efb540f9a06",
+      "build_id": "27e8bfac-eb5f-4cf4-ae89-18bacd16eb90",
+      "start_time": "2026-10-21T21:05:09.696550707Z",
+      "finish_time": "2026-10-21T21:13:53.543224Z",
+      "create_time": "2026-10-21T21:05:08.917737938Z",
+      "build_seconds": 525,
+      "accounted": true,
+      "execution_seconds": 524
+    },
+    "ledger_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C2-2026-10-21-R17.json",
+    "client_state_dir": "/tmp/select-r17-cloud-state",
+    "published_candidate_commit": "51c4368bd6a1187dbf1975b979cb27ad3b51966f",
+    "effective_profile": {
+      "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json",
+      "sha256": "53ecfe3cedeedbb89b44e7750260c51dfe2aa523bf0787040bc9b7d889c51ccb"
+    },
+    "effective_tool": "Full R16 overlay/spec chain + R17 phase overlay + exact c2 overlay from committed profile; base SHA alone insufficient.",
+    "review": {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S4-review.json",
+      "sha256": "52b489a57fa00efd4a176e346f7fbf2053560ac52cbbe36b724eaba6d03836bc",
+      "verdict": "GO_SOURCE_DELTA independent Luna HIGH"
+    },
+    "tested": "Existing43 isolated synthetic body/registration checks; current OCaml delta requires fresh Cloud compile/target evidence. No local actual constructor/compiler/exporter/MIR/verifier.",
+    "unverified": [
+      "Current delta compile/actual body assertions, normal/direct-unwind and call-site attribution pending Cloud.",
+      "Discriminating c2/receiver/order/ref/index/debt/marker controls and final mini7/fresh26/stable Freeze caller OPEN.",
+      "Full actual proof and independent B1/B2credit0; metadata/integrity/source progress are not proof acceptance."
+    ],
+    "window_preserved": true,
+    "no_budget_transfer": true,
+    "reconciled_utc": "2026-10-22T11:47:55.286200+00:00",
+    "closeout": {
+      "assignment": "Owner closeout 2026-10-22, Runtime Claude Code, Cloud budget 0s; no new Builds/request/submit/cancel/retry/review/hypotheses.",
+      "watcher": "Old Codex thread 01a15ffc jobs 42808c2c/74498ade/df7ee4ab all ACKED; none armed, no stop needed.",
+      "status_calls": "One own control.py status 27e8bfac: FAILURE 21:05:08.9Z->21:13:53.5Z; accounting unchanged (525s); own reservation dispatch-774eeb68 released from active.json.",
+      "s5_candidate": {
+        "commit": "a6550c20",
+        "state": "artifact unverified, unreviewed; proof credit0"
+      }
+    },
+    "note": "Historical S4 handoff snapshot retained; session/blocker/next above supersede waiting fields."
+  }
+}
