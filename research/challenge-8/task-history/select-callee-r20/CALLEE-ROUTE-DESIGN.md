@@ -58,3 +58,9 @@ Implementation plan:
 
 - The result is pointer-specialized (`T = *const Element`, sort4). `*mut T` for `swap_if_less` (Network) needs the same unit at `*mut` or a generic proof. The generic-T gap (two `<T>.own` transfers, ZST aliasing) is in `overnight-assume-actual/ACTUAL-GENERIC-SELECT-GAP-2026-10-09.md`.
 - No credit. Callee acceptance also needs normal, unwind and nested-Drop completion and the matrix. Only after that can the sort4 route use it (opt-in redirect with source/MIR certification), followed by Cloud c5 (`34e37669`), the selectors and the copies.
+
+## Review finding: certificate pins (R20 review NO_GO #2)
+
+Under `SORT4_ACTUAL_OWNER_NINE_ADMISSION`/`SORT4_A1_NINE_REPO_ROOT` the pinned 20+2 translator certifies the nine-body unit exactly. The owner admission rebuilds the actual body together with its injected ghost and requires the exact ordered ghost-statement list. The nine-admission and A1 nine patches, as refreshed by the two O26 literal refresh patches, pin the `verified/lib.rs` SHA-256 (`1798132f…`). Any ghost-repaired copy is therefore refused at the certificate before the final select.
+
+The repair consequently needs a separately reviewed certificate-refresh tool patch: new source pin and ghost list, with the repair ghost included and the controls preserved. The first R20 callee Build is baseline-only: a fresh reproduction of the recorded blocker, with exact message and location in Brief, on the current commit and closure.

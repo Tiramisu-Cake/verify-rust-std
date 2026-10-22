@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # R20 Select callee lane: nine-body actual select_unpredictable unit only.
 # Reuses the reviewed O26 refresh tool build, provider-guard overlay, source
-# preflight, capture, compare and proof stages; adds R20 ghost-repair variants.
+# preflight, capture, compare and baseline proof stages (blocker diagnostic).
 # Diagnostics only: no actual-body route, no acceptance, no proof credit.
 set -euo pipefail
 
@@ -25,6 +25,8 @@ done
 mkdir -p "$work_root" "$evidence_root"
 ev="$evidence_root/allprooflogs"
 [[ ! -e "$ev" ]] || { printf 'O26 refresh evidence already exists: %s\n' "$ev" >&2; exit 2; }
+mkdir "$ev"
+mkdir "$ev/cases"
 current_stage=provider
 audit_result() {
   python3 "$cloud_dir/select-callee-r20.py" audit --evidence "$ev" \
@@ -226,10 +228,9 @@ stage candidate-proof python3 "$cloud_dir/o26-refresh-recipe.py" proof \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
-stage r20-repair-variants python3 "$cloud_dir/select-callee-r20.py" repair \
-  --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
-  --tool-home "$source_home" --schema "$schema" \
-  --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
+# Repair variants are not run here: the pinned nine-body certificates fix the
+# exact verified source SHA and ghost list, so ghost-repaired copies would be
+# refused before the final select. They need a reviewed certificate refresh.
 
 current_stage=audit
 audit_result 0 complete

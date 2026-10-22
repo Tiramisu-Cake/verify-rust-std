@@ -80,12 +80,32 @@ class RepairStage(unittest.TestCase):
         self.assertEqual(saved, json.loads(json.dumps(record)))
         self.assertFalse(record["accepted"]) ; self.assertFalse(record["proof_credit"])
         self.assertEqual({v["stage"]["exit"] for v in record["variants"].values()}, {1})
+        self.assertIs(record["complete"], True)
 
-    def test_deadline_reserve_marks_not_run_without_stage(self):
+    def test_deadline_reserve_not_run_exits_nonzero_and_record_is_incomplete(self):
         fake = FakeO26()
-        record, _, _ = self.run_repair(fake, deadline_offset=60)
+        with self.assertRaises(SystemExit) as raised:
+            self.run_repair(fake, deadline_offset=60)
+        self.assertEqual(raised.exception.code, 3)
         self.assertEqual(fake.calls, [])
-        self.assertEqual({v["status"] for v in record["variants"].values()}, {"NOT_RUN"})
+
+    def test_intermediate_record_is_marked_incomplete(self):
+        with self.assertRaisesRegex(RuntimeError, "synthetic stage exception"):
+            with tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                make_case(root)
+                fake = FakeO26(raise_on="r20-true-only")
+                real_load = CALLEE.load
+                def load(path, name, expected=None):
+                    return fake if path.name == "o26-recipe.py" else real_load(path, name, expected)
+                import time
+                try:
+                    with patch.dict(os.environ, ENV, clear=True), patch.object(CALLEE, "load", load):
+                        CALLEE.repair(Args(root, int(time.time()) + 3600))
+                finally:
+                    saved = json.loads((root / "cases/r20-repair/r20-repair.json").read_text())
+                    self.assertIs(saved["complete"], False)
+                    self.assertEqual(list(saved["variants"]), ["both"])
 
     def test_refusals_preserve_original_exception(self):
         for env in ({}, {**ENV, "SORT4_R20_CALLEE_PHASE_ID": "other"},
@@ -122,6 +142,22 @@ class Audit(unittest.TestCase):
         self.assertIsNone(record["baseline_proof"])
         self.assertFalse(record["evidence_complete"]) ; self.assertFalse(record["proof_credit"])
 
+    def test_evidence_complete_requires_a_baseline_proof_that_ran(self):
+        rows = ({"stage": {"status": "RAN", "exit": 1}}, True, 0), \
+               ({"stage": {"status": "NOT_RUN_DEADLINE", "exit": None}}, False, 0), \
+               ({"stage": {"status": "RAN", "exit": "1"}}, False, 0), \
+               ({"stage": None}, False, 0), (None, False, 0), \
+               ({"stage": {"status": "RAN", "exit": 1}}, False, 2)
+        for proof, complete, runner_exit in rows:
+            with self.subTest(proof=proof, runner=runner_exit), tempfile.TemporaryDirectory() as temp:
+                ev = Path(temp)
+                if proof is not None:
+                    (ev / "cases/candidate").mkdir(parents=True)
+                    (ev / "cases/candidate/proof-stage.json").write_text(json.dumps(proof))
+                args = type("A", (), {"evidence": ev, "output": ev / "a.json",
+                                      "runner_exit": runner_exit, "failed_stage": "x"})
+                self.assertIs(CALLEE.audit(args)["evidence_complete"], complete)
+
 
 class RunnerAndRecipe(unittest.TestCase):
     def test_runner_syntax_lane_guard_and_stage_order(self):
@@ -130,10 +166,22 @@ class RunnerAndRecipe(unittest.TestCase):
         self.assertIn('"${SORT4_R20_CALLEE_PHASE_ID:-}" == SORT4-ACTUAL-SELECT-2026-10-22-R20', RUNNER)
         order = ["stage provider-overlays", "stage source-preflight", "stage package-index",
                  "stage console-build", "stage candidate-capture", "stage candidate-source-compare",
-                 "stage candidate-proof", "stage r20-repair-variants"]
+                 "stage candidate-proof"]
         positions = [RUNNER.index(x) for x in order]
         self.assertEqual(positions, sorted(positions))
         self.assertNotIn("o26-refresh-audit.py", RUNNER)
+        self.assertNotIn("stage r20-repair-variants", RUNNER)
+        self.assertNotIn("select-callee-r20.py\" repair", RUNNER)
+
+    def test_evidence_directory_exists_before_any_write_or_stage(self):
+        mk = RUNNER.index('mkdir "$ev"\n')
+        self.assertLess(RUNNER.index('[[ ! -e "$ev" ]]'), mk)
+        self.assertLess(mk, RUNNER.index('mkdir "$ev/cases"\n'))
+        writes = [m.start() for m in re.finditer(r'> "\$ev/', RUNNER)]
+        self.assertTrue(writes)
+        self.assertLess(mk, min(writes))
+        self.assertLess(mk, RUNNER.index("\nstage "))
+        self.assertLess(mk, RUNNER.index('python3 "$cloud_dir/provider.py"'))
         self.assertNotIn("run-sort4-c1-current-recovery", RUNNER)
         self.assertIn("0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a", RUNNER)
 

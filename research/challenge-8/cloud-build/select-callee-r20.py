@@ -80,11 +80,16 @@ def repair(a) -> dict:
         rows[variant] = {"verified_sha256": sha(repaired), "original_sha256": sha(original),
                          "base_verified_sha256": sha(verified), "stage": result,
                          "log": str((case / ("r20-" + variant + ".log")).relative_to(a.evidence))}
-        write(root / "r20-repair.json", rows)
+        write(root / "r20-repair.json", {"complete": False, "variants": rows})
+    ran = all(isinstance(v.get("stage"), dict) and v["stage"].get("status") == "RAN" and
+              type(v["stage"].get("exit")) is int for v in rows.values())
     record = {"classification": "R20_CALLEE_REPAIR_VARIANTS_OBSERVED", "variants": rows,
+              "complete": ran,
               "transform_sha256": REPAIR_SHA256, "accepted": False, "proof_credit": False}
     write(root / "r20-repair.json", record)
     print(json.dumps({k: (v.get("stage") or {}).get("exit") for k, v in rows.items()}))
+    if not ran:
+        raise SystemExit(3)
     return record
 
 
@@ -112,7 +117,12 @@ def audit(a) -> dict:
               "baseline_proof": read("cases/candidate/proof-stage.json"),
               "repair_variants": read("cases/r20-repair/r20-repair.json"),
               "accepted": False, "verification_accepted": False,
-              "proof_credit": False, "evidence_complete": a.runner_exit == 0}
+              "proof_credit": False}
+    baseline = record["baseline_proof"]
+    stage = baseline.get("stage") if isinstance(baseline, dict) else None
+    record["baseline_proof_ran"] = (isinstance(stage, dict) and stage.get("status") == "RAN" and
+                                    type(stage.get("exit")) is int)
+    record["evidence_complete"] = a.runner_exit == 0 and record["baseline_proof_ran"]
     write(a.output, record)
     return record
 
