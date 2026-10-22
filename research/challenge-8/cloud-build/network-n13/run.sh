@@ -3,7 +3,7 @@ set -euo pipefail
 
 stage=${NETWORK_STAGE:?NETWORK_STAGE is required}
 case "$stage" in
-  preflight|exact|controls|controls-order|regressions) ;;
+  preflight|exact|controls|controls-order|regressions|regressions-n9) ;;
   *) printf 'unsupported Network N13 stage: %s\n' "$stage" >&2; exit 2 ;;
 esac
 
@@ -59,40 +59,69 @@ FAILURE
 }
 trap record_failure EXIT
 
-setup_deadline=$((SECONDS + 120))
+bootstrap_record="$evidence_root/network-n13-bootstrap.json"
+bootstrap_deadline=${NETWORK_SETUP_DEADLINE_EPOCH:-}
+bootstrap_runner_state=NOT_REACHED
+write_bootstrap_record() {
+  local state=$1 operation=$2 status=$3 runner_exit_code=${4:-null}
+  mkdir -p "$(dirname "$bootstrap_record")"
+  printf '{"schema":"network-n13-bootstrap-v1","stage":"%s","state":"%s","operation":"%s","exit_code":%s,"setup_deadline_epoch":%s,"runner_state":"%s","runner_exit_code":%s}\n' \
+    "$stage" "$state" "$operation" "$status" \
+    "${bootstrap_deadline:-null}" "$bootstrap_runner_state" "$runner_exit_code" > "$bootstrap_record"
+}
+if [[ ! "$bootstrap_deadline" =~ ^[0-9]+$ ]]; then
+  write_bootstrap_record FAILED missing-setup-deadline 2
+  printf 'Network N13 bootstrap deadline from Cloud config is missing or invalid\n' >&2
+  exit 2
+fi
 setup_run() {
-  local remaining=$((setup_deadline - SECONDS))
+  local operation=$1 remaining status
+  shift
+  remaining=$((bootstrap_deadline - $(date +%s)))
   if (( remaining <= 0 )); then
-    printf 'Network N13 setup exceeded its 120-second allowance\n' >&2
+    write_bootstrap_record FAILED "$operation" 124
+    printf 'Network N13 shared bootstrap deadline expired before %s\n' "$operation" >&2
     return 124
   fi
-  timeout --signal=TERM "${remaining}s" "$@"
+  write_bootstrap_record RUNNING "$operation" null
+  if timeout --signal=TERM --kill-after=2s "${remaining}s" "$@"; then status=0; else status=$?; fi
+  if (( status == 0 )); then
+    write_bootstrap_record SUCCEEDED "$operation" 0
+  else
+    write_bootstrap_record FAILED "$operation" "$status"
+  fi
+  return "$status"
 }
 
-setup_run python3 "$infra_root/research/challenge-8/cloud-build/provider.py" > "$work_root/provider.json"
+setup_run provider-identity python3 "$infra_root/research/challenge-8/cloud-build/provider.py" > "$work_root/provider.json"
 
 export DEBIAN_FRONTEND=noninteractive
-setup_run apt-get update
-setup_run apt-get install --yes --no-install-recommends ca-certificates curl \
+apt_options=(-o Acquire::http::Timeout=25 -o Acquire::https::Timeout=25 -o Acquire::Retries=1)
+setup_run runtime-apt-update apt-get "${apt_options[@]}" update
+setup_run runtime-apt-install apt-get "${apt_options[@]}" install --yes --no-install-recommends ca-certificates curl \
   libgmp10 libmpfr6 libgomp1 libffi8 libncurses6 libtinfo6 zlib1g libz3-4 \
   libgtk-3-0 libgtksourceview-4-0
 
-setup_run curl -fL --connect-timeout 20 --max-time 90 -o "$archive" \
+setup_run tool-download curl -fL --connect-timeout 20 --max-time 90 -o "$archive" \
   https://github.com/verifast/verifast/releases/download/26.09/verifast-26.09-linux.tar.gz
 printf '%s  %s\n' \
   da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa \
-  "$archive" | setup_run sha256sum -c - | tee "$work_root/verifast-archive-sha256.txt"
-setup_run tar -xzf "$archive" -C "$tool_parent"
+  "$archive" | setup_run tool-archive-check sha256sum -c - | tee "$work_root/verifast-archive-sha256.txt"
+setup_run tool-extract tar -xzf "$archive" -C "$tool_parent"
 [[ -x "$tool_home/bin/verifast" ]] || { printf 'unexpected VeriFast archive layout\n' >&2; exit 2; }
 printf '%s  %s\n' \
   dc672335da76fe1bb06cf7ebca916185c34edb65466df0a937645a437c7f0ecc \
-  "$tool_home/bin/verifast" | setup_run sha256sum -c - | tee "$work_root/verifast-console-sha256.txt"
+  "$tool_home/bin/verifast" | setup_run tool-console-check sha256sum -c - | tee "$work_root/verifast-console-sha256.txt"
 
 set +e
 export LD_LIBRARY_PATH="$tool_home/bin:${LD_LIBRARY_PATH:-}"
+bootstrap_runner_state=RUNNING
+write_bootstrap_record SUCCEEDED runner-start 0
 python3 "$proof_root/research/challenge-8/network/n13/run-cloud.py" \
   --tool-home "$tool_home" --evidence "$runner_evidence" --stage "$stage" > "$runner_log" 2>&1
 runner_status=$?
+bootstrap_runner_state=REACHED
+write_bootstrap_record SUCCEEDED runner-finished 0 "$runner_status"
 set -e
 cat "$runner_log"
 

@@ -1,8 +1,10 @@
 """Synthetic client checks for the bounded Network N13 Cloud phase."""
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
 import unittest
 from types import SimpleNamespace
 from unittest import mock
@@ -31,6 +33,7 @@ class NetworkN13ClientTests(unittest.TestCase):
             "controls": 975,
             "controls-order": 795,
             "regressions": 915,
+            "regressions-n9": 555,
         }
         for stage, timeout in expected.items():
             with self.subTest(stage=stage):
@@ -76,13 +79,83 @@ class NetworkN13ClientTests(unittest.TestCase):
                 control.network_env(CANDIDATE, PHASE)
 
     def test_generated_config_carries_the_admitted_stage(self):
-        config = control.config(
-            CANDIDATE, CANDIDATE, "network-n13", 795, "synthetic-token",
-            phase_id=PHASE, stage="controls-order",
-        )
+        with mock.patch.object(control, "network_env", return_value=[]):
+            config = control.config(
+                CANDIDATE, CANDIDATE, "network-n13", 795, "synthetic-token",
+                phase_id=PHASE, stage="controls-order",
+            )
         self.assertIn("NETWORK_STAGE=controls-order", config["steps"][0]["env"])
         self.assertEqual(config["timeout"], "795s")
         self.assertEqual(config["queueTtl"], "60s")
+
+    def test_generated_network_config_has_one_bounded_bootstrap_deadline(self):
+        with mock.patch.object(control, "network_env", return_value=[]):
+            config = control.config(
+                CANDIDATE, CANDIDATE, "network-n13", 795, "synthetic-token",
+                source_payload=b"synthetic-pinned-archive", phase_id=PHASE,
+                stage="exact",
+            )
+        work = config["steps"][0]["args"][1]
+        self.assertEqual(work.count("NETWORK_SETUP_DEADLINE_EPOCH=$$(( $$(date +%s) + 120 ))"), 1)
+        self.assertIn("Acquire::http::Timeout=25", work)
+        self.assertIn("Acquire::https::Timeout=25", work)
+        self.assertIn("Acquire::Retries=1", work)
+        self.assertIn("network_setup_run pinned-source-restore", work)
+
+    def test_bootstrap_helper_records_success_original_error_and_timeout(self):
+        helper = control.network_bootstrap_script()
+        for mode, expected in (("success", 0), ("error", 100), ("timeout", 124)):
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                bindir = root / "bin"
+                bindir.mkdir()
+                trace = root / "apt-args"
+                (bindir / "apt-get").write_text(
+                    "#!/bin/sh\n"
+                    "test -f \"$BOOT_RECORD\" || exit 97\n"
+                    "grep -q '\"state\":\"RUNNING\"' \"$BOOT_RECORD\" || exit 98\n"
+                    "printf '%s\\n' \"$*\" >> \"$APT_TRACE\"\n"
+                    "exit \"${APT_FAKE_EXIT:-0}\"\n"
+                )
+                (bindir / "timeout").write_text(
+                    "#!/bin/sh\n"
+                    "while [ \"$1\" != \"\" ]; do case \"$1\" in --*) shift;; *s) shift; break;; *) break;; esac; done\n"
+                    + ("\"$@\"; exit 124\n" if mode == "timeout" else "exec \"$@\"\n")
+                )
+                for executable in (bindir / "apt-get", bindir / "timeout"):
+                    executable.chmod(0o755)
+                record = root / "bootstrap.json"
+                env = os.environ.copy()
+                env.update({
+                    "PATH": str(bindir) + os.pathsep + env["PATH"],
+                    "APT_TRACE": str(trace),
+                    "BOOT_RECORD": str(record),
+                    "NETWORK_BOOTSTRAP_RECORD": str(record),
+                    "NETWORK_STAGE": "exact",
+                })
+                if mode == "error":
+                    env["APT_FAKE_EXIT"] = "100"
+                result = subprocess.run(
+                    ["bash", "-ceu", helper], env=env, text=True,
+                    stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                )
+                self.assertEqual(result.returncode, expected)
+                saved = json.loads(record.read_text())
+                self.assertEqual(saved["state"], "SUCCEEDED" if expected == 0 else "FAILED")
+                self.assertEqual(saved["exit_code"], expected)
+                self.assertEqual(saved["runner_state"], "NOT_REACHED")
+                if mode != "timeout":
+                    self.assertIn("Acquire::http::Timeout=25", trace.read_text())
+                    self.assertIn("Acquire::Retries=1", trace.read_text())
+
+    def test_run_wrapper_rejects_missing_stage_before_setup(self):
+        result = subprocess.run(
+            ["bash", str(CLOUD_BUILD / "network-n13" / "run.sh")],
+            env={key: value for key, value in os.environ.items() if key != "NETWORK_STAGE"},
+            text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        )
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("NETWORK_STAGE is required", result.stderr)
 
     def test_network_build_reservation_keeps_setup_and_report_margins(self):
         budget = control.network_time_budget(735)
