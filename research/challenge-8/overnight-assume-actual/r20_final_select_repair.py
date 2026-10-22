@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+"""R20 ghost-only repair candidate for the nine-body owned-forget unit.
+
+NIGHT-CLOUD-4 (Build 6c560082) stopped at the final
+`select_unpredictable(condition, true_val, false_val).assume_init()` with an
+absent `MaybeUninit_pointer_own<Element>(t, MaybeUninit::new(payload))`.
+For `T = *const Element` that predicate holds no pointee permission
+(`raw_ptr_own` is `true`), and the S6 profile proves
+`close_MaybeUninit_pointer_own` against its definition (req true). The
+repair inserts that checked lemma call for the wrapper value(s) demanded at
+the final select. Pure byte transform: no tool, no Cloud, no proof credit.
+"""
+from __future__ import annotations
+
+FINAL_CALL = (b"        crate::intrinsics::select_unpredictable(condition, true_val, false_val)"
+              b".assume_init()\n")
+PAYLOAD_ASSERTS = (b"    /*@ assert *true_ptr |-> ?true_payload; @*/\n",
+                   b"    /*@ assert *false_ptr |-> ?false_payload; @*/\n")
+VARIANTS = ("both", "true-only", "false-only", "none")
+
+
+def need(ok: bool, why: str) -> None:
+    if not ok:
+        raise RuntimeError("R20-FINAL-SELECT-REPAIR: " + why)
+
+
+def close_line(payload: bytes) -> bytes:
+    return (b"        /*@ std::mem::close_MaybeUninit_pointer_own::<Element>(t, "
+            b"std::mem::MaybeUninit::new::<*Element>(" + payload + b")); @*/\n")
+
+
+def repair(verified: bytes, variant: str) -> bytes:
+    """Return `verified` with ghost closes before the unique final select."""
+    need(variant in VARIANTS, "unknown variant")
+    need(verified.count(FINAL_CALL) == 1, "one exact final MaybeUninit select")
+    for line in PAYLOAD_ASSERTS:
+        need(verified.count(line) == 1, "one exact payload binding")
+        need(verified.index(line) < verified.index(FINAL_CALL),
+             "payload binding precedes the final select")
+    need(b"close_MaybeUninit_pointer_own" not in verified,
+         "unit already contains a wrapper-ownership close")
+    inserted = {"both": close_line(b"true_payload") + close_line(b"false_payload"),
+                "true-only": close_line(b"true_payload"),
+                "false-only": close_line(b"false_payload"),
+                "none": b""}[variant]
+    result = verified.replace(FINAL_CALL, inserted + FINAL_CALL, 1)
+    # Ghost-only: removing exactly the inserted comment lines restores the input.
+    need(result.replace(inserted, b"", 1) == verified if inserted else result == verified,
+         "repair changed more than the inserted ghost lines")
+    need(all(line.lstrip().startswith(b"/*@") and line.rstrip().endswith(b"@*/")
+             for line in inserted.splitlines()), "inserted text is ghost-only")
+    return result
