@@ -1,0 +1,63 @@
+{
+  "schema": "smallsort-independent-review-v1",
+  "reviewer": "Codex independent reviewer",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "nested_delegation": false,
+  "verdict": "NO_GO",
+  "candidate_commit": "a804575cd673f5fe3efbcf31f9b165b7d83e6e63",
+  "candidate_tree": "13386984c98eaf922863f09dbafd48003e7b253a",
+  "baseline_commit": "8a1768624de2ce5ce5737d94a5452d0f0f4e13e1",
+  "diff_sha256": "0aa3628bdb0f1898d0703d9f0e9ffeea419d72e0261f0c7def7d4992e1392866",
+  "packet_sha256": "c4cff87832bfe90bae3a33a476c330df423f9220909f75d1d53f576df7dbed4d",
+  "spec_sha256": "63ce30466b7059e1de45ac704b09f2a2f9bfc9323526b9c663697e255b5780f4",
+  "scope": "Localized static review of the corrected same-site diagnostic literal, pinned genuine Cloud provider guard, and audit complete-matrix checks.",
+  "basis": [
+    "The same-site expected message now includes the reported `error:` prefix and parenthesized condition text; the matcher still requires one diagnostic at the unique final-select source line/range and rejects decoy, wrong-site, and duplicate lines. Callee-control classifications remain TARGET_UNPINNED in the pinned proof helper and cannot complete proof rows.",
+    "The entry loads provider.py by its exact pin and calls require_supported_provider before the capture or proof callbacks. That pinned module requires a genuine identified Ubuntu 22.04 Cloud Build and the entry additionally requires the returned provider label to be cloud-build. The provider identity is recorded with the helper/pin dependencies.",
+    "The audit now requires the exact eight row names/order, complete statuses, expected classes and exit polarity, source-intact and gate summary flags, and complete pre/post captures. It keeps acceptance and proof-credit fields false. However, its own synthetic complete-matrix fixture demonstrates that these summary checks still accept unbound and currently unpinned rows, detailed below."
+  ],
+  "findings": [
+    {
+      "location": "research/challenge-8/cloud-build/select-callee-r21-proof-audit.py:18-48; test_select_callee_r21_proof_audit.py:test_complete_matrix_preserves_rows_and_base_failure",
+      "finding": "The audit can report evidence_complete for a matrix that the exact pinned proof helper cannot produce: it accepts EXPECTED_CALLEE_CONTRACT_REJECTION rows even though no callee diagnostic targets are pinned and the helper deliberately emits TARGET_UNPINNED for all four callee negatives. The test's synthetic complete matrix assigns these expected classes without any target-pin manifest or diagnostic record.",
+      "impact": "The known current limitation that the matrix cannot complete is not enforced by the audit; a fabricated or stale record can overstate evidence completeness despite the no-target-pin boundary.",
+      "suggestion": "Until exact callee diagnostic targets are independently pinned in a reviewed manifest, make complete_matrix reject all callee expected classes (or require and validate that manifest and per-row target evidence). Update the synthetic fixture so the current unpinned matrix is necessarily incomplete."
+    },
+    {
+      "location": "research/challenge-8/cloud-build/select-callee-r21-proof-audit.py:29-39; test_select_callee_r21_proof_audit.py:test_complete_matrix_preserves_rows_and_base_failure",
+      "finding": "complete_matrix checks only the row-level normal_unwind_nested_drop_gates summary. It does not check that the underlying stage has intrinsic_gate_active and pointer_drop_gate_active set true, or bind stage source_before/source_after/source_unchanged, argv, and stdout/stderr to the expected case. The test's supposedly complete stage contains only status and exit, yet passes when summary flags are true.",
+      "impact": "A partial or stage-target-mismatched row can be reported as evidence-complete by supplying summary booleans and expected classifications, without the stage metadata that establishes the actual gated invocation.",
+      "suggestion": "Validate the stage gate bits directly and require exact argv/log targets, source-before/after pairs, source_unchanged, and a matching bound_verdict (or otherwise explicitly scope audit completeness to trusted helper-generated records and verify the helper identity). Add malformed-stage and false-gate controls."
+    }
+  ],
+  "nits": [],
+  "validation": {
+    "packet_identities": "MATCH (spec, diff, and inventory hashes verified)",
+    "candidate_tree": "MATCH",
+    "corrected_diagnostic_literal": "PASS (static comparison with source-reported exact text)",
+    "genuine_cloud_provider_gate": "PASS (pinned provider module invoked before capture/proof callbacks)",
+    "partial_row_inventory_audit": "PASS for row inventory/status checks; FAIL for unpinned expected callee classes and unbound stage fields",
+    "synthetic_tests": "PACKET-REPORTED 10 classifier + 7 entry + 2 audit PASS; not executed",
+    "diff_check": "PASS",
+    "shell_activation_translator_patch_actual_tools_formal_proof": "ABSENT / NOT RUN / NONE"
+  },
+  "limitations": "NO_GO applies to relying on this audit's evidence_complete result until the unpinned-class and stage-binding gaps are closed. The entry remains inactive, and this review establishes no verifier result, fractional proof validity, acceptance, or proof credit.",
+  "followup_delta_review": {
+    "verdict": "GO_WITH_NITS",
+    "candidate_commit": "9d32ddd4461349e2b4f635fa1ae30165d62704d1",
+    "candidate_tree": "65ebadf5859661bcd9352dae2b9d6c5a7814059d",
+    "baseline_commit": "a804575cd673f5fe3efbcf31f9b165b7d83e6e63",
+    "diff_sha256": "35e5aa87a334af4fb14d465aae25189175d536a00e22e9fa09f510c589c60894",
+    "findings": [
+      "The audit now requires both stage gate bits and source_unchanged to be true. CALLEE_TARGETS is explicitly empty, and every callee-control row is rejected until exact diagnostic targets are admitted; the prior synthetic eight-row fixture now correctly remains incomplete. This closes the current false-completeness path identified above.",
+      "NIT: any future change that populates CALLEE_TARGETS should also bind each diagnostic target to source location and stage invocation/capture identity; this delta intentionally does not claim or establish those future bindings."
+    ],
+    "validation": {
+      "synthetic_audit_tests": "PASS (2 tests; locally run, synthetic only)",
+      "diff_check": "PASS",
+      "actual_tools_or_proof": "NOT RUN"
+    },
+    "limitations": "This delta is acceptable as a fail-closed audit correction. It cannot produce a complete matrix while callee targets are empty and grants no proof, acceptance, or proof-credit claim. The original a804575 verdict remains NO_GO for that exact candidate."
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "e4ff2443410c7781216d0f0dec87f8b1ad9c79bd",
+  "candidate_commit": "8a1768624de2ce5ce5737d94a5452d0f0f4e13e1",
+  "defect": "Fix NO_GO loosecontrolclassification; add pinned Cloud entry adapters and failure-preserving audit.",
+  "applicability": "Stillinactive untilshellrecipeandtranslatorpatchreview. Calleecontrols deliberatelyTARGET_UNPINNED, cannotcomplete matrix.",
+  "invariants": [
+    "Same-site control requiresoneexactdiagnostic/location derivedfromexactcandidatecall;decoy/wrongsite/duplicatediagnosticsrefused.",
+    "Calleeerrorsunclassified untilrealobservedtargetpins; acceptance/proofcreditfalse.",
+    "Entrybindspinnedhelpers/O26guardoverlay/sourcepair, exactpriorCloudfingerprints; all3semanticoptins perproofcall only.",
+    "Known10snapshotfiles clearedbeforeeachcaptureandpre/postoutputsarchivedwithdistincthashes.",
+    "Auditpreserves originalexit/failedstage andmissing/null/wrongtype/partialrecords; no acceptance."
+  ],
+  "controls": [
+    "32combinedsynthetic testsPASS;2audittestsPASS coveringmissing/malformed/partial/NOT_RUN/basefailure. Noactualtoolslocally."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/select-callee-r20.py",
+    "research/challenge-8/cloud-build/select-callee-r21-fractional.py",
+    "research/challenge-8/cloud-build/o26-recipe.py",
+    "research/challenge-8/cloud-build/o26-refresh-recipe.py",
+    "research/challenge-8/overnight-assume-actual/capture.py"
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r21/R21-proof-helper-review.json",
+      "sha256": "ecf327a9c28b7eadc6717e3d4d7679d10ce642b253d3d27f1961b5dece3feb9a"
+    }
+  ],
+  "known_limitations": [
+    "No exactcalleecontrol diagnosticpinsyet; matrixcannotcomplete.",
+    "Actualproofnotrun; sourcefractionalproposalremainsunproved."
+  ]
+}

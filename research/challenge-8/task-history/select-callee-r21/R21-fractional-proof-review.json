@@ -1,0 +1,44 @@
+{
+  "schema": "smallsort-independent-review-v1",
+  "reviewer": "Codex independent reviewer",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "nested_delegation": false,
+  "verdict": "GO_WITH_NITS",
+  "candidate_commit": "195953158b823c2cd4f946a1a7795523d3e580a4",
+  "candidate_tree": "9908fba9cba8a518445c14488352f5e44325f8d5",
+  "baseline_commit": "9d32ddd4461349e2b4f635fa1ae30165d62704d1",
+  "diff_sha256": "fe8b47e149e67e5bdb7d9209f6faa9e5194cdc7a3e331eeee92c34bbceaaf1c2",
+  "packet_sha256": "3ff1a3d0fa27b7ea7422956ce41196fc83d83e32126302159ec0b3bb79d1579d",
+  "spec_sha256": "5468fcfeb659c6d92fae486e9011cedb88e41ad73e33ae9df9b446a8ca867366",
+  "scope": "Independent source review of the exact translator patch and eight fractional variants, pinned Cloud proof entry/classifier/audit dependencies, fingerprint input provenance, and R21 shell/recipe wiring. Diagnostic proof Build recommendation only.",
+  "basis": [
+    "The committed patch SHA matches the declared 0a446349... pin and the isolated source-only tool worktree is the declared 606235 -> be8b620a result. The translator's fractional behavior requires the exact R21 fractional opt-in, exact variant, nine-body owner admission, R20 branch-selected opt-in, and exact R21 phase; it checks the per-variant source/body-6/body-7/unit identities and exact generic checked_forget_owned body/contract before redirecting the one typed std::mem::forget call. The normal default/R20 annotation and source-pin branches remain selected when the new opt-in is absent.",
+    "The ghost edits are limited to splitting and recombining half ownership around the existing branch-selected select path and a same-unit checked helper whose runtime body is ManuallyDrop::new(t). The exact helper contract is checked from MIR/source and then verified by the Cloud verifier. I found no change to the global SAFE forget summary, guard ownership predicate, runtime signature/CFG, generic behavior, or safety/leak gates; no assume or broad exemption is added.",
+    "The eight-row pin input is tied by the committed evidence metadata to source-reported Build 7cd83dd2-f0e9-41e8-85ef-589447085239 and a complete Evidence Brief pointer. Its records mark fingerprint-only/no proof run and retain exact per-case source and ten snapshot identities. The proof adapter revalidates the exact base pair, row inventory/order, source stage and snapshots before producing cases.",
+    "The entry requires the genuine Cloud Build provider, exact R21 phase, and absent ambient fractional/R20 opt-ins; the per-case wrapper sets and clears the new flags, R20 repair flag, and variant around the proof call. Pre/post diagnostic captures and source checks are bound per case. Same-site controls use the exact final-select diagnostic; the four callee controls stay TARGET_UNPINNED and cannot become COMPLETE. The audit's empty CALLEE_TARGETS map therefore keeps the matrix incomplete and accepted/proof_credit false."
+  ],
+  "findings": [
+    {
+      "severity": "NIT",
+      "location": "research/challenge-8/cloud-build/select-callee-r21-fractional-proof.py:_classify; research/challenge-8/cloud-build/select-callee-r21-proof-audit.py:CALLEE_TARGETS/complete_matrix",
+      "finding": "The runner currently records expected_diagnostic_target, while the audit's future target-map check reads diagnostic_target; the runner also emits TARGET_UNPINNED rather than the audit's expected callee-control class. This is fail-closed today because CALLEE_TARGETS is empty and callee rows remain incomplete.",
+      "impact": "After exact callee targets are admitted, merely filling CALLEE_TARGETS will not make those rows auditable; the output key and allowed class must be aligned with independently pinned per-variant diagnostics.",
+      "suggestion": "When target pins are reviewed, make the runner and audit share one explicit target-record schema that binds diagnostic path/range/message to the relevant stage and source, then add a complete synthetic target-map fixture and wrong-site controls."
+    }
+  ],
+  "nits": [],
+  "validation": {
+    "candidate_and_tree": "MATCH",
+    "spec_diff_inventory_hashes": "MATCH",
+    "fractional_tool_patch_sha256": "MATCH (0a446349d3c4eb223f00b4ebf4a4bf5d5fd0bd4a5b9424fcac4c8beef6a6cc8a)",
+    "source_only_tool_result": "MATCH (606235 baseline to be8b620a target; source-only worktree)",
+    "input_provenance": "PASS AS SOURCE-REPORTED (Brief file/index/archive/request/pointer recorded; exact eight-row map retained)",
+    "translator_default_and_optin_paths": "PASS STATIC REVIEW",
+    "runner_entry_audit_wiring": "PASS FOR BOUNDED R21 DIAGNOSTIC RUN; CALLEE ROWS FAIL CLOSED",
+    "packet_reported_tests": "22 service/static tests and bash -n PASS per packet; not run in this review",
+    "git_diff_check": "PASS",
+    "actual_preparation_compiler_verifier_extraction_formal_proof": "NOT RUN LOCALLY; Cloud only"
+  },
+  "limitations": "GO_WITH_NITS recommends only the bounded Cloud proof-stage diagnostic run for this exact R21 candidate. The Build may return incomplete/failure by design while callee diagnostic targets remain unpinned. No independent verifier result is established here; any source-reported positive row is not actual-callee acceptance, a complete normal/unwind/nested-Drop matrix, the generic *mut T result, or formal proof credit."
+}

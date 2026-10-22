@@ -1,0 +1,48 @@
+{
+  "schema": "smallsort-independent-review-v1",
+  "reviewer": "Codex independent reviewer",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "nested_delegation": false,
+  "verdict": "NO_GO",
+  "candidate_commit": "edf171131202d61eff9215f0825c045806b06bb1",
+  "candidate_tree": "3e1a48888ebff4da4fa28036fbcaa3fba4ee8956",
+  "baseline_commit": "c9feaf4f6315f06aff9e7c91a7e9bdb426fff6f7",
+  "diff_sha256": "5d1e2d8e1feea5ff905b8789be24ed91dd5c5cc68e32bfbb7a09fcb27eed82a9",
+  "packet_sha256": "dcaae43a527559c075bdb2c98fb1c988d25af2e3f0372279db1573450a54b2ed",
+  "spec_sha256": "ac9080f3391cf6706bae64c0d87128fa4bee1f7fb3a3a0eb491c2ba9e925148c",
+  "scope": "Static semantic review of the inactive eight-case fractional proof helper's source/snapshot/stage bindings and control classifications, plus the direct-guard failed_stage labels.",
+  "basis": [
+    "The fingerprint-to-pin conversion checks the complete eight-variant inventory, baseline location control against default unit/nine-body pins, exact source hashes and diagnostic-stage metadata for every variant, case-specific ten-snapshot maps, unchanged body-0..5/body-8 hashes, and complete normal-MIR checks. Before and after each proof callback, capture rows must bind exact source pair, argv, refusal exit, gates, log targets, and physical snapshot bytes. Candidate transforms must match the corresponding per-case source SHA and retain one exact checked_forget_owned signature/body. The R20 bound classifier separately binds proof argv, before/after/observed source, gates, and log targets.",
+    "The new runner assignments set current_stage before the previously unlabeled direct manifest, archive/hash, checkout/tool-identity, patch-inventory/application, refresh-manifest, dependency-layout, binary, and linkage guards. The closure runner SHA is updated to the committed shell content; these edits do not change guard conditions.",
+    "The packet's synthetic tests were inspected but not executed. No CLI adapter or Build-stage activation exists in this candidate; the result would remain source-reported helper classification and never sets accepted or proof_credit true."
+  ],
+  "findings": [
+    {
+      "location": "research/challenge-8/cloud-build/select-callee-r21-fractional-proof.py:278-289",
+      "finding": "Control-target classification is not tied to a single diagnostic or its source location. Same-site controls pass on the substring `Cannot prove result6 =` anywhere in the log; callee controls pass when `checked_forget_owned` appears anywhere and `: error:` appears independently anywhere. A different verifier failure can therefore be labeled EXPECTED_SAME_SITE_FINAL_SELECT_FAILURE or EXPECTED_CALLEE_CONTRACT_REJECTION, allowing the row and the whole matrix to become COMPLETE without the intended control failing at its intended site.",
+      "impact": "The synthetic happy-path tests prove only that fabricated logs with the desired substrings classify as intended. They do not establish that actual same-site/callee controls failed for the requested ownership obligation. The helper's `complete` classification would overstate the control matrix.",
+      "suggestion": "Keep such rows as CONTROL_FAILURE_TARGET_MISMATCH until the diagnostic is bound to the intended single diagnostic record and source location/function/call site. Use the exact source-reported final-select location/message for same-site controls; for callee controls, first obtain and pin the real intended diagnostic shape in Cloud, then require its diagnostic context to associate the error with checked_forget_owned rather than matching unrelated substrings. Add synthetic decoy logs with one expected token plus an unrelated error and require refusal."
+    }
+  ],
+  "nits": [
+    {
+      "location": "research/challenge-8/cloud-build/select-callee-r21-fractional-proof.py:327-331",
+      "finding": "The record initializes `body_proof_run` to true before any stage executes. If the deadline causes every row to be NOT_RUN, the top-level record still says a body proof ran.",
+      "impact": "Per-row statuses and incomplete classification remain fail-closed, but this summary field misstates execution history.",
+      "suggestion": "Derive the field from whether at least one bound proof stage reached status RAN, and preserve false when all rows are skipped."
+    }
+  ],
+  "validation": {
+    "packet_identities": "MATCH (spec, diff, and inventory hashes verified)",
+    "candidate_tree": "MATCH",
+    "source_snapshot_and_stage_binding_review": "PASS (static, subject to the control-classification finding)",
+    "control_classification": "FAIL: independent log substrings do not bind an expected failure to its intended diagnostic site",
+    "runner_failed_stage_label_changes": "PASS (static; assignments precede direct guard groups)",
+    "synthetic_tests": "PACKET-REPORTED 8 proof-helper + 10 fractional fingerprint + 6 recipe tests PASS; not executed",
+    "shell_syntax": "PACKET-REPORTED bash -n PASS",
+    "CLI_adapter_or_build_stage_activation": "ABSENT",
+    "actual compiler/verifier/build or formal proof credit": "NOT RUN / NONE"
+  },
+  "limitations": "NO_GO is limited to using this helper's current COMPLETE/control classifications as evidence that the intended controls failed. The helper remains inactive, no CLI/Build stage is activated, and this review establishes no proof result, actual-callee acceptance, or proof credit."
+}

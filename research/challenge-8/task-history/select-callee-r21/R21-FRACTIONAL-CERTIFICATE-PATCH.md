@@ -1,0 +1,15 @@
+# R21 fractional-forget translator certificate patch
+
+This source-only patch admits exactly the eight fractional candidate/control variants recorded in `FRACTIONAL-FINGERPRINT-INPUT.json`. It binds each row to its Evidence Brief-reported verified source SHA, decoded checked-forget body SHA, decoded final-select body SHA, and decoded full nine-body unit SHA. The fingerprint-only Build is diagnostic evidence: `accepted=false`, `body_proof_run=false`, and `proof_credit=false`.
+
+The patch is based on the isolated VeriFast source tree at `f76012fb518703b1d98e243ac4f487f16877cfcb` after the R21 branch-selected patch. Before this patch, the translator SHA was `606235c66c76412d2fdcef5f30436c342771ad5a087b343f618cfb7c8a2344d2`; after applying it, the translator SHA is `be8b620a15a5fff1ac6567bae693b739580e7ddfd5cd7f300e8e835850e4ed1b`. Patch SHA-256 is `0a446349d3c4eb223f00b4ebf4a4bf5d5fd0bd4a5b9424fcac4c8beef6a6cc8a`.
+
+The new opt-in requires exact nine-body admission, `SORT4_R20_FINAL_SELECT_REPAIR=1`, the exact R21 phase marker, and one closed variant key. Without the new opt-in, existing five/nine-body and R20 branch-selected source, body, unit, contract, and ghost checks keep their previous values. The variant-specific source and body maps are not wildcards.
+
+The positive fractional annotations retain half of the selected-cell permission while transferring half through the checked forget callee. The translator checks the exact half guard closes, saved-half assertion, returned-half merge, and half raw-pointer open. It also admits the exact same-site omissions, the no-retained-half control, and four exact checked-callee contract-negative controls. Existing source coordinate checks, ordered ghost statement checks, exact signatures and runtime body, source/MIR control-flow and leak checks remain in place. The global SAFE forget summary, guard-own predicate, runtime implementation, and final selected/unselected wrapper close anchors are unchanged.
+
+Validation performed: targeted synthetic fractional transform tests (5/5) and final-select control tests (6/6) pass; the fingerprint pin input passes `fingerprint_to_pins` and `validate_pins`; translator patch whitespace check passes. No compiler, exporter, verifier, preparation, or Cloud action was run for this patch. The translator certificate remains an unverified candidate until the separate checked proof and all classified controls run.
+
+## Evidence Brief provenance
+
+Build `7cd83dd2-f0e9-41e8-85ef-589447085239`; Brief file ID `cf5243b717f88480816712c81bd1a4752c8e2646b2223cee42be47665377e8b6`, SHA-256 `77119e0a6c85506d81a6cf8b7fe71895ba061ecf9857f02ba37f2faf4b44d05d`; index SHA-256 `97978873bfbfda03f4d2bfc066968628d7e202065a5b59b12f32d6c454ff87b9`; archive SHA-256 `e883249acf73398943441aec71d817f0df4410ef6ed4bf6368e6fd6bc63996a2`. The exact root JSON pointer reported complete with eight complete rows, and the baseline location control reproduced the pinned verified source. The fingerprint record does not establish parser-input binding or proof acceptance.

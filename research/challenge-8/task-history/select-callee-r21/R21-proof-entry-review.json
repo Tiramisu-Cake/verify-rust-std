@@ -1,0 +1,53 @@
+{
+  "schema": "smallsort-independent-review-v1",
+  "reviewer": "Codex independent reviewer",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "nested_delegation": false,
+  "verdict": "NO_GO",
+  "candidate_commit": "8a1768624de2ce5ce5737d94a5452d0f0f4e13e1",
+  "candidate_tree": "fa26c537a321de336f61a7286e51de1ff490e5e1",
+  "baseline_commit": "e4ff2443410c7781216d0f0dec87f8b1ad9c79bd",
+  "diff_sha256": "a0e488c39a01b0ffca944cee083900ea46c89690235b283edd353eee6b31ef8c",
+  "packet_sha256": "57a90f756955db83c905999a053793c08b67f69f847e1e8951c0c7b4d1c59471",
+  "spec_sha256": "118a684c204a932806f86e17406b58888f0e1bd8fa29d432935752f0e58ad06b",
+  "scope": "Static semantic review of the inactive fractional proof helper delta, pinned Cloud entry adapter, and proof audit completeness behavior.",
+  "basis": [
+    "The previous loose callee-control classifier is safely removed: callee controls now remain TARGET_UNPINNED and cannot make a row or matrix complete. The same-site matcher derives the final-select source line from a unique exact candidate call-site anchor, requires a single diagnostic line at that location, and synthetic decoy/wrong-site/duplicate logs are refused. The candidate source-reported S3 diagnostic confirms the final-select source range, but the exact Cloud log spelling still needs correction as noted below.",
+    "The proof entry pins the fractional/proof/R20/O26 helpers and transform dependencies, validates the existing O26 overlay and source-preflight binding through pinned_dependencies, requires the completed fingerprint and exact O26 default snapshots, checks candidate source pair bytes before and after the batch, sets the three per-call opt-ins only around the proof callback, clears known mode-9 outputs before each capture, and archives pre/post outputs in distinct directories with byte counts and hashes. These paths are statically sound within the adapter's declared dependency scope.",
+    "Proof and audit records preserve accepted/verification_accepted/proof_credit as false. Missing, unreadable, null, wrong-type, and top-level incomplete proof records stay incomplete in the audit. No shell activation, translator patch, compiler, verifier, or Cloud run is included in this candidate."
+  ],
+  "findings": [
+    {
+      "location": "research/challenge-8/cloud-build/select-callee-r21-fractional-proof.py:37-39,286-298",
+      "finding": "The exact expected same-site diagnostic constant does not match the source-reported full Brief literal supplied for the prior failure: the constant omits `error:` and the parentheses enclosing `Cannot prove result6 = ...`. The matcher requires a byte-for-byte complete line, so the known diagnostic shape is rejected even when reported at the derived source location.",
+      "impact": "Same-site controls remain CONTROL_FAILURE_TARGET_MISMATCH rather than being classified at the intended site. This is a fail-closed false negative, but it prevents the classifier from doing the exact job it claims and synthetic tests that generate the constant cannot detect the mismatch.",
+      "suggestion": "Pin the observed complete diagnostic text including its actual punctuation/prefix, then retain the exact location and decoy/duplicate rejection tests. Do not broaden to substring matching."
+    },
+    {
+      "location": "research/challenge-8/cloud-build/select-callee-r21-fractional-proof-entry.py:135-154,225-237",
+      "finding": "The CLI entry's Cloud gate checks only `SMALLSORT_EXECUTION_PROVIDER=cloud-build`, a phase string, and absence of GITHUB_ACTIONS. It does not call the pinned `provider.require_supported_provider()` or validate Cloud build identity/host. The callback then invokes `o26.proof_stage`, which reaches `LINK.stage` and launches the verifier with subprocess without its own Cloud-provider guard.",
+      "impact": "A local process can set the two environment strings and invoke the actual compiler/verifier path, contrary to the project rule that actual tools run only in Cloud. No shell activation is present, but the entry itself is directly callable.",
+      "suggestion": "Load the pinned provider module and require its genuine Cloud Build identity before any capture or proof callback; add a negative synthetic test for a spoofed provider string without valid Cloud identity. Bind workspace/checkouts and tool roots in the eventual launcher before activation."
+    },
+    {
+      "location": "research/challenge-8/cloud-build/select-callee-r21-proof-audit.py:32-38; test_select_callee_r21_proof_audit.py:test_complete_matrix_preserves_rows_and_base_failure",
+      "finding": "The audit treats any object with the expected schema, top-level `complete: true`, and false credit flags as evidence-complete when the base audit is complete; it does not check the exact eight variant rows or their COMPLETE statuses. The added test explicitly supplies a proof record with only a `positive` row and `complete: true`, then expects evidence_complete true.",
+      "impact": "A truncated/partial proof record can be reported as complete despite the stated requirement that partial records remain incomplete. Acceptance and proof-credit fields remain false, but the evidence completeness summary is incorrect.",
+      "suggestion": "Validate exact variant_order and row-key inventory and require every required row's status COMPLETE (with the final classifier/outcome constraints) before setting evidence_complete true; change the one-row test to require false and add complete eight-row case."
+    }
+  ],
+  "validation": {
+    "packet_identities": "MATCH (spec, diff, and inventory hashes verified)",
+    "candidate_tree": "MATCH",
+    "same_site_classification": "STRUCTURALLY FAIL-CLOSED; exact expected literal mismatches the source-reported full Brief line",
+    "callee_control_classification": "PASS: TARGET_UNPINNED cannot complete rows or matrix",
+    "entry_pins_optins_capture_archives": "PASS (static within declared scope)",
+    "genuine_cloud_provider_gate": "FAIL: spoofable string/phase check only",
+    "audit_partial_record_handling": "FAIL: truncated rows with complete=true are promoted",
+    "synthetic_tests": "PACKET-REPORTED 32 combined + 2 audit tests PASS; not executed",
+    "shell_recipe_activation_or_translator_patch": "ABSENT / OPEN",
+    "actual tools or formal proof credit": "NOT RUN / NONE"
+  },
+  "limitations": "NO_GO applies to activating or relying on this exact entry/audit candidate. It grants no proof credit and establishes no actual verifier result. The source proof and exact callee-control diagnostic pins remain open."
+}
