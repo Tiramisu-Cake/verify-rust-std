@@ -99,6 +99,7 @@ R20_REMOVED_PATHS={
  'research/challenge-8/cloud-build/origin-layout/r9-guard-return-controls-service-test.py',
  'research/challenge-8/cloud-build/origin-layout/r5-emitter-service-test.py',
  'research/challenge-8/cloud-build/origin-layout/r9-phase-service-test.py',
+ 'research/challenge-8/cloud-build/origin-layout/r9-marker-service-test.py',
  'research/challenge-8/cloud-build/origin-layout/r10-invariant-service-test.py',
  'research/challenge-8/cloud-build/origin-layout/r10-phase-service-test.py'}
 R20_PROFILE_PATH=R19_PROFILE_PATH

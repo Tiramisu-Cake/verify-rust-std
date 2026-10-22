@@ -38,8 +38,9 @@ The exact recipe delta from this closed baseline adds the R20 ledger, metadata
 admission test, and checked-content helper. It omits five dormant synthetic
 test inputs: `r9-guard-return-controls-service-test.py` (31,882 bytes),
 `r5-emitter-service-test.py` (8,201), `r9-phase-service-test.py` (7,345),
-`r10-invariant-service-test.py` (3,552), and `r10-phase-service-test.py`
-(7,035). This changes recipe inclusion only; all files remain in the repository
+`r10-invariant-service-test.py` (3,552), `r10-phase-service-test.py`
+(7,035), and `r9-marker-service-test.py` (6,354). This changes recipe
+inclusion only; all files remain in the repository
 and historical input records. The active `merge.sh` preflight retains its R8
 wiring, R8 freshness, and tool-evidence service tests. No runtime controls or
 source-preflight fixtures are deleted. The source preflight recomputes the

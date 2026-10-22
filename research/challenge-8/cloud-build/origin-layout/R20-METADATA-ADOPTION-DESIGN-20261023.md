@@ -20,18 +20,19 @@ limits remain unchanged. GLUE-PROFILE changes only under this exact reversion
 check; historical Build records keep their original profile identities.
 
 Recipe delta from R20 P2 adds the metadata admission service test and checked
-content helper. It removes four unused synthetic test inputs:
-`r5-emitter-service-test.py` (8201 bytes), `r9-phase-service-test.py` (7345),
-`r10-invariant-service-test.py` (3552), and `r10-phase-service-test.py` (7035).
-A dependency audit of the active `run-proof.sh` dispatcher, `run-merge.sh`,
-`merge.sh`, selected `prove.py`, `first-callback.py`, `control.py`, and the
-R13 synthetic-upload dispatcher found no calls to these four files. The R8
-wiring, R8 freshness, and tool-evidence service tests remain because `merge.sh`
-invokes them. The earlier reviewed R9 controls service-test removal remains;
-its references in dormant R9/R10 source-preflight inventories are preserved.
-Only recipe inclusion changes: files remain in the repository, and no runtime
-control or actual proof/preflight fixture is deleted. The committed candidate's
-final encoded payload is measured against the existing transport limit.
+content helper. It omits five dormant synthetic service-test inputs:
+`r5-emitter-service-test.py` (8,201 bytes), `r9-phase-service-test.py` (7,345),
+`r10-invariant-service-test.py` (3,552), `r10-phase-service-test.py` (7,035),
+and `r9-marker-service-test.py` (6,354). A dependency audit of active
+`run-proof.sh`, `run-merge.sh`, `merge.sh`, selected `prove.py`,
+`first-callback.py`, `control.py`, and the R13 synthetic-upload dispatcher
+found no calls to these five files. The R8 wiring, R8 freshness, and
+tool-evidence service tests remain because `merge.sh` invokes them. The earlier
+reviewed R9 controls service-test removal remains; its references in dormant
+R9/R10 source-preflight inventories are preserved. Only recipe inclusion
+changes: files remain in the repository, and active control/preflight sources
+remain intact. The committed candidate's final encoded payload is checked
+against the existing transport limit.
 
 The separate checked-content helper is described in
 `R20-CHECKED-SLICE-CONTENT-DESIGN-20261023.md`. It is included in the raw caller
