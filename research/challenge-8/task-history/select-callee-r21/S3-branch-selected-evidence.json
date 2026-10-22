@@ -1,0 +1,39 @@
+{
+  "build_id": "1bbfc87e-8b0a-4042-b54f-71acb3690dd6",
+  "candidate_commit": "a1be60b68fdf12245213d6d31bb76ccfe3f4fa09",
+  "assurance": "SOURCE_REPORTED",
+  "archive_sha256": "8b6b3b3fe536e376030581aa3f5e73b6a28c25b9c5b6abad56873059cbc58a98",
+  "index_sha256": "cf85098071e9144ba939f40f3a6ad7bed51adf3d14f62cd564fc945542591eae",
+  "file_id": "9f079e6dca45e893f04ca509b12c3902a883a6269d390f08996ddda241028d37",
+  "file_sha256": "6f72274f66318b9a36a66520ef34f4d98ae136b4410dee10ba7e1147428f083b",
+  "root_request_id": "e477ba3da5ad4fe6e1aa966f41142d11b5182181f1f5f28daf08e3c5ba69495d",
+  "root_exact": true,
+  "root_complete": true,
+  "positive": "POSITIVE_FAILED",
+  "controls_intended": true,
+  "matrix_classified_complete": true,
+  "accepted": false,
+  "log_file_id": "3fb25ee4ce631333a21b9c283ab9939e37c0517f0044f2ba6781a49725564f78",
+  "log_sha256": "3b81cdde5381d756191ed2350d5468226aa8935c274dac0619daa78ad5bf339a",
+  "log_fragment": {
+    "start": 566,
+    "end": 577,
+    "exact": true,
+    "complete": false,
+    "request_id": "fe74963a71357fbd19853ecbc9c8f6ad3fa1cdc550a589146bd6d410072c8d5a"
+  },
+  "error": "verified/lib.rs(143,45-47): Cannot prove condition. Cannot prove result6 = (condition ? true_val : false_val).",
+  "interpretation": "Branch-selected own closes reached normal-result equality; generic full owner-preserving forget loses the selected payload relation. No equality bridge or proof credit inferred.",
+  "charged_seconds": 351,
+  "total_used_seconds": 673,
+  "remaining_seconds": 2927,
+  "independent_proof_credit": 0,
+  "positive_stage": {
+    "status": "RAN",
+    "exit": 1,
+    "source_unchanged": true,
+    "intrinsic_gate_active": true,
+    "pointer_drop_gate_active": true
+  },
+  "positive_stage_request_id": "cc1ff7a4903348c294c1944e47408986ebaa7f1a8ce2e5ff3bc889df0b8b9712"
+}

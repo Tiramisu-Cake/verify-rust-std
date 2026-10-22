@@ -12,14 +12,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
+    "summary": "Checked forget returns guard-own but loses selected payload equality; fractional candidate approved, unproved.",
     "evidence": [
       {
-        "build_id": "edb9fb81-29e8-4103-9fbe-1a7731233b43",
-        "path": "research/challenge-8/task-history/select-callee-r20/S3b-evidence.json",
-        "sha256": "c4404beae1edc4f9972851fb5c85daeb4936fa0e09d099dd0d05fbd96037e863"
+        "build_id": "1bbfc87e-8b0a-4042-b54f-71acb3690dd6",
+        "path": "research/challenge-8/task-history/select-callee-r21/S3-branch-selected-evidence.json",
+        "sha256": "b0795f640400066ebc2af1b3faa0a8b27ffb41cb70e442a50656605f2d527d9d"
       }
-    ],
-    "summary": "Wrapper own closed for new(true_payload) but selected cell holds new(selected_payload) after guard re-open."
+    ]
   },
   "confirmed": [
     {
@@ -58,9 +58,20 @@
           "sha256": "33818a756c6ddd2f5d1cc2bc35f30621b3bc675641d1a8c0ca0c2073441ead35"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R21 branch-selected actual proof admits source and reaches normal result post; positive exit1 cannot prove result equals selected input (lib.rs143), both certificate controls intended. No callee acceptance; credit0. Used673s, remaining2927s.",
+      "evidence": [
+        {
+          "build_id": "1bbfc87e-8b0a-4042-b54f-71acb3690dd6",
+          "path": "research/challenge-8/task-history/select-callee-r21/S3-branch-selected-evidence.json",
+          "sha256": "b0795f640400066ebc2af1b3faa0a8b27ffb41cb70e442a50656605f2d527d9d"
+        }
+      ]
     }
   ],
-  "next_step": "Ack watcher for Build1bbfc87e, then Brief rows -> checked repair/controls; same R21 window. See task-history/select-callee-r21.",
+  "next_step": "Review and build fractional fingerprints; then exact certificates and checked proof/controls, same R21 window.",
   "open": [
     "Callee acceptance: normal/unwind/nested-Drop matrix; *mut T/generic gap. Recovery lane 192/191 chunks: prune before c5/selector.",
     "Network P1 candidate accepted for integration only (inactive/unbuilt); P3 grammar chosen but unimplemented. P2 checked mutable-pointer callee remains pending; pin NETWORK-SELECT-RESPONSE.md and reviews.",
@@ -88,19 +99,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "1bbfc87e-8b0a-4042-b54f-71acb3690dd6"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T22:24:55Z",
     "main_deadline_utc": "2026-10-22T21:54:55Z",
-    "remaining_seconds": 3278,
+    "remaining_seconds": 2927,
     "retired_seconds": 0,
-    "spent_seconds": 322,
+    "spent_seconds": 673,
     "t0": "2026-10-22T19:54:55Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-23-r21",
-  "updated_utc": "2026-10-22T20:24:49Z"
+  "updated_utc": "2026-10-22T20:50:26Z"
 }

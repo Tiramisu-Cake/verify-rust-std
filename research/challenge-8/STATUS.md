@@ -1,17 +1,18 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-23-r21
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R21 | state: HANDOFF
-- Updated: 2026-10-22T20:24:49Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R21 | state: ACTIVE
+- Updated: 2026-10-22T20:50:26Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-22T19:54:55Z`; main deadline `2026-10-22T21:54:55Z`; absolute deadline `2026-10-22T22:24:55Z`
-- Budget: 3600s total; 322s spent; 0s retired; 3278s remaining including active reservations
-- Active Build IDs: 1bbfc87e-8b0a-4042-b54f-71acb3690dd6
+- Budget: 3600s total; 673s spent; 0s retired; 2927s remaining including active reservations
+- Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
 - [SOURCE_REPORTED] R20 S3 (cd3e6cae): refreshed certificate admits exact merged unit (owner-nine/H2/forget-own/A1-nine); verifier Parse error lib.rs:219 (2nd ghost stmt after if/else); controls refused at owner SHA pin. credit0. — [research/challenge-8/task-history/select-callee-r20/S3-evidence.json](task-history/select-callee-r20/S3-evidence.json) SHA `baf76fb258ea30dc3b5e4a46da56d82e920bc25216db283072543da6fa1e8eb5` Build `cd3e6cae-721f-45d8-ae82-5e198e00312b`
 - [SOURCE_REPORTED] R20 S3b (edb9fb81): branch refresh admits+executes unit; controls refused at pin; positive fails lib.rsspec:462 (selected payload fresh after guard re-open). R20 CLOSED, 7 Builds 2200s, carry0. credit0. — [research/challenge-8/task-history/select-callee-r20/S3b-evidence.json](task-history/select-callee-r20/S3b-evidence.json) SHA `c4404beae1edc4f9972851fb5c85daeb4936fa0e09d099dd0d05fbd96037e863` Build `edb9fb81-29e8-4103-9fbe-1a7731233b43`; [research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-22-R20.json](cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-22-R20.json) SHA `61a12011d011eed7515fe8cea0d16cd24041f0b0e0e12fba2dd2b52b831619cf`
 - [SOURCE_REPORTED] R21 S2d fingerprint complete: branch-selected source b9430169, all ten snapshots, normal MIR export/decode and location-control reproduction. No body proof run; credit0. Build charged322s, remaining3278s. — [research/challenge-8/task-history/select-callee-r21/S2d-evidence.json](task-history/select-callee-r21/S2d-evidence.json) SHA `33818a756c6ddd2f5d1cc2bc35f30621b3bc675641d1a8c0ca0c2073441ead35` Build `79ba86f3-200c-4678-b9b2-80450b0be061`
+- [SOURCE_REPORTED] R21 branch-selected actual proof admits source and reaches normal result post; positive exit1 cannot prove result equals selected input (lib.rs143), both certificate controls intended. No callee acceptance; credit0. Used673s, remaining2927s. — [research/challenge-8/task-history/select-callee-r21/S3-branch-selected-evidence.json](task-history/select-callee-r21/S3-branch-selected-evidence.json) SHA `b0795f640400066ebc2af1b3faa0a8b27ffb41cb70e442a50656605f2d527d9d` Build `1bbfc87e-8b0a-4042-b54f-71acb3690dd6`
 
 ## Open
 - Callee acceptance: normal/unwind/nested-Drop matrix; *mut T/generic gap. Recovery lane 192/191 chunks: prune before c5/selector.
@@ -24,11 +25,11 @@
 - Закрывать сессию досрочно, когда нет допустимого Build — R18 и R19 закрыты досрочно, хотя в миссии оставалась работа без Cloud (callee proof, transport); это противоречит CORE и особой границе задания.; [research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json](cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json) SHA `43938f12bb12264b19b9b414d91130753de5d441bde857217da2cffea43efd13`
 
 ## Blocker
-Wrapper own closed for new(true_payload) but selected cell holds new(selected_payload) after guard re-open.
-- [research/challenge-8/task-history/select-callee-r20/S3b-evidence.json](task-history/select-callee-r20/S3b-evidence.json) SHA `c4404beae1edc4f9972851fb5c85daeb4936fa0e09d099dd0d05fbd96037e863` Build `edb9fb81-29e8-4103-9fbe-1a7731233b43`
+Checked forget returns guard-own but loses selected payload equality; fractional candidate approved, unproved.
+- [research/challenge-8/task-history/select-callee-r21/S3-branch-selected-evidence.json](task-history/select-callee-r21/S3-branch-selected-evidence.json) SHA `b0795f640400066ebc2af1b3faa0a8b27ffb41cb70e442a50656605f2d527d9d` Build `1bbfc87e-8b0a-4042-b54f-71acb3690dd6`
 
 ## Next
-Ack watcher for Build1bbfc87e, then Brief rows -> checked repair/controls; same R21 window. See task-history/select-callee-r21.
+Review and build fractional fingerprints; then exact certificates and checked proof/controls, same R21 window.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r21/ARTIFACT-INDEX.json](task-history/select-callee-r21/ARTIFACT-INDEX.json) — `ae86156e733be5ba1a6184ba9b8cc07378624922800c1652d86d7b1794eaac7c`

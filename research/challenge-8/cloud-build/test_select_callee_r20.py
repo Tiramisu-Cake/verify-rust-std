@@ -372,7 +372,7 @@ class RunnerAndRecipe(unittest.TestCase):
         order = ["stage provider-overlays", "stage source-preflight", "stage package-index",
                  "stage branch-refresh-apply", "stage console-build",
                  "stage candidate-capture", "stage candidate-source-compare",
-                 "stage candidate-proof", "stage r20-repair-proof"]
+                 "stage candidate-proof", "stage r21-fractional-fingerprint"]
         self.assertIn("606235c66c76412d2fdcef5f30436c342771ad5a087b343f618cfb7c8a2344d2", RUNNER)
         self.assertIn("78079210a5548fee87e200996920bfb012bcb0cd17b0b574eb926806a46e7ab6", RUNNER)
         patch_path = ROOT / "research/challenge-8/overnight-assume-actual/verifast-r21-final-select-branch-selected-26.10.patch"

@@ -18,6 +18,9 @@ current_sha=${PROOF_SHA:?PROOF_SHA is required}
      "${SORT4_R20_CALLEE_PHASE_ID:-}" == SORT4-ACTUAL-SELECT-2026-10-23-R21 ) ]] || exit 2
 # The R20 certificate opt-in is per proof call only, never ambient.
 [[ -z "${SORT4_R20_FINAL_SELECT_REPAIR:-}" ]] || exit 2
+while IFS= read -r route_env_key; do
+  [[ "$route_env_key" != SORT4_R21_FRACTIONAL* ]] || exit 2
+done < <(compgen -e)
 for path in "$proof_root" "$infra_root" "$work_root" "$evidence_root"; do
   [[ "$path" == /workspace/* ]] || { printf 'path outside /workspace: %s\n' "$path" >&2; exit 2; }
 done
@@ -32,7 +35,7 @@ mkdir "$ev"
 mkdir "$ev/cases"
 current_stage=provider
 audit_result() {
-  python3 "$cloud_dir/select-callee-r20.py" audit --evidence "$ev" \
+  python3 "$cloud_dir/select-callee-r21-fractional.py" audit --evidence "$ev" \
     --output "$evidence_root/proof-audit.json" \
     --runner-exit "$1" --failed-stage "$2"
 }
@@ -238,9 +241,9 @@ stage candidate-proof python3 "$cloud_dir/o26-refresh-recipe.py" proof \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
-# R21: run the reviewed branch-selected certificate refresh on the nine-body
-# unit, then use the helper's classified positive/control proof matrix.
-stage r20-repair-proof python3 "$cloud_dir/select-callee-r20.py" proof \
+# Owner-approved half-ownership candidate: mode-9 fingerprints only. The
+# current translator admits no fractional summary; obtain exact pins first.
+stage r21-fractional-fingerprint python3 "$cloud_dir/select-callee-r21-fractional.py" fingerprint \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
