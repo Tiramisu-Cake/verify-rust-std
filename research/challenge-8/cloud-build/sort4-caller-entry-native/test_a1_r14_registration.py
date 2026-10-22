@@ -18,6 +18,27 @@ CONTROL = importlib.util.module_from_spec(spec)
 sys.modules[spec.name] = CONTROL
 spec.loader.exec_module(CONTROL)
 
+
+def _fixed_window_clock():
+    """Inject a fixed instant inside the R14 window instead of the wall clock."""
+    import datetime as _real
+    from types import SimpleNamespace as _NS
+    start = _real.datetime.fromisoformat(CONTROL.A1_R14_START.replace("Z", "+00:00"))
+    fixed = start + _real.timedelta(minutes=1)
+
+    class _Fixed(_real.datetime):
+        @classmethod
+        def now(cls, tz=None):
+            return fixed if tz is not None else fixed.replace(tzinfo=None)
+    return _NS(datetime=_Fixed, timezone=_real.timezone, timedelta=_real.timedelta)
+
+
+def _use_fixed_window_clock(test):
+    from unittest.mock import patch as _patch
+    clock = _patch.object(CONTROL, "datetime", _fixed_window_clock())
+    clock.start()
+    test.addCleanup(clock.stop)
+
 PHASE = "SORT4-NATIVE-P1-MATRIX-2026-10-21-R14"
 PROFILE = "A1-NATIVE-MATRIX-R14-PROFILE-2026-10-21.json"
 LEDGER = "BUDGET-A1-NATIVE-MATRIX-2026-10-21-R14.json"
@@ -26,6 +47,9 @@ PROTOCOL = "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17"
 
 
 class R14Registration(unittest.TestCase):
+    def setUp(self):
+        _use_fixed_window_clock(self)
+
     @classmethod
     def setUpClass(cls):
         cls.profile = json.loads((HERE / PROFILE).read_text())

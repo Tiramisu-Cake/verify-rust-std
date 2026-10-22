@@ -17,6 +17,27 @@ CONTROL = importlib.util.module_from_spec(spec)
 sys.modules[spec.name] = CONTROL
 spec.loader.exec_module(CONTROL)
 
+
+def _fixed_window_clock():
+    """Inject a fixed instant inside the R13 window instead of the wall clock."""
+    import datetime as _real
+    from types import SimpleNamespace as _NS
+    start = _real.datetime.fromisoformat(CONTROL.A1_R13_START.replace("Z", "+00:00"))
+    fixed = start + _real.timedelta(minutes=1)
+
+    class _Fixed(_real.datetime):
+        @classmethod
+        def now(cls, tz=None):
+            return fixed if tz is not None else fixed.replace(tzinfo=None)
+    return _NS(datetime=_Fixed, timezone=_real.timezone, timedelta=_real.timedelta)
+
+
+def _use_fixed_window_clock(test):
+    from unittest.mock import patch as _patch
+    clock = _patch.object(CONTROL, "datetime", _fixed_window_clock())
+    clock.start()
+    test.addCleanup(clock.stop)
+
 PHASE = "SORT4-REFERENCE-OWN-CALLER-2026-10-21-R13"
 PROFILE = "A1-REFERENCE-OWN-R13-PROFILE-2026-10-21.json"
 LEDGER = "BUDGET-A1-REFERENCE-OWN-2026-10-21-R13.json"
@@ -24,6 +45,9 @@ LANE = "o26-sort4-c1-current-recovery"
 
 
 class R13Registration(unittest.TestCase):
+    def setUp(self):
+        _use_fixed_window_clock(self)
+
     def test_fresh_phase_account_and_non_admitting_profile(self):
         profile = json.loads((HERE / PROFILE).read_text())
         ledger = json.loads((HERE / LEDGER).read_text())
