@@ -32,7 +32,7 @@
     "tool_sha": "a66c1d30214e463a16a325cdef30b0ec8555e0af"
   },
   "blocker": {
-    "summary": "Ready R19 candidate 3a587cb7 not submitted: source-branch push denied by auto-mode classifier and owner chose no push/submit this window.",
+    "summary": "Reviewed R19 candidate 3a587cb7 not submitted: push denied by classifier; owner chose no push/submit.",
     "location": "publication/submit of 3a587cb7",
     "build_id": null,
     "evidence": [
@@ -77,7 +77,7 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "R19 candidate ready, unverified on Cloud: tool 39f6b0ca (translator-only unwind copy of the marked insert_tail cleanup), activation 3a587cb7 (ledger-only delta of reviewed bc8af914), smallsort-reviewer GO_WITH_NITS + delta GO_WITH_NITS; payload 570505/571567. No Build, 0s spent; not pushed (owner declined push/submit). No credit.",
+      "claim": "R19 candidate ready, Cloud-unverified: tool 39f6b0ca, activation 3a587cb7 (ledger-only delta), reviewer GO_WITH_NITS x2; 0s spent; not pushed. No credit.",
       "evidence": [
         {
           "path": "research/challenge-8/cloud-build/origin-layout/R19-REVIEW-20261022.md",
@@ -86,10 +86,10 @@
       ]
     }
   ],
-  "next_step": "Owner: allow fast-forward push of merge/incoming-origin-20261009 (3a587cb7 or a successor with a ledger-only delta under a new window ledger), then submit R19 P1 (raw caller + 5 R19 controls, timeout1200) and wait; then original as_mut_ptr/unsize.",
+  "next_step": "Owner-approved push of merge/incoming-origin-20261009, then R19 P1 (raw caller + 5 controls, timeout1200), wait; then original as_mut_ptr/unsize.",
   "open": [
     "Original as_mut_ptr/unsize, source-bound metadata, real borrow/reference lifecycle and caller normal/unwind remain OPEN; isolated lifecycle does not close them.",
-    "Raw caller unwind cleanup: R19 rule implemented and reviewed but UNVERIFIED (no Cloud compile/proof/controls); RawPtr LocalAddressTaken negative and index projection control OPEN.",
+    "R19 raw caller unwind cleanup implemented/reviewed but UNVERIFIED; RawPtr LocalAddressTaken negative and index projection OPEN.",
     "CURRENT/backedge/false/true/panic/Drop/Resume compatible final matrix; B2/generic/arbitrary-n/sorting/tool qualification/independent proof credit remain OPEN."
   ],
   "owner": "merge",
