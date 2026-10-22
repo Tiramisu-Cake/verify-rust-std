@@ -61,7 +61,6 @@ R9_GUARD_TRACE_ENV = 'SMALLSORT_R9_GUARD_TRACE'
 PREFIX_NAME = b'insert_tail_first_callback_prefix'
 CUT = b'        // SAFETY: after this read'
 
-# Pure entry facts, before the callback lifetime; no resources or value equality.
 SINGLETON_FACTS = b"""    //@ length_drop(1, xs);
     //@ length_take(1, drop(1, xs));
     //@ length_drop(1, drop(1, xs));
@@ -70,7 +69,6 @@ SINGLETON_FACTS = b"""    //@ length_drop(1, xs);
     //@ drop_length(drop(1, drop(1, xs)));
 """
 
-# Exact inherited suffix and owner-authorized CURRENT replacement; ghost only.
 ENTRY_OWNER_REJOIN = b"""        //@ close own::<u64>(t)(head(take(1, drop(1, xs))));
         //@ close own::<u64>(t)(head(drop(1, drop(1, xs))));
         //@ close foreach(take(1, drop(1, xs)), own::<u64>(t));
@@ -176,7 +174,6 @@ def _add_singleton_facts(source):
                 'pure singleton length facts before callback lifetime')
 
 
-# Fullbody only: expose the physically owned CURRENT tail from the rejoined array.
 TAIL_READ_OPEN = b"""        //@ assert array::<u64>(begin, 3, ?read_current);
         //@ array_split::<u64>(begin, 2);
         //@ open array::<u64>(tail, 1, drop(2, read_current));
@@ -189,16 +186,11 @@ def _open_tail_read(source):
                 'open CURRENT tail singleton before original read')
 
 
-# Checked primitives: precreation provides no points-to ownership; initialization
-# consumes a fraction of the actual tmp cell. Its readonly-end obligation remains
-# live and must be discharged by the unchanged full normal/unwind contracts.
 TMP_REFERENCE_INIT = b"""        //@ let r4_tmp_ref = precreate_ref::<u64>(&tmp);
         //@ init_ref_readonly::<u64>(r4_tmp_ref, 1/2);
 """
 
 
-# Empty-tail folding follows the existing array definition and checks geometry.
-# This retains the actual physical fraction/value and returns no nonempty owner.
 GUARD_EMPTY_TAIL_HELPER = b"""/*@
 lem r7_guard_empty_tail(p: *u64)
     req [?f](*p |-> ?v);
@@ -231,8 +223,6 @@ def _prepare_tmp_reference(source):
                 'checked reference initialization before original guard')
 
 
-# Initial iteration only. Later loop/resource restoration remains a proof
-# obligation of the unchanged complete actual body and full final contracts.
 FIRST_SHIFT_PREP = b"""        //@ note(sift == begin + 1);
         //@ array_split::<u64>(begin, 1);
         //@ assert array::<u64>(sift, 1, ?r4_shift_current);
@@ -261,9 +251,6 @@ def _prepare_first_shift(source):
                 'CURRENT first shift and block-start late lifetime binding')
 
 
-# R10 concrete array3 invariant: all resources are consumed on entry and every
-# backedge by the ordinary LoopInv checker. The physical gap is optional at tail
-# initially; no complete initialized array or entry/current equality is stated.
 R10_MOVING_GAP_INVARIANT = b"""            /*@ inv thread_token(t) &*& t == currentThread &*&
                 lifetime_token(func_lft) &*& type_interp::<u64>() &*& type_interp::<F>() &*&
                 *is_less |-> ?r10_f &*& <F>.own(t, r10_f) &*&
@@ -287,8 +274,6 @@ R10_MOVING_GAP_INVARIANT = b"""            /*@ inv thread_token(t) &*& t == curr
             @*/
 """
 
-# Preserve initialized values explicitly across the R11 cut. DummyPat `_`
-# also admits maybe-uninitialized storage in the unchanged verifier.
 R11_MOVING_GAP_INVARIANT = (R10_MOVING_GAP_INVARIANT
     .replace(b"[1/4](*r4_tmp_ref |-> _) ", b"[1/4](*r4_tmp_ref |-> ?r11_ref_current) ")
     .replace(b"[1/4](*&tmp |-> _) ", b"[1/4](*&tmp |-> ?r11_tmp_current) ")
@@ -320,9 +305,6 @@ R10_ITERATION_PREP = b"""            /*@ if sift == begin {
             //@ assert sift as usize + std::mem::size_of::<u64>() <= gap_guard.dst as usize;
 """
 
-# Only the sift==begin break has opened the first singleton. Normalize the
-# other current cell before the actual implicit Drop; the checked R9 post-Drop
-# hook can then join the same three current singleton resources on both exits.
 R10_BREAK_PREP = b"""        /*@ if gap_guard.dst == begin {
             assert *(begin + 1) |-> ?r10_written_current;
             close array::<u64>(begin + 1, 1, cons(r10_written_current, nil));
@@ -348,9 +330,6 @@ def _prepare_r10_moving_gap(source, *, profile=R10_PROFILE):
                 'checked physical break normalization before original implicit Drop')
 
 
-# Concrete primitive representation missing from the pinned abstract .share.
-# It is an explicit specification definition using the existing physical borrow;
-# the body-checked bridge cannot establish share without that exact premise.
 U64_SHARE_REPRESENTATION = b"""/*@
 pred r6_u64_share(k: lifetime_t, t: thread_id_t, p: *u64) =
     frac_borrow(k, u64_full_borrow_content(t, p));
@@ -420,8 +399,6 @@ def _prepare_late_references(source):
                 'checked fractional share and Args ownership before late comparator')
 
 
-# R7 explicit type-level scope starts after physical setup, so references,
-# semantic lifetime and exact coefficients remain in the outer environment.
 LATE_CLOSE = b"""            //@ merge_fractions lifetime_token(r5_late_k);
             //@ assert [1/2]lifetime_token(r5_late_k);
 """
@@ -441,10 +418,6 @@ LATE_RECOVER = b"""            //@ assert lifetime_token(r5_late_k);
 """
 
 
-# The enclosing source branch retires the original guard before this suffix.
-# Recover only existing heap resources: the original readonly token selects its
-# actual reference, and the returned Drop effect must match that same pointer.
-# This is checked ghost code; no pointer, fraction or current value is assumed.
 GUARD_POST_DROP_RECOVERY = b"""    //@ assert ref_readonly_end_token::<u64>(?r8_guard_ref, ?r8_tmp_origin, ?r8_tmp_share);
     //@ open CopyOnDrop_drop_effect(t, r8_guard_ref, ?r8_drop_dst, 1);
     //@ open [1/4]array::<u64>(r8_guard_ref, 1, ?r8_drop_current);
@@ -517,8 +490,6 @@ lem r9_current_u64_owners(t: thread_id_t, vs: list<u64>)
 
 
 def _prepare_post_drop_recovery(source, old):
-    # Bind the closing sequence to the unique following actual caller, rather
-    # than matching identical nested braces in earlier checked helper bodies.
     anchor = b'        }\n    }\n}\n\n' + old.WRAPPER_SIGNATURE
     return _one(source, anchor, b'        }\n    }\n' +
                 GUARD_POST_DROP_RECOVERY + b'}\n\n' + old.WRAPPER_SIGNATURE,
@@ -526,8 +497,6 @@ def _prepare_post_drop_recovery(source, old):
 
 
 def _prepare_r9_guard_return_recovery(source, old):
-    # This marker is parsed and moved by the R9-only checked MIR hook. It
-    # remains ghost-only in Rust and is anchored to the one wrapper body.
     if (R9_GUARD_RETURN_MARKER in source or
             R9_CURRENT_U64_OWNERS_LEMMA in source):
         raise ValueError('R9 recovery marker or current-owner lemma already exists')
@@ -605,7 +574,6 @@ def _cut_prefix(source):
         raise ValueError('prefix cut or wrapper boundary is not unique')
     cut = source.index(CUT)
     wrapper_at = source.index(wrapper, cut)
-    # Wrapper contract precedes its signature and must remain attached to it.
     suffix = source[wrapper_at:]
     wrapper_contract = source.rfind(b'/*@\nreq thread_token', cut, wrapper_at)
     if wrapper_contract >= 0:
@@ -666,14 +634,9 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
                 verified = _prepare_r9_guard_return_recovery(verified, old)
         if profile in (R10_PROFILE, R11_PROFILE):
             verified = _prepare_r10_moving_gap(verified, profile=profile)
-    # Strip the NEW ghost-only annotations and compare with inherited source.
-    # Other original ghost commands were already checked by old._prepare.
-    # Runtime comparison removes only comments and whitespace; the inherited
-    # preparation already established exact actual-source extraction identities.
     def runtime(data):
         return re.sub(rb'/\*.*?\*/|//[^\n]*', b'', data, flags=re.S)
     if runtime(verified) != runtime(original):
-        # Removing whole annotation lines leaves whitespace-only source lines.
         clean = lambda data: b'\n'.join(x.strip() for x in runtime(data).splitlines() if x.strip())
         if clean(verified) != clean(original):
             raise ValueError('new recovery changed runtime tokens')
@@ -1529,7 +1492,6 @@ def classify(case, record, execution, *, baseline_positive=False):
              _sha((case/'verified/lib.rs').read_bytes()) == record['verified_sha256'] and
              execution.get('source_unchanged_at_every_stage') is True and
              execution.get('stage_receipt_gate', {}).get('admitted') is True)
-    # These are necessary admission observations, never sufficient by themselves.
     hrtb = bool(re.search(r'MERGE_HRTB_CALL registered=1 .*T=u64 .*', text))
     local = 'MERGE_FIRST_CALLBACK_LOCAL_CONTINUE' in text
     official = ('QUALIFIED_FIRST_FNMUT_CONTINUE_EDGE:' in refinement and stages.get('refinement') == 0)
@@ -1558,9 +1520,6 @@ def classify(case, record, execution, *, baseline_positive=False):
         target_executed = bool(re.search(
             rf'verified/lib\.rs\({expected_line},\d+[^\n]*Executing statement', text))
         error_at_target = bool(first_error and f'({expected_line},' in first_error)
-        # An executed target alone does not locate a later proof error. Only
-        # direct source errors, or the exact close/join specification with the
-        # target as the LAST executed statement before that error, qualify.
         before_error = text.split(first_error, 1)[0] if first_error else ''
         executions = re.findall(r'verified/lib\.rs\((\d+),\d+[^\n]*Executing statement', before_error)
         last_at_target = bool(executions and int(executions[-1]) == expected_line)
@@ -1648,8 +1607,6 @@ def run(evidence, args, env, execute_case, validated_receipt):
         evidence/'guard-array-controls', args, campaign_env,
         lambda case, case_args, case_env: dispatch(case, case_args, case_env),
         helper=GUARD_EMPTY_TAIL_HELPER)
-    # Full-body case runs regardless of prefix failure, retaining the next real
-    # resource frontier under unmodified final posts.
     cases = [('prefix', True, None), ('full_body', False, None)] + [
         (name, True, name) for name in ('lost_reference_fraction', 'lost_reference_token',
                                       'lost_current_f', 'lost_cell_owner')]
@@ -1693,7 +1650,6 @@ def run(evidence, args, env, execute_case, validated_receipt):
                 }
             results[name] = classify(case, record, execution,
                                      baseline_positive=results.get('prefix', {}).get('current_false_true_panic_proved', False))
-        # This diagnostic is fail-closed and cannot interrupt the original control graph.
         parent_case = evidence/'full_body/cases/actual_three_current_full_posts'
         try:
             old_body = _load('r16_body_isolation_source', HERE / 'actual-insert-tail-b2.py')
@@ -1717,8 +1673,6 @@ def run(evidence, args, env, execute_case, validated_receipt):
             results['body_isolation'] = _body_isolation_outcome(
                 'INCONCLUSIVE', 'body-only parent identity setup raised an exception',
                 evidence=evidence, phase='parent_identity', error=error)
-        # RawPtr controls run before the raw caller target. Their result is a
-        # separate diagnostic and cannot alter original/prefix/full-body gates.
         try:
             control_identity = (dict(captured_parent_identity,
                                      full_body_execution_observation=full_body_execution_observation)
@@ -1736,10 +1690,6 @@ def run(evidence, args, env, execute_case, validated_receipt):
                 reason='RawPtr control setup or dispatch raised an exception',
                 exception_type=type(error).__name__, exception=str(error),
                 accepted=False, proof_credit=False, b2_achieved=False)
-        # Independent checked caller candidate; its original/prefix/full-body
-        # results above remain untouched. Preserve this frontier even when a
-        # required RawPtr control is inconclusive, while keeping the control
-        # result attached to the raw-caller classification.
         try:
             if (captured_parent_identity is None or
                     captured_parent_identity.get('preparation_sha256') is None or
@@ -1768,7 +1718,6 @@ def run(evidence, args, env, execute_case, validated_receipt):
                 evidence=evidence, phase='parent_identity', error=error)
             results['raw_local_caller']['rawptr_controls'] = _rawptr_controls_summary(
                 results.get('rawptr_controls'))
-        # R19 unwind cleanup controls derive from the prepared raw caller only.
         raw_case = evidence / 'raw_local_caller' / 'cases' / RAW_LOCAL_CALLER_NAME
         if not r19_controls_enabled:
             results['r19_unwind_controls'] = dict(
