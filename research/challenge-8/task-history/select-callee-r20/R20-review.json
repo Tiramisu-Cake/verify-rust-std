@@ -1,0 +1,34 @@
+{
+  "reviewer": "claude-subagent:smallsort-reviewer",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "nested_delegation": false,
+  "initial": {
+    "verdict": "NO_GO",
+    "candidate_commit": "11f8e1c24f7da555ec938c922ee044919ba96126",
+    "candidate_tree": "65d50ea04ebc364cb42a2e3f6cac37ca7ca1e4f3",
+    "baseline_commit": "10e13a414a1b6f0efafdee36eea733c91df1ee6b",
+    "packet_sha256": "99b44d88bf0e10a43a346c1b3cf62cadadb2193f0468d9d224825988c6878dc3",
+    "packet_spec_sha256": "0f79f7db5424f99e3f7c4f255212328be894ab9e82c88832867d3b1bd46b2516",
+    "findings": [
+      "BLOCKER runner never created $ev/$ev/cases: provider step fails (reproduced synthetically).",
+      "BLOCKER pinned nine-body certificates (owner admission exact source/ghost list; nine-admission and A1-nine verified SHA 1798132f\u2026) refuse any ghost-repaired copy: repair variants cannot discriminate.",
+      "SHOULD-FIX NOT_RUN counted as complete evidence.",
+      "NIT partial repair file indistinguishable."
+    ]
+  },
+  "delta": {
+    "verdict": "GO_WITH_NITS",
+    "range": "11f8e1c24f7da555ec938c922ee044919ba96126..341dc82a98babe08f66736f22a363ecd9039de72",
+    "scope": "Baseline-only diagnostic Build (overlay, preflight, tool build, capture, compare, candidate-proof, audit). Repair route NOT approved; repair controls OPEN pending a reviewed certificate-refresh tool patch.",
+    "nits": [
+      "Packet spec still lists repair controls; scope narrowed (this record).",
+      "Static mkdir test covers > redirects only.",
+      "git show HEAD:<path> in proof checkout unverified (restore recreates git objects per source-input.py; fails early if not).",
+      "Pruned R17 profile still referenced by closed R17 adapters.",
+      "Repair mode/transform transported but not invoked."
+    ]
+  },
+  "submit_basis_commit": "341dc82a98babe08f66736f22a363ecd9039de72",
+  "not_run": "Cloud, runner execution, OCaml/VeriFast."
+}

@@ -1,0 +1,32 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "10e13a414a1b6f0efafdee36eea733c91df1ee6b",
+  "candidate_commit": "11f8e1c24f7da555ec938c922ee044919ba96126",
+  "defect": "R20 needs the actual select_unpredictable callee unit (nine-body owned-forget, last Cloud evidence NIGHT-CLOUD-4 Build 6c560082) in Cloud; the authorized recovery lane's pinned transport is at its 191-chunk cap and public-git is refused for new phases. Owner directive: a separate callee recipe/phase with minimal closure, narrow client registration, same R20 ledger; prune closed routes separately.",
+  "applicability": "New lane o26-select-callee-r20: recipe carries only the nine-body closure (28 traced preparer/capture/check modules, their data files, the pinned 20+2 O26 tool patches and manifests, std sources, the R20 repair transform); payload 103/191 chunks. Runner run-o26-select-callee-r20.sh is assembled from exact blocks of the reviewed run-o26-refresh.sh (guards, stage helper, tool build to translator 0862e635, deps/console build), puts the source-only provider overlay + preflight first, then capture/compare/baseline proof (o26-refresh-recipe.py) and an R20 stage (select-callee-r20.py) running the existing O26 proof_stage on ghost-repaired copies (close_MaybeUninit_pointer_own for true/false/both payloads, transform pinned by SHA). Client: phase SORT4-ACTUAL-SELECT-2026-10-22-R20, lanes={callee lane}, phase marker env only, R19-equivalent window/budget gates. Separate commit d67636a6 drops the closed R17 profile from the recovery recipe.",
+  "invariants": [
+    "No tool/kernel/spec change beyond the existing pinned O26 20+2 chain; translator hash 0862e635 enforced; no gate exemption, guard-own=true or broad forget summary.",
+    "Repair variants are ghost-only (pinned transform verifies removal of inserted lines restores the input) and run on copies; the captured baseline is unchanged and runs first.",
+    "R20 cannot use the recovery lane; no A1 profile env; public-git and transport cap unchanged.",
+    "Verifier exits are observations; audit sets accepted/proof_credit false."
+  ],
+  "controls": [
+    "Baseline (no repair) reproduces the recorded blocker; true-only/false-only/both discriminate which wrapper ownership is missing (a redundant close should leak).",
+    "Service tests: test_a1_r20_registration.py (injected clock, lane/window/ceiling/timeout refusals), test_select_callee_r20.py (repair copies, deadline NOT_RUN, provider/phase refusals, pin mismatch, audit missing/partial/wrong-type, runner order, recipe closure/scope), test_r20_final_select_repair.py."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/run-o26-refresh.sh",
+    "research/challenge-8/cloud-build/o26-recipe.py",
+    "research/challenge-8/cloud-build/o26-refresh-recipe.py",
+    "research/challenge-8/task-history/select-callee-r20/CALLEE-ROUTE-DESIGN.md",
+    "research/challenge-8/overnight-s6/verifast-s6-26.10-candidate.patch"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Closure derived from an import trace plus static path scan; local generation was not run (guard). The source-only overlay/preflight run first so a missing file fails before the tool build.",
+    "pinned-objects restore must support git show HEAD:<path> in the proof checkout for o26-recipe overlay(); first Build verifies.",
+    "test_a1_r17_registration recipe check and test_a1_r19 ledger check now fail as historical state (pruning; R19 CLOSED).",
+    "Pointer specialization only; no credit."
+  ]
+}

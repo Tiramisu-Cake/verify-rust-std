@@ -1,16 +1,16 @@
 {
   "artifacts": [
     {
+      "path": "research/challenge-8/task-history/select-callee-r20/CALLEE-ROUTE-DESIGN.md",
+      "sha256": "b547eaaed39a31a29a16383aa0d72d1a0e9666ccac987ae0571b5f94305f5632"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/recipes/o26-select-callee-r20.json",
+      "sha256": "b2db6b1a8f6602705e2bf55a43f106b453da9212140626f9aa10dd2e6a4670c9"
+    },
+    {
       "path": "research/challenge-8/task-history/select-c3-r19/SELECT-NEXT-DESIGN.md",
       "sha256": "53e10daddc177ce73f4b6e4daba33fc23026270d31764dcb62d08605bb9c2057"
-    },
-    {
-      "path": "research/challenge-8/task-history/select-c3-r19/C5-review.json",
-      "sha256": "fbd3501fbc505f539fdd3b0b741bce56c510ec9ce3a0c1ccdb098e7109fb5f08"
-    },
-    {
-      "path": "research/challenge-8/SORT4-SELECT-FORGET-RESULTS.md",
-      "sha256": "05a71ad7915ff97c2bd4207e267475f1296c13cf644f62106239b073c72048d8"
     }
   ],
   "assignment_sha256": "ffb6e526c208f5dbfb85f0251b63fc6d307499f4b61aa63c7e7b1b02bae64135",
@@ -65,10 +65,11 @@
       ]
     }
   ],
-  "next_step": "Перепроверить forget guard-own на текущей цепочке, спроектировать путь callee без исключения из gate; параллельно — план transport.",
+  "next_step": "Independent review of callee lane candidate 11f8e1c2; push; register/submit R20 S1 on o26-select-callee-r20; read baseline and repair variants in Brief.",
   "open": [
-    "Checked actual select_unpredictable callee (generic по T; минимум *const T) и маршрут в actual тело; план transport (c5 требует 192 чанка из 191).",
-    "c5 (кандидат 34e37669 прошёл review, не отправлялся), копирования, полные normal/unwind на всех путях c1..c4; перепроверка controls c3/c4 независимо от count; mini7/fresh26, Freeze caller; credit0."
+    "Callee: run nine-body unit on separate lane o26-select-callee-r20 (baseline + ghost repair variants); then normal/unwind/nested-Drop completion and matrix; *mut T / generic gap.",
+    "Recovery lane transport: 192/191 chunks after R20 client lines (control.py is in every lane's infra core); prune closed routes separately before c5 (34e37669)/selector.",
+    "Full actual sort4 (selectors, c5, copies), count-independent c3/c4 control re-qualification; credit0."
   ],
   "owner": "select-sort4",
   "phase": "SORT4-ACTUAL-SELECT-2026-10-22-R20",
@@ -79,29 +80,29 @@
       "reason": "Does not establish actual ordered callback resources or full normal/unwind posts."
     },
     {
-      "approach": "Закрывать сессию досрочно, когда нет допустимого Build",
+      "approach": "\u0417\u0430\u043a\u0440\u044b\u0432\u0430\u0442\u044c \u0441\u0435\u0441\u0441\u0438\u044e \u0434\u043e\u0441\u0440\u043e\u0447\u043d\u043e, \u043a\u043e\u0433\u0434\u0430 \u043d\u0435\u0442 \u0434\u043e\u043f\u0443\u0441\u0442\u0438\u043c\u043e\u0433\u043e Build",
       "evidence": [
         {
           "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json",
           "sha256": "43938f12bb12264b19b9b414d91130753de5d441bde857217da2cffea43efd13"
         }
       ],
-      "reason": "R18 и R19 закрыты досрочно, хотя в миссии оставалась работа без Cloud (callee proof, transport); это противоречит CORE и особой границе задания."
+      "reason": "R18 \u0438 R19 \u0437\u0430\u043a\u0440\u044b\u0442\u044b \u0434\u043e\u0441\u0440\u043e\u0447\u043d\u043e, \u0445\u043e\u0442\u044f \u0432 \u043c\u0438\u0441\u0441\u0438\u0438 \u043e\u0441\u0442\u0430\u0432\u0430\u043b\u0430\u0441\u044c \u0440\u0430\u0431\u043e\u0442\u0430 \u0431\u0435\u0437 Cloud (callee proof, transport); \u044d\u0442\u043e \u043f\u0440\u043e\u0442\u0438\u0432\u043e\u0440\u0435\u0447\u0438\u0442 CORE \u0438 \u043e\u0441\u043e\u0431\u043e\u0439 \u0433\u0440\u0430\u043d\u0438\u0446\u0435 \u0437\u0430\u0434\u0430\u043d\u0438\u044f."
     }
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
     "active_build_ids": [],
     "budget_seconds": 3600,
-    "deadline_utc": null,
-    "main_deadline_utc": null,
+    "deadline_utc": "2026-10-22T18:11:28Z",
+    "main_deadline_utc": "2026-10-22T17:41:28Z",
     "remaining_seconds": 3600,
     "retired_seconds": 0,
     "spent_seconds": 0,
-    "t0": null,
+    "t0": "2026-10-22T15:41:28Z",
     "unresolved_ids": []
   },
-  "state": "NOT_STARTED",
+  "state": "ACTIVE",
   "task_id": "select-actual-callee-autonomous-2026-10-22-r20",
-  "updated_utc": "2026-10-22T15:35:29Z"
+  "updated_utc": "2026-10-22T16:10:00Z"
 }
