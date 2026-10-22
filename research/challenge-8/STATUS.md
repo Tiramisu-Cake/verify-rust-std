@@ -1,7 +1,7 @@
 # Agent checkpoint: network-coordinator-v4-2026-10-22-n2
 
 - Owner: network | phase: NETWORK-COORDINATOR-V4-2026-10-22-N2 | state: ACTIVE
-- Updated: 2026-10-22T19:01:07Z
+- Updated: 2026-10-22T19:03:00Z
 - Baseline: source `cd371e035c7e573760c43bf934d53e8118ee3e7d`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `UNKNOWN`
 - Session dates: T0 `2026-10-22T18:43:36Z`; main deadline `2026-10-22T20:43:36Z`; absolute deadline `2026-10-22T21:13:36Z`
 - Budget: 0s total; 0s spent; 0s retired; 0s remaining including active reservations
@@ -15,7 +15,7 @@
 
 ## Open
 - Live switch NOT performed: committing coordination.py into select-night was refused by the session permission classifier; no Select/Merge commit, push, ACK, audit or migrate. active.json still v3/cap 3/empty.
-- Network adoption commit 4876c66f (cloud-build/{control.py,coordination.py}, baseline b55a9e59) local only; evidence-brief 895c2648/9f152efe not pushed.
+- Published: networks d9091c58 (includes adoption commit 4876c66f, baseline b55a9e59, only cloud-build/{control.py,coordination.py}); evidence-brief 9f152efe. Select/Merge untouched.
 - Review nits open: first-session recipe not forced to reference generated ledger/profile; drop network from FIRST_SESSION_OWNERS / add to CLOUD_HISTORY_OWNERS once it has a Cloud ledger; v3 request() can still write a request file under v4.
 - PREPARED_NOT_REGISTERED design for moving the 14 unchanged library/core files out of the pinned-objects payload: NOT_STARTED.
 - R4/W7 proofs NOT_RUN; Select P2/P1/P3; N13 adapter; W8.
