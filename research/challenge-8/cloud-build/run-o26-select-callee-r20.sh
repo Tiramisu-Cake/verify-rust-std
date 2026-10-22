@@ -173,6 +173,13 @@ git -C "$source_home" diff --name-only > "$ev/refreshed-modified-files.txt"
 cmp "$ev/modified-files.txt" "$ev/refreshed-modified-files.txt"
 git -C "$source_home" diff > "$ev/refreshed-applied.patch"
 [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a ]] || exit 2
+# R20 opt-in certificate refresh for the checked merged final-select repair;
+# without SORT4_R20_FINAL_SELECT_REPAIR=1 the translator keeps the O26 pins.
+r20_patch="$proof_root/research/challenge-8/overnight-assume-actual/verifast-r20-final-select-repair-26.10.patch"
+[[ "$(sha256sum "$r20_patch" | cut -d' ' -f1)" == 31aaef1d9f60b50047e5ea3b14242770ec72c0daaf49681c1595f5f55e6e4458 ]] || exit 2
+stage r20-refresh-check git -C "$source_home" apply --check "$r20_patch"
+stage r20-refresh-apply git -C "$source_home" apply "$r20_patch"
+[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 5ed3398f75c79c70c878d982b5fca58e8c255e9d7e23876d8dff8b705e106bdf ]] || exit 2
 
 
 deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"
@@ -231,9 +238,10 @@ stage candidate-proof python3 "$cloud_dir/o26-refresh-recipe.py" proof \
 # Repair variants are not run here: the pinned nine-body certificates fix the
 # exact verified source SHA and ghost list, so ghost-repaired copies would be
 # refused before the final select. They need a reviewed certificate refresh.
-# Fingerprint the 'both'-repaired unit (intended refusal, no proof) to obtain
-# the exact pins a reviewed certificate-refresh patch must carry.
-stage r20-repair-fingerprint python3 "$cloud_dir/select-callee-r20.py" fingerprint \
+# S3: proof of the merged-repaired unit under the opt-in refreshed certificate,
+# plus refusal controls (no opt-in; opt-in without repair). The baseline
+# candidate-proof above runs on the patched translator with the opt-in off.
+stage r20-repair-proof python3 "$cloud_dir/select-callee-r20.py" proof \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"

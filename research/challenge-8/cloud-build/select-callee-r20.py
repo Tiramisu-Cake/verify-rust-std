@@ -192,6 +192,66 @@ def fingerprint(a) -> dict:
     return record
 
 
+R20_FLAG = "SORT4_R20_FINAL_SELECT_REPAIR"
+PROOF_CASES = (
+    # (name, repaired?, opt-in flag?, intent)
+    ("merged-optin", True, True, "positive: checked repair under the refreshed certificate"),
+    ("merged-no-optin", True, False, "control: refreshed text without opt-in must be refused"),
+    ("unrepaired-optin", False, True, "control: opt-in without the repair must be refused"),
+)
+
+
+def proof(a) -> dict:
+    """Run the existing O26 proof_stage on repaired/unrepaired copies (S3)."""
+    need(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
+         os.environ.get("SORT4_R20_CALLEE_PHASE_ID") == "SORT4-ACTUAL-SELECT-2026-10-22-R20" and
+         not os.environ.get("GITHUB_ACTIONS") and R20_FLAG not in os.environ,
+         "authorized R20 Cloud callee lane without ambient opt-in")
+    transform = load(a.repo / REPAIR_REL, "r20_final_select_repair", REPAIR_SHA256)
+    o26 = load(a.cloud_dir / "o26-recipe.py", "r20_o26_recipe_proof")
+    base = a.evidence / "cases/candidate/capture" / CASE
+    need((base / "verified/lib.rs").is_file() and (base / "original/lib.rs").is_file(),
+         "captured nine-body case")
+    verified = (base / "verified/lib.rs").read_bytes()
+    original = (base / "original/lib.rs").read_bytes()
+    repaired = transform.repair(verified, FINGERPRINT_VARIANT)
+    root = a.evidence / "cases/r20-proof"
+    root.mkdir(parents=True, exist_ok=False)
+    rows = {}
+    record = {"classification": "R20_REPAIR_PROOF_OBSERVED", "complete": False, "rows": rows,
+              "repaired_verified_sha256": sha(repaired), "base_verified_sha256": sha(verified),
+              "accepted": False, "proof_credit": False}
+    for name, use_repair, flag, intent in PROOF_CASES:
+        if a.deadline_epoch - int(time.time()) < STAGE_RESERVE_SECONDS:
+            rows[name] = {"status": "NOT_RUN", "reason": "shared deadline reserve", "intent": intent}
+            write(root / "r20-proof.json", record)
+            continue
+        case = root / name / CASE
+        (case / "original").mkdir(parents=True)
+        (case / "verified").mkdir()
+        (case / "original/lib.rs").write_bytes(original)
+        (case / "verified/lib.rs").write_bytes(repaired if use_repair else verified)
+        try:
+            if flag:
+                os.environ[R20_FLAG] = "1"
+            result = o26.proof_stage(a.repo, case, a.tool_home, a.schema, a.compiler_sysroot,
+                                     a.deadline_epoch, "r20-" + name, "refresh")
+        finally:
+            os.environ.pop(R20_FLAG, None)
+        rows[name] = {"intent": intent, "opt_in": flag, "repaired": use_repair,
+                      "verified_sha256": sha(repaired if use_repair else verified),
+                      "stage": result,
+                      "log": str((case / ("r20-" + name + ".log")).relative_to(a.evidence))}
+        write(root / "r20-proof.json", record)
+    record["complete"] = all(isinstance(r.get("stage"), dict) and r["stage"].get("status") == "RAN"
+                             and type(r["stage"].get("exit")) is int for r in rows.values())
+    write(root / "r20-proof.json", record)
+    print(json.dumps({k: (v.get("stage") or {}).get("exit") for k, v in rows.items()}))
+    if not record["complete"]:
+        raise SystemExit(3)
+    return record
+
+
 def audit(a) -> dict:
     ev = a.evidence
 
@@ -216,6 +276,7 @@ def audit(a) -> dict:
               "baseline_proof": read("cases/candidate/proof-stage.json"),
               "repair_variants": read("cases/r20-repair/r20-repair.json"),
               "repaired_fingerprint": read("cases/r20-fingerprint/r20-fingerprint.json"),
+              "repair_proof": read("cases/r20-proof/r20-proof.json"),
               "accepted": False, "verification_accepted": False,
               "proof_credit": False}
     baseline = record["baseline_proof"]
@@ -238,13 +299,17 @@ def main() -> None:
     for name in ("repo", "cloud-dir", "evidence", "tool-home", "schema", "compiler-sysroot"):
         f.add_argument("--" + name, type=Path, required=True)
     f.add_argument("--deadline-epoch", type=int, required=True)
+    q = sub.add_parser("proof")
+    for name in ("repo", "cloud-dir", "evidence", "tool-home", "schema", "compiler-sysroot"):
+        q.add_argument("--" + name, type=Path, required=True)
+    q.add_argument("--deadline-epoch", type=int, required=True)
     d = sub.add_parser("audit")
     d.add_argument("--evidence", type=Path, required=True)
     d.add_argument("--output", type=Path, required=True)
     d.add_argument("--runner-exit", type=int, required=True)
     d.add_argument("--failed-stage", required=True)
     a = p.parse_args()
-    {"repair": repair, "fingerprint": fingerprint, "audit": audit}[a.mode](a)
+    {"repair": repair, "fingerprint": fingerprint, "proof": proof, "audit": audit}[a.mode](a)
 
 
 if __name__ == "__main__":

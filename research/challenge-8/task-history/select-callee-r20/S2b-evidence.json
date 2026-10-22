@@ -1,0 +1,66 @@
+{
+ "build": {
+  "dispatch_token": "dispatch-a4c0644dcd544228bd48c70eb62c828c",
+  "owner": "select-sort4",
+  "phase_id": "SORT4-ACTUAL-SELECT-2026-10-22-R20",
+  "infra_sha": "912b3f4e9d6811eb89be20633f083896cb7bd3de",
+  "proof_sha": "912b3f4e9d6811eb89be20633f083896cb7bd3de",
+  "lane": "o26-select-callee-r20",
+  "submitted_config_sha256": "479ac296ded13e6f863bdc008b62788efdcb2051c6daa5de4d520728f044947c",
+  "reserved_seconds": 1260,
+  "timeout_seconds": 1200,
+  "status": "FAILURE",
+  "publish_text_logs": true,
+  "source_mode": "pinned-objects",
+  "source_input_sha256": "096efc714413e8ed89872f2e67d6181913ae242893b29aa95f9e04bd8c9d5a36",
+  "build_id": "729474f9-3acf-4d52-a04d-9ffb16e1fb5a",
+  "start_time": "2026-10-22T16:48:56.682820350Z",
+  "finish_time": "2026-10-22T16:55:57.751846Z",
+  "create_time": "2026-10-22T16:48:55.924664269Z",
+  "build_seconds": 422,
+  "accounted": true,
+  "execution_seconds": 422
+ },
+ "lane": "o26-select-callee-r20",
+ "variant": "merged",
+ "fingerprint_record": {
+  "file_id": "0700a36e2e5ea1cafe52a07a048e5158fd2915f020fbdef9be6d6e23cc94f95a",
+  "sha256": "25fcb4da3ae67723785e8ab48d6546117c3082d38533cdb4544fafe96afae9d6",
+  "complete": true,
+  "location_control_reproduces_pinned": true,
+  "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+  "stage_exit": 2,
+  "mir_complete": true,
+  "repaired_verified_sha256": "28b8e5ef421e57e1f97c2d1ed79b455f883f47d7fbc5d8e4fd02cf1d79dfea88"
+ },
+ "repaired_snapshots": {
+  "unit": "6a588c534377590e744f9b3a25371c38ce6da2a9e6b44e1d7ce6c3ca25a6f383",
+  "body-0": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc",
+  "body-1": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562",
+  "body-2": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182",
+  "body-3": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951",
+  "body-4": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed",
+  "body-5": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6",
+  "body-6": "e8dd503c0bf832081e71dcc9d115c2a07e9349ff746ec7e7cce132edf63f4137",
+  "body-7": "99fcb96ed03b9f798eae55bd0410712f6d2517c41d335c1e1a333f996951eaa0",
+  "body-8": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+ },
+ "changed_vs_pinned": [
+  "unit",
+  "body-7"
+ ],
+ "merged_normal_mir": {
+  "file_id": "0aaacb4a711f679490b4aaf31668f4b9db08ad310c3203f670b3619d2fc41b9d",
+  "sha256": "80ab9240c31e98c8e13c603ad0cc126b61e6ad7ce7f1c2ee557feaf589ff559d",
+  "cleanup_index_24_count": 10,
+  "cleanup_index_26_count": 0,
+  "note": "inventory unchanged vs baseline (10 edges to 24)"
+ },
+ "derived_tool_patch": {
+  "path": "research/challenge-8/overnight-assume-actual/verifast-r20-final-select-repair-26.10.patch",
+  "sha256": "31aaef1d9f60b50047e5ea3b14242770ec72c0daaf49681c1595f5f55e6e4458",
+  "base_translator": "0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a",
+  "result_translator": "5ed3398f75c79c70c878d982b5fca58e8c255e9d7e23876d8dff8b705e106bdf"
+ },
+ "proof_credit": 0
+}

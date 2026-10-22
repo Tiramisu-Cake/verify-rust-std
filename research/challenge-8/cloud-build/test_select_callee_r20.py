@@ -251,6 +251,52 @@ class ExportDecode(unittest.TestCase):
         self.assertEqual(rows, {"export": {"status": "NOT_RUN"}, "decode": {"status": "NOT_RUN"}})
 
 
+class RepairProof(unittest.TestCase):
+    def run_proof(self, env=ENV, deadline_offset=3600):
+        seen = []
+        class Fake:
+            def proof_stage(self, repo, case, tool_home, schema, sysroot, deadline, name, label):
+                seen.append((name, os.environ.get(CALLEE.R20_FLAG), (case / "verified/lib.rs").read_bytes()))
+                return {"status": "RAN", "exit": 0 if name == "r20-merged-optin" else 1}
+        real_load = CALLEE.load
+        def load(path, name, expected=None):
+            return Fake() if path.name == "o26-recipe.py" else real_load(path, name, expected)
+        import time
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp); make_case(root); code = None
+            with patch.dict(os.environ, env, clear=True), patch.object(CALLEE, "load", load):
+                try:
+                    CALLEE.proof(Args(root, int(time.time()) + deadline_offset))
+                except SystemExit as e:
+                    code = e.code
+                after = os.environ.get(CALLEE.R20_FLAG)
+            saved = json.loads((root / "cases/r20-proof/r20-proof.json").read_text())
+        return code, seen, saved, after
+
+    def test_flag_only_inside_opt_in_cases_and_controls_run(self):
+        code, seen, saved, after = self.run_proof()
+        self.assertIsNone(code)
+        self.assertIsNone(after)
+        self.assertEqual([(n, f) for n, f, _ in seen],
+                         [("r20-merged-optin", "1"), ("r20-merged-no-optin", None),
+                          ("r20-unrepaired-optin", "1")])
+        self.assertEqual(seen[2][2], UNIT)
+        self.assertEqual(seen[0][2].count(b"close_MaybeUninit_pointer_own"), 2)
+        self.assertIs(saved["complete"], True)
+        self.assertFalse(saved["proof_credit"])
+
+    def test_ambient_opt_in_or_wrong_env_refused(self):
+        for env in ({**ENV, CALLEE.R20_FLAG: "1"}, {}, {**ENV, "GITHUB_ACTIONS": "1"}):
+            with self.subTest(env=env), self.assertRaises(RuntimeError):
+                self.run_proof(env=env)
+
+    def test_deadline_not_run_exits_3(self):
+        code, seen, saved, _ = self.run_proof(deadline_offset=60)
+        self.assertEqual(code, 3)
+        self.assertEqual(seen, [])
+        self.assertIs(saved["complete"], False)
+
+
 class Audit(unittest.TestCase):
     def test_audit_records_missing_partial_and_wrong_type_inputs(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -291,8 +337,11 @@ class RunnerAndRecipe(unittest.TestCase):
         self.assertIn('"$1" == o26-select-callee-r20', RUNNER)
         self.assertIn('"${SORT4_R20_CALLEE_PHASE_ID:-}" == SORT4-ACTUAL-SELECT-2026-10-22-R20', RUNNER)
         order = ["stage provider-overlays", "stage source-preflight", "stage package-index",
-                 "stage console-build", "stage candidate-capture", "stage candidate-source-compare",
-                 "stage candidate-proof", "stage r20-repair-fingerprint"]
+                 "stage r20-refresh-apply", "stage console-build",
+                 "stage candidate-capture", "stage candidate-source-compare",
+                 "stage candidate-proof", "stage r20-repair-proof"]
+        self.assertIn("5ed3398f75c79c70c878d982b5fca58e8c255e9d7e23876d8dff8b705e106bdf", RUNNER)
+        self.assertNotIn("stage r20-repair-fingerprint", RUNNER)
         positions = [RUNNER.index(x) for x in order]
         self.assertEqual(positions, sorted(positions))
         self.assertNotIn("o26-refresh-audit.py", RUNNER)
