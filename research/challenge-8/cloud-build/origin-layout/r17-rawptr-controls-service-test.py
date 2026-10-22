@@ -70,7 +70,7 @@ class RawPtrControlsTests(unittest.TestCase):
         (case / "original").mkdir(parents=True)
         (case / "verified").mkdir()
         verified = controls.BASE if source is None else source
-        (case / "original/lib.rs").write_bytes(controls.BASE)
+        (case / "original/lib.rs").write_bytes(controls._original_source(name))
         (case / "verified/lib.rs").write_bytes(verified)
         return case, verified
 
@@ -110,6 +110,8 @@ class RawPtrControlsTests(unittest.TestCase):
                            " 10: RawPtr mut _1\n")
                 if name == "raw_ref_cross_kind":
                     detail += " 10: &mut '<erased> mut _1\n"
+                if name == "unequal_address_taken_state":
+                    detail += " 16: RawPtr mut _2\n"
             # The refiner repeats the same diagnostic without the ERROR prefix.
             line = "ERROR: " + detail + "\n" + detail + "\n"
             (case / "refinement.out1").write_text(line)
@@ -146,6 +148,28 @@ class RawPtrControlsTests(unittest.TestCase):
         failed_refinement = self.classify("identical_local_rawmut",
             stages={"refinement": 1})
         self.assertFalse(failed_refinement["matched"])
+
+    def test_address_taken_state_control_keeps_initializers_and_changes_only_the_place(self):
+        original = controls._original_source("unequal_address_taken_state")
+        verified, anchor = controls._variants()["unequal_address_taken_state"]
+        self.assertEqual(verified, original.replace(controls.RAW_MUT, controls.OTHER_RAW_MUT, 1))
+        self.assertIn(controls.VALUES, original)
+        self.assertIn(controls.OTHER_VALUES, original)
+        self.assertEqual(verified.count(anchor), 1)
+        diagnostic = controls.DIAGNOSTICS["unequal_address_taken_state"]
+        self.assertTrue(self.classify("unequal_address_taken_state", diagnostic)["matched"])
+        self.assertFalse(self.classify("unequal_address_taken_state",
+            controls.DIAGNOSTICS["changed_local_contents"])["matched"])
+        self.assertFalse(self.classify("unequal_address_taken_state", diagnostic,
+            stages={"refinement": 124})["matched"])
+        self.assertFalse(self.classify("unequal_address_taken_state", diagnostic,
+            missing=("decode",))["matched"])
+        self.assertFalse(self.classify("unequal_address_taken_state", diagnostic,
+            source_mutation=True)["matched"])
+        binding = controls._target_binding("unequal_address_taken_state", verified, anchor,
+            [("refinement.out1", diagnostic + "\n" + controls.CONTROL_FUNCTION +
+              "\nCommands of basic block\n 10: RawPtr mut _1\n")])
+        self.assertFalse(binding["admitted"])
 
     def test_exact_refusals_require_function_and_command_target_context(self):
         diagnostics = {
@@ -243,6 +267,8 @@ class RawPtrControlsTests(unittest.TestCase):
                         f"function={controls.CONTROL_FUNCTION}\n"
                         "======== Commands of basic block ========\n 10: RawPtr mut _1\n"
                         " 10: &mut '<erased> mut _1\n")
+                if name == "unequal_address_taken_state":
+                    body += " 16: RawPtr mut _2\n"
                 (case / "refinement.out1").write_text(body)
             hashes = self.consumer._hashes(case)
             for stage in controls.STAGES:

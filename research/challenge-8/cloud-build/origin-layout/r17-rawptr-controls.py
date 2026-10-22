@@ -22,6 +22,10 @@ BASE = (b"#![no_std]\n"
         b"    let mut values = [10_u64, 20_u64, 5_u64];\n"
         b"    let begin = &raw mut values as *mut [u64; 3];\n"
         b"    begin\n}\n")
+OTHER_VALUES = b"let mut other_values = [11_u64, 20_u64, 5_u64];"
+LOCAL_STATE_BASE = BASE.replace(b"    " + RAW_MUT,
+                                b"    " + OTHER_VALUES + b"\n    " + RAW_MUT, 1)
+OTHER_RAW_MUT = b"let begin = &raw mut other_values as *mut [u64; 3];"
 DIAGNOSTICS = {
     "mutability_mismatch": "RawPtr: mutabilities do not match",
     "changed_local_contents": (
@@ -29,10 +33,12 @@ DIAGNOSTICS = {
         "[ScalarInt U64Value 11; ScalarInt U64Value 20; ScalarInt U64Value 5] are not equal"),
     "unsupported_index_projection": "RawPtr: projected places are not supported",
     "raw_ref_cross_kind": "Command kinds do not match",
+    "unequal_address_taken_state": (
+        "The states of the two locals _1 and _2 whose address is taken are not equal"),
 }
 CASES = ("identical_local_rawmut", "mutability_mismatch",
          "changed_local_contents", "unsupported_index_projection",
-         "raw_ref_cross_kind")
+         "raw_ref_cross_kind", "unequal_address_taken_state")
 
 
 def _sha(data: bytes) -> str:
@@ -66,7 +72,13 @@ def _variants():
         "raw_ref_cross_kind": (_replace(BASE, RAW_MUT,
             b"let begin = &mut values as *mut [u64; 3];"),
             b"let begin = &mut values"),
+        "unequal_address_taken_state": (
+            _replace(LOCAL_STATE_BASE, RAW_MUT, OTHER_RAW_MUT), OTHER_RAW_MUT),
     }
+
+
+def _original_source(name: str) -> bytes:
+    return LOCAL_STATE_BASE if name == "unequal_address_taken_state" else BASE
 
 
 def _run_logs(case: Path) -> list[tuple[str, str]]:
@@ -87,8 +99,11 @@ def _target_binding(name: str, source: bytes, anchor: bytes, logs) -> dict:
     command_listing = ("Commands of basic block" in text and "RawPtr" in text)
     cross_kind_listing = name != "raw_ref_cross_kind" or (
         " 10: RawPtr mut _1" in text and " 10: &mut '<erased> mut _1" in text)
+    state_listing = name != "unequal_address_taken_state" or (
+        re.search(r"\bRawPtr mut _1\b", text) is not None and
+        re.search(r"\bRawPtr mut _2\b", text) is not None)
     admitted = (len(exact) == 1 and function_bound and command_listing and
-                cross_kind_listing and _line(source, anchor) > 0)
+                cross_kind_listing and state_listing and _line(source, anchor) > 0)
     return {"admitted": admitted, "function": CONTROL_FUNCTION,
             "source_target_anchor": anchor.decode("ascii"),
             "source_target_line": _line(source, anchor),
@@ -97,6 +112,7 @@ def _target_binding(name: str, source: bytes, anchor: bytes, logs) -> dict:
             "function_context_present": function_bound,
             "command_listing_present": command_listing,
             "cross_kind_listing_present": cross_kind_listing,
+            "state_local_pair_listing_present": state_listing,
             "diagnostic_lines": exact,
             "diagnostic_files": [filename for filename, _ in logs]}
 
@@ -206,12 +222,13 @@ def run(evidence, args, env, dispatch, consumer, selected_profile, *, source_sha
         raise ValueError("pinned campaign source SHA-256 is absent")
     results = {}
     for name, (verified, anchor) in _variants().items():
+        original = _original_source(name)
         case = root / "cases" / name
         (case / "original").mkdir(parents=True)
         (case / "verified").mkdir()
-        (case / "original/lib.rs").write_bytes(BASE)
+        (case / "original/lib.rs").write_bytes(original)
         (case / "verified/lib.rs").write_bytes(verified)
-        hashes = {"original/lib.rs": _sha(BASE), "verified/lib.rs": _sha(verified),
+        hashes = {"original/lib.rs": _sha(original), "verified/lib.rs": _sha(verified),
                   "small_sort_source": source_sha256}
         target = {"function": CONTROL_FUNCTION, "anchor": anchor.decode("ascii"),
                   "line": _line(verified, anchor)}

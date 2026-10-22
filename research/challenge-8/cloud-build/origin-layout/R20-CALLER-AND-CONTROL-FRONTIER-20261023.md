@@ -57,3 +57,12 @@ The intended failure is the existing unequal-local-state check in the
 `LocalAddressTaken` handler (`refinement_checker.ml:2959–2960`). Its actual
 reachability and source/stage binding remain Cloud-UNVERIFIED. The indexed
 projection control remains INCONCLUSIVE until it reaches its intended gate.
+
+This next control is now prepared as `unequal_address_taken_state` in the
+existing RawPtr control runner. Both sources initialize both arrays identically;
+only the addressed local changes. Matching requires the exact `_1`/`_2` state
+diagnostic, both RawPtr operand listings, function context and unchanged typed
+source/stage receipts. Earlier aggregate refusal, wrong pair, timeout or setup
+failure is INCONCLUSIVE. The five earlier cases remain present. Ten synthetic
+service tests pass; the running first R20 Build uses the preceding control
+version, so it cannot establish this new case.
