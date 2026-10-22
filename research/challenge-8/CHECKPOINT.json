@@ -12,7 +12,7 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "summary": "Positive stops at merge_fractions deref form; fresh pins via fingerprint 72a38f11.",
+    "summary": "Fresh pins bound (72a38f11 complete); proof 7e23e945 pending.",
     "evidence": [
       {
         "build_id": "cfc83426-d82a-4cb7-95f7-24ee94255952",
@@ -104,7 +104,7 @@
       ]
     }
   ],
-  "next_step": "Wait 72a38f11; bind new pins/ghost literals in patch; proof Build if envelope fits.",
+  "next_step": "Wait 7e23e945 (dbaf41e6, t1200); read positive and 7 controls via Brief.",
   "open": [
     "Actual fractional callee positive and normal/unwind/nested-Drop matrix remain unaccepted; *mut T/generic P2 remains open.",
     "Network P1 accepted for integration only, P3 grammar decided; no mutable/generic callee summary or proof credit.",
@@ -134,18 +134,18 @@
   "schema": "smallsort-checkpoint-v1",
   "session": {
     "active_build_ids": [
-      "72a38f11-6397-4476-9dea-02c775345f00"
+      "7e23e945-9190-4928-b0e6-67f2cd3e31ec"
     ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T00:55:06Z",
     "main_deadline_utc": "2026-10-23T00:25:06Z",
-    "remaining_seconds": 2972,
+    "remaining_seconds": 2633,
     "retired_seconds": 0,
-    "spent_seconds": 628,
+    "spent_seconds": 967,
     "t0": "2026-10-22T22:25:06Z",
     "unresolved_ids": []
   },
   "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-23-r22",
-  "updated_utc": "2026-10-22T23:19:30Z"
+  "updated_utc": "2026-10-22T23:51:00Z"
 }

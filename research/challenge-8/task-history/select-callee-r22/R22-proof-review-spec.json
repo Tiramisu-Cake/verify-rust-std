@@ -1,0 +1,28 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "baf87aea15c16ef34b2449888856adb11552e7d2",
+  "candidate_commit": "dbaf41e612cc7836c58704bd80466e90e21eafa7",
+  "defect": "After the reviewed merge_fractions ghost repair (363d7752), the fractional translator patch still pins the R21 source/unit/body rows and the old merge_fractions literal twice; fingerprint Build 72a38f11 (R21_FRACTIONAL_FINGERPRINT_COMPLETE) supplies the new rows.",
+  "applicability": "R22 callee lane; same owner-approved fractional route; only fractional_rows values and the two ghost literals of verifast-r21-fractional-forget-26.10.patch change, plus runner pins and the restored proof stage with the R22 pins JSON.",
+  "invariants": [
+    "Patch hunks keep line structure; only the eight row tuples and the two merge_fractions literals change; no gate, opt-in, phase literal, contract text or control logic changes.",
+    "Rows equal (verified_sha256, body-6, body-7, unit) of each variant in the Brief-read 72a38f11 record; body-0..5,8 equal default snapshot pins; base source pair unchanged; pins JSON passes fingerprint_to_pins/validate_pins.",
+    "Runner pins the new patch SHA and re-derived translator SHA (both assertions), keeps parser patch dfdaff60 and its pins, restores the R21 proof entry/audit with the R22 pins path."
+  ],
+  "controls": [
+    "Static tests: patch literal equals RETURNED_GUARD_HALF lines; old literal absent; each pins row present in patch; route marker, parser and runner/recipe tests; full callee/fractional suites.",
+    "Cloud: positive must pass lib.rs:212; callee controls keep cfc83426 diagnostics; no-retained-half and omit-* must fail with non-merge diagnostics; any refusal at a fractional certificate means a pin/literal error."
+  ],
+  "dependencies": [
+    "research/challenge-8/task-history/select-callee-r22/FRACTIONAL-FINGERPRINT-INPUT.json",
+    "research/challenge-8/task-history/select-callee-r22/FINGERPRINT-72A38F11-READ.json",
+    "research/challenge-8/overnight-assume-actual/r21_fractional_forget.py",
+    "research/challenge-8/cloud-build/select-callee-r21-fractional-proof.py",
+    "research/challenge-8/cloud-build/select-callee-r21-fractional-proof-entry.py"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Pins JSON is reconstructed from bounded Brief pointer reads (request IDs in FINGERPRINT-72A38F11-READ.json), not a byte copy of the archived file; its SHA differs from the archived member. The pre-fractional scratch tree for re-deriving the translator SHA is /tmp/claude-0/-root-verify-rust-std-select-night/a72d40b8-bb07-4787-b626-0608db33c14c/scratchpad/vfpre (commit pre-fractional, translator 606235c6). No proof credit."
+  ]
+}

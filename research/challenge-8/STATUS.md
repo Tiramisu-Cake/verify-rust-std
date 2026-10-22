@@ -1,11 +1,11 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-23-r22
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R22 | state: HANDOFF
-- Updated: 2026-10-22T23:19:30Z
+- Updated: 2026-10-22T23:51:00Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-22T22:25:06Z`; main deadline `2026-10-23T00:25:06Z`; absolute deadline `2026-10-23T00:55:06Z`
-- Budget: 3600s total; 628s spent; 0s retired; 2972s remaining including active reservations
-- Active Build IDs: 72a38f11-6397-4476-9dea-02c775345f00
+- Budget: 3600s total; 967s spent; 0s retired; 2633s remaining including active reservations
+- Active Build IDs: 7e23e945-9190-4928-b0e6-67f2cd3e31ec
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -29,11 +29,11 @@
 - Закрывать сессию досрочно, когда нет допустимого Build — R18 и R19 закрыты досрочно, хотя в миссии оставалась работа без Cloud (callee proof, transport); это противоречит CORE и особой границе задания.; [research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json](cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json) SHA `43938f12bb12264b19b9b414d91130753de5d441bde857217da2cffea43efd13`
 
 ## Blocker
-Positive stops at merge_fractions deref form; fresh pins via fingerprint 72a38f11.
+Fresh pins bound (72a38f11 complete); proof 7e23e945 pending.
 - [research/challenge-8/task-history/select-callee-r22/FRACTIONAL-PROOF-MERGE-EVIDENCE.json](task-history/select-callee-r22/FRACTIONAL-PROOF-MERGE-EVIDENCE.json) SHA `a649849a4b3418171c873b3db026a1de1914bc3b5b8c3c9fe09ac6d77385d910` Build `cfc83426-d82a-4cb7-95f7-24ee94255952`
 
 ## Next
-Wait 72a38f11; bind new pins/ghost literals in patch; proof Build if envelope fits.
+Wait 7e23e945 (dbaf41e6, t1200); read positive and 7 controls via Brief.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r21/ARTIFACT-INDEX.json](task-history/select-callee-r21/ARTIFACT-INDEX.json) — `0b3556e9553dee8fe2a17b92ed737cefff908caec5f39822658e297c5a7ab00a`

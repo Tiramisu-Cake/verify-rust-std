@@ -1,0 +1,32 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "claude-subagent:smallsort-reviewer",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "candidate_commit": "dbaf41e612cc7836c58704bd80466e90e21eafa7",
+  "baseline_commit": "baf87aea15c16ef34b2449888856adb11552e7d2",
+  "spec_sha256": "6f4f367db2d0c6e15978d23ec0d2301ad06ff79120099a7e53879c863a53dd55",
+  "packet_sha256": "3d57f63fff3a156cd5ebd547d9448eb930e1202ded6d67f474fdff4d15a8c173",
+  "decision": "GO_WITH_NITS",
+  "verified": [
+    "R22 patch differs from R21 e1f98deb only in 8 rows and 2 literals; literals byte-match RETURNED_GUARD_HALF",
+    "translator e9a953ca independently re-derived from pre-fractional 606235c6 (R21 patch gives 50a77b8d)",
+    "rows equal pins JSON; bodies 0-5,8 default; base pair unchanged; location control complete",
+    "runner/recipe/audit wiring as 82bb819f"
+  ],
+  "nits": [
+    "pins JSON reconstructed from Brief reads, not byte copy; wrong values would fail closed (certificate refusal or snapshot mismatch); record as SOURCE_REPORTED",
+    "R22 JSON lacks provenance key",
+    "recipe still transports R21 patch/JSON"
+  ],
+  "tests_run": [
+    "test_select_callee_r20 22",
+    "test_select_callee_r21_fractional 10",
+    "test_select_callee_r21_fractional_proof 10",
+    "test_select_callee_r21_fractional_proof_entry 7",
+    "test_select_callee_r21_proof_audit 2",
+    "test_a1_r22_registration 10",
+    "test_r21_fractional_forget 5"
+  ],
+  "proof_credit": 0
+}
