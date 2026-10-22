@@ -1,0 +1,74 @@
+{
+  "schema": "select-r22-fractional-proof-evidence-v1",
+  "build_id": "cfc83426-d82a-4cb7-95f7-24ee94255952",
+  "source_sha": "177ef120858cc77f89c7a7e84c0153fd5fd1d63a",
+  "timeout_seconds": 1200,
+  "build_seconds": 325,
+  "assurance": "SOURCE_REPORTED",
+  "proof_credit": 0,
+  "accepted": false,
+  "classification_source": "R21_FRACTIONAL_CLASSIFIED_PROOF_INCOMPLETE (run exit 4)",
+  "parser_fix_observed": "console-build exit 0 with parser patch; no row reports Parse error",
+  "rows": {
+    "positive": {
+      "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+      "log_sha256": "5e644b0ab62773d9779c1bb2ec6ddeef595430f3104181d2dd99bd6a264a0a62",
+      "first_error_log_line": 542,
+      "diagnostic": "verified/lib.rs(212,14-29): error: Only predicate assertions and field-points-to assertions are supported here at this time.",
+      "site_text": "merge_fractions *saved_guard.inner |-> _; } @*/"
+    },
+    "callee-false-normal": {
+      "file_id": "05099a2c4de1efd0aa5c8f980895cf3bfdff5561453da028ceca1a5314c121d4",
+      "log_sha256": "77333f6cbe1e952aa332aa8390f29a5170a566d04118242cda82e067d30dfb8d",
+      "first_error_log_line": 424,
+      "diagnostic": "verified/lib.rs(126,53-58): error: Cannot prove condition. (Cannot prove false.)",
+      "site_text": "ens thread_token(tid) &*& [1/2] <T>.own(tid, t) &*& false;"
+    },
+    "callee-owner-duplicate": {
+      "file_id": "f76ee8e236dc6d2fde8fd0fc0a95a33821cf51f87361cf386f5234ac1b0a3748",
+      "log_sha256": "9509d668a8b06cd96fcfd09935c1b544802f4a7250b464e437d22a3739b401b9",
+      "first_error_log_line": 423,
+      "diagnostic": "verified/lib.rs(126,53-54): error: No matching heap chunks: [1/2]own(T_typeid)(tid, t)",
+      "site_text": "ens thread_token(tid) &*& [1/2] <T>.own(tid, t) &*& [1/2] <T>.own(tid, t);"
+    },
+    "callee-owner-loss": {
+      "file_id": "2b296f4215a92d9259eb8779775c25d5602c26fc464d5ebb93a5b9cee105aacc",
+      "log_sha256": "d602ef88d193a5d3c5bfccf8a34d40958b6d18b65799c5d98695ac380710e6db",
+      "first_error_log_line": 425,
+      "diagnostic": "verified/lib.rs(133,1-2): error: Function leaks heap chunks: [1/2]own(T_typeid)(tid, t)",
+      "site_text": "}"
+    },
+    "callee-thread-duplicate": {
+      "file_id": "bc0b9a310209d11056dfd7e1029f8d946bb20984a81d106ab7ca00ccb486eef6",
+      "log_sha256": "7466c5fba267148769462e99d7a1fce1f5b72a20a70b40c4053ed8ef443767b4",
+      "first_error_log_line": 423,
+      "diagnostic": "verified/lib.rs(126,27-39): error: No matching heap chunks: thread_token(tid)",
+      "site_text": "ens thread_token(tid) &*& thread_token(tid) &*& [1/2] <T>.own(tid, t);"
+    },
+    "no-retained-half": {
+      "file_id": "825c8eb94208720de0c7c5f11d83fe59b80442cf86cbf945d28469f68b5641af",
+      "log_sha256": "c7b950eb7ad994c9c951ef459714e9ff458243e7fc20c10ab91a26e815f586b0",
+      "first_error_log_line": 542,
+      "diagnostic": "verified/lib.rs(212,14-29): error: Only predicate assertions and field-points-to assertions are supported here at this time.",
+      "site_text": "merge_fractions *saved_guard.inner |-> _; } @*/"
+    },
+    "omit-selected-own": {
+      "file_id": "fb5dfc0bf124c8ce4b55c08cf3bbd1a2f0d70afae4783785a83dac9211f132f3",
+      "log_sha256": "45ad9a1612e13a3125ad6d2bc7696d2fa92e3c55de010894d65c0da75714b3b9",
+      "first_error_log_line": 542,
+      "diagnostic": "same as positive (merge_fractions unsupported form)"
+    },
+    "omit-unselected-own": {
+      "file_id": "237c6add69d705dc38cd64e577aad30ce84b4833f8497f65dab8bbc4b32cae12",
+      "log_sha256": "b347da40a1d54f04822168abece1b40a0d52b40415cfdde206ccbae5f25f627c",
+      "first_error_log_line": 542,
+      "diagnostic": "same as positive (merge_fractions unsupported form)"
+    }
+  },
+  "observation": "All rows reach symbolic execution. Each of the four callee controls fails in the checked_forget_owned body at its intended obligation (false post; duplicated owner half; leaked owner half; duplicated thread token). Positive passes the callee body and first fails in the outer select_unpredictable body at the ghost merge_fractions over a deref points-to, which VeriFast's merge_fractions does not support (verifast.ml MergeFractionsStmt accepts only predicate or field points-to). no-retained-half and omit-* stop at the same site, so they do not yet discriminate.",
+  "static_diagnosis": "In the Rust dialect `*p |-> v` is the precise predicate chunk points_to::<T>(p, v) (verifast1.ml generic_points_to_symb = points_to). merge_fractions points_to::<*Element>(saved_guard.inner, _) is the supported equivalent form; with a single chunk merge_fractions is a no-op.",
+  "actual_fractional_callee_result": "UNKNOWN (positive not complete)",
+  "callee_control_targets": "OBSERVED_CANDIDATES_NOT_PINNED",
+  "budget_used_seconds": 628,
+  "budget_remaining_seconds": 2972
+}
