@@ -205,6 +205,15 @@ int clean_body(void)
     profile_name = FOCUS_PROFILE_NAMES.get(
         os.environ.get("SORT4_A1_AUTHORIZATION_PHASE_ID"))
     need(profile_name is not None, "focus dead-code authorization profile")
+    if os.environ.get("SORT4_A1_AUTHORIZATION_PHASE_ID") == "SORT4-ACTUAL-C2-2026-10-21-R17":
+        # The R17 routing key also serves the R19 c3 profile; bind the receipt
+        # to the one allowlisted file matching the coordinator-pinned bytes.
+        routed = [name for name in (profile_name, "A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json")
+                  if (Path(a.proof_root) / HERE / name).is_file() and
+                  sha(Path(a.proof_root) / HERE / name) ==
+                  os.environ.get("SORT4_A1_PROFILE_SHA256")]
+        need(len(routed) == 1, "focus dead-code exact routed profile")
+        profile_name = routed[0]
     receipt = {"classification": "FOCUS_DEAD_CODE_SCOPE_REGRESSION",
                "controls": results,
                "expected_dead_code_location_prefix": expected_dead,

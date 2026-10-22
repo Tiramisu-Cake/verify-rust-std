@@ -10,7 +10,8 @@ from pathlib import Path
 import sys
 
 HERE = Path("research/challenge-8/cloud-build/sort4-caller-entry-native")
-PROFILE = HERE / "A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json"
+ROUTED_PROFILES = (HERE / "A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json",
+                   HERE / "A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json")
 PHASE = "SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17"
 AUTHORIZATION_PHASE = "SORT4-ACTUAL-C2-2026-10-21-R17"
 ACTUAL_BODY = HERE / "a1-actual-body-r17.py"
@@ -21,10 +22,13 @@ def _sha(path: Path) -> str:
 
 
 def run(a, *, c4, audit, driver, manifest, ghost):
-    profile_path = Path(a.proof_root) / PROFILE
     profile_sha = os.environ.get("SORT4_A1_PROFILE_SHA256")
-    if not profile_path.is_file() or not profile_sha or _sha(profile_path) != profile_sha:
+    matches = [Path(a.proof_root) / rel for rel in ROUTED_PROFILES
+               if (Path(a.proof_root) / rel).is_file() and profile_sha and
+               _sha(Path(a.proof_root) / rel) == profile_sha]
+    if len(matches) != 1:
         raise RuntimeError("A1 R17 runner profile pin differs")
+    profile_path = matches[0]
     profile = json.loads(profile_path.read_text())
     if not isinstance(profile, dict):
         raise RuntimeError("A1 R17 runner profile must be an object")

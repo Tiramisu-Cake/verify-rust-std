@@ -14,6 +14,10 @@ import subprocess
 HERE = Path('research/challenge-8/cloud-build/sort4-caller-entry-native')
 PHASE = 'SORT4-A1-CHECKED-TRAIT-CONTRACT-CLOUD-2026-10-17'
 AUTHORIZATION_PHASE = 'SORT4-ACTUAL-C2-2026-10-21-R17'
+# The R17 routing key serves the closed R17/R18 profile and the R19 c3 profile;
+# exactly one allowlisted file must match the coordinator-pinned SHA-256.
+ROUTED_PROFILES = ('A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json',
+                   'A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json')
 
 
 def sha(path: Path) -> str:
@@ -56,9 +60,13 @@ def main() -> None:
         head = subprocess.check_output(['git', '-C', str(checkout), 'rev-parse', 'HEAD'], text=True).strip()
         if head != os.environ.get(key):
             raise RuntimeError('A1 R17 entry published checkout pin differs: ' + key)
-    profile_path = a.proof_root / HERE / 'A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json'
-    if sha(profile_path) != os.environ.get('SORT4_A1_PROFILE_SHA256'):
+    expected_profile = os.environ.get('SORT4_A1_PROFILE_SHA256')
+    matches = [a.proof_root / HERE / name for name in ROUTED_PROFILES
+               if (a.proof_root / HERE / name).is_file() and
+               sha(a.proof_root / HERE / name) == expected_profile]
+    if len(matches) != 1:
         raise RuntimeError('A1 R17 entry profile pin differs')
+    profile_path = matches[0]
     profile = json.loads(profile_path.read_text())
     if (profile.get('authorization_phase_id') != AUTHORIZATION_PHASE or
             profile.get('experiment_protocol_phase_id') != PHASE or

@@ -15,7 +15,8 @@ import time
 
 HERE = Path('research/challenge-8/cloud-build/sort4-caller-entry-native')
 AUTH = 'SORT4-ACTUAL-C2-2026-10-21-R17'
-PROFILE = HERE / 'A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json'
+ROUTED_PROFILES = (HERE / 'A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json',
+                   HERE / 'A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json')
 SOURCE = 'library/core/src/slice/sort/shared/smallsort.rs'
 SOURCE_SHA = '85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1'
 COUNTS = {b'is_less(': 5, b'hint::select_unpredictable(': 8,
@@ -458,8 +459,10 @@ def run(a, *, c4, audit, driver, manifest, ghost):
     for key in ('proof_root', 'work_root', 'evidence', 'cloud_dir', 'production_source'):
         need(str(Path(getattr(a, key)).resolve()).startswith('/workspace/'), key + ' Cloud root')
     root = Path(a.proof_root)
-    profile_path = root / PROFILE
-    need(sha(profile_path.read_bytes()) == os.environ.get('SORT4_A1_PROFILE_SHA256'), 'exact profile bytes')
+    matches = [root / rel for rel in ROUTED_PROFILES if (root / rel).is_file() and
+               sha((root / rel).read_bytes()) == os.environ.get('SORT4_A1_PROFILE_SHA256')]
+    need(len(matches) == 1, 'exact profile bytes')
+    profile_path = matches[0]
     profile = json.loads(profile_path.read_text())
     need(profile.get('authorization_phase_id') == AUTH and profile.get('execution_mode') == 'actual-sort4-body-v1', 'mode/authorization')
     need(int(a.deadline_epoch) > int(time.time()) + 30, 'shared deadline')
