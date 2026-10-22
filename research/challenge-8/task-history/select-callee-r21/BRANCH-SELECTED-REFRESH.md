@@ -1,8 +1,9 @@
 # R21 branch-selected final-select certificate refresh
 
 The R20 repair closed the wrappers with their original `true_payload` and
-`false_payload` names in both branches. S2d's Cloud fingerprint confirms that
-reopening the guard gives the selected wrapper a fresh `selected_payload`.
+`false_payload` names in both branches. The R20 S3b proof observation showed that
+reopening the guard gives the selected wrapper a fresh `selected_payload`;
+S2d binds the prepared branch-selected variant to its source/MIR pins.
 Using an original payload for that wrapper therefore misses the value bound by
 the reopened guard.
 

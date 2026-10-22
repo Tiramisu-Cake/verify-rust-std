@@ -1,0 +1,30 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "a1be60b68fdf12245213d6d31bb76ccfe3f4fa09",
+  "candidate_commit": "a99c3aef628332b6272c0994d154057eee3aaffd",
+  "defect": "Recovery recipe carries an unused infra selected-proof path; full-body runner imports254KB generic module solely for one source-bound checked-lemma selector.",
+  "applicability": "Remove only duplicate unused infra path, retain proof object/pins; add inactive6.6KB verbatim selector extraction and parity tests. No active route/profile/import/tool change.",
+  "invariants": [
+    "Preserve exact original helper functions/messages/gates/source/AST coordinates; extracted module remains unimported until future route.",
+    "Retain proof-side selected-proof and all legacy profiles/helper pins; no five/eight/four/leak/source/control relaxation.",
+    "Global shared-object pool already deduplicates blob bytes, so no104KB reduction claimed for duplicate path deletion."
+  ],
+  "controls": [
+    "Six synthetic extraction parity tests passed: exact source equality and metadata/hash/bounds/declaration/AST/coordinate/manual-lemma controls.",
+    "Static packaging baseline/candidate pending, no Build on recovery recipe; callee Build1bbfc87e remains on earlier a1be60b6."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/source-input.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-runner.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-actual-body-r17.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-entry-r17.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-runner-r17.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/driver.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-ast-gates.py"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "New helper inactive; closure-size reduction requires new route integration/profile pins. No proof/buildability credit."
+  ]
+}

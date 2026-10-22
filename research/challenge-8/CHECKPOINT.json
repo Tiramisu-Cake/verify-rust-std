@@ -23,6 +23,22 @@
     {
       "path": "research/challenge-8/task-history/select-callee-r21/NETWORK-SELECT-RESPONSE.md",
       "sha256": "91f67646a11b8e7ec898f12bd62ded81d784b4f3a096d6e67ed5d197870cceeb"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r21/R21-branch-selected-review.json",
+      "sha256": "bf7e76122d9540e4423fa90f46e326dd5828509c18db95d39ef8ba3d0c327d38"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r21/R21-transport-review.json",
+      "sha256": "61781cd8c0150c32001df2abdbfbd4c7db893829bd1efcaad161cbb9bf2d3ee2"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r21/RECOVERY-DUPLICATE-PATH-PREFLIGHT.json",
+      "sha256": "65d9dc30fa7fa1400b6f8b3380388a6cbf41587b7ef6af0fc4df42af46993a3d"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r21/SAME-SITE-CONTROL-TRANSFORMS.md",
+      "sha256": "2f8be90fe4bc940f4d9c00d7ff2606756d3beab66e56a24bb31ab9eca3a1a748"
     }
   ],
   "assignment_sha256": "018ffe56c8c4386b472f53c6a0ce9c01d6368972400c6eb64fa4b6fbbed9c745",
@@ -80,11 +96,12 @@
       ]
     }
   ],
-  "next_step": "Review and build exact branch-selected certificate refresh (translator606235c6) with source/stage/target-bound classified proof. Positive and two certificate controls; same-site controls and full callee matrix still open.",
+  "next_step": "Await Build1bbfc87e through watcher; ack before CHECKPOINT changes. Brief positive/control rows -> next checked repair or exact same-site control fingerprint/certificate. Full normal/unwind/nested-Drop and *mut P2 remain open. T0/budget/window unchanged.",
   "open": [
-    "HANDOFF 0f37a0df (unbuilt, reviewed GO_WITH_NITS): S2d fingerprint -> branch-selected refresh patch -> runner proof -> delta review -> Build.",
     "Callee acceptance: normal/unwind/nested-Drop matrix; *mut T/generic gap. Recovery lane 192/191 chunks: prune before c5/selector.",
-    "Network P1 candidate accepted for integration only (inactive/unbuilt); P3 grammar chosen but unimplemented. P2 checked mutable-pointer callee remains pending; pin NETWORK-SELECT-RESPONSE.md and reviews."
+    "Network P1 candidate accepted for integration only (inactive/unbuilt); P3 grammar chosen but unimplemented. P2 checked mutable-pointer callee remains pending; pin NETWORK-SELECT-RESPONSE.md and reviews.",
+    "Branch-selected classified proof Build1bbfc87e pending on a1be60b6. Same-site omit-selected/omit-unselected transforms prepared/tested but inactive; need exact source/body/unit pins and same-site failures.",
+    "Transport: recovery payload still192/191 (572389bytes); duplicate infra selected-proof reference removed, proof blob preserved. Inactive6.6KB cleanup helper9af1324a extracted with parity tests/review; new route/import/profile/closure integration remains."
   ],
   "owner": "select-sort4",
   "phase": "SORT4-ACTUAL-SELECT-2026-10-23-R21",
@@ -107,7 +124,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "1bbfc87e-8b0a-4042-b54f-71acb3690dd6"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T22:24:55Z",
     "main_deadline_utc": "2026-10-22T21:54:55Z",
@@ -117,7 +136,7 @@
     "t0": "2026-10-22T19:54:55Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-23-r21",
-  "updated_utc": "2026-10-22T20:13:16Z"
+  "updated_utc": "2026-10-22T20:24:49Z"
 }

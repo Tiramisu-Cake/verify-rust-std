@@ -1,0 +1,39 @@
+{
+  "schema": "smallsort-independent-review-v1",
+  "reviewer": "Codex independent reviewer",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "nested_delegation": false,
+  "verdict": "GO_WITH_NITS",
+  "candidate_commit": "a99c3aef628332b6272c0994d154057eee3aaffd",
+  "candidate_tree": "6f4444f822174394222d714d45809da73fa34820",
+  "baseline_commit": "a1be60b68fdf12245213d6d31bb76ccfe3f4fa09",
+  "diff_sha256": "5d8c75604333d219d85af162591fc3bea64a0a0a9c2d16e2b7994b75ae3b6ec0",
+  "packet_sha256": "bb2232e90deedd6e607b292f5171bc0c7b7197244330ed8525da4e361324c8c6",
+  "spec_sha256": "aada7e9a65751621592c21473679e10e7451940ea17521fefd1eb99742e7af0b",
+  "scope": "Static semantic review of the recovery-recipe path removal and inactive cleanup-helper extraction; no implementation changes.",
+  "basis": [
+    "The recipe diff deletes only the infra_paths occurrence of selected-proof.py; its proof_paths occurrence and existing pins remain. The R17 full-body route loads a1-runner.py for select_checked_cleanup_helper_lemma, while driver.py loads selected-proof.py only in the compiler-query/selected-prefix mode. The R17 body route does not invoke that driver branch, so the removed infra reference is not consumed by this route.",
+    "The extracted module contains the selector and its local _need, _ast_source_span, and _ast_source_coordinates helpers with only hashlib, re, Any, and Mapping imports. Static comparison shows the helper bodies retain the original source/hash/bounds/declaration checks, manual-lemma/trigger checks, AST header/close coordinate checks, unique effective-interval selection, error messages, and proof_credit false result. The accompanying synthetic tests compare extracted/original outcomes and source-definition text, with positive and refusal fixtures; they were not executed because the packet says not to execute its source or evidence.",
+    "source-input.py globally deduplicates shared Git objects, consistent with the packet's no-payload-size-reduction claim. No body, profile, import, or tool route changed. The helper remains inactive, so this candidate establishes no closure reduction, buildability, or proof credit."
+  ],
+  "findings": [],
+  "nits": [
+    {
+      "location": "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-cleanup-helper.py",
+      "finding": "The extraction is a staged artifact only: no active route imports it, and the generic runner remains a dependency of the R17 body route.",
+      "impact": "This candidate does not reduce the active runner closure or transport size.",
+      "suggestion": "Keep any later import/profile/recipe integration as a separately pinned candidate with its own dependency and route review."
+    }
+  ],
+  "validation": {
+    "packet_identities": "MATCH (spec and diff hashes verified; packet hash matches inventory.json)",
+    "candidate_tree": "MATCH",
+    "source_route_and_recipe_review": "PASS (static)",
+    "helper_source_parity": "STATIC INSPECTION; packet-reported synthetic suite not run",
+    "static_packaging_preflight": "NOT_RUN (pending main-agent calculation)",
+    "compiler_exporter_verifier_or_build": "NOT_RUN",
+    "formal_proof_credit": "NONE"
+  },
+  "limitations": "This review covers only the exact candidate and declared transport/extraction scope. It does not establish packaging/buildability, active-route integration, proof acceptance, or proof credit."
+}
