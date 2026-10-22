@@ -178,6 +178,217 @@ def _layer_c2(verified_c1: bytes, original: bytes, c1_meta: dict,
     return call, original, c2_meta
 
 
+# R19 c3 layer: the operands are the selected pointers `c` and `a` (symbolic
+# offsets from c1/c2). All four borrows are shared so none remains at the
+# leak check; only the two selected pointers get precreated references.
+C3_CALL = b"        let c3 = is_less(&*c, &*a);\n"
+C3_TYPED_CALL = b"        let c3 = is_less/*@::<F, (&'cmp3 T, &'cmp3 T), 'cmp3>@*/(&*c, &*a);\n"
+C3_HEADER_LIFETIMES = (
+    b"/*@ let_lft 'cmp = cmp_k;\n"
+    b"    let_lft 'cmp2 = cmp2_k;\n"
+    b"    let_lft 'cmp3 = cmp3_k; @*/"
+)
+C3_SCOPE_MARKER = b"        //@ __vf_callback_scope3();\n"
+C3_LEFT_PRECREATE = b"        //@ let left3_ref = precreate_ref::<T>(c);\n"
+C3_RIGHT_PRECREATE = b"        //@ let right3_ref = precreate_ref::<T>(a);\n"
+C3_SHARES = (b"        //@ share_full_borrow::<T>(cmp3_k, t, v_base);\n"
+             b"        //@ share_full_borrow::<T>(cmp3_k, t, v_base + 1);\n"
+             b"        //@ share_full_borrow::<T>(cmp3_k, t, v_base + 2);\n"
+             b"        //@ share_full_borrow::<T>(cmp3_k, t, v_base + 3);\n")
+C3_SETUP = (b'''        //@ let cmp3_k = begin_lifetime();
+        //@ __vf_callback_scope3();
+        //@ split_four_owned_cells::<T>(v_base, t);
+        //@ close_full_borrow_content::<T>(t, v_base);
+        //@ close_full_borrow_content::<T>(t, v_base + 1);
+        //@ close_full_borrow_content::<T>(t, v_base + 2);
+        //@ close_full_borrow_content::<T>(t, v_base + 3);
+        //@ borrow(cmp3_k, <T>.full_borrow_content(t, v_base));
+        //@ borrow(cmp3_k, <T>.full_borrow_content(t, v_base + 1));
+        //@ borrow(cmp3_k, <T>.full_borrow_content(t, v_base + 2));
+        //@ borrow(cmp3_k, <T>.full_borrow_content(t, v_base + 3));
+''' + C3_SHARES + C3_LEFT_PRECREATE + C3_RIGHT_PRECREATE + b'''        //@ init_ref_share::<T>(cmp3_k, t, left3_ref);
+        //@ init_ref_share::<T>(cmp3_k, t, right3_ref);
+        //@ close_ref_own::<'cmp3, T>(left3_ref);
+        //@ close_ref_own::<'cmp3, T>(right3_ref);
+        //@ close <(&'cmp3 T, &'cmp3 T)>.own(t, std_tuple_2_::<&'cmp3 T, &'cmp3 T> {0: left3_ref, 1: right3_ref});
+        //@ open_frac_borrow(cmp3_k, ref_initialized_(left3_ref), 1/4);
+        //@ open [?left3_fraction]ref_initialized_::<T>(left3_ref)();
+        //@ open_frac_borrow(cmp3_k, ref_initialized_(right3_ref), 1/4);
+        //@ open [?right3_fraction]ref_initialized_::<T>(right3_ref)();
+''')
+DEBT3_ARGS = b"t, cmp3_k, v_base, left3_ref, right3_ref, left3_fraction, right3_fraction"
+MARKER3 = (b'''/*@ {
+            __vf_callback_unwind_four(3);
+            { close callback_four_debt::<T>(''' + DEBT3_ARGS + b'''); }
+            { recover_four_sources::<T>(v_base); }
+        } @*/
+''')
+NORMAL3 = (b"        //@ close callback_four_debt::<T>(" + DEBT3_ARGS + b");\n" +
+           b"        //@ end_lft_binding::<'cmp3>();\n" +
+           b"        //@ recover_four_sources::<T>(v_base);\n")
+C4_CALL = b"        let c4 = is_less(&*d, &*b);\n"
+
+
+def _layer_c3(verified_c2: bytes, original: bytes, c2_meta: dict, ghost, lemma_metadata):
+    need(c2_meta.get("actual_c2_recovery") is True,
+         "c3 requires the exact checked c2 constructor output")
+    need(ghost.strip_ghost(verified_c2) == original,
+         "c2 constructor source/runtime pair is immutable before c3")
+    need(verified_c2.count(C3_CALL) == 1,
+         "one exact c3 call with selected source operands (c, a)")
+    need(verified_c2.count(C2_HEADER_LIFETIMES) == 1,
+         "one c1/c2 lifetime declaration comment at the unsafe body header")
+    need(verified_c2.count(MARKER) == 1 and verified_c2.count(NORMAL) == 1,
+         "c2 recovery precedes c3 exactly once")
+    need(verified_c2.index(NORMAL) < verified_c2.index(C3_CALL),
+         "c2 recovery restores the four owners before c3")
+    staged = verified_c2.replace(C2_HEADER_LIFETIMES, C3_HEADER_LIFETIMES, 1)
+    call = staged.replace(C3_CALL, C3_SETUP + MARKER3 + C3_TYPED_CALL + NORMAL3, 1)
+    need(call.count(C3_SCOPE_MARKER) == 1,
+         "one c3 scope marker follows creation of the fresh lifetime token")
+    need(call.count(b"__vf_callback_unwind_four(3);") == 1,
+         "one exact indexed c3 direct-unwind marker")
+    need(call.count(b"callback_four_debt::<T>(" + DEBT3_ARGS + b")") == 2,
+         "normal and direct-unwind c3 paths close the same four-source debt")
+    need(call.count(b"recover_four_sources::<T>(v_base);") == 4,
+         "c2 and c3 each recover the current four source owners on both paths")
+    need(call.count(C3_SHARES) == 1,
+         "all four c3 full-borrow capabilities are converted by checked sharing")
+    need(call.index(NORMAL3) < call.index(C4_CALL),
+         "c3 recovery precedes the untouched c4 call")
+    need(ghost.strip_ghost(call) == original,
+         "c3 source annotations preserve the exact complete runtime body")
+    generated_lines = call.splitlines()
+    function_lines = [i for i, line in enumerate(generated_lines, 1)
+                      if line.startswith(TARGET)]
+    c3_lines = [i for i, line in enumerate(generated_lines, 1)
+                if b"let c3 = is_less/*@" in line]
+    need(len(function_lines) == len(c3_lines) == 1,
+         "one actual body and one typed c3 call after construction")
+    required = [row for row in lemma_metadata(call) if row["name"] in COMPARATOR_NAMES]
+    need(tuple(row["name"] for row in required) == COMPARATOR_NAMES,
+         "exact five required comparator dependencies in generated source")
+    c3_meta = {
+        **c2_meta,
+        "focus_line": function_lines[0],
+        "end_line": len(generated_lines),
+        "required_lemmas": required,
+        "body_annotation_stage": "c1-c2-c3-four-source-recovery-v1",
+        "actual_indexed_calls": 3,
+        "c3_call_index": 3,
+        "c3_ordered_source_operands": ["c", "a"],
+        "c3_marker": "__vf_callback_unwind_four(3)",
+        "c3_comparator_line": c3_lines[0],
+        "c3_marker_callsite_attribution": "OPEN",
+        "generated_source_sha256": hashlib.sha256(call).hexdigest(),
+        "runtime_body_byteequal": True,
+        "summary_eligible": False,
+        "proof_credit": False,
+    }
+    return call, original, c3_meta
+
+
+def construct_c3(source: bytes, ghost, capture, pair_recovery: bytes,
+                 four_recovery: bytes, c1_constructor, base_constructor,
+                 lemma_metadata):
+    """Build c1 and c2, then layer c3's source annotations without running tools."""
+    verified_c2, original, c2_meta = construct(
+        source, ghost, capture, pair_recovery, four_recovery, c1_constructor,
+        base_constructor, lemma_metadata)
+    return _layer_c3(verified_c2, original, c2_meta, ghost, lemma_metadata)
+
+
+def resource_controls_c3(verified: bytes, original: bytes, ghost,
+                         four_recovery: bytes, meta: dict, lemma_metadata):
+    """Return annotation-only c3 negative controls; no result is proof credit."""
+    need(meta.get("actual_indexed_calls") == 3,
+         "c3 controls require the exact c3 constructor output")
+    need(ghost.strip_ghost(verified) == original,
+         "positive c3 runtime source pair is byte-equal")
+    need(verified.count(MARKER3) == 1 and verified.count(C3_TYPED_CALL) == 1 and
+         verified.count(NORMAL3) == 1,
+         "one exact c3 marker/call/recovery before making controls")
+    # Unselected slots depend on (c1, c2); dropping the shares at base+1 and
+    # base+3 leaks on the (0, 0) path and starves init_ref_share elsewhere.
+    unselected_shares = (b"        //@ share_full_borrow::<T>(cmp3_k, t, v_base + 1);\n",
+                         b"        //@ share_full_borrow::<T>(cmp3_k, t, v_base + 3);\n")
+    missing_shares = verified
+    for line in unselected_shares:
+        need(missing_shares.count(line) == 1, "one c3 share line per slot")
+        missing_shares = missing_shares.replace(line, b"", 1)
+    base_borrow = b"        //@ borrow(cmp3_k, <T>.full_borrow_content(t, v_base));\n"
+    base_share = b"        //@ share_full_borrow::<T>(cmp3_k, t, v_base);\n"
+    need(verified.count(base_borrow) == 1 and verified.count(base_share) == 1,
+         "one base0 c3 end-token producer")
+    missing_resource = verified.replace(base_borrow, b"", 1).replace(base_share, b"", 1)
+    wrong_order = verified.replace(C3_LEFT_PRECREATE + C3_RIGHT_PRECREATE,
+        b"        //@ let left3_ref = precreate_ref::<T>(a);\n"
+        b"        //@ let right3_ref = precreate_ref::<T>(c);\n", 1)
+    wrong_ref = verified.replace(C3_LEFT_PRECREATE,
+        b"        //@ let left3_ref = precreate_ref::<T>(b);\n", 1)
+    wrong_index = verified.replace(b"__vf_callback_unwind_four(3);",
+                                   b"__vf_callback_unwind_four(2);", 1)
+    missing_pred = ghost_declaration(
+        four_recovery, b"pred callback_four_debt_without_fourth<T>")
+    debt_marker = MARKER3.replace(b"callback_four_debt::<T>(",
+                                  b"callback_four_debt_without_fourth::<T>(", 1)
+    missing_token = _insert_before_target(verified.replace(MARKER3, debt_marker, 1),
+                                          missing_pred)
+    displaced = verified.replace(MARKER3 + C3_TYPED_CALL, C3_TYPED_CALL + MARKER3, 1)
+    overflow_marker = (b"/*@ {\n"
+                       b"            __vf_callback_unwind_four(4);\n"
+                       b"            { close callback_four_debt::<T>(t, cmp4_k, v_base, left4_ref, right4_ref, left4_fraction, right4_fraction); }\n"
+                       b"            { recover_four_sources::<T>(v_base); }\n"
+                       b"        } @*/\n")
+    need(verified.count(C4_CALL) == 1, "one untouched c4 call")
+    overflow = verified.replace(C4_CALL, overflow_marker + C4_CALL, 1)
+    cases = (
+        ("c3-missing-unselected-share-negative", missing_shares,
+         "base+1/base+3 full_borrow capabilities leak on the (c1,c2)=(0,0) path or a selected share is missing"),
+        ("c3-missing-unrelated-end-token-negative", missing_resource,
+         "no base0 borrow_end token for the c3 four-source debt, or no base0 share when a selects slot 0"),
+        ("c3-wrong-ordered-ref-pair-negative", wrong_order,
+         "ghost precreated reference order (a,c) differs from actual ordered operands (c,a)"),
+        ("c3-wrong-ref-resource-negative", wrong_ref,
+         "left3_ref precreation points to b while the actual first operand is c"),
+        ("c3-wrong-marker-index-negative", wrong_index,
+         "indexed marker names call 2 while positioned at actual c3"),
+        ("c3-missing-fourth-debt-token-negative", missing_token,
+         "direct-unwind close supplies a predicate lacking the base+3 end token"),
+        ("c3-displaced-marker-negative", displaced,
+         "direct-unwind marker is after the call instead of immediately before it"),
+        ("c3-index-overflow-marker-negative", overflow,
+         "index-4 marker with no matching indexed call when the explicit count is 3"),
+    )
+    output = []
+    for name, candidate, expected in cases:
+        need(candidate != verified, name + " changes the annotations")
+        need(ghost.strip_ghost(candidate) == original,
+             name + " must preserve exact runtime bytes")
+        candidate_lines = candidate.splitlines()
+        focus_lines = [i for i, line in enumerate(candidate_lines, 1)
+                       if line.startswith(TARGET)]
+        candidate_lemmas = [row for row in lemma_metadata(candidate)
+                            if row["name"] in COMPARATOR_NAMES]
+        need(len(focus_lines) == 1, name + " has one exact actual body")
+        need(tuple(row["name"] for row in candidate_lemmas) == COMPARATOR_NAMES,
+             name + " retains exact five required comparator dependencies")
+        output.append((name, candidate, original, {
+            **meta,
+            "name": "sort4_stable",
+            "focus_line": focus_lines[0],
+            "end_line": len(candidate_lines),
+            "required_lemmas": candidate_lemmas,
+            "c3_control": name,
+            "expected_rejection": expected,
+            "c3_marker_callsite_attribution": "OPEN",
+            "generated_source_sha256": hashlib.sha256(candidate).hexdigest(),
+            "summary_eligible": False,
+            "proof_credit": False,
+        }))
+    return output
+
+
 def construct(source: bytes, ghost, capture, pair_recovery: bytes,
               four_recovery: bytes, c1_constructor, base_constructor,
               lemma_metadata):
