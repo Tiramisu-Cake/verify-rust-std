@@ -109,17 +109,17 @@ R20_STARTING_TOOL_COMMIT='39f6b0cacd00575c8ca2d39e9f15632723bf1227'
 R20_PATCH_SHA256=R19_PATCH_SHA256
 R20_PROVIDER_SHA256='2bed7d32a35ac10121820ffdf8a6dbcb645f5eefb838c9bb0d89915086a34ef3'
 R20_PROVIDER_PROVE_SHA256=R19_PROVIDER_NEW_PROVE_SHA256
-R20_METADATA_TOOL_COMMIT='37b834280a3910d58c46ea4b1c6e73265287ff3e'
-R20_METADATA_PROFILE_SHA256='82e4ab21b06f419be9dd19f842a2eb8e13d80a2e9b1a0ddc3bf14ca403dcf1fb'
+R20_METADATA_TOOL_COMMIT='6eb7e5bb1df4aa7e831218ff7153ed5cbd912a1c'
+R20_METADATA_PROFILE_SHA256='af30996525d9cd2340a60f1f1fc68817d12288e3ae6c262bfae0f705547b3341'
 R20_METADATA_EXPORTER_SHA256='2a0d66e6b3a76627643e93a8a8124859f33967e61375ba1a3f6e332d02b67673'
 R20_METADATA_SCHEMA_SHA256='c4ba15bb820c6d394ad1b5257755e5bad571d9389ee7daec5bccabc53dddb7cc'
-R20_METADATA_PATCH_SHA256='1114acf23fed7e371c9971b291caf8df6d2e7ff50bb38677152e558f56d3c205'
-R20_METADATA_PROVIDER_SHA256='5ca8de45d8f824cf2dbc21d3c261037cda6bc2f2cd64351f895eb4c30c911e5b'
-R20_METADATA_PROVIDER_PROVE_SHA256='1a5058ce180623b1bc96de0e375d299eccd11ff996799828ca8603f4c31205c1'
+R20_METADATA_PATCH_SHA256='dc35d0278ba6645619a1bd72919ff69dff7013ab9ff9901f3ef32f896136196d'
+R20_METADATA_PROVIDER_SHA256='9cc38ca3756cea9ec7e2b5202b19dca46bd35ae53f705827471640528033ade4'
+R20_METADATA_PROVIDER_PROVE_SHA256='ab4ec26004db6a7298cd908a164f4c0c9e20918c080d02b98d0eae630a88578f'
 R20_R19_EXPORTER_SHA256='d8bca867798fd93ececcb5fd8db330d6d23d2f7b815009437bf4961b9fcd2f51'
 R20_R19_SCHEMA_SHA256='b6c63644e8926a207b4393b80bf27696838aa22fe9db33acecc9fefa68550750'
 R20_R19_REFINER_CORE_SHA256='48d02bf44f4a082709a427e3e0d78af5498c1f240082fb27c7891dc8a3a283b0'
-R20_METADATA_REFINER_CORE_SHA256='d838cfe1e596a36d55b217a32d2a986206b4561553320fe2b005310d76aa2d78'
+R20_METADATA_REFINER_CORE_SHA256='082b32db3d69f335c1e97ef454e98a536e941b20f9f9f119a5ef220232dd793d'
 R20_METADATA_REGISTRATION={
  'schema':'merge-r20-source-preserving-metadata-registration-v1',
  'phase_id':R20_PHASE,
@@ -131,10 +131,7 @@ R20_METADATA_REGISTRATION={
  'tool_source_paths':['src/refinement_checker/refinement_checker.ml',
                       'src/rust_frontend/vf_mir/vf_mir.capnp',
                       'src/rust_frontend/vf_mir_exporter/src/lib.rs'],
- 'source_applicability':('source-preserving MIR metadata only: exact pointer-coercion subtype and source, cast source/target types, '
-                         'body-scoped ReVar/ReErased identity; plus diagnostic-only context for the existing unequal LocalAddressTaken refusal '
-                         '(function, paired block/command positions and full listings, same standalone fatal diagnostic); no translator '
-                         'acceptance, resource/borrow/lifetime premise, runtime, CFG or postcondition change')}
+ 'source_applicability':('source-preserving MIR metadata only: exact pointer-coercion subtype and source, cast source/target types, body-scoped ReVar/ReErased identity; diagnostic-only context for the existing unequal LocalAddressTaken refusal (function, paired block/command positions and full listings, same standalone fatal diagnostic); plus one fail-closed closed-usize typesystem constant case (Value/Leaf, UIntPtrWidth outer/value type match, scalar size 1..8 and bits fit); strict RawPtr projected-place classifier unchanged, other index cases unsupported/inconclusive; no pointer, resource, lifetime or memory-model rule')}
 R20_START='2026-10-22T20:08:00Z'
 R20_MAIN_DEADLINE='2026-10-22T22:08:00Z'
 R20_DEADLINE='2026-10-22T22:38:00Z'

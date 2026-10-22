@@ -1,30 +1,54 @@
 diff --git a/src/refinement_checker/refinement_checker.ml b/src/refinement_checker/refinement_checker.ml
-index eade1c64..87cef668 100644
+index eade1c64..5e7a1ca0 100644
 --- a/src/refinement_checker/refinement_checker.ml
 +++ b/src/refinement_checker/refinement_checker.ml
-@@ -1732,2 +1732,3 @@ type basic_block_info = <
+@@ -374,3 +374,22 @@ let eval_mir_const genv mir_const_cpn =
+   match mir_const_cpn with
+-    Ty mir_ty_const_cpn -> failwith "Using typesystem constant expressions as MIR constant operands is not yet supported"
++    Ty mir_ty_const_cpn ->
++    let ty = decode_ty genv mir_ty_const_cpn.ty in
++    begin match mir_ty_const_cpn.const.kind with
++      Value value_cpn ->
++      let value_ty = decode_ty genv value_cpn.ty in
++      if ty <> value_ty then
++        failwith "Typesystem MIR constant has inconsistent outer and value types";
++      begin match ty, value_cpn.val_tree with
++        UInt PtrWidth, Leaf scalar_int_cpn ->
++        let size = scalar_int_cpn.size in
++        if size < 1 || size > 8 then
++          failwith "Typesystem MIR usize constant has unsupported scalar size";
++        let data = decode_uint128 scalar_int_cpn.data in
++        if Stdint.Uint128.shift_right data (size * 8) <> Stdint.Uint128.zero then
++          failwith "Typesystem MIR usize constant does not fit its scalar size";
++        ScalarInt (decode_scalar_int ty scalar_int_cpn)
++      | _ -> failwith "Only closed usize typesystem MIR constants are supported"
++      end
++    | _ -> failwith "Only closed usize typesystem MIR constants are supported"
++    end
+   | Val mir_val_const_cpn ->
+@@ -1732,2 +1751,3 @@ type basic_block_info = <
    genv: generic_env;
 +  locals: local_decl array;
    statements: statement list;
-@@ -1740,3 +1741,3 @@ type basic_block_info = <
+@@ -1740,3 +1760,3 @@ type basic_block_info = <
  
 -let rec basic_block_info_of genv bbs predecessors bb_idx: basic_block_info =
 +let rec basic_block_info_of genv locals bbs predecessors bb_idx: basic_block_info =
    let bb = bbs.(bb_idx) in
-@@ -1748,2 +1749,3 @@ let rec basic_block_info_of genv bbs predecessors bb_idx: basic_block_info =
+@@ -1748,2 +1768,3 @@ let rec basic_block_info_of genv bbs predecessors bb_idx: basic_block_info =
      method genv = genv
 +    method locals = locals
      method statements = bb.statements
-@@ -1752,3 +1754,3 @@ let rec basic_block_info_of genv bbs predecessors bb_idx: basic_block_info =
+@@ -1752,3 +1773,3 @@ let rec basic_block_info_of genv bbs predecessors bb_idx: basic_block_info =
      method to_string = string_of_basic_block_path id
 -    method sibling i = basic_block_info_of genv bbs (bb_idx::predecessors) i
 +    method sibling i = basic_block_info_of genv locals bbs (bb_idx::predecessors) i
      method caller = None
-@@ -1843,2 +1845,3 @@ let rec process_commands bodies (env: env) opnds (i_bb: basic_block_info) i_s (s
+@@ -1843,2 +1864,3 @@ let rec process_commands bodies (env: env) opnds (i_bb: basic_block_info) i_s (s
        method genv = genv
 +      method locals = locals
        method statements = bbs.(i).statements
-@@ -2852,3 +2855,32 @@ let check_body_refines_body bodies0 bodies1 def_path body0 body1 =
+@@ -2852,3 +2874,32 @@ let check_body_refines_body bodies0 bodies1 def_path body0 body1 =
              end
 -        | RawPtr raw_ptr_data_cpn0, RawPtr raw_ptr_data_cpn1 -> error "RawPtr: not yet supported"
 +        | RawPtr raw0, RawPtr raw1 ->
@@ -58,7 +82,7 @@ index eade1c64..87cef668 100644
 +            | _ -> error "RawPtr: projected places are not supported"
 +            end
          | Cast ty0, Cast ty1 ->
-@@ -2927,3 +2959,18 @@ let check_body_refines_body bodies0 bodies1 def_path body0 body1 =
+@@ -2927,3 +2978,18 @@ let check_body_refines_body bodies0 bodies1 def_path body0 body1 =
          with LocalAddressTaken (x0, x1) ->
 -          if List.assoc x0 env0 <> List.assoc x1 env1 then failwith (Printf.sprintf "The states of the two locals %s and %s whose address is taken are not equal" (string_of_lv_path x0) (string_of_lv_path x1));
 +          if List.assoc x0 env0 <> List.assoc x1 env1 then begin
@@ -78,7 +102,7 @@ index eade1c64..87cef668 100644
 +            failwith diagnostic
 +          end;
            if !verbosity >= verbosity_basic_block then Printf.printf "Caught LocalAddressTaken (%s, %s); restarting codepos check\n" (string_of_lv_path x0) (string_of_lv_path x1);
-@@ -2937,3 +2984,3 @@ let check_body_refines_body bodies0 bodies1 def_path body0 body1 =
+@@ -2937,3 +3003,3 @@ let check_body_refines_body bodies0 bodies1 def_path body0 body1 =
      try
 -      check_basic_block_refines_basic_block env0 (basic_block_info_of root_genv0 (Array.of_list body0.basic_blocks) [] 0) env1 (basic_block_info_of root_genv1 (Array.of_list body1.basic_blocks) [] 0)
 +      check_basic_block_refines_basic_block env0 (basic_block_info_of root_genv0 locals0 (Array.of_list body0.basic_blocks) [] 0) env1 (basic_block_info_of root_genv1 locals1 (Array.of_list body1.basic_blocks) [] 0)

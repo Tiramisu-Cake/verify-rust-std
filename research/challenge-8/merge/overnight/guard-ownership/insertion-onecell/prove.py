@@ -125,11 +125,11 @@ R19_SELECTED_PROFILE_SHA256 = "1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf0238
 R19_EXPORTER_SHA256 = "d8bca867798fd93ececcb5fd8db330d6d23d2f7b815009437bf4961b9fcd2f51"
 R19_SCHEMA_SHA256 = "b6c63644e8926a207b4393b80bf27696838aa22fe9db33acecc9fefa68550750"
 R19_REFINER_CORE_SHA256 = "48d02bf44f4a082709a427e3e0d78af5498c1f240082fb27c7891dc8a3a283b0"
-R20_TOOL_COMMIT = "37b834280a3910d58c46ea4b1c6e73265287ff3e"
-R20_REFINER_CORE_SHA256 = "d838cfe1e596a36d55b217a32d2a986206b4561553320fe2b005310d76aa2d78"
+R20_TOOL_COMMIT = "6eb7e5bb1df4aa7e831218ff7153ed5cbd912a1c"
+R20_REFINER_CORE_SHA256 = "082b32db3d69f335c1e97ef454e98a536e941b20f9f9f119a5ef220232dd793d"
 R20_EXPORTER_SHA256 = "2a0d66e6b3a76627643e93a8a8124859f33967e61375ba1a3f6e332d02b67673"
 R20_SCHEMA_SHA256 = "c4ba15bb820c6d394ad1b5257755e5bad571d9389ee7daec5bccabc53dddb7cc"
-R20_PATCH_SHA256 = "1114acf23fed7e371c9971b291caf8df6d2e7ff50bb38677152e558f56d3c205"
+R20_PATCH_SHA256 = "dc35d0278ba6645619a1bd72919ff69dff7013ab9ff9901f3ef32f896136196d"
 R20_PROFILE_CHANGED_KEYS = frozenset({
     "effective_tool_commit", "refiner_core_source_sha256", "exporter_source_sha256", "schema_sha256",
     "guard_return_trace_patch_sha256", "ordered_patch_chain",
@@ -148,12 +148,7 @@ R20_REGISTRATION = {
         "src/rust_frontend/vf_mir/vf_mir.capnp",
         "src/rust_frontend/vf_mir_exporter/src/lib.rs",
     ],
-    "source_applicability": (
-        "source-preserving MIR metadata only: exact pointer-coercion subtype and source, cast source/target types, "
-        "body-scoped ReVar/ReErased identity; plus diagnostic-only context for the existing unequal LocalAddressTaken refusal "
-        "(function, paired block/command positions and full listings, same standalone fatal diagnostic); no translator "
-        "acceptance, resource/borrow/lifetime premise, runtime, CFG or postcondition change"
-    ),
+    "source_applicability": "source-preserving MIR metadata only: exact pointer-coercion subtype and source, cast source/target types, body-scoped ReVar/ReErased identity; diagnostic-only context for the existing unequal LocalAddressTaken refusal (function, paired block/command positions and full listings, same standalone fatal diagnostic); plus one fail-closed closed-usize typesystem constant case (Value/Leaf, UIntPtrWidth outer/value type match, scalar size 1..8 and bits fit); strict RawPtr projected-place classifier unchanged, other index cases unsupported/inconclusive; no pointer, resource, lifetime or memory-model rule",
 }
 
 
