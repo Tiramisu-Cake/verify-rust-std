@@ -143,7 +143,9 @@ without caller, so the leak has one site); service-tested.
 Every control is recorded by message and location (Evidence Brief), not by
 exit code alone. The two positive callers guard against a vacuous contract
 only together with the four reachability controls; a helper PASS without all
-of them is not reported as R4 progress. The synthetic callers
+of them is not reported as R4 progress. The reachability controls cover the normal
+path only; caller-side unwind-path reachability is not covered (no caller-side
+ghost site on the unwind edge). The synthetic callers
 are not std code; the caller's unwind post is stated on the two separate cells.
 
 ## HANDOFF for the first Network Cloud task

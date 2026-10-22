@@ -1,0 +1,11 @@
+{
+  "reviewer": "claude-subagent:smallsort-reviewer (continued via SendMessage)",
+  "model": "claude-opus-5-5 (agent definition: Opus 5.5, effort high)",
+  "scope": "delta 390921db..347a69a9 against review-3 findings 1-5",
+  "candidate_commit": "347a69a9a094ae9a638e45a9deec33942d64ae83",
+  "decision": "GO_WITH_NITS",
+  "resolved": ["1 reachability controls (verified)", "2 wording", "3 widened expectation", "4 own-drop callerless (verified)", "5 OUT_DIR refusal (verified)"],
+  "remaining_nits": ["reachability covers the normal path only (documented in DESIGN after this review; docs-only)"],
+  "tests_run_by_reviewer": {"r4": "10/10"},
+  "proof_credit": false
+}
