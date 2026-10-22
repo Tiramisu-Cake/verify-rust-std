@@ -15,6 +15,14 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R18-RAW-CALLER-DESIGN-20261022.md",
       "sha256": "dfc93e3344b537e1168ae6b6a1645e4eb6d614c4e5b14effaf1185e6a641beac"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R19-UNWIND-CLEANUP-DESIGN-20261022.md",
+      "sha256": "571f1acd4a0ad8f86c7fe2bfa95e9a5a80450cbe0a5dc84c81fe5f8309ad857e"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R19-REVIEW-20261022.md",
+      "sha256": "6b9a227165ed4cc3ba6e71d77ee2083ca14c4505fe64205b2233068c444fc1a8"
     }
   ],
   "assignment_sha256": "9cfebe797dd5968c2f53eaef81a6d3660e175b4f002d7a47b43d7c9858f5e73a",
@@ -24,15 +32,15 @@
     "tool_sha": "a66c1d30214e463a16a325cdef30b0ec8555e0af"
   },
   "blocker": {
-    "build_id": "e70d2723-f49d-4a8f-847e-f8da1106d36f",
+    "summary": "Ready R19 candidate 3a587cb7 not submitted: source-branch push denied by auto-mode classifier and owner chose no push/submit this window.",
+    "location": "publication/submit of 3a587cb7",
+    "build_id": null,
     "evidence": [
       {
-        "path": "research/challenge-8/cloud-build/origin-layout/R18-PROOF1-RESULT-20261022.json",
-        "sha256": "d0b75917c6865ce64ecad4da12beaa96a8ad293ff97c051af411e0a0d2141008"
+        "path": "research/challenge-8/cloud-build/origin-layout/R19-REVIEW-20261022.md",
+        "sha256": "6b9a227165ed4cc3ba6e71d77ee2083ca14c4505fe64205b2233068c444fc1a8"
       }
-    ],
-    "location": "raw caller verified461 free_locals",
-    "summary": "Raw caller unwind free_locals needs array_ at verified461; needs checked source-bound unwind cleanup (tool). R18 CLOSED early at real boundary."
+    ]
   },
   "confirmed": [
     {
@@ -66,12 +74,22 @@
           "sha256": "a0541f5bce32a9ea61cdfb025f90df1790707af014ae08436490c26db8d2c34d"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R19 candidate ready, unverified on Cloud: tool 39f6b0ca (translator-only unwind copy of the marked insert_tail cleanup), activation 3a587cb7 (ledger-only delta of reviewed bc8af914), smallsort-reviewer GO_WITH_NITS + delta GO_WITH_NITS; payload 570505/571567. No Build, 0s spent; not pushed (owner declined push/submit). No credit.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R19-REVIEW-20261022.md",
+          "sha256": "6b9a227165ed4cc3ba6e71d77ee2083ca14c4505fe64205b2233068c444fc1a8"
+        }
+      ]
     }
   ],
-  "next_step": "Implement the R18 unwind cleanup rule with its four controls and service tests; review; register R19; Cloud raw caller normal/unwind.",
+  "next_step": "Owner: allow fast-forward push of merge/incoming-origin-20261009 (3a587cb7 or a successor with a ledger-only delta under a new window ledger), then submit R19 P1 (raw caller + 5 R19 controls, timeout1200) and wait; then original as_mut_ptr/unsize.",
   "open": [
     "Original as_mut_ptr/unsize, source-bound metadata, real borrow/reference lifecycle and caller normal/unwind remain OPEN; isolated lifecycle does not close them.",
-    "Raw caller unwind free_locals needs checked source-bound cleanup (tool); RawPtr LocalAddressTaken negative and index projection control OPEN.",
+    "Raw caller unwind cleanup: R19 rule implemented and reviewed but UNVERIFIED (no Cloud compile/proof/controls); RawPtr LocalAddressTaken negative and index projection control OPEN.",
     "CURRENT/backedge/false/true/panic/Drop/Resume compatible final matrix; B2/generic/arbitrary-n/sorting/tool qualification/independent proof credit remain OPEN."
   ],
   "owner": "merge",
@@ -112,15 +130,15 @@
   "session": {
     "active_build_ids": [],
     "budget_seconds": 3600,
-    "deadline_utc": null,
-    "main_deadline_utc": null,
+    "deadline_utc": "2026-10-22T18:38:18Z",
+    "main_deadline_utc": "2026-10-22T18:08:18Z",
     "remaining_seconds": 3600,
     "retired_seconds": 0,
     "spent_seconds": 0,
-    "t0": null,
+    "t0": "2026-10-22T16:08:18Z",
     "unresolved_ids": []
   },
-  "state": "NOT_STARTED",
+  "state": "HANDOFF",
   "task_id": "merge-unwind-cleanup-autonomous-2026-10-22-r19",
-  "updated_utc": "2026-10-22T15:49:34Z"
+  "updated_utc": "2026-10-22T17:05:00Z"
 }
