@@ -1,0 +1,296 @@
+{
+  "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+  "compiler_toolchain": "nightly-2026-09-25",
+  "first_matrix": "R4 matrix (r4/DESIGN.md) then W7 matrix (w7/DESIGN.md), same identities; all NOT_RUN",
+  "gates": {
+    "P1": "OPEN (overlay admission for swap_if_less)",
+    "P2": "OPEN (checked select_unpredictable incl. *mut T)",
+    "P3": "OPEN (equal positions)",
+    "lane": "OPEN (v4 migration + Network client)"
+  },
+  "network_generators": {
+    "commit": "44328156f2e66524c08ae4f5e2bf40411f676636",
+    "files": [
+      {
+        "blob": "4bf6dc7f3ab44d518b0bdd8a693c38510a5265a8",
+        "path": "research/challenge-8/network/r4/swap-if-less-body.py"
+      },
+      {
+        "blob": "1bc839e2c20567bd84fe7e50e2bb2d1880dfbb33",
+        "path": "research/challenge-8/network/w7/network-body.py"
+      }
+    ]
+  },
+  "note": "Draft only. Consumes Select's overlay chain exactly as pinned at the Select commit below (no re-selection, no Network copy). Not runnable: gates P1/P2 (r4/SELECT-REQUESTS.md) and a Network lane are missing; the chain will be re-pinned to the Select commit that publishes P1/P2.",
+  "owner": "network",
+  "profile_accepted": false,
+  "proof_credit": false,
+  "schema": "network-profile-draft-v1",
+  "select_layer": {
+    "branch": "research/night-select-sort4-cloud-2026-10-09",
+    "commit": "10e13a414a1b6f0efafdee36eea733c91df1ee6b",
+    "ghost_layer": [
+      {
+        "blob": "a29ad2542a4eb4c70686786c3426ab742672e761",
+        "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-actual-recover-pair.rs"
+      },
+      {
+        "blob": "a7775d9393222a123e23034102f11e24f7b4e99b",
+        "path": "research/challenge-8/overnight-sort4/capture.py"
+      }
+    ],
+    "overlay_chain": [
+      {
+        "blob": "855caf7fcd59140c31dc56e38c8e1d0c4167d38a",
+        "path": "research/challenge-8/caller-entry/verifast-slice-as-mut-ptr.patch"
+      },
+      {
+        "blob": "b9548afc0bd349c8df8a022d34637d553dc1b81c",
+        "path": "research/challenge-8/cloud-build/sort4-c2-bound-prefix/verifast-c2-bound-prefix-TEST.patch"
+      },
+      {
+        "blob": "c713311389b74831bb6b19fb2cc6fb0ce44d860c",
+        "path": "research/challenge-8/cloud-build/sort4-c3-bound-prefix/verifast-c3-bound-prefix-TEST.patch"
+      },
+      {
+        "blob": "11daff7b9981acd4b178049aa5f2962af1942a1a",
+        "path": "research/challenge-8/cloud-build/sort4-c3-bound-prefix/verifast-c3-capture-TEST.patch"
+      },
+      {
+        "blob": "6ae469ccd6b43a011d2f75cc1509695c87a5baa8",
+        "path": "research/challenge-8/cloud-build/sort4-c4-bound-prefix/verifast-c4-bound-prefix-TEST.patch"
+      },
+      {
+        "blob": "4fed847354aa56e8e98a2dfd9feff84f5042d694",
+        "path": "research/challenge-8/cloud-build/sort4-c4-bound-prefix/verifast-c4-capture-TEST.patch"
+      },
+      {
+        "blob": "624f54486aa553298b42d95e30d00e0ba0877d3d",
+        "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/actual-sort4-c1-recovery-r15.patch"
+      },
+      {
+        "blob": "f2f26f23b39a7fa659d4dddb782d71647fb24504",
+        "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/actual-sort4-c2-recovery-r17.patch"
+      },
+      {
+        "blob": "b10da1f9f0cebf78688f78ce53f53ede2b89623c",
+        "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/actual-sort4-deferred-scope-r16.patch"
+      },
+      {
+        "blob": "b8f033b1fcff5064e385cc68efb4e8f702e5b606",
+        "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/actual-sort4-referent-address-r16.patch"
+      },
+      {
+        "blob": "9b6b0675d6f211db092be9f73a081f56dcdc459c",
+        "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/actual-sort4-scope-relocation-r16.patch"
+      },
+      {
+        "blob": "2b6a6095f3a4bf0331740261fd0cae28087535ab",
+        "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/checked-threshold-contract.patch"
+      },
+      {
+        "blob": "dd168610b5815e2f2ae07b464282aa9ea0b20c2a",
+        "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/ghost-call-lifetime-inference-r13.patch"
+      },
+      {
+        "blob": "026fea05f29200bfaa8ce0711d10866c765873ec",
+        "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/merge-fractions-ast-dump-r15.patch"
+      },
+      {
+        "blob": "61e940e6a70e49c7212bbb402645868e4e4228af",
+        "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/native-small-sort-impl-signature.patch"
+      },
+      {
+        "blob": "4a8812d2afb3438358153d1c225b136f57f329fb",
+        "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/r16-c1-phase-binding.patch"
+      },
+      {
+        "blob": "2ad5461a3f9ef90152435fc6df54acdffd7e47aa",
+        "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/r17-c1-phase-binding.patch"
+      },
+      {
+        "blob": "7264a9674344f81219e2cc2d67681fb60ee6c5c3",
+        "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/required-item-representation-hir-partition-r2-2026-10-20.patch"
+      },
+      {
+        "blob": "167ababa433f86720d71bacc35bc12cf1ecfbed2",
+        "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/selected-branch-binding.patch"
+      },
+      {
+        "blob": "63b33ba0fb3524d94daa134e84f2fc8454360096",
+        "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/shared-reference-own-normalization-r13.patch"
+      },
+      {
+        "blob": "c961a42b7660d2926b8ed9a15c4a08f298b4314e",
+        "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/stable-threshold-binding.patch"
+      },
+      {
+        "blob": "4c46d9c097e67e00800b4216c2023a8705069981",
+        "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/strict-entry-diagnostic-r16.patch"
+      },
+      {
+        "blob": "3dccfb32eee14ad49de9b11a5490b24d4b3edf64",
+        "path": "research/challenge-8/cloud-build/sort4-native-c1-bound/native-c1-bound.patch"
+      },
+      {
+        "blob": "314bd1ff08fc44ef75e3590a22f5014e80bc01c7",
+        "path": "research/challenge-8/cloud-build/sort4-native-c1-bound/native-c4-bound-combined.patch"
+      },
+      {
+        "blob": "fecba88a955b376859ecf59d8c9b88ee33e54f05",
+        "path": "research/challenge-8/cloud-build/sort4-native-c1-bound/native-dead-code-identity-diagnostic.patch"
+      },
+      {
+        "blob": "8314fb686e6d09138f38ecedf9a93ce509c90118",
+        "path": "research/challenge-8/cloud-build/sort4-native-c1-bound/native-rust-focus-dead-code-scope.patch"
+      },
+      {
+        "blob": "45829fcf7c70f99bde15013b050dca4d4bb838f7",
+        "path": "research/challenge-8/cloud-build/sort4-native-c1-bound/rust-zst-size.patch"
+      },
+      {
+        "blob": "c4c524d81019ce665c40d27e24e1e54f2b64a445",
+        "path": "research/challenge-8/cloud-build/sort4-native-entry-c1/verifast-actual-c1-prefix-TEST.patch"
+      },
+      {
+        "blob": "6e41ea23c3501ab2b11a6baa09d9168fe41d73bb",
+        "path": "research/challenge-8/cloud-build/sort4-native-entry-c1/verifast-actual-c2-discovery-TEST.patch"
+      },
+      {
+        "blob": "e0103ca9de34bcda64d6153e1cafcdf03a58020d",
+        "path": "research/challenge-8/cloud-build/sort4-native-opaque/native-c1-capture-only.patch"
+      },
+      {
+        "blob": "8f17050195bbd1743bc3fbfa915e95378c908234",
+        "path": "research/challenge-8/overnight-assume-actual/verifast-actual-nine-a1-26.10.patch"
+      },
+      {
+        "blob": "1f72a2234a07ec7bdcf60c335d24d9cc24263470",
+        "path": "research/challenge-8/overnight-assume-actual/verifast-o26-a1-guard-literal-refresh-26.10.patch"
+      },
+      {
+        "blob": "52ab4c19df6173a710feeee9c8f0f44d5a02b7ff",
+        "path": "research/challenge-8/overnight-assume-actual/verifast-o26-owner-guard-literal-refresh-26.10.patch"
+      },
+      {
+        "blob": "fa16206296215610729eb0a9d54f7bcdacda4b8e",
+        "path": "research/challenge-8/overnight-callback/verifast-actual-sort4-c1-debt-controls-TEST.patch"
+      },
+      {
+        "blob": "306f0f40dfa5d28cfa0108cf0bccfedbdeefe5fc",
+        "path": "research/challenge-8/overnight-callback/verifast-actual-sort4-c1-output-eq-TEST.patch"
+      },
+      {
+        "blob": "db1c07286f2a9d985d0c0aea77b11cfd27dc2d07",
+        "path": "research/challenge-8/overnight-callback/verifast-actual-sort4-first-scope-TEST.patch"
+      },
+      {
+        "blob": "c6a0de7cf3418582fbfe8ae1f975b62822fec002",
+        "path": "research/challenge-8/overnight-callback/verifast-callback-unwind-26.10.patch"
+      },
+      {
+        "blob": "48a85b7bcee2b4f6f0571a5eefd44e4b2670a12f",
+        "path": "research/challenge-8/overnight-callback/verifast-fnmut-hrtb-26.10.patch"
+      },
+      {
+        "blob": "e5d11923528bdc898b8e35bec9adbd4509a1068d",
+        "path": "research/challenge-8/overnight-callback/verifast-tuple2-own-26.10.patch"
+      },
+      {
+        "blob": "a09993226f3dcad26ed59eeccadef618d26a52d9",
+        "path": "research/challenge-8/overnight-guard-actual/verifast-nested-unit-fingerprint-probe-26.10.patch"
+      },
+      {
+        "blob": "0b993e76b2b513b90cc83c095382ada4eaf97612",
+        "path": "research/challenge-8/overnight-guard/verifast-h2a-generic-guard-link-26.10.patch"
+      },
+      {
+        "blob": "260804dcf8c1db2cd3ab8ebc2805e920b33c59e6",
+        "path": "research/challenge-8/overnight-guard/verifast-h2b-nominal-drop-template-26.10.patch"
+      },
+      {
+        "blob": "0c65bc3e1e15a3b42933d8fcca52730272b9660a",
+        "path": "research/challenge-8/overnight-guard/verifast-h2c-guard-source-admission-26.10.patch"
+      },
+      {
+        "blob": "1df033b747c2baf5717adda11064b4fb47f37c9b",
+        "path": "research/challenge-8/overnight-helper/verifast-a1-assert-inhabited-26.10.patch"
+      },
+      {
+        "blob": "d39b2babd30081232f69192a0fa4bfa285864065",
+        "path": "research/challenge-8/overnight-helper/verifast-a1-pointer-transmute-26.10.patch"
+      },
+      {
+        "blob": "60d4780f409b877e77cd5dd69ebfda129a179706",
+        "path": "research/challenge-8/overnight-helper/verifast-a1-transmute-linkage-26.10.patch"
+      },
+      {
+        "blob": "6a08abb2f966887e32c7e7e237a2d5f55c75edf7",
+        "path": "research/challenge-8/overnight-helper/verifast-actual-nested-ghost-scope-26.10.patch"
+      },
+      {
+        "blob": "897f3c68bdbed27fe1f372900f53c2acdb37deea",
+        "path": "research/challenge-8/overnight-helper/verifast-actual-nested-h2-26.10.patch"
+      },
+      {
+        "blob": "264141e26d182fe14d29fd3a0fe5449c542abb2b",
+        "path": "research/challenge-8/overnight-helper/verifast-actual-nine-safe-forget-owned-26.10.patch"
+      },
+      {
+        "blob": "df6cb04fe63ff9fdbba6e8c433d549525f062270",
+        "path": "research/challenge-8/overnight-helper/verifast-actual-owner-admission-26.10.patch"
+      },
+      {
+        "blob": "734f5a86bf352deaeff650fce4dcbb97665746dd",
+        "path": "research/challenge-8/overnight-helper/verifast-actual-owner-fingerprint-probe-26.10.patch"
+      },
+      {
+        "blob": "47ceb3ddc8e355f54fbd57f7cc41d3b6aad95db7",
+        "path": "research/challenge-8/overnight-helper/verifast-actual-owner-nine-admission-26.10.patch"
+      },
+      {
+        "blob": "f38c4023c29b5cc3927461320e3843440016491f",
+        "path": "research/challenge-8/overnight-helper/verifast-g1-checked-forget-call-cfg-26.10.patch"
+      },
+      {
+        "blob": "96c3edf3898d2b05ee57358ff2653cd7e58863a6",
+        "path": "research/challenge-8/overnight-lifetime/verifast-cut-relocate-callback-TESTONLY.patch"
+      },
+      {
+        "blob": "b702104c1bcdde3580cd8c7f40030f940ddd8b1b",
+        "path": "research/challenge-8/overnight-lifetime/verifast-cut-relocate-translated-ids-TEST.patch"
+      },
+      {
+        "blob": "a7f06f6b8cc51b1575b3f3fe7708af3bf8c8a8dc",
+        "path": "research/challenge-8/overnight-lifetime/verifast-strict-lft-cut-26.10.patch"
+      },
+      {
+        "blob": "775a9572444c88b6ec6156296a35761c00c392b8",
+        "path": "research/challenge-8/overnight-s6/verifast-s6-26.10-candidate.patch"
+      },
+      {
+        "blob": "7c4403b143d69b03b24e437fd4320776b51ca619",
+        "path": "research/challenge-8/verifast-manuallydrop-new-cfg-2610.patch"
+      }
+    ],
+    "reference_profile": {
+      "candidate_version": "R19-C5-INDEXED-CALLBACK-RECOVERY",
+      "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json",
+      "sha256": "d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622",
+      "status_at_pin": "REVIEW_PENDING (Select c5 candidate); reference for the chain, not an accepted profile"
+    },
+    "reference_recipe": {
+      "blob": "2123c61fa9a76ef45cac64ce469f7668c6bbce7e",
+      "path": "research/challenge-8/cloud-build/recipes/o26-sort4-c1-current-recovery.json"
+    }
+  },
+  "status": "PREPARED_NOT_REGISTERED",
+  "std": {
+    "blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+    "commit": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+    "path": "library/core/src/slice/sort/shared/smallsort.rs",
+    "sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "task_id": "network-bootstrap-2026-10-22-n1",
+  "tool_head": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+}
