@@ -215,14 +215,14 @@ A1_R18_DEADLINE='2026-10-22T14:42:06Z'
 A1_R18_PROFILE=A1_R17_PROFILE
 A1_R18_PROFILE_SHA256='87a0bfe586b40a33bdf840164aec8748872c8fdd11b3faad421d3860d1f2a091'
 A1_R18_CEILING=3600
-# R19 keeps the R17 routing literal and profile path; the in-place R17-chain
-# profile now carries the reviewed c3 (explicit three-call) overlay pins.
+# R19 keeps the R17 routing literal and adapters, which select this separate
+# profile by exact SHA; it carries the c3 (explicit three-call) overlay pins.
 A1_R19_PHASE='SORT4-ACTUAL-C3-2026-10-22-R19'
 A1_R19_START='2026-10-22T13:50:26Z'
 A1_R19_MAIN_DEADLINE='2026-10-22T15:50:26Z'
 A1_R19_DEADLINE='2026-10-22T16:20:26Z'
-A1_R19_PROFILE=A1_R17_PROFILE
-A1_R19_PROFILE_SHA256='4dc903b89439f79d0e52d42480efb526ca97352728652aab688eb2987cf59c7a'
+A1_R19_PROFILE='research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json'
+A1_R19_PROFILE_SHA256='36bed85d2810a8d85a868ad85e57b32d27f0f39496a30f20a0efb356ea8a0383'
 A1_R19_CEILING=3600
 A1_LEGACY_TWO_SLOT_PHASES=frozenset((A1_AUTO_PHASE,A1_SCOPE_PHASE,A1_R7_PHASE,
  A1_R8_PHASE,A1_R9_PHASE,A1_R10_PHASE,A1_R11_PHASE))

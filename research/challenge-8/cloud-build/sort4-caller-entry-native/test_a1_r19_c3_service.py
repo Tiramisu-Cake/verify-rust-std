@@ -5,6 +5,8 @@ exec(compile(_r17.read_text(), str(_r17), 'exec'))
 
 import importlib.util as _ilu
 import sys
+from types import SimpleNamespace
+from unittest.mock import patch
 
 _ROOT = Path(__file__).resolve().parents[4]
 
@@ -131,6 +133,63 @@ class R19StaticConstructor(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             self.c2.resource_controls_c3(self.v3, self.o3, self.ghost, self.four,
                                          dict(self.m3, actual_indexed_calls=2), BODY.lemma_metadata)
+
+
+class R19RoutedProfileSelection(unittest.TestCase):
+    """The R17 routing key selects exactly one allowlisted profile by SHA."""
+
+    def setUp(self):
+        here = Path(__file__).resolve().parent
+        self.runner = _load(here / 'a1-runner-r17.py', 'r19_routed_runner')
+        self.temp = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp.name)
+        self.dir = self.root / 'research/challenge-8/cloud-build/sort4-caller-entry-native'
+        self.dir.mkdir(parents=True)
+        for name in ('A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json',
+                     'A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json'):
+            (self.dir / name).write_bytes((here / name).read_bytes())
+        (self.dir / 'a1-actual-body-r17.py').write_bytes(b'# synthetic, unpinned\n')
+
+    def tearDown(self):
+        self.temp.cleanup()
+
+    def run_with(self, digest):
+        args = SimpleNamespace(proof_root=self.root)
+        with patch.dict('os.environ', {'SORT4_A1_PROFILE_SHA256': digest}):
+            return self.runner.run(args, c4=None, audit=None, driver=None,
+                                   manifest=None, ghost=None)
+
+    def test_r19_and_r17_bytes_select_their_own_profile(self):
+        for name in ('A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json',
+                     'A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json'):
+            digest = sha((self.dir / name).read_bytes())
+            # Selection passes; the next gate refuses the synthetic body bytes.
+            with self.subTest(name=name), \
+                    self.assertRaisesRegex(RuntimeError, 'actual body implementation pin differs'):
+                self.run_with(digest)
+
+    def test_unknown_missing_or_ambiguous_profile_refuses(self):
+        r19 = self.dir / 'A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json'
+        for digest in ('0' * 64, ''):
+            with self.subTest(digest=digest), \
+                    self.assertRaisesRegex(RuntimeError, 'runner profile pin differs'):
+                self.run_with(digest)
+        digest = sha(r19.read_bytes())
+        (self.dir / 'A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json').write_bytes(r19.read_bytes())
+        with self.assertRaisesRegex(RuntimeError, 'runner profile pin differs'):
+            self.run_with(digest)
+        r19.unlink()
+        (self.dir / 'A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json').unlink()
+        with self.assertRaisesRegex(RuntimeError, 'runner profile pin differs'):
+            self.run_with(digest)
+
+    def test_all_four_adapters_share_the_same_allowlist(self):
+        here = Path(__file__).resolve().parent
+        for name in ('a1-entry-r17.py', 'a1-runner-r17.py', 'a1-actual-body-r17.py', 'a1-tool-r17.py'):
+            text = (here / name).read_text()
+            self.assertIn('A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json', text, name)
+            self.assertIn('A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json', text, name)
+            self.assertIn('SORT4_A1_PROFILE_SHA256', text, name)
 
 
 if __name__ == '__main__':

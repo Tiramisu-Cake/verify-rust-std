@@ -15,8 +15,8 @@ from unittest.mock import patch
 HERE = Path(__file__).resolve().parent
 CLOUD = HERE.parent
 PREFIX = "research/challenge-8/cloud-build/sort4-caller-entry-native/"
-PROFILE = HERE / "A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json"
-PROFILE_SHA256 = "4dc903b89439f79d0e52d42480efb526ca97352728652aab688eb2987cf59c7a"
+PROFILE = HERE / "A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json"
+PROFILE_SHA256 = "36bed85d2810a8d85a868ad85e57b32d27f0f39496a30f20a0efb356ea8a0383"
 LEDGER = HERE / "BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json"
 PHASE = "SORT4-ACTUAL-C3-2026-10-22-R19"
 INSIDE = "2026-10-22T14:30:00Z"
