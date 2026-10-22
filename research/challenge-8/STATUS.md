@@ -1,11 +1,11 @@
 # Agent checkpoint: select-s5-unselected-borrow-autonomous-2026-10-22-r18
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-C2-2026-10-22-R18 | state: NOT_STARTED
-- Updated: 2026-10-22T12:00:14Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-C2-2026-10-22-R18 | state: HANDOFF
+- Updated: 2026-10-22T12:50:00Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `87a0bfe586b40a33bdf840164aec8748872c8fdd11b3faad421d3860d1f2a091`
-- Session dates: T0 `NOT_SET`; main deadline `NOT_SET`; absolute deadline `NOT_SET`
+- Session dates: T0 `2026-10-22T12:12:06Z`; main deadline `2026-10-22T14:12:06Z`; absolute deadline `2026-10-22T14:42:06Z`
 - Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 0ee7f658-50fe-4928-a7c9-3da5e56c95f2
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -16,7 +16,8 @@
 - [SOURCE_REPORTED] R17 CLOSED (interrupted, absolute expired): four terminal/accounted Builds, 1995s used, 1605s retired, carry0; own active/unresolved/request/reservation0 after own status. No complete actual obligation or independent credit. — [research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C2-2026-10-21-R17.json](cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C2-2026-10-21-R17.json) SHA `5c857f5ef31b2fa45910bb3f11ad505dd0506a78fdcd6412bec8c9aa7d74bb46`
 
 ## Open
-- S5 a6550c20 (checked share_full_borrow of unselected c2 cells0/1): artifact unverified, unreviewed; no Cloud evidence; credit0.
+- S5 a6550c20: reviewer GO_WITH_NITS; Cloud Build 0ee7f658 (pins 1e92d32b) pending; credit0.
+- Read each S5 control diagnostic/location in Brief (qualification checks only exit).
 - Full actual sort4 normal/unwind; ordered c1–c5 attribution/current-owner recovery, selector-pointer/permutation/copy composition.
 - Required HRTB-off/controls completion, final mini7/fresh26, qualification and stable Freeze caller; independent B1/B2 credit0.
 
@@ -28,11 +29,11 @@ Function leaks heap chunks: unselected c2 full_borrow(cmp2_k, full_borrow_conten
 - [research/challenge-8/task-history/select-actual-c2-r17/S4-evidence.json](task-history/select-actual-c2-r17/S4-evidence.json) SHA `c6cfa91918fd3f75732510638ac2aa41c8a7c38c84f195a86cd907f9bc4765c9` Build `27e8bfac-eb5f-4cf4-ae89-18bacd16eb90`
 
 ## Next
-Review S5 a6550c20 with smallsort-reviewer, register R18, then Cloud S5 with missing-unselected-share control; Brief on the c2 leak check.
+WAITING S5 Build 0ee7f658 via wait; ack, then Brief: c2 leak check and controls by message/location.
 
 ## Artifacts
-- [research/challenge-8/task-history/select-actual-c2-r17/S4-review.json](task-history/select-actual-c2-r17/S4-review.json) — `52b489a57fa00efd4a176e346f7fbf2053560ac52cbbe36b724eaba6d03836bc`
 - [research/challenge-8/task-history/select-actual-c2-r17/S4-evidence.json](task-history/select-actual-c2-r17/S4-evidence.json) — `c6cfa91918fd3f75732510638ac2aa41c8a7c38c84f195a86cd907f9bc4765c9`
 - [research/challenge-8/task-history/select-actual-c2-r17/S5-UNSELECTED-BORROW-FIX.md](task-history/select-actual-c2-r17/S5-UNSELECTED-BORROW-FIX.md) — `f7b9e8522fc7cf08a15011682c7368bc0cc8673df3f54f6dbbc438274ef3dca4`
-- [research/challenge-8/task-history/select-actual-c2-r17/S5-review-spec.json](task-history/select-actual-c2-r17/S5-review-spec.json) — `66b18ce60ba30a59fc81d9da77f63d6d7b8ed004fdb6e23fff654b97fabf4590`
-- [research/challenge-8/task-history/select-actual-lifetime-r16/NEXT-CALLBACK-PROTOCOL.md](task-history/select-actual-lifetime-r16/NEXT-CALLBACK-PROTOCOL.md) — `52ab17d8fc1da93b4b10e4e5be40dfd8455c761c4b1b09f88b0305464169e769`
+- [research/challenge-8/task-history/select-s5-r18/S5-review.json](task-history/select-s5-r18/S5-review.json) — `26099067fcc01c07ba31d5e0e016dd3c5685fab65fb009a2ae91f6ef201e4085`
+- [research/challenge-8/task-history/select-s5-r18/REGISTRATION.md](task-history/select-s5-r18/REGISTRATION.md) — `a193bbc5fc74a219970759fc8d4600355a1cc2960db142cd67157960cb7ec523`
+- [research/challenge-8/task-history/select-s5-r18/R18-client-review.json](task-history/select-s5-r18/R18-client-review.json) — `6530c5b6b221a352c43aaa0144d99d0154294b32f378c78360da1b1d8b97b9fd`

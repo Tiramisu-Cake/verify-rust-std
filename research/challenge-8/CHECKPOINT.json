@@ -1,10 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/task-history/select-actual-c2-r17/S4-review.json",
-      "sha256": "52b489a57fa00efd4a176e346f7fbf2053560ac52cbbe36b724eaba6d03836bc"
-    },
-    {
       "path": "research/challenge-8/task-history/select-actual-c2-r17/S4-evidence.json",
       "sha256": "c6cfa91918fd3f75732510638ac2aa41c8a7c38c84f195a86cd907f9bc4765c9"
     },
@@ -13,12 +9,16 @@
       "sha256": "f7b9e8522fc7cf08a15011682c7368bc0cc8673df3f54f6dbbc438274ef3dca4"
     },
     {
-      "path": "research/challenge-8/task-history/select-actual-c2-r17/S5-review-spec.json",
-      "sha256": "66b18ce60ba30a59fc81d9da77f63d6d7b8ed004fdb6e23fff654b97fabf4590"
+      "path": "research/challenge-8/task-history/select-s5-r18/S5-review.json",
+      "sha256": "26099067fcc01c07ba31d5e0e016dd3c5685fab65fb009a2ae91f6ef201e4085"
     },
     {
-      "path": "research/challenge-8/task-history/select-actual-lifetime-r16/NEXT-CALLBACK-PROTOCOL.md",
-      "sha256": "52ab17d8fc1da93b4b10e4e5be40dfd8455c761c4b1b09f88b0305464169e769"
+      "path": "research/challenge-8/task-history/select-s5-r18/REGISTRATION.md",
+      "sha256": "a193bbc5fc74a219970759fc8d4600355a1cc2960db142cd67157960cb7ec523"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-s5-r18/R18-client-review.json",
+      "sha256": "6530c5b6b221a352c43aaa0144d99d0154294b32f378c78360da1b1d8b97b9fd"
     }
   ],
   "assignment_sha256": "939352c79c6da9f8296196b10d8f03ad6faaabce41b9e2849177efd8a711f52b",
@@ -105,9 +105,10 @@
       ]
     }
   ],
-  "next_step": "Review S5 a6550c20 with smallsort-reviewer, register R18, then Cloud S5 with missing-unselected-share control; Brief on the c2 leak check.",
+  "next_step": "WAITING S5 Build 0ee7f658 via wait; ack, then Brief: c2 leak check and controls by message/location.",
   "open": [
-    "S5 a6550c20 (checked share_full_borrow of unselected c2 cells0/1): artifact unverified, unreviewed; no Cloud evidence; credit0.",
+    "S5 a6550c20: reviewer GO_WITH_NITS; Cloud Build 0ee7f658 (pins 1e92d32b) pending; credit0.",
+    "Read each S5 control diagnostic/location in Brief (qualification checks only exit).",
     "Full actual sort4 normal/unwind; ordered c1–c5 attribution/current-owner recovery, selector-pointer/permutation/copy composition.",
     "Required HRTB-off/controls completion, final mini7/fresh26, qualification and stable Freeze caller; independent B1/B2 credit0."
   ],
@@ -122,17 +123,19 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "0ee7f658-50fe-4928-a7c9-3da5e56c95f2"
+    ],
     "budget_seconds": 3600,
-    "deadline_utc": null,
-    "main_deadline_utc": null,
+    "deadline_utc": "2026-10-22T14:42:06Z",
+    "main_deadline_utc": "2026-10-22T14:12:06Z",
     "remaining_seconds": 3600,
     "retired_seconds": 0,
     "spent_seconds": 0,
-    "t0": null,
+    "t0": "2026-10-22T12:12:06Z",
     "unresolved_ids": []
   },
-  "state": "NOT_STARTED",
+  "state": "HANDOFF",
   "task_id": "select-s5-unselected-borrow-autonomous-2026-10-22-r18",
-  "updated_utc": "2026-10-22T12:00:14Z"
+  "updated_utc": "2026-10-22T12:50:00Z"
 }
