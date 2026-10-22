@@ -32,3 +32,18 @@ Next steps (each is its own reviewed candidate):
 4. A proof run plus the full matrix.
 
 This order follows `../select-callee-r21/MUTABLE-CALLEE-NEXT.md`.
+
+## Source-route progress (R22, static only)
+
+Step 1 is committed but unreviewed and not on any route. It consists of `overnight-helper/prepare-actual-helper-capture-mut.py` and its test, 4 synthetic tests OK.
+
+The writer loads the const preparer by its SHA `2c5ce72f…` and takes that preparer's exact fixture bytes. It replaces only the three signature types. It checks:
+- ghost-strip identity;
+- that the std body's only raw-pointer token is the generic `inner: *mut T` guard field;
+- that the contract-text SHA equals `P2-INTERFACE.json` (`dc985de2…`).
+
+Static check, run without any tool: `prepare-actual-owner-projection.py::candidate` was applied to the mutable pair and to the const pair. For the flag sets `{}`, `owner_post_completion`, `owner_post_completion+annotate_nested_drop`, `owner_safety_proof` and `owner_safety_proof+annotate_nested_drop+owner_literal`, the two outputs are byte-identical modulo the signature.
+
+Still unchecked on the mutable route:
+- the R20 repair and the R21 fractional/control transforms, because they act on the full nine-body unit produced by the capture chain;
+- every translator gate listed above.
