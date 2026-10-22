@@ -81,6 +81,18 @@ class FinalSelectRepair(unittest.TestCase):
         self.assertLess(block.index(b"} else {"), block.rindex(b"close_MaybeUninit_pointer_own"))
         self.assertEqual(out.replace(REPAIR._LEMMAS, b""), UNIT)
 
+    def test_branch_selected_uses_reopened_payload_for_selected_wrapper(self):
+        unit = UNIT.replace(REPAIR.SELECTED_BLOCK,
+                            b"        /*@ assert *saved_guard.inner |-> ?selected_payload; @*/\n" + REPAIR.SELECTED_BLOCK)
+        out = REPAIR.repair(unit, "branch-selected")
+        self.assertEqual(out.count(b"close_MaybeUninit_pointer_own"), 4)
+        self.assertEqual(out.count(b"(selected_payload))"), 2)
+        start = out.index(b"        /*@ if (condition) {\n"); mid = out.index(b"} else {", start)
+        self.assertIn(b"(selected_payload))", out[start:mid]); self.assertIn(b"(false_payload))", out[start:mid])
+        self.assertNotIn(b"(true_payload))", out[start:mid])
+        with self.assertRaises(RuntimeError):
+            REPAIR.repair(UNIT, "branch-selected")
+
     def test_refusals(self):
         for bad in (UNIT.replace(REPAIR.FINAL_CALL, b""),
                     UNIT.replace(REPAIR.FINAL_CALL, REPAIR.FINAL_CALL * 2),

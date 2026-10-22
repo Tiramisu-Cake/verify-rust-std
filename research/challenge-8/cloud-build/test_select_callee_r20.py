@@ -21,6 +21,7 @@ ENV = {"SMALLSORT_EXECUTION_PROVIDER": "cloud-build",
 UNIT = (b"fn select_unpredictable() {\n"
         b"    /*@ assert *true_ptr |-> ?true_payload; @*/\n"
         b"    /*@ assert *false_ptr |-> ?false_payload; @*/\n"
+        b"        /*@ assert *saved_guard.inner |-> ?selected_payload; @*/\n"
         b"        /*@ if (condition) {\n"
         b"                 std::mem::close_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>);\n"
         b"             } else {\n"
@@ -194,7 +195,7 @@ class RepairedFingerprint(unittest.TestCase):
         case, source, repaired, _, _ = cap.calls[1]
         self.assertEqual(repaired.count(b"close_MaybeUninit_pointer_own"), 4)
         self.assertEqual(repaired.count(b"/*@"), UNIT.count(b"/*@"))
-        self.assertEqual(saved["variant"], "branch")
+        self.assertEqual(saved["variant"], "branch-selected")
         self.assertEqual(source["verified_sha256"], CALLEE.sha(repaired))
         self.assertEqual(saved["verified_sha256"], CALLEE.sha(repaired))
         self.assertEqual(saved["base_verified_sha256"], CALLEE.sha(UNIT))

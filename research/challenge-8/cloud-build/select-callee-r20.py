@@ -21,11 +21,11 @@ import sys
 import time
 
 REPAIR_REL = Path("research/challenge-8/overnight-assume-actual/r20_final_select_repair.py")
-REPAIR_SHA256 = "2c7c6bc135735ec2092f5483930560956b8a7cab7f0c2724d93ece63d52b1e11"
+REPAIR_SHA256 = "3646b05602b7dce35cd4b2ab8f74d8cfe280d65df2637ac4f6cc0a128dd7e2a3"
 CASE = "nine-body-a1-owned-forget"
 VARIANTS = ("both", "true-only", "false-only")
 # "branch" keeps one ghost statement (no new MIR block); "merged" was a parse error (S3).
-FINGERPRINT_VARIANT = "branch"
+FINGERPRINT_VARIANT = "branch-selected"
 STAGE_RESERVE_SECONDS = 150
 
 

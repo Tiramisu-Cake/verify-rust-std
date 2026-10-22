@@ -17,7 +17,7 @@ FINAL_CALL = (b"        crate::intrinsics::select_unpredictable(condition, true_
               b".assume_init()\n")
 PAYLOAD_ASSERTS = (b"    /*@ assert *true_ptr |-> ?true_payload; @*/\n",
                    b"    /*@ assert *false_ptr |-> ?false_payload; @*/\n")
-VARIANTS = ("both", "true-only", "false-only", "none", "merged", "branch")
+VARIANTS = ("both", "true-only", "false-only", "none", "merged", "branch", "branch-selected")
 # The existing selected-wrapper ghost block immediately before the final
 # select (exact O26 owner-admission text). "merged" appends the two lemma
 # calls inside it, so no new ghost statement (and no new MIR block) appears.
@@ -49,6 +49,24 @@ BRANCH_BLOCK = (
     b"             } @*/\n")
 
 
+# R20 S3b showed the re-opened guard pointee is a fresh symbol
+# (selected_payload): the selected wrapper must be closed with it, the
+# unselected wrapper with its original payload.
+def _close(payload: bytes) -> bytes:
+    return (b"                 std::mem::close_MaybeUninit_pointer_own::<Element>(t, "
+            b"std::mem::MaybeUninit::new::<*Element>(" + payload + b"));\n")
+
+
+SELECTED_BRANCH_BLOCK = (
+    b"        /*@ if (condition) {\n"
+    b"                 std::mem::close_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>);\n"
+    + _close(b"selected_payload") + _close(b"false_payload") +
+    b"             } else {\n"
+    b"                 std::mem::close_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>);\n"
+    + _close(b"true_payload") + _close(b"selected_payload") +
+    b"             } @*/\n")
+
+
 def need(ok: bool, why: str) -> None:
     if not ok:
         raise RuntimeError("R20-FINAL-SELECT-REPAIR: " + why)
@@ -69,7 +87,7 @@ def repair(verified: bytes, variant: str) -> bytes:
              "payload binding precedes the final select")
     need(b"close_MaybeUninit_pointer_own" not in verified,
          "unit already contains a wrapper-ownership close")
-    if variant in ("merged", "branch"):
+    if variant in ("merged", "branch", "branch-selected"):
         need(verified.count(SELECTED_BLOCK) == 1, "one exact selected-wrapper ghost block")
         need(verified.index(SELECTED_BLOCK) < verified.index(FINAL_CALL),
              "selected block precedes the final select")
@@ -78,6 +96,17 @@ def repair(verified: bytes, variant: str) -> bytes:
                                       not line.lstrip().startswith(b"//@"))
                  for line in gap.splitlines()),
              "only blank/plain comment lines between the selected block and the final select")
+        if variant == "branch-selected":
+            need(verified.count(b"?selected_payload; @*/") == 1 and
+                 verified.index(b"?selected_payload; @*/") < verified.index(SELECTED_BLOCK),
+                 "selected_payload is bound before the selected block")
+            result = verified.replace(SELECTED_BLOCK, SELECTED_BRANCH_BLOCK, 1)
+            stripped = result
+            for payload in (b"selected_payload", b"false_payload", b"true_payload", b"selected_payload"):
+                stripped = stripped.replace(_close(payload), b"", 1)
+            need(stripped == verified and result.count(b"close_MaybeUninit_pointer_own") == 4,
+                 "branch-selected repair changed more than the two branch blocks")
+            return result
         if variant == "branch":
             result = verified.replace(SELECTED_BLOCK, BRANCH_BLOCK, 1)
             need(result.replace(_LEMMAS, b"") == verified and
