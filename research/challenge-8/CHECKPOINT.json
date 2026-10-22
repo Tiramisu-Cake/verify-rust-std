@@ -1,24 +1,16 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/task-history/select-s5-r18/S5-review.json",
-      "sha256": "26099067fcc01c07ba31d5e0e016dd3c5685fab65fb009a2ae91f6ef201e4085"
-    },
-    {
-      "path": "research/challenge-8/task-history/select-s5-r18/REGISTRATION.md",
-      "sha256": "a193bbc5fc74a219970759fc8d4600355a1cc2960db142cd67157960cb7ec523"
-    },
-    {
-      "path": "research/challenge-8/task-history/select-s5-r18/R18-client-review.json",
-      "sha256": "6530c5b6b221a352c43aaa0144d99d0154294b32f378c78360da1b1d8b97b9fd"
-    },
-    {
       "path": "research/challenge-8/task-history/select-s5-r18/S5-evidence.json",
       "sha256": "724da794e6172fe2000fbeb81406fd83fe68df29ffdc00cde35933ac0c414cda"
     },
     {
       "path": "research/challenge-8/task-history/select-s5-r18/C3-NEXT-DESIGN.md",
       "sha256": "783591a28b6a0e4ae2073223e55528a2aa33d31237c96d12bb0fa9b29d06276e"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-c3-r19/C3-IMPLEMENTATION.md",
+      "sha256": "52d510ded9d4c5d03c9cded0eee690d6b05340b4b3899e71ff8dd8bbb29a9dec"
     }
   ],
   "assignment_sha256": "a136a43709832cd06bd249b46baf8fdfc275f74271e9566a18686e4182222e1a",
@@ -42,41 +34,13 @@
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "R17 S1-S3 terminal/accounted: S1 phase-allowlist run_error; S2 tool compile failure; S3 actual body c1 non-pure ghost read. Actual obligations closed0; credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/task-history/select-actual-c2-r17/S1-evidence.json",
-          "sha256": "9e02ff66640dfb90532a457a05e83bdc2426b2a68e3e252449b080f74d3e9148"
-        },
-        {
-          "path": "research/challenge-8/task-history/select-actual-c2-r17/S2-evidence.json",
-          "sha256": "7a1b4f8c2d939ca352117afccfa6aafc6d55f132798678346143aab1591b0024"
-        },
-        {
-          "path": "research/challenge-8/task-history/select-actual-c2-r17/S3-evidence.json",
-          "sha256": "f00873db2149b0156ab4e20fce138f8364bccdede88e0c2db73b101a8572edbf"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R17 S4 (candidate 51c4368b) terminal/accounted FAILURE 525s; actual body passes S3 c1 ghost-read and fails function-end leak check: unselected c2 full_borrow(cmp2_k) at v_base+0/+1, matching S5-UNSELECTED-BORROW-FIX.md. Causality UNKNOWN; actual obligations closed0; no control qualification; credit0.",
+      "claim": "R17 closed: S1-S4 terminal/accounted (S4 FAILURE: c2 unselected full_borrow leak), carry0, credit0.",
       "evidence": [
         {
           "build_id": "27e8bfac-eb5f-4cf4-ae89-18bacd16eb90",
           "path": "research/challenge-8/task-history/select-actual-c2-r17/S4-evidence.json",
           "sha256": "c6cfa91918fd3f75732510638ac2aa41c8a7c38c84f195a86cd907f9bc4765c9"
         },
-        {
-          "path": "research/challenge-8/task-history/select-actual-c2-r17/observations/1568767949f9cb2325075a4b28c38d740e4c1d8755e9114723d84287ebbe5081.json",
-          "sha256": "1568767949f9cb2325075a4b28c38d740e4c1d8755e9114723d84287ebbe5081"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R17 CLOSED (interrupted, absolute expired): four terminal/accounted Builds, 1995s used, 1605s retired, carry0; own active/unresolved/request/reservation0 after own status. No complete actual obligation or independent credit.",
-      "evidence": [
         {
           "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C2-2026-10-21-R17.json",
           "sha256": "5c857f5ef31b2fa45910bb3f11ad505dd0506a78fdcd6412bec8c9aa7d74bb46"
@@ -103,9 +67,23 @@
           "sha256": "69a9ca981bba6e6dcdceaf7c17a24a161aa07e376635a2c29ef8d74567368075"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R19 c3 candidate de2a2c69+f1fbef3c: N in {2,3} overlay, c3 layer (all four shares; refs for c/a), 8 c3 + count-off controls, profile 36bed85d by SHA allowlist. Review GO_WITH_NITS (+delta). Unverified; credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-c3-r19/C3-review.json",
+          "sha256": "37ae0f830af3fc6c672c804826d68a0342eee5cab1fc22fadfb40c87d0f1f14f"
+        },
+        {
+          "path": "research/challenge-8/task-history/select-c3-r19/C3-IMPLEMENTATION.md",
+          "sha256": "52d510ded9d4c5d03c9cded0eee690d6b05340b4b3899e71ff8dd8bbb29a9dec"
+        }
+      ]
     }
   ],
-  "next_step": "Implement C3-NEXT-DESIGN (N-index overlay, c3 constructor sharing all four borrows, per-index controls, new profile); review; register R19; Cloud c3.",
+  "next_step": "Push; submit S1 (c3) on exact pins; wait; read c3 and controls by message/location in Brief; then c4/c5.",
   "open": [
     "c3-c5 setup + translator index generalisation (C3-NEXT-DESIGN.md); new profile/review required.",
     "Full actual sort4 normal/unwind; selector/permutation/copy composition; controls/mini7/fresh26, Freeze caller; credit0."
@@ -123,15 +101,15 @@
   "session": {
     "active_build_ids": [],
     "budget_seconds": 3600,
-    "deadline_utc": null,
-    "main_deadline_utc": null,
+    "deadline_utc": "2026-10-22T16:20:26Z",
+    "main_deadline_utc": "2026-10-22T15:50:26Z",
     "remaining_seconds": 3600,
     "retired_seconds": 0,
     "spent_seconds": 0,
-    "t0": null,
+    "t0": "2026-10-22T13:50:26Z",
     "unresolved_ids": []
   },
-  "state": "NOT_STARTED",
+  "state": "ACTIVE",
   "task_id": "select-c3-callback-autonomous-2026-10-22-r19",
-  "updated_utc": "2026-10-22T13:44:32Z"
+  "updated_utc": "2026-10-22T14:22:00Z"
 }

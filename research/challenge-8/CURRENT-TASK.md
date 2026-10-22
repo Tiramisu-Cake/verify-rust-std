@@ -47,10 +47,10 @@ Next: Implement C3-NEXT-DESIGN (N-index overlay, c3 constructor sharing all four
 
 ## Отчёт агента
 
-**select-c3-callback-autonomous-2026-10-22-r19 · select-sort4 · SORT4-ACTUAL-C3-2026-10-22-R19 · NOT_STARTED**
-Updated: 2026-10-22T13:44:32Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `87a0bfe586b40a33bdf840164aec8748872c8fdd11b3faad421d3860d1f2a091`.
-Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
+**select-c3-callback-autonomous-2026-10-22-r19 · select-sort4 · SORT4-ACTUAL-C3-2026-10-22-R19 · ACTIVE**
+Updated: 2026-10-22T14:22:00Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `87a0bfe586b40a33bdf840164aec8748872c8fdd11b3faad421d3860d1f2a091`.
+Dates: T0 `2026-10-22T13:50:26Z`; main `2026-10-22T15:50:26Z`; absolute `2026-10-22T16:20:26Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: c3 has no callback setup: No matching heap chunks ref_precreated_token<T>(ptr_add_(v_base,2+1)); translator overlay supports indices 1/2 only. [Build `0ee7f658-50fe-4928-a7c9-3da5e56c95f2`]
-Next: Implement C3-NEXT-DESIGN (N-index overlay, c3 constructor sharing all four borrows, per-index controls, new profile); review; register R19; Cloud c3.
+Next: Push; submit S1 (c3) on exact pins; wait; read c3 and controls by message/location in Brief; then c4/c5.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

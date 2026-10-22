@@ -1,0 +1,41 @@
+{
+  "reviewer": "claude-subagent:smallsort-reviewer",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "nested_delegation": false,
+  "verdict": "GO_WITH_NITS",
+  "candidate_commit": "de2a2c693fa8928081876f42c640351eacfed5ea",
+  "candidate_tree": "8812ad105a233bb53fff17676f11faf105c3226e",
+  "baseline_commit": "69a54645a7f63cdd26b931b69956b99f09b4efd3",
+  "packet_sha256": "8a1efbc4028db83aec1ff02f01a8f3839e1051d53f78d8a112b5d32670105607",
+  "packet_spec_sha256": "110d461189198a426abbbe522214ff3492283bd111e84d732f99f28407ffaf4d",
+  "findings": [
+    {
+      "severity": "should-fix",
+      "summary": "Candidate recipe replaced the R17 profile with R19, breaking test_a1_r17_registration.test_route_and_recipe_select_r17_inputs (passes at baseline).",
+      "resolution": "f1fbef3c transports both allowlisted profiles; sent as delta review."
+    }
+  ],
+  "nits": [
+    "c3-missing-fourth-debt-token, wrong-marker-index, displaced and index-overflow controls are frontend refusals (unparsed marker -> declared/parsed inventory 'malformed source marker'), not resource controls; only share/end-token/ordered-pair/wrong-ref test resources. Recorded in evidence interpretation; expected_rejection strings not changed in this candidate.",
+    "A c4 frontier would exercise c3 on the first explored (c1,c2) path only; record c3 as path-partial until the whole body verifies.",
+    "c3 setup omits interior_pointer_limits (c2 calls them); could cause a Cloud verification failure, not unsoundness.",
+    "CHECKPOINT/STATUS still NOT_STARTED with T0 null while ledger/control fix T0 13:50:26Z."
+  ],
+  "basis": "Ghost-only c3 layer with strip_ghost equality for positive and eight controls; fresh cmp3_k, all four borrows shared, refs precreated only for program locals c/a; same checked callback_four_debt/recover_four_sources on normal and direct-unwind. Overlay applies 6c04f608 -> c5253a3c; static OCaml review found no type errors; unknown count/index/name/scope refused; inventories and insertions = N. Profile pins match bytes; adapters refuse missing/ambiguous profile matches.",
+  "not_run": "OCaml compile, VeriFast, rustc, Cloud.",
+  "limits": "c3 unverified pending Cloud; c4/c5, selectors, copies, full controls/mini7/fresh26 and call-site attribution OPEN; credit0.",
+  "delta_review": {
+    "reviewer": "claude-subagent:smallsort-reviewer (same context, continuation)",
+    "verdict": "GO_WITH_NITS",
+    "range": "de2a2c693fa8928081876f42c640351eacfed5ea..f1fbef3cd0fbec18e66bb5567d226f0db2ced90e",
+    "bound_commit": "f1fbef3cd0fbec18e66bb5567d226f0db2ced90e",
+    "basis": "Only recipe (+R17 profile line; sorted/unique; both allowlisted profiles transported), R12-R18 test clock injection (no removed lines, gates intact) and review spec changed; constructor/patch/manifest/R19 profile/adapters/control.py/ledger byte-identical to de2a2c69. Should-fix resolved.",
+    "nits": [
+      "R12-R16/R18 historical tests still have 12 state-drift failures (stale pins/routes, CLOSED R18 ledger) at baseline, candidate and delta; maintenance gap.",
+      "Review spec names de2a2c69; submitted commit includes f1fbef3c (this delta)."
+    ],
+    "not_run": "OCaml compile, VeriFast, Cloud."
+  },
+  "submit_basis_commit": "f1fbef3cd0fbec18e66bb5567d226f0db2ced90e"
+}
