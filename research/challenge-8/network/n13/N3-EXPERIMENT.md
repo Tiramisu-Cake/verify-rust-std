@@ -130,3 +130,31 @@ an unexpected spelling remains INCONCLUSIVE. Source reference is stock tool
 commit809de459 (`verifast1.ml` pure-function value evaluation/Bool equality,
 `redux.ml` mk_iff/mk_boxed_int/mk_unboxed_bool/pprint). Independent delta review
 is required before controls use the revised classifier metadata.
+
+## Shape2 bootstrap timeout and Network-only correction
+
+Build0eef66e7 ended with outer run exit124, evidence_complete=false, charge624s.
+The complete catalogue contains only7 generic artifacts, no generated case or
+restored source certificate. A targeted stdout window (53..62) ends while
+initial Ubuntu bootstrap downloads perl-modules. This is consistent with a
+stall before source restore; the package/network root cause is not established.
+Shape2 is NOT_OBSERVED, not refuted or accepted. Total1757s, remaining1843s.
+
+Concrete infrastructure defect: Network's initial config apt update/install
+occurs before source restore and outside run.sh's120s setup cap. Consequently
+it can consume the whole work deadline without ever reaching proof admission.
+Correction is Network-only: start/export one120s setup deadline at bootstrap,
+use remaining time and bounded download timeout/retries for apt operations,
+write explicit original-exit/stage records before/after bootstrap, and let
+run.sh consume the SAME remaining setup deadline. Preserve the original apt
+error or timeout, package/evidence failure records, all pins, and the240s
+report reserve. No common transport/coordinator/imported script changes.
+
+Also expose an optional N9-only regression stage (180s case,555s Build plus60s
+queue), keeping the existing full regression stage unchanged. This permits
+useful independent N9 evidence under the remaining account. Universal N13
+is still mandatory: only a FULL accepted exact case that checks the unchanged
+universal body in the same unit can supply that component coverage, per
+N3-SCOPE's explicit no-duplicate-checked-dependency rule. With an unaccepted
+exact case, N9-only does not close universal or exact acceptance. All controls
+remain required; this stage adds no proof credit or unchecked callee summary.

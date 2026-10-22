@@ -1,5 +1,5 @@
 {
-  "active_build": "0eef66e7-2405-4cad-9268-936aa5616645",
+  "active_build": null,
   "allowed_lanes": [
     "network-n13"
   ],
@@ -87,11 +87,17 @@
       "submitted_config_sha256": "2970fd447864bccaa13ac0fdb3f97fb0fea6fe72165adb52b3a20aac2cd09907",
       "reserved_seconds": 855,
       "timeout_seconds": 795,
-      "status": "QUEUED",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "12e7541e0b12a57ced6161fe66ffa1aaa035fc98bf6b394bbb979b5f507aab37",
-      "build_id": "0eef66e7-2405-4cad-9268-936aa5616645"
+      "build_id": "0eef66e7-2405-4cad-9268-936aa5616645",
+      "start_time": "2026-10-22T21:45:25.774439603Z",
+      "finish_time": "2026-10-22T21:55:48.211243Z",
+      "create_time": "2026-10-22T21:45:24.913512285Z",
+      "build_seconds": 624,
+      "accounted": true,
+      "execution_seconds": 623
     }
   ],
   "carry_seconds": 0,
@@ -106,7 +112,7 @@
   "owner": "network",
   "phase": "NETWORK-N13-EXACT-2026-10-23-N3",
   "phase_id": "NETWORK-N13-EXACT-2026-10-23-N3",
-  "remaining_build_seconds": 2467,
+  "remaining_build_seconds": 1843,
   "report_reserve_seconds": 240,
   "retired_seconds": 0,
   "schema": "smallsort-prepared-session-ledger-v1",
@@ -114,5 +120,5 @@
   "start_utc": "2026-10-22T20:43:40Z",
   "status": "AUTHORIZED",
   "task_id": "network-n13-exact-cloud-2026-10-23-n3",
-  "used_build_seconds": 1133
+  "used_build_seconds": 1757
 }

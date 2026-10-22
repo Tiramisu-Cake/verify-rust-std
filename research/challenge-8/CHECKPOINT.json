@@ -20,13 +20,13 @@
     "tool_sha": "809de4596839b739dd999f9e462242c835e3af46"
   },
   "blocker": {
+    "summary": "Setup INCONCLUSIVE; shape2 unobserved, exact acceptance OPEN.",
     "evidence": [
       {
-        "path": "research/challenge-8/network/N13-ADAPTER-NOTE.md",
-        "sha256": "2d57a9dfcd8e6a440f7b30be6b2330ea3b3a8e46ce25c52b31dd2e0a9b3db271"
+        "path": "research/challenge-8/observations/3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7.json",
+        "sha256": "3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7"
       }
-    ],
-    "summary": "Shape2 exact420 active; acceptance OPEN."
+    ]
   },
   "confirmed": [
     {
@@ -106,11 +106,21 @@
           "sha256": "bf08126b33de2f8d3fd636231d90f5d0c776bb6135ca6cd0ffafb8b2c02df448"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "Shape2 Build0eef66e7: setup exit124, evidence incomplete; theorem NOT_OBSERVED. Charge624s.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/observations/3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7.json",
+          "sha256": "3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7"
+        }
+      ]
     }
   ],
-  "next_step": "Watcher -> ack -> Brief; then controls and regressions.",
+  "next_step": "Review bootstrap fix, then retry same shape2 exact420.",
   "open": [
-    "Shape2 0a2e5007 scoped GO; exact Build0eef66e7-2405-4cad-9268-936aa5616645 active. Full exact/controls/regressions OPEN.",
+    "Shape2 reviewed, not observed; bootstrap deadline fix in progress.",
     "Full exact H1 adapter/posts, negatives and compatible final regressions OPEN.",
     "R4/W7 blocked by inactive Select P1 and pending P2; W8 depends on Merge.",
     "Workflow-owner FIRST_SESSION/CLOUD_HISTORY follow-up recorded; shared changes outside N3."
@@ -141,19 +151,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "0eef66e7-2405-4cad-9268-936aa5616645"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T23:13:40Z",
     "main_deadline_utc": "2026-10-22T22:43:40Z",
-    "remaining_seconds": 2467,
+    "remaining_seconds": 1843,
     "retired_seconds": 0,
-    "spent_seconds": 1133,
+    "spent_seconds": 1757,
     "t0": "2026-10-22T20:43:40Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "network-n13-exact-cloud-2026-10-23-n3",
-  "updated_utc": "2026-10-22T21:45:51Z"
+  "updated_utc": "2026-10-22T22:06:20Z"
 }
