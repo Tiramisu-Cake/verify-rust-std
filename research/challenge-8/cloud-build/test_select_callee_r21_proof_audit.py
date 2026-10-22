@@ -59,7 +59,9 @@ class AuditTests(unittest.TestCase):
                 proof['rows'][variant] = {
                     'status': 'COMPLETE', 'source_intact_after_stages': True,
                     'normal_unwind_nested_drop_gates': True,
-                    'stage': {'status': 'RAN', 'exit': 0 if variant == 'positive' else 1},
+                    'stage': {'status': 'RAN', 'exit': 0 if variant == 'positive' else 1,
+                              'intrinsic_gate_active': True, 'pointer_drop_gate_active': True,
+                              'source_unchanged': True},
                     'preflight_capture_check': {'complete': True},
                     'postflight_capture_check': {'complete': True},
                     'classification': ('POSITIVE_VERIFIED_SOURCE_REPORTED'
@@ -67,7 +69,7 @@ class AuditTests(unittest.TestCase):
                         'EXPECTED_CALLEE_CONTRACT_REJECTION'
                         if variant.startswith('callee-') else
                         'EXPECTED_SAME_SITE_FINAL_SELECT_FAILURE')}
-            self.assertTrue(MODULE.complete_matrix(proof))
+            self.assertFalse(MODULE.complete_matrix(proof))  # callee targets remain unpinned
             for variant in MODULE.VARIANTS:
                 proof['rows'][variant]['status'] = 'NOT_RUN'
                 self.assertFalse(MODULE.complete_matrix(proof))

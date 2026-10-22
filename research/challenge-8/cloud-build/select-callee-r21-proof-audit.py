@@ -12,6 +12,9 @@ BASE_SHA256 = '83d2d0940fcb255a58b97db8d6161ec3b39660a62905f89a33f926a96d3099ba'
 VARIANTS = ('positive', 'omit-selected-own', 'omit-unselected-own',
             'no-retained-half', 'callee-false-normal', 'callee-owner-duplicate',
             'callee-owner-loss', 'callee-thread-duplicate')
+# No exact callee-control diagnostic target has yet been established in Cloud.
+# A future admission must update this map together with the proof classifier.
+CALLEE_TARGETS = {}
 
 
 def complete_matrix(proof):
@@ -34,7 +37,14 @@ def complete_matrix(proof):
                 row.get('source_intact_after_stages') is not True or
                 row.get('normal_unwind_nested_drop_gates') is not True or
                 not isinstance(stage, dict) or stage.get('status') != 'RAN' or
-                type(stage.get('exit')) is not int):
+                type(stage.get('exit')) is not int or
+                stage.get('intrinsic_gate_active') is not True or
+                stage.get('pointer_drop_gate_active') is not True or
+                stage.get('source_unchanged') is not True):
+            return False
+        if variant.startswith('callee-') and (
+                variant not in CALLEE_TARGETS or
+                row.get('diagnostic_target') != CALLEE_TARGETS[variant]):
             return False
         for key in ('preflight_capture_check', 'postflight_capture_check'):
             if not isinstance(row.get(key), dict) or row[key].get('complete') is not True:
