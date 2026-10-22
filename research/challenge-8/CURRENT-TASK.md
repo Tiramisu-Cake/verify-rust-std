@@ -47,10 +47,10 @@ Next: Diagnose RawPtr refinement2 and the raw array_inv444 frontier; review; reg
 
 ## Отчёт агента
 
-**merge-raw-caller-frontier-autonomous-2026-10-22-r18 · merge · MERGE-RAW-CALLER-R18-2026-10-22 · NOT_STARTED**
-Updated: 2026-10-22T14:06:31Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `a66c1d30214e463a16a325cdef30b0ec8555e0af` / `947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d`.
-Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Original caller placeholders441/249; raw caller array_inv444 missing array<u64>; RawPtr positive refinement2 diagnostic OPEN. R17 CLOSED/main expired. [Build `20e8009e-458e-45b1-9974-b0abfe716675`]
-Next: Diagnose RawPtr refinement2 and the raw array_inv444 frontier; review; register R18; Cloud raw caller; then original borrow/unsize and CURRENT/final matrix.
+**merge-raw-caller-frontier-autonomous-2026-10-22-r18 · merge · MERGE-RAW-CALLER-R18-2026-10-22 · HANDOFF**
+Updated: 2026-10-22T14:43:00Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `a66c1d30214e463a16a325cdef30b0ec8555e0af` / `947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d`.
+Dates: T0 `2026-10-22T14:08:51Z`; main `2026-10-22T16:08:51Z`; absolute `2026-10-22T16:38:51Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
+Active Build IDs: e70d2723-f49d-4a8f-847e-f8da1106d36f; unresolved: none recorded.
+Blocker: RawPtr refinement2 = harness --check-first-fnmut-continue abort; array_inv444 = assert auto-close not retained. Fixes at 52cef788, unverified; P1 running. [Build `2256a4c8-2a4d-4a5c-8b61-a252730eae70`]
+Next: Ack P1 e70d2723 watcher; Brief RawPtr controls/raw caller frontier; next cycle or original borrow/unsize.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

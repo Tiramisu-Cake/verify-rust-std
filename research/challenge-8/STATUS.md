@@ -1,11 +1,11 @@
 # Agent checkpoint: merge-raw-caller-frontier-autonomous-2026-10-22-r18
 
-- Owner: merge | phase: MERGE-RAW-CALLER-R18-2026-10-22 | state: NOT_STARTED
-- Updated: 2026-10-22T14:06:31Z
+- Owner: merge | phase: MERGE-RAW-CALLER-R18-2026-10-22 | state: HANDOFF
+- Updated: 2026-10-22T14:43:00Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `a66c1d30214e463a16a325cdef30b0ec8555e0af`, profile `947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d`
-- Session dates: T0 `NOT_SET`; main deadline `NOT_SET`; absolute deadline `NOT_SET`
+- Session dates: T0 `2026-10-22T14:08:51Z`; main deadline `2026-10-22T16:08:51Z`; absolute deadline `2026-10-22T16:38:51Z`
 - Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: e70d2723-f49d-4a8f-847e-f8da1106d36f
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -15,7 +15,7 @@
 
 ## Open
 - Original as_mut_ptr/unsize, source-bound metadata, real borrow/reference lifecycle and caller normal/unwind remain OPEN; isolated lifecycle does not close them.
-- Raw caller actual array ownership at array_inv444/prelude274; RawPtr positive refinement2 diagnostic/control matrix remains OPEN.
+- Raw caller/RawPtr fixes at 52cef788 (review GO); P1 e70d2723 pending.
 - CURRENT/backedge/false/true/panic/Drop/Resume compatible final matrix; B2/generic/arbitrary-n/sorting/tool qualification/independent proof credit remain OPEN.
 
 ## Rejected approaches
@@ -23,11 +23,14 @@
 - Short outer timeout990/execute570 chosen using prior whole-cycle timings — Missed nested compile reserve140; P4 timed out before proof. Keep full1200 plan unless effective inner budget reviewed.; [research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md](cloud-build/origin-layout/R16-REVIEW-20261021.md) SHA `7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa`
 
 ## Blocker
-Original caller placeholders441/249; raw caller array_inv444 missing array<u64>; RawPtr positive refinement2 diagnostic OPEN. R17 CLOSED/main expired. (P4 exact raw frontier / P5 original caller) [Build `20e8009e-458e-45b1-9974-b0abfe716675`]
+RawPtr refinement2 = harness --check-first-fnmut-continue abort; array_inv444 = assert auto-close not retained. Fixes at 52cef788, unverified; P1 running. (R17 P4 RawPtr controls / raw caller verified444) [Build `2256a4c8-2a4d-4a5c-8b61-a252730eae70`]
+- [research/challenge-8/cloud-build/origin-layout/R18-RAW-CALLER-DESIGN-20261022.md](cloud-build/origin-layout/R18-RAW-CALLER-DESIGN-20261022.md) SHA `c5580b860c0d3dd1be7bb314ea68222a55b5397b344322706f33f133931c2cea`
 
 ## Next
-Diagnose RawPtr refinement2 and the raw array_inv444 frontier; review; register R18; Cloud raw caller; then original borrow/unsize and CURRENT/final matrix.
+Ack P1 e70d2723 watcher; Brief RawPtr controls/raw caller frontier; next cycle or original borrow/unsize.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md](cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md) — `6acfb36fa52b2e05eea0551dfb40033156b23ef8165dfa67f6309d0550e721eb`
 - [research/challenge-8/cloud-build/origin-layout/R17-RELEASE-20261021.json](cloud-build/origin-layout/R17-RELEASE-20261021.json) — `32bb4fc130c6299e1a6bf42a6eaface573539fe7ee6bb32899df25507f8f83a0`
+- [research/challenge-8/cloud-build/origin-layout/R18-REVIEW-20261022.md](cloud-build/origin-layout/R18-REVIEW-20261022.md) — `1558be1151365377aec81527760627eddd767e0e4b6344ed962d4c5a5d5e5617`
+- [research/challenge-8/cloud-build/origin-layout/R18-RAW-CALLER-DESIGN-20261022.md](cloud-build/origin-layout/R18-RAW-CALLER-DESIGN-20261022.md) — `c5580b860c0d3dd1be7bb314ea68222a55b5397b344322706f33f133931c2cea`

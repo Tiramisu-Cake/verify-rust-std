@@ -7,6 +7,14 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R17-RELEASE-20261021.json",
       "sha256": "32bb4fc130c6299e1a6bf42a6eaface573539fe7ee6bb32899df25507f8f83a0"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R18-REVIEW-20261022.md",
+      "sha256": "1558be1151365377aec81527760627eddd767e0e4b6344ed962d4c5a5d5e5617"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R18-RAW-CALLER-DESIGN-20261022.md",
+      "sha256": "c5580b860c0d3dd1be7bb314ea68222a55b5397b344322706f33f133931c2cea"
     }
   ],
   "assignment_sha256": "dcbd90df36a135f6ccadef42cb78cfe77e82adfcd1a132a75a0c8b754fb7b7e0",
@@ -16,10 +24,15 @@
     "tool_sha": "a66c1d30214e463a16a325cdef30b0ec8555e0af"
   },
   "blocker": {
-    "build_id": "20e8009e-458e-45b1-9974-b0abfe716675",
-    "evidence": [],
-    "location": "P4 exact raw frontier / P5 original caller",
-    "summary": "Original caller placeholders441/249; raw caller array_inv444 missing array<u64>; RawPtr positive refinement2 diagnostic OPEN. R17 CLOSED/main expired."
+    "build_id": "2256a4c8-2a4d-4a5c-8b61-a252730eae70",
+    "evidence": [
+      {
+        "path": "research/challenge-8/cloud-build/origin-layout/R18-RAW-CALLER-DESIGN-20261022.md",
+        "sha256": "c5580b860c0d3dd1be7bb314ea68222a55b5397b344322706f33f133931c2cea"
+      }
+    ],
+    "location": "R17 P4 RawPtr controls / raw caller verified444",
+    "summary": "RawPtr refinement2 = harness --check-first-fnmut-continue abort; array_inv444 = assert auto-close not retained. Fixes at 52cef788, unverified; P1 running."
   },
   "confirmed": [
     {
@@ -60,10 +73,10 @@
       ]
     }
   ],
-  "next_step": "Diagnose RawPtr refinement2 and the raw array_inv444 frontier; review; register R18; Cloud raw caller; then original borrow/unsize and CURRENT/final matrix.",
+  "next_step": "Ack P1 e70d2723 watcher; Brief RawPtr controls/raw caller frontier; next cycle or original borrow/unsize.",
   "open": [
     "Original as_mut_ptr/unsize, source-bound metadata, real borrow/reference lifecycle and caller normal/unwind remain OPEN; isolated lifecycle does not close them.",
-    "Raw caller actual array ownership at array_inv444/prelude274; RawPtr positive refinement2 diagnostic/control matrix remains OPEN.",
+    "Raw caller/RawPtr fixes at 52cef788 (review GO); P1 e70d2723 pending.",
     "CURRENT/backedge/false/true/panic/Drop/Resume compatible final matrix; B2/generic/arbitrary-n/sorting/tool qualification/independent proof credit remain OPEN."
   ],
   "owner": "merge",
@@ -92,17 +105,19 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "e70d2723-f49d-4a8f-847e-f8da1106d36f"
+    ],
     "budget_seconds": 3600,
-    "deadline_utc": null,
-    "main_deadline_utc": null,
+    "deadline_utc": "2026-10-22T16:38:51Z",
+    "main_deadline_utc": "2026-10-22T16:08:51Z",
     "remaining_seconds": 3600,
     "retired_seconds": 0,
     "spent_seconds": 0,
-    "t0": null,
+    "t0": "2026-10-22T14:08:51Z",
     "unresolved_ids": []
   },
-  "state": "NOT_STARTED",
+  "state": "HANDOFF",
   "task_id": "merge-raw-caller-frontier-autonomous-2026-10-22-r18",
-  "updated_utc": "2026-10-22T14:06:31Z"
+  "updated_utc": "2026-10-22T14:43:00Z"
 }

@@ -1,12 +1,29 @@
 {
-  "active_build": null,
+  "active_build": "e70d2723-f49d-4a8f-847e-f8da1106d36f",
   "allowed_lanes": [
     "merge"
   ],
   "authorization": "CURRENT-TASK R18: actual Merge raw caller frontier, RawPtr refinement and original borrow/unsize; fresh3600/no carry; independent review per runtime profile (claude-subagent:smallsort-reviewer); Cloud-only preparation/compiler/proof.",
   "authorization_model": "bounded-cloud-budget",
   "baseline_sha": "83cca35d25b6b26cd698e78bb6c605716c96df89",
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-b8c6b1e83f2040989268a09e6afd0566",
+      "owner": "merge",
+      "phase_id": "MERGE-RAW-CALLER-R18-2026-10-22",
+      "infra_sha": "52cef78882727762785387b053ef70aee1f269f0",
+      "proof_sha": "52cef78882727762785387b053ef70aee1f269f0",
+      "lane": "merge",
+      "submitted_config_sha256": "dd6e22d94f68513885f128b11c777f134e2948e0c72b0f5b30db40f0c52d6523",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "QUEUED",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "1d5a61cccc2c6f2e838ce032ac36ce96e981d255dde850d22f4c52ed508936e3",
+      "build_id": "e70d2723-f49d-4a8f-847e-f8da1106d36f"
+    }
+  ],
   "carry_seconds": 0,
   "carryover_allowed": false,
   "ceiling_build_seconds": 3600,
