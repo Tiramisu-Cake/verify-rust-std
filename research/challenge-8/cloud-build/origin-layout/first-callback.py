@@ -746,6 +746,20 @@ def _body_isolation_suffixes(old):
     return old.WRAPPER_RUNTIME, verified_suffix
 
 
+RAW_ARRAY_INV_LEMMA = b'''/*@
+
+lem r18_u64_array_inv(p: *u64, count: usize)
+    req [?f]array::<u64>(p, count, ?vs);
+    ens [f]array::<u64>(p, count, vs) &*& count == length(vs) &*&
+        pointer_within_limits(p) == true &*& pointer_within_limits(p + count) == true;
+{
+    array_inv::<u64>();
+}
+
+@*/
+'''
+
+
 def _raw_local_caller_suffixes(old):
     """Exact runtime-equivalent raw-pointer wrapper, plus checked ghost setup."""
     signature = old.WRAPPER_SIGNATURE
@@ -758,9 +772,11 @@ def _raw_local_caller_suffixes(old):
     original = _one(old.WRAPPER_RUNTIME, b'let begin = values.as_mut_ptr();',
                      b'let begin = &raw mut values as *mut u64;',
                      'raw local array data-pointer derivation')
-    before_call = (b'    /*@ { assert array::<u64>(begin, 3, ?r16_current);\n'
-                   b'        r9_make_u64_owners(t, r16_current);\n'
-                   b'        array_inv::<u64>(); } @*/\n')
+    # An assert only matches its auto-closed chunk; the checked lemma call
+    # with explicit p/count leaves the closed array chunk and its bounds.
+    before_call = (b'    /*@ { r18_u64_array_inv(begin, 3);\n'
+                   b'        assert array::<u64>(begin, 3, ?r16_current);\n'
+                   b'        r9_make_u64_owners(t, r16_current); } @*/\n')
     after_call = (b'    /*@ { assert array::<u64>(begin, 3, ?r16_normal_current);\n'
                   b'        r9_drop_u64_owners(t, r16_normal_current);\n'
                   b'        array_to_array_(begin); } @*/\n')
@@ -770,7 +786,9 @@ def _raw_local_caller_suffixes(old):
     verified = _one(verified_runtime, signature,
                     signature + old.WRAPPER_CONTRACT,
                     'attached raw-wrapper contract')
-    return original, verified
+    if not verified.startswith(b'\n') or verified.count(RAW_ARRAY_INV_LEMMA) != 0:
+        raise ValueError('raw-wrapper suffix boundary changed')
+    return original, b'\n' + RAW_ARRAY_INV_LEMMA + verified
 
 
 def _raw_owner_lemma_body():

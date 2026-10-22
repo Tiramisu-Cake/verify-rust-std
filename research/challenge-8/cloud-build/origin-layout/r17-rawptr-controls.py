@@ -2,6 +2,7 @@
 """Isolated, source-bound RawPtr controls for the R17 refiner."""
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 from pathlib import Path
@@ -230,8 +231,12 @@ def run(evidence, args, env, dispatch, consumer, selected_profile, *, source_sha
                   "accepted": False, "proof_credit": False}
         (case / "case.json").write_text(json.dumps(record, indent=2, sort_keys=True) + "\n")
         before = consumer._hashes(case)
+        # Isolated controls contain no insert_tail/prefix; the campaign-wide
+        # first-callback refiner mode is not applicable to them.
+        child_args = copy.copy(args)
+        child_args.first_fnmut_continue = False
         try:
-            execution = dispatch(case, args, env)
+            execution = dispatch(case, child_args, env)
         except Exception as error:
             execution = {"exception": {"type": type(error).__name__, "message": str(error)},
                          "status": "FAILED", "stages": None}

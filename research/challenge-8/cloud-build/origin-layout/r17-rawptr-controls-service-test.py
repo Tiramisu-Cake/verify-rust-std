@@ -7,6 +7,7 @@ import importlib.util
 import json
 from pathlib import Path
 import tempfile
+from types import SimpleNamespace
 import unittest
 
 
@@ -222,7 +223,10 @@ class RawPtrControlsTests(unittest.TestCase):
         evidence = self.root / "evidence"
         evidence.mkdir()
 
+        seen = []
+
         def dispatch(case, args, env):
+            seen.append(args.first_fnmut_continue)
             name = json.loads((case / "case.json").read_text())["case"]
             stages = {"exporter": 0, "decode": 0, "refinement": 0, "verifast": 0}
             if name != "identical_local_rawmut":
@@ -243,8 +247,12 @@ class RawPtrControlsTests(unittest.TestCase):
             return {"status": "SUCCESS", "stages": stages,
                     "source_unchanged_at_every_stage": True}
 
-        result = controls.run(evidence, object(), {}, dispatch, self.consumer,
+        campaign_args = SimpleNamespace(first_fnmut_continue=True)
+        result = controls.run(evidence, campaign_args, {}, dispatch, self.consumer,
                               "synthetic-profile", source_sha256=SOURCE_SHA)
+        # Isolated controls never inherit the campaign first-callback refiner mode.
+        self.assertEqual(seen, [False] * len(controls.CASES))
+        self.assertIs(campaign_args.first_fnmut_continue, True)
         self.assertTrue(result["all_matched"])
         self.assertFalse(result["accepted"])
         self.assertFalse(result["proof_credit"])
@@ -257,7 +265,8 @@ class RawPtrControlsTests(unittest.TestCase):
         def raising_dispatch(case, args, env):
             raise RuntimeError("dispatch sentinel")
 
-        result = controls.run(evidence, object(), {}, raising_dispatch, self.consumer,
+        result = controls.run(evidence, SimpleNamespace(first_fnmut_continue=True), {},
+                              raising_dispatch, self.consumer,
                               "synthetic-profile", source_sha256=SOURCE_SHA)
         first = result["cases"]["identical_local_rawmut"]
         self.assertEqual(first["classification"], "INCONCLUSIVE")

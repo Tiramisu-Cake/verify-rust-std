@@ -142,15 +142,21 @@ class BodyIsolationTests(unittest.TestCase):
 
     def test_raw_caller_multi_command_annotations_are_explicit_ghost_blocks(self):
         original, verified = campaign._raw_local_caller_suffixes(self.body_source)
-        before = (b'    /*@ { assert array::<u64>(begin, 3, ?r16_current);\n'
-                  b'        r9_make_u64_owners(t, r16_current);\n'
-                  b'        array_inv::<u64>(); } @*/\n')
+        before = (b'    /*@ { r18_u64_array_inv(begin, 3);\n'
+                  b'        assert array::<u64>(begin, 3, ?r16_current);\n'
+                  b'        r9_make_u64_owners(t, r16_current); } @*/\n')
         after = (b'    /*@ { assert array::<u64>(begin, 3, ?r16_normal_current);\n'
                  b'        r9_drop_u64_owners(t, r16_normal_current);\n'
                  b'        array_to_array_(begin); } @*/\n')
         self.assertEqual(verified.count(before), 1)
         self.assertEqual(verified.count(after), 1)
         self.assertIn(before + b'    insert_tail(begin, begin.add(2), is_less);\n' + after, verified)
+        # The checked explicit-input lemma precedes the wrapper exactly once; the
+        # unchecked all-unknown array_inv call is no longer used in the caller.
+        self.assertTrue(verified.startswith(b'\n' + campaign.RAW_ARRAY_INV_LEMMA + b'\npub unsafe fn'))
+        self.assertEqual(verified.count(b'lem r18_u64_array_inv('), 1)
+        self.assertEqual(verified.count(b'array_inv::<u64>();'), 1)
+        self.assertNotIn(b'r18_u64_array_inv', original)
         self.assertTrue(campaign._body_runtime_equal(original, verified))
 
     def test_exact_suffix_removed_and_body_posts_preserved(self):
