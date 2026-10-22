@@ -67,10 +67,10 @@ Next: Fix HRTB control routing; establish actual c2 resource/recovery gate and d
 
 ## Отчёт агента
 
-**select-actual-c2-autonomous-2026-10-21-r17 · select-sort4 · SORT4-ACTUAL-C2-2026-10-21-R17 · HANDOFF**
-Updated: 2026-10-21T21:05:46.279159+00:00. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24`.
-Dates: T0 `2026-10-21T20:06:19Z`; main `2026-10-21T22:06:19Z`; absolute `2026-10-21T22:36:19Z`. Budget 3600s: 1470s spent, 0s retired, 2130s remaining including reservations.
-Active Build IDs: 27e8bfac-eb5f-4cf4-ae89-18bacd16eb90; unresolved: none recorded.
-Blocker: Cannot read a ghost variable in a non-pure context. [Build `85dac5bf-ff84-4215-84c4-e08943bf882a`]
-Next: WAITING: S4 Build 27e8bfac-eb5f-4cf4-ae89-18bacd16eb90. Arm exact-thread watcher; on event first ack before checkpoint mutation, then Evidence Brief and exact target/control diagnostics. Existing R17 T0/account/window only, main22:06:19Z absolute22:36:19Z. No proof credit from metadata.
+**select-actual-c2-autonomous-2026-10-21-r17 · select-sort4 · SORT4-ACTUAL-C2-2026-10-21-R17 · CLOSED**
+Updated: 2026-10-22T11:47:55.286200+00:00. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d68d124131d7b242afb367c20826eb29ca2ad8f500aa99f1faddfee11230bf24`.
+Dates: T0 `2026-10-21T20:06:19Z`; main `2026-10-21T22:06:19Z`; absolute `2026-10-21T22:36:19Z`. Budget 3600s: 1995s spent, 1605s retired, 0s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: Function leaks heap chunks: unselected c2 full_borrow(cmp2_k, full_borrow_content(T,t)) at v_base+1 and v_base; full actual normal/unwind OPEN. [Build `27e8bfac-eb5f-4cf4-ae89-18bacd16eb90`]
+Next: R17 CLOSED/carry0. New owner-authorized R18 window required: independent review of S5 a6550c20 (S5-review-spec.json), then Cloud S5 with missing-unselected-share control. Full actual normal/unwind, controls/mini7/fresh26 and stable Freeze caller OPEN; independent credit0.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

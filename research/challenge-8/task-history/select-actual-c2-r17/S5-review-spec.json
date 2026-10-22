@@ -1,0 +1,31 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "51c4368bd6a1187dbf1975b979cb27ad3b51966f",
+  "candidate_commit": "a6550c20a94b6695dcb26a5fe464878c03eee8c4",
+  "defect": "S4 c2 setup borrowed4 cells but converted only selected3/2 full_borrow capabilities; caller leak check retains base0/1 full_borrows after recovery.",
+  "applicability": "c2 source annotations consume two remaining capabilities via existing checked share_full_borrow rule, as c1 already does. Only3/2 get precreated refs/arguments.",
+  "invariants": [
+    "No runtime/source algorithm/CFG/generic signature/normal-unwind post changes, no kernel/spec change or assumptions.",
+    "Exact indexed c1/c2 markers/call spans; checked receiver and ordered-ref equality assertions require existing kernel resources, grant no ownership.",
+    "Exact one receiver/one tuple/four ref cells per call from compiler decoded type/span; separate strict scopes for c1/c2 and complete-use containment/CFG-node conservation.",
+    "All unknown shapes/refusals remain failures; final proof credit and qualification remain false."
+  ],
+  "controls": [
+    "New missing-unselected-share negative preserves S4 leak condition.",
+    "Missing-unrelated-end-token negative removes borrow0 and matching share0 to isolate debt end-token refusal.",
+    "Wrong order/ref/index/debt/marker controls retained; no local constructor/proof execution.",
+    "Diagnostic inner_insertions now prints actual existing counter without changing its guard."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-actual-body-c1.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-actual-recover-four.rs",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-reference-own-probe.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-ghost-grammar.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/ACTUAL-SORT4-REFERENT-ADDRESS-R16-MANIFEST.json"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "S5 unverified pending Cloud. Full actual proof/control/call-attribution qualification OPEN; credit0."
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "archive_sha256": "5938f1519a7cd1d6635e37b61bec0083012f6a004e860f0b0fe7fd9ca3489aff",
+  "build_id": "27e8bfac-eb5f-4cf4-ae89-18bacd16eb90",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 11281,
+    "line_separator": "LF",
+    "source_lines": 11559,
+    "start": 11274,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "4837c1e6aee68dba4774abb6b4a72bed061c54bcca0c4738fef5c0076b2f6943",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/body-verification.log",
+  "file_sha256": "41b31c33f0364c3055fd9348363523682d36735b18dfdc03c127a4251fb2405b",
+  "index_sha256": "242edefac0b4fec68e8f30737f0a46022bd88a60abca39b1a1e654d12096ddd1",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 11281,
+    "expected_sha256": "41b31c33f0364c3055fd9348363523682d36735b18dfdc03c127a4251fb2405b",
+    "file_id": "4837c1e6aee68dba4774abb6b4a72bed061c54bcca0c4738fef5c0076b2f6943",
+    "start": 11274
+  },
+  "request_id": "324458616f14889c660bb7de45f8018fa590ce139aacfd44f8f19c5f6085164d",
+  "requested_end": 11281,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 11274,
+      "text": "  0.296905s:   Exiting Redux.assume_with_implications"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 11275,
+      "text": "  0.296909s: Exiting Redux.query"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 11276,
+      "text": "  0.296915s: verified/lib.rs(314,1-2): Leak check."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 11277,
+      "text": "verified/lib.rs(314,1-2): error: Function leaks heap chunks: full_borrow(cmp2_k, @(@(full_borrow_content(T_typeid), t), ptr_add_(v_base, 1, T_typeid))), full_borrow(cmp2_k, @(@(full_borrow_content(T_typeid), t), v_base))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 11278,
+      "text": "314 | }"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 11279,
+      "text": "    | ^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 11280,
+      "text": "verified/lib.rs(314,1-2): note: Leak check."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 11281,
+      "text": "314 | }"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

@@ -1,0 +1,89 @@
+{
+  "build": {
+    "dispatch_token": "dispatch-774eeb6818d045af9052d29f889c6a06",
+    "owner": "select-sort4",
+    "phase_id": "SORT4-ACTUAL-C2-2026-10-21-R17",
+    "infra_sha": "51c4368bd6a1187dbf1975b979cb27ad3b51966f",
+    "proof_sha": "51c4368bd6a1187dbf1975b979cb27ad3b51966f",
+    "lane": "o26-sort4-c1-current-recovery",
+    "submitted_config_sha256": "9d1b6964c42278774d370342e5536e54b93410cca27d4b32e319844e4c3af98d",
+    "reserved_seconds": 1260,
+    "timeout_seconds": 1200,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "b5081dd281479774d4ad91b3b721aac04f75b6ffcdcfbf226f258efb540f9a06",
+    "build_id": "27e8bfac-eb5f-4cf4-ae89-18bacd16eb90",
+    "start_time": "2026-10-21T21:05:09.696550707Z",
+    "finish_time": "2026-10-21T21:13:53.543224Z",
+    "create_time": "2026-10-21T21:05:08.917737938Z",
+    "build_seconds": 525,
+    "accounted": true,
+    "execution_seconds": 524
+  },
+  "archive_sha256": "5938f1519a7cd1d6635e37b61bec0083012f6a004e860f0b0fe7fd9ca3489aff",
+  "index_sha256": "242edefac0b4fec68e8f30737f0a46022bd88a60abca39b1a1e654d12096ddd1",
+  "integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "body_target": "BODY_PROOF_FAILED",
+  "body_observed_exit": 1,
+  "failure": {
+    "location": "verified/lib.rs(314,1-2), actual body leak check",
+    "message": "Function leaks heap chunks: full_borrow(cmp2_k, @(@(full_borrow_content(T_typeid), t), ptr_add_(v_base, 1, T_typeid))), full_borrow(cmp2_k, @(@(full_borrow_content(T_typeid), t), v_base))",
+    "file_id": "4837c1e6aee68dba4774abb6b4a72bed061c54bcca0c4738fef5c0076b2f6943",
+    "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/body-verification.log",
+    "file_sha256": "41b31c33f0364c3055fd9348363523682d36735b18dfdc03c127a4251fb2405b",
+    "coverage": {
+      "base": 1,
+      "start": 11274,
+      "end_inclusive": 11281,
+      "source_lines": 11559,
+      "unit": "line"
+    },
+    "exact": true,
+    "complete": false,
+    "request_id": "324458616f14889c660bb7de45f8018fa590ce139aacfd44f8f19c5f6085164d"
+  },
+  "source_reported_progress": [
+    "S4 pure-ghost callback equalities moved past S3 c1 non-pure ghost-read failure; actual body reaches function-end leak check.",
+    "Remaining leak is exactly the two unselected c2 full_borrow capabilities at v_base+0 and v_base+1, confirming the S5-UNSELECTED-BORROW-FIX.md diagnosis (source-reported, causality UNKNOWN)."
+  ],
+  "control_observations": [
+    "c1-hrtb-opt-in-off-negative: body-verification exit1, lib.rs(245,18-89) type mismatch FnOnce Output vs bool (contrast only, not qualified).",
+    "c1-opt-in-off-negative exit2; c1-scope-opt-in-off-negative exit1; diagnostics not examined in closeout."
+  ],
+  "control_qualification": "Target fails at leak check before normal/unwind posts complete; no discriminating c2 resource/call attribution credit. Controls not reviewed in closeout.",
+  "brief_coverage": {
+    "stage_records": 282,
+    "parsed": 282,
+    "not_captured": 0,
+    "exit_nonzero": 21,
+    "exit_zero": 261,
+    "catalogue_files": 1161,
+    "content_files": 752,
+    "catalogue_complete": true
+  },
+  "actual_body_obligations_closed": 0,
+  "independent_credit": false,
+  "assurance": "SOURCE_REPORTED",
+  "watcher": {
+    "job_id": "df7ee4ab-d4f5-42a5-8aa8-2f85297e9e3d",
+    "event_id": "eadbfbe7-3d66-42f3-9a53-e1a85b58319c",
+    "state": "ACKED (by interrupted R17 session at 2026-10-21T21:14:07Z)"
+  },
+  "observation_record": {
+    "path": "research/challenge-8/task-history/select-actual-c2-r17/observations/1568767949f9cb2325075a4b28c38d740e4c1d8755e9114723d84287ebbe5081.json",
+    "sha256": "1568767949f9cb2325075a4b28c38d740e4c1d8755e9114723d84287ebbe5081"
+  },
+  "fragments": [
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S4-brief/brief.txt",
+      "sha256": "b08020b8e4d64c0efbe86a10d7791635b975c787488dd90b0a4fa9738a7f3757"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-actual-c2-r17/S4-brief/failure-window.json",
+      "sha256": "c4884a52e480c61182cd63b2753a5fd9be1a0e74caabf0cca43d86a3c96091bd"
+    }
+  ],
+  "recorded_in": "R17 owner closeout 2026-10-22 (no raw logs/archives read)"
+}
