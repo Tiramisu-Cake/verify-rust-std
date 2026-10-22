@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import ast
+import hashlib
 import importlib.util
 import json
 import os
@@ -125,6 +126,8 @@ class BodyRouteRecipeTests(unittest.TestCase):
         shell = (REPO / recipe["entrypoint"]).read_text()
         self.assertIn('python3 "$cloud_dir/sort4-caller-entry-native/a1-entry-r21.py"', shell)
         self.assertNotIn('python3 "$proof_root/research/challenge-8/cloud-build/sort4-caller-entry-native/a1-entry-r21.py"', shell)
+        self.assertEqual(self.closure["runner_script_sha256"],
+                         hashlib.sha256(shell.encode()).hexdigest())
 
     def test_every_selected_working_tree_path_exists(self):
         for relative in (*self.recipe["proof_paths"], *self.recipe["infra_paths"]):

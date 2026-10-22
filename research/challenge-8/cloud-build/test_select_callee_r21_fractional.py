@@ -200,6 +200,17 @@ class FractionalFingerprintTests(unittest.TestCase):
                 {'export': None, 'decode': {'status': 'TIMED_OUT', 'exit': 124}},
                 out)['complete'])
 
+    def test_empty_mir_outputs_cannot_complete_even_with_matching_hashes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp)
+            rows = {}
+            for stage, name in (("export", "normal-mir.bin"),
+                                ("decode", "normal-mir.txt")):
+                (out / name).write_bytes(b"")
+                rows[stage] = {"status": "RAN", "exit": 0, "output": name,
+                               "output_sha256": hashlib.sha256(b"").hexdigest()}
+            self.assertFalse(TARGET.validate_export_decode(rows, out)["complete"])
+
     def test_capture_null_wrong_type_not_run_partial_and_source_mismatch_fail_closed(self):
         for mode in ('null', 'wrong-type', 'not-run', 'partial', 'source-mismatch'):
             with self.subTest(mode=mode):

@@ -107,7 +107,7 @@ class FractionalForgetTransform(unittest.TestCase):
         self.assertIn(b"&*& false;", TRANSFORM.transform(self.input, "callee-false-normal"))
         duplicate = TRANSFORM.transform(self.input, "callee-owner-duplicate")
         self.assertIn(TRANSFORM.FORGET_DUPLICATE_OWNER_CONTRACT, duplicate)
-        self.assertNotIn(b"ens thread_token(tid) &*& [1/2]", 
+        self.assertNotIn(b"ens thread_token(tid) &*& [1/2]",
                          TRANSFORM.transform(self.input, "callee-owner-loss"))
         self.assertEqual(TRANSFORM.transform(self.input, "callee-thread-duplicate").count(
             b"ens thread_token(tid) &*& thread_token(tid)"), 1)

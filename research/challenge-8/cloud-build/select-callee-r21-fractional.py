@@ -135,7 +135,8 @@ def validate_export_decode(rows: object, output_root: Path) -> dict[str, Any]:
             complete = False
             continue
         path = output_root / output_name
-        if not path.is_file() or sha(path.read_bytes()) != output_sha:
+        if (not path.is_file() or path.stat().st_size == 0 or
+                sha(path.read_bytes()) != output_sha):
             errors.append(stage_name + ': output bytes differ from stage record')
             complete = False
     result['complete'] = complete and not errors
