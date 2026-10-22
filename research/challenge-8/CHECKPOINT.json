@@ -24,7 +24,7 @@
     "tool_sha": "39f6b0cacd00575c8ca2d39e9f15632723bf1227"
   },
   "blocker": {
-    "summary": "F5 and state binding INCONCLUSIVE; metadata/helper plus F5 route reviewed GO, awaiting Cloud; original caller OPEN.",
+    "summary": "P3 active on metadata191/profile0428; F5/state controls and original caller remain OPEN.",
     "evidence": [
       {
         "build_id": "17095248-45ee-433d-83d1-66679a8a1db5",
@@ -82,7 +82,7 @@
       ]
     }
   ],
-  "next_step": "Exact source/cap/config gate; publish and dispatch metadata191/profile0428 cycle.",
+  "next_step": "Prepare diagnostic-context HANDOFF candidate while P3 runs; after terminal use Evidence Brief.",
   "open": [
     "Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.",
     "Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.",
@@ -116,7 +116,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "7384d743-24dd-4b4d-ae27-9b6af7f111c2"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T22:38:00Z",
     "main_deadline_utc": "2026-10-22T22:08:00Z",
@@ -128,5 +130,5 @@
   },
   "state": "ACTIVE",
   "task_id": "merge-unwind-acceptance-autonomous-2026-10-23-r20",
-  "updated_utc": "2026-10-22T21:18:59Z"
+  "updated_utc": "2026-10-22T21:24:14Z"
 }
