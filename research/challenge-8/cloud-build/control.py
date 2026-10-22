@@ -253,7 +253,6 @@ def reconcile(state,ledger,ledger_path):
    item['status']=b.get('status');item['start_time']=b.get('startTime');item['finish_time']=b.get('finishTime');item['create_time']=b.get('createTime')
    if b.get('status') in TERMINAL:
     def t(x):return datetime.datetime.fromisoformat(x.replace('Z','+00:00'))
-    # Conservative envelope includes queue/preparation/upload, rounded up.
     duration=math.ceil((t(b['finishTime'])-t(b['createTime'])).total_seconds()) if b.get('finishTime') and b.get('createTime') else item['reserved_seconds']
     item['build_seconds']=duration;item['accounted']=True
     if b.get('startTime') and b.get('finishTime'):item['execution_seconds']=math.ceil((t(b['finishTime'])-t(b['startTime'])).total_seconds())
@@ -348,7 +347,6 @@ def r12_upload_mode(proof_sha):
 
 
 def r12_runtime_inventory(commit,mutable_paths=None):
- # Resolve exactly the same closure as the pinned-object source transport.
  spec=importlib.util.spec_from_file_location('r12_pinned_source',DIR/'source-input.py')
  source=importlib.util.module_from_spec(spec);spec.loader.exec_module(source)
  recipe=source.committed_recipe(ROOT,commit,'merge')
@@ -373,8 +371,6 @@ def r12_runtime_inventory(commit,mutable_paths=None):
 
 
 def r12_validate_retry_sources(probe_sha,proof_sha):
- # The explicit mode card must change commits. Everything it can execute,
- # including the uploader and the recipe selection, must remain identical.
  before_recipe,before=r12_runtime_inventory(probe_sha)
  after_recipe,after=r12_runtime_inventory(proof_sha)
  if before_recipe!=after_recipe or before!=after:
@@ -553,7 +549,6 @@ def r14_validate_publisher_control(before_control,after_control):
  def segment(parsed,text,name):
   node=next((n for n in parsed.body if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef)) and n.name==name),None)
   return ast.get_source_segment(text,node) if node else None
- # Exact source equality preserves the pinned publisher behavior.
  if any(segment(baseline,before_control,n)!=segment(tree,after_control,n)
         for n in ('envs','config')):
   raise SystemExit('R14 C12 publisher config changed')
@@ -626,8 +621,6 @@ def r14_validate_retry_sources(probe_sha,proof_sha):
   raise SystemExit('R14 R8 working tree changed R13 ledger')
  ignore={recipe_path,mode_path}|expected_additions
  r14_validate_runtime_maps(before,after,expected_additions)
- # The command generator is allowed to gain phase authorization, but the
- # emitted Cloud config and its identity-bearing constants must remain exact.
  control_path='research/challenge-8/cloud-build/control.py'
  def git_bytes(commit,path):
   return subprocess.check_output(['git','show',commit+':'+path],cwd=ROOT,stderr=subprocess.PIPE)
@@ -692,7 +685,6 @@ def r15_validate_sources(probe_sha,proof_sha):
   raise SystemExit('R15 S2 recipe unavailable')
  r15_validate_recipe_delta(before,selected)
  old_paths=before['proof_paths'];new_paths=selected['proof_paths']
- # Keep every historical R13/R14 and prior budget record byte-identical.
  check_paths={path for path in old_paths
               if 'BUDGET' in path.rsplit('/',1)[-1].upper() and path!=R15_LEDGER_PATH}
  check_paths.update({R14_GATE_PATH,R13_MODE_PATH})
@@ -720,15 +712,12 @@ def r15_validate_sources(probe_sha,proof_sha):
   raise SystemExit('R15 S7 accepted R14 publication gate unavailable')
  if gate_selected!=gate_probe or gate_current!=gate_selected:
   raise SystemExit('R15 S8 R14 publication gate bytes changed')
- # The accepted R14 publisher and its fail-closed upload guard remain fixed.
  try:
   before_control=subprocess.check_output(['git','show',R14_PROBE_SOURCE+':research/challenge-8/cloud-build/control.py'],cwd=ROOT,stderr=subprocess.PIPE).decode()
   selected_control=subprocess.check_output(['git','show',proof_sha+':research/challenge-8/cloud-build/control.py'],cwd=ROOT,stderr=subprocess.PIPE).decode()
  except (subprocess.CalledProcessError,UnicodeDecodeError):
   raise SystemExit('R15 S9 publisher control unavailable')
  r14_validate_publisher_control(before_control,selected_control)
- # Reconstruct the same recipe and automatically discovered Python infra set
- # used by source-input.py, then require exact committed/worktree identity.
  source_spec=importlib.util.spec_from_file_location('r15_pinned_source',DIR/'source-input.py')
  source=importlib.util.module_from_spec(source_spec);source_spec.loader.exec_module(source)
  try:
@@ -1242,7 +1231,6 @@ def r18_validate_sources(probe_sha,proof_sha):
   provider_selected=subprocess.check_output(['git','show',proof_sha+':'+R17_PROVIDER_OVERLAYS_PATH],cwd=ROOT,stderr=subprocess.PIPE)
   def read_pinned_source(path):
    return subprocess.check_output(['git','show',proof_sha+':'+path],cwd=ROOT,stderr=subprocess.PIPE)
-  # The provider module is byte-identical to the probe; recheck every pinned source in the selected closure.
   pins=r17_parse_provider_pin_tables(provider_selected)
   pinned={**pins['FILES'],**pins['R11_FILES']}
   if R17_PROVIDER_OVERLAYS_PATH not in found or not set(pinned).issubset(found):
@@ -1412,8 +1400,6 @@ def authorized_phase(a,ledger):
     raise SystemExit('R16 A5 Build plus queue reserve exceeds absolute deadline')
    r14_read_selected_gate(a.proof_sha)
    r16_validate_sources(R16_PROBE_SOURCE,a.proof_sha)
-   # Source and gate validation can be lengthy; recheck immediately before
-   # returning to the caller that reserves and dispatches the Build.
    r16_final_deadline_check(a,ledger)
  if a.phase_id==R15_PHASE:
   expected_ledger=DIR/R15_LEDGER_PATH.removeprefix('research/challenge-8/cloud-build/')
@@ -1903,7 +1889,6 @@ def authorized_phase(a,ledger):
    r14_read_selected_gate(a.proof_sha)
    r14_validate_retry_sources(R14_PROBE_SOURCE,a.proof_sha)
  if a.phase_id=='CI-IAM-E2E-ONCE-2026-10-17':
-  # Separate, explicitly activated account; never reuse a historical ledger.
   expected_ledger=DIR/'ci-iam-e2e-once-20261017'/'BUDGET.json'
   if (a.ledger.resolve()!=expected_ledger.resolve() or
       a.owner!='merge' or ledger.get('owner')!='merge' or
@@ -1918,8 +1903,6 @@ def authorized_phase(a,ledger):
    raise SystemExit('IAM E2E requires an active, explicit 30-minute window')
   cutoff=deadline
   if a.command=='submit':
-   # The dispatcher persists DISPATCH_PENDING before its only API submit call.
-   # Even a definitive API rejection consumes this account's single attempt.
    if (ledger.get('builds')!=[] or ledger.get('active_build') is not None or
        a.timeout!=300 or a.lane!='coordination-regression' or
        a.source_mode!='pinned-objects' or
@@ -2206,8 +2189,6 @@ def run_command(a,state,ledger,ledger_path):
   now=datetime.datetime.now(datetime.timezone.utc)
   if now+datetime.timedelta(seconds=a.timeout+60)>deadline:raise SystemExit('Timeout plus queue reserve exceeds phase deadline')
   coordination.request(a.owner,a.phase_id,ledger_path,ledger['deadline_utc'])
-  # Requests are informational. One slot per owner provides isolation without
-  # making an idle/pending peer serialize the other owner's work.
   for sha in [a.infra_sha,a.proof_sha]:
    if not re.fullmatch('[0-9a-f]{40}',sha):raise SystemExit('Full published SHA required')
    subprocess.run(['git','cat-file','-e',sha+'^{commit}'],cwd=ROOT,check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
@@ -2217,7 +2198,6 @@ def run_command(a,state,ledger,ledger_path):
   ongoing=invoke(['builds','list','--region=global','--ongoing','--format=json'])
   if ledger['active_build']:raise SystemExit('Own queued/active or unresolved build: monitor/reconcile first')
   coordination.require_capacity(a.owner,ledger_path,ongoing or [])
-  # queue envelope is reserved too, respecting phase/per-build ceiling.
   if not 90<=a.timeout<=1740 or a.timeout+60>1800 or a.timeout+60>ledger['remaining_build_seconds']:raise SystemExit('Invalid timeout or insufficient phase budget (60s queue reserve included)')
   token='dispatch-'+uuid.uuid4().hex
   source_payload=None
@@ -2242,7 +2222,6 @@ def run_command(a,state,ledger,ledger_path):
   values={'_CONFIG_SHA':h,**{f'_CONFIG_{i}':compressed[i*3500:(i+1)*3500] for i in range(8)},**source_values}
   flags=state/(token+'-flags.json');write(flags,{'--substitutions':values})
   reservation={'dispatch_token':token,'owner':a.owner,'phase_id':a.phase_id,'ledger':str(ledger_path),'state_dir':str(state),'item':item,'build_id':None}
-  # Recheck the time-window account after source/config preparation, before reserve.
   if a.phase_id in ('MERGE-FIRST-COMPARATOR-R1-2026-10-18','MERGE-FIRST-COMPARATOR-R2-2026-10-19','MERGE-FIRST-COMPARATOR-R3-2026-10-19','MERGE-GUARD-ADDRESSABILITY-R4-2026-10-20','MERGE-CURRENT-OWNERSHIP-R5-2026-10-20','MERGE-CANONICAL-SHARE-R6-2026-10-20','MERGE-POST-MIGRATION-CURRENT-RECOVERY-R7-2026-10-20','MERGE-LATE-RECOVERY-REJOIN-R8-2026-10-20','MERGE-GUARD-CURRENT-RETURN-R9-2026-10-20','MERGE-MOVING-GAP-INVARIANT-R10-2026-10-21','MERGE-LABEL-STORAGE-INVARIANT-R11-2026-10-21','MERGE-R11-EVIDENCE-RETRY-2026-10-21','MERGE-UPLOAD-NONCOMPOSITE-R12-2026-10-21',R14_PHASE,R15_PHASE,R16_PHASE,R17_PHASE,R18_PHASE,'MERGE-ARCHIVE-SIZE-UPLOAD-R13-2026-10-21'):authorized_phase(a,ledger)
   coordination.reserve(reservation)
   ledger['builds'].append(item);ledger['active_build']=token;write(ledger_path,ledger)
