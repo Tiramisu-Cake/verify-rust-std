@@ -27,6 +27,9 @@ VARIANTS = ("both", "true-only", "false-only")
 # "branch" keeps one ghost statement (no new MIR block); "merged" was a parse error (S3).
 FINGERPRINT_VARIANT = "branch-selected"
 STAGE_RESERVE_SECONDS = 150
+# R21 reuses the identical callee route under a fresh, exact client account.
+CALLEE_PHASES = frozenset(("SORT4-ACTUAL-SELECT-2026-10-22-R20",
+                          "SORT4-ACTUAL-SELECT-2026-10-23-R21"))
 
 
 def need(ok: bool, why: str) -> None:
@@ -55,7 +58,7 @@ def write(path: Path, data) -> None:
 
 def repair(a) -> dict:
     need(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
-         os.environ.get("SORT4_R20_CALLEE_PHASE_ID") == "SORT4-ACTUAL-SELECT-2026-10-22-R20" and
+         os.environ.get("SORT4_R20_CALLEE_PHASE_ID") in CALLEE_PHASES and
          not os.environ.get("GITHUB_ACTIONS"), "authorized R20 Cloud callee lane")
     transform = load(a.repo / REPAIR_REL, "r20_final_select_repair", REPAIR_SHA256)
     o26 = load(a.cloud_dir / "o26-recipe.py", "r20_o26_recipe")
@@ -130,7 +133,7 @@ def fingerprint(a) -> dict:
     later reviewed certificate-refresh patch must pin. No proof is attempted.
     """
     need(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
-         os.environ.get("SORT4_R20_CALLEE_PHASE_ID") == "SORT4-ACTUAL-SELECT-2026-10-22-R20" and
+         os.environ.get("SORT4_R20_CALLEE_PHASE_ID") in CALLEE_PHASES and
          not os.environ.get("GITHUB_ACTIONS"), "authorized R20 Cloud callee lane")
     transform = load(a.repo / REPAIR_REL, "r20_final_select_repair", REPAIR_SHA256)
     o26 = load(a.cloud_dir / "o26-recipe.py", "r20_o26_recipe_fp")
@@ -219,7 +222,7 @@ PROOF_CASES = (
 def proof(a) -> dict:
     """Run the existing O26 proof_stage on repaired/unrepaired copies (S3)."""
     need(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
-         os.environ.get("SORT4_R20_CALLEE_PHASE_ID") == "SORT4-ACTUAL-SELECT-2026-10-22-R20" and
+         os.environ.get("SORT4_R20_CALLEE_PHASE_ID") in CALLEE_PHASES and
          not os.environ.get("GITHUB_ACTIONS") and R20_FLAG not in os.environ,
          "authorized R20 Cloud callee lane without ambient opt-in")
     transform = load(a.repo / REPAIR_REL, "r20_final_select_repair", REPAIR_SHA256)

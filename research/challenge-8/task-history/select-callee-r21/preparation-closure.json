@@ -1,0 +1,755 @@
+{
+  "commit": "fffb4d475acaccf71432cc513f886f372fde145b",
+  "entries": [
+    {
+      "blob": "8d7c2a16899e19b8a7e31e540478138eaac169b9",
+      "bytes": 39646,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "library/core/src/hint.rs",
+      "sha256": "ce89716d46b8060db2c2da1aef1d4bcccf90e0804fc021d4470c55203501315f",
+      "state": "committed"
+    },
+    {
+      "blob": "062a626fae4b46417a97e6e5eae122e1888ba8af",
+      "bytes": 190319,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "library/core/src/intrinsics/mod.rs",
+      "sha256": "de4a6d2afbd1d9f725222c1f4d95a107b8202586b952ce2a619a054c6f2f1865",
+      "state": "committed"
+    },
+    {
+      "blob": "3fb844c7c2927876ad082f2ba904e51d520a0f1e",
+      "bytes": 11051,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "library/core/src/mem/manually_drop.rs",
+      "sha256": "f9cce798828cc852c00feeea9a6218c225b68d92727a5edbddc7c08a731a4f25",
+      "state": "committed"
+    },
+    {
+      "blob": "46e5228a2da3fc74330fcb55fc70cbca71db6c36",
+      "bytes": 4388,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "library/core/src/mem/maybe_dangling.rs",
+      "sha256": "0e1ec6f588f2c314751054b39c73d19517eb1fd03e31e7865c95813c389d1182",
+      "state": "committed"
+    },
+    {
+      "blob": "94703940baa1f8dfdbcf84f157f5dfebad93931e",
+      "bytes": 66146,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "library/core/src/mem/maybe_uninit.rs",
+      "sha256": "1230d267542337ee2842c29d8227cf8a58fe75c53a2a70efaee3922c4e8e25c0",
+      "state": "committed"
+    },
+    {
+      "blob": "c36e94c86d81ea249178020810740a91d028dae0",
+      "bytes": 64406,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "library/core/src/mem/mod.rs",
+      "sha256": "b86a596a58dcb21a45e8b29b33327ca8c7bde708aa6fca158d4366e51403daf2",
+      "state": "committed"
+    },
+    {
+      "blob": "7e568140fa10dc560c0c4528932be4a1a2acb62c",
+      "bytes": 130865,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "library/core/src/ptr/mod.rs",
+      "sha256": "5f70e87f1d2d8becf475ff88c48fb4c718895d3249ed7b45a0cddf68c2e663f8",
+      "state": "committed"
+    },
+    {
+      "blob": "c9d3c8d737b4aa980595f68f62e11ca1d7e21f2b",
+      "bytes": 133785,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "library/core/src/ptr/mut_ptr.rs",
+      "sha256": "f10ffcdeed5a97d1f219ddbfa2e1fd11e7b4ca3825189801985b96629cda16f7",
+      "state": "committed"
+    },
+    {
+      "blob": "f3af5f56c96ed7211a4b106de19eb297e8bc83f0",
+      "bytes": 12346,
+      "groups": [
+        "infra"
+      ],
+      "mode": "100755",
+      "path": "research/challenge-8/cloud-build/o26-recipe.py",
+      "sha256": "464eef45b08b8724eba949289eff9cd745f48d65d0031ffae5675738856d562c",
+      "state": "committed"
+    },
+    {
+      "blob": "4d2e52efe7e25d1f1e8f2d73747c3765398b667c",
+      "bytes": 6527,
+      "groups": [
+        "infra"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/cloud-build/o26-refresh-recipe.py",
+      "sha256": "2cd963cc3d28c69370260cd2154e7284e189fea953928c3fc829f2fd53766af3",
+      "state": "committed"
+    },
+    {
+      "blob": "178dcfdfc5810e85475636dfbc27dfefc0763387",
+      "bytes": 2059,
+      "groups": [
+        "infra"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/cloud-build/provider.py",
+      "sha256": "771970340f4fa928063cfa25db451535eb60ee1b246ef63c3cda4689842be616",
+      "state": "committed"
+    },
+    {
+      "blob": "94f0ba46930cdc2cd74f035d266b34ae1c834b7d",
+      "bytes": 13633,
+      "groups": [
+        "infra"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/cloud-build/run-o26-select-callee-r20.sh",
+      "sha256": "7f9cf23790daf4fb009c586e9b33a59e1b02f7bd7a9d0f7cb875b6f71e1122c5",
+      "state": "committed"
+    },
+    {
+      "blob": "e02b91147657d9167a7a275089910e5480f63a07",
+      "bytes": 17327,
+      "groups": [
+        "infra"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/cloud-build/select-callee-r20.py",
+      "sha256": "0145f03a0c5ffe0f759d82f5f4f490071ca1d7d1242f0040ef6456c1277b83ef",
+      "state": "committed"
+    },
+    {
+      "blob": "61f9b38bcbcda6931892c041ac5c084a404ceb0e",
+      "bytes": 9266,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/forget-evidence-classifier.py",
+      "sha256": "f7a252175f5d574da9f327d6aa3138716b077fafe5f8c7683dda3fc1e9bcb92a",
+      "state": "committed"
+    },
+    {
+      "blob": "3e54471157bc06cd7221ec2bc0521beb56ebf690",
+      "bytes": 1798,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-assume-actual/O26-REFRESH-PROFILE.json",
+      "sha256": "e7c5af278fb0d210cf9b487301d8461174262ad8970b17dcf5900fca24f076aa",
+      "state": "committed"
+    },
+    {
+      "blob": "25aad4fe9f90b9b05020a819cf0114d07533ecea",
+      "bytes": 10882,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-assume-actual/capture.py",
+      "sha256": "ffc3653263e86c5afa4f82440f10a2207e75ad8083bdad5f784597fe0dbaa84f",
+      "state": "committed"
+    },
+    {
+      "blob": "2dd19050dae0ba239c0a415afe06e747e4e96221",
+      "bytes": 7054,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-assume-actual/prepare.py",
+      "sha256": "8edc8d63ce49fb60701dd1eb0005a4af5f3a046234fee9d631345de68fdbae49",
+      "state": "committed"
+    },
+    {
+      "blob": "83b492c9147cd8a86e53c56840b78e77d85b8a52",
+      "bytes": 7649,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-assume-actual/r20_final_select_repair.py",
+      "sha256": "3646b05602b7dce35cd4b2ab8f74d8cfe280d65df2637ac4f6cc0a128dd7e2a3",
+      "state": "committed"
+    },
+    {
+      "blob": "8f17050195bbd1743bc3fbfa915e95378c908234",
+      "bytes": 12869,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-assume-actual/verifast-actual-nine-a1-26.10.patch",
+      "sha256": "a597d99a23895e02308f1f813c604a7dbc8235dbc3e04f3b08112087f6a572d4",
+      "state": "committed"
+    },
+    {
+      "blob": "1f72a2234a07ec7bdcf60c335d24d9cc24263470",
+      "bytes": 602,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-assume-actual/verifast-o26-a1-guard-literal-refresh-26.10.patch",
+      "sha256": "ad8aa43b85a58fa4b8894fed36816aba89a9abfb0f9b80cd9547e4454ff6fb75",
+      "state": "committed"
+    },
+    {
+      "blob": "52ab4c19df6173a710feeee9c8f0f44d5a02b7ff",
+      "bytes": 2721,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-assume-actual/verifast-o26-owner-guard-literal-refresh-26.10.patch",
+      "sha256": "0a6ac67c31b785acd5b2ab5eb9eb0158e0b5603dafda05033b7c58a6ef941c54",
+      "state": "committed"
+    },
+    {
+      "blob": "9b8d96fcc5b833a857f1b1271b2b504d94003ca6",
+      "bytes": 4667,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-assume-actual/verifast-r20-final-select-branch-26.10.patch",
+      "sha256": "74077492696785f0bdfaf4a74101356aa13d45034f8616591693f6d5d089831c",
+      "state": "committed"
+    },
+    {
+      "blob": "c6a0de7cf3418582fbfe8ae1f975b62822fec002",
+      "bytes": 9541,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-callback/verifast-callback-unwind-26.10.patch",
+      "sha256": "61d7525cc8ff3e6e9c736ea00178c002f071b521c78845bf68d0e4890e2be07a",
+      "state": "committed"
+    },
+    {
+      "blob": "48a85b7bcee2b4f6f0571a5eefd44e4b2670a12f",
+      "bytes": 8350,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-callback/verifast-fnmut-hrtb-26.10.patch",
+      "sha256": "cff0d5ab1798227c39029a5c18d06619ce7eece928be85f4b1c9f440307f5ece",
+      "state": "committed"
+    },
+    {
+      "blob": "e5d11923528bdc898b8e35bec9adbd4509a1068d",
+      "bytes": 1594,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-callback/verifast-tuple2-own-26.10.patch",
+      "sha256": "84b58b71bfb65ac2bfac1a63d181239001cf0a7ffba3f8bfb5d5b0f1d3a640da",
+      "state": "committed"
+    },
+    {
+      "blob": "3e454ad4d13e39dc744aaa856c596ff524b336cd",
+      "bytes": 6059,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-forget-own/prepare.py",
+      "sha256": "b597bd0670ddb7c55e46fccf17a0ac1ab6e5b93ce7952130cb4d89aed964af65",
+      "state": "committed"
+    },
+    {
+      "blob": "a3c7b60460a1e7fa818861c2b12aa31c19631434",
+      "bytes": 11030,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-guard-actual/capture-actual-nested-drop.py",
+      "sha256": "22f8ef835ca434ee24dce0a03f7cdb69823b49365b815d97aa30a29a6e37620b",
+      "state": "committed"
+    },
+    {
+      "blob": "9fde62cd3adc93f6131ca2e8fb137980e7cc5ba8",
+      "bytes": 9937,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-guard-actual/prepare-actual-nested-drop.py",
+      "sha256": "eb73621ac35f7d3b0259b148f59a5411c4ae07216c352d5a103fc59ea76f9faa",
+      "state": "committed"
+    },
+    {
+      "blob": "a09993226f3dcad26ed59eeccadef618d26a52d9",
+      "bytes": 4165,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-guard-actual/verifast-nested-unit-fingerprint-probe-26.10.patch",
+      "sha256": "cfc6b057af14cb611f9984f4eb6ee0398e3d844acaecce56f85070c42884892c",
+      "state": "committed"
+    },
+    {
+      "blob": "48aaf6796e1ca0b41ea67f2b6a3c600103d12bda",
+      "bytes": 13292,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-guard/capture-generic-pointer-drop.py",
+      "sha256": "8f64179099f1fc2420a2db2766e358ed06940766b0c4b7223d86d8e3e3362589",
+      "state": "committed"
+    },
+    {
+      "blob": "02429a462ed8f1e010067bd2928704e0704ea8c8",
+      "bytes": 17110,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-guard/capture-guard-linkage.py",
+      "sha256": "6a010faf334cdf57d92d88f44ecd072375469685e4009a74179054953bc995ec",
+      "state": "committed"
+    },
+    {
+      "blob": "5e6cf5ec509cba8d04738ebc1975c54d0d339699",
+      "bytes": 13015,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-guard/capture-guard-owner.py",
+      "sha256": "b86ea541dc43d49134d546e4a2d134842865a04ce5b9a3892c94e3ba64ec50e6",
+      "state": "committed"
+    },
+    {
+      "blob": "0b993e76b2b513b90cc83c095382ada4eaf97612",
+      "bytes": 33443,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-guard/verifast-h2a-generic-guard-link-26.10.patch",
+      "sha256": "4a36239b68dade6aa486e4bccedf77e92f4104278456d1c568c58d28efa18a7a",
+      "state": "committed"
+    },
+    {
+      "blob": "260804dcf8c1db2cd3ab8ebc2805e920b33c59e6",
+      "bytes": 4537,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-guard/verifast-h2b-nominal-drop-template-26.10.patch",
+      "sha256": "c9afb4bfd696efc38f2bc71e10463a34170d9d769e851a07388c01278e99b2ff",
+      "state": "committed"
+    },
+    {
+      "blob": "0c65bc3e1e15a3b42933d8fcca52730272b9660a",
+      "bytes": 662,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-guard/verifast-h2c-guard-source-admission-26.10.patch",
+      "sha256": "57b58e37b04c9d68aa930a6fca5a6637f5c7fe72d06cb4e8955918745f5701d7",
+      "state": "committed"
+    },
+    {
+      "blob": "ba4ead43ec31f30281b230575eb5a1e4c6b293cc",
+      "bytes": 968,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/O4-A1-transmute-reviewed.json",
+      "sha256": "1694feafdc1770f355fbe47bf4a89513f57157828231a2d48f270d33f5817e8e",
+      "state": "committed"
+    },
+    {
+      "blob": "d6a86f53487a4862cf998157953fcc5180e0a707",
+      "bytes": 1011,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/O9-A1-linkage-method-reviewed.json",
+      "sha256": "1c57decbf4d6924c0088ce348a8a478f76807bb75f4acbe079a70deaba08ba8d",
+      "state": "committed"
+    },
+    {
+      "blob": "5555e663587262eeb010ae635cc5773e07a94c19",
+      "bytes": 8053,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/check-actual-owner-projection.py",
+      "sha256": "930a7ff7545798193495e99334bc4aedf4da3bfa08f900201af95b656ac71e7e",
+      "state": "committed"
+    },
+    {
+      "blob": "cf733d9a7f63550d48b722cef72619b197237331",
+      "bytes": 43343,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/check-helper.py",
+      "sha256": "43f2b73db9d7e40b87f3ace82d7c927b74eeaae4bbca41b20c6e58ac175dd262",
+      "state": "committed"
+    },
+    {
+      "blob": "a1bfdeb059df031286105cbd30ee8a108c1b3c57",
+      "bytes": 11446,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/prepare-a1-primitive-matrix.py",
+      "sha256": "71f34ee8f1337da8c20c2a2dc231d442b5b1e4a7a58505511128914158858a8a",
+      "state": "committed"
+    },
+    {
+      "blob": "e0aa8e37b27491bc0c74aca682b8e00d68ef055b",
+      "bytes": 7717,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/prepare-actual-helper-capture.py",
+      "sha256": "2c5ce72fb643c96f3e9cf57eda0e8f206b584a9a060ee6398c4e2ff1aeb3e7be",
+      "state": "committed"
+    },
+    {
+      "blob": "913c5ab391671772f00e4d964e1db21e0e652391",
+      "bytes": 6253,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/prepare-actual-owner-linked.py",
+      "sha256": "1c8e52efa2882d39369645f3b1def48ae67532bb11df31a11ec23d0625887169",
+      "state": "committed"
+    },
+    {
+      "blob": "2f3bcdc95d957d9249387189a944eaa2eff52b39",
+      "bytes": 13745,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/prepare-actual-owner-projection.py",
+      "sha256": "6680e74fda839501db3c9221f026a3398ce5d903a8134733b6f5375c165afbb8",
+      "state": "committed"
+    },
+    {
+      "blob": "e08eba90a5390ae7e67f9db69d07cd464d5c3b85",
+      "bytes": 29423,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/prepare-assume-init-2610.py",
+      "sha256": "875e0f14bda4971c812bfb5ed34e04ae46caddba1506c4f3f5a6093c807e7b40",
+      "state": "committed"
+    },
+    {
+      "blob": "bcb1eb7265e38a40c49c19a2724835a06e6bdb42",
+      "bytes": 10894,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/prepare-forget-frames.py",
+      "sha256": "34f8a262cc2d0e9215e3e56a09dd008728f93d31c02c24ef020292973ca06bef",
+      "state": "committed"
+    },
+    {
+      "blob": "1df033b747c2baf5717adda11064b4fb47f37c9b",
+      "bytes": 1333,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/verifast-a1-assert-inhabited-26.10.patch",
+      "sha256": "b3fdae6588c5d88a5151f9b103b2f5ab6d2d58db880955a1b975a7f88ca2feb9",
+      "state": "committed"
+    },
+    {
+      "blob": "d39b2babd30081232f69192a0fa4bfa285864065",
+      "bytes": 4370,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/verifast-a1-pointer-transmute-26.10.patch",
+      "sha256": "44b460e64eede02bb7776ef36c6be12eb2bed2e5a4fd37ad9b733c7b5633c8ab",
+      "state": "committed"
+    },
+    {
+      "blob": "60d4780f409b877e77cd5dd69ebfda129a179706",
+      "bytes": 16954,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/verifast-a1-transmute-linkage-26.10.patch",
+      "sha256": "40fb77888c9b907f150d32f9d85769512cad9c57bb0b14f9c9dbd593fc44c0e7",
+      "state": "committed"
+    },
+    {
+      "blob": "6a08abb2f966887e32c7e7e237a2d5f55c75edf7",
+      "bytes": 3400,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/verifast-actual-nested-ghost-scope-26.10.patch",
+      "sha256": "11cdb0da938ed277a542181dcee5ba939b4c8b2bf15f957c389313115aeed694",
+      "state": "committed"
+    },
+    {
+      "blob": "897f3c68bdbed27fe1f372900f53c2acdb37deea",
+      "bytes": 11234,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/verifast-actual-nested-h2-26.10.patch",
+      "sha256": "07cc53e0823ae67ac6d53eb4e3add7bf7900261d3eb4528d6b20c3c1143bc0e1",
+      "state": "committed"
+    },
+    {
+      "blob": "264141e26d182fe14d29fd3a0fe5449c542abb2b",
+      "bytes": 16793,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/verifast-actual-nine-safe-forget-owned-26.10.patch",
+      "sha256": "7cfa66625fdb6af94162e542b078c0a08ff07bac472a5d9643fea2d153842c44",
+      "state": "committed"
+    },
+    {
+      "blob": "df6cb04fe63ff9fdbba6e8c433d549525f062270",
+      "bytes": 17324,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/verifast-actual-owner-admission-26.10.patch",
+      "sha256": "f5e2c0735dcb02856a9e10e93d6b1e19095a96505058ffccf33c6bdc28e8bc80",
+      "state": "committed"
+    },
+    {
+      "blob": "734f5a86bf352deaeff650fce4dcbb97665746dd",
+      "bytes": 4040,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/verifast-actual-owner-fingerprint-probe-26.10.patch",
+      "sha256": "355eaa781d9857226f57fa32b03dc6725eb61196ac4e01d63c1c6e97c5653b5b",
+      "state": "committed"
+    },
+    {
+      "blob": "47ceb3ddc8e355f54fbd57f7cc41d3b6aad95db7",
+      "bytes": 12720,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/verifast-actual-owner-nine-admission-26.10.patch",
+      "sha256": "bafb47128b7dd9e8c84cd3492a609f00bbac193759492524b12cda7ba54effcb",
+      "state": "committed"
+    },
+    {
+      "blob": "f38c4023c29b5cc3927461320e3843440016491f",
+      "bytes": 19193,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-helper/verifast-g1-checked-forget-call-cfg-26.10.patch",
+      "sha256": "f402a7723b9b28e97d57254fd150f398f415f5d8076c315b3508958a86b7a9cd",
+      "state": "committed"
+    },
+    {
+      "blob": "f4ed9fd525c198ed0114471efc7a6cc040793397",
+      "bytes": 5503,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-linkage/O26-PROFILE-MANIFEST.json",
+      "sha256": "f9bd9697cdd34ae57cc8c9adb6a23a08b8eb27cdd1b82a966a151762634fc4ae",
+      "state": "committed"
+    },
+    {
+      "blob": "a340b91ed24c13faee856857017d403018d1e222",
+      "bytes": 10469,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-linkage/check-asptr-linkage.py",
+      "sha256": "ed996ac1641c409ebc1ddd19e9a582e95737d2b18c8d0fb7434c754c1ac375fb",
+      "state": "committed"
+    },
+    {
+      "blob": "e44d10855e85bc4c6263bed618764b6a61fc4fb0",
+      "bytes": 13819,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-linkage/check-constructor-linkage.py",
+      "sha256": "3f99c9b723da05cf710b099d750920d3130bbfee1e346ddadfec8b54f89f8031",
+      "state": "committed"
+    },
+    {
+      "blob": "89014770235f07e8a02227cef846ff15b93398d8",
+      "bytes": 18014,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-linkage/check-intrinsic-drop-linkage.py",
+      "sha256": "dc031204a04bd4da4cd3664b10cc88d07fc7b4a703577ec8d1c9e09413749625",
+      "state": "committed"
+    },
+    {
+      "blob": "4b7945fb4f1099cfc154388aa577615710dcd794",
+      "bytes": 73059,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-s6/check-maybeuninit-new-pointer.py",
+      "sha256": "2d4c7f3ee027ae55cb016321d26f59d5ece28cddcc780c10efedb39ed19c3ded",
+      "state": "committed"
+    },
+    {
+      "blob": "a107232055990876dfd9641d3c0086a4cbf2e31e",
+      "bytes": 46006,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-s6/check-pointer-drop.py",
+      "sha256": "0f09d6c2541c2cfd3f07f790a959501f2c93253d30419f414e8b8258d5f758ae",
+      "state": "committed"
+    },
+    {
+      "blob": "7d8e8d31b2c95d6976f107dae93a98a90445b6b8",
+      "bytes": 49906,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-s6/check-select-pointer-intrinsics.py",
+      "sha256": "2ae562b94149fa13a6bc8c1b02cdab66050d8744da9f3fb46ee0eebc6088093b",
+      "state": "committed"
+    },
+    {
+      "blob": "4d715c7443fd6036680d00a2fb5fff90110ba652",
+      "bytes": 42648,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-s6/check-select-pointer.py",
+      "sha256": "83759a12cccbcc61b3cd3b5c139102c86ba63404aabd355a78a6d41b247e2082",
+      "state": "committed"
+    },
+    {
+      "blob": "fa22d09ffe3633e94844aa90a0938f2851ee96d6",
+      "bytes": 16993,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-s6/prepare-and-check-sort4-select.py",
+      "sha256": "5a67f5ff1a5c0fb55bfd8ac53d8eb9bd5cc5d912edaa0d4fcd80cc4d100381bd",
+      "state": "committed"
+    },
+    {
+      "blob": "2dfa265e11694ac1a2fc96bd521cb03f523e44e2",
+      "bytes": 8132,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-s6/prepare-pointer-drop-diagnostic.py",
+      "sha256": "f76c562be450e0ee45d71dc776eca00069354a72165c8099f098d04436c0dc45",
+      "state": "committed"
+    },
+    {
+      "blob": "775a9572444c88b6ec6156296a35761c00c392b8",
+      "bytes": 175555,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/overnight-s6/verifast-s6-26.10-candidate.patch",
+      "sha256": "20f7d07ac9bdaca7c46f737b89925dfac3f4cef66c3f5d48aa9634ac949dbc1c",
+      "state": "committed"
+    },
+    {
+      "blob": "c47754853fa7c94d026c3b77fed42892cc6b24e7",
+      "bytes": 16993,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/prepare-and-check-sort4-select.py",
+      "sha256": "2f7cf6b7f11f80ab8ccacc199344b9b5756a24e1de4cbf538a4eb8c17eeae25f",
+      "state": "committed"
+    },
+    {
+      "blob": "7c4403b143d69b03b24e437fd4320776b51ca619",
+      "bytes": 2217,
+      "groups": [
+        "proof"
+      ],
+      "mode": "100644",
+      "path": "research/challenge-8/verifast-manuallydrop-new-cfg-2610.patch",
+      "sha256": "593d09405379974ffbc475c2e0b65d648d8a6913f55b765dd0c3bebdc0922781",
+      "state": "committed"
+    }
+  ],
+  "entry_count": 68,
+  "schema": "smallsort-session-closure-v1"
+}

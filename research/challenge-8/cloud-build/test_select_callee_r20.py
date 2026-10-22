@@ -88,6 +88,12 @@ class RepairStage(unittest.TestCase):
         self.assertEqual({v["stage"]["exit"] for v in record["variants"].values()}, {1})
         self.assertIs(record["complete"], True)
 
+    def test_r21_reuses_route_under_fresh_phase_marker(self):
+        env = {**ENV, "SORT4_R20_CALLEE_PHASE_ID": "SORT4-ACTUAL-SELECT-2026-10-23-R21"}
+        record, _, original = self.run_repair(FakeO26(), env=env)
+        self.assertIs(record["complete"], True)
+        self.assertEqual(original, UNIT)
+
     def test_deadline_reserve_not_run_exits_nonzero_and_record_is_incomplete(self):
         fake = FakeO26()
         with self.assertRaises(SystemExit) as raised:

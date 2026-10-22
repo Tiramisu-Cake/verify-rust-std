@@ -7,7 +7,7 @@ Owner: **Select/sort4**. Phase: `SORT4-ACTUAL-SELECT-2026-10-23-R21`. Lane: `o26
 
 This is a bounded continuation of the previous task under a newly authorized window.
 
-Runtime: Claude Code. This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), the runtime profile [`RUNTIME-CLAUDE.md`](agent-workflow/RUNTIME-CLAUDE.md), the compact root [CLAUDE.md](../../CLAUDE.md), and the persistent repo guidance. Review executor and Build waiting follow that profile only.
+Runtime: Codex. This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), the runtime profile [`RUNTIME-CODEX.md`](agent-workflow/RUNTIME-CODEX.md), the compact root [AGENTS.md](../../AGENTS.md), and the persistent repo guidance. Review executor and Build waiting follow that profile only.
 The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. Prepare fresh-session inputs with `/usr/local/bin/smallsort-session`, obtain required independent review and register the exact phase through the assigned branch client before proof work. Registration does not restart the clock.
 No previous budget, T0, ledger authorization, profile acceptance, or proof credit transfers.
 
@@ -49,9 +49,9 @@ Next: New window: build HANDOFF 0f37a0df S2d fingerprint on o26-select-callee-r2
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-23-r21 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R21 · NOT_STARTED**
-Updated: 2026-10-22T19:29:55Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
-Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
+**select-callee-acceptance-autonomous-2026-10-23-r21 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R21 · ACTIVE**
+Updated: 2026-10-22T19:54:55Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Dates: T0 `2026-10-22T19:54:55Z`; main `2026-10-22T21:54:55Z`; absolute `2026-10-22T22:24:55Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: Wrapper own closed for new(true_payload) but selected cell holds new(selected_payload) after guard re-open.
 Next: New window: build HANDOFF 0f37a0df S2d fingerprint on o26-select-callee-r20; then branch-selected refresh + classified proof.
