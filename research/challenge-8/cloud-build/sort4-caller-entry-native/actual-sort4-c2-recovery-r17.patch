@@ -1,17 +1,11 @@
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-@@ -3211,7 +3211,7 @@
-     val source_clauses : D.clause list
-     val body_tr_defs_ctx : body_tr_defs_ctx
+@@ -3213,3 +3213,3 @@
      val strict_lft_scope_ends : (Ast.loc * string) list
 -    val strict_relocated_decls : (Ast.loc * Ast.stmt list) option ref
 +    val strict_relocated_decls : (Ast.loc * Ast.stmt list) list ref
      val strict_relocation_insertions : int ref
-     val local_decl_types : (string * D.ty) list
-   end) =
-@@ -3257,6 +3257,24 @@
-       let callback_unwind_recoveries = ref []
-       let callback_unwind_count = ref 0
+@@ -3259,2 +3259,20 @@
        let actual_c1_argument_calls = ref 0
 +      let actual_c2_argument_calls = ref 0
 +      let actual_c2_enabled =
@@ -32,11 +26,7 @@
 +            if actual_c2_enabled then int_of_string count else 1
 +        | _ -> failwith "CALLBACK-UNWIND: malformed actual indexed call count"
  
-       let fail_callback_unwind why =
-         failwith ("CALLBACK-UNWIND: source/MIR certificate mismatch: " ^ why)
-@@ -3291,8 +3309,36 @@
-                     _, _) ],
-               _, _ ) ->
+@@ -3293,4 +3311,32 @@
              Some
 -              (Ast.PureStmt (Ast.stmt_loc debt, debt),
 +              (1, Ast.PureStmt (Ast.stmt_loc debt, debt),
@@ -70,24 +60,16 @@
 +            Some (Big_int.int_of_big_int index, Ast.PureStmt (Ast.stmt_loc debt, debt),
 +                     Ast.PureStmt (Ast.stmt_loc recover, recover))
          | _ -> None
- 
-       let fetch_ghost_stmts_before (l : Ast.loc0) =
-@@ -4538,10 +4584,11 @@
-           | _ -> assert false
-         else fn_call_rexpr
+@@ -4540,2 +4586,3 @@
        in
 +      let callback_binding_assertions = ref [] in
        let callback_unwind =
-         match !State.pending_callback_unwind with
+@@ -4543,3 +4590,3 @@
          | None -> None
 -        | Some (marker_loc, _, _)
 +        | Some (marker_loc, 1, _, _)
            when Sys.getenv_opt "SORT4_ACTUAL_BODY_C1_RECOVERY" = Some "1" &&
-                State.body_name = "sort4_stable" &&
-                (match D.decode_operand func_cpn, fn_call_rexpr with
-@@ -4568,7 +4615,30 @@
-             (* Leave pending debt untouched; emit the original add and every
-                existing normal/unwind statement and successor below. *)
+@@ -4570,3 +4617,26 @@
              None
 -        | Some (marker_loc, debt, recover) ->
 +        | Some (marker_loc, 2, _, _)
@@ -115,11 +97,7 @@
 +            None
 +        | Some (marker_loc, index, debt, recover) ->
              let fail = State.fail_callback_unwind in
-             (match fn_call_rexpr with
-              | FnCallOutcome
-@@ -4606,8 +4676,19 @@
-               fail "marker is not immediately before the actual call span";
-             if Sys.getenv_opt "SORT4_ACTUAL_BODY_C1_RECOVERY" = Some "1" &&
+@@ -4608,4 +4678,15 @@
                 State.body_name = "sort4_stable" then begin
 +              let line_value =
 +                if index = 1 then Sys.getenv_opt "SORT4_ACTUAL_BODY_FIRST_CALL_LINE"
@@ -136,11 +114,7 @@
 -                match Sys.getenv_opt "SORT4_ACTUAL_BODY_FIRST_CALL_LINE" with
 +                match line_value with
                  | Some value ->
-                     (try let line = int_of_string value in
-                        if line <= 0 || string_of_int line <> value then
-@@ -4615,9 +4696,33 @@
-                        line
-                      with Failure _ -> fail "actual-body c1 source coordinate")
+@@ -4617,5 +4698,29 @@
                  | None -> fail "actual-body c1 source coordinate" in
 -              if call_line <> expected_line || !State.callback_unwind_count <> 0 ||
 -                 !State.actual_c1_argument_calls <> 1 then
@@ -173,34 +147,22 @@
 +                | _ -> fail "indexed callback requires actual F receiver and ordered tuple locals"
 +              end
              end;
-             let label =
-               Printf.sprintf "__vf_callback_unwind_recover_%d"
-@@ -4729,11 +4834,11 @@
-             in
-             (match State.callback_unwind_marker ghost_stmt with
+@@ -4731,3 +4836,3 @@
               | None -> ([ ghost_stmt ], targets)
 -             | Some (debt, recover) ->
 +             | Some (index, debt, recover) ->
                   if !State.pending_callback_unwind <> None then
-                    State.fail_callback_unwind "second marker before its call";
+@@ -4735,3 +4840,3 @@
                   State.pending_callback_unwind :=
 -                   Some (Ast.stmt_loc ghost_stmt, debt, recover);
 +                   Some (Ast.stmt_loc ghost_stmt, index, debt, recover);
                   ([Ast.NoopStmt call_loc], targets))
-         | _ ->
-             ( (if ListAux.is_empty fn_call_tmp_rval_ctx then call_stmts
-@@ -4825,7 +4930,7 @@
-                (List.length hrtb_projection_equality)
-                (Ast.string_of_loc fn_loc)
+@@ -4827,3 +4932,3 @@
           | _ -> ());
 -      Ok (hrtb_projection_equality @ full_call_stmts, terminator, targets)
 +      Ok (!callback_binding_assertions @ hrtb_projection_equality @ full_call_stmts, terminator, targets)
  
-     let translate_sw_int (sw_int_data_cpn : SwitchIntDataRd.t) (loc : Ast.loc) =
-       let open SwitchIntDataRd in
-@@ -6141,12 +6246,10 @@
-                 | None -> []
-                 | Some name ->
+@@ -6143,8 +6248,6 @@
                      let moved =
 -                      match !State.strict_relocated_decls with
 -                      | None -> []
@@ -213,17 +175,12 @@
 +                      | None when !State.strict_relocated_decls = [] -> []
 +                      | None -> Ast.static_error l
                            "Relocated MIR locals belong to another lifetime cut" None
-                     in
-                     Ast.ExprStmt
-@@ -7698,12 +7801,16 @@
- (* Fail-closed containment for the R16 cmp locals and deferred normal-suffix
-    locals. Expression recursion uses Ast.expr_iter; skipped branches are
+@@ -7700,3 +7803,3 @@
     checked explicitly and unsupported forms refuse. *)
 -let validate_actual_scope_relocation cmp_expected deferred_expected deferred_wrapper body =
 +let validate_actual_scope_relocation ?(indexed_expected=[]) cmp_expected deferred_expected deferred_wrapper body =
    let exception Invalid of string in
-   let reject reason = raise (Invalid reason) in
-   let cmp_ids = List.map fst cmp_expected in
+@@ -7705,3 +7808,7 @@
    let deferred_ids = List.map fst deferred_expected in
 -  let expected_types = cmp_expected @ deferred_expected in
 +  let indexed_names = List.map fst indexed_expected in
@@ -232,36 +189,24 @@
 +  let cmp2_expected = List.concat_map snd indexed_expected in
 +  let expected_types = cmp_expected @ cmp2_expected @ deferred_expected in
    let ids = List.map fst expected_types in
-   let intended_scope = Hashtbl.create 31 in
-   let refs = Hashtbl.create 31 in
-@@ -7712,17 +7819,24 @@
-     if Hashtbl.mem intended_scope id then reject ("duplicate expected local: " ^ id);
-     Hashtbl.add intended_scope id (`Cmp);
+@@ -7714,2 +7821,6 @@
      Hashtbl.add refs id (ref 0); Hashtbl.add decls id (ref 0)) cmp_ids;
 +  List.iter (fun (name, group) -> List.iter (fun (id, _) ->
 +    if Hashtbl.mem intended_scope id then reject ("duplicate expected local: " ^ id);
 +    Hashtbl.add intended_scope id (`Indexed name);
 +    Hashtbl.add refs id (ref 0); Hashtbl.add decls id (ref 0)) group) indexed_expected;
    List.iter (fun id ->
-     if Hashtbl.mem intended_scope id then reject ("duplicate expected local: " ^ id);
-     Hashtbl.add intended_scope id (`Deferred);
-     Hashtbl.add refs id (ref 0); Hashtbl.add decls id (ref 0)) deferred_ids;
-   let target id = Hashtbl.mem intended_scope id in
+@@ -7720,2 +7831,3 @@
    let markers = ref 0 in
 +  let marker_names = ref [] in
    let deferred_wrappers = ref 0 in
-   let exception_scope id scope =
-     match Hashtbl.find_opt intended_scope id, scope with
+@@ -7724,3 +7836,5 @@
      | Some `Cmp, `Cmp | Some `Deferred, `Deferred -> ()
 +    | Some (`Indexed a), `Indexed b when a = b -> ()
      | Some `Cmp, _ -> reject ("cmp local escaped strict scope: " ^ id)
 +    | Some (`Indexed name), _ -> reject (name ^ " local escaped strict scope: " ^ id)
      | Some `Deferred, _ -> reject ("deferred local escaped normal suffix scope: " ^ id)
-     | None, _ -> () in
-   let record_ref scope id = if target id then begin
-@@ -7794,10 +7908,13 @@
-         scan_expr scope e; List.iter (scan_expr scope) es; scan_producing scope rest
-   in
+@@ -7796,6 +7910,9 @@
    let scan_consuming scope (Ast.ConsumingHandlePredicate (_, _, ps)) = scan_pats scope ps in
 -  let is_scope_marker = function
 +  let scope_marker = function
@@ -274,11 +219,7 @@
 +        when List.mem name indexed_names -> Some (name, `Indexed name)
 +    | _ -> None in
    let malformed_scope_marker = function
-     | Ast.ExprStmt (Ast.CallExpr (_, "#strict_lft_binding_scope", _, _, _, Ast.Static)) -> true
-     | _ -> false in
-@@ -7816,11 +7933,13 @@
-     let active = ref inherited in
-     List.iter (fun s ->
+@@ -7818,7 +7935,9 @@
        if malformed_scope_marker s then begin
 -        if not (is_scope_marker s) then reject "malformed strict lifetime marker";
 +        let name, category = match scope_marker s with
@@ -291,11 +232,7 @@
 -        active := `Cmp
 +        active := category
        end;
-       match deferred_wrapper with
-       | Some wrapper when s == wrapper ->
-@@ -7913,7 +8032,10 @@
-   in
-   try
+@@ -7915,3 +8034,6 @@
      scan_list `Outside body;
 -    if !markers <> 1 then reject "strict cmp marker is not unique";
 +    let expected_markers = 1 + List.length indexed_expected in
@@ -303,11 +240,7 @@
 +      reject (if indexed_expected = [] then "strict cmp marker is not unique"
 +              else "strict cmp marker inventory differs");
      if List.length deferred_ids > 0 && !deferred_wrappers <> 1 then
-       reject "deferred scope wrapper is missing or not unique";
-     if deferred_ids = [] && !deferred_wrappers <> 0 then reject "unexpected deferred scope wrapper";
-@@ -7926,19 +8048,34 @@
- 
- (* Select only the normal continuation after label 34. Keep that label in the
+@@ -7928,3 +8050,18 @@
     outer list so every pre-existing goto still lands at the same statement. *)
 -let wrap_actual_deferred_suffix loc decls stmts =
 +let wrap_actual_deferred_suffix ?(indexed=false) loc decls stmts =
@@ -327,26 +260,19 @@
 +      | _ -> Ast.static_error loc "R17 unique final normal continuation is unavailable" None
 +    end in
    let labels = ref [] and gotos = ref [] in
-   List.iter (Ast.stmt_iter (function
-     | Ast.LabelStmt (_, id) -> labels := id :: !labels
-     | Ast.GotoStmt (_, id) -> gotos := id :: !gotos
+@@ -7934,4 +8071,4 @@
      | _ -> ())) stmts;
 -  let label_count = List.length (List.filter ((=) "34") !labels) in
 -  let goto_count = List.length (List.filter ((=) "34") !gotos) in
 +  let label_count = List.length (List.filter ((=) continuation) !labels) in
 +  let goto_count = List.length (List.filter ((=) continuation) !gotos) in
    if label_count <> 1 || goto_count <> 1 then
-     Ast.static_error loc "R16 deferred suffix requires unique continuation label and incoming edge" None;
-   let rec split rev_prefix = function
+@@ -7940,3 +8077,3 @@
      | [] -> Ast.static_error loc "R16 normal continuation label is not a top-level statement" None
 -    | (Ast.LabelStmt (_, "34") as label) :: tail ->
 +    | (Ast.LabelStmt (_, name) as label) :: tail when name = continuation ->
          if tail = [] then Ast.static_error loc "R16 deferred normal suffix is empty" None;
-         let rec has_transfer ss = List.exists (fun stmt ->
-           let found = ref false in
-@@ -8029,6 +8166,48 @@
-   if not positive || not unsupported then failwith "R16 cmp synthetic control failed";
-   Printf.eprintf "ACTUAL-SCOPE-RELOCATION cmp-controls=12 status=PASS\n%!"
+@@ -8031,2 +8168,44 @@
  
 +let run_actual_indexed_scope_controls loc =
 +  let ty = Ast.IdentTypeExpr (loc, None, "i32") in
@@ -391,11 +317,7 @@
 +  Printf.eprintf "ACTUAL-INDEXED-SCOPE controls=13 status=PASS\n%!"
 +
  let run_actual_deferred_scope_controls loc =
-   let id = "__r16_deferred_control" in
-   let ty = Ast.IdentTypeExpr (loc, None, "i32") in
-@@ -8387,6 +8566,75 @@
-         when name = "end_lft_binding" -> Some (targs, args)
-       | _ -> None
+@@ -8389,2 +8568,71 @@
      in
 +    let ghost_decl_blocks, ghost_stmts, indexed_extra_cuts =
 +      if Sys.getenv_opt "SORT4_ACTUAL_BODY_C2_RECOVERY" <> Some "1" ||
@@ -467,45 +389,25 @@
 +        blocks, statements, List.map2 (fun name c -> (c, c, name)) lfts indexed_cuts
 +      end in
      let markers, ghost_stmts =
-       if (native_c1_capture_requested || native_c1_bound_requested ||
-           native_c4_capture_requested || native_c4_bound_requested) &&
-@@ -8489,6 +8737,7 @@
-         | _ -> Ast.static_error marker_loc
-             "end_lft_binding needs one enclosing ghost block containing only its let_lft declaration" None
+@@ -8491,2 +8739,3 @@
      in
 +    let strict_lft_scope_ends = strict_lft_scope_ends @ indexed_extra_cuts in
      List.iter (fun (original_close, marker_loc, _) ->
-       if List.length (List.filter (fun (close, _, _) -> close = original_close)
-             strict_lft_scope_ends) <> 1 then
-@@ -8522,6 +8771,7 @@
-          in
-          match List.find_opt (fun (old_close, _, _) -> old_close = closeBraceLoc)
+@@ -8524,2 +8773,3 @@
             strict_lft_scope_ends with
 +         | Some (_, new_close, _) when new_close = closeBraceLoc -> [end_stmt new_close]
           | Some (_, new_close, _) -> [end_stmt new_close; Ast.NoopStmt closeBraceLoc]
-          | None -> [end_stmt closeBraceLoc]
-     in
-@@ -8540,7 +8790,7 @@
-          (LocalDeclIdRd.name_get (LocalDeclRd.id_get decl_cpn),
-           D.decode_ty (LocalDeclRd.ty_get decl_cpn))
+@@ -8542,3 +8792,3 @@
      in
 -    let strict_relocated_decls = ref None in
 +    let strict_relocated_decls = ref [] in
      let strict_relocation_insertions = ref 0 in
-     let open TrBody (struct
-       let var_id_trs_map_ref = var_id_trs_map_ref
-@@ -8556,7 +8806,7 @@
-       let strict_relocation_insertions = strict_relocation_insertions
-       let local_decl_types = local_decl_types
+@@ -8558,3 +8808,3 @@
      end) in
 -    let callback_marker_name = "__vf_callback_unwind_pair" in
 +    let callback_marker_name = "__vf_callback_unwind_" in
      let mentions_callback_marker raw =
-       let marker_length = String.length callback_marker_name in
-       let rec scan i =
-@@ -8613,14 +8863,17 @@
-         let status = Unix.close_process_in ic in
-         if status <> Unix.WEXITED 0 || row <> expected ^ "  verified/lib.rs" then
+@@ -8615,4 +8865,5 @@
            State.fail_callback_unwind "actual-body verified source SHA256 differs";
 -        if parsed_callback_markers <> 1 then
 -          State.fail_callback_unwind "actual-body c1 requires one source marker";
@@ -513,20 +415,14 @@
 +        if parsed_callback_markers <> expected_markers then
 +          State.fail_callback_unwind "actual-body indexed marker inventory differs";
          true
-       end in
-     let callback_fixture = actual_sort4_callback ||
-       State.body_name = "callback_positive" ||
+@@ -8622,3 +8873,5 @@
        State.body_name = "callback_false_post" in
 -    if (callback_fixture && parsed_callback_markers <> 1) ||
 +    let expected_callback_markers =
 +      if actual_sort4_callback && State.actual_c2_enabled then State.actual_indexed_calls else 1 in
 +    if (callback_fixture && parsed_callback_markers <> expected_callback_markers) ||
         (not callback_fixture && parsed_callback_markers <> 0) then
-       State.fail_callback_unwind
-         "exact callback fixture requires one marker; other bodies forbid it";
-@@ -8988,7 +9241,53 @@
-               Sys.getenv_opt "SORT4_STRICT_LFT_RELOCATE" = Some "1" &&
-               name = "callback_positive" in
+@@ -8990,3 +9243,49 @@
              let relocate = actual_scope_relocate || fixture_relocate in
 +            let indexed_local_groups =
 +              if not State.actual_c2_enabled then [] else begin
@@ -576,11 +472,7 @@
              let relocation_ids =
 +              if State.actual_c2_enabled then List.concat indexed_local_groups else
                if actual_scope_relocate then
-                 ["_35"; "_36"; "_37"; "_38"; "_41"; "_42";
-                  "_47"; "_48"; "_49"; "_50"; "_53"; "_54";
-@@ -9003,7 +9302,13 @@
-               else [] in
-             let translated_ids = List.map snd relocation_pairs in
+@@ -9005,3 +9304,9 @@
              let deferred_moved = ref [] in
 -            let c1_raw_ids = ["_35"; "_36"; "_37"; "_38"; "_41"; "_42"] in
 +            let c1_raw_ids = if State.actual_c2_enabled then List.nth indexed_local_groups 0
@@ -591,28 +483,16 @@
 +                 List.map translate_local_decl_id_ (List.nth indexed_local_groups (i + 1))))
 +              else [] in
              let c1_translated_ids = List.map translate_local_decl_id_ c1_raw_ids in
-             if relocate then begin
-               if not actual_scope_relocate then begin
-@@ -9019,6 +9324,8 @@
-               end;
-               let cut_loc =
+@@ -9021,2 +9326,4 @@
                  match State.strict_lft_scope_ends with
 +                | (cut_loc, "'cmp") :: rest when State.actual_c2_enabled &&
 +                    List.map snd rest = List.map fst indexed_translated_groups -> cut_loc
                  | [(cut_loc, "'cmp")] -> cut_loc
-                 | _ -> Ast.static_error fn_sig_loc
-                     "Strict relocation requires one cmp lifetime cut" None in
-@@ -9044,6 +9351,7 @@
-                 | _ -> false in
-               let exact_type id =
+@@ -9046,2 +9353,3 @@
                  let ty = decode_ty (List.assoc id State.local_decl_types) in
 +                if State.actual_c2_enabled then List.mem id relocation_ids else
                  if actual_scope_relocate then actual_type id ty else
-                 match id, ty with
-                 | "_27", `Ref ("'<erased>", true, `Param "F") -> true
-@@ -9106,8 +9414,27 @@
-               if actual_scope_relocate &&
-                  (List.length cmp_moved <> 6 || List.length deferred <> 24) then
+@@ -9108,4 +9416,23 @@
                  Ast.static_error fn_sig_loc "R16 cmp/deferred declaration partition changed" None;
 -              deferred_moved := deferred;
 -              State.strict_relocated_decls := Some (cut_loc, cmp_moved)
@@ -638,42 +518,29 @@
 +                State.strict_relocated_decls := [(cut_loc, cmp_moved)]
 +              end
              end;
-             let vf_local_decls =
-               List.map (translate_to_vf_local_decl loc)
-@@ -9131,17 +9458,18 @@
-             let vf_bblocks, actual_deferred_wrapper =
-               if actual_scope_relocate then
+@@ -9133,3 +9460,3 @@
                  let relocated, wrapper =
 -                  wrap_actual_deferred_suffix fn_sig_loc !deferred_moved vf_bblocks in
 +                  wrap_actual_deferred_suffix ~indexed:State.actual_c2_enabled fn_sig_loc !deferred_moved vf_bblocks in
                  relocated, Some wrapper
-               else vf_bblocks, None in
+@@ -9137,3 +9464,4 @@
              if relocate then begin
 -              if !State.strict_relocation_insertions <> 1 then
 +              if !State.strict_relocation_insertions <>
 +                 (if State.actual_c2_enabled then State.actual_indexed_calls else 1) then
                  Ast.static_error fn_sig_loc
-                   "Strict relocation did not insert exactly one declaration set"
-                   None;
+@@ -9142,4 +9470,4 @@
                Printf.eprintf
 -                "STRICT-RELOCATE outer_removed=%d inner_insertions=1\n%!"
 -                (List.length relocation_ids)
 +                "STRICT-RELOCATE outer_removed=%d inner_insertions=%d\n%!"
 +                (List.length relocation_ids) !State.strict_relocation_insertions
              end;
-             if !State.pending_callback_unwind <> None then
-               State.fail_callback_unwind "marker has no matching following call";
-@@ -9171,6 +9499,7 @@
-                if actual_scope_relocate then begin
-                  run_actual_cmp_scope_controls fn_sig_loc;
+@@ -9173,2 +9501,3 @@
                   run_actual_deferred_scope_controls fn_sig_loc;
 +                 if State.actual_c2_enabled then run_actual_indexed_scope_controls fn_sig_loc;
                   let expected_types = List.map (fun id ->
-                    let d = match List.find_opt (fun (d : Mir.local_decl) -> d.id = id) local_decls with
-                      | Some d -> d
-@@ -9181,9 +9510,15 @@
-                    | _ -> Ast.static_error fn_sig_loc
-                        "R16 relocated local declaration shape changed" None)
+@@ -9183,5 +9512,11 @@
                     translated_ids in
 -                 let cmp_expected, deferred_expected =
 +                 let cmp_expected, remaining_expected =
@@ -687,5 +554,3 @@
 +                   List.filter (fun (id, _) -> not (List.mem id indexed_ids)) remaining_expected in
 +                 match validate_actual_scope_relocation ~indexed_expected
                     cmp_expected deferred_expected actual_deferred_wrapper original_body with
-                  | Ok () -> Printf.eprintf
-                      "ACTUAL-SCOPE-RELOCATION complete-body-use-containment=PASS cmp=%d deferred=%d\n%!"
