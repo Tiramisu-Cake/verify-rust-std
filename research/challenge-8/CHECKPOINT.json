@@ -18,7 +18,7 @@
         "sha256": "c703f18f8d8b485e822b8bda4b2ff00d165d8e88729b0b64127cff46af30bdab"
       }
     ],
-    "summary": "R4 proof blocked on Select layer: no checked select_unpredictable callee (S2 Build 8916761a: No such function std::hint::select_unpredictable) and overlay admits pair markers only for sort4/fixtures; Network has no Cloud lane (v3 V3_OWNERS)."
+    "summary": "R4 blocked on Select layer: no checked select_unpredictable callee (Select S2 8916761a) and overlay admits pair markers only for sort4; Network has no Cloud lane."
   },
   "confirmed": [
     {
@@ -42,66 +42,44 @@
       ]
     },
     {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "swap_if_less: только effect-aware спецификация; actual Rust тело не доказано.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/networks/SWAP-CONTRACT.md",
-          "sha256": "df51fee152cb8469541af601eb04c840275c80976d68a630275a0a97524dcfa2"
-        }
-      ]
-    },
-    {
       "assurance": "INDEPENDENTLY_ESTABLISHED",
-      "claim": "Shared docs adopted from policy 9c96a5dd6c7c1b5ae479d42124cb024065af186c (published) in a8a24c34; branch-local README/PLAN/AGENT-RUNBOOK/PROOF-AGENT-AUTONOMY archived; compact AGENTS.md entry kept (deviation recorded). Docs only.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/archive/network-adoption-2026-10-22/README.md",
-          "sha256": "587e8bd14430e7a8d63204d74a74744b57dcca295e8d66b5b075d8fb60f6e141"
-        }
-      ]
-    },
-    {
-      "assurance": "INDEPENDENTLY_ESTABLISHED",
-      "claim": "Library on shared baseline: upstream cd371e03 merged conflict-free as 722320d3 (pushed with [skip ci] head); smallsort.rs blob 40939f92, file SHA256 85c75bc9; library tree equal to cd371e03.",
+      "claim": "Step 1 (static): policy 9c96a5dd adopted (a8a24c34, ACK); cd371e03 merged as 722320d3; blob 40939f92: swap_if_less and sort9/13 bodies byte-identical to e555fce4, same 25/45 pairs; SOURCE-MAP re-pinned.",
       "evidence": [
         {
           "path": "research/challenge-8/networks/SOURCE-MAP.md",
           "sha256": "cc02e08fb7f95d250ca3e86eaa1a891bcb58ea4bd2c4cf3b057d6795ffe1e5ad"
-        }
-      ]
-    },
-    {
-      "assurance": "INDEPENDENTLY_ESTABLISHED",
-      "claim": "Static Git/text re-check e555fce4→40939f92: swap_if_less body (380–412) byte-identical; sort9/sort13 bodies byte-identical with same 25/45 ordered pairs, rows −6 lines; small_sort_network region/merge construction changed to slice::from_raw_parts_mut (W8 note). No compile/extraction/proof.",
-      "evidence": [
+        },
         {
-          "path": "research/challenge-8/networks/SOURCE-MAP.md",
-          "sha256": "cc02e08fb7f95d250ca3e86eaa1a891bcb58ea4bd2c4cf3b057d6795ffe1e5ad"
+          "path": "research/challenge-8/task-history/network-n1/ADOPTION-ACK.json",
+          "sha256": "f0df5f02f3279d8997888ca7262b48b3d552639ea6bf45dc7c472596d0e9c3c6"
         }
       ]
     },
     {
       "assurance": "INDEPENDENTLY_ESTABLISHED",
-      "claim": "R4 candidate a693a4c4 (UNVERIFIED, credit 0): generator inserts only ghost text into actual swap_if_less (strip restores exact body, SHA f400911e); consumes Select c1 pair layer by blob pin (a29ad254/a7775d93/fd036cc0, unchanged at Select 10e13a41); contract a_pos != b_pos; static service tests 7/7 PASS on VPS. No proof tool run.",
+      "claim": "R4 candidate 347a69a9 (UNVERIFIED, credit 0): ghost-only swap_if_less generator on Select pair layer (blob-pinned), contract a_pos != b_pos, no select spec until P2, control matrix with reachability. Review GO_WITH_NITS after 2 NO_GO rounds. Tests 10/10.",
       "evidence": [
         {
           "path": "research/challenge-8/network/r4/DESIGN.md",
-          "sha256": "c703f18f8d8b485e822b8bda4b2ff00d165d8e88729b0b64127cff46af30bdab"
+          "sha256": "c68282ae24a4c62567a7eb8a4b0b820e9b61f5a4ac920d04acc5d0c58c563555"
         },
         {
           "path": "research/challenge-8/network/r4/swap-if-less-body.py",
-          "sha256": "2f860e7a92d1686031fa51e3c565154e5a7d67809d6554e1537bb61649420f3d"
+          "sha256": "29dfa71f21ddd020cd6f20ec89c921b1c4ac91bee9e4a494091f50e65bdd3d56"
+        },
+        {
+          "path": "research/challenge-8/task-history/network-n1/review-4.json",
+          "sha256": "2f8c2541bb898cf987471c87b229be5de3e993128fdb6a4b6683b466391fd63a"
         }
       ]
     },
     {
       "assurance": "INDEPENDENTLY_ESTABLISHED",
-      "claim": "Cloud-readiness package PREPARED_NOT_REGISTERED (a693a4c4): v4 coordinator candidate (owners v3+network, cap 3, owner check in request), transition helper, Network client derived from Select control.py b8f88ce8 with empty NETWORK_PHASES; local unittest 6/6 and 7/7 PASS; nothing registered or deployed.",
+      "claim": "Cloud readiness PREPARED_NOT_REGISTERED (GO_WITH_NITS at 1c6cc2fe): v4 coordinator candidate (4 owners, cap 3), transition helper, Network client (empty phase table). Tests 6/6, 8/8. Nothing registered.",
       "evidence": [
         {
           "path": "research/challenge-8/network/cloud-readiness/PLAN.md",
-          "sha256": "8b1278f1617f9b254f5c7dcf2a45b5eaeb443b9f68277cc101ada250e3dc8ff3"
+          "sha256": "f88dce59884705cf02f92a8ca943142a4af2b9dbdee162aed38d56bed4266666"
         },
         {
           "path": "research/challenge-8/network/cloud-readiness/client/coordination.py",
@@ -109,17 +87,39 @@
         },
         {
           "path": "research/challenge-8/network/cloud-readiness/client/control.py",
-          "sha256": "0304570fdf169e9fe70fe14c54fdbdca52358a901b480d088f6454a103b10b3a"
+          "sha256": "fd6016462248974a1e0154d55cbea8e3c696d0afb7dc069f9262e367d801fc51"
+        },
+        {
+          "path": "research/challenge-8/task-history/network-n1/review-2.json",
+          "sha256": "cdd6ae7ddf150a35e488885afc6a41ecfa68a2e4629f3cbd0b7eb0cd9e9c111d"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "W7 candidate 50ac9ac9 (UNVERIFIED, credit 0): ghost-only sort9/sort13 over in-crate R4 helper, split/join lemmas, controls. NO_GO at 4ae17a49 fixed; delta review pending. Tests 6/6.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/w7/DESIGN.md",
+          "sha256": "30ad8094dc2952b24310d81647f8daa315b176e9ccffe68d9c4a080cd85c7821"
+        },
+        {
+          "path": "research/challenge-8/network/w7/network-body.py",
+          "sha256": "19e1932e81ff1e3ace8af1e72ee9e661c4f253cc9dfd15a0ab963ce67386f5a7"
+        },
+        {
+          "path": "research/challenge-8/task-history/network-n1/review-5.json",
+          "sha256": "af374366d797da06d23df189fc802679ff8fe81f3fa0ddd4a2dcf94b5413a8f3"
         }
       ]
     }
   ],
-  "next_step": "Review of a693a4c4 → fix findings → HANDOFF; then P1/P2 requests to Select and owner decision on v4 migration.",
+  "next_step": "Owner: pass SELECT-REQUESTS (P1/P2) to Select; decide v4 migration. Then first Network Cloud task: R4 matrix, W7 after R4 acceptance.",
   "open": [
-    "Adoption ACK для владельца (policy 9c96a5dd, local a8a24c34); hosted gate prove.py пинует старый file SHA 32574fd0 (historical lane).",
-    "R4: independent review of a693a4c4 pending; Select-layer gates P1 (overlay admits swap_if_less pair marker), P2 (checked select_unpredictable callee at *mut T — Select blocker at 10e13a41), P3 (equal positions same-cell variant); D5 CE functional post; proof NOT_RUN.",
-    "Cloud lane: owner decision on v4 migration (all four ACKs), copy of common runner files at an exact Select commit, smallsort-session changes (CLOUD_OWNERS, prepare bootstrap path, watch_bindings OWNER_REPOS).",
-    "N13 exact adapter; sort9/sort13 Rust integration and network caller (W8; small_sort_network now uses slice::from_raw_parts_mut)."
+    "R4 proof NOT_RUN; Select gates P1 (overlay admission), P2 (checked select_unpredictable incl. *mut T), P3 (equal positions); D5 CE post. Requests in network/r4/SELECT-REQUESTS.md.",
+    "W7 proof NOT_RUN; gates: as_mut_ptr projection pin, intrinsics::abort spec, safe-fn spec, index-0 ptr_add_.",
+    "Cloud lane: owner decision on v4 migration; common runner files; smallsort-session network support.",
+    "N13 exact adapter; W8 small_sort_network caller; hosted prove.py pins old SHA 32574fd0 (historical)."
   ],
   "owner": "network",
   "phase": "NETWORK-BOOTSTRAP-2026-10-22-N1",
@@ -149,5 +149,5 @@
   },
   "state": "ACTIVE",
   "task_id": "network-bootstrap-2026-10-22-n1",
-  "updated_utc": "2026-10-22T15:42:00Z"
+  "updated_utc": "2026-10-22T15:57:55Z"
 }
