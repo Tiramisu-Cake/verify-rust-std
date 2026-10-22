@@ -229,8 +229,8 @@ def negative_exact_post(kind: str, pairs: list[tuple[int, int]]) -> tuple[str, d
                   if "TARGET_NEGATIVE_EXACT" in line)
     # Exact stock diagnostic spelling is checked, never inferred from a
     # nonzero exit. An unexpected printer spelling remains INCONCLUSIVE.
-    expected = ("false" if kind == "membership" else
-                "rel((network13_swo_out1)(rel), (network13_swo_out0)(rel))")
+    expected = (f"mem(13, {domain(13)}) <==> true" if kind == "membership" else
+                "unboxed_bool(@(@(rel, network13_swo_out1(rel)), network13_swo_out0(rel))) <==> true")
     return source, {"target_line": target, "expected_predicate": expected,
                     "expected_bodies": re.findall(r"^lemma void (\w+)\(", source, re.M),
                     "control": kind}

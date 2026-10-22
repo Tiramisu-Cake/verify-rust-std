@@ -113,3 +113,20 @@ in `allprooflogs/cases` rather than copying the same large original logs into
 two archive paths. Preserve their full original bytes, hashes, exits,
 snapshots and structured results. This is an artifact-layout change only,
 intended to reduce duplicate packaging work within the unchanged account.
+
+## Exact negative diagnostic spelling
+
+Static stock26.09 source inspection, without running the tool, identifies a
+classifier defect in the provisional exact-negative metadata. The C assertions
+compare a boolean to `true`; `verifast1.ml` builds `mk_iff` for Bool equality.
+Default Redux (`verifast.ml` default_prover) preserves Iff in `pprint` as
+`<==>`. A fixpoint-value call uses curried `apply_symbol` named `@`, and its
+boolean result is wrapped in `unboxed_bool`; integer boxing is identity in
+Redux. Therefore the provisional `false`/surface-C predicate strings are not
+the printer terms. Correct metadata to the exact derived terms, keeping the
+assertions, generated C units, target sites, all gates and seven classifier
+mutants unchanged. Intended assertions must still fail at their exact sites;
+an unexpected spelling remains INCONCLUSIVE. Source reference is stock tool
+commit809de459 (`verifast1.ml` pure-function value evaluation/Bool equality,
+`redux.ml` mk_iff/mk_boxed_int/mk_unboxed_bool/pprint). Independent delta review
+is required before controls use the revised classifier metadata.
