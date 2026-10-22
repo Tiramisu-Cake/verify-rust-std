@@ -275,7 +275,7 @@ class R19PhaseTests(unittest.TestCase):
                                  "research/challenge-8/cloud-build/control.py").decode()
         current = (HERE.parents[0] / "control.py").read_text()
         m.r14_validate_publisher_control(before, current)
-        broken = current.replace(",'MERGE-UNWIND-CLEANUP-R19-2026-10-22','MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23')\n\ndef config(", ")\n\ndef config(", 1)
+        broken = current.replace(",'MERGE-UNWIND-CLEANUP-R19-2026-10-22','MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23','MERGE-CALLER-ACCEPTANCE-R21-2026-10-23')\n\ndef config(", ")\n\ndef config(", 1)
         self.assertNotEqual(broken, current)
         with self.assertRaises(SystemExit):
             m.r14_validate_publisher_control(before, broken)

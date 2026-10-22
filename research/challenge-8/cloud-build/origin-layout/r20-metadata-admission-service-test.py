@@ -153,7 +153,7 @@ class R20MetadataAdmissionTests(unittest.TestCase):
 
     def test_recipe_delta_has_only_registration_and_unused_service_test_pruning(self):
         before = json.loads(git_bytes(self.probe, "research/challenge-8/cloud-build/recipes/merge.json"))
-        selected = json.loads((ROOT / "research/challenge-8/cloud-build/recipes/merge.json").read_bytes())
+        selected = json.loads(git_bytes(control.R21_PROBE_SOURCE, "research/challenge-8/cloud-build/recipes/merge.json"))
         control.r20_validate_recipe_delta(before, selected)
         bad = copy.deepcopy(selected)
         bad["proof_paths"].append("research/challenge-8/cloud-build/origin-layout/R11-INPUTS-20261021.json")
