@@ -1,11 +1,11 @@
 # Agent checkpoint: select-actual-callee-autonomous-2026-10-22-r20
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-22-R20 | state: ACTIVE
-- Updated: 2026-10-22T16:27:00Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-22-R20 | state: HANDOFF
+- Updated: 2026-10-22T16:33:30Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-22T15:41:28Z`; main deadline `2026-10-22T17:41:28Z`; absolute deadline `2026-10-22T18:11:28Z`
 - Budget: 3600s total; 345s spent; 0s retired; 3255s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 00c136dd-96d6-4e81-a3f3-7b1c113b8691
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -28,7 +28,7 @@ Missing MaybeUninit_pointer_own(t, new(payload)) for select arg a; repair needs 
 - [research/challenge-8/task-history/select-callee-r20/S1-evidence.json](task-history/select-callee-r20/S1-evidence.json) SHA `7bf8d229919ffb0eb7fa49ede13b0b516b472df432c769badbdb0f4f1f997123` Build `2d562718-c166-4ab5-bba3-bf9136bd56b7`
 
 ## Next
-Certificate-refresh tool patch admitting the exact two-line checked repair (baseline SHA pin + fixed insertion), review, Cloud S2 on callee lane.
+Wait R20 S2 Build 00c136dd (location control + repaired-unit fingerprint + MIR, pins 74fc220f); ack; Brief r20-fingerprint.json; then S3 certificate refresh.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r20/CALLEE-ROUTE-DESIGN.md](task-history/select-callee-r20/CALLEE-ROUTE-DESIGN.md) — `b547eaaed39a31a29a16383aa0d72d1a0e9666ccac987ae0571b5f94305f5632`
