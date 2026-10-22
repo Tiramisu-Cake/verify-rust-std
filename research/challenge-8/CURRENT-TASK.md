@@ -47,10 +47,10 @@ Next: Diagnose RawPtr refinement2 and the raw array_inv444 frontier; review; reg
 
 ## Отчёт агента
 
-**merge-raw-caller-frontier-autonomous-2026-10-22-r18 · merge · MERGE-RAW-CALLER-R18-2026-10-22 · ACTIVE**
-Updated: 2026-10-22T15:17:00Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `a66c1d30214e463a16a325cdef30b0ec8555e0af` / `947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d`.
+**merge-raw-caller-frontier-autonomous-2026-10-22-r18 · merge · MERGE-RAW-CALLER-R18-2026-10-22 · HANDOFF**
+Updated: 2026-10-22T15:19:00Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `a66c1d30214e463a16a325cdef30b0ec8555e0af` / `947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d`.
 Dates: T0 `2026-10-22T14:08:51Z`; main `2026-10-22T16:08:51Z`; absolute `2026-10-22T16:38:51Z`. Budget 3600s: 915s spent, 0s retired, 2685s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
+Active Build IDs: 08bd6e03-a320-4e03-b5d3-21b051204b3e; unresolved: none recorded.
 Blocker: Raw caller: free_locals requires array_<u64>(values_addr,3,_) after insert_tail (unwind presumed); needs checked tool/model step. RawPtr negatives pending P2. [Build `e70d2723-f49d-4a8f-847e-f8da1106d36f`]
-Next: Delta review 55666e3e; P2 RawPtr control matrix; design checked unwind local-array release (tool) for next window.
+Next: Ack P2 08bd6e03 watcher; Brief RawPtr negatives; closeout; next window: checked unwind cleanup for raw caller.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

@@ -84,7 +84,7 @@
       ]
     }
   ],
-  "next_step": "Delta review 55666e3e; P2 RawPtr control matrix; design checked unwind local-array release (tool) for next window.",
+  "next_step": "Ack P2 08bd6e03 watcher; Brief RawPtr negatives; closeout; next window: checked unwind cleanup for raw caller.",
   "open": [
     "Original as_mut_ptr/unsize, source-bound metadata, real borrow/reference lifecycle and caller normal/unwind remain OPEN; isolated lifecycle does not close them.",
     "Raw caller unwind free_locals needs array_ for initialized local (VeriFast core); RawPtr negatives classifier fix 55666e3e under review.",
@@ -116,7 +116,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "08bd6e03-a320-4e03-b5d3-21b051204b3e"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T16:38:51Z",
     "main_deadline_utc": "2026-10-22T16:08:51Z",
@@ -126,7 +128,7 @@
     "t0": "2026-10-22T14:08:51Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "merge-raw-caller-frontier-autonomous-2026-10-22-r18",
-  "updated_utc": "2026-10-22T15:17:00Z"
+  "updated_utc": "2026-10-22T15:19:00Z"
 }

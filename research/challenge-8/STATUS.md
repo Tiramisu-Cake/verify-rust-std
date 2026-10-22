@@ -1,11 +1,11 @@
 # Agent checkpoint: merge-raw-caller-frontier-autonomous-2026-10-22-r18
 
-- Owner: merge | phase: MERGE-RAW-CALLER-R18-2026-10-22 | state: ACTIVE
-- Updated: 2026-10-22T15:17:00Z
+- Owner: merge | phase: MERGE-RAW-CALLER-R18-2026-10-22 | state: HANDOFF
+- Updated: 2026-10-22T15:19:00Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `a66c1d30214e463a16a325cdef30b0ec8555e0af`, profile `947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d`
 - Session dates: T0 `2026-10-22T14:08:51Z`; main deadline `2026-10-22T16:08:51Z`; absolute deadline `2026-10-22T16:38:51Z`
 - Budget: 3600s total; 915s spent; 0s retired; 2685s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 08bd6e03-a320-4e03-b5d3-21b051204b3e
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -28,7 +28,7 @@ Raw caller: free_locals requires array_<u64>(values_addr,3,_) after insert_tail 
 - [research/challenge-8/cloud-build/origin-layout/R18-PROOF1-RESULT-20261022.json](cloud-build/origin-layout/R18-PROOF1-RESULT-20261022.json) SHA `d0b75917c6865ce64ecad4da12beaa96a8ad293ff97c051af411e0a0d2141008`
 
 ## Next
-Delta review 55666e3e; P2 RawPtr control matrix; design checked unwind local-array release (tool) for next window.
+Ack P2 08bd6e03 watcher; Brief RawPtr negatives; closeout; next window: checked unwind cleanup for raw caller.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md](cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md) — `6acfb36fa52b2e05eea0551dfb40033156b23ef8165dfa67f6309d0550e721eb`
