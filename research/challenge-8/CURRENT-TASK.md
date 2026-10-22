@@ -3,6 +3,26 @@
 Task ID: `select-actual-c2-autonomous-2026-10-21-r17`; previous task: `select-actual-lifetime-autonomous-2026-10-21-r16`.
 Owner: **Select/sort4**. Phase: `SORT4-ACTUAL-C2-2026-10-21-R17`. Lane: `o26-sort4-c1-current-recovery`.
 
+## Завершение R17 — поручение владельца 2026-10-22 (приоритетно)
+
+Сессия R17 прервалась около 21:18Z; main `22:06:19Z` и absolute `22:36:19Z` 2026-10-21 истекли. Это поручение — **только closeout R17**: Cloud budget 0s, окно до 30 минут wall от начала работы. Новых Builds/request/submit/cancel/retry, review новых кандидатов и новых гипотез нет. Разделы Goal/Special bounds ниже — история R17, не разрешение.
+
+Состояние, прочитанное владельцем (проверь сам, расхождение — UNKNOWN):
+- S4 `27e8bfac-eb5f-4cf4-ae89-18bacd16eb90` (candidate `51c4368b`) terminal FAILURE 21:05:08Z→21:13:53Z; в **незакоммиченном** ledger accounted 525s, used1995/remaining1605, status всё ещё AUTHORIZED.
+- `/root/smallsort-ci-coordination/active.json` ещё держит own reservation `dispatch-774eeb6818d045af9052d29f889c6a06` со status QUEUED.
+- HEAD `a6550c20` (S5 unselected full-borrow fix + `S5-review-spec.json`) не опубликован, origin на `462539c3`; S5 review и Build не выполнены.
+- CHECKPOINT ещё HANDOFF/WAITING S4; S4 evidence/Brief records не сохранены.
+
+Шаги:
+1. Проверь thread cwd/branch/HEAD/dirty; если для старого thread `01a15ffc-dbe5-7523-b5b1-d3dc37016e06` armed watcher — `watch status`, затем `stop` (Build не отменяет).
+2. Один штатный own `control.py status 27e8bfac-eb5f-4cf4-ae89-18bacd16eb90` с R17 phase/ledger/state-dir `/tmp/select-r17-cloud-state`: подтверди terminal/accounting и освобождение own reservation. Live `active.json` вручную не править; при отказе — точный ответ и UNKNOWN.
+3. `smallsort-brief` по S4: сохрани `S4-evidence.json`/S4-brief/observations с file/index SHA и coverage. Подтверди или уточни leak base0/1 `full_borrow` из `S5-UNSELECTED-BORROW-FIX.md`; без raw logs/archives.
+4. Закрой ledger по образцу R16: CLOSED, `closed_utc`, retired 1605 (retired = remaining после accounting), carry0, closure_reason «interrupted, absolute expired». Spent/used не переписывать.
+5. CHECKPOINT → CLOSED (0 remaining, active/unresolved 0): S4 claim SOURCE_REPORTED; blocker по S4 Brief; S5 `a6550c20` — artifact **unverified, unreviewed**, proof credit0; next — новая R18 (S5 review → Cloud). Обнови `assignment_sha256` под этот текст, `checkpoint validate` и `write-views`.
+6. Закоммить только свои R17 файлы (ledger, CHECKPOINT/STATUS/CURRENT, task-history/select-actual-c2-r17). Чужие dirty policy docs и `A1-PACKAGING-R7-SESSION-2026-10-20.md` оставь как есть. Обычный push ветки (с `a6550c20`), проверка полного remote SHA; без force/rebase.
+
+Готово, когда ledger CLOSED, own reservation освобождена и checkpoint опубликован — это условие `smallsort-session task install` для R18.
+
 ## Mission
 
 This is a bounded continuation of the previous task under a newly authorized window.
