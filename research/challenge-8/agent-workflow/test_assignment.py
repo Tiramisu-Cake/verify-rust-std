@@ -469,12 +469,16 @@ class AssignmentTests(unittest.TestCase):
 
     def test_bootstrap_and_null_fields_require_zero_budget(self):
         for update, message in (
-            ({"cloud_budget_seconds": 3600}, "bootstrap requires cloud_budget_seconds 0"),
+            ({"cloud_budget_seconds": 3600}, "owner network has no Cloud lane"),
+            ({"owner": "merge", "cloud_budget_seconds": 3600}, "bootstrap requires cloud_budget_seconds 0"),
             ({"previous_ledger_path": self.previous_ledger_rel}, "bootstrap requires cloud_budget_seconds 0"),
-            ({"bootstrap": False, "cloud_budget_seconds": 3600}, "may be null only when cloud_budget_seconds is 0"),
+            ({"owner": "merge"}, "bootstrap is only for owners without Cloud history"),
+            ({"owner": "select-sort4"}, "bootstrap is only for owners without Cloud history"),
+            ({"owner": "merge", "bootstrap": False, "cloud_budget_seconds": 3600}, "may be null only when cloud_budget_seconds is 0"),
             ({"profile_sha256": SHA256}, "both be set or both be null"),
-            ({"cloud_budget_seconds": -1}, "integer from 0 to 3600"),
-            ({"cloud_budget_seconds": True}, "integer from 0 to 3600"),
+            ({"cloud_budget_seconds": -1}, "must be 0 or 3600"),
+            ({"cloud_budget_seconds": 1800}, "must be 0 or 3600"),
+            ({"cloud_budget_seconds": True}, "must be 0 or 3600"),
             ({"bootstrap": "yes"}, "bootstrap must be true or false"),
         ):
             spec = self.network_bootstrap_spec()
@@ -483,13 +487,16 @@ class AssignmentTests(unittest.TestCase):
                 with self.assertRaisesRegex(assignment.AssignmentError, message):
                     assignment.validate_spec(spec)
 
-    def zero_budget_closed_task(self):
-        (self.base / "CHECKPOINT.json").unlink()
-        prefix = f"# Prior zero-budget task\n\nTask ID: `{PREVIOUS}`; Owner: **Select/sort4**. Phase: `{OLD_PHASE}`.\n\n".encode()
+    def zero_budget_closed_task(self, budget_line=assignment.NO_CLOUD_BUDGET_LINE, commit=True):
+        prefix = (f"# Prior zero-budget task\n\nTask ID: `{PREVIOUS}`; Owner: **Select/sort4**. Phase: `{OLD_PHASE}`.\n"
+                  f"{budget_line} Wall window: 120 minutes main + 30 minutes closeout.\n\n").encode()
         oldcp = self.closed_checkpoint(hashlib.sha256(prefix).hexdigest())
         oldcp["session"].update({"budget_seconds": 0, "spent_seconds": 0, "retired_seconds": 0})
         (self.base / "CURRENT-TASK.md").write_bytes(prefix + checkpoint.REPORT_MARKER.encode() + b"\nclosed\n")
         (self.base / "CHECKPOINT.json").write_text(json.dumps(checkpoint.validate(oldcp)), encoding="utf-8")
+        if commit:
+            git(self.repo, "add", "research")
+            git(self.repo, "commit", "-q", "-m", "closed zero-budget task")
         self.spec["previous_ledger_path"] = None
         self.write_spec()
 
@@ -506,14 +513,52 @@ class AssignmentTests(unittest.TestCase):
         oldcp = json.loads((self.base / "CHECKPOINT.json").read_text())
         oldcp["session"].update({"budget_seconds": 3600, "retired_seconds": 3600})
         (self.base / "CHECKPOINT.json").write_text(json.dumps(oldcp), encoding="utf-8")
+        git(self.repo, "commit", "-q", "-am", "checkpoint claims a Cloud budget")
         before = self.snapshot()
         with patch.object(assignment, "CORE_DIR", self.canonical):
             with self.assertRaisesRegex(assignment.AssignmentError, "closed zero-budget checkpoint"):
                 assignment.install(self.spec_path, self.coordination)
         self.assertEqual(self.snapshot(), before)
-        (self.base / "CHECKPOINT.json").unlink()
+        git(self.repo, "rm", "-q", "research/challenge-8/CHECKPOINT.json")
+        git(self.repo, "commit", "-q", "-m", "no checkpoint")
         with self.assertRaisesRegex(assignment.AssignmentError, "closed zero-budget checkpoint"):
             assignment.install(self.spec_path, self.coordination)
+
+    def test_null_previous_ledger_binds_zero_budget_to_granted_task_text(self):
+        # A self-written zero-budget checkpoint cannot hide a task that granted Cloud seconds.
+        self.zero_budget_closed_task(budget_line="Cloud budget: 3600 seconds.")
+        before = self.snapshot()
+        with patch.object(assignment, "CORE_DIR", self.canonical):
+            with self.assertRaisesRegex(assignment.AssignmentError, "closed zero-budget checkpoint"):
+                assignment.install(self.spec_path, self.coordination)
+        self.assertEqual(self.snapshot(), before)
+
+    def test_null_previous_ledger_requires_committed_task_and_checkpoint(self):
+        self.zero_budget_closed_task(commit=False)
+        before = self.snapshot()
+        with patch.object(assignment, "CORE_DIR", self.canonical):
+            with self.assertRaisesRegex(assignment.AssignmentError, "match the assigned branch HEAD"):
+                assignment.install(self.spec_path, self.coordination)
+        self.assertEqual(self.snapshot(), before)
+
+    def test_default_rendering_matches_pre_change_renderer_digest(self):
+        # Digest of the CURRENT-TASK prefix produced by the renderer before zero-budget support (e6d9536a).
+        spec = {"schema": assignment.SCHEMA, "task_id": "select4-next", "previous_task_id": "select4-closed-2026",
+                "title": "Continue sort4 caller admission", "owner": "select-sort4", "runtime": "claude",
+                "worktree": "/fixture/worktree", "branch": "select4-next",
+                "baseline_sha": "a" * 40, "source_sha": "a" * 40, "tool_sha": "c" * 40,
+                "tool_worktree": "/fixture/tool", "tool_branch": "verifast-review",
+                "profile_path": "research/challenge-8/profiles/select.json", "profile_sha256": "b" * 64,
+                "phase": "SORT4-ACTUAL-CALLER", "lane": "select-sort4",
+                "ledger_path": "research/challenge-8/new/BUDGET.json",
+                "previous_ledger_path": "research/challenge-8/old/BUDGET.json",
+                "goal": "Establish the exact admitted caller path.", "steps": ["Inspect caller admission"],
+                "special_bounds": [], "references": [{"title": "Plan", "path": "research/challenge-8/PLAN.md"}],
+                "handoff": {"confirmed": [], "open": ["actual invocation remains NOT_RUN"],
+                            "blocker": {"summary": "caller admission remains open", "evidence": []},
+                            "rejected": [], "next_step": "Inspect.", "artifacts": []}}
+        _task, generated = assignment.render_task(spec)
+        self.assertEqual(generated["assignment_sha256"], "33bd33df4251ff22f0e3edb485a54fbe711d78b2d6fff0b8719957122d982c71")
 
 
 if __name__ == "__main__":

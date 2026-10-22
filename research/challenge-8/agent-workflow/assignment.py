@@ -38,11 +38,12 @@ SPEC_KEYS = {
     "profile_path", "profile_sha256", "phase", "lane", "ledger_path",
     "previous_ledger_path", "goal", "steps", "special_bounds", "references", "handoff",
 }
-# cloud_budget_seconds: Cloud account of the task (default 3600). With 0 the task has no
-# Cloud lane, and profile/ledger paths may be null. bootstrap: first task of a new owner
-# in a worktree without CURRENT-TASK/CHECKPOINT; it requires a zero budget and no prior ledger.
+# cloud_budget_seconds: Cloud account of the task, 3600 (default) or 0. With 0 the task has
+# no Cloud lane, and profile/ledger paths may be null. bootstrap: first task of an owner
+# without Cloud history in a worktree without CURRENT-TASK/CHECKPOINT; zero budget only.
 OPTIONAL_SPEC_KEYS = {"runtime", "cloud_budget_seconds", "bootstrap"}
 DEFAULT_CLOUD_BUDGET = 3600
+NO_CLOUD_BUDGET_LINE = "Cloud budget: 0 seconds (no Cloud lane)."
 # Runtime label, root entry file read by that runtime, runtime profile in agent-workflow.
 RUNTIMES = {
     "codex": ("Codex", "AGENTS.md", "RUNTIME-CODEX.md"),
@@ -58,6 +59,8 @@ CANONICAL_INSTALLS = {
 }
 COORDINATION_DIR = Path("/root/smallsort-ci-coordination")
 OWNER_LABELS = {"merge": "Merge", "select-sort4": "Select/sort4", "network": "Network"}
+# Owners with a registered coordinator lane and branch client. Others get zero-budget tasks only.
+CLOUD_OWNERS = {"merge", "select-sort4"}
 
 
 class AssignmentError(ValueError):
@@ -119,13 +122,17 @@ def validate_spec(value: Any) -> dict[str, Any]:
         if not isinstance(spec[key], str) or not SHA40.fullmatch(spec[key]):
             _err(f"{key} must be a lowercase full Git SHA")
     budget = spec.setdefault("cloud_budget_seconds", DEFAULT_CLOUD_BUDGET)
-    if type(budget) is not int or not 0 <= budget <= DEFAULT_CLOUD_BUDGET:
-        _err(f"cloud_budget_seconds must be an integer from 0 to {DEFAULT_CLOUD_BUDGET}")
+    if type(budget) is not int or budget not in (0, DEFAULT_CLOUD_BUDGET):
+        _err(f"cloud_budget_seconds must be 0 or {DEFAULT_CLOUD_BUDGET}")
+    if budget and spec["owner"] not in CLOUD_OWNERS:
+        _err(f"owner {spec['owner']} has no Cloud lane; cloud_budget_seconds must be 0")
     bootstrap = spec.setdefault("bootstrap", False)
     if type(bootstrap) is not bool:
         _err("bootstrap must be true or false")
     if bootstrap and (budget != 0 or spec["previous_ledger_path"] is not None):
         _err("bootstrap requires cloud_budget_seconds 0 and previous_ledger_path null")
+    if bootstrap and spec["owner"] in CLOUD_OWNERS:
+        _err("bootstrap is only for owners without Cloud history")
     # The profile and new ledger may be null only without a Cloud lane. A null previous
     # ledger is checked at install: bootstrap, or a closed zero-budget prior checkpoint.
     nullable = {"previous_ledger_path"}
@@ -220,7 +227,7 @@ def render_task(spec: dict[str, Any]) -> tuple[bytes, dict[str, Any]]:
         budget_line = f"Cloud budget: {budget} seconds. Wall window: 120 minutes main + 30 minutes closeout. Per-Build timeout ≤1200 seconds; report reserve ≥{420 if spec['owner'] == 'merge' else 240} seconds. T0 remains NOT_SET until actual work starts."
     else:
         procedure = "The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. This task has no Cloud lane: no coordinator request, phase registration, Build submission or proof execution. Commit reviewed candidates and handoff inputs for a later, separately authorized Cloud task."
-        budget_line = "Cloud budget: 0 seconds (no Cloud lane). Wall window: 120 minutes main + 30 minutes closeout. T0 remains NOT_SET until actual work starts."
+        budget_line = f"{NO_CLOUD_BUDGET_LINE} Wall window: 120 minutes main + 30 minutes closeout. T0 remains NOT_SET until actual work starts."
     profile = (f"Profile `{spec['profile_path']}` SHA-256 `{spec['profile_sha256']}`." if spec["profile_path"] is not None
                else "Profile: none (no Cloud lane).")
     new_ledger = f"`{spec['ledger_path']}`" if spec["ledger_path"] is not None else "none"
@@ -350,7 +357,7 @@ def _git_file_bytes(root: Path, refpath: str) -> bytes:
         result = subprocess.run(["git", "-C", str(root), "show", f"HEAD:{refpath}"], check=True,
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     except (OSError, subprocess.CalledProcessError):
-        _err(f"profile is missing from assigned branch: {refpath}")
+        _err(f"file is missing from assigned branch HEAD: {refpath}")
     return result.stdout
 
 
@@ -526,8 +533,15 @@ def _check_previous_task(root: Path, spec: dict[str, Any], old_phase: str | None
         prior_prefix, _prior_report = task_bytes.split(marker, 1)
         if hashlib.sha256(prior_prefix).hexdigest() != old_checkpoint["assignment_sha256"]:
             _err("existing checkpoint assignment digest does not match prior CURRENT-TASK")
-        if spec["previous_ledger_path"] is None and (session["budget_seconds"] != 0 or old_checkpoint["task_id"] != spec["previous_task_id"]):
-            _err("a null previous ledger requires the closed zero-budget checkpoint of the previous task")
+        if spec["previous_ledger_path"] is None:
+            # The agent writes CHECKPOINT; bind the zero budget to the committed, digest-bound
+            # assignment text that granted it, not to the checkpoint's own session numbers.
+            committed = {name: _git_file_bytes(root, f"research/challenge-8/{name}") for name in ("CURRENT-TASK.md", "CHECKPOINT.json")}
+            if committed != {"CURRENT-TASK.md": task_bytes, "CHECKPOINT.json": preserved["CHECKPOINT.json"]}:
+                _err("a null previous ledger requires CURRENT-TASK and CHECKPOINT to match the assigned branch HEAD")
+            granted_zero = any(line.startswith(NO_CLOUD_BUDGET_LINE) for line in prior_prefix.decode("utf-8").splitlines())
+            if not granted_zero or session["budget_seconds"] != 0 or old_checkpoint["task_id"] != spec["previous_task_id"]:
+                _err("a null previous ledger requires the closed zero-budget checkpoint of the previous task")
     elif spec["previous_ledger_path"] is None:
         _err("a null previous ledger requires the closed zero-budget checkpoint of the previous task")
     return preserved
