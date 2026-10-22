@@ -1,10 +1,10 @@
-# Agent checkpoint: merge-unwind-acceptance-autonomous-2026-10-23-r20
+# Agent checkpoint: merge-caller-acceptance-autonomous-2026-10-23-r21
 
-- Owner: merge | phase: MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23 | state: CLOSED
-- Updated: 2026-10-22T22:03:28Z
-- Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `39f6b0cacd00575c8ca2d39e9f15632723bf1227`, profile `1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb`
-- Session dates: T0 `2026-10-22T20:08:00Z`; main deadline `2026-10-22T22:08:00Z`; absolute deadline `2026-10-22T22:38:00Z`
-- Budget: 3600s total; 2837s spent; 763s retired; 0s remaining including active reservations
+- Owner: merge | phase: MERGE-CALLER-ACCEPTANCE-R21-2026-10-23 | state: NOT_STARTED
+- Updated: 2026-10-22T22:10:03Z
+- Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `578120769161e217e53bd569bafdccbd4b2e020e`, profile `949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301`
+- Session dates: T0 `NOT_SET`; main deadline `NOT_SET`; absolute deadline `NOT_SET`
+- Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 

@@ -1,57 +1,57 @@
-# Merge-R20 — accept the checked raw caller cleanup, then original borrow/unsize
+# Merge-R21 — Cloud HANDOFF tool578/profile9496, raw caller controls, исходный borrow/unsize
 
-Task ID: `merge-unwind-acceptance-autonomous-2026-10-23-r20`; previous task: `merge-unwind-cleanup-autonomous-2026-10-22-r19`.
-Owner: **Merge**. Phase: `MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23`. Lane: `merge`.
+Task ID: `merge-caller-acceptance-autonomous-2026-10-23-r21`; previous task: `merge-unwind-acceptance-autonomous-2026-10-23-r20`.
+Owner: **Merge**. Phase: `MERGE-CALLER-ACCEPTANCE-R21-2026-10-23`. Lane: `merge`.
 
 ## Mission
 
 This is a bounded continuation of the previous task under a newly authorized window.
 
-Runtime: Codex. This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), the runtime profile [`RUNTIME-CODEX.md`](agent-workflow/RUNTIME-CODEX.md), the compact root [AGENTS.md](../../AGENTS.md), and the persistent repo guidance. Review executor and Build waiting follow that profile only.
+Runtime: Claude Code. This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), the runtime profile [`RUNTIME-CLAUDE.md`](agent-workflow/RUNTIME-CLAUDE.md), the compact root [CLAUDE.md](../../CLAUDE.md), and the persistent repo guidance. Review executor and Build waiting follow that profile only.
 The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. Prepare fresh-session inputs with `/usr/local/bin/smallsort-session`, obtain required independent review and register the exact phase through the assigned branch client before proof work. Registration does not restart the clock.
 No previous budget, T0, ledger authorization, profile acceptance, or proof credit transfers.
 
 ## Baseline and controls
 
-Worktree `/root/verify-rust-std-merge-origin` on branch `merge/incoming-origin-20261009`; baseline `e278869253e5a1e553d0ac0c1bc7adb5221b681e`; source `6fd50c699500cbac5c65912174d4aa49b49db19f`.
-Tool worktree `/root/verifast-merge-actual-glue` on `merge/actual-glue-instance-20261011` at `39f6b0cacd00575c8ca2d39e9f15632723bf1227`.
-Profile `research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json` SHA-256 `1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb`. New ledger path: `research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R20-BUDGET-20261023.json`; previous closed ledger: `research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R19-BUDGET-20261022.json`.
+Worktree `/root/verify-rust-std-merge-origin` on branch `merge/incoming-origin-20261009`; baseline `e819a3155c76499be35879697e4fe607528de3e3`; source `6fd50c699500cbac5c65912174d4aa49b49db19f`.
+Tool worktree `/root/verifast-merge-actual-glue` on `merge/actual-glue-instance-20261011` at `578120769161e217e53bd569bafdccbd4b2e020e`.
+Profile `research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json` SHA-256 `949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301`. New ledger path: `research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R21-BUDGET-20261023.json`; previous closed ledger: `research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R20-BUDGET-20261023.json`.
 Cloud budget: 3600 seconds. Wall window: 120 minutes main + 30 minutes closeout. Per-Build timeout ≤1200 seconds; report reserve ≥420 seconds. T0 remains NOT_SET until actual work starts.
 
 ## Goal and steps
 
-R20 и Builds разрешены. Принять prepared R19 cleanup на actual raw caller: normal/unwind + controls. Затем исходный caller с as_mut_ptr/unsize, borrow/lifetime и CURRENT matrix. Tool 39f6b0ca уже опубликован, Cloud UNVERIFIED.
+R21 и Builds разрешены. Цель — Cloud-проверка reviewed HANDOFF 41d449f3 (tool 57812076, profile 9496), приёмка raw caller с controls (F5, state, index), затем исходный as_mut_ptr/unsize caller с actual borrow lifecycle и матрица CURRENT/normal/unwind. Закрыв план или упёршись в границу, агент сам ставит следующие задачи по миссии.
 
-1. Prepare/register fresh R20, adapting client/recipe admission to the new ledger/window; no old-phase dispatch. Reuse published 3a587cb7/39f6b0ca and R19 review; review changed admission/recipe deltas. Existing Cloud preflight, then raw caller normal/unwind plus all five R19 controls at their intended sites. A static shape refusal is separate from a verifier resource negative; close the F5 unwind-copy coverage gap if needed before acceptance.
-2. After the raw caller gate, return to the original as_mut_ptr/unsize caller: source-bound metadata, actual borrow/reference lifecycle and checked resource conversion in the same admitted domain. Keep RawPtr LocalAddressTaken and index-projection controls; an unsupported/setup failure is INCONCLUSIVE, not an intended negative.
-3. Then CURRENT/backedge and false/true/panic/Drop/Resume on compatible pins; final required matrix after the target. Use remaining main time for implementation, service tests, review and an exact HANDOFF candidate if another full Cloud cycle does not fit.
+1. Register R21 phase/ledger (delta review of admission only); statically recheck pins, transport size, service tests. Cloud preflight, then early one full-envelope Build: raw caller target, five R19 controls, state/index controls on the new tuple; classify by exact receipts. A compile error or a run without proof stage (R20 P3/P4) is fixed by static checks first; never repeat the same config.
+2. By result: F5 as a real verifier negative (not a setup failure), intended state-context and index-projection controls; then original as_mut_ptr/unsize: owned NLL fact capture, source-bound borrow/reference lifecycle and checked resource conversion in the same admitted domain.
+3. Then CURRENT/backedge, false/true/panic/Drop/Resume and the final matrix on compatible pins. When the plan is done or blocked, pick next obligations yourself from COMPLETION-PLAN/mission (W2/W3/W5), recording choice and reason in CHECKPOINT; if a Cloud cycle does not fit, prepare a reviewed HANDOFF.
 
 ## Special bounds
 
-- Keep timeout1200/execute<=780/soft<=765/report reserve>=420 and nested compile reserve140. Respect the existing transport cap; recipe pruning needs a closure inventory and review, no cap increase. Fix T0 once at actual start; closed R19 carries 0.
-- Preserve the pinned R8 concrete allocation/domain, array11/R9 gates and full posts. RawPtr needs same mutability/pointee/place/full origin; no RawPtr<->Ref or address-only ownership, broad placeholders, new borrow/trusted premises. Adopted v4 coordination.py is read-only.
-- Raw caller, original caller and isolated body are separate claims; bounded PASS is not B2/generic/R5/sorting/profile qualification. Missing bindings stay INCONCLUSIVE. Continue useful work in main; an early stop lists each independent task checked and its real boundary (CORE).
+- Envelope timeout1200/execute<=780/soft<=765/reserve>=420, nested compile reserve140. Never shorten a timeout to fit the remaining window: if the full envelope does not fit main, no Build. No new Build/retry after main; the 30 min only for started Builds, evidence, accounting, checkpoint, push. Measure transport before each submit; no cap increase.
+- RawPtr: same mutability/pointee/place/full origin; no RawPtr<->Ref, address-only ownership, broad placeholders or new borrow/trusted premises. Keep the R8 allocation boundary, posts and controls. cloud-build/coordination.py is the owner-adopted v4 client: do not edit it.
+- Raw caller, original caller and isolated body are separate claims; missing bindings => INCONCLUSIVE; no B2/independent credit. Use the whole main window; an early stop lists each checked independent task and why it is unavailable in closure_reason.
 
 ## Starting checkpoint
 
 Read [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for the exact claims, assurance, evidence, open and rejected items, and artifact identities. UNKNOWN remains UNKNOWN.
 
-Blocker: Published R19 cleanup candidate remains Cloud-UNVERIFIED; original caller borrow/unsize and full normal/unwind remain OPEN.
-Next: At actual T0 prepare/register R20; Cloud preflight, then the published raw caller normal/unwind and five R19 controls.
+Blocker: Original caller/F5/state/index/CURRENT OPEN; tool578 HANDOFF needs fresh Cloud admission.
+Next: Fresh task/ledger; build reviewed tool578/profile9496 HANDOFF.
 
 ## References
 
-- [R19 checked cleanup design](cloud-build/origin-layout/R19-UNWIND-CLEANUP-DESIGN-20261022.md)
-- [R19 independent review and remaining nits](cloud-build/origin-layout/R19-REVIEW-20261022.md)
-- [Original caller borrow boundary](cloud-build/origin-layout/R16-CALLER-DESIGN-20261021.md)
-- [R18 RawPtr controls](cloud-build/origin-layout/R18-PROOF2-RESULT-20261022.json)
-- [R19 accounting closeout](cloud-build/origin-layout/R19-CLOSEOUT-20261022.json)
+- [R20 closeout](cloud-build/origin-layout/R20-CLOSEOUT-20261023.json)
+- [R20 caller and control frontier](cloud-build/origin-layout/R20-CALLER-AND-CONTROL-FRONTIER-20261023.md)
+- [R20 handoff review chain](cloud-build/origin-layout/R20-HANDOFF-REVIEWS-20261023.json)
+- [Completion plan](COMPLETION-PLAN.md)
+- [Original caller borrowing boundary](cloud-build/origin-layout/R16-CALLER-DESIGN-20261021.md)
 
 ## Отчёт агента
 
-**merge-unwind-acceptance-autonomous-2026-10-23-r20 · merge · MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23 · CLOSED**
-Updated: 2026-10-22T22:03:28Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `39f6b0cacd00575c8ca2d39e9f15632723bf1227` / `1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb`.
-Dates: T0 `2026-10-22T20:08:00Z`; main `2026-10-22T22:08:00Z`; absolute `2026-10-22T22:38:00Z`. Budget 3600s: 2837s spent, 763s retired, 0s remaining including reservations.
+**merge-caller-acceptance-autonomous-2026-10-23-r21 · merge · MERGE-CALLER-ACCEPTANCE-R21-2026-10-23 · NOT_STARTED**
+Updated: 2026-10-22T22:10:03Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `578120769161e217e53bd569bafdccbd4b2e020e` / `949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301`.
+Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: Original caller/F5/state/index/CURRENT OPEN; tool578 HANDOFF needs fresh Cloud admission.
 Next: Fresh task/ledger; build reviewed tool578/profile9496 HANDOFF.
