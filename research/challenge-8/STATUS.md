@@ -1,7 +1,7 @@
 # Agent checkpoint: network-coordinator-v4-2026-10-22-n2
 
-- Owner: network | phase: NETWORK-COORDINATOR-V4-2026-10-22-N2 | state: ACTIVE
-- Updated: 2026-10-22T19:20:00Z
+- Owner: network | phase: NETWORK-COORDINATOR-V4-2026-10-22-N2 | state: CLOSED
+- Updated: 2026-10-22T19:22:00Z
 - Baseline: source `cd371e035c7e573760c43bf934d53e8118ee3e7d`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `UNKNOWN`
 - Session dates: T0 `2026-10-22T18:43:36Z`; main deadline `2026-10-22T20:43:36Z`; absolute deadline `2026-10-22T21:13:36Z`
 - Budget: 0s total; 0s spent; 0s retired; 0s remaining including active reservations
