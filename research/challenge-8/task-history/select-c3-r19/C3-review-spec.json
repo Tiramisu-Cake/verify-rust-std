@@ -1,0 +1,37 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "69a54645a7f63cdd26b931b69956b99f09b4efd3",
+  "candidate_commit": "de2a2c693fa8928081876f42c640351eacfed5ea",
+  "defect": "S5 (Build 0ee7f658): actual sort4 body passes c2 and fails at the c3 call lib.rs:299 `let c3 = is_less(&*c, &*a);` with no ref_precreated_token(ptr_add_(v_base,2+1)); c3 has no callback setup and the translator overlay accepts indexed markers 1/2 only.",
+  "applicability": "c3 reuses the checked c2 pattern on symbolic selected operands: fresh cmp3_k, split/borrow/share all four cells, precreate refs only for the program locals c and a (no address bridge), ordered tuple own, normal and direct-unwind callback_four_debt + recover_four_sources. Translator overlay generalised to an explicit indexed-call count N in {2,3} with per-index names, line keys, scope markers, cut ranges, declaration groups and inventories. R19 keeps the R17 routing key (R18 precedent); adapters select the profile from an explicit {R17,R19} allowlist by coordinator SHA.",
+  "invariants": [
+    "No runtime/source algorithm/CFG/generic signature/normal-unwind post change; strip_ghost equality for positive and every control; no axiom, assumed bridge, leak statement or relaxed leak check.",
+    "Unknown index/count/scope/type/source shape still refused: count absent/2 keeps R17 behaviour, 3 enables c3, anything else or a count without the exact c2 opt-in fails; markers outside 2..N stay unparsed and fail the declared/parsed inventory.",
+    "Checked receiver and ordered-ref equality assertions per index; exactly six typed locals per call; per-index strict scopes with complete-use containment; relocation insertions and marker inventory = N.",
+    "Profile selection requires exactly one allowlisted file matching the coordinator SHA; closed R17 profile bytes unchanged; R18 pin refuses the R19 profile; R19 client requires actual_c2_recovery_enabled and actual_indexed_calls == 3.",
+    "Final proof credit, profile acceptance and qualification remain false."
+  ],
+  "controls": [
+    "Eight c3 resource controls: missing unselected shares (base+1/+3), missing base0 end token, wrong ordered pair (a,c), wrong ref resource (b), wrong marker index (2), missing fourth debt token, displaced marker, index-4 marker without a call.",
+    "Frontend control indexed-count-off (three markers with expected count 2); seven c2 controls rerun on the c3 source.",
+    "Translator synthetic scope controls 7 -> 13 (three-call positive; cross-call read, escape, missing/duplicate/unexpected marker, third marker with two calls).",
+    "Service tests: test_a1_r19_registration.py (injected clock), test_a1_r19_c3_service.py (route/env, static constructor on the pinned std source, routed-profile selection)."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-actual-body-c1.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-actual-recover-four.rs",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json",
+    "research/challenge-8/cloud-build/run-sort4-c1-current-recovery.sh",
+    "research/challenge-8/task-history/select-s5-r18/C3-NEXT-DESIGN.md",
+    "research/challenge-8/task-history/select-s5-r18/S5-evidence.json"
+  ],
+  "prior_reviews": [
+    "research/challenge-8/task-history/select-s5-r18/S5-review.json"
+  ],
+  "known_limitations": [
+    "OCaml overlay not compiled locally (no toolchain on VPS); compile/verification only in Cloud.",
+    "Translator base/result reproduced from local snapshots of the R17 S1/S5 translator (base 6c04f608 -> result c5253a3c); patch applies to base exactly.",
+    "c3 unverified pending Cloud; c4/c5, selectors, copies, full controls/mini7/fresh26 and call-site attribution OPEN; credit0."
+  ]
+}
