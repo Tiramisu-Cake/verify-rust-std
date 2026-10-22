@@ -1,0 +1,87 @@
+{
+  "archive_sha256": "234393fe5b3fc41c43ee31558dcd1f8407c67fcb93b4d2f0dbe340a5bba7038a",
+  "build_id": "1715f350-e278-479a-a22b-9ba942e1c6ec",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 3563,
+    "line_separator": "LF",
+    "source_lines": 3563,
+    "start": 3556,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "135e80001c54261c63feb6809460bdc44063e76056b4fb59834dbeb51e392789",
+  "file_path": "allprooflogs/cases/network13_finite_swo_order.c",
+  "file_sha256": "74cac0816e69f66aa7051b239a34b0264bf3f772a392e117f1d984345d8d0638",
+  "index_sha256": "ff9005f1330557ba7c9f23050242ec18fc24494cc904a7f9782d7d7c5920e238",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": true,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 3567,
+    "expected_sha256": "74cac0816e69f66aa7051b239a34b0264bf3f772a392e117f1d984345d8d0638",
+    "file_id": "135e80001c54261c63feb6809460bdc44063e76056b4fb59834dbeb51e392789",
+    "start": 3556
+  },
+  "request_id": "d56fce29f9002621a5b2264f13bfe5d10aa776ed9dc1750a6a0bb2f86c64d409",
+  "requested_end": 3567,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3556,
+      "text": "            !rel(network13_swo_out11(rel), network13_swo_out10(rel)) &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3557,
+      "text": "            !rel(network13_swo_out12(rel), network13_swo_out11(rel)) &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3558,
+      "text": "            ce_occ(network13_swo_out0(rel), q) + ce_occ(network13_swo_out1(rel), q) + ce_occ(network13_swo_out2(rel), q) + ce_occ(network13_swo_out3(rel), q) + ce_occ(network13_swo_out4(rel), q) + ce_occ(network13_swo_out5(rel), q) + ce_occ(network13_swo_out6(rel), q) + ce_occ(network13_swo_out7(rel), q) + ce_occ(network13_swo_out8(rel), q) + ce_occ(network13_swo_out9(rel), q) + ce_occ(network13_swo_out10(rel), q) + ce_occ(network13_swo_out11(rel), q) + ce_occ(network13_swo_out12(rel), q) == ce_occ(0, q) + ce_occ(1, q) + ce_occ(2, q) + ce_occ(3, q) + ce_occ(4, q) + ce_occ(5, q) + ce_occ(6, q) + ce_occ(7, q) + ce_occ(8, q) + ce_occ(9, q) + ce_occ(10, q) + ce_occ(11, q) + ce_occ(12, q);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3559,
+      "text": "{"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3560,
+      "text": "    network13_domain_package(d);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3561,
+      "text": "    network13_finite_swo_export(rel, d, q);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3562,
+      "text": "}"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3563,
+      "text": "@*/"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

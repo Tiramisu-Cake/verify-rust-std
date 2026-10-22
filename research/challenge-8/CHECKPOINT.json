@@ -20,11 +20,11 @@
     "tool_sha": "809de4596839b739dd999f9e462242c835e3af46"
   },
   "blocker": {
-    "summary": "Shape2 exact420 Build1715f350 active; acceptance OPEN.",
+    "summary": "Shape2 timeout at wrapper export call; N9 regression active.",
     "evidence": [
       {
-        "path": "research/challenge-8/observations/2c0be67e1938d2706a303739ea35d5dfa833ec2e553a27c5e26118cb73e6449f.json",
-        "sha256": "2c0be67e1938d2706a303739ea35d5dfa833ec2e553a27c5e26118cb73e6449f"
+        "path": "research/challenge-8/observations/84e32295e04e5d3a08b441727a6c0f6e36981f7fa1a92eeba892131982a3c3f4.json",
+        "sha256": "84e32295e04e5d3a08b441727a6c0f6e36981f7fa1a92eeba892131982a3c3f4"
       }
     ]
   },
@@ -109,7 +109,7 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "Shape2 setup0eef timeout/624s;3f978 apt100/67s, NOT_REACHED.",
+      "claim": "Shape2 setup0eef timeout/624s;3f978 apt100/67s, NOT_REACHED. Shape2:1715 timeout420;25starts,last wrapper call389s;charge561s.",
       "evidence": [
         {
           "path": "research/challenge-8/observations/3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7.json",
@@ -118,13 +118,17 @@
         {
           "path": "research/challenge-8/observations/2c0be67e1938d2706a303739ea35d5dfa833ec2e553a27c5e26118cb73e6449f.json",
           "sha256": "2c0be67e1938d2706a303739ea35d5dfa833ec2e553a27c5e26118cb73e6449f"
+        },
+        {
+          "path": "research/challenge-8/observations/84e32295e04e5d3a08b441727a6c0f6e36981f7fa1a92eeba892131982a3c3f4.json",
+          "sha256": "84e32295e04e5d3a08b441727a6c0f6e36981f7fa1a92eeba892131982a3c3f4"
         }
       ]
     }
   ],
-  "next_step": "Watcher ack then Brief; controls/regressions remain required.",
+  "next_step": "Resolve wrapper call context; N9 Brief; preserve full acceptance OPEN.",
   "open": [
-    "Shape2 reviewed5b3f745f dispatched1715f350.",
+    "Shape2 no PASS; reviewed N9only Build01973934 active.",
     "Full exact, controls, compatible regressions OPEN.",
     "R4/W7 blocked: Select P1 inactive/P2 pending. W8 needs Merge.",
     "Workflow-owner follow-up recorded; shared changes outside N3."
@@ -156,18 +160,18 @@
   "schema": "smallsort-checkpoint-v1",
   "session": {
     "active_build_ids": [
-      "1715f350-e278-479a-a22b-9ba942e1c6ec"
+      "01973934-88fb-406d-a89b-7e821fd5c8c6"
     ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T23:13:40Z",
     "main_deadline_utc": "2026-10-22T22:43:40Z",
-    "remaining_seconds": 1776,
+    "remaining_seconds": 1215,
     "retired_seconds": 0,
-    "spent_seconds": 1824,
+    "spent_seconds": 2385,
     "t0": "2026-10-22T20:43:40Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "network-n13-exact-cloud-2026-10-23-n3",
-  "updated_utc": "2026-10-22T22:13:54Z"
+  "updated_utc": "2026-10-22T22:26:22Z"
 }

@@ -168,3 +168,15 @@ newline in the bootstrap insertion: final apt install and pinned source restore
 were concatenated. Isolated helper tests passed but missed this integration
 boundary. Add a newline and a synthetic assembled-config command/argv check;
 no source/tool/profile/stage/budget change. Independently review before retry.
+
+## Shape2 observed timeout
+
+Build1715f350 reaches actual verifier: unchanged generated unit74cac081,
+case exit124 at420.296s, no assertion errors,25/25body starts. Last statement
+389.097s at3561 is final wrapper call to network13_finite_swo_export after
+domain_package. The export body itself was visited earlier; complete wrapper
+post remains unaccepted. Shape2 does not suffice within420s; no root-cause
+or theorem-refutation claim. Charge561s; total2385s,1215s remain.
+Reviewed unchanged5b3f745f N9-only stage dispatched01973934 for independent
+component evidence while investigating exact wrapper context statically.
+This does not waive exact/controls/universal obligations.
