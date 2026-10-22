@@ -15,6 +15,8 @@ current_sha=${PROOF_SHA:?PROOF_SHA is required}
 [[ "$#" == 1 && "$1" == o26-select-callee-r20 &&
    "${LANE:-}" == o26-select-callee-r20 &&
    "${SORT4_R20_CALLEE_PHASE_ID:-}" == SORT4-ACTUAL-SELECT-2026-10-22-R20 ]] || exit 2
+# The R20 certificate opt-in is per proof call only, never ambient.
+[[ -z "${SORT4_R20_FINAL_SELECT_REPAIR:-}" ]] || exit 2
 for path in "$proof_root" "$infra_root" "$work_root" "$evidence_root"; do
   [[ "$path" == /workspace/* ]] || { printf 'path outside /workspace: %s\n' "$path" >&2; exit 2; }
 done
@@ -238,10 +240,10 @@ stage candidate-proof python3 "$cloud_dir/o26-refresh-recipe.py" proof \
 # Repair variants are not run here: the pinned nine-body certificates fix the
 # exact verified source SHA and ghost list, so ghost-repaired copies would be
 # refused before the final select. They need a reviewed certificate refresh.
-# S3: proof of the merged-repaired unit under the opt-in refreshed certificate,
-# plus refusal controls (no opt-in; opt-in without repair). The baseline
-# candidate-proof above runs on the patched translator with the opt-in off.
-stage r20-repair-proof python3 "$cloud_dir/select-callee-r20.py" proof \
+# S2c: fingerprint the branch-repaired unit (intended refusal, no proof) for the
+# pins of the next certificate refresh. The R20 S3 refresh patch stays applied
+# (opt-in off here); the baseline candidate-proof is the regression control.
+stage r20-repair-fingerprint python3 "$cloud_dir/select-callee-r20.py" fingerprint \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"

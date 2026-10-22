@@ -69,6 +69,18 @@ class FinalSelectRepair(unittest.TestCase):
         self.assertEqual(out.count(b"close_MaybeUninit_pointer_own"), 2)
         self.assertIn(gap + REPAIR.FINAL_CALL, out)
 
+    def test_branch_puts_lemmas_inside_both_branches_of_one_statement(self):
+        out = REPAIR.repair(UNIT, "branch")
+        self.assertEqual(out.count(b"close_MaybeUninit_pointer_own"), 4)
+        self.assertEqual(out.count(b"/*@"), UNIT.count(b"/*@"))
+        start = out.index(b"        /*@ if (condition) {\n")
+        end = out.index(b"} @*/\n", start)
+        block = out[start:end]
+        self.assertEqual(block.count(b"close_MaybeUninit_pointer_own"), 4)
+        self.assertLess(block.index(b"(true_ptr as"), block.index(b"} else {"))
+        self.assertLess(block.index(b"} else {"), block.rindex(b"close_MaybeUninit_pointer_own"))
+        self.assertEqual(out.replace(REPAIR._LEMMAS, b""), UNIT)
+
     def test_refusals(self):
         for bad in (UNIT.replace(REPAIR.FINAL_CALL, b""),
                     UNIT.replace(REPAIR.FINAL_CALL, REPAIR.FINAL_CALL * 2),

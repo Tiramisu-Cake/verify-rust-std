@@ -192,9 +192,9 @@ class RepairedFingerprint(unittest.TestCase):
         self.assertEqual(cap.calls[0][1]["verified_sha256"], CALLEE.sha(UNIT))
         self.assertIs(saved["location_control"]["reproduces_pinned"], True)
         case, source, repaired, _, _ = cap.calls[1]
-        self.assertEqual(repaired.count(b"close_MaybeUninit_pointer_own"), 2)
+        self.assertEqual(repaired.count(b"close_MaybeUninit_pointer_own"), 4)
         self.assertEqual(repaired.count(b"/*@"), UNIT.count(b"/*@"))
-        self.assertEqual(saved["variant"], "merged")
+        self.assertEqual(saved["variant"], "branch")
         self.assertEqual(source["verified_sha256"], CALLEE.sha(repaired))
         self.assertEqual(saved["verified_sha256"], CALLEE.sha(repaired))
         self.assertEqual(saved["base_verified_sha256"], CALLEE.sha(UNIT))
@@ -281,7 +281,7 @@ class RepairProof(unittest.TestCase):
                          [("r20-merged-optin", "1"), ("r20-merged-no-optin", None),
                           ("r20-unrepaired-optin", "1")])
         self.assertEqual(seen[2][2], UNIT)
-        self.assertEqual(seen[0][2].count(b"close_MaybeUninit_pointer_own"), 2)
+        self.assertEqual(seen[0][2].count(b"close_MaybeUninit_pointer_own"), 4)
         self.assertIs(saved["complete"], True)
         self.assertFalse(saved["proof_credit"])
 
@@ -339,9 +339,10 @@ class RunnerAndRecipe(unittest.TestCase):
         order = ["stage provider-overlays", "stage source-preflight", "stage package-index",
                  "stage r20-refresh-apply", "stage console-build",
                  "stage candidate-capture", "stage candidate-source-compare",
-                 "stage candidate-proof", "stage r20-repair-proof"]
+                 "stage candidate-proof", "stage r20-repair-fingerprint"]
         self.assertIn("5ed3398f75c79c70c878d982b5fca58e8c255e9d7e23876d8dff8b705e106bdf", RUNNER)
-        self.assertNotIn("stage r20-repair-fingerprint", RUNNER)
+        self.assertNotIn("stage r20-repair-proof", RUNNER)
+        self.assertIn('[[ -z "${SORT4_R20_FINAL_SELECT_REPAIR:-}" ]] || exit 2', RUNNER)
         positions = [RUNNER.index(x) for x in order]
         self.assertEqual(positions, sorted(positions))
         self.assertNotIn("o26-refresh-audit.py", RUNNER)

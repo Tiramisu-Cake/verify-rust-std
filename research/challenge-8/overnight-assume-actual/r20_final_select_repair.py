@@ -17,7 +17,7 @@ FINAL_CALL = (b"        crate::intrinsics::select_unpredictable(condition, true_
               b".assume_init()\n")
 PAYLOAD_ASSERTS = (b"    /*@ assert *true_ptr |-> ?true_payload; @*/\n",
                    b"    /*@ assert *false_ptr |-> ?false_payload; @*/\n")
-VARIANTS = ("both", "true-only", "false-only", "none", "merged")
+VARIANTS = ("both", "true-only", "false-only", "none", "merged", "branch")
 # The existing selected-wrapper ghost block immediately before the final
 # select (exact O26 owner-admission text). "merged" appends the two lemma
 # calls inside it, so no new ghost statement (and no new MIR block) appears.
@@ -31,6 +31,22 @@ MERGED_TAIL = (
     b"             }\n"
     b"             std::mem::close_MaybeUninit_pointer_own::<Element>(t, std::mem::MaybeUninit::new::<*Element>(true_payload));\n"
     b"             std::mem::close_MaybeUninit_pointer_own::<Element>(t, std::mem::MaybeUninit::new::<*Element>(false_payload)); @*/\n")
+
+
+# R20 S3 showed a ghost comment accepts one statement ("merged" is a parse
+# error). "branch" places the two lemma calls inside both branch blocks of the
+# same if/else, so it stays one ghost statement with no new MIR block.
+_LEMMAS = (
+    b"                 std::mem::close_MaybeUninit_pointer_own::<Element>(t, std::mem::MaybeUninit::new::<*Element>(true_payload));\n"
+    b"                 std::mem::close_MaybeUninit_pointer_own::<Element>(t, std::mem::MaybeUninit::new::<*Element>(false_payload));\n")
+BRANCH_BLOCK = (
+    b"        /*@ if (condition) {\n"
+    b"                 std::mem::close_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>);\n"
+    + _LEMMAS +
+    b"             } else {\n"
+    b"                 std::mem::close_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>);\n"
+    + _LEMMAS +
+    b"             } @*/\n")
 
 
 def need(ok: bool, why: str) -> None:
@@ -53,13 +69,20 @@ def repair(verified: bytes, variant: str) -> bytes:
              "payload binding precedes the final select")
     need(b"close_MaybeUninit_pointer_own" not in verified,
          "unit already contains a wrapper-ownership close")
-    if variant == "merged":
+    if variant in ("merged", "branch"):
         need(verified.count(SELECTED_BLOCK) == 1, "one exact selected-wrapper ghost block")
+        need(verified.index(SELECTED_BLOCK) < verified.index(FINAL_CALL),
+             "selected block precedes the final select")
         gap = verified[verified.index(SELECTED_BLOCK) + len(SELECTED_BLOCK):verified.index(FINAL_CALL)]
         need(all(not line.strip() or (line.lstrip().startswith(b"//") and
                                       not line.lstrip().startswith(b"//@"))
                  for line in gap.splitlines()),
              "only blank/plain comment lines between the selected block and the final select")
+        if variant == "branch":
+            result = verified.replace(SELECTED_BLOCK, BRANCH_BLOCK, 1)
+            need(result.replace(_LEMMAS, b"") == verified and
+                 result.count(_LEMMAS) == 2, "branch repair changed more than the two branch blocks")
+            return result
         merged = SELECTED_BLOCK[:-len(b"             } @*/\n")] + MERGED_TAIL
         result = verified.replace(SELECTED_BLOCK, merged, 1)
         added = MERGED_TAIL[len(b"             }\n"):-len(b" @*/\n")] + b" "
