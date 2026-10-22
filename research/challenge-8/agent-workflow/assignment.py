@@ -38,6 +38,20 @@ SPEC_KEYS = {
     "profile_path", "profile_sha256", "phase", "lane", "ledger_path",
     "previous_ledger_path", "goal", "steps", "special_bounds", "references", "handoff",
 }
+OPTIONAL_SPEC_KEYS = {"runtime"}
+# Runtime label, root entry file read by that runtime, runtime profile in agent-workflow.
+RUNTIMES = {
+    "codex": ("Codex", "AGENTS.md", "RUNTIME-CODEX.md"),
+    "claude": ("Claude Code", "CLAUDE.md", "RUNTIME-CLAUDE.md"),
+}
+# Canonical package file -> installed path relative to the worktree, and its archive name.
+CANONICAL_INSTALLS = {
+    "CORE.md": ("research/challenge-8/agent-workflow/CORE.md", "agent-workflow-CORE.md"),
+    "RUNTIME-CODEX.md": ("research/challenge-8/agent-workflow/RUNTIME-CODEX.md", "agent-workflow-RUNTIME-CODEX.md"),
+    "RUNTIME-CLAUDE.md": ("research/challenge-8/agent-workflow/RUNTIME-CLAUDE.md", "agent-workflow-RUNTIME-CLAUDE.md"),
+    "AGENTS-COMPACT.md": ("AGENTS.md", "ROOT-AGENTS.md"),
+    "CLAUDE-COMPACT.md": ("CLAUDE.md", "ROOT-CLAUDE.md"),
+}
 COORDINATION_DIR = Path("/root/smallsort-ci-coordination")
 OWNER_LABELS = {"merge": "Merge", "select-sort4": "Select/sort4"}
 
@@ -73,7 +87,7 @@ def _repo_path(value: Any, field: str) -> str:
 def validate_spec(value: Any) -> dict[str, Any]:
     if not isinstance(value, dict):
         _err("spec must be a JSON object")
-    missing, extra = sorted(SPEC_KEYS - value.keys()), sorted(value.keys() - SPEC_KEYS)
+    missing, extra = sorted(SPEC_KEYS - value.keys()), sorted(value.keys() - SPEC_KEYS - OPTIONAL_SPEC_KEYS)
     if missing:
         _err("missing spec fields: " + ", ".join(missing))
     if extra:
@@ -93,6 +107,8 @@ def validate_spec(value: Any) -> dict[str, Any]:
         _err("lane must be a lowercase protocol lane identifier")
     if spec["owner"] not in OWNER_LABELS:
         _err("owner must be merge or select-sort4")
+    if "runtime" in spec and (not isinstance(spec["runtime"], str) or spec["runtime"] not in RUNTIMES):
+        _err("runtime must be codex or claude")
     if not Path(spec["worktree"]).is_absolute() or not Path(spec["tool_worktree"]).is_absolute():
         _err("worktree and tool_worktree must be absolute paths")
     for key in ("baseline_sha", "source_sha", "tool_sha"):
@@ -153,6 +169,16 @@ def _task_link(path: str) -> str:
     return posixpath.relpath(path, "research/challenge-8")
 
 
+def _follows_line(spec: dict[str, Any]) -> str:
+    if "runtime" not in spec:
+        # Pre-runtime assignments keep their exact legacy wording (Codex).
+        return "This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), the compact root [AGENTS.md](../../AGENTS.md), and the persistent repo guidance."
+    label, entry, profile = RUNTIMES[spec["runtime"]]
+    return (f"Runtime: {label}. This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), "
+            f"the runtime profile [`{profile}`](agent-workflow/{profile}), the compact root [{entry}](../../{entry}), "
+            "and the persistent repo guidance. Review executor and Build waiting follow that profile only.")
+
+
 def render_task(spec: dict[str, Any]) -> tuple[bytes, dict[str, Any]]:
     spec = validate_spec(spec)
     h = spec["handoff"]
@@ -161,7 +187,7 @@ def render_task(spec: dict[str, Any]) -> tuple[bytes, dict[str, Any]]:
         f"Owner: **{OWNER_LABELS[spec['owner']]}**. Phase: `{spec['phase']}`. Lane: `{spec['lane']}`.",
         "", "## Mission", "",
         "This is a bounded continuation of the previous task under a newly authorized window.",
-        "", f"This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), the compact root [AGENTS.md](../../AGENTS.md), and the persistent repo guidance.",
+        "", _follows_line(spec),
         "The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. Prepare fresh-session inputs with `/usr/local/bin/smallsort-session`, obtain required independent review and register the exact phase through the assigned branch client before proof work. Registration does not restart the clock.",
         "No previous budget, T0, ledger authorization, profile acceptance, or proof credit transfers.",
         "", "## Baseline and controls", "",
@@ -441,14 +467,11 @@ def _check_previous_task(root: Path, spec: dict[str, Any], old_phase: str) -> di
         if path.exists() or path.is_symlink():
             safe = _safe_path(root, f"research/challenge-8/{name}", name)
             preserved[name] = safe.read_bytes()
-    root_agents = root / "AGENTS.md"
-    if root_agents.exists() or root_agents.is_symlink():
-        safe = _safe_path(root, "AGENTS.md", "root AGENTS")
-        preserved["ROOT-AGENTS.md"] = safe.read_bytes()
-    nested_core = base / "agent-workflow" / "CORE.md"
-    if nested_core.exists() or nested_core.is_symlink():
-        safe = _safe_path(root, "research/challenge-8/agent-workflow/CORE.md", "agent-workflow/CORE.md")
-        preserved["agent-workflow-CORE.md"] = safe.read_bytes()
+    for relative, archive_name in CANONICAL_INSTALLS.values():
+        path = root / relative
+        if path.exists() or path.is_symlink():
+            safe = _safe_path(root, relative, relative)
+            preserved[archive_name] = safe.read_bytes()
     if "STATUS.md" not in preserved or "ROOT-AGENTS.md" not in preserved:
         _err("closed installation requires prior STATUS and root AGENTS files to archive")
     if "CHECKPOINT.json" in preserved:
@@ -501,7 +524,7 @@ def _archive_and_install(root: Path, spec: dict[str, Any], preserved: dict[str, 
     if history.exists() or history.is_symlink():
         _err("history target already exists; refusing to overwrite archived task")
     canonical: dict[str, bytes] = {}
-    for name in ("CORE.md", "AGENTS-COMPACT.md"):
+    for name in CANONICAL_INSTALLS:
         source = CORE_DIR / name
         if source.is_symlink() or not source.is_file():
             _err(f"canonical {name} is missing or unsafe")
@@ -510,13 +533,13 @@ def _archive_and_install(root: Path, spec: dict[str, Any], preserved: dict[str, 
     cp.validate(checkpoint_data)
     status_bytes = cp.render(checkpoint_data, "status").encode("utf-8")
     core_path = base / "agent-workflow" / "CORE.md"
-    installs = {
-        core_path: (canonical["CORE.md"], "agent-workflow-CORE.md"),
-        root / "AGENTS.md": (canonical["AGENTS-COMPACT.md"], "ROOT-AGENTS.md"),
+    installs = {root / relative: (canonical[name], archive_name)
+                for name, (relative, archive_name) in CANONICAL_INSTALLS.items()}
+    installs.update({
         base / "CURRENT-TASK.md": (task, "CURRENT-TASK.md"),
         base / "CHECKPOINT.json": (checkpoint_bytes, "CHECKPOINT.json"),
         base / "STATUS.md": (status_bytes, "STATUS.md"),
-    }
+    })
     core_parent = core_path.parent
     cursor = base
     for part in PurePosixPath("agent-workflow").parts:

@@ -84,6 +84,9 @@ class AssignmentTests(unittest.TestCase):
         self.canonical.mkdir()
         (self.canonical / "CORE.md").write_text("# permanent core\n")
         (self.canonical / "AGENTS-COMPACT.md").write_text("# compact instructions\n")
+        (self.canonical / "CLAUDE-COMPACT.md").write_text("# claude entry\n")
+        (self.canonical / "RUNTIME-CODEX.md").write_text("# codex runtime\n")
+        (self.canonical / "RUNTIME-CLAUDE.md").write_text("# claude runtime\n")
 
     def tearDown(self):
         self.tmp.cleanup()
@@ -204,6 +207,78 @@ class AssignmentTests(unittest.TestCase):
         self.assertEqual((self.base / "agent-workflow/CORE.md").read_text(), (self.canonical / "CORE.md").read_text())
         self.assertEqual((self.repo / "AGENTS.md").read_text(), (self.canonical / "AGENTS-COMPACT.md").read_text())
         self.assertEqual((history / f"ROOT-AGENTS.md.{manifest['files']['ROOT-AGENTS.md']}").read_bytes(), b"old root agents\n")
+        self.assertEqual((self.repo / "CLAUDE.md").read_text(), (self.canonical / "CLAUDE-COMPACT.md").read_text())
+        for name in ("RUNTIME-CODEX.md", "RUNTIME-CLAUDE.md"):
+            self.assertEqual((self.base / "agent-workflow" / name).read_text(), (self.canonical / name).read_text())
+        self.assertNotIn("ROOT-CLAUDE.md", manifest["files"])
+
+    def test_install_archives_prior_claude_entry_and_runtime_profiles(self):
+        (self.repo / "CLAUDE.md").write_bytes(b"old claude entry\n")
+        (self.base / "agent-workflow").mkdir(exist_ok=True)
+        (self.base / "agent-workflow/RUNTIME-CLAUDE.md").write_bytes(b"old claude runtime\n")
+        self.spec["runtime"] = "claude"
+        self.write_spec()
+        with patch.object(assignment, "CORE_DIR", self.canonical):
+            assignment.install(self.spec_path, self.coordination)
+        history = self.base / "task-history" / PREVIOUS
+        manifest = json.loads((history / "manifest.json").read_text())
+        self.assertEqual((history / f"ROOT-CLAUDE.md.{manifest['files']['ROOT-CLAUDE.md']}").read_bytes(), b"old claude entry\n")
+        archived = history / f"agent-workflow-RUNTIME-CLAUDE.md.{manifest['files']['agent-workflow-RUNTIME-CLAUDE.md']}"
+        self.assertEqual(archived.read_bytes(), b"old claude runtime\n")
+        self.assertEqual((self.repo / "CLAUDE.md").read_text(), "# claude entry\n")
+        self.assertIn(b"Runtime: Claude Code.", (self.base / "CURRENT-TASK.md").read_bytes())
+
+    def test_install_refuses_symlinked_claude_entry_without_writes(self):
+        (self.repo / "CLAUDE.md").symlink_to(self.repo / "AGENTS.md")
+        self.write_spec()
+        before = self.snapshot()
+        with patch.object(assignment, "CORE_DIR", self.canonical), self.assertRaisesRegex(assignment.AssignmentError, "symlink"):
+            assignment.install(self.spec_path, self.coordination)
+        self.assertEqual(self.snapshot(), before)
+        self.assertFalse((self.base / "task-history").exists())
+
+    def test_install_refuses_unsafe_runtime_profile_or_missing_canonical_without_writes(self):
+        (self.base / "agent-workflow").mkdir(exist_ok=True)
+        cases = []
+        def link_profile():
+            (self.base / "agent-workflow/RUNTIME-CODEX.md").symlink_to(self.repo / "AGENTS.md")
+        def dangling_profile():
+            (self.base / "agent-workflow/RUNTIME-CLAUDE.md").symlink_to(self.repo / "missing.md")
+        def claude_dir():
+            (self.repo / "CLAUDE.md").mkdir()
+        def missing_canonical():
+            (self.canonical / "CLAUDE-COMPACT.md").unlink()
+        for name, change, message in (("link", link_profile, "symlink"), ("dangling", dangling_profile, "symlink"),
+                                      ("dir", claude_dir, "regular file"), ("canonical", missing_canonical, "canonical CLAUDE-COMPACT.md")):
+            with self.subTest(case=name):
+                self.tearDown()
+                self.setUp()
+                (self.base / "agent-workflow").mkdir(exist_ok=True)
+                change()
+                self.write_spec()
+                before = self.snapshot()
+                with patch.object(assignment, "CORE_DIR", self.canonical), self.assertRaisesRegex(assignment.AssignmentError, message):
+                    assignment.install(self.spec_path, self.coordination)
+                self.assertEqual(self.snapshot(), before)
+                self.assertFalse((self.base / "task-history").exists())
+
+    def test_runtime_selects_entry_profile_and_absent_keeps_legacy_text(self):
+        legacy, _ = assignment.render_task(self.spec)
+        self.assertIn(b"the compact root [AGENTS.md](../../AGENTS.md), and the persistent", legacy)
+        self.assertNotIn(b"Runtime:", legacy)
+        for runtime, entry, profile in (("codex", b"[AGENTS.md]", b"RUNTIME-CODEX.md"),
+                                        ("claude", b"[CLAUDE.md]", b"RUNTIME-CLAUDE.md")):
+            with self.subTest(runtime=runtime):
+                task, cpdata = assignment.render_task(dict(self.spec, runtime=runtime))
+                prefix = task.split(checkpoint.REPORT_MARKER.encode(), 1)[0]
+                self.assertIn(entry, prefix)
+                self.assertIn(profile, prefix)
+                self.assertEqual(hashlib.sha256(prefix).hexdigest(), cpdata["assignment_sha256"])
+        for bad in ("Claude", "", None, 1, ["claude"]):
+            with self.subTest(bad=bad), self.assertRaisesRegex(assignment.AssignmentError, "runtime must be"):
+                assignment.render_task(dict(self.spec, runtime=bad))
+        with self.assertRaisesRegex(assignment.AssignmentError, "unknown spec fields: runtimes"):
+            assignment.render_task(dict(self.spec, runtimes="claude"))
 
     def test_legacy_relative_ledger_and_protocol_owner_keep_exact_binding(self):
         (self.base / "CHECKPOINT.json").unlink()

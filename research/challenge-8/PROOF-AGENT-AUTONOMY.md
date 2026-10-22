@@ -14,7 +14,7 @@
 
 ## Проверка и настоящие границы
 
-До реализации семантического изменения запиши дефект, source applicability, сохраняемые критерий/ресурсы и различающие positives/negatives. Review актуального diff/dependencies — независимый GPT-6 Luna HIGH (`model="gpt-6-luna"`, `reasoning_effort="high"`, `fork_turns="none"`), без вложенной делегации и автоматической дорогой замены. Конкретное soundness-возражение нужно устранить до принятия. Review/synthetic tests не заменяют actual Cloud regressions.
+До реализации семантического изменения запиши дефект, source applicability, сохраняемые критерий/ресурсы и различающие positives/negatives. Review актуального diff/dependencies — независимый reviewer по профилю среды ([Codex](agent-workflow/RUNTIME-CODEX.md): GPT-6 Luna HIGH; [Claude](agent-workflow/RUNTIME-CLAUDE.md): субагент `smallsort-reviewer`), без вложенной делегации и автоматической дорогой замены. Конкретное soundness-возражение нужно устранить до принятия. Review/synthetic tests не заменяют actual Cloud regressions.
 
 Исправляй связанные места одного класса до Build. Существующий preflight → target proof → dependent controls; итоговая обязательная матрица/lifecycle полностью на совместимых финальных identities. Не собирай итоговый PASS из несовместимых кандидатов. Собственные receipts/actual callers проверяй там, где требует обязательство.
 
