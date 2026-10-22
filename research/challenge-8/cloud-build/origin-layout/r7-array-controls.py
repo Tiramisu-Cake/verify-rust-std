@@ -71,7 +71,6 @@ CASES = {
 }
 """,
         "target": "wrong value singleton close", "class": "negative",
-        # Build 2 observed this exact prelude definition error after the target ran.
         "error_at": "spec", "error_file": "prelude_core.rsspec",
         "error_line": 264, "error_columns": "72-74",
         "error_contains": "Cannot prove condition. (Cannot prove cons(w, nil) = cons(v, nil).)",
@@ -217,7 +216,6 @@ lem r16_array3_slice_wrong_metadata_length(k: lifetime_t, t: thread_id_t, p: *[u
 }
 """,
         "target": "reject nonempty count-zero witness", "class": "negative",
-        # Count-zero array unfolding requires its value list to be nil.
         "error_at": "spec", "error_file": "prelude_core.rsspec",
         "error_line": 262, "error_columns": "16-18",
         "error_contains": "Cannot prove condition. (Cannot prove cons(v, nil) = nil.)",
@@ -238,8 +236,6 @@ lem r16_array3_slice_wrong_metadata_length(k: lifetime_t, t: thread_id_t, p: *[u
     },
 }
 
-# Exercise the checked bridge in an ordinary function. The Rust statement is
-# byte-identical on both sides; only the verified tree carries its ghost proof.
 ARRAY3_BORROW_LIFECYCLE = {
     **CASES["array3_slice_full_borrow_roundtrip"],
     "target": "construct exact mutable slice metadata",

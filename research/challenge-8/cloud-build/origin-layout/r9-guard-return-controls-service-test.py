@@ -237,8 +237,6 @@ class R9GuardReturnControlsTests(unittest.TestCase):
                 return callback(case, args, env)
             result = _execute(case, args, env,
                               behavior if case.name == "omit_end" else None)
-            # This is the child environment handed to the callback, never the
-            # caller's environment object.
             env["CALLBACK_MUTATION"] = "private"
             return result
 

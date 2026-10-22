@@ -40,10 +40,6 @@ HISTORICAL_WRONG_ORIGIN_MUTANT = b"assert [1/2](*begin |-> ?r9_tmp_current);"
 WRONG_END_TOKEN_ORIGIN_V2 = b"end_ref_readonly::<u64>(begin);"
 HALF_ASSERT = WRONG_ORIGIN
 
-# Resource mappings are deliberately narrow. A case remains inconclusive until
-# its source target, pre-recovery native binding, exact diagnostic, and stage
-# receipts all agree. Update predicate/spec strings only from reviewed native
-# evidence; a generic nonzero verifier exit is never a match.
 CASES = {
     "omit_end": {
         "kind": "resource",
@@ -150,8 +146,6 @@ def _strict_stage_receipts(case: Path, stages, expected_sources: dict,
                     code_ok = code_ok and code == stages.get(name) and code not in SETUP_EXIT_CODES
                 else:
                     code_ok = code_ok and code == expected and stages.get(name) == expected
-                # Existing stage helpers admit absent/SUCCESS runner status;
-                # the typed per-stage exit code records verifier refusal.
                 status_ok = (status is None or
                              (type(status) is str and status in SUCCESS_STATUSES))
                 ok = (type(receipt) is dict and receipt.get("stage") == name and
@@ -327,8 +321,6 @@ def _mutate(name: str, source: bytes, cases: dict = CASES) -> tuple[bytes, int, 
         if indent.strip(b" \t"):
             raise ValueError("duplicate_marker outer statement indentation is not whitespace")
         mutated = source[:end] + b"\n" + indent + block + source[end:]
-        # StaticError is attached to the first outer PureStmt location, not
-        # the marker invocation or cloned second block.
         inserted_start = mutated.find(b"/*@ {", end + 1)
         if inserted_start < 0:
             raise ValueError("duplicate_marker inserted outer statement is absent")
@@ -342,8 +334,6 @@ def _mutate(name: str, source: bytes, cases: dict = CASES) -> tuple[bytes, int, 
             raise ValueError("missing_marker requires one original marker")
         changed = block.replace(MARKER + b"\n", b"", 1)
         mutated = source[:start] + changed + source[end:]
-        # The missing-marker diagnostic uses the enclosing function signature
-        # location (fn_sig_loc), not the recovery assertion location.
         declarations = list(re.finditer(
             rb"(?m)^[ \t]*(?:pub(?:\([^)]*\))?[ \t]+)?unsafe[ \t]+fn[ \t]+\w+", mutated))
         prior = [match for match in declarations if match.start() < start]
@@ -454,8 +444,6 @@ def _classify(name: str, case: Path, meta: dict, execution, cases: dict = CASES)
     canonical_match = bool(spec.get("expected_spec") and spec_errors and
                            target_executed and last_line == target_line)
     expected_verifast_error = type(stages) is dict and stages.get("verifast") == 1
-    # The `before` receipt must bind this failure to the selected cleanup Drop;
-    # `complete` must be absent because a target failure precedes completion.
     completed = any(_qualified_event(line, "complete") for line in log.splitlines())
     matched = (before["admitted"] and not completed and expected_verifast_error and
                predicate_match and (target_match or canonical_match))
@@ -491,7 +479,6 @@ def run(evidence: Path, args, env: dict, execute_case, source_case: Path,
         evidence.mkdir(parents=True)
         source_case = Path(source_case)
         original, verified = _source_pair(source_case, source_record)
-        # Validate the preparation pin inside the setup error boundary too.
         _expected_stage_sources(_sha(original), _sha(verified), source_record)
         if (getattr(args, "profile", None) not in SUPPORTED_PROFILES or
                 args.profile != source_record.get("profile")):

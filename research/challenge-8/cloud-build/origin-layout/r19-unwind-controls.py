@@ -70,7 +70,6 @@ def _unique_offset(data: bytes, anchor: bytes) -> int:
 
 
 def _variants(original: bytes, verified: bytes) -> dict:
-    """Return (original, verified, expected diagnostic line) for each control."""
     if (verified.count(CALL + R19_AFTER) != 1 or verified.count(WRAPPER) != 1 or
             original.count(CALL) != 1 or verified.count(b"R19Keep") or
             verified.count(b"r19_other_function")):
@@ -157,7 +156,6 @@ def _classify(case: Path, name: str, expected_hashes: dict, execution, line: int
 
 
 def run(evidence, raw_case, args, dispatch, consumer, selected_profile, *, source_sha256):
-    """Derive each control from the prepared raw caller and dispatch it like that caller."""
     root = Path(evidence) / "r19-unwind-controls"
     root.mkdir(parents=True, exist_ok=False)
     if type(source_sha256) is not str or re.fullmatch(r"[0-9a-f]{64}", source_sha256) is None:

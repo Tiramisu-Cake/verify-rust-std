@@ -81,8 +81,6 @@ with tempfile.TemporaryDirectory(prefix="r5-emitter-service-") as temp:
         else:
             raise AssertionError("provider profile gate admitted malformed/old/accepted identity")
 
-    # Exercise the actual inline EMITTERPIN validation block without invoking
-    # patch application, cargo, Dune, exporter, verifier, or Cloud.
     profile_script = (HERE.parents[1] / "merge/overnight/guard-ownership/insertion-onecell/build-profile.sh").read_text()
     marker = "<<'EMITTERPIN'\n"
     block = profile_script.split(marker, 1)[1].split("\nEMITTERPIN", 1)[0]
@@ -131,8 +129,6 @@ with tempfile.TemporaryDirectory(prefix="r5-emitter-service-") as temp:
             raise AssertionError("R5 identity gate admitted an old, missing, or null profile")
 print("R5 emitter synthetic service checks: PASS")
 
-# Exercise the production dispatch expression, so import aliases cannot be
-# confused with packaged module filenames. Do not execute hosted main().
 import ast
 ROOT = HERE.parents[3]
 production = ROOT / "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py"

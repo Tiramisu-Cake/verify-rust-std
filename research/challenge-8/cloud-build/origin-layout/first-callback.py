@@ -564,11 +564,6 @@ def _markers(old, mutation=None):
 
 
 def _cut_prefix(source):
-    """Exact partial source relation: keep before CUT, close unsafe/function.
-
-    Preserve all helper/Drop code preceding insert_tail and the actual local
-    wrapper after it. No original source is extracted or run on the VPS.
-    """
     wrapper = b'pub unsafe fn b2_three_from_local'
     if source.count(CUT) != 1 or source.count(wrapper) != 1:
         raise ValueError('prefix cut or wrapper boundary is not unique')
@@ -680,7 +675,6 @@ def prepare(evidence, *, prefix=False, mutation=None, profile=PROFILE):
 
 
 def _pinned_actual_body_identities(old):
-    """Verify pinned source bytes, then derive canonical specialized body hashes."""
     raw = old.SOURCE.read_bytes()
     if (_sha(raw) != old.PINNED_SOURCE_SHA256 or
             old._git_blob(raw) != old.PINNED_SOURCE_BLOB):
@@ -722,7 +716,6 @@ def _body_runtime_equal(original, verified):
 
 
 def _body_isolation_suffixes(old):
-    """Return the exact appended wrapper suffixes accepted by the isolator."""
     signature = old.WRAPPER_SIGNATURE
     if (old.WRAPPER_RUNTIME.count(signature) != 1 or
             old.WRAPPER_RUNTIME.count(b'let mut values = [10_u64, 20_u64, 5_u64];') != 1 or
@@ -751,7 +744,6 @@ lem r18_u64_array_inv(p: *u64, count: usize)
 
 
 def _raw_local_caller_suffixes(old):
-    """Exact runtime-equivalent raw-pointer wrapper, plus checked ghost setup."""
     signature = old.WRAPPER_SIGNATURE
     if (old.WRAPPER_RUNTIME.count(signature) != 1 or
             old.WRAPPER_RUNTIME.count(b'let mut values = [10_u64, 20_u64, 5_u64];') != 1 or
@@ -781,7 +773,6 @@ def _raw_local_caller_suffixes(old):
 
 
 def _raw_owner_lemma_body():
-    """Exact helper bytes left after the canonical wrapper suffix is cut."""
     helper = R9_CURRENT_U64_OWNERS_LEMMA
     if not helper.endswith(b'@*/\n\n'):
         raise ValueError('checked current-u64 owner helper newline contract changed')
@@ -791,7 +782,6 @@ def _raw_owner_lemma_body():
 def _raw_parent_body(evidence, parent_case, parent_record, old,
                      parent_preparation_sha, parent_source_unchanged,
                      parent_stage_receipt_gate):
-    """Bind raw-wrapper preparation to the captured, canonical full-body parent."""
     canonical = _pinned_actual_body_identities(old)
     expected_parent = Path(evidence).resolve() / 'full_body' / 'cases' / 'actual_three_current_full_posts'
     if (Path(parent_case).resolve() != expected_parent.resolve() or
@@ -955,7 +945,6 @@ def _raw_local_caller_source_gate(case, parent_case, parent_record, record, old,
 def _prepare_body_isolation(evidence, parent_case, parent_record, old,
                             parent_preparation_sha, parent_source_unchanged,
                             parent_stage_receipt_gate):
-    """Copy the exact actual body/posts into a diagnostic case without the caller."""
     canonical = _pinned_actual_body_identities(old)
     expected_parent = Path(evidence).resolve() / 'full_body' / 'cases' / 'actual_three_current_full_posts'
     if (Path(parent_case).resolve() != expected_parent.resolve() or
@@ -1054,7 +1043,6 @@ def _prepare_body_isolation(evidence, parent_case, parent_record, old,
 
 def _body_isolation_source_gate(case, parent_case, parent_record, record, old,
                                 parent_preparation_sha):
-    """Recheck parent lineage, exact removed suffixes, body bytes and posts."""
     try:
         if (type(record) is not dict or record.get('schema') != 'r16-actual-body-isolation-v1' or
                 type(parent_record) is not dict or record.get('profile') != parent_record.get('profile') or
@@ -1195,7 +1183,6 @@ def _run_body_isolation_diagnostic(evidence, parent_case, parent_record, old,
                                   parent_stage_receipt_gate, prepare_fn=None,
                                   source_gate_fn=None, classify_fn=None,
                                   outcome_fn=None, unit_label='body-only'):
-    """Run the diagnostic fail-closed while leaving the caller campaign runnable."""
     prepare_fn = _prepare_body_isolation if prepare_fn is None else prepare_fn
     source_gate_fn = _body_isolation_source_gate if source_gate_fn is None else source_gate_fn
     classify_fn = _classify_body_isolation if classify_fn is None else classify_fn
@@ -1289,7 +1276,6 @@ def _run_body_isolation_diagnostic(evidence, parent_case, parent_record, old,
             source_exact=False if phase == 'source_gate' else None)
 
 def _classify_body_isolation(case, parent_case, parent_record, record, execution, old, parent_preparation_sha):
-    """Classify a component-only body run; never affect caller/full-target gates."""
     if type(execution) is not dict:
         execution = {'execution_type': type(execution).__name__}
     stages = execution.get('stages')
@@ -1437,7 +1423,6 @@ def _run_raw_local_caller_diagnostic(evidence, parent_case, parent_record, old,
 def _execute_case_with_r9_trace(execute_case, case, args, env, *, profile,
                                 prefix=False, actual_callback_case=False,
                                 r11_native_fullbody=False, validated_receipt=None):
-    """Scope R9 recovery and R11 placement diagnostics to actual body cases."""
     case_env = dict(env)
     case_env.pop(R9_GUARD_TRACE_ENV, None)
     case_env.pop(R11_LABEL_TRACE_ENV, None)
