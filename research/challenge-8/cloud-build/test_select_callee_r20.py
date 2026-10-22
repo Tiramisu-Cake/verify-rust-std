@@ -373,7 +373,7 @@ class RunnerAndRecipe(unittest.TestCase):
                  "stage branch-refresh-apply", "stage fractional-refresh-apply",
                  "stage parser-refresh-apply", "stage console-build",
                  "stage candidate-capture", "stage candidate-source-compare",
-                 "stage candidate-proof", "stage r21-fractional-fingerprint"]
+                 "stage candidate-proof", "stage r21-fractional-proof"]
         self.assertIn("606235c66c76412d2fdcef5f30436c342771ad5a087b343f618cfb7c8a2344d2", RUNNER)
         self.assertIn("78079210a5548fee87e200996920bfb012bcb0cd17b0b574eb926806a46e7ab6", RUNNER)
         patch_path = ROOT / "research/challenge-8/overnight-assume-actual/verifast-r21-final-select-branch-selected-26.10.patch"
@@ -383,14 +383,12 @@ class RunnerAndRecipe(unittest.TestCase):
         self.assertIn("b9430169d01a2eca19728c38d05da818bdfc4e05561671c33ed95eb5830de45d", patch_text)
         self.assertIn("b8d367293b9d1ae8af186edeee0817f1b8bfe04250462fe75386fcd288e214eb", patch_text)
         self.assertIn("selected_payload", patch_text)
-        fractional_patch = ROOT / "research/challenge-8/overnight-assume-actual/verifast-r21-fractional-forget-26.10.patch"
+        fractional_patch = ROOT / "research/challenge-8/overnight-assume-actual/verifast-r22-fractional-forget-26.10.patch"
         self.assertIn(hashlib.sha256(fractional_patch.read_bytes()).hexdigest(), RUNNER)
         self.assertNotIn("PENDING_R21_", RUNNER)
-        # R22 fingerprint cycle: fresh mode-9 pins for the repaired ghost source;
-        # the proof entry is not run until those pins are bound.
-        self.assertIn('"$cloud_dir/select-callee-r21-fractional.py" fingerprint', RUNNER)
-        self.assertIn('"$cloud_dir/select-callee-r21-fractional.py" audit', RUNNER)
-        self.assertNotIn('select-callee-r21-fractional-proof-entry.py', RUNNER)
+        self.assertIn('"$cloud_dir/select-callee-r21-fractional-proof-entry.py"', RUNNER)
+        self.assertIn('"$cloud_dir/select-callee-r21-proof-audit.py"', RUNNER)
+        self.assertIn("task-history/select-callee-r22/FRACTIONAL-FINGERPRINT-INPUT.json", RUNNER)
         self.assertNotIn("stage r20-repair-fingerprint", RUNNER)
         self.assertIn('[[ -z "${SORT4_R20_FINAL_SELECT_REPAIR:-}" ]] || exit 2', RUNNER)
         positions = [RUNNER.index(x) for x in order]

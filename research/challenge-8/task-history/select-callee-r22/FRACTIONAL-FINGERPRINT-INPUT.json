@@ -1,0 +1,2173 @@
+{
+  "accepted": false,
+  "base_source": {
+    "base_verified_file": "base/nine-body-a1-owned-forget/verified/lib.rs",
+    "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+    "verified_sha256": "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
+  },
+  "body_proof_run": false,
+  "classification": "R21_FRACTIONAL_FINGERPRINT_COMPLETE",
+  "complete": true,
+  "dependencies": {
+    "capture_sha256": "ffc3653263e86c5afa4f82440f10a2207e75ad8083bdad5f784597fe0dbaa84f",
+    "o26_recipe_sha256": "464eef45b08b8724eba949289eff9cd745f48d65d0031ffae5675738856d562c",
+    "o26_refresh_sha256": "2cd963cc3d28c69370260cd2154e7284e189fea953928c3fc829f2fd53766af3",
+    "r20_helper_sha256": "83d2d0940fcb255a58b97db8d6161ec3b39660a62905f89a33f926a96d3099ba",
+    "transform_controls_sha256": "533c3d9be5249a40b2f0ad701cfaff6e95e688ecfb5b9c024c5dd2a56dc5124d",
+    "transform_repair_sha256": "3646b05602b7dce35cd4b2ab8f74d8cfe280d65df2637ac4f6cc0a128dd7e2a3",
+    "transform_sha256": "391b065d2d80f08ed680268061685024dd242581cf9bb35715509dabf05d37bc"
+  },
+  "location_control": {
+    "fingerprint": {
+      "all_ten_snapshots": true,
+      "body_proof_run": false,
+      "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+      "expected_refusal_seen": true,
+      "snapshots": {
+        "body-0": {
+          "bytes": 4498,
+          "file": "actual-nested-9-body-0.marshal",
+          "sha256": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc"
+        },
+        "body-1": {
+          "bytes": 4849,
+          "file": "actual-nested-9-body-1.marshal",
+          "sha256": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562"
+        },
+        "body-2": {
+          "bytes": 3503,
+          "file": "actual-nested-9-body-2.marshal",
+          "sha256": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182"
+        },
+        "body-3": {
+          "bytes": 3490,
+          "file": "actual-nested-9-body-3.marshal",
+          "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+        },
+        "body-4": {
+          "bytes": 4093,
+          "file": "actual-nested-9-body-4.marshal",
+          "sha256": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed"
+        },
+        "body-5": {
+          "bytes": 4707,
+          "file": "actual-nested-9-body-5.marshal",
+          "sha256": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6"
+        },
+        "body-6": {
+          "bytes": 4325,
+          "file": "actual-nested-9-body-6.marshal",
+          "sha256": "e8dd503c0bf832081e71dcc9d115c2a07e9349ff746ec7e7cce132edf63f4137"
+        },
+        "body-7": {
+          "bytes": 40269,
+          "file": "actual-nested-9-body-7.marshal",
+          "sha256": "9577c64905c4a45eecc4aab506f6276fea076f8a7a18d2f7ca0304cf70205b86"
+        },
+        "body-8": {
+          "bytes": 4920,
+          "file": "actual-nested-9-body-8.marshal",
+          "sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+        },
+        "unit": {
+          "bytes": 78067,
+          "file": "actual-nested-9-unit.marshal",
+          "sha256": "10cf6e4d2a462082d456135078a77ea6670358f1ad15e0d81901104e8a102b43"
+        }
+      },
+      "stage": {
+        "argv": [
+          "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+          "-rustc_args",
+          "--edition 2021",
+          "-verbose",
+          "1",
+          "verified/lib.rs"
+        ],
+        "exit": 2,
+        "intrinsic_gate_active": false,
+        "pointer_drop_gate_active": false,
+        "source_after": {
+          "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+          "verified/lib.rs": "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
+        },
+        "source_before": {
+          "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+          "verified/lib.rs": "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
+        },
+        "source_unchanged": true,
+        "status": "RAN",
+        "stderr": "nine-body-fingerprint-refusal.log",
+        "stdout": "nine-body-fingerprint-refusal.log"
+      }
+    },
+    "fingerprint_check": {
+      "body_proof_run": false,
+      "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+      "complete": true,
+      "errors": [],
+      "returned": {
+        "all_ten_snapshots": true,
+        "body_proof_run": false,
+        "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+        "expected_refusal_seen": true,
+        "snapshots": {
+          "body-0": {
+            "bytes": 4498,
+            "file": "actual-nested-9-body-0.marshal",
+            "sha256": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc"
+          },
+          "body-1": {
+            "bytes": 4849,
+            "file": "actual-nested-9-body-1.marshal",
+            "sha256": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562"
+          },
+          "body-2": {
+            "bytes": 3503,
+            "file": "actual-nested-9-body-2.marshal",
+            "sha256": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182"
+          },
+          "body-3": {
+            "bytes": 3490,
+            "file": "actual-nested-9-body-3.marshal",
+            "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+          },
+          "body-4": {
+            "bytes": 4093,
+            "file": "actual-nested-9-body-4.marshal",
+            "sha256": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed"
+          },
+          "body-5": {
+            "bytes": 4707,
+            "file": "actual-nested-9-body-5.marshal",
+            "sha256": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6"
+          },
+          "body-6": {
+            "bytes": 4325,
+            "file": "actual-nested-9-body-6.marshal",
+            "sha256": "e8dd503c0bf832081e71dcc9d115c2a07e9349ff746ec7e7cce132edf63f4137"
+          },
+          "body-7": {
+            "bytes": 40269,
+            "file": "actual-nested-9-body-7.marshal",
+            "sha256": "9577c64905c4a45eecc4aab506f6276fea076f8a7a18d2f7ca0304cf70205b86"
+          },
+          "body-8": {
+            "bytes": 4920,
+            "file": "actual-nested-9-body-8.marshal",
+            "sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+          },
+          "unit": {
+            "bytes": 78067,
+            "file": "actual-nested-9-unit.marshal",
+            "sha256": "10cf6e4d2a462082d456135078a77ea6670358f1ad15e0d81901104e8a102b43"
+          }
+        },
+        "stage": {
+          "argv": [
+            "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+            "-rustc_args",
+            "--edition 2021",
+            "-verbose",
+            "1",
+            "verified/lib.rs"
+          ],
+          "exit": 2,
+          "intrinsic_gate_active": false,
+          "pointer_drop_gate_active": false,
+          "source_after": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
+          },
+          "source_before": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
+          },
+          "source_unchanged": true,
+          "status": "RAN",
+          "stderr": "nine-body-fingerprint-refusal.log",
+          "stdout": "nine-body-fingerprint-refusal.log"
+        }
+      },
+      "snapshots_match_default_pins": true,
+      "source_stage_match": true,
+      "stage": {
+        "argv": [
+          "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+          "-rustc_args",
+          "--edition 2021",
+          "-verbose",
+          "1",
+          "verified/lib.rs"
+        ],
+        "exit": 2,
+        "intrinsic_gate_active": false,
+        "pointer_drop_gate_active": false,
+        "source_after": {
+          "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+          "verified/lib.rs": "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
+        },
+        "source_before": {
+          "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+          "verified/lib.rs": "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
+        },
+        "source_unchanged": true,
+        "status": "RAN",
+        "stderr": "nine-body-fingerprint-refusal.log",
+        "stdout": "nine-body-fingerprint-refusal.log"
+      }
+    },
+    "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+    "reproduces_pinned": true,
+    "source_intact_after_stages": true,
+    "status": "RAN",
+    "verified_sha256": "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
+  },
+  "mode": "fingerprint",
+  "proof_credit": false,
+  "schema": "r21-fractional-forget-fingerprint-v1",
+  "snapshot_pins": {
+    "body-0": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc",
+    "body-1": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562",
+    "body-2": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182",
+    "body-3": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951",
+    "body-4": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed",
+    "body-5": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6",
+    "body-6": "e8dd503c0bf832081e71dcc9d115c2a07e9349ff746ec7e7cce132edf63f4137",
+    "body-7": "9577c64905c4a45eecc4aab506f6276fea076f8a7a18d2f7ca0304cf70205b86",
+    "body-8": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a",
+    "unit": "10cf6e4d2a462082d456135078a77ea6670358f1ad15e0d81901104e8a102b43"
+  },
+  "variant_order": [
+    "positive",
+    "omit-selected-own",
+    "omit-unselected-own",
+    "no-retained-half",
+    "callee-false-normal",
+    "callee-owner-duplicate",
+    "callee-owner-loss",
+    "callee-thread-duplicate"
+  ],
+  "variants": {
+    "callee-false-normal": {
+      "base_verified_sha256": "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6",
+      "fingerprint": {
+        "all_ten_snapshots": true,
+        "body_proof_run": false,
+        "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+        "expected_refusal_seen": true,
+        "snapshots": {
+          "body-0": {
+            "bytes": 4498,
+            "file": "actual-nested-9-body-0.marshal",
+            "sha256": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc"
+          },
+          "body-1": {
+            "bytes": 4849,
+            "file": "actual-nested-9-body-1.marshal",
+            "sha256": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562"
+          },
+          "body-2": {
+            "bytes": 3503,
+            "file": "actual-nested-9-body-2.marshal",
+            "sha256": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182"
+          },
+          "body-3": {
+            "bytes": 3490,
+            "file": "actual-nested-9-body-3.marshal",
+            "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+          },
+          "body-4": {
+            "bytes": 4093,
+            "file": "actual-nested-9-body-4.marshal",
+            "sha256": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed"
+          },
+          "body-5": {
+            "bytes": 4707,
+            "file": "actual-nested-9-body-5.marshal",
+            "sha256": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6"
+          },
+          "body-6": {
+            "bytes": 4347,
+            "file": "actual-nested-9-body-6.marshal",
+            "sha256": "c7def4ad41fe178290132f45588139d0f9fb4dc609f134795cca13c29ba12ea3"
+          },
+          "body-7": {
+            "bytes": 40902,
+            "file": "actual-nested-9-body-7.marshal",
+            "sha256": "e7e2eb259ebd3afe4b1ed7d700c1c250a6790da73a756f9d6cb33f7b70039e1e"
+          },
+          "body-8": {
+            "bytes": 4920,
+            "file": "actual-nested-9-body-8.marshal",
+            "sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+          },
+          "unit": {
+            "bytes": 78722,
+            "file": "actual-nested-9-unit.marshal",
+            "sha256": "da1b1ddada3dd53a6c3d38cc8705248adc2e4b8bb5f117d06e652223c04ad378"
+          }
+        },
+        "stage": {
+          "argv": [
+            "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+            "-rustc_args",
+            "--edition 2021",
+            "-verbose",
+            "1",
+            "verified/lib.rs"
+          ],
+          "exit": 2,
+          "intrinsic_gate_active": false,
+          "pointer_drop_gate_active": false,
+          "source_after": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "163106c3473e0a1c8d0288d170d71bd7132fcca89d17381a545cd65cbb2c73b5"
+          },
+          "source_before": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "163106c3473e0a1c8d0288d170d71bd7132fcca89d17381a545cd65cbb2c73b5"
+          },
+          "source_unchanged": true,
+          "status": "RAN",
+          "stderr": "nine-body-fingerprint-refusal.log",
+          "stdout": "nine-body-fingerprint-refusal.log"
+        }
+      },
+      "fingerprint_check": {
+        "body_proof_run": false,
+        "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+        "complete": true,
+        "errors": [],
+        "returned": {
+          "all_ten_snapshots": true,
+          "body_proof_run": false,
+          "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+          "expected_refusal_seen": true,
+          "snapshots": {
+            "body-0": {
+              "bytes": 4498,
+              "file": "actual-nested-9-body-0.marshal",
+              "sha256": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc"
+            },
+            "body-1": {
+              "bytes": 4849,
+              "file": "actual-nested-9-body-1.marshal",
+              "sha256": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562"
+            },
+            "body-2": {
+              "bytes": 3503,
+              "file": "actual-nested-9-body-2.marshal",
+              "sha256": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182"
+            },
+            "body-3": {
+              "bytes": 3490,
+              "file": "actual-nested-9-body-3.marshal",
+              "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+            },
+            "body-4": {
+              "bytes": 4093,
+              "file": "actual-nested-9-body-4.marshal",
+              "sha256": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed"
+            },
+            "body-5": {
+              "bytes": 4707,
+              "file": "actual-nested-9-body-5.marshal",
+              "sha256": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6"
+            },
+            "body-6": {
+              "bytes": 4347,
+              "file": "actual-nested-9-body-6.marshal",
+              "sha256": "c7def4ad41fe178290132f45588139d0f9fb4dc609f134795cca13c29ba12ea3"
+            },
+            "body-7": {
+              "bytes": 40902,
+              "file": "actual-nested-9-body-7.marshal",
+              "sha256": "e7e2eb259ebd3afe4b1ed7d700c1c250a6790da73a756f9d6cb33f7b70039e1e"
+            },
+            "body-8": {
+              "bytes": 4920,
+              "file": "actual-nested-9-body-8.marshal",
+              "sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+            },
+            "unit": {
+              "bytes": 78722,
+              "file": "actual-nested-9-unit.marshal",
+              "sha256": "da1b1ddada3dd53a6c3d38cc8705248adc2e4b8bb5f117d06e652223c04ad378"
+            }
+          },
+          "stage": {
+            "argv": [
+              "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+              "-rustc_args",
+              "--edition 2021",
+              "-verbose",
+              "1",
+              "verified/lib.rs"
+            ],
+            "exit": 2,
+            "intrinsic_gate_active": false,
+            "pointer_drop_gate_active": false,
+            "source_after": {
+              "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+              "verified/lib.rs": "163106c3473e0a1c8d0288d170d71bd7132fcca89d17381a545cd65cbb2c73b5"
+            },
+            "source_before": {
+              "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+              "verified/lib.rs": "163106c3473e0a1c8d0288d170d71bd7132fcca89d17381a545cd65cbb2c73b5"
+            },
+            "source_unchanged": true,
+            "status": "RAN",
+            "stderr": "nine-body-fingerprint-refusal.log",
+            "stdout": "nine-body-fingerprint-refusal.log"
+          }
+        },
+        "snapshots_match_default_pins": false,
+        "source_stage_match": true,
+        "stage": {
+          "argv": [
+            "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+            "-rustc_args",
+            "--edition 2021",
+            "-verbose",
+            "1",
+            "verified/lib.rs"
+          ],
+          "exit": 2,
+          "intrinsic_gate_active": false,
+          "pointer_drop_gate_active": false,
+          "source_after": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "163106c3473e0a1c8d0288d170d71bd7132fcca89d17381a545cd65cbb2c73b5"
+          },
+          "source_before": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "163106c3473e0a1c8d0288d170d71bd7132fcca89d17381a545cd65cbb2c73b5"
+          },
+          "source_unchanged": true,
+          "status": "RAN",
+          "stderr": "nine-body-fingerprint-refusal.log",
+          "stdout": "nine-body-fingerprint-refusal.log"
+        }
+      },
+      "normal_mir": {
+        "decode": {
+          "exit": 0,
+          "output": "normal-mir.txt",
+          "output_sha256": "ad0eb588f2fd99af88247d87a46bc91e06f6dea292147cddb03d9d2d211d3d71",
+          "status": "RAN"
+        },
+        "export": {
+          "exit": 0,
+          "output": "normal-mir.bin",
+          "output_sha256": "d178f2ac37fea3e59aa3b07bf52bc45956125cd74370839aa8c425c72e9fc83d",
+          "status": "RAN"
+        }
+      },
+      "normal_mir_check": {
+        "complete": true,
+        "errors": [],
+        "returned": {
+          "decode": {
+            "exit": 0,
+            "output": "normal-mir.txt",
+            "output_sha256": "ad0eb588f2fd99af88247d87a46bc91e06f6dea292147cddb03d9d2d211d3d71",
+            "status": "RAN"
+          },
+          "export": {
+            "exit": 0,
+            "output": "normal-mir.bin",
+            "output_sha256": "d178f2ac37fea3e59aa3b07bf52bc45956125cd74370839aa8c425c72e9fc83d",
+            "status": "RAN"
+          }
+        }
+      },
+      "original_preserved": true,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "source_intact_after_stages": true,
+      "status": "COMPLETE",
+      "variant": "callee-false-normal",
+      "verified_sha256": "163106c3473e0a1c8d0288d170d71bd7132fcca89d17381a545cd65cbb2c73b5"
+    },
+    "callee-owner-duplicate": {
+      "base_verified_sha256": "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6",
+      "fingerprint": {
+        "all_ten_snapshots": true,
+        "body_proof_run": false,
+        "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+        "expected_refusal_seen": true,
+        "snapshots": {
+          "body-0": {
+            "bytes": 4498,
+            "file": "actual-nested-9-body-0.marshal",
+            "sha256": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc"
+          },
+          "body-1": {
+            "bytes": 4849,
+            "file": "actual-nested-9-body-1.marshal",
+            "sha256": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562"
+          },
+          "body-2": {
+            "bytes": 3503,
+            "file": "actual-nested-9-body-2.marshal",
+            "sha256": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182"
+          },
+          "body-3": {
+            "bytes": 3490,
+            "file": "actual-nested-9-body-3.marshal",
+            "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+          },
+          "body-4": {
+            "bytes": 4093,
+            "file": "actual-nested-9-body-4.marshal",
+            "sha256": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed"
+          },
+          "body-5": {
+            "bytes": 4707,
+            "file": "actual-nested-9-body-5.marshal",
+            "sha256": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6"
+          },
+          "body-6": {
+            "bytes": 4363,
+            "file": "actual-nested-9-body-6.marshal",
+            "sha256": "a4dd9afa84a8e1a8be570f170105cc74fae01b1c58c3da85d956b484fbfb31a7"
+          },
+          "body-7": {
+            "bytes": 40902,
+            "file": "actual-nested-9-body-7.marshal",
+            "sha256": "e7e2eb259ebd3afe4b1ed7d700c1c250a6790da73a756f9d6cb33f7b70039e1e"
+          },
+          "body-8": {
+            "bytes": 4920,
+            "file": "actual-nested-9-body-8.marshal",
+            "sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+          },
+          "unit": {
+            "bytes": 78738,
+            "file": "actual-nested-9-unit.marshal",
+            "sha256": "513efc00cfb5b081bb3f7f7f01b52b52976aa0be861ec5da2019802ed24c068e"
+          }
+        },
+        "stage": {
+          "argv": [
+            "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+            "-rustc_args",
+            "--edition 2021",
+            "-verbose",
+            "1",
+            "verified/lib.rs"
+          ],
+          "exit": 2,
+          "intrinsic_gate_active": false,
+          "pointer_drop_gate_active": false,
+          "source_after": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "e1fb1ae4690acde67709d6ccb918e64a8e1ef9d6b2feee462560a7ba8ef89566"
+          },
+          "source_before": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "e1fb1ae4690acde67709d6ccb918e64a8e1ef9d6b2feee462560a7ba8ef89566"
+          },
+          "source_unchanged": true,
+          "status": "RAN",
+          "stderr": "nine-body-fingerprint-refusal.log",
+          "stdout": "nine-body-fingerprint-refusal.log"
+        }
+      },
+      "fingerprint_check": {
+        "body_proof_run": false,
+        "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+        "complete": true,
+        "errors": [],
+        "returned": {
+          "all_ten_snapshots": true,
+          "body_proof_run": false,
+          "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+          "expected_refusal_seen": true,
+          "snapshots": {
+            "body-0": {
+              "bytes": 4498,
+              "file": "actual-nested-9-body-0.marshal",
+              "sha256": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc"
+            },
+            "body-1": {
+              "bytes": 4849,
+              "file": "actual-nested-9-body-1.marshal",
+              "sha256": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562"
+            },
+            "body-2": {
+              "bytes": 3503,
+              "file": "actual-nested-9-body-2.marshal",
+              "sha256": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182"
+            },
+            "body-3": {
+              "bytes": 3490,
+              "file": "actual-nested-9-body-3.marshal",
+              "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+            },
+            "body-4": {
+              "bytes": 4093,
+              "file": "actual-nested-9-body-4.marshal",
+              "sha256": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed"
+            },
+            "body-5": {
+              "bytes": 4707,
+              "file": "actual-nested-9-body-5.marshal",
+              "sha256": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6"
+            },
+            "body-6": {
+              "bytes": 4363,
+              "file": "actual-nested-9-body-6.marshal",
+              "sha256": "a4dd9afa84a8e1a8be570f170105cc74fae01b1c58c3da85d956b484fbfb31a7"
+            },
+            "body-7": {
+              "bytes": 40902,
+              "file": "actual-nested-9-body-7.marshal",
+              "sha256": "e7e2eb259ebd3afe4b1ed7d700c1c250a6790da73a756f9d6cb33f7b70039e1e"
+            },
+            "body-8": {
+              "bytes": 4920,
+              "file": "actual-nested-9-body-8.marshal",
+              "sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+            },
+            "unit": {
+              "bytes": 78738,
+              "file": "actual-nested-9-unit.marshal",
+              "sha256": "513efc00cfb5b081bb3f7f7f01b52b52976aa0be861ec5da2019802ed24c068e"
+            }
+          },
+          "stage": {
+            "argv": [
+              "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+              "-rustc_args",
+              "--edition 2021",
+              "-verbose",
+              "1",
+              "verified/lib.rs"
+            ],
+            "exit": 2,
+            "intrinsic_gate_active": false,
+            "pointer_drop_gate_active": false,
+            "source_after": {
+              "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+              "verified/lib.rs": "e1fb1ae4690acde67709d6ccb918e64a8e1ef9d6b2feee462560a7ba8ef89566"
+            },
+            "source_before": {
+              "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+              "verified/lib.rs": "e1fb1ae4690acde67709d6ccb918e64a8e1ef9d6b2feee462560a7ba8ef89566"
+            },
+            "source_unchanged": true,
+            "status": "RAN",
+            "stderr": "nine-body-fingerprint-refusal.log",
+            "stdout": "nine-body-fingerprint-refusal.log"
+          }
+        },
+        "snapshots_match_default_pins": false,
+        "source_stage_match": true,
+        "stage": {
+          "argv": [
+            "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+            "-rustc_args",
+            "--edition 2021",
+            "-verbose",
+            "1",
+            "verified/lib.rs"
+          ],
+          "exit": 2,
+          "intrinsic_gate_active": false,
+          "pointer_drop_gate_active": false,
+          "source_after": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "e1fb1ae4690acde67709d6ccb918e64a8e1ef9d6b2feee462560a7ba8ef89566"
+          },
+          "source_before": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "e1fb1ae4690acde67709d6ccb918e64a8e1ef9d6b2feee462560a7ba8ef89566"
+          },
+          "source_unchanged": true,
+          "status": "RAN",
+          "stderr": "nine-body-fingerprint-refusal.log",
+          "stdout": "nine-body-fingerprint-refusal.log"
+        }
+      },
+      "normal_mir": {
+        "decode": {
+          "exit": 0,
+          "output": "normal-mir.txt",
+          "output_sha256": "eba2d629b09503d712f08bd8e20b2be55b2a327fa91713a84f65561bdbf7c5f5",
+          "status": "RAN"
+        },
+        "export": {
+          "exit": 0,
+          "output": "normal-mir.bin",
+          "output_sha256": "21cb6054056b86e47cbb25754a6c905d2b6107cc16b4a108d4f397169bb37b62",
+          "status": "RAN"
+        }
+      },
+      "normal_mir_check": {
+        "complete": true,
+        "errors": [],
+        "returned": {
+          "decode": {
+            "exit": 0,
+            "output": "normal-mir.txt",
+            "output_sha256": "eba2d629b09503d712f08bd8e20b2be55b2a327fa91713a84f65561bdbf7c5f5",
+            "status": "RAN"
+          },
+          "export": {
+            "exit": 0,
+            "output": "normal-mir.bin",
+            "output_sha256": "21cb6054056b86e47cbb25754a6c905d2b6107cc16b4a108d4f397169bb37b62",
+            "status": "RAN"
+          }
+        }
+      },
+      "original_preserved": true,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "source_intact_after_stages": true,
+      "status": "COMPLETE",
+      "variant": "callee-owner-duplicate",
+      "verified_sha256": "e1fb1ae4690acde67709d6ccb918e64a8e1ef9d6b2feee462560a7ba8ef89566"
+    },
+    "callee-owner-loss": {
+      "base_verified_sha256": "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6",
+      "fingerprint": {
+        "all_ten_snapshots": true,
+        "body_proof_run": false,
+        "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+        "expected_refusal_seen": true,
+        "snapshots": {
+          "body-0": {
+            "bytes": 4498,
+            "file": "actual-nested-9-body-0.marshal",
+            "sha256": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc"
+          },
+          "body-1": {
+            "bytes": 4849,
+            "file": "actual-nested-9-body-1.marshal",
+            "sha256": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562"
+          },
+          "body-2": {
+            "bytes": 3503,
+            "file": "actual-nested-9-body-2.marshal",
+            "sha256": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182"
+          },
+          "body-3": {
+            "bytes": 3490,
+            "file": "actual-nested-9-body-3.marshal",
+            "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+          },
+          "body-4": {
+            "bytes": 4093,
+            "file": "actual-nested-9-body-4.marshal",
+            "sha256": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed"
+          },
+          "body-5": {
+            "bytes": 4707,
+            "file": "actual-nested-9-body-5.marshal",
+            "sha256": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6"
+          },
+          "body-6": {
+            "bytes": 4310,
+            "file": "actual-nested-9-body-6.marshal",
+            "sha256": "cff7f2aaa833d59ce70bc890edabed08ddd49119cef8548be4612ee79347fe12"
+          },
+          "body-7": {
+            "bytes": 40902,
+            "file": "actual-nested-9-body-7.marshal",
+            "sha256": "e7e2eb259ebd3afe4b1ed7d700c1c250a6790da73a756f9d6cb33f7b70039e1e"
+          },
+          "body-8": {
+            "bytes": 4920,
+            "file": "actual-nested-9-body-8.marshal",
+            "sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+          },
+          "unit": {
+            "bytes": 78685,
+            "file": "actual-nested-9-unit.marshal",
+            "sha256": "b00ecabf3668604aabe94f06f8a678b71af936bf45a7e06c08d40bb89977c236"
+          }
+        },
+        "stage": {
+          "argv": [
+            "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+            "-rustc_args",
+            "--edition 2021",
+            "-verbose",
+            "1",
+            "verified/lib.rs"
+          ],
+          "exit": 2,
+          "intrinsic_gate_active": false,
+          "pointer_drop_gate_active": false,
+          "source_after": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "9aff9257c458281048f1d068d8b79aa7413e8045274f45347d6d52739c35ee15"
+          },
+          "source_before": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "9aff9257c458281048f1d068d8b79aa7413e8045274f45347d6d52739c35ee15"
+          },
+          "source_unchanged": true,
+          "status": "RAN",
+          "stderr": "nine-body-fingerprint-refusal.log",
+          "stdout": "nine-body-fingerprint-refusal.log"
+        }
+      },
+      "fingerprint_check": {
+        "body_proof_run": false,
+        "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+        "complete": true,
+        "errors": [],
+        "returned": {
+          "all_ten_snapshots": true,
+          "body_proof_run": false,
+          "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+          "expected_refusal_seen": true,
+          "snapshots": {
+            "body-0": {
+              "bytes": 4498,
+              "file": "actual-nested-9-body-0.marshal",
+              "sha256": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc"
+            },
+            "body-1": {
+              "bytes": 4849,
+              "file": "actual-nested-9-body-1.marshal",
+              "sha256": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562"
+            },
+            "body-2": {
+              "bytes": 3503,
+              "file": "actual-nested-9-body-2.marshal",
+              "sha256": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182"
+            },
+            "body-3": {
+              "bytes": 3490,
+              "file": "actual-nested-9-body-3.marshal",
+              "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+            },
+            "body-4": {
+              "bytes": 4093,
+              "file": "actual-nested-9-body-4.marshal",
+              "sha256": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed"
+            },
+            "body-5": {
+              "bytes": 4707,
+              "file": "actual-nested-9-body-5.marshal",
+              "sha256": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6"
+            },
+            "body-6": {
+              "bytes": 4310,
+              "file": "actual-nested-9-body-6.marshal",
+              "sha256": "cff7f2aaa833d59ce70bc890edabed08ddd49119cef8548be4612ee79347fe12"
+            },
+            "body-7": {
+              "bytes": 40902,
+              "file": "actual-nested-9-body-7.marshal",
+              "sha256": "e7e2eb259ebd3afe4b1ed7d700c1c250a6790da73a756f9d6cb33f7b70039e1e"
+            },
+            "body-8": {
+              "bytes": 4920,
+              "file": "actual-nested-9-body-8.marshal",
+              "sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+            },
+            "unit": {
+              "bytes": 78685,
+              "file": "actual-nested-9-unit.marshal",
+              "sha256": "b00ecabf3668604aabe94f06f8a678b71af936bf45a7e06c08d40bb89977c236"
+            }
+          },
+          "stage": {
+            "argv": [
+              "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+              "-rustc_args",
+              "--edition 2021",
+              "-verbose",
+              "1",
+              "verified/lib.rs"
+            ],
+            "exit": 2,
+            "intrinsic_gate_active": false,
+            "pointer_drop_gate_active": false,
+            "source_after": {
+              "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+              "verified/lib.rs": "9aff9257c458281048f1d068d8b79aa7413e8045274f45347d6d52739c35ee15"
+            },
+            "source_before": {
+              "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+              "verified/lib.rs": "9aff9257c458281048f1d068d8b79aa7413e8045274f45347d6d52739c35ee15"
+            },
+            "source_unchanged": true,
+            "status": "RAN",
+            "stderr": "nine-body-fingerprint-refusal.log",
+            "stdout": "nine-body-fingerprint-refusal.log"
+          }
+        },
+        "snapshots_match_default_pins": false,
+        "source_stage_match": true,
+        "stage": {
+          "argv": [
+            "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+            "-rustc_args",
+            "--edition 2021",
+            "-verbose",
+            "1",
+            "verified/lib.rs"
+          ],
+          "exit": 2,
+          "intrinsic_gate_active": false,
+          "pointer_drop_gate_active": false,
+          "source_after": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "9aff9257c458281048f1d068d8b79aa7413e8045274f45347d6d52739c35ee15"
+          },
+          "source_before": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "9aff9257c458281048f1d068d8b79aa7413e8045274f45347d6d52739c35ee15"
+          },
+          "source_unchanged": true,
+          "status": "RAN",
+          "stderr": "nine-body-fingerprint-refusal.log",
+          "stdout": "nine-body-fingerprint-refusal.log"
+        }
+      },
+      "normal_mir": {
+        "decode": {
+          "exit": 0,
+          "output": "normal-mir.txt",
+          "output_sha256": "80f7c552f90dbffbffebc6eb2ad2fac26463b62a3fc65987aa5f1202fe9d1995",
+          "status": "RAN"
+        },
+        "export": {
+          "exit": 0,
+          "output": "normal-mir.bin",
+          "output_sha256": "8cff791192b13bbbdeaef083bbe94f8d11980e9f4c19851e5009d4653fa00bd9",
+          "status": "RAN"
+        }
+      },
+      "normal_mir_check": {
+        "complete": true,
+        "errors": [],
+        "returned": {
+          "decode": {
+            "exit": 0,
+            "output": "normal-mir.txt",
+            "output_sha256": "80f7c552f90dbffbffebc6eb2ad2fac26463b62a3fc65987aa5f1202fe9d1995",
+            "status": "RAN"
+          },
+          "export": {
+            "exit": 0,
+            "output": "normal-mir.bin",
+            "output_sha256": "8cff791192b13bbbdeaef083bbe94f8d11980e9f4c19851e5009d4653fa00bd9",
+            "status": "RAN"
+          }
+        }
+      },
+      "original_preserved": true,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "source_intact_after_stages": true,
+      "status": "COMPLETE",
+      "variant": "callee-owner-loss",
+      "verified_sha256": "9aff9257c458281048f1d068d8b79aa7413e8045274f45347d6d52739c35ee15"
+    },
+    "callee-thread-duplicate": {
+      "base_verified_sha256": "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6",
+      "fingerprint": {
+        "all_ten_snapshots": true,
+        "body_proof_run": false,
+        "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+        "expected_refusal_seen": true,
+        "snapshots": {
+          "body-0": {
+            "bytes": 4498,
+            "file": "actual-nested-9-body-0.marshal",
+            "sha256": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc"
+          },
+          "body-1": {
+            "bytes": 4849,
+            "file": "actual-nested-9-body-1.marshal",
+            "sha256": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562"
+          },
+          "body-2": {
+            "bytes": 3503,
+            "file": "actual-nested-9-body-2.marshal",
+            "sha256": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182"
+          },
+          "body-3": {
+            "bytes": 3490,
+            "file": "actual-nested-9-body-3.marshal",
+            "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+          },
+          "body-4": {
+            "bytes": 4093,
+            "file": "actual-nested-9-body-4.marshal",
+            "sha256": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed"
+          },
+          "body-5": {
+            "bytes": 4707,
+            "file": "actual-nested-9-body-5.marshal",
+            "sha256": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6"
+          },
+          "body-6": {
+            "bytes": 4359,
+            "file": "actual-nested-9-body-6.marshal",
+            "sha256": "4df4def10d1ef425aca43bda49d07a6916d385207c32e066a17121b67defc442"
+          },
+          "body-7": {
+            "bytes": 40902,
+            "file": "actual-nested-9-body-7.marshal",
+            "sha256": "e7e2eb259ebd3afe4b1ed7d700c1c250a6790da73a756f9d6cb33f7b70039e1e"
+          },
+          "body-8": {
+            "bytes": 4920,
+            "file": "actual-nested-9-body-8.marshal",
+            "sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+          },
+          "unit": {
+            "bytes": 78734,
+            "file": "actual-nested-9-unit.marshal",
+            "sha256": "4d38b7b8ad3f50c85703577b1220aa90a42fb8564b9d01687ed616e18f4547bc"
+          }
+        },
+        "stage": {
+          "argv": [
+            "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+            "-rustc_args",
+            "--edition 2021",
+            "-verbose",
+            "1",
+            "verified/lib.rs"
+          ],
+          "exit": 2,
+          "intrinsic_gate_active": false,
+          "pointer_drop_gate_active": false,
+          "source_after": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "f4e96358375d143a57d785e4ee4bc6766d81f0efc2d00b4c54239ccb737ea18c"
+          },
+          "source_before": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "f4e96358375d143a57d785e4ee4bc6766d81f0efc2d00b4c54239ccb737ea18c"
+          },
+          "source_unchanged": true,
+          "status": "RAN",
+          "stderr": "nine-body-fingerprint-refusal.log",
+          "stdout": "nine-body-fingerprint-refusal.log"
+        }
+      },
+      "fingerprint_check": {
+        "body_proof_run": false,
+        "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+        "complete": true,
+        "errors": [],
+        "returned": {
+          "all_ten_snapshots": true,
+          "body_proof_run": false,
+          "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+          "expected_refusal_seen": true,
+          "snapshots": {
+            "body-0": {
+              "bytes": 4498,
+              "file": "actual-nested-9-body-0.marshal",
+              "sha256": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc"
+            },
+            "body-1": {
+              "bytes": 4849,
+              "file": "actual-nested-9-body-1.marshal",
+              "sha256": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562"
+            },
+            "body-2": {
+              "bytes": 3503,
+              "file": "actual-nested-9-body-2.marshal",
+              "sha256": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182"
+            },
+            "body-3": {
+              "bytes": 3490,
+              "file": "actual-nested-9-body-3.marshal",
+              "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+            },
+            "body-4": {
+              "bytes": 4093,
+              "file": "actual-nested-9-body-4.marshal",
+              "sha256": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed"
+            },
+            "body-5": {
+              "bytes": 4707,
+              "file": "actual-nested-9-body-5.marshal",
+              "sha256": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6"
+            },
+            "body-6": {
+              "bytes": 4359,
+              "file": "actual-nested-9-body-6.marshal",
+              "sha256": "4df4def10d1ef425aca43bda49d07a6916d385207c32e066a17121b67defc442"
+            },
+            "body-7": {
+              "bytes": 40902,
+              "file": "actual-nested-9-body-7.marshal",
+              "sha256": "e7e2eb259ebd3afe4b1ed7d700c1c250a6790da73a756f9d6cb33f7b70039e1e"
+            },
+            "body-8": {
+              "bytes": 4920,
+              "file": "actual-nested-9-body-8.marshal",
+              "sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+            },
+            "unit": {
+              "bytes": 78734,
+              "file": "actual-nested-9-unit.marshal",
+              "sha256": "4d38b7b8ad3f50c85703577b1220aa90a42fb8564b9d01687ed616e18f4547bc"
+            }
+          },
+          "stage": {
+            "argv": [
+              "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+              "-rustc_args",
+              "--edition 2021",
+              "-verbose",
+              "1",
+              "verified/lib.rs"
+            ],
+            "exit": 2,
+            "intrinsic_gate_active": false,
+            "pointer_drop_gate_active": false,
+            "source_after": {
+              "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+              "verified/lib.rs": "f4e96358375d143a57d785e4ee4bc6766d81f0efc2d00b4c54239ccb737ea18c"
+            },
+            "source_before": {
+              "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+              "verified/lib.rs": "f4e96358375d143a57d785e4ee4bc6766d81f0efc2d00b4c54239ccb737ea18c"
+            },
+            "source_unchanged": true,
+            "status": "RAN",
+            "stderr": "nine-body-fingerprint-refusal.log",
+            "stdout": "nine-body-fingerprint-refusal.log"
+          }
+        },
+        "snapshots_match_default_pins": false,
+        "source_stage_match": true,
+        "stage": {
+          "argv": [
+            "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+            "-rustc_args",
+            "--edition 2021",
+            "-verbose",
+            "1",
+            "verified/lib.rs"
+          ],
+          "exit": 2,
+          "intrinsic_gate_active": false,
+          "pointer_drop_gate_active": false,
+          "source_after": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "f4e96358375d143a57d785e4ee4bc6766d81f0efc2d00b4c54239ccb737ea18c"
+          },
+          "source_before": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "f4e96358375d143a57d785e4ee4bc6766d81f0efc2d00b4c54239ccb737ea18c"
+          },
+          "source_unchanged": true,
+          "status": "RAN",
+          "stderr": "nine-body-fingerprint-refusal.log",
+          "stdout": "nine-body-fingerprint-refusal.log"
+        }
+      },
+      "normal_mir": {
+        "decode": {
+          "exit": 0,
+          "output": "normal-mir.txt",
+          "output_sha256": "1a26deb38ba215ac2ec6177b309c33400024f74a4b696c93665337273ae0018f",
+          "status": "RAN"
+        },
+        "export": {
+          "exit": 0,
+          "output": "normal-mir.bin",
+          "output_sha256": "22575e04ee090f59923170704b6504bf340cd43641dce583aa3851416bdfa4c4",
+          "status": "RAN"
+        }
+      },
+      "normal_mir_check": {
+        "complete": true,
+        "errors": [],
+        "returned": {
+          "decode": {
+            "exit": 0,
+            "output": "normal-mir.txt",
+            "output_sha256": "1a26deb38ba215ac2ec6177b309c33400024f74a4b696c93665337273ae0018f",
+            "status": "RAN"
+          },
+          "export": {
+            "exit": 0,
+            "output": "normal-mir.bin",
+            "output_sha256": "22575e04ee090f59923170704b6504bf340cd43641dce583aa3851416bdfa4c4",
+            "status": "RAN"
+          }
+        }
+      },
+      "original_preserved": true,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "source_intact_after_stages": true,
+      "status": "COMPLETE",
+      "variant": "callee-thread-duplicate",
+      "verified_sha256": "f4e96358375d143a57d785e4ee4bc6766d81f0efc2d00b4c54239ccb737ea18c"
+    },
+    "no-retained-half": {
+      "base_verified_sha256": "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6",
+      "fingerprint": {
+        "all_ten_snapshots": true,
+        "body_proof_run": false,
+        "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+        "expected_refusal_seen": true,
+        "snapshots": {
+          "body-0": {
+            "bytes": 4498,
+            "file": "actual-nested-9-body-0.marshal",
+            "sha256": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc"
+          },
+          "body-1": {
+            "bytes": 4849,
+            "file": "actual-nested-9-body-1.marshal",
+            "sha256": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562"
+          },
+          "body-2": {
+            "bytes": 3503,
+            "file": "actual-nested-9-body-2.marshal",
+            "sha256": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182"
+          },
+          "body-3": {
+            "bytes": 3490,
+            "file": "actual-nested-9-body-3.marshal",
+            "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+          },
+          "body-4": {
+            "bytes": 4093,
+            "file": "actual-nested-9-body-4.marshal",
+            "sha256": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed"
+          },
+          "body-5": {
+            "bytes": 4707,
+            "file": "actual-nested-9-body-5.marshal",
+            "sha256": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6"
+          },
+          "body-6": {
+            "bytes": 4337,
+            "file": "actual-nested-9-body-6.marshal",
+            "sha256": "15206a96e20e8c68cb41f1f2cbfe06fa5f782bd2c5a02689d43dcdd06cfa2508"
+          },
+          "body-7": {
+            "bytes": 40878,
+            "file": "actual-nested-9-body-7.marshal",
+            "sha256": "8d3084c8030567c1bb18359a01bc1ca7c8331fc0eca128e99857dd81710cafcc"
+          },
+          "body-8": {
+            "bytes": 4920,
+            "file": "actual-nested-9-body-8.marshal",
+            "sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+          },
+          "unit": {
+            "bytes": 78688,
+            "file": "actual-nested-9-unit.marshal",
+            "sha256": "e2b5a93996f5d26e149a279beecfa2d1f8b4fd661d1c3d03fcf321da81a61fc4"
+          }
+        },
+        "stage": {
+          "argv": [
+            "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+            "-rustc_args",
+            "--edition 2021",
+            "-verbose",
+            "1",
+            "verified/lib.rs"
+          ],
+          "exit": 2,
+          "intrinsic_gate_active": false,
+          "pointer_drop_gate_active": false,
+          "source_after": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "3181f0e040c3a0403e9d4e5651ddd0f331665cf833c5cee2ed9ca56e30dcfbfc"
+          },
+          "source_before": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "3181f0e040c3a0403e9d4e5651ddd0f331665cf833c5cee2ed9ca56e30dcfbfc"
+          },
+          "source_unchanged": true,
+          "status": "RAN",
+          "stderr": "nine-body-fingerprint-refusal.log",
+          "stdout": "nine-body-fingerprint-refusal.log"
+        }
+      },
+      "fingerprint_check": {
+        "body_proof_run": false,
+        "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+        "complete": true,
+        "errors": [],
+        "returned": {
+          "all_ten_snapshots": true,
+          "body_proof_run": false,
+          "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+          "expected_refusal_seen": true,
+          "snapshots": {
+            "body-0": {
+              "bytes": 4498,
+              "file": "actual-nested-9-body-0.marshal",
+              "sha256": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc"
+            },
+            "body-1": {
+              "bytes": 4849,
+              "file": "actual-nested-9-body-1.marshal",
+              "sha256": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562"
+            },
+            "body-2": {
+              "bytes": 3503,
+              "file": "actual-nested-9-body-2.marshal",
+              "sha256": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182"
+            },
+            "body-3": {
+              "bytes": 3490,
+              "file": "actual-nested-9-body-3.marshal",
+              "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+            },
+            "body-4": {
+              "bytes": 4093,
+              "file": "actual-nested-9-body-4.marshal",
+              "sha256": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed"
+            },
+            "body-5": {
+              "bytes": 4707,
+              "file": "actual-nested-9-body-5.marshal",
+              "sha256": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6"
+            },
+            "body-6": {
+              "bytes": 4337,
+              "file": "actual-nested-9-body-6.marshal",
+              "sha256": "15206a96e20e8c68cb41f1f2cbfe06fa5f782bd2c5a02689d43dcdd06cfa2508"
+            },
+            "body-7": {
+              "bytes": 40878,
+              "file": "actual-nested-9-body-7.marshal",
+              "sha256": "8d3084c8030567c1bb18359a01bc1ca7c8331fc0eca128e99857dd81710cafcc"
+            },
+            "body-8": {
+              "bytes": 4920,
+              "file": "actual-nested-9-body-8.marshal",
+              "sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+            },
+            "unit": {
+              "bytes": 78688,
+              "file": "actual-nested-9-unit.marshal",
+              "sha256": "e2b5a93996f5d26e149a279beecfa2d1f8b4fd661d1c3d03fcf321da81a61fc4"
+            }
+          },
+          "stage": {
+            "argv": [
+              "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+              "-rustc_args",
+              "--edition 2021",
+              "-verbose",
+              "1",
+              "verified/lib.rs"
+            ],
+            "exit": 2,
+            "intrinsic_gate_active": false,
+            "pointer_drop_gate_active": false,
+            "source_after": {
+              "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+              "verified/lib.rs": "3181f0e040c3a0403e9d4e5651ddd0f331665cf833c5cee2ed9ca56e30dcfbfc"
+            },
+            "source_before": {
+              "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+              "verified/lib.rs": "3181f0e040c3a0403e9d4e5651ddd0f331665cf833c5cee2ed9ca56e30dcfbfc"
+            },
+            "source_unchanged": true,
+            "status": "RAN",
+            "stderr": "nine-body-fingerprint-refusal.log",
+            "stdout": "nine-body-fingerprint-refusal.log"
+          }
+        },
+        "snapshots_match_default_pins": false,
+        "source_stage_match": true,
+        "stage": {
+          "argv": [
+            "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+            "-rustc_args",
+            "--edition 2021",
+            "-verbose",
+            "1",
+            "verified/lib.rs"
+          ],
+          "exit": 2,
+          "intrinsic_gate_active": false,
+          "pointer_drop_gate_active": false,
+          "source_after": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "3181f0e040c3a0403e9d4e5651ddd0f331665cf833c5cee2ed9ca56e30dcfbfc"
+          },
+          "source_before": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "3181f0e040c3a0403e9d4e5651ddd0f331665cf833c5cee2ed9ca56e30dcfbfc"
+          },
+          "source_unchanged": true,
+          "status": "RAN",
+          "stderr": "nine-body-fingerprint-refusal.log",
+          "stdout": "nine-body-fingerprint-refusal.log"
+        }
+      },
+      "normal_mir": {
+        "decode": {
+          "exit": 0,
+          "output": "normal-mir.txt",
+          "output_sha256": "5887ecd05035d67787b851324ca83c7410c754ebfcdda3cfab7dd9263058d394",
+          "status": "RAN"
+        },
+        "export": {
+          "exit": 0,
+          "output": "normal-mir.bin",
+          "output_sha256": "7026dc413edef3d8ec06fe3b0b0701ca1f0bfb5762271d790e30a240cbab6e18",
+          "status": "RAN"
+        }
+      },
+      "normal_mir_check": {
+        "complete": true,
+        "errors": [],
+        "returned": {
+          "decode": {
+            "exit": 0,
+            "output": "normal-mir.txt",
+            "output_sha256": "5887ecd05035d67787b851324ca83c7410c754ebfcdda3cfab7dd9263058d394",
+            "status": "RAN"
+          },
+          "export": {
+            "exit": 0,
+            "output": "normal-mir.bin",
+            "output_sha256": "7026dc413edef3d8ec06fe3b0b0701ca1f0bfb5762271d790e30a240cbab6e18",
+            "status": "RAN"
+          }
+        }
+      },
+      "original_preserved": true,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "source_intact_after_stages": true,
+      "status": "COMPLETE",
+      "variant": "no-retained-half",
+      "verified_sha256": "3181f0e040c3a0403e9d4e5651ddd0f331665cf833c5cee2ed9ca56e30dcfbfc"
+    },
+    "omit-selected-own": {
+      "base_verified_sha256": "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6",
+      "fingerprint": {
+        "all_ten_snapshots": true,
+        "body_proof_run": false,
+        "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+        "expected_refusal_seen": true,
+        "snapshots": {
+          "body-0": {
+            "bytes": 4498,
+            "file": "actual-nested-9-body-0.marshal",
+            "sha256": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc"
+          },
+          "body-1": {
+            "bytes": 4849,
+            "file": "actual-nested-9-body-1.marshal",
+            "sha256": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562"
+          },
+          "body-2": {
+            "bytes": 3503,
+            "file": "actual-nested-9-body-2.marshal",
+            "sha256": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182"
+          },
+          "body-3": {
+            "bytes": 3490,
+            "file": "actual-nested-9-body-3.marshal",
+            "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+          },
+          "body-4": {
+            "bytes": 4093,
+            "file": "actual-nested-9-body-4.marshal",
+            "sha256": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed"
+          },
+          "body-5": {
+            "bytes": 4707,
+            "file": "actual-nested-9-body-5.marshal",
+            "sha256": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6"
+          },
+          "body-6": {
+            "bytes": 4337,
+            "file": "actual-nested-9-body-6.marshal",
+            "sha256": "15206a96e20e8c68cb41f1f2cbfe06fa5f782bd2c5a02689d43dcdd06cfa2508"
+          },
+          "body-7": {
+            "bytes": 40642,
+            "file": "actual-nested-9-body-7.marshal",
+            "sha256": "2c8c3de28ccbd264ec4059a734d7629a1828dcb65c077a5edb6d083624548fa5"
+          },
+          "body-8": {
+            "bytes": 4920,
+            "file": "actual-nested-9-body-8.marshal",
+            "sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+          },
+          "unit": {
+            "bytes": 78452,
+            "file": "actual-nested-9-unit.marshal",
+            "sha256": "c99676c38b7849b684cdf37b24db66bb98e4c0e04c92ac43373be08b9bc4cf92"
+          }
+        },
+        "stage": {
+          "argv": [
+            "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+            "-rustc_args",
+            "--edition 2021",
+            "-verbose",
+            "1",
+            "verified/lib.rs"
+          ],
+          "exit": 2,
+          "intrinsic_gate_active": false,
+          "pointer_drop_gate_active": false,
+          "source_after": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "b82fad7656cfe135d3616d0dfe0b94831bd350ba3fc3f8074ede8f3b7138abf0"
+          },
+          "source_before": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "b82fad7656cfe135d3616d0dfe0b94831bd350ba3fc3f8074ede8f3b7138abf0"
+          },
+          "source_unchanged": true,
+          "status": "RAN",
+          "stderr": "nine-body-fingerprint-refusal.log",
+          "stdout": "nine-body-fingerprint-refusal.log"
+        }
+      },
+      "fingerprint_check": {
+        "body_proof_run": false,
+        "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+        "complete": true,
+        "errors": [],
+        "returned": {
+          "all_ten_snapshots": true,
+          "body_proof_run": false,
+          "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+          "expected_refusal_seen": true,
+          "snapshots": {
+            "body-0": {
+              "bytes": 4498,
+              "file": "actual-nested-9-body-0.marshal",
+              "sha256": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc"
+            },
+            "body-1": {
+              "bytes": 4849,
+              "file": "actual-nested-9-body-1.marshal",
+              "sha256": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562"
+            },
+            "body-2": {
+              "bytes": 3503,
+              "file": "actual-nested-9-body-2.marshal",
+              "sha256": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182"
+            },
+            "body-3": {
+              "bytes": 3490,
+              "file": "actual-nested-9-body-3.marshal",
+              "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+            },
+            "body-4": {
+              "bytes": 4093,
+              "file": "actual-nested-9-body-4.marshal",
+              "sha256": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed"
+            },
+            "body-5": {
+              "bytes": 4707,
+              "file": "actual-nested-9-body-5.marshal",
+              "sha256": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6"
+            },
+            "body-6": {
+              "bytes": 4337,
+              "file": "actual-nested-9-body-6.marshal",
+              "sha256": "15206a96e20e8c68cb41f1f2cbfe06fa5f782bd2c5a02689d43dcdd06cfa2508"
+            },
+            "body-7": {
+              "bytes": 40642,
+              "file": "actual-nested-9-body-7.marshal",
+              "sha256": "2c8c3de28ccbd264ec4059a734d7629a1828dcb65c077a5edb6d083624548fa5"
+            },
+            "body-8": {
+              "bytes": 4920,
+              "file": "actual-nested-9-body-8.marshal",
+              "sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+            },
+            "unit": {
+              "bytes": 78452,
+              "file": "actual-nested-9-unit.marshal",
+              "sha256": "c99676c38b7849b684cdf37b24db66bb98e4c0e04c92ac43373be08b9bc4cf92"
+            }
+          },
+          "stage": {
+            "argv": [
+              "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+              "-rustc_args",
+              "--edition 2021",
+              "-verbose",
+              "1",
+              "verified/lib.rs"
+            ],
+            "exit": 2,
+            "intrinsic_gate_active": false,
+            "pointer_drop_gate_active": false,
+            "source_after": {
+              "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+              "verified/lib.rs": "b82fad7656cfe135d3616d0dfe0b94831bd350ba3fc3f8074ede8f3b7138abf0"
+            },
+            "source_before": {
+              "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+              "verified/lib.rs": "b82fad7656cfe135d3616d0dfe0b94831bd350ba3fc3f8074ede8f3b7138abf0"
+            },
+            "source_unchanged": true,
+            "status": "RAN",
+            "stderr": "nine-body-fingerprint-refusal.log",
+            "stdout": "nine-body-fingerprint-refusal.log"
+          }
+        },
+        "snapshots_match_default_pins": false,
+        "source_stage_match": true,
+        "stage": {
+          "argv": [
+            "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+            "-rustc_args",
+            "--edition 2021",
+            "-verbose",
+            "1",
+            "verified/lib.rs"
+          ],
+          "exit": 2,
+          "intrinsic_gate_active": false,
+          "pointer_drop_gate_active": false,
+          "source_after": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "b82fad7656cfe135d3616d0dfe0b94831bd350ba3fc3f8074ede8f3b7138abf0"
+          },
+          "source_before": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "b82fad7656cfe135d3616d0dfe0b94831bd350ba3fc3f8074ede8f3b7138abf0"
+          },
+          "source_unchanged": true,
+          "status": "RAN",
+          "stderr": "nine-body-fingerprint-refusal.log",
+          "stdout": "nine-body-fingerprint-refusal.log"
+        }
+      },
+      "normal_mir": {
+        "decode": {
+          "exit": 0,
+          "output": "normal-mir.txt",
+          "output_sha256": "62e621ec65436dff1db8fea0f2125237e5a96bfdcbab2e22d88925738c4f772f",
+          "status": "RAN"
+        },
+        "export": {
+          "exit": 0,
+          "output": "normal-mir.bin",
+          "output_sha256": "0ec9145899509ccc1553e6892c3666403808378f80e6d23927067b5a79e07bd9",
+          "status": "RAN"
+        }
+      },
+      "normal_mir_check": {
+        "complete": true,
+        "errors": [],
+        "returned": {
+          "decode": {
+            "exit": 0,
+            "output": "normal-mir.txt",
+            "output_sha256": "62e621ec65436dff1db8fea0f2125237e5a96bfdcbab2e22d88925738c4f772f",
+            "status": "RAN"
+          },
+          "export": {
+            "exit": 0,
+            "output": "normal-mir.bin",
+            "output_sha256": "0ec9145899509ccc1553e6892c3666403808378f80e6d23927067b5a79e07bd9",
+            "status": "RAN"
+          }
+        }
+      },
+      "original_preserved": true,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "source_intact_after_stages": true,
+      "status": "COMPLETE",
+      "variant": "omit-selected-own",
+      "verified_sha256": "b82fad7656cfe135d3616d0dfe0b94831bd350ba3fc3f8074ede8f3b7138abf0"
+    },
+    "omit-unselected-own": {
+      "base_verified_sha256": "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6",
+      "fingerprint": {
+        "all_ten_snapshots": true,
+        "body_proof_run": false,
+        "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+        "expected_refusal_seen": true,
+        "snapshots": {
+          "body-0": {
+            "bytes": 4498,
+            "file": "actual-nested-9-body-0.marshal",
+            "sha256": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc"
+          },
+          "body-1": {
+            "bytes": 4849,
+            "file": "actual-nested-9-body-1.marshal",
+            "sha256": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562"
+          },
+          "body-2": {
+            "bytes": 3503,
+            "file": "actual-nested-9-body-2.marshal",
+            "sha256": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182"
+          },
+          "body-3": {
+            "bytes": 3490,
+            "file": "actual-nested-9-body-3.marshal",
+            "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+          },
+          "body-4": {
+            "bytes": 4093,
+            "file": "actual-nested-9-body-4.marshal",
+            "sha256": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed"
+          },
+          "body-5": {
+            "bytes": 4707,
+            "file": "actual-nested-9-body-5.marshal",
+            "sha256": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6"
+          },
+          "body-6": {
+            "bytes": 4337,
+            "file": "actual-nested-9-body-6.marshal",
+            "sha256": "15206a96e20e8c68cb41f1f2cbfe06fa5f782bd2c5a02689d43dcdd06cfa2508"
+          },
+          "body-7": {
+            "bytes": 40649,
+            "file": "actual-nested-9-body-7.marshal",
+            "sha256": "cb25ce5237d87a0beb34321cfa522a86ed30e10616777177309a43b4457b4d20"
+          },
+          "body-8": {
+            "bytes": 4920,
+            "file": "actual-nested-9-body-8.marshal",
+            "sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+          },
+          "unit": {
+            "bytes": 78459,
+            "file": "actual-nested-9-unit.marshal",
+            "sha256": "a0c9983ce01cf62d57c223fe6d890f62a00f39fb74b0bfe7059af66888f6a734"
+          }
+        },
+        "stage": {
+          "argv": [
+            "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+            "-rustc_args",
+            "--edition 2021",
+            "-verbose",
+            "1",
+            "verified/lib.rs"
+          ],
+          "exit": 2,
+          "intrinsic_gate_active": false,
+          "pointer_drop_gate_active": false,
+          "source_after": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "703e93c57d6e88dbc36b65ef5fb936f8aae6d8040af8d41470438594ef1a6edc"
+          },
+          "source_before": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "703e93c57d6e88dbc36b65ef5fb936f8aae6d8040af8d41470438594ef1a6edc"
+          },
+          "source_unchanged": true,
+          "status": "RAN",
+          "stderr": "nine-body-fingerprint-refusal.log",
+          "stdout": "nine-body-fingerprint-refusal.log"
+        }
+      },
+      "fingerprint_check": {
+        "body_proof_run": false,
+        "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+        "complete": true,
+        "errors": [],
+        "returned": {
+          "all_ten_snapshots": true,
+          "body_proof_run": false,
+          "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+          "expected_refusal_seen": true,
+          "snapshots": {
+            "body-0": {
+              "bytes": 4498,
+              "file": "actual-nested-9-body-0.marshal",
+              "sha256": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc"
+            },
+            "body-1": {
+              "bytes": 4849,
+              "file": "actual-nested-9-body-1.marshal",
+              "sha256": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562"
+            },
+            "body-2": {
+              "bytes": 3503,
+              "file": "actual-nested-9-body-2.marshal",
+              "sha256": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182"
+            },
+            "body-3": {
+              "bytes": 3490,
+              "file": "actual-nested-9-body-3.marshal",
+              "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+            },
+            "body-4": {
+              "bytes": 4093,
+              "file": "actual-nested-9-body-4.marshal",
+              "sha256": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed"
+            },
+            "body-5": {
+              "bytes": 4707,
+              "file": "actual-nested-9-body-5.marshal",
+              "sha256": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6"
+            },
+            "body-6": {
+              "bytes": 4337,
+              "file": "actual-nested-9-body-6.marshal",
+              "sha256": "15206a96e20e8c68cb41f1f2cbfe06fa5f782bd2c5a02689d43dcdd06cfa2508"
+            },
+            "body-7": {
+              "bytes": 40649,
+              "file": "actual-nested-9-body-7.marshal",
+              "sha256": "cb25ce5237d87a0beb34321cfa522a86ed30e10616777177309a43b4457b4d20"
+            },
+            "body-8": {
+              "bytes": 4920,
+              "file": "actual-nested-9-body-8.marshal",
+              "sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+            },
+            "unit": {
+              "bytes": 78459,
+              "file": "actual-nested-9-unit.marshal",
+              "sha256": "a0c9983ce01cf62d57c223fe6d890f62a00f39fb74b0bfe7059af66888f6a734"
+            }
+          },
+          "stage": {
+            "argv": [
+              "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+              "-rustc_args",
+              "--edition 2021",
+              "-verbose",
+              "1",
+              "verified/lib.rs"
+            ],
+            "exit": 2,
+            "intrinsic_gate_active": false,
+            "pointer_drop_gate_active": false,
+            "source_after": {
+              "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+              "verified/lib.rs": "703e93c57d6e88dbc36b65ef5fb936f8aae6d8040af8d41470438594ef1a6edc"
+            },
+            "source_before": {
+              "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+              "verified/lib.rs": "703e93c57d6e88dbc36b65ef5fb936f8aae6d8040af8d41470438594ef1a6edc"
+            },
+            "source_unchanged": true,
+            "status": "RAN",
+            "stderr": "nine-body-fingerprint-refusal.log",
+            "stdout": "nine-body-fingerprint-refusal.log"
+          }
+        },
+        "snapshots_match_default_pins": false,
+        "source_stage_match": true,
+        "stage": {
+          "argv": [
+            "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+            "-rustc_args",
+            "--edition 2021",
+            "-verbose",
+            "1",
+            "verified/lib.rs"
+          ],
+          "exit": 2,
+          "intrinsic_gate_active": false,
+          "pointer_drop_gate_active": false,
+          "source_after": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "703e93c57d6e88dbc36b65ef5fb936f8aae6d8040af8d41470438594ef1a6edc"
+          },
+          "source_before": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "703e93c57d6e88dbc36b65ef5fb936f8aae6d8040af8d41470438594ef1a6edc"
+          },
+          "source_unchanged": true,
+          "status": "RAN",
+          "stderr": "nine-body-fingerprint-refusal.log",
+          "stdout": "nine-body-fingerprint-refusal.log"
+        }
+      },
+      "normal_mir": {
+        "decode": {
+          "exit": 0,
+          "output": "normal-mir.txt",
+          "output_sha256": "7e0dd3295fa211cfe30104c641a5c06898761bb1e94674f13a3a8c638c952669",
+          "status": "RAN"
+        },
+        "export": {
+          "exit": 0,
+          "output": "normal-mir.bin",
+          "output_sha256": "a7aff068dde404b6444032ba4c51939c54ed130a4d534fdb24749bfe179f89ab",
+          "status": "RAN"
+        }
+      },
+      "normal_mir_check": {
+        "complete": true,
+        "errors": [],
+        "returned": {
+          "decode": {
+            "exit": 0,
+            "output": "normal-mir.txt",
+            "output_sha256": "7e0dd3295fa211cfe30104c641a5c06898761bb1e94674f13a3a8c638c952669",
+            "status": "RAN"
+          },
+          "export": {
+            "exit": 0,
+            "output": "normal-mir.bin",
+            "output_sha256": "a7aff068dde404b6444032ba4c51939c54ed130a4d534fdb24749bfe179f89ab",
+            "status": "RAN"
+          }
+        }
+      },
+      "original_preserved": true,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "source_intact_after_stages": true,
+      "status": "COMPLETE",
+      "variant": "omit-unselected-own",
+      "verified_sha256": "703e93c57d6e88dbc36b65ef5fb936f8aae6d8040af8d41470438594ef1a6edc"
+    },
+    "positive": {
+      "base_verified_sha256": "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6",
+      "fingerprint": {
+        "all_ten_snapshots": true,
+        "body_proof_run": false,
+        "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+        "expected_refusal_seen": true,
+        "snapshots": {
+          "body-0": {
+            "bytes": 4498,
+            "file": "actual-nested-9-body-0.marshal",
+            "sha256": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc"
+          },
+          "body-1": {
+            "bytes": 4849,
+            "file": "actual-nested-9-body-1.marshal",
+            "sha256": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562"
+          },
+          "body-2": {
+            "bytes": 3503,
+            "file": "actual-nested-9-body-2.marshal",
+            "sha256": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182"
+          },
+          "body-3": {
+            "bytes": 3490,
+            "file": "actual-nested-9-body-3.marshal",
+            "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+          },
+          "body-4": {
+            "bytes": 4093,
+            "file": "actual-nested-9-body-4.marshal",
+            "sha256": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed"
+          },
+          "body-5": {
+            "bytes": 4707,
+            "file": "actual-nested-9-body-5.marshal",
+            "sha256": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6"
+          },
+          "body-6": {
+            "bytes": 4337,
+            "file": "actual-nested-9-body-6.marshal",
+            "sha256": "15206a96e20e8c68cb41f1f2cbfe06fa5f782bd2c5a02689d43dcdd06cfa2508"
+          },
+          "body-7": {
+            "bytes": 40902,
+            "file": "actual-nested-9-body-7.marshal",
+            "sha256": "e7e2eb259ebd3afe4b1ed7d700c1c250a6790da73a756f9d6cb33f7b70039e1e"
+          },
+          "body-8": {
+            "bytes": 4920,
+            "file": "actual-nested-9-body-8.marshal",
+            "sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+          },
+          "unit": {
+            "bytes": 78712,
+            "file": "actual-nested-9-unit.marshal",
+            "sha256": "69218bf51d73159708a9fb8a05ac1404fb70d7a84eb1a8edc9d673fa0e47167a"
+          }
+        },
+        "stage": {
+          "argv": [
+            "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+            "-rustc_args",
+            "--edition 2021",
+            "-verbose",
+            "1",
+            "verified/lib.rs"
+          ],
+          "exit": 2,
+          "intrinsic_gate_active": false,
+          "pointer_drop_gate_active": false,
+          "source_after": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "96c929a86ff14c9019f6e2a6e45a4293337aa9776fb09d6b80b7ec549ea54e7c"
+          },
+          "source_before": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "96c929a86ff14c9019f6e2a6e45a4293337aa9776fb09d6b80b7ec549ea54e7c"
+          },
+          "source_unchanged": true,
+          "status": "RAN",
+          "stderr": "nine-body-fingerprint-refusal.log",
+          "stdout": "nine-body-fingerprint-refusal.log"
+        }
+      },
+      "fingerprint_check": {
+        "body_proof_run": false,
+        "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+        "complete": true,
+        "errors": [],
+        "returned": {
+          "all_ten_snapshots": true,
+          "body_proof_run": false,
+          "classification": "INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE",
+          "expected_refusal_seen": true,
+          "snapshots": {
+            "body-0": {
+              "bytes": 4498,
+              "file": "actual-nested-9-body-0.marshal",
+              "sha256": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc"
+            },
+            "body-1": {
+              "bytes": 4849,
+              "file": "actual-nested-9-body-1.marshal",
+              "sha256": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562"
+            },
+            "body-2": {
+              "bytes": 3503,
+              "file": "actual-nested-9-body-2.marshal",
+              "sha256": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182"
+            },
+            "body-3": {
+              "bytes": 3490,
+              "file": "actual-nested-9-body-3.marshal",
+              "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+            },
+            "body-4": {
+              "bytes": 4093,
+              "file": "actual-nested-9-body-4.marshal",
+              "sha256": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed"
+            },
+            "body-5": {
+              "bytes": 4707,
+              "file": "actual-nested-9-body-5.marshal",
+              "sha256": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6"
+            },
+            "body-6": {
+              "bytes": 4337,
+              "file": "actual-nested-9-body-6.marshal",
+              "sha256": "15206a96e20e8c68cb41f1f2cbfe06fa5f782bd2c5a02689d43dcdd06cfa2508"
+            },
+            "body-7": {
+              "bytes": 40902,
+              "file": "actual-nested-9-body-7.marshal",
+              "sha256": "e7e2eb259ebd3afe4b1ed7d700c1c250a6790da73a756f9d6cb33f7b70039e1e"
+            },
+            "body-8": {
+              "bytes": 4920,
+              "file": "actual-nested-9-body-8.marshal",
+              "sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+            },
+            "unit": {
+              "bytes": 78712,
+              "file": "actual-nested-9-unit.marshal",
+              "sha256": "69218bf51d73159708a9fb8a05ac1404fb70d7a84eb1a8edc9d673fa0e47167a"
+            }
+          },
+          "stage": {
+            "argv": [
+              "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+              "-rustc_args",
+              "--edition 2021",
+              "-verbose",
+              "1",
+              "verified/lib.rs"
+            ],
+            "exit": 2,
+            "intrinsic_gate_active": false,
+            "pointer_drop_gate_active": false,
+            "source_after": {
+              "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+              "verified/lib.rs": "96c929a86ff14c9019f6e2a6e45a4293337aa9776fb09d6b80b7ec549ea54e7c"
+            },
+            "source_before": {
+              "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+              "verified/lib.rs": "96c929a86ff14c9019f6e2a6e45a4293337aa9776fb09d6b80b7ec549ea54e7c"
+            },
+            "source_unchanged": true,
+            "status": "RAN",
+            "stderr": "nine-body-fingerprint-refusal.log",
+            "stdout": "nine-body-fingerprint-refusal.log"
+          }
+        },
+        "snapshots_match_default_pins": false,
+        "source_stage_match": true,
+        "stage": {
+          "argv": [
+            "/workspace/smallsort-work/o26-refresh/source/bin/verifast",
+            "-rustc_args",
+            "--edition 2021",
+            "-verbose",
+            "1",
+            "verified/lib.rs"
+          ],
+          "exit": 2,
+          "intrinsic_gate_active": false,
+          "pointer_drop_gate_active": false,
+          "source_after": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "96c929a86ff14c9019f6e2a6e45a4293337aa9776fb09d6b80b7ec549ea54e7c"
+          },
+          "source_before": {
+            "original/lib.rs": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+            "verified/lib.rs": "96c929a86ff14c9019f6e2a6e45a4293337aa9776fb09d6b80b7ec549ea54e7c"
+          },
+          "source_unchanged": true,
+          "status": "RAN",
+          "stderr": "nine-body-fingerprint-refusal.log",
+          "stdout": "nine-body-fingerprint-refusal.log"
+        }
+      },
+      "normal_mir": {
+        "decode": {
+          "exit": 0,
+          "output": "normal-mir.txt",
+          "output_sha256": "f4398aa234a19d11c128987ea644fe96e1eeaa1e5784eaf9487f01dfa14fd898",
+          "status": "RAN"
+        },
+        "export": {
+          "exit": 0,
+          "output": "normal-mir.bin",
+          "output_sha256": "652fa139ded824f23eccb20ad75d54724e07b58c7ebb531ea21c5eb73069afe3",
+          "status": "RAN"
+        }
+      },
+      "normal_mir_check": {
+        "complete": true,
+        "errors": [],
+        "returned": {
+          "decode": {
+            "exit": 0,
+            "output": "normal-mir.txt",
+            "output_sha256": "f4398aa234a19d11c128987ea644fe96e1eeaa1e5784eaf9487f01dfa14fd898",
+            "status": "RAN"
+          },
+          "export": {
+            "exit": 0,
+            "output": "normal-mir.bin",
+            "output_sha256": "652fa139ded824f23eccb20ad75d54724e07b58c7ebb531ea21c5eb73069afe3",
+            "status": "RAN"
+          }
+        }
+      },
+      "original_preserved": true,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "source_intact_after_stages": true,
+      "status": "COMPLETE",
+      "variant": "positive",
+      "verified_sha256": "96c929a86ff14c9019f6e2a6e45a4293337aa9776fb09d6b80b7ec549ea54e7c"
+    }
+  }
+}

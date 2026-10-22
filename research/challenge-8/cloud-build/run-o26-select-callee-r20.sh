@@ -35,7 +35,7 @@ mkdir "$ev"
 mkdir "$ev/cases"
 current_stage=provider
 audit_result() {
-  python3 "$cloud_dir/select-callee-r21-fractional.py" audit --evidence "$ev" \
+  python3 "$cloud_dir/select-callee-r21-proof-audit.py" --evidence "$ev" \
     --output "$evidence_root/proof-audit.json" \
     --runner-exit "$1" --failed-stage "$2"
 }
@@ -186,12 +186,12 @@ branch_patch="$proof_root/research/challenge-8/overnight-assume-actual/verifast-
 stage branch-refresh-check git -C "$source_home" apply --check "$branch_patch"
 stage branch-refresh-apply git -C "$source_home" apply "$branch_patch"
 [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 606235c66c76412d2fdcef5f30436c342771ad5a087b343f618cfb7c8a2344d2 ]] || exit 2
-fractional_patch="$proof_root/research/challenge-8/overnight-assume-actual/verifast-r21-fractional-forget-26.10.patch"
+fractional_patch="$proof_root/research/challenge-8/overnight-assume-actual/verifast-r22-fractional-forget-26.10.patch"
 current_stage=fractional-patch-identity
-[[ "$(sha256sum "$fractional_patch" | cut -d' ' -f1)" == e1f98debc7ce5d3d1aa603ca8fd020b0556b7ecce28408987ea08a86efc23dab ]] || exit 2
+[[ "$(sha256sum "$fractional_patch" | cut -d' ' -f1)" == 219f3dc0ffcae5422cf7daa4e052291b7d5ee04a64a80dd4728519704961de8d ]] || exit 2
 stage fractional-refresh-check git -C "$source_home" apply --check "$fractional_patch"
 stage fractional-refresh-apply git -C "$source_home" apply "$fractional_patch"
-[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 50a77b8d220178d0253df4def38c06b1e29e46d51389873e35db18198096fcf2 ]] || exit 2
+[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == e9a953ca2e1a0a95456e38f6be2509413bdda53389b710fc3d0365053ce9f2ba ]] || exit 2
 # R22 parser-only fix: a one-element coefficient before `<T>.pred(..)` in an
 # assertion is parsed as CoefAsn instead of a `<` comparison on a list.
 parser_patch="$proof_root/research/challenge-8/overnight-assume-actual/verifast-r22-coef-typepred-parser-26.10.patch"
@@ -201,7 +201,7 @@ current_stage=parser-patch-identity
 stage parser-refresh-check git -C "$source_home" apply --check "$parser_patch"
 stage parser-refresh-apply git -C "$source_home" apply "$parser_patch"
 [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/rust_parser.ml" | cut -d' ' -f1)" == 6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246 ]] || exit 2
-[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 50a77b8d220178d0253df4def38c06b1e29e46d51389873e35db18198096fcf2 ]] || exit 2
+[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == e9a953ca2e1a0a95456e38f6be2509413bdda53389b710fc3d0365053ce9f2ba ]] || exit 2
 
 
 deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"
@@ -260,11 +260,12 @@ stage candidate-proof python3 "$cloud_dir/o26-refresh-recipe.py" proof \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
-# R22 merge_fractions repair changes the ghost source of every fractional row:
-# take fresh mode-9 fingerprints only; the proof matrix needs these new pins.
-stage r21-fractional-fingerprint python3 "$cloud_dir/select-callee-r21-fractional.py" fingerprint \
+# R22 Cloud fingerprints (72a38f11) of the merge_fractions-repaired source bind
+# this same-unit checked proof matrix; the audit never grants credit.
+stage r21-fractional-proof python3 "$cloud_dir/select-callee-r21-fractional-proof-entry.py" \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
+  --pins-json "$proof_root/research/challenge-8/task-history/select-callee-r22/FRACTIONAL-FINGERPRINT-INPUT.json" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
 
 current_stage=audit

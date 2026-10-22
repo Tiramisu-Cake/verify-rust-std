@@ -173,10 +173,10 @@ class R22CalleeRegistration(unittest.TestCase):
                     if item.startswith("SORT4_R20_CALLEE_PHASE_ID=")]
         self.assertEqual(exported, [ROUTE_MARKER])
         patch_path = (REPO / "research/challenge-8/overnight-assume-actual" /
-                      "verifast-r21-fractional-forget-26.10.patch")
+                      "verifast-r22-fractional-forget-26.10.patch")
         raw = patch_path.read_bytes()
         self.assertEqual(hashlib.sha256(raw).hexdigest(),
-                         "e1f98debc7ce5d3d1aa603ca8fd020b0556b7ecce28408987ea08a86efc23dab")
+                         "219f3dc0ffcae5422cf7daa4e052291b7d5ee04a64a80dd4728519704961de8d")
         literals = re.findall(rb'getenv_opt "SORT4_R20_CALLEE_PHASE_ID" =\s*\+?\s*Some "([^"]+)"', raw)
         self.assertEqual(len(literals), 3)
         self.assertEqual({item.decode() for item in literals}, {ROUTE_MARKER})
@@ -218,8 +218,39 @@ class R22CalleeRegistration(unittest.TestCase):
         self.assertEqual(order, sorted(order))
         # The translator pin is re-asserted after the parser patch.
         after = runner[runner.index("stage parser-refresh-apply"):]
-        self.assertIn("50a77b8d220178d0253df4def38c06b1e29e46d51389873e35db18198096fcf2",
+        self.assertIn("e9a953ca2e1a0a95456e38f6be2509413bdda53389b710fc3d0365053ce9f2ba",
                       after[:after.index("deps_archive=")])
+
+    def test_fractional_patch_ghost_literals_match_transform_and_pins(self):
+        """Static control: patch ghost text and rows equal the R22 transform/pins."""
+        import importlib.util as iu
+        transform_path = REPO / "research/challenge-8/overnight-assume-actual/r21_fractional_forget.py"
+        spec_ = iu.spec_from_file_location("r22_fractional_transform", transform_path)
+        transform = iu.module_from_spec(spec_)
+        spec_.loader.exec_module(transform)
+        raw = (REPO / "research/challenge-8/overnight-assume-actual/"
+               "verifast-r22-fractional-forget-26.10.patch").read_text()
+        half = transform.RETURNED_GUARD_HALF.decode()
+        merge_line = [line for line in half.splitlines() if "merge_fractions" in line]
+        self.assertEqual(merge_line,
+                         ["             merge_fractions points_to::<*Element>(saved_guard.inner, _); } @*/"])
+        # open_owner certificate: the first two transform lines verbatim.
+        first_two = half.splitlines(keepends=True)[:2]
+        literal = "".join('+      "%s" ^\n' % line.replace("\n", "\\n") for line in first_two)
+        self.assertIn(literal, raw)
+        # expected ghost statement list: the same block without indentation.
+        ghost = ("/*@ { open [1/2] <select_unpredictable::DropOnPanic<*Element>>.own(t, saved_guard);"
+                 "\\n             merge_fractions points_to::<*Element>(saved_guard.inner, _); } @*/")
+        self.assertIn('+      "' + ghost + '";', raw)
+        self.assertNotIn("merge_fractions *saved_guard.inner", raw)
+        pins = json.loads((REPO / "research/challenge-8/task-history/select-callee-r22/"
+                           "FRACTIONAL-FINGERPRINT-INPUT.json").read_text())
+        for name, row in pins["variants"].items():
+            snaps = row["fingerprint"]["snapshots"]
+            entry = '("%s", "%s", "%s", "%s", "%s")' % (
+                name, row["verified_sha256"], snaps["body-6"]["sha256"],
+                snaps["body-7"]["sha256"], snaps["unit"]["sha256"])
+            self.assertIn(entry, raw, name)
 
     def test_historical_r21_and_r20_admission_constants_unchanged(self):
         self.assertEqual((CONTROL.A1_R21_START, CONTROL.A1_R21_MAIN_DEADLINE,
