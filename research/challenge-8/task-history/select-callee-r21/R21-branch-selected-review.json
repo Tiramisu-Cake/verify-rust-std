@@ -1,0 +1,46 @@
+{
+  "schema": "smallsort-independent-review-v1",
+  "reviewer": "Codex independent reviewer",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "nested_delegation": false,
+  "verdict": "GO_WITH_NITS",
+  "candidate_commit": "a1be60b68fdf12245213d6d31bb76ccfe3f4fa09",
+  "candidate_tree": "6a8ae1ba0d839edfd11a7ee73ddb4cc864bd1deb",
+  "baseline_commit": "1dc681634c85a6197dc5aa1628ce48ebd6bcff74",
+  "diff_sha256": "8b3fd6ff67919d83a17c2d598cc8803267e827a826236e6dcdea8a343f72bf16",
+  "packet_sha256": "65695bd7c9226ee622aebd856a2d6150dc51d2c0e8f1fee0ef1bf8acb01ae400",
+  "spec_sha256": "051ed5350de56e6a36681b76a5297d6c2cd3a4c8e64bc6fc93ba547e099be285",
+  "scope": "Exact branch-selected certificate refresh and classified R21 proof-runner changes; static review plus permitted synthetic tests only.",
+  "basis": [
+    "The branch-selected transform and translator patch agree textually: the true branch closes the selected wrapper with selected_payload and the other wrapper with false_payload; the false branch closes the other wrapper with true_payload and the selected wrapper with selected_payload. All calls remain inside the existing ghost if statement; no runtime operation or MIR branch is added.",
+    "S2d's recorded source-reported identities match the new guarded pins: verified source b9430169d01a2eca19728c38d05da818bdfc4e05561671c33ed95eb5830de45d, body 7 60861a6280f06196e3cab9e366ba8d5ade71d58d0aa29a79a90ed73ecc301094, and decoded unit b8d367293b9d1ae8af186edeee0817f1b8bfe04250462fe75386fcd288e214eb. The opt-in is accepted only with the exact nine-body admission; the other eight hashes, old source/unit pins, and default branch remain unchanged.",
+    "The proof-row classifier requires the expected row, exact verifier argv, original and verified source snapshots before and after, fresh post-stage file hashes, source_unchanged, both proof gates, and expected stdout/stderr names before interpreting an exit. Missing/empty logs and incomplete/wrong-type/timeout/NOT_RUN stages remain inconclusive; mismatches make the matrix incomplete. Stage results are retained intact and the per-call opt-in is removed in finally.",
+    "The R21 patch was statically matched to the isolated source-only tool worktree: its translator SHA-256 is 606235c66c76412d2fdcef5f30436c342771ad5a087b343f618cfb7c8a2344d2. No compiler, exporter, verifier, or Build was run for this candidate."
+  ],
+  "findings": [],
+  "nits": [
+    {
+      "location": "research/challenge-8/cloud-build/select-callee-r20.py:PROOF_CASES and proof()",
+      "finding": "The row names still say merged-optin/merged-no-optin even though the active repair is branch-selected. Also, complete means all rows reached a conclusive classification; it may be true when the positive fails or a control is unexpected, while controls_intended is false.",
+      "impact": "The per-row verdicts and false accepted/proof_credit fields retain the distinction, but a successful helper exit or the word complete can be misread without checking those fields.",
+      "suggestion": "Use branch-selected row names or record an explicit variant per row, and document/rename complete as classification_complete so it cannot be mistaken for a passing proof matrix."
+    }
+  ],
+  "validation": {
+    "packet_identities": "MATCH",
+    "isolated_translator_sha256": "MATCH",
+    "existing_callee_service_tests": "PASS (22 tests)",
+    "new_row_binding_tests": "PASS (7 tests)",
+    "repair_transform_tests": "PASS (7 tests)",
+    "git_diff_check": "PASS",
+    "compiler_exporter_verifier_or_build": "NOT_RUN",
+    "formal_proof_credit": "NONE"
+  },
+  "open_obligations": [
+    "Same-site omission controls for the new wrapper closes remain open.",
+    "Normal/unwind/nested-Drop callee matrix remains open.",
+    "S2d Brief coordinates report snapshots and parser_input_binding as NOT_ESTABLISHED_BY_BRIEF_COORDINATES; the review uses those values only as the requested source-reported pin comparison, not independent source-to-parser proof."
+  ],
+  "limitations": "This review authorizes consideration of the exact runner candidate for its diagnostic proof run only. It establishes neither tool buildability, body proof, callee acceptance, nor independent proof credit."
+}

@@ -1,0 +1,36 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "1dc681634c85a6197dc5aa1628ce48ebd6bcff74",
+  "candidate_commit": "a1be60b68fdf12245213d6d31bb76ccfe3f4fa09",
+  "defect": "R20 reopens a payload-existential guard and closes final wrapper ownership using stale original selected payload; branch-selected repair requires exact new source/body/unit certificate pins. Newly activated classified proof also needs source-stage-target binding.",
+  "applicability": "Only exact nine-body *const Element callee unit, same R20 opt-in and base translator0862e635. New patch changes selected ghost values and source/body7/unit pins at existing gate sites. No runtime/model/spec/kernel change.",
+  "invariants": [
+    "Default-route pins, all other eight body snapshots, original source and normal/unwind ownership gates unchanged. No unchecked callee summary or address-only bridge.",
+    "Certificate controls remain no-opt-in/unrepaired-optin. Same-site omission controls and callee normal/unwind/nested-Drop matrix remain open.",
+    "Classified proof checks exact argv/source snapshots/post-stage bytes/gates/log paths. Missing/empty logs, timeout, wrong types and mismatches stay inconclusive; original exits/exceptions/snapshots preserved. No accepted/proof-credit flags enabled."
+  ],
+  "controls": [
+    "29 callee synthetic tests plus7 repair-transform tests PASS; source-only patch application in isolated tool WT, result translator606235c6.",
+    "Cloud S2d fingerprint evidence exact source b9430169, unitb8d36729, body7 60861a62, all snapshots, location-control, MIR complete; no body proof."
+  ],
+  "dependencies": [
+    "research/challenge-8/overnight-assume-actual/verifast-r20-final-select-branch-26.10.patch",
+    "research/challenge-8/overnight-assume-actual/r20_final_select_repair.py",
+    "research/challenge-8/cloud-build/o26-recipe.py",
+    "research/challenge-8/cloud-build/o26-refresh-recipe.py",
+    "research/challenge-8/overnight-assume-actual/capture.py",
+    "research/challenge-8/overnight-linkage/check-intrinsic-drop-linkage.py",
+    "research/challenge-8/overnight-linkage/O26-PROFILE-MANIFEST.json",
+    "research/challenge-8/overnight-assume-actual/O26-REFRESH-PROFILE.json"
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r21/R21-admission-review.json",
+      "sha256": "2ff2076e9daa26891d90d89e0905c100987af7c3bea2aea5fdb47c0f436e1a39"
+    }
+  ],
+  "known_limitations": [
+    "New proof-run unbuilt; no formal credit. Certificate-refusal controls alone do not satisfy same-site repair controls."
+  ]
+}

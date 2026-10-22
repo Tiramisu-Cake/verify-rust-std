@@ -1,0 +1,9 @@
+# P2 mutable-pointer route: bounded follow-on design
+
+No implementation, build or proof credit is claimed here. The current nine-body unit and S6/A1/owner/nested certificates admit only the exact *const Element source specialization. Changing a textual signature or reusing its PASS cannot establish *mut Element or generic T acceptance.
+
+After the const-pointer callee matrix is established, the smallest admissible P2 route is a separately inventoried lane carrying the same std callee/runtime/generic signature and the actual nine-body unit instantiated at *mut Element. Generate fresh exact original/verified source pairs, retain guard ownership and all normal/unwind/leak/refinement checks, capture NORMAL and readonly MIR, and inspect each constructor/as_mut_ptr/pointer-select/drop/A1/forget/nested-Drop correspondence. Every changed typed source/MIR certificate requires fresh source/unit/body pins and a narrow opt-in; existing default const-pointer pins remain unchanged.
+
+A successful const result provides neither an assumed mut summary nor generic resource transfers. If Rust mutable-pointer typing decodes into an existing logical pointer representation, establish that from the exact exported/decoded typed bodies, not address equality or a host-language cast. Add wrong-pointer-kind/operand/cleanup/source controls at the affected certificates. The required Network post remains conditional equality of result to the chosen raw pointer, no unwind for this raw-pointer instantiation, plus ownership/thread accounting. Arbitrary T with panicking Drop remains outside the raw-pointer-specialized claim.
+
+The general gap document retains the wider generic obligations, including two logical input owners and ZST aliasing. No size-positive/Copy/Freeze/purity premise or new memory model is introduced by this plan.
