@@ -12,8 +12,19 @@ import datetime
 COORDINATION = Path('/root/smallsort-ci-coordination')
 MAX_ACTIVE = 2
 SCHEMA_VERSION = 2
-PROTOCOLS = {2: 2, 3: 3}
+PROTOCOLS = {2: 2, 3: 3, 4: 3}
 V3_OWNERS = frozenset(('select-sort4', 'merge', 'verifast'))
+# v4: stable owners select-sort4, merge and network; verifast left Cloud
+# (owner decision 2026-10-22) and is refused. The project-wide cap stays three.
+# v3 clients fail closed on v4 (unknown schema), so every v4 owner's client
+# adopts this file before the envelope changes.
+V4_OWNERS = frozenset(('select-sort4', 'merge', 'network'))
+OWNERS = {3: V3_OWNERS, 4: V4_OWNERS}
+
+
+def require_owner(version, owner):
+    if version in OWNERS and owner not in OWNERS[version]:
+        raise RuntimeError('Unsupported v%d Cloud Build owner' % version)
 
 
 def read(path):
@@ -59,7 +70,8 @@ def protocol():
     """Return the active envelope version and capacity; caller holds locked().
 
     Absence and legacy single-record state remain v2 on their first mutation.
-    Only the explicit migration helper may change an existing v2 envelope to v3.
+    Only the explicit migration helpers may change an existing v2 envelope to
+    v3, or v3 to v4 (and back while no v4-only owner is recorded).
     """
     path = COORDINATION / 'active.json'
     if not path.exists():
@@ -82,7 +94,7 @@ def ledger_key(value):
 
 
 def reservations():
-    """Read legacy single-slot, v2 or v3 state; caller holds locked().
+    """Read legacy single-slot, v2, v3 or v4 state; caller holds locked().
 
     Keep the same file and lock. A v1 client sees the v2 envelope as occupied
     and cannot reconcile its missing record fields, so it fails closed.
@@ -114,8 +126,7 @@ def reservations():
             if value in seen:
                 raise RuntimeError('Missing or duplicate reservation ' + key)
             seen.add(value)
-        if version == 3 and record['owner'] not in V3_OWNERS:
-            raise RuntimeError('Unsupported v3 Cloud Build owner')
+        require_owner(version, record['owner'])
     return records
 
 
@@ -132,8 +143,8 @@ def save_reservations(records):
     version, capacity = protocol()
     if len(records) > capacity:
         raise RuntimeError('Cloud Build reservation capacity exceeded')
-    if version == 3 and any(r['owner'] not in V3_OWNERS for r in records):
-        raise RuntimeError('Unsupported v3 Cloud Build owner')
+    for r in records:
+        require_owner(version, r['owner'])
     write(COORDINATION / 'active.json', {
         'schema_version': version, 'max_active': capacity,
         'reservations': records,
@@ -171,12 +182,11 @@ def require_capacity(owner, ledger, ongoing=()):
             matched_tokens.add(token)
         else:
             occupied += 1
-    _, capacity = protocol()
+    version, capacity = protocol()
     if occupied >= capacity:
         raise RuntimeError(('Both' if capacity == 2 else 'All') +
                            ' Cloud Build slots are occupied; monitor/reconcile first')
-    if capacity == 3 and owner not in V3_OWNERS:
-        raise RuntimeError('Unsupported v3 Cloud Build owner')
+    require_owner(version, owner)
 
 
 def reserve(record):
@@ -211,7 +221,12 @@ def clear(token):
 
 
 def request(owner, phase_id, ledger, deadline_utc):
-    """Register a persistent turn request; caller holds locked()."""
+    """Register a persistent turn request; caller holds locked().
+
+    Under v3/v4 an owner outside the protocol set cannot queue a turn request,
+    so an unmigrated owner cannot delay admitted owners.
+    """
+    require_owner(protocol()[0], owner)
     write(COORDINATION / 'requests' / (owner + '.json'), {
         'owner': owner, 'phase_id': phase_id, 'ledger': str(ledger),
         'deadline_utc': deadline_utc,
