@@ -72,7 +72,9 @@ RETURNED_GUARD_FULL = (
     b"        /*@ open raw_ptr_own::<Element>()(t, selected_payload); @*/\n")
 RETURNED_GUARD_HALF = (
     b"        /*@ { open [1/2] <select_unpredictable::DropOnPanic<*Element>>.own(t, saved_guard);\n"
-    b"             merge_fractions *saved_guard.inner |-> _; } @*/\n"
+    # R22: merge_fractions accepts only predicate/field points-to; in the Rust
+    # dialect `*p |-> v` is the precise chunk points_to::<T>(p, v).
+    b"             merge_fractions points_to::<*Element>(saved_guard.inner, _); } @*/\n"
     b"        /*@ assert *saved_guard.inner |-> ?selected_payload; @*/\n"
     b"        /*@ open [1/2] raw_ptr_own::<Element>()(t, selected_payload); @*/\n")
 

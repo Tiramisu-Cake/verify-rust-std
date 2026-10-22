@@ -68,7 +68,7 @@ class FractionalForgetTransform(unittest.TestCase):
         self.assertEqual(out.count(REPAIR.SELECTED_BRANCH_BLOCK), 1)
         self.assertEqual(out.count(b"close [1/2] raw_ptr_own::<Element>()"), 2)
         self.assertEqual(out.count(b"[1/2] <select_unpredictable::DropOnPanic<*Element>>.own"), 4)
-        self.assertEqual(out.count(b"merge_fractions *saved_guard.inner |-> _;"), 1)
+        self.assertEqual(out.count(b"merge_fractions points_to::<*Element>(saved_guard.inner, _);"), 1)
         self.assertEqual(out.count(b"/*@"), self.input.count(b"/*@"))
         self.assertEqual(out.count(b"@*/"), self.input.count(b"@*/"))
         self.assertEqual(GHOST.strip_ghost(out), GHOST.strip_ghost(self.input))
