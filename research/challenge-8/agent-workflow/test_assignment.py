@@ -533,6 +533,12 @@ class AssignmentTests(unittest.TestCase):
                 assignment.install(self.spec_path, self.coordination)
         self.assertEqual(self.snapshot(), before)
 
+    def test_null_previous_ledger_refuses_smuggled_second_budget_line(self):
+        self.zero_budget_closed_task(budget_line="Cloud budget: 3600 seconds.\n" + assignment.NO_CLOUD_BUDGET_LINE)
+        with patch.object(assignment, "CORE_DIR", self.canonical):
+            with self.assertRaisesRegex(assignment.AssignmentError, "closed zero-budget checkpoint"):
+                assignment.install(self.spec_path, self.coordination)
+
     def test_null_previous_ledger_requires_committed_task_and_checkpoint(self):
         self.zero_budget_closed_task(commit=False)
         before = self.snapshot()
@@ -542,7 +548,9 @@ class AssignmentTests(unittest.TestCase):
         self.assertEqual(self.snapshot(), before)
 
     def test_default_rendering_matches_pre_change_renderer_digest(self):
-        # Digest of the CURRENT-TASK prefix produced by the renderer before zero-budget support (e6d9536a).
+        # Digest of the CURRENT-TASK prefix produced by the renderer before zero-budget support. Re-derive:
+        # `git show e6d9536a:research/challenge-8/agent-workflow/{assignment,checkpoint}.py` into a scratch
+        # directory and call its render_task on this spec.
         spec = {"schema": assignment.SCHEMA, "task_id": "select4-next", "previous_task_id": "select4-closed-2026",
                 "title": "Continue sort4 caller admission", "owner": "select-sort4", "runtime": "claude",
                 "worktree": "/fixture/worktree", "branch": "select4-next",

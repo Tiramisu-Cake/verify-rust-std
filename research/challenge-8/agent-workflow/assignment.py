@@ -539,7 +539,8 @@ def _check_previous_task(root: Path, spec: dict[str, Any], old_phase: str | None
             committed = {name: _git_file_bytes(root, f"research/challenge-8/{name}") for name in ("CURRENT-TASK.md", "CHECKPOINT.json")}
             if committed != {"CURRENT-TASK.md": task_bytes, "CHECKPOINT.json": preserved["CHECKPOINT.json"]}:
                 _err("a null previous ledger requires CURRENT-TASK and CHECKPOINT to match the assigned branch HEAD")
-            granted_zero = any(line.startswith(NO_CLOUD_BUDGET_LINE) for line in prior_prefix.decode("utf-8").splitlines())
+            budget_lines = [line for line in prior_prefix.decode("utf-8").splitlines() if line.startswith("Cloud budget:")]
+            granted_zero = len(budget_lines) == 1 and budget_lines[0].startswith(NO_CLOUD_BUDGET_LINE)
             if not granted_zero or session["budget_seconds"] != 0 or old_checkpoint["task_id"] != spec["previous_task_id"]:
                 _err("a null previous ledger requires the closed zero-budget checkpoint of the previous task")
     elif spec["previous_ledger_path"] is None:
