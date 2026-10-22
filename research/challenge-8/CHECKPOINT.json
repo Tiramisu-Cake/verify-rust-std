@@ -76,7 +76,7 @@
       ]
     }
   ],
-  "next_step": "Branch variant (lemma calls inside each if/else branch): review, S2c fingerprint, then refresh patch + proof (next window if main ends).",
+  "next_step": "Wait R20 S2c Build 36f6c053 (branch-variant fingerprint, pins 31dde148); ack; record pins; branch refresh patch + proof next window.",
   "open": [
     "Callee: run nine-body unit on separate lane o26-select-callee-r20 (baseline + ghost repair variants); then normal/unwind/nested-Drop completion and matrix; *mut",
     "Recovery lane transport: 192/191 chunks after R20 client lines (control.py is in every lane's infra core); prune closed routes separately before c5 (34e37669)/s",
@@ -103,7 +103,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "36f6c053-0c43-4e83-b73f-4dab633b31fa"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T18:11:28Z",
     "main_deadline_utc": "2026-10-22T17:41:28Z",
@@ -113,7 +115,7 @@
     "t0": "2026-10-22T15:41:28Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-actual-callee-autonomous-2026-10-22-r20",
-  "updated_utc": "2026-10-22T17:14:00Z"
+  "updated_utc": "2026-10-22T17:15:00Z"
 }
