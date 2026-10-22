@@ -1,0 +1,95 @@
+{
+ "build": {
+  "dispatch_token": "dispatch-e4da42d98751491cbceee3ae9ac5c834",
+  "owner": "select-sort4",
+  "phase_id": "SORT4-ACTUAL-C3-2026-10-22-R19",
+  "infra_sha": "67d472cdf35e1e0c1fc9679e5a2d9caa33a9dcb1",
+  "proof_sha": "67d472cdf35e1e0c1fc9679e5a2d9caa33a9dcb1",
+  "lane": "o26-sort4-c1-current-recovery",
+  "submitted_config_sha256": "1d2547e5d00aa3f10d770395cbb84367ccd6143c8ce11e57ce3fc3793063e707",
+  "reserved_seconds": 1260,
+  "timeout_seconds": 1200,
+  "status": "FAILURE",
+  "publish_text_logs": true,
+  "source_mode": "pinned-objects",
+  "source_input_sha256": "d7910e439b5a6a142d6918a1b6f30cb02b1c41b8cd3d2764ad6e23fbcc67fbb2",
+  "build_id": "2b55f6a5-076a-4fd6-92e9-c42aae9ba500",
+  "start_time": "2026-10-22T14:23:24.972896563Z",
+  "finish_time": "2026-10-22T14:34:15.912245Z",
+  "create_time": "2026-10-22T14:23:24.126252323Z",
+  "build_seconds": 652,
+  "accounted": true,
+  "execution_seconds": 651
+ },
+ "archive_sha256": "3ddc38778fdc4a907057074caa54949f1b3c4e00f45d3617111b039303c5b3f6",
+ "index_sha256": "3dfcf4e0a2800cc67e3c2a6640d57768b340aba47dbf61d971896e61ecf7b299",
+ "integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+ "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+ "watch": {
+  "job_id": "77229a6a-9c02-48e3-8e61-0e91958a1ab1",
+  "event_id": "7d5d30b9-a867-4828-b1e8-2529c5e822ca",
+  "mode": "CONTINUE_EXISTING_WINDOW",
+  "acked": "2026-10-22T14:34:46Z",
+  "model_turns_while_waiting": 0
+ },
+ "tool": "console-build EXIT_ZERO: R19 overlay (result c5253a3c) compiled.",
+ "body_target": "BODY_PROOF_FAILED",
+ "failure": {
+  "location": "aliasing.rsspec(88,9-29) consuming ref_precreated_token; call verified/lib.rs(335,26-29) `let c4 = is_less(&*d, &*b);`",
+  "message": "No matching heap chunks: ref_precreated_token<T>(ptr_add_(v_base, (2 + 0), T_typeid), _)",
+  "file_id": "4837c1e6aee68dba4774abb6b4a72bed061c54bcca0c4738fef5c0076b2f6943",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/body-verification.log",
+  "file_sha256": "6c743776be9c69fbcfc22cc0c0c2b4bd1a4ec9315cec9326fb8c087a421a6f2d",
+  "lines": [
+   18885,
+   18896
+  ],
+  "exact": true,
+  "note": "locate ': error:' complete=true: single match (line 18885)."
+ },
+ "source_reported_progress": [
+  "Actual body first failure moved from c3 (S5, lib.rs c3 call) to the c4 call lib.rs:335 (missing precreated token for d=v_base+2+0); only error in the log. c3 is passed on the first explored (c1,c2) path only (path-partial). Causality UNKNOWN; credit0."
+ ],
+ "control_observations": [
+  {
+   "control": "c3-missing-unselected-share-negative",
+   "file_id": "cf6d124553f2...",
+   "file_sha256_prefix": "128f1ae9077a",
+   "line": 14373,
+   "message": "No matching heap chunks: [_]share(T)(cmp3_k, t, ptr_add_(v_base, 2+1))",
+   "location": "general.rsspec(243) via lib.rs(315) init_ref_share for selected c (designed alternative: selected share missing)"
+  },
+  {
+   "control": "c3-missing-unrelated-end-token-negative",
+   "file_sha256_prefix": "da3112409e53",
+   "line": 16607,
+   "message": "No matching heap chunks: borrow_end_token(cmp3_k, full_borrow_content(T,t)(v_base))",
+   "location": "lib.rs(142) consumed closing callback_four_debt at lib.rs:326"
+  },
+  {
+   "control": "c3-wrong-ordered-ref-pair-negative",
+   "file_sha256_prefix": "ac04d09bd185",
+   "line": 16513,
+   "message": "Assertion might not hold. (Cannot prove fn_outcome_result(outcome10) = left3_ref.)",
+   "location": "lib.rs(331) c3 call"
+  },
+  {
+   "control": "c3-wrong-ref-resource-negative",
+   "file_sha256_prefix": "92b21058c195",
+   "line": 16022,
+   "message": "No matching heap chunks: ref_precreated_token<T>(ptr_add_(v_base, 2+1), _)",
+   "location": "aliasing.rsspec(88) via lib.rs(331,66-69) c3 argument"
+  },
+  "c3-wrong-marker-index / missing-fourth-debt-token / displaced-marker / index-overflow-marker: CHECKED_LEMMA_PREREQUISITE_FAILED, actual body explicitly NOT_RUN (frontend refusal; exact message not in Brief, no stage log).",
+  {
+   "control": "c1-indexed-count-off-negative",
+   "file_sha256_prefix": "8ae175f6eed2",
+   "line": 110,
+   "message": "R17 indexed scope: one exact ordered cmp..cmpN declaration range required",
+   "location": "lib.rs(177-181) translator"
+  },
+  "c2 resource controls rerun on c3 source: same designed diagnostics as S5 (leak at lib.rs:349 end; borrow_end_token at 142 via 278; ordered-ref assertion at 283; ref token v_base+3 at 283)."
+ ],
+ "control_qualification": "Four c3 resource controls and four c2 resource controls fail with the designed diagnostic at the designed location (message/location read); frontend refusals observed only as prerequisite failures. Path-partial; not matrix qualification; credit0.",
+ "proof_credit": 0
+}
