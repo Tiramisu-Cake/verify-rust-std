@@ -17,6 +17,7 @@ import platform
 import re
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 
@@ -402,6 +403,24 @@ def named_bodies(log: str) -> list[str]:
     return re.findall(r"^\s*\d+(?:\.\d+)?s: .*: Verifying function '([^']+)'$", log, re.M)
 
 
+def proof_milestones(log: str) -> dict:
+    """Bounded diagnostic timings; no influence on any acceptance gate."""
+    bodies = []
+    total = 0
+    for match in re.finditer(
+            r"^\s*(\d+(?:\.\d+)?)s: ([^\n]*): Verifying function '([^'\n]+)'$", log, re.M):
+        total += 1
+        if len(bodies) < 128:
+            bodies.append({"seconds": match.group(1), "location": match.group(2),
+                           "body": match.group(3)})
+    last = None
+    for match in re.finditer(
+            r"^\s*(\d+(?:\.\d+)?)s: ([^\n]*): Executing statement$", log, re.M):
+        last = {"seconds": match.group(1), "location": match.group(2)}
+    return {"body_milestones": bodies, "body_milestones_count": total,
+            "body_milestones_complete": total == len(bodies), "last_statement": last}
+
+
 def negative_gate(path: Path, source: str, log: str, status: int, metadata: dict,
                   unchanged: bool) -> bool:
     target = metadata["target_line"]
@@ -436,6 +455,7 @@ def run_case(tool: Path, evidence: Path, name: str, source: str,
     before = digest(path.read_bytes())
     command = ["timeout", "--signal=TERM", "--kill-after=5s", f"{TIMEOUT_SECONDS}s",
                str(tool), "-c", "-verbose", "1", str(path)]
+    started = time.monotonic()
     try:
         proc = subprocess.run(command, cwd=ROOT, capture_output=True, text=True,
                               timeout=TIMEOUT_SECONDS + 10, check=False)
@@ -446,6 +466,7 @@ def run_case(tool: Path, evidence: Path, name: str, source: str,
         log = (exc.stdout or b"").decode(errors="replace") if isinstance(exc.stdout, bytes) else (exc.stdout or "")
         log += (exc.stderr or b"").decode(errors="replace") if isinstance(exc.stderr, bytes) else (exc.stderr or "")
         log += "\nTIMEOUT\n"
+    elapsed = time.monotonic() - started
     log_path = evidence / f"{name}.log"
     log_path.write_text(log)
     changed = digest(path.read_bytes()) != before
@@ -477,6 +498,7 @@ def run_case(tool: Path, evidence: Path, name: str, source: str,
         rejection_controls["source_changed"] = not negative_gate(path, source, log, exit_code, negative, False)
         accepted = all(rejection_controls.values())
     return {"case": name, "command": command, "exit": exit_code,
+            "verifier_elapsed_seconds": elapsed, **proof_milestones(log),
             "source_sha256": before, "log_sha256": digest(log_path.read_bytes()),
             "source_unchanged": not changed, "accepted": accepted,
             "negative": negative, "expected_bodies": bodies,

@@ -38,12 +38,12 @@
         "sha256": "2d57a9dfcd8e6a440f7b30be6b2330ea3b3a8e46ce25c52b31dd2e0a9b3db271"
       }
     ],
-    "summary": "Exact N13 target active; acceptance OPEN."
+    "summary": "Exact300 timed out in symbolic dependency; adapter not reached."
   },
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "N2 CLOSED budget0: v4/cap3 and all three clients adopted; smallsort-session supports the first Network Cloud session. No Network Build or observed three-live-Build validation.",
+      "claim": "N2 closed, budget0. Source reports v4/cap3/all clients adopted; no Network Build or three-live-Build validation.",
       "evidence": [
         {
           "path": "research/challenge-8/network/coordinator-v4-adoption-20261022/ADOPTION.md",
@@ -53,7 +53,7 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "Historical stock26.09 N9 exact and N13 universal component accepted as reported; exact N13 adapter timed out300s (37666145711), remains OPEN. No historical credit transfers to the shared source/profile.",
+      "claim": "Historical source reports N9 exact and N13 universal accepted; exact adapter timed out300s. No credit transfers.",
       "evidence": [
         {
           "path": "research/challenge-8/networks/RANK-RESULTS.md",
@@ -63,7 +63,7 @@
     },
     {
       "assurance": "INDEPENDENTLY_ESTABLISHED",
-      "claim": "Seed source/script/common-runner identities checked statically; isolated stock26.09 source worktree809de459 ready. Execution profile, Cloud/source admission and proof remain UNVERIFIED; credit0.",
+      "claim": "Seed identities statically checked; isolated stock26.09 worktree ready. No fresh proof credit.",
       "evidence": [
         {
           "path": "research/challenge-8/cloud-build/network-n13/N13-SEED-PROFILE-20261023-N3.json",
@@ -77,7 +77,7 @@
     },
     {
       "assurance": "INDEPENDENTLY_ESTABLISHED",
-      "claim": "N3 math candidate ef6ded6 and Cloud integration dc46c0e2 received separate Luna HIGH scoped GO; prepare/check and 14 isolated synthetic tests passed. Exact published execution profile pinned; no new formal proof credit.",
+      "claim": "Luna HIGH scoped GO: math ef6ded6, Cloud dc46c0e2. Prepare/check and14 synthetic tests pass. No formal credit.",
       "evidence": [
         {
           "path": "research/challenge-8/network/n13/REVIEW-CLOUD-N3.md",
@@ -87,7 +87,7 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "N3 preflight bb05bfba: generic bridge and membership helper accepted=true with source unchanged, no errors and return/leak inventory gates; Brief exact pointers read on pinned source/tool/profile. No exact N13 acceptance or independent proof credit. Charge117s.",
+      "claim": "Preflight bb05bfba: both gates accepted as reported, unchanged source, no errors; pinned source/tool/profile. Charge117s.",
       "evidence": [
         {
           "path": "research/challenge-8/observations/a0f17140fdeda22768736941e9b8b596aed728c70a0a6071d8c9e1d713d68dea.json",
@@ -98,14 +98,24 @@
           "sha256": "625c24d687eedd64e7b75aee38331405f42675a7b9789da07e9aa026c73c66d6"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "Exact01316eae: exit124/300s; no errors, unchanged source; visited19/22 ending symbolic composition. Adapter not reached; H1 untested. Charge454s.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/observations/2b0b1090b76d1c70f1695d267daa52c0f97c1f60df8d469960f78533fdabef54.json",
+          "sha256": "2b0b1090b76d1c70f1695d267daa52c0f97c1f60df8d469960f78533fdabef54"
+        }
+      ]
     }
   ],
-  "next_step": "Watcher -> ack -> exact Brief; controls then regressions if qualified.",
+  "next_step": "Review diagnostics/420s envelope and split controls; retry exact.",
   "open": [
-    "Preflight gates accepted as reported; exact Build01316eae-dedc-40cf-89e3-66f6d4950db1 active, same dc46c0e2 pins.",
-    "Exact N13 H1/adapter, complete posts, intended negatives and compatible final regressions; historical universal component alone is insufficient.",
-    "R4/W7 not verified: P1 candidate is inactive, P2 mutable-pointer callee pending, P3 design only; W8 depends on Merge.",
-    "FIRST_SESSION/CLOUD_HISTORY owner lists need workflow-owner follow-up after first Network ledger; v3 request nuisance is outside N3."
+    "Review exact420/universal360 and controls split; no active Build.",
+    "Full exact H1 adapter/posts, negatives and compatible final regressions OPEN.",
+    "R4/W7 blocked by inactive Select P1 and pending P2; W8 depends on Merge.",
+    "Workflow-owner FIRST_SESSION/CLOUD_HISTORY follow-up recorded; shared changes outside N3."
   ],
   "owner": "network",
   "phase": "NETWORK-N13-EXACT-2026-10-23-N3",
@@ -133,19 +143,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "01316eae-dedc-40cf-89e3-66f6d4950db1"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T23:13:40Z",
     "main_deadline_utc": "2026-10-22T22:43:40Z",
-    "remaining_seconds": 3483,
+    "remaining_seconds": 3029,
     "retired_seconds": 0,
-    "spent_seconds": 117,
+    "spent_seconds": 571,
     "t0": "2026-10-22T20:43:40Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "network-n13-exact-cloud-2026-10-23-n3",
-  "updated_utc": "2026-10-22T21:05:42Z"
+  "updated_utc": "2026-10-22T21:18:48Z"
 }

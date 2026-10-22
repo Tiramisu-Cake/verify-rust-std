@@ -34,3 +34,35 @@ inventory and dependency return/leak checks before the final negative body.
 Execution is Cloud only. No generator/compiler/verifier was run locally.
 Synthetic service tests establish runner behavior only. Independent review
 and exact published pins are required before submission.
+
+## First Cloud exact result and measured limit revision
+
+Preflight bb05bfba admitted both cases as reported. Exact Build
+01316eae-dedc-40cf-89e3-66f6d4950db1 at dc46c0e2 ended with case exit124
+at the original 300s limit, unchanged generated unit SHA256
+5659ed05f378c0b2c1d324523f8e2d40071652d0c6379d5cf2d2358a9d040b6e,
+no assertion errors, and 19 of 22 bodies visited. The last visited body was
+the symbolic `network13_finite_swo_composition`; the membership helper,
+domain equality helper and exact wrapper were not reached. Thus this run
+does not test the adapter shape or resolve H1. Historical timings do not
+establish a sufficient case envelope on this Cloud lane. Total Build charge
+454s; with preflight117s, 3029s remain.
+
+Revised falsifiable timing experiment: keep the mathematical unit and every
+post unchanged, raise exact to420s to allow the symbolic dependency to finish
+and expose the wrapper, and universal to360s because it contains the same
+observed dependency that did not finish within300s. These are measured
+environment/applicability corrections, not acceptance by timeout. Record
+ordered body start timestamps, the final timed statement and runtime in the
+bounded results JSON so future diagnosis does not depend on the oversized
+110027777-byte verbose log. Do not weaken any existing gate or discard logs.
+
+Split controls into missing-law+membership and order stages, keeping all
+three intended failures and seven classifier mutants. With120s setup,
+15s soft margin and240s report reserve, exact795s, controls975s,
+controls-order795s and regressions915s stay below1200s. Each submit must
+individually fit the then-current account and window, including60s queue;
+their worst-case reservations do not all fit the remaining account at once.
+Run sequentially against actual reconciled charges. No new premise, tool
+change or adapter source change is made in this revision. Independent review
+is required before the new execution-profile pin is dispatched.

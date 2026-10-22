@@ -12,6 +12,21 @@ spec.loader.exec_module(prove)
 
 
 class AdmissionTests(unittest.TestCase):
+    def test_bounded_milestones_keep_timestamps_without_acceptance(self):
+        text = ("0.2s: test.c(1,1-2): Verifying function 'first'\n"
+                "0.3s: test.c(3,5-17): Executing statement\n"
+                "1.4s: test.c(5,1-2): Verifying function 'second'\n"
+                "2.8s: test.c(7,5-17): Executing statement\n")
+        result = prove.proof_milestones(text)
+        self.assertEqual([x['body'] for x in result['body_milestones']], ['first', 'second'])
+        self.assertEqual(result['last_statement'], {'seconds': '2.8', 'location': 'test.c(7,5-17)'})
+        self.assertTrue(result['body_milestones_complete'])
+        self.assertEqual(prove.proof_milestones('')['last_statement'], None)
+        large = prove.proof_milestones("0s: test.c(1,1-2): Verifying function 'x'\n" * 129)
+        self.assertEqual(len(large['body_milestones']), 128)
+        self.assertEqual(large['body_milestones_count'], 129)
+        self.assertFalse(large['body_milestones_complete'])
+
     def test_synthetic_source_schedule_and_executable_gates(self):
         # Small synthetic service input, never the actual source extractor.
         text = ("fn sort9_optimal<T, F>(v: &mut [T], is_less: &mut F)\n"
