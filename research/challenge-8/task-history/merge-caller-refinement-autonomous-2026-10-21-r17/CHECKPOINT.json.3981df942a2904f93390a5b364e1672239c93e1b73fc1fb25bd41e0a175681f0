@@ -1,0 +1,172 @@
+{
+  "artifacts": [
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md",
+      "sha256": "6acfb36fa52b2e05eea0551dfb40033156b23ef8165dfa67f6309d0550e721eb"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R17-RELEASE-20261021.json",
+      "sha256": "32bb4fc130c6299e1a6bf42a6eaface573539fe7ee6bb32899df25507f8f83a0"
+    }
+  ],
+  "assignment_sha256": "f6d1d84231f0bfe10b633bd8b0423b7c5a822318459a6bc47df07b7755b331db",
+  "baseline": {
+    "profile_sha256": "eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375",
+    "source_sha": "6fd50c699500cbac5c65912174d4aa49b49db19f",
+    "tool_sha": "660b576b6b1608db913c51e0785b443a8733396f"
+  },
+  "blocker": {
+    "summary": "Original caller placeholders441/249; raw caller array_inv444 missing array<u64>; RawPtr positive refinement2 diagnostic OPEN. R17 CLOSED/main expired.",
+    "location": "P4 exact raw frontier / P5 original caller",
+    "build_id": "20e8009e-458e-45b1-9974-b0abfe716675",
+    "evidence": []
+  },
+  "confirmed": [
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R16/R17 prior claims, exact evidence identities and failures preserved in immutable pre-closeout checkpoint; no proof credit upgrade.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/merge-caller-refinement-r17-preclose-20261021.json",
+          "sha256": "0726ac3085d20429d6887cc4ee2c090f111e732d3df1d179354276d3f4f70de3"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P4 charged945/total2111/rem1489. Isolated actual body allstages0/preserved posts; bounded only, no caller/B2/independentcredit.",
+      "evidence": [
+        {
+          "build_id": "2256a4c8-2a4d-4a5c-8b61-a252730eae70",
+          "path": "research/challenge-8/observations/411a84326e56fbb217641785f6dfc216e55558221600650cfda2db422d803791.json",
+          "sha256": "411a84326e56fbb217641785f6dfc216e55558221600650cfda2db422d803791"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P5 lifecycle PASS_CONTROL,all4stages0/sourceunchanged/targetexecuted; array12:6positive+6negative matched; body isolated4stages0 and5R9 matched. Bounded components only; no caller/B2/independentcredit.",
+      "evidence": [
+        {
+          "build_id": "20e8009e-458e-45b1-9974-b0abfe716675",
+          "path": "research/challenge-8/observations/4ca7f54c8fe74949ec542e16411890ef323e46918c7227fce41b21498b3eb950.json",
+          "sha256": "4ca7f54c8fe74949ec542e16411890ef323e46918c7227fce41b21498b3eb950"
+        },
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R17-PROOF5-RESULT-20261021.json",
+          "sha256": "70c063f465b08837da7ff209bb6cfa22ac1611c53dfc6411537f4f22899a1f56",
+          "build_id": "20e8009e-458e-45b1-9974-b0abfe716675"
+        }
+      ]
+    }
+  ],
+  "next_step": "Fresh explicit owner window/task required. Priorities: exact RawPtr refinement2 diagnostic and raw array_inv resource frontier; original borrow/unsize and CURRENT/final matrix. Keep reviewed full1200 plan; no old budget carry.",
+  "open": [
+    "Original as_mut_ptr/unsize, source-bound metadata, real borrow/reference lifecycle and caller normal/unwind remain OPEN; isolated lifecycle does not close them.",
+    "Raw caller actual array ownership at array_inv444/prelude274; RawPtr positive refinement2 diagnostic/control matrix remains OPEN.",
+    "CURRENT/backedge/false/true/panic/Drop/Resume compatible final matrix; B2/generic/arbitrary-n/sorting/tool qualification/independent proof credit remain OPEN."
+  ],
+  "owner": "merge",
+  "phase": "MERGE-CALLER-REFINEMENT-R17-2026-10-21",
+  "rejected": [
+    {
+      "approach": "Broad placeholder/cast inference exemption or address-only borrow bridge",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R16-CALLER-DESIGN-20261021.md",
+          "sha256": "c1e8f851b5c0b18edf3ed5ac2b758a32daa0eda2f4ea88551b8e37e03288b940"
+        }
+      ],
+      "reason": "Does not establish slice metadata, valid lifetime/full_borrow or memory authority; original gate must remain."
+    },
+    {
+      "approach": "Short outer timeout990/execute570 chosen using prior whole-cycle timings",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md",
+          "sha256": "7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa"
+        }
+      ],
+      "reason": "Missed nested compile reserve140; P4 timed out before proof. Keep full1200 plan unless effective inner budget reviewed."
+    }
+  ],
+  "schema": "smallsort-checkpoint-v1",
+  "session": {
+    "active_build_ids": [],
+    "budget_seconds": 3600,
+    "deadline_utc": "2026-10-21T21:03:50Z",
+    "main_deadline_utc": "2026-10-21T20:33:50Z",
+    "remaining_seconds": 0,
+    "retired_seconds": 589,
+    "spent_seconds": 3011,
+    "t0": "2026-10-21T18:33:50Z",
+    "unresolved_ids": []
+  },
+  "state": "CLOSED",
+  "task_id": "merge-caller-refinement-autonomous-2026-10-21-r17",
+  "updated_utc": "2026-10-21T20:43:59Z",
+  "handoff": {
+    "reason": "R17 closed after terminal P5 and acknowledged CLOSEOUT_ONLY; no pending work authorized in old window.",
+    "worktree": "/root/verify-rust-std-merge-origin",
+    "branch": "merge/incoming-origin-20261009",
+    "owner": "merge",
+    "thread_id": "01a15ffd-66c3-7e82-bc08-e36ba747fac1",
+    "source_sha": "8432ff2b674d2401970987519ea9f1cb8a031bb5",
+    "tool_worktree": "/root/verifast-merge-actual-glue",
+    "tool_sha": "a66c1d30214e463a16a325cdef30b0ec8555e0af",
+    "profile_path": "research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json",
+    "profile_sha256": "947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d",
+    "config_sha256": "fc9ea50dc77226325374e8ffb59732f6df162508804767f68cd1dcb9fe48e8a6",
+    "source_input_sha256": "8c644c75819adf6927fe36938157de278b195e0c7b7df2b4058b68b57171abbd",
+    "build_id": "20e8009e-458e-45b1-9974-b0abfe716675",
+    "last_status": "FAILURE",
+    "dispatch_token": "dispatch-d47ba61039f64beda34887c266a871d5",
+    "state_dir": "/root/smallsort-merge-r17-20261021-state",
+    "ledger_path": "research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R17-BUDGET-20261021.json",
+    "plan_seconds": {
+      "outer": 1200,
+      "execute": 780,
+      "soft": 765,
+      "publication": 420,
+      "queue": 60,
+      "nested_compile_reserve": 140,
+      "active_reservation": 1260
+    },
+    "accounting": "Five terminal/accounted Builds; charged3011/retired589/remaining0/carry0; ownactive0/unresolved0/requests0/reservations0; ledger CLOSED.",
+    "review_record": "research/challenge-8/cloud-build/origin-layout/R17-REVIEW-20261021.md",
+    "preflight_record": "research/challenge-8/cloud-build/origin-layout/R17-PROOF5-PREFLIGHT-20261021.json",
+    "tested": [
+      "Independent Luna HIGH lifecycle syntax GOa9fad5b and lossless writer GO8432ff2; array5synthetic checksPASS.",
+      "Exact8432remote full SHA checked;21providerpins/sourceclosure PASS; payload570202/config27292/191parts/200substitutions/maxarg5580.",
+      "Transport originalHEAD/15infra/167proofpaths/legacyv2 and offset/objecttamper/missingobject rejectionPASS.",
+      "P5 source-reported lifecycle PASS_CONTROL with fourstages0/sourceunchanged/targetexecuted; all12arraycases and5R9controls matched. Isolated component only."
+    ],
+    "unverified": [
+      "Original/raw caller and RawPtr controls unresolved; see current OPEN/blocker. P5 isolated lifecycle now source-reported PASS_CONTROL, not original reference/caller proof."
+    ],
+    "on_resume": "R17 CLOSED; no continuation/Build without fresh explicit owner assignment/window. Read CORE/CURRENT/CHECKPOINT; history only if needed.",
+    "foreign_changes": "Preserve pre-existing policy/runbook/Cloud README and untracked guides/role/history; excluded from commits.",
+    "watch_ack": {
+      "job_id": "754a3ba1-6967-45b1-bb29-4df8a7d11e6f",
+      "event_id": "d21e5624-063f-422f-81db-f89aa066dbb7",
+      "mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_utc": "2026-10-21T20:12:22Z"
+    },
+    "raw_caller_next": "P4 Brief request221163183f31c7da8d337cc266e0a032d601f36226b08d3f5932376d642f4a80: prelude274 No matching heap chunks array<u64>, callsiteverified444 array_inv::<u64>(). Exact file9f7eba375f6cf09267392128f733f3e3807dc27f51917c7cbd2bdf9185053952 SHA645318497a61747551d58679060df01a9f72fb4b4fe3fce0995bd422cee8aec7. Source-reported bounded window, not proof credit.",
+    "closure": {
+      "state": "CLOSED",
+      "pending_ids": [],
+      "charged_seconds": 3011,
+      "retired_seconds": 589,
+      "carry_seconds": 0,
+      "remaining_seconds": 0,
+      "requires_new_owner_authorization": true,
+      "watch_ack": {
+        "job_id": "dbcb8a45-f881-4012-a592-071c3c661c72",
+        "event_id": "172f2f38-a6b9-4348-b0be-2c41f7c78b15",
+        "mode": "CLOSEOUT_ONLY",
+        "acknowledged_utc": "2026-10-21T20:40:16Z"
+      }
+    }
+  }
+}

@@ -1,10 +1,10 @@
-# Agent checkpoint: merge-caller-refinement-autonomous-2026-10-21-r17
+# Agent checkpoint: merge-raw-caller-frontier-autonomous-2026-10-22-r18
 
-- Owner: merge | phase: MERGE-CALLER-REFINEMENT-R17-2026-10-21 | state: CLOSED
-- Updated: 2026-10-21T20:43:59Z
-- Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `660b576b6b1608db913c51e0785b443a8733396f`, profile `eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375`
-- Session dates: T0 `2026-10-21T18:33:50Z`; main deadline `2026-10-21T20:33:50Z`; absolute deadline `2026-10-21T21:03:50Z`
-- Budget: 3600s total; 3011s spent; 589s retired; 0s remaining including active reservations
+- Owner: merge | phase: MERGE-RAW-CALLER-R18-2026-10-22 | state: NOT_STARTED
+- Updated: 2026-10-22T14:06:31Z
+- Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `a66c1d30214e463a16a325cdef30b0ec8555e0af`, profile `947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d`
+- Session dates: T0 `NOT_SET`; main deadline `NOT_SET`; absolute deadline `NOT_SET`
+- Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
@@ -26,7 +26,7 @@
 Original caller placeholders441/249; raw caller array_inv444 missing array<u64>; RawPtr positive refinement2 diagnostic OPEN. R17 CLOSED/main expired. (P4 exact raw frontier / P5 original caller) [Build `20e8009e-458e-45b1-9974-b0abfe716675`]
 
 ## Next
-Fresh explicit owner window/task required. Priorities: exact RawPtr refinement2 diagnostic and raw array_inv resource frontier; original borrow/unsize and CURRENT/final matrix. Keep reviewed full1200 plan; no old budget carry.
+Diagnose RawPtr refinement2 and the raw array_inv444 frontier; review; register R18; Cloud raw caller; then original borrow/unsize and CURRENT/final matrix.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md](cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md) — `6acfb36fa52b2e05eea0551dfb40033156b23ef8165dfa67f6309d0550e721eb`
