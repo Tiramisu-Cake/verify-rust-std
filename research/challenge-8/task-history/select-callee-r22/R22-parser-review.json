@@ -1,0 +1,34 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "claude-subagent:smallsort-reviewer",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "candidate_commit": "177ef120858cc77f89c7a7e84c0153fd5fd1d63a",
+  "baseline_commit": "dd2cb4fb",
+  "spec_sha256": "05f088da9a1803a507181d12e5130c92a92b5085e71d51de857d2b7cf8068d70",
+  "packet_sha256": "83ef3771c3999855ca44460457f9de7d5af6aa46a31eb3d112b39dff1c08f8c7",
+  "decision": "GO_WITH_NITS",
+  "verified": [
+    "patch dfdaff60 applies to 7bf12f12 giving 6a866aa5",
+    "grammar arm only for one-element list followed by <, mirrors line-349 rule",
+    "profile-hash change is substitution to exact 6a866aa5",
+    "transport via recipe proof_paths; cap fail-closed"
+  ],
+  "nits": [
+    "Design overstated 'parser only accepts more text': one-element-list `<` comparisons (previously parsed, ill-typed) now parse errors; doc reworded.",
+    "Classifier does not distinguish parse errors from verifier rejections for fractional controls (TARGET_UNPINNED); read each row's first diagnostic and the baseline candidate-proof log via Brief.",
+    "No applied-diff artifact after parser patch; pre/post hashes suffice."
+  ],
+  "tests_run": [
+    "test_a1_r22_registration 9 OK",
+    "test_select_callee_r20 22 OK",
+    "test_select_callee_r21_fractional_proof 10 OK",
+    "test_select_callee_r21_fractional_proof_entry 7 OK"
+  ],
+  "not_run": [
+    "OCaml compile and actual parse/verify (Cloud)",
+    "verifier typing of Lt on lists",
+    "final transport part count"
+  ],
+  "proof_credit": 0
+}

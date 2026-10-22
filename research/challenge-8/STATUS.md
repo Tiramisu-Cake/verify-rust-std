@@ -1,11 +1,11 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-23-r22
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R22 | state: HANDOFF
-- Updated: 2026-10-22T22:42:00Z
+- Updated: 2026-10-22T23:00:30Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-22T22:25:06Z`; main deadline `2026-10-23T00:25:06Z`; absolute deadline `2026-10-23T00:55:06Z`
-- Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
-- Active Build IDs: 71401a80-e20c-407f-90b3-366c1a12a0bd
+- Budget: 3600s total; 303s spent; 0s retired; 3297s remaining including active reservations
+- Active Build IDs: cfc83426-d82a-4cb7-95f7-24ee94255952
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -14,6 +14,7 @@
 - [SOURCE_REPORTED] R21 S2d fingerprint complete: branch-selected source b9430169, all ten snapshots, normal MIR export/decode and location-control reproduction. No body proof run; credit0. Build charged322s, remaining3278s. — [research/challenge-8/task-history/select-callee-r21/S2d-evidence.json](task-history/select-callee-r21/S2d-evidence.json) SHA `33818a756c6ddd2f5d1cc2bc35f30621b3bc675641d1a8c0ca0c2073441ead35` Build `79ba86f3-200c-4678-b9b2-80450b0be061`
 - [SOURCE_REPORTED] R21 branch-selected actual proof admits source and reaches normal result post; positive exit1 cannot prove result equals selected input (lib.rs143), both certificate controls intended. No callee acceptance; credit0. Used673s, remaining2927s. — [research/challenge-8/task-history/select-callee-r21/S3-branch-selected-evidence.json](task-history/select-callee-r21/S3-branch-selected-evidence.json) SHA `b0795f640400066ebc2af1b3faa0a8b27ffb41cb70e442a50656605f2d527d9d` Build `1bbfc87e-8b0a-4042-b54f-71acb3690dd6`
 - [SOURCE_REPORTED] R21 fractional fingerprints complete for8variants, all source/unit/body pins distinct as observed; baseline location control reproduced. No body proof, credit0. Used1297s, remaining2303s. — [research/challenge-8/task-history/select-callee-r21/FRACTIONAL-FINGERPRINT-EVIDENCE.json](task-history/select-callee-r21/FRACTIONAL-FINGERPRINT-EVIDENCE.json) SHA `e001b299c13fd7d9e2d54d6718e8f472c9bbb58273ab52a4bbaceddcf0d7dbaf` Build `7cd83dd2-f0e9-41e8-85ef-589447085239`
+- [SOURCE_REPORTED] R22 71401a80 (82bb819f, t1200): compiled, all 8 fractional rows ran but stop at identical Parse error lib.rs:123 `[1/2] <T>.own` (parser reads < as Lt). No row reached proof; credit0. — [research/challenge-8/task-history/select-callee-r22/FRACTIONAL-PROOF-PARSE-EVIDENCE.json](task-history/select-callee-r22/FRACTIONAL-PROOF-PARSE-EVIDENCE.json) SHA `7c7efe004784ceb89f786b824cd1441352f060a2adb8c312c7d00f1f08d69a40` Build `71401a80-e20c-407f-90b3-366c1a12a0bd`
 
 ## Open
 - Actual fractional callee positive and normal/unwind/nested-Drop matrix remain unaccepted; *mut T/generic P2 remains open.
@@ -27,11 +28,11 @@
 - Закрывать сессию досрочно, когда нет допустимого Build — R18 и R19 закрыты досрочно, хотя в миссии оставалась работа без Cloud (callee proof, transport); это противоречит CORE и особой границе задания.; [research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json](cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json) SHA `43938f12bb12264b19b9b414d91130753de5d441bde857217da2cffea43efd13`
 
 ## Blocker
-Fractional callee proof UNKNOWN (R21 retry124 at timeout600); acceptance/controls open.
-- [research/challenge-8/task-history/select-callee-r21/FRACTIONAL-PROOF-RETRY-TIMEOUT.json](task-history/select-callee-r21/FRACTIONAL-PROOF-RETRY-TIMEOUT.json) SHA `b67f9b2557ba3130fb1635ac0d095c9048e706b56608b061efc4768a49fcb913` Build `fe704af2-e671-4153-9246-299f057e27ad`
+Fractional rows blocked by Rust parser defect on `[c] <T>.pred` in assertions; parser fix 177ef120 under review.
+- [research/challenge-8/task-history/select-callee-r22/FRACTIONAL-PROOF-PARSE-EVIDENCE.json](task-history/select-callee-r22/FRACTIONAL-PROOF-PARSE-EVIDENCE.json) SHA `7c7efe004784ceb89f786b824cd1441352f060a2adb8c312c7d00f1f08d69a40` Build `71401a80-e20c-407f-90b3-366c1a12a0bd`
 
 ## Next
-Wait 71401a80 (82bb819f, timeout1200, R21 route marker = route id); then Brief, positive+8 rows.
+Wait cfc83426 (177ef120 parser fix, t1200); then read every row's first diagnostic via Brief.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r21/ARTIFACT-INDEX.json](task-history/select-callee-r21/ARTIFACT-INDEX.json) — `0b3556e9553dee8fe2a17b92ed737cefff908caec5f39822658e297c5a7ab00a`

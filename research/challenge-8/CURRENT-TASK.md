@@ -48,9 +48,9 @@ Next: New authorized window/ledger: use NEXT-WINDOW-HANDOFF; recheck288fa7cd, th
 ## Отчёт агента
 
 **select-callee-acceptance-autonomous-2026-10-23-r22 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R22 · HANDOFF**
-Updated: 2026-10-22T22:42:00Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
-Dates: T0 `2026-10-22T22:25:06Z`; main `2026-10-23T00:25:06Z`; absolute `2026-10-23T00:55:06Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
-Active Build IDs: 71401a80-e20c-407f-90b3-366c1a12a0bd; unresolved: none recorded.
-Blocker: Fractional callee proof UNKNOWN (R21 retry124 at timeout600); acceptance/controls open.
-Next: Wait 71401a80 (82bb819f, timeout1200, R21 route marker = route id); then Brief, positive+8 rows.
+Updated: 2026-10-22T23:00:30Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Dates: T0 `2026-10-22T22:25:06Z`; main `2026-10-23T00:25:06Z`; absolute `2026-10-23T00:55:06Z`. Budget 3600s: 303s spent, 0s retired, 3297s remaining including reservations.
+Active Build IDs: cfc83426-d82a-4cb7-95f7-24ee94255952; unresolved: none recorded.
+Blocker: Fractional rows blocked by Rust parser defect on `[c] <T>.pred` in assertions; parser fix 177ef120 under review.
+Next: Wait cfc83426 (177ef120 parser fix, t1200); then read every row's first diagnostic via Brief.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

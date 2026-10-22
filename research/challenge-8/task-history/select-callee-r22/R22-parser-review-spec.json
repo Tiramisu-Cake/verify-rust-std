@@ -1,0 +1,32 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "dd2cb4fb336e7835c5c0dfd4536ebab222c39315",
+  "candidate_commit": "177ef120858cc77f89c7a7e84c0153fd5fd1d63a",
+  "defect": "Build 71401a80: all eight fractional rows stop at verified/lib.rs(123,61-62) Parse error; Rust parser reads `[1/2] <T>.own(..)` in an assertion as a `<` comparison on a list literal.",
+  "applicability": "Assertions where a one-element coefficient literal is immediately followed by `<Type>.pred`; R22 callee lane o26-select-callee-r20 with the approved fractional candidate. Previously such text never parsed; `<` on a list never type-checks.",
+  "invariants": [
+    "Parser-only patch: one-element #list followed by `< Type > . Ident` returns CoefAsn(l, coef, parse_suffix(TypePredExpr)); all other list literals unchanged; verifier/translator unchanged.",
+    "Approved candidate source/ghost bytes, translator 50a77b8d and its fractional source/unit/body/annotation pins unchanged; patch e1f98deb unchanged.",
+    "Runner pins parser patch dfdaff60, pre 7bf12f12 / post 6a866aa5 rust_parser.ml, re-asserts translator 50a77b8d; profile-hash check admits only the new parser SHA; patch transported via recipe."
+  ],
+  "controls": [
+    "Static tests: patch SHA, touches only rust_parser.ml, no SORT4 text, recipe/runner pins, stage order fractional->parser->console-build.",
+    "Cloud distinguishing controls: positive must reach symbolic execution; 7 fractional controls must fail with distinct non-parse diagnostics; any residual Parse error stops the route; baseline candidate-proof outcome class unchanged."
+  ],
+  "dependencies": [
+    "research/challenge-8/overnight-assume-actual/verifast-r21-fractional-forget-26.10.patch",
+    "research/challenge-8/overnight-assume-actual/r21_fractional_forget.py",
+    "research/challenge-8/overnight-linkage/O26-PROFILE-MANIFEST.json",
+    "research/challenge-8/task-history/select-callee-r22/PARSER-COEF-TYPEPRED-DESIGN.md"
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r22/R22-admission-delta-review.json",
+      "sha256": "8b8498470dc9e8c07df51a57adaa41720ff43f2e394e194ebf6f18ce85319cea"
+    }
+  ],
+  "known_limitations": [
+    "OCaml compile of the patch happens only in Cloud (no local build). Base rust_parser.ml for the review: apply O26 20+2, branch-selected and fractional patches to verifast f76012fb (scratch tree available at /tmp/claude-0/-root-verify-rust-std-select-night/a72d40b8-bb07-4787-b626-0608db33c14c/scratchpad/vfsrc, commit 'chain' = pre-patch state)."
+  ]
+}

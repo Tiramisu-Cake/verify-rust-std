@@ -12,14 +12,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
+    "summary": "Fractional rows blocked by Rust parser defect on `[c] <T>.pred` in assertions; parser fix 177ef120 under review.",
     "evidence": [
       {
-        "build_id": "fe704af2-e671-4153-9246-299f057e27ad",
-        "path": "research/challenge-8/task-history/select-callee-r21/FRACTIONAL-PROOF-RETRY-TIMEOUT.json",
-        "sha256": "b67f9b2557ba3130fb1635ac0d095c9048e706b56608b061efc4768a49fcb913"
+        "build_id": "71401a80-e20c-407f-90b3-366c1a12a0bd",
+        "path": "research/challenge-8/task-history/select-callee-r22/FRACTIONAL-PROOF-PARSE-EVIDENCE.json",
+        "sha256": "7c7efe004784ceb89f786b824cd1441352f060a2adb8c312c7d00f1f08d69a40"
       }
-    ],
-    "summary": "Fractional callee proof UNKNOWN (R21 retry124 at timeout600); acceptance/controls open."
+    ]
   },
   "confirmed": [
     {
@@ -80,9 +80,20 @@
           "sha256": "e001b299c13fd7d9e2d54d6718e8f472c9bbb58273ab52a4bbaceddcf0d7dbaf"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R22 71401a80 (82bb819f, t1200): compiled, all 8 fractional rows ran but stop at identical Parse error lib.rs:123 `[1/2] <T>.own` (parser reads < as Lt). No row reached proof; credit0.",
+      "evidence": [
+        {
+          "build_id": "71401a80-e20c-407f-90b3-366c1a12a0bd",
+          "path": "research/challenge-8/task-history/select-callee-r22/FRACTIONAL-PROOF-PARSE-EVIDENCE.json",
+          "sha256": "7c7efe004784ceb89f786b824cd1441352f060a2adb8c312c7d00f1f08d69a40"
+        }
+      ]
     }
   ],
-  "next_step": "Wait 71401a80 (82bb819f, timeout1200, R21 route marker = route id); then Brief, positive+8 rows.",
+  "next_step": "Wait cfc83426 (177ef120 parser fix, t1200); then read every row's first diagnostic via Brief.",
   "open": [
     "Actual fractional callee positive and normal/unwind/nested-Drop matrix remain unaccepted; *mut T/generic P2 remains open.",
     "Network P1 accepted for integration only, P3 grammar decided; no mutable/generic callee summary or proof credit.",
@@ -112,18 +123,18 @@
   "schema": "smallsort-checkpoint-v1",
   "session": {
     "active_build_ids": [
-      "71401a80-e20c-407f-90b3-366c1a12a0bd"
+      "cfc83426-d82a-4cb7-95f7-24ee94255952"
     ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T00:55:06Z",
     "main_deadline_utc": "2026-10-23T00:25:06Z",
-    "remaining_seconds": 3600,
+    "remaining_seconds": 3297,
     "retired_seconds": 0,
-    "spent_seconds": 0,
+    "spent_seconds": 303,
     "t0": "2026-10-22T22:25:06Z",
     "unresolved_ids": []
   },
   "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-23-r22",
-  "updated_utc": "2026-10-22T22:42:00Z"
+  "updated_utc": "2026-10-22T23:00:30Z"
 }
