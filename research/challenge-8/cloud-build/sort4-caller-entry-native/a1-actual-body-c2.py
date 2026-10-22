@@ -329,69 +329,69 @@ def _indexed_control_rows(cases, verified, original, ghost, meta, lemma_metadata
     return output
 
 
-def resource_controls_c3(verified: bytes, original: bytes, ghost,
-                         four_recovery: bytes, meta: dict, lemma_metadata):
-    """Return annotation-only c3 negative controls; no result is proof credit."""
-    need(meta.get("actual_indexed_calls") == 3,
-         "c3 controls require the exact c3 constructor output")
-    need(ghost.strip_ghost(verified) == original,
-         "positive c3 runtime source pair is byte-equal")
-    need(verified.count(MARKER3) == 1 and verified.count(C3_TYPED_CALL) == 1 and
-         verified.count(NORMAL3) == 1,
-         "one exact c3 marker/call/recovery before making controls")
-    # Unselected slots depend on (c1, c2); dropping the shares at base+1 and
-    # base+3 leaks on the (0, 0) path and starves init_ref_share elsewhere.
-    unselected_shares = (b"        //@ share_full_borrow::<T>(cmp3_k, t, v_base + 1);\n",
-                         b"        //@ share_full_borrow::<T>(cmp3_k, t, v_base + 3);\n")
+def _slot(n: int) -> bytes:
+    return b"v_base" if n == 0 else b"v_base + %d" % n
+
+
+def _indexed_resource_controls(k, verified, original, ghost, four_recovery, meta,
+                               lemma_metadata, marker, typed_call, normal, left_pre,
+                               right_pre, operands, drop_slots, token_slot, wrong_left,
+                               next_call, expected):
+    """Annotation-only negatives for indexed call k; no result is proof credit."""
+    need(meta.get("actual_indexed_calls") == k, "controls require the exact constructor output")
+    need(ghost.strip_ghost(verified) == original, "positive runtime source pair is byte-equal")
+    need(verified.count(marker) == 1 and verified.count(typed_call) == 1 and
+         verified.count(normal) == 1, "one exact marker/call/recovery before controls")
+    lifetime = b"cmp%d_k" % k
+    share = lambda n: b"        //@ share_full_borrow::<T>(" + lifetime + b", t, " + _slot(n) + b");\n"
     missing_shares = verified
-    for line in unselected_shares:
-        need(missing_shares.count(line) == 1, "one c3 share line per slot")
-        missing_shares = missing_shares.replace(line, b"", 1)
-    base_borrow = b"        //@ borrow(cmp3_k, <T>.full_borrow_content(t, v_base));\n"
-    base_share = b"        //@ share_full_borrow::<T>(cmp3_k, t, v_base);\n"
-    need(verified.count(base_borrow) == 1 and verified.count(base_share) == 1,
-         "one base0 c3 end-token producer")
-    missing_resource = verified.replace(base_borrow, b"", 1).replace(base_share, b"", 1)
-    wrong_order = verified.replace(C3_LEFT_PRECREATE + C3_RIGHT_PRECREATE,
-        b"        //@ let left3_ref = precreate_ref::<T>(a);\n"
-        b"        //@ let right3_ref = precreate_ref::<T>(c);\n", 1)
-    wrong_ref = verified.replace(C3_LEFT_PRECREATE,
-        b"        //@ let left3_ref = precreate_ref::<T>(b);\n", 1)
-    wrong_index = verified.replace(b"__vf_callback_unwind_four(3);",
-                                   b"__vf_callback_unwind_four(2);", 1)
-    missing_pred = ghost_declaration(
-        four_recovery, b"pred callback_four_debt_without_fourth<T>")
-    debt_marker = MARKER3.replace(b"callback_four_debt::<T>(",
-                                  b"callback_four_debt_without_fourth::<T>(", 1)
-    missing_token = _insert_before_target(verified.replace(MARKER3, debt_marker, 1),
-                                          missing_pred)
-    displaced = verified.replace(MARKER3 + C3_TYPED_CALL, C3_TYPED_CALL + MARKER3, 1)
+    for n in drop_slots:
+        need(missing_shares.count(share(n)) == 1, "one share line per slot")
+        missing_shares = missing_shares.replace(share(n), b"", 1)
+    borrow = (b"        //@ borrow(" + lifetime + b", <T>.full_borrow_content(t, " +
+              _slot(token_slot) + b"));\n")
+    need(verified.count(borrow) == 1 and verified.count(share(token_slot)) == 1,
+         "one end-token producer")
+    missing_resource = verified.replace(borrow, b"", 1).replace(share(token_slot), b"", 1)
+    pre = lambda side, operand: b"        //@ let %s%d_ref = precreate_ref::<T>(%s);\n" % (side, k, operand)
+    wrong_order = verified.replace(left_pre + right_pre,
+                                   pre(b"left", operands[1]) + pre(b"right", operands[0]), 1)
+    wrong_ref = verified.replace(left_pre, pre(b"left", wrong_left), 1)
+    wrong_index = verified.replace(b"__vf_callback_unwind_four(%d);" % k,
+                                   b"__vf_callback_unwind_four(%d);" % (k - 1), 1)
+    missing_pred = ghost_declaration(four_recovery, b"pred callback_four_debt_without_fourth<T>")
+    debt_marker = marker.replace(b"callback_four_debt::<T>(",
+                                 b"callback_four_debt_without_fourth::<T>(", 1)
+    missing_token = _insert_before_target(verified.replace(marker, debt_marker, 1), missing_pred)
+    displaced = verified.replace(marker + typed_call, typed_call + marker, 1)
+    j = k + 1
     overflow_marker = (b"/*@ {\n"
-                       b"            __vf_callback_unwind_four(4);\n"
-                       b"            { close callback_four_debt::<T>(t, cmp4_k, v_base, left4_ref, right4_ref, left4_fraction, right4_fraction); }\n"
+                       b"            __vf_callback_unwind_four(%d);\n" % j +
+                       b"            { close callback_four_debt::<T>(t, cmp%d_k, v_base, left%d_ref, "
+                       b"right%d_ref, left%d_fraction, right%d_fraction); }\n" % (j, j, j, j, j) +
                        b"            { recover_four_sources::<T>(v_base); }\n"
                        b"        } @*/\n")
-    need(verified.count(C4_CALL) == 1, "one untouched c4 call")
-    overflow = verified.replace(C4_CALL, overflow_marker + C4_CALL, 1)
-    cases = (
-        ("c3-missing-unselected-share-negative", missing_shares,
-         "base+1/base+3 full_borrow capabilities leak on the (c1,c2)=(0,0) path or a selected share is missing"),
-        ("c3-missing-unrelated-end-token-negative", missing_resource,
-         "no base0 borrow_end token for the c3 four-source debt, or no base0 share when a selects slot 0"),
-        ("c3-wrong-ordered-ref-pair-negative", wrong_order,
-         "ghost precreated reference order (a,c) differs from actual ordered operands (c,a)"),
-        ("c3-wrong-ref-resource-negative", wrong_ref,
-         "left3_ref precreation points to b while the actual first operand is c"),
-        ("c3-wrong-marker-index-negative", wrong_index,
-         "indexed marker names call 2 while positioned at actual c3"),
-        ("c3-missing-fourth-debt-token-negative", missing_token,
-         "direct-unwind close supplies a predicate lacking the base+3 end token"),
-        ("c3-displaced-marker-negative", displaced,
-         "direct-unwind marker is after the call instead of immediately before it"),
-        ("c3-index-overflow-marker-negative", overflow,
-         "index-4 marker with no matching indexed call when the explicit count is 3"),
-    )
-    return _indexed_control_rows(cases, verified, original, ghost, meta, lemma_metadata, "c3")
+    need(verified.count(next_call) == 1, "one untouched next call")
+    overflow = verified.replace(next_call, overflow_marker + next_call, 1)
+    names = ("missing-unselected-share", "missing-unrelated-end-token", "wrong-ordered-ref-pair",
+             "wrong-ref-resource", "wrong-marker-index", "missing-fourth-debt-token",
+             "displaced-marker", "index-overflow-marker")
+    candidates = (missing_shares, missing_resource, wrong_order, wrong_ref, wrong_index,
+                  missing_token, displaced, overflow)
+    cases = tuple(("c%d-%s-negative" % (k, name), candidate, why)
+                  for name, candidate, why in zip(names, candidates, expected))
+    return _indexed_control_rows(cases, verified, original, ghost, meta, lemma_metadata, "c%d" % k)
+
+
+C3_EXPECTED = ('base+1/base+3 full_borrow capabilities leak on the (c1,c2)=(0,0) path or a selected share is missing', 'no base0 borrow_end token for the c3 four-source debt, or no base0 share when a selects slot 0', 'ghost precreated reference order (a,c) differs from actual ordered operands (c,a)', 'left3_ref precreation points to b while the actual first operand is c', 'indexed marker names call 2 while positioned at actual c3', 'direct-unwind close supplies a predicate lacking the base+3 end token', 'direct-unwind marker is after the call instead of immediately before it', 'index-4 marker with no matching indexed call when the explicit count is 3')
+
+
+def resource_controls_c3(verified: bytes, original: bytes, ghost,
+                         four_recovery: bytes, meta: dict, lemma_metadata):
+    """c3 negatives; base+1/+3 shares are unselected on the (c1,c2)=(0,0) path."""
+    return _indexed_resource_controls(3, verified, original, ghost, four_recovery, meta,
+        lemma_metadata, MARKER3, C3_TYPED_CALL, NORMAL3, C3_LEFT_PRECREATE,
+        C3_RIGHT_PRECREATE, (b"c", b"a"), (1, 3), 0, b"b", C4_CALL, C3_EXPECTED)
 
 
 # R19 c4 layer: c3 templates renamed for call 4 with operands `d` and `b`.
@@ -479,52 +479,14 @@ def construct_c4(source: bytes, ghost, capture, pair_recovery: bytes,
 
 def resource_controls_c4(verified: bytes, original: bytes, ghost,
                          four_recovery: bytes, meta: dict, lemma_metadata):
-    """Return annotation-only c4 negative controls; no result is proof credit."""
-    need(meta.get("actual_indexed_calls") == 4, "c4 controls require the exact c4 output")
-    need(ghost.strip_ghost(verified) == original, "positive c4 runtime source pair is byte-equal")
-    need(verified.count(MARKER4) == 1 and verified.count(C4_TYPED_CALL) == 1 and
-         verified.count(NORMAL4) == 1, "one exact c4 marker/call/recovery before controls")
-    missing_shares = verified
-    for line in (b"        //@ share_full_borrow::<T>(cmp4_k, t, v_base);\n",
-                 b"        //@ share_full_borrow::<T>(cmp4_k, t, v_base + 2);\n"):
-        need(missing_shares.count(line) == 1, "one c4 share line per slot")
-        missing_shares = missing_shares.replace(line, b"", 1)
-    top_borrow = b"        //@ borrow(cmp4_k, <T>.full_borrow_content(t, v_base + 3));\n"
-    top_share = b"        //@ share_full_borrow::<T>(cmp4_k, t, v_base + 3);\n"
-    need(verified.count(top_borrow) == 1 and verified.count(top_share) == 1,
-         "one base+3 c4 end-token producer")
-    missing_resource = verified.replace(top_borrow, b"", 1).replace(top_share, b"", 1)
-    wrong_order = verified.replace(C4_LEFT_PRECREATE + C4_RIGHT_PRECREATE,
-        b"        //@ let left4_ref = precreate_ref::<T>(b);\n"
-        b"        //@ let right4_ref = precreate_ref::<T>(d);\n", 1)
-    wrong_ref = verified.replace(C4_LEFT_PRECREATE,
-        b"        //@ let left4_ref = precreate_ref::<T>(a);\n", 1)
-    wrong_index = verified.replace(b"__vf_callback_unwind_four(4);",
-                                   b"__vf_callback_unwind_four(3);", 1)
-    missing_pred = ghost_declaration(four_recovery, b"pred callback_four_debt_without_fourth<T>")
-    debt_marker = MARKER4.replace(b"callback_four_debt::<T>(",
-                                  b"callback_four_debt_without_fourth::<T>(", 1)
-    missing_token = _insert_before_target(verified.replace(MARKER4, debt_marker, 1), missing_pred)
-    displaced = verified.replace(MARKER4 + C4_TYPED_CALL, C4_TYPED_CALL + MARKER4, 1)
-    overflow_marker = (b"/*@ {\n"
-                       b"            __vf_callback_unwind_four(5);\n"
-                       b"            { close callback_four_debt::<T>(t, cmp5_k, v_base, left5_ref, right5_ref, left5_fraction, right5_fraction); }\n"
-                       b"            { recover_four_sources::<T>(v_base); }\n"
-                       b"        } @*/\n")
-    c5_call = b"        let c5 = is_less(&*unknown_right, &*unknown_left);\n"
-    need(verified.count(c5_call) == 1, "one untouched c5 call")
-    overflow = verified.replace(c5_call, overflow_marker + c5_call, 1)
-    cases = (
-        ("c4-missing-unselected-share-negative", missing_shares, "resource: share"),
-        ("c4-missing-unrelated-end-token-negative", missing_resource, "resource: end token"),
-        ("c4-wrong-ordered-ref-pair-negative", wrong_order, "resource: ordered pair"),
-        ("c4-wrong-ref-resource-negative", wrong_ref, "resource: ref token"),
-        ("c4-wrong-marker-index-negative", wrong_index, "frontend: marker inventory"),
-        ("c4-missing-fourth-debt-token-negative", missing_token, "frontend: marker inventory"),
-        ("c4-displaced-marker-negative", displaced, "frontend: marker binding"),
-        ("c4-index-overflow-marker-negative", overflow, "frontend: marker inventory"),
-    )
-    return _indexed_control_rows(cases, verified, original, ghost, meta, lemma_metadata, "c4")
+    """c4 negatives; base+0/+2 shares are unselected on the (b,d)=(1,3) path."""
+    return _indexed_resource_controls(4, verified, original, ghost, four_recovery, meta,
+        lemma_metadata, MARKER4, C4_TYPED_CALL, NORMAL4, C4_LEFT_PRECREATE,
+        C4_RIGHT_PRECREATE, (b"d", b"b"), (0, 2), 3, b"a",
+        b"        let c5 = is_less(&*unknown_right, &*unknown_left);\n",
+        ("resource: share", "resource: end token", "resource: ordered pair",
+         "resource: ref token", "frontend: marker inventory", "frontend: marker inventory",
+         "frontend: marker binding", "frontend: marker inventory"))
 
 
 def construct(source: bytes, ghost, capture, pair_recovery: bytes,
