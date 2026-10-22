@@ -103,10 +103,75 @@ def validate_r17_profile_extension(profile: object, baseline_bytes: object) -> N
         raise ValueError("R17 ordered patch chain is not the exact final cumulative extension")
 
 
-def admit_r17_profile_extension_if_present(profile: object, baseline_bytes: object) -> bool:
-    """Leave legacy profiles on their existing route; validate any R17 claim."""
+R19_BASELINE_RELATIVE = "research/challenge-8/cloud-build/origin-layout/R19-BASELINE-PROFILE-20261022.json"
+R19_BASELINE_SHA256 = "947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d"
+R19_TOOL_COMMIT = "d2c8d6d085c4d5887a3b4eafa0eb1ed77e3c1728"
+R19_TRANSLATOR_SHA256 = "30e9a47a4a91bcf84ca999b7f25b9e1af7938ac271df599f9ed9aa26bbd3e95f"
+R19_PATCH_SHA256 = "a340b0588fa8c337e7cbc971a3af8a74692b6b9da651d094fca73684e2922abb"
+R19_REGISTRATION = {
+    "schema": "merge-r19-profile-registration-v1",
+    "phase_id": "MERGE-UNWIND-CLEANUP-R19-2026-10-22",
+    "baseline_profile_path": R19_BASELINE_RELATIVE,
+    "starting_tool_commit": R17_TOOL_COMMIT,
+    "starting_source_sha": "6fd50c699500cbac5c65912174d4aa49b49db19f",
+    "owner": "merge",
+    "lane": "merge",
+    "candidate_tool_commit": R19_TOOL_COMMIT,
+    "tool_source_paths": ["src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"],
+    "source_applicability": "one marked checked ghost block after the single insert_tail call in b2_three_from_local, also on its Continue unwind edge; no posts, runtime, CFG or trusted premise change",
+}
+R19_PROFILE_CHANGED_KEYS = frozenset({
+    "effective_tool_commit", "translator_sha256",
+    "guard_return_trace_patch_sha256", "ordered_patch_chain",
+})
+
+
+def validate_r19_profile_extension(profile: object, baseline_bytes: object,
+                                   r17_baseline_bytes: object) -> None:
+    """Fail closed unless profile is the exact R19 delta of the admitted R17 profile."""
+    if not isinstance(profile, dict):
+        raise ValueError("R19 profile must be a JSON object")
+    if not isinstance(baseline_bytes, bytes):
+        raise ValueError("R19 baseline bytes are missing or malformed")
+    if hashlib.sha256(baseline_bytes).hexdigest() != R19_BASELINE_SHA256:
+        raise ValueError("R19 baseline profile bytes do not match the committed identity")
+    try:
+        baseline = json.loads(baseline_bytes)
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise ValueError("R19 baseline profile is not valid JSON") from exc
+    if not isinstance(baseline, dict) or "r19_registration" in baseline:
+        raise ValueError("R19 baseline profile must be a JSON object without R19 fields")
+    validate_r17_profile_extension(baseline, r17_baseline_bytes)
+    registration = profile.get("r19_registration")
+    if type(registration) is not dict or registration != R19_REGISTRATION:
+        raise ValueError("R19 registration is malformed or not the exact candidate")
+    if set(profile) != set(baseline) | {"r19_registration"}:
+        raise ValueError("R19 profile has missing or unexpected top-level fields")
+    changed = {key for key in baseline if profile[key] != baseline[key]}
+    if changed != R19_PROFILE_CHANGED_KEYS:
+        raise ValueError("R19 profile changes fields outside its exact translator/tool/patch delta")
+    if (profile.get("effective_tool_commit") != R19_TOOL_COMMIT or
+            profile.get("translator_sha256") != R19_TRANSLATOR_SHA256 or
+            profile.get("guard_return_trace_patch_sha256") != R19_PATCH_SHA256 or
+            profile.get("r17_registration") != R17_REGISTRATION):
+        raise ValueError("R19 tool, translator, cumulative patch, or R17 registration differs")
+    chain = profile.get("ordered_patch_chain")
+    baseline_chain = baseline.get("ordered_patch_chain")
+    expected_final = dict(baseline_chain[-1])
+    expected_final["sha256"] = R19_PATCH_SHA256
+    if (type(chain) is not list or len(chain) != 19 or chain[:18] != baseline_chain[:18] or
+            type(chain[-1]) is not dict or chain[-1] != expected_final):
+        raise ValueError("R19 ordered patch chain is not the exact final cumulative extension")
+
+
+def admit_r17_profile_extension_if_present(profile: object, baseline_bytes: object,
+                                           r19_baseline_bytes: object = None) -> bool:
+    """Leave legacy profiles on their existing route; validate any R17/R19 claim."""
     if not isinstance(profile, dict):
         raise ValueError("profile must be a JSON object")
+    if "r19_registration" in profile:
+        validate_r19_profile_extension(profile, r19_baseline_bytes, baseline_bytes)
+        return True
     if "r17_registration" not in profile:
         return False
     validate_r17_profile_extension(profile, baseline_bytes)
@@ -821,8 +886,10 @@ def main() -> int:
         start_path = HERE.parents[3] / "cloud-build/origin-layout/R11-START-20261021.json"
         trace_patch = HERE.parents[3] / "cloud-build/origin-layout/r9-guard-return-trace.patch"
         r17_baseline_path = HERE.parents[3] / "cloud-build/origin-layout/R17-BASELINE-PROFILE-20261021.json"
+        r19_baseline_path = HERE.parents[3] / "cloud-build/origin-layout/R19-BASELINE-PROFILE-20261022.json"
         is_r17_extension = admit_r17_profile_extension_if_present(
-            profile_card, r17_baseline_path.read_bytes() if "r17_registration" in profile_card else None)
+            profile_card, r17_baseline_path.read_bytes() if "r17_registration" in profile_card else None,
+            r19_baseline_path.read_bytes() if "r19_registration" in profile_card else None)
         start = json.loads(start_path.read_text())
         baseline_sha = base.file_sha(baseline_path)
         baseline_profile = json.loads(baseline_path.read_text())

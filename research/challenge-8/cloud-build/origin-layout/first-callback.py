@@ -39,6 +39,21 @@ R17_PROFILE_REGISTRATION = {
     'source_applicability': ('paired RawPtr bare local only; exact mutability/full MIR and decoded local type/place; '
                              'existing equal-state allocation reconciliation; no borrow or memory authority'),
 }
+R19_PHASE_ID = 'MERGE-UNWIND-CLEANUP-R19-2026-10-22'
+R19_CANDIDATE_TOOL_COMMIT = 'd2c8d6d085c4d5887a3b4eafa0eb1ed77e3c1728'
+R19_PROFILE_REGISTRATION = {
+    'schema': 'merge-r19-profile-registration-v1',
+    'phase_id': R19_PHASE_ID,
+    'baseline_profile_path': 'research/challenge-8/cloud-build/origin-layout/R19-BASELINE-PROFILE-20261022.json',
+    'starting_tool_commit': R17_CANDIDATE_TOOL_COMMIT,
+    'starting_source_sha': '6fd50c699500cbac5c65912174d4aa49b49db19f',
+    'owner': 'merge', 'lane': 'merge',
+    'candidate_tool_commit': R19_CANDIDATE_TOOL_COMMIT,
+    'tool_source_paths': ['src/rust_frontend/vf_mir_translator/vf_mir_translator.ml'],
+    'source_applicability': ('one marked checked ghost block after the single insert_tail call in '
+                             'b2_three_from_local, also on its Continue unwind edge; no posts, '
+                             'runtime, CFG or trusted premise change'),
+}
 BODY_ISOLATION_NAME = 'actual_insert_tail_body_isolated'
 RAW_LOCAL_CALLER_NAME = 'actual_three_from_local_raw'
 SUPPORTED_PROFILES = (PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE)
@@ -97,7 +112,19 @@ def _r17_registration_matches(profile_path, selected_profile, validated_receipt)
         return (selected_profile == R11_PROFILE and profile.get('profile') == R11_PROFILE and
                 type(validated_receipt) is dict and validated_receipt.get('profile') == R11_PROFILE and
                 type(registration) is dict and registration == R17_PROFILE_REGISTRATION and
-                profile.get('effective_tool_commit') == R17_CANDIDATE_TOOL_COMMIT)
+                (profile.get('effective_tool_commit') == R17_CANDIDATE_TOOL_COMMIT or
+                 (profile.get('effective_tool_commit') == R19_CANDIDATE_TOOL_COMMIT and
+                  profile.get('r19_registration') == R19_PROFILE_REGISTRATION)))
+    except (OSError, json.JSONDecodeError, AttributeError, TypeError):
+        return False
+
+
+def _r19_registration_matches(profile_path, selected_profile):
+    try:
+        profile = json.loads(Path(profile_path).read_text())
+        return (selected_profile == R11_PROFILE and profile.get('profile') == R11_PROFILE and
+                profile.get('r19_registration') == R19_PROFILE_REGISTRATION and
+                profile.get('effective_tool_commit') == R19_CANDIDATE_TOOL_COMMIT)
     except (OSError, json.JSONDecodeError, AttributeError, TypeError):
         return False
 
@@ -775,7 +802,8 @@ def _raw_local_caller_suffixes(old):
     before_call = (b'    /*@ { r18_u64_array_inv(begin, 3);\n'
                    b'        assert array::<u64>(begin, 3, ?r16_current);\n'
                    b'        r9_make_u64_owners(t, r16_current); } @*/\n')
-    after_call = (b'    /*@ { assert array::<u64>(begin, 3, ?r16_normal_current);\n'
+    after_call = (b'    /*@ { r19_insert_tail_unwind_cleanup();\n'
+                  b'        assert array::<u64>(begin, 3, ?r16_normal_current);\n'
                   b'        r9_drop_u64_owners(t, r16_normal_current);\n'
                   b'        array_to_array_(begin); } @*/\n')
     verified_runtime = _one(original, b'    insert_tail(begin, begin.add(2), is_less);\n',
@@ -1594,6 +1622,7 @@ def run(evidence, args, env, execute_case, validated_receipt):
     consumer._validate_receipt(args, validated_receipt, provider, proof_sha)
     r17_controls_enabled = _r17_registration_matches(
         profile_path, selected_profile, validated_receipt)
+    r19_controls_enabled = _r19_registration_matches(profile_path, selected_profile)
     evidence.mkdir(parents=True, exist_ok=False)
     def dispatch(case, case_args, case_env=None, *, prefix=False, actual_callback_case=False,
                  body_isolation_native=False):
@@ -1739,6 +1768,28 @@ def run(evidence, args, env, execute_case, validated_receipt):
                 evidence=evidence, phase='parent_identity', error=error)
             results['raw_local_caller']['rawptr_controls'] = _rawptr_controls_summary(
                 results.get('rawptr_controls'))
+        # R19 unwind cleanup controls derive from the prepared raw caller only.
+        raw_case = evidence / 'raw_local_caller' / 'cases' / RAW_LOCAL_CALLER_NAME
+        if not r19_controls_enabled:
+            results['r19_unwind_controls'] = dict(
+                classification='NOT_APPLICABLE_R19_REGISTRATION_ABSENT', all_matched=False,
+                accepted=False, proof_credit=False, b2_achieved=False)
+        elif not (raw_case / 'verified/lib.rs').is_file():
+            results['r19_unwind_controls'] = dict(
+                classification='NOT_RUN_RAW_CALLER_NOT_PREPARED', all_matched=False,
+                accepted=False, proof_credit=False, b2_achieved=False)
+        else:
+            try:
+                r19_controls = _load('r19_unwind_controls', HERE / 'r19-unwind-controls.py')
+                results['r19_unwind_controls'] = r19_controls.run(
+                    evidence, raw_case, args, dispatch, consumer, selected_profile,
+                    source_sha256=captured_parent_identity['record'].get('source_sha256'))
+            except Exception as error:
+                results['r19_unwind_controls'] = dict(
+                    classification='INCONCLUSIVE', all_matched=False,
+                    reason='R19 unwind control setup or dispatch raised an exception',
+                    exception_type=type(error).__name__, exception=str(error),
+                    accepted=False, proof_credit=False, b2_achieved=False)
         if selected_profile == R11_PROFILE:
             placement = _load('r11_storage_placement_controls', HERE/'r11-storage-placement-controls.py')
             positive_case = evidence/'full_body/cases/actual_three_current_full_posts'
@@ -1813,6 +1864,7 @@ def run(evidence, args, env, execute_case, validated_receipt):
                              ('lost_reference_fraction', 'lost_reference_token', 'lost_current_f', 'lost_cell_owner')) and
                          results['admission_controls'].get('all_matched') is True),
                      rawptr_controls_matched=(results.get('rawptr_controls', {}).get('all_matched') is True),
+                     r19_unwind_controls_matched=(results.get('r19_unwind_controls', {}).get('all_matched') is True),
                      classification='DIAGNOSTIC_ONLY_UNTIL_ALL_GATES_MATCH')
     (evidence/'aggregate.json').write_text(json.dumps(aggregate, indent=2, sort_keys=True)+'\n')
     return aggregate
