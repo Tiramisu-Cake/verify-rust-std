@@ -72,5 +72,16 @@
       "A positive establishes only the final-select obligation for *const Element; callee acceptance needs normal/unwind/nested-Drop matrix and controls."
     ]
   },
-  "submit_basis_commit_s3": "57bde10e9b4ee663fa2dfe80631ae0ac45c0bc65"
+  "submit_basis_commit_s3": "57bde10e9b4ee663fa2dfe80631ae0ac45c0bc65",
+  "s2c": {
+    "verdict": "GO_WITH_NITS",
+    "range": "7e6955596535ae2f41e050f232c1830688b964bc..d62c377125616dac6d86ca8d30c55966b2635a23",
+    "scope": "Diagnostic fingerprint of the branch variant (lemma calls inside both branches of the selected if/else); S3 refresh stays applied with opt-in off; baseline candidate-proof is the regression check.",
+    "open": [
+      "proof() rows still need per-row classification before the next proof-mode Build",
+      "branch refresh needs a new patch (new SHA/unit/body-7 + branch selected text)",
+      "check mir_complete and cleanup inventory (10 edges to 24)"
+    ]
+  },
+  "submit_basis_commit_s2c": "d62c377125616dac6d86ca8d30c55966b2635a23"
 }
