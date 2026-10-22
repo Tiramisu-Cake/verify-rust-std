@@ -1,5 +1,6 @@
 """Synthetic service tests for the R20 callee lane helper, runner and recipe."""
 import importlib.util
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -264,7 +265,16 @@ class RepairProof(unittest.TestCase):
         class Fake:
             def proof_stage(self, repo, case, tool_home, schema, sysroot, deadline, name, label):
                 seen.append((name, os.environ.get(CALLEE.R20_FLAG), (case / "verified/lib.rs").read_bytes()))
-                return {"status": "RAN", "exit": 0 if name == "r20-merged-optin" else 1}
+                (case / (name + ".log")).write_text("synthetic verifier observation\n")
+                source = {relative: CALLEE.sha((case / relative).read_bytes())
+                          for relative in ("original/lib.rs", "verified/lib.rs")}
+                return {"status": "RAN", "exit": 0 if name == "r20-merged-optin" else 1,
+                        "argv": [str(tool_home / "bin/verifast"), "-rustc_args",
+                                 "--edition 2021", "-verbose", "1", "verified/lib.rs"],
+                        "source_before": source, "source_after": source,
+                        "source_unchanged": True, "intrinsic_gate_active": True,
+                        "pointer_drop_gate_active": True,
+                        "stdout": name + ".log", "stderr": name + ".log"}
         real_load = CALLEE.load
         def load(path, name, expected=None):
             return Fake() if path.name == "o26-recipe.py" else real_load(path, name, expected)
@@ -291,7 +301,7 @@ class RepairProof(unittest.TestCase):
         self.assertEqual(seen[0][2].count(b"close_MaybeUninit_pointer_own"), 4)
         self.assertIs(saved["complete"], True)
         self.assertFalse(saved["proof_credit"])
-        self.assertEqual(saved["rows"]["merged-optin"]["verdict"], "POSITIVE_FAILED")
+        self.assertEqual(saved["rows"]["merged-optin"]["verdict"], "POSITIVE_VERIFIED_SOURCE_REPORTED")
         self.assertEqual(saved["rows"]["merged-no-optin"]["verdict"], "UNEXPECTED_CONTROL_OUTCOME")
         self.assertIs(saved["controls_intended"], False)
 
@@ -358,12 +368,21 @@ class RunnerAndRecipe(unittest.TestCase):
         subprocess.run(["bash", "-n", str(HERE / "run-o26-select-callee-r20.sh")], check=True)
         self.assertIn('"$1" == o26-select-callee-r20', RUNNER)
         self.assertIn('"${SORT4_R20_CALLEE_PHASE_ID:-}" == SORT4-ACTUAL-SELECT-2026-10-22-R20', RUNNER)
+        self.assertIn('"${SORT4_R20_CALLEE_PHASE_ID:-}" == SORT4-ACTUAL-SELECT-2026-10-23-R21', RUNNER)
         order = ["stage provider-overlays", "stage source-preflight", "stage package-index",
-                 "stage r20-refresh-apply", "stage console-build",
+                 "stage branch-refresh-apply", "stage console-build",
                  "stage candidate-capture", "stage candidate-source-compare",
-                 "stage candidate-proof", "stage r20-repair-fingerprint"]
-        self.assertIn("82741fb5bce3ee1ec46ebfad55dc0d1b743c2fd68917f20381dbd66553092b5f", RUNNER)
-        self.assertNotIn("stage r20-repair-proof", RUNNER)
+                 "stage candidate-proof", "stage r20-repair-proof"]
+        self.assertIn("606235c66c76412d2fdcef5f30436c342771ad5a087b343f618cfb7c8a2344d2", RUNNER)
+        self.assertIn("78079210a5548fee87e200996920bfb012bcb0cd17b0b574eb926806a46e7ab6", RUNNER)
+        patch_path = ROOT / "research/challenge-8/overnight-assume-actual/verifast-r21-final-select-branch-selected-26.10.patch"
+        self.assertEqual(hashlib.sha256(patch_path.read_bytes()).hexdigest(),
+                         "78079210a5548fee87e200996920bfb012bcb0cd17b0b574eb926806a46e7ab6")
+        patch_text = patch_path.read_text()
+        self.assertIn("b9430169d01a2eca19728c38d05da818bdfc4e05561671c33ed95eb5830de45d", patch_text)
+        self.assertIn("b8d367293b9d1ae8af186edeee0817f1b8bfe04250462fe75386fcd288e214eb", patch_text)
+        self.assertIn("selected_payload", patch_text)
+        self.assertNotIn("stage r20-repair-fingerprint", RUNNER)
         self.assertIn('[[ -z "${SORT4_R20_FINAL_SELECT_REPAIR:-}" ]] || exit 2', RUNNER)
         positions = [RUNNER.index(x) for x in order]
         self.assertEqual(positions, sorted(positions))
@@ -382,10 +401,15 @@ class RunnerAndRecipe(unittest.TestCase):
         self.assertLess(mk, RUNNER.index('python3 "$cloud_dir/provider.py"'))
         self.assertNotIn("run-sort4-c1-current-recovery", RUNNER)
         self.assertIn("0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a", RUNNER)
+        self.assertNotIn("verifast-r20-final-select-branch-26.10.patch", RUNNER)
 
     def test_recipe_is_minimal_exact_and_in_scope(self):
         self.assertEqual(RECIPE["lane"], "o26-select-callee-r20")
         self.assertIn(RECIPE["entrypoint"], RECIPE["infra_paths"])
+        self.assertIn("research/challenge-8/overnight-assume-actual/verifast-r21-final-select-branch-selected-26.10.patch",
+                      RECIPE["proof_paths"])
+        self.assertNotIn("research/challenge-8/overnight-assume-actual/verifast-r20-final-select-branch-26.10.patch",
+                         RECIPE["proof_paths"])
         for key in ("proof_paths", "infra_paths"):
             paths = RECIPE[key]
             self.assertEqual(paths, sorted(set(paths)))

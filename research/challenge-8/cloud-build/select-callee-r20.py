@@ -211,6 +211,28 @@ def classify_row(name: str, stage: dict, log_text: str) -> str:
     return "INTENDED_CERTIFICATE_REFUSAL" if ok else "UNEXPECTED_CONTROL_OUTCOME"
 
 
+def classify_bound_row(name: str, stage, log_text: str, *, expected_argv: list[str],
+                       expected_sources: dict, observed_sources: dict) -> str:
+    """Bind a source-reported row to this invocation before interpreting its exit."""
+    if not isinstance(stage, dict) or stage.get("status") != "RAN" or type(stage.get("exit")) is not int:
+        return "NOT_RUN_OR_INCONCLUSIVE"
+    if not isinstance(log_text, str) or not log_text.strip():
+        return "NOT_RUN_OR_INCONCLUSIVE"
+    logfile = "r20-" + name + ".log"
+    bound = (name in {row[0] for row in PROOF_CASES} and
+             stage.get("argv") == expected_argv and
+             stage.get("source_before") == expected_sources and
+             stage.get("source_after") == expected_sources and
+             observed_sources == expected_sources and
+             stage.get("source_unchanged") is True and
+             stage.get("intrinsic_gate_active") is True and
+             stage.get("pointer_drop_gate_active") is True and
+             stage.get("stdout") == logfile and stage.get("stderr") == logfile)
+    if not bound:
+        return "SOURCE_STAGE_TARGET_MISMATCH"
+    return classify_row(name, stage, log_text)
+
+
 PROOF_CASES = (
     # (name, repaired?, opt-in flag?, intent)
     ("merged-optin", True, True, "positive: checked repair under the refreshed certificate"),
@@ -257,14 +279,25 @@ def proof(a) -> dict:
         finally:
             os.environ.pop(R20_FLAG, None)
         log_path = case / ("r20-" + name + ".log")
-        log_text = log_path.read_text(errors="replace") if log_path.is_file() else ""
+        log_text = log_path.read_text(errors="replace") if log_path.is_file() else None
+        expected_sources = {"original/lib.rs": sha(original),
+                            "verified/lib.rs": sha(repaired if use_repair else verified)}
+        observed_sources = {relative: sha((case / relative).read_bytes())
+                            if (case / relative).is_file() else None
+                            for relative in expected_sources}
+        verdict = classify_bound_row(name, result, log_text,
+            expected_argv=[str(a.tool_home / "bin/verifast"), "-rustc_args",
+                           "--edition 2021", "-verbose", "1", "verified/lib.rs"],
+            expected_sources=expected_sources, observed_sources=observed_sources)
         rows[name] = {"intent": intent, "opt_in": flag, "repaired": use_repair,
                       "verified_sha256": sha(repaired if use_repair else verified),
-                      "stage": result, "verdict": classify_row(name, result, log_text),
+                      "stage": result, "verdict": verdict,
+                      "observed_sources_after_stage": observed_sources,
                       "log": str((case / ("r20-" + name + ".log")).relative_to(a.evidence))}
         write(root / "r20-proof.json", record)
-    record["complete"] = all(r.get("verdict") not in (None, "NOT_RUN_OR_INCONCLUSIVE")
-                             for r in rows.values())
+    record["complete"] = len(rows) == len(PROOF_CASES) and all(
+        r.get("verdict") not in (None, "NOT_RUN_OR_INCONCLUSIVE", "SOURCE_STAGE_TARGET_MISMATCH")
+        for r in rows.values())
     record["controls_intended"] = all(rows.get(n, {}).get("verdict") == "INTENDED_CERTIFICATE_REFUSAL"
                                       for n in ("merged-no-optin", "unrepaired-optin"))
     write(root / "r20-proof.json", record)

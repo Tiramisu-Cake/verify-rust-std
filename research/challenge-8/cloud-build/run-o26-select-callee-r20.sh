@@ -176,13 +176,13 @@ git -C "$source_home" diff --name-only > "$ev/refreshed-modified-files.txt"
 cmp "$ev/modified-files.txt" "$ev/refreshed-modified-files.txt"
 git -C "$source_home" diff > "$ev/refreshed-applied.patch"
 [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a ]] || exit 2
-# R20 opt-in certificate refresh for the checked merged final-select repair;
+# R21 opt-in certificate refresh for the branch-selected final-select repair;
 # without SORT4_R20_FINAL_SELECT_REPAIR=1 the translator keeps the O26 pins.
-r20_patch="$proof_root/research/challenge-8/overnight-assume-actual/verifast-r20-final-select-branch-26.10.patch"
-[[ "$(sha256sum "$r20_patch" | cut -d' ' -f1)" == 74077492696785f0bdfaf4a74101356aa13d45034f8616591693f6d5d089831c ]] || exit 2
-stage r20-refresh-check git -C "$source_home" apply --check "$r20_patch"
-stage r20-refresh-apply git -C "$source_home" apply "$r20_patch"
-[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 82741fb5bce3ee1ec46ebfad55dc0d1b743c2fd68917f20381dbd66553092b5f ]] || exit 2
+branch_patch="$proof_root/research/challenge-8/overnight-assume-actual/verifast-r21-final-select-branch-selected-26.10.patch"
+[[ "$(sha256sum "$branch_patch" | cut -d' ' -f1)" == 78079210a5548fee87e200996920bfb012bcb0cd17b0b574eb926806a46e7ab6 ]] || exit 2
+stage branch-refresh-check git -C "$source_home" apply --check "$branch_patch"
+stage branch-refresh-apply git -C "$source_home" apply "$branch_patch"
+[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 606235c66c76412d2fdcef5f30436c342771ad5a087b343f618cfb7c8a2344d2 ]] || exit 2
 
 
 deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"
@@ -238,13 +238,9 @@ stage candidate-proof python3 "$cloud_dir/o26-refresh-recipe.py" proof \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
-# Repair variants are not run here: the pinned nine-body certificates fix the
-# exact verified source SHA and ghost list, so ghost-repaired copies would be
-# refused before the final select. They need a reviewed certificate refresh.
-# S2d (next window): fingerprint the branch-selected repaired unit for the pins
-# of its certificate refresh. The branch refresh patch stays applied (opt-in
-# off); the baseline candidate-proof remains the default-route regression.
-stage r20-repair-fingerprint python3 "$cloud_dir/select-callee-r20.py" fingerprint \
+# R21: run the reviewed branch-selected certificate refresh on the nine-body
+# unit, then use the helper's classified positive/control proof matrix.
+stage r20-repair-proof python3 "$cloud_dir/select-callee-r20.py" proof \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"

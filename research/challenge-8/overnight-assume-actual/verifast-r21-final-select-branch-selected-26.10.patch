@@ -1,0 +1,75 @@
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -12502,6 +12502,11 @@
+     let reject = Sort4SelectIntrinsic.reject in
+     let nine =
+       Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" = Some "1" in
++    (* R21: explicit opt-in for the checked branch-selected final-select repair. *)
++    let r20 = match Sys.getenv_opt "SORT4_R20_FINAL_SELECT_REPAIR" with
++      | None -> false
++      | Some "1" when nine -> true
++      | Some _ -> reject "R20 final-select repair requires exact nine-body admission" in
+     let names = if nine then [
+       "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new";
+       "sort4_checked_as_mut_ptr"; "sort4_checked_pointer_drop";
+@@ -12524,7 +12529,8 @@
+       "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed";
+       "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6";
+       "e8dd503c0bf832081e71dcc9d115c2a07e9349ff746ec7e7cce132edf63f4137";
+-      "9577c64905c4a45eecc4aab506f6276fea076f8a7a18d2f7ca0304cf70205b86";
++      (if r20 then "60861a6280f06196e3cab9e366ba8d5ade71d58d0aa29a79a90ed73ecc301094" else
++       "9577c64905c4a45eecc4aab506f6276fea076f8a7a18d2f7ca0304cf70205b86");
+       "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+     ] else [
+       "6527c8df047e70602b40ec03b17614a3e278b19f23ef94a4aa5e87f6793c39b7";
+@@ -12545,7 +12551,7 @@
+       | _ -> reject "owner actual source path" in
+     let source = Sort4MaybeUninit.read_file path in
+     if sort4_actual_owner_sha256 source <>
+-         (if nine then
++         (if r20 then "b9430169d01a2eca19728c38d05da818bdfc4e05561671c33ed95eb5830de45d" else if nine then
+             "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
+           else
+             "595e93c5c08ebd61a6ab4b7f7b98ed2f2d6765dbb8d903509a53391ea9a2b5b3") then
+@@ -12630,6 +12636,19 @@
+     let saved_guard =
+       "        /*@ assert <select_unpredictable::DropOnPanic<*Element>>.own(t, ?saved_guard); @*/\n" in
+     let selected =
++      if r20 then
++      (* R21: checked S6 lemma closes for the selected and unselected wrapper values inside both
++         branch blocks of the same ghost statement; no new MIR block. *)
++      "        /*@ if (condition) {\n" ^
++      "                 std::mem::close_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>);\n" ^
++      "                 std::mem::close_MaybeUninit_pointer_own::<Element>(t, std::mem::MaybeUninit::new::<*Element>(selected_payload));\n" ^
++      "                 std::mem::close_MaybeUninit_pointer_own::<Element>(t, std::mem::MaybeUninit::new::<*Element>(false_payload));\n" ^
++      "             } else {\n" ^
++      "                 std::mem::close_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>);\n" ^
++      "                 std::mem::close_MaybeUninit_pointer_own::<Element>(t, std::mem::MaybeUninit::new::<*Element>(true_payload));\n" ^
++      "                 std::mem::close_MaybeUninit_pointer_own::<Element>(t, std::mem::MaybeUninit::new::<*Element>(selected_payload));\n" ^
++      "             } @*/\n"
++      else
+       "        /*@ if (condition) {\n" ^
+       "                 std::mem::close_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>);\n" ^
+       "             } else {\n" ^
+@@ -12750,7 +12769,7 @@
+     let unit_digest = sort4_actual_owner_sha256
+       (Marshal.to_string (D.decode_vf_mir vf_mir) [Marshal.No_sharing]) in
+     if unit_digest <>
+-         (if nine then
++         (if r20 then "b8d367293b9d1ae8af186edeee0817f1b8bfe04250462fe75386fcd288e214eb" else if nine then
+             "10cf6e4d2a462082d456135078a77ea6670358f1ad15e0d81901104e8a102b43"
+           else
+             "3075b627aab5c0548f6f30a3727af5215bc6859a446009263de718b20a18d66e") then
+@@ -13376,7 +13395,10 @@
+     let path = source_path transmute_loc in
+     if source_path method_loc <> path || source_path outer_loc <> path ||
+        sort4_actual_owner_sha256 (Sort4MaybeUninit.read_file path) <>
+-         "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
++         (if Sys.getenv_opt "SORT4_R20_FINAL_SELECT_REPAIR" = Some "1" then
++            "b9430169d01a2eca19728c38d05da818bdfc4e05561671c33ed95eb5830de45d"
++          else
++            "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6")
+     then reject "exact nine-body verified source unit";
+     if not (Sort4A1Link.local_shape transmute &&
+             Sort4A1Link.local_shape method_body) then

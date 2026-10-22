@@ -67,9 +67,20 @@
           "sha256": "61a12011d011eed7515fe8cea0d16cd24041f0b0e0e12fba2dd2b52b831619cf"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R21 S2d fingerprint complete: branch-selected source b9430169, all ten snapshots, normal MIR export/decode and location-control reproduction. No body proof run; credit0. Build charged322s, remaining3278s.",
+      "evidence": [
+        {
+          "build_id": "79ba86f3-200c-4678-b9b2-80450b0be061",
+          "path": "research/challenge-8/task-history/select-callee-r21/S2d-evidence.json",
+          "sha256": "33818a756c6ddd2f5d1cc2bc35f30621b3bc675641d1a8c0ca0c2073441ead35"
+        }
+      ]
     }
   ],
-  "next_step": "Await S2d Build 79ba86f3-200c-4678-b9b2-80450b0be061 via Codex watcher; ack before checkpoint edits, then Brief fingerprint pins -> branch-selected certificate refresh -> classified proof and same-site controls. Original R21 window/budget remain in force.",
+  "next_step": "Review and build exact branch-selected certificate refresh (translator606235c6) with source/stage/target-bound classified proof. Positive and two certificate controls; same-site controls and full callee matrix still open.",
   "open": [
     "HANDOFF 0f37a0df (unbuilt, reviewed GO_WITH_NITS): S2d fingerprint -> branch-selected refresh patch -> runner proof -> delta review -> Build.",
     "Callee acceptance: normal/unwind/nested-Drop matrix; *mut T/generic gap. Recovery lane 192/191 chunks: prune before c5/selector.",
@@ -96,19 +107,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "79ba86f3-200c-4678-b9b2-80450b0be061"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T22:24:55Z",
     "main_deadline_utc": "2026-10-22T21:54:55Z",
-    "remaining_seconds": 3600,
+    "remaining_seconds": 3278,
     "retired_seconds": 0,
-    "spent_seconds": 0,
+    "spent_seconds": 322,
     "t0": "2026-10-22T19:54:55Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-23-r21",
-  "updated_utc": "2026-10-22T20:03:25Z"
+  "updated_utc": "2026-10-22T20:13:16Z"
 }

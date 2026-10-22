@@ -49,10 +49,10 @@ Next: New window: build HANDOFF 0f37a0df S2d fingerprint on o26-select-callee-r2
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-23-r21 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R21 · HANDOFF**
-Updated: 2026-10-22T20:03:25Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
-Dates: T0 `2026-10-22T19:54:55Z`; main `2026-10-22T21:54:55Z`; absolute `2026-10-22T22:24:55Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
-Active Build IDs: 79ba86f3-200c-4678-b9b2-80450b0be061; unresolved: none recorded.
+**select-callee-acceptance-autonomous-2026-10-23-r21 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R21 · ACTIVE**
+Updated: 2026-10-22T20:13:16Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Dates: T0 `2026-10-22T19:54:55Z`; main `2026-10-22T21:54:55Z`; absolute `2026-10-22T22:24:55Z`. Budget 3600s: 322s spent, 0s retired, 3278s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: Wrapper own closed for new(true_payload) but selected cell holds new(selected_payload) after guard re-open.
-Next: Await S2d Build 79ba86f3-200c-4678-b9b2-80450b0be061 via Codex watcher; ack before checkpoint edits, then Brief fingerprint pins -> branch-selected certificate refresh -> classified proof and same-site controls. Original R21 window/budget remain in force.
+Next: Review and build exact branch-selected certificate refresh (translator606235c6) with source/stage/target-bound classified proof. Positive and two certificate controls; same-site controls and full callee matrix still open.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
