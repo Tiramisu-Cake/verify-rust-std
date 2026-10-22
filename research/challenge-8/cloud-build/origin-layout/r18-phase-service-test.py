@@ -255,7 +255,7 @@ class R18PhaseTests(unittest.TestCase):
                                  "research/challenge-8/cloud-build/control.py").decode()
         current = (HERE.parents[0] / "control.py").read_text()
         m.r14_validate_publisher_control(before, current)
-        broken = current.replace(",'MERGE-RAW-CALLER-R18-2026-10-22')\n\ndef config(", ")\n\ndef config(", 1)
+        broken = current.replace(",'MERGE-RAW-CALLER-R18-2026-10-22'", "", 1)
         self.assertNotEqual(broken, current)
         with self.assertRaises(SystemExit):
             m.r14_validate_publisher_control(before, broken)

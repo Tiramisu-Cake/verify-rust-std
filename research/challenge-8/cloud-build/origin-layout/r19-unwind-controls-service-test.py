@@ -1,0 +1,185 @@
+#!/usr/bin/env python3
+"""Synthetic R19 unwind cleanup control tests; no compiler or Cloud service runs."""
+from __future__ import annotations
+
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import tempfile
+from types import SimpleNamespace
+import unittest
+
+
+HERE = Path(__file__).resolve().parent
+spec = importlib.util.spec_from_file_location("r19_unwind_controls", HERE / "r19-unwind-controls.py")
+controls = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(controls)
+callback_spec = importlib.util.spec_from_file_location("r19_first_callback", HERE / "first-callback.py")
+callback = importlib.util.module_from_spec(callback_spec)
+callback_spec.loader.exec_module(callback)
+SOURCE_SHA = "a" * 64
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def raw_pair():
+    old = callback._load("r19_raw_source", HERE / "actual-insert-tail-b2.py")
+    original, verified = callback._raw_local_caller_suffixes(old)
+    body = b"#![no_std]\nunsafe fn insert_tail() {}\n"
+    return body + original, body + verified
+
+
+class Consumer:
+    def _hashes(self, case):
+        return {"original/lib.rs": sha((case / "original/lib.rs").read_bytes()),
+                "verified/lib.rs": sha((case / "verified/lib.rs").read_bytes()),
+                "small_sort_source": SOURCE_SHA}
+
+    def _stage_receipts(self, case, stages, baseline):
+        return {"admitted": type(stages) is dict and all(
+            type(stages.get(stage)) is int for stage in controls.STAGES)}
+
+
+def diagnostic_log(name, line):
+    return f"verified/lib.rs({line},5-6): error: {controls.DIAGNOSTICS[name]}\n"
+
+
+class R19UnwindControlsTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp.name)
+        self.raw = self.root / "raw"
+        (self.raw / "original").mkdir(parents=True)
+        (self.raw / "verified").mkdir()
+        self.original, self.verified = raw_pair()
+        (self.raw / "original/lib.rs").write_bytes(self.original)
+        (self.raw / "verified/lib.rs").write_bytes(self.verified)
+
+    def tearDown(self):
+        self.temp.cleanup()
+
+    def run_controls(self, executor, name="evidence"):
+        evidence = self.root / name
+        evidence.mkdir()
+        args = SimpleNamespace(r8_owned_array_allocation=False, first_fnmut_continue=True)
+        result = controls.run(evidence, self.raw, args, executor, Consumer(), "profile",
+                              source_sha256=SOURCE_SHA)
+        self.assertFalse(args.r8_owned_array_allocation)
+        return result
+
+    def matching_executor(self, stages=None, log=None):
+        def execute(case, args, *, actual_callback_case, body_isolation_native):
+            self.assertTrue(actual_callback_case and body_isolation_native)
+            self.assertTrue(args.r8_owned_array_allocation)
+            record = json.loads((case / "case.json").read_text())
+            text = diagnostic_log(record["case"], record["expected_line"]) if log is None else log
+            (case / "verifast.log").write_text(text)
+            return {"status": "FAILURE", "stages": dict(
+                {"exporter": 0, "decode": 0, "refinement": 0, "verifast": 1}, **(stages or {}))}
+        return execute
+
+    def test_raw_caller_carries_the_marked_cleanup_after_the_call(self):
+        self.assertEqual(self.verified.count(controls.CALL + controls.R19_AFTER), 1)
+        self.assertEqual(self.original.count(controls.CALL), 1)
+        self.assertNotIn(b"r19_", self.original)
+
+    def test_variants_change_only_their_target_and_bind_exact_lines(self):
+        variants = controls._variants(self.original, self.verified)
+        self.assertEqual(set(variants), set(controls.CASES))
+        for name, (original, verified, line) in variants.items():
+            lines = verified.splitlines()
+            with self.subTest(name=name):
+                self.assertGreater(line, 0)
+                if name == "missing_marker":
+                    self.assertEqual(lines[line - 1], b"}")
+                    self.assertNotIn(b"r19_insert_tail_unwind_cleanup", verified)
+                elif name == "cleanup_edge":
+                    self.assertEqual(lines[line - 1], controls.CALL.rstrip(b"\n"))
+                    self.assertIn(controls.KEEP_LOCAL, original)
+                else:
+                    self.assertIn(b"r19_insert_tail_unwind_cleanup();", lines[line - 1])
+                if name not in ("cleanup_edge", "other_function"):
+                    self.assertEqual(original, self.original)
+
+    def test_variants_refuse_an_unmarked_or_duplicated_raw_caller(self):
+        unmarked = self.verified.replace(controls.R19_AFTER, controls.R18_AFTER)
+        for verified in (unmarked, self.verified + controls.CALL + controls.R19_AFTER,
+                         self.verified + controls.KEEP_TYPE):
+            with self.subTest(size=len(verified)), self.assertRaises(ValueError):
+                controls._variants(self.original, verified)
+
+    def test_all_exact_refusals_match(self):
+        result = self.run_controls(self.matching_executor())
+        self.assertTrue(result["all_matched"])
+        self.assertEqual(result["classification"], "ALL_R19_UNWIND_CONTROLS_MATCHED")
+        self.assertFalse(result["proof_credit"])
+        for name in controls.CASES:
+            self.assertEqual(result["cases"][name]["classification"], "EXPECTED_VERIFAST_REFUSAL")
+
+    def test_success_wrong_line_or_duplicate_diagnostic_is_inconclusive(self):
+        for label, executor in (
+            ("verifier exit0", self.matching_executor(stages={"verifast": 0})),
+            ("exporter failure", self.matching_executor(stages={"exporter": 1})),
+            ("wrong line", self.matching_executor(log="verified/lib.rs(1,1-2): error: " +
+                                                  controls.DIAGNOSTICS["missing_marker"])),
+            ("missing log", self.matching_executor(log="")),
+        ):
+            with self.subTest(label=label):
+                result = self.run_controls(executor, name=label.replace(" ", "-"))
+                self.assertFalse(result["all_matched"])
+        def duplicate(case, args, **kwargs):
+            record = json.loads((case / "case.json").read_text())
+            line = diagnostic_log(record["case"], record["expected_line"])
+            (case / "verifast.log").write_text(line + line.replace("5-6", "9-10"))
+            return {"stages": {"exporter": 0, "decode": 0, "refinement": 0, "verifast": 1}}
+        result = self.run_controls(duplicate, name="duplicate")
+        self.assertEqual({r["classification"] for r in result["cases"].values()}, {"INCONCLUSIVE"})
+
+    def test_timeout_setup_null_wrong_type_not_run_and_exception_fail_closed(self):
+        cases = {
+            "timeout": lambda *a, **k: {"stages": {"exporter": 0, "decode": 0, "refinement": 0, "verifast": 124}},
+            "partial": lambda *a, **k: {"stages": {"exporter": 0, "decode": 0}},
+            "null": lambda *a, **k: {"stages": {"exporter": 0, "decode": 0, "refinement": None, "verifast": 1}},
+            "bool": lambda *a, **k: {"stages": {"exporter": 0, "decode": 0, "refinement": 0, "verifast": True}},
+            "wrong-type": lambda *a, **k: ["not", "a", "dict"],
+            "not-run": lambda *a, **k: {"status": "NOT_RUN", "stages": None},
+        }
+        def raises(*a, **k):
+            raise RuntimeError("dispatch failed")
+        cases["exception"] = raises
+        for label, executor in cases.items():
+            with self.subTest(label=label):
+                result = self.run_controls(executor, name=label)
+                self.assertFalse(result["all_matched"])
+                expected = "NOT_RUN" if label == "not-run" else "INCONCLUSIVE"
+                self.assertEqual({r["classification"] for r in result["cases"].values()}, {expected})
+
+    def test_source_change_during_dispatch_is_inconclusive(self):
+        inner = self.matching_executor()
+        def mutate(case, args, **kwargs):
+            result = inner(case, args, **kwargs)
+            (case / "verified/lib.rs").write_bytes(b"changed")
+            return result
+        result = self.run_controls(mutate, name="mutated")
+        self.assertEqual({r["classification"] for r in result["cases"].values()}, {"INCONCLUSIVE"})
+
+    def test_registration_gate_requires_exact_r19_profile(self):
+        profile_path = HERE / "GLUE-PROFILE.json"
+        self.assertTrue(callback._r19_registration_matches(profile_path, callback.R11_PROFILE))
+        self.assertFalse(callback._r19_registration_matches(profile_path, callback.R10_PROFILE))
+        changed = json.loads(profile_path.read_text())
+        changed["r19_registration"]["candidate_tool_commit"] = "0" * 40
+        other = self.root / "profile.json"
+        other.write_text(json.dumps(changed))
+        self.assertFalse(callback._r19_registration_matches(other, callback.R11_PROFILE))
+        self.assertFalse(callback._r19_registration_matches(self.root / "absent.json", callback.R11_PROFILE))
+        receipt = {"profile": callback.R11_PROFILE}
+        self.assertTrue(callback._r17_registration_matches(profile_path, callback.R11_PROFILE, receipt))
+        self.assertFalse(callback._r17_registration_matches(other, callback.R11_PROFILE, receipt))
+
+
+if __name__ == "__main__":
+    unittest.main()
