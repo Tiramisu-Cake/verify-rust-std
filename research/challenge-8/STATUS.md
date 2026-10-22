@@ -1,10 +1,10 @@
-# Agent checkpoint: select-s5-unselected-borrow-autonomous-2026-10-22-r18
+# Agent checkpoint: select-c3-callback-autonomous-2026-10-22-r19
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-C2-2026-10-22-R18 | state: CLOSED
-- Updated: 2026-10-22T13:07:56Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-C3-2026-10-22-R19 | state: NOT_STARTED
+- Updated: 2026-10-22T13:44:32Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `87a0bfe586b40a33bdf840164aec8748872c8fdd11b3faad421d3860d1f2a091`
-- Session dates: T0 `2026-10-22T12:12:06Z`; main deadline `2026-10-22T14:12:06Z`; absolute deadline `2026-10-22T14:42:06Z`
-- Budget: 3600s total; 576s spent; 3024s retired; 0s remaining including active reservations
+- Session dates: T0 `NOT_SET`; main deadline `NOT_SET`; absolute deadline `NOT_SET`
+- Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
@@ -27,7 +27,7 @@ c3 has no callback setup: No matching heap chunks ref_precreated_token<T>(ptr_ad
 - [research/challenge-8/task-history/select-s5-r18/S5-evidence.json](task-history/select-s5-r18/S5-evidence.json) SHA `724da794e6172fe2000fbeb81406fd83fe68df29ffdc00cde35933ac0c414cda` Build `0ee7f658-50fe-4928-a7c9-3da5e56c95f2`
 
 ## Next
-Implement C3-NEXT-DESIGN: generalise indexed overlay to N calls, c3 constructor sharing all four borrows; review; Cloud.
+Implement C3-NEXT-DESIGN (N-index overlay, c3 constructor sharing all four borrows, per-index controls, new profile); review; register R19; Cloud c3.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-s5-r18/S5-review.json](task-history/select-s5-r18/S5-review.json) — `26099067fcc01c07ba31d5e0e016dd3c5685fab65fb009a2ae91f6ef201e4085`

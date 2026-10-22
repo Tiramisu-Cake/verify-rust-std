@@ -1,7 +1,7 @@
-# Select-R18 — S5 c2 borrow recovery and actual sort4
+# Select-R19 — c3 callback recovery and actual sort4
 
-Task ID: `select-s5-unselected-borrow-autonomous-2026-10-22-r18`; previous task: `select-actual-c2-autonomous-2026-10-21-r17`.
-Owner: **Select/sort4**. Phase: `SORT4-ACTUAL-C2-2026-10-22-R18`. Lane: `o26-sort4-c1-current-recovery`.
+Task ID: `select-c3-callback-autonomous-2026-10-22-r19`; previous task: `select-s5-unselected-borrow-autonomous-2026-10-22-r18`.
+Owner: **Select/sort4**. Phase: `SORT4-ACTUAL-C3-2026-10-22-R19`. Lane: `o26-sort4-c1-current-recovery`.
 
 ## Mission
 
@@ -13,44 +13,44 @@ No previous budget, T0, ledger authorization, profile acceptance, or proof credi
 
 ## Baseline and controls
 
-Worktree `/root/verify-rust-std-select-night` on branch `research/night-select-sort4-cloud-2026-10-09`; baseline `68e4537989f688a8b29e99a301257a523928b0af`; source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`.
+Worktree `/root/verify-rust-std-select-night` on branch `research/night-select-sort4-cloud-2026-10-09`; baseline `69a54645a7f63cdd26b931b69956b99f09b4efd3`; source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`.
 Tool worktree `/root/verifast-select-sort4-c2-bind-20261010` on `challenge8/select-sort4-c2-bound-20261010` at `f76012fb518703b1d98e243ac4f487f16877cfcb`.
-Profile `research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json` SHA-256 `87a0bfe586b40a33bdf840164aec8748872c8fdd11b3faad421d3860d1f2a091`. New ledger path: `research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C2-2026-10-22-R18.json`; previous closed ledger: `research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C2-2026-10-21-R17.json`.
+Profile `research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C2-R17-PROFILE-2026-10-21.json` SHA-256 `87a0bfe586b40a33bdf840164aec8748872c8fdd11b3faad421d3860d1f2a091`. New ledger path: `research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json`; previous closed ledger: `research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C2-2026-10-22-R18.json`.
 Cloud budget: 3600 seconds. Wall window: 120 minutes main + 30 minutes closeout. Per-Build timeout ≤1200 seconds; report reserve ≥240 seconds. T0 remains NOT_SET until actual work starts.
 
 ## Goal and steps
 
-R18 и Builds разрешены. Автономно продвигай actual sort4 normal/unwind по CORE; ближайшая цель — S5 (a6550c20): checked consumption невыбранных c2 full_borrow и c2 resource recovery без leak, с controls и точной call-site attribution. Дальше продолжай по миссии в оставшемся окне.
+R19 и Builds разрешены. Автономно продвигай actual sort4 normal/unwind по CORE; ближайшая цель — c3 по C3-NEXT-DESIGN: обобщённый на N вызовов overlay, c3 setup с share всех четырёх borrow, recovery без leak, controls и точная call-site attribution. Дальше c4–c5 и composition по миссии в оставшемся окне.
 
-1. Independent review of S5 a6550c20 against S5-review-spec.json by the smallsort-reviewer subagent (review packet + expected candidate/spec identities); fix concrete findings, then register R18 phase/ledger through the branch client.
-2. Cloud S5 on exact reviewed pins with the missing-unselected-share negative and retained wrong order/ref/index/debt/marker controls; wait via smallsort-session wait; read results via Brief and establish whether c2 recovery passes the leak check.
-3. When justified, advance c3–c5 and selector/copy composition; after target gates pass run required controls/mini7/fresh26 on final pins, then stable Freeze caller. Report partial progress without full-body credit.
+1. Implement C3-NEXT-DESIGN: explicit N-call indexed overlay (unknown index/count/shape still refused), c3 constructor and per-index controls incl. index-N+1 marker without call; new profile/pins; smallsort-reviewer review; register R19 through the branch client.
+2. Cloud c3 on exact reviewed pins; read each control by message and location in Brief; then c4–c5 and selector/copy composition when justified. Required controls/mini7/fresh26 and stable Freeze caller only on final pins; no full-body credit for partial progress.
+3. Maintenance, reported separately from proof: make test_a1_r11..r18_registration clock-independent (inject a fixed now instead of wall clock) so expired windows do not fail them; keep every client gate and refusal; run them as service tests.
 
 ## Special bounds
 
-- Effective tool is the full R16/R17 overlay/spec/profile chain, not base SHA alone. Preserve R13 limits and strict entry/exit/escape/init/leak/unwind checks; keep all5 calls/8selects/4copies. No leak statement or relaxed leak check.
-- Tool WT contains foreign edits: use pinned Git objects; develop in project/isolated WT. Kernel resource equality may prove binding; independent receipt still attributes exact ordered calls. No address-only or assumed bridge.
-- First Claude Code proof session: record reviewer identity/decision, wait job/event IDs and any runtime friction in task-history; report it separately from proof progress.
+- Effective tool is the full R16/R17 overlay/spec/profile chain plus reviewed R19 deltas, not base SHA alone. Preserve R13 limits and strict entry/exit/escape/init/leak/unwind checks; keep all5 calls/8selects/4copies. No leak statement or relaxed leak check.
+- Tool WT contains foreign edits: use pinned Git objects; develop in project/isolated WT. Selected operands are symbolic offsets: use checked equality or an explicit checked case split, never an address-only or assumed bridge.
+- Use the whole main window: if a full Cloud cycle no longer fits, finish Cloud-free stages (implementation, tests, review, pins, committed HANDOFF candidate) instead of closing early (CORE).
 
 ## Starting checkpoint
 
 Read [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for the exact claims, assurance, evidence, open and rejected items, and artifact identities. UNKNOWN remains UNKNOWN.
 
-Blocker: Function leaks heap chunks: unselected c2 full_borrow(cmp2_k, full_borrow_content(T,t)) at v_base+1 and v_base; full actual normal/unwind OPEN. (verified/lib.rs(314,1-2), actual body leak check) [Build 27e8bfac-eb5f-4cf4-ae89-18bacd16eb90]
-Next: Review S5 a6550c20 with smallsort-reviewer, register R18, then Cloud S5 with missing-unselected-share control; Brief on the c2 leak check.
+Blocker: c3 has no callback setup: No matching heap chunks ref_precreated_token<T>(ptr_add_(v_base,2+1)); translator overlay supports indices 1/2 only. (aliasing.rsspec(88,9-29) via verified/lib.rs(299,26-29) c3 call) [Build 0ee7f658-50fe-4928-a7c9-3da5e56c95f2]
+Next: Implement C3-NEXT-DESIGN (N-index overlay, c3 constructor sharing all four borrows, per-index controls, new profile); review; register R19; Cloud c3.
 
 ## References
 
-- [S5 defect and fix rationale](task-history/select-actual-c2-r17/S5-UNSELECTED-BORROW-FIX.md)
-- [S5 review spec](task-history/select-actual-c2-r17/S5-review-spec.json)
-- [Callback protocol and kernel binding qualification](task-history/select-actual-lifetime-r16/NEXT-CALLBACK-PROTOCOL.md)
+- [c3 design](task-history/select-s5-r18/C3-NEXT-DESIGN.md)
+- [S5 Cloud evidence](task-history/select-s5-r18/S5-evidence.json)
+- [R18 registration note (R17 routing literal)](task-history/select-s5-r18/REGISTRATION.md)
 
 ## Отчёт агента
 
-**select-s5-unselected-borrow-autonomous-2026-10-22-r18 · select-sort4 · SORT4-ACTUAL-C2-2026-10-22-R18 · CLOSED**
-Updated: 2026-10-22T13:07:56Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `87a0bfe586b40a33bdf840164aec8748872c8fdd11b3faad421d3860d1f2a091`.
-Dates: T0 `2026-10-22T12:12:06Z`; main `2026-10-22T14:12:06Z`; absolute `2026-10-22T14:42:06Z`. Budget 3600s: 576s spent, 3024s retired, 0s remaining including reservations.
+**select-c3-callback-autonomous-2026-10-22-r19 · select-sort4 · SORT4-ACTUAL-C3-2026-10-22-R19 · NOT_STARTED**
+Updated: 2026-10-22T13:44:32Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `87a0bfe586b40a33bdf840164aec8748872c8fdd11b3faad421d3860d1f2a091`.
+Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: c3 has no callback setup: No matching heap chunks ref_precreated_token<T>(ptr_add_(v_base,2+1)); translator overlay supports indices 1/2 only. [Build `0ee7f658-50fe-4928-a7c9-3da5e56c95f2`]
-Next: Implement C3-NEXT-DESIGN: generalise indexed overlay to N calls, c3 constructor sharing all four borrows; review; Cloud.
+Next: Implement C3-NEXT-DESIGN (N-index overlay, c3 constructor sharing all four borrows, per-index controls, new profile); review; register R19; Cloud c3.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
