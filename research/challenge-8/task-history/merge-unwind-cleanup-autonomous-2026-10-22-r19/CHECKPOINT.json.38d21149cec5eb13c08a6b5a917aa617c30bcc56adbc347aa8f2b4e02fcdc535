@@ -1,0 +1,148 @@
+{
+  "artifacts": [
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R18-RELEASE-20261022.json",
+      "sha256": "1a9c18a08a0935226d6b7c4295dbe73d18c50e67464c6fe1554dea368561d076"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md",
+      "sha256": "6acfb36fa52b2e05eea0551dfb40033156b23ef8165dfa67f6309d0550e721eb"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R18-REVIEW-20261022.md",
+      "sha256": "1558be1151365377aec81527760627eddd767e0e4b6344ed962d4c5a5d5e5617"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R18-RAW-CALLER-DESIGN-20261022.md",
+      "sha256": "dfc93e3344b537e1168ae6b6a1645e4eb6d614c4e5b14effaf1185e6a641beac"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R19-UNWIND-CLEANUP-DESIGN-20261022.md",
+      "sha256": "571f1acd4a0ad8f86c7fe2bfa95e9a5a80450cbe0a5dc84c81fe5f8309ad857e"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R19-REVIEW-20261022.md",
+      "sha256": "6b9a227165ed4cc3ba6e71d77ee2083ca14c4505fe64205b2233068c444fc1a8"
+    }
+  ],
+  "assignment_sha256": "9cfebe797dd5968c2f53eaef81a6d3660e175b4f002d7a47b43d7c9858f5e73a",
+  "baseline": {
+    "profile_sha256": "947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d",
+    "source_sha": "6fd50c699500cbac5c65912174d4aa49b49db19f",
+    "tool_sha": "a66c1d30214e463a16a325cdef30b0ec8555e0af"
+  },
+  "blocker": {
+    "summary": "Published R19 cleanup candidate is Cloud-UNVERIFIED; original caller borrow/unsize remains OPEN.",
+    "evidence": []
+  },
+  "confirmed": [
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P1: RawPtr positive identical_local_rawmut refinement0 MATCHED; raw caller passed array_inv444/insert_tail call, new frontier free_locals array_ at 461 (unwind presumed). Bounded only; no credit.",
+      "evidence": [
+        {
+          "build_id": "e70d2723-f49d-4a8f-847e-f8da1106d36f",
+          "path": "research/challenge-8/cloud-build/origin-layout/R18-PROOF1-RESULT-20261022.json",
+          "sha256": "d0b75917c6865ce64ecad4da12beaa96a8ad293ff97c051af411e0a0d2141008"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P2: RawPtr controls 4/5 matched (positive, mutability, changed contents via aggregate refusal, raw/ref); index projection INCONCLUSIVE refiner limitation. No credit.",
+      "evidence": [
+        {
+          "build_id": "08bd6e03-a320-4e03-b5d3-21b051204b3e",
+          "path": "research/challenge-8/cloud-build/origin-layout/R18-PROOF2-RESULT-20261022.json",
+          "sha256": "18e233643f84376bc6103ee9df537bb917f3b9d2bdc454537fca86c404114ab3"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R18 CLOSED early: P1/P2 terminal/accounted, 1821s spent, 1779s retired, carry0; own active/unresolved 0. No credit.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R18-BUDGET-20261022.json",
+          "sha256": "a0541f5bce32a9ea61cdfb025f90df1790707af014ae08436490c26db8d2c34d"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R19 candidate ready, Cloud-unverified: tool 39f6b0ca, activation 3a587cb7 (ledger-only delta), reviewer GO_WITH_NITS x2; 0s spent; not pushed. No credit.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R19-REVIEW-20261022.md",
+          "sha256": "6b9a227165ed4cc3ba6e71d77ee2083ca14c4505fe64205b2233068c444fc1a8"
+        }
+      ]
+    },
+    {
+      "assurance": "INDEPENDENTLY_ESTABLISHED",
+      "claim": "R19 CLOSED: 0 Builds/spent, 3600s retired, carry0. Candidate/tool published; Cloud UNVERIFIED, credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R19-CLOSEOUT-20261022.json",
+          "sha256": "64c5f76009562d166d0d057a6dab6e1198fd7431bb8a8dd867bac6656ceb055b"
+        }
+      ]
+    }
+  ],
+  "next_step": "Install fresh R20 from CLOSED R19; at actual T0 prepare/register its new account, then Cloud the published candidate.",
+  "open": [
+    "Original as_mut_ptr/unsize, source-bound metadata, real borrow/reference lifecycle and caller normal/unwind remain OPEN; isolated lifecycle does not close them.",
+    "R19 raw caller unwind cleanup implemented/reviewed but UNVERIFIED; RawPtr LocalAddressTaken negative and index projection OPEN.",
+    "CURRENT/backedge/false/true/panic/Drop/Resume compatible final matrix; B2/generic/arbitrary-n/sorting/tool qualification/independent proof credit remain OPEN."
+  ],
+  "owner": "merge",
+  "phase": "MERGE-UNWIND-CLEANUP-R19-2026-10-22",
+  "rejected": [
+    {
+      "approach": "Broad placeholder/cast inference exemption or address-only borrow bridge",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R16-CALLER-DESIGN-20261021.md",
+          "sha256": "c1e8f851b5c0b18edf3ed5ac2b758a32daa0eda2f4ea88551b8e37e03288b940"
+        }
+      ],
+      "reason": "Does not establish slice metadata, valid lifetime/full_borrow or memory authority; original gate must remain."
+    },
+    {
+      "approach": "Short outer timeout990/execute570 chosen using prior whole-cycle timings",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md",
+          "sha256": "7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa"
+        }
+      ],
+      "reason": "Missed nested compile reserve140; P4 timed out before proof. Keep full1200 plan unless effective inner budget reviewed."
+    },
+    {
+      "approach": "Close early when the next tool commit/review cannot finish within main",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R18-BUDGET-20261022.json",
+          "sha256": "a0541f5bce32a9ea61cdfb025f90df1790707af014ae08436490c26db8d2c34d"
+        }
+      ],
+      "reason": "R18 closed 29.5 min early with a ready, narrow design; CORE requires Cloud-free stages (implementation, tests, review, pins) instead."
+    }
+  ],
+  "schema": "smallsort-checkpoint-v1",
+  "session": {
+    "active_build_ids": [],
+    "budget_seconds": 3600,
+    "deadline_utc": "2026-10-22T18:38:18Z",
+    "main_deadline_utc": "2026-10-22T18:08:18Z",
+    "remaining_seconds": 0,
+    "retired_seconds": 3600,
+    "spent_seconds": 0,
+    "t0": "2026-10-22T16:08:18Z",
+    "unresolved_ids": []
+  },
+  "state": "CLOSED",
+  "task_id": "merge-unwind-cleanup-autonomous-2026-10-22-r19",
+  "updated_utc": "2026-10-22T19:53:52Z",
+  "closure_reason": "Owner requested issuance of Merge R20 after read-only pre-start review. R19 expired without a Build after owner declined push/submit in that window; published reviewed candidate 3a587cb7 is carried as an unverified candidate only. Retire all 3600 unused seconds, carry 0; no proof continuation, phase registration, request, reservation or Build in this closeout."
+}

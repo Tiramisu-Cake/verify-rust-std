@@ -1,7 +1,7 @@
-# Merge-R19 — checked unwind cleanup on the raw caller, then original borrow/unsize
+# Merge-R20 — accept the checked raw caller cleanup, then original borrow/unsize
 
-Task ID: `merge-unwind-cleanup-autonomous-2026-10-22-r19`; previous task: `merge-raw-caller-frontier-autonomous-2026-10-22-r18`.
-Owner: **Merge**. Phase: `MERGE-UNWIND-CLEANUP-R19-2026-10-22`. Lane: `merge`.
+Task ID: `merge-unwind-acceptance-autonomous-2026-10-23-r20`; previous task: `merge-unwind-cleanup-autonomous-2026-10-22-r19`.
+Owner: **Merge**. Phase: `MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23`. Lane: `merge`.
 
 ## Mission
 
@@ -13,46 +13,46 @@ No previous budget, T0, ledger authorization, profile acceptance, or proof credi
 
 ## Baseline and controls
 
-Worktree `/root/verify-rust-std-merge-origin` on branch `merge/incoming-origin-20261009`; baseline `17fe08b5b4ed5b09c1d08bf56537c3d474c4ed05`; source `6fd50c699500cbac5c65912174d4aa49b49db19f`.
-Tool worktree `/root/verifast-merge-actual-glue` on `merge/actual-glue-instance-20261011` at `a66c1d30214e463a16a325cdef30b0ec8555e0af`.
-Profile `research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json` SHA-256 `947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d`. New ledger path: `research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R19-BUDGET-20261022.json`; previous closed ledger: `research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R18-BUDGET-20261022.json`.
+Worktree `/root/verify-rust-std-merge-origin` on branch `merge/incoming-origin-20261009`; baseline `e278869253e5a1e553d0ac0c1bc7adb5221b681e`; source `6fd50c699500cbac5c65912174d4aa49b49db19f`.
+Tool worktree `/root/verifast-merge-actual-glue` on `merge/actual-glue-instance-20261011` at `39f6b0cacd00575c8ca2d39e9f15632723bf1227`.
+Profile `research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json` SHA-256 `1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb`. New ledger path: `research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R20-BUDGET-20261023.json`; previous closed ledger: `research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R19-BUDGET-20261022.json`.
 Cloud budget: 3600 seconds. Wall window: 120 minutes main + 30 minutes closeout. Per-Build timeout ≤1200 seconds; report reserve ≥420 seconds. T0 remains NOT_SET until actual work starts.
 
 ## Goal and steps
 
-R19 и Builds разрешены. Цель — реализовать узкий checked unwind cleanup hook из дизайна R18 для вызова insert_tail в raw caller и пройти raw caller normal/unwind на Cloud; затем исходный as_mut_ptr/unsize, borrow/lifetime и final matrix по миссии.
+R20 и Builds разрешены. Принять prepared R19 cleanup на actual raw caller: normal/unwind + controls. Затем исходный caller с as_mut_ptr/unsize, borrow/lifetime и CURRENT matrix. Tool 39f6b0ca уже опубликован, Cloud UNVERIFIED.
 
-1. Implement the R18 next-window contract (R18-RAW-CALLER-DESIGN): source-bound ghost block on the Continue unwind edge of that insert_tail call only, failing closed otherwise; 4 distinguishing controls (missing marker, other call/function, Cleanup edge, no r9_drop_u64_owners); service tests; tool commit, profile/patch pins, prove.py admission; smallsort-reviewer; register R19.
-2. Cloud raw caller normal+unwind with the actual insert_tail callee and exact receipts; then original as_mut_ptr/unsize via source-bound metadata, real borrow/lifetime and checked resource conversion; LocalAddressTaken negative and index projection control.
-3. Then CURRENT/backedge, false/true/panic/Drop/Resume and the final matrix; pick further useful steps yourself; Cloud-free stages if a cycle no longer fits (CORE).
+1. Prepare/register fresh R20, adapting client/recipe admission to the new ledger/window; no old-phase dispatch. Reuse published 3a587cb7/39f6b0ca and R19 review; review changed admission/recipe deltas. Existing Cloud preflight, then raw caller normal/unwind plus all five R19 controls at their intended sites. A static shape refusal is separate from a verifier resource negative; close the F5 unwind-copy coverage gap if needed before acceptance.
+2. After the raw caller gate, return to the original as_mut_ptr/unsize caller: source-bound metadata, actual borrow/reference lifecycle and checked resource conversion in the same admitted domain. Keep RawPtr LocalAddressTaken and index-projection controls; an unsupported/setup failure is INCONCLUSIVE, not an intended negative.
+3. Then CURRENT/backedge and false/true/panic/Drop/Resume on compatible pins; final required matrix after the target. Use remaining main time for implementation, service tests, review and an exact HANDOFF candidate if another full Cloud cycle does not fit.
 
 ## Special bounds
 
-- Full plan timeout1200/execute<=780/soft<=765/reserve>=420, nested compile reserve140. After main only started work. An unfinished tool commit/review or no admissible Build is not a boundary; an early stop lists each checked independent task in closure_reason (CORE).
-- RawPtr matching: same mutability/pointee/place/full origin; no RawPtr<->Ref, address-only ownership, broad placeholders or new borrow/trusted premises. Keep the narrow R8 allocation boundary, posts and controls; new source-preserving fixes/profiles allowed.
-- Original gate/raw caller/isolated body are different claims. Missing bindings => INCONCLUSIVE; bounded/source PASS is not B2/independent credit. Keep array11/R9, publication guards/caps and foreign dirty policy/guides. Blocker is Merge's, not maintainer's.
+- Keep timeout1200/execute<=780/soft<=765/report reserve>=420 and nested compile reserve140. Respect the existing transport cap; recipe pruning needs a closure inventory and review, no cap increase. Fix T0 once at actual start; closed R19 carries 0.
+- Preserve the pinned R8 concrete allocation/domain, array11/R9 gates and full posts. RawPtr needs same mutability/pointee/place/full origin; no RawPtr<->Ref or address-only ownership, broad placeholders, new borrow/trusted premises. Adopted v4 coordination.py is read-only.
+- Raw caller, original caller and isolated body are separate claims; bounded PASS is not B2/generic/R5/sorting/profile qualification. Missing bindings stay INCONCLUSIVE. Continue useful work in main; an early stop lists each independent task checked and its real boundary (CORE).
 
 ## Starting checkpoint
 
 Read [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for the exact claims, assurance, evidence, open and rejected items, and artifact identities. UNKNOWN remains UNKNOWN.
 
-Blocker: Raw caller unwind free_locals needs array_ at verified461; needs checked source-bound unwind cleanup (tool). R18 CLOSED early at real boundary. (raw caller verified461 free_locals) [Build e70d2723-f49d-4a8f-847e-f8da1106d36f]
-Next: Implement the R18 unwind cleanup rule with its four controls and service tests; review; register R19; Cloud raw caller normal/unwind.
+Blocker: Published R19 cleanup candidate remains Cloud-UNVERIFIED; original caller borrow/unsize and full normal/unwind remain OPEN.
+Next: At actual T0 prepare/register R20; Cloud preflight, then the published raw caller normal/unwind and five R19 controls.
 
 ## References
 
-- [R18 raw caller design / unwind contract](cloud-build/origin-layout/R18-RAW-CALLER-DESIGN-20261022.md)
-- [P1 result](cloud-build/origin-layout/R18-PROOF1-RESULT-20261022.json)
-- [P2 RawPtr controls](cloud-build/origin-layout/R18-PROOF2-RESULT-20261022.json)
-- [R18 review](cloud-build/origin-layout/R18-REVIEW-20261022.md)
-- [Original caller borrowing boundary](cloud-build/origin-layout/R16-CALLER-DESIGN-20261021.md)
+- [R19 checked cleanup design](cloud-build/origin-layout/R19-UNWIND-CLEANUP-DESIGN-20261022.md)
+- [R19 independent review and remaining nits](cloud-build/origin-layout/R19-REVIEW-20261022.md)
+- [Original caller borrow boundary](cloud-build/origin-layout/R16-CALLER-DESIGN-20261021.md)
+- [R18 RawPtr controls](cloud-build/origin-layout/R18-PROOF2-RESULT-20261022.json)
+- [R19 accounting closeout](cloud-build/origin-layout/R19-CLOSEOUT-20261022.json)
 
 ## Отчёт агента
 
-**merge-unwind-cleanup-autonomous-2026-10-22-r19 · merge · MERGE-UNWIND-CLEANUP-R19-2026-10-22 · CLOSED**
-Updated: 2026-10-22T19:53:52Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `a66c1d30214e463a16a325cdef30b0ec8555e0af` / `947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d`.
-Dates: T0 `2026-10-22T16:08:18Z`; main `2026-10-22T18:08:18Z`; absolute `2026-10-22T18:38:18Z`. Budget 3600s: 0s spent, 3600s retired, 0s remaining including reservations.
+**merge-unwind-acceptance-autonomous-2026-10-23-r20 · merge · MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23 · NOT_STARTED**
+Updated: 2026-10-22T19:56:20Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `39f6b0cacd00575c8ca2d39e9f15632723bf1227` / `1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb`.
+Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Published R19 cleanup candidate is Cloud-UNVERIFIED; original caller borrow/unsize remains OPEN.
-Next: Install fresh R20 from CLOSED R19; at actual T0 prepare/register its new account, then Cloud the published candidate.
+Blocker: Published R19 cleanup candidate remains Cloud-UNVERIFIED; original caller borrow/unsize and full normal/unwind remain OPEN.
+Next: At actual T0 prepare/register R20; Cloud preflight, then the published raw caller normal/unwind and five R19 controls.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
