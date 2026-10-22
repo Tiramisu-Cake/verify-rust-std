@@ -9,12 +9,12 @@ Stages, as in Select's run-o26-refresh.sh @10e13a41:
      -> `git diff` SHA256 6c4c5a77... (frozen20 applied diff)
   2. O26-REFRESH-PROFILE.json refresh_patches
      -> vf_mir_translator.ml SHA256 0862e635...
-  3a. a1-tool-r17.py reconstruct(), first part: CALLER-ENTRY-MANIFEST strict
+  3. a1-tool-r17.py reconstruct(), source part (build excluded): CALLER-ENTRY-MANIFEST strict
      patches (3), selected-runtime.py PATCHES (C4 chain, 10; read with
      ast.literal_eval, not executed), native c1-capture/c1-bound/c4-combined
-     -> translator = manifest c4_base_translator_sha256, kernel = kernel_sha256.
-The rest of stage 3 (zst, dead-code, focus scope, lifetime, slice, threshold,
-selected, R, signature, reference-own, C, R15-R19 overlays) is NOT reproduced.
+     -> c4 base 66e266d3..., selected e484d9f9..., then R, signature,
+     reference-own, C, R15/R16/R17 overlays -> final translator = profile
+     actual_c2_recovery_overlay.result_sha256. The final build is not run.
 """
 import ast
 import hashlib
@@ -30,6 +30,8 @@ FROZEN20 = '6c4c5a7708af3bdec585abd308d37383a7de522a1aaecf2c01e1f94181324c25'
 REFRESHED_TRANSLATOR = '0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a'
 TR = 'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml'
 KERNEL = 'src/verifast.ml'
+SELECTED = 'e484d9f95202c876957a5d5ab349c6a40bc04dbcf813db4b373819402d807e64'
+PROFILE = 'A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json'
 HERE = Path(__file__).resolve().parent
 
 
@@ -111,12 +113,95 @@ def main():
         apply(patch_rel, legacy[pin_field], {TR}, {TR: legacy['base_translator_sha256']},
               {TR: legacy.get('translator_sha256') or legacy['bound_translator_sha256']})
     need(filesha(TR) == manifest['c4_base_translator_sha256'], 'native C4 translator')
+    c4_base = filesha(TR)
+    rows.append({'checkpoint': '3a', 'translator_sha256': c4_base})
+    # 3b: zst, dead-code identity, focus scope (+ lifetime), slice, threshold, selected.
+    c1 = 'cloud-build/sort4-native-c1-bound/'
+    for profile_rel, patch_rel, allowed in (
+            (c1 + 'ZST-REPAIR-TOOL-MANIFEST.json', c1 + 'rust-zst-size.patch', {'src/verifast1.ml'}),
+            (c1 + 'NATIVE-DEAD-CODE-IDENTITY-DIAGNOSTIC-MANIFEST.json', c1 + 'native-dead-code-identity-diagnostic.patch',
+             {'src/verify_expr.ml', 'src/vfconsole/vfconsole.ml'})):
+        legacy = json.loads(show(profile_rel))
+        need(legacy['tool_head'] == TOOL and legacy['kernel_sha256'] == manifest['kernel_sha256'], 'legacy profile ' + patch_rel)
+        apply(patch_rel, legacy['patch_sha256'], allowed,
+              {path: legacy['files'][path]['base_sha256'] for path in allowed},
+              {path: legacy['files'][path]['result_sha256'] for path in allowed})
+    profile = json.loads(show(native_dir + PROFILE))
+    focus = 'src/verify_expr.ml'
+    focus_manifest_raw = show(c1 + 'NATIVE-RUST-FOCUS-DEAD-CODE-SCOPE-MANIFEST.json')
+    need(hashlib.sha256(focus_manifest_raw).hexdigest() == profile['focus_dead_code_scope_manifest_sha256'], 'focus manifest pin')
+    focus_manifest = json.loads(focus_manifest_raw)
+    apply(c1 + 'native-rust-focus-dead-code-scope.patch', focus_manifest['patch_sha256'], {focus},
+          {focus: focus_manifest['files'][focus]['base_sha256']}, {focus: focus_manifest['files'][focus]['result_sha256']})
+    lifetime = profile.get('ghost_call_lifetime_inference')
+    if lifetime is not None:
+        need(lifetime.get('new_axiom_or_assumed_lemma') is False, 'lifetime overlay premise')
+        apply(native_dir + 'ghost-call-lifetime-inference-r13.patch', lifetime['patch_sha256'], {focus},
+              {focus: lifetime['base_sha256']}, {focus: lifetime['result_sha256']})
+    threshold_raw = show(native_dir + 'STABLE-THRESHOLD-BINDING-PINS.json')
+    selected_raw = show(native_dir + 'SELECTED-BRANCH-BINDING-PINS.json')
+    need(hashlib.sha256(threshold_raw).hexdigest() == profile['stable_threshold_pins_sha256'], 'threshold pins')
+    need(hashlib.sha256(selected_raw).hexdigest() == manifest['selected_binding_pins_sha256'], 'selected pins')
+    threshold, selected_pins = json.loads(threshold_raw), json.loads(selected_raw)
+    apply('caller-entry/verifast-slice-as-mut-ptr.patch', manifest['as_mut_ptr_patch_sha256'], {TR},
+          {TR: manifest['c4_base_translator_sha256']}, {TR: manifest['as_mut_ptr_translator_sha256']})
+    apply(native_dir + 'stable-threshold-binding.patch', threshold['patch_sha256'], {TR},
+          {TR: threshold['base_translator_sha256']}, {TR: threshold['result_translator_sha256']})
+    apply(native_dir + 'selected-branch-binding.patch', selected_pins['patch_sha256'], {TR},
+          {TR: selected_pins['base_translator_sha256']}, {TR: SELECTED})
+    rows.append({'checkpoint': '3b', 'translator_sha256': filesha(TR)})
+    # 3c: R, native signature, reference-own, C, R15, R16, R17 phase, R17 c2 overlays.
+    schema = 'src/rust_frontend/vf_mir/vf_mir.capnp'
+    exporter = 'src/rust_frontend/vf_mir_exporter/src/lib.rs'
+    r_before, r_rep, r_after = profile['r_before'], profile['r_representation_after'], profile['r_after']
+    need(r_before[TR] == SELECTED and profile['c_before'] == r_after, 'R/C map shape')
+    apply(native_dir + 'required-item-representation-hir-partition-r2-2026-10-20.patch', profile['r_patch_sha256'],
+          {TR, schema, exporter}, r_before, r_rep)
+    sig_raw = show(native_dir + 'NATIVE-SMALL-SORT-IMPL-SIGNATURE-MANIFEST.json')
+    need(hashlib.sha256(sig_raw).hexdigest() == profile['native_signature_manifest_sha256'], 'signature manifest pin')
+    sig = json.loads(sig_raw)
+    need(sig['patch_sha256'] == profile['native_signature_patch_sha256'] and
+         sig['files'][TR]['base_sha256'] == r_rep[TR] and sig['files'][TR]['result_sha256'] == r_after[TR], 'signature chain')
+    apply(native_dir + 'native-small-sort-impl-signature.patch', sig['patch_sha256'], {TR}, {TR: r_rep[TR]}, {TR: r_after[TR]})
+    ref = profile['shared_reference_own_normalization']
+    need(ref['source'] == 'bin/rust/rust_belt/general.rsspec' and ref['new_axiom_or_assumed_lemma'] is False, 'reference-own manifest')
+    apply(native_dir + 'shared-reference-own-normalization-r13.patch', ref['patch_sha256'], {ref['source']},
+          {ref['source']: ref['base_sha256']}, {ref['source']: ref['result_sha256']})
+    apply(native_dir + 'checked-threshold-contract.patch', profile['c_patch_sha256'], {TR},
+          {TR: profile['c_before'][TR]}, {TR: profile['c_after'][TR]})
+
+    def overlay(key, stem, source):
+        decl = profile[key]
+        raw = show(native_dir + stem)
+        need(hashlib.sha256(raw).hexdigest() == decl['manifest_sha256'], 'overlay manifest ' + stem)
+        m = json.loads(raw)
+        need(m.get('new_axiom_or_assumed_lemma') is False and m.get('proof_credit') is False and
+             m['patch_sha256'] == decl['patch_sha256'] and m['result_sha256'] == decl['result_sha256'], 'overlay declaration ' + key)
+        apply(native_dir + decl['patch'], m['patch_sha256'], {source}, {source: m['base_sha256']}, {source: m['result_sha256']})
+
+    overlay('actual_c1_recovery_overlay', 'ACTUAL-SORT4-C1-RECOVERY-R15-MANIFEST.json', TR)
+    overlay('merge_fractions_ast_dump_overlay', 'MERGE-FRACTIONS-AST-DUMP-R15-MANIFEST.json', 'src/frontend/ocaml_expr_of_ast.ml')
+    need(profile['authorization_phase_id'] == 'SORT4-ACTUAL-C2-2026-10-21-R17', 'profile authorization (R17 route)')
+    for key, stem, source, flag in (
+            ('r16_c1_phase_binding', 'R16-C1-PHASE-BINDING-MANIFEST.json', TR, None),
+            ('strict_entry_diagnostic', 'STRICT-ENTRY-DIAGNOSTIC-R16-MANIFEST.json', KERNEL, None),
+            ('actual_scope_relocation', 'ACTUAL-SORT4-SCOPE-RELOCATION-R16-MANIFEST.json', TR, 'actual_scope_relocation_enabled'),
+            ('actual_deferred_scope_relocation', 'ACTUAL-SORT4-DEFERRED-SCOPE-R16-MANIFEST.json', TR, 'actual_deferred_scope_relocation_enabled'),
+            ('actual_referent_address', 'ACTUAL-SORT4-REFERENT-ADDRESS-R16-MANIFEST.json', TR, 'actual_referent_address_enabled')):
+        if flag is None or profile.get(flag) is True:
+            overlay(key, stem, source)
+    overlay('r17_c1_phase_binding', 'R17-C1-PHASE-BINDING-MANIFEST.json', TR)
+    if profile.get('actual_c2_recovery_enabled') is True:
+        overlay('actual_c2_recovery_overlay', 'ACTUAL-SORT4-C2-RECOVERY-R17-MANIFEST.json', TR)
     translator = filesha(TR)
+    need(translator == profile['actual_c2_recovery_overlay']['result_sha256'], 'final translator = R19 c2-overlay result')
+    rows.append({'checkpoint': '3c', 'translator_sha256': translator})
     record = {'tool': TOOL, 'select_commit': select, 'patches': rows, 'frozen20_diff_sha256': FROZEN20,
-              'refreshed_translator_sha256': REFRESHED_TRANSLATOR, 'c4_base_translator_sha256': translator,
-              'stage3_rest': 'NOT_REPRODUCED'}
+              'refreshed_translator_sha256': REFRESHED_TRANSLATOR, 'c4_base_translator_sha256': c4_base,
+              'selected_translator_sha256': SELECTED, 'final_translator_sha256': translator, 'profile': PROFILE,
+              'build': 'NOT_RUN (Cloud only)'}
     (out / 'base.json').write_text(json.dumps(record, indent=2) + '\n')
-    print(json.dumps({'patches': len(rows), 'c4_base_translator_sha256': translator}))
+    print(json.dumps({'steps': len(rows), 'final_translator_sha256': translator}))
 
 
 if __name__ == '__main__':
