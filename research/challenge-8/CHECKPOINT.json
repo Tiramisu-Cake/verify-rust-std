@@ -20,16 +20,16 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "8916761a-a0a7-428a-b853-187e45ef4dfa",
+    "build_id": "2d562718-c166-4ab5-bba3-bf9136bd56b7",
     "evidence": [
       {
-        "build_id": "8916761a-a0a7-428a-b853-187e45ef4dfa",
-        "path": "research/challenge-8/task-history/select-c3-r19/S2-evidence.json",
-        "sha256": "f2f0561d8e77f3fc5890dfc848cc0e08907cd743dda6211f5fd6298e0912286f"
+        "build_id": "2d562718-c166-4ab5-bba3-bf9136bd56b7",
+        "path": "research/challenge-8/task-history/select-callee-r20/S1-evidence.json",
+        "sha256": "7bf8d229919ffb0eb7fa49ede13b0b516b472df432c769badbdb0f4f1f997123"
       }
     ],
-    "location": "verified/lib.rs(371,19-55) first selector",
-    "summary": "No such function: std::hint::select_unpredictable; actual callee proof (S7 select thread) not accepted, so no summary allowed."
+    "location": "std/lib.rsspec(462,47-48) via verified/lib.rs(223,9-80) final MaybeUninit select (nine-body unit)",
+    "summary": "Missing MaybeUninit_pointer_own(t, new(payload)) for select arg a; repair needs certificate-refresh tool patch."
   },
   "confirmed": [
     {
@@ -63,12 +63,23 @@
           "sha256": "43938f12bb12264b19b9b414d91130753de5d441bde857217da2cffea43efd13"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R20 S1 (callee lane, pins a5705fa0) FAILURE 345s: pipeline complete; pinned source pair/MIR match; baseline nine-body proof exit1 at final MaybeUninit select: missing MaybeUninit_pointer_own(t, new(payload)) for arg a (lib.rsspec:462 via lib.rs:223). credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-callee-r20/S1-evidence.json",
+          "sha256": "7bf8d229919ffb0eb7fa49ede13b0b516b472df432c769badbdb0f4f1f997123",
+          "build_id": "2d562718-c166-4ab5-bba3-bf9136bd56b7"
+        }
+      ]
     }
   ],
-  "next_step": "Wait R20 S1 Build 2d562718 (baseline nine-body callee diagnostic, lane o26-select-callee-r20, pins a5705fa0); ack; Brief: stage exits, preflight/compare, baseline proof first error.",
+  "next_step": "Certificate-refresh tool patch admitting the exact two-line checked repair (baseline SHA pin + fixed insertion), review, Cloud S2 on callee lane.",
   "open": [
-    "Callee: run nine-body unit on separate lane o26-select-callee-r20 (baseline + ghost repair variants); then normal/unwind/nested-Drop completion and matrix; *mut T / generic gap.",
-    "Recovery lane transport: 192/191 chunks after R20 client lines (control.py is in every lane's infra core); prune closed routes separately before c5 (34e37669)/selector.",
+    "Callee: run nine-body unit on separate lane o26-select-callee-r20 (baseline + ghost repair variants); then normal/unwind/nested-Drop completion and matrix; *mut",
+    "Recovery lane transport: 192/191 chunks after R20 client lines (control.py is in every lane's infra core); prune closed routes separately before c5 (34e37669)/s",
     "Full actual sort4 (selectors, c5, copies), count-independent c3/c4 control re-qualification; credit0."
   ],
   "owner": "select-sort4",
@@ -92,19 +103,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "2d562718-c166-4ab5-bba3-bf9136bd56b7"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T18:11:28Z",
     "main_deadline_utc": "2026-10-22T17:41:28Z",
-    "remaining_seconds": 3600,
+    "remaining_seconds": 3255,
     "retired_seconds": 0,
-    "spent_seconds": 0,
+    "spent_seconds": 345,
     "t0": "2026-10-22T15:41:28Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-actual-callee-autonomous-2026-10-22-r20",
-  "updated_utc": "2026-10-22T16:17:30Z"
+  "updated_utc": "2026-10-22T16:27:00Z"
 }

@@ -1,0 +1,60 @@
+{
+ "build": {
+  "dispatch_token": "dispatch-63e5b140291d4920a0ca8c9ba4098647",
+  "owner": "select-sort4",
+  "phase_id": "SORT4-ACTUAL-SELECT-2026-10-22-R20",
+  "infra_sha": "a5705fa028d6b0fa7247cdf7be5f978deaac0fff",
+  "proof_sha": "a5705fa028d6b0fa7247cdf7be5f978deaac0fff",
+  "lane": "o26-select-callee-r20",
+  "submitted_config_sha256": "9f88a7c711306acbbdfb9ebab5c1b6a140f89c64f5caefae089148e4f474fdbc",
+  "reserved_seconds": 1260,
+  "timeout_seconds": 1200,
+  "status": "FAILURE",
+  "publish_text_logs": true,
+  "source_mode": "pinned-objects",
+  "source_input_sha256": "cd41c6a897594fe7d72d5985720db2792e03b42676060e730a4eb133235bb84f",
+  "build_id": "2d562718-c166-4ab5-bba3-bf9136bd56b7",
+  "start_time": "2026-10-22T16:16:53.116520298Z",
+  "finish_time": "2026-10-22T16:22:36.857995Z",
+  "create_time": "2026-10-22T16:16:52.407053506Z",
+  "build_seconds": 345,
+  "accounted": true,
+  "execution_seconds": 344
+ },
+ "lane": "o26-select-callee-r20",
+ "integrity": "VERIFIED_ARCHIVE_AND_INVENTORY (Brief)",
+ "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+ "watch": {
+  "job_id": "20da0c7a-ce6d-49b4-8a7f-6904f901b5fd",
+  "event_id": "faead958-ca42-4c42-bb10-12b55112a97c",
+  "mode": "CONTINUE_EXISTING_WINDOW",
+  "model_turns_while_waiting": 0
+ },
+ "stages": "provider-overlays, source-preflight, tool build (20+2 patches, translator 0862e635), console-build, candidate-capture, candidate-source-compare, candidate-proof all exit 0 (stage exits; not proof verdicts).",
+ "capture_compare": {
+  "file_id": "7231c5369b27cd6f3e03470d46c7f1d426c6688d1959e4ea48fde009081a36e8",
+  "sha256": "4db2388968f6f53db9e936153973ef554bbe56c666a2880f02e735f5009a8796",
+  "observed": "source pair, snapshots and full NORMAL/readonly MIR match pinned evidence; verified 1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6, original 466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5, unit 10cf6e4d\u2026"
+ },
+ "baseline_proof": {
+  "stage_file_id": "f74fd01fcdc725440217a833b0d6d019e95eea853a98e4bc11380931c9748415",
+  "stage_sha256": "5db938a39ca8accd5022da725a757521ea43f9827f7152df8604301349ff115d",
+  "status": "RAN",
+  "exit": 1,
+  "source_unchanged": true
+ },
+ "failure": {
+  "file_id": "db44154cb0fbc1fe3f419eab19f8c0c560f70be0c0353af2854b1ce5bae8a98b",
+  "file_path": "allprooflogs/cases/candidate/capture/nine-body-a1-owned-forget/refreshed-proof.log",
+  "file_sha256": "3f21be9d7acbee9178054bfeb6a056604cb3950a64305b1f11ac9ee31f3d10a4",
+  "line": 552,
+  "exact": true,
+  "message": "No matching heap chunks: std::mem::MaybeUninit_pointer_own(Element_typeid)(t, std::mem::MaybeUninit::new(pointer_typeid(Element_typeid), payload))",
+  "location": "std/lib.rsspec(462,47-48) `req MaybeUninit_pointer_own::<Element>()(t, a)` via verified/lib.rs(223,9-80) final `crate::intrinsics::select_unpredictable(condition, true_val, false_val).assume_init()`",
+  "note": "locate 'error' complete=true: single match. First argument a=true_val; payload is the guard-own pointee (selected on this path)."
+ },
+ "source_reported_progress": [
+  "Fresh Cloud reproduction on the current commit of the NIGHT-CLOUD-4 frontier: nine-body owned-forget unit passes prefix callees, guard close, unselected Drop and SAFE forget, and stops at the final MaybeUninit select's wrapper-ownership precondition (first argument). Causality UNKNOWN; credit0."
+ ],
+ "proof_credit": 0
+}
