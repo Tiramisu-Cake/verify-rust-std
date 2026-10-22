@@ -1,5 +1,5 @@
 {
-  "active_build": "01973934-88fb-406d-a89b-7e821fd5c8c6",
+  "active_build": null,
   "allowed_lanes": [
     "network-n13"
   ],
@@ -156,11 +156,17 @@
       "submitted_config_sha256": "29c1c1a65bf6c065cd9292ef4a9f50a528b10788d825292f8983c082ded26276",
       "reserved_seconds": 615,
       "timeout_seconds": 555,
-      "status": "QUEUED",
+      "status": "SUCCESS",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "933db99e79b57917f475ef1e12aad2a805a24bb5b0cb746c52dbb9d82a379ee0",
-      "build_id": "01973934-88fb-406d-a89b-7e821fd5c8c6"
+      "build_id": "01973934-88fb-406d-a89b-7e821fd5c8c6",
+      "start_time": "2026-10-22T22:25:51.188831338Z",
+      "finish_time": "2026-10-22T22:28:19.814553Z",
+      "create_time": "2026-10-22T22:25:50.508894566Z",
+      "build_seconds": 150,
+      "accounted": true,
+      "execution_seconds": 149
     }
   ],
   "carry_seconds": 0,
@@ -175,13 +181,16 @@
   "owner": "network",
   "phase": "NETWORK-N13-EXACT-2026-10-23-N3",
   "phase_id": "NETWORK-N13-EXACT-2026-10-23-N3",
-  "remaining_build_seconds": 1215,
+  "remaining_build_seconds": 0,
   "report_reserve_seconds": 240,
-  "retired_seconds": 0,
+  "retired_seconds": 1065,
   "schema": "smallsort-prepared-session-ledger-v1",
   "spent_build_seconds": 0,
   "start_utc": "2026-10-22T20:43:40Z",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "task_id": "network-n13-exact-cloud-2026-10-23-n3",
-  "used_build_seconds": 2385
+  "used_build_seconds": 2535,
+  "closed_utc": "2026-10-22T22:33:23Z",
+  "goal_outcome": "INCOMPLETE_HANDOFF",
+  "closure_reason": "Independent tasks audited: Cloud bootstrap/source/admission/evidence defects fixed, service-tested and reviewed; shape3 implemented, independently reviewed, published and prepared for exact handoff. Exact and universal full envelopes no longer fit main; no timeout truncation. Required membership/order controls require unaccepted full exact prefix, and registered controls include full preserved cases; missing-law/classifier controls retained for that matrix. N9 independent regression accepted as reported. R4/W7 Build prohibited by N13 phase and pinned inactive P1/P2 admission; W8 needs Merge callee/ownership/unwind evidence. Shared transport/coordinator/tool/kernel/other-worktree work is outside N3. Workflow-owner follow-up recorded. No other authorized useful independent implementation remains; exact goal stays OPEN."
 }
