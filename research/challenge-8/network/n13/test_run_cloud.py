@@ -284,6 +284,7 @@ class RunCloudTests(unittest.TestCase):
             "controls-order": (["exact-n13-order-post"], [420]),
             "regressions": (["exact-n9-regression", "universal-n13-regression"], [180, 360]),
             "regressions-n9": (["exact-n9-regression"], [180]),
+            "regressions-n13": (["universal-n13-regression"], [360]),
         }
         for stage, (targets, limits) in expected.items():
             with self.subTest(stage=stage):
@@ -313,6 +314,18 @@ class RunCloudTests(unittest.TestCase):
         self.assertEqual(summary["cases"][0]["state"], "NOT_RUN")
         self.assertEqual(FakeRanks.composition_calls, [(9, True)])
         self.assertEqual(self.generated, [])
+
+    def test_n13_only_regression_runs_without_generating_n9_or_credit(self):
+        self.prepare_profile("regressions-n13")
+        FakeRanks.composition_calls.clear()
+        code, _evidence, summary = self.invoke("regressions-n13")
+        self.assertEqual(code, 0)
+        self.assertTrue(summary["complete"])
+        self.assertFalse(summary["proof_credit"])
+        self.assertEqual([row["target"] for row in summary["cases"]], ["universal-n13-regression"])
+        self.assertEqual((summary["stage_timeout_seconds"], summary["build_timeout_seconds"]), (360, 735))
+        self.assertEqual(FakeRanks.composition_calls, [(13, False)])
+        self.assertEqual([row["name"] for row in self.generated], ["network13_symbolic_swo_composition"])
 
 
 if __name__ == "__main__":
