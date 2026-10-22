@@ -1,0 +1,59 @@
+{
+  "schema": "merge-r18-terminal-result-v1",
+  "build_id": "e70d2723-f49d-4a8f-847e-f8da1106d36f",
+  "status": "FAILURE",
+  "assurance": "SOURCE_REPORTED",
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "source_sha": "52cef78882727762785387b053ef70aee1f269f0",
+  "tool_sha": "a66c1d30214e463a16a325cdef30b0ec8555e0af",
+  "config_sha256": "dd6e22d94f68513885f128b11c777f134e2948e0c72b0f5b30db40f0c52d6523",
+  "charge_seconds": 915,
+  "execution_seconds": 914,
+  "used_seconds": 915,
+  "remaining_seconds": 2685,
+  "proof_audit": {
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "file_sha256": "20e48df9fc023ac99699c31ceab5c05d4717cf7a834d595ef76c66ccc8aa8b1d"
+  },
+  "rawptr_controls": {
+    "classification": "RAW_PTR_CONTROLS_INCONCLUSIVE",
+    "identical_local_rawmut": "RAW_LOCAL_RAWMUT_MATCHED refinement0/verifast1 (request d26d974b)",
+    "mutability_mismatch": "refinement1; exact 'RawPtr: mutabilities do not match' at refinement.out line1 and repeated line89 (sha 6a0a4c00); classifier count2 -> INCONCLUSIVE",
+    "changed_local_contents": "refinement1; lockstep aggregate value refusal at command 0:5 (sha b4b73774 line1/80); LocalAddressTaken diagnostic unreachable",
+    "unsupported_index_projection": "refinement2 crash 'Using typesystem constant expressions as MIR constant operands is not yet supported' (refinement.log sha 08f4d206 line1)",
+    "raw_ref_cross_kind": "refinement1; exact 'Command kinds do not match' repeated (sha 548f23fb); listing ' 10: &mut '<erased> mut _1' lacks literal Ref -> INCONCLUSIVE"
+  },
+  "raw_caller": {
+    "classification": "INCONCLUSIVE",
+    "stages": {
+      "exporter": 0,
+      "decode": 0,
+      "refinement": 0,
+      "verifast": 1
+    },
+    "source_exact": true,
+    "frontier": "verified/lib.rs(461,1-2) Freeing locals: No matching heap chunks: array_<u64>(values_addr, 3, _) after insert_tail call 457 directly to return (normal-path ghost 458-460 not executed in trace; unwind/resume path presumed, causality UNKNOWN)",
+    "verifast_log": {
+      "file_id": "9f7eba375f6cf09267392128f733f3e3807dc27f51917c7cbd2bdf9185053952",
+      "file_sha256": "6c9307c8bc8b15ccbeb661f9a9c6823ea7adf267b991c3d6009c36a468e35490",
+      "line": 3520,
+      "requests": [
+        "7855a266",
+        "73fa8172"
+      ]
+    },
+    "previous_frontier_array_inv444": "passed (call to insert_tail verified)"
+  },
+  "original_caller": "full_body Placeholders not allowed verified/lib.rs441 (unchanged OPEN)",
+  "accepted": false,
+  "b2_achieved": false,
+  "qualification": false,
+  "independent_credit": 0,
+  "watch": {
+    "first_job": "a4dd6a08-c950-4358-92db-33a437c180d9",
+    "first_event": "07e89ad3-3fdb-4c8a-b441-c61c8f7123c3 monitor_error (status unavailable x3; ledger QUEUED->WORKING binding)",
+    "job": "7283419a-5574-41eb-8fd0-d323aed35a75",
+    "event": "32db70c2-b576-48f1-9397-64036c9d9fe4",
+    "mode": "CONTINUE_EXISTING_WINDOW"
+  }
+}

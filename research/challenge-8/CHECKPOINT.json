@@ -24,15 +24,15 @@
     "tool_sha": "a66c1d30214e463a16a325cdef30b0ec8555e0af"
   },
   "blocker": {
-    "build_id": "2256a4c8-2a4d-4a5c-8b61-a252730eae70",
+    "build_id": "e70d2723-f49d-4a8f-847e-f8da1106d36f",
     "evidence": [
       {
-        "path": "research/challenge-8/cloud-build/origin-layout/R18-RAW-CALLER-DESIGN-20261022.md",
-        "sha256": "c5580b860c0d3dd1be7bb314ea68222a55b5397b344322706f33f133931c2cea"
+        "path": "research/challenge-8/cloud-build/origin-layout/R18-PROOF1-RESULT-20261022.json",
+        "sha256": "d0b75917c6865ce64ecad4da12beaa96a8ad293ff97c051af411e0a0d2141008"
       }
     ],
-    "location": "R17 P4 RawPtr controls / raw caller verified444",
-    "summary": "RawPtr refinement2 = harness --check-first-fnmut-continue abort; array_inv444 = assert auto-close not retained. Fixes at 52cef788, unverified; P1 running."
+    "location": "raw caller verified461 free_locals",
+    "summary": "Raw caller: free_locals requires array_<u64>(values_addr,3,_) after insert_tail (unwind presumed); needs checked tool/model step. RawPtr negatives pending P2."
   },
   "confirmed": [
     {
@@ -71,12 +71,23 @@
           "sha256": "70c063f465b08837da7ff209bb6cfa22ac1611c53dfc6411537f4f22899a1f56"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P1: RawPtr positive identical_local_rawmut refinement0 MATCHED; raw caller passed array_inv444/insert_tail call, new frontier free_locals array_ at 461 (unwind presumed). Bounded only; no credit.",
+      "evidence": [
+        {
+          "build_id": "e70d2723-f49d-4a8f-847e-f8da1106d36f",
+          "path": "research/challenge-8/cloud-build/origin-layout/R18-PROOF1-RESULT-20261022.json",
+          "sha256": "d0b75917c6865ce64ecad4da12beaa96a8ad293ff97c051af411e0a0d2141008"
+        }
+      ]
     }
   ],
-  "next_step": "Ack P1 e70d2723 watcher; Brief RawPtr controls/raw caller frontier; next cycle or original borrow/unsize.",
+  "next_step": "Delta review 55666e3e; P2 RawPtr control matrix; design checked unwind local-array release (tool) for next window.",
   "open": [
     "Original as_mut_ptr/unsize, source-bound metadata, real borrow/reference lifecycle and caller normal/unwind remain OPEN; isolated lifecycle does not close them.",
-    "Raw caller/RawPtr fixes at 52cef788 (review GO); P1 e70d2723 pending.",
+    "Raw caller unwind free_locals needs array_ for initialized local (VeriFast core); RawPtr negatives classifier fix 55666e3e under review.",
     "CURRENT/backedge/false/true/panic/Drop/Resume compatible final matrix; B2/generic/arbitrary-n/sorting/tool qualification/independent proof credit remain OPEN."
   ],
   "owner": "merge",
@@ -105,19 +116,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "e70d2723-f49d-4a8f-847e-f8da1106d36f"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T16:38:51Z",
     "main_deadline_utc": "2026-10-22T16:08:51Z",
-    "remaining_seconds": 3600,
+    "remaining_seconds": 2685,
     "retired_seconds": 0,
-    "spent_seconds": 0,
+    "spent_seconds": 915,
     "t0": "2026-10-22T14:08:51Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "merge-raw-caller-frontier-autonomous-2026-10-22-r18",
-  "updated_utc": "2026-10-22T14:43:00Z"
+  "updated_utc": "2026-10-22T15:17:00Z"
 }
