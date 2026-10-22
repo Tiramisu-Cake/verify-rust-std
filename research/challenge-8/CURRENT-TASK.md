@@ -49,10 +49,10 @@ Next: Перепроверить forget guard-own на текущей цепоч
 
 ## Отчёт агента
 
-**select-actual-callee-autonomous-2026-10-22-r20 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-22-R20 · ACTIVE**
-Updated: 2026-10-22T17:24:00Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+**select-actual-callee-autonomous-2026-10-22-r20 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-22-R20 · HANDOFF**
+Updated: 2026-10-22T17:25:30Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-22T15:41:28Z`; main `2026-10-22T17:41:28Z`; absolute `2026-10-22T18:11:28Z`. Budget 3600s: 1854s spent, 0s retired, 1746s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
+Active Build IDs: edb9fb81-29e8-4103-9fbe-1a7731233b43; unresolved: none recorded.
 Blocker: Ghost comment accepts one statement; move the two checked lemma calls into each if/else branch; needs new fingerprint pins + refresh. [Build `cd3e6cae-721f-45d8-ae82-5e198e00312b`]
-Next: Review S3b 00f85081 (branch refresh 0862e635->82741fb5 + classified proof); submit before 17:41 or carry as reviewed HANDOFF.
+Next: Wait R20 S3b Build edb9fb81 (branch refresh + classified proof, pins 82aa147f); ack; read verdicts; closeout.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

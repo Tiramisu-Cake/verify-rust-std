@@ -76,7 +76,7 @@
       ]
     }
   ],
-  "next_step": "Review S3b 00f85081 (branch refresh 0862e635->82741fb5 + classified proof); submit before 17:41 or carry as reviewed HANDOFF.",
+  "next_step": "Wait R20 S3b Build edb9fb81 (branch refresh + classified proof, pins 82aa147f); ack; read verdicts; closeout.",
   "open": [
     "Callee: run nine-body unit on separate lane o26-select-callee-r20 (baseline + ghost repair variants); then normal/unwind/nested-Drop completion and matrix; *mut",
     "Recovery lane transport: 192/191 chunks after R20 client lines (control.py is in every lane's infra core); prune closed routes separately before c5 (34e37669)/s",
@@ -103,7 +103,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "edb9fb81-29e8-4103-9fbe-1a7731233b43"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T18:11:28Z",
     "main_deadline_utc": "2026-10-22T17:41:28Z",
@@ -113,7 +115,7 @@
     "t0": "2026-10-22T15:41:28Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-actual-callee-autonomous-2026-10-22-r20",
-  "updated_utc": "2026-10-22T17:24:00Z"
+  "updated_utc": "2026-10-22T17:25:30Z"
 }

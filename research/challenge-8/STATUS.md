@@ -1,11 +1,11 @@
 # Agent checkpoint: select-actual-callee-autonomous-2026-10-22-r20
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-22-R20 | state: ACTIVE
-- Updated: 2026-10-22T17:24:00Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-22-R20 | state: HANDOFF
+- Updated: 2026-10-22T17:25:30Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-22T15:41:28Z`; main deadline `2026-10-22T17:41:28Z`; absolute deadline `2026-10-22T18:11:28Z`
 - Budget: 3600s total; 1854s spent; 0s retired; 1746s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: edb9fb81-29e8-4103-9fbe-1a7731233b43
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -28,7 +28,7 @@ Ghost comment accepts one statement; move the two checked lemma calls into each 
 - [research/challenge-8/task-history/select-callee-r20/S3-evidence.json](task-history/select-callee-r20/S3-evidence.json) SHA `baf76fb258ea30dc3b5e4a46da56d82e920bc25216db283072543da6fa1e8eb5` Build `cd3e6cae-721f-45d8-ae82-5e198e00312b`
 
 ## Next
-Review S3b 00f85081 (branch refresh 0862e635->82741fb5 + classified proof); submit before 17:41 or carry as reviewed HANDOFF.
+Wait R20 S3b Build edb9fb81 (branch refresh + classified proof, pins 82aa147f); ack; read verdicts; closeout.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r20/CALLEE-ROUTE-DESIGN.md](task-history/select-callee-r20/CALLEE-ROUTE-DESIGN.md) — `b547eaaed39a31a29a16383aa0d72d1a0e9666ccac987ae0571b5f94305f5632`
