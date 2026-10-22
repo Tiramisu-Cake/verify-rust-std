@@ -2,6 +2,7 @@
 import json
 import os
 from pathlib import Path
+import shlex
 import subprocess
 import sys
 import tempfile
@@ -101,6 +102,83 @@ class NetworkN13ClientTests(unittest.TestCase):
         self.assertIn("Acquire::https::Timeout=25", work)
         self.assertIn("Acquire::Retries=1", work)
         self.assertIn("network_setup_run pinned-source-restore", work)
+
+    def test_generated_work_runs_restore_after_apt_as_a_separate_command(self):
+        source_payload = b"synthetic-pinned-archive"
+        with mock.patch.object(control, "network_env", return_value=[]):
+            config = control.config(
+                CANDIDATE, CANDIDATE, "network-n13", 795, "synthetic-token",
+                source_payload=source_payload, phase_id=PHASE, stage="exact",
+            )
+        body = config["steps"][0]["args"][1]
+        timeout_start = body.index("timeout --signal=TERM --kill-after=10s")
+        quote_start = body.index(" bash -ceu ", timeout_start) + len(" bash -ceu ")
+        quote_end = body.index(" > /workspace/evidence/full-stdout.log", quote_start)
+        generated_work = shlex.split(body[quote_start:quote_end])[0].replace("$$", "$")
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            bindir = root / "bin"
+            bindir.mkdir()
+            evidence = root / "evidence"
+            evidence.mkdir()
+            apt_trace = root / "apt-args"
+            restore_trace = root / "restore-ran"
+            run_proof_trace = root / "run-proof-ran"
+            (bindir / "apt-get").write_text(
+                "#!/bin/sh\nprintf '%s\\n' \"$*\" >> \"$APT_TRACE\"\n"
+            )
+            (bindir / "timeout").write_text(
+                "#!/bin/sh\n"
+                "while [ \"$1\" != \"\" ]; do case \"$1\" in --*) shift;; *s) shift; break;; *) break;; esac; done\n"
+                "exec \"$@\"\n"
+            )
+            (bindir / "python3").write_text(
+                "#!/bin/sh\n"
+                f"if [ \"${{1:-}}\" = \"{root}/source-input.py\" ] && [ \"${{2:-}}\" = restore ]; then echo restored > \"$RESTORE_TRACE\"; exit 0; fi\n"
+                "exec /usr/bin/python3 \"$@\"\n"
+            )
+            (bindir / "bash").write_text(
+                "#!/bin/sh\n"
+                f"if [ \"${{1:-}}\" = \"{root}/infra/research/challenge-8/cloud-build/run-proof.sh\" ]; then echo invoked > \"$RUN_PROOF_TRACE\"; exit 0; fi\n"
+                "exec /bin/bash \"$@\"\n"
+            )
+            for executable in (bindir / "apt-get", bindir / "timeout", bindir / "python3", bindir / "bash"):
+                executable.chmod(0o755)
+
+            restore_bytes, _ = control.source_restore_transport(
+                (control.DIR / "source-input.py").read_bytes(), PHASE,
+            )
+            env = os.environ.copy()
+            env.update({
+                "PATH": str(bindir) + os.pathsep + env["PATH"],
+                "APT_TRACE": str(apt_trace),
+                "RESTORE_TRACE": str(restore_trace),
+                "RUN_PROOF_TRACE": str(run_proof_trace),
+                "NETWORK_STAGE": "exact",
+                "NETWORK_BOOTSTRAP_RECORD": str(evidence / "network-n13-bootstrap.json"),
+                "EVIDENCE_ROOT": str(evidence),
+                "SOURCE_GROUP_0": config["substitutions"]["_SOURCE_0"],
+                "SOURCE_RESTORE_BYTES": restore_bytes,
+                "LANE": "network-n13",
+            })
+            script = generated_work.replace("/workspace", str(root))
+            result = subprocess.run(
+                ["/bin/bash", "-ceu", script], env=env, text=True,
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            apt_calls = apt_trace.read_text().splitlines()
+            self.assertEqual(len(apt_calls), 2)
+            self.assertIn("Acquire::Retries=1", " ".join(apt_calls))
+            self.assertNotIn("network_setup_run", " ".join(apt_calls))
+            self.assertNotIn("pinned-source-restore", " ".join(apt_calls))
+            self.assertTrue(restore_trace.is_file())
+            self.assertTrue(run_proof_trace.is_file())
+            bootstrap = json.loads((evidence / "network-n13-bootstrap.json").read_text())
+            self.assertEqual(bootstrap["operation"], "pinned-source-restore")
+            self.assertEqual(bootstrap["runner_state"], "NOT_REACHED")
 
     def test_bootstrap_helper_records_success_original_error_and_timeout(self):
         helper = control.network_bootstrap_script()

@@ -601,7 +601,7 @@ def config(infra,proof,lane,seconds,token,source_payload=None,phase_id=None,stag
  if phase_id in NETWORK_PHASES:
   old_setup=" export DEBIAN_FRONTEND=noninteractive\n apt-get update\n apt-get install --yes --no-install-recommends ca-certificates curl git python3 time\n"
   if old_setup not in work:raise RuntimeError('Network base setup insertion point is missing')
-  work=work.replace(old_setup,' '+network_bootstrap_script().replace('\n','\n '),1)
+  work=work.replace(old_setup,' '+network_bootstrap_script().replace('\n','\n ')+'\n',1)
  source_parts=[]
  source_env=[]
  if source_payload is not None:
