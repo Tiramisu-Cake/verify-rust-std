@@ -1,0 +1,62 @@
+{
+  "schema": "merge-r18-release-v1",
+  "evidence_kind": "DERIVED_CLOSEOUT_NOT_SERVER_ENVELOPE",
+  "phase": "MERGE-RAW-CALLER-R18-2026-10-22",
+  "owner": "merge",
+  "status": "CLOSED",
+  "t0_utc": "2026-10-22T14:08:51Z",
+  "main_deadline_utc": "2026-10-22T16:08:51Z",
+  "absolute_deadline_utc": "2026-10-22T16:38:51Z",
+  "end_utc": "2026-10-22T15:39:21Z",
+  "budget": {
+    "ceiling_seconds": 3600,
+    "charged_seconds": 1821,
+    "retired_seconds": 1779,
+    "remaining_seconds": 0,
+    "carry_seconds": 0,
+    "carryover_allowed": false
+  },
+  "own_state": {
+    "active": 0,
+    "unresolved": 0
+  },
+  "tool_sha": "a66c1d30214e463a16a325cdef30b0ec8555e0af",
+  "profile_sha256": "947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d",
+  "runtime_std_or_trusted_premise_changed": false,
+  "builds": [
+    {
+      "build_id": "e70d2723-f49d-4a8f-847e-f8da1106d36f",
+      "proof_sha": "52cef78882727762785387b053ef70aee1f269f0",
+      "submitted_config_sha256": "dd6e22d94f68513885f128b11c777f134e2948e0c72b0f5b30db40f0c52d6523",
+      "build_seconds": 915,
+      "execution_seconds": 914,
+      "status": "FAILURE",
+      "accounted": true
+    },
+    {
+      "build_id": "08bd6e03-a320-4e03-b5d3-21b051204b3e",
+      "proof_sha": "72f72bb35aa04f630fb6a1bae7ab20e6d67b918d",
+      "submitted_config_sha256": "1112803d3e1e8c40ccdb9b3096b42e745cd516f5edd30d3821527a0bb65df193",
+      "build_seconds": 906,
+      "execution_seconds": 905,
+      "status": "FAILURE",
+      "accounted": true
+    }
+  ],
+  "refused_before_dispatch": [
+    {
+      "proof_sha": "1213b0a9a12d523e672c042520d1c1cdf1147412",
+      "reason": "R15 S16 source payload exceeds existing bounded transport (572184>571567); no token/reservation/build"
+    }
+  ],
+  "reviews": [
+    "research/challenge-8/cloud-build/origin-layout/R18-REVIEW-20261022.md (GO_WITH_NITS 8db9d48d; delta GO 52cef788; delta GO_WITH_NITS 55666e3e)"
+  ],
+  "proof_progress": "RawPtr refinement2 diagnosed as harness flag defect and fixed: positive refinement0 matched; negatives 3/4 exact refusals (index projection refiner limitation). Raw caller passed array_inv444 and insert_tail call via checked r18_u64_array_inv; new frontier unwind free_locals array_ at verified461.",
+  "accepted": false,
+  "b2_achieved": false,
+  "qualification": false,
+  "independent_credit": 0,
+  "stop_reason": "Real boundary before main expiry: next useful obligation needs a new translator unwind-cleanup marker (tool commit, pins, prove.py admission, controls, independent review); not completable/reviewable in remaining main; no other Cloud-useful change. 1779 retired, no carry.",
+  "next_experiment": "Fresh window: implement the R18 design's checked source-bound unwind cleanup for the raw wrapper insert_tail Continue edge with distinguishing controls; then original as_mut_ptr/unsize borrow, LocalAddressTaken negative control, CURRENT/final matrix."
+}

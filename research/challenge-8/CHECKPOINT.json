@@ -1,12 +1,12 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md",
-      "sha256": "6acfb36fa52b2e05eea0551dfb40033156b23ef8165dfa67f6309d0550e721eb"
+      "path": "research/challenge-8/cloud-build/origin-layout/R18-RELEASE-20261022.json",
+      "sha256": "1a9c18a08a0935226d6b7c4295dbe73d18c50e67464c6fe1554dea368561d076"
     },
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R17-RELEASE-20261021.json",
-      "sha256": "32bb4fc130c6299e1a6bf42a6eaface573539fe7ee6bb32899df25507f8f83a0"
+      "path": "research/challenge-8/cloud-build/origin-layout/R16-RAW-CALLER-DESIGN-20261021.md",
+      "sha256": "6acfb36fa52b2e05eea0551dfb40033156b23ef8165dfa67f6309d0550e721eb"
     },
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R18-REVIEW-20261022.md",
@@ -14,7 +14,7 @@
     },
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R18-RAW-CALLER-DESIGN-20261022.md",
-      "sha256": "c5580b860c0d3dd1be7bb314ea68222a55b5397b344322706f33f133931c2cea"
+      "sha256": "dfc93e3344b537e1168ae6b6a1645e4eb6d614c4e5b14effaf1185e6a641beac"
     }
   ],
   "assignment_sha256": "dcbd90df36a135f6ccadef42cb78cfe77e82adfcd1a132a75a0c8b754fb7b7e0",
@@ -32,7 +32,7 @@
       }
     ],
     "location": "raw caller verified461 free_locals",
-    "summary": "Raw caller: free_locals requires array_<u64>(values_addr,3,_) after insert_tail (unwind presumed); needs checked tool/model step. RawPtr negatives pending P2."
+    "summary": "Raw caller unwind free_locals needs array_ at verified461; needs checked source-bound unwind cleanup (tool). R18 CLOSED early at real boundary."
   },
   "confirmed": [
     {
@@ -95,7 +95,7 @@
       ]
     }
   ],
-  "next_step": "Next window: checked unwind cleanup hook for raw wrapper insert_tail edge (design in R18-RAW-CALLER-DESIGN), then original borrow/unsize and CURRENT/final matrix.",
+  "next_step": "Fresh window: checked unwind cleanup hook (R18 design) + controls; then original borrow/unsize, LocalAddressTaken control, CURRENT/final matrix.",
   "open": [
     "Original as_mut_ptr/unsize, source-bound metadata, real borrow/reference lifecycle and caller normal/unwind remain OPEN; isolated lifecycle does not close them.",
     "Raw caller unwind free_locals needs checked source-bound cleanup (tool); RawPtr LocalAddressTaken negative and index projection control OPEN.",
@@ -131,13 +131,13 @@
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T16:38:51Z",
     "main_deadline_utc": "2026-10-22T16:08:51Z",
-    "remaining_seconds": 1779,
-    "retired_seconds": 0,
+    "remaining_seconds": 0,
+    "retired_seconds": 1779,
     "spent_seconds": 1821,
     "t0": "2026-10-22T14:08:51Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "CLOSED",
   "task_id": "merge-raw-caller-frontier-autonomous-2026-10-22-r18",
-  "updated_utc": "2026-10-22T15:38:00Z"
+  "updated_utc": "2026-10-22T15:39:21Z"
 }
