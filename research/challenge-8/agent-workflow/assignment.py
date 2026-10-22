@@ -60,7 +60,11 @@ CANONICAL_INSTALLS = {
 COORDINATION_DIR = Path("/root/smallsort-ci-coordination")
 OWNER_LABELS = {"merge": "Merge", "select-sort4": "Select/sort4", "network": "Network"}
 # Owners with a registered coordinator lane and branch client. Others get zero-budget tasks only.
-CLOUD_OWNERS = {"merge", "select-sort4"}
+CLOUD_OWNERS = {"merge", "select-sort4", "network"}
+# Owners with prior Cloud ledgers; bootstrap stays for owners without Cloud history.
+CLOUD_HISTORY_OWNERS = {"merge", "select-sort4"}
+# Coordinator envelope versions and their project-wide capacity (v4: select-sort4/merge/network).
+ENVELOPE_CAPACITY = {2: 2, 3: 3, 4: 3}
 
 
 class AssignmentError(ValueError):
@@ -131,7 +135,7 @@ def validate_spec(value: Any) -> dict[str, Any]:
         _err("bootstrap must be true or false")
     if bootstrap and (budget != 0 or spec["previous_ledger_path"] is not None):
         _err("bootstrap requires cloud_budget_seconds 0 and previous_ledger_path null")
-    if bootstrap and spec["owner"] in CLOUD_OWNERS:
+    if bootstrap and spec["owner"] in CLOUD_HISTORY_OWNERS:
         _err("bootstrap is only for owners without Cloud history")
     # The profile and new ledger may be null only without a Cloud lane. A null previous
     # ledger is checked at install: bootstrap, or a closed zero-budget prior checkpoint.
@@ -418,7 +422,7 @@ def _coordination_guard(owner: str, coordination_dir: Path):
             _err("coordinator state must be an object")
         if "schema_version" in envelope:
             version, capacity = envelope.get("schema_version"), envelope.get("max_active")
-            if type(version) is not int or version not in (2, 3) or capacity != {2: 2, 3: 3}[version]:
+            if type(version) is not int or version not in ENVELOPE_CAPACITY or capacity != ENVELOPE_CAPACITY[version]:
                 _err("unsupported coordinator envelope")
             records = envelope.get("reservations")
         else:

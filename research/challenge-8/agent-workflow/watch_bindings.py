@@ -26,7 +26,10 @@ COORDINATION = Path("/root/smallsort-ci-coordination")
 OWNER_REPOS = {
     "merge": (Path("/root/verify-rust-std-merge-origin"), "merge/incoming-origin-20261009"),
     "select-sort4": (Path("/root/verify-rust-std-select-night"), "research/night-select-sort4-cloud-2026-10-09"),
+    "network": (Path("/root/verify-rust-std-networks"), "challenge-8/networks"),
 }
+# Shared envelope versions this watcher reads; both have three project slots.
+ENVELOPES = {(3, 3), (4, 3)}
 CLIENT = "research/challenge-8/cloud-build/control.py"
 COORD = "research/challenge-8/cloud-build/coordination.py"
 CHECKPOINT = "research/challenge-8/CHECKPOINT.json"
@@ -162,7 +165,7 @@ def _identity(item):
 def _reservation(owner, ledger_path, item, must_have):
     envelope = _load(COORDINATION / "active.json")
     records = envelope.get("reservations")
-    if envelope.get("schema_version") != 3 or envelope.get("max_active") != 3 or not isinstance(records, list) or len(records) > 3:
+    if (envelope.get("schema_version"), envelope.get("max_active")) not in ENVELOPES or not isinstance(records, list) or len(records) > 3:
         raise BindingError("unsupported coordinator envelope")
     matches = [r for r in records if isinstance(r, dict) and r.get("owner") == owner]
     expected = {"owner": owner, "ledger": str(ledger_path), "dispatch_token": item["dispatch_token"], "phase_id": item["phase_id"], "build_id": item["build_id"]}

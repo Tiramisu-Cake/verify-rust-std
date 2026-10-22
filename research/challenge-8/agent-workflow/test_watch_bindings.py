@@ -143,6 +143,19 @@ class BindingTests(unittest.TestCase):
         with self.assertRaises(wb.BindingError):
             wb.validate(self.binding)
 
+    def test_envelope_v3_or_v4_with_three_slots_only(self):
+        active = self.f.coord / "active.json"
+        envelope = json.loads(active.read_text())
+        for version, cap, accepted in ((4, 3, True), (3, 3, True), (4, 4, False), (2, 2, False), (5, 3, False)):
+            active.write_text(json.dumps(dict(envelope, schema_version=version, max_active=cap)))
+            with self.subTest(version=version, cap=cap):
+                if accepted:
+                    self.assertEqual(wb.validate(self.binding)["status"], "WORKING")
+                else:
+                    with self.assertRaises(wb.BindingError):
+                        wb.validate(self.binding)
+        active.write_text(json.dumps(envelope))
+
     def test_closed_or_moved_account_refuses(self):
         for mutation in ({"status": "CLOSED"}, {"phase": "another"}, {"task_id": "another"},
                          {"ceiling_build_seconds": 4000, "remaining_build_seconds": 4000}, {"owner": "merge"},
@@ -258,6 +271,15 @@ class BindingTests(unittest.TestCase):
             wb._run([sys.executable, "-c", "print('x'*10000)"], cap=128)
         with self.assertRaises(wb.PollError):
             wb._run([sys.executable, "-c", "import time; time.sleep(2)"], timeout=.05)
+
+
+class OwnerRepositoryTests(unittest.TestCase):
+    def test_owner_repositories(self):
+        self.assertEqual(wb.OWNER_REPOS, {
+            "merge": (Path("/root/verify-rust-std-merge-origin"), "merge/incoming-origin-20261009"),
+            "select-sort4": (Path("/root/verify-rust-std-select-night"), "research/night-select-sort4-cloud-2026-10-09"),
+            "network": (Path("/root/verify-rust-std-networks"), "challenge-8/networks"),
+        })
 
 
 if __name__ == "__main__":

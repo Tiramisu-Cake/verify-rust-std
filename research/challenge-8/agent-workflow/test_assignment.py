@@ -469,7 +469,7 @@ class AssignmentTests(unittest.TestCase):
 
     def test_bootstrap_and_null_fields_require_zero_budget(self):
         for update, message in (
-            ({"cloud_budget_seconds": 3600}, "owner network has no Cloud lane"),
+            ({"cloud_budget_seconds": 3600}, "bootstrap requires cloud_budget_seconds 0"),
             ({"owner": "merge", "cloud_budget_seconds": 3600}, "bootstrap requires cloud_budget_seconds 0"),
             ({"previous_ledger_path": self.previous_ledger_rel}, "bootstrap requires cloud_budget_seconds 0"),
             ({"owner": "merge"}, "bootstrap is only for owners without Cloud history"),
@@ -486,6 +486,34 @@ class AssignmentTests(unittest.TestCase):
             with self.subTest(update=update):
                 with self.assertRaisesRegex(assignment.AssignmentError, message):
                     assignment.validate_spec(spec)
+
+    def test_network_cloud_lane_and_owner_without_lane(self):
+        spec = self.network_bootstrap_spec()
+        spec.update({"bootstrap": False, "cloud_budget_seconds": 3600, "profile_path": self.spec["profile_path"],
+                     "profile_sha256": self.spec["profile_sha256"], "ledger_path": self.spec["ledger_path"]})
+        self.assertEqual(assignment.validate_spec(copy.deepcopy(spec))["cloud_budget_seconds"], 3600)
+        with patch.object(assignment, "CLOUD_OWNERS", {"merge", "select-sort4"}):
+            with self.assertRaisesRegex(assignment.AssignmentError, "owner network has no Cloud lane"):
+                assignment.validate_spec(copy.deepcopy(spec))
+
+    def test_coordinator_envelopes_v2_v3_v4(self):
+        self.write_spec()
+        active = self.coordination / "active.json"
+        for version, cap, accepted in ((4, 3, True), (3, 3, True), (2, 2, True), (4, 4, False), (3, 2, False), (5, 3, False)):
+            active.write_text(json.dumps({"schema_version": version, "max_active": cap, "reservations": []}), encoding="utf-8")
+            with self.subTest(version=version, cap=cap):
+                if accepted:
+                    with assignment._coordination_guard(OWNER, self.coordination):
+                        pass
+                else:
+                    with self.assertRaisesRegex(assignment.AssignmentError, "unsupported coordinator envelope"):
+                        with assignment._coordination_guard(OWNER, self.coordination):
+                            pass
+        active.write_text(json.dumps({"schema_version": 4, "max_active": 3, "reservations": [
+            {"owner": OWNER, "ledger": "/tmp/old", "dispatch_token": "x"}]}), encoding="utf-8")
+        with self.assertRaisesRegex(assignment.AssignmentError, "occupied or unresolved"):
+            with assignment._coordination_guard(OWNER, self.coordination):
+                pass
 
     def zero_budget_closed_task(self, budget_line=assignment.NO_CLOUD_BUDGET_LINE, commit=True):
         prefix = (f"# Prior zero-budget task\n\nTask ID: `{PREVIOUS}`; Owner: **Select/sort4**. Phase: `{OLD_PHASE}`.\n"
