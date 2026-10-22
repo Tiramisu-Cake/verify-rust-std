@@ -47,9 +47,9 @@ Next: Step 1: finalize v4 for three owners, then smallsort-session support, then
 
 ## Отчёт агента
 
-**network-coordinator-v4-2026-10-22-n2 · network · NETWORK-COORDINATOR-V4-2026-10-22-N2 · NOT_STARTED**
-Updated: 2026-10-22T18:34:06Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `UNKNOWN`.
-Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 0s: 0s spent, 0s retired, 0s remaining including reservations.
+**network-coordinator-v4-2026-10-22-n2 · network · NETWORK-COORDINATOR-V4-2026-10-22-N2 · ACTIVE**
+Updated: 2026-10-22T18:46:00Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `UNKNOWN`.
+Dates: T0 `2026-10-22T18:43:36Z`; main `2026-10-22T20:43:36Z`; absolute `2026-10-22T21:13:36Z`. Budget 0s: 0s spent, 0s retired, 0s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: Network has no Cloud lane until coordinator v4 and smallsort-session support.
 Next: Step 1: finalize v4 for three owners, then smallsort-session support, then the live switch.
