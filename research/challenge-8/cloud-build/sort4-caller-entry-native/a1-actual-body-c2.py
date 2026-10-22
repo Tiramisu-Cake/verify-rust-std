@@ -394,8 +394,7 @@ def resource_controls_c3(verified: bytes, original: bytes, ghost,
     return _indexed_control_rows(cases, verified, original, ghost, meta, lemma_metadata, "c3")
 
 
-# R19 c4 layer: the same checked pattern for call 4 with selected operands
-# `d` and `b`, derived from the reviewed c3 templates by renaming only.
+# R19 c4 layer: c3 templates renamed for call 4 with operands `d` and `b`.
 def _rename_c3_to_c4(raw: bytes) -> bytes:
     for old, new in ((b"cmp3_k", b"cmp4_k"), (b"'cmp3", b"'cmp4"),
                      (b"__vf_callback_scope3", b"__vf_callback_scope4"),
@@ -485,8 +484,6 @@ def resource_controls_c4(verified: bytes, original: bytes, ghost,
     need(ghost.strip_ghost(verified) == original, "positive c4 runtime source pair is byte-equal")
     need(verified.count(MARKER4) == 1 and verified.count(C4_TYPED_CALL) == 1 and
          verified.count(NORMAL4) == 1, "one exact c4 marker/call/recovery before controls")
-    # d is slot 2 or 3 and b is slot 0 or 1: dropping the base+0/base+2 shares
-    # leaks on the (b,d)=(1,3) path and starves init_ref_share elsewhere.
     missing_shares = verified
     for line in (b"        //@ share_full_borrow::<T>(cmp4_k, t, v_base);\n",
                  b"        //@ share_full_borrow::<T>(cmp4_k, t, v_base + 2);\n"):
@@ -518,22 +515,14 @@ def resource_controls_c4(verified: bytes, original: bytes, ghost,
     need(verified.count(c5_call) == 1, "one untouched c5 call")
     overflow = verified.replace(c5_call, overflow_marker + c5_call, 1)
     cases = (
-        ("c4-missing-unselected-share-negative", missing_shares,
-         "resource: base+0/base+2 full_borrow leak on the (b,d)=(1,3) path or a selected share is missing"),
-        ("c4-missing-unrelated-end-token-negative", missing_resource,
-         "resource: no base+3 borrow_end token for the c4 debt, or no base+3 share when d selects slot 3"),
-        ("c4-wrong-ordered-ref-pair-negative", wrong_order,
-         "resource: precreated reference order (b,d) differs from actual ordered operands (d,b)"),
-        ("c4-wrong-ref-resource-negative", wrong_ref,
-         "resource: left4_ref precreation points to a while the actual first operand is d"),
-        ("c4-wrong-marker-index-negative", wrong_index,
-         "frontend: index-3 marker with c4 names is unparsed; declared/parsed marker inventory refuses"),
-        ("c4-missing-fourth-debt-token-negative", missing_token,
-         "frontend: marker closing callback_four_debt_without_fourth is unparsed; inventory refuses"),
-        ("c4-displaced-marker-negative", displaced,
-         "frontend: marker after the call does not bind c4"),
-        ("c4-index-overflow-marker-negative", overflow,
-         "frontend: index-5 marker with explicit count 4 is unparsed; inventory refuses"),
+        ("c4-missing-unselected-share-negative", missing_shares, "resource: share"),
+        ("c4-missing-unrelated-end-token-negative", missing_resource, "resource: end token"),
+        ("c4-wrong-ordered-ref-pair-negative", wrong_order, "resource: ordered pair"),
+        ("c4-wrong-ref-resource-negative", wrong_ref, "resource: ref token"),
+        ("c4-wrong-marker-index-negative", wrong_index, "frontend: marker inventory"),
+        ("c4-missing-fourth-debt-token-negative", missing_token, "frontend: marker inventory"),
+        ("c4-displaced-marker-negative", displaced, "frontend: marker binding"),
+        ("c4-index-overflow-marker-negative", overflow, "frontend: marker inventory"),
     )
     return _indexed_control_rows(cases, verified, original, ghost, meta, lemma_metadata, "c4")
 
