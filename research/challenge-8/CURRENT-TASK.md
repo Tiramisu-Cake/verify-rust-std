@@ -49,10 +49,10 @@ Next: At actual T0 prepare/register R20; Cloud preflight, then the published raw
 
 ## Отчёт агента
 
-**merge-unwind-acceptance-autonomous-2026-10-23-r20 · merge · MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23 · HANDOFF**
-Updated: 2026-10-22T20:24:24Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `39f6b0cacd00575c8ca2d39e9f15632723bf1227` / `1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb`.
-Dates: T0 `2026-10-22T20:08:00Z`; main `2026-10-22T22:08:00Z`; absolute `2026-10-22T22:38:00Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
-Active Build IDs: 196e1b52-23bf-47e8-bf0a-72caa5c1bbf2; unresolved: none recorded.
-Blocker: R20 P1 WORKING; raw cleanup/control evidence pending. F5 and original caller OPEN.
-Next: Ack watcher; read P1 Brief; resolve raw caller/controls, then original caller.
+**merge-unwind-acceptance-autonomous-2026-10-23-r20 · merge · MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23 · ACTIVE**
+Updated: 2026-10-22T20:47:17Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `39f6b0cacd00575c8ca2d39e9f15632723bf1227` / `1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb`.
+Dates: T0 `2026-10-22T20:08:00Z`; main `2026-10-22T22:08:00Z`; absolute `2026-10-22T22:38:00Z`. Budget 3600s: 938s spent, 0s retired, 2662s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: Raw caller exit0 and5R19 controls matched; F5 resource negative/original caller OPEN.
+Next: Review/run F5 and state controls; preserve pins; then original caller metadata/lifetime.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
