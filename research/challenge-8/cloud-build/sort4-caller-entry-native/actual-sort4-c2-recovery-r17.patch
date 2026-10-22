@@ -20,7 +20,7 @@
 +      let actual_indexed_calls =
 +        match Sys.getenv_opt "SORT4_ACTUAL_BODY_INDEXED_CALLS" with
 +        | None -> if actual_c2_enabled then 2 else 1
-+        | Some ("2" | "3" | "4" as count) ->
++        | Some ("2" | "3" | "4" | "5" as count) ->
 +            if Sys.getenv_opt "SORT4_ACTUAL_BODY_C2_RECOVERY" <> Some "1" then
 +              failwith "CALLBACK-UNWIND: indexed call count requires exact actual c2 body";
 +            if actual_c2_enabled then int_of_string count else 1
@@ -325,7 +325,7 @@
 +      else begin
 +        let reject why = Ast.static_error fn_sig_loc ("R17 indexed scope: " ^ why) None in
 +        let count = match Sys.getenv_opt "SORT4_ACTUAL_BODY_INDEXED_CALLS" with
-+          | None | Some "2" -> 2 | Some "3" -> 3 | Some "4" -> 4
++          | None | Some "2" -> 2 | Some "3" -> 3 | Some "4" -> 4 | Some "5" -> 5
 +          | _ -> reject "malformed indexed call count" in
 +        let indices = List.init (count - 1) (fun i -> i + 2) in
 +        let lft i = "'cmp" ^ string_of_int i in
@@ -518,29 +518,39 @@
 +                State.strict_relocated_decls := [(cut_loc, cmp_moved)]
 +              end
              end;
-@@ -9133,3 +9460,3 @@
+@@ -9131,5 +9458,13 @@
+             let vf_bblocks, actual_deferred_wrapper =
++              (* R19: with all five calls indexed no deferred locals remain, so
++                 there is no normal suffix scope to create. *)
++              if actual_scope_relocate && State.actual_c2_enabled &&
++                 State.actual_indexed_calls = 5 then begin
++                if !deferred_moved <> [] then
++                  Ast.static_error fn_sig_loc "R19 five indexed calls leave deferred locals" None;
++                vf_bblocks, None
++              end else
+               if actual_scope_relocate then
                  let relocated, wrapper =
 -                  wrap_actual_deferred_suffix fn_sig_loc !deferred_moved vf_bblocks in
 +                  wrap_actual_deferred_suffix ~indexed:State.actual_c2_enabled fn_sig_loc !deferred_moved vf_bblocks in
                  relocated, Some wrapper
-@@ -9137,3 +9464,4 @@
+@@ -9137,3 +9472,4 @@
              if relocate then begin
 -              if !State.strict_relocation_insertions <> 1 then
 +              if !State.strict_relocation_insertions <>
 +                 (if State.actual_c2_enabled then State.actual_indexed_calls else 1) then
                  Ast.static_error fn_sig_loc
-@@ -9142,4 +9470,4 @@
+@@ -9142,4 +9478,4 @@
                Printf.eprintf
 -                "STRICT-RELOCATE outer_removed=%d inner_insertions=1\n%!"
 -                (List.length relocation_ids)
 +                "STRICT-RELOCATE outer_removed=%d inner_insertions=%d\n%!"
 +                (List.length relocation_ids) !State.strict_relocation_insertions
              end;
-@@ -9173,2 +9501,3 @@
+@@ -9173,2 +9509,3 @@
                   run_actual_deferred_scope_controls fn_sig_loc;
 +                 if State.actual_c2_enabled then run_actual_indexed_scope_controls fn_sig_loc;
                   let expected_types = List.map (fun id ->
-@@ -9183,5 +9512,11 @@
+@@ -9183,5 +9520,11 @@
                     translated_ids in
 -                 let cmp_expected, deferred_expected =
 +                 let cmp_expected, remaining_expected =

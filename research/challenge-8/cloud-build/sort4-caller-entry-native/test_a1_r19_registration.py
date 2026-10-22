@@ -16,7 +16,7 @@ HERE = Path(__file__).resolve().parent
 CLOUD = HERE.parent
 PREFIX = "research/challenge-8/cloud-build/sort4-caller-entry-native/"
 PROFILE = HERE / "A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json"
-PROFILE_SHA256 = "c7bbbc46228cda204dc1f74789878f3945c95e0e19da874c2446d3c3e2db5f8d"
+PROFILE_SHA256 = "5a15adddb5db440403ce11aaf4b312839ac1fddfea7e7776675fa0968e3cf927"
 LEDGER = HERE / "BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json"
 PHASE = "SORT4-ACTUAL-C3-2026-10-22-R19"
 INSIDE = "2026-10-22T14:30:00Z"
@@ -86,7 +86,7 @@ class R19Registration(unittest.TestCase):
         self.assertEqual(sha(PROFILE.read_bytes()), PROFILE_SHA256)
         profile = json.loads(PROFILE.read_text())
         self.assertEqual(profile["authorization_phase_id"], ROUTING)
-        self.assertEqual(profile["actual_indexed_calls"], 4)
+        self.assertEqual(profile["actual_indexed_calls"], 5)
         self.assertIs(profile["actual_c2_recovery_enabled"], True)
         overlay = json.loads((HERE / "ACTUAL-SORT4-C2-RECOVERY-R17-MANIFEST.json").read_text())
         self.assertEqual(sha((HERE / "ACTUAL-SORT4-C2-RECOVERY-R17-MANIFEST.json").read_bytes()),
@@ -163,10 +163,10 @@ class R19Registration(unittest.TestCase):
     def test_environment_rejects_changed_profile(self):
         raw = PROFILE.read_bytes()
         profile = json.loads(raw)
-        variants = [raw + b"\n", raw.replace(b"R19-C4", b"R19-C5", 1)]
+        variants = [raw + b"\n", raw.replace(b"R19-C5", b"R19-C6", 1)]
         for key, value in (("authorization_phase_id", PHASE), ("execution_mode", "other"),
                            ("body_action", "other"), ("experiment_protocol_phase_id", "other"),
-                           ("actual_indexed_calls", 2), ("actual_indexed_calls", 5), ("actual_indexed_calls", None),
+                           ("actual_indexed_calls", 2), ("actual_indexed_calls", 6), ("actual_indexed_calls", None),
                            ("actual_c2_recovery_enabled", False)):
             variants.append(json.dumps(dict(profile, **{key: value})).encode())
         for variant in variants:

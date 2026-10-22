@@ -489,6 +489,95 @@ def resource_controls_c4(verified: bytes, original: bytes, ghost,
          "frontend: marker binding", "frontend: marker inventory"))
 
 
+# R19 c5 layer: c3 templates renamed for call 5 with the selector operands.
+def _rename_c3_to_c5(raw: bytes) -> bytes:
+    for old, new in ((b"cmp3_k", b"cmp5_k"), (b"'cmp3", b"'cmp5"),
+                     (b"__vf_callback_scope3", b"__vf_callback_scope5"),
+                     (b"left3_", b"left5_"), (b"right3_", b"right5_"),
+                     (b"precreate_ref::<T>(c)", b"precreate_ref::<T>(unknown_right)"),
+                     (b"precreate_ref::<T>(a)", b"precreate_ref::<T>(unknown_left)"),
+                     (b"__vf_callback_unwind_four(3)", b"__vf_callback_unwind_four(5)")):
+        raw = raw.replace(old, new)
+    return raw
+
+
+C5_CALL = b"        let c5 = is_less(&*unknown_right, &*unknown_left);\n"
+C5_TYPED_CALL = (b"        let c5 = is_less/*@::<F, (&'cmp5 T, &'cmp5 T), 'cmp5>@*/"
+                 b"(&*unknown_right, &*unknown_left);\n")
+C5_HEADER_LIFETIMES = C4_HEADER_LIFETIMES.replace(
+    b"    let_lft 'cmp4 = cmp4_k; @*/", b"    let_lft 'cmp4 = cmp4_k;\n    let_lft 'cmp5 = cmp5_k; @*/")
+C5_SCOPE_MARKER = b"        //@ __vf_callback_scope5();\n"
+C5_LEFT_PRECREATE = _rename_c3_to_c5(C3_LEFT_PRECREATE)
+C5_RIGHT_PRECREATE = _rename_c3_to_c5(C3_RIGHT_PRECREATE)
+C5_SHARES = _rename_c3_to_c5(C3_SHARES)
+C5_SETUP = _rename_c3_to_c5(C3_SETUP)
+DEBT5_ARGS = _rename_c3_to_c5(DEBT3_ARGS)
+MARKER5 = _rename_c3_to_c5(MARKER3)
+NORMAL5 = _rename_c3_to_c5(NORMAL3)
+LO_SELECT = b"        let lo = hint::select_unpredictable(c5, unknown_right, unknown_left);\n"
+
+
+def _layer_c5(verified_c4: bytes, original: bytes, c4_meta: dict, ghost, lemma_metadata):
+    need(c4_meta.get("actual_indexed_calls") == 4,
+         "c5 requires the exact checked c4 constructor output")
+    need(ghost.strip_ghost(verified_c4) == original,
+         "c4 constructor source/runtime pair is immutable before c5")
+    need(verified_c4.count(C5_CALL) == 1 and verified_c4.count(C4_HEADER_LIFETIMES) == 1 and
+         verified_c4.count(NORMAL4) == 1 and verified_c4.count(LO_SELECT) == 1,
+         "one exact c5 call after one c4 recovery and one c1..c4 header")
+    need(verified_c4.index(NORMAL4) < verified_c4.index(C5_CALL) < verified_c4.index(LO_SELECT),
+         "c4 recovery precedes c5, which precedes the final selectors")
+    staged = verified_c4.replace(C4_HEADER_LIFETIMES, C5_HEADER_LIFETIMES, 1)
+    call = staged.replace(C5_CALL, C5_SETUP + MARKER5 + C5_TYPED_CALL + NORMAL5, 1)
+    need(call.count(C5_SCOPE_MARKER) == 1 and
+         call.count(b"__vf_callback_unwind_four(5);") == 1 and
+         call.count(b"callback_four_debt::<T>(" + DEBT5_ARGS + b")") == 2 and
+         call.count(b"recover_four_sources::<T>(v_base);") == 8 and
+         call.count(C5_SHARES) == 1 and call.count(b"__vf_callback_unwind_") == 5,
+         "one exact c5 scope/marker/debt/recovery/share layer")
+    need(call.index(NORMAL5) < call.index(LO_SELECT), "c5 recovery precedes the final selectors")
+    need(ghost.strip_ghost(call) == original,
+         "c5 source annotations preserve the exact complete runtime body")
+    generated_lines = call.splitlines()
+    function_lines = [i for i, line in enumerate(generated_lines, 1) if line.startswith(TARGET)]
+    c5_lines = [i for i, line in enumerate(generated_lines, 1) if b"let c5 = is_less/*@" in line]
+    need(len(function_lines) == len(c5_lines) == 1, "one actual body and one typed c5 call")
+    required = [row for row in lemma_metadata(call) if row["name"] in COMPARATOR_NAMES]
+    need(tuple(row["name"] for row in required) == COMPARATOR_NAMES,
+         "exact five required comparator dependencies in generated source")
+    return call, original, {
+        **c4_meta, "focus_line": function_lines[0], "end_line": len(generated_lines),
+        "required_lemmas": required, "body_annotation_stage": "c1-c5-four-source-recovery-v1",
+        "actual_indexed_calls": 5, "c5_call_index": 5,
+        "c5_ordered_source_operands": ["unknown_right", "unknown_left"],
+        "c5_marker": "__vf_callback_unwind_four(5)", "c5_comparator_line": c5_lines[0],
+        "c5_marker_callsite_attribution": "OPEN",
+        "generated_source_sha256": hashlib.sha256(call).hexdigest(),
+        "runtime_body_byteequal": True, "summary_eligible": False, "proof_credit": False,
+    }
+
+
+def construct_c5(source: bytes, ghost, capture, pair_recovery: bytes,
+                 four_recovery: bytes, c1_constructor, base_constructor,
+                 lemma_metadata):
+    """Build c1..c4, then layer c5's source annotations without running tools."""
+    verified_c4, original, c4_meta = construct_c4(
+        source, ghost, capture, pair_recovery, four_recovery, c1_constructor,
+        base_constructor, lemma_metadata)
+    return _layer_c5(verified_c4, original, c4_meta, ghost, lemma_metadata)
+
+
+def resource_controls_c5(verified: bytes, original: bytes, ghost,
+                         four_recovery: bytes, meta: dict, lemma_metadata):
+    """c5 negatives; the selected pair is path dependent, so all four shares drop."""
+    return _indexed_resource_controls(5, verified, original, ghost, four_recovery, meta,
+        lemma_metadata, MARKER5, C5_TYPED_CALL, NORMAL5, C5_LEFT_PRECREATE,
+        C5_RIGHT_PRECREATE, (b"unknown_right", b"unknown_left"), (0, 1, 2, 3), 0, b"min",
+        LO_SELECT, ("resource: share", "resource: end token", "resource: ordered pair",
+         "resource: ref token", "frontend: marker inventory", "frontend: marker inventory",
+         "frontend: marker binding", "frontend: marker inventory"))
+
+
 def construct(source: bytes, ghost, capture, pair_recovery: bytes,
               four_recovery: bytes, c1_constructor, base_constructor,
               lemma_metadata):

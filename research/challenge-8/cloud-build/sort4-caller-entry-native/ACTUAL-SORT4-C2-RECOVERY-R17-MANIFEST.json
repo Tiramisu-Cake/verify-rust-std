@@ -3,13 +3,13 @@
   "source": "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml",
   "authorization_phase_id": "SORT4-ACTUAL-C2-2026-10-21-R17",
   "base_sha256": "6c04f608d0a8c10901c8d0bd776adef0ed29b112d7462d344995b3a979f60cc1",
-  "result_sha256": "586a162c79c2acec18d3f7d6dfcb0710b27dfe717af45465d039e44c0c2d0135",
+  "result_sha256": "df5412332fac867c0e644636fbc50883f68941fd6c50bcaf062c0d9534bd6fe2",
   "patch": "actual-sort4-c2-recovery-r17.patch",
-  "patch_sha256": "63fdfc8685c86e3882d8576369d295725820080e10ada9e34a7cfeeebffd7ae7",
+  "patch_sha256": "2b7b1b43b4408793ef72a2c7559cacd2b66beca894be243aae381c6f414ef67b",
   "new_axiom_or_assumed_lemma": false,
   "kernel_checks_changed": false,
   "runtime_operations_changed": false,
   "runtime_body_cut": false,
   "proof_credit": false,
-  "invariant": "Exact source-bound indexed callback recovery for an explicit count of indexed calls (SORT4_ACTUAL_BODY_INDEXED_CALLS absent/2, 3 or 4; any other value refused) and strict per-index declaration placement; checked receiver/ordered-ref assertions; original operations/CFG retained; unknown index/count/scope/type/source shape rejected."
+  "invariant": "Exact source-bound indexed callback recovery for an explicit count of indexed calls (SORT4_ACTUAL_BODY_INDEXED_CALLS absent/2..5; at 5 no deferred suffix scope; any other value refused) and strict per-index declaration placement; checked receiver/ordered-ref assertions; original operations/CFG retained; unknown index/count/scope/type/source shape rejected."
 }

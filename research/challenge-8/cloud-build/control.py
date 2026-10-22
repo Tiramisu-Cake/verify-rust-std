@@ -222,7 +222,7 @@ A1_R19_START='2026-10-22T13:50:26Z'
 A1_R19_MAIN_DEADLINE='2026-10-22T15:50:26Z'
 A1_R19_DEADLINE='2026-10-22T16:20:26Z'
 A1_R19_PROFILE='research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json'
-A1_R19_PROFILE_SHA256='c7bbbc46228cda204dc1f74789878f3945c95e0e19da874c2446d3c3e2db5f8d'
+A1_R19_PROFILE_SHA256='5a15adddb5db440403ce11aaf4b312839ac1fddfea7e7776675fa0968e3cf927'
 A1_R19_CEILING=3600
 A1_LEGACY_TWO_SLOT_PHASES=frozenset((A1_AUTO_PHASE,A1_SCOPE_PHASE,A1_R7_PHASE,
  A1_R8_PHASE,A1_R9_PHASE,A1_R10_PHASE,A1_R11_PHASE))
@@ -369,7 +369,7 @@ def envs(infra,proof,lane,phase_id=None):
   profile_bytes=subprocess.check_output(['git','show',proof+':'+A1_R19_PROFILE],cwd=ROOT)
   if digest(profile_bytes)!=A1_R19_PROFILE_SHA256:raise SystemExit('A1 R19 pinned c3 profile bytes differ')
   profile=json.loads(profile_bytes)
-  if not isinstance(profile,dict) or profile.get('authorization_phase_id')!=A1_R17_PHASE or profile.get('experiment_protocol_phase_id')!=A1_PHASE or profile.get('execution_mode')!='actual-sort4-body-v1' or profile.get('body_action')!='full-body-c1-recovery' or profile.get('actual_c2_recovery_enabled') is not True or profile.get('actual_indexed_calls') not in (3,4):raise SystemExit('A1 R19 authorization/protocol/body profile binding differs')
+  if not isinstance(profile,dict) or profile.get('authorization_phase_id')!=A1_R17_PHASE or profile.get('experiment_protocol_phase_id')!=A1_PHASE or profile.get('execution_mode')!='actual-sort4-body-v1' or profile.get('body_action')!='full-body-c1-recovery' or profile.get('actual_c2_recovery_enabled') is not True or profile.get('actual_indexed_calls') not in (3,4,5):raise SystemExit('A1 R19 authorization/protocol/body profile binding differs')
   phase_env=['SORT4_A1_AUTHORIZATION_PHASE_ID='+A1_R17_PHASE,'SORT4_A1_PHASE_ID='+A1_PHASE,
              'SORT4_A1_CHECKED_TRAIT_CONTRACT=1','SORT4_A1_PROFILE_SHA256='+digest(profile_bytes)]
  if phase_id==A1_R16_PHASE:

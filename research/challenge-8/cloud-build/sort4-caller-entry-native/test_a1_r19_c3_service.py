@@ -251,5 +251,39 @@ class R19StaticC4Constructor(unittest.TestCase):
             self.base.c2._layer_c4(self.v4, self.o4, self.m4, self.base.ghost, BODY.lemma_metadata)
 
 
+class R19C5(unittest.TestCase):
+    def make_case(self, **delta):
+        case = R17IndexedCallbackControls().make_case()
+        meta = dict(case[3], actual_indexed_calls=5, c3_comparator_line=15,
+                    c4_comparator_line=19, c5_comparator_line=23)
+        meta.update(delta)
+        return *case[:3], meta
+
+    def test_c5_route_and_refusals(self):
+        c4 = R19IndexedCountRoute().run_route(self.make_case())
+        self.assertEqual(c4.support_env['SORT4_ACTUAL_BODY_INDEXED_CALLS'], '5')
+        for delta in ({'c5_comparator_line': 22}, {'actual_indexed_calls': 6}):
+            c4 = FakeC4()
+            with self.subTest(delta=delta), tempfile.TemporaryDirectory() as temp:
+                with self.assertRaises(RuntimeError):
+                    BODY.run_case(None, c4, Path('/synthetic/tool'), {}, Path(temp),
+                        self.make_case(**delta), FakeGates(), FakeGrammar({}), {'tool_hashes': {}})
+                self.assertEqual(c4.stage_calls, 0)
+
+    def test_static_c5_layer_and_controls(self):
+        R19StaticConstructor.setUpClass()
+        base = R19StaticConstructor
+        v5, o5, m5 = base.c2.construct_c5(*base.args)
+        self.assertEqual(base.ghost.strip_ghost(v5), o5)
+        self.assertEqual(v5.count(b'__vf_callback_unwind_'), 5)
+        self.assertEqual(v5.count(b'precreate_ref::<T>(unknown_right)'), 1)
+        self.assertEqual(v5.count(b'precreate_ref::<T>(unknown_left)'), 1)
+        self.assertLess(v5.index(base.c2.NORMAL5), v5.index(base.c2.LO_SELECT))
+        rows = base.c2.resource_controls_c5(v5, o5, base.ghost, base.four, m5, BODY.lemma_metadata)
+        self.assertEqual(len({r[1] for r in rows}), 8)
+        for name, candidate, original, meta in rows:
+            self.assertEqual(base.ghost.strip_ghost(candidate), o5, name)
+
+
 if __name__ == '__main__':
     unittest.main()
