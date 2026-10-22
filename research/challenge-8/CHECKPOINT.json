@@ -28,7 +28,7 @@
     "tool_sha": "39f6b0cacd00575c8ca2d39e9f15632723bf1227"
   },
   "blocker": {
-    "summary": "P4 active; new tool/helper/controls unverified. Original caller OPEN.",
+    "summary": "P4 WORKING; metadata/helper/controls unverified. Original caller OPEN.",
     "evidence": [
       {
         "build_id": "0d3e7c6d-dfe4-4dbb-b5da-f0169d92ff53",
@@ -86,7 +86,7 @@
       ]
     }
   ],
-  "next_step": "ACK terminal event; read Brief; continue within original bounds.",
+  "next_step": "Prepare decoder record compatibility; terminal Brief when ready.",
   "open": [
     "Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.",
     "Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.",
@@ -132,7 +132,7 @@
     "t0": "2026-10-22T20:08:00Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "merge-unwind-acceptance-autonomous-2026-10-23-r20",
-  "updated_utc": "2026-10-22T21:42:14Z"
+  "updated_utc": "2026-10-22T21:51:28Z"
 }

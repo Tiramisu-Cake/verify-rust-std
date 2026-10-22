@@ -1,7 +1,7 @@
 # Agent checkpoint: merge-unwind-acceptance-autonomous-2026-10-23-r20
 
-- Owner: merge | phase: MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23 | state: HANDOFF
-- Updated: 2026-10-22T21:42:14Z
+- Owner: merge | phase: MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23 | state: ACTIVE
+- Updated: 2026-10-22T21:51:28Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `39f6b0cacd00575c8ca2d39e9f15632723bf1227`, profile `1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb`
 - Session dates: T0 `2026-10-22T20:08:00Z`; main deadline `2026-10-22T22:08:00Z`; absolute deadline `2026-10-22T22:38:00Z`
 - Budget: 3600s total; 2107s spent; 0s retired; 1493s remaining including active reservations
@@ -25,11 +25,11 @@
 - Short outer timeout990/execute570 chosen using prior whole-cycle timings — Missed nested compile reserve140; P4 timed out before proof. Keep full1200 plan unless effective inner budget reviewed.; [research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md](cloud-build/origin-layout/R16-REVIEW-20261021.md) SHA `7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa`
 
 ## Blocker
-P4 active; new tool/helper/controls unverified. Original caller OPEN.
+P4 WORKING; metadata/helper/controls unverified. Original caller OPEN.
 - [research/challenge-8/cloud-build/origin-layout/R20-PROOF4-START-20261023.json](cloud-build/origin-layout/R20-PROOF4-START-20261023.json) SHA `f362938c350671793a786de90b899ba5a93bc786c91a0af2eec168671ce6dbe9` Build `0d3e7c6d-dfe4-4dbb-b5da-f0169d92ff53`
 
 ## Next
-ACK terminal event; read Brief; continue within original bounds.
+Prepare decoder record compatibility; terminal Brief when ready.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R19-UNWIND-CLEANUP-DESIGN-20261022.md](cloud-build/origin-layout/R19-UNWIND-CLEANUP-DESIGN-20261022.md) — `571f1acd4a0ad8f86c7fe2bfa95e9a5a80450cbe0a5dc84c81fe5f8309ad857e`
