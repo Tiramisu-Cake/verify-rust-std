@@ -370,7 +370,8 @@ class RunnerAndRecipe(unittest.TestCase):
         self.assertIn('"${SORT4_R20_CALLEE_PHASE_ID:-}" == SORT4-ACTUAL-SELECT-2026-10-22-R20', RUNNER)
         self.assertIn('"${SORT4_R20_CALLEE_PHASE_ID:-}" == SORT4-ACTUAL-SELECT-2026-10-23-R21', RUNNER)
         order = ["stage provider-overlays", "stage source-preflight", "stage package-index",
-                 "stage branch-refresh-apply", "stage fractional-refresh-apply", "stage console-build",
+                 "stage branch-refresh-apply", "stage fractional-refresh-apply",
+                 "stage parser-refresh-apply", "stage console-build",
                  "stage candidate-capture", "stage candidate-source-compare",
                  "stage candidate-proof", "stage r21-fractional-proof"]
         self.assertIn("606235c66c76412d2fdcef5f30436c342771ad5a087b343f618cfb7c8a2344d2", RUNNER)

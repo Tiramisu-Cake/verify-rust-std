@@ -87,8 +87,8 @@ class R22CalleeRegistration(unittest.TestCase):
         self.assertEqual((ledger["phase"], ledger["phase_id"], ledger["status"]),
                          (PHASE, PHASE, "AUTHORIZED"))
         self.assertEqual((ledger["ceiling_build_seconds"], ledger["carry_seconds"]), (3600, 0))
-        self.assertEqual((ledger["used_build_seconds"], ledger["remaining_build_seconds"]),
-                         (0, 3600))
+        self.assertEqual(ledger["used_build_seconds"] + ledger["remaining_build_seconds"],
+                         3600)
         for key, value in authorized_ledger().items():
             if key != "authorization":
                 self.assertEqual(ledger[key], value, key)
@@ -189,6 +189,37 @@ class R22CalleeRegistration(unittest.TestCase):
         self.assertIn('"${SORT4_R20_CALLEE_PHASE_ID:-}" == ' + ROUTE_MARKER, runner)
         # A phase-valued marker would be refused by the pinned translator.
         self.assertNotIn(PHASE.encode(), raw)
+
+    def test_parser_fix_is_pinned_transported_and_parser_only(self):
+        """Static control for the R22 coefficient/type-predicate parser patch."""
+        import hashlib
+        rel = ("research/challenge-8/overnight-assume-actual/"
+               "verifast-r22-coef-typepred-parser-26.10.patch")
+        raw = (REPO / rel).read_bytes()
+        digest = hashlib.sha256(raw).hexdigest()
+        self.assertEqual(digest,
+                         "dfdaff604314ecf0e27c44320811096f05a8bd8833910c59321fdec33de7b0e5")
+        files = [line for line in raw.decode().splitlines() if line.startswith("+++ ")]
+        self.assertEqual(files, ["+++ b/src/rust_frontend/vf_mir_translator/rust_parser.ml"])
+        added = [line[1:] for line in raw.decode().splitlines()
+                 if line.startswith("+") and not line.startswith("+++")]
+        self.assertIn('          ] -> CoefAsn (l, coef, p)', added)
+        self.assertNotIn("SORT4", "".join(added))
+        recipe = json.loads((CLOUD / "recipes" / (LANE + ".json")).read_text())
+        self.assertIn(rel, recipe["proof_paths"])
+        runner = (CLOUD / "run-o26-select-callee-r20.sh").read_text()
+        self.assertIn(digest, runner)
+        for pin in ("7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+                    "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246"):
+            self.assertIn(pin, runner)
+        order = [runner.index(marker) for marker in (
+            "stage fractional-refresh-apply", "stage parser-refresh-check",
+            "stage parser-refresh-apply", "stage console-build")]
+        self.assertEqual(order, sorted(order))
+        # The translator pin is re-asserted after the parser patch.
+        after = runner[runner.index("stage parser-refresh-apply"):]
+        self.assertIn("50a77b8d220178d0253df4def38c06b1e29e46d51389873e35db18198096fcf2",
+                      after[:after.index("deps_archive=")])
 
     def test_historical_r21_and_r20_admission_constants_unchanged(self):
         self.assertEqual((CONTROL.A1_R21_START, CONTROL.A1_R21_MAIN_DEADLINE,

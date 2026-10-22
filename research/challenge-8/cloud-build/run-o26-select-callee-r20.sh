@@ -192,6 +192,16 @@ current_stage=fractional-patch-identity
 stage fractional-refresh-check git -C "$source_home" apply --check "$fractional_patch"
 stage fractional-refresh-apply git -C "$source_home" apply "$fractional_patch"
 [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 50a77b8d220178d0253df4def38c06b1e29e46d51389873e35db18198096fcf2 ]] || exit 2
+# R22 parser-only fix: a one-element coefficient before `<T>.pred(..)` in an
+# assertion is parsed as CoefAsn instead of a `<` comparison on a list.
+parser_patch="$proof_root/research/challenge-8/overnight-assume-actual/verifast-r22-coef-typepred-parser-26.10.patch"
+current_stage=parser-patch-identity
+[[ "$(sha256sum "$parser_patch" | cut -d' ' -f1)" == dfdaff604314ecf0e27c44320811096f05a8bd8833910c59321fdec33de7b0e5 ]] || exit 2
+[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/rust_parser.ml" | cut -d' ' -f1)" == 7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2 ]] || exit 2
+stage parser-refresh-check git -C "$source_home" apply --check "$parser_patch"
+stage parser-refresh-apply git -C "$source_home" apply "$parser_patch"
+[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/rust_parser.ml" | cut -d' ' -f1)" == 6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246 ]] || exit 2
+[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 50a77b8d220178d0253df4def38c06b1e29e46d51389873e35db18198096fcf2 ]] || exit 2
 
 
 deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"
@@ -227,7 +237,10 @@ import hashlib,json,pathlib,sys
 m=json.load(open(sys.argv[1])); root=pathlib.Path(sys.argv[2]); out=pathlib.Path(sys.argv[3])
 rows={p:hashlib.sha256((root/p).read_bytes()).hexdigest() for p in m['hosted_profile_hashes']}
 for path in rows:
- if path not in ('bin/verifast','src/rust_frontend/vf_mir_translator/vf_mir_translator.ml') and rows[path]!=m['hosted_profile_hashes'][path]:
+ if path=='src/rust_frontend/vf_mir_translator/rust_parser.ml':
+  if rows[path]!='6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246':
+   raise SystemExit(f'R22 parser pin differs: {path}')
+ elif path not in ('bin/verifast','src/rust_frontend/vf_mir_translator/vf_mir_translator.ml') and rows[path]!=m['hosted_profile_hashes'][path]:
   raise SystemExit(f'frozen O26 tool/spec pin differs: {path}')
 out.write_text(json.dumps({'actual':rows,'historical':m['hosted_profile_hashes'],
  'console_byte_identical':rows['bin/verifast']==m['hosted_profile_hashes']['bin/verifast']},indent=2)+'\n')

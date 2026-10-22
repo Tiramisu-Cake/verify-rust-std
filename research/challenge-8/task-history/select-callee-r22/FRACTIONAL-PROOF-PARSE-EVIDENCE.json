@@ -1,0 +1,57 @@
+{
+  "schema": "select-r22-fractional-proof-evidence-v1",
+  "build_id": "71401a80-e20c-407f-90b3-366c1a12a0bd",
+  "source_sha": "82bb819f216c5daa45d74f4a7b071801a468a7dc",
+  "timeout_seconds": 1200,
+  "build_seconds": 303,
+  "assurance": "SOURCE_REPORTED",
+  "proof_credit": 0,
+  "accepted": false,
+  "brief": {
+    "archive_sha256": "2eeded44144392f3c29978ef487ffc0970c9bc0ea44f076c2ce1b314ba1b4ebe",
+    "index_sha256": "1fe0572d397552d73009b807ed0124514a90c4f022dab684ba18a586ba8f0c70",
+    "catalogue_members": 630
+  },
+  "stages_observed": {
+    "console-build": 0,
+    "branch-refresh-apply": 0,
+    "candidate-capture": 0,
+    "candidate-source-compare": 0,
+    "candidate-proof": 0,
+    "r21-fractional-proof": 4
+  },
+  "classified_record": {
+    "file_id": "f952a8e1803116244393180808ea59adcd3946a06b3f1c3c2a63abb0ae92fbeb",
+    "sha256": "590a05375f5262e45974ab09abe9ee2aa288ff3d991e05995e2c25a0f79a6f4f",
+    "path": "allprooflogs/cases/r21-fractional-proof/r21-fractional-proof.json",
+    "request_id": "2dc517c5de61d438eb96fc42dded5048f0b237d8e792e41701cffd5dafd967c4",
+    "exact": true,
+    "classification": "R21_FRACTIONAL_CLASSIFIED_PROOF_INCOMPLETE",
+    "body_proof_run": true,
+    "complete": false,
+    "rows": 8,
+    "positive": {
+      "classification": "POSITIVE_FAILED",
+      "status": "INCOMPLETE",
+      "stage_exit": 1,
+      "source_unchanged": true,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "verified_sha256": "daa0ceb9e187adb62ec52319fc6ac9d1a0d15d0604a9e04b8c763ffad4a8cd8b"
+    }
+  },
+  "row_logs": {
+    "sha256_all_eight": "bd914e5774b39a119d97fa8530bc3b74ad3f2ac4b9eb74c7b947e4148ccde78c",
+    "positive_file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+    "request_ids": [
+      "3466703a9c510c5e82ec1f6fe5c5ecdd024008c9d3c5a32f143e443a2f055d9d",
+      "8eeac93f66556f1666cedb1707f8692b810c5849f75edb20df0068f4bf9a4652"
+    ],
+    "lines_read": "1-18 (complete file, 985 bytes)"
+  },
+  "observation": "Admission lines 1-9 report owner-nine, nested-H2, forget-own, pointer-drop and A1-nine admitted; then verified/lib.rs(123,61-62): Parse error at `req thread_token(?tid) &*& tid == currentThread &*& [1/2] <T>.own(tid, t);` (caret at col 61). Identical log for all eight rows, so no row reached symbolic execution and no control discriminates.",
+  "static_diagnosis": "Rust parser parse_suffix_expr leaves a one-element list literal `[1/2]` unsuffixed, then parse_rel_rest reads `<` as Lt and fails at `>` (col 61). open/close use parse_coef and are unaffected; the translator itself builds CoefAsn(_, ExprCallExpr(TypePredExpr ..)). Parser-only defect; not inferred as proof outcome.",
+  "actual_fractional_callee_result": "UNKNOWN",
+  "controls": "NOT_DISCRIMINATING",
+  "budget_used_seconds": 303,
+  "budget_remaining_seconds": 3297
+}

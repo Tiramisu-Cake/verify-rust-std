@@ -1,0 +1,23 @@
+diff --git a/src/rust_frontend/vf_mir_translator/rust_parser.ml b/src/rust_frontend/vf_mir_translator/rust_parser.ml
+index 0671488..960804f 100644
+--- a/src/rust_frontend/vf_mir_translator/rust_parser.ml
++++ b/src/rust_frontend/vf_mir_translator/rust_parser.ml
+@@ -266,7 +266,17 @@ let rec parse_expr_funcs allowStructExprs =
+   and parse_suffix_expr = function%parser
+     [ parse_primary_expr as e;
+       [%let e = match e with
+-        CallExpr (_, "#list", [], [], pats, Static) -> fun s -> e
++        (* A one-element coefficient directly before a type predicate,
++           e.g. `[1/2] <T>.own(t, v)` in an assertion, would otherwise be
++           parsed as a `<` comparison on a list literal. *)
++        CallExpr (l, "#list", [], [], [coef], Static) ->
++        begin function%parser
++          [ (_, Kwd "<"); parse_type as t; (_, Kwd ">"); (lp, Kwd "."); (_, Ident x);
++            [%let p = parse_suffix (TypePredExpr (lp, t, x))]
++          ] -> CoefAsn (l, coef, p)
++        | [ ] -> e
++        end
++        | CallExpr (_, "#list", [], [], pats, Static) -> fun s -> e
+         | _ -> parse_suffix e
+       ]
+     ] -> e
