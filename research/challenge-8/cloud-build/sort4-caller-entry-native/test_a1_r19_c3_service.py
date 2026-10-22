@@ -192,5 +192,64 @@ class R19RoutedProfileSelection(unittest.TestCase):
             self.assertIn('SORT4_A1_PROFILE_SHA256', text, name)
 
 
+class R19C4Route(unittest.TestCase):
+    def make_case(self, **delta):
+        case = R17IndexedCallbackControls().make_case()
+        meta = dict(case[3], actual_indexed_calls=4, c3_comparator_line=15, c4_comparator_line=19)
+        meta.update(delta)
+        return *case[:3], meta
+
+    def test_c4_route_sets_count_four(self):
+        c4 = R19IndexedCountRoute().run_route(self.make_case())
+        self.assertEqual(c4.support_env['SORT4_ACTUAL_BODY_INDEXED_CALLS'], '4')
+        c4 = R19IndexedCountRoute().run_route(self.make_case(frontend_control='indexed-count-off',
+                                                             required_lemmas=[]))
+        self.assertNotIn('SORT4_ACTUAL_BODY_INDEXED_CALLS', c4.support_env)
+
+    def test_bad_c4_site_or_count_refuses(self):
+        for delta in ({'c4_comparator_line': 20}, {'c4_comparator_line': None},
+                      {'actual_indexed_calls': 5}):
+            c4 = FakeC4()
+            with self.subTest(delta=delta), tempfile.TemporaryDirectory() as temp:
+                with self.assertRaises(RuntimeError):
+                    BODY.run_case(None, c4, Path('/synthetic/tool'), {}, Path(temp),
+                        self.make_case(**delta), FakeGates(), FakeGrammar({}), {'tool_hashes': {}})
+                self.assertEqual(c4.stage_calls, 0)
+
+
+class R19StaticC4Constructor(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        R19StaticConstructor.setUpClass()
+        cls.base = R19StaticConstructor
+        cls.v4, cls.o4, cls.m4 = cls.base.c2.construct_c4(*cls.base.args)
+
+    def test_c4_layer_is_ghost_only_and_exact(self):
+        c2 = self.base.c2
+        self.assertEqual(self.base.ghost.strip_ghost(self.v4), self.o4)
+        self.assertEqual(self.v4.count(c2.MARKER4), 1)
+        self.assertEqual(self.v4.count(c2.MARKER3), 1)
+        self.assertEqual(self.v4.count(b'__vf_callback_unwind_'), 4)
+        self.assertEqual(self.v4.count(b'precreate_ref::<T>(d)'), 1)
+        self.assertEqual(self.v4.count(b'precreate_ref::<T>(b)'), 1)
+        self.assertEqual(self.v4.count(c2.C4_HEADER_LIFETIMES), 1)
+        self.assertLess(self.v4.index(c2.NORMAL3), self.v4.index(c2.C4_SETUP))
+        self.assertLess(self.v4.index(c2.NORMAL4), self.v4.index(c2.MIN_SELECT))
+        self.assertEqual(self.m4['actual_indexed_calls'], 4)
+        routed = BODY.refresh_callback_coordinates(('actual-sort4', self.v4, self.o4, self.m4))
+        self.assertEqual(routed[3]['c4_comparator_line'], routed[3]['callback_call_lines'][3])
+
+    def test_eight_c4_controls_preserve_runtime_and_differ(self):
+        rows = self.base.c2.resource_controls_c4(self.v4, self.o4, self.base.ghost,
+                                                 self.base.four, self.m4, BODY.lemma_metadata)
+        self.assertEqual(len(rows), 8)
+        self.assertEqual(len({r[1] for r in rows}), 8)
+        for name, candidate, original, meta in rows:
+            self.assertNotEqual(candidate, self.v4, name)
+            self.assertEqual(self.base.ghost.strip_ghost(candidate), self.o4, name)
+        with self.assertRaises(RuntimeError):
+            self.base.c2._layer_c4(self.v4, self.o4, self.m4, self.base.ghost, BODY.lemma_metadata)
+
+
 if __name__ == '__main__':
     unittest.main()

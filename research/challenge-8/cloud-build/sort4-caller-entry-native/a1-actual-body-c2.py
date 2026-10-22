@@ -389,6 +389,168 @@ def resource_controls_c3(verified: bytes, original: bytes, ghost,
     return output
 
 
+# R19 c4 layer: the same checked pattern for call 4 with selected operands
+# `d` and `b`, derived from the reviewed c3 templates by renaming only.
+def _rename_c3_to_c4(raw: bytes) -> bytes:
+    for old, new in ((b"cmp3_k", b"cmp4_k"), (b"'cmp3", b"'cmp4"),
+                     (b"__vf_callback_scope3", b"__vf_callback_scope4"),
+                     (b"left3_", b"left4_"), (b"right3_", b"right4_"),
+                     (b"precreate_ref::<T>(c)", b"precreate_ref::<T>(d)"),
+                     (b"precreate_ref::<T>(a)", b"precreate_ref::<T>(b)"),
+                     (b"__vf_callback_unwind_four(3)", b"__vf_callback_unwind_four(4)")):
+        raw = raw.replace(old, new)
+    return raw
+
+
+C4_TYPED_CALL = b"        let c4 = is_less/*@::<F, (&'cmp4 T, &'cmp4 T), 'cmp4>@*/(&*d, &*b);\n"
+C4_HEADER_LIFETIMES = C3_HEADER_LIFETIMES.replace(
+    b"    let_lft 'cmp3 = cmp3_k; @*/", b"    let_lft 'cmp3 = cmp3_k;\n    let_lft 'cmp4 = cmp4_k; @*/")
+C4_SCOPE_MARKER = b"        //@ __vf_callback_scope4();\n"
+C4_LEFT_PRECREATE = _rename_c3_to_c4(C3_LEFT_PRECREATE)
+C4_RIGHT_PRECREATE = _rename_c3_to_c4(C3_RIGHT_PRECREATE)
+C4_SHARES = _rename_c3_to_c4(C3_SHARES)
+C4_SETUP = _rename_c3_to_c4(C3_SETUP)
+DEBT4_ARGS = _rename_c3_to_c4(DEBT3_ARGS)
+MARKER4 = _rename_c3_to_c4(MARKER3)
+NORMAL4 = _rename_c3_to_c4(NORMAL3)
+MIN_SELECT = b"        let min = hint::select_unpredictable(c3, c, a);\n"
+
+
+def _layer_c4(verified_c3: bytes, original: bytes, c3_meta: dict, ghost, lemma_metadata):
+    need(c3_meta.get("actual_indexed_calls") == 3,
+         "c4 requires the exact checked c3 constructor output")
+    need(ghost.strip_ghost(verified_c3) == original,
+         "c3 constructor source/runtime pair is immutable before c4")
+    need(verified_c3.count(C4_CALL) == 1 and verified_c3.count(C3_HEADER_LIFETIMES) == 1 and
+         verified_c3.count(NORMAL3) == 1 and verified_c3.count(MIN_SELECT) == 1,
+         "one exact c4 call after one c3 recovery and one c1..c3 header")
+    need(verified_c3.index(NORMAL3) < verified_c3.index(C4_CALL) < verified_c3.index(MIN_SELECT),
+         "c3 recovery precedes c4, which precedes the selectors")
+    staged = verified_c3.replace(C3_HEADER_LIFETIMES, C4_HEADER_LIFETIMES, 1)
+    call = staged.replace(C4_CALL, C4_SETUP + MARKER4 + C4_TYPED_CALL + NORMAL4, 1)
+    need(call.count(C4_SCOPE_MARKER) == 1 and
+         call.count(b"__vf_callback_unwind_four(4);") == 1 and
+         call.count(b"callback_four_debt::<T>(" + DEBT4_ARGS + b")") == 2 and
+         call.count(b"recover_four_sources::<T>(v_base);") == 6 and
+         call.count(C4_SHARES) == 1 and call.count(b"__vf_callback_unwind_") == 4,
+         "one exact c4 scope/marker/debt/recovery/share layer")
+    need(call.index(NORMAL4) < call.index(MIN_SELECT), "c4 recovery precedes the selectors")
+    need(ghost.strip_ghost(call) == original,
+         "c4 source annotations preserve the exact complete runtime body")
+    generated_lines = call.splitlines()
+    function_lines = [i for i, line in enumerate(generated_lines, 1) if line.startswith(TARGET)]
+    c4_lines = [i for i, line in enumerate(generated_lines, 1) if b"let c4 = is_less/*@" in line]
+    need(len(function_lines) == len(c4_lines) == 1, "one actual body and one typed c4 call")
+    required = [row for row in lemma_metadata(call) if row["name"] in COMPARATOR_NAMES]
+    need(tuple(row["name"] for row in required) == COMPARATOR_NAMES,
+         "exact five required comparator dependencies in generated source")
+    return call, original, {
+        **c3_meta,
+        "focus_line": function_lines[0],
+        "end_line": len(generated_lines),
+        "required_lemmas": required,
+        "body_annotation_stage": "c1-c4-four-source-recovery-v1",
+        "actual_indexed_calls": 4,
+        "c4_call_index": 4,
+        "c4_ordered_source_operands": ["d", "b"],
+        "c4_marker": "__vf_callback_unwind_four(4)",
+        "c4_comparator_line": c4_lines[0],
+        "c4_marker_callsite_attribution": "OPEN",
+        "generated_source_sha256": hashlib.sha256(call).hexdigest(),
+        "runtime_body_byteequal": True,
+        "summary_eligible": False,
+        "proof_credit": False,
+    }
+
+
+def construct_c4(source: bytes, ghost, capture, pair_recovery: bytes,
+                 four_recovery: bytes, c1_constructor, base_constructor,
+                 lemma_metadata):
+    """Build c1..c3, then layer c4's source annotations without running tools."""
+    verified_c3, original, c3_meta = construct_c3(
+        source, ghost, capture, pair_recovery, four_recovery, c1_constructor,
+        base_constructor, lemma_metadata)
+    return _layer_c4(verified_c3, original, c3_meta, ghost, lemma_metadata)
+
+
+def resource_controls_c4(verified: bytes, original: bytes, ghost,
+                         four_recovery: bytes, meta: dict, lemma_metadata):
+    """Return annotation-only c4 negative controls; no result is proof credit."""
+    need(meta.get("actual_indexed_calls") == 4, "c4 controls require the exact c4 output")
+    need(ghost.strip_ghost(verified) == original, "positive c4 runtime source pair is byte-equal")
+    need(verified.count(MARKER4) == 1 and verified.count(C4_TYPED_CALL) == 1 and
+         verified.count(NORMAL4) == 1, "one exact c4 marker/call/recovery before controls")
+    # d is slot 2 or 3 and b is slot 0 or 1: dropping the base+0/base+2 shares
+    # leaks on the (b,d)=(1,3) path and starves init_ref_share elsewhere.
+    missing_shares = verified
+    for line in (b"        //@ share_full_borrow::<T>(cmp4_k, t, v_base);\n",
+                 b"        //@ share_full_borrow::<T>(cmp4_k, t, v_base + 2);\n"):
+        need(missing_shares.count(line) == 1, "one c4 share line per slot")
+        missing_shares = missing_shares.replace(line, b"", 1)
+    top_borrow = b"        //@ borrow(cmp4_k, <T>.full_borrow_content(t, v_base + 3));\n"
+    top_share = b"        //@ share_full_borrow::<T>(cmp4_k, t, v_base + 3);\n"
+    need(verified.count(top_borrow) == 1 and verified.count(top_share) == 1,
+         "one base+3 c4 end-token producer")
+    missing_resource = verified.replace(top_borrow, b"", 1).replace(top_share, b"", 1)
+    wrong_order = verified.replace(C4_LEFT_PRECREATE + C4_RIGHT_PRECREATE,
+        b"        //@ let left4_ref = precreate_ref::<T>(b);\n"
+        b"        //@ let right4_ref = precreate_ref::<T>(d);\n", 1)
+    wrong_ref = verified.replace(C4_LEFT_PRECREATE,
+        b"        //@ let left4_ref = precreate_ref::<T>(a);\n", 1)
+    wrong_index = verified.replace(b"__vf_callback_unwind_four(4);",
+                                   b"__vf_callback_unwind_four(3);", 1)
+    missing_pred = ghost_declaration(four_recovery, b"pred callback_four_debt_without_fourth<T>")
+    debt_marker = MARKER4.replace(b"callback_four_debt::<T>(",
+                                  b"callback_four_debt_without_fourth::<T>(", 1)
+    missing_token = _insert_before_target(verified.replace(MARKER4, debt_marker, 1), missing_pred)
+    displaced = verified.replace(MARKER4 + C4_TYPED_CALL, C4_TYPED_CALL + MARKER4, 1)
+    overflow_marker = (b"/*@ {\n"
+                       b"            __vf_callback_unwind_four(5);\n"
+                       b"            { close callback_four_debt::<T>(t, cmp5_k, v_base, left5_ref, right5_ref, left5_fraction, right5_fraction); }\n"
+                       b"            { recover_four_sources::<T>(v_base); }\n"
+                       b"        } @*/\n")
+    c5_call = b"        let c5 = is_less(&*unknown_right, &*unknown_left);\n"
+    need(verified.count(c5_call) == 1, "one untouched c5 call")
+    overflow = verified.replace(c5_call, overflow_marker + c5_call, 1)
+    cases = (
+        ("c4-missing-unselected-share-negative", missing_shares,
+         "resource: base+0/base+2 full_borrow leak on the (b,d)=(1,3) path or a selected share is missing"),
+        ("c4-missing-unrelated-end-token-negative", missing_resource,
+         "resource: no base+3 borrow_end token for the c4 debt, or no base+3 share when d selects slot 3"),
+        ("c4-wrong-ordered-ref-pair-negative", wrong_order,
+         "resource: precreated reference order (b,d) differs from actual ordered operands (d,b)"),
+        ("c4-wrong-ref-resource-negative", wrong_ref,
+         "resource: left4_ref precreation points to a while the actual first operand is d"),
+        ("c4-wrong-marker-index-negative", wrong_index,
+         "frontend: index-3 marker with c4 names is unparsed; declared/parsed marker inventory refuses"),
+        ("c4-missing-fourth-debt-token-negative", missing_token,
+         "frontend: marker closing callback_four_debt_without_fourth is unparsed; inventory refuses"),
+        ("c4-displaced-marker-negative", displaced,
+         "frontend: marker after the call does not bind c4"),
+        ("c4-index-overflow-marker-negative", overflow,
+         "frontend: index-5 marker with explicit count 4 is unparsed; inventory refuses"),
+    )
+    output = []
+    for name, candidate, expected in cases:
+        need(candidate != verified, name + " changes the annotations")
+        need(ghost.strip_ghost(candidate) == original, name + " must preserve exact runtime bytes")
+        candidate_lines = candidate.splitlines()
+        focus_lines = [i for i, line in enumerate(candidate_lines, 1) if line.startswith(TARGET)]
+        candidate_lemmas = [row for row in lemma_metadata(candidate) if row["name"] in COMPARATOR_NAMES]
+        need(len(focus_lines) == 1, name + " has one exact actual body")
+        need(tuple(row["name"] for row in candidate_lemmas) == COMPARATOR_NAMES,
+             name + " retains exact five required comparator dependencies")
+        output.append((name, candidate, original, {
+            **meta, "name": "sort4_stable", "focus_line": focus_lines[0],
+            "end_line": len(candidate_lines), "required_lemmas": candidate_lemmas,
+            "c4_control": name, "expected_rejection": expected,
+            "c4_marker_callsite_attribution": "OPEN",
+            "generated_source_sha256": hashlib.sha256(candidate).hexdigest(),
+            "summary_eligible": False, "proof_credit": False,
+        }))
+    return output
+
+
 def construct(source: bytes, ghost, capture, pair_recovery: bytes,
               four_recovery: bytes, c1_constructor, base_constructor,
               lemma_metadata):

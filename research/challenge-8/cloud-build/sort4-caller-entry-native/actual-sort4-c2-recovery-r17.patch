@@ -26,7 +26,7 @@
 +      let actual_indexed_calls =
 +        match Sys.getenv_opt "SORT4_ACTUAL_BODY_INDEXED_CALLS" with
 +        | None -> if actual_c2_enabled then 2 else 1
-+        | Some ("2" | "3" as count) ->
++        | Some ("2" | "3" | "4" as count) ->
 +            if Sys.getenv_opt "SORT4_ACTUAL_BODY_C2_RECOVERY" <> Some "1" then
 +              failwith "CALLBACK-UNWIND: indexed call count requires exact actual c2 body";
 +            if actual_c2_enabled then int_of_string count else 1
@@ -403,7 +403,7 @@
 +      else begin
 +        let reject why = Ast.static_error fn_sig_loc ("R17 indexed scope: " ^ why) None in
 +        let count = match Sys.getenv_opt "SORT4_ACTUAL_BODY_INDEXED_CALLS" with
-+          | None | Some "2" -> 2 | Some "3" -> 3
++          | None | Some "2" -> 2 | Some "3" -> 3 | Some "4" -> 4
 +          | _ -> reject "malformed indexed call count" in
 +        let indices = List.init (count - 1) (fun i -> i + 2) in
 +        let lft i = "'cmp" ^ string_of_int i in

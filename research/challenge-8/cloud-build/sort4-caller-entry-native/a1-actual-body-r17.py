@@ -304,8 +304,10 @@ def refresh_callback_coordinates(case):
         'generated_source_sha256': sha(verified),
         'first_comparator_line': sites[0], 'c2_comparator_line': sites[1],
         'callback_call_lines': sites}
-    if meta.get('actual_indexed_calls') == 3:
+    if meta.get('actual_indexed_calls') in (3, 4):
         refreshed['c3_comparator_line'] = sites[2]
+    if meta.get('actual_indexed_calls') == 4:
+        refreshed['c4_comparator_line'] = sites[3]
     return name, verified, original, refreshed
 
 
@@ -337,13 +339,14 @@ def run_case(a, c4, tool, env, root, case, gates, grammar, identity, *, paired_r
         env.update(SORT4_ACTUAL_BODY_C2_RECOVERY='1',
                    SORT4_ACTUAL_BODY_SECOND_CALL_LINE=str(sites[1]),
                    SORT4_ACTUAL_BODY_CALL_LINES=','.join(map(str, sites)))
-    need(meta.get('actual_indexed_calls') in (None, 2, 3), 'exact indexed call count')
-    if meta.get('actual_indexed_calls') == 3:
+    need(meta.get('actual_indexed_calls') in (None, 2, 3, 4), 'exact indexed call count')
+    if meta.get('actual_indexed_calls') in (3, 4):
         sites = meta.get('callback_call_lines')
         need(meta.get('actual_c2_recovery') is True and
-             sites[2] == meta.get('c3_comparator_line'),
-             'c3 requires exact c2 route and third ordered call site')
-        env['SORT4_ACTUAL_BODY_INDEXED_CALLS'] = '3'
+             sites[2] == meta.get('c3_comparator_line') and
+             (meta['actual_indexed_calls'] == 3 or sites[3] == meta.get('c4_comparator_line')),
+             'indexed calls require exact c2 route and ordered call sites')
+        env['SORT4_ACTUAL_BODY_INDEXED_CALLS'] = str(meta['actual_indexed_calls'])
     if meta.get('actual_scope_relocation') is True:
         need(meta.get('actual_c1_recovery') is True, 'scope relocation requires exact actual c1 source')
         env['SORT4_ACTUAL_BODY_SCOPE_RELOCATION'] = '1'
@@ -376,9 +379,9 @@ def run_case(a, c4, tool, env, root, case, gates, grammar, identity, *, paired_r
             env.pop('SORT4_HRTB_OUTPUT', None)
             env.pop('SORT4_HRTB_OUTPUT_TARGETS', None)
         elif control == 'indexed-count-off':
-            need(meta.get('actual_indexed_calls') == 3 and
-                 env.get('SORT4_ACTUAL_BODY_INDEXED_CALLS') == '3',
-                 'indexed count control requires the exact c3 route')
+            need(meta.get('actual_indexed_calls') in (3, 4) and
+                 env.get('SORT4_ACTUAL_BODY_INDEXED_CALLS') == str(meta['actual_indexed_calls']),
+                 'indexed count control requires the exact c3/c4 route')
             env.pop('SORT4_ACTUAL_BODY_INDEXED_CALLS')
         else:
             env['SORT4_ACTUAL_BODY_C1_RECOVERY'] = '0'
@@ -554,9 +557,9 @@ def run(a, *, c4, audit, driver, manifest, ghost):
                 need(sha(four_recovery.read_bytes()) ==
                      profile['actual_body_dependencies_sha256']['a1-actual-recover-four.rs'],
                      'exact generic four-source recovery dependency')
-                need(profile.get('actual_indexed_calls') in (None, 2, 3), 'exact indexed call count')
-                build = (constructor.construct_c3 if profile.get('actual_indexed_calls') == 3
-                         else constructor.construct)
+                need(profile.get('actual_indexed_calls') in (None, 2, 3, 4), 'exact indexed call count')
+                build = {3: constructor.construct_c3, 4: constructor.construct_c4}.get(
+                    profile.get('actual_indexed_calls'), constructor.construct)
                 verified, original, meta = build(source, ghost, capture,
                     recovery.read_bytes(), four_recovery.read_bytes(), c1_constructor,
                     construct_actual, lemma_metadata)
@@ -588,16 +591,22 @@ def run(a, *, c4, audit, driver, manifest, ghost):
                 cases.extend(refresh_callback_coordinates(case) for case in
                     constructor.resource_controls(verified, original, ghost,
                         four_recovery.read_bytes(), meta, lemma_metadata))
+                # c3 controls need an untouched c4 call; with count 4 the
+                # unchanged c3 layer keeps its S1 control observations.
                 if profile.get('actual_indexed_calls') == 3:
                     cases.extend(refresh_callback_coordinates(case) for case in
                         constructor.resource_controls_c3(verified, original, ghost,
+                            four_recovery.read_bytes(), meta, lemma_metadata))
+                if profile.get('actual_indexed_calls') == 4:
+                    cases.extend(refresh_callback_coordinates(case) for case in
+                        constructor.resource_controls_c4(verified, original, ghost,
                             four_recovery.read_bytes(), meta, lemma_metadata))
             variants = ['wrong-source-sha', 'wrong-first-call-line', 'opt-in-off']
             if profile.get('actual_scope_relocation_enabled') is True:
                 variants.append('scope-opt-in-off')
             if profile.get('actual_hrtb_output_enabled') is True:
                 variants.append('hrtb-opt-in-off')
-            if profile.get('actual_indexed_calls') == 3:
+            if profile.get('actual_indexed_calls') in (3, 4):
                 variants.append('indexed-count-off')
             for variant in variants:
                 cases.append(refresh_callback_coordinates(
