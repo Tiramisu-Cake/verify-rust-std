@@ -1,3 +1,5 @@
+> **Решение 2026-10-19:** [ITERATION-PROCESS](ITERATION-PROCESS.md) разрешает узкое подключение ранних checks/error-path tests владельцем активного proof-задания в его существующем окне. Остальной инфраструктурный проект ниже (cache, новые lanes, IAM/transport) отдельно не разрешён; действующие coordinator/slots не меняются. Реализация executable checks должна быть подтверждена отдельно от документации.
+
 # Отдельное задание: стоимость и надёжность Cloud proof lanes
 
 Статус: **поставлено, не реализовано**. Документационная задача не даёт бюджета,
@@ -21,13 +23,15 @@ Main содержит общие docs; приведённые helpers наход
 | Merge preflight | [preflight-source.py](https://github.com/Tiramisu-Cake/verify-rust-std/blob/2bf268f792a5a8705292d4b7b8935eba82ca9847/research/challenge-8/merge/overnight/or-join-liveness/preflight-source.py): manifest/fixture/harness/source hashes, сигнатура/guard/panic, `accepted:false`; это не proof admission |
 | Selection и inputs | [selection.py](https://github.com/Tiramisu-Cake/verify-rust-std/blob/2bf268f792a5a8705292d4b7b8935eba82ca9847/research/challenge-8/merge/cloud-build/selection.py), recipes, source-input.py — exact selected paths/Git object closure, Cloud restore certificate |
 | Учёт и время | control.py: API create/start/finish, reservation и conservative charge; run-proof.sh/run-merge.sh и existing stage resource files. Начать с этих данных, не вводить конкурирующий ledger |
-| Packaging | package-evidence.py, manifest/inventory/config/input/archive hashes, ≤8MiB text index, upload receipt и независимый final verdict; hash download через client |
+| Packaging | package-evidence.py, manifest/inventory/config/input/archive hashes, ≤8MiB text index, upload receipt и независимый final verdict; обычный результат сообщается через Evidence Brief |
 | Исторический cache | [console-cache.py](https://github.com/Tiramisu-Cake/verify-rust-std/blob/2bf268f792a5a8705292d4b7b8935eba82ca9847/research/challenge-8/merge/overnight/console-cache.py): exact input set/manifest/console hash и regular non-symlink files, но guard требует GitHub-hosted Linux, GITHUB_SHA и старую merge branch. Cloud support не доказан |
 
 Проверить actual выбранные select/merge recipes следующего задания: прежние o26
 и merge smoke не заменяют стоимость текущего actual-caller цикла. Source extraction
-и preparers с compiler/proof subprocess остаются Cloud-only. Lightweight parser/
-classifier replay допускается локально только после проверки imports/entrypoint.
+и preparers с compiler/proof subprocess остаются Cloud-only. Малые parser/classifier
+service tests на synthetic data допускаются локально после проверки imports/entrypoint.
+Full raw-evidence replay требует separately authorized administrative audit по
+[Evidence Brief policy](EVIDENCE-BRIEF.md).
 
 ## Последовательность и критерии приёмки
 
@@ -38,12 +42,13 @@ classifier replay допускается локально только посл�
 | 3. Подготовленное окружение | Отделить pinned dependencies/toolchain от изменяемых proof inputs; проверить reuse через digest-pinned Cloud-compatible image/artifact. Сохранить recipe/no-source и полный restore certificate | Cold и повторный Build обеих lanes на одинаковых semantic inputs/cases; stage timings показывают фактический reuse. Точное происхождение deps/target/compiler проверяется; untrusted/missing environment ведёт к безопасному cold path, без изменения proof scope |
 | 4. Verifier cache | Проверить существующий cache helper для Cloud; адаптацию/замену спроектировать отдельно, не просто удалить hosted guard. Полный ключ и immutable manifest связывают verifier source/tree, ordered patches и применённые bytes, parser/translator/kernel/spec/prelude/refiner/exporter, compiler/toolchain/build flags/scripts/helper schema, dependencies/solver и image/OS/arch/ABI | Same-input warm hit и cold baseline обеих lanes дают те же case/stage/target normal/unwind/negative/refinement/leak/nonvacuity/UB results. Artifact digest/provenance/inventory проверены перед использованием; cached binary не является cached proof |
 | 5. Cache refusal | Изменить по одному ключевому входу: source, patch/order, build config, dependency/toolchain, target/platform; отдельно missing/truncated/corrupt manifest/binary, wrong digest, stale schema и symlink | Все несовместимые/повреждённые caches отвергнуты без выполнения binary, причина записана; cold fallback или fail closed по reviewed policy. После cold fallback proof obligations/results сохранены; silent cache match невозможен |
-| 6. Classifier-only replay | Использовать неизменные сохранённые archives/logs и synthetic controls; зафиксировать raw hashes, old/new auditor и verdict/reason. При необходимости короткая service-only Cloud lane без verifier setup | Ни compiler/exporter/refiner/verifier, ни source extraction не запускаются; original evidence/verdict не меняются, replay имеет отдельный result. Missing/NOT_RUN остаются таковыми; неправильные stage/location и обрезанные данные fail closed. Нет переноса PASS на иной profile |
+| 6. Classifier-only replay | Только в separately authorized administrative audit: неизменные archives/logs и synthetic controls; raw hashes, old/new auditor и verdict/reason. Обычный service test использует только synthetic data | Ни compiler/exporter/refiner/verifier, ни source extraction не запускаются; original evidence/verdict не меняются, replay имеет отдельный result. Missing/NOT_RUN остаются таковыми; неправильные stage/location и обрезанные данные fail closed. Нет переноса PASS на иной profile |
 
 Для cold/warm сравнения фиксировать одинаковые proof cases, semantic pins,
 timeouts/checks, machine/target; различия в image/cache инфраструктуре описать.
 Сравнивать не только badge, но target reached/posts и intended rejection sites.
-Сохранить failures, raw logs/hashes и полный evidence pipeline. Ожидаемые отказы
+Сохранить source-produced evidence и hashes; raw logs доступны только по separately
+authorized administrative audit. Ожидаемые отказы
 и misses тоже учитываются в бюджете. При semantic изменении cache/окружение не
 заменяет новый proof run и затронутые regression gates.
 

@@ -1,0 +1,105 @@
+{
+  "archive_sha256": null,
+  "brief_attempts": [
+    {
+      "exit_code": 1,
+      "query": [
+        "--catalogue",
+        "proof-audit"
+      ],
+      "stderr": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)\n",
+      "stdout": ""
+    },
+    {
+      "exit_code": 1,
+      "query": "brief retry",
+      "stderr": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)\n",
+      "stdout": ""
+    }
+  ],
+  "build_id": "fb5017dc-8786-4dfd-b6aa-ce8860d2fb8c",
+  "case_status": {
+    "N-alpha-valid": "UNKNOWN",
+    "N-binder-collapse": "UNKNOWN",
+    "N-binding": "UNKNOWN",
+    "N-clause-redirect": "UNKNOWN",
+    "N-clauses": "UNKNOWN",
+    "N-default-contract": "UNKNOWN",
+    "N-duplicate": "UNKNOWN",
+    "N-false31": "UNKNOWN",
+    "N-free-region": "UNKNOWN",
+    "N-freeze-contract": "UNKNOWN",
+    "N-no-F": "UNKNOWN",
+    "N-region-swap": "UNKNOWN",
+    "N-source": "UNKNOWN",
+    "OFF": "UNKNOWN",
+    "P-dispatch": "UNKNOWN",
+    "P0a": "UNKNOWN",
+    "P0b": "UNKNOWN",
+    "P0c": "UNKNOWN",
+    "P1": "UNKNOWN",
+    "R1": "UNKNOWN",
+    "R2": "UNKNOWN",
+    "R3": "UNKNOWN",
+    "R4": "UNKNOWN",
+    "R5": "UNKNOWN",
+    "R6": "UNKNOWN",
+    "R7": "UNKNOWN"
+  },
+  "charge_seconds": 619,
+  "delivery_integrity": "UNKNOWN; no Brief/index",
+  "file_id": null,
+  "independent_B1_B2_credit": 0,
+  "index_sha256": null,
+  "infra_sha": "4e919bcbd00a0ab33c1cbfd68df5d6f7535904fe",
+  "local_actual_payload_available": "UNKNOWN_NONE_LOCATED",
+  "next_step": "prepare source-supported lossless audit JSON canonicalization, preserve primary uncertainty; no unchanged retry",
+  "primary_packaging_error": "UNKNOWN; administrative information requested",
+  "profile_sha256": "0c665b74a5fdfa9fab1958710c2c62409d52230a3576f897655946c82dcdb757",
+  "proof_credit": false,
+  "proof_sha": "4e919bcbd00a0ab33c1cbfd68df5d6f7535904fe",
+  "raw_evidence_read": false,
+  "schema": "smallsort-r7-evidence-limitation-v1",
+  "status_metadata": {
+    "createTime": "2026-10-20T11:50:21.279500337Z",
+    "failureInfo": {
+      "detail": "Build step failure: build step 2 \"gcr.io/google.com/cloudsdktool/google-cloud-cli@sha256:c631b05e8121048b29c9917bdc0a9fadd76d012f04f180a4409ec2ee534e832e\" failed: step exited with non-zero status: 2",
+      "type": "USER_BUILD_STEP"
+    },
+    "finishTime": "2026-10-20T12:00:40.092338Z",
+    "id": "fb5017dc-8786-4dfd-b6aa-ce8860d2fb8c",
+    "logUrl": "https://console.cloud.google.com/cloud-build/builds/fb5017dc-8786-4dfd-b6aa-ce8860d2fb8c?project=504462351565",
+    "startTime": "2026-10-20T11:50:22.069857042Z",
+    "status": "FAILURE",
+    "steps": [
+      {
+        "exitCode": null,
+        "id": "execute",
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-10-20T12:00:09.245933591Z",
+          "startTime": "2026-10-20T11:50:22.937100139Z"
+        }
+      },
+      {
+        "exitCode": 1,
+        "id": "package-upload",
+        "status": "FAILURE",
+        "timing": {
+          "endTime": "2026-10-20T12:00:28.711404722Z",
+          "startTime": "2026-10-20T12:00:09.246592752Z"
+        }
+      },
+      {
+        "exitCode": 2,
+        "id": "verdict",
+        "status": "FAILURE",
+        "timing": {
+          "endTime": "2026-10-20T12:00:29.803157497Z",
+          "startTime": "2026-10-20T12:00:28.711713191Z"
+        }
+      }
+    ]
+  },
+  "terminal_status": "FAILURE"
+}

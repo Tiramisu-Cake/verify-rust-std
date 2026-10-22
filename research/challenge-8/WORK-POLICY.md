@@ -1,3 +1,11 @@
+> **Короткий старт новых Select/Merge сессий (2026-10-21):** обязательное [CORE](agent-workflow/CORE.md) + своё CURRENT-TASK + CHECKPOINT/STATUS. Этот документ — подробный справочник: открывай нужные разделы, без полного перечитывания. Legacy active sessions сохраняют свои inputs/T0/счета. [Инструменты и порядок](agent-workflow/README.md).
+
+> **Автономность proof-агентов, 2026-10-20:** Select/Merge сами ставят задачи по миссии и плану; исправления inventory/binder/frontend и новые experimental profiles не требуют отдельного согласования каждого blocker при сохранении гарантий, review и controls. [Полномочия](PROOF-AGENT-AUTONOMY.md). Новые задания задают окно/бюджет; активные inputs/T0/явные границы и роль maintainer сохраняются.
+
+> **Evidence v0.11 — приоритет:** [краткий guide](EVIDENCE-READER-GUIDE.md). Brief → catalogue → refresh/info → locate/fragment → нужные страницы по next_offset/next_value_start. Пожизненной16-квоты и прежних лексических WITHHELD больше нет; соседний контекст/argv/environment читаются как данные. Не выгружать автоматически всё. Proof scope, T0, окна/бюджеты и coordinator сохраняются.
+
+> **Процесс итераций, 2026-10-19:** [ранние checks → целевой proof → полная матрица](ITERATION-PROCESS.md). Service error-path tests обязательны для затронутого runner; использовать существующий Cloud preflight. Принять на безопасной границе без изменения активных inputs/T0. Измерять закрытые proof obligations отдельно от setup-работы.
+
 # Challenge 8: принятые правила работы команды
 
 Редакция 2026-10-10, Europe/Moscow, по прямому документационному поручению
@@ -12,11 +20,17 @@
 | --- | --- |
 | select/sort4 (`select-sort4`) | Полная actual sort4 и доказанная применимость её контракта к реальным callers; затем sort8 с проверенным merge, без недоказанных summaries |
 | merge/insert_tail (`merge`) | Actual insert_tail, one-cell guard/Drop и восстановление CURRENT ресурсов на normal/unwind; затем общий merge и его caller interfaces |
-| VeriFast maintainer | Review инструментальных патчей обоих proof-агентов, интеграция в наш форк, совместимость профилей и подготовка upstream-подачи |
+| network (`network`, с 2026-10-22) | Actual swap_if_less (R4), связь доказанных сетей 9/13 с actual Rust schedule, затем network caller (W7/W8). Pointer-select/callback interface — потребитель опубликованного профиля Select, без параллельной реализации. До миграции coordinator и собственного клиента Cloud lane нет |
+| VeriFast maintainer | Приёмка готовых опубликованных tool-патчей обоих proof-агентов: review, регрессии, интеграция/совместимость и подготовка upstream-подачи |
 
-Proof-агенты сами разрабатывают необходимые патчи VeriFast для своей миссии.
-Maintainer проверяет их и при необходимости дорабатывает при интеграции.
-Передача пакета не передаёт ownership активного proof-задания автоматически.
+Proof-агенты сами исследуют blockers и разрабатывают необходимые патчи VeriFast для своей миссии.
+Maintainer принимает готовые опубликованные инструментальные патчи для review,
+регрессий, совместимости/интеграции и подготовки upstream-пакета; допустимы
+необходимые доработки при интеграции полученного патча. Новый proof-blocker или
+разработка нового lowering/model не переходят к нему автоматически — отдельное
+поручение требуется до расширения роли. [Точные границы](VERIFAST-ROLE.md).
+Review сам по себе не передаёт ownership; передачу разработки фиксировать явно.
+Proof-задача и consumer pin остаются у proof-агента.
 Подготовка upstream-пакета не разрешает его публикацию.
 
 Миссия сохраняется между сессиями до её завершения или изменения владельцем.
@@ -87,17 +101,23 @@ validity/uninitialized checks, удалением failing assertions или пр
 его достаточности и сохранении конечных гарантий; смена trusted semantics идёт
 по разрешению миссии и её semantic-card/regression процедуре (раздел 1).
 
+Обычная отчётность CI регулируется [SmallSort Evidence Brief](EVIDENCE-BRIEF.md):
+после terminal Build использовать `smallsort-brief BUILD_UUID`. Полные raw logs и
+GCS archives нельзя читать даже локально; replay полного evidence требует отдельно
+разрешённого administrative audit.
+
 ## 3. Три разных вида работы с evidence
 
 | Вид | Что делаем | Что можно утверждать |
 | --- | --- | --- |
 | Новая верификация | Cloud Build с exact proof/infra/tool/profile identities; затронутые gates и достаточная интеграционная проверка | Результат только реально выполненных obligations |
-| Повторная классификация | Исправленный auditor читает сохранённые неизменные сырые логи/артефакты без запуска proof toolchain | Уточнение вывода о старом запуске в его прежнем домене и профиле |
+| Повторная классификация | Отдельно разрешённый administrative audit читает неизменные raw logs/артефакты без запуска proof toolchain | Уточнение вывода о старом запуске в его прежнем домене и профиле; не обычный workflow агента |
 | Ранее не выполненный случай | Новый Cloud запуск нужного case, если он был пропущен или execution не дошёл до него | Новый результат этого case после фактического исполнения |
 
-Для replay записать исходный Build ID, proof/infra/tool/profile identities,
-пути и hashes исходных артефактов, новую версию аудитора, команду, прежний и новый
-вердикт с причиной изменения. Сохранять исходные логи и предыдущий вердикт;
+В отдельно разрешённом audit для replay записать исходный Build ID,
+proof/infra/tool/profile identities, пути и hashes исходных артефактов, новую
+версию аудитора, команду, прежний и новый вердикт с причиной изменения. Сохранять
+исходные логи и предыдущий вердикт;
 результат replay писать отдельно. Синтетические fixtures явно помечать.
 
 Если исходных данных недостаточно, verdict остаётся INCONCLUSIVE/NOT_RUN.
@@ -110,7 +130,9 @@ validity/uninitialized checks, удалением failing assertions или пр
 
 Помимо чтения, Git, hash, syntax и static parsing, **разрешены небольшие
 изолированные executable tests служебных классификаторов и parsers** на
-сохранённых логах или синтетических данных. Временные output/fixtures — в отдельном
+синтетических данных. Чтение/replay сохранённых raw logs не входит в это
+исключение и требует отдельно разрешённого administrative audit. Временные
+output/fixtures — в отдельном
 каталоге; реальные evidence, чужие файлы и coordinator state не изменять.
 Перед запуском проверить entrypoint/imports: он не должен запускать proof runner,
 compiler/verifier, source extractor, dependency installation или cloud dispatch.

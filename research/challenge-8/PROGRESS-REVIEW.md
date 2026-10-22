@@ -139,7 +139,9 @@ generic/ZST/kernel scope текущего задания только ради �
 - точный domain, actual caller и источник каждой premise; оставшиеся supplied
   предпосылки перечислены;
 - normal/unwind/abort posts, реально достигнутые proof stages и итоговый verdict;
-- исходные логи, их hashes, обязательные controls и source/refinement checks;
+- Evidence Brief, доступные hashes/identities, обязательные controls и
+  source/refinement claims. Raw logs — только по separately authorized
+  administrative audit;
 - статус experimental profile, что проверил maintainer и что ещё не принято.
 
 Если критерий не достигнут, равноценный результат для **решения о плане** —
