@@ -2,6 +2,7 @@
 """Source-bound distinguishing controls for the R19 insert_tail unwind cleanup."""
 from __future__ import annotations
 
+import copy
 import hashlib
 import importlib.util
 import json
@@ -259,6 +260,29 @@ def _classify_synthetic(case: Path, expected_hashes: dict, execution: object,
                                        type(stages.get(stage)) is bool for stage in STAGES):
         return _outcome(name, "INCONCLUSIVE", "typed stage result map is missing or malformed",
                         stages=stages if type(stages) is dict else None)
+    expected_route = {
+        "actual_callback_case": False,
+        "body_isolation_native": False,
+        "first_fnmut_continue": False,
+        "r8_owned_array_allocation": True,
+        "refinement_argv": {"omit": ["--check-first-fnmut-continue"]},
+        "verifier_argv": {"include": ["-rust_owned_array_allocation_r8"]},
+        "case_environment": {key: "removed" for key in (
+            "SMALLSORT_R9_GUARD_TRACE",
+            "SMALLSORT_R9_GUARD_RETURN_RECOVERY",
+            "SMALLSORT_R11_LABEL_STORAGE_TRACE",
+            "SMALLSORT_R11_LABEL_STORAGE_PLACEMENT",
+        )},
+        "r11_native_receipt_argument": "absent",
+    }
+    try:
+        recorded_route = json.loads((case / "case.json").read_text()).get("execution_route")
+    except Exception:
+        recorded_route = None
+    if recorded_route != expected_route or execution.get("synthetic_execution_route") != expected_route:
+        return _outcome(name, "INCONCLUSIVE", "synthetic per-case execution route is absent or changed",
+                        stages=stages, execution_route=recorded_route,
+                        observed_execution_route=execution.get("synthetic_execution_route"))
     actual_hashes = consumer._hashes(case)
     if any(actual_hashes.get(key) != value for key, value in expected_hashes.items()):
         return _outcome(name, "INCONCLUSIVE", "synthetic source hashes changed or mismatched",
@@ -432,6 +456,21 @@ def run(evidence, raw_case, args, dispatch, consumer, selected_profile, *, sourc
                 "profile": selected_profile,
                 "case": SYNTHETIC_CASE,
                 "control_kind": "synthetic_always_panicking_callee_resource_negative",
+                "execution_route": {
+                    "actual_callback_case": False,
+                    "body_isolation_native": False,
+                    "first_fnmut_continue": False,
+                    "r8_owned_array_allocation": True,
+                    "refinement_argv": {"omit": ["--check-first-fnmut-continue"]},
+                    "verifier_argv": {"include": ["-rust_owned_array_allocation_r8"]},
+                    "case_environment": {key: "removed" for key in (
+                        "SMALLSORT_R9_GUARD_TRACE",
+                        "SMALLSORT_R9_GUARD_RETURN_RECOVERY",
+                        "SMALLSORT_R11_LABEL_STORAGE_TRACE",
+                        "SMALLSORT_R11_LABEL_STORAGE_PLACEMENT",
+                    )},
+                    "r11_native_receipt_argument": "absent",
+                },
                 "actual_raw_caller_case": str(Path(raw_case).resolve()),
                 "actual_raw_caller_preparation_sha256": parent_preparation_sha,
                 "actual_raw_caller_preparation_case": parent_record.get("case"),
@@ -446,17 +485,21 @@ def run(evidence, raw_case, args, dispatch, consumer, selected_profile, *, sourc
             (synthetic_case / "case.json").write_text(
                 json.dumps(case_record, indent=2, sort_keys=True) + "\n")
             before = consumer._hashes(synthetic_case)
-            previous_r8 = getattr(args, "r8_owned_array_allocation", False)
-            args.r8_owned_array_allocation = True
+            synthetic_args = copy.copy(args)
+            synthetic_args.r8_owned_array_allocation = True
+            # This synthetic callee intentionally lacks insert_tail's
+            # comparison body. Do not ask the actual-callback source gate or
+            # R11 invariant-placement transformation to process it. The actual
+            # R19 cases above and their flags remain unchanged.
+            synthetic_args.first_fnmut_continue = False
             try:
-                execution = dispatch(synthetic_case, args, actual_callback_case=True,
-                                     body_isolation_native=True)
+                execution = dispatch(synthetic_case, synthetic_args, actual_callback_case=False,
+                                     body_isolation_native=False)
             except Exception as error:
                 execution = {"exception": {"type": type(error).__name__, "message": str(error)},
                              "status": "FAILED", "stages": None}
-            finally:
-                args.r8_owned_array_allocation = previous_r8
             if type(execution) is dict:
+                execution["synthetic_execution_route"] = case_record["execution_route"]
                 stages = execution.get("stages")
                 execution["stage_receipt_gate"] = consumer._stage_receipts(
                     synthetic_case, stages if type(stages) is dict else {}, before)

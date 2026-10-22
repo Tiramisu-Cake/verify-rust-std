@@ -78,14 +78,34 @@ class R19UnwindControlsTests(unittest.TestCase):
         result = controls.run(evidence, self.raw, args, executor, Consumer(), "profile",
                               source_sha256=SOURCE_SHA)
         self.assertFalse(args.r8_owned_array_allocation)
+        self.assertTrue(args.first_fnmut_continue)
         return result
 
     def matching_executor(self, stages=None, log=None):
         def execute(case, args, *, actual_callback_case, body_isolation_native):
-            self.assertTrue(actual_callback_case and body_isolation_native)
-            self.assertTrue(args.r8_owned_array_allocation)
             record = json.loads((case / "case.json").read_text())
-            if record.get("control_kind") == "synthetic_always_panicking_callee_resource_negative":
+            synthetic = record.get("control_kind") == \
+                "synthetic_always_panicking_callee_resource_negative"
+            self.assertEqual(actual_callback_case, not synthetic)
+            self.assertEqual(body_isolation_native, not synthetic)
+            self.assertEqual(args.first_fnmut_continue, not synthetic)
+            self.assertTrue(args.r8_owned_array_allocation)
+            if synthetic:
+                self.assertEqual(record["execution_route"], {
+                    "actual_callback_case": False,
+                    "body_isolation_native": False,
+                    "first_fnmut_continue": False,
+                    "r8_owned_array_allocation": True,
+                    "refinement_argv": {"omit": ["--check-first-fnmut-continue"]},
+                    "verifier_argv": {"include": ["-rust_owned_array_allocation_r8"]},
+                    "case_environment": {key: "removed" for key in (
+                        "SMALLSORT_R9_GUARD_TRACE",
+                        "SMALLSORT_R9_GUARD_RETURN_RECOVERY",
+                        "SMALLSORT_R11_LABEL_STORAGE_TRACE",
+                        "SMALLSORT_R11_LABEL_STORAGE_PLACEMENT",
+                    )},
+                    "r11_native_receipt_argument": "absent",
+                })
                 text = (
                     "  1.000s: verified/lib.rs(2,1-2): Verifying function 'insert_tail'\n"
                     f"  1.010s: verified/lib.rs({record['panic_line']},5-24): Executing statement\n"
@@ -140,6 +160,7 @@ class R19UnwindControlsTests(unittest.TestCase):
         self.assertEqual(result["synthetic_unwind_resource"]["classification"],
                          "EXPECTED_SYNTHETIC_RESOURCE_REFUSAL")
         self.assertFalse(result["synthetic_unwind_resource"]["proof_credit"])
+        self.assertEqual(result["synthetic_unwind_resource"]["stages"]["refinement"], 0)
         for name in controls.CASES:
             self.assertEqual(result["cases"][name]["classification"], "EXPECTED_VERIFAST_REFUSAL")
 
