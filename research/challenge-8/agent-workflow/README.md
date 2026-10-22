@@ -32,7 +32,7 @@ STATUS показывает handoff; итог в CURRENT — короткое с
 
 ## 3. Агент готовит новую сессию
 
-В фактический T0 заполни [session.example.json](examples/session.example.json). Бюджет3600, main120+finish30, max timeout<=1200, report reserve>=420 Merge/>=240 Select. T0 передаётся явно; подготовка не придумывает дату и не переносит старый счёт. Указывай baseline закрытой сессии; HEAD может быть новее после публикации задания. Закрытые ledger/profile должны оставаться точными committed bytes. `profile_updates` — явные JSON pointers для рассмотрения в review, не разрешение менять trusted semantics.
+В фактический T0 заполни [session.example.json](examples/session.example.json). Бюджет3600, main120+finish30, max timeout<=1200, report reserve>=420 Merge/>=240 Select. T0 передаётся явно; подготовка не придумывает дату и не переносит старый счёт. Указывай baseline закрытой сессии; HEAD может быть новее после публикации задания. Закрытые ledger/profile должны оставаться точными committed bytes. `profile_updates` — явные JSON pointers для рассмотрения в review, не разрешение менять trusted semantics. Чтобы переиспользовать закреплённый профиль без изменений, укажи `"new_profile_path": null` и `"profile_updates": {}`: черновик профиля не создаётся, recipe подставляет только новый ledger, а `check` требует, чтобы байты профиля на HEAD совпадали с baseline.
 
 ```bash
 smallsort-session prepare --spec /tmp/session.json --out /tmp/session-review

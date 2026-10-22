@@ -123,11 +123,18 @@ def _validate_spec(spec: Any) -> dict[str, Any]:
         raise PrepareError("report_reserve_seconds must be below max_timeout_seconds")
     t0 = _parse_utc(s["t0"], "t0")
     s["_t0"] = t0
-    for key in ("profile_path", "recipe_path", "old_ledger_path", "new_ledger_path", "new_profile_path"):
+    keys = ["profile_path", "recipe_path", "old_ledger_path", "new_ledger_path"]
+    # new_profile_path null reuses the pinned profile_path unchanged: no draft profile, no updates.
+    if s["new_profile_path"] is not None:
+        keys.append("new_profile_path")
+    elif s["profile_updates"] != {}:
+        raise PrepareError("profile_updates require new_profile_path; reuse of a pinned profile allows no updates")
+    for key in keys:
         s[key] = _safe_repo_path(s[key], key)
-    if len({s["old_ledger_path"], s["new_ledger_path"], s["profile_path"], s["new_profile_path"]}) != 4:
+    path_set = [s[key] for key in ("old_ledger_path", "new_ledger_path", "profile_path", "new_profile_path")
+                if s[key] is not None]
+    if len(set(path_set)) != len(path_set):
         raise PrepareError("old/new ledger and profile paths must be distinct")
-    path_set = [s["old_ledger_path"], s["new_ledger_path"], s["profile_path"], s["new_profile_path"]]
     if any(a.startswith(b + "/") or b.startswith(a + "/")
            for index, a in enumerate(path_set) for b in path_set[index + 1:]):
         raise PrepareError("ledger/profile paths cannot be ancestors of one another")
@@ -384,10 +391,26 @@ def _fresh_ledger(s: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _generated_paths(s: dict[str, Any]) -> list[str]:
+    return [s["new_ledger_path"]] + ([s["new_profile_path"]] if s["new_profile_path"] is not None else [])
+
+
+def _replaced_paths(s: dict[str, Any]) -> set[str]:
+    return {s["old_ledger_path"]} | ({s["profile_path"]} if s["new_profile_path"] is not None else set())
+
+
+def _pending(s: dict[str, Any], ledger: dict[str, Any], profile: dict[str, Any] | None) -> dict[str, bytes]:
+    pending = {s["new_ledger_path"]: _json_bytes(ledger)}
+    if s["new_profile_path"] is not None:
+        pending[s["new_profile_path"]] = _json_bytes(profile)
+    return pending
+
+
 def _substitute_recipe(recipe: dict[str, Any], s: dict[str, Any]) -> dict[str, Any]:
     result = copy.deepcopy(recipe)
-    replacements = {s["old_ledger_path"]: s["new_ledger_path"],
-                    s["profile_path"]: s["new_profile_path"]}
+    replacements = {s["old_ledger_path"]: s["new_ledger_path"]}
+    if s["new_profile_path"] is not None:
+        replacements[s["profile_path"]] = s["new_profile_path"]
     found = set()
     for key in ("infra_paths", "proof_paths"):
         if not isinstance(result.get(key), list):
@@ -405,13 +428,46 @@ def _substitute_recipe(recipe: dict[str, Any], s: dict[str, Any]) -> dict[str, A
     return result
 
 
-def _profile(profile_raw: bytes, s: dict[str, Any]) -> dict[str, Any]:
+def _profile_object(profile_raw: bytes) -> dict[str, Any]:
     try:
         profile = json.loads(profile_raw)
     except (json.JSONDecodeError, UnicodeDecodeError) as exc:
         raise PrepareError(f"profile JSON invalid: {exc}") from None
     if not isinstance(profile, dict):
         raise PrepareError("profile must be a JSON object")
+    return profile
+
+
+def _assert_history_unchanged(root: Path, s: dict[str, Any], head: str) -> None:
+    # Compare committed blobs only, so this fires before any worktree comparison.
+    for path in (s["profile_path"], s["old_ledger_path"]):
+        if _committed_file(root, s["baseline_sha"], path, check_worktree=False)[2] != _committed_file(root, head, path, check_worktree=False)[2]:
+            raise PrepareError("historical ledger/profile bytes changed after the closed-session baseline")
+
+
+def _check_reused_profile(profile: dict[str, Any], recipe: dict[str, Any], s: dict[str, Any]) -> None:
+    """A reused pinned profile keeps its own phase binding and cloud flag, never acceptance/credit flags."""
+    def credit_flags(value: Any, path: str = "") -> list[str]:
+        if isinstance(value, dict):
+            found = []
+            for key, child in value.items():
+                if key.lower() in PROTECTED_PROFILE_KEYS - {"cloud_build_enabled"} and child is not False:
+                    found.append(f"{path}/{key}")
+                found.extend(credit_flags(child, f"{path}/{key}"))
+            return found
+        if isinstance(value, list):
+            return [hit for index, child in enumerate(value) for hit in credit_flags(child, f"{path}/{index}")]
+        return []
+    flags = credit_flags(profile)
+    if flags:
+        raise PrepareError("reused profile carries acceptance/admission/credit flags: " + ", ".join(sorted(flags)))
+    infra, proof = _recipe_paths(recipe)
+    if s["profile_path"] not in infra + proof:
+        raise PrepareError("reused profile is not referenced by the recipe")
+
+
+def _profile(profile_raw: bytes, s: dict[str, Any]) -> dict[str, Any]:
+    profile = _profile_object(profile_raw)
     for pointer, value in s["profile_updates"].items():
         _apply_pointer(profile, pointer, value)
     profile["session_preparation"] = {
@@ -484,8 +540,11 @@ def _registration_plan(s: dict[str, Any], control_path: str, hooks: dict[str, in
     absolute = (s["_t0"] + dt.timedelta(minutes=s["main_minutes"] + s["finish_minutes"])).strftime("%Y-%m-%dT%H:%M:%SZ")
     literal_status = "already appears in the client source; its gates still require review" if phase_literal else "is absent from the selected client source"
     hook_lines = ", ".join(f"`{name}()` line {line}" for name, line in hooks.items())
+    profile_line = (f"new draft `{s['new_profile_path']}` from `{s['profile_path']}`" if s["new_profile_path"] is not None
+                    else f"reuse pinned `{s['profile_path']}` unchanged (no draft profile; bytes must equal the baseline commit; it keeps its own phase/authorization fields and cloud flag, so the client registration must bind its exact SHA-256)")
+    consumed = "prepared ledger, the prepared profile and recipe" if s["new_profile_path"] is not None else "prepared ledger and recipe and the pinned profile"
     transport_note = "The shared closure inventory proves committed file identities and bytes, but cannot establish that the final encoded payload/configuration fits transport caps. The existing committed-source client preflight must check those final caps.\n\n"
-    return transport_note + f"""# Registration plan — {s['phase']}\n\nThis bundle is **PREPARED_NOT_REGISTERED**. It does not authorize or dispatch a Cloud Build.\n\n- Owner/task: `{s['owner']}` / `{s['task_id']}`\n- Branch and selected HEAD: `{s['branch']}` / see `bundle.json`\n- Baseline checkpoint: `{s['baseline_sha']}`\n- Window: T0 `{s['_t0'].strftime('%Y-%m-%dT%H:%M:%SZ')}`, main deadline `{main}`, absolute deadline `{absolute}`\n- Budget: `{s['cloud_seconds']}` Cloud seconds, max timeout `{s['max_timeout_seconds']}`, report reserve `{s['report_reserve_seconds']}`\n- Lane: `{s['lane']}`\n\n## Required branch-client registration\n\nThe selected client remains authoritative at `{control_path}`. The phase ID `{s['phase']}` {literal_status}. Existing client hooks found by static source inspection: {hook_lines}. Review/add exact phase-specific checks in `authorized_phase` (account/owner/lane/window/deadline and timeout), profile/environment binding in `envs`, source/recipe checks in `config` or source preparation, and final authorization before reservation in `run_command`. The branch lane entrypoint must consume the prepared profile and recipe. Add matching synthetic registration and service error-path tests.\n\nThe generated ledger's draft status intentionally fails current submission gates. The session preparer does not create permissive client hooks, alter the live coordinator, or decide trusted proof/profile semantics. Commit the reviewed generated files and client registration on the assigned branch, then run the branch's static preflight and synthetic service tests before any separately authorized use.\n"""
+    return transport_note + f"""# Registration plan — {s['phase']}\n\nThis bundle is **PREPARED_NOT_REGISTERED**. It does not authorize or dispatch a Cloud Build.\n\n- Owner/task: `{s['owner']}` / `{s['task_id']}`\n- Branch and selected HEAD: `{s['branch']}` / see `bundle.json`\n- Baseline checkpoint: `{s['baseline_sha']}`\n- Window: T0 `{s['_t0'].strftime('%Y-%m-%dT%H:%M:%SZ')}`, main deadline `{main}`, absolute deadline `{absolute}`\n- Budget: `{s['cloud_seconds']}` Cloud seconds, max timeout `{s['max_timeout_seconds']}`, report reserve `{s['report_reserve_seconds']}`\n- Lane: `{s['lane']}`\n- Profile: {profile_line}\n\n## Required branch-client registration\n\nThe selected client remains authoritative at `{control_path}`. The phase ID `{s['phase']}` {literal_status}. Existing client hooks found by static source inspection: {hook_lines}. Review/add exact phase-specific checks in `authorized_phase` (account/owner/lane/window/deadline and timeout), profile/environment binding in `envs`, source/recipe checks in `config` or source preparation, and final authorization before reservation in `run_command`. The branch lane entrypoint must consume the {consumed}. Add matching synthetic registration and service error-path tests.\n\nThe generated ledger's draft status intentionally fails current submission gates. The session preparer does not create permissive client hooks, alter the live coordinator, or decide trusted proof/profile semantics. Commit the reviewed generated files and client registration on the assigned branch, then run the branch's static preflight and synthetic service tests before any separately authorized use.\n"""
 
 
 def prepare(spec_path: Path, out_path: Path) -> dict[str, Any]:
@@ -512,7 +571,7 @@ def prepare(spec_path: Path, out_path: Path) -> dict[str, Any]:
         _committed_file(root, head, path)
     _, _, old_raw = _committed_file(root, head, s["old_ledger_path"])
     _load_old_ledger(old_raw, s["phase"], s["owner"])
-    for path in (s["new_ledger_path"], s["new_profile_path"]):
+    for path in _generated_paths(s):
         if _git_blob(root, head, path) is not None or (root / path).exists() or (root / path).is_symlink():
             raise PrepareError(f"new target path already exists: {path}")
     _, _, profile_raw = _committed_file(root, head, s["profile_path"])
@@ -523,12 +582,16 @@ def prepare(spec_path: Path, out_path: Path) -> dict[str, Any]:
         raise PrepareError(f"recipe JSON invalid: {exc}") from None
     if not isinstance(old_recipe, dict) or old_recipe.get("lane") != s["lane"]:
         raise PrepareError("recipe lane must exactly match spec lane")
+    _assert_history_unchanged(root, s, head)
+    source_profile = _profile_object(profile_raw)
     ledger = _fresh_ledger(s)
-    profile = _profile(profile_raw, s)
+    profile = _profile(profile_raw, s) if s["new_profile_path"] is not None else None
     recipe = _substitute_recipe(old_recipe, s)
-    pending = {s["new_ledger_path"]: _json_bytes(ledger), s["new_profile_path"]: _json_bytes(profile)}
+    if profile is None:
+        _check_reused_profile(source_profile, recipe, s)
+    pending = _pending(s, ledger, profile)
     closure = _closure(root, head, recipe, pending)
-    implicit_old_paths = {s["old_ledger_path"], s["profile_path"]} & {item["path"] for item in closure["entries"]}
+    implicit_old_paths = _replaced_paths(s) & {item["path"] for item in closure["entries"]}
     if implicit_old_paths:
         raise PrepareError("recipe directory implicitly includes replaced old file(s); use exact paths: " + ", ".join(sorted(implicit_old_paths)))
     control_path = "research/challenge-8/cloud-build/control.py"
@@ -538,8 +601,8 @@ def prepare(spec_path: Path, out_path: Path) -> dict[str, Any]:
     generated = {
         "spec.json": {k: v for k, v in s.items() if not k.startswith("_")},
         "ledger.json": ledger,
-        "profile.json": profile,
-        "source_profile.json": json.loads(profile_raw),
+        **({"profile.json": profile} if profile is not None else {}),
+        "source_profile.json": source_profile,
         "recipe.json": recipe,
         "source_recipe.json": old_recipe,
         "closure.json": closure,
@@ -568,19 +631,27 @@ def prepare(spec_path: Path, out_path: Path) -> dict[str, Any]:
 
 
 def _validate_bundle_contract(bundle: Path) -> dict[str, Any]:
+    try:
+        spec = _validate_spec(json.loads((bundle / "spec.json").read_text(encoding="utf-8")))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise PrepareError(f"bundle JSON invalid: {exc}") from None
+    reuse_profile = spec["new_profile_path"] is None
     expected_files = {"spec.json", "ledger.json", "profile.json", "source_profile.json", "source_profile.raw.json",
                       "old_ledger.raw.json", "recipe.json", "source_recipe.json", "closure.json",
-                      "bundle.json", "registration-plan.md", "inventory.json"}
+                      "bundle.json", "registration-plan.md", "inventory.json"} - ({"profile.json"} if reuse_profile else set())
     found_files = {p.relative_to(bundle).as_posix() for p in bundle.rglob("*") if p.is_file()}
     if found_files != expected_files:
         raise PrepareError("bundle file set differs from prepared format")
+    json_names = ["ledger.json", "source_profile.json", "recipe.json", "source_recipe.json", "closure.json", "bundle.json", "inventory.json"]
+    if not reuse_profile:
+        json_names.append("profile.json")
     try:
-        values = {name: json.loads((bundle / name).read_text(encoding="utf-8"))
-                  for name in ("spec.json", "ledger.json", "profile.json", "source_profile.json", "recipe.json", "source_recipe.json", "closure.json", "bundle.json", "inventory.json")}
+        values = {name: json.loads((bundle / name).read_text(encoding="utf-8")) for name in json_names}
     except (OSError, json.JSONDecodeError) as exc:
         raise PrepareError(f"bundle JSON invalid: {exc}") from None
-    spec = _validate_spec(values["spec.json"])
-    ledger, profile, recipe = values["ledger.json"], values["profile.json"], values["recipe.json"]
+    ledger, recipe = values["ledger.json"], values["recipe.json"]
+    # Reuse mode checks the pinned source profile instead of a generated draft.
+    profile = values["source_profile.json"] if reuse_profile else values["profile.json"]
     source_recipe = values["source_recipe.json"]
     source_profile = values["source_profile.json"]
     meta, closure = values["bundle.json"], values["closure.json"]
@@ -608,6 +679,22 @@ def _validate_bundle_contract(bundle: Path) -> dict[str, Any]:
     start = _parse_utc(spec["t0"], "t0")
     if ledger.get("start_utc") != spec["t0"] or ledger.get("main_deadline_utc") != (start + dt.timedelta(minutes=120)).strftime("%Y-%m-%dT%H:%M:%SZ") or ledger.get("deadline_utc") != (start + dt.timedelta(minutes=150)).strftime("%Y-%m-%dT%H:%M:%SZ"):
         raise PrepareError("ledger deadline fields do not match spec")
+    if reuse_profile:
+        _check_reused_profile(source_profile, recipe, spec)
+    else:
+        _check_draft_profile(profile, source_profile, spec)
+    if recipe.get("lane") != spec["lane"]:
+        raise PrepareError("recipe lane differs from spec")
+    if recipe != _substitute_recipe(source_recipe, spec):
+        raise PrepareError("prepared recipe is not the exact allowed ledger/profile substitution")
+    infra, proof = _recipe_paths(recipe)
+    if _replaced_paths(spec) & set(infra + proof):
+        raise PrepareError("old ledger/profile references were not substituted")
+    return _check_closure_and_sources(bundle, spec, meta, closure, ledger, None if reuse_profile else profile,
+                                      recipe, source_profile, source_recipe, values, infra, proof)
+
+
+def _check_draft_profile(profile: dict[str, Any], source_profile: dict[str, Any], spec: dict[str, Any]) -> None:
     if profile.get("status") != "DRAFT" or profile.get("cloud_build_enabled") is not False:
         raise PrepareError("profile must be DRAFT and cloud_build_enabled=false")
     if profile != _profile(_json_bytes(source_profile), spec):
@@ -624,19 +711,18 @@ def _validate_bundle_contract(bundle: Path) -> dict[str, Any]:
     prep = profile.get("session_preparation")
     if not isinstance(prep, dict) or prep.get("phase") != spec["phase"] or prep.get("owner") != spec["owner"] or prep.get("status") != "DRAFT":
         raise PrepareError("profile session preparation metadata mismatch")
-    if recipe.get("lane") != spec["lane"]:
-        raise PrepareError("recipe lane differs from spec")
-    if recipe != _substitute_recipe(source_recipe, spec):
-        raise PrepareError("prepared recipe is not the exact allowed ledger/profile substitution")
-    infra, proof = _recipe_paths(recipe)
-    if (spec["old_ledger_path"] in infra + proof) or (spec["profile_path"] in infra + proof):
-        raise PrepareError("old ledger/profile references were not substituted")
+
+
+def _check_closure_and_sources(bundle: Path, spec: dict[str, Any], meta: dict[str, Any], closure: dict[str, Any],
+                               ledger: dict[str, Any], profile: dict[str, Any] | None, recipe: dict[str, Any],
+                               source_profile: dict[str, Any], source_recipe: dict[str, Any],
+                               values: dict[str, Any], infra: list[str], proof: list[str]) -> dict[str, Any]:
     if (closure.get("schema") != "smallsort-session-closure-v1" or
             closure.get("commit") != meta.get("selected_head") or
             not isinstance(closure.get("entries"), list) or
             closure.get("entry_count") != len(closure.get("entries", []))):
         raise PrepareError("closure commit/entries mismatch")
-    for path, data in ((spec["new_ledger_path"], _json_bytes(ledger)), (spec["new_profile_path"], _json_bytes(profile))):
+    for path, data in _pending(spec, ledger, profile).items():
         was_referenced = path in infra + proof
         records = [x for x in closure["entries"] if isinstance(x, dict) and x.get("path") == path]
         if was_referenced and (len(records) != 1 or records[0].get("state") != "generated_pending_commit" or records[0].get("sha256") != _sha256(data)):
@@ -659,13 +745,10 @@ def _validate_bundle_contract(bundle: Path) -> dict[str, Any]:
                               stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     if ancestry.returncode != 0:
         raise PrepareError("bundle baseline is not an ancestor of selected HEAD")
-    _, _, baseline_profile_raw = _committed_file(root, spec["baseline_sha"], spec["profile_path"])
+    _assert_history_unchanged(root, spec, selected_head)
     _, _, head_profile_raw = _committed_file(root, selected_head, spec["profile_path"])
-    _, _, baseline_ledger_raw = _committed_file(root, spec["baseline_sha"], spec["old_ledger_path"])
     _, _, head_ledger_raw = _committed_file(root, selected_head, spec["old_ledger_path"])
     _, _, head_recipe_raw = _committed_file(root, selected_head, spec["recipe_path"])
-    if baseline_profile_raw != head_profile_raw or baseline_ledger_raw != head_ledger_raw:
-        raise PrepareError("historical ledger/profile bytes changed after the closed-session baseline")
     if (head_profile_raw != (bundle / "source_profile.raw.json").read_bytes() or
             head_ledger_raw != (bundle / "old_ledger.raw.json").read_bytes()):
         raise PrepareError("preserved historical input bytes differ from selected Git files")
@@ -689,7 +772,7 @@ def _validate_bundle_contract(bundle: Path) -> dict[str, Any]:
         raise PrepareError("bundle metadata differs from selected source/client inspection")
     if (bundle / "registration-plan.md").read_text(encoding="utf-8") != _registration_plan(spec, control_path, hooks, phase_literal):
         raise PrepareError("registration plan differs from selected source/client inspection")
-    pending = {spec["new_ledger_path"]: _json_bytes(ledger), spec["new_profile_path"]: _json_bytes(profile)}
+    pending = _pending(spec, ledger, profile)
     rebuilt_closure = _closure(root.resolve(strict=True), selected_head, recipe, pending)
     if closure != rebuilt_closure:
         raise PrepareError("closure inventory differs from selected Git/worktree inputs")

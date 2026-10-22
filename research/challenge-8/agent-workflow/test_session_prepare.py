@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 
 HERE = Path(__file__).resolve().parent
@@ -21,8 +22,12 @@ def git(root: Path, *args: str) -> str:
     return subprocess.check_output(["git", "-C", str(root), *args], text=True).strip()
 
 
+REUSED_PROFILE = {"phase": "OLD-PHASE", "authorization_phase_id": "OLD-PHASE", "profile_accepted": False,
+                  "proof_credit": False, "cloud_build_enabled": True, "target": "pinned"}
+
+
 class Fixture:
-    def __init__(self, parent: Path):
+    def __init__(self, parent: Path, profile: dict | None = None, recipe_proof_paths: list | None = None):
         self.root = parent / "worktree"
         self.root.mkdir()
         git(self.root, "init", "-q", "-b", "test-session-branch")
@@ -35,8 +40,9 @@ class Fixture:
         self.new_profile = "research/challenge-8/cloud-build/new/PROFILE.json"
         files = {
             self.old_ledger: {"phase": "OLD-PHASE", "status": "CLOSED", "owner": "merge", "builds": [], "active_build": None},
-            self.profile: {"phase": "OLD-PHASE", "authorization_phase_id": "OLD-PHASE", "profile_accepted": True, "proof_credit": True, "cloud_build_enabled": True, "target": "old"},
-            self.recipe: {"schema": "smallsort-cloud-recipe-v1", "lane": "merge", "infra_paths": ["research/challenge-8/cloud-build/runner.sh"], "proof_paths": [self.old_ledger, self.profile, "research/challenge-8/proof.py"]},
+            self.profile: profile if profile is not None else {"phase": "OLD-PHASE", "authorization_phase_id": "OLD-PHASE", "profile_accepted": True, "proof_credit": True, "cloud_build_enabled": True, "target": "old"},
+            self.recipe: {"schema": "smallsort-cloud-recipe-v1", "lane": "merge", "infra_paths": ["research/challenge-8/cloud-build/runner.sh"],
+                          "proof_paths": recipe_proof_paths if recipe_proof_paths is not None else [self.old_ledger, self.profile, "research/challenge-8/proof.py"]},
         }
         for path, data in files.items():
             target = self.root / path
@@ -126,6 +132,127 @@ class SessionPrepareTests(unittest.TestCase):
         self.assertNotIn(self.fx.profile, recipe["proof_paths"])
         self.assertEqual(json.loads((bundle / "bundle.json").read_text())["selected_head"], self.fx.head)
         self.assertIn("authorized_phase", (bundle / "registration-plan.md").read_text())
+
+    def reuse(self, profile=REUSED_PROFILE, recipe_proof_paths=None):
+        """Fresh fixture whose pinned profile is committed before the baseline."""
+        parent = self.parent / f"reuse-{len(list(self.parent.glob('reuse-*')))}"
+        parent.mkdir()
+        self.fx = Fixture(parent, profile=profile, recipe_proof_paths=recipe_proof_paths)
+        self.out = parent / "bundle"
+        return dict(self.fx.spec, new_profile_path=None, profile_updates={})
+
+    def commit_profile(self, content: str):
+        (self.fx.root / self.fx.profile).write_text(content, encoding="utf-8")
+        git(self.fx.root, "commit", "-qam", "change pinned profile after baseline")
+
+    def test_reuse_pinned_profile_without_draft_profile(self):
+        bundle = self.prepare(self.reuse())
+        self.assertFalse((bundle / "profile.json").exists())
+        self.assertEqual(module.check(bundle)["state"], "PREPARED_NOT_REGISTERED")
+        recipe = json.loads((bundle / "recipe.json").read_text())
+        self.assertIn(self.fx.profile, recipe["proof_paths"])
+        self.assertIn(self.fx.new_ledger, recipe["proof_paths"])
+        self.assertNotIn(self.fx.old_ledger, recipe["proof_paths"])
+        closure_paths = {item["path"] for item in json.loads((bundle / "closure.json").read_text())["entries"]}
+        self.assertIn(self.fx.profile, closure_paths)
+        plan = (bundle / "registration-plan.md").read_text()
+        self.assertIn("reuse pinned", plan)
+        self.assertIn("bind its exact SHA-256", plan)
+        self.assertIn("pinned profile.", plan)
+        self.assertNotIn("prepared profile and recipe", plan)
+
+    def test_reuse_pinned_profile_refuses_updates_and_tampering(self):
+        spec = self.reuse()
+        with self.assertRaisesRegex(module.PrepareError, "profile_updates require new_profile_path"):
+            self.prepare(dict(spec, profile_updates={"/target": "x"}))
+        self.assertFalse(self.out.exists())
+        bundle = self.prepare(spec)
+        (bundle / "profile.json").write_text("{}\n", encoding="utf-8")
+        self.refresh_inventory(bundle)
+        with self.assertRaisesRegex(module.PrepareError, "bundle file set"):
+            module.check(bundle)
+        (bundle / "profile.json").unlink()
+        recipe = json.loads((bundle / "recipe.json").read_text())
+        recipe["proof_paths"].append(self.fx.old_ledger)
+        (bundle / "recipe.json").write_text(json.dumps(recipe), encoding="utf-8")
+        self.refresh_inventory(bundle)
+        with self.assertRaisesRegex(module.PrepareError, "recipe"):
+            module.check(bundle)
+
+    def test_reuse_refuses_credit_flags_unreferenced_profile_and_bad_json(self):
+        cases = [
+            (dict(REUSED_PROFILE, proof_credit=True), None, "acceptance/admission/credit flags: /proof_credit"),
+            (dict(REUSED_PROFILE, nested={"admitted": "yes"}), None, "flags: /nested/admitted"),
+            (REUSED_PROFILE, ["research/challenge-8/cloud-build/old/BUDGET.json", "research/challenge-8/proof.py"],
+             "not referenced by the recipe"),
+        ]
+        for profile, proof_paths, message in cases:
+            with self.subTest(message=message):
+                spec = self.reuse(profile, proof_paths)
+                with self.assertRaisesRegex(module.PrepareError, message):
+                    self.prepare(spec)
+                self.assertFalse(self.out.exists())
+        for raw, message in (("{not json", "profile JSON invalid"), ("[1, 2]\n", "profile must be a JSON object")):
+            for reuse in (True, False):
+                with self.subTest(raw=raw, reuse=reuse):
+                    spec = self.reuse()
+                    (self.fx.root / self.fx.profile).write_text(raw, encoding="utf-8")
+                    git(self.fx.root, "commit", "-qam", "bad profile")
+                    spec = dict(spec, baseline_sha=git(self.fx.root, "rev-parse", "HEAD"))
+                    if not reuse:
+                        spec = dict(self.fx.spec, baseline_sha=spec["baseline_sha"])
+                    with self.assertRaisesRegex(module.PrepareError, message):
+                        self.prepare(spec)
+                    self.assertFalse(self.out.exists())
+
+    def test_profile_changed_between_baseline_and_prepare_is_refused_in_both_modes(self):
+        for reuse in (True, False):
+            with self.subTest(reuse=reuse):
+                spec = self.reuse()
+                if not reuse:
+                    spec = dict(self.fx.spec)
+                self.commit_profile(json.dumps(dict(REUSED_PROFILE, target="changed")) + "\n")
+                with self.assertRaisesRegex(module.PrepareError, "historical ledger/profile bytes changed"):
+                    self.prepare(spec)
+                self.assertFalse(self.out.exists())
+
+    def test_check_history_guard_fires_on_committed_profile_change(self):
+        spec = self.reuse()
+        self.commit_profile(json.dumps(dict(REUSED_PROFILE, target="changed")) + "\n")
+        with patch.object(module, "_assert_history_unchanged", lambda *args: None):
+            bundle = self.prepare(spec)
+        with self.assertRaisesRegex(module.PrepareError, "historical ledger/profile bytes changed after the closed-session baseline"):
+            module.check(bundle)
+
+    def test_old_ledger_changed_after_baseline_is_refused_by_prepare_and_check(self):
+        for reuse in (True, False):
+            with self.subTest(reuse=reuse):
+                spec = self.reuse()
+                if not reuse:
+                    spec = dict(self.fx.spec)
+                ledger_path = self.fx.root / self.fx.old_ledger
+                ledger = json.loads(ledger_path.read_text())
+                ledger_path.write_text(json.dumps(dict(ledger, note="rewritten"), sort_keys=True) + "\n", encoding="utf-8")
+                git(self.fx.root, "commit", "-qam", "rewrite closed ledger after baseline")
+                with self.assertRaisesRegex(module.PrepareError, "historical ledger/profile bytes changed"):
+                    self.prepare(spec)
+                self.assertFalse(self.out.exists())
+                with patch.object(module, "_assert_history_unchanged", lambda *args: None):
+                    bundle = self.prepare(spec)
+                with self.assertRaisesRegex(module.PrepareError, "historical ledger/profile bytes changed after the closed-session baseline"):
+                    module.check(bundle)
+
+    def test_check_refuses_reuse_bundle_with_credit_flags_or_unreferenced_profile(self):
+        cases = [(dict(REUSED_PROFILE, proof_credit=True), None, "acceptance/admission/credit flags"),
+                 (REUSED_PROFILE, ["research/challenge-8/cloud-build/old/BUDGET.json", "research/challenge-8/proof.py"],
+                  "not referenced by the recipe")]
+        for profile, proof_paths, message in cases:
+            with self.subTest(message=message):
+                spec = self.reuse(profile, proof_paths)
+                with patch.object(module, "_check_reused_profile", lambda *args: None):
+                    bundle = self.prepare(spec)
+                with self.assertRaisesRegex(module.PrepareError, message):
+                    module.check(bundle)
 
     def test_rejects_wrong_branch_owner_baseline_and_bad_dates(self):
         cases = [
