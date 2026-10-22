@@ -180,3 +180,18 @@ or theorem-refutation claim. Charge561s; total2385s,1215s remain.
 Reviewed unchanged5b3f745f N9-only stage dispatched01973934 for independent
 component evidence while investigating exact wrapper context statically.
 This does not waive exact/controls/universal obligations.
+
+## H1 shape3: package finite-SWO at the outer boundary
+
+Defect/applicability: shape2 export body starts355.524s and next body357.009s;
+the final wrapper starts364.993s and last reaches its export call389.097s.
+Literal equality and finite_swo still coexist when matching that call.
+Selected hypothesis: define a pure network13_swo_package(rel,d) containing
+only finite_swo(rel,d)==true. Close it in a checked packaging step; a fresh
+helper requires the three closed SWO/membership/domain chunks, opens only
+SWO, then calls the existing export. Keep exact_domain closed there.
+Preserve full public pre/post, original components,45-call schedule, premises,
+all controls and420s limit. Prediction: opaque matching isolates relation
+unfolding from literal equality. Falsifier: packaging or fresh helper call
+stalls again. No premise/axiom/bodyless bridge or post reduction is added.
+This is an unverified checked-context candidate, not a proven root cause.
