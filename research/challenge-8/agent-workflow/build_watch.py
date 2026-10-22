@@ -204,7 +204,7 @@ def _normalize_binding(binding):
     return json.loads(_json_bytes(binding))
 
 
-def arm(spec_path: str | Path, store: Store, *, bindings=None, codex=None, now=None):
+def arm(spec_path: str | Path, store: Store, *, bindings=None, codex=None, now=None, delivery=None):
     path = Path(spec_path)
     spec = _load_json(path)
     keys = {"schema", "worktree", "ledger_path", "thread_id", "build_id", "poll_seconds", "deadline_margin_seconds"}
@@ -261,6 +261,9 @@ def arm(spec_path: str | Path, store: Store, *, bindings=None, codex=None, now=N
                "binding_sha256": _digest(binding), "poll_seconds": poll, "deadline_margin_seconds": margin,
                "created_utc": _stamp(current), "updated_utc": _stamp(current), "poll_failures": 0,
                "last_status": None, "attempts": 0, "runner_pid": None, "heartbeat_utc": None}
+        if delivery is not None:
+            # Non-Codex delivery adapters own their runner and ack; see _require_delivery.
+            job["delivery"] = delivery
         state_dir = store.file(job_id + ".state")
         state_dir.mkdir(mode=0o700)
         dfd = os.open(store.root, os.O_RDONLY)
@@ -270,6 +273,12 @@ def arm(spec_path: str | Path, store: Store, *, bindings=None, codex=None, now=N
             os.close(dfd)
         store.save_job(job)
     return job
+
+
+def _require_delivery(job, delivery):
+    """Refuse a runner/ack whose delivery adapter differs from the one the job was armed for."""
+    if job.get("delivery") != delivery:
+        raise WatchError("job delivery mode does not match this command")
 
 
 def _load_adapters():
@@ -516,13 +525,15 @@ def tick(store: Store, job_id: str, *, bindings=None, codex=None, now_fn=_utcnow
         return job
 
 
-def run_loop(store: Store, job_id: str, *, nonce=None, bindings=None, codex=None, now_fn=_utcnow, sleep=time.sleep, max_cycles=None):
+def run_loop(store: Store, job_id: str, *, nonce=None, bindings=None, codex=None, now_fn=_utcnow, sleep=time.sleep, max_cycles=None,
+             delivery=None):
     bindings = bindings or _adapter("watch_bindings")
     codex = codex or _adapter("watch_codex")
     cycles = 0
     with store.lock(job_id + ".runner.lock", nonblocking=True):
         with store.lock(job_id + ".lock"):
             job = store.read_job(job_id)
+            _require_delivery(job, delivery)
             if nonce is not None and job.get("launch_nonce") != nonce:
                 raise WatchError("runner launch nonce is stale")
             job["runner_nonce"] = nonce
@@ -563,6 +574,7 @@ def start(store: Store, job_id: str, *, popen=subprocess.Popen, sleep=time.sleep
             pass
         with store.lock(job_id + ".lock"):
             job = store.read_job(job_id)
+            _require_delivery(job, None)
             if job["state"] not in ("ARMED", "MONITORING", "READY", "DELIVERING"):
                 raise WatchError("job is not startable")
             nonce = str(uuid.uuid4())
@@ -642,6 +654,7 @@ def ack(store: Store, job_id: str, event_id: str, *, bindings=None, codex=None, 
             raise WatchError("CODEX_THREAD_ID does not match target thread")
     with store.lock(job_id + ".lock"):
         job = store.read_job(job_id)
+        _require_delivery(job, None)
         if job["event_id"] != event_id or job["state"] not in ("DELIVERED", "DELIVERY_UNKNOWN"):
             raise WatchError("event does not match an acknowledgeable delivery")
         now = now_fn()

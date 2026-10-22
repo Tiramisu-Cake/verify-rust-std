@@ -19,10 +19,14 @@ HELP = """Usage: smallsort-session COMMAND [OPTIONS]
                                  Immutable, bounded Brief navigation records
   watch arm|start|status|stop|ack ...
                                  Opt-in Build status watcher and exact-thread wakeup
+  wait run|ack ...                Same watcher in the foreground for Claude Code
+                                 sessions (background Bash task; exit = wakeup)
 
 Preparation commands make no Cloud calls. watch uses the existing client's status
-and accounting path, then one Codex queue attempt. Guide:
+and accounting path, then one Codex queue attempt; wait ends by printing the
+event. Guides:
 /root/verify-rust-std-evidence-brief/research/challenge-8/agent-workflow/WATCH.md
+/root/verify-rust-std-evidence-brief/research/challenge-8/agent-workflow/WATCH-CLAUDE.md
 No Build submission, registration, slot reservations, proof tools, commit or push.
 New session activation still requires the existing branch client admission.
 """
@@ -52,6 +56,9 @@ def main(argv=None):
     if command == "watch":
         import build_watch
         return build_watch.main(args)
+    if command == "wait":
+        import watch_claude
+        return watch_claude.main(args)
     print("Unknown command: " + command + "\n" + HELP, file=sys.stderr)
     return 2
 

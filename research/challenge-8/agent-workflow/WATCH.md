@@ -2,6 +2,8 @@
 
 Watcher готов для **следующих Select/Merge сессий**. Работающие сессии этим обновлением не переключаются. Предварительный [реальный queue-тест](WAIT-EXPERIMENT.md) подтвердил wakeup на Codex0.163.0; текущая интеграция проверяется isolated synthetic service tests без real Builds/уведомлений действующим агентам. Процент экономии ещё не измерен.
 
+Для сессий **Claude Code** — тот же watcher с доставкой через фоновую задачу: [WATCH-CLAUDE](WATCH-CLAUDE.md).
+
 Watcher — отдельный локальный Python-процесс без модели. Раз в30с вызывает **существующий** branch `control.py status` с собственными owner/phase/ledger; сохраняет штатные coordination/accounting gates. Следит только за одним уже зарегистрированным Build. При terminal и завершённом учёте, повторяющейся ошибке мониторинга или приближении границы окна делает одну попытку `codex queue` в точный thread и останавливается. Metadata SUCCESS не устанавливает proof acceptance; после terminal результаты читаются через Evidence Brief.
 
 ## Передать ожидание
