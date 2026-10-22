@@ -49,10 +49,10 @@ Next: Implement the R18 unwind cleanup rule with its four controls and service t
 
 ## Отчёт агента
 
-**merge-unwind-cleanup-autonomous-2026-10-22-r19 · merge · MERGE-UNWIND-CLEANUP-R19-2026-10-22 · HANDOFF**
-Updated: 2026-10-22T17:05:00Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `a66c1d30214e463a16a325cdef30b0ec8555e0af` / `947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d`.
-Dates: T0 `2026-10-22T16:08:18Z`; main `2026-10-22T18:08:18Z`; absolute `2026-10-22T18:38:18Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
+**merge-unwind-cleanup-autonomous-2026-10-22-r19 · merge · MERGE-UNWIND-CLEANUP-R19-2026-10-22 · CLOSED**
+Updated: 2026-10-22T19:53:52Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `a66c1d30214e463a16a325cdef30b0ec8555e0af` / `947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d`.
+Dates: T0 `2026-10-22T16:08:18Z`; main `2026-10-22T18:08:18Z`; absolute `2026-10-22T18:38:18Z`. Budget 3600s: 0s spent, 3600s retired, 0s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Reviewed R19 candidate 3a587cb7 not submitted: push denied by classifier; owner chose no push/submit.
-Next: Owner-approved push of merge/incoming-origin-20261009, then R19 P1 (raw caller + 5 controls, timeout1200), wait; then original as_mut_ptr/unsize.
+Blocker: Published R19 cleanup candidate is Cloud-UNVERIFIED; original caller borrow/unsize remains OPEN.
+Next: Install fresh R20 from CLOSED R19; at actual T0 prepare/register its new account, then Cloud the published candidate.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

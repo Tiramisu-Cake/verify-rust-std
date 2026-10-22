@@ -1,0 +1,27 @@
+{
+  "schema": "merge-r19-accounting-closeout-v1",
+  "closed_utc": "2026-10-22T19:53:52Z",
+  "owner": "merge",
+  "phase": "MERGE-UNWIND-CLEANUP-R19-2026-10-22",
+  "authority": "Owner instruction in current conversation: issue the next Merge assignment; prerequisite R19 accounting closeout only.",
+  "reason": "Owner requested issuance of Merge R20 after read-only pre-start review. R19 expired without a Build after owner declined push/submit in that window; published reviewed candidate 3a587cb7 is carried as an unverified candidate only. Retire all 3600 unused seconds, carry 0; no proof continuation, phase registration, request, reservation or Build in this closeout.",
+  "baseline_commit": "f0b2268780fcfe245c254306c5af4185412c78ca",
+  "previous_ledger_sha256": "f6303ae38c39ce35ae5f0926cf11eb8bc9599ba9ed796fd64725394bda7ef584",
+  "previous_checkpoint_sha256": "ccf617025d1b9a29599e073c5e0266fda508b7d6fde4d6008b4b21878e156d75",
+  "spent_seconds": 0,
+  "retired_seconds": 3600,
+  "remaining_seconds": 0,
+  "carry_seconds": 0,
+  "build_ids": [],
+  "candidate_proof_sha": "3a587cb7ecacce1c35952286299609e2a5be6d21",
+  "tool_sha": "39f6b0cacd00575c8ca2d39e9f15632723bf1227",
+  "proof_credit": 0,
+  "coordination_check": {
+    "protocol": [
+      4,
+      3
+    ],
+    "merge_reservations": [],
+    "merge_request_present": false
+  }
+}

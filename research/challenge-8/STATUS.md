@@ -1,10 +1,10 @@
 # Agent checkpoint: merge-unwind-cleanup-autonomous-2026-10-22-r19
 
-- Owner: merge | phase: MERGE-UNWIND-CLEANUP-R19-2026-10-22 | state: HANDOFF
-- Updated: 2026-10-22T17:05:00Z
+- Owner: merge | phase: MERGE-UNWIND-CLEANUP-R19-2026-10-22 | state: CLOSED
+- Updated: 2026-10-22T19:53:52Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `a66c1d30214e463a16a325cdef30b0ec8555e0af`, profile `947be6e0ed9aa0d2270a820dd72e5ff4c78e8d30af3e55d7228b477af700026d`
 - Session dates: T0 `2026-10-22T16:08:18Z`; main deadline `2026-10-22T18:08:18Z`; absolute deadline `2026-10-22T18:38:18Z`
-- Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
+- Budget: 3600s total; 0s spent; 3600s retired; 0s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
@@ -13,6 +13,7 @@
 - [SOURCE_REPORTED] P2: RawPtr controls 4/5 matched (positive, mutability, changed contents via aggregate refusal, raw/ref); index projection INCONCLUSIVE refiner limitation. No credit. — [research/challenge-8/cloud-build/origin-layout/R18-PROOF2-RESULT-20261022.json](cloud-build/origin-layout/R18-PROOF2-RESULT-20261022.json) SHA `18e233643f84376bc6103ee9df537bb917f3b9d2bdc454537fca86c404114ab3` Build `08bd6e03-a320-4e03-b5d3-21b051204b3e`
 - [SOURCE_REPORTED] R18 CLOSED early: P1/P2 terminal/accounted, 1821s spent, 1779s retired, carry0; own active/unresolved 0. No credit. — [research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R18-BUDGET-20261022.json](cloud-build/origin-layout/CURRENT-RECOVERY-R18-BUDGET-20261022.json) SHA `a0541f5bce32a9ea61cdfb025f90df1790707af014ae08436490c26db8d2c34d`
 - [SOURCE_REPORTED] R19 candidate ready, Cloud-unverified: tool 39f6b0ca, activation 3a587cb7 (ledger-only delta), reviewer GO_WITH_NITS x2; 0s spent; not pushed. No credit. — [research/challenge-8/cloud-build/origin-layout/R19-REVIEW-20261022.md](cloud-build/origin-layout/R19-REVIEW-20261022.md) SHA `6b9a227165ed4cc3ba6e71d77ee2083ca14c4505fe64205b2233068c444fc1a8`
+- [INDEPENDENTLY_ESTABLISHED] R19 CLOSED: 0 Builds/spent, 3600s retired, carry0. Candidate/tool published; Cloud UNVERIFIED, credit0. — [research/challenge-8/cloud-build/origin-layout/R19-CLOSEOUT-20261022.json](cloud-build/origin-layout/R19-CLOSEOUT-20261022.json) SHA `64c5f76009562d166d0d057a6dab6e1198fd7431bb8a8dd867bac6656ceb055b`
 
 ## Open
 - Original as_mut_ptr/unsize, source-bound metadata, real borrow/reference lifecycle and caller normal/unwind remain OPEN; isolated lifecycle does not close them.
@@ -25,11 +26,10 @@
 - Close early when the next tool commit/review cannot finish within main — R18 closed 29.5 min early with a ready, narrow design; CORE requires Cloud-free stages (implementation, tests, review, pins) instead.; [research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R18-BUDGET-20261022.json](cloud-build/origin-layout/CURRENT-RECOVERY-R18-BUDGET-20261022.json) SHA `a0541f5bce32a9ea61cdfb025f90df1790707af014ae08436490c26db8d2c34d`
 
 ## Blocker
-Reviewed R19 candidate 3a587cb7 not submitted: push denied by classifier; owner chose no push/submit. (publication/submit of 3a587cb7)
-- [research/challenge-8/cloud-build/origin-layout/R19-REVIEW-20261022.md](cloud-build/origin-layout/R19-REVIEW-20261022.md) SHA `6b9a227165ed4cc3ba6e71d77ee2083ca14c4505fe64205b2233068c444fc1a8`
+Published R19 cleanup candidate is Cloud-UNVERIFIED; original caller borrow/unsize remains OPEN.
 
 ## Next
-Owner-approved push of merge/incoming-origin-20261009, then R19 P1 (raw caller + 5 controls, timeout1200), wait; then original as_mut_ptr/unsize.
+Install fresh R20 from CLOSED R19; at actual T0 prepare/register its new account, then Cloud the published candidate.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R18-RELEASE-20261022.json](cloud-build/origin-layout/R18-RELEASE-20261022.json) — `1a9c18a08a0935226d6b7c4295dbe73d18c50e67464c6fe1554dea368561d076`
