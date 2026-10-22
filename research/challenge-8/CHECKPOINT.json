@@ -7,6 +7,14 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R19-REVIEW-20261022.md",
       "sha256": "6b9a227165ed4cc3ba6e71d77ee2083ca14c4505fe64205b2233068c444fc1a8"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R20-CALLER-AND-CONTROL-FRONTIER-20261023.md",
+      "sha256": "d08d28d9859bfa6b319ceb99c22aade95e0f54efa02c27db93d44af4aca2f0f8"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R20-STATE-CONTROL-REVIEW-20261023.json",
+      "sha256": "c2050c3cde4909c2c2c631dc2ead4659753c6bbb00629b76726765fc5df9ba50"
     }
   ],
   "assignment_sha256": "4b7e4a5f9a3e01462783b3a6c6b73afd2cdf453b832d336fac9fac34287e6b88",
@@ -16,8 +24,14 @@
     "tool_sha": "39f6b0cacd00575c8ca2d39e9f15632723bf1227"
   },
   "blocker": {
-    "evidence": [],
-    "summary": "R19 raw cleanup Cloud-UNVERIFIED; original borrow/unsize and full normal/unwind OPEN."
+    "evidence": [
+      {
+        "build_id": "196e1b52-23bf-47e8-bf0a-72caa5c1bbf2",
+        "path": "research/challenge-8/cloud-build/origin-layout/R20-PROOF1-START-20261023.json",
+        "sha256": "1c623c0614a8aaf923f75a9c3ded16a05b16282f8e91c0133b0bfeddf9b4bbc9"
+      }
+    ],
+    "summary": "R20 P1 WORKING; raw cleanup/control evidence pending. F5 and original caller OPEN."
   },
   "confirmed": [
     {
@@ -61,14 +75,30 @@
           "sha256": "64c5f76009562d166d0d057a6dab6e1198fd7431bb8a8dd867bac6656ceb055b"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R20 admission independently reviewed GO; d631dd92 published/static admission PASS. P1 WORKING; compile/proof/control results pending; no credit.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R20-REVIEW-20261023.json",
+          "sha256": "aa157bb6a10af8311c0f9cafd5b036815330eda0f0509c8350ab4651450f4825"
+        },
+        {
+          "build_id": "196e1b52-23bf-47e8-bf0a-72caa5c1bbf2",
+          "path": "research/challenge-8/cloud-build/origin-layout/R20-PROOF1-START-20261023.json",
+          "sha256": "1c623c0614a8aaf923f75a9c3ded16a05b16282f8e91c0133b0bfeddf9b4bbc9"
+        }
+      ]
     }
   ],
-  "next_step": "Register R20; Cloud preflight, raw caller normal/unwind and R19 controls.",
+  "next_step": "Ack watcher; read P1 Brief; resolve raw caller/controls, then original caller.",
   "open": [
     "Original as_mut_ptr/unsize, source-bound metadata, real borrow/reference lifecycle and caller normal/unwind remain OPEN; isolated lifecycle does not close them.",
     "R19 raw caller unwind cleanup implemented/reviewed but UNVERIFIED; RawPtr LocalAddressTaken negative and index projection OPEN.",
     "CURRENT/backedge/false/true/panic/Drop/Resume compatible final matrix; B2/generic/arbitrary-n/sorting/tool qualification/independent proof credit remain OPEN.",
-    "R19 F5: missing_owner_drop is a static shape refusal, not a separate verifier proof of the unwind copy. Phase/recipe R20 registration remains to be prepared at actual T0."
+    "R19 F5: missing_owner_drop is a static shape refusal, not a separate verifier proof of the unwind copy. Phase/recipe R20 registration remains to be prepared at actual T0.",
+    "Next control7caf717 reviewed Luna HIGH GO;10synthetic testsPASS. Actual LocalAddressTaken handler remains Cloud-UNVERIFIED; new control absent from P1."
   ],
   "owner": "merge",
   "phase": "MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23",
@@ -96,7 +126,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "196e1b52-23bf-47e8-bf0a-72caa5c1bbf2"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T22:38:00Z",
     "main_deadline_utc": "2026-10-22T22:08:00Z",
@@ -106,7 +138,7 @@
     "t0": "2026-10-22T20:08:00Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "merge-unwind-acceptance-autonomous-2026-10-23-r20",
-  "updated_utc": "2026-10-22T20:08:00Z"
+  "updated_utc": "2026-10-22T20:24:24Z"
 }

@@ -1,0 +1,51 @@
+{
+  "activation_commit": "d631dd927ba84c1b035b06f0a0e5312f81deae07",
+  "activation_delta": {
+    "after": "AUTHORIZED",
+    "before": "PREPARED_NOT_REGISTERED",
+    "keys": [
+      "status"
+    ],
+    "path": "research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R20-BUDGET-20261023.json"
+  },
+  "baseline_commit": "b435073dca4a062acf4a49407b537451d7a70509",
+  "candidate_commit": "a75224e4f7c4725bb46decd4b095555a4ee8af7f",
+  "checks": {
+    "diff_check": "PASS",
+    "provider_base_pins": 3,
+    "r19_phase": 13,
+    "r20_admission": 11,
+    "r9_controls_service": 18
+  },
+  "decision": "GO",
+  "findings": [],
+  "independent_proof_credit": false,
+  "model": "gpt-6-luna",
+  "nested_delegation": false,
+  "open": [
+    "F5 separate unwind-copy verifier resource negative",
+    "raw caller Cloud compile/proof/controls",
+    "original borrow/unsize caller",
+    "compatible final CURRENT matrix"
+  ],
+  "packet_sha256": "18993a7a166912960efd59fa425b0923aa06cddddedb17c94eee1bd01842bc35",
+  "proof_credit": false,
+  "published_remote_sha": "d631dd927ba84c1b035b06f0a0e5312f81deae07",
+  "reasoning_effort": "high",
+  "reviewer": "codex-subagent:r20_review",
+  "schema": "merge-r20-independent-review-v1",
+  "scope": "R20 admission/recipe delta only. Unchanged R19 tool/proof review reused. No proof credit.",
+  "spec_sha256": "2033edc4456c3466e7c26d16daa84993c41ecc5c4fe423f17bc1b901ef1f3b58",
+  "static_final_preflight": {
+    "config_transport_bytes": 27276,
+    "config_transport_cap_bytes": 28000,
+    "execute_seconds": 780,
+    "nested_compile_reserve_seconds": 140,
+    "payload_bytes": 567833,
+    "payload_cap_bytes": 571567,
+    "queue_reserve_seconds": 60,
+    "report_reserve_seconds": 420,
+    "soft_seconds": 765,
+    "source_admission": "PASS"
+  }
+}

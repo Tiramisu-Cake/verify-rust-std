@@ -1,0 +1,16 @@
+{
+  "baseline_commit": "d631dd927ba84c1b035b06f0a0e5312f81deae07",
+  "candidate_commit": "7caf71764e9cf5423f3b2d40c6c741483a163134",
+  "cloud_status": "NOT_RUN",
+  "decision": "GO",
+  "findings": [],
+  "limitation": "Expected diagnostic also occurs in loop invariant state check; straight-line fixture fails at catch before any outer retry/address_taken invariant path. Actual reachability Cloud-UNVERIFIED. Initial P1 Build cannot cover new case.",
+  "model": "gpt-6-luna",
+  "packet_sha256": "2657f8ce8da39d8e60de5793ab3075a605407ba45b2a6e6656dd09ba1d2cca50",
+  "proof_credit": false,
+  "reasoning_effort": "high",
+  "reviewer": "codex-subagent:r20_review",
+  "schema": "merge-r20-state-control-review-v1",
+  "service_tests_passed": 10,
+  "spec_sha256": "512b43f7b7679ad72e090754d960c46f1c1cf3ee5c9f609a2f021044992cce86"
+}
