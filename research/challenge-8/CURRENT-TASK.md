@@ -50,9 +50,9 @@ Next: New window: build HANDOFF 0f37a0df S2d fingerprint on o26-select-callee-r2
 ## Отчёт агента
 
 **select-callee-acceptance-autonomous-2026-10-23-r21 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R21 · HANDOFF**
-Updated: 2026-10-22T21:35:50Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
-Dates: T0 `2026-10-22T19:54:55Z`; main `2026-10-22T21:54:55Z`; absolute `2026-10-22T22:24:55Z`. Budget 3600s: 1297s spent, 0s retired, 2303s remaining including reservations.
-Active Build IDs: 62a50e23-ef7f-4778-a7e3-69dd12a04b9b; unresolved: none recorded.
-Blocker: Reviewed fractional actual callee proof Build62a50e23 pending; control diagnostic targets remain unpinned.
-Next: Brief actual fractional proof and controls; fix observed blockers within remaining main, preserve incomplete matrix.
+Updated: 2026-10-22T21:45:36Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Dates: T0 `2026-10-22T19:54:55Z`; main `2026-10-22T21:54:55Z`; absolute `2026-10-22T22:24:55Z`. Budget 3600s: 1578s spent, 0s retired, 2022s remaining including reservations.
+Active Build IDs: fe704af2-e671-4153-9246-299f057e27ad; unresolved: none recorded.
+Blocker: Fractional proof retry fe704af2 pending after qualified translator lookup; callee diagnostic controls still unpinned.
+Next: Brief corrected fractional proof; prepare exact next-step fix/targets before main deadline, otherwise closeout only.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

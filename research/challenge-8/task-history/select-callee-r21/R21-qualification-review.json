@@ -1,0 +1,31 @@
+{
+  "schema": "smallsort-independent-review-v1",
+  "reviewer": "Codex independent reviewer",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "nested_delegation": false,
+  "verdict": "GO",
+  "candidate_commit": "288fa7cd7a3c7d25c7af4b1cc41134b24ffc32d5",
+  "candidate_tree": "db6e78fd5e111e3839974fe5b9e6c4cb9096f557",
+  "baseline_commit": "0adc501ff9ca2be513edf433c91ecd222241ad08",
+  "diff_sha256": "c170ff4cc5528b69643c44fbe3e494a8f8490a747fd2c912d873d72668d04369",
+  "packet_sha256": "309f17c0a33b7881524f974f72daa46b5327526fa755635e852dfaec02e3b827",
+  "spec_sha256": "e7049f7af20cf63c632c6cb4474393b8bd0c1be54846f43f5be020ba92ff6dac",
+  "scope": "Localized review of the one OCaml identifier qualification and matching patch/translator SHA refresh after a Cloud compiler failure.",
+  "basis": [
+    "The semantic patch change is exactly one qualification: the out-of-module call now resolves fractional_row through Sort4ActualForgetOwn, where the function is defined. It changes no source pins, contract literals, ghost statements, variant maps, control classification, or proof admission logic.",
+    "The shell's fractional patch SHA and expected post-patch translator SHA are both updated to the exact new values, keeping patch application fail-closed. The prior intended base translator SHA check remains in place.",
+    "The delta is limited to fixing the reported Unbound value fractional_row compilation blocker. All source-level proof semantics remain those reviewed for candidate 195953158b823c2cd4f946a1a7795523d3e580a4."
+  ],
+  "findings": [],
+  "nits": [],
+  "validation": {
+    "candidate_and_tree": "MATCH",
+    "spec_diff_inventory_hashes": "MATCH",
+    "patch_sha256": "MATCH (e1f98debc7ce5d3d1aa603ca8fd020b0556b7ecce28408987ea08a86efc23dab)",
+    "post_patch_translator_sha256": "PINNED AS 50a77b8d220178d0253df4def38c06b1e29e46d51389873e35db18198096fcf2",
+    "diff_check": "PASS",
+    "actual_compilation_or_verification": "NOT RUN LOCALLY; Cloud retry only"
+  },
+  "limitations": "GO applies only to this localized retry candidate. It establishes no Cloud build result, checked fractional proof result, complete control matrix, actual-callee acceptance, or proof credit."
+}

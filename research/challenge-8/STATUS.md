@@ -1,11 +1,11 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-23-r21
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R21 | state: HANDOFF
-- Updated: 2026-10-22T21:35:50Z
+- Updated: 2026-10-22T21:45:36Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-22T19:54:55Z`; main deadline `2026-10-22T21:54:55Z`; absolute deadline `2026-10-22T22:24:55Z`
-- Budget: 3600s total; 1297s spent; 0s retired; 2303s remaining including active reservations
-- Active Build IDs: 62a50e23-ef7f-4778-a7e3-69dd12a04b9b
+- Budget: 3600s total; 1578s spent; 0s retired; 2022s remaining including active reservations
+- Active Build IDs: fe704af2-e671-4153-9246-299f057e27ad
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -18,19 +18,19 @@
 ## Open
 - Callee acceptance: normal/unwind/nested-Drop matrix; *mut T/generic gap. Recovery lane 192/191 chunks: prune before c5/selector.
 - Network P1 candidate accepted for integration only (inactive/unbuilt); P3 grammar chosen but unimplemented. P2 checked mutable-pointer callee remains pending; pin NETWORK-SELECT-RESPONSE.md and reviews.
-- Actual fractional proof62a50e23 on19595315 pending (900s timeout);8exactpins, sourcepatchroundtrip,113transportparts.
-- Inactive body route168/191parts; review GO_WITH_NITS and failed-stage labels fixed. Fractional proofhelper/CLI prepared.
+- Retryfe704af2 on288fa7cd (600s,240sreportreserve); priorconsolecompile failed unqualifiedlookup. Noactualproofcredit.
+- Inactive body route168/191 alreadycount5/5-8-4wired; BODY-C5-NEXT and MUTABLE-CALLEE-NEXT record remaining admission work.
 
 ## Rejected approaches
 - Assumed/address-only resource bridge or helper PASS as full-body proof — Does not establish actual ordered callback resources or full normal/unwind posts.
 - Закрывать сессию досрочно, когда нет допустимого Build — R18 и R19 закрыты досрочно, хотя в миссии оставалась работа без Cloud (callee proof, transport); это противоречит CORE и особой границе задания.; [research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json](cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json) SHA `43938f12bb12264b19b9b414d91130753de5d441bde857217da2cffea43efd13`
 
 ## Blocker
-Reviewed fractional actual callee proof Build62a50e23 pending; control diagnostic targets remain unpinned.
-- [research/challenge-8/task-history/select-callee-r21/FRACTIONAL-FINGERPRINT-EVIDENCE.json](task-history/select-callee-r21/FRACTIONAL-FINGERPRINT-EVIDENCE.json) SHA `e001b299c13fd7d9e2d54d6718e8f472c9bbb58273ab52a4bbaceddcf0d7dbaf` Build `7cd83dd2-f0e9-41e8-85ef-589447085239`
+Fractional proof retry fe704af2 pending after qualified translator lookup; callee diagnostic controls still unpinned.
+- [research/challenge-8/task-history/select-callee-r21/FRACTIONAL-PROOF-COMPILE-FAILURE.json](task-history/select-callee-r21/FRACTIONAL-PROOF-COMPILE-FAILURE.json) SHA `fd272735c58f1bd11b3a7781ccb50e439d35e65543cf9fd146b1a20199554530` Build `62a50e23-ef7f-4778-a7e3-69dd12a04b9b`
 
 ## Next
-Brief actual fractional proof and controls; fix observed blockers within remaining main, preserve incomplete matrix.
+Brief corrected fractional proof; prepare exact next-step fix/targets before main deadline, otherwise closeout only.
 
 ## Artifacts
-- [research/challenge-8/task-history/select-callee-r21/ARTIFACT-INDEX.json](task-history/select-callee-r21/ARTIFACT-INDEX.json) — `913b3e3f3d97827ff7aed1910a9f062bbddfb7b304459dcbee1a9767951c7621`
+- [research/challenge-8/task-history/select-callee-r21/ARTIFACT-INDEX.json](task-history/select-callee-r21/ARTIFACT-INDEX.json) — `c4d067a8ebb604e0cf89db908558193711730107fc87f45390cbe1160019686d`

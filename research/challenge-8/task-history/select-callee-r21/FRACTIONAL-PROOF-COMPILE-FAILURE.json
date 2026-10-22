@@ -1,0 +1,25 @@
+{
+  "schema": "select-r21-fractional-proof-compile-failure-v1",
+  "build_id": "62a50e23-ef7f-4778-a7e3-69dd12a04b9b",
+  "source_sha": "195953158b823c2cd4f946a1a7795523d3e580a4",
+  "assurance": "SOURCE_REPORTED",
+  "proof_credit": 0,
+  "accepted": false,
+  "observation": "Cloud console-build exits2; compiler reports Unbound value fractional_row at translator line13464. No fractional proof result available. Corrected call by qualifying Sort4ActualForgetOwn.fractional_row, with matching patch/translator pins; separately reviewed delta288fa7cd.",
+  "brief": {
+    "archive_sha256": "bf7ee261ee7c82952f2fe605997e6e55d5d24b5d1c40942039b6dab79a49cab9",
+    "index_sha256": "f5e2bba5e6023636b0c80829324de49cb1cc1d03d0746b81991a6373d9e3c6b6",
+    "file_id": "43d22bdce2a54d189f3c6df304af5715fbab6b0ceea21f53fa382bd0b50343ef",
+    "file_sha256": "201789145f23a5096003ab94ec18941515022236f67394b8f75a6d8c5e111d24",
+    "request_id": "33eac4849130844274f6d8810d60f648a15d651af90a82fb760468c3d50894bc",
+    "lines": [
+      1089,
+      1095
+    ],
+    "exact": true,
+    "complete": false
+  },
+  "fix_candidate": "288fa7cd7a3c7d25c7af4b1cc41134b24ffc32d5",
+  "fixed_patch_sha256": "e1f98debc7ce5d3d1aa603ca8fd020b0556b7ecce28408987ea08a86efc23dab",
+  "fixed_translator_sha256": "50a77b8d220178d0253df4def38c06b1e29e46d51389873e35db18198096fcf2"
+}
