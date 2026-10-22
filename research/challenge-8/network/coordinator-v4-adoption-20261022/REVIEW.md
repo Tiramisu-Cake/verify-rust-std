@@ -18,4 +18,4 @@ Reviewer: `claude-subagent:smallsort-reviewer` (Opus 5.5, effort high, separate 
 
 ## Live switch status
 
-NOT PERFORMED. Network adoption commit `4876c66f42edb9e95d7c9f4de6cb322a05d09c6a` (only `cloud-build/{control.py,coordination.py}`, baseline `b55a9e59`) exists locally. Committing `coordination.py` into `/root/verify-rust-std-select-night` was refused by the session's permission classifier (Modify Shared Resources); no Select/Merge file, push, ACK, audit or migrate followed. Live `active.json` stayed `{schema_version: 3, max_active: 3, reservations: []}`.
+PERFORMED 2026-10-22T19:16:09Z after explicit owner permission in the session (the earlier classifier refusal is recorded in git history of this file). See [ADOPTION.md](ADOPTION.md).
