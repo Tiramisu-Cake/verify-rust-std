@@ -1,56 +1,58 @@
-# Network N2: миграция coordinator v4 и поддержка network в smallsort-session
+# Network N3 — first Cloud lane and exact N13 mathematical adapter
 
-Task ID: `network-coordinator-v4-2026-10-22-n2`; previous task: `network-bootstrap-2026-10-22-n1`.
-Owner: **Network**. Phase: `NETWORK-COORDINATOR-V4-2026-10-22-N2`. Lane: `network`.
+Task ID: `network-n13-exact-cloud-2026-10-23-n3`; previous task: `network-coordinator-v4-2026-10-22-n2`.
+Owner: **Network**. Phase: `NETWORK-N13-EXACT-2026-10-23-N3`. Lane: `network-n13`.
 
 ## Mission
 
 This is a bounded continuation of the previous task under a newly authorized window.
 
-Runtime: Claude Code. This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), the runtime profile [`RUNTIME-CLAUDE.md`](agent-workflow/RUNTIME-CLAUDE.md), the compact root [CLAUDE.md](../../CLAUDE.md), and the persistent repo guidance. Review executor and Build waiting follow that profile only.
-The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. This task has no Cloud lane: no coordinator request, phase registration, Build submission or proof execution. Commit reviewed candidates and handoff inputs for a later, separately authorized Cloud task.
+Runtime: Codex. This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), the runtime profile [`RUNTIME-CODEX.md`](agent-workflow/RUNTIME-CODEX.md), the compact root [AGENTS.md](../../AGENTS.md), and the persistent repo guidance. Review executor and Build waiting follow that profile only.
+The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. Prepare fresh-session inputs with `/usr/local/bin/smallsort-session`, obtain required independent review and register the exact phase through the assigned branch client before proof work. Registration does not restart the clock.
 No previous budget, T0, ledger authorization, profile acceptance, or proof credit transfers.
 
 ## Baseline and controls
 
-Worktree `/root/verify-rust-std-networks` on branch `challenge-8/networks`; baseline `71b4bdef37f17e7f03dea5756ade9107fd76842f`; source `cd371e035c7e573760c43bf934d53e8118ee3e7d`.
-Tool worktree `/root/verifast-network` on `challenge8/network-20261022` at `f76012fb518703b1d98e243ac4f487f16877cfcb`.
-Profile: none (no Cloud lane). New ledger path: none; previous closed ledger: none (closed zero-budget task).
-Cloud budget: 0 seconds (no Cloud lane). Wall window: 120 minutes main + 30 minutes closeout. T0 remains NOT_SET until actual work starts.
+Worktree `/root/verify-rust-std-networks` on branch `challenge-8/networks`; baseline `a9cf16786ab9cc82ab119dd5c5e36cc4560b72ac`; source `cd371e035c7e573760c43bf934d53e8118ee3e7d`.
+Tool worktree `/root/verifast-network-n13` on `challenge8/network-n13-20261023` at `809de4596839b739dd999f9e462242c835e3af46`.
+Profile `research/challenge-8/cloud-build/network-n13/N13-SEED-PROFILE-20261023-N3.json` SHA-256 `77df69ccd018f5cbd7a73fdc20f562db1f006d2d696818fae3fee3aa8dab0286`. New ledger path: `research/challenge-8/cloud-build/network-n13/BUDGET-N13-20261023-N3.json`; previous closed ledger: none (closed zero-budget task).
+Cloud budget: 3600 seconds. Wall window: 120 minutes main + 30 minutes closeout. Per-Build timeout ≤1200 seconds; report reserve ≥240 seconds. T0 remains NOT_SET until actual work starts.
 
 ## Goal and steps
 
-Owner-authorized: перевести live coordinator на v4 с владельцами select-sort4/merge/network (verifast выведен из Cloud решением владельца 2026-10-22), cap 3; установить клиент в Select/Merge/Network и добавить network в smallsort-session, чтобы следующее задание Network могло получить Cloud budget. Ни одного Build.
+N3 и Builds разрешены. Поднять минимальную Network Cloud lane и закрыть exact N13 adapter с полным post по H1. Это независимая математическая задача; R4/W7 ждут пригодного Select P1/P2.
 
-1. Finalize cloud-readiness: v4 owners exactly {select-sort4, merge, network} (verifast refused in v4), cap 3, owner check in request(), transition needs three ACKs plus an idle check (no reservations/requests/unresolved submits/active Builds) and a rollback path. Service tests, independent review on the exact commit.
-2. smallsort-session (/root/verify-rust-std-evidence-brief, own branch docs/evidence-brief-policy-20261017 only): network in CLOUD_OWNERS, session_prepare (first Cloud session without previous ledger/profile), watch_bindings OWNER_REPOS; accept envelope v4/cap 3 in assignment._coordination_guard and watch_bindings (now v3-only), landed before step 3. Select/Merge behaviour and default render byte-identical; all tests pass; review. Also adopt ITERATION-PROCESS.md byte-identical from that worktree.
-3. Live switch at a quiet boundary: confirm no agent runs in select-night/merge-origin and coordinator idle. Commit the identical coordination.py (only that path) into cloud-build of Select and Merge, and the Network client into its cloud-build; fast-forward push each; ACKs. Then audit, migrate, readback {4,3}, one status per client. Record before/after/READBACK/REVIEW like coordinator-v3-adoption-20261012. Remaining time: PREPARED_NOT_REGISTERED design moving the 14 unchanged library/core files out of the pinned-objects payload (pinned fetch, blob-ID check), chunk estimate per lane.
+1. At actual T0 prepare/register the first Network account, network-n13 recipe and cloud-build/ ledger. Import required common runner closure from the pinned Select commit in seed. Rebind current-source admission with exact 25/45 body/schedule checks; port Actions-only gates to Cloud admission without spoofing env. Pin the execution profile; synthetic service/error tests and Luna HIGH review before submit.
+2. Record H1 and one reviewed adapter shape from N13-ADAPTER-NOTE; preserve full exact membership/order/arbitrary-q posts and checked dependencies. Cloud preflight -> exact target -> intended membership/order negatives, missing-incomparability negative and all seven classifier controls -> required N9/generic/universal-N13 regressions on final compatible pins. Timeout/setup/wrong-site failure is INCONCLUSIVE; universal-only PASS does not close exact N13.
+3. Continue useful checked-lemma/runner/test/review work after a blocker or if another Cloud cycle cannot fit; publish an exact HANDOFF when unfinished. Remaining time may prepare R4 consumption inputs only after Select publishes an active P1 route and checked mutable-pointer P2. No R4/W7 Build in this phase and no parallel select/callback layer.
 
 ## Special bounds
 
-- Budget 0: no Build/submit/request/reservation/phase registration. Exception: active.json only via the reviewed transition after the idle check; on any doubt stop before migrate.
-- In select-night/merge-origin touch only cloud-build/coordination.py; foreign dirty files, ledgers, checkpoints and control.py stay. Merge push includes its local R19 commits (owner decision 2026-10-22), no submit. If v4 needs a control.py change, stop and report.
-- verifast worktrees untouched; its v3 client fails closed. Push as a standalone fast-forward command, never force. No local rustc/Cargo/VeriFast/Kani, no GitHub Actions.
+- Stock VeriFast26.09 only: source809de459, archive/console pins in seed, no tool/kernel/prelude patch or new axiom/bodyless bridge. Pure mathematical functionality only; Rust safety/ownership/unwind and Challenge completion remain separate. Preserve every post, body inventory, return/leak/source gate.
+- v4 is already adopted: coordination.py and shared coordinator/IAM/transport unchanged; no other worktree/ledger edits or Actions dispatch. First Cloud session, no old budget/carry. Max Build1200s, report reserve>=240s; case limits and any justified delta per N3-SCOPE. No local generator/compiler/verifier execution.
+- N3-SCOPE is authoritative here; old N1/N2/Actions plans are historical. Follow CORE main/closure rules. After first Network ledger, record FIRST_SESSION/CLOUD_HISTORY follow-up for workflow owner; no shared workflow edits.
 
 ## Starting checkpoint
 
 Read [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for the exact claims, assurance, evidence, open and rejected items, and artifact identities. UNKNOWN remains UNKNOWN.
 
-Blocker: Network has no Cloud lane until coordinator v4 and smallsort-session support.
-Next: Step 1: finalize v4 for three owners, then smallsort-session support, then the live switch.
+Blocker: Exact N13 adapter OPEN after historical timeout; first Network Cloud runner/source admission must be prepared from the unqualified seed.
+Next: At actual T0 register N3, review Cloud/source admission and the exact H1 candidate, then its first Build.
 
 ## References
 
-- [Cloud readiness plan](network/cloud-readiness/PLAN.md)
-- [N1 closeout](task-history/network-n1/CLOSEOUT.md)
-- [Bootstrap Network 2026-10-22](network/BOOTSTRAP-2026-10-22.md)
+- [N3 scope, pins, controls and acceptance](network/n13/N3-SCOPE-20261023.md)
+- [N13 H1 and adapter candidates](network/N13-ADAPTER-NOTE.md)
+- [Historical N9/N13 results and exact open post](networks/RANK-RESULTS.md)
+- [Current shared source and exact schedules](networks/SOURCE-MAP.md)
+- [Completed coordinator v4 adoption](network/coordinator-v4-adoption-20261022/ADOPTION.md)
 
 ## Отчёт агента
 
-**network-coordinator-v4-2026-10-22-n2 · network · NETWORK-COORDINATOR-V4-2026-10-22-N2 · CLOSED**
-Updated: 2026-10-22T19:22:00Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `UNKNOWN`.
-Dates: T0 `2026-10-22T18:43:36Z`; main `2026-10-22T20:43:36Z`; absolute `2026-10-22T21:13:36Z`. Budget 0s: 0s spent, 0s retired, 0s remaining including reservations.
+**network-n13-exact-cloud-2026-10-23-n3 · network · NETWORK-N13-EXACT-2026-10-23-N3 · NOT_STARTED**
+Updated: 2026-10-22T20:39:18Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `809de4596839b739dd999f9e462242c835e3af46` / `77df69ccd018f5cbd7a73fdc20f562db1f006d2d696818fae3fee3aa8dab0286`.
+Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Coordinator done; Network has no registered phase/recipe/ledger yet (budget 0 here).
-Next: Next task with budget: prepare and register NETWORK-R4 phase/recipe/ledger, import common runner files at a pinned Select commit, run R4/W7 matrices.
+Blocker: Exact N13 adapter OPEN after historical timeout; first Network Cloud runner/source admission must be prepared from the unqualified seed.
+Next: At actual T0 register N3, review Cloud/source admission and the exact H1 candidate, then its first Build.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

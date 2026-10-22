@@ -1,0 +1,144 @@
+{
+  "artifacts": [
+    {
+      "path": "research/challenge-8/network/cloud-readiness/PLAN.md",
+      "sha256": "83495d774464b2bb32c3e9dec7866415cf641d3ec29786f33f07997647d3c0a7"
+    },
+    {
+      "path": "research/challenge-8/network/coordinator-v4-adoption-20261022/REVIEW.md",
+      "sha256": "beec7e6714d9a654c710731d14a43e213ebc35a1fcd6244fea1207607df052f2"
+    },
+    {
+      "path": "research/challenge-8/network/cloud-readiness/PAYLOAD-SOURCE-PIN-DESIGN.md",
+      "sha256": "6b3e57f3328fbee00910c3c537986e4d6caa29fa8fbbd8c17fe2a9fba22cf1be"
+    },
+    {
+      "path": "research/challenge-8/network/coordinator-v4-adoption-20261022/ADOPTION.md",
+      "sha256": "65a572f2c69c000771b164cd26314536e48033dd257f62fda55fa5e4c6e49c3e"
+    },
+    {
+      "path": "research/challenge-8/network/coordinator-v4-adoption-20261022/READBACK.json",
+      "sha256": "67694fda65c948b1fe7579d55e2ad481e6c506aea3b02147bfda4225388c2850"
+    },
+    {
+      "path": "research/challenge-8/network/coordinator-v4-adoption-20261022/after.json",
+      "sha256": "85b0b6a6e62823960786f8e83f2f603fcca0cc62a35522940c482ccac7a4f2a4"
+    }
+  ],
+  "assignment_sha256": "b66b1d400b5a440d349854e50008d61aead788f0a19709b2e1bb32423050acf5",
+  "baseline": {
+    "profile_sha256": null,
+    "source_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+    "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+  },
+  "blocker": {
+    "evidence": [
+      {
+        "path": "research/challenge-8/network/coordinator-v4-adoption-20261022/ADOPTION.md",
+        "sha256": "65a572f2c69c000771b164cd26314536e48033dd257f62fda55fa5e4c6e49c3e"
+      }
+    ],
+    "summary": "Coordinator done; Network has no registered phase/recipe/ledger yet (budget 0 here)."
+  },
+  "closure_reason": "Goal steps 1-3 done (v4 live, smallsort-session published, ITERATION-PROCESS adopted, payload design). Remaining mission tasks need Cloud budget (R4/W7 matrices, phase registration), Select layer (P1-P3) or Merge proofs (W8); this task has budget 0.",
+  "confirmed": [
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "Live coordinator v4 since 2026-10-22T19:16:09Z: Select a44ac9c5, Merge f0b22687 (only coordination.py), Network 4876c66f; audit PASS, idle incl. empty Build inventory; v3/3/[] -> v4/3/[]; readback (4,3) per client, verifast and v3 blob refused.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/coordinator-v4-adoption-20261022/ADOPTION.md",
+          "sha256": "65a572f2c69c000771b164cd26314536e48033dd257f62fda55fa5e4c6e49c3e"
+        },
+        {
+          "path": "research/challenge-8/network/coordinator-v4-adoption-20261022/READBACK.json",
+          "sha256": "67694fda65c948b1fe7579d55e2ad481e6c506aea3b02147bfda4225388c2850"
+        },
+        {
+          "path": "research/challenge-8/network/coordinator-v4-adoption-20261022/after.json",
+          "sha256": "85b0b6a6e62823960786f8e83f2f603fcca0cc62a35522940c482ccac7a4f2a4"
+        }
+      ]
+    },
+    {
+      "assurance": "INDEPENDENTLY_ESTABLISHED",
+      "claim": "Coordinator v4 0f5928b5 (GO_WITH_NITS x2): owners select-sort4/merge/network, cap 3; transition audit/migrate/rollback; coordination.py sha256 2fa7affd…bc3.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/coordinator-v4-adoption-20261022/REVIEW.md",
+          "sha256": "beec7e6714d9a654c710731d14a43e213ebc35a1fcd6244fea1207607df052f2"
+        },
+        {
+          "path": "research/challenge-8/network/cloud-readiness/PLAN.md",
+          "sha256": "83495d774464b2bb32c3e9dec7866415cf641d3ec29786f33f07997647d3c0a7"
+        }
+      ]
+    },
+    {
+      "assurance": "INDEPENDENTLY_ESTABLISHED",
+      "claim": "smallsort-session 929fe0a9 published (GO_WITH_NITS x3): network Cloud owner, envelope v4 in guard/watcher, first-session prepare; 177/177 tests.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/coordinator-v4-adoption-20261022/REVIEW.md",
+          "sha256": "beec7e6714d9a654c710731d14a43e213ebc35a1fcd6244fea1207607df052f2"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "Design PREPARED_NOT_REGISTERED: pinned-source fetch for 14 unchanged library/core files (blob+SHA-256), ≈70 chunks saved for Select c1.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/cloud-readiness/PAYLOAD-SOURCE-PIN-DESIGN.md",
+          "sha256": "6b3e57f3328fbee00910c3c537986e4d6caa29fa8fbbd8c17fe2a9fba22cf1be"
+        }
+      ]
+    },
+    {
+      "assurance": "INDEPENDENTLY_ESTABLISHED",
+      "claim": "N1 CLOSED: R4 347a69a9, W7 50ac9ac9, P1 c760fa3b, runner 0591b066 reviewed and UNVERIFIED, credit 0; Select requests P1-P3 filed.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/network-n1/CLOSEOUT.md",
+          "sha256": "1a91ccf332d53f0342dd79e3432e8ea4fb24659c7ff6dd41a2a9bcc6cbd137f0"
+        }
+      ]
+    }
+  ],
+  "next_step": "Next task with budget: prepare and register NETWORK-R4 phase/recipe/ledger, import common runner files at a pinned Select commit, run R4/W7 matrices.",
+  "open": [
+    "Network submit needs phase registration, recipe, ledger under cloud-build/ and common runner files; 3 simultaneous Builds under v4 NOT_OBSERVED.",
+    "CORE/RUNTIME docs still say Network has no Cloud lane (workflow-owner docs).",
+    "Nits: FIRST_SESSION/CLOUD_HISTORY owners after first network ledger; v3 request() may write under v4.",
+    "R4/W7 proofs NOT_RUN; Select P2/P1/P3; N13 adapter; W8."
+  ],
+  "owner": "network",
+  "phase": "NETWORK-COORDINATOR-V4-2026-10-22-N2",
+  "rejected": [
+    {
+      "approach": "Собственная параллельная реализация pointer-select/callback слоя",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/BOOTSTRAP-2026-10-22.md",
+          "sha256": "1b219aee9b85b36d65a20e50b473cb54b14f544f6ac2703a8517283a13972712"
+        }
+      ],
+      "reason": "Divergent trusted profiles; W10 integration debt."
+    }
+  ],
+  "schema": "smallsort-checkpoint-v1",
+  "session": {
+    "active_build_ids": [],
+    "budget_seconds": 0,
+    "deadline_utc": "2026-10-22T21:13:36Z",
+    "main_deadline_utc": "2026-10-22T20:43:36Z",
+    "remaining_seconds": 0,
+    "retired_seconds": 0,
+    "spent_seconds": 0,
+    "t0": "2026-10-22T18:43:36Z",
+    "unresolved_ids": []
+  },
+  "state": "CLOSED",
+  "task_id": "network-coordinator-v4-2026-10-22-n2",
+  "updated_utc": "2026-10-22T19:22:00Z"
+}
