@@ -157,7 +157,10 @@ class RepairedFingerprint(unittest.TestCase):
             root = Path(temp)
             make_case(root)
             code = None
-            with patch.dict(os.environ, env, clear=True), patch.object(CALLEE, "load", load):
+            def export_decode(case, out, args):
+                return {"export": {"status": "RAN", "exit": 0}, "decode": {"status": "RAN", "exit": 0}}
+            with patch.dict(os.environ, env, clear=True), patch.object(CALLEE, "load", load), \
+                    patch.object(CALLEE, "export_decode", export_decode):
                 try:
                     CALLEE.fingerprint(Args(root, int(time.time()) + deadline_offset))
                 except SystemExit as exit_:
@@ -180,6 +183,7 @@ class RepairedFingerprint(unittest.TestCase):
         self.assertIs(saved["complete"], True)
         self.assertFalse(saved["proof_credit"])
         self.assertEqual(cap.cleared, 1)
+        self.assertEqual(saved["normal_mir"]["decode"]["exit"], 0)
 
     def test_inconclusive_or_deadline_exit_nonzero_and_incomplete(self):
         code, saved, _ = self.run_fp(FakeCap("INCONCLUSIVE_FINGERPRINT"))
@@ -196,6 +200,28 @@ class RepairedFingerprint(unittest.TestCase):
                     {**ENV, "SORT4_R20_CALLEE_PHASE_ID": "x"}):
             with self.subTest(env=env), self.assertRaises(RuntimeError):
                 self.run_fp(FakeCap("x"), env=env)
+
+
+class ExportDecode(unittest.TestCase):
+    def test_export_failure_skips_decode_and_records_exit(self):
+        import time
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            case = root / "case"; (case / "verified").mkdir(parents=True)
+            tool = root / "tool/bin"; tool.mkdir(parents=True)
+            (tool / "vf-rust-mir-exporter").write_text("#!/bin/sh\necho bad >&2\nexit 7\n")
+            (tool / "vf-rust-mir-exporter").chmod(0o755)
+            args = Args(root, int(time.time()) + 3600)
+            rows = CALLEE.export_decode(case, root / "out", args)
+        self.assertEqual(rows["export"]["exit"], 7)
+        self.assertEqual(rows["decode"], {"status": "NOT_RUN"})
+
+    def test_deadline_marks_both_not_run(self):
+        import time
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp); (root / "case").mkdir()
+            rows = CALLEE.export_decode(root / "case", root / "out", Args(root, int(time.time()) + 100))
+        self.assertEqual(rows, {"export": {"status": "NOT_RUN"}, "decode": {"status": "NOT_RUN"}})
 
 
 class Audit(unittest.TestCase):

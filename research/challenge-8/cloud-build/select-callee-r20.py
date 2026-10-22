@@ -16,6 +16,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import subprocess
 import sys
 import time
 
@@ -93,6 +94,33 @@ def repair(a) -> dict:
     return record
 
 
+def export_decode(case: Path, out: Path, a) -> dict:
+    """NORMAL MIR export and capnp decode of the repaired copy (observation only)."""
+    out.mkdir(parents=True)
+    env = os.environ.copy()
+    env["PATH"] = str(a.tool_home / "bin") + os.pathsep + env.get("PATH", "")
+    rows = {}
+    steps = (("export", [str(a.tool_home / "bin/vf-rust-mir-exporter"), "verified/lib.rs",
+                         f"--sysroot={a.compiler_sysroot}", "--edition", "2021"],
+              None, out / "normal-mir.bin"),
+             ("decode", ["capnp", "decode", str(a.schema), "VfMir"],
+              out / "normal-mir.bin", out / "normal-mir.txt"))
+    for name, argv, stdin, stdout in steps:
+        budget = min(120, a.deadline_epoch - int(time.time()) - STAGE_RESERVE_SECONDS)
+        if budget < 10 or (stdin is not None and rows.get("export", {}).get("exit") != 0):
+            rows[name] = {"status": "NOT_RUN"}
+            continue
+        with (stdin.open("rb") if stdin else open(os.devnull, "rb")) as inp, \
+                stdout.open("wb") as outp, (out / (name + ".stderr")).open("wb") as err:
+            result = subprocess.run(["timeout", "--signal=TERM", "--kill-after=10s",
+                                     f"{budget}s", *argv], cwd=case, stdin=inp, stdout=outp,
+                                    stderr=err, env=env, check=False)
+        rows[name] = {"status": "RAN" if result.returncode != 124 else "TIMED_OUT",
+                      "exit": result.returncode, "output": stdout.name,
+                      "output_sha256": sha(stdout.read_bytes())}
+    return rows
+
+
 def fingerprint(a) -> dict:
     """Fingerprint the 'both'-repaired unit under the existing intended refusal.
 
@@ -125,6 +153,8 @@ def fingerprint(a) -> dict:
         record["fingerprint"] = {"status": "NOT_RUN", "reason": "shared deadline reserve"}
         write(root / "r20-fingerprint.json", record)
         raise SystemExit(3)
+    record["normal_mir"] = export_decode(case, root / "both-mir", a)
+    write(root / "r20-fingerprint.json", record)
     cap = o26.load_capture(a.repo, "r20_fingerprint")
     cap.clear_semantic_opt_ins()
     args = argparse.Namespace(tool_home=a.tool_home, schema=a.schema,
