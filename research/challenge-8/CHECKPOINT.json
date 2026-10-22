@@ -42,27 +42,6 @@
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "R16 S5 reached actual c2; source-reported missing ref_precreated_token(v_base+3). credit0.",
-      "evidence": [
-        {
-          "build_id": "acd8e010-16b8-4b58-9501-083cb10b595f",
-          "path": "research/challenge-8/task-history/select-actual-lifetime-r16/S5-evidence.json",
-          "sha256": "209199ccfeef37d698b97216466b3f726d383358fa274e8e887f1ca5ead6ca51"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R16 CLOSED: five Builds terminal/accounted, 2170s spent, 1430s retired, carry0. credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-LIFETIME-2026-10-21-R16.json",
-          "sha256": "64819aa0be35fd1f84e6c90109c33cf944cbac9afcb26ca4598d066f18c4aa45"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
       "claim": "R17 S1-S3 terminal/accounted: S1 phase-allowlist run_error; S2 tool compile failure; S3 actual body c1 non-pure ghost read. Actual obligations closed0; credit0.",
       "evidence": [
         {
@@ -106,12 +85,22 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "R18 S5 (a6550c20, pins 1e92d32b) terminal FAILURE 576s: actual body passes c2, no leak error; first failure at c3 lib.rs:299 missing ref_precreated_token(v_base+2+1). Four c2 resource controls fail with designed message/location; missing-unselected-share reproduces S4 leak. Causality UNKNOWN; credit0.",
+      "claim": "R18 S5 (a6550c20; pins 1e92d32b) FAILURE 576s: actual body passes c2 without leak error; first failure c3 lib.rs:299 missing ref_precreated_token(v_base+2+1). c2 resource controls fail as designed (message/location). Causality UNKNOWN; credit0.",
       "evidence": [
         {
           "build_id": "0ee7f658-50fe-4928-a7c9-3da5e56c95f2",
           "path": "research/challenge-8/task-history/select-s5-r18/S5-evidence.json",
           "sha256": "724da794e6172fe2000fbeb81406fd83fe68df29ffdc00cde35933ac0c414cda"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R18 CLOSED early: one Build terminal/accounted 576s, 3024s retired, carry0; own active/request/reservation0. credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C2-2026-10-22-R18.json",
+          "sha256": "69a9ca981bba6e6dcdceaf7c17a24a161aa07e376635a2c29ef8d74567368075"
         }
       ]
     }
@@ -136,13 +125,13 @@
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T14:42:06Z",
     "main_deadline_utc": "2026-10-22T14:12:06Z",
-    "remaining_seconds": 3024,
-    "retired_seconds": 0,
+    "remaining_seconds": 0,
+    "retired_seconds": 3024,
     "spent_seconds": 576,
     "t0": "2026-10-22T12:12:06Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "CLOSED",
   "task_id": "select-s5-unselected-borrow-autonomous-2026-10-22-r18",
-  "updated_utc": "2026-10-22T13:08:00Z"
+  "updated_utc": "2026-10-22T13:07:56Z"
 }

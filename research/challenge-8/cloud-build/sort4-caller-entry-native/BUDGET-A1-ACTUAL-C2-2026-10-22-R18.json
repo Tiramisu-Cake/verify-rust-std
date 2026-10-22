@@ -44,11 +44,15 @@
   "phase_id": "SORT4-ACTUAL-C2-2026-10-22-R18",
   "remaining_build_seconds": 3024,
   "report_reserve_seconds": 240,
-  "retired_seconds": 0,
+  "retired_seconds": 3024,
   "schema": "smallsort-cloud-phase-account-v1",
   "spent_build_seconds": 0,
   "start_utc": "2026-10-22T12:12:06Z",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "task_id": "select-s5-unselected-borrow-autonomous-2026-10-22-r18",
-  "used_build_seconds": 576
+  "used_build_seconds": 576,
+  "unused_retired_seconds": 3024,
+  "carry_forward_seconds": 0,
+  "closed_utc": "2026-10-22T13:07:56.958596Z",
+  "closure_reason": "Early stop inside main window: S5 Build 0ee7f658 terminal/accounted (FAILURE 576s); target reached (c2 passes, c3 frontier). The next step (c3 translator index generalisation + constructor + new profile + review + Cloud) cannot complete a full cycle in the remaining main window. Own active/unresolved/request/reservation 0 after own status. Remaining 3024s retired, carry0. credit0."
 }
