@@ -34,6 +34,7 @@ class NetworkN13ClientTests(unittest.TestCase):
             "controls": 975,
             "controls-order": 795,
             "regressions": 915,
+            "regressions-n13": 735,
             "regressions-n9": 555,
         }
         for stage, timeout in expected.items():
@@ -52,11 +53,16 @@ class NetworkN13ClientTests(unittest.TestCase):
         profile_path = CLOUD_BUILD / "network-n13" / "N13-EXECUTION-PROFILE-20261023-N3.json"
         profile = json.loads(profile_path.read_text())
         control.network_profile_stage_gate(profile, "controls-order", 795, 420)
+        control.network_profile_stage_gate(profile, "regressions-n13", 735, 360)
         for changed in ("timeout_seconds", "build_timeout_seconds"):
             bad = json.loads(json.dumps(profile))
             bad["stages"]["controls-order"][changed] -= 1
             with self.subTest(changed=changed), self.assertRaises(SystemExit):
                 control.network_profile_stage_gate(bad, "controls-order", 795, 420)
+            bad = json.loads(json.dumps(profile))
+            bad["stages"]["regressions-n13"][changed] -= 1
+            with self.subTest(stage="regressions-n13", changed=changed), self.assertRaises(SystemExit):
+                control.network_profile_stage_gate(bad, "regressions-n13", 735, 360)
 
     def test_selected_recipe_must_bind_network_stages(self):
         profile_path = CLOUD_BUILD / "network-n13" / "N13-EXECUTION-PROFILE-20261023-N3.json"

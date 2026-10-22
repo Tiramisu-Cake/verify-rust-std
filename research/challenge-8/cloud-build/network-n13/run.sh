@@ -3,7 +3,7 @@ set -euo pipefail
 
 stage=${NETWORK_STAGE:?NETWORK_STAGE is required}
 case "$stage" in
-  preflight|exact|controls|controls-order|regressions|regressions-n9) ;;
+  preflight|exact|controls|controls-order|regressions|regressions-n13|regressions-n9) ;;
   *) printf 'unsupported Network N13 stage: %s\n' "$stage" >&2; exit 2 ;;
 esac
 

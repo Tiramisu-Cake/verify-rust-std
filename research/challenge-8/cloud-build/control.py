@@ -244,16 +244,16 @@ NETWORK_N3_START='2026-10-22T20:43:40Z'
 NETWORK_N3_MAIN_DEADLINE='2026-10-22T22:43:40Z'
 NETWORK_N3_DEADLINE='2026-10-22T23:13:40Z'
 NETWORK_N3_PROFILE='research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json'
-NETWORK_N3_PROFILE_SHA256='528f0797927fc0720a17087324a70eeb1fd61be4884a7414ed506056a9db64c6'
+NETWORK_N3_PROFILE_SHA256='09d78c44f4ea8eb1e472b575384afb5e2e63d2b7d0eaf25394fa40565e61e7ab'
 NETWORK_N3_RECIPE='research/challenge-8/cloud-build/recipes/network-n13.json'
-NETWORK_N3_STAGES=frozenset(('preflight','exact','controls','controls-order','regressions','regressions-n9'))
+NETWORK_N3_STAGES=frozenset(('preflight','exact','controls','controls-order','regressions','regressions-n13','regressions-n9'))
 NETWORK_PHASES={NETWORK_N3_PHASE:{
  'ceiling':3600,'lanes':frozenset(('network-n13',)),
  'start_utc':NETWORK_N3_START,'main_deadline_utc':NETWORK_N3_MAIN_DEADLINE,
  'deadline_utc':NETWORK_N3_DEADLINE,'profile':NETWORK_N3_PROFILE,
  'profile_sha256':NETWORK_N3_PROFILE_SHA256,'timeout':(270,1200),
  'stages':NETWORK_N3_STAGES,
- 'stage_seconds':{'preflight':360,'exact':420,'controls':600,'controls-order':420,'regressions':540,'regressions-n9':180}}}
+ 'stage_seconds':{'preflight':360,'exact':420,'controls':600,'controls-order':420,'regressions':540,'regressions-n13':360,'regressions-n9':180}}}
 NETWORK_RESERVE=240
 
 def network_time_budget(seconds):
@@ -897,7 +897,7 @@ def authorized_phase(a,ledger):
 def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--state-dir',type=Path);p.add_argument('--phase-id');p.add_argument('--ledger',type=Path);p.add_argument('--owner')
  sub=p.add_subparsers(dest='command',required=True)
- q=sub.add_parser('submit');q.add_argument('--infra-sha',required=True);q.add_argument('--proof-sha',required=True);q.add_argument('--lane',required=True);q.add_argument('--timeout',type=int,required=True);q.add_argument('--stage',choices=('preflight','exact','controls','controls-order','regressions','regressions-n9'));q.add_argument('--source-mode',choices=['public-git','pinned-objects'],default='pinned-objects')
+ q=sub.add_parser('submit');q.add_argument('--infra-sha',required=True);q.add_argument('--proof-sha',required=True);q.add_argument('--lane',required=True);q.add_argument('--timeout',type=int,required=True);q.add_argument('--stage',choices=('preflight','exact','controls','controls-order','regressions','regressions-n13','regressions-n9'));q.add_argument('--source-mode',choices=['public-git','pinned-objects'],default='pinned-objects')
  q=sub.add_parser('status');q.add_argument('build_id',nargs='?')
  q=sub.add_parser('download');q.add_argument('build_id');q.add_argument('--output',type=Path,required=True);q.add_argument('--text-logs',action='store_true')
  q=sub.add_parser('cancel');q.add_argument('build_id')
