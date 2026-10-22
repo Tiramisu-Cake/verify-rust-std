@@ -1,0 +1,33 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "413e3a02133140d53fc970c706ca22c0defa2ea0",
+  "candidate_commit": "fc936be0f7820096eae3762a45e55a17363a70e8",
+  "defect": "S1 (Build 2b55f6a5): actual body passes c3 on the first path and fails only at c4 lib.rs:335 with no ref_precreated_token(ptr_add_(v_base,2+0)); overlay count limited to 3.",
+  "applicability": "Same reviewed c3 pattern for call 4 with selected operands d (slot 2/3) and b (slot 0/1); overlay count set gains 4 (two literal edits); c4 layer generated from c3 templates by renaming only; body adapter routes count 4, runs c2 + c4 controls (c3 controls need an untouched c4 call; c3 layer bytes unchanged since S1).",
+  "invariants": [
+    "No runtime/CFG/signature change; strip_ghost equality for positive and all controls; no axiom/assumed bridge/leak relaxation.",
+    "Count other than absent/2/3/4 refused; markers outside 2..N refused by inventory; per-index names/lines/scopes/insertions = N; deferred remainder 6 at N=4.",
+    "R19 client pins profile bab8b5ca and requires actual_indexed_calls in {3,4}; profile selection unchanged.",
+    "Credit/acceptance false."
+  ],
+  "controls": [
+    "Eight c4 controls: share drops base+0/+2 (leak on (b,d)=(1,3) or missing selected share), base+3 end token, ordered pair (b,d), wrong ref a, index 3, missing fourth token, displaced, index-5 overflow before c5; expected_rejection labels resource vs frontend.",
+    "indexed-count-off for count 4; c2 controls rerun.",
+    "Service tests for c4 route/env and static constructor."
+  ],
+  "dependencies": [
+    "research/challenge-8/task-history/select-c3-r19/S1-evidence.json",
+    "research/challenge-8/task-history/select-c3-r19/C3-review.json"
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-c3-r19/C3-review.json",
+      "sha256": "37ae0f830af3fc6c672c804826d68a0342eee5cab1fc22fadfb40c87d0f1f14f"
+    }
+  ],
+  "known_limitations": [
+    "OCaml not compiled locally; Cloud only.",
+    "c3/c4 path-partial until full body verifies; c5 (selector operands, empty deferred set) OPEN; credit0."
+  ]
+}

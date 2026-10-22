@@ -1,0 +1,22 @@
+{
+  "reviewer": "claude-subagent:smallsort-reviewer (continuation)",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "nested_delegation": false,
+  "verdict": "GO_WITH_NITS",
+  "candidate_commit": "fc936be0f7820096eae3762a45e55a17363a70e8",
+  "candidate_tree": "d0a192f0e5a5a005aeb6ea9a129950c35864eb7c",
+  "baseline_commit": "413e3a02133140d53fc970c706ca22c0defa2ea0",
+  "packet_sha256": "4e9f7ebf0f1648310759e66d2a5e7cbcf9ff0df78a787993ddf2fb7904add1a8",
+  "packet_spec_sha256": "aa0a41b1e57c496a36a27570040a93e88551b1301f66649703318b5472e7677d",
+  "findings": [],
+  "nits": [
+    "c3 resource controls run only at count 3; count-4 Build does not re-observe them (S1 only, overlay c5253a3c) -> OPEN for final matrix.",
+    "Frontend c4 controls likely show only CHECKED_LEMMA_PREREQUISITE_FAILED: record as refused, reason not observed.",
+    "R19 profile file edited in place after S1: S1 profile SHA 36bed85d at commit 67d472cd; S2 profile bab8b5ca.",
+    "c3/c4 path-partial until the whole body verifies."
+  ],
+  "basis": "Two literal overlay edits (result 586a162c reproduced from base 6c04f608); count-dependent sites scale with N; c4 layer is a pure rename of reviewed c3 templates with strip_ghost equality; only d/b precreated; c4 resource controls discriminate on the first path; client pins bab8b5ca and requires count in {3,4}.",
+  "not_run": "OCaml compile, VeriFast, Cloud.",
+  "limits": "c4 unverified pending Cloud; c5 OPEN; credit0."
+}
