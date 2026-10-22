@@ -83,5 +83,17 @@
       "check mir_complete and cleanup inventory (10 edges to 24)"
     ]
   },
-  "submit_basis_commit_s2c": "d62c377125616dac6d86ca8d30c55966b2635a23"
+  "submit_basis_commit_s2c": "d62c377125616dac6d86ca8d30c55966b2635a23",
+  "s3b": {
+    "verdict": "GO_WITH_NITS",
+    "range": "31dde1484124aaca744d7be01fe85e91409a19ff..00f850818173c84fe75f63e744333db6702e02a0",
+    "basis": "Branch patch 74077492 (0862e635->82741fb5) differs from reviewed S3 only in S2c pins and branch selected text (byte-identical to transform); default route unchanged; classified proof rows.",
+    "open": [
+      "positive row named merged-optin but runs branch variant",
+      "positive check could also require '0 errors found'",
+      "H2/forget-own/A1 coordinate pins after the block unverified (fails closed)",
+      "positive = final-select obligation only, *const Element"
+    ]
+  },
+  "submit_basis_commit_s3b": "00f850818173c84fe75f63e744333db6702e02a0"
 }
