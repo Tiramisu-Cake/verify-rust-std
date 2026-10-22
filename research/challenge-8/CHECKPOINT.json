@@ -38,7 +38,7 @@
         "sha256": "2d57a9dfcd8e6a440f7b30be6b2330ea3b3a8e46ce25c52b31dd2e0a9b3db271"
       }
     ],
-    "summary": "Preflight active; exact N13 OPEN."
+    "summary": "Exact N13 target active; acceptance OPEN."
   },
   "confirmed": [
     {
@@ -84,11 +84,25 @@
           "sha256": "b91c8c0450fadfcfafb0136a3432cda5708064d1e01021a93de84d7c5cfa3680"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "N3 preflight bb05bfba: generic bridge and membership helper accepted=true with source unchanged, no errors and return/leak inventory gates; Brief exact pointers read on pinned source/tool/profile. No exact N13 acceptance or independent proof credit. Charge117s.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/observations/a0f17140fdeda22768736941e9b8b596aed728c70a0a6071d8c9e1d713d68dea.json",
+          "sha256": "a0f17140fdeda22768736941e9b8b596aed728c70a0a6071d8c9e1d713d68dea"
+        },
+        {
+          "path": "research/challenge-8/observations/625c24d687eedd64e7b75aee38331405f42675a7b9789da07e9aa026c73c66d6.json",
+          "sha256": "625c24d687eedd64e7b75aee38331405f42675a7b9789da07e9aa026c73c66d6"
+        }
+      ]
     }
   ],
-  "next_step": "Watcher terminal -> ack -> Brief; then exact if preflight qualifies.",
+  "next_step": "Watcher -> ack -> exact Brief; controls then regressions if qualified.",
   "open": [
-    "Preflight Build bb05bfba-ad5b-4e64-9f1e-992b2494d102 on reviewed dc46c0e2. Read Brief after terminal; no credit yet.",
+    "Preflight gates accepted as reported; exact Build01316eae-dedc-40cf-89e3-66f6d4950db1 active, same dc46c0e2 pins.",
     "Exact N13 H1/adapter, complete posts, intended negatives and compatible final regressions; historical universal component alone is insufficient.",
     "R4/W7 not verified: P1 candidate is inactive, P2 mutable-pointer callee pending, P3 design only; W8 depends on Merge.",
     "FIRST_SESSION/CLOUD_HISTORY owner lists need workflow-owner follow-up after first Network ledger; v3 request nuisance is outside N3."
@@ -120,18 +134,18 @@
   "schema": "smallsort-checkpoint-v1",
   "session": {
     "active_build_ids": [
-      "bb05bfba-ad5b-4e64-9f1e-992b2494d102"
+      "01316eae-dedc-40cf-89e3-66f6d4950db1"
     ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T23:13:40Z",
     "main_deadline_utc": "2026-10-22T22:43:40Z",
-    "remaining_seconds": 3600,
+    "remaining_seconds": 3483,
     "retired_seconds": 0,
-    "spent_seconds": 0,
+    "spent_seconds": 117,
     "t0": "2026-10-22T20:43:40Z",
     "unresolved_ids": []
   },
   "state": "HANDOFF",
   "task_id": "network-n13-exact-cloud-2026-10-23-n3",
-  "updated_utc": "2026-10-22T21:01:32Z"
+  "updated_utc": "2026-10-22T21:05:42Z"
 }
