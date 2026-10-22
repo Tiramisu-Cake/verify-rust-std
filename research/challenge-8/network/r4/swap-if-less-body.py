@@ -205,16 +205,113 @@ def construct(std, recover_pair_rs, select_spec=None):
     return crate, meta
 
 
+# Synthetic callers (not std code) for satisfiability; DESIGN.md control matrix.
+CALLER = b"""
+unsafe fn r4_caller_NAME<FGEN>(v_base: *mut ELEM, is_less: &mut F)
+/*@
+req thread_token(?t) &*& t == currentThread &*& type_interp::<ELEM>() &*& type_interp::<F>() &*&
+    v_base[..2] |-> ?vs &*& foreach(vs, own::<ELEM>(t)) &*&
+    *is_less |-> ?less_before &*& <F>.own(t, less_before);
+@*/
+/*@
+ens thread_token(t) &*& type_interp::<ELEM>() &*& type_interp::<F>() &*&
+    v_base[..2] |-> ?vs1 &*& foreach(vs1, own::<ELEM>(t)) &*&
+    *is_less |-> ?less_after &*& <F>.own(t, less_after);
+@*/
+/*@
+on_unwind_ens thread_token(t) &*& type_interp::<ELEM>() &*& type_interp::<F>() &*&
+    *v_base |-> ?x1 &*& <ELEM>.own(t, x1) &*& *(v_base + 1) |-> ?y1 &*& <ELEM>.own(t, y1) &*&
+    array(v_base + 2, 0, nil) &*&
+    *is_less |-> ?less_after &*& <F>.own(t, less_after);
+@*/
+{
+    //@ open array(v_base, 2, vs);
+    //@ open array(v_base + 1, 1, _);
+    //@ open foreach(vs, own::<ELEM>(t));
+    //@ open foreach(_, own::<ELEM>(t));
+    //@ open own::<ELEM>(t)(?x0);
+    //@ open own::<ELEM>(t)(?y0);
+    //@ open foreach(nil, own::<ELEM>(t));
+    unsafe { swap_if_less(v_base, 0, CALLB, is_less) };
+    //@ close own::<ELEM>(t)(*(v_base + 1));
+    //@ close own::<ELEM>(t)(*v_base);
+    //@ close foreach(nil, own::<ELEM>(t));
+    //@ close foreach(cons(*(v_base + 1), nil), own::<ELEM>(t));
+    //@ close foreach(cons(*v_base, cons(*(v_base + 1), nil)), own::<ELEM>(t));
+    //@ close array(v_base + 1, 1, cons(*(v_base + 1), nil));
+    //@ close array(v_base, 2, cons(*v_base, cons(*(v_base + 1), nil)));
+}
+"""
+
+
+def caller(name, elem, fgen, b_index=b'1'):
+    return (CALLER.replace(b'NAME', name).replace(b'ELEM', elem)
+            .replace(b'FGEN', fgen).replace(b'CALLB', b_index))
+
+
+GENERIC_CALLER = caller(b'generic', b'T', b'T, F: FnMut(&T, &T) -> bool')
+ZST_CALLER = caller(b'zst', b'()', b'F: FnMut(&(), &()) -> bool')
+EQUAL_POS_CALLER = caller(b'generic', b'T', b'T, F: FnMut(&T, &T) -> bool', b'0')
+
+# Ghost-only mutations of the helper annotation (std body bytes stay exact).
+NEGATIVES = {
+    'marker-off': (CALL_PREFIX[CALL_PREFIX.index(b'/*@ {'):], b''),
+    'unwind-no-recover': (b'            { recover_pair::<T>(left, right); }\n', b''),
+    'swapped-roles': (b'        //@ let left = v_b;\n        //@ let right = v_a;\n',
+                      b'        //@ let left = v_a;\n        //@ let right = v_b;\n'),
+    'copy-offset': (b'close exists::<option<isize>>(none); }', b'close exists::<option<isize>>(some(0)); }'),
+    'own-drop': (b'/*@\nens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&\n'
+                 b'    *(v_base + a_pos) |-> ?a_after &*& <T>.own(t, a_after) &*&\n'
+                 b'    *(v_base + b_pos) |-> ?b_after &*& <T>.own(t, b_after) &*&\n',
+                 b'/*@\nens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&\n'
+                 b'    *(v_base + a_pos) |-> ?a_after &*& <T>.own(t, a_after) &*&\n'
+                 b'    *(v_base + b_pos) |-> ?b_after &*&\n'),
+    'unchanged-claim': (b'    *is_less |-> ?less_after &*& <F>.own(t, less_after);\n@*/\n/*@\non_unwind_ens',
+                        b'    *is_less |-> ?less_after &*& <F>.own(t, less_after) &*& a_after == a_before;\n@*/\n/*@\non_unwind_ens'),
+}
+EXPECTED = {
+    'positive': 'PASS (helper + generic caller)', 'caller-zst': 'PASS (T = ())',
+    'marker-off': 'overlay refusal or unwind-post failure at the call',
+    'unwind-no-recover': 'overlay marker refusal (malformed marker)',
+    'swapped-roles': 'failure at the comparator call (ref/share mismatch)',
+    'copy-offset': 'ptr::copy precondition failure in the swap branch',
+    'own-drop': 'leak check failure (own token of b) at return',
+    'unchanged-claim': 'postcondition failure on the swap branch',
+    'equal-pos': 'precondition a_pos != b_pos failure at the caller',
+}
+
+
+def matrix(std, recover_pair_rs):
+    """name -> crate bytes; every variant keeps the exact std body after strip."""
+    crate, meta = construct(std, recover_pair_rs)
+    body = extract(std)
+    out = {'positive': crate + GENERIC_CALLER, 'caller-zst': crate + ZST_CALLER,
+           'equal-pos': crate + EQUAL_POS_CALLER}
+    for name, (old, new) in NEGATIVES.items():
+        variant = replace_once(crate, old, new, 'control anchor ' + name)
+        need(variant != crate, 'control is not a mutation: ' + name)
+        out[name] = variant + GENERIC_CALLER  # = positive with exactly one ghost mutation
+    for name, text in out.items():
+        helper = text[text.index(b'unsafe fn swap_if_less'):]
+        helper = helper[:helper.index(b'\n}\n') + 3]
+        need(strip_ghost(helper) == body, 'control changes runtime body: ' + name)
+    need(set(out) == set(EXPECTED), 'control inventory differs from EXPECTED')
+    return out, meta
+
+
 def main():
     if len(sys.argv) != 4:
         raise SystemExit('usage: swap-if-less-body.py SMALLSORT_RS RECOVER_PAIR_RS OUT_DIR')
     std = Path(sys.argv[1]).read_bytes()
     recover = Path(sys.argv[2]).read_bytes()
-    crate, meta = construct(std, recover)
+    variants, meta = matrix(std, recover)
     out = Path(sys.argv[3])
     out.mkdir(parents=True, exist_ok=True)
-    (out / 'lib.rs').write_bytes(crate)
-    meta['crate_sha256'] = sha(crate)
+    meta['controls'] = {}
+    for name, crate in sorted(variants.items()):
+        (out / (name + '.rs')).write_bytes(crate)
+        meta['controls'][name] = {'crate_sha256': sha(crate), 'expected': EXPECTED[name]}
+    meta['crate_sha256'] = meta['controls']['positive']['crate_sha256']
     (out / 'meta.json').write_text(json.dumps(meta, indent=2, sort_keys=True) + '\n')
     print(json.dumps({'crate_sha256': meta['crate_sha256'], 'std_body_sha256': meta['std_body_sha256']}))
 

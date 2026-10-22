@@ -54,6 +54,22 @@ class R4CandidateTests(unittest.TestCase):
         self.assertEqual(lines[call[0] - 1].strip(), b'} @*/')
         self.assertIn(b'__vf_callback_unwind_pair', lines[call[0] - 4])
 
+    def test_control_matrix(self):
+        variants, _ = r4.matrix(STD, PAIR)
+        self.assertEqual(set(variants), set(r4.EXPECTED))
+        body = r4.extract(STD)
+        positive = variants['positive']
+        self.assertEqual(positive.count(b'unsafe { swap_if_less(v_base, 0, 1, is_less) };'), 1)
+        self.assertIn(b'unsafe { swap_if_less(v_base, 0, 0, is_less) };', variants['equal-pos'])
+        self.assertIn(b'*mut ()', variants['caller-zst'])
+        for name in r4.NEGATIVES:
+            v = variants[name]
+            self.assertNotEqual(v, positive)
+            self.assertEqual(r4.strip_ghost(v), r4.strip_ghost(positive), name)  # ghost-only mutation
+            self.assertTrue(v.endswith(r4.GENERIC_CALLER), name)
+        for name, v in variants.items():
+            self.assertIn(body, r4.strip_ghost(v), name)
+
     def test_negative_wrong_source(self):
         with self.assertRaisesRegex(SystemExit, 'SHA256 differs'):
             r4.construct(STD.replace(b'should_swap', b'should_swop', 1), PAIR)
