@@ -16,7 +16,7 @@ UNIT = (b"pub const fn select_unpredictable<T>(condition: bool, true_val: T, fal
         + REPAIR.PAYLOAD_ASSERTS[0] + REPAIR.PAYLOAD_ASSERTS[1] +
         b"    unsafe {\n"
         b"        crate::mem::forget(guard);\n"
-        + REPAIR.FINAL_CALL +
+        + REPAIR.SELECTED_BLOCK + REPAIR.FINAL_CALL +
         b"    }\n}\n")
 
 
@@ -38,6 +38,36 @@ class FinalSelectRepair(unittest.TestCase):
         self.assertIn(b"(true_payload)", REPAIR.repair(UNIT, "true-only"))
         self.assertIn(b"(false_payload)", REPAIR.repair(UNIT, "false-only"))
         self.assertEqual(REPAIR.repair(UNIT, "none"), UNIT)
+
+    def test_merged_keeps_one_ghost_statement_before_final_select(self):
+        out = REPAIR.repair(UNIT, "merged")
+        self.assertEqual(out.count(b"close_MaybeUninit_pointer_own"), 2)
+        self.assertEqual(out.count(b"/*@"), UNIT.count(b"/*@"))
+        self.assertEqual(out.count(b"@*/"), UNIT.count(b"@*/"))
+        block_start = out.index(b"        /*@ if (condition) {\n                 std::mem::close_MaybeUninit::<*Element>(true_ptr")
+        block_end = out.index(b"@*/", block_start)
+        self.assertIn(b"close_MaybeUninit_pointer_own", out[block_start:block_end])
+        self.assertEqual(out[block_end:].index(b"\n") + block_end + 1, out.index(REPAIR.FINAL_CALL))
+        self.assertTrue(HINT.read_bytes().count(b"crate::mem::forget(guard);") == 1)
+        with self.assertRaises(RuntimeError):
+            REPAIR.repair(UNIT.replace(REPAIR.SELECTED_BLOCK, b""), "merged")
+        with self.assertRaises(RuntimeError):
+            REPAIR.repair(UNIT.replace(REPAIR.SELECTED_BLOCK + REPAIR.FINAL_CALL,
+                                       REPAIR.SELECTED_BLOCK + b"        x;\n" + REPAIR.FINAL_CALL), "merged")
+        with self.assertRaises(RuntimeError):
+            REPAIR.repair(UNIT.replace(REPAIR.SELECTED_BLOCK + REPAIR.FINAL_CALL,
+                                       REPAIR.SELECTED_BLOCK + b"        //@ ghost();\n" + REPAIR.FINAL_CALL), "merged")
+
+    def test_merged_accepts_the_actual_hint_comment_gap(self):
+        hint = HINT.read_bytes()
+        gap = hint[hint.index(b"        crate::mem::forget(guard);\n") + len(b"        crate::mem::forget(guard);\n"):
+                   hint.index(REPAIR.FINAL_CALL)]
+        self.assertIn(b"// Note that it is important", gap)
+        unit = UNIT.replace(REPAIR.SELECTED_BLOCK + REPAIR.FINAL_CALL,
+                            REPAIR.SELECTED_BLOCK + gap + REPAIR.FINAL_CALL)
+        out = REPAIR.repair(unit, "merged")
+        self.assertEqual(out.count(b"close_MaybeUninit_pointer_own"), 2)
+        self.assertIn(gap + REPAIR.FINAL_CALL, out)
 
     def test_refusals(self):
         for bad in (UNIT.replace(REPAIR.FINAL_CALL, b""),

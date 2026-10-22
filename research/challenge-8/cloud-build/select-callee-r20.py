@@ -21,9 +21,11 @@ import sys
 import time
 
 REPAIR_REL = Path("research/challenge-8/overnight-assume-actual/r20_final_select_repair.py")
-REPAIR_SHA256 = "3f1ab8b87317365c7501d503432082f29856f5290190a1b6d83aef8ca241abf8"
+REPAIR_SHA256 = "8ef92bf290b8cfc1945ce8e2e41a9a3743a6e19bef9cf0e3a02e48458802f951"
 CASE = "nine-body-a1-owned-forget"
 VARIANTS = ("both", "true-only", "false-only")
+# "merged" keeps the ghost-statement and MIR block inventory unchanged.
+FINGERPRINT_VARIANT = "merged"
 STAGE_RESERVE_SECONDS = 150
 
 
@@ -122,7 +124,7 @@ def export_decode(case: Path, out: Path, a) -> dict:
 
 
 def fingerprint(a) -> dict:
-    """Fingerprint the 'both'-repaired unit under the existing intended refusal.
+    """Fingerprint the FINGERPRINT_VARIANT-repaired unit under the existing intended refusal.
 
     Records the repaired verified SHA and the ten unit/body snapshot hashes a
     later reviewed certificate-refresh patch must pin. No proof is attempted.
@@ -138,17 +140,17 @@ def fingerprint(a) -> dict:
     verified = (base / "verified/lib.rs").read_bytes()
     original = (base / "original/lib.rs").read_bytes()
     root = a.evidence / "cases/r20-fingerprint"
-    repaired = transform.repair(verified, "both")
+    repaired = transform.repair(verified, FINGERPRINT_VARIANT)
     cases = {}
-    for variant, data in (("none", verified), ("both", repaired)):
+    for variant, data in (("none", verified), (FINGERPRINT_VARIANT, repaired)):
         case = cases[variant] = root / variant / CASE
         (case / "original").mkdir(parents=True)
         (case / "verified").mkdir()
         (case / "original/lib.rs").write_bytes(original)
         (case / "verified/lib.rs").write_bytes(data)
-    case = cases["both"]
+    case = cases[FINGERPRINT_VARIANT]
     record = {"classification": "R20_REPAIRED_UNIT_FINGERPRINT", "complete": False,
-              "variant": "both", "verified_sha256": sha(repaired),
+              "variant": FINGERPRINT_VARIANT, "verified_sha256": sha(repaired),
               "original_sha256": sha(original), "base_verified_sha256": sha(verified),
               "accepted": False, "proof_credit": False}
     write(root / "r20-fingerprint.json", record)
@@ -156,7 +158,7 @@ def fingerprint(a) -> dict:
         record["fingerprint"] = {"status": "NOT_RUN", "reason": "shared deadline reserve"}
         write(root / "r20-fingerprint.json", record)
         raise SystemExit(3)
-    record["normal_mir"] = export_decode(case, root / "both-mir", a)
+    record["normal_mir"] = export_decode(case, root / (FINGERPRINT_VARIANT + "-mir"), a)
     write(root / "r20-fingerprint.json", record)
     cap = o26.load_capture(a.repo, "r20_fingerprint")
     args = argparse.Namespace(tool_home=a.tool_home, schema=a.schema,

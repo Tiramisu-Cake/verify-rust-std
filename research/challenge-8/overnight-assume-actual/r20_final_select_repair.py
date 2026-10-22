@@ -17,7 +17,20 @@ FINAL_CALL = (b"        crate::intrinsics::select_unpredictable(condition, true_
               b".assume_init()\n")
 PAYLOAD_ASSERTS = (b"    /*@ assert *true_ptr |-> ?true_payload; @*/\n",
                    b"    /*@ assert *false_ptr |-> ?false_payload; @*/\n")
-VARIANTS = ("both", "true-only", "false-only", "none")
+VARIANTS = ("both", "true-only", "false-only", "none", "merged")
+# The existing selected-wrapper ghost block immediately before the final
+# select (exact O26 owner-admission text). "merged" appends the two lemma
+# calls inside it, so no new ghost statement (and no new MIR block) appears.
+SELECTED_BLOCK = (
+    b"        /*@ if (condition) {\n"
+    b"                 std::mem::close_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>);\n"
+    b"             } else {\n"
+    b"                 std::mem::close_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>);\n"
+    b"             } @*/\n")
+MERGED_TAIL = (
+    b"             }\n"
+    b"             std::mem::close_MaybeUninit_pointer_own::<Element>(t, std::mem::MaybeUninit::new::<*Element>(true_payload));\n"
+    b"             std::mem::close_MaybeUninit_pointer_own::<Element>(t, std::mem::MaybeUninit::new::<*Element>(false_payload)); @*/\n")
 
 
 def need(ok: bool, why: str) -> None:
@@ -40,6 +53,21 @@ def repair(verified: bytes, variant: str) -> bytes:
              "payload binding precedes the final select")
     need(b"close_MaybeUninit_pointer_own" not in verified,
          "unit already contains a wrapper-ownership close")
+    if variant == "merged":
+        need(verified.count(SELECTED_BLOCK) == 1, "one exact selected-wrapper ghost block")
+        gap = verified[verified.index(SELECTED_BLOCK) + len(SELECTED_BLOCK):verified.index(FINAL_CALL)]
+        need(all(not line.strip() or (line.lstrip().startswith(b"//") and
+                                      not line.lstrip().startswith(b"//@"))
+                 for line in gap.splitlines()),
+             "only blank/plain comment lines between the selected block and the final select")
+        merged = SELECTED_BLOCK[:-len(b"             } @*/\n")] + MERGED_TAIL
+        result = verified.replace(SELECTED_BLOCK, merged, 1)
+        added = MERGED_TAIL[len(b"             }\n"):-len(b" @*/\n")] + b" "
+        # Ghost-only: the change is confined to one ghost comment; removing the
+        # two added lemma lines restores the input byte-for-byte.
+        need(result.replace(b"             }\n" + added, b"             } ", 1) == verified,
+             "merged repair changed more than the ghost block")
+        return result
     inserted = {"both": close_line(b"true_payload") + close_line(b"false_payload"),
                 "true-only": close_line(b"true_payload"),
                 "false-only": close_line(b"false_payload"),

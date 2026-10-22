@@ -21,6 +21,11 @@ ENV = {"SMALLSORT_EXECUTION_PROVIDER": "cloud-build",
 UNIT = (b"fn select_unpredictable() {\n"
         b"    /*@ assert *true_ptr |-> ?true_payload; @*/\n"
         b"    /*@ assert *false_ptr |-> ?false_payload; @*/\n"
+        b"        /*@ if (condition) {\n"
+        b"                 std::mem::close_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>);\n"
+        b"             } else {\n"
+        b"                 std::mem::close_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>);\n"
+        b"             } @*/\n"
         b"        crate::intrinsics::select_unpredictable(condition, true_val, false_val).assume_init()\n"
         b"}\n")
 
@@ -188,6 +193,8 @@ class RepairedFingerprint(unittest.TestCase):
         self.assertIs(saved["location_control"]["reproduces_pinned"], True)
         case, source, repaired, _, _ = cap.calls[1]
         self.assertEqual(repaired.count(b"close_MaybeUninit_pointer_own"), 2)
+        self.assertEqual(repaired.count(b"/*@"), UNIT.count(b"/*@"))
+        self.assertEqual(saved["variant"], "merged")
         self.assertEqual(source["verified_sha256"], CALLEE.sha(repaired))
         self.assertEqual(saved["verified_sha256"], CALLEE.sha(repaired))
         self.assertEqual(saved["base_verified_sha256"], CALLEE.sha(UNIT))
