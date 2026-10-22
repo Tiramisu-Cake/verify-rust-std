@@ -1,11 +1,11 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-23-r22
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R22 | state: NOT_STARTED
-- Updated: 2026-10-22T22:15:42Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R22 | state: HANDOFF
+- Updated: 2026-10-22T22:42:00Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
-- Session dates: T0 `NOT_SET`; main deadline `NOT_SET`; absolute deadline `NOT_SET`
+- Session dates: T0 `2026-10-22T22:25:06Z`; main deadline `2026-10-23T00:25:06Z`; absolute deadline `2026-10-23T00:55:06Z`
 - Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 71401a80-e20c-407f-90b3-366c1a12a0bd
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -20,17 +20,18 @@
 - Network P1 accepted for integration only, P3 grammar decided; no mutable/generic callee summary or proof credit.
 - Corrected candidate288fa7cd reviewed GO,113parts; compiler/proof UNKNOWN after retry124. Callee diagnostic targets unpinned.
 - Inactive body lane168/191, count5/5-8-4 gates prepared/reviewed; requires actual callee acceptance/linkage and control requalification.
+- P2 interface NOT_PUBLISHED (select-callee-r22/P2-INTERFACE.json); *mut gate inventory prepared, source route next.
 
 ## Rejected approaches
 - Assumed/address-only resource bridge or helper PASS as full-body proof — Does not establish actual ordered callback resources or full normal/unwind posts.
 - Закрывать сессию досрочно, когда нет допустимого Build — R18 и R19 закрыты досрочно, хотя в миссии оставалась работа без Cloud (callee proof, transport); это противоречит CORE и особой границе задания.; [research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json](cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-C3-2026-10-22-R19.json) SHA `43938f12bb12264b19b9b414d91130753de5d441bde857217da2cffea43efd13`
 
 ## Blocker
-Actual fractional callee proof UNKNOWN: corrected retry exited124 with incomplete stage evidence; acceptance and controls remain open.
+Fractional callee proof UNKNOWN (R21 retry124 at timeout600); acceptance/controls open.
 - [research/challenge-8/task-history/select-callee-r21/FRACTIONAL-PROOF-RETRY-TIMEOUT.json](task-history/select-callee-r21/FRACTIONAL-PROOF-RETRY-TIMEOUT.json) SHA `b67f9b2557ba3130fb1635ac0d095c9048e706b56608b061efc4768a49fcb913` Build `fe704af2-e671-4153-9246-299f057e27ad`
 
 ## Next
-New authorized window/ledger: use NEXT-WINDOW-HANDOFF; recheck288fa7cd, then checked fractional proof and exact controls.
+Wait 71401a80 (82bb819f, timeout1200, R21 route marker = route id); then Brief, positive+8 rows.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r21/ARTIFACT-INDEX.json](task-history/select-callee-r21/ARTIFACT-INDEX.json) — `0b3556e9553dee8fe2a17b92ed737cefff908caec5f39822658e297c5a7ab00a`

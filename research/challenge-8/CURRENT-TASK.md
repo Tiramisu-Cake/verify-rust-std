@@ -47,10 +47,10 @@ Next: New authorized window/ledger: use NEXT-WINDOW-HANDOFF; recheck288fa7cd, th
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-23-r22 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R22 · NOT_STARTED**
-Updated: 2026-10-22T22:15:42Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
-Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Actual fractional callee proof UNKNOWN: corrected retry exited124 with incomplete stage evidence; acceptance and controls remain open.
-Next: New authorized window/ledger: use NEXT-WINDOW-HANDOFF; recheck288fa7cd, then checked fractional proof and exact controls.
+**select-callee-acceptance-autonomous-2026-10-23-r22 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R22 · HANDOFF**
+Updated: 2026-10-22T22:42:00Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Dates: T0 `2026-10-22T22:25:06Z`; main `2026-10-23T00:25:06Z`; absolute `2026-10-23T00:55:06Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
+Active Build IDs: 71401a80-e20c-407f-90b3-366c1a12a0bd; unresolved: none recorded.
+Blocker: Fractional callee proof UNKNOWN (R21 retry124 at timeout600); acceptance/controls open.
+Next: Wait 71401a80 (82bb819f, timeout1200, R21 route marker = route id); then Brief, positive+8 rows.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

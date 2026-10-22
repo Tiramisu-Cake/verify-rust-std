@@ -1,0 +1,21 @@
+{
+  "callee": "core::hint::select_unpredictable",
+  "contract_text": "/*@\nreq thread_token(?t) &*& t == currentThread;\n@*/\n/*@\nens thread_token(t) &*& (result as pointer) ==\n    (if condition { true_val as pointer } else { false_val as pointer });\n@*/\n/*@\non_unwind_ens false;\n@*/\n",
+  "contract_text_is_planned": true,
+  "contract_text_sha256": "dc985de2e2a0e1a95e6c12c4b9cb78c4042d9d45f949d78904a999e82262b870",
+  "decided_utc": "2026-10-23",
+  "evidence": {
+    "build_ids": [],
+    "const_route_accepted": false,
+    "const_route_candidate": "288fa7cd7a3c7d25c7af4b1cc41134b24ffc32d5",
+    "mut_route_exists": false
+  },
+  "generic_T_covered": false,
+  "instantiation": "T = *mut Element (Element unrestricted generic)",
+  "network_generator_rule": "select_spec must remain None while status != PUBLISHED",
+  "pointee_ownership": false,
+  "proof_credit": 0,
+  "schema": "select-p2-interface-v1",
+  "signature": "pub fn select_unpredictable<Element>(condition: bool, true_val: *mut Element, false_val: *mut Element) -> *mut Element",
+  "status": "NOT_PUBLISHED"
+}

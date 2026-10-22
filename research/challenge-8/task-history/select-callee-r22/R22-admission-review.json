@@ -1,0 +1,31 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "claude-subagent:smallsort-reviewer",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "candidate_commit": "a1d1221134a0b9508e506d09e6717144a2d7bcac",
+  "baseline_commit": "10c37d95f3e9eee631118d634eb94edbd6ef9355",
+  "spec_sha256": "1092087da28ab5d2f28aedbe7702eeb78aca9b1ee4d026bd38a02a443e91d4d8",
+  "packet_sha256": "6254c53093cd31bfe030fce3e2e1d705d604e134a981517e0e176cf5e35ffbeb",
+  "decision": "NO_GO",
+  "findings": [
+    {
+      "severity": "blocker",
+      "where": "overnight-assume-actual/verifast-r21-fractional-forget-26.10.patch lines 41-47,199-206,225-230",
+      "summary": "Pinned translator patch admits fractional mode only for SORT4_R20_CALLEE_PHASE_ID == R21 literal; exporting the R22 phase would refuse all eight fractional rows before proof.",
+      "resolution": "82bb819f: export the R21 literal as route identity, R22 phase as SORT4_R22_SESSION_PHASE_ID; helper/entry/runner restored to 288fa7cd bytes; static marker-binding control added. Author verified by grep."
+    },
+    {
+      "severity": "nit",
+      "summary": "select-callee-r20.py CALLEE_PHASES admits only R20/R21; R22 route uses only ungated classify_bound_row/export_decode.",
+      "resolution": "Recorded in SESSION-DESIGN."
+    }
+  ],
+  "tests_run": [
+    "test_select_callee_r20 22 OK",
+    "test_select_callee_r21_fractional_proof 10 OK",
+    "test_select_callee_r21_fractional_proof_entry 7 OK",
+    "test_a1_r22_registration 7 OK"
+  ],
+  "proof_credit": 0
+}

@@ -19,7 +19,7 @@
         "sha256": "b67f9b2557ba3130fb1635ac0d095c9048e706b56608b061efc4768a49fcb913"
       }
     ],
-    "summary": "Actual fractional callee proof UNKNOWN: corrected retry exited124 with incomplete stage evidence; acceptance and controls remain open."
+    "summary": "Fractional callee proof UNKNOWN (R21 retry124 at timeout600); acceptance/controls open."
   },
   "confirmed": [
     {
@@ -82,12 +82,13 @@
       ]
     }
   ],
-  "next_step": "New authorized window/ledger: use NEXT-WINDOW-HANDOFF; recheck288fa7cd, then checked fractional proof and exact controls.",
+  "next_step": "Wait 71401a80 (82bb819f, timeout1200, R21 route marker = route id); then Brief, positive+8 rows.",
   "open": [
     "Actual fractional callee positive and normal/unwind/nested-Drop matrix remain unaccepted; *mut T/generic P2 remains open.",
     "Network P1 accepted for integration only, P3 grammar decided; no mutable/generic callee summary or proof credit.",
     "Corrected candidate288fa7cd reviewed GO,113parts; compiler/proof UNKNOWN after retry124. Callee diagnostic targets unpinned.",
-    "Inactive body lane168/191, count5/5-8-4 gates prepared/reviewed; requires actual callee acceptance/linkage and control requalification."
+    "Inactive body lane168/191, count5/5-8-4 gates prepared/reviewed; requires actual callee acceptance/linkage and control requalification.",
+    "P2 interface NOT_PUBLISHED (select-callee-r22/P2-INTERFACE.json); *mut gate inventory prepared, source route next."
   ],
   "owner": "select-sort4",
   "phase": "SORT4-ACTUAL-SELECT-2026-10-23-R22",
@@ -110,17 +111,19 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "71401a80-e20c-407f-90b3-366c1a12a0bd"
+    ],
     "budget_seconds": 3600,
-    "deadline_utc": null,
-    "main_deadline_utc": null,
+    "deadline_utc": "2026-10-23T00:55:06Z",
+    "main_deadline_utc": "2026-10-23T00:25:06Z",
     "remaining_seconds": 3600,
     "retired_seconds": 0,
     "spent_seconds": 0,
-    "t0": null,
+    "t0": "2026-10-22T22:25:06Z",
     "unresolved_ids": []
   },
-  "state": "NOT_STARTED",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-23-r22",
-  "updated_utc": "2026-10-22T22:15:42Z"
+  "updated_utc": "2026-10-22T22:42:00Z"
 }

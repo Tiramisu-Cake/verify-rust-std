@@ -1,0 +1,28 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "claude-subagent:smallsort-reviewer",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "continuation_of": "R22-admission-review.json",
+  "candidate_commit": "82bb819f216c5daa45d74f4a7b071801a468a7dc",
+  "baseline_commit": "a1d1221134a0b9508e506d09e6717144a2d7bcac",
+  "spec_sha256": "f05cefe6b16506c2588a7f1f1251a25e064b6890f29b1bff37ff909e38d06f7b",
+  "packet_sha256": "a46a5df2f559fc9ec3dcdbd448bc9a1b30e9a4233a29e5907c1a3e0ea51ec7ae",
+  "decision": "GO_WITH_NITS",
+  "prior_blocker_resolved": true,
+  "nits": [
+    "In-Build route records show the R21 route marker; attribute the Build to R22 by ledger, dispatch token and SORT4_R22_SESSION_PHASE_ID only.",
+    "select-callee-r20.py CALLEE_PHASES {R20,R21} also accepts the route marker; not on the runner path while the runner is byte-identical."
+  ],
+  "tests_run": [
+    "test_a1_r22_registration 8 OK",
+    "test_select_callee_r20 22 OK",
+    "test_select_callee_r21_fractional_proof 10 OK",
+    "test_select_callee_r21_fractional_proof_entry 7 OK"
+  ],
+  "not_run": [
+    "client transport preflight (author computed 113 parts/336658 bytes)",
+    "compiler/VeriFast/Cloud"
+  ],
+  "proof_credit": 0
+}

@@ -1,0 +1,41 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "a1d1221134a0b9508e506d09e6717144a2d7bcac",
+  "candidate_commit": "82bb819f216c5daa45d74f4a7b071801a468a7dc",
+  "defect": "Delta after NO_GO of a1d12211: pinned translator patch and fractional route compare SORT4_R20_CALLEE_PHASE_ID with the R21 literal; R22 must keep that route marker and export its phase separately.",
+  "applicability": "Only fresh Select R22 (Runtime: Claude Code) on o26-select-callee-r20, same owner-approved fractional candidate 288fa7cd proof/patch/transform/fingerprint inputs and source/tool/profile pins. Draft profile is review-only; minimal recipe has no A1 profile activation.",
+  "invariants": [
+    "R20/R21 historical gates and ledgers unchanged; exact separate R22 owner/lane/window/3600 ceiling/270..1200 timeout/240 reserve.",
+    "Cloud-side files other than control.py byte-identical to 288fa7cd; SORT4_R20_CALLEE_PHASE_ID exported as the R21 route literal, R22 phase as SORT4_R22_SESSION_PHASE_ID; account/window/lane gates bound to the exact R22 ledger.",
+    "No coordinator change; pinned-object transport 113 parts under 191 cap; no tool/spec/transform/control-target/proof-credit change; provider/phase/GitHub/ambient opt-in guards preserved."
+  ],
+  "controls": [
+    "Synthetic R22 registration tests: exact account and refusals, both deadline gates, R21 account refused under R22, env/transport/config.",
+    "Existing callee/fractional service tests incl. missing/null/wrong-type/NOT_RUN and route refusals; static patch-chain recheck 0862e635->606235c6->50a77b8d.",
+    "Static control: exported route marker equals the three translator literals in pinned patch e1f98deb, helper/entry PHASE and runner marker; R22 literal absent from patch."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/coordination.py",
+    "research/challenge-8/cloud-build/recipes/o26-select-callee-r20.json",
+    "research/challenge-8/cloud-build/select-callee-r21-fractional-proof.py",
+    "research/challenge-8/cloud-build/select-callee-r20.py",
+    "research/challenge-8/cloud-build/select-callee-r21-proof-audit.py",
+    "research/challenge-8/cloud-build/source-input.py",
+    "research/challenge-8/task-history/select-callee-r21/FRACTIONAL-FINGERPRINT-INPUT.json",
+    "research/challenge-8/overnight-assume-actual/verifast-r21-fractional-forget-26.10.patch"
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r21/R21-fractional-proof-review.json",
+      "sha256": "6a13e1f08951d008a703b16e7d17cdcdeaa5dab6ed371823d2bfe9045523b4a8"
+    },
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r21/R21-qualification-review.json",
+      "sha256": "8e986b3623a1511e028afb489a3479bf5dc054a5e599a675a40fdf61e1c59386"
+    }
+  ],
+  "known_limitations": [
+    "No actual compiler/verifier run locally; first Cloud Build of the fractional positive and eight-row matrix is pending; callee control targets remain TARGET_UNPINNED; no proof credit."
+  ]
+}

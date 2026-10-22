@@ -1,12 +1,29 @@
 {
-  "active_build": null,
+  "active_build": "71401a80-e20c-407f-90b3-366c1a12a0bd",
   "allowed_lanes": [
     "o26-select-callee-r20"
   ],
   "authorization": "CURRENT-TASK Select-R22 (Runtime: Claude Code) and owner instruction authorize the fresh Claude session, 3600 Cloud seconds, callee lane only, per-Build timeout 1200 (never shortened); T0 2026-10-22T22:25:06Z, main 2026-10-23T00:25:06Z, absolute 00:55:06Z; no carry, exact client registration and independent review required before submit.",
   "authorization_model": "bounded-cloud-budget",
   "baseline_sha": "f8ef054f4c31e3edeb1a5ea76c8f3adbf48fbb6b",
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-381312c695be440daa720a2e7c90a352",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-ACTUAL-SELECT-2026-10-23-R22",
+      "infra_sha": "82bb819f216c5daa45d74f4a7b071801a468a7dc",
+      "proof_sha": "82bb819f216c5daa45d74f4a7b071801a468a7dc",
+      "lane": "o26-select-callee-r20",
+      "submitted_config_sha256": "be6612ff50b7b2d9425138d871be0fa175f19c0801781365e6effcb5accd7627",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "QUEUED",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "3b1e7e6eed029b3b9f1a717e00839c08062b32c11b4c0244451504500e7755b6",
+      "build_id": "71401a80-e20c-407f-90b3-366c1a12a0bd"
+    }
+  ],
   "carry_seconds": 0,
   "carryover_allowed": false,
   "ceiling_build_seconds": 3600,
