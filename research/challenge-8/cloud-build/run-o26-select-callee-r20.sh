@@ -188,10 +188,10 @@ stage branch-refresh-apply git -C "$source_home" apply "$branch_patch"
 [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 606235c66c76412d2fdcef5f30436c342771ad5a087b343f618cfb7c8a2344d2 ]] || exit 2
 fractional_patch="$proof_root/research/challenge-8/overnight-assume-actual/verifast-r21-fractional-forget-26.10.patch"
 current_stage=fractional-patch-identity
-[[ "$(sha256sum "$fractional_patch" | cut -d' ' -f1)" == 0a446349d3c4eb223f00b4ebf4a4bf5d5fd0bd4a5b9424fcac4c8beef6a6cc8a ]] || exit 2
+[[ "$(sha256sum "$fractional_patch" | cut -d' ' -f1)" == e1f98debc7ce5d3d1aa603ca8fd020b0556b7ecce28408987ea08a86efc23dab ]] || exit 2
 stage fractional-refresh-check git -C "$source_home" apply --check "$fractional_patch"
 stage fractional-refresh-apply git -C "$source_home" apply "$fractional_patch"
-[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == be8b620a15a5fff1ac6567bae693b739580e7ddfd5cd7f300e8e835850e4ed1b ]] || exit 2
+[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 50a77b8d220178d0253df4def38c06b1e29e46d51389873e35db18198096fcf2 ]] || exit 2
 
 
 deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"
