@@ -15,6 +15,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R20-STATE-CONTROL-REVIEW-20261023.json",
       "sha256": "c2050c3cde4909c2c2c631dc2ead4659753c6bbb00629b76726765fc5df9ba50"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R20-FINAL-ADOPTION-REVIEW-20261023.json",
+      "sha256": "d842a8f96a7d752686e4505b42fc20df79d08186018ba5a616e1e967376f9fd1"
     }
   ],
   "assignment_sha256": "4b7e4a5f9a3e01462783b3a6c6b73afd2cdf453b832d336fac9fac34287e6b88",
@@ -24,12 +28,12 @@
     "tool_sha": "39f6b0cacd00575c8ca2d39e9f15632723bf1227"
   },
   "blocker": {
-    "summary": "P3 exporter unused_mut; proof not attempted. Fix/pins review pending; original caller OPEN.",
+    "summary": "P4 active; new tool/helper/controls unverified. Original caller OPEN.",
     "evidence": [
       {
-        "build_id": "7384d743-24dd-4b4d-ae27-9b6af7f111c2",
-        "path": "research/challenge-8/cloud-build/origin-layout/R20-PROOF3-RESULT-20261023.json",
-        "sha256": "6ebf0b29b6d1bfb56b44dce32a27fb05289a1f35a384ddcac24926f3a496e41a"
+        "build_id": "0d3e7c6d-dfe4-4dbb-b5da-f0169d92ff53",
+        "path": "research/challenge-8/cloud-build/origin-layout/R20-PROOF4-START-20261023.json",
+        "sha256": "f362938c350671793a786de90b899ba5a93bc786c91a0af2eec168671ce6dbe9"
       }
     ]
   },
@@ -82,7 +86,7 @@
       ]
     }
   ],
-  "next_step": "Review pins; source gate; publish/dispatch if full cycle fits.",
+  "next_step": "ACK terminal event; read Brief; continue within original bounds.",
   "open": [
     "Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.",
     "Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.",
@@ -116,7 +120,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "0d3e7c6d-dfe4-4dbb-b5da-f0169d92ff53"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T22:38:00Z",
     "main_deadline_utc": "2026-10-22T22:08:00Z",
@@ -126,7 +132,7 @@
     "t0": "2026-10-22T20:08:00Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "merge-unwind-acceptance-autonomous-2026-10-23-r20",
-  "updated_utc": "2026-10-22T21:37:58Z"
+  "updated_utc": "2026-10-22T21:42:14Z"
 }
