@@ -14,10 +14,11 @@ MAX_ACTIVE = 2
 SCHEMA_VERSION = 2
 PROTOCOLS = {2: 2, 3: 3, 4: 3}
 V3_OWNERS = frozenset(('select-sort4', 'merge', 'verifast'))
-# PREPARED_NOT_REGISTERED candidate: v4 adds the fourth stable owner `network`
-# and keeps the project-wide cap of three. v3 clients fail closed on v4
-# (unknown schema), so every client must adopt v4 before the envelope changes.
-V4_OWNERS = frozenset((*V3_OWNERS, 'network'))
+# v4: stable owners select-sort4, merge and network; verifast left Cloud
+# (owner decision 2026-10-22) and is refused. The project-wide cap stays three.
+# v3 clients fail closed on v4 (unknown schema), so every v4 owner's client
+# adopts this file before the envelope changes.
+V4_OWNERS = frozenset(('select-sort4', 'merge', 'network'))
 OWNERS = {3: V3_OWNERS, 4: V4_OWNERS}
 
 
@@ -69,7 +70,8 @@ def protocol():
     """Return the active envelope version and capacity; caller holds locked().
 
     Absence and legacy single-record state remain v2 on their first mutation.
-    Only the explicit migration helper may change an existing v2 envelope to v3.
+    Only the explicit migration helpers may change an existing v2 envelope to
+    v3, or v3 to v4 (and back while no v4-only owner is recorded).
     """
     path = COORDINATION / 'active.json'
     if not path.exists():
@@ -92,7 +94,7 @@ def ledger_key(value):
 
 
 def reservations():
-    """Read legacy single-slot, v2 or v3 state; caller holds locked().
+    """Read legacy single-slot, v2, v3 or v4 state; caller holds locked().
 
     Keep the same file and lock. A v1 client sees the v2 envelope as occupied
     and cannot reconcile its missing record fields, so it fails closed.

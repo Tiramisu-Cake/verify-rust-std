@@ -1,5 +1,7 @@
 # Network Cloud readiness — PREPARED_NOT_REGISTERED
 
+> N2 (2026-10-22): v4 finalized for three owners; see the Contents table. Live switch status is recorded in `../coordinator-v4-adoption-20261022/` once performed.
+
 Task `network-bootstrap-2026-10-22-n1`, budget 0. Nothing here is registered,
 deployed or executed: no coordinator/`active.json`/`requests` change, no
 client of Select/Merge/VeriFast touched, no Build. Files live outside
@@ -10,14 +12,14 @@ Execution of any step below needs a separate owner decision.
 
 | Path | What |
 | --- | --- |
-| `client/coordination.py` | v4 candidate from deployed v3 blob `1fd8b97b` (Select = Merge): owners v3 ∪ {`network`}, **cap stays 3**, owner check per protocol version, owner check also in `request()` |
-| `client/coordination-v4n-transition.py` | audit/migrate helper (local files only; `migrate` not on the CLI) |
-| `client/coordination-v4n-test.py` | unittest, 6 tests (v3 unchanged + `network` refused; v4 four owners/cap 3/`fifth` refused; wrong cap; deployed v3 blob fails closed on v4; migration preserves records and needs all four ACKs; stale client / bad ACK refused) |
+| `client/coordination.py` | v4 from deployed v3 blob `1fd8b97b` (Select = Merge). **N2 final:** v4 owners exactly {`select-sort4`, `merge`, `network`} (`verifast` refused, owner decision 2026-10-22), **cap stays 3**, owner check per protocol version, owner check also in `request()`; v3 behaviour unchanged |
+| `client/coordination-v4-transition.py` | N2: `audit` (three ACKs: installed = adopted commit bytes, adoption diff only client paths, dispatcher bytes unchanged from baseline, branch checked out and adoption published via `ls-remote`), `migrate` (audit + idle check under the lock: no reservation/unresolved submit, no request file, `builds list --ongoing` empty; v3 → v4 read-back), `rollback` (v4 → v3 while no `network` reservation/request) |
+| `client/coordination-v4-test.py` | unittest, 7 tests; transition tests on real temporary Git repos with a bare origin |
 | `client/control.py` | Network client derived from Select `control.py` blob `b8f88ce8` (Select head `10e13a41`); window re-checked immediately before `reserve`. `ROOT=parents[3]` is correct only once copied to `cloud-build/`; inherited `download` stays reachable |
 | `client/test_network_control.py` | unittest, 8 tests (empty table; inherited Select phases unreachable; owner/lane/ceiling/window/status mismatches; past deadline; submit window/timeout; budget; profile SHA binding) |
 | `../runner/network-run.py` (+ `test_network_run.py`, 8 synthetic tests with a fake `verifast`) | Network runner core: runs every R4/W7 control crate under the P1 opt-in (`NETWORK_SWAP_IF_LESS_*` from meta), records exit/timeout/output digests as OBSERVED_UNCLASSIFIED or explicit NOT_RUN/ERROR; never classifies PASS. Not wired to a recipe yet (tool build/env setup come from Select's common runner files) |
 
-Run: `python3 -B client/coordination-v4n-test.py` and `python3 -B client/test_network_control.py`
+Run: `python3 -B client/coordination-v4-test.py` and `python3 -B client/test_network_control.py`
 (both pass on the VPS, 2026-10-22; no Cloud calls).
 
 ## Why v4 = four owners, cap 3
