@@ -22,8 +22,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 SOURCE = ROOT / "library/core/src/slice/sort/shared/smallsort.rs"
-SOURCE_SHA256 = "32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959"
+SOURCE_SHA256 = "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
 CALL_COUNTS = {9: 25, 13: 45}
+SCHEDULE_SHA256 = {
+    9: "ee641ad3e1f539830fd156844b9d5ddf9cd3950b0d62213f67ced0f980ea4639",
+    13: "df12b61bd9588e47976b94737961bedbbc8e33393f5312fe905b0bd23ad5dc8d",
+}
 TIMEOUT_SECONDS = 180
 
 
@@ -32,6 +36,16 @@ def digest(data: bytes) -> str:
 
 
 def require_hosted() -> None:
+    if os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build":
+        import importlib.util
+        provider_path = ROOT / "research/challenge-8/cloud-build/provider.py"
+        spec = importlib.util.spec_from_file_location("network_cloud_provider", provider_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        record = module.require_supported_provider()
+        if record.get("provider") != "cloud-build":
+            raise RuntimeError("Network Cloud provider identity mismatch")
+        return
     if (os.environ.get("GITHUB_ACTIONS") != "true" or
             os.environ.get("RUNNER_ENVIRONMENT") != "github-hosted" or
             platform.system() != "Linux"):
@@ -56,6 +70,8 @@ def extract(size: int) -> tuple[list[tuple[int, int]], list[int]]:
     if len(calls) != CALL_COUNTS[size]:
         raise RuntimeError(f"unexpected compare-exchange count in {name}: {len(calls)}")
     pairs = [(int(a), int(b)) for a, b in calls]
+    if digest(json.dumps(pairs, separators=(",", ":")).encode()) != SCHEDULE_SHA256[size]:
+        raise RuntimeError(f"pinned ordered schedule mismatch in {name}")
     if any(not 0 <= a < b < size for a, b in pairs):
         raise RuntimeError(f"invalid index/order in {name}")
     # Fail closed on any additional executable statement, including another call.
@@ -398,7 +414,15 @@ def negative_gate(path: Path, source: str, log: str, status: int, metadata: dict
                len(assertion_line) - len(assertion_line.lstrip()) + 1 <= int(location.group(1)) <
                int(location.group(2)) <= assertion_line.index(";") + 2)
     executed = re.search(rf"^\s*\d+(?:\.\d+)?s: .*{re.escape(path.name)}\({target},\d+-\d+\): Executing statement$", log, re.M) is not None
-    return (status == 1 and unchanged and len(bodies) == 1 and
+    expected = metadata.get("expected_bodies")
+    # Multi-body exact controls must finish every dependency before reaching
+    # their final negative wrapper; the legacy single-body gate is unchanged.
+    inventory = (len(bodies) == 1 if expected is None else
+                 isinstance(expected, list) and bool(expected) and
+                 bodies == expected and
+                 log.count("Leak check.") >= len(bodies) - 1 and
+                 log.count("Executing return statement") >= len(bodies) - 1)
+    return (status == 1 and unchanged and inventory and
             named_bodies(log) == bodies and len(errors) == 1 and columns and executed and
             location.group(3) == metadata["expected_predicate"])
 

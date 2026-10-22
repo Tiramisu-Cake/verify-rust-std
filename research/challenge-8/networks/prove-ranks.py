@@ -82,6 +82,16 @@ def identity_dag(n: int, pairs: list[tuple[int, int]]) -> tuple[str, list[str], 
     return "\n".join(out), outputs, trace
 
 
+def domain13_members() -> str:
+    """Checked membership-only context, deliberately independent of rel."""
+    return (LIST_INCLUDE + "/*@\nlemma void network13_domain_members(list<int> d)\n"
+            + f"    requires d == {domain(13)};\n"
+            + "    ensures " + " &*&\n            ".join(
+                f"mem({i}, d) == true" for i in range(13)) + ";\n{\n"
+            + "\n".join(f"    assert mem({i}, d) == true;" for i in range(13))
+            + "\n}\n@*/\n")
+
+
 def composition(n: int, pairs: list[tuple[int, int]], exact: bool = True) -> str:
     rank_proof = prove.threshold_proof(n, pairs)
     rank_dag, rank_outputs, rank_trace = prove.output_dag(n, pairs)
@@ -149,6 +159,7 @@ def composition(n: int, pairs: list[tuple[int, int]], exact: bool = True) -> str
         return (LIST_INCLUDE + rank_proof + prove.IDENTITY_HELPERS + source_core() +
                 id_dag + "\n".join(lines + ["@*/", ""]))
     if n == 13:
+        lines += [domain13_members().replace(LIST_INCLUDE, "").replace("/*@\n", "").replace("@*/\n", "")]
         # Checked congruence records that a symbolic formal domain equal to the
         # exact source-ID list has precisely the original finite-SWO premise.
         lines += [f"lemma void network{n}_domain_laws_equal(fixpoint(int, int, bool) rel, list<int> d)",
@@ -162,8 +173,7 @@ def composition(n: int, pairs: list[tuple[int, int]], exact: bool = True) -> str
                   f"    requires finite_swo(rel, {exact_domain}) == true;"]
     lines += ["    ensures " + full_post(exact_domain) + ";", "{"]
     if n == 13:
-        lines += [f"    assert mem({i}, {exact_domain}) == true;" for i in range(n)]
-        lines += [f"    assert mem({i}, d) == true;" for i in range(n)]
+        lines += ["    network13_domain_members(d);"]
         lines += [f"    network{n}_finite_swo_composition(rel, d, q);"]
     else:
         lines += [f"    assert mem({i}, {exact_domain}) == true;" for i in range(n)]
@@ -171,6 +181,32 @@ def composition(n: int, pairs: list[tuple[int, int]], exact: bool = True) -> str
     lines += ["}", "@*/", ""]
     return (LIST_INCLUDE + rank_proof + prove.IDENTITY_HELPERS + source_core() + id_dag +
             "\n".join(lines))
+
+
+def negative_exact_post(kind: str, pairs: list[tuple[int, int]]) -> tuple[str, dict]:
+    """Call the full exact theorem, then demand one deliberately false post.
+
+    Membership uses an absent occurrence; order demands strict reversal of
+    the guaranteed adjacent order. These controls preserve the checked unit.
+    """
+    if kind not in ("membership", "order"):
+        raise ValueError("unknown exact negative")
+    source = composition(13, pairs, exact=True)
+    predicate = (f"mem(13, {domain(13)}) == true" if kind == "membership" else
+                 "rel(network13_swo_out1(rel), network13_swo_out0(rel)) == true")
+    source += (f"/*@\nlemma void network13_negative_{kind}(fixpoint(int, int, bool) rel, list<int> d, int q)\n"
+               f"    requires finite_swo(rel, d) == true &*& d == {domain(13)};\n"
+               "    ensures true;\n{\n    network13_finite_swo_order(rel, d, q);\n"
+               f"    assert {predicate}; // TARGET_NEGATIVE_EXACT\n}}\n@*/\n")
+    target = next(i for i, line in enumerate(source.splitlines(), 1)
+                  if "TARGET_NEGATIVE_EXACT" in line)
+    # Exact stock diagnostic spelling is checked, never inferred from a
+    # nonzero exit. An unexpected printer spelling remains INCONCLUSIVE.
+    expected = ("false" if kind == "membership" else
+                "rel((network13_swo_out1)(rel), (network13_swo_out0)(rel))")
+    return source, {"target_line": target, "expected_predicate": expected,
+                    "expected_bodies": re.findall(r"^lemma void (\w+)\(", source, re.M),
+                    "control": kind}
 
 
 def negative_missing_equiv_trans() -> tuple[str, dict]:

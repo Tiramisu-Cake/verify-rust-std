@@ -1,9 +1,9 @@
 # Agent checkpoint: network-n13-exact-cloud-2026-10-23-n3
 
-- Owner: network | phase: NETWORK-N13-EXACT-2026-10-23-N3 | state: NOT_STARTED
-- Updated: 2026-10-22T20:39:18Z
+- Owner: network | phase: NETWORK-N13-EXACT-2026-10-23-N3 | state: ACTIVE
+- Updated: 2026-10-22T20:47:26Z
 - Baseline: source `cd371e035c7e573760c43bf934d53e8118ee3e7d`, tool `809de4596839b739dd999f9e462242c835e3af46`, profile `77df69ccd018f5cbd7a73fdc20f562db1f006d2d696818fae3fee3aa8dab0286`
-- Session dates: T0 `NOT_SET`; main deadline `NOT_SET`; absolute deadline `NOT_SET`
+- Session dates: T0 `2026-10-22T20:43:40Z`; main deadline `2026-10-22T22:43:40Z`; absolute deadline `2026-10-22T23:13:40Z`
 - Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
@@ -24,11 +24,11 @@
 - Universal N13 PASS or timeout/setup refusal counted as exact adapter acceptance — Exact full posts and intended controls on compatible source/tool identities are required.; [research/challenge-8/networks/RANK-RESULTS.md](networks/RANK-RESULTS.md) SHA `c76848727b3f62acd5c9b49ea4133c236db3f4d4a903bc42d5b8c159b215f2ca`
 
 ## Blocker
-Exact N13 adapter OPEN after historical timeout; first Network Cloud runner/source admission must be prepared from the unqualified seed.
+Exact N13 OPEN; first Cloud/source admission and H1 membership-split candidate in preparation.
 - [research/challenge-8/network/N13-ADAPTER-NOTE.md](network/N13-ADAPTER-NOTE.md) SHA `2d57a9dfcd8e6a440f7b30be6b2330ea3b3a8e46ce25c52b31dd2e0a9b3db271`
 
 ## Next
-At actual T0 register N3, review Cloud/source admission and the exact H1 candidate, then its first Build.
+Finish runner/account, synthetic tests and independent review; submit preflight.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/network-n13/N13-SEED-PROFILE-20261023-N3.json](cloud-build/network-n13/N13-SEED-PROFILE-20261023-N3.json) — `77df69ccd018f5cbd7a73fdc20f562db1f006d2d696818fae3fee3aa8dab0286`

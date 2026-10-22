@@ -49,10 +49,10 @@ Next: At actual T0 register N3, review Cloud/source admission and the exact H1 c
 
 ## Отчёт агента
 
-**network-n13-exact-cloud-2026-10-23-n3 · network · NETWORK-N13-EXACT-2026-10-23-N3 · NOT_STARTED**
-Updated: 2026-10-22T20:39:18Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `809de4596839b739dd999f9e462242c835e3af46` / `77df69ccd018f5cbd7a73fdc20f562db1f006d2d696818fae3fee3aa8dab0286`.
-Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
+**network-n13-exact-cloud-2026-10-23-n3 · network · NETWORK-N13-EXACT-2026-10-23-N3 · ACTIVE**
+Updated: 2026-10-22T20:47:26Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `809de4596839b739dd999f9e462242c835e3af46` / `77df69ccd018f5cbd7a73fdc20f562db1f006d2d696818fae3fee3aa8dab0286`.
+Dates: T0 `2026-10-22T20:43:40Z`; main `2026-10-22T22:43:40Z`; absolute `2026-10-22T23:13:40Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Exact N13 adapter OPEN after historical timeout; first Network Cloud runner/source admission must be prepared from the unqualified seed.
-Next: At actual T0 register N3, review Cloud/source admission and the exact H1 candidate, then its first Build.
+Blocker: Exact N13 OPEN; first Cloud/source admission and H1 membership-split candidate in preparation.
+Next: Finish runner/account, synthetic tests and independent review; submit preflight.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
