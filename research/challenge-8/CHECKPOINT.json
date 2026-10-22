@@ -31,7 +31,7 @@
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "N2 closed, budget0. Source reports v4/cap3/all clients adopted; no Network Build or three-live-Build validation.",
+      "claim": "N2 closed budget0; v4 adoption source-reported, no live-Build validation.",
       "evidence": [
         {
           "path": "research/challenge-8/network/coordinator-v4-adoption-20261022/ADOPTION.md",
@@ -41,7 +41,7 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "Historical source reports N9 exact and N13 universal accepted; exact adapter timed out300s. No credit transfers.",
+      "claim": "Historical N9/universal PASS claims; no credit transfer.",
       "evidence": [
         {
           "path": "research/challenge-8/networks/RANK-RESULTS.md",
@@ -51,7 +51,7 @@
     },
     {
       "assurance": "INDEPENDENTLY_ESTABLISHED",
-      "claim": "Seed identities statically checked; isolated stock26.09 worktree ready. No fresh proof credit.",
+      "claim": "Seed pins checked; stock26.09 ready, no fresh proof credit.",
       "evidence": [
         {
           "path": "research/challenge-8/cloud-build/network-n13/N13-SEED-PROFILE-20261023-N3.json",
@@ -65,7 +65,7 @@
     },
     {
       "assurance": "INDEPENDENTLY_ESTABLISHED",
-      "claim": "Luna HIGH GO: math ef6ded6, Cloud dc46c0e2. Prepare/check+14 synthetic tests pass; no formal credit.",
+      "claim": "Scoped math/Cloud GO; prepare and synthetic checks passed.",
       "evidence": [
         {
           "path": "research/challenge-8/network/n13/REVIEW-CLOUD-N3.md",
@@ -75,7 +75,7 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "Preflight bb05bfba: both gates accepted as reported, unchanged source, no errors; pinned source/tool/profile. Charge117s.",
+      "claim": "Preflight bb05bfba: both gates source-accepted, pinned identities, charge117s.",
       "evidence": [
         {
           "path": "research/challenge-8/observations/a0f17140fdeda22768736941e9b8b596aed728c70a0a6071d8c9e1d713d68dea.json",
@@ -89,7 +89,7 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "Exact01316eae: exit124/300s; no errors, unchanged source; visited19/22 ending symbolic composition. Adapter not reached; H1 untested. Charge454s.",
+      "claim": "Exact01316eae: timeout300,19/22 bodies; adapter unreached, charge454s.",
       "evidence": [
         {
           "path": "research/challenge-8/observations/2b0b1090b76d1c70f1695d267daa52c0f97c1f60df8d469960f78533fdabef54.json",
@@ -99,7 +99,7 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "Exact f414420: timeout124/no errors;22 starts. Composition285.839, wrapper373.671, last call403.583s. Shape1 no PASS; charge562s.",
+      "claim": "Exactf414420: timeout420/no errors; wrapper373.671,last call403.583s; charge562s.",
       "evidence": [
         {
           "path": "research/challenge-8/observations/bf08126b33de2f8d3fd636231d90f5d0c776bb6135ca6cd0ffafb8b2c02df448.json",
@@ -109,7 +109,7 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "Shape2 setup failures:0eef timeout124/624s;3f978 apt100/67s, explicit NOT_REACHED. No theorem checked.",
+      "claim": "Shape2 setup0eef timeout/624s;3f978 apt100/67s, NOT_REACHED.",
       "evidence": [
         {
           "path": "research/challenge-8/observations/3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7.json",
@@ -124,10 +124,10 @@
   ],
   "next_step": "Review newline fix and assembled-config test; retry exact.",
   "open": [
-    "Shape2 theorem unobserved; bootstrap newline correction in progress.",
-    "Exact full posts, intended negatives and compatible regressions OPEN.",
-    "R4/W7 blocked by inactive Select P1 and pending P2; W8 depends on Merge.",
-    "Workflow-owner FIRST_SESSION/CLOUD_HISTORY follow-up recorded; shared changes outside N3."
+    "Shape2 unobserved; bootstrap newline fix pending.",
+    "Full exact, controls, compatible regressions OPEN.",
+    "R4/W7 blocked: Select P1 inactive/P2 pending. W8 needs Merge.",
+    "Workflow-owner follow-up recorded; shared changes outside N3."
   ],
   "owner": "network",
   "phase": "NETWORK-N13-EXACT-2026-10-23-N3",
