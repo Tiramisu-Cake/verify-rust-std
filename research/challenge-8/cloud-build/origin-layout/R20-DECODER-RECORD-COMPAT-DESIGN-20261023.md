@@ -1,0 +1,11 @@
+# Decoder record compatibility (pre-edit)
+
+Defect/applicability: `vf_mir.capnp` has grown `Region.identity`, `Body.regionScopeId`, `Rvalue.Cast.sourceTy`, and optional `pointerCoercionData`. The generated OCaml decoder records therefore require these fields at every hand-written record construction. The refiner's built-in MIR fixture records are intentionally legacy/synthetic and currently omit the new fields, so a source/schema refresh breaks tool compilation even though these fixtures are not evidence for source-bound lifetime or cast metadata.
+
+Invariants: preserve fixture semantics. Every synthetic region stays legacy-erased with no identity (`identity=Nothing`); each synthetic body has empty/unbound `region_scope_id`; synthetic casts have neither source type nor coercion metadata (`Nothing`, never guessed from destination/operand). Runtime-exported casts retain exact source type: make `CastData.sourceTy` optional in schema and exporter always encode it as `Something(exact operand.ty(...))`. Existing pointer coercion metadata remains independently optional and encoded only for PointerCoercion. No compatibility default creates valid source-bound metadata, and no translator/refinement acceptance changes are included.
+
+Scope found: `refinement_checker.ml` has four erased Region constructions (lines ~470, 532, 683, 736 occurrences by rg), three synthetic Cast constructions (~483, 513, 707), and six hand-built Body records with empty captured hashes (~667, 768, 1011, 1253, 1473, 1657). Each Body receives `region_scope_id=""`. `vf_mir_exporter/src/lib.rs` already emits inference/erased Region identity and body scopes; cast exporter currently emits exact source type unconditionally and needs `Option` wrapping. Generated decoder naming follows the repository's `Nothing`/`Something` pattern.
+
+Validation permitted here: static diff inspection and `git diff --check` only. No local compiler/exporter/decoder/refiner/verifier run. This is decoder-record compatibility only and carries no proof/admission credit.
+
+The changed sourceTy field at ordinal @3 is wire-incompatible with the earlier experimental schema. The complete schema/exporter/decoder tuple must be rebuilt and pinned together; prior serialized MIR cannot supply evidence for this candidate.

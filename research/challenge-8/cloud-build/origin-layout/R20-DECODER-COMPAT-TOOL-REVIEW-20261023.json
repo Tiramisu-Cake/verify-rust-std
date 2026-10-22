@@ -1,0 +1,14 @@
+{
+  "schema": "merge-r20-review-record-v1",
+  "candidate": "578120769161e217e53bd569bafdccbd4b2e020e",
+  "baseline": "1fec4ffa55703fc571c6eb82d96072596325d647",
+  "verdict": "GO",
+  "reviewer": "independent Luna HIGH /root/r20_review",
+  "spec_sha256": "ba72d4b71bad3ee9f9b14f0cb9c5fee13b10de56242e31823ecb1adbb5efb3de",
+  "packet_sha256": "596ad39d6d13ecd5b07145ad0f3f18d68289d4a785b6ce96070f5f115a3c9ba6",
+  "boundaries": [
+    "Synthetic records explicitly unbound; actual exporter writes Some exact sourceTy.",
+    "@3 schema type is wire-incompatible; pin fresh exporter/schema/decoder, no old serialized MIR reuse.",
+    "Compile/decoder/refiner behavior remain Cloud UNVERIFIED; no proof credit."
+  ]
+}
