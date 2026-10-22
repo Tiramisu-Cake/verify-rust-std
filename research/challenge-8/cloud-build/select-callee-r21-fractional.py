@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import argparse
+import difflib
 import importlib.util
 import json
 import os
 from pathlib import Path
+import subprocess
 import sys
 import time
 import traceback
@@ -80,7 +82,132 @@ def require_cloud(env: dict[str, str]) -> None:
          'ambient R20/R21 fractional semantic opt-in refused')
 
 
-def pinned_dependencies(repo: Path, cloud_dir: Path):
+def _derive_o26_guard_overlay(committed: bytes, rel: str, o26) -> bytes:
+    """Recompute exactly the guard-only byte rewrite used by o26.overlay."""
+    try:
+        before = committed.decode('utf-8')
+    except UnicodeDecodeError as exc:
+        raise RuntimeError('R21-FRACTIONAL-FINGERPRINT: committed overlay source is not UTF-8: ' + rel) from exc
+    guards = [guard for guard in o26.GUARD_VARIANTS if before.count(guard) == 1]
+    need(len(guards) == 1, 'committed provider guard is absent or ambiguous: ' + rel)
+    after = before.replace(guards[0], '_o26_cloud_provider_ok()', 1)
+    anchor = 'from pathlib import Path\n'
+    need(after.count(anchor) == 1 and 'import importlib.util' in after,
+         'provider overlay insertion anchors differ: ' + rel)
+    after = after.replace(anchor, anchor + o26.HELPER, 1)
+    try:
+        compile(after, rel, 'exec')
+    except SyntaxError as exc:
+        raise RuntimeError('R21-FRACTIONAL-FINGERPRINT: recomputed provider overlay fails syntax: ' + rel) from exc
+    return after.encode('utf-8')
+
+
+def validate_o26_provider_overlay(repo: Path, cloud_dir: Path, evidence: Path,
+                                  o26, *, expected_source_sha256: str,
+                                  expected_original_sha256: str,
+                                  committed_reader: Callable | None = None
+                                  ) -> dict[str, Any]:
+    """Bind O26's provider receipt and preflight to committed and current bytes."""
+    receipt_path = evidence / 'candidate-provider-overlay.json'
+    need(receipt_path.is_file(), 'O26 provider overlay receipt is missing')
+    try:
+        receipt = json.loads(receipt_path.read_text())
+    except (OSError, ValueError) as exc:
+        raise RuntimeError('R21-FRACTIONAL-FINGERPRINT: provider overlay receipt is unreadable') from exc
+    need(isinstance(receipt, dict), 'O26 provider overlay receipt has wrong type')
+    provider_path = cloud_dir / 'provider.py'
+    need(provider_path.is_file() and sha(provider_path.read_bytes()) == o26.PROVIDER_SHA and
+         receipt.get('provider_sha256') == o26.PROVIDER_SHA,
+         'O26 provider module receipt pin differs')
+    need(receipt.get('proof_sha') == o26.git_sha(repo),
+         'provider receipt proof checkout identity differs')
+    expected_paths = [path.as_posix() for path in o26.OVERLAYS]
+    rows = receipt.get('files')
+    need(isinstance(rows, list) and [row.get('path') if isinstance(row, dict) else None
+         for row in rows] == expected_paths,
+         'provider receipt overlay file inventory differs')
+
+    if committed_reader is None:
+        def committed_reader(path: Path) -> bytes:
+            return subprocess.check_output(['git', '-C', str(repo), 'show',
+                                             'HEAD:' + path.as_posix()])
+
+    capture_rel = ROOT / 'overnight-assume-actual/capture.py'
+    validated = []
+    for rel_path, entry in zip(o26.OVERLAYS, rows):
+        rel = rel_path.as_posix()
+        expected_keys = {'path', 'original_sha256', 'cloud_overlay_sha256',
+                         'guard_only', 'diff'}
+        need(set(entry) == expected_keys and entry.get('guard_only') is True,
+             'provider receipt row malformed or not guard-only: ' + rel)
+        committed = committed_reader(rel_path)
+        need(sha(committed) == entry.get('original_sha256'),
+             'committed provider-overlay source hash differs: ' + rel)
+        if rel_path == capture_rel:
+            need(sha(committed) == CAPTURE_SHA256,
+                 'committed mode-9 capture source pin differs')
+        expected_bytes = _derive_o26_guard_overlay(committed, rel, o26)
+        current_path = repo / rel_path
+        need(current_path.is_file(), 'overlaid source file is missing: ' + rel)
+        current = current_path.read_bytes()
+        need(current == expected_bytes and
+             sha(current) == entry.get('cloud_overlay_sha256'),
+             'current source differs from exact O26 guard overlay: ' + rel)
+        before_text = committed.decode('utf-8')
+        after_text = expected_bytes.decode('utf-8')
+        expected_diff = ''.join(difflib.unified_diff(
+            before_text.splitlines(True), after_text.splitlines(True),
+            fromfile=rel + '.committed', tofile=rel + '.cloud-guard'))
+        need(entry.get('diff') == expected_diff,
+             'provider overlay receipt diff differs from recomputed guard rewrite: ' + rel)
+        validated.append({'path': rel, 'original_sha256': sha(committed),
+                          'cloud_overlay_sha256': sha(current), 'guard_only': True})
+
+    preflight_path = evidence / 'source-preflight.json'
+    need(preflight_path.is_file(), 'O26 source-only preflight receipt is missing')
+    try:
+        preflight = json.loads(preflight_path.read_text())
+    except (OSError, ValueError) as exc:
+        raise RuntimeError('R21-FRACTIONAL-FINGERPRINT: source preflight receipt is unreadable') from exc
+    need(isinstance(preflight, dict), 'O26 source preflight receipt has wrong type')
+    source = preflight.get('source')
+    expected_source = {'original_sha256': expected_original_sha256,
+                       'verified_sha256': expected_source_sha256}
+    need(isinstance(source, dict) and
+         preflight.get('classification') == 'O26_REFRESH_SOURCE_ONLY_PREFLIGHT' and
+         preflight.get('source_generation_complete') is True and
+         preflight.get('compiler_or_verifier_invoked') is False and
+         source.get('ghost_strip_identity') is True and
+         isinstance(source.get('source_order'), list) and len(source['source_order']) == 9 and
+         len(set(source['source_order'])) == 9,
+         'O26 source-only preflight receipt is incomplete or malformed')
+    need(_is_digest(expected_source['original_sha256']) and
+         _is_digest(expected_source['verified_sha256']) and
+         source.get('original_sha256') == expected_source['original_sha256'] and
+         source.get('verified_sha256') == expected_source['verified_sha256'],
+         'O26 source preflight source hashes malformed')
+    files = preflight.get('files')
+    need(isinstance(files, dict) and set(files) == {'original', 'verified'},
+         'O26 source preflight file inventory differs')
+    for key, digest in expected_source.items():
+        label = key.removesuffix('_sha256')
+        relative = Path(files[label]) if isinstance(files[label], str) else Path('/')
+        need(not relative.is_absolute() and '..' not in relative.parts,
+             'O26 source preflight file path escapes evidence root: ' + label)
+        path = evidence / relative
+        need(path.is_file() and sha(path.read_bytes()) == digest,
+             'O26 preflight source bytes differ: ' + key)
+    return {'overlay_receipt_sha256': sha(receipt_path.read_bytes()),
+            'preflight_receipt_sha256': sha(preflight_path.read_bytes()),
+            'files': validated, 'source': expected_source}
+
+
+def _is_digest(value: object) -> bool:
+    return isinstance(value, str) and len(value) == 64 and all(
+        char in '0123456789abcdef' for char in value)
+
+
+def pinned_dependencies(repo: Path, cloud_dir: Path, evidence: Path | None = None):
     transform = load(repo / TRANSFORM_REL, 'r21_fractional_transform', TRANSFORM_SHA256)
     need(getattr(transform, 'PINNED_REPAIR_SHA256', None) == TRANSFORM_REPAIR_SHA256 and
          getattr(transform, 'PINNED_CONTROLS_SHA256', None) == TRANSFORM_CONTROLS_SHA256 and
@@ -90,13 +217,14 @@ def pinned_dependencies(repo: Path, cloud_dir: Path):
     r20 = load(cloud_dir / 'select-callee-r20.py', 'r21_fractional_r20', R20_HELPER_SHA256)
     o26 = load(cloud_dir / 'o26-recipe.py', 'r21_fractional_o26', O26_RECIPE_SHA256)
     refresh = load(cloud_dir / 'o26-refresh-recipe.py', 'r21_fractional_refresh', O26_REFRESH_SHA256)
-    capture_path = repo / ROOT / 'overnight-assume-actual/capture.py'
-    need(capture_path.is_file() and sha(capture_path.read_bytes()) == CAPTURE_SHA256,
-         'pinned mode-9 capture source differs')
+    need(evidence is not None, 'O26 evidence directory is required for overlay binding')
     need(isinstance(getattr(refresh, 'UNIT', None), str) and
          isinstance(getattr(refresh, 'BODIES', None), (list, tuple)) and
          len(refresh.BODIES) == 9 and all(isinstance(x, str) for x in refresh.BODIES),
          'O26 default snapshot pin inventory malformed')
+    validate_o26_provider_overlay(repo, cloud_dir, evidence, o26,
+        expected_source_sha256=refresh.SOURCE,
+        expected_original_sha256=refresh.ORIGINAL)
     return transform, r20, o26, refresh
 
 
@@ -448,7 +576,7 @@ def fingerprint_batch(a, *, transform, export_decode: Callable,
 def fingerprint(a) -> dict[str, Any]:
     """Load exact pinned dependencies and run the eight R21 fingerprints."""
     require_cloud(dict(os.environ))
-    transform, r20, o26, refresh = pinned_dependencies(a.repo, a.cloud_dir)
+    transform, r20, o26, refresh = pinned_dependencies(a.repo, a.cloud_dir, a.evidence)
     cap = o26.load_capture(a.repo, 'r21_fractional_fingerprint')
     need(callable(getattr(cap, 'refusal_fingerprint', None)) and
          callable(getattr(cap, 'clear_semantic_opt_ins', None)),

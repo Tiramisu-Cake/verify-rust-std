@@ -7,6 +7,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import subprocess
 import tempfile
 import time
 import unittest
@@ -241,6 +242,86 @@ class FractionalFingerprintTests(unittest.TestCase):
         for env, label in cases:
             with self.subTest(label=label), self.assertRaises(RuntimeError):
                 TARGET.require_cloud(env)
+
+    def test_o26_overlay_receipt_binds_committed_and_guard_only_cloud_bytes(self):
+        """The provider overlay receipt is validated against both byte states."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            repo = root / 'proof-checkout'
+            repo.mkdir()
+            subprocess.run(['git', 'init', '-q', str(repo)], check=True)
+            subprocess.run(['git', '-C', str(repo), 'config', 'user.email',
+                            'synthetic@example.invalid'], check=True)
+            subprocess.run(['git', '-C', str(repo), 'config', 'user.name',
+                            'Synthetic Test'], check=True)
+
+            o26 = TARGET.load(HERE / 'o26-recipe.py', 'test_o26_recipe',
+                              TARGET.O26_RECIPE_SHA256)
+            for rel in o26.OVERLAYS:
+                path = repo / rel
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(
+                    'from pathlib import Path\n'
+                    'import importlib.util\n'
+                    'import os\n\n'
+                    'def provider_guard():\n'
+                    '    return ' + o26.GUARD + '\n')
+            subprocess.run(['git', '-C', str(repo), 'add', '.'], check=True)
+            subprocess.run(['git', '-C', str(repo), 'commit', '-qm', 'synthetic overlay base'],
+                           check=True)
+
+            cloud_dir = root / 'cloud-build'
+            cloud_dir.mkdir()
+            provider = HERE / 'provider.py'
+            (cloud_dir / 'provider.py').write_bytes(provider.read_bytes())
+            evidence = root / 'evidence'
+            evidence.mkdir()
+            o26.overlay(repo, provider, evidence / 'candidate-provider-overlay.json')
+
+            original = b'preflight original synthetic source'
+            verified = b'preflight verified synthetic source'
+            (evidence / 'preflight/original/lib.rs').parent.mkdir(parents=True)
+            (evidence / 'preflight/original/lib.rs').write_bytes(original)
+            (evidence / 'preflight/verified/lib.rs').parent.mkdir(parents=True)
+            (evidence / 'preflight/verified/lib.rs').write_bytes(verified)
+            source = {
+                'classification': 'O26_REFRESH_SOURCE_ONLY_PREFLIGHT',
+                'source_generation_complete': True,
+                'compiler_or_verifier_invoked': False,
+                'source': {
+                    'original_sha256': digest(original),
+                    'verified_sha256': digest(verified),
+                    'ghost_strip_identity': True,
+                    'source_order': [f'body-{i}' for i in range(9)],
+                },
+                'files': {'original': 'preflight/original/lib.rs',
+                          'verified': 'preflight/verified/lib.rs'},
+            }
+            (evidence / 'source-preflight.json').write_text(json.dumps(source))
+            capture = repo / TARGET.ROOT / 'overnight-assume-actual/capture.py'
+            capture_sha = digest(subprocess.check_output([
+                'git', '-C', str(repo), 'show', 'HEAD:' +
+                (TARGET.ROOT / 'overnight-assume-actual/capture.py').as_posix()]))
+            with patch.object(TARGET, 'CAPTURE_SHA256', capture_sha):
+                validated = TARGET.validate_o26_provider_overlay(
+                    repo, cloud_dir, evidence, o26,
+                    expected_source_sha256=digest(verified),
+                    expected_original_sha256=digest(original))
+            self.assertEqual(len(validated['files']), len(o26.OVERLAYS))
+            capture_row = next(row for row in validated['files']
+                               if row['path'].endswith('/capture.py'))
+            self.assertEqual(capture_row['original_sha256'], capture_sha)
+            self.assertNotEqual(capture_row['cloud_overlay_sha256'], capture_sha)
+
+            # Current Cloud checkout bytes and receipt are both independently
+            # bound; changing either after receipt generation is rejected.
+            capture.write_bytes(capture.read_bytes() + b'\n# injected\n')
+            with patch.object(TARGET, 'CAPTURE_SHA256', capture_sha), \
+                 self.assertRaisesRegex(RuntimeError, 'exact O26 guard overlay'):
+                TARGET.validate_o26_provider_overlay(
+                    repo, cloud_dir, evidence, o26,
+                    expected_source_sha256=digest(verified),
+                    expected_original_sha256=digest(original))
 
     def test_fingerprint_public_entry_preserves_full_namespace(self):
         args = SimpleNamespace(repo=self.root, cloud_dir=self.root,
