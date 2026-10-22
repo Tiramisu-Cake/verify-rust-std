@@ -1,0 +1,31 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "529b559e3ad14d26d9e3323ff018a01dc681ae71",
+  "candidate_commit": "6f76ab3b189f527d06e47a3164dab23de83656b6",
+  "defect": "c5 (lib.rs `let c5 = is_less(&*unknown_right, &*unknown_left);`) has no callback setup; overlay count limited to 4. Prepared before S2 evidence; applicable only if S2 shows c4 passing with c5 as the next frontier.",
+  "applicability": "Same reviewed pattern for call 5 with selector-chosen operands unknown_right/unknown_left (program locals from select_unpredictable; refs precreated at the operand terms, no address bridge). Overlay: count literal 5 in both parses; with all five calls indexed no deferred locals remain, so the deferred normal-suffix wrapper is skipped (static_error if any deferred local remains); validator then sees no deferred ids and no wrapper.",
+  "invariants": [
+    "No runtime/CFG change; strip_ghost equality for positive and controls; no axiom/bridge/leak relaxation.",
+    "Count outside absent/2..5 refused; at N=5 exactly 30 locals in five 6-local scopes, deferred 0; wrapper skip only when actual_c2_enabled and N=5.",
+    "Client pins profile 5a15addd and requires count in {3,4,5}.",
+    "Credit/acceptance false."
+  ],
+  "controls": [
+    "Eight c5 controls via the shared builder: all four shares dropped (no selected share on any path), base0 end token, order (unknown_left,unknown_right), wrong ref min (never equals unknown_right on any (c3,c4) row), index 4, missing fourth token, displaced, index-6 overflow before lo select.",
+    "indexed-count-off for count 5; c2 controls rerun; c3/c4 controls not rerun (need untouched next call)."
+  ],
+  "dependencies": [
+    "research/challenge-8/task-history/select-c3-r19/C4-review.json"
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-c3-r19/C4-review.json",
+      "sha256": "41733bdbc4dfee09ed85035dda40eaa663c4df897480b59b014548d778af32c8"
+    }
+  ],
+  "known_limitations": [
+    "Transport: this commit is 322 bytes over the 191-chunk cap; a follow-up recipe commit will drop the closed R17 profile (measured 191 chunks, 882 spare).",
+    "Not compiled locally; Cloud only; path-partial; credit0."
+  ]
+}

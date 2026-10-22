@@ -1,0 +1,95 @@
+{
+ "build": {
+  "dispatch_token": "dispatch-1e01cd1bab634977bd63e328c15d16e1",
+  "owner": "select-sort4",
+  "phase_id": "SORT4-ACTUAL-C3-2026-10-22-R19",
+  "infra_sha": "3af7d37d233fbfc3f14fe94e33c03d2c93ae173e",
+  "proof_sha": "3af7d37d233fbfc3f14fe94e33c03d2c93ae173e",
+  "lane": "o26-sort4-c1-current-recovery",
+  "submitted_config_sha256": "1223cd2220951a1842f894427e8f39f256a0d5c72add7654374e78d590e136a6",
+  "reserved_seconds": 1260,
+  "timeout_seconds": 1200,
+  "status": "FAILURE",
+  "publish_text_logs": true,
+  "source_mode": "pinned-objects",
+  "source_input_sha256": "27443c2f0755b0b77d7355711f4c119be263b6335ff027961c9bcbc946916c98",
+  "build_id": "8916761a-a0a7-428a-b853-187e45ef4dfa",
+  "start_time": "2026-10-22T15:00:00.098753671Z",
+  "finish_time": "2026-10-22T15:10:11.036832Z",
+  "create_time": "2026-10-22T14:59:59.369137246Z",
+  "build_seconds": 612,
+  "accounted": true,
+  "execution_seconds": 611
+ },
+ "integrity": "Brief v0.11 catalogue/refresh; archive identity per Brief",
+ "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+ "watch": {
+  "stale_job": "b88ee155-066c-4763-8da4-5c2bd242d18f (STALE: committed client changed by a local c5 commit after arming; procedural slip)",
+  "job_id": "441fb304-d8c3-429f-911b-82abbaa9063e",
+  "event_id": "36feeeaf-0c25-4288-aa73-6939db00191c",
+  "mode": "CONTINUE_EXISTING_WINDOW",
+  "model_turns_while_waiting": 0
+ },
+ "pins": {
+  "proof_sha": "3af7d37d233fbfc3f14fe94e33c03d2c93ae173e",
+  "profile_sha256": "c7bbbc46228cda204dc1f74789878f3945c95e0e19da874c2446d3c3e2db5f8d",
+  "overlay_result": "586a162c79c2acec18d3f7d6dfcb0710b27dfe717af45465d039e44c0c2d0135"
+ },
+ "s1_profile_identity": {
+  "profile_sha256": "36bed85d2810a8d85a868ad85e57b32d27f0f39496a30f20a0efb356ea8a0383",
+  "commit": "67d472cdf35e1e0c1fc9679e5a2d9caa33a9dcb1"
+ },
+ "body_target": "BODY_PROOF_FAILED",
+ "failure": {
+  "location": "verified/lib.rs(371,19-55) `let min = hint::select_unpredictable(c3, c, a);`",
+  "message": "No such function: std::hint::select_unpredictable",
+  "file_id": "4837c1e6aee68dba4774abb6b4a72bed061c54bcca0c4738fef5c0076b2f6943",
+  "file_path": "allprooflogs/cases/sort4-c1-current-recovery/a1-actual-body/actual-sort4/stage/body-verification.log",
+  "file_sha256": "3f6c5dc0120e3b8255a6c4cc7835b29ec1096999e4f3b7c47c37e10c930f56e9",
+  "line": 25567,
+  "exact": true,
+  "note": "locate ': error:' complete=true: single match."
+ },
+ "source_reported_progress": [
+  "Actual body first failure moved from the c4 call (S1) to the first selector call lib.rs:371 (no function/spec for std::hint::select_unpredictable in the actual-body route). c3 and c4 passed on the first explored path only. Causality UNKNOWN; credit0."
+ ],
+ "control_observations": [
+  {
+   "control": "c4-missing-unselected-share-negative",
+   "file_sha256_prefix": "9160e28cba1f",
+   "line": 20424,
+   "message": "No matching heap chunks: [_]share(T)(cmp4_k, t, ptr_add_(v_base, 2+0))",
+   "location": "general.rsspec(243) via lib.rs(351) init_ref_share for selected d"
+  },
+  {
+   "control": "c4-missing-unrelated-end-token-negative",
+   "file_sha256_prefix": "72683d8e2450",
+   "line": 23048,
+   "message": "No matching heap chunks: borrow_end_token(cmp4_k, full_borrow_content(T,t)(v_base+3))",
+   "location": "lib.rs(145) consumed closing callback_four_debt at lib.rs:362"
+  },
+  {
+   "control": "c4-wrong-ordered-ref-pair-negative",
+   "file_sha256_prefix": "9e20a94c993a",
+   "line": 22898,
+   "message": "Assertion might not hold. (Cannot prove fn_outcome_result(outcome15) = left4_ref.)",
+   "location": "lib.rs(367) c4 call"
+  },
+  {
+   "control": "c4-wrong-ref-resource-negative",
+   "file_sha256_prefix": "e430f1c7c476",
+   "line": 22243,
+   "message": "No matching heap chunks: ref_precreated_token<T>(ptr_add_(v_base, 2+0), _)",
+   "location": "aliasing.rsspec(88) via lib.rs(367,66-69) c4 argument"
+  },
+  {
+   "control": "c1-indexed-count-off-negative",
+   "line": 110,
+   "message": "R17 indexed scope: one exact ordered cmp..cmpN declaration range required"
+  },
+  "c2 missing-share: leak of base0/base1 full_borrows at the function-end leak check lib.rs:384 (c2 direct-unwind exit); c2 ordered-ref assertion at lib.rs:284: designed, unchanged.",
+  "c4 frontend controls (index/missing-fourth/displaced/overflow): not read individually; expected CHECKED_LEMMA_PREREQUISITE_FAILED as in S1 (reason not observed). c3 controls not rerun at count 4 (S1 only)."
+ ],
+ "control_qualification": "Four c4 resource controls designed by message/location; path-partial; not matrix qualification; credit0.",
+ "proof_credit": 0
+}

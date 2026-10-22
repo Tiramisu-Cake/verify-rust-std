@@ -47,10 +47,10 @@ Next: Implement C3-NEXT-DESIGN (N-index overlay, c3 constructor sharing all four
 
 ## Отчёт агента
 
-**select-c3-callback-autonomous-2026-10-22-r19 · select-sort4 · SORT4-ACTUAL-C3-2026-10-22-R19 · HANDOFF**
-Updated: 2026-10-22T15:00:30Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `87a0bfe586b40a33bdf840164aec8748872c8fdd11b3faad421d3860d1f2a091`.
-Dates: T0 `2026-10-22T13:50:26Z`; main `2026-10-22T15:50:26Z`; absolute `2026-10-22T16:20:26Z`. Budget 3600s: 652s spent, 0s retired, 2948s remaining including reservations.
-Active Build IDs: 8916761a-a0a7-428a-b853-187e45ef4dfa; unresolved: none recorded.
-Blocker: c4 has no callback setup: No matching heap chunks ref_precreated_token<T>(ptr_add_(v_base,2+0)); overlay count limited to 3. [Build `2b55f6a5-076a-4fd6-92e9-c42aae9ba500`]
-Next: Wait S2 Build 8916761a (c4, pins 3af7d37d) via smallsort-session wait; ack; Brief: c4 and controls by name/message/location; c5 draft ready (scratch).
+**select-c3-callback-autonomous-2026-10-22-r19 · select-sort4 · SORT4-ACTUAL-C3-2026-10-22-R19 · ACTIVE**
+Updated: 2026-10-22T15:20:00Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `87a0bfe586b40a33bdf840164aec8748872c8fdd11b3faad421d3860d1f2a091`.
+Dates: T0 `2026-10-22T13:50:26Z`; main `2026-10-22T15:50:26Z`; absolute `2026-10-22T16:20:26Z`. Budget 3600s: 1264s spent, 0s retired, 2336s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: No such function: std::hint::select_unpredictable; actual callee proof (S7 select thread) not accepted, so no summary allowed. [Build `8916761a-a0a7-428a-b853-187e45ef4dfa`]
+Next: Close the actual select_unpredictable callee (S7) or owner-chosen route; then c5 candidate 6f76ab3b with transport fix (drop closed R17 profile: 191 chunks).
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
