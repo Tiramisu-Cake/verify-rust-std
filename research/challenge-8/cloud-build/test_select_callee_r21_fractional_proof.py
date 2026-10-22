@@ -28,6 +28,7 @@ ORIGINAL = b'// original synthetic Rust source\n'
 BASE = (b'// verified synthetic owner-projection source\n'
         b'pub unsafe fn checked_forget_owned<T>(t: T)\n'
         b'{\n    let _ = ManuallyDrop::new(t);\n}')
+FINAL_SELECT_CALL = TARGET.FINAL_SELECT_CALL
 UNIT = b'synthetic unit mode9 bytes'
 BODIES = [f'synthetic mode9 body {i}'.encode() for i in range(9)]
 OPT_IN = 'SORT4_R21_FRACTIONAL_TEST'
@@ -40,7 +41,7 @@ def digest(raw: bytes) -> str:
 
 
 def source_for(variant: str) -> bytes:
-    return BASE + f'// {variant}\n'.encode()
+    return BASE + f'// {variant}\n'.encode() + FINAL_SELECT_CALL
 
 
 def snapshot_rows(case: Path) -> dict:
@@ -159,10 +160,15 @@ class FractionalProofTests(unittest.TestCase):
             log = 'verified: all normal, unwind, and nested Drop obligations discharged\n'
         elif variant in TARGET.SAME_SITE_NEGATIVES:
             exit_code = 1
-            log = 'verified/lib.rs(1,1-2): Cannot prove result6 = (condition ? true_val : false_val).\n'
+            source = (case / 'verified/lib.rs').read_bytes()
+            target = TARGET._final_select_target(source)
+            log = (f"{target['file']}({target['line']},"
+                   f"{target['start_column']}-{target['end_column']}): "
+                   f"{target['message']}\n")
         else:
             exit_code = 1
-            log = 'verified/lib.rs(5,1-2): error: checked_forget_owned postcondition failed\n'
+            log = ('verified/lib.rs(5,1-2): error: unrelated failure\n'
+                   'checked_forget_owned appears in context only\n')
         (case / 'r20-merged-optin.log').write_text(log)
         original = (case / 'original/lib.rs').read_bytes()
         verified = (case / 'verified/lib.rs').read_bytes()
@@ -177,19 +183,25 @@ class FractionalProofTests(unittest.TestCase):
             'pointer_drop_gate_active': True, 'stdout': 'r20-merged-optin.log',
             'stderr': 'r20-merged-optin.log'}
 
-    def test_all_variants_classify_positive_and_expected_controls(self):
+    def test_positive_and_same_site_controls_classify_but_callee_targets_stay_unpinned(self):
         record = self.run_batch()
-        self.assertTrue(record['complete'])
+        self.assertFalse(record['complete'])
         self.assertIs(record['accepted'], False)
         self.assertIs(record['proof_credit'], False)
+        self.assertIs(record['body_proof_run'], True)
         self.assertEqual(record['rows']['positive']['classification'],
                          'POSITIVE_VERIFIED_SOURCE_REPORTED')
         for variant in TARGET.SAME_SITE_NEGATIVES:
             self.assertEqual(record['rows'][variant]['classification'],
                              'EXPECTED_SAME_SITE_FINAL_SELECT_FAILURE')
+            target = record['rows'][variant]['expected_diagnostic_target']
+            self.assertEqual(target['file'], 'verified/lib.rs')
+            self.assertEqual(target['line'],
+                source_for(variant)[:source_for(variant).index(FINAL_SELECT_CALL)].count(b'\n') + 1)
         for variant in TARGET.CALLEE_NEGATIVES:
             self.assertEqual(record['rows'][variant]['classification'],
-                             'EXPECTED_CALLEE_CONTRACT_REJECTION')
+                             'TARGET_UNPINNED')
+            self.assertEqual(record['rows'][variant]['status'], 'INCOMPLETE')
 
     def test_fingerprint_to_pins_rejects_partial_and_malformed_per_case_data(self):
         record = fingerprint_fixture()
@@ -289,6 +301,51 @@ class FractionalProofTests(unittest.TestCase):
         self.assertFalse(record['complete'])
         self.assertEqual(record['rows']['positive']['bound_verdict'],
                          'NOT_RUN_OR_INCONCLUSIVE')
+
+    def test_deadline_before_any_stage_keeps_body_proof_run_false(self):
+        record = self.run_batch(deadline=int(time.time()) + 2)
+        self.assertFalse(record['complete'])
+        self.assertIs(record['body_proof_run'], False)
+        self.assertTrue(all(row['status'] == 'NOT_RUN'
+                            for row in record['rows'].values()))
+
+    def test_decoy_logs_cannot_confirm_control_target(self):
+        variant = 'omit-selected-own'
+        case = self.evidence / 'decoy' / 'nine-body-a1-owned-forget'
+        (case / 'original').mkdir(parents=True)
+        (case / 'verified').mkdir()
+        candidate = source_for(variant)
+        (case / 'original/lib.rs').write_bytes(ORIGINAL)
+        (case / 'verified/lib.rs').write_bytes(candidate)
+        target = TARGET._final_select_target(candidate)
+        expected = (f"{target['file']}({target['line']},"
+                    f"{target['start_column']}-{target['end_column']}): "
+                    f"{target['message']}")
+        source_hashes = {'original/lib.rs': digest(ORIGINAL),
+                         'verified/lib.rs': digest(candidate)}
+        with patch.dict('os.environ', {**self.env, OPT_IN: '1'}, clear=True):
+            stage = self.good_proof_stage(case=case, name='r20-merged-optin',
+                tool_home=self.tool_home, schema=Path('/synthetic/schema'),
+                compiler_sysroot=Path('/synthetic/sysroot'),
+                deadline_epoch=int(time.time()) + 3600, variant=variant)
+        decoy_logs = (
+            expected + '\nverified/lib.rs(999,1-2): error: unrelated failure\n',
+            expected + '\n' + expected + '\n',
+            expected.replace(f"({target['line']},", '(999,') + '\n',
+        )
+        for log in decoy_logs:
+            with self.subTest(log=log):
+                self.assertEqual(TARGET._classify(R20, variant, stage, log,
+                    source_hashes, source_hashes, self.tool_home, candidate)[1],
+                    'CONTROL_FAILURE_TARGET_MISMATCH')
+
+        callee_variant = 'callee-false-normal'
+        callee_stage = dict(stage, exit=1)
+        callee_log = ('verified/lib.rs(5,1-2): error: unrelated failure\n'
+                      'checked_forget_owned appears in a note\n')
+        self.assertEqual(TARGET._classify(R20, callee_variant, callee_stage,
+            callee_log, source_hashes, source_hashes, self.tool_home,
+            candidate)[1], 'TARGET_UNPINNED')
 
     def test_postflight_snapshot_mismatch_is_saved_as_incomplete(self):
         capture = FakeCapture()

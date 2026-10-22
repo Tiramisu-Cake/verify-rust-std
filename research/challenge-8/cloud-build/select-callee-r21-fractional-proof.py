@@ -25,8 +25,11 @@ VARIANTS = (
 SAME_SITE_NEGATIVES = {'omit-selected-own', 'omit-unselected-own', 'no-retained-half'}
 CALLEE_NEGATIVES = set(VARIANTS) - {'positive'} - SAME_SITE_NEGATIVES
 EXPECTED_REFUSAL = 'INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE'
-FINAL_SELECT_DIAGNOSTIC = 'Cannot prove result6 ='
-CALLEE_DIAGNOSTIC = 'checked_forget_owned'
+FINAL_SELECT_CALL = (b'        crate::intrinsics::select_unpredictable(condition, true_val, false_val)'
+                     b'.assume_init()\n')
+FINAL_SELECT_COLUMNS = (45, 47)
+FINAL_SELECT_MESSAGE = ('Cannot prove condition. Cannot prove result6 = '
+                        '(condition ? true_val : false_val).')
 R20_OPT_IN = 'SORT4_R20_FINAL_SELECT_REPAIR'
 FRACTIONAL_PREFIX = 'SORT4_R21_FRACTIONAL_'
 STAGE_RESERVE_SECONDS = 150
@@ -264,28 +267,61 @@ def _validate_capture(result: object, case: Path, original_sha: str,
             'snapshots': observed, 'returned': result}
 
 
+def _final_select_target(verified_source: bytes) -> dict[str, Any]:
+    need(isinstance(verified_source, bytes) and
+         verified_source.count(FINAL_SELECT_CALL) == 1,
+         'one exact final-select call-site anchor is required')
+    offset = verified_source.index(FINAL_SELECT_CALL)
+    line = verified_source[:offset].count(b'\n') + 1
+    return {'file': 'verified/lib.rs', 'line': line,
+            'start_column': FINAL_SELECT_COLUMNS[0],
+            'end_column': FINAL_SELECT_COLUMNS[1],
+            'message': FINAL_SELECT_MESSAGE}
+
+
+def _same_site_diagnostic_matches(log_text: object,
+                                  target: dict[str, Any]) -> bool:
+    if not isinstance(log_text, str) or not log_text.strip():
+        return False
+    # The exact source-reported range and full message are retained; only the
+    # line is derived from the candidate's unique final-select source anchor.
+    expected = (f"{target['file']}({target['line']},"
+                f"{target['start_column']}-{target['end_column']}): "
+                f"{target['message']}")
+    diagnostics = [line.strip() for line in log_text.splitlines()
+                   if (re.match(r'^verified/lib\.rs\(\d+,\d+-\d+\):', line.strip()) or
+                       ': error:' in line or 'Cannot prove' in line or
+                       'Fatal error' in line)]
+    return diagnostics == [expected]
+
+
 def _classify(r20, variant: str, stage: object, log_text: object,
               expected_sources: dict[str, str], observed_sources: dict[str, str | None],
-              tool_home: Path) -> tuple[str, str]:
+              tool_home: Path, verified_source: bytes) -> tuple[str, str, dict[str, Any] | None]:
     # R20's classifier binds exact argv, source pair, gate bits and log paths.
     # The valid row name maps this new same-unit call to its positive opt-in slot.
     bound = r20.classify_bound_row('merged-optin', stage, log_text,
         expected_argv=_expected_argv(tool_home), expected_sources=expected_sources,
         observed_sources=observed_sources)
     if bound in ('NOT_RUN_OR_INCONCLUSIVE', 'SOURCE_STAGE_TARGET_MISMATCH'):
-        return bound, bound
+        return bound, bound, None
     if not isinstance(stage, dict):
-        return bound, 'NOT_RUN_OR_INCONCLUSIVE'
+        return bound, 'NOT_RUN_OR_INCONCLUSIVE', None
     if variant == 'positive':
         expected = (bound == 'POSITIVE_VERIFIED_SOURCE_REPORTED')
-        return bound, 'POSITIVE_VERIFIED_SOURCE_REPORTED' if expected else 'POSITIVE_FAILED'
-    if not isinstance(log_text, str) or not log_text.strip() or stage.get('exit') == 0:
-        return bound, 'CONTROL_NOT_REJECTED'
+        return (bound, 'POSITIVE_VERIFIED_SOURCE_REPORTED' if expected else 'POSITIVE_FAILED',
+                None)
+    if stage.get('exit') == 0:
+        return bound, 'CONTROL_NOT_REJECTED', None
     if variant in SAME_SITE_NEGATIVES:
-        okay = FINAL_SELECT_DIAGNOSTIC in log_text
-        return bound, 'EXPECTED_SAME_SITE_FINAL_SELECT_FAILURE' if okay else 'CONTROL_FAILURE_TARGET_MISMATCH'
-    okay = CALLEE_DIAGNOSTIC in log_text and ': error:' in log_text
-    return bound, 'EXPECTED_CALLEE_CONTRACT_REJECTION' if okay else 'CONTROL_FAILURE_TARGET_MISMATCH'
+        target = _final_select_target(verified_source)
+        okay = _same_site_diagnostic_matches(log_text, target)
+        return (bound, 'EXPECTED_SAME_SITE_FINAL_SELECT_FAILURE' if okay else
+                'CONTROL_FAILURE_TARGET_MISMATCH', target)
+    # The real verifier diagnostic site/message for the fractional callee
+    # negatives has not been pinned yet. A generic token match cannot confirm
+    # that the intended callee obligation rejected the control.
+    return bound, 'TARGET_UNPINNED', None
 
 
 def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
@@ -312,7 +348,7 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
     record: dict[str, Any] = {
         'schema': RECORD_SCHEMA, 'classification': 'R21_FRACTIONAL_CLASSIFIED_PROOF_INCOMPLETE',
         'complete': False, 'variant_order': list(VARIANTS),
-        'pins': pins, 'rows': {}, 'body_proof_run': True,
+        'pins': pins, 'rows': {}, 'body_proof_run': False,
         'accepted': False, 'proof_credit': False,
     }
     path = root / 'r21-fractional-proof.json'
@@ -392,8 +428,9 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
                 log_text = log_path.read_text(errors='replace') if log_path.is_file() else None
                 observed_sources = {name: (sha((case / name).read_bytes())
                     if (case / name).is_file() else None) for name in expected_sources}
-                bound, classification = _classify(r20, variant, stage, log_text,
-                    expected_sources, observed_sources, tool_home)
+                bound, classification, diagnostic_target = _classify(
+                    r20, variant, stage, log_text, expected_sources,
+                    observed_sources, tool_home, candidate)
                 row.update(bound_verdict=bound, classification=classification,
                            normal_unwind_nested_drop_gates=(
                                isinstance(stage, dict) and
@@ -402,6 +439,15 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
                            observed_sources_after_stage=observed_sources,
                            log_file=log_path.name if log_path.is_file() else None,
                            log_sha256=sha(log_path.read_bytes()) if log_path.is_file() else None)
+                if diagnostic_target is not None:
+                    row['expected_diagnostic_target'] = diagnostic_target
+                if (isinstance(stage, dict) and stage.get('status') == 'RAN' and
+                        type(stage.get('exit')) is int and
+                        bound in ('POSITIVE_VERIFIED_SOURCE_REPORTED',
+                                  'POSITIVE_FAILED',
+                                  'INTENDED_CERTIFICATE_REFUSAL',
+                                  'UNEXPECTED_CONTROL_OUTCOME')):
+                    record['body_proof_run'] = True
                 save()
                 if deadline_epoch - int(time.time()) < STAGE_RESERVE_SECONDS:
                     row['postflight_capture'] = {'status': 'NOT_RUN',
@@ -424,8 +470,8 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
                 row['source_intact_after_stages'] = source_intact
                 expected_outcome = (classification == 'POSITIVE_VERIFIED_SOURCE_REPORTED'
                     if variant == 'positive' else
-                    classification in ('EXPECTED_SAME_SITE_FINAL_SELECT_FAILURE',
-                                        'EXPECTED_CALLEE_CONTRACT_REJECTION'))
+                    classification == 'EXPECTED_SAME_SITE_FINAL_SELECT_FAILURE'
+                    if variant in SAME_SITE_NEGATIVES else False)
                 row['status'] = ('COMPLETE' if expected_outcome and source_intact and
                     row['postflight_capture_check'].get('complete') is True else 'INCOMPLETE')
                 save()
