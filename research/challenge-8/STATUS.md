@@ -1,11 +1,11 @@
 # Agent checkpoint: network-n13-exact-cloud-2026-10-23-n3
 
-- Owner: network | phase: NETWORK-N13-EXACT-2026-10-23-N3 | state: ACTIVE
-- Updated: 2026-10-22T22:11:48Z
+- Owner: network | phase: NETWORK-N13-EXACT-2026-10-23-N3 | state: HANDOFF
+- Updated: 2026-10-22T22:13:54Z
 - Baseline: source `cd371e035c7e573760c43bf934d53e8118ee3e7d`, tool `809de4596839b739dd999f9e462242c835e3af46`, profile `77df69ccd018f5cbd7a73fdc20f562db1f006d2d696818fae3fee3aa8dab0286`
 - Session dates: T0 `2026-10-22T20:43:40Z`; main deadline `2026-10-22T22:43:40Z`; absolute deadline `2026-10-22T23:13:40Z`
 - Budget: 3600s total; 1824s spent; 0s retired; 1776s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 1715f350-e278-479a-a22b-9ba942e1c6ec
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -19,7 +19,7 @@
 - [SOURCE_REPORTED] Shape2 setup0eef timeout/624s;3f978 apt100/67s, NOT_REACHED. — [research/challenge-8/observations/3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7.json](observations/3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7.json) SHA `3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7`; [research/challenge-8/observations/2c0be67e1938d2706a303739ea35d5dfa833ec2e553a27c5e26118cb73e6449f.json](observations/2c0be67e1938d2706a303739ea35d5dfa833ec2e553a27c5e26118cb73e6449f.json) SHA `2c0be67e1938d2706a303739ea35d5dfa833ec2e553a27c5e26118cb73e6449f`
 
 ## Open
-- Shape2 unobserved; bootstrap newline fix pending.
+- Shape2 reviewed5b3f745f dispatched1715f350.
 - Full exact, controls, compatible regressions OPEN.
 - R4/W7 blocked: Select P1 inactive/P2 pending. W8 needs Merge.
 - Workflow-owner follow-up recorded; shared changes outside N3.
@@ -29,13 +29,13 @@
 - Universal N13 PASS or timeout/setup refusal counted as exact adapter acceptance — Exact full posts and intended controls on compatible source/tool identities are required.; [research/challenge-8/networks/RANK-RESULTS.md](networks/RANK-RESULTS.md) SHA `c76848727b3f62acd5c9b49ea4133c236db3f4d4a903bc42d5b8c159b215f2ca`
 
 ## Blocker
-Bootstrap command boundary defect; theorem unobserved.
+Shape2 exact420 Build1715f350 active; acceptance OPEN.
 - [research/challenge-8/observations/2c0be67e1938d2706a303739ea35d5dfa833ec2e553a27c5e26118cb73e6449f.json](observations/2c0be67e1938d2706a303739ea35d5dfa833ec2e553a27c5e26118cb73e6449f.json) SHA `2c0be67e1938d2706a303739ea35d5dfa833ec2e553a27c5e26118cb73e6449f`
 
 ## Next
-Review newline fix and assembled-config test; retry exact.
+Watcher ack then Brief; controls/regressions remain required.
 
 ## Artifacts
 - [research/challenge-8/network/n13/N3-SCOPE-20261023.md](network/n13/N3-SCOPE-20261023.md) — `0ff306d681bab5fb9997ebb53bb9fe9df9e58d93f1b20e030a263c72aeb79e78`
 - [research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json](cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json) — `528f0797927fc0720a17087324a70eeb1fd61be4884a7414ed506056a9db64c6`
-- [research/challenge-8/network/n13/REVIEW-BOOTSTRAP-N3.md](network/n13/REVIEW-BOOTSTRAP-N3.md) — `6c6df578f83192a1b9d62660d5b2b25032b6cb365d518c7b42bb02533ad11a71`
+- [research/challenge-8/network/n13/REVIEW-NEWLINE-N3.md](network/n13/REVIEW-NEWLINE-N3.md) — `2f096e86627a0bb12fb77ae591826f6ab0bc2db841c84d2a93a18db6cb97f1bc`

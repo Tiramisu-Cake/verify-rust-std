@@ -9,8 +9,8 @@
       "sha256": "528f0797927fc0720a17087324a70eeb1fd61be4884a7414ed506056a9db64c6"
     },
     {
-      "path": "research/challenge-8/network/n13/REVIEW-BOOTSTRAP-N3.md",
-      "sha256": "6c6df578f83192a1b9d62660d5b2b25032b6cb365d518c7b42bb02533ad11a71"
+      "path": "research/challenge-8/network/n13/REVIEW-NEWLINE-N3.md",
+      "sha256": "2f096e86627a0bb12fb77ae591826f6ab0bc2db841c84d2a93a18db6cb97f1bc"
     }
   ],
   "assignment_sha256": "88cd937e8d5e2e13310cd73a06debd1308d95f3df1d43ef27e08f6f914ea52eb",
@@ -20,7 +20,7 @@
     "tool_sha": "809de4596839b739dd999f9e462242c835e3af46"
   },
   "blocker": {
-    "summary": "Bootstrap command boundary defect; theorem unobserved.",
+    "summary": "Shape2 exact420 Build1715f350 active; acceptance OPEN.",
     "evidence": [
       {
         "path": "research/challenge-8/observations/2c0be67e1938d2706a303739ea35d5dfa833ec2e553a27c5e26118cb73e6449f.json",
@@ -122,9 +122,9 @@
       ]
     }
   ],
-  "next_step": "Review newline fix and assembled-config test; retry exact.",
+  "next_step": "Watcher ack then Brief; controls/regressions remain required.",
   "open": [
-    "Shape2 unobserved; bootstrap newline fix pending.",
+    "Shape2 reviewed5b3f745f dispatched1715f350.",
     "Full exact, controls, compatible regressions OPEN.",
     "R4/W7 blocked: Select P1 inactive/P2 pending. W8 needs Merge.",
     "Workflow-owner follow-up recorded; shared changes outside N3."
@@ -155,7 +155,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "1715f350-e278-479a-a22b-9ba942e1c6ec"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T23:13:40Z",
     "main_deadline_utc": "2026-10-22T22:43:40Z",
@@ -165,7 +167,7 @@
     "t0": "2026-10-22T20:43:40Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "network-n13-exact-cloud-2026-10-23-n3",
-  "updated_utc": "2026-10-22T22:11:48Z"
+  "updated_utc": "2026-10-22T22:13:54Z"
 }
