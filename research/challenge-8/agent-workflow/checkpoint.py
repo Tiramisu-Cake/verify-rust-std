@@ -2,7 +2,7 @@
 """SmallSort agent checkpoint v1, with bounded validation and generated views.
 
 Schema (JSON): schema="smallsort-checkpoint-v1"; task_id; owner in
-{merge,select-sort4}; phase; state in {NOT_STARTED,ACTIVE,CLOSED,HANDOFF};
+{merge,select-sort4,network}; phase; state in {NOT_STARTED,ACTIVE,CLOSED,HANDOFF};
 updated_utc; assignment_sha256 (SHA-256 of CURRENT-TASK text before its single
 "## Отчёт агента" marker); baseline={source_sha,tool_sha (40 hex or null),
 profile_sha256 (64 hex or null)}; session={t0,main_deadline_utc,deadline_utc,
@@ -42,6 +42,7 @@ SHA40 = re.compile(r"^[0-9a-fA-F]{40}$")
 SHA256 = re.compile(r"^[0-9a-fA-F]{64}$")
 BUILD_UUID = re.compile(r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
 STATES = {"NOT_STARTED", "ACTIVE", "CLOSED", "HANDOFF"}
+OWNERS = {"merge", "select-sort4", "network"}
 ASSURANCES = {"SOURCE_REPORTED", "INDEPENDENTLY_ESTABLISHED"}
 
 
@@ -108,8 +109,8 @@ def validate(data: Any) -> dict[str, Any]:
         _fail(f"schema: expected {SCHEMA}")
     for key in ("task_id", "phase", "updated_utc", "next_step"):
         _text(data.get(key), key)
-    if data.get("owner") not in {"merge", "select-sort4"}:
-        _fail("owner: expected merge or select-sort4")
+    if data.get("owner") not in OWNERS:
+        _fail("owner: expected merge, select-sort4 or network")
     if data.get("state") not in STATES:
         _fail("state: invalid checkpoint state")
     _utc(data["updated_utc"], "updated_utc")

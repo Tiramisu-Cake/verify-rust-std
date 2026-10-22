@@ -6,9 +6,10 @@ W0–W10 и финальные критерии — в [COMPLETION-PLAN](COMPLET
 Миссии/права — [WORK-POLICY](WORK-POLICY.md); свежие факты —
 [STATUS](STATUS.md) и checkpoint своей ветки; процедура — [AGENT-RUNBOOK](AGENT-RUNBOOK.md).
 
-Постоянные направления: select/sort4 — полная actual sort4 и caller applicability,
+Постоянные направления (network добавлен 2026-10-22): select/sort4 — полная actual sort4 и caller applicability,
 затем sort8; merge/insert_tail — actual insert_tail, guard/Drop/CURRENT recovery,
-затем arbitrary merge; VeriFast — review, интеграция и подготовка патчей.
+затем arbitrary merge; network — actual swap_if_less, сети 9/13 и network caller
+(W7/W8); VeriFast — review, интеграция и подготовка патчей.
 Следующий шаг агент выбирает внутри разрешённой миссии с учётом первого blocker,
 actual caller и времени/бюджета открытой сессии. Конкретное действующее поручение
 не заменяется общим roadmap. Внешняя подача требует отдельного поручения.

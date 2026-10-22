@@ -62,6 +62,15 @@ class CheckpointTests(unittest.TestCase):
         self.assertNotIn("INDEPENDENTLY_ESTABLISHED", report)
         self.assertIn("actual invocation remains UNKNOWN", status)
 
+    def test_owner_set_includes_network_and_rejects_unknown(self):
+        data = sample("NOT_STARTED")
+        data["owner"] = "network"
+        data["session"].update({"budget_seconds": 0, "remaining_seconds": 0})
+        self.assertEqual(checkpoint.validate(data)["owner"], "network")
+        data["owner"] = "verifast"
+        with self.assertRaisesRegex(checkpoint.CheckpointError, "owner"):
+            checkpoint.validate(data)
+
     def test_source_claim_is_never_promoted(self):
         status = checkpoint.render(sample(), "status")
         self.assertIn("[SOURCE_REPORTED] The source reports", status)

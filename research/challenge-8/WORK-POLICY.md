@@ -20,6 +20,7 @@
 | --- | --- |
 | select/sort4 (`select-sort4`) | Полная actual sort4 и доказанная применимость её контракта к реальным callers; затем sort8 с проверенным merge, без недоказанных summaries |
 | merge/insert_tail (`merge`) | Actual insert_tail, one-cell guard/Drop и восстановление CURRENT ресурсов на normal/unwind; затем общий merge и его caller interfaces |
+| network (`network`, с 2026-10-22) | Actual swap_if_less (R4), связь доказанных сетей 9/13 с actual Rust schedule, затем network caller (W7/W8). Pointer-select/callback interface — потребитель опубликованного профиля Select, без параллельной реализации. До миграции coordinator и собственного клиента Cloud lane нет |
 | VeriFast maintainer | Приёмка готовых опубликованных tool-патчей обоих proof-агентов: review, регрессии, интеграция/совместимость и подготовка upstream-подачи |
 
 Proof-агенты сами исследуют blockers и разрабатывают необходимые патчи VeriFast для своей миссии.

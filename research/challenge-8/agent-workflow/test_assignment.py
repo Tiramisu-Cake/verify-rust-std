@@ -411,6 +411,110 @@ class AssignmentTests(unittest.TestCase):
         self.assertEqual(self.snapshot(), before)
         self.assertEqual(list(outside.iterdir()), [])
 
+    def network_bootstrap_spec(self):
+        spec = copy.deepcopy(self.spec)
+        spec.update({"task_id": "network-first", "previous_task_id": "networks-iteration-2026-10-07",
+                     "owner": "network", "lane": "network", "phase": "NETWORK-BOOTSTRAP",
+                     "runtime": "claude", "bootstrap": True, "cloud_budget_seconds": 0,
+                     "profile_path": None, "profile_sha256": None,
+                     "ledger_path": None, "previous_ledger_path": None})
+        return spec
+
+    def make_bootstrap_worktree(self):
+        for name in ("CURRENT-TASK.md", "CHECKPOINT.json"):
+            git(self.repo, "rm", "-q", f"research/challenge-8/{name}")
+        git(self.repo, "commit", "-q", "-m", "worktree without prior assignment")
+
+    def test_default_budget_rendering_is_unchanged_by_explicit_defaults(self):
+        explicit = copy.deepcopy(self.spec)
+        explicit.update({"cloud_budget_seconds": 3600, "bootstrap": False})
+        default_task, default_cp = assignment.render_task(copy.deepcopy(self.spec))
+        explicit_task, explicit_cp = assignment.render_task(explicit)
+        self.assertEqual(default_task, explicit_task)
+        self.assertEqual(default_cp["session"], explicit_cp["session"])
+        self.assertIn(b"Cloud budget: 3600 seconds.", default_task)
+
+    def test_bootstrap_zero_budget_installs_new_owner_and_archives_prior_files(self):
+        self.make_bootstrap_worktree()
+        self.spec = self.network_bootstrap_spec()
+        self.write_spec()
+        with patch.object(assignment, "CORE_DIR", self.canonical):
+            assignment.install(self.spec_path, self.coordination)
+        current = (self.base / "CURRENT-TASK.md").read_bytes()
+        self.assertIn(b"Owner: **Network**", current)
+        self.assertIn(b"first task of a newly established owner", current)
+        self.assertIn(b"Cloud budget: 0 seconds (no Cloud lane)", current)
+        self.assertIn(b"no coordinator request, phase registration, Build submission", current)
+        self.assertIn(b"Profile: none (no Cloud lane). New ledger path: none; previous closed ledger: none (bootstrap).", current)
+        self.assertNotIn(b"register the exact phase", current)
+        cpdata = checkpoint.validate(json.loads((self.base / "CHECKPOINT.json").read_text()))
+        self.assertEqual(cpdata["owner"], "network")
+        self.assertEqual((cpdata["session"]["budget_seconds"], cpdata["session"]["remaining_seconds"]), (0, 0))
+        self.assertIsNone(cpdata["baseline"]["profile_sha256"])
+        history = self.base / "task-history" / "networks-iteration-2026-10-07"
+        manifest = json.loads((history / "manifest.json").read_text())
+        self.assertEqual(set(manifest["files"]), {"STATUS.md", "AGENTS-COMPACT.md", "ROOT-AGENTS.md"})
+        self.assertEqual((history / f"STATUS.md.{manifest['files']['STATUS.md']}").read_bytes(), b"old status\n")
+        self.assertEqual((self.repo / "CLAUDE.md").read_text(), (self.canonical / "CLAUDE-COMPACT.md").read_text())
+        self.assertEqual(self.ledger.read_bytes(), self.ledger_bytes)
+
+    def test_bootstrap_refuses_worktree_with_prior_assignment_without_writes(self):
+        self.spec = self.network_bootstrap_spec()
+        self.write_spec()
+        before = self.snapshot()
+        with patch.object(assignment, "CORE_DIR", self.canonical):
+            with self.assertRaisesRegex(assignment.AssignmentError, "bootstrap requires a worktree without CURRENT-TASK.md"):
+                assignment.install(self.spec_path, self.coordination)
+        self.assertEqual(self.snapshot(), before)
+
+    def test_bootstrap_and_null_fields_require_zero_budget(self):
+        for update, message in (
+            ({"cloud_budget_seconds": 3600}, "bootstrap requires cloud_budget_seconds 0"),
+            ({"previous_ledger_path": self.previous_ledger_rel}, "bootstrap requires cloud_budget_seconds 0"),
+            ({"bootstrap": False, "cloud_budget_seconds": 3600}, "may be null only when cloud_budget_seconds is 0"),
+            ({"profile_sha256": SHA256}, "both be set or both be null"),
+            ({"cloud_budget_seconds": -1}, "integer from 0 to 3600"),
+            ({"cloud_budget_seconds": True}, "integer from 0 to 3600"),
+            ({"bootstrap": "yes"}, "bootstrap must be true or false"),
+        ):
+            spec = self.network_bootstrap_spec()
+            spec.update(update)
+            with self.subTest(update=update):
+                with self.assertRaisesRegex(assignment.AssignmentError, message):
+                    assignment.validate_spec(spec)
+
+    def zero_budget_closed_task(self):
+        (self.base / "CHECKPOINT.json").unlink()
+        prefix = f"# Prior zero-budget task\n\nTask ID: `{PREVIOUS}`; Owner: **Select/sort4**. Phase: `{OLD_PHASE}`.\n\n".encode()
+        oldcp = self.closed_checkpoint(hashlib.sha256(prefix).hexdigest())
+        oldcp["session"].update({"budget_seconds": 0, "spent_seconds": 0, "retired_seconds": 0})
+        (self.base / "CURRENT-TASK.md").write_bytes(prefix + checkpoint.REPORT_MARKER.encode() + b"\nclosed\n")
+        (self.base / "CHECKPOINT.json").write_text(json.dumps(checkpoint.validate(oldcp)), encoding="utf-8")
+        self.spec["previous_ledger_path"] = None
+        self.write_spec()
+
+    def test_followup_after_closed_zero_budget_task_needs_no_ledger(self):
+        self.zero_budget_closed_task()
+        with patch.object(assignment, "CORE_DIR", self.canonical):
+            assignment.install(self.spec_path, self.coordination)
+        current = (self.base / "CURRENT-TASK.md").read_bytes()
+        self.assertIn(b"previous closed ledger: none (closed zero-budget task).", current)
+        self.assertIn(b"Cloud budget: 3600 seconds.", current)
+
+    def test_null_previous_ledger_refuses_prior_task_with_cloud_budget(self):
+        self.zero_budget_closed_task()
+        oldcp = json.loads((self.base / "CHECKPOINT.json").read_text())
+        oldcp["session"].update({"budget_seconds": 3600, "retired_seconds": 3600})
+        (self.base / "CHECKPOINT.json").write_text(json.dumps(oldcp), encoding="utf-8")
+        before = self.snapshot()
+        with patch.object(assignment, "CORE_DIR", self.canonical):
+            with self.assertRaisesRegex(assignment.AssignmentError, "closed zero-budget checkpoint"):
+                assignment.install(self.spec_path, self.coordination)
+        self.assertEqual(self.snapshot(), before)
+        (self.base / "CHECKPOINT.json").unlink()
+        with self.assertRaisesRegex(assignment.AssignmentError, "closed zero-budget checkpoint"):
+            assignment.install(self.spec_path, self.coordination)
+
 
 if __name__ == "__main__":
     unittest.main()

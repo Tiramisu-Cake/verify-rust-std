@@ -38,7 +38,11 @@ SPEC_KEYS = {
     "profile_path", "profile_sha256", "phase", "lane", "ledger_path",
     "previous_ledger_path", "goal", "steps", "special_bounds", "references", "handoff",
 }
-OPTIONAL_SPEC_KEYS = {"runtime"}
+# cloud_budget_seconds: Cloud account of the task (default 3600). With 0 the task has no
+# Cloud lane, and profile/ledger paths may be null. bootstrap: first task of a new owner
+# in a worktree without CURRENT-TASK/CHECKPOINT; it requires a zero budget and no prior ledger.
+OPTIONAL_SPEC_KEYS = {"runtime", "cloud_budget_seconds", "bootstrap"}
+DEFAULT_CLOUD_BUDGET = 3600
 # Runtime label, root entry file read by that runtime, runtime profile in agent-workflow.
 RUNTIMES = {
     "codex": ("Codex", "AGENTS.md", "RUNTIME-CODEX.md"),
@@ -53,7 +57,7 @@ CANONICAL_INSTALLS = {
     "CLAUDE-COMPACT.md": ("CLAUDE.md", "ROOT-CLAUDE.md"),
 }
 COORDINATION_DIR = Path("/root/smallsort-ci-coordination")
-OWNER_LABELS = {"merge": "Merge", "select-sort4": "Select/sort4"}
+OWNER_LABELS = {"merge": "Merge", "select-sort4": "Select/sort4", "network": "Network"}
 
 
 class AssignmentError(ValueError):
@@ -106,7 +110,7 @@ def validate_spec(value: Any) -> dict[str, Any]:
     if not LANE_ID.fullmatch(spec["lane"]):
         _err("lane must be a lowercase protocol lane identifier")
     if spec["owner"] not in OWNER_LABELS:
-        _err("owner must be merge or select-sort4")
+        _err("owner must be merge, select-sort4 or network")
     if "runtime" in spec and (not isinstance(spec["runtime"], str) or spec["runtime"] not in RUNTIMES):
         _err("runtime must be codex or claude")
     if not Path(spec["worktree"]).is_absolute() or not Path(spec["tool_worktree"]).is_absolute():
@@ -114,11 +118,30 @@ def validate_spec(value: Any) -> dict[str, Any]:
     for key in ("baseline_sha", "source_sha", "tool_sha"):
         if not isinstance(spec[key], str) or not SHA40.fullmatch(spec[key]):
             _err(f"{key} must be a lowercase full Git SHA")
-    if not isinstance(spec["profile_sha256"], str) or not SHA256.fullmatch(spec["profile_sha256"]):
+    budget = spec.setdefault("cloud_budget_seconds", DEFAULT_CLOUD_BUDGET)
+    if type(budget) is not int or not 0 <= budget <= DEFAULT_CLOUD_BUDGET:
+        _err(f"cloud_budget_seconds must be an integer from 0 to {DEFAULT_CLOUD_BUDGET}")
+    bootstrap = spec.setdefault("bootstrap", False)
+    if type(bootstrap) is not bool:
+        _err("bootstrap must be true or false")
+    if bootstrap and (budget != 0 or spec["previous_ledger_path"] is not None):
+        _err("bootstrap requires cloud_budget_seconds 0 and previous_ledger_path null")
+    # The profile and new ledger may be null only without a Cloud lane. A null previous
+    # ledger is checked at install: bootstrap, or a closed zero-budget prior checkpoint.
+    nullable = {"previous_ledger_path"}
+    if budget == 0:
+        nullable |= {"profile_path", "profile_sha256", "ledger_path"}
+    for key in ("profile_path", "profile_sha256", "ledger_path"):
+        if spec[key] is None and key not in nullable:
+            _err(f"{key} may be null only when cloud_budget_seconds is 0")
+    if (spec["profile_path"] is None) != (spec["profile_sha256"] is None):
+        _err("profile_path and profile_sha256 must both be set or both be null")
+    if spec["profile_sha256"] is not None and (not isinstance(spec["profile_sha256"], str) or not SHA256.fullmatch(spec["profile_sha256"])):
         _err("profile_sha256 must be lowercase SHA-256")
     for key in ("profile_path", "ledger_path", "previous_ledger_path"):
-        spec[key] = _repo_path(spec[key], key)
-    if spec["ledger_path"] == spec["previous_ledger_path"]:
+        if spec[key] is not None:
+            spec[key] = _repo_path(spec[key], key)
+    if spec["ledger_path"] is not None and spec["ledger_path"] == spec["previous_ledger_path"]:
         _err("ledger_path must be a new path distinct from previous_ledger_path")
     for key, cap in (("steps", 3), ("special_bounds", 3)):
         items = spec[key]
@@ -146,9 +169,7 @@ def validate_spec(value: Any) -> dict[str, Any]:
         "phase": spec["phase"], "state": "NOT_STARTED", "updated_utc": "2000-01-01T00:00:00Z",
         "assignment_sha256": "0" * 64,
         "baseline": {"source_sha": spec["source_sha"], "tool_sha": spec["tool_sha"], "profile_sha256": spec["profile_sha256"]},
-        "session": {"t0": None, "main_deadline_utc": None, "deadline_utc": None,
-                    "budget_seconds": 3600, "spent_seconds": 0, "retired_seconds": 0,
-                    "remaining_seconds": 3600, "active_build_ids": [], "unresolved_ids": []},
+        "session": _not_started_session(budget),
         **handoff,
     }
     try:
@@ -156,6 +177,12 @@ def validate_spec(value: Any) -> dict[str, Any]:
     except cp.CheckpointError as exc:
         _err(f"invalid handoff: {exc}")
     return spec
+
+
+def _not_started_session(budget: int) -> dict[str, Any]:
+    return {"t0": None, "main_deadline_utc": None, "deadline_utc": None,
+            "budget_seconds": budget, "spent_seconds": 0, "retired_seconds": 0,
+            "remaining_seconds": budget, "active_build_ids": [], "unresolved_ids": []}
 
 
 def _bullet(label: str, items: list[str], fallback: str = "none recorded") -> str:
@@ -182,19 +209,36 @@ def _follows_line(spec: dict[str, Any]) -> str:
 def render_task(spec: dict[str, Any]) -> tuple[bytes, dict[str, Any]]:
     spec = validate_spec(spec)
     h = spec["handoff"]
+    budget = spec["cloud_budget_seconds"]
+    if spec["bootstrap"]:
+        mission = (f"This is the first task of a newly established owner. The worktree's prior research iteration is archived "
+                   f"under `task-history/{spec['previous_task_id']}`; its claims keep their own dated scope.")
+    else:
+        mission = "This is a bounded continuation of the previous task under a newly authorized window."
+    if budget:
+        procedure = "The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. Prepare fresh-session inputs with `/usr/local/bin/smallsort-session`, obtain required independent review and register the exact phase through the assigned branch client before proof work. Registration does not restart the clock."
+        budget_line = f"Cloud budget: {budget} seconds. Wall window: 120 minutes main + 30 minutes closeout. Per-Build timeout ≤1200 seconds; report reserve ≥{420 if spec['owner'] == 'merge' else 240} seconds. T0 remains NOT_SET until actual work starts."
+    else:
+        procedure = "The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. This task has no Cloud lane: no coordinator request, phase registration, Build submission or proof execution. Commit reviewed candidates and handoff inputs for a later, separately authorized Cloud task."
+        budget_line = "Cloud budget: 0 seconds (no Cloud lane). Wall window: 120 minutes main + 30 minutes closeout. T0 remains NOT_SET until actual work starts."
+    profile = (f"Profile `{spec['profile_path']}` SHA-256 `{spec['profile_sha256']}`." if spec["profile_path"] is not None
+               else "Profile: none (no Cloud lane).")
+    new_ledger = f"`{spec['ledger_path']}`" if spec["ledger_path"] is not None else "none"
+    previous_ledger = (f"`{spec['previous_ledger_path']}`" if spec["previous_ledger_path"] is not None
+                       else "none (bootstrap)" if spec["bootstrap"] else "none (closed zero-budget task)")
     lines = [
         f"# {spec['title']}", "", f"Task ID: `{spec['task_id']}`; previous task: `{spec['previous_task_id']}`.",
         f"Owner: **{OWNER_LABELS[spec['owner']]}**. Phase: `{spec['phase']}`. Lane: `{spec['lane']}`.",
         "", "## Mission", "",
-        "This is a bounded continuation of the previous task under a newly authorized window.",
+        mission,
         "", _follows_line(spec),
-        "The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. Prepare fresh-session inputs with `/usr/local/bin/smallsort-session`, obtain required independent review and register the exact phase through the assigned branch client before proof work. Registration does not restart the clock.",
+        procedure,
         "No previous budget, T0, ledger authorization, profile acceptance, or proof credit transfers.",
         "", "## Baseline and controls", "",
         f"Worktree `{spec['worktree']}` on branch `{spec['branch']}`; baseline `{spec['baseline_sha']}`; source `{spec['source_sha']}`.",
         f"Tool worktree `{spec['tool_worktree']}` on `{spec['tool_branch']}` at `{spec['tool_sha']}`.",
-        f"Profile `{spec['profile_path']}` SHA-256 `{spec['profile_sha256']}`. New ledger path: `{spec['ledger_path']}`; previous closed ledger: `{spec['previous_ledger_path']}`.",
-        f"Cloud budget: 3600 seconds. Wall window: 120 minutes main + 30 minutes closeout. Per-Build timeout ≤1200 seconds; report reserve ≥{420 if spec['owner'] == 'merge' else 240} seconds. T0 remains NOT_SET until actual work starts.",
+        f"{profile} New ledger path: {new_ledger}; previous closed ledger: {previous_ledger}.",
+        budget_line,
         "", "## Goal and steps", "", spec["goal"], "",
     ]
     lines.extend(f"{i}. {item}" for i, item in enumerate(spec["steps"], 1))
@@ -222,9 +266,7 @@ def render_task(spec: dict[str, Any]) -> tuple[bytes, dict[str, Any]]:
         "state": "NOT_STARTED", "updated_utc": dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
         "assignment_sha256": hashlib.sha256(prefix).hexdigest(),
         "baseline": {"source_sha": spec["source_sha"], "tool_sha": spec["tool_sha"], "profile_sha256": spec["profile_sha256"]},
-        "session": {"t0": None, "main_deadline_utc": None, "deadline_utc": None,
-                    "budget_seconds": 3600, "spent_seconds": 0, "retired_seconds": 0,
-                    "remaining_seconds": 3600, "active_build_ids": [], "unresolved_ids": []},
+        "session": _not_started_session(budget),
         "confirmed": h["confirmed"], "open": h["open"], "blocker": h["blocker"],
         "rejected": h["rejected"], "next_step": h["next_step"], "artifacts": h["artifacts"],
     }
@@ -333,14 +375,17 @@ def _validate_repo_state(spec: dict[str, Any]) -> Path:
         _err("tool branch mismatch")
     if _git(toolroot, "rev-parse", "HEAD") != spec["tool_sha"]:
         _err("tool SHA does not match tool worktree HEAD")
-    profile = _safe_path(root, spec["profile_path"], "profile")
-    profile_bytes = profile.read_bytes()
-    if hashlib.sha256(profile_bytes).hexdigest() != spec["profile_sha256"]:
-        _err("profile SHA-256 mismatch")
-    if _git_file_bytes(root, spec["profile_path"]) != profile_bytes:
-        _err("profile worktree bytes differ from the assigned branch")
-    _safe_path(root, spec["previous_ledger_path"], "previous ledger")
-    _safe_path(root, spec["ledger_path"], "new ledger", must_exist=False)
+    if spec["profile_path"] is not None:
+        profile = _safe_path(root, spec["profile_path"], "profile")
+        profile_bytes = profile.read_bytes()
+        if hashlib.sha256(profile_bytes).hexdigest() != spec["profile_sha256"]:
+            _err("profile SHA-256 mismatch")
+        if _git_file_bytes(root, spec["profile_path"]) != profile_bytes:
+            _err("profile worktree bytes differ from the assigned branch")
+    if spec["previous_ledger_path"] is not None:
+        _safe_path(root, spec["previous_ledger_path"], "previous ledger")
+    if spec["ledger_path"] is not None:
+        _safe_path(root, spec["ledger_path"], "new ledger", must_exist=False)
     return root
 
 
@@ -447,31 +492,22 @@ def _ledger_closed(root: Path, spec: dict[str, Any]) -> str:
     return phase
 
 
-def _check_previous_task(root: Path, spec: dict[str, Any], old_phase: str) -> dict[str, bytes]:
-    base = root / "research/challenge-8"
+def _check_previous_task(root: Path, spec: dict[str, Any], old_phase: str | None) -> dict[str, bytes]:
     task = _safe_path(root, "research/challenge-8/CURRENT-TASK.md", "current task")
     task_bytes = task.read_bytes()
     task_text = task_bytes.decode("utf-8", "strict")
     for needle in (spec["previous_task_id"], old_phase):
-        if needle not in task_text:
+        if needle is not None and needle not in task_text:
             _err(f"CURRENT-TASK does not identify prior task/phase: {needle}")
-    ledger_paths = (spec["previous_ledger_path"],
-                    PurePosixPath(spec["previous_ledger_path"]).relative_to("research/challenge-8").as_posix())
-    if not any(path in task_text for path in ledger_paths):
-        _err("CURRENT-TASK does not identify the exact prior ledger path")
+    if spec["previous_ledger_path"] is not None:
+        ledger_paths = (spec["previous_ledger_path"],
+                        PurePosixPath(spec["previous_ledger_path"]).relative_to("research/challenge-8").as_posix())
+        if not any(path in task_text for path in ledger_paths):
+            _err("CURRENT-TASK does not identify the exact prior ledger path")
     if not any(owner in task_text for owner in (spec["owner"], OWNER_LABELS[spec["owner"]])):
         _err("CURRENT-TASK does not identify the prior owner")
     preserved: dict[str, bytes] = {"CURRENT-TASK.md": task_bytes}
-    for name in ("STATUS.md", "AGENTS-COMPACT.md", "CORE.md", "CHECKPOINT.json"):
-        path = base / name
-        if path.exists() or path.is_symlink():
-            safe = _safe_path(root, f"research/challenge-8/{name}", name)
-            preserved[name] = safe.read_bytes()
-    for relative, archive_name in CANONICAL_INSTALLS.values():
-        path = root / relative
-        if path.exists() or path.is_symlink():
-            safe = _safe_path(root, relative, relative)
-            preserved[archive_name] = safe.read_bytes()
+    _preserve_existing(root, preserved, ("STATUS.md", "AGENTS-COMPACT.md", "CORE.md", "CHECKPOINT.json"))
     if "STATUS.md" not in preserved or "ROOT-AGENTS.md" not in preserved:
         _err("closed installation requires prior STATUS and root AGENTS files to archive")
     if "CHECKPOINT.json" in preserved:
@@ -490,6 +526,35 @@ def _check_previous_task(root: Path, spec: dict[str, Any], old_phase: str) -> di
         prior_prefix, _prior_report = task_bytes.split(marker, 1)
         if hashlib.sha256(prior_prefix).hexdigest() != old_checkpoint["assignment_sha256"]:
             _err("existing checkpoint assignment digest does not match prior CURRENT-TASK")
+        if spec["previous_ledger_path"] is None and (session["budget_seconds"] != 0 or old_checkpoint["task_id"] != spec["previous_task_id"]):
+            _err("a null previous ledger requires the closed zero-budget checkpoint of the previous task")
+    elif spec["previous_ledger_path"] is None:
+        _err("a null previous ledger requires the closed zero-budget checkpoint of the previous task")
+    return preserved
+
+
+def _preserve_existing(root: Path, preserved: dict[str, bytes], task_files: tuple[str, ...]) -> None:
+    base = root / "research/challenge-8"
+    for name in task_files:
+        path = base / name
+        if path.exists() or path.is_symlink():
+            safe = _safe_path(root, f"research/challenge-8/{name}", name)
+            preserved[name] = safe.read_bytes()
+    for relative, archive_name in CANONICAL_INSTALLS.values():
+        path = root / relative
+        if path.exists() or path.is_symlink():
+            safe = _safe_path(root, relative, relative)
+            preserved[archive_name] = safe.read_bytes()
+
+
+def _check_bootstrap(root: Path) -> dict[str, bytes]:
+    base = root / "research/challenge-8"
+    for name in ("CURRENT-TASK.md", "CHECKPOINT.json"):
+        path = base / name
+        if path.exists() or path.is_symlink():
+            _err(f"bootstrap requires a worktree without {name}; assign a continuation task instead")
+    preserved: dict[str, bytes] = {}
+    _preserve_existing(root, preserved, ("STATUS.md", "AGENTS-COMPACT.md", "CORE.md"))
     return preserved
 
 
@@ -594,8 +659,11 @@ def install(spec_path: Path, coordination_dir: Path | None = None) -> None:
     spec = _read_spec(spec_path)
     with _coordination_guard(spec["owner"], coordination_dir or COORDINATION_DIR):
         root = _validate_repo_state(spec)
-        old_phase = _ledger_closed(root, spec)
-        preserved = _check_previous_task(root, spec, old_phase)
+        if spec["bootstrap"]:
+            preserved = _check_bootstrap(root)
+        else:
+            old_phase = _ledger_closed(root, spec) if spec["previous_ledger_path"] is not None else None
+            preserved = _check_previous_task(root, spec, old_phase)
         task, checkpoint_data = render_task(spec)
         # All input checks and generated bytes are complete before the first write.
         _archive_and_install(root, spec, preserved, task, checkpoint_data)
