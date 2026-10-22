@@ -1,0 +1,55 @@
+{
+ "build": {
+  "dispatch_token": "dispatch-2afdbc5b7e344bb09971604d95a99b53",
+  "owner": "select-sort4",
+  "phase_id": "SORT4-ACTUAL-SELECT-2026-10-22-R20",
+  "infra_sha": "82aa147f054963ff97817b4682c0808f4932ef63",
+  "proof_sha": "82aa147f054963ff97817b4682c0808f4932ef63",
+  "lane": "o26-select-callee-r20",
+  "submitted_config_sha256": "97d6b0c280d1be56103b1d510330c13a8d1fbafc481e1bb15ac65ae78b492eec",
+  "reserved_seconds": 1260,
+  "timeout_seconds": 1200,
+  "status": "FAILURE",
+  "publish_text_logs": true,
+  "source_mode": "pinned-objects",
+  "source_input_sha256": "a8dee70e2077316883c96b89e2b5b68cfaaae720c7dd0a791b5162c526b0f0a5",
+  "build_id": "edb9fb81-29e8-4103-9fbe-1a7731233b43",
+  "start_time": "2026-10-22T17:25:01.031858234Z",
+  "finish_time": "2026-10-22T17:30:45.434311Z",
+  "create_time": "2026-10-22T17:25:00.229727908Z",
+  "build_seconds": 346,
+  "accounted": true,
+  "execution_seconds": 345
+ },
+ "lane": "o26-select-callee-r20",
+ "variant": "branch",
+ "tool": "translator 82741fb5 (branch refresh)",
+ "proof_record": {
+  "file_id": "9f079e6dca45e893f04ca509b12c3902a883a6269d390f08996ddda241028d37",
+  "sha256": "30d6fd5d09a832c0b1c181d9748bcbc191c668262e2ff9d37aa54d3fd023ee08",
+  "complete": true,
+  "controls_intended": true
+ },
+ "rows": {
+  "merged-optin (runs branch variant)": {
+   "verdict": "POSITIVE_FAILED",
+   "exit": 1,
+   "source_unchanged": true,
+   "log_file_id": "3fb25ee4ce631333a21b9c283ab9939e37c0517f0044f2ba6781a49725564f78",
+   "log_sha256": "0563734cb4ea9d6973b539efb970bdb5d19083d4cc68b47cf6efcf753ecc17b0",
+   "first_error_line": 556,
+   "message": "lib.rsspec(462,47-48): No matching heap chunks: MaybeUninit_pointer_own(t, MaybeUninit::new(payload)) for arg a, via verified/lib.rs(227) final select",
+   "interpretation": "Certificate admits the branch unit; ghost block parses and runs; closes for new(true_payload)/new(false_payload) do not match: re-opening the guard own (pred args (t,g) only) yields a fresh pointee symbol (selected_payload), so the selected wrapper value is new(selected_payload). Causality from verifier message; not proof credit."
+  },
+  "merged-no-optin": {
+   "verdict": "INTENDED_CERTIFICATE_REFUSAL",
+   "exit": 2
+  },
+  "unrepaired-optin": {
+   "verdict": "INTENDED_CERTIFICATE_REFUSAL",
+   "exit": 2
+  }
+ },
+ "next": "branch-selected variant: in each branch close own for the selected wrapper with selected_payload and for the unselected with its original payload; new fingerprint + refresh.",
+ "proof_credit": 0
+}
