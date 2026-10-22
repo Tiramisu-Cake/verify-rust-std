@@ -20,16 +20,16 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "2d562718-c166-4ab5-bba3-bf9136bd56b7",
+    "build_id": "cd3e6cae-721f-45d8-ae82-5e198e00312b",
     "evidence": [
       {
-        "build_id": "2d562718-c166-4ab5-bba3-bf9136bd56b7",
-        "path": "research/challenge-8/task-history/select-callee-r20/S1-evidence.json",
-        "sha256": "7bf8d229919ffb0eb7fa49ede13b0b516b472df432c769badbdb0f4f1f997123"
+        "build_id": "cd3e6cae-721f-45d8-ae82-5e198e00312b",
+        "path": "research/challenge-8/task-history/select-callee-r20/S3-evidence.json",
+        "sha256": "baf76fb258ea30dc3b5e4a46da56d82e920bc25216db283072543da6fa1e8eb5"
       }
     ],
-    "location": "std/lib.rsspec(462,47-48) via verified/lib.rs(223,9-80) final MaybeUninit select (nine-body unit)",
-    "summary": "Missing MaybeUninit_pointer_own(t, new(payload)) for select arg a; repair needs certificate-refresh tool patch."
+    "location": "verified/lib.rs(219,14-17) merged ghost block (nine-body unit)",
+    "summary": "Ghost comment accepts one statement; move the two checked lemma calls into each if/else branch; needs new fingerprint pins + refresh."
   },
   "confirmed": [
     {
@@ -55,28 +55,6 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "R20 S1 (callee lane, pins a5705fa0) FAILURE 345s: pipeline complete; pinned source pair/MIR match; baseline nine-body proof exit1 at final MaybeUninit select: missing MaybeUninit_pointer_own(t, new(payload)) for arg a (lib.rsspec:462 via lib.rs:223). credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/task-history/select-callee-r20/S1-evidence.json",
-          "sha256": "7bf8d229919ffb0eb7fa49ede13b0b516b472df432c769badbdb0f4f1f997123",
-          "build_id": "2d562718-c166-4ab5-bba3-bf9136bd56b7"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R20 S2 (retry f090a976; 00c136dd EXPIRED 92s) 301s: location control reproduces pins; repaired unit fingerprint intended, SHA 910bb778; only unit+body-7 change; cleanup 24->26, edges 10->12. credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/task-history/select-callee-r20/S2-evidence.json",
-          "sha256": "2f39bdc6a04250fbe511b9d5cc340909afeeee01bfa5bf8eaa783cf3e8b0ec2a",
-          "build_id": "f090a976-7d8b-4d2d-b919-e308aca41886"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
       "claim": "R20 S2b (729474f9): merged repair fingerprint intended; SHA 28b8e5ef, unit 6a588c53, body-7 99fcb96e; MIR inventory unchanged (10 edges->24). credit0.",
       "evidence": [
         {
@@ -85,9 +63,20 @@
           "build_id": "729474f9-3acf-4d52-a04d-9ffb16e1fb5a"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R20 S3 (cd3e6cae): refreshed certificate admits exact merged unit (owner-nine/H2/forget-own/A1-nine); verifier Parse error lib.rs:219 (2nd ghost stmt after if/else); controls refused at owner SHA pin. credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-callee-r20/S3-evidence.json",
+          "sha256": "baf76fb258ea30dc3b5e4a46da56d82e920bc25216db283072543da6fa1e8eb5",
+          "build_id": "cd3e6cae-721f-45d8-ae82-5e198e00312b"
+        }
+      ]
     }
   ],
-  "next_step": "Wait R20 S3 Build cd3e6cae (refreshed certificate + merged repair proof, pins 7e695559); ack; classify proof rows from logs via Brief.",
+  "next_step": "Branch variant (lemma calls inside each if/else branch): review, S2c fingerprint, then refresh patch + proof (next window if main ends).",
   "open": [
     "Callee: run nine-body unit on separate lane o26-select-callee-r20 (baseline + ghost repair variants); then normal/unwind/nested-Drop completion and matrix; *mut",
     "Recovery lane transport: 192/191 chunks after R20 client lines (control.py is in every lane's infra core); prune closed routes separately before c5 (34e37669)/s",
@@ -114,19 +103,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "cd3e6cae-721f-45d8-ae82-5e198e00312b"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T18:11:28Z",
     "main_deadline_utc": "2026-10-22T17:41:28Z",
-    "remaining_seconds": 2440,
+    "remaining_seconds": 2086,
     "retired_seconds": 0,
-    "spent_seconds": 1160,
+    "spent_seconds": 1514,
     "t0": "2026-10-22T15:41:28Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-actual-callee-autonomous-2026-10-22-r20",
-  "updated_utc": "2026-10-22T17:03:00Z"
+  "updated_utc": "2026-10-22T17:14:00Z"
 }

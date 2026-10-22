@@ -1,0 +1,62 @@
+{
+ "build": {
+  "dispatch_token": "dispatch-0665887299db4d75864e0bd783a8d996",
+  "owner": "select-sort4",
+  "phase_id": "SORT4-ACTUAL-SELECT-2026-10-22-R20",
+  "infra_sha": "7e6955596535ae2f41e050f232c1830688b964bc",
+  "proof_sha": "7e6955596535ae2f41e050f232c1830688b964bc",
+  "lane": "o26-select-callee-r20",
+  "submitted_config_sha256": "4fde952a0448d0bae8288b5ee13e6e5ad168ef6266a031ba822cade9552d3913",
+  "reserved_seconds": 1260,
+  "timeout_seconds": 1200,
+  "status": "FAILURE",
+  "publish_text_logs": true,
+  "source_mode": "pinned-objects",
+  "source_input_sha256": "019bb70adf65b6a59d441805ed41afe8c6f93c5254cd076184fa253e91f9a86e",
+  "build_id": "cd3e6cae-721f-45d8-ae82-5e198e00312b",
+  "start_time": "2026-10-22T17:02:47.101069241Z",
+  "finish_time": "2026-10-22T17:08:39.378092Z",
+  "create_time": "2026-10-22T17:02:46.284448507Z",
+  "build_seconds": 354,
+  "accounted": true,
+  "execution_seconds": 353
+ },
+ "lane": "o26-select-callee-r20",
+ "tool": "r20-refresh-apply exit0; console-build exit0 (translator 5ed3398f)",
+ "proof_record": {
+  "file_id": "9f079e6dca45e893f04ca509b12c3902a883a6269d390f08996ddda241028d37",
+  "sha256": "916926dfa64779ac85016ee258d4892b167841d5485bfbdff3d0c50e58f5877c",
+  "complete": true
+ },
+ "rows": {
+  "merged-optin": {
+   "exit": 1,
+   "source_unchanged": true,
+   "log_file_id": "3fb25ee4ce631333a21b9c283ab9939e37c0517f0044f2ba6781a49725564f78",
+   "log_sha256": "2d14fac1ae872b2db6290e454c8ffa1eada83bccf7e736c94bfd2cf55371c31c",
+   "admitted": [
+    "SORT4-MAYBEUNINIT constructor",
+    "SORT4-AS-MUT-PTR",
+    "SORT4-ACTUAL-OWNER-NINE exact source and complete decoded MIR",
+    "SORT4-ACTUAL-NESTED-H2",
+    "SORT4-ACTUAL-FORGET-OWN",
+    "SORT4-POINTER-DROP",
+    "SORT4-A1-NINE"
+   ],
+   "first_error": "verified/lib.rs(219,14-17): error: Parse error: Parse error. (first appended std::mem::close_MaybeUninit_pointer_own line after the if/else inside the same ghost comment)",
+   "verdict": "Certificate refresh admits the exact merged source; verifier ghost parser rejects a second statement after if/else in one ghost comment. Not a proof result."
+  },
+  "merged-no-optin": {
+   "exit": 2,
+   "message": "Fatal error: SORT4-SELECT-INTRINSIC: certificate mismatch: owner exact verified source SHA256 (sort4_actual_owner_admit)",
+   "verdict": "intended refusal"
+  },
+  "unrepaired-optin": {
+   "exit": 2,
+   "message": "identical log (sha f2b26a8b...): owner exact verified source SHA256",
+   "verdict": "intended refusal"
+  }
+ },
+ "next": "Branch variant: put the two lemma calls inside each branch block of the same if/else (one ghost statement, no new MIR block); new fingerprint pins then refreshed proof.",
+ "proof_credit": 0
+}
