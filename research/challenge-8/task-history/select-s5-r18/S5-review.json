@@ -1,0 +1,24 @@
+{
+  "reviewer": "claude-subagent:smallsort-reviewer",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "nested_delegation": false,
+  "verdict": "GO_WITH_NITS",
+  "candidate_commit": "a6550c20a94b6695dcb26a5fe464878c03eee8c4",
+  "candidate_tree": "2e4ec8e8d3012ae25a80975bc3ea43c8bec33293",
+  "baseline_commit": "51c4368bd6a1187dbf1975b979cb27ad3b51966f",
+  "packet_sha256": "45aed0813aa2c442365b3835407396e0e7a45817058cf3c820d060b4aa917130",
+  "packet_spec_sha256": "994a070c20fb9cec94beb7c1ac68d1e491693831f89dd3becfd4f48239212e2c",
+  "repo_spec_sha256": "66b18ce60ba30a59fc81d9da77f63d6d7b8ed004fdb6e23fff654b97fabf4590",
+  "diff_sha256": "7d36266338076bfb9ab44fb2955f4aa9390136a64c52e059f7df33c0814728d3",
+  "findings": [],
+  "nits": [
+    "Candidate-snapshot CHECKPOINT/R17 ledger show S4 as QUEUED; reconciled by 68e45379; S4-review.json listed twice in CHECKPOINT/STATUS.",
+    "R17 profile still names R17 account/phase; R18 routing must bind it explicitly or re-review a changed profile.",
+    "Control qualification checks TERMINAL plus int exit only (a1-actual-body-r17.py:560-580); read each control's actual diagnostic/location in Brief.",
+    "No isolated service test covers the c2 constructor's missing_shares/missing_resource line removal."
+  ],
+  "basis": "Two added share_full_borrow::<T>(cmp2_k,t,v_base/+1) ghost statements use the pinned checked general.rsspec:225-228 rule, as c1 does for unpassed cells; end tokens and four-source recovery on normal/unwind unchanged; callback arguments unchanged; strip_ghost runtime equality retained; tool delta is diagnostic-only. No axiom/leak statement/relaxed leak check/assumed bridge.",
+  "not_run": "result_sha256 overlay application, constructor, compiler/VeriFast, Cloud and service tests.",
+  "limits": "S5 unverified pending Cloud; full actual proof/control/call-attribution OPEN; credit0."
+}
