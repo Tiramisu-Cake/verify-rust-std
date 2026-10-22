@@ -101,7 +101,7 @@ def _target_binding(name: str, line: int, log: str) -> dict:
     located = f"lib.rs({line},"
     message_lines = sorted({entry.strip() for entry in log.splitlines() if expected in entry})
     exact = [entry for entry in message_lines if located in entry]
-    return {"admitted": len(exact) == 1 and len(message_lines) == 1,
+    return {"admitted": len(exact) == 1,
             "expected_diagnostic": expected, "expected_line": line,
             "message_line_count": len(message_lines), "exact_line_count": len(exact),
             "diagnostic_lines": message_lines[:4]}

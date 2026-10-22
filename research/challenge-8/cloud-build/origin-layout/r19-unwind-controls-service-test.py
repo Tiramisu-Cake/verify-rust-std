@@ -137,6 +137,14 @@ class R19UnwindControlsTests(unittest.TestCase):
             return {"stages": {"exporter": 0, "decode": 0, "refinement": 0, "verifast": 1}}
         result = self.run_controls(duplicate, name="duplicate")
         self.assertEqual({r["classification"] for r in result["cases"].values()}, {"INCONCLUSIVE"})
+        def repeated(case, args, **kwargs):
+            record = json.loads((case / "case.json").read_text())
+            line = diagnostic_log(record["case"], record["expected_line"])
+            trace = "Trace: " + controls.DIAGNOSTICS[record["case"]] + "\n"
+            (case / "verifast.log").write_text(line + trace + line)
+            return {"stages": {"exporter": 0, "decode": 0, "refinement": 0, "verifast": 1}}
+        result = self.run_controls(repeated, name="repeated")
+        self.assertTrue(result["all_matched"])
 
     def test_timeout_setup_null_wrong_type_not_run_and_exception_fail_closed(self):
         cases = {
@@ -165,6 +173,24 @@ class R19UnwindControlsTests(unittest.TestCase):
             return result
         result = self.run_controls(mutate, name="mutated")
         self.assertEqual({r["classification"] for r in result["cases"].values()}, {"INCONCLUSIVE"})
+
+    def test_controls_require_the_prepared_raw_caller_record(self):
+        evidence = self.root / "ev"
+        case = evidence / "raw_local_caller" / "cases" / callback.RAW_LOCAL_CALLER_NAME
+        (case / "original").mkdir(parents=True)
+        (case / "verified").mkdir()
+        (case / "original/lib.rs").write_bytes(self.original)
+        (case / "verified/lib.rs").write_bytes(self.verified)
+        prep = evidence / "raw_local_caller" / "preparation.json"
+        self.assertFalse(callback._r19_raw_case_matches(evidence, case))
+        record = {"case": callback.RAW_LOCAL_CALLER_NAME, "verified_sha256": sha(self.verified),
+                  "original_sha256": sha(self.original)}
+        prep.write_text(json.dumps(record))
+        self.assertTrue(callback._r19_raw_case_matches(evidence, case))
+        (case / "verified/lib.rs").write_bytes(self.verified + b"\n")
+        self.assertFalse(callback._r19_raw_case_matches(evidence, case))
+        prep.write_text("[]")
+        self.assertFalse(callback._r19_raw_case_matches(evidence, case))
 
     def test_registration_gate_requires_exact_r19_profile(self):
         profile_path = HERE / "GLUE-PROFILE.json"

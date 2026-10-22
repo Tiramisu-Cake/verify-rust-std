@@ -127,6 +127,16 @@ def _r19_registration_matches(profile_path, selected_profile):
         return False
 
 
+def _r19_raw_case_matches(evidence, raw_case):
+    try:
+        record = json.loads((Path(evidence) / 'raw_local_caller' / 'preparation.json').read_text())
+        return (type(record) is dict and record.get('case') == RAW_LOCAL_CALLER_NAME and
+                record.get('verified_sha256') == _sha((raw_case / 'verified/lib.rs').read_bytes()) and
+                record.get('original_sha256') == _sha((raw_case / 'original/lib.rs').read_bytes()))
+    except (OSError, json.JSONDecodeError, AttributeError, TypeError):
+        return False
+
+
 def _run_raw_local_caller_after_controls(controls_result, diagnostic):
     result = diagnostic()
     result['rawptr_controls'] = {
@@ -1708,7 +1718,7 @@ def run(evidence, args, env, execute_case, validated_receipt):
             results['r19_unwind_controls'] = dict(
                 classification='NOT_APPLICABLE_R19_REGISTRATION_ABSENT', all_matched=False,
                 accepted=False, proof_credit=False, b2_achieved=False)
-        elif not (raw_case / 'verified/lib.rs').is_file():
+        elif not (raw_case / 'verified/lib.rs').is_file() or not _r19_raw_case_matches(evidence, raw_case):
             results['r19_unwind_controls'] = dict(
                 classification='NOT_RUN_RAW_CALLER_NOT_PREPARED', all_matched=False,
                 accepted=False, proof_credit=False, b2_achieved=False)
