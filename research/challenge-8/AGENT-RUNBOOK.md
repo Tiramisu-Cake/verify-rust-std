@@ -1,3 +1,11 @@
+> **Автономность proof-агентов, 2026-10-20:** Select/Merge сами ставят задачи по миссии и плану; исправления inventory/binder/frontend и новые experimental profiles не требуют отдельного согласования каждого blocker при сохранении гарантий, review и controls. [Полномочия](PROOF-AGENT-AUTONOMY.md). Новые задания задают окно/бюджет; активные inputs/T0/явные границы и роль maintainer сохраняются.
+
+> **Evidence v0.11 — приоритет:** [краткий guide](EVIDENCE-READER-GUIDE.md). Brief → catalogue → refresh/info → locate/fragment → нужные страницы по next_offset/next_value_start. Пожизненной16-квоты и прежних лексических WITHHELD больше нет; соседний контекст/argv/environment читаются как данные. Не выгружать автоматически всё. Proof scope, T0, окна/бюджеты и coordinator сохраняются.
+
+> **Процесс итераций, 2026-10-19:** [ранние checks → целевой proof → полная матрица](ITERATION-PROCESS.md). Service error-path tests обязательны для затронутого runner; использовать существующий Cloud preflight. Принять на безопасной границе без изменения активных inputs/T0. Измерять закрытые proof obligations отдельно от setup-работы.
+
+> Текущее правило чтения CI evidence: [Evidence Brief](EVIDENCE-BRIEF.md) (2026-10-17). Оно отменяет указания ниже читать/скачивать полные logs или raw archives, включая старые CLI-примеры. Использовать `smallsort-brief BUILD_UUID`; отсутствие Brief не разрешает raw fallback.
+
 # Challenge 8 operating runbook
 
 This is an operating procedure, not a progress log. Read [AGENTS.md](../../AGENTS.md)
@@ -113,21 +121,10 @@ gh workflow run smallsort-research.yml \
    and logged selection. Do not blindly select the latest repository run. If
    listing is delayed, poll; do not dispatch a duplicate. Record its ID/URL.
    Do not push another proof change before resolving this dispatch to its SHA.
-6. Poll that specific run roughly once a minute with short waits and progress
-   updates. Do not stop merely because it is queued/building. After completion
-   read the full log and artifacts, including successful runs:
-
-~~~bash
-gh run view "$run_id" --repo Tiramisu-Cake/verify-rust-std \
-  --json databaseId,url,headSha,headBranch,status,conclusion,jobs
-gh run view "$run_id" --repo Tiramisu-Cake/verify-rust-std --log
-gh run download "$run_id" --repo Tiramisu-Cake/verify-rust-std \
-  --dir "/tmp/challenge8-evidence-$run_id"
-~~~
-
-`run_id` must be the resolved ID. Download into a fresh directory and never
-commit archives, generated source or large logs. Artifacts expire after seven
-days; preserve essential diagnostics and identifiers in the committed record.
+6. After the authorized Cloud Build reaches terminal status, obtain
+   `smallsort-brief BUILD_UUID`. Do not read or download full logs or archives.
+   For a missing or incomplete Brief, report the limitation and request a
+   separately authorized administrative audit; do not infer acceptance.
 
 7. Check source/tool/profile hashes, requested case counts, actual named body
    execution, normal/unwind posts, intended negative diagnostics, covers and

@@ -1,3 +1,22 @@
+> **Автономность proof-агентов, 2026-10-20:** Select/Merge сами ставят задачи по миссии и плану; исправления inventory/binder/frontend и новые experimental profiles не требуют отдельного согласования каждого blocker при сохранении гарантий, review и controls. [Полномочия](research/challenge-8/PROOF-AGENT-AUTONOMY.md). Новые задания задают окно/бюджет; активные inputs/T0/явные границы и роль maintainer сохраняются.
+
+> **Роли SmallSort:** Select/Merge разрабатывают патчи; VeriFast maintainer принимает готовые опубликованные патчи для review/регрессий/интеграции/upstream-пакета. Новый proof-blocker/model design ему автоматически не передаётся. [Границы роли](research/challenge-8/VERIFAST-ROLE.md). Только роли verifast разрешён GitHub Actions CI готовых tool-патчей в Tiramisu-Cake/verifast; Select/Merge сохраняют Cloud Build lanes.
+
+> **Evidence v0.11 — приоритет:** [краткий guide](research/challenge-8/EVIDENCE-READER-GUIDE.md). Brief → catalogue → refresh/info → locate/fragment → нужные страницы по next_offset/next_value_start. Пожизненной16-квоты и прежних лексических WITHHELD больше нет; соседний контекст/argv/environment читаются как данные. Не выгружать автоматически всё. Proof scope, T0, окна/бюджеты и coordinator сохраняются.
+
+> **Процесс итераций, 2026-10-19:** [ранние checks → целевой proof → полная матрица](research/challenge-8/ITERATION-PROCESS.md). Service error-path tests обязательны для затронутого runner; использовать существующий Cloud preflight. Принять на безопасной границе без изменения активных inputs/T0. Измерять закрытые proof obligations отдельно от setup-работы.
+
+## Evidence Brief — решение владельца от 2026-10-17
+
+Для всех SmallSort agents, worktrees и reviewers действует
+[Evidence Brief policy](research/challenge-8/EVIDENCE-BRIEF.md), с приоритетом над
+противоречащими указаниями ниже и в старых phase cards/runbooks. После terminal
+Build использовать `smallsort-brief BUILD_UUID`. Полные Build/verifier logs,
+raw evidence archives и Cloud Logging не читать и не скачивать, включая локальные
+копии и обход через connectors. Если Brief недостаточен или отсутствует — сообщить
+ограничение; без raw fallback и без повышения proof credit. Отдельный admin audit
+требует явной авторизации. Coordinator, budgets, owners и deadlines сохраняются.
+
 # Instructions for coding agents
 
 ## Project and first reads
@@ -54,7 +73,7 @@ research runners/extractors, scripts/run-kani.sh, or containers/remote subproces
 that perform these tasks on the server. Do not install build/verifier dependencies,
 run a "quick" compile check, use self-hosted runners or move to paid compute.
 
-Local reading/editing, git/gh operations, downloading/reading Actions evidence,
+Local reading/editing, git/gh operations, reading compact evidence reports,
 `git diff --check`, `bash -n` and lightweight non-executing document/YAML parsing
 are allowed. GitHub failure is not permission to verify locally.
 
@@ -92,7 +111,7 @@ Isolate fixtures so an unrelated new helper cannot block baseline controls.
 A negative counts only at its intended proof obligation; setup, frontend,
 unsupported-operation and unrelated helper failures are not intended negatives.
 Green microfixtures or regression counts prove neither a whole std function nor
-the soundness/admissibility of a patched verifier. Inspect full logs and artifacts.
+the soundness/admissibility of a patched verifier. Use the Evidence Brief; do not inspect full logs or download artifacts.
 
 ## Evidence and continuity
 
