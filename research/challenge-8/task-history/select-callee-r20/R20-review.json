@@ -95,5 +95,23 @@
       "positive = final-select obligation only, *const Element"
     ]
   },
-  "submit_basis_commit_s3b": "00f850818173c84fe75f63e744333db6702e02a0"
+  "submit_basis_commit_s3b": "00f850818173c84fe75f63e744333db6702e02a0",
+  "handoff": {
+    "verdict": "GO_WITH_NITS",
+    "range": "82aa147f054963ff97817b4682c0808f4932ef63..0f37a0dfc5b42670e3d62e245b19d08b2d3a4b6c",
+    "candidate": "0f37a0dfc5b42670e3d62e245b19d08b2d3a4b6c",
+    "built": false,
+    "verified": false,
+    "basis": "branch-selected variant sound (only checked S6 lemma; payload choice cannot create permission); selected wrapper = new(selected_payload) after guard re-open; unselected cell value preserved by checked pointer-drop contract (ens *slot |-> value).",
+    "next_window": [
+      "S2d fingerprint of branch-selected (runner already set)",
+      "new branch-selected refresh patch with S2d pins and selected text (current branch patch refuses this source on SHA)",
+      "switch runner to proof mode",
+      "delta review before that Build"
+    ],
+    "nits": [
+      "optional: bind wrapper values from cells after close_MaybeUninit instead of inferring payloads",
+      "stale labels: runner comment 'merged', proof row name merged-optin"
+    ]
+  }
 }

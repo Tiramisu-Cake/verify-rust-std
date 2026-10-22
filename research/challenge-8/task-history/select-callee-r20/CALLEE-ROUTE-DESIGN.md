@@ -64,3 +64,30 @@ Implementation plan:
 Under `SORT4_ACTUAL_OWNER_NINE_ADMISSION`/`SORT4_A1_NINE_REPO_ROOT` the pinned 20+2 translator certifies the nine-body unit exactly. The owner admission rebuilds the actual body together with its injected ghost and requires the exact ordered ghost-statement list. The nine-admission and A1 nine patches, as refreshed by the two O26 literal refresh patches, pin the `verified/lib.rs` SHA-256 (`1798132f…`). Any ghost-repaired copy is therefore refused at the certificate before the final select.
 
 The repair consequently needs a separately reviewed certificate-refresh tool patch: new source pin and ghost list, with the repair ghost included and the controls preserved. The first R20 callee Build is baseline-only: a fresh reproduction of the recorded blocker, with exact message and location in Brief, on the current commit and closure.
+
+## R20 Cloud results and HANDOFF (2026-10-22)
+
+All results are on the separate lane `o26-select-callee-r20`, which carries only the nine-body closure (103–104/191 chunks). Builds:
+
+- **S1 `2d562718`:** fresh reproduction of the frontier. The final `MaybeUninit` select is missing `MaybeUninit_pointer_own(t, new(payload))` for argument `a`.
+- **S2 `00c136dd`:** EXPIRED in the queue (92 s accounted, no step ran).
+- **S2 `f090a976`:** separate ghost lines add two MIR blocks (cleanup target 24→26, edges 10→12).
+- **S2b `729474f9`:** the merged variant keeps the inventory.
+- **S3 `cd3e6cae`:** the opt-in refresh (`0862e635`→`5ed3398f`) admits the exact merged unit. The verifier's ghost parser rejects a second statement in one ghost comment.
+- **S2c `36f6c053`:** the branch variant keeps the inventory. The default route on the refreshed translator reproduces S1 exactly.
+- **S3b `edb9fb81`:** the branch refresh (`0862e635`→`82741fb5`) admits and executes the branch unit. Both controls refuse at the exact certificate pin.
+  - The positive fails at the same obligation.
+  - The guard own has arguments `(t, g)` only, so re-opening it after `forget` yields a fresh pointee symbol `selected_payload`.
+
+Next, the HANDOFF candidate, committed but not built:
+
+1. Variant `branch-selected`: in each branch, the selected wrapper is closed with `selected_payload` and the unselected one with its original payload. The runner is already set to fingerprint it (S2d).
+2. From the S2d pins, generate the refresh patch with the same generator method (opt-in, the same five sites, branch-selected `selected` text). Then run proof mode with classified rows.
+3. Open question: the unselected wrapper's value after the pointer `drop_in_place`. If the drop spec does not preserve it, the close must use the post-drop value.
+
+Also open:
+- the recovery-lane transport is at 192/191 after the R20 `control.py` lines, so pruning is needed before c5 and the selectors;
+- normal/unwind/nested-Drop acceptance matrix;
+- `*mut T` and the generic gap.
+
+credit0.

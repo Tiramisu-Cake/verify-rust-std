@@ -2,15 +2,15 @@
   "artifacts": [
     {
       "path": "research/challenge-8/task-history/select-callee-r20/CALLEE-ROUTE-DESIGN.md",
-      "sha256": "b547eaaed39a31a29a16383aa0d72d1a0e9666ccac987ae0571b5f94305f5632"
+      "sha256": "0375a0fcbeff758544fdb7f483b4ac9e70dc50b48caab89c64e7671f0985fa2c"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r20/R20-review.json",
+      "sha256": "8f2a40d50e46efbca07e086f615735f321002d53f88705c71771da7dbfbf2ff5"
     },
     {
       "path": "research/challenge-8/cloud-build/recipes/o26-select-callee-r20.json",
-      "sha256": "b2db6b1a8f6602705e2bf55a43f106b453da9212140626f9aa10dd2e6a4670c9"
-    },
-    {
-      "path": "research/challenge-8/task-history/select-c3-r19/SELECT-NEXT-DESIGN.md",
-      "sha256": "53e10daddc177ce73f4b6e4daba33fc23026270d31764dcb62d08605bb9c2057"
+      "sha256": "45d49e95c92fa99ec89167ce8d5ae907f7b839ccda4318af2ccaa59e26b66ee3"
     }
   ],
   "assignment_sha256": "ffb6e526c208f5dbfb85f0251b63fc6d307499f4b61aa63c7e7b1b02bae64135",
@@ -20,16 +20,16 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "cd3e6cae-721f-45d8-ae82-5e198e00312b",
+    "build_id": "edb9fb81-29e8-4103-9fbe-1a7731233b43",
     "evidence": [
       {
-        "build_id": "cd3e6cae-721f-45d8-ae82-5e198e00312b",
-        "path": "research/challenge-8/task-history/select-callee-r20/S3-evidence.json",
-        "sha256": "baf76fb258ea30dc3b5e4a46da56d82e920bc25216db283072543da6fa1e8eb5"
+        "build_id": "edb9fb81-29e8-4103-9fbe-1a7731233b43",
+        "path": "research/challenge-8/task-history/select-callee-r20/S3b-evidence.json",
+        "sha256": "c4404beae1edc4f9972851fb5c85daeb4936fa0e09d099dd0d05fbd96037e863"
       }
     ],
-    "location": "verified/lib.rs(219,14-17) merged ghost block (nine-body unit)",
-    "summary": "Ghost comment accepts one statement; move the two checked lemma calls into each if/else branch; needs new fingerprint pins + refresh."
+    "location": "std/lib.rsspec(462) via nine-body verified/lib.rs:227 final MaybeUninit select",
+    "summary": "Wrapper own closed for new(true_payload) but selected cell holds new(selected_payload) after guard re-open."
   },
   "confirmed": [
     {
@@ -66,21 +66,24 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "R20 S2c (36f6c053): branch repair fingerprint intended; SHA 47856983, unit e6395c8a, body-7 315594a2; MIR unchanged; default route on refreshed translator reproduces S1. credit0.",
+      "claim": "R20 S3b (edb9fb81): branch refresh admits+executes unit; controls refused at pin; positive fails lib.rsspec:462 (selected payload fresh after guard re-open). R20 CLOSED, 7 Builds 2200s, carry0. credit0.",
       "evidence": [
         {
-          "path": "research/challenge-8/task-history/select-callee-r20/S2c-evidence.json",
-          "sha256": "34edf919c6c478db8a7f3f3177a969aa189f28ce71b660eb52bb8893b47499fd",
-          "build_id": "36f6c053-0c43-4e83-b73f-4dab633b31fa"
+          "path": "research/challenge-8/task-history/select-callee-r20/S3b-evidence.json",
+          "sha256": "c4404beae1edc4f9972851fb5c85daeb4936fa0e09d099dd0d05fbd96037e863",
+          "build_id": "edb9fb81-29e8-4103-9fbe-1a7731233b43"
+        },
+        {
+          "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-22-R20.json",
+          "sha256": "61a12011d011eed7515fe8cea0d16cd24041f0b0e0e12fba2dd2b52b831619cf"
         }
       ]
     }
   ],
-  "next_step": "Wait R20 S3b Build edb9fb81 (branch refresh + classified proof, pins 82aa147f); ack; read verdicts; closeout.",
+  "next_step": "New window: build HANDOFF 0f37a0df S2d fingerprint on o26-select-callee-r20; then branch-selected refresh + classified proof.",
   "open": [
-    "Callee: run nine-body unit on separate lane o26-select-callee-r20 (baseline + ghost repair variants); then normal/unwind/nested-Drop completion and matrix; *mut",
-    "Recovery lane transport: 192/191 chunks after R20 client lines (control.py is in every lane's infra core); prune closed routes separately before c5 (34e37669)/s",
-    "Full actual sort4 (selectors, c5, copies), count-independent c3/c4 control re-qualification; credit0."
+    "HANDOFF 0f37a0df (unbuilt, reviewed GO_WITH_NITS): S2d fingerprint -> branch-selected refresh patch -> runner proof -> delta review -> Build.",
+    "Callee acceptance: normal/unwind/nested-Drop matrix; *mut T/generic gap. Recovery lane 192/191 chunks: prune before c5/selector."
   ],
   "owner": "select-sort4",
   "phase": "SORT4-ACTUAL-SELECT-2026-10-22-R20",
@@ -103,19 +106,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "edb9fb81-29e8-4103-9fbe-1a7731233b43"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T18:11:28Z",
     "main_deadline_utc": "2026-10-22T17:41:28Z",
-    "remaining_seconds": 1746,
-    "retired_seconds": 0,
-    "spent_seconds": 1854,
+    "remaining_seconds": 0,
+    "retired_seconds": 1400,
+    "spent_seconds": 2200,
     "t0": "2026-10-22T15:41:28Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "CLOSED",
   "task_id": "select-actual-callee-autonomous-2026-10-22-r20",
-  "updated_utc": "2026-10-22T17:25:30Z"
+  "updated_utc": "2026-10-22T17:36:03Z"
 }
