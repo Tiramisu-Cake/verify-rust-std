@@ -994,6 +994,8 @@ def run_command(a,state,ledger,ledger_path):
    if datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(main_deadline.replace('Z','+00:00')):raise SystemExit(f'A1 {label} main window ended during preflight; no new Build')
   if a.phase_id==A1_SCOPE_PHASE and datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(A1_SCOPE_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('A1 package-scope main window ended during preflight; no new Build')
   if a.phase_id==BINDING_SESSION2_PHASE and datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(BINDING_SESSION2_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('Compiler binding session2 main window ended during preflight; no new Build')
+  # Re-check the Network window after slow preflight, immediately before reserving.
+  network_submit_gate(a)
   coordination.reserve(reservation)
   ledger['builds'].append(item);ledger['active_build']=token;write(ledger_path,ledger)
   cmd=['builds','submit','--no-source','--async','--region=global','--config='+str(path),'--flags-file='+str(flags),'--format=json','--quiet']

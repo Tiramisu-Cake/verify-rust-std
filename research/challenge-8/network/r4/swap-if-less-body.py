@@ -113,9 +113,9 @@ LAST_PREFIX = b'''        //@ let tmp_ref = precreate_ref(&v_b_swap_tmp);
         //@ close [1/2]array(tmp_ref + 1, 0, nil);
         //@ close [1/2]array(tmp_ref, 1, cons(*tmp_ref, nil));
         //@ points_to_limits(v_b);
-        //@ open points_to(v_b, _);
+        //@ open points_to(v_b, ?vb_old);
         //@ close array_(v_b + 1, 0, nil);
-        //@ close array_(v_b, 1, cons(some(*v_b), nil));
+        //@ close array_(v_b, 1, cons(some(vb_old), nil));
 '''
 LAST_SUFFIX = b'''        //@ open array(v_b, 1, _);
         //@ open array(v_b + 1, 0, _);
@@ -156,11 +156,32 @@ def replace_once(text, old, new, why):
     return text.replace(old, new, 1)
 
 
-def construct(std, recover_pair_rs, select_spec=b''):
-    body = extract(std)
+LAYER_DECLARATIONS = (b'pred comparison_debt<T>(', b'lem recover_pair<T>(')
+LAYER_BLOCK = re.compile(rb'(?ms)^/\*@\n(.*?)^@\*/\n')
+
+
+def layer_declarations(recover_pair_rs):
+    """Only the checked pred/lemma ghost blocks (as Select c1 extracts them);
+    never the layer's fixtures or its deliberately failing negative case."""
     need(hashlib.sha1(b'blob %d\0' % len(recover_pair_rs) + recover_pair_rs).hexdigest() == SELECT_RECOVER_PAIR_BLOB,
          'Select recover_pair layer blob differs from the pinned consumer input')
-    layer = recover_pair_rs.replace(b'#![no_std]\n', b'', 1).replace(b'#![allow(dead_code)]\n', b'', 1)
+    blocks = [m.group(0) for m in LAYER_BLOCK.finditer(recover_pair_rs)]
+    picked = []
+    for head in LAYER_DECLARATIONS:
+        found = [b for b in blocks if b[len(b'/*@\n'):].startswith(head)]
+        need(len(found) == 1, 'layer declaration missing or ambiguous: ' + head.decode())
+        picked.append(found[0])
+    layer = b''.join(picked)
+    need(strip_ghost(layer) == b'', 'layer declarations must be ghost-only')
+    return layer
+
+
+def construct(std, recover_pair_rs, select_spec=None):
+    # P2 is unpublished: no select_unpredictable text is admitted. Admission
+    # requires a later reviewed change pinning Select's checked callee by blob.
+    need(select_spec is None, 'select_unpredictable layer (P2) is not published; no spec admitted')
+    body = extract(std)
+    layer = layer_declarations(recover_pair_rs)
     v = body
     v = replace_once(v, b'{\n    // SAFETY', CONTRACT + b'{\n    // SAFETY', 'body opening brace')
     v = replace_once(v, UNSAFE_ANCHOR, LIFETIME_SCOPE, 'unsafe block anchor')
@@ -169,14 +190,14 @@ def construct(std, recover_pair_rs, select_spec=b''):
     v = replace_once(v, COPY, COPY_PREFIX + COPY + COPY_SUFFIX, 'ptr::copy anchor')
     v = replace_once(v, LAST, LAST_PREFIX + LAST + LAST_SUFFIX, 'copy_nonoverlapping anchor')
     need(strip_ghost(v) == body, 'ghost stripping does not restore the exact actual body')
-    crate = PREFIX + layer + b'\n' + select_spec + v
+    crate = PREFIX + layer + b'\n' + v
     need(strip_ghost(crate).endswith(body), 'crate tail is not the exact actual body')
     meta = {
         'schema': 'network-r4-swap-if-less-candidate-v1', 'status': 'PREPARED_UNVERIFIED',
         'name': 'swap_if_less', 'std_source_sha256': SOURCE_SHA256, 'std_span': list(STD_SPAN),
         'std_body_sha256': sha(body), 'runtime_body_byteequal': True,
         'select_recover_pair_blob': SELECT_RECOVER_PAIR_BLOB,
-        'select_pointer_spec_sha256': sha(select_spec) if select_spec else None,
+        'layer_declarations': [h.decode() for h in LAYER_DECLARATIONS], 'select_pointer_layer': 'ABSENT (P2)',
         'domain': 'generic T/F; a_pos != b_pos (all sort9/sort13 sites); two separate owned cells; ZST admitted',
         'normal': 'both cells owned with current values; current F', 'unwind': 'both cells owned (callback recovery); current F',
         'equal_positions': 'OPEN (D3)', 'ordering_link': 'OPEN', 'proof_credit': False,
@@ -185,12 +206,11 @@ def construct(std, recover_pair_rs, select_spec=b''):
 
 
 def main():
-    if len(sys.argv) not in (4, 5):
-        raise SystemExit('usage: swap-if-less-body.py SMALLSORT_RS RECOVER_PAIR_RS OUT_DIR [SELECT_POINTER_SPEC]')
+    if len(sys.argv) != 4:
+        raise SystemExit('usage: swap-if-less-body.py SMALLSORT_RS RECOVER_PAIR_RS OUT_DIR')
     std = Path(sys.argv[1]).read_bytes()
     recover = Path(sys.argv[2]).read_bytes()
-    spec = Path(sys.argv[4]).read_bytes() if len(sys.argv) == 5 else b''
-    crate, meta = construct(std, recover, spec)
+    crate, meta = construct(std, recover)
     out = Path(sys.argv[3])
     out.mkdir(parents=True, exist_ok=True)
     (out / 'lib.rs').write_bytes(crate)

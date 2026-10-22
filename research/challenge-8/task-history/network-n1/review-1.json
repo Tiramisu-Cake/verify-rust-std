@@ -1,0 +1,19 @@
+{
+  "reviewer": "claude-subagent:smallsort-reviewer",
+  "model": "claude-opus-5-5 (agent definition: Opus 5.5, effort high)",
+  "candidate_commit": "a693a4c4e2268ae04c7cf200850b35ef5b74e4c0",
+  "spec_path": "research/challenge-8/task-history/network-n1/review-spec.json",
+  "spec_sha256_reported": "67583c005dc6f1c81cfac2f8fff3b21e61b1556d8a201330435f41066552a9fc",
+  "packet_sha256": "d070ff449f84a00eaee41d51fa0768299992ce7ec91c6394ef983af1d28c43f1",
+  "decision": "NO_GO",
+  "findings": [
+    "1 R4 generator admitted arbitrary select_spec text (unchecked lemma / non-ghost Rust) — fixed: any select_spec refused until P2 is published and pinned; negative test",
+    "2 positive crate included the layer's failing negative fixture and anchors — fixed: only pred comparison_debt and lem recover_pair ghost blocks extracted; ghost-only and absence tests",
+    "3 Network client did not re-check the main window immediately before reserve — fixed: network_submit_gate re-called before coordination.reserve; structural test",
+    "4 no positive caller control for contract satisfiability (sized and ZST) — fixed in DESIGN control matrix (NOT_RUN)",
+    "5 nits: regex test compared literals not compiled patterns (fixed); 'byte-for-byte' wording (fixed); audit publication/path assumptions and ROOT/download notes (documented); of_u8s_ wording (fixed)"
+  ],
+  "sound_per_reviewer": ["coordinator v4 candidate diff vs 1fd8b97b", "client diff vs b8f88ce8 (gating)", "R4 body strip/marker/normal equality with Select c1", "contract premises", "stock specs cited"],
+  "not_run": ["proof/compile/Cloud", "reconcile paths for owner network beyond the diff"],
+  "proof_credit": false
+}

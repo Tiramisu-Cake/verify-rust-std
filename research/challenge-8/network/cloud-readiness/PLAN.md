@@ -13,8 +13,8 @@ Execution of any step below needs a separate owner decision.
 | `client/coordination.py` | v4 candidate from deployed v3 blob `1fd8b97b` (Select = Merge): owners v3 ∪ {`network`}, **cap stays 3**, owner check per protocol version, owner check also in `request()` |
 | `client/coordination-v4n-transition.py` | audit/migrate helper (local files only; `migrate` not on the CLI) |
 | `client/coordination-v4n-test.py` | unittest, 6 tests (v3 unchanged + `network` refused; v4 four owners/cap 3/`fifth` refused; wrong cap; deployed v3 blob fails closed on v4; migration preserves records and needs all four ACKs; stale client / bad ACK refused) |
-| `client/control.py` | Network client derived from Select `control.py` blob `b8f88ce8` (Select head `10e13a41`), +55/−2 lines |
-| `client/test_network_control.py` | unittest, 7 tests (empty table; inherited Select phases unreachable; owner/lane/ceiling/window/status mismatches; past deadline; submit window/timeout; budget; profile SHA binding) |
+| `client/control.py` | Network client derived from Select `control.py` blob `b8f88ce8` (Select head `10e13a41`); window re-checked immediately before `reserve`. `ROOT=parents[3]` is correct only once copied to `cloud-build/`; inherited `download` stays reachable |
+| `client/test_network_control.py` | unittest, 8 tests (empty table; inherited Select phases unreachable; owner/lane/ceiling/window/status mismatches; past deadline; submit window/timeout; budget; profile SHA binding) |
 
 Run: `python3 -B client/coordination-v4n-test.py` and `python3 -B client/test_network_control.py`
 (both pass on the VPS, 2026-10-22; no Cloud calls).
@@ -42,8 +42,11 @@ Run: `python3 -B client/coordination-v4n-test.py` and `python3 -B client/test_ne
    `cloud-build/` on its branch, publishes, and writes an ACK
    `{owner, coordination_sha256, infra_commit}` (pattern of
    `coordinator-v3-adoption-20261012`). Network: `client/*` → `cloud-build/`.
-3. With no unresolved submit, the owner runs `audit`, then `migrate` (v3 → v4,
-   reservations preserved byte-for-byte, read-back). Before: live Build
+3. With no unresolved submit, the owner runs `audit`, then `migrate` (v3 → v4;
+   reservations re-serialised and checked by value on read-back). `audit`
+   does not itself check that each `infra_commit` is published on the owner's
+   branch, and assumes the client path `research/challenge-8/cloud-build/` —
+   both are manual checks of this step. Before: live Build
    inventory check as in the v3/v4 procedures (not in this helper).
 4. Read-back of `active.json` `{schema_version: 4, max_active: 3}`; each client
    `status` once.

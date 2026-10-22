@@ -4,7 +4,8 @@
 Local file operations only; no Cloud calls. Not to be run without a separate
 owner decision. `audit` checks that every stable owner's committed client uses
 exactly this candidate coordinator; `migrate` rewrites the envelope version
-under the shared lock while preserving every reservation byte-for-byte.
+under the shared lock, re-serialising the reservations and checking them
+by value on read-back.
 """
 
 import argparse

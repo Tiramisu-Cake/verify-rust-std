@@ -32,9 +32,20 @@ class R4CandidateTests(unittest.TestCase):
         self.assertFalse(meta['proof_credit'])
 
     def test_ghost_regexes_equal_select_capture(self):
-        for name in (b'GHOST_BLOCK = re.compile(rb"/\\*@.*?@\\*/(?:\\r?\\n)?", re.S)',
-                     b'GHOST_LINE = re.compile(rb"(?m)^[ \\t]*//@[^\\r\\n]*(?:\\r?\\n|$)")'):
-            self.assertIn(name, CAPTURE)
+        namespace = {}
+        exec(b'import re\n' + b'\n'.join(l for l in CAPTURE.split(b'\n')
+                                         if l.startswith((b'GHOST_BLOCK = ', b'GHOST_LINE = '))), namespace)
+        self.assertEqual((namespace['GHOST_BLOCK'].pattern, namespace['GHOST_BLOCK'].flags),
+                         (r4.GHOST_BLOCK.pattern, r4.GHOST_BLOCK.flags))
+        self.assertEqual((namespace['GHOST_LINE'].pattern, namespace['GHOST_LINE'].flags),
+                         (r4.GHOST_LINE.pattern, r4.GHOST_LINE.flags))
+
+    def test_layer_excludes_fixtures_and_negative_case(self):
+        crate = r4.construct(STD, PAIR)[0]
+        for absent in (b'CASE_BEGIN', b'recover_pair_missing_reserved_half', b'r15_recover_pair_type_anchor',
+                       b'join_four_owned_cells'):
+            self.assertNotIn(absent, crate)
+        self.assertEqual(crate.count(b'pred comparison_debt<T>('), 1)
 
     def test_marker_immediately_before_call(self):
         lines = r4.construct(STD, PAIR)[0].split(b'\n')
@@ -60,9 +71,12 @@ class R4CandidateTests(unittest.TestCase):
         finally:
             r4.CALL = old
 
-    def test_select_spec_is_bound_into_meta(self):
-        crate, meta = r4.construct(STD, PAIR, b'/*@ // spec placeholder @*/\n')
-        self.assertEqual(meta['select_pointer_spec_sha256'], r4.sha(b'/*@ // spec placeholder @*/\n'))
+    def test_negative_select_spec_refused_until_p2(self):
+        for spec in (b'/*@ lem foo() req true; ens false; { assume(false); } @*/\nfn select_unpredictable(){}',
+                     b'/*@ // placeholder @*/\n', b''):
+            with self.assertRaisesRegex(SystemExit, 'P2'):
+                r4.construct(STD, PAIR, spec)
+        self.assertEqual(r4.construct(STD, PAIR)[1]['select_pointer_layer'], 'ABSENT (P2)')
 
 
 if __name__ == '__main__':

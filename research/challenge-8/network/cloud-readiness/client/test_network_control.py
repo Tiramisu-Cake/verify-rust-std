@@ -81,6 +81,16 @@ class NetworkClientTests(unittest.TestCase):
             with self.assertRaisesRegex(SystemExit, 'not started'):
                 control.network_submit_gate(args())
 
+    def test_gate_rechecked_immediately_before_reserve(self):
+        import inspect
+        lines = [l.strip() for l in inspect.getsource(control.run_command).split('\n')]
+        reserve = [i for i, l in enumerate(lines) if l == 'coordination.reserve(reservation)']
+        self.assertEqual(len(reserve), 1)
+        self.assertEqual(lines[reserve[0] - 1], 'network_submit_gate(a)')
+        first = [i for i, l in enumerate(lines) if l == 'network_submit_gate(a)']
+        self.assertEqual(len(first), 2)
+        self.assertEqual(lines[first[0] - 1], 'deadline=authorized_phase(a,ledger)')
+
     def test_budget_and_naive_time(self):
         self.assertEqual(control.network_time_budget(900)['work_seconds'], 660)
         for bad in (269, 1201, 900.0):

@@ -14,8 +14,12 @@ compile or Cloud run happened. Proof credit 0. Not a verified Rust summary.
 
 `swap-if-less-body.py construct` inserts ghost text only; `strip_ghost(crate)`
 ends with the exact body bytes (checked). It refuses on any source SHA, span,
-call-inventory, anchor or layer-blob mismatch. `test_swap_if_less_body.py`
-(unittest, Git blobs only) covers the positive and four negative paths.
+call-inventory, anchor or layer-blob mismatch, and refuses any
+`select_unpredictable` text until P2 is published and pinned. From the layer
+it takes only the `pred comparison_debt` and `lem recover_pair` ghost blocks
+(as Select c1 does), never its fixtures or its failing negative case.
+`test_swap_if_less_body.py` (unittest, Git blobs only, 8 tests) covers the
+positive and the negative paths.
 
 ## Contract (safety/ownership; no ordering premise)
 
@@ -62,7 +66,8 @@ ens / on_unwind_ens: same cells owned with current values, current F, thread, ty
 5. `ptr::copy(v_a_swap, v_a, 1)`: stock byte-level spec. Swap branch:
    `to_u8s_` on both cells, `exists(none)`; no-swap branch: `to_u8s_(v_a)`,
    `exists(some(0))` (self-copy needs write access, as the spec demands); then
-   `from_u8s_` back (`of_u8s_(u8s__of(v)) == some(v)` is stock).
+   `from_u8s_` back (stock `to_u8s_` ensures `v == of_u8s_(bs)`, so the
+   copied bytes read back as the source value).
 6. `ptr::copy_nonoverlapping(&*v_b_swap_tmp, v_b, 1)`: `&tmp` is `create_ref`
    on the local (`precreate_ref` + `init_ref_readonly(…, 1/2)`), deref identity,
    reborrow; 1-element `array`/`array_` views for src/dst; afterwards
@@ -102,9 +107,9 @@ normalisation, ZST same-pointer chunk choice in the typed read).
   ```
   The conditional `ens` form is required so symbolic execution splits on
   `should_swap` (a `result == ite(..)` form would not match the cell chunks;
-  otherwise a checked ghost case split lemma is needed). `construct(...,
-  select_spec)` binds the exposed layer text by SHA in `meta.json`; it is
-  never filled with an unchecked spec.
+  otherwise a checked ghost case split lemma is needed). Until P2 is
+  published the generator refuses any `select_spec`; admitting it is a later
+  reviewed change that pins Select's checked callee by blob.
 * **P3 equal positions (D3).** `a_pos == b_pos` has one cell, but
   `comparison_debt` carries two `borrow_end_token`s. Needs a same-cell callback
   variant (one full borrow shared to two precreated refs; marker/debt/recover
@@ -125,8 +130,12 @@ normalisation, ZST same-pointer chunk choice in the typed read).
 | own-drop | post demands only `a` cell own | leak check failure at return |
 | equal-pos | caller with `a_pos == b_pos` | precondition `a_pos != b_pos` failure |
 | ordering | post claims `!is_less(b_after, a_after)`-style order | failure (no ordering link) |
+| caller-sized (positive) | caller owning `v_base[..n]` (sized `T`) splits two distinct cells via `interior_pointer_limits`-style lemmas, calls `swap_if_less`, rejoins | PASS: precondition satisfiable, not vacuous |
+| caller-zst (positive) | same at a ZST `T` (two cells at one pointer from the array) | PASS: ZST precondition satisfiable; otherwise ZST domain is vacuous and must be reported |
 
 Every control is recorded by message and location (Evidence Brief), not by exit code alone.
+The two positive caller controls guard against a vacuous contract; a PASS of
+the helper without them is not reported as R4 progress.
 
 ## HANDOFF for the first Network Cloud task
 
