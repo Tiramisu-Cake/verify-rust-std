@@ -7,6 +7,22 @@
     {
       "path": "research/challenge-8/network/n13/N3-SCOPE-20261023.md",
       "sha256": "0ff306d681bab5fb9997ebb53bb9fe9df9e58d93f1b20e030a263c72aeb79e78"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json",
+      "sha256": "60eb793db5528b6a9aa55518e2331a74ab4e0998a30e47ea50615720a5b6e0dc"
+    },
+    {
+      "path": "research/challenge-8/network/n13/REVIEW-MATH-N3.md",
+      "sha256": "3916e075a529d37da9516f426c556c335d745b922b0413adc486b494be38b6e1"
+    },
+    {
+      "path": "research/challenge-8/network/n13/REVIEW-CLOUD-N3.md",
+      "sha256": "b91c8c0450fadfcfafb0136a3432cda5708064d1e01021a93de84d7c5cfa3680"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/network-n13/SESSION-PREPARE-RECEIPT-20261023-N3.json",
+      "sha256": "08a0848bcf3ac0faca811af74bc06846a395b1e9540b8bcf9de3590967eccd3c"
     }
   ],
   "assignment_sha256": "88cd937e8d5e2e13310cd73a06debd1308d95f3df1d43ef27e08f6f914ea52eb",
@@ -22,7 +38,7 @@
         "sha256": "2d57a9dfcd8e6a440f7b30be6b2330ea3b3a8e46ce25c52b31dd2e0a9b3db271"
       }
     ],
-    "summary": "Exact N13 OPEN; first Cloud/source admission and H1 membership-split candidate in preparation."
+    "summary": "Preflight active; exact N13 OPEN."
   },
   "confirmed": [
     {
@@ -58,11 +74,21 @@
           "sha256": "0ff306d681bab5fb9997ebb53bb9fe9df9e58d93f1b20e030a263c72aeb79e78"
         }
       ]
+    },
+    {
+      "assurance": "INDEPENDENTLY_ESTABLISHED",
+      "claim": "N3 math candidate ef6ded6 and Cloud integration dc46c0e2 received separate Luna HIGH scoped GO; prepare/check and 14 isolated synthetic tests passed. Exact published execution profile pinned; no new formal proof credit.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/n13/REVIEW-CLOUD-N3.md",
+          "sha256": "b91c8c0450fadfcfafb0136a3432cda5708064d1e01021a93de84d7c5cfa3680"
+        }
+      ]
     }
   ],
-  "next_step": "Finish runner/account, synthetic tests and independent review; submit preflight.",
+  "next_step": "Watcher terminal -> ack -> Brief; then exact if preflight qualifies.",
   "open": [
-    "First Network phase/recipe/ledger/common runner closure; reviewed Cloud provider port and current-source admission. Seed is DRAFT, not dispatch admission.",
+    "Preflight Build bb05bfba-ad5b-4e64-9f1e-992b2494d102 on reviewed dc46c0e2. Read Brief after terminal; no credit yet.",
     "Exact N13 H1/adapter, complete posts, intended negatives and compatible final regressions; historical universal component alone is insufficient.",
     "R4/W7 not verified: P1 candidate is inactive, P2 mutable-pointer callee pending, P3 design only; W8 depends on Merge.",
     "FIRST_SESSION/CLOUD_HISTORY owner lists need workflow-owner follow-up after first Network ledger; v3 request nuisance is outside N3."
@@ -93,7 +119,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "bb05bfba-ad5b-4e64-9f1e-992b2494d102"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T23:13:40Z",
     "main_deadline_utc": "2026-10-22T22:43:40Z",
@@ -103,7 +131,7 @@
     "t0": "2026-10-22T20:43:40Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "network-n13-exact-cloud-2026-10-23-n3",
-  "updated_utc": "2026-10-22T20:47:26Z"
+  "updated_utc": "2026-10-22T21:01:32Z"
 }
