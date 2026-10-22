@@ -49,10 +49,10 @@ Next: At actual T0 prepare/register R20; Cloud preflight, then the published raw
 
 ## Отчёт агента
 
-**merge-unwind-acceptance-autonomous-2026-10-23-r20 · merge · MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23 · NOT_STARTED**
-Updated: 2026-10-22T20:00:20Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `39f6b0cacd00575c8ca2d39e9f15632723bf1227` / `1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb`.
-Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
+**merge-unwind-acceptance-autonomous-2026-10-23-r20 · merge · MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23 · ACTIVE**
+Updated: 2026-10-22T20:08:00Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `39f6b0cacd00575c8ca2d39e9f15632723bf1227` / `1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb`.
+Dates: T0 `2026-10-22T20:08:00Z`; main `2026-10-22T22:08:00Z`; absolute `2026-10-22T22:38:00Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Published R19 cleanup candidate remains Cloud-UNVERIFIED; original caller borrow/unsize and full normal/unwind remain OPEN.
-Next: At actual T0 prepare/register R20; Cloud preflight, then the published raw caller normal/unwind and five R19 controls.
+Blocker: R19 raw cleanup Cloud-UNVERIFIED; original borrow/unsize and full normal/unwind OPEN.
+Next: Register R20; Cloud preflight, raw caller normal/unwind and R19 controls.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

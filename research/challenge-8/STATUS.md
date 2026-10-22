@@ -1,9 +1,9 @@
 # Agent checkpoint: merge-unwind-acceptance-autonomous-2026-10-23-r20
 
-- Owner: merge | phase: MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23 | state: NOT_STARTED
-- Updated: 2026-10-22T20:00:20Z
+- Owner: merge | phase: MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23 | state: ACTIVE
+- Updated: 2026-10-22T20:08:00Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `39f6b0cacd00575c8ca2d39e9f15632723bf1227`, profile `1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb`
-- Session dates: T0 `NOT_SET`; main deadline `NOT_SET`; absolute deadline `NOT_SET`
+- Session dates: T0 `2026-10-22T20:08:00Z`; main deadline `2026-10-22T22:08:00Z`; absolute deadline `2026-10-22T22:38:00Z`
 - Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
@@ -25,10 +25,10 @@
 - Short outer timeout990/execute570 chosen using prior whole-cycle timings — Missed nested compile reserve140; P4 timed out before proof. Keep full1200 plan unless effective inner budget reviewed.; [research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md](cloud-build/origin-layout/R16-REVIEW-20261021.md) SHA `7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa`
 
 ## Blocker
-Published R19 cleanup candidate remains Cloud-UNVERIFIED; original caller borrow/unsize and full normal/unwind remain OPEN.
+R19 raw cleanup Cloud-UNVERIFIED; original borrow/unsize and full normal/unwind OPEN.
 
 ## Next
-At actual T0 prepare/register R20; Cloud preflight, then the published raw caller normal/unwind and five R19 controls.
+Register R20; Cloud preflight, raw caller normal/unwind and R19 controls.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R19-UNWIND-CLEANUP-DESIGN-20261022.md](cloud-build/origin-layout/R19-UNWIND-CLEANUP-DESIGN-20261022.md) — `571f1acd4a0ad8f86c7fe2bfa95e9a5a80450cbe0a5dc84c81fe5f8309ad857e`
