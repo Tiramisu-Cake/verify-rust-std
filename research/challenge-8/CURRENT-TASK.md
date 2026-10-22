@@ -50,9 +50,9 @@ Next: At actual T0 prepare/register R20; Cloud preflight, then the published raw
 ## Отчёт агента
 
 **merge-unwind-acceptance-autonomous-2026-10-23-r20 · merge · MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23 · ACTIVE**
-Updated: 2026-10-22T21:51:28Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `39f6b0cacd00575c8ca2d39e9f15632723bf1227` / `1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb`.
-Dates: T0 `2026-10-22T20:08:00Z`; main `2026-10-22T22:08:00Z`; absolute `2026-10-22T22:38:00Z`. Budget 3600s: 2107s spent, 0s retired, 1493s remaining including reservations.
-Active Build IDs: 0d3e7c6d-dfe4-4dbb-b5da-f0169d92ff53; unresolved: none recorded.
-Blocker: P4 WORKING; metadata/helper/controls unverified. Original caller OPEN.
-Next: Prepare decoder record compatibility; terminal Brief when ready.
+Updated: 2026-10-22T22:00:15Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `39f6b0cacd00575c8ca2d39e9f15632723bf1227` / `1404842fc70c2fbc4d422d63ff3035edeacd22ac64cdf02382b2300e94fd57bb`.
+Dates: T0 `2026-10-22T20:08:00Z`; main `2026-10-22T22:08:00Z`; absolute `2026-10-22T22:38:00Z`. Budget 3600s: 2837s spent, 0s retired, 763s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: P4 no proof: lane budget exhausted. Tool578/helper/controls require fresh CI; original caller OPEN.
+Next: Review lane timing metadata; exact source/cap gate and HANDOFF.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

@@ -1,0 +1,78 @@
+{
+  "schema": "merge-r20-build-result-v1",
+  "build_id": "0d3e7c6d-dfe4-4dbb-b5da-f0169d92ff53",
+  "proof_sha": "c70d29165e26a7a41a9d8e6f22e1385fba2f0439",
+  "tool_sha": "1fec4ffa55703fc571c6eb82d96072596325d647",
+  "profile_sha256": "e3258b779634aa8a510412bfbb83f847ba9e2b8fbbfa6d1d3dff72aed05119df",
+  "config_sha256": "7e66c9367e61c1e1525764b2f835ae8f6a5e863a7cfa79a6689784526bcc12c1",
+  "status": "FAILURE",
+  "assurance": "SOURCE_REPORTED",
+  "brief_integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "run_exit": 124,
+  "proof_attempted": false,
+  "compile_only": "NOT_RUN: lane budget exhausted before compile-only mode",
+  "compile_milestones": "NOT_PRESENT_IN_VERIFIED_ARCHIVE; no new compile/target success established",
+  "charge_seconds": 730,
+  "spent_total_seconds": 2837,
+  "remaining_seconds": 763,
+  "budget_values": {
+    "lane_work_budget_seconds": 176,
+    "selected_drop_groups": 0,
+    "or_join_selected": 0,
+    "retained_matrix_timeout_seconds": 1
+  },
+  "budget_receipt": {
+    "archive_sha256": "29d6d66fbe05adf7a146675490136e48a79a3e2e65b94e8d7aa998ecf82856fb",
+    "index_sha256": "c61de3aa91f5498c218249a2b00e9310d0d844b265bed931423f0d18665b9707",
+    "file_id": "36468dc6a7cd7526470ba9ca891bed25fa989d38b967e1dc4e1c75f789aa3fc6",
+    "file_sha256": "cbc8cae692e93ebbfc19bce6b0d0dd2a6f2fe3c4c34c4aa1aee754acae5ce353",
+    "request_id": "8ffe37b0946cc997901acac5c45dde3b312bc6c3bbc05b28ec42ea226cb40c8b",
+    "selector": {
+      "start": 1,
+      "end": 12
+    },
+    "exact": true,
+    "complete": true,
+    "coverage": "all4lines"
+  },
+  "audit_receipt": {
+    "archive_sha256": "29d6d66fbe05adf7a146675490136e48a79a3e2e65b94e8d7aa998ecf82856fb",
+    "index_sha256": "c61de3aa91f5498c218249a2b00e9310d0d844b265bed931423f0d18665b9707",
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "file_sha256": "fdc4f2ea80fc3391a111ef02c92eb31fb53949499e76424ea29d4c53f458ee59",
+    "request_id": "b4e23dffa9bceb0bb167c0094ed0c5f7ed1ccb27b2d6e3b238072e3f02a1ce6e",
+    "exact": true,
+    "complete": true,
+    "next_offset": null,
+    "request": {
+      "expected_sha256": "fdc4f2ea80fc3391a111ef02c92eb31fb53949499e76424ea29d4c53f458ee59",
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "pointer": ""
+    }
+  },
+  "audit_values": {
+    "/accepted": false,
+    "/bridge_diagnostic": {
+      "child_count": 0
+    },
+    "/build_mode": "selected-drop-minimal",
+    "/classification": "INCONCLUSIVE",
+    "/compiler": {
+      "child_count": 5
+    },
+    "/diagnostic_complete": false,
+    "/exit_status": 124,
+    "/lane": "merge",
+    "/proof_attempted": false,
+    "/retained_six_smoke": {
+      "child_count": 0
+    },
+    "/schema": "smallsort-merge-cloud-diagnostic-v1"
+  },
+  "setup_cause": "UNKNOWN. Budget176 at lane entry plus fixed140 guard/preflight exhaustion is observed; no particular bootstrap cause inferred.",
+  "prepared_successor": "578120769161e217e53bd569bafdccbd4b2e020e is independently reviewed static decoder-record fix; it is not a P4 result and remains Cloud UNVERIFIED.",
+  "accepted": false,
+  "proof_credit": false,
+  "independent_credit": false,
+  "b2_achieved": false
+}

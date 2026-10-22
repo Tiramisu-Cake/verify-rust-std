@@ -57,6 +57,13 @@ lane_available=$((SMALLSORT_DEADLINE_EPOCH - $(date +%s)))
   exit 2
 }
 (( lane_available >= lane_work_budget_seconds )) || lane_work_budget_seconds=$lane_available
+printf 'stage\telapsed_seconds\tremaining_lane_seconds\tguard_seconds\n' > "$evidence_root/lane-stage-budget.tsv"
+record_lane_budget() {
+  local budget_elapsed=$((SECONDS - lane_started))
+  printf '%s\t%s\t%s\t140\n' "$1" "$budget_elapsed" \
+    "$((lane_work_budget_seconds - budget_elapsed))" >> "$evidence_root/lane-stage-budget.tsv"
+}
+record_lane_budget lane_entry
 [[ -f "$cloud_dir/provider.py" && -f "$overlay_tool" ]] || {
   printf 'merge lane provider or overlay is missing\n' >&2
   exit 2
@@ -412,6 +419,7 @@ if [[ "$build_mode" == compile-only || "$build_mode" == bridge-minimal || "$buil
   [[ "$build_mode" != len1-minimal ]] || runner_mode=merge_len1_minimal
   [[ "$build_mode" != caller-composition-minimal ]] || runner_mode=merge_caller_composition_minimal
   [[ "$build_mode" != selected-drop-minimal ]] || runner_mode=merge_selected_drop_minimal
+  record_lane_budget compile_gate
   compile_remaining=$((lane_work_budget_seconds - (SECONDS - lane_started) - 140))
   compile_status=0
   if (( compile_remaining > 0 )); then
@@ -424,6 +432,7 @@ if [[ "$build_mode" == compile-only || "$build_mode" == bridge-minimal || "$buil
     printf 'NOT_RUN: lane budget exhausted before compile-only mode\n' \
       > "$evidence_root/compile-only.log"
   fi
+  record_lane_budget compile_finished
   # run.sh owns creation of allprooflogs and refuses pre-existing evidence.
   # Keep dispatcher output outside it until the runner has returned.
   mkdir -p "$allprooflogs"

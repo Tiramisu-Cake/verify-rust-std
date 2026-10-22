@@ -28,12 +28,12 @@
     "tool_sha": "39f6b0cacd00575c8ca2d39e9f15632723bf1227"
   },
   "blocker": {
-    "summary": "P4 WORKING; metadata/helper/controls unverified. Original caller OPEN.",
+    "summary": "P4 no proof: lane budget exhausted. Tool578/helper/controls require fresh CI; original caller OPEN.",
     "evidence": [
       {
         "build_id": "0d3e7c6d-dfe4-4dbb-b5da-f0169d92ff53",
-        "path": "research/challenge-8/cloud-build/origin-layout/R20-PROOF4-START-20261023.json",
-        "sha256": "f362938c350671793a786de90b899ba5a93bc786c91a0af2eec168671ce6dbe9"
+        "path": "research/challenge-8/cloud-build/origin-layout/R20-PROOF4-RESULT-20261023.json",
+        "sha256": "a3c652fc9cae3486d3dc9351017027f950b75d82850ebc829f380942cc3180ed"
       }
     ]
   },
@@ -86,12 +86,12 @@
       ]
     }
   ],
-  "next_step": "Prepare decoder record compatibility; terminal Brief when ready.",
+  "next_step": "Review lane timing metadata; exact source/cap gate and HANDOFF.",
   "open": [
     "Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.",
     "Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.",
     "F5 separate synthetic resource negative INCONCLUSIVE; actual missing-owner control is static shape refusal.",
-    "Metadata tool191/profile0428 compile, checked content lemmas and final CURRENT/backedge/false/true/panic/Drop/Resume matrix OPEN.",
+    "Tool578/profile9496 compile, checked lemmas and compatible final CURRENT/normal/unwind matrix OPEN.",
     "No B2/generic/arbitrary-n/sorting/tool qualification/independent credit."
   ],
   "owner": "merge",
@@ -120,19 +120,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "0d3e7c6d-dfe4-4dbb-b5da-f0169d92ff53"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T22:38:00Z",
     "main_deadline_utc": "2026-10-22T22:08:00Z",
-    "remaining_seconds": 1493,
+    "remaining_seconds": 763,
     "retired_seconds": 0,
-    "spent_seconds": 2107,
+    "spent_seconds": 2837,
     "t0": "2026-10-22T20:08:00Z",
     "unresolved_ids": []
   },
   "state": "ACTIVE",
   "task_id": "merge-unwind-acceptance-autonomous-2026-10-23-r20",
-  "updated_utc": "2026-10-22T21:51:28Z"
+  "updated_utc": "2026-10-22T22:00:15Z"
 }
