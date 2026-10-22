@@ -3,7 +3,7 @@
   "lane": "network-n13",
   "entrypoint": "research/challenge-8/cloud-build/network-n13/run.sh",
   "infra_transport": "exact-recipe-v1",
-  "network_stages": ["controls", "exact", "preflight", "regressions"],
+  "network_stages": ["controls", "controls-order", "exact", "preflight", "regressions"],
   "proof_paths": [
     "library/core/src/slice/sort/shared/smallsort.rs",
     "research/challenge-8/network/n13/run-cloud.py",

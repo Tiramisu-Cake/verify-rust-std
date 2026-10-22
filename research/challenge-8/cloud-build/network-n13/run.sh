@@ -3,7 +3,7 @@ set -euo pipefail
 
 stage=${NETWORK_STAGE:?NETWORK_STAGE is required}
 case "$stage" in
-  preflight|exact|controls|regressions) ;;
+  preflight|exact|controls|controls-order|regressions) ;;
   *) printf 'unsupported Network N13 stage: %s\n' "$stage" >&2; exit 2 ;;
 esac
 
@@ -51,24 +51,34 @@ FAILURE
 }
 trap record_failure EXIT
 
-python3 "$infra_root/research/challenge-8/cloud-build/provider.py" > "$work_root/provider.json"
+setup_deadline=$((SECONDS + 120))
+setup_run() {
+  local remaining=$((setup_deadline - SECONDS))
+  if (( remaining <= 0 )); then
+    printf 'Network N13 setup exceeded its 120-second allowance\n' >&2
+    return 124
+  fi
+  timeout --signal=TERM "${remaining}s" "$@"
+}
+
+setup_run python3 "$infra_root/research/challenge-8/cloud-build/provider.py" > "$work_root/provider.json"
 
 export DEBIAN_FRONTEND=noninteractive
-apt-get update
-apt-get install --yes --no-install-recommends ca-certificates curl \
+setup_run apt-get update
+setup_run apt-get install --yes --no-install-recommends ca-certificates curl \
   libgmp10 libmpfr6 libgomp1 libffi8 libncurses6 libtinfo6 zlib1g libz3-4 \
   libgtk-3-0 libgtksourceview-4-0
 
-curl -fL --retry 2 -o "$archive" \
+setup_run curl -fL --connect-timeout 20 --max-time 90 -o "$archive" \
   https://github.com/verifast/verifast/releases/download/26.09/verifast-26.09-linux.tar.gz
 printf '%s  %s\n' \
   da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa \
-  "$archive" | sha256sum -c - | tee "$work_root/verifast-archive-sha256.txt"
-tar -xzf "$archive" -C "$tool_parent"
+  "$archive" | setup_run sha256sum -c - | tee "$work_root/verifast-archive-sha256.txt"
+setup_run tar -xzf "$archive" -C "$tool_parent"
 [[ -x "$tool_home/bin/verifast" ]] || { printf 'unexpected VeriFast archive layout\n' >&2; exit 2; }
 printf '%s  %s\n' \
   dc672335da76fe1bb06cf7ebca916185c34edb65466df0a937645a437c7f0ecc \
-  "$tool_home/bin/verifast" | sha256sum -c - | tee "$work_root/verifast-console-sha256.txt"
+  "$tool_home/bin/verifast" | setup_run sha256sum -c - | tee "$work_root/verifast-console-sha256.txt"
 
 set +e
 export LD_LIBRARY_PATH="$tool_home/bin:${LD_LIBRARY_PATH:-}"

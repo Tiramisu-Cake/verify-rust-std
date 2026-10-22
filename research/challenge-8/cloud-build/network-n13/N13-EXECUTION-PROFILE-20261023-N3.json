@@ -41,8 +41,8 @@
     "setup_allowance_seconds": 120,
     "soft_margin_seconds": 15,
     "case_timeouts_seconds": {
-      "exact-n13-full-post": 300,
-      "universal-n13-regression": 240,
+      "exact-n13-full-post": 420,
+      "universal-n13-regression": 360,
       "other": 180
     }
   },
@@ -59,26 +59,33 @@
       "targets": [
         "exact-n13-full-post"
       ],
-      "timeout_seconds": 300,
-      "build_timeout_seconds": 675
+      "timeout_seconds": 420,
+      "build_timeout_seconds": 795
     },
     "controls": {
       "targets": [
         "missing-equiv-trans",
         "exact-n13-membership-post",
+        "classifier-reject-controls-7"
+      ],
+      "timeout_seconds": 600,
+      "build_timeout_seconds": 975
+    },
+    "controls-order": {
+      "targets": [
         "exact-n13-order-post",
         "classifier-reject-controls-7"
       ],
-      "timeout_seconds": 780,
-      "build_timeout_seconds": 1155
+      "timeout_seconds": 420,
+      "build_timeout_seconds": 795
     },
     "regressions": {
       "targets": [
         "exact-n9-regression",
         "universal-n13-regression"
       ],
-      "timeout_seconds": 420,
-      "build_timeout_seconds": 795
+      "timeout_seconds": 540,
+      "build_timeout_seconds": 915
     }
   },
   "required_posts": [
@@ -138,5 +145,16 @@
     "GitHub Actions or spoofed GitHub identity",
     "tool source build, patch, or runtime-model expansion",
     "proof acceptance from timeout, setup failure, exit 0, or universal component alone"
-  ]
+  ],
+  "timing_basis": {
+    "observed_build_id": "01316eae-dedc-40cf-89e3-66f6d4950db1",
+    "observed_config_sha": "dc46c0e2",
+    "observed_case_timeout_seconds": 300,
+    "observed_case_exit": 124,
+    "observed_assertion_errors": 0,
+    "observed_bodies_visited": 19,
+    "observed_bodies_total": 22,
+    "last_visited_body": "network13_finite_swo_composition",
+    "consequence": "The symbolic dependency did not reach the adapter within 300 seconds; 420 seconds is an exposure limit for the exact case and 360 seconds for the universal regression containing that dependency. Timeout is not acceptance."
+  }
 }

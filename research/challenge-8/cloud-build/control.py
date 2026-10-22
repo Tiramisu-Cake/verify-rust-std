@@ -244,16 +244,16 @@ NETWORK_N3_START='2026-10-22T20:43:40Z'
 NETWORK_N3_MAIN_DEADLINE='2026-10-22T22:43:40Z'
 NETWORK_N3_DEADLINE='2026-10-22T23:13:40Z'
 NETWORK_N3_PROFILE='research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json'
-NETWORK_N3_PROFILE_SHA256='60eb793db5528b6a9aa55518e2331a74ab4e0998a30e47ea50615720a5b6e0dc'
+NETWORK_N3_PROFILE_SHA256='99963f22466a4e771c18a1abed01c6c838dfd36b3eea06a41379d023e7444806'
 NETWORK_N3_RECIPE='research/challenge-8/cloud-build/recipes/network-n13.json'
-NETWORK_N3_STAGES=frozenset(('preflight','exact','controls','regressions'))
+NETWORK_N3_STAGES=frozenset(('preflight','exact','controls','controls-order','regressions'))
 NETWORK_PHASES={NETWORK_N3_PHASE:{
  'ceiling':3600,'lanes':frozenset(('network-n13',)),
  'start_utc':NETWORK_N3_START,'main_deadline_utc':NETWORK_N3_MAIN_DEADLINE,
  'deadline_utc':NETWORK_N3_DEADLINE,'profile':NETWORK_N3_PROFILE,
  'profile_sha256':NETWORK_N3_PROFILE_SHA256,'timeout':(270,1200),
  'stages':NETWORK_N3_STAGES,
- 'stage_seconds':{'preflight':360,'exact':300,'controls':780,'regressions':420}}}
+ 'stage_seconds':{'preflight':360,'exact':420,'controls':600,'controls-order':420,'regressions':540}}}
 NETWORK_RESERVE=240
 
 def network_time_budget(seconds):
@@ -280,6 +280,17 @@ def network_authorized(a,ledger):
  if datetime.datetime.now(datetime.timezone.utc)>=deadline:raise SystemExit('Phase deadline has passed')
  return deadline
 
+def network_profile_stage_gate(profile,stage,build_timeout,case_seconds):
+ if not isinstance(profile,dict) or profile.get('schema')!='smallsort-network-n13-execution-profile-v1':
+  raise SystemExit('Network execution profile schema is invalid')
+ record=profile.get('stages',{}).get(stage) if isinstance(profile.get('stages'),dict) else None
+ expected_build=case_seconds+375
+ if (not isinstance(record,dict) or type(record.get('timeout_seconds')) is not int or
+     record.get('timeout_seconds')!=case_seconds or
+     type(record.get('build_timeout_seconds')) is not int or
+     record.get('build_timeout_seconds')!=expected_build or build_timeout!=expected_build):
+  raise SystemExit(f'Network {stage} profile case/build timeout differs from registration')
+
 def network_submit_gate(a):
  r=NETWORK_PHASES[a.phase_id]
  now=datetime.datetime.now(datetime.timezone.utc)
@@ -288,14 +299,18 @@ def network_submit_gate(a):
  low,high=r['timeout']
  if not low<=a.timeout<=high:raise SystemExit(f'Network timeout must be{low}..{high} seconds')
  if getattr(a,'stage',None) not in r['stages']:raise SystemExit('Network submission requires a registered stage')
- try:recipe_bytes=subprocess.check_output(['git','show',a.infra_sha+':'+NETWORK_N3_RECIPE],cwd=ROOT)
- except subprocess.CalledProcessError as error:raise SystemExit('Network recipe is absent from selected infrastructure commit') from error
- try:recipe=json.loads(recipe_bytes)
- except (ValueError,UnicodeDecodeError) as error:raise SystemExit('Network recipe JSON is invalid') from error
+ try:
+  profile_bytes=subprocess.check_output(['git','show',a.infra_sha+':'+r['profile']],cwd=ROOT)
+  recipe_bytes=subprocess.check_output(['git','show',a.infra_sha+':'+NETWORK_N3_RECIPE],cwd=ROOT)
+ except subprocess.CalledProcessError as error:raise SystemExit('Network profile or recipe is absent from selected infrastructure commit') from error
+ if digest(profile_bytes)!=r['profile_sha256']:raise SystemExit('Network execution profile differs from phase pin')
+ try:profile=json.loads(profile_bytes); recipe=json.loads(recipe_bytes)
+ except (ValueError,UnicodeDecodeError) as error:raise SystemExit('Network profile or recipe JSON is invalid') from error
+ expected=r['stage_seconds'][a.stage]+375
+ network_profile_stage_gate(profile,a.stage,a.timeout,r['stage_seconds'][a.stage])
  if (not isinstance(recipe,dict) or recipe.get('schema')!='smallsort-cloud-recipe-v1' or
      recipe.get('lane')!='network-n13' or recipe.get('network_stages')!=sorted(r['stages']) or
      a.stage not in recipe['network_stages']):raise SystemExit('Network recipe stage admission differs from phase registration')
- expected=r['stage_seconds'][a.stage]+375
  if a.timeout!=expected:raise SystemExit(f'Network {a.stage} build timeout must be{expected} seconds (case, setup, report, and soft-margin envelope)')
 
 def network_env(proof,phase_id):
