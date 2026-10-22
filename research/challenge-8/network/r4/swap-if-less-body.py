@@ -272,13 +272,26 @@ NEGATIVES = {
 EXPECTED = {
     'positive': 'PASS (helper + generic caller)', 'caller-zst': 'PASS (T = ())',
     'marker-off': 'overlay refusal or unwind-post failure at the call',
-    'unwind-no-recover': 'overlay marker refusal (malformed marker)',
+    'unwind-no-recover': 'overlay marker refusal, or unwind-post/leak failure at the call',
     'swapped-roles': 'failure at the comparator call (ref/share mismatch)',
     'copy-offset': 'ptr::copy precondition failure in the swap branch',
-    'own-drop': 'leak check failure (own token of b) at return',
+    'own-drop': 'leak check failure (own token of b) at the helper return (run without caller)',
     'unchanged-claim': 'postcondition failure on the swap branch',
     'equal-pos': 'precondition a_pos != b_pos failure at the caller',
 }
+# Reachability: a PASS here means the caller state is inconsistent at that
+# point and the positive callers are not evidence of satisfiability.
+CALL_LINE = b'    unsafe { swap_if_less(v_base, 0, 1, is_less) };\n'
+ASSERT_FALSE = b'    //@ assert false;\n'
+REACH = {
+    'reach-before-generic': (GENERIC_CALLER, ASSERT_FALSE + CALL_LINE),
+    'reach-after-generic': (GENERIC_CALLER, CALL_LINE + ASSERT_FALSE),
+    'reach-before-zst': (ZST_CALLER, ASSERT_FALSE + CALL_LINE),
+    'reach-after-zst': (ZST_CALLER, CALL_LINE + ASSERT_FALSE),
+}
+for _name in REACH:
+    EXPECTED[_name] = 'assertion failure at the inserted assert false (PASS invalidates the positive callers)'
+CALLERLESS = {'own-drop'}  # the appended caller would add a second failure site
 
 
 def matrix(std, recover_pair_rs):
@@ -290,7 +303,9 @@ def matrix(std, recover_pair_rs):
     for name, (old, new) in NEGATIVES.items():
         variant = replace_once(crate, old, new, 'control anchor ' + name)
         need(variant != crate, 'control is not a mutation: ' + name)
-        out[name] = variant + GENERIC_CALLER  # = positive with exactly one ghost mutation
+        out[name] = variant if name in CALLERLESS else variant + GENERIC_CALLER
+    for name, (base, new) in REACH.items():
+        out[name] = crate + replace_once(base, CALL_LINE, new, 'reach anchor ' + name)
     for name, text in out.items():
         helper = text[text.index(b'unsafe fn swap_if_less'):]
         helper = helper[:helper.index(b'\n}\n') + 3]
@@ -306,7 +321,8 @@ def main():
     recover = Path(sys.argv[2]).read_bytes()
     variants, meta = matrix(std, recover)
     out = Path(sys.argv[3])
-    out.mkdir(parents=True, exist_ok=True)
+    need(not out.exists(), 'output directory must not exist (no stale controls)')
+    out.mkdir(parents=True)
     meta['controls'] = {}
     for name, crate in sorted(variants.items()):
         (out / (name + '.rs')).write_bytes(crate)

@@ -65,10 +65,32 @@ class R4CandidateTests(unittest.TestCase):
         for name in r4.NEGATIVES:
             v = variants[name]
             self.assertNotEqual(v, positive)
-            self.assertEqual(r4.strip_ghost(v), r4.strip_ghost(positive), name)  # ghost-only mutation
-            self.assertTrue(v.endswith(r4.GENERIC_CALLER), name)
+            if name in r4.CALLERLESS:
+                self.assertEqual(r4.strip_ghost(v), r4.strip_ghost(r4.construct(STD, PAIR)[0]), name)
+            else:
+                self.assertEqual(r4.strip_ghost(v), r4.strip_ghost(positive), name)  # ghost-only mutation
+                self.assertTrue(v.endswith(r4.GENERIC_CALLER), name)
+        for name in r4.REACH:
+            v = variants[name]
+            self.assertEqual(v.count(r4.ASSERT_FALSE), 1, name)
+            self.assertEqual(r4.strip_ghost(v), r4.strip_ghost(
+                variants['caller-zst' if name.endswith('zst') else 'positive']), name)
         for name, v in variants.items():
             self.assertIn(body, r4.strip_ghost(v), name)
+
+    def test_cli_refuses_existing_output(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            std = Path(d) / 'smallsort.rs'; std.write_bytes(STD)
+            pair = Path(d) / 'pair.rs'; pair.write_bytes(PAIR)
+            run = lambda out: subprocess.run(['python3', '-B', str(HERE / 'swap-if-less-body.py'), str(std), str(pair), str(out)],
+                                             capture_output=True, text=True)
+            first = run(Path(d) / 'out')
+            self.assertEqual(first.returncode, 0, first.stderr)
+            self.assertEqual(len(list((Path(d) / 'out').glob('*.rs'))), len(r4.EXPECTED))
+            again = run(Path(d) / 'out')
+            self.assertNotEqual(again.returncode, 0)
+            self.assertIn('must not exist', again.stdout + again.stderr)
 
     def test_negative_wrong_source(self):
         with self.assertRaisesRegex(SystemExit, 'SHA256 differs'):
