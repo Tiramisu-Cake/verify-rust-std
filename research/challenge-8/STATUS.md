@@ -1,11 +1,11 @@
 # Agent checkpoint: network-n13-exact-cloud-2026-10-23-n3
 
-- Owner: network | phase: NETWORK-N13-EXACT-2026-10-23-N3 | state: HANDOFF
-- Updated: 2026-10-22T21:23:13Z
+- Owner: network | phase: NETWORK-N13-EXACT-2026-10-23-N3 | state: ACTIVE
+- Updated: 2026-10-22T21:41:53Z
 - Baseline: source `cd371e035c7e573760c43bf934d53e8118ee3e7d`, tool `809de4596839b739dd999f9e462242c835e3af46`, profile `77df69ccd018f5cbd7a73fdc20f562db1f006d2d696818fae3fee3aa8dab0286`
 - Session dates: T0 `2026-10-22T20:43:40Z`; main deadline `2026-10-22T22:43:40Z`; absolute deadline `2026-10-22T23:13:40Z`
-- Budget: 3600s total; 571s spent; 0s retired; 3029s remaining including active reservations
-- Active Build IDs: f4144041-4ebb-4869-a892-233300790a3b
+- Budget: 3600s total; 1133s spent; 0s retired; 2467s remaining including active reservations
+- Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -15,9 +15,10 @@
 - [INDEPENDENTLY_ESTABLISHED] Luna HIGH scoped GO: math ef6ded6, Cloud dc46c0e2. Prepare/check and14 synthetic tests pass. No formal credit. — [research/challenge-8/network/n13/REVIEW-CLOUD-N3.md](network/n13/REVIEW-CLOUD-N3.md) SHA `b91c8c0450fadfcfafb0136a3432cda5708064d1e01021a93de84d7c5cfa3680`
 - [SOURCE_REPORTED] Preflight bb05bfba: both gates accepted as reported, unchanged source, no errors; pinned source/tool/profile. Charge117s. — [research/challenge-8/observations/a0f17140fdeda22768736941e9b8b596aed728c70a0a6071d8c9e1d713d68dea.json](observations/a0f17140fdeda22768736941e9b8b596aed728c70a0a6071d8c9e1d713d68dea.json) SHA `a0f17140fdeda22768736941e9b8b596aed728c70a0a6071d8c9e1d713d68dea`; [research/challenge-8/observations/625c24d687eedd64e7b75aee38331405f42675a7b9789da07e9aa026c73c66d6.json](observations/625c24d687eedd64e7b75aee38331405f42675a7b9789da07e9aa026c73c66d6.json) SHA `625c24d687eedd64e7b75aee38331405f42675a7b9789da07e9aa026c73c66d6`
 - [SOURCE_REPORTED] Exact01316eae: exit124/300s; no errors, unchanged source; visited19/22 ending symbolic composition. Adapter not reached; H1 untested. Charge454s. — [research/challenge-8/observations/2b0b1090b76d1c70f1695d267daa52c0f97c1f60df8d469960f78533fdabef54.json](observations/2b0b1090b76d1c70f1695d267daa52c0f97c1f60df8d469960f78533fdabef54.json) SHA `2b0b1090b76d1c70f1695d267daa52c0f97c1f60df8d469960f78533fdabef54`
+- [SOURCE_REPORTED] Exact f414420: exit124, no errors;22 body starts. Composition285.839, membership359.321, wrapper373.671, last call403.583s. Shape1 no PASS. Charge562s. — [research/challenge-8/observations/bf08126b33de2f8d3fd636231d90f5d0c776bb6135ca6cd0ffafb8b2c02df448.json](observations/bf08126b33de2f8d3fd636231d90f5d0c776bb6135ca6cd0ffafb8b2c02df448.json) SHA `bf08126b33de2f8d3fd636231d90f5d0c776bb6135ca6cd0ffafb8b2c02df448`
 
 ## Open
-- Exact420 Build f4144041-4ebb-4869-a892-233300790a3b on reviewed e03dd0fb; profile99963f22. Prior preflight compatible; no exact acceptance.
+- Shape2 candidate prepared, same420/360 limits; controls/regressions OPEN. One-copy original case artifact layout pending review.
 - Full exact H1 adapter/posts, negatives and compatible final regressions OPEN.
 - R4/W7 blocked by inactive Select P1 and pending P2; W8 depends on Merge.
 - Workflow-owner FIRST_SESSION/CLOUD_HISTORY follow-up recorded; shared changes outside N3.
@@ -27,17 +28,12 @@
 - Universal N13 PASS or timeout/setup refusal counted as exact adapter acceptance — Exact full posts and intended controls on compatible source/tool identities are required.; [research/challenge-8/networks/RANK-RESULTS.md](networks/RANK-RESULTS.md) SHA `c76848727b3f62acd5c9b49ea4133c236db3f4d4a903bc42d5b8c159b215f2ca`
 
 ## Blocker
-Exact420 active; adapter acceptance OPEN.
+Shape1 timed out420 at composition call; exact OPEN.
 - [research/challenge-8/network/N13-ADAPTER-NOTE.md](network/N13-ADAPTER-NOTE.md) SHA `2d57a9dfcd8e6a440f7b30be6b2330ea3b3a8e46ce25c52b31dd2e0a9b3db271`
 
 ## Next
-Watcher -> ack -> exact Brief; then split controls/regressions.
+Review shape2 checked equality/membership packaging; exact420 next.
 
 ## Artifacts
-- [research/challenge-8/cloud-build/network-n13/N13-SEED-PROFILE-20261023-N3.json](cloud-build/network-n13/N13-SEED-PROFILE-20261023-N3.json) — `77df69ccd018f5cbd7a73fdc20f562db1f006d2d696818fae3fee3aa8dab0286`
 - [research/challenge-8/network/n13/N3-SCOPE-20261023.md](network/n13/N3-SCOPE-20261023.md) — `0ff306d681bab5fb9997ebb53bb9fe9df9e58d93f1b20e030a263c72aeb79e78`
 - [research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json](cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json) — `99963f22466a4e771c18a1abed01c6c838dfd36b3eea06a41379d023e7444806`
-- [research/challenge-8/network/n13/REVIEW-MATH-N3.md](network/n13/REVIEW-MATH-N3.md) — `3916e075a529d37da9516f426c556c335d745b922b0413adc486b494be38b6e1`
-- [research/challenge-8/network/n13/REVIEW-CLOUD-N3.md](network/n13/REVIEW-CLOUD-N3.md) — `b91c8c0450fadfcfafb0136a3432cda5708064d1e01021a93de84d7c5cfa3680`
-- [research/challenge-8/cloud-build/network-n13/SESSION-PREPARE-RECEIPT-20261023-N3.json](cloud-build/network-n13/SESSION-PREPARE-RECEIPT-20261023-N3.json) — `08a0848bcf3ac0faca811af74bc06846a395b1e9540b8bcf9de3590967eccd3c`
-- [research/challenge-8/network/n13/REVIEW-TIMING-N3.md](network/n13/REVIEW-TIMING-N3.md) — `fe251bb4ffc7eb67f34d6510cc467f56c7fcb41f1fd6123f396c2684aad4c37c`

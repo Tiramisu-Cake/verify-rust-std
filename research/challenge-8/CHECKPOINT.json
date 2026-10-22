@@ -1,32 +1,12 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/network-n13/N13-SEED-PROFILE-20261023-N3.json",
-      "sha256": "77df69ccd018f5cbd7a73fdc20f562db1f006d2d696818fae3fee3aa8dab0286"
-    },
-    {
       "path": "research/challenge-8/network/n13/N3-SCOPE-20261023.md",
       "sha256": "0ff306d681bab5fb9997ebb53bb9fe9df9e58d93f1b20e030a263c72aeb79e78"
     },
     {
       "path": "research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json",
       "sha256": "99963f22466a4e771c18a1abed01c6c838dfd36b3eea06a41379d023e7444806"
-    },
-    {
-      "path": "research/challenge-8/network/n13/REVIEW-MATH-N3.md",
-      "sha256": "3916e075a529d37da9516f426c556c335d745b922b0413adc486b494be38b6e1"
-    },
-    {
-      "path": "research/challenge-8/network/n13/REVIEW-CLOUD-N3.md",
-      "sha256": "b91c8c0450fadfcfafb0136a3432cda5708064d1e01021a93de84d7c5cfa3680"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/network-n13/SESSION-PREPARE-RECEIPT-20261023-N3.json",
-      "sha256": "08a0848bcf3ac0faca811af74bc06846a395b1e9540b8bcf9de3590967eccd3c"
-    },
-    {
-      "path": "research/challenge-8/network/n13/REVIEW-TIMING-N3.md",
-      "sha256": "fe251bb4ffc7eb67f34d6510cc467f56c7fcb41f1fd6123f396c2684aad4c37c"
     }
   ],
   "assignment_sha256": "88cd937e8d5e2e13310cd73a06debd1308d95f3df1d43ef27e08f6f914ea52eb",
@@ -42,7 +22,7 @@
         "sha256": "2d57a9dfcd8e6a440f7b30be6b2330ea3b3a8e46ce25c52b31dd2e0a9b3db271"
       }
     ],
-    "summary": "Exact420 active; adapter acceptance OPEN."
+    "summary": "Shape1 timed out420 at composition call; exact OPEN."
   },
   "confirmed": [
     {
@@ -112,11 +92,21 @@
           "sha256": "2b0b1090b76d1c70f1695d267daa52c0f97c1f60df8d469960f78533fdabef54"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "Exact f414420: exit124, no errors;22 body starts. Composition285.839, membership359.321, wrapper373.671, last call403.583s. Shape1 no PASS. Charge562s.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/observations/bf08126b33de2f8d3fd636231d90f5d0c776bb6135ca6cd0ffafb8b2c02df448.json",
+          "sha256": "bf08126b33de2f8d3fd636231d90f5d0c776bb6135ca6cd0ffafb8b2c02df448"
+        }
+      ]
     }
   ],
-  "next_step": "Watcher -> ack -> exact Brief; then split controls/regressions.",
+  "next_step": "Review shape2 checked equality/membership packaging; exact420 next.",
   "open": [
-    "Exact420 Build f4144041-4ebb-4869-a892-233300790a3b on reviewed e03dd0fb; profile99963f22. Prior preflight compatible; no exact acceptance.",
+    "Shape2 candidate prepared, same420/360 limits; controls/regressions OPEN. One-copy original case artifact layout pending review.",
     "Full exact H1 adapter/posts, negatives and compatible final regressions OPEN.",
     "R4/W7 blocked by inactive Select P1 and pending P2; W8 depends on Merge.",
     "Workflow-owner FIRST_SESSION/CLOUD_HISTORY follow-up recorded; shared changes outside N3."
@@ -147,19 +137,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "f4144041-4ebb-4869-a892-233300790a3b"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T23:13:40Z",
     "main_deadline_utc": "2026-10-22T22:43:40Z",
-    "remaining_seconds": 3029,
+    "remaining_seconds": 2467,
     "retired_seconds": 0,
-    "spent_seconds": 571,
+    "spent_seconds": 1133,
     "t0": "2026-10-22T20:43:40Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "network-n13-exact-cloud-2026-10-23-n3",
-  "updated_utc": "2026-10-22T21:23:13Z"
+  "updated_utc": "2026-10-22T21:41:53Z"
 }

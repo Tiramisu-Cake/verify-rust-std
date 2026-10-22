@@ -66,3 +66,50 @@ their worst-case reservations do not all fit the remaining account at once.
 Run sequentially against actual reconciled charges. No new premise, tool
 change or adapter source change is made in this revision. Independent review
 is required before the new execution-profile pin is dispatched.
+
+## H1 shape2: hide equality until literal export
+
+Exact420 Build f4144041 reached all22 bodies but timed out with exit124 and
+no assertion errors. Structured starts: composition285.838903s,
+membership359.320790s, domain-law equality359.332816s, exact wrapper373.671285s.
+Last executed statement403.582532s is the composition call at generated line3470,
+confirmed by a bounded Brief source window on unit5659ed05. Thus shape1 does
+not complete the full exact theorem within420s; this is not a refutation of
+H1 or the theorem. It does not establish how long the remaining call needs.
+Charge562s, total1133s, remaining2467s. No further blind limit increase.
+
+Chosen next shape2 representation: two defined ghost predicates contain only
+`d == [0..12]` and the 13 original memberships, respectively. A checked
+`network13_domain_package(d)` lemma, requiring only literal equality, calls
+the original membership helper and closes both predicates. The original
+exact wrapper calls that package lemma and a new checked export lemma.
+The export lemma starts with symbolic `d`, the same finite-SWO premise and
+the two closed predicates. It opens only the memberships before calling the
+unchanged universal composition. Afterwards it passes the closed equality
+and the 13 result memberships to a membership-only export lemma, which has
+no relation/SWO parameter and opens equality in its own fresh context.
+This keeps literal conversion separate from finite-SWO as well. The outer
+export lemma retains the already-established orders/count and combines them
+with those 13 literal memberships into the unchanged full literal post.
+Every helper has a checked body.
+The wrapper's public signature, premise and full post remain unchanged.
+The predicates contain no runtime heap, address, ownership, tool premise,
+axiom or assumed bridge; closing/opening is ordinary checked stock VeriFast
+packaging of pure equality/membership assertions. This also keeps the
+membership helper's literal context separate from finite-SWO during its
+own body verification; the wrapper receives closed predicates.
+
+Prediction: the heavy call in the new export body uses the symbolic domain
+without literal equality in that body's SMT context; literal conversion then
+uses already-established result memberships. Full exact verification should
+finish within the existing420s envelope. A repeat timeout remains
+INCONCLUSIVE; body/statement timings distinguish dependency, export and final
+wrapper stalls. Preserve the universal component, rank bridge, all13
+memberships,12 orders, arbitrary-q count, and every original checked body.
+All intended negatives and final compatible regressions remain mandatory.
+
+Evidence handling improvement for this revision: emit case artifacts directly
+in `allprooflogs/cases` rather than copying the same large original logs into
+two archive paths. Preserve their full original bytes, hashes, exits,
+snapshots and structured results. This is an artifact-layout change only,
+intended to reduce duplicate packaging work within the unchanged account.

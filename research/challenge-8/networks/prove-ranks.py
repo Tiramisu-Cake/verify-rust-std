@@ -160,6 +160,33 @@ def composition(n: int, pairs: list[tuple[int, int]], exact: bool = True) -> str
                 id_dag + "\n".join(lines + ["@*/", ""]))
     if n == 13:
         lines += [domain13_members().replace(LIST_INCLUDE, "").replace("/*@\n", "").replace("@*/\n", "")]
+        # A checked, pure equality chunk delays exposing the literal domain
+        # in the export lemma's fresh symbolic context. No heap is described.
+        lines += [f"predicate network13_exact_domain(list<int> d) = d == {exact_domain};", "",
+                  "predicate network13_original_members(list<int> d) = " +
+                  " &*& ".join(f"mem({i}, d) == true" for i in range(n)) + ";", "",
+                  "lemma void network13_domain_package(list<int> d)",
+                  f"    requires d == {exact_domain};",
+                  "    ensures network13_exact_domain(d) &*& network13_original_members(d);", "{",
+                  "    network13_domain_members(d);",
+                  "    close network13_original_members(d);",
+                  "    close network13_exact_domain(d);", "}", "",
+                  "lemma void network13_export_members(list<int> d, " +
+                  ", ".join(f"int value{i}" for i in range(n)) + ")",
+                  "    requires network13_exact_domain(d) &*& " +
+                  " &*&\n             ".join(f"mem(value{i}, d) == true" for i in range(n)) + ";",
+                  "    ensures " + " &*&\n            ".join(
+                      f"mem(value{i}, {exact_domain}) == true" for i in range(n)) + ";", "{",
+                  "    open network13_exact_domain(d);"]
+        lines += [f"    assert mem(value{i}, {exact_domain}) == true;" for i in range(n)]
+        lines += ["}", "",
+                  "lemma void network13_finite_swo_export(fixpoint(int, int, bool) rel, list<int> d, int q)",
+                  "    requires finite_swo(rel, d) == true &*& network13_original_members(d) &*& network13_exact_domain(d);",
+                  "    ensures " + full_post(exact_domain) + ";", "{",
+                  "    open network13_original_members(d);",
+                  "    network13_finite_swo_composition(rel, d, q);",
+                  "    network13_export_members(d, " + ", ".join(id_outputs) + ");"]
+        lines += ["}", ""]
         # Checked congruence records that a symbolic formal domain equal to the
         # exact source-ID list has precisely the original finite-SWO premise.
         lines += [f"lemma void network{n}_domain_laws_equal(fixpoint(int, int, bool) rel, list<int> d)",
@@ -173,8 +200,8 @@ def composition(n: int, pairs: list[tuple[int, int]], exact: bool = True) -> str
                   f"    requires finite_swo(rel, {exact_domain}) == true;"]
     lines += ["    ensures " + full_post(exact_domain) + ";", "{"]
     if n == 13:
-        lines += ["    network13_domain_members(d);"]
-        lines += [f"    network{n}_finite_swo_composition(rel, d, q);"]
+        lines += ["    network13_domain_package(d);",
+                  "    network13_finite_swo_export(rel, d, q);"]
     else:
         lines += [f"    assert mem({i}, {exact_domain}) == true;" for i in range(n)]
         lines += [f"    network{n}_finite_swo_composition(rel, {exact_domain}, q);"]

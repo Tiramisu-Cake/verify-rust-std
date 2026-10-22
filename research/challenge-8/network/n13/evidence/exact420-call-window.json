@@ -1,0 +1,69 @@
+{
+  "archive_sha256": "e3d38eadcf5da7110ebbfa6898f3a5862578cc3ccff78be1323de9f3d32396b6",
+  "build_id": "f4144041-4ebb-4869-a892-233300790a3b",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 3472,
+    "line_separator": "LF",
+    "source_lines": 3472,
+    "start": 3468,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "135e80001c54261c63feb6809460bdc44063e76056b4fb59834dbeb51e392789",
+  "file_path": "allprooflogs/cases/network13_finite_swo_order.c",
+  "file_sha256": "5659ed05f378c0b2c1d324523f8e2d40071652d0c6379d5cf2d2358a9d040b6e",
+  "index_sha256": "52e003b9f69fe55ca4bc9b94c96f10de8e87bc343d23da4fe38944027dcd7350",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 3472,
+    "expected_sha256": "5659ed05f378c0b2c1d324523f8e2d40071652d0c6379d5cf2d2358a9d040b6e",
+    "file_id": "135e80001c54261c63feb6809460bdc44063e76056b4fb59834dbeb51e392789",
+    "start": 3468
+  },
+  "request_id": "83ce65048f21ba7c3de751baf1b97026aa5e978066b3c05bc5e23d183f7ddfd4",
+  "requested_end": 3472,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3468,
+      "text": "{"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3469,
+      "text": "    network13_domain_members(d);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3470,
+      "text": "    network13_finite_swo_composition(rel, d, q);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3471,
+      "text": "}"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3472,
+      "text": "@*/"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}
