@@ -1,0 +1,129 @@
+{
+  "schema": "smallsort-network-n13-seed-profile-v1",
+  "status": "DRAFT_UNQUALIFIED_NOT_REGISTERED",
+  "accepted": false,
+  "proof_credit": false,
+  "independent_credit": 0,
+  "purpose": "First Network Cloud task: exact N13 mathematical adapter; seed identities only, not executable admission or proof acceptance.",
+  "source": {
+    "commit": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+    "path": "library/core/src/slice/sort/shared/smallsort.rs",
+    "git_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+    "sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+    "sort9_calls": 25,
+    "sort13_calls": 45
+  },
+  "tool": {
+    "profile": "official-stock-VeriFast-26.09",
+    "source_commit": "809de4596839b739dd999f9e462242c835e3af46",
+    "archive_url": "https://github.com/verifast/verifast/releases/download/26.09/verifast-26.09-linux.tar.gz",
+    "archive_sha256": "da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa",
+    "console_sha256": "dc672335da76fe1bb06cf7ebca916185c34edb65466df0a937645a437c7f0ecc",
+    "args": [
+      "-c",
+      "-verbose",
+      "1"
+    ],
+    "patches": [],
+    "rust_compiler_required": false
+  },
+  "admission": {
+    "status": "REBIND_AND_CLOUD_PORT_REQUIRED_BEFORE_BUILD",
+    "legacy_source_sha256": "32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959",
+    "legacy_provider": "GitHub-hosted Actions only",
+    "required": "Reviewed Cloud-only provider route and current-source admission; exact executable body and ordered schedule retained; generated source/stage/target pins required. Never spoof Actions environment variables."
+  },
+  "baseline_inputs": {
+    "research/challenge-8/networks/prove.py": {
+      "git_blob": "d23ce1f03b77979bf97b5b5bc1dccf0d3c8b2f79",
+      "sha256": "994afa65a24c1deb73fd120ac88c96fa5d86eb971f58adba678c850a1153d0c4"
+    },
+    "research/challenge-8/networks/prove-ranks.py": {
+      "git_blob": "397333caf92380e00adcd185db897c299d99ac53",
+      "sha256": "2a7167ea9762cb0df5cb9fd5db6c6f7800c1a6df226c9f1da404df05b53392c7"
+    },
+    "research/challenge-8/networks/swo-rank.c": {
+      "git_blob": "a31b69898fc6b32f7277b1e97f15041c86b8de0c",
+      "sha256": "e5c3f29d4e5f84284afdf0cd4936054a23ca261f092e77d355895cf359f62051"
+    },
+    "research/challenge-8/networks/run-ranks.sh": {
+      "git_blob": "3c03c6de18b76924d0048944b1fd6402771130a2",
+      "sha256": "64405b59e9ef01e47c2fef831704e16003a73c80e1139dc260727c241e312426"
+    },
+    "research/challenge-8/networks/SOURCE-MAP.md": {
+      "git_blob": "4fb0ab841a8151d7f13df4cba57fec213cbcb038",
+      "sha256": "cc02e08fb7f95d250ca3e86eaa1a891bcb58ea4bd2c4cf3b057d6795ffe1e5ad"
+    }
+  },
+  "common_runner_reference": {
+    "project_commit": "fffb4d475acaccf71432cc513f886f372fde145b",
+    "paths": {
+      "research/challenge-8/cloud-build/run-proof.sh": {
+        "git_blob": "1b4a10999bddde147f6679cbff6c9f1dd9b18fcb",
+        "sha256": "63363061c00c7fe6868bfee4284bcc7d57dcbbefd4a57545f00bc867f921af38"
+      },
+      "research/challenge-8/cloud-build/package-evidence.py": {
+        "git_blob": "4c3b621f65097c2b8fd1011496c3fe7e8cc0996d",
+        "sha256": "1843505d2c9a9329c730ad468f89060c2846d332a03ecf5063b96cb83885dfd4"
+      },
+      "research/challenge-8/cloud-build/source-input.py": {
+        "git_blob": "783455d06cef8aaba0465e54f7d7c19e5a452231",
+        "sha256": "2da52a29cf4144d0b85f054d154f775b27a1d9d72a47460b82d415fbb531662b"
+      },
+      "research/challenge-8/cloud-build/verify-evidence.py": {
+        "git_blob": "fc0d1bdf07a0406cd26263ac27cf0af6676e8225",
+        "sha256": "79c183806792eae63ad566ea042a6a4bf5ed63a5664f09ac43b92934a82d512e"
+      },
+      "research/challenge-8/cloud-build/proof-audit.py": {
+        "git_blob": "8937e3a3e4ce4b031ea9a178acab489406712ccc",
+        "sha256": "5e0e0a0b9294cd1499afed9801963905441baf822dc708b9dc62f6fb58d998b6"
+      },
+      "research/challenge-8/cloud-build/provider.py": {
+        "git_blob": "178dcfdfc5810e85475636dfbc27dfefc0763387",
+        "sha256": "771970340f4fa928063cfa25db451535eb60ee1b246ef63c3cda4689842be616"
+      }
+    },
+    "scope": "Import only the required dependency closure into Network; no active Select/Merge edits and no replacement of the adopted coordination.py."
+  },
+  "historical_context": {
+    "assurance": "SOURCE_REPORTED",
+    "exact_attempt": {
+      "project_commit": "46f50efabb44b6790efd446cc612b4ea4d95af0a",
+      "run_id": "37666145711",
+      "status": "TIMEOUT_INCONCLUSIVE",
+      "generated_source_sha256": "0ccb713de8487e439901fba98d4001c8358d6e51bbbc44f09e871d1cca498598",
+      "generator_sha256": "8373d763235389ae1c06624d729e26a9e4f523d2e8fa263f9748bd82df040ef0"
+    },
+    "universal_component": {
+      "project_commit": "7dfc3edae6b8cb5cbba1a98d3a53495a5b53bc2c",
+      "run_id": "37668142119",
+      "status": "ACCEPTED_COMPONENT_AS_REPORTED",
+      "generated_source_sha256": "f65fe3366282ce905cc895c2a5326a13cb8e6a0b78fddb7ef46c988e1a1454bf"
+    },
+    "transfers_proof_credit": false
+  },
+  "initial_case_limits_seconds": {
+    "exact_n13": 300,
+    "universal_n13": 240,
+    "other": 180
+  },
+  "required_posts": [
+    "all 13 output IDs in the exact original domain 0..12",
+    "all 12 adjacent !rel(next, previous) posts",
+    "full arbitrary-q original occurrence multiplicity"
+  ],
+  "required_controls": [
+    "literal membership false post",
+    "adjacent order false post",
+    "missing incomparability-transitivity intended correspondence failure",
+    "all seven inherited fail-closed classifier controls",
+    "unchanged generic bridge and N9/universal-N13 regressions on final compatible identities"
+  ],
+  "non_goals": [
+    "actual Rust R4/W7/W8 safety or sorting acceptance",
+    "new verifier/kernel/prelude/memory semantics",
+    "shared transport or coordinator changes",
+    "GitHub Actions dispatch",
+    "reuse of historical budgets or claims as new proof credit"
+  ]
+}
