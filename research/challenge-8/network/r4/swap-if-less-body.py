@@ -330,7 +330,11 @@ def main():
     meta['controls'] = {}
     for name, crate in sorted(variants.items()):
         (out / (name + '.rs')).write_bytes(crate)
-        meta['controls'][name] = {'crate_sha256': sha(crate), 'expected': EXPECTED[name]}
+        lines = [i + 1 for i, line in enumerate(crate.split(b'\n'))
+                 if line.startswith(b'        let should_swap = is_less/*@')]
+        need(len(lines) == 1, 'comparator call line in control ' + name)
+        meta['controls'][name] = {'crate_sha256': sha(crate), 'crate_call_line': lines[0],
+                                  'expected': EXPECTED[name]}
     meta['crate_sha256'] = meta['controls']['positive']['crate_sha256']
     (out / 'meta.json').write_text(json.dumps(meta, indent=2, sort_keys=True) + '\n')
     print(json.dumps({'crate_sha256': meta['crate_sha256'], 'std_body_sha256': meta['std_body_sha256']}))

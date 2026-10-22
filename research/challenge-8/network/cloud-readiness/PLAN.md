@@ -15,6 +15,7 @@ Execution of any step below needs a separate owner decision.
 | `client/coordination-v4n-test.py` | unittest, 6 tests (v3 unchanged + `network` refused; v4 four owners/cap 3/`fifth` refused; wrong cap; deployed v3 blob fails closed on v4; migration preserves records and needs all four ACKs; stale client / bad ACK refused) |
 | `client/control.py` | Network client derived from Select `control.py` blob `b8f88ce8` (Select head `10e13a41`); window re-checked immediately before `reserve`. `ROOT=parents[3]` is correct only once copied to `cloud-build/`; inherited `download` stays reachable |
 | `client/test_network_control.py` | unittest, 8 tests (empty table; inherited Select phases unreachable; owner/lane/ceiling/window/status mismatches; past deadline; submit window/timeout; budget; profile SHA binding) |
+| `../runner/network-run.py` (+ `test_network_run.py`, 8 synthetic tests with a fake `verifast`) | Network runner core: runs every R4/W7 control crate under the P1 opt-in (`NETWORK_SWAP_IF_LESS_*` from meta), records exit/timeout/output digests as OBSERVED_UNCLASSIFIED or explicit NOT_RUN/ERROR; never classifies PASS. Not wired to a recipe yet (tool build/env setup come from Select's common runner files) |
 
 Run: `python3 -B client/coordination-v4n-test.py` and `python3 -B client/test_network_control.py`
 (both pass on the VPS, 2026-10-22; no Cloud calls).
