@@ -49,5 +49,16 @@
       "S3 refresh also needs structural ghost-list/body-text changes"
     ]
   },
-  "submit_basis_commit_s2": "e9708a96474e11ba4b9ca19cfc916e202a644a49"
+  "submit_basis_commit_s2": "e9708a96474e11ba4b9ca19cfc916e202a644a49",
+  "s2b": {
+    "verdict": "GO_WITH_NITS",
+    "range": "74fc220f8429d3375233e3c3f3a22605a689d78f..081dbb98e10926e5640fb727c71b5f162be35991",
+    "scope": "Diagnostic fingerprint of the merged variant (two checked lemma calls inside the existing selected ghost block); no proof/admission/repair credit.",
+    "open_nits": [
+      "add explicit block-before-final-call ordering check (empty-gap vacuity)",
+      "/// comments pass gap filter (harmless)",
+      "Build evidence decides multi-statement ghost acceptance and unchanged MIR inventory"
+    ]
+  },
+  "submit_basis_commit_s2b": "081dbb98e10926e5640fb727c71b5f162be35991"
 }
