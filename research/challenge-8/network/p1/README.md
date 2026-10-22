@@ -4,9 +4,11 @@
 only, the first two stages of Select's overlay base from `run-o26-refresh.sh`
 (@`10e13a41`): 20 manifest patches on `f76012fb` → frozen diff SHA256
 `6c4c5a77…`, then 2 refresh patches → `vf_mir_translator.ml` SHA256 `0862e635…`.
-Verified locally 2026-10-22 (both checkpoints match). No build or runner execution.
+Stage 3a (strict 3 + C4 chain 10 + native 3 from `a1-tool-r17.py reconstruct()`)
+reaches the caller manifest's `c4_base_translator_sha256` `66e266d3…` (38 patches).
+Verified locally 2026-10-22 (every checkpoint matches). No build or runner execution.
 
-Next (not done): stage 3 — the A1 overlay order of
+Next (not done): rest of stage 3 — the A1 overlay order of
 `sort4-caller-entry-native/a1-tool-r17.py reconstruct()` (strict, c4, legacy,
 native-signature, lifetime, c1/c2 recovery, scope/referent overlays), checked
 against the profile's `r_before`/`r_after`/`c_before`/`c_after` translator SHAs.
