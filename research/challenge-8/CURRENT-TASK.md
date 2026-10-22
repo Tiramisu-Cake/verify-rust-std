@@ -49,10 +49,10 @@ Next: Перепроверить forget guard-own на текущей цепоч
 
 ## Отчёт агента
 
-**select-actual-callee-autonomous-2026-10-22-r20 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-22-R20 · ACTIVE**
-Updated: 2026-10-22T17:00:00Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+**select-actual-callee-autonomous-2026-10-22-r20 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-22-R20 · HANDOFF**
+Updated: 2026-10-22T17:03:00Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-22T15:41:28Z`; main `2026-10-22T17:41:28Z`; absolute `2026-10-22T18:11:28Z`. Budget 3600s: 1160s spent, 0s retired, 2440s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
+Active Build IDs: cd3e6cae-721f-45d8-ae82-5e198e00312b; unresolved: none recorded.
 Blocker: Missing MaybeUninit_pointer_own(t, new(payload)) for select arg a; repair needs certificate-refresh tool patch. [Build `2d562718-c166-4ab5-bba3-bf9136bd56b7`]
-Next: Review S3 candidate 57bde10e (opt-in certificate refresh 0862e635->5ed3398f + proof stage); submit S3 on callee lane before 17:41.
+Next: Wait R20 S3 Build cd3e6cae (refreshed certificate + merged repair proof, pins 7e695559); ack; classify proof rows from logs via Brief.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

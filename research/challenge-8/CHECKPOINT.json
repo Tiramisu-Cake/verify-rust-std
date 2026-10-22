@@ -87,7 +87,7 @@
       ]
     }
   ],
-  "next_step": "Review S3 candidate 57bde10e (opt-in certificate refresh 0862e635->5ed3398f + proof stage); submit S3 on callee lane before 17:41.",
+  "next_step": "Wait R20 S3 Build cd3e6cae (refreshed certificate + merged repair proof, pins 7e695559); ack; classify proof rows from logs via Brief.",
   "open": [
     "Callee: run nine-body unit on separate lane o26-select-callee-r20 (baseline + ghost repair variants); then normal/unwind/nested-Drop completion and matrix; *mut",
     "Recovery lane transport: 192/191 chunks after R20 client lines (control.py is in every lane's infra core); prune closed routes separately before c5 (34e37669)/s",
@@ -114,7 +114,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "cd3e6cae-721f-45d8-ae82-5e198e00312b"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-22T18:11:28Z",
     "main_deadline_utc": "2026-10-22T17:41:28Z",
@@ -124,7 +126,7 @@
     "t0": "2026-10-22T15:41:28Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-actual-callee-autonomous-2026-10-22-r20",
-  "updated_utc": "2026-10-22T17:00:00Z"
+  "updated_utc": "2026-10-22T17:03:00Z"
 }

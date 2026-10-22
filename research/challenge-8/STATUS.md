@@ -1,11 +1,11 @@
 # Agent checkpoint: select-actual-callee-autonomous-2026-10-22-r20
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-22-R20 | state: ACTIVE
-- Updated: 2026-10-22T17:00:00Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-22-R20 | state: HANDOFF
+- Updated: 2026-10-22T17:03:00Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-22T15:41:28Z`; main deadline `2026-10-22T17:41:28Z`; absolute deadline `2026-10-22T18:11:28Z`
 - Budget: 3600s total; 1160s spent; 0s retired; 2440s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: cd3e6cae-721f-45d8-ae82-5e198e00312b
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -29,7 +29,7 @@ Missing MaybeUninit_pointer_own(t, new(payload)) for select arg a; repair needs 
 - [research/challenge-8/task-history/select-callee-r20/S1-evidence.json](task-history/select-callee-r20/S1-evidence.json) SHA `7bf8d229919ffb0eb7fa49ede13b0b516b472df432c769badbdb0f4f1f997123` Build `2d562718-c166-4ab5-bba3-bf9136bd56b7`
 
 ## Next
-Review S3 candidate 57bde10e (opt-in certificate refresh 0862e635->5ed3398f + proof stage); submit S3 on callee lane before 17:41.
+Wait R20 S3 Build cd3e6cae (refreshed certificate + merged repair proof, pins 7e695559); ack; classify proof rows from logs via Brief.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r20/CALLEE-ROUTE-DESIGN.md](task-history/select-callee-r20/CALLEE-ROUTE-DESIGN.md) — `b547eaaed39a31a29a16383aa0d72d1a0e9666ccac987ae0571b5f94305f5632`
