@@ -4,7 +4,7 @@
 Runs every control crate written by r4/swap-if-less-body.py or
 w7/network-body.py (OUT_DIR with meta.json + <label>.rs) with a built VeriFast
 under the P1 opt-in, and records raw observations. It never classifies a
-proof result: every row is OBSERVED_UNCLASSIFIED or an explicit NOT_RUN/ERROR,
+proof result: every row is OBSERVED_UNCLASSIFIED or an explicit NOT_RUN/ERROR/TIMEOUT,
 with the original exit code, timeout flag and output digests preserved.
 Classification by message/location happens later through the Evidence Brief.
 """
@@ -37,8 +37,9 @@ def provider_ok(environ):
 
 
 def load_matrix(controls):
-    """meta.json of one generator run -> list of (label, path, crate_sha256, call_line)."""
-    meta = json.loads((controls / 'meta.json').read_text())
+    """meta.json of one generator run -> (list of (label, path, crate_sha256, call_line), meta SHA256)."""
+    raw = (controls / 'meta.json').read_bytes()
+    meta = json.loads(raw)
     need(isinstance(meta, dict), 'meta.json must be an object')
     rows = []
     # R4 meta has 'controls' at top level; W7 meta has one entry per network.
@@ -56,7 +57,7 @@ def load_matrix(controls):
             need(NAME.fullmatch(name) is not None, 'control name is not a safe label: ' + repr(name))
             rows.append((name, controls / (name + '.rs'), row['crate_sha256'], line))
     need(len({r[0] for r in rows}) == len(rows), 'duplicate control names')
-    return rows
+    return rows, sha(raw)  # identity of exactly the bytes parsed
 
 
 def run_one(tool, name, path, crate_sha, call_line, work, evidence, timeout, base_env):
@@ -113,11 +114,11 @@ def main(argv=None, environ=None):
     need(provider_ok(environ), 'Cloud Build provider required')
     need(30 <= a.timeout <= 900, 'timeout must be 30..900 seconds')
     need(not a.work.exists() and not a.evidence.exists(), 'work/evidence directories must not exist')
-    rows = load_matrix(a.controls)
+    rows, meta_sha256 = load_matrix(a.controls)
     a.work.mkdir(parents=True)
     a.evidence.mkdir(parents=True)
     summary = {'schema': SCHEMA, 'proof_credit': False, 'complete': False,
-               'meta_sha256': sha((a.controls / 'meta.json').read_bytes()),
+               'meta_sha256': meta_sha256,
                'labels': [r[0] for r in rows], 'controls': []}
 
     def save():
