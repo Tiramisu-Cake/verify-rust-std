@@ -169,6 +169,28 @@ class SessionPrepareTests(unittest.TestCase):
         with self.assertRaisesRegex(module.PrepareError, "file set differs"):
             module.check(bundle)
 
+    def test_first_session_recipe_must_reference_generated_files(self):
+        for omitted in ("research/challenge-8/cloud-build/new/BUDGET.json", "research/challenge-8/cloud-build/new/PROFILE.json"):
+            with self.subTest(omitted=omitted):
+                spec = self.first_session()
+                recipe_path = self.fx.root / self.fx.recipe
+                recipe = json.loads(recipe_path.read_text())
+                recipe["proof_paths"] = [p for p in recipe["proof_paths"] if p != omitted]
+                recipe_path.write_text(json.dumps(recipe, sort_keys=True) + "\n", encoding="utf-8")
+                git(self.fx.root, "commit", "-qam", "recipe without generated file")
+                with self.assertRaisesRegex(module.PrepareError, "must reference the generated"):
+                    self.prepare(spec)
+                self.assertFalse(self.out.exists())
+        # check() enforces the same rule on a tampered bundle.
+        bundle = self.prepare(self.first_session())
+        for name in ("recipe.json", "source_recipe.json"):
+            value = json.loads((bundle / name).read_text())
+            value["proof_paths"] = [p for p in value["proof_paths"] if not p.endswith("new/BUDGET.json")]
+            (bundle / name).write_text(json.dumps(value, sort_keys=True, indent=2) + "\n", encoding="utf-8")
+        self.refresh_inventory(bundle)
+        with self.assertRaisesRegex(module.PrepareError, "must reference the generated"):
+            module.check(bundle)
+
     def test_network_first_session_with_committed_source_profile(self):
         spec = self.first_session(profile_path="research/challenge-8/cloud-build/profile.json")
         self.fx.spec["profile_path"] = spec["profile_path"]

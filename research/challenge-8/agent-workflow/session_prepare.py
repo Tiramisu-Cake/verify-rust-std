@@ -439,6 +439,16 @@ def _substitute_recipe(recipe: dict[str, Any], s: dict[str, Any]) -> dict[str, A
     return result
 
 
+def _require_first_session_references(recipe: dict[str, Any], s: dict[str, Any]) -> None:
+    """Without an old ledger nothing is substituted: the recipe must name the generated files."""
+    if s["old_ledger_path"] is not None:
+        return
+    infra, proof = _recipe_paths(recipe)
+    missing = [path for path in _generated_paths(s) if path not in infra + proof]
+    if missing:
+        raise PrepareError("first-session recipe must reference the generated file(s): " + ", ".join(missing))
+
+
 def _profile_object(profile_raw: bytes) -> dict[str, Any]:
     try:
         profile = json.loads(profile_raw)
@@ -605,6 +615,7 @@ def prepare(spec_path: Path, out_path: Path) -> dict[str, Any]:
     ledger = _fresh_ledger(s)
     profile = _profile(_json_bytes(source_profile) if profile_raw is None else profile_raw, s) if s["new_profile_path"] is not None else None
     recipe = _substitute_recipe(old_recipe, s)
+    _require_first_session_references(recipe, s)
     if profile is None:
         _check_reused_profile(source_profile, recipe, s)
     pending = _pending(s, ledger, profile)
@@ -716,6 +727,7 @@ def _validate_bundle_contract(bundle: Path) -> dict[str, Any]:
     infra, proof = _recipe_paths(recipe)
     if _replaced_paths(spec) & set(infra + proof):
         raise PrepareError("old ledger/profile references were not substituted")
+    _require_first_session_references(recipe, spec)
     return _check_closure_and_sources(bundle, spec, meta, closure, ledger, None if reuse_profile else profile,
                                       recipe, source_profile, source_recipe, values, infra, proof)
 
