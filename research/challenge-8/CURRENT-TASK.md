@@ -50,9 +50,9 @@ Next: Шаг 1: adoption и перевод на shared baseline, затем ка
 ## Отчёт агента
 
 **network-bootstrap-2026-10-22-n1 · network · NETWORK-BOOTSTRAP-2026-10-22-N1 · ACTIVE**
-Updated: 2026-10-22T15:57:55Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `UNKNOWN`.
+Updated: 2026-10-22T16:13:26Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `UNKNOWN`.
 Dates: T0 `2026-10-22T15:07:38Z`; main `2026-10-22T17:07:38Z`; absolute `2026-10-22T17:37:38Z`. Budget 0s: 0s spent, 0s retired, 0s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: R4 blocked on Select layer: no checked select_unpredictable callee (Select S2 8916761a) and overlay admits pair markers only for sort4; Network has no Cloud lane.
-Next: Owner: pass SELECT-REQUESTS (P1/P2) to Select; decide v4 migration. Then first Network Cloud task: R4 matrix, W7 after R4 acceptance.
+Blocker: R4 blocked on Select layer: P2 (no checked select_unpredictable callee) and P1 adoption; no Network Cloud lane.
+Next: Owner: pass SELECT-REQUESTS (P1 candidate, P2) to Select; decide v4 migration. First Network Cloud task: build P1 on the reproduced base, then R4 matrix; W7 after R4 acceptance.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

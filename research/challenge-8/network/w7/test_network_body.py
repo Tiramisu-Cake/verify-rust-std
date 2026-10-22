@@ -70,6 +70,23 @@ class W7Tests(unittest.TestCase):
                 if label != 'positive':
                     self.assertNotEqual(v, variants['positive'])
 
+    def test_cli_records_unshifted_call_line_per_control(self):
+        import json, tempfile
+        with tempfile.TemporaryDirectory() as d:
+            std = Path(d) / 'smallsort.rs'; std.write_bytes(STD)
+            pair = Path(d) / 'pair.rs'; pair.write_bytes(PAIR)
+            out = Path(d) / 'out'
+            run = subprocess.run(['python3', '-B', str(HERE / 'network-body.py'), str(std), str(pair), str(out)],
+                                 capture_output=True, text=True)
+            self.assertEqual(run.returncode, 0, run.stderr)
+            meta = json.loads((out / 'meta.json').read_text())
+            for name, m in meta.items():
+                self.assertEqual(set(m['controls']), set(w7.EXPECTED))
+                for label, row in m['controls'].items():
+                    self.assertEqual(row['crate_call_line'], m['crate_call_line'], (name, label))
+                    crate = (out / f'{name}-{label}.rs').read_bytes()
+                    self.assertEqual(w7.sha(crate), row['crate_sha256'])
+
     def test_negative_wrong_source(self):
         with self.assertRaisesRegex(SystemExit, 'SHA256 differs'):
             w7.construct(STD.replace(b'sort9_optimal(region', b'sort9_optimal(regoin', 1), PAIR, 9)

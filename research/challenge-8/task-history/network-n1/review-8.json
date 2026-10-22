@@ -1,0 +1,11 @@
+{
+  "reviewer": "claude-subagent:smallsort-reviewer (continued via SendMessage)",
+  "model": "claude-opus-5-5 (agent definition: Opus 5.5, effort high)",
+  "scope": "delta a66fb6bd..c760fa3b against review-7 nits",
+  "candidate_commit": "c760fa3b919dbb062ca59a20355952e27c1f0983",
+  "decision": "GO",
+  "verified_by_reviewer": ["profile pin d4b1b735 and final b5ea96a1 rerun (61 steps)", "W7 crate_call_line 108 for sort9/sort13 and all controls", "README/SELECT-REQUESTS accurate"],
+  "remark": "no-shift check for W7 controls only exercised via CLI; test added afterwards (test-only)",
+  "not_run": ["OCaml build", "translator execution", "VeriFast", "Cloud"],
+  "proof_credit": false
+}
