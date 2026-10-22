@@ -15,8 +15,7 @@ current_sha=${PROOF_SHA:?PROOF_SHA is required}
 [[ "$#" == 1 && "$1" == o26-select-callee-r20 &&
    "${LANE:-}" == o26-select-callee-r20 &&
    ( "${SORT4_R20_CALLEE_PHASE_ID:-}" == SORT4-ACTUAL-SELECT-2026-10-22-R20 ||
-     "${SORT4_R20_CALLEE_PHASE_ID:-}" == SORT4-ACTUAL-SELECT-2026-10-23-R21 ||
-     "${SORT4_R20_CALLEE_PHASE_ID:-}" == SORT4-ACTUAL-SELECT-2026-10-23-R22 ) ]] || exit 2
+     "${SORT4_R20_CALLEE_PHASE_ID:-}" == SORT4-ACTUAL-SELECT-2026-10-23-R21 ) ]] || exit 2
 # The R20 certificate opt-in is per proof call only, never ambient.
 [[ -z "${SORT4_R20_FINAL_SELECT_REPAIR:-}" ]] || exit 2
 while IFS= read -r route_env_key; do

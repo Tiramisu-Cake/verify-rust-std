@@ -19,7 +19,7 @@ import time
 from typing import Any
 
 CASE = 'nine-body-a1-owned-forget'
-FINGERPRINT_HELPER_SHA256 = '9e07eae44db2785938bf2a0be4cbcfb86e59ed7c93925ce05b59d69f72331b70'
+FINGERPRINT_HELPER_SHA256 = '85e7772170bb5e6f0f65bcf64a001340f1f283d659521f31582c5e4fe0cb778a'
 PROOF_HELPER_SHA256 = 'c1c63258681fb0bec9ed39c33fd986e27bf42c59230a7b7985ad75fcb840a933'
 R20_HELPER_SHA256 = '83d2d0940fcb255a58b97db8d6161ec3b39660a62905f89a33f926a96d3099ba'
 O26_RECIPE_SHA256 = '464eef45b08b8724eba949289eff9cd745f48d65d0031ffae5675738856d562c'
@@ -35,8 +35,7 @@ R20_OPT_IN_KEY = 'SORT4_R20_FINAL_SELECT_REPAIR'
 SNAPSHOT_NAMES = ('unit', *(f'body-{index}' for index in range(9)))
 CAPTURE_LOG = 'nine-body-fingerprint-refusal.log'
 PHASE_ENV = 'SORT4_R20_CALLEE_PHASE_ID'
-# R22 renews this exact route under its fresh window; R21 is closed.
-PHASE = 'SORT4-ACTUAL-SELECT-2026-10-23-R22'
+PHASE = 'SORT4-ACTUAL-SELECT-2026-10-23-R21'
 
 
 def sha(raw: bytes) -> str:
@@ -144,7 +143,7 @@ def run(args, *, runtime_loader=load_runtime,
     need(selected_env.get('SMALLSORT_EXECUTION_PROVIDER') == 'cloud-build' and
          selected_env.get(PHASE_ENV) == PHASE and
          not selected_env.get('GITHUB_ACTIONS'),
-         'fresh R22 Cloud proof phase required')
+         'fresh R21 Cloud proof phase required')
     need(OPT_IN_KEY not in selected_env and R20_OPT_IN_KEY not in selected_env and
          VARIANT_KEY not in selected_env and
          not any(key.startswith('SORT4_R21_FRACTIONAL_') for key in selected_env),

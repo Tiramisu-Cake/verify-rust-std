@@ -26,7 +26,7 @@ BASE = b'// synthetic candidate base\n'
 UNIT = b'synthetic unit default'
 BODIES = [f'synthetic body {index}'.encode() for index in range(9)]
 PHASE_KEY = 'SORT4_R20_CALLEE_PHASE_ID'
-PHASE_VALUE = 'SORT4-ACTUAL-SELECT-2026-10-23-R22'
+PHASE_VALUE = 'SORT4-ACTUAL-SELECT-2026-10-23-R21'
 
 
 def digest(data: bytes) -> str:
@@ -234,7 +234,7 @@ class EntryTests(unittest.TestCase):
 
     def test_bad_route_and_base_source_fail_before_proof(self):
         bad = {**self.env, PHASE_KEY: 'wrong'}
-        with self.assertRaisesRegex(RuntimeError, 'fresh R22 Cloud proof phase'):
+        with self.assertRaisesRegex(RuntimeError, 'fresh R21 Cloud proof phase'):
             self.run_entry(env=bad)
         ambient = {**self.env, TARGET.OPT_IN_KEY: '1'}
         with self.assertRaisesRegex(RuntimeError, 'must not be ambient'):

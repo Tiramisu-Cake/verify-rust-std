@@ -248,6 +248,10 @@ A1_R22_MAIN_DEADLINE='2026-10-23T00:25:06Z'
 A1_R22_DEADLINE='2026-10-23T00:55:06Z'
 A1_R22_LANES={'o26-select-callee-r20'}
 A1_R22_CEILING=3600
+# The owner-approved fractional translator patch (e1f98deb) and its pinned
+# Python route compare SORT4_R20_CALLEE_PHASE_ID with the R21 literal, so that
+# variable is the route identity; R22 exports its own phase separately.
+A1_R22_ROUTE_MARKER=A1_R21_PHASE
 A1_LEGACY_TWO_SLOT_PHASES=frozenset((A1_AUTO_PHASE,A1_SCOPE_PHASE,A1_R7_PHASE,
  A1_R8_PHASE,A1_R9_PHASE,A1_R10_PHASE,A1_R11_PHASE))
 LANE_PATTERN=re.compile(r'[a-z][a-z0-9-]{0,63}\Z')
@@ -404,7 +408,7 @@ def envs(infra,proof,lane,phase_id=None):
   phase_env=['SORT4_R20_CALLEE_PHASE_ID='+A1_R21_PHASE]
  if phase_id==A1_R22_PHASE:
   if lane not in A1_R22_LANES:raise SystemExit('A1 R22 phase is restricted to the separate callee lane')
-  phase_env=['SORT4_R20_CALLEE_PHASE_ID='+A1_R22_PHASE]
+  phase_env=['SORT4_R20_CALLEE_PHASE_ID='+A1_R22_ROUTE_MARKER,'SORT4_R22_SESSION_PHASE_ID='+A1_R22_PHASE]
  if phase_id==A1_R16_PHASE:
   profile_bytes=subprocess.check_output(['git','show',proof+':'+A1_R16_PROFILE],cwd=ROOT)
   profile=json.loads(profile_bytes)

@@ -15,6 +15,8 @@ HERE = Path(__file__).resolve().parent
 CLOUD = HERE.parent
 LEDGER = HERE / "BUDGET-A1-ACTUAL-SELECT-2026-10-23-R22.json"
 PHASE = "SORT4-ACTUAL-SELECT-2026-10-23-R22"
+ROUTE_MARKER = "SORT4-ACTUAL-SELECT-2026-10-23-R21"
+REPO = CLOUD.parents[2]
 INSIDE = "2026-10-22T23:00:00Z"
 LANE = "o26-select-callee-r20"
 OTHER_LANE = "o26-sort4-c1-current-recovery"
@@ -114,7 +116,10 @@ class R22CalleeRegistration(unittest.TestCase):
             raise AssertionError("callee lane must not read the A1 profile")
         with patch.object(CONTROL.subprocess, "check_output", forbidden):
             env = CONTROL.envs("a" * 40, "b" * 40, LANE, PHASE)
-        self.assertIn("SORT4_R20_CALLEE_PHASE_ID=" + PHASE, env)
+        # The route marker stays the R21 literal of the approved candidate.
+        self.assertIn("SORT4_R20_CALLEE_PHASE_ID=" + ROUTE_MARKER, env)
+        self.assertIn("SORT4_R22_SESSION_PHASE_ID=" + PHASE, env)
+        self.assertNotIn("SORT4_R20_CALLEE_PHASE_ID=" + PHASE, env)
         self.assertIn("LANE=" + LANE, env)
         self.assertFalse(any(item.startswith("SORT4_A1_") for item in env))
         with self.assertRaises(SystemExit):
@@ -158,6 +163,32 @@ class R22CalleeRegistration(unittest.TestCase):
                     patch.object(CONTROL.coordination, "request", forbidden), \
                     self.assertRaisesRegex(SystemExit, reason):
                 CONTROL.run_command(args, None, authorized_ledger(), None)
+
+    def test_route_marker_matches_every_pinned_consumer_literal(self):
+        """Static control: the exported marker equals each pinned route literal."""
+        import hashlib
+        import re
+        env = CONTROL.envs("a" * 40, "b" * 40, LANE, PHASE)
+        exported = [item.split("=", 1)[1] for item in env
+                    if item.startswith("SORT4_R20_CALLEE_PHASE_ID=")]
+        self.assertEqual(exported, [ROUTE_MARKER])
+        patch_path = (REPO / "research/challenge-8/overnight-assume-actual" /
+                      "verifast-r21-fractional-forget-26.10.patch")
+        raw = patch_path.read_bytes()
+        self.assertEqual(hashlib.sha256(raw).hexdigest(),
+                         "e1f98debc7ce5d3d1aa603ca8fd020b0556b7ecce28408987ea08a86efc23dab")
+        literals = re.findall(rb'getenv_opt "SORT4_R20_CALLEE_PHASE_ID" =\s*\+?\s*Some "([^"]+)"', raw)
+        self.assertEqual(len(literals), 3)
+        self.assertEqual({item.decode() for item in literals}, {ROUTE_MARKER})
+        for name in ("select-callee-r21-fractional.py",
+                     "select-callee-r21-fractional-proof-entry.py"):
+            text = (CLOUD / name).read_text()
+            self.assertEqual(re.findall(r"^PHASE = '([^']+)'$", text, re.M),
+                             [ROUTE_MARKER], name)
+        runner = (CLOUD / "run-o26-select-callee-r20.sh").read_text()
+        self.assertIn('"${SORT4_R20_CALLEE_PHASE_ID:-}" == ' + ROUTE_MARKER, runner)
+        # A phase-valued marker would be refused by the pinned translator.
+        self.assertNotIn(PHASE.encode(), raw)
 
     def test_historical_r21_and_r20_admission_constants_unchanged(self):
         self.assertEqual((CONTROL.A1_R21_START, CONTROL.A1_R21_MAIN_DEADLINE,
