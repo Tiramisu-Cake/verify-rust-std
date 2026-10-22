@@ -22,6 +22,15 @@ need, sha, strip_ghost, replace_once = r4.need, r4.sha, r4.strip_ghost, r4.repla
 NETWORKS = {9: ('sort9_optimal', (420, 461), 25), 13: ('sort13_optimal', (469, 530), 45)}
 
 
+# Crate header: R4 prefix plus the std-internal `intrinsics` path used by the
+# actual bodies, in the form of Select's caller fixtures (a1-fixtures.py blob
+# 797e3d11 @10e13a41: `core_intrinsics` feature + `use std::intrinsics;`).
+W7_PREFIX = (b'#![feature(core_intrinsics)]\n'
+             b'#![allow(internal_features)]\n'
+             b'use std::{hint, ptr, mem::ManuallyDrop};\n'
+             b'use std::intrinsics;\n\n')
+
+
 def split_lemma(n):
     """Select's split_four_owned_cells pattern for the first n cells of base[..len]."""
     ens = ''.join(f'        *(base + {k}) |-> ?x{k} &*& <T>.own(t, x{k}) &*&\n' for k in range(n))
@@ -47,6 +56,10 @@ def join_lemma(n):
     body = ''
     for k in range(n):
         body += f'    points_to_limits(base + {k});\n    note(pointer_within_limits(base + {k}));\n'
+    # One-past limit of the last cell, from the suffix chunk (Select's join notes base + 4).
+    body += (f'    open array(base + {n}, len - {n}, rest);\n'
+             f'    close array(base + {n}, len - {n}, rest);\n'
+             f'    note(pointer_within_limits(base + {n}));\n')
     tail = 'rest'
     for k in reversed(range(n)):
         tail = f'cons(x{k}, {tail})'
@@ -103,7 +116,8 @@ def construct(std, recover_pair_rs, n):
                      b'        //@ join_owned_cells' + str(n).encode() + b'::<T>(v_base, v.len(), t);\n    }\n}\n',
                      name + ' last-call anchor')
     need(strip_ghost(v) == body, 'ghost stripping does not restore the exact ' + name + ' body')
-    crate = helper + (split_lemma(n) + join_lemma(n)).encode() + v
+    need(helper.startswith(r4.PREFIX), 'R4 crate prefix changed')
+    crate = W7_PREFIX + helper[len(r4.PREFIX):] + (split_lemma(n) + join_lemma(n)).encode() + v
     need(strip_ghost(crate).endswith(body), 'crate tail is not the exact actual body')
     meta = {'schema': 'network-w7-candidate-v1', 'status': 'PREPARED_UNVERIFIED', 'name': name,
             'std_source_sha256': r4.SOURCE_SHA256, 'std_span': list(NETWORKS[n][1]),
@@ -115,6 +129,33 @@ def construct(std, recover_pair_rs, n):
     return crate, meta
 
 
+def matrix(std, recover_pair_rs, n):
+    """positive + ghost-only controls; std bodies exact in every variant."""
+    crate, meta = construct(std, recover_pair_rs, n)
+    name = NETWORKS[n][0]
+    split = b'    //@ split_owned_cells%d::<T>(v_base, v.len(), t);\n' % n
+    join = b'        //@ join_owned_cells%d::<T>(v_base, v.len(), t);\n' % n
+    false_ = b'        //@ assert false;\n'
+    mutations = {'split-off': (split, b''), 'join-off': (join, b''),
+                 'reach-before-first': (split, split + b'    //@ assert false;\n'),
+                 'reach-after-last': (join, false_ + join)}
+    out = {'positive': crate}
+    body_start = crate.index(b'fn ' + name.encode())
+    for label, (old, new) in mutations.items():
+        head, body = crate[:body_start], crate[body_start:]
+        variant = head + replace_once(body, old, new, 'control anchor ' + label)
+        need(strip_ghost(variant) == strip_ghost(crate), 'control is not ghost-only: ' + label)
+        out[label] = variant
+    return out, meta
+
+
+EXPECTED = {'positive': 'PASS (helper + lemmas + network body)',
+            'split-off': 'missing cell chunk at the first swap_if_less call',
+            'join-off': 'postcondition failure (array/foreach not rejoined) or leak at return',
+            'reach-before-first': 'assertion failure (PASS: state inconsistent after split; positive is not evidence)',
+            'reach-after-last': 'assertion failure (PASS: state inconsistent after the calls; positive is not evidence)'}
+
+
 def main():
     if len(sys.argv) != 4:
         raise SystemExit('usage: network-body.py SMALLSORT_RS RECOVER_PAIR_RS OUT_DIR')
@@ -124,9 +165,12 @@ def main():
     out.mkdir(parents=True)
     metas = {}
     for n in NETWORKS:
-        crate, meta = construct(std, recover, n)
-        (out / f'sort{n}.rs').write_bytes(crate)
-        meta['crate_sha256'] = sha(crate)
+        variants, meta = matrix(std, recover, n)
+        meta['controls'] = {}
+        for label, crate in sorted(variants.items()):
+            (out / f'sort{n}-{label}.rs').write_bytes(crate)
+            meta['controls'][label] = {'crate_sha256': sha(crate), 'expected': EXPECTED[label]}
+        meta['crate_sha256'] = meta['controls']['positive']['crate_sha256']
         metas[f'sort{n}'] = meta
     (out / 'meta.json').write_text(json.dumps(metas, indent=2, sort_keys=True) + '\n')
     print(json.dumps({k: m['crate_sha256'] for k, m in metas.items()}))

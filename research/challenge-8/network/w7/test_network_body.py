@@ -48,6 +48,27 @@ class W7Tests(unittest.TestCase):
             self.assertIn(b'{\n', block)
             self.assertNotIn(b'assume', block)
 
+    def test_crate_imports_every_free_path(self):
+        for n in w7.NETWORKS:
+            crate = w7.construct(STD, PAIR, n)[0]
+            self.assertTrue(crate.startswith(w7.W7_PREFIX))
+            code = w7.strip_ghost(crate)
+            for path, provider in ((b'intrinsics::', b'use std::intrinsics;'), (b'hint::', b'use std::{hint, ptr, mem::ManuallyDrop};'),
+                                   (b'ptr::', b'use std::{hint, ptr, mem::ManuallyDrop};'), (b'ManuallyDrop::', b'mem::ManuallyDrop}')):
+                self.assertIn(path, code)
+                self.assertIn(provider, code)
+            self.assertIn(b'#![feature(core_intrinsics)]', code)
+            self.assertEqual(code.count(b'fn swap_if_less<'), 1)
+
+    def test_control_matrix(self):
+        for n in w7.NETWORKS:
+            variants, _ = w7.matrix(STD, PAIR, n)
+            self.assertEqual(set(variants), set(w7.EXPECTED))
+            for label, v in variants.items():
+                self.assertEqual(w7.strip_ghost(v), w7.strip_ghost(variants['positive']), label)
+                if label != 'positive':
+                    self.assertNotEqual(v, variants['positive'])
+
     def test_negative_wrong_source(self):
         with self.assertRaisesRegex(SystemExit, 'SHA256 differs'):
             w7.construct(STD.replace(b'sort9_optimal(region', b'sort9_optimal(regoin', 1), PAIR, 9)

@@ -1,0 +1,16 @@
+{
+  "reviewer": "claude-subagent:smallsort-reviewer (continued via SendMessage)",
+  "model": "claude-opus-5-5 (agent definition: Opus 5.5, effort high)",
+  "scope": "new W7 files, diff ffb2460b..4ae17a49",
+  "candidate_commit": "4ae17a497d1643eab0bce3432aaddce77014a7cb",
+  "decision": "NO_GO",
+  "findings": [
+    "1 generated sort9/sort13 crates do not import intrinsics (body calls intrinsics::abort) — fixed: W7_PREFIX with core_intrinsics + use std::intrinsics (Select a1-fixtures form); import test",
+    "2 index-0 deviation from Select's lemma text — stated as deliberate in DESIGN",
+    "3 join lemma one-past limit — note of base+N from the suffix chunk added",
+    "4 no W7 controls — matrix added: split-off, join-off, reach-before-first, reach-after-last",
+    "safe-fn remedy wording — disabling the check stated as not an option"
+  ],
+  "sound_per_reviewer": ["ghost-only annotation, pairs match SOURCE-MAP", "no trusted step in lemmas", "contract honesty incl. separate-cell unwind post and abort path"],
+  "proof_credit": false
+}
