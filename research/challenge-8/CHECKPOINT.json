@@ -39,7 +39,7 @@
         "sha256": "742f1622c472043a9396875f56468b2a8a0ac710beb91260613f36ce03355e57"
       }
     ],
-    "summary": "Await incremental mutable A1/const regression/positive Brief; P2 NOT_PUBLISHED."
+    "summary": "489c terminal FAILURE; stage/cause awaiting Brief. P2 NOT_PUBLISHED."
   },
   "brief_observation_refs": [
     {
@@ -840,7 +840,7 @@
     {
       "obligation": "Closed mutable native certificate + same-tool const regression + mutable positive",
       "reason": "Separate freshmutable family retains const profile and allordinary callee proofs; rootmodepositiveonly and sourceclaims distinct from proof credit.",
-      "state": "BUILD_ACTIVE_A1_PRIMITIVES"
+      "state": "TERMINAL_FAILURE_AWAIT_BRIEF"
     }
   ],
   "mutable_a1_primitives_candidate": {
@@ -848,7 +848,7 @@
     "proof_credit": 0,
     "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-a1-primitives-review.json",
     "review_sha256": "742f1622c472043a9396875f56468b2a8a0ac710beb91260613f36ce03355e57",
-    "state": "BUILD_ACTIVE",
+    "state": "TERMINAL_FAILURE_AWAIT_BRIEF",
     "translator_sha256": "11d4a092b3d91570307779cfc1e5b46ff37525343a62abb162109bfedbc22d0f"
   },
   "mutable_a1_primitives_decision": {
@@ -1133,19 +1133,20 @@
     "state": "REVIEW_GO_STATIC_PREFLIGHT_PASS_UNBUILT"
   },
   "mutable_positive_build": {
-    "accounted": false,
+    "accounted": true,
     "build_id": "489c0456-18a7-4b7e-8056-4210678debf2",
+    "build_seconds": 458,
     "candidate": "51797daecd14ed7ac0cc16affcb926f6e797bf2b",
     "config_sha256": "a25999c7590e2687ee0e7f7635dddf3400cae9f5668e0fadcd2b44bb1582f3d6",
     "dispatch_token": "dispatch-8266cda06096408ebf80f9fd6b366a5a",
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF",
+    "result": "TERMINAL_FAILURE_AWAIT_BRIEF",
     "schema": "select-r24-mut-positive-submission-v1",
     "scope": "CONST_FULL8_REGRESSION_AND_MUTABLE_POSITIVE_NO_ACCEPTANCE",
     "source_payload_sha256": "fc9fa754490c4b21abb952600c0b39a37dca0419cd2d03ce5e4c1078c9ab92d5",
-    "status": "QUEUED",
+    "status": "FAILURE",
     "timeout_seconds": 1200
   },
   "mutable_positive_build_history": [
@@ -1173,7 +1174,7 @@
     "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-a1-primitives-review.json",
     "review_sha256": "742f1622c472043a9396875f56468b2a8a0ac710beb91260613f36ce03355e57",
     "scope": "CONST_FULL8_REGRESSION_AND_MUTABLE_POSITIVE_NO_ACCEPTANCE",
-    "state": "BUILD_ACTIVE"
+    "state": "TERMINAL_FAILURE_AWAIT_BRIEF"
   },
   "mutable_positive_candidate_history": [
     {
@@ -1192,8 +1193,8 @@
     "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-CAPTURE-PINS.json",
     "sha256": "b10d8f472fd9babc5e73cb7a8da14ad691b0563975d0d6d956366165a47401d0"
   },
-  "next": "ACK event; immediately commit/push terminal accounting+views; then Brief and next obligation.",
-  "next_step": "ACK event; immediately commit/push terminal accounting+views; then Brief and next obligation.",
+  "next": "Evidence Brief 489c: identify exact failed stage; static fix before any new Build.",
+  "next_step": "Evidence Brief 489c: identify exact failed stage; static fix before any new Build.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "MutableP2 NOT_PUBLISHED; capture-only next, then narrowcertificates/proof/refusals. W4 remains gated."
@@ -1237,17 +1238,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "489c0456-18a7-4b7e-8056-4210678debf2"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 17157,
+    "remaining_seconds": 16699,
     "retired_seconds": 0,
-    "spent_seconds": 4443,
+    "spent_seconds": 4901,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -1259,17 +1258,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T19:30:27Z",
-  "watcher_handoff": {
-    "build_id": "489c0456-18a7-4b7e-8056-4210678debf2",
-    "checkpoint_frozen_after_arm": true,
-    "continuation": "Same R24/T0/account/window. ACK dedicated watcher before CP mutation; immediate terminal accounting commit/push before Brief. Evidence only through Brief.",
-    "spec_path": "/tmp/select-r24-mut-a1-primitives-watch.json",
-    "store": "/root/.local/state/smallsort-watch-select-r24",
-    "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
-  },
+  "updated_utc": "2026-10-23T19:38:12Z",
   "watcher_history": [
     {
       "ack_mode": "CONTINUE_EXISTING_WINDOW",
@@ -1408,6 +1399,18 @@
       "continuation": "Same R24/T0/account/window. ACK dedicated watcher before CP mutation; terminal accounting commit/push immediately before Brief. Evidence only through Brief.",
       "event_id": "4277398d-0676-4bd0-8b85-551385cc64b4",
       "spec_path": "/tmp/select-r24-mut-positive-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack": "SUCCESS_CONTINUE",
+      "ack_transient": "First coordinator read lock busy; retry after5s succeeded, no CP mutation beforeACK.",
+      "ack_utc": "2026-10-23T19:38:03Z",
+      "build_id": "489c0456-18a7-4b7e-8056-4210678debf2",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "Same R24/T0/account/window. ACK dedicated watcher before CP mutation; immediate terminal accounting commit/push before Brief. Evidence only through Brief.",
+      "event_id": "38f08c94-ade2-4a65-a9be-f4fcb4cee38a",
+      "spec_path": "/tmp/select-r24-mut-a1-primitives-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
