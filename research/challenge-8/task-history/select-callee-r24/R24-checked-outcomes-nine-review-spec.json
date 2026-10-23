@@ -1,0 +1,39 @@
+{
+  "applicability": "Same exact R24 checked const-pointer outcome boundary. Row31 only replaces required A1Link.active with inactive and explicit A1_LINK_REPO_ROOT absent while retaining required A1Nine.active.",
+  "baseline_commit": "56a456f3716d721d59545940345091dbb3476435",
+  "candidate_commit": "6e62d35936f7d85f2fb1601def987e7f67c2b276",
+  "controls": [
+    "Two actual static chain/hash tests now reproduce103→6a→e3→c8f5ce1d; bash-n and all seven embedded Python AST parses pass. No toy gate models or local toolchain execution.",
+    "Actual execution/refusal coverage and all callee proofs remain Cloud obligations; this correction removes an unreachable conjunction, not a checked theorem."
+  ],
+  "defect": "Buildbba86d46 compiles but positive RAN/exit2: exact Brief log4-11 A1Nine admission then new gate refusal. New gate requires mutually exclusive two/nine-body profiles.",
+  "dependencies": [
+    "research/challenge-8/task-history/select-callee-r24/CHECKED-OUTCOMES-NINE-GATE-PINS.json",
+    "research/challenge-8/task-history/select-callee-r24/NINE-GATE-FIX-DESIGN.md",
+    "research/challenge-8/task-history/select-callee-r24/checked-pointer-outcomes-nine-gate-r24.patch",
+    "research/challenge-8/task-history/select-callee-r24/checked-pointer-outcomes-r24.patch",
+    "research/challenge-8/task-history/select-callee-r24/checked-pointer-outcomes-scope-r24.patch",
+    "research/challenge-8/cloud-build/run-o26-select-callee-r20.sh",
+    "research/challenge-8/cloud-build/recipes/o26-select-callee-r20.json",
+    "research/challenge-8/task-history/select-callee-r24/FIFTH-PROOF-OBSERVATIONS.json"
+  ],
+  "invariants": [
+    "certify_sort4_a1_nine already rejects two-body A1Link locator and directly checks both local_shape, exact interface(req/ens/false-unwind), graph and outer call before setting active=true. Init sets A1Link.active=false for absent locator. Audit this linkage, do not conflate structural admission with ordinary callee proof.",
+    "All other exact R24/R21/source/owner/nine/fractional/PointerDrop/no-ignore-unwind conditions unchanged. Raw source and all ten raw cleanup edges/certificates unchanged.",
+    "Typed two-call matcher, existing result_of_outcome path, final counters and ordinary verification of all nine bodies unchanged. Full normal/unwind/abort/Drop/leak/refinement/ownership/provenance/thread controls and classifier gating retained.",
+    "No checker/source/prelude/contract/classifier/target changes. Defaultoff and proof-only flag scope unchanged; baselineAST/fingerprint same. Two-body profile explicitly excluded, not enabled in nine cert.",
+    "Runner applies immutable rows29/30 then31, checks patch and intermediate/final hashes and unchanged final four-file inventory. Profilefinal c8f5ce1d; recipe includes exact new patch."
+  ],
+  "known_limitations": [
+    "UNBUILT gate correction. Previous compiled tool refused before new projection; actual proof hypothesis remains untested.",
+    "Previous reviews missed the contradictory profile gate and remain unchanged/static. No acceptance or credit, mutable P2/W4 gated."
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-checked-outcomes-scope-review.json",
+      "sha256": "8a60e8e6442385569c3edf22ba49fd4459d044b74e6a68ff2e35edfa51609b48"
+    }
+  ],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night"
+}

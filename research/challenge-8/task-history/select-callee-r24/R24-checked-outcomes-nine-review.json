@@ -1,0 +1,49 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "6e62d35936f7d85f2fb1601def987e7f67c2b276",
+  "baseline_commit": "56a456f3716d721d59545940345091dbb3476435",
+  "candidate_tree": "a8237b97f225519e85442126937b7e93e0c56370",
+  "spec_sha256": "f9c5f32981469ec1290989b7f6d11e8241e727fbd52a2b742a3bab9ac4f59355",
+  "packet_sha256": "ce8411cdc470e2c5adfb9a9600d561fb4a6990eb063e400259e24313e6e0c56b",
+  "diff_sha256": "f2225c73d23bc146f5e4d6a2a10e2e5fce4115d352aa55033c9a08d1e9508159",
+  "decision": "GO_WITH_NITS",
+  "scope": "Narrow semantic review of row31 selecting the existing A1Nine certificate profile and explicitly excluding the mutually exclusive two-body A1Link profile.",
+  "prior_review": {
+    "path": "research/challenge-8/task-history/select-callee-r24/R24-checked-outcomes-scope-review.json",
+    "sha256": "8a60e8e6442385569c3edf22ba49fd4459d044b74e6a68ff2e35edfa51609b48",
+    "candidate_commit": "56a456f3716d721d59545940345091dbb3476435",
+    "summary": "GO_WITH_NITS static review of the earlier boundary; it missed the contradictory A1Nine/A1Link active conjunction. The record is preserved and is not compile or proof evidence."
+  },
+  "verified": [
+    "smallsort-session review check matched candidate 6e62d35936f7d85f2fb1601def987e7f67c2b276, expected spec and packet hashes; packet state was PACKET_VALID_NOT_REVIEWED and proof_credit NONE.",
+    "The row31 translator delta changes only the gate profile condition: it still requires A1Nine.active, now requires A1Link.active false, and requires SORT4_A1_LINK_REPO_ROOT absent. All other exact route/certificate/unwind predicates remain unchanged.",
+    "The existing certify_sort4_a1_nine explicitly rejects a present SORT4_A1_LINK_REPO_ROOT. Initialization sets Sort4A1Link.active false when that locator is absent, so the previous active-A1Link conjunction was unreachable on the nine-body path.",
+    "Before setting Sort4A1Nine.active, its certificate directly checks both local shapes, both exact interfaces including req/ens/on_unwind_ens false, the MIR call graph, and the outer assume_init call. This establishes structural admission only; it does not replace ordinary verification of the same-unit callees.",
+    "The explicit inactive/absent check selects the existing nine-body profile and excludes the two-body A1Link profile. No summary, premise, checker, source/MIR, contract, classifier, target map, or call matcher change is made. Raw cleanup admission, normal/unwind/abort and ownership/drop/refinement/provenance/thread controls stay on the previously reviewed path.",
+    "Temporary-directory application of the three pinned overlays reproduced intermediate/final translator hashes 6a710d26c41d69accd17aeb637e719ce7eabc321990d465a6d956ca0d0d7d93c, e3c99165c2e5fc8ef5700dbaa3885c81310d26868e5e5ca61ecb019c4205d5db, and c8f5ce1da4f88a4b029b8ed12cc7667a0e227836b1843a1590f78769e073201e.",
+    "The runner applies row31 only within the existing exact R24 branch and checks its patch hash, row30 intermediate/final translator hash, and unchanged final tool inventory. The recipe contains the overlay and the R24 profile pin is updated.",
+    "python3 test_r24_checked_pointer_outcomes.py passed 2 tests; bash -n passed; all seven embedded Python heredoc blocks parsed with ast.parse."
+  ],
+  "findings": [],
+  "nits": [
+    "The corrected gate has not been executed in an authorized successful proof run. The preceding Build compiled but refused at this gate; row31 repairs that unreachable conjunction statically, but does not establish a passing projection or proof.",
+    "A1Nine source/MIR certificate checks are structural admission, not formal theorem acceptance. All nine body proof results and clean controls remain unestablished."
+  ],
+  "not_run": [
+    "Local compiler, exporter, MIR decoder, verifier, source preparation, proof execution, Cloud Build, or raw evidence access.",
+    "Compilation or execution in the dirty external VeriFast tool worktree.",
+    "Main-reported encoded transport and runtime-closure preflight was not independently rerun by this reviewer."
+  ],
+  "main_reported": {
+    "transport_preflight": "PASS",
+    "payload_bytes": 385095,
+    "payload_sha256": "00da828adeb6791c4493f71b33b3aaf45feef6b97b8f75875917cef79d729ea7",
+    "encoded_config_bytes": "27276/28000",
+    "max_argument_bytes": "2778/10000",
+    "runtime_closure": "98 unique blobs, 2256606 bytes; inventory SHA 091efcb86aaf20acb8274613a5e6ca708e55105b3bc629d44fbe7d3766d14764",
+    "attribution": "Reported by main agent; static only, no Cloud/proof call."
+  },
+  "limitations": "GO_WITH_NITS applies only to this narrow gate correction. It does not establish compilation of the final candidate, ordinary callee acceptance, successful proof/control results, causal diagnosis, or proof credit.",
+  "proof_credit": 0
+}

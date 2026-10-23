@@ -24,9 +24,9 @@ Positive gate wrongly requires two A1 profiles; correction pending Cloud. [Build
 - [research/challenge-8/task-history/select-callee-r24/FIFTH-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIFTH-PROOF-OBSERVATIONS.json) SHA `6905bd5edf3d30909cca0511e182756eb3a2a06236ed542088096bd722a03ac0`
 
 ## Next
-Review nine-profile fix; full1200 Cloud, then Brief. Preserve ordinary callee proofs and all controls.
+Submit reviewed6e62d359 at full1200; then Brief positive and all controls.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `695f80360a6f5b0581130679da6852862c44e9dfb6605ec7b55a057886a3bfad`
 - [research/challenge-8/task-history/select-callee-r24/FIFTH-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIFTH-PROOF-OBSERVATIONS.json) — `6905bd5edf3d30909cca0511e182756eb3a2a06236ed542088096bd722a03ac0`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `1475b36fdbe172c0b302198260feefb636416ff79658b6fb54cef1be9122a2f1`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `ec802790c3fa0d3def082a57de4b5b31d31ad7565ede4126f8df0f62d71622a7`

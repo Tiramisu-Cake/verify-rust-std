@@ -292,3 +292,16 @@ three old confirmed entries unchanged in canonical confirmed_history and
 render only the current source-reported Build result; full historical refs
 remain in checkpoint/index/immutable evidence. This removes stale rendered
 budget/result prose and leaves headroom without dropping any recorded fact.
+
+
+Nine-profile candidate6e62d359 static transportPASS: payload385095bytes/
+SHA00da828a, encodedconfig27276/28000,maxarg2778/10000. Runtime98uniqueblobs
+2256606bytes/inventorySHA091efcb8. No Cloud or toolchain calls in preflight.
+No semantic changes after committed candidate; review pending.
+
+Independent LunaHIGH row31 review6e62d359 GO_WITH_NITS/no findings. Exact
+packetce8411cd/specf9c5f329 verified; A1Nine structural interface/graph checks
+and explicit two-body exclusion audited, ordinary same-unit body proof stays
+mandatory. Reviewer reproduced three-overlay chain and2patch/hash checks,
+bash-n/7Pythonheredocparse. No compile/proof/Cloud or credit; transport is
+main-reported only. No semantic edits after the reviewed candidate.

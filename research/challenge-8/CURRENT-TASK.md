@@ -52,5 +52,5 @@ Updated: 2026-10-23T12:41:27Z. Baseline source/tool/profile: `81226dafedd2e8d1df
 Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 1642s spent, 0s retired, 19958s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: Positive gate wrongly requires two A1 profiles; correction pending Cloud. [Build `bba86d46-3d8f-4275-a7ad-bd36328f4127`]
-Next: Review nine-profile fix; full1200 Cloud, then Brief. Preserve ordinary callee proofs and all controls.
+Next: Submit reviewed6e62d359 at full1200; then Brief positive and all controls.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

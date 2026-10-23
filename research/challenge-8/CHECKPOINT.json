@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "1475b36fdbe172c0b302198260feefb636416ff79658b6fb54cef1be9122a2f1"
+      "sha256": "ec802790c3fa0d3def082a57de4b5b31d31ad7565ede4126f8df0f62d71622a7"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -135,13 +135,13 @@
     "status": "FAILURE"
   },
   "checked_outcomes_decision": {
-    "candidate": "56a456f3716d721d59545940345091dbb3476435",
+    "candidate": "6e62d35936f7d85f2fb1601def987e7f67c2b276",
     "compile_fix": "Use enclosing Args.ignore_unwind_paths instead of later TranslatorArgs alias; same bool and boundary, standalone overlay retains failed patch.",
     "gate_fix": "A1Nine cert explicitly forbids A1Link two-body env and directly checks local_shape/interface(false-unwind)/graph before active=true. New gate incorrectly required both mutually exclusive active profiles. Require nine active and two-body inactive/locator absent; preserve exact same local certificate checks, no summary assumptions.",
     "proof_credit": 0,
     "raw_mir": "All ten cleanup edges and admission unchanged",
     "reason": "Emitted AST has two checked false-unwind call branches to shared cleanup; test exact checked-result projection, not checker suppression.",
-    "state": "NINE_GATE_FIX_REVIEW_PENDING"
+    "state": "NINE_GATE_FIX_REVIEW_GO_UNBUILT"
   },
   "checked_outcomes_scope_build": {
     "accounted": true,
@@ -258,10 +258,10 @@
     {
       "obligation": "Exact checked const-pointer Outcome projection",
       "reason": "A1Nine already checks same local pair/interface/graph and forbids A1Link two-body locator. Require nine active, two-body inactive/absent; retain ordinary body proofs.",
-      "state": "NINE_GATE_FIX_REVIEW_PENDING"
+      "state": "NINE_GATE_FIX_REVIEW_GO_UNBUILT"
     }
   ],
-  "next_step": "Review nine-profile fix; full1200 Cloud, then Brief. Preserve ordinary callee proofs and all controls.",
+  "next_step": "Submit reviewed6e62d359 at full1200; then Brief positive and all controls.",
   "open": [
     "Positive remains unaccepted: new gate refused before projection. Correct nine-body profile selector pending review/Cloud; classifier NO_GO and control targets unpinned.",
     "P2 *mut NOT_PUBLISHED; W4 gated on callee acceptance."
