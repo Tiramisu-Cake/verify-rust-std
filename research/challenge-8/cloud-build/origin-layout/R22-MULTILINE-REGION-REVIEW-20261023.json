@@ -1,0 +1,44 @@
+{
+  "schema": "merge-r22-multiline-region-review-v1",
+  "reviewer": "Codex",
+  "model": "GPT-6 Luna (reasoning high)",
+  "reviews": [
+    {
+      "candidate": "6755ae501ab2e4bdaba5760fcd16c3c166533c76",
+      "baseline": "65f0bb35e4f188cf8ce405a67253127173c5c3a1",
+      "spec_sha256": "341264dce7dc11625eb406a67a1cd76cc3efa0c6b032786f7c577c9ce8163558",
+      "packet_sha256": "00ecc994d769b65e3efc6825ed7ce1c790b4d26fd66ba17976da5b522906ed83"
+    },
+    {
+      "candidate": "fc0208d4f53583d458670cd07bd0370636d4b2eb",
+      "baseline": "419ff27dcee1a31a9f62e8db69049adb725bdbe2",
+      "spec_sha256": "44c6b584ef10413e01b34d24047a63e7ee90ad8bea4761a6697e5e1f4153839a",
+      "packet_sha256": "db5e4d1ca6edc16fec2375ed158316fd861ced73983a0ad928b0ee749829c993"
+    }
+  ],
+  "packet_checks": "Both review packets passed exact candidate/spec checks; both report proof_credit NONE.",
+  "shared_translator_blob": "74319fa05aa95b93c1310c97b2d67b6b87aba381",
+  "decision": "GO_WITH_LIMITATIONS",
+  "findings": [],
+  "review_findings": [
+    "Each packet's complete source delta is one added field, `identity = Nothing`, in the same multiline `Lifetime` record constructor at translator line 10605. The existing lifetime ID remains `List.assoc name env.lifetime_env`; no matcher, other source, or control is changed.",
+    "The raw and NLL branches have different schema snapshots because the NLL branch carries its diagnostic schema extension, but both `Region` definitions give `identity` the same optional type and the same `inferenceVariable`/`erased` variants. `Nothing` expresses absent compiler identity; it adds no inferred or erased identity authority. The specialization path continues matching on the legacy lifetime ID.",
+    "The supplied brace/string/comment-aware inventory's remaining id-only matches were checked against source context. They are record patterns (including lifetime patterns), identifier fields of other types, or the unrelated `Mir.VdiiPlace` constructor/pattern. No further `Region` construction was identified. This source scan is a heuristic inventory, not a typecheck.",
+    "The same translator blob is present in both exact candidate trees, so the review applies to each packet independently. The NLL branch's existing diagnostic-only limitations remain unchanged; no NLL capture, schema, ownership consumer, trust premise, or proof-credit change is in either delta."
+  ],
+  "reviewer_checks_pass": [
+    "raw and NLL packet checks",
+    "both exact diffs are the same one-field translator change",
+    "shared translator blob verified",
+    "Region.identity schema context inspected in both branches",
+    "scanner inventory entries classified against source context",
+    "git diff --check for both deltas"
+  ],
+  "not_run": [
+    "OCaml/Dune compilation or translator execution",
+    "Rust compiler/exporter execution",
+    "Cloud compile or proof execution"
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

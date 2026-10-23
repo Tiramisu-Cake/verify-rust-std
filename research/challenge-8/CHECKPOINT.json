@@ -28,7 +28,7 @@
     "tool_sha": "578120769161e217e53bd569bafdccbd4b2e020e"
   },
   "blocker": {
-    "summary": "Build active.",
+    "summary": "Compile fix unverified.",
     "evidence": []
   },
   "confirmed": [
@@ -50,17 +50,6 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "R22 P1: exporter101 (E0382/E0433), proof_attemptedfalse; target/controls unproved, credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/cloud-build/origin-layout/R22-P1-BRIEF-RESULT-20261023.json",
-          "sha256": "f1c73102bb21c3b70db5ca10a2018260f7cfb19ebcc5f16bde2769adf2cdabdf",
-          "build_id": "ea3ac285-9c9a-4e16-a1a2-2ea463861ef7"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
       "claim": "R22 P2: exporter/decoder0; translator1 missingidentity; proof_attemptedfalse, credit0.",
       "evidence": [
         {
@@ -69,9 +58,20 @@
           "build_id": "fb2529be-bf1d-4721-8632-4c5493e2fedd"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R22 P3: exporter/decoder0; translator1 atmultiline10605; proof_attemptedfalse, credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R22-P3-BRIEF-RESULT-20261023.json",
+          "sha256": "16870107a443c26dd2f06915a541ca76c8c383f9f822b618b11a9059b39472c3",
+          "build_id": "d5970bc6-6c90-4cdc-a56e-81c4ca596df3"
+        }
+      ]
     }
   ],
-  "next_step": "Brief.",
+  "next_step": "Review HANDOFF.",
   "open": [
     "Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.",
     "Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.",
@@ -105,21 +105,19 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "d5970bc6-6c90-4cdc-a56e-81c4ca596df3"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T10:14:00Z",
     "main_deadline_utc": "2026-10-23T09:44:00Z",
-    "remaining_seconds": 2880,
+    "remaining_seconds": 2480,
     "retired_seconds": 0,
-    "spent_seconds": 720,
+    "spent_seconds": 1120,
     "t0": "2026-10-23T07:44:00Z",
     "unresolved_ids": []
   },
   "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-23-r22",
-  "updated_utc": "2026-10-23T09:06:02Z",
+  "updated_utc": "2026-10-23T09:24:45Z",
   "decisions": [
     {
       "decision": "Use conservative T0 07:44:00Z covering initial document preparation before first clock reading 07:45:51Z; never shift it on registration.",
@@ -175,6 +173,14 @@
         "Addunprovenborrowbridge(rejected)",
         "Diagnosticcaptureplusreviewedsourcebindingprep(selected)"
       ]
+    },
+    {
+      "decision": "After P3 missedmultilineRegion, scan comment/string-aware balancedrecordsyntax andclassifyremainingid-onlysites. FixfourthsyntheticproducerwithNothing; preservematchingrules andrealencodedidentities.",
+      "reason": "Literal single-line scan and previouslimitedreview missedconstructor10605. New6755/fc toolsreviewedmetadatafixonly; no claimcompilerpass."
+    },
+    {
+      "decision": "No furtherCloud unless complete reviewed1200+60 cyclefitsmain; continue NLLHANDOFF/typedsitepreparation to main09:44.",
+      "reason": "Newtool/admission/transportreview remains; never shorten1200timeout. RawP3compilefailed; sameconfigneverrepeat; ownerunavailabledoesnotextendwindow."
     }
   ],
   "pause": {
@@ -184,22 +190,6 @@
     "builds_submitted": 0,
     "note": "Owner requested pause; no active Builds, no reviewer or watcher spawned. Uncommitted R22 admission draft preserved.",
     "resumed_at_utc": "2026-10-23T07:51:43+00:00"
-  },
-  "active_build_pins": {
-    "dispatch_token": "dispatch-f70a97ddf3874a7bbdaaa577fb854b93",
-    "owner": "merge",
-    "phase_id": "MERGE-CALLER-ACCEPTANCE-R22-2026-10-23",
-    "infra_sha": "4ee2a25345e7362d4c3872178e326f956d96ab1b",
-    "proof_sha": "4ee2a25345e7362d4c3872178e326f956d96ab1b",
-    "lane": "merge",
-    "submitted_config_sha256": "3a93ec1f6628c6f58740229be4b241959e705abed51aa98e7dd82e251eb1a6d9",
-    "reserved_seconds": 1260,
-    "timeout_seconds": 1200,
-    "status": "QUEUED",
-    "publish_text_logs": true,
-    "source_mode": "pinned-objects",
-    "source_input_sha256": "6cb47f1e919c020b384652b8f01cff8f22c994a81fd86022f76e37ef6d9bee45",
-    "build_id": "d5970bc6-6c90-4cdc-a56e-81c4ca596df3"
   },
   "watcher_event": {
     "job_id": "818bd214-e11e-4560-a64e-c0f30a6bb782",
@@ -228,7 +218,7 @@
     "source_sha": "4ee2a25345e7362d4c3872178e326f956d96ab1b",
     "tool_sha": "65f0bb35e4f188cf8ce405a67253127173c5c3a1",
     "profile_sha256": "d2640ee7088ecfe61c8115bc27df81c45e77742ce990295c22cdf6de90eb7579",
-    "cloud_status": "ACTIVE_UNVERIFIED",
+    "cloud_status": "TRANSLATOR_COMPILE_FAILED_NO_PROOF",
     "proof_credit": false
   },
   "prepared_candidates": [
@@ -279,6 +269,33 @@
           "sha256": "3c8c597476cc7dffd9fa35d51249e8805b4e2301ff7e9209df1c20b7dfb1a323"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R22 P1: exporter101 (E0382/E0433), proof_attemptedfalse; target/controls unproved, credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R22-P1-BRIEF-RESULT-20261023.json",
+          "sha256": "f1c73102bb21c3b70db5ca10a2018260f7cfb19ebcc5f16bde2769adf2cdabdf",
+          "build_id": "ea3ac285-9c9a-4e16-a1a2-2ea463861ef7"
+        }
+      ]
     }
-  ]
+  ],
+  "last_build_pins": {
+    "dispatch_token": "dispatch-f70a97ddf3874a7bbdaaa577fb854b93",
+    "owner": "merge",
+    "phase_id": "MERGE-CALLER-ACCEPTANCE-R22-2026-10-23",
+    "infra_sha": "4ee2a25345e7362d4c3872178e326f956d96ab1b",
+    "proof_sha": "4ee2a25345e7362d4c3872178e326f956d96ab1b",
+    "lane": "merge",
+    "submitted_config_sha256": "3a93ec1f6628c6f58740229be4b241959e705abed51aa98e7dd82e251eb1a6d9",
+    "reserved_seconds": 1260,
+    "timeout_seconds": 1200,
+    "status": "QUEUED",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "6cb47f1e919c020b384652b8f01cff8f22c994a81fd86022f76e37ef6d9bee45",
+    "build_id": "d5970bc6-6c90-4cdc-a56e-81c4ca596df3"
+  }
 }
