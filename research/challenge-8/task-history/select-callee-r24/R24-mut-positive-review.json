@@ -1,0 +1,54 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "decision": "NO_GO_FIX_REQUIRED",
+  "baseline_commit": "08ee42fc877d917fda596adaf8758e113b911c41",
+  "candidate_commit": "faf7df320d9099336b3b9b7097f84ec4a23700cc",
+  "candidate_tree": "dd3e30f66eecdbcc5db6c81b6b9c2e50618da423",
+  "spec_sha256": "8026c327e721ecf64aff669e621f5d3d7e626b1dcd7d375b80b0ae63e8a64417",
+  "packet_sha256": "8332df006ba68fd37d3a464a06f14d557d86d9e6434e67d455e023445a00c4b3",
+  "packet_diff_sha256": "1d0fe7fcd55a6cfc776ffeb41b63a03564555ac567446547f81add012b8751bf",
+  "commit_diff_sha256": "bf927e17c8c8517c33463ee10494f48dafe3ed79e77ee593b83d59e8bc59f20b",
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-native-review.json",
+      "sha256": "2f60b54b42f9ea9c145cfcde451dc0c0f6d8c89ad3a25dcb43b42833e9065853",
+      "decision": "GO_LIBRARY_ONLY; unchanged"
+    }
+  ],
+  "scope": "Independent same-boundary review of the positive-only mutable transport entry, exact mode, shell/recipe wiring, default-path preservation, const-regression ordering, runtime closure and audit. Prior native-library GO is carried forward; this review does not authorize Build execution.",
+  "verified": [
+    "Exact review packet check passed for candidate faf7df320d9099336b3b9b7097f84ec4a23700cc, baseline 08ee42fc877d917fda596adaf8758e113b911c41, spec SHA 8026c327e721ecf64aff669e621f5d3d7e626b1dcd7d375b80b0ae63e8a64417 and packet SHA 8332df006ba68fd37d3a464a06f14d557d86d9e6434e67d455e023445a00c4b3; packet state PACKET_VALID_NOT_REVIEWED and proof credit NONE.",
+    "The new proof mode is exact-hash, positive-only, and gated by the R24 mutable matrix mode. The shell applies the mutable patch only in this mode after checking the exact patch, C8 base and resulting translator hashes; it checks the modified-file inventory against the already captured R24 tool inventory and records the final translator profile hash. Other frozen profile hashes remain checked.",
+    "The existing const capture/compare/baseline/eight-row proof callbacks were moved into `run_const_regression` without semantic edits and are run first in the new mode. The R21 audit must report complete before mutable positive entry runs. With the new mode absent, the preexisting capture-only, fingerprint-only, and default const paths remain selected by their existing gates.",
+    "Entry mode checks pin the exact proof library and positive mode, candidate commit, route context, source pins, provider and current native build identity. Root audit requires the const audit and complete mutable source capture plus a clean intact positive stage; it keeps acceptance/publication false and proof credit zero.",
+    "Seven focused proof-entry synthetic tests pass. Bash syntax, Python syntax and candidate diff whitespace checks pass."
+  ],
+  "findings": [
+    {
+      "severity": "blocker",
+      "location": "research/challenge-8/cloud-build/select-callee-r24-mut-proof.py: run() summary finalization",
+      "issue": "The library sets `body_proof_run` to `bool(summary['rows'])`, but it creates each row before validating source targets and continues without calling the proof stage when `_source_pair` reports errors. A blocked source precheck therefore reports `body_proof_run: true` even though no ordinary proof stage was invoked. This misstates proof provenance and prevents downstream evidence from distinguishing precheck refusal from a proof attempt.",
+      "required_fix": "Track whether the proof callback was actually attempted and derive `body_proof_run` from that state; preserve false when precheck prevents invocation. Add a focused test where source precheck fails and assert no callback invocation and `body_proof_run` false. Retain incomplete classification and zero credit."
+    }
+  ],
+  "tests": {
+    "run": [
+      "smallsort-session review check --bundle /tmp/r24-mut-positive-review --expect-candidate faf7df320d9099336b3b9b7097f84ec4a23700cc --expect-spec-sha256 8026c327e721ecf64aff669e621f5d3d7e626b1dcd7d375b80b0ae63e8a64417 (pass)",
+      "python3 research/challenge-8/cloud-build/test_select_callee_r24_mut_proof_entry.py (7 tests, pass)",
+      "bash -n research/challenge-8/cloud-build/run-o26-select-callee-r20.sh (pass)",
+      "python3 -m py_compile research/challenge-8/cloud-build/select-callee-r24-mut-proof-entry.py (pass)",
+      "git diff --check baseline..candidate (pass)"
+    ],
+    "not_run": [
+      "Actual source preparation, compiler/native compile, exporter, MIR decode, refinement or verifier",
+      "Cloud Build, Evidence Brief, raw/full logs, archives or Cloud Logging",
+      "Dirty external VeriFast tool worktree"
+    ],
+    "carried_forward": [
+      "15 native-library proof-service synthetic tests passed in the unchanged reviewed library candidate; see prior GO record."
+    ]
+  },
+  "limitations": "The reported body_proof_run defect does not create an acceptance path: entry/root audit still require a complete positive stage and keep proof credit zero. It is nevertheless a source-assurance reporting error that must be fixed before this transport candidate proceeds. No native compile, actual mutable proof, Cloud Build, P2 publication or independent proof credit is established.",
+  "proof_credit": 0
+}

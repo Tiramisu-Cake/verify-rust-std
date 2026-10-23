@@ -1,0 +1,57 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "decision": "GO_FOR_POSITIVE_TRANSPORT_BUILD",
+  "baseline_commit": "faf7df320d9099336b3b9b7097f84ec4a23700cc",
+  "candidate_commit": "39a928cee896905a0993db80a27c12b127f51850",
+  "candidate_tree": "d5f03225eb2b4de844ac3a89fb2f3ee8e0b198e0",
+  "spec_sha256": "b1577eb2f6548550bc433bc63a503f905ffd3d0fd86fb630a335bcc1b4f789f7",
+  "packet_sha256": "d7d094a388bf0d10cb5fabd816953d2f24ffc49847b6a1ccd70b6bad935c5de6",
+  "packet_diff_sha256": "36d2a9e0550bfb90f84011452a2f21b53481feab36adce36116dc9906d3d82d0",
+  "commit_diff_sha256": "abedad2b313285968df80bd0feb3b0f4ca91886bc6d8ad6e46c3e220e69a5b54",
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-native-review.json",
+      "sha256": "2f60b54b42f9ea9c145cfcde451dc0c0f6d8c89ad3a25dcb43b42833e9065853",
+      "decision": "GO_LIBRARY_ONLY; unchanged"
+    },
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-positive-review.json",
+      "sha256": "66a214ba2544334947a51e8c067bcf6e4e793af9ff31638cd6ffb544d8c8f691",
+      "decision": "NO_GO for faf7 provenance reporting; preserved unchanged"
+    }
+  ],
+  "scope": "Same-boundary review of the localized mutable proof provenance fix and exact positive transport path. Approval is limited to running the configured full1200 Cloud Build with same-tool const regression followed by mutable positive; it is not proof acceptance, publication or credit.",
+  "verified": [
+    "Exact review packet check passed for candidate 39a928cee896905a0993db80a27c12b127f51850, baseline faf7df320d9099336b3b9b7097f84ec4a23700cc, spec SHA b1577eb2f6548550bc433bc63a503f905ffd3d0fd86fb630a335bcc1b4f789f7 and packet SHA d7d094a388bf0d10cb5fabd816953d2f24ffc49847b6a1ccd70b6bad935c5de6; packet state PACKET_VALID_NOT_REVIEWED and proof credit NONE.",
+    "The prior false body_proof_run claim is fixed: the runner records callback invocation immediately before invoking the stage callback. Summary body_proof_run is false when no callback was invoked, null when an invoked stage remains unresolved, and true only after the clean positive source-intact classification. The entry audit continues to require a complete positive stage before reporting complete evidence.",
+    "New focused tests verify that a failing pre-stage source check blocks the callback and reports body_proof_run false, and that an invoked but unsuccessful stage leaves body_proof_run null. The entry pins the updated proof-library SHA.",
+    "The prior exact mode, library and native patch hashes remain intact. The shell still gates native patch application on the committed positive mode plus the R24 matrix-fingerprint mode, exact C8 base/patch/final hashes, and matching native modified-file inventory. The profile record selects the expected generated translator while all other frozen profile pins remain checked.",
+    "The const regression sequence remains the prior full capture/compare/baseline/eight-row callbacks and runs before the mutable proof callback. Its existing audit must be complete. When the positive mode file is absent, the previous capture-only, fingerprint-only and default const branches retain their earlier gates and callback order.",
+    "Entry mode and audit bind the route phase, R24 phase, owner, lane, profile, matrix pins, exact proof library, current proof commit, native build UUID/provider, complete fingerprint capture/location control and intact positive stage. All acceptance/publication and independent credit fields remain false/0.",
+    "Recipe proof_paths and infra_paths are sorted, unique, and all referenced paths exist. Parent static transport preflight passed for this exact candidate: payload 425826 bytes, SHA256 4fce0c94f80eeb1d1c7781d0376563329e2b18aaecc3bc7aa1ea4142d37bbc93, max argument 2778, encoded config 27408/28000. Runtime closure passed: 115 entries, 2823266 bytes, SHA256 20f309d2bd07453fe55bc94cd92004d1e88c28d3f3243237030db9a199f2a266.",
+    "The existing shell header retains a stale comment saying the lane has no actual-body route; the new exact-mode route is described accurately in its specific section. This comment does not change mode gates or execution behavior."
+  ],
+  "findings": [],
+  "tests": {
+    "run": [
+      "smallsort-session review check --bundle /tmp/r24-mut-positive-provenance-review --expect-candidate 39a928cee896905a0993db80a27c12b127f51850 --expect-spec-sha256 b1577eb2f6548550bc433bc63a503f905ffd3d0fd86fb630a335bcc1b4f789f7 (pass)",
+      "python3 research/challenge-8/cloud-build/test_select_callee_r24_mut_proof.py (17 tests, pass)",
+      "python3 research/challenge-8/cloud-build/test_select_callee_r24_mut_proof_entry.py (7 tests, pass)",
+      "Python syntax compilation for proof library and entry (pass)",
+      "bash -n research/challenge-8/cloud-build/run-o26-select-callee-r20.sh (pass)",
+      "git diff --check baseline..candidate (pass)",
+      "Static recipe proof/infra path ordering and existence check (pass)"
+    ],
+    "not_run": [
+      "Actual source preparation, compiler/native compile, exporter, MIR decode, refinement or verifier",
+      "Cloud Build or Evidence Brief, raw/full logs, archives or Cloud Logging",
+      "Dirty external VeriFast tool worktree"
+    ],
+    "carried_forward": [
+      "The unchanged native library candidate received GO_LIBRARY_ONLY; its 15 focused proof-service tests passed. This delta's 17+7 focused tests include the updated library and entry coverage."
+    ]
+  },
+  "limitations": "This GO authorizes only the exact configured Cloud Build with full same-tool const regression and mutable positive stage. Native compilation and all runtime results remain unknown until that Build and Evidence Brief are reviewed. The mutable negative proof matrix remains unrun; P2 is unpublished, accepted is false, and independent proof credit is zero.",
+  "proof_credit": 0
+}

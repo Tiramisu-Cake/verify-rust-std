@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-23T16:25:13Z
+- Updated: 2026-10-23T19:13:01Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 4066s spent; 0s retired; 17534s remaining including active reservations
@@ -20,13 +20,13 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-Mutable typed certificate/proof/refusals pending; P2 NOT_PUBLISHED.
-- [research/challenge-8/task-history/select-callee-r24/P2-MUT-MATRIX-PINS.json](task-history/select-callee-r24/P2-MUT-MATRIX-PINS.json) SHA `5aee793196c2e0ab5960f1c0ea4aab8880ca68e61d74876363e2ccf3febadbed`
+Mutable native compile/positive/fullmatrix/refusals pending; P2 NOT_PUBLISHED.
+- [research/challenge-8/task-history/select-callee-r24/R24-mut-positive-provenance-review.json](task-history/select-callee-r24/R24-mut-positive-provenance-review.json) SHA `0822e8dc01bf3c27b1c322af07f67e7dd5891a7ec735d27ab0a6bcb28418fbd1`
 
 ## Next
-Implement/review closed mutable certificates, then full1200 Cloud positive and controls.
+Full1200 Cloud 39a: native compile, const full8 regression, mutable positive.
 
 ## Artifacts
-- [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `36a0c91750b152d3cd2fedf1aa1a153f5620fa116365a7d4275b63cc1798d852`
+- [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `3e80a1be998806fd31399b69e14b083f5263a124db74a874914b6af8fd954112`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `0fefc4056ccb65b3def688faf40c25e1633be0986c2948c6ca15fac0312b9496`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `29be88dc6ebd037327062d7463d51900129de411c1016eaab6b4c2c608f270ff`
