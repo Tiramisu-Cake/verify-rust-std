@@ -41,6 +41,10 @@ OPT_IN = 'SORT4_R21_FRACTIONAL_TEST'
 CURRENT_BUILD_ID = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'
 PHASE_KEY = 'SORT4_R20_CALLEE_PHASE_ID'
 PHASE_VALUE = 'SORT4-ACTUAL-SELECT-2026-10-23-R21'
+R24_SESSION_ENV = 'SORT4_R24_SESSION_PHASE_ID'
+R24_SESSION_PHASE = TARGET.R24_SESSION_PHASE
+R24_MARKER = ('SORT4-R24-CHECKED-POINTER-OUTCOMES: pointer_drop=1 '
+              'assume_init=1; raw MIR cleanup retained')
 
 
 def digest(raw: bytes) -> str:
@@ -187,10 +191,15 @@ class FractionalProofTests(unittest.TestCase):
         self.tmp.cleanup()
 
     def run_batch(self, *, proof_stage=None, capture=None, deadline=None,
-                  env=None, target_map=None, proof_env=None):
+                  env=None, target_map=None, proof_env=None,
+                  checked_pointer_outcomes=None):
         self.target_map = target_map
         self.tool_spec = tool_spec_fixture() if target_map is not None else None
-        live_env = env or self.env
+        live_env = dict(env or self.env)
+        if target_map is not None and env is None:
+            live_env[R24_SESSION_ENV] = R24_SESSION_PHASE
+        checked = (target_map is not None if checked_pointer_outcomes is None
+                   else checked_pointer_outcomes)
         with patch.dict('os.environ', live_env, clear=True):
             return TARGET.proof_batch(evidence=self.evidence,
             original=ORIGINAL, base_verified=BASE,
@@ -203,6 +212,7 @@ class FractionalProofTests(unittest.TestCase):
             target_map=target_map, target_helper=TARGET_HELPER if target_map is not None else None,
             tool_spec=self.tool_spec,
             tool_spec_file=TARGET_HELPER.TOOL_SPEC_FILE if target_map is not None else None,
+            checked_pointer_outcomes=checked,
             deadline_epoch=deadline or int(time.time()) + 3600,
             phase_key=PHASE_KEY, phase_value=PHASE_VALUE,
             opt_in_key=OPT_IN, env=proof_env or live_env)
@@ -231,6 +241,8 @@ class FractionalProofTests(unittest.TestCase):
             exit_code = 1
             log = ('verified/lib.rs(5,1-2): error: unrelated failure\n'
                    'checked_forget_owned appears in context only\n')
+        if self.target_map is not None:
+            log = R24_MARKER + '\n' + log
         (case / 'r20-merged-optin.log').write_text(log)
         original = (case / 'original/lib.rs').read_bytes()
         verified = (case / 'verified/lib.rs').read_bytes()
@@ -243,7 +255,9 @@ class FractionalProofTests(unittest.TestCase):
                              'verified/lib.rs': digest(verified)},
             'source_unchanged': True, 'intrinsic_gate_active': True,
             'pointer_drop_gate_active': True, 'stdout': 'r20-merged-optin.log',
-            'stderr': 'r20-merged-optin.log'}
+            'stderr': 'r20-merged-optin.log',
+            **({'r24_checked_pointer_outcomes_requested': True}
+               if self.target_map is not None else {})}
 
     def test_positive_and_same_site_controls_classify_but_callee_targets_stay_unpinned(self):
         self.assertEqual(TARGET.FINAL_SELECT_MESSAGE,
@@ -299,9 +313,11 @@ class FractionalProofTests(unittest.TestCase):
         target_map = target_map_fixture()
         without_id = {key: value for key, value in self.env.items()
                       if key != 'CLOUD_BUILD_ID'}
+        without_id[R24_SESSION_ENV] = R24_SESSION_PHASE
         with self.assertRaisesRegex(RuntimeError, 'native Cloud Build ID'):
             self.run_batch(env=without_id, target_map=target_map)
-        wrong_env = dict(self.env, CLOUD_BUILD_ID='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb')
+        wrong_env = dict(self.env, CLOUD_BUILD_ID='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
+                         **{R24_SESSION_ENV: R24_SESSION_PHASE})
         with self.assertRaisesRegex(RuntimeError, 'live native CLOUD_BUILD_ID'):
             self.run_batch(target_map=target_map, proof_env=wrong_env)
         self.evidence = self.root / 'no-native-id-evidence'
@@ -310,6 +326,56 @@ class FractionalProofTests(unittest.TestCase):
         self.assertNotIn('current_build_id', record)
         self.assertNotIn('current_stage_observation',
                          record['rows']['positive'])
+
+    def test_target_map_requires_exact_r24_checked_mode_before_callbacks(self):
+        target_map = target_map_fixture()
+        calls = []
+        def callback(**kwargs):
+            calls.append(kwargs['variant'])
+            return self.good_proof_stage(**kwargs)
+
+        for r24_phase, checked in ((None, True), ('SORT4-ACTUAL-SELECT-2026-10-23-R21', True),
+                                   (R24_SESSION_PHASE, False)):
+            env = dict(self.env)
+            if r24_phase is not None:
+                env[R24_SESSION_ENV] = r24_phase
+            with self.subTest(r24_phase=r24_phase, checked=checked):
+                with self.assertRaisesRegex(RuntimeError, 'target-map execution requires'):
+                    self.run_batch(target_map=target_map, env=env,
+                                   proof_env=env, checked_pointer_outcomes=checked,
+                                   proof_stage=callback)
+        self.assertEqual(calls, [])
+
+    def test_mapped_classification_requires_one_exact_native_marker(self):
+        for marker_text, expected in ((R24_MARKER, True), ('', False),
+                                      (R24_MARKER + '\n' + R24_MARKER, False)):
+            self.evidence = self.root / ('marker-' + str(len(marker_text)))
+            target_map = target_map_fixture()
+            def stage(**kwargs):
+                result = self.good_proof_stage(**kwargs)
+                if kwargs['variant'] == 'positive':
+                    (kwargs['case'] / 'r20-merged-optin.log').write_text(
+                        marker_text + ('\nverified: all obligations discharged\n'
+                                       if marker_text else
+                                       'verified: all obligations discharged\n'))
+                return result
+            record = self.run_batch(target_map=target_map, proof_stage=stage)
+            with self.subTest(marker_text=marker_text):
+                self.assertEqual(record['rows']['positive']['classification'] ==
+                                 'POSITIVE_VERIFIED_SOURCE_REPORTED', expected)
+                self.assertEqual(record['complete'], expected)
+
+        self.evidence = self.root / 'marker-stage-request-missing'
+        target_map = target_map_fixture()
+        def missing_request(**kwargs):
+            result = self.good_proof_stage(**kwargs)
+            if kwargs['variant'] == 'positive':
+                result.pop('r24_checked_pointer_outcomes_requested')
+            return result
+        record = self.run_batch(target_map=target_map, proof_stage=missing_request)
+        self.assertNotEqual(record['rows']['positive']['classification'],
+                            'POSITIVE_VERIFIED_SOURCE_REPORTED')
+        self.assertFalse(record['complete'])
 
     def test_mapped_positive_invalid_utf8_is_inconclusive_and_no_map_is_compatible(self):
         target_map = target_map_fixture()

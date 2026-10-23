@@ -20,6 +20,9 @@ SPEC = importlib.util.spec_from_file_location('r21_proof_audit',
     Path(__file__).with_name('select-callee-r21-proof-audit.py'))
 MODULE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MODULE)
+R24_CHECKED_POINTER_MARKER = (
+    'SORT4-R24-CHECKED-POINTER-OUTCOMES: pointer_drop=1 '
+    'assume_init=1; raw MIR cleanup retained')
 
 
 class AuditTests(unittest.TestCase):
@@ -117,6 +120,7 @@ class AuditTests(unittest.TestCase):
                      'stderr': 'r20-merged-optin.log',
                      'intrinsic_gate_active': True,
                      'pointer_drop_gate_active': True,
+                     'r24_checked_pointer_outcomes_requested': True,
                      'source_unchanged': True,
                      'source_before': expected_sources,
                      'source_after': expected_sources}
@@ -125,7 +129,8 @@ class AuditTests(unittest.TestCase):
             log_path = (f'cases/r21-fractional-proof/variants/{variant}/'
                         'nine-body-a1-owned-forget/r20-merged-optin.log')
             if positive:
-                log_bytes = b'verified: all obligations discharged\n'
+                log_bytes = (R24_CHECKED_POINTER_MARKER +
+                             '\nverified: all obligations discharged\n').encode()
             else:
                 target = validation['targets'][variant]
                 diagnostic = (f"{target['file']}({target['line']},"
@@ -133,7 +138,8 @@ class AuditTests(unittest.TestCase):
                     f"{target['message']}\n")
                 # Current execution timestamps alter the full log hash while
                 # leaving its sole diagnostic unchanged.
-                log_bytes = b'Elapsed: 1.2s\n' + diagnostic.encode()
+                log_bytes = (R24_CHECKED_POINTER_MARKER + '\nElapsed: 1.2s\n').encode() + \
+                    diagnostic.encode()
             physical = evidence / log_path
             physical.parent.mkdir(parents=True, exist_ok=True)
             physical.write_bytes(log_bytes)
@@ -165,6 +171,7 @@ class AuditTests(unittest.TestCase):
                     'exit': stage['exit'],
                     'intrinsic_gate_active': True,
                     'pointer_drop_gate_active': True,
+                    'r24_checked_pointer_outcomes_requested': True,
                     'source_before': expected_sources,
                     'source_after': expected_sources,
                     'source_unchanged': True,
@@ -175,7 +182,7 @@ class AuditTests(unittest.TestCase):
             }
             if not positive:
                 target = validation['targets'][variant]
-                diagnostic_line = 2
+                diagnostic_line = 3
                 row.update(expected_diagnostic_target=target,
                     diagnostic_target_observation={
                         'schema': 'select-r22-control-diagnostic-observation-v1',
@@ -195,6 +202,8 @@ class AuditTests(unittest.TestCase):
             'complete': True, 'accepted': False, 'proof_credit': False,
             'body_proof_run': True, 'variant_order': list(MODULE.VARIANTS),
             'current_build_id': build_id,
+            'r24_session_phase_id': MODULE.R24_SESSION_PHASE,
+            'checked_pointer_outcomes_requested': True,
             'tool_home': str(tool_home),
             'pins': {'base_original_sha256': original_sha, 'cases': cases},
             'rows': rows, 'diagnostic_target_validation': validation,
@@ -212,12 +221,20 @@ class AuditTests(unittest.TestCase):
                                                        'os': 'ubuntu-22.04',
                                                        'arch': 'x86_64'}}}
         self.assertTrue(MODULE.complete_matrix(
-            proof, evidence_root=evidence, native_build_id=build_id))
+            proof, evidence_root=evidence, native_build_id=build_id,
+            native_r24_session_phase_id=MODULE.R24_SESSION_PHASE))
         self.assertFalse(MODULE.complete_matrix(
-            proof, evidence_root=evidence, native_build_id=None))
+            proof, evidence_root=evidence, native_build_id=None,
+            native_r24_session_phase_id=MODULE.R24_SESSION_PHASE))
         self.assertFalse(MODULE.complete_matrix(
             proof, evidence_root=evidence,
-            native_build_id='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb'))
+            native_build_id='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
+            native_r24_session_phase_id=MODULE.R24_SESSION_PHASE))
+        self.assertFalse(MODULE.complete_matrix(
+            proof, evidence_root=evidence, native_build_id=build_id))
+        self.assertFalse(MODULE.complete_matrix(
+            proof, evidence_root=evidence, native_build_id=build_id,
+            native_r24_session_phase_id='SORT4-ACTUAL-SELECT-2026-10-23-R21'))
 
         def corrupt_both_argv(p):
             p['rows']['callee-owner-loss']['stage']['argv'] = ['wrong verifier', 'args']
@@ -248,20 +265,41 @@ class AuditTests(unittest.TestCase):
             lambda p: p['rows']['callee-owner-loss']['stage'].update(
                 status='TIMED_OUT', exit=124),
             lambda p: p['rows']['positive']['stage'].update(exit=1),
+            lambda p: p.pop('r24_session_phase_id'),
+            lambda p: p.__setitem__('checked_pointer_outcomes_requested', False),
+            lambda p: p['rows']['positive']['stage'].pop(
+                'r24_checked_pointer_outcomes_requested'),
         ):
             bad = json.loads(json.dumps(proof))
             mutate(bad)
             self.assertFalse(MODULE.complete_matrix(
-                bad, evidence_root=evidence, native_build_id=build_id))
+                bad, evidence_root=evidence, native_build_id=build_id,
+                native_r24_session_phase_id=MODULE.R24_SESSION_PHASE))
         bad_physical = evidence / rows['callee-owner-loss']['current_stage_observation']['log_path']
         original_bytes = bad_physical.read_bytes()
         bad_physical.write_bytes(original_bytes + b'error: modified\n')
         self.assertFalse(MODULE.complete_matrix(
-            proof, evidence_root=evidence, native_build_id=build_id))
+            proof, evidence_root=evidence, native_build_id=build_id,
+            native_r24_session_phase_id=MODULE.R24_SESSION_PHASE))
         bad_physical.write_bytes(original_bytes)
 
         positive = evidence / rows['positive']['current_stage_observation']['log_path']
         positive_bytes = positive.read_bytes()
+        for marker_bytes in (b'',
+                             (R24_CHECKED_POINTER_MARKER + '\n' +
+                              R24_CHECKED_POINTER_MARKER +
+                              '\nverified: all obligations discharged\n').encode()):
+            marker_mutation = (b'verified: all obligations discharged\n'
+                               if not marker_bytes else marker_bytes)
+            positive.write_bytes(marker_mutation)
+            bad_marker = json.loads(json.dumps(proof))
+            marker_sha = _sha(marker_mutation)
+            bad_marker['rows']['positive']['log_sha256'] = marker_sha
+            bad_marker['rows']['positive']['current_stage_observation']['log_sha256'] = marker_sha
+            self.assertFalse(MODULE.complete_matrix(
+                bad_marker, evidence_root=evidence, native_build_id=build_id,
+                native_r24_session_phase_id=MODULE.R24_SESSION_PHASE))
+        positive.write_bytes(positive_bytes)
         invalid_utf8 = b'\xff verified: 0 errors found\n'
         positive.write_bytes(invalid_utf8)
         invalid = json.loads(json.dumps(proof))
@@ -269,7 +307,8 @@ class AuditTests(unittest.TestCase):
         invalid['rows']['positive']['current_stage_observation']['log_sha256'] = \
             _sha(invalid_utf8)
         self.assertFalse(MODULE.complete_matrix(
-            invalid, evidence_root=evidence, native_build_id=build_id))
+            invalid, evidence_root=evidence, native_build_id=build_id,
+            native_r24_session_phase_id=MODULE.R24_SESSION_PHASE))
         positive.write_bytes(positive_bytes)
 
         alias = bad_physical.with_suffix('.alias')
@@ -277,7 +316,8 @@ class AuditTests(unittest.TestCase):
         bad_physical.unlink()
         bad_physical.symlink_to(alias)
         self.assertFalse(MODULE.complete_matrix(
-            proof, evidence_root=evidence, native_build_id=build_id))
+            proof, evidence_root=evidence, native_build_id=build_id,
+            native_r24_session_phase_id=MODULE.R24_SESSION_PHASE))
         bad_physical.unlink()
         alias.rename(bad_physical)
 

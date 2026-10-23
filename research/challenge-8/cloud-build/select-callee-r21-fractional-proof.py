@@ -35,6 +35,11 @@ FINAL_SELECT_MESSAGE = ('error: Cannot prove condition. '
 R20_OPT_IN = 'SORT4_R20_FINAL_SELECT_REPAIR'
 FRACTIONAL_PREFIX = 'SORT4_R21_FRACTIONAL_'
 STAGE_RESERVE_SECONDS = 150
+R24_SESSION_ENV = 'SORT4_R24_SESSION_PHASE_ID'
+R24_SESSION_PHASE = 'SORT4-ACTUAL-SELECT-2026-10-24-R24'
+R24_CHECKED_POINTER_MARKER = (
+    'SORT4-R24-CHECKED-POINTER-OUTCOMES: pointer_drop=1 '
+    'assume_init=1; raw MIR cleanup retained')
 CHECKED_FORGET_SIGNATURE = b'pub unsafe fn checked_forget_owned<T>(t: T)\n'
 CHECKED_FORGET_BODY = b'{\n    let _ = ManuallyDrop::new(t);\n}'
 
@@ -316,6 +321,13 @@ def _classify(r20, variant: str, stage: object, log_text: object,
         return bound, bound, None, None
     if not isinstance(stage, dict):
         return bound, 'NOT_RUN_OR_INCONCLUSIVE', None, None
+    if target_map is not None:
+        if (stage.get('r24_checked_pointer_outcomes_requested') is not True or
+                not isinstance(log_text, str) or
+                log_text.splitlines().count(R24_CHECKED_POINTER_MARKER) != 1):
+            classification = ('POSITIVE_FAILED' if variant == 'positive'
+                              else 'CONTROL_FAILURE_TARGET_MISMATCH')
+            return bound, classification, None, None
     if variant == 'positive':
         expected = (bound == 'POSITIVE_VERIFIED_SOURCE_REPORTED')
         return (bound, 'POSITIVE_VERIFIED_SOURCE_REPORTED' if expected else 'POSITIVE_FAILED',
@@ -371,6 +383,7 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
                 tool_home: Path, schema: Path, compiler_sysroot: Path,
                 target_map: object = None, target_helper=None,
                 tool_spec: bytes | None = None, tool_spec_file: str | None = None,
+                checked_pointer_outcomes: bool = False,
                 deadline_epoch: int, phase_key: str, phase_value: str,
                 opt_in_key: str, env: dict[str, str]) -> dict[str, Any]:
     """Run eight classified same-unit proof rows using injected pinned services."""
@@ -379,9 +392,16 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
     require_route(live_env, phase_key, phase_value, opt_in_key)
     env_keys = {key for key in set(env) | set(live_env)
                 if key in ('SMALLSORT_EXECUTION_PROVIDER', phase_key, R20_OPT_IN) or
-                key.startswith(FRACTIONAL_PREFIX)}
+                key.startswith(FRACTIONAL_PREFIX) or
+                (target_map is not None and key == R24_SESSION_ENV)}
     need(all(env.get(key) == live_env.get(key) for key in env_keys),
          'caller route environment differs from the live process environment')
+    if target_map is not None:
+        need(checked_pointer_outcomes is True,
+             'target-map execution requires checked pointer outcomes mode')
+        need(live_env.get(R24_SESSION_ENV) == R24_SESSION_PHASE and
+             env.get(R24_SESSION_ENV) == R24_SESSION_PHASE,
+             'target-map execution requires the exact live R24 session phase')
     pins = validate_pins(fingerprint_to_pins(fingerprint_record))
     need(sha(original) == pins['base_original_sha256'] and
          sha(base_verified) == pins['base_verified_sha256'],
@@ -431,6 +451,8 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
     }
     if target_map is not None:
         record['current_build_id'] = current_build_id
+        record['r24_session_phase_id'] = R24_SESSION_PHASE
+        record['checked_pointer_outcomes_requested'] = True
         record['tool_home'] = str(tool_home)
         record['diagnostic_target_validation'] = target_validation
         record['diagnostic_target_map_sha256'] = target_validation['target_map_sha256']
@@ -546,6 +568,9 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
                         'intrinsic_gate_active': (stage.get('intrinsic_gate_active')
                             if isinstance(stage, dict) else None),
                         'pointer_drop_gate_active': (stage.get('pointer_drop_gate_active')
+                            if isinstance(stage, dict) else None),
+                        'r24_checked_pointer_outcomes_requested': (
+                            stage.get('r24_checked_pointer_outcomes_requested')
                             if isinstance(stage, dict) else None),
                         'source_before': stage.get('source_before')
                             if isinstance(stage, dict) else None,

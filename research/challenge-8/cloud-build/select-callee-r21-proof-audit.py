@@ -15,6 +15,10 @@ BASE_SHA256 = '83d2d0940fcb255a58b97db8d6161ec3b39660a62905f89a33f926a96d3099ba'
 VARIANTS = ('positive', 'omit-selected-own', 'omit-unselected-own',
             'no-retained-half', 'callee-false-normal', 'callee-owner-duplicate',
             'callee-owner-loss', 'callee-thread-duplicate')
+R24_SESSION_PHASE = 'SORT4-ACTUAL-SELECT-2026-10-24-R24'
+R24_CHECKED_POINTER_MARKER = (
+    'SORT4-R24-CHECKED-POINTER-OUTCOMES: pointer_drop=1 '
+    'assume_init=1; raw MIR cleanup retained')
 _SHA256 = re.compile(r'^[0-9a-f]{64}$')
 TARGET_HELPER_SHA256 = 'ef48182797f89dc813f4dda167fbc6c0c3eedc4f4feb49eb06afd59dacd2833d'
 _TARGET_DIAGNOSTIC_MARKERS = (
@@ -56,7 +60,8 @@ def _current_log_diagnostic(raw: bytes):
     }
 
 
-def complete_matrix(proof, *, evidence_root=None, native_build_id=None):
+def complete_matrix(proof, *, evidence_root=None, native_build_id=None,
+                    native_r24_session_phase_id=None):
     if (not isinstance(proof, dict) or
             proof.get('schema') != 'r21-fractional-classified-proof-v1' or
             proof.get('complete') is not True or
@@ -84,6 +89,9 @@ def complete_matrix(proof, *, evidence_root=None, native_build_id=None):
             set(validation.get('targets', {})) != set(VARIANTS) - {'positive'} or
             not isinstance(pins, dict) or not isinstance(pins.get('cases'), dict) or
             not isinstance(dependencies, dict) or
+            proof.get('r24_session_phase_id') != R24_SESSION_PHASE or
+            proof.get('checked_pointer_outcomes_requested') is not True or
+            native_r24_session_phase_id != R24_SESSION_PHASE or
             not _sha256(dependencies.get('target_map_sha256')) or
             not _sha256(dependencies.get('target_map_canonical_sha256')) or
             dependencies.get('target_map_canonical_sha256') !=
@@ -136,6 +144,7 @@ def complete_matrix(proof, *, evidence_root=None, native_build_id=None):
                 type(stage.get('exit')) is not int or
                 stage.get('intrinsic_gate_active') is not True or
                 stage.get('pointer_drop_gate_active') is not True or
+                stage.get('r24_checked_pointer_outcomes_requested') is not True or
                 stage.get('source_unchanged') is not True or
                 stage.get('argv') != expected_argv or
                 stage.get('stdout') != 'r20-merged-optin.log' or
@@ -161,6 +170,7 @@ def complete_matrix(proof, *, evidence_root=None, native_build_id=None):
                 current.get('exit') != stage.get('exit') or
                 current.get('intrinsic_gate_active') is not True or
                 current.get('pointer_drop_gate_active') is not True or
+                current.get('r24_checked_pointer_outcomes_requested') is not True or
                 current.get('source_before') != stage.get('source_before') or
                 current.get('source_after') != stage.get('source_after') or
                 current.get('source_unchanged') is not True or
@@ -191,8 +201,10 @@ def complete_matrix(proof, *, evidence_root=None, native_build_id=None):
         if physical_log_sha != current.get('log_sha256'):
             return False
         try:
-            log_bytes.decode('utf-8', errors='strict')
+            log_text = log_bytes.decode('utf-8', errors='strict')
         except UnicodeDecodeError:
+            return False
+        if log_text.splitlines().count(R24_CHECKED_POINTER_MARKER) != 1:
             return False
         if variant != 'positive':
             target_pin = validation['targets'].get(variant)
@@ -305,7 +317,9 @@ def audit(args, *, base_audit=None):
     record['evidence_complete'] = (
         base.get('evidence_complete') is True and status == 'object' and
         complete_matrix(proof, evidence_root=args.evidence,
-                        native_build_id=os.environ.get('CLOUD_BUILD_ID')))
+                        native_build_id=os.environ.get('CLOUD_BUILD_ID'),
+                        native_r24_session_phase_id=os.environ.get(
+                            'SORT4_R24_SESSION_PHASE_ID')))
     args.output.write_text(json.dumps(record, indent=2, sort_keys=True) + '\n')
     return record
 
