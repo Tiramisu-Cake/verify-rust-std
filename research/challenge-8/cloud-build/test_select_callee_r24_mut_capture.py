@@ -5,6 +5,7 @@ import hashlib
 import importlib.util
 import json
 from pathlib import Path
+import re
 import subprocess
 import tempfile
 import unittest
@@ -158,6 +159,8 @@ class FakeCapture:
         self.mode = mode
         self.GUARD = self
         self.proof_calls = 0
+        self.LINK = type('LinkModule', (), {'LINK': type('NestedLink', (), {
+            'ERR': re.compile(r'^(.+?)\((\d+),([^)]*)\): error: (.*)$', re.M)})()})()
 
     def clear_semantic_opt_ins(self):
         for key in TARGET.BLOCKED_OPT_INS:
@@ -221,20 +224,33 @@ class FakeCapture:
             marker = 'wrong refusal marker'
         if self.mode == 'duplicate-marker':
             marker += '\n' + TARGET.REFUSAL_MARKER
-        (case / TARGET.CAPTURE_LOG).write_text(marker + '\n')
+        log_text = marker + '\n'
+        if self.mode == 'fatal-with-refusal':
+            log_text += 'Fatal error: exception Failure("synthetic fatal")\n'
+        if self.mode == 'error-with-refusal':
+            log_text += 'verified/lib.rs(1,1-2): error: synthetic verifier error\n'
+        (case / TARGET.CAPTURE_LOG).write_text(log_text)
         snapshots = {}
         for name in TARGET.SNAPSHOT_NAMES:
             path = case / f'actual-nested-9-{name}.marshal'
             if path.is_file():
                 data = path.read_bytes()
                 snapshots[name] = {'file': path.name, 'bytes': len(data), 'sha256': digest(data)}
+        stage = {'status': 'RAN', 'exit': 1 if self.mode == 'wrong-probe' else 2}
+        if self.mode == 'fingerprint-source-false':
+            stage['source_unchanged'] = False
+        elif self.mode == 'fingerprint-source-null':
+            stage['source_unchanged'] = None
+        elif self.mode != 'fingerprint-source-absent':
+            stage['source_unchanged'] = True
+        if self.mode == 'post-source-drift':
+            (case / 'verified/lib.rs').write_bytes(b'drift after mode-9 capture')
         return {'classification': ('BAD' if self.mode == 'wrong-probe' else
                                    'INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE'),
             'expected_refusal_seen': self.mode != 'wrong-marker',
             'all_ten_snapshots': len(snapshots) == 10,
             'body_proof_run': False,
-            'stage': {'status': 'RAN', 'exit': 1 if self.mode == 'wrong-probe' else 2},
-            'snapshots': snapshots, 'fingerprint_probe_fatal': []}
+            'stage': stage, 'snapshots': snapshots}
 
 
 class CaptureAdapterTests(unittest.TestCase):
@@ -438,7 +454,10 @@ class CaptureAdapterTests(unittest.TestCase):
                 self.assertTrue(result['incomplete_reasons'])
 
     def test_fingerprint_refusal_and_snapshot_failures_remain_incomplete(self):
-        for mode in ('missing-snapshot', 'wrong-marker', 'duplicate-marker', 'wrong-probe'):
+        for mode in ('missing-snapshot', 'wrong-marker', 'duplicate-marker', 'wrong-probe',
+                     'fingerprint-source-false', 'fingerprint-source-null',
+                     'fingerprint-source-absent', 'fatal-with-refusal',
+                     'error-with-refusal', 'post-source-drift'):
             self.evidence = self.root / ('ev-' + mode)
             self.evidence.mkdir()
             with self.subTest(mode=mode):

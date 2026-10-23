@@ -483,8 +483,8 @@ def _capture_errors(capture, source: dict[str, Any], case: Path,
                 not isinstance(stage, dict) or stage.get('status') != 'RAN' or
                 type(stage.get('exit')) is not int or stage.get('exit') != 2):
             errors.append('native mode-9 diagnostic refusal is incomplete or unexpected')
-        if fingerprint.get('fingerprint_probe_fatal'):
-            errors.append('native mode-9 probe reported a fatal diagnostic')
+        if not isinstance(stage, dict) or stage.get('source_unchanged') is not True:
+            errors.append('native mode-9 stage source integrity is missing or false')
         log = case / CAPTURE_LOG
         try:
             log_text = log.read_bytes().decode('utf-8', errors='strict')
@@ -492,6 +492,14 @@ def _capture_errors(capture, source: dict[str, Any], case: Path,
             log_text = ''
         if log_text.splitlines().count(REFUSAL_MARKER) != 1:
             errors.append('native mode-9 refusal marker is missing, duplicated, or malformed')
+        try:
+            emitted_errors = capture.LINK.LINK.ERR.findall(log_text)
+        except (AttributeError, TypeError):
+            emitted_errors = ['diagnostic error matcher unavailable']
+        if emitted_errors:
+            errors.append('native mode-9 log contains verifier error diagnostics')
+        if any(line.startswith('Fatal error:') for line in log_text.splitlines()):
+            errors.append('native mode-9 log contains a fatal/native exception')
         snapshots = fingerprint.get('snapshots')
         if not isinstance(snapshots, dict) or set(snapshots) != set(SNAPSHOT_NAMES):
             errors.append('mode-9 snapshot inventory differs from unit plus nine bodies')
@@ -506,6 +514,23 @@ def _capture_errors(capture, source: dict[str, Any], case: Path,
                         path.is_symlink() or path.stat().st_size != row.get('bytes') or
                         sha(path.read_bytes()) != row.get('sha256')):
                     errors.append('mode-9 snapshot missing/partial/mismatched: ' + name)
+    return errors
+
+
+def _final_source_pair_errors(capture_root: Path, case: Path,
+                              source: dict[str, Any], owner) -> list[str]:
+    errors = []
+    try:
+        original, _ = _safe_artifact(capture_root, case / 'original/lib.rs')
+        verified, _ = _safe_artifact(capture_root, case / 'verified/lib.rs')
+        if sha(original) != source.get('original_sha256'):
+            errors.append('final original source bytes drifted after capture')
+        if sha(verified) != source.get('verified_sha256'):
+            errors.append('final verified source bytes drifted after capture')
+        if owner.strip_ghost(verified) != original:
+            errors.append('final source ghost-strip identity drifted after capture')
+    except BaseException as exc:
+        errors.append('final source pair unavailable after capture: ' + type(exc).__name__)
     return errors
 
 
@@ -662,6 +687,7 @@ def run(args, *, provider_loader=load_provider, capture_loader=load_capture_runt
             summary['diagnostic_verifier_invoked'] = True
         summary['fingerprint'] = fingerprint
         errors = initial_errors or _capture_errors(capture, final_record, case, guard, full, fingerprint)
+        errors.extend(_final_source_pair_errors(capture_root, case, final_record, chain['owner']))
         if errors:
             summary['incomplete_reasons'] = errors
             save_partial()
