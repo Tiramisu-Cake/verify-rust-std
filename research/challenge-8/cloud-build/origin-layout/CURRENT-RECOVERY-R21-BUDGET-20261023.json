@@ -22,15 +22,17 @@
   "phase_id": "MERGE-CALLER-ACCEPTANCE-R21-2026-10-23",
   "profile_path": "research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json",
   "publication_gate_path": "research/challenge-8/cloud-build/origin-layout/R14-PUBLICATION-GATE-20261021.json",
-  "remaining_build_seconds": 3600,
+  "remaining_build_seconds": 0,
   "report_reserve_seconds": 420,
-  "retired_seconds": 0,
+  "retired_seconds": 3600,
   "schema": "smallsort-prepared-session-ledger-v1",
   "spent_build_seconds": 0,
   "start_utc": "2026-10-22T22:25:31Z",
   "starting_source_sha": "6fd50c699500cbac5c65912174d4aa49b49db19f",
   "starting_tool_commit": "578120769161e217e53bd569bafdccbd4b2e020e",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-23-r21",
-  "used_build_seconds": 0
+  "used_build_seconds": 0,
+  "closed_at_utc": "2026-10-23T07:38:46Z",
+  "closure_reason": "Owner-directed closeout: session stalled 22:41Z-07:24Z on an interactive permission prompt (read of coordinator file outside worktree); main and absolute deadlines expired with no Build or coordinator request. Reviewed admission e70c9115 (GO_WITH_NITS, R21-ADMISSION-REVIEW-20261023.json) carries to the next task as an input only. Retire 3600, carry 0."
 }

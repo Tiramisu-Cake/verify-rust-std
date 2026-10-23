@@ -49,10 +49,10 @@ Next: Fresh task/ledger; build reviewed tool578/profile9496 HANDOFF.
 
 ## Отчёт агента
 
-**merge-caller-acceptance-autonomous-2026-10-23-r21 · merge · MERGE-CALLER-ACCEPTANCE-R21-2026-10-23 · ACTIVE**
-Updated: 2026-10-23T07:25:12Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `578120769161e217e53bd569bafdccbd4b2e020e` / `949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301`.
-Dates: T0 `2026-10-22T22:25:31Z`; main `2026-10-23T00:25:31Z`; absolute `2026-10-23T00:55:31Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
+**merge-caller-acceptance-autonomous-2026-10-23-r21 · merge · MERGE-CALLER-ACCEPTANCE-R21-2026-10-23 · CLOSED**
+Updated: 2026-10-23T07:38:46Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `578120769161e217e53bd569bafdccbd4b2e020e` / `949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301`.
+Dates: T0 `2026-10-22T22:25:31Z`; main `2026-10-23T00:25:31Z`; absolute `2026-10-23T00:55:31Z`. Budget 3600s: 0s spent, 3600s retired, 0s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Original caller/F5/state/index/CURRENT OPEN; tool578 Cloud admission pending.
-Next: Submit HANDOFF tuple timeout1200; wait; Brief.
+Blocker: R21 lost to permission stall, 0 Builds; tool578 admission pending.
+Next: New task: re-register on reviewed e70c9115; HANDOFF Build t1200 early.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
