@@ -1,0 +1,38 @@
+{
+  "schema": "merge-r23-p17-source-borrow-brief-v1",
+  "build_id": "df9dd55b-a1a1-4409-bbc5-adc953d8bb3c",
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "integrity_meaning": "archive/inventory only, not successful formal verification",
+  "proof_attempted_source_claim": true,
+  "tool_stages_source_claim": {
+    "exporter": 0,
+    "decoder": 0,
+    "translator": 0,
+    "refiner": 0
+  },
+  "archive_sha256": "b0ecdb528d024f097a0c72580dbe620976834cc217b7005771d03eedec3b5d36",
+  "index_sha256": "5aa20bcbb7785da8916fe6ba1d5be090f1709fddb380ddf5a894b876a489dc44",
+  "native_refusal": {
+    "file_id": "62579048b440285209d54779fafd9c375e1ca3162b25cd6f2e4eff0a2c70042c",
+    "source_sha256": "25b3a5b1b4df3c5ce2067e2f100dabdc84d5522ea742314627f01bf2839b1501",
+    "source_size_bytes": 447619,
+    "request_id": "b28a5406f90e338fae825087ca954b2f7f43edf637ccbcd820e825315057e293",
+    "lines": "3819-3827",
+    "exact": true,
+    "complete": false,
+    "location": "verified/lib.rs:628:24-36",
+    "message": "Cannot call lemma functions in a non-pure context."
+  },
+  "static_control_flow_inference": "Unsize expression now reaches constructor call and subsequent selected as_mut_ptr location. Synthesized pre/post borrow bridges and unwind array_to_array_ are plain ExprStmt lemma calls, unlike parsed source PureStmt annotations. Preserve their expressions/order while adding exact ghost statement wrappers. No helper/caller proof acceptance.",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causal_status": "UNKNOWN",
+  "proof_credit": false,
+  "independent_credit": false,
+  "locator": {
+    "request_id": "f4c39271b0a6bd78dbf38516fdbe795a8b8556f2bd9b25107ddd93891e64d9b2",
+    "literal": "error:",
+    "exact": true,
+    "complete": true,
+    "matches": 1
+  }
+}

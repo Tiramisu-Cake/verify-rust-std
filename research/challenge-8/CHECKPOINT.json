@@ -1,10 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P15-SOURCE-BORROW-BRIEF-20261024.json",
-      "sha256": "78a73df543d45d6dcedaa19b0a3a59ddb227d5aa883c69157086abb291874d3d"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P16-COMPILE-REVIEW-20261024.json",
       "sha256": "94bb0767a5d50095991ea11e908dc6e1ec595abb9221e08071c0b2896617b326"
     },
@@ -23,6 +19,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P17-TRANSPORT-20261024.json",
       "sha256": "9210039b8d492a7b9b66dcff02baf65c6b7c1cc60c5cbe60a0892d81b2028bc8"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P17-SOURCE-BORROW-BRIEF-20261024.json",
+      "sha256": "98335619c192bf13babecfc93016a6d500f9cc542e44b660caa74c5588379129"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -32,27 +32,16 @@
     "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "P17 terminal FAILURE; Evidence Brief diagnosis pending.",
+    "summary": "P17 generated borrow bridge lemma is in non-pure context at selected as_mut_ptr.",
     "evidence": [
       {
-        "path": "research/challenge-8/cloud-build/origin-layout/R23-P16-SOURCE-BORROW-BRIEF-20261024.json",
-        "sha256": "c051eb9d8c2c6fd9056220c928dbcbee4b08f47267445e8ed36bd740da86e38e",
-        "build_id": "9a071bc9-4b43-4bd1-add9-dfa93de3d6d9"
+        "path": "research/challenge-8/cloud-build/origin-layout/R23-P17-SOURCE-BORROW-BRIEF-20261024.json",
+        "sha256": "98335619c192bf13babecfc93016a6d500f9cc542e44b660caa74c5588379129",
+        "build_id": "df9dd55b-a1a1-4409-bbc5-adc953d8bb3c"
       }
     ]
   },
   "confirmed": [
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "P15 alltoolstages0/proof attempted; sourcecaller refuses missing recovery bridge at earlier begin_lifetime ghost call, before selected method; credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/cloud-build/origin-layout/R23-P15-SOURCE-BORROW-BRIEF-20261024.json",
-          "sha256": "78a73df543d45d6dcedaa19b0a3a59ddb227d5aa883c69157086abb291874d3d",
-          "build_id": "32445c00-537d-4d24-9bc8-841785903d2d"
-        }
-      ]
-    },
     {
       "assurance": "SOURCE_REPORTED",
       "claim": "P16 alltoolstages0/proof attempted; sourcecaller reaches628 then type mismatch fn_outcome<raw slice> vs explicit-lifetime mutable slice ref; credit0.",
@@ -63,9 +52,20 @@
           "build_id": "9a071bc9-4b43-4bd1-add9-dfa93de3d6d9"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P17 alltoolstages0/proof attempted; Unsize reached call, then selected method site refuses lemma in non-pure context; credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P17-SOURCE-BORROW-BRIEF-20261024.json",
+          "sha256": "98335619c192bf13babecfc93016a6d500f9cc542e44b660caa74c5588379129",
+          "build_id": "df9dd55b-a1a1-4409-bbc5-adc953d8bb3c"
+        }
+      ]
     }
   ],
-  "next_step": "Read P17 Evidence Brief after accounting publication.",
+  "next_step": "P18 ghost wrappers for three generated R23 lemma calls, delta review, full Cloud envelope.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
     "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
@@ -100,7 +100,7 @@
   },
   "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T20:38:07.775060Z",
+  "updated_utc": "2026-10-23T20:41:16.893606Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -494,6 +494,14 @@
       "dispatch_token": "dispatch-e713898210864c73a6524a676cad4e7a",
       "state_dir": "/tmp/smallsort-merge-r23-cloud-state",
       "proof_credit": 0
+    },
+    {
+      "obligation": "P18 wrap only generated R23 proof lemma statements as PureStmt",
+      "defect": "Synthesized pre_bridge/post_bridge and unwind array_to_array_ lemma calls are plain ExprStmt in ordinary runtime stmt paths; verifier rejects a lemma call in non-pure context.",
+      "applicability": "Only exact admitted R23 source adapter; wrap the three statements at construction. Source ghost post block already PureStmt unchanged.",
+      "invariant": "Call names/args/resources/pointer/length/lifetime/branch order/unwind edge unchanged; runtime checked helper call and assignment remain runtime. No kernel/model/contracts/source/runtime/CFG/check changes.",
+      "controls": "Exact three construction sites; normal/unwind bridge shares wrapper, pre bridge stays before helper, physical restoration remains before original unwind. Generic/default-off/checked callee and all source/raw controls unchanged; independent review and Cloud compilation/proof required.",
+      "proof_credit": 0
     }
   ],
   "mission_queue": [
@@ -711,6 +719,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P15-TRANSPORT-20261024.json",
       "sha256": "923fd47da6809d3d76bf62aca87c4a8b708641fc6b87f9bc5b8ac60e2327f637"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P15-SOURCE-BORROW-BRIEF-20261024.json",
+      "sha256": "78a73df543d45d6dcedaa19b0a3a59ddb227d5aa883c69157086abb291874d3d"
     }
   ],
   "historical_confirmed": [
@@ -911,6 +923,17 @@
           "build_id": "e3da2906-33c7-49ab-8f27-2e012ac456f2"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P15 alltoolstages0/proof attempted; sourcecaller refuses missing recovery bridge at earlier begin_lifetime ghost call, before selected method; credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P15-SOURCE-BORROW-BRIEF-20261024.json",
+          "sha256": "78a73df543d45d6dcedaa19b0a3a59ddb227d5aa883c69157086abb291874d3d",
+          "build_id": "32445c00-537d-4d24-9bc8-841785903d2d"
+        }
+      ]
     }
   ],
   "watcher_store": "/root/.local/state/smallsort-watch-merge-r23-20261024",
@@ -934,11 +957,9 @@
     "active_build": null
   },
   "prepared_tool_candidate": {
-    "tool_sha": "a7b28465193e0e5185d3b45a56745fa8aa4ed194",
-    "profile_sha256": "2365bb221842f4ccf01e760c75ae7b8a0e16a11ac9d98ad7909277a8c6294582",
-    "status": "BUILD_TERMINAL_FAILURE_PROOF_UNDETERMINED",
-    "scope": "exact R23 Unsize expression uses existing constructor outcome result; pointer/length/lifetime/cast/resources unchanged",
-    "source_sha": "a11613d485b2b66ad7da9012b829ccdf11aed0e7",
-    "build_id": "df9dd55b-a1a1-4409-bbc5-adc953d8bb3c"
+    "tool_sha": "37d92023804ee5148bc0e3d7a72e2cc136314130",
+    "profile_sha256": "d630d3f99ee497b6bc1d5b1ddd8b5eff0c2d9aec757512134001ce84c389ddfd",
+    "status": "PREPARED_REVIEW_REQUIRED_CLOUD_UNVERIFIED",
+    "scope": "only three generated R23 lemma-call PureStmt wrappers; same expressions/resources/lifetime/normal-unwind placement"
   }
 }
