@@ -24,7 +24,7 @@
   },
   "blocker": {
     "evidence": [],
-    "summary": "Cold Build active; no image digest or frontend result yet."
+    "summary": "Cold EXPIRED; metadata execution0s; Brief pending."
   },
   "confirmed": [
     {
@@ -52,7 +52,16 @@
       ]
     }
   ],
-  "next_step": "Watcher ack; Brief, terminal accounting commit/push, then digest freeze/review.",
+  "last_terminal_build": {
+    "assurance": "BUILD_METADATA_ONLY",
+    "brief_status": "PENDING",
+    "build_id": "efd32c5f-83e5-4cae-8b4a-a83dc7bc072a",
+    "build_seconds": 297,
+    "execution_seconds": 0,
+    "proof_credit": 0,
+    "status": "EXPIRED"
+  },
+  "next_step": "Read Brief; changed setup repair only if supported.",
   "open": [
     "RR G1 frontend admission, cleanup output and missing-spec list NOT_RUN; no image digest yet; registry smallsort-tools ready.",
     "R4/W7 wait for PUBLISHED Select P2; actual W8 needs W3/W5/W7 resources."
@@ -73,21 +82,25 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "efd32c5f-83e5-4cae-8b4a-a83dc7bc072a"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 5400,
     "deadline_utc": "2026-10-26T21:56:24Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T20:56:24Z",
     "main_minutes": 4320,
-    "remaining_seconds": 5400,
+    "remaining_seconds": 5103,
     "retired_seconds": 0,
-    "spent_seconds": 0,
+    "spent_seconds": 297,
     "t0": "2026-10-23T20:56:24Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "network-refinedrust-g1-2026-10-24-n7",
-  "updated_utc": "2026-10-23T21:06:33Z"
+  "updated_utc": "2026-10-23T21:12:09Z",
+  "watch_event": {
+    "ack": "CONTINUE_EXISTING_WINDOW",
+    "event_id": "ff54c407-7dc3-49de-9e31-7c6973afccc2",
+    "job_id": "03d2c00e-060b-4da5-8ac5-d9e3b682a011",
+    "store": "/root/.local/state/smallsort-watch-network-n7"
+  }
 }

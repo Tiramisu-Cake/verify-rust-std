@@ -1,5 +1,5 @@
 {
-  "active_build": "efd32c5f-83e5-4cae-8b4a-a83dc7bc072a",
+  "active_build": null,
   "allowed_lanes": [
     "network-rr-g1"
   ],
@@ -8,21 +8,27 @@
   "baseline_sha": "e9fcf59caea3fd851cdc8d051e664e11e997f4b0",
   "builds": [
     {
+      "accounted": true,
+      "build_id": "efd32c5f-83e5-4cae-8b4a-a83dc7bc072a",
+      "build_seconds": 297,
+      "create_time": "2026-10-23T21:06:15.706868891Z",
       "dispatch_token": "dispatch-b692d65c966c42e888ec59ca1157c3e0",
+      "execution_seconds": 0,
+      "finish_time": "2026-10-23T21:11:12.543533582Z",
+      "infra_sha": "e751cc5997f11e0fef56b8f253e2bd58540f5346",
+      "lane": "network-rr-g1",
       "owner": "network",
       "phase_id": "NETWORK-RR-G1-2026-10-24-N7",
-      "infra_sha": "e751cc5997f11e0fef56b8f253e2bd58540f5346",
       "proof_sha": "e751cc5997f11e0fef56b8f253e2bd58540f5346",
-      "lane": "network-rr-g1",
-      "stage": "cold-image",
-      "submitted_config_sha256": "8ce279094f3220c0a974b12d7a5ffe70e5437d28e88bea22d3dc503a0306323e",
-      "reserved_seconds": 1800,
-      "timeout_seconds": 1740,
-      "status": "QUEUED",
       "publish_text_logs": true,
-      "source_mode": "pinned-objects",
+      "reserved_seconds": 1800,
       "source_input_sha256": "44fb74838bcc92c0908b22a80f0d74a32de7d5472d38ad34fa7e2ff22bd050c4",
-      "build_id": "efd32c5f-83e5-4cae-8b4a-a83dc7bc072a"
+      "source_mode": "pinned-objects",
+      "stage": "cold-image",
+      "start_time": "2026-10-23T21:11:12.543533582Z",
+      "status": "EXPIRED",
+      "submitted_config_sha256": "8ce279094f3220c0a974b12d7a5ffe70e5437d28e88bea22d3dc503a0306323e",
+      "timeout_seconds": 1740
     }
   ],
   "carry_seconds": 0,
@@ -37,13 +43,13 @@
   "owner": "network",
   "phase": "NETWORK-RR-G1-2026-10-24-N7",
   "phase_id": "NETWORK-RR-G1-2026-10-24-N7",
-  "remaining_build_seconds": 5400,
+  "remaining_build_seconds": 5103,
   "report_reserve_seconds": 240,
   "retired_seconds": 0,
   "schema": "smallsort-prepared-session-ledger-v1",
-  "spent_build_seconds": 0,
+  "spent_build_seconds": 297,
   "start_utc": "2026-10-23T20:56:24Z",
   "status": "AUTHORIZED",
   "task_id": "network-refinedrust-g1-2026-10-24-n7",
-  "used_build_seconds": 0
+  "used_build_seconds": 297
 }
