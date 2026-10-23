@@ -128,7 +128,7 @@
   },
   "state": "HANDOFF",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T14:41:26.654891Z",
+  "updated_utc": "2026-10-23T14:42:06.051420Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -308,6 +308,12 @@
       "config_sha256": "e019fa46a5bb09acde0d597dfaa36d49e7a461daa0d28e8b4bb4721f31c464cc",
       "dispatch_token": "dispatch-201c37f7a8bc4fd895b5bf5bb76e1757",
       "state_dir": "/tmp/smallsort-merge-r23-cloud-state",
+      "proof_credit": 0
+    },
+    {
+      "obligation": "Preserve P10 automatic wait after default watcher store exhaustion",
+      "reason": "Default store contains65 historical jobs and CLI capacity64 refuses before newjob creation. All8 jobs of this exact thread verified ACKED; no active/unresolved/deliveryunknown watcher in old store. WATCH explicitly supports --store DIR. Use dedicated private R23 store consistently for arm/start/status/ack; preserve all historical store records and shared code unchanged. This changes no Build/coordinator/admission/budget identities.",
+      "watcher_store": "/root/.local/state/smallsort-watch-merge-r23-20261024",
       "proof_credit": 0
     }
   ],
@@ -494,5 +500,6 @@
         }
       ]
     }
-  ]
+  ],
+  "watcher_store": "/root/.local/state/smallsort-watch-merge-r23-20261024"
 }
