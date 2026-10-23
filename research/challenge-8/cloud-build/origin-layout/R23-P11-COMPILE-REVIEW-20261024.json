@@ -1,0 +1,41 @@
+{
+  "schema": "merge-r23-p11-array-length-decoder-review-v1",
+  "reviewer": "Codex",
+  "candidate": "b37867fcff4e16773d415f58edc60bfd6e7b6bb5",
+  "baseline": "513749ae2e63f4af15bafe83a3469383a748254a",
+  "tool_commit": "9639b5b99f056b399f18bfa68c060798704e7955",
+  "spec_sha256": "751f01c33f70d2481e4e380d40bb458eeabb8315a4fad1049b82d95e55428652",
+  "packet_sha256": "035c9c7903565ddf60d84c8b05cc541ffb39ea16a2f8db8ebf05dcd5541811d1",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "prior_full_review": "R23-SOURCE-BORROW-DELTA-REVIEW-20261024.json; focused P11 array-size decoder correction",
+  "decision": "GO",
+  "review_scope": [
+    "P11 decoding of the array length reader value before passing it to translate_ty_const",
+    "Preservation of the exact array length-three admission condition and rejection paths",
+    "Exact P11 tool profile/source pins and baseline reversal"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "Packet check matched the exact candidate, spec SHA-256, and packet SHA-256.",
+    "ArrayTyRd.size_get returns the Cap'n Proto Reader TyConst value, while translate_ty_const accepts D.ty_const. The added D.decode_ty_const converts at the reader-to-decoded-record boundary required by that function.",
+    "The conversion matches the existing constant path at translator line 2574, which calls translate_ty_const (D.decode_ty_const const_cpn).",
+    "After decoding, the existing exact length check is unchanged: only an integer literal, optionally wrapped in a cast, is compared to 3; other translated shapes return false. The u64 element check and all Ref/Unsize/call source gates remain unchanged.",
+    "The candidate translator SHA-256 c7039899ef6875ae7e5ae73a3f3324d8df9eee389f8aaf00bd203a904f5a51d5 matches the exact profile pin; the exporter, schema, alias, and refiner pins remain unchanged.",
+    "The profile binds tool commit 9639b5b99f056b399f18bfa68c060798704e7955, profile SHA-256 c5e14f58f9673d153ed33c8471cd7ea0fa3ff3f5d2922f4e1c7cf68bc751fd02, and patch SHA-256 c007869457617360a26d3f6b750e44ec5369ed1a46a2e4cc05b3582f9b371e15; its reverse contract retains baseline profile 3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88."
+  ],
+  "reported_checks_not_rerun": [
+    "R23 source profile suite: 6 tests",
+    "R23 phase suite: 8 tests"
+  ],
+  "not_run": [
+    "Translator compilation",
+    "Compiler, MIR exporter, translator, verifier, or proof execution"
+  ],
+  "limitations": [
+    "This focused delta review relies on the prior exact-candidate full semantic review for unchanged source-borrow behavior.",
+    "The decoder layer was checked statically against the local function signature and existing constant route; actual translator compilation remains unverified.",
+    "Reported service checks were not rerun. No proof acceptance, B1/B2 evidence, owned-NLL mapping, or proof credit is established."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}
