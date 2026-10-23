@@ -104,8 +104,8 @@ def composition(n: int, pairs: list[tuple[int, int]], exact: bool = True) -> str
         return re.sub(r"\bx(\d+)\b", lambda m: f"initial_rank{m.group(1)}", expression)
 
     count = lambda prefix: " + ".join(f"ce_occ({prefix}{i}, q)" for i in range(n))
-    def full_post(d: str) -> str:
-        return " &*&\n            ".join(
+    def full_post(d: str, separator: str = " &*&\n            ") -> str:
+        return separator.join(
             [f"mem({v}, {d}) == true" for v in id_outputs] +
             [f"!rel({id_outputs[i + 1]}, {id_outputs[i]})" for i in range(n - 1)] +
             [" + ".join(f"ce_occ({v}, q)" for v in id_outputs) +
@@ -198,11 +198,11 @@ def composition(n: int, pairs: list[tuple[int, int]], exact: bool = True) -> str
                   "    open network13_swo_package(rel, d);",
                   "    network13_finite_swo_export(rel, d, q);",
                   "}", ""]
-        # Shape4 preserves the entire literal result behind a defined pure
-        # chunk until the public wrapper's final open. The checked producer
-        # calls the unchanged shape3 body, so no result is assumed.
+        # Shape5 batches the same pure facts in one ExprAsn when opened.
+        # All public/original posts retain the separating-conjunction default.
+        # The checked producer still calls the unchanged shape3 body.
         lines += ["predicate network13_exact_result(fixpoint(int, int, bool) rel, int q) = " +
-                  full_post(exact_domain) + ";", "",
+                  full_post(exact_domain, " &&\n            ") + ";", "",
                   "lemma void network13_finite_swo_result_package(fixpoint(int, int, bool) rel, list<int> d, int q)",
                   "    requires network13_swo_package(rel, d) &*& network13_original_members(d) &*& network13_exact_domain(d);",
                   "    ensures network13_exact_result(rel, q);", "{",
