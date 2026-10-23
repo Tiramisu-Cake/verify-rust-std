@@ -154,10 +154,22 @@ def _run(argv, cwd=None, cap=256 * 1024, timeout=20):
         proc.stderr.close()
 
 
-def _git(root, *args):
+def _remaining(deadline, cap=20):
+    if deadline is None:
+        return cap
+    remaining = deadline - time.monotonic()
+    if remaining <= 0:
+        raise PollError("poll deadline exhausted", kind="poll_timeout")
+    return min(cap, remaining)
+
+
+def _git(root, *args, deadline=None):
+    timeout = _remaining(deadline)
     try:
-        return _run(["git", "-C", str(root), "-c", "core.hooksPath=/dev/null", *args], cap=256 * 1024)
+        return _run(["git", "-C", str(root), "-c", "core.hooksPath=/dev/null", *args], cap=256 * 1024, timeout=timeout)
     except (OSError, PollError, subprocess.TimeoutExpired) as exc:
+        if deadline is not None and time.monotonic() >= deadline:
+            raise PollError("poll identity budget exhausted", kind="poll_timeout") from exc
         raise BindingError("Git identity check failed") from exc
 
 
@@ -194,19 +206,22 @@ def _reservation(owner, ledger_path, item, must_have):
             raise BindingError("registered owner reservation/receipt absent")
 
 
-def _snapshot(spec):
+def _snapshot(spec, *, deadline=None):
+    _remaining(deadline)
     try:
         root = _safe(Path(spec["worktree"]), directory=True)
+        def git(*args):
+            return _git(root, *args, deadline=deadline) if deadline is not None else _git(root, *args)
         checkpoint_bytes = _read(root / CHECKPOINT)
         checkpoint = cp.validate(json.loads(checkpoint_bytes))
         owner = checkpoint["owner"]
         wanted_root, wanted_branch = OWNER_REPOS[owner]
-        if root != wanted_root or _git(root, "rev-parse", "--show-toplevel").decode().strip() != str(root):
+        if root != wanted_root or git("rev-parse", "--show-toplevel").decode().strip() != str(root):
             raise BindingError("worktree is not assigned to this owner")
-        branch = _git(root, "branch", "--show-current").decode().strip()
+        branch = git("branch", "--show-current").decode().strip()
         if branch != wanted_branch:
             raise BindingError("assigned branch changed")
-        origin = _git(root, "remote", "get-url", "origin").decode().strip()
+        origin = git("remote", "get-url", "origin").decode().strip()
         if origin not in {"https://github.com/Tiramisu-Cake/verify-rust-std.git", "git@github.com:Tiramisu-Cake/verify-rust-std.git"}:
             raise BindingError("origin is not the assigned fork")
         if checkpoint["state"] != "HANDOFF" or checkpoint["session"]["active_build_ids"] != [spec["build_id"]] or checkpoint["session"]["unresolved_ids"]:
@@ -218,15 +233,17 @@ def _snapshot(spec):
         ledger_path = root / _repo_file(spec["ledger_path"])
         lock = _safe(COORDINATION / "lock")
         with lock.open("rb") as stream:
-            end = time.monotonic() + 5
+            end = time.monotonic() + _remaining(deadline, 5)
             while True:
                 try:
                     fcntl.flock(stream, fcntl.LOCK_SH | fcntl.LOCK_NB)
                     break
                 except BlockingIOError:
-                    if time.monotonic() >= end:
+                    _remaining(deadline)
+                    remaining = end - time.monotonic()
+                    if remaining <= 0:
                         raise PollBusy()
-                    time.sleep(.05)
+                    time.sleep(min(.05, remaining))
             ledger = _load(ledger_path)
             if ledger.get("status") != "AUTHORIZED" or ledger.get("owner") != owner or ledger.get("phase") != checkpoint["phase"]:
                 raise BindingError("phase account is closed/replaced or owner changed")
@@ -269,7 +286,7 @@ def _snapshot(spec):
         code = {}
         for path in (CLIENT, COORD):
             value = _read(root / path, 256 * 1024)
-            if value != _git(root, "show", "HEAD:" + path):
+            if value != git("show", "HEAD:" + path):
                 raise BindingError("status client differs from committed bytes")
             code[path] = _hash(value)
         binding = {
@@ -283,6 +300,7 @@ def _snapshot(spec):
             "t0": checkpoint["session"]["t0"], "main_deadline_utc": checkpoint["session"]["main_deadline_utc"],
             "deadline_utc": checkpoint["session"]["deadline_utc"], "budget_seconds": ceiling,
         }
+        _remaining(deadline)
         return binding, {"terminal": status in TERMINAL, "status": status, "accounted": accounted}
     except (cp.CheckpointError, KeyError, TypeError, OSError, UnicodeError, ValueError) as exc:
         if isinstance(exc, BindingError):
@@ -296,7 +314,7 @@ def capture(spec):
     return _snapshot(spec)[0]
 
 
-def validate(binding):
+def validate(binding, *, deadline=None):
     if not isinstance(binding, dict) or binding.get("schema") != SCHEMA:
         raise BindingError("invalid binding envelope")
     root = Path(binding["worktree"])
@@ -305,7 +323,7 @@ def validate(binding):
     except ValueError as exc:
         raise BindingError("ledger escaped worktree") from exc
     spec = {"worktree": str(root), "ledger_path": relative, "thread_id": binding["thread_id"], "build_id": binding["build_id"]}
-    current, status = _snapshot(spec)
+    current, status = _snapshot(spec, deadline=deadline)
     if current != binding:
         raise BindingError("watcher handoff/authority/source identity is stale")
     return status
@@ -318,7 +336,7 @@ def poll(binding, client_state_dir, *, timeout_seconds=55):
     if isinstance(timeout_seconds, bool) or not isinstance(timeout_seconds, (int, float)) or not 0 < timeout_seconds <= 55:
         raise ValueError("status timeout must be positive and at most55 seconds")
     end = time.monotonic() + timeout_seconds
-    validate(binding)
+    validate(binding, deadline=end)
     target = Path(client_state_dir).absolute()
     if target.exists():
         _safe(target, directory=True)
@@ -327,15 +345,13 @@ def poll(binding, client_state_dir, *, timeout_seconds=55):
         target.mkdir(mode=0o700)
     argv = [sys.executable, str(Path(binding["worktree"]) / CLIENT), "--owner", binding["owner"], "--phase-id", binding["phase"], "--ledger", binding["ledger_path"], "--state-dir", str(target), "status", binding["build_id"]]
     try:
-        remaining = end - time.monotonic()
-        if remaining <= 0:
-            raise PollError("status validation exhausted poll budget", kind="subprocess_timeout")
+        remaining = _remaining(end, timeout_seconds)
         response = json.loads(_run(argv, cwd=binding["worktree"], timeout=remaining))
     except (OSError, ValueError, PollError, subprocess.TimeoutExpired) as exc:
         raise PollError("existing status client failed; no verification inference") from exc
     if not isinstance(response, dict) or response.get("id") != binding["build_id"] or not isinstance(response.get("status"), str) or response["status"] not in LIVE | TERMINAL:
         raise PollError("status metadata missing/mismatched", kind="metadata_mismatch")
-    result = validate(binding)
+    result = validate(binding, deadline=end)
     if result["status"] != response["status"]:
         raise PollError("Build status and reconciled account differ", kind="account_mismatch")
     return result

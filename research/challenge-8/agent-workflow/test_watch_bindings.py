@@ -2,6 +2,7 @@
 import copy
 from concurrent.futures import ThreadPoolExecutor
 import fcntl
+import time
 import hashlib
 import json
 from pathlib import Path
@@ -331,6 +332,63 @@ class BindingTests(unittest.TestCase):
         with self.assertRaises(wb.PollError) as caught:
             wb._run([sys.executable, "-c", "import time;time.sleep(5)"], timeout=.05)
         self.assertEqual(caught.exception.kind, 'subprocess_timeout')
+
+
+    def test_poll_uses_one_deadline_for_both_authority_checks_and_status(self):
+        clock = [0.0]
+        deadlines = []
+        def validate(binding, *, deadline=None):
+            deadlines.append(deadline)
+            clock[0] += 1
+            return {"terminal": False, "status": "WORKING", "accounted": False}
+        def run(argv, **kwargs):
+            self.assertEqual(kwargs["timeout"], 4)
+            clock[0] = 3.5
+            return json.dumps({"id": BUILD, "status": "WORKING"}).encode()
+        with patch.object(wb.time, "monotonic", side_effect=lambda: clock[0]), patch.object(wb, "validate", side_effect=validate), patch.object(wb, "_run", side_effect=run):
+            # The mock final validation consumes its remaining budget itself.
+            # Production validate enforces this via _snapshot/_git/_remaining.
+            wb.poll(self.binding, Path(self.tmp.name) / "budget-state", timeout_seconds=5)
+        self.assertEqual(deadlines, [5, 5])
+
+    def test_git_identity_timeout_consumes_remaining_shared_budget(self):
+        with patch.object(wb.time, "monotonic", return_value=9.75), patch.object(wb, "_run", return_value=b'identity') as run:
+            self.assertEqual(wb._git(self.f.root, "show", "HEAD:test", deadline=10), b'identity')
+        self.assertEqual(run.call_args.kwargs["timeout"], .25)
+        with patch.object(wb.time, "monotonic", side_effect=[9.75, 10.01]), patch.object(wb, "_run", side_effect=wb.PollError("timeout", kind="subprocess_timeout")):
+            with self.assertRaises(wb.PollError) as caught:
+                wb._git(self.f.root, "show", "HEAD:test", deadline=10)
+        self.assertEqual(caught.exception.kind, "poll_timeout")
+
+    def test_exhausted_authority_budget_is_poll_error_not_stale_binding(self):
+        with patch.object(wb.time, "monotonic", return_value=10), self.assertRaises(wb.PollError) as caught:
+            wb.validate(self.binding, deadline=10)
+        self.assertEqual(caught.exception.kind, "poll_timeout")
+
+    def test_lock_wait_is_limited_by_remaining_authority_budget(self):
+        with (self.f.coord / "lock").open("rb") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            started = time.monotonic()
+            with self.assertRaises(wb.PollError) as caught:
+                wb.validate(self.binding, deadline=started + .1)
+            elapsed = time.monotonic() - started
+        self.assertEqual(caught.exception.kind, "poll_timeout")
+        self.assertLess(elapsed, 1)
+
+    def test_post_status_validation_enforces_same_deadline(self):
+        original_validate = wb.validate
+        clock = [0.0]
+        def validate(binding, *, deadline=None):
+            if clock[0] >= deadline:
+                return original_validate(binding, deadline=deadline)
+            return {"terminal": False, "status": "WORKING", "accounted": False}
+        def run(*args, **kwargs):
+            clock[0] = 5
+            return json.dumps({"id": BUILD, "status": "WORKING"}).encode()
+        with patch.object(wb.time, "monotonic", side_effect=lambda: clock[0]), patch.object(wb, "validate", side_effect=validate), patch.object(wb, "_run", side_effect=run):
+            with self.assertRaises(wb.PollError) as caught:
+                wb.poll(self.binding, Path(self.tmp.name) / "expired-post-state", timeout_seconds=5)
+        self.assertEqual(caught.exception.kind, "poll_timeout")
 
 
 class OwnerRepositoryTests(unittest.TestCase):
