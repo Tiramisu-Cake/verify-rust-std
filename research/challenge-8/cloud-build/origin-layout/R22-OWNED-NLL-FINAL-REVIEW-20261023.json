@@ -1,0 +1,31 @@
+{
+  "schema": "merge-r22-owned-nll-final-review-v1",
+  "reviewer": "Codex",
+  "model": "GPT-6 Luna (reasoning high)",
+  "candidate": "5ed5617a855ebe275ff207cad391902ee4333362",
+  "baseline": "e81c4640ea86d0419a8755d8032d2f111e2f3e33",
+  "spec_sha256": "ba8b7adeed1b227a74520cd06014a0e8a0d05b79bca838e53855156727294385",
+  "packet_sha256": "12c2afddb1d2c270b7ccf97a8f355e5e63c92be194b1824dc197c64ce381aa9a",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED exit0; exact candidate/spec/packet identities matched",
+  "decision": "GO_WITH_LIMITATIONS",
+  "findings": [],
+  "review_findings": [
+    "TLS storage is replaced with a process-wide OnceLock<Mutex<HashMap<LocalDefId, OwnedNllCapture>>>. Capture records contain owned strings/vectors and a local definition ID; no Body, fact reference, region context, or unsafe transmute crosses the query callback. The map is cleared before compiler invocation and drained after analysis.",
+    "Duplicate captures are fingerprinted; a conflict marks the entry and the serializer withholds point-location and fact rows. The added root counters report enabled, captured, attached, and unattached state, including unmatched body captures.",
+    "The five List(Text) fill calls now pass only their iterable argument, matching the vendored code generator's generated fill_Text signature. The packet dependency hash matches the source at the candidate commit.",
+    "originLiveOnEntry remains explicitly unavailable and empty because it is a derived Polonius output, not a PoloniusInputFacts relation. Capture and emitted MIR metadata remain separate, with mappingStatus UNESTABLISHED. No ownership consumer, resource rule, CFG/postcondition rule, trust premise, or proof credit was added."
+  ],
+  "reviewer_checks_pass": [
+    "review packet check",
+    "git diff --check",
+    "vendored List(Text) generator signature inspected against call sites",
+    "pinned Rustc plural consumer/location/facts API sources inspected"
+  ],
+  "not_run": [
+    "Compiler or exporter execution",
+    "Cloud compile, default-off parity, opt-in nested-body completeness, and mismatch controls",
+    "Typed decoding, ownership consumer, or proof execution"
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

@@ -1,0 +1,36 @@
+{
+  "schema": "merge-r22-owned-nll-collision-review-v1",
+  "reviewer": "Codex",
+  "model": "GPT-6 Luna (reasoning high)",
+  "candidate": "bbf919a32ce6f27820c6ad0464051660a448398a",
+  "baseline": "5ed5617a855ebe275ff207cad391902ee4333362",
+  "spec_sha256": "1d3bc61ab34ad348c1cdce679b206ea7d5410f88fff845b475cb3467df690592",
+  "packet_sha256": "ea2c973fdb7a26d0c7e989ec50bf51da0b6b058e1dd77d5402e3f2619acc3f3a",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED exit0; exact candidate/spec/packet identities matched",
+  "prior_review": {
+    "candidate": "5ed5617a855ebe275ff207cad391902ee4333362",
+    "path": "research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-FINAL-REVIEW-20261023.json",
+    "sha256": "95cb64324ab51e2c6421c7f3d2db14f668114a650d9778a376f7f6c41d1cc0db",
+    "decision": "GO_WITH_LIMITATIONS"
+  },
+  "decision": "GO_WITH_LIMITATIONS",
+  "findings": [],
+  "review_findings": [
+    "The exact baseline-to-candidate delta is one line in `capture_owned_nll_facts`: a duplicate is marked conflicting if either its 64-bit fingerprint differs or the full `OwnedNllCapture` value differs. This makes fingerprint collisions insufficient to treat distinct diagnostic captures as identical.",
+    "`OwnedNllCapture` derives `PartialEq` and `Eq` across its owned fields, so the comparison checks the complete captured value, including metadata and diagnostic rows. The stored fingerprint is also a field; the preceding fingerprint test remains a fast mismatch path.",
+    "No other source, dependency, schema, control, ownership consumer, proof premise, or proof-credit change is present in this delta. The prior review's limitations remain: diagnostics only, no ownership consumer, no typed decoding, and no compiler/Cloud/proof execution."
+  ],
+  "reviewer_checks_pass": [
+    "review packet check",
+    "one-file one-line semantic diff inspection",
+    "git diff --check",
+    "verified referenced prior-review digest"
+  ],
+  "not_run": [
+    "Compiler or exporter execution",
+    "Cloud compile, default-off parity, opt-in completeness, or mismatch controls",
+    "Typed decoding, ownership consumer, or proof execution"
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

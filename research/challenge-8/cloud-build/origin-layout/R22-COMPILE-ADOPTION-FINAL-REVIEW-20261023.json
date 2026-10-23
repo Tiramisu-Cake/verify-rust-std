@@ -1,0 +1,40 @@
+{
+  "schema": "merge-r22-compile-adoption-final-review-v1",
+  "reviewer": "Codex",
+  "model": "GPT-6 Luna (reasoning high)",
+  "candidate": "5b6c4236007e28ded39f095c8f0e09b182f9b59b",
+  "baseline": "d67373ee7038942a3ab8e33455a2df97208522a8",
+  "spec_sha256": "878cbad0ac71f76cc8e30cee1448a898ac67ac062b4326c119574c9a1feefb78",
+  "packet_sha256": "79f196c39480190218d01b740f72d5e6396a2645881902b55c9478f8afb3cb1f",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED exit0; exact candidate/spec/packet identities matched",
+  "decision": "GO_WITH_LIMITATIONS",
+  "findings": [
+    {
+      "severity": "should-fix-operational",
+      "location": "source transport closure",
+      "summary": "The candidate source gate is reported at 571217/571567 bytes, leaving 350 bytes of transport headroom.",
+      "action": "Keep the reviewed source closure fixed; any added source input needs a newly measured and reviewed gate delta."
+    }
+  ],
+  "review_findings": [
+    "The new profile dispatcher recognizes the exact R22 registration, checks the R22 tool/exporter/cumulative-patch pins and canonical profile hash, reverses the extension to the exact R20 profile9496 SHA, then calls the unchanged R20 validator. The R22 route precedes the R20 registration route, resolving the prior candidate's rejection of the compile-fix profile.",
+    "The provider uses its internal R22 selector for source pin selection while transform(run.sh) writes the public R11 profile name. This matches the unchanged profile card and runner allowlist and resolves the prior sentinel leak.",
+    "The exact final delta adds synthetic coverage for R20 and R22 admission, rejection of malformed or altered R22 fields/pins, and the transformed runner profile name. The R22 profile-service suite passed 16 tests locally. Python bytecode compilation and git diff --check passed.",
+    "The final delta changes only provider/proof source hashes in control.py and the R22 design note alongside the dispatcher, provider normalization, and synthetic coverage. Historical ledgers, admission budgets/deadlines, source/runtime/model/CFG/postcondition controls, and proof credit are unchanged."
+  ],
+  "reviewer_checks_pass": [
+    "review packet check",
+    "git diff --check",
+    "python3 -m py_compile for prove.py, provider-overlays.py, and r22-phase-service-test.py",
+    "r22-phase-service-test.py: 16 tests passed",
+    "static inspection of exact R22 reversal and runtime R11 normalization"
+  ],
+  "source_gate_status": "Worker-reported PASS; payload 571217 bytes, cap 571567 bytes. Not independently run in this review.",
+  "not_run": [
+    "Cloud compile, target, or controls",
+    "Local compiler or actual tools",
+    "Proof execution; proof credit remains NONE"
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

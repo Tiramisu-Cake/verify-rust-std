@@ -1,0 +1,42 @@
+{
+  "schema": "merge-r22-owned-nll-review-v1",
+  "reviewer": "Codex",
+  "model": "GPT-6 Luna (reasoning high)",
+  "candidate": "e81c4640ea86d0419a8755d8032d2f111e2f3e33",
+  "baseline": "e1ee4415b711d1b368cbfaad27bda88ed0a216e1",
+  "spec_sha256": "309063775296a26bc8dcf33e13ce0df29e435649c7e423b55b10cd5b28b9c08c",
+  "packet_sha256": "04418c748eb1d62715d0a1816f0b1fd9546504148eb5cc4cc7afe6905c8c69b9",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED exit0; exact candidate/spec/packet identities matched",
+  "decision": "NEEDS_FIX",
+  "findings": [
+    {
+      "severity": "should-fix-before-relying-on-capture-completeness",
+      "location": "src/rust_frontend/vf_mir_exporter/src/lib.rs:313-327",
+      "summary": "Captures are stored in thread-local state and drained from after_analysis. If mir_borrowck providers execute on query worker threads, those entries live in worker-local maps and are absent from the callback thread's drain, with no incomplete-capture marker.",
+      "action": "Use process-local synchronized owned storage, or enforce and check serial query execution for this opt-in path; add a completeness diagnostic for any capture not attached to an emitted body."
+    },
+    {
+      "severity": "compile-blocker",
+      "location": "src/rust_frontend/vf_mir_exporter/src/lib.rs:1792-1797",
+      "summary": "The five fill_* calls for List(Text) pass both an iterable and a closure, but this vendored Cap'n Proto generator emits fill_TEXT(&mut self, elems) with one argument. The calls do not type-check against the generated API.",
+      "action": "Pass each text iterable as the sole argument; the callback form is for struct-list fields."
+    }
+  ],
+  "review_findings": [
+    "The consumer API's plural typeck-root function returns owned input-fact structures plus a copied/regenerated borrowck MIR, location table, and nested-body map as shown by the pinned source excerpts. The hook calls the default mir_borrowck provider after capture, following the pinned compiler example.",
+    "Only owned String/Vec/HashMap data crosses the provider callback. The conflicting-duplicate branch already clears point_locations as well as the fact rows. No Body, input-fact reference, region context, unsafe transmute, ownership consumer, CFG rule, or proof credit was added.",
+    "The PoloniusInputFacts fields copied here are loan_issued_at, subset_base, and loan_killed_at. The schema records originLiveOnEntryAvailable=false and leaves that relation empty because it is derived output, not an input fact.",
+    "Capture MIR hash/phase and emitted MIR hash/phase are both serialized; mappingStatus remains UNESTABLISHED, and mismatch only appends a diagnostic. No semantic mapping is established."
+  ],
+  "reviewer_checks_pass": [
+    "review packet check",
+    "git diff --check",
+    "Pinned consumer API and location/fact field sources inspected"
+  ],
+  "not_run": [
+    "Compiler, exporter, or Cloud execution",
+    "Default-off parity, opt-in nested-body completeness, mismatch controls, typed decoding, ownership consumer, and proof validation"
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

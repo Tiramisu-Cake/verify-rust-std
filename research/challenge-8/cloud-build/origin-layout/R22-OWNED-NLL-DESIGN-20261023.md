@@ -1,0 +1,18 @@
+# R22 owned NLL preparatory diagnostic candidate
+
+DEFECT: The exporter has a dormant singular mir_borrowck hook holding BodyWithBorrowckFacts<'static> through unsafe transmute. That hook targets obsolete API shape and would retain compiler-borrowed data beyond provider return. The exporter currently emits no owned NLL facts.
+APPLICABILITY: Only diagnostic capture when VF_EXPORT_OWNED_NLL_FACTS=1, on pinned rustc f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f. API source confirms plural get_bodies_with_borrowck_facts(TyCtxt, typeck root, PoloniusInputFacts) copies/regenerates region IDs and includes nested bodies; its BodyWithBorrowckFacts carries borrowed MIR/context plus owned facts/location table. Its MIR stage is not the emitted mir_drops_elaborated_and_const_checked body.
+INVARIANT: Convert selected facts (loan_issued_at, origin_live_on_entry, subset_base, loan_killed_at) and all point->RichLocation mappings to owned strings/u32 before the provider returns; no fact/body/context references escape. Packet is keyed by LocalDefId and carries capture DefPathHash, debug-MIR hash/phase, source/body identifiers, and explicit mapping status UNESTABLISHED. Keep emitted MIR, CFG, posts and proof semantics unchanged; metadata cannot provide ownership/proof credit.
+CONTROLS: Opt-in absent/default-off preserves existing path. Duplicate, unsupported, missing, or hash/stage mismatch is represented as absent/diagnostic; never synthesize rows. TLS is cleared at invocation start and drained in after_analysis. Exact API sources used: /tmp/merge-r22-rustc-consumers.rs, /tmp/merge-r22-rustc-obtain-borrowck.rs, /tmp/merge-r22-rustc-polonius-location.rs plus pinned legacy/facts source.
+
+
+Follow-up constraints: root enabled/captured/attached/unattached counts are explicit; process-synchronized owned storage replaces TLS. List(Text) helpers use the pinned vendored generator one-argument API. origin_live_on_entry is explicitly unavailable from PoloniusInputFacts. Duplicate capture fingerprints are only a fast path and exact equality is also required. All fields remain diagnostic-only and cross-stage mapping UNESTABLISHED. Compiler/exporter/default-off parity/opt-in completeness remain Cloud-UNVERIFIED. No borrow/resource/normal/unwind theorem is established.
+
+This preparatory candidate is separate from the e1ee compile-fix Cloud tuple. The next W3 obligation is typed borrow-site and cross-stage mapping plus checked array/slice resource conversion and restoration on original normal/unwind paths. Adding as_mut_ptr alone does not establish that protocol.
+
+Pinned primary compiler source provenance (rustc f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f):
+
+- `compiler/rustc_borrowck/src/consumers.rs` SHA256 `a2bcb0a0455de7d1cda2d9b4b50af8d8eb44c80bfe585f9844be9f56ecdb3d4f`; https://raw.githubusercontent.com/rust-lang/rust/f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f/compiler/rustc_borrowck/src/consumers.rs
+- `tests/ui-fulldeps/obtain-borrowck.rs` SHA256 `0c44d1735d0483a58cf1574bfae1e6a680bb094813912c3cf852400d40e4f3b5`; https://raw.githubusercontent.com/rust-lang/rust/f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f/tests/ui-fulldeps/obtain-borrowck.rs
+- `compiler/rustc_borrowck/src/polonius/legacy/location.rs` SHA256 `66b151cf708b0b183c5fe4eab912b06af8f05e9d165501554ed0e0e99ac17501`; https://raw.githubusercontent.com/rust-lang/rust/f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f/compiler/rustc_borrowck/src/polonius/legacy/location.rs
+- `compiler/rustc_borrowck/src/polonius/legacy/facts.rs` SHA256 `199852e9ab5d7c416f6a69cf8c85bc0f49240166af463d83e098108b59b103f1`; https://raw.githubusercontent.com/rust-lang/rust/f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f/compiler/rustc_borrowck/src/polonius/legacy/facts.rs

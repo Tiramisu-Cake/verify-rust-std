@@ -1,0 +1,50 @@
+{
+  "schema": "merge-r22-compile-adoption-review-v1",
+  "reviewer": "Codex",
+  "model": "GPT-6 Luna (reasoning high)",
+  "candidate": "16d1ba29f9124baf16a4745a726b4ed274fd59ac",
+  "baseline": "d67373ee7038942a3ab8e33455a2df97208522a8",
+  "spec_sha256": "9957d3165baca0a78cb0151027ae7ba830b8fdbeff70bea3b46c78e7399ca20c",
+  "packet_sha256": "98344e8466701c83c06e6fc14b400c89784d2920ac4eaa0ac47c05bfcca70aaf",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED exit0; exact candidate/spec/packet identities matched",
+  "decision": "NEEDS_FIX",
+  "findings": [
+    {
+      "severity": "blocker",
+      "location": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py:223-238, 970",
+      "summary": "The R22 profile passes the new inline registration check, but then `admit_r17_profile_extension_if_present` sees `r20_metadata_registration` and calls the unchanged R20 exact validator. That validator rejects the extra `r22_compile_fix_registration` field and the compile-fix profile/exporter/patch changes, so the selected alternative tuple is rejected before the existing R11 proof path can proceed.",
+      "action": "Add an exact R22 reversible-extension route before the R20-only validator, or validate the R20 base and then validate the R22 extension. Keep the R20 validator unchanged for the original tuple."
+    },
+    {
+      "severity": "blocker",
+      "location": "research/challenge-8/merge/cloud-build/provider-overlays.py:profile_identity and transform(run.sh)",
+      "summary": "For the exact R22 profile card, `profile_identity` returns the internal R22 overlay sentinel. `transform` writes that sentinel into `PROFILE_NAME` in run.sh, but the profile card and first-callback runner still use the public R11 profile name. The transformed run.sh profile allowlist therefore rejects this R22 card before first-callback.",
+      "action": "Keep the public R11 profile name in the transformed runner; use the internal sentinel only to choose the R22 source-pin table."
+    },
+    {
+      "severity": "should-fix-operational",
+      "location": "source transport closure",
+      "summary": "The selected payload is reported at 571109/571567 bytes, leaving 458 bytes of transport headroom.",
+      "action": "Keep the source closure fixed; any additional source input needs a new measured and reviewed gate delta."
+    }
+  ],
+  "review_findings": [
+    "The profile extension reverses byte-exactly to the original profile9496 bytes when its R22 registration, e1ee tool/exporter pins, and final cumulative-patch pin are restored to the tool578 tuple. The original and alternative branches in `r22_validate_candidate_pins` accept only those exact tuples.",
+    "The compile-fix exporter pin, cumulative patch pin, provider module pin, and R22 prove.py pin match their declared hashes. The provider's R22 table keeps the existing R11 control paths and routes the new proof runner only through the R22 overlay. The final profile name remains the existing R11 name, so the unchanged build-profile runner branch applies.",
+    "No historical budget ledger, publication gate, source/runtime/model/CFG/postcondition, or proof control file is changed by this candidate. R22 budget/deadline/timeout and coordinator values remain unchanged. The R19/R20 control validators in the Cloud client remain unchanged; the blocker is the proof runner's profile-extension dispatcher."
+  ],
+  "reviewer_checks_pass": [
+    "review packet check",
+    "git diff --check",
+    "manual profile reversal compared byte-for-byte with the original profile9496",
+    "declared exporter, patch, provider, and prove.py pins matched exact source hashes"
+  ],
+  "source_gate_status": "Worker-reported PASS; payload 571109 bytes. Not independently run in this review.",
+  "not_run": [
+    "Cloud compile, target, or controls",
+    "Local compiler or actual tools",
+    "Proof execution; proof credit remains NONE"
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

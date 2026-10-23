@@ -11,6 +11,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R22-TOOL-COMPILE-FIX-REVIEW-20261023.json",
       "sha256": "329e987ad686f0178a15017e18adc7298dab8db80e72f6f91aa274c80fa535f8"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-COMPILE-ADOPTION-FINAL-REVIEW-20261023.json",
+      "sha256": "408dd1a9e2b5d7756f2483b502f5986de212d16d6f5594620a83302958198195"
     }
   ],
   "assignment_sha256": "c415d4a1a29898ba0fa496dac8a185b455df5a4100338a6445ec6b466967d7d9",
@@ -20,14 +24,8 @@
     "tool_sha": "578120769161e217e53bd569bafdccbd4b2e020e"
   },
   "blocker": {
-    "summary": "Exporter compile failed.",
-    "evidence": [
-      {
-        "path": "research/challenge-8/cloud-build/origin-layout/R22-P1-BRIEF-RESULT-20261023.json",
-        "sha256": "f1c73102bb21c3b70db5ca10a2018260f7cfb19ebcc5f16bde2769adf2cdabdf",
-        "build_id": "ea3ac285-9c9a-4e16-a1a2-2ea463861ef7"
-      }
-    ]
+    "summary": "Build active.",
+    "evidence": []
   },
   "confirmed": [
     {
@@ -89,12 +87,12 @@
       ]
     }
   ],
-  "next_step": "Review compile fix.",
+  "next_step": "Brief.",
   "open": [
     "Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.",
     "Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.",
     "F5 separate synthetic resource negative INCONCLUSIVE; actual missing-owner control is static shape refusal.",
-    "Tool578/profile9496 compile, checked lemmas and compatible final CURRENT/normal/unwind matrix OPEN.",
+    "Tool e1/profile5fd compile and compatible final CURRENT/normal/unwind matrix OPEN; tool578 compile failed in R22 P1.",
     "No B2/generic/arbitrary-n/sorting/tool qualification/independent credit."
   ],
   "owner": "merge",
@@ -123,7 +121,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "fb2529be-bf1d-4721-8632-4c5493e2fedd"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T10:14:00Z",
     "main_deadline_utc": "2026-10-23T09:44:00Z",
@@ -133,9 +133,9 @@
     "t0": "2026-10-23T07:44:00Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-23-r22",
-  "updated_utc": "2026-10-23T08:08:53Z",
+  "updated_utc": "2026-10-23T08:38:26Z",
   "decisions": [
     {
       "decision": "Use conservative T0 07:44:00Z covering initial document preparation before first clock reading 07:45:51Z; never shift it on registration.",
@@ -162,6 +162,22 @@
         "Own NLL rows bound to actual MIR body/location and existing lifetime lemmas (selected)"
       ],
       "reason": "COMPLETION-PLAN W2/W3 need callable resource protocol. Exporter dormant query interception must capture owned facts without static transmute before MIR stolen; exact rustc-private API is unverified. New tool/profile/admission delta and review required before next Cloud."
+    },
+    {
+      "decision": "Keep existing R11 profile name for compile-fix tuple; distinguish new tuple by exact R22 registration and hashes.",
+      "alternatives": [
+        "Rename profile and extend all runner branches (rejected)",
+        "Retain admitted domain name and exact reversible compile-only registration (selected)"
+      ],
+      "reason": "Static check found build-profile.sh and compile-preflight.sh require original profile name. Avoid setup-only rerun and preserve existing options/control routing."
+    },
+    {
+      "decision": "Keep owned NLL capture diagnostic-only and separate from emitted MIR region IDs; absent origin_live_on_entry is explicitly unavailable.",
+      "reason": "Pinned rustc f7575a9 consumers API is plural and regenerates region IDs. Input facts have no derived output origin_live_on_entry relation; static API error fixed before Cloud. Cross-stage mapping must be checked before resource use."
+    },
+    {
+      "decision": "Submit exact reviewed source5b6c4236 instead of adding review-only files to proofsource before dispatch.",
+      "reason": "Measured571217/cap571567/margin350. Review/checkpoint docs are committed after Build registration; exact5b6c publishedtip independently verified before submit. No cap change or report pruning required."
     }
   ],
   "pause": {
@@ -173,20 +189,20 @@
     "resumed_at_utc": "2026-10-23T07:51:43+00:00"
   },
   "active_build_pins": {
-    "dispatch_token": "dispatch-4a75448ee0f141b7a34b6940cd6b6cfd",
+    "dispatch_token": "dispatch-46f839c7310840f994abd7b6869e9425",
     "owner": "merge",
     "phase_id": "MERGE-CALLER-ACCEPTANCE-R22-2026-10-23",
-    "infra_sha": "dd4a2dd25079cd4eaa928dae1a7e19d3f8bd8810",
-    "proof_sha": "dd4a2dd25079cd4eaa928dae1a7e19d3f8bd8810",
+    "infra_sha": "5b6c4236007e28ded39f095c8f0e09b182f9b59b",
+    "proof_sha": "5b6c4236007e28ded39f095c8f0e09b182f9b59b",
     "lane": "merge",
-    "submitted_config_sha256": "5cf703cc513cb3a6970a3334f1f20a6a6a5f93b584736a5a2b6a0fc44a35c3c1",
+    "submitted_config_sha256": "830f63343e1c8f85e70ff6e31db8023e280fad8a05dc871920baf3001a290a96",
     "reserved_seconds": 1260,
     "timeout_seconds": 1200,
     "status": "QUEUED",
     "publish_text_logs": true,
     "source_mode": "pinned-objects",
-    "source_input_sha256": "91388a834bac7b2640514c64dfa5291b118b807f65403515e7c6ba2314b31d99",
-    "build_id": "ea3ac285-9c9a-4e16-a1a2-2ea463861ef7"
+    "source_input_sha256": "5fbaa41d9e41e3f27edbb5eebc7dcf648e20cb92f7b768f904cd541e5739ea14",
+    "build_id": "fb2529be-bf1d-4721-8632-4c5493e2fedd"
   },
   "watcher_event": {
     "job_id": "dbb7da76-a81a-45d2-ae8a-70505a7e1c25",
@@ -209,6 +225,30 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R20-HANDOFF-REVIEWS-20261023.json",
       "sha256": "840f697189cef868679e44a98674f0d80550f17988e156a0feebfbb61866ad91"
+    }
+  ],
+  "current_tuple": {
+    "source_sha": "5b6c4236007e28ded39f095c8f0e09b182f9b59b",
+    "tool_sha": "e1ee4415b711d1b368cbfaad27bda88ed0a216e1",
+    "profile_sha256": "5fd081ec48a07354d9158bd7f4c09c9be88fa72519d8849943a612705c1e452e",
+    "admission_review": "R22-COMPILE-ADOPTION-FINAL-REVIEW-20261023.json",
+    "cloud_status": "ACTIVE_UNVERIFIED",
+    "proof_credit": false
+  },
+  "prepared_candidates": [
+    {
+      "mission": "W3 original caller",
+      "tool_sha": "bbf919a32ce6f27820c6ad0464051660a448398a",
+      "branch": "merge/r22-owned-nll-capture-20261023",
+      "published_remote_sha_verified": true,
+      "review": "research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-COLLISION-REVIEW-20261023.json",
+      "review_decision": "GO_WITH_LIMITATIONS_DIAGNOSTIC_ONLY",
+      "design": "research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-DESIGN-20261023.md",
+      "cloud_admission": "NOT_PREPARED",
+      "compiler_and_capture_validation": "NOT_RUN",
+      "cross_stage_mapping": "UNESTABLISHED",
+      "ownership_consumer": "NOT_IMPLEMENTED",
+      "proof_credit": false
     }
   ]
 }
