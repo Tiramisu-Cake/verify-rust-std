@@ -111,4 +111,24 @@ class MatrixMetadataGuards(MetadataGuards):
             bad=copy.deepcopy(self.summary);bad['location_control']=value
             with self.subTest(location=value):self.assertFalse(self.audit(bad)['evidence_complete'])
 
+class P2CompositeAudit(unittest.TestCase):
+    def test_composite_preserves_auxiliary_failure_and_missing_audit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)/'root.json';extra=Path(tmp)/'extra.json'
+            def run(primary,aux,codes,expected):
+                root.write_text(json.dumps(primary))
+                if aux is None:extra.unlink(missing_ok=True)
+                else:extra.write_text(json.dumps(aux))
+                argv=['audit',str(root),str(extra),*map(str,codes)]
+                with patch.object(sys,'argv',argv):
+                    if expected:exec(block('P2_CONSEQUENCE_AUDIT'),{})
+                    else:
+                        with self.assertRaises(AssertionError):exec(block('P2_CONSEQUENCE_AUDIT'),{})
+                report=json.loads(root.read_text());self.assertIs(report['evidence_complete'],expected)
+                for key in ('accepted','publication_allowed','verification_accepted'):self.assertIs(report[key],False)
+                self.assertEqual(report['proof_credit'],0)
+            run({'evidence_complete':True},{'evidence_complete':True},[0,0],True)
+            for primary,aux,codes in [({'evidence_complete':True},{'evidence_complete':False},[0,4]),({'evidence_complete':True},None,[0,1]),({'evidence_complete':True},[],[0,0]),({'evidence_complete':True},{'evidence_complete':'true'},[0,0]),({'evidence_complete':True},{'evidence_complete':True},[4,0]),({'evidence_complete':False},{'evidence_complete':True},[0,0])]:
+                with self.subTest(primary=primary,aux=aux,codes=codes):run(primary,aux,codes,False)
+
 if __name__=='__main__':unittest.main()

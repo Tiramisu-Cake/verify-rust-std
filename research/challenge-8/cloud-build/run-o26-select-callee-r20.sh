@@ -82,6 +82,13 @@ if [[ -e "$r24_mut_matrix_proof_mode_file" ]]; then
   [[ "$(sha256sum "$proof_root/research/challenge-8/task-history/select-callee-r24/P2-MUT-POSITIVE-EVIDENCE.json" | cut -d' ' -f1)" == 5b6f58485534622f66c246d37e17bd2f43cd2d2e2b020cc5c4c020d30374ee2a ]] || exit 2
   r24_mut_matrix_proof_enabled=1
 fi
+r24_mut_classified_proof_enabled=0
+r24_mut_classified_mode_file="$proof_root/research/challenge-8/task-history/select-callee-r24/P2-MUT-CLASSIFIED-PROOF-MODE.json"
+if [[ -e "$r24_mut_classified_mode_file" ]]; then
+  (( r24_mut_matrix_proof_enabled == 1 )) || exit 2
+  [[ "$(sha256sum "$r24_mut_classified_mode_file" | cut -d' ' -f1)" == 3e17c17a993f01e8d136effd2ec3026f11825ef30793eb5178d9fe2f787131b7 ]] || exit 2
+  r24_mut_classified_proof_enabled=1
+fi
 positive_ast_args=()
 target_map_args=()
 if [[ -n "${SORT4_R24_SESSION_PHASE_ID:-}" ]]; then
@@ -100,6 +107,41 @@ mkdir "$ev"
 mkdir "$ev/cases"
 current_stage=provider
 audit_result() {
+  if (( r24_mut_classified_proof_enabled == 1 )); then
+    local classified_audit_exit=0 consequence_audit_exit=0
+    python3 "$cloud_dir/select-callee-r24-mut-classified-proof.py" audit \
+      --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+      --classified-mode-file "$r24_mut_classified_mode_file" \
+      --matrix-proof-mode-file "$r24_mut_matrix_proof_mode_file" \
+      --tool-home "${source_home:-/workspace/missing-native-tool}" --candidate "$current_sha" \
+      --output "$evidence_root/proof-audit.json" --runner-exit "$1" --failed-stage "$2" || classified_audit_exit=$?
+    python3 "$cloud_dir/select-callee-r24-p2-entailment.py" audit \
+      --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+      --tool-home "${source_home:-/workspace/missing-native-tool}" \
+      --schema "${schema:-/workspace/missing-schema}" --candidate "$current_sha" \
+      --matrix-proof-mode-file "$r24_mut_matrix_proof_mode_file" \
+      --output "$ev/p2-consequence-audit.json" --runner-exit "$1" --failed-stage "$2" || consequence_audit_exit=$?
+    python3 - "$evidence_root/proof-audit.json" "$ev/p2-consequence-audit.json" "$classified_audit_exit" "$consequence_audit_exit" <<'P2_CONSEQUENCE_AUDIT'
+import json,pathlib,sys
+root,extra=map(pathlib.Path,sys.argv[1:3]);codes=list(map(int,sys.argv[3:]));read_errors=[]
+def read(path):
+ try:
+  value=json.loads(path.read_text())
+  if not isinstance(value,dict):raise ValueError('audit is not an object')
+  return value
+ except (OSError,ValueError) as exc:
+  read_errors.append(path.name+': '+str(exc));return {'evidence_complete':False}
+record=read(root);consequence=read(extra)
+record['p2_consequence_audit']=consequence
+record['composite_audit_exits']=codes
+record['composite_audit_errors']=read_errors
+record['evidence_complete']=codes==[0,0] and not read_errors and record.get('evidence_complete') is True and consequence.get('evidence_complete') is True
+record.update(accepted=False,publication_allowed=False,proof_credit=0,verification_accepted=False)
+root.write_text(json.dumps(record,indent=2,sort_keys=True)+'\n')
+assert record['evidence_complete'] is True
+P2_CONSEQUENCE_AUDIT
+    return
+  fi
   if (( r24_mut_matrix_proof_enabled == 1 )); then
     python3 "$cloud_dir/select-callee-r24-mut-matrix-proof.py" audit \
       --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
@@ -536,7 +578,18 @@ if (( r24_mut_proof_enabled == 1 )); then
 import json,sys
 assert json.load(open(sys.argv[1]))['evidence_complete'] is True
 CONST_REGRESSION
-  if (( r24_mut_matrix_proof_enabled == 1 )); then
+  if (( r24_mut_classified_proof_enabled == 1 )); then
+    stage r24-mut-classified-proof python3 "$cloud_dir/select-callee-r24-mut-classified-proof.py" run \
+      --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+      --tool-home "$source_home" --schema "$schema" --compiler-sysroot "$compiler_sysroot" \
+      --deadline-epoch "$deadline" --candidate "$current_sha" \
+      --classified-mode-file "$r24_mut_classified_mode_file" \
+      --matrix-proof-mode-file "$r24_mut_matrix_proof_mode_file" \
+      --mode-file "$r24_mut_mode_file" \
+      --mode-sha256 5ac2662dc74c166f17c01d11c7b44aa716ead91cc1ab24d6ee5fd6ad405ce624 \
+      --matrix-mode-file "$r24_mut_matrix_mode_file" \
+      --matrix-mode-sha256 0f8c816ff1e588cd8f2cb066fae862ea17b07103397b5282982cb1c86cc84317
+  elif (( r24_mut_matrix_proof_enabled == 1 )); then
     stage r24-mut-matrix-proof python3 "$cloud_dir/select-callee-r24-mut-matrix-proof.py" run \
       --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
       --tool-home "$source_home" --schema "$schema" --compiler-sysroot "$compiler_sysroot" \
@@ -556,6 +609,13 @@ CONST_REGRESSION
     --mode-sha256 5ac2662dc74c166f17c01d11c7b44aa716ead91cc1ab24d6ee5fd6ad405ce624 \
     --matrix-mode-file "$r24_mut_matrix_mode_file" \
     --matrix-mode-sha256 0f8c816ff1e588cd8f2cb066fae862ea17b07103397b5282982cb1c86cc84317
+  fi
+  if (( r24_mut_classified_proof_enabled == 1 )); then
+    stage r24-p2-consequence python3 "$cloud_dir/select-callee-r24-p2-entailment.py" run \
+      --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+      --tool-home "$source_home" --schema "$schema" --compiler-sysroot "$compiler_sysroot" \
+      --deadline-epoch "$deadline" --candidate "$current_sha" \
+      --matrix-proof-mode-file "$r24_mut_matrix_proof_mode_file"
   fi
   current_stage=r24-mut-proof-audit
   audit_result 0 complete
