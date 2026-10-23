@@ -32,7 +32,7 @@
     "tool_sha": "578120769161e217e53bd569bafdccbd4b2e020e"
   },
   "blocker": {
-    "summary": "None; R22 reviewed.",
+    "summary": "Build active.",
     "evidence": []
   },
   "confirmed": [
@@ -84,7 +84,7 @@
       ]
     }
   ],
-  "next_step": "Submit timeout1200.",
+  "next_step": "Brief.",
   "open": [
     "Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.",
     "Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.",
@@ -118,7 +118,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "ea3ac285-9c9a-4e16-a1a2-2ea463861ef7"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T10:14:00Z",
     "main_deadline_utc": "2026-10-23T09:44:00Z",
@@ -128,9 +130,9 @@
     "t0": "2026-10-23T07:44:00Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-23-r22",
-  "updated_utc": "2026-10-23T07:56:04Z",
+  "updated_utc": "2026-10-23T07:58:51Z",
   "decisions": [
     {
       "decision": "Use conservative T0 07:44:00Z covering initial document preparation before first clock reading 07:45:51Z; never shift it on registration.",
@@ -166,5 +168,21 @@
     "builds_submitted": 0,
     "note": "Owner requested pause; no active Builds, no reviewer or watcher spawned. Uncommitted R22 admission draft preserved.",
     "resumed_at_utc": "2026-10-23T07:51:43+00:00"
+  },
+  "active_build_pins": {
+    "dispatch_token": "dispatch-4a75448ee0f141b7a34b6940cd6b6cfd",
+    "owner": "merge",
+    "phase_id": "MERGE-CALLER-ACCEPTANCE-R22-2026-10-23",
+    "infra_sha": "dd4a2dd25079cd4eaa928dae1a7e19d3f8bd8810",
+    "proof_sha": "dd4a2dd25079cd4eaa928dae1a7e19d3f8bd8810",
+    "lane": "merge",
+    "submitted_config_sha256": "5cf703cc513cb3a6970a3334f1f20a6a6a5f93b584736a5a2b6a0fc44a35c3c1",
+    "reserved_seconds": 1260,
+    "timeout_seconds": 1200,
+    "status": "QUEUED",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "91388a834bac7b2640514c64dfa5291b118b807f65403515e7c6ba2314b31d99",
+    "build_id": "ea3ac285-9c9a-4e16-a1a2-2ea463861ef7"
   }
 }

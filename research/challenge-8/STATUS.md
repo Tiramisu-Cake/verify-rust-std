@@ -1,11 +1,11 @@
 # Agent checkpoint: merge-caller-acceptance-autonomous-2026-10-23-r22
 
-- Owner: merge | phase: MERGE-CALLER-ACCEPTANCE-R22-2026-10-23 | state: ACTIVE
-- Updated: 2026-10-23T07:56:04Z
+- Owner: merge | phase: MERGE-CALLER-ACCEPTANCE-R22-2026-10-23 | state: HANDOFF
+- Updated: 2026-10-23T07:58:51Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `578120769161e217e53bd569bafdccbd4b2e020e`, profile `949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301`
 - Session dates: T0 `2026-10-23T07:44:00Z`; main deadline `2026-10-23T09:44:00Z`; absolute deadline `2026-10-23T10:14:00Z`
 - Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: ea3ac285-9c9a-4e16-a1a2-2ea463861ef7
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -25,10 +25,10 @@
 - Short outer timeout990/execute570 chosen using prior whole-cycle timings — Missed nested compile reserve140; P4 timed out before proof. Keep full1200 plan unless effective inner budget reviewed.; [research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md](cloud-build/origin-layout/R16-REVIEW-20261021.md) SHA `7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa`
 
 ## Blocker
-None; R22 reviewed.
+Build active.
 
 ## Next
-Submit timeout1200.
+Brief.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R20-CALLER-AND-CONTROL-FRONTIER-20261023.md](cloud-build/origin-layout/R20-CALLER-AND-CONTROL-FRONTIER-20261023.md) — `d08d28d9859bfa6b319ceb99c22aade95e0f54efa02c27db93d44af4aca2f0f8`
