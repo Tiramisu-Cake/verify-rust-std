@@ -113,3 +113,7 @@ capture checks complete. Actual profile reports translatorc8f5ce1d, parser6a,
 printerf32 and tool lib.rsspec d33b2a7a. These are source-reported CI observations,
 not independent B1/B2 credit or callee acceptance. Full7-control matrix remains
 unqualified pending exact target pins and classifier prior/current repair.
+
+## Separate UNBUILT mutable candidate (not part of hosted chain)
+
+`mutable-certificates-r24.patch` SHA-256 `e1b5b8aa78e905884565e16318e29559050e2fba41366a60d61ebdbe1aeb9099` applies after row31/C8. Generated final translator SHA-256 `eca440a605ab3900c39d9e58328b487104a1b33f75d90323036f6beab09aa162`. Closed R24 mutable case/root selector, separate predicates/certifiers/translation state; const profile retained. Independent review pending; no actual compile/proof or P2 publication. Generators and scope: [MUTABLE-NATIVE-CANDIDATE.md](MUTABLE-NATIVE-CANDIDATE.md).
