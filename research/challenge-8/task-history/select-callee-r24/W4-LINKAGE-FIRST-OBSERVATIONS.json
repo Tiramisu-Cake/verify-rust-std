@@ -1,0 +1,108 @@
+{
+  "accepted": false,
+  "actual_body_proof_status": "UNKNOWN",
+  "archive_sha256": "4e665ec4cf62e6df0b9f6976406c64e0f736c41ba03a1fb1b06e4ef1eedee190",
+  "assurance": "SOURCE_REPORTED",
+  "audit_cli_error": "unrecognized arguments --deadline-epoch",
+  "build_id": "a665d68d-a609-447b-a99a-1c959a684aff",
+  "build_seconds": 322,
+  "candidate": "c2f8529fc92efb4da27c8b9dab0bc01e0e78b636",
+  "capture_complete_source_claim": true,
+  "catalogues": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s24-linkage-catalogue.json",
+      "sha256": "776f31396dc92745afbed26d5c6683c060ac831cd1dbfc93e1650620853e50e7"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s24-full-catalogue.json",
+      "sha256": "61dedcbc89085213b0a1ea7c33762b01075070fe3a54306a4794329e5b0c598c"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s24-audit-catalogue.json",
+      "sha256": "701ba6e29fe01328c0fbf74a215c376f8d5d8cac792ca0f33c8fc363a595cf4e"
+    }
+  ],
+  "causal_status": "UNKNOWN",
+  "diagnostic_complete_source_claim": false,
+  "index_sha256": "d3fb1db16fa5326405d809c5a786a5ceb7ab94c65d3124a244dedcfa5e882e85",
+  "native_diagnostic": "CALLBACK-UNWIND source/MIR certificate mismatch: exact callback fixture requires one marker; other bodies forbid it",
+  "native_stage": {
+    "argv": 8,
+    "exit": 2,
+    "fixture_after": 2,
+    "fixture_before": 2,
+    "fixture_integrity": true,
+    "stderr": "first-barrier-stderr.log",
+    "stdout": "w4-first-barrier.log",
+    "timeout_seconds": 639
+  },
+  "native_verifier_invoked_source_claim": true,
+  "parser_input_binding": "NOT_ESTABLISHED_BY_BRIEF",
+  "platform_status": "FAILURE",
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "receipts": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s24-audit-cli-stderr.json",
+      "sha256": "bab3eee7a32761632bad2bb842462a350c4ff0fc2fffd552671f5916d3903cbb"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s24-mir-ghost-field.json",
+      "sha256": "506a421ba35cd31b3433e35be64630b550046e0e848010bcd3ec9883ac01a99c"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s24-root-errors.json",
+      "sha256": "ecd3132a116fd7149266a24fb1a5498c1b4c22b6c252f86bc33d3df36d87b76a"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s24-root-native.json",
+      "sha256": "bdd6ef04e5d1a4b640f570873c8c0946ca5f3f336bd1da6b32ae42900a32bbf4"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s24-root-rest.json",
+      "sha256": "36c63c64687d1b2cf3716672eb78e1c9b91323949a65d800e843ca2f6d3b4670"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s24-root-typed.json",
+      "sha256": "5990bfbe629f296985e98b1c5c7e9293698519351c3fd952b8fbab8d28a11213"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s24-root.json",
+      "sha256": "b7ccbaf49c46055a9ed1a6f4bcb2ff5489f545075a8e8a6d44a2b8099c18b2c5"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s24-stage.json",
+      "sha256": "180e5680a0c7be38ecd3e7519933ce2a03a3a8fa599540572a31fd35142e93ed"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s24-stderr-start.json",
+      "sha256": "60a60dcb85c6558f603515701f86dc705847ecb8e744b2e3d0d261aee529fc7e"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s24-ghost-locate.json",
+      "sha256": "6c3b5aaef8832c49a303546d783fda3e35ec66e8466c398146816156f9d4ef78"
+    }
+  ],
+  "runner_exit_source_claim": 4,
+  "schema": "select-r24-w4-linkage-first-observations-v1",
+  "source_intact_source_claim": true,
+  "typed_call_linkage": "UNKNOWN",
+  "typed_error": "malformed call terminator",
+  "typed_inventory": {
+    "accepted": false,
+    "complete": false,
+    "errors": 1,
+    "normal": null,
+    "proof_claim": false,
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "readonly": null,
+    "schema": "select-r24-w4-mir-calls-v1",
+    "scope": "TYPED_MIR_OBSERVATION_ONLY",
+    "source_parser_input_binding": "NOT_ESTABLISHED",
+    "source_site_mapping": "UNKNOWN",
+    "status": "INCOMPLETE_UNKNOWN",
+    "typed_call_linkage": "UNKNOWN",
+    "typed_callee_family_observation": "UNKNOWN"
+  }
+}

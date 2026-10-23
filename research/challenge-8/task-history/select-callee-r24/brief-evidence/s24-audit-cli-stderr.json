@@ -1,0 +1,57 @@
+{
+  "archive_sha256": "4e665ec4cf62e6df0b9f6976406c64e0f736c41ba03a1fb1b06e4ef1eedee190",
+  "build_id": "a665d68d-a609-447b-a99a-1c959a684aff",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": true,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 3,
+    "line_separator": "LF",
+    "source_lines": 3,
+    "start": 1,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "0fdc7a9fff4cf64432d23c41ecabcfa161d55acbffa92fed3d1bc9dfe04b3bfb",
+  "file_path": "full-stderr.log",
+  "file_sha256": "9b4d2bc3b0e9505c91413ca148cda5e3002f683195d14217aadc7075a9d642d5",
+  "index_sha256": "d3fb1db16fa5326405d809c5a786a5ceb7ab94c65d3124a244dedcfa5e882e85",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 3,
+    "expected_sha256": "9b4d2bc3b0e9505c91413ca148cda5e3002f683195d14217aadc7075a9d642d5",
+    "file_id": "0fdc7a9fff4cf64432d23c41ecabcfa161d55acbffa92fed3d1bc9dfe04b3bfb",
+    "start": 1
+  },
+  "request_id": "f11b577b32d18f29a6d5969a472b66600c8076a2a96198bf27a1ce941867d8aa",
+  "requested_end": 3,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1,
+      "text": "debconf: delaying package configuration, since apt-utils is not installed"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2,
+      "text": "usage: select-callee-r24-w4-linkage-diagnostic.py [-h] {run,audit} ..."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3,
+      "text": "select-callee-r24-w4-linkage-diagnostic.py: error: unrecognized arguments: --deadline-epoch 1792799877"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

@@ -1,0 +1,16 @@
+{
+  "schema": "select-r24-w4-typed-call-schema-defect-v1",
+  "status": "STATIC_SCHEMA_MISMATCH_CONFIRMED_FIX_PENDING",
+  "build_id": "a665d68d-a609-447b-a99a-1c959a684aff",
+  "observation": "Root errors[0] malformed call terminator; typed inventory normal/readonly null, complete false.",
+  "static_defect": "Parser rejects seventh ghostGenericArgList field on nonselector comparator calls; pinned schema allows Option(Annotation). Capnp text omits absent fields, so six-key selector fixtures were valid but annotated nonselector regression was missing.",
+  "schema_sha256": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+  "schema_source": "Git HEAD src/rust_frontend/vf_mir/vf_mir.capnp; compare to expected f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+  "fix_plan": "Accept exact six required keys with optional known ghostGenericArgList; absent means omitted default. Validate present option/annotation, retain nonselector metadata without counting it. Selectors permit absent/default-nothing only; unknown or missing required keys remain refused.",
+  "controls": "Schema-shaped fixture success plus missing/unknown field and ghost argument refusal tests; no actual MIR parser on VPS.",
+  "proof_credit": 0,
+  "bounded_receipts": [
+    "brief-evidence/s24-mir-ghost-field.json",
+    "brief-evidence/s24-ghost-locate.json"
+  ]
+}

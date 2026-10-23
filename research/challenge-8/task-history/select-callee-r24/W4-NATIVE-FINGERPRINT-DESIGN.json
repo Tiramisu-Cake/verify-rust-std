@@ -1,0 +1,18 @@
+{
+  "schema": "select-r24-w4-native-fingerprint-design-v1",
+  "status": "DESIGN_BEFORE_IMPLEMENTATION",
+  "defect": "Native8a026 refuses C5 callback markers before body translation; exact current native decoded-unit/body Marshal identities missing. Capnp exported hashes do not substitute.",
+  "applicability": "Closed R24 W4 diagnostic only; exact captured source SHA e3fb9d257609d07b8a54afd135d219e6f531fa274364b9671f87e07e93d0d663 and original b4b0070e224cc60eba58a2116c0009fdda2e3ae599c67344194a709215a374db, body sort4_stable. Existing owner/lane/window/ledger.",
+  "implementation": "Add separate opt-in native fingerprint probe before ordinary callback admission, modeled on existing nested diagnostic. Native unit/body snapshots written then unconditional refusal before any proof rule; preserve absent-mode default path. Cloud keep frozen8a capture tool separate from copied native-probe tool with new source pin and recorded binary identity.",
+  "invariants": [
+    "No callback gate/count/checker/CFG/runtime/source/ownership/callee summary change.",
+    "Native fingerprint probe never returns successful proof admission even on exact source/body match.",
+    "Exact R24/R21/profile/environment/source/body checks; reject partial/foreign mode, existing files, unsafe paths; original diagnostics/exits and partial inventory retained.",
+    "Fresh old8a source/MIR/refinement capture and fixed typed parser remain separate from new native fingerprints; proof/linkage/acceptance/credit false or UNKNOWN."
+  ],
+  "controls": [
+    "Static patch/default preservation and isolated synthetic runner tests including success/refusal/timeout/error/partial/missing/null/wrong-type/source-stage-target mismatch.",
+    "Native actual probes/compile only Cloud after independent Luna HIGH review, exact published pins and full1200 envelope."
+  ],
+  "proof_credit": 0
+}

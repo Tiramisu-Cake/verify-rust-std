@@ -1,0 +1,11 @@
+{
+  "schema": "select-r24-w4-linkage-audit-cli-defect-v1",
+  "build_id": "a665d68d-a609-447b-a99a-1c959a684aff",
+  "candidate": "c2f8529fc92efb4da27c8b9dab0bc01e0e78b636",
+  "status": "STATIC_DEFECT_CONFIRMED_FIX_NOT_IMPLEMENTED",
+  "defect": "Shell audit_result passes --deadline-epoch but diagnostic audit subparser only accepts it for run. Brief full-stderr bounded context reports unrecognized arguments. Do not infer this is the only defect or cause of run exit4.",
+  "applicability": "Only new W4 diagnostic audit CLI; existing lane/phase/tool/source/pins unchanged.",
+  "invariant": "Physical read-only audit, source/tool/stage identities, no acceptance or linkage, original runner exit and errors must remain unchanged.",
+  "controls": "Exercise actual CLI parser against exact extracted Bash audit argv with synthetic paths, without invoking capture/native/tools; retain run CLI and strict unknown-argument refusal.",
+  "proof_credit": 0
+}

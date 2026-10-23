@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "24d3874937cf7f75cad1275bd278dcd77583a2a2c06b6c7c951bd29c1db7e1fe"
+      "sha256": "e5b7734d83684cf9755284e5e07fa35952a477f8343854439afa6d04171ef673"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,14 +32,18 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "a665d68d-a609-447b-a99a-1c959a684aff",
-    "evidence": [],
-    "summary": "W4 diagnostic terminal platform FAILURE; source results UNKNOWN pending Evidence Brief. P2 PUBLISHED."
+    "evidence": [
+      {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-LINKAGE-FIRST-OBSERVATIONS.json",
+        "sha256": "a67c592e3921a2c54215690c32f0337e1a8c749310088f650f01cc6afadb329b"
+      }
+    ],
+    "summary": "W4: typed schema and audit CLI defects; native callback certificate refusal. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "24d3874937cf7f75cad1275bd278dcd77583a2a2c06b6c7c951bd29c1db7e1fe"
+    "sha256": "e5b7734d83684cf9755284e5e07fa35952a477f8343854439afa6d04171ef673"
   },
   "brief_observation_refs": [
     {
@@ -172,11 +176,11 @@
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "cf667c W4actualsource/normal+readonlyMIR/refinement/physicalaudit complete; 8rawselectoroccurrences, typedlinkageUNKNOWN. No W4proof/credit.",
+      "claim": "a665d68 W4 diagnostic incomplete: parser malformed call; native exit2 CALLBACK-UNWIND certificate refusal. Capture complete and source intact as reported; no linkage/proof/credit.",
       "evidence": [
         {
-          "path": "research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-COMPLETE-OBSERVATIONS.json",
-          "sha256": "ed2ca3172dde01dc1d14d50e8108842ce9d6d961707b31d07cb20f5839f88402"
+          "path": "research/challenge-8/task-history/select-callee-r24/W4-LINKAGE-FIRST-OBSERVATIONS.json",
+          "sha256": "a67c592e3921a2c54215690c32f0337e1a8c749310088f650f01cc6afadb329b"
         }
       ]
     }
@@ -393,6 +397,16 @@
           "sha256": "a87220c8b96dd9937829371b7fb022a0da37ebf65dbf85bc95021971ac91ae30"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "cf667c W4actualsource/normal+readonlyMIR/refinement/physicalaudit complete; 8rawselectoroccurrences, typedlinkageUNKNOWN. No W4proof/credit.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-COMPLETE-OBSERVATIONS.json",
+          "sha256": "ed2ca3172dde01dc1d14d50e8108842ce9d6d961707b31d07cb20f5839f88402"
+        }
+      ]
     }
   ],
   "control_targets": {
@@ -502,6 +516,18 @@
       "obligation": "Fresh mutable classified matrix and closed admission refusal controls",
       "reason": "ca689 supplies fresh exact seven diagnostics after clean positive; exact target/source/stage binding and native refusal evidence required before P2 publication.",
       "state": "COMPLETE_SOURCE_REPORTED_AND_SCOPED_QUALIFIED"
+    },
+    {
+      "acceptance": false,
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-callee-r24/W4-LINKAGE-FIRST-OBSERVATIONS.json",
+          "sha256": "a67c592e3921a2c54215690c32f0337e1a8c749310088f650f01cc6afadb329b"
+        }
+      ],
+      "obligation": "W4 native decoded-unit/body fingerprints",
+      "reason": "a665d68 native callback certificate refuses W4 before translation; exact native fingerprints needed for closed C5 source/call admission.",
+      "state": "ACTIVE"
     }
   ],
   "mutable_a1_primitives_candidate": {
@@ -1122,8 +1148,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "After publishing terminal accounting, read Evidence Brief for eight typed calls and native barrier; continue checked linkage/C5.",
-  "next_step": "After publishing terminal accounting, read Evidence Brief for eight typed calls and native barrier; continue checked linkage/C5.",
+  "next": "Finish native fingerprint probe and typed/CLI fixes; test, review, publish, full1200 diagnostic.",
+  "next_step": "Finish native fingerprint probe and typed/CLI fixes; test, review, publish, full1200 diagnostic.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1238,7 +1264,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T23:48:45Z",
+  "updated_utc": "2026-10-23T23:53:58Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1354,7 +1380,7 @@
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "TERMINAL_PENDING_BRIEF",
+    "result": "SOURCE_REPORTED_INCOMPLETE_TYPED_PARSER_AND_NATIVE_CERTIFICATE_REFUSAL",
     "schema": "select-r24-w4-linkage-api-submission-v1",
     "source_payload_sha256": "7f7a6ce6a8b441ad9a2562091baa166b2e7bf5db40a6d5535fbcd75216620874",
     "status": "FAILURE",
@@ -1382,7 +1408,7 @@
       "sha256": "2f8fd29b9a73ec6f409136d14f06e4f498668c51cd25467447c6c75e773c7d15"
     },
     "scope": "TYPED_MIR_OBSERVATIONS_AND_RAW_NATIVE_BARRIER_NO_ACCEPTANCE_OR_LINKAGE",
-    "state": "TERMINAL_PENDING_BRIEF",
+    "state": "SOURCE_REPORTED_INCOMPLETE",
     "typed_call_linkage": "UNKNOWN"
   },
   "w4_linkage_diagnostic_preparation": {
@@ -1416,11 +1442,26 @@
       "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-linkage-diagnostic-review.json",
       "sha256": "d9d67460999b87cb21c79106e06509ee2c623c870ffc511396ebba230c2103b8"
     },
-    "state": "TERMINAL_PENDING_BRIEF",
+    "state": "SOURCE_REPORTED_INCOMPLETE",
     "tests": "10parser+11wrapper+7newBash;20default/captureBash regression pass; actualpinnedrunner signature bind, Bashn/staticpins/diff pass",
     "workers": {
       "pure_mir_calls": "r24_admission",
       "wrapper": "r24_mut_proof_runner"
+    }
+  },
+  "w4_native_fingerprint_preparation": {
+    "design": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-NATIVE-FINGERPRINT-DESIGN.json",
+      "sha256": "dfa69dec5fe49b15512e3beb041a30f841db349692f2f1afea3990f23d6e0ce9"
+    },
+    "main_scope": "mode/shell/recipe/evidence/independent review and Cloud submission",
+    "proof_credit": 0,
+    "reason": "Known ordinary callback refusal requires exact current native unit/body Marshal fingerprints before source-bound C5 admission; Capnp hashes are separate.",
+    "scope": "Closed diagnostic-only overlay, separate copied native tool; old8a capture unchanged. Final refusal before proof admission.",
+    "state": "IMPLEMENTATION_IN_PROGRESS",
+    "workers": {
+      "diagnostic_wrapper": "r24_mut_proof_runner",
+      "native_overlay": "r24_admission"
     }
   },
   "watcher_history": [
