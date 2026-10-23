@@ -37,6 +37,36 @@
       ]
     }
   ],
+  "decisions": [
+    {
+      "decision": "Use installed HEAD f25aa438 as preparation head above assigned baseline9a7a3d00",
+      "reason": "Only N5 assignment install and CORE clarification since baseline; clean worktree, no proof changes"
+    },
+    {
+      "decision": "T0=2026-10-23T10:48:37Z",
+      "reason": "First assistant activity timestamp10:48:37.493Z in this exact thread; includes preparation"
+    }
+  ],
+  "mission_queue": [
+    {
+      "choice": "First controls-order600, then standalone universal480 and compatible checked dependency coverage",
+      "obligation": "N13 full mathematical matrix",
+      "reason": "Explicit N5 priority; preserve all prior failures and exact pins",
+      "state": "PREPARING"
+    },
+    {
+      "choice": "Cloud-only source-preserving isolated helper stage on stock26.09",
+      "obligation": "R7 baseline transfer",
+      "reason": "Independent of Select P2, explicit second N5 goal",
+      "state": "PENDING"
+    },
+    {
+      "choice": "Check PUBLISHED P2 after N13/R7; no new W8 candidates",
+      "obligation": "R4/W7 and W8",
+      "reason": "N5 owner bounds; missing published dependencies remain boundary",
+      "state": "PENDING"
+    }
+  ],
   "next_step": "Register N5; order negative 600/975+60, then universal 480/855+60 and coverage; then the R7 Cloud stage on stock 26.09 against source cd371e0.",
   "open": [
     "Order negative UNRUN; standalone universal INCONCLUSIVE; full acceptance OPEN. Universal480 profile and W8 preparer UNRUN.",
@@ -60,17 +90,17 @@
   "session": {
     "active_build_ids": [],
     "budget_seconds": 10800,
-    "deadline_utc": null,
+    "deadline_utc": "2026-10-26T11:48:37Z",
     "finish_minutes": 60,
-    "main_deadline_utc": null,
+    "main_deadline_utc": "2026-10-26T10:48:37Z",
     "main_minutes": 4320,
     "remaining_seconds": 10800,
     "retired_seconds": 0,
     "spent_seconds": 0,
-    "t0": null,
+    "t0": "2026-10-23T10:48:37Z",
     "unresolved_ids": []
   },
-  "state": "NOT_STARTED",
+  "state": "ACTIVE",
   "task_id": "network-n13-exact-cloud-2026-10-24-n5",
-  "updated_utc": "2026-10-23T10:29:18Z"
+  "updated_utc": "2026-10-23T10:49:57Z"
 }

@@ -1,9 +1,9 @@
 # Agent checkpoint: network-n13-exact-cloud-2026-10-24-n5
 
-- Owner: network | phase: NETWORK-N13-EXACT-2026-10-24-N5 | state: NOT_STARTED
-- Updated: 2026-10-23T10:29:18Z
+- Owner: network | phase: NETWORK-N13-EXACT-2026-10-24-N5 | state: ACTIVE
+- Updated: 2026-10-23T10:49:57Z
 - Baseline: source `cd371e035c7e573760c43bf934d53e8118ee3e7d`, tool `809de4596839b739dd999f9e462242c835e3af46`, profile `08e016f4c97d919421b5325c41c98e94ea987162d44681be04dc91b1476f6e13`
-- Session dates: T0 `NOT_SET`; main deadline `NOT_SET`; absolute deadline `NOT_SET`; window 4320 min main + 60 min closeout (explicit)
+- Session dates: T0 `2026-10-23T10:48:37Z`; main deadline `2026-10-26T10:48:37Z`; absolute deadline `2026-10-26T11:48:37Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 10800s total; 0s spent; 0s retired; 10800s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded

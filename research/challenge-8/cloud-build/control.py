@@ -264,6 +264,14 @@ NETWORK_PHASES[NETWORK_N4_PHASE]={
  'profile_sha256':NETWORK_N4_PROFILE_SHA256,'timeout':(270,1200),
  'stages':NETWORK_N3_STAGES,
  'stage_seconds':{'preflight':360,'exact':600,'controls':780,'controls-order':600,'regressions':660,'regressions-n13':480,'regressions-n9':180}}
+NETWORK_N5_PHASE='NETWORK-N13-EXACT-2026-10-24-N5'
+NETWORK_PHASES[NETWORK_N5_PHASE]={
+ 'ceiling':10800,'lanes':frozenset(('network-n13',)),
+ 'start_utc':'2026-10-23T10:48:37Z','main_deadline_utc':'2026-10-26T10:48:37Z',
+ 'deadline_utc':'2026-10-26T11:48:37Z','profile':NETWORK_N4_PROFILE,
+ 'profile_sha256':NETWORK_N4_PROFILE_SHA256,'timeout':(270,1200),
+ 'stages':NETWORK_N3_STAGES,
+ 'stage_seconds':{'preflight':360,'exact':600,'controls':780,'controls-order':600,'regressions':660,'regressions-n13':480,'regressions-n9':180}}
 NETWORK_RESERVE=240
 
 def network_time_budget(seconds):

@@ -265,5 +265,55 @@ class NetworkN13ClientTests(unittest.TestCase):
         })
 
 
+class NetworkN5AdmissionTests(unittest.TestCase):
+    def setUp(self):
+        class FrozenDatetime(datetime.datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return cls(2026, 10, 23, 11, 0, tzinfo=datetime.timezone.utc)
+        self.clock = mock.patch.object(control.datetime, "datetime", FrozenDatetime)
+        self.clock.start()
+        self.addCleanup(self.clock.stop)
+        self.ledger = json.loads((CLOUD_BUILD / "network-n13" /
+                                  "BUDGET-N13-20261024-N5.json").read_text())
+        self.args = SimpleNamespace(phase_id=control.NETWORK_N5_PHASE, owner="network",
+                                    infra_sha=CANDIDATE, stage="controls-order", timeout=975)
+
+    def test_fresh_account_and_pinned_handoff_are_admitted(self):
+        self.assertEqual(control.authorized_phase(self.args, self.ledger),
+                         control.utc("2026-10-26T11:48:37Z"))
+        control.network_submit_gate(self.args)
+        self.args.stage = "regressions-n13"
+        self.args.timeout = 855
+        control.network_submit_gate(self.args)
+        self.assertEqual(control.network_env(CANDIDATE, control.NETWORK_N5_PHASE),
+                         ["NETWORK_PHASE_ID=" + control.NETWORK_N5_PHASE,
+                          "NETWORK_PROFILE_SHA256=" + control.NETWORK_N4_PROFILE_SHA256])
+
+    def test_draft_historical_or_mismatched_accounts_are_refused(self):
+        for key, value in (("status", "PREPARED_NOT_REGISTERED"), ("status", "CLOSED"),
+                           ("owner", "select-sort4"), ("ceiling_build_seconds", 3600),
+                           ("phase", control.NETWORK_N4_PHASE), ("allowed_lanes", ["other"]),
+                           ("start_utc", "2026-10-23T10:49:00Z"),
+                           ("main_deadline_utc", "2026-10-26T10:49:00Z"),
+                           ("deadline_utc", "2026-10-26T11:49:00Z")):
+            with self.subTest(key=key, value=value), self.assertRaises(SystemExit):
+                control.authorized_phase(self.args, dict(self.ledger, **{key: value}))
+
+    def test_no_shortened_timeout_or_unregistered_stage(self):
+        for stage, timeout in (("controls-order", 974), ("regressions-n13", 854),
+                               ("swap-size", 555), ("exact", 1201)):
+            self.args.stage, self.args.timeout = stage, timeout
+            with self.subTest(stage=stage, timeout=timeout), self.assertRaises(SystemExit):
+                control.network_submit_gate(self.args)
+
+    def test_full_envelope_must_fit_main_window(self):
+        record = dict(control.NETWORK_PHASES[control.NETWORK_N5_PHASE])
+        record["main_deadline_utc"] = "2026-10-23T11:17:14Z"
+        with mock.patch.dict(control.NETWORK_PHASES, {control.NETWORK_N5_PHASE: record}), \
+                self.assertRaisesRegex(SystemExit, "queue reserve exceeds main"):
+            control.network_submit_gate(self.args)
+
+
 if __name__ == "__main__":
     unittest.main()
