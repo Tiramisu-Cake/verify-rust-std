@@ -1,0 +1,93 @@
+{
+  "archive_sha256": "789083793bd4ed400f1c21c8b7e9da7770ebbec95914ee510a49055769d4f898",
+  "build_id": "cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 433,
+    "line_separator": "LF",
+    "source_lines": 461,
+    "start": 425,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "2b296f4215a92d9259eb8779775c25d5602c26fc464d5ebb93a5b9cee105aacc",
+  "file_path": "allprooflogs/cases/r21-fractional-proof/variants/callee-owner-loss/nine-body-a1-owned-forget/r20-merged-optin.log",
+  "file_sha256": "77fd915715408dc092a951aec2f0ebb3c51562412e0279232ba379313b610b0d",
+  "index_sha256": "c13dda3fdd7d2ebb7fdf3bf4e6a3cb4676dbd12f04aaed6b1e6265c46ad21a7f",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 433,
+    "expected_sha256": "77fd915715408dc092a951aec2f0ebb3c51562412e0279232ba379313b610b0d",
+    "file_id": "2b296f4215a92d9259eb8779775c25d5602c26fc464d5ebb93a5b9cee105aacc",
+    "start": 425
+  },
+  "request_id": "765e55387a69151bd6268203adeeb719f5c77ffb0a8fb28306edc8483d5b1af3",
+  "requested_end": 433,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 425,
+      "text": "  0.200661s: verified/lib.rs(133,1-2): Freeing locals."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 426,
+      "text": "  0.200669s: verified/lib.rs(121,1-133,2): Consuming function lifetime token"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 427,
+      "text": "  0.200695s: verified/lib.rs(133,1-2): Cleaning up dummy fraction chunks and empty chunks"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 428,
+      "text": "  0.200736s: verified/lib.rs(133,1-2): Leak check."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 429,
+      "text": "verified/lib.rs(133,1-2): error: Function leaks heap chunks: [1/2]own(T_typeid)(tid, t)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 430,
+      "text": "133 | }"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 431,
+      "text": "    | ^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 432,
+      "text": "verified/lib.rs(133,1-2): note: Leak check."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 433,
+      "text": "133 | }"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

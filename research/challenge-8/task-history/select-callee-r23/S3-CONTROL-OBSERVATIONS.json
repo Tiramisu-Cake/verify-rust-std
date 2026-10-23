@@ -1,0 +1,714 @@
+{
+  "archive_sha256": "789083793bd4ed400f1c21c8b7e9da7770ebbec95914ee510a49055769d4f898",
+  "build_id": "cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9",
+  "catalogue": {
+    "coverage": {
+      "availability_counts": {
+        "EMPTY_FILE": 57,
+        "JSON_EXCEEDS_SCAN_LIMIT": 2,
+        "PROJECTED": 283,
+        "UNSUPPORTED_FILE_TYPE": 300
+      },
+      "catalogue_complete": true,
+      "content_bytes": 1389234,
+      "content_files": 342,
+      "files": 642,
+      "source_scan_bytes": 2803822
+    },
+    "path": "/tmp/select-r23-s3-log-catalogue.json",
+    "request_scope": "complete catalogue, no pagination",
+    "sha256": "da97787bf333f5df0ca7b270c7a46fd2481740e878d6802c5b14109f00b820ab"
+  },
+  "controls": [
+    {
+      "bounded_context": {
+        "adjacent_context": [
+          {
+            "line": 424,
+            "text": "  0.207874s: verified/lib.rs(133,2): Executing return statement"
+          },
+          {
+            "line": 425,
+            "text": "  0.207942s: verified/lib.rs(133,1-2): Freeing locals."
+          },
+          {
+            "line": 426,
+            "text": "  0.207951s: verified/lib.rs(121,1-133,2): Consuming function lifetime token"
+          },
+          {
+            "line": 427,
+            "text": "  0.207989s: verified/lib.rs(126,53-58): Consuming expression"
+          },
+          {
+            "line": 429,
+            "text": "126 | ens thread_token(tid) &*& [1/2] <T>.own(tid, t) &*& false;"
+          },
+          {
+            "line": 430,
+            "text": "    |                                                     ^^^^^"
+          },
+          {
+            "line": 431,
+            "text": "verified/lib.rs(126,53-58): note: Consuming expression"
+          },
+          {
+            "line": 432,
+            "text": "126 | ens thread_token(tid) &*& [1/2] <T>.own(tid, t) &*& false;"
+          }
+        ],
+        "complete": false,
+        "coverage": {
+          "base": 1,
+          "end_inclusive": 432,
+          "line_separator": "LF",
+          "source_lines": 460,
+          "start": 424,
+          "unit": "line"
+        },
+        "exact": true,
+        "observed_error_line": {
+          "line": 428,
+          "text": "verified/lib.rs(126,53-58): error: Cannot prove condition. (Cannot prove false.)"
+        },
+        "request": {
+          "end": 432,
+          "expected_sha256": "48c8fcdab62e84c846b67f97ada3de342aa41e8b4efb01a99e53eab6f6c34e80",
+          "file_id": "05099a2c4de1efd0aa5c8f980895cf3bfdff5561453da028ceca1a5314c121d4",
+          "start": 424
+        },
+        "request_id": "213c255bab006ae9a2c29ab1a3f672b9ecee12b02ddc3c89f1a76bc6380a3975",
+        "response_path": "/tmp/r23-s3-controls/callee-false-normal-context.json",
+        "response_sha256": "995e96f170500556bbd9fc05dfb8d21c91e7b5c6e40a3c36149ddd0614a6989d",
+        "status": "OK"
+      },
+      "classification": "SOURCE_REPORTED_DIAGNOSTIC_ONLY; no target acceptance inferred",
+      "log": {
+        "catalogue_complete": false,
+        "catalogue_status": "PROJECTED",
+        "file_id": "05099a2c4de1efd0aa5c8f980895cf3bfdff5561453da028ceca1a5314c121d4",
+        "path": "allprooflogs/cases/r21-fractional-proof/variants/callee-false-normal/nine-body-a1-owned-forget/r20-merged-optin.log",
+        "sha256": "48c8fcdab62e84c846b67f97ada3de342aa41e8b4efb01a99e53eab6f6c34e80",
+        "size_bytes": 40274,
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "variant": "callee-false-normal",
+      "whole_file_error_locate": {
+        "complete": true,
+        "coordinate": {
+          "column": 29,
+          "end_column_exclusive": 35,
+          "end_line": 428,
+          "line": 428,
+          "unicode_end_exclusive": 39157,
+          "unicode_start": 39151,
+          "utf8_byte_end_exclusive": 39157,
+          "utf8_byte_start": 39151
+        },
+        "exact": true,
+        "match_count": 1,
+        "request": {
+          "expected_sha256": "48c8fcdab62e84c846b67f97ada3de342aa41e8b4efb01a99e53eab6f6c34e80",
+          "file_id": "05099a2c4de1efd0aa5c8f980895cf3bfdff5561453da028ceca1a5314c121d4",
+          "literal": "error:"
+        },
+        "request_id": "ba9bbf10a933c49c5a4abece32ce0297cc89e441f66a085a60e75038429f948e",
+        "response_path": "/tmp/r23-s3-controls/callee-false-normal-locate.json",
+        "response_sha256": "855d11c389e154e62abd36fd9d470e6c3382d61d811476fbf180c8ae6c446001",
+        "status": "OK"
+      }
+    },
+    {
+      "bounded_context": {
+        "adjacent_context": [
+          {
+            "line": 423,
+            "text": "  0.211190s: verified/lib.rs(132,13-33): Executing statement"
+          },
+          {
+            "line": 424,
+            "text": "  0.211198s: verified/lib.rs(133,2): Executing return statement"
+          },
+          {
+            "line": 425,
+            "text": "  0.211263s: verified/lib.rs(133,1-2): Freeing locals."
+          },
+          {
+            "line": 426,
+            "text": "  0.211271s: verified/lib.rs(121,1-133,2): Consuming function lifetime token"
+          },
+          {
+            "line": 428,
+            "text": "126 | ens thread_token(tid) &*& [1/2] <T>.own(tid, t) &*& [1/2] <T>.own(tid, t);"
+          },
+          {
+            "line": 429,
+            "text": "    |                                                     ^"
+          },
+          {
+            "line": 430,
+            "text": "verified/lib.rs(126,53-54): note: Consuming assertion"
+          },
+          {
+            "line": 431,
+            "text": "126 | ens thread_token(tid) &*& [1/2] <T>.own(tid, t) &*& [1/2] <T>.own(tid, t);"
+          }
+        ],
+        "complete": false,
+        "coverage": {
+          "base": 1,
+          "end_inclusive": 431,
+          "line_separator": "LF",
+          "source_lines": 459,
+          "start": 423,
+          "unit": "line"
+        },
+        "exact": true,
+        "observed_error_line": {
+          "line": 427,
+          "text": "verified/lib.rs(126,53-54): error: No matching heap chunks: [1/2]own(T_typeid)(tid, t)"
+        },
+        "request": {
+          "end": 431,
+          "expected_sha256": "362545a450f65e810fe0030957f95a97b1b5dca1f0563125a2b4712b68c93b97",
+          "file_id": "f76ee8e236dc6d2fde8fd0fc0a95a33821cf51f87361cf386f5234ac1b0a3748",
+          "start": 423
+        },
+        "request_id": "c09b8178a92125db1f7be30c764105683b11902d5fae0b750ff66e36c1ca5218",
+        "response_path": "/tmp/r23-s3-controls/callee-owner-duplicate-context.json",
+        "response_sha256": "134c84de5534287f5c300ed61b78782a906910ba8c678d24be704b59221533c4",
+        "status": "OK"
+      },
+      "classification": "SOURCE_REPORTED_DIAGNOSTIC_ONLY; no target acceptance inferred",
+      "log": {
+        "catalogue_complete": false,
+        "catalogue_status": "PROJECTED",
+        "file_id": "f76ee8e236dc6d2fde8fd0fc0a95a33821cf51f87361cf386f5234ac1b0a3748",
+        "path": "allprooflogs/cases/r21-fractional-proof/variants/callee-owner-duplicate/nine-body-a1-owned-forget/r20-merged-optin.log",
+        "sha256": "362545a450f65e810fe0030957f95a97b1b5dca1f0563125a2b4712b68c93b97",
+        "size_bytes": 40273,
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "variant": "callee-owner-duplicate",
+      "whole_file_error_locate": {
+        "complete": true,
+        "coordinate": {
+          "column": 29,
+          "end_column_exclusive": 35,
+          "end_line": 427,
+          "line": 427,
+          "unicode_end_exclusive": 39095,
+          "unicode_start": 39089,
+          "utf8_byte_end_exclusive": 39095,
+          "utf8_byte_start": 39089
+        },
+        "exact": true,
+        "match_count": 1,
+        "request": {
+          "expected_sha256": "362545a450f65e810fe0030957f95a97b1b5dca1f0563125a2b4712b68c93b97",
+          "file_id": "f76ee8e236dc6d2fde8fd0fc0a95a33821cf51f87361cf386f5234ac1b0a3748",
+          "literal": "error:"
+        },
+        "request_id": "69037a971f4504c3480154e28f454a0c4a04ef981d79e86ba48b3f417b68c5aa",
+        "response_path": "/tmp/r23-s3-controls/callee-owner-duplicate-locate.json",
+        "response_sha256": "e9da17baae15db7c0396fc91894c1978f79183cde1da216445f5c0c8e8328727",
+        "status": "OK"
+      }
+    },
+    {
+      "bounded_context": {
+        "adjacent_context": [
+          {
+            "line": 425,
+            "text": "  0.200661s: verified/lib.rs(133,1-2): Freeing locals."
+          },
+          {
+            "line": 426,
+            "text": "  0.200669s: verified/lib.rs(121,1-133,2): Consuming function lifetime token"
+          },
+          {
+            "line": 427,
+            "text": "  0.200695s: verified/lib.rs(133,1-2): Cleaning up dummy fraction chunks and empty chunks"
+          },
+          {
+            "line": 428,
+            "text": "  0.200736s: verified/lib.rs(133,1-2): Leak check."
+          },
+          {
+            "line": 430,
+            "text": "133 | }"
+          },
+          {
+            "line": 431,
+            "text": "    | ^"
+          },
+          {
+            "line": 432,
+            "text": "verified/lib.rs(133,1-2): note: Leak check."
+          },
+          {
+            "line": 433,
+            "text": "133 | }"
+          }
+        ],
+        "complete": false,
+        "coverage": {
+          "base": 1,
+          "end_inclusive": 433,
+          "line_separator": "LF",
+          "source_lines": 461,
+          "start": 425,
+          "unit": "line"
+        },
+        "exact": true,
+        "observed_error_line": {
+          "line": 429,
+          "text": "verified/lib.rs(133,1-2): error: Function leaks heap chunks: [1/2]own(T_typeid)(tid, t)"
+        },
+        "request": {
+          "end": 433,
+          "expected_sha256": "77fd915715408dc092a951aec2f0ebb3c51562412e0279232ba379313b610b0d",
+          "file_id": "2b296f4215a92d9259eb8779775c25d5602c26fc464d5ebb93a5b9cee105aacc",
+          "start": 425
+        },
+        "request_id": "765e55387a69151bd6268203adeeb719f5c77ffb0a8fb28306edc8483d5b1af3",
+        "response_path": "/tmp/r23-s3-controls/callee-owner-loss-context.json",
+        "response_sha256": "723e46a2d65c64e68e8e7470b36f916ce9e347713d6f2a693bd10aa32ad35581",
+        "status": "OK"
+      },
+      "classification": "SOURCE_REPORTED_DIAGNOSTIC_ONLY; no target acceptance inferred",
+      "log": {
+        "catalogue_complete": false,
+        "catalogue_status": "PROJECTED",
+        "file_id": "2b296f4215a92d9259eb8779775c25d5602c26fc464d5ebb93a5b9cee105aacc",
+        "path": "allprooflogs/cases/r21-fractional-proof/variants/callee-owner-loss/nine-body-a1-owned-forget/r20-merged-optin.log",
+        "sha256": "77fd915715408dc092a951aec2f0ebb3c51562412e0279232ba379313b610b0d",
+        "size_bytes": 40051,
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "variant": "callee-owner-loss",
+      "whole_file_error_locate": {
+        "complete": true,
+        "coordinate": {
+          "column": 27,
+          "end_column_exclusive": 33,
+          "end_line": 429,
+          "line": 429,
+          "unicode_end_exclusive": 39234,
+          "unicode_start": 39228,
+          "utf8_byte_end_exclusive": 39234,
+          "utf8_byte_start": 39228
+        },
+        "exact": true,
+        "match_count": 1,
+        "request": {
+          "expected_sha256": "77fd915715408dc092a951aec2f0ebb3c51562412e0279232ba379313b610b0d",
+          "file_id": "2b296f4215a92d9259eb8779775c25d5602c26fc464d5ebb93a5b9cee105aacc",
+          "literal": "error:"
+        },
+        "request_id": "0d99227a25b85030dfb41eadba1db941fc79f4ec538fa75b714e3bad6dfe5a7f",
+        "response_path": "/tmp/r23-s3-controls/callee-owner-loss-locate.json",
+        "response_sha256": "a13333405fe4a590283acf07f36528a96efd68e7eb2e5dabe535d164ef483dc8",
+        "status": "OK"
+      }
+    },
+    {
+      "bounded_context": {
+        "adjacent_context": [
+          {
+            "line": 423,
+            "text": "  0.202663s: verified/lib.rs(132,13-33): Executing statement"
+          },
+          {
+            "line": 424,
+            "text": "  0.202672s: verified/lib.rs(133,2): Executing return statement"
+          },
+          {
+            "line": 425,
+            "text": "  0.202738s: verified/lib.rs(133,1-2): Freeing locals."
+          },
+          {
+            "line": 426,
+            "text": "  0.202747s: verified/lib.rs(121,1-133,2): Consuming function lifetime token"
+          },
+          {
+            "line": 428,
+            "text": "126 | ens thread_token(tid) &*& thread_token(tid) &*& [1/2] <T>.own(tid, t);"
+          },
+          {
+            "line": 429,
+            "text": "    |                           ^^^^^^^^^^^^"
+          },
+          {
+            "line": 430,
+            "text": "verified/lib.rs(126,27-39): note: Consuming assertion"
+          },
+          {
+            "line": 431,
+            "text": "126 | ens thread_token(tid) &*& thread_token(tid) &*& [1/2] <T>.own(tid, t);"
+          }
+        ],
+        "complete": false,
+        "coverage": {
+          "base": 1,
+          "end_inclusive": 431,
+          "line_separator": "LF",
+          "source_lines": 459,
+          "start": 423,
+          "unit": "line"
+        },
+        "exact": true,
+        "observed_error_line": {
+          "line": 427,
+          "text": "verified/lib.rs(126,27-39): error: No matching heap chunks: thread_token(tid)"
+        },
+        "request": {
+          "end": 431,
+          "expected_sha256": "27f7a9b73c80e5235c71e22ea6c811869fc7691a0fc5b00116b52d454162c66e",
+          "file_id": "bc0b9a310209d11056dfd7e1029f8d946bb20984a81d106ab7ca00ccb486eef6",
+          "start": 423
+        },
+        "request_id": "d89900b80c8f2d2aa5716b7eebc93778ea3ae4708b9a7edf34df84e08a91e37f",
+        "response_path": "/tmp/r23-s3-controls/callee-thread-duplicate-context.json",
+        "response_sha256": "5fc9ec0456e22cc05a64597c331b088f32a8877c0608d7696080d2e2125958d4",
+        "status": "OK"
+      },
+      "classification": "SOURCE_REPORTED_DIAGNOSTIC_ONLY; no target acceptance inferred",
+      "log": {
+        "catalogue_complete": false,
+        "catalogue_status": "PROJECTED",
+        "file_id": "bc0b9a310209d11056dfd7e1029f8d946bb20984a81d106ab7ca00ccb486eef6",
+        "path": "allprooflogs/cases/r21-fractional-proof/variants/callee-thread-duplicate/nine-body-a1-owned-forget/r20-merged-optin.log",
+        "sha256": "27f7a9b73c80e5235c71e22ea6c811869fc7691a0fc5b00116b52d454162c66e",
+        "size_bytes": 40218,
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "variant": "callee-thread-duplicate",
+      "whole_file_error_locate": {
+        "complete": true,
+        "coordinate": {
+          "column": 29,
+          "end_column_exclusive": 35,
+          "end_line": 427,
+          "line": 427,
+          "unicode_end_exclusive": 39095,
+          "unicode_start": 39089,
+          "utf8_byte_end_exclusive": 39095,
+          "utf8_byte_start": 39089
+        },
+        "exact": true,
+        "match_count": 1,
+        "request": {
+          "expected_sha256": "27f7a9b73c80e5235c71e22ea6c811869fc7691a0fc5b00116b52d454162c66e",
+          "file_id": "bc0b9a310209d11056dfd7e1029f8d946bb20984a81d106ab7ca00ccb486eef6",
+          "literal": "error:"
+        },
+        "request_id": "e27923cfb135048f345bec28d3d104ed78289c922c38d4f4095e527c27dfe37a",
+        "response_path": "/tmp/r23-s3-controls/callee-thread-duplicate-locate.json",
+        "response_sha256": "b6ed547082a9d31d81305d1b06a0a01389e6282cb5466c754624569988efa193",
+        "status": "OK"
+      }
+    },
+    {
+      "bounded_context": {
+        "adjacent_context": [
+          {
+            "line": 559,
+            "text": "  0.223096s: verified/lib.rs(217,9-218,80): Executing statement"
+          },
+          {
+            "line": 560,
+            "text": "  0.223132s: verified/lib.rs(217,15-19): Executing statement"
+          },
+          {
+            "line": 561,
+            "text": "  0.223259s: verified/lib.rs(218,14-29): Executing statement"
+          },
+          {
+            "line": 562,
+            "text": "  0.223348s: verified/lib.rs(219,9-65): Executing statement"
+          },
+          {
+            "line": 564,
+            "text": "219 |         /*@ assert *saved_guard.inner |-> ?selected_payload; @*/"
+          },
+          {
+            "line": 565,
+            "text": "    |                                       ^^^"
+          },
+          {
+            "line": 566,
+            "text": "verified/lib.rs(219,39-42): note: Consuming assertion"
+          },
+          {
+            "line": 567,
+            "text": "219 |         /*@ assert *saved_guard.inner |-> ?selected_payload; @*/"
+          }
+        ],
+        "complete": false,
+        "coverage": {
+          "base": 1,
+          "end_inclusive": 567,
+          "line_separator": "LF",
+          "source_lines": 773,
+          "start": 559,
+          "unit": "line"
+        },
+        "exact": true,
+        "observed_error_line": {
+          "line": 563,
+          "text": "verified/lib.rs(219,39-42): error: No matching heap chunks: points_to<*Element>(get_select_unpredictable::DropOnPanic_inner(mk_select_unpredictable::DropOnPanic(__result1)), _)"
+        },
+        "request": {
+          "end": 567,
+          "expected_sha256": "0be629d28e6e773a805b9ed7fbe8557e8b54571de48f75be5570f111f2912279",
+          "file_id": "825c8eb94208720de0c7c5f11d83fe59b80442cf86cbf945d28469f68b5641af",
+          "start": 559
+        },
+        "request_id": "6eb9a4c5b18147003387266ffaa3e651d2bbf485048df3c9073a682053a353c5",
+        "response_path": "/tmp/r23-s3-controls/no-retained-half-context.json",
+        "response_sha256": "feb4890c1f74b9994d8147b8e928f10f6391d338f304be4c8fd5bb884f562437",
+        "status": "OK"
+      },
+      "classification": "SOURCE_REPORTED_DIAGNOSTIC_ONLY; no target acceptance inferred",
+      "log": {
+        "catalogue_complete": false,
+        "catalogue_status": "PROJECTED",
+        "file_id": "825c8eb94208720de0c7c5f11d83fe59b80442cf86cbf945d28469f68b5641af",
+        "path": "allprooflogs/cases/r21-fractional-proof/variants/no-retained-half/nine-body-a1-owned-forget/r20-merged-optin.log",
+        "sha256": "0be629d28e6e773a805b9ed7fbe8557e8b54571de48f75be5570f111f2912279",
+        "size_bytes": 61582,
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "variant": "no-retained-half",
+      "whole_file_error_locate": {
+        "complete": true,
+        "coordinate": {
+          "column": 29,
+          "end_column_exclusive": 35,
+          "end_line": 563,
+          "line": 563,
+          "unicode_end_exclusive": 48244,
+          "unicode_start": 48238,
+          "utf8_byte_end_exclusive": 48244,
+          "utf8_byte_start": 48238
+        },
+        "exact": true,
+        "match_count": 1,
+        "request": {
+          "expected_sha256": "0be629d28e6e773a805b9ed7fbe8557e8b54571de48f75be5570f111f2912279",
+          "file_id": "825c8eb94208720de0c7c5f11d83fe59b80442cf86cbf945d28469f68b5641af",
+          "literal": "error:"
+        },
+        "request_id": "d67322d631cccfe7485875a401ff771258ba9dca259460b83ce4d0cbb7170e0b",
+        "response_path": "/tmp/r23-s3-controls/no-retained-half-locate.json",
+        "response_sha256": "af76ae2b57af6977c768ffefa64f4eccf5ed06abd556fd5feaa9b60109f0b4cc",
+        "status": "OK"
+      }
+    },
+    {
+      "bounded_context": {
+        "adjacent_context": [
+          {
+            "line": 582,
+            "text": "  0.213382s: verified/lib.rs(232,70-79): Executing statement"
+          },
+          {
+            "line": 583,
+            "text": "  0.213403s: verified/lib.rs(232,9-80): Executing statement"
+          },
+          {
+            "line": 584,
+            "text": "  0.213428s: verified/lib.rs(232,9-80): Executing statement"
+          },
+          {
+            "line": 585,
+            "text": "  0.213473s: verified/lib.rs(232,9-80): Verifying call"
+          },
+          {
+            "line": 587,
+            "text": "462 |         req MaybeUninit_pointer_own::<Element>()(t, a) &*&"
+          },
+          {
+            "line": 588,
+            "text": "    |                                               ^"
+          },
+          {
+            "line": 589,
+            "text": "/workspace/smallsort-work/o26-refresh/source/bin/rust/std/lib.rsspec(462,47-48): note: Consuming assertion"
+          },
+          {
+            "line": 590,
+            "text": "462 |         req MaybeUninit_pointer_own::<Element>()(t, a) &*&"
+          }
+        ],
+        "complete": false,
+        "coverage": {
+          "base": 1,
+          "end_inclusive": 590,
+          "line_separator": "LF",
+          "source_lines": 795,
+          "start": 582,
+          "unit": "line"
+        },
+        "exact": true,
+        "observed_error_line": {
+          "line": 586,
+          "text": "/workspace/smallsort-work/o26-refresh/source/bin/rust/std/lib.rsspec(462,47-48): error: No matching heap chunks: std::mem::MaybeUninit_pointer_own(Element_typeid)(t, std::mem::MaybeUninit::new(pointer_typeid(Element_typeid), value6))"
+        },
+        "request": {
+          "end": 590,
+          "expected_sha256": "5e6a87dd85c10e84b39be015220fcab1cb6ba7fe198cfb314156460e0975fdfe",
+          "file_id": "fb5dfc0bf124c8ce4b55c08cf3bbd1a2f0d70afae4783785a83dac9211f132f3",
+          "start": 582
+        },
+        "request_id": "4cce05d13983dc22f156a52a7f35b310b8a96f57fc0d2265822aa8b7934ffcb2",
+        "response_path": "/tmp/r23-s3-controls/omit-selected-own-context.json",
+        "response_sha256": "b4f07200652e617713cd112f4a5c20283a77ffa40f9ff0cebf32e37da492315e",
+        "status": "OK"
+      },
+      "classification": "SOURCE_REPORTED_DIAGNOSTIC_ONLY; no target acceptance inferred",
+      "log": {
+        "catalogue_complete": false,
+        "catalogue_status": "PROJECTED",
+        "file_id": "fb5dfc0bf124c8ce4b55c08cf3bbd1a2f0d70afae4783785a83dac9211f132f3",
+        "path": "allprooflogs/cases/r21-fractional-proof/variants/omit-selected-own/nine-body-a1-owned-forget/r20-merged-optin.log",
+        "sha256": "5e6a87dd85c10e84b39be015220fcab1cb6ba7fe198cfb314156460e0975fdfe",
+        "size_bytes": 63418,
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "variant": "omit-selected-own",
+      "whole_file_error_locate": {
+        "complete": true,
+        "coordinate": {
+          "column": 82,
+          "end_column_exclusive": 88,
+          "end_line": 586,
+          "line": 586,
+          "unicode_end_exclusive": 50285,
+          "unicode_start": 50279,
+          "utf8_byte_end_exclusive": 50285,
+          "utf8_byte_start": 50279
+        },
+        "exact": true,
+        "match_count": 1,
+        "request": {
+          "expected_sha256": "5e6a87dd85c10e84b39be015220fcab1cb6ba7fe198cfb314156460e0975fdfe",
+          "file_id": "fb5dfc0bf124c8ce4b55c08cf3bbd1a2f0d70afae4783785a83dac9211f132f3",
+          "literal": "error:"
+        },
+        "request_id": "3067d63894ee999e1e2943dbc6b300368f1b33871e4f64fa17d6193a4c98ba18",
+        "response_path": "/tmp/r23-s3-controls/omit-selected-own-locate.json",
+        "response_sha256": "c6f59e7d02e5fb3a3735286fd3e4b74e1ae8eaa8365fc32b8daf2b0bd093ac83",
+        "status": "OK"
+      }
+    },
+    {
+      "bounded_context": {
+        "adjacent_context": [
+          {
+            "line": 582,
+            "text": "  0.222444s: verified/lib.rs(232,70-79): Executing statement"
+          },
+          {
+            "line": 583,
+            "text": "  0.222465s: verified/lib.rs(232,9-80): Executing statement"
+          },
+          {
+            "line": 584,
+            "text": "  0.222494s: verified/lib.rs(232,9-80): Executing statement"
+          },
+          {
+            "line": 585,
+            "text": "  0.222541s: verified/lib.rs(232,9-80): Verifying call"
+          },
+          {
+            "line": 587,
+            "text": "463 |             MaybeUninit_pointer_own::<Element>()(t, b);"
+          },
+          {
+            "line": 588,
+            "text": "    |                                               ^"
+          },
+          {
+            "line": 589,
+            "text": "/workspace/smallsort-work/o26-refresh/source/bin/rust/std/lib.rsspec(463,47-48): note: Consuming assertion"
+          },
+          {
+            "line": 590,
+            "text": "463 |             MaybeUninit_pointer_own::<Element>()(t, b);"
+          }
+        ],
+        "complete": false,
+        "coverage": {
+          "base": 1,
+          "end_inclusive": 590,
+          "line_separator": "LF",
+          "source_lines": 795,
+          "start": 582,
+          "unit": "line"
+        },
+        "exact": true,
+        "observed_error_line": {
+          "line": 586,
+          "text": "/workspace/smallsort-work/o26-refresh/source/bin/rust/std/lib.rsspec(463,47-48): error: No matching heap chunks: std::mem::MaybeUninit_pointer_own(Element_typeid)(t, std::mem::MaybeUninit::new(pointer_typeid(Element_typeid), value2))"
+        },
+        "request": {
+          "end": 590,
+          "expected_sha256": "2d09ac52956891712a15a0d2c772c802d5dcac7b071b2e3809191a214ece7bd8",
+          "file_id": "237c6add69d705dc38cd64e577aad30ce84b4833f8497f65dab8bbc4b32cae12",
+          "start": 582
+        },
+        "request_id": "e9e3ba54c58fc53527eff375046fd2bfb22d78304f9c0486d8d39c446479e6f2",
+        "response_path": "/tmp/r23-s3-controls/omit-unselected-own-context.json",
+        "response_sha256": "1b40e962cfb31b5299d64e3c258311711cda54add44cfa3ccfbf9cf1a21a9d45",
+        "status": "OK"
+      },
+      "classification": "SOURCE_REPORTED_DIAGNOSTIC_ONLY; no target acceptance inferred",
+      "log": {
+        "catalogue_complete": false,
+        "catalogue_status": "PROJECTED",
+        "file_id": "237c6add69d705dc38cd64e577aad30ce84b4833f8497f65dab8bbc4b32cae12",
+        "path": "allprooflogs/cases/r21-fractional-proof/variants/omit-unselected-own/nine-body-a1-owned-forget/r20-merged-optin.log",
+        "sha256": "2d09ac52956891712a15a0d2c772c802d5dcac7b071b2e3809191a214ece7bd8",
+        "size_bytes": 63426,
+        "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+      },
+      "variant": "omit-unselected-own",
+      "whole_file_error_locate": {
+        "complete": true,
+        "coordinate": {
+          "column": 82,
+          "end_column_exclusive": 88,
+          "end_line": 586,
+          "line": 586,
+          "unicode_end_exclusive": 50285,
+          "unicode_start": 50279,
+          "utf8_byte_end_exclusive": 50285,
+          "utf8_byte_start": 50279
+        },
+        "exact": true,
+        "match_count": 1,
+        "request": {
+          "expected_sha256": "2d09ac52956891712a15a0d2c772c802d5dcac7b071b2e3809191a214ece7bd8",
+          "file_id": "237c6add69d705dc38cd64e577aad30ce84b4833f8497f65dab8bbc4b32cae12",
+          "literal": "error:"
+        },
+        "request_id": "960b5419961a4f3d45ba883d36d25eedcfc0b239ff980d216fc725d1f01659a8",
+        "response_path": "/tmp/r23-s3-controls/omit-unselected-own-locate.json",
+        "response_sha256": "51b3d53a9b71a43ed52c1aec001f8f31f989b14cbc23a08b7b59a73dd40c262e",
+        "status": "OK"
+      }
+    }
+  ],
+  "evidence_class": "SOURCE_REPORTED_DIAGNOSTICS_FROM_BOUNDED_BRIEF_OBSERVATIONS",
+  "index_sha256": "c13dda3fdd7d2ebb7fdf3bf4e6a3cb4676dbd12f04aaed6b1e6265c46ad21a7f",
+  "limitations": [
+    "Each exact error: locate returned one match with complete=true for the selected file query.",
+    "Each context response is an exact, bounded 9-line range around that match; context completeness=false is expected for a window and does not make a whole-log claim.",
+    "No raw logs, full log files, archives, or Cloud Logging were read.",
+    "These observations do not prove that a negative control was correctly wired or passed, do not establish target acceptance, and carry zero proof credit.",
+    "Build causal status remains UNKNOWN."
+  ],
+  "proof_credit": 0,
+  "schema": "select-r23-s3-control-observations-v1"
+}

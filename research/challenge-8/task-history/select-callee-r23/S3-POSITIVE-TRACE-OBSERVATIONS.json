@@ -1,0 +1,664 @@
+{
+  "additional_locator_receipts": [
+    {
+      "complete": false,
+      "coverage": {
+        "kind": "whole-file",
+        "unicode_end_exclusive": 59229,
+        "unicode_start": 0,
+        "utf8_byte_end_exclusive": 59229,
+        "utf8_byte_start": 0
+      },
+      "exact": true,
+      "request": {
+        "expected_sha256": "b58cc0f746157f33c8b1ee9d08e8c86bdcf251ede8cd246fa55241728a1232f8",
+        "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+        "literal": "verified/lib.rs(234,"
+      },
+      "request_id": "44d55963d6c71547c8e40911b322d02adbada0674808a4b8be5d46dbff10fb3e",
+      "response_path": "/tmp/r23-s3-controls/positive-src234-locate.json",
+      "response_sha256": "99536d407ca0f9dac92b59b6962ab3e93447cd84462febced2ad694492fdb580",
+      "status": "OK",
+      "tag": "positive-src234-locate"
+    },
+    {
+      "complete": true,
+      "coverage": {
+        "kind": "whole-file",
+        "unicode_end_exclusive": 59229,
+        "unicode_start": 0,
+        "utf8_byte_end_exclusive": 59229,
+        "utf8_byte_start": 0
+      },
+      "exact": true,
+      "request": {
+        "expected_sha256": "b58cc0f746157f33c8b1ee9d08e8c86bdcf251ede8cd246fa55241728a1232f8",
+        "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+        "literal": "verified/lib.rs(235,"
+      },
+      "request_id": "7550d533054a69fbc1f66f3c40cab872434090af54b37c8bd4cab5b68ea7ccd7",
+      "response_path": "/tmp/r23-s3-controls/positive-src235-locate.json",
+      "response_sha256": "30b68b80475b21b22e3d24c04e81f422a23dd2f87fcbf1d781f47a1154faf2f9",
+      "status": "OK",
+      "tag": "positive-src235-locate"
+    },
+    {
+      "complete": false,
+      "coverage": {
+        "kind": "whole-file",
+        "unicode_end_exclusive": 59229,
+        "unicode_start": 0,
+        "utf8_byte_end_exclusive": 59229,
+        "utf8_byte_start": 0
+      },
+      "exact": true,
+      "request": {
+        "expected_sha256": "b58cc0f746157f33c8b1ee9d08e8c86bdcf251ede8cd246fa55241728a1232f8",
+        "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+        "literal": "Verifying call"
+      },
+      "request_id": "093582e74c361b7087eee6bb790c9503929c20110b11de0912f4bb4dcb70a2b0",
+      "response_path": "/tmp/r23-s3-controls/positive-verifying-call-locate.json",
+      "response_sha256": "471b26fa8f734aa906faccb6ee91bcea6f3e3336029fb5e853b3bd955bdbd17d",
+      "status": "OK",
+      "tag": "positive-verifying-call-locate"
+    }
+  ],
+  "archive_sha256": "789083793bd4ed400f1c21c8b7e9da7770ebbec95914ee510a49055769d4f898",
+  "bounded_line_windows": [
+    {
+      "complete": false,
+      "coverage": {
+        "base": 1,
+        "end_inclusive": 673,
+        "line_separator": "LF",
+        "source_lines": 711,
+        "start": 662,
+        "unit": "line"
+      },
+      "exact": true,
+      "lines": [
+        {
+          "line": 662,
+          "text": "  0.225145s: verified/lib.rs(234,49-58): Executing statement"
+        },
+        {
+          "line": 663,
+          "text": "  0.225159s: verified/lib.rs(234,60-68): Executing statement"
+        },
+        {
+          "line": 664,
+          "text": "  0.225183s: verified/lib.rs(234,70-79): Executing statement"
+        },
+        {
+          "line": 665,
+          "text": "  0.225200s: verified/lib.rs(234,9-80): Executing statement"
+        },
+        {
+          "line": 666,
+          "text": "  0.225222s: verified/lib.rs(234,9-80): Executing statement"
+        },
+        {
+          "line": 667,
+          "text": "  0.225279s: verified/lib.rs(234,9-80): Verifying call"
+        },
+        {
+          "line": 668,
+          "text": "  0.225304s: verified/lib.rs(234,9-80): Executing statement"
+        },
+        {
+          "line": 669,
+          "text": "  0.225363s: verified/lib.rs(234,9-94): Executing statement"
+        },
+        {
+          "line": 670,
+          "text": "  0.225381s: verified/lib.rs(234,81-94): Verifying call"
+        },
+        {
+          "line": 671,
+          "text": "  0.226142s: verified/lib.rs(234,9-94): Executing statement"
+        },
+        {
+          "line": 672,
+          "text": "  0.226215s: verified/lib.rs(234,9-94): Executing statement"
+        },
+        {
+          "line": 673,
+          "text": "  0.226224s: verified/lib.rs(235,5-6): Executing statement"
+        }
+      ],
+      "request": {
+        "end": 673,
+        "expected_sha256": "b58cc0f746157f33c8b1ee9d08e8c86bdcf251ede8cd246fa55241728a1232f8",
+        "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+        "start": 662
+      },
+      "request_id": "ccca225c5115ca961c61526714ffcc948b135668aa3ced3a238b37beb207c886",
+      "tag": "positive-outer-final-context"
+    },
+    {
+      "complete": false,
+      "coverage": {
+        "base": 1,
+        "end_inclusive": 685,
+        "line_separator": "LF",
+        "source_lines": 711,
+        "start": 674,
+        "unit": "line"
+      },
+      "exact": true,
+      "lines": [
+        {
+          "line": 674,
+          "text": "  0.226234s: verified/lib.rs(236,2): Executing return statement"
+        },
+        {
+          "line": 675,
+          "text": "  0.226339s: verified/lib.rs(236,1-2): Freeing locals."
+        },
+        {
+          "line": 676,
+          "text": "  0.226379s: verified/lib.rs(236,1-2): Consuming chunk (retry)"
+        },
+        {
+          "line": 677,
+          "text": "  0.226409s: verified/lib.rs(236,1-2): Consuming chunk (retry)"
+        },
+        {
+          "line": 678,
+          "text": "  0.226477s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(213,6-15): Auto-opening predicate"
+        },
+        {
+          "line": 679,
+          "text": "  0.226493s: verified/lib.rs(236,1-2): Consuming chunk (retry)"
+        },
+        {
+          "line": 680,
+          "text": "  0.226524s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(213,6-15): Auto-opening predicate"
+        },
+        {
+          "line": 681,
+          "text": "  0.226536s: verified/lib.rs(236,1-2): Consuming chunk (retry)"
+        },
+        {
+          "line": 682,
+          "text": "  0.226545s: verified/lib.rs(135,1-236,2): Consuming function lifetime token"
+        },
+        {
+          "line": 683,
+          "text": "  0.226624s: verified/lib.rs(236,1-2): Cleaning up dummy fraction chunks and empty chunks"
+        },
+        {
+          "line": 684,
+          "text": "  0.226648s: verified/lib.rs(236,1-2): Leak check."
+        },
+        {
+          "line": 685,
+          "text": "  0.227240s: verified/lib.rs(165,9-170,10): Verifying function '<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop'"
+        }
+      ],
+      "request": {
+        "end": 685,
+        "expected_sha256": "b58cc0f746157f33c8b1ee9d08e8c86bdcf251ede8cd246fa55241728a1232f8",
+        "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+        "start": 674
+      },
+      "request_id": "3d509b96157092fafd41efaac82b013ea60c021f07f5450b149b42c60f5366b9",
+      "tag": "positive-outer-674-685"
+    },
+    {
+      "complete": false,
+      "coverage": {
+        "base": 1,
+        "end_inclusive": 697,
+        "line_separator": "LF",
+        "source_lines": 711,
+        "start": 686,
+        "unit": "line"
+      },
+      "exact": true,
+      "lines": [
+        {
+          "line": 686,
+          "text": "  0.227318s: verified/lib.rs(165,9-170,10): Producing function lifetime token"
+        },
+        {
+          "line": 687,
+          "text": "  0.227387s: verified/lib.rs(165,9-170,10): Executing statement"
+        },
+        {
+          "line": 688,
+          "text": "  0.227414s: verified/lib.rs(165,9-170,10): Executing statement"
+        },
+        {
+          "line": 689,
+          "text": "  0.227465s: verified/lib.rs(165,9-170,10): Executing statement"
+        },
+        {
+          "line": 690,
+          "text": "  0.227515s: verified/lib.rs(165,9-170,10): Executing statement"
+        },
+        {
+          "line": 691,
+          "text": "  0.227558s: verified/lib.rs(165,9-170,10): Executing statement"
+        },
+        {
+          "line": 692,
+          "text": "  0.227597s: verified/lib.rs(167,13-168,1): Executing statement"
+        },
+        {
+          "line": 693,
+          "text": "  0.228065s: verified/lib.rs(168,13-169,1): Executing statement"
+        },
+        {
+          "line": 694,
+          "text": "  0.228138s: verified/lib.rs(169,22-32): Executing statement"
+        },
+        {
+          "line": 695,
+          "text": "  0.228158s: verified/lib.rs(169,22-48): Executing statement"
+        },
+        {
+          "line": 696,
+          "text": "  0.228174s: verified/lib.rs(169,33-48): Verifying call"
+        },
+        {
+          "line": 697,
+          "text": "  0.228239s: verified/lib.rs(169,22-48): Executing statement"
+        }
+      ],
+      "request": {
+        "end": 697,
+        "expected_sha256": "b58cc0f746157f33c8b1ee9d08e8c86bdcf251ede8cd246fa55241728a1232f8",
+        "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+        "start": 686
+      },
+      "request_id": "ee360ff54753bf098671d04314e197b058055a805557668786b63709d04d623b",
+      "tag": "positive-outer-686-697"
+    },
+    {
+      "complete": false,
+      "coverage": {
+        "base": 1,
+        "end_inclusive": 711,
+        "line_separator": "LF",
+        "source_lines": 711,
+        "start": 700,
+        "unit": "line"
+      },
+      "exact": true,
+      "lines": [
+        {
+          "line": 700,
+          "text": "  0.228340s: verified/lib.rs(165,9-170,10): Consuming function lifetime token"
+        },
+        {
+          "line": 701,
+          "text": "  0.228366s: verified/lib.rs(170,9-10): Cleaning up dummy fraction chunks and empty chunks"
+        },
+        {
+          "line": 702,
+          "text": "  0.228372s: verified/lib.rs(170,9-10): Leak check."
+        },
+        {
+          "line": 703,
+          "text": "  0.228421s: verified/lib.rs(169,22-48): Executing statement"
+        },
+        {
+          "line": 704,
+          "text": "  0.228444s: verified/lib.rs(170,10): Executing return statement"
+        },
+        {
+          "line": 705,
+          "text": "  0.228507s: verified/lib.rs(170,9-10): Freeing locals."
+        },
+        {
+          "line": 706,
+          "text": "  0.228518s: verified/lib.rs(165,9-170,10): Consuming function lifetime token"
+        },
+        {
+          "line": 707,
+          "text": "  0.228548s: verified/lib.rs(170,9-10): Cleaning up dummy fraction chunks and empty chunks"
+        },
+        {
+          "line": 708,
+          "text": "  0.228555s: verified/lib.rs(170,9-10): Leak check."
+        },
+        {
+          "line": 709,
+          "text": "verified/lib.rs(135,1-236,2): dead code"
+        },
+        {
+          "line": 710,
+          "text": "verified/lib.rs(235,5-6): dead code"
+        },
+        {
+          "line": 711,
+          "text": "verified/lib.rs(235,5-6): dead code"
+        }
+      ],
+      "request": {
+        "end": 711,
+        "expected_sha256": "b58cc0f746157f33c8b1ee9d08e8c86bdcf251ede8cd246fa55241728a1232f8",
+        "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+        "start": 700
+      },
+      "request_id": "29defd182eb73c161b73e46823778b791ede7f312439e3ef0d19a57cfb1c84cf",
+      "tag": "positive-tail-supplied"
+    }
+  ],
+  "build_id": "cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9",
+  "file": {
+    "id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "path": "allprooflogs/cases/r21-fractional-proof/variants/positive/nine-body-a1-owned-forget/r20-merged-optin.log",
+    "sha256": "b58cc0f746157f33c8b1ee9d08e8c86bdcf251ede8cd246fa55241728a1232f8",
+    "size_bytes": 59229,
+    "source_lines": 711
+  },
+  "index_sha256": "c13dda3fdd7d2ebb7fdf3bf4e6a3cb4676dbd12f04aaed6b1e6265c46ad21a7f",
+  "limitations": [
+    "Evidence is bounded Brief output only; no whole log or archive was downloaded.",
+    "A complete `error:` locate returned no match in this retained file; this does not establish success or the absence of other diagnostic forms.",
+    "Complete whole-file locates for `Function leaks`, `Cannot prove`, and `No matching heap chunks` returned no matches; do not infer acceptance from those results.",
+    "Dead-code messages were observed; their verifier semantics and relationship to the source-reported Build failure remain UNKNOWN.",
+    "Causal status UNKNOWN; no parser-input binding; proof credit 0."
+  ],
+  "observed_boundary": {
+    "afterward": "The trace starts verification of the nested Drop impl at line685 and reaches its cleanup/leak-check events. Supplied final lines 709-711 then report dead-code markers for outer span 135-236 and twice at 235:5-6.",
+    "outer_normal_return_reached": true,
+    "support": "lines 662-684 show source line234 call steps, source line236 return, free locals, function lifetime token consumption, dummy chunk cleanup, and a leak-check event at source line236.",
+    "tentative_root_boundary": "After the outer source-line236 return/leak-check event; exact reason for the later dead-code report or Build failure remains UNKNOWN. These observations do not distinguish a function precondition issue from a location flag or other verifier condition."
+  },
+  "proof_credit": 0,
+  "response_receipts": [
+    {
+      "complete": true,
+      "coverage": {
+        "kind": "whole-file",
+        "unicode_end_exclusive": 59229,
+        "unicode_start": 0,
+        "utf8_byte_end_exclusive": 59229,
+        "utf8_byte_start": 0
+      },
+      "exact": true,
+      "request": {
+        "expected_sha256": "b58cc0f746157f33c8b1ee9d08e8c86bdcf251ede8cd246fa55241728a1232f8",
+        "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+        "literal": "Cannot prove"
+      },
+      "request_id": "b83e4be3bc857aeb20b417a1c9dc0f6f5b7fea7f81cc98476879139fbcc43d9d",
+      "response_path": "/tmp/r23-s3-controls/positive-cannot-prove-locate.json",
+      "response_sha256": "a4687c4028385b1ec55575ab87c3c28fe0f0293b6fa925344105d7b913cf3277",
+      "status": "NO_MATCH_IN_SEARCH_SCOPE",
+      "tag": "positive-cannot-prove-locate"
+    },
+    {
+      "complete": true,
+      "coverage": {
+        "kind": "whole-file",
+        "unicode_end_exclusive": 59229,
+        "unicode_start": 0,
+        "utf8_byte_end_exclusive": 59229,
+        "utf8_byte_start": 0
+      },
+      "exact": true,
+      "request": {
+        "expected_sha256": "b58cc0f746157f33c8b1ee9d08e8c86bdcf251ede8cd246fa55241728a1232f8",
+        "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+        "literal": "dead code"
+      },
+      "request_id": "250a2dcc032016b79bb8d1b6aa6ac751a863d64320352379ba8a1231ccd70a72",
+      "response_path": "/tmp/r23-s3-controls/positive-dead-code-locate.json",
+      "response_sha256": "0e7f86497f319838cd2b97571a20ec893935d30053cb76e83b71338ccc8ce144",
+      "status": "OK",
+      "tag": "positive-dead-code-locate"
+    },
+    {
+      "complete": true,
+      "coverage": {
+        "kind": "whole-file",
+        "unicode_end_exclusive": 59229,
+        "unicode_start": 0,
+        "utf8_byte_end_exclusive": 59229,
+        "utf8_byte_start": 0
+      },
+      "exact": true,
+      "request": {
+        "expected_sha256": "b58cc0f746157f33c8b1ee9d08e8c86bdcf251ede8cd246fa55241728a1232f8",
+        "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+        "literal": "error:"
+      },
+      "request_id": "62859ff3f17caa8249a5bc6d723a6f39e9a3cbf7ae0414b9b8764c283a611ef4",
+      "response_path": "/tmp/select-r23-s3-positive-error-locate.json",
+      "response_sha256": "5eb603ab27a0e38b35a0c275a08984c4ad39674dc0944a03db3f9904a19e8183",
+      "status": "NO_MATCH_IN_SEARCH_SCOPE",
+      "tag": "positive-error-locate"
+    },
+    {
+      "complete": true,
+      "coverage": {
+        "kind": "whole-file",
+        "unicode_end_exclusive": 59229,
+        "unicode_start": 0,
+        "utf8_byte_end_exclusive": 59229,
+        "utf8_byte_start": 0
+      },
+      "exact": true,
+      "request": {
+        "expected_sha256": "b58cc0f746157f33c8b1ee9d08e8c86bdcf251ede8cd246fa55241728a1232f8",
+        "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+        "literal": "Function leaks"
+      },
+      "request_id": "9ba35f8ca6e4e7fc6b95aa51dbd3baa56881fa0c8a5523d18153efa17c972327",
+      "response_path": "/tmp/r23-s3-controls/positive-function-leaks-locate.json",
+      "response_sha256": "754cd5e788ed02f132cd9faa8ef3350330e2ed6510328a71b5741698f9d859d7",
+      "status": "NO_MATCH_IN_SEARCH_SCOPE",
+      "tag": "positive-function-leaks-locate"
+    },
+    {
+      "complete": true,
+      "coverage": {
+        "kind": "whole-file",
+        "unicode_end_exclusive": 59229,
+        "unicode_start": 0,
+        "utf8_byte_end_exclusive": 59229,
+        "utf8_byte_start": 0
+      },
+      "exact": true,
+      "request": {
+        "expected_sha256": "b58cc0f746157f33c8b1ee9d08e8c86bdcf251ede8cd246fa55241728a1232f8",
+        "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+        "literal": "Function verifies"
+      },
+      "request_id": "02cb0e70c78071af6ed1a0f5d7a024a46a6a5809c0f0bd224e4d7c734835e763",
+      "response_path": "/tmp/r23-s3-controls/positive-function-verifies-locate.json",
+      "response_sha256": "3e8ce242a1bb9b2aba2b0da3cad84967ae952573ceb4882d64adf1707c13a028",
+      "status": "NO_MATCH_IN_SEARCH_SCOPE",
+      "tag": "positive-function-verifies-locate"
+    },
+    {
+      "complete": true,
+      "coverage": {
+        "kind": "whole-file",
+        "unicode_end_exclusive": 59229,
+        "unicode_start": 0,
+        "utf8_byte_end_exclusive": 59229,
+        "utf8_byte_start": 0
+      },
+      "exact": true,
+      "request": {
+        "expected_sha256": "b58cc0f746157f33c8b1ee9d08e8c86bdcf251ede8cd246fa55241728a1232f8",
+        "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+        "literal": "No matching heap chunks"
+      },
+      "request_id": "cccbc9d8e61e34882934c721745d12827941a45c0a88582654cc6b422a25b808",
+      "response_path": "/tmp/r23-s3-controls/positive-no-matching-locate.json",
+      "response_sha256": "c3f1c4887d05ade5515c24f11c9702e693fd1df3fae74fffcdca96bf11d85baf",
+      "status": "NO_MATCH_IN_SEARCH_SCOPE",
+      "tag": "positive-no-matching-locate"
+    },
+    {
+      "complete": false,
+      "coverage": {
+        "base": 1,
+        "end_inclusive": 685,
+        "line_separator": "LF",
+        "source_lines": 711,
+        "start": 674,
+        "unit": "line"
+      },
+      "exact": true,
+      "request": {
+        "end": 685,
+        "expected_sha256": "b58cc0f746157f33c8b1ee9d08e8c86bdcf251ede8cd246fa55241728a1232f8",
+        "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+        "start": 674
+      },
+      "request_id": "3d509b96157092fafd41efaac82b013ea60c021f07f5450b149b42c60f5366b9",
+      "response_path": "/tmp/r23-s3-controls/positive-outer-674-685.json",
+      "response_sha256": "1c5ae84f22ba5e4e02bbeab5740a6bb3d497e3b68c453ab51af223accdf40ea0",
+      "status": "OK",
+      "tag": "positive-outer-674-685"
+    },
+    {
+      "complete": false,
+      "coverage": {
+        "base": 1,
+        "end_inclusive": 697,
+        "line_separator": "LF",
+        "source_lines": 711,
+        "start": 686,
+        "unit": "line"
+      },
+      "exact": true,
+      "request": {
+        "end": 697,
+        "expected_sha256": "b58cc0f746157f33c8b1ee9d08e8c86bdcf251ede8cd246fa55241728a1232f8",
+        "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+        "start": 686
+      },
+      "request_id": "ee360ff54753bf098671d04314e197b058055a805557668786b63709d04d623b",
+      "response_path": "/tmp/r23-s3-controls/positive-outer-686-697.json",
+      "response_sha256": "5a85faec67e6e17426cefc64a663ae4f6064399d6b97f2ec8bd84a48c25d7ee3",
+      "status": "OK",
+      "tag": "positive-outer-686-697"
+    },
+    {
+      "complete": false,
+      "coverage": {
+        "base": 1,
+        "end_inclusive": 673,
+        "line_separator": "LF",
+        "source_lines": 711,
+        "start": 662,
+        "unit": "line"
+      },
+      "exact": true,
+      "request": {
+        "end": 673,
+        "expected_sha256": "b58cc0f746157f33c8b1ee9d08e8c86bdcf251ede8cd246fa55241728a1232f8",
+        "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+        "start": 662
+      },
+      "request_id": "ccca225c5115ca961c61526714ffcc948b135668aa3ced3a238b37beb207c886",
+      "response_path": "/tmp/r23-s3-controls/positive-outer-final-context.json",
+      "response_sha256": "b8ec5fed9457e5abd2b0d504f6d206b46aa685bd063b5a96f47d90381871f48e",
+      "status": "OK",
+      "tag": "positive-outer-final-context"
+    },
+    {
+      "complete": false,
+      "coverage": {
+        "base": 1,
+        "end_inclusive": 711,
+        "line_separator": "LF",
+        "source_lines": 711,
+        "start": 700,
+        "unit": "line"
+      },
+      "exact": true,
+      "request": {
+        "end": 711,
+        "expected_sha256": "b58cc0f746157f33c8b1ee9d08e8c86bdcf251ede8cd246fa55241728a1232f8",
+        "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+        "start": 700
+      },
+      "request_id": "29defd182eb73c161b73e46823778b791ede7f312439e3ef0d19a57cfb1c84cf",
+      "response_path": "/tmp/select-r23-s3-positive-tail.json",
+      "response_sha256": "9b936f20bbd6336afc5d9c12b34f385f7523edbc60a7bcd594879fe008cb9222",
+      "status": "OK",
+      "tag": "positive-tail-supplied"
+    }
+  ],
+  "schema": "select-r23-s3-positive-trace-observations-v1",
+  "source_reported_build_outcome": "S3 positive FAILED after reaching symbolic execution; this observation set does not independently classify the terminal stage.",
+  "whole_file_locates": [
+    {
+      "complete": true,
+      "literal": "error:",
+      "matches": [],
+      "request_id": "62859ff3f17caa8249a5bc6d723a6f39e9a3cbf7ae0414b9b8764c283a611ef4",
+      "response_path": "/tmp/select-r23-s3-positive-error-locate.json",
+      "response_sha256": "5eb603ab27a0e38b35a0c275a08984c4ad39674dc0944a03db3f9904a19e8183",
+      "status": "NO_MATCH_IN_SEARCH_SCOPE",
+      "tag": "positive-error-locate"
+    },
+    {
+      "complete": true,
+      "literal": "Function leaks",
+      "matches": [],
+      "request_id": "9ba35f8ca6e4e7fc6b95aa51dbd3baa56881fa0c8a5523d18153efa17c972327",
+      "response_path": "/tmp/r23-s3-controls/positive-function-leaks-locate.json",
+      "response_sha256": "754cd5e788ed02f132cd9faa8ef3350330e2ed6510328a71b5741698f9d859d7",
+      "status": "NO_MATCH_IN_SEARCH_SCOPE",
+      "tag": "positive-function-leaks-locate"
+    },
+    {
+      "complete": true,
+      "literal": "Cannot prove",
+      "matches": [],
+      "request_id": "b83e4be3bc857aeb20b417a1c9dc0f6f5b7fea7f81cc98476879139fbcc43d9d",
+      "response_path": "/tmp/r23-s3-controls/positive-cannot-prove-locate.json",
+      "response_sha256": "a4687c4028385b1ec55575ab87c3c28fe0f0293b6fa925344105d7b913cf3277",
+      "status": "NO_MATCH_IN_SEARCH_SCOPE",
+      "tag": "positive-cannot-prove-locate"
+    },
+    {
+      "complete": true,
+      "literal": "No matching heap chunks",
+      "matches": [],
+      "request_id": "cccbc9d8e61e34882934c721745d12827941a45c0a88582654cc6b422a25b808",
+      "response_path": "/tmp/r23-s3-controls/positive-no-matching-locate.json",
+      "response_sha256": "c3f1c4887d05ade5515c24f11c9702e693fd1df3fae74fffcdca96bf11d85baf",
+      "status": "NO_MATCH_IN_SEARCH_SCOPE",
+      "tag": "positive-no-matching-locate"
+    },
+    {
+      "complete": true,
+      "literal": "dead code",
+      "matches": [
+        {
+          "column": 31,
+          "line": 709,
+          "unicode_start": 59147
+        },
+        {
+          "column": 27,
+          "line": 710,
+          "unicode_start": 59183
+        },
+        {
+          "column": 27,
+          "line": 711,
+          "unicode_start": 59219
+        }
+      ],
+      "request_id": "250a2dcc032016b79bb8d1b6aa6ac751a863d64320352379ba8a1231ccd70a72",
+      "response_path": "/tmp/r23-s3-controls/positive-dead-code-locate.json",
+      "response_sha256": "0e7f86497f319838cd2b97571a20ec893935d30053cb76e83b71338ccc8ce144",
+      "status": "OK",
+      "tag": "positive-dead-code-locate"
+    }
+  ]
+}

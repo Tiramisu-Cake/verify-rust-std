@@ -1,0 +1,93 @@
+{
+  "archive_sha256": "789083793bd4ed400f1c21c8b7e9da7770ebbec95914ee510a49055769d4f898",
+  "build_id": "cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 432,
+    "line_separator": "LF",
+    "source_lines": 460,
+    "start": 424,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "05099a2c4de1efd0aa5c8f980895cf3bfdff5561453da028ceca1a5314c121d4",
+  "file_path": "allprooflogs/cases/r21-fractional-proof/variants/callee-false-normal/nine-body-a1-owned-forget/r20-merged-optin.log",
+  "file_sha256": "48c8fcdab62e84c846b67f97ada3de342aa41e8b4efb01a99e53eab6f6c34e80",
+  "index_sha256": "c13dda3fdd7d2ebb7fdf3bf4e6a3cb4676dbd12f04aaed6b1e6265c46ad21a7f",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 432,
+    "expected_sha256": "48c8fcdab62e84c846b67f97ada3de342aa41e8b4efb01a99e53eab6f6c34e80",
+    "file_id": "05099a2c4de1efd0aa5c8f980895cf3bfdff5561453da028ceca1a5314c121d4",
+    "start": 424
+  },
+  "request_id": "213c255bab006ae9a2c29ab1a3f672b9ecee12b02ddc3c89f1a76bc6380a3975",
+  "requested_end": 432,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 424,
+      "text": "  0.207874s: verified/lib.rs(133,2): Executing return statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 425,
+      "text": "  0.207942s: verified/lib.rs(133,1-2): Freeing locals."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 426,
+      "text": "  0.207951s: verified/lib.rs(121,1-133,2): Consuming function lifetime token"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 427,
+      "text": "  0.207989s: verified/lib.rs(126,53-58): Consuming expression"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 428,
+      "text": "verified/lib.rs(126,53-58): error: Cannot prove condition. (Cannot prove false.)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 429,
+      "text": "126 | ens thread_token(tid) &*& [1/2] <T>.own(tid, t) &*& false;"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 430,
+      "text": "    |                                                     ^^^^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 431,
+      "text": "verified/lib.rs(126,53-58): note: Consuming expression"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 432,
+      "text": "126 | ens thread_token(tid) &*& [1/2] <T>.own(tid, t) &*& false;"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

@@ -1,0 +1,93 @@
+{
+  "archive_sha256": "789083793bd4ed400f1c21c8b7e9da7770ebbec95914ee510a49055769d4f898",
+  "build_id": "cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 590,
+    "line_separator": "LF",
+    "source_lines": 795,
+    "start": 582,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "237c6add69d705dc38cd64e577aad30ce84b4833f8497f65dab8bbc4b32cae12",
+  "file_path": "allprooflogs/cases/r21-fractional-proof/variants/omit-unselected-own/nine-body-a1-owned-forget/r20-merged-optin.log",
+  "file_sha256": "2d09ac52956891712a15a0d2c772c802d5dcac7b071b2e3809191a214ece7bd8",
+  "index_sha256": "c13dda3fdd7d2ebb7fdf3bf4e6a3cb4676dbd12f04aaed6b1e6265c46ad21a7f",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 590,
+    "expected_sha256": "2d09ac52956891712a15a0d2c772c802d5dcac7b071b2e3809191a214ece7bd8",
+    "file_id": "237c6add69d705dc38cd64e577aad30ce84b4833f8497f65dab8bbc4b32cae12",
+    "start": 582
+  },
+  "request_id": "e9e3ba54c58fc53527eff375046fd2bfb22d78304f9c0486d8d39c446479e6f2",
+  "requested_end": 590,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 582,
+      "text": "  0.222444s: verified/lib.rs(232,70-79): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 583,
+      "text": "  0.222465s: verified/lib.rs(232,9-80): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 584,
+      "text": "  0.222494s: verified/lib.rs(232,9-80): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 585,
+      "text": "  0.222541s: verified/lib.rs(232,9-80): Verifying call"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 586,
+      "text": "/workspace/smallsort-work/o26-refresh/source/bin/rust/std/lib.rsspec(463,47-48): error: No matching heap chunks: std::mem::MaybeUninit_pointer_own(Element_typeid)(t, std::mem::MaybeUninit::new(pointer_typeid(Element_typeid), value2))"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 587,
+      "text": "463 |             MaybeUninit_pointer_own::<Element>()(t, b);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 588,
+      "text": "    |                                               ^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 589,
+      "text": "/workspace/smallsort-work/o26-refresh/source/bin/rust/std/lib.rsspec(463,47-48): note: Consuming assertion"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 590,
+      "text": "463 |             MaybeUninit_pointer_own::<Element>()(t, b);"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}
