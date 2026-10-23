@@ -1,0 +1,51 @@
+{
+  "archive_sha256": "1ab37b8d5583c3ccd045eed6d40a05eb665e2f50aa12fbf78818f5667f435ac9",
+  "build_id": "b606d510-6832-483e-8168-afe8ef5fe9b4",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 3,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "8fbfae6526811b1177d939a5a56e28b1da3fbfad3b974e0522e5efe180ebae43",
+  "file_path": "allprooflogs/cases/r24-mut-capture/MUT-CAPTURE-SUMMARY.json",
+  "file_sha256": "a59d8a749b2a06c260dcfb0a3509f0dcbf24662de0b96c2205f78016c7e6a0c1",
+  "index_sha256": "790dfe9d98db1fd64691dbbf1e773281b44b7d9577a28d5dc5f79ddf25e3634d",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "a59d8a749b2a06c260dcfb0a3509f0dcbf24662de0b96c2205f78016c7e6a0c1",
+    "file_id": "8fbfae6526811b1177d939a5a56e28b1da3fbfad3b974e0522e5efe180ebae43",
+    "pointer": "/fingerprint/snapshots/body-5"
+  },
+  "request_id": "bd51001377255c202fc16c3caff22e983e033c76453b65961d814065b77df5a4",
+  "results": [
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/fingerprint/snapshots/body-5/bytes",
+      "value": 4707
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/fingerprint/snapshots/body-5/file",
+      "value": "actual-nested-9-body-5.marshal"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/fingerprint/snapshots/body-5/sha256",
+      "value": "1fdba2ad7662d5669c750e06743a8b3370cd359d8eda8b243e5ee80274d3ce6c"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}
