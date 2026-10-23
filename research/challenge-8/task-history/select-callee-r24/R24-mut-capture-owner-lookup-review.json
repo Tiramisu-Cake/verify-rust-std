@@ -1,0 +1,61 @@
+{
+  "baseline_commit": "890f9a78f02c72081077a4a333463b447d1fcc1a",
+  "candidate_commit": "3442e7f16184e749ed8d5ace5b22251656b8be09",
+  "candidate_tree": "e0d3dbae54227e13694c60b6546bdc638a64c06f",
+  "carried_forward": [
+    "Prior route/mode/source-view and capture-only boundary conclusions remain carried from exact prior candidate reviews; this delta changes only the nested source writer owner lookup, its source pin, tests, and explanatory metadata.",
+    "The prior located-error matcher issue is fixed in the reviewed baseline 890f9a; this candidate does not alter that path."
+  ],
+  "decision": "GO_DELTA",
+  "diff_sha256": "46426f10553a166ae86d0b3116b3e1826e2940330609cfa93d8f493a22cc521b",
+  "findings": [],
+  "limitations": "GO is limited to this source-preserving owner-lookup delta. The prior reported Cloud failure and its cause were not independently inspected through Brief; this review did not execute source preparation. A fresh authorized full Cloud capture remains necessary to establish capture output. No proof admission, P2 publication, acceptance, or independent proof credit is established.",
+  "main_reported_static_checks": {
+    "attribution": "Main reports 13+4 isolated tests. Reviewer independently ran the 13 adapter tests only.",
+    "status": "PASS_REPORTED"
+  },
+  "packet_sha256": "aa73a7845b9a9d3434bb8fe0b6d3059f6c92d7df3424ddaf4b922b6ade13c9d5",
+  "prior_reviews": [
+    {
+      "decision": "NO_GO for d158; remains unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-review.json",
+      "sha256": "2113fc509aa8abc0a1ef633d8fcc204c6e8f56117731bb21e15484cc3018cb71"
+    },
+    {
+      "decision": "NO_GO for aad644; remains unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-delta-review.json",
+      "sha256": "da2032ab9c4d31db41ba75dc544e3ae4fb0054a7eba3295e3de983324bda276b"
+    },
+    {
+      "decision": "GO for linewise delta; remains unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-linewise-review.json",
+      "sha256": "ed270f5776802660b278e085f0d5f9983bd07b9fff67c0f824240fa3f712f07b"
+    }
+  ],
+  "proof_credit": 0,
+  "reviewer": "codex-independent-review",
+  "schema": "smallsort-review-record-v1",
+  "scope": "Same-boundary review of the source-preserving fix for nested writer owner lookup after a prior Cloud source-preparation failure; no local source preparation or Cloud/evidence inspection.",
+  "spec_sha256": "0b3b54f1db28d1c605a99d2fd903656ad13207884dd4755e2699306e8470f13a",
+  "tests": {
+    "not_run": [
+      "4 metadata tests (main-reported only)",
+      "Actual source preparation, compiler/exporter/MIR decode/refinement/verifier, Cloud Build or SmallSort Brief",
+      "Brief artifacts, raw/full logs, archives or Cloud Logging",
+      "Dirty external VeriFast tool worktree",
+      "Independent static transport preflight"
+    ],
+    "run": [
+      "python3 -m unittest research.challenge-8.cloud-build.test_select_callee_r24_mut_capture (13 tests, pass)",
+      "git diff 890f9a78f02c72081077a4a333463b447d1fcc1a 3442e7f16184e749ed8d5ace5b22251656b8be09 --check (pass)"
+    ]
+  },
+  "verified": [
+    "Exact packet check passed for candidate 3442e7f16184e749ed8d5ace5b22251656b8be09, baseline 890f9a78f02c72081077a4a333463b447d1fcc1a, spec SHA 0b3b54f1db28d1c605a99d2fd903656ad13207884dd4755e2699306e8470f13a, packet SHA aa73a7845b9a9d3434bb8fe0b6d3059f6c92d7df3424ddaf4b922b6ade13c9d5; packet state PACKET_VALID_NOT_REVIEWED and proof credit NONE.",
+    "Nested writer now resolves owner as linked.load_modules()[0], consistent with the pinned owner-linked loader API and the existing nine-body writer. It requires the resolved owner to expose callable strip_ghost and reuses that same service for the existing input identity check and both existing insertion ghost-strip checks.",
+    "No linked.OWNER references remain in the nested writer. The changed nested writer SHA-256 a9877f693b12a374206a306aa73a2c8f82e69ca36b4979a16127887e802ab4e8 is pinned by the capture adapter's source dependency closure.",
+    "The adapter adds only an explicit historical-review role label for the old source-chain reference; it does not change active source identity or proof/capture classification.",
+    "The isolated AST-extracted helper test supplies a linked fake with load_modules but no OWNER attribute, verifies the same owner object is used, and rejects an object without callable strip_ghost. It avoids invoking source generation/preparation.",
+    "13 focused mutable-capture synthetic tests pass. Diff whitespace check passes. No implementation files were modified by this reviewer."
+  ]
+}
