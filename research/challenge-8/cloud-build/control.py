@@ -278,11 +278,17 @@ NETWORK_R7_PROFILE_SHA256='305cde425b482eb05c5752395d2586ba5ce981ac3561147592e1b
 NETWORK_PHASES[NETWORK_N5_PHASE]['stages']=NETWORK_N3_STAGES | frozenset(('swap-size',))
 NETWORK_PHASES[NETWORK_N5_PHASE]['stage_seconds']['swap-size']=810
 NETWORK_PHASES[NETWORK_N5_PHASE]['stage_profiles']={'swap-size':(NETWORK_R7_PROFILE,NETWORK_R7_PROFILE_SHA256)}
-NETWORK_PHASES[rr_lane.PHASE]={
+NETWORK_PHASES['NETWORK-RR-G1-2026-10-24-N7']={
  'ceiling':5400,'lanes':frozenset((rr_lane.LANE,)),
  'start_utc':'2026-10-23T20:56:24Z','main_deadline_utc':'2026-10-26T20:56:24Z',
- 'deadline_utc':'2026-10-26T21:56:24Z','profile':rr_lane.PROFILE,
+ 'deadline_utc':'2026-10-26T21:56:24Z','profile':'research/challenge-8/cloud-build/network-rr/RR-G1-EXECUTION-PROFILE-20261024-N7.json',
  'profile_sha256':'ed323e34cbea59a58ff5a66a01590eb189053a4b0d1e783163a908ea3e99e3bd','timeout':(1200,1740),
+ 'stages':frozenset(rr_lane.TIMEOUTS),'recipe':rr_lane.RECIPE}
+NETWORK_PHASES[rr_lane.PHASE]={
+ 'ceiling':5009,'lanes':frozenset((rr_lane.LANE,)),
+ 'start_utc':'2026-10-23T20:56:24Z','main_deadline_utc':'2026-10-26T20:56:24Z',
+ 'deadline_utc':'2026-10-26T21:56:24Z','profile':rr_lane.PROFILE,
+ 'profile_sha256':'PENDING_RR_N8_PROFILE_SHA256','timeout':(1200,1740),
  'stages':frozenset(rr_lane.TIMEOUTS),'recipe':rr_lane.RECIPE}
 NETWORK_RESERVE=240
 
@@ -304,7 +310,7 @@ def network_authorized(a,ledger):
  if not isinstance(ledger.get('allowed_lanes'),list) or set(ledger['allowed_lanes'])!=set(r['lanes']):raise SystemExit('Network lanes differ from registration')
  if ledger['ceiling_build_seconds']!=r['ceiling']:raise SystemExit('Network ceiling differs from registration')
  if a.phase_id==rr_lane.PHASE and (getattr(a,'ledger',None) is None or
-     Path(a.ledger).resolve()!=ROOT/rr_lane.LEDGER):raise SystemExit('RR requires the exact N7 own ledger path')
+     Path(a.ledger).resolve()!=ROOT/rr_lane.LEDGER):raise SystemExit('RR requires the exact N8 own ledger path')
  for key in ('start_utc','main_deadline_utc','deadline_utc'):
   if ledger.get(key)!=r[key]:raise SystemExit('Network '+key+' differs from registration')
  try:deadline=utc(ledger['deadline_utc'])
@@ -811,6 +817,7 @@ def reconcile(state,ledger,ledger_path):
     item['build_seconds']=duration;item['accounted']=True
     if b.get('startTime') and b.get('finishTime'):item['execution_seconds']=math.ceil((t(b['finishTime'])-t(b['startTime'])).total_seconds())
  ledger['used_build_seconds']=sum(x.get('build_seconds',0) for x in ledger['builds'])
+ if ledger.get('phase')==rr_lane.PHASE:ledger['spent_build_seconds']=ledger['used_build_seconds']
  ledger['remaining_build_seconds']=ledger['ceiling_build_seconds']-ledger['used_build_seconds']
  ledger['active_build']=next((x.get('build_id') or x['dispatch_token'] for x in ledger['builds'] if not x.get('accounted')),None)
  write(ledger_path,ledger)

@@ -1,13 +1,13 @@
-"""Pure admission rules for the branch-local Network N7 diagnostic lane."""
+"""Pure admission rules for the branch-local Network N8 diagnostic lane."""
 import re
 
-PHASE = 'NETWORK-RR-G1-2026-10-24-N7'
+PHASE = 'NETWORK-RR-G1-2026-10-24-N8'
 LANE = 'network-rr-g1'
 REPOSITORY = 'us-central1-docker.pkg.dev/smallsort-ci/smallsort-tools/refinedrust-g1'
 COLD_EXECUTOR = 'ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401'
 TIMEOUTS = {'cold-image': 1740, 'warm-g1': 1200}
-PROFILE = 'research/challenge-8/cloud-build/network-rr/RR-G1-EXECUTION-PROFILE-20261024-N7.json'
-LEDGER = 'research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N7.json'
+PROFILE = 'research/challenge-8/cloud-build/network-rr/RR-G1-EXECUTION-PROFILE-20261024-N8.json'
+LEDGER = 'research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N8.json'
 RECIPE = 'research/challenge-8/cloud-build/recipes/network-rr-g1.json'
 
 
@@ -62,6 +62,35 @@ def profile_gate(profile, stage, seconds):
     return image
 
 
+def cold_start_state(ledger, build):
+    """A submitted Build is not a Dockerfile start; require a bound observation."""
+    records = ledger.get('cold_start_observations')
+    require(isinstance(records, dict), 'RR cold start observations missing')
+    record = records.get(build.get('build_id'))
+    require(isinstance(record, dict) and record.get('build_id') == build.get('build_id') and
+            record.get('source_commit') == build.get('infra_sha') and record.get('stage') == 'cold-image',
+            'RR cold start observation Build/source/stage mismatch')
+    state = record.get('state')
+    require(state in ('STARTED', 'NOT_STARTED', 'UNKNOWN'), 'RR cold start state malformed')
+    if state == 'UNKNOWN':
+        return state
+    evidence = record.get('evidence')
+    require(isinstance(evidence, dict), 'RR cold start evidence missing')
+    if state == 'NOT_STARTED' and evidence.get('kind') == 'BUILD_METADATA_ZERO_EXECUTION':
+        require(build.get('status') == 'EXPIRED' and type(build.get('execution_seconds')) is int and
+                build['execution_seconds'] == 0, 'RR zero-execution classification mismatches metadata')
+        return state
+    require(evidence.get('kind') == 'EVIDENCE_BRIEF', 'RR Dockerfile start requires Evidence Brief')
+    require(evidence.get('exact') is True, 'RR cold observation must be exact Brief evidence')
+    for key in ('archive_sha256', 'index_sha256', 'file_sha256'):
+        require(isinstance(evidence.get(key), str) and re.fullmatch('[0-9a-f]{64}', evidence[key]),
+                'RR cold observation lacks exact Brief identities')
+    require(isinstance(evidence.get('file_id'), str) and bool(evidence['file_id']) and
+            isinstance(evidence.get('selector'), dict) and bool(evidence['selector']),
+            'RR cold observation lacks an exact Brief selector')
+    return state
+
+
 def attempts_gate(ledger, stage, candidate, profile):
     require(isinstance(ledger, dict) and isinstance(ledger.get('builds'), list), 'RR build ledger malformed')
     builds = ledger['builds']
@@ -71,11 +100,21 @@ def attempts_gate(ledger, stage, candidate, profile):
     require(all(b.get('stage') in TIMEOUTS and b.get('status') in terminal for b in builds),
             'RR prior Build stage/status mismatch')
     prior = [b for b in builds if b.get('stage') == stage and b.get('status') != 'NOT_CREATED_INVALID_ARGUMENT']
-    require(len(prior) < 2, 'RR stage attempt limit reached')
+    states = {}
+    for build in builds:
+        if build.get('stage') == 'cold-image' and build.get('status') != 'NOT_CREATED_INVALID_ARGUMENT':
+            states[build['build_id']] = cold_start_state(ledger, build)
+    if stage == 'cold-image':
+        require(not any(s == 'UNKNOWN' for s in states.values()),
+                'RR cold start UNKNOWN: resolve evidence; this is not attempt exhaustion')
+        require(sum(s == 'STARTED' for s in states.values()) < 2, 'RR actual Dockerfile-start limit reached')
+    else:
+        require(len(prior) < 2, 'RR warm attempt limit reached')
     require(not any(b.get('stage') == stage and b.get('infra_sha') == candidate for b in builds),
             'RR unchanged configuration must not be repeated')
     if prior:
-        repair = ledger.get('setup_repair' if stage == 'cold-image' else 'warm_repair')
+        key = ('cold_repair' if states[prior[-1]['build_id']] == 'STARTED' else 'setup_repair') if stage == 'cold-image' else 'warm_repair'
+        repair = ledger.get(key)
         require(isinstance(repair, dict) and repair.get('prior_build_id') == prior[-1].get('build_id') and
                 repair.get('candidate_sha') == candidate and isinstance(repair.get('evidence'), str) and
                 bool(repair['evidence'].strip()), 'RR retry requires a recorded evidence-driven repair')
@@ -85,6 +124,7 @@ def attempts_gate(ledger, stage, candidate, profile):
         cold_id = profile['image_build']['cold_build_id']
         require(any(b.get('stage') == 'cold-image' and b.get('build_id') == cold_id and
                     b.get('status') == 'SUCCESS' for b in builds), 'RR warm stage requires the reconciled successful cold Build')
+        require(states.get(cold_id) == 'STARTED', 'RR warm image lacks a Brief-confirmed Dockerfile start')
 
 
 def time_budget(seconds, stage):

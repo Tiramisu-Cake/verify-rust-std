@@ -5,10 +5,64 @@ import argparse
 import json
 from pathlib import Path
 import re
+import hashlib
+import sys
 
 REGISTRY = 'us-central1-docker.pkg.dev/smallsort-ci/smallsort-tools/refinedrust-g1'
 RR_LOCK_SHA256 = 'b66b9e281478be8263eab9ba210964cdd8f1db92535b7b81305f50dea03682aa'
 MISSING = object()
+
+
+def validate_docker_version(value, build_id, stage='cold-image'):
+    """Validate a saved version response, never execute a Docker client."""
+    if stage != 'cold-image' or not isinstance(build_id, str) or not build_id:
+        raise ValueError('Docker API preflight Build/stage mismatch')
+    if not isinstance(value, dict):
+        raise ValueError('Docker version response must be an object')
+    client, server = value.get('Client'), value.get('Server')
+    if not isinstance(client, dict) or not isinstance(server, dict):
+        raise ValueError('Docker version client/server missing or wrong type')
+
+    def api(part, keys, required=True):
+        values = [part[k] for k in keys if k in part]
+        if not values and not required:
+            return None
+        if (not values or any(not isinstance(v, str) or not re.fullmatch(r'[0-9]+\.[0-9]+', v) for v in values) or
+                len(set(values)) != 1):
+            raise ValueError('Docker version API field missing, conflicting or malformed')
+        return values[0]
+
+    client_api = api(client, ('ApiVersion', 'APIVersion'))
+    server_api = api(server, ('ApiVersion', 'APIVersion'))
+    minimum = api(server, ('MinAPIVersion', 'MinApiVersion'), required=False)
+    number = lambda v: tuple(int(p) for p in v.split('.'))
+    if client_api != '1.41' or number(server_api) < (1, 41) or (minimum is not None and number(minimum) > (1, 41)):
+        raise ValueError('Docker client/server cannot use the pinned API1.41')
+    return {'schema': 'network-rr-docker-api-preflight-v1', 'build_id': build_id,
+            'stage': stage, 'state': 'COMPATIBLE_API', 'target_api': '1.41',
+            'client_api': client_api, 'server_max_api': server_api, 'server_min_api': minimum,
+            'accepted': False, 'proof_credit': False}
+
+
+def api_main(argv):
+    parser = argparse.ArgumentParser(description='Validate saved Docker API version JSON')
+    parser.add_argument('--input', type=Path, required=True)
+    parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--build-id', required=True)
+    args = parser.parse_args(argv)
+    raw = None
+    try:
+        raw = args.input.read_bytes()
+        result = validate_docker_version(json.loads(raw), args.build_id)
+        code = 0
+    except (OSError, ValueError, TypeError) as error:
+        result = {'schema': 'network-rr-docker-api-preflight-v1', 'build_id': args.build_id,
+                  'stage': 'cold-image', 'state': 'FAILED', 'error_type': type(error).__name__,
+                  'error': str(error), 'accepted': False, 'proof_credit': False}
+        code = 2
+    result['input_sha256'] = hashlib.sha256(raw).hexdigest() if raw is not None else None
+    args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + '\n')
+    return code
 
 
 def summarize(status, receipt, build_id):
@@ -110,4 +164,6 @@ def main():
 
 
 if __name__ == '__main__':
+    if sys.argv[1:2] == ['api-version']:
+        raise SystemExit(api_main(sys.argv[2:]))
     main()

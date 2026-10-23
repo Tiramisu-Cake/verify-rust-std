@@ -1,0 +1,106 @@
+{
+  "baseline_sha": "b38e1a1229dacebe5853a47139f4c8db306a0ba5",
+  "branch": "challenge-8/networks",
+  "cloud_budget_seconds": 5009,
+  "goal": "Direct owner authorization: fix Docker API, cold image -> digest/freeze -> warm G1 -> Brief classification. New5009s grant; N7 account unchanged. Fixed deadlines main2026-10-26T20:56:24Z / closeout21:56:24Z; no renewed window.",
+  "handoff": {
+    "artifacts": [
+      {
+        "path": "research/challenge-8/network/rr/N8-OWNER-DIRECTIONS.md",
+        "sha256": "87774f7b34ff43045c17ad6d17e55e37315aa023f790d46b606ac91253bdc273"
+      },
+      {
+        "path": "research/challenge-8/network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md",
+        "sha256": "1ce40c5ddef330d8db05a8159a519db02039d44ac8f81b4b5e9cdcf58226af1e"
+      }
+    ],
+    "blocker": {
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/rr/N7-COLD-FAILURE-EVIDENCE.json",
+          "sha256": "9670507a2946e7a877cf24c3155ec2004cd826ba6785312eac06a6c3a8183279"
+        }
+      ],
+      "summary": "Docker API compatibility repair and N8 admission pending."
+    },
+    "confirmed": [
+      {
+        "assurance": "SOURCE_REPORTED",
+        "claim": "N7 cold0/infrastructure2; Docker clientAPI1.52>daemon1.41 before target Dockerfile; image/G1 absent,credit0.",
+        "evidence": [
+          {
+            "path": "research/challenge-8/network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md",
+            "sha256": "1ce40c5ddef330d8db05a8159a519db02039d44ac8f81b4b5e9cdcf58226af1e"
+          },
+          {
+            "path": "research/challenge-8/network/rr/N7-COLD-FAILURE-EVIDENCE.json",
+            "sha256": "9670507a2946e7a877cf24c3155ec2004cd826ba6785312eac06a6c3a8183279"
+          }
+        ]
+      }
+    ],
+    "next_step": "Register N8, fix Docker API, cold image then warm G1.",
+    "open": [
+      "Image digest/binary freeze absent; G1/cleanup NOT_RUN; specs UNKNOWN.",
+      "R4/W7 waits PUBLISHED mutable P2; W8 needs W3/W5/W7 resources."
+    ],
+    "rejected": [
+      {
+        "approach": "Count infrastructure submissions as cold attempts or reopen N7 account",
+        "evidence": [
+          {
+            "path": "research/challenge-8/network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md",
+            "sha256": "1ce40c5ddef330d8db05a8159a519db02039d44ac8f81b4b5e9cdcf58226af1e"
+          }
+        ],
+        "reason": "Explicit owner update: count Dockerfile starts; N7 ledger unchanged; newN8 budget."
+      }
+    ]
+  },
+  "lane": "network-rr-g1",
+  "ledger_path": "research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N8.json",
+  "owner": "network",
+  "phase": "NETWORK-RR-G1-2026-10-24-N8",
+  "previous_ledger_path": "research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N7.json",
+  "previous_task_id": "network-refinedrust-g1-2026-10-24-n7",
+  "profile_path": "research/challenge-8/cloud-build/network-rr/RR-G1-PROFILE-20261024-N8.json",
+  "profile_sha256": "c3e91c1b7d287bddca2277927271e1646f0a78eea195c249c381c9a3a7723335",
+  "references": [
+    {
+      "path": "research/challenge-8/network/rr/N8-OWNER-DIRECTIONS.md",
+      "title": "N8 owner contract"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md",
+      "title": "Owner cold counting update"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N6-OWNER-DIRECTIONS.md",
+      "title": "N6 exit criteria"
+    }
+  ],
+  "runtime": "codex",
+  "schema": "smallsort-assignment-v1",
+  "source_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+  "special_bounds": [
+    "Count only Evidence-Brief confirmed target Dockerfile starts as cold attempts; pre-start infrastructure costs budget but no cold attempt/setup-submit limit. UNKNOWN stays UNKNOWN. Coldmax2 actual starts, warmmax2; no unchanged config retry.",
+    "Fixed owner deadlines use original20:56:24Z23Oct tooling anchor, actual N8 start21:33:57Z separately recorded. N7 closed391spent/5009retired/carry0 remains byte-identical; N8 is new authorization.",
+    "After every terminal Build immediately commit/push ledger and CHECKPOINT/STATUS. Timeouts/reserve never shorten; RR frontend unpatched, no stronger premises/shims/only_spec or CI/ToolApplication; credit0/readiness unchanged. Own lane/client only, shared coordinator/IAM/transport and foreign lanes/ledgers unchanged. All actual tools Cloud-only; existing runtime review/watch rules."
+  ],
+  "steps": [
+    "Review/register exact N8 phase and fresh ledger; repair Docker API and use owner actual-Dockerfile-start counting.",
+    "Cold1740/1800 -> Brief-bound start/receipt/digest -> pins-only review -> warm1200/1260; preserve source/tool/controls.",
+    "Classify GO_G2/STOP_RR/INCONCLUSIVE via N6 criteria, preserve N7 history; re-check Select P2."
+  ],
+  "task_id": "network-refinedrust-g1-2026-10-24-n8",
+  "title": "Network N8 \u2014 RefinedRust G1, Docker API repair and actual-start accounting",
+  "tool_branch": "main",
+  "tool_sha": "332d945fafa14bf55c0c8390cb35ec4b0c012cff",
+  "tool_worktree": "/root/refinedrust-feasibility-sources/refinedrust-332d945fafa14bf55c0c8390cb35ec4b0c012cff",
+  "window": {
+    "finish_minutes": 60,
+    "main_minutes": 4320,
+    "max_timeout_seconds": 1740
+  },
+  "worktree": "/root/verify-rust-std-networks"
+}

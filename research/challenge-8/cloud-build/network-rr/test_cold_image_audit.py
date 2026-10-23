@@ -4,6 +4,8 @@
 import importlib.util
 from pathlib import Path
 import unittest
+import json
+import tempfile
 
 MODULE_PATH = Path(__file__).with_name('cold-image-audit.py')
 spec = importlib.util.spec_from_file_location('cold_image_audit', MODULE_PATH)
@@ -24,6 +26,44 @@ GOOD_RECEIPT = {
 
 
 class ColdImageAuditTests(unittest.TestCase):
+    def test_api_override_matches_server_without_proof_credit(self):
+        response = {'Client': {'ApiVersion': '1.41'},
+                    'Server': {'ApiVersion': '1.41', 'MinAPIVersion': '1.12'}}
+        result = audit_module.validate_docker_version(response, BUILD_ID)
+        self.assertEqual(result['state'], 'COMPATIBLE_API')
+        self.assertFalse(result['accepted'])
+        self.assertFalse(result['proof_credit'])
+        response['Server']['ApiVersion'] = '1.52'
+        self.assertEqual(audit_module.validate_docker_version(response, BUILD_ID)['server_max_api'], '1.52')
+
+    def test_api_preflight_refuses_partial_null_wrong_type_and_mismatch(self):
+        good = {'Client': {'ApiVersion': '1.41'}, 'Server': {'ApiVersion': '1.41'}}
+        cases = [None, [], 'NOT_RUN', {}, {'Client': None, 'Server': {}},
+                 {'Client': {'ApiVersion': '1.52'}, 'Server': {'ApiVersion': '1.41'}},
+                 {'Client': {'ApiVersion': None}, 'Server': {'ApiVersion': '1.41'}},
+                 {'Client': {'ApiVersion': '1.41', 'APIVersion': '1.52'}, 'Server': {'ApiVersion': '1.41'}},
+                 {'Client': {'ApiVersion': '1.41'}, 'Server': {'ApiVersion': '1.40'}},
+                 {'Client': {'ApiVersion': '1.41'}, 'Server': {'ApiVersion': '1.52', 'MinAPIVersion': '1.44'}}]
+        for value in cases:
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                audit_module.validate_docker_version(value, BUILD_ID)
+        with self.assertRaises(ValueError):
+            audit_module.validate_docker_version(good, BUILD_ID, 'warm-g1')
+        with self.assertRaises(ValueError):
+            audit_module.validate_docker_version(good, None)
+
+    def test_api_error_preserves_input_digest_and_exception_without_executing_tools(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source, output = Path(directory) / 'version.json', Path(directory) / 'result.json'
+            source.write_text('{malformed')
+            code = audit_module.api_main(['--input', str(source), '--output', str(output), '--build-id', BUILD_ID])
+            result = json.loads(output.read_text())
+            self.assertEqual(code, 2)
+            self.assertEqual(result['error_type'], 'JSONDecodeError')
+            self.assertEqual(len(result['input_sha256']), 64)
+            self.assertEqual(source.read_text(), '{malformed')
+            self.assertFalse(result['accepted'])
+
     def test_success(self):
         result = audit_module.summarize(GOOD_STATUS, GOOD_RECEIPT, BUILD_ID)
         self.assertTrue(result['diagnostic_complete'])

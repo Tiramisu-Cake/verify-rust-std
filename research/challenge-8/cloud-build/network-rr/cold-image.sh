@@ -11,19 +11,21 @@ ALL="$EVIDENCE_ROOT/allprooflogs"
 CONTEXT="$ROOT/rr-image-context"
 REGISTRY=us-central1-docker.pkg.dev/smallsort-ci/smallsort-tools/refinedrust-g1
 BUILD_ID=${CLOUD_BUILD_ID:-unknown}
-TAG=${COLD_IMAGE_TAG:-n7-${BUILD_ID}}
+TAG=${COLD_IMAGE_TAG:-n8-${BUILD_ID}}
 IMAGE="$REGISTRY:$TAG"
+OPERATION=guards
 mkdir -p "$OUT"
 mkdir -p "$ALL/cases/cold-image"
 
 status=0
 on_exit() {
   status=$?
-  python3 - "$OUT/build-status.json.tmp" "$BUILD_ID" "$IMAGE" "$status" <<'STATUS' || true
+  python3 - "$OUT/build-status.json.tmp" "$BUILD_ID" "$IMAGE" "$status" "$OPERATION" <<'STATUS' || true
 import json,pathlib,sys
 path=pathlib.Path(sys.argv[1]); path.write_text(json.dumps({'schema':'refinedrust-g1-cold-build-status-v1',
     'stage':'cold-image','state':'COMPLETE' if int(sys.argv[4])==0 else 'FAILED',
-    'build_id':sys.argv[2],'image':sys.argv[3],'exit_code':int(sys.argv[4])},sort_keys=True)+'\n')
+    'build_id':sys.argv[2],'image':sys.argv[3],'exit_code':int(sys.argv[4]),
+    'operation':sys.argv[5]},sort_keys=True)+'\n')
 STATUS
   mv "$OUT/build-status.json.tmp" "$OUT/build-status.json" 2>/dev/null || true
   printf '%s\n' "$status" > "$ALL/cold-image-exit-code.txt" || true
@@ -45,7 +47,7 @@ trap on_exit EXIT
 [[ "$EVIDENCE_ROOT" == /workspace/* ]] || die 'EVIDENCE_ROOT must remain under /workspace'
 [[ "${SMALLSORT_EXECUTION_PROVIDER:-}" == cloud-build ]] || die 'SMALLSORT_EXECUTION_PROVIDER must be cloud-build'
 [[ "$BUILD_ID" =~ ^[A-Fa-f0-9-]{16,64}$ ]] || die 'CLOUD_BUILD_ID is missing or malformed'
-[[ "$TAG" == "n7-$BUILD_ID" ]] || die 'COLD_IMAGE_TAG must be exactly n7-<CLOUD_BUILD_ID>'
+[[ "$TAG" == "n8-$BUILD_ID" ]] || die 'COLD_IMAGE_TAG must be exactly n8-<CLOUD_BUILD_ID>'
 [[ -S /var/run/docker.sock ]] || die 'Docker daemon socket is unavailable'
 [[ -f "$PROOF_DIR/Dockerfile.candidate" && -f "$PROOF_DIR/IMAGE-INPUTS.json" && -f "$PROOF_DIR/write-image-receipt.py" ]] || die 'pinned proof package files are missing'
 [[ -f "$ROOT/infra/research/challenge-8/cloud-build/network-rr/cold-image-audit.py" ]] || die 'cold image audit helper is missing'
@@ -56,7 +58,17 @@ cp "$PROOF_DIR/Dockerfile.candidate" "$PROOF_DIR/IMAGE-INPUTS.json" "$PROOF_DIR/
 cp "$PROOF_DIR/IMAGE-INPUTS.json" "$OUT/image-inputs.json"
 sha256sum "$PROOF_DIR/Dockerfile.candidate" "$PROOF_DIR/IMAGE-INPUTS.json" "$PROOF_DIR/write-image-receipt.py" > "$OUT/package-files.sha256"
 
+# Pin the shared daemon API without changing the daemon or client credentials.
+export DOCKER_API_VERSION=1.41
+export DOCKER_BUILDKIT=0
+OPERATION=docker-api-preflight
+docker version --format '{{json .}}' > "$OUT/docker-version.json"
+python3 "$ROOT/infra/research/challenge-8/cloud-build/network-rr/cold-image-audit.py" api-version \
+  --input "$OUT/docker-version.json" --output "$OUT/docker-api-preflight.json" --build-id "$BUILD_ID"
+
+OPERATION=docker-build
 docker build --pull --file "$CONTEXT/Dockerfile.candidate" --tag "$IMAGE" "$CONTEXT" 2>&1 | tee "$OUT/docker-build.log"
+OPERATION=image-receipt-copy
 container=$(docker create "$IMAGE")
 docker cp "$container:/opt/g1-image-receipt.json" "$OUT/image-receipt.json"
 docker cp "$container:/opt/refinedrust/rr_frontend/Cargo.lock" "$OUT/Cargo.lock"
@@ -64,6 +76,7 @@ docker cp "$container:/opt/g1-executables.sha256" "$OUT/g1-executables.sha256"
 docker rm "$container" >/dev/null
 sha256sum "$OUT/image-receipt.json" "$OUT/Cargo.lock" "$OUT/g1-executables.sha256" > "$OUT/internal-artifacts.sha256"
 
+OPERATION=docker-push
 docker push "$IMAGE" 2>&1 | tee "$OUT/docker-push.log"
 docker inspect --format='{{json .RepoDigests}}' "$IMAGE" > "$OUT/repo-digests.json"
 python3 - "$OUT/repo-digests.json" "$REGISTRY" "$BUILD_ID" "$IMAGE" "$OUT/image-receipt.json" "$OUT/Cargo.lock" "$OUT/registry-receipt.json" "$OUT/image-digest.txt" <<'RECEIPT'

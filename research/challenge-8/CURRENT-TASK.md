@@ -1,56 +1,56 @@
-# Network N7 — RefinedRust G1 via Artifact Registry image
+# Network N8 — RefinedRust G1, Docker API repair and actual-start accounting
 
-Task ID: `network-refinedrust-g1-2026-10-24-n7`; previous task: `network-refinedrust-g1-2026-10-24-n6`.
-Owner: **Network**. Phase: `NETWORK-RR-G1-2026-10-24-N7`. Lane: `network-rr-g1`.
+Task ID: `network-refinedrust-g1-2026-10-24-n8`; previous task: `network-refinedrust-g1-2026-10-24-n7`.
+Owner: **Network**. Phase: `NETWORK-RR-G1-2026-10-24-N8`. Lane: `network-rr-g1`.
 
 ## Mission
 
+This is a new account within the existing fixed owner window; deadlines do not move.
+
 Runtime: Codex. This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), the runtime profile [`RUNTIME-CODEX.md`](agent-workflow/RUNTIME-CODEX.md), the compact root [AGENTS.md](../../AGENTS.md), and the persistent repo guidance. Review executor and Build waiting follow that profile only.
-The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. Prepare fresh-session inputs with `/usr/local/bin/smallsort-session`, obtain required independent review and register the exact phase through the assigned branch client before proof work. Registration does not restart the clock.
+The owner may proceed within this task and its bounds. Fixed-window tooling anchor is 2026-10-23T20:56:24Z; actual N8 work start is 2026-10-23T21:33:57Z. Prepare fresh-session inputs with `/usr/local/bin/smallsort-session`, obtain required independent review and register the exact phase through the assigned branch client before proof work. Registration does not restart the clock.
 No previous budget, T0, ledger authorization, profile acceptance, or proof credit transfers.
 
 ## Baseline and controls
 
-Worktree `/root/verify-rust-std-networks` on branch `challenge-8/networks`; baseline `747feae4f699c7f1c346a596b2b3ca2f0ee65ef3`; source `cd371e035c7e573760c43bf934d53e8118ee3e7d`.
+Worktree `/root/verify-rust-std-networks` on branch `challenge-8/networks`; baseline `b38e1a1229dacebe5853a47139f4c8db306a0ba5`; source `cd371e035c7e573760c43bf934d53e8118ee3e7d`.
 Tool worktree `/root/refinedrust-feasibility-sources/refinedrust-332d945fafa14bf55c0c8390cb35ec4b0c012cff` on `main` at `332d945fafa14bf55c0c8390cb35ec4b0c012cff`.
-Profile `research/challenge-8/cloud-build/network-rr/RR-G1-PROFILE-20261024-N7.json` SHA-256 `9660cacd8dc1f5f2dc5b3b772a971afc63440bf90251e7753aed5af500cd44cb`. New ledger path: `research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N7.json`; previous closed ledger: `research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N6.json`.
-Cloud budget: 5400 seconds. Wall window: 4320 minutes main + 60 minutes closeout (explicit window authorized by this task only; CORE main/closeout rules apply to these deadlines). Per-Build timeout ≤1740 seconds; report reserve ≥240 seconds.
+Profile `research/challenge-8/cloud-build/network-rr/RR-G1-PROFILE-20261024-N8.json` SHA-256 `c3e91c1b7d287bddca2277927271e1646f0a78eea195c249c381c9a3a7723335`. New ledger path: `research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N8.json`; previous closed ledger: `research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N7.json`.
+Cloud budget: 5009 seconds. Wall window: 4320 minutes main + 60 minutes closeout (explicit window authorized by this task only; CORE main/closeout rules apply to these deadlines). Per-Build timeout ≤1740 seconds; report reserve ≥240 seconds. T0 remains NOT_SET until actual work starts.
 
 ## Goal and steps
 
-N7 and Builds authorized. Extended window: close on goal, budget or a real boundary, not on time (N7-OWNER-DIRECTIONS). Owner decision: the RefinedRust image lives in Google Cloud. Build it online in Cloud Build, push to smallsort-tools/refinedrust-g1, run stock G1 on exact core insert_tail inside that image; answer GO_G2 / STOP_RR / INCONCLUSIVE by the N6 exit criteria.
+Direct owner authorization: fix Docker API, cold image -> digest/freeze -> warm G1 -> Brief classification. New5009s grant; N7 account unchanged. Fixed deadlines main2026-10-26T20:56:24Z / closeout21:56:24Z; no renewed window.
 
-1. Adapt the inherited cold recipe to the online route: pinned ubuntu digest, nightly-2026-08-28 archives by SHA-256, RR clone at 332d945f verified by tree b33bcccb, crates by Cargo.lock --locked; drop the offline deb/vendor/cargo-config gates; freeze = image digest + binary SHA-256s + apt list + Cargo.lock in Build evidence. Branch-local per-lane image support, up to E2_HIGHCPU_8 for the cold Build only; service error-path tests; one review; register phase/lane/ledger.
-2. Cold image Build (1740/1800, one attempt plus one setup-error repair), push, record the digest in the N7 profile and freeze.json (delta review of pins only); then warm G1 (1200/1260, up to two attempts) executing in the image by @sha256 digest; classify the first causal failure via Brief.
-3. Rewrite network/rr/RR-G1-RESULT.md with the N7 verdict, identities (image digest, Build IDs, Brief file/index), first causal failure, missing specs and, for GO_G2, a G2 cost estimate; keep the N6 result as history. Re-check Select P2 for PUBLISHED; W7/W8 stay bounded.
+1. Review/register exact N8 phase and fresh ledger; repair Docker API and use owner actual-Dockerfile-start counting.
+2. Cold1740/1800 -> Brief-bound start/receipt/digest -> pins-only review -> warm1200/1260; preserve source/tool/controls.
+3. Classify GO_G2/STOP_RR/INCONCLUSIVE via N6 criteria, preserve N7 history; re-check Select P2.
 
 ## Special bounds
 
-- Window deadlines exist only for ledger/watcher. Never shorten a timeout; setup error fixed statically, same config never repeated. After each terminal Build commit and push ledger accounting and CHECKPOINT/STATUS before the next step. Review once per semantic candidate; progress note about every 2 h.
-- No RefinedRust frontend/semantics patch, no only_spec/shim/stronger FnMut/Copy/Freeze/purity premise, no Tool Application or CI integration. Generation or collector SUCCESS is not a safety PASS; proof credit 0 under every outcome; the readiness index does not change.
-- Image/registry support only in the own branch client for lane network-rr-g1; coordination.py v4, IAM, shared transport, other lanes/worktrees/ledgers unchanged. Warm recipes reference the image by digest, never by tag. No local RR build or verifier on the VPS.
+- Count only Evidence-Brief confirmed target Dockerfile starts as cold attempts; pre-start infrastructure costs budget but no cold attempt/setup-submit limit. UNKNOWN stays UNKNOWN. Coldmax2 actual starts, warmmax2; no unchanged config retry.
+- Fixed owner deadlines use original20:56:24Z23Oct tooling anchor, actual N8 start21:33:57Z separately recorded. N7 closed391spent/5009retired/carry0 remains byte-identical; N8 is new authorization.
+- After every terminal Build immediately commit/push ledger and CHECKPOINT/STATUS. Timeouts/reserve never shorten; RR frontend unpatched, no stronger premises/shims/only_spec or CI/ToolApplication; credit0/readiness unchanged. Own lane/client only, shared coordinator/IAM/transport and foreign lanes/ledgers unchanged. All actual tools Cloud-only; existing runtime review/watch rules.
 
 ## Starting checkpoint
 
-See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims/evidence/open items. Preserve UNKNOWN.
+Read [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for the exact claims, assurance, evidence, open and rejected items, and artifact identities. UNKNOWN remains UNKNOWN.
 
-Blocker: No RefinedRust image yet: cold online image Build to smallsort-tools is the first action.
-Next: Adapt recipes to the online image route, register lane network-rr-g1, cold image Build and push, warm G1 in the image, classify, rewrite RR-G1-RESULT.md.
+Blocker: Docker API compatibility repair and N8 admission pending.
+Next: Register N8, fix Docker API, cold image then warm G1.
 
 ## References
 
-- [Owner directions N7 (registry route)](network/rr/N7-OWNER-DIRECTIONS.md)
-- [Owner directions N6 (exit criteria)](network/rr/N6-OWNER-DIRECTIONS.md)
-- [Draft RR G1 profile N7](cloud-build/network-rr/RR-G1-PROFILE-20261024-N7.json)
-
-Owner update2026-10-24: [count Dockerfile starts; N7 cold0, infrastructure2](network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md). Closed account carry0.
+- [N8 owner contract](network/rr/N8-OWNER-DIRECTIONS.md)
+- [Owner cold counting update](network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md)
+- [N6 exit criteria](network/rr/N6-OWNER-DIRECTIONS.md)
 
 ## Отчёт агента
 
-**network-refinedrust-g1-2026-10-24-n7 · network · NETWORK-RR-G1-2026-10-24-N7 · CLOSED**
-Updated: 2026-10-23T21:26:37Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `332d945fafa14bf55c0c8390cb35ec4b0c012cff` / `9660cacd8dc1f5f2dc5b3b772a971afc63440bf90251e7753aed5af500cd44cb`.
-Dates: T0 `2026-10-23T20:56:24Z`; main `2026-10-26T20:56:24Z`; absolute `2026-10-26T21:56:24Z`; window 4320 min main + 60 min closeout (explicit). Budget 5400s: 391s spent, 5009s retired, 0s remaining including reservations.
+**network-refinedrust-g1-2026-10-24-n8 · network · NETWORK-RR-G1-2026-10-24-N8 · ACTIVE**
+Updated: 2026-10-23T21:37:23Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `332d945fafa14bf55c0c8390cb35ec4b0c012cff` / `c3e91c1b7d287bddca2277927271e1646f0a78eea195c249c381c9a3a7723335`.
+Dates: T0 `2026-10-23T20:56:24Z`; main `2026-10-26T20:56:24Z`; absolute `2026-10-26T21:56:24Z`; window 4320 min main + 60 min closeout (explicit). Budget 5009s: 0s spent, 0s retired, 5009s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: INCONCLUSIVE: Docker API1.52>daemon1.41 before Dockerfile; cold0, infrastructure2; G1 NOT_RUN. [Build `3e604123-0d22-415d-b629-5ce2bf05aca7`]
-Next: New task/account: repair Docker API, then cold image/G1. Count Dockerfile starts; N7 cold0, infrastructure2; carry0.
+Blocker: N8 Docker API/start-counting repair and review pending.
+Next: Review/register N8, then cold image -> freeze -> warm G1.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
