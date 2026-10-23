@@ -1,0 +1,93 @@
+{
+  "schema": "select-r22-control-target-proposal-v1",
+  "status": "PROPOSED_NOT_REVIEWED_NOT_IMPLEMENTED",
+  "proof_credit": 0,
+  "source_builds": [
+    "cfc83426-d82a-4cb7-95f7-24ee94255952",
+    "7e23e945-9190-4928-b0e6-67f2cd3e31ec"
+  ],
+  "evidence": [
+    "FRACTIONAL-PROOF-MERGE-EVIDENCE.json",
+    "FRACTIONAL-PROOF-LEAK-EVIDENCE.json"
+  ],
+  "rule": "A target pins file, line, column range and full message of the first and only verifier error. Line numbers must be derived from a unique source anchor in the row's verified source, as _final_select_target does. A pin is valid only if the obligation is the one the control removes.",
+  "targets": {
+    "callee-false-normal": {
+      "file": "verified/lib.rs",
+      "anchor": "ens line of checked_forget_owned (FORGET_FALSE_CONTRACT)",
+      "observed_line": 126,
+      "columns": [
+        53,
+        58
+      ],
+      "message": "error: Cannot prove condition. (Cannot prove false.)",
+      "why_intended": "Callee body cannot establish the injected `false` normal post; repeated identically in cfc83426 and 7e23e945."
+    },
+    "callee-owner-duplicate": {
+      "file": "verified/lib.rs",
+      "observed_line": 126,
+      "columns": [
+        53,
+        54
+      ],
+      "message": "error: No matching heap chunks: [1/2]own(T_typeid)(tid, t)",
+      "why_intended": "Second retained half cannot be produced from one received half."
+    },
+    "callee-owner-loss": {
+      "file": "verified/lib.rs",
+      "observed_line": 133,
+      "columns": [
+        1,
+        2
+      ],
+      "message": "error: Function leaks heap chunks: [1/2]own(T_typeid)(tid, t)",
+      "why_intended": "Dropping the half from the post leaks it at callee end."
+    },
+    "callee-thread-duplicate": {
+      "file": "verified/lib.rs",
+      "observed_line": 126,
+      "columns": [
+        27,
+        39
+      ],
+      "message": "error: No matching heap chunks: thread_token(tid)",
+      "why_intended": "Second thread token cannot be produced."
+    },
+    "no-retained-half": {
+      "file": "verified/lib.rs",
+      "anchor": "`/*@ assert *saved_guard.inner |-> ?selected_payload; @*/` after RETURNED_GUARD_HALF",
+      "observed_line": 213,
+      "columns": [
+        39,
+        42
+      ],
+      "message_prefix": "error: No matching heap chunks: points_to<*Element>(",
+      "why_intended": "Without the retained half only [1/2] of the payload cell exists, so the full-cell assert fails. The full message contains symbolic names (__result1); a prefix pin plus the exact assert anchor is proposed, subject to review."
+    },
+    "omit-selected-own": {
+      "file": "bin/rust/std/lib.rsspec (tool home)",
+      "observed_line": 462,
+      "columns": [
+        47,
+        48
+      ],
+      "message_prefix": "error: No matching heap chunks: std::mem::MaybeUninit_pointer_own(Element_typeid)(t, std::mem::MaybeUninit::new(pointer_typeid(Element_typeid), ",
+      "why_intended": "Omitting the selected wrapper close leaves the wrapper-select lemma's first ownership precondition unmet. This replaces the R21 classifier target (final-select result equality), which is stale for this route because the ownership gap is now detected earlier."
+    },
+    "omit-unselected-own": {
+      "file": "bin/rust/std/lib.rsspec (tool home)",
+      "observed_line": 463,
+      "columns": [
+        47,
+        48
+      ],
+      "message_prefix": "error: No matching heap chunks: std::mem::MaybeUninit_pointer_own(Element_typeid)(t, std::mem::MaybeUninit::new(pointer_typeid(Element_typeid), ",
+      "why_intended": "Same as omit-selected-own, for the second precondition conjunct (b)."
+    }
+  },
+  "open_questions": [
+    "Whether the symbolic value suffixes (value6/value2/__result1) are stable enough to pin exactly, or only prefixes.",
+    "These diagnostics must be re-observed after the leak repair (LEAK-REPAIR-NEXT) changes the positive; pins are finalized only on that build.",
+    "The classifier change (select-callee-r21-fractional-proof.py) cascades the PROOF_HELPER_SHA256 pin in the entry; it needs independent review."
+  ]
+}
