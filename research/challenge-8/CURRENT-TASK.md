@@ -48,7 +48,7 @@ Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at
 ## Отчёт агента
 
 **select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · ACTIVE**
-Updated: 2026-10-23T14:52:26Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Updated: 2026-10-23T14:56:59Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 3039s spent, 0s retired, 18561s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: Mutable A1 insertion violates declared exact body order. [Build `d86c7df3-c2f3-42ec-889c-480e9f38d3c0`]

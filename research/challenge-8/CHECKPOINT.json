@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "a7edad650a6188ec17c7536d478d640dad38a3bb725f4c56faee9c1709d98d17"
+      "sha256": "abafca3c0b32fd6e2fb4f8af8de2b712f0935719d233ee2b581e411c8b45188c"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -509,19 +509,19 @@
     }
   ],
   "mutable_capture_candidate": {
-    "candidate": "3442e7f16184e749ed8d5ace5b22251656b8be09",
+    "candidate": "0a853e89841a3f81135e831d03d49951ef0e354a",
     "proof_credit": 0,
-    "review_decision": "GO_OWNER_LOOKUP_DELTA; previous boundary and prior verdicts preserved",
-    "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-capture-owner-lookup-review.json",
-    "review_sha256": "262f5dad1f2360ac4456e6e2f72ad9be2894e48fc542789f4e10498ed139d80e",
+    "review_decision": "GO_INSERTION_DELTA; previous boundaries and prior verdicts preserved",
+    "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-capture-insertion-review.json",
+    "review_sha256": "ae8434c8044a8f7028bc9cefd0b3771a10eea0092357af2f1a6c6bfd6d0e6bcc",
     "runtime_closure": {
-      "bytes": 2383058,
+      "bytes": 2383448,
       "entries": 107,
-      "sha256": "aacb9ea0a30aac9bc8b67a8a7aa1739f9bfa902f7a5ace2714d2bf4f778652df"
+      "sha256": "5187103bab9e52b4b62987c56571dfd61f5be29f914dedd6c849ffa57c0d664a"
     },
     "scope": "SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION",
-    "source_payload_sha256": "de5d690334ddeb96cc8bcb9345218e4f29db64a5d2b4adfb964bda2f1c6c985b",
-    "state": "FAILED_EXACT_BODY_ORDER_ACCOUNTED"
+    "source_payload_sha256": "e51501cd897ed7f1d5c044a82f5b428126583e521a7bc54dbf3ea07fa47e12d9",
+    "state": "REVIEWED_PUBLISHED_READY_FOR_CAPTURE_BUILD"
   },
   "mutable_capture_candidate_history": [
     {
@@ -538,6 +538,21 @@
       "scope": "SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION",
       "source_payload_sha256": "f0263d73f72b8eb9dd252aa642614265eeae5f1738e2f96f2621ca720f290764",
       "state": "FAILED_SOURCE_PREPARATION_ACCOUNTED"
+    },
+    {
+      "candidate": "3442e7f16184e749ed8d5ace5b22251656b8be09",
+      "proof_credit": 0,
+      "review_decision": "GO_OWNER_LOOKUP_DELTA; previous boundary and prior verdicts preserved",
+      "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-capture-owner-lookup-review.json",
+      "review_sha256": "262f5dad1f2360ac4456e6e2f72ad9be2894e48fc542789f4e10498ed139d80e",
+      "runtime_closure": {
+        "bytes": 2383058,
+        "entries": 107,
+        "sha256": "aacb9ea0a30aac9bc8b67a8a7aa1739f9bfa902f7a5ace2714d2bf4f778652df"
+      },
+      "scope": "SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION",
+      "source_payload_sha256": "de5d690334ddeb96cc8bcb9345218e4f29db64a5d2b4adfb964bda2f1c6c985b",
+      "state": "FAILED_EXACT_BODY_ORDER_ACCOUNTED"
     }
   ],
   "mutable_capture_decision": {
@@ -546,7 +561,7 @@
         "Relax exactbodyorder/checker/native9probe",
         "Reinterpret expectedorder to bypass const-shaped ninebody capture bound"
       ],
-      "assurance": "IMPLEMENTED_STATIC_SYNTHETIC_6_PLUS_13_PLUS_4_PASS_PENDING_REVIEW",
+      "assurance": "REVIEW_GO_STATIC_SYNTHETIC_PASS_UNBUILT",
       "choice": "Insert same A1pair before unique checked_forget_owned marker, require forget precedesactual, assert output tx<assume<forget<actual. Preserve actualhelper tail, ghoststrip, signatures/bodies/inventories and all current expected/nativeorder gates. Freshsource/hash/MIR/pins required.",
       "controls": "Synthetic byte transforms and strict missing/duplicate/reordered anchor refusals only on VPS; new exactninewriterpin and independentreview before fresh full1200Cloud.",
       "defect": "Mutable nine-body builder declares transmute/assume_init before ownedforget but inserts A1pair beforeactualhelper afterforget. Cloud exactorder false; Normaltext forget91733 < transmute112370 supports physical order, not semantic/parserbinding.",
@@ -596,7 +611,7 @@
       "schema": "select-r24-mut-capture-request-v1"
     }
   },
-  "next": "Review A1 insertion fix; fresh full1200 capture.",
+  "next": "Submit reviewed insertion fix; full1200 capture only.",
   "next_step": "Review closed R24 mutable capture adapter and lane wiring; full1200 Cloud capture only.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
@@ -663,7 +678,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T14:52:26Z",
+  "updated_utc": "2026-10-23T14:56:59Z",
   "watcher_handoff": {
     "ack_mode": "CONTINUE_EXISTING_WINDOW",
     "acknowledged_event_id": "2442e181-92b6-4bad-b322-35f56ee90c6a",

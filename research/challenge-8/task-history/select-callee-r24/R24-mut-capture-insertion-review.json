@@ -1,0 +1,71 @@
+{
+  "baseline_commit": "3442e7f16184e749ed8d5ace5b22251656b8be09",
+  "candidate_commit": "0a853e89841a3f81135e831d03d49951ef0e354a",
+  "candidate_tree": "819d6bb70df609bb8686164fd7545911eae8086a",
+  "carried_forward": [
+    "Earlier route, mode, source-view and CAPTURE-ONLY boundary conclusions are carried from prior exact candidate reviews; this delta only relocates the existing A1 source pair before the uniquely located checked_forget_owned helper and updates its source pin.",
+    "The prior capture report that normal body order failed is contextual information from the packet; this reviewer did not inspect Brief evidence or independently verify the reported run."
+  ],
+  "decision": "GO_DELTA",
+  "diff_sha256": "41a4f7e0dfbf9b74e85bff32d7e6e2e9573c49782078cf0d27caf69885e0a1c0",
+  "findings": [],
+  "limitations": "GO is limited to the source insertion-anchor and dependency-pin delta. Text position checks do not establish AST/MIR binding or causal verification. No actual source preparation, Cloud capture, proof acceptance, P2 publication, or independent proof credit is established.",
+  "main_reported_static_checks": {
+    "attribution": "Main-reported static transport/closure only; no actual preparation/compiler/proof/Cloud call.",
+    "encoded_config_bytes": "27336/28000",
+    "runtime_closure_blobs": 107,
+    "runtime_closure_bytes": 2383448,
+    "runtime_closure_sha256": "5187103bab9e52b4b62987c56571dfd61f5be29f914dedd6c849ffa57c0d664a",
+    "status": "PASS_REPORTED",
+    "transport_payload_bytes": 404503
+  },
+  "packet_sha256": "f669b8e4e793bc1c52d4f38f5960e0154a4ca3cca5ad2d0200f463632114209e",
+  "prior_reviews": [
+    {
+      "decision": "NO_GO for d158; remains unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-review.json",
+      "sha256": "2113fc509aa8abc0a1ef633d8fcc204c6e8f56117731bb21e15484cc3018cb71"
+    },
+    {
+      "decision": "NO_GO for aad644; remains unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-delta-review.json",
+      "sha256": "da2032ab9c4d31db41ba75dc544e3ae4fb0054a7eba3295e3de983324bda276b"
+    },
+    {
+      "decision": "GO for linewise delta; remains unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-linewise-review.json",
+      "sha256": "ed270f5776802660b278e085f0d5f9983bd07b9fff67c0f824240fa3f712f07b"
+    },
+    {
+      "decision": "GO for owner-lookup delta; remains unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-owner-lookup-review.json",
+      "sha256": "262f5dad1f2360ac4456e6e2f72ad9be2894e48fc542789f4e10498ed139d80e"
+    }
+  ],
+  "proof_credit": 0,
+  "reviewer": "codex-independent-review",
+  "schema": "smallsort-review-record-v1",
+  "scope": "Independent review of the mutable nine-body source insertion-anchor correction and updated adapter dependency pin; no actual source preparation or evidence review.",
+  "spec_sha256": "b3e998dfac66d654af4c9b80cce7e42501e74485dbc487df94802cc1f6477401",
+  "tests": {
+    "not_run": [
+      "4 metadata tests (main-reported only)",
+      "Actual source preparation/compiler/exporter/MIR decode/refinement/verifier, Cloud Build or SmallSort Brief",
+      "Brief artifacts, raw/full logs, archives or Cloud Logging",
+      "Dirty external VeriFast tool worktree",
+      "Independent static transport preflight"
+    ],
+    "run": [
+      "python3 -m unittest research.challenge-8.overnight-helper.test_mutable_source_chain_adapters (6 tests, pass)",
+      "python3 -m unittest research.challenge-8.cloud-build.test_select_callee_r24_mut_capture (13 tests, pass)",
+      "git diff 3442e7f16184e749ed8d5ace5b22251656b8be09 0a853e89841a3f81135e831d03d49951ef0e354a --check (pass)"
+    ]
+  },
+  "verified": [
+    "Exact packet check passed for candidate 0a853e89841a3f81135e831d03d49951ef0e354a, baseline 3442e7f16184e749ed8d5ace5b22251656b8be09, spec SHA b3e998dfac66d654af4c9b80cce7e42501e74485dbc487df94802cc1f6477401, packet SHA f669b8e4e793bc1c52d4f38f5960e0154a4ca3cca5ad2d0200f463632114209e; packet state PACKET_VALID_NOT_REVIEWED and proof credit NONE.",
+    "The insertion now requires exactly one FORGET_MARKER and one ACTUAL_MARKER, with forget before actual, before changing the source. It inserts the same A1 source pair immediately before checked_forget_owned, then verifies transmute < assume_init < forget < actual order.",
+    "The prior checks remain: pair signatures and pointer types, single source-helper calls, mutable-pointer-only inventory, original and verified actual-helper tails byte-identical to the input pair, and ghost-strip identity. No helper body, contract, native verifier, expected body order, or proof logic changed.",
+    "The nine-body writer SHA-256 f6c73c237297b3465453257fa8da1388e94106747d0beed2155f9133c74b6c8b is pinned in the adapter dependency map.",
+    "The synthetic source-chain tests cover correct order and missing, duplicate, or after-actual anchors; adapter tests remain passing. These byte/text checks establish only source ordering and preservation, not parser binding, MIR identity, or causal proof."
+  ]
+}
