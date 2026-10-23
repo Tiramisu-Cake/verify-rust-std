@@ -47,10 +47,10 @@ Next: Fix the three findings, delta review, register R23, early full-1200 Build;
 
 ## Отчёт агента
 
-**merge-caller-acceptance-autonomous-2026-10-24-r23 · merge · MERGE-CALLER-ACCEPTANCE-R23-2026-10-24 · ACTIVE**
-Updated: 2026-10-23T19:08:07.462837Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `0f4e336b52441e8f341a567250adba2b200c54d1` / `3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88`.
+**merge-caller-acceptance-autonomous-2026-10-24-r23 · merge · MERGE-CALLER-ACCEPTANCE-R23-2026-10-24 · HANDOFF**
+Updated: 2026-10-23T19:12:35.548004Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `0f4e336b52441e8f341a567250adba2b200c54d1` / `3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88`.
 Dates: T0 `2026-10-23T10:45:00Z`; main `2026-10-26T10:45:00Z`; absolute `2026-10-26T11:45:00Z`; window 4320 min main + 60 min closeout (explicit). Budget 14400s: 7475s spent, 0s retired, 6925s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: P14 exact kind/address representation prepared; Cloud-unverified.
-Next: Review P14 exact kind and helper trace; measure transport; Cloud.
+Active Build IDs: e3da2906-33c7-49ab-8f27-2e012ac456f2; unresolved: none recorded.
+Blocker: P14 registered; actual compiler/proof outcome pending.
+Next: Watcher event ACK, then P14 Evidence Brief.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

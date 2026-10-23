@@ -1,0 +1,48 @@
+{
+  "schema": "merge-r23-p14-raw-pointer-kind-and-projection-review-v1",
+  "reviewer": "Codex",
+  "candidate": "0ad4acc1d03b511deac684b60297ea92bb60feb6",
+  "baseline": "6c52c771106448fa82983d0c5166b0088dac8f58",
+  "tool_commit": "215b46962d46aabb7dd35f7e4faedadd5c23e15b",
+  "spec_sha256": "2ba15391dbfe0b1871713ae8a7ca15fb66fe682541296b7a227df58a8a784408",
+  "packet_sha256": "ff7c8bddcbe03214b2080702f4d396050552fa84ec12561ec4b04fc77b55c7d7",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "prior_full_review": "R23-P13-COMPILE-REVIEW-20261024.json; P14 preserves the reviewed bounded lifecycle and adds one exact mutable raw-pointer projection step",
+  "decision": "GO",
+  "review_scope": [
+    "RawPtrKind schema representation and exporter population for real MIR RawPtr rvalues",
+    "Exact R23 mutable receiver-dereference RawPtr followed by one typed PtrToPtr cast",
+    "Preservation of the prior cast-only projection path, storage lifecycle, complete helper equivalence, and source/resource controls",
+    "Exact P14 source pins, profile hash, and reverse profile contract"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "The packet check matched the exact candidate, spec SHA-256, and packet SHA-256.",
+    "The schema appends an optional RawPtrKind field to RawPtrData and defines a closed union for Mut, Const, and FakeForPtrMetadata. The exporter fills the discriminator for every real RawPtr and retains the legacy mutability field. Legacy/synthetic records can omit the optional field; the R23 projection rejects absent or null payloads.",
+    "The R23 reader rejects every kind except exact Mut, separately requires legacy mutability Mut, and rejects unknown union cases. This preserves the semantic distinction that FakeForPtrMetadata can share a lossy mutable mapping but has different borrow-checker/retag behavior. The Rustc enum documents FakeForPtrMetadata as metadata-only and distinct from Mut: https://doc.rust-lang.org/nightly/nightly-rustc/rustc_middle/mir/enum.RawPtrKind.html.",
+    "Exporter admission permits a RawPtr only as the first value-projection assignment, with RawPtrKind::Mut, receiver local _1, exactly one Deref projection, a non-argument/non-return local destination, and exactly one final PtrToPtr cast from that raw-pointer local into return local _0. Other RawPtr kinds/shapes and extra assignments after this sequence remain unsupported.",
+    "Translator independently requires the exact &mut [u64] receiver and *mut [u64] intermediate type, canonical input local, mutable-reference place kind, single Deref, live storage, and non-input/non-return destination. The next cast must consume that exact local, target the output local, be the only cast after the raw-pointer step, have typed raw-mut slice to raw-mut u64 endpoints, and be PtrToPtr. Missing or extra final casts fail.",
+    "The operation is represented as its own `raw-ptr-mut-deref` trace step with input/output local ordinals and typed edge; the final pointer cast is a separate trace step. Structural equality compares the full std-cal-lee and helper projection records, including operation kind, typed edges, source order, storage events, local count/order/mutability, and body counts. RawPtr kind or place shape is not erased by normalization.",
+    "The original cast-only projection remains available when no RawPtr step occurs: old Use/Cast admission remains limited to the prior linear body constraints. If a RawPtr step occurs, it must be first and can only be followed by the one exact final cast. No load/store, index, nested projection, pointer arithmetic, extra reference, call, branch, or additional projection operation is newly admitted.",
+    "P13's complete bounded storage lifecycle remains enforced: all events stay serialized and counted; marked pointer temporaries require one initialized, live, non-overlapping Live/Dead pair; operands and destinations must be live; all other non-assignment statements remain refused. Source marker/lifetime binding, exact caller Ref/Unsize/call chain, verified same-unit helper contract, full_borrow resource restoration, and normal/unwind path checks remain in force.",
+    "The exporter/schema/translator/alias pins match GLUE-PROFILE: caaf1a6a5c849cb575e969d7d3da5e7dc5652d630ce49e5e6380cc12dba2d508, 763a1299e3d2a5af40400d47a354aa9725471bd53774279160d474e85e8eae1e, 65d6b0455a4b7db4f1c4db773d07263b471ec34b4853fc0f617eaaed942478b1, and f043cff60098fa3179d09d844694f415338dfd036ea461f37b5952acee87c8bf; the unchanged refiner hash also matches its pin. Tool commit is 215b46962d46aabb7dd35f7e4faedadd5c23e15b, GLUE-PROFILE SHA-256 d8da09a9362bcca1ceb800389f319b3a02b753c2f95a88bd6e0cc82b2688b7dd, patch SHA-256 49babd2c3e7f061a5b7ce1cbff76a35c2e1e51c5897dbda0e171de43b78f0361, and reverse baseline profile SHA-256 3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88.",
+    "The P14 tool delta is limited to the RawPtr schema/exporter/reader and projection changes described above. The refinement checker, kernel, model, runtime source, caller CFG, contracts, and trusted premises are unchanged. `git diff --check` passed for the reviewed tool delta."
+  ],
+  "reported_checks_not_rerun": [
+    "R23 source profile suite: 6 tests",
+    "R23 phase suite: 8 tests"
+  ],
+  "not_run": [
+    "Schema generation or Rust exporter compilation",
+    "OCaml translator/parser compilation",
+    "Compiler, MIR exporter, translator, verifier, or proof execution",
+    "Cloud source preparation or transport roundtrip"
+  ],
+  "limitations": [
+    "P13 did not establish the actual RawPtr rvalue kind; P14's exact shape remains conditional and may continue to refuse the actual callee. This review does not infer source acceptance or helper equivalence from the intended representation.",
+    "Schema reader/writer and translator API usage were checked statically; schema generation and compilation were not run locally.",
+    "Reported profile/phase checks were not rerun. No build admission, proof acceptance, B1/B2 evidence, owned-NLL mapping, or proof credit is established."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

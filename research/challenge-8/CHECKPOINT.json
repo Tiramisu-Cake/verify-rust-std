@@ -1,10 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P12-SOURCE-BORROW-BRIEF-20261024.json",
-      "sha256": "fab09b113113f928ceb4a321e011f80650857e86d73e5aec604a2883e2fff6c5"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P12-RAW-CONTROL-BRIEF-20261024.json",
       "sha256": "fb487bfce1a690fcd2240ddce5b993ca7f61ffd5fa1b5e0f84b1522ed43e76c0"
     },
@@ -23,6 +19,14 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P13-CONTROL-BRIEF-20261024.json",
       "sha256": "9f5e391faaae23ee6915dfd8f15f386090bd680e4c353b1a14e5715092b3e797"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P14-COMPILE-REVIEW-20261024.json",
+      "sha256": "c48e553047efda54470f0c1ed80e131679cf202ebf6418dfb2ebf8a9878bd04e"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P14-TRANSPORT-20261024.json",
+      "sha256": "c73d37e59e7f1dd530f5f4c3f8c50a92229354b93aac20556c8c51d030921a65"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -32,7 +36,7 @@
     "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "P14 exact kind/address representation prepared; Cloud-unverified.",
+    "summary": "P14 registered; actual compiler/proof outcome pending.",
     "evidence": [
       {
         "path": "research/challenge-8/cloud-build/origin-layout/R23-P13-SOURCE-BORROW-BRIEF-20261024.json",
@@ -65,7 +69,7 @@
       ]
     }
   ],
-  "next_step": "Review P14 exact kind and helper trace; measure transport; Cloud.",
+  "next_step": "Watcher event ACK, then P14 Evidence Brief.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
     "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
@@ -86,7 +90,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "e3da2906-33c7-49ab-8f27-2e012ac456f2"
+    ],
     "budget_seconds": 14400,
     "deadline_utc": "2026-10-26T11:45:00Z",
     "finish_minutes": 60,
@@ -98,9 +104,9 @@
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T19:08:07.462837Z",
+  "updated_utc": "2026-10-23T19:12:35.548004Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -418,6 +424,16 @@
       "static_validation": "Optional kind is struct union via existing Mutability pattern, not enum.get; optional reader payload unwrapped with of_pointer. Root binding mutability not confused with mutable-reference place kind. All rawptr writers/synthetic initializers audited: only common exporter writer, legacy Nothing automatic. Exact one first Mut receiver Deref plus final PtrToPtr, full typed trace/lifecycle equality. Profile6/phase8/diffcheck pass; no actual toolchain/schema generation locally.",
       "primary_kind_reference": "https://doc.rust-lang.org/nightly/nightly-rustc/rustc_middle/mir/enum.RawPtrKind.html — FakeForPtrMetadata retag distinction retained; no equivalence between RawPtr and Cast introduced.",
       "null_payload_guard": "Main added explicit of_pointer payload None rejection before union discriminant read, preventing default Mut for a malformed null Some payload. Existing missing/non-Mut guards retained. Final profile6/phase8 pass."
+    },
+    {
+      "obligation": "P14 full compiler/source-borrow validation after reviewed fix",
+      "reason": "Luna HIGH GO exact 0ad4acc1d03b511deac684b60297ea92bb60feb6; spec 2ba15391dbfe0b1871713ae8a7ca15fb66fe682541296b7a227df58a8a784408; packet ff7c8bddcbe03214b2080702f4d396050552fa84ec12561ec4b04fc77b55c7d7. Published root/tool remotes checked. Source gate and cumulative patch five pins/kernel PASS. Payload563629/571567 SHAc4a527f0466e3557c46255bfd4d2c44d43a2b101bed5e6d374fe0f3dfd81d178; config27464/28000. Capturefalse and full1200/reserves unchanged. Further useful proof changes depend on actual outcome; fresh watcher HANDOFF.",
+      "build_id": "e3da2906-33c7-49ab-8f27-2e012ac456f2",
+      "source_sha": "0ad4acc1d03b511deac684b60297ea92bb60feb6",
+      "config_sha256": "6bb16a8fb301e4ae1f7251f4d612705481d8d2cab92af5ebd0d4b0caeaf0d8fa",
+      "dispatch_token": "dispatch-7a0ec200c5b346dfaa46928a8ac47cc8",
+      "state_dir": "/tmp/smallsort-merge-r23-cloud-state",
+      "proof_credit": 0
     }
   ],
   "mission_queue": [
@@ -591,6 +607,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P12-TRANSPORT-20261024.json",
       "sha256": "72fd8bbda1269f3575c36d4373347b90cc6e2febfbf9e9f9874bfc23a2258428"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P12-SOURCE-BORROW-BRIEF-20261024.json",
+      "sha256": "fab09b113113f928ceb4a321e011f80650857e86d73e5aec604a2883e2fff6c5"
     }
   ],
   "historical_confirmed": [
@@ -782,8 +802,10 @@
   },
   "prepared_tool_candidate": {
     "tool_sha": "215b46962d46aabb7dd35f7e4faedadd5c23e15b",
-    "status": "PUBLISHED_REVIEW_PENDING",
+    "status": "REVIEWED_SUBMITTED",
     "scope": "optional exact RawPtrKind metadata and conditional exact receiver raw-pointer helper equivalence; actual P13 rvalue kind UNKNOWN",
-    "profile_sha256": "d8da09a9362bcca1ceb800389f319b3a02b753c2f95a88bd6e0cc82b2688b7dd"
+    "profile_sha256": "d8da09a9362bcca1ceb800389f319b3a02b753c2f95a88bd6e0cc82b2688b7dd",
+    "source_sha": "0ad4acc1d03b511deac684b60297ea92bb60feb6",
+    "build_id": "e3da2906-33c7-49ab-8f27-2e012ac456f2"
   }
 }
