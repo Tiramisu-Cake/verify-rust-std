@@ -142,6 +142,20 @@ class R24MutRefusalTests(unittest.TestCase):
         self.assertEqual(REFUSALS.EXPECTED_REFUSALS["legacy-selector"],
                          REFUSALS.LEGACY_REFUSAL)
 
+    def test_partial_pair_matches_observed_outer_dispatch_refusal(self):
+        # a9f456 native log, line 1; the outer option-pair match rejects before
+        # certify() can call its separate missing-root guard.
+        observed = 'Fatal error: exception Failure("SORT4-R24-MUTABLE-CERTIFICATES: refusal: partial mutable case/root selector")'
+        matched, gate, _ = REFUSALS._classify_log('partial-case-root', observed+'\n')
+        self.assertTrue(matched)
+        self.assertEqual(gate, 'partial mutable case/root selector')
+        delta=REFUSALS._child_environment_delta('partial-case-root',Path('/synthetic/repo'))
+        self.assertEqual(delta[REFUSALS.CASE_ENV],'positive')
+        self.assertIsNone(delta[REFUSALS.ROOT_ENV])
+        wrong = 'Fatal error: exception Failure("SORT4-R24-MUTABLE-CERTIFICATES: refusal: mutable repository root missing")'
+        with self.assertRaises(REFUSALS.RefusalError):
+            REFUSALS._classify_log('partial-case-root',wrong+'\n')
+
     def test_provider_record_requires_current_canonical_native_build(self):
         provider = {**REFUSALS.SUPPORTED_PROVIDER, "build_id": BUILD_ID}
         self.assertEqual(REFUSALS._validate_provider_record(provider, BUILD_ID), provider)

@@ -1,0 +1,153 @@
+{
+  "accepted": false,
+  "archive_sha256": "fe4cc9c2ff745d1afad700d2c76cd1fff0d7560d7517c05c29cc87a38ccb5ad6",
+  "assurance": "SOURCE_REPORTED",
+  "build_id": "a9f456ed-f96d-49fb-8259-6dcb9dfaee7b",
+  "build_seconds": 412,
+  "candidate": "348e7f78b042db89350ef705373ddcbc9378e0e7",
+  "catalogues": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-collector-catalogue.json",
+      "sha256": "7f4302bf86d74ea451db5a92c8af218a155c571346fca458d66841fc84141534"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-entry-log-catalogue.json",
+      "sha256": "68615bdefa520be6cf2133ae019ca4037f9c0bda5edcd0f10df557b50f38b5cd"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-audit-catalogue.json",
+      "sha256": "db2788e509fc2c38fca9e84b0cf70f7d4b3479c1dbc15561c3d452ec79ed6267"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-partial-native-catalogue.json",
+      "sha256": "fd77f7504edd4046e6b738491b8a73b8d17c5196be62783c6d3fc244d049dfa6"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-prerequisite-consequence-catalogue.json",
+      "sha256": "e96b511e614c1da52d054ab5a077d7a4bcaad918873f575df5caf8ea3053c123"
+    }
+  ],
+  "causal_status": "UNKNOWN; OUTER_OPTION_MATCH_ORDER_READ_SEPARATELY",
+  "collector_complete_source_claim": false,
+  "control_inventory_source_claim": 9,
+  "index_sha256": "25f80b99f8dff12a42f726479ab635134a39de2b4964c2727f73488da4b387a7",
+  "limitations": [
+    "Top-level /exception pointer absent; per-control exception used. Partial record and nine-control inventory are source reports; no runtime-stage absence inferred from catalogue."
+  ],
+  "limited_receipts": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-collector-exception.json",
+      "sha256": "1041943395ca91cd6fb27217c60693cd7a552ae55dd3533f66765392af1966b6"
+    }
+  ],
+  "matched_control_source_claims": [
+    "const-substitution",
+    "extra-pointer-depth",
+    "swapped-selected-pointer-operand",
+    "swapped-final-branch-result",
+    "changed-runtime-body",
+    "renamed-generic-element",
+    "changed-cleanup-graph",
+    "wrong-phase"
+  ],
+  "mode_in_build_sha256": "658f4d8bd18958ed78e87f6ddd14a2252140a895cb9dd8b063b957a4a2078289",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "partial_pair_source_claim": {
+    "exit": 2,
+    "literal": "Fatal error: exception Failure(\"SORT4-R24-MUTABLE-CERTIFICATES: refusal: partial mutable case/root selector\")",
+    "native_line": 1,
+    "native_log_sha256": "fc4eb453cb12ceb8ebe8d7d63d56c0b26ab7162f12eaa65f2d45bbeaf5c1f7ea",
+    "old_wrong_expectation": "mutable repository root missing",
+    "qualification": "NOT_QUALIFIED_IN_THIS_BUILD; strict classifier raised on mismatched expected gate"
+  },
+  "platform_status": "FAILURE",
+  "prerequisite_classified_audit_complete_source_claim": true,
+  "prerequisite_consequence_audit_complete_source_claim": true,
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "receipts": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-collector-complete.json",
+      "sha256": "0654a005fde0b7f5107ada63647d646d0cc4ceb00755c13591b31a7772b51547"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-collector-controls--changed-cleanup-graph--classification.json",
+      "sha256": "d2303ffeec19ef427cb4b7291deb723d7f8856f810d7cb3993fea10a1875c2fc"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-collector-controls--changed-runtime-body--classification.json",
+      "sha256": "bf149e2b28d3af08201d50888f5b9b94087d3c3842bb93ab1fb39bfe263daf43"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-collector-controls--const-substitution--classification.json",
+      "sha256": "ef86fb847a197f9165e7510fd3447f638a5e359da5f240602517e556bdc63bef"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-collector-controls--extra-pointer-depth--classification.json",
+      "sha256": "70d57a7dde31398c089a040d9f05115370559a188f2b5c7ba3412e47c5df7a40"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-collector-controls--partial-case-root--errors.json",
+      "sha256": "d4bc6bcda1911efb418066673bf966542acc29b63381680722600be222204d07"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-collector-controls--partial-case-root--exception.json",
+      "sha256": "99d5fff68888f09e1dfaa482a955cd35e8913b5a8dfe6fa158a972496214d019"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-collector-controls--partial-case-root--log.json",
+      "sha256": "80613ecf64147047d427fd3095fbe3b27b0853e7b8ce99e57baf06d87a4a162b"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-collector-controls--partial-case-root--stage--exit.json",
+      "sha256": "c410e8bc760c8a0db3b49fd061dcf825a7466b656621a70d0c64d522ce3bdad9"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-collector-controls--renamed-generic-element--classification.json",
+      "sha256": "0b88e6369e270c3b6c1766cf9a74d98cde3512b23556537dca608ec6cb0d3b47"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-collector-controls--swapped-final-branch-result--classification.json",
+      "sha256": "12943f18a3a05aa5d38e9f89ee88cc758ec170fcaa251f7d666a87ab1e604575"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-collector-controls--swapped-selected-pointer-operand--classification.json",
+      "sha256": "4ba175b43f9481e3187fb5a0377a2ff65fb8284098ed72c1b86a04b89964035f"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-collector-controls--wrong-phase--classification.json",
+      "sha256": "88c1a8ed65a225eb4857b5f26e369fc280c40ae32d28cb9045f255174f58c13a"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-collector-controls.json",
+      "sha256": "5669044d0882613bac4d3c2c4c831199cf26ab0f16f20e76c8c872195c3c3d26"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-partial-native-error.json",
+      "sha256": "8b40f2c12edaf1c5de82c2bedd3ad728269e8bad751010720412d3ff35d683e4"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-partial-native-locate.json",
+      "sha256": "4d30fb95ff5cc9653bb86b12f902d626d681e48265bd522e81f28879cf0bdf24"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-prerequisite-classified-complete.json",
+      "sha256": "38aa588d4dd05f62aae587d38f769196510ec3cc312736aad0fd4bea7b747383"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s19-prerequisite-consequence-complete.json",
+      "sha256": "2d489abcdad710b823158f156f9ec087577e31bbf172c613aac6136dc1489ab9"
+    }
+  ],
+  "remaining_obligations": [
+    "Fresh qualifying partial-case-root",
+    "unknown-case",
+    "legacy-selector",
+    "full current root audit and all11 controls"
+  ],
+  "schema": "select-r24-mut-refusal-second-observations-v1",
+  "static_defect": {
+    "path": "research/challenge-8/task-history/select-callee-r24/MUT-PARTIAL-PAIR-TARGET-DEFECT.json",
+    "sha256": "2b593a2b89c5093f1589d479c50945881f5236e417751cc492cf6ea9072e56f2"
+  }
+}

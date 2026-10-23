@@ -93,7 +93,7 @@ r24_mut_refusal_enabled=0
 r24_mut_refusal_mode_file="$proof_root/research/challenge-8/task-history/select-callee-r24/P2-MUT-REFUSAL-MODE.json"
 if [[ -e "$r24_mut_refusal_mode_file" ]]; then
   (( r24_mut_classified_proof_enabled == 1 )) || exit 2
-  [[ "$(sha256sum "$r24_mut_refusal_mode_file" | cut -d' ' -f1)" == 658f4d8bd18958ed78e87f6ddd14a2252140a895cb9dd8b063b957a4a2078289 ]] || exit 2
+  [[ "$(sha256sum "$r24_mut_refusal_mode_file" | cut -d' ' -f1)" == acec242babdbf1ddbd8913ce4c8b2a296fb2ef806b14d0c1f8353f9eb7a954c7 ]] || exit 2
   r24_mut_refusal_enabled=1
 fi
 positive_ast_args=()

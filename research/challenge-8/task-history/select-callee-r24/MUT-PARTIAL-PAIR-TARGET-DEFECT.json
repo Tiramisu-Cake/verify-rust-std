@@ -1,0 +1,22 @@
+{
+  "accepted": false,
+  "actual_native_line": 1,
+  "actual_native_log_sha256": "fc4eb453cb12ceb8ebe8d7d63d56c0b26ab7162f12eaa65f2d45bbeaf5c1f7ea",
+  "build_id": "a9f456ed-f96d-49fb-8259-6dcb9dfaee7b",
+  "candidate": "348e7f78b042db89350ef705373ddcbc9378e0e7",
+  "fix": "Pin exact observed outer-dispatch refusal and refresh helper/mode/entry/shell identities. Preserve all diagnostics/source/stage/frontend/tool checks and original exception behavior.",
+  "observed_error": "Fatal error: exception Failure(\"SORT4-R24-MUTABLE-CERTIFICATES: refusal: partial mutable case/root selector\")",
+  "previous_wrong_expectation": "mutable repository root missing",
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "schema": "select-r24-partial-pair-target-defect-v1",
+  "static_cause": "Outer (case,root) option-pair match rejects a partial selector before the Some/Some branch invokes certify/reject_ambient_legacy. Previous static review had misread this call order.",
+  "status": "IMPLEMENTED_UNBUILT_REVIEW_PENDING",
+  "unchanged": [
+    "native translator and source unit/body pins",
+    "runtime/std source and model",
+    "consequence lemma and proof matrices",
+    "all eleven required control fixtures",
+    "owner window/budget and representative-type policy"
+  ]
+}
