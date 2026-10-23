@@ -68,3 +68,10 @@ Source: file ID `49642420…`, SHA-256 `96c929a8…`. Brief requests `5a98174fcf
 - The Rust ghost parser accepts a `match` statement inside a ghost block.
 - The certified ghost-statement list of the fractional patch (`ghost_stmts` / `open_owner`) is extended for exactly these four new ghost texts.
 - Line numbers shift, so all pins come from the next fingerprint.
+
+**Translator certificates the repair must extend** (static read of `vf_mir_translator.ml` with the R22 fractional patch applied, translator `e9a953ca`). Both must change only under the existing `fractional` condition. The default and nine routes stay byte-identical.
+- **Owner/nine source reconstruction** (about line 12639): the `wrappers` string. It rebuilds the expected source text around the `open_MaybeUninit` ghosts; the four new ghost texts go before it.
+- **Ordered ghost list** (about line 12791): `expected_ghosts`. The new ghost statements are inserted before the two `open_MaybeUninit` entries.
+- The older `Sort4SelectIntrinsic.projection_ghosts` (about line 734, `//@` form) belongs to the non-nine projection route. Check it, but it is not expected to change.
+
+Add static tests that bind the transform text to both patch literals, as `test_fractional_patch_ghost_literals_match_transform_and_pins` already does for `merge_fractions`.
