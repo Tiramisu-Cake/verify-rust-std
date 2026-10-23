@@ -93,6 +93,68 @@ def _matches_expected(observed: object, expected: object) -> bool:
     return True
 
 
+def _structural_ast_envelope(data: bytes) -> dict[str, Any]:
+    """Check only the formatter's UTF-8 list/PackageDecl delimiter envelope."""
+    try:
+        text = data.decode("utf-8", errors="strict")
+    except UnicodeDecodeError as exc:
+        return {"valid": False, "level": "STRUCTURAL_ENVELOPE_ONLY",
+                "error": f"invalid UTF-8 at byte {exc.start}"}
+    start = len(text) - len(text.lstrip())
+    if start == len(text) or text[start] != "[":
+        return {"valid": False, "level": "STRUCTURAL_ENVELOPE_ONLY",
+                "error": "outer list opener missing"}
+    item = start + 1
+    while item < len(text) and text[item].isspace():
+        item += 1
+    if not text.startswith("PackageDecl", item):
+        return {"valid": False, "level": "STRUCTURAL_ENVELOPE_ONLY",
+                "error": "nonempty PackageDecl list opener missing"}
+    end_item = item + len("PackageDecl")
+    if end_item < len(text) and (text[end_item].isalnum() or text[end_item] == "_"):
+        return {"valid": False, "level": "STRUCTURAL_ENVELOPE_ONLY",
+                "error": "PackageDecl token is not delimited"}
+
+    pairs = {")": "(", "]": "["}
+    stack: list[str] = []
+    in_string = False
+    escaped = False
+    outer_closed_at: int | None = None
+    for index in range(start, len(text)):
+        char = text[index]
+        if in_string:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                in_string = False
+            continue
+        if char == '"':
+            in_string = True
+        elif char in "([":
+            stack.append(char)
+        elif char in ")]":
+            if not stack or stack[-1] != pairs[char]:
+                return {"valid": False, "level": "STRUCTURAL_ENVELOPE_ONLY",
+                        "error": f"mismatched delimiter at character {index}"}
+            stack.pop()
+            if not stack:
+                outer_closed_at = index
+                if text[index + 1:].strip():
+                    return {"valid": False, "level": "STRUCTURAL_ENVELOPE_ONLY",
+                            "error": "trailing text follows outer list"}
+                break
+    if in_string or escaped:
+        return {"valid": False, "level": "STRUCTURAL_ENVELOPE_ONLY",
+                "error": "unterminated quoted string"}
+    if stack or outer_closed_at is None:
+        return {"valid": False, "level": "STRUCTURAL_ENVELOPE_ONLY",
+                "error": "truncated or unclosed outer list"}
+    return {"valid": True, "level": "STRUCTURAL_ENVELOPE_ONLY",
+            "package_decl_token": True}
+
+
 def _write_record(case: Path, record: dict[str, Any]) -> None:
     target = case / RECORD_FILENAME
     if target.is_symlink():
@@ -121,7 +183,10 @@ def run_positive_ast_inventory(*, cap, repo: Path, case: Path, tool_home: Path,
                                expected_snapshots: dict[str, Any],
                                env: dict[str, str] | None = None) -> dict[str, Any]:
     """Run and record one AST diagnostic; malformed output is incomplete data."""
-    selected_env = os.environ if env is None else env
+    live_env = dict(os.environ)
+    selected_env = dict(live_env if env is None else env)
+    need(selected_env == live_env,
+         "diagnostic route environment must match the live process environment")
     need(variant == "positive", "only the positive variant may be inventoried")
     need(selected_env.get(PROVIDER_ENV) == "cloud-build" and
          selected_env.get(ROUTE_ENV) == ROUTE_PHASE and
@@ -155,7 +220,8 @@ def run_positive_ast_inventory(*, cap, repo: Path, case: Path, tool_home: Path,
         "complete": False,
         "accepted": False,
         "proof_credit": 0,
-        "body_proof_run": False,
+        "body_proof_run": "UNKNOWN",
+        "verifier_execution": "REQUESTED_NOT_QUALIFIED",
         "variant": variant,
         "stage_name": STAGE_NAME,
         "ast_filename": AST_FILENAME,
@@ -281,6 +347,10 @@ def run_positive_ast_inventory(*, cap, repo: Path, case: Path, tool_home: Path,
             "bytes": len(ast_bytes),
             "sha256": sha(ast_bytes),
         }
+        envelope = _structural_ast_envelope(ast_bytes)
+        record["ast_artifact"]["structural_validation"] = envelope
+        if envelope.get("valid") is not True:
+            record["errors"].append("AST structural envelope is invalid")
     if not record["source_pins_valid_after"]:
         record["errors"].append("source pair drifted during AST diagnostic")
     if not record["snapshots_match_pins_after"]:

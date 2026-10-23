@@ -76,6 +76,7 @@ class PositiveAstInventory(unittest.TestCase):
     def stage_result(self, *, exit_code=0, status="RAN", alter=None,
                      source_before=None, source_after=None, argv=None,
                      returned_argv=None,
+                     ast_data=b'[PackageDecl (loc "verified/lib.rs(1,0-1,1)" (Identifier "x"))]',
                      intrinsic=True, pointer=True):
         expected_sources = dict(self.source_pins)
         expected_argv = [str(self.tool / "bin/verifast"), "-rustc_args",
@@ -91,7 +92,7 @@ class PositiveAstInventory(unittest.TestCase):
             if isinstance(alter, dict) and callable(alter.get("before_stage")):
                 alter["before_stage"](case)
             if not isinstance(alter, dict) or alter.get("write_ast", True):
-                (case / AST.AST_FILENAME).write_bytes(b"AST source locations")
+                (case / AST.AST_FILENAME).write_bytes(ast_data)
             return {"status": status, "exit": exit_code,
                 "argv": expected_argv if returned_argv is None else returned_argv,
                 "source_before": expected_sources if source_before is None else source_before,
@@ -126,8 +127,12 @@ class PositiveAstInventory(unittest.TestCase):
         self.assertTrue(record["complete"])
         self.assertEqual(record["proof_credit"], 0)
         self.assertFalse(record["accepted"])
+        self.assertEqual(record["body_proof_run"], "UNKNOWN")
+        self.assertEqual(record["verifier_execution"], "REQUESTED_NOT_QUALIFIED")
         self.assertEqual(record["stage_name"], "r24-positive-ast")
         self.assertGreater(record["ast_artifact"]["bytes"], 0)
+        self.assertEqual(record["ast_artifact"]["structural_validation"]["level"],
+                         "STRUCTURAL_ENVELOPE_ONLY")
 
     def test_nonzero_one_is_diagnostic_data_not_proof(self):
         record, _ = self.invoke(self.stage_result(exit_code=1))
@@ -182,6 +187,27 @@ class PositiveAstInventory(unittest.TestCase):
             self.assertFalse(record["complete"])
             self.clean_outputs()
 
+    def test_ast_envelope_accepts_quoted_delimiters_and_rejects_partial_outputs(self):
+        quoted = b'[PackageDecl (loc "verified/(file[one]).rs(1,0-1,1)" (Identifier "x"))]'
+        record, _ = self.invoke(self.stage_result(ast_data=quoted))
+        self.assertTrue(record["complete"])
+        self.assertTrue(record["ast_artifact"]["structural_validation"]["valid"])
+        self.clean_outputs()
+        malformed = (
+            b'[PackageDecl (Identifier "unfinished)',
+            b'[PackageDecl (Identifier "escaped ' + bytes([92]) + b'")',
+            b'[PackageDecl (Identifier "x"]',
+            b'[PackageDecl (Identifier "x"))]',
+            b'\xff[PackageDecl (Identifier "x")]',
+        )
+        for data in malformed:
+            with self.subTest(data=data):
+                record, _ = self.invoke(self.stage_result(ast_data=data))
+                self.assertFalse(record["complete"])
+                self.assertFalse(record["ast_artifact"]["structural_validation"]["valid"])
+                self.assertEqual(record["proof_credit"], 0)
+                self.clean_outputs()
+
     def test_exception_observations_are_saved_then_original_error_reraised(self):
         def explode(case, *_args, **_kwargs):
             (case / "verified/lib.rs").write_bytes(b"changed before timeout")
@@ -218,6 +244,19 @@ class PositiveAstInventory(unittest.TestCase):
              self.assertRaisesRegex(RuntimeError, "AST output already exists"):
             AST.run_positive_ast_inventory(**common, variant="positive")
         self.assertFalse((self.case / AST.RECORD_FILENAME).exists())
+
+    def test_counterfeit_environment_map_is_refused(self):
+        stage = MagicMock(side_effect=AssertionError("stage should not run"))
+        with patch.dict(os.environ, {**self.route_env, **self.control_env}, clear=True):
+            counterfeit = dict(os.environ)
+            counterfeit[AST.PHASE_ENV] = "SORT4-ACTUAL-SELECT-2026-10-23-R23"
+            with self.assertRaisesRegex(RuntimeError, "must match the live process"):
+                AST.run_positive_ast_inventory(cap=FakeCapture(stage), repo=self.repo,
+                    case=self.case, tool_home=self.tool, schema=self.schema,
+                    compiler_sysroot="/sysroot", deadline_epoch=42, variant="positive",
+                    expected_sources=self.source_pins,
+                    expected_snapshots=self.snapshot_pins, env=counterfeit)
+        stage.assert_not_called()
 
     def test_bad_preflight_source_pin_skips_stage_and_records_incomplete(self):
         def forbidden(*_a, **_k):

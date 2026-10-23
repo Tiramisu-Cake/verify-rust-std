@@ -18,12 +18,18 @@ separately named r24-positive-ast, has no proof credit, and cannot change the
 ordinary proof stage result or exit behavior. Capture and restore all
 diagnostic environment values exactly. Validate the physical source pair and
 the ten already-produced unit/body snapshots against current positive pins
-before and after the diagnostic.
+before and after the diagnostic. AST validation is limited to strict UTF-8 and
+the formatter's outer nonempty PackageDecl list with balanced parentheses and
+brackets outside escaped %S strings. This structural-envelope check does not
+parse OCaml or bind AST nodes to diagnostics or parser input. Verifier
+execution is recorded as requested but not qualified; a missing body trace
+does not imply that the verifier did not run.
 
 Controls: isolated helper tests cover exact route/provider/variant admission,
 argv and gates, default-off and negative skip behavior, successful and
 nonzero verifier exits, stage errors and malformed/partial/missing outputs,
 source and snapshot drift, symlink/path refusal, environment restoration, and
-source-stage-target binding. Diagnostic exceptions are recorded with observed
+source-stage-target binding, forged-environment refusal, and structural AST
+envelope truncation, quoting, delimiter, and UTF-8 cases. Diagnostic exceptions are recorded with observed
 source/snapshot state and re-raised unchanged. Missing or invalid evidence is
 marked incomplete with proof credit zero. No Cloud or local proof tool runs.
