@@ -60,9 +60,9 @@
 +                UnwindActionRd.get (unwind_action_get fn_call_data_cpn),
 +                OptionRd.get (target_get fn_call_data_cpn) with
 +          | Constant {const=Val {ty={kind=FnDef
-+              {id={name="std::ptr::mut_ptr::<impl *mut T>::drop_in_place";
++              {id={name="std::ptr::mut_ptr::<impl *mut T>::drop_in_place"};
 +               substs=[{kind=Type pointer}];
-+               late_bound_generic_param_count=0}}}}},
++               late_bound_generic_param_count=0}}}},
 +            [Move {local={name="_32"};projection=[]}],
 +            FnCallOutcome (Ast.CallExpr
 +              (_, "sort4_checked_pointer_drop",
@@ -85,7 +85,7 @@
 +          | Constant {const=Val {ty={kind=FnDef
 +              {id={name="std::mem::MaybeUninit::<T>::assume_init"};
 +               substs=[{kind=Type pointer}];
-+               late_bound_generic_param_count=0}}}}},
++               late_bound_generic_param_count=0}}}},
 +            [Move {local={name="_41"};projection=[]}],
 +            FnCallOutcome (Ast.CallExpr
 +              (_, "checked_assume_init_pointer",
