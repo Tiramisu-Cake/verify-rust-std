@@ -1,0 +1,53 @@
+{
+  "schema": "merge-r23-p18-control-brief-v1",
+  "build_id": "c5d67f50-81f1-422c-88fd-bfe455cea3f4",
+  "assurance": "SOURCE_REPORTED",
+  "archive_sha256": "19058f05a8ec6ba797eec49419e8d3632b9aa47eef80d67b51846fecefadf868",
+  "index_sha256": "2f30d94b50b41c4b3dbd967618ba0a75f1959692261024f163c54265c75e01ad",
+  "file_id": "92de6ec3e223362f51aea2b8cc39115cc6c5d03bbd4db225e49afe7e70412da2",
+  "file_sha256": "1212a2fa502b4d5b02fb5e61743dc802b3886b7d6ad2aaf345321e316ec1f2b6",
+  "source_size_bytes": 731409,
+  "observations": [
+    {
+      "pointer": "/results/r23_source_borrow_controls/missing_end_marker/classification",
+      "value": "SOURCE_ADAPTER_INTENDED_REFUSAL",
+      "request_id": "7390da7343d1982e97b2b36763317841b7cd72ad85512e86630f694d95c158a3",
+      "exact": true,
+      "complete": true
+    },
+    {
+      "pointer": "/results/r23_source_borrow_controls/duplicate_begin_marker/classification",
+      "value": "SOURCE_ADAPTER_INTENDED_REFUSAL",
+      "request_id": "b5db29baeab14c5701e860f8dcc8bd71675615b65288254ab228733bdeccdbaa",
+      "exact": true,
+      "complete": true
+    },
+    {
+      "pointer": "/results/r23_source_borrow_controls/wrong_logical_lifetime_binding/classification",
+      "value": "SOURCE_ADAPTER_INTENDED_REFUSAL",
+      "request_id": "76a10013f4211eb6d03d3bdeaa0faf9c8dc7d20163007282427ff48ab6864a39",
+      "exact": true,
+      "complete": true
+    },
+    {
+      "pointer": "/results/rawptr_controls/all_matched",
+      "value": true,
+      "request_id": "08cd53011b634c0b3e2310707e9f5ddf438108996cf2d8a808fe5d478bd07415",
+      "exact": true,
+      "complete": true
+    },
+    {
+      "pointer": "/results/r19_unwind_controls/all_matched",
+      "value": true,
+      "request_id": "4b35cfc5a1d44efd45d677c1717b70b4163f95e88c0db780377b980626f00383",
+      "exact": true,
+      "complete": true
+    }
+  ],
+  "service_note": "Three concurrent targeted requests received HTTP429; each was later retried sequentially through Evidence Brief and succeeded. No raw fallback.",
+  "integrity_meaning": "archive/inventory only, not successful formal verification",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causal_status": "UNKNOWN",
+  "proof_credit": false,
+  "independent_credit": false
+}

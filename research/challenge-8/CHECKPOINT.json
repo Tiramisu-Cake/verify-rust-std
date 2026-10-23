@@ -1,14 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P16-SOURCE-BORROW-BRIEF-20261024.json",
-      "sha256": "c051eb9d8c2c6fd9056220c928dbcbee4b08f47267445e8ed36bd740da86e38e"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P17-COMPILE-REVIEW-20261024.json",
-      "sha256": "255cac9c24bd1ebe695505432c0c547c9a8c860253eebe7fa539e5659a3a5612"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P17-TRANSPORT-20261024.json",
       "sha256": "9210039b8d492a7b9b66dcff02baf65c6b7c1cc60c5cbe60a0892d81b2028bc8"
     },
@@ -23,6 +15,14 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P18-TRANSPORT-20261024.json",
       "sha256": "734b383229aed628953a6fbf7db6b1d36a680f2ae73c930f3812c7f65154bcd2"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P18-SOURCE-BORROW-BRIEF-20261024.json",
+      "sha256": "747d4427d617d618be7b70dfc0f3d78569183676ec00ec8590c5e8120545c16d"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P18-CONTROL-BRIEF-20261024.json",
+      "sha256": "c6966c2c97ec2e278ead115de7e90e755e6dc840c651f65f99c6cf1ec65190c2"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -32,40 +32,40 @@
     "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "P18 terminal FAILURE; Evidence Brief diagnosis pending.",
+    "summary": "P18 borrow_end postcleanup cannot see ghost r23_array_p.",
     "evidence": [
       {
-        "path": "research/challenge-8/cloud-build/origin-layout/R23-P17-SOURCE-BORROW-BRIEF-20261024.json",
-        "sha256": "98335619c192bf13babecfc93016a6d500f9cc542e44b660caa74c5588379129",
-        "build_id": "df9dd55b-a1a1-4409-bbc5-adc953d8bb3c"
+        "path": "research/challenge-8/cloud-build/origin-layout/R23-P18-SOURCE-BORROW-BRIEF-20261024.json",
+        "sha256": "747d4427d617d618be7b70dfc0f3d78569183676ec00ec8590c5e8120545c16d",
+        "build_id": "c5d67f50-81f1-422c-88fd-bfe455cea3f4"
       }
     ]
   },
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "P16 alltoolstages0/proof attempted; sourcecaller reaches628 then type mismatch fn_outcome<raw slice> vs explicit-lifetime mutable slice ref; credit0.",
+      "claim": "P18 alltoolstages0/proof attempted; caller reaches postcleanup after end_lifetime, borrow_end631 refuses out-of-scope r23_array_p; credit0.",
       "evidence": [
         {
-          "path": "research/challenge-8/cloud-build/origin-layout/R23-P16-SOURCE-BORROW-BRIEF-20261024.json",
-          "sha256": "c051eb9d8c2c6fd9056220c928dbcbee4b08f47267445e8ed36bd740da86e38e",
-          "build_id": "9a071bc9-4b43-4bd1-add9-dfa93de3d6d9"
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P18-SOURCE-BORROW-BRIEF-20261024.json",
+          "sha256": "747d4427d617d618be7b70dfc0f3d78569183676ec00ec8590c5e8120545c16d",
+          "build_id": "c5d67f50-81f1-422c-88fd-bfe455cea3f4"
         }
       ]
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "P17 alltoolstages0/proof attempted; Unsize reached call, then selected method site refuses lemma in non-pure context; credit0.",
+      "claim": "P18 all three source negatives intended; rawptr and R19 all_matched=true; credit0.",
       "evidence": [
         {
-          "path": "research/challenge-8/cloud-build/origin-layout/R23-P17-SOURCE-BORROW-BRIEF-20261024.json",
-          "sha256": "98335619c192bf13babecfc93016a6d500f9cc542e44b660caa74c5588379129",
-          "build_id": "df9dd55b-a1a1-4409-bbc5-adc953d8bb3c"
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P18-CONTROL-BRIEF-20261024.json",
+          "sha256": "c6966c2c97ec2e278ead115de7e90e755e6dc840c651f65f99c6cf1ec65190c2",
+          "build_id": "c5d67f50-81f1-422c-88fd-bfe455cea3f4"
         }
       ]
     }
   ],
-  "next_step": "Read P18 Evidence Brief after accounting publication.",
+  "next_step": "P19 exact let_lft start and scoped refs; delta review, full Cloud envelope.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
     "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
@@ -100,7 +100,7 @@
   },
   "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T20:59:32.974586Z",
+  "updated_utc": "2026-10-23T21:05:43.435073Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -512,6 +512,14 @@
       "dispatch_token": "dispatch-58dc431297054ef98e1fb5df94c27b9b",
       "state_dir": "/tmp/smallsort-merge-r23-cloud-state",
       "proof_credit": 0
+    },
+    {
+      "obligation": "P19 preserve exact let_lft binding start and outer pre-borrow ghost binders",
+      "defect": "Extracted let_lft declaration block originally starts at its annotation, but R23 relocation moves it earlier to pre-marker and scopes all pre ghost binders inside. Strict post-marker close then hides array_p/borrow_values/array from postcleanup.",
+      "applicability": "Exact unique R23 let_lft annotation after pre borrow commands; preserve/record original binding start and match scoped Ref/Unsize temporary injection to that start, not pre-marker.",
+      "invariant": "Pre ghost binders outer and visible to normal/unwind cleanup; only explicit lifetime and selected ref temps inner, strict end still post-marker. No lifetime widening/noescape relaxation. Resource statements/calls/order, end_lifetime before physical restoration/insert_tail, original runtime/CFG/source/model/gates unchanged.",
+      "controls": "Unique exact binding position after pre commands before post marker; scoped temp injection exactly once at that position; strict end and leftover/escape checks preserved. Update every plan record constructor if new field; diff/profile/phase checks and independent delta review, actual toolchain only Cloud.",
+      "proof_credit": 0
     }
   ],
   "mission_queue": [
@@ -741,6 +749,14 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P16-TRANSPORT-20261024.json",
       "sha256": "dd5db1611a07efa76ec47318658191b8cd2f50fbca4baa9d21b713c9746c0374"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P16-SOURCE-BORROW-BRIEF-20261024.json",
+      "sha256": "c051eb9d8c2c6fd9056220c928dbcbee4b08f47267445e8ed36bd740da86e38e"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P17-COMPILE-REVIEW-20261024.json",
+      "sha256": "255cac9c24bd1ebe695505432c0c547c9a8c860253eebe7fa539e5659a3a5612"
     }
   ],
   "historical_confirmed": [
@@ -952,6 +968,28 @@
           "build_id": "32445c00-537d-4d24-9bc8-841785903d2d"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P16 alltoolstages0/proof attempted; sourcecaller reaches628 then type mismatch fn_outcome<raw slice> vs explicit-lifetime mutable slice ref; credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P16-SOURCE-BORROW-BRIEF-20261024.json",
+          "sha256": "c051eb9d8c2c6fd9056220c928dbcbee4b08f47267445e8ed36bd740da86e38e",
+          "build_id": "9a071bc9-4b43-4bd1-add9-dfa93de3d6d9"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P17 alltoolstages0/proof attempted; Unsize reached call, then selected method site refuses lemma in non-pure context; credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P17-SOURCE-BORROW-BRIEF-20261024.json",
+          "sha256": "98335619c192bf13babecfc93016a6d500f9cc542e44b660caa74c5588379129",
+          "build_id": "df9dd55b-a1a1-4409-bbc5-adc953d8bb3c"
+        }
+      ]
     }
   ],
   "watcher_store": "/root/.local/state/smallsort-watch-merge-r23-20261024",
@@ -975,11 +1013,9 @@
     "active_build": null
   },
   "prepared_tool_candidate": {
-    "tool_sha": "37d92023804ee5148bc0e3d7a72e2cc136314130",
-    "profile_sha256": "d630d3f99ee497b6bc1d5b1ddd8b5eff0c2d9aec757512134001ce84c389ddfd",
-    "status": "BUILD_TERMINAL_FAILURE_PROOF_UNDETERMINED",
-    "scope": "only three generated R23 lemma-call PureStmt wrappers; same expressions/resources/lifetime/normal-unwind placement",
-    "source_sha": "d93a6503b3284a27c63d5eafac80cac86fc579dc",
-    "build_id": "c5d67f50-81f1-422c-88fd-bfe455cea3f4"
+    "tool_sha": "9679ae38fcafdfa227ea278b5f04c88f4f668622",
+    "profile_sha256": "7232accf54d5606ea3bee232975382a73001faca840fbd20f1069f5a2a498814",
+    "status": "PREPARED_REVIEW_REQUIRED_CLOUD_UNVERIFIED",
+    "scope": "exact original let_lft binding start and scoped Ref/Unsize decl injection; pre ghost binders outer, strict post-marker end unchanged"
   }
 }

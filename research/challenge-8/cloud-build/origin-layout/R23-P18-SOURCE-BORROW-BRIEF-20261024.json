@@ -1,0 +1,38 @@
+{
+  "schema": "merge-r23-p18-source-borrow-brief-v1",
+  "build_id": "c5d67f50-81f1-422c-88fd-bfe455cea3f4",
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "integrity_meaning": "archive/inventory only, not successful formal verification",
+  "proof_attempted_source_claim": true,
+  "tool_stages_source_claim": {
+    "exporter": 0,
+    "decoder": 0,
+    "translator": 0,
+    "refiner": 0
+  },
+  "archive_sha256": "19058f05a8ec6ba797eec49419e8d3632b9aa47eef80d67b51846fecefadf868",
+  "index_sha256": "2f30d94b50b41c4b3dbd967618ba0a75f1959692261024f163c54265c75e01ad",
+  "native_refusal": {
+    "file_id": "62579048b440285209d54779fafd9c375e1ca3162b25cd6f2e4eff0a2c70042c",
+    "source_sha256": "08e1a506df21654f807069deffea5373d69e8c8c5af65fdb36a14f2b254b7c37",
+    "source_size_bytes": 451568,
+    "request_id": "35b3593bc9dffd76bc5854092beb84bf3a99ccace1f0ad895e03e62b9ce53e02",
+    "lines": "3846-3856",
+    "exact": true,
+    "complete": false,
+    "location": "verified/lib.rs:631:52-63",
+    "message": "No such variable, constructor, regular function, predicate, enum element, global variable, or module: r23_array_p"
+  },
+  "static_control_flow_inference": "Source caller now passes selected helper/borrow bridge sites and reaches end_lifetime then borrow_end post cleanup; the ghost array pointer name is out of scope. Investigate exact pre-ghost and short let_lft AST scope representation; preserve lifetime end before physical restoration/insert_tail and both normal/unwind cleanup. No full caller/helper acceptance.",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causal_status": "UNKNOWN",
+  "proof_credit": false,
+  "independent_credit": false,
+  "locator": {
+    "request_id": "871dfcf5fcaf397e060afb4a2aea412c3bd72f8a53c69bf6413df904f6757251",
+    "literal": "error:",
+    "exact": true,
+    "complete": true,
+    "matches": 1
+  }
+}
