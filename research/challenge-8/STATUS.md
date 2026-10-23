@@ -1,11 +1,11 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-23T19:13:01Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: HANDOFF
+- Updated: 2026-10-23T19:14:19Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 4066s spent; 0s retired; 17534s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 4509d8d7-ee10-485a-b330-cc111c1bb013
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -20,11 +20,11 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-Mutable native compile/positive/fullmatrix/refusals pending; P2 NOT_PUBLISHED.
+Await native compile/const regression/mutable positive Brief; P2 NOT_PUBLISHED. [Build `4509d8d7-ee10-485a-b330-cc111c1bb013`]
 - [research/challenge-8/task-history/select-callee-r24/R24-mut-positive-provenance-review.json](task-history/select-callee-r24/R24-mut-positive-provenance-review.json) SHA `0822e8dc01bf3c27b1c322af07f67e7dd5891a7ec735d27ab0a6bcb28418fbd1`
 
 ## Next
-Full1200 Cloud 39a: native compile, const full8 regression, mutable positive.
+ACK event; immediately commit/push terminal accounting+views; then Brief and next obligation.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `3e80a1be998806fd31399b69e14b083f5263a124db74a874914b6af8fd954112`

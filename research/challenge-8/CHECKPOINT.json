@@ -32,13 +32,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
+    "build_id": "4509d8d7-ee10-485a-b330-cc111c1bb013",
     "evidence": [
       {
         "path": "research/challenge-8/task-history/select-callee-r24/R24-mut-positive-provenance-review.json",
         "sha256": "0822e8dc01bf3c27b1c322af07f67e7dd5891a7ec735d27ab0a6bcb28418fbd1"
       }
     ],
-    "summary": "Mutable native compile/positive/fullmatrix/refusals pending; P2 NOT_PUBLISHED."
+    "summary": "Await native compile/const regression/mutable positive Brief; P2 NOT_PUBLISHED."
   },
   "brief_observation_refs": [
     {
@@ -800,7 +801,7 @@
     {
       "obligation": "Closed mutable native certificate + same-tool const regression + mutable positive",
       "reason": "Separate freshmutable family retains const profile and allordinary callee proofs; rootmodepositiveonly and sourceclaims distinct from proof credit.",
-      "state": "REVIEW_GO_UNBUILT"
+      "state": "BUILD_ACTIVE"
     }
   ],
   "mutable_capture_build": {
@@ -1076,6 +1077,22 @@
     "provenance_fix": "Original faf7 NO_GO preserved. Callback/row existence no bodyproof claim; no callback false, attempted unresolved null, only clean positive true;17+7tests pass.",
     "state": "REVIEW_GO_STATIC_PREFLIGHT_PASS_UNBUILT"
   },
+  "mutable_positive_build": {
+    "accounted": false,
+    "build_id": "4509d8d7-ee10-485a-b330-cc111c1bb013",
+    "candidate": "39a928cee896905a0993db80a27c12b127f51850",
+    "config_sha256": "77da4005fc0c42a66dee24cb74cfda6e1603b9fa42c936cbd969c915e303a86f",
+    "dispatch_token": "dispatch-026615d55e1f4d20a620084ac73c7558",
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "reserved_seconds": 1260,
+    "result": "PENDING_BRIEF",
+    "schema": "select-r24-mut-positive-submission-v1",
+    "scope": "CONST_FULL8_REGRESSION_AND_MUTABLE_POSITIVE_NO_ACCEPTANCE",
+    "source_payload_sha256": "4fce0c94f80eeb1d1c7781d0376563329e2b18aaecc3bc7aa1ea4142d37bbc93",
+    "status": "QUEUED",
+    "timeout_seconds": 1200
+  },
   "mutable_positive_candidate": {
     "candidate": "39a928cee896905a0993db80a27c12b127f51850",
     "native_library_candidate": "08ee42fc877d917fda596adaf8758e113b911c41",
@@ -1085,14 +1102,14 @@
     "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-positive-provenance-review.json",
     "review_sha256": "0822e8dc01bf3c27b1c322af07f67e7dd5891a7ec735d27ab0a6bcb28418fbd1",
     "scope": "CONST_FULL8_REGRESSION_AND_MUTABLE_POSITIVE_NO_ACCEPTANCE",
-    "state": "REVIEW_GO_UNBUILT"
+    "state": "BUILD_ACTIVE"
   },
   "mutable_positive_pins_ref": {
     "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-CAPTURE-PINS.json",
     "sha256": "b10d8f472fd9babc5e73cb7a8da14ad691b0563975d0d6d956366165a47401d0"
   },
-  "next": "Full1200 Cloud 39a: native compile, const full8 regression, mutable positive.",
-  "next_step": "Full1200 Cloud 39a: native compile, const full8 regression, mutable positive.",
+  "next": "ACK event; immediately commit/push terminal accounting+views; then Brief and next obligation.",
+  "next_step": "ACK event; immediately commit/push terminal accounting+views; then Brief and next obligation.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "MutableP2 NOT_PUBLISHED; capture-only next, then narrowcertificates/proof/refusals. W4 remains gated."
@@ -1136,7 +1153,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "4509d8d7-ee10-485a-b330-cc111c1bb013"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -1156,9 +1175,17 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T19:13:01Z",
+  "updated_utc": "2026-10-23T19:14:19Z",
+  "watcher_handoff": {
+    "build_id": "4509d8d7-ee10-485a-b330-cc111c1bb013",
+    "checkpoint_frozen_after_arm": true,
+    "continuation": "Same R24/T0/account/window. ACK dedicated watcher before CP mutation; terminal accounting commit/push immediately before Brief. Evidence only through Brief.",
+    "spec_path": "/tmp/select-r24-mut-positive-watch.json",
+    "store": "/root/.local/state/smallsort-watch-select-r24",
+    "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+  },
   "watcher_history": [
     {
       "ack_mode": "CONTINUE_EXISTING_WINDOW",

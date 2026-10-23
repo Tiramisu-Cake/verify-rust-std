@@ -47,10 +47,10 @@ Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · ACTIVE**
-Updated: 2026-10-23T19:13:01Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · HANDOFF**
+Updated: 2026-10-23T19:14:19Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 4066s spent, 0s retired, 17534s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Mutable native compile/positive/fullmatrix/refusals pending; P2 NOT_PUBLISHED.
-Next: Full1200 Cloud 39a: native compile, const full8 regression, mutable positive.
+Active Build IDs: 4509d8d7-ee10-485a-b330-cc111c1bb013; unresolved: none recorded.
+Blocker: Await native compile/const regression/mutable positive Brief; P2 NOT_PUBLISHED. [Build `4509d8d7-ee10-485a-b330-cc111c1bb013`]
+Next: ACK event; immediately commit/push terminal accounting+views; then Brief and next obligation.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
