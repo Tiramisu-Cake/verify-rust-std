@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "412662ad0560eb70490c7263a5e0c9abbfaf3279868a57e85c9474cc99b2fc24"
+      "sha256": "881d6f8cbe5f3348fb942ebcfc46fe55b4c345e9f2c7db7541ab9ac2a5108d2a"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -424,6 +424,21 @@
       "state": "DESIGN_RECORDED_BEFORE_EDIT"
     }
   ],
+  "mutable_capture_candidate": {
+    "candidate": "890f9a78f02c72081077a4a333463b447d1fcc1a",
+    "proof_credit": 0,
+    "review_decision": "GO_DELTA_WITH_PRIOR_BOUNDARY_CARRIED_FORWARD; original NO_GO records unchanged",
+    "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-capture-linewise-review.json",
+    "review_sha256": "ed270f5776802660b278e085f0d5f9983bd07b9fff67c0f824240fa3f712f07b",
+    "runtime_closure": {
+      "bytes": 2382745,
+      "entries": 107,
+      "sha256": "ad923ba5dd8e4a3cd867a64fdb388f824f7c09d5a6e7c228c561c39ddfdc081b"
+    },
+    "scope": "SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION",
+    "source_payload_sha256": "f0263d73f72b8eb9dd252aa642614265eeae5f1738e2f96f2621ca720f290764",
+    "state": "REVIEWED_PUBLISHED_READY_FOR_CAPTURE_BUILD"
+  },
   "mutable_capture_decision": {
     "alternatives_rejected": [
       "Modify frozen capture.py and cascade everylegacy pin",
@@ -439,7 +454,7 @@
     "defect": "Active lane onlyprepares const source; mutable17142 source-only chain is notinvoked. Probe9 can snapshotmutable before semanticconst gates andalwaysrefuses.",
     "invariants": "Cloud/nativeR24 only, sourcebuilderpins/ghoststrip/sourcehash/refinement/normal+readonly/9body+10snapshots; no semanticadmission/nativecheckedmode/map/proof/interfacepublication. Preserve defaultconst path and all const gates.",
     "linewise_review_delta": {
-      "assurance": "STATIC_SYNTHETIC_12_ADAPTER_4_METADATA_PASS_PENDING_REVIEW",
+      "assurance": "REVIEW_GO_DELTA; SOURCE_MIR_CAPTURE_UNRUN",
       "choice": "Pinned matcher applied perline; isolated fixture extracts production literal from AST without actual driver imports.",
       "defect": "Production located-error regex lacks MULTILINE; whole-log findall misses marker-first later errors. Fake wrongly added re.M.",
       "proof_credit": 0
@@ -460,7 +475,7 @@
       "schema": "select-r24-mut-capture-request-v1"
     }
   },
-  "next": "Review mutable capture adapter, then full1200 Cloud capture.",
+  "next": "Submit reviewed mutable capture; full1200, no proof admission.",
   "next_step": "Review closed R24 mutable capture adapter and lane wiring; full1200 Cloud capture only.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
@@ -527,7 +542,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T14:28:18Z",
+  "updated_utc": "2026-10-23T14:29:56Z",
   "watcher_handoff": {
     "ack_mode": "CONTINUE_EXISTING_WINDOW",
     "acknowledged_event_id": "b08ded8a-dbb3-4c4c-b498-82f47020d9b5",

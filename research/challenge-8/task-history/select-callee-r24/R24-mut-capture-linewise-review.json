@@ -1,0 +1,55 @@
+{
+  "baseline_commit": "aad644f73412c7332b9b0ca7f010de9266d80af7",
+  "candidate_commit": "890f9a78f02c72081077a4a333463b447d1fcc1a",
+  "candidate_tree": "f6f31b1b3d7a9626ca607d4c68f70e1f9f99ae0e",
+  "carried_forward": [
+    "The prior d158 NO_GO about the absent fingerprint_probe_fatal field was fixed in aad644 by strict physical log checks, explicit stage.source_unchanged, and final source-pair hash/ghost-strip recheck.",
+    "The prior aad644 NO_GO about whole-log regex matching and the test fixture's re.M mismatch is fixed by this candidate.",
+    "The exact route remains diagnostic CAPTURE-ONLY, with no const-matrix/proof fallthrough. Prior boundary conclusions apply only as reviewed for the same unchanged source/runtime behavior."
+  ],
+  "decision": "GO_DELTA",
+  "diff_sha256": "181099af2c3b27089d7930c004989a5ca2668154d72f7bd1a9bbcebd18ba925c",
+  "findings": [],
+  "limitations": "GO is limited to this linewise matcher/test-fixture delta and does not erase earlier candidate-specific NO_GO records. No actual mutable capture ran; this review establishes no formal proof, P2 publication, acceptance, or independent proof credit.",
+  "main_reported_static_checks": {
+    "attribution": "Main reported 12+4 tests and static closure/transport. Only the 12 adapter tests were independently run for this delta.",
+    "status": "PASS_REPORTED"
+  },
+  "packet_sha256": "c45556bdd3685b64c192fd10bdd28fdd97235712a12cfea1b1cade1e238a27b0",
+  "prior_reviews": [
+    {
+      "decision": "NO_GO for d158; remains unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-review.json",
+      "sha256": "2113fc509aa8abc0a1ef633d8fcc204c6e8f56117731bb21e15484cc3018cb71"
+    },
+    {
+      "decision": "NO_GO for aad644; remains unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-delta-review.json",
+      "sha256": "da2032ab9c4d31db41ba75dc544e3ae4fb0054a7eba3295e3de983324bda276b"
+    }
+  ],
+  "proof_credit": 0,
+  "reviewer": "codex-independent-review",
+  "schema": "smallsort-review-record-v1",
+  "scope": "Independent same-boundary review of the exact linewise located-error scan and its synthetic matcher fixture; prior CAPTURE-ONLY route, source, and no-proof conclusions are carried without re-review.",
+  "spec_sha256": "232c6a77a1304b4f5c303d0920a8f85f931dc2724531df4cf7f0256929d8df3f",
+  "tests": {
+    "not_run": [
+      "4 metadata tests (main-reported, not independently invoked)",
+      "Actual source preparation, compiler/exporter/MIR decode/refinement/verifier, Cloud Build or SmallSort Brief",
+      "Raw/full logs, archives or Cloud Logging; dirty external VeriFast tool worktree",
+      "Independent transport preflight"
+    ],
+    "run": [
+      "python3 -m unittest research.challenge-8.cloud-build.test_select_callee_r24_mut_capture (12 tests, pass)",
+      "git diff aad644f73412c7332b9b0ca7f010de9266d80af7 --check (pass)"
+    ]
+  },
+  "verified": [
+    "Exact packet check passed for candidate 890f9a78f02c72081077a4a333463b447d1fcc1a, baseline aad644f73412c7332b9b0ca7f010de9266d80af7, spec SHA 232c6a77a1304b4f5c303d0920a8f85f931dc2724531df4cf7f0256929d8df3f, packet SHA c45556bdd3685b64c192fd10bdd28fdd97235712a12cfea1b1cade1e238a27b0; packet state PACKET_VALID_NOT_REVIEWED and proof credit NONE.",
+    "The production ERR regex remains anchored without re.MULTILINE, but the adapter now splits the strict UTF-8 log into physical lines and applies the production matcher to each line. A located error after the refusal marker is therefore detected.",
+    "The fake test matcher now parses the actual production ERR regex literal from check-helper.py using AST without importing source drivers, eliminating the prior re.M divergence. The regression log places the valid refusal marker before the located error.",
+    "12 focused mutable-capture adapter synthetic tests pass. Candidate HEAD is exact and implementation paths were clean; only packet/spec/transport/review metadata was untracked before this review record.",
+    "Diff whitespace check passes. Reviewed the exact two-file code/test delta; no other runtime, route, mode, native tool, or proof behavior changed in this delta."
+  ]
+}
