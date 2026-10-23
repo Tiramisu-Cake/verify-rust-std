@@ -1,5 +1,5 @@
 {
-  "active_build": null,
+  "active_build": "2aecb78a-a2d2-43d6-bb62-59a0b46680ff",
   "actual_work_start_utc": "2026-10-23T21:33:57Z",
   "allowed_lanes": [
     "network-rr-g1"
@@ -32,27 +32,44 @@
       "timeout_seconds": 1740
     },
     {
+      "accounted": true,
+      "build_id": "778dfce1-2f3d-4ad9-a098-f7019138dc23",
+      "build_seconds": 106,
+      "create_time": "2026-10-23T22:09:04.456648598Z",
       "dispatch_token": "dispatch-7afa3bcb94ef4653ba9b6e6bedbd66d9",
+      "execution_seconds": 105,
+      "finish_time": "2026-10-23T22:10:49.542212Z",
+      "infra_sha": "3a33d00ced9e3f3bd38afd2ab41d0194982f2cb6",
+      "lane": "network-rr-g1",
       "owner": "network",
       "phase_id": "NETWORK-RR-G1-2026-10-24-N8",
-      "infra_sha": "3a33d00ced9e3f3bd38afd2ab41d0194982f2cb6",
       "proof_sha": "3a33d00ced9e3f3bd38afd2ab41d0194982f2cb6",
+      "publish_text_logs": true,
+      "reserved_seconds": 1260,
+      "source_input_sha256": "4218b332e1a260bc50b75a0e823cec9f1b43b44c2c1a34c2bc02d9ca93fac6fb",
+      "source_mode": "pinned-objects",
+      "stage": "warm-g1",
+      "start_time": "2026-10-23T22:09:05.180858950Z",
+      "status": "FAILURE",
+      "submitted_config_sha256": "dd5c1b90f523c6fea986dd92f7d98c153c0966a01643d15a290121fa0ce871cd",
+      "timeout_seconds": 1200
+    },
+    {
+      "dispatch_token": "dispatch-3b9fba6d49dd4095a97e5165209c2fc6",
+      "owner": "network",
+      "phase_id": "NETWORK-RR-G1-2026-10-24-N8",
+      "infra_sha": "82ad4e7349e68c65220e297197c2a20c35fc84df",
+      "proof_sha": "82ad4e7349e68c65220e297197c2a20c35fc84df",
       "lane": "network-rr-g1",
       "stage": "warm-g1",
-      "submitted_config_sha256": "dd5c1b90f523c6fea986dd92f7d98c153c0966a01643d15a290121fa0ce871cd",
+      "submitted_config_sha256": "f65bc585d3c0a7dab8c5311918d2c5e90966c9059d2994462e7bfa81eed91b02",
       "reserved_seconds": 1260,
       "timeout_seconds": 1200,
-      "status": "FAILURE",
+      "status": "QUEUED",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
-      "source_input_sha256": "4218b332e1a260bc50b75a0e823cec9f1b43b44c2c1a34c2bc02d9ca93fac6fb",
-      "build_id": "778dfce1-2f3d-4ad9-a098-f7019138dc23",
-      "start_time": "2026-10-23T22:09:05.180858950Z",
-      "finish_time": "2026-10-23T22:10:49.542212Z",
-      "create_time": "2026-10-23T22:09:04.456648598Z",
-      "build_seconds": 106,
-      "accounted": true,
-      "execution_seconds": 105
+      "source_input_sha256": "d87a6668eb1148a7f3dd3feb56ff71829cf088cd2b91c4b3972248712af77be3",
+      "build_id": "2aecb78a-a2d2-43d6-bb62-59a0b46680ff"
     }
   ],
   "carry_seconds": 0,
@@ -98,5 +115,11 @@
   "status": "AUTHORIZED",
   "task_id": "network-refinedrust-g1-2026-10-24-n8",
   "used_build_seconds": 847,
+  "warm_repair": {
+    "candidate_sha": "82ad4e7349e68c65220e297197c2a20c35fc84df",
+    "evidence": "research/challenge-8/network/rr/N8-WARM1-EVIDENCE.json exact Brief first-blocker tool-inputs unsupported tracked .claude/skills120000; N8-WARM-REPAIR-REVIEW.json GO; published metadata descendant preserves reviewed verifier and image.",
+    "prior_build_id": "778dfce1-2f3d-4ad9-a098-f7019138dc23",
+    "reviewed_semantic_candidate": "31e2aaf8caf1d6ea38b12c9fae28100170dce4ba"
+  },
   "window_anchor_note": "Original tooling anchor only; user fixed main2026-10-26T20:56:24Z and closeout21:56:24Z, no renewed window."
 }

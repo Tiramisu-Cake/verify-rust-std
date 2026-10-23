@@ -1,4 +1,15 @@
 {
+  "active_dispatch": {
+    "build_id": "2aecb78a-a2d2-43d6-bb62-59a0b46680ff",
+    "config_sha256": "f65bc585d3c0a7dab8c5311918d2c5e90966c9059d2994462e7bfa81eed91b02",
+    "dispatch_token": "dispatch-3b9fba6d49dd4095a97e5165209c2fc6",
+    "infra_sha": "82ad4e7349e68c65220e297197c2a20c35fc84df",
+    "proof_sha": "82ad4e7349e68c65220e297197c2a20c35fc84df",
+    "reservation_seconds": 1260,
+    "stage": "warm-g1",
+    "state_dir": "/root/smallsort-cloud-network-rr-n8",
+    "timeout_seconds": 1200
+  },
   "actual_execution_profile_sha256": "abd1aed0a91ad29e82251f2151b004a305ddfc315e3ed1c224a0d705c78a5d9b",
   "actual_work_start_utc": "2026-10-23T21:33:57Z",
   "artifacts": [
@@ -40,7 +51,7 @@
         "sha256": "d0d0fc8351422e38cae6f087469bfb0708b7e386ba42ef51d3a97a799069f42a"
       }
     ],
-    "summary": "Warm1 setup-only symlink defect; changed repair31e2aaf reviewed GO, warm2 pending."
+    "summary": "Final warm attempt2 running after exact symlink repair; G1 result UNKNOWN."
   },
   "cold_attempt_accounting": {
     "cold_attempts_started": 1,
@@ -111,9 +122,9 @@
     "proof_credit": 0,
     "status": "FAILURE"
   },
-  "next_step": "Submit final warm1200/1260 attempt in canonical digest; classify from Brief.",
+  "next_step": "Own watcher wait; ack then Brief and immediate accounting push; final N6 classification.",
   "open": [
-    "Warm2 pending; frontend/cleanup NOT_RUN as reported, specs UNKNOWN.",
+    "Warm2 pending; frontend/cleanup/specs UNKNOWN; no further warm attempts.",
     "R4/W7 waits PUBLISHED mutable P2; W8 needs W3/W5/W7 resources."
   ],
   "owner": "network",
@@ -132,7 +143,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "2aecb78a-a2d2-43d6-bb62-59a0b46680ff"
+    ],
     "budget_seconds": 5009,
     "deadline_utc": "2026-10-26T21:56:24Z",
     "finish_minutes": 60,
@@ -144,9 +157,9 @@
     "t0": "2026-10-23T20:56:24Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "network-refinedrust-g1-2026-10-24-n8",
-  "updated_utc": "2026-10-23T22:16:45Z",
+  "updated_utc": "2026-10-23T22:17:31Z",
   "watch_event": {
     "ack": "CONTINUE_EXISTING_WINDOW",
     "event_id": "170800b4-abc4-4267-8282-dd5fff1dee71",
