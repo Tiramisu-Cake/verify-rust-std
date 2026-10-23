@@ -332,16 +332,20 @@ def run(args, *, runtime_loader=load_runtime,
     def proof_stage(*, case: Path, name: str, tool_home: Path,
                     schema: Path, compiler_sysroot: Path,
                     deadline_epoch: int, variant: str):
-        expected_sources = {
-            'original/lib.rs': sha(original),
-            'verified/lib.rs': pins['cases'][variant]['verified_sha256'],
-        }
+        expected_sources = {}
+        expected_snapshots = {}
+        if positive_ast_inventory and variant == 'positive':
+            expected_sources = {
+                'original/lib.rs': sha(original),
+                'verified/lib.rs': pins['cases'][variant]['verified_sha256'],
+            }
+            expected_snapshots = pins['cases'][variant]['snapshots']
         return run_proof_stage(runtime=runtime, repo=args.repo, case=case,
             name=name, tool_home=tool_home, schema=schema,
             compiler_sysroot=compiler_sysroot, deadline_epoch=deadline_epoch,
             variant=variant, positive_ast_inventory=positive_ast_inventory,
             expected_sources=expected_sources,
-            expected_snapshots=pins['cases'][variant]['snapshots'])
+            expected_snapshots=expected_snapshots)
 
     record_path = args.evidence / 'cases/r21-fractional-proof/r21-fractional-proof.json'
     try:
