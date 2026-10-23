@@ -1,24 +1,11 @@
 {
-  "schema": "refinedrust-g1-source-transfer-candidate-v1",
-  "status": "PREPARATION_ONLY_BLOCKED",
-  "source": {
-    "repository": "https://gitlab.mpi-sws.org/lgaeher/refinedrust-dev.git",
-    "commit": "332d945fafa14bf55c0c8390cb35ec4b0c012cff",
-    "tree": "b33bcccbbbd6168ac73e0c7238a1edddbe34057c"
-  },
   "bundle": {
-    "uri": null,
+    "availability": "Exact clean local assigned checkout available; immutable Cloud bundle generation and externally reviewed bundle hash are NOT_FROZEN.",
     "generation": null,
     "sha256": null,
-    "availability": "unknown; source host is unreachable from the VPS"
+    "uri": null
   },
-  "trusted_producer_procedure": [
-    "In an authorized environment with the exact source checkout, require HEAD=332d945fafa14bf55c0c8390cb35ec4b0c012cff and HEAD^{tree}=b33bcccbbbd6168ac73e0c7238a1edddbe34057c.",
-    "Create a self-contained bundle with: git bundle create refinedrust-332d945fafa14bf55c0c8390cb35ec4b0c012cff.bundle HEAD",
-    "Run git bundle verify on that file; independently confirm the pinned commit and tree are present and unchanged, then publish it to an approved immutable object generation and record the externally reviewed lowercase SHA256."
-  ],
   "cloud_restore": {
-    "script": "restore-rr-bundle.sh",
     "arguments": "bundle path, externally approved lowercase SHA256, fresh destination below /workspace or /opt",
     "guards": [
       "SMALLSORT_EXECUTION_PROVIDER=cloud-build",
@@ -26,11 +13,24 @@
       "bundle SHA256 and Git bundle integrity pass",
       "restored commit and tree equal the pins",
       "checkout is clean"
-    ]
+    ],
+    "script": "restore-rr-bundle.sh"
   },
   "dispatch_blockers": [
-    "bundle URI, immutable generation and approved SHA256 are unresolved",
-    "this preparation does not authorize a Cloud Build",
-    "actual pinned-source semantic audit remains NOT_RUN"
+    "Cloud bundle/context identity not frozen",
+    "Cold registry destination and image closure not frozen",
+    "Own N6 phase is not registered; preparation is not dispatch admission"
+  ],
+  "schema": "refinedrust-g1-source-transfer-candidate-v1",
+  "source": {
+    "commit": "332d945fafa14bf55c0c8390cb35ec4b0c012cff",
+    "repository": "https://gitlab.mpi-sws.org/lgaeher/refinedrust-dev.git",
+    "tree": "b33bcccbbbd6168ac73e0c7238a1edddbe34057c"
+  },
+  "status": "LOCAL_SOURCE_AVAILABLE_CLOUD_TRANSFER_UNFROZEN",
+  "trusted_producer_procedure": [
+    "In an authorized environment with the exact source checkout, require HEAD=332d945fafa14bf55c0c8390cb35ec4b0c012cff and HEAD^{tree}=b33bcccbbbd6168ac73e0c7238a1edddbe34057c.",
+    "Create a self-contained bundle with: git bundle create refinedrust-332d945fafa14bf55c0c8390cb35ec4b0c012cff.bundle HEAD",
+    "Run git bundle verify on that file; independently confirm the pinned commit and tree are present and unchanged, then publish it to an approved immutable object generation and record the externally reviewed lowercase SHA256."
   ]
 }
