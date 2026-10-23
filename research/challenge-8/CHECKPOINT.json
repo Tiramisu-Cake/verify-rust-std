@@ -21,7 +21,7 @@
   },
   "blocker": {
     "evidence": [],
-    "summary": "Exact692ad778 running:600case/975Build. Acceptance OPEN."
+    "summary": "Shape3 timeout600 at final export_packed call; no exact acceptance."
   },
   "confirmed": [
     {
@@ -121,11 +121,11 @@
       ]
     }
   ],
-  "next_step": "Watcher event ack first; Brief exact receipts, then required controls and compatible regressions.",
+  "next_step": "Shape4 full-result package: implement, independent review, exact600.",
   "open": [
     "Full exact/controls/compatible regressions OPEN.",
-    "R4/W7: P1 inactive/P2 NOT_PUBLISHED at Selectaba85b2d.",
-    "Timing and independent work: N4-EXPERIMENT.md and N4-SELECT-DEPENDENCIES.json."
+    "N4 autonomous shape4 decision and alternatives: network/n13/N4-EXPERIMENT.md.",
+    "R4/W7 P1 inactive/P2 NOT_PUBLISHED; future consumer notes prepared."
   ],
   "owner": "network",
   "phase": "NETWORK-N13-EXACT-2026-10-23-N4",
@@ -153,19 +153,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "692ad778-604a-495a-9607-644ed911a4e9"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T10:22:10Z",
     "main_deadline_utc": "2026-10-23T09:52:10Z",
-    "remaining_seconds": 3600,
+    "remaining_seconds": 2862,
     "retired_seconds": 0,
-    "spent_seconds": 0,
+    "spent_seconds": 738,
     "t0": "2026-10-23T07:52:10Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "network-n13-exact-cloud-2026-10-23-n4",
-  "updated_utc": "2026-10-23T07:58:28Z"
+  "updated_utc": "2026-10-23T08:13:14Z"
 }

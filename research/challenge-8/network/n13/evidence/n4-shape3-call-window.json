@@ -1,0 +1,93 @@
+{
+  "archive_sha256": "e25b7125362ee02800369991abdebe944712f5b6cccc58116694037e672f920a",
+  "build_id": "692ad778-604a-495a-9607-644ed911a4e9",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 3606,
+    "line_separator": "LF",
+    "source_lines": 3606,
+    "start": 3598,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "135e80001c54261c63feb6809460bdc44063e76056b4fb59834dbeb51e392789",
+  "file_path": "allprooflogs/cases/network13_finite_swo_order.c",
+  "file_sha256": "948b03cdf173d49a8e187f9ea8e2b759830bf0fef2622128fe772aa15d3891b0",
+  "index_sha256": "dbca70523029e724bdc2257f3b4adc10a1537baea699eeecae38802ce79611b0",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 3606,
+    "expected_sha256": "948b03cdf173d49a8e187f9ea8e2b759830bf0fef2622128fe772aa15d3891b0",
+    "file_id": "135e80001c54261c63feb6809460bdc44063e76056b4fb59834dbeb51e392789",
+    "start": 3598
+  },
+  "request_id": "04030c5ae7d7f09a7208c7c0361a76b6b6c914947ad4328d4ab591763381ea91",
+  "requested_end": 3606,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3598,
+      "text": "            !rel(network13_swo_out11(rel), network13_swo_out10(rel)) &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3599,
+      "text": "            !rel(network13_swo_out12(rel), network13_swo_out11(rel)) &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3600,
+      "text": "            ce_occ(network13_swo_out0(rel), q) + ce_occ(network13_swo_out1(rel), q) + ce_occ(network13_swo_out2(rel), q) + ce_occ(network13_swo_out3(rel), q) + ce_occ(network13_swo_out4(rel), q) + ce_occ(network13_swo_out5(rel), q) + ce_occ(network13_swo_out6(rel), q) + ce_occ(network13_swo_out7(rel), q) + ce_occ(network13_swo_out8(rel), q) + ce_occ(network13_swo_out9(rel), q) + ce_occ(network13_swo_out10(rel), q) + ce_occ(network13_swo_out11(rel), q) + ce_occ(network13_swo_out12(rel), q) == ce_occ(0, q) + ce_occ(1, q) + ce_occ(2, q) + ce_occ(3, q) + ce_occ(4, q) + ce_occ(5, q) + ce_occ(6, q) + ce_occ(7, q) + ce_occ(8, q) + ce_occ(9, q) + ce_occ(10, q) + ce_occ(11, q) + ce_occ(12, q);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3601,
+      "text": "{"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3602,
+      "text": "    network13_domain_package(d);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3603,
+      "text": "    network13_swo_package_create(rel, d);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3604,
+      "text": "    network13_finite_swo_export_packed(rel, d, q);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3605,
+      "text": "}"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3606,
+      "text": "@*/"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

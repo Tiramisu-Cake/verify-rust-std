@@ -19,3 +19,35 @@ Rust safety/ownership/unwind credit remain separate. No tool/kernel change.
 N4 registration pins the new profile; preserved N3 history is not reauthorized.
 Add an explicit main-envelope refusal to Network submit gate, preserving all
 coordinator/ledger capacity and absolute-deadline checks.
+
+## Shape3 observation and shape4 result packaging
+
+Build692ad778 reaches the verifier and times out600.390s, no assertion errors,
+27body starts, unchanged unit948b03cd. Wrapper starts382.715254s; the last
+statement411.624232s is final `network13_finite_swo_export_packed(rel,d,q)`
+at3604 (bounded Brief unit window, hash-bound). Shape3's isolated input chunks
+are insufficient at600s. No SMT cause or theorem refutation is established.
+Charge738s;2862s remain. Do not repeat unchanged configuration.
+
+Chosen shape4: additionally package the FULL exact result in a defined pure
+`network13_exact_result(rel,q)` predicate. Add a checked helper requiring the
+same three input chunks, calling the unchanged shape3 export_packed body and
+closing the result chunk. The public wrapper calls that helper and opens the
+result chunk immediately before returning its unchanged full public post.
+All original component/helper bodies and their posts stay intact. This changes
+the call boundary from26 pure result facts to one defined chunk; it does not
+assume any post or erase an assertion. Alternatives: a blind825s extension
+(consumes budget without distinguishing the output-production hypothesis), or
+weakening/removing posts (prohibited). Selected because last-statement data
+places the remaining stall at the call exporting pure results in the wrapper's
+literal/SWO context. Pure input packaging alone did not resolve it.
+
+Prediction: the new helper finishes in a fresh symbolic context, and the public
+wrapper advances past its call to `open network13_exact_result` and final
+return within the unchanged600s case. Falsifier: stall at helper/call/open or
+finalpost; report precise milestone, no acceptance. Keep13memberships,12orders,
+arbitrary-q original count,45schedule,original checked bodies,all required
+negative/classifier controls and compatible regressions. Stock26.09 unchanged;
+no axiom, bodyless bridge, memory/ownership premise or tool patch. This is a
+checked pure representation experiment under the authorized mathematical
+method. Independent review before Cloud dispatch is mandatory.

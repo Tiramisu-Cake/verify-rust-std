@@ -48,10 +48,10 @@ Next: Fresh admission: shape3 exact, controls, compatible matrix.
 
 ## Отчёт агента
 
-**network-n13-exact-cloud-2026-10-23-n4 · network · NETWORK-N13-EXACT-2026-10-23-N4 · HANDOFF**
-Updated: 2026-10-23T07:58:28Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `809de4596839b739dd999f9e462242c835e3af46` / `72dba8447c2db3735df144b8f30ad07f4b2f453ea4c04e1019fc81dcb91f3890`.
-Dates: T0 `2026-10-23T07:52:10Z`; main `2026-10-23T09:52:10Z`; absolute `2026-10-23T10:22:10Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
-Active Build IDs: 692ad778-604a-495a-9607-644ed911a4e9; unresolved: none recorded.
-Blocker: Exact692ad778 running:600case/975Build. Acceptance OPEN.
-Next: Watcher event ack first; Brief exact receipts, then required controls and compatible regressions.
+**network-n13-exact-cloud-2026-10-23-n4 · network · NETWORK-N13-EXACT-2026-10-23-N4 · ACTIVE**
+Updated: 2026-10-23T08:13:14Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `809de4596839b739dd999f9e462242c835e3af46` / `72dba8447c2db3735df144b8f30ad07f4b2f453ea4c04e1019fc81dcb91f3890`.
+Dates: T0 `2026-10-23T07:52:10Z`; main `2026-10-23T09:52:10Z`; absolute `2026-10-23T10:22:10Z`. Budget 3600s: 738s spent, 0s retired, 2862s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: Shape3 timeout600 at final export_packed call; no exact acceptance.
+Next: Shape4 full-result package: implement, independent review, exact600.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
