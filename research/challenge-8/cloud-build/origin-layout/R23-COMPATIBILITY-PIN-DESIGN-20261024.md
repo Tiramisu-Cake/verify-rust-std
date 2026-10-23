@@ -17,3 +17,13 @@ The generated-glue compatibility runner verifies that the checked-in pair of leg
 - Add exact registered profile3fec acceptance with refiner digest `11a0ff90…`, plus wrong bytes/registration/profile/tool/source/hash cases that must fail.
 - Exercise missing/null/wrong-type/unreadable profile binding through the helper's optional `profile_path`; the production runner must pass `SMALLSORT_MERGE_PROFILE` explicitly so it cannot use the test-only legacy-compatible default to admit a changed source.
 - Retain runner failure-path behavior: prerequisite/receipt mismatches and source-stage inconsistencies remain errors or inconclusive outcomes and do not yield proof credit.
+
+Integration: provider R22/NLL tables pin the new compatibility module; R23
+parser validates exact compatibility hash in addition to prove/placement,
+while historical R11 and R22 gates remain unchanged. Profile/tool bytes stay
+3fec/fc0208. Candidate5b1de565 measured571695 bytes,128 above unchanged571567
+transport cap. Remove only the uninvoked historical r10-source-preflight.py
+from Cloud transfer (Git blob unchanged). Selected runtime Python/shell and
+infrastructure have no invocation/reference to it; it is an old R10-profile
+static checker, not the current R23 source gate. All actual Cloud preflights,
+controls, ledgers, profiles, modes and publication gate remain selected.
