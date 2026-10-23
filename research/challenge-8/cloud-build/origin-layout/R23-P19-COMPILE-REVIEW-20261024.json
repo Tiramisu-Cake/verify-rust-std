@@ -1,0 +1,46 @@
+{
+  "schema": "merge-r23-p19-lifetime-scope-boundary-review-v1",
+  "reviewer": "Codex",
+  "candidate": "54a5895ff74cb4f9e401410c63caad6901a4c14e",
+  "baseline": "8175ed3ed7eb379c2ea029dc78ce87c822b4ab36",
+  "tool_commit": "9679ae38fcafdfa227ea278b5f04c88f4f668622",
+  "spec_sha256": "81218cf158e9120cf11b4ea711f8364db4f617753e31b7457c335b4b49f985e9",
+  "packet_sha256": "9c5c910d1b51e39419451e98e32b247848f4f8c32a11c0efc18b30b1f1bda9c8",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "prior_full_review": "R23-P18-COMPILE-REVIEW-20261024.json; P19 moves only the strict lifetime declaration scope start from the pre marker to its exact source declaration",
+  "decision": "GO",
+  "review_scope": [
+    "P19 unique extracted let_lft source location and synthetic declaration-block start",
+    "Ordering of the pre-borrow commands, lifetime binding, checked Ref/Unsize locals, and post-marker scope end",
+    "Visibility of pre-command ghost bindings during normal and unwind post-cleanup",
+    "Exact P19 translator pin, profile hash, and reverse profile contract"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "The packet check matched the exact candidate, spec SHA-256, and packet SHA-256.",
+    "The stored r23_lifetime_binding_loc is selected only from the unique extracted let_lft annotation location. The synthetic declaration block retains that same original start, and later relocation rejects any block whose start differs from the stored declaration location.",
+    "P19 requires the last exact pre-borrow command to end no later than the let_lft source location, and requires that location to precede the exact post marker. Earlier checks still require the binding to lie between the pre/post markers, exactly one parsed lifetime declaration, and the exact `'r23_borrow = typeid_of_lft(r23_borrow_k)` binding. Missing, duplicate, malformed, wrong-token, and out-of-range bindings still fail closed.",
+    "The generated strict scope now begins at the let_lft declaration rather than at the earlier pre marker. Its close is still cut at the exact post marker; the relocation check requires pre marker < declaration < post marker < original body close. Strict lifetime end placement and the post-marker cut are unchanged, so P19 narrows the lifetime's start and does not extend its end.",
+    "Selected Ref/Unsize MIR local declarations are inserted only when the translated ghost declaration-block start equals the exact stored binding location, and the existing one-time insertion check remains. This places those lifetime-typed temporaries inside the declaration's scope while leaving the pre-borrow commands and their ghost bindings outside it.",
+    "The source template orders the borrow setup before `let_lft`, then the runtime `values.as_mut_ptr()` call, then the post marker and cleanup. The pre sequence uses the original token and array locals; the typed Ref/Unsize temporaries are only introduced at the binding location. Thus `r23_array_p`, token, and value binders remain in the outer scope needed by both normal cleanup and the selected-call unwind epilogue, while the reference temporaries remain bounded by the post marker.",
+    "The normal path still executes the selected helper, post bridge and original source cleanup in the prior order. The unwind path still routes through the same checked post-cleanup/bridge epilogue before original unwind statements. P19 changes no bridge arguments, resource predicates, call selection, unwind gate, helper contract, source statement, CFG, or trusted premise.",
+    "The P19 tool delta is limited to the lifetime binding location, its ordering/location checks, and the exact insertion/start comparisons. Translator source hash b4a4d61b0af10d79b456a62f1d417d73e8cd6098c40b9daed372e211284ba9ef matches GLUE-PROFILE. Tool commit is 9679ae38fcafdfa227ea278b5f04c88f4f668622; profile SHA-256 is 7232accf54d5606ea3bee232975382a73001faca840fbd20f1069f5a2a498814; patch SHA-256 is b4790c12505b8ff532ac0e26476045d4a89449f97abeb2741f056087a8631f67; reverse baseline profile SHA-256 remains 3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88.",
+    "`git diff --check` passed for the reviewed tool delta."
+  ],
+  "reported_checks_not_rerun": [
+    "R23 source profile suite: 6 tests",
+    "R23 phase suite: 8 tests",
+    "P18 source/control Brief claims included in the review packet"
+  ],
+  "not_run": [
+    "OCaml translator/parser compilation",
+    "Compiler, MIR exporter, translator, verifier, or proof execution",
+    "Cloud source preparation or transport roundtrip"
+  ],
+  "limitations": [
+    "This focused review establishes the scope-boundary behavior statically; actual AST parsing, CFG placement, and verification remain unexecuted locally.",
+    "Reported profile/phase checks and P18 Brief claims were not independently rerun or audited for proof acceptance. No source-positive acceptance, build admission, B1/B2 evidence, owned-NLL mapping, or proof credit is established."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}
