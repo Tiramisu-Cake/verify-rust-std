@@ -1,0 +1,31 @@
+{
+  "schema": "merge-r23-p15-source-borrow-brief-v1",
+  "build_id": "32445c00-537d-4d24-9bc8-841785903d2d",
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "integrity_meaning": "archive/inventory only, not successful formal verification",
+  "proof_attempted_source_claim": true,
+  "tool_stages_source_claim": {
+    "exporter": 0,
+    "decoder": 0,
+    "translator": 0,
+    "refiner": 0
+  },
+  "archive_sha256": "1a8555bd42ece7cb9fb5ab2452611b581fce793a19fea5a53a9c75e4e6515a4a",
+  "index_sha256": "a56ceb586bdebcb9a2719acf3378f37525444c8c313d3c991a5e5905f954af8b",
+  "native_refusal": {
+    "file_id": "62579048b440285209d54779fafd9c375e1ca3162b25cd6f2e4eff0a2c70042c",
+    "source_sha256": "d8644fbf547f6c20c8a8d7c586001887a05af93409c8fa889019e215ec04bde2",
+    "source_size_bytes": 3139,
+    "request_id": "b1390223ca612cb3083e42ae458cc8363bc7c28aa6062d99bdaf089c2fe89239",
+    "lines": "164-166",
+    "exact": true,
+    "complete": false,
+    "location": "verified/lib.rs:617",
+    "message": "R23 slice recovery bridge is missing on unwind"
+  },
+  "static_control_flow_inference": "R23 plan applies to the whole selected caller. The unwind branch demands a post bridge for an earlier begin_lifetime ghost call, before the selected as_mut_ptr has installed its bridge. Restrict special recovery to the exact selected checked-helper outcome; retain fatal missing-bridge refusal there and generic unwind for other calls. No helper/caller proof acceptance.",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causal_status": "UNKNOWN",
+  "proof_credit": false,
+  "independent_credit": false
+}

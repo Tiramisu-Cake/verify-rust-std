@@ -3,7 +3,7 @@
   "profile": "experimental-merge-label-storage-r11-v1",
   "verifast_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
   "baseline_translator_sha256": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
-  "translator_sha256": "3fc3903474c1b460a1e30b424ea7fc3600bd669a0e7f03a59a4ea8eb3b70c212",
+  "translator_sha256": "19ea0ec25f34587fe29017a5a71d73dc3be6f8c7efa15421558049fcd0b6cbfd",
   "patch_sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6",
   "historical_md_patch_sha256": "5500204aadd0ea0a2996d63d064160185457b6d337782aa4300c11272ab450cc",
   "kernel_sha256": "8b8fe7e4ced29c988a620edcea762a04a5c5af6ac29c4bc454611ec9b5f55b3f",
@@ -112,7 +112,7 @@
     },
     {
       "path": "research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch",
-      "sha256": "23b0210ef830310b6327dd19bd65e558295d96c3634d2caee788c6c210b9e989"
+      "sha256": "c9ef2af833954c95ab504e650380492ce142d3f0c275c429eec3ea4edc0859dc"
     }
   ],
   "previous_selected_profile_sha256": "7e4f6088574056a0846aad2887895836b5e03edf06bb5a493d29daf44151cfff",
@@ -121,7 +121,7 @@
   "preserved_selected_profile_sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
   "glue_credit": "EXPERIMENTAL_NOT_PROVED",
   "semantic_delta": "Owner-authorized R8 experimental trusted allocation premise: default-off explicit flag, real Rust StorageLive u64 local only, 64-bit, CURRENT positive initialized canonical u64 array subrange nonempty and full-pointer-contained in a unique positive incoming array3. Excludes only CURRENT subrange numeric interval from fresh local; no heap chunks changed or ownership from numeric equality. Hidden borrow/absent current canonical owner/wrong type/count/root/default-off give no new fact. Existing scalar/local/points_to rule and runtime/posts/compiler/prelude/model file unchanged; no Rocq credit. Experimental profile unqualified.",
-  "effective_tool_commit": "35e11eeeb9f2656b8fde10d7bd422414e594ee13",
+  "effective_tool_commit": "54d0ddf533aed4f010d8022627a5c9e870c2e588",
   "previous_glue_observation_profile_sha256": "ede5bd5e338703a6c1f99e6ee0dfe422115241fef9a7a9fadc4a9f9e71f63e1b",
   "glue_body_tool_commit": "a158398e336edce9817f62a55733a3470a986d7b",
   "glue_body_patch_sha256": "0aad1332daa465a6c175c830c7caf561736c928d9169b5429b674a0b84c1e687",
@@ -155,7 +155,7 @@
   "qualification": "OPEN",
   "authorization": "Direct owner async reply during R8: narrow rule justification/model-design, independent review, separate experimental profile and positive/negative controls; original window and budget unchanged; qualification separate.",
   "previous_profile_sha256": "c3f5d286777ffd388e1eb0894ad0ff9e8f1f87f72424291041cb800385f7c979",
-  "guard_return_trace_patch_sha256": "23b0210ef830310b6327dd19bd65e558295d96c3634d2caee788c6c210b9e989",
+  "guard_return_trace_patch_sha256": "c9ef2af833954c95ab504e650380492ce142d3f0c275c429eec3ea4edc0859dc",
   "guard_return_trace_tool_commit": "660b576b6b1608db913c51e0785b443a8733396f",
   "guard_return_trace_scope": "Existing R9 exact MIR Drop/Return/Resume bounded48 heap terms; R10 read-only missing-invariant bounded96heap/128env, reconstructed CFG Body identity and ordinary checked LoopInv entry/backedge receipts. No assumptions/resource/control changes.; R10 missing-invariant backedge read-only inventory bounded96 chunks/128 env entries, then unchanged refusal",
   "guard_return_trace_activation_env": "SMALLSORT_R9_GUARD_TRACE=1; authorized R9/R10 nonprefix actual callback only",
@@ -270,7 +270,7 @@
     "phase_id": "MERGE-CALLER-ACCEPTANCE-R23-2026-10-24",
     "baseline_profile_sha256": "3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88",
     "starting_tool_commit": "fc0208d4f53583d458670cd07bd0370636d4b2eb",
-    "candidate_tool_commit": "35e11eeeb9f2656b8fde10d7bd422414e594ee13",
+    "candidate_tool_commit": "54d0ddf533aed4f010d8022627a5c9e870c2e588",
     "tool_source_paths": [
       "src/rust_frontend/vf_mir_exporter/src/lib.rs",
       "src/rust_frontend/vf_mir/vf_mir.capnp",
@@ -282,7 +282,7 @@
       "src/rust_frontend/vf_mir_exporter/src/lib.rs": "caaf1a6a5c849cb575e969d7d3da5e7dc5652d630ce49e5e6380cc12dba2d508",
       "src/rust_frontend/vf_mir/vf_mir.capnp": "763a1299e3d2a5af40400d47a354aa9725471bd53774279160d474e85e8eae1e",
       "src/refinement_checker/refinement_checker.ml": "b68454fafab7e1360fccae300b14712356c230e7a28a25b252c7a50121dc269a",
-      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "3fc3903474c1b460a1e30b424ea7fc3600bd669a0e7f03a59a4ea8eb3b70c212",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "19ea0ec25f34587fe29017a5a71d73dc3be6f8c7efa15421558049fcd0b6cbfd",
       "src/rust_frontend/vf_mir_translator/vf_mir_capnp_alias.ml": "f043cff60098fa3179d09d844694f415338dfd036ea461f37b5952acee87c8bf"
     },
     "activation_environment": "SMALLSORT_R23_SOURCE_ARRAY_BORROW",
