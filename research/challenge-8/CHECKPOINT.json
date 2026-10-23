@@ -21,7 +21,7 @@
   },
   "blocker": {
     "evidence": [],
-    "summary": "Order1035s envelope exceeds990budget; regression8b4770bb running. FullacceptanceOPEN."
+    "summary": "OrderUNRUN; standaloneN13timeout360. AllBuildsaccounted;407s cannotfit anyfullenvelope."
   },
   "confirmed": [
     {
@@ -89,13 +89,12 @@
       ]
     }
   ],
-  "next_step": "Finish regressionBrief; review W8 arithmetic/preparation candidate; handoff order600 without timeoutcuts.",
+  "next_step": "Review prepared W8 assembler; prepare/review480s universal timing candidate and exacthandoff. No furtherN4Build.",
   "open": [
-    "OrdernegativeUNRUN; nofullmatrixacceptance or independentcredit.",
-    "RegressionsN9/universal pending8b4770bb.",
-    "W8 arithmetic+Cloud-only assembler preparation active; no currentW8Build.",
-    "SelectlatestP2stillNOT_PUBLISHED; R4/W7blocked.",
-    "Readlockrefusalsresolvednormally; seeN4-EXPERIMENT.md."
+    "FullacceptanceOPEN: ordernegativeUNRUN, standaloneN13regressionINCONCLUSIVE.",
+    "W8arithmetic/Cloud-onlypreparation UNVERIFIED; independentreview pending.",
+    "Prepared universal480 profile willbeUNRUN; no budget/window restart.",
+    "R4/W7blocked: latestSelectP2NOT_PUBLISHED."
   ],
   "owner": "network",
   "phase": "NETWORK-N13-EXACT-2026-10-23-N4",
@@ -123,19 +122,17 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "8b4770bb-c3b9-4ddb-ba25-27d307c5539b"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T10:22:10Z",
     "main_deadline_utc": "2026-10-23T09:52:10Z",
-    "remaining_seconds": 990,
+    "remaining_seconds": 407,
     "retired_seconds": 0,
-    "spent_seconds": 2610,
+    "spent_seconds": 3193,
     "t0": "2026-10-23T07:52:10Z",
     "unresolved_ids": []
   },
   "state": "ACTIVE",
   "task_id": "network-n13-exact-cloud-2026-10-23-n4",
-  "updated_utc": "2026-10-23T09:13:52Z"
+  "updated_utc": "2026-10-23T09:25:08Z"
 }

@@ -1,11 +1,11 @@
 # Agent checkpoint: network-n13-exact-cloud-2026-10-23-n4
 
 - Owner: network | phase: NETWORK-N13-EXACT-2026-10-23-N4 | state: ACTIVE
-- Updated: 2026-10-23T09:13:52Z
+- Updated: 2026-10-23T09:25:08Z
 - Baseline: source `cd371e035c7e573760c43bf934d53e8118ee3e7d`, tool `809de4596839b739dd999f9e462242c835e3af46`, profile `72dba8447c2db3735df144b8f30ad07f4b2f453ea4c04e1019fc81dcb91f3890`
 - Session dates: T0 `2026-10-23T07:52:10Z`; main deadline `2026-10-23T09:52:10Z`; absolute deadline `2026-10-23T10:22:10Z`
-- Budget: 3600s total; 2610s spent; 0s retired; 990s remaining including active reservations
-- Active Build IDs: 8b4770bb-c3b9-4ddb-ba25-27d307c5539b
+- Budget: 3600s total; 3193s spent; 0s retired; 407s remaining including active reservations
+- Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -17,21 +17,20 @@
 - [SOURCE_REPORTED] Membership intendedfailure3649;29bodies/28positiveprefix checked,7classifiercontrolsaccepted asreported. — [research/challenge-8/observations/5afb4eb299bd1a4aa4b37146068fff43e82b1a65e3cc3586017314510aaa8baa.json](observations/5afb4eb299bd1a4aa4b37146068fff43e82b1a65e3cc3586017314510aaa8baa.json) SHA `5afb4eb299bd1a4aa4b37146068fff43e82b1a65e3cc3586017314510aaa8baa`
 
 ## Open
-- OrdernegativeUNRUN; nofullmatrixacceptance or independentcredit.
-- RegressionsN9/universal pending8b4770bb.
-- W8 arithmetic+Cloud-only assembler preparation active; no currentW8Build.
-- SelectlatestP2stillNOT_PUBLISHED; R4/W7blocked.
-- Readlockrefusalsresolvednormally; seeN4-EXPERIMENT.md.
+- FullacceptanceOPEN: ordernegativeUNRUN, standaloneN13regressionINCONCLUSIVE.
+- W8arithmetic/Cloud-onlypreparation UNVERIFIED; independentreview pending.
+- Prepared universal480 profile willbeUNRUN; no budget/window restart.
+- R4/W7blocked: latestSelectP2NOT_PUBLISHED.
 
 ## Rejected approaches
 - Собственная параллельная реализация pointer-select/callback слоя — Divergent trusted profiles; W10 integration debt.; [research/challenge-8/network/BOOTSTRAP-2026-10-22.md](network/BOOTSTRAP-2026-10-22.md) SHA `1b219aee9b85b36d65a20e50b473cb54b14f544f6ac2703a8517283a13972712`
 - Universal N13 PASS or timeout/setup refusal counted as exact adapter acceptance — Exact full posts and intended controls on compatible source/tool identities are required.; [research/challenge-8/networks/RANK-RESULTS.md](networks/RANK-RESULTS.md) SHA `c76848727b3f62acd5c9b49ea4133c236db3f4d4a903bc42d5b8c159b215f2ca`
 
 ## Blocker
-Order1035s envelope exceeds990budget; regression8b4770bb running. FullacceptanceOPEN.
+OrderUNRUN; standaloneN13timeout360. AllBuildsaccounted;407s cannotfit anyfullenvelope.
 
 ## Next
-Finish regressionBrief; review W8 arithmetic/preparation candidate; handoff order600 without timeoutcuts.
+Review prepared W8 assembler; prepare/review480s universal timing candidate and exacthandoff. No furtherN4Build.
 
 ## Artifacts
 - [research/challenge-8/network/n13/N3-SCOPE-20261023.md](network/n13/N3-SCOPE-20261023.md) — `0ff306d681bab5fb9997ebb53bb9fe9df9e58d93f1b20e030a263c72aeb79e78`

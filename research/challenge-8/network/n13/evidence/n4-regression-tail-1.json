@@ -1,0 +1,52 @@
+{
+  "archive_sha256": "f6f7242ec64d2c810aa016101df7c38e97c8989d574f5e17acf2e9000a355fa8",
+  "build_id": "8b4770bb-c3b9-4ddb-ba25-27d307c5539b",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 23,
+  "complete": false,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "f87f1fd41efa5373161a40bced0063b2d18817d3c9768c0d6d986cc3f8baddf4",
+  "file_path": "allprooflogs/cases/results.json",
+  "file_sha256": "7d188f76cb2c8c4f43b075939645e99e2774f9bc09908d908ac9c13aabb9a714",
+  "index_sha256": "f2006c28ecc993bc22e668a67fa4915a1df64e3a072a4f6dae3bb8f608436431",
+  "next_offset": null,
+  "offset": 20,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "7d188f76cb2c8c4f43b075939645e99e2774f9bc09908d908ac9c13aabb9a714",
+    "file_id": "f87f1fd41efa5373161a40bced0063b2d18817d3c9768c0d6d986cc3f8baddf4",
+    "offset": 20,
+    "pointer": "/cases/1/result"
+  },
+  "request_id": "5b3baae49c56f38e7d7a644017689359f49b965066bb8afb96d340413626e318",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/cases/1/result/source_unchanged",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/cases/1/result/verifier_elapsed_seconds",
+      "value_literal": "360.32333494600005"
+    },
+    {
+      "child_count": 19,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/cases/1/result/visited_bodies"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

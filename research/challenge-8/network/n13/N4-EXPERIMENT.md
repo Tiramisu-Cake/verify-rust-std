@@ -151,3 +151,27 @@ ZSTaddressguard and actual ownership/unwind remain separate.
 Watcher note: controls ACK first refused coordinator read lock busy at09:03;
 normal retry succeeded before checkpoint edits. Earlier shape4 arm refused
 readlock twice and succeeded after30s. No sharedlock/state bypass was used.
+
+## Regression receipt and next timing candidate (before edit)
+
+Build8b4770bb: N9 accepted asreported89.523315s,27bodies,546return/leakchecks,
+0errors,unchanged984b6479. StandaloneuniversalN13 f65fe336 timesout360.323335s,
+19body starts,0errors,laststatement358.167187s at3356. Preserve the failed
+standalone result; it neither refutes nor replaces the same universal body
+checked in the accepted exact/membership units. Full acceptance remains OPEN
+(order UNRUN and standalone regression INCONCLUSIVE).
+
+Charge583s,total3193s,407remain. No registered complete envelope fits (smallest
+N9 stage needs615s). Do not shorten cases or move deadlines/budget.
+
+Prepare a new UNRUN timing profile for handoff, preserving prior N4 profile72
+bytes. The universal case gets480s:120s above the360s timeout and121.833s above
+its last instruction (33% margin); N13-only Build855s, full N9+N13 Build1035s.
+Exact/membership/order remain600s, N9/other180s, setup120,soft15,report240,
+queue60. No mathematical source/unit,tool,post,gate or control changes.
+Point the candidate runner/wrapper/recipe/Network N4 registration coherently
+at the new profile and matching stage limits; preserve the same N4 window,
+ceiling and ledger. This grants no fresh window or budget and no Build will
+be submitted under this unrun profile. Future use requires a fresh assignment,
+phase/ledger and review. The limited revision tests measured need with margin;
+no assertion failure or accepted proof is inferred from timeout.
