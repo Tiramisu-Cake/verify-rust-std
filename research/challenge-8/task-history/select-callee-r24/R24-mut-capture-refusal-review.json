@@ -1,0 +1,66 @@
+{
+  "baseline_commit": "0a853e89841a3f81135e831d03d49951ef0e354a",
+  "candidate_commit": "5e6df1dd239202f3f25c439007f41744257b29c4",
+  "candidate_tree": "087871155475a48cc87ceafbe0bc0e1099f43d8f",
+  "carried_forward": [
+    "Prior candidate-specific NO_GO and GO records are preserved unchanged. This GO is limited to parsing the canonical refusal line produced by the frozen diagnostic-only `failwith` path; it does not overturn the earlier failed capture record.",
+    "The adapter remains diagnostic CAPTURE-ONLY: body_proof_run, typed admission, semantic rule, accepted, publication remain false and proof_credit remains zero."
+  ],
+  "decision": "GO_DELTA",
+  "diff_sha256": "22dcb516b0ec2377d6955153036c42d41a57c8b4f59f2faca9fed646fcbc7cfd",
+  "findings": [],
+  "limitations": "GO is limited to the canonical refusal-line parser delta. The bounded receipt is source-reported and archive integrity is not proof. No mutable source preparation/capture was run; no acceptance, P2 publication, or independent proof credit is established.",
+  "packet_sha256": "4981f0ffecab62c3bf283b9b633ff8382b79f3c3048436fde21d372a5384fba8",
+  "prior_reviews": [
+    {
+      "decision": "NO_GO for d158; unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-review.json",
+      "sha256": "2113fc509aa8abc0a1ef633d8fcc204c6e8f56117731bb21e15484cc3018cb71"
+    },
+    {
+      "decision": "NO_GO for aad644; unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-delta-review.json",
+      "sha256": "da2032ab9c4d31db41ba75dc544e3ae4fb0054a7eba3295e3de983324bda276b"
+    },
+    {
+      "decision": "GO for linewise matcher delta; unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-linewise-review.json",
+      "sha256": "ed270f5776802660b278e085f0d5f9983bd07b9fff67c0f824240fa3f712f07b"
+    },
+    {
+      "decision": "GO for owner lookup delta; unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-owner-lookup-review.json",
+      "sha256": "262f5dad1f2360ac4456e6e2f72ad9be2894e48fc542789f4e10498ed139d80e"
+    },
+    {
+      "decision": "GO for insertion delta; unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-insertion-review.json",
+      "sha256": "ae8434c8044a8f7028bc9cefd0b3771a10eea0092357af2f1a6c6bfd6d0e6bcc"
+    }
+  ],
+  "proof_credit": 0,
+  "reviewer": "codex-independent-review",
+  "schema": "smallsort-review-record-v1",
+  "scope": "Same-boundary review of exact canonical native refusal-line recognition in the diagnostic CAPTURE-ONLY adapter, including source patch and bounded receipt data as supplied in the committed review packet.",
+  "spec_sha256": "f7481678a327aeef451eda252e061d3739873f5771137a170b007019ca058e5f",
+  "tests": {
+    "not_run": [
+      "4 metadata tests (main-reported only)",
+      "Source preparation, compiler/exporter/MIR decode/refinement/verifier or Cloud Build",
+      "Evidence Brief invocation, raw/full logs, archives or Cloud Logging",
+      "Dirty external VeriFast tool worktree",
+      "Independent transport preflight"
+    ],
+    "run": [
+      "python3 -m unittest research.challenge-8.cloud-build.test_select_callee_r24_mut_capture (13 tests, pass)",
+      "git diff 0a853e89841a3f81135e831d03d49951ef0e354a 5e6df1dd239202f3f25c439007f41744257b29c4 --check (pass)"
+    ]
+  },
+  "verified": [
+    "Exact packet check passed for candidate 5e6df1dd239202f3f25c439007f41744257b29c4, baseline 0a853e89841a3f81135e831d03d49951ef0e354a, spec SHA f7481678a327aeef451eda252e061d3739873f5771137a170b007019ca058e5f, packet SHA 4981f0ffecab62c3bf283b9b633ff8382b79f3c3048436fde21d372a5384fba8; packet state PACKET_VALID_NOT_REVIEWED and proof credit NONE.",
+    "The committed frozen native diagnostic patch emits the expected sentinel by `failwith \"SORT4-ACTUAL-NESTED-FINGERPRINT: diagnostic refusal: snapshot complete; no proof rule admitted\"`; the supplied bounded observations record carries the matching canonical OCaml line `Fatal error: exception Failure(\"...\")`. These were inspected as source/receipt data only; no raw logs were opened and no Brief was invoked.",
+    "Adapter accepts exactly one physical line equal to the canonical native Failure line and exactly one occurrence of the payload marker. Bare marker, alternate exception, suffix/prefix, duplicate and mixed marker forms fail; any other Fatal error or located verifier error remains a refusal.",
+    "The mode-9 classification still requires native status/exit 2, source integrity, exact snapshots and byte hashes; normal/readonly full-body and refinement checks plus post-capture source-pair hash/ghost-strip checks remain unchanged. No native checker, translator, probe, source generator, contract or proof-admission code changes in this delta.",
+    "13 focused adapter synthetic tests pass, including malformed/alternate marker forms and additional fatal/located-error cases. Diff whitespace check passes."
+  ]
+}

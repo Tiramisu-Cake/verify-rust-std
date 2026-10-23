@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "4b70eab8cdf88c48ce21294f72ea57038f6c75d28cff3658e5253ab511000a86"
+      "sha256": "cc7ba802f7e4bcf59bc84e9445cab0dd50567104b2a058eae724c5b4d2131a8f"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -542,19 +542,19 @@
     }
   ],
   "mutable_capture_candidate": {
-    "candidate": "0a853e89841a3f81135e831d03d49951ef0e354a",
+    "candidate": "5e6df1dd239202f3f25c439007f41744257b29c4",
     "proof_credit": 0,
-    "review_decision": "GO_INSERTION_DELTA; previous boundaries and prior verdicts preserved",
-    "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-capture-insertion-review.json",
-    "review_sha256": "ae8434c8044a8f7028bc9cefd0b3771a10eea0092357af2f1a6c6bfd6d0e6bcc",
+    "review_decision": "GO_CANONICAL_DIAGNOSTIC_TRANSPORT_DELTA; previous bounds/verdicts preserved",
+    "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-capture-refusal-review.json",
+    "review_sha256": "5954b14344bea5830bb0e919cb04495c94d25f954eb8a0d27e3bd0185343d935",
     "runtime_closure": {
-      "bytes": 2383448,
+      "bytes": 2383638,
       "entries": 107,
-      "sha256": "5187103bab9e52b4b62987c56571dfd61f5be29f914dedd6c849ffa57c0d664a"
+      "sha256": "08200d23cec32add623c426cb797deaa5c6134a9bf9ac2f9dfecaa6eb0ca99ae"
     },
     "scope": "SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION",
-    "source_payload_sha256": "e51501cd897ed7f1d5c044a82f5b428126583e521a7bc54dbf3ea07fa47e12d9",
-    "state": "FAILED_CAPTURE_CLASSIFIER_ACCOUNTED"
+    "source_payload_sha256": "0902b8aca2a9399fe3b3cd3704dc302df102c4b27c2b55c45b7ccc78ac983d5e",
+    "state": "REVIEWED_PUBLISHED_READY_FOR_CAPTURE_BUILD"
   },
   "mutable_capture_candidate_history": [
     {
@@ -586,6 +586,21 @@
       "scope": "SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION",
       "source_payload_sha256": "de5d690334ddeb96cc8bcb9345218e4f29db64a5d2b4adfb964bda2f1c6c985b",
       "state": "FAILED_EXACT_BODY_ORDER_ACCOUNTED"
+    },
+    {
+      "candidate": "0a853e89841a3f81135e831d03d49951ef0e354a",
+      "proof_credit": 0,
+      "review_decision": "GO_INSERTION_DELTA; previous boundaries and prior verdicts preserved",
+      "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-capture-insertion-review.json",
+      "review_sha256": "ae8434c8044a8f7028bc9cefd0b3771a10eea0092357af2f1a6c6bfd6d0e6bcc",
+      "runtime_closure": {
+        "bytes": 2383448,
+        "entries": 107,
+        "sha256": "5187103bab9e52b4b62987c56571dfd61f5be29f914dedd6c849ffa57c0d664a"
+      },
+      "scope": "SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION",
+      "source_payload_sha256": "e51501cd897ed7f1d5c044a82f5b428126583e521a7bc54dbf3ea07fa47e12d9",
+      "state": "FAILED_CAPTURE_CLASSIFIER_ACCOUNTED"
     }
   ],
   "mutable_capture_decision": {
@@ -626,7 +641,7 @@
         "Change native proof/checker/diagnostic implementation to suit erroneous fixture",
         "Rewrite historical capture verdict as complete"
       ],
-      "assurance": "IMPLEMENTED_STATIC_SYNTHETIC_13_PLUS_4_PASS_PENDING_REVIEW",
+      "assurance": "REVIEW_GO_STATIC_SYNTHETIC_PASS_UNBUILT",
       "choice": "Recognize only exact canonical native Failure line for this fixed capture profile, exactlyonce, and exactlyone diagnosticpayload occurrence. Bare marker, malformed/different wrapper, duplicate payload, unexpectedfatal and all locatederrors refuse. Preserve source/refinement/9body/10snapshot/exit2 integrity gates; no native/checker/calleeproof change or credit.",
       "controls": "Synthetic native-wrapper success plus bare/malformed/alternate exception/duplicate/embedded/locatederror/fatal mixture refusal; current source gates retained. Fresh full1200Cloud after review.",
       "defect": "Frozen native probe intentionally failwiths exact snapshot-complete diagnostic. Brief exactline11 confirms canonical Fatal error: exception Failure wrapper; adapter falsely expects bareline and treats intended diagnostic transport as unexpectedfatal.",
@@ -656,7 +671,7 @@
       "schema": "select-r24-mut-capture-request-v1"
     }
   },
-  "next": "Review canonical native refusal parser; full1200 capture.",
+  "next": "Submit reviewed refusal parser; full1200 capture only.",
   "next_step": "Review closed R24 mutable capture adapter and lane wiring; full1200 Cloud capture only.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
@@ -723,7 +738,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T15:08:56Z",
+  "updated_utc": "2026-10-23T15:13:29Z",
   "watcher_handoff": {
     "ack_mode": "CONTINUE_EXISTING_WINDOW",
     "acknowledged_event_id": "6a1f8ed9-3e5a-4c98-bb68-c79c933648ef",
